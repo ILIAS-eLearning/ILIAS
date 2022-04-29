@@ -21,9 +21,9 @@
  */
 class ilAuthLoginPageEditorSettings
 {
-    const MODE__UNDEFINED = 0;
-    const MODE_RTE = 1;
-    const MODE_IPE = 2;
+    public const MODE__UNDEFINED = 0;
+    public const MODE_RTE = 1;
+    public const MODE_IPE = 2;
 
     private array $languages = [];
 
@@ -81,7 +81,7 @@ class ilAuthLoginPageEditorSettings
      */
     public function getIliasEditorLanguage(string $a_langkey) : string
     {
-        if ($this->mode != self::MODE_IPE) {
+        if ($this->mode !== self::MODE_IPE) {
             return '';
         }
         if ($this->isIliasEditorEnabled($a_langkey)) {
@@ -96,7 +96,7 @@ class ilAuthLoginPageEditorSettings
     /**
      * Enable editor for language
      */
-    public function enableIliasEditor(string $a_langkey, bool $a_status)
+    public function enableIliasEditor(string $a_langkey, bool $a_status) : void
     {
         $this->languages[$a_langkey] = $a_status;
     }
@@ -106,16 +106,13 @@ class ilAuthLoginPageEditorSettings
      */
     public function isIliasEditorEnabled(string $a_langkey) : bool
     {
-        if (isset($this->languages[$a_langkey])) {
-            return $this->languages[$a_langkey];
-        }
-        return false;
+        return $this->languages[$a_langkey] ?? false;
     }
 
     /**
      * Update settings
      */
-    public function update()
+    public function update() : void
     {
         $this->getStorage()->set('mode', (string) $this->getMode());
 
@@ -127,7 +124,7 @@ class ilAuthLoginPageEditorSettings
     /**
      * Read settings
      */
-    public function read()
+    public function read() : void
     {
         $this->setMode((int) $this->getStorage()->get('mode', (string) self::MODE_RTE));
 

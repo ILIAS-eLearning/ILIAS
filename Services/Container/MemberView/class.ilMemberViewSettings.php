@@ -46,17 +46,12 @@ class ilMemberViewSettings
         $this->ctrl = $DIC->ctrl();
         $this->logger = $DIC->logger()->cont();
         $this->read();
-        $this->container_service = $DIC
-            ->container();
+        $this->container_service = $DIC->container();
     }
-
 
     public static function getInstance() : ilMemberViewSettings
     {
-        if (self::$instance != null) {
-            return self::$instance;
-        }
-        return self::$instance = new ilMemberViewSettings();
+        return self::$instance ?? (self::$instance = new ilMemberViewSettings());
     }
 
     public function getContainer() : ?int
@@ -98,8 +93,8 @@ class ilMemberViewSettings
                 return $mv_status = false;
             }
 
-            if (!in_array($this->getCurrentRefId(), $this->container_items) and
-                $this->getContainer() != $this->getCurrentRefId()
+            if (!in_array($this->getCurrentRefId(), $this->container_items) &&
+                $this->getContainer() !== $this->getCurrentRefId()
             ) {
                 // outside of course
                 return $mv_status = false;
@@ -121,7 +116,7 @@ class ilMemberViewSettings
         
         if (
             !in_array($a_ref_id, $this->container_items) &&
-            $this->getContainer() != $a_ref_id) {
+            $this->getContainer() !== $a_ref_id) {
             return false;
         }
         return true;
@@ -185,7 +180,7 @@ class ilMemberViewSettings
             if (
                 $this->getCurrentRefId() &&
                 !in_array($this->getCurrentRefId(), $this->container_items) &&
-                $this->getCurrentRefId() != $this->getContainer()
+                $this->getCurrentRefId() !== $this->getContainer()
             ) {
                 $this->deactivate();
             }
@@ -207,7 +202,7 @@ class ilMemberViewSettings
             return $this->current_ref_id = $ref_id;
         }
         $target_str = (string) ($this->request->getQueryParams()['target'] ?? '');
-        if (strlen($target_str)) {
+        if ($target_str !== '') {
             $target_arr = explode('_', $target_str);
             if (isset($target_arr[1]) && (int) $target_arr[1]) {
                 $this->current_ref_id = (int) $target_arr[1];

@@ -6,30 +6,29 @@ use ILIAS\LTI\ToolProvider;
 
 /**
  * Class to implement the Membership service
- *
- * @author  Stephen P Vickers <svickers@imsglobal.org>
+ * @author     Stephen P Vickers <svickers@imsglobal.org>
  * @copyright  IMS Global Learning Consortium Inc
- * @date  2016
- * @version 3.0.0
- * @license http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
+ * @date       2016
+ * @version    3.0.0
+ * @license    http://www.apache.org/licenses/LICENSE-2.0 Apache License, Version 2.0
  */
 class Membership extends Service
 {
 
-/**
- * The object to which the settings apply (ResourceLink, Context or ToolConsumer).
- *
- * @var object  $source
- */
+    /**
+     * The object to which the settings apply (ResourceLink, Context or ToolConsumer).
+     * @var ToolProvider\Context|ToolProvider\ResourceLink $source
+     */
+    // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
     private $source;
 
     /**
      * Class constructor.
-     *
-     * @param \ILIAS\LTI\ToolProvider\Context      $source     The object to which the memberships apply (ResourceLink or Context)
-     * @param string       $endpoint   Service endpoint
+     * @param \ILIAS\LTI\ToolProvider\ResourceLink|\ILIAS\LTI\ToolProvider\Context $source   The object to which the memberships apply (ResourceLink or Context)
+     * @param string                                                               $endpoint Service endpoint
      */
-    public function __construct($source, $endpoint)
+    // TODO PHP8 Review: Missing Parameter Type Declaration
+    public function __construct($source, string $endpoint)
     {
         $consumer = $source->getConsumer();
         parent::__construct($consumer, $endpoint, 'application/vnd.ims.lis.v2.membershipcontainer+json');
@@ -38,13 +37,12 @@ class Membership extends Service
 
     /**
      * Get the memberships.
-     *
-     * @param string    $role   Role for which memberships are to be requested (optional, default is all roles)
-     * @param int       $limit  Limit on the number of memberships to be returned (optional, default is all)
-     *
+     * @param string|null $role  Role for which memberships are to be requested (optional, default is all roles)
+     * @param int         $limit Limit on the number of memberships to be returned (optional, default is all)
      * @return mixed The array of User objects if successful, otherwise false
      */
-    public function get($role = null, $limit = 0)
+    // TODO PHP8 Review: Wrong Return type Declaration, mixed is not supported!
+    public function get(string $role = null, int $limit = 0) : mixed
     {
         $isLink = is_a($this->source, 'ILIAS\LTI\ToolProvider\ResourceLink');
         $parameters = array();
@@ -108,12 +106,13 @@ class Membership extends Service
 
                 // Remove old user (if it exists)
                 if ($isLink) {
-                    unset($oldUsers[$user->getId(ToolProvider\ToolProvider::ID_SCOPE_RESOURCE)]);
+                    unset($oldUsers[$user->getId(ToolProvider\ToolProvider::ID_SCOPE_RESOURCE)]); // TODO PHP8 Review: Variable $oldUsers is probably undefined
                 }
             }
 
             // Delete any old users which were not in the latest list from the tool consumer
             if ($isLink) {
+                // TODO PHP8 Review: Variable $oldUsers is probably undefined
                 foreach ($oldUsers as $id => $user) {
                     $user->delete();
                 }

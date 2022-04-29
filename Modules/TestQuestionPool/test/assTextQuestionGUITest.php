@@ -14,9 +14,6 @@ class assTextQuestionGUITest extends assBaseTestCase
 
     protected function setUp() : void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../');
-
         parent::setUp();
 
         require_once './Services/UICore/classes/class.ilCtrl.php';

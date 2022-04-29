@@ -41,7 +41,7 @@ class ilCalendarCategory
     public const TYPE_CH = 4;        // consultation hours
     public const TYPE_BOOK = 5;    // booking manager
 
-    protected static $SORTED_TYPES = array(
+    protected static array $SORTED_TYPES = array(
         0 => self::TYPE_GLOBAL,
         1 => self::TYPE_USR,
         2 => self::TYPE_CH,
@@ -250,8 +250,10 @@ class ilCalendarCategory
             $this->db->quote($this->getRemoteUrl(), 'text') . ', ' .
             $this->db->quote($this->getRemoteUser(), 'text') . ', ' .
             $this->db->quote($this->getRemotePass(), 'text') . ', ' .
-            $this->db->quote($this->getRemoteSyncLastExecution()->get(IL_CAL_DATETIME, '', ilTimeZone::UTC),
-                'timestamp') . ' ' .
+            $this->db->quote(
+                $this->getRemoteSyncLastExecution()->get(IL_CAL_DATETIME, '', ilTimeZone::UTC),
+                'timestamp'
+            ) . ' ' .
             ")";
 
         $this->db->manipulate($query);
@@ -271,8 +273,11 @@ class ilCalendarCategory
             "remote_url = " . $this->db->quote($this->getRemoteUrl(), 'text') . ', ' .
             "remote_user = " . $this->db->quote($this->getRemoteUser(), 'text') . ', ' .
             "remote_pass = " . $this->db->quote($this->getRemotePass(), 'text') . ', ' .
-            'remote_sync = ' . $this->db->quote($this->getRemoteSyncLastExecution()->get(IL_CAL_DATETIME, '',
-                ilTimeZone::UTC), 'timestamp') . ' ' .
+            'remote_sync = ' . $this->db->quote($this->getRemoteSyncLastExecution()->get(
+                IL_CAL_DATETIME,
+                '',
+                ilTimeZone::UTC
+            ), 'timestamp') . ' ' .
             "WHERE cat_id = " . $this->db->quote($this->cat_id, 'integer') . " ";
         $res = $this->db->manipulate($query);
     }

@@ -586,7 +586,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
             $this->object->getTitle(),
             $this->ctrl->getLinkTarget($this, self::DEFAULT_CMD),
             "",
-            (int) $_GET["ref_id"]
+            $DIC->http()->wrapper()->query()->retrieve("ref_id", $DIC->refinery()->kindlyTo()->int())
         );
     }
 

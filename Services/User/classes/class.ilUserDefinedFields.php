@@ -77,7 +77,7 @@ class ilUserDefinedFields
         if ($parts[0] != 'il') {
             return 0;
         }
-        if ($parts[1] != $ilSetting->get('inst_id', 0)) {
+        if ($parts[1] != $ilSetting->get('inst_id', '0')) {
             return 0;
         }
         if ($parts[2] != 'udf') {
@@ -528,7 +528,7 @@ class ilUserDefinedFields
             $this->definitions[$row->field_id]['field_id'] = $row->field_id;
             $this->definitions[$row->field_id]['field_name'] = $row->field_name;
             $this->definitions[$row->field_id]['field_type'] = $row->field_type;
-            $this->definitions[$row->field_id]['il_id'] = 'il_' . $ilSetting->get('inst_id', 0) . '_udf_' . $row->field_id;
+            $this->definitions[$row->field_id]['il_id'] = 'il_' . $ilSetting->get('inst_id', '0') . '_udf_' . $row->field_id;
 
             // #16953
             $tmp = $sort = array();

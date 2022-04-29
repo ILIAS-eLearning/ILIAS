@@ -1,81 +1,80 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2018 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-require_once("libs/composer/vendor/autoload.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-use ILIAS\Refinery;
-use ILIAS\Data;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\String\HasMaxLength;
+use ILIAS\Refinery\Constraint;
 use PHPUnit\Framework\TestCase;
 
 class HasMaxLengthConstraintTest extends TestCase
 {
-    /**
-     * @var Data\Factory
-     */
-    private $df;
+    private DataFactory $df;
+    private ilLanguage $lng;
+    private int $max_length;
+    private Constraint $c;
 
-    /**
-     * @var \ilLanguage
-     */
-    private $lng;
-
-    /**
-     * @var integer
-     */
-    private $max_length;
-
-    /**
-     * @var Refinery\Constraint
-     */
-    private $c;
-
-    public function setUp() : void
+    protected function setUp() : void
     {
-        $this->df = new Data\Factory();
-        $this->lng = $this->createMock(\ilLanguage::class);
+        $this->df = new DataFactory();
+        $this->lng = $this->createMock(ilLanguage::class);
 
         $this->max_length = 2;
 
-        $this->c = new \ILIAS\Refinery\String\HasMaxLength(
+        $this->c = new HasMaxLength(
             $this->max_length,
             $this->df,
             $this->lng
         );
     }
 
-    public function testAccepts1()
+    public function testAccepts1() : void
     {
         $this->assertTrue($this->c->accepts("12"));
     }
 
-    public function testAccepts2()
+    public function testAccepts2() : void
     {
         $this->assertTrue($this->c->accepts("1"));
     }
 
-    public function testNotAccepts()
+    public function testNotAccepts() : void
     {
         $this->assertFalse($this->c->accepts("123"));
     }
 
-    public function testCheckSucceed()
+    public function testCheckSucceed() : void
     {
         $this->c->check("12");
         $this->assertTrue(true); // does not throw
     }
 
-    public function testCheckFails()
+    public function testCheckFails() : void
     {
         $this->expectException(\UnexpectedValueException::class);
         $this->c->check("123");
     }
 
-    public function testNoProblemWith()
+    public function testNoProblemWith() : void
     {
         $this->assertNull($this->c->problemWith("12"));
     }
 
-    public function testProblemWith()
+    public function testProblemWith() : void
     {
         $this->lng
             ->expects($this->once())
@@ -86,7 +85,7 @@ class HasMaxLengthConstraintTest extends TestCase
         $this->assertEquals("-2-", $this->c->problemWith("123"));
     }
 
-    public function testRestrictOk()
+    public function testRestrictOk() : void
     {
         $ok = $this->df->ok("12");
 
@@ -94,7 +93,7 @@ class HasMaxLengthConstraintTest extends TestCase
         $this->assertTrue($res->isOk());
     }
 
-    public function testRestrictNotOk()
+    public function testRestrictNotOk() : void
     {
         $not_ok = $this->df->ok("123");
 
@@ -102,7 +101,7 @@ class HasMaxLengthConstraintTest extends TestCase
         $this->assertFalse($res->isOk());
     }
 
-    public function testRestrictError()
+    public function testRestrictError() : void
     {
         $error = $this->df->error("error");
 
@@ -110,9 +109,9 @@ class HasMaxLengthConstraintTest extends TestCase
         $this->assertSame($error, $res);
     }
 
-    public function testWithProblemBuilder()
+    public function testWithProblemBuilder() : void
     {
-        $new_c = $this->c->withProblemBuilder(function () {
+        $new_c = $this->c->withProblemBuilder(static function () : string {
             return "This was a fault";
         });
         $this->assertEquals("This was a fault", $new_c->problemWith("123"));

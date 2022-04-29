@@ -1119,9 +1119,6 @@ abstract class ilParticipants
         foreach ($this->subscribers as $subscriber) {
             if (!$this->assignSubscriber($subscriber)) {
                 continue;
-            } else {
-                // TODO: notification
-                #$this->sendNotification($this->NOTIFY_ACCEPT_SUBSCRIBER,$subscriber);
             }
             ++$counter;
         }

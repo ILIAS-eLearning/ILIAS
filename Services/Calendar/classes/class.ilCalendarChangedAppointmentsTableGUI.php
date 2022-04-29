@@ -28,28 +28,18 @@
  */
 class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 {
-    private $cat_id = 0;
-    private $categories = null;
-    private $is_editable = false;
+    private int $cat_id = 0;
+    private bool $is_editable = false;
+    private ilObjUser $user;
 
-    /**
-     * Constructor
-     * @access public
-     * @param
-     * @return
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $this->categories = ilCalendarCategories::_getInstance();
-
-        $this->lng = $lng;
+        $this->user = $DIC->user();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('dateplaner');
-        $this->ctrl = $ilCtrl;
+        $this->ctrl = $DIC->ctrl();
 
         $this->setId('calinbox');
 
@@ -73,12 +63,6 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection('asc');
     }
 
-    /**
-     * fill row
-     * @access protected
-     * @param array set of data
-     * @return void
-     */
     protected function fillRow(array $a_set) : void
     {
         global $DIC;
@@ -132,36 +116,13 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
             );
         }
         $this->tpl->setVariable('VAL_BEGIN', $date);
-        /*
-        if($a_set['duration'])
-        {
-            if($a_set['milestone'])
-            {
-                $this->tpl->setVariable('VAL_DURATION','-');
-            }
-            else
-            {
-                $this->tpl->setVariable('VAL_DURATION',ilDatePresentation::secondsToString($a_set['duration']));
-            }
-        }
-        else
-        {
-            $this->tpl->setVariable('VAL_DURATION','');
-        }
-        */
         $update = new ilDateTime($a_set['last_update'], IL_CAL_UNIX, $this->user->getTimeZone());
         $this->tpl->setVariable('VAL_LAST_UPDATE', ilDatePresentation::formatDate($update));
     }
 
-    /**
-     * set appointments
-     * @access public
-     * @return
-     */
-    public function setAppointments($a_apps)
+    public function setAppointments(array $a_apps) : void
     {
-        $appointments = array();
-
+        $appointments = [];
         foreach ($a_apps as $event) {
             $entry = $event['event'];
 
@@ -172,8 +133,6 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
             $tmp_arr['title'] = $entry->getPresentationTitle();
             $tmp_arr['description'] = $entry->getDescription();
             $tmp_arr['fullday'] = $entry->isFullday();
-            #$tmp_arr['begin'] = $entry->getStart()->get(IL_CAL_UNIX);
-            #$tmp_arr['end'] = $entry->getEnd()->get(IL_CAL_UNIX);
 
             $tmp_arr['begin'] = $event['dstart'];
             $tmp_arr['end'] = $event['dend'];
@@ -194,7 +153,6 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
 
         //cuts appointments array after Limit
         $appointments = array_slice($appointments, 0, $this->getLimit());
-
-        $this->setData($appointments ? $appointments : array());
+        $this->setData($appointments);
     }
 }

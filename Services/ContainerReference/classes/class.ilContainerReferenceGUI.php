@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -26,7 +26,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
 
     protected ilTabsGUI $tabs;
     protected ilErrorHandling $error;
-    protected array $existing_objects = array();
+    protected array $existing_objects = [];
 
     protected string $target_type;
     protected string $reference_type;
@@ -62,7 +62,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
 
-        if ($this->cont_request->getCreationMode() == self::MODE_CREATE) {
+        if ($this->cont_request->getCreationMode() === self::MODE_CREATE) {
             $this->setCreationMode(true);
         }
 
@@ -84,7 +84,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
+                if ($cmd === null || $cmd === '' || $cmd === 'view') {
                     $cmd = "edit";
                 }
                 $cmd .= "Object";
@@ -133,7 +133,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
     {
         $ilAccess = $this->access;
         
-        if ($this->cont_request->getTargetId() == 0) {
+        if ($this->cont_request->getTargetId() === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->createObject();
             return;
@@ -160,9 +160,9 @@ class ilContainerReferenceGUI extends ilObjectGUI
     {
         $target_obj_id = ilObject::_lookupObjId((int) $this->form->getInput('target_id'));
         $new_object->setTargetId($target_obj_id);
+        $new_object->setTitleType((int) $this->form->getInput('title_type'));
 
-        $new_object->setTitleType($this->form->getInput('title_type'));
-        if ($this->form->getInput('title_type') == ilContainerReference::TITLE_TYPE_CUSTOM) {
+        if ((int) $this->form->getInput('title_type') === ilContainerReference::TITLE_TYPE_CUSTOM) {
             $new_object->setTitle($this->form->getInput('title'));
         }
 
@@ -200,11 +200,11 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $main_tpl->setContent($form->getHTML());
     }
     
-    protected function initForm($a_mode = self::MODE_EDIT) : ilPropertyFormGUI
+    protected function initForm(int $a_mode = self::MODE_EDIT) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
-        if ($a_mode == self::MODE_CREATE) {
+        if ($a_mode === self::MODE_CREATE) {
             $form->setTitle($this->lng->txt($this->getReferenceType() . '_new'));
 
             $this->ctrl->setParameter($this, 'creation_mode', $a_mode);
@@ -218,7 +218,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         }
 
         $form->setFormAction($this->ctrl->getFormAction($this));
-        if ($a_mode == self::MODE_CREATE) {
+        if ($a_mode === self::MODE_CREATE) {
             $form->addCommandButton('save', $this->lng->txt('create'));
             $form->addCommandButton('cancel', $this->lng->txt('cancel'));
         } else {
@@ -227,18 +227,18 @@ class ilContainerReferenceGUI extends ilObjectGUI
 
         // title type
         $ttype = new ilRadioGroupInputGUI($this->lng->txt('title'), 'title_type');
-        if ($a_mode == self::MODE_EDIT) {
+        if ($a_mode === self::MODE_EDIT) {
             $ttype->setValue($this->object->getTitleType());
         } else {
-            $ttype->setValue(ilContainerReference::TITLE_TYPE_REUSE);
+            $ttype->setValue((string) ilContainerReference::TITLE_TYPE_REUSE);
         }
 
         $reuse = new ilRadioOption($this->lng->txt('objref_reuse_title'));
-        $reuse->setValue(ilContainerReference::TITLE_TYPE_REUSE);
+        $reuse->setValue((string) ilContainerReference::TITLE_TYPE_REUSE);
         $ttype->addOption($reuse);
         
         $custom = new ilRadioOption($this->lng->txt('objref_custom_title'));
-        $custom->setValue(ilContainerReference::TITLE_TYPE_CUSTOM);
+        $custom->setValue((string) ilContainerReference::TITLE_TYPE_CUSTOM);
         
         // title
         $title = new ilTextInputGUI($this->lng->txt('title'), 'title');
@@ -246,7 +246,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $title->setMaxLength(ilObject::TITLE_LENGTH);
         $title->setRequired(true);
 
-        if ($a_mode == self::MODE_EDIT) {
+        if ($a_mode === self::MODE_EDIT) {
             $title->setValue($this->object->getTitle());
         }
 
@@ -258,16 +258,16 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $repo = new ilRepositorySelector2InputGUI($this->lng->txt("objref_edit_ref"), "target_id");
         //$repo->setParent($this);
         $repo->setRequired(true);
-        $repo->getExplorerGUI()->setSelectableTypes(array($this->getTargetType()));
+        $repo->getExplorerGUI()->setSelectableTypes([$this->getTargetType()]);
         $repo->getExplorerGUI()->setTypeWhiteList(
             array_merge(
-                array($this->getTargetType()),
-                array("root", "cat", "grp", "fold", "crs")
+                [$this->getTargetType()],
+                ["root", "cat", "grp", "fold", "crs"]
             )
         );
         $repo->setInfo($this->lng->txt($this->getReferenceType() . '_edit_info'));
 
-        if ($a_mode == self::MODE_EDIT) {
+        if ($a_mode === self::MODE_EDIT) {
             $repo->getExplorerGUI()->setPathOpen($this->object->getTargetRefId());
             $repo->setValue($this->object->getTargetRefId());
         }
@@ -277,7 +277,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         return $form;
     }
 
-    protected function loadPropertiesFromSettingsForm(\ilPropertyFormGUI $form) : bool
+    protected function loadPropertiesFromSettingsForm(ilPropertyFormGUI $form) : bool
     {
         global $DIC;
 
@@ -285,7 +285,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $access = $DIC->access();
 
         $this->object->setTitleType($form->getInput('title_type'));
-        if ($form->getInput('title_type') == ilContainerReference::TITLE_TYPE_CUSTOM) {
+        if ((int) $form->getInput('title_type') === ilContainerReference::TITLE_TYPE_CUSTOM) {
             $this->object->setTitle($form->getInput('title'));
         }
 
@@ -297,7 +297,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
             $form->getItemByPostVar('target_id')->setAlert($this->lng->txt('permission_denied'));
         }
         // check target type
-        if (ilObject::_lookupType($form->getInput('target_id'), true) != $this->target_type) {
+        if (ilObject::_lookupType($form->getInput('target_id'), true) !== $this->target_type) {
             $ok = false;
             $form->getItemByPostVar('target_id')->setAlert(
                 $this->lng->txt('objref_failure_target_type') .
@@ -307,7 +307,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         }
 
         $this->object->setTargetId(
-            \ilObject::_lookupObjId((int) $form->getInput('target_id'))
+            ilObject::_lookupObjId((int) $form->getInput('target_id'))
         );
 
         return $ok;
@@ -352,15 +352,15 @@ class ilContainerReferenceGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "edit"),
-                array(),
+                [],
                 ""
             );
         }
         if ($this->access->checkAccess('edit_permission', '', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
-                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
-                array("perm","info","owner"),
+                $this->ctrl->getLinkTargetByClass([get_class($this), 'ilpermissiongui'], "perm"),
+                ["perm", "info", "owner"],
                 'ilpermissiongui'
             );
         }

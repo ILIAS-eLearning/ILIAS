@@ -18,36 +18,35 @@ namespace ILIAS\LTI\ToolProvider;
 class Outcome
 {
 
-/**
- * Language value.
- *
- * @var string $language
- */
-    public $language = null;
+    /**
+     * Language value.
+     *
+     * @var string $language
+     */
+    public ?string $language = null;
     /**
      * Outcome status value.
      *
      * @var string $status
      */
-    public $status = null;
+    public ?string $status = null;
+
     /**
      * Outcome date value.
-     *
-     * @var string $date
      */
-    public $date = null;
+    public ?string $date = null;
     /**
      * Outcome type value.
      *
      * @var string $type
      */
-    public $type = null;
+    public ?string $type = null;
     /**
      * Outcome data source value.
      *
      * @var string $dataSource
      */
-    public $dataSource = null;
+    public ?string $dataSource = null;
 
     /**
          * Outcome value.
@@ -56,10 +55,9 @@ class Outcome
 
     /**
      * Class constructor.
-     *
-     * @param string $value     Outcome value (optional, default is none)
+     * @param string|null $value Outcome value (optional, default is none)
      */
-    public function __construct($value = null)
+    public function __construct(?string $value = null)
     {
         $this->value = $value;
         $this->language = 'en-US';

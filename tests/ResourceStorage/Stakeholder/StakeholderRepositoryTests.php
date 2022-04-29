@@ -26,7 +26,6 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
  */
 class StakeholderRepositoryTests extends AbstractBaseTest
 {
-
     protected \ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository $stakeholder_repository;
     protected \ILIAS\ResourceStorage\Identification\ResourceIdentification $identification;
 
@@ -37,7 +36,7 @@ class StakeholderRepositoryTests extends AbstractBaseTest
         $this->identification = new ResourceIdentification('test_identification');
     }
 
-    public function testIdTooLong(): void
+    public function testIdTooLong() : void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('stakeholder ids MUST be shorter or equal to than 64 characters');
@@ -47,7 +46,7 @@ class StakeholderRepositoryTests extends AbstractBaseTest
         $this->stakeholder_repository->register($this->identification, $stakeholder);
     }
 
-    public function testNameTooLong(): void
+    public function testNameTooLong() : void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('stakeholder classnames MUST be shorter or equal to than 250 characters');
@@ -58,7 +57,7 @@ class StakeholderRepositoryTests extends AbstractBaseTest
         $this->stakeholder_repository->register($this->identification, $stakeholder);
     }
 
-    protected function getResourceStakeholder(?string $stakeholder_id = null, ?string $stakeholder_classname = null): \ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder
+    protected function getResourceStakeholder(?string $stakeholder_id = null, ?string $stakeholder_classname = null) : \ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder
     {
         return new class($stakeholder_id, $stakeholder_classname) implements ResourceStakeholder {
 
@@ -111,8 +110,6 @@ class StakeholderRepositoryTests extends AbstractBaseTest
             {
                 return 0;
             }
-
         };
     }
 }
-

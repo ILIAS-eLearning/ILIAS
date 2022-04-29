@@ -29,7 +29,7 @@
  */
 class ilCalendarInboxSharedTableGUI extends ilTable2GUI
 {
-    protected $cal_data = array();
+    protected array $cal_data = array();
 
     protected ilObjUser $user;
 
@@ -73,8 +73,10 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
         $this->tpl->setVariable('FIRSTNAME', $name['firstname']);
 
         $this->tpl->setVariable('APPS_COUNT', $a_set['apps']);
-        $this->tpl->setVariable('CREATE_DATE',
-            ilDatePresentation::formatDate(new ilDateTime($a_set['create_date'], IL_CAL_DATETIME)));
+        $this->tpl->setVariable(
+            'CREATE_DATE',
+            ilDatePresentation::formatDate(new ilDateTime($a_set['create_date'], IL_CAL_DATETIME))
+        );
 
         if ($a_set['accepted']) {
             $this->tpl->setVariable('ACC_IMG', ilUtil::getImagePath('icon_ok.svg'));

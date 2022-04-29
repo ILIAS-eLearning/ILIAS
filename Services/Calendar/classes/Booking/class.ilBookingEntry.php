@@ -267,16 +267,22 @@ class ilBookingEntry
         $ilDB = $DIC->database();
         $set = $ilDB->query('SELECT DISTINCT(context_id) FROM cal_entries e' .
             ' JOIN cal_cat_assignments a ON (e.cal_id = a.cal_id)' .
-            ' JOIN cal_categories c ON (a.cat_id = c.cat_id) WHERE c.type = ' . $ilDB->quote(ilCalendarCategory::TYPE_CH,
-                'integer'));
+            ' JOIN cal_categories c ON (a.cat_id = c.cat_id) WHERE c.type = ' . $ilDB->quote(
+                ilCalendarCategory::TYPE_CH,
+                'integer'
+            ));
 
         $used = array();
         while ($row = $ilDB->fetchAssoc($set)) {
             $used[] = $row['context_id'];
         }
         $ilDB->query($q = 'DELETE FROM booking_entry WHERE ' . $ilDB->in('booking_id', $used, true, 'integer'));
-        $ilDB->query($q = 'DELETE FROM booking_obj_assignment WHERE ' . $ilDB->in('booking_id', $used, true,
-                'integer'));
+        $ilDB->query($q = 'DELETE FROM booking_obj_assignment WHERE ' . $ilDB->in(
+            'booking_id',
+            $used,
+            true,
+            'integer'
+        ));
     }
 
     /**

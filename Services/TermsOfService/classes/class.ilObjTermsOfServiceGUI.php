@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author            Michael Jansen <mjansen@databay.de>
@@ -22,7 +37,6 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
         $this->dic = $DIC;
         $this->lng = $DIC->language();
-        $this->rbacsystem = $DIC->rbac()->system();
         $this->error = $DIC['ilErr'];
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
@@ -99,7 +113,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
                 break;
 
             default:
-                if ($cmd === '' || $cmd === 'view' || !method_exists($this, $cmd)) {
+                if ($cmd === null || $cmd === '' || $cmd === 'view' || !method_exists($this, $cmd)) {
                     $cmd = 'settings';
                 }
                 $this->$cmd();
@@ -109,7 +123,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
     public function getAdminTabs() : void
     {
-        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'tos_agreement_documents_tab_label',
                 $this->ctrl->getLinkTargetByClass(ilTermsOfServiceDocumentGUI::class),
@@ -118,7 +132,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
             );
         }
 
-        if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTarget($this, 'settings'),
@@ -128,8 +142,8 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
         }
 
         if (
-            (defined('USER_FOLDER_ID') && $this->rbacsystem->checkAccess('read', USER_FOLDER_ID)) &&
-            $this->rbacsystem->checkAccess('read', $this->object->getRefId())
+            (defined('USER_FOLDER_ID') && $this->rbac_system->checkAccess('read', USER_FOLDER_ID)) &&
+            $this->rbac_system->checkAccess('read', $this->object->getRefId())
         ) {
             $this->tabs_gui->addTarget(
                 'tos_acceptance_history',
@@ -139,7 +153,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
             );
         }
 
-        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'perm_settings',
                 $this->ctrl->getLinkTargetByClass([self::class, ilPermissionGUI::class], 'perm'),
@@ -157,7 +171,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
             $obj,
             $this->ctrl->getFormAction($this, 'saveSettings'),
             'saveSettings',
-            $this->rbacsystem->checkAccess('write', $this->object->getRefId())
+            $this->rbac_system->checkAccess('write', $this->object->getRefId())
         );
 
         ilAdministrationSettingsFormHandler::addFieldsToForm(
@@ -171,7 +185,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
     protected function saveSettings() : void
     {
-        if (!$this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('write', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
@@ -199,7 +213,7 @@ class ilObjTermsOfServiceGUI extends ilObject2GUI implements ilTermsOfServiceCon
 
     protected function settings() : void
     {
-        if (!$this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 

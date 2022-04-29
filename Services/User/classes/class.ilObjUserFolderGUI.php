@@ -49,7 +49,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     protected array $requested_ids; // Missing array type.
     protected string $selected_action;
     protected \ILIAS\User\StandardGUIRequest $user_request;
-    protected int $user_owner_id;
+    protected int $user_owner_id = 0;
     protected int $confirm_change = 0;
     protected ilLogger $log;
     protected ilUserSettingsConfig $user_settings_config;
@@ -1490,7 +1490,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("mail");
         $amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
         $mail_section = null;
-        if (trim($amail["body"]) != "" && trim($amail["subject"]) != "") {
+        if (trim($amail["body"] ?? "") != "" && trim($amail["subject"] ?? "") != "") {
             $send_checkbox = $ui->input()->field()->checkbox($this->lng->txt("user_send_new_account_mail"))
                                 ->withValue(true);
 

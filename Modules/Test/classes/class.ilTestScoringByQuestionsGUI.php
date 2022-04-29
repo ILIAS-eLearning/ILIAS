@@ -74,7 +74,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $tpl->addJavaScript("./Services/JavaScript/js/Basic.js");
         $tpl->addJavaScript("./Services/Form/js/Form.js");
         $tpl->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
-        $tpl->addCss($this->object->getTestStyleLocation("output"), "screen");
         $this->lng->toJSMap(['answer' => $this->lng->txt('answer')]);
 
         $table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);
@@ -132,7 +131,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                             'qst_id' => $questionData['qid'],
                             'reached_points' => assQuestion::_getReachedPoints($active_id, $questionData['qid'], $passNr - 1),
                             'maximum_points' => assQuestion::_getMaximumPoints($questionData['qid']),
-			    'name' => $participant->getName()
+                            'name' => $participant->getName()
                         ] + $feedback;
                     }
                 }
@@ -519,6 +518,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $reached_points_form->setMinValue(0);
         $reached_points_form->setDisabled($disable);
         $reached_points_form->setValue($reached_points);
+        $reached_points_form->setClientSideValidation(true);
         $form->addItem($reached_points_form);
 
         $hidden_points = new ilHiddenInputGUI('qst_max_points');

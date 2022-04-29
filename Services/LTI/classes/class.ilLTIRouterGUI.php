@@ -44,6 +44,7 @@ class ilLTIRouterGUI implements ilCtrlBaseClassInterface
         $class_file = $this->ilCtrl->lookupClassPath($next_class);
 
         if (is_file($class_file)) {
+            // TODO PHP8 Review: Undefined method getInstance(), check if existing or drop Singleton
             $gui = $next_class::getInstance(); // Singleton!
             $this->ilCtrl->forwardCommand($gui);
         } else {

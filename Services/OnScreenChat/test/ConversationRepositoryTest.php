@@ -114,16 +114,16 @@ class ConversationRepositoryTest extends ilOnScreenChatBaseTest
 
         self::assertCount(count($conversations_fixture) - 1, $conversations);
 
-        self::assertEquals($conversations_fixture[0]['conversation']['id'], $conversations[0]->getId());
+        self::assertSame($conversations_fixture[0]['conversation']['id'], $conversations[0]->getId());
         self::assertTrue($conversations[0]->isGroup());
-        self::assertEquals($conversations_fixture[0]['messages'][0]['id'], $conversations[0]->getLastMessage()->getId());
+        self::assertSame($conversations_fixture[0]['messages'][0]['id'], $conversations[0]->getLastMessage()->getId());
 
         self::assertFalse($conversations[1]->isGroup());
-        self::assertEquals($conversations_fixture[2]['conversation']['id'], $conversations[1]->getId());
-        self::assertEquals($conversations_fixture[2]['messages'][0]['id'], $conversations[1]->getLastMessage()->getId());
+        self::assertSame($conversations_fixture[2]['conversation']['id'], $conversations[1]->getId());
+        self::assertSame($conversations_fixture[2]['messages'][0]['id'], $conversations[1]->getLastMessage()->getId());
 
         self::assertFalse($conversations[2]->isGroup());
-        self::assertEquals($conversations_fixture[3]['conversation']['id'], $conversations[2]->getId());
-        self::assertEquals('', $conversations[2]->getLastMessage()->getId());
+        self::assertSame($conversations_fixture[3]['conversation']['id'], $conversations[2]->getId());
+        self::assertSame('', $conversations[2]->getLastMessage()->getId());
     }
 }

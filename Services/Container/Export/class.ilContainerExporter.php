@@ -35,68 +35,70 @@ class ilContainerExporter extends ilXmlExporter
     
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
-        if ($a_entity != 'struct') {
+        if ($a_entity !== 'struct') {
             return [];
         }
         
         
-        $res = array();
+        $res = [];
         
         // pages
         
-        $pg_ids = array();
+        $pg_ids = [];
         
         // container pages
         foreach ($a_ids as $id) {
-            if (ilContainerPage::_exists("cont", $id)) {
+            if (ilContainerPage::_exists("cont", (int) $id)) {
                 $pg_ids[] = "cont:" . $id;
             }
         }
         
         // container start objects pages
         foreach ($a_ids as $id) {
-            if (ilContainerStartObjectsPage::_exists("cstr", $id)) {
+            if (ilContainerStartObjectsPage::_exists("cstr", (int) $id)) {
                 $pg_ids[] = "cstr:" . $id;
             }
         }
         
-        if (sizeof($pg_ids)) {
-            $res[] = array(
+        if (count($pg_ids)) {
+            $res[] = [
                 "component" => "Services/COPage",
                 "entity" => "pg",
                 "ids" => $pg_ids
-            );
+            ];
         }
         
         // style
-        $style_ids = array();
+        $style_ids = [];
         foreach ($a_ids as $id) {
             // see #24888
-            $style = $this->content_style_domain->styleForObjId($id);
+            $style = $this->content_style_domain->styleForObjId((int) $id);
             $style_id = $style->getEffectiveStyleId();
             if ($style_id > 0) {
                 $style_ids[] = $style_id;
             }
         }
-        if (sizeof($style_ids)) {
-            $res[] = array(
+        if (count($style_ids)) {
+            $res[] = [
                 "component" => "Services/Style",
                 "entity" => "sty",
                 "ids" => $style_ids
-            );
+            ];
         }
 
         // service settings
-        $res[] = array(
+        $res[] = [
             "component" => "Services/Object",
             "entity" => "common",
-            "ids" => $a_ids);
+            "ids" => $a_ids
+        ];
 
         // skill profiles
-        $res[] = array(
+        $res[] = [
             "component" => "Services/Skill",
             "entity" => "skl_local_prof",
-            "ids" => $a_ids);
+            "ids" => $a_ids
+        ];
 
         // news settings
         $res[] = [
@@ -113,7 +115,7 @@ class ilContainerExporter extends ilXmlExporter
         global $DIC;
 
         $log = $DIC->logger()->root();
-        if ($a_entity == 'struct') {
+        if ($a_entity === 'struct') {
             $log->debug(__METHOD__ . ': Received id = ' . $a_id);
             $ref_ids = ilObject::_getAllReferences((int) $a_id);
             $writer = new ilContainerXmlWriter(end($ref_ids));
@@ -131,13 +133,14 @@ class ilContainerExporter extends ilXmlExporter
      */
     public function getValidSchemaVersions(string $a_entity) : array
     {
-        return array(
-            "4.1.0" => array(
+        return [
+            "4.1.0" => [
                 "namespace" => "https://www.ilias.de/Modules/Folder/fold/4_1",
                 "xsd_file" => "ilias_fold_4_1.xsd",
                 "uses_dataset" => false,
                 "min" => "4.1.0",
-                "max" => "")
-        );
+                "max" => ""
+            ]
+        ];
     }
 }

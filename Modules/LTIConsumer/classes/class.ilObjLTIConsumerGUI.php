@@ -47,7 +47,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public ?ilObject $object = null;
     protected ilLTIConsumerAccess $ltiAccess;
 
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -67,11 +67,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return 'lti';
     }
 
-    /**
-     * @param string $a_new_type
-     * @return array
-     */
-    protected function initCreationForms($a_new_type) : array
+    protected function initCreationForms(string $a_new_type) : array
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -90,11 +86,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return $forms;
     }
 
-    /**
-     * @param string $a_new_type
-     * @return ilLTIConsumerProviderSelectionFormTableGUI
-     */
-    protected function initCreateForm($a_new_type) : \ilLTIConsumerProviderSelectionFormTableGUI
+    protected function initCreateForm(string $a_new_type) : \ilLTIConsumerProviderSelectionFormTableGUI
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -220,7 +212,8 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
 
-        $new_type = $_REQUEST["new_type"];
+        $new_type = $this->getRequestValue("new_type");
+
         $DIC->ctrl()->setParameter($this, "new_type", $new_type);
 
         $DIC->language()->loadLanguageModule($new_type);
@@ -256,14 +249,12 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $DIC->ui()->mainTemplate()->setContent($form->getHtml());
     }
 
-    protected function afterSave(ilObject $newObject) : void
+    protected function afterSave(\ilObject $newObject) : void
     {
-        /* @var ilObjLTIConsumer $newObject */
         global $DIC;
-        /* @var \ILIAS\DI\Container $DIC */
 
-        if (isset($_GET['provider_id']) && (int) $_GET['provider_id']) {
-            $newObject->setProviderId((int) $_GET['provider_id']);
+        if ($DIC->http()->wrapper()->query()->has('provider_id')) {
+            $newObject->setProviderId((int) $DIC->http()->wrapper()->query()->retrieve('provider_id', $DIC->refinery()->kindlyTo()->int()));
             $newObject->initProvider();
             $newObject->save();
 
@@ -308,7 +299,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         );
     }
 
-    public function initMetadata(ilObjLTIConsumer $object) : void
+    public function initMetadata(\ilObject $object) : void
     {
         $metadata = new ilMD($object->getId(), $object->getId(), $object->getType());
 
@@ -331,12 +322,10 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     }
 
     /**
-     * @param string|null $a_sub_type
-     * @param int|null    $a_sub_id
      * @return ilObjectListGUI
      * @throws ilCtrlException
      */
-    protected function initHeaderAction($a_sub_type = null, $a_sub_id = null) : ?\ilObjectListGUI
+    protected function initHeaderAction(?string $a_sub_type = null, ?int $a_sub_id = null) : ?\ilObjectListGUI
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -348,7 +337,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         }
 
         $validator = new ilCertificateDownloadValidator();
-        if ($validator->isCertificateDownloadable((int) $DIC->user()->getId(), (int) $this->object->getId())) {
+        if ($validator->isCertificateDownloadable($DIC->user()->getId(), $this->object->getId())) {
             $certLink = $DIC->ctrl()->getLinkTargetByClass(
                 [ilObjLTIConsumerGUI::class, ilLTIConsumerSettingsGUI::class],
                 ilLTIConsumerSettingsGUI::CMD_DELIVER_CERTIFICATE
@@ -868,5 +857,22 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         } elseif ($this->object->getProvider()->getAvailability() == ilLTIConsumeProvider::AVAILABILITY_NONE) {
             $this->tpl->setOnScreenMessage('failure', $DIC->language()->txt('lti_provider_not_avail_msg'));
         }
+    }
+
+    /**
+     * @param mixed  $default
+     * @return mixed|null
+     */
+    protected function getRequestValue(string $key, $default = null)
+    {
+        if (isset($this->request->getQueryParams()[$key])) {
+            return $this->request->getQueryParams()[$key];
+        }
+
+        if (isset($this->request->getParsedBody()[$key])) {
+            return $this->request->getParsedBody()[$key];
+        }
+
+        return $default ?? null;
     }
 }

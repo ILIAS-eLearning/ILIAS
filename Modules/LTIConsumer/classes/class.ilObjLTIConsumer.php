@@ -28,19 +28,13 @@ class ilObjLTIConsumer extends ilObject2
     /**
      * repository object activation settings (handled by ilObject)
      */
-    protected $activationLimited;
-    protected $activationStartingTime;
-    protected $activationEndingTime;
-    protected $activationVisibility;
+    protected bool $activationLimited;
+    protected ?int $activationStartingTime = null;
+    protected ?int $activationEndingTime = null;
+    protected ?bool $activationVisibility = null;
     
-    /**
-     * @var int
-     */
-    protected $providerId = 0;
+    protected int $providerId = 0;
     
-    /**
-     * @var ilLTIConsumeProvider
-     */
     protected ?ilLTIConsumeProvider $provider = null;
     
     const LAUNCH_METHOD_OWN_WIN = 'ownWin';
@@ -53,26 +47,37 @@ class ilObjLTIConsumer extends ilObject2
 
     protected float $mastery_score = 0.5;
 
-    /**
-     * @var string
-     */
     protected string $launchMethod = self::LAUNCH_METHOD_NEW_WIN;
 
-    /**
-     * @var string
-     */
     protected string $customLaunchKey = '';
-    /**
-     * @var string
-     */
+
     protected string $customLaunchSecret = '';
 
     protected int $ref_id = 0;
-    
+
+    //Highscore
+    protected bool $_highscore_enabled = false;
+
+    protected int $anonymity = 0;
+
+    protected bool $_highscore_achieved_ts = true;
+
+    protected bool $_highscore_percentage = true;
+
+    protected bool $_highscore_wtime = true;
+
+    protected bool $_highscore_own_table = true;
+
+    protected bool $_highscore_top_table = true;
+
+    protected int $_highscore_top_num = 10;
+
+    const HIGHSCORE_SHOW_ALL_TABLES = 1;
+    const HIGHSCORE_SHOW_TOP_TABLE = 2;
+    const HIGHSCORE_SHOW_OWN_TABLE = 3;
+
     /**
      * ilObjLTIConsumer constructor.
-     * @param int $a_id
-     * @param bool $a_reference
      */
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {
@@ -84,7 +89,7 @@ class ilObjLTIConsumer extends ilObject2
         $this->type = "lti";
     }
     
-    public function isActivationLimited() : ?bool
+    public function isActivationLimited() : bool
     {
         return $this->activationLimited;
     }
@@ -124,49 +129,31 @@ class ilObjLTIConsumer extends ilObject2
         $this->activationVisibility = $activationVisibility;
     }
 
-    /**
-     * @return float
-     */
     public function getMasteryScore() : float
     {
         return $this->mastery_score;
     }
 
-    /**
-     * @param float $mastery_score
-     */
     public function setMasteryScore(float $mastery_score) : void
     {
         $this->mastery_score = $mastery_score;
     }
 
-    /**
-     * @return float
-     */
     public function getMasteryScorePercent() : float
     {
         return $this->mastery_score * 100;
     }
 
-    /**
-     * @param float $mastery_score_percent
-     */
     public function setMasteryScorePercent(float $mastery_score_percent) : void
     {
         $this->mastery_score = $mastery_score_percent / 100;
     }
 
-    /**
-     * @return int
-     */
     public function getProviderId() : int
     {
         return $this->providerId;
     }
     
-    /**
-     * @param int $providerId
-     */
     public function setProviderId(int $providerId) : void
     {
         $this->providerId = $providerId;
@@ -177,81 +164,51 @@ class ilObjLTIConsumer extends ilObject2
         $this->provider = new ilLTIConsumeProvider($this->getProviderId());
     }
     
-    /**
-     * @return ilLTIConsumeProvider
-     */
     public function getProvider() : ilLTIConsumeProvider
     {
         return $this->provider;
     }
     
-    /**
-     * @param ilLTIConsumeProvider $provider
-     */
     public function setProvider(ilLTIConsumeProvider $provider) : void
     {
         $this->provider = $provider;
     }
     
-    /**
-     * @return bool
-     */
     public function isLaunchMethodOwnWin() : bool
     {
         return $this->launchMethod == self::LAUNCH_METHOD_OWN_WIN;
     }
     
-    /**
-     * @return bool
-     */
     public function isLaunchMethodEmbedded() : bool
     {
         return $this->launchMethod == self::LAUNCH_METHOD_EMBEDDED;
     }
     
-    /**
-     * @return string
-     */
     public function getLaunchMethod() : string
     {
         return $this->launchMethod;
     }
     
-    /**
-     * @param string $launchMethod
-     */
     public function setLaunchMethod(string $launchMethod) : void
     {
         $this->launchMethod = $launchMethod;
     }
 
-    /**
-     * @return string
-     */
     public function getCustomLaunchKey() : string
     {
         return $this->customLaunchKey;
     }
     
-    /**
-     * @param string $customLaunchKey
-     */
     public function setCustomLaunchKey(string $customLaunchKey) : void
     {
         $this->customLaunchKey = $customLaunchKey;
     }
     
-    /**
-     * @return string
-     */
     public function getCustomLaunchSecret() : string
     {
         return $this->customLaunchSecret;
     }
     
-    /**
-     * @param string $customLaunchSecret
-     */
     public function setCustomLaunchSecret(string $customLaunchSecret) : void
     {
         $this->customLaunchSecret = $customLaunchSecret;
@@ -275,41 +232,26 @@ class ilObjLTIConsumer extends ilObject2
         return $this->getProvider()->getProviderSecret();
     }
     
-    /**
-     * @return bool
-     */
     public function getUseXapi() : bool
     {
         return $this->use_xapi;
     }
     
-    /**
-     * @param bool $use_xapi
-     */
     public function setUseXapi(bool $use_xapi) : void
     {
         $this->use_xapi = $use_xapi;
     }
 
-    /**
-     * @return string
-     */
     public function getCustomActivityId() : string
     {
         return $this->custom_activity_id;
     }
     
-    /**
-     * @param string $custom_activity_id
-     */
     public function setCustomActivityId(string $custom_activity_id) : void
     {
         $this->custom_activity_id = $custom_activity_id;
     }
     
-    /**
-     * @return string
-     */
     public function getActivityId() : string
     {
         if (strlen($this->getProvider()->getXapiActivityId())) {
@@ -353,7 +295,7 @@ class ilObjLTIConsumer extends ilObject2
     }
 
 
-    public function doRead() : void
+    protected function doRead() : void
     {
         $this->load();
     }
@@ -393,7 +335,7 @@ class ilObjLTIConsumer extends ilObject2
         $this->loadRepositoryActivationSettings();
     }
     
-    public function doUpdate() : void
+    protected function doUpdate() : void
     {
         $this->save();
     }
@@ -418,8 +360,8 @@ class ilObjLTIConsumer extends ilObject2
             'highscore_wtime' => ['integer', (int) $this->getHighscoreWTime()],
             'highscore_own_table' => ['integer', (int) $this->getHighscoreOwnTable()],
             'highscore_top_table' => ['integer', (int) $this->getHighscoreTopTable()],
-            'highscore_top_num' => ['integer', (int) $this->getHighscoreTopNum()],
-            'mastery_score' => ['float', (float) $this->getMasteryScore()]
+            'highscore_top_num' => ['integer', $this->getHighscoreTopNum()],
+            'mastery_score' => ['float', $this->getMasteryScore()]
         ]);
         
         $this->saveRepositoryActivationSettings();
@@ -471,58 +413,13 @@ class ilObjLTIConsumer extends ilObject2
     /////////////////////////////////////////
     /// HIGHSCORE
 
-    /**
-     * @var int
-     */
-    protected $_highscore_enabled = 0;
-
-    /**
-     * @var int
-     */
-    protected $anonymity = 0;
-
-    /**
-     * @var int
-     */
-    protected $_highscore_achieved_ts = 1;
-
-    /**
-     * @var int
-     */
-    protected $_highscore_percentage = 1;
-
-    /**
-     * @var int
-     */
-    protected $_highscore_wtime = 1;
-
-    /**
-     * @var int
-     */
-    protected $_highscore_own_table = 1;
-
-    /**
-     * @var int
-     */
-    protected $_highscore_top_table = 1;
-
-    /**
-     * @var int
-     */
-    protected $_highscore_top_num = 10;
-
-    const HIGHSCORE_SHOW_ALL_TABLES = 1;
-    const HIGHSCORE_SHOW_TOP_TABLE = 2;
-    const HIGHSCORE_SHOW_OWN_TABLE = 3;
-
-
 
     /**
      * Sets if the highscore feature should be enabled.
      */
     public function setHighscoreEnabled(bool $a_enabled) : void
     {
-        $this->_highscore_enabled = (bool) $a_enabled;
+        $this->_highscore_enabled = $a_enabled;
     }
 
     /**
@@ -532,7 +429,7 @@ class ilObjLTIConsumer extends ilObject2
      */
     public function getHighscoreEnabled() : bool
     {
-        return (bool) $this->_highscore_enabled;
+        return $this->_highscore_enabled;
     }
 
 
@@ -541,7 +438,7 @@ class ilObjLTIConsumer extends ilObject2
      */
     public function setHighscoreAchievedTS(bool $a_achieved_ts) : void
     {
-        $this->_highscore_achieved_ts = (bool) $a_achieved_ts;
+        $this->_highscore_achieved_ts = $a_achieved_ts;
     }
 
     /**
@@ -551,7 +448,7 @@ class ilObjLTIConsumer extends ilObject2
      */
     public function getHighscoreAchievedTS() : bool
     {
-        return (bool) $this->_highscore_achieved_ts;
+        return $this->_highscore_achieved_ts;
     }
 
     /**
@@ -559,7 +456,7 @@ class ilObjLTIConsumer extends ilObject2
      */
     public function setHighscorePercentage(bool $a_percentage) : void
     {
-        $this->_highscore_percentage = (bool) $a_percentage;
+        $this->_highscore_percentage = $a_percentage;
     }
 
     /**
@@ -569,7 +466,7 @@ class ilObjLTIConsumer extends ilObject2
      */
     public function getHighscorePercentage() : bool
     {
-        return (bool) $this->_highscore_percentage;
+        return $this->_highscore_percentage;
     }
 
     /**
@@ -577,7 +474,7 @@ class ilObjLTIConsumer extends ilObject2
      */
     public function setHighscoreWTime(bool $a_wtime) : void
     {
-        $this->_highscore_wtime = (bool) $a_wtime;
+        $this->_highscore_wtime = $a_wtime;
     }
 
     /**
@@ -587,7 +484,7 @@ class ilObjLTIConsumer extends ilObject2
      */
     public function getHighscoreWTime() : bool
     {
-        return (bool) $this->_highscore_wtime;
+        return $this->_highscore_wtime;
     }
 
     /**
@@ -597,7 +494,7 @@ class ilObjLTIConsumer extends ilObject2
      */
     public function setHighscoreOwnTable(bool $a_own_table) : void
     {
-        $this->_highscore_own_table = (bool) $a_own_table;
+        $this->_highscore_own_table = $a_own_table;
     }
 
     /**
@@ -607,7 +504,7 @@ class ilObjLTIConsumer extends ilObject2
      */
     public function getHighscoreOwnTable() : bool
     {
-        return (bool) $this->_highscore_own_table;
+        return $this->_highscore_own_table;
     }
 
     /**
@@ -615,7 +512,7 @@ class ilObjLTIConsumer extends ilObject2
      */
     public function setHighscoreTopTable(bool $a_top_table) : void
     {
-        $this->_highscore_top_table = (bool) $a_top_table;
+        $this->_highscore_top_table = $a_top_table;
     }
 
     /**
@@ -625,7 +522,7 @@ class ilObjLTIConsumer extends ilObject2
      */
     public function getHighscoreTopTable() : bool
     {
-        return (bool) $this->_highscore_top_table;
+        return $this->_highscore_top_table;
     }
 
     /**
@@ -636,7 +533,7 @@ class ilObjLTIConsumer extends ilObject2
      */
     public function setHighscoreTopNum(int $a_top_num) : void
     {
-        $this->_highscore_top_num = (int) $a_top_num;
+        $this->_highscore_top_num = $a_top_num;
     }
 
     /**
@@ -650,31 +547,25 @@ class ilObjLTIConsumer extends ilObject2
     public function getHighscoreTopNum(int $a_retval = 10) : int
     {
         $retval = $a_retval;
-        if ((int) $this->_highscore_top_num != 0) {
+        if ($this->_highscore_top_num != 0) {
             $retval = $this->_highscore_top_num;
         }
 
         return $retval;
     }
 
-    /**
-     * @return int
-     */
     public function getHighscoreMode() : int
     {
         switch (true) {
             case $this->getHighscoreOwnTable() && $this->getHighscoreTopTable():
                 return self::HIGHSCORE_SHOW_ALL_TABLES;
-                break;
 
             case $this->getHighscoreTopTable():
                 return self::HIGHSCORE_SHOW_TOP_TABLE;
-                break;
 
             case $this->getHighscoreOwnTable():
             default:
                 return self::HIGHSCORE_SHOW_OWN_TABLE;
-                break;
         }
     }
 
@@ -703,13 +594,6 @@ class ilObjLTIConsumer extends ilObject2
     }
     /* End GET/SET for highscore feature*/
     /**
-     * @param ilCmiXapiUser $cmixUser
-     * @param string        $token
-     * @param string        $contextType
-     * @param string        $contextId
-     * @param string        $contextTitle
-     * @param string|null   $returnUrl
-     * @return array
      * @throws ilWACException
      */
     public function buildLaunchParameters(ilCmiXapiUser $cmixUser, string $token, string $contextType, string $contextId, string $contextTitle, ?string $returnUrl = '') : array
@@ -764,7 +648,12 @@ class ilObjLTIConsumer extends ilObject2
         ilLTIConsumerResult::getByKeys($this->getId(), $DIC->user()->getId(), true);
         
         $custom_params = $this->getCustomParams();
-
+        $toolConsumerInstanceGuid = CLIENT_ID . ".";
+        $parseIliasUrl = parse_url(ILIAS_HTTP_PATH);
+        if (array_key_exists("path", $parseIliasUrl)) {
+            $toolConsumerInstanceGuid .= implode(".", array_reverse(explode("/", $parseIliasUrl["path"])));
+        }
+        $toolConsumerInstanceGuid .= $parseIliasUrl["host"];
         $launch_vars = [
             "lti_message_type" => "basic-lti-launch-request",
             "lti_version" => "LTI-1p0",
@@ -787,7 +676,7 @@ class ilObjLTIConsumer extends ilObject2
             "launch_presentation_width" => "",//recommended
             "launch_presentation_height" => "",//recommended
             "launch_presentation_return_url" => $returnUrl,
-            "tool_consumer_instance_guid" => $value = CLIENT_ID . "." . implode(".", array_reverse(explode("/", parse_url(ILIAS_HTTP_PATH)["path"]))) . parse_url(ILIAS_HTTP_PATH)["host"],
+            "tool_consumer_instance_guid" => $toolConsumerInstanceGuid,
             "tool_consumer_instance_name" => $DIC->settings()->get("short_inst_name") ? $DIC->settings()->get("short_inst_name") : CLIENT_ID,
             "tool_consumer_instance_description" => ilObjSystemFolder::_getHeaderTitle(),
             "tool_consumer_instance_url" => ilLink::_getLink(ROOT_FOLDER_ID, "root"),//ToDo? "https://vb52p70.example.com/release_5-3/goto.php?target=root_1&client_id=inno",
@@ -811,8 +700,6 @@ class ilObjLTIConsumer extends ilObject2
             "data" => ($launch_vars + $custom_params)
         ];
         
-        $launchParameters = ilLTIConsumerLaunch::signOAuth($OAuthParams);
-        
-        return $launchParameters;
+        return ilLTIConsumerLaunch::signOAuth($OAuthParams);
     }
 }

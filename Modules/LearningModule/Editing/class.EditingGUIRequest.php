@@ -201,7 +201,7 @@ class EditingGUIRequest
         return $this->intArray("pages");
     }
 
-    public function getHFormPar($par) : string
+    public function getHFormPar(string $par) : string
     {
         return $this->str("il_hform_" . $par);
     }

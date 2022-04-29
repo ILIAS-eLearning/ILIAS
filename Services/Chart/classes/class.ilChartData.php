@@ -57,7 +57,7 @@ abstract class ilChartData
     public function addPoint(
         float $a_x,
         ?float $a_y = null
-    ) {
+    ) : void {
         if ($a_y !== null) {
             $this->data[] = array($a_x, $a_y);
         } else {
@@ -77,10 +77,10 @@ abstract class ilChartData
 
     public function setFill(
         float $a_value,
-        string $a_color = null
+        string $a_color = ""
     ) : void {
         $this->fill = $a_value;
-        if (ilChart::isValidColor((string) $a_color)) {
+        if (ilChart::isValidColor($a_color)) {
             $this->fill_color = $a_color;
         }
     }

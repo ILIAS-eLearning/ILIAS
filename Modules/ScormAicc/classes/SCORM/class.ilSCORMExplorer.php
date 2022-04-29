@@ -173,9 +173,9 @@ class ilSCORMExplorer extends ilExplorer
     /**
      * can i click on the module name
      */
-    public function isClickable(string $a_type, $a_ref_id = 0) : bool//PHP8Review: This parent should be typestrict, but exceeds the scorm scope, so i just leave a recommendation here
+    public function isClickable(string $type, int $ref_id = 0) : bool
     {
-        if ($a_type !== "sit") {
+        if ($type !== "sit") {
             return false;
         }
 
@@ -206,7 +206,7 @@ class ilSCORMExplorer extends ilExplorer
         $scormtype = strtolower(ilSCORMResource::_lookupScormType($sc_res_id));
 
         //is scorm clickabke
-        $clickable = $this->isClickable($option["c_type"], $option["id"], $sc_object);
+        $clickable = $this->isClickable($option["c_type"], $option["id"]);
 
         if ($this->output_icons && $clickable) {
             $this->getOutputIcons($tpl, $option, $option["id"], $scormtype);

@@ -21,10 +21,6 @@ class ilObjWebDAV extends ilObject
 {
     private bool $webdavEnabled;
     private bool $webdavVersioningEnabled;
-    private bool $webdavActionsVisible;
-    private bool $customWebfolderInstructionsEnabled;
-    private string $customWebfolderInstructions;
-    private bool $pwd_instruction;
     
     public function __construct(int $id = 0, bool $call_by_reference = true)
     {
@@ -94,6 +90,10 @@ class ilObjWebDAV extends ilObject
         $this->webdavVersioningEnabled = $settings->get('webdav_versioning_enabled', '1') == '1';
     }
     
+    /**
+     *
+     * @return string[]
+     */
     public function retrieveWebDAVCommandArrayForActionMenu() : array
     {
         global $DIC;
@@ -101,7 +101,7 @@ class ilObjWebDAV extends ilObject
 
         $status = ilAuthUtils::supportsLocalPasswordValidation($ilUser->getAuthMode(true));
         $cmd = 'mount_webfolder';
-        if ($status === ilAuthUtils::LOCAL_PWV_USER && strlen($ilUser->getPasswd() === 0)) {
+        if ($status === ilAuthUtils::LOCAL_PWV_USER && strlen($ilUser->getPasswd()) === 0) {
             $cmd = 'showPasswordInstruction';
         }
         

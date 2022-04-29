@@ -1,18 +1,21 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+ 
 /**
  * XML writer class
  *
@@ -37,12 +40,8 @@ class ilFileXMLWriter extends ilXmlWriter
     // begin-patch fm
     public static int $CONTENT_ATTACH_REST = 5;
     // end-patch fm
-    /**
-     * if true, file contents will be attached as base64
-     *
-     * @var int
-     */
-    public $attachFileContents;
+
+    public int $attachFileContents;
     /**
      * Exercise Object
      */
@@ -104,7 +103,7 @@ class ilFileXMLWriter extends ilXmlWriter
      * @param string    relative file target directory
      * @param string    absolute file target directory
      */
-    public function setFileTargetDirectories($a_rel, $a_abs) : void
+    public function setFileTargetDirectories(?string $a_rel, ?string $a_abs) : void
     {
         $this->target_dir_relative = $a_rel;
         $this->target_dir_absolute = $a_abs;
@@ -151,7 +150,7 @@ class ilFileXMLWriter extends ilXmlWriter
 
         $versions = $this->file->getVersions();
 
-        if (count($versions)) {
+        if ($versions !== []) {
             $this->xmlStartTag("Versions");
 
             foreach ($versions as $version) {
@@ -167,7 +166,7 @@ class ilFileXMLWriter extends ilXmlWriter
 
                 $content = "";
 
-                if ($this->attachFileContents) {
+                if ($this->attachFileContents !== 0) {
                     $filename = $this->file->getFile($version["version"]);
 
                     if (@is_file($filename)) {

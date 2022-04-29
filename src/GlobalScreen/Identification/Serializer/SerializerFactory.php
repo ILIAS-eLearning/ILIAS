@@ -1,5 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Identification\Serializer;
 
+use InvalidArgumentException;
+
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
  * ILIAS is licensed with the GPL-3.0, you should have received a copy
@@ -53,6 +55,6 @@ class SerializerFactory
             return $core;
         }
         
-        throw new \InvalidArgumentException("Nobody can handle serialized identification '$serialized_identification'.");
+        throw new InvalidArgumentException("Nobody can handle serialized identification '$serialized_identification'.");
     }
 }

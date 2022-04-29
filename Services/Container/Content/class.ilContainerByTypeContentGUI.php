@@ -20,7 +20,10 @@
  */
 class ilContainerByTypeContentGUI extends ilContainerContentGUI
 {
-    protected bool $force_details;
+    /**
+     * @var null|array|int
+     */
+    protected $force_details = null;
     protected int $block_limit;
     protected ?ilContainerUserFilter $container_user_filter;
     
@@ -48,9 +51,9 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
         }
         if ($a_item_id == $this->force_details) {
             return self::DETAILS_ALL;
-        } else {
-            return self::DETAILS_TITLE;
         }
+
+        return self::DETAILS_TITLE;
     }
 
     public function getMainContent() : string
@@ -76,8 +79,8 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
 
         // Show introduction, if repository is empty
         // @todo: maybe we move this
-        if ((!is_array($this->items) || count($this->items) == 0) &&
-            $this->getContainerObject()->getRefId() == ROOT_FOLDER_ID &&
+        if ((!is_array($this->items) || count($this->items) === 0) &&
+            $this->getContainerObject()->getRefId() === ROOT_FOLDER_ID &&
             $ilAccess->checkAccess("write", "", $this->getContainerObject()->getRefId())) {
             $html = $this->getIntroduction();
         } else {	// show item list otherwise
@@ -98,7 +101,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
         $output_html = $this->getContainerGUI()->getContainerPageHTML();
         
         // get embedded blocks
-        if ($output_html != "") {
+        if ($output_html !== "") {
             $output_html = $this->insertPageEmbeddedBlocks($output_html);
         }
 
@@ -116,7 +119,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
                 foreach ($this->items[$type] as $item_data) {
                     $item_ref_id = $item_data["child"];
 
-                    if ($this->block_limit > 0 && !$this->getContainerGUI()->isActiveItemOrdering() && $position == $this->block_limit + 1) {
+                    if ($this->block_limit > 0 && $position == $this->block_limit + 1 && !$this->getContainerGUI()->isActiveItemOrdering()) {
                         if ($position == $this->block_limit + 1) {
                             // render more button
                             $this->renderer->addShowMoreButton($type);
@@ -143,7 +146,7 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
     {
         $this->handleSessionExpand();
 
-        if ($this->getContainerObject()->getType() == 'crs') {
+        if ($this->getContainerObject()->getType() === 'crs') {
             if ($session = ilSessionAppointment::lookupNextSessionByCourse($this->getContainerObject()->getRefId())) {
                 $this->force_details = $session;
             } elseif ($session = ilSessionAppointment::lookupLastSessionByCourse($this->getContainerObject()->getRefId())) {

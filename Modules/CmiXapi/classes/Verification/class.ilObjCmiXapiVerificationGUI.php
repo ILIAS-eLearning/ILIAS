@@ -53,7 +53,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        $objId = $_REQUEST["cmix_id"];
+        $objId = $this->getRequestValue("cmix_id");
         if ($objId) {
             $certificateVerificationFileService = new ilCertificateVerificationFileService(
                 $DIC->language(),
@@ -65,7 +65,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
             $userCertificateRepository = new ilUserCertificateRepository();
 
             $userCertificatePresentation = $userCertificateRepository->fetchActiveCertificateForPresentation(
-                (int) $DIC->user()->getId(),
+                $DIC->user()->getId(),
                 (int) $objId
             );
 
@@ -152,10 +152,33 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
     
     public static function _goto($a_target) : void
     {
+        global $DIC;
+        $ctrl = $DIC->ctrl();
         $id = explode("_", $a_target);
-        
-        $_GET["baseClass"] = "ilsharedresourceGUI";
-        $_GET["wsp_id"] = $id[0];
-        exit;
+
+        $ctrl->setParameterByClass(
+            "ilsharedresourceGUI",
+            "wsp_id",
+            $id[0]
+        );
+        $ctrl->redirectByClass(ilSharedResourceGUI::class);
+    }
+
+    /**
+     * @param string $key
+     * @param mixed  $default
+     * @return mixed|null
+     */
+    protected function getRequestValue(string $key, $default = null)
+    {
+        if (isset($this->request->getQueryParams()[$key])) {
+            return $this->request->getQueryParams()[$key];
+        }
+
+        if (isset($this->request->getParsedBody()[$key])) {
+            return $this->request->getParsedBody()[$key];
+        }
+
+        return $default ?? null;
     }
 }

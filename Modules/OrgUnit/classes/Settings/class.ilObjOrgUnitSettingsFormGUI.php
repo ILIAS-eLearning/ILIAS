@@ -19,13 +19,11 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI
     public function __construct($parent_gui, ilObjOrgUnit $obj_orgu)
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
         $this->parent_gui = $parent_gui;
         $this->obj_orgu = $obj_orgu;
-        $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->user = $ilUser;

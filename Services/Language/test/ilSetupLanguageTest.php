@@ -11,54 +11,35 @@ include_once "Services/Language/classes/Setup/class.ilSetupLanguage.php";
 
 class ilSetupLanguageTest extends ilLanguageBaseTest
 {
+    private ilSetupLanguage $newLangSetupDe;
+    private ilSetupLanguage $newLangSetupEs;
 
     /**
-     * @var
+     * @var ilSetupLanguage[]
      */
-    private $langSetupObj;
+    private array $langInstalled;
 
-    /**
-     * @var
-     */
-    private $newLangSetupDe;
-
-    /**
-     * @var
-     */
-    private $newLangSetupEs;
-
-    /**
-     * @var
-     */
-    private $langInstalled;
-
-    public function setUp(): void
+    protected function setUp() : void
     {
-        $this->langSetupObj = $this->getMockBuilder(ilSetupLanguage::class)->disableOriginalConstructor()->getMock();
-
-        $this->newLangSetupDe = new $this->langSetupObj('de');
-        $this->newLangSetupEs = new $this->langSetupObj('es');
+        $this->newLangSetupDe = new ilSetupLanguage('de');
+        $this->newLangSetupEs = new ilSetupLanguage('es');
 
         $this->langInstalled[] = $this->newLangSetupDe;
         $this->langInstalled[] = $this->newLangSetupEs;
     }
 
-    /**
-     *
-     */
-    public function testRetrieveLanguageKey(): void
+    public function testRetrieveLanguageKey() : void
     {
-        $this->assertEquals('de', $this->newLangSetupDe->lang_key);
+        $this->assertEquals('de', $this->newLangSetupDe->getLangKey());
     }
 
-    /**
-     *
-     */
-    public function testRetrieveInstalledLanguage(): void
+    public function testRetrieveInstalledLanguage() : void
     {
-        foreach($this->langInstalled as $languageAsKey) {
-            $languagesAsKeys[] = $languageAsKey->lang_key;
+        $languagesAsKeys = [];
+        foreach ($this->langInstalled as $languageAsKey) {
+            $languagesAsKeys[] = $languageAsKey->getLangKey();
         }
+
         $this->assertContains('es', $languagesAsKeys);
     }
 }

@@ -24,86 +24,56 @@
 /**
  * Stores exclusion dates for calendar recurrences
  * @author  Stefan Meyer <meyer@leifos.com>
- * @version $Id$
  * @ingroup ServicesCalendar
  */
 class ilCalendarRecurrenceExclusion
 {
-    protected $exclusion = null;
-    protected $cal_id = 0;
-    protected $exclusion_id = 0;
+    protected ?ilDate $exclusion = null;
+    protected int $cal_id = 0;
+    protected int $exclusion_id = 0;
 
-    protected $db = null;
+    protected ?ilDBInterface $db;
 
-    /**
-     * Constructor
-     * @return
-     */
-    public function __construct($a_exclusion_id = 0)
+    public function __construct(int $a_exclusion_id = 0)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
-        $this->db = $ilDB;
+        $this->db = $DIC->database();
         $this->exclusion_id = $a_exclusion_id;
-
         if ($this->getId()) {
             $this->read();
         }
     }
 
-    /**
-     * Get exclusion id
-     * @return
-     */
-    public function getId()
+    public function getId() : int
     {
         return $this->exclusion_id;
     }
 
-    /**
-     * Get calendar entry id
-     * @return
-     */
-    public function getEntryId()
+    public function getEntryId() : int
     {
         return $this->cal_id;
     }
 
-    /**
-     * Set entry id (id of calendar appointment)
-     * @return
-     */
-    public function setEntryId($a_id)
+    public function setEntryId(int $a_id)
     {
         $this->cal_id = $a_id;
     }
 
-    /**
-     * Get exclusion date
-     * @return
-     */
-    public function getDate()
+    public function getDate() : ?ilDate
     {
         return $this->exclusion instanceof ilDate ? $this->exclusion : null;
     }
 
     /**
      * Set exclusion date
-     * @param ilDate $dt [optional]
-     * @return
      */
-    public function setDate(ilDate $dt = null)
+    public function setDate(?ilDate $dt = null) : void
     {
         $this->exclusion = $dt;
     }
 
-    /**
-     * Exclusion date to ical format
-     * @return
-     */
-    public function toICal()
+    public function toICal() : string
     {
         $entry = new ilCalendarEntry($this->getEntryId());
         $start = $entry->getStart();
@@ -117,18 +87,10 @@ class ilCalendarRecurrenceExclusion
         }
     }
 
-    /**
-     * Save exclusion date to db
-     * @return
-     */
-    public function save()
+    public function save() : int
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if (!$this->getDate()) {
-            return false;
+            return 0;
         }
 
         $query = "INSERT INTO cal_rec_exclusion (excl_id,cal_id,excl_date) " .
@@ -143,21 +105,13 @@ class ilCalendarRecurrenceExclusion
         return $this->getId();
     }
 
-    /**
-     * Read exclusion
-     * @return
-     */
     protected function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = "SELECT * FROM cal_rec_exclusion WHERE excl_id = " . $this->db->quote($this->getId(), 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->cal_id = $row->cal_id;
-            $this->setDate(new ilDate($row->excl_date, IL_CAL_DATE, 'UTC'));
+            $this->setDate(new ilDate((string) $row->excl_date, IL_CAL_DATE));
         }
     }
 }

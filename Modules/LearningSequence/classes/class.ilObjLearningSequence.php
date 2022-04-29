@@ -1,8 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 class ilObjLearningSequence extends ilContainer
 {
     const OBJ_TYPE = 'lso';
@@ -23,8 +36,7 @@ class ilObjLearningSequence extends ilContainer
     protected ?ilLearningSequenceActivation $ls_activation = null;
     protected ?ArrayAccess $di = null;
     protected ?ArrayAccess $local_di = null;
-    protected ?ilObjLearningSequenceAccess $ls_access;
-
+    protected ?ilObjLearningSequenceAccess $ls_access = null;
     protected ArrayAccess $dic;
     protected ilCtrl $ctrl;
     protected ilNewsService $il_news;
@@ -42,7 +54,6 @@ class ilObjLearningSequence extends ilContainer
         $this->user = $DIC['ilUser'];
         $this->tree = $DIC['tree'];
         $this->log = $DIC["ilLoggerFactory"]->getRootLogger();
-        $this->rbacadmin = $DIC['rbacadmin'];
         $this->app_event_handler = $DIC['ilAppEventHandler'];
         $this->il_news = $DIC->news();
         $this->il_condition_handler = new ilConditionHandler();
@@ -50,7 +61,7 @@ class ilObjLearningSequence extends ilContainer
         parent::__construct($id, $call_by_reference);
     }
 
-    public static function getInstanceByRefId(int $ref_id)
+    public static function getInstanceByRefId(int $ref_id) : ?\ilObject
     {
         return ilObjectFactory::getInstanceByRefId($ref_id, false);
     }
@@ -122,11 +133,11 @@ class ilObjLearningSequence extends ilContainer
         $this->cloneMetaData($new_obj);
         $this->cloneSettings($new_obj);
         $this->cloneLPSettings($new_obj->getId());
-        $this->cloneActivation($new_obj, (int) $copy_id);
+        $this->cloneActivation($new_obj, $copy_id);
 
         $roles = $new_obj->getLSRoles();
         $roles->addLSMember(
-            (int) $this->user->getId(),
+            $this->user->getId(),
             $roles->getDefaultAdminRole()
         );
         return $new_obj;
@@ -142,7 +153,7 @@ class ilObjLearningSequence extends ilContainer
             $this->log->write(__METHOD__ . ' : Error cloning auto generated role: il_lso_admin');
         }
 
-        $this->rbacadmin->copyRolePermissions($admin, $this->getRefId(), $new_obj->getRefId(), $new_admin, true);
+        $this->rbac_admin->copyRolePermissions($admin, $this->getRefId(), $new_obj->getRefId(), $new_admin, true);
         $this->log->write(__METHOD__ . ' : Finished copying of role lso_admin.');
 
         $member = $this->getDefaultMemberRole();
@@ -152,7 +163,7 @@ class ilObjLearningSequence extends ilContainer
             $this->log->write(__METHOD__ . ' : Error cloning auto generated role: il_lso_member');
         }
 
-        $this->rbacadmin->copyRolePermissions($member, $this->getRefId(), $new_obj->getRefId(), $new_member, true);
+        $this->rbac_admin->copyRolePermissions($member, $this->getRefId(), $new_obj->getRefId(), $new_member, true);
         $this->log->write(__METHOD__ . ' : Finished copying of role lso_member.');
 
         return true;
@@ -260,7 +271,7 @@ class ilObjLearningSequence extends ilContainer
         return $this->ls_activation;
     }
 
-    public function updateActivation(ilLearningSequenceActivation $settings)
+    public function updateActivation(ilLearningSequenceActivation $settings): void
     {
         $this->getActivationDB()->store($settings);
         $this->ls_activation = $settings;
@@ -275,7 +286,7 @@ class ilObjLearningSequence extends ilContainer
         return $this->ls_settings;
     }
 
-    public function updateSettings(ilLearningSequenceSettings $settings)
+    public function updateSettings(ilLearningSequenceSettings $settings): void
     {
         $this->getSettingsDB()->store($settings);
         $this->ls_settings = $settings;
@@ -305,7 +316,7 @@ class ilObjLearningSequence extends ilContainer
 
         return $this->ls_participants;
     }
-    public function getMembersObject() //used by Services/Membership/classes/class.ilMembershipGUI.php
+    public function getMembersObject(): \ilLearningSequenceParticipants //used by Services/Membership/classes/class.ilMembershipGUI.php
     {
         return $this->getLSParticipants();
     }
@@ -332,7 +343,7 @@ class ilObjLearningSequence extends ilContainer
      * Update LSItems
      * @param LSItem[]
      */
-    public function storeLSItems(array $ls_items)
+    public function storeLSItems(array $ls_items) : void
     {
         $db = $this->getLSItemsDB();
         $db->storeItems($ls_items);
@@ -342,7 +353,7 @@ class ilObjLearningSequence extends ilContainer
      * Delete post conditions for ref ids.
      * @param int[]
      */
-    public function deletePostConditionsForSubObjects(array $ref_ids)
+    public function deletePostConditionsForSubObjects(array $ref_ids) : void
     {
         $rep_utils = new ilRepUtil();
         $rep_utils->deleteObjects($this->getRefId(), $ref_ids);
@@ -401,7 +412,7 @@ class ilObjLearningSequence extends ilContainer
     /**
      * Get mail to members type
      */
-    public function getMailToMembersType()
+    public function getMailToMembersType() : int
     {
         return 0;
     }
@@ -409,7 +420,7 @@ class ilObjLearningSequence extends ilContainer
     /**
      * Goto target learning sequence.
      */
-    public static function _goto(int $target, string $add = "")
+    public static function _goto(int $target, string $add = "") : void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -479,7 +490,7 @@ class ilObjLearningSequence extends ilContainer
         $item->setContent("lso_news_online_txt");
         $ns->data()->save($item);
     }
-    public function announceLSOOffline()
+    public function announceLSOOffline() : void
     {
         //NYI
     }

@@ -45,7 +45,7 @@ class ilContainerFilterAdvMDAdapter
         $records = [];
         foreach ($this->types as $type) {
             foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType($type) as $record_obj) {
-                if ($record_obj->isActive() && $record_obj->getParentObject() == 0) {
+                if ($record_obj->isActive() && $record_obj->getParentObject() === 0) {
                     $records[] = $record_obj;
                 }
             }
@@ -61,7 +61,7 @@ class ilContainerFilterAdvMDAdapter
     {
         $fields = array_filter(ilAdvancedMDFieldDefinition::getInstancesByRecordId($a_record_id), function ($f) {
             /** @var ilAdvancedMDFieldDefinition $f */
-            return in_array($f->getType(), $this->supported_types);
+            return in_array($f->getType(), $this->supported_types, true);
         });
         return $fields;
     }
@@ -74,7 +74,7 @@ class ilContainerFilterAdvMDAdapter
     {
         $lng = $this->lng;
 
-        if ($record_id == 0) {
+        if ($record_id === 0) {
             return $lng->txt("cont_std_filter_title_" . $filter_id);
         }
 
@@ -88,7 +88,7 @@ class ilContainerFilterAdvMDAdapter
     public function getAdvType(int $filter_id) : string
     {
         $field = ilAdvancedMDFieldDefinition::getInstance($filter_id);
-        return $field->getType();
+        return (string) $field->getType();
     }
 
     public function getOptions(int $filter_id) : array

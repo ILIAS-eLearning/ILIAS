@@ -23,7 +23,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
     protected int $rec_id = 0;
     protected ilImportMapping $mapping;
     protected string $cdata;
-    protected array $sax_controller = [];
+    protected ?ilSaxController $sax_controller = null;
 
     /**
      * @var array<int, ilAdvancedMDValues>
@@ -144,7 +144,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
         }
         $this->cdata = '';
     }
-
+    
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($a_data != "\n") {

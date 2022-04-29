@@ -241,7 +241,7 @@ class ilExportGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    public function createExportFile()
+    public function createExportFile() : void
     {
         if ($this->ctrl->getCmd() == "createExportFile") {
             $format = $this->initFormatFromPost();
@@ -311,10 +311,10 @@ class ilExportGUI
 
             $exp_file = $export_dir . "/" . str_replace("..", "", $file[1]);
             $exp_dir = $export_dir . "/" . substr($file[1], 0, strlen($file[1]) - 4);
-            if (@is_file($exp_file)) {
+            if (is_file($exp_file)) {
                 unlink($exp_file);
             }
-            if (@is_dir($exp_dir)) {
+            if (is_dir($exp_dir)) {
                 ilFileUtils::delDir($exp_dir);
             }
 
@@ -384,7 +384,7 @@ class ilExportGUI
         $exp_limit = new ilExportLimitation();
         try {
             $exp_limit->checkLimitation(
-                $this->getParentGUI()->object->getRefId(),
+                $this->getParentGUI()->getObject()->getRefId(),
                 $cp_options
             );
         } catch (Exception $e) {
@@ -394,29 +394,29 @@ class ilExportGUI
         }
 
         $items_selected = false;
-        foreach ($this->tree->getSubTree($root = $this->tree->getNodeData($this->getParentGUI()->object->getRefId())) as $node) {
-            if ($node['type'] == 'rolf') {
+        foreach ($this->tree->getSubTree($root = $this->tree->getNodeData($this->getParentGUI()->getObject()->getRefId())) as $node) {
+            if ($node['type'] === 'rolf') {
                 continue;
             }
-            if ($node['ref_id'] == $this->getParentGUI()->object->getRefId()) {
+            if ($node['ref_id'] == $this->getParentGUI()->getObject()->getRefId()) {
                 $eo->addOption(
                     ilExportOptions::KEY_ITEM_MODE,
-                    $node['ref_id'],
-                    $node['obj_id'],
+                    (int) $node['ref_id'],
+                    (int) $node['obj_id'],
                     ilExportOptions::EXPORT_BUILD
                 );
                 continue;
             }
             // no export available or no access
-            if (!$this->objDefinition->allowExport($node['type']) or !$this->access->checkAccess(
+            if (!$this->objDefinition->allowExport($node['type']) || !$this->access->checkAccess(
                 'write',
                 '',
-                $node['ref_id']
+                (int) $node['ref_id']
             )) {
                 $eo->addOption(
                     ilExportOptions::KEY_ITEM_MODE,
-                    $node['ref_id'],
-                    $node['obj_id'],
+                    (int) $node['ref_id'],
+                    (int) $node['obj_id'],
                     ilExportOptions::EXPORT_OMIT
                 );
                 continue;
@@ -425,8 +425,8 @@ class ilExportGUI
             $mode = $cp_options[$node['ref_id']]['type'] ?? ilExportOptions::EXPORT_OMIT;
             $eo->addOption(
                 ilExportOptions::KEY_ITEM_MODE,
-                $node['ref_id'],
-                $node['obj_id'],
+                (int) $node['ref_id'],
+                (int) $node['obj_id'],
                 $mode
             );
             if ($mode != ilExportOptions::EXPORT_OMIT) {

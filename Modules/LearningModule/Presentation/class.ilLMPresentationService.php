@@ -66,7 +66,7 @@ class ilLMPresentationService
         $this->lm_set = new ilSetting("lm");
         $this->lm_gui = new ilObjLearningModuleGUI([], $this->ref_id, true, false);
         /** @var ilObjLearningModule $lm */
-        $lm = $this->lm_gui->object;
+        $lm = $this->lm_gui->getObject();
         $this->lm = $lm;
         $this->lm_tree = ilLMTree::getInstance($this->lm->getId());
         $this->presentation_status = new ilLMPresentationStatus(

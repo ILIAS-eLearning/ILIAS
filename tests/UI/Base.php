@@ -21,6 +21,8 @@ use ILIAS\UI\Factory;
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Component;
 
 class ilIndependentTemplateFactory implements TemplateFactory
 {
@@ -113,6 +115,9 @@ class NoUIFactory implements Factory
     public function toast() : C\Toast\Factory
     {
     }
+    public function player() : C\Player\Factory
+    {
+    }
 }
 
 class LoggingRegistry implements ResourceRegistry
@@ -145,7 +150,7 @@ class ilLanguageMock extends ilLanguage
 
     public string $lang_module = 'common';
 
-    public function loadLanguageModule(string $lang_module)
+    public function loadLanguageModule(string $a_module) : void
     {
     }
 
@@ -215,6 +220,7 @@ class TestDummyRenderer implements Render\ComponentRenderer
     public function __construct()
     {
     }
+
     public function render(ILIAS\UI\Component\Component $component, ILIAS\UI\Renderer $default_renderer) : string
     {
         return $component->getCanonicalName();

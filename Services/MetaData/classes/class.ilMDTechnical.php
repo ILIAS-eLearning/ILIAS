@@ -28,7 +28,6 @@
  */
 class ilMDTechnical extends ilMDBase
 {
-
     private string $size = '';
     private string $installation_remarks = '';
     private ?ilMDLanguageItem $installation_remarks_language = null;
@@ -41,7 +40,7 @@ class ilMDTechnical extends ilMDBase
      */
     public function getPossibleSubelements() : array
     {
-        $subs['Format']   = 'meta_format';
+        $subs['Format'] = 'meta_format';
         $subs['Location'] = 'meta_location';
         if (!$this->getOrCompositeIds()) {
             $subs['Requirement'] = 'meta_requirement';
@@ -60,15 +59,11 @@ class ilMDTechnical extends ilMDBase
      */
     public function getFormatIds() : array
     {
-
-
         return ilMDFormat::_getIds($this->getRBACId(), $this->getObjId());
     }
 
     public function getFormat(int $a_format_id) : ?ilMDFormat
     {
-
-
         if (!$a_format_id) {
             return null;
         }
@@ -80,8 +75,6 @@ class ilMDTechnical extends ilMDBase
 
     public function addFormat() : ilMDFormat
     {
-
-
         $for = new ilMDFormat($this->getRBACId(), $this->getObjId(), $this->getObjType());
 
         return $for;
@@ -92,15 +85,11 @@ class ilMDTechnical extends ilMDBase
      */
     public function getLocationIds() : array
     {
-
-
         return ilMDLocation::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_technical');
     }
 
     public function getLocation(int $a_location_id) : ?ilMDLocation
     {
-
-
         if (!$a_location_id) {
             return null;
         }
@@ -112,8 +101,6 @@ class ilMDTechnical extends ilMDBase
 
     public function addLocation() : ilMDLocation
     {
-
-
         $loc = new ilMDLocation($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $loc->setParentId($this->getMetaId());
         $loc->setParentType('meta_technical');
@@ -126,15 +113,11 @@ class ilMDTechnical extends ilMDBase
      */
     public function getRequirementIds() : array
     {
-
-
         return ilMDRequirement::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_technical');
     }
 
     public function getRequirement(int $a_requirement_id) : ?ilMDRequirement
     {
-
-
         if (!$a_requirement_id) {
             return null;
         }
@@ -146,8 +129,6 @@ class ilMDTechnical extends ilMDBase
 
     public function addRequirement() : ilMDRequirement
     {
-
-
         $rec = new ilMDRequirement($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $rec->setParentId($this->getMetaId());
         $rec->setParentType('meta_technical');
@@ -160,15 +141,11 @@ class ilMDTechnical extends ilMDBase
      */
     public function getOrCompositeIds() : array
     {
-
-
         return ilMDOrComposite::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_technical');
     }
 
     public function getOrComposite(int $a_or_composite_id) : ?ilMDOrComposite
     {
-
-
         if (!$a_or_composite_id) {
             return null;
         }
@@ -182,8 +159,6 @@ class ilMDTechnical extends ilMDBase
 
     public function addOrComposite() : ilMDOrComposite
     {
-
-
         $orc = new ilMDOrComposite($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $orc->setParentId($this->getMetaId());
         $orc->setParentType('meta_technical');
@@ -214,9 +189,7 @@ class ilMDTechnical extends ilMDBase
 
     public function setInstallationRemarksLanguage(ilMDLanguageItem $lng_obj) : void
     {
-        if (is_object($lng_obj)) {
-            $this->installation_remarks_language = $lng_obj;
-        }
+        $this->installation_remarks_language = $lng_obj;
     }
 
     public function getInstallationRemarksLanguage() : ?ilMDLanguageItem
@@ -241,9 +214,7 @@ class ilMDTechnical extends ilMDBase
 
     public function setOtherPlatformRequirementsLanguage(ilMDLanguageItem $lng_obj) : void
     {
-        if (is_object($lng_obj)) {
-            $this->other_platform_requirements_language = &$lng_obj;
-        }
+        $this->other_platform_requirements_language = $lng_obj;
     }
 
     public function getOtherPlatformRequirementsLanguage() : ?ilMDLanguageItem
@@ -270,8 +241,7 @@ class ilMDTechnical extends ilMDBase
 
     public function save() : int
     {
-
-        $fields                      = $this->__getFields();
+        $fields = $this->__getFields();
         $fields['meta_technical_id'] = array('integer', $next_id = $this->db->nextId('il_meta_technical'));
 
         if ($this->db->insert('il_meta_technical', $fields)) {
@@ -283,26 +253,19 @@ class ilMDTechnical extends ilMDBase
 
     public function update() : bool
     {
-
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_technical',
-                $this->__getFields(),
-                array("meta_technical_id" => array('integer', $this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_technical',
+            $this->__getFields(),
+            array("meta_technical_id" => array('integer', $this->getMetaId()))
+        );
     }
 
     public function delete() : bool
     {
-
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_technical " .
                 "WHERE meta_technical_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res   = $this->db->manipulate($query);
+            $res = $this->db->manipulate($query);
 
             foreach ($this->getFormatIds() as $id) {
                 $for = $this->getFormat($id);
@@ -333,22 +296,20 @@ class ilMDTechnical extends ilMDBase
     public function __getFields() : array
     {
         return array(
-            'rbac_id'      => array('integer', $this->getRBACId()),
-            'obj_id'       => array('integer', $this->getObjId()),
-            'obj_type'     => array('text', $this->getObjType()),
-            't_size'       => array('text', $this->getSize()),
-            'ir'           => array('text', $this->getInstallationRemarks()),
-            'ir_language'  => array('text', $this->getInstallationRemarksLanguageCode()),
-            'opr'          => array('text', $this->getOtherPlatformRequirements()),
+            'rbac_id' => array('integer', $this->getRBACId()),
+            'obj_id' => array('integer', $this->getObjId()),
+            'obj_type' => array('text', $this->getObjType()),
+            't_size' => array('text', $this->getSize()),
+            'ir' => array('text', $this->getInstallationRemarks()),
+            'ir_language' => array('text', $this->getInstallationRemarksLanguageCode()),
+            'opr' => array('text', $this->getOtherPlatformRequirements()),
             'opr_language' => array('text', $this->getOtherPlatformRequirementsLanguageCode()),
-            'duration'     => array('text', $this->getDuration())
+            'duration' => array('text', $this->getDuration())
         );
     }
 
     public function read() : bool
     {
-
-
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_technical " .
                 "WHERE meta_technical_id = " . $this->db->quote($this->getMetaId(), 'integer') . " ";
@@ -381,7 +342,7 @@ class ilMDTechnical extends ilMDBase
         }
 
         // Size
-        if (strlen($this->getSize())) {
+        if ($this->getSize() !== '') {
             $writer->xmlElement('Size', null, $this->getSize());
         }
 
@@ -404,32 +365,28 @@ class ilMDTechnical extends ilMDBase
         }
 
         // InstallationRemarks
-        if (strlen($this->getInstallationRemarks())) {
+        if ($this->getInstallationRemarks() !== '') {
             $writer->xmlElement(
                 'InstallationRemarks',
                 array(
-                    'Language' => $this->getInstallationRemarksLanguageCode()
-                        ? $this->getInstallationRemarksLanguageCode()
-                        : 'en'
+                    'Language' => $this->getInstallationRemarksLanguageCode() ?: 'en'
                 ),
                 $this->getInstallationRemarks()
             );
         }
 
         // OtherPlatformRequirements
-        if (strlen($this->getOtherPlatformRequirements())) {
+        if ($this->getOtherPlatformRequirements() !== '') {
             $writer->xmlElement(
                 'OtherPlatformRequirements',
                 array(
-                    'Language' => $this->getOtherPlatformRequirementsLanguageCode()
-                        ? $this->getOtherPlatformRequirementsLanguageCode()
-                        : 'en'
+                    'Language' => $this->getOtherPlatformRequirementsLanguageCode() ?: 'en'
                 ),
                 $this->getOtherPlatformRequirements()
             );
         }
         // Duration
-        if (strlen($this->getDuration())) {
+        if ($this->getDuration() !== '') {
             $writer->xmlElement('Duration', null, $this->getDuration());
         }
 

@@ -1,15 +1,24 @@
 <?php declare(strict_types=1);
 
 /**
- * @author  Lukas Scharmer <lscharmer@databay.de>
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Refinery\Random\Transformation;
 
-use ILIAS\Data\Result;
-use ILIAS\Data\Result\Ok;
-use ILIAS\Data\Result\Error;
 use ILIAS\Refinery\Random\Seed\Seed;
-use ILIAS\Refinery\IdentityTransformation;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
@@ -34,18 +43,14 @@ class ShuffleTransformation implements Transformation
         $this->seed = $seed;
     }
 
-    /**
-     * @throws ConstraintViolationException
-     * @return array
-     */
-    public function transform($array)
+    public function transform($from) : array
     {
-        if (!is_array($array)) {
+        if (!is_array($from)) {
             throw new ConstraintViolationException('not an array', 'no_array');
         }
         $this->seed->seedRandomGenerator();
-        \shuffle($array);
+        shuffle($from);
 
-        return $array;
+        return $from;
     }
 }

@@ -47,7 +47,7 @@ class ilSystemStyleIconColorSet
     /**
      * @param ilSystemStyleIconColor[] $colors
      */
-    public function setColors(array $colors)
+    public function setColors(array $colors) : void
     {
         $this->colors = $colors;
     }
@@ -71,7 +71,7 @@ class ilSystemStyleIconColorSet
     /**
      * Merges an other colorset into this one
      */
-    public function mergeColorSet(ilSystemStyleIconColorSet $color_set)
+    public function mergeColorSet(ilSystemStyleIconColorSet $color_set) : void
     {
         foreach ($color_set->getColors() as $color) {
             if (!$this->doesColorExist($color->getId())) {

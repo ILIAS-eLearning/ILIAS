@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilMediaItem
@@ -105,14 +108,12 @@ class ilMediaItem
     }
     
     /**
-    * returns the best supported image type by this PHP build
-    *
-    * @param	string	$desired_type	desired image type ("jpg" | "gif" | "png")
-    *
-    * @return    string                    supported image type ("jpg" | "gif" | "png" | "")
-    * @static
-    *
-    */
+     * returns the best supported image type by this PHP build
+     *
+     * @param string $a_desired_type
+     * @return string supported image type ("jpg" | "gif" | "png" | "")
+     * @static
+     */
     private static function getGDSupportedImageType(string $a_desired_type) : string
     {
         $a_desired_type = strtolower($a_desired_type);
@@ -144,20 +145,9 @@ class ilMediaItem
                     return "png";
                 }
                 break;
-            
-            case "png":
-                if ($im_types & IMG_PNG) {
-                    return "png";
-                }
-                if ($im_types & IMG_JPG) {
-                    return "jpg";
-                }
-                if ($im_types & IMG_GIF) {
-                    return "gif";
-                }
-                break;
-            
+
             case "svg":
+            case "png":
                 if ($im_types & IMG_PNG) {
                     return "png";
                 }
@@ -251,7 +241,7 @@ class ilMediaItem
         }
     }
 
-    public function update()
+    public function update() : void
     {
         $ilDB = $this->db;
 
@@ -275,6 +265,7 @@ class ilMediaItem
         // delete mob parameters
         $query = "DELETE FROM mob_parameter WHERE med_item_id = " .
             $ilDB->quote($this->getId(), "integer");
+        $ilDB->manipulate($query);
 
         // create mob parameters
         $params = $this->getParameters();
@@ -589,7 +580,7 @@ class ilMediaItem
     {
         return $this->mapareas[$nr - 1] ?? null;
     }
-
+    
     public function getMapAreas() : array
     {
         return $this->mapareas;
@@ -614,7 +605,7 @@ class ilMediaItem
     {
         $this->height = $a_height;
     }
-
+    
     public function getOriginalSize() : ?array
     {
         $mob_dir = ilObjMediaObject::_getDirectory($this->getMobId());
@@ -702,13 +693,13 @@ class ilMediaItem
             return false;
         }
         // do not allow to change the src attribute
-        if (in_array(strtolower(trim($a_par)), array("src"))) {
+        if (strtolower(trim($a_par)) == "src") {
             return false;
         }
 
         return true;
     }
-
+    
     public function getParameters() : array
     {
         return $this->parameters;
@@ -1191,15 +1182,50 @@ class ilMediaItem
     public function determineDuration() : void
     {
         $ana = new ilMediaAnalyzer();
-        $ana->setFile(ilObjMediaObject::_getDirectory($this->getMobId()) . "/" . $this->getLocation());
-        $ana->analyzeFile();
-        $this->setDuration($ana->getPlaytimeSeconds());
+
+        if (ilExternalMediaAnalyzer::isVimeo($this->getLocation())) {
+            $par = ilExternalMediaAnalyzer::extractVimeoParameters($this->getLocation());
+            $meta = ilExternalMediaAnalyzer::getVimeoMetadata($par["id"]);
+            if ($meta["duration"] > 0) {
+                $this->setDuration((int) $meta["duration"]);
+            }
+        } else {
+            $file = ($this->getLocationType() == "Reference")
+                ? $this->getLocation()
+                : ilObjMediaObject::_getDirectory($this->getMobId()) . "/" . $this->getLocation();
+
+            $remote = false;
+
+            if (substr($file, 0, 4) == "http") {
+                if ($fp_remote = fopen($file, 'rb')) {
+                    $tmpdir = ilFileUtils::ilTempnam();
+                    ilFileUtils::makeDir($tmpdir);
+                    $localtempfilename = tempnam($tmpdir, 'getID3');
+                    if ($fp_local = fopen($localtempfilename, 'wb')) {
+                        while ($buffer = fread($fp_remote, 8192)) {
+                            fwrite($fp_local, $buffer);
+                        }
+                        fclose($fp_local);
+                        $file = $localtempfilename;
+                    }
+                    fclose($fp_remote);
+                }
+            }
+
+            $ana->setFile($file);
+            $ana->analyzeFile();
+            $this->setDuration((int) $ana->getPlaytimeSeconds());
+
+            if ($remote) {
+                unlink($localtempfilename);
+            }
+        }
     }
 
     /**
      * Get media items for upload hash
      * @param string $a_hash upload hash
-     * @return array
+     * @return array[]
      */
     public static function getMediaItemsForUploadHash(
         string $a_hash

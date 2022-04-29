@@ -93,7 +93,7 @@ switch ($target_type) {
 
     // exception, must be kept for now
     case "st":
-        ilStructureObjectGUI::_goto($target_id, $additional);
+        ilStructureObjectGUI::_goto($target_id, (int) $additional);
         break;
 
     // exception, must be kept for now

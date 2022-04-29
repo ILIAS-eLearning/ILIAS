@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Handle user timings
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -88,8 +102,12 @@ class ilTimingsUser
 
     public function handleUnsubscribe(int $a_usr_id) : void
     {
-        $query = 'DELETE FROM crs_timings_user WHERE ' . $this->db->in('ref_id', $this->item_ids, false,
-                'integer') . ' ' .
+        $query = 'DELETE FROM crs_timings_user WHERE ' . $this->db->in(
+            'ref_id',
+            $this->item_ids,
+            false,
+            'integer'
+        ) . ' ' .
             'AND usr_id = ' . $this->db->quote($a_usr_id, 'integer');
         $this->db->manipulate($query);
     }
@@ -97,7 +115,6 @@ class ilTimingsUser
     /**
      * Check if users currently exceeded ANY object
      * @param int[] $a_user_ids
-     * @return array
      */
     public static function lookupTimingsExceededByUser(array $a_user_ids) : array
     {
@@ -114,12 +131,10 @@ class ilTimingsUser
 
     /**
      * Lookup references, users with exceeded timings
+     *
      * @param int[]  $a_user_ids
-     * @param array &$a_meta
-     * @param bool   $a_only_exceeded
-     * @return array
      */
-    public static function lookupTimings(array $a_user_ids, array &$a_meta = null, $a_only_exceeded = true) : array
+    public static function lookupTimings(array $a_user_ids, array &$a_meta = null, bool $a_only_exceeded = true) : array
     {
         global $DIC;
 
@@ -203,7 +218,7 @@ class ilTimingsUser
             }
         }
 
-        if (count($user_relevant)) {
+        if ($user_relevant !== []) {
             // get user-specific data
             $query = 'SELECT * FROM crs_timings_user' .
                 ' WHERE ' . $ilDB->in('usr_id', $a_user_ids, false, 'integer') .
@@ -239,7 +254,7 @@ class ilTimingsUser
 
         // clean-up/minimize the result
         foreach (array_keys($res) as $ref_id) {
-            if (!sizeof($res[$ref_id])) {
+            if (count($res[$ref_id]) === 0) {
                 if (isset($res['ref_id']) && !count($res['ref_id'])) {
                     unset($res[$ref_id]);
                 } else {
@@ -259,7 +274,7 @@ class ilTimingsUser
                 } // LP completed?
                 else {
                     $user_ids = $res[$ref_id];
-                    if (count($user_ids)) {
+                    if ($user_ids !== []) {
                         $res[$ref_id] = array_diff(
                             $user_ids,
                             ilLPStatus::_lookupCompletedForObject($obj_map[$ref_id], $user_ids)
@@ -268,7 +283,7 @@ class ilTimingsUser
                 }
 
                 // delete reference array, if no users are given anymore
-                if (!sizeof($res[$ref_id])) {
+                if ($res[$ref_id] === []) {
                     unset($res[$ref_id]);
                 }
             }
@@ -277,7 +292,7 @@ class ilTimingsUser
         // #2176 - add course entries (1 exceeded sub-item is enough)
         foreach ($res as $ref_id => $user_ids) {
             // making sure one last time
-            if (!count($user_ids) && isset($res['ref_id'])) {
+            if ($user_ids === [] && isset($res['ref_id'])) {
                 unset($res[$ref_id]);
             } else {
                 $crs_obj_id = $course_parent_map[$ref_id];
@@ -295,8 +310,6 @@ class ilTimingsUser
     /**
      * Check object LP modes
      * @param int[]  $a_ref_ids
-     * @param array &$a_obj_map
-     * @return array
      */
     public static function getObjectsWithInactiveLP(array $a_ref_ids, array &$a_obj_map = null) : array
     {

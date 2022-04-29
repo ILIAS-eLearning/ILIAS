@@ -33,7 +33,7 @@ class ilAccessibilityDocumentFormGUI extends ilPropertyFormGUI
     protected string $cancelCommand;
     protected bool $isEditable = false;
     protected string $translatedError = '';
-    protected $translatedInfo = '';
+    protected string $translatedInfo = '';
     protected ilHtmlPurifierInterface $documentPurifier;
 
     public function __construct(

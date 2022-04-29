@@ -57,20 +57,20 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
 
         $obj_id = $this->lh_entry->getObjId();
         $title = ilObject::_lookupTitle($obj_id);
-        if ($this->lh_entry->getRefId() == 0) {
+        if ($this->lh_entry->getRefId() === 0) {
             $ref_ids = ilObject::_getAllReferences($obj_id);
         } else {
             $ref_ids = [$this->lh_entry->getRefId()];
         }
         $readable_ref_id = 0;
         foreach ($ref_ids as $ref_id) {
-            if ($readable_ref_id == 0 && $access->checkAccessOfUser($this->user_id, "read", "", $ref_id)) {
+            if ($readable_ref_id === 0 && $access->checkAccessOfUser($this->user_id, "read", "", $ref_id)) {
                 $readable_ref_id = $ref_id;
             }
         }
 
         if ($readable_ref_id > 0) {
-            if (ilObject::_lookupType(ilObject::_lookupObjId($readable_ref_id)) == "crs") {
+            if (ilObject::_lookupType(ilObject::_lookupObjId($readable_ref_id)) === "crs") {
                 $parent_ref_id = $readable_ref_id;
             } else {
                 $parent_ref_id = $this->tree->checkForParentType($readable_ref_id, "crs", true);

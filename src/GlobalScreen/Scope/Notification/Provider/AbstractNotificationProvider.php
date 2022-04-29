@@ -3,7 +3,6 @@
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationProviderInterface;
 use ILIAS\GlobalScreen\Provider\AbstractProvider;
-use ILIAS\GlobalScreen\Scope\Notification\Factory\AdministrativeNotification;
 use ILIAS\GlobalScreen\Scope\Notification\Factory\NotificationFactory;
 
 /******************************************************************************

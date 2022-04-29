@@ -1,7 +1,21 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Member-tab content
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
@@ -12,9 +26,6 @@
  */
 class ilCourseMembershipGUI extends ilMembershipGUI
 {
-    /**
-     * @return ilAbstractMailMemberRoles|null
-     */
     protected function getMailMemberRoles() : ?ilAbstractMailMemberRoles
     {
         return new ilMailMemberCourseRoles();
@@ -40,7 +51,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
      */
     protected function getMailContextOptions() : array
     {
-        $context_options = [
+        return [
             ilMailFormCall::CONTEXT_KEY => ilCourseMailTemplateTutorContext::ID,
             'ref_id' => $this->getParentObject()->getRefId(),
             'ts' => time(),
@@ -50,8 +61,6 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 ''
             ),
         ];
-
-        return $context_options;
     }
 
     /**
@@ -62,8 +71,11 @@ class ilCourseMembershipGUI extends ilMembershipGUI
     {
         $this->tpl->setOnScreenMessage('question', $this->lng->txt('crs_ref_delete_confirmation_info'));
 
-        $table = new ilCourseReferenceDeleteConfirmationTableGUI($this, $this->getParentObject(),
-            'confirmDeleteParticipants');
+        $table = new ilCourseReferenceDeleteConfirmationTableGUI(
+            $this,
+            $this->getParentObject(),
+            'confirmDeleteParticipants'
+        );
         $table->init();
         $table->setParticipants($participants);
         $table->parse();
@@ -75,7 +87,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
     {
         $participants = $this->initParticipantsFromPost();
 
-        if (!is_array($participants) or !count($participants)) {
+        if (!is_array($participants) || $participants === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'participants');
         }
@@ -102,7 +114,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 $mail_type = 0;
                 switch ($this->getParentObject()->getType()) {
                     case 'crs':
-                        $mail_type = $this->getMembersObject()->NOTIFY_DISMISS_MEMBER;
+                        $mail_type = ilCourseMembershipMailNotification::TYPE_DISMISS_MEMBER;
                         break;
                 }
                 $this->getMembersObject()->sendNotification($mail_type, $usr_id);
@@ -126,8 +138,11 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 $part->delete($usr_id);
             }
         }
-        $this->tpl->setOnScreenMessage('success',
-            $this->lng->txt($this->getParentObject()->getType() . "_members_deleted"), true);
+        $this->tpl->setOnScreenMessage(
+            'success',
+            $this->lng->txt($this->getParentObject()->getType() . "_members_deleted"),
+            true
+        );
         $this->ctrl->redirect($this, "participants");
     }
 
@@ -139,7 +154,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         if (!$this->checkRbacOrPositionAccessBool('manage_members', 'manage_members')) {
             $this->error->raiseError($this->lng->txt("msg_no_perm_read"), $this->error->FATAL);
         }
-        if (!count($a_usr_ids)) {
+        if ($a_usr_ids === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("crs_no_users_selected"), true);
             return false;
         }
@@ -174,7 +189,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                     }
                     break;
             }
-            $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_ACCEPT_USER, $user_id);
+            $this->getMembersObject()->sendNotification(ilCourseMembershipMailNotification::TYPE_ADMISSION_MEMBER, $user_id);
 
             $this->getParentObject()->checkLPStatusSync($user_id);
 
@@ -223,7 +238,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 $this->updateLPFromStatus($member_id, in_array($member_id, $passed));
             }
 
-            if ($this->getMembersObject()->isAdmin($member_id) or $this->getMembersObject()->isTutor($member_id)) {
+            if ($this->getMembersObject()->isAdmin($member_id) || $this->getMembersObject()->isTutor($member_id)) {
                 // remove blocked
                 $this->getMembersObject()->updateBlocked($member_id, false);
                 $this->getMembersObject()->updateNotification($member_id, in_array($member_id, $notification));
@@ -231,13 +246,17 @@ class ilCourseMembershipGUI extends ilMembershipGUI
             } else {
                 // send notifications => unblocked
                 if ($this->getMembersObject()->isBlocked($member_id) && !in_array($member_id, $blocked)) {
-                    $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_UNBLOCK_MEMBER,
-                        $member_id);
+                    $this->getMembersObject()->sendNotification(
+                        ilCourseMembershipMailNotification::TYPE_UNBLOCKED_MEMBER,
+                        $member_id
+                    );
                 }
                 // => blocked
                 if (!$this->getMembersObject()->isBlocked($member_id) && in_array($member_id, $blocked)) {
-                    $this->getMembersObject()->sendNotification($this->getMembersObject()->NOTIFY_BLOCK_MEMBER,
-                        $member_id);
+                    $this->getMembersObject()->sendNotification(
+                        ilCourseMembershipMailNotification::TYPE_BLOCKED_MEMBER,
+                        $member_id
+                    );
                 }
 
                 // normal member => remove notification, contact
@@ -326,7 +345,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
         }
 
         $show_tracking =
-            (ilObjUserTracking::_enabledLearningProgress() and ilObjUserTracking::_enabledUserRelatedData());
+            (ilObjUserTracking::_enabledLearningProgress() && ilObjUserTracking::_enabledUserRelatedData());
         if ($show_tracking) {
             $olp = ilObjectLP::getInstance($this->getParentObject()->getId());
             $show_tracking = $olp->isActive();
@@ -372,7 +391,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                 } elseif ($this->getMembersObject()->isMember($member_id)) {
                     $print_member[$member_id]['role'] = $this->lng->txt("il_crs_member");
                 }
-                if ($this->getMembersObject()->isAdmin($member_id) or $this->getMembersObject()->isTutor($member_id)) {
+                if ($this->getMembersObject()->isAdmin($member_id) || $this->getMembersObject()->isTutor($member_id)) {
                     if ($this->getMembersObject()->isNotificationEnabled($member_id)) {
                         $print_member[$member_id]['status'] = $this->lng->txt("crs_notify");
                     } else {
@@ -392,10 +411,12 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                         $this->lng->txt('crs_member_not_passed');
                 }
                 if ($privacy->enabledCourseAccessTimes()) {
-                    if (isset($progress[$member_id]['ts']) and $progress[$member_id]['ts']) {
+                    if (isset($progress[$member_id]['ts']) && $progress[$member_id]['ts']) {
                         ilDatePresentation::setUseRelativeDates(false);
-                        $print_member[$member_id]['access'] = ilDatePresentation::formatDate(new ilDateTime($progress[$member_id]['ts'],
-                            IL_CAL_UNIX));
+                        $print_member[$member_id]['access'] = ilDatePresentation::formatDate(new ilDateTime(
+                            $progress[$member_id]['ts'],
+                            IL_CAL_UNIX
+                        ));
                         ilDatePresentation::setUseRelativeDates(true);
                     } else {
                         $print_member[$member_id]['access'] = $this->lng->txt('no_date');

@@ -1,7 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-declare (strict_types=1);
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\CI\Rector\DIC;
 
 use PhpParser\Node\Stmt;
@@ -16,7 +30,6 @@ use Rector\Core\Exception\ShouldNotHappenException;
 
 final class DICDependencyManipulator
 {
-    
     const DIC = 'DIC';
     private \Rector\Core\PhpParser\Node\NodeFactory $nodeFactory;
     private \Rector\Core\NodeManipulator\StmtsManipulator $stmtsManipulator;
@@ -38,7 +51,6 @@ final class DICDependencyManipulator
         \Rector\Core\PhpParser\Node\BetterNodeFinder $betterNodeFinder,
         \Rector\Core\Contract\Console\OutputStyleInterface $outputStyle
     ) {
-        
         $this->nodeFactory = $nodeFactory;
         $this->stmtsManipulator = $stmtsManipulator;
         $this->nodeNameResolver = $nodeNameResolver;
@@ -277,7 +289,8 @@ final class DICDependencyManipulator
         return \false;
     }
     
-    private function createParentClassMethodCall(string $methodName
+    private function createParentClassMethodCall(
+        string $methodName
     ) : \PhpParser\Node\Stmt\Expression {
         $staticCall = new \PhpParser\Node\Expr\StaticCall(
             new \PhpParser\Node\Name(

@@ -204,7 +204,7 @@ class ilRatingCategory
     // Delete all categories for object
     public static function deleteForObject(int $a_parent_obj_id) : void
     {
-        if ((int) $a_parent_obj_id) {
+        if ($a_parent_obj_id) {
             foreach (self::getAllForObject($a_parent_obj_id) as $item) {
                 self::delete($item["id"]);
             }

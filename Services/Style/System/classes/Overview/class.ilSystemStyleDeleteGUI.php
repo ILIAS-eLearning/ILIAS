@@ -33,7 +33,7 @@ class ilSystemStyleDeleteGUI
         $this->ctrl = $ctrl;
     }
 
-    public function addStyle(ilSkin $skin, ilSkinStyle $style, string $img_path)
+    public function addStyle(ilSkin $skin, ilSkinStyle $style, string $img_path) : void
     {
         $this->styles[] = [
             'var' => 'style_' . sizeof($this->styles),

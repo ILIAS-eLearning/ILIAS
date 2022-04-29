@@ -99,12 +99,10 @@ class ilLearningHistoryService
             return false;
         }
 
-        if ($user_id = 0) {
+        if ($user_id === 0) {
             $user_id = $this->user()->getId();
         }
-        foreach ($this->provider()->getAllProviders(true, $user_id) as $p) {
-            return true;
-        }
-        return false;
+
+        return count($this->provider()->getAllProviders(true, $user_id)) > 0;
     }
 }

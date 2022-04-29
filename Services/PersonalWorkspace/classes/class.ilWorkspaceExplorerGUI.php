@@ -116,6 +116,9 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         return $this->custom_link_target;
     }
 
+    /**
+     * @inheritcoc
+     */
     public function getNodeHref($a_node) : string
     {
         if ($this->select_postvar != "") {
@@ -149,10 +152,12 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         $ilCtrl->setParameterByClass($target_class, $this->select_par, $a_node["child"]);
         $ret = $ilCtrl->getLinkTargetByClass($target_path, $this->select_cmd);
         $ilCtrl->setParameterByClass($target_class, $this->select_par, $this->request->getSelectPar());
-
         return $ret;
     }
 
+    /**
+     * @inheritcoc
+     */
     public function getNodeContent($a_node) : string
     {
         $lng = $this->lng;
@@ -163,7 +168,10 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 
         return $a_node["title"];
     }
-    
+
+    /**
+     * @inheritcoc
+     */
     public function isNodeClickable($a_node) : bool
     {
         if (in_array($a_node["type"], $this->getSelectableTypes())) {
@@ -172,6 +180,9 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         return false;
     }
 
+    /**
+     * @inheritcoc
+     */
     protected function isNodeSelectable($a_node) : bool
     {
         if (in_array($a_node["type"], $this->getSelectableTypes())) {
@@ -180,6 +191,9 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         return false;
     }
 
+    /**
+     * @inheritcoc
+     */
     public function getNodeIcon($a_node) : string
     {
         $t = $a_node["type"];
@@ -189,6 +203,9 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
         return ilUtil::getImagePath("icon_" . $t . ".svg");
     }
 
+    /**
+     * @inheritcoc
+     */
     public function isNodeHighlighted($a_node) : bool
     {
         $wsp_id = $this->request->getWspId();

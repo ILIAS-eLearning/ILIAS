@@ -1,7 +1,21 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\DI\Container;
 
 /**
@@ -22,8 +36,6 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
         global $DIC;
 
         $this->dic = $DIC;
-
-        $ilCtrl = $DIC->ctrl();
         $database = $DIC->database();
         $logger = $DIC->logger()->root();
 
@@ -49,12 +61,8 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 
     protected function getItems() : void
     {
-        $ilUser = $this->dic->user();
-
-        $userId = $ilUser->getId();
-
         $certificateArray = $this->userCertificateRepository->fetchActiveCertificatesByTypeForPresentation(
-            $userId,
+            $this->dic->user()->getId(),
             'crs'
         );
 
@@ -72,7 +80,7 @@ class ilCourseVerificationTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set) : void
     {
-        $ilCtrl = $this->dic->ctrl();
+        $this->dic->ctrl();
 
         $this->tpl->setVariable('TITLE', $a_set['title']);
         $this->tpl->setVariable(

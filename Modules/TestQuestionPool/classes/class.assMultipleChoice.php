@@ -1014,12 +1014,12 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         return $startrow + $i + 1;
     }
 
-    public function getThumbSize() : int
+    public function getThumbSize() : ?int
     {
         return $this->thumb_size;
     }
     
-    public function setThumbSize($a_size)
+    public function setThumbSize(?int $a_size)
     {
         $this->thumb_size = $a_size;
     }

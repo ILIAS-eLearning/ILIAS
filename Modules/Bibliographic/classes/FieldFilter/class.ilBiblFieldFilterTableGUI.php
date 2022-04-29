@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilBiblFieldFilterTableGUI
  *
  * @author Benjamin Seglias   <bs@studer-raimann.ch>
@@ -8,6 +24,7 @@
  */
 class ilBiblFieldFilterTableGUI extends ilTable2GUI
 {
+    public \ILIAS\UI\Component\Modal\RoundTrip $modal;
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     const TBL_ID = 'tbl_bibl_filters';
     protected \ilBiblFactoryFacade $facade;
@@ -16,9 +33,6 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
 
     /**
      * ilBiblFieldFilterTableGUI constructor.
-     *
-     * @param \ilBiblFieldFilterGUI $a_parent_obj
-     * @param \ilBiblFactoryFacade  $facade
      */
     public function __construct(\ilBiblFieldFilterGUI $a_parent_obj, ilBiblFactoryFacade $facade)
     {
@@ -26,7 +40,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
         $this->parent_obj = $a_parent_obj;
 
         $f = $this->dic()->ui()->factory();
-        $this->modal = $f->modal()->roundtrip('---', $f->legacy(''))->withAsyncRenderUrl($this->ctrl()->getLinkTarget($this->parent_obj, ilBiblFieldFilterGUI::CMD_EDIT));
+        $this->modal = $f->modal()->roundtrip('---', [$f->legacy('')])->withAsyncRenderUrl($this->ctrl()->getLinkTarget($this->parent_obj, ilBiblFieldFilterGUI::CMD_EDIT));
 
         $this->setId(self::TBL_ID);
         $this->setPrefix(self::TBL_ID);
@@ -49,7 +63,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     }
 
 
-    protected function initColumns(): void
+    protected function initColumns() : void
     {
         $this->addColumn($this->lng()->txt('field'), 'field');
         $this->addColumn($this->lng()->txt('filter_type'), 'filter_type');
@@ -57,19 +71,16 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     }
 
 
-    protected function addFilterItems(): void
+    protected function addFilterItems() : void
     {
         $field = new ilTextInputGUI($this->lng()->txt('field'), 'field');
         $this->addAndReadFilterItem($field);
     }
 
 
-    /**
-     * @param $field
-     */
-    protected function addAndReadFilterItem(ilFormPropertyGUI $field): void
+    protected function addAndReadFilterItem(ilTableFilterItem $field) : void
     {
-        $this->addFilterItem($field);
+        $this->addFilterItem($field); //
         $field->readFromSession();
         if ($field instanceof ilCheckboxInputGUI) {
             $this->filter[$field->getPostVar()] = $field->getChecked();
@@ -81,7 +92,6 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
 
     /**
      * Fills table rows with content from $a_set.
-     * @param array $a_set
      */
     public function fillRow(array $a_set) : void
     {
@@ -107,10 +117,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     }
 
 
-    /**
-     * @param \ilBiblFieldFilter $ilBiblFieldFilter
-     */
-    protected function addActionMenu(ilBiblFieldFilter $ilBiblFieldFilter): void
+    protected function addActionMenu(ilBiblFieldFilter $ilBiblFieldFilter) : void
     {
         $this->ctrl()->setParameterByClass(ilBiblFieldFilterGUI::class, ilBiblFieldFilterGUI::FILTER_ID, $ilBiblFieldFilter->getId());
 
@@ -133,7 +140,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     }
 
 
-    protected function parseData(): void
+    protected function parseData() : void
     {
         $this->determineOffsetAndOrder();
         $this->determineLimit();

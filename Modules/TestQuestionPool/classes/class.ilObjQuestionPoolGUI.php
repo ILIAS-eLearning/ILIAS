@@ -66,6 +66,31 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         parent::__construct("", $_GET["ref_id"], true, false);
     }
 
+
+    protected function getQueryParamString(string $param) : ?string
+    {
+        if (!$this->request_wrapper->has($param)) {
+            return null;
+        }
+        $trafo = $this->refinery->byTrying([
+            $this->refinery->kindlyTo()->null(),
+            $this->refinery->kindlyTo()->string()
+        ]);
+        return $this->request_wrapper->retrieve($param, $trafo);
+    }
+
+    protected function getQueryParamInt(string $param) : ?int
+    {
+        if (!$this->request_wrapper->has($param)) {
+            return null;
+        }
+        $trafo = $this->refinery->byTrying([
+            $this->refinery->kindlyTo()->null(),
+            $this->refinery->kindlyTo()->int()
+        ]);
+        return $this->request_wrapper->retrieve($param, $trafo);
+    }
+
     /**
      * execute command
      *
@@ -117,9 +142,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         $cmd = $this->ctrl->getCmd("questions");
         $next_class = $this->ctrl->getNextClass($this);
+        $q_id = $this->getQueryParamInt('q_id');
 
         if (in_array($next_class, array('', 'ilobjquestionpoolgui')) && $cmd == 'questions') {
-            $_GET['q_id'] = ''; // TODO TATS: What happens here? How can this be sorted?
+            $q_id = -1;
         }
 
         $this->prepareOutput();
@@ -127,9 +153,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $this->ctrl->setReturn($this, "questions");
 
         $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "ta.css", "Modules/Test"), "screen");
 
-        if ($_GET["q_id"] < 1) {
+        if ($q_id < 1) {
             $q_type = ($_POST["sel_question_types"] != "")
                 ? $_POST["sel_question_types"]
                 : $_GET["sel_question_types"];
@@ -401,7 +426,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $q_gui->object->setObjId($this->object->getId());
                 if ($this->object->getType() == 'qpl') {
                     $q_gui->setTaxonomyIds($this->object->getTaxonomyIds());
-                    $this->object->addQuestionChangeListeners($q_gui->object);
                     if ($writeAccess) {
                         $q_gui->addHeaderAction();
                     }
@@ -822,7 +846,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
         $q_gui = assQuestionGUI::_getQuestionGUI($_POST["sel_question_types"]);
-        $this->object->addQuestionChangeListeners($q_gui->object);
         $q_gui->object->setObjId($this->object->getId());
         $q_gui->object->setAdditionalContentEditingMode($addContEditMode);
         $q_gui->object->createNewQuestion();

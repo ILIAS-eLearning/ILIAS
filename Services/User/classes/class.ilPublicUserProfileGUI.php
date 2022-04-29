@@ -882,7 +882,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                 
         $result = self::getAutocompleteResult($field_id, $term);
 
-        echo ilJsonUtil::encode($result);
+        echo json_encode($result, JSON_THROW_ON_ERROR);
         exit();
     }
 

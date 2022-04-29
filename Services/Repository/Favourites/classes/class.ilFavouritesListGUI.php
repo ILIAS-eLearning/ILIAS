@@ -72,9 +72,9 @@ class ilFavouritesListGUI
             )
             ]));
             return $this->ui->renderer()->render([$panel]);
-        } else {
-            $pdblock = new ilPDSelectedItemsBlockGUI();
-            return $pdblock->getNoItemFoundContent();
         }
+
+        $pdblock = new ilPDSelectedItemsBlockGUI();
+        return $pdblock->getNoItemFoundContent();
     }
 }

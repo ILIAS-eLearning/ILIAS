@@ -1,33 +1,33 @@
-<?php
+<?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilWkhtmlToPdfConfigFormGUI
 {
-    protected ilLanguage $lng;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilLanguage $lng;
+    private ilGlobalTemplateInterface $main_tpl;
+    private ilPDFGenerationRequest $request;
 
     public function __construct()
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->setLanguage($DIC['lng']);
-    }
-
-    protected function setLanguage(\ilLanguage $lng) : void
-    {
-        $this->lng = $lng;
+        $this->lng = $DIC->language();
+        $this->request = new ilPDFGenerationRequest($DIC->refinery(), $DIC->http());
     }
 
     public function addConfigForm(ilPropertyFormGUI $form) : void
@@ -139,9 +139,6 @@ class ilWkhtmlToPdfConfigFormGUI
         return $overwrite_font;
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     */
     protected function appendPageSettingsForm(ilPropertyFormGUI $form) : void
     {
         $section_header = new ilFormSectionHeaderGUI();
@@ -209,7 +206,11 @@ class ilWkhtmlToPdfConfigFormGUI
     protected function buildHeaderForm() : ilRadioGroupInputGUI
     {
         $header_select = new ilRadioGroupInputGUI($this->translate('header_type'), 'header_select');
-        $header_select->addOption(new ilRadioOption($this->translate('none'), ilPDFGenerationConstants::HEADER_NONE, ''));
+        $header_select->addOption(new ilRadioOption(
+            $this->translate('none'),
+            (string) ilPDFGenerationConstants::HEADER_NONE,
+            ''
+        ));
         $header_select->addOption($this->buildHeaderTextForm());
         $header_select->addOption($this->buildHeaderHtmlForm());
 
@@ -218,7 +219,11 @@ class ilWkhtmlToPdfConfigFormGUI
 
     protected function buildHeaderTextForm() : ilRadioOption
     {
-        $header_text_option = new ilRadioOption($this->translate('text'), ilPDFGenerationConstants::HEADER_TEXT, '');
+        $header_text_option = new ilRadioOption(
+            $this->translate('text'),
+            (string) ilPDFGenerationConstants::HEADER_TEXT,
+            ''
+        );
 
         $header_text_left = new ilTextInputGUI($this->translate('header_text_left'), 'head_text_left');
         $header_text_option->addSubItem($header_text_left);
@@ -240,7 +245,11 @@ class ilWkhtmlToPdfConfigFormGUI
 
     protected function buildHeaderHtmlForm() : ilRadioOption
     {
-        $header_html_option = new ilRadioOption($this->translate("html"), ilPDFGenerationConstants::HEADER_HTML, '');
+        $header_html_option = new ilRadioOption(
+            $this->translate("html"),
+            (string) ilPDFGenerationConstants::HEADER_HTML,
+            ''
+        );
 
         $header_html = new ilTextInputGUI($this->translate('html'), 'head_html');
         $header_html_option->addSubItem($header_html);
@@ -256,7 +265,11 @@ class ilWkhtmlToPdfConfigFormGUI
     protected function buildFooterForm() : ilRadioGroupInputGUI
     {
         $footer_select = new ilRadioGroupInputGUI($this->translate('footer_type'), 'footer_select');
-        $footer_select->addOption(new ilRadioOption($this->translate("none"), ilPDFGenerationConstants::FOOTER_NONE, ''));
+        $footer_select->addOption(new ilRadioOption(
+            $this->translate("none"),
+            (string) ilPDFGenerationConstants::FOOTER_NONE,
+            ''
+        ));
         $footer_select->addOption($this->buildFooterTextForm());
         $footer_select->addOption($this->buildFooterHtmlForm());
 
@@ -265,7 +278,11 @@ class ilWkhtmlToPdfConfigFormGUI
 
     protected function buildFooterTextForm() : ilRadioOption
     {
-        $footer_text_option = new ilRadioOption($this->translate('text'), ilPDFGenerationConstants::FOOTER_TEXT, '');
+        $footer_text_option = new ilRadioOption(
+            $this->translate('text'),
+            (string) ilPDFGenerationConstants::FOOTER_TEXT,
+            ''
+        );
 
         $footer_text_left = new ilTextInputGUI($this->translate('footer_text_left'), 'footer_text_left');
         $footer_text_option->addSubItem($footer_text_left);
@@ -287,7 +304,11 @@ class ilWkhtmlToPdfConfigFormGUI
 
     protected function buildFooterHtmlForm() : ilRadioOption
     {
-        $footer_html_option = new ilRadioOption($this->translate('html'), ilPDFGenerationConstants::FOOTER_HTML, '');
+        $footer_html_option = new ilRadioOption(
+            $this->translate('html'),
+            (string) ilPDFGenerationConstants::FOOTER_HTML,
+            ''
+        );
 
         $footer_html = new ilTextInputGUI($this->translate('footer_html'), 'footer_html');
         $footer_html_option->addSubItem($footer_html);
@@ -299,62 +320,59 @@ class ilWkhtmlToPdfConfigFormGUI
         $footer_html_option->addSubItem($footer_html_line);
         return $footer_html_option;
     }
-
+    
     public function validateForm() : bool
     {
         $everything_ok = true;
         $config = new ilWkhtmlToPdfConfig();
-        $config->setPath(ilUtil::stripSlashes($_POST['path']));
+        $config->setPath($this->request->securedString('path'));
         if (mb_stripos($config->getPath(), 'wkhtmlto') === false) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("file_not_found"), true);
             $everything_ok = false;
         } else {
-            $config->setZoom((float) $_POST['zoom']);
-            $config->setExternalLinks((int) $_POST['external_links']);
-            $config->setEnabledForms((int) $_POST['enable_forms']);
-            $config->setUserStylesheet(ilUtil::stripSlashes($_POST['user_stylesheet']));
-            $config->setLowQuality((int) $_POST['low_quality']);
-            $config->setGreyscale((int) $_POST['greyscale']);
-            $config->setOrientation(ilUtil::stripSlashes($_POST['orientation']));
-            $config->setPageSize(ilUtil::stripSlashes($_POST['page_size']));
-            $config->setMarginLeft(ilUtil::stripSlashes($_POST['margin_left']));
-            $config->setMarginRight(ilUtil::stripSlashes($_POST['margin_right']));
-            $config->setMarginTop(ilUtil::stripSlashes($_POST['margin_top']));
-            $config->setMarginBottom(ilUtil::stripSlashes($_POST['margin_bottom']));
-            $config->setPrintMediaType((int) $_POST['print_media_type']);
-            $config->setJavascriptDelay((int) $_POST['javascript_delay']);
-            $config->setCheckboxSvg(ilUtil::stripSlashes($_POST['checkbox_svg']));
-            $config->setCheckboxCheckedSvg(ilUtil::stripSlashes($_POST['checkbox_checked_svg']));
-            $config->setRadioButtonSvg(ilUtil::stripSlashes($_POST['radio_button_svg']));
-            $config->setRadioButtonCheckedSvg(ilUtil::stripSlashes($_POST['radio_button_checked_svg']));
-            $config->setHeaderType((int) $_POST['header_select']);
-            $config->setHeaderTextLeft(ilUtil::stripSlashes($_POST['head_text_left']));
-            $config->setHeaderTextCenter(ilUtil::stripSlashes($_POST['head_text_center']));
-            $config->setHeaderTextRight(ilUtil::stripSlashes($_POST['head_text_right']));
-            $config->setHeaderTextSpacing((int) $_POST['head_text_spacing']);
-            $config->setHeaderTextLine((int) $_POST['head_text_line']);
-            $config->setHeaderHtmlLine((int) $_POST['head_html_line']);
-            $config->setHeaderHtmlSpacing((int) $_POST['head_html_spacing']);
-            $config->setHeaderHtml(ilUtil::stripSlashes($_POST['head_html']));
-            $config->setFooterType((int) $_POST['footer_select']);
-            $config->setFooterTextLeft(ilUtil::stripSlashes($_POST['footer_text_left']));
-            $config->setFooterTextCenter(ilUtil::stripSlashes($_POST['footer_text_center']));
-            $config->setFooterTextRight(ilUtil::stripSlashes($_POST['footer_text_right']));
-            $config->setFooterTextSpacing((int) $_POST['footer_text_spacing']);
-            $config->setFooterTextLine((int) $_POST['footer_text_line']);
-            $config->setFooterHtmlLine((int) $_POST['footer_html_line']);
-            $config->setFooterHtmlSpacing((int) $_POST['footer_html_spacing']);
-            $config->setFooterHtml(ilUtil::stripSlashes($_POST['footer_html']));
-            $config->setOverwriteDefaultFont(ilUtil::stripSlashes($_POST['overwrite_font']));
+            $config->setZoom($this->request->float('zoom'));
+            $config->setExternalLinks($this->request->bool('external_links'));
+            $config->setEnabledForms($this->request->bool('enable_forms'));
+            $config->setUserStylesheet($this->request->securedString('user_stylesheet'));
+            $config->setLowQuality($this->request->bool('low_quality'));
+            $config->setGreyscale($this->request->bool('greyscale'));
+            $config->setOrientation($this->request->securedString('orientation'));
+            $config->setPageSize($this->request->securedString('page_size'));
+            $config->setMarginLeft($this->request->securedString('margin_left'));
+            $config->setMarginRight($this->request->securedString('margin_right'));
+            $config->setMarginTop($this->request->securedString('margin_top'));
+            $config->setMarginBottom($this->request->securedString('margin_bottom'));
+            $config->setPrintMediaType($this->request->bool('print_media_type'));
+            $config->setJavascriptDelay($this->request->int('javascript_delay'));
+            $config->setCheckboxSvg($this->request->securedString('checkbox_svg'));
+            $config->setCheckboxCheckedSvg($this->request->securedString('checkbox_checked_svg'));
+            $config->setRadioButtonSvg($this->request->securedString('radio_button_svg'));
+            $config->setRadioButtonCheckedSvg($this->request->securedString('radio_button_checked_svg'));
+            $config->setHeaderType($this->request->int('header_select'));
+            $config->setHeaderTextLeft($this->request->securedString('head_text_left'));
+            $config->setHeaderTextCenter($this->request->securedString('head_text_center'));
+            $config->setHeaderTextRight($this->request->securedString('head_text_right'));
+            $config->setHeaderTextSpacing($this->request->int('head_text_spacing'));
+            $config->setHeaderTextLine($this->request->bool('head_text_line'));
+            $config->setHeaderHtmlLine($this->request->bool('head_html_line'));
+            $config->setHeaderHtmlSpacing($this->request->int('head_html_spacing'));
+            $config->setHeaderHtml($this->request->securedString('head_html'));
+            $config->setFooterType($this->request->int('footer_select'));
+            $config->setFooterTextLeft($this->request->securedString('footer_text_left'));
+            $config->setFooterTextCenter($this->request->securedString('footer_text_center'));
+            $config->setFooterTextRight($this->request->securedString('footer_text_right'));
+            $config->setFooterTextSpacing($this->request->int('footer_text_spacing'));
+            $config->setFooterTextLine($this->request->bool('footer_text_line'));
+            $config->setFooterHtmlLine($this->request->bool('footer_html_line'));
+            $config->setFooterHtmlSpacing($this->request->int('footer_html_spacing'));
+            $config->setFooterHtml($this->request->securedString('footer_html'));
+            $config->setOverwriteDefaultFont($this->request->securedString('overwrite_font'));
             $this->saveNewDefaultBinaryPath($config->getPath());
         }
 
         return $everything_ok;
     }
 
-    /**
-     * @param $path
-     */
     protected function saveNewDefaultBinaryPath(string $path) : void
     {
         $settings = new ilSetting('wkhtmltopdfrenderer');
@@ -367,7 +385,7 @@ class ilWkhtmlToPdfConfigFormGUI
      */
     public function getConfigFromForm(ilPropertyFormGUI $form) : array
     {
-        return array(
+        return [
             'path' => $form->getItemByPostVar('path')->getValue(),
             'zoom' => $form->getItemByPostVar('zoom')->getValue(),
             'external_links' => $form->getItemByPostVar('external_links')->getChecked(),
@@ -405,7 +423,7 @@ class ilWkhtmlToPdfConfigFormGUI
             'footer_html' => $form->getItemByPostVar('footer_html')->getValue(),
             'footer_html_spacing' => $form->getItemByPostVar('footer_html_spacing')->getValue(),
             'overwrite_font' => $form->getItemByPostVar('overwrite_font')->getValue()
-        );
+        ];
     }
 
     public function populateForm(ilPropertyFormGUI $form, ilWkhtmlToPdfConfig $config) : void

@@ -18,9 +18,9 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
     
 
     public function __construct(
-        $a_parent_obj,
+        ?object $a_parent_obj,
         ilObject $rep_object,
-        $show_learning_progress = false
+        bool $show_learning_progress = false
     ) {
         global $DIC;
 
@@ -96,7 +96,6 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
     {
         global $DIC;
 
-        $ilUser = $DIC->user();
         $ilAccess = $DIC->access();
 
         $a_set['usr_id'] = (int) $a_set['usr_id'];
@@ -158,7 +157,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                         }
                     }
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) implode('<br />', $tmp)) ;
+                    $this->tpl->setVariable('VAL_CUST', implode('<br />', $tmp)) ;
                     $this->tpl->parseCurrentBlock();
                     break;
                     
@@ -176,7 +175,8 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                     
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable('VAL_CUST',
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
                     $this->tpl->parseCurrentBlock();
                     break;
                     

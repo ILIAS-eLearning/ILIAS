@@ -108,7 +108,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         return (int) $row['user_fi'] === $ilUser->getId();
     }
 
-    public function saveQuestion(string $sid, int $active_id, int $question_id, int $pass, int $solution)// TODO PHP8-REVIEW Wrong type, mismatch with operations
+    public function saveQuestion(string $sid, int $active_id, int $question_id, int $pass, array $solution)
     {
         $this->initAuth($sid);
         $this->initIlias();
@@ -118,10 +118,6 @@ class ilSoapTestAdministration extends ilSoapAdministration
         }
         if (!$this->isAllowedCall($sid, $active_id)) {
             return $this->raiseError("The required user information is only available for active users.", "");
-        }
-
-        if (is_array($solution) && (array_key_exists("item", $solution))) {// TODO PHP8-REVIEW Wrong type, missmatch with declaration
-            $solution = $solution["item"];
         }
 
         global $DIC;
@@ -155,7 +151,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
                 $solution
             ) {
                 $ilDB = $GLOBALS['DIC']['ilDB'];
-                if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0)) {// TODO PHP8-REVIEW Wrong type, missmatch with declaration
+                if (($active_id > 0) && ($question_id > 0) && ($pass > 0)) {
                     $affectedRows = $ilDB->manipulateF(
                         "DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
                         array('integer', 'integer', 'integer'),
@@ -239,7 +235,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
         }
 
         $ilDB = $GLOBALS['DIC']['ilDB'];
-        if (($active_id > 0) && ($question_id > 0) && (strlen($pass) > 0)) {// TODO PHP8-REVIEW Wrong type, missmatch with declaration
+        if (($active_id > 0) && ($question_id > 0) && ($pass > 0)) {
             $affectedRows = $ilDB->manipulateF(
                 "DELETE FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
                 array('integer', 'integer', 'integer'),
@@ -262,7 +258,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             $totalrows += $affectedRows;
         }
         if ($totalrows === 0) {
-            return $this->raiseError("Wrong solution data. ILIAS did not execute any database queries");// TODO PHP8-REVIEW Missing argument
+            return $this->raiseError("Wrong solution data. ILIAS did not execute any database queries", '');
         }
 
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -317,7 +313,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             $lastpass = $pass;
         }
 
-        if (($active_id > 0) && ($question_id > 0) && (strlen($lastpass) > 0)) {// TODO PHP8-REVIEW Wrong type, might be an integer
+        if (($active_id > 0) && ($question_id > 0) && ($lastpass > 0)) {
             $result = $ilDB->queryF(
                 "SELECT * FROM tst_solutions WHERE active_fi = %s AND question_fi = %s AND pass = %s",
                 array('integer', 'integer', 'integer'),
@@ -343,9 +339,7 @@ class ilSoapTestAdministration extends ilSoapAdministration
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         if (!$this->isAllowedCall($sid, $active_id, false)) {
-            if (!$this->checkActiveIdResultsAccess($active_id)) {// TODO PHP8-REVIEW Method undefined
-                return $this->raiseError("The required user information is only available for active users.", "");
-            }
+            return $this->raiseError("The required user information is only available for active users.", "");
         }
 
         global $DIC;

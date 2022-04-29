@@ -22,7 +22,7 @@ require_once 'libs/composer/vendor/autoload.php';
  */
 class ilModulesMediaCastSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : ilModulesMediaCastSuite
     {
         $suite = new self();
 

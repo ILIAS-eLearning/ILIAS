@@ -266,4 +266,16 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
     {
         $this->heightUnit = $heightUnit;
     }
+
+    public function unserializeData(string $a_data) : void
+    {
+        $data = unserialize($a_data);
+
+        if (is_array($a_data)) {
+            $this->setValue($data);
+        } else {
+            $this->setValue([]);
+        }
+    }
+
 }

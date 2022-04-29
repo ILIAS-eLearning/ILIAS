@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\Refinery\Factory as Refinery;
@@ -11,7 +27,7 @@ use ILIAS\Refinery\Factory as Refinery;
 class ilMailSearchGUI
 {
     private ilGlobalTemplateInterface $tpl;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     protected ilRbacReview $rbacreview;
     protected ilObjectDataCache $object_data_cache;
     private ilLanguage $lng;
@@ -292,7 +308,7 @@ class ilMailSearchGUI
             $users = ilUserFilter::getInstance()->filter($contacts_search_result->getResultIds());
             $users = array_intersect($users, $relations->getKeys());
 
-            $tbl_contacts = new ilTable2GUI($this);
+            $tbl_contacts = new ilMailSearchResultsTableGUI($this, 'contacts');
             $tbl_contacts->setTitle($this->lng->txt('mail_addressbook'));
             $tbl_contacts->setRowTemplate('tpl.mail_search_addr_row.html', 'Services/Contact');
 
@@ -357,7 +373,6 @@ class ilMailSearchGUI
             $tbl_contacts->setData($result);
 
             $tbl_contacts->setDefaultOrderField('login');
-            $tbl_contacts->setPrefix('addr_');
             $tbl_contacts->enable('select_all');
             $tbl_contacts->setSelectAllCheckbox('search_name_to_addr');
             $tbl_contacts->setFormName('recipients');
@@ -394,7 +409,7 @@ class ilMailSearchGUI
         $has_mail_usr = false;
         $users = ilUserFilter::getInstance()->filter($all_results->getResultIds());
         if (count($users)) {
-            $tbl_users = new ilTable2GUI($this);
+            $tbl_users = new ilMailSearchResultsTableGUI($this, 'usr');
             $tbl_users->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('persons'));
             $tbl_users->setRowTemplate('tpl.mail_search_users_row.html', 'Services/Contact');
 
@@ -461,7 +476,6 @@ class ilMailSearchGUI
             $tbl_users->setData($result);
 
             $tbl_users->setDefaultOrderField('login');
-            $tbl_users->setPrefix('usr_');
             $tbl_users->enable('select_all');
             $tbl_users->setSelectAllCheckbox('search_name_to_usr');
             $tbl_users->setFormName('recipients');
@@ -487,7 +501,7 @@ class ilMailSearchGUI
 
         $visible_groups = [];
         if ($group_results->getResults()) {
-            $tbl_grp = new ilTable2GUI($this);
+            $tbl_grp = new ilMailSearchResultsTableGUI($this, 'grp');
             $tbl_grp->setTitle($this->lng->txt('system') . ': ' . $this->lng->txt('groups'));
             $tbl_grp->setRowTemplate('tpl.mail_search_groups_row.html', 'Services/Contact');
 
@@ -550,7 +564,6 @@ class ilMailSearchGUI
                 $tbl_grp->addColumn($this->lng->txt('description'), 'description', '15%');
 
                 $tbl_grp->setDefaultOrderField('title');
-                $tbl_grp->setPrefix('grp_');
                 $tbl_grp->enable('select_all');
                 $tbl_grp->setSelectAllCheckbox('search_name_to_grp');
                 $tbl_grp->setFormName('recipients');
@@ -562,6 +575,8 @@ class ilMailSearchGUI
         if (count($users) || count($visible_groups) || count($relations)) {
             $this->tpl->setVariable("IMG_ARROW", ilUtil::getImagePath("arrow_downright.svg"));
             $this->tpl->setVariable("ALT_ARROW", '');
+            $this->tpl->setVariable("IMG_ARROW_UP", ilUtil::getImagePath("arrow_upright.svg"));
+            $this->tpl->setVariable("ALT_ARROW_UP", '');
 
             if ($this->isDefaultRequestContext()) {
                 $this->tpl->setVariable('BUTTON_ADOPT', $this->lng->txt('adopt'));

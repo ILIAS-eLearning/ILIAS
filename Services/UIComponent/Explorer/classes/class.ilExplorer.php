@@ -311,14 +311,14 @@ class ilExplorer
 
     //  check if links for certain object type are activated
     public function isClickable(
-        string $a_type,
-        $a_ref_id = 0
+        string $type,
+        int $ref_id = 0
     ) : bool {
         // in this standard implementation
         // only the type determines, wether an object should be clickable or not
         // but this method can be overwritten and make $exp->setFilterMode(IL_FM_NEGATIVE);use of the ref id
         // (this happens e.g. in class ilRepositoryExplorerGUI)
-        return $this->is_clickable[$a_type] !== "n";
+        return $this->is_clickable[$type] !== "n";
     }
 
     public function setPostSort(bool $a_sort) : void

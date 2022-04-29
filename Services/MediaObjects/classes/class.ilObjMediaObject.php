@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\FileUpload\MimeType;
 
@@ -46,15 +49,15 @@ class ilObjMediaObject extends ilObject
     }
 
     public static function _exists(
-        int $a_id,
-        bool $a_reference = false,
-        ?string $a_type = null
+        int $id,
+        bool $reference = false,
+        ?string $type = null
     ) : bool {
-        if (is_int(strpos($a_id, "_"))) {
-            $a_id = ilInternalLink::_extractObjIdOfTarget($a_id);
+        if (is_int(strpos($id, "_"))) {
+            $a_id = ilInternalLink::_extractObjIdOfTarget($id);
         }
         
-        if (parent::_exists($a_id) && ilObject::_lookupType($a_id) == "mob") {
+        if (parent::_exists($id) && ilObject::_lookupType($id) === "mob") {
             return true;
         }
         return false;
@@ -220,7 +223,7 @@ class ilObjMediaObject extends ilObject
         $this->media_items = $media_items;
     }
     
-    public function removeAllMediaItems()
+    public function removeAllMediaItems() : void
     {
         $this->media_items = array();
     }
@@ -274,8 +277,8 @@ class ilObjMediaObject extends ilObject
     {
         return $this->origin_id;
     }
-
-    public function create($a_create_meta_data = false, $a_save_media_items = true) : int
+    
+    public function create(bool $a_create_meta_data = false, bool $a_save_media_items = true) : int
     {
         $id = parent::create();
 
@@ -306,8 +309,8 @@ class ilObjMediaObject extends ilObject
 
         return $id;
     }
-
-    public function update($a_upload = false) : bool
+    
+    public function update(bool $a_upload = false) : bool
     {
         parent::update();
         
@@ -317,7 +320,6 @@ class ilObjMediaObject extends ilObject
         
         // iterate all items
         $media_items = $this->getMediaItems();
-
         ilMediaItem::deleteAllItemsOfMob($this->getId());
 
         $j = 1;
@@ -832,6 +834,9 @@ class ilObjMediaObject extends ilObject
         }
     }
 
+    /**
+     * @return int[]
+     */
     public static function _getMobsOfObject(
         string $a_type,
         int $a_id,
@@ -1233,7 +1238,7 @@ class ilObjMediaObject extends ilObject
         string $a_file,
         int $a_width,
         int $a_height,
-        $a_constrain_prop = false
+        bool $a_constrain_prop = false
     ) : string {
         $file_path = pathinfo($a_file);
         $location = substr($file_path["basename"], 0, strlen($file_path["basename"]) -
@@ -1646,10 +1651,16 @@ class ilObjMediaObject extends ilObject
         int $a_height,
         int $sec = 1
     ) : void {
+        /** @var ilLogger $logger */
+        $logger = $GLOBALS['DIC']->logger()->mob();
+
         $item = $this->getMediaItem("Standard");
 
         if ($item->getLocationType() == "LocalFile") {
             if (is_int(strpos($item->getFormat(), "image/"))) {
+                $a_width = $a_height = 400;
+
+
                 $dir = ilObjMediaObject::_getDirectory($this->getId());
                 $file = $dir . "/" .
                     $item->getLocation();
@@ -1665,36 +1676,44 @@ class ilObjMediaObject extends ilObject
                     }
                 }
             }
+        }
 
-            if (is_int(strpos($item->getFormat(), "video/"))) {
-                try {
-                    if ($sec < 0) {
-                        $sec = 0;
-                    }
-                    if ($this->getVideoPreviewPic() != "") {
-                        $this->removeAdditionalFile($this->getVideoPreviewPic(true));
-                    }
-                    $med = $this->getMediaItem("Standard");
-                    $mob_file = ilObjMediaObject::_getDirectory($this->getId()) . "/" . $med->getLocation();
-                    ilFFmpeg::extractImage(
-                        $mob_file,
-                        "mob_vpreview.png",
-                        ilObjMediaObject::_getDirectory($this->getId()),
-                        $sec
-                    );
-                } catch (ilException $e) {
-                    $ret = ilFFmpeg::getLastReturnValues();
-
-                    $message = '';
-                    if (is_array($ret) && count($ret) > 0) {
-                        $message = "\n" . implode("\n", $ret);
-                    }
-
-                    /** @var ilLogger $logger */
-                    $logger = $GLOBALS['DIC']->logger()->mob();
-                    $logger->warning($e->getMessage() . $message);
-                    $logger->logStack(ilLogLevel::WARNING);
+        $logger->debug("Generate preview pic...");
+        $logger->debug("..." . $item->getFormat());
+        if (is_int(strpos($item->getFormat(), "video/mp4"))) {
+            try {
+                if ($sec < 0) {
+                    $sec = 0;
                 }
+                if ($this->getVideoPreviewPic() != "") {
+                    $this->removeAdditionalFile($this->getVideoPreviewPic(true));
+                }
+                $med = $this->getMediaItem("Standard");
+                if ($med->getLocationType() == "LocalFile") {
+                    $mob_file = ilObjMediaObject::_getDirectory($this->getId()) . "/" . $med->getLocation();
+                } else {
+                    $mob_file = $med->getLocation();
+                }
+                $logger->debug(
+                    "...extract " . $mob_file . " in " .
+                    ilObjMediaObject::_getDirectory($this->getId())
+                );
+                ilFFmpeg::extractImage(
+                    $mob_file,
+                    "mob_vpreview.png",
+                    ilObjMediaObject::_getDirectory($this->getId()),
+                    $sec
+                );
+            } catch (ilException $e) {
+                $ret = ilFFmpeg::getLastReturnValues();
+
+                $message = '';
+                if (is_array($ret) && count($ret) > 0) {
+                    $message = "\n" . implode("\n", $ret);
+                }
+
+                $logger->warning($e->getMessage() . $message);
+                $logger->logStack(ilLogLevel::WARNING);
             }
         }
     }
@@ -1804,6 +1823,54 @@ class ilObjMediaObject extends ilObject
         ilFileUtils::renameExecutables($a_dir);
         if (!self::isTypeAllowed("html")) {
             ilFileUtils::rRenameSuffix($a_dir, "html", "sec");        // see #20187
+        }
+    }
+
+    public function getExternalMetadata() : void
+    {
+        // see https://oembed.com/
+        $st_item = $this->getMediaItem("Standard");
+        if ($st_item->getLocationType() == "Reference") {
+            if (ilExternalMediaAnalyzer::isVimeo($st_item->getLocation())) {
+                $st_item->setFormat("video/vimeo");
+                $par = ilExternalMediaAnalyzer::extractVimeoParameters($st_item->getLocation());
+                $meta = ilExternalMediaAnalyzer::getVimeoMetadata($par["id"]);
+                $this->setTitle($meta["title"]);
+                $description = str_replace("\n", "", $meta["description"]);
+                $description = str_replace(["<br>", "<br />"], ["\n", "\n"], $description);
+                $description = strip_tags($description);
+                $this->setDescription($description);
+                $st_item->setDuration((int) $meta["duration"]);
+                $url = parse_url($meta["thumbnail_url"]);
+                $file = basename($url["path"]);
+                $ext = pathinfo($file, PATHINFO_EXTENSION);
+                if ($ext == "") {
+                    $ext = "jpg";
+                }
+                copy(
+                    $meta["thumbnail_url"],
+                    ilObjMediaObject::_getDirectory($this->getId()) . "/mob_vpreview." .
+                    $ext
+                );
+            }
+            if (ilExternalMediaAnalyzer::isYoutube($st_item->getLocation())) {
+                $st_item->setFormat("video/youtube");
+                $par = ilExternalMediaAnalyzer::extractYoutubeParameters($st_item->getLocation());
+                $meta = ilExternalMediaAnalyzer::getYoutubeMetadata($par["v"]);
+                $this->setTitle($meta["title"]);
+                $description = str_replace("\n", "", $meta["description"]);
+                $description = str_replace(["<br>", "<br />"], ["\n", "\n"], $description);
+                $description = strip_tags($description);
+                $this->setDescription($description);
+                $st_item->setDuration((int) $meta["duration"]);
+                $url = parse_url($meta["thumbnail_url"]);
+                $file = basename($url["path"]);
+                copy(
+                    $meta["thumbnail_url"],
+                    ilObjMediaObject::_getDirectory($this->getId()) . "/mob_vpreview." .
+                    pathinfo($file, PATHINFO_EXTENSION)
+                );
+            }
         }
     }
 }

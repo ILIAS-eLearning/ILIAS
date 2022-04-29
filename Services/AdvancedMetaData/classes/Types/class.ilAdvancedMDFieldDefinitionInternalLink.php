@@ -49,8 +49,13 @@ class ilAdvancedMDFieldDefinitionInternalLink extends ilAdvancedMDFieldDefinitio
     ) : array {
         $condition = $a_adt_search->getSQLCondition(ilADTActiveRecordByType::SINGLE_COLUMN_NAME);
         if ($condition) {
-            $objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(),
-                $condition, $a_locate);
+            $objects = ilADTActiveRecordByType::find(
+                "adv_md_values",
+                $this->getADT()->getType(),
+                $this->getFieldId(),
+                $condition,
+                $a_locate
+            );
             if (!is_null($objects) && count($objects)) {
                 return $this->parseSearchObjects($objects, $a_object_types);
             }

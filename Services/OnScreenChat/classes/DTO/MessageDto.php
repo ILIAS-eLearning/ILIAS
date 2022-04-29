@@ -24,7 +24,7 @@ namespace ILIAS\OnScreenChat\DTO;
  */
 class MessageDto
 {
-    private $id;
+    private string $id;
     private ConversationDto $conversation;
     private int $createdTimestamp;
     private int $authorUsrId = 0;

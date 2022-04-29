@@ -7,14 +7,7 @@
  */
 interface ilQTIFlowMatAware
 {
-    /**
-     * @param ilQTIFlowMat $flow_mat
-     */
-    public function addFlowMat(ilQTIFlowMat $flow_mat);
+    public function addFlowMat(ilQTIFlowMat $flow_mat) : void;
 
-    /**
-     * @param $index int
-     * @return ilQTIFlowMat|null
-     */
-    public function getFlowMat($index);
+    public function getFlowMat(int $index) : ?ilQTIFlowMat;
 }

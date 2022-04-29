@@ -274,13 +274,12 @@ class ilAdvancedMDSubstitution
                     }
                 }
             }
-            $this->enabled_desc = (bool) !$row->hide_description;
-            $this->enabled_field_names = (bool) !$row->hide_field_names;
+            $this->enabled_desc = !$row->hide_description;
+            $this->enabled_field_names = !$row->hide_field_names;
         }
     }
 
     private function initECSMappings() : void
     {
-        return;
     }
 }

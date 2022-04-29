@@ -30,7 +30,7 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider
     {
         return $this->if->identifier('awareness');
     }
-
+    
     public function getAllIdentifications() : array
     {
         return [$this->getId()];

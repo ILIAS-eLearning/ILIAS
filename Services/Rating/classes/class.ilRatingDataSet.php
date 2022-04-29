@@ -36,7 +36,7 @@ class ilRatingDataSet extends ilDataSet
      */
     protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Services/Rating/" . $a_entity;
+        return "https://www.ilias.de/xml/Services/Rating/" . $a_entity;
     }
     
     /**

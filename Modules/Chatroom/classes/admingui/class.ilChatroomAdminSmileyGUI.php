@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomAdminSmileyGUI
@@ -232,7 +247,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
     }
 
     /**
-     * @param $smileyId
+     * @param int $smileyId
      * @return array{chatroom_smiley_id: int, chatroom_smiley_keywords: string, chatroom_current_smiley_image_path: string}
      */
     protected function getSmileyFormDataById(int $smileyId) : array
@@ -403,7 +418,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         if ($this->upload->hasUploads() && !$this->upload->hasBeenProcessed()) {
             $this->upload->process();
 
-            /** @var \ILIAS\FileUpload\DTO\UploadResult $result */
+            /** @var \ILIAS\FileUpload\DTO\UploadResult|null $result */
             $result = array_values($this->upload->getResults())[0];
             if ($result && $result->isOK()) {
                 $this->upload->moveOneFileTo(
@@ -540,7 +555,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         if ($this->upload->hasUploads() && !$this->upload->hasBeenProcessed()) {
             $this->upload->process();
 
-            /** @var \ILIAS\FileUpload\DTO\UploadResult $result */
+            /** @var \ILIAS\FileUpload\DTO\UploadResult|null $result */
             $result = array_values($this->upload->getResults())[0];
             if ($result && $result->isOK()) {
                 $this->upload->moveOneFileTo(

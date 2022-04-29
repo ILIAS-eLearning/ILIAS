@@ -1,6 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Condition utility object
@@ -34,25 +49,20 @@ class ilConditionUtil
      */
     public function getValidRepositoryTriggerTypes() : array
     {
-        $ch = new ilConditionHandler();
-        return $ch->getTriggerTypes();
+        return (new ilConditionHandler())->getTriggerTypes();
     }
 
     /**
      * Get operators for repository trigger object type
-     * @param string $a_type type
      * @return string[]
      */
     public function getOperatorsForRepositoryTriggerType(string $a_type) : array
     {
-        $ch = new ilConditionHandler();
-        return $ch->getOperatorsByTriggerType($a_type);
+        return (new ilConditionHandler())->getOperatorsByTriggerType($a_type);
     }
 
     /**
      * Check if a ref id is under condition control of its parent
-     * @param int $ref_id
-     * @return bool
      */
     public function isUnderParentControl(int $ref_id) : bool
     {

@@ -21,12 +21,11 @@
 class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 {
     protected string $lang;
-    protected $highlight_node;
+    protected int $highlight_node = 0;
     protected bool $export_all_languages;
     protected ilPageActivationDBRepository $activation_repo;
     protected array $complete_tree = [];
     protected array $activation_data = [];
-    protected ilObjLearningModule $lm;
     protected ilSetting $lm_set;
     protected ilLMPresentationLinker $linker;
     protected int $focus_id = 0;
@@ -386,12 +385,12 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     // Learning Sequence TOC
     //
 
-    public function renderLSToc(\LSTOCBuilder $toc)
+    public function renderLSToc(\LSTOCBuilder $toc) : void
     {
         $this->renderLSTocNode($toc, null);
     }
 
-    protected function renderLSTocNode(\LSTOCBuilder $toc, $current_node = null)
+    protected function renderLSTocNode(\LSTOCBuilder $toc, ?int $current_node = null) : void
     {
         $root = false;
         if ($current_node == 0) {

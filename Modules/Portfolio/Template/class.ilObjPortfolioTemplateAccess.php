@@ -127,7 +127,7 @@ class ilObjPortfolioTemplateAccess extends ilObjectAccess
         
         $t_arr = explode("_", $target);
         
-        if ($t_arr[0] != "prtt" || ((int) $t_arr[1]) <= 0) {
+        if ($t_arr[0] !== "prtt" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
         

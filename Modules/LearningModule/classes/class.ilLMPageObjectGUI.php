@@ -46,7 +46,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
     /**
      * Set content object dependent page object (co page)
      */
-    public function setLMPageObject(ilLMPageObject $a_pg_obj)
+    public function setLMPageObject(ilLMPageObject $a_pg_obj) : void
     {
         $this->obj = $a_pg_obj;
         $this->obj->setLMId($this->content_object->getId());
@@ -64,9 +64,6 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         switch ($next_class) {
             case "illmpagegui":
 
-                // Determine whether the view of a learning resource should
-                // be shown in the frameset of ilias, or in a separate window.
-                $showViewInFrameset = true;
                 $lm_set = new ilSetting("lm");
 
                 $this->ctrl->setReturn($this, "edit");
@@ -97,16 +94,9 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                     );
                 }
 
-                // set page view link
-                if ($showViewInFrameset) {
-                    $view_frame = ilFrameTargetInfo::_getFrame("MainContent");
-                } else {
-                    $view_frame = "ilContObj" . $this->content_object->getId();
-                }
                 $page_gui->setViewPageLink(
                     ILIAS_HTTP_PATH . "/goto.php?target=pg_" . $this->obj->getId() .
-                    "_" . $this->requested_ref_id,
-                    $view_frame
+                    "_" . $this->requested_ref_id
                 );
 
                 $page_gui->setStyleId($this->content_style_domain

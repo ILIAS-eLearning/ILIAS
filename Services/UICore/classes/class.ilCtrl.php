@@ -432,12 +432,12 @@ class ilCtrl implements ilCtrlInterface
         bool $has_xml_style = false
     ) : string {
         return $this->getTargetUrl(
-                $a_class,
-                $a_cmd,
-                $a_anchor,
-                $is_async,
-                $has_xml_style
-            ) ?? '';
+            $a_class,
+            $a_cmd,
+            $a_anchor,
+            $is_async,
+            $has_xml_style
+        ) ?? '';
     }
 
     /**
@@ -470,13 +470,13 @@ class ilCtrl implements ilCtrlInterface
         bool $has_xml_style = false
     ) : string {
         return $this->getTargetUrl(
-                $a_class,
-                $a_fallback_cmd,
-                $a_anchor,
-                $is_async,
-                $has_xml_style,
-                true
-            ) ?? '';
+            $a_class,
+            $a_fallback_cmd,
+            $a_anchor,
+            $is_async,
+            $has_xml_style,
+            true
+        ) ?? '';
     }
 
     /**
@@ -802,10 +802,12 @@ class ilCtrl implements ilCtrlInterface
     private function getTableCommand() : ?string
     {
         if ($this->post_parameters->has('table_top_cmd')) {
-            return $this->post_parameters->retrieve('table_top_cmd',
+            return $this->post_parameters->retrieve(
+                'table_top_cmd',
                 $this->refinery->custom()->transformation(function ($item) : ?string {
                     return is_array($item) ? key($item) : null;
-                }));
+                })
+            );
         }
         // Button on top of the table
         if ($this->post_parameters->has('select_cmd2')) {

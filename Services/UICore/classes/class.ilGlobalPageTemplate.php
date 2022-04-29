@@ -5,6 +5,7 @@
 use ILIAS\HTTP\Services as HTTPServices;
 use ILIAS\DI\UIServices;
 use ILIAS\GlobalScreen\Services;
+use ILIAS\Notifications\ilNotificationOSDGUI;
 use ILIAS\Services\UICore\MetaTemplate\PageContentGUI;
 use ILIAS\UI\NotImplementedException;
 use ILIAS\UICore\PageContentProvider;
@@ -47,8 +48,10 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     protected function prepareOutputHeaders() : void
     {
         $this->http->saveResponse(
-            $this->http->response()->withAddedHeader('P3P',
-                'CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"')
+            $this->http->response()->withAddedHeader(
+                'P3P',
+                'CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"'
+            )
         );
 
         $this->http->saveResponse(
@@ -78,7 +81,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         GlobalPageHandler::initPage($this);
 
         $sessionReminder = new ilSessionReminderGUI(
-            ilSessionReminder::createInstanceWithCurrentUserSession(),
+            ilSessionReminder::byLoggedInUser(),
             $this,
             $this->lng
         );
@@ -264,7 +267,6 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
             return $this->legacy_content_template->setCurrentBlock($blockname);
         }
         throw new ilTemplateException("block " . var_export($blockname, true) . " not found");
-
     }
 
     public function touchBlock(string $blockname) : bool

@@ -28,7 +28,6 @@ use ILIAS\ResourceStorage\StorageHandler\PathGenerator\MaxNestingPathGenerator;
  */
 class PathGeneratorTest extends AbstractBaseTest
 {
-
     protected array $prohibited = [
         "<", // (less than)
         ">", // (greater than)
@@ -71,6 +70,4 @@ class PathGeneratorTest extends AbstractBaseTest
         $new_identification = $path_generator->getIdentificationFor($path);
         $this->assertEquals($identification->serialize(), $new_identification->serialize());
     }
-
 }
-

@@ -189,7 +189,7 @@ class ilCache
         ?int $a_int_key2 = null,
         ?string $a_text_key1 = null,
         ?string $a_text_key2 = null
-    ) {
+    ) : void {
         global $ilDB;
 
         $table = $this->getUseLongContent()

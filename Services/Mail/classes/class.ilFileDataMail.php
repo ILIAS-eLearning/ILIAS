@@ -1,17 +1,30 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 
 /**
-* This class handles all operations on files (attachments) in directory ilias_data/mail
-*
-* @author	Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Filesystem;
 
+/**
+ * This class handles all operations on files (attachments) in directory ilias_data/mail
+ *
+ * @author	Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ *
+ */
 class ilFileDataMail extends ilFileData
 {
     public int $user_id;
@@ -229,7 +242,7 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * @param array{name:string, tmp_name:string}
+     * @param array{name:string, tmp_name:string} $file
      */
     public function storeUploadedFile(array $file) : void
     {
@@ -268,7 +281,7 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * @param string[] filenames to delete
+     * @param string[] $a_filenames Filenames to delete
      * @return string error message with filename that couldn't be deleted
      */
     public function unlinkFiles(array $a_filenames) : string
@@ -451,10 +464,10 @@ class ilFileDataMail extends ilFileData
         );
 
         if (count($umf_parts) === 2) {
-            $umf = $umf_parts[0] * $multiplier_a[$umf_parts[1]];
+            $umf = (float) $umf_parts[0] * $multiplier_a[$umf_parts[1]];
         }
         if (count($pms_parts) === 2) {
-            $pms = $pms_parts[0] * $multiplier_a[$pms_parts[1]];
+            $pms = (float) $pms_parts[0] * $multiplier_a[$pms_parts[1]];
         }
 
         // use the smaller one as limit
@@ -463,9 +476,8 @@ class ilFileDataMail extends ilFileData
         if (!$max_filesize) {
             $max_filesize = max($umf, $pms);
         }
-        // Copy of ilFileInputGUI: end
 
-        $this->mail_max_upload_file_size = $max_filesize;
+        $this->mail_max_upload_file_size = (int) $max_filesize;
     }
 
     public function onUserDelete() : void
@@ -608,7 +620,7 @@ class ilFileDataMail extends ilFileData
 
         ilFileDelivery::deliverFileAttached(
             $processingDirectory . '/' . $downloadFilename . '.zip',
-            \ilFileUtils::getValidFilename($downloadFilename . '.zip')
+            ilFileUtils::getValidFilename($downloadFilename . '.zip')
         );
     }
 }

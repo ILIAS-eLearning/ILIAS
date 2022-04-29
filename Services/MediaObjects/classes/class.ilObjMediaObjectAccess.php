@@ -32,7 +32,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
         $this->access = $DIC->access();
     }
 
-    public function canBeDelivered(ilWACPath $ilWACPath)
+    public function canBeDelivered(ilWACPath $ilWACPath) : bool
     {
         preg_match("/.\\/data\\/.*\\/mm_([0-9]*)\\/.*/ui", $ilWACPath->getPath(), $matches);
         $obj_id = $matches[1];
@@ -252,9 +252,9 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
     /**
      * Check access rights for glossary terms
      * This checks also learning modules linking the term
-     * @param    int         object id (glossary)
-     * @param    int         page id (definition)
-     * @return   bool     access given (true/false)
+     * @param int $obj_id       object id (glossary)
+     * @param int $page_id      page id (definition)
+     * @return bool            access given (true/false)
      */
     protected function checkAccessGlossaryTerm(
         int $obj_id,

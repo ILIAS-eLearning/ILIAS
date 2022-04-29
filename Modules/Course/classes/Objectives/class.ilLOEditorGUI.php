@@ -1,7 +1,21 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Style\Content\Object\ObjectFacade;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
@@ -276,7 +290,7 @@ class ilLOEditorGUI
         $settings->update();
     }
 
-    protected function saveSettings()
+    protected function saveSettings() : void
     {
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
@@ -356,8 +370,10 @@ class ilLOEditorGUI
         $type_selector->setRequired(true);
         $type_selector->setValue((string) $this->getSettings()->getInitialTestType());
 
-        $type_ipa = new ilRadioOption($this->lng->txt('crs_loc_settings_type_it_placement_all'),
-            (string) ilLOSettings::TYPE_INITIAL_PLACEMENT_ALL);
+        $type_ipa = new ilRadioOption(
+            $this->lng->txt('crs_loc_settings_type_it_placement_all'),
+            (string) ilLOSettings::TYPE_INITIAL_PLACEMENT_ALL
+        );
         $type_ipa->setInfo($this->lng->txt('crs_loc_settings_type_it_placement_all_info'));
         $type_selector->addOption($type_ipa);
 
@@ -366,13 +382,17 @@ class ilLOEditorGUI
         $start_ip->setChecked($this->getSettings()->isInitialTestStart());
         $type_ipa->addSubItem($start_ip);
 
-        $type_ips = new ilRadioOption($this->lng->txt('crs_loc_settings_type_it_placement_sel'),
-            (string) ilLOSettings::TYPE_INITIAL_PLACEMENT_SELECTED);
+        $type_ips = new ilRadioOption(
+            $this->lng->txt('crs_loc_settings_type_it_placement_sel'),
+            (string) ilLOSettings::TYPE_INITIAL_PLACEMENT_SELECTED
+        );
         $type_ips->setInfo($this->lng->txt('crs_loc_settings_type_it_placement_sel_info'));
         $type_selector->addOption($type_ips);
 
-        $type_iqa = new ilRadioOption($this->lng->txt('crs_loc_settings_type_it_qualifying_all'),
-            (string) ilLOSettings::TYPE_INITIAL_QUALIFYING_ALL);
+        $type_iqa = new ilRadioOption(
+            $this->lng->txt('crs_loc_settings_type_it_qualifying_all'),
+            (string) ilLOSettings::TYPE_INITIAL_QUALIFYING_ALL
+        );
         $type_iqa->setInfo($this->lng->txt('crs_loc_settings_type_it_qualifying_all_info'));
         $type_selector->addOption($type_iqa);
 
@@ -381,13 +401,17 @@ class ilLOEditorGUI
         $start_iq->setChecked($this->getSettings()->isInitialTestStart());
         $type_iqa->addSubItem($start_iq);
 
-        $type_iqs = new ilRadioOption($this->lng->txt('crs_loc_settings_type_it_qualifying_sel'),
-            (string) ilLOSettings::TYPE_INITIAL_QUALIFYING_SELECTED);
+        $type_iqs = new ilRadioOption(
+            $this->lng->txt('crs_loc_settings_type_it_qualifying_sel'),
+            (string) ilLOSettings::TYPE_INITIAL_QUALIFYING_SELECTED
+        );
         $type_iqs->setInfo($this->lng->txt('crs_loc_settings_type_it_qualifying_sel_info'));
         $type_selector->addOption($type_iqs);
 
-        $type_ino = new ilRadioOption($this->lng->txt('crs_loc_settings_type_it_none'),
-            (string) ilLOSettings::TYPE_INITIAL_NONE);
+        $type_ino = new ilRadioOption(
+            $this->lng->txt('crs_loc_settings_type_it_none'),
+            (string) ilLOSettings::TYPE_INITIAL_NONE
+        );
         $type_ino->setInfo($this->lng->txt('crs_loc_settings_type_it_none_info'));
         $type_selector->addOption($type_ino);
 
@@ -398,8 +422,10 @@ class ilLOEditorGUI
         $qt_selector->setRequired(true);
         $qt_selector->setValue((string) $this->getSettings()->getQualifyingTestType());
 
-        $type_qa = new ilRadioOption($this->lng->txt('crs_loc_settings_type_q_all'),
-            (string) ilLOSettings::TYPE_QUALIFYING_ALL);
+        $type_qa = new ilRadioOption(
+            $this->lng->txt('crs_loc_settings_type_q_all'),
+            (string) ilLOSettings::TYPE_QUALIFYING_ALL
+        );
         $type_qa->setInfo($this->lng->txt('crs_loc_settings_type_q_all_info'));
         $qt_selector->addOption($type_qa);
 
@@ -425,8 +451,10 @@ class ilLOEditorGUI
         );
         $type_qa->addSubItem($passed_mode);
 
-        $type_qs = new ilRadioOption($this->lng->txt('crs_loc_settings_type_q_selected'),
-            (string) ilLOSettings::TYPE_QUALIFYING_SELECTED);
+        $type_qs = new ilRadioOption(
+            $this->lng->txt('crs_loc_settings_type_q_selected'),
+            (string) ilLOSettings::TYPE_QUALIFYING_SELECTED
+        );
         $type_qs->setInfo($this->lng->txt('crs_loc_settings_type_q_selected_info'));
         $qt_selector->addOption($type_qs);
 
@@ -639,7 +667,7 @@ class ilLOEditorGUI
                 )
             );
         }
-        if (!count($tests)) {
+        if (count($tests) === 0) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'testOverview');
         }
@@ -839,7 +867,7 @@ class ilLOEditorGUI
 
         $template = new ilSettingsTemplate($tpl_id, ilObjAssessmentFolderGUI::getSettingsTemplateConfig());
         $template_settings = $template->getSettings();
-        if ($template_settings) {
+        if ($template_settings !== []) {
             $tst_gui = new ilObjTestGUI();
             $tst_gui->applyTemplate($template_settings, $tst);
         }
@@ -922,7 +950,7 @@ class ilLOEditorGUI
     {
         foreach (ilCourseObjective::_getObjectiveIds($this->getParentObject()->getId()) as $objective_id) {
             $materials = new ilCourseObjectiveMaterials($objective_id);
-            foreach ($materials->getMaterials() as $key => $material) {
+            foreach ($materials->getMaterials() as $material) {
                 if ($material['ref_id'] == $test->getRefId()) {
                     $materials->delete($material['lm_ass_id']);
                 }
@@ -1005,7 +1033,7 @@ class ilLOEditorGUI
             false
         );
 
-        if (!count($objectives)) {
+        if ($objectives === []) {
             $this->showObjectiveCreation();
             return;
         }
@@ -1052,7 +1080,7 @@ class ilLOEditorGUI
     {
         $form = $this->initSimpleObjectiveForm();
         if ($form->checkInput()) {
-            foreach ((array) $form->getInput('objectives') as $idx => $title) {
+            foreach ((array) $form->getInput('objectives') as $title) {
                 $obj = new ilCourseObjective($this->getParentObject());
                 $obj->setActive(true);
                 $obj->setTitle($title);
@@ -1068,12 +1096,17 @@ class ilLOEditorGUI
         $this->showObjectiveCreation($form);
     }
 
-    protected function saveSorting()
+    protected function saveSorting() : void
     {
-        asort($_POST['position'], SORT_NUMERIC);
-
+        $post_position = $this->http->wrapper()->post()->retrieve(
+            'position',
+            $this->refinery->kindlyTo()->dictOf(
+                $this->refinery->kindlyTo()->int()
+            )
+        );
+        asort($post_position, SORT_NUMERIC);
         $counter = 1;
-        foreach ($_POST['position'] as $objective_id => $position) {
+        foreach ($post_position as $objective_id => $position) {
             $objective = new ilCourseObjective($this->getParentObject(), $objective_id);
             $objective->writePosition($counter++);
         }
@@ -1091,7 +1124,16 @@ class ilLOEditorGUI
         $confirm->setConfirm($this->lng->txt('delete'), 'deleteObjectives');
         $confirm->setCancel($this->lng->txt('cancel'), 'listObjectives');
 
-        foreach ($_POST['objective'] as $objective_id) {
+        $objective_ids = [];
+        if ($this->http->wrapper()->post()->has('objective')) {
+            $objective_ids = $this->http->wrapper()->post()->retrieve(
+                'objective',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        foreach ($objective_ids as $objective_id) {
             $obj = new ilCourseObjective($this->getParentObject(), $objective_id);
             $name = $obj->getTitle();
 
@@ -1139,7 +1181,16 @@ class ilLOEditorGUI
 
     protected function deleteObjectives() : void
     {
-        foreach ($_POST['objective_ids'] as $objective_id) {
+        $objective_ids = [];
+        if ($this->http->wrapper()->post()->has('objective_ids')) {
+            $objective_ids = $this->http->wrapper()->post()->retrieve(
+                'objective_ids',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        foreach ($objective_ids as $objective_id) {
             $objective_obj = new ilCourseObjective($this->getParentObject(), $objective_id);
             $objective_obj->delete();
         }

@@ -1,5 +1,22 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\HTTP\Services as HTTPServices;
 
 /**
  * TableGUI class for timings administration
@@ -8,11 +25,13 @@
  */
 class ilTimingsManageTableGUI extends ilTable2GUI
 {
-    private ilLogger $logger;
-
     private ilObject $container;
     private ilObjCourse $main_container;
     private bool $failure = false;
+
+    protected Refinery $refinery;
+    protected HTTPServices $http;
+
 
     /**
      * Constructor
@@ -25,7 +44,9 @@ class ilTimingsManageTableGUI extends ilTable2GUI
     ) {
         global $DIC;
 
-        $this->logger = $DIC->logger()->obj();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
         $this->container = $a_container_obj;
         $this->main_container = $a_main_container;
         $this->setId('manage_timings_' . $this->getContainerObject()->getRefId());
@@ -45,7 +66,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    public function init()
+    public function init() : void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->setRowTemplate('tpl.crs_manage_timings_row.html', 'Modules/Course');
@@ -110,14 +131,21 @@ class ilTimingsManageTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
+        $error_post_item = (array) ($this->http->request()->getParsedBody()['item'] ?? []);
+
         // active
         $this->tpl->setVariable('NAME_ACTIVE', 'item[' . $a_set['ref_id'] . '][active]');
         if ($this->getFailureStatus()) {
-            $this->tpl->setVariable('CHECKED_ACTIVE',
-                $_POST['item'][$a_set['ref_id']]['active'] ? 'checked="checked"' : '');
+            $active = (bool) ($error_post_item[$a_set['ref_id']]['active'] ?? false);
+            $this->tpl->setVariable(
+                'CHECKED_ACTIVE',
+                $active ? 'checked="checked"' : ''
+            );
         } else {
-            $this->tpl->setVariable('CHECKED_ACTIVE',
-                ($a_set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
+            $this->tpl->setVariable(
+                'CHECKED_ACTIVE',
+                ($a_set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : ''
+            );
         }
 
         // start
@@ -125,7 +153,8 @@ class ilTimingsManageTableGUI extends ilTable2GUI
             $dt_input = new ilDateTimeInputGUI('', 'item[' . $a_set['ref_id'] . '][sug_start]');
             $dt_input->setDate(new ilDate($a_set['item']['suggestion_start'], IL_CAL_UNIX));
             if ($this->getFailureStatus()) {
-                $dt_input->setDate(new ilDate($_POST['item'][$a_set['ref_id']]['sug_start'], IL_CAL_DATE));
+                $start = (string) ($error_post_item[$a_set['ref_id']]['sug_start'] ?? '');
+                $dt_input->setDate(new ilDate($start, IL_CAL_DATE));
             }
 
             $this->tpl->setVariable('start_abs');
@@ -135,7 +164,8 @@ class ilTimingsManageTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('start_rel');
             $this->tpl->setVariable('START_REL_VAL', (int) $a_set['item']['suggestion_start_rel']);
             if ($this->getFailureStatus()) {
-                $this->tpl->setVariable('START_REL_VAL', $_POST['item'][$a_set['ref_id']]['sug_start_rel']);
+                $start = (string) ($error_post_item[$a_set['ref_id']]['sug_start_rel'] ?? '');
+                $this->tpl->setVariable('START_REL_VAL', $start);
             } else {
                 $this->tpl->setVariable('START_REL_VAL', (int) $a_set['item']['suggestion_start_rel']);
             }
@@ -145,7 +175,8 @@ class ilTimingsManageTableGUI extends ilTable2GUI
 
         if ($this->getMainContainer()->getTimingMode() == ilCourseConstants::IL_CRS_VIEW_TIMING_RELATIVE) {
             if ($this->getFailureStatus()) {
-                $this->tpl->setVariable('VAL_DURATION_A', $_POST['item'][$a_set['ref_id']]['duration_a']);
+                $duration = (string) ($error_post_item[$a_set['ref_id']]['duration_a'] ?? '');
+                $this->tpl->setVariable('VAL_DURATION_A', $duration);
             } else {
                 $duration = $a_set['item']['suggestion_end_rel'] - $a_set['item']['suggestion_start_rel'];
                 $this->tpl->setVariable('VAL_DURATION_A', (int) $duration);
@@ -155,7 +186,8 @@ class ilTimingsManageTableGUI extends ilTable2GUI
             $dt_end = new ilDateTimeInputGUI('', 'item[' . $a_set['ref_id'] . '][sug_end]');
             $dt_end->setDate(new ilDate($a_set['item']['suggestion_end'], IL_CAL_UNIX));
             if ($this->getFailureStatus()) {
-                $dt_end->setDate(new ilDate($_POST['item'][$a_set['ref_id']]['sug_end'], IL_CAL_DATE));
+                $end = (string) ($error_post_item[$a_set['ref_id']]['sug_end'] ?? '');
+                $dt_end->setDate(new ilDate($end, IL_CAL_DATE));
             }
 
             $this->tpl->setVariable('end_abs');
@@ -167,8 +199,11 @@ class ilTimingsManageTableGUI extends ilTable2GUI
         $this->tpl->setVariable('NAME_CHANGE', 'item[' . $a_set['ref_id'] . '][change]');
         $this->tpl->setVariable('CHECKED_CHANGE', $a_set['item']['changeable'] ? 'checked="checked"' : '');
         if ($this->getFailureStatus()) {
-            $this->tpl->setVariable('CHECKED_CHANGE',
-                $_POST['item'][$a_set['ref_id']]['change'] ? 'checked="checked"' : '');
+            $change = (bool) ($error_post_item[$a_set['ref_id']]['change'] ?? false);
+            $this->tpl->setVariable(
+                'CHECKED_CHANGE',
+                $change ? 'checked="checked"' : ''
+            );
         } else {
             $this->tpl->setVariable('CHECKED_CHANGE', $a_set['item']['changeable'] ? 'checked="checked"' : '');
         }

@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\ContentPage\GlobalSettings\StorageImpl;
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
@@ -42,7 +57,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
     public function getInfoScreenStatus() : bool
     {
         if (ilContainer::_lookupContainerSetting(
-            (int) $this->obj_id,
+            $this->obj_id,
             ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
             "1"
         )) {
@@ -79,7 +94,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
             $language = $ot->getEffectiveContentLang($this->user->getCurrentLanguage(), $this->type);
 
             $pageMetrics = $this->pageMetricsService->get(
-                new GetPageMetricsCommand((int) $this->obj_id, $language)
+                new GetPageMetricsCommand($this->obj_id, $language)
             );
 
             $readingTimePropertyValue = sprintf(

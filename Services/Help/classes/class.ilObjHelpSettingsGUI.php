@@ -95,7 +95,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         
         $ilTabs->activateTab("settings");
         
-        if (OH_REF_ID > 0) {
+        if ((int) OH_REF_ID > 0) {
             $this->tpl->setOnScreenMessage('info', "This installation is used for online help authoring. Help modules cannot be imported.");
             return;
         }

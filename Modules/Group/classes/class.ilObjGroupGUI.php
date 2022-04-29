@@ -31,11 +31,12 @@ class ilObjGroupGUI extends ilContainerGUI
 
     private GlobalHttpState $http;
     protected Factory $refinery;
+    protected ilRbacSystem $rbacsystem;
 
     /**
      * @inheritDoc
     */
-    public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = false)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference, bool $a_prepare_output = false)
     {
         global $DIC;
 
@@ -46,6 +47,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->lng->loadLanguageModule('obj');
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->rbacsystem = $DIC->rbac()->system();
     }
 
     protected function initRefIdFromQuery() : int
@@ -224,10 +226,12 @@ class ilObjGroupGUI extends ilContainerGUI
                 break;
 
             case "ilobjectcontentstylesettingsgui":
+                global $DIC;
+
                 $this->checkPermission("write");
                 $this->setTitleAndDescription();
                 $this->showContainerPageTabs();
-                $settings_gui = $this->content_style_gui
+                $settings_gui = $DIC->contentStyle()->gui()
                     ->objectSettingsGUIForRefId(
                         null,
                         $this->object->getRefId()
@@ -466,7 +470,9 @@ class ilObjGroupGUI extends ilContainerGUI
      */
     public function afterSave(ilObject $new_object) : void
     {
-        $new_object->setRegistrationType(GRP_REGISTRATION_DIRECT);
+        $new_object->setRegistrationType(
+            ilGroupConstants::GRP_REGISTRATION_DIRECT
+        );
         $new_object->update();
 
         // check for parent group or course => SORT_INHERIT
@@ -894,7 +900,6 @@ class ilObjGroupGUI extends ilContainerGUI
             $name = ilObjUser::_lookupName($usr_id);
             $tmp_data['firstname'] = $name['firstname'];
             $tmp_data['lastname'] = $name['lastname'];
-            $tmp_data['login'] = ilObjUser::_lookupLogin($usr_id);
             $tmp_data['notification'] = $this->object->members_obj->isNotificationEnabled($usr_id) ? 1 : 0;
             $tmp_data['contact'] = $this->object->members_obj->isContact($usr_id) ? 1 : 0;
             $tmp_data['usr_id'] = $usr_id;
@@ -1210,21 +1215,21 @@ class ilObjGroupGUI extends ilContainerGUI
             );
         } else {
             switch ($this->object->getRegistrationType()) {
-                case GRP_REGISTRATION_DIRECT:
+                case ilGroupConstants::GRP_REGISTRATION_DIRECT:
                     $info->addProperty(
                         $this->lng->txt('group_registration_mode'),
                         $this->lng->txt('grp_reg_direct_info_screen')
                     );
                     break;
 
-                case GRP_REGISTRATION_REQUEST:
+                case ilGroupConstants::GRP_REGISTRATION_REQUEST:
                     $info->addProperty(
                         $this->lng->txt('group_registration_mode'),
                         $this->lng->txt('grp_reg_req_info_screen')
                     );
                     break;
 
-                case GRP_REGISTRATION_PASSWORD:
+                case ilGroupConstants::GRP_REGISTRATION_PASSWORD:
                     $info->addProperty(
                         $this->lng->txt('group_registration_mode'),
                         $this->lng->txt('grp_reg_passwd_info_screen')
@@ -1316,8 +1321,17 @@ class ilObjGroupGUI extends ilContainerGUI
     public function saveNotificationObject() : void
     {
         $noti = new ilMembershipNotifications($this->ref_id);
+
+        $grp_notification = false;
+        if ($this->http->wrapper()->query()->has('grp_ntf')) {
+            $grp_notification = $this->http->wrapper()->query()->retrieve(
+                'grp_ntf',
+                $this->refinery->kindlyTo()->bool()
+            );
+        }
+
         if ($noti->canCurrentUserEdit()) {
-            if ((bool) $_REQUEST["grp_ntf"]) {
+            if ($grp_notification) {
                 $noti->activateUser();
             } else {
                 $noti->deactivateUser();
@@ -1443,10 +1457,12 @@ class ilObjGroupGUI extends ilContainerGUI
             $reg_type = new ilRadioGroupInputGUI($this->lng->txt('group_registration_mode'), 'registration_type');
             $reg_type->setValue((string) $this->object->getRegistrationType());
 
-            $opt_dir = new ilRadioOption($this->lng->txt('grp_reg_direct'), (string) GRP_REGISTRATION_DIRECT);#$this->lng->txt('grp_reg_direct_info'));
+            $opt_dir = new ilRadioOption($this->lng->txt('grp_reg_direct'), (string) ilGroupConstants::GRP_REGISTRATION_DIRECT
+            );#$this->lng->txt('grp_reg_direct_info'));
             $reg_type->addOption($opt_dir);
 
-            $opt_pass = new ilRadioOption($this->lng->txt('grp_pass_request'), (string) GRP_REGISTRATION_PASSWORD);
+            $opt_pass = new ilRadioOption($this->lng->txt('grp_pass_request'), (string) ilGroupConstants::GRP_REGISTRATION_PASSWORD
+            );
             $pass = new ilTextInputGUI($this->lng->txt("password"), 'password');
             $pass->setRequired(true);
             $pass->setInfo($this->lng->txt('grp_reg_password_info'));
@@ -1456,10 +1472,10 @@ class ilObjGroupGUI extends ilContainerGUI
             $opt_pass->addSubItem($pass);
             $reg_type->addOption($opt_pass);
 
-            $opt_req = new ilRadioOption($this->lng->txt('grp_reg_request'), (string) GRP_REGISTRATION_REQUEST, $this->lng->txt('grp_reg_request_info'));
+            $opt_req = new ilRadioOption($this->lng->txt('grp_reg_request'), (string) ilGroupConstants::GRP_REGISTRATION_REQUEST, $this->lng->txt('grp_reg_request_info'));
             $reg_type->addOption($opt_req);
 
-            $opt_deact = new ilRadioOption($this->lng->txt('grp_reg_no_selfreg'), (string) GRP_REGISTRATION_DEACTIVATED, $this->lng->txt('grp_reg_disabled_info'));
+            $opt_deact = new ilRadioOption($this->lng->txt('grp_reg_no_selfreg'), (string) ilGroupConstants::GRP_REGISTRATION_DEACTIVATED, $this->lng->txt('grp_reg_disabled_info'));
             $reg_type->addOption($opt_deact);
 
             // Registration codes
@@ -1506,12 +1522,12 @@ class ilObjGroupGUI extends ilContainerGUI
             $min = new ilTextInputGUI($this->lng->txt('reg_grp_min_members'), 'registration_min_members');
             $min->setSize(3);
             $min->setMaxLength(4);
-            $min->setValue($this->object->getMinMembers() ? $this->object->getMinMembers() : '');
+            $min->setValue($this->object->getMinMembers() ?: '');
             $min->setInfo($this->lng->txt('grp_subscription_min_members_info'));
             $lim->addSubItem($min);
 
             $max = new ilTextInputGUI($this->lng->txt('reg_grp_max_members'), 'registration_max_members');
-            $max->setValue($this->object->getMaxMembers() ? $this->object->getMaxMembers() : '');
+            $max->setValue($this->object->getMaxMembers() ?: '');
             //$max->setTitle($this->lng->txt('members'));
             $max->setSize(3);
             $max->setMaxLength(4);
@@ -1938,7 +1954,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
     public function getLocalRoles() : array
     {
-        $local_roles = $this->object->getLocalGroupRoles(false);
+        $local_roles = $this->object->getLocalGroupRoles();
         $grp_member = $this->object->getDefaultMemberRole();
         $grp_roles = array();
 

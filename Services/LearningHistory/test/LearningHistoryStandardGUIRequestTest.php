@@ -7,8 +7,6 @@ use PHPUnit\Framework\TestCase;
  */
 class LearningHistoryStandardGUIRequestTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
     protected function tearDown() : void
     {
     }
@@ -27,7 +25,7 @@ class LearningHistoryStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testItems()
+    public function testItems() : void
     {
         $request = $this->getRequest(
             [

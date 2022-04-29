@@ -64,7 +64,7 @@ class ilQTIAssessmentcontrolTest extends TestCase
         $get = 'get' . ucfirst($suffix);
         $set = 'set' . ucfirst($suffix);
 
-        $consideredAsYes = ['Yes', 'yes', 'no', '', false, true, 'Some random thing.'];
+        $consideredAsYes = ['Yes', 'yes', 'no', '', 'Some random thing.'];
         foreach ($consideredAsYes as $value) {
             $instance->$set($value);
             $this->assertEquals('Yes', $instance->$get());

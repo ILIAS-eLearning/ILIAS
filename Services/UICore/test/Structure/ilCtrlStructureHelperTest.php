@@ -30,7 +30,8 @@ class ilCtrlStructureHelperTest extends TestCase
         $helper = new ilCtrlStructureHelper(
             [
                 'baseclass1',
-            ], [
+            ],
+            [
                 'baseclass1' => [],
                 'unnecessary_class1' => [],
                 'unnecessary_class2' => [

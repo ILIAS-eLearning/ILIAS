@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
 
@@ -59,16 +74,16 @@ class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
         );
 
         $relation = $relation->withUsrId(1);
-        $this->assertEquals(1, $relation->getUsrId());
+        $this->assertSame(1, $relation->getUsrId());
 
         $relation = $relation->withBuddyUsrId(2);
-        $this->assertEquals(2, $relation->getBuddyUsrId());
+        $this->assertSame(2, $relation->getBuddyUsrId());
 
         $relation = $relation->withTimestamp($ts + 1);
-        $this->assertEquals($ts + 1, $relation->getTimestamp());
+        $this->assertSame($ts + 1, $relation->getTimestamp());
 
         $relation = $relation->withIsOwnedByActor(true);
-        $this->assertEquals(true, $relation->isOwnedByActor());
+        $this->assertTrue($relation->isOwnedByActor());
     }
 
     public function testUsersAreNotAbleToRequestThemselves() : void

@@ -6,7 +6,6 @@ use ILIAS\Setup;
 
 class ilLanguageSetupConfig implements Setup\Config
 {
-
     protected string $default_language;
     protected array $install_languages;
     protected array $install_local_languages;
@@ -23,7 +22,7 @@ class ilLanguageSetupConfig implements Setup\Config
         foreach ($install_local_languages as $l) {
             $this->checkLanguageName($l);
         }
-        if (!in_array($default_language, $install_languages)) {
+        if (!in_array($default_language, $install_languages, true)) {
             throw new \InvalidArgumentException(
                 "Default language '$default_language' is not in the languages to be installed."
             );
@@ -44,7 +43,7 @@ class ilLanguageSetupConfig implements Setup\Config
      */
     protected function checkLanguageName(string $l) : void
     {
-        if (!strlen($l) == 2) {
+        if (strlen($l) !== 2) {
             throw new \InvalidArgumentException(
                 "'$l' is not a valid language id."
             );

@@ -19,7 +19,7 @@ class ilQTIDecvarTest extends TestCase
     /**
      * @dataProvider vartypes
      */
-    public function testSetGetVartype($input, $expected) : void
+    public function testSetGetVartype(string $input, ?string $expected) : void
     {
         $instance = new ilQTIDecvar();
         $instance->setVartype($input);

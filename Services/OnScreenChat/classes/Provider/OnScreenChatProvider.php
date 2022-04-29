@@ -71,8 +71,8 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
 
         return [
             $this->mainmenu->complex($this->if->identifier('mm_chat'))
-                ->withAvailableCallable(function () {
-                    $isUser = 0 !== (int) $this->dic->user()->getId() && !$this->dic->user()->isAnonymous();
+                ->withAvailableCallable(function () : bool {
+                    $isUser = 0 !== $this->dic->user()->getId() && !$this->dic->user()->isAnonymous();
                     $chatSettings = new ilSetting('chatroom');
                     $isEnabled = $chatSettings->get('chat_enabled') && $chatSettings->get('enable_osc');
                     return $isUser && $isEnabled;
@@ -81,7 +81,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                 ->withSymbol($icon)
                 ->withContent(
                     $this->dic->ui()->factory()->item()->shy('')->withAdditionalOnLoadCode(
-                        function ($id) {
+                        static function ($id) : string {
                             return "il.OnScreenChat.menuCollector = $id.parentNode;$id.remove();";
                         }
                     )

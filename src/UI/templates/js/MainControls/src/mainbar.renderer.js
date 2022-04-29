@@ -243,7 +243,10 @@ var renderer = function($) {
                 }
 
             if(model_state.more_available) {
+                more_button.getElement().parent().show();
                 actions.moveToplevelTriggerersToMore(model_state);
+            } else {
+                more_button.getElement().parent().hide();
             }
 
             parts.page.slatesEngaged(model_state.any_entry_engaged || model_state.tools_engaged);

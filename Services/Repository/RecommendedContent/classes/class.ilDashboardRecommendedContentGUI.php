@@ -34,7 +34,7 @@ class ilDashboardRecommendedContentGUI
     protected ilFavouritesManager $fav_manager;
     protected ilObjectDefinition $objDefinition;
     protected int $requested_item_ref_id;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
@@ -67,7 +67,7 @@ class ilDashboardRecommendedContentGUI
 
         switch ($next_class) {
             default:
-                if (in_array($cmd, array("remove", "makeFavourite"))) {
+                if (in_array($cmd, ["remove", "makeFavourite"])) {
                     $this->$cmd();
                 }
         }
@@ -75,7 +75,7 @@ class ilDashboardRecommendedContentGUI
 
     public function render() : string
     {
-        if (count($this->recommendations) == 0) {
+        if (count($this->recommendations) === 0) {
             return "";
         }
         return $this->ui->renderer()->render(
@@ -198,7 +198,6 @@ class ilDashboardRecommendedContentGUI
         return (clone self::$list_by_type[$a_type]);
     }
 
-    // Remove from list
     protected function remove() : void
     {
         $ctrl = $this->ctrl;

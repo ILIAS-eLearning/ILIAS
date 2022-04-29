@@ -24,6 +24,7 @@
  */
 class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
+    protected \ILIAS\LearningModule\ReadingTime\ReadingTimeManager $reading_time_manager;
     protected string $requested_url;
     protected string $requested_type;
     protected ilLMTracker $tracker;
@@ -80,7 +81,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     protected ilObjectTranslation $ot;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
-    protected \ILIAS\Style\Content\Service $cs;
+    protected ?\ILIAS\Style\Content\Service $cs = null;
 
     public function __construct(
         string $a_export_format = "",
@@ -122,6 +123,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->frames = array();
         $this->ctrl = $ilCtrl;
         $this->ctrl->saveParameter($this, array("ref_id", "transl", "focus_id", "focus_return"));
+
+        $this->cs = $DIC->contentStyle();
 
         // note: using $DIC->http()->request()->getQueryParams() here will
         // fail, since the goto magic currently relies on setting $_GET
@@ -166,8 +169,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 $params
             );
         }
-
-        $this->cs = $DIC->contentStyle();
+        $this->reading_time_manager = new \ILIAS\LearningModule\ReadingTime\ReadingTimeManager();
     }
 
     public function getUnsafeGetCommands() : array
@@ -318,6 +320,12 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 $ret = $ilCtrl->forwardCommand($page_gui);
                 break;
 
+            case "ilassgenfeedbackpagegui":
+                $page_gui = new ilAssGenFeedbackPageGUI($this->requested_pg_id);
+                //$this->basicPageGuiInit($page_gui);
+                $ret = $ilCtrl->forwardCommand($page_gui);
+                break;
+
             case "ilglossarydefpagegui":
                 $page_gui = new ilGlossaryDefPageGUI($this->requested_obj_id);
                 $this->basicPageGuiInit($page_gui);
@@ -455,11 +463,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         // But since using relative pathes with domxml under windows don't work,
         // we need another solution:
         $xmlfile = file_get_contents("./Modules/LearningModule/layouts/lm/" . $layout . "/" . $a_xml);
-
-        if (!$doc = domxml_open_mem($xmlfile)) {
-            throw new ilLMPresentationException("ilLMPresentation: XML File invalid. Error reading " .
-                $layout . "/" . $a_xml . ".");
-        }
+    
+        $doc = domxml_open_mem($xmlfile);
         $this->layout_doc = $doc;
         //echo ":".htmlentities($xmlfile).":$layout:$a_xml:";
 
@@ -621,13 +626,12 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 if ($last_frame_url != "") {
                     $this->tpl->addOnLoadCode("il.LearningModule.setLastFrameUrl('" . $last_frame_url . "', 'center_bottom');");
                 }
+    
+                $this->tpl->addOnLoadCode("il.LearningModule.setSaveUrl('" .
+                    $this->ctrl->getLinkTarget($this, "saveFrameUrl", "", false, false) . "');
+                        il.LearningModule.openInitFrames();
+                        ");
 
-                if (true) {
-                    $this->tpl->addOnLoadCode("il.LearningModule.setSaveUrl('" .
-                        $this->ctrl->getLinkTarget($this, "saveFrameUrl", "", false, false) . "');
-                            il.LearningModule.openInitFrames();
-                            ");
-                }
                 $this->tpl->addOnLoadCode("il.LearningModule.setTocRefreshUrl('" .
                     $this->ctrl->getLinkTarget($this, "refreshToc", "", false, false) . "');
                         ");
@@ -750,13 +754,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             return;
         }
 
-        $showViewInFrameset = true;
-
-        if ($showViewInFrameset) {
-            $buttonTarget = ilFrameTargetInfo::_getFrame("MainContent");
-        } else {
-            $buttonTarget = "_top";
-        }
+        $buttonTarget = ilFrameTargetInfo::_getFrame("MainContent");
 
         $tpl_menu = new ilTemplate("tpl.lm_sub_menu.html", true, true, "Modules/LearningModule");
 
@@ -783,7 +781,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             $page_id = $this->getCurrentPageId();
 
             // permanent link
-            $this->tpl->setPermanentLink("pg", "", $page_id . "_" . $this->lm->getRefId());
+            $this->tpl->setPermanentLink("pg", 0, $page_id . "_" . $this->lm->getRefId());
         }
 
         $this->tpl->setVariable("SUBMENU", $tpl_menu->get());
@@ -950,7 +948,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $notes_gui = new ilNoteGUI($this->lm->getId(), $this->getCurrentPageId(), "pg");
 
         if ($ilAccess->checkAccess("write", "", $this->requested_ref_id) &&
-            $ilSetting->get("comments_del_tutor", 1)) {
+            $ilSetting->get("comments_del_tutor", '1')) {
             $notes_gui->enablePublicNotesDeletion(true);
         }
 
@@ -1393,6 +1391,15 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         // show standard meta data section
         $info->addMetaDataSections($this->lm->getId(), 0, $this->lm->getType());
 
+        $this->lng->loadLanguageModule("copg");
+        $est_reading_time = $this->reading_time_manager->getReadingTime($this->lm->getId());
+        if (!is_null($est_reading_time)) {
+            $info->addProperty(
+                $this->lng->txt("copg_est_reading_time"),
+                sprintf($this->lng->txt("copg_x_minutes"), $est_reading_time)
+            );
+        }
+
         if ($this->offlineMode()) {
             $this->tpl->setContent($info->getHTML());
             return $this->tpl->get();
@@ -1475,8 +1482,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             $this->lang
                         );
 
-                    if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-                        $this->lm_gui->object->getPublicAccessMode() == "selected") {
+                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
+                        $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
                         if (!ilLMObject::_isPagePublic($node["obj_id"])) {
                             $disabled = true;
                             $text .= " (" . $this->lng->txt("cont_no_access") . ")";
@@ -1505,8 +1512,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                             0,
                             $this->lang
                         );
-                    if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-                        $this->lm_gui->object->getPublicAccessMode() == "selected") {
+                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
+                        $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
                         if (!ilLMObject::_isPagePublic($node["obj_id"])) {
                             $disabled = true;
                             $text .= " (" . $this->lng->txt("cont_no_access") . ")";
@@ -1549,8 +1556,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                     $this->lang
                 );
 
-            if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-                $this->lm_gui->object->getPublicAccessMode() == "selected") {
+            if ($ilUser->getId() === ANONYMOUS_USER_ID &&
+                $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
                 if (!ilLMObject::_isPagePublic($this->requested_obj_id)) {
                     $disabled = true;
                     $text .= " (" . $this->lng->txt("cont_no_access") . ")";
@@ -1725,7 +1732,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         }
 
         // add free selected pages
-        if (is_array($sel_obj_ids)) {
+        if (count($sel_obj_ids) > 0) {
             foreach ($sel_obj_ids as $k) {
                 if ($k > 0 && !$this->lm_tree->isInTree($k)) {
                     if (ilLMObject::_lookupType($k) == "pg") {
@@ -1778,8 +1785,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
                 // output chapter title
                 if ($node["type"] == "st") {
-                    if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-                        $this->lm_gui->object->getPublicAccessMode() == "selected") {
+                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
+                        $this->lm_gui->getObject()->getPublicAccessMode() == "selected") {
                         if (!ilLMObject::_isPagePublic($node["obj_id"])) {
                             continue;
                         }
@@ -1816,9 +1823,9 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 }
 
                 // output page
-                if ($node["type"] == "pg") {
-                    if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-                        $this->lm_gui->object->getPublicAccessMode() == "selected") {
+                if ($node["type"] === "pg") {
+                    if ($ilUser->getId() === ANONYMOUS_USER_ID &&
+                        $this->lm_gui->getObject()->getPublicAccessMode() === "selected") {
                         if (!ilLMObject::_isPagePublic($node["obj_id"])) {
                             continue;
                         }

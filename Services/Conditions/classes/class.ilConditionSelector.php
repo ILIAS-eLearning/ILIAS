@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Repository Explorer
@@ -11,7 +27,6 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
     protected ?int $ref_id = null;
 
     /**
-     * Construct
      * @inheritDoc
      */
     public function __construct(
@@ -46,7 +61,7 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
             return false;
         }
         //remove childs of target object
-        if ($tree->getParentId($a_node["child"]) == $this->getRefId()) {
+        if ($tree->getParentId($a_node["child"]) === $this->getRefId()) {
             return false;
         }
 
@@ -76,7 +91,7 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
         //can target object be highlighted?
         $target_type = ilObject::_lookupType($a_ref_id, true);
 
-        if (!in_array($target_type, $this->getTypeWhiteList())) {
+        if (!in_array($target_type, $this->getTypeWhiteList(), true)) {
             $this->highlighted_parent = $this->tree->getParentId($a_ref_id);
         }
     }

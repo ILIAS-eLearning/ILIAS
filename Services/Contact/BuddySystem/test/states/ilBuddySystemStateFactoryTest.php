@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 class ilBuddySystemStateFactoryTest extends ilBuddySystemBaseTest
 {
@@ -23,6 +22,8 @@ class ilBuddySystemStateFactoryTest extends ilBuddySystemBaseTest
 
     protected function setUp() : void
     {
+        parent::setUp();
+
         $lng = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
         $lng->method('txt')->willReturnCallback(static function (string $keyword) : string {
             return $keyword;
@@ -31,7 +32,7 @@ class ilBuddySystemStateFactoryTest extends ilBuddySystemBaseTest
         ilBuddySystemRelationStateFactory::getInstance($lng)->reset();
         $this->stateFactory = ilBuddySystemRelationStateFactory::getInstance($lng);
     }
-    
+
     public function testInitialStateEqualsUnlinkedRelation() : void
     {
         $this->assertInstanceOf(
@@ -40,48 +41,60 @@ class ilBuddySystemStateFactoryTest extends ilBuddySystemBaseTest
         );
     }
 
-    public function testStatesCanBeReceivedAsOptionMapIncludingInitalState() : void
+    public function testStatesCanBeReceivedAsOptionMap() : void
     {
-        $allStateClasses = array_map(static function (ilBuddySystemRelationState $state) : string {
-            return get_class($state);
-        }, $this->stateFactory->getValidStates());
+        $validStates = $this->stateFactory->getValidStates();
+        $this->assertThat(count($validStates), $this->greaterThan(0));
 
-        $allStatesOptions = array_keys($this->stateFactory->getStatesAsOptionArray(true));
-        $this->assertCount(
-            0,
-            array_diff($allStateClasses, $allStatesOptions),
-            'Option array is missing at least one state.'
-        );
-        $this->assertCount(
-            0,
-            array_diff($allStatesOptions, $allStateClasses),
-            'Option array contains at least one unexpected state'
-        );
+        foreach ($this->stateFactory->getValidStates() as $state) {
+            $tableFilterStateMapper = $this->stateFactory->getTableFilterStateMapper($state);
+
+            $otions = $tableFilterStateMapper->optionsForState();
+            $this->assertThat(count($otions), $this->greaterThan(0));
+
+            array_walk($otions, function (string $value, string $key) : void {
+                $this->assertNotEmpty($value, 'Option value for table filter must not be empty');
+                $this->assertNotEmpty($key, 'Option key for table filter must not be empty');
+            });
+        }
     }
 
-    public function testStatesCanBeReceivedAsOptionMapExcludingInitalState() : void
+    public function testRelationsCanBeFilteredByState() : void
     {
-        $initalState = $this->stateFactory->getInitialState();
+        $validStates = $this->stateFactory->getValidStates();
+        $this->assertThat(count($validStates), $this->greaterThan(0));
 
-        $allStateClasses = array_map(static function (ilBuddySystemRelationState $state) : string {
-            return get_class($state);
-        }, $this->stateFactory->getValidStates());
+        foreach ($this->stateFactory->getValidStates() as $state) {
+            $tableFilterStateMapper = $this->stateFactory->getTableFilterStateMapper($state);
 
-        $statesWithoutInitialOptions = array_keys($this->stateFactory->getStatesAsOptionArray(false));
-        $this->assertCount(
-            1,
-            array_diff($allStateClasses, $statesWithoutInitialOptions),
-            'Option array is missing at least one state when retrieved without initial state'
-        );
-        $this->assertEquals(
-            get_class($initalState),
-            implode('', array_diff($allStateClasses, $statesWithoutInitialOptions)),
-            'Only the initial sate is expected to be missing in the options array when retrieved without initial state'
-        );
-        $this->assertCount(
-            0,
-            array_diff($statesWithoutInitialOptions, $allStateClasses),
-            'Option array contains at least one unexpected state when retrieved without initial state'
-        );
+            $otions = $tableFilterStateMapper->optionsForState();
+            $this->assertThat(count($otions), $this->greaterThan(0));
+
+            array_walk($otions, function (string $value, string $key) use ($tableFilterStateMapper, $state) : void {
+                if (get_class($state) === ilBuddySystemRequestedRelationState::class) {
+                    if ($key === get_class($state) . '_a') {
+                        $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
+                        $relation->method('isOwnedByActor')->willReturn(false);
+
+                        $this->assertFalse($status = $tableFilterStateMapper->filterMatchesRelation($key, $relation));
+
+                        $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
+                        $relation->method('isOwnedByActor')->willReturn(true);
+                        $this->assertTrue($status = $tableFilterStateMapper->filterMatchesRelation($key, $relation));
+                    } elseif ($key === get_class($state) . '_p') {
+                        $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
+                        $relation->method('isOwnedByActor')->willReturn(true);
+
+                        $this->assertFalse($status = $tableFilterStateMapper->filterMatchesRelation($key, $relation));
+
+                        $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
+                        $relation->method('isOwnedByActor')->willReturn(false);
+                    }
+                } else {
+                    $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
+                    $this->assertTrue($tableFilterStateMapper->filterMatchesRelation($key, $relation));
+                }
+            });
+        }
     }
 }

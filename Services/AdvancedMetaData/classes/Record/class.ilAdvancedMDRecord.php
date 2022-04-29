@@ -163,7 +163,7 @@ class ilAdvancedMDRecord
 
     /**
      * get activated obj types
-     * @param string[]
+     * @return string[]
      */
     public static function _getActivatedObjTypes() : array
     {
@@ -474,7 +474,7 @@ class ilAdvancedMDRecord
             $this->db->quote($this->getTitle(), 'text') . ", " .
             $this->db->quote($this->getDescription(), 'text') . ", " .
             $this->db->quote($this->getParentObject(), 'integer') . ", " .
-            $this->db->quote((string) $this->getDefaultLanguage(), ilDBConstants::T_TEXT) .
+            $this->db->quote($this->getDefaultLanguage(), ilDBConstants::T_TEXT) .
             ")";
         $res = $ilDB->manipulate($query);
         $this->record_id = $next_id;
@@ -575,7 +575,7 @@ class ilAdvancedMDRecord
 
     public function isActive() : bool
     {
-        return (bool) $this->active;
+        return $this->active;
     }
 
     public function setTitle(string $a_title) : void
@@ -622,7 +622,7 @@ class ilAdvancedMDRecord
         $this->obj_types[] = array(
             "obj_type" => $a_obj_type,
             "sub_type" => $a_sub_type,
-            "optional" => (bool) $a_optional
+            "optional" => $a_optional
         );
     }
 
@@ -768,8 +768,8 @@ class ilAdvancedMDRecord
         if ($a_sub_type == "") {
             $a_sub_type = "-";
         }
-
-        if ((bool) $a_delete_before) {
+    
+        if ($a_delete_before) {
             $ilDB->manipulate("DELETE FROM adv_md_obj_rec_select WHERE " .
                 " obj_id = " . $ilDB->quote($a_obj_id, "integer") .
                 " AND sub_type = " . $ilDB->quote($a_sub_type, "text"));
@@ -787,6 +787,19 @@ class ilAdvancedMDRecord
                 }
             }
         }
+    }
+
+    /**
+     * Delete repository object record selection
+     */
+    public static function deleteObjRecSelection(int $a_obj_id) : void
+    {
+        global $DIC;
+
+        $ilDB = $DIC['ilDB'];
+
+        $ilDB->manipulate("DELETE FROM adv_md_obj_rec_select WHERE " .
+            " obj_id = " . $ilDB->quote($a_obj_id, "integer"));
     }
 
     /**
@@ -824,8 +837,7 @@ class ilAdvancedMDRecord
         $new_obj->setTitle($this->getTitle());
         $new_obj->setDescription($this->getDescription());
         $new_obj->setParentObject($a_parent_obj_id
-            ? $a_parent_obj_id
-            : $this->getParentObject());
+            ?: $this->getParentObject());
         $new_obj->setAssignedObjectTypes($this->getAssignedObjectTypes());
         $new_obj->setDefaultLanguage($this->getDefaultLanguage());
         $new_obj->save();

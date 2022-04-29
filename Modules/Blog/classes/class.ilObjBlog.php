@@ -56,7 +56,7 @@ class ilObjBlog extends ilObject2
         global $DIC;
 
         parent::__construct($a_id, $a_reference);
-        $this->rbacreview = $DIC->rbac()->review();
+        $this->rbac_review = $DIC->rbac()->review();
 
         $this->content_style_service = $DIC
             ->contentStyle()
@@ -69,7 +69,7 @@ class ilObjBlog extends ilObject2
         $this->type = "blog";
     }
 
-    protected function doRead()
+    protected function doRead() : void
     {
         $ilDB = $this->db;
 
@@ -101,7 +101,7 @@ class ilObjBlog extends ilObject2
         $this->setNotesStatus(ilNote::commentsActivated($this->id, 0, "blog"));
     }
 
-    protected function doCreate()
+    protected function doCreate(bool $clone_mode = false) : void
     {
         $ilDB = $this->db;
         
@@ -128,7 +128,7 @@ class ilObjBlog extends ilObject2
         ilNote::activateComments($this->id, 0, "blog", true);
     }
     
-    protected function doDelete()
+    protected function doDelete() : void
     {
         $ilDB = $this->db;
         
@@ -143,7 +143,7 @@ class ilObjBlog extends ilObject2
             " WHERE id = " . $ilDB->quote($this->id, "integer"));
     }
     
-    protected function doUpdate()
+    protected function doUpdate() : void
     {
         $ilDB = $this->db;
     
@@ -174,14 +174,15 @@ class ilObjBlog extends ilObject2
         }
     }
 
-    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false)
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
     {
+        assert($new_obj instanceof ilObjBlog);
         // banner?
         $img = $this->getImage();
         if ($img) {
             $new_obj->setImage($img);
             
-            $source = $this->initStorage($this->getId());
+            $source = self::initStorage($this->getId());
             $target = $new_obj->initStorage($new_obj->getId());
             
             copy($source . $img, $target . $img);
@@ -264,12 +265,12 @@ class ilObjBlog extends ilObject2
         bool $a_as_thumb = false
     ) : string {
         if ($this->img) {
-            $path = $this->initStorage($this->id);
+            $path = self::initStorage($this->id);
             if (!$a_as_thumb) {
                 return $path . $this->img;
-            } else {
-                return $path . "thb_" . $this->img;
             }
+
+            return $path . "thb_" . $this->img;
         }
         return "";
     }
@@ -301,8 +302,8 @@ class ilObjBlog extends ilObject2
         if ($a_subdir) {
             $path .= $a_subdir . "/";
             
-            if (!is_dir($path)) {
-                mkdir($path);
+            if (!is_dir($path) && !mkdir($path) && !is_dir($path)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $path));
             }
         }
                 
@@ -323,7 +324,7 @@ class ilObjBlog extends ilObject2
         // #10074
         $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $a_upload["name"]);
     
-        $path = $this->initStorage($this->id);
+        $path = self::initStorage($this->id);
         $original = "org_" . $this->id . "_" . $clean_name;
         $thumb = "thb_" . $this->id . "_" . $clean_name;
         $processed = $this->id . "_" . $clean_name;
@@ -527,7 +528,7 @@ class ilObjBlog extends ilObject2
         $posting = new ilBlogPosting($a_posting_id);
                                 
         // #11138
-        $ignore_threshold = ($a_action == "comment");
+        $ignore_threshold = ($a_action === "comment");
         
         $admin_only = false;
         
@@ -553,7 +554,7 @@ class ilObjBlog extends ilObject2
         // create/update news item (only in repository)
         if (!$a_in_wsp &&
             in_array($a_action, array("update", "new"))) {
-            $posting->handleNews(($a_action == "update"));
+            $posting->handleNews(($a_action === "update"));
         }
         
         // recipients
@@ -563,7 +564,7 @@ class ilObjBlog extends ilObject2
             $a_posting_id,
             $ignore_threshold
         );
-        if (!sizeof($users)) {
+        if (!count($users)) {
             return;
         }
 
@@ -592,7 +593,7 @@ class ilObjBlog extends ilObject2
         );
                 
         // #14387
-        if (sizeof($notified)) {
+        if (count($notified)) {
             ilNotification::updateNotificationTime(ilNotification::TYPE_BLOG, $blog_obj_id, $notified, $a_posting_id);
         }
     }
@@ -600,7 +601,7 @@ class ilObjBlog extends ilObject2
     /**
      * Deliver blog as rss feed
      */
-    public static function deliverRSS(int $a_wsp_id) : void
+    public static function deliverRSS(string $a_wsp_id) : void
     {
         global $DIC;
 
@@ -612,13 +613,13 @@ class ilObjBlog extends ilObject2
         }
         
         // #10827
-        if (substr($a_wsp_id, -4) != "_cll") {
+        if (substr($a_wsp_id, -4) !== "_cll") {
             $wsp_id = new ilWorkspaceTree(0);
-            $obj_id = $wsp_id->lookupObjectId($a_wsp_id);
+            $obj_id = $wsp_id->lookupObjectId((int) $a_wsp_id);
             $is_wsp = "_wsp";
         } else {
             $a_wsp_id = substr($a_wsp_id, 0, -4);
-            $obj_id = ilObject::_lookupObjId($a_wsp_id);
+            $obj_id = ilObject::_lookupObjId((int) $a_wsp_id);
             $is_wsp = null;
         }
         if (!$obj_id) {
@@ -692,10 +693,8 @@ class ilObjBlog extends ilObject2
     
     public function getLocalContributorRole(int $a_node_id) : int
     {
-        $rbacreview = $this->rbacreview;
-        
-        foreach ($rbacreview->getLocalRoles($a_node_id) as $role_id) {
-            if (substr(ilObject::_lookupTitle($role_id), 0, 19) == "il_blog_contributor") {
+        foreach ($this->rbac_review->getLocalRoles($a_node_id) as $role_id) {
+            if (strpos(ilObject::_lookupTitle($role_id), "il_blog_contributor") === 0) {
                 return $role_id;
             }
         }
@@ -704,10 +703,8 @@ class ilObjBlog extends ilObject2
     
     public function getLocalEditorRole(int $a_node_id) : int
     {
-        $rbacreview = $this->rbacreview;
-        
-        foreach ($rbacreview->getLocalRoles($a_node_id) as $role_id) {
-            if (substr(ilObject::_lookupTitle($role_id), 0, 14) == "il_blog_editor") {
+        foreach ($this->rbac_review->getLocalRoles($a_node_id) as $role_id) {
+            if (strpos(ilObject::_lookupTitle($role_id), "il_blog_editor") === 0) {
                 return $role_id;
             }
         }
@@ -716,10 +713,8 @@ class ilObjBlog extends ilObject2
     
     public function getAllLocalRoles(int $a_node_id) : array
     {
-        $rbacreview = $this->rbacreview;
-        
         $res = array();
-        foreach ($rbacreview->getLocalRoles($a_node_id) as $role_id) {
+        foreach ($this->rbac_review->getLocalRoles($a_node_id) as $role_id) {
             $res[$role_id] = ilObjRole::_getTranslation(ilObject::_lookupTitle($role_id));
         }
         
@@ -729,21 +724,19 @@ class ilObjBlog extends ilObject2
     
     public function getRolesWithContributeOrRedact(int $a_node_id) : array
     {
-        $rbacreview = $this->rbacreview;
-        
         $contr_op_id = ilRbacReview::_getOperationIdByName("contribute");
         $redact_op_id = ilRbacReview::_getOperationIdByName("redact");
         $contr_role_id = $this->getLocalContributorRole($a_node_id);
         $editor_role_id = $this->getLocalEditorRole($a_node_id);
         
         $res = array();
-        foreach ($rbacreview->getParentRoleIds($a_node_id) as $role_id => $role) {
+        foreach ($this->rbac_review->getParentRoleIds($a_node_id) as $role_id => $role) {
             if ($role_id != $contr_role_id &&
                 $role_id != $editor_role_id) {
-                $all_ops = $rbacreview->getActiveOperationsOfRole($a_node_id, $role_id);
+                $all_ops = $this->rbac_review->getActiveOperationsOfRole($a_node_id, $role_id);
                 if (in_array($contr_op_id, $all_ops) ||
                     in_array($redact_op_id, $all_ops)) {
-                    $res[$role_id] = ilObjRole:: _getTranslation($role["title"]);
+                    $res[$role_id] = ilObjRole::_getTranslation($role["title"]);
                 }
             }
         }

@@ -875,22 +875,6 @@ class ilNusoapUserAdministrationAdapter
             'Syntax, parameters may change in future releases. '
         );
 
-        $this->server->register(
-            'saveQuestionResult',
-            array('sid' => 'xsd:string',
-                  'user_id' => 'xsd:int',
-                  'test_id' => 'xsd:int',
-                  'question_id' => 'xsd:int',
-                  'pass' => 'xsd:int',
-                  'solution' => 'tns:stringArray'
-            ),
-            array('status' => 'xsd:boolean'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#saveQuestionResult',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS saveQuesionResult: Typically called from an external assessment question to save the user input. DEPRECATED since ILIAS 3.9'
-        );
 
         $this->server->register(
             'saveQuestion',
@@ -1564,6 +1548,7 @@ class ilNusoapUserAdministrationAdapter
         }
 
         // If a client ID is submitted, there might be some SOAP plugins registering methods/types
+        // no initialized ILIAS => no request wrapper available.
         if (isset($_GET['client_id'])) {
             $this->handleSoapPlugins();
         }

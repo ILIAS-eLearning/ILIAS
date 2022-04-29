@@ -448,11 +448,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->ctrl->redirectByClass("ilcalendarpresentationgui");
     }
 
-    public function jumpToContacts() : void
-    {
-        $this->ctrl->redirectByClass(array('ildashboardgui', 'ilcontactgui'));
-    }
-
     public function jumpToWorkspace() : void
     {
         // incoming back link from shared resource

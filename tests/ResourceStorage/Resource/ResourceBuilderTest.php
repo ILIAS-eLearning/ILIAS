@@ -23,7 +23,6 @@ use ILIAS\ResourceStorage\AbstractBaseResourceBuilderTest;
  */
 class ResourceBuilderTest extends AbstractBaseResourceBuilderTest
 {
-
     public function testNewUpload() : void
     {
         // EXPECTED VALUES
@@ -46,7 +45,9 @@ class ResourceBuilderTest extends AbstractBaseResourceBuilderTest
         list($upload_result, $info_resolver, $identification) = $this->mockResourceAndRevision(
             $expected_file_name,
             $expected_mime_type,
-            $expected_size, $expected_version_number, $expected_owner_id
+            $expected_size,
+            $expected_version_number,
+            $expected_owner_id
         );
 
         // RUN
@@ -63,7 +64,5 @@ class ResourceBuilderTest extends AbstractBaseResourceBuilderTest
         $this->assertEquals($expected_file_name, $resource->getCurrentRevision()->getInformation()->getTitle());
         $this->assertEquals($expected_mime_type, $resource->getCurrentRevision()->getInformation()->getMimeType());
         $this->assertEquals($expected_size, $resource->getCurrentRevision()->getInformation()->getSize());
-
     }
 }
-

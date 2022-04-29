@@ -25,7 +25,7 @@ class ilObjUser extends ilObject
 {
     public const PASSWD_PLAIN = "plain";
     public const PASSWD_CRYPTED = "crypted";
-    protected ?string $ext_account = null;
+    protected string $ext_account = "";
     protected string $time_limit_message = "";
     protected bool $time_limit_unlimited = false;
     protected ?int $time_limit_until = null;
@@ -82,7 +82,7 @@ class ilObjUser extends ilObject
     public ?string $latitude = null;
     public ?string $longitude = null;
     public ?string $loc_zoom = null;
-    public int $last_password_change_ts;
+    public int $last_password_change_ts = 0;
     protected bool $passwd_policy_reset = false;
     public int $login_attempts = 0;
     public array $user_defined_data = array(); // Missing array type.
@@ -308,7 +308,7 @@ class ilObjUser extends ilObject
 
         //authentication
         $this->setAuthMode($a_data['auth_mode']);
-        $this->setExternalAccount($a_data['ext_account']);
+        $this->setExternalAccount((string) $a_data['ext_account']);
         
         $this->setIsSelfRegistered((bool) $a_data['is_self_registered']);
     }
@@ -659,7 +659,7 @@ class ilObjUser extends ilObject
 
     public static function _lookupExternalAccount(int $a_user_id) : string
     {
-        return self::_lookup($a_user_id, "ext_account");
+        return (string) self::_lookup($a_user_id, "ext_account");
     }
 
     /**
@@ -1023,6 +1023,11 @@ class ilObjUser extends ilObject
         return $this->prefs[$a_keyword] ?? null;
     }
 
+    public function existsPref(string $a_keyword) : bool
+    {
+        return (array_key_exists($a_keyword, $this->prefs));
+    }
+
     public static function _lookupPref(
         int $a_usr_id,
         string $a_keyword
@@ -1100,9 +1105,6 @@ class ilObjUser extends ilObject
 
         // DELETE FORUM ENTRIES (not complete in the moment)
         ilObjForum::_deleteUser($this->getId());
-
-        // Delete link check notify entries
-        ilLinkCheckNotify::_deleteUser($this->getId());
 
         // Delete crs entries
         ilObjCourse::_deleteUser($this->getId());
@@ -2602,12 +2604,12 @@ class ilObjUser extends ilObject
         return ilAuthUtils::_getAuthMode($this->auth_mode);
     }
 
-    public function setExternalAccount(?string $a_str) : void
+    public function setExternalAccount(string $a_str) : void
     {
         $this->ext_account = $a_str;
     }
 
-    public function getExternalAccount() : ?string
+    public function getExternalAccount() : string
     {
         return $this->ext_account;
     }

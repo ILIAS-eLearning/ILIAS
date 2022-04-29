@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
 use ILIAS\ContentPage\PageMetrics\PageMetricsService;
@@ -8,7 +22,6 @@ use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
 use ILIAS\DI\Container;
 use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class ilObjContentPageGUI
@@ -206,12 +219,12 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 break;
 
             case strtolower(ilContentPagePageGUI::class):
-                if (in_array(strtolower($cmd), array_map('strtolower', [
+                $isMediaRequest = in_array(strtolower($cmd), array_map('strtolower', [
                     self::UI_CMD_COPAGE_DOWNLOAD_FILE,
                     self::UI_CMD_COPAGE_DISPLAY_FULLSCREEN,
                     self::UI_CMD_COPAGE_DOWNLOAD_PARAGRAPH,
-                ]), true)
-                ) {
+                ]), true);
+                if ($isMediaRequest) {
                     if (!$this->checkPermissionBool('read')) {
                         $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
                     }
@@ -238,6 +251,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                     $this->refinery,
                     $this->content_style_domain
                 );
+                $forwarder->setIsMediaRequest($isMediaRequest);
 
                 $forwarder->addUpdateListener(function (PageUpdatedEvent $event) : void {
                     $this->pageMetricsService->store(
@@ -397,20 +411,20 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             );
 
             if ($this->settings->get('custom_icons', '0')) {
-                $this->tabs_gui_gui->addSubTab(
+                $this->tabs_gui->addSubTab(
                     self::UI_TAB_ID_ICON,
                     $this->lng->txt('icon_settings'),
                     $this->ctrl->getLinkTargetByClass(ilObjectCustomIconConfigurationGUI::class)
                 );
             }
 
-            $this->tabs_gui_gui->addSubTab(
+            $this->tabs_gui->addSubTab(
                 self::UI_TAB_ID_STYLE,
                 $this->lng->txt('cont_style'),
                 $this->ctrl->getLinkTargetByClass("ilobjectcontentstylesettingsgui", "")
             );
 
-            $this->tabs_gui_gui->addSubTab(
+            $this->tabs_gui->addSubTab(
                 self::UI_TAB_ID_I18N,
                 $this->lng->txt('obj_multilinguality'),
                 $this->ctrl->getLinkTargetByClass(ilObjectTranslationGUI::class)
@@ -563,7 +577,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     protected function getEditFormCustomValues(array &$a_values) : void
     {
-        $a_values['activation_online'] = !($this->object->getOfflineStatus() === null) && !$this->object->getOfflineStatus();
+        $a_values['activation_online'] = $this->object->getOfflineStatus() === false;
         $a_values[ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY] = $this->infoScreenEnabled;
     }
 

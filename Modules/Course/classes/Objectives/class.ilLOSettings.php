@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Settings for LO courses
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -174,12 +188,12 @@ class ilLOSettings
         $new_settings->resetResults($settings->isResetResultsEnabled());
         $new_settings->setPassedObjectiveMode($settings->getPassedObjectiveMode());
 
-        if ($settings->getInitialTest() and array_key_exists($settings->getInitialTest(), $mappings)) {
+        if ($settings->getInitialTest() && array_key_exists($settings->getInitialTest(), $mappings)) {
             $new_settings->setInitialTest($mappings[$settings->getInitialTest()]);
             $new_settings->setInitialTestAsStart($new_settings->isInitialTestStart());
         }
 
-        if ($settings->getQualifiedTest() and array_key_exists($settings->getQualifiedTest(), $mappings)) {
+        if ($settings->getQualifiedTest() && array_key_exists($settings->getQualifiedTest(), $mappings)) {
             $new_settings->setQualifiedTest($mappings[$settings->getQualifiedTest()]);
             $new_settings->setQualifyingTestAsStart($settings->isQualifyingTestStart());
         }
@@ -411,7 +425,7 @@ class ilLOSettings
     /**
      * Read
      */
-    protected function read()
+    protected function read() : void
     {
         $query = 'SELECT * FROM loc_settings ' .
             'WHERE obj_id = ' . $this->db->quote($this->getObjId(), 'integer');

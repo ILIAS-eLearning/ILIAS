@@ -48,113 +48,82 @@ const QT_TEXTSUBSET = "assTextSubset";
  */
 class ilQTIItem
 {
-    /** @var string|null */
-    public $ident;
-
-    /** @var string|null */
-    public $title;
-    public $maxattempts;
-
-    /** @var string|null */
-    public $label;
-
-    /** @var string|null */
-    public $xmllang;
-
-    /** @var string|null */
-    public $comment;
-
-    /** @var string|null */
-    public $ilias_version;
-
-    /** @var string|null */
-    public $author;
-
-    /** @var string|null */
-    public $questiontype;
-
+    public ?string $ident;
+    public ?string $title;
+    public ?string $maxattempts;
+    public ?string $label;
+    public ?string $xmllang;
+    public ?string $comment;
+    public ?string $ilias_version;
+    public ?string $author;
+    public ?string $questiontype;
     /** @var null|array{h: string, m: string, s: string} */
-    public $duration;
-    public $questiontext;
-
-    /** @var array */
-    public $resprocessing;
-
-    /** @var array */
-    public $itemfeedback;
-
-    /** @var ilQTIPresentation|null */
-    public $presentation;
-
-    /** @var array */
-    public $presentationitem;
-
+    public ?array $duration;
+    public ?ilQTIMaterial $questiontext;
+    /** @var ilQTIResprocessing[] */
+    public array $resprocessing;
+    /** @var ilQTIItemfeedback[] */
+    public array $itemfeedback;
+    public ?ilQTIPresentation $presentation;
+    /** @var (ilQTIResponse|ilQTIMaterial|null)[] */
+    public array $presentationitem;
     /**
-     * @var array {solution: string, gap_index: string}[] // @todo Check if really strings.
+     * @var array{solution: ilQTIMattext, gap_index: int}[]
      */
-    public $suggested_solutions;
-
+    public array $suggested_solutions;
     /**
-     * @var array {label: string}[]
+     * @var array{label: string, entry: string}[]
      */
-    public $itemmetadata;
-
-    /** @var string|null */
-    protected $iliasSourceVersion;
-    protected $iliasSourceNic;
-
+    public array $itemmetadata;
+    protected ?string $iliasSourceVersion;
+    protected ?string $iliasSourceNic;
     protected array $response;
 
     public function __construct()
     {
-        $this->response = array();
-        $this->resprocessing = array();
-        $this->itemfeedback = array();
+        $this->ident = null;
+        $this->title = null;
+        $this->maxattempts = null;
+        $this->label = null;
+        $this->xmllang = null;
+        $this->comment = null;
+        $this->ilias_version = null;
+        $this->author = null;
+        $this->questiontype = null;
+        $this->duration = null;
+        $this->questiontext = null;
+        $this->response = [];
+        $this->resprocessing = [];
+        $this->itemfeedback = [];
         $this->presentation = null;
-        $this->presentationitem = array();
-        $this->suggested_solutions = array();
-        $this->itemmetadata = array();
-        
+        $this->presentationitem = [];
+        $this->suggested_solutions = [];
+        $this->itemmetadata = [];
         $this->iliasSourceVersion = null;
         $this->iliasSourceNic = null;
     }
 
-    /**
-     * @param string $a_ident
-     */
-    public function setIdent($a_ident) : void
+    public function setIdent(string $a_ident) : void
     {
         $this->ident = $a_ident;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getIdent()
+    public function getIdent() : ?string
     {
         return $this->ident;
     }
 
-    /**
-     * @param string $a_title
-     */
-    public function setTitle($a_title) : void
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getTitle()
+    public function getTitle() : ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $a_comment
-     */
-    public function setComment($a_comment) : void
+    public function setComment(string $a_comment) : void
     {
         if (preg_match("/(.*?)\=(.*)/", $a_comment, $matches)) {
             // special comments written by ILIAS
@@ -173,18 +142,12 @@ class ilQTIItem
         $this->comment = $a_comment;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getComment()
+    public function getComment() : ?string
     {
         return $this->comment;
     }
 
-    /**
-     * @param string $a_duration
-     */
-    public function setDuration($a_duration) : void
+    public function setDuration(string $a_duration) : void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
             $this->duration = array(
@@ -198,85 +161,67 @@ class ilQTIItem
     /**
      * @return null|array{h: string, m: string, s: string}
      */
-    public function getDuration()
+    public function getDuration() : ?array
     {
         return $this->duration;
     }
     
-    public function setQuestiontext($a_questiontext) : void
+    public function setQuestiontext(ilQTIMaterial $a_questiontext) : void
     {
         $this->questiontext = $a_questiontext;
     }
     
-    public function getQuestiontext()
+    public function getQuestiontext() : ?ilQTIMaterial
     {
         return $this->questiontext;
     }
     
-    public function addResprocessing($a_resprocessing) : void
+    public function addResprocessing(?ilQTIResprocessing $a_resprocessing) : void
     {
         $this->resprocessing[] = $a_resprocessing;
     }
     
-    public function addItemfeedback($a_itemfeedback) : void
+    public function addItemfeedback(?ilQTIItemfeedback $a_itemfeedback) : void
     {
         $this->itemfeedback[] = $a_itemfeedback;
     }
     
-    public function setMaxattempts($a_maxattempts) : void
+    public function setMaxattempts(string $a_maxattempts) : void
     {
         $this->maxattempts = $a_maxattempts;
     }
     
-    public function getMaxattempts()
+    public function getMaxattempts() : ?string
     {
         return $this->maxattempts;
     }
 
-    /**
-     * @param string $a_label
-     */
-    public function setLabel($a_label) : void
+    public function setLabel(string $a_label) : void
     {
         $this->label = $a_label;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getLabel()
+    public function getLabel() : ?string
     {
         return $this->label;
     }
 
-    /**
-     * @param string $a_xmllang
-     */
-    public function setXmllang($a_xmllang) : void
+    public function setXmllang(string $a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getXmllang()
+    public function getXmllang() : ?string
     {
         return $this->xmllang;
     }
 
-    /**
-     * @param ilQTIPresentation
-     */
-    public function setPresentation($a_presentation) : void
+    public function setPresentation(ilQTIPresentation $a_presentation) : void
     {
         $this->presentation = $a_presentation;
     }
 
-    /**
-     * @return ilQTIPresentation|null
-     */
-    public function getPresentation()
+    public function getPresentation() : ?ilQTIPresentation
     {
         return $this->presentation;
     }
@@ -285,31 +230,25 @@ class ilQTIItem
     {
     }
 
-    /**
-     * @param string $a_questiontype
-     */
-    public function setQuestiontype($a_questiontype) : void
+    public function setQuestiontype(string $a_questiontype) : void
     {
         $this->questiontype = $a_questiontype;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getQuestiontype()
+    public function getQuestiontype() : ?string
     {
         return $this->questiontype;
     }
-    
+
+    /**
+     * @param ilQTIResponse|ilQTIMaterial|null $a_presentationitem
+     */
     public function addPresentationitem($a_presentationitem) : void
     {
         $this->presentationitem[] = $a_presentationitem;
     }
 
-    /**
-     * @return string|null
-     */
-    public function determineQuestionType()
+    public function determineQuestionType() : ?string
     {
         switch ($this->questiontype) {
             case "ORDERING QUESTION":
@@ -353,73 +292,55 @@ class ilQTIItem
         return $this->questiontype;
     }
 
-    /**
-     * @param string $a_author
-     */
-    public function setAuthor($a_author) : void
+    public function setAuthor(string $a_author) : void
     {
         $this->author = $a_author;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getAuthor()
+    public function getAuthor() : ?string
     {
         return $this->author;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getIliasSourceVersion()
+    public function getIliasSourceVersion() : ?string
     {
         return $this->iliasSourceVersion;
     }
 
-    /**
-     * @param string $iliasSourceVersion
-     */
-    public function setIliasSourceVersion($iliasSourceVersion) : void
+    public function setIliasSourceVersion(string $iliasSourceVersion) : void
     {
         $this->iliasSourceVersion = $iliasSourceVersion;
     }
 
-    /**
-     * @return null
-     */
-    public function getIliasSourceNic()
+    public function getIliasSourceNic() : ?string
     {
         return $this->iliasSourceNic;
     }
 
-    /**
-     * @param null $iliasSourceNic
-     */
-    public function setIliasSourceNic($iliasSourceNic) : void
+    public function setIliasSourceNic(?string $iliasSourceNic) : void
     {
         $this->iliasSourceNic = $iliasSourceNic;
     }
     
-    public function addSuggestedSolution($a_solution, $a_gap_index) : void
+    public function addSuggestedSolution(ilQTIMattext $a_solution, int $a_gap_index) : void
     {
         $this->suggested_solutions[] = array("solution" => $a_solution, "gap_index" => $a_gap_index);
     }
-    
-    public function addMetadata($a_metadata) : void
+
+    /**
+     * @param array{label: string, entry: string} $a_metadata
+     */
+    public function addMetadata(array $a_metadata) : void
     {
         $this->itemmetadata[] = $a_metadata;
     }
     
-    public function getMetadata()
+    public function getMetadata() : array
     {
         return $this->itemmetadata;
     }
 
-    /**
-     * @return null|string
-     */
-    public function getMetadataEntry($a_label)
+    public function getMetadataEntry(string $a_label) : ?string
     {
         foreach ($this->itemmetadata as $metadata) {
             if ($metadata["label"] === $a_label) {

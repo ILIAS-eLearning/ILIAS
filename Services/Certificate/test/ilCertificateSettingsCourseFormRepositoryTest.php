@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -21,7 +36,7 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -96,7 +111,7 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             $setting
         );
 
-        $repository->save(array('subitems' => array(1, 2, 3)));
+        $repository->save(['subitems' => [1, 2, 3]]);
     }
 
     public function testFetchFormFieldData() : void
@@ -114,7 +129,7 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -142,10 +157,10 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             ->expects($this->atLeastOnce())
             ->method('fetchFormFieldData')
             ->willReturn(
-                array(
-                    'subitems' => array(),
+                [
+                    'subitems' => [],
                     'something_else' => 'something'
-                )
+                ]
             );
 
         $trackingHelper = $this->getMockBuilder(ilCertificateObjUserTrackingHelper::class)
@@ -193,11 +208,11 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
 
         $result = $repository->fetchFormFieldData('Some Content');
 
-        $this->assertEquals(
-            array(
-                'subitems' => array(1, 2, 3),
+        $this->assertSame(
+            [
+                'subitems' => [1, 2, 3],
                 'something_else' => 'something'
-            ),
+            ],
             $result
         );
     }

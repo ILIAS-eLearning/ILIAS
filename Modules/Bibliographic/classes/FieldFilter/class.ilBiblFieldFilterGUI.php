@@ -1,12 +1,27 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilBiblFieldFilterGUI
  *
  * @author Benjamin Seglias   <bs@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-
 class ilBiblFieldFilterGUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
@@ -28,8 +43,6 @@ class ilBiblFieldFilterGUI
 
     /**
      * ilBiblFieldFilterGUI constructor.
-     *
-     * @param \ilBiblFactoryFacade $facade
      */
     public function __construct(ilBiblFactoryFacade $facade)
     {
@@ -177,15 +190,11 @@ class ilBiblFieldFilterGUI
     private function getFieldFilterFromRequest() : \ilBiblFieldFilterInterface
     {
         $field = $this->http()->request()->getQueryParams()[self::FILTER_ID];
-        $il_bibl_field = $this->facade->filterFactory()->findById($field);
 
-        return $il_bibl_field;
+        return $this->facade->filterFactory()->findById($field);
     }
 
 
-    /**
-     * @return ilBiblFieldFilterFormGUI
-     */
     protected function initEditForm() : ilBiblFieldFilterFormGUI
     {
         $this->tabs()->clearTargets();

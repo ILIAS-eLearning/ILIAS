@@ -42,13 +42,32 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     protected ServerRequestInterface $request;
 
     protected int $tref_id = 0;
-    protected int $base_skill_id = 0;
     protected int $requested_level_id = 0;
     protected int $requested_root_id = 0;
+
+    /**
+     * @var int[]
+     */
     protected array $requested_level_order = [];
+
+    /**
+     * @var int[]
+     */
     protected array $requested_level_ids = [];
+
+    /**
+     * @var int[]
+     */
     protected array $requested_resource_ids = [];
+
+    /**
+     * @var array<int, bool>
+     */
     protected array $requested_suggested = [];
+
+    /**
+     * @var array<int, bool>
+     */
     protected array $requested_trigger = [];
 
     public function __construct(Tree\SkillTreeNodeManager $node_manager, int $a_node_id = 0)
@@ -449,7 +468,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
         if (!empty($this->requested_level_ids)) {
             foreach ($this->requested_level_ids as $id) {
-                $this->node_object->deleteLevel((int) $id);
+                $this->node_object->deleteLevel($id);
             }
             $this->node_object->fixLevelNumbering();
         }

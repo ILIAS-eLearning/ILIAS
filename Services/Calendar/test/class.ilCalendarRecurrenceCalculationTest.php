@@ -92,5 +92,4 @@ class ilCalendarRecurrenceCalculationTest extends TestCase
         $logger_factory->method('getComponentLogger')->willReturn($logger);
         $this->setGlobalVariable('ilLoggerFactory', $logger_factory);
     }
-
 }

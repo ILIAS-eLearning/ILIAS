@@ -35,7 +35,6 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
     
     /**
      * ilLTIConsumeProviderFormGUI constructor.
-     * @param ilLTIConsumeProvider $provider
      */
     public function __construct(ilLTIConsumeProvider $provider)
     {
@@ -44,27 +43,16 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $this->provider = $provider;
     }
     
-    /**
-     * @return bool
-     */
     public function isAdminContext() : bool
     {
         return $this->adminContext;
     }
     
-    /**
-     * @param bool $adminContext
-     */
     public function setAdminContext(bool $adminContext) : void
     {
         $this->adminContext = $adminContext;
     }
 
-    /**
-     * @param string $formaction
-     * @param string $saveCmd
-     * @param string $cancelCmd
-     */
     public function initForm(string $formaction, string $saveCmd, string $cancelCmd) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -74,7 +62,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($saveCmd, $lng->txt('save'));
         $this->addCommandButton($cancelCmd, $lng->txt('cancel'));
         
-        if ($this->provider->getId()) {
+        if ($this->provider->getId() !== 0) {
             $this->setTitle($lng->txt('lti_form_provider_edit'));
         } else {
             $this->setTitle($lng->txt('lti_form_provider_create'));

@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Data\Factory as DataTypeFactory;
 use ILIAS\Data\Result;
@@ -10,7 +25,7 @@ final class ilSamlIdpXmlMetadataParser
     private ilSamlIdpXmlMetadataErrorFormatter $errorFormatter;
     private Result $result;
     private bool $xmlErrorState = false;
-    /** @var LibXMLError */
+    /** @var array<int, LibXMLError[]> */
     private array $errorStack = [];
 
     public function __construct(DataTypeFactory $dataFactory, ilSamlIdpXmlMetadataErrorFormatter $errorFormatter)
@@ -76,12 +91,12 @@ final class ilSamlIdpXmlMetadataParser
                 }
             }
 
+            $errors = $this->endLogging();
+
             if ($entityId) {
                 $this->result = $this->dataFactory->ok($entityId);
                 return;
             }
-
-            $errors = $this->endLogging();
 
             $error = new LibXMLError();
             $error->level = LIBXML_ERR_FATAL;

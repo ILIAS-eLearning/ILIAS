@@ -79,7 +79,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
         
         $cmd = $ilCtrl->getCmd();
         $next_class = $ilCtrl->getNextClass($this);
-        
+
         switch ($next_class) {
             default:
                 // explorer call
@@ -101,7 +101,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
         if ($ilCtrl->isAsynch()) {
             return "";
         }
-                
+
         switch ($ilCtrl->getCmd()) {
             case "filterContainer":
                 return IL_SCREEN_CENTER;
@@ -140,8 +140,8 @@ class ilClassificationBlockGUI extends ilBlockGUI
 
         exit();
     }
-    
-    public function getLegacyContent() : string
+
+    protected function getLegacyContent() : string
     {
         $tpl = $this->main_tpl;
 
@@ -387,13 +387,12 @@ class ilClassificationBlockGUI extends ilBlockGUI
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
     /**
      * Get sub item ids depending on container type that match the preselected
      * object ids
      * @param int[]
-     * @return array
      */
     protected function getSubItemIds(array $obj_ids) : array
     {

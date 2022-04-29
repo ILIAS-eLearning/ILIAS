@@ -3,11 +3,11 @@
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory;
 
 use Closure;
-use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Symbol\Symbol;
 use LogicException;
 use ReflectionFunction;
 use ReflectionType;
+use Throwable;
 
 /**
  * Trait SymbolDecoratorTrait
@@ -69,7 +69,7 @@ trait SymbolDecoratorTrait
             }
             
             return true;
-        } catch (\Throwable $i) {
+        } catch (Throwable $i) {
             return false;
         }
     }

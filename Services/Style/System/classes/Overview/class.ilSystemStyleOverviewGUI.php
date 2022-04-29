@@ -136,15 +136,12 @@ class ilSystemStyleOverviewGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function cancel()
+    protected function cancel() : void
     {
         $this->edit();
     }
 
-    /**
-     * Edit
-     */
-    public function edit()
+    public function edit() : void
     {
         if ($this->isManagementEnabled()) {
             // Add Button for adding skins
@@ -482,7 +479,7 @@ class ilSystemStyleOverviewGUI
         return "<div class='ilCreationFormSection'>" . $acc->getHTML() . '</div>';
     }
 
-    protected function copyStyle()
+    protected function copyStyle() : void
     {
         $imploded_skin_style_id = $this->request_wrapper->post()->retrieve(
             'source_style',
@@ -648,10 +645,7 @@ class ilSystemStyleOverviewGUI
         $this->ctrl->redirect($this);
     }
 
-    /**
-     *
-     */
-    protected function importStyle()
+    protected function importStyle() : void
     {
         $form = $this->importSystemStyleForm();
 
@@ -829,7 +823,7 @@ class ilSystemStyleOverviewGUI
         return $this->read_only;
     }
 
-    public function setReadOnly($read_only) : void
+    public function setReadOnly(bool $read_only) : void
     {
         $this->read_only = $read_only;
     }
@@ -839,7 +833,7 @@ class ilSystemStyleOverviewGUI
         return $this->management_enabled;
     }
 
-    public function setManagementEnabled(bool $management_enabled)
+    public function setManagementEnabled(bool $management_enabled) : void
     {
         $this->management_enabled = $management_enabled;
     }

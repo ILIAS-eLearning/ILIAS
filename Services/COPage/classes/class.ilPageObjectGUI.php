@@ -120,6 +120,11 @@ class ilPageObjectGUI
     protected string $header = "";
     protected string $int_link_return = "";
     protected bool $enabled_href = true;
+    // $adv_ref_id - $adv_type - $adv_subtype:
+    // Object, that defines the adv md records being used.
+    protected ?int $adv_ref_id = null;
+    protected ?string $adv_type = null;
+    protected ?string $adv_subtype = null;
 
     protected ilComponentFactory $component_factory;
 
@@ -219,7 +224,32 @@ class ilPageObjectGUI
     public function afterConstructor() : void
     {
     }
-    
+
+    /**
+     * Set object, that defines the adv md records being used. Default is $this->object, but the
+     * context may set another object (e.g. media pool for media objects)
+     */
+    public function setAdvMdRecordObject(
+        int $a_adv_ref_id,
+        string $a_adv_type,
+        string $a_adv_subtype = "-"
+    ) : void {
+        $this->adv_ref_id = $a_adv_ref_id;
+        $this->adv_type = $a_adv_type;
+        $this->adv_subtype = $a_adv_subtype;
+    }
+
+    /**
+     * Get adv md record type
+     */
+    public function getAdvMdRecordObject() : ?array
+    {
+        if ($this->adv_type === null) {
+            return null;
+        }
+        return [$this->adv_ref_id, $this->adv_type, $this->adv_subtype];
+    }
+
     /**
      * Init page object
      */
@@ -784,10 +814,15 @@ class ilPageObjectGUI
                         "General"
                     );
                 }
+                // set adv metadata record dobject
+                if ($this->adv_type != "") {
+                    $md_gui->setAdvMdRecordObject($this->adv_ref_id, $this->adv_type, $this->adv_subtype);
+                }
                 $this->ctrl->forwardCommand($md_gui);
                 break;
             
             case "ileditclipboardgui":
+                $this->setBackToEditTabs();
                 $clip_gui = new ilEditClipboardGUI();
                 $clip_gui->setPageBackTitle($this->page_back_title);
                 $ret = $this->ctrl->forwardCommand($clip_gui);
@@ -2263,6 +2298,7 @@ class ilPageObjectGUI
     public function preview() : string
     {
         $this->setOutputMode(self::PREVIEW);
+        $this->tabs_gui->activateTab("cont_preview");
         return $this->showPage();
     }
 
@@ -2460,6 +2496,15 @@ class ilPageObjectGUI
         }
     }
 
+    protected function setBackToEditTabs() : void
+    {
+        $this->tabs_gui->clearTargets();
+        $this->tabs_gui->setBackTarget(
+            $this->lng->txt("back"),
+            $this->ctrl->getLinkTarget($this, "edit")
+        );
+    }
+
     /**
     * Get history table as HTML.
     */
@@ -2468,7 +2513,9 @@ class ilPageObjectGUI
         if (!$this->getEnableEditing()) {
             return "";
         }
-        
+
+        $this->setBackToEditTabs();
+
         $this->tpl->addJavaScript("./Services/COPage/js/page_history.js");
         
         $table_gui = new ilPageHistoryTableGUI($this, "history");
@@ -2575,17 +2622,19 @@ class ilPageObjectGUI
         }
 
         $lm_set = new ilSetting("lm");
-        
+
+        /*
         if ($this->getEnableEditing() && $lm_set->get("page_history", 1)) {
             $this->tabs_gui->addTarget("history", $this->ctrl->getLinkTarget($this, "history"), "history", get_class($this));
             if ($this->requested_history_mode == 1 || $this->ctrl->getCmd() == "compareVersion") {
                 $this->tabs_gui->activateTab("history");
             }
-        }
+        }*/
 
+        /*
         if ($this->getEnableEditing() && $this->user->getId() != ANONYMOUS_USER_ID) {
             $this->tabs_gui->addTarget("clipboard", $this->ctrl->getLinkTargetByClass(array(get_class($this), "ilEditClipboardGUI"), "view"), "view", "ilEditClipboardGUI");
-        }
+        }*/
 
         if ($this->getPageConfig()->getEnableScheduledActivation()) {
             $this->tabs_gui->addTarget(

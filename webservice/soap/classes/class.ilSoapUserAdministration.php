@@ -31,7 +31,10 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapUserAdministration extends ilSoapAdministration
 {
+    private ?php4DOMDocument $dom = null;
+
     public const USER_FOLDER_ID = 7;
+
 
     public function login(string $client, string $username, string $password)
     {
@@ -287,7 +290,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $error = false;
 
         // validate to prevent wrong XMLs
-        $this->dom = @domxml_open_mem($usr_xml, DOMXML_LOAD_VALIDATING, $error);// TODO PHP8-REVIEW Property dynamically declared: Please define the typed property / TODO PHP8-REVIEW Constant undefined
+        $this->dom = @domxml_open_mem($usr_xml, DOMXML_LOAD_PARSING, $error);
         if ($error) {
             $msg = array();
             if (is_array($error)) {
@@ -539,8 +542,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             $checked_roles[$a_role] = true;
             return true;
         }
-
-        // TODO PHP8-REVIEW Missing return value
+        return false;
     }
 
     /**
@@ -625,8 +627,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
         if ($xmlWriter->start()) {
             return $xmlWriter->getXML();
         }
-
-        // TODO PHP8-REVIEW Missing return value
+        // @todo for backward compatibility
+        return '';
     }
 
     public function getUserForRole(string $sid, int $role_id, bool $attachRoles, int $active)

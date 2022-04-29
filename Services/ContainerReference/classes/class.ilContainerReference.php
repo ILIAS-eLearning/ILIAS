@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -67,7 +67,7 @@ class ilContainerReference extends ilObject
         return null;
     }
      
-    public static function _lookupTitle($a_id) : string
+    public static function _lookupTitle(int $obj_id) : string
     {
         global $DIC;
 
@@ -75,14 +75,14 @@ class ilContainerReference extends ilObject
          
         $query = 'SELECT title,title_type FROM container_reference cr ' .
                  'JOIN object_data od ON cr.obj_id = od.obj_id ' .
-                 'WHERE cr.obj_id = ' . $ilDB->quote($a_id, 'integer');
+                 'WHERE cr.obj_id = ' . $ilDB->quote($obj_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($row->title_type == ilContainerReference::TITLE_TYPE_CUSTOM) {
-                return $row->title;
+            if ((int) $row->title_type === self::TITLE_TYPE_CUSTOM) {
+                return (string) $row->title;
             }
         }
-        return ilContainerReference::_lookupTargetTitle($a_id);
+        return self::_lookupTargetTitle($obj_id);
     }
     
     public static function _lookupTargetTitle(int $a_obj_id) : string
@@ -96,7 +96,7 @@ class ilContainerReference extends ilObject
             "WHERE cr.obj_id = " . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->title;
+            return (string) $row->title;
         }
         return '';
     }
@@ -130,9 +130,9 @@ class ilContainerReference extends ilObject
         $query = "SELECT * FROM container_reference " .
             "WHERE target_obj_id = " . $ilDB->quote($a_target_id, 'integer') . " ";
         $res = $ilDB->query($query);
-        $ret = array();
+        $ret = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ret[] = $row->obj_id;
+            $ret[] = (int) $row->obj_id;
         }
         return $ret;
     }
@@ -178,25 +178,24 @@ class ilContainerReference extends ilObject
         $res = $ilDB->query($query);
         
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setTargetId($row->target_obj_id);
-            $this->setTitleType($row->title_type);
+            $this->setTargetId((int) $row->target_obj_id);
+            $this->setTitleType((int) $row->title_type);
         }
         $ref_ids = ilObject::_getAllReferences($this->getTargetId());
         $this->setTargetRefId(current($ref_ids));
         
-        if ($this->getTitleType() == ilContainerReference::TITLE_TYPE_REUSE) {
-            #$this->title = $this->lng->txt('reference_of').' '.ilObject::_lookupTitle($this->getTargetId());
+        if ($this->getTitleType() === self::TITLE_TYPE_REUSE) {
             $this->title = ilObject::_lookupTitle($this->getTargetId());
         }
     }
 
     public function getPresentationTitle() : string
     {
-        if ($this->getTitleType() == self::TITLE_TYPE_CUSTOM) {
+        if ($this->getTitleType() === self::TITLE_TYPE_CUSTOM) {
             return $this->getTitle();
-        } else {
-            return $this->lng->txt('reference_of') . ' ' . $this->getTitle();
         }
+
+        return $this->lng->txt('reference_of') . ' ' . $this->getTitle();
     }
     
     public function update() : bool
@@ -234,9 +233,9 @@ class ilContainerReference extends ilObject
         return true;
     }
     
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         $new_obj->setTargetId($this->getTargetId());
         $new_obj->setTitleType($this->getTitleType());
         $new_obj->update();

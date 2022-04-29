@@ -507,23 +507,19 @@ class ilTestTabsManager
                 }
             }
             
-            switch ($this->getTestOBJ()->getQuestionSetType()) {
-                case ilObjTest::QUESTION_SET_TYPE_FIXED:
-                    $target = $DIC->ctrl()->getLinkTargetByClass(
-                        'ilObjTestGUI',
-                        'questions'
-                    );
-                    break;
-                
-                case ilObjTest::QUESTION_SET_TYPE_RANDOM:
-                    $target = $DIC->ctrl()->getLinkTargetByClass('ilTestRandomQuestionSetConfigGUI');
-                    break;
-                
-                case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
-                    $target = $DIC->ctrl()->getLinkTargetByClass('ilObjTestDynamicQuestionSetConfigGUI');
-                    break;
-                    
-                default: $target = '';
+            if ($this->getTestOBJ()->isFixedTest()) {
+                $target = $DIC->ctrl()->getLinkTargetByClass(
+                    'ilObjTestGUI',
+                    'questions'
+                );
+            }
+            
+            if ($this->getTestOBJ()->isRandomTest()) {
+                $target = $DIC->ctrl()->getLinkTargetByClass('ilTestRandomQuestionSetConfigGUI');
+            }
+            
+            if ($this->getTestOBJ()->isDynamicTest()) {
+                $target = $DIC->ctrl()->getLinkTargetByClass('ilObjTestDynamicQuestionSetConfigGUI');
             }
             
             $this->tabs->addTarget(
@@ -766,6 +762,10 @@ class ilTestTabsManager
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
+        if ($this->testOBJ->isDynamicTest()) {
+            return;
+        }
+        
         $this->tabs->activateTab(self::TAB_ID_QUESTIONS);
 
         /*
@@ -845,6 +845,10 @@ class ilTestTabsManager
     public function getSettingsSubTabs()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
+        
+        if ($this->testOBJ->isDynamicTest()) {
+            return;
+        }
         
         // general subtab
         $this->tabs->addSubTabTarget(

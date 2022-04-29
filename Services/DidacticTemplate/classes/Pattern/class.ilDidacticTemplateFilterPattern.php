@@ -20,6 +20,7 @@ abstract class ilDidacticTemplateFilterPattern
 
     private int $pattern_type = 0;
     private int $pattern_sub_type = 0;
+    private string $pattern;
 
     protected ilDBInterface $db;
     protected ilLogger $logger;

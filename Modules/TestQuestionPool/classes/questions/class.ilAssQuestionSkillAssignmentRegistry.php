@@ -56,7 +56,7 @@ class ilAssQuestionSkillAssignmentRegistry
      */
     protected function getNumberOfChunksByKey($key) : int
     {
-        return (int) $this->settings->get($key . '_num', 0);
+        return (int) $this->settings->get($key . '_num', '0');
     }
 
     /**

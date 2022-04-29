@@ -1,22 +1,25 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ilFileVersionFormGUI
  *
@@ -42,8 +45,6 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
 
     /**
      * ilFileVersionFormGUI constructor.
-     *
-     * @param ilFileVersionsGUI $file_version_gui
      */
     public function __construct(ilFileVersionsGUI $file_version_gui, $mode = self::MODE_ADD)
     {
@@ -140,8 +141,8 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
         if ($result->getStatus() === ProcessingStatus::REJECTED) {
             return false;
         }
-        $input_title = (string) ilUtil::stripSlashes($this->getInput(self::F_TITLE));
-        if (strlen(trim($input_title)) === 0) {
+        $input_title = ilUtil::stripSlashes($this->getInput(self::F_TITLE));
+        if (trim($input_title) === '') {
             $input_title = ilUtil::stripSlashes($result->getName());
         }
 
@@ -154,7 +155,7 @@ class ilFileVersionFormGUI extends ilPropertyFormGUI
                 break;
         }
 
-        $this->file->setDescription($this->getInput((string) self::F_DESCRIPTION));
+        $this->file->setDescription($this->getInput(self::F_DESCRIPTION));
         $this->file->update();
 
         return true;

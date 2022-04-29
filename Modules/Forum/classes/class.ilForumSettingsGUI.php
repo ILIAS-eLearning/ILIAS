@@ -1,7 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Style\Content\GUIService;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilForumSettingsGUI
@@ -10,7 +23,7 @@ use ILIAS\Style\Content\GUIService;
  */
 class ilForumSettingsGUI implements ilForumObjectConstants
 {
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilGlobalTemplateInterface $tpl;
     private ilLanguage $lng;
     private ilSetting $settings;
@@ -21,11 +34,11 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     private \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
     private \ILIAS\Refinery\Factory $refinery;
     private ilForumNotification $forumNotificationObj;
-    private ilPropertyFormGUI $form;
     private ?ilPropertyFormGUI $notificationSettingsForm = null;
     public int $ref_id;
     private ilObjectService $obj_service;
     private \ILIAS\DI\Container $dic;
+    private ilErrorHandling $error;
 
     public function __construct(ilObjForumGUI $parent_obj)
     {
@@ -45,6 +58,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->ref_id = $this->parent_obj->getObject()->getRefId();
         $this->http_wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
+        $this->error = $DIC['ilErr'];
 
         $this->lng->loadLanguageModule('style');
         $this->lng->loadLanguageModule('cont');
@@ -71,7 +85,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
                     default:
                         $this->ctrl->redirect($this->parent_obj);
-                        break;
                 }
         }
     }
@@ -268,7 +281,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $a_values['file_upload_allowed'] = $this->parent_obj->objProperties->getFileUploadAllowed();
 
         $object = $this->parent_obj->getObject();
-        $a_values['activation_online'] = !($object->getOfflineStatus() === null) && !$object->getOfflineStatus();
+        $a_values['activation_online'] = $object->getOfflineStatus() === false;
     }
 
     public function updateCustomValues(ilPropertyFormGUI $a_form) : void
@@ -315,9 +328,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     public function showMembers() : void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
-            $this->parent_obj->error->raiseError(
+            $this->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE
+                $this->error->MESSAGE
             );
         }
 
@@ -475,7 +488,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             );
         }
 
-        $hidden_value = json_decode($hidden_value, null, 512, JSON_THROW_ON_ERROR);
+        $hidden_value = json_decode($hidden_value, false, 512, JSON_THROW_ON_ERROR);
         $interested_events = 0;
 
         $interested_events += (int) $notify_modified;
@@ -496,9 +509,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     public function enableAdminForceNoti() : void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
-            $this->parent_obj->error->raiseError(
+            $this->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE
+                $this->error->MESSAGE
             );
         }
 
@@ -535,9 +548,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     public function disableAdminForceNoti() : void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
-            $this->parent_obj->error->raiseError(
+            $this->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE
+                $this->error->MESSAGE
             );
         }
 
@@ -572,9 +585,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     public function enableHideUserToggleNoti() : void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
-            $this->parent_obj->error->raiseError(
+            $this->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE
+                $this->error->MESSAGE
             );
         }
 
@@ -613,9 +626,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     public function disableHideUserToggleNoti() : void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
-            $this->parent_obj->error->raiseError(
+            $this->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE
+                $this->error->MESSAGE
             );
         }
 
@@ -653,14 +666,11 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     public function getParticipants() : ilParticipants
     {
         if (!$this->parent_obj->isParentObjectCrsOrGrp()) {
-            $this->parent_obj->error->raiseError(
+            $this->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE
+                $this->error->MESSAGE
             );
         }
-
-        /** @var $oParticipants ilParticipants */
-        $oParticipants = null;
 
         $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->getObject()->getRefId(), 'grp');
         if ($grp_ref_id > 0) {
@@ -674,7 +684,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         return ilCourseParticipants::_getInstanceByObjId($parent_obj->getId());
     }
 
-    private function updateUserNotifications($update_all_users = false) : void
+    private function updateUserNotifications(bool $update_all_users = false) : void
     {
         $oParticipants = $this->getParticipants();
 
@@ -761,9 +771,9 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     public function updateNotificationSettings() : void
     {
         if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
-            $this->parent_obj->error->raiseError(
+            $this->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE
+                $this->error->MESSAGE
             );
         }
 

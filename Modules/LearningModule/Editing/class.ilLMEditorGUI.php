@@ -142,13 +142,8 @@ class ilLMEditorGUI implements ilCtrlBaseClassInterface
 
         $next_class = $this->ctrl->getNextClass($this);
 
-        if ($next_class == "" && ($cmd != "explorer")
-            && ($cmd != "showImageMap")) {
-            $next_class = "ilobjlearningmodulegui";
-        }
-
         // show footer
-        $show_footer = !(($cmd == "explorer"));
+        $show_footer = ($cmd !== "explorer");
             
         switch ($next_class) {
             case "ilobjlearningmodulegui":

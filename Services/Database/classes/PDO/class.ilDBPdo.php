@@ -345,7 +345,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
                 $ilBench->stopDbBench();
             }
         } catch (PDOException $e) {
-            throw new ilDatabaseException($e->getMessage() . ' QUERY: ' . $query, $e->getCode());
+            throw new ilDatabaseException($e->getMessage() . ' QUERY: ' . $query, (int) $e->getCode());
         }
 
         $err = $this->pdo->errorCode();
@@ -542,7 +542,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
                 $ilBench->stopDbBench();
             }
         } catch (PDOException $e) {
-            throw new ilDatabaseException($e->getMessage() . ' QUERY: ' . $query, $e->getCode());
+            throw new ilDatabaseException($e->getMessage() . ' QUERY: ' . $query, (int) $e->getCode());
         }
 
         return (int) $num_affected_rows;

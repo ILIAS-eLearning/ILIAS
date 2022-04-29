@@ -12,7 +12,7 @@ class ilQTIResponseLabelTest extends TestCase
     /**
      * @dataProvider rshuffles
      */
-    public function testSetGetRshuffle($input, $expected) : void
+    public function testSetGetRshuffle(string $input, ?string $expected) : void
     {
         $instance = new ilQTIResponseLabel();
         $instance->setRshuffle($input);
@@ -22,7 +22,7 @@ class ilQTIResponseLabelTest extends TestCase
     /**
      * @dataProvider areas
      */
-    public function testSetGetRarea($input, $expected) : void
+    public function testSetGetRarea(string $input, ?string $expected) : void
     {
         $instance = new ilQTIResponseLabel();
         $instance->setRarea($input);
@@ -32,7 +32,7 @@ class ilQTIResponseLabelTest extends TestCase
     /**
      * @dataProvider rranges
      */
-    public function testSetGetRrange($input, $expected) : void
+    public function testSetGetRrange(string $input, ?string $expected) : void
     {
         $instance = new ilQTIResponseLabel();
         $instance->setRrange($input);

@@ -120,7 +120,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 
 
         // now get roles depending on filter settings
-        $role_list = $rbacreview->getRolesByFilter($this->filter["role_filter"], $usr_id);
+        $role_list = $rbacreview->getRolesByFilter((int) $this->filter["role_filter"], $usr_id);
         $assigned_roles = $rbacreview->assignedRoles($usr_id);
 
         $counter = 0;

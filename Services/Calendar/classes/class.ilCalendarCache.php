@@ -17,13 +17,8 @@ class ilCalendarCache extends ilCache
         $this->setExpiresAfter(60 * ilCalendarSettings::_getInstance()->getCacheMinutes());
     }
 
-    /**
-     * get singleton instance
-     * @return ilCalendarCache
-     */
-    public static function getInstance()
+    public static function getInstance() : self
     {
-
         if (!self::$instance instanceof self) {
             self::$instance = new self();
         }

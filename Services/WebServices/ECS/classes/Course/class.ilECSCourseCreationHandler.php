@@ -530,7 +530,7 @@ class ilECSCourseCreationHandler
         $group_obj->createReference();
         $group_obj->putInTree($parent_ref);
         $group_obj->setPermissions($parent_ref);
-        $group_obj->updateGroupType(GRP_TYPE_CLOSED);
+        $group_obj->updateGroupType(ilGroupConstants::GRP_TYPE_CLOSED);
         $this->setImported($course->lectureID, $group_obj, $a_content_id, $group->id);
         $this->setObjectCreated(true);
     }

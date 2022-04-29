@@ -7,17 +7,20 @@ namespace ILIAS\UI\Implementation\Component\Item;
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Color;
 use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Player\Audio;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 
 class Standard extends Item implements C\Item\Standard
 {
     protected ?Color $color = null;
 
     /**
-     * @var null|string|Image
+     * @var null|string|Image|Avatar
      */
     protected $lead = null;
     protected ?C\Chart\ProgressMeter\ProgressMeter $chart = null;
+    protected ?Audio $audio = null;
 
     /**
      * @inheritdoc
@@ -45,6 +48,31 @@ class Standard extends Item implements C\Item\Standard
         $clone = clone $this;
         $clone->lead = $image;
         return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withLeadAvatar(Avatar $avatar) : C\Item\Standard
+    {
+        $clone = clone $this;
+        $clone->lead = $avatar;
+        return $clone;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withAudioPlayer(Audio $audio) : C\Item\Standard
+    {
+        $clone = clone $this;
+        $clone->audio = $audio;
+        return $clone;
+    }
+
+    public function getAudioPlayer() : ?Audio
+    {
+        return $this->audio;
     }
 
     /**

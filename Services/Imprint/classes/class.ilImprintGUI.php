@@ -36,7 +36,6 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
         $this->ctrl = $DIC->ctrl();
         $this->locator = $DIC["ilLocator"];
         $this->lng = $DIC->language();
-        $tpl = $DIC["tpl"];
 
         $this->imprint_request = new StandardGUIRequest(
             $DIC->http(),
@@ -53,43 +52,38 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
         parent::__construct("impr", 1);
         
         // content style (using system defaults)
-        $tpl->setCurrentBlock("SyntaxStyle");
-        $tpl->setVariable(
+        $this->tpl->setCurrentBlock("SyntaxStyle");
+        $this->tpl->setVariable(
             "LOCATION_SYNTAX_STYLESHEET",
             ilObjStyleSheet::getSyntaxStylePath()
         );
-        $tpl->parseCurrentBlock();
-        
-        $tpl->setCurrentBlock("ContentStyle");
-        $tpl->setVariable(
+        $this->tpl->parseCurrentBlock();
+    
+        $this->tpl->setCurrentBlock("ContentStyle");
+        $this->tpl->setVariable(
             "LOCATION_CONTENT_STYLESHEET",
             ilObjStyleSheet::getContentStylePath(0)
         );
-        $tpl->parseCurrentBlock();
+        $this->tpl->parseCurrentBlock();
     }
     
     public function executeCommand() : string
     {
-        $ilCtrl = $this->ctrl;
-        $ilLocator = $this->locator;
-        $lng = $this->lng;
-
-        if ($this->imprint_request->getBaseClass() == "ilImprintGUI") {
+        if ($this->imprint_request->getBaseClass() === ilImprintGUI::class) {
             $this->renderFullscreen();
         }
         
-        $next_class = $ilCtrl->getNextClass($this);
-            
-        $title = $lng->txt("adm_imprint");
+        $next_class = $this->ctrl->getNextClass($this);
+        
+        $title = $this->lng->txt("adm_imprint");
         
         switch ($next_class) {
-
             default:
                 $this->setPresentationTitle($title);
-
-                $ilLocator->addItem(
+    
+                $this->locator->addItem(
                     $title,
-                    $ilCtrl->getLinkTarget($this, "preview")
+                    $this->ctrl->getLinkTarget($this, "preview")
                 );
             
                 return parent::executeCommand();
@@ -111,20 +105,16 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
 
     protected function renderFullscreen() : void
     {
-        $tpl = $this->tpl;
-        $lng = $this->lng;
-
         if (!ilImprint::isActive()) {
-            ilUtil::redirect("ilias.php?baseClass=ilDashboardGUI");
+            $this->ctrl->redirectToURL("ilias.php?baseClass=ilDashboardGUI");
         }
-        $tpl->setTitle($lng->txt("imprint"));
-        $tpl->loadStandardTemplate();
+        $this->tpl->setTitle($this->lng->txt("imprint"));
+        $this->tpl->loadStandardTemplate();
 
         $this->setRawPageContent(true);
-        $html = $this->showPage();
-        $tpl->setContent($html);
-
-        $tpl->printToStdout("DEFAULT", true, false);
+        $this->tpl->setContent($this->showPage());
+    
+        $this->tpl->printToStdout("DEFAULT", true, false);
         exit();
     }
 }

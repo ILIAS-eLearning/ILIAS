@@ -407,7 +407,7 @@ class ilAccordionGUI
         $tpl->setVariable("ACC_ID", $options["id"]);
 
         $this->main_tpl->addOnLoadCode(
-            'il.Accordion.add(' . ilJsonUtil::encode($options) . ');'
+            'il.Accordion.add(' . json_encode($options, JSON_THROW_ON_ERROR) . ');'
         );
         return $tpl->get();
     }

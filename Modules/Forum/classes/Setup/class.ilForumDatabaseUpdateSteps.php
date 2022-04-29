@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 class ilForumDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {

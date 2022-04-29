@@ -38,7 +38,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 
     protected bool $allow_unlimited_recurrences = true;
 
-    protected $enabled_subforms = array(
+    protected array $enabled_subforms = array(
         ilCalendarRecurrence::FREQ_DAILY,
         ilCalendarRecurrence::FREQ_WEEKLY,
         ilCalendarRecurrence::FREQ_MONTHLY,
@@ -70,17 +70,46 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             return false;
         }
 
-        if ($_POST['frequence'] == 'NONE') {
+        if ($this->getRecurrenceInputByTypeAsString('frequence') === ilCalendarRecurrence::FREQ_NONE) {
             return true;
         }
 
-        if (!isset($_POST['until_type']) or $_POST['until_type'] == self::REC_LIMITED) {
-            if ($_POST['count'] <= 0 or $_POST['count'] >= 100) {
-                $this->setAlert($this->lng->txt("cal_rec_err_limit"));
-                return false;
-            }
+        if (
+            (
+                $this->getRecurrenceInputByTypeAsInt('until_type') === 0 ||
+                $this->getRecurrenceInputByTypeAsInt('until_type') == self::REC_LIMITED
+            ) &&
+            (
+                $this->getRecurrenceInputByTypeAsInt('count') <= 0 ||
+                $this->getRecurrenceInputByTypeAsInt('count') >= 100
+            )
+        ) {
+            $this->setAlert($this->lng->txt("cal_rec_err_limit"));
+            return false;
         }
         return true;
+    }
+
+    protected function getRecurrenceInputByTypeAsInt(string $input) : int
+    {
+        if ($this->http->wrapper()->post()->has($input)) {
+            return $this->http->wrapper()->post()->retrieve(
+                $input,
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function getRecurrenceInputByTypeAsString(string $input) : string
+    {
+        if ($this->http->wrapper()->post()->has($input)) {
+            return $this->http->wrapper()->post()->retrieve(
+                $input,
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        return '';
     }
 
     protected function loadRecurrence() : bool
@@ -88,76 +117,91 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
         if (!$this->getRecurrence() instanceof ilCalendarRecurrence) {
             return false;
         }
-        switch ($_POST['frequence']) {
+        switch ($this->getRecurrenceInputByTypeAsString('frequence')) {
             case ilCalendarRecurrence::FREQ_DAILY:
-                $this->getRecurrence()->setFrequenceType($_POST['frequence']);
-                $this->getRecurrence()->setInterval((int) $_POST['count_DAILY']);
+                $this->getRecurrence()->setFrequenceType($this->getRecurrenceInputByTypeAsString('frequence'));
+                $this->getRecurrence()->setInterval($this->getRecurrenceInputByTypeAsInt('count_DAILY'));
                 break;
 
             case ilCalendarRecurrence::FREQ_WEEKLY:
-                $this->getRecurrence()->setFrequenceType($_POST['frequence']);
-                $this->getRecurrence()->setInterval((int) $_POST['count_WEEKLY']);
-                if (is_array($_POST['byday_WEEKLY'])) {
-                    $this->getRecurrence()->setBYDAY(ilUtil::stripSlashes(implode(',', $_POST['byday_WEEKLY'])));
+                $this->getRecurrence()->setFrequenceType($this->getRecurrenceInputByTypeAsString('frequence'));
+                $this->getRecurrence()->setInterval($this->getRecurrenceInputByTypeAsInt('count_WEEKLY'));
+
+                $weekly_days = [];
+                if ($this->http->wrapper()->post()->has('byday_WEEKLY')) {
+                    $weekly_days = $this->http->wrapper()->post()->retrieve(
+                        'byday_WEEKLY',
+                        $this->refinery->kindlyTo()->dictOf(
+                            $this->refinery->kindlyTo()->string()
+                        )
+                    );
+                }
+                if ($weekly_days !== []) {
+                    $this->getRecurrence()->setBYDAY(implode(',', $weekly_days));
                 }
                 break;
 
             case ilCalendarRecurrence::FREQ_MONTHLY:
-                $this->getRecurrence()->setFrequenceType($_POST['frequence']);
-                $this->getRecurrence()->setInterval((int) $_POST['count_MONTHLY']);
-                switch ((int) $_POST['subtype_MONTHLY']) {
+                $this->getRecurrence()->setFrequenceType($this->getRecurrenceInputByTypeAsString('frequence'));
+                $this->getRecurrence()->setInterval($this->getRecurrenceInputByTypeAsInt('count_MONTHLY'));
+                switch ($this->getRecurrenceInputByTypeAsInt('subtype_MONTHLY')) {
                     case 0:
                         // nothing to do;
                         break;
-
                     case 1:
-                        switch ((int) $_POST['monthly_byday_day']) {
+                        switch ($this->getRecurrenceInputByTypeAsInt('monthly_byday_day')) {
                             case 8:
                                 // Weekday
-                                $this->getRecurrence()->setBYSETPOS((string) $_POST['monthly_byday_num']);
+                                $this->getRecurrence()->setBYSETPOS($this->getRecurrenceInputByTypeAsString('monthly_byday_num'));
                                 $this->getRecurrence()->setBYDAY('MO,TU,WE,TH,FR');
                                 break;
 
                             case 9:
                                 // Day of month
-                                $this->getRecurrence()->setBYMONTHDAY((string) $_POST['monthly_byday_num']);
+                                $this->getRecurrence()->setBYMONTHDAY($this->getRecurrenceInputByTypeAsString('monthly_byday_num'));
                                 break;
 
                             default:
-                                $this->getRecurrence()->setBYDAY((int) $_POST['monthly_byday_num'] . $_POST['monthly_byday_day']);
+                                $this->getRecurrence()->setBYDAY(
+                                    $this->getRecurrenceInputByTypeAsString('monthly_byday_num') .
+                                    $this->getRecurrenceInputByTypeAsString('monthly_byday_day')
+                                );
                                 break;
                         }
                         break;
 
                     case 2:
-                        $this->getRecurrence()->setBYMONTHDAY((string) $_POST['monthly_bymonthday']);
+                        $this->getRecurrence()->setBYMONTHDAY($this->getRecurrenceInputByTypeAsString('monthly_bymonthday'));
                         break;
                 }
                 break;
 
             case ilCalendarRecurrence::FREQ_YEARLY:
-                $this->getRecurrence()->setFrequenceType($_POST['frequence']);
-                $this->getRecurrence()->setInterval((int) $_POST['count_YEARLY']);
-                switch ((int) $_POST['subtype_YEARLY']) {
+                $this->getRecurrence()->setFrequenceType($this->getRecurrenceInputByTypeAsString('frequence'));
+                $this->getRecurrence()->setInterval($this->getRecurrenceInputByTypeAsInt('count_YEARLY'));
+                switch ($this->getRecurrenceInputByTypeAsInt('subtype_YEARLY')) {
                     case 0:
                         // nothing to do;
                         break;
 
                     case 1:
-                        $this->getRecurrence()->setBYMONTH((string) $_POST['yearly_bymonth_byday']);
-                        $this->getRecurrence()->setBYDAY((int) $_POST['yearly_byday_num'] . $_POST['yearly_byday']);
+                        $this->getRecurrence()->setBYDAY(
+                            $this->getRecurrenceInputByTypeAsString('yearly_byday_num') .
+                            $this->getRecurrenceInputByTypeAsString('yearly_byday')
+                        );
+                        $this->getRecurrence()->setBYMONTH($this->getRecurrenceInputByTypeAsString('yearly_bymonth_byday'));
                         break;
 
                     case 2:
-                        $this->getRecurrence()->setBYMONTH((string) $_POST['yearly_bymonth_by_monthday']);
-                        $this->getRecurrence()->setBYMONTHDAY((string) $_POST['yearly_bymonthday']);
+                        $this->getRecurrence()->setBYMONTH($this->getRecurrenceInputByTypeAsString('yearly_bymonthday'));
+                        $this->getRecurrence()->setBYMONTHDAY($this->getRecurrenceInputByTypeAsString('yearly_bymonthday'));
                         break;
                 }
                 break;
         }
 
         // UNTIL
-        switch ((int) $_POST['until_type']) {
+        switch ($this->getRecurrenceInputByTypeAsInt('until_type')) {
             case 1:
                 $this->getRecurrence()->setFrequenceUntilDate(null);
                 // nothing to do
@@ -165,7 +209,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 
             case 2:
                 $this->getRecurrence()->setFrequenceUntilDate(null);
-                $this->getRecurrence()->setFrequenceUntilCount((int) $_POST['count']);
+                $this->getRecurrence()->setFrequenceUntilCount($this->getRecurrenceInputByTypeAsInt('count'));
                 break;
 
             case 3:
@@ -241,7 +285,8 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             $options[ilCalendarRecurrence::FREQ_YEARLY] = $this->lng->txt('cal_yearly');
         }
 
-        $tpl->setVariable('FREQUENCE',
+        $tpl->setVariable(
+            'FREQUENCE',
             ilLegacyFormElementsUtil::formSelect(
                 $this->recurrence->getFrequenceType(),
                 'frequence',

@@ -32,6 +32,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
     protected bool $maxvalue_visible = false;
     protected int $decimals = 0;
     protected bool $allow_decimals = false;
+    protected bool $client_side_validation = false;
     
     public function __construct(
         string $a_title = "",
@@ -119,7 +120,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 
     public function setValueByArray(array $a_values) : void
     {
-        $this->setValue($a_values[$this->getPostVar()] ?? "");
+        $this->setValue((string) ($a_values[$this->getPostVar()] ?? ""));
     }
 
     public function getSize() : int
@@ -276,11 +277,13 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
                 " disabled=\"disabled\""
             );
         }
-        
-        /*
-        $tpl->setVariable("JS_DECIMALS_ALLOWED", (int)$this->areDecimalsAllowed());
-        */
-        
+
+        if ($this->client_side_validation) {
+            $tpl->setVariable("JS_DECIMALS_ALLOWED", (int) $this->areDecimalsAllowed());
+            $tpl->setVariable("JS_ID", $this->getFieldId());
+        }
+
+
         // constraints
         $constraints = "";
         $delim = "";
@@ -312,5 +315,10 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
     public function getPostValueForComparison() : ?float
     {
         return $this->getInput();
+    }
+
+    public function setClientSideValidation(bool $validate) : void
+    {
+        $this->client_side_validation = $validate;
     }
 }

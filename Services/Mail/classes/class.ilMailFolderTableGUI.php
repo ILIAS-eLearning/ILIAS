@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -243,7 +257,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     $column['txt'],
                     isset($column['sortable']) && $column['sortable'] ? $column['field'] : '',
                     $column['width'] ?? '',
-                    isset($column['is_checkbox']) && (bool) $column['is_checkbox']
+                    isset($column['is_checkbox']) && $column['is_checkbox']
                 );
             }
         }
@@ -509,14 +523,16 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     $mail['msr_subject_mailclass'] = $css_class;
                     $mail['msr_subject'] = htmlspecialchars($mail['m_subject']);
                 }
+                $mail['msr_subject_read_unread'] = $mail['m_status'] === 'read' ? $this->lng->txt('mail_is_read') : $this->lng->txt('mail_is_unread');
             } else {
                 $mail['mail_link_read'] = $link_mark_as_read;
                 $mail['mailclass'] = $css_class;
                 if ($mail['m_subject']) {
                     $mail['mail_subject'] = htmlspecialchars($mail['m_subject']);
                 } else {
-                    $mail['mail_subject'] = htmlspecialchars("No title");
+                    $mail['mail_subject'] = $this->lng->txt('mail_no_subject');
                 }
+                $mail['mail_subject_read_unread'] = $mail['m_status'] === 'read' ? $this->lng->txt('mail_is_read') : $this->lng->txt('mail_is_unread');
             }
 
             $mail['mail_date'] = ilDatePresentation::formatDate(

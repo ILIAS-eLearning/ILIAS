@@ -75,12 +75,12 @@ class SystemStylesGlobalScreenToolProviderTest extends TestCase
         }
     }
 
-    public function testConstruct()
+    public function testConstruct() : void
     {
         $this->assertInstanceOf('SystemStylesGlobalScreenToolProvider', $this->tool_provider);
     }
 
-    public function testIsInterestedInContexts()
+    public function testIsInterestedInContexts() : void
     {
         $this->assertEquals(
             ['administration'],
@@ -88,19 +88,19 @@ class SystemStylesGlobalScreenToolProviderTest extends TestCase
         );
     }
 
-    public function testBuildTreeAsToolNotInContext()
+    public function testBuildTreeAsToolNotInContext() : void
     {
         $contexts = new CalledContexts(new ContextRepository());
         $this->assertEquals([], $this->tool_provider->getToolsForContextStack($contexts));
     }
 
-    public function testBuildTreeAsToolIfInAdminstrationContext()
+    public function testBuildTreeAsToolIfInAdminstrationContext() : void
     {
         $contexts = (new CalledContexts(new ContextRepository()))->administration();
         $this->assertEquals([], $this->tool_provider->getToolsForContextStack($contexts));
     }
 
-    public function testBuildTreeAsToolIfInAdminstrationContextAndTreeIsAvailable()
+    public function testBuildTreeAsToolIfInAdminstrationContextAndTreeIsAvailable() : void
     {
         $tree_available_context = (new ILIAS\GlobalScreen\ScreenContext\BasicScreenContext('administration'))->addAdditionalData(ilSystemStyleDocumentationGUI::SHOW_TREE, true);
         $contexts = new CalledContexts(new ContextRepository());

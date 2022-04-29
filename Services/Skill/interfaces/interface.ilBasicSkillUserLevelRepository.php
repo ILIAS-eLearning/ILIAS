@@ -102,7 +102,8 @@ interface ilBasicSkillUserLevelRepository
         int $a_tref_id = 0,
         bool $a_self_eval = false,
         string $a_unique_identifier = "",
-        float $a_next_level_fulfilment = 0.0
+        float $a_next_level_fulfilment = 0.0,
+        string $trigger_user_id = ""
     ) : void;
 
     /**
@@ -131,6 +132,14 @@ interface ilBasicSkillUserLevelRepository
         int $a_self_eval = 0
     ) : int;
 
+    public function getNextLevelFulfilmentPerType(
+        int $skill_id,
+        int $a_tref_id,
+        string $a_type,
+        int $a_user_id = 0,
+        int $a_self_eval = 0
+    ) : float;
+
     public function getAllLevelEntriesOfUser(
         int $skill_id,
         int $a_tref_id,
@@ -154,6 +163,14 @@ interface ilBasicSkillUserLevelRepository
         int $a_self_eval = 0
     ) : int;
 
+    public function getNextLevelFulfilmentPerObject(
+        int $skill_id,
+        int $a_tref_id,
+        int $a_object_id,
+        int $a_user_id = 0,
+        int $a_self_eval = 0
+    ) : float;
+
     public function getMaxLevel(
         int $skill_id,
         array $levels,
@@ -161,6 +178,13 @@ interface ilBasicSkillUserLevelRepository
         int $a_user_id = 0,
         int $a_self_eval = 0
     ) : int;
+
+    public function getNextLevelFulfilment(
+        int $skill_id,
+        int $a_tref_id,
+        int $a_user_id = 0,
+        int $a_self_eval = 0
+    ) : float;
 
     public function hasSelfEvaluated(int $a_user_id, int $a_skill_id, int $a_tref_id) : bool;
 

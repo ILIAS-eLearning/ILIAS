@@ -1,12 +1,32 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Refinery\String;
 
+use ErrorException;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
 use ILIAS\Refinery\Transformation;
+use InvalidArgumentException;
+use DOMDocument;
+use DOMText;
+use DOMCdataSection;
+use DOMXPath;
 
 class EstimatedReadingTime implements Transformation
 {
@@ -14,7 +34,6 @@ class EstimatedReadingTime implements Transformation
     use DeriveInvokeFromTransform;
 
     private int $wordsPerMinute = 275;
-    private int $firstImageReadingTimeInSeconds = 12;
     private bool $withImages;
 
     public function __construct(bool $withImages)
@@ -23,12 +42,12 @@ class EstimatedReadingTime implements Transformation
     }
 
     /**
-     * @inheritdoc
+     * @inheritDoc
      */
-    public function transform($from)
+    public function transform($from) : int
     {
         if (!is_string($from)) {
-            throw new \InvalidArgumentException(__METHOD__ . " the argument is not a string.");
+            throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
         }
 
         return $this->calculate($from);
@@ -42,19 +61,30 @@ class EstimatedReadingTime implements Transformation
             'UTF-8'
         );
 
-        $document = new \DOMDocument();
-        if (!@$document->loadHTML($text)) {
-            throw new \InvalidArgumentException(__METHOD__ . " the argument is not a XHTML string.");
+        $document = new DOMDocument();
+
+        set_error_handler(static function (int $severity, string $message, string $file, int $line, array $errcontext) : void {
+            throw new ErrorException($message, $severity, $severity, $file, $line);
+        });
+
+        try {
+            if (!$document->loadHTML($text)) {
+                throw new InvalidArgumentException(__METHOD__ . " the argument is not a XHTML string.");
+            }
+        } catch (ErrorException $e) {
+            throw new InvalidArgumentException(__METHOD__ . " the argument is not a XHTML string: " . $e->getMessage());
+        } finally {
+            restore_error_handler();
         }
         
         $numberOfWords = 0;
 
-        $xpath = new \DOMXPath($document);
+        $xpath = new DOMXPath($document);
         $textNodes = $xpath->query('//text()');
         if ($textNodes->length > 0) {
             foreach ($textNodes as $textNode) {
-                /** @var \DOMText|\DOMCdataSection $textNode */
-                if ($textNode instanceof \DOMCdataSection) {
+                /** @var DOMText|DOMCdataSection $textNode */
+                if ($textNode instanceof DOMCdataSection) {
                     continue;
                 }
 

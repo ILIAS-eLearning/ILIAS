@@ -438,7 +438,7 @@ class ilCmiXapiDataSet extends ilDataSet
             case "cmix":
 
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['Id'])) {
-                    $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+                    $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
                 } else {
                     $newObj = new ilObjCmiXapi();
                     $newObj->setType("cmix");

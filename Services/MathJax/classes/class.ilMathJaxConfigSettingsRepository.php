@@ -57,7 +57,7 @@ class ilMathJaxConfigSettingsRepository implements ilMathJaxConfigRespository
         $this->settings->set('path_to_mathjax', $config->getClientScriptUrl());
         $this->settings->set('limiter', (string) $config->getClientLimiter());
         $this->settings->set('enable_server', (string) $config->isServerEnabled());
-        $this->settings->set('server_address', (string) $config->getServerAddress());
+        $this->settings->set('server_address', $config->getServerAddress());
         $this->settings->set('server_timeout', (string) $config->getServerTimeout());
         $this->settings->set('server_for_browser', (string) $config->isServerForBrowser());
         $this->settings->set('server_for_export', (string) $config->isServerForExport());

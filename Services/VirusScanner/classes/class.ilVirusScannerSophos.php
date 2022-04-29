@@ -1,17 +1,21 @@
-<?php
-/******************************************************************************
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilVirusScannerSophos extends ilVirusScanner
 {
     public function __construct(string $scan_command, string $clean_command)
@@ -33,15 +37,15 @@ class ilVirusScannerSophos extends ilVirusScanner
         $this->scanResult = implode("\n", $out);
 
         // sophie could be called
-        if ($ret == 0) {
+        if ((int) $ret === 0) {
             if (preg_match("/FILE INFECTED/", $this->scanResult)) {
                 $this->scanFileIsInfected = true;
                 $this->logScanResult();
                 return $this->scanResult;
-            } else {
-                $this->scanFileIsInfected = false;
-                return "";
             }
+
+            $this->scanFileIsInfected = false;
+            return "";
         }
 
         // sophie has failed (probably the daemon doesn't run)
@@ -62,21 +66,21 @@ class ilVirusScannerSophos extends ilVirusScanner
         // 1  If  the user interrupts SWEEP (usually by pressing control-C) or kills the process.
         // 2  If some error preventing further execution is discovered.
         // 3  If viruses or virus fragments are discovered.
-        if ($ret == 0) {
-            $this->scanFileIsCleaned = false;
+        if ((int) $ret === 0) {
+            $this->cleanFileIsCleaned = false;
             return "";
-        } elseif ($ret == 3) {
+        } elseif ((int) $ret === 3) {
             $this->scanFileIsInfected = true;
             $this->logScanResult();
             return $this->scanResult;
-        } else {
-            $this->ilias->raiseError(
-                $this->lng->txt("virus_scan_error") . " "
-                . $this->lng->txt("virus_scan_message") . " "
-                . $this->scanResult,
-                $this->ilias->error_obj->WARNING
-            );
         }
+
+        $this->error->raiseError(
+            $this->lng->txt("virus_scan_error") . " "
+            . $this->lng->txt("virus_scan_message") . " "
+            . $this->scanResult,
+            $this->error->WARNING
+        );
     }
 
     public function cleanFile(string $file_path, string $org_name = "") : string
@@ -109,12 +113,12 @@ class ilVirusScannerSophos extends ilVirusScanner
         // 32     If there has been an integrity check failure.
         // 36     If unsurvivable errors have occurred.
         // 40     If execution has been interrupted.
-        if ($ret == 20) {
+        if ((int) $ret === 20) {
             $this->cleanFileIsCleaned = true;
             return $this->cleanResult;
-        } else {
-            $this->cleanFileIsCleaned = false;
-            return "";
         }
+
+        $this->cleanFileIsCleaned = false;
+        return "";
     }
 }

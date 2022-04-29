@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -47,19 +47,20 @@ class ilObjRootFolder extends ilContainer
 
         $num = 0;
 
-        $data["Fobject"] = array();
+        $data["Fobject"] = [];
         while ($row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $data["Fobject"][$num] = array("title" => $row->title,
-                                          "desc" => $row->description,
-                                          "lang" => $row->lang_code
-                                          );
+            $data["Fobject"][$num] = [
+                "title" => $row->title,
+                "desc" => $row->description,
+                "lang" => $row->lang_code
+            ];
             $num++;
         }
 
         // first entry is always the default language
         $data["default_language"] = 0;
 
-        return $data ?: array();
+        return $data ?: [];
     }
 
     // remove translations of current category
@@ -88,7 +89,7 @@ class ilObjRootFolder extends ilContainer
     {
         global $ilDB;
 
-        if (empty($a_title)) {
+        if ($a_title === '') {
             $a_title = "NO TITLE";
         }
 

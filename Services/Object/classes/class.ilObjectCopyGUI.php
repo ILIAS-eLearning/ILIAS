@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Repository\Clipboard\ClipboardManager;
 
 /**
@@ -46,7 +60,7 @@ class ilObjectCopyGUI
     protected ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $post_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
 
-    protected ?ilObjectGUI $parent_obj = null;
+    protected ?object $parent_obj = null;
     protected ClipboardManager $clipboard;
 
     protected int $mode = 0;
@@ -56,7 +70,8 @@ class ilObjectCopyGUI
     protected array $targets = [];
     protected array $targets_copy_id = [];
     protected ilPropertyFormGUI $form;
-
+    private ilObjectRequestRetriever $retriever;
+    
     public function __construct(ilObjectGUI $parent_gui)
     {
         global $DIC;
@@ -78,6 +93,7 @@ class ilObjectCopyGUI
         $this->request_wrapper = $DIC->http()->wrapper()->query();
         $this->post_wrapper = $DIC->http()->wrapper()->post();
         $this->refinery = $DIC->refinery();
+        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
 
         $this->parent_obj = $parent_gui;
 
@@ -92,7 +108,7 @@ class ilObjectCopyGUI
         ;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $this->init();
         $this->initTabs();
@@ -105,20 +121,20 @@ class ilObjectCopyGUI
     
     protected function init() : void
     {
-        if ((int) $_REQUEST['smode']) {
-            $this->setSubMode((int) $_REQUEST['smode']);
+        if ($this->retriever->has('smode')) {
+            $this->setSubMode($this->retriever->getMaybeInt('smode') ?? 0);
             $this->ctrl->setParameter($this, 'smode', $this->getSubMode());
             ilLoggerFactory::getLogger('obj')->debug('Submode is: ' . $this->getSubMode());
         }
 
         // save sources
-        if ($_REQUEST['source_ids']) {
-            $this->setSource(explode('_', $_REQUEST['source_ids']));
+        if ($this->retriever->has('source_ids')) {
+            $this->setSource(explode('_', $this->retriever->getMaybeString('source_ids')));
             $this->ctrl->setParameter($this, 'source_ids', implode('_', $this->getSources()));
             ilLoggerFactory::getLogger('obj')->debug('Multiple sources: ' . implode('_', $this->getSources()));
         }
-        if ($_REQUEST['source_id']) {
-            $this->setSource(array((int) $_REQUEST['source_id']));
+        if ($this->retriever->has('source_id')) {
+            $this->setSource(array($this->retriever->getMaybeInt('source_id')));
             $this->ctrl->setParameter($this, 'source_ids', implode('_', $this->getSources()));
             ilLoggerFactory::getLogger('obj')->debug('source_id is set: ' . implode('_', $this->getSources()));
         }
@@ -129,9 +145,9 @@ class ilObjectCopyGUI
         }
         
         // creation screen: copy section
-        if ($_REQUEST['new_type']) {
+        if ($this->retriever->has('new_type')) {
             $this->setMode(self::SEARCH_SOURCE);
-            $this->setType($_REQUEST['new_type']);
+            $this->setType($this->retriever->getMaybeString('new_type'));
             $this->setTarget($this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int()));
 
             $this->ctrl->setParameter($this, 'new_type', $this->getType());
@@ -143,7 +159,7 @@ class ilObjectCopyGUI
             return;
         }
         // adopt content, and others?
-        elseif ($_REQUEST['selectMode'] == self::SOURCE_SELECTION) {
+        elseif ($this->retriever->getMaybeInt('selectMode') === self::SOURCE_SELECTION) {
             $this->setMode(self::SOURCE_SELECTION);
 
             $this->ctrl->setParameterByClass(get_class($this->parent_obj), 'selectMode', self::SOURCE_SELECTION);
@@ -151,15 +167,15 @@ class ilObjectCopyGUI
             $this->ctrl->setReturnByClass(get_class($this->parent_obj), '');
             
             ilLoggerFactory::getLogger('obj')->debug('Source selection mode. Target is: ' . $this->getFirstTarget());
-        } elseif ($_REQUEST['selectMode'] == self::TARGET_SELECTION) {
+        } elseif ($this->retriever->getMaybeInt('selectMode') === self::TARGET_SELECTION) {
             $this->setMode(self::TARGET_SELECTION);
             $this->ctrl->setReturnByClass(get_class($this->parent_obj), '');
             ilLoggerFactory::getLogger('obj')->debug('Target selection mode.');
         }
         
         // save targets
-        if ($_REQUEST['target_ids']) {
-            $this->setTargets(explode('_', $_REQUEST['target_ids']));
+        if ($this->retriever->has('target_ids')) {
+            $this->setTargets(explode('_', $this->retriever->getMaybeString('target_ids')));
             ilLoggerFactory::getLogger('obj')->debug('targets are: ' . print_r($this->getTargets(), true));
         }
     }
@@ -174,7 +190,7 @@ class ilObjectCopyGUI
         );
     }
     
-    protected function setTabs(int $tab_group, int $active_tab)
+    protected function setTabs(int $tab_group, int $active_tab) : void
     {
         if ($tab_group == self::TAB_GROUP_SC_SELECTION) {
             if ($this->getSubMode() == self::SUBMODE_CONTENT_ONLY) {
@@ -198,7 +214,7 @@ class ilObjectCopyGUI
     /**
      * Adopt content (crs in crs, grp in grp, crs in grp or grp in crs)
      */
-    protected function adoptContent()
+    protected function adoptContent() : void
     {
         $this->ctrl->setParameter($this, 'smode', self::SUBMODE_CONTENT_ONLY);
         $this->ctrl->setParameter($this, 'selectMode', self::SOURCE_SELECTION);
@@ -392,13 +408,14 @@ class ilObjectCopyGUI
     protected function saveTarget() : void
     {
         // begin-patch mc
-        if (is_array($_REQUEST['target']) and $_REQUEST['target']) {
-            $this->setTargets($_REQUEST['target']);
+        $target = $_REQUEST['target']; // TODO PHP8 Review: Remove/Replace SuperGlobals
+        if (is_array($target) && $target) {
+            $this->setTargets($target);
             $this->ctrl->setParameter($this, 'target_ids', implode('_', $this->getTargets()));
         }
         // paste from clipboard
-        elseif ((int) $_REQUEST['target']) {
-            $this->setTarget($_REQUEST['target']);
+        elseif ((int) $target) {
+            $this->setTarget($target);
             $this->ctrl->setParameter($this, 'target_ids', implode('_', $this->getTargets()));
         }
         // end-patch multi copy
@@ -503,7 +520,9 @@ class ilObjectCopyGUI
 
     public function setSource(array $source_ids) : void
     {
-        $this->sources = $source_ids;
+        $this->sources = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())->transform(
+            $source_ids
+        );
     }
     
     public function getSources() : array
@@ -522,12 +541,14 @@ class ilObjectCopyGUI
     // begin-patch mc
     public function setTarget(int $ref_id) : void
     {
-        $this->setTargets(array($ref_id));
+        $this->setTargets([$ref_id]);
     }
-
+    
     public function setTargets(array $targets) : void
     {
-        $this->targets = $targets;
+        $this->targets = $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())->transform(
+            $targets
+        );
     }
     
     public function getTargets() : array
@@ -568,7 +589,7 @@ class ilObjectCopyGUI
             $_SESSION['source_query'] = $this->post_wrapper->retrieve("tit", $this->refinery->kindlyTo()->string());
         } else {
             // TODO: refactor this in next iteration
-            $_POST['tit'] = $_SESSION['source_query'];
+            $_POST['tit'] = $_SESSION['source_query']; // TODO PHP8 Review: Remove/Replace SuperGlobals
         }
         
         $this->initFormSearch();
@@ -591,7 +612,7 @@ class ilObjectCopyGUI
 
         // only like search since fulltext does not support search with less than 3 characters
         $object_search = new ilLikeObjectSearch($query_parser);
-        $object_search->setFilter(array($_REQUEST['new_type']));
+        $object_search->setFilter([$this->retriever->getMaybeString('new_type')]);
         $res = $object_search->performSearch();
         $res->setRequiredPermission('copy');
         $res->filter(ROOT_FOLDER_ID, true);
@@ -662,15 +683,16 @@ class ilObjectCopyGUI
      */
     protected function saveSourceMembership() : void
     {
-        if (!isset($_REQUEST['source'])) {
+        $source = $this->retriever->getMaybeInt('source');
+        if ($source === null) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->ctrl->redirect($this, 'showSourceSelectionMembership');
             return;
         }
         
-        $this->setSource([(int) $_REQUEST['source']]);
+        $this->setSource([$source]);
         $this->setType(ilObject::_lookupType($this->getFirstSource(), true));
-        $this->ctrl->setParameter($this, 'source_id', (int) $_REQUEST['source']);
+        $this->ctrl->setParameter($this, 'source_id', $source);
         
         if ($this->obj_definition->isContainer($this->getType())) {
             $this->showItemSelection();
@@ -867,9 +889,10 @@ class ilObjectCopyGUI
         $json->percentage = null;
         $json->performed_steps = null;
         
-        $options = ilCopyWizardOptions::_getInstance((int) $_REQUEST['copy_id']);
+        $copy_id = $this->retriever->getMaybeInt('copy_id');
+        $options = ilCopyWizardOptions::_getInstance($copy_id);
         $json->required_steps = $options->getRequiredSteps();
-        $json->id = (int) $_REQUEST['copy_id'];
+        $json->id = $copy_id;
         
         $this->log->debug('Update copy progress: ' . json_encode($json));
         

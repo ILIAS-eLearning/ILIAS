@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTermsOfServiceDocumentsContainsHtmlValidator
@@ -8,10 +23,21 @@
 class ilTermsOfServiceDocumentsContainsHtmlValidator
 {
     private string $text;
+    private bool $xmlErrorState = false;
 
     public function __construct(string $text)
     {
         $this->text = $text;
+    }
+
+    private function beginXmlLogging() : void
+    {
+        $this->xmlErrorState = libxml_use_internal_errors(false);
+    }
+
+    private function endXmlLogging() : void
+    {
+        libxml_use_internal_errors($this->xmlErrorState);
     }
 
     public function isValid() : bool
@@ -21,6 +47,8 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
         }
 
         try {
+            $this->beginXmlLogging();
+
             $dom = new DOMDocument();
             if (!$dom->loadHTML($this->text)) {
                 return false;
@@ -44,6 +72,8 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
             return false;
         } catch (Throwable $e) {
             return false;
+        } finally {
+            $this->endXmlLogging();
         }
     }
 }

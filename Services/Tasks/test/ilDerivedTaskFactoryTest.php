@@ -6,7 +6,7 @@ require_once __DIR__ . '/bootstrap.php';
 /**
  * @author  <killing@leifos.de>
  */
-class ilDerivedTaskFactoryTest extends \ilTasksTestBase
+class ilDerivedTaskFactoryTest extends ilTasksTestBase
 {
     public function testConstructor()
     {
@@ -17,7 +17,7 @@ class ilDerivedTaskFactoryTest extends \ilTasksTestBase
         $this->assertTrue($factory instanceof ilDerivedTaskFactory);
     }
 
-    public function testTask()
+    public function testTask() : void
     {
         /** @var ilTaskService $service */
         $service = $this->getTaskServiceMock();
@@ -33,7 +33,7 @@ class ilDerivedTaskFactoryTest extends \ilTasksTestBase
         $this->assertEquals(0, $task->getWspId());
     }
 
-    public function testCollector()
+    public function testCollector() : void
     {
         /** @var ilTaskService $service */
         $service = $this->getTaskServiceMock();
@@ -44,13 +44,13 @@ class ilDerivedTaskFactoryTest extends \ilTasksTestBase
         $this->assertTrue($task instanceof ilDerivedTaskCollector);
     }
 
-    public function testAllProviders()
+    public function testAllProviders() : void
     {
         /** @var ilTaskService $service */
         $service = $this->getTaskServiceMock();
         $factory = $service->derived()->factory();
 
-        $providers = $factory->getAllProviders(false, null);
+        $providers = $factory->getAllProviders();
         $this->assertTrue($providers[0] instanceof ilDerivedTaskProvider);
     }
 }

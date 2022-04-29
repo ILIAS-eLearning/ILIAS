@@ -780,7 +780,7 @@ class ilPropertyFormGUI extends ilFormGUI
             $this->tpl->setCurrentBlock("prop");
             /* not used yet
             $this->tpl->setVariable("ID", $item->getFieldId());
-            $this->tpl->setVariable("CFG", ilJsonUtil::encode($cfg));*/
+            $this->tpl->setVariable("CFG", json_encode($cfg, JSON_THROW_ON_ERROR));*/
             $this->tpl->parseCurrentBlock();
         }
         

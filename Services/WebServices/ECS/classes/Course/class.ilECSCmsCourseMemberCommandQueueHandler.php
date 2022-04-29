@@ -314,7 +314,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
                     );
                     if ($role && $il_usr_id = ilObjUser::_lookupId($login)) {
                         $part->add($il_usr_id, $role);
-                        $part->sendNotification($part->NOTIFY_ACCEPT_USER, $il_usr_id);
+                        $part->sendNotification(ilCourseMembershipMailNotification::TYPE_ADMISSION_MEMBER, $il_usr_id);
                     }
                 }
             } else {
@@ -324,7 +324,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
                         // Assign user
                         $this->log->info('Assigning new user ' . $person_id . ' ' . 'to ' . ilObject::_lookupTitle($obj_id) . ' using role: ' . $role);
                         $part->add($il_usr_id, $role);
-                        $part->sendNotification($part->NOTIFY_ACCEPT_USER, $il_usr_id);
+                        $part->sendNotification(ilCourseMembershipMailNotification::TYPE_ADMISSION_MEMBER, $il_usr_id);
                     }
                 } else {
                     // no local user exists
@@ -339,7 +339,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
                     // Assign to role
                     if ($role && $il_usr_id = ilObjUser::_lookupId($login)) {
                         $part->add($il_usr_id, $role);
-                        $part->sendNotification($part->NOTIFY_ACCEPT_USER, $il_usr_id);
+                        $part->sendNotification(ilCourseMembershipMailNotification::TYPE_ADMISSION_MEMBER, $il_usr_id);
                     }
                 }
                 

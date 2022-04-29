@@ -1,26 +1,20 @@
 <?php declare(strict_types=0);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ModulesCourse
@@ -36,20 +30,6 @@ class ilCourseParticipants extends ilParticipants
      */
     public function __construct(int $a_obj_id)
     {
-        $this->NOTIFY_DISMISS_SUBSCRIBER = 1;
-        $this->NOTIFY_ACCEPT_SUBSCRIBER = 2;
-        $this->NOTIFY_DISMISS_MEMBER = 3;
-        $this->NOTIFY_BLOCK_MEMBER = 4;
-        $this->NOTIFY_UNBLOCK_MEMBER = 5;
-        $this->NOTIFY_ACCEPT_USER = 6;
-        $this->NOTIFY_ADMINS = 7;
-        $this->NOTIFY_STATUS_CHANGED = 8;
-        $this->NOTIFY_SUBSCRIPTION_REQUEST = 9;
-
-        $this->NOTIFY_REGISTERED = 10;
-        $this->NOTIFY_UNSUBSCRIBE = 11;
-        $this->NOTIFY_WAITING_LIST = 12;
-
         // ref based constructor
         $refs = ilObject::_getAllReferences($a_obj_id);
         parent::__construct(self::COMPONENT_NAME, array_pop($refs));
@@ -57,7 +37,7 @@ class ilCourseParticipants extends ilParticipants
 
     public static function _getInstanceByObjId(int $a_obj_id) : ilCourseParticipants
     {
-        if (isset(self::$instances[$a_obj_id]) and self::$instances[$a_obj_id]) {
+        if (isset(self::$instances[$a_obj_id]) && self::$instances[$a_obj_id]) {
             return self::$instances[$a_obj_id];
         }
         return self::$instances[$a_obj_id] = new ilCourseParticipants($a_obj_id);
@@ -144,7 +124,7 @@ class ilCourseParticipants extends ilParticipants
         if ($res->numRows()) {
             // #9284 - only needs updating when status has changed
             $old = $ilDB->fetchAssoc($res);
-            if ((int) $old["passed"] != (int) $a_passed) {
+            if ((int) $old["passed"] !== (int) $a_passed) {
                 $update_query = "UPDATE obj_members SET " .
                     "passed = " . $ilDB->quote($a_passed, 'integer') . ", " .
                     "origin = " . $ilDB->quote($origin, 'integer') . ", " .
@@ -206,70 +186,70 @@ class ilCourseParticipants extends ilParticipants
         $mail->forceSendingMail($a_force_sending_mail);
 
         switch ($a_type) {
-            case $this->NOTIFY_DISMISS_SUBSCRIBER:
+            case ilCourseMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER:
                 $mail->setType(ilCourseMembershipMailNotification::TYPE_REFUSED_SUBSCRIPTION_MEMBER);
                 $mail->setRefId($this->ref_id);
                 $mail->setRecipients(array($a_usr_id));
                 $mail->send();
                 break;
 
-            case $this->NOTIFY_ACCEPT_SUBSCRIBER:
+            case ilCourseMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER:
                 $mail->setType(ilCourseMembershipMailNotification::TYPE_ACCEPTED_SUBSCRIPTION_MEMBER);
                 $mail->setRefId($this->ref_id);
                 $mail->setRecipients(array($a_usr_id));
                 $mail->send();
                 break;
 
-            case $this->NOTIFY_DISMISS_MEMBER:
+            case ilCourseMembershipMailNotification::TYPE_DISMISS_MEMBER:
                 $mail->setType(ilCourseMembershipMailNotification::TYPE_DISMISS_MEMBER);
                 $mail->setRefId($this->ref_id);
                 $mail->setRecipients(array($a_usr_id));
                 $mail->send();
                 break;
 
-            case $this->NOTIFY_BLOCK_MEMBER:
+            case ilCourseMembershipMailNotification::TYPE_BLOCKED_MEMBER:
                 $mail->setType(ilCourseMembershipMailNotification::TYPE_BLOCKED_MEMBER);
                 $mail->setRefId($this->ref_id);
                 $mail->setRecipients(array($a_usr_id));
                 $mail->send();
                 break;
 
-            case $this->NOTIFY_UNBLOCK_MEMBER:
+            case ilCourseMembershipMailNotification::TYPE_UNBLOCKED_MEMBER:
                 $mail->setType(ilCourseMembershipMailNotification::TYPE_UNBLOCKED_MEMBER);
                 $mail->setRefId($this->ref_id);
                 $mail->setRecipients(array($a_usr_id));
                 $mail->send();
                 break;
 
-            case $this->NOTIFY_ACCEPT_USER:
+            case ilCourseMembershipMailNotification::TYPE_ADMISSION_MEMBER:
                 $mail->setType(ilCourseMembershipMailNotification::TYPE_ADMISSION_MEMBER);
                 $mail->setRefId($this->ref_id);
                 $mail->setRecipients(array($a_usr_id));
                 $mail->send();
                 break;
 
-            case $this->NOTIFY_STATUS_CHANGED:
+            case ilCourseMembershipMailNotification::TYPE_STATUS_CHANGED:
                 $mail->setType(ilCourseMembershipMailNotification::TYPE_STATUS_CHANGED);
                 $mail->setRefId($this->ref_id);
                 $mail->setRecipients(array($a_usr_id));
                 $mail->send();
                 break;
 
-            case $this->NOTIFY_UNSUBSCRIBE:
+            case ilCourseMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER:
                 $mail->setType(ilCourseMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER);
                 $mail->setRefId($this->ref_id);
                 $mail->setRecipients(array($a_usr_id));
                 $mail->send();
                 break;
 
-            case $this->NOTIFY_REGISTERED:
+            case ilCourseMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER:
                 $mail->setType(ilCourseMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER);
                 $mail->setRefId($this->ref_id);
                 $mail->setRecipients(array($a_usr_id));
                 $mail->send();
                 break;
 
-            case $this->NOTIFY_WAITING_LIST:
+            case ilCourseMembershipMailNotification::TYPE_WAITING_LIST_MEMBER:
                 $wl = new ilCourseWaitingList($this->obj_id);
                 $pos = $wl->getPosition($a_usr_id);
 
@@ -280,11 +260,11 @@ class ilCourseParticipants extends ilParticipants
                 $mail->send();
                 break;
 
-            case $this->NOTIFY_SUBSCRIPTION_REQUEST:
+            case ilCourseMembershipMailNotification::TYPE_NOTIFICATION_ADMINS_REGISTRATION_REQUEST:
                 $this->sendSubscriptionRequestToAdmins($a_usr_id);
                 break;
 
-            case $this->NOTIFY_ADMINS:
+            case ilCourseMembershipMailNotification::TYPE_NOTIFICATION_ADMINS:
                 $this->sendNotificationToAdmins($a_usr_id);
                 break;
         }
@@ -342,7 +322,6 @@ class ilCourseParticipants extends ilParticipants
         global $DIC;
 
         $ilDB = $DIC->database();
-        $res = array();
         $sql = "SELECT usr_id,obj_id FROM obj_members" .
             " WHERE " . $ilDB->in("usr_id", $a_usr_ids, false, "integer") .
             " AND " . $ilDB->in("obj_id", $a_obj_ids, false, "integer") .

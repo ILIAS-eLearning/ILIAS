@@ -30,7 +30,6 @@
  */
 class ilDate extends ilDateTime
 {
-
     public function __construct($a_date = '', $a_format = 0)
     {
         parent::__construct($a_date, $a_format, ilTimeZone::UTC);
@@ -38,13 +37,7 @@ class ilDate extends ilDateTime
         $this->default_timezone = ilTimeZone::_getInstance('UTC');
     }
 
-    /**
-     * get formatted date
-     * @access public
-     * @param int format type
-     * @param string format string
-     */
-    public function get($a_format, $a_format_str = '', $a_tz = '')
+    public function get(int $a_format, string $a_format_str = '', string $a_tz = '')
     {
         return parent::get($a_format, $a_format_str);
     }

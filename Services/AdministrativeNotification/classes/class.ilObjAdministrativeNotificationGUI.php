@@ -1,15 +1,21 @@
 <?php
 
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
-
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilObjAdministrativeNotificationGUI
  * @ilCtrl_IsCalledBy ilObjAdministrativeNotificationGUI: ilAdministrationGUI
@@ -18,8 +24,8 @@
  */
 class ilObjAdministrativeNotificationGUI extends ilObject2GUI
 {
-    const TAB_PERMISSIONS = 'perm_settings';
-    const TAB_MAIN = 'main';
+    public const TAB_PERMISSIONS = 'perm_settings';
+    public const TAB_MAIN = 'main';
     
     private ilADNTabHandling $tab_handling;
     private ilObjAdministrativeNotificationAccess $admin_notification_access;
@@ -38,7 +44,7 @@ class ilObjAdministrativeNotificationGUI extends ilObject2GUI
         parent::__construct($this->ref_id);
 
         $this->lng->loadLanguageModule('adn');
-        $this->tab_handling   = new ilADNTabHandling($this->ref_id);
+        $this->tab_handling = new ilADNTabHandling($this->ref_id);
         $this->admin_notification_access = new ilObjAdministrativeNotificationAccess();
         
         $this->assignObject();
@@ -76,6 +82,6 @@ class ilObjAdministrativeNotificationGUI extends ilObject2GUI
     
     public function getType() : string
     {
-        return null;
+        return ilObjAdministrativeNotification::TYPE_ADN;
     }
 }

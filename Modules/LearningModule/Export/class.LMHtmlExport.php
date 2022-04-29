@@ -314,11 +314,13 @@ class LMHtmlExport
     protected function addSupplyingExportFiles() : void
     {
         foreach ($this->getSupplyingExportFiles() as $f) {
-            if ($f["type"] == "js") {
-                $this->global_screen->layout()->meta()->addJs($f["source"]);
-            }
-            if ($f["type"] == "css") {
-                $this->global_screen->layout()->meta()->addCss($f["source"]);
+            if ($f["source"] != "") {
+                if ($f["type"] == "js") {
+                    $this->global_screen->layout()->meta()->addJs($f["source"]);
+                }
+                if ($f["type"] == "css") {
+                    $this->global_screen->layout()->meta()->addCss($f["source"]);
+                }
             }
         }
     }
@@ -371,7 +373,7 @@ class LMHtmlExport
         );
 
         $mathJaxSetting = new \ilSetting("MathJax");
-        $use_mathjax = $mathJaxSetting->get("enable");
+        $use_mathjax = (bool) $mathJaxSetting->get("enable");
         if ($use_mathjax) {
             $scripts[] = array("source" => "",
                 "target" => $mathJaxSetting->get("path_to_mathjax"),
@@ -533,13 +535,12 @@ class LMHtmlExport
         $target_dir = $this->target_dir;
 
         $lang_suffix = "";
-        if (!in_array($lang, ["-", ""]) && $this->lang == "all") {
+        if (!in_array($lang, ["-", ""]) && $this->lang === "all") {
             $lang_suffix = "_" . $lang;
         }
 
         // Init template, lm_gui
         $this->initScreen($lm_page_id, $frame);
-
 
         if ($frame == "") {
             if (is_array($exp_id_map) && isset($a_exp_id_map[$lm_page_id])) {

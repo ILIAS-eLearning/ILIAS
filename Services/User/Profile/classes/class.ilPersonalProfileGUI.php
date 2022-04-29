@@ -556,25 +556,24 @@ class ilPersonalProfileGUI
         if ($this->profile_request->getPrompted() == 1) {
             $it = $prompt_service->data()->getSettings()->getPromptText($ilUser->getLanguage());
         }
-        if ($it == "") {
+        if ($it === "") {
             $it = $prompt_service->data()->getSettings()->getInfoText($ilUser->getLanguage());
         }
-        if (trim($it) != "") {
+        if (trim($it) !== "") {
             $pub_prof = in_array($ilUser->prefs["public_profile"], array("y", "n", "g"))
                 ? $ilUser->prefs["public_profile"]
                 : "n";
-            if ($pub_prof == "n") {
-                $box = $DIC->ui()->factory()->messageBox()->info($it)->withLinks(
+            $box = $DIC->ui()->factory()->messageBox()->info($it);
+            if ($pub_prof === "n") {
+                $box = $box->withLinks(
                     [$DIC->ui()->factory()->link()->standard(
                         $lng->txt("user_make_profile_public"),
                         $ctrl->getLinkTarget($this, "showPublicProfile")
                     )]
                 );
-
-                $it = $DIC->ui()->renderer()->render($box);
             }
+            $it = $DIC->ui()->renderer()->render($box);
         }
-
         $this->setHeader();
 
         $this->showChecklist(ilProfileChecklistStatus::STEP_PROFILE_DATA);
@@ -586,7 +585,6 @@ class ilPersonalProfileGUI
                 $this->tpl->setOnScreenMessage('info', $lng->txt("profile_incomplete"));
             }
         }
-
         $this->tpl->setContent($it . $this->form->getHTML());
 
         $this->tpl->printToStdout();

@@ -48,12 +48,13 @@ class ilDidacticTemplateImport
     public function import(int $a_dtpl_id = 0) : ilDidacticTemplateSetting
     {
         $root = null;
-        libxml_use_internal_errors(true);
+        $use_internal_errors = libxml_use_internal_errors(true);
         switch ($this->getInputType()) {
             case self::IMPORT_FILE:
                 $root = simplexml_load_file($this->getInputFile());
                 break;
         }
+        libxml_use_internal_errors($use_internal_errors);
         if (!$root instanceof SimpleXMLElement) {
             throw new ilDidacticTemplateImportException(
                 $this->parseXmlErrors()
@@ -221,7 +222,8 @@ class ilDidacticTemplateImport
             foreach ($ele->roleFilter as $rfi) {
 
                 $this->logger->dump($rfi->attributes(), \ilLogLevel::DEBUG);
-                $this->logger->debug('Current filter source: ' . (string) $rfi->attributes()->source);
+                $this->logger->debug('Current filter source: ' . $rfi->attributes()->source
+                );
 
                 switch ((string) $rfi->attributes()->source) {
                     case 'title':

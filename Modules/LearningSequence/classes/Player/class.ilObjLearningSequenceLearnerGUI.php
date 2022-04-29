@@ -1,9 +1,23 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+ 
 class ilObjLearningSequenceLearnerGUI
 {
     const CMD_STANDARD = 'learnerView';
@@ -27,7 +41,7 @@ class ilObjLearningSequenceLearnerGUI
     protected ilLearningSequenceSettings $settings;
     protected ilLSCurriculumBuilder $curriculum_builder;
     protected ilLSPlayer $player;
-    protected ArrayAccess $get;
+    protected RequestWrapper $get;
 
     public function __construct(
         int $ls_ref_id,
@@ -45,7 +59,7 @@ class ilObjLearningSequenceLearnerGUI
         ilLearningSequenceSettings $settings,
         ilLSCurriculumBuilder $curriculum_builder,
         ilLSPlayer $player,
-        ArrayAccess $get
+        RequestWrapper $get
     ) {
         $this->ls_ref_id = $ls_ref_id;
         $this->has_items = $has_items;
@@ -105,7 +119,7 @@ class ilObjLearningSequenceLearnerGUI
         );
 
         $curriculum = $this->curriculum_builder->getLearnerCurriculum();
-        if (count($curriculum->getSteps()) > 0) {
+        if ($curriculum->getSteps() !== []) {
             $this->tpl->setRightContent(
                 $this->getWrappedHTML([$curriculum])
             );

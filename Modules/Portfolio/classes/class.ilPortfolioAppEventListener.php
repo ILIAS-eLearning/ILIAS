@@ -48,7 +48,7 @@ class ilPortfolioAppEventListener
         if (is_object($parameter["object"])) {
             /** @var ilObject $obj */
             $obj = $parameter["object"];
-            if (get_class($obj) == "ilObjBlog") {
+            if ($obj instanceof \ilObjBlog) {
                 $blog_id = $obj->getId();
                 $action = new ilPortfolioPageAction();
                 $action->deletePagesOfBlog($blog_id);
@@ -63,7 +63,7 @@ class ilPortfolioAppEventListener
         if (isset($parameter["user_obj"]) && is_object($parameter["user_obj"])) {
             /** @var ilObjUser $obj */
             $obj = $parameter["user_obj"];
-            if (get_class($obj) == "ilObjUser") {
+            if ($obj instanceof  \ilObjUser) {
                 $manager->assignPortfoliosOnLogin($obj->getId());
             }
         }

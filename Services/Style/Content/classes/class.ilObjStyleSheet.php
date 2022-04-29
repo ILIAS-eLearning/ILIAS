@@ -758,15 +758,15 @@ class ilObjStyleSheet extends ilObject
             if (!$a_exclude_default_style || $default_style != $sty["id"]) {
                 // check scope
                 if ($a_scope > 0 && $sty["category"] > 0) {
-                    if ($tree->isInTree($sty["category"]) &&
+                    if ($tree->isInTree((int) $sty["category"]) &&
                         $tree->isInTree($a_scope)) {
                         $path = $tree->getPathId($a_scope);
-                        if (!in_array($sty["category"], $path)) {
+                        if (!in_array((int) $sty["category"], $path)) {
                             continue;
                         }
                     }
                 }
-                $styles[(int) $sty["id"]] = ilObject::_lookupTitle($sty["id"]);
+                $styles[(int) $sty["id"]] = ilObject::_lookupTitle((int) $sty["id"]);
             }
         }
         
@@ -3276,7 +3276,7 @@ class ilObjStyleSheet extends ilObject
         );
         $rec = $ilDB->fetchAssoc($set);
         
-        return $rec["value"];
+        return $rec["value"] ?? '';
     }
     
     /**
@@ -3318,7 +3318,7 @@ class ilObjStyleSheet extends ilObject
             return 0;
         }
 
-        if (ilObject::_lookupType($rec["style_id"]) == "sty") {
+        if (ilObject::_lookupType((int) $rec["style_id"]) == "sty") {
             return (int) $rec["style_id"];
         }
         

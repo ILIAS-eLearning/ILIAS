@@ -64,7 +64,7 @@ class ilSystemStyleIconColor
         return $this->id;
     }
 
-    public function setId(string $id)
+    public function setId(string $id) : void
     {
         $this->id = $id;
     }
@@ -77,7 +77,7 @@ class ilSystemStyleIconColor
     /**
      * @throws ilSystemStyleColorException
      */
-    public function setColor(string $color)
+    public function setColor(string $color) : void
     {
         $color = strtoupper($color);
 
@@ -93,7 +93,7 @@ class ilSystemStyleIconColor
         return $this->name;
     }
 
-    public function setName(string $name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }
@@ -103,7 +103,7 @@ class ilSystemStyleIconColor
         return $this->description;
     }
 
-    public function setDescription(string $description)
+    public function setDescription(string $description) : void
     {
         $this->description = $description;
     }

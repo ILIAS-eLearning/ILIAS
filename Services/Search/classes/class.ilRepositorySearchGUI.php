@@ -110,6 +110,17 @@ class ilRepositorySearchGUI
         $this->result_obj->setMaxHits(1000000);
         $this->settings = new ilSearchSettings();
     }
+
+    protected function initUserTypeFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('user_type')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'user_type',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
     
     /**
      * Closure for filtering users
@@ -320,7 +331,7 @@ class ilRepositorySearchGUI
     {
         // hide anonymout request
         if ($this->user->getId() == ANONYMOUS_USER_ID) {
-            return ilJsonUtil::encode(new stdClass());
+            return json_encode(new stdClass(), JSON_THROW_ON_ERROR);
         }
         if (!$this->http->wrapper()->query()->has('autoCompleteField')) {
             $a_fields = [
@@ -341,7 +352,7 @@ class ilRepositorySearchGUI
         $auto = new ilUserAutoComplete();
         $auto->setPrivacyMode($this->getPrivacyMode());
 
-        if (($_REQUEST['fetchall'])) {// @TODO: PHP8 Review: Direct access to $_REQUEST.
+        if ($this->http->wrapper()->query()->has('fetchall')) {
             $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
         }
 
@@ -354,7 +365,14 @@ class ilRepositorySearchGUI
             $auto->addUserAccessFilterCallable($this->user_filter);
         }
 
-        echo $auto->getList($_REQUEST['term']);// @TODO: PHP8 Review: Direct access to $_REQUEST.
+        $query = '';
+        if ($this->http->wrapper()->post()->has('term')) {
+            $query = $this->http->wrapper()->post()->retrieve(
+                'term',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        echo $auto->getList($query);
         return null;
     }
 
@@ -422,7 +440,7 @@ class ilRepositorySearchGUI
         if ($this->http->wrapper()->post()->has('obj')) {
             $obj_ids = $this->http->wrapper()->post()->retrieve(
                 'obj',
-                $this->refinery->kindlyTo()->listOf($this->refinery->int())// @TODO: PHP8 Review: Invalid argument.
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
         }
         $role_ids = array();
@@ -468,7 +486,15 @@ class ilRepositorySearchGUI
         $class = $this->callback['class'];
         $method = $this->callback['method'];
 
-        $users = explode(',', $_POST['user_login']);// @TODO: PHP8 Review: Direct access to $_POST.
+        $post_users = '';
+        if ($this->http->wrapper()->post()->has('user_login')) {
+            $post_users = $this->http->wrapper()->post()->retrieve(
+                'user_login',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
+        $users = explode(',', $post_users);
         $user_ids = array();
         foreach ($users as $user) {
             $user_id = ilObjUser::_lookupId($user);
@@ -477,19 +503,16 @@ class ilRepositorySearchGUI
             }
         }
 
-        $user_type = $_REQUEST['user_type'] ?? 0;// @TODO: PHP8 Review: Direct access to $_REQUEST.
+        $user_type = $this->initUserTypeFromQuery();
 
-        if (!$class->$method($user_ids, (int) $user_type)) {
+        if (!$class->$method($user_ids, $user_type)) {
             $this->ctrl->returnToParent($this);
         }
     }
     
     protected function showClipboard() : void
     {
-        $this->ctrl->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);// @TODO: PHP8 Review: Direct access to $_REQUEST.
-        
-        ilLoggerFactory::getLogger('crs')->dump($_REQUEST);// @TODO: PHP8 Review: Direct access to $_REQUEST.
-        
+        $this->ctrl->setParameter($this, 'user_type', $this->initUserTypeFromQuery());
         $this->tabs->clearTargets();
         $this->tabs->setBackTarget(
             $this->lng->txt('back'),
@@ -507,15 +530,24 @@ class ilRepositorySearchGUI
 
     protected function addFromClipboard() : void
     {
-        $this->ctrl->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);// @TODO: PHP8 Review: Direct access to $_REQUEST.
-        $users = (array) $_POST['uids'];// @TODO: PHP8 Review: Direct access to $_POST.
+        $this->ctrl->setParameter($this, 'user_type', $this->initUserTypeFromQuery());
+
+        $users = [];
+        if ($this->http->wrapper()->post()->has('uids')) {
+            $users = $this->http->wrapper()->post()->retrieve(
+                'uids',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
         if (!count($users)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'showClipboard');
         }
         $class = $this->callback['class'];
         $method = $this->callback['method'];
-        $user_type = $_REQUEST['user_type'] ?? 0;// @TODO: PHP8 Review: Direct access to $_REQUEST.
+        $user_type = $this->initUserTypeFromQuery();
 
         if (!$class->$method($users, $user_type)) {
             $this->ctrl->returnToParent($this);
@@ -535,7 +567,7 @@ class ilRepositorySearchGUI
             );
         }
 
-        $this->ctrl->setParameter($this, 'user_type', (int) $_REQUEST['user_type']);// @TODO: PHP8 Review: Direct access to $_REQUEST.
+        $this->ctrl->setParameter($this, 'user_type', $this->initUserTypeFromQuery());
         if (!count($users)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'showClipboard');
@@ -566,8 +598,11 @@ class ilRepositorySearchGUI
         $class = $this->callback['class'];
         $method = $this->callback['method'];
 
+        $post_selected_command = (string) ($this->http->request()->getParsedBody()['selectedCommand'] ?? '');
+        $post_user = (array) ($this->http->request()->getParsedBody()['user'] ?? []);
+
         // Redirects if everything is ok
-        if (!$class->$method((array) $_POST['user'], $_POST['selectedCommand'])) {// @TODO: PHP8 Review: Direct access to $_POST.
+        if (!$class->$method($post_user, $post_selected_command)) {
             $this->showSearchResults();
         }
     }
@@ -602,8 +637,15 @@ class ilRepositorySearchGUI
     
     public function showSearchSelected() : void
     {
-        $selected = (int) $_REQUEST['selected_id'];// @TODO: PHP8 Review: Direct access to $_REQUEST.
-        
+        $selected = [];
+        if ($this->http->wrapper()->post()->has('selected_id')) {
+            $selected = $this->http->wrapper()->post()->retrieve(
+                'selected_id',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rep_search_result.html', 'Services/Search');
         $this->addNewSearchButton();
         $this->showSearchUserTable(array($selected), 'showSearchResults');
@@ -754,7 +796,10 @@ class ilRepositorySearchGUI
             return false;
         }
         $found_query = false;
-        foreach ((array) $_POST['rep_query'][$_POST['search_for']] as $field => $value) {// @TODO: PHP8 Review: Direct access to $_POST.
+
+        $post_rep_query = (array) ($this->http->request()->getParsedBody()['rep_query'] ?? []);
+        $post_search_for = (string) ($this->http->request()->getParsedBody()['search_for'] ?? '');
+        foreach ((array) $post_rep_query[$post_search_for] as $field => $value) {
             if (trim(ilUtil::stripSlashes($value))) {
                 $found_query = true;
                 break;
@@ -768,9 +813,10 @@ class ilRepositorySearchGUI
             $this->start();
             return false;
         }
-    
+
+        $post_cmd = (array) ($this->http->request()->getParsedBody()['cmd'] ?? []);
         // unset search_append if called directly
-        if ($_POST['cmd']['performSearch']) {// @TODO: PHP8 Review: Direct access to $_POST.
+        if (isset($post_cmd['performSearch'])) {
             ilSession::clear('search_append');
         }
 
@@ -791,13 +837,14 @@ class ilRepositorySearchGUI
                 $this->__performRoleSearch();
                 break;
             case 'orgu':
-                $_POST['obj'] = array_map(// @TODO: PHP8 Review: Direct access to $_POST.
+                $post_rep_query_orgu = (array) ($this->http->request()->getParsedBody()['rep_query_orgu'] ?? []);
+                $selected_objects = array_map(
                     function ($ref_id) {
                         return ilObject::_lookupObjId($ref_id);
                     },
-                    $_POST['rep_query_orgu']// @TODO: PHP8 Review: Direct access to $_POST.
+                    $post_rep_query_orgu
                 );
-                return $this->listUsers();
+                return $this->listUsers($selected_objects);
             default:
                 echo 'not defined';
         }
@@ -1094,7 +1141,14 @@ class ilRepositorySearchGUI
 
     protected function showSearchUserTable(array $a_usr_ids, string $a_parent_cmd) : void
     {
-        $is_in_admin = ($_REQUEST['baseClass'] == 'ilAdministrationGUI');// @TODO: PHP8 Review: Direct access to $_REQUEST.
+        $base_class = '';
+        if ($this->http->wrapper()->query()->has('baseClass')) {
+            $base_class = $this->http->wrapper()->query()->retrieve(
+                'baseClass',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $is_in_admin = $base_class === ilAdministrationGUI::class;
         if ($is_in_admin) {
             // remember link target to admin search gui (this)
             ilSession::set('usr_search_link', $this->ctrl->getLinkTarget($this, 'show'));
@@ -1142,12 +1196,14 @@ class ilRepositorySearchGUI
         $this->tpl->setVariable('RES_TABLE', $table->getHTML());
     }
 
-    protected function listUsers() : bool
+    protected function listUsers(array $selected_entries = []) : bool
     {
         // get parameter is used e.g. in exercises to provide
         // "add members of course" link
-        $selected_entries = [];
-        if ($this->http->wrapper()->post()->has('obj')) {
+        if (
+            $this->http->wrapper()->post()->has('obj') &&
+            !count($selected_entries)
+        ) {
             $selected_entries = $this->http->wrapper()->post()->retrieve(
                 'obj',
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
@@ -1243,8 +1299,8 @@ class ilRepositorySearchGUI
     protected function storedUserList() : bool
     {
         $rep_search = ilSession::get('rep_search');
-        $_POST['obj'] = $rep_search['objs'] ?? []; // @TODO: PHP8 Review: Direct access to $_POST.
-        $this->listUsers();
+        $objects = $rep_search['objs'] ?? [];
+        $this->listUsers($objects);
         return true;
     }
     

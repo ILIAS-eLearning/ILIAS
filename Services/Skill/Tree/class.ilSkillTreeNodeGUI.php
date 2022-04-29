@@ -51,7 +51,16 @@ class ilSkillTreeNodeGUI
     protected int $requested_node_id = 0;
     protected string $requested_backcmd = "";
     protected int $requested_tmpmode = 0;
+    protected int $base_skill_id = 0;
+
+    /**
+     * @var int[]
+     */
     protected array $requested_node_ids = [];
+
+    /**
+     * @var int[]
+     */
     protected array $requested_node_order = [];
 
     public function __construct(Tree\SkillTreeNodeManager $node_manager, int $a_node_id = 0)
@@ -311,7 +320,7 @@ class ilSkillTreeNodeGUI
         $values["description"] = $this->node_object->getDescription();
         $values["order_nr"] = $this->node_object->getOrderNr();
         $values["self_eval"] = $this->node_object->getSelfEvaluation();
-        $values["status"] = $this->node_object->getStatus();
+        $values["status"] = (string) $this->node_object->getStatus();
         
         $this->form->setValuesByArray($values);
     }

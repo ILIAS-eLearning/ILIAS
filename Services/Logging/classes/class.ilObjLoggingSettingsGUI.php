@@ -145,11 +145,11 @@ class ilObjLoggingSettingsGUI extends ilObjectGUI
         }
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
-            $this->getSettings()->setLevel($form->getInput('level'));
-            $this->getSettings()->enableCaching($form->getInput('cache'));
-            $this->getSettings()->setCacheLevel($form->getInput('cache_level'));
-            $this->getSettings()->enableMemoryUsage($form->getInput('memory'));
-            $this->getSettings()->enableBrowserLog($form->getInput('browser'));
+            $this->getSettings()->setLevel((int) $form->getInput('level'));
+            $this->getSettings()->enableCaching((bool) $form->getInput('cache'));
+            $this->getSettings()->setCacheLevel((int) $form->getInput('cache_level'));
+            $this->getSettings()->enableMemoryUsage((bool) $form->getInput('memory'));
+            $this->getSettings()->enableBrowserLog((bool) $form->getInput('browser'));
             $this->getSettings()->setBrowserUsers($form->getInput('browser_users'));
             
             $this->getLogger()->info(print_r($form->getInput('browser_users'), true));

@@ -865,7 +865,7 @@ class ilObjRole extends ilObject
             case 'grp':
                 $type = ilObjGroup::lookupGroupTye(ilObject::_lookupObjId($a_id));
                 switch ($type) {
-                    case GRP_TYPE_CLOSED:
+                    case ilGroupConstants::GRP_TYPE_CLOSED:
                         if (!$group_closed_id) {
                             $query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_closed'";
                             $res = $this->db->query($query);
@@ -877,7 +877,7 @@ class ilObjRole extends ilObject
                         #var_dump("GROUP CLOSED id:" . $template_id);
                         break;
 
-                    case GRP_TYPE_OPEN:
+                    case ilGroupConstants::GRP_TYPE_OPEN:
                     default:
                         if (!$group_open_id) {
                             $query = "SELECT obj_id FROM object_data WHERE type='rolt' AND title='il_grp_status_open'";

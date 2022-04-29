@@ -32,7 +32,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     public const ACHIEVED = 1;
     public const NOT_ACHIEVED = 0;
 
-    public const EVAL_BY_OTHERS_ = 0;
+    public const EVAL_BY_OTHERS = 0;
     public const EVAL_BY_SELF = 1;
     public const EVAL_BY_ALL = 2;
 
@@ -406,6 +406,26 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         );
     }
 
+    public function getNextLevelFulfilmentPerType(
+        int $a_tref_id,
+        string $a_type,
+        int $a_user_id = 0,
+        int $a_self_eval = 0
+    ) : float {
+        if ($a_user_id == 0) {
+            $a_user_id = $this->user->getId();
+        }
+        $skill_id = $this->getId();
+
+        return $this->bsc_skl_usr_lvl_db_rep->getNextLevelFulfilmentPerType(
+            $skill_id,
+            $a_tref_id,
+            $a_type,
+            $a_user_id,
+            $a_self_eval
+        );
+    }
+
     public function getAllLevelEntriesOfUser(
         int $a_tref_id,
         int $a_user_id = 0,
@@ -459,6 +479,26 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         );
     }
 
+    public function getNextLevelFulfilmentPerObject(
+        int $a_tref_id,
+        int $a_object_id,
+        int $a_user_id = 0,
+        int $a_self_eval = 0
+    ) : float {
+        if ($a_user_id == 0) {
+            $a_user_id = $this->user->getId();
+        }
+        $skill_id = $this->getId();
+
+        return $this->bsc_skl_usr_lvl_db_rep->getNextLevelFulfilmentPerObject(
+            $skill_id,
+            $a_tref_id,
+            $a_object_id,
+            $a_user_id,
+            $a_self_eval
+        );
+    }
+
     public function getMaxLevel(
         int $a_tref_id,
         int $a_user_id = 0,
@@ -471,6 +511,19 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         $levels = $this->getLevelData();
 
         return $this->bsc_skl_usr_lvl_db_rep->getMaxLevel($skill_id, $levels, $a_tref_id, $a_user_id, $a_self_eval);
+    }
+
+    public function getNextLevelFulfilment(
+        int $a_tref_id,
+        int $a_user_id = 0,
+        int $a_self_eval = 0
+    ) : float {
+        if ($a_user_id == 0) {
+            $a_user_id = $this->user->getId();
+        }
+        $skill_id = $this->getId();
+
+        return $this->bsc_skl_usr_lvl_db_rep->getNextLevelFulfilment($skill_id, $a_tref_id, $a_user_id, $a_self_eval);
     }
 
     public static function hasSelfEvaluated(
@@ -543,11 +596,10 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         return "Skill";
     }
 
-    public static function getUsageInfo(array $a_cskill_ids, array &$a_usages) // return type?
+    public static function getUsageInfo(array $a_cskill_ids) : array
     {
-        ilSkillUsage::getUsageInfoGeneric(
+        return ilSkillUsage::getUsageInfoGeneric(
             $a_cskill_ids,
-            $a_usages,
             ilSkillUsage::USER_ASSIGNED,
             "skl_user_skill_level",
             "user_id"

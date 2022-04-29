@@ -42,39 +42,24 @@ const VIEW_TUTOR = "10";
 */
 class ilQTIItemfeedback
 {
-    /** @var string|null */
-    public $view;
-
-    /** @var string|null */
-    public $ident;
-
-    /** @var string|null */
-    public $title;
-
+    public ?string $view;
+    public ?string $ident;
+    public ?string $title;
     /** @var ilQTIFlowmat[] */
-    public $flow_mat;
-
+    public array $flow_mat;
     /** @var ilQTIMaterial[] */
-    public $material;
-
-    /** @var array */
-    public $solution;
-
-    /** @var array */
-    public $hint;
+    public array $material;
     
     public function __construct()
     {
-        $this->flow_mat = array();
-        $this->material = array();
-        $this->solution = array();
-        $this->hint = array();
+        $this->view = null;
+        $this->ident = null;
+        $this->title = null;
+        $this->flow_mat = [];
+        $this->material = [];
     }
 
-    /**
-     * @param string $a_view
-     */
-    public function setView($a_view) : void
+    public function setView(string $a_view) : void
     {
         switch (strtolower($a_view)) {
             case "1":
@@ -120,69 +105,38 @@ class ilQTIItemfeedback
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getView()
+    public function getView() : ?string
     {
         return $this->view;
     }
 
-    /**
-     * @param string $a_ident
-     */
-    public function setIdent($a_ident) : void
+    public function setIdent(string $a_ident) : void
     {
         $this->ident = $a_ident;
     }
 
-    /**
-     * @param string|null
-     */
-    public function getIdent()
+    public function getIdent() : ?string
     {
         return $this->ident;
     }
 
-    /**
-     * @param string|null $a_title
-     */
-    public function setTitle($a_title) : void
+    public function setTitle(?string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getTitle()
+    public function getTitle() : ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param ilQTIFlowmat $a_flow_mat
-     */
-    public function addFlow_mat($a_flow_mat) : void
+    public function addFlow_mat(ilQTIFlowmat $a_flow_mat) : void
     {
         $this->flow_mat[] = $a_flow_mat;
     }
 
-    /**
-     * @param ilQTIMaterial $a_material
-     */
-    public function addMaterial($a_material) : void
+    public function addMaterial(ilQTIMaterial $a_material) : void
     {
         $this->material[] = $a_material;
-    }
-    
-    public function addSolution($a_solution) : void
-    {
-        $this->solution[] = $a_solution;
-    }
-    
-    public function addHint($a_hint) : void
-    {
-        $this->hint[] = $a_hint;
     }
 }

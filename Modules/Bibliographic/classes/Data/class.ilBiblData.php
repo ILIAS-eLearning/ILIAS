@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 
 /**
@@ -13,18 +29,12 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
     const TABLE_NAME = 'il_bibl_data';
 
 
-    /**
-     * @return string
-     */
     public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
 
 
-    /**
-     * @return string
-     */
     public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;
@@ -42,8 +52,6 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      */
     protected ?int $id = null;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     256
@@ -51,8 +59,6 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      */
     protected ?string $filename = null;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
@@ -60,8 +66,6 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      */
     protected ?int $is_online = null;
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     1
@@ -78,36 +82,24 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      */
     protected ?string $rid = null;
 
-    /**
-     * @return int|null
-     */
     public function getId() : ?int
     {
         return $this->id;
     }
 
 
-    /**
-     * @param integer $id
-     */
     public function setId(int $id) : void
     {
         $this->id = $id;
     }
 
 
-    /**
-     * @return string|null
-     */
     public function getFilename() : ?string
     {
         return $this->filename;
     }
 
 
-    /**
-     * @param string $filename
-     */
     public function setFilename(string $filename) : void
     {
         $this->filename = $filename;
@@ -115,31 +107,22 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
     
     public function isOnline() : bool
     {
-        return (bool)$this->is_online;
+        return (bool) $this->is_online;
     }
 
 
-    /**
-     * @param integer $is_online
-     */
     public function setIsOnline(int $is_online) : void
     {
         $this->is_online = $is_online;
     }
 
 
-    /**
-     * @return int
-     */
     public function getFileType() : int
     {
         return $this->file_type;
     }
 
 
-    /**
-     * @param integer $file_type
-     */
     public function setFileType(int $file_type) : void
     {
         $this->file_type = $file_type;

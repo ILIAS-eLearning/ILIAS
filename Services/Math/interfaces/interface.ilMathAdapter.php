@@ -1,17 +1,21 @@
 <?php
-/******************************************************************************
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Interface ilMathAdapter
  * @author Michael Jansen <mjansen@databay.de>
@@ -20,8 +24,8 @@ interface ilMathAdapter
 {
     /**
      * Adds two numbers
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @param int|null $scale
      * @return mixed
      */
@@ -29,8 +33,8 @@ interface ilMathAdapter
 
     /**
      * Subtracts two numbers
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @param int|null $scale
      * @return mixed
      */
@@ -38,8 +42,8 @@ interface ilMathAdapter
 
     /**
      * Multiplies two numbers
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @param int|null $scale
      * @return mixed
      */
@@ -47,8 +51,8 @@ interface ilMathAdapter
 
     /**
      * Divides two numbers
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @param int|null $scale
      * @return mixed
      * @throws ilMathDivisionByZeroException
@@ -57,8 +61,8 @@ interface ilMathAdapter
 
     /**
      * Gets modulus of two numbers
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @return mixed
      * @throws ilMathDivisionByZeroException
      */
@@ -66,8 +70,8 @@ interface ilMathAdapter
 
     /**
      * Raises a number to another
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @param int|null $scale
      * @return mixed
      */
@@ -84,8 +88,8 @@ interface ilMathAdapter
 
     /**
      * Compares two numbers
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @param int|null $scale
      * @return mixed
      */
@@ -93,14 +97,15 @@ interface ilMathAdapter
 
     /**
      * Checks whether or not two numbers are identical
-     * @param  mixed $left_operand
-     * @param  mixed $right_operand
+     * @param mixed $left_operand
+     * @param mixed $right_operand
      * @param int|null $scale
      * @return bool
      */
     public function equals($left_operand, $right_operand, int $scale = null) : bool;
 
     /**
+     * This method adapts the behaviour of bcscale()
      * @param mixed $left_operand
      * @param int|null $scale
      * @return mixed
@@ -109,7 +114,6 @@ interface ilMathAdapter
 
     /**
      * @param mixed $value
-     * @return string
      */
     public function round($value, int $precision = 0) : string;
 }

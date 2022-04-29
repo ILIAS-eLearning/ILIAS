@@ -127,7 +127,7 @@ class PresentationGUIRequest
 
     public function getRating() : int
     {
-        return $this->str("rating");
+        return $this->int("rating");
     }
 
     public function getItems() : array

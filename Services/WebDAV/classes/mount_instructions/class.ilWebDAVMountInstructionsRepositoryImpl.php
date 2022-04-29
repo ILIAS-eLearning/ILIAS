@@ -119,7 +119,7 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         return ($record === null ? 0 : (int) $record['id']);
     }
     
-    public function updateMountInstructions(ilWebDAVMountInstructionsDocument $document)
+    public function updateMountInstructions(ilWebDAVMountInstructionsDocument $document) : void
     {
         $this->db->update(
             // table name
@@ -143,7 +143,7 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         );
     }
     
-    public function updateSortingValueById(int $id, int $a_new_sorting_value)
+    public function updateSortingValueById(int $id, int $a_new_sorting_value) : void
     {
         $this->db->update(
         // table name
@@ -161,7 +161,7 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         );
     }
     
-    public function deleteMountInstructionsById(int $id)
+    public function deleteMountInstructionsById(int $id) : void
     {
         $query = "DELETE FROM " . $this->db->quoteIdentifier(self::TABLE_MOUNT_INSTRUCTIONS)
             . ' WHERE id=' . $this->db->quote($id, 'integer');
@@ -169,7 +169,7 @@ class ilWebDAVMountInstructionsRepositoryImpl implements ilWebDAVMountInstructio
         $this->db->manipulate($query);
     }
     
-    protected function buildDocumentFromDatabaseRecord(array $result)
+    protected function buildDocumentFromDatabaseRecord(array $result) : ilWebDAVMountInstructionsDocument
     {
         return new ilWebDAVMountInstructionsDocument(
             (int) $result['id'],

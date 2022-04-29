@@ -23,7 +23,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @author Michael Jansen <mjansen@databay.de>
  *
  */
-class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials implements ilAuthCredentials
+class ilAuthFrontendCredentialsApache extends ilAuthFrontendCredentials
 {
     private ServerRequestInterface $httpRequest;
     private ilCtrl $ctrl;

@@ -153,21 +153,21 @@ class ilMathJax
 
         // try the server-side rendering first, set this engine, if possible
         if ($this->config->isServerEnabled()) {
-            if ($a_purpose == self::PURPOSE_BROWSER && $this->config->isServerForBrowser()) {
+            if ($a_purpose === self::PURPOSE_BROWSER && $this->config->isServerForBrowser()) {
                 // delivering svg directly in page may be faster than loading image files
                 $this->setEngine(self::ENGINE_SERVER);
                 $this->setRendering(self::RENDER_SVG_AS_XML_EMBED);
-            } elseif ($a_purpose == self::PURPOSE_EXPORT && $this->config->isServerForExport()) {
+            } elseif ($a_purpose === self::PURPOSE_EXPORT && $this->config->isServerForExport()) {
                 // offline pages must always embed the svg as image tags
                 // otherwise the html base tag may conflict with references in svg
                 $this->setEngine(self::ENGINE_SERVER);
                 $this->setRendering(self::RENDER_SVG_AS_IMG_EMBED);
-            } elseif ($a_purpose == self::PURPOSE_PDF && $this->config->isServerForPdf()) {
+            } elseif ($a_purpose === self::PURPOSE_PDF && $this->config->isServerForPdf()) {
                 // embedded png should work in most pdf engines
                 // details can be set by the rendering engine
                 $this->setEngine(self::ENGINE_SERVER);
                 $this->setRendering(self::RENDER_PNG_AS_IMG_EMBED);
-            } elseif ($a_purpose == self::PURPOSE_DEFERRED_PDF && $this->config->isServerForPdf()) {
+            } elseif ($a_purpose === self::PURPOSE_DEFERRED_PDF && $this->config->isServerForPdf()) {
                 // final engine and rendering is set before the pdf is created
                 $this->setEngine(self::ENGINE_DEFERRED);
             }
@@ -282,7 +282,7 @@ class ilMathJax
     public function insertLatexImages(string $a_text, ?string $a_start = '[tex]', ?string $a_end = '[/tex]') : string
     {
         // don't change anything if mathjax is not configured
-        if ($this->engine == self::ENGINE_NONE) {
+        if ($this->engine === self::ENGINE_NONE) {
             return $a_text;
         }
 
@@ -300,14 +300,12 @@ class ilMathJax
                 $tex = ilStr::subStr($a_text, $spos + ilStr::strLen($a_start), $epos - $spos - ilStr::strLen($a_start));
 
                 // undo a code protection done by the deferred engine before
-                if (ilStr::subStr($tex, 0, 7) == 'base64:') {
+                if (ilStr::subStr($tex, 0, 7) === 'base64:') {
                     $tex = base64_decode(substr($tex, 7));
                 }
 
                 // omit the html newlines added by the ILIAS page editor
-                $tex = str_replace('<br>', '', $tex);
-                $tex = str_replace('<br/>', '', $tex);
-                $tex = str_replace('<br />', '', $tex);
+                $tex = str_replace(array('<br>', '<br/>', '<br />'), '', $tex);
 
                 // tex specific replacements
                 $tex = preg_replace("/\\\\([RZN])([^a-zA-Z])/", "\\mathbb{" . "$1" . "}" . "$2", $tex);
@@ -401,7 +399,7 @@ class ilMathJax
             // get the image properties
             switch ($this->output) {
                 case self::OUTPUT_PNG:
-                    list($width, $height) = getimagesize($image->absolutePath());
+                    [$width, $height] = getimagesize($image->absolutePath());
                     $width = round($width * $this->zoom_factor);
                     $height = round($height * $this->zoom_factor);
                     $mime = 'image/png';
@@ -409,7 +407,7 @@ class ilMathJax
 
                 case self::OUTPUT_SVG:
                 default:
-                    $svg = simplexml_load_file($image->absolutePath());
+                    $svg = simplexml_load_string(file_get_contents($image->absolutePath()));
                     $width = round($svg['width'] * $this->zoom_factor);
                     $height = round($svg['height'] * $this->zoom_factor);
                     $mime = 'image/svg+xml';
@@ -449,8 +447,7 @@ class ilMathJax
      */
     public function getCacheSize() : string
     {
-        $image = $this->factory->image('', $this->output, $this->dpi);
-        return $image->getCacheSize();
+        return $this->factory->image('', $this->output, $this->dpi)->getCacheSize();
     }
 
     /**

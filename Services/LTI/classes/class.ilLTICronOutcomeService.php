@@ -48,21 +48,21 @@ class ilLTICronOutcomeService extends ilCronJob
 
     public function getTitle() : string
     {
-        global $DIC;
+        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor
         $DIC->language()->loadLanguageModule('lti');
         return $DIC->language()->txt('lti_cron_title');
     }
 
     public function getDescription() : string
     {
-        global $DIC;
+        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor
         $DIC->language()->loadLanguageModule('lti');
         return $DIC->language()->txt('lti_cron_title_desc');
     }
 
     public function run() : ilCronJobResult
     {
-        global $DIC;
+        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor
 
         $status = \ilCronJobResult::STATUS_NO_ACTION;
 

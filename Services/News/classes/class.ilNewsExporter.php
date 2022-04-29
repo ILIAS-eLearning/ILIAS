@@ -29,27 +29,27 @@ class ilNewsExporter extends ilXmlExporter
         $this->ds->setDSPrefix("ds");
     }
 
-
     /**
      * @return		array		array of array with keys "component", entity", "ids"
      */
     public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
-        $mob_ids = array();
+        $mob_ids = [];
 
         foreach ($a_ids as $id) {
-            $mob_id = ilNewsItem::_lookupMobId($id);
+            $mob_id = ilNewsItem::_lookupMobId((int) $id);
             if ($mob_id > 0) {
                 $mob_ids[$mob_id] = $mob_id;
             }
         }
 
-        return array(
-            array(
+        return [
+            [
                 "component" => "Services/MediaObjects",
                 "entity" => "mob",
-                "ids" => $mob_ids)
-            );
+                "ids" => $mob_ids
+            ]
+        ];
     }
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
@@ -59,19 +59,21 @@ class ilNewsExporter extends ilXmlExporter
 
     public function getValidSchemaVersions(string $a_entity) : array
     {
-        return array(
-            "5.4.0" => array(
+        return [
+            "5.4.0" => [
                 "namespace" => "https://www.ilias.de/Services/News/news/5_4",
                 "xsd_file" => "ilias_news_5_4.xsd",
                 "uses_dataset" => true,
                 "min" => "5.4.0",
-                "max" => ""),
-            "4.1.0" => array(
+                "max" => ""
+            ],
+            "4.1.0" => [
                 "namespace" => "https://www.ilias.de/Services/News/news/4_1",
                 "xsd_file" => "ilias_news_4_1.xsd",
                 "uses_dataset" => true,
                 "min" => "4.1.0",
-                "max" => "")
-        );
+                "max" => ""
+            ]
+        ];
     }
 }

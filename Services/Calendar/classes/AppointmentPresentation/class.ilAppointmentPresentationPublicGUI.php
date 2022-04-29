@@ -9,7 +9,6 @@
  */
 class ilAppointmentPresentationPublicGUI extends ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 {
-
     public function collectPropertiesAndActions() : void
     {
         $a_app = $this->appointment;

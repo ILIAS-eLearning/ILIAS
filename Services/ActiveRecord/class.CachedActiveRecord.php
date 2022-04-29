@@ -21,14 +21,8 @@ abstract class CachedActiveRecord extends ActiveRecord
 {
     private string $_hash = '';
 
-    /**
-     * @return ilGlobalCache
-     */
     abstract public function getCache() : ilGlobalCache;
 
-    /**
-     * @return string
-     */
     final public function getCacheIdentifier() : string
     {
         if ($this->getArFieldList()->getPrimaryField()) {

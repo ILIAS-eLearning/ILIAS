@@ -36,7 +36,7 @@ class LostItemRenderer extends BaseTypeRenderer
         if ($item->hasChildren()) {
             $r = new TopParentItemRenderer();
             
-            return $r->getComponentForItem($item, true);
+            return $r->getComponentForItem($item);
         }
         
         return $this->ui_factory->button()->bulky($this->getStandardSymbol($item), "{$item->getTypeInformation()->getTypeNameForPresentation()}", "");

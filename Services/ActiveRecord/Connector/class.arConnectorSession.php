@@ -66,9 +66,6 @@ class arConnectorSession extends arConnector
         return count(self::getSessionForActiveRecord($ar)) + 1;
     }
 
-    /**
-     * @param array $fields
-     */
     public function installDatabase(ActiveRecord $ar, array $fields) : bool
     {
         return $this->resetDatabase($ar);
@@ -91,18 +88,11 @@ class arConnectorSession extends arConnector
         return $this->resetDatabase($ar);
     }
 
-    /**
-     * @return bool
-     */
     public function checkTableExists(ActiveRecord $ar) : bool
     {
         return is_array(self::getSessionForActiveRecord($ar));
     }
 
-    /**
-     * @param string $field_name
-     * @return bool
-     */
     public function checkFieldExists(ActiveRecord $ar, string $field_name) : bool
     {
         $session = self::getSessionForActiveRecord($ar);
@@ -111,7 +101,6 @@ class arConnectorSession extends arConnector
     }
 
     /**
-     * @param string $field_name
      * @throws arException
      */
     public function removeField(ActiveRecord $ar, string $field_name) : bool
@@ -120,8 +109,6 @@ class arConnectorSession extends arConnector
     }
 
     /**
-     * @param string $old_name
-     * @param string $new_name
      * @throws arException
      */
     public function renameField(ActiveRecord $ar, string $old_name, string $new_name) : bool
@@ -187,7 +174,6 @@ class arConnectorSession extends arConnector
 
     /**
      * @param $value
-     * @param string $type
      */
     public function quote($value, string $type) : string
     {

@@ -73,6 +73,9 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
         return (int) $rec["mnr"] ?? 0;
     }
 
+    /**
+     * Returns multiple rows when $a_id is 0 else one or [].
+     */
     public function getLevelData(int $skill_id, int $a_id = 0) : array
     {
         $ilDB = $this->db;
@@ -98,7 +101,7 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
         return $levels;
     }
 
-    protected function lookupLevelProperty(int $a_id, string $a_prop)
+    protected function lookupLevelProperty(int $a_id, string $a_prop) : ?string
     {
         $ilDB = $this->db;
 
@@ -107,7 +110,8 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
             " id = " . $ilDB->quote($a_id, "integer")
         );
         $rec = $ilDB->fetchAssoc($set);
-        return $rec[$a_prop];
+
+        return isset($rec[$a_prop]) ? (string) $rec[$a_prop] : null;
     }
 
     public function lookupLevelTitle(int $a_id) : string
@@ -125,7 +129,7 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
         return $this->lookupLevelProperty($a_id, "skill_id") ?? 0;
     }
 
-    protected function writeLevelProperty(int $a_id, string $a_prop, $a_value, string $a_type) : void
+    protected function writeLevelProperty(int $a_id, string $a_prop, ?string $a_value, string $a_type) : void
     {
         $ilDB = $this->db;
 
@@ -201,8 +205,8 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
         );
         $skill = null;
         if ($rec = $ilDB->fetchAssoc($set)) {
-            if ($this->tree_repo->isInAnyTree($rec["skill_id"])) {
-                $skill = new ilBasicSkill($rec["skill_id"]);
+            if ($this->tree_repo->isInAnyTree((int) $rec["skill_id"])) {
+                $skill = new ilBasicSkill((int) $rec["skill_id"]);
             }
         }
         return $skill;

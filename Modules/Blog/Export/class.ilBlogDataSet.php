@@ -53,7 +53,7 @@ class ilBlogDataSet extends ilDataSet
         string $a_entity,
         string $a_version
     ) : array {
-        if ($a_entity == "blog") {
+        if ($a_entity === "blog") {
             switch ($a_version) {
                 case "4.3.0":
                     return array(
@@ -129,7 +129,7 @@ class ilBlogDataSet extends ilDataSet
             }
         }
         
-        if ($a_entity == "blog_posting") {
+        if ($a_entity === "blog_posting") {
             switch ($a_version) {
                 case "4.3.0":
                 case "5.0.0":
@@ -155,7 +155,7 @@ class ilBlogDataSet extends ilDataSet
     ) : void {
         $ilDB = $this->db;
 
-        if ($a_entity == "blog") {
+        if ($a_entity === "blog") {
             switch ($a_version) {
                 case "4.3.0":
                     $this->getDirectDataFromQuery("SELECT bl.id,od.title,od.description," .
@@ -192,7 +192,7 @@ class ilBlogDataSet extends ilDataSet
             }
         }
         
-        if ($a_entity == "blog_posting") {
+        if ($a_entity === "blog_posting") {
             switch ($a_version) {
                 case "4.3.0":
                 case "5.0.0":
@@ -226,11 +226,10 @@ class ilBlogDataSet extends ilDataSet
         ?array $a_rec = null,
         ?array $a_ids = null
     ) : array {
-        switch ($a_entity) {
-            case "blog":
-                return array(
-                    "blog_posting" => array("ids" => $a_rec["Id"])
-                );
+        if ($a_entity === "blog") {
+            return array(
+                "blog_posting" => array("ids" => $a_rec["Id"])
+            );
         }
         return [];
     }
@@ -240,7 +239,7 @@ class ilBlogDataSet extends ilDataSet
         string $a_version,
         array $a_set
     ) : array {
-        if ($a_entity == "blog") {
+        if ($a_entity === "blog") {
             $style = $this->content_style_domain->styleForObjId((int) $a_set["Id"]);
 
             $dir = ilObjBlog::initStorage($a_set["Id"]);
@@ -308,7 +307,7 @@ class ilBlogDataSet extends ilDataSet
                 // handle image(s)
                 if ($a_rec["Img"]) {
                     $dir = str_replace("..", "", $a_rec["Dir"]);
-                    if ($dir != "" && $this->getImportDirectory() != "") {
+                    if ($dir !== "" && $this->getImportDirectory() !== "") {
                         $source_dir = $this->getImportDirectory() . "/" . $dir;
                         $target_dir = ilObjBlog::initStorage($newObj->getId());
                         ilFileUtils::rCopy($source_dir, $target_dir);
@@ -340,14 +339,15 @@ class ilBlogDataSet extends ilDataSet
                     // keywords
                     $keywords = array();
                     for ($loop = 0; $loop < 1000; $loop++) {
-                        if (isset($a_rec["Keyword" . $loop])) {
-                            $keyword = trim($a_rec["Keyword" . $loop]);
-                            if (strlen($keyword)) {
+                        $idx = "Keyword" . $loop;
+                        if (isset($a_rec[$idx])) {
+                            $keyword = trim($a_rec[$idx]);
+                            if ($keyword !== '') {
                                 $keywords[] = $keyword;
                             }
                         }
                     }
-                    if (sizeof($keywords)) {
+                    if (count($keywords)) {
                         $newObj->updateKeywords($keywords);
                     }
                     

@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
-use \ILIAS\UI\Factory;
-use \ILIAS\UI\Renderer;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use Psr\Http\Message\RequestInterface;
 
 /******************************************************************************
@@ -19,7 +19,7 @@ use Psr\Http\Message\RequestInterface;
  *****************************************************************************/
 class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 {
-    protected ilWebDAVUriBuilder $mount_instructions_gui;
+    protected ilWebDAVUriBuilder $webdav_uri_builder;
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
     protected RequestInterface $request;
@@ -27,6 +27,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
     protected int $factor = 10;
     protected int $i = 1;
     protected int $num_rendered_criteria = 0;
+    protected array $optional_columns;
     protected array $visible_optional_columns;
 
     /** @var ILIAS\UI\Component\Component[] */
@@ -55,8 +56,8 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
         parent::__construct($parent_obj, $command);
 
         $columns = $this->getColumnDefinition();
-        $this->optional_columns = (array) $this->getSelectableColumns();
-        $this->visible_optional_columns = (array) $this->getSelectedColumns();
+        $this->optional_columns = $this->getSelectableColumns();
+        $this->visible_optional_columns = $this->getSelectedColumns();
 
         foreach ($columns as $index => $column) {
             if ($this->isColumnVisible($index)) {
@@ -102,7 +103,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
         $optional_columns = array_filter($this->getColumnDefinition(), fn ($column) => isset($column['optional']) && $column['optional']);
 
         $columns = [];
-        foreach ($optional_columns as $index => $column) {
+        foreach ($optional_columns as $column) {
             $columns[$column['field']] = $column;
         }
 
@@ -138,7 +139,7 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 
             $this->tpl->setCurrentBlock('column');
             $value = $this->formatCellValue($column['field'], $row);
-            if ((string) $value === '') {
+            if ($value === '') {
                 $this->tpl->touchBlock('column');
             } else {
                 $this->tpl->setVariable('COLUMN_VALUE', $value);
@@ -250,10 +251,6 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 
     protected function preProcessData(array &$data) : void
     {
-        /**
-         * @var  $key
-         * @var  $document ilWebDAVMountInstructionsDocument
-         */
         foreach ($data['items'] as $key => $document) {
             $data['items'][$key] = [
                 'id' => $document->getId(),
@@ -338,13 +335,13 @@ class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 
     protected function formatSorting(string $column, array $row) : string
     {
-        $value = ($this->i++) * $this->factor;
+        $value = strval(($this->i++) * $this->factor);
         if (!$this->is_editable) {
             return $value;
         }
 
         $sorting_field = new ilNumberInputGUI('', 'sorting[' . $row['id'] . ']');
-        $sorting_field->setValue((string) $value);
+        $sorting_field->setValue($value);
         $sorting_field->setMaxLength(4);
         $sorting_field->setSize(2);
 

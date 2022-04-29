@@ -1,7 +1,5 @@
 <?php declare(strict_types = 1);
 
-use ILIAS\FileUpload\Collection\Exception\ElementAlreadyExistsException;
-
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.

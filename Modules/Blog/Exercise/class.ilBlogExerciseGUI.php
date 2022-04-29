@@ -304,11 +304,11 @@ class ilBlogExerciseGUI
             $ass_id = $exercise["ass_id"];
             $buttons[$ass_id] = [];
             $submit_button = $this->getSubmitButton($ass_id);
-            if ($submit_button != null) {
+            if ($submit_button) {
                 $buttons[$ass_id][] = $submit_button;
             }
             $download_button = $this->getDownloadSubmissionButton($ass_id);
-            if ($download_button != null) {
+            if ($download_button) {
                 $buttons[$ass_id][] = $download_button;
             }
         }

@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Booking preferences business logic
@@ -29,7 +33,7 @@ class ilBookingPreferencesManager
     public function __construct(
         ilObjBookingPool $pool,
         ilBookingPrefBasedBookGatewayRepository $book_repo,
-        int $current_time = null,
+        ?int $current_time = null,
         int $bookings_per_user = self::BOOKINGS_PER_USER_DEFAULT
     ) {
         $this->current_time = ($current_time > 0)
@@ -45,11 +49,8 @@ class ilBookingPreferencesManager
      */
     public function isGivingPreferencesPossible() : bool
     {
-        if ($this->pool->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES &&
-            $this->pool->getPreferenceDeadline() > $this->current_time) {
-            return true;
-        }
-        return false;
+        return $this->pool->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES &&
+            $this->pool->getPreferenceDeadline() > $this->current_time;
     }
 
     /**
@@ -57,11 +58,8 @@ class ilBookingPreferencesManager
      */
     public function isPreferenceDeadlineReached() : bool
     {
-        if ($this->pool->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES &&
-            $this->pool->getPreferenceDeadline() < $this->current_time) {
-            return true;
-        }
-        return false;
+        return $this->pool->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES &&
+            $this->pool->getPreferenceDeadline() < $this->current_time;
     }
 
     /**
@@ -84,7 +82,7 @@ class ilBookingPreferencesManager
      */
     public function readBookings() : array
     {
-        $booking_object_ids = array_map(function ($i) {
+        $booking_object_ids = array_map(static function ($i) {
             return $i["booking_object_id"];
         }, ilBookingObject::getList($this->pool->getId()));
         return $this->book_repo->getBookings($booking_object_ids);
@@ -110,13 +108,13 @@ class ilBookingPreferencesManager
             throw new ilBookingCalculationException("Preference deadline not reached.");
         }
 
-        if ($booking_object_ids == null) {
+        if ($booking_object_ids === null) {
             $booking_object_ids = array_map(function ($i) {
                 return $i["booking_object_id"];
             }, ilBookingObject::getList($this->pool->getId()));
         }
 
-        if ($availability == null) {
+        if ($availability === null) {
             $availability = [];
             foreach ($booking_object_ids as $book_obj_id) {
                 $availability[$book_obj_id] = ilBookingReservation::getNumAvailablesNoSchedule($book_obj_id);
@@ -196,8 +194,7 @@ class ilBookingPreferencesManager
      */
     protected function selectRandomEntry(array $items)
     {
-        $nr = rand(0, count($items) - 1);
-        return $items[$nr] ?? null;
+        return $items[array_rand($items)];
     }
     
     
@@ -212,7 +209,7 @@ class ilBookingPreferencesManager
         $user_ids = [];
         foreach ($preferences as $user_id => $obj_ids) {
             foreach ($obj_ids as $obj_id) {
-                if ($obj_id == $sel_obj_id) {
+                if ($obj_id === $sel_obj_id) {
                     $user_ids[] = (int) $user_id;
                 }
             }
@@ -234,7 +231,7 @@ class ilBookingPreferencesManager
         }
         foreach ($preferences as $user_id => $bobj_ids) {
             foreach ($bobj_ids as $bobj_id) {
-                $popularity[$bobj_id] += 1;
+                ++$popularity[$bobj_id];
             }
         }
 
@@ -267,8 +264,8 @@ class ilBookingPreferencesManager
         array $preferences
     ) : array {
         if (is_array($preferences[$user_id])) {
-            $preferences[$user_id] = array_filter($preferences[$user_id], function ($i) use ($obj_id) {
-                return ($i != $obj_id);
+            $preferences[$user_id] = array_filter($preferences[$user_id], static function ($i) use ($obj_id) {
+                return ($i !== $obj_id);
             });
         }
         return $preferences;
@@ -283,8 +280,8 @@ class ilBookingPreferencesManager
     ) : array {
         $new_preferences = [];
         foreach ($preferences as $user_id => $obj_ids) {
-            $new_preferences[$user_id] = array_filter($obj_ids, function ($i) use ($obj_id) {
-                return ($i != $obj_id);
+            $new_preferences[$user_id] = array_filter($obj_ids, static function ($i) use ($obj_id) {
+                return ($i !== $obj_id);
             });
         }
         return $new_preferences;
@@ -345,8 +342,7 @@ class ilBookingPreferencesManager
         foreach ($count_assignments as $obj_id => $cnt) {
             // if no preferences left for user, even assign object outside preferences
             // otherwise choose object from preferences
-            if ((count($user_preferences) == 0 || in_array($obj_id, $user_preferences))
-                && $availability[$obj_id] > 0) {
+            if ($availability[$obj_id] > 0 && (count($user_preferences) === 0 || in_array($obj_id, $user_preferences))) {
                 return (int) $obj_id;
             }
         }

@@ -72,7 +72,7 @@ class ilSkinStyleContainer
      * Creates a new skin. This includes the generation of the XML and the corresponding folders of all contained styles.
      * @throws ilSystemStyleException
      */
-    public function create(ilSystemStyleMessageStack $message_stack)
+    public function create(ilSystemStyleMessageStack $message_stack) : void
     {
         if (file_exists($this->getSkinDirectory())) {
             throw new ilSystemStyleException(ilSystemStyleException::SKIN_ALREADY_EXISTS, $this->getSkinDirectory());
@@ -109,7 +109,7 @@ class ilSkinStyleContainer
      * Updates the skin. Style are not updated, use updateStyle for that.
      * @throws ilSystemStyleException
      */
-    public function updateSkin(ilSkin $old_skin = null)
+    public function updateSkin(ilSkin $old_skin = null) : void
     {
         if (!$old_skin) {
             $old_skin = $this->getSkin();
@@ -129,7 +129,7 @@ class ilSkinStyleContainer
     /**
      * Updates one single style.
      */
-    public function updateStyle($style_id, ilSkinStyle $old_style)
+    public function updateStyle(string $style_id, ilSkinStyle $old_style) : void
     {
         $style = $this->getSkin()->getStyle($style_id);
         if ($style->getImageDirectory() != $old_style->getImageDirectory()) {
@@ -244,7 +244,7 @@ class ilSkinStyleContainer
      * Creates the less/css structure of a style
      * @throws ilSystemStyleException
      */
-    protected function createLessStructure(ilSkinStyle $style)
+    protected function createLessStructure(ilSkinStyle $style) : void
     {
         $this->createMainLessFile($style);
         $this->copyVariablesFromDefault($style);
@@ -255,7 +255,7 @@ class ilSkinStyleContainer
     /**
      * Creates the main less file
      */
-    public function createMainLessFile(ilSkinStyle $style)
+    public function createMainLessFile(ilSkinStyle $style) : void
     {
         $path = $this->getLessFilePath($style->getId());
         file_put_contents($path, $this->getLessMainFileDefautContent($style));
@@ -377,7 +377,7 @@ class ilSkinStyleContainer
     /**
      * Exports the complete skin to an zip file.
      */
-    public function export()
+    public function export() : void
     {
         ilFileDelivery::deliverFileAttached(
             $this->createTempZip(),

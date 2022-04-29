@@ -33,12 +33,14 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
     protected ilCtrl $ctrl;
     protected UIServices $ui;
     protected ilLanguage $lng;
-
+    protected InternalDataService $data_service;
+    
     public function __construct(
         InternalDataService $data_service,
         InternalDomainService $domain_service,
         InternalGUIService $gui_service
     ) {
+        $this->data_service = $data_service;
         $this->user = $domain_service->user();
         $this->lng = $domain_service->lng();
         $this->ui = $gui_service->ui();
@@ -87,6 +89,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
 
     /**
      * Get awareness list (ajax)
+     * @return ?array<string,string>
      * @throws ilWACException
      */
     public function getAwarenessList(bool $return = false) : ?array
@@ -175,7 +178,7 @@ class ilAwarenessGUI implements ilCtrlBaseClassInterface
             return $result;
         }
 
-        echo json_encode($result);
+        echo json_encode($result, JSON_THROW_ON_ERROR);
         exit;
     }
 }

@@ -103,7 +103,7 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
         return $this->comment;
     }
 
-    public function setComment(string $comment)
+    public function setComment(string $comment) : void
     {
         $comment = str_replace(PHP_EOL, '', $comment);
         $this->comment = str_replace("\n", '', $comment);
@@ -114,7 +114,7 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
         return $this->category_name;
     }
 
-    public function setCategoryName(string $category_name)
+    public function setCategoryName(string $category_name) : void
     {
         $this->category_name = $category_name;
     }
@@ -124,7 +124,7 @@ class ilSystemStyleLessVariable extends ilSystemStyleLessItem
         return $this->references;
     }
 
-    public function setReferences(array $references)
+    public function setReferences(array $references) : void
     {
         $this->references = $references;
     }

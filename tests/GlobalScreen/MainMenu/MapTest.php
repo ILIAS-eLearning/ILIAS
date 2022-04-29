@@ -10,7 +10,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Map\Map;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
 
@@ -23,7 +22,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
  */
 class MapTest extends TestCase
 {
-
     protected IdentificationFactory $identification;
     protected MainMenuItemFactory $factory;
     protected StaticMainMenuProvider $provider;
@@ -58,11 +56,9 @@ class MapTest extends TestCase
         $p2 = $this->getId('parent_2');
         $p3 = $this->getId('parent_3');
         $map->addMultiple(
-            ...[
-                $this->factory->topParentItem($p1),
-                $this->factory->topParentItem($p2),
-                $this->factory->topParentItem($p3),
-            ]
+            $this->factory->topParentItem($p1),
+            $this->factory->topParentItem($p2),
+            $this->factory->topParentItem($p3)
         );
         
         $p4 = $this->getId('parent_4');
@@ -85,12 +81,10 @@ class MapTest extends TestCase
         $p3 = $this->getId('parent_3');
         $p4 = $this->getId('parent_4');
         $map->addMultiple(
-            ...[
-                $this->factory->topParentItem($p1),
-                $this->factory->topParentItem($p2),
-                $this->factory->topParentItem($p3),
-                $this->factory->topParentItem($p4)
-            ]
+            $this->factory->topParentItem($p1),
+            $this->factory->topParentItem($p2),
+            $this->factory->topParentItem($p3),
+            $this->factory->topParentItem($p4)
         );
         
         $this->assertTrue($map->has());
@@ -186,7 +180,7 @@ class MapTest extends TestCase
         $this->assertSame(10, $i->getPosition());
     }
     
-    public function testSortingNestedItems()
+    public function testSortingNestedItems() : void
     {
         $map = $this->getMap();
         /** @var TopParentItem $tp_1 */
@@ -245,7 +239,7 @@ class MapTest extends TestCase
         $this->assertEquals(1, $first->getPosition());
     }
     
-    public function testSamePositionResolution()
+    public function testSamePositionResolution() : void
     {
         $map = $this->getMap();
         /** @var TopParentItem $tp_1 */
@@ -266,10 +260,10 @@ class MapTest extends TestCase
         $map->add($tp_1_1);
         $map->sort();
         $item = $map->getSingleItemFromFilter($this->getId('tp_1'));
-        $this->assertEquals(2, count($item->getChildren()));
+        $this->assertCount(2, $item->getChildren());
     }
-    
-    private function getDummyProvider()
+
+    private function getDummyProvider() : StaticMainMenuProvider
     {
         return new class implements StaticMainMenuProvider {
             public function getAllIdentifications() : array

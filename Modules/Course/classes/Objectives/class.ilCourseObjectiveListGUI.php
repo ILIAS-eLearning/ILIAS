@@ -1,26 +1,20 @@
 <?php declare(strict_types=0);
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * List gui for course objectives
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -89,10 +83,14 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
     public function insertTitle() : void
     {
         if (
-            ilCourseObjectiveResultCache::getStatus($this->user->getId(),
-                $this->getContainerObject()->object->getId()) != ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_NONE and
-            ilCourseObjectiveResultCache::isSuggested($this->user->getId(),
-                $this->getContainerObject()->object->getId(), $this->obj_id)
+            ilCourseObjectiveResultCache::getStatus(
+                $this->user->getId(),
+                $this->getContainerObject()->object->getId()
+            ) != ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_NONE && ilCourseObjectiveResultCache::isSuggested(
+                $this->user->getId(),
+                $this->getContainerObject()->object->getId(),
+                $this->obj_id
+            )
         ) {
             $this->tpl->setVariable('DIV_CLASS', 'ilContainerListItemOuterHighlight');
         } else {
@@ -125,8 +123,10 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
         $this->lng->loadLanguageModule('trac');
         $this->tpl->setCurrentBlock('item_progress');
 
-        switch (ilCourseObjectiveResultCache::getStatus($this->user->getId(),
-            $this->getContainerObject()->object->getId())) {
+        switch (ilCourseObjectiveResultCache::getStatus(
+            $this->user->getId(),
+            $this->getContainerObject()->object->getId()
+        )) {
             case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_NONE:
                 $this->tpl->setVariable('TXT_PROGRESS_INFO', $this->lng->txt('crs_objective_status'));
                 $this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/not_attempted.svg'));
@@ -136,8 +136,11 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
             case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_PRETEST_NON_SUGGEST:
             case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_PRETEST:
                 $this->tpl->setVariable('TXT_PROGRESS_INFO', $this->lng->txt('crs_objective_pretest'));
-                if (ilCourseObjectiveResultCache::isSuggested($this->user->getId(),
-                    $this->getContainerObject()->object->getId(), $this->obj_id)) {
+                if (ilCourseObjectiveResultCache::isSuggested(
+                    $this->user->getId(),
+                    $this->getContainerObject()->object->getId(),
+                    $this->obj_id
+                )) {
                     $this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/failed.svg'));
                     $this->tpl->setVariable('PROGRESS_ALT_IMG', $this->lng->txt('trac_failed'));
                 } else {
@@ -149,8 +152,11 @@ class ilCourseObjectiveListGUI extends ilObjectListGUI
             case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_FINISHED:
             case ilCourseObjectiveResult::IL_OBJECTIVE_STATUS_FINAL:
                 $this->tpl->setVariable('TXT_PROGRESS_INFO', $this->lng->txt('crs_objective_result'));
-                if (ilCourseObjectiveResultCache::isSuggested($this->user->getId(),
-                    $this->getContainerObject()->object->getId(), $this->obj_id)) {
+                if (ilCourseObjectiveResultCache::isSuggested(
+                    $this->user->getId(),
+                    $this->getContainerObject()->object->getId(),
+                    $this->obj_id
+                )) {
                     $this->tpl->setVariable('PROGRESS_TYPE_IMG', ilUtil::getImagePath('scorm/failed.svg'));
                     $this->tpl->setVariable('PROGRESS_ALT_IMG', $this->lng->txt('trac_failed'));
                 } else {

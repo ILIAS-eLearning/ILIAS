@@ -1,14 +1,20 @@
 <?php declare(strict_types=0);
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *****************************************************************************/
-
+ *
+ *********************************************************************/
+ 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ModulesCourse
@@ -24,7 +30,8 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
     public function __construct(int $a_container_id = 0)
     {
         global $DIC;
-
+    
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->crs();
         parent::__construct(ilFileSystemAbstractionStorage::STORAGE_DATA, true, $a_container_id);
     }
@@ -75,14 +82,12 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
         return true;
     }
 
-    public function getMemberExportFiles()
+    public function getMemberExportFiles() : array
     {
-        if (!@is_dir($this->getMemberExportDirectory())) {
+        if (!is_dir($this->getMemberExportDirectory())) {
             return array();
         }
-
-        $files = array();
-        $dp = @opendir($this->getMemberExportDirectory());
+        $dp = opendir($this->getMemberExportDirectory());
 
         $files = [];
         while ($file = readdir($dp)) {
@@ -90,8 +95,11 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
                 continue;
             }
 
-            if (preg_match("/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/", $file,
-                    $matches) and $matches[3] == $this->getContainerId()) {
+            if (preg_match(
+                "/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/",
+                $file,
+                $matches
+            ) && $matches[3] == $this->getContainerId()) {
                 $timest = $matches[1];
                 $file_info['name'] = $matches[0];
                 $file_info['timest'] = $matches[1];
@@ -110,13 +118,13 @@ class ilFSStorageCourse extends ilFileSystemAbstractionStorage
     {
         $file_name = $this->getMemberExportDirectory() . '/' . $a_name;
 
-        if (@file_exists($file_name)) {
+        if (file_exists($file_name)) {
             return file_get_contents($file_name);
         }
         return '';
     }
-
-    public function deleteMemberExportFile(string $a_export_name)
+    
+    public function deleteMemberExportFile(string $a_export_name) : bool
     {
         return $this->deleteFile($this->getMemberExportDirectory() . '/' . $a_export_name);
     }

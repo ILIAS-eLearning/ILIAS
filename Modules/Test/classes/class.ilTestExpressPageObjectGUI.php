@@ -408,36 +408,34 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
             $form->addItem($hi, true);
         }
 
-        if ($this->test_object->getPoolUsage()) {
-            $subScreenId[] = 'poolSelect';
-            
-            // use pool
-            $usage = new ilRadioGroupInputGUI($this->lng->txt("assessment_pool_selection"), "usage");
-            $usage->setRequired(true);
-            $no_pool = new ilRadioOption($this->lng->txt("assessment_no_pool"), 1);
-            $usage->addOption($no_pool);
-            $existing_pool = new ilRadioOption($this->lng->txt("assessment_existing_pool"), 3);
-            $usage->addOption($existing_pool);
-            $new_pool = new ilRadioOption($this->lng->txt("assessment_new_pool"), 2);
-            $usage->addOption($new_pool);
-            $form->addItem($usage);
+        $subScreenId[] = 'poolSelect';
+        
+        // use pool
+        $usage = new ilRadioGroupInputGUI($this->lng->txt("assessment_pool_selection"), "usage");
+        $usage->setRequired(true);
+        $no_pool = new ilRadioOption($this->lng->txt("assessment_no_pool"), 1);
+        $usage->addOption($no_pool);
+        $existing_pool = new ilRadioOption($this->lng->txt("assessment_existing_pool"), 3);
+        $usage->addOption($existing_pool);
+        $new_pool = new ilRadioOption($this->lng->txt("assessment_new_pool"), 2);
+        $usage->addOption($new_pool);
+        $form->addItem($usage);
 
-            $usage->setValue(1);
+        $usage->setValue(1);
 
-            $questionpools = ilObjQuestionPool::_getAvailableQuestionpools(false, false, true, false, false, "write");
-            $pools_data = array();
-            foreach ($questionpools as $key => $p) {
-                $pools_data[$key] = $p['title'];
-            }
-            $pools = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "sel_qpl");
-            $pools->setOptions($pools_data);
-            $existing_pool->addSubItem($pools);
-
-            $name = new ilTextInputGUI($this->lng->txt("name"), "txt_qpl");
-            $name->setSize(50);
-            $name->setMaxLength(50);
-            $new_pool->addSubItem($name);
+        $questionpools = ilObjQuestionPool::_getAvailableQuestionpools(false, false, true, false, false, "write");
+        $pools_data = array();
+        foreach ($questionpools as $key => $p) {
+            $pools_data[$key] = $p['title'];
         }
+        $pools = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "sel_qpl");
+        $pools->setOptions($pools_data);
+        $existing_pool->addSubItem($pools);
+
+        $name = new ilTextInputGUI($this->lng->txt("name"), "txt_qpl");
+        $name->setSize(50);
+        $name->setMaxLength(50);
+        $new_pool->addSubItem($name);
 
         $form->addCommandButton("handleToolbarCommand", $lng->txt("create"));
         $form->addCommandButton("questions", $lng->txt("cancel"));

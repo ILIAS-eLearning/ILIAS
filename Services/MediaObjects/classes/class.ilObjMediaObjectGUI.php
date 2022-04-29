@@ -43,6 +43,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     public string $target_script = "";
     public bool $enabledmapareas = true;
 
+    /**
+     * @param mixed $data
+     */
     public function __construct(
         $a_data,
         int $a_id = 0,
@@ -260,7 +263,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $tpl->setContent($this->form_gui->getHTML());
     }
 
-    public function initForm($a_mode = "create") : void
+    public function initForm(string $a_mode = "create") : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -711,11 +714,17 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $media_item->setFormat($format);
             $media_item->setLocation($location);
             $media_item->setLocationType("LocalFile");
+            $a_mob->generatePreviewPic(320, 240);
         } else {	// standard type: reference
             $format = ilObjMediaObject::getMimeType($form->getInput("standard_reference"), true);
             $media_item->setFormat($format);
             $media_item->setLocation(ilUtil::secureLink($form->getInput("standard_reference")));
             $media_item->setLocationType("Reference");
+
+            try {
+                $a_mob->getExternalMetadata();
+            } catch (Exception $e) {
+            }
         }
         $a_mob->setDescription($format);
 
@@ -1432,7 +1441,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * set admin tabs
      */
-    public function setTabs() : void
+    protected function setTabs() : void
     {
         // catch feedback message
         $this->getTabs();
@@ -1448,7 +1457,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
     }
 
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         $ilHelp = $this->help;
 
@@ -1531,19 +1540,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
     }
     
-    /**
-     * @deprecated
-     */
-    public function showVideoToolObject() : void
-    {
-        $tpl = $this->tpl;
-
-        $formats = ilFFmpeg::getSupportedFormatsInfo();
-        $formats_str = implode("<br />", $formats);
-        $tpl->setContent($formats_str);
-    }
-    
-
     /**
      * Include media object presentation JS
      */

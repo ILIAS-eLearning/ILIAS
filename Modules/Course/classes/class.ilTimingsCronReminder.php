@@ -1,7 +1,21 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 class ilTimingsCronReminder extends ilCronJob
 {
     private static array $objects_information;
@@ -123,23 +137,23 @@ class ilTimingsCronReminder extends ilCronJob
     {
         $users_with_exceeded_objects = array();
 
-        if (is_array($this->users_with_exceeded_timings) && count($this->users_with_exceeded_timings) > 0) {
+        if (is_array($this->users_with_exceeded_timings) && $this->users_with_exceeded_timings !== []) {
             foreach ($this->users_with_exceeded_timings as $key => $user_id) {
                 $objects = $this->getExceededObjectsForUser($user_id);
-                if (is_array($objects) && count($objects) > 0) {
+                if (is_array($objects) && $objects !== []) {
                     $obj_data = array();
                     $already_notified = $this->getAlreadySentNotifications($user_id);
                     $objects = array_diff_key($objects, $already_notified);
-                    foreach ($objects as $ref_id => $v) {
+                    foreach (array_keys($objects) as $ref_id) {
                         $detail_data = $this->getInformationForRefId($ref_id);
                         $obj_data[$ref_id] = $detail_data;
                     }
-                    if (count($obj_data) > 0) {
+                    if ($obj_data !== []) {
                         $users_with_exceeded_objects[$user_id] = $obj_data;
                     }
                 }
             }
-            $this->log->debug('Found ' . sizeof($users_with_exceeded_objects) . ' users with new exceeded timings.');
+            $this->log->debug('Found ' . count($users_with_exceeded_objects) . ' users with new exceeded timings.');
 
             $this->buildExceededMails($users_with_exceeded_objects);
         }
@@ -149,18 +163,18 @@ class ilTimingsCronReminder extends ilCronJob
     {
         $users_with_new_started_object = array();
 
-        if (is_array($this->users) && count($this->users) > 0) {
+        if (is_array($this->users) && $this->users !== []) {
             foreach ($this->users as $key => $user_id) {
                 $objects = $this->getObjectsWithTimingsForUser($user_id);
-                if (is_array($objects) && count($objects) > 0) {
+                if (is_array($objects) && $objects !== []) {
                     $obj_data = array();
                     $already_notified = $this->getAlreadySentNotifications($user_id, false);
-                    $this->log->debug('User_id ' . $user_id . ' was already notified for ' . sizeof($already_notified) . ' elements ');
+                    $this->log->debug('User_id ' . $user_id . ' was already notified for ' . count($already_notified) . ' elements ');
                     $objects = array_diff_key($objects, $already_notified);
                     foreach ($objects as $ref_id => $v) {
                         $obj_data[$ref_id] = $this->getInformationForRefId($ref_id);
 
-                        if (is_array($objects[$ref_id])) {
+                        if (is_array($v)) {
                             if ((isset($v['end']) && isset($v['start'])) && $v['end'] > $this->now) {
                                 if ($v['start'] < $this->now) {
                                     $users_with_new_started_object[$user_id][$ref_id] = $obj_data[$ref_id];
@@ -203,7 +217,7 @@ class ilTimingsCronReminder extends ilCronJob
     {
         $this->log->debug('start.');
         if (is_array($users_with_freshly_started_objects)) {
-            $this->log->debug('...found ' . sizeof($users_with_freshly_started_objects));
+            $this->log->debug('...found ' . count($users_with_freshly_started_objects));
             foreach ($users_with_freshly_started_objects as $user_id => $freshly_started_objects) {
                 $tpl = $this->buildTopMailBody($user_id, 'timings_cron_reminder_freshly_start');
                 $has_freshly_started = $this->fillObjectListForMailBody($freshly_started_objects, $tpl);
@@ -326,7 +340,7 @@ class ilTimingsCronReminder extends ilCronJob
 
     protected function markExceededInDatabase(int $user_id, array $ref_ids) : void
     {
-        foreach ($ref_ids as $ref_id => $data) {
+        foreach (array_keys($ref_ids) as $ref_id) {
             $this->db->manipulateF(
                 'INSERT INTO ' . ilCourseConstants::CRON_TIMINGS_EXCEEDED_TABLE . ' (user_id, ref_id, sent) VALUES ' .
                 ' (%s,%s,%s)',
@@ -340,7 +354,7 @@ class ilTimingsCronReminder extends ilCronJob
 
     protected function markFreshlyStartedInDatabase(int $user_id, array $ref_ids) : void
     {
-        foreach ($ref_ids as $ref_id => $data) {
+        foreach (array_keys($ref_ids) as $ref_id) {
             $this->db->manipulateF(
                 'INSERT INTO ' . ilCourseConstants::CRON_TIMINGS_STARTED_TABLE . ' (user_id, ref_id, sent) VALUES ' .
                 ' (%s,%s,%s)',

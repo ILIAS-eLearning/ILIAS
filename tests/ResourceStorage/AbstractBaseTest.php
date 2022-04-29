@@ -1,6 +1,7 @@
 <?php
 
 namespace ILIAS\ResourceStorage;
+
 /** @noRector  */
 require_once('DummyIDGenerator.php');
 
@@ -71,6 +72,4 @@ abstract class AbstractBaseTest extends TestCase
     {
         return new FileRevision($id);
     }
-
 }
-

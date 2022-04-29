@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomAdminViewGUI
@@ -109,7 +124,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 
         $convIdleStateTime = max(1, (int) $form->getInput('conversation_idle_state_in_minutes'));
 
-        $settings = array(
+        $settings = [
             'name' => (string) $form->getInput('client_name'),
             'enable_osc' => (bool) $form->getInput('enable_osc'),
             'enable_browser_notifications' => (bool) $form->getInput('enable_browser_notifications'),
@@ -117,7 +132,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
             'chat_enabled' => (bool) $form->getInput('chat_enabled'),
             'enable_smilies' => (bool) $form->getInput('enable_smilies'),
             'auth' => $form->getInput('auth')
-        );
+        ];
 
         if (!$settings['chat_enabled']) {
             $settings['enable_osc'] = false;
@@ -165,7 +180,9 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         if (ilChatroom::checkUserPermissions('write', $this->gui->getRefId(), false)) {
             $form->addCommandButton('view-saveClientSettings', $this->ilLng->txt('save'));
         } else {
-            $form->getItemByPostVar('auth')->setIsReadOnly(true);
+            /** @var ilChatroomAuthInputGUI $item */
+            $item = $form->getItemByPostVar('auth');
+            $item->setIsReadOnly(true);
         }
         $form->setFormAction($this->ilCtrl->getFormAction($this->gui, 'view-saveClientSettings'));
 

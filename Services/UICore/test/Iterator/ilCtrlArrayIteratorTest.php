@@ -20,7 +20,7 @@ class ilCtrlArrayIteratorTest extends TestCase
         ]);
 
         $expected_iterator_values = ['entry0', 'entry1', 'entry2'];
-        $expected_iterator_keys   = ['key0', 'key1', 'key2'];
+        $expected_iterator_keys = ['key0', 'key1', 'key2'];
 
         for ($i = 0, $i_max = 3; $i < $i_max; $i++) {
             $this->assertTrue($iterator->valid());

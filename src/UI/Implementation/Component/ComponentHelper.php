@@ -13,18 +13,13 @@ use Closure;
  */
 trait ComponentHelper
 {
-    private ?string $canonical_name = null;
-
     /**
      * Default implementation uses the namespace of the component up to and excluding
      * "Component", reverses the order and adds spaces. Also does cache.
      */
     public function getCanonicalName() : string
     {
-        if ($this->canonical_name === null) {
-            $this->canonical_name = $this->getCanonicalNameByFullyQualifiedName();
-        }
-        return $this->canonical_name;
+        return $this->getCanonicalNameByFullyQualifiedName();
     }
 
     /**

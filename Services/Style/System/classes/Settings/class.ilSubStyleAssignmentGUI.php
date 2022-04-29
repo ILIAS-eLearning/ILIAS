@@ -167,7 +167,7 @@ class ilSubStyleAssignmentGUI
         return $this->parent_gui;
     }
 
-    public function setParentGui(ilSystemStyleSettingsGUI $parent_gui)
+    public function setParentGui(ilSystemStyleSettingsGUI $parent_gui) : void
     {
         $this->parent_gui = $parent_gui;
     }

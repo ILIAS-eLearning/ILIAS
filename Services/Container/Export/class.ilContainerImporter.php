@@ -59,11 +59,9 @@ class ilContainerImporter extends ilXmlImporter
             $new_pg_id = array_pop($parts);
             $new_obj_id = $a_mapping->getMapping('Services/Container', 'objs', $old_obj_id);
             // see bug #22718, this missed a check for the pg type
-            if (in_array($pg_type, array("crs", "grp", "fold", "cont"))) {
-                if ($new_obj_id > 0) {
-                    ilPageObject::_writeParentId($pg_type, $new_pg_id, $new_obj_id);
-                    $this->cont_log->debug('write parent id, type: ' . $pg_type . ", page id: " . $new_pg_id . ", parent id: " . $new_obj_id);
-                }
+            if ($new_obj_id > 0 && in_array($pg_type, ["crs", "grp", "fold", "cont"], true)) {
+                ilPageObject::_writeParentId($pg_type, (int) $new_pg_id, (int) $new_obj_id);
+                $this->cont_log->debug('write parent id, type: ' . $pg_type . ", page id: " . $new_pg_id . ", parent id: " . $new_obj_id);
             }
         }
         
@@ -72,7 +70,7 @@ class ilContainerImporter extends ilXmlImporter
         foreach ($sty_map as $old_sty_id => $new_sty_id) {
             if (isset(ilContainerXmlParser::$style_map[$old_sty_id])) {
                 foreach (ilContainerXmlParser::$style_map[$old_sty_id] as $obj_id) {
-                    ilObjStyleSheet::writeStyleUsage($obj_id, $new_sty_id);
+                    ilObjStyleSheet::writeStyleUsage((int) $obj_id, (int) $new_sty_id);
                 }
             }
         }
@@ -80,21 +78,22 @@ class ilContainerImporter extends ilXmlImporter
         // skills
         $crs_map = $a_mapping->getMappingsOfEntity('Modules/Course', 'crs');
         $new_crs_obj_id = end($crs_map);
-        $new_crs_ref_id = ilObject::_getAllReferences($new_crs_obj_id);
-        $new_crs_ref_id = end($new_crs_ref_id);
+        $new_crs_ref_ids = ilObject::_getAllReferences((int) $new_crs_obj_id);
+        $new_crs_ref_id = end($new_crs_ref_ids);
 
         $skl_local_prof_map = $a_mapping->getMappingsOfEntity('Services/Skill', 'skl_local_prof');
         foreach ($skl_local_prof_map as $old_prof_id => $new_prof_id) {
-            $prof = new ilSkillProfile($new_prof_id);
+            $prof = new ilSkillProfile((int) $new_prof_id);
             $prof->updateRefIdAfterImport((int) $new_crs_ref_id);
-            $prof->addRoleToProfile(ilParticipants::getDefaultMemberRole($new_crs_ref_id));
+            $prof->addRoleToProfile(ilParticipants::getDefaultMemberRole((int) $new_crs_ref_id));
         }
     }
 
     protected function handleOfflineStatus(string $xml, ilImportMapping $mapping) : void
     {
-        libxml_use_internal_errors(true);
+        $use_internal_errors = libxml_use_internal_errors(true);
         $root = simplexml_load_string($xml);
+        libxml_use_internal_errors($use_internal_errors);
         if ($root === false) {
             $errors = '';
             foreach (libxml_get_errors() as $err) {
@@ -107,10 +106,10 @@ class ilContainerImporter extends ilXmlImporter
             $ref_id = 0;
             $offline = null;
             foreach ($item->attributes() as $name => $value) {
-                if ((string) $name == 'Offline') {
+                if ((string) $name === 'Offline') {
                     $offline = $value;
                 }
-                if ((string) $name == 'RefId') {
+                if ((string) $name === 'RefId') {
                     $ref_id = (string) $value;
                 }
             }
@@ -119,7 +118,7 @@ class ilContainerImporter extends ilXmlImporter
                 continue;
             }
             $new_ref_id = $mapping->getMapping('Services/Container', 'refs', $ref_id);
-            $obj = ilObjectFactory::getInstanceByRefId($new_ref_id, false);
+            $obj = ilObjectFactory::getInstanceByRefId((int) $new_ref_id, false);
             if (!$obj instanceof ilObject) {
                 $this->cont_log->warning('Cannot create instance for ref_id: ' . $new_ref_id);
                 continue;
@@ -142,7 +141,7 @@ class ilContainerImporter extends ilXmlImporter
         $tree = $DIC->repositoryTree();
         $parent_id = $tree->getParentId($ref_id);
         if ($parent_id) {
-            return (int) $parent_id === (int) $mapping->getTargetId();
+            return $parent_id === $mapping->getTargetId();
         }
         return false;
     }

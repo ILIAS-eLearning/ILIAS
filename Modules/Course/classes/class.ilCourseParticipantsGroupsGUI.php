@@ -1,7 +1,21 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
@@ -39,7 +53,7 @@ class ilCourseParticipantsGroupsGUI
         $this->ref_id = $a_ref_id;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         if (!$this->access->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', $this->ref_id)) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->WARNING);
@@ -158,7 +172,7 @@ class ilCourseParticipantsGroupsGUI
             );
         }
 
-        if (count($usr_ids)) {
+        if (count($usr_ids) > 0) {
             if (!$this->access->checkRbacOrPositionPermissionAccess('manage_members', 'manage_members', $grp_id)) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
                 $this->show();

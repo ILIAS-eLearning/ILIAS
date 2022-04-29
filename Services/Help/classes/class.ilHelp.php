@@ -42,7 +42,7 @@ class ilHelp
             return "";
         }
         
-        if (defined('OH_REF_ID') && OH_REF_ID > 0) {
+        if (defined('OH_REF_ID') && (int) OH_REF_ID > 0) {
             $module_id = 0;
         } else {
             $module_id = (int) $ilSetting->get("help_module");
@@ -230,8 +230,8 @@ class ilHelp
 
         $lm_id = 0;
 
-        if (OH_REF_ID > 0) {
-            $lm_id = ilObject::_lookupObjId(OH_REF_ID);
+        if ((int) OH_REF_ID > 0) {
+            $lm_id = ilObject::_lookupObjId((int) OH_REF_ID);
         } else {
             $hm = (int) $ilSetting->get("help_module");
             if ($hm > 0) {

@@ -1,26 +1,20 @@
 <?php declare(strict_types=0);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * This class handles all operations of archive files for the course object
  * @author    Stefan Meyer <meyer@leifos.com>
@@ -55,10 +49,10 @@ class ilFileDataCourse extends ilFileData
 
     public function getArchiveFile($a_rel_name) : string
     {
-        if (@file_exists($this->course_path . '/' . $a_rel_name . '.zip')) {
+        if (file_exists($this->course_path . '/' . $a_rel_name . '.zip')) {
             return $this->course_path . '/' . $a_rel_name . '.zip';
         }
-        if (@file_exists($this->course_path . '/' . $a_rel_name . '.pdf')) {
+        if (file_exists($this->course_path . '/' . $a_rel_name . '.pdf')) {
             return $this->course_path . '/' . $a_rel_name . '.pdf';
         }
         return '';
@@ -74,8 +68,11 @@ class ilFileDataCourse extends ilFileData
                 continue;
             }
 
-            if (preg_match("/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/", $file,
-                    $matches) and $matches[3] == $this->course_id) {
+            if (preg_match(
+                "/^([0-9]{10})_[a-zA-Z]*_export_([a-z]+)_([0-9]+)\.[a-z]+$/",
+                $file,
+                $matches
+            ) && $matches[3] == $this->course_id) {
                 $timest = $matches[1];
                 $file_info['name'] = $matches[0];
                 $file_info['timest'] = $matches[1];
@@ -93,15 +90,15 @@ class ilFileDataCourse extends ilFileData
     public function deleteMemberExportFile(string $a_name) : void
     {
         $file_name = $this->course_path . '/' . $a_name;
-        if (@file_exists($file_name)) {
-            @unlink($file_name);
+        if (file_exists($file_name)) {
+            unlink($file_name);
         }
     }
 
     public function getMemberExportFile(string $a_name) : string
     {
         $file_name = $this->course_path . '/' . $a_name;
-        if (@file_exists($file_name)) {
+        if (file_exists($file_name)) {
             return file_get_contents($file_name);
         }
         return '';
@@ -117,8 +114,8 @@ class ilFileDataCourse extends ilFileData
 
     public function deleteZipFile(string $a_abs_name) : bool
     {
-        if (@file_exists($a_abs_name)) {
-            @unlink($a_abs_name);
+        if (file_exists($a_abs_name)) {
+            unlink($a_abs_name);
             return true;
         }
         return false;
@@ -136,8 +133,8 @@ class ilFileDataCourse extends ilFileData
 
     public function deletePdf(string $a_abs_name) : bool
     {
-        if (@file_exists($a_abs_name)) {
-            @unlink($a_abs_name);
+        if (file_exists($a_abs_name)) {
+            unlink($a_abs_name);
 
             return true;
         }
@@ -146,8 +143,8 @@ class ilFileDataCourse extends ilFileData
 
     public function copy(string $a_from, string $a_to) : bool
     {
-        if (@file_exists($a_from)) {
-            @copy($a_from, $this->getCoursePath() . '/' . $a_to);
+        if (file_exists($a_from)) {
+            copy($a_from, $this->getCoursePath() . '/' . $a_to);
 
             return true;
         }
@@ -168,10 +165,10 @@ class ilFileDataCourse extends ilFileData
 
     public function writeToFile(string $a_data, string $a_rel_name) : bool
     {
-        if (!$fp = @fopen($this->getCoursePath() . '/' . $a_rel_name, 'w+')) {
+        if (!$fp = fopen($this->getCoursePath() . '/' . $a_rel_name, 'w+')) {
             die("Cannot open file: " . $this->getCoursePath() . '/' . $a_rel_name);
         }
-        @fwrite($fp, $a_data);
+        fwrite($fp, $a_data);
         return true;
     }
 
@@ -200,12 +197,12 @@ class ilFileDataCourse extends ilFileData
         return ilFileUtils::getWebspaceDir('filesystem') . '/courses/' . $a_rel_name . '/index.html';
     }
 
-    public function __checkPath()
+    public function __checkPath() : bool
     {
-        if (!@file_exists($this->getCoursePath())) {
+        if (!file_exists($this->getCoursePath())) {
             return false;
         }
-        if (!@file_exists(CLIENT_WEB_DIR . '/courses')) {
+        if (!file_exists(CLIENT_WEB_DIR . '/courses')) {
             ilFileUtils::makeDir(CLIENT_WEB_DIR . '/courses');
         }
 
@@ -214,18 +211,18 @@ class ilFileDataCourse extends ilFileData
         return true;
     }
 
-    public function __checkImportPath()
+    public function __checkImportPath() : void
     {
-        if (!@file_exists($this->getCoursePath() . '/import')) {
+        if (!file_exists($this->getCoursePath() . '/import')) {
             ilFileUtils::makeDir($this->getCoursePath() . '/import');
         }
 
-        if (!is_writable($this->getCoursePath() . '/import') or !is_readable($this->getCoursePath() . '/import')) {
+        if (!is_writable($this->getCoursePath() . '/import') || !is_readable($this->getCoursePath() . '/import')) {
             $this->error->raiseError("Course import path is not readable/writable by webserver", $this->error->FATAL);
         }
     }
 
-    public function __checkReadWrite()
+    public function __checkReadWrite() : bool
     {
         if (is_writable($this->course_path) && is_readable($this->course_path)) {
             return true;

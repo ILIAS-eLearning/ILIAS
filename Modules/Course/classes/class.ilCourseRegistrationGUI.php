@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * GUI class for course registrations
  * @author       Stefan Meyer <smeyer.ilias@gmx.de>
@@ -145,15 +159,13 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 
             $waiting_list = new ilCourseWaitingList($this->container->getId());
             if (
-                $this->container->isSubscriptionMembershipLimited() and
-                $this->container->enabledWaitingList() and
-                (!$free or $waiting_list->getCountUsers())) {
+                $this->container->isSubscriptionMembershipLimited() && $this->container->enabledWaitingList() && (!$free || $waiting_list->getCountUsers())) {
                 if ($waiting_list->isOnList($this->user->getId())) {
                     $tpl->setVariable('TXT_WAIT', $this->lng->txt('mem_waiting_list_position'));
                     $tpl->setVariable('NUM_WAIT', $waiting_list->getPosition($this->user->getId()));
                 } else {
                     $tpl->setVariable('TXT_WAIT', $this->lng->txt('mem_waiting_list'));
-                    if ($free and $waiting_list->getCountUsers()) {
+                    if ($free && $waiting_list->getCountUsers()) {
                         $tpl->setVariable('WARN_WAIT', $waiting_list->getCountUsers());
                     } else {
                         $tpl->setVariable('NUM_WAIT', $waiting_list->getCountUsers());
@@ -161,30 +173,22 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 }
             }
             if (
-                !$free and
-                !$this->container->enabledWaitingList()) {
+                !$free && !$this->container->enabledWaitingList()) {
                 // Disable registration
                 $this->enableRegistration(false);
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('mem_alert_no_places'));
-                #$alert = $this->lng->txt('mem_alert_no_places');
+            #$alert = $this->lng->txt('mem_alert_no_places');
             } elseif (
-                $this->container->enabledWaitingList() and
-                $this->container->isSubscriptionMembershipLimited() and
-                $waiting_list->isOnList($this->user->getId())
+                $this->container->enabledWaitingList() && $this->container->isSubscriptionMembershipLimited() && $waiting_list->isOnList($this->user->getId())
             ) {
                 // Disable registration
                 $this->enableRegistration(false);
             } elseif (
-                !$free and
-                $this->container->enabledWaitingList() and
-                $this->container->isSubscriptionMembershipLimited()) {
+                !$free && $this->container->enabledWaitingList() && $this->container->isSubscriptionMembershipLimited()) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_warn_no_max_set_on_waiting_list'));
-                #$alert = $this->lng->txt('crs_warn_no_max_set_on_waiting_list');
+            #$alert = $this->lng->txt('crs_warn_no_max_set_on_waiting_list');
             } elseif (
-                $free and
-                $this->container->enabledWaitingList() and
-                $this->container->isSubscriptionMembershipLimited() and
-                $this->getWaitingList()->getCountUsers()) {
+                $free && $this->container->enabledWaitingList() && $this->container->isSubscriptionMembershipLimited() && $this->getWaitingList()->getCountUsers()) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_warn_wl_set_on_waiting_list'));
                 #$alert = $this->lng->txt('crs_warn_wl_set_on_waiting_list');
             }
@@ -280,10 +284,14 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             case ilCourseConstants::IL_CRS_SUBSCRIPTION_CONFIRMATION:
                 if ($this->participants->isSubscriber($this->user->getId())) {
                     $this->form->clearCommandButtons();
-                    $this->form->addCommandButton('updateSubscriptionRequest',
-                        $this->lng->txt('crs_update_subscr_request'));
-                    $this->form->addCommandButton('cancelSubscriptionRequest',
-                        $this->lng->txt('crs_cancel_subscr_request'));
+                    $this->form->addCommandButton(
+                        'updateSubscriptionRequest',
+                        $this->lng->txt('crs_update_subscr_request')
+                    );
+                    $this->form->addCommandButton(
+                        'cancelSubscriptionRequest',
+                        $this->lng->txt('crs_cancel_subscr_request')
+                    );
                 } elseif ($this->isRegistrationPossible()) {
                     $this->form->clearCommandButtons();
                     $this->form->addCommandButton('join', $this->lng->txt('crs_join_request'));
@@ -310,7 +318,11 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             return false;
         }
         if ($this->container->getSubscriptionType() == ilCourseConstants::IL_CRS_SUBSCRIPTION_PASSWORD) {
-            if (!strlen($pass = ilUtil::stripSlashes($_POST['grp_passw']))) {
+            $pass = $this->http->wrapper()->post()->retrieve(
+                'grp_passw',
+                $this->refinery->kindlyTo()->string()
+            );
+            if ((string) $pass === '') {
                 $this->join_error = $this->lng->txt('crs_password_required');
                 return false;
             }
@@ -338,7 +350,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
 
         $free = max(0, $this->container->getSubscriptionMaxMembers() - $this->participants->getCountMembers());
         $waiting_list = new ilCourseWaitingList($this->container->getId());
-        if ($this->container->isSubscriptionMembershipLimited() and $this->container->enabledWaitingList() and (!$free or $waiting_list->getCountUsers())) {
+        if ($this->container->isSubscriptionMembershipLimited() && $this->container->enabledWaitingList() && (!$free || $waiting_list->getCountUsers())) {
             $waiting_list->addToList($this->user->getId());
             $info = sprintf(
                 $this->lng->txt('crs_added_to_list'),
@@ -346,9 +358,14 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             );
             $this->tpl->setOnScreenMessage('success', $info, true);
 
-            $this->participants->sendNotification($this->participants->NOTIFY_SUBSCRIPTION_REQUEST,
-                $this->user->getId());
-            $this->participants->sendNotification($this->participants->NOTIFY_WAITING_LIST, $this->user->getId());
+            $this->participants->sendNotification(
+                ilCourseMembershipMailNotification::TYPE_NOTIFICATION_ADMINS_REGISTRATION_REQUEST,
+                $this->user->getId()
+            );
+            $this->participants->sendNotification(
+                ilCourseMembershipMailNotification::TYPE_WAITING_LIST_MEMBER,
+                $this->user->getId()
+            );
             $this->ctrl->setParameterByClass(
                 "ilrepositorygui",
                 "ref_id",
@@ -361,9 +378,16 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
             case ilCourseConstants::IL_CRS_SUBSCRIPTION_CONFIRMATION:
                 $this->participants->addSubscriber($this->user->getId());
                 $this->participants->updateSubscriptionTime($this->user->getId(), time());
-                $this->participants->updateSubject($this->user->getId(), ilUtil::stripSlashes($_POST['subject']));
-                $this->participants->sendNotification($this->participants->NOTIFY_SUBSCRIPTION_REQUEST,
-                    $this->user->getId());
+
+                $subject = $this->http->wrapper()->post()->retrieve(
+                    'subject',
+                    $this->refinery->kindlyTo()->string()
+                );
+                $this->participants->updateSubject($this->user->getId(), $subject);
+                $this->participants->sendNotification(
+                    ilCourseMembershipMailNotification::TYPE_NOTIFICATION_ADMINS_REGISTRATION_REQUEST,
+                    $this->user->getId()
+                );
 
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("application_completed"), true);
                 $this->ctrl->setParameterByClass(
@@ -391,8 +415,8 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
                 }
 
                 $this->participants->add($this->user->getId(), ilParticipants::IL_CRS_MEMBER);
-                $this->participants->sendNotification($this->participants->NOTIFY_ADMINS, $this->user->getId());
-                $this->participants->sendNotification($this->participants->NOTIFY_REGISTERED, $this->user->getId());
+                $this->participants->sendNotification(ilCourseMembershipMailNotification::TYPE_NOTIFICATION_ADMINS, $this->user->getId());
+                $this->participants->sendNotification(ilCourseMembershipMailNotification::TYPE_SUBSCRIBE_MEMBER, $this->user->getId());
 
                 ilForumNotification::checkForumsExistsInsert($this->container->getRefId(), $this->user->getId());
 
@@ -431,7 +455,7 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         if ($active !== null) {
             return $active;
         }
-        if (!$this->container->enabledWaitingList() or !$this->container->isSubscriptionMembershipLimited()) {
+        if (!$this->container->enabledWaitingList() || !$this->container->isSubscriptionMembershipLimited()) {
             return $active = false;
         }
         if (!$this->container->getSubscriptionMaxMembers()) {
@@ -439,6 +463,6 @@ class ilCourseRegistrationGUI extends ilRegistrationGUI
         }
 
         $free = max(0, $this->container->getSubscriptionMaxMembers() - $this->participants->getCountMembers());
-        return $active = (!$free or $this->getWaitingList()->getCountUsers());
+        return $active = (!$free || $this->getWaitingList()->getCountUsers());
     }
 }

@@ -30,7 +30,7 @@ class ilRecommendedContentRoleTableGUI extends ilTable2GUI
         ilRecommendedContentRoleConfigGUI $a_parent_obj,
         string $a_parent_cmd,
         int $role_id,
-        \ilRecommendedContentManager $manager
+        ilRecommendedContentManager $manager
     ) {
         global $DIC;
 
@@ -49,7 +49,7 @@ class ilRecommendedContentRoleTableGUI extends ilTable2GUI
                 ', ' . $this->lng->txt("obj_role") . ': ' . ilObject::_lookupTitle($this->role_id)
         );
 
-        $this->addColumn('', '', 1);
+        $this->addColumn('', '', '1');
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('path'));
 

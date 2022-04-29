@@ -85,7 +85,7 @@ class ilSingleUserShareGUI
         $form = $this->getShareForm();
 
         if ($form->checkInput()) {
-            if ($user_id = ilObjUser::_lookupId($form->getInput('name'))) {
+            if ($user_id = ilObjUser::_lookupId((string) $form->getInput('name'))) {
                 $existing = $this->wsp_access_handler->getPermissions($this->wsp_node_id);
 
                 if (!in_array($user_id, $existing)) {

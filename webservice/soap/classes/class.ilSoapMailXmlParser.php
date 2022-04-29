@@ -140,17 +140,15 @@ class ilSoapMailXmlParser extends ilSaxParser
         }
     }
 
-    protected function parseName(array $a_attribs)// TODO PHP8-REVIEW Return type missing
+    protected function parseName(array $a_attribs) : string
     {
         if ($a_attribs['obj_id']) {
             $il_id = explode('_', $a_attribs['obj_id']);
-            $GLOBALS['DIC']['ilLog']->write('il ID:' . print_r($il_id, true));
             if (!$user = ilObjectFactory::getInstanceByObjId($il_id[3], false)) {
                 throw new InvalidArgumentException("Invalid user id given: obj_id => " . $a_attribs['obj_id']);
             }
             return $user->getLogin();
         }
-
-        return $a_attribs['name'];
+        return (string) ($a_attribs['name'] ?? '');
     }
 }

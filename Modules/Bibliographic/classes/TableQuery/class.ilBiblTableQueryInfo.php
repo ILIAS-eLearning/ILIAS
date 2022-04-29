@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilBiblTableQueryInfo
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -18,72 +34,48 @@ class ilBiblTableQueryInfo implements ilBiblTableQueryInfoInterface
     protected int $limit = 10000;
 
 
-    /**
-     * @return string
-     */
     public function getSortingColumn() : string
     {
         return $this->sorting_column;
     }
 
 
-    /**
-     * @param string $sorting_column
-     */
     public function setSortingColumn(string $sorting_column) : void
     {
         $this->sorting_column = $sorting_column;
     }
 
 
-    /**
-     * @return string
-     */
     public function getSortingDirection() : string
     {
         return $this->sorting_direction;
     }
 
 
-    /**
-     * @param string $sorting_direction
-     */
     public function setSortingDirection(string $sorting_direction) : void
     {
         $this->sorting_direction = $sorting_direction;
     }
 
 
-    /**
-     * @return int
-     */
     public function getOffset() : int
     {
         return $this->offset;
     }
 
 
-    /**
-     * @param int $offset
-     */
     public function setOffset(int $offset) : void
     {
         $this->offset = $offset;
     }
 
 
-    /**
-     * @return int
-     */
     public function getLimit() : int
     {
         return $this->limit;
     }
 
 
-    /**
-     * @param int $limit
-     */
     public function setLimit(int $limit) : void
     {
         $this->limit = $limit;

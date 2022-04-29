@@ -76,18 +76,18 @@ class SkillTreeTableGUI extends \ilTable2GUI
     }
 
     /**
-     * @return array[]
+     * @return array({title: string, tree: \ilObjSkillTree}|array{})[]
      */
     protected function getItems() : array
     {
         return array_filter(array_map(
-            function ($i) {
-                $tree_access_manager = $this->internal_manager->getTreeAccessManager($i->getRefId());
+            function (\ilObjSkillTree $skillTree) : array {
+                $tree_access_manager = $this->internal_manager->getTreeAccessManager($skillTree->getRefId());
                 if ($tree_access_manager->hasVisibleTreePermission()) {
                     return [
-                    "title" => $i->getTitle(),
-                    "tree" => $i
-                ];
+                        "title" => $skillTree->getTitle(),
+                        "tree" => $skillTree
+                    ];
                 }
                 return [];
             },
@@ -95,6 +95,9 @@ class SkillTreeTableGUI extends \ilTable2GUI
         ));
     }
 
+    /**
+     * @param array{tree: \ilObjSkillTree}
+     */
     protected function fillRow(array $a_set) : void
     {
         $tpl = $this->tpl;

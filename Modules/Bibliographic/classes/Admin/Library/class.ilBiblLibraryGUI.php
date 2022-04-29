@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilBiblLibraryGUI
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -15,18 +31,19 @@ class ilBiblLibraryGUI
     const CMD_ADD = 'add';
     protected \ilBiblAdminLibraryFacadeInterface $facade;
     private \ilGlobalTemplateInterface $main_tpl;
-
-
+    protected \ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
+    
     /**
      * ilBiblLibraryGUI constructor.
-     *
-     * @param \ilBiblAdminLibraryFacadeInterface $facade
      */
     public function __construct(ilBiblAdminLibraryFacadeInterface $facade)
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->facade = $facade;
+        $this->wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
     }
 
 
@@ -164,13 +181,29 @@ class ilBiblLibraryGUI
         $form = new ilBiblLibraryFormGUI($ilBibliographicSetting);
         $this->tpl()->setContent($form->getHTML());
     }
-
-
+    
     private function getInstanceFromRequest() : \ilBiblLibraryInterface
     {
-        $ilBibliographicSetting = $this->facade->libraryFactory()
-            ->findById($_REQUEST[self::F_LIB_ID]);
-
-        return $ilBibliographicSetting;
+        // check Query
+        if ($this->wrapper->query()->has(self::F_LIB_ID)) {
+            return $this->facade->libraryFactory()
+                                ->findById(
+                                    $this->wrapper->query()->retrieve(
+                                        self::F_LIB_ID,
+                                        $this->refinery->to()->int()
+                                    )
+                                );
+        }
+        // check post
+        if ($this->wrapper->post()->has(self::F_LIB_ID)) {
+            return $this->facade->libraryFactory()
+                                ->findById(
+                                    $this->wrapper->post()->retrieve(
+                                        self::F_LIB_ID,
+                                        $this->refinery->to()->int()
+                                    )
+                                );
+        }
+        throw new ilException('library not found');
     }
 }

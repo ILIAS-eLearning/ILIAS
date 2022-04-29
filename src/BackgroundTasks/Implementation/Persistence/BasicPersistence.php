@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\BackgroundTasks\Implementation\Persistence;
 
 use ILIAS\BackgroundTasks\Bucket;
@@ -12,19 +28,6 @@ use ILIAS\BackgroundTasks\Persistence;
 use ILIAS\BackgroundTasks\Task;
 use ILIAS\BackgroundTasks\Value;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 class BasicPersistence implements Persistence
 {
     protected static BasicPersistence $instance;
@@ -171,9 +174,9 @@ class BasicPersistence implements Persistence
     {
         // If the instance has a known container we use it, otherwise we create a new container.
         if (isset($this->taskHashToTaskContainerId[spl_object_hash($task)])) {
-            $taskContainer = new TaskContainer($this->taskHashToTaskContainerId[spl_object_hash($task)], $this->connector);
+            $taskContainer = new TaskContainer($this->taskHashToTaskContainerId[spl_object_hash($task)]);
         } else {
-            $taskContainer = new TaskContainer(0, $this->connector);
+            $taskContainer = new TaskContainer(0);
         }
         
         // The basic information about the task.
@@ -182,7 +185,6 @@ class BasicPersistence implements Persistence
         $reflection = new \ReflectionClass(get_class($task));
         $taskContainer->setClassName(get_class($task));
         // bugfix mantis 23503
-        $reflection->getFileName();
         // $relative_class_path = str_replace(ILIAS_ABSOLUTE_PATH,".",$absolute_class_path);
         $taskContainer->setClassPath($reflection->getFileName());
         
@@ -234,7 +236,7 @@ class BasicPersistence implements Persistence
      *                        to a batch.
      *                        Stores the value recursively.
      */
-    protected function saveValue(Value $value, int $bucketId, $position) : void
+    protected function saveValue(Value $value, int $bucketId, int $position) : void
     {
         // If we have previous values to task associations we delete them.
         if (isset($this->valueHashToValueContainerId[spl_object_hash($value)])) {
@@ -293,10 +295,9 @@ class BasicPersistence implements Persistence
     }
     
     /**
-     * @param $value Value
      * @throws SerializationException
      */
-    protected function getValueContainerId($value) : int
+    protected function getValueContainerId(Value $value) : int
     {
         if (!isset($this->valueHashToValueContainerId[spl_object_hash($value)])) {
             throw new SerializationException("Could not resolve container id of value: "

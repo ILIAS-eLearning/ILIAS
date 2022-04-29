@@ -39,7 +39,7 @@ class ilFileSystemHelper
     /**
      * Used to move a complete directory of a skin
      */
-    public function move(string $from, string $to)
+    public function move(string $from, string $to) : void
     {
         rename($from, $to);
     }
@@ -52,7 +52,7 @@ class ilFileSystemHelper
     /**
      * Deletes a given file in the container
      */
-    public function saveDeleteFile(string $file_path)
+    public function saveDeleteFile(string $file_path) : void
     {
         if (file_exists($file_path)) {
             unlink($file_path);
@@ -116,7 +116,7 @@ class ilFileSystemHelper
      * Creates a resource directory (sound, images or fonts) by copying from the source (mostly delos)
      * @throws ilSystemStyleException
      */
-    public function createResourceDirectory(string $source, string $target)
+    public function createResourceDirectory(string $source, string $target) : void
     {
         mkdir($target, 0775, true);
 
@@ -135,7 +135,7 @@ class ilFileSystemHelper
      * Alters the name/path of a resource directory
      * @throws ilSystemStyleException
      */
-    public function changeResourceDirectory(string $skin_dir, string $new_dir, string $old_dir, bool $has_references)
+    public function changeResourceDirectory(string $skin_dir, string $new_dir, string $old_dir, bool $has_references) : void
     {
         $absolut_new_dir = $skin_dir . $new_dir;
         $absolut_old_dir = $skin_dir . $old_dir;

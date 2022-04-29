@@ -115,10 +115,13 @@ select.form-control {
 	margin-left: -20px;
 	margin-top: 7px;
 	min-width: 13px;
-	vertical-align: top;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		min-width: 16px;
 	}
+}
+.radio input[type="radio"],
+.radio-inline input[type="radio"] {
+	vertical-align: top;
 }
 
 [dir="rtl"] .form-horizontal .control-label {
@@ -328,4 +331,10 @@ input:invalid {
 /* provisory fix for #0021322  */
 div[id$="color-picker-menu"] {
 	z-index: 3;
+}
+
+/* This is a memento that we should get rid of the legacy UI */
+.wzdrow input[type=file]:focus-visible {
+	outline: @il-focus-outline-inner;
+	outline-offset: 0;
 }

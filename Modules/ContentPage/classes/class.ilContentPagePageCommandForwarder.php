@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
 use ILIAS\HTTP\GlobalHttpState;
@@ -24,7 +39,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
     public const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
 
     protected string $presentationMode = self::PRESENTATION_MODE_EDITING;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs;
     protected ilObjContentPage $parentObject;
@@ -35,10 +50,11 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
     protected GlobalHttpState $http;
     protected Refinery $refinery;
     protected ObjectFacade $content_style_domain;
+    protected bool $isMediaRequest = false;
 
     public function __construct(
         GlobalHttpState $http,
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ilTabsGUI $tabs,
         ilLanguage $lng,
         ilObjContentPage $parentObject,
@@ -68,6 +84,11 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         if ($this->backUrl !== '') {
             $this->ctrl->setParameterByClass(ilContentPagePageGUI::class, 'backurl', rawurlencode($this->backUrl));
         }
+    }
+
+    public function setIsMediaRequest(bool $isMediaRequest) : void
+    {
+        $this->isMediaRequest = $isMediaRequest;
     }
 
     /**
@@ -193,7 +214,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         switch ($this->presentationMode) {
             case self::PRESENTATION_MODE_EDITING:
 
-                $pageObjectGui = $this->buildEditingPageObjectGUI($language);
+                $pageObjectGui = $this->buildEditingPageObjectGUI($this->isMediaRequest ? $language : '');
                 return (string) $this->ctrl->forwardCommand($pageObjectGui);
 
             case self::PRESENTATION_MODE_PRESENTATION:

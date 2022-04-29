@@ -12,7 +12,7 @@ class ilQTIRespconditionTest extends TestCase
     /**
      * @dataProvider continues
      */
-    public function testSetGetContinue($input, $expected) : void
+    public function testSetGetContinue(string $input, ?string $expected) : void
     {
         $instance = new ilQTIRespcondition();
         $instance->setContinue($input);

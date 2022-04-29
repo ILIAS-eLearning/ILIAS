@@ -648,6 +648,8 @@ assessment#:#counter#:#Counter
 assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create and Refresh Gaps
 assessment#:#create_new#:#Create New
+assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.
+assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.
 assessment#:#customstyle#:#Custom Style
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definition
@@ -1247,11 +1249,11 @@ assessment#:#test_jump_to#:#Jump to Question
 assessment#:#test_move_page#:#Move Question
 assessment#:#test_next_question#:#Next Question
 assessment#:#test_prev_question#:#Previous Question
-assessment#:#test_question_pool_usage_optional_info#:#The questions can be re-used in other tests.
-assessment#:#test_question_pool_usage_optional#:#Questions can be added optionally to a question pool
-assessment#:#test_question_pool_usage_tst_directly_info#:#The questions cannot be re-used in other tests.
-assessment#:#test_question_pool_usage_tst_directly#:#Questions are created directly in the test
-assessment#:#test_question_pool_usage#:#Use of Question Pools
+assessment#:#test_question_set_type_fixed_info#:#All testees see the same questions.<br>You can create questions directly in the test as well as reuse questions from a Question Pool. If you create new questions you can decide to save them in a Question Pool.
+assessment#:#test_question_set_type_fixed#:#Use of a fixed set of questions
+assessment#:#test_question_set_type_random_info#:#Every testee will see an individually generated set of questions. The questions are drawn from one or more Question Pools. 
+assessment#:#test_question_set_type_random#:#Use of a random set of questions
+assessment#:#test_question_set_type#:#Selection of Test Questions
 assessment#:#test_results#:#Summary Test Results
 assessment#:#test_scoring#:#Scoring Options
 assessment#:#test_template_reset#:#The template has been removed.
@@ -2350,7 +2352,7 @@ blog#:#blog_change_notification_reason#:#You are receiving this e-mail because y
 blog#:#blog_change_notification_subject#:#Blog "%s" has been updated
 blog#:#blog_comments#:#Comments
 blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the following contributors?
-blog#:#blog_contribute_other_roles#:#In addition to the list of ‘Contributors’, users with one of the following roles can also add postings: %s
+blog#:#blog_contribute_other_roles#:#Additionally to Blog-Contributors users with the role %s can write postings. They are not listed in the table below, because they get the respective permission from an encompassing object.
 blog#:#blog_contributors#:#Blog-Contributors
 blog#:#blog_copy#:#Copy Blog
 blog#:#blog_download_submission#:#Download Submission
@@ -2372,6 +2374,8 @@ blog#:#blog_enable_nav_authors_info#:#List of blog authors is displayed. Clickin
 blog#:#blog_enable_notes#:#Public Comments
 blog#:#blog_enable_rss#:#Activate RSS
 blog#:#blog_enable_rss_info#:#The RSS feed is public and independent of blog sharing or user permissions.
+blog#:#blog_est_reading_time#:#Estimated Reading Time
+blog#:#blog_est_reading_time_info#:#For Blogs in the repository reading time can be determined and displayed.
 blog#:#blog_exercise_info#:#This blog is part of the assignment "%s" of exercise "%s".
 blog#:#blog_exercise_submitted_info#:#Your last submission was on %s. Please check the export file: %s
 blog#:#blog_finalize_blog#:#Finalize and Submit Blog
@@ -2384,6 +2388,7 @@ blog#:#blog_keywords#:#Keywords
 blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.
 blog#:#blog_keywords_other#:#Other Keywords
 blog#:#blog_latest_posting#:#Latest Posting
+blog#:#blog_link#:#Link
 blog#:#blog_list_more#:#more
 blog#:#blog_list_num_postings_info#:#This setting is only used if no specific month is selected.
 blog#:#blog_list_num_postings#:#Number of postings
@@ -2593,10 +2598,15 @@ buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignored
 buddysystem#:#buddy_bs_state_linked_a#:#Linked
 buddysystem#:#buddy_bs_state_linked#:#Linked
+buddysystem#:#buddy_bs_state_linked_p#:#Linked
 buddysystem#:#buddy_bs_state_requested_a#:#Requested
+buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction
+buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required
 buddysystem#:#buddy_bs_state_requested_p#:#Requested
 buddysystem#:#buddy_bs_state_requested#:#Requested
 buddysystem#:#buddy_bs_state_unlinked_a#:#Unlinked
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
 buddysystem#:#buddy_enable#:#Activate ‘Contacts’
 buddysystem#:#buddy_enable_info#:#If enabled, users are allowed to contact each other by initiating contact requests. Additionally, there is a personal user setting to allow or prevent being contacted.
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
@@ -2954,6 +2964,7 @@ chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
 chatroom#:#osc_noti_title#:#New Chat Message
 chatroom#:#period#:#Period
 chatroom#:#permissions#:#Permissions
+chatroom#:#preferred_chatname#:#Preferred Name
 chatroom#:#private_room_closed#:#The chat room <b>#title#</b> has been closed.
 chatroom#:#private_room_entered_user#:#The user <b>#username#</b> has entered the private room <b>#title#</b>.
 chatroom#:#private_room_entered#:#Welcome to the private room <b>#title#</b>.
@@ -2984,56 +2995,6 @@ classification#:#clsfct_block_title#:#Selection by Topics
 classification#:#clsfct_content_no_match#:#No objects match your selected criteria.
 classification#:#clsfct_content_title#:#Objects matching your selection
 classification#:#clsfct_selected_objects#:#Selected Objects
-cld#:#cld_add#:#Add Cloud Object
-cld#:#cld_add_download_failed#:#Download Failed
-cld#:#cld_add_file#:#File
-cld#:#cld_add_folder#:#Folder
-cld#:#cld_add_items_from_service_failed#:#Add Items from Service Failed
-cld#:#cld_add_new_item#:#Add New Item
-cld#:#cld_authentication_failed#:#:#Authentication Failed
-cld#:#cld_auth_failed#:#Authentication Failed
-cld#:#cld_auth_failed_no_object_created#:#Authentication failed, no Cloud Object has been created.
-cld#:#cld_config_entry_does_not_exist#:#Config entry does not exist
-cld#:#cld_config_no_valid_get_or_set_function#:#No valid get or set function for config value
-cld#:#cld_config_table_does_not_exist#:#Config table does not exist
-cld#:#cld_config_unknown_exception#:#Unknown Exception
-cld#:#cld_confirm_delete_file#:#Are you sure, that the following file is to be deleted:
-cld#:#cld_confirm_delete_folder#:#Are you sure, that the following folder is to be deleted:
-cld#:#cld_create_folder#:#Create Folder
-cld#:#cld_delete_failed#:#Delete Failed
-cld#:#cld_edit_Settings#:#Cloud Settings
-cld#:#cld_file_deleted#:#Object deleted
-cld#:#cld_file_not_existing_on_service#:#File not existing on service:
-cld#:#cld_folder_already_existing_on_service#:#Folder already existing on service:
-cld#:#cld_folder_created#:#Folder created
-cld#:#cld_folder_creation_failed#:#Folder Creation Failed
-cld#:#cld_folder_name#:#Folder Name
-cld#:#cld_folder_not_existing_on_service#:#Folder not existing on service:
-cld#:#cld_id_already_exists_in_file_tree_in_session#:#ID already exists in file tree in session:
-cld#:#cld_id_does_not_exist_in_file_tree_in_session#:#ID does not exist in file tree in session:
-cld#:#cld_info_add_file_to_current_directory#:#Add File to current directory
-cld#:#cld_info_add_folder_to_current_directory#:#Add Folder to current directory
-cld#:#cld_invalid_input#:#Invalid Input
-cld#:#cld_new#:#New Cloud Object
-cld#:#cld_no_service_active#:#No cloud-plugin active
-cld#:#cld_no_service_selected#:#No service selected
-cld#:#cld_not_authenticated_offline#:#Not Authenticated - Offline
-cld#:#cld_object_added#:#A new Cloud object has been added
-cld#:#cld_only_owner_has_permission_to_change_root_path#:#Due to privacy concerns only the creator of a cloud object has the permission to change it's root path.
-cld#:#cld_path_does_not_exist_in_file_tree_in_session#:#Path does not exist in file tree in Session:
-cld#:#cld_permission_denied#:#Permission Denied
-cld#:#cld_permission_to_change_root_folder_denied#:#Permission to change root folder denied
-cld#:#cld_plugin_hook_could_not_be_instantiated#:#Plugin hook cloud not be instantiated
-cld#:#cld_plugin_not_active#:#Plugin is not active
-cld#:#cld_root_folder#:#Root Folder
-cld#:#cld_service_class_file_not_found#:#Service class file not found
-cld#:#cld_service_not_active#:#Service not active
-cld#:#cld_service#:#Service
-cld#:#cld_service_specific_settings#:#Specific Settings
-cld#:#cld_unknown_exception#:#Unknown Exception
-cld#:#cld_upload_failed_max_filesize#:#Upload Failed (Max. File Size exceeded)
-cld#:#cld_upload_failed#:#Upload Failed
-cld#:#cld_upload_files#:#Upload Files
 cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.
 cmix#:#achieved_label#:#Statements with the verb 'achieved'
 cmix#:#activity_id#:#Activity-ID
@@ -3670,6 +3631,7 @@ common#:#chta_write#:#Edit Chat Room Administration
 common#:#chtr_copy#:#Copy Chat Room
 common#:#chtr_import#:#Import Chat Room
 common#:#city#:#City, State
+common#:#cld_abandoned#:#The Cloud Object has been abandoned as of ILIAS 8. No data has been lost. Contact your System Administration for more information.
 common#:#cleaned_file#:#File has been cleaned.
 common#:#cleaning_failed#:#Cleaning failed.
 common#:#clear#:#Clear
@@ -3727,7 +3689,7 @@ common#:#context#:#Context
 common#:#cont_iim_content_popups_info#:#Content popups appear, when the user clicks on interactive parts of the background image. On this screen you only define the popups. Their content can be edited on the editing screen of the page.
 common#:#cont_iim_create_info#:#Please upload the background picture for the interactive image.
 common#:#cont_iim_overlay_info#:#Overlay images are used to alter (e.g. highlight) parts of the background image when the mouse hovers over them. After uploading the images, you can select them in the ‘Triggers’ tab.
-common#:#continue#:#continue
+common#:#continue#:#Continue
 common#:#continue_work#:#Continue
 common#:#contra#:#Contra
 common#:#copy_all#:#Copy all
@@ -5076,8 +5038,8 @@ common#:#obj_tool_setting_calendar_active#:#Calendar
 common#:#obj_tool_setting_calendar_active_info#:#A calendar is available.
 common#:#obj_tool_setting_calendar#:#Calendar Block
 common#:#obj_tool_setting_calendar_info#:#The ‘Calendar’ block is displayed in the ‘Contents’ tab.
-common#:#obj_tool_setting_custom_metadata#:#Custom Metadata
-common#:#obj_tool_setting_custom_metadata_info#:#If activated metadata can be configured.
+common#:#obj_tool_setting_custom_metadata_info#:#Custom Metadata sets can be managed in the "Metadata" tab.
+common#:#obj_tool_setting_custom_metadata#:#Manage Custom Metadata
 common#:#obj_tool_setting_news_info#:#The ‘News’ block will be displayed inside the ‘Content’ tab.
 common#:#obj_tool_setting_news#:#News
 common#:#obj_tos_desc#:#Terms of Service Settings
@@ -7192,13 +7154,23 @@ copg#:#copg_allow_html#:#Enable HTML/Javascript
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.
 copg#:#copg_an_error_occured#:#An error occured.
 copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
+copg#:#copg_cron_days#:#Delete pages older than
+copg#:#copg_cron_days_info#:#Page history entries older than this period will be deleted.
+copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.
+copg#:#copg_cron_keep_entries#:#Keep Minimum
+copg#:#copg_days#:#Days
 copg#:#copg_details#:#Details
+copg#:#copg_entries#:#Entries
 copg#:#copg_error#:#Error
+copg#:#copg_est_reading_time#:#Estimated Reading Time
+copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.
+copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
+copg#:#copg_x_minutes#:#%s minute(s)
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.
 cpad#:#cpad_reading_time_status#:#Reading Time
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
@@ -7262,7 +7234,7 @@ crs#:#crs_access#:#Access
 crs#:#crs_activate_notification#:#Activate Notification
 crs#:#crs_activation#:#Activation
 crs#:#crs_activation_limited_visibility_info#:#If chosen, the course is visible even outside of the given availability but members cannot access the course.
-crs#:#crs_activation_online_info#:#Set the course online to make it visible and available for course members. If not, only course administrators and tutors will have access to it.
+crs#:#crs_activation_online_info#:#Set the course online to make it visible and available for course members. If not, only course administrators and roles with permission "Edit Settings" have access to it.
 crs#:#crs_add_archive_html#:#Create a HTML Archive
 crs#:#crs_add_archive_xml#:#Create a XML Archive
 crs#:#crs_added#:#Added new course
@@ -7911,10 +7883,10 @@ dash#:#dash_presentation#:#Presentation
 dash#:#dash_remove_from_list#:#Remove from List
 dash#:#dash_side_panel#:#Side Panel
 dash#:#dash_sortation#:#Sortation
+dash#:#dash_sort_by_alphabet#:#Sort by Alphabet
 dash#:#dash_sort_by_location#:#Sort by Location
 dash#:#dash_sort_by_start_date#:#Sort by Start Date
 dash#:#dash_sort_by_type#:#Sort by Type
-dash#:#dash_sort_by_alphabet#:#Sort by Alphabet
 dash#:#dash_studyprogramme#:#My Study Programmes
 dash#:#dash_tile#:#Tile
 dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
@@ -9388,6 +9360,7 @@ file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contain
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.
 file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#migrated#:#Status
+file#:#msg_unzip_success#:#Archive has been successfully unziped.
 file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
@@ -9999,7 +9972,6 @@ itgr#:#itgr_edit#:#Edit Item Groups
 itgr#:#itgr_expandable_closed#:#Expandable (initially closed)
 itgr#:#itgr_expandable_open#:#Expandable (initially opened)
 itgr#:#itgr_hide_title#:#Hide Title
-itgr#:#itgr_hide_title_info#:#Hides title of item group in presentation for learner.
 itgr#:#itgr_item#:#Item
 itgr#:#itgr_list_default#:#Default
 itgr#:#itgr_list_default_info#:#Inherits value from upper container.
@@ -10216,6 +10188,8 @@ link#:#link_wpages#:#Wiki Pages
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 lm#:#lm_copy#:#Copy Learning Module
+lm#:#lm_est_reading_time#:#Estimated Reading Time
+lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.
 lm#:#lm_page_type_lm#:#LM Page
 lm#:#lm_save_titles#:#Titles saved.
 lng#:#language_detection#:#Language Detection
@@ -10587,7 +10561,7 @@ mail#:#first_email_missing_info#:#Selection not possible because no e-mail addre
 mail#:#forward#:#Forward
 mail#:#goto_invitation_chat#:#Open Chat Room
 mail#:#invite_to_chat#:#Invite to Chat
-mail#:#linebreak#:#Line break
+mail#:#linebreak#:#Line Break
 mail#:#link_check_affected_links#:#Affected Links
 mail#:#link_check_introduction#:#the following weblinks are invalid:
 mail#:#link_check_perma_link#:#Permanent Link
@@ -10668,13 +10642,15 @@ mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' addr
 mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
 mail#:#mail_incoming_both#:#local and forwarding
-mail#:#mail_incoming#:#Incoming mail
+mail#:#mail_incoming#:#Incoming Mail
 mail#:#mail_incoming_local#:#only local
-mail#:#mail_incoming_mail#:#Incoming mail
+mail#:#mail_incoming_mail#:#Incoming Mail
 mail#:#mail_incoming_smtp#:#forward to e-mail address
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
+mail#:#mail_is_read#:#gelesen
+mail#:#mail_is_unread#:#ungelesen
 mail#:#mail_list_members#:#List members
 mail#:#mail_mailing_list#:#Mailing List
 mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already assigned all of your contacts to this mailing list.
@@ -10715,6 +10691,7 @@ mail#:#mail_nacc_title#:#Title
 mail#:#mail_nacc_use_placeholder#:#The following placeholders may be used (only in Message Content)
 mail#:#mail_new_template#:#New Text Template
 mail#:#mail_no_permissions_write_smtp#:#You have no permission to write external e-mail
+mail#:#mail_no_subject#:#No subject available
 mail#:#mail_notification_membership_section#:#Membership
 mail#:#mail_notification_subject#:#New mail in your inbox
 mail#:#mail_notify_orphaned_info#:#If you enter a value here is larger than or equal to 1, ILIAS will send an e-mail to the user before an internal mail is deleted. Please make sure that an external e-mail reception is possible.
@@ -10878,10 +10855,14 @@ mathjax#:#mathjax_test_expression_info_client#:#This expression will be rendered
 mathjax#:#mathjax_test_expression_info_server#:#This expression will be rendered on the server.
 mathjax#:#mathjax_test_expression#:#Test Expression
 mcst#:#mcst_add_new_item#:#Add New Mediacast Item
+mcst#:#mcst_audio_files#:#Audio Files
 mcst#:#mcst_audioportable_settings_info#:#Comma separated list of file suffixes
 mcst#:#mcst_audioportable_settings_title#:#File Extensions for Audio Format
 mcst#:#mcst_audioportable_title#:#Additional Audio File for Portable Devices
 mcst#:#mcst_automatic_detection#:#Automatic Detection
+mcst#:#mcst_autoplay_active#:#Autoplay (Default on)
+mcst#:#mcst_autoplay#:#Autoplay
+mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)
 mcst#:#mcst_clear_purpose_title#:#Delete
 mcst#:#mcst_converted_file#:#File has been converted.
 mcst#:#mcst_copy#:#Copy Mediacast
@@ -10890,9 +10871,11 @@ mcst#:#mcst_default_visibility#:#Default Access
 mcst#:#mcst_det_playtime#:#Determine Play Time
 mcst#:#mcst_downloadable#:#Download Links
 mcst#:#mcst_downloadable_info#:#If this option is enabled, links for downloading mediacast items are provided.
+mcst#:#mcst_download_all#:#Download All
 mcst#:#mcst_download_audioportable#:#Download Audio Portable
 mcst#:#mcst_download_cnt#:#Downloaded
 mcst#:#mcst_download_standard#:#Download
+mcst#:#mcst_download_started_bg#:#Download of files has started. Please check your background tasks in the top right corner.
 mcst#:#mcst_download_videoalternative#:#Download Alternative File
 mcst#:#mcst_download_videoportable#:#Download Video Portable
 mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.
@@ -10902,6 +10885,7 @@ mcst#:#mcst_edit_settings#:#MediaCast Settings
 mcst#:#mcst_extract_preview_image#:#Extract Preview Image
 mcst#:#mcst_gallery#:#Tiles
 mcst#:#mcst_image_extracted#:#Image has been extracted.
+mcst#:#mcst_img_gallery#:#Image Gallery
 mcst#:#mcst_import#:#Import Mediacast
 mcst#:#mcst_incl_files_in_rss#:#Include Media Files as Attachment
 mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachments in the RSS feed. Otherwise the feed just notifies subscribers about new items.
@@ -10916,9 +10900,14 @@ mcst#:#mcst_mimetype_info#:#Select mime type to control plugin used for playback
 mcst#:#mcst_mimetype#:#Mime Type
 mcst#:#mcst_mimetypes_info#:#Comma separated list of mime types
 mcst#:#mcst_mimetypes#:#Mime Types
+mcst#:#mcst_new_items_det_lp#:#Add new items to learning progress
+mcst#:#mcst_new_items_det_lp_info#:#New items are automatically added to determine the overall learning progress.
 mcst#:#mcst_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
+mcst#:#mcst_next_items#:#Next Items
+mcst#:#mcst_no_autoplay#:#No Autoplay
 mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.
 mcst#:#mcst_nr_items#:#Number of Items
+mcst#:#mcst_nr_videos#:#Number of Initial Videos
 mcst#:#mcst_ordering_creation_date_asc#:#By Creation Date, Oldest Item on Top
 mcst#:#mcst_ordering_creation_date_desc#:#By Creation Date Newest Item on Top
 mcst#:#mcst_ordering_manual#:#Manual
@@ -10927,18 +10916,24 @@ mcst#:#mcst_ordering_title#:#Titles in Alphabetical Order
 mcst#:#mcst_play_cnt#:#Played
 mcst#:#mcst_play#:#Play
 mcst#:#mcst_play_time#:#Play Time
+mcst#:#mcst_podcast#:#Podcast
 mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:
 mcst#:#mcst_preview_picture#:#Preview Picture
+mcst#:#mcst_prev_items#:#Previous Items
 mcst#:#mcst_reference_info#:#Provide URL pointing to resource
 mcst#:#mcst_save_order#:#Save Order
 mcst#:#mcst_second#:#Second
 mcst#:#mcst_set_playtime#:#Playtime has been set.
 mcst#:#mcst_settings#:#Mediacast Settings
+mcst#:#mcst_show_description#:#Show Description
 mcst#:#mcst_standard_settings_info#:#Comma separated list of file suffixes
 mcst#:#mcst_standard_settings_title#:#File Extensions for Standard Format
 mcst#:#mcst_standard_title#:#Standard Media File
 mcst#:#mcst_unable_to_determin_playtime#:#Unable to determine playtime. Please set it manually be clicking on Edit.
 mcst#:#mcst_videoalternative_title#:#Alternative Video File (Use in Browser)
+mcst#:#mcst_video_cast#:#Videocast
+mcst#:#mcst_video_completion_threshold_info#:#Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point.
+mcst#:#mcst_video_completion_threshold#:#Video Completion Threshold
 mcst#:#mcst_videoportable_settings_info#:#Comma separated list of file suffixes
 mcst#:#mcst_videoportable_settings_title#:#File Extensions for Video Format
 mcst#:#mcst_videoportable_title#:#Additional Video File for Portable Devices
@@ -10946,6 +10941,7 @@ mcst#:#mcst_viewmode#:#Presentation Mode
 mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.
 mcst#:#mcst_visibility_public#:#Public
 mcst#:#mcst_visibility_users#:#Logged in Users
+mcst#:#mcst_watched#:#watched
 mcst#:#mcst_webfeed#:#RSS Web Feed
 membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one setting prevents this.
 membership#:#mem_force_notification_mode_all#:#Notification activated for all members (changeable)
@@ -10989,6 +10985,7 @@ mep#:#mep_master_language_only_no_media#:#Master Language without Media
 mep#:#mep_media_files#:#Media Files
 mep#:#mep_media_subtitles#:#Media Subtitles
 mep#:#mep_mob#:#Media Object
+mep#:#mep_mpg#:#Content Snippet
 mep#:#mep_new_content_snippet#:#New Content Snippet
 mep#:#mep_new_folder#:#New Folder
 mep#:#mep_page_properties#:#Page Properties
@@ -11593,7 +11590,8 @@ meta#:#meta_no#:#No
 meta#:#meta_no_relation#:#No metadata available for the Relation section.
 meta#:#meta_no_rights#:#No metadata available for the Rights section.
 meta#:#meta_no_technical#:#No metadata available for the Technical section.
-meta#:#meta_obj_type_inactive#:#Dataset not Used
+meta#:#meta_obj_type_active#:#Dataset offered
+meta#:#meta_obj_type_inactive#:#Dataset not offered
 meta#:#meta_obj_type_mandatory#:#Dataset always offered
 meta#:#meta_obj_type_optional#:#Dataset needs activation
 meta#:#meta_oer_blocked#:#Ignored by OER Harvester
@@ -11641,7 +11639,7 @@ meta#:#meta_status#:#Status
 meta#:#meta_structure#:#Structure
 meta#:#meta_subjectmatterexpert#:#Subject matter expert(s)
 meta#:#meta_tab_advmd#:#Custom Metadata
-meta#:#meta_tab_advmd_def#:#Custom Metadata Definition
+meta#:#meta_tab_advmd_def#:#Manage Custom Metadata Sets
 meta#:#meta_table#:#Table
 meta#:#meta_tab_lom#:#LOM
 meta#:#meta_taxon_path#:#Taxon Path
@@ -11775,6 +11773,7 @@ mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.
 mob#:#mob_file#:#File
 mob#:#mob_general#:#General
 mob#:#mob_language#:#Language
+mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.
 mob#:#mob_multi_srt_files#:#SRT Files
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
 mob#:#mob_object#:#Object
@@ -14560,6 +14559,9 @@ skmg#:#skmg_enable_skmg#:#Activate Competence Management
 skmg#:#skmg_eval_type_1#:#Appraisal
 skmg#:#skmg_eval_type_2#:#Measurement
 skmg#:#skmg_eval_type_3#:#Self-Evaluation
+skmg#:#skmg_eval_type_latest_1#:#Latest Appraisal
+skmg#:#skmg_eval_type_latest_2#:#Latest Measurement
+skmg#:#skmg_eval_type_latest_3#:#Latest Self-Evaluation
 skmg#:#skmg_execute_self_evaluation#:#Start
 skmg#:#skmg_form_presentation#:#Presentation
 skmg#:#skmg_from_lower_to_higher_levels#:#Please order the competence levels from lower ones on top to higher ones at the bottom.
@@ -14620,9 +14622,12 @@ skmg#:#skmg_selected_skills#:#Selected Competences
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 skmg#:#skmg_select_skill_level_assign#:#Please select a competence.
 skmg#:#skmg_select_trigger#:#Select Trigger
+skmg#:#skmg_self_evaluation_byline#:#The self-evaluation will be excluded from target achievement. It is used for your guidance.
 skmg#:#skmg_self_evaluation#:#Self-Evaluation
 skmg#:#skmg_self_evaluations#:#Self-Evaluations
 skmg#:#skmg_settings#:#Competence Management Settings
+skmg#:#skmg_show_all#:#Show All
+skmg#:#skmg_show_latest_entries#:#Show Latest Entries
 skmg#:#skmg_skill#:#Competence
 skmg#:#skmg_skill_in_use#:#This competence is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
 skmg#:#skmg_skill_level#:#Competence Level
@@ -14635,6 +14640,7 @@ skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted 
 skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target. Please click on "Actions" for that.
 skmg#:#skmg_skill_no_needs_impr#:#Competence target achieved!
 skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.
+skmg#:#skmg_skill_profile_comparison#:#Profile Comparison
 skmg#:#skmg_skill_profiles#:#Competence Profiles
 skmg#:#skmg_skills#:#Competences
 skmg#:#skmg_skill_template#:#Competence Template
@@ -14669,30 +14675,6 @@ skmg#:#skmg_usage_type_info_res#:#Repository Objects Assigned as Suggested Resou
 skmg#:#skmg_usage_type_info_user#:#Assigned to Users
 skmg#:#skmg_usage#:#Usage
 skmg#:#skmg_your_self_evaluation#:#Your Self-Evaluation
-sop#:#sop_already_exported#:#This Learning Module has already been exported. Please open it with the computer on which you have installed Firefox with the SCORM Offline Player addon.
-sop#:#sop_check_system_requirements#:#Checking system requirements
-sop#:#sop_desc_export#:#A learning module in offline mode can only be used offline. Once the tracking data has been imported back to ILIAS, the learning module will be online again.
-sop#:#sop_export#:#SCORM Learning Module Export
-sop#:#sop_lm_not_exists#:#The Learning Module does not exist in the offline storage of this browser. <br />Please use use same device and browser as on Learning Module export.<br /><br />If this is the right device and right browser maybe the Learning Module was removed by deleting the browser cache. Please contact your admininstrator.
-sop#:#sop_msg_close_lm#:#The learning module is still open. Please close the SCORM Offline Player.
-sop#:#sop_msg_export_content#:#Transferring content to SCORM Offline Manager. This might need a moment. Please be patient.
-sop#:#sop_msg_export_failure#:#Transferring content or data to SCORM Offline Manager was not successful.
-sop#:#sop_msg_export_ok#:#Transferring content and tracking data was successful
-sop#:#sop_msg_export_tracking#:#Transferring tracking data to SCORM Offline Manager. Please wait some seconds
-sop#:#sop_msg_lm_not_exists#:#The learning module does either not exist or is inactive in the SCORM Offline Manager.
-sop#:#sop_msg_push_tracking_ok#:#Transfer of tracking data was successful.
-sop#:#sop_msg_push_tracking#:#Transferring tracking data to ILIAS. Please wait a moment.
-sop#:#sop_purge_cache#:#Delete offline cache of Learning Module
-sop#:#sop_push_tracking#:#Import tracking data
-sop#:#sop_reload_page#:#Reload page
-sop#:#sop_start_som#:#Start SOM
-sop#:#sop_start_sop#:#Start Learning Module offline
-sop#:#sop_system_check_error#:#Your Browser does not support the required HTML5 features.
-sop#:#sop_system_check_https#:#You should use https instead of http for the required HTML5 features.
-sop#:#sop_text_export#:#Export SCORM Learning Module for offline use
-sop#:#sop_text_push_tracking#:#Import offline tracking data to ILIAS and switch to online mode
-sop#:#sop_text_start_offline#:#Start Learning Module in offline mode
-sop#:#sop_text_start_som#:#Start SCORM Offline Manager
 style#:#adapt_icon#:#Adapt Icon
 style#:#adapt_icon_description#:#Adapt icon colors or change the icon itself.
 style#:#adapt_icons#:#Adapt Icon Colors
@@ -16224,11 +16206,13 @@ trac#:#trac_objects#:#Users
 trac#:#trac_others#:#Others
 trac#:#trac_participants#:#Show Participants
 trac#:#trac_participated#:#Participated
+trac#:#trac_paths#:#Paths
 trac#:#trac_percentage#:#Percentage
 trac#:#trac_periodic_system_load#:#Periodic
 trac#:#trac_progress#:#Personal Learning Progress
 trac#:#trac_read_count#:#Access Number
 trac#:#trac_read_count_spent_seconds#:#Time Spent / Access
+trac#:#trac_reference_ids_column#:#Reference-Ids
 trac#:#trac_reference#:#References
 trac#:#trac_refresh#:#Refresh
 trac#:#trac_registered#:#Registered
@@ -16300,15 +16284,16 @@ ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Characters remaining:
 ui#:#ui_error_in_group#:#There is some error in this part.
 ui#:#ui_error_switchable_group_required#:#Please select an option.
+ui#:#ui_file_input_general_error#:#An error occurred! You can check the JavaScript console of your browser for more information and/or contact your ILIAS system administration about this incident.
+ui#:#ui_file_input_invalid_amount#:#You cannot upload this many files, please remove some in order to continue.
+ui#:#ui_file_input_invalid_mime#:#Files of type '%s' are not allowed
+ui#:#ui_file_input_invalid_size#:#File exceeds the maximum size of %s.
 ui#:#ui_invalid_url#:#Invalid URL-format
 ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
 ui#:#ui_numeric_only#:#Please insert a whole number.
-ui#:#ui_file_input_invalid_mime#:#Files of type '%s' are not allowed
-ui#:#ui_file_input_invalid_size#:#File exceeds the maximum size of %s.
-ui#:#ui_file_input_invalid_amount#:#You cannot upload this many files, please remove some in order to continue.
-ui#:#ui_file_input_general_error#:#An error occurred, check the console for more information
 ui#:#ui_tag_required#:#Please insert at least one tag.
+ui#:#ui_transcription#:#Transcript
 user#:#all_roles_has_starting_point#:#All the roles have starting points
 user#:#back_to_starting_points_list#:#Back to Starting Points
 user#:#clipboard_add_btn#:#Add to Clipboard
@@ -16651,6 +16636,7 @@ wiki#:#wiki_rename#:#Rename
 wiki#:#wiki_save_ordering_and_indent#:#Save Ordering and Indentation
 wiki#:#wiki_search_results#:#Search Results
 wiki#:#wiki_search#:#Search
+wiki#:#wiki_sec_protect_info#:#Protected sections can only be edited by users having "Edit Settings" permission.
 wiki#:#wiki_selected_pages#:#Selected Pages
 wiki#:#wiki_select_one_item#:#Please select one item.
 wiki#:#wiki_set_as_start_page#:#Set as Start Page

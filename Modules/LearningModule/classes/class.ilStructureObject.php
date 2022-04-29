@@ -70,7 +70,7 @@ class ilStructureObject extends ilLMObject
      */
     public function copy(
         ilObjLearningModule $a_target_lm
-    ) {
+    ) : ilStructureObject {
         $chap = new ilStructureObject($a_target_lm);
         $chap->setTitle($this->getTitle());
         if ($this->getLMId() != $a_target_lm->getId()) {
@@ -134,7 +134,7 @@ class ilStructureObject extends ilLMObject
 
         return $a_value;
     }
-
+    
     public static function _getPresentationTitle(
         int $a_st_id,
         string $a_mode = self::CHAPTER_TITLE,
@@ -241,7 +241,7 @@ class ilStructureObject extends ilLMObject
         ilXmlWriter $a_xml_writer,
         int $a_inst,
         ilLog $expLog
-    ) {
+    ) : void {
         $childs = $this->tree->getChilds($this->getId());
         foreach ($childs as $child) {
             if ($child["type"] != "st") {

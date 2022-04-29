@@ -2,7 +2,10 @@
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\isToolItem;
-use ILIAS\DI\Container;
+use ilInitialisation;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /******************************************************************************
  *
@@ -21,21 +24,58 @@ class CallbackHandler
 {
     use Hasher;
     
+    private const TARGET_SCRIPT = "/ilias.php";
+    public const KEY_ITEM = 'item';
+    
+    protected WrapperFactory $wrapper;
+    protected Factory $refinery;
+    protected \ilCtrlInterface $ctrl;
+    protected \ILIAS\GlobalScreen\Services $global_screen;
+    
+    public function __construct()
+    {
+        ilInitialisation::initILIAS();
+        global $DIC;
+        $this->ctrl = $DIC->ctrl();
+        $this->wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
+        $this->global_screen = $DIC->globalScreen();
+    }
+    
     public function run() : void
     {
-        \ilInitialisation::initILIAS();
-        global $DIC;
-        $DIC->ctrl()->setTargetScript("/ilias.php");
-        $GS = $DIC->globalScreen();
-        $GS->collector()->tool()->collectOnce();
-        $unhash = $this->unhash($_GET['item']);
-        $identification = $GS->identification()->fromSerializedIdentification($unhash);
-        $item = $GS->collector()->tool()->getSingleItem($identification);
-        /**
-         * @var $item isToolItem
-         */
-        $callback = $item->hasCloseCallback() ? $item->getCloseCallback() : static function () : void {
-        };
-        $callback();
+        $this->ctrl->setTargetScript(self::TARGET_SCRIPT);
+        
+        $this->global_screen->collector()
+                            ->tool()
+                            ->collectOnce();
+        
+        $item = $this->global_screen->collector()
+                                    ->tool()
+                                    ->getSingleItem($this->getIdentification());
+        
+        if ($item instanceof isToolItem) {
+            $callback = $this->resolveCallback($item);
+            $callback();
+        }
+    }
+    
+    private function resolveCallback(isToolItem $item) : \Closure
+    {
+        return $item->hasCloseCallback()
+            ? $item->getCloseCallback()
+            : static function () : void {
+            };
+    }
+    
+    private function getIdentification() : IdentificationInterface
+    {
+        $hashed = $this->wrapper->query()->has(self::KEY_ITEM)
+            ? $this->wrapper->query()->retrieve(self::KEY_ITEM, $this->refinery->to()->string())
+            : '';
+        
+        $unhashed = $this->unhash($hashed);
+        
+        return $this->global_screen->identification()->fromSerializedIdentification($unhashed);
     }
 }

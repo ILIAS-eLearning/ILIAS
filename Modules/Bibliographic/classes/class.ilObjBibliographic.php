@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\ResourceStorage\Services;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
@@ -13,11 +27,9 @@ use ILIAS\DI\Container;
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Thibeau Fuhrer <thf@studer-raimann.ch>
  * @version $Id: class.ilObjBibliographic.php 2012-01-11 10:37:11Z otruffer $
- * @extends ilObject2
  */
 class ilObjBibliographic extends ilObject2
 {
-
     protected \ilBiblFileReaderFactory $bib_filereader_factory;
     protected \ilBiblTypeFactory $bib_type_factory;
     protected \ilBiblEntryFactory $bib_entry_factory;
@@ -41,14 +53,11 @@ class ilObjBibliographic extends ilObject2
 
     /**
      * If bibliographic object exists, read it's data from database, otherwise create it
-     * @param $existant_bibl_id int is not set when object is getting created
+     * @param int $existant_bibl_id is not set when object is getting created
      */
     public function __construct(int $existant_bibl_id = 0)
     {
         global $DIC;
-        /**
-         * @var $DIC Container
-         */
 
         $this->storage = $DIC->resourceStorage();
         $this->stakeholder = new ilObjBibliographicStakeholder();
@@ -95,8 +104,9 @@ class ilObjBibliographic extends ilObject2
 
     /**
      * Create object
-     */
-    protected function doCreate() : void
+     *
+     * @param bool $clone_mode*/
+    protected function doCreate(bool $clone_mode = false) : void
     {
         global $DIC;
 
@@ -248,10 +258,16 @@ class ilObjBibliographic extends ilObject2
     {
         $this->filename = $filename;
     }
-
+    
     public function getFilename() : ?string
     {
-        return $this->filename;
+        if ($this->getResourceId()) {
+            return $this->storage->manage()
+                                 ->getCurrentRevision($this->getResourceId())
+                                 ->getInformation()
+                                 ->getTitle();
+        }
+        return null;
     }
 
     /**
@@ -292,14 +308,8 @@ class ilObjBibliographic extends ilObject2
 
         return $instance->getId();
     }
-
-    /**
-     * Clone BIBL
-     * @param ilObjBibliographic $new_obj
-     * @param                    $a_target_id
-     * @param int                $a_copy_id copy id
-     */
-    public function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false) : \ilObjBibliographic
+    
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
     {
         assert($new_obj instanceof ilObjBibliographic);
         //copy online status if object is not the root copy object
@@ -310,10 +320,7 @@ class ilObjBibliographic extends ilObject2
         }
 
         $new_obj->cloneStructure($this->getId());
-
         $new_obj->parseFileToDatabase();
-
-        return $new_obj;
     }
 
     /**
@@ -373,9 +380,6 @@ class ilObjBibliographic extends ilObject2
         return $this->is_online;
     }
 
-    /**
-     * @param ResourceIdentification $identification
-     */
     public function setResourceId(ResourceIdentification $identification) : void
     {
         $this->resource_id = $identification;
@@ -397,26 +401,17 @@ class ilObjBibliographic extends ilObject2
         return $this->storage->manage()->getResource($this->getResourceId())->getStorageID();
     }
 
-    /**
-     * @return bool
-     */
     public function isMigrated() : bool
     {
         return $this->is_migrated;
     }
 
-    /**
-     * @param bool $migrated
-     */
     public function setMigrated(bool $migrated) : void
     {
         $this->is_migrated = $migrated;
     }
 
-    /**
-     * @param $filename
-     */
-    public function determineFileTypeByFileName($filename) : int
+    public function determineFileTypeByFileName(string $filename) : int
     {
         return $this->bib_type_factory->getInstanceForFileName($filename)->getId();
     }

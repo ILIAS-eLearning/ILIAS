@@ -1,12 +1,26 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Input\Container\Form\Form;
 
 /**
- * Class ilObjNotificationAdminGUI
- *
  * @author Ingmar Szmais <iszmais@databay.de>
  *
  * @ilCtrl_IsCalledBy ilObjNotificationAdminGUI: ilAdministrationGUI
@@ -66,7 +80,6 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
                     'osd_delay' => (int) $settings->get('osd_delay'),
                     'play_sound' => (bool) $settings->get('play_sound'),
                 ];
-
             }
             $form = $this->getForm($value);
         }
@@ -83,18 +96,16 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 
         $form = $this->getForm()->withRequest($this->dic->http()->request());
         $data = $form->getData();
-        if ($data) {
-            if ($data['osd']) {
-                if ($data['osd']['enable_osd'] === null) {
-                    $settings->deleteAll();
-                    $settings->set('enable_osd', '0');
-                } else {
-                    $settings->set('enable_osd', '1');
-                    $settings->set('osd_interval', ((string) $data['osd']['enable_osd']['osd_interval']));
-                    $settings->set('osd_vanish', ((string) $data['osd']['enable_osd']['osd_vanish']));
-                    $settings->set('osd_delay', ((string) $data['osd']['enable_osd']['osd_delay']));
-                    $settings->set('play_sound', ($data['osd']['enable_osd']['play_sound']) ? '1' : '0');
-                }
+        if ($data && is_array($data['osd'])) {
+            if ($data['osd']['enable_osd'] === null) {
+                $settings->deleteAll();
+                $settings->set('enable_osd', '0');
+            } else {
+                $settings->set('enable_osd', '1');
+                $settings->set('osd_interval', ((string) $data['osd']['enable_osd']['osd_interval']));
+                $settings->set('osd_vanish', ((string) $data['osd']['enable_osd']['osd_vanish']));
+                $settings->set('osd_delay', ((string) $data['osd']['enable_osd']['osd_delay']));
+                $settings->set('play_sound', ($data['osd']['enable_osd']['play_sound']) ? '1' : '0');
             }
         }
         $this->showGeneralSettings($form);
@@ -125,7 +136,8 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
                 )
             ],
             $this->lng->txt('enable_osd')
-        )->withByline($this->lng->txt('enable_osd_desc')
+        )->withByline(
+            $this->lng->txt('enable_osd_desc')
         );
 
         if ($value !== null) {

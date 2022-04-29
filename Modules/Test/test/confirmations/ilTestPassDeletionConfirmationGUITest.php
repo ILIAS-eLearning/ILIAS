@@ -10,7 +10,6 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
 {
-
     private $testEvaluationGUI_mock;
 
     private $lng_mock;

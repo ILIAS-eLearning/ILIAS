@@ -20,7 +20,6 @@
  */
 class ilWorkspaceTree extends ilTree
 {
-
     public function __construct(
         int $a_tree_id,
         int $a_root_id = 0
@@ -173,6 +172,7 @@ class ilWorkspaceTree extends ilTree
     
     /**
      * Get all workspace objects of specific type
+     * @return array[]
      */
     public function getObjectsFromType(
         string $a_type,

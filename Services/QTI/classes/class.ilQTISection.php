@@ -31,133 +31,55 @@
 */
 class ilQTISection
 {
-    /** @var string|null */
-    public $ident;
+    public ?string $ident;
+    public ?string $title;
+    public ?string $xmllang;
+    public ?string $comment;
+    /** @var null|array{h: string, m: string, s: string} */
+    public ?array $duration;
+    public ?ilQTIPresentationMaterial $presentation_material;
 
-    /** @var string|null */
-    public $title;
-
-    /** @var string|null */
-    public $xmllang;
-
-    /** @var string|null */
-    public $comment;
-
-    /**
-     * @var array|null ['h' => string, 'm' => string, 's' => string]
-     */
-    public $duration;
-
-    /** @var array */
-    public $qtimetadata;
-
-    /** @var ilQTIObjectives[] */
-    public $objectives;
-
-    /** @var array */
-    public $sectioncontrol;
-
-    /** @var array */
-    public $sectionprecondition;
-
-    /** @var array */
-    public $sectionpostcondition;
-
-    /** @var array */
-    public $rubric;
-
-    /** @var ilQTIPresentationMaterial|null */
-    public $presentation_material;
-
-    /** @var array */
-    public $outcomes_processing;
-    public $sectionproc_extension;
-
-    /** @var array */
-    public $sectionfeedback;
-    public $selection_ordering;
-    public $reference;
-
-    /** @var array */
-    public $itemref;
-
-    /** @var array */
-    public $item;
-
-    /** @var array */
-    public $sectionref;
-
-    /** @var array */
-    public $section;
-    
     public function __construct()
     {
-        $this->qtimetadata = array();
-        $this->objectives = array();
-        $this->sectioncontrol = array();
-        $this->sectionprecondition = array();
-        $this->sectionpostcondition = array();
-        $this->rubric = array();
-        $this->outcomes_processing = array();
-        $this->sectionfeedback = array();
-        $this->itemref = array();
-        $this->item = array();
-        $this->sectionref = array();
-        $this->section = array();
+        $this->ident = null;
+        $this->title = null;
+        $this->xmllang = null;
+        $this->comment = null;
+        $this->duration = null;
+        $this->presentation_material = null;
     }
 
-    /**
-     * @param string $a_ident
-     */
-    public function setIdent($a_ident) : void
+    public function setIdent(string $a_ident) : void
     {
         $this->ident = $a_ident;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getIdent()
+    public function getIdent() : ?string
     {
         return $this->ident;
     }
 
-    /**
-     * @param string $a_title
-     */
-    public function setTitle($a_title) : void
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getTitle()
+    public function getTitle() : ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $a_comment
-     */
-    public function setComment($a_comment) : void
+    public function setComment(string $a_comment) : void
     {
         $this->comment = $a_comment;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getComment()
+    public function getComment() : ?string
     {
         return $this->comment;
     }
 
-    /**
-     * @param string $a_duration
-     */
-    public function setDuration($a_duration) : void
+    public function setDuration(string $a_duration) : void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
             $this->duration = array(
@@ -171,124 +93,28 @@ class ilQTISection
     /**
      * @return null|array{h: string, m: string, s: string}
      */
-    public function getDuration()
+    public function getDuration() : ?array
     {
         return $this->duration;
     }
 
-    /**
-     * @param string $a_xmllang
-     */
-    public function setXmllang($a_xmllang) : void
+    public function setXmllang(string $a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getXmllang()
+    public function getXmllang() : ?string
     {
         return $this->xmllang;
     }
-    
-    public function addQtiMetadata($a_metadata) : void
-    {
-        $this->qtimetadata[] = $a_metadata;
-    }
-    
-    public function addObjectives($a_objectives) : void
-    {
-        $this->objectives[] = $a_objectives;
-    }
-    
-    public function addSectioncontrol($a_sectioncontrol) : void
-    {
-        $this->sectioncontrol[] = $a_sectioncontrol;
-    }
-    
-    public function addSectionprecondition($a_sectionprecondition) : void
-    {
-        $this->sectionprecondition[] = $a_sectionprecondition;
-    }
-    
-    public function addSectionpostcondition($a_sectionpostcondition) : void
-    {
-        $this->sectionpostcondition[] = $a_sectionpostcondition;
-    }
-    
-    public function addRubric($a_rubric) : void
-    {
-        $this->rubric[] = $a_rubric;
-    }
-    
-    public function setPresentationMaterial($a_material) : void
+
+    public function setPresentationMaterial(ilQTIPresentationMaterial $a_material) : void
     {
         $this->presentation_material = $a_material;
     }
     
-    public function getPresentationMaterial()
+    public function getPresentationMaterial() : ?ilQTIPresentationMaterial
     {
         return $this->presentation_material;
-    }
-    
-    public function addOutcomesProcessing($a_outcomes_processing) : void
-    {
-        $this->outcomes_processing[] = $a_outcomes_processing;
-    }
-    
-    public function setSectionprocExtension($a_sectionproc_extension) : void
-    {
-        $this->sectionproc_extension = $a_sectionproc_extension;
-    }
-    
-    public function getSectionprocExtension()
-    {
-        return $this->sectionproc_extension;
-    }
-    
-    public function addSectionfeedback($a_sectionfeedback) : void
-    {
-        $this->sectionfeedback[] = $a_sectionfeedback;
-    }
-    
-    public function setSelectionOrdering($a_selection_ordering) : void
-    {
-        $this->selection_ordering = $a_selection_ordering;
-    }
-    
-    public function getSelectionOrdering()
-    {
-        return $this->selection_ordering;
-    }
-    
-    public function setReference($a_reference) : void
-    {
-        $this->reference = $a_reference;
-    }
-    
-    public function getReference()
-    {
-        return $this->reference;
-    }
-    
-    public function addItemref($a_itemref) : void
-    {
-        $this->itemref[] = $a_itemref;
-    }
-    
-    public function addItem($a_item) : void
-    {
-        $this->item[] = $a_item;
-    }
-
-    public function addSectionref($a_sectionref) : void
-    {
-        $this->sectionref[] = $a_sectionref;
-    }
-    
-    public function addSection($a_section) : void
-    {
-        $this->section[] = $a_section;
     }
 }

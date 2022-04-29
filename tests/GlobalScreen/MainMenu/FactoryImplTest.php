@@ -5,12 +5,9 @@ namespace ILIAS\GlobalScreen\MainMenu;
 use ILIAS\GlobalScreen\Identification\IdentificationFactory;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Provider\NullProviderFactory;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 use ReflectionMethod;
@@ -24,22 +21,10 @@ require_once('./libs/composer/vendor/autoload.php');
  */
 class FactoryImplTest extends TestCase
 {
-    /**
-     * @var IdentificationInterface
-     */
-    protected $id;
-    /**
-     * @var StaticMainMenuProvider
-     */
-    protected $provider;
-    /**
-     * @var IdentificationFactory
-     */
-    protected $identification;
-    /**
-     * @var MainMenuItemFactory
-     */
-    protected $factory;
+    protected IdentificationInterface $id;
+    protected StaticMainMenuProvider $provider;
+    protected IdentificationFactory $identification;
+    protected MainMenuItemFactory $factory;
 
 
     /**
@@ -58,7 +43,7 @@ class FactoryImplTest extends TestCase
     }
 
 
-    public function testAvailableMethods()
+    public function testAvailableMethods() : void
     {
         $r = new ReflectionClass($this->factory);
 
@@ -68,7 +53,6 @@ class FactoryImplTest extends TestCase
         }
         sort($methods);
         $this->assertEquals(
-            $methods,
             [
                 0 => 'complex',
                 1 => 'custom',
@@ -78,12 +62,13 @@ class FactoryImplTest extends TestCase
                 5 => 'separator',
                 6 => 'topLinkItem',
                 7 => 'topParentItem',
-            ]
+            ],
+            $methods
         );
     }
 
 
-    public function testInterchangeableContraints()
+    public function testInterchangeableContraints() : void
     {
         $this->assertInstanceOf(isInterchangeableItem::class, $this->factory->topLinkItem($this->id));
         $this->assertNotInstanceOf(isInterchangeableItem::class, $this->factory->topParentItem($this->id));

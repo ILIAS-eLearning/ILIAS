@@ -61,9 +61,6 @@ class ilDidacticTemplateIconFactory
         return self::$instance;
     }
 
-    /**
-     * @param int $ref_id
-     */
     public function getIconPathForReference(int $ref_id) : string
     {
         $obj_id = ilObject::_lookupObjId($ref_id);
@@ -80,9 +77,6 @@ class ilDidacticTemplateIconFactory
         return $path;
     }
 
-    /**
-     * @param int $template_id
-     */
     protected function getIconPathForTemplate(int $template_id) : ?string
     {
         foreach ($this->settings->getTemplates() as $template) {

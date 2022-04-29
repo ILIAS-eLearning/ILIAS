@@ -114,7 +114,7 @@ abstract class ilDidacticTemplateAction
             return 0;
         }
 
-        $this->setActionId((int) $this->db->nextId('didactic_tpl_a'));
+        $this->setActionId($this->db->nextId('didactic_tpl_a'));
         $query = 'INSERT INTO didactic_tpl_a (id, tpl_id, type_id) ' .
             'VALUES( ' .
             $this->db->quote($this->getActionId(), 'integer') . ', ' .
@@ -187,10 +187,6 @@ abstract class ilDidacticTemplateAction
         return $s;
     }
 
-    /**
-     * Filter roles
-     * @param ilObject $object
-     */
     protected function filterRoles(ilObject $source) : array
     {
         $patterns = ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId(
@@ -199,7 +195,7 @@ abstract class ilDidacticTemplateAction
         );
 
         $filtered = array();
-        foreach ($this->rbacreview->getParentRoleIds($source->getRefId()) as $role_id => $role) {
+        foreach ($this->review->getParentRoleIds($source->getRefId()) as $role_id => $role) {
             switch ($this->getFilterType()) {
                 case self::FILTER_PARENT_ROLES:
 

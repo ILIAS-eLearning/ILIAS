@@ -190,7 +190,8 @@ class ilImport
         if ($parser->getMainEntity() != $a_type) {
             throw new ilImportObjectTypeMismatchException(
                 "Object type does not match. Import file has type '" .
-                $parser->getMainEntity() . "' but import being processed for '" . $a_type . "'.");
+                $parser->getMainEntity() . "' but import being processed for '" . $a_type . "'."
+            );
         }
 
         // process export files
@@ -236,8 +237,10 @@ class ilImport
         $obj_map = $this->getMapping()->getMappingsOfEntity('Services/Container', 'objs');
         if (is_array($obj_map)) {
             foreach ($obj_map as $obj_id_old => $obj_id_new) {
-                ilObject::_writeImportId($obj_id_new,
-                    "il_" . $this->mapping->getInstallId() . "_" . ilObject::_lookupType($obj_id_new) . "_" . $obj_id_old);
+                ilObject::_writeImportId(
+                    $obj_id_new,
+                    "il_" . $this->mapping->getInstallId() . "_" . ilObject::_lookupType($obj_id_new) . "_" . $obj_id_old
+                );
             }
         }
 

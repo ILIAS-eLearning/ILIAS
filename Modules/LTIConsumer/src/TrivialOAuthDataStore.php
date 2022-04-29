@@ -15,12 +15,10 @@ class TrivialOAuthDataStore extends OAuthDataStore
     public function lookup_consumer($consumer_key) : ?\OAuthConsumer
     {
         if (strpos($consumer_key, "http://") === 0) {
-            $consumer = new OAuthConsumer($consumer_key, "secret", null);
-            return $consumer;
+            return new OAuthConsumer($consumer_key, "secret", null);
         }
         if ($this->consumers[$consumer_key]) {
-            $consumer = new OAuthConsumer($consumer_key, $this->consumers[$consumer_key], null);
-            return $consumer;
+            return new OAuthConsumer($consumer_key, $this->consumers[$consumer_key], null);
         }
         return null;
     }

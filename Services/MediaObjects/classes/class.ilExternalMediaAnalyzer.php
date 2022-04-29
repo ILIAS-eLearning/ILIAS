@@ -36,6 +36,7 @@ class ilExternalMediaAnalyzer
     
     /**
      * Extract YouTube Parameter
+     * @return array<string,string>
      */
     public static function extractYouTubeParameters(
         string $a_location
@@ -69,6 +70,7 @@ class ilExternalMediaAnalyzer
 
     /**
      * Extract Flickr Parameter
+     * @return array<string,string>
      */
     public static function extractFlickrParameters(
         string $a_location
@@ -120,6 +122,7 @@ class ilExternalMediaAnalyzer
     
     /**
      * Extract GoogleVideo Parameter
+     * @return array<string,string>
      */
     public static function extractGoogleVideoParameters(
         string $a_location
@@ -151,6 +154,7 @@ class ilExternalMediaAnalyzer
 
     /**
      * Extract Vimeo Parameter
+     * @return array<string,string>
      */
     public static function extractVimeoParameters(
         string $a_location
@@ -168,6 +172,48 @@ class ilExternalMediaAnalyzer
         return $par;
     }
 
+    public static function getVimeoMetadata(string $vid) : array
+    {
+        $json_url = 'https://vimeo.com/api/oembed.json?url=https%3A//vimeo.com/' . $vid;
+
+        $curl = curl_init($json_url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($curl, CURLOPT_REFERER, ILIAS_HTTP_PATH);
+
+        $return = curl_exec($curl);
+        curl_close($curl);
+
+        $r = json_decode($return, true);
+
+        if ($return === false || is_null($r)) {
+            throw new ilExternalMediaApiException("Could not connect to vimeo API at $json_url.");
+        }
+        return $r;
+    }
+
+    public static function getYoutubeMetadata(string $vid) : array
+    {
+        $json_url = 'https://www.youtube.com/oembed?url=http%3A//youtube.com/watch%3Fv%3D' . $vid . '&format=json';
+
+        $curl = curl_init($json_url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($curl, CURLOPT_REFERER, ILIAS_HTTP_PATH);
+
+        $return = curl_exec($curl);
+        curl_close($curl);
+
+        $r = json_decode($return, true);
+
+        if ($return === false || is_null($r)) {
+            throw new ilExternalMediaApiException("Could not connect to vimeo API at $json_url.");
+        }
+        return $r;
+    }
+
     /**
      * Identify Google Document links
      */
@@ -182,6 +228,7 @@ class ilExternalMediaAnalyzer
     
     /**
      * Extract GoogleDocument Parameter
+     * @return array<string,string>
      */
     public static function extractGoogleDocumentParameters(
         string $a_location
@@ -215,15 +262,12 @@ class ilExternalMediaAnalyzer
     
     /**
      * Extract URL information to parameter array
+     * @return array<string,string>
      */
     public static function extractUrlParameters(
         string $a_location,
         array $a_parameter
     ) : array {
-        if (!is_array($a_parameter)) {
-            $a_parameter = array();
-        }
-        
         $ext_par = array();
         
         // YouTube

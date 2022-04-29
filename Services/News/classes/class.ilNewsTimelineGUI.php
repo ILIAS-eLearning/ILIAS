@@ -14,6 +14,8 @@
  */
 
 use ILIAS\News\StandardGUIRequest;
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 
 /**
  * Timeline for news
@@ -23,6 +25,7 @@ use ILIAS\News\StandardGUIRequest;
  */
 class ilNewsTimelineGUI
 {
+    protected \ILIAS\HTTP\Services $http;
     protected int $news_id;
     protected bool $include_auto_entries;
     protected ilCtrl $ctrl;
@@ -50,6 +53,7 @@ class ilNewsTimelineGUI
         $this->user = $DIC->user();
         $this->include_auto_entries = $a_include_auto_entries;
         $this->access = $DIC->access();
+        $this->http = $DIC->http();
 
         $this->std_request = new StandardGUIRequest(
             $DIC->http(),
@@ -98,7 +102,7 @@ class ilNewsTimelineGUI
             case "illikegui":
                 $i = new ilNewsItem($this->news_id);
                 $likef = new ilLikeFactoryGUI();
-                $like_gui = $likef->widget(array($i->getContextObjId()));
+                $like_gui = $likef->widget([$i->getContextObjId()]);
                 $ctrl->saveParameter($this, "news_id");
                 $like_gui->setObject(
                     $i->getContextObjId(),
@@ -127,7 +131,7 @@ class ilNewsTimelineGUI
                 break;
 
             default:
-                if (in_array($cmd, array("show", "save", "update", "loadMore", "remove", "updateNewsItem"))) {
+                if (in_array($cmd, ["show", "save", "update", "loadMore", "remove", "updateNewsItem"])) {
                     $this->$cmd();
                 }
         }
@@ -164,19 +168,19 @@ class ilNewsTimelineGUI
         $timeline = ilTimelineGUI::getInstance();
 
         // get like widget
-        $obj_ids = array_unique(array_map(function ($a) {
-            return $a["context_obj_id"];
+        $obj_ids = array_unique(array_map(static function (array $a) : int {
+            return (int) $a["context_obj_id"];
         }, $news_data));
         $likef = new ilLikeFactoryGUI();
         $like_gui = $likef->widget($obj_ids);
 
-        $js_items = array();
+        $js_items = [];
         foreach ($news_data as $d) {
-            $news_item = new ilNewsItem($d["id"]);
-            $item = ilNewsTimelineItemGUI::getInstance($news_item, $d["ref_id"], $like_gui);
+            $news_item = new ilNewsItem((int) $d["id"]);
+            $item = ilNewsTimelineItemGUI::getInstance($news_item, (int) $d["ref_id"], $like_gui);
             $item->setUserEditAll($this->getUserEditAll());
             $timeline->addItem($item);
-            $js_items[$d["id"]] = array(
+            $js_items[$d["id"]] = [
                 "id" => $d["id"],
                 "user_id" => $d["user_id"],
                 "title" => $d["title"],
@@ -186,10 +190,10 @@ class ilNewsTimelineGUI
                 "visibility" => $d["visibility"],
                 "content_type" => $d["content_type"],
                 "mob_id" => $d["mob_id"]
-            );
+            ];
         }
 
-        $this->tpl->addOnLoadCode("il.News.setItems(" . ilJsonUtil::encode($js_items) . ");");
+        $this->tpl->addOnLoadCode("il.News.setItems(" . json_encode($js_items, JSON_THROW_ON_ERROR) . ");");
         $this->tpl->addOnLoadCode("il.News.setAjaxUrl('" . $this->ctrl->getLinkTarget($this, "", "", true) . "');");
 
         if (count($news_data) > 0) {
@@ -238,19 +242,19 @@ class ilNewsTimelineGUI
         $timeline = ilTimelineGUI::getInstance();
 
         // get like widget
-        $obj_ids = array_unique(array_map(function ($a) {
-            return $a["context_obj_id"];
+        $obj_ids = array_unique(array_map(static function ($a) : int {
+            return (int) $a["context_obj_id"];
         }, $news_data));
         $likef = new ilLikeFactoryGUI();
         $like_gui = $likef->widget($obj_ids);
 
-        $js_items = array();
+        $js_items = [];
         foreach ($news_data as $d) {
-            $news_item = new ilNewsItem($d["id"]);
-            $item = ilNewsTimelineItemGUI::getInstance($news_item, $d["ref_id"], $like_gui);
+            $news_item = new ilNewsItem((int) $d["id"]);
+            $item = ilNewsTimelineItemGUI::getInstance($news_item, (int) $d["ref_id"], $like_gui);
             $item->setUserEditAll($this->getUserEditAll());
             $timeline->addItem($item);
-            $js_items[$d["id"]] = array(
+            $js_items[$d["id"]] = [
                 "id" => $d["id"],
                 "user_id" => $d["user_id"],
                 "title" => $d["title"],
@@ -260,23 +264,34 @@ class ilNewsTimelineGUI
                 "visibility" => $d["visibility"],
                 "content_type" => $d["content_type"],
                 "mob_id" => $d["mob_id"]
-            );
+            ];
         }
 
         $obj = new stdClass();
         $obj->data = $js_items;
         $obj->html = $timeline->render(true);
 
-        echo ilJsonUtil::encode($obj);
-        exit;
+        $this->send(json_encode($obj, JSON_THROW_ON_ERROR));
+    }
+
+    /**
+     * @throws ResponseSendingException
+     */
+    protected function send(string $output) : void
+    {
+        $this->http->saveResponse($this->http->response()->withBody(
+            Streams::ofString($output)
+        ));
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     protected function updateNewsItem() : void
     {
-        if ($this->std_request->getNewsAction() == "save") {
+        if ($this->std_request->getNewsAction() === "save") {
             $this->save();
         }
-        if ($this->std_request->getNewsAction() == "update") {
+        if ($this->std_request->getNewsAction() === "update") {
             $this->update();
         }
     }
@@ -344,7 +359,7 @@ class ilNewsTimelineGUI
 
             // delete old media object
             if ($media["name"] != "" || $this->std_request->getDeleteMedia() > 0) {
-                if ($news_item->getMobId() > 0 && ilObject::_lookupType($news_item->getMobId()) == "mob") {
+                if ($news_item->getMobId() > 0 && ilObject::_lookupType($news_item->getMobId()) === "mob") {
                     $old_mob_id = $news_item->getMobId();
                 }
                 $news_item->setMobId(0);
@@ -357,7 +372,7 @@ class ilNewsTimelineGUI
 
             $obj_id = ilObject::_lookupObjectId($this->ref_id);
 
-            if ($news_item->getContextObjId() == $obj_id) {
+            if ($news_item->getContextObjId() === $obj_id) {
                 $news_item->setUpdateUserId($this->user->getId());
                 $news_item->update();
 
@@ -378,10 +393,10 @@ class ilNewsTimelineGUI
     public function remove() : void
     {
         $news_item = new ilNewsItem($this->std_request->getNewsId());
-        if ($this->user->getId() == $news_item->getUserId() || $this->getUserEditAll()) {
+        if ($this->getUserEditAll() || $this->user->getId() === $news_item->getUserId()) {
             $news_item->delete();
         }
-        exit;
+        $this->send("");
     }
 
     protected function getEditModal($form = null) : string

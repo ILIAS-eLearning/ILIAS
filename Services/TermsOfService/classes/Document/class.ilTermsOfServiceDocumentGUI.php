@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Filesystems;
 use ILIAS\FileUpload\FileUpload;
@@ -17,7 +32,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
     protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
     protected ilObjTermsOfService $tos;
     protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilRbacSystem $rbacsystem;
     protected ilErrorHandling $error;
@@ -38,7 +53,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
         ilGlobalTemplateInterface $tpl,
         ilObjUser $user,
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ilLanguage $lng,
         ilRbacSystem $rbacsystem,
         ilErrorHandling $error,
@@ -81,7 +96,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        if ($cmd === '' || !method_exists($this, $cmd)) {
+        if ($cmd === null || $cmd === '' || !method_exists($this, $cmd)) {
             $cmd = 'showDocuments';
         }
         $this->$cmd();
@@ -145,7 +160,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 
     protected function getResetMessageBoxHtml() : string
     {
-        if ($this->tos->getLastResetDate() && ((int) $this->tos->getLastResetDate()->get(IL_CAL_UNIX)) !== 0) {
+        if (((int) $this->tos->getLastResetDate()->get(IL_CAL_UNIX)) !== 0) {
             $status = ilDatePresentation::useRelativeDates();
             ilDatePresentation::setUseRelativeDates(false);
             $resetText = sprintf(

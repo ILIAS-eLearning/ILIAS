@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomSmilies
@@ -16,7 +31,7 @@ class ilChatroomSmilies
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         $values = [
@@ -61,7 +76,7 @@ class ilChatroomSmilies
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
 
-        /** @var $lng ilLanguage */
+        /** @var ilLanguage $lng */
         $lng = $DIC->language();
 
         $path = self::_getSmileyDir();
@@ -118,7 +133,7 @@ class ilChatroomSmilies
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         $res = $ilDB->query("SELECT smiley_id, smiley_keywords, smiley_path FROM chatroom_smilies");
@@ -143,7 +158,7 @@ class ilChatroomSmilies
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         $smilies = self::_getSmiliesById($ids);
@@ -170,7 +185,7 @@ class ilChatroomSmilies
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         if ($ids === []) {
@@ -181,7 +196,7 @@ class ilChatroomSmilies
 
         $sql_parts = [];
         foreach ($ids as $id) {
-            $sql_parts[] .= "smiley_id = " . $ilDB->quote($id, "integer");
+            $sql_parts[] = "smiley_id = " . $ilDB->quote($id, "integer");
         }
 
         $sql .= implode(" OR ", $sql_parts);
@@ -203,13 +218,13 @@ class ilChatroomSmilies
     /**
      * Updates smiley in DB by keyword and id from given array
      * ($data["smiley_keywords"], $data["smiley_id"])
-     * @param array{smiley_id: int, smiley_keywords: string, smiley_path: string, smiley_fullpath: string}
+     * @param array{smiley_id: int, smiley_keywords: string, smiley_path?: string, smiley_fullpath?: string} $data
      */
     public static function _updateSmiley(array $data) : void
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         $ilDB->manipulateF(
@@ -218,7 +233,7 @@ class ilChatroomSmilies
             [$data['smiley_keywords'], $data['smiley_id']]
         );
 
-        if ($data["smiley_path"]) {
+        if (isset($data["smiley_path"])) {
             $sm = self::_getSmiley($data["smiley_id"]);
             unlink($sm["smiley_fullpath"]);
             $ilDB->manipulateF(
@@ -237,7 +252,7 @@ class ilChatroomSmilies
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         $res = $ilDB->queryF(
@@ -267,7 +282,7 @@ class ilChatroomSmilies
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         try {
@@ -296,7 +311,7 @@ class ilChatroomSmilies
     {
         global $DIC;
 
-        /** @var $ilDB ilDBInterface */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC->database();
 
         $stmt = $ilDB->prepareManip(

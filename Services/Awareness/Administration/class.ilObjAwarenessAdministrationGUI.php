@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Awareness tool administration
@@ -23,6 +26,9 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
 {
     protected \ILIAS\Awareness\AdminManager $admin_manager;
 
+    /**
+     * @param mixed $a_data
+     */
     public function __construct(
         $a_data,
         int $a_id,
@@ -120,7 +126,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
     /**
      * Edit settings.
      */
-    public function editSettings($a_form = null)
+    public function editSettings(?ilPropertyFormGUI $a_form = null) : bool
     {
         $this->tabs_gui->setTabActive('settings');
         $this->setSubTabs("settings");
@@ -135,7 +141,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
     /**
      * Save settings
      */
-    public function saveSettings()
+    public function saveSettings() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -177,19 +183,14 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
     /**
      * Save settings
      */
-    public function cancel()
+    public function cancel() : void
     {
         $ilCtrl = $this->ctrl;
         
         $ilCtrl->redirect($this, "view");
     }
         
-    /**
-     * Init settings property form
-     *
-     * @access protected
-     */
-    protected function initFormSettings()
+    protected function initFormSettings() : ilPropertyFormGUI
     {
         $lng = $this->lng;
         

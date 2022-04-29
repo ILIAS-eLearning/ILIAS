@@ -92,6 +92,8 @@ class ilObjLanguageFolder extends ilObject
         $tmpPath = getcwd();
         chdir($this->lang_path);
 
+        $languages = [];
+
         // get available lang-files
         while ($entry = $d->read()) {
             if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang$)~", $entry))) {
@@ -100,12 +102,7 @@ class ilObjLanguageFolder extends ilObject
             }
         }
 
-        // ensure that arrays are initiated when no lang file was found
-        if (!array($languages)) {
-            $language = array();
-            $tmp_array = array();
-        }
-
+        $language = array();
         $tmp_array = array_keys($languages);
         $lang_keys = array();
 
@@ -121,16 +118,16 @@ class ilObjLanguageFolder extends ilObject
                 $languages[$lang_key]["status"] = "";
 
                 // determine default language and language of current user
-                if ($lang_key == $this->lang_user) {
+                if ($lang_key === $this->lang_user) {
                     $languages[$lang_key]["status"] = "in_use";
                 }
 
-                if ($lang_key == $this->lang_default) {
+                if ($lang_key === $this->lang_default) {
                     $languages[$lang_key]["status"] = "system_language";
                 }
 
                 // check if files are missing
-                if ((count($tmp_array) > 0) && (!in_array($lang_key, $tmp_array))) {
+                if (count($tmp_array) > 0 && !in_array($lang_key, $tmp_array, true)) {
                     $languages[$lang_key]["info"] = "file_not_found";
                 }
             }
@@ -138,7 +135,7 @@ class ilObjLanguageFolder extends ilObject
 
         // compute new languages
         foreach ($languages as $lang_key => $lang_data) {
-            if (!in_array($lang_key, $lang_keys)) {
+            if (!in_array($lang_key, $lang_keys, true)) {
                 $languages[$lang_key] = array();
                 $languages[$lang_key]["info"] = "new_language";
                 //$languages[$lang_key]["desc"] = "not_installed";
@@ -173,7 +170,7 @@ class ilObjLanguageFolder extends ilObject
     {
         if (count($a_languages) > 0) {
             foreach ($a_languages as $lang_key => $lang_data) {
-                if (isset($lang_data["info"]) && $lang_data["info"] == "new_language") {
+                if (isset($lang_data["info"]) && $lang_data["info"] === "new_language") {
                     include_once "./Services/Language/classes/class.ilObjLanguage.php";
                     $lngObj = new ilObjLanguage();
                     $lngObj->setTitle($lang_key);
@@ -213,7 +210,7 @@ class ilObjLanguageFolder extends ilObject
         $ilDB = $DIC->database();
 
         foreach ($a_languages as $lang_key => $lang_data) {
-            if ($lang_data["desc"] == "not_installed" && $lang_data["info"] == "file_not_found") {
+            if ($lang_data["desc"] === "not_installed" && $lang_data["info"] === "file_not_found") {
                 // update languages array
                 unset($a_languages[$lang_key]);
 
@@ -266,7 +263,7 @@ class ilObjLanguageFolder extends ilObject
                         $separated = explode($this->separator, trim($val));
                         $num = count($separated);
 
-                        if ($num != 3) {
+                        if ($num !== 3) {
                             $error = true;
                             $line = $key + 37;
 

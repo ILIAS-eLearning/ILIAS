@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Legacy\Legacy;
@@ -11,9 +26,9 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCriterionBaseTest
 {
-    /** @var MockObject|ilRbacReview */
+    /** @var MockObject&ilRbacReview */
     protected ilRbacReview $rbacReview;
-    /** @var MockObject|ilLanguage */
+    /** @var MockObject&ilLanguage */
     protected ilLanguage $lng;
     protected int $expectedInitialValue = 2;
     protected int $expectedAfterFormSubmitValue = 4;
@@ -53,8 +68,8 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
     {
         $criterion = $this->getInstance();
 
-        $this->assertEquals('usr_global_role', $criterion->getTypeIdent());
-        $this->assertEquals(false, $criterion->hasUniqueNature());
+        $this->assertSame('usr_global_role', $criterion->getTypeIdent());
+        $this->assertFalse($criterion->hasUniqueNature());
 
         return $criterion;
     }
@@ -62,7 +77,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
     /**
      * @param ilTermsOfServiceCriterionTypeGUI $gui
      * @param string                           $httpCriterionSelectionBodyParameter
-     * @return MockObject|ilPropertyFormGUI
+     * @return MockObject&ilPropertyFormGUI
      */
     protected function buildForm(
         ilTermsOfServiceCriterionTypeGUI $gui,
@@ -105,7 +120,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
 
         $roleSelection = $form->getItemByPostVar($httpCriterionConfigBodyParameter);
         $this->assertInstanceOf(ilSelectInputGUI::class, $roleSelection);
-        $this->assertEquals($roleSelection->getValue(), $this->expectedInitialValue);
+        $this->assertEquals($roleSelection->getValue(), (string) $this->expectedInitialValue);
 
         return $criterion;
     }
@@ -135,7 +150,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
         $value = $gui->getConfigByForm($form);
 
         $this->assertInstanceOf(ilTermsOfServiceCriterionConfig::class, $value);
-        $this->assertEquals($this->expectedAfterFormSubmitValue, $value['role_id']);
+        $this->assertSame($this->expectedAfterFormSubmitValue, $value['role_id']);
         $this->assertEquals($this->getCriterionConfig(['role_id' => $this->expectedAfterFormSubmitValue]), $value);
     }
 
@@ -189,7 +204,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
 
         $this->assertInstanceOf(Component::class, $actual);
         $this->assertInstanceOf(Legacy::class, $actual);
-        $this->assertEquals($roleTitle, $actual->getContent());
+        $this->assertSame($roleTitle, $actual->getContent());
     }
 
     public function failingConfigProvider() : array

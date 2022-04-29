@@ -61,33 +61,36 @@ class DataConnector
      *
      * @var object $db
      */
-    protected $db = null;
+    protected ?object $db = null;
+
     /**
      * Prefix for database table names.
      *
      * @var string $dbTableNamePrefix
      */
-    protected $dbTableNamePrefix = '';
+    protected string $dbTableNamePrefix = '';
+
     /**
      * SQL date format (default = 'Y-m-d')
      *
      * @var string $dateFormat
      */
-    protected $dateFormat = 'Y-m-d';
+    protected string $dateFormat = 'Y-m-d';
+
     /**
      * SQL time format (default = 'H:i:s')
      *
      * @var string $timeFormat
      */
-    protected $timeFormat = 'H:i:s';
+    protected string $timeFormat = 'H:i:s';
 
     /**
      * Class constructor
-     *
-     * @param object $db                 Database connection object
-     * @param string $dbTableNamePrefix  Prefix for database table names (optional, default is none)
+     * @param object $db                Database connection object
+     * @param string $dbTableNamePrefix Prefix for database table names (optional, default is none)
      */
-    public function __construct($db, $dbTableNamePrefix = '')
+    // TODO PHP8 Review: Wrong Parameter Type Declaration: $db should be ilDBInterface?
+    public function __construct(object $db, string $dbTableNamePrefix = '')
     {
         $this->db = $db;
         $this->dbTableNamePrefix = $dbTableNamePrefix;
@@ -160,42 +163,36 @@ class DataConnector
 
     /**
      * Load tool proxy object.
-     *
      * @param ToolProxy $toolProxy ToolProxy object
-     *
      * @return boolean True if the tool proxy object was successfully loaded
      */
-    public function loadToolProxy($toolProxy) : bool
+    public function loadToolProxy(ToolProxy $toolProxy) : bool
     {
         $now = time();
-        $toolProxy->created = $now;
-        $toolProxy->updated = $now;
+        $toolProxy->created = $now; // TODO PHP8 Review: Undefined Property
+        $toolProxy->updated = $now; // TODO PHP8 Review: Undefined Property
 
         return true;
     }
 
     /**
      * Save tool proxy object.
-     *
      * @param ToolProxy $toolProxy ToolProxy object
-     *
      * @return boolean True if the tool proxy object was successfully saved
      */
-    public function saveToolProxy($toolProxy) : bool
+    public function saveToolProxy(ToolProxy $toolProxy) : bool
     {
-        $toolProxy->updated = time();
+        $toolProxy->updated = time(); // TODO PHP8 Review: Undefined Property
 
         return true;
     }
 
     /**
      * Delete tool proxy object.
-     *
      * @param ToolProxy $toolProxy ToolProxy object
-     *
      * @return boolean True if the tool proxy object was successfully deleted
      */
-    public function deleteToolProxy($toolProxy) : bool
+    public function deleteToolProxy(ToolProxy $toolProxy) : bool
     {
         $toolProxy->initialize();
 
@@ -361,36 +358,30 @@ class DataConnector
 
     /**
      * Load resource link share key object.
-     *
      * @param ResourceLinkShareKey $shareKey Resource_Link share key object
-     *
      * @return boolean True if the resource link share key object was successfully loaded
      */
-    public function loadResourceLinkShareKey($shareKey) : bool
+    public function loadResourceLinkShareKey(ResourceLinkShareKey $shareKey) : bool
     {
         return true;
     }
 
     /**
      * Save resource link share key object.
-     *
      * @param ResourceLinkShareKey $shareKey Resource link share key object
-     *
      * @return boolean True if the resource link share key object was successfully saved
      */
-    public function saveResourceLinkShareKey($shareKey) : bool
+    public function saveResourceLinkShareKey(ResourceLinkShareKey $shareKey) : bool
     {
         return true;
     }
 
     /**
      * Delete resource link share key object.
-     *
      * @param ResourceLinkShareKey $shareKey Resource link share key object
-     *
      * @return boolean True if the resource link share key object was successfully deleted
      */
-    public function deleteResourceLinkShareKey($shareKey) : bool
+    public function deleteResourceLinkShareKey(ResourceLinkShareKey $shareKey) : bool
     {
         return true;
     }
@@ -461,21 +452,17 @@ class DataConnector
 
     /**
      * Create data connector object.
-     *
      * A data connector provides access to persistent storage for the different objects.
-     *
      * Names of tables may be given a prefix to allow multiple versions to share the same schema.  A separate sub-class is defined for
      * each different database connection - the class to use is determined by inspecting the database object passed, but this can be overridden
      * (for example, to use a bespoke connector) by specifying a type.  If no database is passed then this class is used which acts as a dummy
      * connector with no persistence.
-     *
-     * @param string  $dbTableNamePrefix  Prefix for database table names (optional, default is none)
-     * @param object  $db                 A database connection object or string (optional, default is no persistence)
-     * @param string  $type               The type of data connector (optional, default is based on $db parameter)
-     *
+     * @param string  $dbTableNamePrefix Prefix for database table names (optional, default is none)
+     * @param object|null  $db           A database connection object or string (optional, default is no persistence)
+     * @param string  $type              The type of data connector (optional, default is based on $db parameter)
      * @return DataConnector Data connector object
      */
-    public static function getDataConnector(string $dbTableNamePrefix = '', $db = null, string $type = '') : object
+    public static function getDataConnector(string $dbTableNamePrefix = '', ?object $db = null, string $type = '') : object
     {
         if (is_null($dbTableNamePrefix)) {
             $dbTableNamePrefix = '';
@@ -495,6 +482,7 @@ class DataConnector
             $type = 'DataConnector';
         }
         $type = "\\IMSGlobal\\LTI\\ToolProvider\\DataConnector\\{$type}";
+        // TODO PHP8 Review: I do npot understand what exactly happens here. Are there Database-Connections beside ilDBInterface? we should avoid that!
         $dataConnector = new $type($db, $dbTableNamePrefix);
 
         return $dataConnector;

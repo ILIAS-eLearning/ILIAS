@@ -1,14 +1,19 @@
-<?php /******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+<?php /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
-/** @noinspection ALL */
-
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilADNNotification
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -16,33 +21,28 @@
  */
 class ilADNNotification extends ActiveRecord
 {
-    
-    const POS_TOP = 1;
-    const POS_RIGHT = 2;
-    const POST_LEFT = 3;
-    const POS_BOTTOM = 4;
-    const DATE_FORMAT = 'd.m.Y';
-    const TIME_FORMAT = 'H:i';
-    const DATE_TIME_FORMAT = 'd.m.Y H:i';
-    const TYPE_INFO = 1;
-    const TYPE_WARNING = 2;
-    const TYPE_ERROR = 3;
-    const TABLE_NAME = 'il_adn_notifications';
-    const LINK_TYPE_NONE = 0;
-    const LINK_TYPE_REF_ID = 1;
-    const LINK_TYPE_URL = 2;
+    public const POS_TOP = 1;
+    public const POS_RIGHT = 2;
+    public const POST_LEFT = 3;
+    public const POS_BOTTOM = 4;
+    public const DATE_FORMAT = 'd.m.Y';
+    public const TIME_FORMAT = 'H:i';
+    public const DATE_TIME_FORMAT = 'd.m.Y H:i';
+    public const TYPE_INFO = 1;
+    public const TYPE_WARNING = 2;
+    public const TYPE_ERROR = 3;
+    public const TABLE_NAME = 'il_adn_notifications';
+    public const LINK_TYPE_NONE = 0;
+    public const LINK_TYPE_REF_ID = 1;
+    public const LINK_TYPE_URL = 2;
     protected static array $allowed_user_ids = array(0, 13, 6);
     
-    /**
-     * @return string
-     */
     public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;
     }
     
     /**
-     * @return string
      * @deprecated
      */
     public static function returnDbTableName() : string
@@ -78,19 +78,23 @@ class ilADNNotification extends ActiveRecord
         if ($this->getEventStart() == 0 && $this->getEventEnd() == 0) {
             return '';
         }
-        if (date(self::DATE_FORMAT, $this->getEventStart()) == date(self::DATE_FORMAT, $this->getEventEnd())) {
-            return date(self::DATE_FORMAT, $this->getEventEnd()) . ', ' . date(self::TIME_FORMAT,
-                    $this->getEventStart()) . " - "
+        if (date(self::DATE_FORMAT, $this->getEventStart()) === date(self::DATE_FORMAT, $this->getEventEnd())) {
+            return date(self::DATE_FORMAT, $this->getEventEnd()) . ', ' . date(
+                self::TIME_FORMAT,
+                $this->getEventStart()
+            ) . " - "
                 . date(self::TIME_FORMAT, $this->getEventEnd());
         } else {
-            return date(self::DATE_TIME_FORMAT, $this->getEventStart()) . ' - ' . date(self::DATE_TIME_FORMAT,
-                    $this->getEventEnd());
+            return date(self::DATE_TIME_FORMAT, $this->getEventStart()) . ' - ' . date(
+                self::DATE_TIME_FORMAT,
+                $this->getEventEnd()
+            );
         }
     }
     
-    public function isUserAllowedToDismiss(ilObjUser $ilUser) : bool
+    public function isUserAllowedToDismiss(ilObjUser $user) : bool
     {
-        return ($this->getDismissable() and $ilUser->getId() != 0 and $ilUser->getId() != ANONYMOUS_USER_ID);
+        return ($this->getDismissable() && $user->getId() !== 0 && $user->getId() !== ANONYMOUS_USER_ID);
     }
     
     public function getActiveType() : int
@@ -98,45 +102,42 @@ class ilADNNotification extends ActiveRecord
         if ($this->isPermanent()) {
             return $this->getType();
         }
-        if ($this->hasEventStarted() and !$this->hasEventEnded()) {
+        if ($this->hasEventStarted() && !$this->hasEventEnded()) {
             return $this->getTypeDuringEvent();
         }
-        if ($this->hasDisplayStarted() and !$this->hasDisplayEnded()) {
+        if ($this->hasDisplayStarted() && !$this->hasDisplayEnded()) {
             return $this->getType();
         }
+        return self::TYPE_INFO;
     }
     
 
-    protected function isVisible():bool
+    protected function isVisible() : bool
     {
         if ($this->isPermanent()) {
             return true;
         }
-        $hasEventStarted   = $this->hasEventStarted();
+        $hasEventStarted = $this->hasEventStarted();
         $hasDisplayStarted = $this->hasDisplayStarted();
-        $hasEventEnded     = !$this->hasEventEnded();
-        $hasDisplayEnded   = !$this->hasDisplayEnded();
+        $hasEventEnded = !$this->hasEventEnded();
+        $hasDisplayEnded = !$this->hasDisplayEnded();
         
-        return ($hasEventStarted or $hasDisplayStarted) and ($hasEventEnded or $hasDisplayEnded);
+        return ($hasEventStarted || $hasDisplayStarted)
+            && ($hasEventEnded || $hasDisplayEnded);
     }
     
-    public function isVisibleForUser(ilObjUser $ilObjUser):bool
+    public function isVisibleForUser(ilObjUser $ilObjUser) : bool
     {
-        if ($ilObjUser->getId() == 0 && $this->isInterruptive()) {
+        if ($ilObjUser->getId() === 0 && $this->interruptive) {
             return false;
         }
         if (!$this->isVisible()) {
-            
             return false;
         }
         if ($this->hasUserDismissed($ilObjUser)) {
             return false;
         }
-        if (!$this->isVisibleRoleUserRoles($ilObjUser)) {
-            return false;
-        }
-        
-        return true;
+        return $this->isVisibleRoleUserRoles($ilObjUser);
     }
     
  
@@ -151,8 +152,10 @@ class ilADNNotification extends ActiveRecord
             return true;
         }
         
-        return $DIC->rbac()->review()->isAssignedToAtLeastOneGivenRole($ilObjUser->getId(),
-            $this->getLimitedToRoleIds());
+        return $DIC->rbac()->review()->isAssignedToAtLeastOneGivenRole(
+            $ilObjUser->getId(),
+            $this->getLimitedToRoleIds()
+        );
     }
     
     /**
@@ -304,7 +307,7 @@ class ilADNNotification extends ActiveRecord
     
     /**
      * @param string $field_name
-     * @param string $field_value
+     * @param mixed $field_value
      * @return int|mixed
      */
     public function wakeUp($field_name, $field_value)
@@ -332,10 +335,8 @@ class ilADNNotification extends ActiveRecord
                 sort($array_unique);
                 
                 return $array_unique;
-                break;
             case 'limited_to_role_ids':
                 return json_decode($field_value, true);
-                break;
         }
     }
     
@@ -357,18 +358,15 @@ class ilADNNotification extends ActiveRecord
                  */
                 $datetime = $this->{$field_name} ?? new DateTimeImmutable();
                 return $datetime->getTimestamp();
-                break;
             case 'allowed_users':
                 $allowed_users = self::$allowed_user_ids;
                 foreach ($this->allowed_users as $user_id) {
                     $allowed_users[] = (int) $user_id;
                 }
                 
-                return json_encode(array_unique($allowed_users));
-                break;
+                return json_encode(array_unique($allowed_users), JSON_THROW_ON_ERROR);
             case 'limited_to_role_ids':
-                return json_encode($this->{$field_name});
-                break;
+                return json_encode($this->{$field_name}, JSON_THROW_ON_ERROR);
         }
     }
     
@@ -387,7 +385,7 @@ class ilADNNotification extends ActiveRecord
     
     public function getBody() : string
     {
-        return (string) $this->body;
+        return $this->body;
     }
     
     public function setDisplayEnd(DateTimeImmutable $display_end) : void
@@ -447,7 +445,7 @@ class ilADNNotification extends ActiveRecord
     
     public function getTitle() : string
     {
-        return (string) $this->title;
+        return $this->title;
     }
     
     public function setType(int $type) : void
@@ -457,7 +455,7 @@ class ilADNNotification extends ActiveRecord
     
     public function getType() : int
     {
-        return (int) $this->type;
+        return $this->type;
     }
     
     public function setTypeDuringEvent(int $type_during_event) : void
@@ -467,7 +465,7 @@ class ilADNNotification extends ActiveRecord
     
     public function getTypeDuringEvent() : int
     {
-        return (int) $this->type_during_event;
+        return $this->type_during_event;
     }
     
     public function setDismissable(bool $dismissable) : void
@@ -477,7 +475,7 @@ class ilADNNotification extends ActiveRecord
     
     public function getDismissable() : bool
     {
-        return (bool) $this->dismissable;
+        return $this->dismissable;
     }
     
     protected function hasEventStarted() : bool
@@ -507,7 +505,7 @@ class ilADNNotification extends ActiveRecord
     
     public function isPermanent() : bool
     {
-        return (bool) $this->permanent;
+        return $this->permanent;
     }
     
     public function isDuringEvent() : bool
@@ -552,7 +550,7 @@ class ilADNNotification extends ActiveRecord
     
     public function getLimitedToRoleIds() : array
     {
-        return (array) $this->limited_to_role_ids;
+        return $this->limited_to_role_ids;
     }
     
     public function setLimitedToRoleIds(array $limited_to_role_ids) : void
@@ -562,12 +560,11 @@ class ilADNNotification extends ActiveRecord
     
     public function isLimitToRoles() : bool
     {
-        return (bool) $this->limit_to_roles;
+        return $this->limit_to_roles;
     }
     
     public function setLimitToRoles(bool $limit_to_roles) : void
     {
         $this->limit_to_roles = $limit_to_roles;
     }
-    
 }

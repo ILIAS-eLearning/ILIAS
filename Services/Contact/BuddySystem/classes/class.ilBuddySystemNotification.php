@@ -1,5 +1,24 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Notifications\Model\ilNotificationConfig;
+use ILIAS\Notifications\Model\ilNotificationLink;
+use ILIAS\Notifications\Model\ilNotificationParameter;
 
 /**
  * Class ilBuddyList
@@ -93,7 +112,7 @@ class ilBuddySystemNotification
             $notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
             $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
             $notification->setIconPath('templates/default/images/icon_usr.svg');
-            $notification->setHandlerParam('mail.sender', ANONYMOUS_USER_ID);
+            $notification->setHandlerParam('mail.sender', (string) ANONYMOUS_USER_ID);
             $notification->notifyByUsers([$user->getId()]);
         }
     }
@@ -102,8 +121,7 @@ class ilBuddySystemNotification
     {
         $portfolioId = ilObjPortfolio::getDefaultPortfolio($this->sender->getId());
         if (is_numeric($portfolioId) && $portfolioId > 0) {
-            $accessHandler = new ilPortfolioAccessHandler();
-            return $accessHandler->checkAccessOfUser($recipientUsrId, 'read', '', $portfolioId);
+            return (new ilPortfolioAccessHandler())->checkAccessOfUser($recipientUsrId, 'read', '', $portfolioId);
         }
 
         return (

@@ -27,7 +27,7 @@ class ilMediaObjectsExporter extends ilXmlExporter
         $this->ds = new ilMediaObjectDataSet();
         $this->ds->setDSPrefix("ds");
     }
-
+    
     public function getXmlExportTailDependencies(
         string $a_entity,
         string $a_target_release,
@@ -56,6 +56,9 @@ class ilMediaObjectsExporter extends ilXmlExporter
         return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
+    /**
+     * @return array[]
+     */
     public function getValidSchemaVersions(
         string $a_entity
     ) : array {

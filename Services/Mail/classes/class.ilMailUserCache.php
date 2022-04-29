@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -7,7 +22,7 @@
  */
 class ilMailUserCache
 {
-    /** @var ilObjUser[] */
+    /** @var array<int, ilObjUser|null> */
     protected static array $user_instances = [];
     /** @var int[] */
     protected static array $requested_usr_ids = [];
@@ -55,17 +70,17 @@ class ilMailUserCache
                 $user->setPref('public_upload', $row['public_upload']);
                 $user->setPref('public_gender', $row['public_gender']);
 
-                self::$user_instances[$row['usr_id']] = $user;
+                self::$user_instances[(int) $row['usr_id']] = $user;
             }
         }
     }
 
     public static function getUserObjectById(int $usr_id) : ?ilObjUser
     {
-        if (!$usr_id) {
+        if ($usr_id < 1) {
             return null;
         }
-        
+
         if (!array_key_exists($usr_id, self::$requested_usr_ids_key_map)) {
             self::preloadUserObjects([$usr_id]);
         }

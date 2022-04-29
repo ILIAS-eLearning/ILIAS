@@ -39,58 +39,38 @@ const VARTYPE_SET = "7";
 */
 class ilQTIDecvar
 {
-    /** @var string|null */
-    public $varname;
+    public ?string $varname;
+    public ?string $vartype;
+    public ?string $defaultval;
+    public ?string $minvalue;
+    public ?string $maxvalue;
+    public ?string $members;
+    public ?string $cutvalue;
+    public ?string $content;
 
-    /** @var string|null */
-    public $vartype;
-
-    /** @var string|null */
-    public $defaultval;
-
-    /** @var string|null */
-    public $minvalue;
-
-    /** @var string|null */
-    public $maxvalue;
-
-    /** @var string|null */
-    public $members;
-
-    /** @var string|null */
-    public $cutvalue;
-
-    /** @var string|null */
-    public $content;
-
-    /** @var array */
-    public $interpretvar;
-    
     public function __construct()
     {
-        $this->interpretvar = array();
+        $this->varname = null;
+        $this->vartype = null;
+        $this->defaultval = null;
+        $this->minvalue = null;
+        $this->maxvalue = null;
+        $this->members = null;
+        $this->cutvalue = null;
+        $this->content = null;
     }
 
-    /**
-     * @param string $a_varname
-     */
-    public function setVarname($a_varname) : void
+    public function setVarname(string $a_varname) : void
     {
         $this->varname = $a_varname;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getVarname()
+    public function getVarname() : ?string
     {
         return $this->varname;
     }
 
-    /**
-     * @param string $a_vartype
-     */
-    public function setVartype($a_vartype) : void
+    public function setVartype(string $a_vartype) : void
     {
         switch (strtolower($a_vartype)) {
             case "integer":
@@ -124,115 +104,68 @@ class ilQTIDecvar
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getVartype()
+    public function getVartype() : ?string
     {
         return $this->vartype;
     }
 
-    /**
-     * @param string $a_defaultval
-     */
-    public function setDefaultval($a_defaultval) : void
+    public function setDefaultval(string $a_defaultval) : void
     {
         $this->defaultval = $a_defaultval;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDefaultval()
+    public function getDefaultval() : ?string
     {
         return $this->defaultval;
     }
 
-    /**
-     * @param string $a_minvalue
-     */
-    public function setMinvalue($a_minvalue) : void
+    public function setMinvalue(string $a_minvalue) : void
     {
         $this->minvalue = $a_minvalue;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getMinvalue()
+    public function getMinvalue() : ?string
     {
         return $this->minvalue;
     }
 
-    /**
-     * @param string a_maxvalue
-     */
-    public function setMaxvalue($a_maxvalue) : void
+    public function setMaxvalue(string $a_maxvalue) : void
     {
         $this->maxvalue = $a_maxvalue;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getMaxvalue()
+    public function getMaxvalue() : ?string
     {
         return $this->maxvalue;
     }
 
-    /**
-     * @param string $a_members
-     */
-    public function setMembers($a_members) : void
+    public function setMembers(string $a_members) : void
     {
         $this->members = $a_members;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getMembers()
+    public function getMembers() : ?string
     {
         return $this->members;
     }
 
-    /**
-     * @param string $a_cutvalue
-     */
-    public function setCutvalue($a_cutvalue) : void
+    public function setCutvalue(string $a_cutvalue) : void
     {
         $this->cutvalue = $a_cutvalue;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getCutvalue()
+    public function getCutvalue() : ?string
     {
         return $this->cutvalue;
     }
 
-    /**
-     * @param string $a_content
-     */
-    public function setContent($a_content) : void
+    public function setContent(string $a_content) : void
     {
         $this->content = $a_content;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getContent()
+    public function getContent() : ?string
     {
         return $this->content;
-    }
-
-    /**
-     * Never used.
-     */
-    public function addInterpretvar($a_interpretvar) : void
-    {
-        $this->interpretvar[] = $a_interpretvar;
     }
 }

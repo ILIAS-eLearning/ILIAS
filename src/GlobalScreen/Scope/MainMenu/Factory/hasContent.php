@@ -18,7 +18,7 @@ interface hasContent
     public function withContentWrapper(Closure $content_wrapper) : hasContent;
     
     /**
-     * @param \ILIAS\UI\Component\Component $ui_component
+     * @param Component $ui_component
      * @return hasContent
      * @deprecated Use withContentWrapper instead
      */

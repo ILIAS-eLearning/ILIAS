@@ -3,6 +3,7 @@
 use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
+use LogicException;
 
 /**
  * Trait hasSymbolTrait
@@ -10,10 +11,7 @@ use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
  */
 trait hasSymbolTrait
 {
-    /**
-     * @var Symbol
-     */
-    protected $symbol;
+    protected ?Symbol $symbol = null;
     
     /**
      * @inheritDoc
@@ -23,7 +21,7 @@ trait hasSymbolTrait
         // bugfix mantis 25526: make aria labels mandatory
         if (($symbol instanceof Glyph && $symbol->getAriaLabel() === "") ||
             ($symbol instanceof Icon && $symbol->getLabel() === "")) {
-            throw new \LogicException("the symbol's aria label MUST be set to ensure accessibility");
+            throw new LogicException("the symbol's aria label MUST be set to ensure accessibility");
         }
         
         $clone = clone $this;

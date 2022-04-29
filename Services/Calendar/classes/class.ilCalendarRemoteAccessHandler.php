@@ -21,6 +21,9 @@
     +-----------------------------------------------------------------------------+
 */
 
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\HTTP\Services as HTTPServices;
+
 /**
  * @classDescription Handles requests from external calendar applications
  * @author           Stefan Meyer <smeyer.ilias@gmx.de>
@@ -30,7 +33,8 @@
 class ilCalendarRemoteAccessHandler
 {
     private ?ilCalendarAuthenticationToken $token_handler = null;
-
+    protected ?Refinery $refinery = null;
+    protected ?HTTPServices $http = null;
     protected ?ilLogger $logger = null;
     protected ?ilLanguage $lng = null;
 
@@ -48,6 +52,8 @@ class ilCalendarRemoteAccessHandler
      */
     public function parseRequest() : void
     {
+        // before initialization: $_GET and $_COOKIE is required is unavoidable
+        // in the moment.
         if ($_GET['client_id']) {
             $_COOKIE['ilClientId'] = $_GET['client_id'];
         } else {
@@ -70,7 +76,7 @@ class ilCalendarRemoteAccessHandler
 
         if ($this->getTokenHandler()->getIcal() and !$this->getTokenHandler()->isIcalExpired()) {
             $GLOBALS['DIC']['ilAuthSession']->logout();
-            ilUtil::deliverData($this->getTokenHandler(), 'calendar.ics', 'text/calendar');
+            ilUtil::deliverData($this->getTokenHandler()->getIcal(), 'calendar.ics', 'text/calendar');
             exit;
         }
 
@@ -97,10 +103,22 @@ class ilCalendarRemoteAccessHandler
 
     protected function initTokenHandler() : void
     {
-        $this->logger->info('Authentication token: ' . $_GET['token']);
+        global $DIC;
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
+        $token = '';
+        if ($this->http->wrapper()->query()->has('token')) {
+            $token = $this->http->wrapper()->query()->retrieve(
+                'token',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $this->logger->info('Authentication token: ' . $token);
         $this->token_handler = new ilCalendarAuthenticationToken(
-            ilCalendarAuthenticationToken::lookupUser($_GET['token']),
-            $_GET['token']
+            ilCalendarAuthenticationToken::lookupUser($token),
+            $token
         );
     }
 

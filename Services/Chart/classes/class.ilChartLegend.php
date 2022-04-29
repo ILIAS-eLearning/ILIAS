@@ -150,7 +150,7 @@ class ilChartLegend
         $a_options->margin = array($margin["x"], $margin["y"]);
         
         $a_options->backgroundColor = ilChart::renderColor($this->getBackground());
-        $a_options->backgroundOpacity = str_replace(",", ".", $this->getOpacity());
+        $a_options->backgroundOpacity = str_replace(",", ".", (string) $this->getOpacity());
         $a_options->labelBoxBorderColor = ilChart::renderColor($this->getLabelBorder());
         
         $container = $this->getContainer();

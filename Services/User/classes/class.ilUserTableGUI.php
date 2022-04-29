@@ -305,7 +305,7 @@ class ilUserTableGUI extends ilTable2GUI
         $query->setNoCourseFilter($this->filter['no_courses']);
         $query->setNoGroupFilter($this->filter['no_groups']);
         $query->setCourseGroupFilter($this->filter['course_group']);
-        $query->setRoleFilter($this->filter['global_role']);
+        $query->setRoleFilter((int) $this->filter['global_role']);
         $query->setAdditionalFields($additional_fields);
         $query->setUserFolder($user_filter);
         $query->setUserFilter($this->filter['user_ids'] ?? []);

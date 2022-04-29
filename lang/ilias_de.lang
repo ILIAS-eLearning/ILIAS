@@ -8,7 +8,7 @@
 * source code, too.
 *
 * If this is not the case or you just want to try ILIAS, you'll find
-* us at:
+* us at: 
 * https://www.ilias.de
 * https://github.com/ILIAS-eLearning
 *
@@ -651,6 +651,8 @@ assessment#:#counter#:#Zähler
 assessment#:#create_date#:#Erzeugt
 assessment#:#create_gaps#:#Lücken erzeugen und aktualisieren
 assessment#:#create_new#:#Erstelle neue
+assessment#:#ctm_cannot_be_changed#:#Wiedervorlagetests können nicht mehr geändert werden.
+assessment#:#ctm_cannot_be_started#:#Wiedervorlagetests können nicht mehr gestartet werden.
 assessment#:#customstyle#:#Eigenes Stylesheet
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definition
@@ -1250,11 +1252,11 @@ assessment#:#test_jump_to#:#Zu Frage springen
 assessment#:#test_move_page#:#Frage verschieben
 assessment#:#test_next_question#:#Nächste Frage
 assessment#:#test_prev_question#:#Vorherige Frage
-assessment#:#test_question_pool_usage#:#Fragenpools verwenden
-assessment#:#test_question_pool_usage_optional#:#Fragen aus Fragenpool hinzufügen oder direkt im Test erstellen
-assessment#:#test_question_pool_usage_optional_info#:#Sie können sowohl bereits vorhandende Fragen aus Fragenpools wiederverwenden als auch neue Fragen direkt im Test erstellen. Sie können auch neu erstellte Fragen zur Wiederverwendung in einem Fragenpool abspeichern.
-assessment#:#test_question_pool_usage_tst_directly#:#Fragen nur im Test erstellen
-assessment#:#test_question_pool_usage_tst_directly_info#:#Sie erstellen alle Fragen direkt im Test, Sie können keine bereits vorhandenen Fragen aus Fragenpools hinzufügen. Neu erstellte Fragen aus diesem Test können Sie aber später einem Fragenpool abspeichern.
+assessment#:#test_question_set_type#:#Auswahl der Testfragen
+assessment#:#test_question_set_type_fixed#:#Fest definierte Fragenauswahl
+assessment#:#test_question_set_type_fixed_info#:#Alen Teilnehmenden werden die gleichen Fragen gestellt.<br>Sie können sowohl bereits vorhandene Fragen aus Fragenpools wiederverwenden als auch neue Fragen direkt im Test erstellen. Sie können auch nue erstellte Fragen zur Wiederverwendung in einem Fragenpool abspeichern.
+assessment#:#test_question_set_type_random_info#:#jedem Teilnehmden werden unterschiedliche Fragen gestellt. Die Auswahl der Fragen erfolgt zufällig aus einem oder mehreren Fragenpools.
+assessment#:#test_question_set_type_random#:#Zufällige Fragenauswahl
 assessment#:#test_results#:#Bekanntgabe des Testergebnisses
 assessment#:#test_scoring#:#Bewertung des Tests
 assessment#:#test_template_reset#:#Die Vorlage wurde entfernt.
@@ -2335,10 +2337,10 @@ blog#:#blog_abstract_shorten#:#Nur Anfang des Beitrags zeigen
 blog#:#blog_add#:#Blog anlegen
 blog#:#blog_add_contributor#:#Mitwirkende hinzufügen
 blog#:#blog_add_posting#:#Beitrag hinzufügen
-blog#:#blog_admin_inactive_info#:#Das Blog-Feature kann in der Administration der Persönlichen Ressourcen aktiviert werden.
-blog#:#blog_admin_toggle_info#:#Das Blog-Feature kann in der Administration der Persönlichen Ressourcen deaktiviert werden.
+blog#:#blog_admin_inactive_info#:#Das Blog-Feature kann in der Administration der „Persönlichen Ressourcen“ aktiviert werden.
+blog#:#blog_admin_toggle_info#:#Das Blog-Feature kann in der Administration der „Persönlichen Ressourcen“ deaktiviert werden.
 blog#:#blog_allow_html#:#HTML/Javascript erlauben
-blog#:#blog_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Blog-Einträgen verwenden. Dies kann zu Sicherheitsproblemen führen.
+blog#:#blog_allow_html_info#:#Es kann HTML oder Javascript in Blog-Einträgen verwendet werden. Dies kann zu Sicherheitsproblemen führen.###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_approve#:#Beitrag freischalten
 blog#:#blog_author#:#Beiträge von
 blog#:#blog_authors#:#Beitragende Personen###Modified as part of gender mainstreaming activities for ILIAS 8
@@ -2353,7 +2355,7 @@ blog#:#blog_change_notification_reason#:#Sie erhalten diese Nachricht, da Sie di
 blog#:#blog_change_notification_subject#:#Blog "%s" wurde aktualisiert
 blog#:#blog_comments#:#Kommentare
 blog#:#blog_confirm_delete_contributors#:#Wollen Sie wirklich den folgenden Personen ihre Rolle entziehen?###Modified as part of gender mainstreaming activities for ILIAS 8
-blog#:#blog_contribute_other_roles#:#Neben den eingetragenen 'Blog-Autoren' können auch Benutzer mit einer der folgenden Rollen Einträge hinzufügen: %s
+blog#:#blog_contribute_other_roles#:#Zusätzlich zu den Mitwirkenden können auch Personen mit der Rolle %s Beiträge in diesem Blog verfassen. Sie werden nicht in der Tabelle aufgeführt, denn sie erhalten das entsprechende Recht durch ein übergeordnetes Objekt.###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_contributors#:#Mitwirkende
 blog#:#blog_copy#:#Blog kopieren
 blog#:#blog_download_submission#:#Kopie der Abgabe herunterladen
@@ -2370,11 +2372,13 @@ blog#:#blog_enable_approval_info#:#Alle Beiträge müssen durch einen Benutzer m
 blog#:#blog_enable_approval#:#Neue Beiträge freischalten
 blog#:#blog_enable_keywords_info#:#Beiträge können mit Schlagwörtern versehen werden, um im Seitenblock Beiträge zu filtern.###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_enable_keywords#:#Schlagwörter
-blog#:#blog_enable_nav_authors_info#:#Es wird ein Seitenblock mit allen Autorennamen eingeblendet. Ein Klick auf einen Namen zeigt in der Hauptspalte alle Beiträge dieses Autoren an.
-blog#:#blog_enable_nav_authors#:#Nach Autoren filtern
+blog#:#blog_enable_nav_authors_info#:#Es wird ein Seitenblock mit den Namen aller Mitwirkenden eingeblendet. Ein Klick auf einen Namen zeigt in der Hauptspalte alle Beiträge dieser Person an.###Modified as part of gender mainstreaming activities for ILIAS 8
+blog#:#blog_enable_nav_authors#:#Nach Mitwirkenden filtern###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_enable_notes#:#Öffentliche Kommentare
 blog#:#blog_enable_rss_info#:#Der RSS-Feed ist öffentlich und unabhängig von Blog-Freigaben oder Benutzerrechten.
 blog#:#blog_enable_rss#:#RSS aktivieren
+blog#:#blog_est_reading_time#:#Geschätzte Lesedauer
+blog#:#blog_est_reading_time_info#:#In Blogs im Magazin kann eine geschätzte Lesezeit ermittelt und angezeigt werden.
 blog#:#blog_exercise_info#:#Dieses Blog ist der Übungseinheit "%s" in der Übung "%s" zugeordnet.
 blog#:#blog_exercise_submitted_info#:#Ihre letzte Einreichung war am %s. Bitte prüfen Sie die Export-Datei: %s
 blog#:#blog_finalize_blog#:#Blog abschließen und abgeben
@@ -2387,6 +2391,7 @@ blog#:#blog_keywords_other_info#:#Diese Schlagwörter sind für andere Blog-Eint
 blog#:#blog_keywords_other#:#Sonstige Schlagwörter
 blog#:#blog_keywords#:#Schlagwörter
 blog#:#blog_latest_posting#:#Neuester Beitrag
+blog#:#blog_link#:#Link
 blog#:#blog_list_more#:#mehr
 blog#:#blog_list_num_postings#:#Anzahl Einträge in der initialen Übersicht
 blog#:#blog_list_num_postings_info#:#Diese Einstellung wird nur verwendet, wenn kein konkreter Monat ausgewählt ist.
@@ -2399,14 +2404,14 @@ blog#:#blog_nav_mode_month_list_num_detail_info#:#Ältere Einträge werden in de
 blog#:#blog_nav_mode_month_list_num_month#:#Gesamtanzahl angezeigter Monate
 blog#:#blog_nav_mode_month_list_num_month_info#:#Monate werden standardmäßig nur mit der Anzahl ihrer Beiträge angezeigt.
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Anzahl Monate mit Links zu allen Beiträgen
-blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Für diese Anzahl aktuellster Monate werden im Seitenblock Links zu allen Beiträge angezeigt.
+blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#Für diese Anzahl aktueller Monate werden im Seitenblock Links zu allen Beiträge angezeigt.
 blog#:#blog_nav_mode_month_single#:#Alle Monate per Dropdown
 blog#:#blog_nav_mode_month_single_info#:#Im Seitenblock bietet ein Dropdown alle Monate zur Auswahl an. Für den gewählten Monat werden alle Beiträge aufgelistet.
 blog#:#blog_nav_sortorder#:#Reihenfolge der Seitenblöcke
 blog#:#blog_needs_approval#:#Beitrag ist noch nicht freigeschaltet
 blog#:#blog_new#:#Neues Blog anlegen
 blog#:#blog_new_posting_info#:#Der Beitrag wurde veröffentlicht. Der erste Textblock wird als Auszug in der Liste der Einträge verwendet.
-blog#:#blog_news_posting_authors#:#Beteiligte Autoren: %s
+blog#:#blog_news_posting_authors#:#Mitwirkende: %s###Modified as part of gender mainstreaming activities for ILIAS 8
 blog#:#blog_news_posting_published#:#Ein neuer Blogbeitrag wurde veröffentlicht von %s.
 blog#:#blog_news_posting_updated#:#Ein Blogbeitrag wurde aktualisiert von %s.
 blog#:#blog_no_keywords#:#Es sind bisher keine Schlagwörter vergeben worden.
@@ -2595,11 +2600,16 @@ buddysystem#:#buddy_bs_state_ignored_request_a#:#Angefragt
 buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignoriert
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignoriert
 buddysystem#:#buddy_bs_state_linked_a#:#Vernetzt
+buddysystem#:#buddy_bs_state_linked_p#:#Vernetzt
 buddysystem#:#buddy_bs_state_linked#:#Vernetzt
 buddysystem#:#buddy_bs_state_requested_a#:#Angefragt
 buddysystem#:#buddy_bs_state_requested#:#Angefragt
+buddysystem#:#buddy_bs_state_requested_filter_a#:#Auf Reaktion wartend
+buddysystem#:#buddy_bs_state_requested_filter_p#:#Aktion erorderlich
 buddysystem#:#buddy_bs_state_requested_p#:#Angefragt
 buddysystem#:#buddy_bs_state_unlinked_a#:#Nicht vernetzt
+buddysystem#:#buddy_bs_state_unlinked#:#Nicht vernetzt
+buddysystem#:#buddy_bs_state_unlinked_p#:#Nicht vernetzt
 buddysystem#:#buddy_enable#:#Aktiviere „Benutzerkontakte“
 buddysystem#:#buddy_enable_info#:#Falls aktiviert, können Benutzer im System über Kontaktanfragen miteinander in Verbindung treten. Eine zusätzliche persönliche Einstellung ermöglicht jedem Benutzer, Kontaktaufnahmen zuzulassen oder zu verhindern.
 buddysystem#:#buddy_handle_contact_request#:#Kontaktanfrage
@@ -2988,56 +2998,6 @@ classification#:#clsfct_block_title#:#Auswahl nach Themen
 classification#:#clsfct_content_no_match#:#Es wurden keine Objekte für die ausgewählten Kriterien gefunden.
 classification#:#clsfct_content_title#:#Zu Ihrer Auswahl passende Objekte.
 classification#:#clsfct_selected_objects#:#Ausgewählte Objekte
-cld#:#cld_add#:#Cloud-Objekt anlegen
-cld#:#cld_add_download_failed#:#Download fehlgeschlagen
-cld#:#cld_add_file#:#Datei
-cld#:#cld_add_folder#:#Ordner
-cld#:#cld_add_items_from_service_failed#:#Hinzufügen eines Items vom Service ist fehlgeschlagen
-cld#:#cld_add_new_item#:#Neues Objekt hinzufügen
-cld#:#cld_authentication_failed#:#:#Authentifzierung fehlgeschlagen
-cld#:#cld_auth_failed#:#Authentifzierung fehlgeschlagen
-cld#:#cld_auth_failed_no_object_created#:#Authentifzierung fehlgeschlagen. Es wurde kein Cloud-Objekt angelegt.
-cld#:#cld_config_entry_does_not_exist#:#Der Konfigurationswert existiert nicht in der Konfigurationstabelle
-cld#:#cld_config_no_valid_get_or_set_function#:#Ungültige Set- oder Getfunktion
-cld#:#cld_config_table_does_not_exist#:#Konfigurationstabelle existiert nicht
-cld#:#cld_config_unknown_exception#:#Unbekannter Fehler
-cld#:#cld_confirm_delete_file#:#Sind Sie sicher, dass folgende Datei gelöscht werden soll?
-cld#:#cld_confirm_delete_folder#:#Sind Sie sicher, dass folgender Ordner gelöscht werden soll?
-cld#:#cld_create_folder#:#Ordner anlegen
-cld#:#cld_delete_failed#:#Löschen fehlgeschlagen
-cld#:#cld_edit_Settings#:#Cloud Einstellungen
-cld#:#cld_file_deleted#:#Objekt gelöscht
-cld#:#cld_file_not_existing_on_service#:#Datei existiert in der Cloud nicht:
-cld#:#cld_folder_already_existing_on_service#:#Ordner existiert bereits in der Cloud
-cld#:#cld_folder_created#:#Ordner angelegt
-cld#:#cld_folder_creation_failed#:#Ordnererstellung ist fehlgeschlagen
-cld#:#cld_folder_name#:#Ordnername
-cld#:#cld_folder_not_existing_on_service#:#Ordner existiert nicht in der Cloud
-cld#:#cld_id_already_exists_in_file_tree_in_session#:#Die Id existiert bereits in der Session:
-cld#:#cld_id_does_not_exist_in_file_tree_in_session#:#Die Id existiert nicht in der Session
-cld#:#cld_info_add_file_to_current_directory#:#Datei zum Verzeichnis hinzufügen
-cld#:#cld_info_add_folder_to_current_directory#:#Ordner zum Verzeichnis hinzufügen
-cld#:#cld_invalid_input#:#Ungültige Eingabe
-cld#:#cld_new#:#Neues Cloud-Objekt anlegen
-cld#:#cld_no_service_active#:#Leider ist kein Cloud-Plugin aktiviert
-cld#:#cld_no_service_selected#:#Es wurde kein Cloud-Dienst ausgewählt.
-cld#:#cld_not_authenticated_offline#:#Nicht authentifiziert - offline
-cld#:#cld_object_added#:#Ein neues Cloud Objekt wurde hinzugefügt
-cld#:#cld_only_owner_has_permission_to_change_root_path#:#Diese Angabe zum Basisverzeichnis des Cloud-Objektes kann ausschließlich die Person ändern, die das Objekt angelegt hat.###Modified as part of gender mainstreaming activities for ILIAS 8
-cld#:#cld_path_does_not_exist_in_file_tree_in_session#:#Pfad existiert in der Session nicht:
-cld#:#cld_permission_denied#:#Zugriff verweigert
-cld#:#cld_permission_to_change_root_folder_denied#:#Zugriff für das Ändern des Basisiverzeichnis wurde verweigert.
-cld#:#cld_plugin_hook_could_not_be_instantiated#:#Die Plugin-Hook Klasse konnte nicht instanziert werden.
-cld#:#cld_plugin_not_active#:#Das Plugin für den gewählten Cloud-Dienst ist nicht aktiv.
-cld#:#cld_root_folder#:#Ordnerstruktur
-cld#:#cld_service_class_file_not_found#:#Die Datei der Serviceklasse wurde nicht gefunden.
-cld#:#cld_service_not_active#:#Der gewählte Cloud-Dienst ist nicht aktiv
-cld#:#cld_service#:#Service
-cld#:#cld_service_specific_settings#:#spezifische Einstellungen
-cld#:#cld_unknown_exception#:#Unbekannter Fehler
-cld#:#cld_upload_failed#:#Herunterladen fehlgeschlagen
-cld#:#cld_upload_failed_max_filesize#:#Hochladen fehlgeschlagen. Maximale Dateigrösse wurde überschritten
-cld#:#cld_upload_files#:#Heraufladen
 cmix#:#achieved_info#:#Erfolgreich ein gewünschtes Ziel, Niveau oder Ergebnis durch Anstrengung, Geschicklichkeit oder Mut herbeiführen oder erreichen.
 cmix#:#achieved_label#:#Statements mit dem Verb 'achieved'
 cmix#:#activity_id#:#Activity-ID
@@ -3615,12 +3575,12 @@ common#:#cat_added#:#Kategorie angelegt
 common#:#cat_add#:#Kategorie anlegen
 common#:#cat_copy_threads_info#:#Bitte wählen Sie aus, welche Materialien der Kategorie kopiert, verknüpft oder aber bei dem Kopiervorgang ausgelassen werden sollen.
 common#:#cat_edit#:#Einstellungen der Kategorie
-common#:#cat_edit#:#Einstellungen des Kategorielinks
 common#:#categories_imported#:#Kategorienimport abgeschlossen.
 common#:#categories#:#Kategorien
 common#:#cat#:#Kategorie
 common#:#cat_new#:#Neue Kategorie anlegen
 common#:#catr_add#:#Kategorielink anlegen
+common#:#catr_edit#:#Einstellungen des Kategorielinks
 common#:#catr_edit_info#:#Bitte wählen Sie die Kategorie aus, für die Sie einen Link erstellen möchten.
 common#:#catr#:#Kategorielink
 common#:#catr_new#:#Neuen Kategorielink anlegen
@@ -3673,6 +3633,7 @@ common#:#chta_write#:#Chatraum-Administration bearbeiten
 common#:#chtr_copy#:#Chatraum kopieren
 common#:#chtr_import#:#Chatraum importieren
 common#:#city#:#Ort
+common#:#cld_abandoned#:#Das Cloud-Objekt steht mit ILIAS 8 leider nicht mehr im Kern zur Verfügung. Kontaktieren Sie ihre/n System Administrator/In. Es wurden keine Daten gelöscht.
 common#:#cleaned_file#:#Datei wurde bereinigt.
 common#:#cleaning_failed#:#Der Virus konnte nicht aus der Datei entfernt werden.
 common#:#clear#:#Abbrechen
@@ -4262,8 +4223,8 @@ common#:#il_astpl_loc_initial_desc#:#Einstellungsvorlage für Einstiegstests ler
 common#:#il_astpl_loc_initial#:#Einstiegstest
 common#:#il_astpl_loc_qualified_desc#:#Einstellungsvorlage für Qualifizierende Tests lernzielorientierter Kurse
 common#:#il_astpl_loc_qualified#:#Qualifizierender Test
-common#:#il_blog_contributor#:#Blog-Autor
-common#:#il_blog_editor#:#Blog-Redakteur
+common#:#il_blog_contributor#:#Blog-Autorenschaft###Modified as part of gender mainstreaming activities for ILIAS 8
+common#:#il_blog_editor#:#Blog-Redaktion###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#il_chat_moderator#:#Chatmoderation###Modified as part of gender mainstreaming activities for ILIAS 8
 common#:#il_crs_admin#:#Kursadministrator
 common#:#il_crs_member#:#Kursmitglied
@@ -5079,11 +5040,11 @@ common#:#obj_taxf#:#Taxonomienordner
 common#:#obj_tax#:#Taxonomie
 common#:#obj_tool_setting_calendar_active_info#:#Der Kalender ist aktiviert.
 common#:#obj_tool_setting_calendar_active#:#Kalender
-common#:#obj_tool_setting_calendar_info#:#Der Block "Kalender" wird im Reiter "Inhalt" angezeigt.
+common#:#obj_tool_setting_calendar_info#:#Der Block „Kalender“ wird im Reiter „Inhalt“ angezeigt.
 common#:#obj_tool_setting_calendar#:#Kalender-Block
-common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten
-common#:#obj_tool_setting_custom_metadata_info#:#Wenn aktiviert können benutzerdefinierte Metadaten konfiguriert werden.
-common#:#obj_tool_setting_news_info#:#Der Block "Neuigkeiten" wird im Reiter "Inhalt" angezeigt.
+common#:#obj_tool_setting_custom_metadata#:#Benutzerdefinierte Metadaten verwalten
+common#:#obj_tool_setting_custom_metadata_info#:#Benutzerdefinierte Metadatensätze können im Reiter „Metadaten“ verwaltet werden.
+common#:#obj_tool_setting_news_info#:#Der Block „Neuigkeiten“ wird im Reiter „Inhalt“ angezeigt.
 common#:#obj_tool_setting_news#:#Neuigkeiten
 common#:#obj_tos_desc#:#Nutzungsvereinbarungen verwalten
 common#:#obj_tos#:#Nutzungsvereinbarungen
@@ -6274,7 +6235,7 @@ content#:#cont_ed_go#:#Ok
 content#:#cont_ed_grid_col_width_info#:#Spalten können mehrere 1/12-Einheiten einer Zeile in Abhängigkeit von der Bildschirmgröße belegen. Die genannten Geräte sind Beispiele. Letztendlich entscheidet die Bildschirmgröße das Verhalten. 12/12 entspricht einer Breite von 100%.
 content#:#cont_ed_grid_col_width#:#Spaltenbreite
 content#:#cont_ed_grid_col_widths#:#Spaltenbreiten
-content#:#cont_ed_insert_amdfrm#:#Erweiterte Metadaten einfügen
+content#:#cont_ed_insert_amdfrm#:#Formular einfügen
 content#:#cont_ed_insert_amdpl#:#Seitenliste einfügen
 content#:#cont_ed_insert_blog#:#Blog-Eintrag hinzufügen
 content#:#cont_ed_insert_cach#:#Sprechstunden einfügen
@@ -7199,13 +7160,23 @@ copg#:#copg_allow_html#:#HTML/Javascript erlauben
 copg#:#copg_allow_html_info#:#Benutzer können HTML oder Javascript in Seiteninhalten verwenden. Dies kann zu Sicherheitsproblemen führen. Sie sollten diese Funktion nur für Komponenten aktivieren, die von vertrauenswürdigen Benutzern verwendet werden. Die Möglichkeit, HTML in dieser Art einzubinden, wird möglicherweise in einer zukünftigen Version komplett entfallen.
 copg#:#copg_an_error_occured#:#Es ist leider ein Problem aufgetreten.
 copg#:#copg_confirm_el_deletion#:#Sollen die ausgewählten Elemente wirklich gelöscht werden?
+copg#:#copg_cron_days#:#Einträge älter als x löschen
+copg#:#copg_cron_days_info#:#Löscht Einträge aus dem Verlauf, die älter als der angegebene Zeitraum sind.
+copg#:#copg_cron_keep_entries_info#:#Diese Anzahl an Einträgen wird im Verlauf behalten, auch wenn diese älter als der angegebene Zeitraum sind.
+copg#:#copg_cron_keep_entries#:#Mindestanzahl Einträge
+copg#:#copg_days#:#Tage
 copg#:#copg_details#:#Details
+copg#:#copg_entries#:#Einträge
 copg#:#copg_error#:#Problem
+copg#:#copg_est_reading_time#:#Geschätzte Lesezeit
+copg#:#copg_history_cleanup_cron_info#:#Löscht ältere Einträge aus dem Seiteneditorverlauf.
+copg#:#copg_history_cleanup_cron#:#Seiteneditor Verlaufsbereinigung
 copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
 copg#:#copg_page_type_stys#:#Seitenlayout
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
 copg#:#copg_sec_link_info#:#Wählen Sie ein Ziel für die Verlinkung des Blocks. Achtung: In diesem Fall darf der Inhalt des Blocks dann selbst keine weiteren Links enthalten!
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
+copg#:#copg_x_minutes#:#%s Minute(n)
 cpad#:#cpad_reading_time_status_desc#:#Falls aktiviert, wird die geschätzte Lesezeit für Inhaltsseiten ermittelt und angezeigt.
 cpad#:#cpad_reading_time_status#:#Lesezeit
 cptch#:#captcha_alt_txt#:#Grafik mit Zeichen, genannt Captcha. Klicken Sie mit der Tab-Taste weiter zu einem akustischen Captcha.
@@ -7273,7 +7244,7 @@ crs#:#crs_access#:#Zugang
 crs#:#crs_activate_notification#:#Benachrichtigung aktivieren
 crs#:#crs_activation#:#Aktivierung
 crs#:#crs_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Kurstitel angezeigt, die Inhalte aber nicht.
-crs#:#crs_activation_online_info#:#Nur wenn der Kurs online geschaltet ist, können Benutzer dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Wenn nicht, ist der Kurs nur für Administratoren und Tutoren verfügbar.
+crs#:#crs_activation_online_info#:#Nur wenn der Kurs online geschaltet ist, können Benutzer dem Kurs beitreten und Kursmitglieder auf den Kurs zugreifen. Wenn nicht, ist der Kurs nur für Administratoren und Rollen mit dem Recht „Einstellungen bearbeiten“ verfügbar.
 crs#:#crs_add_archive_html#:#HTML-Archiv hinzufügen
 crs#:#crs_add_archive_xml#:#XML-Archiv hinzufügen
 crs#:#crs_added#:#Ein neuer Kurs wurde hinzugefügt
@@ -7855,10 +7826,10 @@ crs#:#event_user_selection_include_waiting_list#:#Binde alle Benutzer der "Warte
 crs#:#export_members#:#Export der Teilnehmendendaten
 crs#:#grouping_change_assignment#:#Zuordnungen ändern
 crs#:#grp_grp_already_assigned#:#Da Sie bereits Mitglied in einer der Gruppen sind, können Sie nicht einer weiteren Gruppe aus der Liste beitreten!
-crs#:#mem_cron_min_members_intro#:#die folgenden Kurse und Gruppen erreichen aktuell nicht die für sie definierte Mindestanzahl an Teilnehmerinnen und Teilnehmern:
-crs#:#mem_cron_min_members_reason#:#Sie erhalten diese E-Mail, da Sie die Benachrichtigung im jeweiligen Mitglieder-Tab aktiviert haben.
+crs#:#mem_cron_min_members_intro#:#die folgenden Kurse und Gruppen erreichen aktuell nicht die Mindestanzahl an Mitgliedern:
+crs#:#mem_cron_min_members_reason#:#Möchten Sie keine Benachrichtigungen mehr für diese Kurse und Gruppen erhalten, deaktivieren Sie in den jeweiligen Objekten die Checkbox „Benachrichtigung“ im Reiter „Mitglieder“.
 crs#:#mem_cron_min_members_subject#:#Kurs/Gruppe: Prüfung der minimalen Teilnehmerzahl
-crs#:#mem_cron_min_members_task#:#Informieren Sie die bereits angemeldeten Personen rechtzeitig, falls der Kurs nicht stattfindet, da es nicht genügend Teilnehmende gibt. Passen Sie nach Ablauf des Beitrittszeitraums die Kurseinstellungen entsprechend an.
+crs#:#mem_cron_min_members_task#:#Informieren Sie die bereits angemeldeten Personen rechtzeitig, falls die Veranstaltung nicht stattfindet. Oder ändern Sie die Mindestanzahl der Mitglieder bzw. den Beitrittszeitraum. Passen Sie hierzu die Einstellungen im Abschnitt „Zeitlich begrenzter Beitritt“ bzw. „Begrenzte Mitgliederanzahl“ an.
 crs#:#sess_attendance_list#:#Teilnehmerliste
 crs#:#sess_gen_attendance_list#:#Liste erstellen
 crs#:#sess_join_info#:#Bitte klicken Sie auf Anmelden, wenn Sie an dieser Sitzung teilnehmen möchten.
@@ -7922,10 +7893,10 @@ dash#:#dash_presentation#:#Präsentation
 dash#:#dash_remove_from_list#:#Aus Liste entfernen
 dash#:#dash_side_panel#:#Seitenbereich
 dash#:#dash_sortation#:#Sortierung
+dash#:#dash_sort_by_alphabet#:#Nach Alphabet sortieren
 dash#:#dash_sort_by_location#:#Nach Ort sortieren
 dash#:#dash_sort_by_start_date#:#Nach Startdatum sortieren
 dash#:#dash_sort_by_type#:#Nach Typ sortieren
-dash#:#dash_sort_by_alphabet#:#Nach Alphabet sortieren
 dash#:#dash_studyprogramme#:#Meine Studienprogramme
 dash#:#dash_tile#:#Kacheln
 dash#:#dash_view_courses_groups#:#Block ‘Meine Kurse und Gruppen’
@@ -9413,6 +9384,7 @@ file#:#file_upload_info_file_with_critical_extension#:#Die hochgeladene Datei en
 file#:#general_upload_error_occured#:#Beim Verarbeiten der Datei ist ein unerwartetet Fehler aufgetreten.
 file#:#generate_sanitize_report#:#Report über nicht erreichbare Dateien
 file#:#migrated#:#Status
+file#:#msg_unzip_success#:#Archiv wurde erfolreich entpackt.
 file#:#not_yet_migrated#:#Dieses Datei-Objekt wurde noch nicht migriert und es können keine neue Versionen angelegt werden. Wenden Sie sich an die Administratoren der Plattform.
 file#:#replace_file_info#:#Alle Dateiversionen werden gelöscht.
 file#:#resource_id#:#Ressourcen ID
@@ -10026,7 +9998,6 @@ itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks 
 itgr#:#itgr_edit#:#Objekteblock bearbeiten
 itgr#:#itgr_expandable_closed#:#Ausklappbar (zunächst geschlossen)
 itgr#:#itgr_expandable_open#:#Ausklappbar (zunächst geöffnet)
-itgr#:#itgr_hide_title_info#:#Der Titel des Objektblocks wird nicht angezeigt.###Modified as part of gender mainstreaming activities for ILIAS 8
 itgr#:#itgr_hide_title#:#Titel verbergen
 itgr#:#itgr_item#:#Objekte, die eingebunden werden können
 itgr#:#itgr_list_default_info#:#Übernimmt die Einstellung des übergeordneten Containers.
@@ -10034,7 +10005,7 @@ itgr#:#itgr_list_default#:#Standard
 itgr#:#itgr_list#:#Liste
 itgr#:#itgr_list_presentation#:#Präsentationsansicht für Inhalte
 itgr#:#itgr_materials#:#Objekte
-itgr#:#itgr_show_title_info#:#Der Titel des Objektblocks wird angezeigt.###Modified as part of gender mainstreaming activities for ILIAS 8
+itgr#:#itgr_show_title_info#:#Der Titel des Objekteblocks wird angezeigt.###Modified as part of gender mainstreaming activities for ILIAS 8
 itgr#:#itgr_show_title#:#Titel anzeigen
 itgr#:#itgr_tile#:#Kacheln
 itgr#:#itgr_tile_size#:#Kachelgröße
@@ -10244,6 +10215,8 @@ link#:#link_wpages#:#Wikiseiten
 lm#:#lm_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 lm#:#lm_copy#:#ILIAS-Lernmodul kopieren
+lm#:#lm_est_reading_time#:#Geschätzte Lesedauer
+lm#:#lm_est_reading_time_info#:#In Lernmodulen kann eine geschätzte Lesezeit ermittelt und angezeigt werden.
 lm#:#lm_page_type_lm#:#Lernmodulseite
 lm#:#lm_save_titles#:#Titel wurden gespeichert.
 lng#:#language_detection#:#Automatische Spracherkennung
@@ -10703,6 +10676,8 @@ mail#:#mail_incoming_smtp#:#An eingetragene E-Mail-Adresse weiterleiten
 mail#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
 mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
 mail#:#mail_invite_users_to_chat#:#Benutzer in Chat einladen
+mail#:#mail_is_read#:#gelesen
+mail#:#mail_is_unread#:#ungelesen
 mail#:#mail_list_members#:#Mitglieder auflisten
 mail#:#mail_mailing_lists_all_contact_entries_assigned#:#Sie haben bereits all Ihre Kontakte diesem Verteiler zugeordnet.
 mail#:#mail_mailing_lists_no_contact_entries#:#Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können.
@@ -10743,6 +10718,7 @@ mail#:#mail_nacc_title#:#Titel
 mail#:#mail_nacc_use_placeholder#:#Im Feld 'Inhalt' können folgende Platzhalter verwendet werden
 mail#:#mail_new_template#:#Neue Textvorlage
 mail#:#mail_no_permissions_write_smtp#:#Sie haben keine Berechtigung externe E-Mails zu versenden.
+mail#:#mail_no_subject#:#Kein Betreff vorhanden
 mail#:#mail_notification_membership_section#:#Mitgliedschaften
 mail#:#mail_notification_subject#:#Neue Mails im Posteingang
 mail#:#mail_notify_orphaned#:#Benachrichtigungsmail
@@ -10905,10 +10881,14 @@ mathjax#:#mathjax_test_expression_info_client#:#Dieser Ausdruck wird mit dem Skr
 mathjax#:#mathjax_test_expression_info_server#:#Dieser Ausdruck wird auf dem Server in eine Grafik umgewandelt
 mathjax#:#mathjax_test_expression#:#Test-Ausdruck
 mcst#:#mcst_add_new_item#:#Neuen Mediacast-Beitrag hinzufügen
+mcst#:#mcst_audio_files#:#Audiodateien
 mcst#:#mcst_audioportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_audioportable_settings_title#:#Dateiendungen für das Audio-Format
 mcst#:#mcst_audioportable_title#:#Zusätzliche Audio-Datei für portable Geräte
 mcst#:#mcst_automatic_detection#:#Automatisch
+mcst#:#mcst_autoplay_active#:#Autoplay (Standard 'an')
+mcst#:#mcst_autoplay#:#Autoplay
+mcst#:#mcst_autoplay_inactive#:#Autoplay (Standard 'aus')
 mcst#:#mcst_clear_purpose_title#:#Löschen
 mcst#:#mcst_converted_file#:#Datei wurde umgewandelt.
 mcst#:#mcst_copy#:#Mediacast kopieren
@@ -10917,9 +10897,11 @@ mcst#:#mcst_default_visibility#:#Standardzugriff
 mcst#:#mcst_det_playtime#:#Laufzeit bestimmen
 mcst#:#mcst_downloadable#:#Download-Link
 mcst#:#mcst_downloadable_info#:#Benutzer können Beiträge direkt herunterladen.
+mcst#:#mcst_download_all#:#Alle herunterladen
 mcst#:#mcst_download_audioportable#:#Audio-Datei herunterladen
 mcst#:#mcst_download_cnt#:#Heruntergeladen
 mcst#:#mcst_download_standard#:#Download
+mcst#:#mcst_download_started_bg#:#Das Download-Paket wird erstellt. Bitte überprüfen Sie ihre Hintergrundprozesse oben rechts in der Top-Bar.
 mcst#:#mcst_download_videoalternative#:#Alternatives Format herunterladen
 mcst#:#mcst_download_videoportable#:#Video-Datei herunterladen
 mcst#:#mcst_duration_info#:#Wenn kein Wert eingegeben wird, bestimmt ILIAS die Laufzeit automatisch
@@ -10929,6 +10911,7 @@ mcst#:#mcst_edit_settings#:#Einstellungen
 mcst#:#mcst_extract_preview_image#:#Vorschaubild erzeugen
 mcst#:#mcst_gallery#:#Kacheln
 mcst#:#mcst_image_extracted#:#Vorschaubild wurde erzeugt
+mcst#:#mcst_img_gallery#:#Bildergalerie
 mcst#:#mcst_import#:#Mediacast importieren
 mcst#:#mcst_incl_files_in_rss#:#Dateianhänge
 mcst#:#mcst_incl_files_in_rss_info#:#Die Dateien der Mediacast-Beiträge werden als Anhang im Webfeed bereitgestellt.
@@ -10943,9 +10926,14 @@ mcst#:#mcst_mimetype_info#:#Wählen Sie einen MIME-Type aus, um das richtige Plu
 mcst#:#mcst_mimetype#:#MIME-Type
 mcst#:#mcst_mimetypes_info#:#Kommagetrennte Liste von MIME-Types
 mcst#:#mcst_mimetypes#:#MIME-Types
+mcst#:#mcst_new_items_det_lp_info#:#Neue Einträge werden automatisch zur Lernfortschrittsbestimmung hinzugefügt.
+mcst#:#mcst_new_items_det_lp#:#Neue Einträge dem Lernfortschritt zuordnen
 mcst#:#mcst_news_item_visibility_info#:#Öffentliche Nachrichten können von außerhalb und ohne Anmeldung gelesen werden. Sie sollten keine vertraulichen Informationen enthalten.
+mcst#:#mcst_next_items#:#Weitere Videos anzeigen
+mcst#:#mcst_no_autoplay#:#Kein Autoplay
 mcst#:#mcst_no_extraction_possible#:#Leider konnte kein Vorschaubild aus der Datei erzeugt werden.
 mcst#:#mcst_nr_items#:#Zahl der Objekte
+mcst#:#mcst_nr_videos#:#Anzahl initial angezeigter Videos
 mcst#:#mcst_ordering_creation_date_asc#:#Nach Erstellungsdatum, ältester Beitrag oben
 mcst#:#mcst_ordering_creation_date_desc#:#Nach Erstellungsdatum, neuester Beitrag oben
 mcst#:#mcst_ordering_manual#:#Manuell
@@ -10954,18 +10942,24 @@ mcst#:#mcst_ordering_title#:#Alphabetisch nach Titel
 mcst#:#mcst_play#:#Abspielen
 mcst#:#mcst_play_cnt#:#Abgespielt
 mcst#:#mcst_play_time#:#Laufzeit
+mcst#:#mcst_podcast#:#Podcast
 mcst#:#mcst_preview_picture_info#:#Nur von folgenden Dateitypen unterstützt:
 mcst#:#mcst_preview_picture#:#Vorschaubild
+mcst#:#mcst_prev_items#:#Vorherige Videos anzeigen
 mcst#:#mcst_reference_info#:#URL zur Ressource, z.B. HTTP-Adresse.
 mcst#:#mcst_save_order#:#Sortierung speichern
 mcst#:#mcst_second#:#Sekunde
 mcst#:#mcst_set_playtime#:#Die Laufzeit wurde gesetzt.
 mcst#:#mcst_settings#:#Einstellungen des Mediacasts
+mcst#:#mcst_show_description#:#Beschreibung anzeigen
 mcst#:#mcst_standard_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_standard_settings_title#:#Dateiendungen für das Standard Format
 mcst#:#mcst_standard_title#:#Standard-Mediendatei
 mcst#:#mcst_unable_to_determin_playtime#:#Leider konnte die Laufzeit nicht automatisch bestimmt werden. Unter "Bearbeiten" können Sie die Laufzeit manuell einstellen.
 mcst#:#mcst_videoalternative_title#:#Alternatives Videoformat zur Nutzung im Browser
+mcst#:#mcst_video_cast#:#Videoliste
+mcst#:#mcst_video_completion_threshold#:#"Bearbeitet"-Schwellenwert
+mcst#:#mcst_video_completion_threshold_info#:#Ab diesem Fortschritt wird ein Video als "angesehen" gespeichert. Bitte beachten Sie, dass ILIAS nicht prüft, ob der gesamte Zeitraum auch wirklich angezeigt wurde oder der Benutzer Teile übersprungen hat.
 mcst#:#mcst_videoportable_settings_info#:#Kommagetrennte Liste von Dateiendungen
 mcst#:#mcst_videoportable_settings_title#:#Dateiendungen für das Video-Format
 mcst#:#mcst_videoportable_title#:#Zusätzliche Video-Datei für portable Geräte
@@ -10973,6 +10967,7 @@ mcst#:#mcst_viewmode#:#Ansicht
 mcst#:#mcst_visibility_info#:#Öffentliche Objekte sind über RSS ohne jegliche Authentifizierung zugänglich.
 mcst#:#mcst_visibility_public#:#Angemeldete Benutzer
 mcst#:#mcst_visibility_users#:#Öffentlich
+mcst#:#mcst_watched#:#angesehen
 mcst#:#mcst_webfeed#:#RSS-Webfeed
 membership#:#mem_error_preconditions#:#Die Aufnahme konnte nicht erfolgen, da mindestens eine Einstellung dies verhindert.
 membership#:#mem_force_notification#:#Benachrichtigung per Mail
@@ -11016,6 +11011,7 @@ mep#:#mep_master_language_only_no_media#:#Basissprache für Übersetzung - ohne 
 mep#:#mep_media_files#:#Mediendateien
 mep#:#mep_media_subtitles#:#Untertitel
 mep#:#mep_mob#:#Medienobjekt
+mep#:#mep_mpg#:#Inhaltsbaustein
 mep#:#mep_new_content_snippet#:#Neuer Inhaltsbaustein
 mep#:#mep_new_folder#:#Neuer Ordner
 mep#:#mep_page_properties#:#Eigenschaften des Bausteins
@@ -11620,6 +11616,7 @@ meta#:#meta_no#:#Nein
 meta#:#meta_no_relation#:#Keine Metadaten für den Bereich 'Beziehungen' vorhanden.
 meta#:#meta_no_rights#:#Keine Metadaten für den Bereich 'Rechte und Lizenzen' vorhanden.
 meta#:#meta_no_technical#:#Keine Metadaten für den Bereich 'Technische Angaben' vorhanden.
+meta#:#meta_obj_type_active#:#Datensatz anbieten
 meta#:#meta_obj_type_inactive#:#Datensatz nicht anbieten
 meta#:#meta_obj_type_mandatory#:#Immer zum Ausfüllen anbieten
 meta#:#meta_obj_type_optional#:#Datensatz muss aktiviert werden
@@ -11802,6 +11799,7 @@ mob#:#mob_file_could_not_be_uploaded#:#Datei konnte nicht hochgeladen werden.
 mob#:#mob_file#:#Datei
 mob#:#mob_general#:#Allgemein
 mob#:#mob_language#:#Sprache
+mob#:#mob_mime_type_not_allowed#:#Die folgenden Mime-Typen sind am Zielort nicht erlaubt.
 mob#:#mob_multi_srt_files#:#SRT-Dateien
 mob#:#mob_no_fixed_size_map_editing#:#Bitte bestimmen Sie eine feste Größe für ihr Bild, bevor Sie verlinkte Bereiche definieren. Die Bereiche werden nicht angepasst, wenn ihr Bild durch einen Content-Style oder andere CSS-Regeln skaliert wird.
 mob#:#mob_object#:#Objekt
@@ -12227,9 +12225,8 @@ pdfgen#:#margin_top#:#Margin oben
 pdfgen#:#none#:#Keine
 pdfgen#:#orientation#:#Orientierung
 pdfgen#:#output_options#:#Ausgabeoptionen
-pdfgen#:#overwrite_font#:#Schriftart überschreiben
 pdfgen#:#overwrite_font_info#:#Nutzen sie hier Eingaben wie: 'serif', 'sans-serif', 'monospace' usw.
-pdfgen#:#overwrite_font#:#Schritart überschreiben
+pdfgen#:#overwrite_font#:#Schriftart überschreiben
 pdfgen#:#page_settings#:#Seiteneinstellungen
 pdfgen#:#page_size#:#Seitengröße
 pdfgen#:#path#:#Pfad zum Programm
@@ -12627,7 +12624,7 @@ prtf#:#prtf_allow_html_info#:#Benutzer können HTML oder Javascript in Ihren Por
 prtf#:#prtf_allow_my_courses_info#:#Ermöglicht eine Liste der aktuellen Kursmitgliedschaften in ein Portfolio aufzunehmen.
 prtf#:#prtf_allow_my_courses#:#Seitenelement "Meine Kurse"
 prtf#:#prtf_all_pages#:#Gesamtes Portfolio
-prtf#:#prtf_author#:#Autor
+prtf#:#prtf_author#:#Erstellt von###Modified as part of gender mainstreaming activities for ILIAS 8
 prtf#:#prtf_back_to_portfolio_owner#:#Portfolio bearbeiten
 prtf#:#prtf_banner#:#Banner
 prtf#:#prtf_blog_page_created#:#Blog wurde hinzugefügt.
@@ -12646,7 +12643,7 @@ prtf#:#prtf_delete_assignment_sure#:#Wollen Sie wirklich die folgende(n) Zuordnu
 prtf#:#prtf_delete_assignment#:#Zuordnungen löschen
 prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
 prtf#:#prtf_edit_content#:#Inhalt bearbeiten
-prtf#:#prtf_edit_data#:#Daten bearbeiten
+prtf#:#prtf_edit_data#:#Felder ausfüllen
 prtf#:#prtf_edit_embedded_blog#:#Blog "%s" bearbeiten
 prtf#:#prtf_edit_portfolio#:#Portfolio bearbeiten
 prtf#:#prtf_exercise_info#:#Dieses Portfolio ist der Übungseinheit "%s" der Übung "%s" zugeordnet.
@@ -12721,7 +12718,7 @@ prtf#:#prtf_unset_default_share_info#:#Die Änderungen wurden gespeichert. Bitte
 prtf#:#prtf_use_page_layout#:#Seitenlayout benutzen
 prtf#:#prtt_title_info#:#Bitte beachten Sie, dass dieser Titel auch für die aus der Vorlage erstellten Porfolios verwendet wird.
 prtt#:#prtt_activation_limited_visibility_info#:#Falls aktiv, ist die Portfoliovorlage auch außerhalb der Zugriffszeiten sichtbar.
-prtt#:#prtt_activation_online_info#:#Wählen Sie diese Einstellung, um die Portfoliovorlage für Benutzer verfügbar zumachen.
+prtt#:#prtt_activation_online_info#:#Wählen Sie diese Einstellung, um die Portfoliovorlage für Benutzer verfügbar zu machen.
 prtt#:#prtt_add#:#Portfoliovorlage anlegen
 prtt#:#prtt_copy#:#Portfoliovorlage kopieren
 prtt#:#prtt_edit#:#Portfoliovorlage bearbeiten
@@ -12730,7 +12727,7 @@ prtt#:#prtt_new#:#Neue Portfoliovorlage anlegen
 prtt#:#prtt_pfpg#:#Portfolioseite
 prtt#:#prtt_portfolio_created#:#Portfoliovorlage wurde hinzugefügt
 prtt#:#prtt_properties#:#Portfoliovorlagen-Eigenschaften
-prtt#:#prtt_select_datasets#:#Datensätze auswählen
+prtt#:#prtt_select_datasets#:#Formulare auswählen
 prtt#:#prtt_style#:#Portfoliovorlagen-Style
 ps#:#cdf_edited_by_self#:#durch den Benutzer
 ps#:#crs_ps_cdf_info#:#Weitere kursspezifische Daten. Bitte füllen Sie die folgenden Felder aus.
@@ -12828,10 +12825,10 @@ ps#:#show_privacy#:#Datenschutz
 ps#:#show_security#:#Sicherheit
 pwassist#:#password_assistance#:#Passwort-Unterstützung
 pwassist#:#pwassist_disabled_no_access#:#Die Passwort-Unterstützung ist nicht aktiviert.  Bitte kontaktieren Sie einen System-Administrator für weitere Unterstützung: %s
-pwassist#:#pwassist_enter_email#:#Geben Sie eine E-Mail-Adresse ein, und klicken Sie auf Abschicken. ILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält alle Benutzernamen, in deren Profil die E-Mail eingegeben wurde. Wählen Sie den passenden Benutzernamen aus und lassen Sie sich mit der "Passwort vergessen"-Funktion ein neues Passwort schicken. Falls Sie mit dieser Funktion keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
-pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Benutzernamen und die dazugehörende E-Mail-Adresse ein, und klicken Sie auf Abschicken. ILIAS sendet eine E-Mail an diese Adresse. Die E-Mail enthält eine Adresse zu einer Webseite, mit der Sie ein neues Passwort für das Benutzerkonto eingeben können. Falls Sie mit dieser Funktion Ihr Passwort nicht setzen können, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.
-pwassist#:#pwassist_enter_username_and_new_password#:#Geben Sie den Benutzernamen, für den Sie Passwort-Unterstützung angefordert haben, und das zuzuweisende Passwort ein.
-pwassist#:#pwassist_login_not_match#:#Bitte geben Sie einen anderen Benutzernamen ein. Der Benutzername, den Sie eingegeben haben, stimmt nicht mit dem Benutzernamen überein, für den Sie Passwort-Unterstützung angefordert hatten.
+pwassist#:#pwassist_enter_email#:#Geben Sie hier Ihre E-Mail-Adresse ein. ILIAS sendet eine Liste aller zugehörigen Anmeldenamen an diese Adresse und informiert darin über die Passwortunterstützung. Falls Sie keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.###Modified as part of gender mainstreaming activities for ILIAS 8
+pwassist#:#pwassist_enter_username_and_email#:#Geben Sie einen Anmeldenamen und die dazugehörige E-Mail-Adresse ein. ILIAS sendet an diese Adresse eine Anleitung, um ein neues Passwort festzulegen. Falls Sie keine E-Mail erhalten, benachrichtigen Sie bitte Ihre Kursleitung oder senden Sie ein E-Mail an %1$s.###Modified as part of gender mainstreaming activities for ILIAS 8
+pwassist#:#pwassist_enter_username_and_new_password#:#Tragen Sie den Anmeldenamen ein, und vergeben Sie ein neues Passwort.###Modified as part of gender mainstreaming activities for ILIAS 8
+pwassist#:#pwassist_login_not_match#:#Der eingegebene Anmeldename stimmt nicht überein mit dem Anmeldenamen, für den Sie die Passwort-Unterstützung angefordert hatten. Bitte geben Sie den korrekten Anmeldenamen ein.###Modified as part of gender mainstreaming activities for ILIAS 8
 pwassist#:#pwassist_mail_body#:#Tragen Sie ein neues Passwort ein für Ihr Benutzerkonto %1$s <br><br>Diese Nachricht wurde automatisch generiert von der ILIAS-Installation: %2$s <br><br>Sie (oder jemand mit der Adresse %3$s) hat Passwort-Unterstützung für den Benutzernamen "%4$s" angefordert. Bitte prüfen Sie sorgfältig die nachfolgend aufgeführten Fälle, und handeln Sie wie vorgeschlagen:<br><br>• Sie haben die Passwort-Unterstützung versehentlich benutzt: Löschen Sie diese Mail.<br><br>• Sie sind sicher, dass Sie nie Passwort-Unterstützung für den angegebenen ILIAS-Server angefordert haben: Bitte nehmen Sie mit %5$s Kontakt auf.<br><br>Sie haben um Passwort-Unterstützung angefragt. Bitte gehen Sie wie folgt vor:<br><br>1. Starten Sie Ihren Browser.<br>2. Geben Sie folgende Adresse in Ihrem Browser ein: %6$s  Wichtig: Die Adresse besteht aus einer einzigen Zeile. Wenn Sie die Adresse aufgetrennt in mehrere Zeilen sehen, dann hat Ihr E-Mail-Programm diese Zeilenumbrüche eingefügt.<br>3. Ihr Browser zeigt nun eine Seite an, mit der Sie ein neues Passwort an das Benutzerkonto zuweisen können.<br><br>Bitte beachten Sie: Aus Sicherheitsgründen können Sie diese drei Schritte nur exakt einmal und innerhalb einer begrenzten Zeit ausführen. Danach wird die Adresse ungültig, und Sie müssen die Passwort-Unterstützung auf dem ILIAS-Server erneut anfordern.
 pwassist#:#pwassist_mail_sent_generic#:#ILIAS hat eine E-Mail an die hinterlegte Adresse versandt. Weitere Anweisungen finden Sie in dieser Mail.
 pwassist#:#pwassist_mail_sent#:#ILIAS hat eine E-Mail an die Adresse %1$s versandt. Weitere Anweisungen finden Sie in dieser Mail.
@@ -12879,7 +12876,7 @@ rating#:#rat_nr_ratings#:#%s Bewertungen
 rating#:#rat_one_rating#:#Eine Bewertung
 rbac#:#accs_edit_permission#:#Rechteeinstellungen der Einstellungen Barrierefreiheit ändern
 rbac#:#accs_read#:#Einstellungen Barrierefreiheit in Administration können gelesen werden
-rbac#:#accs_visible#:#Einstellungen Barrierefreiheit in Administration sind sichtbar  !! Recht wird nicht mehr genutzt !!
+rbac#:#accs_visible#:#Einstellungen Barrierefreiheit in Administration sind sichtbar
 rbac#:#accs_write#:#Einstellungen Barrierefreiheit in Administration können bearbeiten werden
 rbac#:#activate_wiki_protection#:#Schreibschutz aktivieren
 rbac#:#active_preconditions#:#Definierte Vorbedingungen
@@ -12889,7 +12886,7 @@ rbac#:#add_reply#:#Antwort anlegen
 rbac#:#add_thread#:#Thema anlegen
 rbac#:#adm_edit_permission#:#Rechteeinstellungen für die Allgemeinen Einstellungen der Administration ändern
 rbac#:#adm_read#:#Allgemeine Einstellungen der Administration können gelesen werden
-rbac#:#adm_visible#:#Allgemeine Einstellungen sind sichtbar !! Recht wird nicht mehr genutzt !!
+rbac#:#adm_visible#:#Allgemeine Einstellungen sind sichtbar
 rbac#:#adm_write#:#Allgemeine Einstellungen in Administration können bearbeiten werden
 rbac#:#adn_edit_permission#:#Rechteeinstellungen für Administration der Ankündigungen ändern
 rbac#:#adn_read#:#Lesezugriff auf Administration für Ankündigungen
@@ -13226,7 +13223,7 @@ rbac#:#itgr_copy#:#Objekteblock kopieren
 rbac#:#itgr_delete#:#Objekteblock löschen oder verschieben
 rbac#:#itgr_edit_permission#:#Rechteeinstellungen des Objekteblocks ändern
 rbac#:#itgr_read#:#Lesezugriff auf Objekteblock
-rbac#:#itgr_visible#:#Objektblock ist sichtbar
+rbac#:#itgr_visible#:#Objekteblock ist sichtbar
 rbac#:#itgr_write#:#Inhalt und Einstellungen eines Objekteblocks bearbeiten
 rbac#:#leave#:#Mitgliedschaft beenden
 rbac#:#lhts_edit_permissions#:#Rechteeinstellungen der Administration für Lernverlauf ändern
@@ -14590,6 +14587,9 @@ skmg#:#skmg_enable_skmg#:#Kompetenzmanagement aktivieren
 skmg#:#skmg_eval_type_1#:#Fremdeinschätzung
 skmg#:#skmg_eval_type_2#:#Messung
 skmg#:#skmg_eval_type_3#:#Selbsteinschätzung
+skmg#:#skmg_eval_type_latest_1#:#Letzte Fremdeinschätzung
+skmg#:#skmg_eval_type_latest_2#:#Letzte Messung
+skmg#:#skmg_eval_type_latest_3#:#Letzte Selbsteinschätzung
 skmg#:#skmg_execute_self_evaluation#:#Start
 skmg#:#skmg_form_presentation#:#Darstellung
 skmg#:#skmg_from_lower_to_higher_levels#:#Bitte geben Sie niedrigeren Kompetenzstufen auch niedrigere Ordnungsnummern. Je Zeile sollte die Kompetenz nach unten zunehmen.
@@ -14650,9 +14650,12 @@ skmg#:#skmg_selected_skills#:#Ausgewählte Kompetenzen
 skmg#:#skmg_select_skill#:#Klicken Sie auf eine Kompetenz, um diese Ihren persönlichen Kompetenzen hinzuzufügen.
 skmg#:#skmg_select_skill_level_assign#:#Bitte wählen Sie eine Kompetenz aus.
 skmg#:#skmg_select_trigger#:#Auslöser auswählen
+skmg#:#skmg_self_evaluation_byline#:#Die Selbsteinschätzung wird bei der Erreichung Ihres Kompetenzziels nicht berücksichtigt. Sie dient zur Orientierung.
 skmg#:#skmg_self_evaluation#:#Selbsteinschätzung
 skmg#:#skmg_self_evaluations#:#Selbsteinschätzungen
 skmg#:#skmg_settings#:#Kompetenzmanagement Einstellungen
+skmg#:#skmg_show_all#:#Alle anzeigen
+skmg#:#skmg_show_latest_entries#:#Letzte Einträge anzeigen
 skmg#:#skmg_skill_in_use#:#Diese Kompetenz wird durch Benutzer oder Inhalte genutzt. Daher stehen nicht alle Aktionen zur Verfügung. Bedenken Sie bitte, dass sich alle Änderungen auf die bestehenden Benutzungen auswirken.
 skmg#:#skmg_skill#:#Kompetenz
 skmg#:#skmg_skill_level#:#Kompetenzstufe
@@ -14665,6 +14668,7 @@ skmg#:#skmg_skill_needs_self_eval#:#Bitte führen Sie zunächst eine Selbsteinsc
 skmg#:#skmg_skill_needs_self_eval_box#:#Bitte beachten Sie, dass für mindestens eine Kompetenz in diesem Profil noch keine Selbsteinschätzung durchgeführt wurde. Ihnen wird das Kompetenzziel für die betroffenen Kompetenzen angezeigt, sobald eine Selbsteinschätzung durchgeführt wurde.
 skmg#:#skmg_skill_no_needs_impr_info#:#Sie haben das Ziel für diese Kompetenz erfüllt.
 skmg#:#skmg_skill_no_needs_impr#:#Kompetenzziel erfüllt!
+skmg#:#skmg_skill_profile_comparison#:#Profilvergleich
 skmg#:#skmg_skill_profiles#:#Kompetenzprofile
 skmg#:#skmg_skills#:#Kompetenzen
 skmg#:#skmg_skill_templates#:#Vorlagen
@@ -14699,30 +14703,6 @@ skmg#:#skmg_usage_type_info_prof#:#Nutzung in Kompetenzprofilen
 skmg#:#skmg_usage_type_info_res#:#Zuordnung zu Magazinobjekten
 skmg#:#skmg_usage_type_info_user#:#Zuordnung zu Benutzern
 skmg#:#skmg_your_self_evaluation#:#Ihre Selbsteinschätzung
-sop#:#sop_already_exported#:#Das Lernmodul befindet sich schon im Offline-Modus. Bitte rufen Sie diese Seite mit Ihrem Firefox-Browser auf, in dem das SCORM-Offline-Player-Addon installiert ist.
-sop#:#sop_check_system_requirements#:#Systemvoraussetzungen werden überprüft
-sop#:#sop_desc_export#:#Das Lernmodul wird dann nur noch offline bearbeitet werden können und erst nach einem Import der Offline-Trackingdaten wieder online verfügbar sein.
-sop#:#sop_export#:#SCORM-Lernmodul exportieren
-sop#:#sop_lm_not_exists#:#Das Lernmodul konnte nicht im Offline Speicher des Browsers gefunden werden.<br />Bitte benutzen Sie dasselbe Gerät und denselben Browser, den Sie beim Exportieren des Lernmoduls verwendet haben.<br /><br />Sollte dies der korrekte Browser sein, dann scheint das Lernmodul durch das Löschen des Browser Caches entfernt worden zu sein. Bitte kontaktieren Sie Ihren Administrator.
-sop#:#sop_msg_close_lm#:#Das Lernmodul ist noch geöffnet. Bitte schließen Sie den SCORM-Offline-Player.
-sop#:#sop_msg_export_content#:#Übertragung der Lernstandsdaten zum SCORM-Offline-Manager. Dies kann je nach Lernmodulgröße einige Zeit in Anspruch nehmen. Bitte warten Sie einige Sekunden
-sop#:#sop_msg_export_failure#:#Die Übertragung der Dateien des Lernmoduls oder der Lernstandsdaten zum SCORM-Offline-Manager war nicht erfolgreich.
-sop#:#sop_msg_export_ok#:#Übertragung des Lernmoduls und der Lernstandsdaten zum SCORM-Offline-Manager war erfolgreich.
-sop#:#sop_msg_export_tracking#:#Übertragung der Lernstandsdaten zum SCORM-Offline-Manager. Bitte warten Sie einge Sekunden
-sop#:#sop_msg_lm_not_exists#:#Das Lernmodul existiert nicht im SCORM-Offline-Manager.
-sop#:#sop_msg_push_tracking_ok#:#Die Übertragung der Lernstandsdaten zu ILIAS war erfolgreich.
-sop#:#sop_msg_push_tracking#:#Übertragung der Lernstandsdaten zu ILIAS. Bitte warten Sie einige Sekunden
-sop#:#sop_purge_cache#:#Offline Cache des Lernmoduls löschen
-sop#:#sop_push_tracking#:#Lernstandsdaten importieren
-sop#:#sop_reload_page#:#Seite aktualisieren
-sop#:#sop_start_som#:#SOM Starten
-sop#:#sop_start_sop#:#Lernmodul offline starten
-sop#:#sop_system_check_error#:#Ihr Browser unterstützt die erforderlichen HTML5-Funktionen nicht.
-sop#:#sop_system_check_https#:#Sie müssen https anstelle von http für die erforderlichen HTML5-Funktionen verwenden.
-sop#:#sop_text_export#:#SCORM-Lernmodul für die Offline-Bearbeitung exportieren
-sop#:#sop_text_push_tracking#:#Lernstandsdaten nach ILIAS importieren und wieder in den Online-Modus wechseln
-sop#:#sop_text_start_offline#:#Lernmodul im Offline-Modus starten
-sop#:#sop_text_start_som#:#SCORM-Offline-Manager starten
 style#:#adapt_icon#:#Anpassung der Icons
 style#:#adapt_icon_description#:#Passe die Iconfarbe oder das Icon an.
 style#:#adapt_icons#:#Anpassung der Iconfarben
@@ -15541,7 +15521,7 @@ survey#:#survey_360_appraisees#:#Feedback-Nehmer
 survey#:#survey_360_edit_raters#:#Feedback-Geber verwalten
 survey#:#survey_360_list_title#:#360°-Modus
 survey#:#survey_360_mode#:#360°-Feedback
-survey#:#survey_360_mode_info#:#Für Peer-Reviews von Personen
+survey#:#survey_360_mode_info#:#Mehrere Personen evaluieren sich gegenseitig, Rückmeldungen zu einem Feedback-Nehmer werden zu einem Zeitpunkt aggregiert ausgewertet.
 survey#:#survey_360_no_appraisees#:#Sie können momentan kein Feedback geben.
 survey#:#survey_360_no_closed_appraisees#:#Es sind noch keine Umfragen geschlossen worden.
 survey#:#survey_360_rate_other_appraisees#:#Feedback geben
@@ -15829,8 +15809,8 @@ survey#:#svy_select_rater#:#Feedbackgeber auswählen
 survey#:#svy_self_ev_access_results_all#:#Zugriff auf Selbst-Evaluationen aller Teilnehmer
 survey#:#svy_self_ev_access_results_none#:#Kein Zugriff auf Ergebnisse
 survey#:#svy_self_ev_access_results_own#:#Zugriff auf Selbst-Evaluationen
-survey#:#svy_self_ev_info#:#Für Selbst-Evaluation verwenden
-survey#:#svy_self_ev_mode#:#Nur Selbst-Evaluation
+survey#:#svy_self_ev_info#:#Personen evaluieren sich selbst und schätzen sich ein.
+survey#:#svy_self_ev_mode#:#Selbst-Evaluation
 survey#:#svy_settings_section_access#:#Umfrage-Verwaltung: Zugriff
 survey#:#svy_settings_section_before_start#:#Informationen vor dem Umfragestart
 survey#:#svy_settings_section_finishing#:#Umfrage beenden
@@ -16254,11 +16234,13 @@ trac#:#trac_object_stat_types#:#Anzahl der Objekte
 trac#:#trac_others#:#Sonstige
 trac#:#trac_participants#:#Teilnehmer zeigen
 trac#:#trac_participated#:#Teilgenommen
+trac#:#trac_paths#:#Pfade
 trac#:#trac_percentage#:#Prozent
 trac#:#trac_periodic_system_load#:#Periodische Lastdarstellung
 trac#:#trac_progress#:#Persönlicher Lernfortschritt
 trac#:#trac_read_count_spent_seconds#:#Bearbeitungszeit / Zugriffe
 trac#:#trac_read_count#:#Zugriffe
+trac#:#trac_reference_ids_column#:#Referenz-Ids
 trac#:#trac_reference#:#Referenzen
 trac#:#trac_refresh#:#Ansicht aktualisieren
 trac#:#trac_registered#:#Angemeldet
@@ -16319,7 +16301,7 @@ trac#:#trac_visits_info#:#Ein Aufruf wird erst nach %s Sekunden als neuer Aufruf
 trac#:#trac_visits#:#Mindestanzahl Aufrufe
 trac#:#user_total#:#Anzahl Benutzer
 trac#:#view_mode#:#Anzeigemodus
-tstv#:#tstv_create_info#:#Wählen Sie einen Test, für den Sie ein Zertifikat benötigen
+tstv#:#tstv_create_info#:#Wählen Sie einen Test, für den Sie ein Zertifikat benötigen.
 tstv#:#tstv_create#:#Testzertifikat erstellen
 ui#:#datetime_required#:#Zeit/Datum erforderlich
 ui#:#duration_default_label_end#:#Ende
@@ -16330,15 +16312,16 @@ ui#:#ui_chars_min#:#Minimum:
 ui#:#ui_chars_remaining#:#Verbleibende Buchstaben
 ui#:#ui_error_in_group#:#Es gibt einen Fehler in diesem Bereich.
 ui#:#ui_error_switchable_group_required#:#Bitte treffen Sie eine Auswahl.
+ui#:#ui_file_input_general_error#:#Es ist ein Fehler aufgetreten. Sie können in der JavaSkript-Konsole Ihres Browser nachschauen, ob es weitere Informationen zu diesem Fehler gibt, und/oder die Administration Ihrer ILIAS-Installation über den Vorfall informieren.
+ui#:#ui_file_input_invalid_amount#:#Sie dürfen nicht so viele Dateien auf einmal hochladen! Entfernen Sie einige Dateien, um fortzufahren.
+ui#:#ui_file_input_invalid_mime#:#Dateien vom Typ '%s' sind nicht erlaubt.
+ui#:#ui_file_input_invalid_size#:#Datei überschreitet die maximale Dateigrösse von %s.
 ui#:#ui_invalid_url#:#Das Format der URL ist nicht korrekt.
 ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
 ui#:#ui_numeric_only#:#Bitte geben sie eine ganze Zahl ein.
-ui#:#ui_file_input_invalid_mime#:#Dateien vom Typ '%s' sind nicht erlaubt.
-ui#:#ui_file_input_invalid_size#:#Datei überschreitet die maximale Dateigrösse von %s.
-ui#:#ui_file_input_invalid_amount#:#Sie dürfen nicht so viele Dateien auf einmal hochladen, entfernen Sie ein paaru m fortzufahren.
-ui#:#ui_file_input_general_error#:#Es ist ein Fehler aufgetreten, prüfen Sie die Konsole für mehr Infos.
 ui#:#ui_tag_required#:#Bitte geben sie mindestens ein Tag ein.
+ui#:#ui_transcription#:#Abschrift
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
 user#:#back_to_starting_points_list#:#Zurück zu Startseiten
 user#:#clipboard_add_btn#:#Der Zwischenablage hinzufügen
@@ -16579,7 +16562,7 @@ wiki#:#wiki_change_notification_page_body_update#:#die folgende Wiki-Seite wurde
 wiki#:#wiki_change_notification_page_link#:#URL
 wiki#:#wiki_change_notification_salutation#:#Hallo %s,
 wiki#:#wiki_change_notification_subject#:#Wiki "%1$s" wurde bearbeitet: %2$s
-wiki#:#wiki_commented_by#:#Autor
+wiki#:#wiki_commented_by#:#Von###Modified as part of gender mainstreaming activities for ILIAS 8
 wiki#:#wiki_contributor#:#Mitwirkende/r
 wiki#:#wiki_contributors#:#Mitwirkende
 wiki#:#wiki_copy#:#Wiki kopieren
@@ -16683,6 +16666,7 @@ wiki#:#wiki_rename#:#Umbenennen
 wiki#:#wiki_save_ordering_and_indent#:#Reihenfolge und Einzug speichern
 wiki#:#wiki_search_results#:#Suchergebnisse
 wiki#:#wiki_search#:#Suche
+wiki#:#wiki_sec_protect_info#:#Geschützte Blöcke können nur von Benutzenden mit "Einstellungen bearbeiten" Recht editiert werden.
 wiki#:#wiki_selected_pages#:#Ausgewählte Seiten
 wiki#:#wiki_select_one_item#:#Bitte wählen Sie ein Element aus.
 wiki#:#wiki_set_as_start_page#:#Als Startseite setzen

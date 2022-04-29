@@ -1,5 +1,24 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Notifications\Model\ilNotificationConfig;
+use ILIAS\Notifications\Model\ilNotificationLink;
+use ILIAS\Notifications\Model\ilNotificationParameter;
 
 /**
  * Class ilChatroom
@@ -151,8 +170,8 @@ class ilChatroom
         global $DIC;
 
         $query = 'SELECT * FROM ' . self::$settingsTable . ' WHERE object_id = %s';
-        $types = array('integer');
-        $values = array($object_id);
+        $types = ['integer'];
+        $values = [$object_id];
         $rset = $DIC->database()->queryF($query, $types, $values);
 
         if ($row = $DIC->database()->fetchAssoc($rset)) {
@@ -560,7 +579,7 @@ class ilChatroom
         $query .= ' ORDER BY timestamp ASC';
 
         $rset = $DIC->database()->query($query);
-        $result = array();
+        $result = [];
 
         while ($row = $DIC->database()->fetchAssoc($rset)) {
             $message = json_decode($row['message'], false, 512, JSON_THROW_ON_ERROR);
@@ -831,7 +850,7 @@ class ilChatroom
         if ($recipient_id > 0 && ANONYMOUS_USER_ID !== $recipient_id) {
             if (is_numeric($sender) && $sender > 0) {
                 $sender_id = $sender;
-                /** @var $usr ilObjUser */
+                /** @var ilObjUser $usr */
                 $usr = ilObjectFactory::getInstanceByObjId($sender);
                 $public_name = $usr->getPublicName();
             } elseif ($sender instanceof ilChatroomUser) {

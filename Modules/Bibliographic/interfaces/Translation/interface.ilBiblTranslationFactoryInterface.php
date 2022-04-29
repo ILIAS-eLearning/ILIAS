@@ -1,11 +1,26 @@
 <?php
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Created by PhpStorm.
  * User: fschmid
  * Date: 20.11.17
  * Time: 16:38
  */
-
 /**
  * Class ilBiblTranslationFactory
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -28,39 +43,16 @@ interface ilBiblTranslationFactoryInterface
 
     public function getFieldFactory() : \ilBiblFieldFactoryInterface;
 
-    /**
-     * @param \ilBiblFieldInterface $field
-     * @return bool
-     */
     public function translationExistsForFieldAndUsersLanguage(ilBiblFieldInterface $field) : bool;
 
-    /**
-     * @param \ilBiblFieldInterface $field
-     * @return bool
-     */
     public function translationExistsForFieldAndSystemsLanguage(ilBiblFieldInterface $field) : bool;
 
-    /**
-     * @param \ilBiblFieldInterface $field
-     * @return bool
-     */
     public function translationExistsForField(ilBiblFieldInterface $field) : bool;
 
-    /**
-     * @param \ilBiblFieldInterface $field
-     * @return \ilBiblTranslationInterface|null
-     */
     public function getInstanceForFieldAndUsersLanguage(ilBiblFieldInterface $field) : ?\ilBiblTranslationInterface;
 
-    /**
-     * @param \ilBiblFieldInterface $field
-     * @return \ilBiblTranslationInterface|null
-     */
     public function getInstanceForFieldAndSystemsLanguage(ilBiblFieldInterface $field) : ?\ilBiblTranslationInterface;
 
-    /**
-     * @return \ilBiblTranslationInterface
-     */
     public function findArCreateInstanceForFieldAndlanguage(
         ilBiblFieldInterface $field,
         string $language_key
@@ -72,7 +64,6 @@ interface ilBiblTranslationFactoryInterface
     public function getAllTranslationsForField(ilBiblFieldInterface $field) : array;
 
     /**
-     * @param \ilBiblFieldInterface $field
      * @return string[]
      */
     public function getAllTranslationsForFieldAsArray(ilBiblFieldInterface $field) : array;

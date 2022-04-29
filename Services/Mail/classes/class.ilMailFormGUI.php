@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Response\ResponseHeader;
@@ -24,13 +39,13 @@ class ilMailFormGUI
     public const MAIL_FORM_TYPE_DRAFT = 'draft';
 
     private ilGlobalTemplateInterface $tpl;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilObjUser $user;
     private ilTabsGUI $tabs;
     private ilToolbarGUI $toolbar;
     private ilFormatMail $umail;
-    private ilMailBox $mbox;
+    private ilMailbox $mbox;
     private ilFileDataMail $mfile;
     private GlobalHttpState $http;
     private Refinery $refinery;
@@ -176,11 +191,7 @@ class ilMailFormGUI
 
         $mailer = $this->umail
             ->withContextId(ilMailFormCall::getContextId() ?: '')
-            ->withContextParameters(
-                is_array(ilMailFormCall::getContextParameters()) ?
-                    ilMailFormCall::getContextParameters() :
-                    []
-            );
+            ->withContextParameters(ilMailFormCall::getContextParameters());
 
         $mailer->setSaveInSentbox(true);
 
@@ -740,7 +751,7 @@ class ilMailFormGUI
 
         $inp = new ilTextInputGUI($this->lng->txt('bc'), 'rcp_bcc');
         $inp->setSize(50);
-        $inp->setValue((string) ($mailData['rcp_bcc'] ?? ''));
+        $inp->setValue($mailData['rcp_bcc'] ?? '');
         $inp->setDataSource($dsDataLink, ',');
         $form_gui->addItem($inp);
 
@@ -795,7 +806,7 @@ class ilMailFormGUI
                         $options[$template->getTplId()] = $template->getTitle();
 
                         if (!isset($mailData['template_id']) && $template->isDefault()) {
-                            $template_chb->setValue($template->getTplId());
+                            $template_chb->setValue((string) $template->getTplId());
                             $form_gui->getItemByPostVar('m_subject')->setValue($template->getSubject());
                             $mailData['m_message'] = $template->getMessage() . $this->umail->appendSignature(
                                 $mailData['m_message']
@@ -803,7 +814,7 @@ class ilMailFormGUI
                         }
                     }
                     if (isset($mailData['template_id'])) {
-                        $template_chb->setValue((int) $mailData['template_id']);
+                        $template_chb->setValue((string) ((int) $mailData['template_id']));
                     }
                     asort($options);
 

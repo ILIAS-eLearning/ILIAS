@@ -133,7 +133,7 @@ class ilArrayUtil
         global $array_sortby, $array_sortorder;
         
         if (!isset($array_sortby)) {
-            // occured in: setup -> new client -> install languages -> sorting of languages
+            // occurred in: setup -> new client -> install languages -> sorting of languages
             $array_sortby = 0;
         }
         

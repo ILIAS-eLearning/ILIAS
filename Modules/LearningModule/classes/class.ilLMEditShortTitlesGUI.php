@@ -40,7 +40,7 @@ class ilLMEditShortTitlesGUI
 
         $this->ctrl = $DIC->ctrl();
         /** @var ilObjLearningModule $lm */
-        $lm = $a_lm_gui->object;
+        $lm = $a_lm_gui->getObject();
         $this->lm = $lm;
         $this->lm_gui = $a_lm_gui;
         $this->tpl = $DIC["tpl"];
@@ -51,11 +51,11 @@ class ilLMEditShortTitlesGUI
             : $requested_transl;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("listShortTitles");
-
+    
         switch ($next_class) {
             default:
                 if (in_array($cmd, array("listShortTitles", "save"))) {

@@ -1,17 +1,21 @@
 <?php
-/******************************************************************************
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Class ilMathBCMathAdapter
  * @author Michael Jansen <mjansen@databay.de>
@@ -28,7 +32,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function add($left_operand, $right_operand, int $scale = null)
     {
@@ -36,7 +40,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function sub($left_operand, $right_operand, int $scale = null)
     {
@@ -44,7 +48,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function mul($left_operand, $right_operand, int $scale = null)
     {
@@ -52,7 +56,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function div($left_operand, $right_operand, int $scale = null)
     {
@@ -64,7 +68,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function mod($left_operand, $right_operand)
     {
@@ -76,7 +80,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function pow($left_operand, $right_operand, int $scale = null)
     {
@@ -95,11 +99,11 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
             return bcpow($left_operand_dec, $right_operand_dec, $scale);
         }
 
-        return $this->applyScale(pow($left_operand, $right_operand), $scale);
+        return $this->applyScale($left_operand ** $right_operand, $scale);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function sqrt($operand, int $scale = null)
     {
@@ -107,7 +111,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function comp($left_operand, $right_operand, int $scale = null) : int
     {

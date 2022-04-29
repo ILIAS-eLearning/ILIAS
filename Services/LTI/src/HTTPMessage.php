@@ -13,55 +13,51 @@ namespace ILIAS\LTI;
  *****************************************************************************/
 class HTTPMessage
 {
+    public mixed $responseJson; // TODO PHP8 Review: Type `mixed` is not supported!
 
-/**
+    /**
  * True if message was sent successfully.
  *
  * @var boolean $ok
  */
-    public $ok = false;
+    public bool $ok = false;
 
-//    /**
-//     * Request body.
-//     *
-//     * @var request $request
-//     */
-    public $request = null;
+    /**
+     * Request body.
+     *
+     * @var mixed|null|string $request
+     */
+    public mixed $request = null; // TODO PHP8 Review: Type `mixed` is not supported!
 
-//    /**
-//     * Request headers.
-//     *
-//     * @var request_headers $requestHeaders
-//     */
+    /**
+     * Request headers.
+     *
+     * @var bool|string|string[] $requestHeaders
+     */
+    // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
     public $requestHeaders = '';
 
-//    /**
-//     * Response body.
-//     *
-//     * @var response $response
-//     */
-    public $response = null;
+    /**
+     * Response body.
+     *
+     * @var string|null $response
+     */
+    public ?string $response = null;
 
-//    /**
-//     * Response headers.
-//     *
-//     * @var response_headers $responseHeaders
-//     */
-    public $responseHeaders = '';
+    /**
+     * Response headers.
+     */
+    public string $responseHeaders = '';
 
-//    /**
-//     * Status of response (0 if undetermined).
-//     *
-//     * @var status $status
-//     */
-    public $status = 0;
+    /**
+     * Status of response (0 if undetermined).
+     */
+    public int $status = 0;
 
-//    /**
-//     * Error message
-//     *
-//     * @var error $error
-//     */
-    public $error = '';
+    /**
+     * Error message
+     */
+    public string $error = '';
 
     /**
                      * Request URL.
@@ -75,13 +71,12 @@ class HTTPMessage
 
     /**
      * Class constructor.
-     *
-     * @param string $url     URL to send request to
-     * @param string $method  Request method to use (optional, default is GET)
-     * @param mixed  $params  Associative array of parameter values to be passed or message body (optional, default is none)
-     * @param string $header  Values to include in the request header (optional, default is none)
+     * @param string      $url    URL to send request to
+     * @param string      $method Request method to use (optional, default is GET)
+     * @param mixed       $params Associative array of parameter values to be passed or message body (optional, default is none)
+     * @param string|null $header Values to include in the request header (optional, default is none)
      */
-    public function __construct($url, $method = 'GET', $params = null, $header = null)
+    public function __construct(string $url, string $method = 'GET', ?array $params = null, string $header = null)
     {
         $this->url = $url;
         $this->method = strtoupper($method);
@@ -131,8 +126,8 @@ class HTTPMessage
             //end patch ILIAS
             #curl_setopt($ch, CURLOPT_SSLVERSION,3);
             $chResp = curl_exec($ch);
-            \ilLoggerFactory::getLogger('lti')->dump(curl_getinfo($ch), \ilLogLevel::DEBUG);
-            \ilLoggerFactory::getLogger('lti')->dump(curl_error($ch), \ilLogLevel::DEBUG);
+            \ilLoggerFactory::getLogger('ltis')->dump(curl_getinfo($ch), \ilLogLevel::DEBUG);
+            \ilLoggerFactory::getLogger('ltis')->dump(curl_error($ch), \ilLogLevel::DEBUG);
             $this->ok = $chResp !== false;
             if ($this->ok) {
                 $chResp = str_replace("\r\n", "\n", $chResp);

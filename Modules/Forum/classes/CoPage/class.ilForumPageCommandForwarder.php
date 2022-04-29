@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Style\Content\Object\ObjectFacade;
@@ -38,7 +37,7 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
     public const PRESENTATION_MODE_EMBEDDED_PRESENTATION = 'PRESENTATION_MODE_EMBEDDED_PRESENTATION';
 
     protected string $presentationMode = self::PRESENTATION_MODE_EDITING;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilTabsGUI $tabs;
     protected ilObjForum $parentObject;
@@ -49,7 +48,7 @@ class ilForumPageCommandForwarder implements ilForumObjectConstants
 
     public function __construct(
         GlobalHttpState $http,
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ilTabsGUI $tabs,
         ilLanguage $lng,
         ilObjForum $parentObject,
