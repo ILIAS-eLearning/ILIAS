@@ -659,7 +659,7 @@ class ilObjUser extends ilObject
 
     public static function _lookupExternalAccount(int $a_user_id) : string
     {
-        return self::_lookup($a_user_id, "ext_account");
+        return (string) self::_lookup($a_user_id, "ext_account");
     }
 
     /**
