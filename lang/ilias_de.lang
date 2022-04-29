@@ -367,6 +367,12 @@ administration#:#vc_information_not_determined#:#Es konnten keine Version Contro
 administration#:#vc_information#:#Zeige Version-Control-Information
 administration#:#view_last_log#:#Zeige letztes Scan-Log
 administration#:#view_log#:#Zeige Details
+administration#:#throttling_section#:#Drosselung
+administration#:#throttling_section_info#:#Aktivieren Sie eine Verzögerung für Login- und Registrations-Anfragen als Sicherheitsmassnahme, um Angreifer davor abzuhalten Informationen anhand der Reaktionszeit zu sammeln.
+administration#:#throttling_delay#:#Verzögerung in Sekunden
+administration#:#throttling_delay_info#:#Ein Wert zwischen 1 und 2 Sekunden ist empfohlen.
+administration#:#throttling_multiplier#:#Multiplikator
+administration#:#throttling_multiplier_info#:#Geben Sie einen Multiplikator ein, um die Reaktionszeit mal X zu verlängern nach jedem fehlgeschlagenen Login- und Registrations-Versuch.
 adn#:#administrative_notification#:#Ankündigung
 adn#:#administrative_notification_description#:#Bereitstellen systemweiter Ankündigungen in der Kopfzeile von ILIAS
 adn#:#common_actions#:#Aktionen

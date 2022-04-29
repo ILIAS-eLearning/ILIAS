@@ -9,6 +9,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\DI\Container;
 use ILIAS\HTTP\Agent\AgentDetermination;
+use ILIAS\HTTP\Throttling\DelayFactory;
+use ILIAS\HTTP\Throttling\Increment\DelayIncrementFactory;
+use ILIAS\HTTP\Throttling\DelayRepository;
 
 /******************************************************************************
  *
@@ -44,10 +47,19 @@ class Services implements GlobalHttpState
             $dic['http.response_sender_strategy'],
             $dic['http.cookie_jar_factory'],
             $dic['http.request_factory'],
-            $dic['http.response_factory']
+            $dic['http.response_factory'],
+            new DelayFactory(
+                new DelayIncrementFactory(),
+                new DelayRepository()
+            )
         );
         $this->wrapper = new WrapperFactory($this->raw->request());
         $this->agent = new AgentDetermination();
+    }
+
+    public function delay() : DelayFactory
+    {
+        return $this->raw->delay();
     }
 
     public function wrapper() : WrapperFactory

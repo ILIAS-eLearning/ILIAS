@@ -92,6 +92,17 @@ class ilAccountRegistrationGUI
 
     public function displayForm() : ilTemplate
     {
+        $this->http->delay()->add(
+            $this->http->delay()->new(
+                (float) $this->settings->get(ilObjSystemFolderGUI::KEY_DELAY_IN_SECONDS)
+            )->withIncrement(
+                $this->http->delay()->increments()->multiplier(
+                    (float) $this->settings->get(ilObjSystemFolderGUI::KEY_DELAY_MULTIPLIER)
+                )
+            ),
+            "saveForm"
+        );
+
         $tpl = ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registration.html', 'Services/Registration'), true);
         $tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 
@@ -221,6 +232,8 @@ class ilAccountRegistrationGUI
 
     public function saveForm() : ilTemplate
     {
+        $this->http->delay()->consume("saveForm");
+
         $this->initForm();
         $form_valid = $this->form->checkInput();
 
@@ -626,6 +639,8 @@ class ilAccountRegistrationGUI
 
     public function login() : ilTemplate
     {
+        $this->http->delay()->remove("saveForm");
+
         $tpl = ilStartUpGUI::initStartUpTemplate(array('tpl.usr_registered.html', 'Services/Registration'), false);
         $this->tpl->setVariable('TXT_PAGEHEADLINE', $this->lng->txt('registration'));
 

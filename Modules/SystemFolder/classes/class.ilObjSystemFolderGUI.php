@@ -18,6 +18,10 @@ use ILIAS\Setup\CLI\StatusCommand;
  */
 class ilObjSystemFolderGUI extends ilObjectGUI
 {
+    public const KEY_DELAY_ENABLED = 'delay_enabled';
+    public const KEY_DELAY_IN_SECONDS = 'delay_in_seconds';
+    public const KEY_DELAY_MULTIPLIER = 'delay_multiplier';
+
     /**
      * @var \ILIAS\Style\Content\Object\ObjectFacade
      */
@@ -1276,19 +1280,22 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ti->setValue($ilSetting->get("locale"));
         $this->form->addItem($ti);
 
-        $throttling_section = new ilCheckboxInputGUI($this->lng->txt("throttling_section"), "enable_throttling");
+        $throttling_section = new ilCheckboxInputGUI($this->lng->txt("throttling_section"), self::KEY_DELAY_ENABLED);
         $throttling_section->setInfo($this->lng->txt("throttling_section_info"));
         $throttling_section->setChecked(
-            (bool) $this->settings->get("enable_throttling")
+            (bool) $this->settings->get(self::KEY_DELAY_ENABLED)
         );
 
-        $throttling_delay = new ilNumberInputGUI($this->lng->txt("throttling_delay"), ilStartUpGUI::KEY_DELAY_IN_SECONDS);
+        $floating_or_integer_regex = '/^[+-]?([0-9]*[.])?[0-9]+$/';
+        $throttling_delay = new ilTextInputGUI($this->lng->txt("throttling_delay"), self::KEY_DELAY_IN_SECONDS);
         $throttling_delay->setInfo($this->lng->txt("throttling_delay_info"));
-        $throttling_delay->setValue($this->settings->get(ilStartUpGUI::KEY_DELAY_IN_SECONDS));
+        $throttling_delay->setValidationRegexp($floating_or_integer_regex);
+        $throttling_delay->setValue($this->settings->get(self::KEY_DELAY_IN_SECONDS));
 
-        $throttling_multiplier = new ilNumberInputGUI($this->lng->txt("throttling_multiplier"), ilStartUpGUI::KEY_DELAY_MULTIPLIER);
+        $throttling_multiplier = new ilTextInputGUI($this->lng->txt("throttling_multiplier"), self::KEY_DELAY_MULTIPLIER);
         $throttling_multiplier->setInfo($this->lng->txt("throttling_multiplier_info"));
-        $throttling_multiplier->setValue($this->settings->get(ilStartUpGUI::KEY_DELAY_MULTIPLIER));
+        $throttling_delay->setValidationRegexp($floating_or_integer_regex);
+        $throttling_multiplier->setValue($this->settings->get(self::KEY_DELAY_MULTIPLIER));
 
         $throttling_section->addSubItem($throttling_delay);
         $throttling_section->addSubItem($throttling_multiplier);
@@ -1341,6 +1348,10 @@ class ilObjSystemFolderGUI extends ilObjectGUI
                                 
             $ilSetting->set("open_google", $this->form->getInput("open_google"));
             $ilSetting->set("locale", $this->form->getInput("locale"));
+
+            $ilSetting->set(self::KEY_DELAY_ENABLED, $this->form->getInput(self::KEY_DELAY_ENABLED));
+            $ilSetting->set(self::KEY_DELAY_IN_SECONDS, $this->form->getInput(self::KEY_DELAY_IN_SECONDS));
+            $ilSetting->set(self::KEY_DELAY_MULTIPLIER, $this->form->getInput(self::KEY_DELAY_MULTIPLIER));
 
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "showBasicSettings");

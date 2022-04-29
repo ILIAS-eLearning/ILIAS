@@ -10,6 +10,7 @@ use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\Throttling\DelayFactory;
 
 /******************************************************************************
  *
@@ -35,6 +36,7 @@ class RawHTTPServices implements GlobalHttpState
     private \ILIAS\HTTP\Cookies\CookieJarFactory $cookieJarFactory;
     private \ILIAS\HTTP\Request\RequestFactory $requestFactory;
     private \ILIAS\HTTP\Response\ResponseFactory $responseFactory;
+    private \ILIAS\HTTP\Throttling\DelayFactory $delayFactory;
     private ?\Psr\Http\Message\ServerRequestInterface $request = null;
     private ?\Psr\Http\Message\ResponseInterface $response = null;
 
@@ -45,15 +47,25 @@ class RawHTTPServices implements GlobalHttpState
      * @param ResponseSenderStrategy $senderStrategy   A response sender strategy.
      * @param CookieJarFactory       $cookieJarFactory Cookie Jar implementation.
      */
-    public function __construct(ResponseSenderStrategy $senderStrategy, CookieJarFactory $cookieJarFactory, RequestFactory $requestFactory, ResponseFactory $responseFactory)
-    {
+    public function __construct(
+        ResponseSenderStrategy $senderStrategy,
+        CookieJarFactory $cookieJarFactory,
+        RequestFactory $requestFactory,
+        ResponseFactory $responseFactory,
+        DelayFactory $delayFactory
+    ) {
         $this->sender = $senderStrategy;
         $this->cookieJarFactory = $cookieJarFactory;
 
         $this->requestFactory = $requestFactory;
         $this->responseFactory = $responseFactory;
+        $this->delayFactory = $delayFactory;
     }
 
+    public function delay() : DelayFactory
+    {
+        return $this->delayFactory;
+    }
 
     public function wrapper() : WrapperFactory
     {

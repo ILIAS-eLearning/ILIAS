@@ -61,7 +61,7 @@ class DelayFactory
         return $this;
     }
 
-    public function await(string $identifier) : self
+    public function consume(string $identifier) : self
     {
         $delay = $this->delay_repository->get($identifier);
 

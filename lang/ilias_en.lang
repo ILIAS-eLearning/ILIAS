@@ -361,6 +361,13 @@ administration#:#usr_loginname_history_info#:#The user changed its login at last
 administration#:#vc_information_not_determined#:#ILIAS could not determine any version control information.
 administration#:#vc_information#:#Show Version Control Information
 administration#:#view_last_log#:#View last Scan log
+administration#:#view_log#:#View details
+administration#:#throttling_section#:#Throttling
+administration#:#throttling_section_info#:#Enable request throttling for login- and registration-attempts as a security meassure, to prevent attackers from gathering information by examining the request time.
+administration#:#throttling_delay#:#Delay In Seconds
+administration#:#throttling_delay_info#:#A delay between 1 or 2 seconds is recommended.
+administration#:#throttling_multiplier#:#Multiplier
+administration#:#throttling_multiplier_info#:#Provide a multiplier to increase the delay times X after each unsuccessful login- or registration-attempt.
 adn#:#administrative_notification#:#Administrative Notifications
 adn#:#administrative_notification_description#:#Provide system-wide notifications in topbar of ILIAS
 adn#:#btn_cancel#:#Cancel

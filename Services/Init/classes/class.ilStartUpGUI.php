@@ -18,9 +18,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
     public const CMD_STANDARD_AUTH = 'doStandardAuthentication';
 
-    public const KEY_DELAY_IN_SECONDS = 'delay_in_seconds';
-    public const KEY_DELAY_MULTIPLIER = 'delay_multiplier';
-
     protected const ACCOUNT_MIGRATION_MIGRATE = 1;
     protected const ACCOUNT_MIGRATION_NEW = 2;
 
@@ -191,10 +188,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     {
         $this->http->delay()->add(
             $this->http->delay()->new(
-                (float) $this->setting->get(self::KEY_DELAY_IN_SECONDS)
+                (float) $this->setting->get(ilObjSystemFolderGUI::KEY_DELAY_IN_SECONDS)
             )->withIncrement(
                 $this->http->delay()->increments()->multiplier(
-                    (float) $this->setting->get(self::KEY_DELAY_MULTIPLIER)
+                    (float) $this->setting->get(ilObjSystemFolderGUI::KEY_DELAY_MULTIPLIER)
                 )
             ),
             self::CMD_STANDARD_AUTH
@@ -671,7 +668,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     protected function doStandardAuthentication() : void
     {
-        $this->http->delay()->await(self::CMD_STANDARD_AUTH);
+        $this->http->delay()->consume(self::CMD_STANDARD_AUTH);
 
         $form = $this->initStandardLoginForm();
         if ($form->checkInput()) {
