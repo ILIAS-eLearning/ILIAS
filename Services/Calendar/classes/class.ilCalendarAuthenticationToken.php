@@ -18,7 +18,7 @@ class ilCalendarAuthenticationToken
 
     private string $token = '';
     private int $selection_type = self::SELECTION_NONE;
-    private $calendar = 0;
+    private int $calendar = 0;
 
     private ?string $ical = null;
     private int $ical_ctime = 0;
@@ -121,7 +121,7 @@ class ilCalendarAuthenticationToken
      * Check if cache is disabled or expired
      * @todo enable the cache
      */
-    public function isIcalExpired()
+    public function isIcalExpired() : bool
     {
         return true;
         /*

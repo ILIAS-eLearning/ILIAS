@@ -680,7 +680,7 @@ class ilMDEditorGUI
             $result[] = $entry;
         }
 
-        echo ilJsonUtil::encode($result);
+        echo json_encode($result, JSON_THROW_ON_ERROR);
         exit;
     }
 

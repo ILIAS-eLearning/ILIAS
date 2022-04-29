@@ -1,17 +1,20 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Block Setting class.
@@ -20,6 +23,9 @@
  */
 class ilBlockSetting
 {
+    /**
+     * @var array<string,?string>
+     */
     public static array $setting = array();
     public static bool $pd_preloaded = false;
 
@@ -39,7 +45,7 @@ class ilBlockSetting
         
         $key = $a_type . ":" . $a_setting . ":" . $a_user . ":" . $a_block_id;
         if (isset(self::$setting[$key])) {
-            return self::$setting[$key];
+            return (string) self::$setting[$key];
         }
         
         $set = $ilDB->query(sprintf(
@@ -53,9 +59,9 @@ class ilBlockSetting
         if ($rec = $ilDB->fetchAssoc($set)) {
             self::$setting[$key] = $rec["value"];
             return $rec["value"];
-        } elseif ($ilSetting->get('block_default_setting_' . $a_type . '_' . $a_setting, false)) {
-            self::$setting[$key] = $ilSetting->get('block_default_setting_' . $a_type . '_' . $a_setting, false);
-            return $ilSetting->get('block_default_setting_' . $a_type . '_' . $a_setting, false);
+        } elseif ($ilSetting->get('block_default_setting_' . $a_type . '_' . $a_setting, null)) {
+            self::$setting[$key] = $ilSetting->get('block_default_setting_' . $a_type . '_' . $a_setting, null);
+            return $ilSetting->get('block_default_setting_' . $a_type . '_' . $a_setting, null);
         } else {
             self::$setting[$key] = false;
             return null;
@@ -143,14 +149,13 @@ class ilBlockSetting
         int $a_user = 0,
         int $a_block_id = 0
     ) : int {
-        $detail = ilBlockSetting::_lookup($a_type, "detail", $a_user, $a_block_id);
+        $detail = self::_lookup($a_type, "detail", $a_user, $a_block_id);
 
-        if ($detail === false) {		// return a level of 2 (standard value)
-            // if record does not exist
+        if (is_null($detail)) {		// return a level of 2 (standard value) if record does not exist
             return 2;
-        } else {
-            return (int) $detail;
         }
+
+        return (int) $detail;
     }
 
     public static function _writeDetailLevel(

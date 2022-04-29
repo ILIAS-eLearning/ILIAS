@@ -35,7 +35,7 @@ class ilServicesDatabaseSuite extends TestSuite
     /**
      * @throws ReflectionException
      */
-    public static function suite(): \ilServicesDatabaseSuite
+    public static function suite() : \ilServicesDatabaseSuite
     {
         $suite = new self();
         /** @noRector */

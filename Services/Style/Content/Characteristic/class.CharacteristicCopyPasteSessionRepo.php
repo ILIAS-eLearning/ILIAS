@@ -1,8 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 namespace ILIAS\Style\Content;
+
+use ilSession;
+use stdClass;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -19,17 +22,17 @@ class CharacteristicCopyPasteSessionRepo
             ?: new class() implements Session {
                 public function set(string $key, string $value) : void
                 {
-                    \ilSession::set($key, $value);
+                    ilSession::set($key, $value);
                 }
 
                 public function get(string $key) : string
                 {
-                    return (string) \ilSession::get($key);
+                    return (string) ilSession::get($key);
                 }
 
                 public function clear(string $key) : void
                 {
-                    \ilSession::clear($key);
+                    ilSession::clear($key);
                 }
             };
     }
@@ -44,10 +47,10 @@ class CharacteristicCopyPasteSessionRepo
         $this->session->set(self::SESSION_KEY, $style_cp);
     }
 
-    public function getData() : \stdClass
+    public function getData() : stdClass
     {
         $st_c = explode(":::", $this->getValue());
-        $data = new \stdClass();
+        $data = new stdClass();
         $data->style_id = $st_c[0] ?? 0;
         $data->style_type = $st_c[1] ?? "";
         $data->characteristics = explode("::", $st_c[2] ?? "");

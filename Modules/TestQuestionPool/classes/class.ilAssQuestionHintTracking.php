@@ -64,7 +64,7 @@ class ilAssQuestionHintTracking
      * @global	ilDBInterface					$ilDB
      * @return	boolean					$requestsExist
      */
-    public function requestsExist()
+    public function requestsExist() : bool
     {
         if (self::getNumExistingRequests($this->getQuestionId(), $this->getActiveId(), $this->getPass()) > 0) {
             return true;
@@ -81,7 +81,7 @@ class ilAssQuestionHintTracking
      * @global	ilDBInterface					$ilDB
      * @return	integer					$numExisingRequests
      */
-    public function getNumExistingRequests()
+    public function getNumExistingRequests() : int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -115,7 +115,7 @@ class ilAssQuestionHintTracking
      * @global	ilDBInterface		$ilDB
      * @return	boolean		$requestsPossible
      */
-    public function requestsPossible()
+    public function requestsPossible() : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -158,7 +158,7 @@ class ilAssQuestionHintTracking
      * @param	integer	$hintId
      * @return	boolean	$isRequested
      */
-    public function isRequested($hintId)
+    public function isRequested($hintId) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -197,7 +197,7 @@ class ilAssQuestionHintTracking
      * @return	ilAssQuestionHint	$nextRequestableHint
      * @throws	ilTestException
      */
-    public function getNextRequestableHint()
+    public function getNextRequestableHint() : ilAssQuestionHint
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -248,7 +248,7 @@ class ilAssQuestionHintTracking
      * @global	ilDBInterface					$ilDB
      * @return	ilAssQuestionHintList	$requestedHintsList
      */
-    public function getRequestedHintsList()
+    public function getRequestedHintsList() : ilAssQuestionHintList
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -315,7 +315,7 @@ class ilAssQuestionHintTracking
      * @global ilDBInterface $ilDB
      * @return ilAssQuestionHintRequestStatisticData $requestsStatisticData
      */
-    public function getRequestStatisticDataByQuestionAndTestpass()
+    public function getRequestStatisticDataByQuestionAndTestpass() : ilAssQuestionHintRequestStatisticData
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -359,7 +359,7 @@ class ilAssQuestionHintTracking
      * @param integer $activeId
      * @return ilAssQuestionHintRequestStatisticRegister
      */
-    public static function getRequestRequestStatisticDataRegisterByActiveId($activeId)
+    public static function getRequestRequestStatisticDataRegisterByActiveId($activeId) : ilAssQuestionHintRequestStatisticRegister
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestStatisticRegister.php';
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestStatisticData.php';

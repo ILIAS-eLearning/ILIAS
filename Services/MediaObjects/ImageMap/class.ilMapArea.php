@@ -258,7 +258,7 @@ class ilMapArea
         
         return $mobs;
     }
-
+    
     public static function getAllHighlightModes() : array
     {
         global $DIC;
@@ -282,7 +282,7 @@ class ilMapArea
     {
         return $this->highlight_mode;
     }
-
+    
     public static function getAllHighlightClasses() : array
     {
         global $DIC;
@@ -424,7 +424,7 @@ class ilMapArea
     /**
      * get link target (internal link only)
      */
-    public function getTarget($a_insert_inst = false) : string
+    public function getTarget(bool $a_insert_inst = false) : string
     {
         $target = $this->il_target;
 

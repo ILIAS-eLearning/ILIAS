@@ -150,11 +150,11 @@ class ilHelpMapping
         $ilUser = $DIC->user();
         $ilObjDataCache = $DIC["ilObjDataCache"];
 
-        if (OH_REF_ID > 0) {
+        if (defined('OH_REF_ID') && (int) OH_REF_ID > 0) {
             $module = 0;
         } else {
             $module = (int) $ilSetting->get("help_module");
-            if ($module == 0) {
+            if ($module === 0) {
                 return array();
             }
         }
@@ -181,18 +181,18 @@ class ilHelpMapping
             while ($rec = $ilDB->fetchAssoc($set)) {
                 if ($rec["perm"] != "" && $rec["perm"] != "-") {
                     // check special "create*" permission
-                    if ($rec["perm"] == "create*") {
+                    if ($rec["perm"] === "create*") {
                         $has_create_perm = false;
                         
                         // check owner
-                        if ($ilUser->getId() == $ilObjDataCache->lookupOwner(ilObject::_lookupObjId($a_ref_id))) {
+                        if ($ilUser->getId() === $ilObjDataCache->lookupOwner(ilObject::_lookupObjId($a_ref_id))) {
                             $has_create_perm = true;
                         } elseif ($rbacreview->isAssigned($ilUser->getId(), SYSTEM_ROLE_ID)) { // check admin
                             $has_create_perm = true;
                         } elseif ($ilAccess->checkAccess("read", "", $a_ref_id)) {
                             $perm = $rbacreview->getUserPermissionsOnObject($ilUser->getId(), $a_ref_id);
                             foreach ($perm as $p) {
-                                if (substr($p, 0, 7) == "create_") {
+                                if (strpos($p, "create_") === 0) {
                                     $has_create_perm = true;
                                 }
                             }
@@ -227,19 +227,19 @@ class ilHelpMapping
         $ilSetting = $DIC->settings();
         $ilUser = $DIC->user();
         
-        if ($ilUser->getLanguage() != "de") {
+        if ($ilUser->getLanguage() !== "de") {
             return false;
         }
         
-        if ($ilSetting->get("help_mode") == "2") {
+        if ($ilSetting->get("help_mode") === "2") {
             return false;
         }
 
-        if (OH_REF_ID > 0) {
+        if (defined('OH_REF_ID') && (int) OH_REF_ID > 0) {
             $module = 0;
         } else {
             $module = (int) $ilSetting->get("help_module");
-            if ($module == 0) {
+            if ($module === 0) {
                 return false;
             }
         }

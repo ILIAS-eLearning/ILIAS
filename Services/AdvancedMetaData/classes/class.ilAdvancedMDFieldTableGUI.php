@@ -50,11 +50,11 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
         $this->permissions = $a_permissions;
-        $this->may_edit_pos = (bool) $a_may_edit_pos;
+        $this->may_edit_pos = $a_may_edit_pos;
         $this->active_language = $active_language;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->addColumn('', 'f', 1);
+        $this->addColumn('', 'f', '1');
         $this->addColumn($this->lng->txt('position'), 'position', "5%");
         $this->addColumn($this->lng->txt('title'), 'title', "30%");
         $this->addColumn($this->lng->txt('md_adv_field_fields'), 'fields', "35%");

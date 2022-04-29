@@ -1,43 +1,46 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
-use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\HTTP\Response\ResponseHeader;
+use ILIAS\Data\Factory as DataFactory;
 
 if (!file_exists(getcwd() . '/ilias.ini.php')) {
     exit();
 }
 
-include_once "Services/Context/classes/class.ilContext.php";
+require_once 'Services/Context/classes/class.ilContext.php';
 ilContext::init(ilContext::CONTEXT_SESSION_REMINDER);
 
-require_once("Services/Init/classes/class.ilInitialisation.php");
+require_once 'Services/Init/classes/class.ilInitialisation.php';
 ilInitialisation::initILIAS();
 
-/** @var \ILIAS\DI\Container $DIC */
+/** @var ILIAS\DI\Container $DIC */
 $DIC->http()->saveResponse(
-    $DIC->http()->response()
-        ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
-        ->withBody(Streams::ofString(
-            (new ilSessionReminderCheck())->getJsonResponse(
-                ilUtil::stripSlashes(
-                    $DIC->http()->wrapper()->post()->retrieve('hash', $DIC->refinery()->kindlyTo()->string())
-                )
-            )
-        ))
+    (
+        new ilSessionReminderCheck(
+            $DIC->http(),
+            $DIC->refinery(),
+            $DIC->language(),
+            $DIC->database(),
+            $DIC['ilClientIniFile'],
+            $DIC->logger()->auth(),
+            (new DataFactory())->clock()->utc()
+        )
+    )->handle()
 );
 $DIC->http()->sendResponse();
 $DIC->http()->close();

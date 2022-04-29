@@ -1,7 +1,21 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilObjCourseAccess
  * @author  Alex Killing <alex.killing@gmx.de>
@@ -29,6 +43,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
     /**
      * Get operators
+     * @return string[]
      */
     public static function getConditionOperators() : array
     {
@@ -61,7 +76,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         if (is_null($user_id)) {
             $user_id = $this->user->getId();
         }
-        if ($this->user->getId() == $user_id) {
+        if ($this->user->getId() === $user_id) {
             $participants = ilCourseParticipant::_getInstanceByObjId($obj_id, $user_id);
         } else {
             $participants = ilCourseParticipants::_getInstanceByObjId($obj_id);
@@ -69,9 +84,11 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
         switch ($cmd) {
             case "view":
-                if ($participants->isBlocked($user_id) and $participants->isAssigned($user_id)) {
-                    $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS,
-                        $this->lng->txt("crs_status_blocked"));
+                if ($participants->isBlocked($user_id) && $participants->isAssigned($user_id)) {
+                    $this->access->addInfoItem(
+                        ilAccessInfo::IL_NO_OBJECT_ACCESS,
+                        $this->lng->txt("crs_status_blocked")
+                    );
                     return false;
                 }
                 break;
@@ -84,8 +101,10 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                     if (!ilObjCourse::mayLeave($obj_id, $user_id, $limit)) {
                         $this->access->addInfoItem(
                             ilAccessInfo::IL_STATUS_INFO,
-                            sprintf($this->lng->txt("crs_cancellation_end_rbac_info"),
-                                ilDatePresentation::formatDate($limit))
+                            sprintf(
+                                $this->lng->txt("crs_cancellation_end_rbac_info"),
+                                ilDatePresentation::formatDate($limit)
+                            )
                         );
                         return false;
                     }
@@ -134,9 +153,11 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                     $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $this->lng->txt("offline"));
                     return false;
                 }
-                if ($participants->isBlocked($user_id) and $participants->isAssigned($user_id)) {
-                    $this->access->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS,
-                        $this->lng->txt("crs_status_blocked"));
+                if ($participants->isBlocked($user_id) && $participants->isAssigned($user_id)) {
+                    $this->access->addInfoItem(
+                        ilAccessInfo::IL_NO_OBJECT_ACCESS,
+                        $this->lng->txt("crs_status_blocked")
+                    );
                     return false;
                 }
                 break;
@@ -199,7 +220,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         $t_arr = explode("_", $target);
 
         // registration codes
-        if (isset($t_arr[2]) && substr($t_arr[2], 0, 5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID) {
+        if (isset($t_arr[2]) && substr($t_arr[2], 0, 5) == 'rcode' && $ilUser->getId() != ANONYMOUS_USER_ID) {
             self::$using_code = true;
             return true;
         }
@@ -232,7 +253,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         return ilContainer::VIEW_DEFAULT;
     }
 
-    public static function _isActivated(int $a_obj_id, ?bool &$a_visible_flag = null, bool $a_mind_member_view = true)
+    public static function _isActivated(int $a_obj_id, ?bool &$a_visible_flag = null, bool $a_mind_member_view = true) : bool
     {
         // #7669
         if ($a_mind_member_view) {
@@ -248,8 +269,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
         $item = ilObjectActivation::getItem($ref_id);
         switch ($item['timing_type']) {
             case ilObjectActivation::TIMINGS_ACTIVATION:
-                if (time() < $item['timing_start'] or
-                    time() > $item['timing_end']) {
+                if (time() < $item['timing_start'] || time() > $item['timing_end']) {
                     $a_visible_flag = $item['visible'];
                     return false;
                 }
@@ -287,8 +307,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
                 return false;
 
             case ilCourseConstants::IL_CRS_SUBSCRIPTION_LIMITED:
-                if (time() > $reg_start and
-                    time() < $reg_end) {
+                if (time() > $reg_start && time() < $reg_end) {
                     return true;
                 }
             // no break

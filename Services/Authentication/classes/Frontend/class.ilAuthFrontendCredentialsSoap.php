@@ -26,6 +26,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
     
     private ilAuthSession $authSession;
     private \ilGlobalTemplateInterface $main_tpl;
+    private ilLogger $logger;
 
     /**
      * ilAuthFrontendCredentialsApache constructor.
@@ -38,6 +39,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->authSession = $DIC['ilAuthSession'];
+        $this->logger = $DIC->logger()->auth();
         $this->httpRequest = $httpRequest;
         $this->ctrl = $ctrl;
         $this->settings = $settings;
@@ -53,10 +55,9 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
         if (isset($this->httpRequest->getQueryParams()['cmd']) && is_string($this->httpRequest->getQueryParams()['cmd'])) {
             $cmd = $this->httpRequest->getQueryParams()['cmd'];
         }
-        if ('' === $cmd) {
-            if (isset($this->httpRequest->getParsedBody()['cmd']) && is_string($this->httpRequest->getParsedBody()['cmd'])) {
-                $cmd = $this->httpRequest->getParsedBody()['cmd'];
-            }
+        if ('' === $cmd &&
+            isset($this->httpRequest->getParsedBody()['cmd']) && is_string($this->httpRequest->getParsedBody()['cmd'])) {
+            $cmd = $this->httpRequest->getParsedBody()['cmd'];
         }
 
         $passedSso = '';
@@ -68,7 +69,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
             return;
         }
 
-        if (!(bool) $this->settings->get('soap_auth_active', (string) false)) {
+        if (!(bool) $this->settings->get('soap_auth_active', "")) {
             return;
         }
 
@@ -76,7 +77,7 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
             return;
         }
 
-        $this->getLogger()->debug('Using SOAP authentication.');
+        $this->logger->debug('Using SOAP authentication.');
 
         $status = ilAuthStatus::getInstance();
 

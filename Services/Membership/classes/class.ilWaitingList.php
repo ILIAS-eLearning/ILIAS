@@ -1,25 +1,21 @@
-<?php declare(strict_types=1);/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
-
+<?php declare(strict_types=1);
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Base class for course and group waiting lists
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -27,15 +23,12 @@
  */
 abstract class ilWaitingList
 {
+    public static array $is_on_list = [];
     private int $obj_id = 0;
     private array $user_ids = [];
-    private $users = [];
-
+    private array $users = [];
     protected ilDBInterface $db;
     protected ilAppEventHandler $eventHandler;
-
-
-    public static array $is_on_list = [];
 
     public function __construct(int $a_obj_id)
     {
@@ -177,7 +170,7 @@ abstract class ilWaitingList
             $ilDB->in("usr_id", $a_usr_ids, false, "integer");
         $res = $ilDB->query($query);
         while ($rec = $ilDB->fetchAssoc($res)) {
-            self::$is_on_list[$rec["usr_id"]][$rec["obj_id"]] = true;
+            self::$is_on_list[(int) $rec["usr_id"]][(int) $rec["obj_id"]] = true;
         }
     }
 
@@ -214,7 +207,7 @@ abstract class ilWaitingList
     /**
      * @return int[]
      */
-    public function getUserIds()
+    public function getUserIds() : array
     {
         return $this->user_ids;
     }
@@ -229,9 +222,9 @@ abstract class ilWaitingList
         $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             ++$counter;
-            $this->users[$row->usr_id]['position'] = $counter;
-            $this->users[$row->usr_id]['time'] = $row->sub_time;
-            $this->users[$row->usr_id]['usr_id'] = $row->usr_id;
+            $this->users[(int) $row->usr_id]['position'] = $counter;
+            $this->users[(int) $row->usr_id]['time'] = (int) $row->sub_time;
+            $this->users[(int) $row->usr_id]['usr_id'] = (int) $row->usr_id;
 
             $this->user_ids[] = $row->usr_id;
         }

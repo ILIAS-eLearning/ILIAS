@@ -1,17 +1,20 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilObjFileAccessSettings extends ilObject
 {
 
@@ -40,7 +43,7 @@ class ilObjFileAccessSettings extends ilObject
      * @param integer    reference_id or object_id
      * @param boolean    treat the id as reference_id (true) or object_id (false)
      */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->type = "facs";
         parent::__construct($a_id, $a_call_by_reference);
@@ -52,7 +55,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @param string    new value, a space separated list of filename extensions.
      */
-    public function setInlineFileExtensions($newValue): void
+    public function setInlineFileExtensions($newValue) : void
     {
         $this->inlineFileExtensions = $newValue;
     }
@@ -74,7 +77,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @param boolean
      */
-    public function setDownloadWithUploadedFilename($newValue): void
+    public function setDownloadWithUploadedFilename($newValue) : void
     {
         $this->downloadWithUploadedFilename = $newValue;
     }
@@ -98,7 +101,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @return    integer        object id
      */
-    public function create(): int
+    public function create() : int
     {
         $id = parent::create();
         $this->write();
@@ -112,7 +115,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @return    boolean    true on success
      */
-    public function update(): bool
+    public function update() : bool
     {
         parent::update();
         $this->write();
@@ -126,7 +129,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @param boolean
      */
-    private function write(): void
+    private function write() : void
     {
         global $DIC;
         $ilClientIniFile = $DIC['ilClientIniFile'];
@@ -153,7 +156,7 @@ class ilObjFileAccessSettings extends ilObject
     /**
      * read object data from db into object
      */
-    public function read(): void
+    public function read() : void
     {
         parent::read();
 
@@ -173,7 +176,7 @@ class ilObjFileAccessSettings extends ilObject
      *
      * @return int Upload Max Filesize in bytes.
      */
-    private function getUploadMaxFilesize(): int
+    private function getUploadMaxFilesize() : int
     {
         $val = ini_get('upload_max_filesize');
 

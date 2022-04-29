@@ -109,7 +109,7 @@ class ilAssQuestionSolutionComparisonExpressionList
         $this->expressions[$expression->getOrderIndex()] = $expression;
     }
 
-    public function get()
+    public function get() : array
     {
         return $this->expressions;
     }
@@ -122,7 +122,7 @@ class ilAssQuestionSolutionComparisonExpressionList
     /**
      * @return int
      */
-    public function getQuestionId()
+    public function getQuestionId() : ?int
     {
         return $this->questionId;
     }
@@ -138,7 +138,7 @@ class ilAssQuestionSolutionComparisonExpressionList
     /**
      * @return int
      */
-    public function getSkillBaseId()
+    public function getSkillBaseId() : ?int
     {
         return $this->skillBaseId;
     }
@@ -154,7 +154,7 @@ class ilAssQuestionSolutionComparisonExpressionList
     /**
      * @return int
      */
-    public function getSkillTrefId()
+    public function getSkillTrefId() : ?int
     {
         return $this->skillTrefId;
     }

@@ -295,7 +295,8 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 return true;
 
             default:
-                throw new InvalidArgumentException('Current parsing mode is not supported. Mode: ' . (string) $this->getMode());
+                throw new InvalidArgumentException('Current parsing mode is not supported. Mode: ' . $this->getMode()
+                );
         }
     }
 
@@ -378,8 +379,8 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         $translations->addTranslationEntry($this->getCurrentRecord()->getDefaultLanguage(), true);
         $translations->updateTranslations(
             $this->getCurrentRecord()->getDefaultLanguage(),
-            (string) $this->getCurrentRecord()->getTitle(),
-            (string) $this->getCurrentRecord()->getDescription()
+            $this->getCurrentRecord()->getTitle(),
+            $this->getCurrentRecord()->getDescription()
         );
 
         foreach ($this->translations as $lang_key => $translation_info) {
@@ -407,9 +408,6 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         );
     }
 
-    /**
-     * @return mixed[]
-     */
     public function getRecordMap() : array
     {
         return $this->rec_map;

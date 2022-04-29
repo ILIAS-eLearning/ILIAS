@@ -84,11 +84,15 @@ class RunDBRepository
         );
         $items = [];
         while ($rec = $db->fetchAssoc($set)) {
-            $items[] = $rec["survey_fi"];
+            $items[] = (int) $rec["survey_fi"];
         }
         return $items;
     }
 
+    /**
+     * @param int $rater_id
+     * @return array{survey_id: int, appr_id: int}[]
+     */
     public function getFinishedAppraiseesForRater(
         int $rater_id
     ) : array {
@@ -103,8 +107,8 @@ class RunDBRepository
         $appraisee = [];
         while ($rec = $db->fetchAssoc($set)) {
             $appraisee[] = [
-                "survey_id" => $rec["survey_fi"],
-                "appr_id" => $rec["appr_id"]
+                "survey_id" => (int) $rec["survey_fi"],
+                "appr_id" => (int) $rec["appr_id"]
             ];
         }
         return $appraisee;
@@ -118,7 +122,7 @@ class RunDBRepository
     ) : ?int {
         $db = $this->db;
 
-        if ($code != "") { // #15031 - should not matter if code was used by registered or anonymous (each code must be unique)
+        if ($code !== "") { // #15031 - should not matter if code was used by registered or anonymous (each code must be unique)
             $set = $db->queryF(
                 "SELECT * FROM svy_finished" .
                 " WHERE survey_fi = %s AND anonymous_id = %s AND appr_id = %s",
@@ -169,16 +173,16 @@ class RunDBRepository
         $sql = "SELECT * FROM svy_finished" .
             " WHERE survey_fi = " . $db->quote($survey_id, "integer");
         // if proper user id is given, use it or current code
-        if ($user_id != ANONYMOUS_USER_ID) {
+        if ($user_id !== ANONYMOUS_USER_ID) {
             $sql .= " AND (user_fi = " . $db->quote($user_id, "integer");
-            if ($code != "") {
+            if ($code !== "") {
                 $sql .= " OR anonymous_id = " . $db->quote($code, "text");
             }
             $sql .= ")";
         }
         // use anonymous code to find finished id(s)
         else {
-            if ($code == "") {
+            if ($code === "") {
                 return [];
             }
             $sql .= " AND anonymous_id = " . $db->quote($code, "text");

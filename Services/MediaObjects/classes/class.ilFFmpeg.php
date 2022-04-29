@@ -26,6 +26,7 @@ class ilFFmpeg
      * do not reflect the complexity of media container/codec variants.
      * For source formats no specification is needed here. For target formats
      * we use fixed parameters that should result in best web media practice.
+     * @var array[]
      */
     public static array $formats = array(
         "video/3pgg" => array(
@@ -75,7 +76,10 @@ class ilFFmpeg
         }
         return $ttypes;
     }
-    
+
+    /**
+     * @return string[]
+     */
     public static function getSourceMimeTypes() : array
     {
         $ttypes = array();
@@ -93,29 +97,13 @@ class ilFFmpeg
     public static function supportsImageExtraction(
         string $a_mime
     ) : bool {
-        if (in_array($a_mime, self::getSourceMimeTypes())) {
+        if (in_array($a_mime, self::getSourceMimeTypes(), true)) {
             return true;
         }
         return false;
     }
     
-    /**
-     * Get possible target formats
-     */
-    public static function getPossibleTargetMimeTypes(
-        string $a_source_mime_type
-    ) : array {
-        $pt = array();
-        if (in_array($a_source_mime_type, self::getSourceMimeTypes())) {
-            foreach (self::getTargetMimeTypes() as $tm) {
-                if ($tm != $a_source_mime_type) {
-                    $pt[$tm] = $tm;
-                }
-            }
-        }
-        return $pt;
-    }
-    
+
     /**
      * Get ffmpeg command
      */
@@ -131,26 +119,7 @@ class ilFFmpeg
     {
         return ilShellUtil::execQuoted(self::getCmd(), $args);
     }
-    
-    /**
-     * Get all supported codecs
-     */
-    public static function getSupportedCodecsInfo() : array
-    {
-        $codecs = self::exec("-codecs");
-        return $codecs;
-    }
 
-    /**
-     * Get all supported formats
-     */
-    public static function getSupportedFormatsInfo() : array
-    {
-        $formats = self::exec("-formats");
-        
-        return $formats;
-    }
-    
     /**
      * Get last return values
      */
@@ -186,8 +155,8 @@ class ilFFmpeg
         
         $sec = $a_sec;
         $cmd = "-y -i " . ilShellUtil::escapeShellArg(
-                $a_file
-            ) . " -r 1 -f image2 -vframes 1 -ss " . $sec . " " . ilShellUtil::escapeShellArg($target_file);
+            $a_file
+        ) . " -r 1 -f image2 -vframes 1 -ss " . $sec . " " . ilShellUtil::escapeShellArg($target_file);
         $ret = self::exec($cmd . " 2>&1");
         self::$last_return = $ret;
         

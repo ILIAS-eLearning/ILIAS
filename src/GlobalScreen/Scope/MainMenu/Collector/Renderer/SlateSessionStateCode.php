@@ -2,10 +2,7 @@
 
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
-use ILIAS\GlobalScreen\Client\ItemState;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
-use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
 
 /**

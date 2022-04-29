@@ -17,7 +17,6 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
     protected $question;
     
     /**
-     * @param ilUnitConfigurationGUI $controller
      * @param string                 $cmd
      * @param string                 $template_context
      * @param assQuestion            $question

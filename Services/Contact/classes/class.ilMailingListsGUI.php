@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -11,22 +25,16 @@ use Psr\Http\Message\ServerRequestInterface;
 class ilMailingListsGUI
 {
     private ServerRequestInterface $httpRequest;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
-    protected ilLanguage $lng;
-    protected ilObjUser $user;
-    protected ilErrorHandling $error;
-    protected ilToolbarGUI $toolbar;
-    protected ilTabsGUI $tabs;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    private $umail;
-    private $mlists;
-    private $form_gui;
+    private ilGlobalTemplateInterface $tpl;
+    private ilCtrlInterface $ctrl;
+    private ilLanguage $lng;
+    private ilObjUser $user;
+    private ilErrorHandling $error;
+    private ilToolbarGUI $toolbar;
+    private ilRbacSystem $rbacsystem;
+    private ilFormatMail $umail;
+    private ilMailingLists $mlists;
+    private ilPropertyFormGUI $form_gui;
 
     public function __construct()
     {
@@ -39,7 +47,6 @@ class ilMailingListsGUI
         $this->user = $DIC['ilUser'];
         $this->error = $DIC['ilErr'];
         $this->toolbar = $DIC['ilToolbar'];
-        $this->tabs = $DIC['ilTabs'];
         $this->httpRequest = $DIC->http()->request();
 
         $this->umail = new ilFormatMail($this->user->getId());
@@ -81,8 +88,14 @@ class ilMailingListsGUI
 
     public function confirmDelete() : bool
     {
-        $ml_ids = isset($this->httpRequest->getQueryParams()['ml_id']) ? [(int) $this->httpRequest->getQueryParams()['ml_id']] : [(int) $this->httpRequest->getParsedBody()['ml_id']];
-        if (!$ml_ids) {
+        $ml_ids = [];
+        if (isset($this->httpRequest->getQueryParams()['ml_id'])) {
+            $ml_ids = array_filter([(int) $this->httpRequest->getQueryParams()['ml_id']]);
+        } else {
+            $ml_ids = array_filter([(int) ($this->httpRequest->getParsedBody()['ml_id'] ?? 0)]);
+        }
+
+        if ($ml_ids === []) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
             $this->showMailingLists();
             return true;
@@ -306,8 +319,6 @@ class ilMailingListsGUI
 
                 $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
                 $this->ctrl->redirect($this, 'showMembersList');
-
-                exit;
             }
         }
 
@@ -526,9 +537,7 @@ class ilMailingListsGUI
             false
         );
         foreach ($relations as $relation) {
-            /**
-             * @var $relation ilBuddySystemRelation
-             */
+            /** @var ilBuddySystemRelation $relation */
             $options[$relation->getBuddyUsrId()] = $names[$relation->getBuddyUsrId()];
         }
 

@@ -37,7 +37,7 @@ trait GlobalDICGUIServices
     protected \ilTabsGUI $tabs;
     protected \ilLocatorGUI $locator;
 
-    protected function initGUIServices(\ILIAS\DI\Container $DIC)
+    protected function initGUIServices(\ILIAS\DI\Container $DIC) : void
     {
         $this->ui = $DIC->ui();
         $this->object_service = $DIC->object();

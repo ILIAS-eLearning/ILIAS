@@ -45,6 +45,7 @@ class StandardPageBuilder implements PageBuilder
         $main_bar = $parts->getMainBar();
         $bread_crumbs = $parts->getBreadCrumbs();
         $header_image = $parts->getLogo();
+        $responsive_header_image = $parts->getResponsiveLogo();
         $footer = $parts->getFooter();
         $title = $parts->getTitle();
         $short_title = $parts->getShortTitle();
@@ -56,12 +57,17 @@ class StandardPageBuilder implements PageBuilder
             $main_bar,
             $bread_crumbs,
             $header_image,
+            $responsive_header_image,
             $this->ui->factory()->toast()->container(),
             $footer,
             $title,
             $short_title,
             $view_title
         );
+        
+        foreach ($this->meta->getMetaData()->getItems() as $meta_datum) {
+            $standard = $standard->withAdditionalMetaDatum($meta_datum->getKey(), $meta_datum->getValue());
+        }
         
         return $standard->withSystemInfos($parts->getSystemInfos())
                         ->withTextDirection($this->meta->getTextDirection() ?? Standard::LTR);

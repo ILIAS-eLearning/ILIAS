@@ -1,17 +1,21 @@
-<?php
-/******************************************************************************
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilVirusScannerICapRemote extends ilVirusScanner
 {
     private string $host;
@@ -24,14 +28,14 @@ class ilVirusScannerICapRemote extends ilVirusScanner
     {
         parent::__construct($scan_command, $clean_command);
         $this->host = IL_ICAP_HOST;
-        $this->port = IL_ICAP_PORT;
+        $this->port = (int) IL_ICAP_PORT;
     }
 
     public function options(string $service) : array
     {
         $request = $this->getRequest('OPTIONS', $service);
         $response = $this->send($request);
-        if (strlen($response) > 0) {
+        if ($response !== '') {
             return $this->parseResponse($response);
         }
         return [];
@@ -124,7 +128,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
         return socket_last_error($this->socket);
     }
 
-    private function disconnect()
+    private function disconnect() : void
     {
         socket_shutdown($this->socket);
         socket_close($this->socket);
@@ -148,18 +152,18 @@ class ilVirusScannerICapRemote extends ilVirusScanner
                 }
                 $parts = preg_split('/ +/', $line, 3);
                 $response['protocol'] = [
-                    'icap' => isset($parts[0]) ? $parts[0] : '',
-                    'code' => isset($parts[1]) ? $parts[1] : '',
-                    'message' => isset($parts[2]) ? $parts[2] : '',
+                    'icap' => $parts[0] ?? '',
+                    'code' => $parts[1] ?? '',
+                    'message' => $parts[2] ?? '',
                 ];
                 continue;
             }
             if ('' === $line) {
                 break;
             }
-            $parts = preg_split('/: /', $line, 2);
+            $parts = explode(": ", $line, 2);
             if (isset($parts[0])) {
-                $response['headers'][$parts[0]] = isset($parts[1]) ? $parts[1] : '';
+                $response['headers'][$parts[0]] = $parts[1] ?? '';
             }
         }
         $body = preg_split('/\r?\n\r?\n/', $string, 2);
@@ -167,10 +171,10 @@ class ilVirusScannerICapRemote extends ilVirusScanner
             $response['rawBody'] = $body[1];
             if (array_key_exists('Encapsulated', $response['headers'])) {
                 $encapsulated = [];
-                $params = preg_split('/, /', $response['headers']['Encapsulated']);
+                $params = explode(", ", $response['headers']['Encapsulated']);
                 if (count($params) > 0) {
                     foreach ($params as $param) {
-                        $parts = preg_split('/=/', $param);
+                        $parts = explode("=", $param);
                         if (count($parts) !== 2) {
                             continue;
                         }
@@ -201,7 +205,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
     /**
      * @return array<string, array<string, string>>|array<string, string>
      */
-    public function respMod($service, array $body = [], array $headers = []) : array
+    public function respMod(string $service, array $body = [], array $headers = []) : array
     {
         $request = $this->getRequest('RESPMOD', $service, $body, $headers);
         $response = $this->send($request);

@@ -1,21 +1,38 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Mail\Provider;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
-use ILIAS\GlobalScreen\Scope\Notification\Provider\NotificationProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilMailGlobalServices;
 use DateTimeImmutable;
 use ilDateTime;
 use ilDatePresentation;
+use Throwable;
+use ILIAS\UI\Component\Item\Notification;
 
 /**
  * Class MailNotificationProvider
  * @author Michael Jansen <mjansen@databay.de>
  */
-class MailNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
+class MailNotificationProvider extends AbstractNotificationProvider
 {
     public const MUTED_UNTIL_PREFERENCE_KEY = 'mail_nc_muted_until';
 
@@ -79,6 +96,7 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
             $mailUrl
         );
 
+        /** @var Notification $notificationItem */
         $notificationItem = $this->dic->ui()->factory()
             ->item()
             ->notification($title, $icon)
@@ -91,7 +109,7 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
                     new ilDateTime($dateTime->getTimestamp(), IL_CAL_UNIX)
                 ),
             ]);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
         }
 
         $group = $factory->standardGroup($id('mail_bucket_group'))
@@ -101,7 +119,7 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
                     ->withNotificationItem($notificationItem)
                     ->withClosedCallable(
                         function () : void {
-                            $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, time());
+                            $this->dic->user()->writePref(self::MUTED_UNTIL_PREFERENCE_KEY, (string) time());
                         }
                     )
                     ->withNewAmount(1)

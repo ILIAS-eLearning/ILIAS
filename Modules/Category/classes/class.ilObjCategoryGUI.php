@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -46,7 +46,6 @@ class ilObjCategoryGUI extends ilContainerGUI
         bool $a_call_by_reference = true,
         bool $a_prepare_output = true
     ) {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
@@ -64,22 +63,18 @@ class ilObjCategoryGUI extends ilContainerGUI
         $this->toolbar = $DIC->toolbar();
         $this->rbacreview = $DIC->rbac()->review();
         $this->rbacadmin = $DIC->rbac()->admin();
-        //global $ilCtrl;
 
-        // CONTROL OPTIONS
-        //$this->ctrl =& $ilCtrl;
-        //$this->ctrl->saveParameter($this,array("ref_id","cmdClass"));
-        $GLOBALS['lng']->loadLanguageModule('cat');
-        $GLOBALS['lng']->loadLanguageModule('obj');
+        $this->lng->loadLanguageModule('cat');
+        $this->lng->loadLanguageModule('obj');
 
         $this->type = "cat";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         
         if (is_object($this->object)) {
-            $this->info_screen_enabled = ilContainer::_lookupContainerSetting(
+            $this->info_screen_enabled = (bool) ilContainer::_lookupContainerSetting(
                 $this->object->getId(),
                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-                true
+                '1'
             );
         }
         $this->cat_request = $DIC
@@ -103,14 +98,14 @@ class ilObjCategoryGUI extends ilContainerGUI
         switch ($next_class) {
 
             case strtolower(ilRepositoryTrashGUI::class):
-                $ru = new \ilRepositoryTrashGUI($this);
+                $ru = new ilRepositoryTrashGUI($this);
                 $this->ctrl->setReturn($this, 'trash');
                 $this->ctrl->forwardCommand($ru);
                 break;
 
             case "ilobjusergui":
                 $this->tabs_gui->setTabActive('administrate_users');
-                if ($this->cat_request->getObjId() == 0) {
+                if ($this->cat_request->getObjId() === 0) {
                     $this->gui_obj = new ilObjUserGUI(
                         "",
                         $this->cat_request->getRefId(),
@@ -140,8 +135,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                 $this->gui_obj = new ilObjUserFolderGUI(
                     "",
                     $this->cat_request->getRefId(),
-                    true,
-                    false
+                    true
                 );
                 $this->gui_obj->setUserOwnerId($this->cat_request->getRefId());
                 $this->gui_obj->setCreationMode($this->creation_mode);
@@ -183,7 +177,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             case "ilcontainerpagegui":
                 $this->prepareOutput(false);
                 $ret = $this->forwardToPageObject();
-                if ($ret != "") {
+                if ($ret !== "") {
                     $this->tpl->setContent($ret);
                 }
                 $header_action = false;
@@ -282,7 +276,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                 break;
 
             default:
-                if ($cmd == "infoScreen") {
+                if ($cmd === "infoScreen") {
                     $this->checkPermission("visible");
                 } else {
                     $this->checkPermission("read");
@@ -334,14 +328,14 @@ class ilObjCategoryGUI extends ilContainerGUI
         if (ilContainer::_lookupContainerSetting(
             $this->object->getId(),
             ilObjectServiceSettingsGUI::TAXONOMIES,
-            false
+            '0'
         )) {
             $md_gui->enableTaxonomyDefinition(true);
             $tax = $md_gui->getTaxonomyObjGUI();
             $tax->setMultiple(true);
             $tax->setListInfo($this->lng->txt("cntr_tax_list_info"));
             $taxonomies = $this->getTaxonomiesForRefId();
-            if (sizeof($taxonomies)) {
+            if (count($taxonomies)) {
                 $md_gui->setTaxonomySettings(function ($form) {
                     $tax = $this->getTaxonomiesForRefId();
                     $block = new ilCheckboxGroupInputGUI($this->lng->txt("cntr_taxonomy_show_sideblock"), "sblock");
@@ -357,10 +351,10 @@ class ilObjCategoryGUI extends ilContainerGUI
                             ilObject::_lookupDescription($tax_id)
                         );
 
-                        if ($tax_item["source"] != $this->object->getRefId()) {
+                        if ((int) $tax_item["source"] !== $this->object->getRefId()) {
                             $loc = new ilLocatorGUI();
                             $loc->setTextOnly(true);
-                            $loc->addRepositoryItems($tax_item["source"]);
+                            $loc->addRepositoryItems((int) $tax_item["source"]);
                             $option->setInfo($loc->getHTML());
                         }
 
@@ -374,7 +368,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                     $block->setValue($value);
                 }, function ($form) {
                     $taxonomies = $this->getTaxonomiesForRefId();
-                    if (sizeof($taxonomies)) {
+                    if (count($taxonomies)) {
                         $sblock = $form->getInput("sblock");
 
                         $prefix = self::CONTAINER_SETTING_TAXBLOCK;
@@ -390,7 +384,7 @@ class ilObjCategoryGUI extends ilContainerGUI
                                 ilContainer::_writeContainerSetting(
                                     $this->object->getId(),
                                     $prefix . $tax_id,
-                                    1
+                                    '1'
                                 );
                             }
                         }
@@ -408,7 +402,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         $ilHelp = $this->help;
         $ilAccess = $this->access;
 
-        if ($this->ctrl->getCmd() == "editPageContent") {
+        if ($this->ctrl->getCmd() === "editPageContent") {
             return;
         }
 
@@ -423,15 +417,15 @@ class ilObjCategoryGUI extends ilContainerGUI
 
             //BEGIN ChangeEvent add info tab to category object
             if ($this->info_screen_enabled) {
-                $force_active = $this->ctrl->getNextClass() == "ilinfoscreengui"
-                    || strtolower($this->cat_request->getCmdClass()) == "ilnotegui";
+                $force_active = $this->ctrl->getNextClass() === "ilinfoscreengui"
+                    || strtolower($this->cat_request->getCmdClass()) === "ilnotegui";
                 $this->tabs_gui->addTarget(
                     "info_short",
                     $this->ctrl->getLinkTargetByClass(
-                        array("ilobjcategorygui", "ilinfoscreengui"),
+                        ["ilobjcategorygui", "ilinfoscreengui"],
                         "showSummary"
                     ),
-                    array("showSummary","", "infoScreen"),
+                    ["showSummary", "", "infoScreen"],
                     "",
                     "",
                     $force_active
@@ -441,7 +435,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         }
         
         if ($rbacsystem->checkAccess('write', $this->ref_id)) {
-            $force_active = ($this->ctrl->getCmd() == "edit");
+            $force_active = ($this->ctrl->getCmd() === "edit");
             $this->tabs_gui->addTarget(
                 "settings",
                 $this->ctrl->getLinkTarget($this, "edit"),
@@ -458,7 +452,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             if (ilContainer::_lookupContainerSetting(
                 $this->object->getId(),
                 ilObjectServiceSettingsGUI::TAXONOMIES,
-                false
+                '0'
             )) {
                 $mdgui->enableTaxonomyDefinition(true);
             }
@@ -472,8 +466,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             }
         }
 
-        if (
-            ilUserAccountSettings::getInstance()->isLocalUserAdministrationEnabled() and
+        if (ilUserAccountSettings::getInstance()->isLocalUserAdministrationEnabled() &&
             $rbacsystem->checkAccess('cat_administrate_users', $this->ref_id)) {
             $this->tabs_gui->addTarget(
                 "administrate_users",
@@ -516,7 +509,7 @@ class ilObjCategoryGUI extends ilContainerGUI
 
     public function viewObject() : void
     {
-        if (strtolower($this->cat_request->getBaseClass()) == "iladministrationgui") {
+        if (strtolower($this->cat_request->getBaseClass()) === "iladministrationgui") {
             parent::viewObject();
             return;
         }
@@ -597,8 +590,8 @@ class ilObjCategoryGUI extends ilContainerGUI
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
             
             if ($enable_internal_rss) {
-                $info->setBlockProperty("news", "settings", true);
-                $info->setBlockProperty("news", "public_notifications_option", true);
+                $info->setBlockProperty("news", "settings", '1');
+                $info->setBlockProperty("news", "public_notifications_option", '1');
             }
         }
         
@@ -611,7 +604,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         $info->addMetaDataSections($this->object->getId(), 0, $this->object->getType());
         
         // forward the command
-        if ($ilCtrl->getNextClass() == "ilinfoscreengui") {
+        if ($ilCtrl->getNextClass() === "ilinfoscreengui") {
             $ilCtrl->forwardCommand($info);
         } else {
             return $ilCtrl->getHTML($info);
@@ -690,7 +683,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         $news_active = ilContainer::_lookupContainerSetting(
             $this->object->getId(),
             ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
-            true
+            '1'
         );
 
         if ($news_active) {
@@ -751,11 +744,11 @@ class ilObjCategoryGUI extends ilContainerGUI
         // sorting
         $form = $this->initSortingForm(
             $form,
-            array(
+            [
                     ilContainer::SORT_TITLE,
                     ilContainer::SORT_CREATION,
                     ilContainer::SORT_MANUAL
-                )
+            ]
         );
 
         // block limit
@@ -778,14 +771,14 @@ class ilObjCategoryGUI extends ilContainerGUI
         ilObjectServiceSettingsGUI::initServiceSettingsForm(
             $this->object->getId(),
             $form,
-            array(
+            [
                     ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
                     ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
                     ilObjectServiceSettingsGUI::TAXONOMIES,
                     ilObjectServiceSettingsGUI::CUSTOM_METADATA,
                     ilObjectServiceSettingsGUI::TAG_CLOUD,
                     ilObjectServiceSettingsGUI::FILTER
-                )
+            ]
         );
 
         $form->addCommandButton("update", $this->lng->txt("save"));
@@ -842,19 +835,23 @@ class ilObjCategoryGUI extends ilContainerGUI
                 ilObjectServiceSettingsGUI::updateServiceSettingsForm(
                     $this->object->getId(),
                     $form,
-                    array(
+                    [
                         ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
                         ilObjectServiceSettingsGUI::NEWS_VISIBILITY,
                         ilObjectServiceSettingsGUI::TAXONOMIES,
                         ilObjectServiceSettingsGUI::CUSTOM_METADATA,
                         ilObjectServiceSettingsGUI::TAG_CLOUD,
                         ilObjectServiceSettingsGUI::FILTER
-                    )
+                    ]
                 );
 
                 // block limit
                 if ((int) $form->getInput("block_limit") > 0) {
-                    ilContainer::_writeContainerSetting($this->object->getId(), "block_limit", (int) $form->getInput("block_limit"));
+                    ilContainer::_writeContainerSetting(
+                        $this->object->getId(),
+                        "block_limit",
+                        (string) ((int) $form->getInput("block_limit"))
+                    );
                 } else {
                     ilContainer::_deleteContainerSettings($this->object->getId(), "block_limit");
                 }
@@ -935,7 +932,8 @@ class ilObjCategoryGUI extends ilContainerGUI
             "Modules/Category"
         );
 
-        if (count($rbacreview->getGlobalAssignableRoles()) or in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))) {
+        if (count($rbacreview->getGlobalAssignableRoles()) ||
+            in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()), true)) {
             $ilToolbar->addButton(
                 $this->lng->txt('add_user'),
                 $this->ctrl->getLinkTargetByClass('ilobjusergui', 'create')
@@ -970,7 +968,7 @@ class ilObjCategoryGUI extends ilContainerGUI
     protected function addUserAutoCompleteObject() : void
     {
         $auto = new ilUserAutoComplete();
-        $auto->setSearchFields(array('login','firstname','lastname','email'));
+        $auto->setSearchFields(['login', 'firstname', 'lastname', 'email']);
         $auto->enableFieldSearchableCheck(true);
         //$auto->isMoreLinkAvailable(true);
 
@@ -987,8 +985,8 @@ class ilObjCategoryGUI extends ilContainerGUI
         $this->checkPermission("cat_administrate_users");
 
         foreach ($this->cat_request->getUserIds() as $user_id) {
-            if (!in_array($user_id, ilLocalUser::_getAllUserIds($this->object->getRefId()))) {
-                die('user id not valid');
+            if (!in_array($user_id, ilLocalUser::_getAllUserIds($this->object->getRefId()), true)) {
+                throw new ilException('user id not valid');
             }
             if (!$tmp_obj = ilObjectFactory::getInstanceByObjId($user_id, false)) {
                 continue;
@@ -1002,7 +1000,7 @@ class ilObjCategoryGUI extends ilContainerGUI
     public function deleteUsersObject() : void
     {
         $this->checkPermission("cat_administrate_users");
-        if ($this->cat_request->getIds() == 0) {
+        if ($this->cat_request->getIds() === []) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_users_selected'));
             $this->listUsersObject();
             return;
@@ -1019,7 +1017,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             
             $confirm->addItem(
                 'user_ids[]',
-                $user,
+                (string) $user,
                 $name['lastname'] . ', ' . $name['firstname'] . ' [' . $name['login'] . ']'
             );
         }
@@ -1033,7 +1031,7 @@ class ilObjCategoryGUI extends ilContainerGUI
         
         $this->checkPermission("cat_administrate_users");
 
-        if ($this->cat_request->getObjId() == 0) {
+        if ($this->cat_request->getObjId() === 0) {
             $this->tpl->setOnScreenMessage('failure', 'no_user_selected');
             $this->listUsersObject();
             return;
@@ -1047,33 +1045,26 @@ class ilObjCategoryGUI extends ilContainerGUI
         $ilHelp->setSubScreenId("assign_roles");
 
 
-        $roles = $this->__getAssignableRoles();
-        
-        if (!count($roles)) {
-            #ilUtil::sendInfo($this->lng->txt('no_roles_user_can_be_assigned_to'));
-            #$this->listUsersObject();
-
-            #return true;
-        }
+        $roles = $this->getAssignableRoles();
         
         $ass_roles = $rbacreview->assignedRoles($this->cat_request->getObjId());
 
         $counter = 0;
-        $f_result = array();
+        $f_result = [];
         
         foreach ($roles as $role) {
-            $role_obj = ilObjectFactory::getInstanceByObjId($role['obj_id']);
+            $role_obj = ilObjectFactory::getInstanceByObjId((int) $role['obj_id']);
             
             $disabled = false;
             $f_result[$counter]['checkbox'] = ilLegacyFormElementsUtil::formCheckbox(
-                in_array($role['obj_id'], $ass_roles) ? 1 : 0,
+                in_array((int) $role['obj_id'], $ass_roles, true),
                 'role_ids[]',
                 $role['obj_id'],
                 $disabled
             );
-            $f_result[$counter]['title'] = $role_obj->getTitle() ? $role_obj->getTitle() : "";
+            $f_result[$counter]['title'] = $role_obj->getTitle() ?: "";
             $f_result[$counter]['desc'] = $role_obj->getDescription() ?: "";
-            $f_result[$counter]['type'] = $role['role_type'] == 'global' ?
+            $f_result[$counter]['type'] = $role['role_type'] === 'global' ?
                 $this->lng->txt('global') :
                 $this->lng->txt('local');
             
@@ -1096,16 +1087,16 @@ class ilObjCategoryGUI extends ilContainerGUI
         $this->checkPermission("cat_administrate_users");
 
         // check hack
-        if ($this->cat_request->getObjId() == 0 or
-            !in_array($this->cat_request->getObjId(), ilLocalUser::_getAllUserIds())) {
+        if ($this->cat_request->getObjId() === 0 ||
+            !in_array($this->cat_request->getObjId(), ilLocalUser::_getAllUserIds(), true)) {
             $this->tpl->setOnScreenMessage('failure', 'no_user_selected');
             $this->listUsersObject();
             return;
         }
-        $roles = $this->__getAssignableRoles();
+        $roles = $this->getAssignableRoles();
 
         // check minimum one global role
-        if (!$this->__checkGlobalRoles($this->cat_request->getRoleIds())) {
+        if (!$this->checkGlobalRoles($this->cat_request->getRoleIds())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_global_role_left'));
             $this->assignRolesObject();
             return;
@@ -1114,10 +1105,10 @@ class ilObjCategoryGUI extends ilContainerGUI
         $new_role_ids = $this->cat_request->getRoleIds();
         $assigned_roles = $rbacreview->assignedRoles($this->cat_request->getObjId());
         foreach ($roles as $role) {
-            if (in_array($role['obj_id'], $new_role_ids) and !in_array($role['obj_id'], $assigned_roles)) {
+            if (in_array((int) $role['obj_id'], $new_role_ids, true) && !in_array((int) $role['obj_id'], $assigned_roles, true)) {
                 $rbacadmin->assignUser((int) $role['obj_id'], $this->cat_request->getObjId());
             }
-            if (in_array($role['obj_id'], $assigned_roles) and !in_array($role['obj_id'], $new_role_ids)) {
+            if (in_array((int) $role['obj_id'], $assigned_roles, true) && !in_array((int) $role['obj_id'], $new_role_ids, true)) {
                 $rbacadmin->deassignUser((int) $role['obj_id'], $this->cat_request->getObjId());
             }
         }
@@ -1126,7 +1117,7 @@ class ilObjCategoryGUI extends ilContainerGUI
     }
 
     // PRIVATE
-    public function __getAssignableRoles() : array
+    private function getAssignableRoles() : array
     {
         $rbacreview = $this->rbacreview;
         $ilUser = $this->user;
@@ -1134,20 +1125,20 @@ class ilObjCategoryGUI extends ilContainerGUI
         // check local user
         $tmp_obj = ilObjectFactory::getInstanceByObjId($this->cat_request->getObjId());
         // Admin => all roles
-        if (in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))) {
+        if (in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()), true)) {
             $global_roles = $rbacreview->getGlobalRolesArray();
-        } elseif ($tmp_obj->getTimeLimitOwner() == $this->object->getRefId()) {
+        } elseif ($tmp_obj->getTimeLimitOwner() === $this->object->getRefId()) {
             $global_roles = $rbacreview->getGlobalAssignableRoles();
         } else {
-            $global_roles = array();
+            $global_roles = [];
         }
-        return $roles = array_merge(
+        return array_merge(
             $global_roles,
             $rbacreview->getAssignableChildRoles($this->object->getRefId())
         );
     }
 
-    public function __checkGlobalRoles($new_assigned) : bool
+    private function checkGlobalRoles($new_assigned) : bool
     {
         $rbacreview = $this->rbacreview;
         $ilUser = $this->user;
@@ -1156,22 +1147,22 @@ class ilObjCategoryGUI extends ilContainerGUI
 
         // return true if it's not a local user
         $tmp_obj = ilObjectFactory::getInstanceByObjId($this->cat_request->getObjId());
-        if ($tmp_obj->getTimeLimitOwner() != $this->object->getRefId() and
-           !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))) {
+        if ($tmp_obj->getTimeLimitOwner() !== $this->object->getRefId() &&
+           !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()), true)) {
             return true;
         }
 
         // new assignment by form
-        $new_assigned = $new_assigned ?: array();
+        $new_assigned = $new_assigned ?: [];
         $assigned = $rbacreview->assignedRoles($this->cat_request->getObjId());
 
         // all assignable globals
-        if (!in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))) {
+        if (!in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()), true)) {
             $ga = $rbacreview->getGlobalAssignableRoles();
         } else {
             $ga = $rbacreview->getGlobalRolesArray();
         }
-        $global_assignable = array();
+        $global_assignable = [];
         foreach ($ga as $role) {
             $global_assignable[] = $role['obj_id'];
         }
@@ -1180,13 +1171,13 @@ class ilObjCategoryGUI extends ilContainerGUI
         $all_assigned_roles = array_intersect($assigned, $rbacreview->getGlobalRoles());
         $main_assigned_roles = array_diff($all_assigned_roles, $global_assignable);
 
-        if (!count($new_visible_assigned_roles) and !count($main_assigned_roles)) {
+        if (!count($new_visible_assigned_roles) && !count($main_assigned_roles)) {
             return false;
         }
         return true;
     }
     
-    public static function _goto($a_target) : void
+    public static function _goto(string $a_target) : void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -1194,14 +1185,14 @@ class ilObjCategoryGUI extends ilContainerGUI
         $ilAccess = $DIC->access();
         $ilErr = $DIC["ilErr"];
         $lng = $DIC->language();
-        if ($ilAccess->checkAccess("read", "", $a_target)) {
-            ilObjectGUI::_gotoRepositoryNode($a_target);
-        } elseif ($ilAccess->checkAccess("visible", "", $a_target)) {
-            ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
+        if ($ilAccess->checkAccess("read", "", (int) $a_target)) {
+            ilObjectGUI::_gotoRepositoryNode((int) $a_target);
+        } elseif ($ilAccess->checkAccess("visible", "", (int) $a_target)) {
+            ilObjectGUI::_gotoRepositoryNode((int) $a_target, "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),
-                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                ilObject::_lookupTitle(ilObject::_lookupObjId((int) $a_target))
             ), true);
             ilObjectGUI::_gotoRepositoryRoot();
         }
@@ -1235,18 +1226,18 @@ class ilObjCategoryGUI extends ilContainerGUI
         
         // see ilTaxMDGUI::getSelectableTaxonomies()
         
-        $res = array();
+        $res = [];
         foreach ($tree->getPathFull($this->object->getRefId()) as $node) {
             //if ($node["ref_id"] != $this->object->getRefId())
             {
                 // find all defined taxes for parent node, activation is not relevant
                 $node_taxes = ilObjTaxonomy::getUsageOfObject($node["obj_id"], true);
-                if (sizeof($node_taxes)) {
+                if (count($node_taxes)) {
                     foreach ($node_taxes as $node_tax) {
-                        $res[$node_tax["tax_id"]] = array(
+                        $res[$node_tax["tax_id"]] = [
                             "title" => $node_tax["title"]
                         , "source" => $node["child"]
-                        );
+                        ];
                     }
                 }
             }
@@ -1256,15 +1247,14 @@ class ilObjCategoryGUI extends ilContainerGUI
         return $res;
     }
 
-
     protected function getActiveBlocks() : array
     {
-        $res = array();
+        $res = [];
         
         $prefix = self::CONTAINER_SETTING_TAXBLOCK;
         
         foreach (ilContainer::_getContainerSettings($this->object->getId()) as $keyword => $value) {
-            if (substr($keyword, 0, strlen($prefix)) == $prefix && $value) {
+            if ($value && strpos($keyword, $prefix) === 0) {
                 $res[] = substr($keyword, strlen($prefix));
             }
         }

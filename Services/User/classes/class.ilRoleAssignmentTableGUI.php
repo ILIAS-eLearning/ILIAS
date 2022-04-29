@@ -20,7 +20,7 @@
 class ilRoleAssignmentTableGUI extends ilTable2GUI
 {
     protected ilPathGUI $path_gui;
-    protected array $filter;
+    protected array $filter; // Missing array type.
     
     public function __construct(
         object $a_parent_obj,
@@ -88,7 +88,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         $this->filter["role_filter"] = $si->getValue();
     }
     
-    protected function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void // Missing array type.
     {
         global $DIC;
 
@@ -120,7 +120,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 
 
         // now get roles depending on filter settings
-        $role_list = $rbacreview->getRolesByFilter($this->filter["role_filter"], $usr_id);
+        $role_list = $rbacreview->getRolesByFilter((int) $this->filter["role_filter"], $usr_id);
         $assigned_roles = $rbacreview->assignedRoles($usr_id);
 
         $counter = 0;
@@ -164,7 +164,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
                 }
             }
 
-            if (substr($role["title"], 0, 3) == "il_") {
+            if (strpos($role["title"], "il_") === 0) {
                 if (!$assignable) {
                     $rolf_arr = $rbacreview->getFoldersAssignedToRole($role["obj_id"], true);
                     $rolf2 = $rolf_arr[0];

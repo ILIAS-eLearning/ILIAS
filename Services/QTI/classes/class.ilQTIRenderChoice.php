@@ -21,8 +21,8 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("SHUFFLE_NO", "0");
-define("SHUFFLE_YES", "1");
+const SHUFFLE_NO = "0";
+const SHUFFLE_YES = "1";
 
 /**
 * QTI render choice class
@@ -34,22 +34,24 @@ define("SHUFFLE_YES", "1");
 */
 class ilQTIRenderChoice
 {
-    public $shuffle;
-    public $minnumber;
-    public $maxnumber;
-    public $response_labels;
-    public $material;
+    public string $shuffle;
+    public ?string $minnumber;
+    public ?string $maxnumber;
+    /** @var ilQTIResponseLabel[] */
+    public array $response_labels;
+    /** @var ilQTIMaterial[] */
+    public array $material;
     
     public function __construct()
     {
         $this->shuffle = SHUFFLE_NO;
         $this->minnumber = null;
         $this->maxnumber = null;
-        $this->response_labels = array();
-        $this->material = array();
+        $this->response_labels = [];
+        $this->material = [];
     }
-    
-    public function setShuffle($a_shuffle)
+
+    public function setShuffle(string $a_shuffle) : void
     {
         switch (strtolower($a_shuffle)) {
             case "0":
@@ -62,39 +64,39 @@ class ilQTIRenderChoice
                 break;
         }
     }
-    
-    public function getShuffle()
+
+    public function getShuffle() : string
     {
         return $this->shuffle;
     }
-    
-    public function setMinnumber($a_minnumber)
+
+    public function setMinnumber(string $a_minnumber) : void
     {
         $this->minnumber = $a_minnumber;
     }
-    
-    public function getMinnumber()
+
+    public function getMinnumber() : ?string
     {
         return $this->minnumber;
     }
-    
-    public function setMaxnumber($a_maxnumber)
+
+    public function setMaxnumber(string $a_maxnumber) : void
     {
         $this->maxnumber = $a_maxnumber;
     }
-    
-    public function getMaxnumber()
+
+    public function getMaxnumber() : ?string
     {
         return $this->maxnumber;
     }
     
-    public function addResponseLabel($a_response_label)
+    public function addResponseLabel(ilQTIResponseLabel $a_response_label) : void
     {
-        array_push($this->response_labels, $a_response_label);
+        $this->response_labels[] = $a_response_label;
     }
 
-    public function addMaterial($a_material)
+    public function addMaterial(ilQTIMaterial $a_material) : void
     {
-        array_push($this->material, $a_material);
+        $this->material[] = $a_material;
     }
 }

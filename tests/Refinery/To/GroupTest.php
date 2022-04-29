@@ -1,14 +1,26 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 /**
- * @author  Niels Theen <ntheen@databay.de>
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Tests\Refinery\To;
 
 use ILIAS\Data\Alphanumeric;
-use ILIAS\Refinery\To\Group;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\Refinery\To\Group as ToGroup;
 use ILIAS\Refinery\To\Transformation\BooleanTransformation;
 use ILIAS\Refinery\To\Transformation\DictionaryTransformation;
 use ILIAS\Refinery\To\Transformation\FloatTransformation;
@@ -19,61 +31,56 @@ use ILIAS\Refinery\To\Transformation\NewObjectTransformation;
 use ILIAS\Refinery\To\Transformation\RecordTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
 use ILIAS\Refinery\To\Transformation\TupleTransformation;
-use ILIAS\Refinery\To\Transformation\DateTimeTransformation;
 use ILIAS\Tests\Refinery\TestCase;
-
-require_once('./libs/composer/vendor/autoload.php');
+use InvalidArgumentException;
 
 class GroupTest extends TestCase
 {
-    /**
-     * @var Group
-     */
-    private $basicGroup;
+    private ToGroup $basicGroup;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        $this->basicGroup = new Group(new \ILIAS\Data\Factory());
+        $this->basicGroup = new ToGroup(new DataFactory());
     }
 
-    public function testIsIntegerTransformationInstance()
+    public function testIsIntegerTransformationInstance() : void
     {
         $transformation = $this->basicGroup->int();
 
         $this->assertInstanceOf(IntegerTransformation::class, $transformation);
     }
 
-    public function testIsStringTransformationInstance()
+    public function testIsStringTransformationInstance() : void
     {
         $transformation = $this->basicGroup->string();
 
         $this->assertInstanceOf(StringTransformation::class, $transformation);
     }
 
-    public function testIsFloatTransformationInstance()
+    public function testIsFloatTransformationInstance() : void
     {
         $transformation = $this->basicGroup->float();
 
         $this->assertInstanceOf(FloatTransformation::class, $transformation);
     }
 
-    public function testIsBooleanTransformationInstance()
+    public function testIsBooleanTransformationInstance() : void
     {
         $transformation = $this->basicGroup->bool();
 
         $this->assertInstanceOf(BooleanTransformation::class, $transformation);
     }
 
-    public function testListOfTransformation()
+    public function testListOfTransformation() : void
     {
         $transformation = $this->basicGroup->listOf(new StringTransformation());
 
         $this->assertInstanceOf(ListTransformation::class, $transformation);
     }
 
-    public function testTupleOfTransformation()
+    public function testTupleOfTransformation() : void
     {
-        $transformation = $this->basicGroup->tupleOf(array(new StringTransformation()));
+        $transformation = $this->basicGroup->tupleOf([new StringTransformation()]);
 
         $this->assertInstanceOf(TupleTransformation::class, $transformation);
     }
@@ -81,14 +88,14 @@ class GroupTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testRecordOfTransformation()
+    public function testRecordOfTransformation() : void
     {
-        $transformation = $this->basicGroup->recordOf(array('toString' => new StringTransformation()));
+        $transformation = $this->basicGroup->recordOf(['toString' => new StringTransformation()]);
 
         $this->assertInstanceOf(RecordTransformation::class, $transformation);
     }
 
-    public function testDictionaryOfTransformation()
+    public function testDictionaryOfTransformation() : void
     {
         $transformation = $this->basicGroup->dictOf(new StringTransformation());
 
@@ -98,9 +105,9 @@ class GroupTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testNewObjectTransformation()
+    public function testNewObjectTransformation() : void
     {
-        $transformation = $this->basicGroup->toNew((string) MyClass::class);
+        $transformation = $this->basicGroup->toNew(MyClass::class);
 
         $this->assertInstanceOf(NewObjectTransformation::class, $transformation);
     }
@@ -108,33 +115,33 @@ class GroupTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testNewMethodTransformation()
+    public function testNewMethodTransformation() : void
     {
-        $transformation = $this->basicGroup->toNew(array(new MyClass(), 'myMethod'));
+        $transformation = $this->basicGroup->toNew([new MyClass(), 'myMethod']);
 
         $this->assertInstanceOf(NewMethodTransformation::class, $transformation);
     }
 
-    public function testNewMethodTransformationThrowsExceptionBecauseToManyParametersAreGiven()
+    public function testNewMethodTransformationThrowsExceptionBecauseToManyParametersAreGiven() : void
     {
         $this->expectNotToPerformAssertions();
 
         try {
-            $transformation = $this->basicGroup->toNew(array(new MyClass(), 'myMethod', 'hello'));
-        } catch (\InvalidArgumentException $exception) {
+            $transformation = $this->basicGroup->toNew([new MyClass(), 'myMethod', 'hello']);
+        } catch (InvalidArgumentException $exception) {
             return;
         }
 
         $this->fail();
     }
 
-    public function testNewMethodTransformationThrowsExceptionBecauseToFewParametersAreGiven()
+    public function testNewMethodTransformationThrowsExceptionBecauseToFewParametersAreGiven() : void
     {
         $this->expectNotToPerformAssertions();
 
         try {
-            $transformation = $this->basicGroup->toNew(array(new MyClass()));
-        } catch (\InvalidArgumentException $exception) {
+            $transformation = $this->basicGroup->toNew([new MyClass()]);
+        } catch (InvalidArgumentException $exception) {
             return;
         }
 
@@ -144,13 +151,13 @@ class GroupTest extends TestCase
     /**
      * @throws \ilException
      */
-    public function testCreateDataTransformation()
+    public function testCreateDataTransformation() : void
     {
         $transformation = $this->basicGroup->data('alphanumeric');
 
         $this->assertInstanceOf(NewMethodTransformation::class, $transformation);
 
-        $result = $transformation->transform(array('hello'));
+        $result = $transformation->transform(['hello']);
 
         $this->assertInstanceOf(Alphanumeric::class, $result);
     }
@@ -158,8 +165,8 @@ class GroupTest extends TestCase
 
 class MyClass
 {
-    public function myMethod()
+    public function myMethod() : array
     {
-        return array($this->string, $this->integer);
+        return [$this->string, $this->integer];
     }
 }

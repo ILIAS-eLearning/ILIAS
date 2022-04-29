@@ -6,7 +6,6 @@
  */
 class ilTableLock implements ilTableLockInterface
 {
-
     protected string $table_name = '';
     protected bool $lock_sequence = false;
     protected string $alias = '';
@@ -16,9 +15,8 @@ class ilTableLock implements ilTableLockInterface
 
     /**
      * ilTableLock constructor.
-     * @param string $table_name
      */
-    public function __construct($table_name, ilDBInterface $ilDBInterface)
+    public function __construct(string $table_name, ilDBInterface $ilDBInterface)
     {
         $this->table_name = $table_name;
         $this->ilDBInstance = $ilDBInterface;

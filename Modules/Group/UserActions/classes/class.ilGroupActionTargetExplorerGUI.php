@@ -36,7 +36,7 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
         }
     }
 
-    public function setClickableType(string $a_val)
+    public function setClickableType(string $a_val) : void
     {
         $this->clickable_type = $a_val;
     }

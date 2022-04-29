@@ -1,6 +1,9 @@
 <?php namespace ILIAS\GlobalScreen\ScreenContext;
 
 use ILIAS\Data\ReferenceId;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory;
+use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 
 /******************************************************************************
  *
@@ -15,10 +18,12 @@ use ILIAS\Data\ReferenceId;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class ContextRepository
  * The Collection of all available Contexts in the System. You can use them in
  * your @see ScreenContextAwareProvider to announce you are interested in.
+ *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ContextRepository
@@ -29,6 +34,16 @@ class ContextRepository
     private const C_REPO = 'repo';
     private const C_ADMINISTRATION = 'administration';
     private const C_LTI = 'lti';
+    
+    protected WrapperFactory $wrapper;
+    protected Factory $refinery;
+    
+    public function __construct()
+    {
+        global $DIC;
+        $this->wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
+    }
     
     /**
      * @return ScreenContext
@@ -68,7 +83,10 @@ class ContextRepository
     public function repository() : ScreenContext
     {
         $context = $this->get(BasicScreenContext::class, self::C_REPO);
-        $context = $context->withReferenceId(new ReferenceId((int) ($_GET['ref_id'] ?? 0)));
+        $ref_id = $this->wrapper->query()->has('ref_id')
+            ? $this->wrapper->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int())
+            : 0;
+        $context = $context->withReferenceId(new ReferenceId($ref_id));
         
         return $context;
     }
@@ -89,7 +107,7 @@ class ContextRepository
         return $this->get(BasicScreenContext::class, self::C_LTI);
     }
     
-    private function get(string $class_name, string $identifier) : \ILIAS\GlobalScreen\ScreenContext\ScreenContext
+    private function get(string $class_name, string $identifier) : ScreenContext
     {
         if (!isset($this->contexts[$identifier])) {
             $this->contexts[$identifier] = new $class_name($identifier);

@@ -34,7 +34,7 @@ class NavigationSessionRepository
     public function getHistory() : array
     {
         if (\ilSession::has(self::KEY)) {
-            return unserialize(\ilSession::get(self::KEY));
+            return unserialize(\ilSession::get(self::KEY), ['allowed_classes' => false]);
         }
         return [];
     }

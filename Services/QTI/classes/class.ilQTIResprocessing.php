@@ -31,49 +31,53 @@
 */
 class ilQTIResprocessing
 {
-    public $comment;
-    public $outcomes;
-    public $respcondition;
-    public $itemproc_extension;
-    public $scoremodel;
+    public ?string $comment;
+    public ?ilQTIOutcomes $outcomes;
+    /** @var ilQTIRespcondition[] */
+    public array $respcondition;
+    public array $itemproc_extension;
+    public ?string $scoremodel;
     
     public function __construct()
     {
-        $this->respcondition = array();
-        $this->itemproc_extension = array();
+        $this->comment = null;
+        $this->outcomes = null;
+        $this->respcondition = [];
+        $this->itemproc_extension = [];
+        $this->scoremodel = null;
     }
-    
-    public function setComment($a_comment)
+
+    public function setComment(string $a_comment) : void
     {
         $this->comment = $a_comment;
     }
-    
-    public function getComment()
+
+    public function getComment() : ?string
     {
         return $this->comment;
     }
-    
-    public function setOutcomes($a_outcomes)
+
+    public function setOutcomes(ilQTIOutcomes $a_outcomes) : void
     {
         $this->outcomes = $a_outcomes;
     }
-    
-    public function getOutcomes()
+
+    public function getOutcomes() : ?ilQTIOutcomes
     {
         return $this->outcomes;
     }
     
-    public function addRespcondition($a_respcondition)
+    public function addRespcondition(ilQTIRespcondition $a_respcondition) : void
     {
-        array_push($this->respcondition, $a_respcondition);
+        $this->respcondition[] = $a_respcondition;
     }
-    
-    public function setScoremodel($a_scoremodel)
+
+    public function setScoremodel(string $a_scoremodel) : void
     {
         $this->scoremodel = $a_scoremodel;
     }
-    
-    public function getScoremodel()
+
+    public function getScoremodel() : ?string
     {
         return $this->scoremodel;
     }

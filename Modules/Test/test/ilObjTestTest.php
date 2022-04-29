@@ -110,8 +110,8 @@ class ilObjTestTest extends ilTestBaseTestCase
 
     public function testECTSFX() : void
     {
-        $this->testObj->setECTSFX("Test");
-        $this->assertEquals("Test", $this->testObj->getECTSFX());
+        $this->testObj->setECTSFX(123);
+        $this->assertEquals(123, $this->testObj->getECTSFX());
     }
 
     public function testECTSGrades() : void

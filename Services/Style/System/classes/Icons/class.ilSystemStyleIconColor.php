@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 /***
@@ -48,7 +64,7 @@ class ilSystemStyleIconColor
         return $this->id;
     }
 
-    public function setId(string $id)
+    public function setId(string $id) : void
     {
         $this->id = $id;
     }
@@ -61,7 +77,7 @@ class ilSystemStyleIconColor
     /**
      * @throws ilSystemStyleColorException
      */
-    public function setColor(string $color)
+    public function setColor(string $color) : void
     {
         $color = strtoupper($color);
 
@@ -77,7 +93,7 @@ class ilSystemStyleIconColor
         return $this->name;
     }
 
-    public function setName(string $name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }
@@ -87,7 +103,7 @@ class ilSystemStyleIconColor
         return $this->description;
     }
 
-    public function setDescription(string $description)
+    public function setDescription(string $description) : void
     {
         $this->description = $description;
     }

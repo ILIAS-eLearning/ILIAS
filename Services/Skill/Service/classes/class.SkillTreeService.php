@@ -82,6 +82,9 @@ class SkillTreeService
         return $vtree;
     }
 
+    /**
+     * @return array{skill_id: int, child: int, tref_id: int, parent: int}[]
+     */
     public function getSkillTreePath(int $base_skill_id, int $tref_id = 0) : array
     {
         $tree = $this->tree_repo->getTreeForNodeId($base_skill_id);
@@ -97,6 +100,9 @@ class SkillTreeService
         return $obj_tree;
     }
 
+    /**
+     * @return \ilObjSkillTree[]
+     */
     public function getObjSkillTrees() : array
     {
         $obj_trees = iterator_to_array($this->tree_manager->getTrees());

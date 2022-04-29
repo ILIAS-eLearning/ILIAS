@@ -47,24 +47,20 @@ class ilNotification
         $notification = false;
 
         $setting = new ilObjNotificationSettings($id);
-        if ($setting->getMode() != ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION) {
+        if ($setting->getMode() !== ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION) {
             // check membership, members should be notidifed...
             foreach (ilObject::_getAllReferences($id) as $ref_id) {
                 $grp_ref_id = $tree->checkForParentType($ref_id, 'grp');
-                if ($grp_ref_id > 0) {
-                    if (ilGroupParticipants::_isParticipant($grp_ref_id, $user_id)) {
-                        $notification = true;
-                    }
+                if (($grp_ref_id > 0) && ilGroupParticipants::_isParticipant($grp_ref_id, $user_id)) {
+                    $notification = true;
                 }
                 $crs_ref_id = $tree->checkForParentType($ref_id, 'crs');
-                if ($crs_ref_id > 0) {
-                    if (ilCourseParticipants::_isParticipant($crs_ref_id, $user_id)) {
-                        $notification = true;
-                    }
+                if (($crs_ref_id > 0) && ilCourseParticipants::_isParticipant($crs_ref_id, $user_id)) {
+                    $notification = true;
                 }
             }
 
-            if ($notification && $setting->getMode() == ilObjNotificationSettings::MODE_DEF_ON_OPT_OUT) {
+            if ($notification && $setting->getMode() === ilObjNotificationSettings::MODE_DEF_ON_OPT_OUT) {
                 $set = $ilDB->query("SELECT user_id FROM notification" .
                     " WHERE type = " . $ilDB->quote($type, "integer") .
                     " AND user_id = " . $ilDB->quote($user_id, "integer") .
@@ -72,13 +68,10 @@ class ilNotification
                     " AND activated = " . $ilDB->quote(0, "integer"));
                 $rec = $ilDB->fetchAssoc($set);
                 // ... except when the opted out
-                if ($rec["user_id"] == $user_id) {
-                    return false;
-                }
-                return true;
+                return isset($rec["user_id"]) && $rec["user_id"] !== $user_id;
             }
 
-            if ($notification && $setting->getMode() == ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT) {
+            if ($notification && $setting->getMode() === ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT) {
                 return true;
             }
         }
@@ -99,10 +92,7 @@ class ilNotification
     public static function hasOptOut(int $obj_id) : bool
     {
         $setting = new ilObjNotificationSettings($obj_id);
-        if ($setting->getMode() == ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT) {
-            return false;
-        }
-        return true;
+        return $setting->getMode() !== ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT;
     }
 
     /**
@@ -122,7 +112,7 @@ class ilNotification
         // currently done for blog
         $recipients = array();
         $setting = new ilObjNotificationSettings($id);
-        if ($setting->getMode() != ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION) {
+        if ($setting->getMode() !== ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION) {
             foreach (ilObject::_getAllReferences($id) as $ref_id) {
                 $grp_ref_id = $tree->checkForParentType($ref_id, 'grp');
                 if ($grp_ref_id > 0) {
@@ -146,7 +136,7 @@ class ilNotification
         }
 
         // remove all users that deactivated the feature
-        if ($setting->getMode() == ilObjNotificationSettings::MODE_DEF_ON_OPT_OUT) {
+        if ($setting->getMode() === ilObjNotificationSettings::MODE_DEF_ON_OPT_OUT) {
             $sql = "SELECT user_id FROM notification" .
                 " WHERE type = " . $ilDB->quote($type, "integer") .
                 " AND id = " . $ilDB->quote($id, "integer") .
@@ -159,7 +149,7 @@ class ilNotification
         }
 
         // remove all users that got a mail
-        if ($setting->getMode() != ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION && !$ignore_threshold) {
+        if ($setting->getMode() !== ilObjNotificationSettings::MODE_DEF_OFF_USER_ACTIVATION && !$ignore_threshold) {
             $sql = "SELECT user_id FROM notification" .
                 " WHERE type = " . $ilDB->quote($type, "integer") .
                 " AND id = " . $ilDB->quote($id, "integer") .
@@ -181,7 +171,7 @@ class ilNotification
         }
 
         // get single subscriptions
-        if ($setting->getMode() != ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT) {
+        if ($setting->getMode() !== ilObjNotificationSettings::MODE_DEF_ON_NO_OPT_OUT) {
             $sql = "SELECT user_id FROM notification" .
                 " WHERE type = " . $ilDB->quote($type, "integer") .
                 " AND id = " . $ilDB->quote($id, "integer") .

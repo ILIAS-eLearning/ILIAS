@@ -1,10 +1,23 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * TableGUI for the presentation og roles and role templates
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
  * @ingroup ServicesAccessControl
  */
 class ilRoleTableGUI extends ilTable2GUI
@@ -47,29 +60,78 @@ class ilRoleTableGUI extends ilTable2GUI
         $this->lng->loadLanguageModule('search');
     }
 
-    public function setType(int $a_type) : void
+    protected function fillRow(array $a_set) : void
     {
-        $this->type = $a_type;
-    }
+        if ($a_set['type'] == 'role') {
+            if ($a_set['parent'] != ROLE_FOLDER_ID) {
+                $this->ctrl->setParameterByClass(
+                    "ilobjrolegui",
+                    "rolf_ref_id",
+                    $a_set['parent']
+                );
+            }
 
-    public function setRoleTitleFilter(string $a_filter) : void
-    {
-        $this->role_title_filter = $a_filter;
-    }
+            $this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $a_set["obj_id"]);
+            $link = $this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm");
+            $this->ctrl->setParameterByClass("ilobjrolegui", "rolf_ref_id", "");
+        } else {
+            $this->ctrl->setParameterByClass("ilobjroletemplategui", "obj_id", $a_set["obj_id"]);
+            $link = $this->ctrl->getLinkTargetByClass("ilobjroletemplategui", "perm");
+        }
 
-    public function getRoleTitleFilter() : string
-    {
-        return $this->role_title_filter;
-    }
+        switch ($a_set['rtype']) {
+            case self::TYPE_GLOBAL_AU:
+                $this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_auto_global'));
+                break;
+            case self::TYPE_GLOBAL_UD:
+                $this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_ud_global'));
+                break;
+            case self::TYPE_LOCAL_AU:
+                $this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_auto_local'));
+                break;
+            case self::TYPE_LOCAL_UD:
+                $this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_ud_local'));
+                break;
+            case self::TYPE_ROLT_AU:
+                $this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_auto_rolt'));
+                break;
+            case self::TYPE_ROLT_UD:
+                $this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_ud_rolt'));
+                break;
+        }
 
-    public function getType() : int
-    {
-        return $this->type;
-    }
+        if (
+            $a_set['obj_id'] != ANONYMOUS_ROLE_ID && $a_set['obj_id'] != SYSTEM_ROLE_ID && substr($a_set['title_orig'], 0, 3) != 'il_' || $this->getType() == self::TYPE_SEARCH) {
+            $this->tpl->setVariable('VAL_ID', $a_set['obj_id']);
+        }
+        $this->tpl->setVariable('VAL_TITLE_LINKED', $a_set['title']);
+        $this->tpl->setVariable('VAL_LINK', $link);
+        if (strlen($a_set['description'])) {
+            $this->tpl->setVariable('VAL_DESC', $a_set['description']);
+        }
 
-    protected function getPathGUI() : ilPathGUI
-    {
-        return $this->path_gui;
+        $ref = $a_set['parent'];
+        if ($ref == ROLE_FOLDER_ID) {
+            $this->tpl->setVariable('CONTEXT', $this->lng->txt('rbac_context_global'));
+        } else {
+            $this->tpl->setVariable(
+                'CONTEXT',
+                $this->getPathGUI()->getPath(ROOT_FOLDER_ID, (int) $ref)
+            );
+        }
+
+        if ($this->getType() == self::TYPE_VIEW and $a_set['obj_id'] != SYSTEM_ROLE_ID) {
+            if ($this->system->checkAccess('write', $this->role_folder_id)) {
+                // Copy role
+                $this->tpl->setVariable('COPY_TEXT', $this->lng->txt('rbac_role_rights_copy'));
+                $this->ctrl->setParameter($this->getParentObject(), "csource", $a_set["obj_id"]);
+                $link = $this->ctrl->getLinkTarget($this->getParentObject(), 'roleSearch');
+                $this->tpl->setVariable(
+                    'COPY_LINK',
+                    $link
+                );
+            }
+        }
     }
 
     /**
@@ -91,8 +153,10 @@ class ilRoleTableGUI extends ilTable2GUI
                 $this->addColumn($this->lng->txt('actions'), '', '10%');
                 $this->setTitle($this->lng->txt('objs_role'));
 
-                if ($GLOBALS['DIC']['rbacsystem']->checkAccess('delete',
-                    $this->getParentObject()->object->getRefId())) {
+                if ($GLOBALS['DIC']['rbacsystem']->checkAccess(
+                    'delete',
+                    $this->getParentObject()->object->getRefId()
+                )) {
                     $this->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
                 }
                 break;
@@ -118,6 +182,21 @@ class ilRoleTableGUI extends ilTable2GUI
         $this->getPathGUI()->enableTextOnly(false);
         $this->getPathGUI()->enableHideLeaf(false);
         $this->initFilter();
+    }
+
+    public function getType() : int
+    {
+        return $this->type;
+    }
+
+    public function setType(int $a_type) : void
+    {
+        $this->type = $a_type;
+    }
+
+    protected function getPathGUI() : ilPathGUI
+    {
+        return $this->path_gui;
     }
 
     /**
@@ -167,83 +246,6 @@ class ilRoleTableGUI extends ilTable2GUI
         $this->filter[self::FILTER_TITLE] = (string) $title->getValue();
     }
 
-    protected function fillRow(array $a_set) : void
-    {
-        if ($a_set['type'] == 'role') {
-            if ($a_set['parent'] != ROLE_FOLDER_ID) {
-                $this->ctrl->setParameterByClass(
-                    "ilobjrolegui",
-                    "rolf_ref_id",
-                    $a_set['parent']
-                );
-            }
-
-            $this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $a_set["obj_id"]);
-            $link = $this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm");
-            $this->ctrl->setParameterByClass("ilobjrolegui", "rolf_ref_id", "");
-        } else {
-            $this->ctrl->setParameterByClass("ilobjroletemplategui", "obj_id", $a_set["obj_id"]);
-            $link = $this->ctrl->getLinkTargetByClass("ilobjroletemplategui", "perm");
-        }
-
-        switch ($a_set['rtype']) {
-            case self::TYPE_GLOBAL_AU:
-                $this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_auto_global'));
-                break;
-            case self::TYPE_GLOBAL_UD:
-                $this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_ud_global'));
-                break;
-            case self::TYPE_LOCAL_AU:
-                $this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_auto_local'));
-                break;
-            case self::TYPE_LOCAL_UD:
-                $this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_ud_local'));
-                break;
-            case self::TYPE_ROLT_AU:
-                $this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_auto_rolt'));
-                break;
-            case self::TYPE_ROLT_UD:
-                $this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_ud_rolt'));
-                break;
-        }
-
-        if (
-            ($a_set['obj_id'] != ANONYMOUS_ROLE_ID and
-                $a_set['obj_id'] != SYSTEM_ROLE_ID and
-                substr($a_set['title_orig'], 0, 3) != 'il_') or
-            $this->getType() == self::TYPE_SEARCH) {
-            $this->tpl->setVariable('VAL_ID', $a_set['obj_id']);
-        }
-        $this->tpl->setVariable('VAL_TITLE_LINKED', $a_set['title']);
-        $this->tpl->setVariable('VAL_LINK', $link);
-        if (strlen($a_set['description'])) {
-            $this->tpl->setVariable('VAL_DESC', $a_set['description']);
-        }
-
-        $ref = $a_set['parent'];
-        if ($ref == ROLE_FOLDER_ID) {
-            $this->tpl->setVariable('CONTEXT', $this->lng->txt('rbac_context_global'));
-        } else {
-            $this->tpl->setVariable(
-                'CONTEXT',
-                (string) $this->getPathGUI()->getPath(ROOT_FOLDER_ID, (int) $ref)
-            );
-        }
-
-        if ($this->getType() == self::TYPE_VIEW and $a_set['obj_id'] != SYSTEM_ROLE_ID) {
-            if ($this->system->checkAccess('write', $this->role_folder_id)) {
-                // Copy role
-                $this->tpl->setVariable('COPY_TEXT', $this->lng->txt('rbac_role_rights_copy'));
-                $this->ctrl->setParameter($this->getParentObject(), "csource", $a_set["obj_id"]);
-                $link = $this->ctrl->getLinkTarget($this->getParentObject(), 'roleSearch');
-                $this->tpl->setVariable(
-                    'COPY_LINK',
-                    $link
-                );
-            }
-        }
-    }
-
     /**
      * Parse role list
      * @param array $role_list
@@ -270,7 +272,7 @@ class ilRoleTableGUI extends ilTable2GUI
         $role_list = $this->rbacreview->getRolesByFilter(
             $type_filter,
             0,
-            (string) $title_filter
+            ''
         );
 
         $counter = 0;
@@ -285,13 +287,10 @@ class ilRoleTableGUI extends ilTable2GUI
             ) {
                 continue;
             }
-
             $title = ilObjRole::_getTranslation($role['title']);
-            if ($type_filter == ilRbacReview::FILTER_INTERNAL || $type_filter == ilRbacReview::FILTER_ALL) {
-                if (strlen($filter_orig)) {
-                    if (stristr($title, $filter_orig) == false) {
-                        continue;
-                    }
+            if (strlen($filter_orig)) {
+                if (stristr($title, $filter_orig) == false) {
+                    continue;
                 }
             }
 
@@ -309,7 +308,7 @@ class ilRoleTableGUI extends ilTable2GUI
                 $rows[$counter]['rtype'] = $auto ? self::TYPE_ROLT_AU : self::TYPE_ROLT_UD;
             } elseif ($role['parent'] == ROLE_FOLDER_ID) {
                 // Roles
-                if ($role['obj_id'] == ANONYMOUS_ROLE_ID or $role['obj_id'] == SYSTEM_ROLE_ID) {
+                if ($role['obj_id'] == ANONYMOUS_ROLE_ID || $role['obj_id'] == SYSTEM_ROLE_ID) {
                     $rows[$counter]['rtype'] = self::TYPE_GLOBAL_AU;
                 } else {
                     $rows[$counter]['rtype'] = self::TYPE_GLOBAL_UD;
@@ -322,5 +321,15 @@ class ilRoleTableGUI extends ilTable2GUI
         }
         $this->setMaxCount(count($rows));
         $this->setData($rows);
+    }
+
+    public function getRoleTitleFilter() : string
+    {
+        return $this->role_title_filter;
+    }
+
+    public function setRoleTitleFilter(string $a_filter) : void
+    {
+        $this->role_title_filter = $a_filter;
     }
 }

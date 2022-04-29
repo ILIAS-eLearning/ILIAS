@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
 {
     protected ilLearningSequenceMembershipGUI $parent_gui;
@@ -326,7 +340,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             }
 
             $filtered_user_ids[] = $user_id;
-            $user_data[$user_id] = array_merge($ud, (array) $lso_user_data[$user_id]);
+            $user_data[$user_id] = array_merge($ud, $lso_user_data[$user_id]);
 
             $roles = array();
             foreach ($local_roles as $role_id => $role_name) {
@@ -341,7 +355,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
         }
 
         // Custom user data fields
-        if ($udf_ids) {
+        if ($udf_ids !== []) {
             $data = ilUserDefinedData::lookupData($ls_participants, $udf_ids);
             foreach ($data as $usr_id => $fields) {
                 if (!$this->checkAcceptance((int) $usr_id)) {
@@ -377,7 +391,7 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             );
         }
 
-        $columns = array_merge(
+        return array_merge(
             [
                 'roles' => [
                     'txt' => $this->lng->txt('objs_role'),
@@ -392,8 +406,6 @@ class ilLearningSequenceParticipantsTableGUI extends ilParticipantTableGUI
             ],
             $columns
         );
-
-        return $columns;
     }
 
     protected function getExportFieldsInfo() : ilExportFieldsInfo

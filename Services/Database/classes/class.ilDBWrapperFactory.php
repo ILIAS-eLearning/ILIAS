@@ -21,7 +21,7 @@ class ilDBWrapperFactory
      * @return ilDBPdoInterface
      * @throws ilDatabaseException
      */
-    public static function getWrapper(string $a_type): \ilDBPdoInterface
+    public static function getWrapper(string $a_type) : \ilDBPdoInterface
     {
         switch ($a_type) {
             case ilDBConstants::TYPE_POSTGRES:

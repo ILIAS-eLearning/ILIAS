@@ -11,9 +11,6 @@
  */
 class ilObjStyleSettingsGUI extends ilObjectGUI
 {
-    //page_layout editing
-    public $pg_id = null;
-
     /**
      * Constructor
      */

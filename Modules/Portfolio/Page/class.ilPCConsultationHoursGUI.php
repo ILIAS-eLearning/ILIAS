@@ -24,7 +24,7 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -114,7 +114,7 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
         
         if (!$this->getPageConfig()->getEnablePCType("PlaceHolder")) {
             $grp_ids = ilConsultationHourGroups::getGroupsOfUser($ilUser->getId());
-            if (sizeof($grp_ids)) {
+            if (count($grp_ids)) {
                 $this->lng->loadLanguageModule("dateplaner");
                 $groups = new ilCheckboxGroupInputGUI($this->lng->txt("cal_ch_app_grp"), "grp");
                 $groups->setRequired(true);
@@ -138,7 +138,7 @@ class ilPCConsultationHoursGUI extends ilPageContentGUI
         } else {
             // set values
             $grp_ids = $this->content_obj->getGroupIds();
-            if (sizeof($grp_ids)) {
+            if (count($grp_ids)) {
                 $mode->setValue("manual");
                 $groups->setValue($grp_ids);
             } else {

@@ -28,6 +28,8 @@ class ilDatabaseSetupConfig implements Setup\Config
 
     protected string $path_to_db_dump;
 
+    public ilDatabaseSetupConfig $config;
+
     public function __construct(
         string $type,
         string $host,
@@ -146,7 +148,6 @@ class ilDatabaseSetupConfig implements Setup\Config
                 }
             }
 
-            /** @noinspection MagicMethodsValidityInspection */
             public function __construct(\ilDatabaseSetupConfig $config)
             {
                 $this->config = $config;

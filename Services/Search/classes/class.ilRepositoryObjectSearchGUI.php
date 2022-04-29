@@ -22,7 +22,7 @@ class ilRepositoryObjectSearchGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilObjectDefinition $obj_definition;
     private int $ref_id;
-    private object $object;
+    private ilObject $object;
     private object $parent_obj;
     private string $parent_cmd;
 
@@ -47,10 +47,14 @@ class ilRepositoryObjectSearchGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-
-        $factory = new ilObjectFactory();
-        $this->object = $factory->getInstanceByRefId($this->getRefId(), false);
-        
+        try {
+            $repo_object = ilObjectFactory::getInstanceByRefId($this->getRefId());
+            if ($repo_object instanceof ilObject) {
+                $this->object = $repo_object;
+            }
+        } catch (ilObjectNotFoundException $e) {
+            throw $e;
+        }
         $this->parent_obj = $a_parent_obj;
         $this->parent_cmd = $a_parent_cmd;
     }
@@ -95,7 +99,7 @@ class ilRepositoryObjectSearchGUI
         return $this->ref_id;
     }
 
-    public function getObject() : object
+    public function getObject() : ilObject
     {
         return $this->object;
     }

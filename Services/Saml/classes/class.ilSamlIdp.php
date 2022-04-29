@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilSamlIdp
@@ -88,8 +103,8 @@ class ilSamlIdp
     }
 
     /**
-     * Deletes an idp with all relvant mapping rules.
-     * Furthermore the auth_mode of the relevant user accounts will be switched to 'default'
+     * Deletes an idp with all relevant mapping rules.
+     * Furthermore, the auth_mode of the relevant user accounts will be switched to 'default'
      */
     public function delete() : void
     {
@@ -151,15 +166,14 @@ class ilSamlIdp
         $this->setLocalLocalAuthenticationStatus((bool) $form->getInput('allow_local_auth'));
         $this->setAccountMigrationStatus((bool) $form->getInput('account_migr_status'));
 
-        /** @var $metadata ilSamlIdpMetadataInputGUI */
+        /** @var ilSamlIdpMetadataInputGUI $metadata */
         $metadata = $form->getItemByPostVar('metadata');
         $this->setEntityId($metadata->getValue());
     }
 
     public static function isAuthModeSaml(string $a_auth_mode) : bool
     {
-        if (!$a_auth_mode) {
-            $GLOBALS['DIC']->logger()->auth()->write(__METHOD__ . ': No auth mode given..............');
+        if ('' === $a_auth_mode) {
             return false;
         }
 

@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Handles course mail placeholders
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -9,21 +23,14 @@
 class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 {
     public const ID = 'crs_context_tutor_manual';
+    
+    protected static array $periodInfoByObjIdCache = [];
 
-    /** @var array */
-    protected static $periodInfoByObjIdCache = [];
-
-    /**
-     * @return string
-     */
     public function getId() : string
     {
         return self::ID;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle() : string
     {
         global $DIC;
@@ -35,9 +42,6 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
         return $lng->txt('crs_mail_context_tutor_title');
     }
 
-    /**
-     * @return string
-     */
     public function getDescription() : string
     {
         global $DIC;
@@ -51,7 +55,6 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
 
     /**
      * Return an array of placeholders
-     * @return array
      */
     public function getSpecificPlaceholders() : array
     {
@@ -122,11 +125,7 @@ class ilCourseMailTemplateTutorContext extends ilMailTemplateContext
         return $placeholders;
     }
 
-    /**
-     * @param int $objId
-     * @return array|null
-     */
-    private function getCachedPeriodByObjId(int $objId)
+    private function getCachedPeriodByObjId(int $objId) : ?array
     {
         if (!array_key_exists($objId, self::$periodInfoByObjIdCache)) {
             self::$periodInfoByObjIdCache[$objId] = ilObjCourseAccess::lookupPeriodInfo($objId);

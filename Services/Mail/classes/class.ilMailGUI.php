@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
@@ -13,7 +28,7 @@ use ILIAS\Refinery\Factory as Refinery;
 class ilMailGUI implements ilCtrlBaseClassInterface
 {
     private ilGlobalTemplateInterface $tpl;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private string $forwardClass = '';
     private GlobalHttpState $http;
@@ -21,7 +36,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
     private int $currentFolderId = 0;
     private ilObjUser $user;
     public ilMail $umail;
-    public ilMailBox $mbox;
+    public ilMailbox $mbox;
 
     public function __construct()
     {
@@ -63,7 +78,6 @@ class ilMailGUI implements ilCtrlBaseClassInterface
 
     protected function initFolder() : void
     {
-        $folderId = 0;
         if ($this->http->wrapper()->post()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } elseif ($this->http->wrapper()->query()->has('mobj_id')) {

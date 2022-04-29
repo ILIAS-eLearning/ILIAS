@@ -1,6 +1,23 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 
 /**
 * Class ilObjSearchController
@@ -23,6 +40,9 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
     protected ilRbacSystem $system;
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
+
 
     /**
     * Constructor
@@ -37,26 +57,35 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
         $this->lng = $DIC->language();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->system = $DIC->rbac()->system();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
 
     public function getLastClass() : string
     {
-                if (ilSearchSettings::getInstance()->enabledLucene()) {
+        if (ilSearchSettings::getInstance()->enabledLucene()) {
             $default = 'illucenesearchgui';
         } else {
             $default = 'ilsearchgui';
         }
-        if ($_REQUEST['root_id'] == self::TYPE_USER_SEARCH) {
+
+        $root_id = 0;
+        if ($this->http->wrapper()->post()->has('root_id')) {
+            $root_id = $this->http->wrapper()->post()->retrieve(
+                'root_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($root_id == self::TYPE_USER_SEARCH) {
             $default = 'illuceneusersearchgui';
         }
         
         $this->setLastClass($default);
-        
-        return $_SESSION['search_last_class'] ?: $default;
+        return ilSession::get('search_last_class') ?? $default;
     }
     public function setLastClass(string $a_class) : void
     {
-        $_SESSION['search_last_class'] = $a_class;
+        ilSession::set('search_last_class', $a_class);
     }
 
     public function executeCommand() : void

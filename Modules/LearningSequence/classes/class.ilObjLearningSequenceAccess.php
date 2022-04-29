@@ -1,8 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 class ilObjLearningSequenceAccess extends ilObjectAccess
 {
     public static bool $using_code = false;
@@ -12,7 +25,7 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
      */
     public static function _getCommands() : array
     {
-        $commands = array(
+        return array(
             [
                 'cmd' => ilObjLearningSequenceGUI::CMD_VIEW,
                 'permission' => 'read',
@@ -40,7 +53,6 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
                 'lang_var' => 'unparticipate'
             ]
         );
-        return $commands;
     }
 
     public function usingRegistrationCode() : bool
@@ -48,7 +60,7 @@ class ilObjLearningSequenceAccess extends ilObjectAccess
         return self::$using_code;
     }
 
-    public static function isOffline($ref_id)
+    public static function isOffline(int $ref_id) : bool
     {
         $obj = ilObjectFactory::getInstanceByRefId($ref_id);
         $act = $obj->getLSActivation();

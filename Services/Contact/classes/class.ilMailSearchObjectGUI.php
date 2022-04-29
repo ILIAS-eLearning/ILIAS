@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
@@ -10,7 +25,7 @@ abstract class ilMailSearchObjectGUI
     protected Refinery $refinery;
     protected ?string $view = null;
     protected ilGlobalTemplateInterface $tpl;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilObjUser $user;
     protected ilErrorHandling $error;
@@ -403,7 +418,7 @@ abstract class ilMailSearchObjectGUI
         foreach ($obj_ids as $obj_id) {
             /** @var ilObjGroup|ilObjCourse $object */
             $object = ilObjectFactory::getInstanceByObjId($obj_id);
-            if ((int) $object->getShowMembers() === $object->SHOW_MEMBERS_DISABLED) {
+            if (!$object->getShowMembers()) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_crs_list_members_not_available_for_at_least_one_crs'));
                 $this->showMyObjects();
                 return;
@@ -434,7 +449,7 @@ abstract class ilMailSearchObjectGUI
         $searchTpl = new ilTemplate('tpl.mail_search_template.html', true, true, 'Services/Contact');
         foreach ($obj_ids as $obj_id) {
             $members_obj = ilParticipants::getInstanceByObjId($obj_id);
-            $usr_ids = ilUtil::_sortIds($members_obj->getParticipants(), 'usr_data', 'lastname', 'usr_id');
+            $usr_ids = array_map('intval', ilUtil::_sortIds($members_obj->getParticipants(), 'usr_data', 'lastname', 'usr_id'));
             foreach ($usr_ids as $usr_id) {
                 $user = new ilObjUser($usr_id);
                 if (!$user->getActive()) {
@@ -476,7 +491,7 @@ abstract class ilMailSearchObjectGUI
             $searchTpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
         }
 
-        $searchTpl->setVariable('TABLE', $table->getHtml());
+        $searchTpl->setVariable('TABLE', $table->getHTML());
         $this->tpl->setContent($searchTpl->get());
 
         if ($this->isDefaultRequestContext()) {
@@ -513,7 +528,7 @@ abstract class ilMailSearchObjectGUI
                 $ref_ids = array_keys(ilObject::_getAllReferences($object->getId()));
                 $ref_id = $ref_ids[0];
                 $object->setRefId($ref_id);
-                $showMemberListEnabled = (bool) $object->getShowMembers();
+                $showMemberListEnabled = $object->getShowMembers();
 
                 if ($this->doesExposeMembers($object)) {
                     $participants = ilParticipants::getInstanceByObjId($object->getId());
@@ -596,7 +611,7 @@ abstract class ilMailSearchObjectGUI
         $searchTpl->setVariable('TXT_MARKED_ENTRIES', $this->lng->txt('marked_entries'));
 
         $table->setData($tableData);
-        $searchTpl->setVariable('TABLE', $table->getHtml());
+        $searchTpl->setVariable('TABLE', $table->getHTML());
         $this->tpl->setContent($searchTpl->get());
 
         if ($this->isDefaultRequestContext()) {

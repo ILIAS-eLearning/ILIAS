@@ -26,7 +26,7 @@ class ilWebDAVLocksBackend extends AbstractBackend
     protected ilWebDAVLocksRepository $wedav_locks_repository;
     protected ilWebDAVRepositoryHelper $webdav_repository_helper;
     protected ilWebDAVObjFactory $webdav_object_factory;
-    protected ilWebDAVLockUriPathResolver $webadav_path_resolver;
+    protected ilWebDAVLockUriPathResolver $webdav_path_resolver;
     protected ilObjUser $user;
 
     public function __construct(
@@ -43,6 +43,11 @@ class ilWebDAVLocksBackend extends AbstractBackend
         $this->user = $user;
     }
     
+    /**
+     * @param string $uri
+     * @param bool $returnChildLocks
+     * @return LockInfo[]
+     */
     public function getLocks($uri, $returnChildLocks) : array
     {
         $sabre_locks = [];
@@ -66,18 +71,20 @@ class ilWebDAVLocksBackend extends AbstractBackend
         return $sabre_locks;
     }
     
-    protected function getLocksRecursive($sabre_locks, $ref_id, $uri) : array
+    /**
+     * @param LockInfo[] $sabre_locks
+     * @return LockInfo[]
+     */
+    protected function getLocksRecursive(array $sabre_locks, int $ref_id, string $uri) : array
     {
         foreach ($this->webdav_repository_helper->getChildrenOfRefId($ref_id) as $child_ref) {
             try {
                 $child_obj_id = $this->webdav_repository_helper->getObjectIdFromRefId($child_ref);
                 $child_obj = $this->webdav_object_factory->retrieveDAVObjectByRefID($child_ref);
                 
-                $child_ilias_locks = $this->getLocksOnObjectId($child_obj_id);
-                if (!is_null($child_ilias_locks)) {
-                    foreach ($child_ilias_locks as $lock) {
-                        $sabre_locks[] = $lock->getAsSabreDavLock($uri . '/' . $child_obj->getName());
-                    }
+                $child_ilias_lock = $this->getLocksOnObjectId($child_obj_id);
+                if (!is_null($child_ilias_lock)) {
+                    $sabre_locks[] = $child_ilias_lock->getAsSabreDavLock($uri . '/' . $child_obj->getName());
                 }
 
                 $sabre_locks = $this->getLocksRecursive($sabre_locks, $child_ref, $uri . $child_obj->getName() . '/');
@@ -88,18 +95,28 @@ class ilWebDAVLocksBackend extends AbstractBackend
         return $sabre_locks;
     }
     
-    public function unlock($uri, LockInfo $lockInfo)
+    /**
+     * {@inheritDoc}
+     * @see \Sabre\DAV\Locks\Backend\BackendInterface::unlock()
+     */
+    public function unlock($uri, LockInfo $lockInfo) : bool
     {
         $ilias_lock = $this->wedav_locks_repository->getLockObjectWithTokenFromDB($lockInfo->token);
 
         if (!is_null($ilias_lock) && $ilias_lock->getIliasOwner() == $this->user->getId()) {
             $this->wedav_locks_repository->removeLockWithTokenFromDB($lockInfo->token);
+            return true;
         } else {
             throw new Exception\Forbidden();
         }
     }
     
-    public function lock($uri, LockInfo $lock_info)
+    /**
+     *
+     * {@inheritDoc}
+     * @see \Sabre\DAV\Locks\Backend\BackendInterface::lock()
+     */
+    public function lock($uri, LockInfo $lock_info) : bool
     {
         try {
             $ref_id = $this->webdav_path_resolver->getRefIdForWebDAVPath($uri);
@@ -117,12 +134,13 @@ class ilWebDAVLocksBackend extends AbstractBackend
                     $lock_info->scope
                 );
                 $this->wedav_locks_repository->saveLockToDB($ilias_lock);
+                return true;
             } else {
                 throw new Exception\Forbidden();
             }
         } catch (Exception\NotFound $e) {
             if ($e->getCode() == -1) {
-                return;
+                return false;
             } else {
                 throw $e;
             }

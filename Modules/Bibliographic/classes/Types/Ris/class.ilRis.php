@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilRisInterface
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -238,22 +254,12 @@ class ilRis implements ilBiblTypeInterface
         );
 
 
-    /**
-     * @param $field_name
-     *
-     * @return bool
-     */
     public function isStandardField(string $field_name) : bool
     {
         return in_array(strtoupper($field_name), self::$standard_fields);
     }
 
 
-    /**
-     * @param $entry_ype
-     *
-     * @return bool
-     */
     public function isEntryType(string $entry_ype) : bool
     {
         return in_array(strtoupper($entry_ype), self::$entry_types);

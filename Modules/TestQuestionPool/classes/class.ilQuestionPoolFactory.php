@@ -11,7 +11,7 @@ require_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
  */
 class ilQuestionPoolFactory
 {
-    public function createNewInstance($parentRef = null)
+    public function createNewInstance($parentRef = null) : ilObjQuestionPool
     {
         // create new questionpool object
         $newObj = new ilObjQuestionPool(0, true);

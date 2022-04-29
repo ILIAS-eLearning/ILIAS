@@ -4,7 +4,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Test peer reviews
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class TaxAssignmentTest extends TestCase
@@ -23,7 +22,7 @@ class TaxAssignmentTest extends TestCase
     /**
      * Test if each rater has $num_assignments peers
      */
-    public function testNewTaxAssignment()
+    public function testNewTaxAssignment() : void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 

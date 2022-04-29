@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -182,8 +182,15 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         ?string $cfg_template = null,
         bool $hide_switch = false,
         ?string $version = null
-    ) {
-        $this->rteSupport = array("obj_id" => $obj_id, "obj_type" => $obj_type, "module" => $module, 'cfg_template' => $cfg_template, 'hide_switch' => $hide_switch, 'version' => $version);
+    ) : void {
+        $this->rteSupport = array(
+            "obj_id" => $obj_id,
+            "obj_type" => $obj_type,
+            "module" => $module,
+            'cfg_template' => $cfg_template,
+            'hide_switch' => $hide_switch,
+            'version' => $version
+        );
     }
     
     public function removeRTESupport() : void

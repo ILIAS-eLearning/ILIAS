@@ -2,6 +2,7 @@
 
 use ILIAS\GlobalScreen\Identification\Serializer\SerializerInterface;
 use ILIAS\GlobalScreen\Provider\Provider;
+use LogicException;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -52,7 +53,7 @@ abstract class AbstractIdentification implements IdentificationInterface
      */
     public function unserialize($serialized)
     {
-        throw new \LogicException("Please use the identification factory to unserialize");
+        throw new LogicException("Please use the identification factory to unserialize");
     }
     
     /**

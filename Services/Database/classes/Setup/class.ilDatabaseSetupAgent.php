@@ -31,7 +31,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     public function getArrayToConfigTransformation() : Transformation
     {
         // TODO: Migrate this to refinery-methods once possible.
-        return $this->refinery->custom()->transformation(function ($data): \ilDatabaseSetupConfig {
+        return $this->refinery->custom()->transformation(function ($data) : \ilDatabaseSetupConfig {
             $data["password"] = $data["password"] ?? null; // password can be empty
             $password = $this->refinery->to()->data("password");
             return new \ilDatabaseSetupConfig(
@@ -53,7 +53,9 @@ class ilDatabaseSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        /** @noinspection PhpParamsInspection */
+        if (!$config instanceof \ilDatabaseSetupConfig) {
+            return new Setup\Objective\NullObjective();
+        }
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services\Database",
             false,
@@ -69,8 +71,7 @@ class ilDatabaseSetupAgent implements Setup\Agent
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
         $p = [];
-        if ($config !== null) {
-            /** @noinspection PhpParamsInspection */
+        if ($config instanceof ilDatabaseSetupConfig) {
             $p[] = new \ilDatabaseConfigStoredObjective($config);
         }
         $p[] = new \ilDatabaseUpdatedObjective();
@@ -102,6 +103,8 @@ class ilDatabaseSetupAgent implements Setup\Agent
      */
     public function getMigrations() : array
     {
-        return [];
+        return [
+            new Setup\ilMysqlMyIsamToInnoDbMigration()
+        ];
     }
 }

@@ -19,7 +19,7 @@
 */
 class ilECSCommunityCache
 {
-    protected static $instance = null;
+    protected static $instance;
 
     protected int $server_id = 0;
     protected int $community_id = 0;
@@ -56,10 +56,11 @@ class ilECSCommunityCache
      */
     public static function getInstance(int $a_server_id, int $a_community_id) : ilECSCommunityCache
     {
-        if (isset(self::$instance[$a_server_id][$a_community_id])) {
-            return self::$instance[$a_server_id][$a_community_id];
-        }
-        return self::$instance[$a_server_id][$a_community_id] = new ilECSCommunityCache($a_server_id, $a_community_id);
+        return self::$instance[$a_server_id][$a_community_id] ??
+            (self::$instance[$a_server_id][$a_community_id] = new ilECSCommunityCache(
+                $a_server_id,
+                $a_community_id
+            ));
     }
 
 
@@ -106,9 +107,8 @@ class ilECSCommunityCache
 
     /**
      * Create or update ecs community
-     * @return bool
      */
-    public function update()
+    public function update() : bool
     {
         if (!$this->entryExists) {
             return $this->create();
@@ -129,7 +129,7 @@ class ilECSCommunityCache
     /**
      * Create new dataset
      */
-    protected function create()
+    protected function create() : bool
     {
         $query = 'INSERT INTO ecs_community (sid,cid,own_id,cname,mids) ' .
             'VALUES( ' .
@@ -145,9 +145,8 @@ class ilECSCommunityCache
 
     /**
      * Read dataset
-     * @return bool
      */
-    private function read()
+    private function read() : void
     {
         $this->entryExists = false;
 
@@ -157,11 +156,10 @@ class ilECSCommunityCache
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->entryExists = true;
-            $this->setOwnId(intval($row->own_id));
+            $this->setOwnId((int) $row->own_id);
             $this->setCommunityName($row->cname);
-            $this->setMids(unserialize($row->mids));
+            $this->setMids(unserialize($row->mids, ['allowed_classes' => true]));
         }
-        return true;
     }
     
     /**

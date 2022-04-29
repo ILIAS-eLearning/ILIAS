@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,7 +54,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
      *
      * @param string|array $a_value Value
      */
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         if ($this->getMulti() && is_array($a_value)) {
             $this->setMultiValues($a_value);
@@ -96,7 +96,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
             }
         } else {
             $values = $this->strArray($this->getPostVar());
-            foreach ($values as $idx => $value) {
+            foreach ($values as $value) {
                 if (!array_key_exists($value, $this->getOptions())) {
                     $this->setAlert($lng->txt('msg_invalid_post_input'));
                     return false;
@@ -145,7 +145,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
             $tpl->parseCurrentBlock();
         }
         
-        // determin value to select. Due to accessibility reasons we
+        // determine value to select. Due to accessibility reasons we
         // should always select a value (per default the first one)
         $first = true;
         foreach ($this->getOptions() as $option_value => $option_text) {
@@ -159,7 +159,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
         }
         foreach ($this->getOptions() as $option_value => $option_text) {
             $tpl->setCurrentBlock("prop_select_option");
-            $tpl->setVariable("VAL_SELECT_OPTION", ilLegacyFormElementsUtil::prepareFormOutput($option_value));
+            $tpl->setVariable("VAL_SELECT_OPTION", ilLegacyFormElementsUtil::prepareFormOutput((string) $option_value));
             if ((string) $sel_value == (string) $option_value) {
                 $tpl->setVariable(
                     "CHK_SEL_OPTION",

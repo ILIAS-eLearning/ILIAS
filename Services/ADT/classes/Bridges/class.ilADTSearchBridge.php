@@ -23,6 +23,7 @@ abstract class ilADTSearchBridge
 
     protected ilLanguage $lng;
     protected ilDBInterface $db;
+    protected HTTP\Services $http;
 
     public function __construct(ilADTDefinition $a_adt_def)
     {
@@ -31,6 +32,7 @@ abstract class ilADTSearchBridge
 
         $this->lng = $DIC->language();
         $this->db = $DIC->database();
+        $this->http = $DIC->http();
     }
 
     abstract protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool;
@@ -89,30 +91,33 @@ abstract class ilADTSearchBridge
 
     /**
      * Write value(s) to filter store (in session)
-     * @param mixed|null $a_value
+     * @param ?$a_value
      */
-    protected function writeFilter(mixed $a_value = null) : void
+    protected function writeFilter($a_value = null) : void
     {
         if (!$this->table_gui instanceof ilTable2GUI) {
             return;
         }
+        $session_table = (array) (ilSession::get("form_" . $this->table_gui->getId()) ?? []);
         if ($a_value !== null) {
-            $_SESSION["form_" . $this->table_gui->getId()][$this->getElementId()] = serialize($a_value);
+            $session_table[$this->getElementId()] = serialize($a_value);
         } else {
-            unset($_SESSION["form_" . $this->table_gui->getId()][$this->getElementId()]);
+            unset($session_table[$this->getElementId()]);
         }
+        ilSession::set("form_" . $this->table_gui->getId(), $session_table);
     }
 
     /**
      * Load value(s) from filter store (in session)
-     * @return mixed
+     * @return
      */
-    protected function readFilter() : mixed
+    protected function readFilter()
     {
         if (!$this->table_gui instanceof ilTable2GUI) {
             return null;
         }
-        $value = $_SESSION["form_" . $this->table_gui->getId()][$this->getElementId()];
+        $session_table = (array) (ilSession::get("form_" . $this->table_gui->getId()) ?? []);
+        $value = $session_table[$this->getElementId()] ?? '';
         if ($value) {
             return unserialize($value);
         }
@@ -132,7 +137,10 @@ abstract class ilADTSearchBridge
     {
         if ($this->getForm() instanceof ilPropertyFormGUI) {
             $this->getForm()->addItem($a_field);
-        } elseif ($this->getTableGUI() instanceof ilTable2GUI) {
+        } elseif (
+            $this->getTableGUI() instanceof ilTable2GUI &&
+            $a_field instanceof ilTableFilterItem
+        ) {
             $this->table_filter_fields[$a_field->getFieldId()] = $a_field;
             $this->getTableGUI()->addFilterItem($a_field);
         }
@@ -155,10 +163,10 @@ abstract class ilADTSearchBridge
 
     /**
      * Check if incoming values should be imported at all
-     * @param mixed $a_post
+     * @param string|int $a_post
      * @return bool
      */
-    protected function shouldBeImportedFromPost(mixed $a_post) : bool
+    protected function shouldBeImportedFromPost($a_post) : bool
     {
         return true;
     }
@@ -168,24 +176,24 @@ abstract class ilADTSearchBridge
      * @param array $a_post
      * @return mixed
      */
-    protected function extractPostValues(array $a_post = null) : mixed
+    protected function extractPostValues(array $a_post = null)
     {
         $element_id = $this->getElementId();
         $multi = strpos($this->getElementId(), "[");
 
         // get rid of this case
         if ($a_post === null) {
-            $a_post = $_POST;
+            $a_post = $this->http->request()->getParsedBody();
             if ($multi !== false) {
                 $post = $a_post[substr($element_id, 0, $multi)][substr($element_id, $multi + 1, -1)];
             } else {
                 $post = $a_post[$element_id];
             }
         } elseif ($multi !== false) {
-                $post = $a_post[substr($element_id, $multi + 1, -1)];
-            } else {
-                $post = $a_post[$element_id];
-            }
+            $post = $a_post[substr($element_id, $multi + 1, -1)];
+        } else {
+            $post = $a_post[$element_id];
+        }
         return $post;
     }
 

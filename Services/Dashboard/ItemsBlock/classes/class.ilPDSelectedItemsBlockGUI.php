@@ -396,7 +396,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
                         $members->sendUnsubscribeNotificationToAdmins($this->user->getId());
                         $members->sendNotification(
-                            $members->NOTIFY_UNSUBSCRIBE,
+                            ilCourseMembershipMailNotification::TYPE_UNSUBSCRIBE_MEMBER,
                             $this->user->getId()
                         );
                         break;
@@ -433,7 +433,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
 
     /**

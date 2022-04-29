@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilRbacLogTableGUI
  * @author       Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -9,10 +23,9 @@
  */
 class ilRbacLogTableGUI extends ilTable2GUI
 {
-    protected $operations = array();
-    protected $filter = array();
-    protected $action_map = array();
-
+    protected array $operations = [];
+    protected array $filter = [];
+    protected array $action_map = [];
     private int $ref_id;
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd, int $a_ref_id)
@@ -129,8 +142,10 @@ class ilRbacLogTableGUI extends ilTable2GUI
             // added only
             foreach ($raw["ops"] as $role_id => $ops) {
                 foreach ($ops as $op) {
-                    $result[] = array("action" => sprintf($this->lng->txt("rbac_log_operation_add"),
-                        ilObject::_lookupTitle($role_id)),
+                    $result[] = array("action" => sprintf(
+                        $this->lng->txt("rbac_log_operation_add"),
+                        ilObject::_lookupTitle($role_id)
+                    ),
                                       "operation" => $this->getOPCaption($type, $op)
                     );
                 }
@@ -139,8 +154,10 @@ class ilRbacLogTableGUI extends ilTable2GUI
             foreach ($raw["ops"] as $role_id => $actions) {
                 foreach ($actions as $action => $ops) {
                     foreach ((array) $ops as $op) {
-                        $result[] = array("action" => sprintf($this->lng->txt("rbac_log_operation_" . $action),
-                            ilObject::_lookupTitle($role_id)),
+                        $result[] = array("action" => sprintf(
+                            $this->lng->txt("rbac_log_operation_" . $action),
+                            ilObject::_lookupTitle($role_id)
+                        ),
                                           "operation" => $this->getOPCaption($type, $op)
                         );
                     }
@@ -151,8 +168,10 @@ class ilRbacLogTableGUI extends ilTable2GUI
         if (isset($raw["inht"])) {
             foreach ($raw["inht"] as $action => $role_ids) {
                 foreach ((array) $role_ids as $role_id) {
-                    $result[] = array("action" => sprintf($this->lng->txt("rbac_log_inheritance_" . $action),
-                        ilObject::_lookupTitle($role_id))
+                    $result[] = array("action" => sprintf(
+                        $this->lng->txt("rbac_log_inheritance_" . $action),
+                        ilObject::_lookupTitle($role_id)
+                    )
                     );
                 }
             }
@@ -167,8 +186,10 @@ class ilRbacLogTableGUI extends ilTable2GUI
         foreach ($raw as $type => $actions) {
             foreach ($actions as $action => $ops) {
                 foreach ($ops as $op) {
-                    $result[] = array("action" => sprintf($this->lng->txt("rbac_log_operation_" . $action),
-                        $this->lng->txt("obj_" . $type)),
+                    $result[] = array("action" => sprintf(
+                        $this->lng->txt("rbac_log_operation_" . $action),
+                        $this->lng->txt("obj_" . $type)
+                    ),
                                       "operation" => $this->getOPCaption($type, $op)
                     );
                 }
@@ -178,9 +199,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param string           $a_type
      * @param array|int|string $a_op
-     * @return string
      */
     protected function getOPCaption(string $a_type, $a_op) : string
     {

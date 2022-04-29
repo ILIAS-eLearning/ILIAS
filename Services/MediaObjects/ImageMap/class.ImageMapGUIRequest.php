@@ -130,7 +130,7 @@ class ImageMapGUIRequest
     {
         return $this->str("area_link_ext");
     }
-
+    
     public function getArea() : array
     {
         return $this->strArray("area");

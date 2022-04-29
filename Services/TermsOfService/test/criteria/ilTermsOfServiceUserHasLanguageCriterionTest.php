@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Legacy\Legacy;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -10,7 +26,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCriterionBaseTest
 {
-    /** @var MockObject|ilLanguage */
+    /** @var MockObject&ilLanguage */
     protected ilLanguage $lng;
     protected string $expectedInitialValue = 'en';
     protected string $expectedAfterFormSubmitValue = 'de';
@@ -41,8 +57,8 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
     {
         $criterion = $this->getInstance();
 
-        $this->assertEquals('usr_language', $criterion->getTypeIdent());
-        $this->assertEquals(true, $criterion->hasUniqueNature());
+        $this->assertSame('usr_language', $criterion->getTypeIdent());
+        $this->assertTrue($criterion->hasUniqueNature());
 
         return $criterion;
     }
@@ -50,7 +66,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
     /**
      * @param ilTermsOfServiceCriterionTypeGUI $gui
      * @param string                           $httpCriterionSelectionBodyParameter
-     * @return MockObject|ilPropertyFormGUI
+     * @return MockObject&ilPropertyFormGUI
      */
     protected function buildForm(
         ilTermsOfServiceCriterionTypeGUI $gui,
@@ -90,7 +106,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
 
         $languageSelection = $form->getItemByPostVar($httpCriterionConfigBodyParameter);
         $this->assertInstanceOf(ilSelectInputGUI::class, $languageSelection);
-        $this->assertEquals($languageSelection->getValue(), $this->expectedInitialValue);
+        $this->assertSame($languageSelection->getValue(), $this->expectedInitialValue);
 
         return $criterion;
     }
@@ -120,7 +136,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
         $value = $gui->getConfigByForm($form);
 
         $this->assertInstanceOf(ilTermsOfServiceCriterionConfig::class, $value);
-        $this->assertEquals($this->expectedAfterFormSubmitValue, $value['lng']);
+        $this->assertSame($this->expectedAfterFormSubmitValue, $value['lng']);
         $this->assertEquals($this->getCriterionConfig(['lng' => $this->expectedAfterFormSubmitValue]), $value);
     }
 
@@ -173,7 +189,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
 
         $this->assertInstanceOf(Component::class, $actual);
         $this->assertInstanceOf(Legacy::class, $actual);
-        $this->assertEquals($translation, $actual->getContent());
+        $this->assertSame($translation, $actual->getContent());
     }
 
     public function failingConfigProvider() : array

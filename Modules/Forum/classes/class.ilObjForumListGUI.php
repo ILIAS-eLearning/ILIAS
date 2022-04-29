@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjForumListGUI
@@ -60,13 +75,13 @@ class ilObjForumListGUI extends ilObjectListGUI
 
         $this->lng->loadLanguageModule('forum');
 
-        $properties = ilObjForumAccess::getStatisticsByRefId((int) $this->ref_id);
+        $properties = ilObjForumAccess::getStatisticsByRefId($this->ref_id);
         $num_posts_total = $properties['num_posts'];
         $num_unread_total = $properties['num_unread_posts'];
 
         $num_drafts_total = 0;
         if (ilForumPostDraft::isSavePostDraftAllowed()) {
-            $drafts_statistics = ilForumPostDraft::getDraftsStatisticsByRefId((int) $this->ref_id);
+            $drafts_statistics = ilForumPostDraft::getDraftsStatisticsByRefId($this->ref_id);
             $num_drafts_total = $drafts_statistics['total'];
         }
 
@@ -76,7 +91,7 @@ class ilObjForumListGUI extends ilObjectListGUI
             $num_new_total = $properties['num_new_posts'];
         }
 
-        $last_post = ilObjForumAccess::getLastPostByRefId((int) $this->ref_id);
+        $last_post = ilObjForumAccess::getLastPostByRefId($this->ref_id);
 
         if (!$this->user->isAnonymous()) {
             if ($this->getDetailsLevel() === ilObjectListGUI::DETAILS_ALL) {
@@ -111,7 +126,7 @@ class ilObjForumListGUI extends ilObjectListGUI
 
         if (
             $this->getDetailsLevel() === ilObjectListGUI::DETAILS_ALL &&
-            ilForumProperties::getInstance((int) $this->obj_id)->isAnonymized()
+            ilForumProperties::getInstance($this->obj_id)->isAnonymized()
         ) {
             $props[] = [
                 'alert' => false,
@@ -126,7 +141,7 @@ class ilObjForumListGUI extends ilObjectListGUI
                 "\" href=\"ilias.php?baseClass=" . ilRepositoryGUI::class . "&amp;cmd=viewThread&amp;cmdClass=" .
                 ilObjForumGUI::class . "&amp;target=true&amp;pos_pk=" .
                 $last_post['pos_pk'] . "&amp;thr_pk=" . $last_post['pos_thr_fk'] . "&amp;ref_id=" .
-                (int) $this->ref_id . "#" . $last_post["pos_pk"] . "\">" .
+                $this->ref_id . "#" . $last_post["pos_pk"] . "\">" .
                 ilObjForumAccess::prepareMessageForLists($last_post['pos_message']) . "</a> " .
                 strtolower($this->lng->txt('from')) . "&nbsp;";
 
@@ -138,9 +153,9 @@ class ilObjForumListGUI extends ilObjectListGUI
                 [
                     'class' => 'il_ItemProperty',
                     'href' => 'ilias.php?baseClass=' . ilRepositoryGUI::class . '&amp;cmd=showUser&amp;' .
-                        'cmdClass=' . ilObjForumGUI::class . '&amp;ref_id=' . (int) $this->ref_id . '&amp;' .
+                        'cmdClass=' . ilObjForumGUI::class . '&amp;ref_id=' . $this->ref_id . '&amp;' .
                         'user=' . $last_post['pos_display_user_id'] . '&amp;offset=0&amp;backurl=' .
-                        urlencode('ilias.php?baseClass=' . ilRepositoryGUI::class . '&amp;ref_id=' . (int) $this->ref_id)
+                        urlencode('ilias.php?baseClass=' . ilRepositoryGUI::class . '&amp;ref_id=' . $this->ref_id)
                 ]
             );
 
@@ -158,18 +173,18 @@ class ilObjForumListGUI extends ilObjectListGUI
         return $props;
     }
 
-    public function getCommandFrame($a_cmd) : string
+    public function getCommandFrame(string $cmd) : string
     {
         return ilFrameTargetInfo::_getFrame('MainContent');
     }
 
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $cmd) : string
     {
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'thread':
                 return (
                     'ilias.php?baseClass=' . ilRepositoryGUI::class . '&amp;cmd=viewThread&amp;cmdClass=' .
-                    ilObjForumGUI::class . '&amp;ref_id=' . (int) $this->ref_id . '&amp;thr_pk=' . $this->getChildId()
+                    ilObjForumGUI::class . '&amp;ref_id=' . $this->ref_id . '&amp;thr_pk=' . $this->getChildId()
                 );
 
             case 'posting':
@@ -177,12 +192,12 @@ class ilObjForumListGUI extends ilObjectListGUI
                 // TODO PHP 8 This cannot be correct, an id which is used as an array (don't know what is the correct code here) ...
                 return (
                     'ilias.php?baseClass=' . ilRepositoryGUI::class . '&amp;cmd=viewThread&amp;cmdClass=' .
-                    ilObjForumGUI::class . '&amp;target=1&amp;ref_id=' . (int) $this->ref_id . '&amp;thr_pk=' .
+                    ilObjForumGUI::class . '&amp;target=1&amp;ref_id=' . $this->ref_id . '&amp;thr_pk=' .
                     $thread_post[0] . '&amp;pos_pk=' . $thread_post[1] . '#' . $thread_post[1]
                 );
 
             default:
-                return parent::getCommandLink($a_cmd);
+                return parent::getCommandLink($cmd);
         }
     }
 }

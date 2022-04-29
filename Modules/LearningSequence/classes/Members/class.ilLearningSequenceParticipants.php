@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Manage participants.
  */
@@ -38,7 +52,7 @@ class ilLearningSequenceParticipants extends ilParticipants
         $app_event_handler = $DIC['ilAppEventHandler'];
         $settings = $DIC["ilSetting"];
 
-        if (isset(self::$instances[$obj_id]) and self::$instances[$obj_id]) {
+        if (isset(self::$instances[$obj_id]) && self::$instances[$obj_id]) {
             return self::$instances[$obj_id];
         }
 
@@ -86,11 +100,7 @@ class ilLearningSequenceParticipants extends ilParticipants
 
     public function add(int $a_usr_id, int $a_role) : bool
     {
-        if (parent::add($a_usr_id, $a_role)) {
-            return true;
-        }
-
-        return false;
+        return parent::add($a_usr_id, $a_role);
     }
 
     public function addSubscriber(int $a_usr_id) : void

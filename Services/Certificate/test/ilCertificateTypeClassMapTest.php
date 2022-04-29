@@ -1,17 +1,27 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once 'Services/Certificate/classes/Cron/class.ilCertificateTypeClassMap.php';
-require_once 'Services/Exceptions/classes/class.ilException.php';
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
 {
-    /**
-     * @var
-     */
-    private $classMap;
+    private ilCertificateTypeClassMap $classMap;
 
     protected function setUp() : void
     {
@@ -22,33 +32,33 @@ class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
     {
         $class = $this->classMap->getPlaceHolderClassNameByType('crs');
 
-        $this->assertEquals(ilCoursePlaceholderValues::class, $class);
+        $this->assertSame(ilCoursePlaceholderValues::class, $class);
     }
 
     public function testFetchTestPlaceHolderClass() : void
     {
         $class = $this->classMap->getPlaceHolderClassNameByType('tst');
 
-        $this->assertEquals(ilTestPlaceholderValues::class, $class);
+        $this->assertSame(ilTestPlaceholderValues::class, $class);
     }
 
     public function testFetchExercisePlaceHolderClass() : void
     {
         $class = $this->classMap->getPlaceHolderClassNameByType('exc');
 
-        $this->assertEquals(ilExercisePlaceholderValues::class, $class);
+        $this->assertSame(ilExercisePlaceholderValues::class, $class);
     }
 
     public function testFetchScormPlaceHolderClass() : void
     {
         $class = $this->classMap->getPlaceHolderClassNameByType('sahs');
 
-        $this->assertEquals(ilScormPlaceholderValues::class, $class);
+        $this->assertSame(ilScormPlaceholderValues::class, $class);
     }
 
     public function testFetchUnknownClassWillResultInException() : void
     {
-        $this->expectException(\ilException::class);
+        $this->expectException(ilException::class);
 
         $class = $this->classMap->getPlaceHolderClassNameByType('something');
 

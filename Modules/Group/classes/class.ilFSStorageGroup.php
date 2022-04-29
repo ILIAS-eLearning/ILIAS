@@ -65,11 +65,11 @@ class ilFSStorageGroup extends ilFileSystemAbstractionStorage
      */
     public function getMemberExportFiles() : array
     {
-        if (!@is_dir($this->getMemberExportDirectory())) {
+        if (!is_dir($this->getMemberExportDirectory())) {
             return [];
         }
 
-        $dp = @opendir($this->getMemberExportDirectory());
+        $dp = opendir($this->getMemberExportDirectory());
         $files = [];
         while ($file = readdir($dp)) {
             if (is_dir($file)) {
@@ -96,7 +96,7 @@ class ilFSStorageGroup extends ilFileSystemAbstractionStorage
     public function getMemberExportFile(string $a_name) : string
     {
         $file_name = $this->getMemberExportDirectory() . '/' . $a_name;
-        if (@file_exists($file_name)) {
+        if (file_exists($file_name)) {
             return file_get_contents($file_name);
         }
         return '';

@@ -21,16 +21,16 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("VIEW_ALL", "1");
-define("VIEW_ADMINISTRATOR", "2");
-define("VIEW_ADMINAUTHORITY", "3");
-define("VIEW_ASSESSOR", "4");
-define("VIEW_AUTHOR", "5");
-define("VIEW_CANDIDATE", "6");
-define("VIEW_INVIGILATORPROCTOR", "7");
-define("VIEW_PSYCHOMETRICIAN", "8");
-define("VIEW_SCORER", "9");
-define("VIEW_TUTOR", "10");
+const VIEW_ALL = "1";
+const VIEW_ADMINISTRATOR = "2";
+const VIEW_ADMINAUTHORITY = "3";
+const VIEW_ASSESSOR = "4";
+const VIEW_AUTHOR = "5";
+const VIEW_CANDIDATE = "6";
+const VIEW_INVIGILATORPROCTOR = "7";
+const VIEW_PSYCHOMETRICIAN = "8";
+const VIEW_SCORER = "9";
+const VIEW_TUTOR = "10";
 
 /**
 * QTI itemfeedback class
@@ -42,23 +42,24 @@ define("VIEW_TUTOR", "10");
 */
 class ilQTIItemfeedback
 {
-    public $view;
-    public $ident;
-    public $title;
-    public $flow_mat;
-    public $material;
-    public $solution;
-    public $hint;
+    public ?string $view;
+    public ?string $ident;
+    public ?string $title;
+    /** @var ilQTIFlowmat[] */
+    public array $flow_mat;
+    /** @var ilQTIMaterial[] */
+    public array $material;
     
     public function __construct()
     {
-        $this->flow_mat = array();
-        $this->material = array();
-        $this->solution = array();
-        $this->hint = array();
+        $this->view = null;
+        $this->ident = null;
+        $this->title = null;
+        $this->flow_mat = [];
+        $this->material = [];
     }
-    
-    public function setView($a_view)
+
+    public function setView(string $a_view) : void
     {
         switch (strtolower($a_view)) {
             case "1":
@@ -103,49 +104,39 @@ class ilQTIItemfeedback
                 break;
         }
     }
-    
-    public function getView()
+
+    public function getView() : ?string
     {
         return $this->view;
     }
-    
-    public function setIdent($a_ident)
+
+    public function setIdent(string $a_ident) : void
     {
         $this->ident = $a_ident;
     }
-    
-    public function getIdent()
+
+    public function getIdent() : ?string
     {
         return $this->ident;
     }
-    
-    public function setTitle($a_title)
+
+    public function setTitle(?string $a_title) : void
     {
         $this->title = $a_title;
     }
-    
-    public function getTitle()
+
+    public function getTitle() : ?string
     {
         return $this->title;
     }
-    
-    public function addFlow_mat($a_flow_mat)
+
+    public function addFlow_mat(ilQTIFlowmat $a_flow_mat) : void
     {
-        array_push($this->flow_mat, $a_flow_mat);
+        $this->flow_mat[] = $a_flow_mat;
     }
-    
-    public function addMaterial($a_material)
+
+    public function addMaterial(ilQTIMaterial $a_material) : void
     {
-        array_push($this->material, $a_material);
-    }
-    
-    public function addSolution($a_solution)
-    {
-        array_push($this->solution, $a_solution);
-    }
-    
-    public function addHint($a_hint)
-    {
-        array_push($this->hint, $a_hint);
+        $this->material[] = $a_material;
     }
 }

@@ -44,19 +44,35 @@ abstract class ilFilePreviewRenderer extends ilPreviewRenderer
         if (!parent::supports($preview)) {
             return false;
         }
-        // bugfix mantis 23293
-        if (isset($_FILES['file']['name'])) {
-            $filename = $_FILES['file']['name'];
-        } elseif (isset($_FILES['upload_files']['name'])) {
-            $filename = $_FILES['upload_files']['name'];
+
+        // legacy
+        if (null === $preview->getObjId()) {
+            // bugfix mantis 23293
+            if (isset($_FILES['file']['name'])) {
+                $filename = $_FILES['file']['name'];
+            } elseif (isset($_FILES['upload_files']['name'])) {
+                $filename = $_FILES['upload_files']['name'];
+            }
+            if (empty($filename)) {
+                return false;
+            }
+
+            // contains that extension?
+            $ext = ilObjFileAccess::_getFileExtension($filename);
+            return in_array($ext, $this->getSupportedFileFormats(), true);
         }
-        if (empty($filename)) {
+
+        try {
+            $obj = new ilObjFile($preview->getObjId(), false);
+        } catch (Exception $e) {
             return false;
         }
-        $ext = ilObjFileAccess::_getFileExtension($filename);
 
-        // contains that extension?
-        return in_array($ext, $this->getSupportedFileFormats());
+        if (empty($obj->getResourceId())) {
+            return false;
+        }
+
+        return in_array($obj->getFileExtension(), $this->getSupportedFileFormats(), true);
     }
 
     /**

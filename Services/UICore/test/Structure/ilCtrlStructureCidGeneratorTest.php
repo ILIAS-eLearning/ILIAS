@@ -15,7 +15,7 @@ class ilCtrlStructureCidGeneratorTest extends TestCase
     {
         $generator = new ilCtrlStructureCidGenerator();
         $first_cid = $generator->getCid();
-        $next_cid  = $generator->getCid();
+        $next_cid = $generator->getCid();
 
         $this->assertEquals('0', $first_cid);
         $this->assertNotEquals('0', $next_cid);
@@ -26,7 +26,7 @@ class ilCtrlStructureCidGeneratorTest extends TestCase
     {
         $generator = new ilCtrlStructureCidGenerator(100);
         $first_cid = $generator->getCid();
-        $next_cid  = $generator->getCid();
+        $next_cid = $generator->getCid();
 
         $this->assertEquals('2s', $first_cid);
         $this->assertNotEquals('2s', $next_cid);
@@ -37,7 +37,7 @@ class ilCtrlStructureCidGeneratorTest extends TestCase
     {
         $generator = new ilCtrlStructureCidGenerator(-100);
         $first_cid = $generator->getCid();
-        $next_cid  = $generator->getCid();
+        $next_cid = $generator->getCid();
 
         $this->assertEquals('-2s', $first_cid);
         $this->assertNotEquals('-2s', $next_cid);

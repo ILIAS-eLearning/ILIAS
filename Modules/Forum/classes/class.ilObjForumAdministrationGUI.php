@@ -1,10 +1,24 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Forum Administration Settings.
  * @author            Nadia Matuschek <nmatuschek@databay.de>
- * @version           $Id:$
  * @ilCtrl_Calls      ilObjForumAdministrationGUI: ilPermissionGUI
  * @ilCtrl_IsCalledBy ilObjForumAdministrationGUI: ilAdministrationGUI
  * @ingroup           ModulesForum
@@ -12,7 +26,6 @@
 class ilObjForumAdministrationGUI extends ilObjectGUI
 {
     private \ILIAS\DI\RBACServices $rbac;
-    protected ilErrorHandling $error;
     private ilCronManager $cronManager;
 
     public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
@@ -23,7 +36,6 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         global $DIC;
 
         $this->rbac = $DIC->rbac();
-        $this->error = $DIC['ilErr'];
         $this->cronManager = $DIC->cron()->manager();
 
         $this->type = 'frma';
@@ -87,7 +99,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
             $this->populateForm($form);
         }
 
-        $this->tpl->setContent($form->getHtml());
+        $this->tpl->setContent($form->getHTML());
     }
 
     public function saveSettings() : void

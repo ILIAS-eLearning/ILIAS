@@ -1,12 +1,27 @@
-<?php declare(strict_types=1);/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Base class for course and group participants
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  * @ingroup ServicesMembership
  */
-
 /**
  * @todo move these constants to ilParticipants
  */
@@ -25,23 +40,19 @@ abstract class ilParticipants
     public const IL_ROLE_POSITION_MEMBER = 3;
 
     protected string $component = '';
-
     protected int $ref_id = 0;
     protected int $obj_id = 0;
     protected string $type = '';
-
     protected array $roles = [];
     protected array $role_data = [];
     protected array $roles_sorted = [];
     protected array $role_assignments = [];
-
     protected array $participants = [];
     protected array $participants_status = [];
     protected array $members = [];
     protected array $tutors = [];
     protected array $admins = [];
     protected array $subscribers = [];
-
     protected ilAppEventHandler $eventHandler;
     protected ilRbacReview $rbacReview;
     protected ilRbacAdmin $rbacAdmin;
@@ -68,16 +79,14 @@ abstract class ilParticipants
         $this->rbacAdmin = $DIC->rbac()->admin();
         $this->objectDataCache = $DIC['ilObjDataCache'];
         $this->error = $DIC['ilErr'];
-
         $this->component = $a_component_name;
-
         $this->ref_id = $a_ref_id;
         $this->obj_id = ilObject::_lookupObjId($a_ref_id);
         $this->type = ilObject::_lookupType($this->obj_id);
-
+        $this->recommended_content_manager = new ilRecommendedContentManager();
+    
         $this->readParticipants();
         $this->readParticipantsStatus();
-        $this->recommended_content_manager = new ilRecommendedContentManager();
     }
 
     public static function getInstance(int $a_ref_id) : ilParticipants
@@ -99,7 +108,7 @@ abstract class ilParticipants
             default:
                 $logger()->mem()->logStack();
                 $logger()->mem()->warning('Invalid ref_id -> obj_id given: ' . $a_ref_id . ' -> ' . $obj_id);
-                throw new \InvalidArgumentException('Invalid obj_id given.');
+                throw new InvalidArgumentException('Invalid obj_id given.');
         }
     }
 
@@ -164,12 +173,12 @@ abstract class ilParticipants
         }
         $part = self::getInstance($ref_id);
         if ($part->isAssigned($a_usr_id)) {
-            if ($part->getType() == 'crs') {
+            if ($part->getType() === 'crs') {
                 if (!ilObjCourse::lookupShowMembersEnabled($a_obj_id)) {
                     return false;
                 }
             }
-            if ($part->getType() == 'grp') {
+            if ($part->getType() === 'grp') {
                 if (!ilObjGroup::lookupShowMembersEnabled($a_obj_id)) {
                     return false;
                 }
@@ -189,22 +198,21 @@ abstract class ilParticipants
         bool $a_only_member_roles
     ) : array {
         global $DIC;
-
-        $logger = $DIC->logger()->mmbr();
+        
         $ilDB = $DIC->database();
 
         $j2 = $a2 = '';
         if ($a_only_member_roles) {
             $j2 = "JOIN object_data obd2 ON (ua.rol_id = obd2.obj_id) ";
             $a2 = 'AND obd2.title = ' . $ilDB->concat(
-                    array(
+                array(
                         array($ilDB->quote('il_', 'text')),
                         array('obd.type'),
                         array($ilDB->quote('_member_', 'text')),
                         array('obr.ref_id'),
                     ),
-                    false
-                );
+                false
+            );
         }
 
         $query = "SELECT DISTINCT obd.obj_id,obr.ref_id,ua.usr_id FROM rbac_ua ua " .
@@ -230,7 +238,6 @@ abstract class ilParticipants
      * Get course or group membership
      * @param int      $a_usr_id usr_id
      * @param string[] $a_type   array of object types
-     * @param bool     $a_only_member_role
      * @return int[]
      */
     public static function _getMembershipByType(
@@ -252,14 +259,14 @@ abstract class ilParticipants
         if ($a_only_member_role) {
             $j2 = "JOIN object_data obd2 ON (ua.rol_id = obd2.obj_id) ";
             $a2 = 'AND obd2.title = ' . $ilDB->concat(
-                    array(
+                array(
                         array($ilDB->quote('il_', 'text')),
                         array('obd.type'),
                         array($ilDB->quote('_member_', 'text')),
                         array('obr.ref_id'),
                     ),
-                    false
-                );
+                false
+            );
         }
 
         // #14290 - no role folder anymore
@@ -275,7 +282,7 @@ abstract class ilParticipants
         $res = $ilDB->query($query);
         $ref_ids = [];
         while ($row = $ilDB->fetchObject($res)) {
-            $ref_ids[] = $row->obj_id;
+            $ref_ids[] = (int) $row->obj_id;
         }
         return $ref_ids;
     }
@@ -381,7 +388,7 @@ abstract class ilParticipants
         $res = $ilDB->manipulate($query);
 
         $query = "DELETE FROM il_subscribers " .
-            "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . "";
+            "WHERE obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
 
         $query = 'DELETE FROM crs_waiting_list ' .
@@ -397,10 +404,10 @@ abstract class ilParticipants
         global $DIC;
 
         $ilDB = $DIC->database();
-        $query = "DELETE FROM obj_members WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . "";
+        $query = "DELETE FROM obj_members WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->manipulate($query);
 
-        $query = "DELETE FROM il_subscribers WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . "";
+        $query = "DELETE FROM il_subscribers WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer');
         $res = $ilDB->manipulate($query);
 
         ilCourseWaitingList::_deleteUser($a_usr_id);
@@ -422,7 +429,7 @@ abstract class ilParticipants
         $roles = $rbacreview->getRolesOfRoleFolder($a_ref_id, false);
         foreach ($roles as $role) {
             $title = ilObject::_lookupTitle($role);
-            if (substr($title, 0, 13) == ('il_' . $type . '_member')) {
+            if (strpos($title, ('il_' . $type . '_member')) === 0) {
                 return $role;
             }
         }
@@ -451,7 +458,7 @@ abstract class ilParticipants
         $res = $this->ilDB->query($query);
         $recp = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($this->isAdmin($row->usr_id) or $this->isTutor($row->usr_id)) {
+            if ($this->isAdmin((int) $row->usr_id) || $this->isTutor((int) $row->usr_id)) {
                 $recp[] = (int) $row->usr_id;
             }
         }
@@ -553,7 +560,7 @@ abstract class ilParticipants
      */
     public function isLastAdmin(int $a_usr_id) : bool
     {
-        return in_array($a_usr_id, $this->getAdmins()) && count($this->getAdmins()) == 1;
+        return in_array($a_usr_id, $this->getAdmins()) && count($this->getAdmins()) === 1;
     }
 
     /**
@@ -584,7 +591,7 @@ abstract class ilParticipants
      * @param int usr_id
      * @param int[] array of new roles
      */
-    public function updateRoleAssignments($a_usr_id, $a_roles)
+    public function updateRoleAssignments($a_usr_id, $a_roles) : void
     {
         foreach ($this->getRoles() as $role_id) {
             if ($this->rbacReview->isAssigned($a_usr_id, $role_id)) {
@@ -604,7 +611,6 @@ abstract class ilParticipants
      * Check if users for deletion are last admins
      * @access public
      * @param int[] array of user ids for deletion
-     * @return bool
      * @todo   fix this and add unit test
      */
     public function checkLastAdmin(array $a_usr_ids) : bool
@@ -660,10 +666,10 @@ abstract class ilParticipants
         $this->eventHandler->raise(
             $this->getComponent(),
             "deleteParticipant",
-            array(
+            [
                 'obj_id' => $this->obj_id,
                 'usr_id' => $a_usr_id
-            )
+            ]
         );
     }
 
@@ -757,6 +763,8 @@ abstract class ilParticipants
         }
 
         switch ($a_role) {
+            case self::IL_LSO_ADMIN:
+            case self::IL_GRP_ADMIN:
             case self::IL_CRS_ADMIN:
                 $this->admins[] = $a_usr_id;
                 break;
@@ -765,29 +773,13 @@ abstract class ilParticipants
                 $this->tutors[] = $a_usr_id;
                 break;
 
+            case self::IL_SESS_MEMBER:
+            case self::IL_LSO_MEMBER:
+            case self::IL_GRP_MEMBER:
             case self::IL_CRS_MEMBER:
                 $this->members[] = $a_usr_id;
                 break;
 
-            case self::IL_GRP_ADMIN:
-                $this->admins[] = $a_usr_id;
-                break;
-
-            case self::IL_GRP_MEMBER:
-                $this->members[] = $a_usr_id;
-                break;
-
-            case self::IL_LSO_ADMIN:
-                $this->admins[] = $a_usr_id;
-                break;
-
-            case self::IL_LSO_MEMBER:
-                $this->members[] = $a_usr_id;
-                break;
-
-            case self::IL_SESS_MEMBER:
-                $this->members[] = $a_usr_id;
-                break;
         }
 
         $this->participants[] = $a_usr_id;
@@ -812,7 +804,6 @@ abstract class ilParticipants
 
     /**
      * @param int[]
-     * @return bool
      */
     public function deleteParticipants(array $a_user_ids) : bool
     {
@@ -860,21 +851,21 @@ abstract class ilParticipants
     protected function readParticipants() : void
     {
         $this->roles = $this->rbacReview->getRolesOfRoleFolder($this->ref_id, false);
-
-        $users = [];
         $this->participants = [];
         $this->members = $this->admins = $this->tutors = [];
 
         $additional_roles = [];
         $auto_generated_roles = [];
         foreach ($this->roles as $role_id) {
-            $title = $this->objectDataCache->lookupTitle((int) $role_id);
+            $title = $this->objectDataCache->lookupTitle($role_id);
             switch (substr($title, 0, 8)) {
                 case 'il_crs_m':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_MEMBER;
                     $this->role_data[self::IL_CRS_MEMBER] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->members = array_unique(array_merge($assigned, $this->members));
                     $this->role_assignments[$role_id] = $assigned;
                     break;
@@ -882,8 +873,10 @@ abstract class ilParticipants
                 case 'il_crs_a':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_ADMIN;
                     $this->role_data[self::IL_CRS_ADMIN] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->admins = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
@@ -891,8 +884,10 @@ abstract class ilParticipants
                 case 'il_crs_t':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_TUTOR;
                     $this->role_data[self::IL_CRS_TUTOR] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->tutors = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
@@ -900,8 +895,10 @@ abstract class ilParticipants
                 case 'il_grp_a':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_ADMIN;
                     $this->role_data[self::IL_GRP_ADMIN] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->admins = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
@@ -909,24 +906,30 @@ abstract class ilParticipants
                 case 'il_grp_m':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_MEMBER;
                     $this->role_data[self::IL_GRP_MEMBER] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->members = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
 
                 case 'il_sess_':
                     $this->role_data[self::IL_SESS_MEMBER] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->members = $this->rbacReview->assignedUsers($role_id);
                     break;
 
                 case 'il_lso_m':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_MEMBER;
                     $this->role_data[self::IL_LSO_MEMBER] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->members = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
@@ -934,16 +937,20 @@ abstract class ilParticipants
                 case 'il_lso_a':
                     $auto_generated_roles[$role_id] = self::IL_ROLE_POSITION_ADMIN;
                     $this->role_data[self::IL_LSO_ADMIN] = $role_id;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->admins = $this->rbacReview->assignedUsers($role_id);
                     $this->role_assignments[$role_id] = $assigned;
                     break;
 
                 default:
                     $additional_roles[$role_id] = $title;
-                    $this->participants = array_unique(array_merge($assigned = $this->rbacReview->assignedUsers($role_id),
-                        $this->participants));
+                    $this->participants = array_unique(array_merge(
+                        $assigned = $this->rbacReview->assignedUsers($role_id),
+                        $this->participants
+                    ));
                     $this->members = array_unique(array_merge($assigned, $this->members));
                     $this->role_assignments[$role_id] = $assigned;
                     break;
@@ -976,7 +983,7 @@ abstract class ilParticipants
      */
     public function isGroupingMember(int $a_usr_id, string $a_field = '') : bool
     {
-        if (!strlen($a_field)) {
+        if ($a_field === '') {
             return false;
         }
         // Used for membership limitations -> check membership by given field
@@ -1014,7 +1021,6 @@ abstract class ilParticipants
     }
 
     /**
-     * @param int $a_obj_id
      * @return int[]
      */
     public static function lookupSubscribers(int $a_obj_id) : array
@@ -1049,14 +1055,14 @@ abstract class ilParticipants
         return count($this->getSubscribers());
     }
 
-    public function getSubscriberData($a_usr_id) : array
+    public function getSubscriberData(int $a_usr_id) : array
     {
         return $this->readSubscriberData($a_usr_id);
     }
 
     public function assignSubscribers(array $a_usr_ids) : bool
     {
-        if (!is_array($a_usr_ids) or !count($a_usr_ids)) {
+        if (!is_array($a_usr_ids) || !count($a_usr_ids)) {
             return false;
         }
         foreach ($a_usr_ids as $id) {
@@ -1113,9 +1119,6 @@ abstract class ilParticipants
         foreach ($this->subscribers as $subscriber) {
             if (!$this->assignSubscriber($subscriber)) {
                 continue;
-            } else {
-                // TODO: notification
-                #$this->sendNotification($this->NOTIFY_ACCEPT_SUBSCRIBER,$subscriber);
             }
             ++$counter;
         }
@@ -1178,7 +1181,7 @@ abstract class ilParticipants
     {
         $query = "SELECT * FROM il_subscribers " .
             "WHERE usr_id = " . $this->ilDB->quote($a_usr_id, 'integer') . " " .
-            "AND obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . "";
+            "AND obj_id = " . $this->ilDB->quote($this->obj_id, 'integer');
 
         $res = $this->ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -1194,7 +1197,7 @@ abstract class ilParticipants
         $ilDB = $DIC->database();
         $query = "SELECT * FROM il_subscribers " .
             "WHERE usr_id = " . $ilDB->quote($a_usr_id, 'integer') . " " .
-            "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer') . "";
+            "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer');
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -1215,22 +1218,21 @@ abstract class ilParticipants
 
         $res = $this->ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if (!ilObjectFactory::getInstanceByObjId($row->usr_id, false)) {
-                $this->deleteSubscriber($row->usr_id);
+            if (!ilObjectFactory::getInstanceByObjId((int) $row->usr_id, false)) {
+                $this->deleteSubscriber((int) $row->usr_id);
             }
-            $this->subscribers[] = $row->usr_id;
+            $this->subscribers[] = (int) $row->usr_id;
         }
     }
 
     /**
-     * @param int $a_usr_id
      * @return array<{time: int, usr_id: int, subject: string}>
      */
     protected function readSubscriberData(int $a_usr_id) : array
     {
         $query = "SELECT * FROM il_subscribers " .
             "WHERE obj_id = " . $this->ilDB->quote($this->obj_id, 'integer') . " " .
-            "AND usr_id = " . $this->ilDB->quote($a_usr_id, 'integer') . "";
+            "AND usr_id = " . $this->ilDB->quote($a_usr_id, 'integer');
 
         $res = $this->ilDB->query($query);
         $data = [];
@@ -1313,8 +1315,6 @@ abstract class ilParticipants
 
     /**
      * Set role order position
-     * @param int $a_user_id
-     * @return string
      */
     public function setRoleOrderPosition(int $a_user_id) : string
     {

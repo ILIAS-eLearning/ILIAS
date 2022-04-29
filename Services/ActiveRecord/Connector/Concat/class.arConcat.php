@@ -20,7 +20,6 @@
  */
 class arConcat extends arStatement
 {
-
     protected string $as = '';
     /**
      * @var array

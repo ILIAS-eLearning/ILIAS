@@ -19,6 +19,9 @@ class ilWebDAVMissingResourceException extends NotFound
 {
     public const MISSING_RESSOURCE = 'This object points to a file without resource';
     
+    /**
+     * @param mixed $message
+     */
     public function __construct($message)
     {
         parent::__construct($message);

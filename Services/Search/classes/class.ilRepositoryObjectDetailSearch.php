@@ -45,7 +45,7 @@ class ilRepositoryObjectDetailSearch
     }
     
     
-    public function setQueryString(string $a_query)
+    public function setQueryString(string $a_query) : void
     {
         $this->query_string = $a_query;
     }
@@ -104,7 +104,6 @@ class ilRepositoryObjectDetailSearch
      */
     protected function performDBSearch() : ilRepositoryObjectDetailSearchResult
     {
-
         $query_parser = new ilQueryParser($this->getQueryString());
         
         $query_parser->setCombination(

@@ -21,13 +21,13 @@
 */
 class ilECSCategoryMappingTableGUI extends ilTable2GUI
 {
-    /**
-     * Constructor
-     * @return
-     */
+    private ilLogger $logger;
+
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
+        global $DIC;
         parent::__construct($a_parent_obj, $a_parent_cmd);
+        $this->logger = $DIC->logger()->wsrv();
 
         $this->addColumn('', 'f', '1px');
         $this->addColumn($this->lng->txt('obj_cat'), 'category', '40%');
@@ -41,12 +41,8 @@ class ilECSCategoryMappingTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt('ecs_tbl_active_rules'));
         $this->addMultiCommand('deleteCategoryMappings', $this->lng->txt('delete'));
     }
-    
-    /**
-     * @param
-     * @return void
-     */
-    public function fillRow(array $a_set) : void
+
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('TXT_ID', $this->lng->txt('ecs_import_id'));
@@ -56,20 +52,25 @@ class ilECSCategoryMappingTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_CONDITION', $a_set['kind']);
         $this->tpl->setVariable('TXT_EDIT', $this->lng->txt('edit'));
         $this->tpl->setVariable('PATH', $this->buildPath($a_set['category_id']));
-        
-        $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'rule_id', $a_set['id']);
-        $this->tpl->setVariable('EDIT_LINK', $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'editCategoryMapping'));
-        $this->ctrl->clearParametersByClass(get_class($this->getParentObject()));
+        if ($this->getParentObject()) {
+            $this->ctrl->setParameterByClass(get_class($this->getParentObject()), 'rule_id', $a_set['id']);
+            $this->tpl->setVariable(
+                'EDIT_LINK',
+                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'editCategoryMapping')
+            );
+            $this->ctrl->clearParametersByClass(get_class($this->getParentObject()));
+        } else {
+            $this->logger->error("Cannot fill Category Mapping Table due to parent object being null");
+        }
     }
 
     /**
      * Parse
      * @param	array	$a_rules	Array of mapping rules
-     * @return
      */
     public function parse(array $a_rules) : void
     {
-        $content = array();
+        $content = [];
         foreach ($a_rules as $rule) {
             $tmp_arr['id'] = $rule->getMappingId();
             $tmp_arr['category_id'] = $rule->getContainerId();
@@ -81,7 +82,7 @@ class ilECSCategoryMappingTableGUI extends ilTable2GUI
         $this->setData($content);
     }
     
-    private function buildPath($a_ref_id)
+    private function buildPath(int $a_ref_id) : string
     {
         $loc = new ilLocatorGUI();
         $loc->setTextOnly(false);

@@ -20,7 +20,6 @@
  */
 class arLimitCollection extends arStatementCollection
 {
-
     public function asSQLStatement() : string
     {
         if ($this->hasStatements()) {

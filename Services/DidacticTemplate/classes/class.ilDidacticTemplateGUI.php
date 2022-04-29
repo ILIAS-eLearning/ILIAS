@@ -10,10 +10,12 @@
 class ilDidacticTemplateGUI
 {
     private object $parent_object;
-    private ilLanguage $lng;
-    private ilCtrl $ctrl;
-    private ilTabsGUI $tabs;
-    private ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilTabsGUI $tabs;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLogger $logger;
+
     protected int $requested_template_id = 0;
 
     /**
@@ -28,6 +30,7 @@ class ilDidacticTemplateGUI
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('didactic');
         $this->tpl = $DIC->ui()->mainTemplate();
+        $this->logger = $DIC->logger()->otpl();
 
         $this->parent_object = $a_parent_obj;
         $this->requested_template_id = (int) ($_REQUEST['tplid'] ?? 0);

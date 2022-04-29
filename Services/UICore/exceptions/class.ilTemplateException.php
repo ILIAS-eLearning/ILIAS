@@ -7,5 +7,4 @@
  */
 class ilTemplateException extends ilException
 {
-
 }

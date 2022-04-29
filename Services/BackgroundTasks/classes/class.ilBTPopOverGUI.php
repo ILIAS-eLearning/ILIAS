@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\BackgroundTasks\Bucket;
 use ILIAS\BackgroundTasks\Implementation\Bucket\State;
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractTask;
@@ -9,19 +25,6 @@ use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Legacy\Legacy;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ilBTPopOverGUI
  *
@@ -120,7 +123,7 @@ class ilBTPopOverGUI
         if ($state === State::RUNNING) {
             $url = $this->getRefreshUrl($observer);
             //Running Items probably need to refresh themselves, right?
-            $item = $item->withAdditionalOnLoadCode(fn($id) => "var notification_item = il.UI.item.notification.getNotificationItemObject($('#$id'));
+            $item = $item->withAdditionalOnLoadCode(fn ($id) => "var notification_item = il.UI.item.notification.getNotificationItemObject($('#$id'));
                     il.BGTask.refreshItem(notification_item,'$url');");
 
             $expected = $current_task->getExpectedTimeOfTaskInSeconds();
@@ -161,7 +164,7 @@ class ilBTPopOverGUI
         $options = $userInteraction->getOptions($userInteraction->getInput());
 
         return array_map(
-            function (UserInteraction\Option $option) use ($ctrl, $factory, $observer, $persistence, $redirect_uri, $language): \ILIAS\UI\Component\Button\Shy {
+            function (UserInteraction\Option $option) use ($ctrl, $factory, $observer, $persistence, $redirect_uri, $language) : \ILIAS\UI\Component\Button\Shy {
                 $ctrl->setParameterByClass(
                     ilBTControllerGUI::class,
                     ilBTControllerGUI::FROM_URL,
@@ -218,7 +221,7 @@ class ilBTPopOverGUI
     }
 
 
-    private function getCloseButtonAction(UserInteraction\Option $option, $redirect_uri, Bucket $observer) : string
+    private function getCloseButtonAction(UserInteraction\Option $option, string $redirect_uri, Bucket $observer) : string
     {
         $ctrl = $this->dic->ctrl();
         $persistence = $this->dic->backgroundTasks()->persistence();

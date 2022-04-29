@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -65,7 +65,7 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
     /**
      * @param array<string,string> $a_options Options. Array ("value" => "option_text")
      */
-    public function setOptions(array $a_options)
+    public function setOptions(array $a_options) : void
     {
         $this->options = $a_options;
     }
@@ -236,7 +236,7 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
         return $this->custom_attributes;
     }
 
-    public function setCustomAttributes(array $custom_attributes)
+    public function setCustomAttributes(array $custom_attributes) : void
     {
         $this->custom_attributes = $custom_attributes;
     }
@@ -266,4 +266,16 @@ class ilMultiSelectInputGUI extends ilFormPropertyGUI implements ilTableFilterIt
     {
         $this->heightUnit = $heightUnit;
     }
+
+    public function unserializeData(string $a_data) : void
+    {
+        $data = unserialize($a_data);
+
+        if (is_array($a_data)) {
+            $this->setValue($data);
+        } else {
+            $this->setValue([]);
+        }
+    }
+
 }

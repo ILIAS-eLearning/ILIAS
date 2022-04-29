@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -56,7 +56,7 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
     
     public function setValueByArray(array $a_values) : void
     {
-        $this->setValue($a_values[$this->getPostVar()] ?? "");
+        $this->setValue((string) ($a_values[$this->getPostVar()] ?? ""));
         foreach ($this->getOptions() as $option) {
             foreach ($option->getSubItems() as $item) {
                 $item->setValueByArray($a_values);

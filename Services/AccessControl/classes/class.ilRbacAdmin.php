@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilRbacAdmin
  *  Core functions for role based access control.
@@ -133,7 +147,7 @@ class ilRbacAdmin
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock('rbac_ua');
         $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $ilDB) use (&$ret, $a_role_id, $a_usr_id, $a_limit, $a_limited_roles) {
+            function (ilDBInterface $ilDB) use (&$ret, $a_role_id, $a_usr_id, $a_limit, $a_limited_roles) : void {
                 $ret = true;
                 $limit_query = 'SELECT COUNT(*) num FROM rbac_ua ' .
                     'WHERE ' . $ilDB->in('rol_id', (array) $a_limited_roles, false, 'integer');
@@ -173,8 +187,10 @@ class ilRbacAdmin
         // enhanced: only if we haven't had this role for this user
         if (!$alreadyAssigned) {
             $query = "INSERT INTO rbac_ua (usr_id, rol_id) " .
-                "VALUES (" . $this->db->quote($a_usr_id, 'integer') . "," . $this->db->quote($a_rol_id,
-                    'integer') . ")";
+                "VALUES (" . $this->db->quote($a_usr_id, 'integer') . "," . $this->db->quote(
+                    $a_rol_id,
+                    'integer'
+                ) . ")";
             $res = $this->db->manipulate($query);
 
             $this->rbacreview->setAssignedCacheEntry($a_rol_id, $a_usr_id, true);
@@ -259,14 +275,16 @@ class ilRbacAdmin
             array($a_rol_id, $a_ref_id)
         );
 
-        if (!count($a_ops)) {
+        if ($a_ops === []) {
             return;
         }
 
         $query = "INSERT INTO rbac_pa (rol_id,ops_id,ref_id) " .
             "VALUES " .
-            "(" . $this->db->quote($a_rol_id, 'integer') . "," . $this->db->quote($ops_ids,
-                'text') . "," . $this->db->quote($a_ref_id, 'integer') . ")";
+            "(" . $this->db->quote($a_rol_id, 'integer') . "," . $this->db->quote(
+                $ops_ids,
+                'text'
+            ) . "," . $this->db->quote($a_ref_id, 'integer') . ")";
         $res = $this->db->manipulate($query);
     }
 
@@ -314,7 +332,7 @@ class ilRbacAdmin
             }
 
             // return if no role in array
-            if (!$role_ids) {
+            if ($role_ids === []) {
                 return;
             }
 
@@ -395,8 +413,13 @@ class ilRbacAdmin
         bool $a_consider_protected = true
     ) : void {
         // Copy template permissions
-        $this->copyRoleTemplatePermissions($a_source_id, $a_source_parent, $a_dest_parent, $a_dest_id,
-            $a_consider_protected);
+        $this->copyRoleTemplatePermissions(
+            $a_source_id,
+            $a_source_parent,
+            $a_dest_parent,
+            $a_dest_id,
+            $a_consider_protected
+        );
         $ops = $this->rbacreview->getRoleOperationsOnObject($a_source_id, $a_source_parent);
 
         $this->revokePermission($a_dest_parent, $a_dest_id);
@@ -438,7 +461,7 @@ class ilRbacAdmin
             'AND parent = ' . $this->db->quote($a_dest_parent, 'integer');
         $res = $this->db->manipulate($query);
 
-        foreach ($operations as $row => $op) {
+        foreach ($operations as $op) {
             $query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) ' .
                 'VALUES (' .
                 $this->db->quote($a_dest_id, 'integer') . "," .
@@ -500,7 +523,7 @@ class ilRbacAdmin
         $query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) ' .
             'VALUES (?,?,?,?)';
         $sta = $this->db->prepareManip($query, array('integer', 'text', 'integer', 'integer'));
-        foreach ($operations as $key => $set) {
+        foreach ($operations as $set) {
             $this->db->execute($sta, array(
                 $a_dest_id,
                 $set['type'],
@@ -546,7 +569,7 @@ class ilRbacAdmin
         // and the other direction...
         foreach ($s2_ops as $type => $ops) {
             foreach ($ops as $op) {
-                if (!isset($s1_ops[$type]) or !in_array($op, $s1_ops[$type])) {
+                if (!isset($s1_ops[$type]) || !in_array($op, $s1_ops[$type])) {
                     $query = 'INSERT INTO rbac_templates (rol_id,type,ops_id,parent) ' .
                         'VALUES( ' .
                         $this->db->quote($a_dest_id, 'integer') . ', ' .
@@ -578,7 +601,7 @@ class ilRbacAdmin
 
         foreach ($s1_ops as $type => $ops) {
             foreach ($ops as $op) {
-                if (isset($d_ops[$type]) and in_array($op, $d_ops[$type])) {
+                if (isset($d_ops[$type]) && in_array($op, $d_ops[$type])) {
                     $query = 'DELETE FROM rbac_templates ' .
                         'WHERE rol_id = ' . $this->db->quote($a_dest_id, 'integer') . ' ' .
                         'AND type = ' . $this->db->quote($type, 'text') . ' ' .
@@ -729,7 +752,7 @@ class ilRbacAdmin
             }
             $real_local[] = $role_data;
         }
-        if (!count($real_local)) {
+        if ($real_local === []) {
             return;
         }
         // Create role folder
@@ -862,7 +885,7 @@ class ilRbacAdmin
             }
         }
 
-        if (!count($for_deletion) and !count($for_addition)) {
+        if ($for_deletion === [] && $for_addition === []) {
             $this->applyMovedObjectDidacticTemplates($a_ref_id, $a_old_parent);
             return;
         }
@@ -889,7 +912,7 @@ class ilRbacAdmin
                 continue;
             }
 
-            foreach ($for_deletion as $role_id => $role_data) {
+            foreach (array_keys($for_deletion) as $role_id) {
                 $this->deleteLocalRole($role_id, $node_id);
                 $this->revokePermission($node_id, $role_id, false);
                 //var_dump("<pre>",'REVOKE',$role_id,$node_id,$rolf_id,"</pre>");
@@ -921,8 +944,11 @@ class ilRbacAdmin
                     default:
                         $this->grantPermission(
                             $role_id,
-                            $ops = $this->rbacreview->getOperationsOfRole($role_id, $node_data['type'],
-                                $role_data['parent']),
+                            $ops = $this->rbacreview->getOperationsOfRole(
+                                $role_id,
+                                $node_data['type'],
+                                $role_data['parent']
+                            ),
                             $node_id
                         );
                         break;

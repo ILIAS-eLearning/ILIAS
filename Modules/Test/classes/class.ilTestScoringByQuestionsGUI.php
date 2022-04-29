@@ -28,7 +28,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     /**
      * @return string
      */
-    protected function getDefaultCommand()
+    protected function getDefaultCommand() : string
     {
         return 'showManScoringByQuestionParticipantsTable';
     }
@@ -36,7 +36,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     /**
      * @return string
      */
-    protected function getActiveSubTabId()
+    protected function getActiveSubTabId() : string
     {
         return 'man_scoring_by_qst';
     }
@@ -74,7 +74,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $tpl->addJavaScript("./Services/JavaScript/js/Basic.js");
         $tpl->addJavaScript("./Services/Form/js/Form.js");
         $tpl->addJavascript('./Services/UIComponent/Modal/js/Modal.js');
-        $tpl->addCss($this->object->getTestStyleLocation("output"), "screen");
         $this->lng->toJSMap(['answer' => $this->lng->txt('answer')]);
 
         $table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);
@@ -132,9 +131,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                             'qst_id' => $questionData['qid'],
                             'reached_points' => assQuestion::_getReachedPoints($active_id, $questionData['qid'], $passNr - 1),
                             'maximum_points' => assQuestion::_getMaximumPoints($questionData['qid']),
-                            'participant' => $participant,
-                            'feedback' => $feedback,
-                        ];
+                            'name' => $participant->getName()
+                        ] + $feedback;
                     }
                 }
             }
@@ -338,8 +336,8 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
 
     protected function getAnswerDetail()
     {
-        $active_id = (int) $_GET['active_id'];
-        $pass = (int) $_GET['pass_id'];
+        $active_id = $this->testrequest->getActiveId();
+        $pass = $this->testrequest->getPassId();
         $question_id = (int) $_GET['qst_id'];
         
         if (!$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($active_id)) {
@@ -520,6 +518,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $reached_points_form->setMinValue(0);
         $reached_points_form->setDisabled($disable);
         $reached_points_form->setValue($reached_points);
+        $reached_points_form->setClientSideValidation(true);
         $form->addItem($reached_points_form);
 
         $hidden_points = new ilHiddenInputGUI('qst_max_points');
@@ -624,7 +623,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
      * @param $pass
      * @return bool
      */
-    protected function doesValueExistsInPostArray($post_value, $active_id, $qst_id, $pass)
+    protected function doesValueExistsInPostArray($post_value, $active_id, $qst_id, $pass) : bool
     {
         return (
             isset($_POST[$post_value][$pass][$active_id][$qst_id]) &&

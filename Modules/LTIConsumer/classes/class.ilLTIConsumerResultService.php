@@ -53,56 +53,32 @@ class ilLTIConsumerResultService
     protected string $operation = '';
 
 
-    /**
-     * @return float
-     */
     public function getMasteryScore() : float
     {
         return $this->mastery_score;
     }
 
-    /**
-     * @param float $mastery_score
-     */
     public function setMasteryScore(float $mastery_score) : void
     {
         $this->mastery_score = $mastery_score;
     }
 
-    /**
-     * @return int
-     */
     public function getAvailability() : int
     {
         return $this->availability;
     }
 
-    /**
-     * @param int $availability
-     */
     public function setAvailability(int $availability) : void
     {
         $this->availability = $availability;
     }
 
-    /**
-     * @return bool
-     */
     public function isAvailable() : bool
     {
         if ($this->availability == 0) {
             return false;
         }
         return true;
-    }
-
-
-
-    /**
-     * Constructor: general initialisations
-     */
-    public function __construct()
-    {
     }
     
     /**
@@ -260,7 +236,7 @@ class ilLTIConsumerResultService
      * @param string    file name
      * @return string   file content
      */
-    protected function loadResponse($a_name)
+    protected function loadResponse($a_name) : string
     {
         return file_get_contents('./Modules/LTIConsumer/responses/' . $a_name);
     }
@@ -297,7 +273,6 @@ class ilLTIConsumerResultService
 
     /**
      * Send a "bad request" response
-     * @param string|null $message
      */
     protected function respondBadRequest(?string $message = null) : void
     {
@@ -327,7 +302,6 @@ class ilLTIConsumerResultService
 
     /**
      * Read the LTI Consumer object properties
-     * @param int $a_obj_id
      */
     private function readProperties(int $a_obj_id) : void
     {
@@ -351,7 +325,6 @@ class ilLTIConsumerResultService
 
     /**
      * Read the LTI Consumer object fields
-     * @param int $a_obj_id
      */
     private function readFields(int $a_obj_id) : void
     {
@@ -382,8 +355,6 @@ class ilLTIConsumerResultService
 
     /**
      * Check the reqest signature
-     * @param string $a_key
-     * @param string $a_secret
      * @return bool|Exception    Exception or true
      */
     private function checkSignature(string $a_key, string $a_secret)

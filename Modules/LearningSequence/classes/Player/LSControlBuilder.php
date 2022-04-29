@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\KioskMode\LocatorBuilder;
 use ILIAS\KioskMode\TOCBuilder;
@@ -59,7 +73,7 @@ class LSControlBuilder implements ControlBuilder
     }
 
     /**
-     * @var array Component[]
+     * @return \ILIAS\UI\Component\Component[]
      */
     public function getToggles() : array
     {
@@ -67,7 +81,7 @@ class LSControlBuilder implements ControlBuilder
     }
 
     /**
-     * @var array Component[]
+     * @return \ILIAS\UI\Component\Component[]
      */
     public function getModeControls() : array
     {
@@ -75,7 +89,7 @@ class LSControlBuilder implements ControlBuilder
     }
 
     /**
-     * @var array Component[]
+     * @return \ILIAS\UI\Component\Component[]
      */
     public function getControls() : array
     {
@@ -112,9 +126,6 @@ class LSControlBuilder implements ControlBuilder
         return $this->loc;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function exit(string $command) : ControlBuilder
     {
         if ($this->exit_control) {
@@ -137,9 +148,6 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function next(string $command, int $parameter = null) : ControlBuilder
     {
         if ($this->next_control) {
@@ -155,9 +163,6 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function previous(string $command, int $parameter = null) : ControlBuilder
     {
         if ($this->previous_control) {
@@ -173,9 +178,6 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function done(string $command, int $parameter = null) : ControlBuilder
     {
         if ($this->done_control) {
@@ -188,9 +190,6 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function generic(string $label, string $command, int $parameter = null) : ControlBuilder
     {
         $cmd = $this->url_builder->getHref($command, $parameter);
@@ -205,17 +204,11 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    /**
-     * A toggle can be used to switch some behaviour in the view on or of.
-     */
     public function toggle(string $label, string $on_command, string $off_command) : ControlBuilder
     {
         throw new \Exception("NYI: Toggles", 1);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function mode(string $command, array $labels) : ControlBuilder
     {
         $actions = [];
@@ -226,9 +219,6 @@ class LSControlBuilder implements ControlBuilder
         return $this;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function locator(string $command) : LocatorBuilder
     {
         if ($this->loc) {
@@ -238,9 +228,6 @@ class LSControlBuilder implements ControlBuilder
         return $this->loc;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function tableOfContent(
         string $label,
         string $command,
@@ -291,7 +278,7 @@ class LSControlBuilder implements ControlBuilder
         return $this->start;
     }
 
-    public function getAdditionalJS() : string
+    public function getAdditionalJS() : ?string
     {
         return $this->additional_js;
     }

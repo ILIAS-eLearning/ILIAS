@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * This class represents a text property in a property form.
@@ -70,7 +74,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
         $lng = $this->lng;
         
         $data = $this->getPostData($this->getPostVar(), false);
-        if (sizeof($data)) {
+        if (count($data)) {
             // slots may not overlap
             foreach ($data as $slot => $days) {
                 if (!$days) {
@@ -135,7 +139,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
             );
             
             // only if any part was edited (js based gui)
-            if ($days || $from != "00:00" || $to != "00:00") {
+            if ($days || $from !== "00:00" || $to !== "00:00") {
                 $slot = $from . "-" . $to;
                 if ($days) {
                     if (isset($res[$slot])) {
@@ -147,7 +151,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
                     $res[$slot] = array();
                 }
                 
-                if ($a_remove_invalid && !($days && $from && $to && $from != $to)) {
+                if ($a_remove_invalid && !($days && $from && $to && $from !== $to)) {
                     unset($res[$slot]);
                 }
             }
@@ -183,7 +187,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
                 $tpl->setVariable("DAY", $day_value);
                 $tpl->setVariable("TXT_DAY", $lng->txt($day . "_short"));
                 
-                if ($days_select && in_array($day_value, $days_select)) {
+                if ($days_select && in_array($day_value, $days_select, true)) {
                     $tpl->setVariable("DAY_STATUS", " checked=\"checked\"");
                 }
                 

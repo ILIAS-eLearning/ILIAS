@@ -216,8 +216,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
             $this->showSearchForm();
             return;
         }
-
-        unset($_SESSION['max_page']);
+        ilSession::clear('max_page');
         $this->search_cache->deleteCachedEntries();
 
         // Reset details
@@ -230,8 +229,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      */
     protected function performSearch() : void
     {
-        unset($_SESSION['vis_references']);
-
+        ilSession::clear('vis_references');
         $filter_query = '';
         if ($this->search_cache->getItemFilter() and ilSearchSettings::getInstance()->isLuceneItemFilterEnabled()) {
             $filter_settings = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
@@ -354,15 +352,28 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::LUCENE_DEFAULT);
         $page_number = $this->initPageNumberFromQuery();
+
+        $item_filter_enabled = false;
+        if ($this->http->wrapper()->post()->has('item_filter_enabled')) {
+            $item_filter_enabled = $this->http->wrapper()->post()->retrieve(
+                'item_filter_enabled',
+                $this->refinery->kindlyTo()->bool()
+            );
+        }
+        $post_filter_type = (array) ($this->http->request()->getParsedBody()['filter_type'] ?? []);
         if ($page_number) {
             $this->search_cache->setResultPageNumber($page_number);
         }
-        if (isset($_POST['term'])) {
-            $this->search_cache->setQuery(ilUtil::stripSlashes($_POST['term']));
-            if ($_POST['item_filter_enabled']) {
+        if ($this->http->wrapper()->post()->has('term')) {
+            $term = $this->http->wrapper()->post()->retrieve(
+                'term',
+                $this->refinery->kindlyTo()->string()
+            );
+            $this->search_cache->setQuery($term);
+            if ($item_filter_enabled) {
                 $filtered = array();
                 foreach (ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions() as $type => $data) {
-                    if ($_POST['filter_type'][$type]) {
+                    if ($post_filter_type[$type]) {
                         $filtered[$type] = 1;
                     }
                 }
@@ -371,20 +382,21 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
                 // Mime filter
                 $mime = array();
                 foreach (ilSearchSettings::getInstance()->getEnabledLuceneMimeFilterDefinitions() as $type => $data) {
-                    if ($_POST['filter_type'][$type]) {
+                    if ($post_filter_type[$type]) {
                         $mime[$type] = 1;
                     }
                 }
                 $this->search_cache->setMimeFilter($mime);
             }
             $this->search_cache->setCreationFilter($this->loadCreationFilter());
-            if (!$_POST['item_filter_enabled']) {
+            if (!$item_filter_enabled) {
                 // @todo: keep item filter settings
                 $this->search_cache->setItemFilter(array());
                 $this->search_cache->setMimeFilter(array());
             }
-            if (!$_POST['screation']) {
-                $this->search_cache->setCreationFilter(array());
+            $post_screation = (array) ($this->http->request()->getParsedBody()['screation'] ?? []);
+            if (!count($post_screation)) {
+                $this->search_cache->setCreationFilter([]);
             }
         }
     }

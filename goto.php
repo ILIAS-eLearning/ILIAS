@@ -69,8 +69,10 @@ if (!ilStartUpGUI::_checkGoto($_GET["target"])) {
                 ),
                 true
             );
+        } else {
+            global $DIC;
+            $DIC->ui()->mainTemplate()->setOnScreenMessage($lng->txt('permission_denied'), true);
         }
-    
         ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
     }
 }
@@ -91,7 +93,7 @@ switch ($target_type) {
 
     // exception, must be kept for now
     case "st":
-        ilStructureObjectGUI::_goto($target_id, $additional);
+        ilStructureObjectGUI::_goto($target_id, (int) $additional);
         break;
 
     // exception, must be kept for now

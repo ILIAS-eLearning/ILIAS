@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilObjBibliographicAccess
  *
  * @author Oskar Truffer <ot@studer-raimann.ch>
@@ -23,9 +39,9 @@ class ilObjBibliographicAccess extends ilObjectAccess
      *    );
      * @return array<int, array<string, string>>|array<int, array<string, string|bool>>
      */
-    public static function _getCommands(): array
+    public static function _getCommands() : array
     {
-        $commands = array(
+        return array(
             array(
                 "permission" => "read",
                 "cmd" => "render",
@@ -35,25 +51,18 @@ class ilObjBibliographicAccess extends ilObjectAccess
             array("permission" => "write", "cmd" => "view", "lang_var" => "edit_content"),
             array("permission" => "write", "cmd" => "edit", "lang_var" => "settings"),
         );
-
-        return $commands;
     }
 
 
-    public static function _checkGoto(string $target): bool
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
-        $lng = $DIC['lng'];
         $t_arr = explode('_', $target);
         if ($t_arr[0] != 'bibl' || ((int) $t_arr[1]) <= 0) {
             return false;
         }
-        if ($ilAccess->checkAccess('read', '', $t_arr[1])) {
-            return true;
-        }
-
-        return false;
+        return (bool) $ilAccess->checkAccess('read', '', $t_arr[1]);
     }
 
 
@@ -75,7 +84,7 @@ class ilObjBibliographicAccess extends ilObjectAccess
         if ($DIC->http()->wrapper()->query()->has(ilObjBibliographicGUI::P_ENTRY_ID)) {
             $entry_id = $DIC->http()->wrapper()->query()->retrieve(
                 ilObjBibliographicGUI::P_ENTRY_ID,
-                $DIC->refinery()->to()->int()
+                $DIC->refinery()->kindlyTo()->int()
             );
             if (!self::checkEntryIdMatch($obj_id, $entry_id)) {
                 return false;
@@ -118,37 +127,31 @@ class ilObjBibliographicAccess extends ilObjectAccess
     }
 
 
-    /**
-     * @param $ref_id
-     * @param $obj_id
-     */
-    private static function checkEntryIdMatch($obj_id, $entry_id): bool
+    private static function checkEntryIdMatch(int $obj_id, int $entry_id) : bool
     {
         /**
-         * @var $ilBiblEntry ilBiblEntry
+         * @var ilBiblEntry $ilBiblEntry
          */
         $ilBiblEntry = ilBiblEntry::find($entry_id);
         if (is_null($ilBiblEntry)) {
             return false;
         }
 
-        return ($ilBiblEntry->getDataId() == $obj_id);
+        return ($ilBiblEntry->getDataId() === $obj_id);
     }
 
 
     /**
      * Check wether bibliographic is online or not
-     *
-     * @param int $a_id bibl id
      */
-    public static function _lookupOnline(int $a_id)
+    public static function _lookupOnline(int $a_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $q = "SELECT is_online FROM il_bibl_data WHERE id = " . $ilDB->quote($a_id, "integer");
         $bibl_set = $ilDB->query($q);
         $bibl_rec = $ilDB->fetchAssoc($bibl_set);
-
-        return $bibl_rec["is_online"];
+    
+        return (bool) $bibl_rec["is_online"] ?? false;
     }
 }

@@ -30,7 +30,7 @@ class ilWebDAVRepositoryHelper
         $this->locks_repository = $locks_repository;
     }
 
-    public function deleteObject(int $ref_id)
+    public function deleteObject(int $ref_id) : void
     {
         if (!$this->checkAccess('delete', $ref_id)) {
             throw new Forbidden("Permission denied");
@@ -62,13 +62,13 @@ class ilWebDAVRepositoryHelper
 
     public function getObjectTitleFromObjId(int $obj_id, bool $escape_forbidden_fileextension = false) : string
     {
-        if ($escape_forbidden_fileextension && ilObject::_lookupType($obj_id) == 'file') {
+        if ($escape_forbidden_fileextension && ilObject::_lookupType($obj_id) === 'file') {
             $title = $this->getFilenameWithSanitizedFileExtension($obj_id);
         } else {
             $title = $this->getRawObjectTitleFromObjId($obj_id);
         }
 
-        return is_string($title)? $title : '';
+        return $title;
     }
 
     public function getFilenameWithSanitizedFileExtension(int $obj_id) : string
@@ -78,16 +78,15 @@ class ilWebDAVRepositoryHelper
         try {
             $escaped_title = ilFileUtils::getValidFilename($unescaped_title);
         } catch (ilFileUtilsException $e) {
-            $escaped_title = "";
+            $escaped_title = '';
         }
 
-        return is_string($escaped_title) ? $escaped_title : '';
+        return $escaped_title;
     }
 
     protected function getRawObjectTitleFromObjId(int $obj_id) : string
     {
-        $title = ilObject::_lookupTitle($obj_id);
-        return is_string($title) ? $title : '';
+        return ilObject::_lookupTitle($obj_id);
     }
     
     public function getParentOfRefId(int $ref_id) : int
@@ -97,8 +96,7 @@ class ilWebDAVRepositoryHelper
 
     public function getObjectTypeFromObjId(int $obj_id) : string
     {
-        $type = ilObject::_lookupType($obj_id, false);
-        return $type === null ? '' : $type;
+        return ilObject::_lookupType($obj_id);
     }
 
     public function getObjectTitleFromRefId(int $ref_id, bool $escape_forbidden_fileextension = false) : string
@@ -110,10 +108,13 @@ class ilWebDAVRepositoryHelper
 
     public function getObjectTypeFromRefId(int $ref_id) : string
     {
-        $type = ilObject::_lookupType($ref_id, true);
-        return is_string($type) ? $type : '';
+        return ilObject::_lookupType($ref_id, true);
     }
-
+    
+    /**
+     *
+     * @return int[]
+     */
     public function getChildrenOfRefId(int $ref_id) : array
     {
         return array_map(

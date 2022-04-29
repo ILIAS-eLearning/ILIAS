@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Refinery\Transformation;
@@ -13,55 +29,59 @@ class MakeClickable implements Transformation
     use DeriveInvokeFromTransform;
 
     /**
-     * @return string
+     * @inheritDoc
      */
-    public function transform($maybeHTML)
+    public function transform($from) : string
     {
-        $this->requireString($maybeHTML);
+        $this->requireString($from);
 
         $endOfMatch = 0;
         $stringParts = [];
         $matches = [];
-        while (1 === \preg_match('@(^|[^[:alnum:]])(((https?://)|(www.))[^[:cntrl:][:space:]<>\'"]+)([^[:alnum:]]|$)@', \substr($maybeHTML, $endOfMatch), $matches)) {
+        while (1 === preg_match('@(^|[^[:alnum:]])(((https?://)|(www.))[^[:cntrl:][:space:]<>\'"]+)([^[:alnum:]]|$)@', substr($from, $endOfMatch), $matches)) {
             $oldIndex = $endOfMatch;
-            $endOfMatch += \strpos(\substr($maybeHTML, $endOfMatch), $matches[0]);
-            $stringParts[] = \substr($maybeHTML, $oldIndex, $endOfMatch - $oldIndex);
+            $endOfMatch += strpos(substr($from, $endOfMatch), $matches[0]);
+            $stringParts[] = substr($from, $oldIndex, $endOfMatch - $oldIndex);
             $startOfMatch = $endOfMatch;
-            $endOfMatch += \strlen($matches[1] . $matches[2]);
-            if ($this->shouldReplace($maybeHTML, $startOfMatch, $endOfMatch)) {
+            $endOfMatch += strlen($matches[1] . $matches[2]);
+            if ($this->shouldReplace($from, $startOfMatch, $endOfMatch)) {
                 $maybeProtocol = '' === $matches[4] ? 'https://' : '';
-                $stringParts[] = \sprintf('%s<a href="%s">%s</a>', $matches[1], $maybeProtocol . $matches[2], $matches[2], $matches[6]);
+                $stringParts[] = sprintf('%s<a href="%s">%s</a>', $matches[1], $maybeProtocol . $matches[2], $matches[2]);
                 continue;
             }
             $stringParts[] = $matches[1] . $matches[2];
         }
 
-        $stringParts[] = \substr($maybeHTML, $endOfMatch);
+        $stringParts[] = substr($from, $endOfMatch);
 
-        return \join('', $stringParts);
+        return implode('', $stringParts);
     }
 
     private function regexPos(string $regexp, string $string) : int
     {
         $matches = [];
-        if (1 === \preg_match($regexp, $string, $matches)) {
-            return \strpos($string, $matches[0]);
+        if (1 === preg_match($regexp, $string, $matches)) {
+            return strpos($string, $matches[0]);
         }
 
-        return \strlen($string);
+        return strlen($string);
     }
 
+    /**
+     * @param mixed $maybeHTML
+     * @return void
+     */
     private function requireString($maybeHTML) : void
     {
-        if (!\is_string($maybeHTML)) {
+        if (!is_string($maybeHTML)) {
             throw new ConstraintViolationException('not a string', 'not_a_string');
         }
     }
 
     private function shouldReplace(string $maybeHTML, int $startOfMatch, int $endOfMatch) : bool
     {
-        $isNotInAnchor = $this->regexPos('@<a.*</a>@', \substr($maybeHTML, $endOfMatch)) <= $this->regexPos('@</a>@', \substr($maybeHTML, $endOfMatch));
-        $isNotATagAttribute = 0 === \preg_match('/^[^>]*[[:space:]][[:alpha:]]+</', \strrev(\substr($maybeHTML, 0, $startOfMatch)));
+        $isNotInAnchor = $this->regexPos('@<a.*</a>@', substr($maybeHTML, $endOfMatch)) <= $this->regexPos('@</a>@', substr($maybeHTML, $endOfMatch));
+        $isNotATagAttribute = 0 === preg_match('/^[^>]*[[:space:]][[:alpha:]]+</', strrev(substr($maybeHTML, 0, $startOfMatch)));
 
         return $isNotInAnchor && $isNotATagAttribute;
     }

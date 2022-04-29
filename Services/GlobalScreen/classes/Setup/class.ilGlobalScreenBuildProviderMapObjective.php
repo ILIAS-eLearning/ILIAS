@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
@@ -34,7 +34,7 @@ class ilGlobalScreenBuildProviderMapObjective extends Setup\Artifact\BuildArtifa
     public function build() : Setup\Artifact
     {
         $class_names = [];
-        $i           = [
+        $i = [
             StaticMainMenuProvider::class,
             StaticMetaBarProvider::class,
             DynamicToolProvider::class,

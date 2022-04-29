@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * TableGUI class for role administration
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -83,8 +97,8 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
         $usr_data = ilUserQuery::getUserListData(
             ilUtil::stripSlashes($this->getOrderField()),
             ilUtil::stripSlashes($this->getOrderDirection()),
-            ilUtil::stripSlashes($this->getOffset()),
-            ilUtil::stripSlashes($this->getLimit()),
+            $this->getOffset(),
+            $this->getLimit(),
             '',
             '',
             null,
@@ -93,8 +107,8 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
             0,
             $this->getRoleId()
         );
-        $this->setMaxCount($usr_data["cnt"]);
-        $this->setData($usr_data["set"]);
+        $this->setMaxCount((int) $usr_data["cnt"]);
+        $this->setData((array) $usr_data["set"]);
     }
 
     /**
@@ -122,8 +136,13 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
         $link_contact = ilMailFormCall::getLinkTarget(
             $this->getParentObject(),
             $this->getParentCmd(),
-            array('fr' => rawurlencode(base64_encode($this->ctrl->getLinkTarget($this->getParentObject(),
-                'userassignment', '', false, false)))
+            array('fr' => rawurlencode(base64_encode($this->ctrl->getLinkTarget(
+                $this->getParentObject(),
+                'userassignment',
+                '',
+                false,
+                false
+            )))
             ),
             array('type' => 'new', 'rcp_to' => $a_set['login'])
         );

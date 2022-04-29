@@ -66,8 +66,6 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
     {
         global $DIC;
 
-        define('EXPORT_VERSION', 2);
-
         parent::__construct(null);
         $this->user = $DIC->user();
         $this->rbacreview = $DIC->rbac()->review();
@@ -149,7 +147,7 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
     /**
      * @inheritDoc
-     * @param mixed[]|null $a_attribs
+     * @param mixed|null $a_attribs
      */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
@@ -444,42 +442,48 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 array_key_exists('type', $this->group_data) &&
                 $this->group_data['type'] == 'closed'
             ) {
-                $this->group_obj->updateGroupType(GRP_TYPE_CLOSED);
+                $this->group_obj->updateGroupType(
+                    ilGroupConstants::GRP_TYPE_CLOSED
+                );
             }
         } else {
             if (
                 array_key_exists('type', $this->group_data) &&
                 $this->group_data['type'] == 'closed'
             ) {
-                $this->group_obj->updateGroupType(GRP_TYPE_CLOSED);
+                $this->group_obj->updateGroupType(
+                    ilGroupConstants::GRP_TYPE_CLOSED
+                );
             } elseif (
                 array_key_exists('type', $this->group_data) &&
                 $this->group_data['type'] == 'open'
             ) {
-                $this->group_obj->updateGroupType(GRP_TYPE_OPEN);
+                $this->group_obj->updateGroupType(
+                    ilGroupConstants::GRP_TYPE_OPEN
+                );
             }
         }
         // SET GROUP SPECIFIC DATA
         switch ($this->group_data['registration_type']) {
             case 'direct':
             case 'enabled':
-                $flag = GRP_REGISTRATION_DIRECT;
+                $flag = ilGroupConstants::GRP_REGISTRATION_DIRECT;
                 break;
 
             case 'disabled':
-                $flag = GRP_REGISTRATION_DEACTIVATED;
+                $flag = ilGroupConstants::GRP_REGISTRATION_DEACTIVATED;
                 break;
 
             case 'confirmation':
-                $flag = GRP_REGISTRATION_REQUEST;
+                $flag = ilGroupConstants::GRP_REGISTRATION_REQUEST;
                 break;
 
             case 'password':
-                $flag = GRP_REGISTRATION_PASSWORD;
+                $flag = ilGroupConstants::GRP_REGISTRATION_PASSWORD;
                 break;
 
             default:
-                $flag = GRP_REGISTRATION_DIRECT;
+                $flag = ilGroupConstants::GRP_REGISTRATION_DIRECT;
         }
         $this->group_obj->setRegistrationType($flag);
 
@@ -505,13 +509,13 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
         }
         $this->group_obj->setPassword($this->group_data['password']);
         $this->group_obj->enableMembershipLimitation($this->group_data['max_members_enabled']);
-        $this->group_obj->setMaxMembers($this->group_data['max_members'] ? $this->group_data['max_members'] : 0);
+        $this->group_obj->setMaxMembers($this->group_data['max_members'] ?: 0);
         $this->group_obj->enableWaitingList($this->group_data['waiting_list_enabled']);
 
         $this->group_obj->setWaitingListAutoFill($this->group_data['auto_wait']);
         $this->group_obj->setCancellationEnd($this->group_data['cancel_end']);
         $this->group_obj->setMinMembers($this->group_data['min_members']);
-        $this->group_obj->setShowMembers($this->group_data['show_members'] ? $this->group_data['show_members'] : 0);
+        $this->group_obj->setShowMembers($this->group_data['show_members'] ?: 0);
         $this->group_obj->setAutoNotification($this->group_data['auto_notification'] ? true : false);
         $this->group_obj->setMailToMembersType((int) $this->group_data['mail_members_type']);
         if (isset($this->group_data['view_mode'])) {

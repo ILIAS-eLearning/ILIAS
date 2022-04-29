@@ -106,7 +106,7 @@ final class ilFileDelivery implements ilFileDeliveryService
      * @param array  $arguments The function arguments passed to the function which was not existent
      *                          on the current object.
      */
-    public function __call($name, array $arguments)
+    public function __call(string $name, array $arguments)
     {
         throw new LogicException('');
     }
@@ -121,21 +121,21 @@ final class ilFileDelivery implements ilFileDeliveryService
         ?bool $isInline = false,
         ?bool $removeAfterDelivery = false,
         ?bool $a_exit_after = true
-    ) {
+    ) : void {
         global $DIC;
         // should we fail silently?
         if (!file_exists($a_file)) {
-            return false;
+            return;
         }
         $delivery = new Delivery($a_file, $DIC->http());
 
         if ($isInline) {
-            $delivery->setDisposition(ilFileDelivery::DISP_INLINE);
+            $delivery->setDisposition(self::DISP_INLINE);
         } else {
-            $delivery->setDisposition(ilFileDelivery::DISP_ATTACHMENT);
+            $delivery->setDisposition(self::DISP_ATTACHMENT);
         }
 
-        if ($a_mime !== null && strlen($a_mime)) {
+        if ($a_mime !== null && $a_mime !== '') {
             $delivery->setMimeType($a_mime);
         }
 

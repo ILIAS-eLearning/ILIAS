@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -524,7 +539,7 @@ class ilObjMailGUI extends ilObjectGUI
             ['placeholder' => 'CLIENT_DESC', 'label' => $this->lng->txt('mail_nacc_client_desc')],
             ['placeholder' => 'CLIENT_URL', 'label' => $this->lng->txt('mail_nacc_ilias_url')],
         ];
-        foreach ($placeholder_list as $key => $value) {
+        foreach ($placeholder_list as $value) {
             $placeholders->addPlaceholder($value['placeholder'], $value['label']);
         }
         $placeholders->setDisabled(!$this->isEditingAllowed());
@@ -540,7 +555,7 @@ class ilObjMailGUI extends ilObjectGUI
     protected function populateExternalSettingsForm(ilPropertyFormGUI $form) : void
     {
         $subjectPrefix = $this->settings->get('mail_subject_prefix');
-        if (false === $subjectPrefix) {
+        if (null === $subjectPrefix) {
             $subjectPrefix = ilMimeMail::MAIL_SUBJECT_PREFIX;
         }
 
@@ -632,7 +647,7 @@ class ilObjMailGUI extends ilObjectGUI
         $this->ctrl->redirect($this, 'showExternalSettingsForm');
     }
 
-    public static function _goto(string $a_target) : void
+    public static function _goto(string $target) : void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -645,7 +660,7 @@ class ilObjMailGUI extends ilObjectGUI
         } elseif ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('failure', sprintf(
                 $DIC->language()->txt('msg_no_perm_read_item'),
-                ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                ilObject::_lookupTitle(ilObject::_lookupObjId((int) $target))
             ), true);
 
             $DIC->ctrl()->setTargetScript('ilias.php');

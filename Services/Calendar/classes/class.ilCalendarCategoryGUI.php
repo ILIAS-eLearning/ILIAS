@@ -116,6 +116,22 @@ class ilCalendarCategoryGUI
         return 0;
     }
 
+    /**
+     * @return int[]
+     */
+    protected function initSelectedCategoryIdsFromPost() : array
+    {
+        if ($this->http->wrapper()->post()->has('selected_cat_ids')) {
+            return $this->http->wrapper()->post()->retrieve(
+                'selected_cat_ids',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        return [];
+    }
+
     public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -319,37 +335,48 @@ class ilCalendarCategoryGUI
 
     protected function confirmDelete() : void
     {
-        $cat_ids = (is_array($_POST['selected_cat_ids']) && count($_POST['selected_cat_ids']) > 0)
-            ? $_POST['selected_cat_ids']
-            : ($this->initCategoryIdFromQuery() > 0 ? array($this->initCategoryIdFromQuery()) : null);
-
-        if (!is_array($cat_ids)) {
+        $cat_ids = $this->initSelectedCategoryIdsFromPost();
+        if (
+            !count($cat_ids) &&
+            $this->initCategoryIdFromQuery() > 0
+        ) {
+            $cat_ids = [$this->initCategoryIdFromQuery()];
+        }
+        if (!count($cat_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->manage();
         }
-
         $confirmation_gui = new ilConfirmationGUI();
-
         $confirmation_gui->setFormAction($this->ctrl->getFormAction($this));
         $confirmation_gui->setHeaderText($this->lng->txt('cal_del_cal_sure'));
         $confirmation_gui->setConfirm($this->lng->txt('delete'), 'delete');
         $confirmation_gui->setCancel($this->lng->txt('cancel'), 'manage');
 
         foreach ($cat_ids as $cat_id) {
-            $category = new ilCalendarCategory((int) $cat_id);
-            $confirmation_gui->addItem('category_id[]', $cat_id, $category->getTitle());
+            $category = new ilCalendarCategory($cat_id);
+            $confirmation_gui->addItem('category_id[]', (string) $cat_id, $category->getTitle());
         }
         $this->tpl->setContent($confirmation_gui->getHTML());
     }
 
     protected function delete() : void
     {
-        if (!$_POST['category_id']) {
+        $category_ids = [];
+        if (!$this->http->wrapper()->post()->has('category_id')) {
+            $category_ids = $this->http->wrapper()->post()->retrieve(
+                'category_id',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+
+        if (!count($category_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->manage();
         }
 
-        foreach ($_POST['category_id'] as $cat_id) {
+        foreach ($category_ids as $cat_id) {
             $category = new ilCalendarCategory((int) $cat_id);
             $category->delete();
         }
@@ -360,9 +387,16 @@ class ilCalendarCategoryGUI
 
     public function saveSelection() : void
     {
-        $selected_cat_ids = $_POST['selected_cat_ids'] ?: array();
-        $shown_cat_ids = $_POST['shown_cat_ids'] ?: array();
-
+        $selected_cat_ids = $this->initSelectedCategoryIdsFromPost();
+        $shown_cat_ids = [];
+        if ($this->http->wrapper()->post()->has('shown_cat_ids')) {
+            $shown_cat_ids = $this->http->wrapper()->post()->retrieve(
+                'shown_cat_ids',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
         $cats = ilCalendarCategories::_getInstance($this->user->getId());
         $cat_ids = $cats->getCategories();
 
@@ -424,10 +458,8 @@ class ilCalendarCategoryGUI
             return;
         }
 
-        $_SESSION['cal_query'] = '';
-
+        ilSession::clear('cal_query');
         $this->ctrl->saveParameter($this, 'category_id');
-
         $table = new ilCalendarSharedListTableGUI($this, 'shareSearch');
         $table->setTitle($this->lng->txt('cal_cal_shared_with'));
         $table->setCalendarId($this->category_id);
@@ -450,15 +482,22 @@ class ilCalendarCategoryGUI
 
         $query = '';
         $type = '';
-        if (!isset($_POST['query'])) {
-            $query = $_SESSION['cal_query'];
-            $type = $_SESSION['cal_type'];
-        } elseif ($_POST['query']) {
-            $query = $_SESSION['cal_query'] = $_POST['query'];
-            $type = $_SESSION['cal_type'] = $_POST['query_type'];
+        if ($this->http->wrapper()->post()->has('query')) {
+            $query = $this->http->wrapper()->query()->retrieve(
+                'query',
+                $this->refinery->kindlyTo()->string()
+            );
+            $type = $this->http->wrapper()->post()->retrieve(
+                'query_type',
+                $this->refinery->kindlyTo()->int()
+            );
+            ilSession::set('cal_query', $query);
+            ilSession::set('cal_type', $type);
+        } else {
+            $query = (string) ilSession::get('cal_query');
+            $type = (int) ilSession::get('cal_type');
         }
-
-        if (!$query) {
+        if ($query === '') {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_search_string'));
             $this->shareSearch();
             return;
@@ -535,7 +574,16 @@ class ilCalendarCategoryGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
-        if (!isset($_POST['user_ids']) || !count($_POST['user_ids'])) {
+        $user_ids = [];
+        if (!$this->http->wrapper()->post()->has('user_ids')) {
+            $user_ids = $this->http->wrapper()->post()->retrieve(
+                'user_ids',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        if (!count($user_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->sharePerformSearch();
             return;
@@ -550,7 +598,7 @@ class ilCalendarCategoryGUI
 
         $shared = new ilCalendarShared($this->category_id);
 
-        foreach ($_POST['user_ids'] as $user_id) {
+        foreach ($user_ids as $user_id) {
             if ($this->user->getId() != $user_id) {
                 $shared->share($user_id, ilCalendarShared::TYPE_USR, $a_editable);
             }
@@ -570,7 +618,18 @@ class ilCalendarCategoryGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
-        if (!isset($_POST['role_ids']) || !count($_POST['role_ids'])) {
+
+        $role_ids = [];
+        if (!$this->http->wrapper()->post()->has('role_ids')) {
+            $role_ids = $this->http->wrapper()->post()->retrieve(
+                'role_ids',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+
+        if (!count($role_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->sharePerformSearch();
             return;
@@ -585,7 +644,7 @@ class ilCalendarCategoryGUI
 
         $shared = new ilCalendarShared($this->category_id);
 
-        foreach ($_POST['role_ids'] as $role_id) {
+        foreach ($role_ids as $role_id) {
             $shared->share($role_id, ilCalendarShared::TYPE_ROLE, $a_editable);
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_shared_selected_usr'));
@@ -598,7 +657,17 @@ class ilCalendarCategoryGUI
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
         }
-        if (!isset($_POST['obj_ids']) || !count($_POST['obj_ids'])) {
+        $obj_ids = [];
+        if ($this->http->wrapper()->post()->has('obj_ids')) {
+            $obj_ids = $this->http->wrapper()->post()->retrieve(
+                'obj_ids',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+
+        if (!count($obj_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->shareSearch();
             return;
@@ -613,7 +682,7 @@ class ilCalendarCategoryGUI
 
         $shared = new ilCalendarShared($this->category_id);
 
-        foreach ($_POST['obj_ids'] as $obj_id) {
+        foreach ($obj_ids as $obj_id) {
             $shared->stopSharing($obj_id);
         }
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('cal_unshared_selected_usr'));
@@ -646,9 +715,23 @@ class ilCalendarCategoryGUI
         $this->lng->loadLanguageModule('search');
         $this->toolbar->setFormAction($this->ctrl->getFormAction($this));
 
+        $query = '';
+        if ($this->http->wrapper()->post()->has('query')) {
+            $query = $this->http->wrapper()->query()->retrieve(
+                'query',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $query_type = '';
+        if ($this->http->wrapper()->post()->has('query_type')) {
+            $query_type = $this->http->wrapper()->post()->retrieve(
+                'query_type',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
         // search term
         $search = new ilTextInputGUI($this->lng->txt('cal_search'), 'query');
-        $search->setValue($_POST['query']);
+        $search->setValue($query);
         $search->setSize(16);
         $search->setMaxLength(128);
 
@@ -660,7 +743,7 @@ class ilCalendarCategoryGUI
             self::SEARCH_ROLE => $this->lng->txt('obj_role'),
         );
         $si = new ilSelectInputGUI($this->lng->txt('search_type'), "query_type");
-        $si->setValue($_POST['query_type']);
+        $si->setValue($query_type);
         $si->setOptions($options);
         $si->setInfo($this->lng->txt(""));
         $this->toolbar->addInputItem($si);
@@ -844,7 +927,16 @@ class ilCalendarCategoryGUI
 
     protected function askDeleteAppointments() : void
     {
-        if (!isset($_POST['appointments']) || !count($_POST['appointments'])) {
+        $appointments = [];
+        if ($this->http->wrapper()->post()->has('appointments')) {
+            $appointments = $this->http->wrapper()->post()->retrieve(
+                'appointments',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        if (!count($appointments)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->details();
             return;
@@ -857,27 +949,34 @@ class ilCalendarCategoryGUI
         $confirmation_gui->setConfirm($this->lng->txt('delete'), 'deleteAppointments');
         $confirmation_gui->setCancel($this->lng->txt('cancel'), 'details');
 
-        foreach ($_POST['appointments'] as $app_id) {
+        foreach ($appointments as $app_id) {
             $app = new ilCalendarEntry($app_id);
             $confirmation_gui->addItem('appointments[]', (string) $app_id, $app->getTitle());
         }
-
         $this->tpl->setContent($confirmation_gui->getHTML());
     }
 
     protected function deleteAppointments() : void
     {
-        if (!isset($_POST['appointments']) || !count($_POST['appointments'])) {
+        $appointments = [];
+        if ($this->http->wrapper()->post()->has('appointments')) {
+            $appointments = $this->http->wrapper()->post()->retrieve(
+                'appointments',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        if (!count($appointments)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->details();
             return;
         }
-        foreach ($_POST['appointments'] as $app_id) {
+        foreach ($appointments as $app_id) {
             $app = new ilCalendarEntry($app_id);
             $app->delete();
             ilCalendarCategoryAssignments::_deleteByAppointmentId($app_id);
         }
-
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
         $this->details();
     }
@@ -1153,15 +1252,23 @@ class ilCalendarCategoryGUI
 
     protected function acceptShared() : void
     {
-        if (!$_POST['cal_ids'] or !is_array($_POST['cal_ids'])) {
+        $cal_ids = [];
+        if ($this->http->wrapper()->post()->has('cal_ids')) {
+            $cal_ids = $this->http->wrapper()->post()->retrieve(
+                'cal_ids',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        if (!count($cal_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->ctrl->returnToParent($this);
             return;
         }
-
         $status = new ilCalendarSharedStatus($this->user->getId());
 
-        foreach ($_POST['cal_ids'] as $calendar_id) {
+        foreach ($cal_ids as $calendar_id) {
             if (!ilCalendarShared::isSharedWithUser($this->user->getId(), $calendar_id)) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'));
                 $this->ctrl->returnToParent($this);
@@ -1180,15 +1287,22 @@ class ilCalendarCategoryGUI
      */
     protected function declineShared() : void
     {
-        if (!$_POST['cal_ids'] or !is_array($_POST['cal_ids'])) {
+        $cal_ids = [];
+        if ($this->http->wrapper()->post()->has('cal_ids')) {
+            $cal_ids = $this->http->wrapper()->post()->retrieve(
+                'cal_ids',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        if (!count($cal_ids)) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->returnToParent($this);
             return;
         }
-
         $status = new ilCalendarSharedStatus($this->user->getId());
-
-        foreach ($_POST['cal_ids'] as $calendar_id) {
+        foreach ($cal_ids as $calendar_id) {
             if (!ilCalendarShared::isSharedWithUser($this->user->getId(), $calendar_id)) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                 $this->ctrl->returnToParent($this);

@@ -34,7 +34,8 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
         $this->record = $record;
         $this->record_translation = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record->getRecordId());
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->setId(self::RECORD_LANGUAGE_TABLE_ID_PREFIX . (string) $this->record->getRecordId());
+        $this->setId(self::RECORD_LANGUAGE_TABLE_ID_PREFIX . $this->record->getRecordId()
+        );
     }
 
     /**
@@ -89,8 +90,8 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
         $this->setMaxCount(count($rows));
         $this->setData($rows);
     }
-
-    public function fillRow(array $a_set) : void
+    
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set[self::COL_LANGUAGE_CODE]);
 

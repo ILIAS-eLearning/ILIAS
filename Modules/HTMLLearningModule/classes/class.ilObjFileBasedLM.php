@@ -107,14 +107,7 @@ class ilObjFileBasedLM extends ilObject
             $this->start_file = $a_file;
         }
     }
-
-    /**
-     * Gets the disk usage of the object in bytes.
-     */
-    public function getDiskUsage() : int
-    {
-        return ilObjFileBasedLMAccess::_lookupDiskUsage($this->id);
-    }
+    
 
     public function delete() : bool
     {
@@ -150,19 +143,20 @@ class ilObjFileBasedLM extends ilObject
     ) : void {
         preg_match("/.*htlm_([0-9]*)\.zip/", $a_filename, $match);
         if (is_dir($a_dir . "/htlm_" . $match[1])) {
-            $a_dir = $a_dir . "/htlm_" . $match[1];
+            $a_dir .= "/htlm_" . $match[1];
         }
         ilFileUtils::rCopy($a_dir, $this->getDataDirectory());
         ilFileUtils::renameExecutables($this->getDataDirectory());
     }
     
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        /** @var ilObjFileBasedLM $new_obj */
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         $this->cloneMetaData($new_obj);
 
         //copy online status if object is not the root copy object
-        $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+        $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
 
         if (!$cp_options->isRootNode($this->getRefId())) {
             $new_obj->setOfflineStatus($this->getOfflineStatus());

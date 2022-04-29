@@ -1,6 +1,16 @@
 <?php declare(strict_types=1);
-
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilRegistrationCode
@@ -31,16 +41,16 @@ class ilRegistrationCode
         $code = '';
         while ($found) {
             $code = self::generateRandomCode();
-            $chk = $ilDB->queryF("SELECT code_id FROM " . self::DB_TABLE . " WHERE code = %s", array("text"),
-                array($code));
+            $chk = $ilDB->queryF(
+                "SELECT code_id FROM " . self::DB_TABLE . " WHERE code = %s",
+                array("text"),
+                array($code)
+            );
             $found = (bool) $ilDB->numRows($chk);
         }
 
-        if (is_array($local_roles)) {
-            $local_roles = implode(";", $local_roles);
-        }
-        if ($limit == "relative" && is_array($limit_date)) {
-            $limit_date = serialize($limit_date);
+        if ($limit === "relative" && is_array($limit_date)) {
+            $limit_date = serialize($limit_date); //TODO-PHP8-REVIEW please don't override variables with different types
         }
 
         $data = array(
@@ -48,7 +58,7 @@ class ilRegistrationCode
             'code' => array('text', $code),
             'generated_on' => array('integer', $stamp),
             'role' => array('integer', $role),
-            'role_local' => array('text', $local_roles),
+            'role_local' => array('text', implode(";", $local_roles)),
             'alimit' => array('text', $limit),
             'alimitdt' => array('text', $limit_date),
             'reg_enabled' => array('integer', $reg_type),
@@ -67,7 +77,7 @@ class ilRegistrationCode
         $code = "";
         $max = strlen($map) - 1;
         for ($loop = 1; $loop <= self::CODE_LENGTH; $loop++) {
-            $code .= $map[mt_rand(0, $max)];
+            $code .= $map[random_int(0, $max)];
         }
         return $code;
     }
@@ -98,7 +108,7 @@ class ilRegistrationCode
 
         $sql = "SELECT * FROM " . self::DB_TABLE . $where;
         if ($order_field) {
-            if ($order_field == 'generated') {
+            if ($order_field === 'generated') {
                 $order_field = 'generated_on';
             }
             $sql .= " ORDER BY " . $order_field . " " . $order_direction;
@@ -121,8 +131,12 @@ class ilRegistrationCode
 
         $ilDB = $DIC->database();
 
-        $set = $ilDB->query("SELECT * FROM " . self::DB_TABLE . " WHERE " . $ilDB->in("code_id", $ids, false,
-                "integer"));
+        $set = $ilDB->query("SELECT * FROM " . self::DB_TABLE . " WHERE " . $ilDB->in(
+            "code_id",
+            $ids,
+            false,
+            "integer"
+        ));
         $result = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
             $result[] = $rec;
@@ -135,9 +149,13 @@ class ilRegistrationCode
         global $DIC;
 
         $ilDB = $DIC->database();
-        if (sizeof($ids)) {
-            return (bool) $ilDB->manipulate("DELETE FROM " . self::DB_TABLE . " WHERE " . $ilDB->in("code_id", $ids,
-                    false, "integer"));
+        if (count($ids)) {
+            return (bool) $ilDB->manipulate("DELETE FROM " . self::DB_TABLE . " WHERE " . $ilDB->in(
+                "code_id",
+                $ids,
+                false,
+                "integer"
+            ));
         }
         return false;
     }
@@ -179,11 +197,11 @@ class ilRegistrationCode
         if ($filter_access_limitation) {
             $where[] = "alimit = " . $ilDB->quote($filter_access_limitation, "text");
         }
-        if (sizeof($where)) {
+        if (count($where)) {
             return " WHERE " . implode(" AND ", $where);
-        } else {
-            return "";
         }
+
+        return "";
     }
 
     public static function getCodesForExport(
@@ -216,10 +234,7 @@ class ilRegistrationCode
 
         $set = $ilDB->query("SELECT used FROM " . self::DB_TABLE . " WHERE code = " . $ilDB->quote($code, "text"));
         $set = $ilDB->fetchAssoc($set);
-        if ($set && !$set["used"]) {
-            return true;
-        }
-        return false;
+        return $set && !$set["used"];
     }
 
     public static function isValidRegistrationCode(string $a_code) : bool
@@ -242,8 +257,11 @@ class ilRegistrationCode
         global $DIC;
 
         $ilDB = $DIC->database();
-        return (bool) $ilDB->update(self::DB_TABLE, array("used" => array("timestamp", time())),
-            array("code" => array("text", $code)));
+        return (bool) $ilDB->update(
+            self::DB_TABLE,
+            array("used" => array("timestamp", time())),
+            array("code" => array("text", $code))
+        );
     }
 
     public static function getCodeRole(string $code) : int

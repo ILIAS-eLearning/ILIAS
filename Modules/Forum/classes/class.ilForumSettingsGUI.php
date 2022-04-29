@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilForumSettingsGUI
@@ -8,7 +23,7 @@
  */
 class ilForumSettingsGUI implements ilForumObjectConstants
 {
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilGlobalTemplateInterface $tpl;
     private ilLanguage $lng;
     private ilSetting $settings;
@@ -19,20 +34,18 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     private \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
     private \ILIAS\Refinery\Factory $refinery;
     private ilForumNotification $forumNotificationObj;
-    private ilPropertyFormGUI $form;
     private ?ilPropertyFormGUI $notificationSettingsForm = null;
     public int $ref_id;
     private ilObjectService $obj_service;
     private \ILIAS\DI\Container $dic;
-    private ilForumProperties $properties;
+    private ilErrorHandling $error;
 
-    public function __construct(ilObjForumGUI $parent_obj, ilForumProperties $properties)
+    public function __construct(ilObjForumGUI $parent_obj)
     {
         global $DIC;
 
         $this->dic = $DIC;
         $this->parent_obj = $parent_obj;
-        $this->properties = $properties;
 
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
@@ -42,11 +55,10 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->access = $DIC->access();
         $this->tree = $DIC->repositoryTree();
         $this->obj_service = $this->dic->object();
-        $this->ref_id = $this->parent_obj->object->getRefId();
+        $this->ref_id = $this->parent_obj->getObject()->getRefId();
         $this->http_wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
-        $cs = $DIC->contentStyle();
-        $this->content_style_gui = $cs->gui();
+        $this->error = $DIC['ilErr'];
 
         $this->lng->loadLanguageModule('style');
         $this->lng->loadLanguageModule('cont');
@@ -54,7 +66,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     private function initForcedForumNotification() : void
     {
-        $this->forumNotificationObj = new ilForumNotification($this->parent_obj->object->getRefId());
+        $this->forumNotificationObj = new ilForumNotification($this->parent_obj->getObject()->getRefId());
         $this->forumNotificationObj->readAllForcedEvents();
     }
 
@@ -73,7 +85,6 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
                     default:
                         $this->ctrl->redirect($this->parent_obj);
-                        break;
                 }
         }
     }
@@ -101,7 +112,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $presentationHeader->setTitle($this->lng->txt('frm_settings_presentation_header'));
         $a_form->addItem($presentationHeader);
 
-        $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->object)->addTileImage();
+        $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->getObject())->addTileImage();
 
         $rg_pro = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'default_view');
         $rg_pro->addOption(new ilRadioOption($this->lng->txt('sort_by_posts'), (string) ilForumProperties::VIEW_TREE));
@@ -195,12 +206,12 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
         if ($this->settings->get('forum_notification') > 0) {
             // check if there a parent-node is a grp or crs
-            $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->ref_id, 'grp');
-            $crs_ref_id = $this->tree->checkForParentType($this->parent_obj->ref_id, 'crs');
+            $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'grp');
+            $crs_ref_id = $this->tree->checkForParentType($this->parent_obj->getRefId(), 'crs');
 
-            if ((int) $grp_ref_id > 0 || (int) $crs_ref_id > 0) {
+            if ($grp_ref_id > 0 || $crs_ref_id > 0) {
                 #show member-tab for notification if forum-notification is enabled in administration
-                if ($this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
+                if ($this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
                     $cmd = '';
                     if ($this->dic->http()->wrapper()->query()->has('cmd')) {
                         $cmd = $this->dic->http()->wrapper()->query()->retrieve(
@@ -269,8 +280,8 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $a_values['default_view'] = $default_view;
         $a_values['file_upload_allowed'] = $this->parent_obj->objProperties->getFileUploadAllowed();
 
-        $object = $this->parent_obj->object;
-        $a_values['activation_online'] = !($object->getOfflineStatus() === null) && !$object->getOfflineStatus();
+        $object = $this->parent_obj->getObject();
+        $a_values['activation_online'] = $object->getOfflineStatus() === false;
     }
 
     public function updateCustomValues(ilPropertyFormGUI $a_form) : void
@@ -307,19 +318,19 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             $this->parent_obj->objProperties->setFileUploadAllowed((bool) $a_form->getInput('file_upload_allowed'));
         }
         $this->parent_obj->objProperties->update();
-        $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->object)->saveTileImage();
+        $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->getObject())->saveTileImage();
 
-        $object = $this->parent_obj->object;
+        $object = $this->parent_obj->getObject();
         $object->setOfflineStatus(!(bool) $a_form->getInput('activation_online'));
         $object->update();
     }
 
     public function showMembers() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
-            $this->parent_obj->error->raiseError(
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
+            $this->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE
+                $this->error->MESSAGE
             );
         }
 
@@ -362,10 +373,10 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         // set form html into template
         $this->tpl->setVariable('NOTIFICATIONS_SETTINGS_FORM', $this->notificationSettingsForm->getHTML());
 
-        $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
+        $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
         $oParticipants = $this->getParticipants();
 
-        $moderator_ids = ilForum::_getModerators($this->parent_obj->object->getRefId());
+        $moderator_ids = ilForum::_getModerators($this->parent_obj->getObject()->getRefId());
 
         $admin_ids = $oParticipants->getAdmins();
         $member_ids = $oParticipants->getMembers();
@@ -373,7 +384,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
         if ($this->parent_obj->objProperties->getNotificationType() === 'default') {
             // update forum_notification table
-            $forum_noti = new ilForumNotification($this->parent_obj->object->getRefId());
+            $forum_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
             $forum_noti->setAdminForce($this->parent_obj->objProperties->isAdminForceNoti());
             $forum_noti->setUserToggle($this->parent_obj->objProperties->isUserToggleNoti());
             $forum_noti->setForumId($this->parent_obj->objProperties->getObjId());
@@ -477,7 +488,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
             );
         }
 
-        $hidden_value = json_decode($hidden_value, null, 512, JSON_THROW_ON_ERROR);
+        $hidden_value = json_decode($hidden_value, false, 512, JSON_THROW_ON_ERROR);
         $interested_events = 0;
 
         $interested_events += (int) $notify_modified;
@@ -497,10 +508,10 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function enableAdminForceNoti() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
-            $this->parent_obj->error->raiseError(
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
+            $this->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE
+                $this->error->MESSAGE
             );
         }
 
@@ -515,7 +526,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         if (count($user_ids) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'), true);
         } else {
-            $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
+            $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
 
             foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
@@ -536,10 +547,10 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function disableAdminForceNoti() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
-            $this->parent_obj->error->raiseError(
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
+            $this->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE
+                $this->error->MESSAGE
             );
         }
 
@@ -554,7 +565,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         if (count($user_ids) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
         } else {
-            $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
+            $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
 
             foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
@@ -573,10 +584,10 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function enableHideUserToggleNoti() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
-            $this->parent_obj->error->raiseError(
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
+            $this->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE
+                $this->error->MESSAGE
             );
         }
 
@@ -591,7 +602,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         if (count($user_ids) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
         } else {
-            $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
+            $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
 
             foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
@@ -614,10 +625,10 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function disableHideUserToggleNoti() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
-            $this->parent_obj->error->raiseError(
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
+            $this->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE
+                $this->error->MESSAGE
             );
         }
 
@@ -632,7 +643,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         if (count($user_ids) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('time_limit_no_users_selected'));
         } else {
-            $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
+            $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
 
             foreach ($user_ids as $user_id) {
                 $frm_noti->setUserId((int) $user_id);
@@ -655,34 +666,30 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     public function getParticipants() : ilParticipants
     {
         if (!$this->parent_obj->isParentObjectCrsOrGrp()) {
-            $this->parent_obj->error->raiseError(
+            $this->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE
+                $this->error->MESSAGE
             );
         }
 
-        /** @var $oParticipants ilParticipants */
-        $oParticipants = null;
-
-        $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->object->getRefId(), 'grp');
+        $grp_ref_id = $this->tree->checkForParentType($this->parent_obj->getObject()->getRefId(), 'grp');
         if ($grp_ref_id > 0) {
             $parent_obj = ilObjectFactory::getInstanceByRefId($grp_ref_id);
-            $oParticipants = ilGroupParticipants::_getInstanceByObjId($parent_obj->getId());
-            return $oParticipants;
+            return ilGroupParticipants::_getInstanceByObjId($parent_obj->getId());
         }
 
-        $crs_ref_id = $this->tree->checkForParentType($this->parent_obj->object->getRefId(), 'crs');
+        $crs_ref_id = $this->tree->checkForParentType($this->parent_obj->getObject()->getRefId(), 'crs');
         $parent_obj = ilObjectFactory::getInstanceByRefId($crs_ref_id);
 
         return ilCourseParticipants::_getInstanceByObjId($parent_obj->getId());
     }
 
-    private function updateUserNotifications($update_all_users = false) : void
+    private function updateUserNotifications(bool $update_all_users = false) : void
     {
         $oParticipants = $this->getParticipants();
 
-        $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
-        $moderator_ids = ilForum::_getModerators($this->parent_obj->object->getRefId());
+        $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
+        $moderator_ids = ilForum::_getModerators($this->parent_obj->getObject()->getRefId());
 
         $admin_ids = $oParticipants->getAdmins();
         $member_ids = $oParticipants->getMembers();
@@ -763,10 +770,10 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function updateNotificationSettings() : void
     {
-        if (!$this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
-            $this->parent_obj->error->raiseError(
+        if (!$this->access->checkAccess('write', '', $this->parent_obj->getRefId())) {
+            $this->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
-                $this->parent_obj->error->MESSAGE
+                $this->error->MESSAGE
             );
         }
 
@@ -808,7 +815,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
                 $this->parent_obj->objProperties->setNotificationType('default');
                 $this->parent_obj->objProperties->setAdminForceNoti(false);
                 $this->parent_obj->objProperties->setUserToggleNoti(false);
-                $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
+                $frm_noti = new ilForumNotification($this->parent_obj->getObject()->getRefId());
                 $frm_noti->deleteNotificationAllUsers();
             }
 

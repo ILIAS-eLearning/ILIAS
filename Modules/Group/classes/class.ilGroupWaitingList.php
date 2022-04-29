@@ -32,10 +32,6 @@
 
 class ilGroupWaitingList extends ilWaitingList
 {
-    /**
-     * Add to waiting list and raise event
-     * @param int $a_usr_id
-     */
     public function addToList(int $a_usr_id) : bool
     {
         global $DIC;

@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomServerConnector
@@ -94,13 +109,12 @@ class ilChatroomServerConnector
             $ctx = array_merge_recursive($ctx, $stream_context_params);
         }
 
-        set_error_handler(static function ($severity, $message, $file, $line) : void {
+        set_error_handler(static function (int $severity, string $message, string $file, int $line, array $errcontext) : void {
             throw new ErrorException($message, $severity, $severity, $file, $line);
         });
 
         try {
-            $response = file_get_contents($url, false, stream_context_create($ctx));
-            return $response;
+            return file_get_contents($url, false, stream_context_create($ctx));
         } catch (Exception $e) {
             ilLoggerFactory::getLogger('chatroom')->alert($e->getMessage());
         } finally {

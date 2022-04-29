@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use PHPUnit\Framework\TestCase;
 
 class ilLearningSequenceSettingsTest extends TestCase
@@ -14,7 +28,7 @@ class ilLearningSequenceSettingsTest extends TestCase
     const TO_ONLINE = true;
     const TO_MEMBERS_GALLERY = true;
 
-    public function testCreate()
+    public function testCreate() : \ilLearningSequenceSettings
     {
         $object = new ilLearningSequenceSettings(
             self::TO_OBJ_ID,
@@ -38,7 +52,7 @@ class ilLearningSequenceSettingsTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithAbstract(ilLearningSequenceSettings $object)
+    public function testWithAbstract(ilLearningSequenceSettings $object) : void
     {
         $new_object = $object->withAbstract("teststring");
 
@@ -60,7 +74,7 @@ class ilLearningSequenceSettingsTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithExtro(ilLearningSequenceSettings $object)
+    public function testWithExtro(ilLearningSequenceSettings $object) : void
     {
         $new_object = $object->withExtro("teststring");
 
@@ -82,7 +96,7 @@ class ilLearningSequenceSettingsTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithAbstractImage(ilLearningSequenceSettings $object)
+    public function testWithAbstractImage(ilLearningSequenceSettings $object) : void
     {
         $new_object = $object->withAbstractImage("teststring");
 
@@ -104,7 +118,7 @@ class ilLearningSequenceSettingsTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithExtroImage(ilLearningSequenceSettings $object)
+    public function testWithExtroImage(ilLearningSequenceSettings $object) : void
     {
         $new_object = $object->withExtroImage("teststring");
 
@@ -126,7 +140,7 @@ class ilLearningSequenceSettingsTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithMembersGallery(ilLearningSequenceSettings $object)
+    public function testWithMembersGallery(ilLearningSequenceSettings $object) : void
     {
         $new_object = $object->withMembersGallery(false);
 

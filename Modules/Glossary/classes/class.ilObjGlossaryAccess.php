@@ -48,7 +48,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
 
         switch ($permission) {
             case "read":
-                if (!ilObjGlossaryAccess::_lookupOnline($obj_id)
+                if (!self::_lookupOnline($obj_id)
                     && !$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;
@@ -56,7 +56,7 @@ class ilObjGlossaryAccess extends ilObjectAccess
                 break;
 
             case "visible":
-                if (!ilObjGlossaryAccess::_lookupOnline($obj_id) &&
+                if (!self::_lookupOnline($obj_id) &&
                     (!$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id))) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                     return false;

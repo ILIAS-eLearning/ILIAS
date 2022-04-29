@@ -13,10 +13,9 @@ class ilModulesCourseTasks
     /**
      * @param ilNode $context
      * @param array  $params
-     *
      * @return array
      */
-    public static function readLearnersFromCourse($context, $params)
+    public static function readLearnersFromCourse(ilNode $context, array $params) : array
     {
         /*
          * Modelling:
@@ -42,10 +41,9 @@ class ilModulesCourseTasks
     /**
      * @param ilNode $context
      * @param array  $params
-     *
      * @return array
      */
-    public static function readTutorsFromCourse($context, $params)
+    public static function readTutorsFromCourse(ilNode $context, array $params) : array
     {
         /*
          * Modelling:
@@ -72,10 +70,9 @@ class ilModulesCourseTasks
     /**
      * @param ilNode $context
      * @param array  $params
-     *
      * @return array
      */
-    public static function readAdminsFromCourse($context, $params)
+    public static function readAdminsFromCourse(ilNode $context, array $params) : array
     {
         /*
          * Modelling:
@@ -102,10 +99,9 @@ class ilModulesCourseTasks
     /**
      * @param ilNode $context
      * @param array  $params
-     *
      * @return array
      */
-    public static function createCourse($context, $params)
+    public static function createCourse(ilNode $context, array $params) : array
     {
         /*
          * Modelling:
@@ -141,10 +137,8 @@ class ilModulesCourseTasks
     /**
      * @param ilNode $context
      * @param array  $params
-     *
-     * @return array
      */
-    public static function assignLearnersToCourse($context, $params)
+    public static function assignLearnersToCourse(ilNode $context, array $params) : void
     {
         /*
          * Modelling:
@@ -165,15 +159,13 @@ class ilModulesCourseTasks
         foreach ($input_params['usrIdList'] as $user_id) {
             $participants->add($user_id, ilParticipants::IL_CRS_MEMBER);
         }
-
-        return;
     }
 
     /**
      * @param ilNode $context
      * @param array  $params
      */
-    public static function assignTutorsToCourse($context, $params)
+    public static function assignTutorsToCourse(ilNode $context, array $params)
     {
         /*
          * Modelling:
@@ -201,7 +193,7 @@ class ilModulesCourseTasks
      * @param ilNode $context
      * @param array  $params
      */
-    public static function assignAdminsToCourse($context, $params)
+    public static function assignAdminsToCourse(ilNode $context, array $params)
     {
         /*
          * Modelling:

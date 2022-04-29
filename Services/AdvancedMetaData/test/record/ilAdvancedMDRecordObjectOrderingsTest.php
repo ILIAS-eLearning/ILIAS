@@ -46,7 +46,7 @@ class ilAdvancedMDRecordObjectOrderingsTest extends TestCase
 
     /**
      * @param string $name
-     * @param mixed  $value
+     * @param mixed $value
      */
     protected function setGlobalVariable(string $name, $value) : void
     {
@@ -65,5 +65,4 @@ class ilAdvancedMDRecordObjectOrderingsTest extends TestCase
         $GLOBALS['DIC'] = $this->dic;
         $this->setGlobalVariable('ilDB', $this->createMock(ilDBInterface::class));
     }
-
 }

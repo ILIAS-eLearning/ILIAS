@@ -37,7 +37,7 @@ class ilAssQuestionSkillAssignmentExporter
     /**
      * @return ilXmlWriter
      */
-    public function getXmlWriter()
+    public function getXmlWriter() : ?ilXmlWriter
     {
         return $this->xmlWriter;
     }
@@ -53,7 +53,7 @@ class ilAssQuestionSkillAssignmentExporter
     /**
      * @return array
      */
-    public function getQuestionIds()
+    public function getQuestionIds() : array
     {
         return $this->questionIds;
     }
@@ -69,7 +69,7 @@ class ilAssQuestionSkillAssignmentExporter
     /**
      * @return ilAssQuestionSkillAssignmentList
      */
-    public function getAssignmentList()
+    public function getAssignmentList() : ?ilAssQuestionSkillAssignmentList
     {
         return $this->assignmentList;
     }

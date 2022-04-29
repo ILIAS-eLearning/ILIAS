@@ -1,17 +1,22 @@
 <?php declare(strict_types=1);
-/******************************************************************************
+
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+ 
 /**
  * Table presentation of membership export files
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -45,16 +50,16 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
         return in_array($a_field, array('size', 'date'));
     }
 
-    protected function getFiles(ilFileSystemStorage $a_fss_export) : void
+    protected function getFiles(ilFileSystemAbstractionStorage $a_fss_export) : void
     {
         $data = [];
         foreach ($a_fss_export->getMemberExportFiles() as $exp_file) {
-            $data[] = array(
+            $data[] = [
                 'id' => md5($exp_file['name']),
                 'type' => strtoupper($exp_file["type"]),
                 'date' => $exp_file['timest'],
                 'size' => $exp_file['size']
-            );
+            ];
         }
 
         $this->setData($data);

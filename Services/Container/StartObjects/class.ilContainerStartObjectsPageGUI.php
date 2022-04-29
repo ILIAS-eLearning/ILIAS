@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,10 +24,7 @@
  */
 class ilContainerStartObjectsPageGUI extends ilPageObjectGUI
 {
-    /**
-    * Constructor
-    */
-    public function __construct($a_id = 0, $a_old_nr = 0, $a_lang = "")
+    public function __construct(int $a_id = 0, int $a_old_nr = 0, string $a_lang = "")
     {
         parent::__construct("cstr", $a_id, $a_old_nr, false, $a_lang);
     }

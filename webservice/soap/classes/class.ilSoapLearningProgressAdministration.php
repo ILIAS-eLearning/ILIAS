@@ -11,7 +11,8 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
  */
 class ilSoapLearningProgressAdministration extends ilSoapAdministration
 {
-    protected static $DELETE_PROGRESS_FILTER_TYPES = array('sahs', 'tst');
+    /** @var string[] */
+    protected static $DELETE_PROGRESS_FILTER_TYPES = ['sahs', 'tst'];
 
     public const PROGRESS_FILTER_ALL = 0;
     public const PROGRESS_FILTER_IN_PROGRESS = 1;
@@ -26,13 +27,14 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
     public const SOAP_LP_ERROR_NO_PERMISSION = 58;
     public const SOAP_LP_ERROR_LP_NOT_ENABLED = 60;
 
-    protected static $PROGRESS_INFO_TYPES = array(
+    /** @var int[] */
+    protected static $PROGRESS_INFO_TYPES = [
         self::PROGRESS_FILTER_ALL,
         self::PROGRESS_FILTER_IN_PROGRESS,
         self::PROGRESS_FILTER_COMPLETED,
         self::PROGRESS_FILTER_FAILED,
         self::PROGRESS_FILTER_NOT_ATTEMPTED
-    );
+    ];
 
     public const USER_FILTER_ALL = -1;
 
@@ -52,24 +54,22 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
             $type_filter = (array) $type_filter;
         }
 
-        // Check session
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
-        // Check filter
         if (array_diff((array) $type_filter, self::$DELETE_PROGRESS_FILTER_TYPES)) {
-            return $this->__raiseError('Invalid filter type given', 'Client');
+            return $this->raiseError('Invalid filter type given', 'Client');
         }
 
         include_once 'Services/User/classes/class.ilObjUser.php';
-        if (!in_array(self::USER_FILTER_ALL, $usr_ids) and !ilObjUser::userExists($usr_ids)) {
-            return $this->__raiseError('Invalid user ids given', 'Client');
+        if (!in_array(self::USER_FILTER_ALL, $usr_ids) && !ilObjUser::userExists($usr_ids)) {
+            return $this->raiseError('Invalid user ids given', 'Client');
         }
 
         $valid_refs = array();
         $type = '';
-        foreach ((array) $ref_ids as $ref_id) {
+        foreach ($ref_ids as $ref_id) {
             $obj_id = ilObject::_lookupObjId($ref_id);
             $type = ilObject::_lookupType($obj_id);
 
@@ -88,19 +88,23 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
                 foreach ($all_sub_objs as $child_ref) {
                     $child_type = ilObject::_lookupType(ilObject::_lookupObjId($child_ref));
                     if (!$GLOBALS['DIC']['ilAccess']->checkAccess('write', '', $child_ref)) {
-                        return $this->__raiseError('Permission denied for : ' . $ref_id . ' -> type ' . $type,
-                            'Client');
+                        return $this->raiseError(
+                            'Permission denied for : ' . $ref_id . ' -> type ' . $type,
+                            'Client'
+                        );
                     }
                     $valid_refs[] = $child_ref;
                 }
             } elseif (in_array($type, $type_filter)) {
                 if (!$GLOBALS['DIC']['ilAccess']->checkAccess('write', '', $ref_id)) {
-                    return $this->__raiseError('Permission denied for : ' . $ref_id . ' -> type ' . $type, 'Client');
+                    return $this->raiseError('Permission denied for : ' . $ref_id . ' -> type ' . $type, 'Client');
                 }
                 $valid_refs[] = $ref_id;
             } else {
-                return $this->__raiseError('Invalid object type given for : ' . $ref_id . ' -> type ' . $type,
-                    'Client');
+                return $this->raiseError(
+                    'Invalid object type given for : ' . $ref_id . ' -> type ' . $type,
+                    'Client'
+                );
             }
         }
 
@@ -110,11 +114,11 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
             $obj = ilObjectFactory::getInstanceByRefId($ref_id, false);
 
             if (!$obj instanceof ilObject) {
-                return $this->__raiseError('Invalid reference id given : ' . $ref_id . ' -> type ' . $type, 'Client');
+                return $this->raiseError('Invalid reference id given : ' . $ref_id . ' -> type ' . $type, 'Client');
             }
 
             // filter users
-            $valid_users = $this->applyProgressFilter($obj->getId(), (array) $usr_ids, (array) $progress_filter);
+            $valid_users = $this->applyProgressFilter($obj->getId(), (array) $usr_ids, $progress_filter);
 
             switch ($obj->getType()) {
                 case 'sahs':
@@ -123,11 +127,11 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 
                     switch ($subtype) {
                         case 'scorm':
-                            $this->deleteScormTracking($obj->getId(), (array) $valid_users);
+                            $this->deleteScormTracking($obj->getId(), $valid_users);
                             break;
 
                         case 'scorm2004':
-                            $this->deleteScorm2004Tracking($obj->getId(), (array) $valid_users);
+                            $this->deleteScorm2004Tracking($obj->getId(), $valid_users);
                             break;
                     }
                     break;
@@ -135,7 +139,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
                 case 'tst':
 
                     /** @var $obj ilObjTest */
-                    $obj->removeTestResultsFromSoapLpAdministration(array_values((array) $valid_users));
+                    $obj->removeTestResultsFromSoapLpAdministration(array_values($valid_users));
                     break;
             }
 
@@ -163,16 +167,16 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         $ilAccess = $DIC->access();
 
         // Check session
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError(
-                'Error ' . self::SOAP_LP_ERROR_AUTHENTICATION . ':' . $this->__getMessage(),
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError(
+                'Error ' . self::SOAP_LP_ERROR_AUTHENTICATION . ':' . $this->getMessage(),
                 self::SOAP_LP_ERROR_AUTHENTICATION
             );
         }
 
         // Check filter
-        if (array_diff((array) $a_progress_filter, self::$PROGRESS_INFO_TYPES)) {
-            return $this->__raiseError(
+        if (array_diff($a_progress_filter, self::$PROGRESS_INFO_TYPES)) {
+            return $this->raiseError(
                 'Error ' . self::SOAP_LP_ERROR_INVALID_FILTER . ': Invalid filter type given',
                 self::SOAP_LP_ERROR_INVALID_FILTER
             );
@@ -180,7 +184,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         // Check LP enabled
         include_once("Services/Tracking/classes/class.ilObjUserTracking.php");
         if (!ilObjUserTracking::_enabledLearningProgress()) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'Error ' . self::SOAP_LP_ERROR_LP_NOT_ENABLED . ': Learning progress not enabled in ILIAS',
                 self::SOAP_LP_ERROR_LP_NOT_ENABLED
             );
@@ -189,7 +193,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         include_once './Services/Object/classes/class.ilObjectFactory.php';
         $obj = ilObjectFactory::getInstanceByRefId($a_ref_id, false);
         if (!$obj instanceof ilObject) {
-            return $this->__raiseError(
+            return $this->raiseError(
                 'Error ' . self::SOAP_LP_ERROR_INVALID_REF_ID . ': Invalid reference id ' . $a_ref_id . ' given',
                 self::SOAP_LP_ERROR_INVALID_REF_ID
             );
@@ -198,8 +202,8 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         // check lp available
         include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
         $mode = ilLPObjSettings::_lookupDBMode($obj->getId());
-        if ($mode == ilLPObjSettings::LP_MODE_UNDEFINED) {
-            return $this->__raiseError(
+        if ($mode === ilLPObjSettings::LP_MODE_UNDEFINED) {
+            return $this->raiseError(
                 'Error ' . self::SOAP_LP_ERROR_LP_NOT_AVAILABLE . ': Learning progress not available for objects of type ' .
                 $obj->getType(),
                 self::SOAP_LP_ERROR_LP_NOT_AVAILABLE
@@ -210,9 +214,12 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         /**
          * @var ilAccess
          */
-        if (!$ilAccess->checkRbacOrPositionPermissionAccess('read_learning_progress', 'read_learning_progress',
-            $a_ref_id)) {
-            return $this->__raiseError(
+        if (!$ilAccess->checkRbacOrPositionPermissionAccess(
+            'read_learning_progress',
+            'read_learning_progress',
+            $a_ref_id
+        )) {
+            return $this->raiseError(
                 'Error ' . self::SOAP_LP_ERROR_NO_PERMISSION . ': No Permission to access learning progress in this object',
                 self::SOAP_LP_ERROR_NO_PERMISSION
             );
@@ -231,8 +238,10 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         $writer->xmlStartTag('LearningProgressSummary');
 
         include_once './Services/Tracking/classes/class.ilLPStatusWrapper.php';
-        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_COMPLETED,
-                $a_progress_filter)) {
+        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) || in_array(
+            self::PROGRESS_FILTER_COMPLETED,
+            $a_progress_filter
+        )) {
             $completed = ilLPStatusWrapper::_getCompleted($obj->getId());
             $completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
                 'read_learning_progress',
@@ -246,12 +255,14 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
                 'Status',
                 array(
                     'type' => self::PROGRESS_FILTER_COMPLETED,
-                    'num' => (int) $completed
+                    'num' => $completed
                 )
             );
         }
-        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_IN_PROGRESS,
-                $a_progress_filter)) {
+        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) || in_array(
+            self::PROGRESS_FILTER_IN_PROGRESS,
+            $a_progress_filter
+        )) {
             $completed = ilLPStatusWrapper::_getInProgress($obj->getId());
             $completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
                 'read_learning_progress',
@@ -265,12 +276,14 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
                 'Status',
                 array(
                     'type' => self::PROGRESS_FILTER_IN_PROGRESS,
-                    'num' => (int) $completed
+                    'num' => $completed
                 )
             );
         }
-        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_FAILED,
-                $a_progress_filter)) {
+        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) || in_array(
+            self::PROGRESS_FILTER_FAILED,
+            $a_progress_filter
+        )) {
             $completed = ilLPStatusWrapper::_getFailed($obj->getId());
             $completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
                 'read_learning_progress',
@@ -284,12 +297,14 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
                 'Status',
                 array(
                     'type' => self::PROGRESS_FILTER_FAILED,
-                    'num' => (int) $completed
+                    'num' => $completed
                 )
             );
         }
-        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_NOT_ATTEMPTED,
-                $a_progress_filter)) {
+        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) || in_array(
+            self::PROGRESS_FILTER_NOT_ATTEMPTED,
+            $a_progress_filter
+        )) {
             $completed = ilLPStatusWrapper::_getNotAttempted($obj->getId());
             $completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
                 'read_learning_progress',
@@ -303,14 +318,16 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
                 'Status',
                 array(
                     'type' => self::PROGRESS_FILTER_NOT_ATTEMPTED,
-                    'num' => (int) $completed
+                    'num' => $completed
                 )
             );
         }
         $writer->xmlEndTag('LearningProgressSummary');
         $writer->xmlStartTag('UserProgress');
-        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_COMPLETED,
-                $a_progress_filter)) {
+        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) || in_array(
+            self::PROGRESS_FILTER_COMPLETED,
+            $a_progress_filter
+        )) {
             $completed = ilLPStatusWrapper::_getCompleted($obj->getId());
             $completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
                 'read_learning_progress',
@@ -321,8 +338,10 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 
             $this->addUserProgress($writer, $completed, self::PROGRESS_FILTER_COMPLETED);
         }
-        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_IN_PROGRESS,
-                $a_progress_filter)) {
+        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) || in_array(
+            self::PROGRESS_FILTER_IN_PROGRESS,
+            $a_progress_filter
+        )) {
             $completed = ilLPStatusWrapper::_getInProgress($obj->getId());
             $completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
                 'read_learning_progress',
@@ -332,8 +351,10 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
             );
             $this->addUserProgress($writer, $completed, self::PROGRESS_FILTER_IN_PROGRESS);
         }
-        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_FAILED,
-                $a_progress_filter)) {
+        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) || in_array(
+            self::PROGRESS_FILTER_FAILED,
+            $a_progress_filter
+        )) {
             $completed = ilLPStatusWrapper::_getFailed($obj->getId());
             $completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
                 'read_learning_progress',
@@ -343,8 +364,10 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
             );
             $this->addUserProgress($writer, $completed, self::PROGRESS_FILTER_FAILED);
         }
-        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) or in_array(self::PROGRESS_FILTER_NOT_ATTEMPTED,
-                $a_progress_filter)) {
+        if (in_array(self::PROGRESS_FILTER_ALL, $a_progress_filter) || in_array(
+            self::PROGRESS_FILTER_NOT_ATTEMPTED,
+            $a_progress_filter
+        )) {
             $completed = ilLPStatusWrapper::_getNotAttempted($obj->getId());
             $completed = $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
                 'read_learning_progress',
@@ -361,7 +384,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         return $writer->xmlDumpMem();
     }
 
-    protected function addUserProgress(ilXmlWriter $writer, array $users, int $a_type)
+    protected function addUserProgress(ilXmlWriter $writer, array $users, int $a_type) : void
     {
         foreach ($users as $user_id) {
             $writer->xmlStartTag(
@@ -404,7 +427,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
             $all_users = $usr_ids;
         }
 
-        if (!$filter or in_array(self::PROGRESS_FILTER_ALL, $filter)) {
+        if (!$filter || in_array(self::PROGRESS_FILTER_ALL, $filter)) {
             $GLOBALS['DIC']['log']->write(__METHOD__ . ': Deleting all progress data');
             return $all_users;
         }
@@ -430,7 +453,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
     /**
      * Delete SCORM Tracking
      */
-    protected function deleteScormTracking(int $a_obj_id, array $a_usr_ids)
+    protected function deleteScormTracking(int $a_obj_id, array $a_usr_ids) : bool
     {
         global $DIC;
 
@@ -446,7 +469,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
     /**
      * Delete scorm 2004 tracking
      */
-    protected function deleteScorm2004Tracking(int $a_obj_id, array $a_usr_ids)
+    protected function deleteScorm2004Tracking(int $a_obj_id, array $a_usr_ids) : void
     {
         global $DIC;
 
@@ -463,7 +486,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         }
 
         $query = 'DELETE FROM cmi_node ' .
-            'WHERE ' . $ilDB->in('user_id', (array) $a_usr_ids, false, 'integer') . ' ' .
+            'WHERE ' . $ilDB->in('user_id', $a_usr_ids, false, 'integer') . ' ' .
             'AND ' . $ilDB->in('cp_node_id', $scos, false, 'integer');
         $ilDB->manipulate($query);
     }
@@ -476,8 +499,8 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
         global $DIC;
 
@@ -502,7 +525,7 @@ class ilSoapLearningProgressAdministration extends ilSoapAdministration
 
             return $writer->xmlDumpMem(true);
         } catch (UnexpectedValueException $e) {
-            return $this->__raiseError($e->getMessage(), 'Client');
+            return $this->raiseError($e->getMessage(), 'Client');
         }
     }
 }

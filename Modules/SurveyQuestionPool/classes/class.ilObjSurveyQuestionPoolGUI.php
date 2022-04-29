@@ -28,6 +28,7 @@ use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
  */
 class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
+    protected \ILIAS\SurveyQuestionPool\Editing\EditManager $edit_manager;
     protected bool $update;
     protected EditingGUIRequest $edit_request;
     protected ilNavigationHistory $nav_history;
@@ -48,6 +49,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             ->gui()
             ->editing()
             ->request();
+        $this->edit_manager = $DIC->surveyQuestionPool()
+                                  ->internal()
+                                  ->domain()
+                                  ->editing();
 
         $this->type = "spl";
 
@@ -145,8 +150,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
                 }
                 break;
         }
-        if (strtolower($this->edit_request->getBaseClass()) != "iladministrationgui" &&
-            $this->getCreationMode() != true) {
+        if (strtolower($this->edit_request->getBaseClass()) !== "iladministrationgui" &&
+            $this->getCreationMode() !== true) {
             $this->tpl->printToStdout();
         }
     }
@@ -287,7 +292,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         
         // create an array of all checked checkboxes
         $checked_questions = $this->edit_request->getQuestionIds();
-        if (count($checked_questions) == 0) {
+        if (count($checked_questions) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("qpl_delete_select_none"));
             $this->questionsObject();
             return;
@@ -336,7 +341,8 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
      */
     public function pasteObject() : void
     {
-        if (array_key_exists("spl_clipboard", $_SESSION)) {
+        $clip_questions = $this->edit_manager->getQuestionsFromClipboard();
+        if (count($clip_questions) > 0) {
             $this->object->pasteFromClipboard();
         } else {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("spl_paste_no_objects"), true);
@@ -374,7 +380,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         // check if file was uploaded
         $source = $_FILES["qtidoc"]["tmp_name"];
         $error = 0;
-        if (($source == 'none') || (!$source) || $_FILES["qtidoc"]["error"] > UPLOAD_ERR_OK) {
+        if (($source === 'none') || (!$source) || $_FILES["qtidoc"]["error"] > UPLOAD_ERR_OK) {
             $error = 1;
         }
         // check correct file type
@@ -389,7 +395,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             // copy uploaded file to import directory
             $full_path = $this->object->getImportDirectory() . "/" . $_FILES["qtidoc"]["name"];
 
-            ilUtil::moveUploadedFile(
+            ilFileUtils::moveUploadedFile(
                 $_FILES["qtidoc"]["tmp_name"],
                 $_FILES["qtidoc"]["name"],
                 $full_path
@@ -469,12 +475,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
     }
     
-    protected function afterSave(ilObject $a_new_object) : void
+    protected function afterSave(ilObject $new_object) : void
     {
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         
-        ilUtil::redirect("ilias.php?ref_id=" . $a_new_object->getRefId() .
+        ilUtil::redirect("ilias.php?ref_id=" . $new_object->getRefId() .
             "&baseClass=ilObjSurveyQuestionPoolGUI");
     }
 
@@ -525,7 +531,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     public function downloadExportFileObject() : void
     {
         $files = $this->edit_request->getFiles();
-        if (count($files) == 0) {
+        if (count($files) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "export");
         }
@@ -549,7 +555,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     public function confirmDeleteExportFileObject() : void
     {
         $files = $this->edit_request->getFiles();
-        if (count($files) == 0) {
+        if (count($files) === 0) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "export");
         }
@@ -583,12 +589,12 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             $file = basename($file);
             
             $exp_file = $export_dir . "/" . $file;
-            $exp_dir = $export_dir . "/" . substr($file, 0, strlen($file) - 4);
+            $exp_dir = $export_dir . "/" . substr($file, 0, -4);
             if (is_file($exp_file)) {
                 unlink($exp_file);
             }
             if (is_dir($exp_dir)) {
-                ilUtil::delDir($exp_dir);
+                ilFileUtils::delDir($exp_dir);
             }
         }
         $this->ctrl->redirect($this, "export");
@@ -643,7 +649,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             $upload = $_FILES["importfile"];
             $file = pathinfo($upload["name"]);
             $full_path = $newObj->getImportDirectory() . "/" . $upload["name"];
-            ilUtil::moveUploadedFile(
+            ilFileUtils::moveUploadedFile(
                 $upload["tmp_name"],
                 $upload["name"],
                 $full_path
@@ -776,9 +782,9 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         }
             
         // questions
-        $force_active = ($this->ctrl->getCmdClass() == "" &&
-            $this->ctrl->getCmd() != "properties" && $this->ctrl->getCmd() != "infoScreen") ||
-            $this->ctrl->getCmd() == "";
+        $force_active = ($this->ctrl->getCmdClass() === "" &&
+            $this->ctrl->getCmd() !== "properties" && $this->ctrl->getCmd() !== "infoScreen") ||
+            ($this->ctrl->getCmd() === "" || $this->ctrl->getCmd() === null);
         if (!$force_active) {
             $sort = $this->edit_request->getSort();
             if (count($sort) > 0) {

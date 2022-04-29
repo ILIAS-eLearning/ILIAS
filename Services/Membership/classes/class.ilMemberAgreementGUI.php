@@ -1,7 +1,23 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
@@ -15,23 +31,18 @@ class ilMemberAgreementGUI
     private int $ref_id;
     private int $obj_id;
     private string $type;
-
     protected GlobalHttpState $http;
     protected Factory $refinery;
-
-    private ilDBInterface $db;
     private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilGlobalTemplateInterface $tpl;
     private ilObjUser $user;
-
     private ilPrivacySettings $privacy;
     private ilMemberAgreement $agreement;
-
     private bool $required_fullfilled = false;
     private bool $agreement_required = false;
 
-    public function __construct($a_ref_id)
+    public function __construct(int $a_ref_id)
     {
         global $DIC;
 
@@ -59,7 +70,7 @@ class ilMemberAgreementGUI
 
         switch ($next_class) {
             default:
-                if (!$cmd or $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = 'showAgreement';
                 }
                 $this->$cmd();
@@ -82,7 +93,7 @@ class ilMemberAgreementGUI
      */
     protected function showAgreement(?ilPropertyFormGUI $form = null) : void
     {
-        if (!$form instanceof ilPropertyFormGUI) {
+        if ($form === null) {
             $form = $this->initFormAgreement();
             self::setCourseDefinedFieldValues($form, $this->obj_id, $this->user->getId());
         }
@@ -166,7 +177,7 @@ class ilMemberAgreementGUI
             return $form;
         }
 
-        if ($a_mode == 'user') {
+        if ($a_mode === 'user') {
             $cdf = new ilNonEditableValueGUI($lng->txt('ps_' . $a_type . '_user_fields'));
             $cdf->setValue($lng->txt($a_type . '_ps_cdf_info'));
             $cdf->setRequired(true);
@@ -199,7 +210,7 @@ class ilMemberAgreementGUI
 
                             $option_radios->addOption($option_radio);
                         }
-                        if ($a_mode == 'user') {
+                        if ($a_mode === 'user') {
                             $cdf->addSubItem($option_radios);
                         } else {
                             $form->addItem($option_radios);
@@ -210,7 +221,7 @@ class ilMemberAgreementGUI
                         if ($field_obj->isRequired()) {
                             $select->setRequired(true);
                         }
-                        if ($a_mode == 'user') {
+                        if ($a_mode === 'user') {
                             $cdf->addSubItem($select);
                         } else {
                             $form->addItem($select);
@@ -225,7 +236,7 @@ class ilMemberAgreementGUI
                     if ($field_obj->isRequired()) {
                         $text->setRequired(true);
                     }
-                    if ($a_mode == 'user') {
+                    if ($a_mode === 'user') {
                         $cdf->addSubItem($text);
                     } else {
                         $form->addItem($text);
@@ -233,7 +244,7 @@ class ilMemberAgreementGUI
                     break;
             }
         }
-        if ($a_mode == 'user') {
+        if ($a_mode === 'user') {
             $form->addItem($cdf);
         }
         return $form;
@@ -339,7 +350,7 @@ class ilMemberAgreementGUI
                     if (in_array($option_id, $open_answer_indexes)) {
                         $value = $form->getInput('cdf_oa_' . $field_obj->getId() . '_' . $option_id);
                     } else {
-                        $value = $field_obj->getValueById($option_id);
+                        $value = $field_obj->getValueById((int) $option_id);
                     }
                     break;
 
@@ -356,7 +367,7 @@ class ilMemberAgreementGUI
 
     private function checkAgreement() : bool
     {
-        $agrement = false;
+        $agreement = false;
         if ($this->http->wrapper()->post()->has('agreement')) {
             $agreement = $this->http->wrapper()->post()->retrieve(
                 'agreement',
@@ -385,12 +396,12 @@ class ilMemberAgreementGUI
             $message = $this->lng->txt($this->type . '_ps_agreement_req_info');
         }
         if (!$this->required_fullfilled) {
-            if (strlen($message)) {
+            if ($message !== '') {
                 $message .= '<br />';
             }
             $message .= $this->lng->txt($this->type . '_ps_required_info');
         }
-        if (strlen($message)) {
+        if ($message !== '') {
             $this->tpl->setOnScreenMessage('failure', $message);
         }
     }

@@ -24,7 +24,6 @@ class ilAdvancedMetaDataImporter extends ilXmlImporter
         string $a_xml,
         ilImportMapping $a_mapping
     ) : void {
-
         $parser = new ilAdvancedMDParser($a_id, $a_mapping);
         $parser->setXMLContent($a_xml);
         $parser->startParsing();

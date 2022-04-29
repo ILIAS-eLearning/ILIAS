@@ -28,7 +28,7 @@ class ilLMObjectGUI
     public ilLMObject $obj;
     public ilCtrl $ctrl;
     public ilObjLearningModule $content_object;
-    public $actions;
+    public array $actions;
 
     protected \ILIAS\DI\UIServices $ui;
     protected int $requested_obj_id;
@@ -42,7 +42,6 @@ class ilLMObjectGUI
     /**
     * constructor
     *
-    * @param	object		$a_content_obj		content object
     */
     public function __construct(ilObjLearningModule $a_content_obj)
     {

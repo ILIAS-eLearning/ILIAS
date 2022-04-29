@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomFormFactory
@@ -32,7 +47,10 @@ class ilChatroomFormFactory
      */
     public static function applyValues(ilPropertyFormGUI $form, array $values) : void
     {
-        $form->setValuesByArray($values);
+        $form->setValuesByArray(array_map(
+            static fn ($value) => is_int($value) ? (string) $value : $value,
+            $values
+        ));
     }
 
     /**
@@ -182,7 +200,7 @@ class ilChatroomFormFactory
         $custom_opt = new ilRadioOption($this->lng->txt('custom_username'), 'custom_username');
         $radio->addOption($custom_opt);
 
-        $txt = new ilTextInputGUI($this->lng->txt('custom_username'), 'custom_username_text');
+        $txt = new ilTextInputGUI($this->lng->txt('preferred_chatname'), 'custom_username_text');
         $custom_opt->addSubItem($txt);
         $form->addItem($radio);
 
@@ -253,22 +271,6 @@ class ilChatroomFormFactory
         $oscBrowserNotificationIdleTime->setSize(5);
         $oscBrowserNotificationIdleTime->setInfo($this->lng->txt('osc_adm_conv_idle_state_threshold_info'));
         $enable_osc->addSubItem($oscBrowserNotificationIdleTime);
-
-        $osd = new ilCheckboxInputGUI($this->lng->txt('enable_osd'), 'enable_osd');
-        $osd->setInfo($this->lng->txt('hint_osd'));
-        $enable_chat->addSubItem($osd);
-
-        $interval = new ilNumberInputGUI($this->lng->txt('osd_intervall'), 'osd_intervall');
-        $interval->setMinValue(1);
-        $interval->setRequired(true);
-        $interval->setSuffix($this->lng->txt('seconds'));
-        $interval->setSize(5);
-        $interval->setInfo($this->lng->txt('hint_osd_interval'));
-        $osd->addSubItem($interval);
-
-        $play_sound = new ilCheckboxInputGUI($this->lng->txt('play_invitation_sound'), 'play_invitation_sound');
-        $play_sound->setInfo($this->lng->txt('play_invitation_sound_info'));
-        $osd->addSubItem($play_sound);
 
         $enable_smilies = new ilCheckboxInputGUI($this->lng->txt('enable_smilies'), 'enable_smilies');
         $enable_smilies->setInfo($this->lng->txt('hint_enable_smilies'));

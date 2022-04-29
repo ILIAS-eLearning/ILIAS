@@ -1,6 +1,7 @@
 <?php declare(strict_types = 1);
 
 use \Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\UriInterface;
 
 /******************************************************************************
  *
@@ -17,8 +18,9 @@ use \Psr\Http\Message\RequestInterface;
  *****************************************************************************/
 class ilWebDAVUriBuilder
 {
-    protected RequestInterface $request;
-
+    /**
+     * @var string[]
+     */
     protected array $schemas = array(
             'default' => 'http',
             'konqueror' => 'webdav',
@@ -26,14 +28,19 @@ class ilWebDAVUriBuilder
         );
 
     protected string $mount_instructions_query = 'mount-instructions';
-
     protected string $webdav_script_name = 'webdav.php';
+    
+    protected RequestInterface $request;
+    protected UriInterface $uri;
+    protected string $host;
+    protected string $client_id;
+    protected string $web_path_to_script;
 
-    public function __construct(RequestInterface $a_request)
+    public function __construct(RequestInterface $request)
     {
-        $this->request = $a_request;
+        $this->request = $request;
 
-        $this->uri = $a_request->getUri();
+        $this->uri = $request->getUri();
         $this->host = $this->uri->getHost();
 
         $this->client_id = CLIENT_ID;

@@ -7,14 +7,7 @@
  */
 interface ilQTIMaterialAware
 {
-    /**
-     * @param ilQTIMaterial $flow_mat
-     */
-    public function addMaterial(ilQTIMaterial $material);
+    public function addMaterial(ilQTIMaterial $material) : void;
 
-    /**
-     * @param $index int
-     * @return ilQTIMaterial|null
-     */
-    public function getMaterial($index);
+    public function getMaterial(int $index) : ?ilQTIMaterial;
 }

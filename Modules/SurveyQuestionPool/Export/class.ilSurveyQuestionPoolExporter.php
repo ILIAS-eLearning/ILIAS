@@ -20,8 +20,6 @@
  */
 class ilSurveyQuestionPoolExporter extends ilXmlExporter
 {
-    private $ds;
-
     public function init() : void
     {
     }

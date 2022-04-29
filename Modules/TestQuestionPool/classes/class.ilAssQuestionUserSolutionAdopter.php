@@ -10,34 +10,16 @@
  */
 class ilAssQuestionUserSolutionAdopter
 {
-    /**
-     * @var ressource
-     */
     protected static $preparedDeleteSolutionRecordsStatement = null;
 
-    /**
-     * @var ressource
-     */
     protected static $preparedSelectSolutionRecordsStatement = null;
 
-    /**
-     * @var ressource
-     */
     protected static $preparedInsertSolutionRecordStatement = null;
 
-    /**
-     * @var ressource
-     */
     protected static $preparedDeleteResultRecordStatement = null;
 
-    /**
-     * @var ressource
-     */
     protected static $preparedSelectResultRecordStatement = null;
 
-    /**
-     * @var ressource
-     */
     protected static $preparedInsertResultRecordStatement = null;
 
     /**
@@ -92,7 +74,7 @@ class ilAssQuestionUserSolutionAdopter
     /**
      * @return int
      */
-    public function getUserId()
+    public function getUserId() : ?int
     {
         return $this->userId;
     }
@@ -108,7 +90,7 @@ class ilAssQuestionUserSolutionAdopter
     /**
      * @return int
      */
-    public function getActiveId()
+    public function getActiveId() : ?int
     {
         return $this->activeId;
     }
@@ -124,7 +106,7 @@ class ilAssQuestionUserSolutionAdopter
     /**
      * @return int
      */
-    public function getTargetPass()
+    public function getTargetPass() : ?int
     {
         return $this->targetPass;
     }
@@ -140,7 +122,7 @@ class ilAssQuestionUserSolutionAdopter
     /**
      * @return array
      */
-    public function getQuestionIds()
+    public function getQuestionIds() : array
     {
         return $this->questionIds;
     }

@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 
@@ -99,7 +98,7 @@ EOT;
         $this->assertFalse($this->parser->result()->isError(), $this->parser->result()->isError() ? $this->parser->result()->error() : '');
         $this->assertTrue($this->parser->result()->isOK());
 
-        $this->assertEquals('https://sso.example.org/idp', $this->parser->result()->value());
+        $this->assertSame('https://sso.example.org/idp', $this->parser->result()->value());
     }
 
     /**

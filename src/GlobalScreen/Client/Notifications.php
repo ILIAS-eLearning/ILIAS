@@ -2,8 +2,12 @@
 
 namespace ILIAS\GlobalScreen\Client;
 
+use ILIAS\DI\Container;
+use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
-use ILIAS\GlobalScreen\Scope\Notification\Factory\StandardNotificationGroup;
+use ILIAS\HTTP\Response\ResponseHeader;
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
+use JsonException;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -24,6 +28,7 @@ class Notifications
 {
     use Hasher;
     
+    protected Container $dic;
     /**
      * Collected set of collected notifications
      */
@@ -41,6 +46,10 @@ class Notifications
      */
     const MODE_CLOSED = "closed";
     /**
+     * Value of the MODE GET param, if the Notification Center should be rerendered
+     */
+    public const MODE_RERENDER = "rerender";
+    /**
      * NAME of the GET param, to indicate the item ID of the closed item
      */
     const ITEM_ID = "item_id";
@@ -56,6 +65,12 @@ class Notifications
     protected ?string $single_identifier_to_handle;
     protected array $administrative_notifications = [];
     
+    public function __construct()
+    {
+        global $DIC;
+        $this->dic = $DIC;
+    }
+
     public function run() : void
     {
         /**
@@ -79,6 +94,9 @@ class Notifications
                 break;
             case self::MODE_CLOSED:
                 $this->handleClosed();
+                break;
+            case self::MODE_RERENDER:
+                $this->handleRerender();
                 break;
         }
     }
@@ -122,5 +140,37 @@ class Notifications
                 }
             }
         }
+    }
+
+    /**
+     * @throws ResponseSendingException
+     * @throws JsonException
+     */
+    private function handleRerender() : void
+    {
+        $notifications = [];
+        $amount = 0;
+        foreach ($this->notification_groups as $group) {
+            $notifications[] = $group->getRenderer($this->dic->ui()->factory())->getNotificationComponentForItem($group);
+            if ($group->getNewNotificationsCount() > 0) {
+                $amount++;
+            }
+        }
+        $this->dic->http()->saveResponse(
+            $this->dic->http()->response()
+                ->withBody(Streams::ofString(
+                    json_encode([
+                        'html' => $this->dic->ui()->renderer()->renderAsync($notifications),
+                        'symbol' => $this->dic->ui()->renderer()->render(
+                            $this->dic->ui()->factory()->symbol()->glyph()->notification()->withCounter(
+                                $this->dic->ui()->factory()->counter()->novelty($amount)
+                            )
+                        )
+                    ], JSON_THROW_ON_ERROR)
+                ))
+                ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
+        );
+        $this->dic->http()->sendResponse();
+        $this->dic->http()->close();
     }
 }

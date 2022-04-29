@@ -18,7 +18,6 @@ class ilSoapStructureObjectXMLWriter extends ilXmlWriter
 {
     public string $xml;
     public ?ilSoapStructureObject $structureObject = null;
-    private int $user_id = 0;
 
     public function __construct()
     {
@@ -26,7 +25,6 @@ class ilSoapStructureObjectXMLWriter extends ilXmlWriter
 
         $ilUser = $DIC->user();
         parent::__construct();
-        $this->user_id = $ilUser->getId();
     }
 
     public function setStructureObject(ilSoapStructureObject $structureObject) : void
@@ -40,9 +38,9 @@ class ilSoapStructureObjectXMLWriter extends ilXmlWriter
             return false;
         }
 
-        $this->__buildHeader();
+        $this->buildHeader();
         $this->structureObject->exportXML($this);
-        $this->__buildFooter();
+        $this->buildFooter();
         return true;
     }
 
@@ -51,14 +49,14 @@ class ilSoapStructureObjectXMLWriter extends ilXmlWriter
         return $this->xmlDumpMem(false);
     }
 
-    public function __buildHeader() : void
+    private function buildHeader() : void
     {
         $this->xmlSetDtdDef("<!DOCTYPE RepositoryObject PUBLIC \"-//ILIAS//DTD UserImport//EN\" \"" . ILIAS_HTTP_PATH . "/xml/ilias_soap_structure_object_3_7.dtd\">");
         $this->xmlSetGenCmt("Internal Structure Information of Repository Object");
         $this->xmlHeader();
     }
 
-    public function __buildFooter() : void
+    private function buildFooter() : void
     {
     }
 }

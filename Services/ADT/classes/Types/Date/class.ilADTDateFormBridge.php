@@ -5,7 +5,7 @@
  */
 class ilADTDateFormBridge extends ilADTFormBridge
 {
-    protected $invalid_input; // [bool]
+    protected bool $invalid_input = false;
 
     protected function isValidADT(ilADT $a_adt) : bool
     {
@@ -49,6 +49,6 @@ class ilADTDateFormBridge extends ilADTFormBridge
     public function validate() : bool
     {
         // :TODO: error handling is done by ilDateTimeInputGUI
-        return !(bool) $this->invalid_input;
+        return !$this->invalid_input;
     }
 }

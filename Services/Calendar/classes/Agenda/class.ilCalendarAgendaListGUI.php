@@ -18,7 +18,6 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
     public const PERIOD_HALF_YEAR = 4;
 
     protected int $period = self::PERIOD_WEEK;
-    protected ?string $period_end_day = null;
 
     public function __construct(ilDate $seed)
     {
@@ -29,9 +28,6 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         $this->initEndPeriod();
     }
 
-    /**
-     * @todo _GET
-     */
     protected function initPeriod() : void
     {
         global $DIC;
@@ -83,8 +79,10 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         switch ($next_class) {
             case "ilcalendarappointmentpresentationgui":
                 $this->ctrl->setReturn($this, "");
-                $gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed->get(IL_CAL_DATE),
-                    IL_CAL_DATE), $this->getCurrentApp());
+                $gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate(
+                    $this->seed->get(IL_CAL_DATE),
+                    IL_CAL_DATE
+                ), $this->getCurrentApp());
                 $this->ctrl->forwardCommand($gui);
                 break;
 
@@ -99,8 +97,11 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
     public function getHTML() : string
     {
-        $navigation = new ilCalendarHeaderNavigationGUI($this, new ilDate($this->seed->get(IL_CAL_DATE), IL_CAL_DATE),
-            ilDateTime::DAY);
+        $navigation = new ilCalendarHeaderNavigationGUI(
+            $this,
+            new ilDate($this->seed->get(IL_CAL_DATE), IL_CAL_DATE),
+            ilDateTime::DAY
+        );
         $navigation->getHTML();
 
         // set return now (after header navigation) to the list (e.g. for profile links)
@@ -200,8 +201,10 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
             }
             $this->ctrl->setParameter($this, 'modal_title', $modal_title);
             $modal = $this->ui_factory->modal()->roundtrip('', [])->withAsyncRenderUrl($url);
-            $shy = $this->ui_factory->button()->shy($e["event"]->getPresentationTitle(false),
-                "")->withOnClick($modal->getShowSignal());
+            $shy = $this->ui_factory->button()->shy(
+                $e["event"]->getPresentationTitle(false),
+                ""
+            )->withOnClick($modal->getShowSignal());
 
             $modals[] = $modal;
             if ($e['event']->isFullDay()) {
@@ -220,8 +223,10 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
             }
 
             // add type specific actions/properties
-            $app_gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate($this->seed->get(IL_CAL_DATE),
-                IL_CAL_DATE), $e);
+            $app_gui = ilCalendarAppointmentPresentationGUI::_getInstance(new ilDate(
+                $this->seed->get(IL_CAL_DATE),
+                IL_CAL_DATE
+            ), $e);
             $app_gui->setListItemMode($li);
             $this->ctrl->getHTML($app_gui);
             $items[] = $app_gui->getListItem();
@@ -255,24 +260,34 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
         $items = array();
         $this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_DAY);
-        $items[] = $this->ui_factory->button()->shy($images[1] . "1 " . $this->lng->txt("day"),
-            $this->ctrl->getLinkTarget($this, "getHTML"));
+        $items[] = $this->ui_factory->button()->shy(
+            $images[1] . "1 " . $this->lng->txt("day"),
+            $this->ctrl->getLinkTarget($this, "getHTML")
+        );
         $this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_WEEK);
-        $items[] = $this->ui_factory->button()->shy($images[2] . "1 " . $this->lng->txt("week"),
-            $this->ctrl->getLinkTarget($this, "getHTML"));
+        $items[] = $this->ui_factory->button()->shy(
+            $images[2] . "1 " . $this->lng->txt("week"),
+            $this->ctrl->getLinkTarget($this, "getHTML")
+        );
         $this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_MONTH);
-        $items[] = $this->ui_factory->button()->shy($images[3] . "1 " . $this->lng->txt("month"),
-            $this->ctrl->getLinkTarget($this, "getHTML"));
+        $items[] = $this->ui_factory->button()->shy(
+            $images[3] . "1 " . $this->lng->txt("month"),
+            $this->ctrl->getLinkTarget($this, "getHTML")
+        );
         $this->ctrl->setParameter($this, "cal_agenda_per", self::PERIOD_HALF_YEAR);
-        $items[] = $this->ui_factory->button()->shy($images[4] . "6 " . $this->lng->txt("months"),
-            $this->ctrl->getLinkTarget($this, "getHTML"));
+        $items[] = $this->ui_factory->button()->shy(
+            $images[4] . "6 " . $this->lng->txt("months"),
+            $this->ctrl->getLinkTarget($this, "getHTML")
+        );
         $this->ctrl->setParameter($this, "cal_agenda_per", $this->period);
 
         $actions = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt("days"));
 
         $list_title =
-            $this->lng->txt("cal_agenda") . ": " . ilDatePresentation::formatDate(new ilDate($this->seed->get(IL_CAL_DATE),
-                IL_CAL_DATE));
+            $this->lng->txt("cal_agenda") . ": " . ilDatePresentation::formatDate(new ilDate(
+                $this->seed->get(IL_CAL_DATE),
+                IL_CAL_DATE
+            ));
         if ($this->period != self::PERIOD_DAY) {
             $end_day = new ilDate($this->period_end_day, IL_CAL_DATE);
             $end_day->increment(ilDateTime::DAY, -1);

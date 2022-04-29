@@ -21,8 +21,8 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("SPACE_PRESERVE", "1");
-define("SPACE_DEFAULT", "2");
+const SPACE_PRESERVE = "1";
+const SPACE_DEFAULT = "2";
 
 /**
 * QTI mattext class
@@ -34,94 +34,106 @@ define("SPACE_DEFAULT", "2");
 */
 class ilQTIMattext
 {
-    public $texttype;
-    public $label;
-    public $charset;
-    public $uri;
-    public $xmlspace;
-    public $xmllang;
-    public $entityref;
-    public $width;
-    public $height;
-    public $x0;
-    public $y0;
-    public $content;
+    public ?string $texttype;
+    public ?string $label;
+    public ?string $charset;
+    public ?string $uri;
+    public ?string $xmlspace;
+    public ?string $xmllang;
+    public ?string $entityref;
+    public ?string $width;
+    public ?string $height;
+    public ?string $x0;
+    public ?string $y0;
+    public ?string $content;
     
     public function __construct()
     {
+        $this->texttype = null;
+        $this->label = null;
+        $this->charset = null;
+        $this->uri = null;
+        $this->xmlspace = null;
+        $this->xmllang = null;
+        $this->entityref = null;
+        $this->width = null;
+        $this->height = null;
+        $this->x0 = null;
+        $this->y0 = null;
+        $this->content = null;
     }
 
-    public function setTexttype($a_texttype)
+    public function setTexttype(string $a_texttype) : void
     {
         $this->texttype = $a_texttype;
     }
-    
-    public function getTexttype()
+
+    public function getTexttype() : ?string
     {
         return $this->texttype;
     }
-    
-    public function setLabel($a_label)
+
+    public function setLabel(string $a_label) : void
     {
         $this->label = $a_label;
     }
-    
-    public function getLabel()
+
+    public function getLabel() : ?string
     {
         return $this->label;
     }
-    
-    public function setHeight($a_height)
+
+    public function setHeight(string $a_height) : void
     {
         $this->height = $a_height;
     }
-    
-    public function getHeight()
+
+    public function getHeight() : ?string
     {
         return $this->height;
     }
-    
-    public function setWidth($a_width)
+
+    public function setWidth(string $a_width) : void
     {
         $this->width = $a_width;
     }
-    
-    public function getWidth()
+
+    public function getWidth() : ?string
     {
         return $this->width;
     }
-    
-    public function setCharset($a_charset)
+
+    public function setCharset(string $a_charset) : void
     {
         $this->charset = $a_charset;
     }
-    
-    public function getCharset()
+
+    public function getCharset() : ?string
     {
         return $this->charset;
     }
-    
-    public function setUri($a_uri)
+
+    public function setUri(string $a_uri) : void
     {
         $this->uri = $a_uri;
     }
-    
-    public function getUri()
+
+    public function getUri() : ?string
     {
         return $this->uri;
     }
-    
-    public function setXmllang($a_xmllang)
+
+    public function setXmllang(string $a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
-    
-    public function getXmllang()
+
+    public function getXmllang() : ?string
     {
         return $this->xmllang;
     }
-    
-    public function setXmlspace($a_xmlspace)
+
+    public function setXmlspace(string $a_xmlspace) : void
     {
         switch (strtolower($a_xmlspace)) {
             case "preserve":
@@ -134,48 +146,48 @@ class ilQTIMattext
                 break;
         }
     }
-    
-    public function getXmlspace()
+
+    public function getXmlspace() : ?string
     {
         return $this->xmlspace;
     }
     
-    public function setX0($a_x0)
+    public function setX0(string $a_x0) : void
     {
         $this->x0 = $a_x0;
     }
     
-    public function getX0()
+    public function getX0() : ?string
     {
         return $this->x0;
     }
     
-    public function setY0($a_y0)
+    public function setY0(string $a_y0) : void
     {
         $this->y0 = $a_y0;
     }
     
-    public function getY0()
+    public function getY0() : ?string
     {
         return $this->y0;
     }
-    
-    public function setEntityref($a_entityref)
+
+    public function setEntityref(string $a_entityref) : void
     {
         $this->entityref = $a_entityref;
     }
-    
-    public function getEntityref()
+
+    public function getEntityref() : ?string
     {
         return $this->entityref;
     }
-    
-    public function setContent($a_content)
+
+    public function setContent(string $a_content) : void
     {
         $this->content = $a_content;
     }
-    
-    public function getContent()
+
+    public function getContent() : ?string
     {
         return $this->content;
     }

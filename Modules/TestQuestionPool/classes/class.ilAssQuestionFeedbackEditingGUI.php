@@ -20,7 +20,8 @@ class ilAssQuestionFeedbackEditingGUI
     const CMD_SHOW = 'showFeedbackForm';
     const CMD_SAVE = 'saveFeedbackForm';
     const CMD_SHOW_SYNC = 'showSync';
-    
+    private \ILIAS\TestQuestionPool\InternalRequestService $request;
+
     /**
      * gui instance of current question
      *
@@ -101,7 +102,8 @@ class ilAssQuestionFeedbackEditingGUI
         $this->questionGUI = $questionGUI;
         $this->questionOBJ = $questionGUI->object;
         $this->feedbackOBJ = $questionGUI->object->feedbackOBJ;
-        
+        global $DIC;
+        $this->request = $DIC->testQuestionPool()->internal()->request();
         $this->ctrl = $ctrl;
         $this->access = $access;
         $this->tpl = $tpl;
@@ -123,7 +125,7 @@ class ilAssQuestionFeedbackEditingGUI
         $cmd = $this->ctrl->getCmd(self::CMD_SHOW);
         $nextClass = $this->ctrl->getNextClass($this);
         
-        $this->ctrl->setParameter($this, 'q_id', (int) $_GET['q_id']);
+        $this->ctrl->setParameter($this, 'q_id', $this->request->getQuestionId());
 
         $this->setContentStyle();
 
@@ -212,7 +214,7 @@ class ilAssQuestionFeedbackEditingGUI
      * @access private
      * @return \ilPropertyFormGUI
      */
-    private function buildForm()
+    private function buildForm() : ilPropertyFormGUI
     {
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         
@@ -241,14 +243,14 @@ class ilAssQuestionFeedbackEditingGUI
      * @access private
      * @return boolean $isFormSaveable
      */
-    private function isFormSaveable()
+    private function isFormSaveable() : bool
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()
             && !($this->feedbackOBJ->isSaveableInPageObjectEditingMode())) {
             return false;
         }
         
-        $hasWriteAccess = $this->access->checkAccess("write", "", $_GET['ref_id']);
+        $hasWriteAccess = $this->access->checkAccess("write", "", $this->request->getRefId());
         $isSelfAssessmentEditingMode = $this->questionOBJ->getSelfAssessmentEditingMode();
         
         return $hasWriteAccess || $isSelfAssessmentEditingMode;
@@ -261,7 +263,7 @@ class ilAssQuestionFeedbackEditingGUI
      * @access private
      * @return boolean $isSyncAfterSaveRequired
      */
-    private function isSyncAfterSaveRequired()
+    private function isSyncAfterSaveRequired() : bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];

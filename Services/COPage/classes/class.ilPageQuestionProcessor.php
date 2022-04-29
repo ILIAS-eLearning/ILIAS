@@ -38,7 +38,7 @@ class ilPageQuestionProcessor
         $ilLog->write($a_type);
         $ilLog->write($a_id);
         $ilLog->write($a_answer);
-        $answer = ilJsonUtil::decode($a_answer);
+        $answer = json_decode($a_answer, false, 512, JSON_THROW_ON_ERROR);
         $passed = $answer->passed;
         $choice = $answer->choice;
         $points = self::calculatePoints($a_type, $a_id, $choice);

@@ -24,6 +24,9 @@ class ilUserUserActionProvider extends ilUserActionProvider
         return "user";
     }
 
+    /**
+     * @return array<string,string>
+     */
     public function getActionTypes() : array
     {
         return array(

@@ -19,7 +19,7 @@
 class ilRobotSettings
 {
     private bool $open_robots = false;
-    private \ilSetting $settings;
+    private ilSetting $settings;
     private static ?self $instance = null;
 
     /**
@@ -36,9 +36,9 @@ class ilRobotSettings
     /**
      * get singleton instance
      */
-    public static function getInstance()
+    public static function getInstance() : ?\ilRobotSettings
     {
-        if (!self::$instance instanceof \ilRobotSettings) {
+        if (!self::$instance instanceof ilRobotSettings) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -56,7 +56,7 @@ class ilRobotSettings
      * Read settings
      * @access private
      */
-    private function read()
+    private function read() : void
     {
         $this->open_robots = (bool) $this->settings->get('open_google', null);
     }

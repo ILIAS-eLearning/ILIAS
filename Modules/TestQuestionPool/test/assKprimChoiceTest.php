@@ -12,16 +12,9 @@ class assKprimChoiceTest extends assBaseTestCase
 
     protected function setUp() : void
     {
-        require_once './Modules/TestQuestionPool/classes/class.assKprimChoice.php';
-        require_once './Modules/TestQuestionPool/classes/class.ilAssKprimChoiceAnswer.php';
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
-        require_once './Services/Utilities/classes/class.ilUtil.php';
+        parent::setUp();
+        $this->setGlobalVariable('ilias', $this->getIliasMock());
+        $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
     }
 
     public function test_instantiateObject_shouldReturnInstance()

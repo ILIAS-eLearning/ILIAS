@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilAccessHandler
  * Checks access for ILIAS objects
@@ -183,7 +197,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function setResults(array $a_results)
+    public function setResults(array $a_results) : void
     {
         $this->results = $a_results;
     }
@@ -372,7 +386,7 @@ class ilAccess implements ilAccessHandler
         $stored_access = $this->getStoredAccessResult($a_permission, $a_cmd, $a_ref_id, $a_user_id);
 
         //var_dump($stored_access);
-        if (count($stored_access)) {
+        if ($stored_access !== []) {
             if (isset($stored_access['info']) && $stored_access['info'] instanceof ilAccessInfo) {
                 $this->current_info = $stored_access["info"];
             }
@@ -498,7 +512,7 @@ class ilAccess implements ilAccessHandler
     ) : bool {
         $path = $this->repositoryTree->getPathId($a_ref_id);
         foreach ($path as $id) {
-            if ($a_ref_id == $id) {
+            if ($a_ref_id === $id) {
                 continue;
             }
             $access = $this->checkAccessOfUser($a_user_id, "read", "info", $id);
@@ -541,7 +555,7 @@ class ilAccess implements ilAccessHandler
         }
 
         // #10852 - member view check
-        if ($a_user_id == $this->user->getId()) {
+        if ($a_user_id === $this->user->getId()) {
             // #10905 - activate parent container ONLY
             $memview = ilMemberViewSettings::getInstance();
             if ($memview->isActiveForRefId($a_ref_id) &&
@@ -566,7 +580,7 @@ class ilAccess implements ilAccessHandler
         }
         $item_data = ilObjectActivation::getItem($a_ref_id);
         // if activation isn't enabled
-        if ($item_data === null ||
+        if ($item_data === null || (is_array($item_data) && count($item_data) == 0) ||
             $item_data['timing_type'] != ilObjectActivation::TIMINGS_ACTIVATION) {
             $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
             return true;
@@ -585,7 +599,7 @@ class ilAccess implements ilAccessHandler
         }
 
         // if current permission is visible and visible is set in activation
-        if ($a_permission == 'visible' and $item_data['visible']) {
+        if ($a_permission == 'visible' && $item_data['visible']) {
             $this->ac_cache[$cache_perm][$a_ref_id][$a_user_id] = true;
             return true;
         }
@@ -678,6 +692,7 @@ class ilAccess implements ilAccessHandler
 
         // use autoloader for standard objects
         if ($this->objDefinition->isPluginTypeName($a_type)) {
+            /** @noRector */
             include_once($location . "/class." . $full_class . ".php");
         }
 
@@ -696,7 +711,7 @@ class ilAccess implements ilAccessHandler
             $a_obj_id,
             $a_user_id
         );
-        if (!($obj_access === true)) {
+        if ($obj_access !== true) {
             //Note: We must not add an info item here, because one is going
             //      to be added by the user function we just called a few
             //      lines above.
@@ -736,7 +751,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, $permission)
+    public function filterUserIdsForCurrentUsersPositionsAndPermission(array $user_ids, string $permission) : array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsForCurrentUsersPositionsAndPermission(
             $user_ids,
@@ -747,7 +762,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, $for_user_id, $permission)
+    public function filterUserIdsForUsersPositionsAndPermission(array $user_ids, int $for_user_id, string $permission) : array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsForUsersPositionsAndPermission(
             $user_ids,
@@ -759,7 +774,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function isCurrentUserBasedOnPositionsAllowedTo($permission, array $on_user_ids)
+    public function isCurrentUserBasedOnPositionsAllowedTo(string $permission, array $on_user_ids) : bool
     {
         return $this->ilOrgUnitPositionAccess->isCurrentUserBasedOnPositionsAllowedTo($permission, $on_user_ids);
     }
@@ -767,7 +782,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function isUserBasedOnPositionsAllowedTo($which_user_id, $permission, array $on_user_ids)
+    public function isUserBasedOnPositionsAllowedTo(int $which_user_id, string $permission, array $on_user_ids) : bool
     {
         return $this->ilOrgUnitPositionAccess->isUserBasedOnPositionsAllowedTo(
             $which_user_id,
@@ -779,7 +794,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function checkPositionAccess($pos_perm, $ref_id)
+    public function checkPositionAccess(string $pos_perm, int $ref_id) : bool
     {
         return $this->ilOrgUnitPositionAccess->checkPositionAccess($pos_perm, $ref_id);
     }
@@ -787,7 +802,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function checkRbacOrPositionPermissionAccess($rbac_perm, $pos_perm, $ref_id)
+    public function checkRbacOrPositionPermissionAccess(string $rbac_perm, string $pos_perm, int $ref_id) : bool
     {
         return $this->ilOrgUnitPositionAccess->checkRbacOrPositionPermissionAccess($rbac_perm, $pos_perm, $ref_id);
     }
@@ -795,7 +810,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, array $user_ids)
+    public function filterUserIdsByPositionOfCurrentUser(string $pos_perm, int $ref_id, array $user_ids) : array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsByPositionOfCurrentUser($pos_perm, $ref_id, $user_ids);
     }
@@ -803,7 +818,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, array $user_ids)
+    public function filterUserIdsByPositionOfUser(int $user_id, string $pos_perm, int $ref_id, array $user_ids) : array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsByPositionOfUser($user_id, $pos_perm, $ref_id, $user_ids);
     }
@@ -811,7 +826,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function filterUserIdsByRbacOrPositionOfCurrentUser($rbac_perm, $pos_perm, $ref_id, array $user_ids)
+    public function filterUserIdsByRbacOrPositionOfCurrentUser(string $rbac_perm, string $pos_perm, int $ref_id, array $user_ids) : array
     {
         return $this->ilOrgUnitPositionAccess->filterUserIdsByRbacOrPositionOfCurrentUser(
             $rbac_perm,
@@ -824,7 +839,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function hasCurrentUserAnyPositionAccess($ref_id)
+    public function hasCurrentUserAnyPositionAccess(int $ref_id) : bool
     {
         return $this->ilOrgUnitPositionAccess->hasCurrentUserAnyPositionAccess($ref_id);
     }
@@ -832,7 +847,7 @@ class ilAccess implements ilAccessHandler
     /**
      * @inheritdoc
      */
-    public function hasUserRBACorAnyPositionAccess($rbac_perm, $ref_id)
+    public function hasUserRBACorAnyPositionAccess(string $rbac_perm, int $ref_id) : bool
     {
         return $this->ilOrgUnitPositionAccess->hasUserRBACorAnyPositionAccess($rbac_perm, $ref_id);
     }

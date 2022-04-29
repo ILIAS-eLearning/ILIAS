@@ -1,27 +1,28 @@
-<?php
-/******************************************************************************
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
-/**
- * Class ilVirusScannerFactory
- */
+ *********************************************************************/
+
 class ilVirusScannerFactory
 {
     public static function _getInstance() : ilVirusScanner
     {
         $vs = null;
 
-        if (IL_VIRUS_SCANNER == "icap") {
+        if (IL_VIRUS_SCANNER === "icap") {
             if (strlen(IL_ICAP_CLIENT) > 0) {
                 $vs = new ilVirusScannerICapClient('', '');
             } else {

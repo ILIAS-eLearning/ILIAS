@@ -48,10 +48,8 @@ class ilLanguageFactory
                 $a_lang_key = "en";
             }
         }
-        if (isset(self::$languages[$a_lang_key])) {
-            return self::$languages[$a_lang_key];
-        }
-        return self::$languages[$a_lang_key] = new ilLanguage($a_lang_key);
+
+        return self::$languages[$a_lang_key] ?? (self::$languages[$a_lang_key] = new ilLanguage($a_lang_key));
     }
     
     /**

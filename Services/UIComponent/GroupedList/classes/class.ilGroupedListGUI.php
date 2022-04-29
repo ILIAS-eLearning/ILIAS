@@ -174,13 +174,13 @@ class ilGroupedListGUI
             $tpl->touchBlock("multi_end");
         }
         
-        if ($tt_calls != "") {
+        if ($tt_calls !== "") {
             $tpl->setCurrentBlock("script");
             $tpl->setVariable("TT_CALLS", $tt_calls);
             $tpl->parseCurrentBlock();
         }
 
-        if ($this->id != "") {
+        if ($this->id !== "") {
             $tpl->setCurrentBlock("id");
             $tpl->setVariable("ID", $this->id);
             $tpl->parseCurrentBlock();

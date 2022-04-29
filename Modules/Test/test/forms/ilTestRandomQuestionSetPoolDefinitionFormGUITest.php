@@ -18,7 +18,9 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUITest extends ilTestBaseTestCas
      * @var ilLanguage|mixed|MockObject
      */
     private $lng_mock;
-    private ilTestRandomQuestionSetPoolDefinitionFormGUI $formGui;
+
+    // ilTestRandomQuestionSetPoolDefinitionFormGUI
+    private $formGui;
 
     protected function setUp() : void
     {

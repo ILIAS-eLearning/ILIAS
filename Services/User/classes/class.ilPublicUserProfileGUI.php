@@ -26,9 +26,9 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     protected int $userid;
     protected int $portfolioid;
     protected string $backurl;
-    protected array $additional;
+    protected array $additional; // Missing array type.
     protected bool $embedded;
-    protected array $custom_prefs;
+    protected array $custom_prefs; // Missing array type.
     protected ilObjUser $current_user;
     protected \ilSetting $setting;
 
@@ -76,12 +76,12 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     /**
      * Set Additonal Information.
      */
-    public function setAdditional(array $a_additional) : void
+    public function setAdditional(array $a_additional) : void // Missing array type.
     {
         $this->additional = $a_additional;
     }
 
-    public function getAdditional() : array
+    public function getAdditional() : array // Missing array type.
     {
         return $this->additional;
     }
@@ -143,7 +143,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     /**
      * Set custom preferences for public profile fields
      */
-    public function setCustomPrefs(array $a_prefs) : void
+    public function setCustomPrefs(array $a_prefs) : void // Missing array type.
     {
         $this->custom_prefs = $a_prefs;
     }
@@ -446,7 +446,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                     }
                 }
             }
-            if (sizeof($address)) {
+            if (count($address)) {
                 $tpl->setCurrentBlock("address_line");
                 foreach ($address as $line) {
                     if (trim($line)) {
@@ -691,12 +691,12 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         $webspace_dir = ilFileUtils::getWebspaceDir("output");
         $imagefile = $webspace_dir . "/usr_images/" . $user->getPref("profile_image");
         if ($user->getPref("public_upload") == "y" && is_file($imagefile)) {
-            $fh = fopen($imagefile, "r");
+            $fh = fopen($imagefile, 'rb');
             if ($fh) {
                 $image = fread($fh, filesize($imagefile));
                 fclose($fh);
                 $mimetype = ilObjMediaObject::getMimeType($imagefile);
-                if (preg_match("/^image/", $mimetype)) {
+                if (0 === strpos($mimetype, "image")) {
                     $type = $mimetype;
                 }
                 $vcard->setPhoto($image, $type);
@@ -761,7 +761,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         }
         
         if (count($org)) {
-            $vcard->setOrganization(join(";", $org));
+            $vcard->setOrganization(implode(";", $org));
         }
         if (count($adr)) {
             $vcard->setAddress($adr[0], $adr[1], $adr[2], $adr[3], $adr[4], $adr[5], $adr[6]);
@@ -882,7 +882,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                 
         $result = self::getAutocompleteResult($field_id, $term);
 
-        echo ilJsonUtil::encode($result);
+        echo json_encode($result, JSON_THROW_ON_ERROR);
         exit();
     }
 

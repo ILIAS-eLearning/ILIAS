@@ -31,8 +31,8 @@ abstract class ilRemoteObjectBase extends ilObject2
     
     private ilLogger $logger;
 
-    const MAIL_SENDER = 6;
-    const OBJECT_OWNER = 6;
+    public const MAIL_SENDER = 6;
+    public const OBJECT_OWNER = 6;
 
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
@@ -46,7 +46,7 @@ abstract class ilRemoteObjectBase extends ilObject2
     /**
      * Get instance by ilECSEvent(QueueReader) type
      *
-     * @return ilRemoteObjectBase
+     * @return ?ilRemoteObjectBase
      */
     public static function getInstanceByEventType(int $a_type)
     {
@@ -74,10 +74,13 @@ abstract class ilRemoteObjectBase extends ilObject2
                 
             case ilECSEventQueueReader::TYPE_REMOTE_TEST:
                 return new ilObjRemoteTest();
+
+            default:
+                return null;
         }
     }
     
-    public function beforeCreate()
+    protected function beforeCreate() : bool
     {
         $this->setOwner(self::OBJECT_OWNER);
         return parent::beforeCreate();
@@ -201,7 +204,7 @@ abstract class ilRemoteObjectBase extends ilObject2
         } else {
             $link = $this->getRemoteLink() . '?ecs_hash=' . $auth_hash . $ecs_user_data . '&' . $ecs_url_hash;
         }
-        $this->logger->into(__METHOD__ . ': ECS full link: ' . $link);
+        $this->logger->info(__METHOD__ . ': ECS full link: ' . $link);
         return $link;
     }
     
@@ -224,7 +227,7 @@ abstract class ilRemoteObjectBase extends ilObject2
             $auth->setRealm($realm);
             $this->logger->info(__METHOD__ . ' Mid is ' . $this->getMID());
             //TODO remove @
-            $this->auth_hash = $connector->addAuth(@json_encode($auth), $this->getMID());
+            $this->auth_hash = $connector->addAuth(json_encode($auth, JSON_THROW_ON_ERROR), $this->getMID());
             return $this->auth_hash;
         } catch (ilECSConnectorException $exc) {
             $this->logger->info(__METHOD__ . ': Caught error from ECS Auth resource: ' . $exc->getMessage());
@@ -234,8 +237,9 @@ abstract class ilRemoteObjectBase extends ilObject2
     
     /**
      * Create remote object
-     */
-    public function doCreate(bool $a_clone_mode = false) : void
+     *
+     * @param bool $clone_mode*/
+    protected function doCreate(bool $clone_mode = false,bool $a_clone_mode = false) : void
     {
         $fields = array(
             "obj_id" => array("integer", $this->getId()),
@@ -260,7 +264,7 @@ abstract class ilRemoteObjectBase extends ilObject2
     /**
      * Update remote object
      */
-    public function doUpdate() : void
+    protected function doUpdate() : void
     {
         $fields = array(
             "local_information" => array("text", $this->getLocalInformation()),
@@ -279,14 +283,14 @@ abstract class ilRemoteObjectBase extends ilObject2
     /**
      * Add custom fields to db update
      */
-    protected function doUpdateCustomFields(array &$a_fields)
+    protected function doUpdateCustomFields(array &$a_fields) : void
     {
     }
 
     /**
      * Delete remote object
      */
-    public function doDelete()
+    protected function doDelete() : void
     {
         //put here your module specific stuff
         ilECSImportManager::getInstance()->_deleteByObjId($this->getId());
@@ -299,7 +303,7 @@ abstract class ilRemoteObjectBase extends ilObject2
     /**
      * read settings
      */
-    public function doRead()
+    protected function doRead() : void
     {
         $query = "SELECT * FROM " . $this->getTableName() .
             " WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . " ";
@@ -307,7 +311,7 @@ abstract class ilRemoteObjectBase extends ilObject2
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setLocalInformation($row->local_information);
             $this->setRemoteLink($row->remote_link);
-            $this->setMID(intval($row->mid));
+            $this->setMID((int) $row->mid);
             $this->setOrganization($row->organization);
             
             $this->doReadCustomFields($row);
@@ -316,9 +320,8 @@ abstract class ilRemoteObjectBase extends ilObject2
     
     /**
      * Read custom fields from db row
-     * @param object $a_row
      */
-    protected function doReadCustomFields($a_row)
+    protected function doReadCustomFields(object $a_row) : void
     {
     }
     
@@ -329,7 +332,7 @@ abstract class ilRemoteObjectBase extends ilObject2
      * @param object $a_ecs_content object with object settings
      * @param int $a_owner
      */
-    public function createFromECSEContent(ilECSSetting $a_server, $a_ecs_content, $a_owner)
+    public function createFromECSEContent(ilECSSetting $a_server, object $a_ecs_content, int $a_owner) : void
     {
         $this->create();
         $this->log->info("Done calling create, creating reference");
@@ -362,7 +365,7 @@ abstract class ilRemoteObjectBase extends ilObject2
      * @param object $a_ecs_content object with object settings
      * @param int $a_owner
      */
-    public function updateFromECSContent(ilECSSetting $a_server, $a_ecs_content, $a_owner)
+    public function updateFromECSContent(ilECSSetting $a_server, $a_ecs_content, $a_owner) : void
     {
         $this->logger->info('updateFromECSContent: ' . print_r($a_ecs_content, true));
         
@@ -411,7 +414,7 @@ abstract class ilRemoteObjectBase extends ilObject2
      * @param array $a_definition
      * @param int $a_mapping_mode
      */
-    protected function importMetadataFromJson($a_json, ilECSSetting $a_server, array $a_definition, $a_mapping_mode)
+    protected function importMetadataFromJson($a_json, ilECSSetting $a_server, array $a_definition, $a_mapping_mode) : void
     {
         $this->logger->info("importing metadata from json: " . print_r($a_json, true));
         
@@ -426,8 +429,7 @@ abstract class ilRemoteObjectBase extends ilObject2
         
         foreach ($a_definition as $id => $type) {
             if (is_array($type)) {
-                $target = $type[1];
-                $type = $type[0];
+                [$type, $target] = $type;
             } else {
                 $target = $id;
             }
@@ -447,15 +449,13 @@ abstract class ilRemoteObjectBase extends ilObject2
                     continue;
                 }
                 
-                $raw_value = $a_json->$target;
+                $raw_value = $a_json->{$target};
                         
-                if ($type == ilECSUtils::TYPE_TIMEPLACE) {
+                if ($type === ilECSUtils::TYPE_TIMEPLACE) {
                     if (!is_object($timePlace)) {
+                        $timePlace = new ilECSTimePlace();
                         if (is_object($raw_value)) {
-                            $timePlace = new ilECSTimePlace();
                             $timePlace->loadFromJSON($raw_value);
-                        } else {
-                            $timePlace = new ilECSTimePlace();
                         }
                     }
                     $raw_value = $timePlace;
@@ -486,7 +486,7 @@ abstract class ilRemoteObjectBase extends ilObject2
      * @param ilECSSetting $a_server
      * @param object $a_ecs_content object with object settings
      */
-    protected function updateCustomFromECSContent(ilECSSetting $a_server, $ecs_content)
+    protected function updateCustomFromECSContent(ilECSSetting $a_server, $ecs_content) : void
     {
     }
     
@@ -499,7 +499,7 @@ abstract class ilRemoteObjectBase extends ilObject2
     {
         if (ilECSExportManager::getInstance()->_isRemote(
             ilECSImportManager::getInstance()->lookupServerId($this->getId()),
-            ilECSImportManager::getInstance()->_lookupEContentId($this->getId())
+            (int) ilECSImportManager::getInstance()->_lookupEContentId($this->getId())
         )) {
             return false;
         }
@@ -520,15 +520,11 @@ abstract class ilRemoteObjectBase extends ilObject2
      * Handle update event
      *
      * called by ilTaskScheduler
-     *
-     * @param int $a_econtent_id
-     * @param array $a_mids
-     * @return boolean
      */
     public function handleUpdate(ilECSSetting $a_server, int $a_econtent_id, array $a_mids) : bool
     {
         // get content details
-        $details = ilECSEContentDetails::getInstance(
+        $details = ilECSEContentDetails::getInstanceFromServer(
             $a_server->getServerId(),
             $a_econtent_id,
             $this->getECSObjectType()
@@ -553,7 +549,7 @@ abstract class ilRemoteObjectBase extends ilObject2
             try {
                 $connector = new ilECSConnector($a_server);
                 $res = $connector->getResource($this->getECSObjectType(), $a_econtent_id);
-                if ($res->getHTTPCode() == ilECSConnector::HTTP_CODE_NOT_FOUND) {
+                if ($res->getHTTPCode() === ilECSConnector::HTTP_CODE_NOT_FOUND) {
                     continue;
                 }
                 $json = $res->getResult();
@@ -577,7 +573,7 @@ abstract class ilRemoteObjectBase extends ilObject2
             if ($obj_id = ilECSImportManager::getInstance()->_isImported($a_server->getServerId(), $a_econtent_id, $mid)) {
                 $this->logger->info(__METHOD__ . ': Handling update for existing object');
                 $remote = ilObjectFactory::getInstanceByObjId($obj_id, false);
-                if (!$remote instanceof ilRemoteObjectBase) {
+                if (!$remote instanceof self) {
                     $this->logger->info(__METHOD__ . ': Cannot instantiate remote object. Got object type ' . $remote->getType());
                     continue;
                 }
@@ -621,7 +617,7 @@ abstract class ilRemoteObjectBase extends ilObject2
         $mail = new ilMail(self::MAIL_SENDER);
         $message = $lang->txt('ecs_' . $this->getType() . '_created_body_a') . "\n\n";
         $message .= $lang->txt('title') . ': ' . $this->getTitle() . "\n";
-        if (strlen($desc = $this->getDescription())) {
+        if ($desc = ($this->getDescription() !== '')) {
             $message .= $lang->txt('desc') . ': ' . $desc . "\n";
         }
 
@@ -681,5 +677,7 @@ abstract class ilRemoteObjectBase extends ilObject2
         } catch (ilECSConnectorException $exc) {
             $this->logger->error(__METHOD__ . ': Error getting resource list. ' . $exc->getMessage());
         }
+
+        return [];
     }
 }

@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -227,9 +242,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         }
 
         $contextParameters = ilMailFormCall::getContextParameters();
-        if (is_array($contextParameters)) {
-            $contextParameters = [];
-        }
 
         $processor = new ilMassMailTaskProcessor();
 
@@ -307,9 +319,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             $pos_message = preg_replace("/<\/ul([^>]*)>(?!\s*?(<p|<ul))/i", "</ul$1>\n", $pos_message);
             $pos_message = preg_replace("/<br(\s*)(\/?)>/i", "\n", $pos_message);
             $pos_message = preg_replace("/<p([^>]*)>/i", "\n\n", $pos_message);
-            $pos_message = preg_replace("/<\/p([^>]*)>/i", '', $pos_message);
-
-            return $pos_message;
+            return preg_replace("/<\/p([^>]*)>/i", '', $pos_message);
         }
 
         return $pos_message;
@@ -347,7 +357,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $attachmentText = $this->createAttachmentLinkText();
         $bodyText .= $attachmentText;
 
-        $mailObject = new ilMailValueObject(
+        return new ilMailValueObject(
             '',
             ilObjUser::_lookupLogin($recipientUserId),
             '',
@@ -358,8 +368,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             false,
             false
         );
-
-        return $mailObject;
     }
 
     /**
@@ -388,7 +396,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             $date
         );
 
-        $mailObject = new ilMailValueObject(
+        return new ilMailValueObject(
             '',
             ilObjUser::_lookupLogin($recipientUserId),
             '',
@@ -399,8 +407,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             false,
             false
         );
-
-        return $mailObject;
     }
 
     private function createMailBodyText(
@@ -483,9 +489,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
             $date = $this->provider->getPostDate();
         }
 
-        $date = ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_DATETIME));
-
-        return $date;
+        return ilDatePresentation::formatDate(new ilDateTime($date, IL_CAL_DATETIME));
     }
 
     private function createSubjectText(string $subject) : string

@@ -57,7 +57,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         $this->definitionEditModeEnabled = $definitionEditModeEnabled;
     }
 
-    public function isDefinitionEditModeEnabled()
+    public function isDefinitionEditModeEnabled() : bool
     {
         return $this->definitionEditModeEnabled;
     }
@@ -67,7 +67,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         $this->questionAmountColumnEnabled = $questionAmountColumnEnabled;
     }
 
-    public function isQuestionAmountColumnEnabled()
+    public function isQuestionAmountColumnEnabled() : bool
     {
         return $this->questionAmountColumnEnabled;
     }
@@ -130,22 +130,22 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         // fau.
     }
 
-    private function getSelectionCheckboxHTML($sourcePoolDefinitionId)
+    private function getSelectionCheckboxHTML($sourcePoolDefinitionId) : string
     {
         return '<input type="checkbox" value="' . $sourcePoolDefinitionId . '" name="src_pool_def_ids[]" />';
     }
 
-    private function getDefinitionOrderInputHTML($srcPoolDefId, $defOrderNumber)
+    private function getDefinitionOrderInputHTML($srcPoolDefId, $defOrderNumber) : string
     {
         return '<input type="text" size="2" value="' . $defOrderNumber . '" name="def_order[' . $srcPoolDefId . ']" />';
     }
 
-    private function getQuestionAmountInputHTML($srcPoolDefId, $questionAmount)
+    private function getQuestionAmountInputHTML($srcPoolDefId, $questionAmount) : string
     {
         return '<input type="text" size="4" value="' . $questionAmount . '" name="quest_amount[' . $srcPoolDefId . ']" />';
     }
 
-    private function getActionsHTML($sourcePoolDefinitionId)
+    private function getActionsHTML($sourcePoolDefinitionId) : string
     {
         require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
 
@@ -160,7 +160,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         return $selectionList->getHTML();
     }
 
-    private function getEditHref($sourcePoolDefinitionId)
+    private function getEditHref($sourcePoolDefinitionId) : string
     {
         $href = $this->ctrl->getLinkTarget(
             $this->parent_obj,
@@ -172,7 +172,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         return $href;
     }
 
-    private function getDeleteHref($sourcePoolDefinitionId)
+    private function getDeleteHref($sourcePoolDefinitionId) : string
     {
         $href = $this->ctrl->getLinkTarget(
             $this->parent_obj,
@@ -325,12 +325,12 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         }
     }
 
-    private function fetchOrderNumberParameter(ilTestRandomQuestionSetSourcePoolDefinition $definition)
+    private function fetchOrderNumberParameter(ilTestRandomQuestionSetSourcePoolDefinition $definition) : int
     {
         return (int) $_POST['def_order'][$definition->getId()];
     }
 
-    private function fetchQuestionAmountParameter(ilTestRandomQuestionSetSourcePoolDefinition $definition)
+    private function fetchQuestionAmountParameter(ilTestRandomQuestionSetSourcePoolDefinition $definition) : int
     {
         return (int) $_POST['quest_amount'][$definition->getId()];
     }

@@ -23,6 +23,7 @@ use ILIAS\Blog\StandardGUIRequest;
  */
 class ilBlogPostingGUI extends ilPageObjectGUI
 {
+    protected \ILIAS\Blog\ReadingTime\ReadingTimeManager $reading_time_manager;
     protected StandardGUIRequest $blog_request;
     protected ilTabsGUI$tabs;
     protected ilLocatorGUI $locator;
@@ -97,6 +98,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $this->blpg = $this->blog_request->getBlogPage();
         $this->fetchall = $this->blog_request->getFetchAll();
         $this->term = $this->blog_request->getTerm();
+
+        $this->reading_time_manager = new \ILIAS\Blog\ReadingTime\ReadingTimeManager();
     }
 
     public function executeCommand() : string
@@ -118,9 +121,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
             default:
                 if ($posting) {
-                    if ($ilCtrl->getCmd() == "deactivatePageToList") {
+                    if ($ilCtrl->getCmd() === "deactivatePageToList") {
                         $this->tpl->setOnScreenMessage('success', $this->lng->txt("blog_draft_info"), true);
-                    } elseif ($ilCtrl->getCmd() == "activatePageToList") {
+                    } elseif ($ilCtrl->getCmd() === "activatePageToList") {
                         $this->tpl->setOnScreenMessage('success', $this->lng->txt("blog_new_posting_info"), true);
                     }
                     $this->setPresentationTitle($posting->getTitle());
@@ -155,7 +158,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
     protected function checkAccess(string $a_cmd) : bool
     {
-        if ($a_cmd == "contribute") {
+        if ($a_cmd === "contribute") {
             return $this->may_contribute;
         }
         return $this->access_handler->checkAccess($a_cmd, "", $this->node_id);
@@ -192,7 +195,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             // notes
             
             $may_delete_comments = ($this->checkAccess("contribute") &&
-                $ilSetting->get("comments_del_tutor", 1));
+                $ilSetting->get("comments_del_tutor", '1'));
 
             $wtpl->setVariable("TOOLBAR", $toolbar->getHTML());
 
@@ -206,7 +209,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         }
 
         // permanent link
-        if ($a_mode != "embedded") {
+        if ($a_mode !== "embedded") {
             $append = ($this->blpg > 0)
                 ? "_" . $this->blpg
                 : "";
@@ -247,8 +250,8 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     ) : string {
         $this->setTemplateOutput(false);
 
-        if (!$this->getAbstractOnly()) {
-            if ($a_title != "") {
+        if (!$this->getAbstractOnly() && !$this->showPageHeading()) {
+            if ($a_title !== "") {
                 $this->setPresentationTitle($a_title);
             } else {
                 $this->setPresentationTitle($this->getBlogPosting()->getTitle());
@@ -279,39 +282,74 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         string $a_output
     ) : string {
         // #8626/#9370
-        if (($this->getOutputMode() == "preview" || $this->getOutputMode() == "offline")
-            && !$this->getAbstractOnly() && $this->add_date) {
-            $author = "";
-            if (!$this->isInWorkspace()) {
-                $authors = array();
-                $author_id = $this->getBlogPosting()->getAuthor();
-                if ($author_id) {
-                    $authors[] = ilUserUtil::getNamePresentation($author_id);
-                }
-                                
-                foreach (ilBlogPosting::getPageContributors("blp", $this->getBlogPosting()->getId()) as $editor) {
-                    if ($editor["user_id"] != $author_id) {
-                        $authors[] = ilUserUtil::getNamePresentation($editor["user_id"]);
-                    }
-                }
-                
-                if ($authors) {
-                    $author = implode(", ", $authors) . " - ";
+        if ($this->showPageHeading()) {
+            $a_output = $this->getPageHeading() . $a_output;
+        }
+
+        return $a_output;
+    }
+
+    protected function showPageHeading() : bool
+    {
+        if (!$this->getAbstractOnly() && $this->add_date) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get page heading
+     * see also https://docu.ilias.de/goto_docu_wiki_wpage_5793_1357.html
+     * the presentation heading has a defined layout, title is not from page content
+     */
+    protected function getPageHeading() : string
+    {
+        $author = "";
+        if (!$this->isInWorkspace()) {
+            $authors = array();
+            $author_id = $this->getBlogPosting()->getAuthor();
+            if ($author_id) {
+                $authors[] = ilUserUtil::getNamePresentation($author_id);
+            }
+
+            foreach (ilBlogPosting::getPageContributors("blp", $this->getBlogPosting()->getId()) as $editor) {
+                if ($editor["user_id"] != $author_id) {
+                    $authors[] = ilUserUtil::getNamePresentation($editor["user_id"]);
                 }
             }
-            
-            // prepend creation date
-            $rel = ilDatePresentation::useRelativeDates();
-            ilDatePresentation::setUseRelativeDates(false);
-            $prefix = "<div class=\"il_BlockInfo\" style=\"text-align:right\">" .
-                $author . ilDatePresentation::formatDate($this->getBlogPosting()->getCreated()) .
-                "</div>";
-            ilDatePresentation::setUseRelativeDates($rel);
-            
-            $a_output = $prefix . $a_output;
+
+            if ($authors) {
+                $author = implode(", ", $authors) . " - ";
+            }
         }
-        
-        return $a_output;
+        $rel = ilDatePresentation::useRelativeDates();
+        ilDatePresentation::setUseRelativeDates(true);
+        $tpl = new ilTemplate("tpl.posting_head.html", true, true, "Modules/Blog");
+
+        // reading time
+        $reading_time = $this->reading_time_manager->getReadingTime(
+            $this->getBlogPosting()->getParentId(),
+            $this->getBlogPosting()->getId()
+        );
+        if (!is_null($reading_time)) {
+            $this->lng->loadLanguageModule("copg");
+            $tpl->setCurrentBlock("reading_time");
+            $tpl->setVariable(
+                "READING_TIME",
+                $this->lng->txt("copg_est_reading_time") . ": " .
+                sprintf($this->lng->txt("copg_x_minutes"), $reading_time)
+            );
+            $tpl->parseCurrentBlock();
+        }
+
+        $tpl->setVariable("TITLE", $this->getBlogPosting()->getTitle());
+        $tpl->setVariable(
+            "DATETIME",
+            $author . ilDatePresentation::formatDate($this->getBlogPosting()->getCreated())
+        );
+        ilDatePresentation::setUseRelativeDates($rel);
+        return $tpl->get();
     }
 
     public function getTabs(string $a_activate = "") : void
@@ -584,11 +622,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     }
 
     /**
-     * Diplay the form
+     * Diplay the keywords form
      */
-    public function editKeywords(
-        ilPropertyFormGUI $a_form = null
-    ) : void {
+    public function editKeywords() : void
+    {
         global $DIC;
 
         $renderer = $DIC->ui()->renderer();
@@ -605,11 +642,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         
         $ilTabs->activateTab("pg");
         
-        if (!$a_form) {
-            $a_form = $this->initKeywordsForm();
-        }
-
-        $tpl->setContent($renderer->render($a_form));
+        $tpl->setContent($renderer->render($this->initKeywordsForm()));
     }
 
     /**
@@ -620,18 +653,17 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         global $DIC;
 
         $ui_factory = $DIC->ui()->factory();
-        //$ilUser = $this->user;
 
         $md_section = $this->getBlogPosting()->getMDSection();
 
         $keywords = array();
         foreach ($ids = $md_section->getKeywordIds() as $id) {
             $md_key = $md_section->getKeyword($id);
-            if (trim($md_key->getKeyword()) != "") {
+            if (trim($md_key->getKeyword()) !== "") {
                 $keywords[] = $md_key->getKeyword();
             }
         }
-                                        
+
         // other keywords in blog
         $other = array();
         foreach (array_keys(ilBlogPosting::getAllPostings($this->getBlogPosting()->getBlogId())) as $posting_id) {
@@ -665,9 +697,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         if ($this->node_id) {
             if ($this->isInWorkspace()) {
                 return $this->access_handler->getTree()->lookupObjectId($this->node_id);
-            } else {
-                return ilObject::_lookupObjId($this->node_id);
             }
+
+            return ilObject::_lookupObjId($this->node_id);
         }
         return 0;
     }
@@ -679,7 +711,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $request = $DIC->http()->request();
         $form = $this->initKeywordsForm();
 
-        if ($request->getMethod() == "POST"
+        if ($request->getMethod() === "POST"
             && $request->getQueryParams()['tags'] == 'tags_processing') {
             $form = $form->withRequest($request);
             $result = $form->getData();
@@ -752,7 +784,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             foreach ($mob_ids as $mob_id) {
                 $mob_obj = new ilObjMediaObject($mob_id);
                 $mob_item = $mob_obj->getMediaItem("Standard");
-                if (stristr($mob_item->getFormat(), "image")) {
+                if (stripos($mob_item->getFormat(), "image") !== false) {
                     $mob_size = $mob_item->getOriginalSize();
                     if ($mob_size["width"] >= $a_width ||
                         $mob_size["height"] >= $a_height) {
@@ -770,7 +802,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                         );
 
 
-                        $location = $mob_item->getLocationType() == "Reference"
+                        $location = $mob_item->getLocationType() === "Reference"
                             ? $mob_item->getLocation()
                             : $mob_dir . "/" . $mob_item->getLocation();
                         

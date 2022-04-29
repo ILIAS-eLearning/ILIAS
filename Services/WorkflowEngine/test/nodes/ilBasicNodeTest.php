@@ -16,8 +16,7 @@ use org\bovigo\vfs;
  */
 class ilBasicNodeTest extends ilWorkflowEngineBaseTest
 {
-    private $workflow;
-    private $test_dir;
+    private ilEmptyWorkflow $workflow;
 
     public function setUp() : void
     {
@@ -26,7 +25,6 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
-        $this->test_dir = vfs\vfsStream::setup('example');
     }
     
     public function tearDown() : void
@@ -191,6 +189,8 @@ class ilBasicNodeTest extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
         $detector = new ilSimpleDetector($node);
         $node->addDetector($detector);
+
+        vfs\vfsStream::setup('example');
 
         require_once './Services/WorkflowEngine/classes/activities/class.ilLoggingActivity.php';
         $activity = new ilLoggingActivity($node);

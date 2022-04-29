@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 
 /******************************************************************************
  *
@@ -41,7 +42,7 @@ class ilMMItemStorage extends CachedActiveRecord
             $mm_item->setPosition($item->getPosition());
             $mm_item->setIdentification($item->getProviderIdentification()->serialize());
             $mm_item->setActive(true);
-            if ($item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild) {
+            if ($item instanceof isChild) {
                 $mm_item->setParentIdentification($item->getParent()->serialize());
             }
             $mm_item->create();

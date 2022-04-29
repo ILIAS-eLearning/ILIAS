@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 /**
@@ -83,7 +99,7 @@ class ilSkin implements Iterator, Countable
         $xml_style->addAttribute('font_directory', $style->getFontDirectory());
     }
 
-    public function writeToXMLFile(string $path)
+    public function writeToXMLFile(string $path) : void
     {
         file_put_contents($path, $this->asXML());
     }
@@ -96,7 +112,7 @@ class ilSkin implements Iterator, Countable
     /**
      * @throws ilSystemStyleException
      */
-    public function removeStyle(string $id)
+    public function removeStyle(string $id) : void
     {
         foreach ($this->getStyles() as $index => $style) {
             if ($style->getId() == $id) {
@@ -214,7 +230,7 @@ class ilSkin implements Iterator, Countable
 
     public function setVersion(string $version) : void
     {
-        if ($version != null && $version != '' && $this->isVersionChangeable()) {
+        if ($version != '' && $this->isVersionChangeable()) {
             $this->version = $version;
         }
     }
@@ -223,7 +239,8 @@ class ilSkin implements Iterator, Countable
     {
         if ($this->isVersionChangeable()) {
             $v = explode('.', ($version == '' ? '0.1' : $version));
-            $v[count($v) - 1] = ($v[count($v) - 1] + 1);
+            $count = count($v) ;
+            $v[$count - 1] = ((int) $v[$count - 1] + 1); //ToDo PHP8 Review: You are adding an int to a string in strict_types.
             $this->version = implode('.', $v);
         }
         return $this->version;
@@ -234,7 +251,7 @@ class ilSkin implements Iterator, Countable
         return ($this->version != '$Id$');
     }
 
-    public function updateParentStyleOfSubstyles(string $old_parent_style_id, string $new_parent_style_id)
+    public function updateParentStyleOfSubstyles(string $old_parent_style_id, string $new_parent_style_id) : void
     {
         if ($this->hasStyleSubstyles($old_parent_style_id)) {
             foreach ($this->getSubstylesOfStyle($old_parent_style_id) as $substyle) {
@@ -250,15 +267,14 @@ class ilSkin implements Iterator, Countable
     {
         $substyles = [];
 
-        if ($this->getStyle($style_id)) {
-            foreach ($this->getStyles() as $style) {
-                if ($style->getId() != $style_id && $style->isSubstyle()) {
-                    if ($style->getSubstyleOf() == $style_id) {
-                        $substyles[$style->getId()] = $style;
-                    }
+        foreach ($this->getStyles() as $style) {
+            if ($style->getId() != $style_id && $style->isSubstyle()) {
+                if ($style->getSubstyleOf() == $style_id) {
+                    $substyles[$style->getId()] = $style;
                 }
             }
         }
+
         return $substyles;
     }
 

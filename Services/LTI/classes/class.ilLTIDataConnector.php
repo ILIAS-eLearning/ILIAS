@@ -30,8 +30,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     {
         global $DIC;
 
-        $this->logger = $DIC->logger()->lti();
-        $this->db = "";
+        $this->logger = ilLoggerFactory::getLogger('ltis');
+        $this->db = null;
         $this->dbTableNamePrefix = "";
     }
 
@@ -46,7 +46,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function loadToolConsumer(\ILIAS\LTI\ToolProvider\ToolConsumer $consumer) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $ok = false;
         $query = 'SELECT consumer_pk, name, consumer_key256, consumer_key, secret, lti_version, ' .
@@ -82,8 +82,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 $consumer->consumerName = $row->consumer_name;
                 $consumer->consumerVersion = $row->consumer_version;
                 $consumer->consumerGuid = $row->consumer_guid;
-                $consumer->profile = json_decode($row->profile);
-                $consumer->toolProxy = $row->tool_proxy;
+                $consumer->profile = json_decode((string) $row->profile); // TODO PHP8 Review: Undefined Property
+                $consumer->toolProxy = $row->tool_proxy; // TODO PHP8 Review: Undefined Property
                 $settings = unserialize($row->settings);
                 if (!is_array($settings)) {
                     $settings = array();
@@ -127,13 +127,14 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     /**
      * Load tool consumer settings
      * @param ilLTIToolConsumer $consumer
+     * @return bool
      */
     public function loadObjectToolConsumerSettings(ilLTIToolConsumer $consumer) : bool
     {
         $this->loadGlobalToolConsumerSettings($consumer);
 
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $query = 'SELECT * from lti2_consumer where id = ' . $ilDB->quote($consumer->getExtConsumerId(), 'integer');
         $res = $ilDB->query($query);
@@ -152,11 +153,12 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     /**
      * Load global tool consumer settings in consumer
      * @param ilLTIToolConsumer $consumer
+     * @return bool
      */
     public function loadGlobalToolConsumerSettings(ilLTIToolConsumer $consumer) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $query = 'SELECT * from lti_ext_consumer where id = ' . $ilDB->quote($consumer->getExtConsumerId(), 'integer');
         $res = $ilDB->query($query);
@@ -180,7 +182,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function loadToolConsumerILIAS(ilLTIToolConsumer $consumer) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $ok = false;
         $query = 'SELECT consumer_pk, name, consumer_key256, consumer_key, secret, lti_version, ' .
@@ -217,8 +219,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 $consumer->consumerName = $row->consumer_name;
                 $consumer->consumerVersion = $row->consumer_version;
                 $consumer->consumerGuid = $row->consumer_guid;
-                $consumer->profile = json_decode($row->profile);
-                $consumer->toolProxy = $row->tool_proxy;
+                $consumer->profile = json_decode((string) $row->profile); // TODO PHP8 Review: Undefined Property
+                $consumer->toolProxy = $row->tool_proxy; // TODO PHP8 Review: Undefined Property
                 $settings = unserialize($row->settings);
                 if (!is_array($settings)) {
                     $settings = array();
@@ -242,8 +244,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 $consumer->updated = strtotime($row->updated);
 
                 //ILIAS specific
-                $consumer->setExtConsumerId($row->ext_consumer_id);
-                $consumer->setRefId($row->ref_id);
+                $consumer->setExtConsumerId((int) $row->ext_consumer_id);
+                $consumer->setRefId((int) $row->ref_id);
                 #$consumer->setTitle($row->title);
                 #$consumer->setDescription($row->description);
                 #$consumer->setPrefix($row->prefix);
@@ -277,7 +279,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             'AND ref_id = ' . $db->quote($consumer->getRefId(), 'integer');
         $res = $db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->consumer_pk;
+            return (int) $row->consumer_pk;
         }
         return null;
     }
@@ -290,7 +292,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function saveToolConsumer(\ILIAS\LTI\ToolProvider\ToolConsumer $consumer) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $id = $consumer->getRecordId();
         $key = $consumer->getKey();
@@ -361,7 +363,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                             $consumer->consumerVersion,
                             $consumer->consumerGuid,
                             $profile,
-                            $consumer->toolProxy,
+                            $consumer->toolProxy, // TODO PHP8 Review: Undefined Property
                             $settingsValue,
                             $protected,
                             $enabled,
@@ -410,7 +412,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                             $consumer->consumerVersion,
                             $consumer->consumerGuid,
                             $profile,
-                            $consumer->toolProxy,
+                            $consumer->toolProxy, // TODO PHP8 Review: Undefined Property
                             $settingsValue,
                             $protected,
                             $enabled,
@@ -428,10 +430,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     /**
      * Save lti_ext_consumer
      */
-    public function saveGlobalToolConsumerSettings(ilLTIToolConsumer $consumer)
+    public function saveGlobalToolConsumerSettings(ilLTIToolConsumer $consumer) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         if (!$consumer->getExtConsumerId()) {
             // create
@@ -446,7 +448,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 $consumer->getLanguage(),
                 $consumer->getRole(),
                 $new_id,
-                (bool) $consumer->getActive()
+                $consumer->getActive()
             ];
             $ilDB->manipulateF($query, $types, $values);
             $consumer->setExtConsumerId($new_id);
@@ -474,7 +476,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function saveToolConsumerILIAS(ilLTIToolConsumer $consumer) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $id = $consumer->getRecordId();
         $key = $consumer->getKey();
@@ -548,7 +550,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                             $consumer->consumerVersion,
                             $consumer->consumerGuid,
                             $profile,
-                            $consumer->toolProxy,
+                            $consumer->toolProxy, // TODO PHP8 Review: Undefined Property
                             $settingsValue,
                             $protected,
                             $enabled,
@@ -599,7 +601,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                             $consumer->consumerVersion,
                             $consumer->consumerGuid,
                             $profile,
-                            $consumer->toolProxy,
+                            $consumer->toolProxy, // TODO PHP8 Review: Undefined Property
                             $settingsValue,
                             $protected,
                             $enabled,
@@ -621,7 +623,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function deleteGlobalToolConsumerSettings(ilLTIToolConsumer $consumer) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $query = 'DELETE FROM lti_ext_consumer WHERE id = %s';
         $types = array("integer");
@@ -646,7 +648,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function deleteToolConsumer(\ILIAS\LTI\ToolProvider\ToolConsumer $consumer) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         // Delete any nonce values for this consumer
         $query = "DELETE FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::NONCE_TABLE_NAME . ' WHERE consumer_pk = %s';
@@ -758,7 +760,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function getGlobalToolConsumerSettings() : array
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $consumers = array();
         $query = 'SELECT * from lti_ext_consumer ';
@@ -788,7 +790,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function getToolConsumers() : array
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
         $consumers = array();
         $query = 'SELECT consumer_pk, name, consumer_key256, consumer_key, secret, lti_version, ' .
             'consumer_name, consumer_version, consumer_guid, ' .
@@ -818,8 +820,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             $consumer->consumerName = $row->consumer_name;
             $consumer->consumerVersion = $row->consumer_version;
             $consumer->consumerGuid = $row->consumer_guid;
-            $consumer->profile = json_decode($row->profile);
-            $consumer->toolProxy = $row->tool_proxy;
+            $consumer->profile = json_decode($row->profile); // TODO PHP8 Review: Undefined Property
+            $consumer->toolProxy = $row->tool_proxy; // TODO PHP8 Review: Undefined Property
             $settings = unserialize($row->settings);
             if (!is_array($settings)) {
                 $settings = array();
@@ -897,7 +899,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function loadContext(\ILIAS\LTI\ToolProvider\Context $context) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $ok = false;
         if (!empty($context->getRecordId())) {
@@ -942,7 +944,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function saveContext(\ILIAS\LTI\ToolProvider\Context $context) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $time = time();
         $now = date("{$this->dateFormat} {$this->timeFormat}", $time);
@@ -983,7 +985,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function deleteContext(\ILIAS\LTI\ToolProvider\Context $context) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         // Delete any outstanding share keys for resource links for this context
         $query = 'DELETE sk ' .
@@ -1046,7 +1048,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function loadResourceLink(\ILIAS\LTI\ToolProvider\ResourceLink $resourceLink) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $ok = false;
         if (!empty($resourceLink->getRecordId())) {
@@ -1094,7 +1096,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 }
                 $resourceLink->setSettings($settings);
                 if (!is_null($row->primary_resource_link_pk)) {
-                    $resourceLink->primaryResourceLinkId = intval($row->primary_resource_link_pk);
+                    $resourceLink->primaryResourceLinkId = (string) intval($row->primary_resource_link_pk);
                 } else {
                     $resourceLink->primaryResourceLinkId = null;
                 }
@@ -1116,7 +1118,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function saveResourceLink(\ILIAS\LTI\ToolProvider\ResourceLink $resourceLink) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         if (is_null($resourceLink->shareApproved)) {
             $approved = 'NULL';
@@ -1227,7 +1229,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function deleteResourceLink(\ILIAS\LTI\ToolProvider\ResourceLink $resourceLink) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         // Delete any outstanding share keys for resource links for this consumer
         $query = "DELETE FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . ' ' .
@@ -1286,7 +1288,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         int $idScope
     ) : array {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $users = array();
 
@@ -1369,7 +1371,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function loadConsumerNonce(\ILIAS\LTI\ToolProvider\ConsumerNonce $nonce) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $ok = true;
 
@@ -1402,7 +1404,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function saveConsumerNonce(\ILIAS\LTI\ToolProvider\ConsumerNonce $nonce) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $expires = date("{$this->dateFormat} {$this->timeFormat}", $nonce->expires);
         $query = "INSERT INTO {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::NONCE_TABLE_NAME . " (consumer_pk, value, expires) VALUES (%s, %s, %s)";
@@ -1424,10 +1426,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @return boolean True if the resource link share key object was successfully loaded
      */
 //    public function loadResourceLinkShareKey(\ILIAS\LTI\ToolProvider\ResourceLinkShareKey $shareKey) : bool
-    public function loadResourceLinkShareKey($shareKey) : bool
+    public function loadResourceLinkShareKey(ResourceLinkShareKey $shareKey) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $ok = false;
 
@@ -1465,10 +1467,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @return boolean True if the resource link share key object was successfully saved
      */
 //    public function saveResourceLinkShareKey(\ILIAS\LTI\ToolProvider\ResourceLinkShareKey $shareKey) : bool
-    public function saveResourceLinkShareKey($shareKey) : bool
+    public function saveResourceLinkShareKey(ResourceLinkShareKey $shareKey) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         if ($shareKey->autoApprove) {
             $approve = 1;
@@ -1491,10 +1493,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param ResourceLinkShareKey $shareKey Resource link share key object
      * @return boolean True if the resource link share key object was successfully deleted
      */
-    public function deleteResourceLinkShareKey($shareKey) : bool
+    public function deleteResourceLinkShareKey(ResourceLinkShareKey $shareKey) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $query = "DELETE FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_SHARE_KEY_TABLE_NAME . " WHERE share_key_id = %s";
         $types = array("text");
@@ -1521,7 +1523,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function loadUser(\ILIAS\LTI\ToolProvider\User $user) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $ok = false;
         if ($user->getRecordId()) {
@@ -1541,10 +1543,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         try {
             $res = $ilDB->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                $user->setRecordId($row->user_pk);
-                $user->setResourceLinkId($row->resource_link_pk);
-                $user->ltiUserId = $row->lti_user_id;
-                $user->ltiResultSourcedId = $row->lti_result_sourcedid;
+                $user->setRecordId((int) $row->user_pk);
+                $user->setResourceLinkId((int) $row->resource_link_pk);
+                $user->ltiUserId = (string) $row->lti_user_id;
+                $user->ltiResultSourcedId = (string) $row->lti_result_sourcedid;
                 $user->created = strtotime($row->created);
                 $user->updated = strtotime($row->updated);
                 $ok = true;
@@ -1589,7 +1591,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function saveUser(\ILIAS\LTI\ToolProvider\User $user) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $this->logger->info('Save user called');
 
@@ -1665,7 +1667,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     public function deleteUser(\ILIAS\LTI\ToolProvider\User $user) : bool
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $query = 'DELETE from ' . $this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
             'WHERE user_pk = ' . $ilDB->quote($user->getRecordId(), 'integer');
@@ -1708,8 +1710,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     ) : array {
         global $DIC;
 
-        $db = $DIC->database();
-        $logger = $DIC->logger()->lti();
+        $db = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
+        $logger = ilLoggerFactory::getLogger('ltis');
 
         $query = 'select rl.resource_link_pk ' .
             'from lti2_user_result ur join lti2_resource_link rl on rl.resource_link_pk = ur.resource_link_pk ' .
@@ -1740,8 +1742,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     {
         global $DIC;
 
-        $db = $DIC->database();
-        $logger = $DIC->logger()->lti();
+        $db = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
+        $logger = ilLoggerFactory::getLogger('ltis');
 
         $query = 'select lti_user_id, rl.resource_link_pk, ec.id, ref_id ' .
             'from lti2_resource_link rl join lti2_user_result ur on rl.resource_link_pk = ur.resource_link_pk ' .

@@ -1,21 +1,26 @@
 <?php declare(strict_types=1);
 
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory;
 
-/******************************************************************************
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+ 
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
+
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ModulesCourse
@@ -44,7 +49,7 @@ class ilMemberExportGUI
      * @access public
      * @param
      */
-    public function __construct($a_ref_id)
+    public function __construct(int $a_ref_id)
     {
         global $DIC;
 
@@ -103,7 +108,7 @@ class ilMemberExportGUI
         // roles
         $roles = new ilCheckboxGroupInputGUI($this->lng->txt('ps_user_selection'), 'export_members');
         $roles->addOption(new ilCheckboxOption($this->lng->txt('ps_export_admin'), 'admin'));
-        if ($this->type == 'crs') {
+        if ($this->type === 'crs') {
             $roles->addOption(new ilCheckboxOption($this->lng->txt('ps_export_tutor'), 'tutor'));
         }
         $roles->addOption(new ilCheckboxOption($this->lng->txt('ps_export_member'), 'member'));
@@ -213,7 +218,7 @@ class ilMemberExportGUI
 
     protected function handleIncoming() : void
     {
-        $settings = array();
+        $settings = [];
         $incoming = [];
         if ($this->http->wrapper()->post()->has('export_members')) {
             $incoming = $this->http->wrapper()->post()->retrieve(
@@ -266,8 +271,9 @@ class ilMemberExportGUI
     public function deliverData() : void
     {
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
-            if ($file['name'] == $_SESSION['member_export_filename']) {
-                $content = $this->fss_export->getMemberExportFile($_SESSION['member_export_filename']);
+            $member_export_filename = (string) ilSession::get('member_export_filename');
+            if ($file['name'] === $member_export_filename) {
+                $content = $this->fss_export->getMemberExportFile($member_export_filename);
                 ilUtil::deliverData(
                     $content,
                     date('Y_m_d_H-i', $file['timest']) .
@@ -294,18 +300,26 @@ class ilMemberExportGUI
      */
     public function downloadExportFile() : void
     {
-        $hash = trim($_GET['fl']);
+        $fl = '';
+        if ($this->http->wrapper()->query()->has('fl')) {
+            $fl = $this->http->wrapper()->query()->retrieve(
+                'fl',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
+        $hash = trim($fl);
         if (!$hash) {
             $this->ctrl->redirect($this, 'show');
         }
 
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
-            if (md5($file['name']) == $hash) {
+            if (md5($file['name']) === $hash) {
                 $contents = $this->fss_export->getMemberExportFile($file['timest'] . '_participant_export_' .
                     $file['type'] . '_' . $this->obj_id . '.' . $file['type']);
 
                 // newer export files could be .xlsx
-                if ($file['type'] == 'xls' && !$contents) {
+                if ($file['type'] === 'xls' && !$contents) {
                     $contents = $this->fss_export->getMemberExportFile($file['timest'] . '_participant_export_' .
                         $file['type'] . '_' . $this->obj_id . '.xlsx');
                     $file['type'] = 'xlsx';
@@ -345,7 +359,7 @@ class ilMemberExportGUI
     }
 
     /**
-     * @return mixed[]
+     * @return string[]
      */
     protected function initFileIdsFromPost() : array
     {
@@ -374,8 +388,6 @@ class ilMemberExportGUI
         $confirmation_gui->setHeaderText($this->lng->txt('info_delete_sure') /* .' '.$this->lng->txt('ps_delete_export_files') */);
         $confirmation_gui->setCancel($this->lng->txt('cancel'), 'show');
         $confirmation_gui->setConfirm($this->lng->txt('delete'), 'deleteExportFile');
-
-        $counter = 0;
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
             if (!in_array(md5($file['name']), $file_ids)) {
                 continue;
@@ -399,7 +411,6 @@ class ilMemberExportGUI
         if (!count($file_ids)) {
             $this->ctrl->redirect($this, 'show');
         }
-        $counter = 0;
         foreach ($this->fss_export->getMemberExportFiles() as $file) {
             if (!in_array(md5($file['name']), $file_ids)) {
                 continue;
@@ -409,7 +420,7 @@ class ilMemberExportGUI
                 $file['type'] . '_' . $this->obj_id . '.' . $file['type']);
 
             //try xlsx if return is false and type is xls
-            if ($file['type'] == "xls" && !$ret) {
+            if ($file['type'] === "xls" && !$ret) {
                 $this->fss_export->deleteMemberExportFile($file['timest'] . '_participant_export_' .
                     $file['type'] . '_' . $this->obj_id . '.' . "xlsx");
             }
@@ -421,10 +432,10 @@ class ilMemberExportGUI
 
     protected function initFileSystemStorage() : void
     {
-        if ($this->type == 'crs') {
+        if ($this->type === 'crs') {
             $this->fss_export = new ilFSStorageCourse($this->obj_id);
         }
-        if ($this->type == 'grp') {
+        if ($this->type === 'grp') {
             $this->fss_export = new ilFSStorageGroup($this->obj_id);
         }
     }

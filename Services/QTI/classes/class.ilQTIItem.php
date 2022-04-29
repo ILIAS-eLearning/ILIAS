@@ -21,90 +21,109 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("QT_UNKNOWN", "unknown");
-define("QT_KPRIM_CHOICE", "assKprimChoice");
-define("QT_LONG_MENU", "assLongMenu");
-define("QT_MULTIPLE_CHOICE_SR", "assSingleChoice");
-define("QT_MULTIPLE_CHOICE_MR", "assMultipleChoice");
-define("QT_CLOZE", "assClozeTest");
-define("QT_ERRORTEXT", "assErrorText");
-define("QT_MATCHING", "assMatchingQuestion");
-define("QT_ORDERING", "assOrderingQuestion");
-define("QT_ORDERING_HORIZONTAL", "assOrderingHorizontal");
-define("QT_IMAGEMAP", "assImagemapQuestion");
-define("QT_TEXT", "assTextQuestion");
-define("QT_FILEUPLOAD", "assFileUpload");
-define("QT_NUMERIC", "assNumeric");
-define("QT_FORMULA", "assFormulaQuestion");
-define("QT_TEXTSUBSET", "assTextSubset");
+const QT_UNKNOWN = "unknown";
+const QT_KPRIM_CHOICE = "assKprimChoice";
+const QT_LONG_MENU = "assLongMenu";
+const QT_MULTIPLE_CHOICE_SR = "assSingleChoice";
+const QT_MULTIPLE_CHOICE_MR = "assMultipleChoice";
+const QT_CLOZE = "assClozeTest";
+const QT_ERRORTEXT = "assErrorText";
+const QT_MATCHING = "assMatchingQuestion";
+const QT_ORDERING = "assOrderingQuestion";
+const QT_ORDERING_HORIZONTAL = "assOrderingHorizontal";
+const QT_IMAGEMAP = "assImagemapQuestion";
+const QT_TEXT = "assTextQuestion";
+const QT_FILEUPLOAD = "assFileUpload";
+const QT_NUMERIC = "assNumeric";
+const QT_FORMULA = "assFormulaQuestion";
+const QT_TEXTSUBSET = "assTextSubset";
 
 /**
-* QTI item class
-*
-* @author Helmut Schottmüller <hschottm@gmx.de>
-* @version $Id$
-*
-* @package assessment
-*/
+ * QTI item class
+ *
+ * @author Helmut Schottmüller <hschottm@gmx.de>
+ * @version $Id$
+ *
+ * @package assessment
+ */
 class ilQTIItem
 {
-    public $ident;
-    public $title;
-    public $maxattempts;
-    public $label;
-    public $xmllang;
-    
-    public $comment;
-    public $ilias_version;
-    public $author;
-    public $questiontype;
-    public $duration;
-    public $questiontext;
-    public $resprocessing;
-    public $itemfeedback;
-    public $presentation;
-    public $presentationitem;
-    public $suggested_solutions;
-    public $itemmetadata;
-    
-    protected $iliasSourceVersion;
-    protected $iliasSourceNic;
-    
+    public ?string $ident;
+    public ?string $title;
+    public ?string $maxattempts;
+    public ?string $label;
+    public ?string $xmllang;
+    public ?string $comment;
+    public ?string $ilias_version;
+    public ?string $author;
+    public ?string $questiontype;
+    /** @var null|array{h: string, m: string, s: string} */
+    public ?array $duration;
+    public ?ilQTIMaterial $questiontext;
+    /** @var ilQTIResprocessing[] */
+    public array $resprocessing;
+    /** @var ilQTIItemfeedback[] */
+    public array $itemfeedback;
+    public ?ilQTIPresentation $presentation;
+    /** @var (ilQTIResponse|ilQTIMaterial|null)[] */
+    public array $presentationitem;
+    /**
+     * @var array{solution: ilQTIMattext, gap_index: int}[]
+     */
+    public array $suggested_solutions;
+    /**
+     * @var array{label: string, entry: string}[]
+     */
+    public array $itemmetadata;
+    protected ?string $iliasSourceVersion;
+    protected ?string $iliasSourceNic;
+    protected array $response;
+
     public function __construct()
     {
-        $this->response = array();
-        $this->resprocessing = array();
-        $this->itemfeedback = array();
+        $this->ident = null;
+        $this->title = null;
+        $this->maxattempts = null;
+        $this->label = null;
+        $this->xmllang = null;
+        $this->comment = null;
+        $this->ilias_version = null;
+        $this->author = null;
+        $this->questiontype = null;
+        $this->duration = null;
+        $this->questiontext = null;
+        $this->response = [];
+        $this->resprocessing = [];
+        $this->itemfeedback = [];
         $this->presentation = null;
-        $this->presentationitem = array();
-        $this->suggested_solutions = array();
-        $this->itemmetadata = array();
-        
+        $this->presentationitem = [];
+        $this->suggested_solutions = [];
+        $this->itemmetadata = [];
         $this->iliasSourceVersion = null;
         $this->iliasSourceNic = null;
     }
-    
-    public function setIdent($a_ident)
+
+    public function setIdent(string $a_ident) : void
     {
         $this->ident = $a_ident;
     }
-    
-    public function getIdent()
+
+    public function getIdent() : ?string
     {
         return $this->ident;
     }
-    
-    public function setTitle($a_title)
+
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
-    
-    public function getTitle()
+
+    public function getTitle() : ?string
     {
         return $this->title;
     }
-    
-    public function setComment($a_comment)
+
+    public function setComment(string $a_comment) : void
     {
         if (preg_match("/(.*?)\=(.*)/", $a_comment, $matches)) {
             // special comments written by ILIAS
@@ -112,26 +131,23 @@ class ilQTIItem
                 case "ILIAS Version":
                     $this->ilias_version = $matches[2];
                     return;
-                    break;
                 case "Questiontype":
                     $this->questiontype = $matches[2];
                     return;
-                    break;
                 case "Author":
                     $this->author = $matches[2];
                     return;
-                    break;
             }
         }
         $this->comment = $a_comment;
     }
-    
-    public function getComment()
+
+    public function getComment() : ?string
     {
         return $this->comment;
     }
-    
-    public function setDuration($a_duration)
+
+    public function setDuration(string $a_duration) : void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
             $this->duration = array(
@@ -141,95 +157,98 @@ class ilQTIItem
             );
         }
     }
-    
-    public function getDuration()
+
+    /**
+     * @return null|array{h: string, m: string, s: string}
+     */
+    public function getDuration() : ?array
     {
         return $this->duration;
     }
     
-    public function setQuestiontext($a_questiontext)
+    public function setQuestiontext(ilQTIMaterial $a_questiontext) : void
     {
         $this->questiontext = $a_questiontext;
     }
     
-    public function getQuestiontext()
+    public function getQuestiontext() : ?ilQTIMaterial
     {
         return $this->questiontext;
     }
     
-    public function addResprocessing($a_resprocessing)
+    public function addResprocessing(?ilQTIResprocessing $a_resprocessing) : void
     {
-        array_push($this->resprocessing, $a_resprocessing);
+        $this->resprocessing[] = $a_resprocessing;
     }
     
-    public function addItemfeedback($a_itemfeedback)
+    public function addItemfeedback(?ilQTIItemfeedback $a_itemfeedback) : void
     {
-        array_push($this->itemfeedback, $a_itemfeedback);
+        $this->itemfeedback[] = $a_itemfeedback;
     }
     
-    public function setMaxattempts($a_maxattempts)
+    public function setMaxattempts(string $a_maxattempts) : void
     {
         $this->maxattempts = $a_maxattempts;
     }
     
-    public function getMaxattempts()
+    public function getMaxattempts() : ?string
     {
         return $this->maxattempts;
     }
-    
-    public function setLabel($a_label)
+
+    public function setLabel(string $a_label) : void
     {
         $this->label = $a_label;
     }
-    
-    public function getLabel()
+
+    public function getLabel() : ?string
     {
         return $this->label;
     }
-    
-    public function setXmllang($a_xmllang)
+
+    public function setXmllang(string $a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
-    
-    public function getXmllang()
+
+    public function getXmllang() : ?string
     {
         return $this->xmllang;
     }
-    
-    public function setPresentation($a_presentation)
+
+    public function setPresentation(ilQTIPresentation $a_presentation) : void
     {
         $this->presentation = $a_presentation;
     }
-    
-    public function getPresentation()
+
+    public function getPresentation() : ?ilQTIPresentation
     {
         return $this->presentation;
     }
     
-    public function collectResponses()
+    public function collectResponses() : void
     {
-        $result = array();
-        if ($this->presentation != null) {
-        }
     }
-    
-    public function setQuestiontype($a_questiontype)
+
+    public function setQuestiontype(string $a_questiontype) : void
     {
         $this->questiontype = $a_questiontype;
     }
-    
-    public function getQuestiontype()
+
+    public function getQuestiontype() : ?string
     {
         return $this->questiontype;
     }
-    
-    public function addPresentationitem($a_presentationitem)
+
+    /**
+     * @param ilQTIResponse|ilQTIMaterial|null $a_presentationitem
+     */
+    public function addPresentationitem($a_presentationitem) : void
     {
-        array_push($this->presentationitem, $a_presentationitem);
+        $this->presentationitem[] = $a_presentationitem;
     }
 
-    public function determineQuestionType()
+    public function determineQuestionType() : ?string
     {
         switch ($this->questiontype) {
             case "ORDERING QUESTION":
@@ -259,122 +278,98 @@ class ilQTIItem
             return QT_UNKNOWN;
         }
         foreach ($this->presentation->order as $entry) {
-            switch ($entry["type"]) {
-                case "response":
-                    $response = $this->presentation->response[$entry["index"]];
-                    switch ($response->getResponsetype()) {
-                        case RT_RESPONSE_LID:
-                            switch ($response->getRCardinality()) {
-                                case R_CARDINALITY_ORDERED:
-                                    return QT_ORDERING;
-                                    break;
-                                case R_CARDINALITY_SINGLE:
-                                    return QT_MULTIPLE_CHOICE_SR;
-                                    break;
-                                case R_CARDINALITY_MULTIPLE:
-                                    return QT_MULTIPLE_CHOICE_MR;
-                                    break;
-                            }
-                            break;
-                        case RT_RESPONSE_XY:
-                            return QT_IMAGEMAP;
-                            break;
-                        case RT_RESPONSE_STR:
-                            switch ($response->getRCardinality()) {
-                                case R_CARDINALITY_ORDERED:
-                                    return QT_TEXT;
-                                    break;
-                                case R_CARDINALITY_SINGLE:
-                                    return QT_CLOZE;
-                                    break;
-                            }
-                            break;
-                        case RT_RESPONSE_GRP:
-                            return QT_MATCHING;
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case "material":
-                    $material = $this->presentation->material[$entry["index"]];
-                    if (is_array($material->matapplet) && count($material->matapplet) > 0) {
-                        return QT_JAVAAPPLET;
-                    }
-                    break;
+            if ('response' === $entry["type"]) {
+                $result = $this->typeFromResponse($this->presentation->response[$entry["index"]]);
+                if (null !== $result) {
+                    return $result;
+                }
             }
         }
         if (strlen($this->questiontype) == 0) {
             return QT_UNKNOWN;
-        } else {
-            return $this->questiontype;
         }
+
+        return $this->questiontype;
     }
-    
-    public function setAuthor($a_author)
+
+    public function setAuthor(string $a_author) : void
     {
         $this->author = $a_author;
     }
-    
-    public function getAuthor()
+
+    public function getAuthor() : ?string
     {
         return $this->author;
     }
 
-    /**
-     * @return string
-     */
-    public function getIliasSourceVersion()
+    public function getIliasSourceVersion() : ?string
     {
         return $this->iliasSourceVersion;
     }
 
-    /**
-     * @param string $iliasSourceVersion
-     */
-    public function setIliasSourceVersion($iliasSourceVersion)
+    public function setIliasSourceVersion(string $iliasSourceVersion) : void
     {
         $this->iliasSourceVersion = $iliasSourceVersion;
     }
 
-    /**
-     * @return null
-     */
-    public function getIliasSourceNic()
+    public function getIliasSourceNic() : ?string
     {
         return $this->iliasSourceNic;
     }
 
-    /**
-     * @param null $iliasSourceNic
-     */
-    public function setIliasSourceNic($iliasSourceNic)
+    public function setIliasSourceNic(?string $iliasSourceNic) : void
     {
         $this->iliasSourceNic = $iliasSourceNic;
     }
     
-    public function addSuggestedSolution($a_solution, $a_gap_index)
+    public function addSuggestedSolution(ilQTIMattext $a_solution, int $a_gap_index) : void
     {
-        array_push($this->suggested_solutions, array("solution" => $a_solution, "gap_index" => $a_gap_index));
+        $this->suggested_solutions[] = array("solution" => $a_solution, "gap_index" => $a_gap_index);
+    }
+
+    /**
+     * @param array{label: string, entry: string} $a_metadata
+     */
+    public function addMetadata(array $a_metadata) : void
+    {
+        $this->itemmetadata[] = $a_metadata;
     }
     
-    public function addMetadata($a_metadata)
-    {
-        array_push($this->itemmetadata, $a_metadata);
-    }
-    
-    public function getMetadata()
+    public function getMetadata() : array
     {
         return $this->itemmetadata;
     }
-    
-    public function getMetadataEntry($a_label)
+
+    public function getMetadataEntry(string $a_label) : ?string
     {
         foreach ($this->itemmetadata as $metadata) {
-            if (strcmp($metadata["label"], $a_label) == 0) {
+            if ($metadata["label"] === $a_label) {
                 return $metadata["entry"];
             }
         }
         return null;
+    }
+
+    private function typeFromResponse(ilQTIResponse $response) : ?string
+    {
+        switch ($response->getResponsetype()) {
+            case RT_RESPONSE_LID:
+                switch ($response->getRCardinality()) {
+                    case R_CARDINALITY_ORDERED: return QT_ORDERING;
+                    case R_CARDINALITY_SINGLE: return QT_MULTIPLE_CHOICE_SR;
+                    case R_CARDINALITY_MULTIPLE: return QT_MULTIPLE_CHOICE_MR;
+                }
+                // no break
+            case RT_RESPONSE_XY: return QT_IMAGEMAP;
+            case RT_RESPONSE_STR:
+                switch ($response->getRCardinality()) {
+                    case R_CARDINALITY_ORDERED: return QT_TEXT;
+                    case R_CARDINALITY_SINGLE: return QT_CLOZE;
+                }
+                // no break
+            case RT_RESPONSE_GRP: return QT_MATCHING;
+
+            default: return null;
+        }
     }
 }

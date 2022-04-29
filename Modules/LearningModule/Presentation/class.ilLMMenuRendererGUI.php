@@ -57,7 +57,7 @@ class ilLMMenuRendererGUI
         ilAccessHandler $access,
         ilObjUser $user,
         ilLanguage $lng,
-        $main_tpl,
+        ilGlobalTemplateInterface $main_tpl,
         Closure $additional_content_collector
     ) {
         /** @var ILIAS\DI\Container $DIC */
@@ -118,13 +118,13 @@ class ilLMMenuRendererGUI
         } elseif ($this->offline) {
             $tabs_gui->setForcePresentationOfSingleTab(true);
         }
-
+    
         if (!$active["content"]) {
             return "";
         }
 
         // info button
-        if ($this->lm->isInfoEnabled() && $this->export_format != "scorm" && !$this->offline) {
+        if ($this->lm->isInfoEnabled()) {
             if (!$this->offline) {
                 $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
                 $link = $this->ctrl->getLinkTargetByClass(

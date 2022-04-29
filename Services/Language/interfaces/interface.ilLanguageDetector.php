@@ -11,5 +11,5 @@ interface ilLanguageDetector
     /**
      * Returns the detected ISO2 language code
      */
-    public function getIso2LanguageCode(): string;
+    public function getIso2LanguageCode() : string;
 }

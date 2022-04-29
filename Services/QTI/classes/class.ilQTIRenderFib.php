@@ -21,15 +21,15 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("PROMPT_BOX", "1");
-define("PROMPT_DASHLINE", "2");
-define("PROMPT_ASTERISK", "3");
-define("PROMPT_UNDERLINE", "4");
+const PROMPT_BOX = "1";
+const PROMPT_DASHLINE = "2";
+const PROMPT_ASTERISK = "3";
+const PROMPT_UNDERLINE = "4";
 
-define("FIBTYPE_STRING", "1");
-define("FIBTYPE_INTEGER", "2");
-define("FIBTYPE_DECIMAL", "3");
-define("FIBTYPE_SCIENTIFIC", "4");
+const FIBTYPE_STRING = "1";
+const FIBTYPE_INTEGER = "2";
+const FIBTYPE_DECIMAL = "3";
+const FIBTYPE_SCIENTIFIC = "4";
 
 /**
 * QTI render fib class
@@ -41,26 +41,36 @@ define("FIBTYPE_SCIENTIFIC", "4");
 */
 class ilQTIRenderFib
 {
-    public $minnumber;
-    public $maxnumber;
-    public $response_labels;
-    public $material;
-    public $prompt;
-    public $encoding;
-    public $fibtype;
-    public $rows;
-    public $maxchars;
-    public $columns;
-    public $charset;
+    public ?string $minnumber;
+    public ?string $maxnumber;
+    /** @var ilQTIResponseLabel[] */
+    public array $response_labels;
+    /** @var ilQTIMaterial[] */
+    public array $material;
+    public ?string $prompt;
+    public string $encoding;
+    public ?string $fibtype;
+    public ?string $rows;
+    public ?string $maxchars;
+    public ?string $columns;
+    public ?string $charset;
 
     public function __construct()
     {
-        $this->response_labels = array();
-        $this->material = array();
+        $this->minnumber = null;
+        $this->maxnumber = null;
+        $this->response_labels = [];
+        $this->material = [];
+        $this->prompt = null;
         $this->encoding = "UTF-8";
+        $this->fibtype = null;
+        $this->rows = null;
+        $this->maxchars = null;
+        $this->columns = null;
+        $this->charset = null;
     }
-    
-    public function setPrompt($a_prompt)
+
+    public function setPrompt(string $a_prompt) : void
     {
         switch (strtolower($a_prompt)) {
             case "1":
@@ -81,13 +91,13 @@ class ilQTIRenderFib
                 break;
         }
     }
-    
-    public function getPrompt()
+
+    public function getPrompt() : ?string
     {
         return $this->prompt;
     }
-    
-    public function setFibtype($a_fibtype)
+
+    public function setFibtype(string $a_fibtype) : void
     {
         switch (strtolower($a_fibtype)) {
             case "1":
@@ -108,88 +118,88 @@ class ilQTIRenderFib
                 break;
         }
     }
-    
-    public function getFibtype()
+
+    public function getFibtype() : ?string
     {
         return $this->fibtype;
     }
-    
-    public function setMinnumber($a_minnumber)
+
+    public function setMinnumber(string $a_minnumber) : void
     {
         $this->minnumber = $a_minnumber;
     }
-    
-    public function getMinnumber()
+
+    public function getMinnumber() : ?string
     {
         return $this->minnumber;
     }
-    
-    public function setMaxnumber($a_maxnumber)
+
+    public function setMaxnumber(string $a_maxnumber) : void
     {
         $this->maxnumber = $a_maxnumber;
     }
-    
-    public function getMaxnumber()
+
+    public function getMaxnumber() : ?string
     {
         return $this->maxnumber;
     }
     
-    public function addResponseLabel($a_response_label)
+    public function addResponseLabel(ilQTIResponseLabel $a_response_label) : void
     {
-        array_push($this->response_labels, $a_response_label);
+        $this->response_labels[] = $a_response_label;
     }
 
-    public function addMaterial($a_material)
+    public function addMaterial(ilQTIMaterial $a_material) : void
     {
-        array_push($this->material, $a_material);
+        $this->material[] = $a_material;
     }
-    
-    public function setEncoding($a_encoding)
+
+    public function setEncoding(string $a_encoding) : void
     {
         $this->encoding = $a_encoding;
     }
-    
-    public function getEncoding()
+
+    public function getEncoding() : string
     {
         return $this->encoding;
     }
 
-    public function setRows($a_rows)
+    public function setRows(string $a_rows) : void
     {
         $this->rows = $a_rows;
     }
-    
-    public function getRows()
+
+    public function getRows() : ?string
     {
         return $this->rows;
     }
 
-    public function setMaxchars($a_maxchars)
+    public function setMaxchars(string $a_maxchars) : void
     {
         $this->maxchars = $a_maxchars;
     }
-    
-    public function getMaxchars()
+
+    public function getMaxchars() : ?string
     {
         return $this->maxchars;
     }
 
-    public function setColumns($a_columns)
+    public function setColumns(string $a_columns) : void
     {
         $this->columns = $a_columns;
     }
-    
-    public function getColumns()
+
+    public function getColumns() : ?string
     {
         return $this->columns;
     }
 
-    public function setCharset($a_charset)
+    public function setCharset(string $a_charset) : void
     {
         $this->charset = $a_charset;
     }
-    
-    public function getCharset()
+
+    public function getCharset() : ?string
     {
         return $this->charset;
     }

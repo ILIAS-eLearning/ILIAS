@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,17 +32,17 @@ class AdminManager
     protected \ilSetting $settings;
     protected int $user_id;
     protected int $ref_id = 0;
-
+    
     public function __construct(
         int $ref_id,
         InternalDataService $data_service,
-        InternalRepoService $repo_service,
         InternalDomainService $domain_service
     ) {
         $this->ref_id = $ref_id;
         $this->settings = $domain_service->awarenessSettings();
         $this->domain_service = $domain_service;
         $this->lng = $domain_service->lng();
+        $this->data_service = $data_service;
     }
 
     /**
@@ -75,7 +75,10 @@ class AdminManager
     {
         return ($this->getActivationMode($provider_id) == self::MODE_INCL_OFFLINE);
     }
-
+    
+    /**
+     * @return array<int,string>
+     */
     public function getModeOptions() : array
     {
         $options = array(

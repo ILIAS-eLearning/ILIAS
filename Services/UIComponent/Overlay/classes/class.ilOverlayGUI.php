@@ -112,15 +112,15 @@ class ilOverlayGUI
         // yui cfg string
         $yuicfg["visible"] = $this->visible;
         
-        if ($this->width != "") {
+        if ($this->width !== "") {
             $yuicfg["width"] = $this->width;
         }
         
-        if ($this->height != "") {
+        if ($this->height !== "") {
             $yuicfg["height"] = $this->height;
         }
         $yuicfg["fixedcenter"] = $this->fixed_center;
-        if ($this->anchor_el_id != "") {
+        if ($this->anchor_el_id !== "") {
             $yuicfg["context"] = array($this->anchor_el_id, $this->anchor_ov_corner,
                     $this->anchor_anch_corner, array("beforeShow", "windowResize"));
         }
@@ -132,9 +132,9 @@ class ilOverlayGUI
         $cfg["auto_hide"] = $this->auto_hide;
         $cfg["close_el"] = $this->close_el;
 
-        //var_dump(ilJsonUtil::encode($cfg));
+        //var_dump(json_encode($cfg, JSON_THROW_ON_ERROR));
         return 'il.Overlay.add("' . $this->overlay_el_id . '", ' .
-            ilJsonUtil::encode($cfg) . '); ';
+            json_encode($cfg, JSON_THROW_ON_ERROR) . '); ';
     }
 
     public function add() : void

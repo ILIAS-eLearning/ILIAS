@@ -35,7 +35,6 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         global $DIC;
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
-        $this->rbacsystem = $DIC->rbac()->system();
         $this->access = $DIC->access();
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
@@ -65,7 +64,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 
         $this->prepareOutput();
 
-        if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
@@ -77,7 +76,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = "editSettings";
                 }
 
@@ -96,7 +95,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
         
         $ilTabs->activateTab("settings");
         
-        if (OH_REF_ID > 0) {
+        if ((int) OH_REF_ID > 0) {
             $this->tpl->setOnScreenMessage('info', "This installation is used for online help authoring. Help modules cannot be imported.");
             return;
         }
@@ -171,7 +170,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 
         $ids = $this->help_request->getIds();
 
-        if (count($ids) == 0) {
+        if (count($ids) === 0) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editSettings");
         } else {
@@ -182,7 +181,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
             $cgui->setConfirm($lng->txt("delete"), "deleteHelpModules");
             
             foreach ($ids as $i) {
-                $cgui->addItem("id[]", $i, $this->object->lookupModuleTitle($i));
+                $cgui->addItem("id[]", $i, $this->object::lookupModuleTitle($i));
             }
             
             $tpl->setContent($cgui->getHTML());
@@ -224,7 +223,7 @@ class ilObjHelpSettingsGUI extends ilObject2GUI
 
         $this->checkPermission("write");
         
-        if ($ilSetting->get("help_module") == $this->help_request->getHelpModuleId()) {
+        if ((int) $ilSetting->get("help_module") === $this->help_request->getHelpModuleId()) {
             $ilSetting->set("help_module", "");
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }

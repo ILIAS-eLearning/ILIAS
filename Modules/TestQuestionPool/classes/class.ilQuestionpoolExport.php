@@ -14,6 +14,7 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 */
 class ilQuestionpoolExport
 {
+    private $inst;
     public $err;			// error object
     public $db;			// database object
     public $ilias;			// ilias object
@@ -89,19 +90,16 @@ class ilQuestionpoolExport
 
     /**
     *   build export file (complete zip file)
-    *
-    *   @access public
-    *   @return
     */
     public function buildExportFile()
     {
         switch ($this->mode) {
             case "xls":
-                return $this->buildExportFileXLS();
+                $this->buildExportFileXLS();
                 break;
             case "xml":
             default:
-                return $this->buildExportFileXML();
+                $this->buildExportFileXML();
                 break;
         }
     }
@@ -109,7 +107,7 @@ class ilQuestionpoolExport
     /**
     * build xml export file
     */
-    public function buildExportFileXML()
+    public function buildExportFileXML() : string
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
@@ -188,7 +186,7 @@ class ilQuestionpoolExport
         $ilBench->stop("QuestionpoolExport", "buildExportFile_zipFile");
 
         // destroy writer object
-        $this->xml->_XmlWriter;
+        //$this->xml->_XmlWriter;
 
         $expLog->write(date("[y-m-d H:i:s] ") . "Finished Export");
         $ilBench->stop("QuestionpoolExport", "buildExportFile");

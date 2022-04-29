@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 /**
@@ -155,7 +171,7 @@ class ilSystemStylesTableGUI extends ilTable2GUI
             $categories = [];
 
             foreach ($assignments as $assignment) {
-                $category_title = ilObject::_lookupTitle(ilObject::_lookupObjId($assignment['ref_id']));
+                $category_title = ilObject::_lookupTitle(ilObject::_lookupObjId((int)$assignment['ref_id']));
                 if ($category_title) {
                     $categories[] = $category_title;
                 }

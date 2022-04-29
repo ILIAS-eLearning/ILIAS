@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\UI\Factory;
@@ -47,20 +63,10 @@ class ilSystemStyleLessGUI
         $this->refinery = $refinery;
         $this->style_id = $style_id;
 
-        $this->message_stack = new ilSystemStyleMessageStack();
+        $this->message_stack = new ilSystemStyleMessageStack($this->tpl);
 
         $this->style_container = $factory->skinStyleContainerFromId($skin_id, $this->message_stack);
         $this->less_file = new ilSystemStyleLessFile($this->style_container->getLessVariablesFilePath($style_id));
-
-        try {
-        } catch (ilSystemStyleException $e) {
-            $this->message_stack->addMessage(
-                new ilSystemStyleMessage(
-                    $e->getMessage(),
-                    ilSystemStyleMessage::TYPE_ERROR
-                )
-            );
-        }
     }
 
     /**
@@ -94,7 +100,7 @@ class ilSystemStyleLessGUI
         $this->tpl->setContent($this->renderer->render($components));
     }
 
-    protected function addResetToolbar()
+    protected function addResetToolbar() : void
     {
         $this->toolbar->addComponent($this->ui_factory->button()->standard(
             $this->lng->txt('reset_variables'),

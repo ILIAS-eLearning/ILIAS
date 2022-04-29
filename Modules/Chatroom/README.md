@@ -285,12 +285,9 @@ client.cfg:
 ```json
 {
     "name": "onscreen",
-    "enable_osd": false,
     "enable_osc": true,
-    "osd_intervall": 60,
     "chat_enabled": true,
     "enable_smilies": true,
-    "play_invitation_sound": false,
     "auth": {
     "key": "0cdc8989-d5f0-1111-4444-244320d9dabc",
     "secret": "f7471a0e-c454-2222-3333-bb0f1b5d4123"

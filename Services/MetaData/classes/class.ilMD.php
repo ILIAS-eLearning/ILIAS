@@ -29,6 +29,11 @@
  */
 class ilMD extends ilMDBase
 {
+    public function read() : bool
+    {
+        return true;
+    }
+    
     public function getGeneral() : ?ilMDGeneral
     {
         if ($id = ilMDGeneral::_getId($this->getRBACId(), $this->getObjId())) {

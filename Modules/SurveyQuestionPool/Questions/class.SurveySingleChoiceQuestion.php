@@ -57,7 +57,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             array($phrase_id)
         );
         while ($row = $ilDB->fetchAssoc($result)) {
-            if (($row["defaultvalue"] == 1) and ($row["owner_fi"] == 0)) {
+            if ((int) $row["defaultvalue"] === 1 && (int) $row["owner_fi"] === 0) {
                 $categories[$row["category_id"]] = $this->lng->txt($row["title"]);
             } else {
                 $categories[$row["category_id"]] = $row["title"];
@@ -81,7 +81,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         );
         while ($row = $ilDB->fetchAssoc($result)) {
             $neutral = $row["neutral"];
-            if (($row["defaultvalue"] == 1) and ($row["owner_fi"] == 0)) {
+            if ((int) $row["defaultvalue"] === 1 && (int) $row["owner_fi"] === 0) {
                 $this->categories->addCategory($this->lng->txt($row["title"]), 0, $neutral);
             } else {
                 $this->categories->addCategory($row["title"], 0, $neutral);
@@ -98,7 +98,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             array('integer'),
             array($id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             return $ilDB->fetchAssoc($result);
         } else {
             return array();
@@ -114,7 +114,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
             array('integer'),
             array($question_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
             $this->setId((int) $data["question_id"]);
             $this->setTitle((string) $data["title"]);
@@ -147,9 +147,9 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     public function isComplete() : bool
     {
         if (
-            strlen($this->getTitle()) &&
-            strlen($this->getAuthor()) &&
-            strlen($this->getQuestiontext()) &&
+            $this->getTitle() !== '' &&
+            $this->getAuthor() !== '' &&
+            $this->getQuestiontext() !== '' &&
             $this->categories->getCategoryCount()
         ) {
             return true;
@@ -163,7 +163,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $ilDB = $this->db;
 
         $affectedRows = parent::saveToDb($original_id);
-        if ($affectedRows == 1) {
+        if ($affectedRows === 1) {
             $this->log->debug("Before save Category-> DELETE from svy_qst_sc WHERE question_fi = " . $this->getId() . " AND INSERT again the same id and orientation in svy_qst_sc");
             $ilDB->manipulateF(
                 "DELETE FROM " . $this->getAdditionalTableName() . " WHERE question_fi = %s",
@@ -231,7 +231,7 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
     public function insertXML(
         ilXmlWriter $a_xml_writer,
         bool $a_include_header = true
-    ) {
+    ) : void {
         $attrs = array(
             "id" => $this->getId(),
             "title" => $this->getTitle(),
@@ -426,10 +426,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
                     if (array_key_exists($this->getId() . "_" . $entered_value . "_other", $post_data) && !strlen($post_data[$this->getId() . "_" . $entered_value . "_other"])) {
                         return $this->lng->txt("question_mr_no_other_answer");
                     }
-                } else {
-                    if (strlen($post_data[$this->getId() . "_" . $i . "_other"])) {
-                        return $this->lng->txt("question_sr_no_other_answer_checked");
-                    }
+                } elseif (strlen($post_data[$this->getId() . "_" . $i . "_other"])) {
+                    return $this->lng->txt("question_sr_no_other_answer_checked");
                 }
             }
         }
@@ -574,7 +572,10 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $q1 = SurveyQuestion::_instanciateQuestion($id1);
         /** @var SurveySingleChoiceQuestion $q2 */
         $q2 = SurveyQuestion::_instanciateQuestion($id2);
-        if (self::getCompressCompareString($q1) == self::getCompressCompareString($q2)) {
+        if ($q1->getOrientation() !== 1 || $q2->getOrientation() !== 1) {
+            return false;
+        }
+        if (self::getCompressCompareString($q1) === self::getCompressCompareString($q2)) {
             return true;
         }
         return false;

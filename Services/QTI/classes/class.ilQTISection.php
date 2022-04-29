@@ -31,75 +31,55 @@
 */
 class ilQTISection
 {
-    public $ident;
-    public $title;
-    public $xmllang;
-    public $comment;
-    public $duration;
-    public $qtimetadata;
-    public $objectives;
-    public $sectioncontrol;
-    public $sectionprecondition;
-    public $sectionpostcondition;
-    public $rubric;
-    public $presentation_material;
-    public $outcomes_processing;
-    public $sectionproc_extension;
-    public $sectionfeedback;
-    public $selection_ordering;
-    public $reference;
-    public $itemref;
-    public $item;
-    public $sectionref;
-    public $section;
-    
+    public ?string $ident;
+    public ?string $title;
+    public ?string $xmllang;
+    public ?string $comment;
+    /** @var null|array{h: string, m: string, s: string} */
+    public ?array $duration;
+    public ?ilQTIPresentationMaterial $presentation_material;
+
     public function __construct()
     {
-        $this->qtimetadata = array();
-        $this->objectives = array();
-        $this->sectioncontrol = array();
-        $this->sectionprecondition = array();
-        $this->sectionpostcondition = array();
-        $this->rubric = array();
-        $this->outcomes_processing = array();
-        $this->sectionfeedback = array();
-        $this->itemref = array();
-        $this->item = array();
-        $this->sectionref = array();
-        $this->section = array();
+        $this->ident = null;
+        $this->title = null;
+        $this->xmllang = null;
+        $this->comment = null;
+        $this->duration = null;
+        $this->presentation_material = null;
     }
-    
-    public function setIdent($a_ident)
+
+    public function setIdent(string $a_ident) : void
     {
         $this->ident = $a_ident;
     }
-    
-    public function getIdent()
+
+    public function getIdent() : ?string
     {
         return $this->ident;
     }
-    
-    public function setTitle($a_title)
+
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
-    
-    public function getTitle()
+
+    public function getTitle() : ?string
     {
         return $this->title;
     }
-    
-    public function setComment($a_comment)
+
+    public function setComment(string $a_comment) : void
     {
         $this->comment = $a_comment;
     }
-    
-    public function getComment()
+
+    public function getComment() : ?string
     {
         return $this->comment;
     }
-    
-    public function setDuration($a_duration)
+
+    public function setDuration(string $a_duration) : void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
             $this->duration = array(
@@ -109,119 +89,32 @@ class ilQTISection
             );
         }
     }
-    
-    public function getDuration()
+
+    /**
+     * @return null|array{h: string, m: string, s: string}
+     */
+    public function getDuration() : ?array
     {
         return $this->duration;
     }
-    
-    public function setXmllang($a_xmllang)
+
+    public function setXmllang(string $a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
-    
-    public function getXmllang()
+
+    public function getXmllang() : ?string
     {
         return $this->xmllang;
     }
-    
-    public function addQtiMetadata($a_metadata)
-    {
-        array_push($this->qtimetadata, $a_metadata);
-    }
-    
-    public function addObjectives($a_objectives)
-    {
-        array_push($this->objectives, $a_objectives);
-    }
-    
-    public function addSectioncontrol($a_sectioncontrol)
-    {
-        array_push($this->sectioncontrol, $a_sectioncontrol);
-    }
-    
-    public function addSectionprecondition($a_sectionprecondition)
-    {
-        array_push($this->sectionprecondition, $a_sectionprecondition);
-    }
-    
-    public function addSectionpostcondition($a_sectionpostcondition)
-    {
-        array_push($this->sectionpostcondition, $a_sectionpostcondition);
-    }
-    
-    public function addRubric($a_rubric)
-    {
-        array_push($this->rubric, $a_rubric);
-    }
-    
-    public function setPresentationMaterial($a_material)
+
+    public function setPresentationMaterial(ilQTIPresentationMaterial $a_material) : void
     {
         $this->presentation_material = $a_material;
     }
     
-    public function getPresentationMaterial()
+    public function getPresentationMaterial() : ?ilQTIPresentationMaterial
     {
         return $this->presentation_material;
-    }
-    
-    public function addOutcomesProcessing($a_outcomes_processing)
-    {
-        array_push($this->outcomes_processing, $a_outcomes_processing);
-    }
-    
-    public function setSectionprocExtension($a_sectionproc_extension)
-    {
-        $this->sectionproc_extension = $a_sectionproc_extension;
-    }
-    
-    public function getSectionprocExtension()
-    {
-        return $this->sectionproc_extension;
-    }
-    
-    public function addSectionfeedback($a_sectionfeedback)
-    {
-        array_push($this->sectionfeedback, $a_sectionfeedback);
-    }
-    
-    public function setSelectionOrdering($a_selection_ordering)
-    {
-        $this->selection_ordering = $a_selection_ordering;
-    }
-    
-    public function getSelectionOrdering()
-    {
-        return $this->selection_ordering;
-    }
-    
-    public function setReference($a_reference)
-    {
-        $this->reference = $a_reference;
-    }
-    
-    public function getReference()
-    {
-        return $this->reference;
-    }
-    
-    public function addItemref($a_itemref)
-    {
-        array_push($this->itemref, $a_itemref);
-    }
-    
-    public function addItem($a_item)
-    {
-        array_push($this->item, $a_item);
-    }
-
-    public function addSectionref($a_sectionref)
-    {
-        array_push($this->sectionref, $a_sectionref);
-    }
-    
-    public function addSection($a_section)
-    {
-        array_push($this->section, $a_section);
     }
 }

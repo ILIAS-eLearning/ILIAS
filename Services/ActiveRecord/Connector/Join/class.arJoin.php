@@ -27,10 +27,7 @@ class arJoin extends arStatement
     const AS_TEXT = ' AS ';
     protected string $type = self::TYPE_NORMAL;
     protected string $table_name = '';
-    /**
-     * @var array
-     */
-    protected $fields = array('*');
+    protected array $fields = array('*');
     protected string $operator = '=';
     protected string $on_first_field = '';
     protected string $on_second_field = '';

@@ -10,17 +10,10 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
 {
-    /**
-     * @var ilTestEvaluationGUI|mixed|MockObject
-     */
     private $testEvaluationGUI_mock;
-    /**
-     * @var ilLanguage|mixed|MockObject
-     */
+
     private $lng_mock;
-    /**
-     * @var ilCtrl|mixed|MockObject
-     */
+
     private $ctrl_mock;
 
     protected function setUp() : void

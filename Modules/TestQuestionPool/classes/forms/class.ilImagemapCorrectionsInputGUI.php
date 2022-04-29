@@ -44,7 +44,7 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
         $max = 0;
         if (is_array($_POST[$this->getPostVar()]['coords']['points'])) {
             foreach ($_POST[$this->getPostVar()]['coords']['points'] as $idx => $name) {
-                if ((!strlen($_POST[$this->getPostVar()]['coords']['points'][$idx])) && ($this->getRequired)) {
+                if ((!strlen($_POST[$this->getPostVar()]['coords']['points'][$idx])) && ($this->getRequired())) {
                     $this->setAlert($lng->txt('form_msg_area_missing_points'));
                     return false;
                 }

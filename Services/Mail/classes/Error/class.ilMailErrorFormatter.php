@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailErrorFormatter
@@ -17,7 +32,7 @@ class ilMailErrorFormatter
     /**
      * Formats an error string based on the passed list of errors. If the list contains > 1 elements, the 1st error
      * will be used as a headline for the list of errors.
-     * @param $errors ilMailError[]
+     * @param ilMailError[] $errors
      */
     public function format(array $errors) : string
     {
@@ -34,13 +49,13 @@ class ilMailErrorFormatter
 
             if (
                 $translation === $error->getLanguageVariable() ||
-                0 === count($error->getPlaceholderValues())
+                0 === count($error->getPlaceHolderValues())
             ) {
                 $errorsToDisplay[] = $translation;
             } else {
                 $escapedPlaceholderValues = array_map(static function (string $address) : string {
                     return ilLegacyFormElementsUtil::prepareFormOutput($address);
-                }, $error->getPlaceholderValues());
+                }, $error->getPlaceHolderValues());
 
                 array_unshift($escapedPlaceholderValues, $translation);
                 $errorsToDisplay[] = sprintf(...$escapedPlaceholderValues);

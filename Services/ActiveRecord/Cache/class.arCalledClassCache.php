@@ -20,7 +20,6 @@
  */
 class arCalledClassCache
 {
-
     protected static array $cache = array();
 
     public static function isCached(string $class_name) : bool

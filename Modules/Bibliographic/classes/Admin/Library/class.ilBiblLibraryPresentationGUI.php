@@ -1,35 +1,48 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilBiblLibraryPresentationGUI
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilBiblLibraryPresentationGUI
 {
-    
     protected \ilBiblLibraryInterface $library;
     protected \ilBiblFactoryFacade $facade;
     
     /**
      * ilBiblLibraryPresentationGUI constructor.
-     * @param \ilBiblLibraryInterface $library
      */
     public function __construct(\ilBiblLibraryInterface $library, \ilBiblFactoryFacade $facade)
     {
         $this->library = $library;
-        $this->facade  = $facade;
+        $this->facade = $facade;
     }
     
     /**
-     * @param              $type
      * @deprecated REFACTOR Mit Attribute Objekten arbeiten statt mit Array. Evtl. URL Erstellung vereinfachen
      */
-    public function generateLibraryLink(ilBiblEntry $entry, $type) : string
+    public function generateLibraryLink(ilBiblEntry $entry, string $type) : string
     {
         $attributes = $this->facade->entryFactory()->loadParsedAttributesByEntryId($entry->getId());
-        $type       = $this->facade->typeFactory()->getInstanceForString($type);
-        $attr       = [];
-        $prefix     = '';
+        $type = $this->facade->typeFactory()->getInstanceForString($type);
+        $attr = [];
+        $prefix = '';
         switch ($type->getId()) {
             case ilBiblTypeFactoryInterface::DATA_TYPE_BIBTEX:
                 $prefix = "bib_default_";
@@ -85,8 +98,6 @@ class ilBiblLibraryPresentationGUI
     }
     
     /**
-     * @param \ilBiblFactoryFacadeInterface $bibl_factory_facade
-     * @param \ilBiblEntry                  $entry
      * @return string|void
      */
     public function getButton(ilBiblFactoryFacadeInterface $bibl_factory_facade, ilBiblEntry $entry)

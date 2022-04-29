@@ -44,7 +44,7 @@ class ilNewsItemGUI
     protected int $requested_news_item_id;
     protected string $add_mode;
     protected StandardGUIRequest $std_request;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
@@ -74,7 +74,7 @@ class ilNewsItemGUI
             $this->news_item = new ilNewsItem($this->requested_news_item_id);
         }
 
-        $this->ctrl->saveParameter($this, array("news_item_id"));
+        $this->ctrl->saveParameter($this, ["news_item_id"]);
 
         // Init EnableEdit.
         $this->setEnableEdit(false);
@@ -101,7 +101,7 @@ class ilNewsItemGUI
     {
         // check, if news item id belongs to context
         if (isset($this->news_item) && $this->news_item->getId() > 0
-            && ilNewsItem::_lookupContextObjId($this->news_item->getId()) != $this->getContextObjId()) {
+            && ilNewsItem::_lookupContextObjId($this->news_item->getId()) !== $this->getContextObjId()) {
             throw new ilException("News ID does not match object context.");
         }
 
@@ -216,7 +216,7 @@ class ilNewsItemGUI
         $text_area = new ilTextAreaInputGUI($lng->txt("news_news_item_content"), "news_content");
         $text_area->setInfo("");
         $text_area->setRequired(false);
-        $text_area->setRows("4");
+        $text_area->setRows(4);
         $form->addItem($text_area);
 
         // Property Visibility
@@ -232,14 +232,14 @@ class ilNewsItemGUI
 
         // media
         $media = new ilFileInputGUI($lng->txt('news_media'), 'media');
-        $media->setSuffixes(array("jpeg", "jpg", "png", "gif", "mp4", "mp3"));
+        $media->setSuffixes(["jpeg", "jpg", "png", "gif", "mp4", "mp3"]);
         $media->setRequired(false);
         $media->setALlowDeletion(true);
         $media->setValue(" ");
         $form->addItem($media);
         
         // save and cancel commands
-        if (in_array($a_mode, array(self::FORM_CREATE, self::FORM_RE_CREATE))) {
+        if (in_array($a_mode, [self::FORM_CREATE, self::FORM_RE_CREATE])) {
             $form->addCommandButton("saveNewsItem", $lng->txt("save"), "news_btn_create");
             $form->addCommandButton("cancelSaveNewsItem", $lng->txt("cancel"), "news_btn_cancel_create");
         } else {
@@ -263,9 +263,9 @@ class ilNewsItemGUI
     }
 
     // FORM NewsItem: Get current values for NewsItem form.
-    public function getValuesNewsItem(\ilPropertyFormGUI $a_form) : void
+    public function getValuesNewsItem(ilPropertyFormGUI $a_form) : void
     {
-        $values = array();
+        $values = [];
 
         $values["news_title"] = $this->news_item->getTitle();
         $values["news_content"] = $this->news_item->getContent() . $this->news_item->getContentLong();
@@ -297,9 +297,6 @@ class ilNewsItemGUI
             $this->news_item->setContent($form->getInput("news_content"));
             $this->news_item->setVisibility($form->getInput("news_visibility"));
 
-            //			$data = $form->getInput('media');
-            //			var_dump($data);
-
             $media = $_FILES["media"];
             if ($media["name"] != "") {
                 $mob = ilObjMediaObject::_saveTempFileAsMediaObject($media["name"], $media["tmp_name"], true);
@@ -311,11 +308,8 @@ class ilNewsItemGUI
             if (self::isRteActivated()) {
                 $this->news_item->setContentHtml(true);
             }
-            //$this->news_item->setContentLong($form->getInput("news_content_long"));
 
             // changed
-            //$this->news_item->setContextObjId($this->ctrl->getContextObjId());
-            //$this->news_item->setContextObjType($this->ctrl->getContextObjType());
             $this->news_item->setContextObjId($this->getContextObjId());
             $this->news_item->setContextObjType($this->getContextObjType());
             $this->news_item->setContextSubObjId($this->getContextSubObjId());
@@ -340,7 +334,7 @@ class ilNewsItemGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($this->add_mode == "block") {
+        if ($this->add_mode === "block") {
             $ilCtrl->returnToParent($this);
         } else {
             $ilCtrl->redirect($this, "editNews");
@@ -370,7 +364,7 @@ class ilNewsItemGUI
             // delete old media object
             $media_delete = $this->std_request->getDeleteMedia();
             if ($media["name"] != "" || $media_delete != "") {
-                if ($this->news_item->getMobId() > 0 && ilObject::_lookupType($this->news_item->getMobId()) == "mob") {
+                if ($this->news_item->getMobId() > 0 && ilObject::_lookupType($this->news_item->getMobId()) === "mob") {
                     $old_mob_id = $this->news_item->getMobId();
                 }
                 $this->news_item->setMobId(0);
@@ -415,7 +409,7 @@ class ilNewsItemGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if ($this->add_mode == "block") {
+        if ($this->add_mode === "block") {
             $ilCtrl->returnToParent($this);
         } else {
             return $this->editNews();
@@ -458,7 +452,7 @@ class ilNewsItemGUI
         }
 
         // check whether at least one item is selected
-        if (count($this->std_request->getNewsIds()) == 0) {
+        if (count($this->std_request->getNewsIds()) === 0) {
             $this->main_tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"));
             return $this->editNews();
         }
@@ -502,16 +496,12 @@ class ilNewsItemGUI
 
         $block_gui = new ilNewsForContextBlockGUI();
 
-        //$block_gui->setParentClass("ilinfoscreengui");
-        //$block_gui->setParentCmd("showSummary");
         $block_gui->setEnableEdit($this->getEnableEdit());
 
 
         $news_item = new ilNewsItem();
 
         // changed
-        //$news_item->setContextObjId($this->ctrl->getContextObjId());
-        //$news_item->setContextObjType($this->ctrl->getContextObjType());
         $news_item->setContextObjId($this->getContextObjId());
         $news_item->setContextObjType($this->getContextObjType());
         $news_item->setContextSubObjId($this->getContextSubObjId());
@@ -538,7 +528,7 @@ class ilNewsItemGUI
         $news_item->setContextSubObjType($this->getContextSubObjType());
 
         $perm_ref_id = 0;
-        if (in_array($this->getContextObjType(), array("cat", "grp", "crs", "root"))) {
+        if (in_array($this->getContextObjType(), ["cat", "grp", "crs", "root"])) {
             $data = $news_item->getNewsForRefId(
                 $this->requested_ref_id,
                 false,
@@ -589,13 +579,13 @@ class ilNewsItemGUI
         $ilTabs->clearTargets();
         $ilTabs->setBackTarget(
             $lng->txt("back"),
-            $ilCtrl->getParentReturn($this)
+            (string) $ilCtrl->getParentReturn($this)
         );
     }
 
     public static function isRteActivated() : bool
     {
-        if (ilObjAdvancedEditing::_getRichTextEditor() == "") {
+        if (ilObjAdvancedEditing::_getRichTextEditor() === "") {
             return false;
         }
         return true;

@@ -14,13 +14,6 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilAssessmentFolderLogTableGUI extends ilTable2GUI
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -31,8 +24,7 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
 
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        $this->counter = 1;
-        
+
         $this->setFormName('showlog');
         $this->setStyle('table', 'fullwidth');
 
@@ -53,17 +45,12 @@ class ilAssessmentFolderLogTableGUI extends ilTable2GUI
         $this->disable('select_all');
     }
 
-    /**
-     * fill row
-     * @access public
-     * @param
-     * @return void
-     */
     public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($a_set['tstamp'], IL_CAL_UNIX)));
         $user = ilObjUser::_lookupName($a_set["user_fi"]);
-        $this->tpl->setVariable("USER",
+        $this->tpl->setVariable(
+            "USER",
             ilLegacyFormElementsUtil::prepareFormOutput(
                 trim($user["title"] . " " . $user["firstname"] . " " . $user["lastname"])
             )

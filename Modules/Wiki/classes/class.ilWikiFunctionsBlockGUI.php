@@ -56,11 +56,6 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
     {
         return false;
     }
-    
-    public static function getScreenMode() : string
-    {
-        return IL_SCREEN_SIDE;
-    }
 
     /**
     * execute command
@@ -97,7 +92,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
 
     protected function getLegacyContent() : string
@@ -206,7 +201,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         if ($ilAccess->checkAccess("write", "", $this->ref_id) ||
             $ilAccess->checkAccess("edit_page_meta", "", $this->ref_id)) {
             // unhide advmd?
-            if (sizeof(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->ref_id, "wpg")) &&
+            if (count(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->ref_id, "wpg")) &&
                 ilWikiPage::lookupAdvancedMetadataHidden($this->getPageObject()->getId())) {
                 $list->addItem(
                     $lng->txt("wiki_unhide_meta_adv_records"),
@@ -246,7 +241,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         if (ilWikiPerm::check("delete_wiki_pages", $this->ref_id)) {
             // delete page
             $st_page = ilObjWiki::_lookupStartPage($this->getPageObject()->getParentId());
-            if ($st_page != $this->getPageObject()->getTitle()) {
+            if ($st_page !== $this->getPageObject()->getTitle()) {
                 $list->addItem(
                     $lng->txt("wiki_delete_page"),
                     "",

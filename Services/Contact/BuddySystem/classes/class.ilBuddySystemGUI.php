@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\Services;
 
@@ -16,13 +30,13 @@ class ilBuddySystemGUI
 
     protected static bool $isFrontendInitialized = false;
 
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilBuddyList $buddyList;
     protected ilBuddySystemRelationStateFactory $stateFactory;
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected Services $http;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
@@ -159,7 +173,7 @@ class ilBuddySystemGUI
         } catch (ilBuddySystemRelationStateAlreadyGivenException | ilBuddySystemRelationStateTransitionException $e) {
             $this->main_tpl->setOnScreenMessage('info', sprintf(
                 $this->lng->txt($e->getMessage()),
-                (string) ilObjUser::_lookupLogin($usrId)
+                ilObjUser::_lookupLogin($usrId)
             ), true);
         } catch (ilException $e) {
             $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('buddy_bs_action_not_possible'), true);
@@ -200,7 +214,7 @@ class ilBuddySystemGUI
             }
 
             $login = ilObjUser::_lookupLogin($usr_id);
-            if ($login === false || $login === '') {
+            if ($login === '') {
                 throw new ilBuddySystemException(sprintf(
                     'You cannot perform a state transition for a non existing user (id: %s)',
                     $usr_id
@@ -227,7 +241,7 @@ class ilBuddySystemGUI
             }
 
             $response->state = get_class($relation->getState());
-            $response->state_html = $this->stateFactory->getRendererByOwnerAndRelation(
+            $response->state_html = $this->stateFactory->getStateButtonRendererByOwnerAndRelation(
                 $this->buddyList->getOwnerId(),
                 $relation
             )->getHtml();

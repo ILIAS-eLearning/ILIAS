@@ -18,9 +18,11 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
-use ILIAS\GlobalScreen\Scope\MainMenu\Provider\StaticMainMenuProvider;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Lost;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
+use Iterator;
+use Throwable;
+use Generator;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -53,7 +55,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      * MainMenuMainCollector constructor.
      * @param array                $providers
      * @param ItemInformation|null $information
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function __construct(array $providers, MainMenuItemFactory $factory, ItemInformation $information = null)
     {
@@ -64,9 +66,9 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     }
     
     /**
-     * @return \Iterator<\ILIAS\GlobalScreen\Provider\Provider[]>
+     * @return Iterator <\ILIAS\GlobalScreen\Provider\Provider[]>
      */
-    private function getProvidersFromList() : \Iterator
+    private function getProvidersFromList() : Iterator
     {
         yield from $this->providers;
     }
@@ -135,7 +137,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         });
         
         // Override parent from configuration
-        $this->map->walk(function (isItem &$item) : \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem {
+        $this->map->walk(function (isItem &$item) : isItem {
             if ($item instanceof isChild) {
                 $parent = $this->map->getSingleItemFromFilter($this->information->getParent($item));
                 if ($parent instanceof isParent) {
@@ -182,7 +184,6 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             
             return true;
         });
-     
     }
     
     public function sortItemsForUIRepresentation() : void
@@ -194,9 +195,9 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      * This will return all available isTopItem (and moved isInterchangeableItem),
      * stacked based on the configuration in "Administration" and for the
      * visibility of the currently user.
-     * @return \Generator|isTopItem[]|isInterchangeableItem[]
+     * @return Generator|isTopItem[]|isInterchangeableItem[]
      */
-    public function getItemsForUIRepresentation() : \Generator
+    public function getItemsForUIRepresentation() : Generator
     {
         foreach ($this->map->getAllFromFilter() as $item) {
             if ($item->isTop()) {
@@ -206,9 +207,9 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     }
     
     /**
-     * @return \Iterator<\Generator&\ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem[]>
+     * @return Iterator <Generator&isItem[]>
      */
-    public function getRawItems() : \Iterator
+    public function getRawItems() : Iterator
     {
         yield from $this->map->getAllFromFilter();
     }
@@ -258,7 +259,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     /**
      * @param isItem $item
      */
-    public function getItemInformation() : ?\ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\ItemInformation
+    public function getItemInformation() : ?ItemInformation
     {
         return $this->information;
     }

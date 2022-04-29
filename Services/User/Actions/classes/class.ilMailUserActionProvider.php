@@ -39,6 +39,9 @@ class ilMailUserActionProvider extends ilUserActionProvider
         return "mail";
     }
 
+    /**
+     * @return array<string,string>
+     */
     public function getActionTypes() : array
     {
         return array(

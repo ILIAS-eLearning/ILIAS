@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\BackgroundTasks\Implementation\Values\AggregationValues;
 
 use ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException;
@@ -9,19 +25,6 @@ use ILIAS\BackgroundTasks\Types\ListType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class ListValue
  * @package ILIAS\BackgroundTasks\Implementation\Values
@@ -36,13 +39,10 @@ class ListValue extends AbstractValue
     /**
      * @var array The values of the list are saved in an array.
      */
-    protected $list = array();
-    /**
-     * @var Type
-     */
-    protected $type;
+    protected array $list = [];
+    protected Type $type;
     
-    protected function deriveType($list) : ListType
+    protected function deriveType(array $list) : ListType
     {
         $type = $this->calculateLowestCommonType($this->getTypes($list));
         
@@ -59,7 +59,7 @@ class ListValue extends AbstractValue
     protected function calculateLowestCommonType(array $types)
     {
         // If the list is empty the type should be [] (empty list).
-        if (count($types) === 0) {
+        if ($types === []) {
             return null;
         }
         
@@ -88,11 +88,7 @@ class ListValue extends AbstractValue
         return $lct;
     }
     
-    /**
-     * @param $ancestorsList Type[][]
-     * @param $i
-     */
-    protected function sameClassOnLevel($ancestorsList, $i) : bool
+    protected function sameClassOnLevel(array $ancestorsList, int $i) : bool
     {
         $class = $ancestorsList[0][$i];
         foreach ($ancestorsList as $class_hierarchy) {
@@ -110,7 +106,7 @@ class ListValue extends AbstractValue
     /**
      * @return \ILIAS\BackgroundTasks\Types\Type[]
      */
-    protected function getTypes($list) : array
+    protected function getTypes(array $list) : array
     {
         $types = [];
         foreach ($list as $value) {

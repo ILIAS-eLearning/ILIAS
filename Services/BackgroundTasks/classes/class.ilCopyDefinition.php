@@ -1,22 +1,25 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\BackgroundTasks\Implementation\Values\AbstractValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
 use ILIAS\BackgroundTasks\Value;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Description of class class
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -169,11 +172,11 @@ class ilCopyDefinition extends AbstractValue
     {
         return serialize(
             [
-                "copy_definition"  => $this->getCopyDefinitions(),
-                "temp_dir"         => $this->getTempDir(),
-                "object_ref_ids"   => implode(",", $this->getObjectRefIds()),
-                "num_files"        => $this->getNumFiles(),
-                "sum_file_sizes"   => $this->getSumFileSizes(),
+                "copy_definition" => $this->getCopyDefinitions(),
+                "temp_dir" => $this->getTempDir(),
+                "object_ref_ids" => implode(",", $this->getObjectRefIds()),
+                "num_files" => $this->getNumFiles(),
+                "sum_file_sizes" => $this->getSumFileSizes(),
                 "adheres_to_limit" => $this->getAdheresToLimit(),
             ]
         );

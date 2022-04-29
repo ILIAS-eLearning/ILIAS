@@ -91,7 +91,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         return $this->type;
     }
 
-    public function setLuceneResult(ilLuceneSearchResult $res)
+    public function setLuceneResult(ilLuceneSearchResult $res) : void
     {
         $this->lucene_result = $res;
     }
@@ -101,7 +101,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         return $this->lucene_result;
     }
 
-    public function setUserLimitations(bool $a_limitations)
+    public function setUserLimitations(bool $a_limitations) : void
     {
         $this->user_limitations = $a_limitations;
     }
@@ -202,7 +202,10 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
                 
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable(
+                        'VAL_CUST',
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                    );
                     $this->tpl->parseCurrentBlock();
                     break;
                 

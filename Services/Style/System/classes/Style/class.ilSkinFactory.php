@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 /**
@@ -68,7 +84,7 @@ class ilSkinFactory
      */
     public function skinStyleContainerFromId(
         string $skin_id,
-        ilSystemStyleMessageStack $message_stack = null
+        ilSystemStyleMessageStack $message_stack
     ) : ilSkinStyleContainer {
         if (!$skin_id) {
             throw new ilSystemStyleException(ilSystemStyleException::NO_SKIN_ID);
@@ -98,7 +114,7 @@ class ilSkinFactory
     public function skinStyleContainerFromZip(
         string $import_zip_path,
         string $name,
-        ilSystemStyleMessageStack $message_stack = null
+        ilSystemStyleMessageStack $message_stack
     ) : ilSkinStyleContainer {
         $skin_id = preg_replace('/[^A-Za-z0-9\-_]/', '', rtrim($name, '.zip'));
 
@@ -126,6 +142,7 @@ class ilSkinFactory
     public function copyFromSkinStyleContainer(
         ilSkinStyleContainer $container,
         ilFileSystemHelper $file_system,
+        ilSystemStyleMessageStack $message_stack,
         string $new_skin_txt_addon = 'Copy'
     ) : ilSkinStyleContainer {
         $new_skin_id_addon = '';
@@ -143,7 +160,7 @@ class ilSkinFactory
 
         mkdir($new_skin_path, 0775, true);
         $file_system->recursiveCopy($container->getSkinDirectory(), $new_skin_path);
-        $skin_container = $this->skinStyleContainerFromId($container->getSkin()->getId() . $new_skin_id_addon);
+        $skin_container = $this->skinStyleContainerFromId($container->getSkin()->getId() . $new_skin_id_addon, $message_stack);
         $skin_container->getSkin()->setName($skin_container->getSkin()->getName() . $new_skin_name_addon);
         $skin_container->getSkin()->setVersion('0.1');
         $skin_container->updateSkin($skin_container->getSkin());

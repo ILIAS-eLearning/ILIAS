@@ -211,7 +211,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         $field_id = $ilDB->nextId("adv_mdf_definition");
 
         // validating type
-        $a_type = (int) $a_type;
+        $a_type = $a_type;
         if ($a_type < 1 || $a_type > 8) {
             return null;
         }
@@ -326,8 +326,8 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
                 $fields = array("obj_type" => array("text", $a_obj_type));
             }
 
-            $fields["hide_description"] = array("integer", !(bool) $a_show_description);
-            $fields["hide_field_names"] = array("integer", !(bool) $a_show_field_names);
+            $fields["hide_description"] = array("integer", !$a_show_description);
+            $fields["hide_field_names"] = array("integer", !$a_show_field_names);
 
             if ($create) {
                 $ilDB->insert("adv_md_substitutions", $fields);
@@ -380,8 +380,8 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
             $found = false;
             foreach ($fields as $idx => $field) {
                 if ($field["field_id"] == $a_field_id) {
-                    $fields[$idx]["bold"] = (bool) $a_bold;
-                    $fields[$idx]["newline"] = (bool) $a_newline;
+                    $fields[$idx]["bold"] = $a_bold;
+                    $fields[$idx]["newline"] = $a_newline;
                     $found = true;
                     break;
                 }
@@ -390,9 +390,9 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
                 $fields[] = array(
                     "field_id" => $a_field_id
                     ,
-                    "bold" => (bool) $a_bold
+                    "bold" => $a_bold
                     ,
-                    "newline" => (bool) $a_newline
+                    "newline" => $a_newline
                 );
             }
 

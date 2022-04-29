@@ -20,7 +20,6 @@
  */
 class arFieldCache
 {
-
     protected static array $cache = array();
 
     public static function isCached(ActiveRecord $ar) : bool
@@ -60,7 +59,7 @@ class arFieldCache
     /**
      * @return mixed
      */
-    public static function getPrimaryFieldType(ActiveRecord $ar)
+    public static function getPrimaryFieldType(ActiveRecord $ar) : string
     {
         return self::get($ar)->getPrimaryFieldType();
     }

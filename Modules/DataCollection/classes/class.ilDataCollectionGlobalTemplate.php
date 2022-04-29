@@ -118,10 +118,14 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
         if (DEVMODE) {
             if (function_exists("tidy_parse_string")) {
-                $link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"],
-                    "do_dev_validate=xhtml")] = array("Validate", true);
-                $link_items[ilUtil::appendUrlParameterString($_SERVER["REQUEST_URI"],
-                    "do_dev_validate=accessibility")] = array("Accessibility", true);
+                $link_items[ilUtil::appendUrlParameterString(
+                    $_SERVER["REQUEST_URI"],
+                    "do_dev_validate=xhtml"
+                )] = array("Validate", true);
+                $link_items[ilUtil::appendUrlParameterString(
+                    $_SERVER["REQUEST_URI"],
+                    "do_dev_validate=accessibility"
+                )] = array("Accessibility", true);
             }
         }
 
@@ -204,8 +208,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 $ifiles = ilArrayUtil::sortArray($ifiles, "size", "desc", true);
                 foreach ($ifiles as $f) {
                     $ftpl->setCurrentBlock("i_entry");
-                    $ftpl->setVariable("I_ENTRY",
-                        $f["file"] . " (" . $f["size"] . " Bytes, " . round(100 / $total * $f["size"], 2) . "%)");
+                    $ftpl->setVariable(
+                        "I_ENTRY",
+                        $f["file"] . " (" . $f["size"] . " Bytes, " . round(100 / $total * $f["size"], 2) . "%)"
+                    );
                     $ftpl->parseCurrentBlock();
                 }
                 $ftpl->setCurrentBlock("i_entry");
@@ -446,8 +452,11 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 reset($this->js_files);
                 foreach ($this->js_files as $file) {
                     if ($this->js_files_batch[$file] == $i) {
-                        if (is_file($file) || substr($file, 0, 4) == "http" || substr($file, 0,
-                                2) == "//" || $a_force) {
+                        if (is_file($file) || substr($file, 0, 4) == "http" || substr(
+                            $file,
+                            0,
+                            2
+                        ) == "//" || $a_force) {
                             $this->fillJavascriptFile($file, $vers);
                         } else {
                             if (substr($file, 0, 2) == './') { // #13962
@@ -735,70 +744,72 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
         $lng = $DIC->language();
 
+        $header_tpl = new ilTemplate('tpl.il_header.html', true, true);
+
         $icon = false;
         if ($this->icon_path != "") {
             $icon = true;
-            $this->setCurrentBlock("header_image");
+            $header_tpl->setCurrentBlock("header_image");
             if ($this->icon_desc != "") {
-                $this->setVariable("IMAGE_DESC", $lng->txt("icon") . " " . $this->icon_desc);
-                $this->setVariable("IMAGE_ALT", $lng->txt("icon") . " " . $this->icon_desc);
+                $header_tpl->setVariable("IMAGE_DESC", $lng->txt("icon") . " " . $this->icon_desc);
+                $header_tpl->setVariable("IMAGE_ALT", $lng->txt("icon") . " " . $this->icon_desc);
             }
 
-            $this->setVariable("IMG_HEADER", $this->icon_path);
-            $this->parseCurrentBlock();
+            $header_tpl->setVariable("IMG_HEADER", $this->icon_path);
+            $header_tpl->parseCurrentBlock();
             $header = true;
         }
 
         if ($this->title != "") {
             $title = ilUtil::stripScriptHTML($this->title);
-            $this->setVariable("HEADER", $title);
+            $header_tpl->setVariable("HEADER", $title);
 
             $header = true;
         }
 
         if ($header) {
-            $this->setCurrentBlock("header_image");
-            $this->parseCurrentBlock();
+            $header_tpl->setCurrentBlock("header_image");
+            $header_tpl->parseCurrentBlock();
         }
 
         if ($this->title_desc != "") {
-            $this->setCurrentBlock("header_desc");
-            $this->setVariable("H_DESCRIPTION", $this->title_desc);
-            $this->parseCurrentBlock();
+            $header_tpl->setCurrentBlock("header_desc");
+            $header_tpl->setVariable("H_DESCRIPTION", $this->title_desc);
+            $header_tpl->parseCurrentBlock();
         }
 
         $header = $this->getHeaderActionMenu();
         if ($header) {
-            $this->setCurrentBlock("head_action_inner");
-            $this->setVariable("HEAD_ACTION", $header);
-            $this->parseCurrentBlock();
-            $this->touchBlock("head_action");
+            $header_tpl->setCurrentBlock("head_action_inner");
+            $header_tpl->setVariable("HEAD_ACTION", $header);
+            $header_tpl->parseCurrentBlock();
+            $header_tpl->touchBlock("head_action");
         }
 
         if (count((array) $this->title_alerts)) {
             foreach ($this->title_alerts as $alert) {
-                $this->setCurrentBlock('header_alert');
+                $header_tpl->setCurrentBlock('header_alert');
                 if (!($alert['propertyNameVisible'] === false)) {
-                    $this->setVariable('H_PROP', $alert['property'] . ':');
+                    $header_tpl->setVariable('H_PROP', $alert['property'] . ':');
                 }
-                $this->setVariable('H_VALUE', $alert['value']);
-                $this->parseCurrentBlock();
+                $header_tpl->setVariable('H_VALUE', $alert['value']);
+                $header_tpl->parseCurrentBlock();
             }
         }
 
         // add file upload drop zone in header
-        if ($this->enable_fileupload != null) {
-            $ref_id = $this->enable_fileupload;
-            $upload_id = "dropzone_" . $ref_id;
+        if ($this->enable_fileupload !== null) {
+            $file_upload = new ilObjFileUploadDropzone(
+                $this->enable_fileupload,
+                $header_tpl->get()
+            );
 
-            include_once("./Services/FileUpload/classes/class.ilFileUploadGUI.php");
-            $upload = new ilFileUploadGUI($upload_id, $ref_id, true);
-
-            $this->setVariable("FILEUPLOAD_DROPZONE_ID", " id=\"$upload_id\"");
-
-            $this->setCurrentBlock("header_fileupload");
-            $this->setVariable("HEADER_FILEUPLOAD_SCRIPT", $upload->getHTML());
-            $this->parseCurrentBlock();
+            $this->template->setVariable(
+                "IL_DROPZONE_HEADER",
+                $file_upload->getDropzoneHtml()
+            );
+        } else {
+            $this->template->setVariable("IL_HEADER", $header_tpl->get());
         }
     }
 
@@ -1029,7 +1040,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     {
         global $DIC;
 
-        $ilToolbar = $DIC["ilToolbar"];;
+        $ilToolbar = $DIC["ilToolbar"];
 
         $thtml = $ilToolbar->getHTML();
         if ($thtml != "") {
@@ -1368,8 +1379,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 $url_parts = @parse_url($protocol . $host . $path);
             }
 
-            if (isset($url_parts["query"]) && preg_match("/cmd=gateway/",
-                    $url_parts["query"]) && (isset($_POST["cmd"]["create"]))) {
+            if (isset($url_parts["query"]) && preg_match(
+                "/cmd=gateway/",
+                $url_parts["query"]
+            ) && (isset($_POST["cmd"]["create"]))) {
                 foreach ($_POST as $key => $val) {
                     if (is_array($val)) {
                         $val = key($val);
@@ -1381,8 +1394,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 $_SESSION["referer"] = preg_replace("/cmd=gateway/", substr($str, 1), $_SERVER["REQUEST_URI"]);
                 $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
             } else {
-                if (isset($url_parts["query"]) && preg_match("/cmd=post/",
-                        $url_parts["query"]) && (isset($_POST["cmd"]["create"]))) {
+                if (isset($url_parts["query"]) && preg_match(
+                    "/cmd=post/",
+                    $url_parts["query"]
+                ) && (isset($_POST["cmd"]["create"]))) {
                     foreach ($_POST as $key => $val) {
                         if (is_array($val)) {
                             $val = key($val);

@@ -14,37 +14,37 @@
  */
 
 // Address values for the ADR type
-define("ADR_TYPE_NONE", 0);
-define("ADR_TYPE_DOM", 1);
-define("ADR_TYPE_INTL", 2);
-define("ADR_TYPE_POSTAL", 4);
-define("ADR_TYPE_PARCEL", 8);
-define("ADR_TYPE_HOME", 16);
-define("ADR_TYPE_WORK", 32);
-define("ADR_TYPE_PREF", 64);
+const ADR_TYPE_NONE = 0;
+const ADR_TYPE_DOM = 1;
+const ADR_TYPE_INTL = 2;
+const ADR_TYPE_POSTAL = 4;
+const ADR_TYPE_PARCEL = 8;
+const ADR_TYPE_HOME = 16;
+const ADR_TYPE_WORK = 32;
+const ADR_TYPE_PREF = 64;
 
 // Communication values for the TEL type
-define("TEL_TYPE_NONE", 0);
-define("TEL_TYPE_HOME", 1);
-define("TEL_TYPE_MSG", 2);
-define("TEL_TYPE_WORK", 4);
-define("TEL_TYPE_PREF", 8);
-define("TEL_TYPE_VOICE", 16);
-define("TEL_TYPE_FAX", 32);
-define("TEL_TYPE_CELL", 64);
-define("TEL_TYPE_VIDEO", 128);
-define("TEL_TYPE_PAGER", 256);
-define("TEL_TYPE_BBS", 512);
-define("TEL_TYPE_MODEM", 1024);
-define("TEL_TYPE_CAR", 2048);
-define("TEL_TYPE_ISDN", 4096);
-define("TEL_TYPE_PCS", 8192);
+const TEL_TYPE_NONE = 0;
+const TEL_TYPE_HOME = 1;
+const TEL_TYPE_MSG = 2;
+const TEL_TYPE_WORK = 4;
+const TEL_TYPE_PREF = 8;
+const TEL_TYPE_VOICE = 16;
+const TEL_TYPE_FAX = 32;
+const TEL_TYPE_CELL = 64;
+const TEL_TYPE_VIDEO = 128;
+const TEL_TYPE_PAGER = 256;
+const TEL_TYPE_BBS = 512;
+const TEL_TYPE_MODEM = 1024;
+const TEL_TYPE_CAR = 2048;
+const TEL_TYPE_ISDN = 4096;
+const TEL_TYPE_PCS = 8192;
 
 // Communication values for the EMAIL type
-define("EMAIL_TYPE_NONE", 0);
-define("EMAIL_TYPE_INTERNET", 1);
-define("EMAIL_TYPE_x400", 2);
-define("EMAIL_TYPE_PREF", 4);
+const EMAIL_TYPE_NONE = 0;
+const EMAIL_TYPE_INTERNET = 1;
+const EMAIL_TYPE_x400 = 2;
+const EMAIL_TYPE_PREF = 4;
 
 /**
  * RFC 2426 vCard MIME Directory Profile 3.0 class
@@ -52,7 +52,10 @@ define("EMAIL_TYPE_PREF", 4);
  */
 class ilvCard
 {
-    // An array containing the vCard types
+    /**
+     * An array containing the vCard types
+     * @var array<string,mixed>
+     */
     public array $types;
 
     // The filename of the vCard used when saving the vCard
@@ -95,7 +98,7 @@ class ilvCard
     /**
      * Encode data with "b" type encoding according to RFC 2045
      */
-    public function encode($string) : string
+    public function encode(string $string) : string
     {
         return $this->escape(quoted_printable_encode($string));
     }
@@ -107,7 +110,7 @@ class ilvCard
     {
         $folded_string = "";
         preg_match_all("/(.{1,74})/", $string, $matches);
-        for ($i = 0; $i < count($matches[1]); $i++) {
+        for ($i = 0, $iMax = count($matches[1]); $i < $iMax; $i++) {
             if ($i < (count($matches[1]) - 1)) {
                 $matches[1][$i] .= "\n";
             }
@@ -122,7 +125,7 @@ class ilvCard
     /**
      * Escapes a string according to RFC 2426
      */
-    public function escape($string) : string
+    public function escape(string $string) : string
     {
         $string = preg_replace("/(?<!\\\\)(\\\\)([^;,n\\\\])/", "\${1}\${1}\${2}", $string);
         $string = preg_replace("/(?<!\\\\);/", "\\;", $string);
@@ -133,6 +136,7 @@ class ilvCard
 
     /**
      * Splits a variable into an array using a separator and escapes every value
+     * @return array<string,string>
      */
     public function explodeVar(string $variable, string $separator = ",") : array
     {
@@ -231,7 +235,7 @@ class ilvCard
                                     if (($address["TYPE"] & ADR_TYPE_PREF) > 0) {
                                         $adr_types[] = "pref";
                                     }
-                                    $adr .= ";TYPE=" . join(",", $adr_types);
+                                    $adr .= ";TYPE=" . implode(",", $adr_types);
                                 }
                                 $adr .= ":" . $address["POBOX"] . ";" . $address["EXTENDED_ADDRESS"] .
                                     ";" . $address["STREET_ADDRESS"] . ";" . $address["LOCALITY"] .
@@ -274,7 +278,7 @@ class ilvCard
                                 if (($this->types["LABEL"]["TYPE"] & ADR_TYPE_PREF) > 0) {
                                     $adr_types[] = "pref";
                                 }
-                                $label .= ";TYPE=" . join(",", $adr_types);
+                                $label .= ";TYPE=" . implode(",", $adr_types);
                             }
                             $label .= ":" . $this->types["LABEL"]["LABEL"];
                             $label = $this->fold($label) . "\n";
@@ -331,7 +335,7 @@ class ilvCard
                                     if (($phone["TYPE"] & TEL_TYPE_PCS) > 0) {
                                         $tel_types[] = "pcs";
                                     }
-                                    $tel .= ";TYPE=" . join(",", $tel_types);
+                                    $tel .= ";TYPE=" . implode(",", $tel_types);
                                 }
                                 $tel .= ":" . $phone["TEL"];
                                 $tel = $this->fold($tel) . "\n";
@@ -360,7 +364,7 @@ class ilvCard
                                     if (($mail["TYPE"] & EMAIL_TYPE_PREF) > 0) {
                                         $adr_types[] = "pref";
                                     }
-                                    $email .= ";TYPE=" . join(",", $adr_types);
+                                    $email .= ";TYPE=" . implode(",", $adr_types);
                                 }
                                 $email .= ":" . $mail["EMAIL"];
                                 $email = $this->fold($email) . "\n";
@@ -554,7 +558,7 @@ class ilvCard
         $escape = "=";
         $output = "";
 
-        for ($j = 0; $j < count($lines); $j++) {
+        for ($j = 0, $jMax = count($lines); $j < $jMax; $j++) {
             $line = $lines[$j];
             $linlen = strlen($line);
             $newline = "";
@@ -566,7 +570,7 @@ class ilvCard
                 } elseif (($dec == 61) || ($dec < 32) || ($dec > 126)) { // always encode "\t", which is *not* required
                     $h2 = floor($dec / 16);
                     $h1 = floor($dec % 16);
-                    $c = $escape . $hex["$h2"] . $hex["$h1"];
+                    $c = $escape . $hex[(string) $h2] . $hex[(string) $h1];
                 }
                 if ((strlen($newline) + strlen($c)) >= $line_max) { // CRLF is not counted
                     $output .= $newline . $escape . $eol; // soft line break; " =\r\n" is okay
@@ -636,18 +640,18 @@ class ilvCard
         $suffixes = $this->explodeVar($honorific_suffixes);
 
         $this->types["N"] =
-            join(",", $familynames) .
+            implode(",", $familynames) .
             ";" .
-            join(",", $givennames) .
+            implode(",", $givennames) .
             ";" .
-            join(",", $addnames) .
+            implode(",", $addnames) .
             ";" .
-            join(",", $prefixes) .
+            implode(",", $prefixes) .
             ";" .
-            join(",", $suffixes);
+            implode(",", $suffixes);
 
-        $this->filename = "$given_name" . "_" . "$family_name" . ".vcf";
-        if (strcmp($this->types["FN"], "") == 0) {
+        $this->filename = $given_name . "_" . $family_name . ".vcf";
+        if (strcmp($this->types["FN"], "") === 0) {
             $fn = trim("$honorific_prefixes $given_name $additional_names $family_name $honorific_suffixes");
             $fn = preg_replace("/\s{2,10}/", " ", $fn);
             $this->setFormattedName($fn);
@@ -670,7 +674,7 @@ class ilvCard
     public function setNickname(string $nickname) : void
     {
         $nicknames = $this->explodeVar($nickname);
-        $this->types["NICKNAME"] = join(",", $nicknames);
+        $this->types["NICKNAME"] = implode(",", $nicknames);
     }
 
     /**
@@ -806,13 +810,13 @@ class ilvCard
         if ($type == ADR_TYPE_NONE) {
             $type = ADR_TYPE_INTL + ADR_TYPE_POSTAL + ADR_TYPE_PARCEL + ADR_TYPE_WORK;
         }
-        $po_box = join(",", $this->explodeVar($po_box));
-        $extended_address = join(",", $this->explodeVar($extended_address));
-        $street_address = join(",", $this->explodeVar($street_address));
-        $locality = join(",", $this->explodeVar($locality));
-        $region = join(",", $this->explodeVar($region));
-        $postal_code = join(",", $this->explodeVar($postal_code));
-        $country = join(",", $this->explodeVar($country));
+        $po_box = implode(",", $this->explodeVar($po_box));
+        $extended_address = implode(",", $this->explodeVar($extended_address));
+        $street_address = implode(",", $this->explodeVar($street_address));
+        $locality = implode(",", $this->explodeVar($locality));
+        $region = implode(",", $this->explodeVar($region));
+        $postal_code = implode(",", $this->explodeVar($postal_code));
+        $country = implode(",", $this->explodeVar($country));
         $this->types["ADR"][] = array(
             "POBOX" => $po_box,
             "EXTENDED_ADDRESS" => $extended_address,
@@ -1013,7 +1017,7 @@ class ilvCard
      * @param string $latitude  The latitude of the position
      * @param string $longitude The longitude of the position
      */
-    public function setPosition(string $latitude = "", string $longitude = "")
+    public function setPosition(string $latitude = "", string $longitude = "") : void
     {
         $this->types["GEO"] = array(
             "LAT" => $latitude,
@@ -1144,7 +1148,7 @@ class ilvCard
      */
     public function setOrganization(string $organization = "") : void
     {
-        $organization = join(";", $this->explodeVar($organization, ";"));
+        $organization = implode(";", $this->explodeVar($organization, ";"));
         $this->types["ORG"] = $organization;
     }
 
@@ -1161,12 +1165,11 @@ class ilvCard
      * CATEGORIES:INTERNET,IETF,INDUSTRY,INFORMATION TECHNOLOGY
      * Type value: One or more text values separated by a COMMA character
      * (ASCII decimal 44).
-     * @param string $categories Category information
      * @access    public
      */
-    public function setCategories($categories)
+    public function setCategories(string $categories) : void
     {
-        $categories = join(",", $this->explodeVar($categories));
+        $categories = implode(",", $this->explodeVar($categories));
         $this->types["CATEGORIES"] = $categories;
     }
 

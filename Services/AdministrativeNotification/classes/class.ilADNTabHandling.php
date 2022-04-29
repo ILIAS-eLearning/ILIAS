@@ -1,22 +1,27 @@
 <?php
 
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
-
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilADNTabHandling
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilADNTabHandling
 {
-    
     private int $ref_id;
     
     private ilRbacSystem $rbacsystem;
@@ -31,19 +36,18 @@ class ilADNTabHandling
     
     /**
      * ilMMTabHandling constructor.
-     * @param int $ref_id
      */
     public function __construct(int $ref_id)
     {
         global $DIC;
         
         $this->ref_id = $ref_id;
-        $this->tabs   = $DIC['ilTabs'];
-        $this->lng    = $DIC->language();
+        $this->tabs = $DIC['ilTabs'];
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('adn');
-        $this->ctrl       = $DIC['ilCtrl'];
+        $this->ctrl = $DIC['ilCtrl'];
         $this->rbacsystem = $DIC['rbacsystem'];
-        $this->help       = $DIC->help();
+        $this->help = $DIC->help();
     }
     
     public function initTabs(string $tab, string $subtab = null, bool $backtab = false) : void

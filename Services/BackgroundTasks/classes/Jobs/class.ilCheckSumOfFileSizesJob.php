@@ -1,23 +1,26 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
 use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Description of class class
  *
@@ -26,12 +29,8 @@ use ILIAS\BackgroundTasks\Value;
  */
 class ilCheckSumOfFileSizesJob extends AbstractJob
 {
-
-    /**
-     * @var |null
-     */
-    private $logger;
-    protected \ilSetting $settings; // [ilSetting]
+    private ?ilLogger $logger;
+    protected \ilSetting $settings;
 
 
     /**
@@ -39,7 +38,8 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
      */
     public function __construct()
     {
-        $this->logger = $GLOBALS['DIC']->logger()->cal();
+        global $DIC;
+        $this->logger = $DIC->logger()->cal();
         $this->settings = new ilSetting("fold");
     }
 
@@ -86,7 +86,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
         $object_ref_ids = $definition->getObjectRefIds();
 
         // get global limit (max sum of individual file-sizes) from file settings
-        $size_limit = (int) $this->settings->get("bgtask_download_limit", 0);
+        $size_limit = (int) $this->settings->get("bgtask_download_limit", '0');
         $size_limit_bytes = $size_limit * 1024 * 1024;
         $this->logger->debug('Global limit (max sum of all file-sizes) in file-settings: ' . $size_limit_bytes . ' bytes');
         // get sum of individual file-sizes
@@ -109,11 +109,9 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
 
     /**
      * Calculates the number and size of the files being downloaded recursively.
-     *
-     * @param int & $a_file_count
-     * @param int & $a_file_size
+
      */
-    protected function calculateRecursive(array $a_ref_ids, &$a_file_size): void
+    protected function calculateRecursive(array $a_ref_ids, int &$a_file_size) : void
     {
         global $DIC;
         $tree = $DIC['tree'];
@@ -151,7 +149,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
      *
      *
      */
-    protected function validateAccess(int $ref_id): bool
+    protected function validateAccess(int $ref_id) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];

@@ -1,5 +1,7 @@
 <?php declare(strict_types = 1);
 
+use Psr\Http\Message\RequestInterface;
+
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -19,14 +21,14 @@
  */
 class ilWebDAVMountInstructionsFactory
 {
-    private \ilWebDAVMountInstructionsRepositoryImpl $repo;
-    private \Psr\Http\Message\RequestInterface $request;
-    private \ilObjUser $user;
+    private ilWebDAVMountInstructionsRepositoryImpl $repo;
+    private RequestInterface $request;
+    private ilObjUser $user;
     
     public function __construct(
         ilWebDAVMountInstructionsRepositoryImpl $a_repo,
-        \Psr\Http\Message\RequestInterface $a_request,
-        \ilObjUser $a_user
+        RequestInterface $a_request,
+        ilObjUser $a_user
     ) {
         $this->repo = $a_repo;
         $this->request = $a_request;

@@ -657,10 +657,10 @@ class HTML_Template_IT
         $this->lastTemplatefile = $filename;
 
         return $template !== '' && $this->setTemplate(
-                $template,
-                $removeUnknownVariables,
-                $removeEmptyBlocks
-            );
+            $template,
+            $removeUnknownVariables,
+            $removeEmptyBlocks
+        );
     }
 
     /**

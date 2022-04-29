@@ -19,22 +19,9 @@
  */
 class ilWebDAVObjectMountInstructions extends ilWebDAVBaseMountInstructions
 {
-    protected $user_agent;
-    protected $request_uri;
-    protected $http_host;
-    protected $script_name;
-    protected $client_id;
-    protected $path_to_template;
-    
-    protected $clientOSFlavor;
-    protected $clientOS;
-    
     protected int $ref_id;
     protected int $obj_id;
     protected string $obj_title;
-
-    protected $document_repository;
-    protected $uri_provider;
     
     public function __construct(
         ilWebDAVMountInstructionsRepository $a_repo,

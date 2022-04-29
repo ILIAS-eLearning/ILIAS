@@ -51,15 +51,12 @@ class ilDidacticTemplateSettingsTableFilter
      */
     private string $target_url;
 
-    /**
-     * @var ILIAS\UI\Component\
-     */
-    private $filter;
 
     /**
      * @var array
      */
-    private $filter_values = [];
+    private array $filter_values = [];
+    private \ILIAS\UI\Component\Input\Container\Filter\Standard $filter;
 
     public function __construct(string $target_url)
     {
@@ -168,16 +165,20 @@ class ilDidacticTemplateSettingsTableFilter
 
         $value = $this->getFilterValue(self::FILTER_NAME_ICON);
         if ($value) {
-            if ($value == self::FILTER_ON && !strlen((string) $setting->getIconHandler()->getAbsolutePath())) {
+            if ($value == self::FILTER_ON && !strlen(
+                    $setting->getIconHandler()->getAbsolutePath()
+                )) {
                 return true;
             }
-            if ($value == self::FILTER_OFF && strlen((string) $setting->getIconHandler()->getAbsolutePath())) {
+            if ($value == self::FILTER_OFF && strlen(
+                    $setting->getIconHandler()->getAbsolutePath()
+                )) {
                 return true;
             }
         }
 
         $value = (string) $this->getFilterValue(self::FILTER_NAME_TITLE);
-        if (strlen((string) $value)) {
+        if (strlen($value)) {
             $title_string = ($setting->getPresentationTitle() . ' ' . $setting->getPresentationDescription());
             $title_string .= (' ' . $setting->getInfo());
             if (ilStr::strIPos($title_string, $value) === false) {

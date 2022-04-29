@@ -100,12 +100,12 @@ class ilObjItemGroup extends ilObject2
         return $this->item_data_ar->getBehaviour();
     }
 
-    protected function doRead()
+    protected function doRead() : void
     {
         $this->item_data_ar = new ilItemGroupAR($this->getId());
     }
 
-    protected function doCreate()
+    protected function doCreate(bool $clone_mode = false) : void
     {
         if ($this->getId()) {
             $this->item_data_ar->setId($this->getId());
@@ -113,22 +113,23 @@ class ilObjItemGroup extends ilObject2
         }
     }
         
-    protected function doUpdate()
+    protected function doUpdate() : void
     {
         if ($this->getId()) {
             $this->item_data_ar->update();
         }
     }
 
-    protected function doDelete()
+    protected function doDelete() : void
     {
         if ($this->getId()) {
             $this->item_data_ar->delete();
         }
     }
     
-    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false)
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
     {
+        assert($new_obj instanceof ilObjItemGroup);
         $new_obj->setHideTitle($this->getHideTitle());
         $new_obj->setBehaviour($this->getBehaviour());
         $new_obj->setListPresentation($this->getListPresentation());

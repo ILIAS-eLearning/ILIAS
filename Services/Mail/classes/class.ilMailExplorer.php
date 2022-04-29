@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Tree\Node\Factory;
 use ILIAS\UI\Component\Tree\Node\Node;
@@ -15,17 +30,15 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilMailExplorer extends ilTreeExplorerGUI
 {
-    protected GlobalHttpState $http;
-    protected Refinery $refinery;
-    private ilMailGUI $parentObject;
-    protected int $currentFolderId = 0;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
+    private int $currentFolderId = 0;
 
     public function __construct(ilMailGUI $parentObject, int $userId)
     {
         global $DIC;
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-        $this->parentObject = $parentObject;
 
         $this->tree = new ilTree($userId);
         $this->tree->setTableNames('mail_tree', 'mail_obj_data');
@@ -41,7 +54,6 @@ class ilMailExplorer extends ilTreeExplorerGUI
 
     protected function initFolder() : void
     {
-        $folderId = 0;
         if ($this->http->wrapper()->post()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
@@ -62,12 +74,10 @@ class ilMailExplorer extends ilTreeExplorerGUI
     {
         $f = $this->ui->factory();
 
-        $tree = $f->tree()
+        return $f->tree()
             ->expandable($this->getTreeLabel(), $this)
             ->withData($this->tree->getChilds($this->tree->readRootId()))
             ->withHighlightOnNodeClick(false);
-
-        return $tree;
     }
 
     public function build(
@@ -75,9 +85,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $record,
         $environment = null
     ) : Node {
-        $node = parent::build($factory, $record, $environment);
-
-        return $node->withHighlighted($this->currentFolderId === (int) $record['child']);
+        return parent::build($factory, $record, $environment)->withHighlighted($this->currentFolderId === (int) $record['child']);
     }
 
     protected function getNodeStateToggleCmdClasses($record) : array

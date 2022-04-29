@@ -80,73 +80,73 @@ class ResourceLink
      *
      * @var string $title
      */
-    public $title = null;
+    public ?string $title = null;
     /**
      * Resource link ID as supplied in the last connection request.
      *
      * @var string $ltiResourceLinkId
      */
-    public $ltiResourceLinkId = null;
+    public ?string $ltiResourceLinkId = null;
     /**
      * User group sets (null if the consumer does not support the groups enhancement)
      *
      * @var array $groupSets
      */
-    public $groupSets = null;
+    public ?array $groupSets = null;
     /**
      * User groups (null if the consumer does not support the groups enhancement)
      *
      * @var array $groups
      */
-    public $groups = null;
+    public ?array $groups = null;
     /**
      * Request for last service request.
      *
      * @var string $extRequest
      */
-    public $extRequest = null;
+    public ?string $extRequest = null;
     /**
      * Request headers for last service request.
      *
-     * @var array $extRequestHeaders
+     * @var string|string[]|null $extRequestHeaders
      */
-    public $extRequestHeaders = null;
+    public ?string $extRequestHeaders = null;
     /**
      * Response from last service request.
      *
      * @var string $extResponse
      */
-    public $extResponse = null;
+    public ?string $extResponse = null;
     /**
      * Response header from last service request.
      *
-     * @var array $extResponseHeaders
+     * @var string|null $extResponseHeaders
      */
-    public $extResponseHeaders = null;
+    public ?string $extResponseHeaders = null;
     /**
      * Consumer key value for resource link being shared (if any).
      *
      * @var string $primaryResourceLinkId
      */
-    public $primaryResourceLinkId = null;
+    public ?string $primaryResourceLinkId = null;
     /**
      * Whether the sharing request has been approved by the primary resource link.
      *
      * @var boolean $shareApproved
      */
-    public $shareApproved = null;
+    public ?bool $shareApproved = null;
     /**
      * Date/time when the object was created.
      *
      * @var int $created
      */
-    public $created = null;
+    public ?int $created = null;
     /**
      * Date/time when the object was last updated.
      *
      * @var int $updated
      */
-    public $updated = null;
+    public ?int $updated = null;
 
     /**
          * Record ID for this resource link.
@@ -189,7 +189,7 @@ class ResourceLink
      *
      * @var mixed $dataConnector
      */
-    private $dataConnector = null;
+    private mixed $dataConnector = null; // TODO PHP8 Review: Type `mixed` is not supported!
 
     /**
      * Class constructor.
@@ -384,11 +384,10 @@ class ResourceLink
 
     /**
      * Set a setting value.
-     *
-     * @param string $name  Name of setting
-     * @param string $value Value to set, use an empty value to delete a setting (optional, default is null)
+     * @param string      $name  Name of setting
+     * @param string|null $value Value to set, use an empty value to delete a setting (optional, default is null)
      */
-    public function setSetting(string $name, $value = null) : void
+    public function setSetting(string $name, ?string $value = null) : void
     {
         $old_value = $this->getSetting($name);
         if ($value !== $old_value) {
@@ -611,9 +610,10 @@ EOF;
      *
      * @param boolean $withGroups True is group information is to be requested as well
      *
-     * @return mixed Array of User objects or False if the request was not successful
+     * @return array|bool Array of User objects or False if the request was not successful
      */
-    public function doMembershipsService(bool $withGroups = false)
+    // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
+    public function doMembershipsService(bool $withGroups = false) : bool|array
     {
         $users = array();
         $oldUsers = $this->getUserResultSourcedIDs(true, ToolProvider::ID_SCOPE_RESOURCE);
@@ -718,13 +718,11 @@ EOF;
 
     /**
      * Perform a Setting service request.
-     *
-     * @param int    $action The action type constant
-     * @param string $value  The setting value (optional, default is null)
-     *
+     * @param int         $action The action type constant
+     * @param string|null $value  The setting value (optional, default is null)
      * @return mixed The setting value for a read action, true if a write or delete action was successful, otherwise false
      */
-    public function doSettingService(int $action, $value = null)
+    public function doSettingService(int $action, ?string $value = null) : mixed // TODO PHP8 Review: Type `mixed` is not supported!
     {
         $response = false;
         $this->extResponse = null;
@@ -787,13 +785,11 @@ EOF;
 
     /**
      * Get Tool Settings.
-     *
-     * @param int      $mode       Mode for request (optional, default is current level only)
-     * @param boolean  $simple     True if all the simple media type is to be used (optional, default is true)
-     *
+     * @param int     $mode   Mode for request (optional, default is current level only)
+     * @param boolean $simple True if all the simple media type is to be used (optional, default is true)
      * @return mixed The array of settings if successful, otherwise false
      */
-    public function getToolSettings($mode = Service\ToolSettings::MODE_CURRENT_LEVEL, bool $simple = true)
+    public function getToolSettings(int $mode = Service\ToolSettings::MODE_CURRENT_LEVEL, bool $simple = true) : mixed // TODO PHP8 Review: Type `mixed` is not supported!
     {
         $url = $this->getSetting('custom_link_setting_url');
         $service = new Service\ToolSettings($this, $url, $simple);
@@ -839,7 +835,7 @@ EOF;
      *
      * @return mixed The array of User objects if successful, otherwise false
      */
-    public function getMembership()
+    public function getMembership() : mixed // TODO PHP8 Review: Type `mixed` is not supported!
     {
         $response = false;
         if (!empty($this->contextId)) {
@@ -881,12 +877,11 @@ EOF;
 
     /**
          * Class constructor from consumer.
-         *
-         * @param ToolConsumer $consumer Consumer object
-         * @param string $ltiResourceLinkId Resource link ID value
-         * @param string $tempId Temporary Resource link ID value (optional, default is null)
+         * @param ToolConsumer $consumer          Consumer object
+         * @param string       $ltiResourceLinkId Resource link ID value
+         * @param string|null  $tempId            Temporary Resource link ID value (optional, default is null)
          */
-    public static function fromConsumer(\ILIAS\LTI\ToolProvider\ToolConsumer $consumer, string $ltiResourceLinkId, $tempId = null) : \ILIAS\LTI\ToolProvider\ResourceLink
+    public static function fromConsumer(\ILIAS\LTI\ToolProvider\ToolConsumer $consumer, string $ltiResourceLinkId, ?string $tempId = null) : \ILIAS\LTI\ToolProvider\ResourceLink
     {
         $resourceLink = new ResourceLink();
         $resourceLink->consumer = $consumer;
@@ -906,12 +901,11 @@ EOF;
 
     /**
          * Class constructor from context.
-         *
-         * @param Context $context Context object
-         * @param string $ltiResourceLinkId Resource link ID value
-         * @param string $tempId Temporary Resource link ID value (optional, default is null)
+         * @param Context     $context           Context object
+         * @param string      $ltiResourceLinkId Resource link ID value
+         * @param string|null $tempId            Temporary Resource link ID value (optional, default is null)
          */
-    public static function fromContext(\ILIAS\LTI\ToolProvider\Context $context, string $ltiResourceLinkId, $tempId = null) : \ILIAS\LTI\ToolProvider\ResourceLink
+    public static function fromContext(\ILIAS\LTI\ToolProvider\Context $context, string $ltiResourceLinkId, ?string $tempId = null) : \ILIAS\LTI\ToolProvider\ResourceLink
     {
         $resourceLink = new ResourceLink();
         $resourceLink->setContextId($context->getRecordId());
@@ -953,12 +947,10 @@ EOF;
 
     /**
      * Load the resource link from the database.
-     *
-     * @param int $id     Record ID of resource link (optional, default is null)
-     *
+     * @param int|null $id Record ID of resource link (optional, default is null)
      * @return boolean True if resource link was successfully loaded
      */
-    private function load($id = null) : bool
+    private function load(?int $id = null) : bool
     {
         $this->initialize();
         $this->id = $id;
@@ -968,13 +960,11 @@ EOF;
 
     /**
      * Convert data type of value to a supported type if possible.
-     *
-     * @param Outcome     $ltiOutcome     Outcome object
-     * @param string[]    $supportedTypes Array of outcome types to be supported (optional, default is null to use supported types reported in the last launch for this resource link)
-     *
+     * @param Outcome       $ltiOutcome     Outcome object
+     * @param string[]|null $supportedTypes Array of outcome types to be supported (optional, default is null to use supported types reported in the last launch for this resource link)
      * @return boolean True if the type/value are valid and supported
      */
-    private function checkValueType(\ILIAS\LTI\ToolProvider\Outcome $ltiOutcome, $supportedTypes = null) : bool
+    private function checkValueType(\ILIAS\LTI\ToolProvider\Outcome $ltiOutcome, ?array $supportedTypes = null) : bool
     {
         if (empty($supportedTypes)) {
             $supportedTypes = explode(',', str_replace(' ', '', strtolower($this->getSetting('ext_ims_lis_resultvalue_sourcedids', self::EXT_TYPE_DECIMAL))));

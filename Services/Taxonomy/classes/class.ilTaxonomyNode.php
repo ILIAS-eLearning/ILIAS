@@ -4,12 +4,11 @@
 
 /**
  * Taxonomy node
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilTaxonomyNode
 {
-    protected \ilDBInterface $db;
+    protected ilDBInterface $db;
     public string $type;
     public int $id;
     public string $title;
@@ -18,7 +17,7 @@ class ilTaxonomyNode
 
     /**
      * Constructor
-     * @access	public
+     * @access    public
      */
     public function __construct($a_id = 0)
     {
@@ -26,7 +25,7 @@ class ilTaxonomyNode
 
         $this->db = $DIC->database();
         $this->id = $a_id;
-        
+
         if ($a_id != 0) {
             $this->read();
         }
@@ -34,7 +33,7 @@ class ilTaxonomyNode
         $this->setType("taxn");
     }
 
-    public function setTitle(string $a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
@@ -44,7 +43,7 @@ class ilTaxonomyNode
         return $this->title;
     }
 
-    public function setType(string $a_type)
+    public function setType(string $a_type) : void
     {
         $this->type = $a_type;
     }
@@ -54,7 +53,7 @@ class ilTaxonomyNode
         return $this->type;
     }
 
-    public function setId(int $a_id)
+    public function setId(int $a_id) : void
     {
         $this->id = $a_id;
     }
@@ -64,26 +63,26 @@ class ilTaxonomyNode
         return $this->id;
     }
 
-    public function setOrderNr(int $a_val)
+    public function setOrderNr(int $a_val) : void
     {
         $this->order_nr = $a_val;
     }
-    
+
     public function getOrderNr() : int
     {
         return $this->order_nr;
     }
 
-    public function setTaxonomyId(int $a_val)
+    public function setTaxonomyId(int $a_val) : void
     {
         $this->taxonomy_id = $a_val;
     }
-    
+
     public function getTaxonomyId() : int
     {
         return $this->taxonomy_id;
     }
-    
+
     public function read() : void
     {
         $ilDB = $this->db;
@@ -96,14 +95,14 @@ class ilTaxonomyNode
         }
         $this->setType($this->data_record["type"]);
         $this->setTitle($this->data_record["title"]);
-        $this->setOrderNr($this->data_record["order_nr"]);
-        $this->setTaxonomyId($this->data_record["tax_id"]);
+        $this->setOrderNr((int) $this->data_record["order_nr"]);
+        $this->setTaxonomyId((int) $this->data_record["tax_id"]);
     }
 
     public function create() : void
     {
         $ilDB = $this->db;
-        
+
         if ($this->getTaxonomyId() <= 0) {
             die("ilTaxonomyNode->create: No taxonomy ID given");
         }
@@ -138,16 +137,16 @@ class ilTaxonomyNode
     public function delete() : void
     {
         $ilDB = $this->db;
-        
+
         // delete all assignments of the node
         ilTaxNodeAssignment::deleteAllAssignmentsOfNode($this->getId());
-        
+
         $query = "DELETE FROM tax_node WHERE obj_id= " .
             $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($query);
     }
 
-    public function copy(int $a_tax_id = 0) : \ilTaxonomyNode
+    public function copy(int $a_tax_id = 0) : ilTaxonomyNode
     {
         $taxn = new ilTaxonomyNode();
         $taxn->setTitle($this->getTitle());
@@ -180,20 +179,16 @@ class ilTaxonomyNode
 
     public static function _lookupTitle(int $a_obj_id) : string
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
         return self::_lookup($a_obj_id, "title");
     }
 
     public static function putInTree(
         int $a_tax_id,
-        int $a_node,
+        ilTaxonomyNode $a_node,
         int $a_parent_id = 0,
         int $a_target_node_id = 0,
         int $a_order_nr = 0
-    ) {
+    ) : void {
         $tax_tree = new ilTaxonomyTree($a_tax_id);
 
         // determine parent
@@ -226,14 +221,14 @@ class ilTaxonomyNode
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulate(
             "UPDATE tax_node SET " .
             " order_nr = " . $ilDB->quote($a_order_nr, "integer") .
             " WHERE obj_id = " . $ilDB->quote($a_node_id, "integer")
         );
     }
-    
+
     /**
      * Write title
      */
@@ -242,18 +237,18 @@ class ilTaxonomyNode
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $ilDB->manipulate(
             "UPDATE tax_node SET " .
             " title = " . $ilDB->quote($a_title, "text") .
             " WHERE obj_id = " . $ilDB->quote($a_node_id, "integer")
         );
     }
-    
+
     /**
      * Put this node into the taxonomy tree
      */
-    public static function getNextOrderNr(int $a_tax_id, int $a_parent_id)
+    public static function getNextOrderNr(int $a_tax_id, int $a_parent_id) : int
     {
         $tax_tree = new ilTaxonomyTree($a_tax_id);
         if ($a_parent_id == 0) {
@@ -263,14 +258,14 @@ class ilTaxonomyNode
         $max = 0;
 
         foreach ($childs as $c) {
-            if ($c["order_nr"] > $max) {
-                $max = $c["order_nr"] + 10;
+            if ((int) $c["order_nr"] > $max) {
+                $max = (int) $c["order_nr"] + 10;
             }
         }
 
         return $max;
     }
-    
+
     // set order nrs to 10, 20, ...
     public static function fixOrderNumbers(int $a_tax_id, int $a_parent_id) : void
     {
@@ -283,7 +278,7 @@ class ilTaxonomyNode
 
         $cnt = 10;
         foreach ($childs as $c) {
-            self::writeOrderNr($c["child"], $cnt);
+            self::writeOrderNr((int) $c["child"], $cnt);
             $cnt += 10;
         }
     }

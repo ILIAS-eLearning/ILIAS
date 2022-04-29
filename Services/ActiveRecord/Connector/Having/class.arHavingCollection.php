@@ -20,7 +20,6 @@
  */
 class arHavingCollection extends arStatementCollection
 {
-
     public function asSQLStatement() : string
     {
         $return = '';

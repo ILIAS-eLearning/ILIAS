@@ -2,7 +2,6 @@
 
 use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\NotFound;
-use Psr\Http\Message\UriInterface;
 
 /******************************************************************************
  *
@@ -82,16 +81,19 @@ class ilWebDAVLockUriPathResolver
         return $this->getRefIdFromGivenParentRefAndTitlePath($relative_mountpoint_ref_id, explode('/', $path_inside_of_mountpoint));
     }
     
+    /**
+     * @param string[] $current_path_array
+     */
     protected function getRefIdFromGivenParentRefAndTitlePath(int $a_parent_ref, array $current_path_array) : int
     {
         $current_ref_id = $a_parent_ref;
         while (count($current_path_array) >= 1) {
             $next_searched_title = array_shift($current_path_array);
-            if ($next_searched_title != '') {
+            if ($next_searched_title !== '') {
                 try {
                     $current_ref_id = $this->getChildRefIdByGivenTitle($current_ref_id, $next_searched_title);
                 } catch (NotFound $e) {
-                    if (count($current_path_array) == 0) {
+                    if (count($current_path_array) === 0) {
                         /* This is a really special case. It occurs, if the lock is meant for an object that does not
                            exist yet (so called NullRessources) since we can't and won't lock non existing objects, we
                            set the Exception code to -1. The receiving class SHOULD handle what to do with this value */

@@ -1,13 +1,31 @@
 <?php declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use PHPUnit\Framework\MockObject\MockObject;
+
+/**
  * Class ilObjChatroomAccessTest
  * @author Thomas Joußen <tjoussen@gmx.de>
  */
 class ilObjChatroomAccessTest extends ilChatroomAbstractTest
 {
     protected ilObjChatroomAccess $access;
-
+    /** @var ilDBInterface&MockObject */
     protected ilDBInterface $db;
 
     public function testCommandDefitionFullfilsExpectations() : void
@@ -20,7 +38,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
         $commands = $this->access::_getCommands();
 
         $this->assertIsArray($commands);
-        $this->assertEquals($expected, $commands);
+        $this->assertSame($expected, $commands);
     }
 
     public function testGotoCheckFails() : void
@@ -128,16 +146,11 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
         $this->assertTrue($this->access::_checkGoto('chtr_5'));
     }
 
-    public function testGotoChecksFailForInvalidTypes() : void
-    {
-        $this->assertFalse($this->access::_checkGoto(['chtr', '5']));
-        $this->assertFalse($this->access::_checkGoto(5));
-    }
-
     public function testAccessChecksFail() : void
     {
         $userId = 1;
         $refId = 99;
+        $objId = 6;
 
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->onlyMethods(
             ['getId']
@@ -157,13 +170,14 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
 
         $this->setGlobalVariable('rbacsystem', $rbacsystem);
 
-        $this->assertFalse($this->access->_checkAccess('unused', 'write', $refId, 'unused'));
+        $this->assertFalse($this->access->_checkAccess('unused', 'write', $refId, $objId));
     }
 
     public function testAccessChecksSucceed() : void
     {
         $userId = 1;
         $refId = 99;
+        $objId = 6;
 
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->onlyMethods(
             ['getId']
@@ -172,8 +186,9 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
 
         $this->setGlobalVariable('ilUser', $user);
 
-        $this->db->method('fetchAssoc')->willReturn(
-            ['keyword' => 'chat_enabled', 'value' => false]
+        $this->db->method('fetchAssoc')->willReturnOnConsecutiveCalls(
+            ['keyword' => 'chat_enabled', 'value' => '0'],
+            null
         );
 
         $rbacsystem = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->onlyMethods(
@@ -187,7 +202,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
 
         $this->setGlobalVariable('rbacsystem', $rbacsystem);
 
-        $this->assertTrue($this->access->_checkAccess('unused', 'write', $refId, 'unused'));
+        $this->assertTrue($this->access->_checkAccess('unused', 'write', $refId, $objId));
     }
 
     protected function setUp() : void

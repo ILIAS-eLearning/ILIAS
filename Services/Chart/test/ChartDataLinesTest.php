@@ -9,16 +9,11 @@ use PHPUnit\Framework\TestCase;
  */
 class ChartDataLinesTest extends TestCase
 {
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }
 
-    public function testLineWidth()
+    public function testLineWidth() : void
     {
         $cd = new ilChartDataLines();
         $cd->setLineWidth(15);
@@ -28,7 +23,7 @@ class ChartDataLinesTest extends TestCase
         );
     }
 
-    public function testLineSteps()
+    public function testLineSteps() : void
     {
         $cd = new ilChartDataLines();
         $cd->setLineSteps(true);

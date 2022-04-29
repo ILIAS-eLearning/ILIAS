@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Saves (mostly asynchronously) user properties of tables (e.g. filter on/off)
@@ -163,6 +166,7 @@ class ilTablePropertiesStorage implements ilCtrlBaseClassInterface
 
     /**
      * Check if given property id is valid
+     * @var string|int $a_property
      */
     public function isValidProperty($a_property) : bool
     {

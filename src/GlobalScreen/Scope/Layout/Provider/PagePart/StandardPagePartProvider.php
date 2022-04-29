@@ -13,6 +13,10 @@ use ILIAS\UI\Component\MainControls\MetaBar;
 use ILIAS\UI\Component\MainControls\Slate\Combined;
 use ilUserUtil;
 use ilUtil;
+use ILIAS\GlobalScreen\Services;
+use ILIAS\DI\UIServices;
+use ilLanguage;
+use ILIAS\GlobalScreen\Client\CallbackHandler;
 
 /******************************************************************************
  *
@@ -36,23 +40,11 @@ class StandardPagePartProvider implements PagePartProvider
 {
     use isSupportedTrait;
     use SlateSessionStateCode;
-    
-    /**
-     * @var Legacy
-     */
-    protected $content;
-    /**
-     * @var \ILIAS\GlobalScreen\Services
-     */
-    protected $gs;
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-    /**
-     * @var \ilLanguage
-     */
-    protected $lang;
+
+    protected Legacy $content;
+    protected Services $gs;
+    protected UIServices $ui;
+    protected ilLanguage $lang;
     
     /**
      * @inheritDoc
@@ -122,7 +114,7 @@ class StandardPagePartProvider implements PagePartProvider
         }
         
         // Tools
-        $grid_icon = $f->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_tool.svg"), $this->lang->txt('more'));
+        $grid_icon = $f->symbol()->icon()->custom(ilUtil::getImagePath("outlined/icon_tool.svg"), $this->lang->txt('more'));
         $this->gs->collector()->tool()->collectOnce();
         if ($this->gs->collector()->tool()->hasItems()) {
             $tools_button = $f->button()->bulky($grid_icon, $this->lang->txt('tools'), "#")->withEngagedState(true);
@@ -141,9 +133,10 @@ class StandardPagePartProvider implements PagePartProvider
                 $close_button = null;
                 if ($tool->hasCloseCallback()) {
                     $close_button = $this->ui->factory()->button()->close()->withOnLoadCode(static function (string $id) use ($identifier) {
+                        $key_item = CallbackHandler::KEY_ITEM;
                         return "$('#$id').on('click', function(){
                             $.ajax({
-                                url: 'src/GlobalScreen/Client/callback_handler.php?item=$identifier'
+                                url: 'src/GlobalScreen/Client/callback_handler.php?$key_item=$identifier'
                             }).done(function() {
                                 console.log('done closing');
                             });
@@ -184,14 +177,31 @@ class StandardPagePartProvider implements PagePartProvider
     public function getLogo() : ?Image
     {
         $std_logo = ilUtil::getImagePath("HeaderIcon.svg");
+
+        return $this->ui->factory()->image()
+                        ->standard($std_logo, "ILIAS")
+                        ->withAction($this->getStartingPointAsUrl());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getResponsiveLogo() : ?Image
+    {
+        $responsive_logo = ilUtil::getImagePath("HeaderIconResponsive.svg");
+
+        return $this->ui->factory()->image()
+                        ->standard($responsive_logo, "ILIAS")
+                        ->withAction($this->getStartingPointAsUrl());
+    }
+
+    protected function getStartingPointAsUrl() : string
+    {
         $std_logo_link = ilUserUtil::getStartingPointAsUrl();
         if (!$std_logo_link) {
             $std_logo_link = "./goto.php?target=root_1";
         }
-        
-        return $this->ui->factory()->image()
-                        ->standard($std_logo, "ILIAS")
-                        ->withAction($std_logo_link);
+        return $std_logo_link;
     }
     
     /**

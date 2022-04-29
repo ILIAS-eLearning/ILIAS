@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilCommonActionDispatcherGUI
  *
@@ -33,7 +47,8 @@ class ilCommonActionDispatcherGUI implements ilCtrlBaseClassInterface
     protected ?int $sub_id;
     protected bool $enable_comments_settings;
     protected array $rating_callback;
-
+    private ilObjectRequestRetriever $retriever;
+    
     public function __construct(
         int $node_type,
         $access_handler,
@@ -48,6 +63,7 @@ class ilCommonActionDispatcherGUI implements ilCtrlBaseClassInterface
         $this->settings = $DIC->settings();
         $this->request_wrapper = $DIC->http()->wrapper()->query();
         $this->refinery = $DIC->refinery();
+        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
 
         $this->node_type = $node_type;
         $this->access_handler = $access_handler;
@@ -202,8 +218,9 @@ class ilCommonActionDispatcherGUI implements ilCtrlBaseClassInterface
                 break;
             
             case "ilobjectactivationgui":
-                $this->ctrl->setParameter($this, "parent_id", (int) $_REQUEST['parent_id']);
-                $act_gui = new ilObjectActivationGUI((int) $_REQUEST['parent_id'], $this->node_id);
+                $parent_id = $this->retriever->getMaybeInt('parent_id') ?? 0;
+                $this->ctrl->setParameter($this, "parent_id", $parent_id);
+                $act_gui = new ilObjectActivationGUI($parent_id, $this->node_id);
                 $this->ctrl->forwardCommand($act_gui);
                 break;
             
@@ -252,7 +269,7 @@ class ilCommonActionDispatcherGUI implements ilCtrlBaseClassInterface
     /**
      * Add callback for rating gui
      */
-    public function setRatingCallback(ilObjectGUI $gui, string $cmd) : void
+    public function setRatingCallback(object $gui, string $cmd) : void
     {
         $this->rating_callback = array($gui, $cmd);
     }

@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
@@ -21,7 +36,7 @@ abstract class ilChatroomGUIHandler
 {
     protected ilChatroomObjectGUI $gui;
     protected ilObjUser $ilUser;
-    protected ilCtrl $ilCtrl;
+    protected ilCtrlInterface $ilCtrl;
     protected ilLanguage $ilLng;
     protected Filesystem $webDirectory;
     protected ilObjectService $obj_service;
@@ -92,11 +107,6 @@ abstract class ilChatroomGUIHandler
         return $this->http->wrapper()->post()->has($key);
     }
 
-    /**
-     * Executes given $method if existing, otherwise executes executeDefault() method.
-     * @param string $method
-     * @return mixed
-     */
     public function execute(string $method) : void
     {
         $this->ilLng->loadLanguageModule('chatroom');
@@ -117,7 +127,7 @@ abstract class ilChatroomGUIHandler
      */
     public function redirectIfNoPermission($permission) : void
     {
-        if (!ilChatroom::checkUserPermissions($permission, $this->gui->ref_id)) {
+        if (!ilChatroom::checkUserPermissions($permission, $this->gui->getRefId())) {
             $this->ilCtrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', ROOT_FOLDER_ID);
             $this->ilCtrl->redirectByClass(ilRepositoryGUI::class);
         }
@@ -126,7 +136,7 @@ abstract class ilChatroomGUIHandler
     /**
      * Checks for success param in an json decoded response
      * @param string|false $response
-     * @return boolean
+     * @return bool
      */
     public function isSuccessful($response) : bool
     {
@@ -206,6 +216,6 @@ abstract class ilChatroomGUIHandler
 
     public function hasPermission(string $permission) : bool
     {
-        return ilChatroom::checkUserPermissions($permission, (int) $this->gui->ref_id);
+        return ilChatroom::checkUserPermissions($permission, $this->gui->getRefId());
     }
 }

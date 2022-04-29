@@ -34,5 +34,4 @@ class UUIDBasedPathGenerator implements PathGenerator
     {
         return new ResourceIdentification(str_replace("/", "-", $path));
     }
-
 }

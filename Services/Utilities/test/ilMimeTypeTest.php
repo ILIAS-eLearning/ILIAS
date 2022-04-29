@@ -1,5 +1,7 @@
-<?php
+<?php declare(strict_types=1);
+
 use PHPUnit\Framework\TestCase;
+use ILIAS\FileUpload\MimeType;
 
 /******************************************************************************
  *
@@ -21,9 +23,9 @@ class ilMimeTypeTest extends TestCase
     public function testMimeTypeForYoutubeUrlCouldBeCorrectlyDetected() : void
     {
         $expected = 'video/youtube';
-        $actual = \ILIAS\FileUpload\MimeType::lookupMimeType(
+        $actual = MimeType::lookupMimeType(
             'https://www.youtube.com/watch?v=WSgP85kr6eU',
-            \ILIAS\FileUpload\MimeType::APPLICATION__OCTET_STREAM
+            MimeType::APPLICATION__OCTET_STREAM
         );
 
         $this->assertEquals($expected, $actual);
@@ -33,9 +35,9 @@ class ilMimeTypeTest extends TestCase
     public function testMimeTypeForVimeoUrlCouldBeCorrectlyDetected() : void
     {
         $expected = 'video/vimeo';
-        $actual = \ILIAS\FileUpload\MimeType::lookupMimeType(
+        $actual = MimeType::lookupMimeType(
             'https://vimeo.com/180157999',
-            \ILIAS\FileUpload\MimeType::APPLICATION__OCTET_STREAM
+            MimeType::APPLICATION__OCTET_STREAM
         );
 
         $this->assertEquals($expected, $actual);

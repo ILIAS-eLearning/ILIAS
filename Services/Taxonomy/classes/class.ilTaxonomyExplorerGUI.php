@@ -4,7 +4,6 @@
 
 /**
  * Taxonomy explorer GUI class
- *
  * @author Alex Killing <alex.killing@gmx.de>
  */
 class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
@@ -21,7 +20,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
      * @param object|string|array $a_parent_obj
      */
     public function __construct(
-        mixed $a_parent_obj,
+        $a_parent_obj,
         string $a_parent_cmd,
         int $a_tax_id,
         string $a_target_gui,
@@ -30,7 +29,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
     ) {
         global $DIC;
         $this->ctrl = $DIC->ctrl();
-        $this->tax_tree = new ilTaxonomyTree($a_tax_id);
+        $this->tax_tree = new ilTaxonomyTree((int) $a_tax_id);
         $this->id = $a_id != "" ? $a_id : "tax_expl_" . $this->tax_tree->getTreeId();
         if (ilObjTaxonomy::lookupSortingMode($a_tax_id) == ilObjTaxonomy::SORT_ALPHABETICAL) {
             $this->setOrderField("title");
@@ -45,8 +44,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
         $this->requested_tax_node = (string) ilUtil::stripSlashes($tax_node);
         parent::__construct($this->id, $a_parent_obj, $a_parent_cmd, $this->tax_tree);
     }
-    
-    
+
     /**
      * @inheritDoc
      */
@@ -59,9 +57,11 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
             return $a_node["title"];
         }
     }
-    
+
     /**
-     * @inheritDoc
+     * @param array|object $a_node
+     * @return string
+     * @throws ilCtrlException
      */
     public function getNodeHref($a_node) : string
     {
@@ -84,17 +84,19 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
             return "#";
         }
     }
-    
+
     /**
-     * @inheritDoc
+     * @param array|object $a_node
+     * @return string
      */
     public function getNodeIcon($a_node) : string
     {
         return ilUtil::getImagePath("icon_taxn.svg");
     }
-    
+
     /**
-     * @inheritDoc
+     * @param array|object $a_node
+     * @return bool
      */
     public function isNodeHighlighted($a_node) : bool
     {
@@ -102,16 +104,14 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
             ($this->onclick && is_array($this->selected_nodes) && in_array($a_node["child"], $this->selected_nodes));
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setOnClick(string $a_value) : void
     {
         $this->onclick = $a_value;
     }
 
     /**
-     * @inheritDoc
+     * @param array|object $a_node
+     * @return string
      */
     public function getNodeOnClick($a_node) : string
     {

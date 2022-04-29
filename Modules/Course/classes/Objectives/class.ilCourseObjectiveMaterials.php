@@ -1,26 +1,20 @@
 <?php declare(strict_types=0);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * class ilCourseObjectiveMaterials
  * @author Stefan Meyer <meyer@leifos.com>
@@ -55,7 +49,7 @@ class ilCourseObjectiveMaterials
         $mappings = $cwo->getMappings();
         foreach ($this->getMaterials() as $material) {
             // Copy action omit ?
-            if (!isset($mappings[$material['ref_id']]) or !$mappings[$material['ref_id']]) {
+            if (!isset($mappings[$material['ref_id']]) || !$mappings[$material['ref_id']]) {
                 continue;
             }
             $material_ref_id = (int) $material['ref_id'];
@@ -64,14 +58,14 @@ class ilCourseObjectiveMaterials
             $new_ref_id = (int) $mappings[$material_ref_id];
             $new_rbac_obj_id = $this->objectDataCache->lookupObjId($new_ref_id);
 
-            if ($new_rbac_obj_id == $material_rbac_obj_id) {
+            if ($new_rbac_obj_id === $material_rbac_obj_id) {
                 $this->logger->debug('Material has been linked. Keeping object id.');
                 $new_obj_id = $material_obj_id;
-            } elseif ($material['type'] == 'st' or $material['type'] == 'pg') {
+            } elseif ($material['type'] == 'st' || $material['type'] == 'pg') {
                 // Chapter assignment
                 $new_material_info = $mappings[$material_ref_id . '_' . $material_obj_id] ?? '';
                 $new_material_arr = explode('_', $new_material_info);
-                if (!isset($new_material_arr[1]) or !$new_material_arr[1]) {
+                if (!isset($new_material_arr[1]) || !$new_material_arr[1]) {
                     $this->logger->debug(': No mapping found for chapter: ' . $material_obj_id);
                     continue;
                 }
@@ -89,6 +83,9 @@ class ilCourseObjectiveMaterials
         }
     }
 
+    /**
+     * @return int[]
+     */
     public static function _getAssignedMaterials(int $a_objective_id) : array
     {
         global $DIC;
@@ -144,6 +141,9 @@ class ilCourseObjectiveMaterials
         return $assignable;
     }
 
+    /**
+     * @return int[]
+     */
     public static function _getAllAssignedMaterials(int $a_container_id) : array
     {
         global $DIC;
@@ -228,8 +228,6 @@ class ilCourseObjectiveMaterials
     }
 
     /**
-     * @param int  $a_ref_id
-     * @param bool $a_get_id
      * @return bool|int
      */
     public function isAssigned(int $a_ref_id, bool $a_get_id = false)
@@ -310,7 +308,7 @@ class ilCourseObjectiveMaterials
         return true;
     }
 
-    public function writePosition(int $a_ass_id, int $a_position)
+    public function writePosition(int $a_ass_id, int $a_position) : void
     {
         $query = "UPDATE crs_objective_lm " .
             "SET position = " . $this->db->quote((string) $a_position, 'integer') . " " .
@@ -319,7 +317,7 @@ class ilCourseObjectiveMaterials
         $this->db->manipulate($query);
     }
 
-    public function __read()
+    public function __read() : bool
     {
         $container_ref_ids = ilObject::_getAllReferences(ilCourseObjective::_lookupContainerIdByObjectiveId($this->objective_id));
         $container_ref_id = current($container_ref_ids);
@@ -358,7 +356,7 @@ class ilCourseObjectiveMaterials
         return true;
     }
 
-    public function toXml(ilXmlWriter $writer)
+    public function toXml(ilXmlWriter $writer) : bool
     {
         foreach ($this->getMaterials() as $material) {
             $writer->xmlElement(

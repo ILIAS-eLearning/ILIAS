@@ -17,7 +17,7 @@
  * Class ilObjBlogAccess
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
-class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
+class ilObjBlogAccess extends ilObjectAccess
 {
     protected ilObjUser $user;
     protected ilAccessHandler $access;
@@ -49,11 +49,11 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
         
         $t_arr = explode("_", $target);
         
-        if (substr($target, -3) == "wsp") {
+        if (substr($target, -3) === "wsp") {
             return ilSharedResourceGUI::hasAccess($t_arr[1]);
         }
         
-        if ($t_arr[0] != "blog" || ((int) $t_arr[1]) <= 0) {
+        if ($t_arr[0] !== "blog" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
 
@@ -69,13 +69,15 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
     {
         $ilUser = $this->user;
         $ilAccess = $this->access;
-        
-        if (preg_match("/\\/blog_([\\d]*)\\//uism", $ilWACPath->getPath(), $results)) {
+        if (preg_match("/\\/blog_([\\d]*)\\//uim", $ilWACPath->getPath(), $results)) {
             $obj_id = $results[1];
+            if ($obj_id == "") {
+                return false;
+            }
             
             // personal workspace
             $tree = new ilWorkspaceTree(0);
-            $node_id = $tree->lookupNodeId($obj_id);
+            $node_id = $tree->lookupNodeId((int) $obj_id);
             if ($node_id) {
                 $access_handler = new ilWorkspaceAccessHandler($tree);
                 if ($access_handler->checkAccessOfUser($tree, $ilUser->getId(), "read", "view", $node_id, "blog")) {
@@ -84,9 +86,9 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
             }
             // repository (RBAC)
             else {
-                $ref_ids = ilObject::_getAllReferences($obj_id);
+                $ref_ids = ilObject::_getAllReferences((int) $obj_id);
                 foreach ($ref_ids as $ref_id) {
-                    if ($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "view", $ref_id, "blog", $obj_id)) {
+                    if ($ilAccess->checkAccessOfUser($ilUser->getId(), "read", "view", $ref_id, "blog", (int) $obj_id)) {
                         return true;
                     }
                 }

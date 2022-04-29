@@ -19,9 +19,9 @@
  */
 class ilPrivacySettings
 {
-    private static ?\ilPrivacySettings $instance = null;
-    private \ilDBInterface $db;
-    private \ilSetting $settings;
+    private static ?ilPrivacySettings $instance = null;
+    private ilDBInterface $db;
+    private ilSetting $settings;
 
     private bool $export_course;
     private bool $export_group;
@@ -59,9 +59,9 @@ class ilPrivacySettings
         $this->read();
     }
 
-    public static function getInstance() : \ilPrivacySettings
+    public static function getInstance() : ilPrivacySettings
     {
-        if (!self::$instance instanceof \ilPrivacySettings) {
+        if (!self::$instance instanceof ilPrivacySettings) {
             self::$instance = new self();
         }
         return self::$instance;
@@ -181,7 +181,7 @@ class ilPrivacySettings
     /**
      * write access to property anonymous fora
      */
-    public function enableAnonymousFora(bool $a_status)
+    public function enableAnonymousFora(bool $a_status) : void
     {
         $this->anonymous_fora = $a_status;
     }
@@ -213,7 +213,7 @@ class ilPrivacySettings
     /**
      * write access to property rbac log age
      */
-    public function setRbacLogAge(int $a_age)
+    public function setRbacLogAge(int $a_age) : void
     {
         $this->rbac_log_age = $a_age;
     }
@@ -290,7 +290,7 @@ class ilPrivacySettings
     /**
      * show course access times
      */
-    public function showCourseAccessTimes(bool $a_status)
+    public function showCourseAccessTimes(bool $a_status) : void
     {
         $this->show_crs_access_times = $a_status;
     }
@@ -373,7 +373,7 @@ class ilPrivacySettings
             "AND object_reference.obj_id = object_data.obj_id";
         $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-        $this->ref_id = (int) $row["ref_id"];
+        $this->ref_id = (int) ($row["ref_id"] ?? 0);
 
         $this->export_course = (bool) $this->settings->get('ps_export_course', null);
         $this->export_group = (bool) $this->settings->get('ps_export_group', null);
@@ -399,7 +399,7 @@ class ilPrivacySettings
 
     /**
      * validate settings
-     * @return 0, if everything is ok, an error code otherwise
+     * @return int 0, if everything is ok, an error code otherwise
      */
     public function validate() : int
     {

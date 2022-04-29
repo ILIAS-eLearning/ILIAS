@@ -22,20 +22,20 @@
  */
 class ilAuthFrontendFactory
 {
-    const CONTEXT_UNDEFINED = 0;
+    private const CONTEXT_UNDEFINED = 0;
     
     // authentication with id and password. Used for standard form based authentication
     // soap auth (login) but not for (CLI (cron)?) and HTTP basic authentication
-    const CONTEXT_STANDARD_FORM = 2;
+    public const CONTEXT_STANDARD_FORM = 2;
     
     // CLI context for cron
-    const CONTEXT_CLI = 3;
+    public const CONTEXT_CLI = 3;
     
     // Rest soap context
-    const CONTEXT_WS = 4;
+    public const CONTEXT_WS = 4;
     
     // http auth
-    const CONTEXT_HTTP = 5;
+    public const CONTEXT_HTTP = 5;
     
     
     private int $context = self::CONTEXT_UNDEFINED;
@@ -66,11 +66,8 @@ class ilAuthFrontendFactory
     {
         return $this->context;
     }
-    
-    /**
-     * @return \ilAuthFrontendInterface
-     */
-    public function getFrontend(ilAuthSession $session, ilAuthStatus $status, ilAuthCredentials $credentials, array $providers)
+
+    public function getFrontend(ilAuthSession $session, ilAuthStatus $status, ilAuthCredentials $credentials, array $providers) : ?ilAuthFrontendInterface
     {
         switch ($this->getContext()) {
             case self::CONTEXT_CLI:
@@ -117,5 +114,6 @@ class ilAuthFrontendFactory
                 $this->logger->error('Trying to init auth with empty context');
                 break;
         }
+        return null;
     }
 }

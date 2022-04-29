@@ -25,13 +25,15 @@ class ilCertificateVerificationObject extends ilVerificationObject
         parent::__construct($a_id, $a_reference);
     }
 
-    protected function initType()
+    /**
+     * @inheritDoc
+     */
+    protected function initType() : void
     {
     }
 
     /**
-     * Return property map (name => type)
-     * @return array
+     * @inheritDoc
      */
     protected function getPropertyMap() : array
     {

@@ -31,7 +31,10 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapUserAdministration extends ilSoapAdministration
 {
+    private ?php4DOMDocument $dom = null;
+
     public const USER_FOLDER_ID = 7;
+
 
     public function login(string $client, string $username, string $password)
     {
@@ -41,7 +44,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         try {
             $this->initIlias();
         } catch (Exception $e) {
-            return $this->__raiseError($e->getMessage(), 'Server');
+            return $this->raiseError($e->getMessage(), 'Server');
         }
 
         // now try authentication
@@ -76,7 +79,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
             default:
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
-                return $this->__raiseError(
+                return $this->raiseError(
                     $status->getReason(),
                     'Server'
                 );
@@ -91,8 +94,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         include_once './Services/Authentication/classes/class.ilSession.php';
@@ -106,14 +109,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         $user_name = trim($user_name);
 
-        if (!strlen($user_name)) {
-            return $this->__raiseError('No username given. Aborting', 'Client');
+        if ($user_name === '') {
+            return $this->raiseError('No username given. Aborting', 'Client');
         }
 
         global $DIC;
@@ -129,12 +132,12 @@ class ilSoapUserAdministration extends ilSoapAdministration
                 self::USER_FOLDER_ID
             )
         ) {
-            return $this->__raiseError('Check access failed. ' . self::USER_FOLDER_ID, 'Server');
+            return $this->raiseError('Check access failed. ' . self::USER_FOLDER_ID, 'Server');
         }
 
         $user_id = ilObjUser::getUserIdByLogin($user_name);
 
-        return $user_id ? $user_id : "0";
+        return $user_id;
     }
 
     public function getUser(string $sid, int $user_id)
@@ -142,8 +145,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -158,16 +161,17 @@ class ilSoapUserAdministration extends ilSoapAdministration
             self::USER_FOLDER_ID
         )
         ) {
-            return $this->__raiseError('Check access failed.', 'Server');
+            return $this->raiseError('Check access failed.', 'Server');
         }
 
         if ($ilUser->getLoginByUserId($user_id)) {
-            $tmp_user =  ilObjectFactory::getInstanceByObjId($user_id);
-            $usr_data = $this->__readUserData($tmp_user);
+            /** @var ilObjUser $tmp_user */
+            $tmp_user = ilObjectFactory::getInstanceByObjId($user_id);
+            $usr_data = $this->readUserData($tmp_user);
 
             return $usr_data;
         }
-        return $this->__raiseError('User does not exist', 'Client');
+        return $this->raiseError('User does not exist', 'Client');
     }
 
     public function deleteUser(string $sid, int $user_id)
@@ -175,12 +179,12 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         if (!isset($user_id)) {
-            return $this->__raiseError('No user_id given. Aborting', 'Client');
+            return $this->raiseError('No user_id given. Aborting', 'Client');
         }
 
         global $DIC;
@@ -190,17 +194,17 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $log = $DIC['log'];
 
         if (!$rbacsystem->checkAccess('delete', self::USER_FOLDER_ID)) {
-            return $this->__raiseError('Check access failed.', 'Server');
+            return $this->raiseError('Check access failed.', 'Server');
         }
 
         if (!$ilUser->getLoginByUserId($user_id)) {
-            return $this->__raiseError('User id: ' . $user_id . ' is not a valid identifier. Aborting', 'Client');
+            return $this->raiseError('User id: ' . $user_id . ' is not a valid identifier. Aborting', 'Client');
         }
-        if ($ilUser->getId() == $user_id) {
-            return $this->__raiseError('Cannot delete myself. Aborting', 'Client');
+        if ($ilUser->getId() === $user_id) {
+            return $this->raiseError('Cannot delete myself. Aborting', 'Client');
         }
-        if ($user_id == SYSTEM_USER_ID) {
-            return $this->__raiseError('Cannot delete root account. Aborting', 'Client');
+        if ($user_id === SYSTEM_USER_ID) {
+            return $this->raiseError('Cannot delete root account. Aborting', 'Client');
         }
         // Delete him
         $log->write('SOAP: deleteUser()');
@@ -210,7 +214,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         return true;
     }
 
-    public function __readUserData(\ilObjUser &$usr_obj) : array
+    private function readUserData(\ilObjUser $usr_obj) : array
     {
         $usr_data['usr_id'] = $usr_obj->getId();
         $usr_data['login'] = $usr_obj->getLogin();
@@ -265,8 +269,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         include_once './Services/User/classes/class.ilUserImportParser.php';
@@ -286,7 +290,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $error = false;
 
         // validate to prevent wrong XMLs
-        $this->dom = @domxml_open_mem($usr_xml, DOMXML_LOAD_VALIDATING, $error);
+        $this->dom = @domxml_open_mem($usr_xml, DOMXML_LOAD_PARSING, $error);
         if ($error) {
             $msg = array();
             if (is_array($error)) {
@@ -296,8 +300,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
             } else {
                 $msg[] = $error;
             }
-            $msg = join("\n", $msg);
-            return $this->__raiseError($msg, "Client");
+            $msg = implode("\n", $msg);
+            return $this->raiseError($msg, "Client");
         }
 
         switch ($conflict_rule) {
@@ -310,18 +314,18 @@ class ilSoapUserAdministration extends ilSoapAdministration
             default:
                 $conflict_rule = IL_FAIL_ON_CONFLICT;
         }
-        if ($folder_id == 0) {
-            if (!$access->checkAccess('create_usr', '', self::USER_FOLDER_ID)) {
-                return $this->__raiseError('Missing permission for creating/modifying users accounts' . self::USER_FOLDER_ID . ' ' . $ilUser->getId(),
-                    'Server');
-            }
+        if ($folder_id === 0 && !$access->checkAccess('create_usr', '', self::USER_FOLDER_ID)) {
+            return $this->raiseError(
+                'Missing permission for creating/modifying users accounts' . self::USER_FOLDER_ID . ' ' . $ilUser->getId(),
+                'Server'
+            );
         }
 
         // folder id 0, means to check permission on user basis!
         // must have create user right in time_limit_owner property (which is ref_id of container)
-        if ($folder_id != 0) {
+        if ($folder_id !== 0) {
             // determine where to import
-            if ($folder_id == -1) {
+            if ($folder_id === -1) {
                 $folder_id = self::USER_FOLDER_ID;
             }
 
@@ -329,18 +333,20 @@ class ilSoapUserAdministration extends ilSoapAdministration
             $import_folder = ilObjectFactory::getInstanceByRefId($folder_id, false);
             // id does not exist
             if (!$import_folder) {
-                return $this->__raiseError('Wrong reference id.', 'Server');
+                return $this->raiseError('Wrong reference id.', 'Server');
             }
 
             // folder is not a folder, can also be a category
-            if ($import_folder->getType() != "usrf" && $import_folder->getType() != "cat") {
-                return $this->__raiseError('Folder must be a usr folder or a category.', 'Server');
+            if ($import_folder->getType() !== "usrf" && $import_folder->getType() !== "cat") {
+                return $this->raiseError('Folder must be a usr folder or a category.', 'Server');
             }
 
             // check access to folder
             if (!$rbacsystem->checkAccess('create_usr', $folder_id)) {
-                return $this->__raiseError('Missing permission for creating users within ' . $import_folder->getTitle(),
-                    'Server');
+                return $this->raiseError(
+                    'Missing permission for creating users within ' . $import_folder->getTitle(),
+                    'Server'
+                );
             }
         }
 
@@ -354,10 +360,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
             case IL_IMPORT_SUCCESS:
                 break;
             case IL_IMPORT_WARNING:
-                return $this->__getImportProtocolAsXML($importParser->getProtocol());
+                return $this->getImportProtocolAsXML($importParser->getProtocol());
                 break;
             case IL_IMPORT_FAILURE:
-                return $this->__getImportProtocolAsXML($importParser->getProtocol());
+                return $this->getImportProtocolAsXML($importParser->getProtocol());
         }
 
         // verify is ok, so get role assignments
@@ -382,21 +388,17 @@ class ilSoapUserAdministration extends ilSoapAdministration
                     $role_id = $internalId;
                     $role_name = $role_id;
                 }
-                /*				else // perhaps it is a rolename
-                                {
-                                    $role  = ilSoapUserAdministration::__getRoleForRolename ($role_id);
-                                    $role_name = $role->title;
-                                    $role_id = $role->role_id;
-                                }*/
             }
 
             if ($this->isPermittedRole($folder_id, $role_id)) {
                 $permitted_roles[$role_id] = $role_id;
             } else {
                 $role_name = ilObject::_lookupTitle($role_id);
-                return $this->__raiseError("Could not find role " . $role_name . ". Either you use an invalid/deleted role " .
+                return $this->raiseError(
+                    "Could not find role " . $role_name . ". Either you use an invalid/deleted role " .
                     "or you try to assign a local role into the non-standard user folder and this role is not in its subtree.",
-                    'Server');
+                    'Server'
+                );
             }
         }
 
@@ -407,19 +409,30 @@ class ilSoapUserAdministration extends ilSoapAdministration
         foreach ($permitted_roles as $role_id => $role_name) {
             if ($role_id != "") {
                 if (in_array($role_id, $global_roles)) {
-                    if ($role_id == SYSTEM_ROLE_ID && !in_array(SYSTEM_ROLE_ID,
-                            $rbacreview->assignedRoles($ilUser->getId()))
-                        || ($folder_id != self::USER_FOLDER_ID && $folder_id != 0 && !ilObjRole::_getAssignUsersStatus($role_id))
+                    if (
+                        (
+                            $folder_id !== 0 &&
+                            $folder_id !== self::USER_FOLDER_ID &&
+                            !ilObjRole::_getAssignUsersStatus($role_id)
+                        ) ||
+                        (
+                            $role_id == SYSTEM_ROLE_ID &&
+                            !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()), true)
+                        )
                     ) {
-                        return $this->__raiseError($lng->txt("usrimport_with_specified_role_not_permitted") . " $role_name ($role_id)",
-                            'Server');
+                        return $this->raiseError(
+                            $lng->txt("usrimport_with_specified_role_not_permitted") . " $role_name ($role_id)",
+                            'Server'
+                        );
                     }
                 } else {
                     $rolf = $rbacreview->getFoldersAssignedToRole($role_id, true);
                     if ($rbacreview->isDeleted($rolf[0])
                         || !$rbacsystem->checkAccess('write', $rolf[0])) {
-                        return $this->__raiseError($lng->txt("usrimport_with_specified_role_not_permitted") . " $role_name ($role_id)",
-                            "Server");
+                        return $this->raiseError(
+                            $lng->txt("usrimport_with_specified_role_not_permitted") . " $role_name ($role_id)",
+                            "Server"
+                        );
                     }
                 }
             }
@@ -437,10 +450,10 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
         $importParser->startParsing();
 
-        if ($importParser->getErrorLevel() != IL_IMPORT_FAILURE) {
-            return $this->__getUserMappingAsXML($importParser->getUserMapping());
+        if ($importParser->getErrorLevel() !== IL_IMPORT_FAILURE) {
+            return $this->getUserMappingAsXML($importParser->getUserMapping());
         }
-        return $this->__getImportProtocolAsXML($importParser->getProtocol());
+        return $this->getImportProtocolAsXML($importParser->getProtocol());
     }
 
     protected function isPermittedRole(int $a_folder, int $a_role)
@@ -468,7 +481,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             $ilLog->write(__METHOD__ . ': Check global role');
             // check assignment permission if called from local admin
 
-            if ($a_folder != self::USER_FOLDER_ID and $a_folder != 0) {
+            if ($a_folder !== self::USER_FOLDER_ID && $a_folder !== 0) {
                 $ilLog->write(__METHOD__ . ': ' . $a_folder);
                 include_once './Services/AccessControl/classes/class.ilObjRole.php';
                 if (!ilObjRole::_getAssignUsersStatus($a_role)) {
@@ -478,13 +491,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
                 }
             }
             // exclude anonymous role from list
-            if ($a_role == ANONYMOUS_ROLE_ID) {
+            if ($a_role === ANONYMOUS_ROLE_ID) {
                 $ilLog->write(__METHOD__ . ': Anonymous role chosen.');
                 $checked_roles[$a_role] = false;
                 return false;
             }
             // do not allow to assign users to administrator role if current user does not has SYSTEM_ROLE_ID
-            if ($a_role == SYSTEM_ROLE_ID and !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))) {
+            if ($a_role === SYSTEM_ROLE_ID &&
+                !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()), true)) {
                 $ilLog->write(__METHOD__ . ': System role assignment forbidden.');
                 $checked_roles[$a_role] = false;
                 return false;
@@ -519,7 +533,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             // isInSubtree variable with true. In all other cases it is initialized
             // with false, and only set to true if we find the object id of the
             // locally administrated category in the tree path to the local role.
-            if ($a_folder != self::USER_FOLDER_ID and $a_folder != 0 and !$tree->isGrandChild($a_folder, $rolf)) {
+            if ($a_folder !== self::USER_FOLDER_ID && $a_folder !== 0 && !$tree->isGrandChild($a_folder, $rolf)) {
                 $ilLog->write(__METHOD__ . ': Not in path of category.');
                 $checked_roles[$a_role] = false;
                 return false;
@@ -528,6 +542,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             $checked_roles[$a_role] = true;
             return true;
         }
+        return false;
     }
 
     /**
@@ -538,8 +553,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -550,15 +565,15 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $rbacsystem = $DIC['rbacsystem'];
         $access = $DIC->access();
 
-        if ($ref_id == -1) {
+        if ($ref_id === -1) {
             $ref_id = self::USER_FOLDER_ID;
         }
 
         if (
-            $ref_id == self::USER_FOLDER_ID &&
+            $ref_id === self::USER_FOLDER_ID &&
             !$access->checkAccess('read_users', '', self::USER_FOLDER_ID)
         ) {
-            return $this->__raiseError('Access denied', "Client");
+            return $this->raiseError('Access denied', "Client");
         }
 
         $object = $this->checkObjectAccess($ref_id, array("crs", "cat", "grp", "usrf", "sess"), "read", true);
@@ -566,7 +581,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             return $object;
         }
 
-        $data = array();
+        $data = [];
         switch ($object->getType()) {
             case "usrf":
                 $data = ilObjUser::_getUsersForFolder(self::USER_FOLDER_ID, $active);
@@ -592,7 +607,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             case "sess":
                 $course_ref_id = $tree->checkForParentType($ref_id, 'crs');
                 if (!$course_ref_id) {
-                    return $this->__raiseError("No course for session", "Client");
+                    return $this->raiseError("No course for session", "Client");
                 }
 
                 $event_obj_id = ilObject::_lookupObjId($ref_id);
@@ -603,18 +618,17 @@ class ilSoapUserAdministration extends ilSoapAdministration
                 break;
         }
 
-        if (is_array($data)) {
-            include_once './Services/User/classes/class.ilUserXMLWriter.php';
+        include_once './Services/User/classes/class.ilUserXMLWriter.php';
 
-            $xmlWriter = new ilUserXMLWriter();
-            $xmlWriter->setObjects($data);
-            $xmlWriter->setAttachRoles($attachRoles);
+        $xmlWriter = new ilUserXMLWriter();
+        $xmlWriter->setObjects($data);
+        $xmlWriter->setAttachRoles($attachRoles);
 
-            if ($xmlWriter->start()) {
-                return $xmlWriter->getXML();
-            }
+        if ($xmlWriter->start()) {
+            return $xmlWriter->getXML();
         }
-        return $this->__raiseError('Error in processing information. This is likely a bug.', 'Server');
+        // @todo for backward compatibility
+        return '';
     }
 
     public function getUserForRole(string $sid, int $role_id, bool $attachRoles, int $active)
@@ -622,26 +636,26 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         include_once './Services/AccessControl/classes/class.ilObjRole.php';
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        $rbacreview = $DIC['rbacreview'];
+        $rbacreview = $DIC->rbac()->review();
         $tree = $DIC->repositoryTree();
         $ilUser = $DIC->user();
         $access = $DIC->access();
 
         $global_roles = $rbacreview->getGlobalRoles();
 
-        if (in_array($role_id, $global_roles)) {
+        if (in_array($role_id, $global_roles, true)) {
             // global roles
-            if ($role_id == SYSTEM_ROLE_ID && !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()))
-            ) {
-                return $this->__raiseError("Role access not permitted. ($role_id)", "Server");
+            if ($role_id === SYSTEM_ROLE_ID &&
+                !in_array(SYSTEM_ROLE_ID, $rbacreview->assignedRoles($ilUser->getId()), true)) {
+                return $this->raiseError("Role access not permitted. ($role_id)", "Server");
             }
         } else {
             // local roles
@@ -671,7 +685,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
                 $access_granted = false;
             }
             if (!$access_granted || !count($rolfs)) {
-                return $this->__raiseError('Role access not permitted. ' . '(' . $role_id . ')', 'Server');
+                return $this->raiseError('Role access not permitted. ' . '(' . $role_id . ')', 'Server');
             }
         }
 
@@ -686,13 +700,13 @@ class ilSoapUserAdministration extends ilSoapAdministration
         if ($xmlWriter->start()) {
             return $xmlWriter->getXML();
         }
-        return $this->__raiseError('Error in getUsersForRole', 'Server');
+        return $this->raiseError('Error in getUsersForRole', 'Server');
     }
 
     /**
      *    Create XML ResultSet
      **/
-    public function __getImportProtocolAsXML(array $a_array) : string
+    private function getImportProtocolAsXML(array $a_array) : string
     {
         include_once './webservice/soap/classes/class.ilXMLResultSet.php';
         include_once './webservice/soap/classes/class.ilXMLResultSetWriter.php';
@@ -721,14 +735,14 @@ class ilSoapUserAdministration extends ilSoapAdministration
             return $xml_writer->getXML();
         }
 
-        return $this->__raiseError('Error in __getImportProtocolAsXML', 'Server');
+        return $this->raiseError('Error in __getImportProtocolAsXML', 'Server');
     }
 
     /**
      * return user  mapping as xml
      * @param array (user_id => login) $a_array
      */
-    public function __getUserMappingAsXML(array $a_array)
+    private function getUserMappingAsXML(array $a_array)
     {
         include_once './webservice/soap/classes/class.ilXMLResultSet.php';
         include_once './webservice/soap/classes/class.ilXMLResultSetWriter.php';
@@ -757,7 +771,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             return $xml_writer->getXML();
         }
 
-        return $this->__raiseError('Error in __getUserMappingAsXML', 'Server');
+        return $this->raiseError('Error in __getUserMappingAsXML', 'Server');
     }
 
     /**
@@ -776,13 +790,12 @@ class ilSoapUserAdministration extends ilSoapAdministration
         array $a_keyvalues,
         bool $attach_roles,
         int $active
-    )
-    {
+    ) {
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -791,21 +804,21 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $access = $DIC->access();
 
         if (!$access->checkAccess('read_users', '', self::USER_FOLDER_ID)) {
-            return $this->__raiseError('Check access failed.', 'Server');
+            return $this->raiseError('Check access failed.', 'Server');
         }
         if (!count($a_keyfields)) {
-            $this->__raiseError('At least one keyfield is needed', 'Client');
+            $this->raiseError('At least one keyfield is needed', 'Client');
         }
 
         if (!count($a_keyvalues)) {
-            $this->__raiseError('At least one keyvalue is needed', 'Client');
+            $this->raiseError('At least one keyvalue is needed', 'Client');
         }
 
-        if (!strcasecmp($query_operator, "and") == 0 || !strcasecmp($query_operator, "or") == 0) {
-            $this->__raiseError('Query operator must be either \'and\' or \'or\'', 'Client');
+        if (strcasecmp($query_operator, "and") !== 0 || strcasecmp($query_operator, "or") !== 0) {
+            $this->raiseError('Query operator must be either \'and\' or \'or\'', 'Client');
         }
 
-        $query = $this->__buildSearchQuery($a_keyfields, $query_operator, $a_keyvalues);
+        $query = $this->buildSearchQuery($a_keyfields, $query_operator, $a_keyvalues);
 
         $query = "SELECT usr_data.*, usr_pref.value AS language
 		          FROM usr_data
@@ -815,7 +828,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             "'language'
 		          WHERE 1 = 1 " . $query;
 
-        if (is_numeric($active) && $active > -1) {
+        if ($active > -1) {
             $query .= " AND active = " . $ilDB->quote($active);
         }
 
@@ -841,7 +854,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         if ($xmlWriter->start()) {
             return $xmlWriter->getXML();
         }
-        return $this->__raiseError('Error in searchUser', 'Server');
+        return $this->raiseError('Error in searchUser', 'Server');
     }
 
     /**
@@ -850,8 +863,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
      * @param string $queryOperator
      * @param array of string $a_keyValues
      */
-
-    public function __buildSearchQuery(array $a_keyfields, string $queryOperator, array $a_keyvalues) : string
+    private function buildSearchQuery(array $a_keyfields, string $queryOperator, array $a_keyvalues) : string
     {
         global $DIC;
 
@@ -883,11 +895,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
                 }
             }
             if (count($field_query)) {
-                $query [] = join(" " . strtoupper($queryOperator) . " ", $field_query);
+                $query [] = implode(" " . strtoupper($queryOperator) . " ", $field_query);
             }
         }
 
-        return count($query) ? " AND ((" . join(") OR (", $query) . "))" : "AND 0";
+        return count($query) ? " AND ((" . implode(") OR (", $query) . "))" : "AND 0";
     }
 
     /**
@@ -901,8 +913,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -914,23 +926,18 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
         // check if own account
         $is_self = false;
-        if (is_array($a_user_ids) and count($a_user_ids) == 1) {
-            if (end($a_user_ids) == $ilUser->getId()) {
-                $is_self = true;
-            }
-        } elseif (is_numeric($a_user_ids)) {
-            if ($a_user_ids == $ilUser->getId()) {
+        if (count($a_user_ids) === 1) {
+            $usr_id = (int) end($a_user_ids);
+            if ($usr_id === $ilUser->getId()) {
                 $is_self = true;
             }
         }
 
-        if (!$access->checkAccess('read_users', '', self::USER_FOLDER_ID) && !$is_self) {
-            return $this->__raiseError('Check access failed.', 'Server');
+        if (!$is_self && !$access->checkAccess('read_users', '', self::USER_FOLDER_ID)) {
+            return $this->raiseError('Check access failed.', 'Server');
         }
 
-        // begin-patch filemanager
-        $data = ilObjUser::_getUserData((array) $a_user_ids);
-        // end-patch filemanager
+        $data = ilObjUser::_getUserData($a_user_ids);
 
         include_once './Services/User/classes/class.ilUserXMLWriter.php';
         $xmlWriter = new ilUserXMLWriter();
@@ -941,28 +948,23 @@ class ilSoapUserAdministration extends ilSoapAdministration
             return $xmlWriter->getXML();
         }
 
-        return $this->__raiseError('User does not exist', 'Client');
+        return $this->raiseError('User does not exist', 'Client');
     }
 
-    // has new mail
     public function hasNewMail(string $sid)
     {
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
 
-        if (ilMailGlobalServices::getNewMailsData($ilUser)['count'] > 0) {
-            return true;
-        }
-
-        return false;
+        return ilMailGlobalServices::getNewMailsData($ilUser)['count'] > 0;
     }
 
     public function getUserIdBySid(string $sid)
@@ -970,8 +972,8 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $this->initAuth($sid);
         $this->initIlias();
 
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $DIC;
@@ -985,7 +987,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $data = $ilDB->fetchAssoc($res);
 
         if (!(int) $data['usr_id']) {
-            $this->__raiseError('User does not exist', 'Client');
+            $this->raiseError('User does not exist', 'Client');
         }
 
         return (int) $data['usr_id'];

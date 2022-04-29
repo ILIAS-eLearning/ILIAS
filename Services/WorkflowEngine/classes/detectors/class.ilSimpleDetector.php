@@ -34,13 +34,13 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      *
      * @var boolean
      */
-    private $detection_state = false;
+    private bool $detection_state = false;
 
     /** @var string $name */
-    protected $name;
+    protected string $name;
 
     /** @var ilNode $source_node */
-    protected $source_node;
+    protected ?ilNode $source_node = null;
 
     /**
      * Default constructor.
@@ -86,23 +86,21 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      *
      * @return boolean
      */
-    public function getDetectorState()
+    public function getDetectorState() : bool
     {
         return $this->detection_state;
     }
 
     /**
      * Sets a new detector state.
-     *
      * In this case, the only meaningful param is false, since it should only
      * be set to true, if the detector was triggered.
      * Reason this method exists, is to allow the workflow controller to
      * "fast forward" workflows to set a non-default state. I.e. a workflow
      * has to be set into a state in the middle of running. Use with care.
-     *
      * @param boolean $new_state
      */
-    public function setDetectorState($new_state)
+    public function setDetectorState(bool $new_state) : void
     {
         $this->detection_state = $new_state;
 
@@ -115,7 +113,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      * Method is called, when the parent node is activated.
      * @return void
      */
-    public function onActivate()
+    public function onActivate() : void
     {
         return;
     }
@@ -124,7 +122,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      * Method is called, when the parent node is deactivated.
      * @return void
      */
-    public function onDeactivate()
+    public function onDeactivate() : void
     {
         return;
     }
@@ -132,15 +130,12 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
     /**
      * @return bool
      */
-    public function getActivated()
+    public function getActivated() : bool
     {
         return $this->detection_state;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName($name) : void
     {
         $this->name = $name;
     }
@@ -148,7 +143,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -164,7 +159,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
     /**
      * @param ilNode $source_node
      */
-    public function setSourceNode($source_node)
+    public function setSourceNode(ilNode $source_node) : void
     {
         $this->source_node = $source_node;
     }

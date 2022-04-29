@@ -26,12 +26,6 @@ use ILIAS\Skill\Tree\SkillTreeFactory;
  */
 class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
 {
-    protected ilLanguage $lng;
-    protected static ?array $order_node_data = null;
-    protected bool $include_drafts = false;
-    protected array $drafts = [];
-    protected bool $include_outdated = false;
-    protected array $outdated = [];
     protected bool $root_node_processed = false;
     protected SkillTreeManager $skill_tree_manager;
     protected SkillTreeFactory $skill_tree_factory;
@@ -47,11 +41,15 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
         $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
     }
 
+    /**
+     * @return array{id: int, parent: int, depth: int, obj_id: int}
+     */
     public function getRootNode() : array
     {
         $root_id = 0;
         $root_node = $this->tree->getNodeData($root_id);
 
+        $root_node["id"] = 0;
         $root_node["parent"] = 0;
         $root_node["depth"] = 0;
         $root_node["obj_id"] = 0;
@@ -59,9 +57,12 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
         return $root_node;
     }
 
+    /**
+     * @return array{id: int, child: int, parent: int}[]
+     */
     public function getChildsOfNode(string $a_parent_id) : array
     {
-        if (is_null($a_parent_id)) {
+        if ($a_parent_id === "0") {
             $childs = [];
             $trees = $this->skill_tree_manager->getTrees();
             foreach ($trees as $obj_tree) {
@@ -78,13 +79,14 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
         }
     }
 
+    /**
+     * @return {cskill_id: string, id: string, skill_id: string, tref_id: string, parent: string, type: string}[]
+     */
     public function getSubTreeForTreeId(string $a_tree_id) : array
     {
-        $result = [];
-        $node = $this->getNode($a_tree_id);
-        $result[] = $node;
-        $this->__getSubTreeRec($a_tree_id, $result, false);
-
-        return $result;
+        return array_merge(
+            [$this->getNode($a_tree_id)],
+            $this->__getSubTreeRec($a_tree_id, false)
+        );
     }
 }

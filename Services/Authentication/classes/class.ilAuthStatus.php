@@ -25,13 +25,12 @@ class ilAuthStatus
     private static ?ilAuthStatus $instance = null;
     
     private ilLanguage $lng;
-    private ilLogger $logger;
-    
-    const STATUS_UNDEFINED = 1;
-    const STATUS_AUTHENTICATED = 2;
-    const STATUS_AUTHENTICATION_FAILED = 3;
-    const STATUS_ACCOUNT_MIGRATION_REQUIRED = 4;
-    const STATUS_CODE_ACTIVATION_REQUIRED = 5;
+
+    public const STATUS_UNDEFINED = 1;
+    public const STATUS_AUTHENTICATED = 2;
+    public const STATUS_AUTHENTICATION_FAILED = 3;
+    public const STATUS_ACCOUNT_MIGRATION_REQUIRED = 4;
+    public const STATUS_CODE_ACTIVATION_REQUIRED = 5;
     
     private int $status = self::STATUS_UNDEFINED;
     private string $reason = '';
@@ -47,7 +46,6 @@ class ilAuthStatus
     {
         global $DIC;
         $this->lng = $DIC->language();
-        $this->logger = $DIC->logger()->auth();
     }
     
     /**
@@ -108,7 +106,7 @@ class ilAuthStatus
      */
     public function getTranslatedReason() : string
     {
-        if (strlen($this->translated_reason)) {
+        if ($this->translated_reason !== '') {
             return $this->translated_reason;
         }
         return $this->lng->txt($this->getReason());

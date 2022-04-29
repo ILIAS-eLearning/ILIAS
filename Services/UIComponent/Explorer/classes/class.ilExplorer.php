@@ -47,6 +47,7 @@ class ilExplorer
     public array $is_clickable;
     public bool $post_sort;
     public bool $filtered = false;
+    protected $filter = [];
     public bool $filter_mode;
     // expand entire tree regardless of values in $expanded
     public bool$expand_all = false;
@@ -177,17 +178,15 @@ class ilExplorer
         return $this->title;
     }
     
-    public function setRoot($a_root_id)
+    public function setRoot($a_root_id) : void
     {
         #$this->tree = new ilTree(ROOT_FOLDER_ID,$a_root_id);
         $this->root_id = $a_root_id;
     }
     
-    public function getRoot()
+    public function getRoot() : ?int
     {
-        return $this->root_id == null ?
-            $this->tree->getRootId() :
-            $this->root_id;
+        return $this->root_id ?? $this->tree->getRootId();
     }
 
     public function setOrderColumn(string $a_column) : void
@@ -197,7 +196,7 @@ class ilExplorer
 
     public function setOrderDirection(string $a_direction) : void
     {
-        if ($a_direction == "desc") {
+        if ($a_direction === "desc") {
             $this->order_direction = $a_direction;
         } else {
             $this->order_direction = "asc";
@@ -312,18 +311,14 @@ class ilExplorer
 
     //  check if links for certain object type are activated
     public function isClickable(
-        string $a_type,
-        $a_ref_id = 0
+        string $type,
+        int $ref_id = 0
     ) : bool {
         // in this standard implementation
         // only the type determines, wether an object should be clickable or not
         // but this method can be overwritten and make $exp->setFilterMode(IL_FM_NEGATIVE);use of the ref id
         // (this happens e.g. in class ilRepositoryExplorerGUI)
-        if ($this->is_clickable[$a_type] == "n") {
-            return false;
-        } else {
-            return true;
-        }
+        return $this->is_clickable[$type] !== "n";
     }
 
     public function setPostSort(bool $a_sort) : void
@@ -409,63 +404,63 @@ class ilExplorer
                 }
                 //echo "<br>-".$object["child"]."-".$this->forceExpanded($object["child"])."-";
                 //ask for FILTER
-                if ($this->filtered == false or $this->checkFilter($object["type"]) == false) {
+                if ($this->filtered === false || $this->checkFilter($object["type"]) === false) {
                     if ($this->isVisible($object['child'], $object['type'])) {
                         #echo 'CHILD getIndex() '.$object['child'].' parent: '.$this->getRoot();
                         if ($object["child"] != $this->getRoot()) {
                             $parent_index = $this->getIndex($object);
                         }
-                        $this->format_options["$this->counter"]["parent"] = $object["parent"];
-                        $this->format_options["$this->counter"]["child"] = $object["child"];
-                        $this->format_options["$this->counter"]["title"] = $object["title"];
-                        $this->format_options["$this->counter"]["type"] = $object["type"];
-                        $this->format_options["$this->counter"]["obj_id"] = $object["obj_id"];
-                        $this->format_options["$this->counter"]["desc"] = "obj_" . $object["type"];
-                        $this->format_options["$this->counter"]["depth"] = $tab;
-                        $this->format_options["$this->counter"]["container"] = false;
-                        $this->format_options["$this->counter"]["visible"] = true;
-                        $this->format_options["$this->counter"]["highlighted_subtree"] = $a_highlighted_subtree;
+                        $this->format_options[(string) $this->counter]["parent"] = $object["parent"];
+                        $this->format_options[(string) $this->counter]["child"] = $object["child"];
+                        $this->format_options[(string) $this->counter]["title"] = $object["title"];
+                        $this->format_options[(string) $this->counter]["type"] = $object["type"];
+                        $this->format_options[(string) $this->counter]["obj_id"] = $object["obj_id"];
+                        $this->format_options[(string) $this->counter]["desc"] = "obj_" . $object["type"];
+                        $this->format_options[(string) $this->counter]["depth"] = $tab;
+                        $this->format_options[(string) $this->counter]["container"] = false;
+                        $this->format_options[(string) $this->counter]["visible"] = true;
+                        $this->format_options[(string) $this->counter]["highlighted_subtree"] = $a_highlighted_subtree;
 
                         // Create prefix array
                         for ($i = 0; $i < $tab; ++$i) {
-                            $this->format_options["$this->counter"]["tab"][] = 'blank';
+                            $this->format_options[(string) $this->counter]["tab"][] = 'blank';
                         }
 
                         // fix explorer (sometimes explorer disappears)
-                        if ($parent_index == 0) {
-                            if (!$this->expand_all and !in_array($object["parent"], $this->expanded)) {
+                        if ($parent_index === 0) {
+                            if (!$this->expand_all && !in_array($object["parent"], $this->expanded)) {
                                 $this->expanded[] = $object["parent"];
                             }
                         }
 
                         // only if parent is expanded and visible, object is visible
-                        if ($object["child"] != $this->getRoot() and ((!$this->expand_all and !in_array($object["parent"], $this->expanded))
-                           or !$this->format_options["$parent_index"]["visible"])) {
+                        if ($object["child"] != $this->getRoot() && ((!$this->expand_all && !in_array($object["parent"], $this->expanded))
+                           or !$this->format_options[(string) $parent_index]["visible"])) {
                             if (!$this->forceExpanded($object["child"])) {
                                 // if parent is not expanded, and one child is
                                 // visible we don't need more information and
                                 // can skip the rest of the childs
-                                if ($this->format_options["$this->counter"]["visible"]) {
+                                if ($this->format_options[(string) $this->counter]["visible"]) {
                                     //echo "-setSkipping";
                                     $skip_rest = true;
                                 }
-                                $this->format_options["$this->counter"]["visible"] = false;
+                                $this->format_options[(string) $this->counter]["visible"] = false;
                             }
                         }
 
                         // if object exists parent is container
                         if ($object["child"] != $this->getRoot()) {
-                            $this->format_options["$parent_index"]["container"] = true;
+                            $this->format_options[(string) $parent_index]["container"] = true;
 
-                            if ($this->expand_all or in_array($object["parent"], $this->expanded)) {
+                            if ($this->expand_all || in_array($object["parent"], $this->expanded)) {
                                 //echo "<br>-".$object["child"]."-".$this->forceExpanded($object["child"])."-";
                                 if ($this->forceExpanded($object["parent"])) {
-                                    $this->format_options["$parent_index"]["tab"][($tab - 2)] = 'forceexp';
+                                    $this->format_options[(string) $parent_index]["tab"][($tab - 2)] = 'forceexp';
                                 } else {
-                                    $this->format_options["$parent_index"]["tab"][($tab - 2)] = 'minus';
+                                    $this->format_options[(string) $parent_index]["tab"][($tab - 2)] = 'minus';
                                 }
                             } else {
-                                $this->format_options["$parent_index"]["tab"][($tab - 2)] = 'plus';
+                                $this->format_options[(string) $parent_index]["tab"][($tab - 2)] = 'plus';
                             }
                         }
                         //echo "-"."$parent_index"."-";
@@ -473,7 +468,7 @@ class ilExplorer
                         ++$this->counter;
 
                         // stop recursion if 2. level beyond expanded nodes is reached
-                        if ($this->expand_all or in_array($object["parent"], $this->expanded) or ($object["parent"] == 0)
+                        if ($this->expand_all || in_array($object["parent"], $this->expanded) or ($object["parent"] == 0)
                             or $this->forceExpanded($object["child"])) {
                             $highlighted_subtree = $a_highlighted_subtree ||
                                 ($object["child"] == $this->highlighted);
@@ -542,9 +537,9 @@ class ilExplorer
         $tpl_tree = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
         
         // updater
-        if (($this->requestStr("ict") != "" ||
-            $this->requestStr("collapseAll") != "" ||
-            $this->requestStr("expandAll") != "") && $this->up_frame != "") {
+        if (($this->requestStr("ict") !== "" ||
+            $this->requestStr("collapseAll") !== "" ||
+            $this->requestStr("expandAll") !== "") && $this->up_frame !== "") {
             $tpl_tree->setCurrentBlock("updater");
             $tpl_tree->setVariable("UPDATE_FRAME", $this->up_frame);
             $tpl_tree->setVariable("UPDATE_SCRIPT", $this->up_script);
@@ -585,12 +580,12 @@ class ilExplorer
         $this->handleListEndTags($tpl_tree, $cur_depth, -1);
         
         $tpl_tree->setVariable("TREE_LEAD", "");
-        if ($this->tree_lead != "") {
+        if ($this->tree_lead !== "") {
             $tpl_tree->setCurrentBlock("tree_lead");
             $tpl_tree->setVariable("TREE_LEAD", $this->tree_lead);
             $tpl_tree->parseCurrentBlock();
         }
-        if ($this->getId() != "") {
+        if ($this->getId() !== "") {
             $tpl_tree->setVariable("TREE_ID", 'id="' . $this->getId() . '_tree"');
         }
 
@@ -601,10 +596,10 @@ class ilExplorer
             $mtpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
             $mtpl->setVariable("BODY_CLASS", "il_Explorer");
             $mtpl->addBlockFile("CONTENT", "content", "tpl.explorer.html");
-            if ($this->getTitle() != "") {
+            if ($this->getTitle() !== "") {
                 $mtpl->setVariable("TXT_EXPLORER_HEADER", $this->getTitle());
             }
-            if ($this->getId() != "") {
+            if ($this->getId() !== "") {
                 $mtpl->setVariable("ID", 'id="' . $this->getId() . '"');
             }
             $mtpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
@@ -678,18 +673,18 @@ class ilExplorer
         $a_node_id,
         array $a_option,
         $a_obj_id = 0
-    ) {
+    ) : void {
         $lng = $this->lng;
         $ilErr = $this->error;
 
         if (!isset($a_node_id) or !is_array($a_option)) {
             $ilErr->raiseError(get_class($this) . "::formatObject(): Missing parameter or wrong datatype! " .
-                                    "node_id: " . $a_node_id . " options:" . var_dump($a_option), $ilErr->WARNING);
+                                    "node_id: " . $a_node_id . " options:" . var_export($a_option, true), $ilErr->WARNING);
         }
 
         $pic = false;
         foreach ((array) $a_option["tab"] as $picture) {
-            if ($picture == 'plus') {
+            if ($picture === 'plus') {
                 $tpl->setCurrentBlock("expander");
                 $tpl->setVariable("EXP_DESC", $lng->txt("collapsed"));
                 $tpl->setVariable("LINK_NAME", $a_node_id);
@@ -706,7 +701,7 @@ class ilExplorer
                 $pic = true;
             }
 
-            if ($picture == 'forceexp') {
+            if ($picture === 'forceexp') {
                 $tpl->setCurrentBlock("expander");
                 $tpl->setVariable("EXP_DESC", $lng->txt("expanded"));
                 $target = $this->createTarget('+', $a_node_id);
@@ -717,7 +712,7 @@ class ilExplorer
                 $pic = true;
             }
 
-            if ($picture == 'minus' && $this->show_minus) {
+            if ($picture === 'minus' && $this->show_minus) {
                 $tpl->setCurrentBlock("expander");
                 $tpl->setVariable("EXP_DESC", $lng->txt("expanded"));
                 $tpl->setVariable("LINK_NAME", $a_node_id);
@@ -754,7 +749,7 @@ class ilExplorer
             $tpl->parseCurrentBlock();
         }
         
-        if (strlen($sel = $this->buildSelect($a_node_id, $a_option['type']))) {
+        if (($sel = $this->buildSelect($a_node_id, $a_option['type'])) !== '') {
             $tpl->setCurrentBlock('select');
             $tpl->setVariable('OBJ_SEL', $sel);
             $tpl->parseCurrentBlock();
@@ -769,7 +764,7 @@ class ilExplorer
                 
             $style_class = $this->getNodeStyleClass($a_node_id, $a_option["type"]);
             
-            if ($style_class != "") {
+            if ($style_class !== "") {
                 $tpl->setVariable("A_CLASS", ' class="' . $style_class . '" ');
             }
 
@@ -778,14 +773,16 @@ class ilExplorer
             }
 
             //$tpl->setVariable("LINK_NAME", $a_node_id);
-            $tpl->setVariable("TITLE",
+            $tpl->setVariable(
+                "TITLE",
                 ilStr::shortenTextExtended(
                     $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
                     $this->textwidth,
                     true
                 )
             );
-            $tpl->setVariable("DESC",
+            $tpl->setVariable(
+                "DESC",
                 ilStr::shortenTextExtended(
                     $this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]),
                     $this->textwidth,
@@ -793,19 +790,21 @@ class ilExplorer
                 )
             );
             $frame_target = $this->buildFrameTarget($a_option["type"], $a_node_id, $a_option["obj_id"]);
-            if ($frame_target != "") {
+            if ($frame_target !== "") {
                 $tpl->setVariable("TARGET", " target=\"" . $frame_target . "\"");
             }
         } else {			// output text only
             $tpl->setCurrentBlock("text");
-            $tpl->setVariable("OBJ_TITLE",
+            $tpl->setVariable(
+                "OBJ_TITLE",
                 ilStr::shortenTextExtended(
                     $this->buildTitle($a_option["title"], $a_node_id, $a_option["type"]),
                     $this->textwidth,
                     true
                 )
             );
-            $tpl->setVariable("OBJ_DESC",
+            $tpl->setVariable(
+                "OBJ_DESC",
                 ilStr::shortenTextExtended(
                     $this->buildDescription($a_option["desc"], $a_node_id, $a_option["type"]),
                     $this->textwidth,
@@ -913,14 +912,14 @@ class ilExplorer
         // SET expand parameter:
         //     positive if object is expanded
         //     negative if object is compressed
-        $a_node_id = $a_type == '+' ? $a_node_id : -(int) $a_node_id;
+        $a_node_id = $a_type === '+' ? $a_node_id : -(int) $a_node_id;
 
         $sep = (is_int(strpos($this->expand_target, "?")))
             ? "&"
             : "?";
         
         // in current tree flag
-        $ict_str = ($a_highlighted_subtree || $this->highlighted == "")
+        $ict_str = ($a_highlighted_subtree || $this->highlighted === "")
             ? "&ict=1"
             : "";
         if ($this->getAsynchExpanding()) {
@@ -940,24 +939,24 @@ class ilExplorer
 
     public function createLines(int $a_depth) : void
     {
-        for ($i = 0; $i < count($this->format_options); ++$i) {
+        for ($i = 0, $iMax = count($this->format_options); $i < $iMax; ++$i) {
             if ($this->format_options[$i]["depth"] == $a_depth + 1
                and !$this->format_options[$i]["container"]
                 and $this->format_options[$i]["depth"] != 1) {
-                $this->format_options[$i]["tab"]["$a_depth"] = "quer";
+                $this->format_options[$i]["tab"][(string) $a_depth] = "quer";
             }
 
             if ($this->format_options[$i]["depth"] == $a_depth + 2) {
                 if ($this->is_in_array($i + 1, $this->format_options[$i]["depth"])) {
-                    $this->format_options[$i]["tab"]["$a_depth"] = "winkel";
+                    $this->format_options[$i]["tab"][(string) $a_depth] = "winkel";
                 } else {
-                    $this->format_options[$i]["tab"]["$a_depth"] = "ecke";
+                    $this->format_options[$i]["tab"][(string) $a_depth] = "ecke";
                 }
             }
 
             if ($this->format_options[$i]["depth"] > $a_depth + 2) {
                 if ($this->is_in_array($i + 1, $a_depth + 2)) {
-                    $this->format_options[$i]["tab"]["$a_depth"] = "hoch";
+                    $this->format_options[$i]["tab"][(string) $a_depth] = "hoch";
                 }
             }
         }
@@ -967,7 +966,7 @@ class ilExplorer
         int $a_start,
         int $a_depth
     ) : bool {
-        for ($i = $a_start;$i < count($this->format_options);++$i) {
+        for ($i = $a_start, $iMax = count($this->format_options); $i < $iMax; ++$i) {
             if ($this->format_options[$i]["depth"] < $a_depth) {
                 break;
             }
@@ -1000,7 +999,7 @@ class ilExplorer
         if (is_array($this->filter)) {
             //run through filter
             foreach ($this->filter as $item) {
-                if ($item == $a_item) {
+                if ($item === $a_item) {
                     return false;
                 }
             }
@@ -1021,7 +1020,7 @@ class ilExplorer
             $tmp = array();
 
             foreach ($this->filter as $item) {
-                if ($item != $a_item) {
+                if ($item !== $a_item) {
                     $tmp[] = $item;
                 } else {
                     $deleted = 1;
@@ -1033,11 +1032,7 @@ class ilExplorer
             return false;
         }
 
-        if ($deleted == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return $deleted === 1;
     }
 
     /**
@@ -1096,7 +1091,7 @@ class ilExplorer
             $ret = false;
         }
 
-        if ($this->getFilterMode() == IL_FM_NEGATIVE) {
+        if ($this->getFilterMode() === IL_FM_NEGATIVE) {
             return $ret;
         } else {
             return !$ret;
@@ -1110,7 +1105,7 @@ class ilExplorer
     {
         $adm_node = null;
         foreach ($a_nodes as $key => $node) {
-            if ($node["type"] == "adm") {
+            if ($node["type"] === "adm") {
                 $match = $key;
                 $adm_node = $node;
                 break;
@@ -1126,7 +1121,7 @@ class ilExplorer
 
         // append adm node to end of list
         if (isset($match)) {
-            array_push($a_nodes, $adm_node);
+            $a_nodes[] = $adm_node;
         }
 
         return $a_nodes;

@@ -393,8 +393,8 @@ class ilUserProfile
         
         );
     protected string $ajax_href;
-    protected array $skip_fields;
-    protected array $skip_groups;
+    protected array $skip_fields; // Missing array type.
+    protected array $skip_groups; // Missing array type.
 
     protected ilUserSettingsConfig $user_settings_config;
 
@@ -418,7 +418,7 @@ class ilUserProfile
     /**
      * Get standard user fields array
      */
-    public function getStandardFields() : array
+    public function getStandardFields() : array // Missing array type.
     {
         $fields = array();
         foreach (self::$user_field as $f => $p) {
@@ -435,7 +435,7 @@ class ilUserProfile
     /**
      * Get visible fields in local user administration
      */
-    public function getLocalUserAdministrationFields() : array
+    public function getLocalUserAdministrationFields() : array // Missing array type.
     {
         global $DIC;
 
@@ -443,7 +443,7 @@ class ilUserProfile
 
         $fields = array();
         foreach ($this->getStandardFields() as $field => $info) {
-            if ($ilSetting->get('usr_settings_visib_lua_' . $field, 1)) {
+            if ($ilSetting->get('usr_settings_visib_lua_' . $field, '1')) {
                 $fields[$field] = $info;
             } elseif ($info['visib_lua_fix_value']) {
                 $fields[$field] = $info;
@@ -506,7 +506,7 @@ class ilUserProfile
         foreach ($fields as $f => $p) {
             // next group? -> diplay subheader
             if (($p["group"] != $current_group) &&
-                ilUserProfile::userSettingVisible($f)) {
+                self::userSettingVisible($f)) {
                 if (is_array($custom_fields) && !$custom_fields_done) {
                     // should be appended to "other" or at least before "settings"
                     if ($current_group == "other" || $p["group"] == "settings") {
@@ -529,11 +529,8 @@ class ilUserProfile
                 $current_group = $p["group"];
             }
 
-            $m = "";
-            if (isset($p["method"])) {
-                $m = $p["method"];
-            }
-            
+            $m = $p["method"] ?? "";
+
             $lv = (isset($p["lang_var"]) && $p["lang_var"] != "")
                 ? $p["lang_var"]
                 : $f;
@@ -559,7 +556,7 @@ class ilUserProfile
                     break;
                 
                 case "text":
-                    if (ilUserProfile::userSettingVisible($f)) {
+                    if (self::userSettingVisible($f)) {
                         $ti = new ilTextInputGUI($lng->txt($lv), "usr_" . $f);
                         if ($a_user) {
                             $ti->setValue($a_user->$m());
@@ -575,7 +572,7 @@ class ilUserProfile
                     break;
 
                 case "sel_country":
-                    if (ilUserProfile::userSettingVisible($f)) {
+                    if (self::userSettingVisible($f)) {
                         $ci = new ilCountrySelectInputGUI($lng->txt($lv), "usr_" . $f);
                         if ($a_user) {
                             $ci->setValue($a_user->$m());
@@ -589,7 +586,7 @@ class ilUserProfile
                     break;
 
                 case "birthday":
-                    if (ilUserProfile::userSettingVisible($f)) {
+                    if (self::userSettingVisible($f)) {
                         $bi = new ilBirthdayInputGUI($lng->txt($lv), "usr_" . $f);
                         $date = null;
                         if ($a_user && strlen($a_user->$m())) {
@@ -605,7 +602,7 @@ class ilUserProfile
                     break;
                     
                 case "radio":
-                    if (ilUserProfile::userSettingVisible($f)) {
+                    if (self::userSettingVisible($f)) {
                         $rg = new ilRadioGroupInputGUI($lng->txt($lv), "usr_" . $f);
                         if ($a_user) {
                             $rg->setValue($a_user->$m());
@@ -623,7 +620,7 @@ class ilUserProfile
                     break;
                     
                 case "picture":
-                    if (ilUserProfile::userSettingVisible("upload") && $a_user) {
+                    if (self::userSettingVisible("upload") && $a_user) {
                         $ii = new ilImageFileInputGUI($lng->txt("personal_picture"), "userfile");
                         $ii->setAllowCapture(true);
                         $ii->setDisabled((bool) $ilSetting->get("usr_settings_disable_upload"));
@@ -651,7 +648,7 @@ class ilUserProfile
                 case "roles":
                     $role_names = "";
                     if (self::$mode == self::MODE_DESKTOP) {
-                        if (ilUserProfile::userSettingVisible("roles")) {
+                        if (self::userSettingVisible("roles")) {
                             $global_roles = $rbacreview->getGlobalRoles();
                             foreach ($global_roles as $role_id) {
                                 if (in_array($role_id, $rbacreview->assignedRoles($a_user->getId()))) {
@@ -672,7 +669,7 @@ class ilUserProfile
                             }
                             // registration form validation will take care of missing field / value
                             if ($options) {
-                                if (sizeof($options) > 1) {
+                                if (count($options) > 1) {
                                     $ta = new ilSelectInputGUI($lng->txt('default_role'), "usr_" . $f);
                                     $ta->setOptions($options);
                                     $ta->setRequired((bool) $ilSetting->get("require_" . $f));
@@ -694,7 +691,7 @@ class ilUserProfile
 
                 case "second_email":
                 case "email":
-                    if (ilUserProfile::userSettingVisible($f)) {
+                    if (self::userSettingVisible($f)) {
                         $em = new ilEMailInputGUI($lng->txt($lv), "usr_" . $f);
                         if ($a_user) {
                             $em->setValue($a_user->$m());
@@ -710,7 +707,7 @@ class ilUserProfile
                     }
                     break;
                 case "textarea":
-                    if (ilUserProfile::userSettingVisible($f)) {
+                    if (self::userSettingVisible($f)) {
                         $ta = new ilTextAreaInputGUI($lng->txt($lv), "usr_" . $f);
                         if ($a_user) {
                             $ta->setValue($a_user->$m());
@@ -742,7 +739,7 @@ class ilUserProfile
                     break;
                     
                 case "language":
-                    if (ilUserProfile::userSettingVisible($f)) {
+                    if (self::userSettingVisible($f)) {
                         $ta = new ilSelectInputGUI($lng->txt($lv), "usr_" . $f);
                         if ($a_user) {
                             $ta->setValue($a_user->$m());
@@ -763,7 +760,7 @@ class ilUserProfile
                     break;
                     
                 case "multitext":
-                    if (ilUserProfile::userSettingVisible($f)) {
+                    if (self::userSettingVisible($f)) {
                         $ti = new ilTextInputGUI($lng->txt($lv), "usr_" . $f);
                         $ti->setMulti(true);
                         if ($a_user) {
@@ -783,7 +780,7 @@ class ilUserProfile
                     }
                     break;
                 case "noneditable":
-                    if (self::$mode == self::MODE_DESKTOP && ilUserProfile::userSettingVisible($f)) {
+                    if (self::$mode == self::MODE_DESKTOP && self::userSettingVisible($f)) {
                         $ne = new ilNonEditableValueGUI($lng->txt($lv));
                         $ne->setValue($a_user->$m());
                         $a_form->addItem($ne);
@@ -909,7 +906,7 @@ class ilUserProfile
     /**
      * Returns an array of all ignorable profiel fields
      */
-    public static function getIgnorableRequiredSettings() : array
+    public static function getIgnorableRequiredSettings() : array // Missing array type.
     {
         global $DIC;
 

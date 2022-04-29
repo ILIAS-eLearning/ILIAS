@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 /**
@@ -122,7 +138,7 @@ class ilSystemStyleSettings
         string $a_style_id,
         string $a_substyle,
         string $a_ref_id
-    ) {
+    ) : void {
         global $DIC;
 
         $assignments = self::getSubStyleCategoryAssignments($a_skin_id, $a_style_id, $a_substyle);
@@ -166,7 +182,7 @@ class ilSystemStyleSettings
     /**
      * Delets a sub styles category assignment.
      */
-    public static function deleteSubStyleCategoryAssignments(string $a_skin_id, string $a_style_id, string $a_substyle)
+    public static function deleteSubStyleCategoryAssignments(string $a_skin_id, string $a_style_id, string $a_substyle) : void
     {
         global $DIC;
 
@@ -242,10 +258,8 @@ class ilSystemStyleSettings
 
     /**
      * Sets the default style of the system
-     * @param $skin_id
-     * @param $style_id
      */
-    public static function setCurrentDefaultStyle($skin_id, $style_id)
+    public static function setCurrentDefaultStyle(string $skin_id, string $style_id) : void
     {
         global $DIC;
 
@@ -255,7 +269,7 @@ class ilSystemStyleSettings
         self::_activateStyle($skin_id, $style_id);
     }
 
-    public static function resetDefaultToDelos()
+    public static function resetDefaultToDelos() : void
     {
         $system_style_conf = new ilSystemStyleConfig();
 

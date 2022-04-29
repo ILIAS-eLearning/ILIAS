@@ -21,7 +21,6 @@
 abstract class ilObjectPlugin extends ilObject2
 {
     protected ilPlugin $plugin;
-    protected static array $plugin_by_type = [];
     protected ilComponentFactory $component_factory;
 
     public function __construct(int $a_ref_id = 0)
@@ -44,8 +43,7 @@ abstract class ilObjectPlugin extends ilObject2
         $component_factory = $DIC["component.factory"];
         try {
             return $component_factory->getPlugin($type);
-        }
-        catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             ilLoggerFactory::getLogger("obj")->log("There was an error while instantiating repo plugin obj of type: $type. Error: $e");
         }
         return null;

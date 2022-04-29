@@ -114,7 +114,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         }
     }
 
-    protected function initPrivacyForm() : \ilPropertyFormGUI
+    protected function initPrivacyForm() : ilPropertyFormGUI
     {
         $privacy = ilPrivacySettings::getInstance();
 
@@ -177,7 +177,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $check->setValue('crs_access_times');
         $group->addOption($check);
         $form->addItem($group);
-        $check = new \ilCheckboxOption();
+        $check = new ilCheckboxOption();
         $check->setTitle($this->lng->txt('ps_participants_list_courses'));
         $check->setValue('participants_list_courses');
         $group->addOption($check);
@@ -198,9 +198,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
      * Show Privacy settings
      * @access public
      */
-    public function showPrivacy(?\ilPropertyFormGUI $form = null) : void
+    public function showPrivacy(?ilPropertyFormGUI $form = null) : void
     {
-        if (!$form instanceof \ilPropertyFormGUI) {
+        if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initPrivacyForm();
         }
         $this->tpl->setContent($form->getHTML());
@@ -265,7 +265,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $code = $privacy->validate();
         // if error code != 0, display error and do not save
         if ($code !== 0) {
-            $msg = $this->getErrorMessage($code);
+            $msg = self::getErrorMessage($code);
             $this->tpl->setOnScreenMessage('failure', $msg);
             $form->setValuesByPost();
             $this->showPrivacy($form);
@@ -349,7 +349,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
                                                   ilAdministrationSettingsFormHandler::VALUE_BOOL
                     ),
                     'ps_participants_list_courses' => [$privacy->participantsListInCoursesEnabled(),
-                                                       \ilAdministrationSettingsFormHandler::VALUE_BOOL
+                                                       ilAdministrationSettingsFormHandler::VALUE_BOOL
                     ]
                 );
                 $fields = [

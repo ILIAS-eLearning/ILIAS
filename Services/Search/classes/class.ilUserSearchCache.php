@@ -88,7 +88,7 @@ class ilUserSearchCache
         $this->read();
     }
     
-    public static function _getInstance($a_usr_id) : ilUserSearchCache
+    public static function _getInstance(int $a_usr_id) : ilUserSearchCache
     {
         if (self::$instance instanceof ilUserSearchCache) {
             return self::$instance;
@@ -200,7 +200,7 @@ class ilUserSearchCache
      * @access public
      * @return array array(ref_id => obj_id)
      */
-    public function getCheckedItems():array
+    public function getCheckedItems() : array
     {
         return $this->checked ?: array();
     }
@@ -237,7 +237,7 @@ class ilUserSearchCache
     }
     
     /**
-     * @return mixed query string or array (for advanced search)
+     * @return string|array query string or array (for advanced search)
      */
     public function getQuery()
     {
@@ -263,7 +263,7 @@ class ilUserSearchCache
     /**
      * set root node of search
      */
-    public function setRoot(int $a_root)
+    public function setRoot(int $a_root) : void
     {
         $this->root = $a_root;
     }
@@ -374,7 +374,6 @@ class ilUserSearchCache
     
     public function delete() : bool
     {
-
         $query = "DELETE FROM usr_search " .
             "WHERE usr_id = " . $this->db->quote($this->usr_id, 'integer') . " " .
             "AND search_type = " . $this->db->quote($this->search_type, 'integer');
@@ -425,19 +424,19 @@ class ilUserSearchCache
 
     public function saveForAnonymous() : void
     {
-        unset($_SESSION['usr_search_cache']);
-
-        $_SESSION['usr_search_cache'][$this->search_type]['search_result'] = $this->search_result;
-        $_SESSION['usr_search_cache'][$this->search_type]['checked'] = $this->checked;
-        $_SESSION['usr_search_cache'][$this->search_type]['failed'] = $this->failed;
-        $_SESSION['usr_search_cache'][$this->search_type]['page'] = $this->page_number;
-        $_SESSION['usr_search_cache'][$this->search_type]['query'] = $this->getQuery();
-        $_SESSION['usr_search_cache'][$this->search_type]['root'] = $this->getRoot();
-        $_SESSION['usr_search_cache'][$this->search_type]['item_filter'] = $this->getItemFilter();
-        $_SESSION['usr_search_cache'][$this->search_type]['mime_filter'] = $this->getMimeFilter();
-        $_SESSION['usr_search_cache'][$this->search_type]['creation_filter'] = $this->getCreationFilter();
-
-        $_SESSION['usr_search_cache'][self::LAST_QUERY]['query'] = $this->getQuery();
+        ilSession::clear('usr_search_cache');
+        $session_usr_search = [];
+        $session_usr_search[$this->search_type]['search_result'] = $this->search_result;
+        $session_usr_search[$this->search_type]['checked'] = $this->checked;
+        $session_usr_search[$this->search_type]['failed'] = $this->failed;
+        $session_usr_search[$this->search_type]['page'] = $this->page_number;
+        $session_usr_search[$this->search_type]['query'] = $this->getQuery();
+        $session_usr_search[$this->search_type]['root'] = $this->getRoot();
+        $session_usr_search[$this->search_type]['item_filter'] = $this->getItemFilter();
+        $session_usr_search[$this->search_type]['mime_filter'] = $this->getMimeFilter();
+        $session_usr_search[$this->search_type]['creation_filter'] = $this->getCreationFilter();
+        $session_usr_search[self::LAST_QUERY]['query'] = $this->getQuery();
+        ilSession::set('usr_search_cache', $session_usr_search);
     }
     
     
@@ -485,15 +484,16 @@ class ilUserSearchCache
      */
     private function readAnonymous() : void
     {
-        $this->search_result = (array) $_SESSION['usr_search_cache'][$this->search_type]['search_result'];
-        $this->checked = (array) $_SESSION['usr_search_cache'][$this->search_type]['checked'];
-        $this->failed = (array) $_SESSION['usr_search_cache'][$this->search_type]['failed'];
-        $this->page_number = $_SESSION['usr_search_cache'][$this->search_type]['page_number'];
+        $usr_search_cache = ilSession::get('usr_search_cache') ?? [];
 
-        $this->setQuery($_SESSION['usr_search_cache'][$this->search_type]['query']);
-        $this->setRoot((int) $_SESSION['usr_search_cache'][$this->search_type]['root']);
-        $this->setItemFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['item_filter']);
-        $this->setMimeFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['mime_filter']);
-        $this->setCreationFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['creation_filter']);
+        $this->search_result = (array) ($usr_search_cache[$this->search_type]['search_result'] ?? []);
+        $this->checked = (array) ($usr_search_cache[$this->search_type]['checked'] ?? []);
+        $this->failed = (array) ($usr_search_cache[$this->search_type]['failed'] ?? []);
+        $this->page_number = (int) ($usr_search_cache[$this->search_type]['page_number'] ?? 1);
+        $this->setQuery((string) ($usr_search_cache[$this->search_type]['query'] ?? ''));
+        $this->setRoot((int) ($usr_search_cache[$this->search_type]['root'] ?? ROOT_FOLDER_ID));
+        $this->setItemFilter((array) ($usr_search_cache[$this->search_type]['item_filter'] ?? []));
+        $this->setMimeFilter((array) ($usr_search_cache[$this->search_type]['mime_filter'] ?? []));
+        $this->setCreationFilter((array) ($usr_search_cache[$this->search_type]['creation_filter'] ?? []));
     }
 }

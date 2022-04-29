@@ -53,13 +53,12 @@ class ilUserSearchFilter
     private int $usr_id;
 
     protected ilDBInterface $db;
-    protected ILIAS $ilias;
     protected ilSearchResult $result_obj;
+    protected ilSetting $settings;
     private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilUserSearchFilter constructor.
-     * @todo remove ilias dependency
      */
     public function __construct(int $a_usr_id)
     {
@@ -68,10 +67,11 @@ class ilUserSearchFilter
 
         $this->usr_id = $a_usr_id;
         $this->db = $DIC->database();
-        $this->ilias = $DIC['ilias'];
+        $this->settings = $DIC->settings();
 
         // Limit of filtered objects is search max hits
-        $this->limit = (int) $this->ilias->getSetting('search_max_hits', 50);
+
+        $this->limit = (int) $this->settings->get('search_mx_hits', '50');
         $this->result_obj = new ilSearchResult();
     }
 
@@ -111,12 +111,13 @@ class ilUserSearchFilter
     
     public function storeQueryStrings(array $a_strings) : void
     {
-        $_SESSION['search_usr_filter'] = $a_strings;
+        ilSession::set('search_usr_filter', $a_strings);
     }
 
     public function getQueryString(string $a_field) : string
     {
-        return $_SESSION['search_usr_filter'][$a_field] ?? '';
+        $session_usr_filter = ilSession::get('search_usr_filter') ?? [];
+        return $session_usr_filter[$a_field] ?? '';
     }
 
 
@@ -127,7 +128,9 @@ class ilUserSearchFilter
             if (!$enabled) {
                 continue;
             }
-            if (strlen($_SESSION['search_usr_filter'][$field])) {
+            $session_search_usr_filter = (array) (ilSession::get('search_usr_filter') ?? []);
+            $filter_field = (string) ($session_search_usr_filter[$field] ?? '');
+            if (strlen($filter_field)) {
                 $search = true;
                 break;
             }
@@ -144,7 +147,8 @@ class ilUserSearchFilter
                 continue;
             }
 
-            $query_string = $_SESSION['search_usr_filter'][$field];
+            $session_usr_filter = ilSession::get('search_usr_filter');
+            $query_string = (string) ($session_usr_filter[$field] ?? '');
             if (!$query_string) {
                 continue;
             }

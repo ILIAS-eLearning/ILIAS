@@ -158,8 +158,12 @@ class InformationDBRepository implements InformationRepository
     public function preload(array $identification_strings) : void
     {
         $r = $this->db->query(
-            "SELECT * FROM " . self::TABLE_NAME . " WHERE " . $this->db->in(self::IDENTIFICATION,
-                $identification_strings, false, 'text')
+            "SELECT * FROM " . self::TABLE_NAME . " WHERE " . $this->db->in(
+                self::IDENTIFICATION,
+                $identification_strings,
+                false,
+                'text'
+            )
         );
 
         while ($d = $this->db->fetchAssoc($r)) {

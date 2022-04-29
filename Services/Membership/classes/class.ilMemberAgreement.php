@@ -1,26 +1,22 @@
 <?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ModulesCourse
@@ -31,9 +27,7 @@ class ilMemberAgreement
     private int $user_id;
     private int $obj_id;
     private string $type;
-
     private ilPrivacySettings $privacy;
-
     private bool $accepted = false;
     private int $acceptance_time = 0;
 
@@ -70,8 +64,8 @@ class ilMemberAgreement
         $res = $ilDB->query($query);
         $user_data = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $user_data[$row->usr_id]['accepted'] = $row->accepted;
-            $user_data[$row->usr_id]['acceptance_time'] = $row->acceptance_time;
+            $user_data[(int) $row->usr_id]['accepted'] = $row->accepted;
+            $user_data[(int) $row->usr_id]['acceptance_time'] = $row->acceptance_time;
         }
         return $user_data;
     }
@@ -121,12 +115,11 @@ class ilMemberAgreement
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer');
         $res = $ilDB->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        return $row->accepted == 1;
+        return (int) $row->accepted === 1;
     }
 
     /**
      * Lookup users who have accepted the agreement
-     * @param int $a_obj_id
      * @return int[]
      */
     public static function lookupAcceptedAgreements(int $a_obj_id) : array
@@ -246,7 +239,7 @@ class ilMemberAgreement
     /**
      * save acceptance settings
      */
-    public function save()
+    public function save() : void
     {
         $this->delete();
         $query = "INSERT INTO member_agreement (usr_id,obj_id,accepted,acceptance_time) " .

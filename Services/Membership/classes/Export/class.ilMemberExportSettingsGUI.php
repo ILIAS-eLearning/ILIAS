@@ -1,6 +1,22 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Export settings gui
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -13,6 +29,8 @@ class ilMemberExportSettingsGUI
 
     private string $parent_type = '';
     private int $parent_obj_id = 0;
+    private \ILIAS\HTTP\Services $http;
+    private \ILIAS\Refinery\Factory $refinery;
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrlInterface $ctrl;
@@ -35,6 +53,8 @@ class ilMemberExportSettingsGUI
         $this->lng->loadLanguageModule('crs');
         $this->lng->loadLanguageModule('mem');
         $this->rbacsystem = $DIC->rbac()->system();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
 
     private function getLang() : ilLanguage
@@ -54,7 +74,7 @@ class ilMemberExportSettingsGUI
         }
     }
 
-    protected function printViewSettings(?ilPropertyFormGUI $form = null)
+    protected function printViewSettings(?ilPropertyFormGUI $form = null) : void
     {
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initForm(self::TYPE_PRINT_VIEW_SETTINGS);
@@ -62,7 +82,7 @@ class ilMemberExportSettingsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function initForm($a_type) : ilPropertyFormGUI
+    protected function initForm(string $a_type) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -92,9 +112,9 @@ class ilMemberExportSettingsGUI
         // udf
         $udf = ilUserDefinedFields::_getInstance();
         $exportable = array();
-        if ($this->parent_type == 'crs') {
+        if ($this->parent_type === 'crs') {
             $exportable = $udf->getCourseExportableFields();
-        } elseif ($this->parent_type == 'grp') {
+        } elseif ($this->parent_type === 'grp') {
             $exportable = $udf->getGroupExportableFields();
         }
         foreach ($exportable as $field_id => $udf_data) {
@@ -108,12 +128,12 @@ class ilMemberExportSettingsGUI
         $form->addItem($ufields);
 
         $privacy = ilPrivacySettings::getInstance();
-        if ($this->parent_type == 'crs') {
+        if ($this->parent_type === 'crs') {
             if ($privacy->enabledCourseAccessTimes()) {
                 $ufields->addOption(new ilCheckboxOption($this->lng->txt('last_access'), 'access'));
             }
         }
-        if ($this->parent_type == 'grp') {
+        if ($this->parent_type === 'grp') {
             if ($privacy->enabledGroupAccessTimes()) {
                 $ufields->addOption(new ilCheckboxOption($this->lng->txt('last_access'), 'access'));
             }
@@ -128,7 +148,7 @@ class ilMemberExportSettingsGUI
         $roles = new ilCheckboxGroupInputGUI($this->lng->txt('event_user_selection'), 'selection_of_users');
 
         $roles->addOption(new ilCheckboxOption($this->lng->txt('event_tbl_admin'), 'role_adm'));
-        if ($this->parent_type == 'crs') {
+        if ($this->parent_type === 'crs') {
             $roles->addOption(new ilCheckboxOption($this->lng->txt('event_tbl_tutor'), 'role_tut'));
         }
         $roles->addOption(new ilCheckboxOption($this->lng->txt('event_tbl_member'), 'role_mem'));
@@ -144,7 +164,16 @@ class ilMemberExportSettingsGUI
 
         switch ($a_type) {
             case self::TYPE_PRINT_VIEW_SETTINGS:
-                if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+
+                $ref_id = 0;
+                if ($this->http->wrapper()->query()->has('ref_id')) {
+                    $ref_id = $this->http->wrapper()->query()->retrieve(
+                        'ref_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                }
+
+                if ($this->rbacsystem->checkAccess('write', $ref_id)) {
                     $form->addCommandButton('savePrintViewSettings', $this->getLang()->txt('save'));
                 }
                 break;

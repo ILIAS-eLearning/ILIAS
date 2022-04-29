@@ -50,6 +50,6 @@ class State
      */
     public function serialize() : string
     {
-        return json_encode($this->store);
+        return json_encode($this->store, JSON_THROW_ON_ERROR);
     }
 }

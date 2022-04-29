@@ -14,7 +14,6 @@
 */
 class ilLikeUserMultiFieldSearch extends ilAbstractSearch
 {
-
     public function performSearch() : ilSearchResult
     {
         $where = $this->__createWhereCondition();
@@ -45,7 +44,6 @@ class ilLikeUserMultiFieldSearch extends ilAbstractSearch
 
     public function __createWhereCondition() : string
     {
-        
         $fields = $this->getFields();
         $field = $fields[0];
 

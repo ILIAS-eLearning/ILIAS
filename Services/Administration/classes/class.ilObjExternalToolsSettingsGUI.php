@@ -1,17 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Class ilObjExternalToolsSettingsGUI
@@ -21,6 +25,9 @@
  */
 class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 {
+    public ilRbacSystem $rbacsystem;
+    public ilRbacReview $rbacreview;
+
     public function __construct(
         $a_data,
         int $a_id,
@@ -78,21 +85,15 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     }
 
 
-    /**
-     * Configure maps settings
-     */
     public function editMapsObject() : void
     {
         $tpl = $this->tpl;
 
-        $this->__initSubTabs("editMaps");
+        $this->initSubTabs("editMaps");
         $form = $this->getMapsForm();
         $tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Configure maps settings
-     */
     public function getMapsForm() : ilPropertyFormGUI
     {
         $ilAccess = $this->access;
@@ -119,7 +120,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         $form->addItem($types);
 
         // map data server property
-        if ($type == "openlayers") {
+        if ($type === "openlayers") {
             $tile = new ilTextInputGUI($lng->txt("maps_tile_server"), "tile");
             $tile->setValue(ilMapUtil::getStdTileServers());
             $tile->setInfo(sprintf($lng->txt("maps_custom_tile_server_info"), ilMapUtil::DEFAULT_TILE));
@@ -165,7 +166,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
         $form = $this->getMapsForm();
         if ($form->checkInput()) {
-            if ($form->getInput("type") == 'openlayers' && 'openlayers' == ilMapUtil::getType()) {
+            if ($form->getInput("type") === 'openlayers' && 'openlayers' === ilMapUtil::getType()) {
                 ilMapUtil::setStdTileServers($form->getInput("title"));
                 ilMapUtil::setStdGeolocationServer(
                     $form->getInput("geolocation")
@@ -174,7 +175,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
                 ilMapUtil::setApiKey($form->getInput("api_key"));
             }
 
-            ilMapUtil::setActivated($form->getInput("enable") == "1");
+            ilMapUtil::setActivated($form->getInput("enable") === "1");
             ilMapUtil::setType($form->getInput("type"));
             $location = $form->getInput("std_location");
             ilMapUtil::setStdLatitude($location["latitude"]);
@@ -185,10 +186,10 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     }
     
     // init sub tabs
-    public function __initSubTabs(string $a_cmd) : void
+    public function initSubTabs(string $a_cmd) : void
     {
-        $maps = $a_cmd == 'editMaps';
-        $mathjax = $a_cmd == 'editMathJax';
+        $maps = $a_cmd === 'editMaps';
+        $mathjax = $a_cmd === 'editMathJax';
 
         $this->tabs_gui->addSubTabTarget(
             "maps_extt_maps",
@@ -222,7 +223,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
             case 'ilmathjaxsettingsgui':
                 $this->tabs_gui->setTabActive('settings');
-                $this->__initSubTabs("editMathJax");
+                $this->initSubTabs("editMathJax");
                 $this->ctrl->forwardCommand(new ilMathJaxSettingsGUI());
                 break;
 
@@ -239,7 +240,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
             default:
                 $this->tabs_gui->setTabActive('settings');
-                if (!$cmd || $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = "editMaps";
                 }
                 $cmd .= "Object";

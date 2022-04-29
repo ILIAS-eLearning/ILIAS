@@ -105,7 +105,7 @@ class ilQuestionPoolTaxonomiesDuplicator
         $testTaxonomy->create();
 
         $poolTaxonomy = new ilObjTaxonomy($poolTaxonomyId);
-        $poolTaxonomy->doCloneObject($testTaxonomy, null, null);
+        $poolTaxonomy->doCloneObject($testTaxonomy, null, null); // TODO this is no longer possible
 
         $poolTaxonomy->getTree()->readRootId();
         $testTaxonomy->getTree()->readRootId();
@@ -137,12 +137,12 @@ class ilQuestionPoolTaxonomiesDuplicator
     /**
      * @return ilQuestionPoolDuplicatedTaxonomiesKeysMap
      */
-    public function getDuplicatedTaxonomiesKeysMap()
+    public function getDuplicatedTaxonomiesKeysMap() : ilQuestionPoolDuplicatedTaxonomiesKeysMap
     {
         return $this->duplicatedTaxonomiesKeysMap;
     }
     
-    public function getAllTaxonomiesForSourceObject()
+    public function getAllTaxonomiesForSourceObject() : array
     {
         return ilObjTaxonomy::getUsageOfObject($this->getSourceObjId());
     }

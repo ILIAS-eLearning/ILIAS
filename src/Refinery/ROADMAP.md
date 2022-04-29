@@ -27,3 +27,9 @@ of the planned features of this service.
 * Unify the concepts of `Transformation` and `Constraints` and remove remaining
   unused classes.
 * Implement tree based XHTML Transformation for `MakeClickable` transformation
+* While adding explicit types for ILIAS 8 we noticed that there is a type problem with
+  the `src/Refinery/Logical/Group.php` and the respective contraints. All `Logicla` constraints depend on the
+  `\ILIAS\Refinery\ProblemBuilder::getErrorMessage`. This means only classes using the `ProblemBuilder` trait
+  can be passed as an argument when calling the factory methods in `src/Refinery/Logical/Group.php`.
+* Remove the float key case in `\ILIAS\Tests\Refinery\KindlyTo\Transformation\DictionaryTransformationTest::DictionaryTransformationDataProvider`
+  for PHP >= 8.1, because this will result in an implicit cast and a deprecation warning being raised.

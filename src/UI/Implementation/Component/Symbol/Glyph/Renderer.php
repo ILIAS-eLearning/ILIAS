@@ -29,7 +29,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl_file = $this->getTemplateFilename();
         $tpl = $this->getTemplate($tpl_file, true, true);
 
-        $tpl = $this->renderAction($component,$tpl);
+        $tpl = $this->renderAction($component, $tpl);
 
         if ($component->isHighlighted()) {
             $tpl->touchBlock("highlighted");
@@ -57,7 +57,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderAction(Component\Component $component, Template $tpl)
+    protected function renderAction(Component\Component $component, Template $tpl) : Template
     {
         $action = $component->getAction();
         if ($component->isActive() && $action !== null) {

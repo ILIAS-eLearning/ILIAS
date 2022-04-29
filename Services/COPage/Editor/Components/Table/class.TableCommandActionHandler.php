@@ -107,37 +107,35 @@ class TableCommandActionHandler implements Server\CommandActionHandler
      */
     protected function updateData(
         string $pcid,
-        string $content
+        array $content
     ) {
         $page = $this->page_gui->getPageObject();
         $table = $page->getContentObjectForPcId($pcid);
 
         $data = [];
         $updated = true;
-        if (is_array($content)) {
-            foreach ($content as $i => $row) {
-                if (is_array($row)) {
-                    foreach ($row as $j => $cell) {
-                        $text = "<div>" . $cell . "</div>";
-                        if ($updated) {
-                            // determine cell content
-                            $text = \ilPCParagraph::handleAjaxContent($text);
-                            $data[$i][$j] = $text;
-                            $updated = ($text !== false);
-                            $text = $text["text"];
-                        }
+        foreach ($content as $i => $row) {
+            if (is_array($row)) {
+                foreach ($row as $j => $cell) {
+                    $text = "<div>" . $cell . "</div>";
+                    if ($updated) {
+                        // determine cell content
+                        $text = \ilPCParagraph::handleAjaxContent($text);
+                        $data[$i][$j] = $text;
+                        $updated = ($text !== false);
+                        $text = $text["text"];
+                    }
 
-                        if ($updated) {
-                            $text = \ilPCParagraph::_input2xml(
-                                $text,
-                                $table->getLanguage(),
-                                true,
-                                false
-                            );
-                            $text = \ilPCParagraph::handleAjaxContentPost($text);
+                    if ($updated) {
+                        $text = \ilPCParagraph::_input2xml(
+                            $text,
+                            $table->getLanguage(),
+                            true,
+                            false
+                        );
+                        $text = \ilPCParagraph::handleAjaxContentPost($text);
 
-                            $data[$i][$j] = $text;
-                        }
+                        $data[$i][$j] = $text;
                     }
                 }
             }

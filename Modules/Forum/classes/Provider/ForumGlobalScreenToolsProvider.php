@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\UI\Component\Component;
@@ -48,7 +64,7 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
                     ->tool($iff('Forum|Tree'))
                     ->withTitle($title)
                     ->withSymbol($icon)
-                    ->withContentWrapper(static function () use ($l, $controller, $thread, $root, $additionalData) : Component {
+                    ->withContentWrapper(static function () use ($l, $controller, $thread, $root) : Component {
                         $exp = new ilForumExplorerGUI(
                             'frm_exp_' . $thread->getId(),
                             $controller,
@@ -56,8 +72,6 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
                             $thread,
                             $root
                         );
-
-                        $exp->setCurrentPage((int) $additionalData->get(self::PAGE));
 
                         return $l($exp->getHTML(true));
                     });

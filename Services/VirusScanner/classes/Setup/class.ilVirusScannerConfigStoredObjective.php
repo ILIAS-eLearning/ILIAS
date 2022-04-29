@@ -1,23 +1,26 @@
-<?php
+<?php declare(strict_types=1);
 
-use ILIAS\Setup;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use ILIAS\Setup;
+
 class ilVirusScannerConfigStoredObjective implements Setup\Objective
 {
-    protected \ilVirusScannerSetupConfig $config;
+    protected ilVirusScannerSetupConfig $config;
 
     public function __construct(
         ilVirusScannerSetupConfig $config
@@ -41,7 +44,7 @@ class ilVirusScannerConfigStoredObjective implements Setup\Objective
     }
 
     /**
-     * @return \ilIniFilesLoadedObjective[]
+     * @return ilIniFilesLoadedObjective[]
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {
@@ -54,7 +57,7 @@ class ilVirusScannerConfigStoredObjective implements Setup\Objective
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
 
-        $ini->setVariable("tools", "vscantype", (string) $this->config->getVirusScanner());
+        $ini->setVariable("tools", "vscantype", $this->config->getVirusScanner());
         $ini->setVariable("tools", "scancommand", (string) $this->config->getPathToScan());
         $ini->setVariable("tools", "cleancommand", (string) $this->config->getPathToClean());
         $ini->setVariable("tools", "icap_host", (string) $this->config->getIcapHost());

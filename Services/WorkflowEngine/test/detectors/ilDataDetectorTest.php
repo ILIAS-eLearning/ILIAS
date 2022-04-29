@@ -96,6 +96,7 @@ class ilDataDetectorTest extends ilWorkflowEngineBaseTest
 
         
         // Act
+        /** @noinspection PhpExpressionResultUnusedInspection */
         $detector->trigger(null);
         
         // Assert

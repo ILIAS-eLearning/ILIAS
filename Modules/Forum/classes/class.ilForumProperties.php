@@ -1,9 +1,23 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id: $
  * @ingroup ModulesForum
  */
 class ilForumProperties
@@ -81,7 +95,7 @@ class ilForumProperties
     private function read() : void
     {
         if ($this->obj_id) {
-            $res = $this->db->queryf(
+            $res = $this->db->queryF(
                 'SELECT * FROM frm_settings WHERE obj_id = %s',
                 ['integer'],
                 [$this->obj_id]
@@ -255,7 +269,7 @@ class ilForumProperties
         global $DIC;
         $ilDB = $DIC->database();
 
-        $result = $ilDB->queryf(
+        $result = $ilDB->queryF(
             'SELECT anonymized FROM frm_settings WHERE obj_id = %s',
             ['integer'],
             [$a_obj_id]

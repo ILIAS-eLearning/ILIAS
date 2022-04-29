@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery;
 use ILIAS\Setup;
@@ -13,7 +27,8 @@ class ilChatroomSetupAgent implements Setup\Agent
     private const PORT_MIN = 1;
     private const PORT_MAX = 65535;
 
-    public static $LOG_LEVELS = [
+    /** @var string[] */
+    public static array $LOG_LEVELS = [
         'emerg',
         'alert',
         'crit',
@@ -25,7 +40,8 @@ class ilChatroomSetupAgent implements Setup\Agent
         'silly'
     ];
 
-    public static $INTERVALS = [
+    /** @var string[] */
+    public static array $INTERVALS = [
         'days',
         'weeks',
         'months',
@@ -52,7 +68,7 @@ class ilChatroomSetupAgent implements Setup\Agent
      */
     public function getConfigInput(Setup\Config $config = null) : UI\Component\Input\Field\Input
     {
-        throw new \LogicException("Not yet implemented.");
+        throw new LogicException("Not yet implemented.");
     }
 
     /**

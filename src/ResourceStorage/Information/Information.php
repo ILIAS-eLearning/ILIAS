@@ -23,7 +23,6 @@ use DateTimeImmutable;
  */
 interface Information
 {
-
     public function getTitle() : string;
 
     public function getSuffix() : string;

@@ -456,8 +456,10 @@ class ilCalendarCategories
         $groups = array();
         $sessions = array();
         $exercises = array();
-        foreach ($this->fav_rep->getFavouritesOfUser($this->user->getId(),
-            array('crs', 'grp', 'sess', 'exc')) as $item) {
+        foreach ($this->fav_rep->getFavouritesOfUser(
+            $this->user->getId(),
+            array('crs', 'grp', 'sess', 'exc')
+        ) as $item) {
             if ($this->access->checkAccess('read', '', $item['ref_id'])) {
                 switch ($item['type']) {
                     case 'crs':
@@ -597,10 +599,14 @@ class ilCalendarCategories
             $this->categories_info[(int) $row->cat_id]['title'] = $row->title;
             $this->categories_info[(int) $row->cat_id]['color'] = $row->color;
             $this->categories_info[(int) $row->cat_id]['type'] = (int) $row->type;
-            $this->categories_info[(int) $row->cat_id]['editable'] = $this->rbacsystem->checkAccess('edit_event',
-                ilCalendarSettings::_getInstance()->getCalendarSettingsId());
-            $this->categories_info[(int) $row->cat_id]['settings'] = $this->rbacsystem->checkAccess('write',
-                ilCalendarSettings::_getInstance()->getCalendarSettingsId());
+            $this->categories_info[(int) $row->cat_id]['editable'] = $this->rbacsystem->checkAccess(
+                'edit_event',
+                ilCalendarSettings::_getInstance()->getCalendarSettingsId()
+            );
+            $this->categories_info[(int) $row->cat_id]['settings'] = $this->rbacsystem->checkAccess(
+                'write',
+                ilCalendarSettings::_getInstance()->getCalendarSettingsId()
+            );
             $this->categories_info[(int) $row->cat_id]['accepted'] = false;
             $this->categories_info[(int) $row->cat_id]['remote'] = (int) $row->loc_type == ilCalendarCategory::LTYPE_REMOTE;
         }
@@ -706,8 +712,10 @@ class ilCalendarCategories
                 'JOIN cal_entries ce ON be.booking_id = ce.context_id ' .
                 'JOIN cal_cat_assignments ca ON ce.cal_id = ca.cal_id ' .
                 'JOIN cal_categories cc ON ca.cat_id = cc.cat_id ' .
-                'WHERE ((bo.target_obj_id IS NULL) OR bo.target_obj_id = ' . $this->db->quote($target_obj_id,
-                    'integer') . ' ) ';
+                'WHERE ((bo.target_obj_id IS NULL) OR bo.target_obj_id = ' . $this->db->quote(
+                    $target_obj_id,
+                    'integer'
+                ) . ' ) ';
 
             // limit only to user if no cat id is given
             if ($a_cat_id == 0) {
@@ -904,7 +912,7 @@ class ilCalendarCategories
 
     /**
      * Lookup private categories of user
-     * @return int[]
+     * @return array[]
      */
     public static function lookupPrivateCategories(int $a_user_id) : array
     {

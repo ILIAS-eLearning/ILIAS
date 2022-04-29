@@ -36,7 +36,6 @@ class ilLikeExerciseSearch extends ilExerciseSearch
 {
     public function __createWhereCondition() : string
     {
-        
         $concat = $this->db->concat(
             array(
                 array('title','text'),

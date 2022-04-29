@@ -33,70 +33,63 @@ require_once 'Services/QTI/interfaces/interface.ilQTIPresentationMaterialAware.p
 */
 class ilQTIAssessment implements ilQTIPresentationMaterialAware
 {
-    public $ident;
-    public $title;
-    public $xmllang;
-    public $comment;
-    public $duration;
-    public $qtimetadata;
-    public $objectives;
-    public $assessmentcontrol;
-    public $rubric;
-    /**
-     * @var ilQTIPresentationMaterial
-     */
-    protected $presentation_material;
-    public $outcomes_processing;
-    public $assessproc_extension;
-    public $assessfeedback;
-    public $selection_ordering;
-    public $reference;
-    public $sectionref;
-    public $section;
-    
+    public ?string $ident;
+    public ?string $title;
+    public ?string $xmllang;
+    public ?string $comment;
+    /** @var null|array{h: string, m: string, s: string} */
+    public ?array $duration;
+    /** @var array{label: string, entry: string}[] */
+    public array $qtimetadata;
+    /** @var ilQTIObjectives[] */
+    public array $objectives;
+    /** @var ilQTIAssessmentcontrol[] */
+    public array $assessmentcontrol;
+    protected ilQTIPresentationMaterial $presentation_material;
+
     public function __construct()
     {
-        $this->qtimetadata = array();
-        $this->objectives = array();
-        $this->assessmentcontrol = array();
-        $this->rubric = array();
-        $this->outcomes_processing = array();
-        $this->assessfeedback = array();
-        $this->sectionref = array();
-        $this->section = array();
+        $this->ident = null;
+        $this->title = null;
+        $this->xmllang = null;
+        $this->comment = null;
+        $this->duration = null;
+        $this->qtimetadata = [];
+        $this->objectives = [];
+        $this->assessmentcontrol = [];
     }
-    
-    public function setIdent($a_ident)
+
+    public function setIdent(string $a_ident) : void
     {
         $this->ident = $a_ident;
     }
-    
-    public function getIdent()
+
+    public function getIdent() : ?string
     {
         return $this->ident;
     }
-    
-    public function setTitle($a_title)
+
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
-    
-    public function getTitle()
+
+    public function getTitle() : ?string
     {
         return $this->title;
     }
-    
-    public function setComment($a_comment)
+
+    public function setComment(string $a_comment) : void
     {
         $this->comment = $a_comment;
     }
-    
-    public function getComment()
+
+    public function getComment() : ?string
     {
         return $this->comment;
     }
-    
-    public function setDuration($a_duration)
+
+    public function setDuration(string $a_duration) : void
     {
         if (preg_match("/P(\d+)Y(\d+)M(\d+)DT(\d+)H(\d+)M(\d+)S/", $a_duration, $matches)) {
             $this->duration = array(
@@ -106,105 +99,50 @@ class ilQTIAssessment implements ilQTIPresentationMaterialAware
             );
         }
     }
-    
-    public function getDuration()
+
+    /**
+     * @return null|array{h: string, m: string, s: string}
+     */
+    public function getDuration() : ?array
     {
         return $this->duration;
     }
-    
-    public function setXmllang($a_xmllang)
+
+    public function setXmllang(string $a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
-    
-    public function getXmllang()
+
+    public function getXmllang() : ?string
     {
         return $this->xmllang;
     }
-    
-    public function addQtiMetadata($a_metadata)
-    {
-        array_push($this->qtimetadata, $a_metadata);
-    }
-    
-    public function addObjectives($a_objectives)
-    {
-        array_push($this->objectives, $a_objectives);
-    }
-    
-    public function addAssessmentcontrol($a_assessmentcontrol)
-    {
-        array_push($this->assessmentcontrol, $a_assessmentcontrol);
-    }
-    
-    public function addRubric($a_rubric)
-    {
-        array_push($this->rubric, $a_rubric);
-    }
 
     /**
-     * {@inheritdoc}
+     * @param array{label: string, entry: string} $a_metadata
      */
-    public function setPresentationMaterial(ilQTIPresentationMaterial $a_material)
+    public function addQtiMetadata(array $a_metadata) : void
+    {
+        $this->qtimetadata[] = $a_metadata;
+    }
+
+    public function addObjectives(?ilQTIObjectives $a_objectives) : void
+    {
+        $this->objectives[] = $a_objectives;
+    }
+
+    public function addAssessmentcontrol(ilQTIAssessmentcontrol $a_assessmentcontrol) : void
+    {
+        $this->assessmentcontrol[] = $a_assessmentcontrol;
+    }
+
+    public function setPresentationMaterial(ilQTIPresentationMaterial $a_material) : void
     {
         $this->presentation_material = $a_material;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getPresentationMaterial()
+    public function getPresentationMaterial() : ?ilQTIPresentationMaterial
     {
         return $this->presentation_material;
-    }
-    
-    public function addOutcomesProcessing($a_outcomes_processing)
-    {
-        array_push($this->outcomes_processing, $a_outcomes_processing);
-    }
-    
-    public function setAssessprocExtension($a_assessproc_extension)
-    {
-        $this->assessproc_extension = $a_assessproc_extension;
-    }
-    
-    public function getAssessprocExtension()
-    {
-        return $this->assessproc_extension;
-    }
-    
-    public function addAssessfeedback($a_assessfeedback)
-    {
-        array_push($this->assessfeedback, $a_assessfeedback);
-    }
-    
-    public function setSelectionOrdering($a_selection_ordering)
-    {
-        $this->selection_ordering = $a_selection_ordering;
-    }
-    
-    public function getSelectionOrdering()
-    {
-        return $this->selection_ordering;
-    }
-    
-    public function setReference($a_reference)
-    {
-        $this->reference = $a_reference;
-    }
-    
-    public function getReference()
-    {
-        return $this->reference;
-    }
-    
-    public function addSectionref($a_sectionref)
-    {
-        array_push($this->sectionref, $a_sectionref);
-    }
-    
-    public function addSection($a_section)
-    {
-        array_push($this->section, $a_section);
     }
 }

@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * GUI class for service settings (calendar, notes, comments)
  *
@@ -55,7 +69,10 @@ class ilObjectServiceSettingsGUI
         $this->lng = $DIC["lng"];
 
         $this->gui = $parent_gui;
-        $this->modes = $modes;
+        $this->modes = $DIC->refinery()->to()->listOf(
+            $DIC->refinery()->kindlyTo()->string()
+        )->transform($modes);
+        
         $this->obj_id = $obj_id;
     }
     
@@ -426,6 +443,7 @@ class ilObjectServiceSettingsGUI
     
     /**
      * Get active modes
+     * @return string[]
      */
     public function getModes() : array
     {
@@ -462,7 +480,7 @@ class ilObjectServiceSettingsGUI
     /**
      * Update settings
      */
-    protected function updateToolSettings()
+    protected function updateToolSettings() : void
     {
         // TODO: cant find initSettingsForm, is updateToolSettings ever called?
         $form = $this->initSettingsForm();
@@ -486,6 +504,6 @@ class ilObjectServiceSettingsGUI
      */
     protected function isModeActive(string $mode) : bool
     {
-        return in_array($mode, $this->getModes());
+        return in_array($mode, $this->getModes(), true);
     }
 }

@@ -50,7 +50,7 @@ class ilCtrlStructureMapper
         if (!empty($this->ctrl_structure[$class_name][$key_ref_from])) {
             foreach ($this->ctrl_structure[$class_name][$key_ref_from] as $index => $reference) {
                 $is_reference_available = isset($this->ctrl_structure[$reference]);
-                $is_reference_valid     = $this->isStructureEntryValid($reference);
+                $is_reference_valid = $this->isStructureEntryValid($reference);
 
                 // the vise-versa mapping must only be processed if the
                 // reference is available and a valid structure entry.

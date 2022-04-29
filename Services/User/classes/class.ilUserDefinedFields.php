@@ -13,12 +13,11 @@
  * https://github.com/ILIAS-eLearning
  */
 
-define('UDF_TYPE_TEXT', 1);
-define('UDF_TYPE_SELECT', 2);
-define('UDF_TYPE_WYSIWYG', 3);
-define('UDF_NO_VALUES', 1);
-define('UDF_DUPLICATE_VALUES', 2);
-
+const UDF_TYPE_TEXT = 1;
+const UDF_TYPE_SELECT = 2;
+const UDF_TYPE_WYSIWYG = 3;
+const UDF_NO_VALUES = 1;
+const UDF_DUPLICATE_VALUES = 2;
 
 /**
  * Additional user data fields definition
@@ -35,11 +34,14 @@ class ilUserDefinedFields
     protected bool $field_changeable_lua = false;
     protected bool $field_changeable = false;
     protected bool $field_visib_lua = false;
-    protected array $field_values = [];
+    protected array $field_values = []; // Missing array type.
     protected int $field_type = 0;
     protected string $field_name = "";
     protected bool $field_visible = false;
     public ?ilDBInterface $db = null;
+    /**
+     * @var array<int,array<string,mixed>>
+     */
     public array $definitions = array();
     private int $field_visible_registration = 0;
 
@@ -75,7 +77,7 @@ class ilUserDefinedFields
         if ($parts[0] != 'il') {
             return 0;
         }
-        if ($parts[1] != $ilSetting->get('inst_id', 0)) {
+        if ($parts[1] != $ilSetting->get('inst_id', '0')) {
             return 0;
         }
         if ($parts[2] != 'udf') {
@@ -83,7 +85,7 @@ class ilUserDefinedFields
         }
         if ($parts[3]) {
             // Check if field exists
-            if (is_array($this->definitions["$parts[3]"])) {
+            if (is_array($this->definitions[$parts[3]])) {
                 return $parts[3];
             }
         }
@@ -100,17 +102,17 @@ class ilUserDefinedFields
         return 0;
     }
 
-    public function getDefinitions() : array
+    public function getDefinitions() : array // Missing array type.
     {
         return $this->definitions ?: array();
     }
 
-    public function getDefinition(int $a_id) : array
+    public function getDefinition(int $a_id) : array // Missing array type.
     {
         return is_array($this->definitions[$a_id]) ? $this->definitions[$a_id] : array();
     }
 
-    public function getVisibleDefinitions() : array
+    public function getVisibleDefinitions() : array // Missing array type.
     {
         $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -121,7 +123,7 @@ class ilUserDefinedFields
         return $visible_definition;
     }
     
-    public function getLocalUserAdministrationDefinitions() : array
+    public function getLocalUserAdministrationDefinitions() : array // Missing array type.
     {
         $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -132,7 +134,7 @@ class ilUserDefinedFields
         return $visible_definition;
     }
     
-    public function getChangeableLocalUserAdministrationDefinitions() : array
+    public function getChangeableLocalUserAdministrationDefinitions() : array // Missing array type.
     {
         $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -143,7 +145,7 @@ class ilUserDefinedFields
         return $visible_definition;
     }
 
-    public function getRegistrationDefinitions() : array
+    public function getRegistrationDefinitions() : array // Missing array type.
     {
         $visible_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -154,7 +156,7 @@ class ilUserDefinedFields
         return $visible_definition;
     }
 
-    public function getSearchableDefinitions() : array
+    public function getSearchableDefinitions() : array // Missing array type.
     {
         $searchable_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -165,7 +167,7 @@ class ilUserDefinedFields
         return $searchable_definition;
     }
 
-    public function getRequiredDefinitions() : array
+    public function getRequiredDefinitions() : array // Missing array type.
     {
         $required_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -176,7 +178,7 @@ class ilUserDefinedFields
         return $required_definition;
     }
 
-    public function getCourseExportableFields() : array
+    public function getCourseExportableFields() : array // Missing array type.
     {
         $cexp_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -187,7 +189,7 @@ class ilUserDefinedFields
         return $cexp_definition;
     }
 
-    public function getGroupExportableFields() : array
+    public function getGroupExportableFields() : array // Missing array type.
     {
         $cexp_definition = [];
         foreach ($this->definitions as $id => $definition) {
@@ -201,7 +203,7 @@ class ilUserDefinedFields
     /**
      * Get exportable field
      */
-    public function getExportableFields(int $a_obj_id) : array
+    public function getExportableFields(int $a_obj_id) : array // Missing array type.
     {
         if (ilObject::_lookupType($a_obj_id) == 'crs') {
             return $this->getCourseExportableFields();
@@ -249,6 +251,9 @@ class ilUserDefinedFields
         return $this->field_type;
     }
 
+    /**
+     * @param array $a_values<mixed, mixed>
+     */
     public function setFieldValues(array $a_values) : void
     {
         $this->field_values = array();
@@ -259,7 +264,7 @@ class ilUserDefinedFields
         }
     }
 
-    public function getFieldValues() : array
+    public function getFieldValues() : array // Missing array type.
     {
         return $this->field_values ?: array();
     }
@@ -466,7 +471,7 @@ class ilUserDefinedFields
         return $field_id;
     }
 
-    public function delete(int $a_id)
+    public function delete(int $a_id) : void
     {
         global $DIC;
 
@@ -475,7 +480,7 @@ class ilUserDefinedFields
         // Delete definitions
         $query = "DELETE FROM udf_definition " .
             "WHERE field_id = " . $this->db->quote($a_id, 'integer') . " ";
-        $res = $ilDB->manipulate($query);
+        $ilDB->manipulate($query);
 
         // Delete usr_data entries
         ilUserDefinedData::deleteEntriesOfField($a_id);
@@ -523,12 +528,12 @@ class ilUserDefinedFields
             $this->definitions[$row->field_id]['field_id'] = $row->field_id;
             $this->definitions[$row->field_id]['field_name'] = $row->field_name;
             $this->definitions[$row->field_id]['field_type'] = $row->field_type;
-            $this->definitions[$row->field_id]['il_id'] = 'il_' . $ilSetting->get('inst_id', 0) . '_udf_' . $row->field_id;
+            $this->definitions[$row->field_id]['il_id'] = 'il_' . $ilSetting->get('inst_id', '0') . '_udf_' . $row->field_id;
 
             // #16953
             $tmp = $sort = array();
             $is_numeric = true;
-            foreach ((array) unserialize($row->field_values) as $item) {
+            foreach ((array) unserialize($row->field_values, ['allowed_classes' => false]) as $item) {
                 if (!is_numeric($item)) {
                     $is_numeric = false;
                 }

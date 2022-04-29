@@ -38,14 +38,12 @@ class InternalDomainService
         $this->initDomainServices($DIC);
     }
 
-    /*
-    public function access(int $ref_id, int $user_id) : Access\AccessManager
+    public function history() : History\HistoryManager
     {
-        return new Access\AccessManager(
-            $this,
-            $this->access,
-            $ref_id,
-            $user_id
+        return new History\HistoryManager(
+            $this->data_service,
+            $this->repo_service,
+            $this
         );
-    }*/
+    }
 }

@@ -1,5 +1,23 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Refinery\Factory;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
@@ -7,12 +25,11 @@
  */
 class ilMailQuickFilterInputGUI extends ilTextInputGUI
 {
-    protected ?\ILIAS\Refinery\Factory $refinery;
-    protected \ILIAS\HTTP\GlobalHttpState $httpState;
+    protected ?Factory $refinery;
+    protected GlobalHttpState $httpState;
 
     public function __construct($a_title, $a_postvar)
     {
-        /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
         
         $this->refinery = $DIC->refinery();
@@ -61,12 +78,12 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
         }
         if ($this->getInlineStyle() !== '') {
             $tpl->setCurrentBlock('stylecss');
-            $tpl->setVariable('CSS_STYLE', ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getInlineStyle()));
+            $tpl->setVariable('CSS_STYLE', ilLegacyFormElementsUtil::prepareFormOutput($this->getInlineStyle()));
             $tpl->parseCurrentBlock();
         }
         if ($this->getCssClass() !== '') {
             $tpl->setCurrentBlock('classcss');
-            $tpl->setVariable('CLASS_CSS', ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getCssClass()));
+            $tpl->setVariable('CLASS_CSS', ilLegacyFormElementsUtil::prepareFormOutput($this->getCssClass()));
             $tpl->parseCurrentBlock();
         }
         if ($this->getSubmitFormOnEnter()) {
@@ -131,7 +148,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
             $tpl->setVariable('STYLE_PAR');
         }
 
-        if (is_array($this->sub_items) && $this->sub_items) {
+        if ($this->sub_items !== []) {
             $tpl->setVariable('FIELD_ID', $this->getFieldId());
             $tpl->setVariable('TXT_PLACEHOLDER', $this->lng->txt('mail_filter_field_placeholder'));
             $tpl->setVariable('TXT_FILTER_MESSAGES_BY', $this->lng->txt('mail_filter_txt'));

@@ -29,7 +29,7 @@ class ilRepositoryObjectPluginSlot
         $plugins = $component_repository->getPluginSlotById("robj")->getActivePlugins();
         foreach ($plugins as $plugin) {
             $pl_id = $plugin->getId();
-            $a_obj_array[$pl_id] = array("name" => $pl_id, "lng" => $pl_id, "plugin" => true);
+            $a_obj_array[$pl_id] = ["name" => $pl_id, "lng" => $pl_id, "plugin" => true];
         }
 
         return $a_obj_array;
@@ -69,8 +69,8 @@ class ilRepositoryObjectPluginSlot
         }
 
         $slot = $component_repository->getPluginSlotById("robj");
-        if ($slot->hasPluginName($pname)) {
-            $plugin = $slot->getPluginByName($pname);
+        if ($slot->hasPluginName($a_type)) {
+            $plugin = $slot->getPluginByName($a_type);
             if (!$a_active_status || $plugin->isActive()) {
                 if ($plugin->supportsLearningProgress()) {
                     return true;

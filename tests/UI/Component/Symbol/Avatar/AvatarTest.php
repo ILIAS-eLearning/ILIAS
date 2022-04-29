@@ -183,9 +183,9 @@ class AvatarTest extends ILIAS_UI_TestBase
         $sh = static function ($length = 10) {
             return substr(
                 str_shuffle(str_repeat(
-                $x = 'abcdefghijklmnopqrstuvwxyz',
-                (int) ceil($length / strlen($x))
-            )),
+                    $x = 'abcdefghijklmnopqrstuvwxyz',
+                    (int) ceil($length / strlen($x))
+                )),
                 1,
                 $length
             );

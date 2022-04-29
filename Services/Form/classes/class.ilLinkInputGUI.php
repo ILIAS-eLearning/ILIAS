@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -350,7 +350,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         if ($has_int) {
             $ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->getPostVar());
             $link = array(get_class($this->getParentForm()), "ilformpropertydispatchgui", get_class($this), "ilinternallinkgui");
-            $link = $ilCtrl->getLinkTargetByClass($link, "", false, true, false);
+            $link = $ilCtrl->getLinkTargetByClass($link, "", '', true, false);
             $ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->requested_postvar);
                                 
             $no_disp_class = (strpos($this->getValue(), "|"))
@@ -497,7 +497,7 @@ class ilLinkInputGUI extends ilFormPropertyGUI
                 // numeric id
                 if (is_numeric($parts[1])) {
                     // simple type
-                    if (preg_match("/^[a-zA-Z_]+$/", $parts[0], $matches)) {
+                    if (preg_match("/^[a-zA-Z_]+$/", $parts[0])) {
                         return true;
                     }
                 }

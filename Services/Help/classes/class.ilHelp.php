@@ -30,11 +30,11 @@ class ilHelp
         $ilUser = $DIC->user();
         
         
-        if ($ilUser->getLanguage() != "de") {
+        if ($ilUser->getLanguage() !== "de") {
             return "";
         }
         
-        if ($ilSetting->get("help_mode") == "1") {
+        if ($ilSetting->get("help_mode") === "1") {
             return "";
         }
 
@@ -42,11 +42,11 @@ class ilHelp
             return "";
         }
         
-        if (OH_REF_ID > 0) {
+        if (defined('OH_REF_ID') && (int) OH_REF_ID > 0) {
             $module_id = 0;
         } else {
             $module_id = (int) $ilSetting->get("help_module");
-            if ($module_id == 0) {
+            if ($module_id === 0) {
                 return "";
             }
         }
@@ -59,7 +59,7 @@ class ilHelp
         $rec = $ilDB->fetchAssoc($set);
         if (is_array($rec) && $rec["tt_text"] != "") {
             $t = $rec["tt_text"];
-            if ($module_id == 0) {
+            if ($module_id === 0) {
                 $t .= "<br/><i>(" . $a_tt_id . ")</i>";
             }
             return $t;
@@ -74,13 +74,13 @@ class ilHelp
             $rec = $ilDB->fetchAssoc($set);
             if (is_array($rec) && $rec["tt_text"] != "") {
                 $t = $rec["tt_text"];
-                if ($module_id == 0) {
+                if ($module_id === 0) {
                     $t .= "<br/><i>(" . $a_tt_id . ")</i>";
                 }
                 return $t;
             }
         }
-        if ($module_id == 0) {
+        if ($module_id === 0) {
             return "<i>" . $a_tt_id . "</i>";
         }
         return "";
@@ -114,7 +114,7 @@ class ilHelp
         
         $q = "SELECT * FROM help_tooltip";
         $q .= " WHERE module_id = " . $ilDB->quote($a_module_id, "integer");
-        if ($a_comp != "") {
+        if ($a_comp !== "") {
             $q .= " AND comp = " . $ilDB->quote($a_comp, "text");
         }
         $set = $ilDB->query($q);
@@ -230,8 +230,8 @@ class ilHelp
 
         $lm_id = 0;
 
-        if (OH_REF_ID > 0) {
-            $lm_id = ilObject::_lookupObjId(OH_REF_ID);
+        if ((int) OH_REF_ID > 0) {
+            $lm_id = ilObject::_lookupObjId((int) OH_REF_ID);
         } else {
             $hm = (int) $ilSetting->get("help_module");
             if ($hm > 0) {

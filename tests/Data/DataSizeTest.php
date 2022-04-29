@@ -17,7 +17,7 @@ class DataSizeTest extends TestCase
     /**
      * @dataProvider tDataProvider
      */
-    public function test_normal($a, $b, $expected, $expected_in_bytes)
+    public function test_normal($a, $b, $expected, $expected_in_bytes) : void
     {
         $ds = new DataSize($a, $b);
         $this->assertEquals($a / $b, $ds->getSize());
@@ -28,7 +28,7 @@ class DataSizeTest extends TestCase
         }
     }
 
-    public function test_division_by_zero()
+    public function test_division_by_zero() : void
     {
         try {
             $ds = new DataSize(4533, 0);
@@ -38,7 +38,7 @@ class DataSizeTest extends TestCase
         }
     }
 
-    public function tDataProvider()
+    public function tDataProvider() : array
     {
         return [
             [122, 1000, "0.122 KB", 122],

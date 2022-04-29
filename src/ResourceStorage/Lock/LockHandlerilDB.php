@@ -38,7 +38,7 @@ class LockHandlerilDB implements LockHandler
         foreach ($table_names as $table_name) {
             $lock->addTableLock($table_name);
         }
-        $lock->addQueryCallable(static function (\ilDBInterface $db) use ($during): void {
+        $lock->addQueryCallable(static function (\ilDBInterface $db) use ($during) : void {
             $during();
         });
 

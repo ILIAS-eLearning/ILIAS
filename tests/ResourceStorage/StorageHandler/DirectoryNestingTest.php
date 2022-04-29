@@ -80,6 +80,4 @@ class DirectoryNestingTest extends AbstractBaseTest
         $storage_handler = new MaxNestingFileSystemStorageHandler($this->file_system_mock, 2);
         $this->withImplementation($storage_handler, self::NESTING_4096 - 1, self::NESTING_4096);
     }
-
 }
-

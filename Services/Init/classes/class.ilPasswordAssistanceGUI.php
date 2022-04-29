@@ -45,9 +45,6 @@ class ilPasswordAssistanceGUI
         return CLIENT_ID;
     }
 
-    /**
-     * @return mixed
-     */
     public function executeCommand()
     {
         // check hack attempts
@@ -76,12 +73,7 @@ class ilPasswordAssistanceGUI
                 $this->refinery->kindlyTo()->string()
             );
         }
-
-        if ($lang != '' && $this->lng->getLangKey() != $lang) {
-            $lng = new ilLanguage($lang);
-        }
         $this->lng->loadLanguageModule('pwassist');
-
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
@@ -89,7 +81,7 @@ class ilPasswordAssistanceGUI
             default:
                 if ($cmd != '' && method_exists($this, $cmd)) {
                     return $this->$cmd();
-                } elseif (!empty($key)) {
+                } elseif (!empty($key)) { //ToDo PHP8: This will never happen. smeyer: why? $_GET['key'] != '' && $_GET['cmd'] = ''
                     $this->showAssignPasswordForm();
                 } else {
                     $this->showAssistanceForm();
@@ -268,7 +260,6 @@ class ilPasswordAssistanceGUI
      * and contains the following URL parameters:
      * client_id
      * key
-     * @param $userObj ilObjUser
      */
     public function sendPasswordAssistanceMail(ilObjUser $userObj) : void
     {
@@ -276,26 +267,17 @@ class ilPasswordAssistanceGUI
 
         require_once 'include/inc.pwassist_session_handler.php';
 
-        // Check if we need to create a new session
-        $pwassist_session = db_pwassist_session_find($userObj->getId());
-        if (
-            !is_array($pwassist_session) ||
-            count($pwassist_session) == 0 ||
-            $pwassist_session['expires'] < time() ||
-            true // comment by mjansen: wtf? :-)
-        ) {
-            // Create a new session id
-            // #9700 - this didn't do anything before?!
-            // db_set_save_handler();
-            session_start();
-            $pwassist_session['pwassist_id'] = db_pwassist_create_id();
-            session_destroy();
-            db_pwassist_session_write(
-                $pwassist_session['pwassist_id'],
-                3600,
-                $userObj->getId()
-            );
-        }
+        // Create a new session id
+        // #9700 - this didn't do anything before?!
+        // db_set_save_handler();
+        session_start();
+        $pwassist_session['pwassist_id'] = db_pwassist_create_id();
+        session_destroy();
+        db_pwassist_session_write(
+            $pwassist_session['pwassist_id'],
+            3600,
+            $userObj->getId()
+        );
 
         $pwassist_url = $this->buildUrl(
             'pwassist.php',
@@ -513,10 +495,7 @@ class ilPasswordAssistanceGUI
             }
         }
     }
-
-    /**
-     * @return ilPropertyFormGUI
-     */
+    
     protected function getUsernameAssistanceForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
@@ -540,7 +519,6 @@ class ilPasswordAssistanceGUI
      * email
      * When the user submits the form, then this script is invoked with the cmd
      * 'submitAssistanceForm'.
-     * @param ilPropertyFormGUI $form
      */
     public function showUsernameAssistanceForm(ilPropertyFormGUI $form = null) : void
     {
@@ -615,8 +593,6 @@ class ilPasswordAssistanceGUI
      * and contains the following URL parameters:
      * client_id
      * key
-     * @param $email
-     * @param $logins
      */
     public function sendUsernameAssistanceMail(string $email, array $logins) : void
     {
@@ -674,6 +650,6 @@ class ilPasswordAssistanceGUI
 
     protected function fillPermanentLink(string $context) : void
     {
-        $this->tpl->setPermanentLink('usr', null, $context);
+        $this->tpl->setPermanentLink('usr', 0, $context);
     }
 }

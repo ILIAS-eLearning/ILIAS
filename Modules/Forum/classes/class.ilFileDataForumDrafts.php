@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class handles all operations on files for the drafts of a forum object.
@@ -13,7 +28,7 @@ class ilFileDataForumDrafts extends ilFileData
     private string $drafts_path;
     private ilLanguage $lng;
     private ilErrorHandling $error;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(int $obj_id, int $draft_id)
     {
@@ -176,14 +191,14 @@ class ilFileDataForumDrafts extends ilFileData
     }
 
     /**
-     * @param string md5 encrypted filename
+     * @param string $hashedFilename
      * @return array{path: string, filename: string, clean_filename: string}|null
      */
-    public function getFileDataByMD5Filename(string $a_md5_filename) : ?array
+    public function getFileDataByMD5Filename(string $hashedFilename) : ?array
     {
         $files = ilFileUtils::getDir($this->getDraftsPath() . '/' . $this->getDraftId());
         foreach ($files as $file) {
-            if ($file['type'] === 'file' && md5($file['entry']) === $a_md5_filename) {
+            if ($file['type'] === 'file' && md5($file['entry']) === $hashedFilename) {
                 return [
                     'path' => $this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file['entry'],
                     'filename' => $file['entry'],
@@ -196,15 +211,15 @@ class ilFileDataForumDrafts extends ilFileData
     }
 
     /**
-     * @param string|string[] $a_md5_filename
+     * @param string|string[] $hashedFilenameOrFilenames
      * @return bool
      */
-    public function unlinkFilesByMD5Filenames($a_md5_filename) : bool
+    public function unlinkFilesByMD5Filenames($hashedFilenameOrFilenames) : bool
     {
         $files = ilFileUtils::getDir($this->getDraftsPath() . '/' . $this->getDraftId());
-        if (is_array($a_md5_filename)) {
+        if (is_array($hashedFilenameOrFilenames)) {
             foreach ($files as $file) {
-                if ($file['type'] === 'file' && in_array(md5($file['entry']), $a_md5_filename, true)) {
+                if ($file['type'] === 'file' && in_array(md5($file['entry']), $hashedFilenameOrFilenames, true)) {
                     unlink($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file['entry']);
                 }
             }
@@ -213,7 +228,7 @@ class ilFileDataForumDrafts extends ilFileData
         }
 
         foreach ($files as $file) {
-            if ($file['type'] === 'file' && md5($file['entry']) === $a_md5_filename) {
+            if ($file['type'] === 'file' && md5($file['entry']) === $hashedFilenameOrFilenames) {
                 return unlink($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file['entry']);
             }
         }

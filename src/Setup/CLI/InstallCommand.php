@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\Setup\CLI;
 
 use ILIAS\Setup\AgentFinder;
@@ -31,7 +45,7 @@ class InstallCommand extends Command
     /**
      * var Objective[]
      */
-    protected array $preconditions;
+    protected array $preconditions = [];
 
     /**
      * @var Objective[] $preconditions will be achieved before command invocation
@@ -44,7 +58,7 @@ class InstallCommand extends Command
         $this->preconditions = $preconditions;
     }
 
-    protected function configure()
+    protected function configure() : void
     {
         $this->setDescription("Creates a fresh ILIAS installation based on the config");
         $this->addArgument("config", InputArgument::OPTIONAL, "Configuration file for the installation");
@@ -93,7 +107,7 @@ class InstallCommand extends Command
             $agent->getInstallObjective($config),
             $agent->getUpdateObjective($config)
         );
-        if (count($this->preconditions) > 0) {
+        if ($this->preconditions !== []) {
             $objective = new ObjectiveWithPreconditions(
                 $objective,
                 ...$this->preconditions
@@ -133,7 +147,7 @@ class InstallCommand extends Command
             $agent->getInstallObjective($config),
             $agent->getUpdateObjective($config)
         );
-        if (count($this->preconditions) > 0) {
+        if ($this->preconditions !== []) {
             $objective = new ObjectiveWithPreconditions(
                 $objective,
                 ...$this->preconditions

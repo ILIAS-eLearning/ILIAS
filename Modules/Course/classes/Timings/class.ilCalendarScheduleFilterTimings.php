@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Calendar schedule filter for individual timings
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -20,6 +34,7 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
         global $DIC;
 
         $this->user_id = $a_usr_id;
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->crs();
     }
 
@@ -32,6 +47,7 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
      * Filter categories
      * All categories are show no filtering (support for individual folder appointments)
      * @param int[] $a_cats
+     * @return int[]
      */
     public function filterCategories(array $a_cats) : array
     {
@@ -40,8 +56,6 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
 
     /**
      * modify event => return false for not presenting event
-     * @param \ilCalendarEntry $a_event
-     * @return ilCalendarEntry|null
      */
     public function modifyEvent(ilCalendarEntry $a_event) : ?ilCalendarEntry
     {
@@ -138,7 +152,7 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
                 continue;
             }
             $active = ilObjectActivation::getTimingsItems($course_ref_id);
-            foreach ($active as $null => $item) {
+            foreach ($active as $item) {
                 if ($item['timing_type'] != ilObjectActivation::TIMINGS_PRESETTING) {
                     $this->getLogger()->debug('timings not active for: ' . $item['ref_id']);
                     continue;
@@ -183,9 +197,7 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
     }
 
     /**
-     * @param int $category_id
-     * @param int $item_ref_id
-     * @return ilCalendarEntry
+     * @return \ilCalendarEntry[]
      */
     protected function findCalendarEntriesForItem(int $category_id, int $item_ref_id) : array
     {

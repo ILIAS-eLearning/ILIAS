@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,27 +15,25 @@
 
 namespace ILIAS\Style\Content\Container;
 
+use ilDBInterface;
+
 /**
  * This repo stores infos on repository objects that are using booking managers as a service
  * (resource management).
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ContainerDBRepository
 {
     const TABLE_NAME = 'sty_rep_container';
 
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
+    protected ilDBInterface $db;
 
-    public function __construct(\ilDBInterface $db)
+    public function __construct(ilDBInterface $db)
     {
         $this->db = $db;
     }
 
-    public function updateReuse(int $ref_id, bool $reuse)
+    public function updateReuse(int $ref_id, bool $reuse) : void
     {
         $db = $this->db;
 

@@ -21,24 +21,24 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("RESPONSEVAR_EQUAL", "1");
-define("RESPONSEVAR_LT", "2");
-define("RESPONSEVAR_LTE", "3");
-define("RESPONSEVAR_GT", "4");
-define("RESPONSEVAR_GTE", "5");
-define("RESPONSEVAR_SUBSET", "6");
-define("RESPONSEVAR_INSIDE", "7");
-define("RESPONSEVAR_SUBSTRING", "8");
+const RESPONSEVAR_EQUAL = "1";
+const RESPONSEVAR_LT = "2";
+const RESPONSEVAR_LTE = "3";
+const RESPONSEVAR_GT = "4";
+const RESPONSEVAR_GTE = "5";
+const RESPONSEVAR_SUBSET = "6";
+const RESPONSEVAR_INSIDE = "7";
+const RESPONSEVAR_SUBSTRING = "8";
 
-define("CASE_YES", "1");
-define("CASE_NO", "2");
+const CASE_YES = "1";
+const CASE_NO = "2";
 
-define("SETMATCH_PARTIAL", "1");
-define("SETMATCH_EXACT", "2");
+const SETMATCH_PARTIAL = "1";
+const SETMATCH_EXACT = "2";
 
-define("AREATYPE_ELLIPSE", "1");
-define("AREATYPE_RECTANGLE", "2");
-define("AREATYPE_BOUNDED", "3");
+const AREATYPE_ELLIPSE = "1";
+const AREATYPE_RECTANGLE = "2";
+const AREATYPE_BOUNDED = "3";
 
 /**
 * QTI response variable class
@@ -50,30 +50,36 @@ define("AREATYPE_BOUNDED", "3");
 */
 class ilQTIResponseVar
 {
-    public $vartype;
-    public $case;
-    public $respident;
-    public $index;
-    public $setmatch;
-    public $areatype;
-    public $content;
+    public ?string $vartype;
+    public ?string $case;
+    public ?string $respident;
+    public ?string $index;
+    public ?string $setmatch;
+    public ?string $areatype;
+    public ?string $content;
     
-    public function __construct($a_vartype)
+    public function __construct(string $a_vartype)
     {
         $this->setVartype($a_vartype);
+        $this->case = null;
+        $this->respident = null;
+        $this->index = null;
+        $this->setmatch = null;
+        $this->areatype = null;
+        $this->content = null;
     }
-    
-    public function setVartype($a_vartype)
+
+    public function setVartype(string $a_vartype) : void
     {
         $this->vartype = $a_vartype;
     }
-    
-    public function getVartype()
+
+    public function getVartype() : ?string
     {
         return $this->vartype;
     }
-    
-    public function setCase($a_case)
+
+    public function setCase(string $a_case) : void
     {
         switch (strtolower($a_case)) {
             case "1":
@@ -86,33 +92,33 @@ class ilQTIResponseVar
                 break;
         }
     }
-    
-    public function getCase()
+
+    public function getCase() : ?string
     {
         return $this->case;
     }
-    
-    public function setRespident($a_respident)
+
+    public function setRespident(string $a_respident) : void
     {
         $this->respident = $a_respident;
     }
-    
-    public function getRespident()
+
+    public function getRespident() : ?string
     {
         return $this->respident;
     }
-    
-    public function setIndex($a_index)
+
+    public function setIndex(string $a_index) : void
     {
         $this->index = $a_index;
     }
-    
-    public function getIndex()
+
+    public function getIndex() : ?string
     {
         return $this->index;
     }
-    
-    public function setSetmatch($a_setmatch)
+
+    public function setSetmatch(string $a_setmatch) : void
     {
         switch (strtolower($a_setmatch)) {
             case "1":
@@ -125,13 +131,13 @@ class ilQTIResponseVar
                 break;
         }
     }
-    
-    public function getSetmatch()
+
+    public function getSetmatch() : ?string
     {
         return $this->setmatch;
     }
-    
-    public function setAreatype($a_areatype)
+
+    public function setAreatype(string $a_areatype) : void
     {
         switch (strtolower($a_areatype)) {
             case "1":
@@ -148,18 +154,18 @@ class ilQTIResponseVar
                 break;
         }
     }
-    
-    public function getAreatype()
+
+    public function getAreatype() : ?string
     {
         return $this->areatype;
     }
-    
-    public function setContent($a_content)
+
+    public function setContent(string $a_content) : void
     {
         $this->content = $a_content;
     }
-    
-    public function getContent()
+
+    public function getContent() : ?string
     {
         return $this->content;
     }

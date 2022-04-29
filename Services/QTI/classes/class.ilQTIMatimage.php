@@ -31,123 +31,136 @@
 */
 class ilQTIMatimage
 {
-    const EMBEDDED_BASE64 = 'base64';
-    
-    public $imagetype;
-    public $label;
-    public $height;
-    public $width;
-    public $uri;
-    public $embedded;
-    public $x0;
-    public $y0;
-    public $entityref;
-    public $content;
+    public const EMBEDDED_BASE64 = 'base64';
+
+    public ?string $imagetype;
+    public ?string $label;
+    public ?string $height;
+    public ?string $width;
+    public ?string $uri;
+    public ?string $embedded;
+    public ?string $x0;
+    public ?string $y0;
+    public ?string $entityref;
+    public ?string $content;
     
     public function __construct()
     {
+        $this->imagetype = null;
+        $this->label = null;
+        $this->height = null;
+        $this->width = null;
+        $this->uri = null;
+        $this->embedded = null;
+        $this->x0 = null;
+        $this->y0 = null;
+        $this->entityref = null;
+        $this->content = null;
     }
 
-    public function setImagetype($a_imagetype)
+    public function setImagetype(string $a_imagetype) : void
     {
         $this->imagetype = $a_imagetype;
     }
-    
-    public function getImagetype()
+
+    public function getImagetype() : ?string
     {
         return $this->imagetype;
     }
-    
-    public function setLabel($a_label)
+
+    public function setLabel(string $a_label) : void
     {
         $this->label = $a_label;
     }
-    
-    public function getLabel()
+
+    public function getLabel() : ?string
     {
         return $this->label;
     }
-    
-    public function setHeight($a_height)
+
+    public function setHeight(string $a_height) : void
     {
         $this->height = $a_height;
     }
-    
-    public function getHeight()
+
+    public function getHeight() : ?string
     {
         return $this->height;
     }
-    
-    public function setWidth($a_width)
+
+    public function setWidth(string $a_width) : void
     {
         $this->width = $a_width;
     }
-    
-    public function getWidth()
+
+    public function getWidth() : ?string
     {
         return $this->width;
     }
-    
-    public function setEmbedded($a_embedded)
+
+    public function setEmbedded(string $a_embedded) : void
     {
         $this->embedded = $a_embedded;
     }
-    
-    public function getEmbedded()
+
+    public function getEmbedded() : ?string
     {
         return $this->embedded;
     }
-    
-    public function setUri($a_uri)
+
+    public function setUri(string $a_uri) : void
     {
         $this->uri = $a_uri;
     }
-    
-    public function getUri()
+
+    public function getUri() : ?string
     {
         return $this->uri;
     }
     
-    public function setX0($a_x0)
+    public function setX0(string $a_x0) : void
     {
         $this->x0 = $a_x0;
     }
     
-    public function getX0()
+    public function getX0() : ?string
     {
         return $this->x0;
     }
     
-    public function setY0($a_y0)
+    public function setY0(string $a_y0) : void
     {
         $this->y0 = $a_y0;
     }
     
-    public function getY0()
+    public function getY0() : ?string
     {
         return $this->y0;
     }
-    
-    public function setEntityref($a_entityref)
+
+    public function setEntityref(string $a_entityref) : void
     {
         $this->entityref = $a_entityref;
     }
-    
-    public function getEntityref()
+
+    public function getEntityref() : ?string
     {
         return $this->entityref;
     }
-    
-    public function setContent($a_content)
+
+    public function setContent(?string $a_content) : void
     {
         $this->content = $a_content;
     }
-    
-    public function getContent()
+
+    public function getContent() : ?string
     {
         return $this->content;
     }
 
+    /**
+     * @return string|null|false
+     */
     public function getRawContent()
     {
         switch ($this->getEmbedded()) {

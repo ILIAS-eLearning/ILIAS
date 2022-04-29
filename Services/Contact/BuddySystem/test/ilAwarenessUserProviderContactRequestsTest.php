@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\DI\Container;
 use ilAwarenessUserProviderContactRequests as Contacts;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -23,7 +39,7 @@ class ilAwarenessUserProviderContactRequestsTest extends ilBuddySystemBaseTest
 
     public function testGetProviderId() : void
     {
-        $this->assertEquals('contact_approved', $this->create()->getProviderId());
+        $this->assertSame('contact_approved', $this->create()->getProviderId());
     }
 
     public function testGetTitle() : void
@@ -47,7 +63,7 @@ class ilAwarenessUserProviderContactRequestsTest extends ilBuddySystemBaseTest
 
     public function testIsHighlighted() : void
     {
-        $this->assertEquals(true, $this->create()->isHighlighted());
+        $this->assertTrue($this->create()->isHighlighted());
     }
 
     private function expectTranslation(string $method, string $languageKey) : void
@@ -59,7 +75,7 @@ class ilAwarenessUserProviderContactRequestsTest extends ilBuddySystemBaseTest
         $this->language->expects(self::once())->method('loadLanguageModule')->with('contact');
         $this->language->expects(self::once())->method('txt')->with($languageKey)->willReturn($expected);
 
-        $this->assertEquals($expected, $instance->$method());
+        $this->assertSame($expected, $instance->$method());
     }
 
     private function create() : Contacts

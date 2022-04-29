@@ -34,15 +34,7 @@ class ilPCContentTemplate extends ilPageContent
         parent::setNode($a_node);		// this is the PageContent node
     }
 
-    /**
-     * Insert content template
-     *
-     * @param ilPageObject $a_pg_obj page object
-     * @param string $a_hier_id Hierarchical ID
-     * @param string $a_pc_id pc id
-     * @param int $a_page_templ template page id
-     */
-    public function create($a_pg_obj, $a_hier_id, $a_pc_id, $a_page_templ)
+    public function create(ilPageObject $a_pg_obj, string $a_hier_id, string $a_pc_id, int $a_page_templ) : void
     {
         $source_id = explode(":", $a_page_templ);
         $source_page = ilPageObjectFactory::getInstance($source_id[1], $source_id[0]);

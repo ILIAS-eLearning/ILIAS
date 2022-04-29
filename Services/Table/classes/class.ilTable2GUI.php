@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author	Alex Killing <alex.killing@gmx.de>
@@ -114,6 +117,9 @@ class ilTable2GUI extends ilTableGUI
     protected ?array $raw_post_data = null;
     protected \ilGlobalTemplateInterface $main_tpl;
 
+    /**
+     * @param object|null $a_parent_obj upper GUI class, which calls ilTable2GUI
+     */
     public function __construct(
         ?object $a_parent_obj,
         string $a_parent_cmd = "",
@@ -134,7 +140,7 @@ class ilTable2GUI extends ilTableGUI
         }
         $this->getRequestedValues();
         parent::__construct([], false);
-        $this->unique_id = md5(uniqid());
+        $this->unique_id = md5(uniqid('', true));
         $this->parent_obj = $a_parent_obj;
         $this->parent_cmd = $a_parent_cmd;
         $this->buttons = array();
@@ -172,11 +178,6 @@ class ilTable2GUI extends ilTableGUI
         }
     }
 
-    /**
-     *
-     * @param
-     * @return
-     */
     protected function getRequestedValues() : void
     {
         if (is_null($this->table_request)) {
@@ -477,7 +478,7 @@ class ilTable2GUI extends ilTableGUI
         // check column names against given data (to ensure proper sorting)
         if (defined('DEVMODE') && DEVMODE &&
             $this->enabled["header"] && $this->enabled["sort"] &&
-            $this->columns_determined && is_array($this->column) && sizeof($a_data) && !$this->getExternalSorting()) {
+            $this->columns_determined && is_array($this->column) && count($a_data) > 0 && !$this->getExternalSorting()) {
             $check = $a_data;
             $check = array_keys(array_shift($check));
             foreach ($this->column as $col) {
@@ -497,10 +498,7 @@ class ilTable2GUI extends ilTableGUI
 
     final public function dataExists() : bool
     {
-        if (count($this->row_data) > 0) {
-            return true;
-        }
-        return false;
+        return count($this->row_data) > 0;
     }
 
     final public function setPrefix(string $a_prefix) : void
@@ -1083,8 +1081,8 @@ class ilTable2GUI extends ilTableGUI
             }
             if (
                 !$this->enabled["sort"] ||
-                $column["sort_field"] == "" &&
-                !($column["is_checkbox_action_column"] && $this->select_all_on_top)
+                (($column["sort_field"] == "") &&
+                    !($column["is_checkbox_action_column"] && $this->select_all_on_top))
             ) {
                 $this->tpl->setCurrentBlock("tbl_header_no_link");
                 if ($column["width"] != "") {
@@ -1117,7 +1115,7 @@ class ilTable2GUI extends ilTableGUI
             }
             if (($column["sort_field"] == $this->order_field) && ($this->order_direction != "")) {
                 $this->tpl->setCurrentBlock("tbl_order_image");
-                if ($this->order_direction == "asc") {
+                if ($this->order_direction === "asc") {
                     $this->tpl->setVariable("ORDER_CLASS", "glyphicon glyphicon-arrow-up");
                 } else {
                     $this->tpl->setVariable("ORDER_CLASS", "glyphicon glyphicon-arrow-down");
@@ -1345,7 +1343,7 @@ class ilTable2GUI extends ilTableGUI
 
             foreach ($data as $set) {
                 $this->tpl->setCurrentBlock("tbl_content");
-                $this->css_row = ($this->css_row != "tblrow1")
+                $this->css_row = ($this->css_row !== "tblrow1")
                     ? "tblrow1"
                     : "tblrow2";
                 $this->tpl->setVariable("CSS_ROW", $this->css_row);
@@ -1360,7 +1358,7 @@ class ilTable2GUI extends ilTableGUI
                 ? $this->getNoEntriesText()
                 : $lng->txt("no_items");
 
-            $this->css_row = ($this->css_row != "tblrow1")
+            $this->css_row = ($this->css_row !== "tblrow1")
                     ? "tblrow1"
                     : "tblrow2";
 
@@ -1845,7 +1843,7 @@ class ilTable2GUI extends ilTableGUI
             $templates = $storage->getNames($this->getContext(), $ilUser->getId());
 
             // form to delete template
-            if (sizeof($templates)) {
+            if (count($templates) > 0) {
                 $overlay = new ilOverlayGUI($delete_id);
                 $overlay->setTrigger($list_id . "_delete");
                 $overlay->setAnchor("ilAdvSelListAnchorElement_" . $list_id);
@@ -1890,7 +1888,7 @@ class ilTable2GUI extends ilTableGUI
             $alist = new ilAdvancedSelectionListGUI();
             $alist->setId($list_id);
             $alist->addItem($lng->txt("tbl_template_create"), "create", "#");
-            if (sizeof($templates)) {
+            if (count($templates) > 0) {
                 $alist->addItem($lng->txt("tbl_template_delete"), "delete", "#");
                 foreach ($templates as $name) {
                     $ilCtrl->setParameter($this->parent_obj, $this->prefix . "_tpl", urlencode($name));
@@ -1977,7 +1975,7 @@ class ilTable2GUI extends ilTableGUI
                 }
 
                 // export
-                if (sizeof($this->export_formats) && $this->dataExists()) {
+                if (count($this->export_formats) > 0 && $this->dataExists()) {
                     $alist = new ilAdvancedSelectionListGUI();
                     $alist->setStyle(ilAdvancedSelectionListGUI::STYLE_LINK_BUTTON);
                     $alist->setId("sellst_xpt");
@@ -2044,9 +2042,6 @@ class ilTable2GUI extends ilTableGUI
             $sep = "<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
 
             // previous link
-            if ($LinkBar != "") {
-                $LinkBar .= $sep;
-            }
             if ($this->custom_prev_next && $this->custom_prev != "") {
                 $LinkBar .= "<a href=\"" . $this->custom_prev . $hash . "\">" . $layout_prev . "</a>";
             } elseif ($this->getOffset() >= 1 && !$this->custom_prev_next) {
@@ -2065,9 +2060,7 @@ class ilTable2GUI extends ilTableGUI
             $sep = "<span>&nbsp;&nbsp;|&nbsp;&nbsp;</span>";
 
             // show next link (if not last page)
-            if ($LinkBar != "") {
-                $LinkBar .= $sep;
-            }
+            $LinkBar .= $sep;
             if ($this->custom_prev_next && $this->custom_next != "") {
                 $LinkBar .= "<a href=\"" . $this->custom_next . $hash . "\">" . $layout_next . "</a>";
             } elseif (!(($this->getOffset() / $this->getLimit()) == ($pages - 1)) && ($pages != 1) &&
@@ -2081,9 +2074,8 @@ class ilTable2GUI extends ilTableGUI
             $sep = "<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>";
 
             if (count($offset_arr) && !$this->getDisplayAsBlock() && !$this->custom_prev_next) {
-                if ($LinkBar != "") {
-                    $LinkBar .= $sep;
-                }
+                $LinkBar .= $sep;
+
                 $LinkBar .=
                     '<label for="tab_page_sel_' . $a_num . '">' . $lng->txt("page") . '</label> ' .
                     ilLegacyFormElementsUtil::formSelect(
@@ -2097,8 +2089,6 @@ class ilTable2GUI extends ilTableGUI
                         array("id" => "tab_page_sel_" . $a_num,
                         "onchange" => "ilTablePageSelection(this, 'cmd[" . $this->parent_cmd . "]')")
                     );
-                //' <input class="submit" type="submit" name="cmd['.$this->parent_cmd.']" value="'.
-                    //$lng->txt("ok").'" />';
             }
 
             return $LinkBar;
@@ -2446,7 +2436,7 @@ class ilTable2GUI extends ilTableGUI
         return "";
     }
 
-    protected function setFilterValue(ilTableFilterItem $a_item, string $a_value) : void
+    protected function setFilterValue(ilTableFilterItem $a_item, ?string $a_value) : void
     {
         if (method_exists($a_item, "setChecked")) {
             $a_item->setChecked((bool) $a_value);

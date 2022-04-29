@@ -110,11 +110,14 @@ class ilResourceStorageDB80 implements ilDatabaseUpdateSteps
             'rid',
             $attributes
         );
-        $this->db->modifyTableColumn(
-            'file_data',
-            'rid',
-            $attributes
-        );
+        try {
+            $this->db->modifyTableColumn(
+                'file_data',
+                'rid',
+                $attributes
+            );
+        } catch (Throwable $t) {
+        }
     }
 
     public function step_4() : void
@@ -138,7 +141,7 @@ SET il_resource_info.version_number = il_resource_revision.version_number
 
     public function step_5() : void
     {
-// remove internal columns and add primaries
+        // remove internal columns and add primaries
         if ($this->db->tableColumnExists('il_resource_revision', 'internal')) {
             $this->db->dropTableColumn('il_resource_revision', 'internal');
             $this->db->addPrimaryKey(
@@ -200,7 +203,6 @@ SET il_resource_info.version_number = il_resource_revision.version_number
         if (!$this->db->indexExistsByFields('file_data', ['rid'])) {
             $this->db->addIndex('file_data', ['rid'], 'i1');
         }
-
     }
 
     public function step_8() : void

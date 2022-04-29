@@ -13,8 +13,8 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
       object.
     - The **Permission** service stores which users / user roles have what kind
       of access to the object.
-    - The **Info Screen** service reveals owner and creation data.
-    - The **[News Service](../../Services/News/Privacy.md)** holds the main data on author and creation/update timestamps.
+    - [Info Screen Service](../../Services/InfoScreen/PRIVACY.md)
+    - [News Service](../../Services/News/Privacy.md)
 
 ## General Information
 

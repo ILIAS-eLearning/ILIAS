@@ -14,6 +14,11 @@ class ilIndividualAssessmentDataSetWrapper extends ilIndividualAssessmentDataSet
     {
         return $this->getTypes($entity, $version);
     }
+
+    public function getXmlNamespaceWrapper(string $a_entity, string $a_schema_version) : string
+    {
+        return $this->getXmlNamespace($a_entity, $a_schema_version);
+    }
 }
 
 class ilIndividualAssessmentDataSetTest extends TestCase
@@ -35,12 +40,12 @@ class ilIndividualAssessmentDataSetTest extends TestCase
         $this->assertEquals($expected, $result);
     }
 
-    public function test_getXmlNamespace() : void
+    public function test_getXmlNamespaceWrapper() : void
     {
         $expected = 'http://www.ilias.de/xml/Modules/IndividualAssessment/entity_string';
 
         $obj = new ilIndividualAssessmentDataSetWrapper();
-        $result = $obj->getXmlNamespace("entity_string", "not_implemented");
+        $result = $obj->getXmlNamespaceWrapper("entity_string", "not_implemented");
 
         $this->assertEquals($expected, $result);
     }

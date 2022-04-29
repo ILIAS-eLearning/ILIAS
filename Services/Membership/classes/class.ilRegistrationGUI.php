@@ -1,25 +1,21 @@
-<?php declare(strict_types=1);/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
-
+<?php declare(strict_types=1);
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Base class for Course and Group registration
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -27,20 +23,18 @@
  */
 abstract class ilRegistrationGUI
 {
-    protected ilPrivacySettings $privacy;
-
-    protected ilObject $container;
     protected int $ref_id;
     protected int $obj_id;
     protected string $type;
-
+    protected string $join_error = '';
+    protected bool $registration_possible = true;
+    protected \ILIAS\HTTP\GlobalHttpState $http;
+    protected \ILIAS\Refinery\Factory $refinery;
+    protected ilPrivacySettings $privacy;
+    protected ilObject $container;
     protected ilParticipants $participants;
     protected ilWaitingList $waiting_list;
     protected ?ilPropertyFormGUI $form = null;
-
-    protected bool $registration_possible = true;
-    protected string $join_error = '';
-
     protected ilObjUser $user;
     protected ilTabsGUI $tabs;
     protected ilTree $tree;
@@ -78,6 +72,8 @@ abstract class ilRegistrationGUI
         $this->initWaitingList();
 
         $this->privacy = ilPrivacySettings::getInstance();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
 
     public function getContainer() : ilObject
@@ -186,7 +182,15 @@ abstract class ilRegistrationGUI
                     'LINK_ITEM',
                     $this->ctrl->getLinkTargetByClass("ilrepositorygui", "")
                 );
-                $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $get_ref_id = 0;
+                if ($this->http->wrapper()->query()->has('ref_id')) {
+                    $get_ref_id = $this->http->wrapper()->query()->retrieve(
+                        'ref_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                }
+
+                $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $get_ref_id);
                 $tpl->setVariable('ITEM_LINKED_TITLE', $title);
             } else {
                 $tpl->setVariable('ITEM_TITLE');
@@ -210,7 +214,7 @@ abstract class ilRegistrationGUI
             return;
         }
 
-        if (!$this->privacy->confirmationRequired($this->type) and !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId())) {
+        if (!$this->privacy->confirmationRequired($this->type) && !ilCourseDefinedFieldDefinition::_hasFields($this->container->getId())) {
             return;
         }
 
@@ -240,16 +244,25 @@ abstract class ilRegistrationGUI
         if (!count($cdf_fields = ilCourseDefinedFieldDefinition::_getFields($this->container->getId()))) {
             return;
         }
+
+        $cdf_values = [];
+        if ($this->http->wrapper()->post()->has('cdf')) {
+            $cdf_values = $this->http->wrapper()->post()->retrieve(
+                'cdf',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
+        }
+
         $cdf = new ilNonEditableValueGUI($this->lng->txt('ps_crs_user_fields'));
         $cdf->setValue($this->lng->txt($this->type . '_ps_cdf_info'));
         $cdf->setRequired(true);
         foreach ($cdf_fields as $field_obj) {
-            $course_user_data = new ilCourseUserData($this->user->getId(), $field_obj->getId());
-
             switch ($field_obj->getType()) {
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
                     $select = new ilSelectInputGUI($field_obj->getName(), 'cdf[' . $field_obj->getId() . ']');
-                    $select->setValue(ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]));
+                    $select->setValue($cdf_values[$field_obj->getId()] ?? '');
                     $select->setOptions($field_obj->prepareSelectBox());
                     if ($field_obj->isRequired()) {
                         $select->setRequired(true);
@@ -259,7 +272,7 @@ abstract class ilRegistrationGUI
 
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_TEXT:
                     $text = new ilTextInputGUI($field_obj->getName(), 'cdf[' . $field_obj->getId() . ']');
-                    $text->setValue(ilUtil::stripSlashes($_POST['cdf'][$field_obj->getId()]));
+                    $text->setValue($cdf_values[$field_obj->getId()] ?? '');
                     $text->setSize(32);
                     $text->setMaxLength(255);
                     if ($field_obj->isRequired()) {
@@ -274,7 +287,15 @@ abstract class ilRegistrationGUI
 
     protected function validateAgreement() : bool
     {
-        if ($_POST['agreement']) {
+        $agreement = null;
+        if ($this->http->wrapper()->post()->has('agreement')) {
+            $agreement = $this->http->wrapper()->post()->retrieve(
+                'agreement',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
+        if ($agreement) {
             return true;
         }
         if (!$this->privacy->confirmationRequired($this->type)) {
@@ -290,20 +311,40 @@ abstract class ilRegistrationGUI
         foreach (ilCourseDefinedFieldDefinition::_getFields($this->container->getId()) as $field_obj) {
             switch ($field_obj->getType()) {
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:
+                    $cdf_value = '';
+                    if ($this->http->wrapper()->post()->has('cdf_' . $field_obj->getId())) {
+                        $cdf_value = $this->http->wrapper()->post()->retrieve(
+                            'cdf_' . $field_obj->getId(),
+                            $this->refinery->kindlyTo()->string()
+                        );
+                    }
 
                     // Split value id from post
-                    list($field_id, $option_id) = explode('_', $_POST['cdf_' . $field_obj->getId()]);
+                    list($field_id, $option_id) = explode('_', $cdf_value);
 
                     $open_answer_indexes = $field_obj->getValueOptions();
                     if (in_array($option_id, $open_answer_indexes)) {
-                        $value = $_POST['cdf_oa_' . $field_obj->getId() . '_' . $option_id];
+                        $value = '';
+                        if ($this->http->wrapper()->post()->has('cdf_oa_' . $field_obj->getId() . '_' . $option_id)) {
+                            $value = $this->http->wrapper()->post()->retrieve(
+                                'cdf_oa_' . $field_obj->getId() . '_' . $option_id,
+                                $this->refinery->kindlyTo()->string()
+                            );
+                        }
                     } else {
-                        $value = $field_obj->getValueById($option_id);
+                        $value = $field_obj->getValueById((int) $option_id);
                     }
                     break;
 
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_TEXT:
-                    $value = $_POST['cdf_' . $field_obj->getId()];
+                    $value = '';
+                    if ($this->http->wrapper()->post()->has('cdf_' . $field_obj->getId())) {
+                        $value = $this->http->wrapper()->post()->retrieve(
+                            'cdf_' . $field_obj->getId(),
+                            $this->refinery->kindlyTo()->string()
+                        );
+                    }
+
                     break;
             }
 
@@ -312,7 +353,7 @@ abstract class ilRegistrationGUI
             $course_user_data->update();
 
             // #14220
-            if ($field_obj->isRequired() and $value == "") {
+            if ($field_obj->isRequired() && $value === "") {
                 $required_fullfilled = false;
             }
         }
@@ -349,7 +390,8 @@ abstract class ilRegistrationGUI
         if (!$form instanceof ilPropertyFormGUI) {
             $this->initForm();
         }
-        if ($_SESSION["pending_goto"]) {
+        $pending_goto = (string) ilSession::get('pending_goto');
+        if ($pending_goto) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("reg_goto_parent_membership_info"));
         }
         $this->tpl->setContent($this->form->getHTML());
@@ -435,7 +477,15 @@ abstract class ilRegistrationGUI
 
     protected function updateSubscriptionRequest() : void
     {
-        $this->participants->updateSubject($this->user->getId(), ilUtil::stripSlashes($_POST['subject']));
+        $subject = '';
+        if ($this->http->wrapper()->post()->has('subject')) {
+            $subject = $this->http->wrapper()->post()->retrieve(
+                'subject',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
+        $this->participants->updateSubject($this->user->getId(), ilUtil::stripSlashes($subject));
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('sub_request_saved'), true);
         $this->ctrl->setParameterByClass(
             "ilrepositorygui",

@@ -1,27 +1,29 @@
 <?php
 
-use ILIAS\DI\Container;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+ 
+use ILIAS\DI\Container;
+
 /**
  * Class ilFileVersionsTableGUI
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilFileVersionsTableGUI extends ilTable2GUI
 {
-    
     private Container $dic;
     private int $current_version;
     private \ilObjFile $file;
@@ -29,8 +31,6 @@ class ilFileVersionsTableGUI extends ilTable2GUI
 
     /**
      * ilFileVersionsTableGUI constructor.
-     * @param ilFileVersionsGUI $calling_gui_class
-     * @param string            $a_parent_cmd
      */
     public function __construct(ilFileVersionsGUI $calling_gui_class, string $a_parent_cmd = ilFileVersionsGUI::CMD_DEFAULT)
     {
@@ -84,7 +84,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         foreach ($this->file->getVersions() as $version) {
             $versions[] = $version->getArrayCopy();
         }
-        usort($versions, static fn(array $i1, array $i2): bool => $i1['version'] < $i2['version']);
+        usort($versions, static fn (array $i1, array $i2) : bool => $i1['version'] < $i2['version']);
 
         $this->setData($versions);
         $this->setMaxCount(is_array($versions) ? count($versions) : 0);

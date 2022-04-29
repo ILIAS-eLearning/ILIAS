@@ -65,7 +65,14 @@ class ilWebServicesSetupAgent implements Setup\Agent
         if (is_null($config)) {
             return new Setup\Objective\NullObjective();
         }
-        return new ilWebServicesConfigStoredObjective($config);
+        return new ILIAS\Setup\ObjectiveCollection(
+            'Updates of Services/WebServices',
+            false,
+            new ilWebServicesConfigStoredObjective($config),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilECSUpdateSteps8()
+            )
+        );
     }
 
     /**

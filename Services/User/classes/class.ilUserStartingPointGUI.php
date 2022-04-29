@@ -358,8 +358,8 @@ class ilUserStartingPointGUI
                         $parser = new ilQueryParser('"' . $form->getInput('role_search') . '"');
 
                         // TODO: Handle minWordLength
-                        $parser->setMinWordLength(1, true);
-                        $parser->setCombination(QP_COMBINATION_AND);
+                        $parser->setMinWordLength(1);
+                        $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
                         $parser->parse();
 
                         $object_search = new ilLikeObjectSearch($parser);
@@ -447,7 +447,7 @@ class ilUserStartingPointGUI
         string $start_object
     ) : void {
         $parser = new ilQueryParser($role_search);
-        $parser->setMinWordLength(1, true);
+        $parser->setMinWordLength(1);
         $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $parser->parse();
 
@@ -550,7 +550,7 @@ class ilUserStartingPointGUI
         $spoint_id = $this->user_request->getStartingPointId();
         $req_role_id = $this->user_request->getRoleId();
 
-        if ($rolid = $req_role_id && $spid = $spoint_id) {
+        if ($req_role_id && $spid = $spoint_id) {
             $sp = new ilStartingPoint($spid);
             $sp->delete();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -273,25 +273,22 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
     
     public function render(string $a_mode = "") : string
     {
-        /**
-         * @var $lng ilLanguage
-         */
         $lng = $this->lng;
         
         $tpl = new ilTemplate("tpl.prop_textinput.html", true, true, "Services/Form");
-        if (strlen($this->getValue())) {
+        if (strlen((string) $this->getValue())) {
             $tpl->setCurrentBlock("prop_text_propval");
-            $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
+            $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getValue()));
             $tpl->parseCurrentBlock();
         }
         if (strlen($this->getInlineStyle())) {
             $tpl->setCurrentBlock("stylecss");
-            $tpl->setVariable("CSS_STYLE", ilLegacyFormElementsUtil::prepareFormOutput($this->getInlineStyle()));
+            $tpl->setVariable("CSS_STYLE", ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getInlineStyle()));
             $tpl->parseCurrentBlock();
         }
         if (strlen($this->getCssClass())) {
             $tpl->setCurrentBlock("classcss");
-            $tpl->setVariable('CLASS_CSS', ilLegacyFormElementsUtil::prepareFormOutput($this->getCssClass()));
+            $tpl->setVariable('CLASS_CSS', ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getCssClass()));
             $tpl->parseCurrentBlock();
         }
         if ($this->getSubmitFormOnEnter()) {

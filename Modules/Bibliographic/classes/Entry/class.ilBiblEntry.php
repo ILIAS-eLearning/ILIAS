@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilBiblEntry
  * @author     Gabriel Comte
@@ -10,17 +24,11 @@ class ilBiblEntry extends ActiveRecord implements ilBiblEntryInterface
 {
     const TABLE_NAME = 'il_bibl_entry';
     
-    /**
-     * @return string
-     */
     public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
     
-    /**
-     * @return string
-     */
     public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;
@@ -37,14 +45,12 @@ class ilBiblEntry extends ActiveRecord implements ilBiblEntryInterface
      */
     protected ?int $id = null;
     /**
-     * @var
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
      */
     protected ?int $data_id = null;
     /**
-     * @var
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     50
@@ -59,41 +65,26 @@ class ilBiblEntry extends ActiveRecord implements ilBiblEntryInterface
         return $this->id;
     }
     
-    /**
-     * @param integer $id
-     */
     public function setId(int $id) : void
     {
         $this->id = $id;
     }
     
-    /**
-     * @return int
-     */
     public function getDataId() : int
     {
         return $this->data_id;
     }
     
-    /**
-     * @param integer $data_id
-     */
     public function setDataId(int $data_id) : void
     {
         $this->data_id = $data_id;
     }
     
-    /**
-     * @return string
-     */
     public function getType() : string
     {
         return $this->type;
     }
     
-    /**
-     * @param string $type
-     */
     public function setType(string $type) : void
     {
         $this->type = $type;
@@ -103,5 +94,4 @@ class ilBiblEntry extends ActiveRecord implements ilBiblEntryInterface
     {
         return $this->overview;
     }
-    
 }

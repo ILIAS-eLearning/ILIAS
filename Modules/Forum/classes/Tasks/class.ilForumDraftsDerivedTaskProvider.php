@@ -1,24 +1,39 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilForumDraftsDerivedTaskProvider
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
+class ilForumDraftsDerivedTaskProvider implements ilDerivedTaskProvider
 {
     protected ilTaskService $taskService;
     protected ilAccessHandler $accessHandler;
     protected ilLanguage $lng;
     protected ilSetting $settings;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
 
     public function __construct(
         ilTaskService $taskService,
         ilAccessHandler $accessHandler,
         ilLanguage $lng,
         ilSetting $settings,
-        ilCtrl $ctrl
+        ilCtrlInterface $ctrl
     ) {
         $this->taskService = $taskService;
         $this->accessHandler = $accessHandler;
@@ -91,6 +106,6 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
 
     public function isActive() : bool
     {
-        return (bool) $this->settings->get('save_post_drafts', null);
+        return (bool) $this->settings->get('save_post_drafts', '0');
     }
 }

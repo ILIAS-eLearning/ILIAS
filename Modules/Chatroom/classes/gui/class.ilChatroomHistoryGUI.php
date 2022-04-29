@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroom
@@ -18,7 +33,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
     public function byDay(bool $export = false) : void
     {
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $this->mainTpl->addJavaScript('./Services/Form/js/date_duration.js');
@@ -79,7 +94,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
         $this->gui->switchToVisibleMode();
 
-        $this->mainTpl->addCSS('Modules/Chatroom/templates/default/style.css');
+        $this->mainTpl->addCss('Modules/Chatroom/templates/default/style.css');
 
         // should be able to grep templates
         if ($export) {
@@ -207,7 +222,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             } else {
                 $roomTpl->setVariable(
                     'ROOM_TITLE',
-                    sprintf($this->ilLng->txt('history_title_general'), $this->gui->object->getTitle()) . ' (' . $date_sub . ')'
+                    sprintf($this->ilLng->txt('history_title_general'), $this->gui->getObject()->getTitle()) . ' (' . $date_sub . ')'
                 );
             }
         }
@@ -233,7 +248,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
     public function bySession(bool $export = false) : void
     {
-        $room = ilChatroom::byObjectId($this->gui->object->getId());
+        $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
         $this->exitIfNoRoomExists($room);
 
         $scope = $room->getRoomId();

@@ -46,7 +46,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
      */
     public function __construct($parent, $cmd)
     {
-        $this->setId('tst_pass_overview_' . $parent->object->getId());
+        $this->setId('tst_pass_overview_' . $parent->getObject()->getId());
         $this->setDefaultOrderField('pass');
         $this->setDefaultOrderDirection('ASC');
 
@@ -181,7 +181,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
     /**
      * @return boolean
      */
-    public function isResultPresentationEnabled()
+    public function isResultPresentationEnabled() : bool
     {
         return $this->resultPresentationEnabled;
     }
@@ -197,7 +197,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
     /**
      * @return boolean
      */
-    public function isPdfPresentationEnabled()
+    public function isPdfPresentationEnabled() : bool
     {
         return $this->pdfPresentationEnabled;
     }
@@ -213,7 +213,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
     /**
      * @return boolean
      */
-    public function isObjectiveOrientedPresentationEnabled()
+    public function isObjectiveOrientedPresentationEnabled() : bool
     {
         return $this->objectiveOrientedPresentationEnabled;
     }
@@ -229,7 +229,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
     /**
      * @return int
      */
-    public function getActiveId()
+    public function getActiveId() : ?int
     {
         return $this->activeId;
     }
@@ -245,7 +245,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
     /**
      * @return string
      */
-    public function getPassDetailsCommand()
+    public function getPassDetailsCommand() : string
     {
         return $this->passDetailsCommand;
     }
@@ -261,7 +261,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
     /**
      * @return string
      */
-    public function getPassDeletionCommand()
+    public function getPassDeletionCommand() : string
     {
         return $this->passDeletionCommand;
     }
@@ -278,7 +278,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
      * @param integer $dateTS
      * @return string $dateFormated
      */
-    private function formatDate($date)
+    private function formatDate($date) : string
     {
         $oldValue = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
@@ -287,17 +287,17 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         return $date;
     }
     
-    private function buildWorkedThroughQuestionsString($numQuestionsWorkedThrough, $numQuestionsTotal)
+    private function buildWorkedThroughQuestionsString($numQuestionsWorkedThrough, $numQuestionsTotal) : string
     {
         return "{$numQuestionsWorkedThrough} {$this->lng->txt('of')} {$numQuestionsTotal}";
     }
     
-    private function buildReachedPointsString($reachedPoints, $maxPoints)
+    private function buildReachedPointsString($reachedPoints, $maxPoints) : string
     {
         return "{$reachedPoints} {$this->lng->txt('of')} {$maxPoints}";
     }
 
-    private function getRequiredActions($isScoredPass)
+    private function getRequiredActions($isScoredPass) : array
     {
         $actions = array();
         
@@ -312,7 +312,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         return $actions;
     }
     
-    private function buildActionsHtml($actions, $pass)
+    private function buildActionsHtml($actions, $pass) : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

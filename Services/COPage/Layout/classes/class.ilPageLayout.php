@@ -94,6 +94,8 @@ class ilPageLayout
         return $this->layout_id;
     }
 
+
+    /*
     public function setStyleId(int $a_val) : void
     {
         $this->style_id = $a_val;
@@ -102,18 +104,9 @@ class ilPageLayout
     public function getStyleId() : int
     {
         return $this->style_id;
-    }
+    }*/
 
-    public function setSpecialPage(int $a_val) : void
-    {
-        $this->special_page = $a_val;
-    }
 
-    public function getSpecialPage() : int
-    {
-        return $this->special_page;
-    }
-    
     public function setModules(array $a_values = []) : void
     {
         if ($a_values) {
@@ -174,8 +167,6 @@ class ilPageLayout
         $query = "UPDATE page_layout SET title=" . $ilDB->quote($this->title, "text") .
             ",description =" . $ilDB->quote($this->description, "text") .
             ",active =" . $ilDB->quote($this->active, "integer") .
-            ",style_id =" . $ilDB->quote($this->getStyleId(), "integer") .
-            ",special_page =" . $ilDB->quote($this->getSpecialPage(), "integer") .
             ",mod_scorm =" . $ilDB->quote($mod_scorm, "integer") .
             ",mod_portfolio =" . $ilDB->quote($mod_portfolio, "integer") .
             ",mod_lm =" . $ilDB->quote($mod_lm, "integer") .
@@ -191,8 +182,6 @@ class ilPageLayout
         $result = $ilDB->query($query);
         $row = $ilDB->fetchAssoc($result);
         $this->title = $row['title'];
-        $this->setStyleId($row['style_id']);
-        $this->setSpecialPage($row['special_page']);
         $this->description = $row['description'];
         $this->active = $row['active'];
         
@@ -268,41 +257,42 @@ class ilPageLayout
         $query = "SELECT * FROM page_layout $add ORDER BY title ";
         $result = $ilDB->query($query);
         while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            array_push($arr_layouts, $row);
+            $arr_layouts[] = $row;
         }
         return $arr_layouts;
     }
     
     public static function getLayouts(
         bool $a_active = false,
-        bool $a_special_page = false,
         int $a_module = 0
-    ) {
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
         $arr_layouts = array();
-        $add = "WHERE special_page = " . $ilDB->quote($a_special_page, "integer");
+        $add = "";
+        $conc = " WHERE ";
         if ($a_active) {
-            $add .= " AND (active = 1)";
+            $add .= $conc . " (active = 1)";
+            $conc = " AND ";
         }
         switch ($a_module) {
             case self::MODULE_SCORM:
-                $add .= " AND mod_scorm = 1";
+                $add .= $conc . " mod_scorm = 1";
                 break;
             
             case self::MODULE_PORTFOLIO:
-                $add .= " AND mod_portfolio = 1";
+                $add .= $conc . " mod_portfolio = 1";
                 break;
 
             case self::MODULE_LM:
-                $add .= " AND mod_lm = 1";
+                $add .= $conc . " mod_lm = 1";
                 break;
         }
         $query = "SELECT layout_id FROM page_layout $add ORDER BY title ";
         $result = $ilDB->query($query);
         while ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            array_push($arr_layouts, new ilPageLayout($row['layout_id']));
+            $arr_layouts[] = new ilPageLayout($row['layout_id']);
         }
 
         return $arr_layouts;
@@ -312,10 +302,9 @@ class ilPageLayout
      * Get active layouts
      */
     public static function activeLayouts(
-        bool $a_special_page = false,
         int $a_module = 0
-    ) {
-        return self::getLayouts(true, $a_special_page, $a_module);
+    ) : array {
+        return self::getLayouts(true, $a_module);
     }
     
     /**
@@ -341,7 +330,6 @@ class ilPageLayout
         $lng = $DIC->language();
         
         return array(
-            self::MODULE_SCORM => $lng->txt("style_page_layout_module_scorm"),
             self::MODULE_PORTFOLIO => $lng->txt("style_page_layout_module_portfolio"),
             self::MODULE_LM => $lng->txt("style_page_layout_module_learning_module")
         );

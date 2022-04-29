@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Table for object role permissions
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -217,7 +231,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
             $operation = $this->review->getOperation($ops_id);
 
             $perm['ops_id'] = $ops_id;
-            $perm['set'] = (in_array($ops_id, $operations) or $this->getRoleId() == SYSTEM_ROLE_ID);
+            $perm['set'] = (in_array($ops_id, $operations) || $this->getRoleId() == SYSTEM_ROLE_ID);
             $perm['name'] = $operation['operation'];
 
             $rows[] = $perm;
@@ -235,7 +249,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
             }
 
             $perm['ops_id'] = $ops_id;
-            $perm['set'] = (in_array($ops_id, $operations) or $this->getRoleId() == SYSTEM_ROLE_ID);
+            $perm['set'] = (in_array($ops_id, $operations) || $this->getRoleId() == SYSTEM_ROLE_ID);
 
             $perm['name'] = 'create_' . $info['name'];
             $perm['create_type'] = $info['name'];

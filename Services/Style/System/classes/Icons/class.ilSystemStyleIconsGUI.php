@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\FileUpload\Location;
@@ -56,11 +72,11 @@ class ilSystemStyleIconsGUI
         $this->tabs = $tabs;
         $this->upload = $upload;
         $this->style_id = $style_id;
-        $this->message_stack = new ilSystemStyleMessageStack();
+        $this->message_stack = new ilSystemStyleMessageStack($this->tpl);
         $this->skin_factory = $skin_factory;
         $this->style_container = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack);
 
-        $this->setStyleContainer($this->skin_factory->skinStyleContainerFromId($skin_id));
+        $this->setStyleContainer($this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack));
     }
 
     public function executeCommand() : void
@@ -153,15 +169,13 @@ class ilSystemStyleIconsGUI
 
         $color_set = [];
 
-        if ($this->getIconFolder()) {
-            try {
-                $color_set = $this->getIconFolder()->getColorSet()->getColorsSortedAsArray();
-            } catch (ilSystemStyleExceptionBase $e) {
-                $this->message_stack->addMessage(new ilSystemStyleMessage(
-                    $e->getMessage(),
-                    ilSystemStyleMessage::TYPE_ERROR
-                ));
-            }
+        try {
+            $color_set = $this->getIconFolder()->getColorSet()->getColorsSortedAsArray();
+        } catch (ilSystemStyleExceptionBase $e) {
+            $this->message_stack->addMessage(new ilSystemStyleMessage(
+                $e->getMessage(),
+                ilSystemStyleMessage::TYPE_ERROR
+            ));
         }
 
         foreach ($color_set as $type => $colors) {
@@ -205,7 +219,7 @@ class ilSystemStyleIconsGUI
             }
         }
 
-        $has_icons = $this->getIconFolder() && count($this->getIconFolder()->getIcons()) > 0;
+        $has_icons = count($this->getIconFolder()->getIcons()) > 0;
 
         if ($has_icons) {
             $form->addCommandButton('update', $this->lng->txt('update_colors'));
@@ -224,15 +238,13 @@ class ilSystemStyleIconsGUI
     {
         $values = [];
 
-        if ($this->getIconFolder()) {
-            $colors = $this->getIconFolder()->getColorSet()->getColors();
-            foreach ($colors as $color) {
-                $id = $color->getId();
-                if ($colors[$color->getId()]) {
-                    $values[$id] = $colors[$color->getId()]->getColor();
-                } else {
-                    $values[$id] = $color->getColor();
-                }
+        $colors = $this->getIconFolder()->getColorSet()->getColors();
+        foreach ($colors as $color) {
+            $id = $color->getId();
+            if (array_key_exists($color->getId(), $colors)) {
+                $values[$id] = $colors[$color->getId()]->getColor();
+            } else {
+                $values[$id] = $color->getColor();
             }
         }
 
@@ -244,7 +256,7 @@ class ilSystemStyleIconsGUI
         $style = $this->getStyleContainer()->getSkin()->getStyle($this->style_id);
         $this->getStyleContainer()->resetImages($style);
         $this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesSkinPath($style->getId())));
-        $message_stack = new ilSystemStyleMessageStack();
+        $message_stack = new ilSystemStyleMessageStack($this->tpl);
         $message_stack->addMessage(new ilSystemStyleMessage(
             $this->lng->txt('color_reset'),
             ilSystemStyleMessage::TYPE_SUCCESS
@@ -258,7 +270,7 @@ class ilSystemStyleIconsGUI
     {
         $form = $this->initByColorForm();
         if ($form->checkInput()) {
-            $message_stack = new ilSystemStyleMessageStack();
+            $message_stack = new ilSystemStyleMessageStack($this->tpl);
 
             $color_changes = [];
             foreach ($this->getIconFolder()->getColorSet()->getColors() as $old_color) {
@@ -317,7 +329,7 @@ class ilSystemStyleIconsGUI
         }
     }
 
-    protected function addSelectIconToolbar(?string $icon_name = '')
+    protected function addSelectIconToolbar(?string $icon_name = '') : void
     {
         $si = new ilSelectInputGUI($this->lng->txt('select_icon'), 'selected_icon');
 
@@ -371,7 +383,7 @@ class ilSystemStyleIconsGUI
         $hidden_path->setValue($icon->getPath());
         $form->addItem($hidden_path);
 
-        if ($this->getIconFolder() && count($this->getIconFolder()->getIcons()) > 0) {
+        if (count($this->getIconFolder()->getIcons()) > 0) {
             $form->addCommandButton('updateIcon', $this->lng->txt('update_icon'));
             $form->addCommandButton('cancelIcon', $this->lng->txt('cancel'));
         }
@@ -393,7 +405,7 @@ class ilSystemStyleIconsGUI
         $form = $this->initByIconForm($icon);
 
         if ($form->checkInput()) {
-            $message_stack = new ilSystemStyleMessageStack();
+            $message_stack = new ilSystemStyleMessageStack($this->tpl);
 
             $color_changes = [];
             foreach ($icon->getColorSet()->getColors() as $old_color) {
@@ -499,7 +511,7 @@ class ilSystemStyleIconsGUI
         return $this->style_container;
     }
 
-    protected function setStyleContainer(ilSkinStyleContainer $style_container)
+    protected function setStyleContainer(ilSkinStyleContainer $style_container) : void
     {
         $this->style_container = $style_container;
     }
@@ -509,7 +521,7 @@ class ilSystemStyleIconsGUI
         return $this->icon_folder;
     }
 
-    protected function setIconFolder(ilSystemStyleIconFolder $icon_folder)
+    protected function setIconFolder(ilSystemStyleIconFolder $icon_folder) : void
     {
         $this->icon_folder = $icon_folder;
     }

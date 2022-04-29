@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjForumNotificationDataProvider
@@ -17,13 +32,13 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
     protected string $thread_title = '';
     protected array $attachments = [];
     public ilForumPost $objPost;
-    private $db;
-    private $access;
-    private $user;
+    private ilDBInterface $db;
+    private ilAccessHandler $access;
+    private ilObjUser $user;
     protected bool $is_anonymized = false;
     private ilForumNotificationCache $notificationCache;
 
-    public function __construct(ilForumPost $objPost, int $ref_id, \ilForumNotificationCache $notificationCache)
+    public function __construct(ilForumPost $objPost, int $ref_id, ilForumNotificationCache $notificationCache)
     {
         global $DIC;
         $this->db = $DIC->database();
@@ -138,7 +153,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $this->objPost->getUpdateUserId();
     }
 
-    public function getPostUserName(\ilLanguage $user_lang) : string
+    public function getPostUserName(ilLanguage $user_lang) : string
     {
         if ($this->post_user_name === null) {
             $authorinfo = new ilForumAuthorInformation(
@@ -155,7 +170,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return (string) $this->post_user_name;
     }
 
-    public function getPostUpdateUserName(\ilLanguage $user_lang) : string
+    public function getPostUpdateUserName(ilLanguage $user_lang) : string
     {
         if ($this->update_user_name === null) {
             $authorinfo = new ilForumAuthorInformation(
@@ -208,7 +223,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         ]);
 
         if (false === $this->notificationCache->exists($cacheKey)) {
-            $result = $this->db->queryf(
+            $result = $this->db->queryF(
                 '
 				SELECT thr_subject FROM frm_threads 
 				WHERE thr_pk = %s',
@@ -232,7 +247,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         ]);
 
         if (false === $this->notificationCache->exists($cacheKey)) {
-            $result = $this->db->queryf(
+            $result = $this->db->queryF(
                 '
 				SELECT top_pk, top_name, frm_settings.anonymized FROM frm_data
 				INNER JOIN frm_settings ON top_frm_fk = frm_settings.obj_id 
@@ -283,7 +298,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
                 $condition = ' OR frm_notification.interested_events >= ' . $this->db->quote(0, 'integer');
             }
 
-            $res = $this->db->queryf(
+            $res = $this->db->queryF(
                 '
 			SELECT frm_notification.user_id FROM frm_notification, frm_data 
 			WHERE frm_data.top_pk = %s
@@ -406,7 +421,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $this->notificationCache->fetch($cacheKey);
     }
 
-    private function createRecipientArray(\ilPDOStatement $statement) : array
+    private function createRecipientArray(ilDBStatement $statement) : array
     {
         $refIds = $this->getRefIdsByObjId($this->getObjId());
 

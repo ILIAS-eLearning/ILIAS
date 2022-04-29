@@ -1,26 +1,20 @@
 <?php declare(strict_types=0);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * class ilcourseobjectiveQuestion
  * @author Stefan Meyer <meyer@leifos.com>
@@ -30,9 +24,9 @@ class ilCourseObjectiveQuestion
     public const TYPE_SELF_ASSESSMENT = 0;
     public const TYPE_FINAL_TEST = 1;
 
-    private $objective_id = 0;
-    private $questions = [];
-    private $tests = [];
+    private int $objective_id = 0;
+    private array $questions = [];
+    private array $tests = [];
     private int $tst_status = 0;
     private int $tst_limit = 0;
     private int $tst_ref_id = 0;
@@ -57,6 +51,9 @@ class ilCourseObjectiveQuestion
         $this->__read();
     }
 
+    /**
+     * @return int[]
+     */
     public static function lookupObjectivesOfQuestion(int $a_qid) : array
     {
         global $DIC;
@@ -91,7 +88,7 @@ class ilCourseObjectiveQuestion
         $mappings = $cwo->getMappings();
         foreach ($this->getQuestions() as $question) {
             $mapping_key = $question['ref_id'] . '_question_' . $question['question_id'];
-            if (!isset($mappings[$mapping_key]) or !$mappings[$mapping_key]) {
+            if (!isset($mappings[$mapping_key]) || !$mappings[$mapping_key]) {
                 continue;
             }
             $question_ref_id = $question['ref_id'];
@@ -107,9 +104,11 @@ class ilCourseObjectiveQuestion
             } else {
                 $new_question_info = $mappings[$question_ref_id . '_question_' . $question_qst_id];
                 $new_question_arr = explode('_', $new_question_info);
-                if (!isset($new_question_arr[2]) or !$new_question_arr[2]) {
-                    $this->logger->debug('found invalid format of question id mapping: ' . print_r($new_question_arr,
-                            true));
+                if (!isset($new_question_arr[2]) || !$new_question_arr[2]) {
+                    $this->logger->debug('found invalid format of question id mapping: ' . print_r(
+                        $new_question_arr,
+                        true
+                    ));
                     continue;
                 }
                 $new_question_id = $new_question_arr[2];
@@ -488,7 +487,7 @@ class ilCourseObjectiveQuestion
     public function updateLimits() : void
     {
         $points = 0;
-        foreach ($this->tests as $ref_id => $test_data) {
+        foreach ($this->tests as $test_data) {
             switch ($test_data['status']) {
                 case self::TYPE_SELF_ASSESSMENT:
                     $points = $this->getSelfAssessmentPoints();
@@ -498,7 +497,7 @@ class ilCourseObjectiveQuestion
                     $points = $this->getFinalTestPoints();
                     break;
             }
-            if ($test_data['limit'] == -1 or $test_data['limit'] > $points) {
+            if ($test_data['limit'] == -1 || $test_data['limit'] > $points) {
                 switch ($test_data['status']) {
                     case self::TYPE_SELF_ASSESSMENT:
                         $points = $this->getSelfAssessmentPoints();
@@ -565,7 +564,7 @@ class ilCourseObjectiveQuestion
             "AND objective_id = " . $this->db->quote($this->getObjectiveId(), 'integer') . " ";
 
         $res = $this->db->query($query);
-        if (!$res->numRows()) {
+        if ($res->numRows() === 0) {
             $this->__deleteTest($test_rid);
         }
     }
@@ -642,12 +641,14 @@ class ilCourseObjectiveQuestion
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if (!$this->tree->isInTree((int) $row->ref_id) or !$this->tree->isGrandChild($container_ref_id,
-                    (int) $row->ref_id)) {
+            if (!$this->tree->isInTree((int) $row->ref_id) || !$this->tree->isGrandChild(
+                $container_ref_id,
+                (int) $row->ref_id
+            )) {
                 $this->__deleteTest((int) $row->ref_id);
                 continue;
             }
-            if (!$question = ilObjTest::_instanciateQuestion((int) $row->question_id)) {
+            if (($question = ilObjTest::_instanciateQuestion((int) $row->question_id)) === null) {
                 $this->delete((int) $row->question_id);
                 continue;
             }
@@ -655,8 +656,8 @@ class ilCourseObjectiveQuestion
             $qst['obj_id'] = (int) $row->obj_id;
             $qst['question_id'] = (int) $row->question_id;
             $qst['qst_ass_id'] = (int) $row->qst_ass_id;
-            $qst['title'] = (string) $question->getTitle();
-            $qst['description'] = (string) $question->getComment();
+            $qst['title'] = $question->getTitle();
+            $qst['description'] = $question->getComment();
             $qst['test_type'] = (int) $this->tests[(int) $row->ref_id]['status'];
             $qst['points'] = (int) $question->getPoints();
 

@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilObjectMetaDataGUI
  *
@@ -19,7 +33,8 @@ class ilObjectMetaDataGUI
     protected ?ilLogger $logger = null;
 
     protected bool $in_workspace;
-    protected ?string $sub_type;
+    /** @var string|string[]|null */
+    protected $sub_type;
     protected ?int $sub_id;
     /**
      * @var bool false, e.g. for portfolios
@@ -50,10 +65,11 @@ class ilObjectMetaDataGUI
      * @var ?int[] id filter for adv records
      */
     protected ?array $record_filter = null;
-
+    private ilObjectRequestRetriever $retriever;
+    
     public function __construct(
         ilObject $object = null,
-        string $sub_type = null,
+        $sub_type = null,
         int $sub_id = null,
         bool $in_repository = true
     ) {
@@ -64,8 +80,9 @@ class ilObjectMetaDataGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
         $this->logger = $GLOBALS['DIC']->logger()->obj();
-
-        $this->in_workspace = (bool) ($_REQUEST["wsp_id"] ?? false);
+        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $DIC->refinery());
+    
+        $this->in_workspace = $this->retriever->getBool("wsp_id");
 
         $this->sub_type = $sub_type;
         $this->sub_id = $sub_id;
@@ -207,7 +224,7 @@ class ilObjectMetaDataGUI
         return $this->tax_obj_gui;
     }
 
-    public function addMDObserver(ilObject $class, string $method, string $section) : void
+    public function addMDObserver(object $class, string $method, string $section) : void
     {
         $this->md_observers[] = [
             "class" => $class,
@@ -228,7 +245,7 @@ class ilObjectMetaDataGUI
      * Set object, that defines the adv md records being used. Default is $this->object, but the
      * context may set another object (e.g. media pool for media objects)
      */
-    public function setAdvMdRecordObject(int $adv_id, string $adv_type, string $adv_subtype = "-")
+    public function setAdvMdRecordObject(int $adv_id, string $adv_type, string $adv_subtype = "-") : void
     {
         $this->adv_id = $adv_id;
         $this->adv_type = $adv_type;
@@ -256,7 +273,12 @@ class ilObjectMetaDataGUI
             list(, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
 
             if ($item["obj_type"] == $adv_type) {
-                return ((!$item["sub_type"] && $adv_subtype == "-") || ($item["sub_type"] == $adv_subtype));
+                if ((!$item["sub_type"] && $adv_subtype == "-") ||
+                    ($item["sub_type"] == $adv_subtype) ||
+                    (is_array($adv_subtype) && in_array($item["sub_type"], $adv_subtype))
+                ) {
+                    return true;
+                }
             }
         }
         return false;
@@ -268,7 +290,7 @@ class ilObjectMetaDataGUI
         if ($type == $this->sub_type) {
             $type = $this->obj_type . ":" . $type;
         }
-        
+
         return (
             ($this->obj_id || !$this->obj_type) &&
             in_array($type, [
@@ -294,7 +316,8 @@ class ilObjectMetaDataGUI
                 "iass",
                 'exc',
                 'lti',
-                'cmix'
+                'cmix',
+                'mep:mpg'
             ])
         );
     }
@@ -328,6 +351,10 @@ class ilObjectMetaDataGUI
     
     protected function canEdit() : bool
     {
+        if (is_array($this->sub_type)) {        // only settings
+            return false;
+        }
+
         if ($this->hasActiveRecords()) {
             if ($this->sub_type == "-" || $this->sub_id) {
                 return true;

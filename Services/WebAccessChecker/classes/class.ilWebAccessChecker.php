@@ -27,13 +27,13 @@ use Psr\Http\Message\UriInterface;
  */
 class ilWebAccessChecker
 {
-    const DISPOSITION = 'disposition';
-    const STATUS_CODE = 'status_code';
-    const REVALIDATE = 'revalidate';
-    const CM_FILE_TOKEN = 1;
-    const CM_FOLDER_TOKEN = 2;
-    const CM_CHECKINGINSTANCE = 3;
-    const CM_SECFOLDER = 4;
+    public const DISPOSITION = 'disposition';
+    public const STATUS_CODE = 'status_code';
+    public const REVALIDATE = 'revalidate';
+    public const CM_FILE_TOKEN = 1;
+    public const CM_FOLDER_TOKEN = 2;
+    public const CM_CHECKINGINSTANCE = 3;
+    public const CM_SECFOLDER = 4;
 
     protected ?ilWACPath $path_object = null;
     protected bool $checked = false;
@@ -108,28 +108,15 @@ class ilWebAccessChecker
                 if ($ilWACSignedPath->isFolderSigned() && $this->isRevalidateFolderTokens()) {
                     $ilWACSignedPath->revalidatingFolderToken();
                 }
-
-                $this->setChecked(true);
-
-                return true;
-            } else {
-                $this->setChecked(true);
-
-                return false;
             }
+            $this->setChecked(true);
+            return $canBeDelivered;
         }
 
         // none of the checking mechanisms could have been applied. no access
         $this->setChecked(true);
-        if ($this->getPathObject()->isInSecFolder()) {
-            $this->addAppliedCheckingMethod(self::CM_SECFOLDER);
-
-            return false;
-        } else {
-            $this->addAppliedCheckingMethod(self::CM_SECFOLDER);
-
-            return true;
-        }
+        $this->addAppliedCheckingMethod(self::CM_SECFOLDER);
+        return !$this->getPathObject()->isInSecFolder();
     }
 
     protected function sendHeader(string $message) : void
@@ -166,7 +153,7 @@ class ilWebAccessChecker
                 && $e->getCode() !== ilWACException::ACCESS_DENIED_NO_LOGIN) {
                 throw  $e;
             }
-            if (($e instanceof Exception && $e->getMessage() == 'Authentication failed.')
+            if (($e instanceof Exception && $e->getMessage() === 'Authentication failed.')
                 || $e->getCode() === ilWACException::ACCESS_DENIED_NO_LOGIN) {
                 $this->initAnonymousSession();
                 $this->checkUser();
@@ -183,7 +170,7 @@ class ilWebAccessChecker
     {
         global $DIC;
         $on_login_page = !$this->isRequestNotFromLoginPage();
-        $is_anonymous = ((int) $DIC->user()->getId() === (int) ANONYMOUS_USER_ID);
+        $is_anonymous = ($DIC->user()->getId() === ANONYMOUS_USER_ID);
         $is_null_user = ($DIC->user()->getId() === 0);
         $pub_section_activated = (bool) $DIC['ilSetting']->get('pub_section');
         $isset = isset($DIC['ilSetting']);
@@ -213,7 +200,7 @@ class ilWebAccessChecker
         global $DIC;
 
         $is_user = $DIC->user() instanceof ilObjUser;
-        $user_id_is_zero = ((int) $DIC->user()->getId() === 0);
+        $user_id_is_zero = ($DIC->user()->getId() === 0);
         $not_on_login_page = $this->isRequestNotFromLoginPage();
         if (!$is_user || ($user_id_is_zero && $not_on_login_page)) {
             throw new ilWACException(ilWACException::ACCESS_DENIED_NO_LOGIN);
@@ -333,15 +320,14 @@ class ilWebAccessChecker
         $ilAuthSession = $DIC['ilAuthSession'];
         $ilAuthSession->init();
         $ilAuthSession->regenerateId();
-        $a_id = (int) ANONYMOUS_USER_ID;
-        $ilAuthSession->setUserId($a_id);
-        $ilAuthSession->setAuthenticated(false, $a_id);
-        $DIC->user()->setId($a_id);
+        $ilAuthSession->setUserId(ANONYMOUS_USER_ID);
+        $ilAuthSession->setAuthenticated(false, ANONYMOUS_USER_ID);
+        $DIC->user()->setId(ANONYMOUS_USER_ID);
     }
 
     protected function isRequestNotFromLoginPage() : bool
     {
-        $referrer = (string) ($_SERVER['HTTP_REFERER'] ?? '');
+        $referrer = $_SERVER['HTTP_REFERER'] ?? '';
         $not_on_login_page = (strpos($referrer, 'login.php') === false
             && strpos($referrer, '&baseClass=ilStartUpGUI') === false);
 

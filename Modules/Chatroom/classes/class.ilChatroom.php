@@ -1,5 +1,24 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use ILIAS\Notifications\Model\ilNotificationConfig;
+use ILIAS\Notifications\Model\ilNotificationLink;
+use ILIAS\Notifications\Model\ilNotificationParameter;
 
 /**
  * Class ilChatroom
@@ -27,14 +46,14 @@ class ilChatroom
      */
     private array $availableSettings = [
         'object_id' => 'integer',
-        'online_status' => 'integer',
+        'online_status' => 'boolean',
         'allow_anonymous' => 'boolean',
         'allow_custom_usernames' => 'boolean',
         'enable_history' => 'boolean',
         'restrict_history' => 'boolean',
         'autogen_usernames' => 'string',
         'room_type' => 'string',
-        'allow_private_rooms' => 'integer',
+        'allow_private_rooms' => 'boolean',
         'display_past_msgs' => 'integer',
         'private_rooms_enabled' => 'boolean'
     ];
@@ -44,7 +63,7 @@ class ilChatroom
     /**
      * Checks user permissions by given array and ref_id.
      * @param string|string[] $permissions
-     * @param integer $ref_id
+     * @param int $ref_id
      * @param bool $send_info
      * @return bool
      */
@@ -70,9 +89,9 @@ class ilChatroom
     /**
      * Checks user permissions in question for a given user id in relation
      * to a given ref_id.
-     * @param integer $usr_id
+     * @param int $usr_id
      * @param string|string[] $permissions
-     * @param integer $ref_id
+     * @param int $ref_id
      * @return bool
      */
     public static function checkPermissionsOfUser(int $usr_id, $permissions, int $ref_id) : bool
@@ -151,8 +170,8 @@ class ilChatroom
         global $DIC;
 
         $query = 'SELECT * FROM ' . self::$settingsTable . ' WHERE object_id = %s';
-        $types = array('integer');
-        $values = array($object_id);
+        $types = ['integer'];
+        $values = [$object_id];
         $rset = $DIC->database()->queryF($query, $types, $values);
 
         if ($row = $DIC->database()->fetchAssoc($rset)) {
@@ -322,6 +341,9 @@ class ilChatroom
             case 'string':
                 return 'text';
 
+            case 'boolean':
+                return 'integer';
+            
             default:
                 return $type;
         }
@@ -484,11 +506,7 @@ class ilChatroom
         $values = [$this->roomId, $chat_userid];
         $res = $DIC->database()->queryF($query, $types, $values);
 
-        if (($row = $DIC->database()->fetchAssoc($res)) && (int) $row['cnt'] === 1) {
-            return true;
-        }
-
-        return false;
+        return ($row = $DIC->database()->fetchAssoc($res)) && (int) $row['cnt'] === 1;
     }
 
     public function isAllowedToEnterPrivateRoom(int $chat_userid, int $proom_id) : bool
@@ -513,11 +531,7 @@ class ilChatroom
         $values = [$proom_id, $chat_userid];
         $res = $DIC->database()->queryF($query, $types, $values);
 
-        if (($row = $DIC->database()->fetchAssoc($res)) && (int) $row['cnt'] === 1) {
-            return true;
-        }
-
-        return false;
+        return ($row = $DIC->database()->fetchAssoc($res)) && (int) $row['cnt'] === 1;
     }
 
     public function getHistory(
@@ -565,7 +579,7 @@ class ilChatroom
         $query .= ' ORDER BY timestamp ASC';
 
         $rset = $DIC->database()->query($query);
-        $result = array();
+        $result = [];
 
         while ($row = $DIC->database()->fetchAssoc($rset)) {
             $message = json_decode($row['message'], false, 512, JSON_THROW_ON_ERROR);
@@ -688,11 +702,7 @@ class ilChatroom
 
         $res = $DIC->database()->queryF($query, $types, $values);
 
-        if (($row = $DIC->database()->fetchAssoc($res)) && $row['cnt']) {
-            return true;
-        }
-
-        return false;
+        return ($row = $DIC->database()->fetchAssoc($res)) && $row['cnt'];
     }
 
     public function getBannedUsers() : array
@@ -811,7 +821,7 @@ class ilChatroom
     }
 
     /**
-     * @param null|object $gui
+     * @param null|ilChatroomObjectGUI $gui
      * @param int|ilChatroomUser $sender (can be an instance of ilChatroomUser or an user id of an ilObjUser instance
      * @param int $recipient_id
      * @param int $subScope
@@ -819,20 +829,28 @@ class ilChatroom
      * @throws InvalidArgumentException
      */
     public function sendInvitationNotification(
-        ?object $gui,
+        ?ilChatroomObjectGUI $gui,
         $sender,
         int $recipient_id,
         int $subScope = 0,
         string $invitationLink = ''
     ) : void {
-        if ($gui && $invitationLink === '') {
-            $invitationLink = $this->getChatURL($gui, $subScope);
+        $links = [];
+        if ($invitationLink === '') {
+            if ($gui) {
+                $links[] = new ilNotificationLink(
+                    new ilNotificationParameter('chat_join', [], 'chatroom'),
+                    $this->getChatURL($gui, $subScope)
+                );
+            }
+        } else {
+            $links[] = new ilNotificationLink(new ilNotificationParameter('chat_join', [], 'chatroom'), $invitationLink);
         }
 
         if ($recipient_id > 0 && ANONYMOUS_USER_ID !== $recipient_id) {
             if (is_numeric($sender) && $sender > 0) {
                 $sender_id = $sender;
-                /** @var $usr ilObjUser */
+                /** @var ilObjUser $usr */
                 $usr = ilObjectFactory::getInstanceByObjId($sender);
                 $public_name = $usr->getPublicName();
             } elseif ($sender instanceof ilChatroomUser) {
@@ -851,7 +869,6 @@ class ilChatroom
             $userLang = ilLanguageFactory::_getLanguageOfUser($recipient_id);
             $userLang->loadLanguageModule('mail');
             $bodyParams = [
-                'link' => $invitationLink,
                 'inviter_name' => $public_name,
                 'room_name' => $this->getTitle(),
                 'salutation' => ilMail::getSalutation($recipient_id, $userLang)
@@ -865,8 +882,7 @@ class ilChatroom
             $notification->setTitleVar('chat_invitation', $bodyParams, 'chatroom');
             $notification->setShortDescriptionVar('chat_invitation_short', $bodyParams, 'chatroom');
             $notification->setLongDescriptionVar('chat_invitation_long', $bodyParams, 'chatroom');
-            $notification->setAutoDisable(false);
-            $notification->setLink($invitationLink);
+            $notification->setLinks($links);
             $notification->setIconPath('templates/default/images/icon_chtr.svg');
             $notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
             $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
@@ -877,15 +893,13 @@ class ilChatroom
         }
     }
 
-    public function getChatURL(?object $gui, int $scope_id = 0) : string
+    public function getChatURL(ilChatroomObjectGUI $gui, int $scope_id = 0) : string
     {
         $url = '';
-        if (is_object($gui)) {
-            if ($scope_id) {
-                $url = ilLink::_getStaticLink($gui->object->getRefId(), $gui->object->getType(), true, '_' . $scope_id);
-            } else {
-                $url = ilLink::_getStaticLink($gui->object->getRefId(), $gui->object->getType());
-            }
+        if ($scope_id) {
+            $url = ilLink::_getStaticLink($gui->getObject()->getRefId(), $gui->getObject()->getType(), true, '_' . $scope_id);
+        } else {
+            $url = ilLink::_getStaticLink($gui->getObject()->getRefId(), $gui->getObject()->getType());
         }
 
         return $url;
@@ -1120,7 +1134,7 @@ class ilChatroom
 
     /**
      * Fetches and returns a Array<Integer, String> of all accessible repository object chats in the main tree
-     * @param integer $user_id
+     * @param int $user_id
      * @return array<int, string>
      */
     public function getAccessibleRoomIdByTitleMap(int $user_id) : array

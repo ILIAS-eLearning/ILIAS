@@ -125,7 +125,9 @@ class ilLPStatusCourseReference extends ilLPStatus
 
         $database = $DIC->database();
         $query = 'select status,usr_id from ut_lp_marks ' .
-            'where obj_id = ' . $database->quote($this->target_obj_id, \ilDBConstants::T_INTEGER);
+            'where obj_id = ' . $database->quote(
+                $this->target_obj_id, \ilDBConstants::T_INTEGER
+            );
         $res = $database->query($query);
 
         $info = [
@@ -145,25 +147,34 @@ class ilLPStatusCourseReference extends ilLPStatus
     /**
      * @inheritdoc
      */
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
-        $status = \ilLPStatus::_lookupStatus($this->target_obj_id, $a_usr_id, false);
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
+        $status = \ilLPStatus::_lookupStatus(
+            $this->target_obj_id, $a_usr_id, false
+        );
         if ($status) {
             return $status;
         }
         return \ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
     }
 
-    private static function getInstanceByObjId(int $a_reference_obj_id) : ilLPStatusCourseReference
-    {
+    private static function getInstanceByObjId(int $a_reference_obj_id
+    ) : ilLPStatusCourseReference {
         if (!isset(self::$instances[$a_reference_obj_id])) {
-            self::$instances[$a_reference_obj_id] = new self($a_reference_obj_id);
+            self::$instances[$a_reference_obj_id] = new self(
+                $a_reference_obj_id
+            );
         }
         return self::$instances[$a_reference_obj_id];
     }
 
     private function readTargetObjId(int $a_obj_id) : void
     {
-        $this->target_obj_id = ilObject::_lookupObjId(ilObjCourseReference::_lookupTargetRefId($a_obj_id));
+        $this->target_obj_id = ilObject::_lookupObjId(
+            ilObjCourseReference::_lookupTargetRefId($a_obj_id)
+        );
     }
 }

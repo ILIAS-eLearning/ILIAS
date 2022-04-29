@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 /**
@@ -72,7 +88,7 @@ class ilStyleDefinition
     {
         global $DIC;
 
-        if (!$DIC) {
+        if (!$DIC || is_array($DIC)) {
             return null;
         }
         if ($DIC->isDependencyAvailable('systemStyle') && is_object($DIC->systemStyle()->getSkin())) {
@@ -86,7 +102,7 @@ class ilStyleDefinition
             )) {
                 $skin_id = $DIC->user()->skin;
                 if ($skin_id && !self::skinExists($skin_id)) {
-                    $messages = new ilSystemStyleMessageStack();
+                    $messages = new ilSystemStyleMessageStack($DIC->ui()->mainTemplate());
                     $message_text = $DIC->language()->txt('set_skin_does_not_exist') . ' ' . $skin_id;
                     $messages->addMessage(new ilSystemStyleMessage($message_text, ilSystemStyleMessage::TYPE_ERROR));
                     $messages->sendMessages();
@@ -136,10 +152,11 @@ class ilStyleDefinition
         if (!$style_id) {
             throw new ilSystemStyleException(ilSystemStyleException::NO_STYLE_ID, $style_id);
         }
-        if (!$this->getSkin()->getStyle($style_id)) {
+        try {
+            return $this->getSkin()->getStyle($style_id)->getImageDirectory();
+        } catch (ilSystemStyleException $e) {
             throw new ilSystemStyleException(ilSystemStyleException::NOT_EXISTING_STYLE, $style_id);
         }
-        return $this->getSkin()->getStyle($style_id)->getImageDirectory();
     }
 
     /**
@@ -165,7 +182,7 @@ class ilStyleDefinition
             $skin_factory = new ilSkinFactory($DIC->language(), $system_style_config);
 
             /**
-             * @var $skins ilSkin[]
+             * @var ilSkin[] $skins
              */
             $skins = [];
             $skins[$system_style_config->getDefaultSkinId()] = $skin_factory->skinFromXML($system_style_config->getDefaultTemplatePath());
@@ -225,7 +242,7 @@ class ilStyleDefinition
             return self::$current_style;
         }
 
-        if (!$DIC || !$DIC->isDependencyAvailable('user')) {
+        if (!$DIC || is_array($DIC) || !$DIC->isDependencyAvailable('user')) {
             return null;
         }
 
@@ -268,8 +285,8 @@ class ilStyleDefinition
                     }
 
                     // check whether any ref id assigns a new style
-                    if ($DIC->isDependencyAvailable('repositoryTree') && $ref_id && $DIC->repositoryTree()->isInTree($ref_id)) {
-                        $path = $DIC->repositoryTree()->getPathId($ref_id);
+                    if ($DIC->isDependencyAvailable('repositoryTree') && $ref_id && $DIC->repositoryTree()->isInTree((int)$ref_id)) {
+                        $path = $DIC->repositoryTree()->getPathId((int)$ref_id);
                         for ($i = count($path) - 1; $i >= 0; $i--) {
                             if (isset($ref_ass[$path[$i]])) {
                                 self::$current_style = $ref_ass[$path[$i]];
@@ -282,7 +299,7 @@ class ilStyleDefinition
         }
 
         if ($DIC->isDependencyAvailable('systemStyle') && !self::styleExistsForCurrentSkin(self::$current_style)) {
-            $messages = new ilSystemStyleMessageStack();
+            $messages = new ilSystemStyleMessageStack($DIC->ui()->mainTemplate());
             $message_text = $DIC->language()->txt('set_style_does_not_exist') . ' ' . self::$current_style;
             $messages->addMessage(new ilSystemStyleMessage($message_text, ilSystemStyleMessage::TYPE_ERROR));
             $messages->sendMessages();
@@ -318,7 +335,7 @@ class ilStyleDefinition
                     }
 
                     $version = $skin->getVersion();
-                    if($version == '$Id$') {
+                    if ($version == '$Id$') {
                         $version = '-';
                     }
                     // default selection list
@@ -383,7 +400,7 @@ class ilStyleDefinition
             return false;
         }
         $factory = new ilSkinFactory($DIC->language());
-        $skin = $factory->skinStyleContainerFromId($skin_id)->getSkin();
+        $skin = $factory->skinStyleContainerFromId($skin_id, new ilSystemStyleMessageStack($DIC->ui()->mainTemplate()))->getSkin();
         return $skin->hasStyle($style_id);
     }
 
@@ -394,7 +411,7 @@ class ilStyleDefinition
         return $DIC->systemStyle()->getSkin()->hasStyle($style_id);
     }
 
-    public static function setCurrentStyle(string $a_style)
+    public static function setCurrentStyle(string $a_style) : void
     {
         self::$current_style = $a_style;
     }
@@ -411,7 +428,7 @@ class ilStyleDefinition
     /**
      * @param ilSkin[] $skins
      */
-    public static function setSkins(array $skins)
+    public static function setSkins(array $skins) : void
     {
         self::$skins = $skins;
     }
@@ -421,7 +438,7 @@ class ilStyleDefinition
         return $this->skin;
     }
 
-    public function setSkin(ilSkin $skin)
+    public function setSkin(ilSkin $skin) : void
     {
         $this->skin = $skin;
     }
@@ -434,7 +451,7 @@ class ilStyleDefinition
         return self::$cached_all_styles_information;
     }
 
-    protected static function setCachedAllStylesInformation(array $cached_all_styles_information)
+    protected static function setCachedAllStylesInformation(array $cached_all_styles_information) : void
     {
         self::$cached_all_styles_information = $cached_all_styles_information;
     }

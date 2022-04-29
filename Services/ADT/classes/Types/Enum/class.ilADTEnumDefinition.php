@@ -32,7 +32,7 @@ class ilADTEnumDefinition extends ilADTDefinition
         $this->numeric = $a_value;
     }
 
-    public function getOptions()
+    public function getOptions() : array
     {
         return $this->options;
     }
@@ -58,9 +58,7 @@ class ilADTEnumDefinition extends ilADTDefinition
         return ($a_adt instanceof ilADTEnum);
     }
 
-    // ADT instance
-
-    public function getADTInstance()
+    public function getADTInstance() : ilADTEnum
     {
         if ($this->isNumeric()) {
             $class = "ilADTEnumNumeric";

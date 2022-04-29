@@ -55,7 +55,7 @@ class ilLuceneAdvancedSearchSettings
     /**
      * check if field is active
      */
-    public function isActive($a_field) : bool
+    public function isActive(string $a_field) : bool
     {
         return $this->fields[$a_field] ?: false;
     }

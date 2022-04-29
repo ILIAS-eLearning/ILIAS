@@ -14,15 +14,15 @@ require_once('./libs/composer/vendor/autoload.php');
 $container = new \ILIAS\DI\Container();
 
 //manually init http service
-$container['http.request_factory'] = fn ($c) => new \ILIAS\HTTP\Request\RequestFactoryImpl();
+$container['http.request_factory'] = static fn ($c) => new \ILIAS\HTTP\Request\RequestFactoryImpl();
 
-$container['http.response_factory'] = fn ($c) => new \ILIAS\HTTP\Response\ResponseFactoryImpl();
+$container['http.response_factory'] = static fn ($c) => new \ILIAS\HTTP\Response\ResponseFactoryImpl();
 
-$container['http.cookie_jar_factory'] = fn ($c) => new \ILIAS\HTTP\Cookies\CookieJarFactoryImpl();
+$container['http.cookie_jar_factory'] = static fn ($c) => new \ILIAS\HTTP\Cookies\CookieJarFactoryImpl();
 
-$container['http.response_sender_strategy'] = fn ($c) => new \ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy();
+$container['http.response_sender_strategy'] = static fn ($c) => new \ILIAS\HTTP\Response\Sender\DefaultResponseSenderStrategy();
 
-$container['http'] = fn ($c) => new \ILIAS\HTTP\Services($c);
+$container['http'] = static fn ($c) => new \ILIAS\HTTP\Services($c);
 
 $GLOBALS["DIC"] = $container;
 

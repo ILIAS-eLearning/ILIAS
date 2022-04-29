@@ -265,16 +265,6 @@ class ilObjSAHSLearningModule extends ilObject
             
         return (int) $lm_rec['question_tries'];
     }
-    /**
-    * Gets the disk usage of the object in bytes.
-    *
-    * @access	public
-    * @return	integer		the disk usage in bytes
-    */
-    public function getDiskUsage() : int
-    {
-        return ilObjSAHSLearningModuleAccess::_lookupDiskUsage($this->id);
-    }
 
 
     /**

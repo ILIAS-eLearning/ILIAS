@@ -4,6 +4,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer\NotificationRenderer;
 use ILIAS\GlobalScreen\Scope\Notification\Collector\Renderer\StandardNotificationRenderer;
 use ILIAS\UI\Factory as UIFactory;
+use Closure;
 
 /******************************************************************************
  *
@@ -29,12 +30,12 @@ abstract class AbstractBaseNotification implements isStandardItem
     /**
      * Callable to be executed, if the notification center has been opened.
      */
-    protected ?\Closure $handle_opened = null;
+    protected ?Closure $handle_opened = null;
     
     /**
      * Callable to be executed, if this specific item has been closed.
      */
-    protected ?\Closure  $handle_closed = null;
+    protected ?Closure  $handle_closed = null;
     
     /**
      * StandardNotification constructor.
@@ -95,7 +96,7 @@ abstract class AbstractBaseNotification implements isStandardItem
     /**
      * @inheritDoc
      */
-    public function getClosedCallable()
+    public function getClosedCallable() : ?callable
     {
         return $this->handle_closed;
     }
@@ -103,7 +104,7 @@ abstract class AbstractBaseNotification implements isStandardItem
     /**
      * @inheritDoc
      */
-    public function hasClosedCallable()
+    public function hasClosedCallable() : bool
     {
         return is_callable($this->handle_closed);
     }

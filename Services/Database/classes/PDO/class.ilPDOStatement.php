@@ -8,7 +8,6 @@
  */
 class ilPDOStatement implements ilDBStatement
 {
-
     protected \PDOStatement $pdo_statement;
 
 
@@ -22,7 +21,7 @@ class ilPDOStatement implements ilDBStatement
 
 
     /**
-     * @return mixed|void
+     * @return mixed
      * @throws ilDatabaseException
      */
     public function fetchRow(int $fetch_mode = ilDBConstants::FETCHMODE_ASSOC)
@@ -40,7 +39,7 @@ class ilPDOStatement implements ilDBStatement
 
 
     /**
-     * @return mixed|void
+     * @return mixed
      */
     public function fetch(int $fetch_mode = ilDBConstants::FETCHMODE_ASSOC)
     {
@@ -51,7 +50,7 @@ class ilPDOStatement implements ilDBStatement
     /**
      * Pdo allows for a manual closing of the cursor.
      */
-    public function closeCursor(): void
+    public function closeCursor() : void
     {
         $this->pdo_statement->closeCursor();
     }
@@ -91,15 +90,12 @@ class ilPDOStatement implements ilDBStatement
         return $this;
     }
 
-    public function errorCode(): string
+    public function errorCode() : string
     {
         return $this->pdo_statement->errorCode();
     }
 
-    /**
-     * @return mixed[]
-     */
-    public function errorInfo(): array
+    public function errorInfo() : array
     {
         return $this->pdo_statement->errorInfo();
     }

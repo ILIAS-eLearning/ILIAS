@@ -1,17 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 use ILIAS\Administration\SettingsTemplateGUIRequest;
 
@@ -56,9 +60,6 @@ class ilSettingsTemplateGUI
         );
     }
 
-    /**
-     * Execute command
-     */
     public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
@@ -67,7 +68,7 @@ class ilSettingsTemplateGUI
         $this->$cmd();
     }
 
-    public function setConfig(ilSettingsTemplateConfig $a_val)
+    public function setConfig(ilSettingsTemplateConfig $a_val) : void
     {
         $this->config = $a_val;
     }
@@ -131,7 +132,7 @@ class ilSettingsTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    public function initSettingsTemplateForm($a_mode = "edit") : void
+    public function initSettingsTemplateForm(string $a_mode = "edit") : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -223,7 +224,7 @@ class ilSettingsTemplateGUI
 
         if ($this->rbacsystem->checkAccess('write', $this->request->getRefId())) {
             // save and cancel commands
-            if ($a_mode == "create") {
+            if ($a_mode === "create") {
                 $this->form->addCommandButton("saveSettingsTemplate", $lng->txt("save"));
                 $this->form->addCommandButton("listSettingsTemplates", $lng->txt("cancel"));
                 $this->form->setTitle($lng->txt("adm_add_settings_template"));
@@ -237,9 +238,6 @@ class ilSettingsTemplateGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    /**
-     * Get current values for settings template from
-     */
     public function getSettingsTemplateValues() : void
     {
         $values = array();
@@ -259,9 +257,9 @@ class ilSettingsTemplateGUI
             if (isset($set[$s["id"]])) {
                 $values["set_" . $s["id"]] = true;
 
-                if ($s['type'] == ilSettingsTemplateConfig::CHECKBOX) {
+                if ($s['type'] === ilSettingsTemplateConfig::CHECKBOX) {
                     if (!is_array($set[$s["id"]]["value"])) {
-                        $ar = unserialize($set[$s["id"]]["value"]);
+                        $ar = unserialize($set[$s["id"]]["value"], ['allowed_classes' => false]);
                     } else {
                         $ar = $set[$s["id"]]["value"];
                     }
@@ -276,9 +274,6 @@ class ilSettingsTemplateGUI
         $this->form->setValuesByArray($values);
     }
 
-    /**
-     * Save settings template form
-     */
     public function saveSettingsTemplate() : void
     {
         $tpl = $this->tpl;
@@ -301,10 +296,7 @@ class ilSettingsTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    /**
-     * Update settings template
-     */
-    public function updateSettingsTemplate()
+    public function updateSettingsTemplate() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -323,9 +315,6 @@ class ilSettingsTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    /**
-     * Set values from form
-     */
     public function setValuesFromForm(ilSettingsTemplate $a_set_templ) : void
     {
         // perform update
@@ -353,16 +342,13 @@ class ilSettingsTemplateGUI
         }
     }
 
-    /**
-     * Confirm settings template deletion
-     */
     public function confirmSettingsTemplateDeletion() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
 
-        if (count($this->request->getTemplateIds()) == 0) {
+        if (count($this->request->getTemplateIds()) === 0) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listSettingsTemplates");
         } else {

@@ -57,7 +57,7 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
-        list($ORIG_DIC, $ORIG_ilDB) = $this->initEnvironment($environment);
+        [$ORIG_DIC, $ORIG_ilDB] = $this->initEnvironment($environment);
 
         $plugin = $component_repository->getPluginByName($this->plugin_name);
         $language_handler = new ilPluginLanguage($plugin);
@@ -136,7 +136,7 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
             public function emergency(string $a_message) : void
             {
             }
-            public function write(string $a_message, int $a_level = ilLogLevel::INFO) : void
+            public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
             {
             }
             public function writeLanguageLog(string $a_topic, string $a_lang_key) : void
@@ -156,16 +156,16 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
             public function write(string $a_msg, $a_log_level = ilLogLevel::INFO) : void
             {
             }
-            public function info($msg)
+            public function info($msg) : void
             {
             }
-            public function warning($msg)
+            public function warning($msg) : void
             {
             }
-            public function error($msg)
+            public function error($msg) : void
             {
             }
-            public function debug($msg, $a = [])
+            public function debug($msg, $a = []) : void
             {
             }
             public function dump($a_var, ?int $a_log_level = ilLogLevel::INFO) : void
@@ -176,11 +176,11 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
             public function __construct()
             {
             }
-            public static function getRootLogger()
+            public static function getRootLogger() : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }
-            public static function getLogger($a)
+            public static function getLogger(string $a_component_id) : ilLogger
             {
                 return $GLOBALS["DIC"]["ilLogger"];
             }
@@ -188,8 +188,12 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["lng"] = new ilLanguage('en');
+        //Todo-PHP8-Review Begin: variable $plugin_admin is not defined
         $GLOBALS["DIC"]["ilPluginAdmin"] = $plugin_admin;
+        //Todo-PHP8-Review End
+        //Todo-PHP8-Review Begin: All required arguments are missing to instantiate ilCtrl
         $GLOBALS["DIC"]["ilCtrl"] = new ilCtrl();
+        //Todo-PHP8-Review End: All required arguments are missing to instantiate ilCtrl
         $GLOBALS["DIC"]["ilias"] = null;
         $GLOBALS["DIC"]["ilErr"] = null;
         $GLOBALS["DIC"]["tree"] = new class() extends ilTree {
@@ -219,7 +223,9 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
             }
         };
         $GLOBALS["DIC"]["ilUser"] = new class() extends ilObjUser {
-            public $prefs = [];
+            //Todo-PHP8-Review Begin: variable is already defined as public array $prefs = [];
+            public array $prefs = [];
+            //Todo-PHP8-Review End
 
             public function __construct()
             {

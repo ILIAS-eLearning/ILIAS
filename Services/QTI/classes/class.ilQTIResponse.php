@@ -20,23 +20,23 @@
     | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
     +-----------------------------------------------------------------------------+
 */
-    define("RT_RESPONSE_LID", "1");
-    define("RT_RESPONSE_XY", "2");
-    define("RT_RESPONSE_STR", "3");
-    define("RT_RESPONSE_NUM", "4");
-    define("RT_RESPONSE_GRP", "5");
-    define("RT_RESPONSE_EXTENSION", "6");
-    
-    define("R_CARDINALITY_SINGLE", "1");
-    define("R_CARDINALITY_MULTIPLE", "2");
-    define("R_CARDINALITY_ORDERED", "3");
+const RT_RESPONSE_LID = "1";
+const RT_RESPONSE_XY = "2";
+const RT_RESPONSE_STR = "3";
+const RT_RESPONSE_NUM = "4";
+const RT_RESPONSE_GRP = "5";
+const RT_RESPONSE_EXTENSION = "6";
 
-    define("RTIMING_NO", "1");
-    define("RTIMING_YES", "2");
-    
-    define("NUMTYPE_INTEGER", "1");
-    define("NUMTYPE_DECIMAL", "2");
-    define("NUMTYPE_SCIENTIFIC", "3");
+const R_CARDINALITY_SINGLE = "1";
+const R_CARDINALITY_MULTIPLE = "2";
+const R_CARDINALITY_ORDERED = "3";
+
+const RTIMING_NO = "1";
+const RTIMING_YES = "2";
+
+const NUMTYPE_INTEGER = "1";
+const NUMTYPE_DECIMAL = "2";
+const NUMTYPE_SCIENTIFIC = "3";
     
 /**
 * QTI response class
@@ -48,44 +48,64 @@
 */
 class ilQTIResponse
 {
-    public $flow;
+    public int $flow;
+    /** @var int|string */
     public $response_type;
-    public $ident;
-    public $rcardinality;
+    public ?string $ident;
+    public ?string $rcardinality;
+
+    /**
+     * @var ilQTIRenderChoice|ilQTIRenderHotspot|ilQTIRenderFib|null
+     */
     public $render_type;
-    public $material1;
-    public $material2;
-    public $rtiming;
-    public $numtype;
-    
+    public ?ilQTIMaterial $material1;
+    public ?ilQTIMaterial $material2;
+    public ?string $rtiming;
+    public ?string $numtype;
+
+    /**
+     * @param string|int $a_response_type
+     */
     public function __construct($a_response_type = 0)
     {
         $this->flow = 0;
         $this->render_type = null;
         $this->response_type = $a_response_type;
+        $this->ident = null;
+        $this->rcardinality = null;
+        $this->material1 = null;
+        $this->material2 = null;
+        $this->rtiming = null;
+        $this->numtype = null;
     }
-    
-    public function setResponsetype($a_responsetype)
+
+    /**
+     * @param string|int $a_responsetype
+     */
+    public function setResponsetype($a_responsetype) : void
     {
         $this->response_type = $a_responsetype;
     }
-    
+
+    /**
+     * @return int|string
+     */
     public function getResponsetype()
     {
         return $this->response_type;
     }
-    
-    public function setIdent($a_ident)
+
+    public function setIdent(string $a_ident) : void
     {
         $this->ident = $a_ident;
     }
-    
-    public function getIdent()
+
+    public function getIdent() : ?string
     {
         return $this->ident;
     }
-    
-    public function setRCardinality($a_rcardinality)
+
+    public function setRCardinality(string $a_rcardinality) : void
     {
         switch (strtolower($a_rcardinality)) {
             case "single":
@@ -102,13 +122,13 @@ class ilQTIResponse
                 break;
         }
     }
-    
-    public function getRCardinality()
+
+    public function getRCardinality() : ?string
     {
         return $this->rcardinality;
     }
-    
-    public function setRTiming($a_rtiming)
+
+    public function setRTiming(string $a_rtiming) : void
     {
         switch (strtolower($a_rtiming)) {
             case "no":
@@ -121,13 +141,13 @@ class ilQTIResponse
                 break;
         }
     }
-    
-    public function getRTiming()
+
+    public function getRTiming() : ?string
     {
         return $this->rtiming;
     }
-    
-    public function setNumtype($a_numtype)
+
+    public function setNumtype(string $a_numtype) : void
     {
         switch (strtolower($a_numtype)) {
             case "integer":
@@ -144,58 +164,60 @@ class ilQTIResponse
                 break;
         }
     }
-    
-    public function getNumtype()
+
+    public function getNumtype() : ?string
     {
         return $this->numtype;
     }
-    
-    public function setRenderType($a_render_type)
+
+    /**
+     * @param ilQTIRenderChoice|ilQTIRenderHotspot|ilQTIRenderFib $a_render_type
+     */
+    public function setRenderType($a_render_type) : void
     {
         $this->render_type = $a_render_type;
     }
-    
+
+    /**
+     * @return ilQTIRenderChoice|ilQTIRenderHotspot|ilQTIRenderFib|null
+     */
     public function getRenderType()
     {
         return $this->render_type;
     }
-    
-    public function setFlow($a_flow)
+
+    public function setFlow(int $a_flow) : void
     {
         $this->flow = $a_flow;
     }
-    
-    public function getFlow()
+
+    public function getFlow() : int
     {
         return $this->flow;
     }
     
-    public function setMaterial1($a_material)
+    public function setMaterial1(ilQTIMaterial $a_material) : void
     {
         $this->material1 = $a_material;
     }
     
-    public function getMaterial1()
+    public function getMaterial1() : ?ilQTIMaterial
     {
         return $this->material1;
     }
 
-    public function setMaterial2($a_material)
+    public function setMaterial2(ilQTIMaterial $a_material) : void
     {
         $this->material2 = $a_material;
     }
     
-    public function getMaterial2()
+    public function getMaterial2() : ?ilQTIMaterial
     {
         return $this->material2;
     }
     
-    public function hasRendering()
+    public function hasRendering() : bool
     {
-        if ($this->render_type != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->render_type != null;
     }
 }

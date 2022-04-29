@@ -20,20 +20,20 @@
  */
 class ilECSEnrolmentStatus
 {
-    const STATUS_ACTIVE = 'active';
-    const STATUS_PENDING = 'pending';
-    const STATUS_DENIED = 'denied';
-    const STATUS_REJECTED = 'rejected';
-    const STATUS_UNSUBSCRIBED = 'unsubscribed';
-    const STATUS_ACCOUNT_DEACTIVATED = 'account_deactivated';
+    public const STATUS_ACTIVE = 'active';
+    public const STATUS_PENDING = 'pending';
+    public const STATUS_DENIED = 'denied';
+    public const STATUS_REJECTED = 'rejected';
+    public const STATUS_UNSUBSCRIBED = 'unsubscribed';
+    public const STATUS_ACCOUNT_DEACTIVATED = 'account_deactivated';
     
-    const ID_EPPN = 'ecs_ePPN';
-    const ID_LOGIN_UID = 'ecs_loginUID';
-    const ID_LOGIN = 'ecs_login';
-    const ID_UID = 'ecs_uid';
-    const ID_EMAIL = 'ecs_email';
-    const ID_PERSONAL_UNIQUE_CODE = 'ecs_PersonalUniqueCode';
-    const ID_CUSTOM = 'ecs_custom';
+    public const ID_EPPN = 'ecs_ePPN';
+    public const ID_LOGIN_UID = 'ecs_loginUID';
+    public const ID_LOGIN = 'ecs_login';
+    public const ID_UID = 'ecs_uid';
+    public const ID_EMAIL = 'ecs_email';
+    public const ID_PERSONAL_UNIQUE_CODE = 'ecs_PersonalUniqueCode';
+    public const ID_CUSTOM = 'ecs_custom';
     
 
     // json fields
@@ -48,57 +48,57 @@ class ilECSEnrolmentStatus
     {
     }
     
-    public function setUrl($a_url)
+    public function setUrl(string $a_url) : void
     {
         $this->url = $a_url;
     }
     
-    public function getUrl()
+    public function getUrl() : string
     {
         return $this->url;
     }
     
-    public function setId($a_id)
+    public function setId(string $a_id) : void
     {
         $this->id = $a_id;
     }
     
-    public function getId()
+    public function getId() : string
     {
         return $this->id;
     }
     
-    public function setPersonId($a_person)
+    public function setPersonId(string $a_person) : void
     {
         $this->personID = $a_person;
     }
     
-    public function getPersonId()
+    public function getPersonId() : string
     {
         return $this->personID;
     }
     
-    public function setPersonIdType($a_type)
+    public function setPersonIdType(string $a_type) : void
     {
         $this->personIDtype = $a_type;
     }
     
-    public function getPersonIdType()
+    public function getPersonIdType() : string
     {
         return $this->personIDtype;
     }
     
-    public function setStatus($a_status)
+    public function setStatus(string $a_status) : void
     {
         $this->status = $a_status;
     }
     
-    public function getStatus()
+    public function getStatus() : string
     {
         return $this->status;
     }
-    
-    public function loadFromJson($json)
+
+    public function loadFromJson(object $json) : void
     {
         $this->setId($json->id);
         $this->setPersonId($json->personID);

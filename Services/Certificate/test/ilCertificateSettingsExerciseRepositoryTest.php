@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -20,7 +35,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -63,7 +78,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
 
         $result = $repository->createForm($guiMock);
 
-        $this->assertEquals($formMock, $result);
+        $this->assertSame($formMock, $result);
     }
 
     /**
@@ -83,7 +98,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -115,7 +130,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
             $settingsFormFactory
         );
 
-        $repository->save(array(1, 2, 3));
+        $repository->save([1, 2, 3]);
     }
 
     public function testFormFieldData() : void
@@ -132,7 +147,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -155,7 +170,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
         $settingsFormFactory
             ->expects($this->once())
             ->method('fetchFormFieldData')
-            ->willReturn(array('something' => 'value'));
+            ->willReturn(['something' => 'value']);
 
         $repository = new ilCertificateSettingsExerciseRepository(
             $object,
@@ -171,6 +186,6 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
 
         $result = $repository->fetchFormFieldData('SomeContent');
 
-        $this->assertEquals(array('something' => 'value'), $result);
+        $this->assertSame(['something' => 'value'], $result);
     }
 }

@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilCacheTest extends TestCase
 {
+    // PHP8-Review: Redundant method override
     protected function setUp() : void
     {
         parent::setUp();

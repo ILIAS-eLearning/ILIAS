@@ -25,10 +25,7 @@
 class ilPollImporter extends ilXmlImporter
 {
     protected ilPollDataSet $ds;
-    
-    /**
-     * Initialisation
-     */
+
     public function init() : void
     {
         $this->ds = new ilPollDataSet();

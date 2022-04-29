@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilForumXMLParser extends ilSaxParser
 {
@@ -13,6 +27,7 @@ class ilForumXMLParser extends ilSaxParser
     ];
     private ilDBInterface $db;
     private ilObjUser $aobject;
+    /** @var null|string|int  */
     private $import_install_id = null;
     private ?string $importDirectory = null;
     private ?string $schema_version = null;
@@ -73,10 +88,16 @@ class ilForumXMLParser extends ilSaxParser
     public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
-        xml_set_element_handler($a_xml_parser, 'handlerBeginTag', 'handlerEndTag');
-        xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
+        xml_set_element_handler($a_xml_parser, [$this, 'handlerBeginTag'], [$this, 'handlerEndTag']);
+        xml_set_character_data_handler($a_xml_parser, [$this, 'handlerCharacterData']);
     }
 
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @param array  $a_attribs
+     * @return void
+     */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
@@ -109,6 +130,11 @@ class ilForumXMLParser extends ilSaxParser
         }
     }
 
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @return void
+     */
     public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         $this->cdata = trim($this->cdata);
@@ -728,8 +754,8 @@ class ilForumXMLParser extends ilSaxParser
 
     /**
      * handler for character data
-     * @param resource $a_xml_parser xml parser
-     * @param string   $a_data       character data
+     * @param XMLParser|resource $a_xml_parser xml parser
+     * @param string $a_data character data
      */
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {

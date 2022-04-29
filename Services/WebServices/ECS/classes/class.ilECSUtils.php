@@ -19,20 +19,16 @@
 */
 class ilECSUtils
 {
-    const TYPE_ARRAY = 1;
-    const TYPE_INT = 2;
-    const TYPE_STRING = 3;
-    const TYPE_TIMEPLACE = 4;
+    public const TYPE_ARRAY = 1;
+    public const TYPE_INT = 2;
+    public const TYPE_STRING = 3;
+    public const TYPE_TIMEPLACE = 4;
         
     /**
      * get optional econtent fields
      * These fields might be mapped against AdvancedMetaData field definitions
-     *
-     * @access public
-     * @static
-     *
      */
-    public static function _getOptionalEContentFields()
+    public static function _getOptionalEContentFields() : array
     {
         // :TODO: ?
         $def = self::getEContentDefinition('/campusconnect/courselinks');
@@ -42,12 +38,8 @@ class ilECSUtils
     /**
      * get optional econtent fields
      * These fields might be mapped against AdvancedMetaData field definitions
-     *
-     * @access public
-     * @static
-     *
      */
-    public static function _getOptionalECourseFields()
+    public static function _getOptionalECourseFields() : array
     {
         // :TODO: ?
         $def = self::getEContentDefinition('/campusconnect/courselinks');
@@ -56,11 +48,8 @@ class ilECSUtils
 
     /**
      * Get all possible remote object types
-     *
-     * @param bool $a_with_captions
-     * @return array
      */
-    public static function getPossibleRemoteTypes($a_with_captions = false)
+    public static function getPossibleRemoteTypes(bool $a_with_captions = false) : array
     {
         global $DIC;
 
@@ -81,11 +70,8 @@ class ilECSUtils
     
     /**
      * Get all possible release object types
-     *
-     * @param bool $a_with_captions
-     * @return array
      */
-    public static function getPossibleReleaseTypes($a_with_captions = false)
+    public static function getPossibleReleaseTypes(bool $a_with_captions = false) : array
     {
         global $DIC;
 
@@ -106,11 +92,8 @@ class ilECSUtils
     
     /**
      * Get econtent / metadata definition
-     *
-     * @param string $a_resource_id
-     * @return array
      */
-    public static function getEContentDefinition($a_resource_id)
+    public static function getEContentDefinition(string $a_resource_id) : array
     {
         switch ($a_resource_id) {
             case '/campusconnect/courselinks':
@@ -135,7 +118,8 @@ class ilECSUtils
             case '/campusconnect/learningmodules':
             case '/campusconnect/wikis':
                 // no metadata mapping yet
-                return array();
+            default:
+                return [];
         }
     }
     
@@ -146,9 +130,8 @@ class ilECSUtils
      * @param int $a_server_id
      * @param object $a_ecs_content
      * @param int $a_owner
-     * @return array
      */
-    public static function getMatchableContent($a_resource_id, $a_server_id, $a_ecs_content, $a_owner)
+    public static function getMatchableContent($a_resource_id, $a_server_id, $a_ecs_content, $a_owner) : array
     {
         // see ilECSCategoryMapping::getPossibleFields();
         $res = array();
@@ -159,45 +142,43 @@ class ilECSUtils
         $definition = self::getEContentDefinition($a_resource_id);
         
         $timePlace = null;
+        $value = null;
         foreach ($definition as $id => $type) {
             if (is_array($type)) {
-                $target = $type[1];
-                $type = $type[0];
+                [$type, $target] = $type;
             } else {
                 $target = $id;
             }
             switch ($type) {
-                case ilECSUtils::TYPE_ARRAY:
-                    if (isset($a_ecs_content->$target)) {
-                        $value = array(implode(',', (array) $a_ecs_content->$target), ilECSCategoryMappingRule::ATTR_ARRAY);
+                case self::TYPE_ARRAY:
+                    if (isset($a_ecs_content->{$target})) {
+                        $value = array(implode(',', (array) $a_ecs_content->{$target}), ilECSCategoryMappingRule::ATTR_ARRAY);
                     } else {
                         $value = [];
                     }
                     break;
 
-                case ilECSUtils::TYPE_INT:
-                    if (isset($a_ecs_content->$target)) {
-                        $value = array((int) $a_ecs_content->$target, ilECSCategoryMappingRule::ATTR_INT);
+                case self::TYPE_INT:
+                    if (isset($a_ecs_content->{$target})) {
+                        $value = array((int) $a_ecs_content->{$target}, ilECSCategoryMappingRule::ATTR_INT);
                     } else {
                         $value = 0;
                     }
                     break;
 
-                case ilECSUtils::TYPE_STRING:
-                    if (isset($a_ecs_content->$target)) {
-                        $value = array((string) $a_ecs_content->$target, ilECSCategoryMappingRule::ATTR_STRING);
+                case self::TYPE_STRING:
+                    if (isset($a_ecs_content->{$target})) {
+                        $value = array((string) $a_ecs_content->{$target}, ilECSCategoryMappingRule::ATTR_STRING);
                     } else {
                         $value = "";
                     }
                     break;
 
-                case ilECSUtils::TYPE_TIMEPLACE:
+                case self::TYPE_TIMEPLACE:
                     if (!is_object($timePlace)) {
-                        if (isset($a_ecs_content->$target) && is_object($a_ecs_content->$target)) {
-                            $timePlace = new ilECSTimePlace();
-                            $timePlace->loadFromJSON($a_ecs_content->$target);
-                        } else {
-                            $timePlace = new ilECSTimePlace();
+                        $timePlace = new ilECSTimePlace();
+                        if (isset($a_ecs_content->{$target}) && is_object($a_ecs_content->{$target})) {
+                            $timePlace->loadFromJSON($a_ecs_content->{$target});
                         }
                     }
                     switch ($id) {
@@ -224,11 +205,8 @@ class ilECSUtils
     
     /**
      * Get advanced metadata values for object id
-     *
-     * @param int $a_obj_id
-     * @return array
      */
-    public static function getAdvancedMDValuesForObjId($a_obj_id)
+    public static function getAdvancedMDValuesForObjId(int $a_obj_id) : array
     {
         $res = array();
 

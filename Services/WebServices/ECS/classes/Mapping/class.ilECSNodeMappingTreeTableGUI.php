@@ -21,15 +21,13 @@
  */
 class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
 {
-    private $server_id = 0;
-    private $mid = 0;
+    private int $server_id;
+    private int $mid;
 
     /**
      * Table gui constructor
-     * @param <type> $a_parent_obj
-     * @param <type> $a_parent_cmd
      */
-    public function __construct($a_server_id, $a_mid, $a_parent_obj, $a_parent_cmd)
+    public function __construct(int $a_server_id, int $a_mid, ?object $a_parent_obj, string $a_parent_cmd)
     {
         $this->server_id = $a_server_id;
         $this->mid = $a_mid;
@@ -49,18 +47,16 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
 
     /**
      * Get setting
-     * @return ilECSSetting
      */
-    public function getServer()
+    public function getServer() : \ilECSSetting
     {
         return ilECSSetting::getInstanceByServerId($this->server_id);
     }
 
     /**
      * Get mid
-     * @return int
      */
-    public function getMid()
+    public function getMid() : int
     {
         return $this->mid;
     }
@@ -69,7 +65,7 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
      * Fill row
      * @param array $a_set
      */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         // show title if available
         if ($a_set['term']) {
@@ -92,7 +88,7 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
         
         $list->addItem($this->lng->txt('edit'), '', $this->ctrl->getLinkTarget($this->getParentObject(), 'dInitEditTree'));
         
-        if ($a_set['status'] != ilECSMappingUtils::MAPPED_UNMAPPED &&
+        if ($a_set['status'] !== ilECSMappingUtils::MAPPED_UNMAPPED &&
                 ilECSNodeMappingSettings::getInstanceByServerMid($this->getServer()->getServerId(), $this->getMid())->isDirectoryMappingEnabled()) {
             $list->addItem(
                 $this->lng->txt('ecs_cms_tree_synchronize'),
@@ -110,7 +106,7 @@ class ilECSNodeMappingTreeTableGUI extends ilTable2GUI
     /**
      * Parse campusconnect
      */
-    public function parse()
+    public function parse() : void
     {
         $data = array();
         $counter = 0;

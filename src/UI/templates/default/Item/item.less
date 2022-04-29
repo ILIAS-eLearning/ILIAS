@@ -13,6 +13,10 @@
 		.btn-link, a {
 			font-size: inherit;
 			line-height: @line-height-base;
+			
+			&:focus-visible {
+				display: block;
+			}
 		}
 	}
 
@@ -52,7 +56,7 @@
 		margin-right: auto;
 
 		@media only screen and (max-width: @grid-float-breakpoint-max) {
-			padding-top: @padding-large-vertical;
+			padding-top: @il-padding-large-vertical;
 		}
 	}
 
@@ -62,6 +66,10 @@
 
 	.row .row > .col-md-6 {
 		margin-bottom: 6px;
+	}
+
+	.il-item-audio {
+		padding: @il-item-audio-padding;
 	}
 
 }
@@ -93,7 +101,7 @@
 }
 .il-item-notification-replacement-container:not(:first-child){
 	.il-notification-item{
-		margin-top: @padding-large-vertical;
+		margin-top: @il-margin-large-vertical;
 	}
 }
 
@@ -116,7 +124,7 @@
 	}
 
 	.dropdown{
-		margin-top: -(@font-size-base+@padding-large-vertical);
+		margin-top: -(@font-size-base+@il-margin-large-vertical);
 	}
 
 }
@@ -159,7 +167,7 @@
 @media only screen and (min-width: (@grid-float-breakpoint-max + 1px)) {
 
 	.panel-secondary .il-item {
-		padding: @padding-large-vertical @padding-small-horizontal;
+		padding: @il-padding-large-vertical @il-padding-small-horizontal;
 		width: 100%;
 
 		.il-item-title {
@@ -173,7 +181,7 @@
 		}
 
 		.col-sm-3 {
-			margin-top: @padding-base-vertical;
+			margin-top: @il-margin-base-vertical;
 			margin-left: 0;
 			width: 45px;
 			img {

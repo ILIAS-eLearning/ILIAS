@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 use ILIAS\UI\Factory;
@@ -61,7 +77,7 @@ class ilSystemStyleOverviewGUI
         $this->refinery = $refinery;
         $this->tabs = $tabs;
         $this->style_id = $style_id;
-        $this->message_stack = new ilSystemStyleMessageStack();
+        $this->message_stack = new ilSystemStyleMessageStack($this->tpl);
         $this->skin_factory = $skin_factory;
         $this->style_container = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack);
         $this->help = $help;
@@ -120,15 +136,12 @@ class ilSystemStyleOverviewGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    protected function cancel()
+    protected function cancel() : void
     {
         $this->edit();
     }
 
-    /**
-     * Edit
-     */
-    public function edit()
+    public function edit() : void
     {
         if ($this->isManagementEnabled()) {
             // Add Button for adding skins
@@ -304,7 +317,7 @@ class ilSystemStyleOverviewGUI
                     $skin = new ilSkin($skin_id, $skin_name);
                     $style = new ilSkinStyle($style_id, $style_name);
                     $skin->addStyle($style);
-                    $container = new ilSkinStyleContainer($this->lng, $skin);
+                    $container = new ilSkinStyleContainer($this->lng, $skin, $this->message_stack);
                     $container->create($this->message_stack);
                     $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $skin->getId());
                     $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $style->getId());
@@ -466,7 +479,7 @@ class ilSystemStyleOverviewGUI
         return "<div class='ilCreationFormSection'>" . $acc->getHTML() . '</div>';
     }
 
-    protected function copyStyle()
+    protected function copyStyle() : void
     {
         $imploded_skin_style_id = $this->request_wrapper->post()->retrieve(
             'source_style',
@@ -480,6 +493,7 @@ class ilSystemStyleOverviewGUI
             $new_container = $this->skin_factory->copyFromSkinStyleContainer(
                 $container,
                 $this->file_system,
+                $this->message_stack,
                 $this->lng->txt('sty_acopy')
             );
             $this->message_stack->prependMessage(new ilSystemStyleMessage(
@@ -513,7 +527,7 @@ class ilSystemStyleOverviewGUI
 
         if ($this->checkDeletable($skin_id, $style_id, $this->message_stack)) {
             $delete_form_table = new ilSystemStyleDeleteGUI($this->lng, $this->ctrl);
-            $container = $this->skin_factory->skinStyleContainerFromId($skin_id);
+            $container = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack);
             $delete_form_table->addStyle(
                 $container->getSkin(),
                 $container->getSkin()->getStyle($style_id),
@@ -549,7 +563,7 @@ class ilSystemStyleOverviewGUI
                 $imploded_skin_style_id = explode(':', $skin_style_id);
                 $skin_id = $imploded_skin_style_id[0];
                 $style_id = $imploded_skin_style_id[1];
-                $container = $this->skin_factory->skinStyleContainerFromId($skin_id);
+                $container = $this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack);
                 $delete_form_table->addStyle(
                     $container->getSkin(),
                     $container->getSkin()->getStyle($style_id),
@@ -594,7 +608,7 @@ class ilSystemStyleOverviewGUI
             $passed = false;
         }
 
-        if ($this->skin_factory->skinStyleContainerFromId($skin_id)->getSkin()->getSubstylesOfStyle($style_id)) {
+        if ($this->skin_factory->skinStyleContainerFromId($skin_id, $this->message_stack)->getSkin()->getSubstylesOfStyle($style_id)) {
             $message_stack->addMessage(new ilSystemStyleMessage(
                 $style_id . ': ' . $this->lng->txt('cant_delete_style_with_substyles'),
                 ilSystemStyleMessage::TYPE_ERROR
@@ -631,10 +645,7 @@ class ilSystemStyleOverviewGUI
         $this->ctrl->redirect($this);
     }
 
-    /**
-     *
-     */
-    protected function importStyle()
+    protected function importStyle() : void
     {
         $form = $this->importSystemStyleForm();
 
@@ -679,7 +690,7 @@ class ilSystemStyleOverviewGUI
 
     protected function export() : void
     {
-        $container = $this->skin_factory->skinStyleContainerFromId($this->style_container->getSkin()->getId());
+        $container = $this->skin_factory->skinStyleContainerFromId($this->style_container->getSkin()->getId(), $this->message_stack);
         try {
             $container->export();
         } catch (Exception $e) {
@@ -763,7 +774,7 @@ class ilSystemStyleOverviewGUI
                 $parent_skin_id = $skin_style_ids[0];
                 $parent_style_id = $skin_style_ids[1];
 
-                $container = $this->skin_factory->skinStyleContainerFromId($parent_skin_id);
+                $container = $this->skin_factory->skinStyleContainerFromId($parent_skin_id, $this->message_stack);
 
                 $sub_style_id = $this->request_wrapper->post()->retrieve(
                     'sub_style_id',
@@ -812,7 +823,7 @@ class ilSystemStyleOverviewGUI
         return $this->read_only;
     }
 
-    public function setReadOnly($read_only) : void
+    public function setReadOnly(bool $read_only) : void
     {
         $this->read_only = $read_only;
     }
@@ -822,7 +833,7 @@ class ilSystemStyleOverviewGUI
         return $this->management_enabled;
     }
 
-    public function setManagementEnabled(bool $management_enabled)
+    public function setManagementEnabled(bool $management_enabled) : void
     {
         $this->management_enabled = $management_enabled;
     }

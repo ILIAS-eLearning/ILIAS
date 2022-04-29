@@ -27,6 +27,8 @@ class ilWebDAVAuthentication
      * - Finder on Mac (WebDAVFS/3.0.0 (03008000) Darwin/17.7.0)
      * - Konqueror (Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.34 (KHTML, like Gecko) konqueror/5.0.97)
      * - WinSCP (WinSCP/5.15.1 neon/0.30.2)
+     *
+     * @var string[]
      */
     protected array $session_aware_webdav_clients = [
         "Microsoft-WebDAV-MiniRedir",
@@ -54,7 +56,7 @@ class ilWebDAVAuthentication
     
     protected function getUserAgent() : string
     {
-        $user_agent = isset($_SERVER["HTTP_USER_AGENT"]) ? $_SERVER["HTTP_USER_AGENT"] : "";
+        $user_agent = $_SERVER["HTTP_USER_AGENT"] ?? "";
         $user_agent = is_string($user_agent) ? $user_agent : "";
 
         return $user_agent;

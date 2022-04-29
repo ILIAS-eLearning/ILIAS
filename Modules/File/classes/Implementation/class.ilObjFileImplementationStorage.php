@@ -1,19 +1,25 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\ResourceStorage\Services;
 use ILIAS\UI\NotImplementedException;
 use ILIAS\DI\Container;
-
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
 
 /**
  * Class ilObjFileImplementationStorage
@@ -24,16 +30,13 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
     protected StorableResource $resource;
     protected Services $storage;
     protected bool $download_with_uploaded_filename;
-    private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * ilObjFileImplementationStorage constructor.
-     * @param StorableResource $resource
      */
     public function __construct(StorableResource $resource)
     {
         global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
         /**
          * @var $DIC Container
          */
@@ -43,28 +46,6 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
             'file_access',
             'download_with_uploaded_filename'
         );
-    }
-    
-    private function debug() : void
-    {
-        // debug
-        $stream = $this->storage->consume()->stream($this->resource->getIdentification())->getStream();
-        $container = dirname($stream->getMetadata('uri'), 2);
-        
-        $dir_reader = function (string $path) : array {
-            $rii = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
-            
-            $files = array();
-            foreach ($rii as $file) {
-                if (!$file->isDir()) {
-                    $files[] = $file->getPathname();
-                }
-            }
-            
-            return $files;
-        };
-        
-        $this->main_tpl->setOnScreenMessage('info', '<pre>' . print_r($dir_reader($container), true) . '</pre>');
     }
     
     /**
@@ -151,6 +132,9 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         return $this->resource->getCurrentRevision()->getInformation()->getSuffix();
     }
     
+    /**
+     * @return \ilObjFileVersion[]
+     */
     public function getVersions(?array $version_ids = null) : array
     {
         $versions = [];

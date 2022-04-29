@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Skill\Service\SkillTreeService;
+
 /**
  * HTML export class for pages
  *
@@ -43,6 +45,7 @@ class ilCOPageHTMLExport
     protected ilObjUser $user;
     protected ilLogger $log;
     protected \ILIAS\GlobalScreen\Services $global_screen;
+    protected SkillTreeService $skill_tree_service;
     protected \ILIAS\COPage\PageLinker $page_linker;
     protected int $ref_id;
 
@@ -56,6 +59,7 @@ class ilCOPageHTMLExport
         $this->log = ilLoggerFactory::getLogger('copg');
         $this->user = $DIC->user();
         $this->global_screen = $DIC->globalScreen();
+        $this->skill_tree_service = $DIC->skills()->tree();
         $this->page_linker = is_null($linker)
             ? new ilPageLinker("", true)
             : $linker;
@@ -118,8 +122,10 @@ class ilCOPageHTMLExport
 
         // export content style sheet
         if ($this->getContentStyleId() < 1) {     // basic style
-            ilFileUtils::rCopy(ilObjStyleSheet::getBasicImageDir(),
-                $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir());
+            ilFileUtils::rCopy(
+                ilObjStyleSheet::getBasicImageDir(),
+                $this->exp_dir . "/" . ilObjStyleSheet::getBasicImageDir()
+            );
             ilFileUtils::makeDirParents($this->exp_dir . "/Services/COPage/css");
             copy("Services/COPage/css/content.css", $this->exp_dir . "/Services/COPage/css/content.css");
         } else {
@@ -215,7 +221,7 @@ class ilCOPageHTMLExport
 
         return $tpl;
     }
-    
+
     /**
      * Collect page elements (that need to be exported separately)
      */
@@ -297,32 +303,32 @@ class ilCOPageHTMLExport
         foreach ($pcs as $pc) {
             if ($pc["type"] == "skmg") {
                 $skill_id = $pc["id"];
-                
+
                 // trying to find user id
                 $user_id = null;
                 switch ($a_type) {
                     case "prtf:pg":
                         $page = new ilPortfolioPage($a_id);
-                        $user_id = $page->create_user;
+                        $user_id = $page->getCreationUserId();
                         break;
-                    
+
                     default:
                         // :TODO:
                         break;
                 }
-                
+
                 if ($user_id) {
                     // we only need 1 instance each
                     if (!$skill_tree) {
-                        $skill_tree = new ilSkillTree();
+                        $skill_tree = $this->skill_tree_service->getGlobalSkillTree();
 
                         $ws_tree = new ilWorkspaceTree($user_id);
                     }
 
                     // walk skill tree
-                    $vtree = new ilVirtualSkillTree();
-                    $tref_id = 0;
                     $skill_id = (int) $skill_id;
+                    $vtree = $this->skill_tree_service->getVirtualSkillTreeForNodeId($skill_id);
+                    $tref_id = 0;
                     if (ilSkillTreeNode::_lookupType($skill_id) == "sktr") {
                         $tref_id = $skill_id;
                         $skill_id = ilSkillTemplateReference::_lookupTemplateId($skill_id);
@@ -335,7 +341,7 @@ class ilCOPageHTMLExport
                         foreach ($level_data as $k => $v) {
                             // get assigned materials from personal skill
                             $mat = ilPersonalSkill::getAssignedMaterial($user_id, $bs["tref_id"], $v["id"]);
-                            if (sizeof($mat)) {
+                            if (count($mat)) {
                                 foreach ($mat as $item) {
                                     $wsp_id = $item["wsp_id"];
                                     $obj_id = $ws_tree->lookupObjectId($wsp_id);
@@ -349,19 +355,19 @@ class ilCOPageHTMLExport
                                         case "tstv":
                                             $obj = new ilObjTestVerification($obj_id, false);
                                             $this->files_direct[$obj_id] = array($obj->getFilePath(),
-                                                $obj->getOfflineFilename());
+                                                                                 $obj->getOfflineFilename());
                                             break;
 
                                         case "excv":
                                             $obj = new ilObjExerciseVerification($obj_id, false);
                                             $this->files_direct[$obj_id] = array($obj->getFilePath(),
-                                                $obj->getOfflineFilename());
+                                                                                 $obj->getOfflineFilename());
                                             break;
-                                        
+
                                         case "crsv":
                                             $obj = new ilObjCourseVerification($obj_id, false);
                                             $this->files_direct[$obj_id] = array($obj->getFilePath(),
-                                                $obj->getOfflineFilename());
+                                                                                 $obj->getOfflineFilename());
                                             break;
 
                                         case "cmxv":
@@ -379,7 +385,7 @@ class ilCOPageHTMLExport
                                         case "scov":
                                             $obj = new ilObjSCORMVerification($obj_id, false);
                                             $this->files_direct[$obj_id] = array($obj->getFilePath(),
-                                                $obj->getOfflineFilename());
+                                                                                 $obj->getOfflineFilename());
                                             break;
                                     }
                                 }
@@ -401,7 +407,6 @@ class ilCOPageHTMLExport
 
         $total = count($this->mobs) + count($this->files) + count($this->files_direct);
         $cnt = 0;
-
         // export all media objects
         $linked_mobs = array();
         foreach ($this->mobs as $mob) {

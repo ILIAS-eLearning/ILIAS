@@ -21,13 +21,13 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("VARTYPE_INTEGER", "1");
-define("VARTYPE_STRING", "2");
-define("VARTYPE_DECIMAL", "3");
-define("VARTYPE_SCIENTIFIC", "4");
-define("VARTYPE_BOOLEAN", "5");
-define("VARTYPE_ENUMERATED", "6");
-define("VARTYPE_SET", "7");
+const VARTYPE_INTEGER = "1";
+const VARTYPE_STRING = "2";
+const VARTYPE_DECIMAL = "3";
+const VARTYPE_SCIENTIFIC = "4";
+const VARTYPE_BOOLEAN = "5";
+const VARTYPE_ENUMERATED = "6";
+const VARTYPE_SET = "7";
 
 /**
 * QTI decvar class
@@ -39,32 +39,38 @@ define("VARTYPE_SET", "7");
 */
 class ilQTIDecvar
 {
-    public $varname;
-    public $vartype;
-    public $defaultval;
-    public $minvalue;
-    public $maxvalue;
-    public $members;
-    public $cutvalue;
-    public $content;
-    public $interpretvar;
-    
+    public ?string $varname;
+    public ?string $vartype;
+    public ?string $defaultval;
+    public ?string $minvalue;
+    public ?string $maxvalue;
+    public ?string $members;
+    public ?string $cutvalue;
+    public ?string $content;
+
     public function __construct()
     {
-        $this->interpretvar = array();
+        $this->varname = null;
+        $this->vartype = null;
+        $this->defaultval = null;
+        $this->minvalue = null;
+        $this->maxvalue = null;
+        $this->members = null;
+        $this->cutvalue = null;
+        $this->content = null;
     }
-    
-    public function setVarname($a_varname)
+
+    public function setVarname(string $a_varname) : void
     {
         $this->varname = $a_varname;
     }
-    
-    public function getVarname()
+
+    public function getVarname() : ?string
     {
         return $this->varname;
     }
 
-    public function setVartype($a_vartype)
+    public function setVartype(string $a_vartype) : void
     {
         switch (strtolower($a_vartype)) {
             case "integer":
@@ -97,74 +103,69 @@ class ilQTIDecvar
                 break;
         }
     }
-    
-    public function getVartype()
+
+    public function getVartype() : ?string
     {
         return $this->vartype;
     }
 
-    public function setDefaultval($a_defaultval)
+    public function setDefaultval(string $a_defaultval) : void
     {
         $this->defaultval = $a_defaultval;
     }
-    
-    public function getDefaultval()
+
+    public function getDefaultval() : ?string
     {
         return $this->defaultval;
     }
 
-    public function setMinvalue($a_minvalue)
+    public function setMinvalue(string $a_minvalue) : void
     {
         $this->minvalue = $a_minvalue;
     }
-    
-    public function getMinvalue()
+
+    public function getMinvalue() : ?string
     {
         return $this->minvalue;
     }
 
-    public function setMaxvalue($a_maxvalue)
+    public function setMaxvalue(string $a_maxvalue) : void
     {
         $this->maxvalue = $a_maxvalue;
     }
-    
-    public function getMaxvalue()
+
+    public function getMaxvalue() : ?string
     {
         return $this->maxvalue;
     }
 
-    public function setMembers($a_members)
+    public function setMembers(string $a_members) : void
     {
         $this->members = $a_members;
     }
-    
-    public function getMembers()
+
+    public function getMembers() : ?string
     {
         return $this->members;
     }
 
-    public function setCutvalue($a_cutvalue)
+    public function setCutvalue(string $a_cutvalue) : void
     {
         $this->cutvalue = $a_cutvalue;
     }
-    
-    public function getCutvalue()
+
+    public function getCutvalue() : ?string
     {
         return $this->cutvalue;
     }
 
-    public function setContent($a_content)
+    public function setContent(string $a_content) : void
     {
         $this->content = $a_content;
     }
-    
-    public function getContent()
+
+    public function getContent() : ?string
     {
         return $this->content;
-    }
-    
-    public function addInterpretvar($a_interpretvar)
-    {
-        array_push($this->interpretvar, $a_interpretvar);
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -81,7 +81,7 @@ class ilNumericStyleValueInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    public function getInput()
+    public function getInput() : array
     {
         return $this->strArray($this->getPostVar());
     }

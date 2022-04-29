@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -10,14 +10,10 @@ use ILIAS\Setup;
  */
 class ilUtilitiesConfigStoredObjective implements Setup\Objective
 {
-    /**
-     * @var    \ilUtilitiesSetupConfig
-     */
-    protected $config;
+    protected ilUtilitiesSetupConfig $config;
     
-    public function __construct(
-        \ilUtilitiesSetupConfig $config
-    ) {
+    public function __construct(ilUtilitiesSetupConfig $config)
+    {
         $this->config = $config;
     }
     

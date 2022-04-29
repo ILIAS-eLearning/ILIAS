@@ -25,14 +25,14 @@ class ilHelpDataSet extends ilDataSet
         return array("4.3.0");
     }
     
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "https://www.ilias.de/xml/Services/Help/" . $a_entity;
     }
     
     protected function getTypes(string $a_entity, string $a_version) : array
     {
-        if ($a_entity == "help_map") {
+        if ($a_entity === "help_map") {
             switch ($a_version) {
                 case "4.3.0":
                     return array(
@@ -45,7 +45,7 @@ class ilHelpDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "help_tooltip") {
+        if ($a_entity === "help_tooltip") {
             switch ($a_version) {
                 case "4.3.0":
                     return array(
@@ -64,7 +64,7 @@ class ilHelpDataSet extends ilDataSet
     {
         $ilDB = $this->db;
 
-        if ($a_entity == "help_map") {
+        if ($a_entity === "help_map") {
             switch ($a_version) {
                 case "4.3.0":
                     $this->getDirectDataFromQuery("SELECT chap, component, screen_id, screen_sub_id, perm " .
@@ -75,7 +75,7 @@ class ilHelpDataSet extends ilDataSet
             }
         }
         
-        if ($a_entity == "help_tooltip") {
+        if ($a_entity === "help_tooltip") {
             switch ($a_version) {
                 case "4.3.0":
                     $this->getDirectDataFromQuery("SELECT id, tt_text, tt_id, comp, lang FROM help_tooltip");
@@ -83,16 +83,7 @@ class ilHelpDataSet extends ilDataSet
             }
         }
     }
-    
-    protected function getDependencies(
-        string $a_entity,
-        string $a_version,
-        ?array $a_rec = null,
-        ?array $a_ids = null
-    ) : array {
-        return [];
-    }
-    
+
     public function importRecord(
         string $a_entity,
         array $a_types,
@@ -114,7 +105,7 @@ class ilHelpDataSet extends ilDataSet
                     );
 
                     // new import (5.1): get chapter from learning module import mapping
-                    if ($new_chap == 0) {
+                    if ((int) $new_chap === 0) {
                         $new_chap = $a_mapping->getMapping(
                             'Modules/LearningModule',
                             'lm_tree',

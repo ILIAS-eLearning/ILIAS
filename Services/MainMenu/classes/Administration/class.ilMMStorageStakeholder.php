@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\ResourceStorage\Stakeholder\AbstractResourceStakeholder;
 
@@ -34,5 +34,4 @@ class ilMMStorageStakeholder extends AbstractResourceStakeholder
     {
         return 6;
     }
-
 }

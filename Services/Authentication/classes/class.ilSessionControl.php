@@ -23,11 +23,11 @@ class ilSessionControl
      * default value for settings that have not
      * been defined in setup or administration yet
      */
-    const DEFAULT_MAX_COUNT = 0;
-    const DEFAULT_MIN_IDLE = 15;
-    const DEFAULT_MAX_IDLE = 30;
-    const DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST = 1;
-    const DEFAULT_ALLOW_CLIENT_MAINTENANCE = 1;
+    public const DEFAULT_MAX_COUNT = 0;
+    public const DEFAULT_MIN_IDLE = 15;
+    public const DEFAULT_MAX_IDLE = 30;
+    public const DEFAULT_MAX_IDLE_AFTER_FIRST_REQUEST = 1;
+    public const DEFAULT_ALLOW_CLIENT_MAINTENANCE = 1;
 
     /**
      * all fieldnames that are saved in settings table
@@ -47,11 +47,11 @@ class ilSessionControl
      * session types from which one is
      * assigned to each session
      */
-    const SESSION_TYPE_UNKNOWN = 0;
-    const SESSION_TYPE_SYSTEM = 1;
-    const SESSION_TYPE_ADMIN = 2;
-    const SESSION_TYPE_USER = 3;
-    const SESSION_TYPE_ANONYM = 4;
+    private const SESSION_TYPE_UNKNOWN = 0;
+    private const SESSION_TYPE_SYSTEM = 1;
+    private const SESSION_TYPE_ADMIN = 2;
+    private const SESSION_TYPE_USER = 3;
+    private const SESSION_TYPE_ANONYM = 4;
 
     /**
      * all session types that will be involved when count of sessions
@@ -92,7 +92,7 @@ class ilSessionControl
         $ilSetting = $DIC['ilSetting'];
         
         // do not check session in fixed duration mode
-        if ($ilSetting->get('session_handling_type', 0) != 1) {
+        if ((int) $ilSetting->get('session_handling_type', '0') !== 1) {
             return;
         }
 
@@ -108,7 +108,7 @@ class ilSessionControl
 
             $sid = null;
 
-            if (!isset($_COOKIE[session_name()]) || !strlen($_COOKIE[session_name()])) {
+            if (!isset($_COOKIE[session_name()]) || $_COOKIE[session_name()] === '') {
                 self::debug('Browser did not send a sid cookie');
             } else {
                 $sid = $_COOKIE[session_name()];
@@ -147,7 +147,7 @@ class ilSessionControl
         $ilSetting = $DIC['ilSetting'];
         
         // do not init session type in fixed duration mode
-        if ($ilSetting->get('session_handling_type', 0) != 1) {
+        if ((int) $ilSetting->get('session_handling_type', '0') !== 1) {
             return;
         }
         
@@ -164,7 +164,7 @@ class ilSessionControl
      * type regarding to the sessions user context.
      * when session is not allowed to be created it will be destroyed.
      */
-    public static function handleLoginEvent(string $a_login, ilAuthSession $auth_session)
+    public static function handleLoginEvent(string $a_login, ilAuthSession $auth_session) : bool
     {
         global $DIC;
 
@@ -179,7 +179,7 @@ class ilSessionControl
                 $type = self::SESSION_TYPE_SYSTEM;
                 break;
 
-            case $user_id == ANONYMOUS_USER_ID:
+            case $user_id === ANONYMOUS_USER_ID:
                 $type = self::SESSION_TYPE_ANONYM;
                 break;
 
@@ -196,13 +196,17 @@ class ilSessionControl
         self::debug(__METHOD__ . " --> update sessions type to (" . $type . ")");
                 
         // do not handle login event in fixed duration mode
-        if ((int) $ilSetting->get('session_handling_type', (string) 0) != 1) {
+        if ((int) $ilSetting->get('session_handling_type', "0") !== 1) {
             return true;
         }
                 
-        if (in_array($type, self::$session_types_controlled)) {
-            return self::checkCurrentSessionIsAllowed($auth_session, $user_id);
+        if (in_array($type, self::$session_types_controlled, true)) {
+            //TODO rework this, as it did return value of a void method call
+            self::checkCurrentSessionIsAllowed($auth_session, $user_id);
+            return true;
         }
+        //TODO make sure false does not break things
+        return false;
     }
 
     /**
@@ -215,7 +219,7 @@ class ilSessionControl
         $ilSetting = $DIC['ilSetting'];
         
         // do not handle logout event in fixed duration mode
-        if ($ilSetting->get('session_handling_type', 0) != 1) {
+        if ((int) $ilSetting->get('session_handling_type', '0') !== 1) {
             return;
         }
         
@@ -235,7 +239,6 @@ class ilSessionControl
      *
      * @global ilSetting $ilSetting
      * @global ilAppEventHandler $ilAppEventHandler
-     * @param ilAuthSession $a_auth
      */
     private static function checkCurrentSessionIsAllowed(ilAuthSession $auth, int $a_user_id) : void
     {
@@ -284,8 +287,6 @@ class ilSessionControl
                         $auth->logout();
 
                         // Trigger reachedSessionPoolLimit Event
-                        global $DIC;
-
                         $ilAppEventHandler = $DIC['ilAppEventHandler'];
                         $ilAppEventHandler->raise(
                             'Services/Authentication',
@@ -314,10 +315,6 @@ class ilSessionControl
 
     /**
      * returns number of valid sessions relating to given session types
-     *
-     * @global ilDB $ilDB
-     * @param array $a_types
-     * @return num_sessions
      */
     public static function getExistingSessionCount(array $a_types) : int
     {
@@ -332,9 +329,7 @@ class ilSessionControl
                     "AND " . $ilDB->in('type', $a_types, false, 'integer');
     
         $res = $ilDB->queryF($query, array('integer'), array($ts));
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-
-        return $row->num_sessions;
+        return (int) $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)->num_sessions;
     }
 
     /**
@@ -342,12 +337,9 @@ class ilSessionControl
      * and idled longer than min idle parameter, this method
      * deletes one of these sessions
      *
-     * @global ilDB $ilDB
-     * @global ilSetting $ilSetting
-     * @param array $a_types
-     * @return boolean $deletionSuccess
+     * @return boolean deletionSuccess
      */
-    private static function kickOneMinIdleSession(array $a_types) : bool
+    private static function kickOneMinIdleSession(array $a_types) : void
     {
         global $DIC;
 
@@ -368,25 +360,19 @@ class ilSessionControl
             array($ts, $ts, $max_idle, $min_idle)
         );
         
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+        if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             ilSession::_destroy($row->session_id, ilSession::SESSION_CLOSE_IDLE, $row->expires);
 
             self::debug(__METHOD__ . ' --> successfully deleted one min idle session');
 
-            return true;
+            return;
         }
-
         self::debug(__METHOD__ . ' --> no min idle session available for deletion');
-        
-        return false;
     }
 
     /**
      * kicks sessions of users that abidence after login
      * so people could not login and go for coffe break ;-)
-     *
-     * @global ilDB $ilDB
-     * @global ilSetting $ilSetting
      */
     private static function kickFirstRequestAbidencer(array $a_types) : void
     {
@@ -397,7 +383,7 @@ class ilSessionControl
 
         $max_idle_after_first_request = (int) $ilSetting->get('session_max_idle_after_first_request') * 60;
 
-        if ((int) $max_idle_after_first_request == 0) {
+        if ((int) $max_idle_after_first_request === 0) {
             return;
         }
 
@@ -425,8 +411,6 @@ class ilSessionControl
      * checks if session exists for given id
      * and if it is still valid
      *
-     * @global	ilDB		$ilDB
-     * @global	ilSetting	$ilSetting
      * @return	boolean		session_valid
      */
     private static function isValidSession(string $a_sid) : bool
@@ -453,19 +437,19 @@ class ilSessionControl
             }
         }
 
-        if (count($sessions) == 1) {
+        if (count($sessions) === 1) {
             self::debug(__METHOD__ . ' --> Exact one valid session found for session id (' . $a_sid . ')');
 
             return true;
-        } else {
-            if (count($sessions) > 1) {
-                self::debug(__METHOD__ . ' --> Strange!!! More than one sessions found for given session id! (' . $a_sid . ')');
-            } else {
-                self::debug(__METHOD__ . ' --> No valid session found for session id (' . $a_sid . ')');
-            }
-
-            return false;
         }
+
+        if (count($sessions) > 1) {
+            self::debug(__METHOD__ . ' --> Strange!!! More than one sessions found for given session id! (' . $a_sid . ')');
+        } else {
+            self::debug(__METHOD__ . ' --> No valid session found for session id (' . $a_sid . ')');
+        }
+
+        return false;
     }
 
     /**
@@ -486,7 +470,7 @@ class ilSessionControl
      */
     private static function checkAdministrationPermission(int $a_user_id) : bool
     {
-        if (!(int) $a_user_id) {
+        if (!$a_user_id) {
             return false;
         }
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This class represents a border width with all/top/right/bottom/left in a property form.
@@ -206,15 +206,8 @@ class ilTRBLBorderWidthInputGUI extends ilFormPropertyGUI
         $a_tpl->parseCurrentBlock();
     }
 
-    /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
-        $ilUser = $this->user;
-        
         if ($a_values[$this->getPostVar()]["all"]["type"] == "predefined") {
             $this->setAllValue($a_values[$this->getPostVar()]["all"]["pre_value"]);
         } else {

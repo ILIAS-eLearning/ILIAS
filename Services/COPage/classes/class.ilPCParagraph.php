@@ -100,7 +100,7 @@ class ilPCParagraph extends ilPageContent
         parent::setNode($a_node);		// this is the PageContent node
 
         $childs = $a_node->child_nodes();
-        for ($i = 0; $i < count($childs); $i++) {
+        for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
             if ($childs[$i]->node_name() == "Paragraph") {
                 $this->par_node = $childs[$i];		//... and this the Paragraph node
             }
@@ -187,11 +187,7 @@ class ilPCParagraph extends ilPageContent
         string $a_text,
         bool $a_auto_split = false
     ) {
-        if (!is_array($a_text)) {
-            $text = array(array("level" => 0, "text" => $a_text));
-        } else {
-            $text = $a_text;
-        }
+        $text = $a_text;
         if ($a_auto_split) {
             $text = $this->autoSplit($a_text);
         }
@@ -211,7 +207,7 @@ class ilPCParagraph extends ilPageContent
 
             // delete children of paragraph node
             $children = $this->par_node->child_nodes();
-            for ($i = 0; $i < count($children); $i++) {
+            for ($i = 0, $iMax = count($children); $i < $iMax; $i++) {
                 $this->par_node->remove_child($children[$i]);
             }
 
@@ -223,7 +219,7 @@ class ilPCParagraph extends ilPageContent
                 $new_par_node = $res->nodeset[0];
                 $new_childs = $new_par_node->child_nodes();
 
-                for ($i = 0; $i < count($new_childs); $i++) {
+                for ($i = 0, $iMax = count($new_childs); $i < $iMax; $i++) {
                     $cloned_child = $new_childs[$i]->clone_node(true);
                     $this->par_node->append_child($cloned_child);
                 }
@@ -243,7 +239,7 @@ class ilPCParagraph extends ilPageContent
 
             $c_node = $this->node;
             // add other chunks afterwards
-            for ($i = 1; $i < count($text); $i++) {
+            for ($i = 1, $iMax = count($text); $i < $iMax; $i++) {
                 if ($ok) {
                     $next_par = new ilPCParagraph($this->getPage());
                     $next_par->createAfter($c_node);
@@ -276,7 +272,7 @@ class ilPCParagraph extends ilPageContent
             $text = '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text . '</Paragraph>';
             //echo htmlentities($text);
             $doc->loadXML($text);
-            $error = $doc->errors;
+            $error = $doc->getErrors();
             $estr = "";
             foreach ($error as $e) {
                 $e = str_replace(" in Entity", "", $e);
@@ -317,7 +313,7 @@ class ilPCParagraph extends ilPageContent
         $dom = new DOMDocument();
         $dom->recover = true;
         // try to fix
-        for ($i = 0; $i < count($text); $i++) {
+        for ($i = 0, $iMax = count($text); $i < $iMax; $i++) {
             $dom->loadXML(
                 '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text[$i]["text"] . '</Paragraph>',
                 LIBXML_NOWARNING | LIBXML_NOERROR
@@ -343,7 +339,7 @@ class ilPCParagraph extends ilPageContent
         if (is_object($this->par_node)) {
             $content = "";
             $childs = $this->par_node->child_nodes();
-            for ($i = 0; $i < count($childs); $i++) {
+            for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
                 $content .= $this->dom->dump_node($childs[$i]);
             }
             return $content;
@@ -364,7 +360,7 @@ class ilPCParagraph extends ilPageContent
         $found = false;
         $pc_id = $this->readPCId();
         $hier_id = $this->readHierId();
-        for ($i = 0; $i < count($childs); $i++) {
+        for ($i = 0, $iMax = count($childs); $i < $iMax; $i++) {
             $pchilds = $childs[$i]->child_nodes();
             if ($pchilds[0]->node_name() == "Paragraph" &&
                 $pchilds[0]->get_attribute("Characteristic") != "Code") {
@@ -1040,18 +1036,18 @@ class ilPCParagraph extends ilPageContent
 
         $current_list = array();
         $text = "";
-        for ($i = 0; $i < count($segments); $i++) {
+        for ($i = 0, $iMax = count($segments); $i < $iMax; $i++) {
             if ($segments[$i] == "<SimpleBulletList>") {
                 if (count($current_list) == 0) {
                     $list_start = true;
                 }
-                array_push($current_list, "*");
+                $current_list[] = "*";
                 $li = false;
             } elseif ($segments[$i] == "<SimpleNumberedList>") {
                 if (count($current_list) == 0) {
                     $list_start = true;
                 }
-                array_push($current_list, "#");
+                $current_list[] = "#";
                 $li = false;
             } elseif ($segments[$i] == "</SimpleBulletList>") {
                 array_pop($current_list);
@@ -1614,7 +1610,7 @@ class ilPCParagraph extends ilPageContent
                     $cnode = ilDOM2Util::changeName($element, "ilMarked", false);
                     $cnode->setAttribute("Class", substr($class_arr[0], 16));
                 }
-                for ($i = 1; $i < count($class_arr); $i++) {
+                for ($i = 1, $iMax = count($class_arr); $i < $iMax; $i++) {
                     $tag = substr($class_arr[$i], 16);
                     if (isset($tags[$tag])) {		// known tag like strong
                         $cnode = ilDOM2Util::addParent($cnode, "il" . substr($class_arr[$i], 16));
@@ -1968,7 +1964,7 @@ class ilPCParagraph extends ilPageContent
     public static function autoLinkGlossariesPage(
         ilPageObject $a_page,
         array $a_terms
-    ) {
+    ) : void {
         $a_page->buildDom();
         $a_dom = $a_page->getDom();
 

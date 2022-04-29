@@ -1,28 +1,20 @@
 <?php declare(strict_types=1);
 
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2008 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
-use ILIAS\Refinery\Factory;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Certificate Settings.
@@ -34,28 +26,20 @@ use ILIAS\Refinery\Factory;
  */
 class ilObjCertificateSettingsGUI extends ilObjectGUI
 {
-    protected Factory $refinery;
     protected \ILIAS\HTTP\GlobalHttpState $httpState;
     protected \ILIAS\FileUpload\FileUpload $upload;
-    protected ilAccessHandler $hierarchical_access;
-    protected ilRbacSystem $rbac_system;
-    protected ilErrorHandling $error;
 
-    public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($data, int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
         global $DIC;
 
-        parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
+        parent::__construct($data, $id, $call_by_reference, $prepare_output);
 
         $this->httpState = $DIC->http();
-        $this->refinery = $DIC->refinery();
         $this->upload = $DIC->upload();
         $this->type = 'cert';
         $this->lng->loadLanguageModule('certificate');
         $this->lng->loadLanguageModule('trac');
-        $this->rbac_system = $DIC['rbacsystem'];
-        $this->error = $DIC['ilErr'];
-        $this->hierarchical_access = $DIC['ilAccess'];
     }
 
     public function executeCommand() : void
@@ -65,7 +49,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
 
         $this->prepareOutput();
 
-        if (!$this->hierarchical_access->checkAccess('read', '', $this->object->getRefId())) {
+        if (!$this->rbac_system->checkAccess('read', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('no_permission'), $this->error->WARNING);
         }
 
@@ -138,9 +122,11 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             if (is_array($this->upload->getResults()) && $this->upload->getResults() !== []) {
                 $results = $this->upload->getResults();
                 $file = array_pop($results);
-                $result = $this->object->uploadBackgroundImage($file->getPath());
-                if ($result === false) {
-                    $bgimage->setAlert($this->lng->txt('certificate_error_upload_bgimage'));
+                if ($file->isOK()) {
+                    $result = $this->object->uploadBackgroundImage($file->getPath());
+                    if ($result === false) {
+                        $bgimage->setAlert($this->lng->txt('certificate_error_upload_bgimage'));
+                    }
                 }
             }
         }
@@ -165,7 +151,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $format->setInfo($this->lng->txt("certificate_page_format_info"));
         $form->addItem($format);
 
-        if ($this->hierarchical_access->checkAccess('write', '', $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess('write', $this->object->getRefId())) {
             $form->addCommandButton('save', $this->lng->txt('save'));
         }
 

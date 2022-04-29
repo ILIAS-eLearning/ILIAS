@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -80,9 +95,7 @@ class ilPdfGenerator
             throw new ilException(sprintf('The user_id "%s" does NOT reference a user', $userId));
         }
 
-        $pdfFileName = $this->pdfFilenameFactory->create($certificate);
-
-        return $pdfFileName;
+        return $this->pdfFilenameFactory->create($certificate);
     }
 
     private function createPDFScalar(ilUserCertificate $certificate) : string
@@ -90,13 +103,8 @@ class ilPdfGenerator
         $certificateContent = $certificate->getCertificateContent();
 
         $certificateContent = str_replace(
-            '[BACKGROUND_IMAGE]',
-            '[CLIENT_WEB_DIR]' . $certificate->getBackgroundImagePath(),
-            $certificateContent
-        );
-        $certificateContent = str_replace(
-            '[CLIENT_WEB_DIR]',
-            CLIENT_WEB_DIR,
+            ['[BACKGROUND_IMAGE]', '[CLIENT_WEB_DIR]'],
+            ['[CLIENT_WEB_DIR]' . $certificate->getBackgroundImagePath(), CLIENT_WEB_DIR],
             $certificateContent
         );
 

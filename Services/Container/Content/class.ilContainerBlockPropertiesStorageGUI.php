@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -49,7 +49,7 @@ class ilContainerBlockPropertiesStorageGUI
         $ilCtrl = $this->ctrl;
 
         $cmd = $ilCtrl->getCmd();
-        if (in_array($cmd, array("store"))) {
+        if (in_array($cmd, ["store"], true)) {
             $this->$cmd();
         }
     }

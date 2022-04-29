@@ -152,7 +152,7 @@ class ImageMapManager
             $anchor
         );
     }
-
+    
     public function getInternalLink() : array
     {
         return $this->repo->getInternalLink();

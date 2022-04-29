@@ -25,13 +25,11 @@ use ILIAS\LTIOAuth;
  */
 class ilLTIConsumerLaunch
 {
-    private static string $last_oauth_base_string = "";
     // protected $context = null;
     protected int $ref_id;
 
     /**
      * ilObjLTIConsumerLaunch constructor.
-     * @param int $a_ref_id
      */
     public function __construct(int $a_ref_id)
     {
@@ -56,7 +54,7 @@ class ilLTIConsumerLaunch
 
             // check fromm inner to outer
             $path = array_reverse($tree->getPathFull($this->ref_id));
-            foreach ($path as $key => $row) {
+            foreach ($path as $row) {
                 if (in_array($row['type'], $a_valid_types)) {
                     // take an existing inner context outside a course
                     if (in_array($row['type'], array('cat', 'root')) && !empty($this->context)) {
@@ -82,17 +80,13 @@ class ilLTIConsumerLaunch
         switch ($a_type) {
             case "crs":
                 return "CourseOffering";
-                break;
             case "grp":
                 return "Group";
-                break;
             case "root":
                 return "urn:lti:context-type:ilias/RootNode";
-                break;
             case "cat":
             default:
                 return "urn:lti:context-type:ilias/Category";
-                break;
         }
     }
 

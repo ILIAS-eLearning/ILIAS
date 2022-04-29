@@ -14,13 +14,8 @@ class assAnswerMatchingTermTest extends assBaseTestCase
 
     protected function setUp() : void
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        chdir(dirname(__FILE__));
+        chdir('../../../');
     }
 
     public function test_instantiateObjectSimple()
@@ -89,21 +84,6 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         // Act
         $instance->identifier = $expected;
         $actual = $instance->identifier;
-
-        // Assert
-        $this->assertEquals($expected, $actual);
-    }
-
-    public function test_setGetHokum()
-    {
-        // Arrange
-        require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
-        $instance = new assAnswerMatchingTerm();
-        $expected = null;
-
-        // Act
-        $instance->hokum = 'Hokum Value';
-        $actual = $instance->hokum;
 
         // Assert
         $this->assertEquals($expected, $actual);

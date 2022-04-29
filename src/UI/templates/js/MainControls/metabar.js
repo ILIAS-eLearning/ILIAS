@@ -54,10 +54,12 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 			//close metabar slate when focus moves out
 			$('.'+_cls_slates+' > .'+_cls_slate).on('focusout', function(event) {
-				let next_focus_target = event.relatedTarget;
-				let current_slate = event.currentTarget;
-				if(!$.contains(current_slate,next_focus_target)) {
-					onClickDisengageAll();
+				if(!il.UI.page.isSmallScreen()) {
+					let next_focus_target = event.relatedTarget;
+					let current_slate = event.currentTarget;
+					if (!$.contains(current_slate, next_focus_target)) {
+						onClickDisengageAll();
+					}
 				}
 			});
 		};
@@ -149,7 +151,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 		var _tagMoreButton = function() {
 			if(_getMoreButton().length === 0) {
-				var entries = $('#' + id +'.' + _cls_entries).find('.btn'),
+				var entries = $('#' + id +'.' + _cls_entries).find('.btn, .il-link'),
 					more = entries.last();
 				$(more).addClass(_cls_more_btn);
 			}
@@ -173,7 +175,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 
 		var _getMetabarEntries = function() {
 			return $('#' + id +'.' + _cls_entries)
-				.children('li').children('.btn')
+				.children('li').children('.btn, .il-link')
 				.not('.' + _cls_more_btn);
 		}
 

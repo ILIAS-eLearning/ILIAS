@@ -54,7 +54,7 @@ class ilContainerNewsSettingsGUI
 
         switch ($next_class) {
             default:
-                if (in_array($cmd, array("show", "save"))) {
+                if (in_array($cmd, ["show", "save"])) {
                     $this->$cmd();
                 }
         }
@@ -73,7 +73,7 @@ class ilContainerNewsSettingsGUI
 
         if ($this->setting->get('block_activated_news')) {
             $news = new ilCheckboxInputGUI($this->lng->txt('news_news_block'), ilObjectServiceSettingsGUI::NEWS_VISIBILITY);
-            $news->setValue(1);
+            $news->setValue('1');
             if ($this->has_block_forced) {
                 $news->setChecked(true);
                 $news->setDisabled(true);
@@ -107,12 +107,10 @@ class ilContainerNewsSettingsGUI
         }
 
         // Cron Notifications (courses and groups)
-        if ($this->has_cron_notifications) {
-            if (in_array(ilObject::_lookupType($this->object->getId()), array('crs', 'grp'))) {
-                $ref_ids = ilObject::_getAllReferences($this->object->getId());
-                $ref_id = array_pop($ref_ids);
-                ilMembershipNotifications::addToSettingsForm($ref_id, $form, null);
-            }
+        if ($this->has_cron_notifications && in_array(ilObject::_lookupType($this->object->getId()), ['crs', 'grp'])) {
+            $ref_ids = ilObject::_getAllReferences($this->object->getId());
+            $ref_id = array_pop($ref_ids);
+            ilMembershipNotifications::addToSettingsForm($ref_id, $form, null);
         }
 
         $block_id = $this->ctrl->getContextObjId();
@@ -143,7 +141,7 @@ class ilContainerNewsSettingsGUI
                 "hide_news_per_date"
             );
             $hnpd->setInfo($this->lng->txt("news_hide_news_per_date_info"));
-            $hnpd->setChecked($hide_news_per_date);
+            $hnpd->setChecked((bool) $hide_news_per_date);
 
             $dt_prop = new ilDateTimeInputGUI($this->lng->txt("news_hide_news_date"), "hide_news_date");
             $dt_prop->setRequired(true);
@@ -168,7 +166,7 @@ class ilContainerNewsSettingsGUI
                 "public_notifications"
             );
             $ch->setInfo($this->lng->txt("news_notifications_public_info"));
-            $ch->setChecked($public);
+            $ch->setChecked((bool) $public);
             $form->addItem($ch);
         }
 
@@ -194,12 +192,12 @@ class ilContainerNewsSettingsGUI
             }
             if ($this->setting->get('block_activated_news')) {
                 //save contextblock settings
-                $context_block_settings = array(
+                $context_block_settings = [
                     "public_feed" => $form->getInput("notifications_public_feed") ?? "",
                     "default_visibility" => $form->getInput("default_visibility"),
                     "hide_news_per_date" => $form->getInput("hide_news_per_date"),
                     "hide_news_date" => $form->getInput("hide_news_date")
-                );
+                ];
                 if ($this->has_public_notification) {
                     $context_block_settings["public_notifications"] =
                         $form->getInput('public_notifications');
@@ -207,7 +205,7 @@ class ilContainerNewsSettingsGUI
 
                 ilNewsForContextBlockGUI::writeSettings($context_block_settings);
 
-                if (in_array(ilObject::_lookupType($this->object->getId()), array('crs', 'grp'))) {
+                if (in_array(ilObject::_lookupType($this->object->getId()), ['crs', 'grp'])) {
                     $ref_ids = ilObject::_getAllReferences($this->object->getId());
                     $ref_id = array_pop($ref_ids);
 
@@ -250,7 +248,7 @@ class ilContainerNewsSettingsGUI
 
     public function getCronNotifications() : bool
     {
-        return $this->getCronNotifications();
+        return $this->has_cron_notifications;
     }
 
     public function setHideByDate(bool $a_value) : void

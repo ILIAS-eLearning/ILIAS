@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
@@ -98,8 +112,8 @@ class ilAccountMail
     }
 
     /**
-     * @param string[]
-     * @return string[]
+     * @param array{lang?: string, subject?: string, body?: string, sal_f?: string, sal_g?: string, sal_m?: string, type?: string, att_file?: string} $mailData
+     * @return array{lang?: string, subject?: string, body?: string, sal_f?: string, sal_g?: string, sal_m?: string, type?: string, att_file?: string}
      */
     private function ensureValidMailDataShape(array $mailData) : array
     {
@@ -116,7 +130,7 @@ class ilAccountMail
     }
 
     /**
-     * @return string[]
+     * @return array{lang?: string, subject?: string, body?: string, sal_f?: string, sal_g?: string, sal_m?: string, type?: string}
      */
     private function readAccountMail(string $a_lang) : array
     {
@@ -129,7 +143,12 @@ class ilAccountMail
         return $this->amail[$a_lang];
     }
 
-    private function addAttachments($mailData) : void
+    /**
+     * @param array{lang?: string, subject?: string, body?: string, sal_f?: string, sal_g?: string, sal_m?: string, type?: string, att_file?: string} $mailData
+     * @return void
+     * @throws \ILIAS\Filesystem\Exception\IOException
+     */
+    private function addAttachments(array $mailData) : void
     {
         if (isset($mailData['att_file']) && $this->shouldAttachConfiguredFiles()) {
             $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
@@ -319,8 +338,8 @@ class ilAccountMail
         ) {
             $target = $this->http->wrapper()->query()->retrieve('target', $this->refinery->kindlyTo()->string());
             $tarr = explode('_', $target);
-            if ($this->repositoryTree->isInTree($tarr[1])) {
-                $obj_id = ilObject::_lookupObjId($tarr[1]);
+            if ($this->repositoryTree->isInTree((int) $tarr[1])) {
+                $obj_id = ilObject::_lookupObjId((int) $tarr[1]);
                 $type = ilObject::_lookupType($obj_id);
                 if ($type === $tarr[0]) {
                     $a_string = str_replace(

@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjCourseListGUI
@@ -11,7 +25,6 @@
 class ilObjCourseListGUI extends ilObjectListGUI
 {
     private ?ilCertificateObjectsForUserPreloader $certificatePreloader = null;
-    private bool $conditions_ok = false;
 
     /**
      * @inheritDoc
@@ -48,8 +61,6 @@ class ilObjCourseListGUI extends ilObjectListGUI
         string $description = ""
     ) : void {
         parent::initItem($ref_id, $obj_id, $type, $title, $description);
-
-        $this->conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($ref_id, $this->obj_id);
     }
 
     protected function getCertificatePreloader() : ilCertificateObjectsForUserPreloader
@@ -85,7 +96,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
         // blocked
         $members = ilCourseParticipant::_getInstanceByObjId($this->obj_id, $this->user->getId());
-        if ($members->isBlocked() and $members->isAssigned()) {
+        if ($members->isBlocked() && $members->isAssigned()) {
             $props[] = array("alert" => true,
                              "property" => $this->lng->txt("member_status"),
                              "value" => $this->lng->txt("crs_status_blocked")
@@ -141,7 +152,7 @@ class ilObjCourseListGUI extends ilObjectListGUI
 
         // check for certificates
         $hasCertificate = $this->getCertificatePreloader()->isPreloaded($this->user->getId(), $this->obj_id);
-        if (true === $hasCertificate) {
+        if ($hasCertificate) {
             $this->lng->loadLanguageModule('certificate');
             $cmd_link = "ilias.php?baseClass=ilRepositoryGUI&ref_id=" . $this->ref_id . "&cmd=deliverCertificate";
             $props[] = [
@@ -171,10 +182,9 @@ class ilObjCourseListGUI extends ilObjectListGUI
         int $ref_id,
         string $type,
         ?int $obj_id = null
-    ) : bool
-    {
+    ) : bool {
         // Only check cmd access for cmd 'register' and 'unregister'
-        if ($cmd != 'view' and $cmd != 'leave' and $cmd != 'join') {
+        if ($cmd != 'view' && $cmd != 'leave' && $cmd != 'join') {
             $cmd = '';
         }
 

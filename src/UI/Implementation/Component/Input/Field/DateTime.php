@@ -190,9 +190,7 @@ class DateTime extends Input implements C\Input\Field\DateTime
     protected function getConstraintForRequirement() : ?Constraint
     {
         return $this->refinery->string()->hasMinLength(1)
-            ->withProblemBuilder(function ($txt, $value) {
-                return $txt("datetime_required");
-            });
+            ->withProblemBuilder(fn($txt, $value) => $txt("datetime_required"));
     }
 
     /**
@@ -220,11 +218,9 @@ class DateTime extends Input implements C\Input\Field\DateTime
      */
     public function getUpdateOnLoadCode() : Closure
     {
-        return function ($id) {
-            return "$('#$id').on('input dp.change', function(event) {
+        return fn($id) => "$('#$id').on('input dp.change', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').find('input').val());";
-        };
     }
 }

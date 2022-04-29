@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 
 class ilServicesUserSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : self
     {
         $suite = new ilServicesUserSuite();
 

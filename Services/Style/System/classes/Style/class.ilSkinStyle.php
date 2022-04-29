@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 class ilSkinStyle
@@ -97,7 +113,7 @@ class ilSkinStyle
     /**
      * @throws ilSystemStyleException
      */
-    public function setId(string $id)
+    public function setId(string $id) : void
     {
         if (strpos($id, ' ') !== false) {
             throw new ilSystemStyleException(ilSystemStyleException::INVALID_CHARACTERS_IN_ID, $id);
@@ -110,7 +126,7 @@ class ilSkinStyle
         return $this->name;
     }
 
-    public function setName(string $name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }
@@ -120,7 +136,7 @@ class ilSkinStyle
         return $this->sound_directory;
     }
 
-    public function setSoundDirectory(string $sound_directory)
+    public function setSoundDirectory(string $sound_directory) : void
     {
         $this->sound_directory = $sound_directory;
     }
@@ -130,7 +146,7 @@ class ilSkinStyle
         return $this->image_directory;
     }
 
-    public function setImageDirectory(string $image_directory)
+    public function setImageDirectory(string $image_directory) : void
     {
         $this->image_directory = $image_directory;
     }
@@ -140,7 +156,7 @@ class ilSkinStyle
         return $this->css_file;
     }
 
-    public function setCssFile(string $css_file)
+    public function setCssFile(string $css_file) : void
     {
         $this->css_file = $css_file;
     }
@@ -150,7 +166,7 @@ class ilSkinStyle
         return $this->font_directory;
     }
 
-    public function setFontDirectory(string $font_directory)
+    public function setFontDirectory(string $font_directory) : void
     {
         $this->font_directory = $font_directory;
     }
@@ -166,7 +182,7 @@ class ilSkinStyle
     /**
      * Sets style as sub style of another
      */
-    public function setSubstyleOf(string $substyle_of)
+    public function setSubstyleOf(string $substyle_of) : void
     {
         $this->substyle_of = $substyle_of;
     }

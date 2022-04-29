@@ -14,10 +14,9 @@ class ilObjTestSettingsScoringResultsGUITest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $this->addGlobal_tpl();
 
-        $objTestGui_mock = $this->createMock(ilObjTestGUI::class);
-        $objTestGui_mock->object = $this->createMock(ilObjTest::class);
+        $objTestGui_mock = $this->getMockBuilder(ilObjTestGUI::class)->disableOriginalConstructor()->onlyMethods(array('getObject'))->getMock();
+        $objTestGui_mock->expects($this->any())->method('getObject')->willReturn($this->createMock(ilObjTest::class));
 
         $this->testObj = new ilObjTestSettingsScoringResultsGUI(
             $this->createMock(ilCtrl::class),

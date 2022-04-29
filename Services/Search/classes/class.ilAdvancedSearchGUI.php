@@ -97,7 +97,8 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             default:
                 $this->initUserSearchCache();
                 if (!$cmd) {
-                    switch ($_SESSION['search_last_sub_section']) {
+                    $last_sub_section = (int) ilSession::get('search_last_sub_section');
+                    switch ($last_sub_section) {
                         case self::TYPE_ADV_MD:
                             $cmd = "showSavedAdvMDResults";
                             break;
@@ -127,7 +128,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->initSearchType(self::TYPE_LOM);
         $this->search_mode = 'in_results';
         $this->search_cache->setResultPageNumber(1);
-        unset($_SESSION['adv_max_page']);
+        ilSession::clear('adv_max_page');
         $this->performSearch();
 
         return true;
@@ -167,7 +168,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->initSearchType(self::TYPE_LOM);
         $page_number = $this->initPageNumberFromQuery();
         if (!$page_number and $this->search_mode != 'in_results') {
-            unset($_SESSION['adv_max_page']);
+            ilSession::clear('adv_max_page');
             $this->search_cache->deleteCachedEntries();
         }
 
@@ -263,7 +264,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         if (is_object($this->form)) {
             return $this->form;
         }
-        
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'performAdvMDSearch'));
         $this->form->setTitle($this->lng->txt('adv_md_search_title'));
@@ -308,7 +308,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->initSearchType(self::TYPE_ADV_MD);
         $page_number = $this->initPageNumberFromQuery();
         if (!$page_number and $this->search_mode != 'in_results') {
-            unset($_SESSION['adv_max_page']);
+            ilSession::clear('adv_max_page');
             $this->search_cache->delete();
         }
         $res = new ilSearchResult();
@@ -350,8 +350,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     
     public function showAdvMDSearch() : bool
     {
-        if (isset($_SESSION['search_adv_md'])) {
-            $this->options = $_SESSION['search_adv_md'];
+        $session_options = ilSession::get('search_adv_md');
+        if ($session_options !== null) {
+            $this->options = $session_options;
         }
         $this->setSubTabs();
         $this->tabs_gui->setSubTabActive('search_adv_md');
@@ -371,7 +372,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->form->setTitle($this->lng->txt('search_advanced'));
         $this->form->addCommandButton('performSearch', $this->lng->txt('search'));
         $this->form->addCommandButton('reset', $this->lng->txt('reset'));
-        
         foreach ($this->fields->getActiveSections() as $definition) {
             if ($definition['name'] != 'default') {
                 $section = new ilFormSectionHeaderGUI();
@@ -807,12 +807,16 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             );
         }
 
-        if (isset($_POST['cmd']['performSearch'])) {
-            $this->options = $_SESSION['search_adv'] = $query;
-        } elseif (isset($_POST['cmd']['performAdvMDSearch'])) {
-            $this->options = $_SESSION['search_adv_md'] = $_POST;
+        $post_cmd = (array) ($this->http->request()->getParsedBody()['cmd'] ?? []);
+
+        if (isset($post_cmd['performSearch'])) {
+            $this->options = $query;
+            ilSession::set('search_adv', $this->options);
+        } elseif (isset($post_cmd['performAdvMDSearch'])) {
+            $this->options = (array) $this->http->request()->getParsedBody();
+            ilSession::set('search_adv_md', $this->options);
         } else {
-            $this->options = ($_SESSION['search_adv'] ?? array());
+            $this->options = ilSession::get('search_adv') ?? [];
         }
         $this->filter = array();
 
@@ -848,6 +852,8 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
             case 'mep':
                 $this->filter[] = 'mep';
+                $this->filter[] = 'mob';
+                $this->filter[] = 'mpg';
                 break;
                     
             case 'crs':
@@ -880,7 +886,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
                 $this->filter[] = 'sahs';
                 $this->filter[] = 'htlm';
                 $this->filter[] = 'file';
+                $this->filter[] = 'mob';
+                $this->filter[] = 'mpg';
         }
+
         return true;
     }
 
@@ -923,8 +932,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         if ($page_number) {
             $this->search_cache->setResultPageNumber($page_number);
         }
-        if ($_POST['cmd']['performSearch']) {
-            $this->search_cache->setQuery(ilUtil::stripSlashes($_POST['query']['lomContent']));
+        $post_cmd = (array) ($this->http->request()->getParsedBody()['cmd'] ?? []);
+        $post_query = (array) ($this->http->request()->getParsedBody()['query'] ?? []);
+        if ($post_cmd['performSearch']) {
+            $this->search_cache->setQuery($post_query['lomContent'] ?? '');
             $this->search_cache->save();
         }
     }
@@ -948,10 +959,10 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     private function initSearchType(int $type) : void
     {
         if ($type == self::TYPE_LOM) {
-            $_SESSION['search_last_sub_section'] = self::TYPE_LOM;
+            ilSession::set('search_last_sub_section', self::TYPE_LOM);
             $this->search_cache->switchSearchType(ilUserSearchCache::ADVANCED_SEARCH);
         } else {
-            $_SESSION['search_last_sub_section'] = self::TYPE_ADV_MD;
+            ilSession::set('search_last_sub_section', self::TYPE_ADV_MD);
             $this->search_cache->switchSearchType(ilUserSearchCache::ADVANCED_MD_SEARCH);
         }
     }

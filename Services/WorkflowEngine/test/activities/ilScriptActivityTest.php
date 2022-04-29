@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
 class ilScriptActivityTest extends TestCase
 {
     /** vfsStream Test Directory, see setup. */
-    public $test_dir;
+    public vfs\vfsStreamDirectory $test_dir;
 
     public function setUp() : void
     {

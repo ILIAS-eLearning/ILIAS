@@ -11,7 +11,6 @@
  */
 class ilCalendarDayGUI extends ilCalendarViewGUI
 {
-
     protected array $seed_info = [];
     protected ilCalendarUserSettings $user_settings;
     protected int $num_appointments = 1;
@@ -28,11 +27,11 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
         global $DIC;
 
         parent::initialize($a_calendar_presentation_type);
-        $this->seed_info = $this->seed->get(IL_CAL_FKT_GETDATE);
+        $this->seed_info = (array) $this->seed->get(IL_CAL_FKT_GETDATE);
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
         $this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
         if ($this->user->getTimeZone()) {
-            $this->timezone = (string) $this->user->getTimeZone();
+            $this->timezone = $this->user->getTimeZone();
         }
     }
 
@@ -48,7 +47,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                 break;
             case 'ilcalendarappointmentgui':
                 $this->ctrl->setReturn($this, '');
-                $this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
+                $this->tabs_gui->setSubTabActive((string) ilSession::get('cal_last_tab'));
 
                 // initial date for new calendar appointments
                 $idate = new ilDate($this->initInitialDateFromQuery(), IL_CAL_DATE);
@@ -135,7 +134,8 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                 $this->tpl->setVariable('DD_ID', $this->seed->get(IL_CAL_UNIX));
                 $this->tpl->setVariable(
                     'DD_TRIGGER',
-                    $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add()));
+                    $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add())
+                );
                 $this->tpl->setVariable('URL_DD_NEW_APP', $new_app_url);
                 $this->tpl->setVariable('TXT_DD_NEW_APP', $this->lng->txt('cal_new_app'));
                 $this->tpl->setVariable('URL_DD_NEW_MS', $new_ms_url);
@@ -145,7 +145,8 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                 $this->tpl->setCurrentBlock("new_app1");
                 $this->tpl->setVariable(
                     'H_NEW_APP_GLYPH',
-                    $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add($new_app_url)));
+                    $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add($new_app_url))
+                );
                 $this->tpl->parseCurrentBlock();
             }
 
@@ -154,10 +155,14 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
 
         $this->tpl->setVariable('NAVIGATION', $navigation->getHTML());
 
-        $this->tpl->setVariable('HEADER_DATE',
-            $this->seed_info['mday'] . ' ' . ilCalendarUtil::_numericMonthToString($this->seed_info['mon'], false));
-        $this->tpl->setVariable('HEADER_DAY',
-            ilCalendarUtil::_numericDayToString((int) $this->seed_info['wday'], true));
+        $this->tpl->setVariable(
+            'HEADER_DATE',
+            $this->seed_info['mday'] . ' ' . ilCalendarUtil::_numericMonthToString($this->seed_info['mon'], false)
+        );
+        $this->tpl->setVariable(
+            'HEADER_DAY',
+            ilCalendarUtil::_numericDayToString((int) $this->seed_info['wday'], true)
+        );
         $this->tpl->setVariable('HCOLSPAN', $colspan - 1);
 
         $this->tpl->setVariable('TXT_TIME', $this->lng->txt("time"));
@@ -181,8 +186,11 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                     $this->tpl->setCurrentBlock("new_app2");
                     $this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
                     $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'seed', $this->seed->get(IL_CAL_DATE));
-                    $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'idate',
-                        $this->seed->get(IL_CAL_DATE));
+                    $this->ctrl->setParameterByClass(
+                        'ilcalendarappointmentgui',
+                        'idate',
+                        $this->seed->get(IL_CAL_DATE)
+                    );
                     $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'hour', floor($numeric / 60));
                     $this->tpl->setVariable(
                         'NEW_APP_GLYPH',
@@ -263,11 +271,17 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
         $this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
         $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'seed', $this->seed->get(IL_CAL_DATE));
         $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $a_app['event']->getEntryId());
-        $event_tpl->setVariable('F_APP_EDIT_LINK',
-            $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'edit'));
+        $event_tpl->setVariable(
+            'F_APP_EDIT_LINK',
+            $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'edit')
+        );
 
-        if ($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $content,
-            $event_tpl)) {
+        if ($event_html_by_plugin = $this->getContentByPlugins(
+            $a_app['event'],
+            $a_app['dstart'],
+            $content,
+            $event_tpl
+        )) {
             $body_html = $event_html_by_plugin;
         } else {
             $event_tpl->parseCurrentBlock();
@@ -312,8 +326,12 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
         $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $a_app['event']->getEntryId());
         $event_tpl->setVariable('APP_EDIT_LINK', $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'edit'));
 
-        if ($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $content,
-            $event_tpl)) {
+        if ($event_html_by_plugin = $this->getContentByPlugins(
+            $a_app['event'],
+            $a_app['dstart'],
+            $content,
+            $event_tpl
+        )) {
             $event_html = $event_html_by_plugin;
         } else {
             $event_tpl->parseCurrentBlock();

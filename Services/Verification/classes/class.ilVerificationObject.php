@@ -112,7 +112,7 @@ abstract class ilVerificationObject extends ilObject2
 
                 case self::TYPE_ARRAY:
                     if ($a_data) {
-                        $value = unserialize($a_data);
+                        $value = unserialize($a_data, ['allowed_classes' => false]);
                     }
                     break;
 
@@ -162,7 +162,7 @@ abstract class ilVerificationObject extends ilObject2
         return null;
     }
 
-    protected function doRead()
+    protected function doRead() : void
     {
         $ilDB = $this->db;
 
@@ -178,19 +178,17 @@ abstract class ilVerificationObject extends ilObject2
                     );
                 }
             }
-            return true;
         }
-        return false;
     }
 
-    public function doCreate()
+    protected function doCreate(bool $clone_mode = false) : void
     {
-        return $this->saveProperties();
+        $this->saveProperties();
     }
-    
-    public function doUpdate()
+
+    protected function doUpdate() : void
     {
-        return $this->saveProperties();
+        $this->saveProperties();
     }
     
     /**
@@ -222,8 +220,8 @@ abstract class ilVerificationObject extends ilObject2
         }
         return false;
     }
-    
-    public function doDelete()
+
+    protected function doDelete() : void
     {
         $ilDB = $this->db;
 
@@ -236,9 +234,7 @@ abstract class ilVerificationObject extends ilObject2
             
             $ilDB->manipulate("DELETE FROM il_verification" .
                 " WHERE id = " . $ilDB->quote($this->id, "integer"));
-            return true;
         }
-        return false;
     }
     
     public static function initStorage(int $a_id, string $a_subdir = null) : string
@@ -255,7 +251,7 @@ abstract class ilVerificationObject extends ilObject2
                 mkdir($path);
             }
         }
-                
+        
         return $path;
     }
     
@@ -263,7 +259,7 @@ abstract class ilVerificationObject extends ilObject2
     {
         $file = $this->getProperty("file");
         if ($file) {
-            $path = $this->initStorage($this->getId(), "certificate");
+            $path = self::initStorage($this->getId(), "certificate");
             return $path . $file;
         }
         return "";

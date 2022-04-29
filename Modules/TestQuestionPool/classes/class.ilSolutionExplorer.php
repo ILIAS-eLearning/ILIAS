@@ -70,18 +70,20 @@ class ilSolutionExplorer extends ilExplorer
         global $DIC;
         $tree = $DIC['tree'];
 
-        if (!$_SESSION[$this->expand_variable]) {
-            $_SESSION[$this->expand_variable] = array();
+        if (ilSession::get($this->expand_variable) == null) {
+            ilSession::set($this->expand_variable, array());
         }
 
         $path = $tree->getPathId($ref_id);
         foreach ((array) $path as $node_id) {
-            if (!in_array($node_id, $_SESSION[$this->expand_variable])) {
-                $_SESSION[$this->expand_variable][] = $node_id;
+            if (!in_array($node_id, ilSession::get($this->expand_variable))) {
+                $expand = ilSession::get($this->expand_variable);
+                $expand[] = $node_id;
+                ilSession::set($this->expand_variable, $expand);
             }
         }
 
-        $this->expanded = $_SESSION[$this->expand_variable];
+        $this->expanded = ilSession::get($this->expand_variable);
     }
 
     public function setSelectableType($a_type)
@@ -110,9 +112,9 @@ class ilSolutionExplorer extends ilExplorer
         return '';
     }
 
-    public function isClickable(string $a_type, $a_ref_id = 0) : bool
+    public function isClickable(string $type, int $ref_id = 0) : bool
     {
-        return $a_type == $this->selectable_type and $a_ref_id != $this->ref_id;
+        return $type == $this->selectable_type && $ref_id !== $this->ref_id;
     }
 
     public function showChilds($a_parent_id) : bool

@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
@@ -56,7 +70,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
                     $selectable_groups[$ref_id] = $this->groups[$ref_id];
                 }
             }
-            if (count($selectable_groups)) {
+            if ($selectable_groups !== []) {
                 $this->addMultiItemSelectionButton(
                     "grp_id",
                     $selectable_groups,
@@ -76,12 +90,15 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
     {
         $parent_node = $this->tree->getNodeData($this->ref_id);
         $groups = $this->tree->getSubTree($parent_node, true, ['grp']);
-        if (is_array($groups) && sizeof($groups)) {
+        if (is_array($groups) && count($groups)) {
             $this->participants = $this->groups = $this->groups_rights = array();
             foreach ($groups as $idx => $group_data) {
                 // check for group in group
-                if ($group_data["parent"] != $this->ref_id && $this->tree->checkForParentType($group_data["ref_id"],
-                        "grp", true)) {
+                if ($group_data["parent"] != $this->ref_id && $this->tree->checkForParentType(
+                    $group_data["ref_id"],
+                    "grp",
+                    true
+                )) {
                     unset($groups[$idx]);
                 } else {
                     $this->groups[$group_data["ref_id"]] = $group_data["title"];
@@ -145,7 +162,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
                 $part->getMembers()
             );
 
-            if (count($members)) {
+            if ($members !== []) {
                 $usr_data = array();
                 foreach ($members as $usr_id) {
                     $name = ilObjUser::_lookupName($usr_id);
@@ -174,7 +191,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
                 }
 
                 $usr_data = array_slice($usr_data, $this->getOffset(), $this->getLimit());
-                $this->setMaxCount(sizeof($members));
+                $this->setMaxCount(count($members));
                 $this->setData($usr_data);
             }
         }
@@ -188,7 +205,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_LOGIN", $a_set["login"]);
         $this->tpl->setVariable("VAL_GROUP_NUMBER", $a_set["groups_number"]);
 
-        if (sizeof($a_set["groups"])) {
+        if (count($a_set["groups"]) !== 0) {
             foreach ($a_set["groups"] as $type => $groups) {
                 foreach ($groups as $grp_id => $title) {
                     if (
@@ -201,8 +218,10 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
 
                         $this->ctrl->setParameter($this->parent_obj, "usr_id", $a_set["usr_id"]);
                         $this->ctrl->setParameter($this->parent_obj, "grp_id", $grp_id);
-                        $this->tpl->setVariable("URL_REMOVE",
-                            $this->ctrl->getLinkTarget($this->parent_obj, "confirmremove"));
+                        $this->tpl->setVariable(
+                            "URL_REMOVE",
+                            $this->ctrl->getLinkTarget($this->parent_obj, "confirmremove")
+                        );
                         $this->ctrl->setParameter($this->parent_obj, "grp_id", "");
                         $this->ctrl->setParameter($this->parent_obj, "usr_id", "");
 

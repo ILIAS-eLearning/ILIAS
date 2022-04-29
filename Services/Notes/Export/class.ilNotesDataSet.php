@@ -27,7 +27,7 @@ class ilNotesDataSet extends ilDataSet
         return array("4.3.0");
     }
     
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "https://www.ilias.de/xml/Services/Notes/" . $a_entity;
     }
@@ -37,7 +37,7 @@ class ilNotesDataSet extends ilDataSet
         string $a_version
     ) : array {
         // user notes
-        if ($a_entity == "user_notes") {
+        if ($a_entity === "user_notes") {
             switch ($a_version) {
                 case "4.3.0":
                     return array(
@@ -66,7 +66,7 @@ class ilNotesDataSet extends ilDataSet
         $ilDB = $this->db;
 
         // user notes
-        if ($a_entity == "user_notes") {
+        if ($a_entity === "user_notes") {
             switch ($a_version) {
                 case "4.3.0":
                     $this->getDirectDataFromQuery("SELECT id, rep_obj_id, obj_id, obj_type, type, " .
@@ -78,15 +78,6 @@ class ilNotesDataSet extends ilDataSet
                     break;
             }
         }
-    }
-    
-    protected function getDependencies(
-        string $a_entity,
-        string $a_version,
-        ?array $a_rec = null,
-        ?array $a_ids = null
-    ) : array {
-        return [];
     }
 
     public function importRecord(
@@ -102,14 +93,14 @@ class ilNotesDataSet extends ilDataSet
                 if ($usr_id > 0) {
                     // only import real user (assigned to personal desktop) notes
                     // here.
-                    if ((int) $a_rec["RepObjId"] == 0 &&
+                    if ((int) $a_rec["RepObjId"] === 0 &&
                         $a_rec["ObjId"] == $a_rec["Author"] &&
-                        $a_rec["Type"] == ilNote::PRIVATE &&
-                        $a_rec["ObjType"] == "pd") {
+                        $a_rec["Type"] === ilNote::PRIVATE &&
+                        $a_rec["ObjType"] === "pd") {
                         $note = new ilNote();
-                        $note->setObject("pd", 0, $usr_id);
+                        $note->setObject("pd", 0, (int) $usr_id);
                         $note->setType(ilNote::PRIVATE);
-                        $note->setAuthor($usr_id);
+                        $note->setAuthor((int) $usr_id);
                         $note->setText($a_rec["NoteText"]);
                         $note->setSubject($a_rec["Subject"]);
                         $note->setCreationDate($a_rec["CreationDate"]);

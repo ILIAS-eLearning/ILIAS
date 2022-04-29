@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\KioskMode\ControlBuilder;
 use ILIAS\KioskMode\State;
@@ -71,7 +86,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
     protected function buildLearningProgressToggleControl(ControlBuilder $builder) : void
     {
         $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
-        if ((int) $learningProgress->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
+        if ($learningProgress->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
             $isCompleted = ilLPMarks::_hasCompleted($this->user->getId(), $this->contentPageObject->getId());
 
             $this->lng->loadLanguageModule('copa');
@@ -104,7 +119,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
             self::CMD_LP_TO_INCOMPLETE
         ])) {
             $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
-            if ((int) $learningProgress->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
+            if ($learningProgress->getCurrentMode() === ilLPObjSettings::LP_MODE_MANUAL) {
                 $marks = new ilLPMarks($this->contentPageObject->getId(), $this->user->getId());
 
                 $old_state = $marks->getCompleted();
@@ -113,7 +128,7 @@ class ilContentPageKioskModeView extends ilKioskModeView
                 $marks->update();
                 ilLPStatusWrapper::_updateStatus($this->contentPageObject->getId(), $this->user->getId());
 
-                if ($old_state != $new_state) {
+                if ((int) $old_state !== (int) $new_state) {
                     $this->lng->loadLanguageModule('trac');
                     $this->messages[] = $this->uiFactory->messageBox()->success(
                         $this->lng->txt('trac_updated_status')

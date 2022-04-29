@@ -23,9 +23,9 @@ interface ilMobMultiSrtInt
      * @return string upload directory
      */
     public function getUploadDir() : string;
-
+    
     /**
-     * @return array array of target media objects ids
+     * @return int[] target media objects ids
      */
     public function getMobIds() : array;
 }

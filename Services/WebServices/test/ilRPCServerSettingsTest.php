@@ -10,8 +10,6 @@ use ILIAS\DI\Container;
  */
 class ilRPCServerSettingsTest extends TestCase
 {
-    protected $backupGlobals = false;
-
     protected Container $dic;
 
     protected function setUp() : void
@@ -23,7 +21,7 @@ class ilRPCServerSettingsTest extends TestCase
     public function testConstruct() : void
     {
         $rpc_settings = ilRPCServerSettings::getInstance();
-        $this->assertTrue($rpc_settings instanceof ilRPCServerSettings);
+        $this->assertInstanceOf(ilRPCServerSettings::class, $rpc_settings);
     }
 
     protected function setGlobalVariable(string $name, $value) : void

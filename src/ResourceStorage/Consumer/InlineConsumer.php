@@ -23,7 +23,6 @@ use ILIAS\HTTP\Response\ResponseHeader;
  */
 class InlineConsumer extends BaseConsumer implements DeliveryConsumer
 {
-
     public function run() : void
     {
         global $DIC;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\Modules\OrgUnit\ARHelper\DIC;
 
@@ -22,11 +22,10 @@ class ilMMItemTranslationGUI
     private ilMMItemRepository $repository;
     
     private ilMMItemFacadeInterface $item_facade;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
     
     /**
      * ilMMItemTranslationGUI constructor.
-     * @param ilMMItemFacadeInterface $item_facade
      */
     public function __construct(ilMMItemFacadeInterface $item_facade, ilMMItemRepository $repository)
     {

@@ -25,6 +25,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 {
     private ilLogger $logger;
 
+    private ?ilPropertyFormGUI $form;
+
     public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
         $this->type = "auth";
@@ -78,14 +80,23 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
         $auth_cnt = ilObjUser::_getNumberOfUsersPerAuthMode();
         $auth_modes = ilAuthUtils::_getAllAuthModes();
-        $valid_modes = array(ilAuthUtils::AUTH_LOCAL,ilAuthUtils::AUTH_LDAP,ilAuthUtils::AUTH_SHIBBOLETH,ilAuthUtils::AUTH_SAML,ilAuthUtils::AUTH_CAS,ilAuthUtils::AUTH_RADIUS,ilAuthUtils::AUTH_APACHE,ilAuthUtils::AUTH_OPENID_CONNECT);
+        $valid_modes = [
+            ilAuthUtils::AUTH_LOCAL,
+            ilAuthUtils::AUTH_LDAP,
+            ilAuthUtils::AUTH_SHIBBOLETH,
+            ilAuthUtils::AUTH_SAML,
+            ilAuthUtils::AUTH_CAS,
+            ilAuthUtils::AUTH_RADIUS,
+            ilAuthUtils::AUTH_APACHE,
+            ilAuthUtils::AUTH_OPENID_CONNECT
+        ];
         // icon handlers
         $icon_ok = "<img src=\"" . ilUtil::getImagePath("icon_ok.svg") . "\" alt=\"" . $this->lng->txt("enabled") . "\" title=\"" . $this->lng->txt("enabled") . "\" border=\"0\" vspace=\"0\"/>";
         $icon_not_ok = "<img src=\"" . ilUtil::getImagePath("icon_not_ok.svg") . "\" alt=\"" . $this->lng->txt("disabled") . "\" title=\"" . $this->lng->txt("disabled") . "\" border=\"0\" vspace=\"0\"/>";
 
         $this->logger->debug(print_r($auth_modes, true));
         foreach ($auth_modes as $mode => $mode_name) {
-            if (!in_array($mode, $valid_modes) && !ilLDAPServer::isAuthModeLDAP((string) $mode) && !ilSamlIdp::isAuthModeSaml((string) $mode)) {
+            if (!in_array($mode, $valid_modes, true) && !ilLDAPServer::isAuthModeLDAP((string) $mode) && !ilSamlIdp::isAuthModeSaml((string) $mode)) {
                 continue;
             }
 
@@ -101,13 +112,13 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 $generalSettingsTpl->setVariable('AUTH_ACTIVE', $idp->isActive() ? $icon_ok : $icon_not_ok);
             } else {
                 $generalSettingsTpl->setVariable("AUTH_NAME", $this->lng->txt("auth_" . $mode_name));
-                $generalSettingsTpl->setVariable('AUTH_ACTIVE', $this->ilias->getSetting($mode_name . '_active') || $mode == ilAuthUtils::AUTH_LOCAL ? $icon_ok : $icon_not_ok);
+                $generalSettingsTpl->setVariable('AUTH_ACTIVE', $this->ilias->getSetting($mode_name . '_active') || (int) $mode === ilAuthUtils::AUTH_LOCAL ? $icon_ok : $icon_not_ok);
             }
 
-            $auth_cnt_mode = isset($auth_cnt[$mode_name]) ? $auth_cnt[$mode_name] : 0;
+            $auth_cnt_mode = $auth_cnt[$mode_name] ?? 0;
             if ($this->settings->get('auth_mode') == $mode) {
                 $generalSettingsTpl->setVariable("AUTH_CHECKED", "checked=\"checked\"");
-                $auth_cnt_default = isset($auth_cnt["default"]) ? $auth_cnt["default"] : 0;
+                $auth_cnt_default = $auth_cnt["default"] ?? 0;
                 $generalSettingsTpl->setVariable(
                     "AUTH_USER_NUM",
                     ((int) $auth_cnt_mode + $auth_cnt_default) . " (" . $this->lng->txt("auth_per_default") .
@@ -162,17 +173,17 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 // do not list auth modes with external login screen
                 // even not default, because it can easily be set to
                 // a non-working auth mode
-                if ($auth_name == "default" || $auth_name == "cas"
-                    || $auth_name == 'saml'
-                    || $auth_name == "shibboleth" || $auth_name == 'ldap'
-                    || $auth_name == 'apache' || $auth_name == "ecs"
-                    || $auth_name == "openid") {
+                if ($auth_name === "default" || $auth_name === "cas"
+                    || $auth_name === 'saml'
+                    || $auth_name === "shibboleth" || $auth_name === 'ldap'
+                    || $auth_name === 'apache' || $auth_name === "ecs"
+                    || $auth_name === "openid") {
                     continue;
                 }
 
                 $generalSettingsTpl->setCurrentBlock("auth_mode_selection");
 
-                if ($auth_name == 'default') {
+                if ($auth_name === 'default') {
                     $name = $this->lng->txt('auth_' . $auth_name) . " (" . $this->lng->txt('auth_' . ilAuthUtils::_getAuthModeName($auth_key)) . ")";
                 } elseif ($id = ilLDAPServer::getServerIdByAuthMode((string) $auth_key)) {
                     $server = ilLDAPServer::getInstanceByServerId($id);
@@ -233,7 +244,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $this->tpl->setVariable("TXT_HEADLINE", $this->lng->txt("login_information"));
         $this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("login_information_desc"));
         $this->tpl->setVariable("TXT_SUBMIT", $this->lng->txt("save"));
-        $this->initLoginForm();
         $this->tpl->setVariable('LOGIN_INFO', $this->form->getHTML());
     }
 
@@ -433,17 +443,17 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $defaultrole->setValue($_SESSION["error_post_vars"]["soap"]["user_default_role"]);
             $sendmail	->setChecked($_SESSION["error_post_vars"]["soap"]["account_mail"]);
         } else {
-            $active		->setChecked((bool) $this->settings->get("soap_auth_active", (string) false));
+            $active		->setChecked((bool) $this->settings->get("soap_auth_active", ""));
             $server		->setValue($this->settings->get("soap_auth_server", ""));
-            $port		->setValue((int) $this->settings->get("soap_auth_port", (string) 0));
-            $https		->setChecked((bool) $this->settings->get("soap_auth_use_https", (string) false));
+            $port		->setValue((int) $this->settings->get("soap_auth_port", "0"));
+            $https		->setChecked((bool) $this->settings->get("soap_auth_use_https", ""));
             $uri		->setValue($this->settings->get("soap_auth_uri", ""));
             $namespace	->setValue($this->settings->get("soap_auth_namespace", ""));
-            $dotnet		->setChecked((bool) $this->settings->get("soap_auth_use_dotnet", (string) false));
-            $createuser	->setChecked((bool) $this->settings->get("soap_auth_create_users", (string) false));
-            $allowlocal	->setChecked((bool) $this->settings->get("soap_auth_allow_local", (string) false));
+            $dotnet		->setChecked((bool) $this->settings->get("soap_auth_use_dotnet", ""));
+            $createuser	->setChecked((bool) $this->settings->get("soap_auth_create_users", ""));
+            $allowlocal	->setChecked((bool) $this->settings->get("soap_auth_allow_local", ""));
             $defaultrole->setValue($this->settings->get("soap_auth_user_default_role", ""));
-            $sendmail	->setChecked((bool) $this->settings->get("soap_auth_account_mail", (string) false));
+            $sendmail	->setChecked((bool) $this->settings->get("soap_auth_account_mail", ""));
         }
         
         if (!$defaultrole->getValue()) {
@@ -482,7 +492,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         );
         
         $ret = "";
-        if ($this->ctrl->getCmd() == "testSoapAuthConnection") {
+        if ($this->ctrl->getCmd() === "testSoapAuthConnection") {
             $ret .= "<br />" . ilSOAPAuth::testConnection(
                 ilUtil::stripSlashes($_POST["ext_uid"]),
                 ilUtil::stripSlashes($_POST["soap_pw"]),
@@ -520,22 +530,22 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
         $this->settings->set("soap_auth_server", $_POST["soap"]["server"]);
         $this->settings->set("soap_auth_port", $_POST["soap"]["port"]);
-        if(isset($_POST["soap"]["active"])){
+        if (isset($_POST["soap"]["active"])) {
             $this->settings->set("soap_auth_active", $_POST["soap"]["active"]);
         }
         $this->settings->set("soap_auth_uri", $_POST["soap"]["uri"]);
         $this->settings->set("soap_auth_namespace", $_POST["soap"]["namespace"]);
         $this->settings->set("soap_auth_create_users", $_POST["soap"]["create_users"]);
-        if(isset($_POST["soap"]["allow_local"])){
+        if (isset($_POST["soap"]["allow_local"])) {
             $this->settings->set("soap_auth_allow_local", $_POST["soap"]["allow_local"]);
         }
-        if(isset($_POST["soap"]["account_mail"])){
+        if (isset($_POST["soap"]["account_mail"])) {
             $this->settings->set("soap_auth_account_mail", $_POST["soap"]["account_mail"]);
         }
-        if(isset($_POST["soap"]["use_https"])){
+        if (isset($_POST["soap"]["use_https"])) {
             $this->settings->set("soap_auth_use_https", $_POST["soap"]["use_https"]);
         }
-        if(isset($_POST["soap"]["use_dotnet"])){
+        if (isset($_POST["soap"]["use_dotnet"])) {
             $this->settings->set("soap_auth_use_dotnet", $_POST["soap"]["use_dotnet"]);
         }
         $this->settings->set("soap_auth_user_default_role", $_POST["soap"]["user_default_role"]);
@@ -604,7 +614,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         
         // all ok. save settings and activate auth by external script
         $this->ilias->setSetting("auth_script_name", $_POST["auth_script"]["name"]);
-        $this->ilias->setSetting("auth_mode", ilAuthUtils::AUTH_SCRIPT);
+        $this->ilias->setSetting("auth_mode", (string) ilAuthUtils::AUTH_SCRIPT);
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("auth_mode_changed_to") . " " . $this->getAuthModeTitle(), true);
         $this->ctrl->redirect($this, 'editScript');
@@ -614,7 +624,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     /**
     * get the title of auth mode
     *
-    * @return language dependent title of auth mode
+    * @return string language dependent title of auth mode
     */
     public function getAuthModeTitle() : string
     {
@@ -704,6 +714,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 
         $auth_sequenced = $det->getAuthModeSequence();
         $counter = 1;
+        $text = "";
         foreach ($auth_sequenced as $auth_mode) {
             switch ($auth_mode) {
                 case ilLDAPServer::isAuthModeLDAP((string) $auth_mode):
@@ -751,14 +762,15 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         
         $det->setKind((int) $_POST['kind']);
     
-        $pos = $_POST['position'] ? $_POST['position'] : array();
+        $pos = $_POST['position'] ?? [];
         asort($pos, SORT_NUMERIC);
         
         $counter = 0;
-        foreach ($pos as $auth_mode => $dummy) {
+        $position = [];
+        foreach (array_keys($pos) as $auth_mode) {
             $position[$counter++] = $auth_mode;
         }
-        $det->setAuthModeSequence($position ? $position : array());
+        $det->setAuthModeSequence($position);
         $det->save();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
@@ -790,7 +802,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             case 'ilsamlsettingsgui':
                 $this->tabs_gui->setTabActive('auth_saml');
 
-                $os = new ilSamlSettingsGUI((int) $this->object->getRefId());
+                $os = new ilSamlSettingsGUI($this->object->getRefId());
                 $this->ctrl->forwardCommand($os);
                 break;
 
@@ -871,7 +883,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     /**
     * get tabs
     */
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         $this->ctrl->setParameter($this, "ref_id", $this->object->getRefId());
 
@@ -963,24 +975,22 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     public function setSubTabs(string $a_tab) : void
     {
         $this->lng->loadLanguageModule('auth');
-        
-        switch ($a_tab) {
-            case 'authSettings':
-                if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
-                    $this->tabs_gui->addSubTabTarget(
-                        "auth_settings",
-                        $this->ctrl->getLinkTarget($this, 'authSettings'),
-                        ""
-                    );
-                }
-                if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
-                    $this->tabs_gui->addSubTabTarget(
-                        'auth_login_editor',
-                        $this->ctrl->getLinkTargetByClass('ilauthloginpageeditorgui', ''),
-                        ''
-                    );
-                }
-                break;
+
+        if ($a_tab === 'authSettings') {
+            if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
+                $this->tabs_gui->addSubTabTarget(
+                    "auth_settings",
+                    $this->ctrl->getLinkTarget($this, 'authSettings'),
+                    ""
+                );
+            }
+            if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
+                $this->tabs_gui->addSubTabTarget(
+                    'auth_login_editor',
+                    $this->ctrl->getLinkTargetByClass('ilauthloginpageeditorgui', ''),
+                    ''
+                );
+            }
         }
     }
 
@@ -1165,7 +1175,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         return implode("\n", preg_split("/[\r\n]+/", $text));
     }
 
-    public function registrationSettingsObject()
+    public function registrationSettingsObject() : void
     {
         $registration_gui = new ilRegistrationSettingsGUI();
         $this->ctrl->redirect($registration_gui);

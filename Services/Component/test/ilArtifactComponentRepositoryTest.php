@@ -73,7 +73,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
             {
                 return 13;
             }
-            public function setCurrentPluginVersion(string $id, Data\Version $v, int $db_version)
+            public function setCurrentPluginVersion(string $id, Data\Version $version, int $db_version) : void
             {
             }
             public function remove(string $id) : void
@@ -90,7 +90,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
             {
                 return ilArtifactComponentRepositoryTest::$plugin_data;
             }
-            public function _buildDatabase()
+            public function _buildDatabase() : void
             {
                 $this->buildDatabase();
             }
@@ -197,7 +197,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $plugins4["plg2"] = $this->plg2;
     }
 
-    public function testHasComponent()
+    public function testHasComponent() : void
     {
         $this->assertTrue($this->db->hasComponent("Modules", "Module1"));
         $this->assertTrue($this->db->hasComponent("Modules", "Module2"));
@@ -209,13 +209,13 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $this->assertFalse($this->db->hasComponent("Services", "Service4"));
     }
 
-    public function testHasComponentThrowsOnUnknownType()
+    public function testHasComponentThrowsOnUnknownType() : void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->db->hasComponent("OtherComponent", "Module1");
     }
 
-    public function testHasComponentId()
+    public function testHasComponentId() : void
     {
         $this->assertTrue($this->db->hasComponentId("mod1"));
         $this->assertTrue($this->db->hasComponentId("mod2"));
@@ -227,7 +227,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $this->assertFalse($this->db->hasComponentId("ser4"));
     }
 
-    public function testGetComponents()
+    public function testGetComponents() : void
     {
         $result = iterator_to_array($this->db->getComponents());
 
@@ -244,7 +244,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $this->assertEquals($this->ser2, $result["ser2"]);
     }
 
-    public function testGetComponentById()
+    public function testGetComponentById() : void
     {
         $this->assertEquals($this->mod1, $this->db->getComponentById("mod1"));
         $this->assertEquals($this->mod2, $this->db->getComponentById("mod2"));
@@ -252,7 +252,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $this->assertEquals($this->ser2, $this->db->getComponentById("ser2"));
     }
 
-    public function testGetComponentByTypeAndName()
+    public function testGetComponentByTypeAndName() : void
     {
         $this->assertEquals($this->mod1, $this->db->getComponentByTypeAndName("Modules", "Module1"));
         $this->assertEquals($this->mod2, $this->db->getComponentByTypeAndName("Modules", "Module2"));
@@ -260,25 +260,25 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $this->assertEquals($this->ser2, $this->db->getComponentByTypeAndName("Services", "Service2"));
     }
 
-    public function testGetComponentByTypeAndNameThrowsOnUnknownComponent1()
+    public function testGetComponentByTypeAndNameThrowsOnUnknownComponent1() : void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->db->getComponentByTypeAndName("Modules", "Module3");
     }
 
-    public function testGetComponentByTypeAndNameThrowsOnUnknownComponent2()
+    public function testGetComponentByTypeAndNameThrowsOnUnknownComponent2() : void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->db->getComponentByTypeAndName("OtherComponent", "Service1");
     }
 
-    public function testGetComponentByIdTypeThrowsOnInvalidId()
+    public function testGetComponentByIdTypeThrowsOnInvalidId() : void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->db->getComponentById("some_id");
     }
 
-    public function testGetPluginSlots()
+    public function testGetPluginSlots() : void
     {
         $slots = iterator_to_array($this->db->getPluginSlots());
 
@@ -295,15 +295,15 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $this->assertEquals($this->slt4, $slots["slt4"]);
     }
 
-    public function testGetPluginslotById()
+    public function testGetPluginslotById() : void
     {
-        $this->assertEquals($this->slt1, $this->db->getPluginslotById("slt1"));
-        $this->assertEquals($this->slt2, $this->db->getPluginslotById("slt2"));
-        $this->assertEquals($this->slt3, $this->db->getPluginslotById("slt3"));
-        $this->assertEquals($this->slt4, $this->db->getPluginslotById("slt4"));
+        $this->assertEquals($this->slt1, $this->db->getPluginSlotById("slt1"));
+        $this->assertEquals($this->slt2, $this->db->getPluginSlotById("slt2"));
+        $this->assertEquals($this->slt3, $this->db->getPluginSlotById("slt3"));
+        $this->assertEquals($this->slt4, $this->db->getPluginSlotById("slt4"));
     }
 
-    public function testNoPluginSlot()
+    public function testNoPluginSlot() : void
     {
         $db = new class($this->data_factory, $this->plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             protected function readComponentData() : array
@@ -320,7 +320,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $this->assertEquals([], $slots);
     }
 
-    public function testGetPlugins()
+    public function testGetPlugins() : void
     {
         $plugins = iterator_to_array($this->db->getPlugins());
 
@@ -335,25 +335,25 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $this->assertEquals($this->plg2, $plugins["plg2"]);
     }
 
-    public function testGetPluginById()
+    public function testGetPluginById() : void
     {
         $this->assertEquals($this->plg1, $this->db->getPluginById("plg1"));
         $this->assertEquals($this->plg2, $this->db->getPluginById("plg2"));
     }
 
-    public function testGetPluginByName()
+    public function testGetPluginByName() : void
     {
         $this->assertEquals($this->plg1, $this->db->getPluginByName("Plugin1"));
         $this->assertEquals($this->plg2, $this->db->getPluginByName("Plugin2"));
     }
 
-    public function testUnknownPlugin()
+    public function testUnknownPlugin() : void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->db->getPluginById("some_id");
     }
 
-    public function testUsesPluginStateDB()
+    public function testUsesPluginStateDB() : void
     {
         $plugin_state_db = $this->createMock(ilPluginStateDB::class);
         $plugin_state_db->expects($this->once())
@@ -404,7 +404,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $this->assertEquals(42, $plugin->getCurrentDBVersion());
     }
 
-    public function testGetPluginViaComponentAndPluginSlot()
+    public function testGetPluginViaComponentAndPluginSlot() : void
     {
         $plg1 = $this->db
             ->getComponentByTypeAndName("Modules", "Module1")
@@ -414,7 +414,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $this->assertEquals($this->plg1, $plg1);
     }
 
-    public function testSetCurrentPluginVersionCallsStateDB()
+    public function testSetCurrentPluginVersionCallsStateDB() : void
     {
         $VERSION = $this->data_factory->version("1000.0.0");
         $DB_VERSION = 1000;
@@ -465,7 +465,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $db->setCurrentPluginVersion("plg1", $VERSION, $DB_VERSION);
     }
 
-    public function testSetCurrentPluginVersionCallsStateDBTriggersRebuild()
+    public function testSetCurrentPluginVersionCallsStateDBTriggersRebuild() : void
     {
         $VERSION = $this->data_factory->version("1000.0.0");
         $DB_VERSION = 1000;
@@ -473,7 +473,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $plugin_state_db = $this->createMock(ilPluginStateDB::class);
         $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             public int $build_called = 0;
-            protected function buildDatabase()
+            protected function buildDatabase() : void
             {
                 $this->build_called++;
                 parent::buildDatabase();
@@ -510,18 +510,18 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $this->assertEquals(2, $db->build_called);
     }
 
-    public function testCallBuildDatabaseTwice()
+    public function testCallBuildDatabaseTwice() : void
     {
         $this->db->_buildDatabase();
 
         $this->assertEquals($this->mod1, $this->db->getComponentById("mod1"));
         $this->assertEquals($this->mod1, $this->db->getComponentByTypeAndName("Modules", "Module1"));
-        $this->assertEquals($this->slt1, $this->db->getPluginslotById("slt1"));
+        $this->assertEquals($this->slt1, $this->db->getPluginSlotById("slt1"));
         $this->assertEquals($this->plg1, $this->db->getPluginById("plg1"));
         $this->assertEquals($this->plg2, $this->db->getPluginByName("Plugin2"));
     }
 
-    public function testSetActivationCallsStateDB()
+    public function testSetActivationCallsStateDB() : void
     {
         $plugin_state_db = $this->createMock(ilPluginStateDB::class);
 
@@ -558,12 +558,12 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $db->setActivation("plg1", true);
     }
 
-    public function testSetActivationTriggersRebuild()
+    public function testSetActivationTriggersRebuild() : void
     {
         $plugin_state_db = $this->createMock(ilPluginStateDB::class);
         $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             public int $build_called = 0;
-            protected function buildDatabase()
+            protected function buildDatabase() : void
             {
                 $this->build_called++;
                 parent::buildDatabase();
@@ -600,7 +600,7 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $this->assertEquals(2, $db->build_called);
     }
 
-    public function testRemoveStateInformationOfCallsStateDB()
+    public function testRemoveStateInformationOfCallsStateDB() : void
     {
         $plugin_state_db = $this->createMock(ilPluginStateDB::class);
 
@@ -637,12 +637,12 @@ class ilArtifactComponentRepositoryTest extends TestCase
         $db->removeStateInformationOf("plg1");
     }
 
-    public function testRemoveStateInformationOfTriggersRebuild()
+    public function testRemoveStateInformationOfTriggersRebuild() : void
     {
         $plugin_state_db = $this->createMock(ilPluginStateDB::class);
         $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             public int $build_called = 0;
-            protected function buildDatabase()
+            protected function buildDatabase() : void
             {
                 $this->build_called++;
                 parent::buildDatabase();

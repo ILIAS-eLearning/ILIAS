@@ -59,7 +59,7 @@ final class FileDeliveryTypeFactory
      *
      * @see DeliveryMethod
      */
-    public function getInstance(string $type): \ILIAS\FileDelivery\ilFileDeliveryType
+    public function getInstance(string $type) : \ILIAS\FileDelivery\ilFileDeliveryType
     {
         assert(is_string($type));
         if (isset(self::$instances[$type])) {

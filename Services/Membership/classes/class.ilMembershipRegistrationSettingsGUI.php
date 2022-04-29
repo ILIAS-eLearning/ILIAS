@@ -1,5 +1,21 @@
-<?php declare(strict_types=1);/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Registration settings
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -10,10 +26,9 @@ abstract class ilMembershipRegistrationSettingsGUI
 {
     private ilObject $object;
     private ilObjectGUI $gui_object;
-    private array $options = [];
-
     protected ilLanguage $lng;
-
+    private array $options = [];
+    
     public function __construct(ilObjectGUI $gui_object, ilObject $object, array $a_options)
     {
         global $DIC;
@@ -51,8 +66,10 @@ abstract class ilMembershipRegistrationSettingsGUI
         //$reg_type->setValue($this->object->getRegistrationType());
 
         if (in_array(ilMembershipRegistrationSettings::TYPE_DIRECT, $this->getOptions())) {
-            $opt_dir = new ilRadioOption($this->txt('reg_direct'),
-                (string) ilMembershipRegistrationSettings::TYPE_DIRECT);
+            $opt_dir = new ilRadioOption(
+                $this->txt('reg_direct'),
+                (string) ilMembershipRegistrationSettings::TYPE_DIRECT
+            );
             $opt_dir->setInfo($this->txt('reg_direct_info'));
             $reg_type->addOption($opt_dir);
 
@@ -62,12 +79,14 @@ abstract class ilMembershipRegistrationSettingsGUI
                 'show_cannot_participate_direct'
             );
             $cannot_participate->setInfo($this->txt('reg_cannot_participate_info'));
-            $cannot_participate->setValue((string) 1);
+            $cannot_participate->setValue("1");
             $opt_dir->addSubItem($cannot_participate);
         }
         if (in_array(ilMembershipRegistrationSettings::TYPE_PASSWORD, $this->getOptions())) {
-            $opt_pass = new ilRadioOption($this->txt('reg_pass'),
-                (string) ilMembershipRegistrationSettings::TYPE_PASSWORD);
+            $opt_pass = new ilRadioOption(
+                $this->txt('reg_pass'),
+                (string) ilMembershipRegistrationSettings::TYPE_PASSWORD
+            );
             $pass = new ilTextInputGUI($GLOBALS['DIC']['lng']->txt("password"), 'password');
             $pass->setInfo($this->txt('reg_password_info'));
             #$pass->setValue($this->object->getPassword());
@@ -78,8 +97,11 @@ abstract class ilMembershipRegistrationSettingsGUI
         }
 
         if (in_array(ilMembershipRegistrationSettings::TYPE_REQUEST, $this->getOptions())) {
-            $opt_req = new ilRadioOption($this->txt('reg_request'),
-                (string) ilMembershipRegistrationSettings::TYPE_REQUEST, $this->txt('reg_request_info'));
+            $opt_req = new ilRadioOption(
+                $this->txt('reg_request'),
+                (string) ilMembershipRegistrationSettings::TYPE_REQUEST,
+                $this->txt('reg_request_info')
+            );
             $reg_type->addOption($opt_req);
 
             // cannot participate
@@ -88,9 +110,8 @@ abstract class ilMembershipRegistrationSettingsGUI
                 'show_cannot_participate_request'
             );
             $cannot_participate->setInfo($this->txt('reg_cannot_participate_info'));
-            $cannot_participate->setValue((string) 1);
+            $cannot_participate->setValue("1");
             $opt_req->addSubItem($cannot_participate);
-
         }
         if (in_array(ilMembershipRegistrationSettings::TYPE_TUTOR, $this->getOptions())) {
             $opt_tutor = new ilRadioOption(
@@ -101,8 +122,11 @@ abstract class ilMembershipRegistrationSettingsGUI
             $reg_type->addOption($opt_tutor);
         }
         if (in_array(ilMembershipRegistrationSettings::TYPE_NONE, $this->getOptions())) {
-            $opt_deact = new ilRadioOption($this->txt('reg_disabled'),
-                (string) ilMembershipRegistrationSettings::TYPE_NONE, $this->txt('reg_disabled_info'));
+            $opt_deact = new ilRadioOption(
+                $this->txt('reg_disabled'),
+                (string) ilMembershipRegistrationSettings::TYPE_NONE,
+                $this->txt('reg_disabled_info')
+            );
             $reg_type->addOption($opt_deact);
         }
 
@@ -112,17 +136,7 @@ abstract class ilMembershipRegistrationSettingsGUI
         if (in_array(ilMembershipRegistrationSettings::REGISTRATION_LIMITED_USERS, $this->getOptions())) {
             // max member
             $lim = new ilCheckboxInputGUI($this->txt('reg_max_members_short'), 'registration_membership_limited');
-            $lim->setValue((string) 1);
-            #$lim->setOptionTitle($this->lng->txt('reg_grp_max_members'));
-            #$lim->setChecked($this->object->isMembershipLimited());
-
-            /* JF, 2015-08-31 - only used in sessions which cannot support min members (yet)
-            $min = new ilTextInputGUI($this->txt('reg_min_members'),'registration_min_members');
-            $min->setSize(3);
-            $min->setMaxLength(4);
-            $min->setInfo($this->txt('reg_min_members_info'));
-            $lim->addSubItem($min);
-            */
+            $lim->setValue("1");
 
             $max = new ilTextInputGUI($this->txt('reg_max_members'), 'registration_max_members');
             #$max->setValue($this->object->getMaxMembers() ? $this->object->getMaxMembers() : '');
@@ -132,25 +146,16 @@ abstract class ilMembershipRegistrationSettingsGUI
             $max->setInfo($this->txt('reg_max_members_info'));
             $lim->addSubItem($max);
 
-            /*
-            $wait = new ilCheckboxInputGUI($this->txt('reg_waiting_list'),'waiting_list');
-            $wait->setValue(1);
-            //$wait->setOptionTitle($this->lng->txt('grp_waiting_list'));
-            $wait->setInfo($this->txt('reg_waiting_list_info'));
-            #$wait->setChecked($this->object->isWaitingListEnabled() ? true : false);
-            $lim->addSubItem($wait);
-            */
-
             $wait = new ilRadioGroupInputGUI($this->txt('reg_waiting_list'), 'waiting_list');
 
-            $option = new ilRadioOption($this->txt('reg_waiting_list_none'), (string) 0);
+            $option = new ilRadioOption($this->txt('reg_waiting_list_none'), "0");
             $wait->addOption($option);
 
-            $option = new ilRadioOption($this->txt('reg_waiting_list_no_autofill'), (string) 1);
+            $option = new ilRadioOption($this->txt('reg_waiting_list_no_autofill'), "1");
             $option->setInfo($this->txt('reg_waiting_list_no_autofill_info'));
             $wait->addOption($option);
 
-            $option = new ilRadioOption($this->txt('reg_waiting_list_autofill'), (string) 2);
+            $option = new ilRadioOption($this->txt('reg_waiting_list_autofill'), "2");
             $option->setInfo($this->txt('reg_waiting_list_autofill_info'));
             $wait->addOption($option);
 
@@ -159,20 +164,26 @@ abstract class ilMembershipRegistrationSettingsGUI
             $form->addItem($lim);
         }
 
-        $notificationCheckbox = new ilCheckboxInputGUI($this->txt('registration_notification'),
-            'registration_notification');
+        $notificationCheckbox = new ilCheckboxInputGUI(
+            $this->txt('registration_notification'),
+            'registration_notification'
+        );
         $notificationCheckbox->setInfo($this->txt('registration_notification_info'));
 
         $notificationOption = new ilRadioGroupInputGUI($this->txt('notification_option'), 'notification_option');
         $notificationOption->setRequired(true);
 
-        $inheritOption = new ilRadioOption($this->txt(ilSessionConstants::NOTIFICATION_INHERIT_OPTION),
-            ilSessionConstants::NOTIFICATION_INHERIT_OPTION);
+        $inheritOption = new ilRadioOption(
+            $this->txt(ilSessionConstants::NOTIFICATION_INHERIT_OPTION),
+            ilSessionConstants::NOTIFICATION_INHERIT_OPTION
+        );
         $inheritOption->setInfo($this->txt('notification_option_inherit_info'));
         $notificationOption->addOption($inheritOption);
 
-        $manualOption = new ilRadioOption($this->txt(ilSessionConstants::NOTIFICATION_MANUAL_OPTION),
-            ilSessionConstants::NOTIFICATION_MANUAL_OPTION);
+        $manualOption = new ilRadioOption(
+            $this->txt(ilSessionConstants::NOTIFICATION_MANUAL_OPTION),
+            ilSessionConstants::NOTIFICATION_MANUAL_OPTION
+        );
         $manualOption->setInfo($this->txt('notification_option_manual_info'));
         $notificationOption->addOption($manualOption);
 

@@ -1,107 +1,51 @@
 // File Input Style
-// @author Fabian Schmid <fs@studer-raimann.ch>
+// @author Thibeau Fuhrer <thibeau@sr.solutions>
 
-.file-input-standard-padding() {
-	padding: @padding-large-vertical @padding-large-horizontal;
+.ui-input-file-input-dropzone {
+	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
+	padding: @il-padding-base-vertical @il-padding-base-horizontal;
 }
 
-.il-input-file {
-	.il-input-file-dropzone {
-		background: @il-dropzone-bg;
-		border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
-		-moz-border-radius: @il-dropzone-border-radius;
-		-webkit-border-radius: @il-dropzone-border-radius;
-		border-radius: @il-dropzone-border-radius;
-		margin-bottom: @padding-large-vertical;
-		.file-input-standard-padding();
+.ui-input-file-input-dropzone button {
+	font-size: @il-font-size-base;
+	margin-left: @il-margin-base;
+}
 
-		&.dz-max-files-reached {
-			background-color: @il-dropzone-bg-inactive;
-			border-color: @il-dropzone-bg-inactive;
+.ui-input-file-input-error-msg {
+	font-size: @il-font-size-base;
+	color: @il-danger-color;
+}
 
-			button.btn {
-				background-color: @il-dropzone-bg-inactive;
-				border-color: @il-dropzone-bg-inactive;
-				color: darken(@il-dropzone-bg-inactive, 50);
-			}
-		}
+.ui-input-file-input-dropzone button:disabled,
+.ui-input-file-input-dropzone button:disabled:hover {
+	color: @il-disabled-btn-bg;
+	border: none;
+	background: none;
+}
 
-		&.dz-drag-hover {
-			border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color-hover;
-			-moz-border-radius: @il-dropzone-border-radius;
-			-webkit-border-radius: @il-dropzone-border-radius;
-			border-radius: @il-dropzone-border-radius;
-			background-color: @il-dropzone-hover-bg;
-		}
-	}
-	
+.ui-input-file-input {
+	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
+	margin-bottom: @il-margin-large-vertical;
+	padding: @il-padding-base;
+}
 
-	.il-input-file-fileinfo, .il-input-file-error {
-		.file-input-standard-padding();
-	}
+.ui-input-file-input .glyph[aria-label="Close"],
+.ui-input-file-input .glyph[aria-label="Close Disabled"] {
+	margin-right: @il-margin-base;
+	float: right;
+}
 
-	.il-input-file-fileinfo {
-		display: -ms-flexbox;
-		display: -webkit-flex;
-		display: flex;
-		-webkit-flex-direction: row;
-		-ms-flex-direction: row;
-		flex-direction: row;
-		-webkit-flex-wrap: nowrap;
-		-ms-flex-wrap: nowrap;
-		flex-wrap: nowrap;
-		-webkit-justify-content: flex-start;
-		-ms-flex-pack: start;
-		justify-content: flex-start;
-		-webkit-align-content: flex-start;
-		-ms-flex-line-pack: start;
-		align-content: flex-start;
-		-webkit-align-items: flex-start;
-		-ms-flex-align: start;
-		align-items: flex-start;
+.ui-input-file-input .glyph[aria-label="Expand Content"],
+.ui-input-file-input .glyph[aria-label="Collapse Content"] {
+	margin: @il-margin-base 0;
+}
 
-		.il-input-file-fileinfo-title {
-			-webkit-order: 1;
-			-ms-flex-order: 1;
-			order: 1;
-			-webkit-flex: 3 0 auto;
-			-ms-flex: 3 0 auto;
-			flex: 3 0 auto;
-			-webkit-align-self: flex-start;
-			-ms-flex-item-align: start;
-			align-self: flex-start;
+.ui-input-file-info span[data-dz-name],
+.ui-input-file-info span[data-dz-size] {
+	font-size: @il-font-size-base;
+	margin-left: @il-margin-base;
+}
 
-			span {
-
-				white-space: nowrap;
-				overflow: hidden;
-				text-overflow: ellipsis;
-
-			}
-		}
-
-		.il-input-file-fileinfo-size {
-			-webkit-order: 2;
-			-ms-flex-order: 2;
-			order: 2;
-			-webkit-flex: 0 0 50px;
-			-ms-flex: 0 0 50px;
-			flex: 0 0 50px;
-			-webkit-align-self: flex-start;
-			-ms-flex-item-align: start;
-			align-self: flex-start;
-		}
-
-		.il-input-file-fileinfo-close {
-			-webkit-order: 3;
-			-ms-flex-order: 3;
-			order: 3;
-			-webkit-flex: 0 1 20px;
-			-ms-flex: 0 1 20px;
-			flex: 0 1 20px;
-			-webkit-align-self: auto;
-			-ms-flex-item-align: auto;
-			align-self: auto;
-		}
-	}
+.ui-input-file-info span[data-dz-size] {
+	font-style: italic;
 }

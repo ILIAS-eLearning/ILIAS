@@ -9,6 +9,22 @@ use ILIAS\UI\Implementation\Component\BreadCrumbs\Breadcrumbs;
 require_once('IliasMocks.php');
 require_once(__DIR__ . "/../../../tests/UI/Base.php");
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 class LSLocatorBuilderTest extends ILIAS_UI_TestBase
 {
     use IliasMocks;
@@ -27,12 +43,12 @@ class LSLocatorBuilderTest extends ILIAS_UI_TestBase
         $this->lb = new LSLocatorBuilder('cmd', $cb);
     }
 
-    public function testConstruction()
+    public function testConstruction() : void
     {
         $this->assertInstanceOf(LSLocatorBuilder::class, $this->lb);
     }
 
-    public function testItemCreation()
+    public function testItemCreation() : void
     {
         $this->lb
             ->item('item 1', 1)
@@ -42,7 +58,7 @@ class LSLocatorBuilderTest extends ILIAS_UI_TestBase
         $this->assertCount(3, $this->lb->getItems());
     }
 
-    public function testItemStruct()
+    public function testItemStruct() : void
     {
         $this->lb
             ->item('item 1', 1)
@@ -62,13 +78,13 @@ class LSLocatorBuilderTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $this->lb->getItems());
     }
 
-    public function testEnd()
+    public function testEnd() : void
     {
         $cb = $this->lb->end();
         $this->assertInstanceOf(ControlBuilder::class, $cb);
     }
 
-    public function testGUI()
+    public function testGUI() : void
     {
         $data_factory = new DataFactory();
         $uri = $data_factory->uri('https://ilias.de/somepath');

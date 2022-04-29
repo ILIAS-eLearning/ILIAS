@@ -30,12 +30,12 @@ class SubtitlesGUIRequest
             $refinery
         );
     }
-
+    
     public function getSrtFiles() : array
     {
         return $this->strArray("srt");
     }
-
+    
     public function getFiles() : array
     {
         return $this->strArray("file");

@@ -1,5 +1,21 @@
-<?php declare(strict_types=1);/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Membership notification settings
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -7,20 +23,19 @@
  */
 class ilMembershipNotifications
 {
-    protected int $ref_id;
-    protected int $mode;
-    protected array $custom;
-    protected ?ilParticipants $participants = null;
-
     protected const VALUE_OFF = 0;
     protected const VALUE_ON = 1;
     protected const VALUE_BLOCKED = 2;
-
     protected const MODE_SELF = 1;
     protected const MODE_ALL = 2;
     protected const MODE_ALL_BLOCKED = 3;
     protected const MODE_CUSTOM = 4;
-
+    
+    protected int $ref_id;
+    protected int $mode;
+    /** @var array<int, int>  */
+    protected array $custom;
+    protected ?ilParticipants $participants = null;
     protected ilSetting $setting;
     protected ilDBInterface $db;
     protected ilTree $tree;
@@ -31,7 +46,6 @@ class ilMembershipNotifications
         global $DIC;
 
         $this->db = $DIC->database();
-
         $this->ref_id = $a_ref_id;
         $this->custom = [];
         $this->setting = $DIC->settings();
@@ -39,7 +53,7 @@ class ilMembershipNotifications
         $this->user = $DIC->user();
 
         $this->setMode(self::MODE_SELF);
-        if ($this->ref_id) {
+        if ($this->ref_id !== 0) {
             $this->read();
         }
     }
@@ -81,14 +95,14 @@ class ilMembershipNotifications
             " WHERE ref_id = " . $this->db->quote($this->ref_id, "integer"));
         if ($this->db->numRows($set)) {
             $row = $this->db->fetchAssoc($set);
-            $this->setMode($row["mode"]);
+            $this->setMode((int) $row["mode"]);
 
-            if ($row["mode"] == self::MODE_CUSTOM) {
+            if ((int) $row["mode"] === self::MODE_CUSTOM) {
                 $set = $this->db->query("SELECT *" .
                     " FROM member_noti_user" .
                     " WHERE ref_id = " . $this->db->quote($this->ref_id, "integer"));
                 while ($row = $this->db->fetchAssoc($set)) {
-                    $this->custom[$row["user_id"]] = $row["status"];
+                    $this->custom[(int) $row["user_id"]] = (int) $row["status"];
                 }
             }
         }
@@ -126,20 +140,20 @@ class ilMembershipNotifications
 
         if (
             $this->mode &&
-            $this->mode != $a_new_mode &&
+            $this->mode !== $a_new_mode &&
             $this->isValidMode($a_new_mode)
         ) {
             $this->db->manipulate("DELETE FROM member_noti" .
                 " WHERE ref_id = " . $this->db->quote($this->ref_id, "integer"));
 
             // no custom data
-            if ($a_new_mode != self::MODE_CUSTOM) {
+            if ($a_new_mode !== self::MODE_CUSTOM) {
                 $this->db->manipulate("DELETE FROM member_noti_user" .
                     " WHERE ref_id = " . $this->db->quote($this->ref_id, "integer"));
             }
 
             // mode self is default
-            if ($a_new_mode != self::MODE_SELF) {
+            if ($a_new_mode !== self::MODE_SELF) {
                 $this->db->insert("member_noti", array(
                     "ref_id" => array("integer", $this->ref_id),
                     "nmode" => array("integer", $a_new_mode)
@@ -147,7 +161,7 @@ class ilMembershipNotifications
             }
 
             // remove all user settings (all active is preset, optional opt out)
-            if ($a_new_mode == self::MODE_ALL) {
+            if ($a_new_mode === self::MODE_ALL) {
                 $this->db->manipulate("DELETE FROM usr_pref" .
                     " WHERE " . $this->db->like("keyword", "text", "grpcrs_ntf_" . $this->ref_id));
             }
@@ -155,7 +169,7 @@ class ilMembershipNotifications
         $this->setMode($a_new_mode);
     }
 
-    protected function getParticipants() : ilParticipants
+    protected function getParticipants() : \ilParticipants
     {
         if ($this->participants === null) {
             $grp_ref_id = $this->tree->checkForParentType($this->ref_id, "grp");
@@ -218,8 +232,8 @@ class ilMembershipNotifications
             // custom settings
             case self::MODE_CUSTOM:
                 foreach ($this->custom as $user_id => $status) {
-                    if ($status != self::VALUE_OFF) {
-                        $users[] = (int) $user_id;
+                    if ($status !== self::VALUE_OFF) {
+                        $users[] = $user_id;
                     }
                 }
                 break;
@@ -237,11 +251,11 @@ class ilMembershipNotifications
         return $this->toggleUser(false, $a_user_id);
     }
 
-    protected function getUser($a_user_id = null) : ?ilObjUser
+    protected function getUser(int $a_user_id = null) : ?ilObjUser
     {
         if (
             $a_user_id === null ||
-            $a_user_id == $this->user->getId()
+            $a_user_id === $this->user->getId()
         ) {
             $user = $this->user;
         } else {
@@ -250,7 +264,7 @@ class ilMembershipNotifications
 
         if (
             $user->getId() &&
-            $user->getId() != ANONYMOUS_USER_ID
+            $user->getId() !== ANONYMOUS_USER_ID
         ) {
             return $user;
         }
@@ -268,9 +282,15 @@ class ilMembershipNotifications
             case self::MODE_SELF:
                 // current user!
                 $user = $this->getUser();
-                if ($user) {
+                if ($user instanceof ilObjUser) {
                     // blocked value not supported in user pref!
-                    $user->setPref("grpcrs_ntf_" . $this->ref_id, (int) $a_status);
+                    if ($a_status === true) {
+                        $string_value = '1';
+                    } else {
+                        $string_value = '0';
+                    }
+
+                    $user->setPref("grpcrs_ntf_" . $this->ref_id, $string_value);
                     $user->writePrefs();
                     return true;
                 }
@@ -278,13 +298,12 @@ class ilMembershipNotifications
 
             case self::MODE_CUSTOM:
                 $user = $this->getUser($a_user_id);
-                if ($user) {
+                if ($user instanceof ilObjUser) {
                     $user_id = $user->getId();
 
                     // did status change at all?
-                    if (!array_key_exists($user_id, $this->custom) ||
-                        $this->custom[$user_id != $a_status]) {
-                        $this->custom[$user_id] = $a_status;
+                    if (!array_key_exists($user_id, $this->custom) || $this->custom[$user_id] !== (int) $a_status) {
+                        $this->custom[$user_id] = (int) $a_status;
 
                         $this->db->replace(
                             "member_noti_user",
@@ -293,7 +312,7 @@ class ilMembershipNotifications
                                 "user_id" => array("integer", $user_id),
                             ),
                             array(
-                                "status" => array("integer", $a_status)
+                                "status" => array("integer", (int) $a_status)
                             )
                         );
                     }
@@ -316,7 +335,7 @@ class ilMembershipNotifications
     public function canCurrentUserEdit() : bool
     {
         $user_id = $this->user->getId();
-        if ($user_id == ANONYMOUS_USER_ID) {
+        if ($user_id === ANONYMOUS_USER_ID) {
             return false;
         }
 
@@ -329,8 +348,7 @@ class ilMembershipNotifications
                 return false;
 
             case self::MODE_CUSTOM:
-                return !(array_key_exists($user_id, $this->custom) &&
-                    $this->custom[$user_id] == self::VALUE_BLOCKED);
+                return !(array_key_exists($user_id, $this->custom) && $this->custom[$user_id] === self::VALUE_BLOCKED);
         }
         return false;
     }
@@ -346,9 +364,9 @@ class ilMembershipNotifications
         $tree = $DIC->repositoryTree();
         $log = $DIC->logger()->mmbr();
 
-        $res = array();
+        $res = [];
         if (self::isActive()) {
-            $objects = array();
+            $objects = [];
 
             // user-preference data (MODE_SELF)
             $log->debug("read usr_pref");
@@ -376,7 +394,7 @@ class ilMembershipNotifications
                     $log->debug("get active users");
                     $noti = new self($ref_id);
                     $active = $noti->getActiveUsers();
-                    if (sizeof($active)) {
+                    if (count($active)) {
                         $res[$ref_id] = $active;
                     }
                 }
@@ -387,9 +405,6 @@ class ilMembershipNotifications
 
     /**
      * Add notification settings to form
-     * @param int                    $a_ref_id
-     * @param ilPropertyFormGUI|null $a_form
-     * @param ilFormPropertyGUI|null $a_input
      */
     public static function addToSettingsForm(
         int $a_ref_id,
@@ -418,13 +433,17 @@ class ilMembershipNotifications
                 $force_noti->addOption($option);
             }
             if ($noti->isValidMode(self::MODE_ALL_BLOCKED)) {
-                $option = new ilRadioOption($lng->txt("mem_force_notification_mode_blocked"),
-                    (string) self::MODE_ALL_BLOCKED);
+                $option = new ilRadioOption(
+                    $lng->txt("mem_force_notification_mode_blocked"),
+                    (string) self::MODE_ALL_BLOCKED
+                );
                 $force_noti->addOption($option);
 
                 if ($noti->isValidMode(self::MODE_ALL)) {
-                    $changeable = new ilCheckboxInputGUI($lng->txt("mem_force_notification_mode_all_sub_blocked"),
-                        "force_noti_allblk");
+                    $changeable = new ilCheckboxInputGUI(
+                        $lng->txt("mem_force_notification_mode_all_sub_blocked"),
+                        "force_noti_allblk"
+                    );
                     $option->addSubItem($changeable);
                 }
             } elseif ($noti->isValidMode(self::MODE_ALL)) {
@@ -462,26 +481,41 @@ class ilMembershipNotifications
 
     public static function importFromForm(int $a_ref_id, ?ilPropertyFormGUI $a_form = null) : void
     {
-        if (self::isActive() &&
-            $a_ref_id) {
+        global $DIC;
+
+        $http = $DIC->http();
+        $refinery = $DIC->refinery();
+
+        if ($a_ref_id && self::isActive()) {
             $noti = new self($a_ref_id);
-            $has_changeable_cb = ($noti->isValidMode(self::MODE_ALL_BLOCKED) &&
-                $noti->isValidMode(self::MODE_ALL));
+            $has_changeable_cb = ($noti->isValidMode(self::MODE_ALL_BLOCKED) && $noti->isValidMode(self::MODE_ALL));
             $changeable = null;
             if (!$a_form) {
-                $mode = (int) $_POST["force_noti"];
+                $mode = 0;
+                if ($http->wrapper()->post()->has('force_noti')) {
+                    $mode = $http->wrapper()->post()->retrieve(
+                        'force_noti',
+                        $refinery->kindlyTo()->int()
+                    );
+                }
+
                 if ($has_changeable_cb) {
-                    $changeable = (int) $_POST["force_noti_allblk"];
+                    $changeable = 0;
+                    if ($http->wrapper()->post()->has('force_noti_allblk')) {
+                        $changeable = $http->wrapper()->post()->retrieve(
+                            'force_noti_allblk',
+                            $refinery->kindlyTo()->int()
+                        );
+                    }
                 }
             } else {
-                $mode = $a_form->getInput("force_noti");
+                $mode = (int) $a_form->getInput("force_noti");
                 if ($has_changeable_cb) {
                     $changeable = $a_form->getInput("force_noti_allblk");
                 }
             }
             // checkbox (all) is subitem of all_blocked
-            if ($changeable &&
-                $mode == self::MODE_ALL_BLOCKED) {
+            if ($changeable && $mode === self::MODE_ALL_BLOCKED) {
                 $mode = self::MODE_ALL;
             }
             $noti->switchMode($mode);

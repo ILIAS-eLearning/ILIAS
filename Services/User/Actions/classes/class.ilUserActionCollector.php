@@ -25,7 +25,7 @@ class ilUserActionCollector
     protected int $user_id;
     protected ilUserActionContext $action_context;
 
-    protected function __construct($a_user_id, ilUserActionContext $a_context)
+    protected function __construct(int $a_user_id, ilUserActionContext $a_context)
     {
         $this->user_id = $a_user_id;
         $this->action_context = $a_context;
@@ -51,6 +51,9 @@ class ilUserActionCollector
         // overall collection of users
         $this->collection = ilUserActionCollection::getInstance();
         foreach (ilUserActionProviderFactory::getAllProviders() as $prov) {
+            if (!$this->hasProviderActiveActions($prov)) {
+                continue;
+            }
             $prov->setUserId($this->user_id);
             $coll = $prov->collectActionsForTargetUser($a_target_user);
             foreach ($coll->getActions() as $action) {
@@ -66,5 +69,20 @@ class ilUserActionCollector
         }
 
         return $this->collection;
+    }
+
+    protected function hasProviderActiveActions(ilUserActionProvider $prov) : bool
+    {
+        foreach ($prov->getActionTypes() as $act_type => $act_txt) {
+            if (ilUserActionAdmin::lookupActive(
+                $this->action_context->getComponentId(),
+                $this->action_context->getContextId(),
+                $prov->getComponentId(),
+                $act_type
+            )) {
+                return true;
+            }
+        }
+        return false;
     }
 }

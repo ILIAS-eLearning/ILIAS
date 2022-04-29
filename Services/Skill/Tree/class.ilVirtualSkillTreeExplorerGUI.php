@@ -18,6 +18,7 @@
  */
 
 use ILIAS\Skill\Tree\SkillTreeManager;
+use ILIAS\Skill\Service\SkillInternalFactoryService;
 
 /**
  * Virtual skill tree explorer
@@ -29,6 +30,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     protected ilLanguage $lng;
     protected ilVirtualSkillTree $vtree;
     protected SkillTreeManager $skill_tree_manager;
+    protected SkillInternalFactoryService $tree_factory;
 
     protected bool $show_draft_nodes = false;
     protected bool $show_outdated_nodes = false;
@@ -42,11 +44,12 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
         parent::__construct($a_id, $a_parent_obj, $a_parent_cmd);
 
         $this->skill_tree_manager = $DIC->skills()->internal()->manager()->getTreeManager();
+        $this->tree_factory = $DIC->skills()->internal()->factory();
 
         if ($tree_id == 0) {
-            $this->vtree = new ilGlobalVirtualSkillTree();
+            $this->vtree = $this->tree_factory->tree()->getGlobalVirtualTree();
         } else {
-            $this->vtree = new ilVirtualSkillTree($tree_id);
+            $this->vtree = $this->tree_factory->tree()->getVirtualTreeById($tree_id);
         }
         
         $this->setSkipRootNode(false);
@@ -75,6 +78,9 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
         return $this->show_outdated_nodes;
     }
 
+    /**
+     * @return array{id: string, cskill_id: string}
+     */
     public function getRootNode() : array
     {
         return $this->vtree->getRootNode();
@@ -100,7 +106,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getNodeIdForDomNodeId($a_dom_node_id) : string
+    public function getNodeIdForDomNodeId(string $a_dom_node_id) : string
     {
         $id = parent::getNodeIdForDomNodeId($a_dom_node_id);
         return str_replace("_", ":", $id);
@@ -108,7 +114,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 
     /**
      * @param string $a_parent_node_id
-     * @return array
+     * @return array{cskill_id: string, id: string, skill_id: string, tref_id: string, parent: string}[]
      */
     public function getChildsOfNode($a_parent_node_id) : array
     {

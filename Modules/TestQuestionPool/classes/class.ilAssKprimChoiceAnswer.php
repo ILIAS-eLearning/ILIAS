@@ -100,22 +100,22 @@ class ilAssKprimChoiceAnswer
         return $this->correctness;
     }
 
-    public function getImageFsPath()
+    public function getImageFsPath() : string
     {
         return $this->getImageFsDir() . $this->getImageFile();
     }
 
-    public function getThumbFsPath()
+    public function getThumbFsPath() : string
     {
         return $this->getImageFsDir() . $this->getThumbPrefix() . $this->getImageFile();
     }
 
-    public function getImageWebPath()
+    public function getImageWebPath() : string
     {
         return $this->getImageWebDir() . $this->getImageFile();
     }
 
-    public function getThumbWebPath()
+    public function getThumbWebPath() : string
     {
         return $this->getImageWebDir() . $this->getThumbPrefix() . $this->getImageFile();
     }

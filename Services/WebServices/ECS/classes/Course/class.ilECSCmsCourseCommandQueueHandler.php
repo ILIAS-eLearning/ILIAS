@@ -52,13 +52,14 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
     {
         return $this->mid;
     }
-    
+
     /**
      * Check if course allocation is activated for one recipient of the
      * @param ilECSSetting $server
-     * @param $a_content_id
+     * @param              $a_content_id
+     * @return bool
      */
-    public function checkAllocationActivation(ilECSSetting $server, $a_content_id)
+    public function checkAllocationActivation(ilECSSetting $server, $a_content_id) : ?bool
     {
         try {
             $crs_reader = new ilECSCourseConnector($server);
@@ -90,10 +91,8 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 
     /**
      * Handle create
-     * @param ilECSSetting $server
-     * @param type $a_content_id
      */
-    public function handleCreate(ilECSSetting $server, $a_content_id)
+    public function handleCreate(ilECSSetting $server, $a_content_id) : bool
     {
         if (!$this->checkAllocationActivation($server, $a_content_id)) {
             return true;
@@ -112,10 +111,8 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 
     /**
      * Handle delete
-     * @param ilECSSetting $server
-     * @param type $a_content_id
      */
-    public function handleDelete(ilECSSetting $server, $a_content_id)
+    public function handleDelete(ilECSSetting $server, $a_content_id) : bool
     {
         // nothing todo
         return true;
@@ -123,10 +120,8 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
 
     /**
      * Handle update
-     * @param ilECSSetting $server
-     * @param type $a_content_id
      */
-    public function handleUpdate(ilECSSetting $server, $a_content_id)
+    public function handleUpdate(ilECSSetting $server, $a_content_id) : bool
     {
         if (!$this->checkAllocationActivation($server, $a_content_id)) {
             return true;
@@ -146,10 +141,8 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
     
     /**
      * Perform update
-     * @param type $a_content_id
-     * @param type $course
      */
-    protected function doUpdate($a_content_id, $course)
+    protected function doUpdate(int $a_content_id, $course) : void
     {
         $this->logger->info(__METHOD__ . ': Starting course creation/update');
         
@@ -159,15 +152,9 @@ class ilECSCmsCourseCommandQueueHandler implements ilECSCommandQueueHandler
     
     /**
      * Read course from ecs
-     * @return boolean
      */
-    private function readCourse(ilECSSetting $server, $a_content_id, $a_details = false)
+    private function readCourse(ilECSSetting $server, $a_content_id)
     {
-        try {
-            $crs_reader = new ilECSCourseConnector($server);
-            return $crs_reader->getCourse($a_content_id, $a_details);
-        } catch (ilECSConnectorException $e) {
-            throw $e;
-        }
+        return (new ilECSCourseConnector($server))->getCourse($a_content_id, false);
     }
 }

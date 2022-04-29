@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery\Factory;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -11,30 +25,15 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilMailTest extends ilMailBaseTest
 {
-
-    /**
-     * @var MockObject|ilDBInterface
-     */
+    /** @var MockObject&ilDBInterface */
     private ilDBInterface $mockDatabase;
-
-    /**
-     * @var MockObject|ilMailAddressType
-     */
+    /** @var MockObject&ilMailAddressTypeFactory */
     private $mockAddressTypeFactory;
-
-    /**
-     * @var MockObject|ilLogger
-     */
+    /** @var MockObject&ilLogger */
     private $mockLog;
-
-    /**
-     * @var MockObject|ilMailRfc822AddressParserFactory
-     */
+    /** @var MockObject&ilMailRfc822AddressParserFactory */
     private $mockParserFactory;
-
-    /**
-     * @var MockObject|ilLanguage
-     */
+    /** @var MockObject&ilLanguage */
     private $mockLanguage;
 
     /**
@@ -93,8 +92,8 @@ class ilMailTest extends ilMailBaseTest
             ->method('getByPrefix')
             ->willReturnCallback(function ($arg) use ($loginToIdMap) {
                 return new class($arg, $loginToIdMap) implements ilMailAddressType {
-                    protected $loginToIdMap = [];
-                    protected $address;
+                    protected array $loginToIdMap = [];
+                    protected ilMailAddress $address;
 
                     public function __construct(ilMailAddress $address, $loginToIdMap)
                     {
@@ -202,7 +201,7 @@ class ilMailTest extends ilMailBaseTest
         $refId = 364;
         $instance = $this->create($refId);
 
-        $this->assertEquals($refId, $instance->getMailObjectReferenceId());
+        $this->assertSame($refId, $instance->getMailObjectReferenceId());
     }
 
     public function testFormatNamesForOutput() : void
@@ -211,8 +210,8 @@ class ilMailTest extends ilMailBaseTest
 
         $this->mockLanguage->expects(self::once())->method('txt')->with('not_available')->willReturn('not_available');
 
-        $this->assertEquals('not_available', $instance->formatNamesForOutput(''));
-        $this->assertEquals('', $instance->formatNamesForOutput(','));
+        $this->assertSame('not_available', $instance->formatNamesForOutput(''));
+        $this->assertSame('', $instance->formatNamesForOutput(','));
     }
 
     /**
@@ -286,7 +285,7 @@ class ilMailTest extends ilMailBaseTest
         $this->mockDatabase->expects(self::once())->method('queryF')->willReturnCallback($this->queryCallback($mockStatement, ['integer', 'integer'], [$userId, $folderId]));
         $this->mockDatabase->expects(self::once())->method('numRows')->with($mockStatement)->willReturn($numRows);
 
-        $this->assertEquals($numRows, $instance->countMailsOfFolder($folderId));
+        $this->assertSame($numRows, $instance->countMailsOfFolder($folderId));
     }
 
     public function testGetMail() : void
@@ -357,7 +356,7 @@ class ilMailTest extends ilMailBaseTest
             'sender_id' => ['integer', $userId],
         ]);
 
-        $this->assertEquals($nextId, $instance->getNewDraftId($folderId));
+        $this->assertSame($nextId, $instance->getNewDraftId($folderId));
     }
 
     public function testUpdateDraft() : void
@@ -391,7 +390,7 @@ class ilMailTest extends ilMailBaseTest
             'mail_id' => ['integer', $draftId],
         ]);
 
-        $this->assertEquals($draftId, $instance->updateDraft($folderId, [], $to, $cc, $bcc, $subject, $message, $draftId, $usePlaceholders, $contextId, $params));
+        $this->assertSame($draftId, $instance->updateDraft($folderId, [], $to, $cc, $bcc, $subject, $message, $draftId, $usePlaceholders, $contextId, $params));
     }
 
     public function testSavePostData() : void
@@ -445,7 +444,7 @@ class ilMailTest extends ilMailBaseTest
         $this->mockDatabase->expects(self::once())->method('fetchAssoc')->with($mockStatement)->willReturn([]);
         $this->mockDatabase->expects(self::once())->method('queryF')->willReturnCallback($this->queryCallback($mockStatement, ['integer'], [$userId]));
 
-        $this->assertEquals(null, $instance->getSavedData());
+        $this->assertNull($instance->getSavedData());
     }
 
     public function testValidateRecipients($errors = []) : void
@@ -475,7 +474,7 @@ class ilMailTest extends ilMailBaseTest
         $mockAddressType->expects(self::exactly(empty($errors) ? 0 : 3))->method('getErrors')->willReturn($errors);
         $this->mockAddressTypeFactory->expects(self::exactly(3))->method('getByPrefix')->with($mockAddress)->willReturn($mockAddressType);
 
-        $this->assertEquals([], $instance->validateRecipients($to, $cc, $bcc));
+        $this->assertSame([], $instance->validateRecipients($to, $cc, $bcc));
     }
 
     public function provideValidateRecipients() : array
@@ -495,7 +494,7 @@ class ilMailTest extends ilMailBaseTest
         $mockFactory->expects(self::once())->method('system')->willReturn($mockSystem);
         $this->setGlobalVariable('mail.mime.sender.factory', $mockFactory);
 
-        $this->assertEquals($expected, ilMail::_getIliasMailerName());
+        $this->assertSame($expected, ilMail::_getIliasMailerName());
     }
 
     public function testSaveAttachments() : void

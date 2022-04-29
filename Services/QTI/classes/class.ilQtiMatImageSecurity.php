@@ -12,15 +12,8 @@ require_once 'Services/QTI/exceptions/class.ilQtiException.php';
  */
 class ilQtiMatImageSecurity
 {
-    /**
-     * @var ilQTIMatimage
-     */
-    protected $imageMaterial;
-    
-    /**
-     * @var string
-     */
-    protected $detectedMimeType;
+    protected ilQTIMatimage $imageMaterial;
+    protected string $detectedMimeType;
     
     public function __construct(ilQTIMatimage $imageMaterial)
     {
@@ -34,40 +27,28 @@ class ilQtiMatImageSecurity
             $this->determineMimeType($this->getImageMaterial()->getRawContent())
         );
     }
-    
-    /**
-     * @return ilQTIMatimage
-     */
-    public function getImageMaterial()
+
+    public function getImageMaterial() : ilQTIMatimage
     {
         return $this->imageMaterial;
     }
-    
-    /**
-     * @param ilQTIMatimage $imageMaterial
-     */
-    public function setImageMaterial($imageMaterial)
+
+    public function setImageMaterial(ilQTIMatimage $imageMaterial) : void
     {
         $this->imageMaterial = $imageMaterial;
     }
-    
-    /**
-     * @return string
-     */
-    protected function getDetectedMimeType()
+
+    protected function getDetectedMimeType() : string
     {
         return $this->detectedMimeType;
     }
-    
-    /**
-     * @param string $detectedMimeType
-     */
-    protected function setDetectedMimeType($detectedMimeType)
+
+    protected function setDetectedMimeType(string $detectedMimeType) : void
     {
         $this->detectedMimeType = $detectedMimeType;
     }
     
-    public function validate()
+    public function validate() : bool
     {
         if (!$this->validateLabel()) {
             return false;
@@ -80,7 +61,7 @@ class ilQtiMatImageSecurity
         return true;
     }
     
-    protected function validateContent()
+    protected function validateContent() : bool
     {
         if ($this->getImageMaterial()->getImagetype() && !assQuestion::isAllowedImageMimeType($this->getImageMaterial()->getImagetype())) {
             return false;
@@ -110,7 +91,7 @@ class ilQtiMatImageSecurity
         return true;
     }
     
-    protected function validateLabel()
+    protected function validateLabel() : bool
     {
         if ($this->getImageMaterial()->getUri()) {
             if (!$this->hasFileExtension($this->getImageMaterial()->getUri())) {
@@ -125,7 +106,7 @@ class ilQtiMatImageSecurity
         return assQuestion::isAllowedImageFileExtension($this->getDetectedMimeType(), $extension);
     }
     
-    public function sanitizeLabel()
+    public function sanitizeLabel() : void
     {
         $label = $this->getImageMaterial()->getLabel();
         
@@ -136,19 +117,14 @@ class ilQtiMatImageSecurity
         $this->getImageMaterial()->setLabel($label);
     }
     
-    protected function determineMimeType($content)
+    protected function determineMimeType(?string $content) : string
     {
         $finfo = new finfo(FILEINFO_MIME);
     
         return $finfo->buffer($content);
     }
 
-    /**
-     * Returns the determine file extension. If no extension
-     * @param string $label
-     * @return string|null
-     */
-    protected function determineFileExtension($label)
+    protected function determineFileExtension(string $label) : ?string
     {
         $pathInfo = pathinfo($label);
 
@@ -158,13 +134,8 @@ class ilQtiMatImageSecurity
 
         return null;
     }
-    
-    /**
-     * Returns whether or not the passed label contains a file extension
-     * @param string $label
-     * @return bool
-     */
-    protected function hasFileExtension($label)
+
+    protected function hasFileExtension(string $label) : bool
     {
         $pathInfo = pathinfo($label);
 

@@ -21,7 +21,9 @@ class ilLogicalAnswerComparisonExpressionInputGUI extends ilAnswerWizardInputGUI
             $formValues[] = new ASS_AnswerSimple(
                 $modelValue->getExpression(),
                 $modelValue->getPoints(),
-                $modelValue->getOrderIndex() - 1
+                $modelValue->getOrderIndex() - 1,
+                -1,
+                0
             );
         }
 
@@ -32,7 +34,7 @@ class ilLogicalAnswerComparisonExpressionInputGUI extends ilAnswerWizardInputGUI
         parent::setValues($formValues);
     }
 
-    public function getValues()
+    public function getValues() : array
     {
         $formValues = parent::getValues();
 
@@ -70,7 +72,7 @@ class ilLogicalAnswerComparisonExpressionInputGUI extends ilAnswerWizardInputGUI
     /**
      * @return string
      */
-    protected function getTemplate()
+    protected function getTemplate() : string
     {
         return "tpl.prop_lac_expression_input.html";
     }

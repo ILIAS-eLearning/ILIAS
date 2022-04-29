@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesAuthenticationSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : self
     {
         $suite = new ilServicesAuthenticationSuite();
         require_once __DIR__ . '/ilSessionTest.php';

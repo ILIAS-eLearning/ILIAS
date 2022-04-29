@@ -1,8 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-use \Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Tag classification provider
@@ -46,7 +60,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     protected function init() : void
     {
         $tags_set = new ilSetting("tags");
-        $this->enable_all_users = (bool) $tags_set->get("enable_all_users", false);
+        $this->enable_all_users = (bool) $tags_set->get("enable_all_users", '0');
     }
 
     /**
@@ -60,23 +74,23 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
         global $DIC;
 
         $ilUser = $DIC->user();
-        
+
         // we currently only check for the parent object setting
         // might change later on (parent containers)
-        $valid = ilContainer::_lookupContainerSetting(
+        $valid = (bool) ilContainer::_lookupContainerSetting(
             $a_parent_obj_id,
             ilObjectServiceSettingsGUI::TAG_CLOUD,
-            false
+            '0'
         );
-        
+
         if ($valid) {
             $tags_set = new ilSetting("tags");
-            if (!$tags_set->get("enable_all_users", false) &&
-                $ilUser->getId() == ANONYMOUS_USER_ID) {
+            if (!$tags_set->get("enable_all_users", '0') &&
+                $ilUser->getId() === ANONYMOUS_USER_ID) {
                 $valid = false;
             }
         }
-        
+
         return $valid;
     }
 
@@ -89,9 +103,9 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     ) : void {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
-        
+
         $lng->loadLanguageModule("tagging");
-        
+
         $all_tags = $this->getSubTreeTags();
         if ($all_tags) {
             $map = array(
@@ -151,7 +165,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
             $found = null;
             foreach ($this->getSubTreeTags() as $tags) {
                 foreach (array_keys($tags) as $tag) {
-                    if (md5($tag) == $tag_code) {
+                    if (md5((string) $tag) === $tag_code) {
                         $found = $tag;
                         break(2);
                     }
@@ -170,7 +184,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                     $a_saved[$type][] = $found;
                 }
             }
-            return $a_saved;
+            return $a_saved ?? [];
         }
         return [];
     }
@@ -189,29 +203,29 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
     public function getFilteredObjects() : array
     {
         $ilUser = $this->user;
-        
+
         if (!$this->selection) {
             return[];
         }
-        
+
         $types = array("personal");
         if ($this->enable_all_users) {
             $types[] = "other";
         }
-                
+
         $found = array();
         foreach ($types as $type) {
             if (is_array($this->selection[$type])) {
                 $invert = ($type == "personal")
                     ? false
                     : true;
-                
+
                 foreach ($this->selection[$type] as $tag) {
                     $found[$tag] = array_keys(ilTagging::_findObjectsByTag($tag, $ilUser->getId(), $invert));
                 }
             }
         }
-                        
+
         /* OR
         $res = array();
         foreach($found as $tag => $ids)
@@ -219,7 +233,7 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
             $res = array_merge($res, $ids);
         }
         */
-        
+
         // AND
         $res = null;
         foreach ($found as $tag => $ids) {
@@ -229,15 +243,17 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                 $res = array_intersect($res, $ids);
             }
         }
-                
-        if (sizeof($res)) {
+
+        if (!is_null($res) && count($res) > 0) {
             return array_unique($res);
         }
         return [];
     }
-                
+
     protected function getSubTreeTags() : array
     {
+        return [];
+        /*
         $tree = $this->tree;
         $ilUser = $this->user;
         $sub_ids = array();
@@ -260,17 +276,17 @@ class ilTaggingClassificationProvider extends ilClassificationProvider
                 }
             }
         }
-        
+
         if ($sub_ids) {
             $only_user = $this->enable_all_users
                 ? null
                 : $ilUser->getId();
-            
+
             return ilTagging::_getTagCloudForObjects($sub_ids, $only_user, $ilUser->getId());
         }
-        return [];
+        return [];*/
     }
-    
+
     public function initListGUI(ilObjectListGUI $a_list_gui) : void
     {
         $a_list_gui->enableTags(true);

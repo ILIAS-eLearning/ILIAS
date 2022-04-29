@@ -17,15 +17,12 @@ input.btn{
 .btn-default {
   .button-variant(@il-btn-standard-color; @il-btn-standard-bg; @il-btn-standard-border);
   &:focus-visible {
-    outline-offset: @il-focus-outline-offset;
+    position: relative;
   }
 }
 
 .btn-primary {
   .button-variant(@il-btn-primary-color; @il-btn-primary-bg; @il-btn-primary-border);
-  &:focus-visible {
-    outline-offset: @il-focus-outline-offset;
-  }
 }
 
 .btn, .btn.btn-tag{
@@ -79,7 +76,7 @@ a[disabled], a fieldset[disabled] & {
 .btn-tag {
     display: inline-block;
     white-space: nowrap;
-    padding: @padding-xs-vertical @padding-xs-horizontal;
+    padding: @il-padding-xs-vertical @il-padding-xs-horizontal;
     margin: @il-btn-tag-margin;
     border-radius: @il-btn-tag-border-radius;
 

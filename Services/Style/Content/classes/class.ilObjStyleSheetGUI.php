@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -113,7 +113,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         
         // #9440/#9489: prepareOutput will fail if not set properly
         if (!$this->object || $cmd == "create") {
-            $this->setCreationMode(true);
+            $this->setCreationMode();
         }
 
         switch ($next_class) {
@@ -171,7 +171,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
     public function createObject() : void
     {
         $tpl = $this->gui_service->ui()->mainTemplate();
-        $ctrl = $this->gui_service->ctrl();
 
         $ilHelp = $this->help;
         
@@ -422,7 +421,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
         // copy from default style or ... see #11330
         $default_style = $this->settings->get("default_content_style_id");
-        if (ilObject::_lookupType($default_style) == "sty") {
+        if (ilObject::_lookupType((int) $default_style) == "sty") {
             $style_obj = ilObjectFactory::getInstanceByObjId($default_style);
             $new_id = $style_obj->ilClone();
             $newObj = new ilObjStyleSheet($new_id);
@@ -434,7 +433,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 ilObjStyleSheet::getBasicZipPath(),
                 "style.zip",
                 "sty",
-                $a_comp = "Services/Style",
+                "Services/Style",
                 true
             );
 
@@ -456,7 +455,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $cont_style_settings->addStyle($newObj->getId());
                 $cont_style_settings->update();
 
-                ilObjStyleSheet::_writeStandard($newObj->getId(), "1");
+                ilObjStyleSheet::_writeStandard($newObj->getId(), true);
                 $ctrl->returnToParent($this);
             }
         }
@@ -468,7 +467,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
         $form = $this->getCloneForm();
         $form->checkInput();
-        $new_id = null;
+        $new_id = 0;
 
         if ($form->getInput("source_style") > 0) {
             $style_obj = ilObjectFactory::getInstanceByObjId($form->getInput("source_style"));
@@ -483,7 +482,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $cont_style_settings = new ilContentStyleSettings();
                 $cont_style_settings->addStyle($new_id);
                 $cont_style_settings->update();
-                ilObjStyleSheet::_writeStandard($new_id, "1");
+                ilObjStyleSheet::_writeStandard($new_id, true);
                 $ctrl->returnToParent($this);
             }
         }
@@ -535,7 +534,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $cont_style_settings = new ilContentStyleSettings();
                 $cont_style_settings->addStyle($newObj->getId());
                 $cont_style_settings->update();
-                ilObjStyleSheet::_writeStandard($newObj->getId(), "1");
+                ilObjStyleSheet::_writeStandard($newObj->getId(), true);
                 $this->ctrl->returnToParent($this);
             }
         }
@@ -629,7 +628,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
 
     public function setTemplatesSubTabs() : void
     {
-        $lng = $this->lng;
         $ilTabs = $this->gui_service->tabs();
         $ilCtrl = $this->ctrl;
         
@@ -1653,7 +1651,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
             $l_input = new ilNumberInputGUI($lng->txt("sty_lightness_" . $ls), "lightness_" . $ls);
             $l_input->setMaxValue(100);
             $l_input->setMinValue(-100);
-            $l_input->setValue($v);
+            $l_input->setValue((string) $v);
             $l_input->setSize(4);
             $l_input->setMaxLength(4);
             $this->form_gui->addItem($l_input);

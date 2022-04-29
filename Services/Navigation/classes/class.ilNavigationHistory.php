@@ -54,18 +54,18 @@ class ilNavigationHistory
         string $a_title = "",
         ?int $a_sub_obj_id = null,
         string $a_goto_link = ""
-    ) {
+    ) : void {
         $ilUser = $this->user;
         $ilDB = $this->db;
 
         // never store?
-        if ($ilUser->prefs["store_last_visited"] == 2) {
+        if ((int) ($ilUser->prefs["store_last_visited"] ?? 0) == 2) {
             return;
         }
         
         $a_sub_obj_id = (string) $a_sub_obj_id;
         
-        if ($a_title == "" && $a_ref_id > 0) {
+        if ($a_title === "" && $a_ref_id > 0) {
             $obj_id = ilObject::_lookupObjId($a_ref_id);
             if (ilObject::_exists($obj_id)) {
                 $a_title = ilObject::_lookupTitle($obj_id);
@@ -91,7 +91,7 @@ class ilNavigationHistory
         $this->repo->setHistory($this->items);
 
         // only store in session?
-        if ($ilUser->prefs["store_last_visited"] == 1) {
+        if ((int) ($ilUser->prefs["store_last_visited"] ?? 0) == 1) {
             return;
         }
 
@@ -131,37 +131,33 @@ class ilNavigationHistory
             }
         }
         // less than 10? -> get items from db
-        if (count($items) < 10 && $ilUser->getId() != ANONYMOUS_USER_ID) {
+        if (count($items) < 10 && $ilUser->getId() !== ANONYMOUS_USER_ID) {
             $set = $ilDB->query(
                 "SELECT last_visited FROM usr_data " .
                 " WHERE usr_id = " . $ilDB->quote($ilUser->getId(), "integer")
             );
             $rec = $ilDB->fetchAssoc($set);
-            $db_entries = unserialize($rec["last_visited"]);
+            $db_entries = unserialize($rec["last_visited"], ["allowed_classes" => false]);
             $cnt = count($items);
             if (is_array($db_entries)) {
                 foreach ($db_entries as $rec) {
-                    if ($cnt <= 10 && !isset($items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]])) {
-                        if (
-                            $tree->isInTree($rec["ref_id"]) &&
-                            (
-                                !$objDefinition->isPluginTypeName($rec["type"]) ||
-                                $component_repository->getPluginById($it["type"])->isActive()
-                            )
-                        ) {
-                            $link = ($rec["goto_link"] != "")
+                    if ($cnt <= 10 && !isset($items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]]) && $tree->isInTree((int) $rec["ref_id"]) &&
+                        (
+                            !$objDefinition->isPluginTypeName($rec["type"]) ||
+                            $component_repository->getPluginById($rec["type"])->isActive()
+                        )) {
+                        $link = ($rec["goto_link"] != "")
                                 ? $rec["goto_link"]
-                                : ilLink::_getLink($rec["ref_id"]);
-                            if ($rec["sub_obj_id"] != "") {
-                                $title = $rec["title"];
-                            } else {
-                                $title = ilObject::_lookupTitle(ilObject::_lookupObjId($rec["ref_id"]));
-                            }
-                            $items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]] = array("id" => $rec["ref_id"] . ":" . $rec["sub_obj_id"],
+                                : ilLink::_getLink((int) $rec["ref_id"]);
+                        if ($rec["sub_obj_id"] != "") {
+                            $title = $rec["title"];
+                        } else {
+                            $title = ilObject::_lookupTitle(ilObject::_lookupObjId((int) $rec["ref_id"]));
+                        }
+                        $items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]] = array("id" => $rec["ref_id"] . ":" . $rec["sub_obj_id"],
                                 "ref_id" => $rec["ref_id"], "link" => $link, "title" => $title,
                                 "type" => $rec["type"], "sub_obj_id" => $rec["sub_obj_id"], "goto_link" => $rec["goto_link"]);
-                            $cnt++;
-                        }
+                        $cnt++;
                     }
                 }
             }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -69,7 +69,7 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
     public function setValueByArray(array $a_values) : void
     {
         $checked = $a_values[$this->getPostVar()] ?? false;
-        $this->setChecked($checked);
+        $this->setChecked((bool) $checked);
         foreach ($this->getSubItems() as $item) {
             $item->setValueByArray($a_values);
         }
@@ -172,7 +172,7 @@ class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolba
         $data = unserialize($a_data);
 
         if ($data) {
-            $this->setValue($data);
+            $this->setValue((string) $data);
             $this->setChecked(true);
         }
     }

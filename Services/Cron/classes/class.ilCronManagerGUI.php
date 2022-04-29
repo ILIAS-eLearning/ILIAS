@@ -1,18 +1,20 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 use ILIAS\HTTP\Wrapper\WrapperFactory;
 use ILIAS\UI\Factory;
@@ -25,10 +27,10 @@ use ILIAS\UI\Renderer;
  * @ilCtrl_isCalledBy ilCronManagerGUI: ilAdministrationGUI
  * @ingroup ServicesCron
  */
-class ilCronManagerGUI // implements ilCtrlBaseClassInterface
+class ilCronManagerGUI
 {
     private ilLanguage $lng;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilSetting $settings;
     private ilGlobalTemplateInterface $tpl;
     private Factory $uiFactory;
@@ -69,7 +71,7 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
     /**
      * @param string $key
      * @param \ILIAS\Refinery\Transformation $trafo
-     * @param bool $checkExistence
+     * @param bool $forceRetrieval
      * @param mixed $default
      * @return mixed|null
      */
@@ -111,7 +113,8 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
         }
 
         $class = $this->ctrl->getNextClass($this);
-
+    
+        /** @noinspection PhpSwitchStatementWitSingleBranchInspection */
         switch (strtolower($class)) {
             case strtolower(ilPropertyFormGUI::class):
                 $job_id = $this->getRequestValue('jid', $this->refinery->kindlyTo()->string());
@@ -180,7 +183,7 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
             $this->ctrl->redirect($this, 'render');
         }
 
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initEditForm($job_id);
         }
 
@@ -415,7 +418,7 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
         }
 
         $jobs = $this->getMultiActionData();
-        if ($jobs) {
+        if ($jobs !== []) {
             foreach ($jobs as $job) {
                 if ($this->cronManager->isJobActive($job->getId())) {
                     $this->cronManager->deactivateJob($job, $this->actor, true);
@@ -440,7 +443,7 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
         }
 
         $jobs = $this->getMultiActionData();
-        if ($jobs) {
+        if ($jobs !== []) {
             foreach ($jobs as $job) {
                 $this->cronManager->resetJob($job, $this->actor);
             }

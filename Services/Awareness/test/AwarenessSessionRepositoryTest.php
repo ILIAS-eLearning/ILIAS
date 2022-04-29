@@ -19,7 +19,7 @@ class AwarenessSessionRepositoryTest extends TestCase
     {
     }
 
-    public function testCount()
+    public function testCount() : void
     {
         $repo = $this->repo;
         $repo->setCount(15);
@@ -29,7 +29,7 @@ class AwarenessSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testHighlightCount()
+    public function testHighlightCount() : void
     {
         $repo = $this->repo;
         $repo->setHighlightCount(6);
@@ -39,7 +39,7 @@ class AwarenessSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testLastUpdate()
+    public function testLastUpdate() : void
     {
         $repo = $this->repo;
         $repo->setLastUpdate(1234);
@@ -49,7 +49,7 @@ class AwarenessSessionRepositoryTest extends TestCase
         );
     }
 
-    public function testOnlineUsersTS()
+    public function testOnlineUsersTS() : void
     {
         $repo = $this->repo;
         $repo->setOnlineUsersTS("2022-01-01 16:00:05");

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -32,6 +32,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
     protected bool $maxvalue_visible = false;
     protected int $decimals = 0;
     protected bool $allow_decimals = false;
+    protected bool $client_side_validation = false;
     
     public function __construct(
         string $a_title = "",
@@ -59,7 +60,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
             $this->value = null;
             return;
         }
-        $this->value = (float) str_replace(',', '.', (string) $a_value);
+        $this->value = (float) str_replace(',', '.', $a_value);
         
         // integer
         if (!$this->areDecimalsAllowed()) {
@@ -71,7 +72,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
             $this->value = round($this->value, $this->getDecimals());
 
             // pad value to specified format
-            $this->value = number_format($this->value, $this->getDecimals(), ".", "");
+            $this->value = (float) number_format($this->value, $this->getDecimals(), ".", "");
         }
     }
 
@@ -119,7 +120,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 
     public function setValueByArray(array $a_values) : void
     {
-        $this->setValue($a_values[$this->getPostVar()] ?? "");
+        $this->setValue((string) ($a_values[$this->getPostVar()] ?? ""));
     }
 
     public function getSize() : int
@@ -256,9 +257,9 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 
         $tpl = new ilTemplate("tpl.prop_number.html", true, true, "Services/Form");
 
-        if (strlen($this->getValue())) {
+        if (strlen((string) $this->getValue())) {
             $tpl->setCurrentBlock("prop_number_propval");
-            $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
+            $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getValue()));
             $tpl->parseCurrentBlock();
         }
         $tpl->setCurrentBlock("prop_number");
@@ -276,11 +277,13 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
                 " disabled=\"disabled\""
             );
         }
-        
-        /*
-        $tpl->setVariable("JS_DECIMALS_ALLOWED", (int)$this->areDecimalsAllowed());
-        */
-        
+
+        if ($this->client_side_validation) {
+            $tpl->setVariable("JS_DECIMALS_ALLOWED", (int) $this->areDecimalsAllowed());
+            $tpl->setVariable("JS_ID", $this->getFieldId());
+        }
+
+
         // constraints
         $constraints = "";
         $delim = "";
@@ -312,5 +315,10 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
     public function getPostValueForComparison() : ?float
     {
         return $this->getInput();
+    }
+
+    public function setClientSideValidation(bool $validate) : void
+    {
+        $this->client_side_validation = $validate;
     }
 }

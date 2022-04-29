@@ -29,10 +29,7 @@ class ilSaxController
      * @var resource
      */
     protected $handler_in_use = null;
-    /**
-     * @var ?ilSaxSubsetParser
-     */
-    protected $current_handler;
+    protected ?ilSaxSubsetParser $current_handler;
     
     /**
      * Set handlers
@@ -65,16 +62,6 @@ class ilSaxController
     }
 
     /**
-     * Set default element handler
-     *
-     * @access public
-     * @param string xml element that triggers the handler call
-     * @param object object that parses the xmlsubset
-     * @param string method name
-     *
-     */
-
-    /**
      * default handlerBeginTag
      *
      * @access public
@@ -82,8 +69,7 @@ class ilSaxController
      * @param	string		$a_name				element name
      * @param	array		$a_attribs			element attributes array
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array
-    $a_attribs) :void
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) :void
     {
         if (isset($this->element_handlers[$a_name]) or $this->handler_in_use) {
             if (!$this->handler_in_use) {

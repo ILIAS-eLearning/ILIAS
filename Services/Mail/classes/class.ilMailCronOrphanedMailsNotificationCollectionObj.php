@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ilMailCronOrphanedMailsNotificationCollectionObj
@@ -8,7 +23,7 @@
 class ilMailCronOrphanedMailsNotificationCollectionObj
 {
     protected int $user_id = 0;
-    /** @var ilMailCronOrphanedMailsFolderObject[] */
+    /** @var array<int, ilMailCronOrphanedMailsFolderObject> */
     protected array $folder_objects = [];
 
     public function __construct(int $user_id)
@@ -31,13 +46,13 @@ class ilMailCronOrphanedMailsNotificationCollectionObj
         $this->folder_objects[$folder_obj->getFolderId()] = $folder_obj;
     }
 
-    public function getFolderObjectById(int $folder_id) : ilMailCronOrphanedMailsFolderObject
+    public function getFolderObjectById(int $folder_id) : ?ilMailCronOrphanedMailsFolderObject
     {
-        return $this->folder_objects[$folder_id];
+        return $this->folder_objects[$folder_id] ?? null;
     }
 
     /**
-     * @return ilMailCronOrphanedMailsFolderObject[]
+     * @return array<int, ilMailCronOrphanedMailsFolderObject>
      */
     public function getFolderObjects() : array
     {

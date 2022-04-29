@@ -167,11 +167,15 @@ final class LegacyPathHelper
             case $real_possible_path === $absolute_path:
                 return "";
             case strpos($absolute_path, $possible_path) === 0:
-                return substr($absolute_path,
-                    strlen($possible_path) + 1);                             //also remove the trailing slash
+                return substr(
+                    $absolute_path,
+                    strlen($possible_path) + 1
+                );                             //also remove the trailing slash
             case strpos($absolute_path, $real_possible_path) === 0:
-                return substr($absolute_path,
-                    strlen($real_possible_path) + 1);                             //also remove the trailing slash
+                return substr(
+                    $absolute_path,
+                    strlen($real_possible_path) + 1
+                );                             //also remove the trailing slash
             default:
                 throw new \InvalidArgumentException("Invalid path supplied. Path must start with the web, storage, temp, customizing or libs storage location. Path given: '{$absolute_path}'");
         }

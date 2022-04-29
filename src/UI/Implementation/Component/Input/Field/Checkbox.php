@@ -74,6 +74,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
 
         $clone->content = $this->applyOperationsTo($clone->getValue());
         if ($clone->content->isError()) {
+            /** @noinspection PhpIncompatibleReturnTypeInspection */
             return $clone->withError("" . $clone->content->error());
         }
 
@@ -117,11 +118,9 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
      */
     public function getUpdateOnLoadCode() : Closure
     {
-        return function ($id) {
-            return "$('#$id').on('input', function(event) {
+        return fn($id) => "$('#$id').on('input', function(event) {
 			    il.UI.input.onFieldUpdate(event, '$id', $('#$id').prop('checked').toString());
 		    });
 		    il.UI.input.onFieldUpdate(event, '$id', $('#$id').prop('checked').toString());";
-        };
     }
 }

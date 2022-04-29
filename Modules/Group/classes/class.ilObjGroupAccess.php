@@ -24,7 +24,6 @@ class ilObjGroupAccess extends ilObjectAccess
 
         $ilUser = $DIC['ilUser'];
         $lng = $DIC['lng'];
-        $rbacsystem = $DIC['rbacsystem'];
         $ilAccess = $DIC['ilAccess'];
 
         if (is_null($user_id)) {
@@ -195,7 +194,6 @@ class ilObjGroupAccess extends ilObjectAccess
         global $DIC;
 
         $ilDB = $DIC->database();
-        $ilUser = $DIC->user();
         $lng = $DIC->language();
         
         $query = 'SELECT registration_type, registration_enabled, registration_unlimited,  registration_start, ' .
@@ -208,7 +206,6 @@ class ilObjGroupAccess extends ilObjectAccess
             $info['reg_info_start'] = new ilDateTime($row->registration_start, IL_CAL_DATETIME);
             $info['reg_info_end'] = new ilDateTime($row->registration_end, IL_CAL_DATETIME);
             $info['reg_info_type'] = $row->registration_type;
-            $info['reg_info_max_members'] = $row->registration_max_members;
             $info['reg_info_mem_limit'] = $row->registration_mem_limit;
             $info['reg_info_unlimited'] = $row->registration_unlimited;
             

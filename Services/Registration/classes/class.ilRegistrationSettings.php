@@ -1,25 +1,16 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilObjAuthSettingsGUI
@@ -62,7 +53,7 @@ class ilRegistrationSettings
         global $DIC;
 
         $this->settings = $DIC->settings();
-        $this->__read();
+        $this->read();
     }
 
     public function getRegistrationType() : int
@@ -82,7 +73,7 @@ class ilRegistrationSettings
         $ilSetting = $DIC['ilSetting'];
         $ret = (int) $ilSetting->get('new_registration_type', (string) self::IL_REG_DISABLED);
 
-        if ($ret < 1 or $ret > 5) {
+        if ($ret < 1 || $ret > 5) {
             //data is corrupted and should be processed like "No Registration possible" (#18261)
             $ret = self::IL_REG_DISABLED;
         }
@@ -91,27 +82,27 @@ class ilRegistrationSettings
 
     public function enabled() : bool
     {
-        return $this->registration_type != self::IL_REG_DISABLED;
+        return $this->registration_type !== self::IL_REG_DISABLED;
     }
 
     public function directEnabled() : bool
     {
-        return $this->registration_type == self::IL_REG_DIRECT;
+        return $this->registration_type === self::IL_REG_DIRECT;
     }
 
     public function approveEnabled() : bool
     {
-        return $this->registration_type == self::IL_REG_APPROVE;
+        return $this->registration_type === self::IL_REG_APPROVE;
     }
 
     public function activationEnabled() : bool
     {
-        return $this->registration_type == self::IL_REG_ACTIVATION;
+        return $this->registration_type === self::IL_REG_ACTIVATION;
     }
 
     public function registrationCodeRequired() : bool
     {
-        return $this->registration_type == self::IL_REG_CODES;
+        return $this->registration_type === self::IL_REG_CODES;
     }
 
     public function passwordGenerationEnabled() : bool
@@ -137,7 +128,7 @@ class ilRegistrationSettings
     public function setApproveRecipientLogins(string $a_rec_string) : void
     {
         $this->approve_recipient_logins = $a_rec_string;
-        $this->approve_recipient_ids = array();
+        $this->approve_recipient_ids = [];
 
         // convert logins to array of ids
         foreach (explode(',', trim($this->approve_recipient_logins)) as $login) {
@@ -164,12 +155,12 @@ class ilRegistrationSettings
 
     public function roleSelectionEnabled() : bool
     {
-        return $this->role_type == self::IL_REG_ROLES_FIXED;
+        return $this->role_type === self::IL_REG_ROLES_FIXED;
     }
 
     public function automaticRoleAssignmentEnabled() : bool
     {
-        return $this->role_type == self::IL_REG_ROLES_EMAIL;
+        return $this->role_type === self::IL_REG_ROLES_EMAIL;
     }
 
     public function setRoleType(int $a_type) : void
@@ -203,7 +194,7 @@ class ilRegistrationSettings
     public function setAllowedDomains(string $a_value) : void
     {
         $a_value = array_map(
-            function ($value) {
+            static function ($value) {
                 return trim($value);
             },
             explode(";", trim($a_value))
@@ -237,7 +228,7 @@ class ilRegistrationSettings
         if (count($this->unknown)) {
             return self::ERR_UNKNOWN_RCP;
         }
-        if ($this->getRegistrationType() == self::IL_REG_APPROVE and !count($valid)) {
+        if ($this->getRegistrationType() === self::IL_REG_APPROVE && !count($valid)) {
             return self::ERR_MISSING_RCP;
         }
         return 0;
@@ -256,7 +247,7 @@ class ilRegistrationSettings
         return true;
     }
 
-    public function __read() : void
+    private function read() : void
     {
         //static method validates value
         $this->registration_type = self::_lookupRegistrationType();
@@ -267,7 +258,7 @@ class ilRegistrationSettings
         $this->reg_hash_life_time = (int) $this->settings->get('reg_hash_life_time');
         $this->reg_allow_codes = (bool) $this->settings->get('reg_allow_codes');
 
-        $this->approve_recipient_ids = (array) unserialize(stripslashes($this->settings->get('approve_recipient')));
+        $this->approve_recipient_ids = (array) unserialize(stripslashes($this->settings->get('approve_recipient')), ['allowed_classes' => false]);
         $this->approve_recipient_ids = $this->approve_recipient_ids ?: array();
 
         // create login array

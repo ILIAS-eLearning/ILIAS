@@ -1,8 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 
@@ -19,13 +32,13 @@ class ilMailFolderGUI
     private bool $errorDelete = false;
     /** @var ilGlobalTemplateInterface */
     private ilGlobalTemplateInterface $tpl;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilToolbarGUI $toolbar;
     private ilTabsGUI $tabs;
     private ilObjUser $user;
     public ilMail $umail;
-    public ilMailBox $mbox;
+    public ilMailbox $mbox;
     private GlobalHttpState $http;
     private Refinery $refinery;
     private int $currentFolderId = 0;
@@ -51,7 +64,6 @@ class ilMailFolderGUI
 
     protected function initFolder() : void
     {
-        $folderId = 0;
         if ($this->http->wrapper()->post()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
@@ -69,7 +81,6 @@ class ilMailFolderGUI
 
     protected function parseCommand(string $originalCommand) : string
     {
-        $matches = [];
         if (preg_match('/^([a-zA-Z0-9]+?)_(\d+?)$/', $originalCommand, $matches) && 3 === count($matches)) {
             $originalCommand = $matches[1];
         }
@@ -79,7 +90,6 @@ class ilMailFolderGUI
 
     protected function parseFolderIdFromCommand(string $command) : int
     {
-        $matches = [];
         if (
             preg_match('/^([a-zA-Z0-9]+?)_(\d+?)$/', $command, $matches) &&
             3 === count($matches) && is_numeric($matches[2])
@@ -603,12 +613,10 @@ class ilMailFolderGUI
         $this->ctrl->clearParameters($this);
         $form->setTitle($this->lng->txt('mail_mails_of'));
 
-        /**
-         * @var $sender ilObjUser
-         */
+        /** @var ilObjUser|null $sender */
         $sender = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
         $replyBtn = null;
-        if ($sender && $sender->getId() && !$sender->isAnonymous()) {
+        if ($sender instanceof ilObjUser && $sender->getId() !== 0 && !$sender->isAnonymous()) {
             $replyBtn = ilLinkButton::getInstance();
             $replyBtn->setCaption('reply');
             $this->ctrl->setParameterByClass(
@@ -839,15 +847,13 @@ class ilMailFolderGUI
         }
         $mailData = $this->umail->getMail($mailId);
 
-        /**
-         * @var $sender ilObjUser
-         */
+        /** @var ilObjUser|null $sender */
         $sender = ilObjectFactory::getInstanceByObjId($mailData['sender_id'], false);
 
         $tplprint->setVariable('TXT_FROM', $this->lng->txt('from'));
-        if ($sender && $sender->getId() && !$sender->isAnonymous()) {
+        if ($sender instanceof ilObjUser && $sender->getId() !== 0 && !$sender->isAnonymous()) {
             $tplprint->setVariable('FROM', $sender->getPublicName());
-        } elseif (!$sender || !$sender->getId()) {
+        } elseif (null === $sender || 0 === $sender->getId()) {
             $tplprint->setVariable(
                 'FROM',
                 $mailData['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')'

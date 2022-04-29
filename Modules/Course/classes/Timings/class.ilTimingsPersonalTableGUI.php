@@ -1,6 +1,23 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\HTTP\Services as HTTPServices;
 
 /**
  * TableGUI class for editing personal timings
@@ -14,12 +31,20 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
     private int $user_id = 0;
     private bool $failure = false;
 
+    protected Refinery $refinery;
+    protected HTTPServices $http;
+
     public function __construct(
         object $a_parent_class,
         string $a_parent_cmd,
         ilObject $a_container_obj,
         ilObjCourse $a_main_container
     ) {
+        global $DIC;
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
         $this->container = $a_container_obj;
         $this->main_container = $a_main_container;
         $this->setId('personal_timings_' . $this->getContainerObject()->getRefId());
@@ -103,14 +128,18 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
 
         // active
         $this->tpl->setVariable('NAME_ACTIVE', 'item[' . $a_set['ref_id'] . '][active]');
-        $this->tpl->setVariable('CHECKED_ACTIVE',
-            ($a_set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : '');
+        $this->tpl->setVariable(
+            'CHECKED_ACTIVE',
+            ($a_set['item']['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) ? 'checked="checked"' : ''
+        );
+
+        $error_post_item = (array) ($this->http->request()->getParsedBody()['item'] ?? []);
 
         // start
         $dt_input = new ilDateTimeInputGUI('', 'item[' . $a_set['ref_id'] . '][sug_start]');
         $dt_input->setDate(new ilDate($a_set['item']['suggestion_start'], IL_CAL_UNIX));
         if ($this->getFailureStatus()) {
-            $dt_input->setDate(new ilDate($_POST['item'][$a_set['ref_id']]['sug_start'], IL_CAL_DATE));
+            $dt_input->setDate(new ilDate($error_post_item[$a_set['ref_id']]['sug_start'] ?? '', IL_CAL_DATE));
         }
 
         if (!$a_set['item']['changeable']) {
@@ -125,7 +154,7 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
         $dt_end = new ilDateTimeInputGUI('', 'item[' . $a_set['ref_id'] . '][sug_end]');
         $dt_end->setDate(new ilDate($a_set['item']['suggestion_end'], IL_CAL_UNIX));
         if ($this->getFailureStatus()) {
-            $dt_end->setDate(new ilDate($_POST['item'][$a_set['ref_id']]['sug_end'], IL_CAL_DATE));
+            $dt_end->setDate(new ilDate($error_post_item[$a_set['ref_id']]['sug_end'] ?? '', IL_CAL_DATE));
         }
 
         if (!$a_set['item']['changeable']) {
@@ -136,8 +165,10 @@ class ilTimingsPersonalTableGUI extends ilTable2GUI
         $this->tpl->parseCurrentBlock();
 
         // changeable
-        $this->tpl->setVariable('TXT_CHANGEABLE',
-            $a_set['item']['changeable'] ? $this->lng->txt('yes') : $this->lng->txt('no'));
+        $this->tpl->setVariable(
+            'TXT_CHANGEABLE',
+            $a_set['item']['changeable'] ? $this->lng->txt('yes') : $this->lng->txt('no')
+        );
     }
 
     public function parse(array $a_item_data, array $failed = array()) : void

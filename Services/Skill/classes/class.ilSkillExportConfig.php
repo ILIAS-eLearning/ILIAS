@@ -27,7 +27,15 @@ class ilSkillExportConfig extends ilExportConfig
 {
     public const MODE_SKILLS = "";
     public const MODE_PROFILES = "prof";
+
+    /**
+     * @var int[]
+     */
     protected array $selected_nodes = [];
+
+    /**
+     * @var int[]
+     */
     protected array $selected_profiles = [];
     protected string $mode = "";
     protected int $skill_tree_id = 0;

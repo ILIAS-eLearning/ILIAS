@@ -42,7 +42,7 @@ class ilECSExportedContentTableGUI extends ilTable2GUI
      * @param array row data
      *
      */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
         $this->tpl->setVariable('VAL_LINK', ilLink::_getLink($a_set['ref_id'], 'rcrs'));
@@ -73,28 +73,28 @@ class ilECSExportedContentTableGUI extends ilTable2GUI
         $values = ilECSUtils::getAdvancedMDValuesForObjId($a_set['obj_id']);
                 
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, 'lecturer')) {
-            $this->tpl->setVariable('VAL_LECTURER', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_LECTURER', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, 'term')) {
-            $this->tpl->setVariable('VAL_TERM', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_TERM', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, 'courseID')) {
-            $this->tpl->setVariable('VAL_CRS_ID', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_CRS_ID', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, 'courseType')) {
-            $this->tpl->setVariable('VAL_CRS_TYPE', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_CRS_TYPE', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, 'credits')) {
-            $this->tpl->setVariable('VAL_CREDITS', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_CREDITS', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, 'semester_hours')) {
-            $this->tpl->setVariable('VAL_SWS', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_SWS', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, 'room')) {
-            $this->tpl->setVariable('VAL_ROOM', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_ROOM', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, 'cycle')) {
-            $this->tpl->setVariable('VAL_CYCLE', isset($values[$field]) ? $values[$field] : '--');
+            $this->tpl->setVariable('VAL_CYCLE', $values[$field] ?? '--');
         }
         if ($field = $settings->getMappingByECSName(ilECSDataMappingSetting::MAPPING_EXPORT, 'begin')) {
             $this->tpl->setVariable('VAL_START', isset($values[$field]) ? ilDatePresentation::formatDate(new ilDateTime($values[$field], IL_CAL_UNIX)) : '--');
@@ -110,7 +110,7 @@ class ilECSExportedContentTableGUI extends ilTable2GUI
      * @param array array of released content obj_ids
      *
      */
-    public function parse($a_obj_ids)
+    public function parse($a_obj_ids) : void
     {
         $this->ilObjDataCache->preloadObjectCache($a_obj_ids);
         

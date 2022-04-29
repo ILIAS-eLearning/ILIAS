@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilForumModerators
@@ -76,7 +91,7 @@ class ilForumModerators
         $roles = $this->rbac->review()->getRoleListByObject($this->getRefId());
         foreach ($roles as $role) {
             if (strpos($role['title'], 'il_frm_moderator') !== false) {
-                $assigned_users = array_map('intval', $this->rbac->review()->assignedUsers((int) $role['rol_id']));
+                $assigned_users = $this->rbac->review()->assignedUsers((int) $role['rol_id']);
                 break;
             }
         }

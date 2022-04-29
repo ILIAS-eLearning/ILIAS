@@ -1,5 +1,21 @@
-<?php declare(strict_types=1);/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+<?php declare(strict_types=1);
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * @classDescription Table presentation of course/group relevant user data fields
  * @author           Stefan Meyer <meyer@leifos.com>
@@ -18,7 +34,7 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
             $this->lng->txt(ilObject::_lookupType($this->getParentObject()->getObjId()) . '_custom_user_fields')
         );
 
-        $this->addColumn('', '', (string) 1);
+        $this->addColumn('', '', "1");
         $this->addColumn($this->lng->txt('ps_cdf_name'), 'name', '30%');
         $this->addColumn($this->lng->txt('ps_cdf_type'), 'type', '30%');
         $this->addColumn($this->lng->txt('ps_cdf_required'), '', '20%');
@@ -62,8 +78,8 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
     {
         $rows = [];
         foreach ($a_defs as $def) {
-            $rows[$def->getId()]['field_id'] = (int) $def->getId();
-            $rows[$def->getId()]['name'] = (string) $def->getName();
+            $rows[$def->getId()]['field_id'] = $def->getId();
+            $rows[$def->getId()]['name'] = $def->getName();
 
             switch ($def->getType()) {
                 case ilCourseDefinedFieldDefinition::IL_CDF_TYPE_SELECT:

@@ -35,11 +35,11 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
  */
 abstract class AbstractModificationProvider extends AbstractProvider implements ModificationProvider
 {
-    
+
     /**
      * @var ContextCollection
      */
-    protected $context_collection;
+    protected ContextCollection $context_collection;
     /**
      * @var ToolFactory
      */
@@ -70,7 +70,12 @@ abstract class AbstractModificationProvider extends AbstractProvider implements 
     {
         return null;
     }
-    
+
+    public function getResponsiveLogoModification(CalledContexts $screen_context_stack) : ?LogoModification
+    {
+        return null;
+    }
+
     /**
      * @inheritDoc
      */

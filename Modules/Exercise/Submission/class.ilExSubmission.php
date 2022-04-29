@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Exercise submission
  * //TODO: This class has many static methods related to delivered "files". Extract them to classes.
@@ -132,13 +146,31 @@ class ilExSubmission
 
     public function hasSubmitted() : bool
     {
-        return (bool) sizeof($this->getFiles(null, true));
+        return (bool) count($this->getFiles(null, true));
     }
-    
+
+    public function hasSubmittedPrintVersion() : bool
+    {
+        $submitted = $this->getFiles(
+            null,
+            false,
+            null,
+            true
+        );
+
+        if (count($submitted) > 0) {
+            $submitted = array_pop($submitted);
+
+            return is_file($submitted['filename']);
+        }
+
+        return false;
+    }
+
     public function getSelectedObject() : ?array
     {
         $files = $this->getFiles();
-        if (sizeof($files)) {
+        if ($files !== []) {
             return array_pop($files);
         }
         return null;
@@ -329,14 +361,15 @@ class ilExSubmission
         $success = true;
         
         try {
+            $filearray = [];
             ilFileUtils::processZipFile($newDir, $fileTmp, false);
             ilFileUtils::recursive_dirscan($newDir, $filearray);
 
             // #18441 - check number of files in zip
             $max_num = $this->assignment->getMaxFile();
             if ($max_num) {
-                $current_num = sizeof($this->getFiles());
-                $zip_num = sizeof($filearray["file"]);
+                $current_num = count($this->getFiles());
+                $zip_num = count($filearray["file"]);
                 if ($current_num + $zip_num > $max_num) {
                     $success = false;
                     $this->main_tpl->setOnScreenMessage('failure', $lng->txt("exc_upload_error") . " [Zip1]", true);
@@ -499,7 +532,7 @@ class ilExSubmission
 
                 // see 22301, 22719
                 if (is_file($row["filename"]) || (!$this->assignment->getAssignmentType()->usesFileUpload())) {
-                    array_push($delivered_files, $row);
+                    $delivered_files[] = $row;
                 }
             }
         }
@@ -511,7 +544,14 @@ class ilExSubmission
             ilExAssignment::TYPE_WIKI_TEAM
         ])) {
             $delivered_files = array_filter($delivered_files, function ($i) use ($print_versions) {
-                return ((substr($i["filetitle"], strlen($i["filetitle"]) - 5) == "print") == $print_versions);
+                $is_print_version = false;
+                if (substr($i["filetitle"], strlen($i["filetitle"]) - 5) == "print") {
+                    $is_print_version = true;
+                }
+                if (substr($i["filetitle"], strlen($i["filetitle"]) - 9) == "print.zip") {
+                    $is_print_version = true;
+                }
+                return ($is_print_version == $print_versions);
             });
         }
 
@@ -598,7 +638,7 @@ class ilExSubmission
         foreach ($this->getFiles() as $item) {
             $files[] = $item["returned_id"];
         }
-        if (sizeof($files)) {
+        if ($files !== []) {
             $this->deleteSelectedFiles($files);
         }
     }
@@ -616,11 +656,11 @@ class ilExSubmission
         $where = " AND " . $this->getTableUserWhere(true);
 
 
-        if (!sizeof($file_id_array)) {
+        if ($file_id_array === []) {
             return;
         }
         
-        if (count($file_id_array)) {
+        if ($file_id_array !== []) {
             $result = $ilDB->query("SELECT * FROM exc_returned" .
                 " WHERE " . $ilDB->in("returned_id", $file_id_array, false, "integer") .
                 $where);
@@ -629,7 +669,7 @@ class ilExSubmission
                 $result_array = array();
                 while ($row = $ilDB->fetchAssoc($result)) {
                     $row["timestamp"] = $row["ts"];
-                    array_push($result_array, $row);
+                    $result_array[] = $row;
                 }
                 
                 // delete the entries in the database
@@ -746,8 +786,8 @@ class ilExSubmission
     
         $files = $this->getFiles($a_file_ids, false, $download_time);
 
-        if ($files) {
-            if (sizeof($files) == 1) {
+        if ($files !== []) {
+            if (count($files) == 1) {
                 $file = array_pop($files);
 
                 switch ($this->assignment->getType()) {
@@ -950,7 +990,7 @@ class ilExSubmission
         }
         
         chdir($tmpdir);
-        $zipcmd = $zip . " " . ilShellUtil::escapeShellArg($tmpzipfile) . " " . join(" ", $parsed_files);
+        $zipcmd = $zip . " " . ilShellUtil::escapeShellArg($tmpzipfile) . " " . implode(" ", $parsed_files);
 
         exec($zipcmd);
         ilFileUtils::delDir($tmpdir);
@@ -1232,7 +1272,7 @@ class ilExSubmission
         if ($this->getAssignment()->getAssignmentType()->getSubmissionType() == ilExSubmission::TYPE_REPO_OBJECT) {
             $repos_ass_type_ids = $this->ass_types->getIdsForSubmissionType(ilExSubmission::TYPE_REPO_OBJECT);
             $subs = $this->getSubmissionsForFilename($a_wsp_id, $repos_ass_type_ids);
-            if (count($subs) > 0) {
+            if ($subs !== []) {
                 throw new ilExerciseException("Repository object $a_wsp_id is already assigned to another assignment.");
             }
         }
@@ -1349,12 +1389,12 @@ class ilExSubmission
                 
                 // nr of submitted files
                 $result["files"]["txt"] = $lng->txt("exc_files_returned");
-                if ($late_files) {
+                if ($late_files !== 0) {
                     $result["files"]["txt"] .= ' - <span class="warning">' . $lng->txt("exc_late_submission") . " (" . $late_files . ")</span>";
                 }
                 $sub_cnt = count($all_files);
                 $new = $this->lookupNewFiles();
-                if (count($new) > 0) {
+                if ($new !== []) {
                     $sub_cnt .= " " . sprintf($lng->txt("cnt_new"), count($new));
                 }
                 
@@ -1372,7 +1412,7 @@ class ilExSubmission
                     }
                     
                     // download new files only
-                    if (count($new) > 0) {
+                    if ($new !== []) {
                         $result["files"]["download_new_url"] =
                             $ilCtrl->getLinkTargetByClass("ilexsubmissionfilegui", "downloadNewReturned");
                         
@@ -1384,7 +1424,7 @@ class ilExSubmission
             case ilExAssignment::TYPE_BLOG:
                 $result["files"]["txt"] = $lng->txt("exc_blog_returned");
                 $blogs = $this->getFiles();
-                if ($blogs) {
+                if ($blogs !== []) {
                     $blogs = array_pop($blogs);
                     if ($blogs && substr($blogs["filename"], -1) != "/") {
                         if ($blogs["late"]) {
@@ -1404,7 +1444,7 @@ class ilExSubmission
             case ilExAssignment::TYPE_PORTFOLIO:
                 $result["files"]["txt"] = $lng->txt("exc_portfolio_returned");
                 $portfolios = $this->getFiles();
-                if ($portfolios) {
+                if ($portfolios !== []) {
                     $portfolios = array_pop($portfolios);
                     if ($portfolios && substr($portfolios["filename"], -1) != "/") {
                         if ($portfolios["late"]) {
@@ -1424,11 +1464,11 @@ class ilExSubmission
             case ilExAssignment::TYPE_TEXT:
                 $result["files"]["txt"] = $lng->txt("exc_files_returned_text");
                 $files = $this->getFiles();
-                if ($files) {
+                if ($files !== []) {
                     $result["files"]["count"] = 1;
                     
                     $files = array_shift($files);
-                    if (trim($files["atext"])) {
+                    if (trim($files["atext"]) !== '' && trim($files["atext"]) !== '0') {
                         if ($files["late"]) {
                             $result["files"]["txt"] .= ' - <span class="warning">' . $lng->txt("exc_late_submission") . "</span>";
                         }
@@ -1444,7 +1484,7 @@ class ilExSubmission
             case ilExAssignment::TYPE_WIKI_TEAM:
                 $result["files"]["txt"] = $lng->txt("exc_wiki_returned");
                 $objs = $this->getFiles();
-                if ($objs) {
+                if ($objs !== []) {
                     $objs = array_pop($objs);
                     if ($objs && substr($objs["filename"], -1) != "/") {
                         if ($objs["late"]) {
@@ -1482,7 +1522,7 @@ class ilExSubmission
             " ON (r.ass_id = a.id) " .
             " WHERE r.filetitle = " . $db->quote($a_filename, "string");
 
-        if (is_array($a_assignment_types) && count($a_assignment_types) > 0) {
+        if (is_array($a_assignment_types) && $a_assignment_types !== []) {
             $query .= " AND " . $db->in("a.type", $a_assignment_types, false, "integer");
         }
 

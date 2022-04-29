@@ -22,9 +22,9 @@
 //TODO check why authfront does not include frontendInterface
 class ilAuthFrontend
 {
-    const MIG_EXTERNAL_ACCOUNT = 'mig_ext_account';
-    const MIG_TRIGGER_AUTHMODE = 'mig_trigger_auth_mode';
-    const MIG_DESIRED_AUTHMODE = 'mig_desired_auth_mode';
+    public const MIG_EXTERNAL_ACCOUNT = 'mig_ext_account';
+    public const MIG_TRIGGER_AUTHMODE = 'mig_trigger_auth_mode';
+    public const MIG_DESIRED_AUTHMODE = 'mig_desired_auth_mode';
     
     private ilLogger $logger;
     private ilSetting $settings;
@@ -32,16 +32,18 @@ class ilAuthFrontend
 
     private ilAuthCredentials $credentials;
     private ilAuthStatus $status;
+    /** @var ilAuthProvider[] */
     private array $providers;
     private ilAuthSession $auth_session;
     private ilAppEventHandler $ilAppEventHandler;
     
-    private $authenticated = false;
-    
+    private bool $authenticated = false;
+
     /**
-     * Constructor
      * @param ilAuthSession $session
+     * @param ilAuthStatus $status
      * @param ilAuthCredentials $credentials
+     * @param ilAuthProvider[] $providers
      */
     public function __construct(ilAuthSession $session, ilAuthStatus $status, ilAuthCredentials $credentials, array $providers)
     {
@@ -102,7 +104,6 @@ class ilAuthFrontend
     
     /**
      * Migrate Account to existing user account
-     * @param ilAuthSession $session
      * @throws \InvalidArgumentException if current auth provider does not support account migration
      */
     public function migrateAccount(ilAuthSession $session) : bool
@@ -111,9 +112,8 @@ class ilAuthFrontend
             $this->logger->warning('Desired user account is not authenticated');
             return false;
         }
-        $user_factory = new ilObjectFactory();
-        $user = $user_factory->getInstanceByObjId($session->getUserId(), false);
-        
+        $user = ilObjectFactory::getInstanceByObjId($session->getUserId(), false);
+
         if (!$user instanceof ilObjUser) {
             $this->logger->info('Cannot instantiate user account for account migration: ' . $session->getUserId());
             return false;
@@ -133,10 +133,8 @@ class ilAuthFrontend
             }
             $this->getCredentials()->setUsername(ilSession::get(static::MIG_EXTERNAL_ACCOUNT));
             $provider->migrateAccount($this->getStatus());
-            switch ($this->getStatus()->getStatus()) {
-                case ilAuthStatus::STATUS_AUTHENTICATED:
-                    return $this->handleAuthenticationSuccess($provider);
-                    
+            if ($this->getStatus()->getStatus() === ilAuthStatus::STATUS_AUTHENTICATED) {
+                return $this->handleAuthenticationSuccess($provider);
             }
         }
         return $this->handleAuthenticationFail();
@@ -154,10 +152,9 @@ class ilAuthFrontend
             }
             $provider->createNewAccount($this->getStatus());
 
-            switch ($this->getStatus()->getStatus()) {
-                case ilAuthStatus::STATUS_AUTHENTICATED:
-                    return $this->handleAuthenticationSuccess($provider);
-                    
+            if ($provider instanceof ilAuthProviderInterface &&
+                $this->getStatus()->getStatus() === ilAuthStatus::STATUS_AUTHENTICATED) {
+                return $this->handleAuthenticationSuccess($provider);
             }
         }
         return $this->handleAuthenticationFail();
@@ -185,8 +182,12 @@ class ilAuthFrontend
                     
                 case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
                     $this->logger->notice("Account migration required.");
-                    return $this->handleAccountMigration($provider);
-                    
+                    if ($provider instanceof ilAuthProviderAccountMigrationInterface) {
+                        return $this->handleAccountMigration($provider);
+                    }
+
+                    $this->logger->error('Authentication migratittion required but provider does not support interface' . get_class($provider));
+                    break;
                 case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:
                 default:
                     $this->logger->debug('Authentication failed against: ' . get_class($provider));
@@ -220,12 +221,10 @@ class ilAuthFrontend
     
     /**
      * Handle successful authentication
-     * @param ilAuthProviderInterface $provider
      */
     protected function handleAuthenticationSuccess(ilAuthProviderInterface $provider) : bool
     {
-        $factory = new ilObjectFactory();
-        $user = $factory->getInstanceByObjId($this->getStatus()->getAuthenticatedUserId(), false);
+        $user = ilObjectFactory::getInstanceByObjId($this->getStatus()->getAuthenticatedUserId(), false);
         
         // reset expired status
         $this->getAuthSession()->setExpired(false);
@@ -298,8 +297,8 @@ class ilAuthFrontend
         // check if profile is complete
         if (
             ilUserProfile::isProfileIncomplete($user) &&
-            ilAuthFactory::getContext() != ilAuthFactory::CONTEXT_ECS &&
-            ilContext::getType() != ilContext::CONTEXT_LTI_PROVIDER
+            ilAuthFactory::getContext() !== ilAuthFactory::CONTEXT_ECS &&
+            ilContext::getType() !== ilContext::CONTEXT_LTI_PROVIDER
         ) {
             ilLoggerFactory::getLogger('auth')->info('User profile is incomplete.');
             $user->setProfileIncomplete(true);
@@ -323,7 +322,7 @@ class ilAuthFrontend
         // (last login date is set to current date in next step)
         if (
             $security_settings->isPasswordChangeOnFirstLoginEnabled() &&
-            $user->getLastLogin() == null
+            $user->getLastLogin() === ''
         ) {
             $user->resetLastPasswordChange();
         }
@@ -362,19 +361,15 @@ class ilAuthFrontend
     
     /**
      * Check activation
-     * @param ilObjUser $user
      */
     protected function checkActivation(ilObjUser $user) : bool
     {
         return $user->getActive();
     }
 
-    /**
-     * @param \ilObjUser $user
-     */
-    protected function checkExceededLoginAttempts(\ilObjUser $user) : bool
+    protected function checkExceededLoginAttempts(ilObjUser $user) : bool
     {
-        if (in_array($user->getId(), array(ANONYMOUS_USER_ID))) {
+        if ($user->getId() === ANONYMOUS_USER_ID) {
             return true;
         }
 
@@ -386,7 +381,7 @@ class ilAuthFrontend
         $security = ilSecuritySettings::_getInstance();
         $maxLoginAttempts = $security->getLoginMaxAttempts();
 
-        if (!(int) $maxLoginAttempts) {
+        if (!$maxLoginAttempts) {
             return true;
         }
 
@@ -397,7 +392,6 @@ class ilAuthFrontend
 
     /**
      * Check time limit
-     * @param ilObjUser $user
      */
     protected function checkTimeLimit(ilObjUser $user) : bool
     {
@@ -410,10 +404,9 @@ class ilAuthFrontend
     protected function checkIp(ilObjUser $user) : bool
     {
         $clientip = $user->getClientIP();
-        if (trim($clientip) != "") {
+        if (trim($clientip) !== "") {
             $clientip = preg_replace("/[^0-9.?*,:]+/", "", $clientip);
-            $clientip = str_replace(".", "\\.", $clientip);
-            $clientip = str_replace(array("?","*",","), array("[0-9]","[0-9]*","|"), $clientip);
+            $clientip = str_replace([".", "?", "*", ","], ["\\.", "[0-9]", "[0-9]*", "|"], $clientip);
             
             ilLoggerFactory::getLogger('auth')->debug('Check ip ' . $clientip . ' against ' . $_SERVER['REMOTE_ADDR']);
 
@@ -426,18 +419,12 @@ class ilAuthFrontend
     
     /**
      * Check simultaneous logins
-     * @param ilObjUser $user
      */
     protected function checkSimultaneousLogins(ilObjUser $user) : bool
     {
-        $this->logger->debug('Setting prevent simultaneous session is: ' . (string) $this->settings->get('ps_prevent_simultaneous_logins'));
-        if (
-            $this->settings->get('ps_prevent_simultaneous_logins') &&
-            ilObjUser::hasActiveSession($user->getId(), $this->getAuthSession()->getId())
-        ) {
-            return false;
-        }
-        return true;
+        $this->logger->debug('Setting prevent simultaneous session is: ' . $this->settings->get('ps_prevent_simultaneous_logins'));
+        return !($this->settings->get('ps_prevent_simultaneous_logins') &&
+            ilObjUser::hasActiveSession($user->getId(), $this->getAuthSession()->getId()));
     }
 
     /**
@@ -457,7 +444,7 @@ class ilAuthFrontend
             $security = ilSecuritySettings::_getInstance();
             $max_attempts = $security->getLoginMaxAttempts();
             
-            if ((int) $max_attempts && $login_attempts >= $max_attempts) {
+            if ($max_attempts && $login_attempts >= $max_attempts) {
                 $this->getStatus()->setReason('auth_err_login_attempts_deactivation');
                 $this->logger->warning('User account set to inactive due to exceeded login attempts.');
                 ilObjUser::_setUserInactive($user_id);

@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Tiny MCE editor class
@@ -23,9 +38,9 @@ class ilTinyMCE extends ilRTE
      */
     protected array $contextMenuItems;
 
-    public function __construct(string $a_version = '')
+    public function __construct()
     {
-        parent::__construct($a_version);
+        parent::__construct();
 
         $this->plugins = [
             'link',
@@ -66,7 +81,7 @@ class ilTinyMCE extends ilRTE
     {
         if (!$this->client_init->readVariable('tinymce', 'use_advanced_img_mng')) {
             parent::addPlugin('ilimgupload');
-            parent::addButton('ilimgupload');
+            $this->addButton('ilimgupload');
             parent::removePlugin('ibrowser');
             parent::removePlugin('image');
 

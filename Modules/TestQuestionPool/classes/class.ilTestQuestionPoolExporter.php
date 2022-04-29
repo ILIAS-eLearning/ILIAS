@@ -51,10 +51,10 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
         
         include_once("./Modules/TestQuestionPool/classes/class.ilQuestionpoolExport.php");
         $qpl_exp = new ilQuestionpoolExport($qpl, 'xml');
-        $zip = $qpl_exp->buildExportFile();
+        $qpl_exp->buildExportFile();
         
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $DIC['ilLog']->write(__METHOD__ . ': Created zip file ' . $zip);
+        $DIC['ilLog']->write(__METHOD__ . ': Created zip file');
     }
 
     /**
@@ -89,7 +89,7 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
      * @param array $testObjIds
      * @return array $taxIds
      */
-    private function getDependingTaxonomyIds($poolObjIds)
+    private function getDependingTaxonomyIds($poolObjIds) : array
     {
         include_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
 

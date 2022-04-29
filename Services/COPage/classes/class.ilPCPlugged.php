@@ -193,6 +193,49 @@ class ilPCPlugged extends ilPageContent
     }
 
     /**
+     * After repository (container) copy action
+     */
+    public static function afterRepositoryCopy(ilPageObject $page, array $mapping, int $source_ref_id) : void
+    {
+        global $DIC;
+        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+
+        $xpath = new DOMXPath($page->getDomDoc());
+        $nodes = $xpath->query("//Plugged");
+
+        /** @var DOMElement $node */
+        foreach ($nodes as $node) {
+            $plugin_name = $node->getAttribute('PluginName');
+            $plugin_version = $node->getAttribute('PluginVersion');
+
+            if ($ilPluginAdmin->isActive(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name)) {
+                /** @var ilPageComponentPlugin $plugin_obj */
+                $plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, "COPage", "pgcp", $plugin_name);
+                $plugin_obj->setPageObj($page);
+
+                $properties = array();
+                /** @var DOMElement $child */
+                foreach ($node->childNodes as $child) {
+                    $properties[$child->getAttribute('Name')] = $child->nodeValue;
+                }
+
+                // let the plugin copy additional content
+                // and allow it to modify the saved parameters
+                $plugin_obj->afterRepositoryCopy($properties, $mapping, $source_ref_id, $plugin_version);
+
+                foreach ($node->childNodes as $child) {
+                    $node->removeChild($child);
+                }
+                foreach ($properties as $name => $value) {
+                    $child = new DOMElement('PluggedProperty', $value);
+                    $node->appendChild($child);
+                    $child->setAttribute('Name', $name);
+                }
+            }
+        }
+    }
+
+    /**
      * Handle deleted plugged content. This function must, e.g. delete
      * objects referenced within the content (e.g. question objects)
      */
@@ -257,6 +300,7 @@ class ilPCPlugged extends ilPageContent
             }
 
             $plugin_info = $this->component_repository->getPluginByName($plugin_name);
+            $plugin_html = '';
             if ($plugin_info->isActive()) {
                 $plugin_obj = $this->component_factory->getPlugin($plugin_info->getId());
                 $plugin_obj->setPageObj($this->getPage());

@@ -81,12 +81,14 @@ class InitUIFramework
         };
         $c["ui.factory.viewcontrol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\ViewControl\Factory(
-                $c["ui.signal_generator"],
-                $c["ui.factory.input"]
+                $c["ui.signal_generator"]
             );
         };
         $c["ui.factory.chart"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Chart\Factory($c["ui.factory.progressmeter"]);
+            return new ILIAS\UI\Implementation\Component\Chart\Factory(
+                $c["ui.factory.progressmeter"],
+                $c["ui.factory.bar"]
+            );
         };
         $c["ui.factory.input"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Factory(
@@ -145,8 +147,8 @@ class InitUIFramework
         $c["ui.factory.progressmeter"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();
         };
-        $c["ui.factory.dropzone.file"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory();
+        $c["ui.factory.bar"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Chart\Bar\Factory();
         };
         $c["ui.factory.input.field"] = function ($c) {
             $data_factory = new ILIAS\Data\Factory();
@@ -168,8 +170,7 @@ class InitUIFramework
         };
         $c["ui.factory.input.container.form"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory(
-                $c["ui.factory.input.field"],
-                new \ILIAS\UI\Implementation\Component\Input\FormInputNameSource()
+                $c["ui.factory.input.field"]
             );
         };
         $c["ui.factory.input.container.filter"] = function ($c) {
@@ -183,6 +184,12 @@ class InitUIFramework
         };
         $c["ui.factory.input.viewcontrol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\ViewControl\Factory();
+        };
+        $c["ui.factory.dropzone.file"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory(
+                $c["ui.factory.input"],
+                $c["lng"]
+            );
         };
         $c["ui.factory.panel.listing"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Panel\Listing\Factory();
@@ -236,7 +243,7 @@ class InitUIFramework
         };
 
         $c["ui.factory.tree"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
+            return new ILIAS\UI\Implementation\Component\Tree\Factory();
         };
 
         $c["ui.factory.legacy"] = function ($c) {

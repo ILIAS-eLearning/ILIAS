@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 /**
@@ -31,20 +47,13 @@ class ilSkinStyleContainer
     public function __construct(
         ilLanguage $lng,
         ilSkin $skin,
-        ilSystemStyleMessageStack $message_stack = null,
+        ilSystemStyleMessageStack $message_stack,
         ilSystemStyleConfig $system_styles_conf = null,
         ilFileSystemHelper $file_system = null
-
     ) {
         $this->lng = $lng;
-
         $this->skin = $skin;
-
-        if (!$message_stack) {
-            $this->setMessageStack(new ilSystemStyleMessageStack());
-        } else {
-            $this->setMessageStack($message_stack);
-        }
+        $this->setMessageStack($message_stack);
 
         if (!$system_styles_conf) {
             $this->setSystemStylesConf(new ilSystemStyleConfig());
@@ -53,7 +62,7 @@ class ilSkinStyleContainer
         }
 
         if (!$file_system) {
-            $this->file_system = new ilFileSystemHelper($this->lng);
+            $this->file_system = new ilFileSystemHelper($this->lng, $message_stack);
         } else {
             $this->file_system = $file_system;
         }
@@ -63,7 +72,7 @@ class ilSkinStyleContainer
      * Creates a new skin. This includes the generation of the XML and the corresponding folders of all contained styles.
      * @throws ilSystemStyleException
      */
-    public function create(ilSystemStyleMessageStack $message_stack)
+    public function create(ilSystemStyleMessageStack $message_stack) : void
     {
         if (file_exists($this->getSkinDirectory())) {
             throw new ilSystemStyleException(ilSystemStyleException::SKIN_ALREADY_EXISTS, $this->getSkinDirectory());
@@ -100,7 +109,7 @@ class ilSkinStyleContainer
      * Updates the skin. Style are not updated, use updateStyle for that.
      * @throws ilSystemStyleException
      */
-    public function updateSkin(ilSkin $old_skin = null)
+    public function updateSkin(ilSkin $old_skin = null) : void
     {
         if (!$old_skin) {
             $old_skin = $this->getSkin();
@@ -120,7 +129,7 @@ class ilSkinStyleContainer
     /**
      * Updates one single style.
      */
-    public function updateStyle($style_id, ilSkinStyle $old_style)
+    public function updateStyle(string $style_id, ilSkinStyle $old_style) : void
     {
         $style = $this->getSkin()->getStyle($style_id);
         if ($style->getImageDirectory() != $old_style->getImageDirectory()) {
@@ -235,7 +244,7 @@ class ilSkinStyleContainer
      * Creates the less/css structure of a style
      * @throws ilSystemStyleException
      */
-    protected function createLessStructure(ilSkinStyle $style)
+    protected function createLessStructure(ilSkinStyle $style) : void
     {
         $this->createMainLessFile($style);
         $this->copyVariablesFromDefault($style);
@@ -246,7 +255,7 @@ class ilSkinStyleContainer
     /**
      * Creates the main less file
      */
-    public function createMainLessFile(ilSkinStyle $style)
+    public function createMainLessFile(ilSkinStyle $style) : void
     {
         $path = $this->getLessFilePath($style->getId());
         file_put_contents($path, $this->getLessMainFileDefautContent($style));
@@ -368,7 +377,7 @@ class ilSkinStyleContainer
     /**
      * Exports the complete skin to an zip file.
      */
-    public function export()
+    public function export() : void
     {
         ilFileDelivery::deliverFileAttached(
             $this->createTempZip(),

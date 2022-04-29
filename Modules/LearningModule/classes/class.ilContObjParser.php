@@ -122,6 +122,9 @@ class ilContObjParser extends ilMDSaxParser
         }
     }
 
+    /**
+     * @param resource $a_xml_parser
+     */
     public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
@@ -221,7 +224,7 @@ class ilContObjParser extends ilMDSaxParser
             $page_obj->buildDom();
             $page_obj->resolveIntLinks();
             $page_obj->resolveIIMMediaAliases($this->mob_mapping);
-            if (in_array($this->coType, array("lm"))) {
+            if ($this->coType == "lm") {
                 $page_obj->resolveQuestionReferences($this->qst_mapping);
             }
             $page_obj->update(false);
@@ -369,9 +372,8 @@ class ilContObjParser extends ilMDSaxParser
     {
         if (isset($this->cnt[$a_name])) {
             return $this->cnt[$a_name];
-        } else {
-            return 0;
         }
+        return 0;
     }
 
     public function buildTag(
@@ -1357,6 +1359,9 @@ class ilContObjParser extends ilMDSaxParser
         }
     }
 
+    /**
+     * @param resource $a_xml_parser
+     */
     public function emptyMediaMetaCache($a_xml_parser) : void
     {
         foreach ($this->media_meta_cache as $cache_entry) {

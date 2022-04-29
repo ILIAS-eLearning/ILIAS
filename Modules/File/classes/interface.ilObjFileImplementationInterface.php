@@ -1,15 +1,21 @@
 <?php
 
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
-
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Interface ilObjFileImplementationInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -17,8 +23,6 @@
 interface ilObjFileImplementationInterface
 {
     /**
-     * @param int $a_version
-     * @return string
      * @deprecated
      */
     public function getDirectory(int $a_version = 0) : string;
@@ -30,9 +34,6 @@ interface ilObjFileImplementationInterface
      */
     public function deleteVersions(?array $a_hist_entry_ids = null) : void;
     
-    /**
-     * @return string
-     */
     public function getFileType() : string;
     
     public function getStorageID() : ?string;
@@ -40,8 +41,6 @@ interface ilObjFileImplementationInterface
     public function getFileSize() : int;
     
     /**
-     * @param int|null $a_hist_entry_id
-     * @return string
      * @deprecated
      */
     public function getFile(?int $a_hist_entry_id = null) : string;
@@ -51,8 +50,6 @@ interface ilObjFileImplementationInterface
     public function getMaxVersion() : int;
     
     /**
-     * @param int|null $a_hist_entry_id
-     * @return void
      * @deprecated
      */
     public function sendFile(?int $a_hist_entry_id = null) : void;

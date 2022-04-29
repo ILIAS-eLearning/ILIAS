@@ -34,7 +34,7 @@ class ilIdentifiedMultiFilesJsPositionIndexRemover extends ilIdentifiedMultiValu
         return $values;
     }
     
-    protected function isFileSubmitAvailable()
+    protected function isFileSubmitAvailable() : bool
     {
         if (!isset($_FILES[$this->getPostVar()])) {
             return false;
@@ -58,7 +58,7 @@ class ilIdentifiedMultiFilesJsPositionIndexRemover extends ilIdentifiedMultiValu
         );
     }
     
-    protected function prepareMultiFilesSubmitValues($filesSubmitValues)
+    protected function prepareMultiFilesSubmitValues($filesSubmitValues) : array
     {
         return $this->removePositionIndexLevels($filesSubmitValues);
     }

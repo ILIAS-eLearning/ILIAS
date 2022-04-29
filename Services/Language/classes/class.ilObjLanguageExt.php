@@ -14,18 +14,10 @@ require_once "./Services/Language/classes/class.ilObjLanguage.php";
 class ilObjLanguageExt extends ilObjLanguage
 {
     /**
-    * Constructor
-    */
-    public function __construct(int $a_id = 0, bool $a_call_by_reference = false)
-    {
-        parent::__construct($a_id, $a_call_by_reference);
-    }
-
-    /**
     * Read and get the global language file as an object
     * @return  object  global language file
     */
-    public function getGlobalLanguageFile()
+    public function getGlobalLanguageFile() : object
     {
         require_once "./Services/Language/classes/class.ilLanguageFile.php";
         return ilLanguageFile::_getGlobalLanguageFile($this->key);
@@ -39,7 +31,7 @@ class ilObjLanguageExt extends ilObjLanguage
     public function setLocal(bool $a_local = true) : void
     {
         if ($this->isInstalled()) {
-            if ($a_local == true) {
+            if ($a_local) {
                 $this->setDescription("installed_local");
             } else {
                 $this->setDescription("installed");
@@ -149,7 +141,7 @@ class ilObjLanguageExt extends ilObjLanguage
     * $a_topics        list of topics
     * Return array     module.separator.topic => value
     */
-    public function getAddedValues(array $a_modules = array(), string $a_pattern = '', array $a_topics = array())
+    public function getAddedValues(array $a_modules = array(), string $a_pattern = '', array $a_topics = array()) : array
     {
         $global_file_obj = $this->getGlobalLanguageFile();
         $global_values = $global_file_obj->getAllValues();
@@ -369,10 +361,10 @@ class ilObjLanguageExt extends ilObjLanguage
         if ($a_pattern) {
             $q .= " AND " . $ilDB->like("value", "text", "%" . $a_pattern . "%");
         }
-        if ($a_state == "changed") {
+        if ($a_state === "changed") {
             $q .= " AND NOT local_change IS NULL ";
         }
-        if ($a_state == "unchanged") {
+        if ($a_state === "unchanged") {
             $q .= " AND local_change IS NULL ";
         }
         $q .= " ORDER BY module, identifier";
@@ -414,13 +406,12 @@ class ilObjLanguageExt extends ilObjLanguage
         // save the single translations in lng_data
         foreach ($a_values as $key => $value) {
             $keys = explode($lng->separator, $key);
-            if (count($keys) == 2) {
+            if (count($keys) === 2) {
                 $module = $keys[0];
                 $topic = $keys[1];
                 $save_array[$module][$topic] = $value;
 
-                if ($global_values[$key] != $value
-                or $global_comments[$key] != $a_remarks[$key]) {
+                if ($global_values[$key] != $value || $global_comments[$key] != $a_remarks[$key]) {
                     $local_change = $save_date;
                 } else {
                     $local_change = null;
@@ -447,7 +438,7 @@ class ilObjLanguageExt extends ilObjLanguage
             ));
             $row = $ilDB->fetchAssoc($set);
 
-            $arr = unserialize($row["lang_array"]);
+            $arr = unserialize($row["lang_array"], ["allowed_classes" => false]);
             if (is_array($arr)) {
                 $entries = array_merge($arr, $entries);
             }
@@ -479,7 +470,7 @@ class ilObjLanguageExt extends ilObjLanguage
         // save the single translations in lng_data
         foreach ($a_values as $key => $value) {
             $keys = explode($lng->separator, $key);
-            if (count($keys) == 2) {
+            if (count($keys) === 2) {
                 $module = $keys[0];
                 $topic = $keys[1];
                 $delete_array[$module][$topic] = $value;
@@ -498,7 +489,7 @@ class ilObjLanguageExt extends ilObjLanguage
             ));
             $row = $ilDB->fetchAssoc($set);
 
-            $arr = unserialize($row["lang_array"]);
+            $arr = unserialize($row["lang_array"], ["allowed_classes" => false]);
             if (is_array($arr)) {
                 $entries = array_diff_key($arr, $entries);
             }

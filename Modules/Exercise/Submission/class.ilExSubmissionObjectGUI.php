@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Portfolio\Export\PortfolioHtmlExport;
 
 /**
@@ -106,7 +120,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $buttons_str .= $button->render();
             }
             // #10462
-            $blogs = sizeof($wsp_tree->getObjectsFromType("blog"));
+            $blogs = count($wsp_tree->getObjectsFromType("blog"));
             if ((!$valid_blog && $blogs)
                 || ($valid_blog && $blogs > 1)) {
                 $button = ilLinkButton::getInstance();
@@ -138,7 +152,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         }
     }
 
-    protected static function getOverviewContentPortfolio(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
+    protected static function getOverviewContentPortfolio(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
@@ -194,11 +208,11 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $button->setCaption("exc_create_portfolio");
                 $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "createPortfolioFromAssignment"));
 
-                $buttons_str .= "" . $button->render();
+                $buttons_str .= $button->render();
             }
             // #10462
             //selectPortfolio ( remove it? )
-            $prtfs = sizeof(ilObjPortfolio::getPortfoliosOfUser($a_submission->getUserId()));
+            $prtfs = count(ilObjPortfolio::getPortfoliosOfUser($a_submission->getUserId()));
             if ((!$valid_prtf && $prtfs)
                 || ($valid_prtf && $prtfs > 1)) {
                 $button = ilLinkButton::getInstance();
@@ -208,7 +222,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
             }
             if ($valid_prtf) {
                 $button = ilLinkButton::getInstance();
-                $button->setCaption("exc_select_portfolio" . "_unlink");
+                $button->setCaption('exc_select_portfolio_unlink');
                 $button->setUrl($ilCtrl->getLinkTargetByClass(array("ilExSubmissionGUI", "ilExSubmissionObjectGUI"), "askUnlinkPortfolio"));
                 $buttons_str .= " " . $button->render();
             }
@@ -408,10 +422,8 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         
         $items = array();
         $portfolios = ilObjPortfolio::getPortfoliosOfUser($this->submission->getUserId());
-        if ($portfolios) {
-            foreach ($portfolios as $portfolio) {
-                $items[$portfolio["id"]] = $portfolio["title"];
-            }
+        foreach ($portfolios as $portfolio) {
+            $items[$portfolio["id"]] = $portfolio["title"];
         }
         
         $this->renderResourceSelection(
@@ -459,7 +471,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         $template_object_id = ilObject::_lookupObjectId($template_id);
 
         // select a template, if available
-        if (count($templates) > 0 && $template_object_id == 0) {
+        if ($templates !== [] && $template_object_id == 0) {
             $this->createPortfolioTemplateObject();
             return;
         }
@@ -485,11 +497,11 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         }
         
         $templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
-        if (!sizeof($templates)) {
+        if ($templates === []) {
             $this->returnToParentObject();
         }
         
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initPortfolioTemplateForm($templates);
         }
         
@@ -508,7 +520,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         }
         
         $templates = ilObjPortfolioTemplate::getAvailablePortfolioTemplates();
-        if (!sizeof($templates)) {
+        if ($templates === []) {
             $this->ctrl->redirect($this, "returnToParent");
         }
         
@@ -697,15 +709,15 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
         
         $blog_id = $a_blog_id;
 
-        $blog_gui = new ilObjBlogGUI($blog_id, ilObjBlogGUI::WORKSPACE_NODE_ID);
-        if ($blog_gui->object) {
+        $blog_gui = new ilObjBlogGUI($blog_id, ilObject2GUI::WORKSPACE_NODE_ID);
+        if ($blog_gui->getObject()) {
             $file = $blog_gui->buildExportFile();
             $size = filesize($file);
             if ($size) {
                 $this->submission->deleteAllFiles();
 
                 $meta = array(
-                    "name" => $blog_id,
+                    "name" => $blog_id . ".zip",
                     "tmp_name" => $file,
                     "size" => $size
                     );
@@ -716,7 +728,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $size = filesize($file);
                 if ($size) {
                     $meta = array(
-                        "name" => $blog_id . "print",
+                        "name" => $blog_id . "print.zip",
                         "tmp_name" => $file,
                         "size" => $size
                     );
@@ -754,7 +766,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $this->submission->deleteAllFiles();
 
                 $meta = array(
-                    "name" => $prtf_id,
+                    "name" => $prtf_id . ".zip",
                     "tmp_name" => $file,
                     "size" => $size
                     );
@@ -766,7 +778,7 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                 $size = filesize($file);
                 if ($size) {
                     $meta = array(
-                        "name" => $prtf_id . "print",
+                        "name" => $prtf_id . "print.zip",
                         "tmp_name" => $file,
                         "size" => $size
                     );

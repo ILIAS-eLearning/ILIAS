@@ -6,7 +6,6 @@
  */
 class ilDBPdoReverse implements ilDBReverse
 {
-
     protected \PDO $pdo;
     protected \ilDBPdo $db_instance;
     protected ?\ilMySQLQueryUtils $query_utils = null;
@@ -49,7 +48,7 @@ class ilDBPdoReverse implements ilDBReverse
             $column['name'] = $column['field'];
             unset($column['field']);
             $column = array_change_key_case($column, CASE_LOWER);
-            if ($field_name == $column['name']) {
+            if ($field_name === $column['name'] && $ilDBPdoFieldDefinition !== null) {
                 [$types, $length, $unsigned, $fixed] = $ilDBPdoFieldDefinition->mapNativeDatatype($column);
                 $notnull = false;
                 if (empty($column['null']) || $column['null'] !== 'YES') {
@@ -103,7 +102,7 @@ class ilDBPdoReverse implements ilDBReverse
     }
 
     /**
-     * @return array<string, array<int|string, array<string, string|int>>&mixed[]>
+     * @return array<string, array<int|string, array<string, string|int>>&array>
      * @throws \ilDatabaseException
      */
     public function getTableIndexDefinition(string $table, string $constraint_name) : array
@@ -127,7 +126,7 @@ class ilDBPdoReverse implements ilDBReverse
 
             $key_name = $row['key_name'];
 
-            if ($constraint_name == $key_name) {
+            if ($constraint_name === $key_name) {
                 if (!$row['non_unique']) {
                     throw new ilDatabaseException('it was not specified an existing table index');
                 }
@@ -136,7 +135,7 @@ class ilDBPdoReverse implements ilDBReverse
                     'position' => $colpos++,
                 );
                 if (!empty($row['collation'])) {
-                    $definition['fields'][$column_name]['sorting'] = ($row['collation'] == 'A' ? 'ascending' : 'descending');
+                    $definition['fields'][$column_name]['sorting'] = ($row['collation'] === 'A' ? 'ascending' : 'descending');
                 }
             }
         }
@@ -149,7 +148,7 @@ class ilDBPdoReverse implements ilDBReverse
     }
 
     /**
-     * @return array<string, array<int|string, array<string, string|int>>&mixed[]>|array<string, bool>
+     * @return array<string, array<int|string, array<string, string|int>>&array>|array<string, bool>
      * @throws \ilDatabaseException
      */
     public function getTableConstraintDefinition(string $table, string $index_name) : array

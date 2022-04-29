@@ -94,8 +94,12 @@ class ilLPStatusTestFinished extends ilLPStatus
 
         $ilDB = $DIC['ilDB'];
 
-        $res = $ilDB->query("SELECT DISTINCT user_fi FROM tst_active" .
-            " WHERE test_fi = " . $ilDB->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)));
+        $res = $ilDB->query(
+            "SELECT DISTINCT user_fi FROM tst_active" .
+            " WHERE test_fi = " . $ilDB->quote(
+                ilObjTestAccess::_getTestIDFromObjectID($a_obj_id)
+            )
+        );
         $user_ids = array();
 
         while ($rec = $ilDB->fetchAssoc($res)) {
@@ -104,13 +108,17 @@ class ilLPStatusTestFinished extends ilLPStatus
         return $user_ids;
     }
 
-    public function determineStatus(int $a_obj_id, int $a_usr_id, object $a_obj = null) : int
-    {
+    public function determineStatus(
+        int $a_obj_id,
+        int $a_usr_id,
+        object $a_obj = null
+    ) : int {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
 
-        $res = $this->db->query("
+        $res = $this->db->query(
+            "
 			SELECT active_id, user_fi, tries, COUNT(tst_sequence.active_fi) sequences
 			FROM tst_active
 			LEFT JOIN tst_sequence
@@ -118,7 +126,8 @@ class ilLPStatusTestFinished extends ilLPStatus
 			WHERE user_fi = {$this->db->quote($a_usr_id, "integer")}
 			AND test_fi = {$this->db->quote(ilObjTestAccess::_getTestIDFromObjectID($a_obj_id), ilDBConstants::T_INTEGER)}
 			GROUP BY active_id, user_fi, tries
-		");
+		"
+        );
 
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
 

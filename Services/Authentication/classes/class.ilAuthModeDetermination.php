@@ -21,12 +21,11 @@
 
 class ilAuthModeDetermination
 {
-    const TYPE_MANUAL = 0;
-    const TYPE_AUTOMATIC = 1;
+    private const TYPE_MANUAL = 0;
+    private const TYPE_AUTOMATIC = 1;
     
     private static ?ilAuthModeDetermination $instance = null;
     
-    private ilDBInterface $db;
     private ilLogger $logger;
     
     private ilSetting $settings;
@@ -46,7 +45,6 @@ class ilAuthModeDetermination
     {
         global $DIC;
       
-        $this->db = $DIC->database();
         $this->logger = $DIC->logger()->auth();
 
         $this->commonSettings = $DIC->settings();
@@ -71,7 +69,7 @@ class ilAuthModeDetermination
      */
     public function isManualSelection() : bool
     {
-        return $this->kind == self::TYPE_MANUAL;
+        return $this->kind === self::TYPE_MANUAL;
     }
 
     /**
@@ -99,8 +97,8 @@ class ilAuthModeDetermination
      */
     public function getAuthModeSequence(string $a_username = '') : array
     {
-        if (!strlen($a_username)) {
-            return $this->position ? $this->position : array();
+        if ($a_username === '') {
+            return $this->position ?: array();
         }
         $sorted = array();
         
@@ -109,7 +107,7 @@ class ilAuthModeDetermination
             if ($sid) {
                 $server = ilLDAPServer::getInstanceByServerId($sid);
                 $this->logger->debug('Validating username filter for ' . $server->getName());
-                if (strlen($server->getUsernameFilter())) {
+                if ($server->getUsernameFilter() !== '') {
                     //#17731
                     $pattern = str_replace('*', '.*?', $server->getUsernameFilter());
 
@@ -141,7 +139,7 @@ class ilAuthModeDetermination
      * @param array position => AUTH_MODE
      *
      */
-    public function setAuthModeSequence(array $a_pos) : int
+    public function setAuthModeSequence(array $a_pos) : void
     {
         $this->position = $a_pos;
     }
@@ -165,14 +163,14 @@ class ilAuthModeDetermination
     /**
      * Read settings
      */
-    private function read()
+    private function read() : void
     {
         $this->kind = (int) $this->settings->get('kind', (string) self::TYPE_MANUAL);
 
         $rad_settings = ilRadiusSettings::_getInstance();
         $rad_active = $rad_settings->isActive();
 
-        $soap_active = (bool) $this->commonSettings->get('soap_auth_active', (string) false);
+        $soap_active = (bool) $this->commonSettings->get('soap_auth_active', "");
 
         // apache settings
         $apache_settings = new ilSetting('apache_auth');
@@ -229,41 +227,31 @@ class ilAuthModeDetermination
         }
 
         // Append missing active auth modes
-        if (!in_array(ilAuthUtils::AUTH_LOCAL, $this->position)) {
+        if (!in_array(ilAuthUtils::AUTH_LOCAL, $this->position, true)) {
             $this->position[] = ilAuthUtils::AUTH_LOCAL;
         }
         // begin-patch ldap_multiple
         foreach (ilLDAPServer::_getActiveServerList() as $sid) {
             $server = ilLDAPServer::getInstanceByServerId($sid);
-            if ($server->isActive()) {
-                if (!in_array(ilAuthUtils::AUTH_LDAP . '_' . $sid, $this->position)) {
-                    $this->position[] = (ilAuthUtils::AUTH_LDAP . '_' . $sid);
-                }
+            if ($server->isActive() && !in_array(ilAuthUtils::AUTH_LDAP . '_' . $sid, $this->position, true)) {
+                $this->position[] = (ilAuthUtils::AUTH_LDAP . '_' . $sid);
             }
         }
         // end-patch ldap_multiple
-        if ($rad_active) {
-            if (!in_array(ilAuthUtils::AUTH_RADIUS, $this->position)) {
-                $this->position[] = ilAuthUtils::AUTH_RADIUS;
-            }
+        if ($rad_active && !in_array(ilAuthUtils::AUTH_RADIUS, $this->position, true)) {
+            $this->position[] = ilAuthUtils::AUTH_RADIUS;
         }
-        if ($soap_active) {
-            if (!in_array(ilAuthUtils::AUTH_SOAP, $this->position)) {
-                $this->position[] = ilAuthUtils::AUTH_SOAP;
-            }
+        if ($soap_active && !in_array(ilAuthUtils::AUTH_SOAP, $this->position, true)) {
+            $this->position[] = ilAuthUtils::AUTH_SOAP;
         }
-        if ($apache_active) {
-            if (!in_array(ilAuthUtils::AUTH_APACHE, $this->position)) {
-                $this->position[] = ilAuthUtils::AUTH_APACHE;
-            }
+        if ($apache_active && !in_array(ilAuthUtils::AUTH_APACHE, $this->position, true)) {
+            $this->position[] = ilAuthUtils::AUTH_APACHE;
         }
         // begin-patch auth_plugin
         foreach (ilAuthUtils::getAuthPlugins() as $pl) {
             foreach ($pl->getAuthIds() as $auth_id) {
-                if ($pl->isAuthActive($auth_id)) {
-                    if (!in_array($auth_id, $this->position)) {
-                        $this->position[] = $auth_id;
-                    }
+                if ($pl->isAuthActive($auth_id) && !in_array($auth_id, $this->position, true)) {
+                    $this->position[] = $auth_id;
                 }
             }
         }

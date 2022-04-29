@@ -19,14 +19,14 @@ class PasswordTest extends TestCase
         $this->f = new Data\Factory();
     }
 
-    public function testValue()
+    public function testValue() : void
     {
         $pass = 'secret';
         $pwd = $this->f->password($pass);
         $this->assertEquals($pass, $pwd->toString());
     }
 
-    public function testWrongParam()
+    public function testWrongParam() : void
     {
         $this->expectException(TypeError::class);
         $pwd = $this->f->password(123);

@@ -20,7 +20,6 @@
  */
 abstract class arStatement
 {
-
     protected string $table_name_as = '';
 
     abstract public function asSQLStatement(ActiveRecord $ar) : string;

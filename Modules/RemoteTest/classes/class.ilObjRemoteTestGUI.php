@@ -40,7 +40,7 @@ class ilObjRemoteTestGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClas
         return 'rtst';
     }
 
-    protected function addCustomInfoFields(ilInfoScreenGUI $a_info)
+    protected function addCustomInfoFields(ilInfoScreenGUI $a_info) : void
     {
         $a_info->addProperty($this->lng->txt('grp_visibility'), $this->availabilityToString());
     }
@@ -63,7 +63,7 @@ class ilObjRemoteTestGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClas
         return '';
     }
     
-    protected function addCustomEditForm(ilPropertyFormGUI $a_form)
+    protected function addCustomEditForm(ilPropertyFormGUI $a_form) : void
     {
         $radio_grp = new ilRadioGroupInputGUI($this->lng->txt('grp_visibility'), 'activation_type');
         $radio_grp->setValue($this->object->getAvailabilityType());

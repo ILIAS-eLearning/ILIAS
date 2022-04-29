@@ -28,9 +28,6 @@ class ilDatabaseServerIsConnectableObjective extends \ilDatabaseObjective
         return true;
     }
 
-    /**
-     * @return mixed[]
-     */
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [];
@@ -45,11 +42,11 @@ class ilDatabaseServerIsConnectableObjective extends \ilDatabaseObjective
         } catch (PDOException $e) {
             // 1049 is "unknown database", which is ok because we propably didn't
             // install the db yet,.
-            if ($e->getCode() != 1049) {
+            if ($e->getCode() !== 1049) {
                 throw $e;
-            } else {
-                $connect = true;
             }
+
+            $connect = true;
         }
         if (!$connect) {
             throw new Setup\UnachievableException(

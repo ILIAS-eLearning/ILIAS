@@ -21,9 +21,14 @@ use ILIAS\LearningModule\Editing\EditingGUIRequest;
  * @author Alex Killing <alex.killing@gmx.de>
  * @author Stefan Meyer <meyer@leifos.com>
  * @author Sascha Hofmann <saschahofmann@gmx.de>
+ * @ilCtrl_Calls ilObjContentObjectGUI: ilLMPageObjectGUI, ilStructureObjectGUI, ilObjectContentStyleSettingsGUI, ilObjectMetaDataGUI
+ * @ilCtrl_Calls ilObjContentObjectGUI: ilLearningProgressGUI, ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI
+ * @ilCtrl_Calls ilObjContentObjectGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPageMultiLangGUI, ilObjectTranslationGUI
+ * @ilCtrl_Calls ilObjContentObjectGUI: ilMobMultiSrtUploadGUI, ilLMImportGUI, ilLMEditShortTitlesGUI, ilLTIProviderObjectSettingGUI
  */
 class ilObjContentObjectGUI extends ilObjectGUI
 {
+    protected \ILIAS\LearningModule\ReadingTime\SettingsGUI $reading_time_gui;
     protected ilLMMenuEditor $lmme_obj;
     protected ilObjLearningModule $lm_obj;
     protected string $lang_switch_mode;
@@ -59,6 +64,13 @@ class ilObjContentObjectGUI extends ilObjectGUI
     protected EditingGUIRequest $edit_request;
     protected \ILIAS\Style\Content\Service $content_style_service;
 
+    /**
+     * @param mixed $a_data
+     * @param int  $a_id
+     * @param bool $a_call_by_reference
+     * @param bool $a_prepare_output
+     * @throws ilCtrlException
+     */
     public function __construct(
         $a_data,
         int $a_id = 0,
@@ -119,6 +131,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->requested_lmmovecopy = $req->getLMMoveCopy();
         $this->content_style_service = $DIC
             ->contentStyle();
+
+        $id = (isset($this->object))
+            ? $this->object->getId()
+            : 0;
+        $this->reading_time_gui = new \ILIAS\LearningModule\ReadingTime\SettingsGUI($id);
     }
 
     /**
@@ -223,7 +240,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
                 $pg_gui = new ilLMPageObjectGUI($this->lm);
                 if ($this->requested_obj_id > 0) {
-                    /** @var ilLmPageObject $obj */
+                    /** @var ilLMPageObject $obj */
                     $obj = ilLMObjectFactory::getInstance($this->lm, $this->requested_obj_id);
                     $pg_gui->setLMPageObject($obj);
                 }
@@ -402,8 +419,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
                     }
                 } else {
                     // creation of new dbk/lm in repository
-                    if ($this->getCreationMode() == true &&
-                        in_array($new_type, array("lm"))) {
+                    if ($this->getCreationMode() === true &&
+                        $new_type === "lm") {
                         $this->prepareOutput();
                         if ($cmd == "") {			// this may be due to too big upload files
                             $cmd = "create";
@@ -503,6 +520,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $progr_icons = new ilCheckboxInputGUI($lng->txt("cont_progress_icons"), "progr_icons");
         $progr_icons->setInfo($this->lng->txt("cont_progress_icons_info"));
         $this->form->addItem($progr_icons);
+
+        $this->reading_time_gui->addSettingToForm($this->form);
 
         // self assessment
         $section = new ilFormSectionHeaderGUI();
@@ -625,7 +644,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $values["cont_show_info_tab"] = $this->object->isInfoEnabled();
 
-        $this->form->setValuesByArray($values);
+        $this->form->setValuesByArray($values, true);
     }
     
     /**
@@ -666,6 +685,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $this->lm->setRatingPages((bool) $form->getInput("rating_pages"));
             $this->lm->setDisableDefaultFeedback((int) $form->getInput("disable_def_feedback"));
             $this->lm->setProgressIcons((int) $form->getInput("progr_icons"));
+            $this->reading_time_gui->saveSettingFromForm($this->form);
 
             $add_info = "";
             $store_tries = $form->getInput("store_tries");
@@ -757,7 +777,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $no_download_file_available =
             " " . $lng->txt("cont_no_download_file_available") .
             " <a href='" . $ilCtrl->getLinkTargetByClass("ilexportgui", "") . "'>" . $lng->txt("change") . "</a>";
-        $types = array("xml", "html", "scorm");
+        $types = array("xml", "html");
         foreach ($types as $type) {
             if ($this->lm->getPublicExportFile($type) != "") {
                 if (is_file($this->lm->getExportDirectory($type) . "/" .
@@ -847,24 +867,24 @@ class ilObjContentObjectGUI extends ilObjectGUI
         );
         $ilCtrl->redirect($this, "chapters");
     }
-
-    protected function afterSave(ilObject $a_new_object) : void
+    
+    protected function afterSave(ilObject $new_object) : void
     {
-        $a_new_object->setCleanFrames(true);
-        $a_new_object->update();
+        $new_object->setCleanFrames(true);
+        $new_object->update();
 
         // create content object tree
-        $a_new_object->createLMTree();
+        $new_object->createLMTree();
         
         // create a first chapter
-        $a_new_object->addFirstChapterAndPage();
+        $new_object->addFirstChapterAndPage();
 
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt($this->type . "_added"), true);
-        ilUtil::redirect("ilias.php?ref_id=" . $a_new_object->getRefId() .
+        ilUtil::redirect("ilias.php?ref_id=" . $new_object->getRefId() .
             "&baseClass=ilLMEditorGUI");
     }
-
+    
     protected function initImportForm(string $new_type) : ilPropertyFormGUI
     {
         $form = parent::initImportForm($new_type);
@@ -875,7 +895,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $form->addItem($cb);
         return $form;
     }
-
+    
     protected function importFileObject(int $parent_id = null, bool $catch_errors = true) : void
     {
         $tpl = $this->tpl;
@@ -1522,7 +1542,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
      */
     public function addLocations(
         bool $a_omit_obj_id = false
-    ) {
+    ) : void {
         $locator = $this->locator;
 
         $obj_id = 0;
@@ -2731,7 +2751,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $ids = $this->edit_request->getIds();
         if (count($ids) > 0) {
             foreach ($ids as $id) {
-                ilHelp::deleteTooltip((int) $id);
+                ilHelp::deleteTooltip($id);
             }
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
         }

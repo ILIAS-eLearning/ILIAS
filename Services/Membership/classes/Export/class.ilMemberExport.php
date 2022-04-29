@@ -1,26 +1,22 @@
 <?php declare(strict_types=1);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
 
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class for generation of member export files
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -49,8 +45,8 @@ class ilMemberExport
 
     protected ilUserFormSettings $settings;
     protected ilPrivacySettings $privacy;
-    protected ?ilCSVWriter $csv;
-    protected ?ilExcel $worksheet;
+    protected ?ilCSVWriter $csv = null;
+    protected ?ilExcel $worksheet = null;
 
     private array $user_ids = array();
     private array $user_course_data = array();
@@ -189,9 +185,6 @@ class ilMemberExport
         }
     }
 
-    /**
-     * @return array
-     */
     protected function getOrderedExportableFields() : array
     {
         $field_info = ilExportFieldsInfo::_getInstanceByType(ilObject::_lookupType($this->obj_id));
@@ -251,17 +244,17 @@ class ilMemberExport
                     break;
 
                 default:
-                    if (substr($field, 0, 4) == 'udf_') {
+                    if (strpos($field, 'udf_') === 0) {
                         $field_id = explode('_', $field);
                         $udf = ilUserDefinedFields::_getInstance();
-                        $def = $udf->getDefinition($field_id[1]);
+                        $def = $udf->getDefinition((int) $field_id[1]);
                         #$this->csv->addColumn($def['field_name']);
                         $this->addCol($def['field_name'], $row, $col++);
-                    } elseif (substr($field, 0, 4) == 'cdf_') {
+                    } elseif (strpos($field, 'cdf_') === 0) {
                         $field_id = explode('_', $field);
                         #$this->csv->addColumn(ilCourseDefinedFieldDefinition::_lookupName($field_id[1]));
-                        $this->addCol(ilCourseDefinedFieldDefinition::_lookupName($field_id[1]), $row, $col++);
-                    } elseif ($field == "username") {//User Name Presentation Guideline; username should be named login
+                        $this->addCol(ilCourseDefinedFieldDefinition::_lookupName((int) $field_id[1]), $row, $col++);
+                    } elseif ($field === "username") {//User Name Presentation Guideline; username should be named login
                         $this->addCol($this->lng->txt("login"), $row, $col++);
                     } else {
                         #$this->csv->addColumn($this->lng->txt($field));
@@ -347,8 +340,10 @@ class ilMemberExport
                         break;
 
                     case 'consultation_hour':
-                        $bookings = ilBookingEntry::lookupManagedBookingsForObject($this->obj_id,
-                            $GLOBALS['DIC']['ilUser']->getId());
+                        $bookings = ilBookingEntry::lookupManagedBookingsForObject(
+                            $this->obj_id,
+                            $GLOBALS['DIC']['ilUser']->getId()
+                        );
 
                         $uts = array();
                         foreach ((array) $bookings[$usr_id] as $ut) {
@@ -416,7 +411,7 @@ class ilMemberExport
         }
         if ($this->settings->enabled('subscribers')) {
             $this->user_ids = array_merge($tmp_ids = $this->members->getSubscribers(), $this->user_ids);
-            $this->readCourseData($tmp_ids, 'subscriber');
+            $this->readCourseData($tmp_ids);
         }
         if ($this->settings->enabled('waiting_list')) {
             $waiting_list = new ilCourseWaitingList($this->obj_id);
@@ -435,18 +430,17 @@ class ilMemberExport
      * Read All User related course data
      * @param int[]
      * @param string
-     * @return void
      */
-    private function readCourseData(array $a_user_ids, string $a_status = 'member') : void
+    private function readCourseData(array $a_user_ids) : void
     {
         foreach ($a_user_ids as $user_id) {
             // Read course related data
             if ($this->members->isAdmin($user_id)) {
-                $this->user_course_data[$user_id]['role'] = $this->getType() == 'crs' ? ilParticipants::IL_CRS_ADMIN : ilParticipants::IL_GRP_ADMIN;
+                $this->user_course_data[$user_id]['role'] = $this->getType() === 'crs' ? ilParticipants::IL_CRS_ADMIN : ilParticipants::IL_GRP_ADMIN;
             } elseif ($this->members->isTutor($user_id)) {
                 $this->user_course_data[$user_id]['role'] = ilParticipants::IL_CRS_TUTOR;
             } elseif ($this->members->isMember($user_id)) {
-                $this->user_course_data[$user_id]['role'] = $this->getType() == 'crs' ? ilParticipants::IL_CRS_MEMBER : ilParticipants::IL_GRP_MEMBER;
+                $this->user_course_data[$user_id]['role'] = $this->getType() === 'crs' ? ilParticipants::IL_CRS_MEMBER : ilParticipants::IL_GRP_MEMBER;
             } else {
                 $this->user_course_data[$user_id]['role'] = 'subscriber';
             }
@@ -463,7 +457,7 @@ class ilMemberExport
      */
     private function addCourseField(int $a_usr_id, string $a_field, int $row, int $col) : bool
     {
-        if (substr($a_field, 0, 4) != 'cdf_') {
+        if (strpos($a_field, 'cdf_') !== 0) {
             return false;
         }
         if (!$this->privacy->courseConfirmationRequired() or $this->agreement[$a_usr_id]['accepted']) {
@@ -483,7 +477,7 @@ class ilMemberExport
      */
     private function addUserDefinedField(ilUserDefinedData $udf_data, string $a_field, int $row, int $col) : bool
     {
-        if (substr($a_field, 0, 4) != 'udf_') {
+        if (strpos($a_field, 'udf_') !== 0) {
             return false;
         }
 
@@ -508,10 +502,10 @@ class ilMemberExport
      */
     protected function initMembers() : void
     {
-        if ($this->getType() == 'crs') {
+        if ($this->getType() === 'crs') {
             $this->members = ilCourseParticipants::_getInstanceByObjId($this->getObjId());
         }
-        if ($this->getType() == 'grp') {
+        if ($this->getType() === 'grp') {
             $this->members = ilGroupParticipants::_getInstanceByObjId($this->getObjId());
         }
     }
@@ -520,7 +514,7 @@ class ilMemberExport
     {
         $parent_node = $this->tree->getNodeData($this->ref_id);
         $groups = $this->tree->getSubTree($parent_node, true, ['grp']);
-        if (is_array($groups) && sizeof($groups)) {
+        if (is_array($groups) && count($groups)) {
             $this->groups_rights = [];
             foreach ($groups as $idx => $group_data) {
                 // check for group in group

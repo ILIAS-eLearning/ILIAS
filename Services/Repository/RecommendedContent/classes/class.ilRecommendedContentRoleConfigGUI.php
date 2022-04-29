@@ -77,8 +77,7 @@ class ilRecommendedContentRoleConfigGUI
         $main_tpl = $this->main_tpl;
         $ctrl = $this->ctrl;
 
-        if (!$rbacreview->isAssignable($this->role_id, $this->node_ref_id) &&
-            $this->node_ref_id != ROLE_FOLDER_ID) {
+        if ($this->node_ref_id !== ROLE_FOLDER_ID && !$rbacreview->isAssignable($this->role_id, $this->node_ref_id)) {
             $this->main_tpl->setOnScreenMessage('info', $this->lng->txt('rep_no_assign_rec_content_to_role'));
         } else {
             if ($rbacsystem->checkAccess('push_desktop_items', USER_FOLDER_ID)) {
@@ -103,7 +102,7 @@ class ilRecommendedContentRoleConfigGUI
 
         $main_tpl = $this->main_tpl;
 
-        if (count($this->requested_item_ref_ids) == 0) {
+        if (count($this->requested_item_ref_ids) === 0) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->listItems();
             return;
@@ -118,7 +117,7 @@ class ilRecommendedContentRoleConfigGUI
         foreach ($this->requested_item_ref_ids as $item_ref_id) {
             $confirmation_gui->addItem(
                 "item_ref_id[]",
-                $item_ref_id,
+                (string) $item_ref_id,
                 ilObject::_lookupTitle(ilObject::_lookupObjectId($item_ref_id))
             );
         }

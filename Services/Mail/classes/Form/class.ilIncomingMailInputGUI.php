@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilIncomingMailInputGUI
@@ -134,7 +149,6 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
             (string) ilMailOptions::BOTH_EMAIL
         );
         $sub_both_opt3->setDisabled($this->getDisabled());
-        $email_info = [];
         if (!$this->isFreeOptionChoice()) {
             $email_info = [];
             if (
@@ -150,7 +164,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
             } else {
                 $email_info[] = $DIC->user()->getEmail();
             }
-            if ($DIC->settings()->get('usr_settings_disable_mail_incoming_mail') == '1') {
+            if ($DIC->settings()->get('usr_settings_disable_mail_incoming_mail') === '1') {
                 $sub_mail_opt1->setDisabled(true);
                 $sub_mail_opt3->setDisabled(true);
                 $sub_both_opt1->setDisabled(true);
@@ -165,7 +179,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
             } else {
                 $email_info[] = $DIC->user()->getSecondEmail();
             }
-            if ($DIC->settings()->get('usr_settings_disable_mail_incoming_mail') == '1') {
+            if ($DIC->settings()->get('usr_settings_disable_mail_incoming_mail') === '1') {
                 $sub_mail_opt2->setDisabled(true);
                 $sub_mail_opt3->setDisabled(true);
                 $sub_both_opt2->setDisabled(true);

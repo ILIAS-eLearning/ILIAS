@@ -31,7 +31,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
     protected ClipboardManager $clipboard;
 
     public function __construct(
-        object $a_parent_obj,
+        ilObjectGUI $a_parent_obj,
         string $a_parent_cmd,
         int $a_ref_id,
         bool $editable = false
@@ -60,7 +60,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setSelectAllCheckbox("id[]");
         
-        $this->addColumn("", "", "1", 1);
+        $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("type"), "", "1");
         $this->addColumn($this->lng->txt("title"), "title");
         $this->addColumn($this->lng->txt("last_change"), "last_update", "25%");
@@ -74,36 +74,29 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
         
         // TODO: Needs other solution
-        if (ilObject::_lookupType($a_ref_id, true) == 'chac') {
+        if (ilObject::_lookupType($a_ref_id, true) === 'chac') {
             $this->getItems();
             return;
         }
-        
 
-        if (ilObject::_lookupType($a_ref_id, true) != "recf") {
+        if (ilObject::_lookupType($a_ref_id, true) !== "recf") {
             if ($this->clipboard->hasEntries()) {
                 if ($this->isEditable()) {
                     $this->addCommandButton("paste", $lng->txt("paste"));
                     $this->addCommandButton("clear", $lng->txt("clear"));
                 }
-            } else {
-                if ($this->isEditable()) {
-                    $this->addMultiCommand("cut", $lng->txt("cut"));
-                    $this->addMultiCommand("delete", $lng->txt("delete"));
-                    $this->addMultiCommand("link", $lng->txt("link"));
-                }
+            } elseif ($this->isEditable()) {
+                $this->addMultiCommand("cut", $lng->txt("cut"));
+                $this->addMultiCommand("delete", $lng->txt("delete"));
+                $this->addMultiCommand("link", $lng->txt("link"));
             }
-        } else {
-            if ($this->clipboard->hasEntries()) {
-                if ($this->isEditable()) {
-                    $this->addCommandButton("clear", $lng->txt("clear"));
-                }
-            } else {
-                if ($this->isEditable()) {
-                    $this->addMultiCommand("cut", $lng->txt("cut"));
-                    $this->addMultiCommand("removeFromSystem", $lng->txt("btn_remove_system"));
-                }
+        } elseif ($this->clipboard->hasEntries()) {
+            if ($this->isEditable()) {
+                $this->addCommandButton("clear", $lng->txt("clear"));
             }
+        } elseif ($this->isEditable()) {
+            $this->addMultiCommand("cut", $lng->txt("cut"));
+            $this->addMultiCommand("removeFromSystem", $lng->txt("btn_remove_system"));
         }
         $this->getItems();
     }
@@ -119,7 +112,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         $objDefinition = $this->obj_definition;
         $tree = $this->tree;
         
-        $items = array();
+        $items = [];
         $childs = $tree->getChilds($this->ref_id);
         foreach ($childs as $key => $val) {
             // visible
@@ -133,7 +126,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
             }
             
             // don't show administration in root node list
-            if ($val["type"] == "adm") {
+            if ($val["type"] === "adm") {
                 continue;
             }
             if (!$this->parent_obj->isVisible($val["ref_id"], $val["type"])) {
@@ -150,13 +143,11 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         $objDefinition = $this->obj_definition;
         $ilCtrl = $this->ctrl;
 
-        //		$this->tpl->setVariable("", );
-        
         // surpress checkbox for particular object types AND the system role
         if (!$objDefinition->hasCheckbox($a_set["type"]) ||
-            $a_set["obj_id"] == SYSTEM_ROLE_ID ||
-            $a_set["obj_id"] == SYSTEM_USER_ID ||
-            $a_set["obj_id"] == ANONYMOUS_ROLE_ID) {
+            (int) $a_set["obj_id"] === SYSTEM_ROLE_ID ||
+            (int) $a_set["obj_id"] === SYSTEM_USER_ID ||
+            (int) $a_set["obj_id"] === ANONYMOUS_ROLE_ID) {
             $this->tpl->touchBlock("no_checkbox");
         } else {
             $this->tpl->setCurrentBlock("checkbox");
@@ -173,21 +164,19 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
                     
         // TODO: broken! fix me
         $title = $a_set["title"];
-        if ($this->clipboard->hasEntries()) {
-            if (in_array($a_set["ref_id"], $this->clipboard->getRefIds())) {
-                switch ($this->clipboard->getCmd()) {
-                    case "cut":
-                        $title = "<del>" . $title . "</del>";
-                        break;
-    
-                    case "copy":
-                        $title = "<font color=\"green\">+</font>  " . $title;
-                        break;
-                            
-                    case "link":
-                        $title = "<font color=\"black\"><</font> " . $title;
-                        break;
-                }
+        if ($this->clipboard->hasEntries() && in_array($a_set["ref_id"], $this->clipboard->getRefIds())) {
+            switch ($this->clipboard->getCmd()) {
+                case "cut":
+                    $title = "<del>" . $title . "</del>";
+                    break;
+
+                case "copy":
+                    $title = "<font color=\"green\">+</font>  " . $title;
+                    break;
+                        
+                case "link":
+                    $title = "<font color=\"black\"><</font> " . $title;
+                    break;
             }
         }
         $this->tpl->setVariable("VAL_TITLE", $title);

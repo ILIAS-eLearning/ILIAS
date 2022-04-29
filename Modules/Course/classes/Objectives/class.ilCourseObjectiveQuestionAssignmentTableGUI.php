@@ -1,26 +1,20 @@
 <?php declare(strict_types=0);
-/*
-        +-----------------------------------------------------------------------------+
-        | ILIAS open source                                                           |
-        +-----------------------------------------------------------------------------+
-        | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-        |                                                                             |
-        | This program is free software; you can redistribute it and/or               |
-        | modify it under the terms of the GNU General Public License                 |
-        | as published by the Free Software Foundation; either version 2              |
-        | of the License, or (at your option) any later version.                      |
-        |                                                                             |
-        | This program is distributed in the hope that it will be useful,             |
-        | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-        | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-        | GNU General Public License for more details.                                |
-        |                                                                             |
-        | You should have received a copy of the GNU General Public License           |
-        | along with this program; if not, write to the Free Software                 |
-        | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-        +-----------------------------------------------------------------------------+
-*/
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * TableGUI for question assignments of course objectives
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -87,10 +81,6 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         foreach ($a_set['sub'] as $sub_data) {
-            if ($a_set['random']) {
-                break;
-            }
-
             if ($sub_data['description']) {
                 $this->tpl->setVariable('QST_DESCRIPTION', $sub_data['description']);
             }
@@ -122,13 +112,9 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
             }
             $this->tpl->parseCurrentBlock();
         }
-        if (count($a_set['sub']) and !$a_set['random']) {
+        if (count($a_set['sub'])) {
             $this->tpl->setVariable('TXT_QUESTIONS', $this->lng->txt('objs_qst'));
         }
-        if ($a_set['random']) {
-            $this->tpl->setVariable('VAL_WARN', $this->lng->txt('crs_objective_random_warn'));
-        }
-
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
 
         $this->tpl->setVariable('ROW_TYPE_IMG', ilObject::_getIcon($a_set['obj_id'], "tiny", $a_set['type']));
@@ -151,9 +137,6 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
             if (!$tmp_tst = ilObjectFactory::getInstanceByRefId((int) $node['ref_id'], false)) {
                 continue;
             }
-
-            $tmp_data['random'] = ilObjTest::_lookupRandomTest($node['obj_id']);
-            $tmp_data['random'] = false;
 
             foreach ($qst = $this->sortQuestions($tmp_tst->getAllQuestions()) as $question_data) {
                 $tmp_question = ilObjTest::_instanciateQuestion($question_data['question_id']);

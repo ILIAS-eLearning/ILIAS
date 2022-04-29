@@ -50,7 +50,6 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         }
 
         $this->getQuestionTemplate();
-        $this->tpl->addCss('Modules/Test/templates/default/ta.css');
 
         $this->tpl->setVariable("QUESTION_DATA", $this->ctrl->getHTML($form));
     }
@@ -151,7 +150,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      * @param ilPropertyFormGUI $form
      * @return ilPropertyFormGUI
      */
-    public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form)
+    public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         // shuffle answers
         $shuffleAnswers = new ilCheckboxInputGUI($this->lng->txt("shuffle_answers"), "shuffle_answers_enabled");
@@ -265,7 +264,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      * @param ilPropertyFormGUI $form
      * @return ilPropertyFormGUI
      */
-    public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
+    public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilKprimChoiceWizardInputGUI.php';
         $kprimAnswers = new ilKprimChoiceWizardInputGUI($this->lng->txt('answers'), 'kprim_answers');
@@ -339,7 +338,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $is_postponed = false,
         $use_post_solutions = false,
         $showInlineFeedback = false
-    ) {
+    ) : string {
         // shuffle output
         $keys = $this->getParticipantsAnswerKeySequence();
 
@@ -443,7 +442,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      * @param bool $show_question_only
      * @param bool $showInlineFeedback
      */
-    public function getPreview($show_question_only = false, $showInlineFeedback = false)
+    public function getPreview($show_question_only = false, $showInlineFeedback = false) : string
     {
         $user_solution = is_object($this->getPreviewSession()) ? (array) $this->getPreviewSession()->getParticipantsSolution() : array();
         // shuffle output
@@ -551,7 +550,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $show_correct_solution = false,
         $show_manual_scoring = false,
         $show_question_text = true
-    ) {
+    ) : string {
         // shuffle output
         $keys = $this->getParticipantsAnswerKeySequence();
 
@@ -600,13 +599,17 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
                     $template->setVariable("ANSWER_IMAGE_URL", $answer->getImageWebPath());
                 }
 
-                $template->setVariable("ANSWER_IMAGE_ALT", ilLegacyFormElementsUtil::prepareFormOutput(
-                    $answer->getImageFile()
-                )
+                $template->setVariable(
+                    "ANSWER_IMAGE_ALT",
+                    ilLegacyFormElementsUtil::prepareFormOutput(
+                        $answer->getImageFile()
+                    )
                 );
-                $template->setVariable("ANSWER_IMAGE_TITLE", ilLegacyFormElementsUtil::prepareFormOutput(
-                    $answer->getImageFile()
-                )
+                $template->setVariable(
+                    "ANSWER_IMAGE_TITLE",
+                    ilLegacyFormElementsUtil::prepareFormOutput(
+                        $answer->getImageFile()
+                    )
                 );
                 $template->parseCurrentBlock();
             }
@@ -766,7 +769,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionAnswerPostVars()
+    public function getAfterParticipationSuppressionAnswerPostVars() : array
     {
         return array();
     }
@@ -780,7 +783,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      *
      * @return string[]
      */
-    public function getAfterParticipationSuppressionQuestionPostVars()
+    public function getAfterParticipationSuppressionQuestionPostVars() : array
     {
         return array();
     }
@@ -793,7 +796,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
      *
      * @return string
      */
-    public function getAggregatedAnswersView($relevant_answers)
+    public function getAggregatedAnswersView($relevant_answers) : string
     {
         return  $this->renderAggregateView(
             $this->aggregateAnswers($relevant_answers, $this->object->getAnswers())
@@ -802,7 +805,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         return '<pre>' . print_r($relevant_answers, 1) . '</pre>';
     }
     
-    public function renderAggregateView($aggregate)
+    public function renderAggregateView($aggregate) : ilTemplate
     {
         $trueOptionLabel = $this->object->getTrueOptionLabelTranslation($this->lng, $this->object->getOptionLabel());
         $falseOptionLabel = $this->object->getFalseOptionLabelTranslation($this->lng, $this->object->getOptionLabel());
@@ -824,7 +827,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         return $tpl;
     }
     
-    public function aggregateAnswers($rawSolutionData, $answers)
+    public function aggregateAnswers($rawSolutionData, $answers) : array
     {
         $aggregate = array();
         

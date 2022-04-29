@@ -31,9 +31,15 @@ class ilLearningProgress
 {
 
     // Static
-    public static function _tracProgress(int $a_user_id, int $a_obj_id, int $a_ref_id, string $a_obj_type = '') : bool
-    {
-        ilChangeEvent::_recordReadEvent($a_obj_type, $a_ref_id, $a_obj_id, $a_user_id);
+    public static function _tracProgress(
+        int $a_user_id,
+        int $a_obj_id,
+        int $a_ref_id,
+        string $a_obj_type = ''
+    ) : bool {
+        ilChangeEvent::_recordReadEvent(
+            $a_obj_type, $a_ref_id, $a_obj_id, $a_user_id
+        );
 
         ilLPStatus::setInProgressIfNotAttempted($a_obj_id, $a_user_id);
 
@@ -54,8 +60,12 @@ class ilLearningProgress
 
             if ($progress) {
                 $progress['spent_seconds'] += (int) $row['spent_seconds'];
-                $progress['access_time'] = max($progress['access_time'], (int) $row['last_access']);
-                $progress['access_time_min'] = min($progress['access_time_min'], (int) $row['first_access']);
+                $progress['access_time'] = max(
+                    $progress['access_time'], (int) $row['last_access']
+                );
+                $progress['access_time_min'] = min(
+                    $progress['access_time_min'], (int) $row['first_access']
+                );
             } else {
                 $progress['obj_id'] = (int) $row['obj_id'];
                 $progress['user_id'] = (int) $row['usr_id'];
@@ -78,7 +88,10 @@ class ilLearningProgress
             if (isset($progress[$row['usr_id']])) {
                 $progress[$row['usr_id']]['spent_seconds'] += (int) $row['spent_seconds'];
                 $progress[$row['usr_id']]['read_count'] += (int) $row['read_count'];
-                $progress[$row['usr_id']]['ts'] = max((int) $row['last_access'], (int) $progress[$row['usr_id']]['ts']);
+                $progress[$row['usr_id']]['ts'] = max(
+                    (int) $row['last_access'],
+                    (int) $progress[$row['usr_id']]['ts']
+                );
             } else {
                 $progress[$row['usr_id']]['spent_seconds'] = (int) $row['spent_seconds'];
                 $progress[$row['usr_id']]['read_count'] = (int) $row['read_count'];

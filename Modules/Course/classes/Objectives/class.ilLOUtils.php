@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Settings for LO courses
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -22,16 +36,20 @@ class ilLOUtils
         $settings = ilLOSettings::getInstanceByObjId($a_cont_oid);
 
         if (self::lookupRandomTest(ilObject::_lookupObjId($a_test_rid))) {
-            if (!$max_points) {
+            if ($max_points === 0) {
                 return true;
             } else {
                 return ($reached / $max_points * 100) >= $limit_perc;
             }
         } else {
-            $required_perc = self::lookupObjectiveRequiredPercentage($a_cont_oid, $a_objective_id, $a_test_rid,
-                $max_points);
+            $required_perc = self::lookupObjectiveRequiredPercentage(
+                $a_cont_oid,
+                $a_objective_id,
+                $a_test_rid,
+                $max_points
+            );
 
-            if (!$max_points) {
+            if ($max_points === 0) {
                 return true;
             } else {
                 return ($reached / $max_points * 100) >= $required_perc;
@@ -65,8 +83,7 @@ class ilLOUtils
         if (self::lookupRandomTest(ilObject::_lookupObjId($tst_ref_id))) {
             return ilLORandomTestQuestionPools::lookupLimit($a_container_id, $a_objective_id, $a_test_type);
         } else {
-            $limit = ilCourseObjectiveQuestion::loookupTestLimit(ilObject::_lookupObjId($tst_ref_id), $a_objective_id);
-            return $limit;
+            return ilCourseObjectiveQuestion::loookupTestLimit(ilObject::_lookupObjId($tst_ref_id), $a_objective_id);
         }
     }
 
@@ -76,9 +93,6 @@ class ilLOUtils
 
         $ilDB = $DIC->database();
 
-        /**
-         * @var ilLOTestAssignments
-         */
         $assignments = ilLOTestAssignments::getInstance($a_container_id);
         if (!$assignments->isSeparateTest($a_test_ref_id)) {
             // no limit of tries for tests assigned to multiple objectives.

@@ -1,6 +1,6 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
 
-use Generator;
+use Iterator;
 
 /******************************************************************************
  *
@@ -43,9 +43,9 @@ abstract class AbstractCollection
     }
 
     /**
-     * @return \Iterator<\ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Css[]|\ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\InlineCss[]|\ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Js[]|\ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCode[]>
+     * @return Iterator <Css[]|InlineCss[]|Js[]|OnLoadCode[]>
      */
-    public function getItems() : \Iterator
+    public function getItems() : Iterator
     {
         yield from $this->items;
     }

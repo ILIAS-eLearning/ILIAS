@@ -22,17 +22,16 @@ use ILIAS\LTIOAuth;
 class OAuthDataStore extends LTIOAuth\OAuthDataStore
 {
 
-/**
+    /**
      * Tool Provider object.
      */
     private ?\ILIAS\LTI\ToolProvider\ToolProvider $toolProvider = null;
 
     /**
      * Class constructor.
-     *
      * @param ToolProvider $toolProvider Tool_Provider object
      */
-    public function __construct($toolProvider)
+    public function __construct(ToolProvider $toolProvider)
     {
         $this->toolProvider = $toolProvider;
     }
@@ -96,21 +95,20 @@ class OAuthDataStore extends LTIOAuth\OAuthDataStore
      *
      * @return string Null value
      */
-    public function new_request_token(\ILIAS\LTIOAuth\OAuthConsumer $consumer, ?string $callback = null)
+    public function new_request_token(\ILIAS\LTIOAuth\OAuthConsumer $consumer, ?string $callback = null) : ?string
     {
         return null;
     }
 
     /**
      * Get new access token.
-     *
-     * @param string        $token     Token value
-     * @param \ILIAS\LTIOAuth\OAuthConsumer $consumer  OAuthConsumer object
-     * @param string        $verifier  Verification code
-     *
+     * @param string                        $token    Token value
+     * @param \ILIAS\LTIOAuth\OAuthConsumer $consumer OAuthConsumer object
+     * @param string|null                   $verifier Verification code
      * @return string Null value
      */
-    public function new_access_token($token, $consumer, $verifier = null)
+    // TODO PHP8 Review: Missing Parameter Type Declaration $token
+    public function new_access_token($token, LTIOAuth\OAuthConsumer $consumer, string $verifier = null) : ?string
     {
         return null;
     }

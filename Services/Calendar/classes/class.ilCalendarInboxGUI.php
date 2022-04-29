@@ -51,7 +51,7 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
         $this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
         if ($this->user->getTimeZone()) {
-            $this->timezone = (string) $this->user->getTimeZone();
+            $this->timezone = $this->user->getTimeZone();
         }
     }
 
@@ -61,7 +61,7 @@ class ilCalendarInboxGUI extends ilCalendarViewGUI
         switch ($next_class) {
             case 'ilcalendarappointmentgui':
                 $this->ctrl->setReturn($this, '');
-                $this->tabs_gui->setSubTabActive($_SESSION['cal_last_tab']);
+                $this->tabs_gui->setSubTabActive((string) ilSession::get('cal_last_tab'));
 
                 $app = new ilCalendarAppointmentGUI($this->seed, $this->seed, $this->initAppointmentIdFromQuery());
                 $this->ctrl->forwardCommand($app);

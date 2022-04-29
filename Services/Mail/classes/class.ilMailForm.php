@@ -1,8 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory as Refinery;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author Nadia Ahmad
@@ -10,9 +22,6 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilMailForm
 {
-    private GlobalHttpState $http;
-    private Refinery $refinery;
-
     /**
      * @param string $quotedTerm
      * @param string $term
@@ -23,13 +32,13 @@ class ilMailForm
     {
         global $DIC;
 
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
+        $http = $DIC->http();
+        $refinery = $DIC->refinery();
 
         $mode = ilMailAutoCompleteRecipientResult::MODE_STOP_ON_MAX_ENTRIES;
         if (
-            $this->http->wrapper()->query()->has('fetchall') &&
-            $this->http->wrapper()->query()->retrieve('fetchall', $this->refinery->kindlyTo()->bool())
+            $http->wrapper()->query()->has('fetchall') &&
+            $http->wrapper()->query()->retrieve('fetchall', $refinery->kindlyTo()->bool())
         ) {
             $mode = ilMailAutoCompleteRecipientResult::MODE_FETCH_ALL;
         }

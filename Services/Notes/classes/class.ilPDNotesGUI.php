@@ -22,9 +22,7 @@ class ilPDNotesGUI
 {
     public const PUBLIC_COMMENTS = "publiccomments";
     public const PRIVATE_NOTES = "privatenotes";
-    /**
-     * @var mixed
-     */
+
     protected int $current_rel_obj;
     protected \ILIAS\Notes\StandardGUIRequest $request;
 
@@ -71,7 +69,7 @@ class ilPDNotesGUI
         // link from ilPDNotesBlockGUI
         $rel_obj = $this->request->getRelatedObjId();
         if ($rel_obj > 0) {
-            $mode = ($this->request->getNoteType() == ilNote::PRIVATE)
+            $mode = ($this->request->getNoteType() === ilNote::PRIVATE)
                 ? self::PRIVATE_NOTES
                 : self::PUBLIC_COMMENTS;
             $ilUser->writePref("pd_notes_mode", $mode);
@@ -80,7 +78,7 @@ class ilPDNotesGUI
         // edit link
         elseif ($this->request->getNoteId() > 0) {
             $note = new ilNote($this->request->getNoteId());
-            $mode = ($note->getType() == ilNote::PRIVATE) ? self::PRIVATE_NOTES : self::PUBLIC_COMMENTS;
+            $mode = ($note->getType() === ilNote::PRIVATE) ? self::PRIVATE_NOTES : self::PUBLIC_COMMENTS;
             $obj = $note->getObject();
             $ilUser->writePref("pd_notes_mode", $mode);
             $ilUser->writePref("pd_notes_rel_obj" . $mode, $obj["rep_obj_id"]);
@@ -117,7 +115,7 @@ class ilPDNotesGUI
             $t = $this->lng->txt("notes_comments");
         }
 
-        if ($this->getMode() == self::PRIVATE_NOTES) {
+        if ($this->getMode() === self::PRIVATE_NOTES) {
             $t = $this->lng->txt("private_notes");
             $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_nots.svg"));
         } else {
@@ -140,7 +138,7 @@ class ilPDNotesGUI
         //var_dump($rel_objs);
         // prepend personal dektop, if first object
         //		if ($rel_objs[0]["rep_obj_id"] > 0 && $this->getMode() == ilPDNotesGUI::PRIVATE_NOTES)
-        if ($this->getMode() == ilPDNotesGUI::PRIVATE_NOTES) {
+        if ($this->getMode() === self::PRIVATE_NOTES) {
             $rel_objs = array_merge(
                 [0 => [
                     "rep_obj_id" => 0,
@@ -151,7 +149,7 @@ class ilPDNotesGUI
         }
 
         // #9410
-        if (!$rel_objs && $this->getMode() == ilPDNotesGUI::PUBLIC_COMMENTS) {
+        if (!$rel_objs && $this->getMode() === self::PUBLIC_COMMENTS) {
             $lng->loadLanguageModule("notes");
             $this->tpl->setOnScreenMessage('info', $lng->txt("msg_no_search_result"));
             return;
@@ -182,7 +180,7 @@ class ilPDNotesGUI
             $notes_gui = new ilNoteGUI(0, $ilUser->getId(), "pd", false, 0, false);
         }
         
-        if ($this->getMode() == ilPDNotesGUI::PRIVATE_NOTES) {
+        if ($this->getMode() === self::PRIVATE_NOTES) {
             $notes_gui->enablePrivateNotes(true);
             $notes_gui->enablePublicNotes(false);
         } else {
@@ -191,7 +189,7 @@ class ilPDNotesGUI
             // #13707
             if ($this->current_rel_obj > 0 &&
                 count($current_ref_ids) > 0 &&
-                $ilSetting->get("comments_del_tutor", 1)) {
+                $ilSetting->get("comments_del_tutor", '1')) {
                 foreach ($current_ref_ids as $ref_id) {
                     if ($ilAccess->checkAccess("write", "", $ref_id)) {
                         $notes_gui->enablePublicNotesDeletion(true);
@@ -207,14 +205,12 @@ class ilPDNotesGUI
 
         $next_class = $this->ctrl->getNextClass($this);
 
-        if ($next_class == "ilnotegui") {
+        if ($next_class === "ilnotegui") {
             $html = $this->ctrl->forwardCommand($notes_gui);
+        } elseif ($this->getMode() === self::PRIVATE_NOTES) {
+            $html = $notes_gui->getOnlyNotesHTML();
         } else {
-            if ($this->getMode() == ilPDNotesGUI::PRIVATE_NOTES) {
-                $html = $notes_gui->getOnlyNotesHTML();
-            } else {
-                $html = $notes_gui->getOnlyCommentsHTML();
-            }
+            $html = $notes_gui->getOnlyCommentsHTML();
         }
         
         if (count($rel_objs) > 1 ||
@@ -266,7 +262,7 @@ class ilPDNotesGUI
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
         
-        $ilUser->writePref("pd_notes_mode", ilPDNotesGUI::PRIVATE_NOTES);
+        $ilUser->writePref("pd_notes_mode", self::PRIVATE_NOTES);
         $ilCtrl->redirect($this, "");
     }
     
@@ -280,7 +276,7 @@ class ilPDNotesGUI
             $ilCtrl->redirect($this, "showPrivateNotes");
         }
         
-        $ilUser->writePref("pd_notes_mode", ilPDNotesGUI::PUBLIC_COMMENTS);
+        $ilUser->writePref("pd_notes_mode", self::PUBLIC_COMMENTS);
         $ilCtrl->redirect($this, "");
     }
 
@@ -289,11 +285,11 @@ class ilPDNotesGUI
         $ilUser = $this->user;
         $ilSetting = $this->settings;
         
-        if ($ilUser->getPref("pd_notes_mode") == ilPDNotesGUI::PUBLIC_COMMENTS &&
+        if ($ilUser->getPref("pd_notes_mode") === self::PUBLIC_COMMENTS &&
             !$ilSetting->get("disable_comments")) {
-            return ilPDNotesGUI::PUBLIC_COMMENTS;
-        } else {
-            return ilPDNotesGUI::PRIVATE_NOTES;
+            return self::PUBLIC_COMMENTS;
         }
+
+        return self::PRIVATE_NOTES;
     }
 }

@@ -116,7 +116,7 @@ class ilSoapFunctions
 
         return $sca->deleteCourse($sid, $course_id);
     }
-    public static function assignCourseMember(string $sid, int $course_id, int $user_id, int $type)
+    public static function assignCourseMember(string $sid, int $course_id, int $user_id, string $type)
     {
         include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';
 
@@ -457,16 +457,7 @@ class ilSoapFunctions
         return $sou->ilCloneDependencies($sid, $copy_identifier);
     }
 
-    public static function saveQuestionResult($sid, $user_id, $test_id, $question_id, $pass, $solution)
-    {
-        include_once './webservice/soap/classes/class.ilSoapTestAdministration.php';
-
-        $sass = new ilSoapTestAdministration();
-
-        return $sass->saveQuestionResult($sid, $user_id, $test_id, $question_id, $pass, $solution);
-    }
-
-    public static function saveQuestion($sid, $active_id, $question_id, $pass, $solution)
+    public static function saveQuestion(string $sid, int $active_id, int $question_id, int $pass, array $solution)
     {
         include_once './webservice/soap/classes/class.ilSoapTestAdministration.php';
 
@@ -844,7 +835,7 @@ class ilSoapFunctions
      */
     public static function buildHTTPPath()
     {
-        if ($_SERVER["HTTPS"] == "on") {
+        if ($_SERVER["HTTPS"] === "on") {
             $protocol = 'https://';
         } else {
             $protocol = 'http://';
@@ -930,34 +921,7 @@ class ilSoapFunctions
 
         return $sou->deleteExpiredDualOptInUserObjects($sid, $usr_id);
     }
-    
-    /*
-    public static function getSkillCompletionDateForTriggerRefId($sid, $usr_id, $a_ref_id)
-    {
-        include_once './webservice/soap/classes/class.ilSoapSkillAdministration.php';
-        $s = new ilSoapSkillAdministration();
 
-        $res = $s->getCompletionDateForTriggerRefId($sid, $usr_id, $a_ref_id);
-        return $res;
-    }
-
-    public static function checkSkillUserCertificateForTriggerRefId($sid, $usr_id, $a_ref_id)
-    {
-        include_once './webservice/soap/classes/class.ilSoapSkillAdministration.php';
-
-        $s = new ilSoapSkillAdministration();
-        return $s->checkUserCertificateForTriggerRefId($sid, $usr_id, $a_ref_id);
-    }
-
-    public static function getSkillTriggerOfAllCertificates($sid, $usr_id)
-    {
-        include_once './webservice/soap/classes/class.ilSoapSkillAdministration.php';
-
-        $s = new ilSoapSkillAdministration();
-        return $s->getTriggerOfAllCertificates($sid, $usr_id);
-    }
-    */
-    
     /**
      * Delete progress
      * @param string $sid
@@ -1099,6 +1063,7 @@ class ilSoapFunctions
     public function __call($name, $arguments)
     {
         // SoapHookPlugins need the client-ID submitted
+        // no initialized ILIAS => no request wrapper available.
         if (!isset($_GET['client_id'])) {
             throw new SoapFault('SOAP-ENV:Server', "Function '{$name}' does not exist");
         }
@@ -1111,7 +1076,7 @@ class ilSoapFunctions
         $soapHook = new ilSoapHook($DIC['component.factory']);
         // Method name may be invoked with namespace e.g. 'myMethod' vs 'ns:myMethod'
         if (strpos($name, ':') !== false) {
-            list($_, $name) = explode(':', $name);
+            [$_, $name] = explode(':', $name);
         }
         $method = $soapHook->getMethodByName($name);
         if ($method) {

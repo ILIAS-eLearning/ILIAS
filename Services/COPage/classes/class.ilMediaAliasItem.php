@@ -898,9 +898,7 @@ class ilMediaAliasItem
         string $a_area_type,
         string $a_coords
     ) : bool {
-        if (!$a_st_item->copyOriginal()) {
-            return false;
-        }
+        $a_st_item->copyOriginal();
         $a_st_item->buildMapWorkImage();
         
         // determine ratios (first see whether the instance has w/h defined)

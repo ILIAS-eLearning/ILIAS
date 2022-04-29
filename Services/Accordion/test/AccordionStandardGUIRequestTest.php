@@ -32,7 +32,7 @@ class AccordionStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testUserId()
+    public function testUserId() : void
     {
         $request = $this->getRequest(
             [
@@ -48,7 +48,7 @@ class AccordionStandardGUIRequestTest extends TestCase
     }
 
 
-    public function testTabNr()
+    public function testTabNr() : void
     {
         $request = $this->getRequest(
             [

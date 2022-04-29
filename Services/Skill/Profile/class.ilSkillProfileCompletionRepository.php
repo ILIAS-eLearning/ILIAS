@@ -172,6 +172,7 @@ class ilSkillProfileCompletionRepository
 
     /**
      * Get all profile completion entries for a user
+     * @return array{profile_id: int, user_id: int, date: string, fulfilled: int}[]
      */
     public static function getFulfilledEntriesForUser(int $a_user_id) : array
     {
@@ -187,10 +188,10 @@ class ilSkillProfileCompletionRepository
         $entries = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $entries[] = array(
-                "profile_id" => $rec["profile_id"],
-                "user_id" => $rec["user_id"],
+                "profile_id" => (int) $rec["profile_id"],
+                "user_id" => (int) $rec["user_id"],
                 "date" => $rec["date"],
-                "fulfilled" => $rec["fulfilled"]
+                "fulfilled" => (int) $rec["fulfilled"]
             );
         }
 

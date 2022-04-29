@@ -1,26 +1,37 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 Luka Stocker <luka.stocker@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\Refinery\Integer;
 
-use ILIAS\Refinery\Constraint;
 use ILIAS\Data;
-use ILIAS\Refinery\Custom\Constraint as CustomConstraint;
+use ILIAS\Refinery\Custom\Constraint;
+use ilLanguage;
 
-class LessThanOrEqual extends CustomConstraint implements Constraint
+class LessThanOrEqual extends Constraint
 {
-    protected int $max;
-
-    public function __construct(int $max, Data\Factory $data_factory, \ilLanguage $lng)
+    public function __construct(int $max, Data\Factory $data_factory, ilLanguage $lng)
     {
-        $this->max = $max;
         parent::__construct(
-            function ($value) : bool {
-                return $value <= $this->max;
+            static function ($value) use ($max) : bool {
+                return $value <= $max;
             },
-            function ($txt, $value) : string {
-                return (string) $txt("not_less_than_or_equal", $this->max);
+            static function ($txt, $value) use ($max) : string {
+                return (string) $txt("not_less_than_or_equal", $max);
             },
             $data_factory,
             $lng

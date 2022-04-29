@@ -20,7 +20,7 @@ use ILIAS\Repository;
 class StandardGUIRequest
 {
     use Repository\BaseGUIRequest;
-
+    
     public function __construct(
         \ILIAS\HTTP\Services $http,
         \ILIAS\Refinery\Factory $refinery,

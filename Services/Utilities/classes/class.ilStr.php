@@ -33,7 +33,10 @@ class ilStr
             return substr($a_str, $a_start, $a_length);
         }
     }
-    
+
+    /**
+     * @return false|int|true
+     */
     public static function strPos(string $a_haystack, string $a_needle, ?int $a_offset = null)
     {
         if (function_exists("mb_strpos")) {
@@ -75,7 +78,6 @@ class ilStr
     
     public static function strToUpper(string $a_string) : string
     {
-        $a_string = (string) $a_string;
         if (function_exists("mb_strtoupper")) {
             return mb_strtoupper($a_string, "UTF-8");
         } else {
@@ -90,7 +92,7 @@ class ilStr
     
     /**
      * Shorten text to the given number of bytes.
-     * If the character is cutted within a character
+     * If the character is cut within a character
      * the invalid character will be shortened, too.
      *
      * E.g: shortenText('€€€',4) will return '€'
@@ -184,7 +186,7 @@ class ilStr
         bool $a_dots = false,
         bool $a_next_blank = false,
         bool $a_keep_extension = false
-    ) {
+    ) : string {
         if (ilStr::strLen($a_str) > $a_len) {
             if ($a_next_blank) {
                 $len = ilStr::strPos($a_str, " ", $a_len);

@@ -28,7 +28,6 @@ namespace ILIAS\Filesystem;
  */
 trait FilesystemsAware
 {
-
     private static Filesystems $filesystems;
 
     /**

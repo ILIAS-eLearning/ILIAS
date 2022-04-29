@@ -1,14 +1,22 @@
 <?php declare(strict_types=1);
 
 /**
- * @author  Lukas Scharmer <lscharmer@databay.de>
- */
-namespace ILIAS\Refinery;
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-use ILIAS\Data\Result;
-use ILIAS\Data\Result\Ok;
-use ILIAS\Refinery\DeriveInvokeFromTransform;
-use ILIAS\Refinery\DeriveApplyToFromTransform;
+namespace ILIAS\Refinery;
 
 class IdentityTransformation implements Transformation
 {
@@ -16,7 +24,7 @@ class IdentityTransformation implements Transformation
     use DeriveApplyToFromTransform;
 
     /**
-     * @throws \InvalidArgumentException
+     * @inheritDoc
      */
     public function transform($from)
     {

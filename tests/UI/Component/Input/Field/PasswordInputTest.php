@@ -19,7 +19,7 @@ class _PWDInputData implements InputData
     /**
      * @ineritdoc
      */
-    public function get(string $name)
+    public function get(string $name) : string
     {
         return 'some value';
     }
@@ -27,7 +27,7 @@ class _PWDInputData implements InputData
     /**
      * @inheritcoc
      */
-    public function getOr(string $name, $default)
+    public function getOr(string $name, $default) : string
     {
         return 'some alternative value';
     }

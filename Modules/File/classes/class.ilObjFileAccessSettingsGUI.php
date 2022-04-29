@@ -1,18 +1,20 @@
 <?php
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
-
+ *********************************************************************/
+ 
 use ILIAS\HTTP\Services;
 
 /**
@@ -39,7 +41,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
      *
      * @access public
      */
-    public function __construct($a_data, $a_id, $a_call_by_reference)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference)
     {
         global $DIC;
         $this->type = "facs";
@@ -216,7 +218,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
             $ilErr->raiseError($DIC->language()->txt("no_permission"), $ilErr->WARNING);
         }
 
-        if (!$a_form) {
+        if ($a_form === null) {
             $a_form = $this->initSettingsForm();
         }
 
@@ -278,7 +280,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
             $this->tpl->setOnScreenMessage('info', $lng->txt("ghostscript_not_configured"));
         }
 
-        $renderers = ilRendererFactory::getRenderers();
+        $factory = new ilRendererFactory();
+        $renderers = $factory->getRenderers();
         $array_wrapper = array_map(function (ilFilePreviewRenderer $renderer) : array {
             return [
                 'name' => $renderer->getName(),
@@ -291,7 +294,7 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
 
 
         $table = new ilRendererTableGUI($this, self::CMD_SHOW_PREVIEW_RENDERERS);
-        $table->setMaxCount(sizeof($renderers));
+        $table->setMaxCount(count($renderers));
         $table->setData($array_wrapper);
 
         // set content

@@ -20,7 +20,6 @@
  */
 class arConcatCollection extends arStatementCollection
 {
-
     public function asSQLStatement() : string
     {
         $return = '';

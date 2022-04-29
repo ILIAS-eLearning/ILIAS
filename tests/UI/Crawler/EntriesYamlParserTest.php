@@ -43,7 +43,7 @@ class CrawlerTest extends TestCase
         $this->assertEquals($this->proper_entry->properEntryYamlString, $yaml_entries[0]);
     }
 
-    public function testParseProperEntryToArray()
+    public function testParseProperEntryToArray() : void
     {
         $entries = $this->parser->parseArrayFromFile("tests/UI/Crawler/Fixture/ProperEntry.php");
         $this->assertEquals($this->proper_entry->properEntryYamlArray, $entries);

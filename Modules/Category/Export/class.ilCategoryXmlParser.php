@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -25,7 +25,7 @@ class ilCategoryXmlParser extends ilSaxParser
 
     private ?ilObjCategory $cat = null;
     private int $parent_id = 0;
-    private array $current_translation = array();
+    private array $current_translation = [];
     private string $current_container_setting;
     protected ilLogger $cat_log;
     protected int $mode;
@@ -35,7 +35,7 @@ class ilCategoryXmlParser extends ilSaxParser
     {
         parent::__construct(null);
 
-        $this->mode = ilCategoryXmlParser::MODE_CREATE;
+        $this->mode = self::MODE_CREATE;
         $this->parent_id = $a_parent_id;
         $this->setXMLContent($a_xml);
 
@@ -48,7 +48,7 @@ class ilCategoryXmlParser extends ilSaxParser
     }
 
     /**
-     * @return mixed[]
+     * @return array
      */
     protected function getCurrentTranslation() : array
     {
@@ -66,11 +66,17 @@ class ilCategoryXmlParser extends ilSaxParser
     {
         parent::startParsing();
 
-        if ($this->mode !== ilCategoryXmlParser::MODE_CREATE) {
+        if ($this->mode !== self::MODE_CREATE) {
             $this->cat->update();
         }
     }
 
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @param array  $a_attribs
+     * @return void
+     */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
@@ -82,7 +88,7 @@ class ilCategoryXmlParser extends ilSaxParser
                 break;
 
             case 'Translation':
-                $this->current_translation = array();
+                $this->current_translation = [];
                 $this->current_translation['default'] = $a_attribs['default'] ? 1 : 0;
                 $this->current_translation['lang'] = $a_attribs['language'];
                 break;
@@ -98,6 +104,11 @@ class ilCategoryXmlParser extends ilSaxParser
         }
     }
 
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @return void
+     */
     public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         switch ($a_name) {
@@ -129,7 +140,7 @@ class ilCategoryXmlParser extends ilSaxParser
                     (string) $this->current_translation['title'],
                     (string) $this->current_translation['description'],
                     (string) $this->current_translation['lang'],
-                    (int) $this->current_translation['default']
+                    (string) ((int) $this->current_translation['default'])
                 );
                 break;
 
@@ -152,11 +163,13 @@ class ilCategoryXmlParser extends ilSaxParser
         $this->cdata = '';
     }
 
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_data
+     * @return void
+     */
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
-        #$a_data = str_replace("<","&lt;",$a_data);
-        #$a_data = str_replace(">","&gt;",$a_data);
-
         if (!empty($a_data)) {
             $this->cdata .= $a_data;
         }
@@ -168,8 +181,7 @@ class ilCategoryXmlParser extends ilSaxParser
         /**
          * mode can be create or update
          */
-        if ($this->mode == ilCategoryXmlParser::MODE_CREATE) {
-            //$this->create();
+        if ($this->mode === self::MODE_CREATE) {
             $this->getCategory()->create();
             $this->getCategory()->createReference();
             $this->getCategory()->putInTree($this->getParentId());
@@ -189,7 +201,7 @@ class ilCategoryXmlParser extends ilSaxParser
         $this->cat = $cat;
     }
 
-    public function getCategory() : ?\ilObjCategory
+    public function getCategory() : ?ilObjCategory
     {
         return $this->cat;
     }

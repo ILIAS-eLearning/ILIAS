@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Skill\Service\SkillTreeService;
+
 /**
  * TableGUI class for skill list in survey
  * @author Alexander Killing <killing@leifos.de>
@@ -20,8 +22,11 @@
 class ilSurveySkillTableGUI extends ilTable2GUI
 {
     protected ilSurveySkillThresholds $skill_thres;
-    protected ilSkillTree $skill_tree;
+    protected SkillTreeService $skill_tree_service;
+    protected ilGlobalSkillTree $skill_tree;
     protected ilObjSurvey $survey;
+    /** @var array<int, array<int, int>> */
+    protected array $thresholds;
 
     public function __construct(
         object $a_parent_obj,
@@ -41,7 +46,8 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $this->getSkills();
         $this->setTitle($lng->txt("survey_competences"));
 
-        $this->skill_tree = new ilSkillTree();
+        $this->skill_tree_service = $DIC->skills()->tree();
+        $this->skill_tree = $this->skill_tree_service->getGlobalSkillTree();
 
         $this->skill_thres = new ilSurveySkillThresholds($a_survey);
         $this->thresholds = $this->skill_thres->getThresholds();
@@ -113,7 +119,7 @@ class ilSurveySkillTableGUI extends ilTable2GUI
             $this->tpl->setVariable("LEV", $l["title"]);
 
             $tr = $this->thresholds[$l["id"]][$a_set["tref_id"]];
-            if ((int) $tr != 0) {
+            if ((int) $tr !== 0) {
                 $this->tpl->setVariable("THRESHOLD", (int) $tr);
             } else {
                 $this->tpl->setVariable("THRESHOLD", "");

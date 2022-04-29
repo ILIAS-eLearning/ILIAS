@@ -20,8 +20,6 @@ class ilWebDAVMountInstructionsTextDocumentProcessor extends ilWebDAVMountInstru
         $stripped_instructions = htmlspecialchars($a_raw_mount_instructions);
         $stripped_instructions = nl2br($stripped_instructions);
 
-        $processed_instructions = $this->parseInstructionsToAssocArray($stripped_instructions);
-
-        return $processed_instructions;
+        return $this->parseInstructionsToAssocArray($stripped_instructions);
     }
 }

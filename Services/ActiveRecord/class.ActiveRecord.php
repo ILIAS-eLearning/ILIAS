@@ -43,8 +43,10 @@ abstract class ActiveRecord
      */
     public static function returnDbTableName() : string
     {
-        throw new arException(arException::UNKNONWN_EXCEPTION,
-            'Implement getConnectorContainerName in your child-class');
+        throw new arException(
+            arException::UNKNONWN_EXCEPTION,
+            'Implement getConnectorContainerName in your child-class'
+        );
     }
 
     /**
@@ -88,8 +90,7 @@ abstract class ActiveRecord
     }
 
     /**
-     * @param int         $primary_key
-     * @param arConnector $connector
+     * @param mixed         $primary_key
      */
     public function __construct($primary_key = 0)
     {
@@ -221,7 +222,7 @@ abstract class ActiveRecord
      * @param $old_name
      * @param $new_name
      */
-    final public static function renameDBField($old_name, $new_name) : bool
+    final public static function renameDBField(string $old_name, string $new_name) : bool
     {
         return self::getCalledClass()->getArConnector()->renameField(self::getCalledClass(), $old_name, $new_name);
     }
@@ -234,7 +235,7 @@ abstract class ActiveRecord
     /**
      * @param $field_name
      */
-    final public static function fieldExists($field_name) : bool
+    final public static function fieldExists(string $field_name) : bool
     {
         return self::getCalledClass()->getArConnector()->checkFieldExists(self::getCalledClass(), $field_name);
     }
@@ -242,7 +243,7 @@ abstract class ActiveRecord
     /**
      * @param $field_name
      */
-    final public static function removeDBField($field_name) : bool
+    final public static function removeDBField(string $field_name) : bool
     {
         return self::getCalledClass()->getArConnector()->removeField(self::getCalledClass(), $field_name);
     }
@@ -485,8 +486,14 @@ abstract class ActiveRecord
         string $operator = '=',
         $both_external = false
     ) : \ActiveRecordList {
-        return self::innerjoin($ar->getConnectorContainerName(), $on_this, $on_external, $fields, $operator,
-            $both_external);
+        return self::innerjoin(
+            $ar->getConnectorContainerName(),
+            $on_this,
+            $on_external,
+            $fields,
+            $operator,
+            $both_external
+        );
     }
 
     /**
@@ -501,7 +508,7 @@ abstract class ActiveRecord
         $on_external,
         array $fields = array('*'),
         string $operator = '=',
-        $both_external = false
+        bool $both_external = false
     ) : \ActiveRecordList {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
@@ -520,7 +527,7 @@ abstract class ActiveRecord
         $on_external,
         array $fields = array('*'),
         string $operator = '=',
-        $both_external = false
+        bool $both_external = false
     ) : \ActiveRecordList {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
@@ -596,7 +603,8 @@ abstract class ActiveRecord
 
     public static function getCollection() : \ActiveRecordList
     {
-        return new ActiveRecordList(self::getCalledClass());;
+        return new ActiveRecordList(self::getCalledClass());
+        ;
     }
 
     public static function last() : ?\ActiveRecord
@@ -631,9 +639,7 @@ abstract class ActiveRecord
     }
 
     /**
-     * @param string|null $key
      * @param null        $values
-     * @return array
      */
     public static function getArray(?string $key = null, $values = null) : array
     {
@@ -669,13 +675,13 @@ abstract class ActiveRecord
             $str[0] = strtoupper($str[0]);
         }
 
-        return preg_replace_callback('/_([a-z])/', fn($c) => strtoupper($c[1]), $str);
+        return preg_replace_callback('/_([a-z])/', fn ($c) => strtoupper($c[1]), $str);
     }
 
     protected static function fromCamelCase(string $str) : ?string
     {
         $str[0] = strtolower($str[0]);
 
-        return preg_replace_callback('/([A-Z])/', fn($c) => "_" . strtolower($c[1]), $str);
+        return preg_replace_callback('/([A-Z])/', fn ($c) => "_" . strtolower($c[1]), $str);
     }
 }

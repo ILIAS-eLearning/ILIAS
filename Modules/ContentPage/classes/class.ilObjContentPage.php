@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
@@ -49,9 +64,9 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         $this->type = self::OBJ_TYPE;
     }
 
-    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null) : void
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
     {
-        /** @var self $new_obj */
+        assert($new_obj instanceof ilObjContentPage);
         parent::doCloneObject($new_obj, $a_target_id, $a_copy_id);
 
         $ot = ilObjectTranslation::getInstance($this->getId());
@@ -112,9 +127,9 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         $this->initTranslationService();
     }
 
-    protected function doCreate() : void
+    protected function doCreate(bool $clone_mode = false) : void
     {
-        parent::doCreate();
+        parent::doCreate($clone_mode);
 
         $this->initTranslationService();
 
@@ -196,7 +211,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         );
 
         $lp = ilObjectLP::getInstance($this->getId());
-        if ($lp->isActive() && ((int) $lp->getCurrentMode() === ilLPObjSettings::LP_MODE_CONTENT_VISITED)) {
+        if ($lp->isActive() && $lp->getCurrentMode() === ilLPObjSettings::LP_MODE_CONTENT_VISITED) {
             $current_status = (int) ilLPStatus::_lookupStatus($this->getId(), $usrId, false);
             if ($current_status !== ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                 ilLPStatusWrapper::_updateStatus(

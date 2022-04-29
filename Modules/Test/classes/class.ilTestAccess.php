@@ -45,7 +45,7 @@ class ilTestAccess
     /**
      * @return ilAccessHandler
      */
-    public function getAccess()
+    public function getAccess() : ilAccessHandler
     {
         return $this->access;
     }
@@ -61,7 +61,7 @@ class ilTestAccess
     /**
      * @return int
      */
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->refId;
     }
@@ -77,7 +77,7 @@ class ilTestAccess
     /**
      * @return int
      */
-    public function getTestId()
+    public function getTestId() : int
     {
         return $this->testId;
     }
@@ -93,7 +93,7 @@ class ilTestAccess
     /**
      * @return bool
      */
-    public function checkCorrectionsAccess()
+    public function checkCorrectionsAccess() : bool
     {
         return $this->getAccess()->checkAccess('write', '', $this->getRefId());
     }
@@ -101,7 +101,7 @@ class ilTestAccess
     /**
      * @return bool
      */
-    public function checkScoreParticipantsAccess()
+    public function checkScoreParticipantsAccess() : bool
     {
         if ($this->getAccess()->checkAccess('write', '', $this->getRefId())) {
             return true;
@@ -117,7 +117,7 @@ class ilTestAccess
     /**
      * @return bool
      */
-    public function checkManageParticipantsAccess()
+    public function checkManageParticipantsAccess() : bool
     {
         if ($this->getAccess()->checkAccess('tst_results', '', $this->getRefId())) {
             return true;
@@ -133,7 +133,7 @@ class ilTestAccess
     /**
      * @return bool
      */
-    public function checkParticipantsResultsAccess()
+    public function checkParticipantsResultsAccess() : bool
     {
         if ($this->getAccess()->checkAccess('tst_results', '', $this->getRefId())) {
             return true;
@@ -149,13 +149,12 @@ class ilTestAccess
     /**
      * @return bool
      */
-    public function checkStatisticsAccess()
+    public function checkStatisticsAccess() : bool
     {
         if ($this->getAccess()->checkAccess('tst_statistics', '', $this->getRefId())) {
             return true;
         }
-        
-        return $this->checkParticipantsResultsAccess();
+        return false;
     }
     
     /**
@@ -163,7 +162,7 @@ class ilTestAccess
      * @param integer $activeId
      * @return bool
      */
-    protected function checkAccessForActiveId($accessFilter, $activeId)
+    protected function checkAccessForActiveId($accessFilter, $activeId) : bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -179,7 +178,7 @@ class ilTestAccess
      * @param integer $activeId
      * @return bool
      */
-    public function checkResultsAccessForActiveId($activeId)
+    public function checkResultsAccessForActiveId($activeId) : bool
     {
         $accessFilter = ilTestParticipantAccessFilter::getAccessResultsUserFilter($this->getRefId());
         return $this->checkAccessForActiveId($accessFilter, $activeId);
@@ -189,7 +188,7 @@ class ilTestAccess
      * @param integer $activeId
      * @return bool
      */
-    public function checkScoreParticipantsAccessForActiveId($activeId)
+    public function checkScoreParticipantsAccessForActiveId($activeId) : bool
     {
         $accessFilter = ilTestParticipantAccessFilter::getScoreParticipantsUserFilter($this->getRefId());
         return $this->checkAccessForActiveId($accessFilter, $activeId);
@@ -199,7 +198,7 @@ class ilTestAccess
      * @param integer $activeId
      * @return bool
      */
-    public function checkStatisticsAccessForActiveId($activeId)
+    public function checkStatisticsAccessForActiveId($activeId) : bool
     {
         $accessFilter = ilTestParticipantAccessFilter::getAccessStatisticsUserFilter($this->getRefId());
         return $this->checkAccessForActiveId($accessFilter, $activeId);

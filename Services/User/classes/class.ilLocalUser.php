@@ -44,6 +44,10 @@ class ilLocalUser
         return $this->parent_id;
     }
 
+    /**
+     * @param bool $access_with_orgunit
+     * @return int[]
+     */
     public static function _getFolderIds(
         bool $access_with_orgunit = false
     ) : array {
@@ -62,22 +66,26 @@ class ilLocalUser
             if (!$row->parent_id) {
                 if ($rbacsystem->checkAccess('read_users', USER_FOLDER_ID) ||
                     ($access_with_orgunit && $access->checkPositionAccess(\ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, USER_FOLDER_ID))) {
-                    $parent[] = $row->parent_id;
+                    $parent[] = (int) $row->parent_id;
                 }
                 continue;
             }
 
             if ($rbacsystem->checkAccess('read_users', $row->parent_id) ||
                 ($access_with_orgunit && $access->checkPositionAccess(ilObjUserFolder::ORG_OP_EDIT_USER_ACCOUNTS, $row->parent_id))
-                or $rbacsystem->checkAccess('cat_administrate_users', $row->parent_id)) {
+                || $rbacsystem->checkAccess('cat_administrate_users', $row->parent_id)) {
                 if ($row->parent_id) {
-                    $parent[] = $row->parent_id;
+                    $parent[] = (int) $row->parent_id;
                 }
             }
         }
-        return $parent ?: array();
+        return $parent ?: [];
     }
 
+    /**
+     * @param int $a_filter
+     * @return int[]
+     */
     public static function _getAllUserIds(
         int $a_filter = 0
     ) : array {
@@ -86,14 +94,14 @@ class ilLocalUser
         $ilDB = $DIC['ilDB'];
         switch ($a_filter) {
             case 0:
-                if (ilLocalUser::_getFolderIds()) {
-                    $where = "WHERE " . $ilDB->in("time_limit_owner", ilLocalUser::_getFolderIds(), false, "integer") . " ";
+                if (self::_getFolderIds()) {
+                    $where = "WHERE " . $ilDB->in("time_limit_owner", self::_getFolderIds(), false, "integer") . " ";
                 //$where .= '(';
                     //$where .= implode(",",ilUtil::quoteArray(ilLocalUser::_getFolderIds()));
                     //$where .= ')';
                 } else {
                     //$where = "WHERE time_limit_owner IN ('')";
-                    return array();
+                    return [];
                 }
 
                 break;
@@ -109,7 +117,7 @@ class ilLocalUser
 
         $users = [];
         while ($row = $ilDB->fetchObject($res)) {
-            $users[] = $row->usr_id;
+            $users[] = (int) $row->usr_id;
         }
 
         return $users;

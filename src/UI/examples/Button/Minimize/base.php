@@ -10,7 +10,7 @@ namespace ILIAS\UI\examples\Button\Minimize;
  */
 function base()
 {
-    global $DIC;;
+    global $DIC;
 
     return $DIC->ui()->renderer()->render(
         $DIC->ui()->factory()->button()->minimize()

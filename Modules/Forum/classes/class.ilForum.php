@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class Forum
@@ -240,6 +256,7 @@ class ilForum
             [$lastPost, $objNewPost->getForumId()]
         );
 
+        /** @var ilObjForum $forum_obj */
         $forum_obj = ilObjectFactory::getInstanceByRefId($this->getForumRefId());
         $forum_obj->markPostRead($objNewPost->getPosAuthorId(), $objNewPost->getThreadId(), $objNewPost->getId());
 
@@ -322,8 +339,6 @@ class ilForum
             $status,
             false
         );
-
-        return $rootNodeId;
     }
 
     /**
@@ -878,9 +893,9 @@ class ilForum
             $query = "SELECT
 					  0 usr_notification_is_enabled,
 					  MAX(pos_date) post_date,
-					  COUNT(DISTINCT(pos_pk)) num_posts,
-					  COUNT(DISTINCT(pos_pk)) num_unread_posts,
-					  COUNT(DISTINCT(pos_pk)) num_new_posts,
+					  COUNT(DISTINCT(tree1.pos_fk)) num_posts,
+					  COUNT(DISTINCT(tree1.pos_fk)) num_unread_posts,
+					  COUNT(DISTINCT(tree1.pos_fk)) num_new_posts,
 					  thr_pk, thr_top_fk, thr_subject, thr_author_id, thr_display_user_id, thr_usr_alias, thr_num_posts, thr_last_post, thr_date, thr_update, visits, frm_threads.import_name, is_sticky, is_closed
 					  $optional_fields
 					  FROM frm_threads
@@ -888,7 +903,7 @@ class ilForum
 					  LEFT JOIN frm_posts
 						ON pos_thr_fk = thr_pk $active_query
 					  LEFT JOIN frm_posts_tree tree1
-					    ON tree1.pos_fk = frm_posts.pos_pk 	
+					    ON tree1.pos_fk = frm_posts.pos_pk AND tree1.parent_pos != 0
 					";
 
             $query .= " WHERE thr_top_fk = %s
@@ -1090,8 +1105,8 @@ class ilForum
 
         $role_arr = $rbacreview->getRolesOfRoleFolder($a_ref_id);
         foreach ($role_arr as $role_id) {
-            if (ilObject::_lookupTitle((int) $role_id) === 'il_frm_moderator_' . $a_ref_id) {
-                return array_map('intval', $rbacreview->assignedUsers((int) $role_id));
+            if (ilObject::_lookupTitle($role_id) === 'il_frm_moderator_' . $a_ref_id) {
+                return array_map('intval', $rbacreview->assignedUsers($role_id));
             }
         }
 
@@ -1308,13 +1323,13 @@ class ilForum
             }
         }
 
-        $data = [
+        return [
             'type' => 'post',
             'pos_pk' => (int) $a_row->pos_pk,
             'child' => (int) $a_row->pos_pk,
             'author' => (int) $a_row->pos_display_user_id,
             'alias' => (string) $a_row->pos_usr_alias,
-            'title' => (string) $fullname,
+            'title' => $fullname,
             'loginname' => $loginname,
             'message' => (string) $a_row->pos_message,
             'subject' => (string) $a_row->pos_subject,
@@ -1334,8 +1349,6 @@ class ilForum
             'import_name' => $a_row->import_name,
             'pos_status' => (int) $a_row->pos_status
         ];
-
-        return $data;
     }
 
     /**
@@ -1534,7 +1547,7 @@ class ilForum
                 [$user_id, $this->id]
             );
 
-            if (is_object($res) && $res->numRows() > 0) {
+            if ($res->numRows() > 0) {
                 $thread_data = [];
                 $thread_data_types = [];
 

@@ -31,21 +31,22 @@
 */
 class ilQTIObjectives
 {
-    public $materials;
-    public $view;
+    /** @var ilQTIMaterial[] */
+    public array $materials;
+    public string $view;
     
     public function __construct()
     {
-        $this->materials = array();
+        $this->materials = [];
         $this->view = "All";
     }
     
-    public function addMaterial($a_material)
+    public function addMaterial(ilQTIMaterial $a_material) : void
     {
-        array_push($this->materials, $a_material);
+        $this->materials[] = $a_material;
     }
-    
-    public function setView($a_view)
+
+    public function setView(string $a_view) : void
     {
         switch ($a_view) {
             case "Administrator":
@@ -64,8 +65,8 @@ class ilQTIObjectives
                 break;
         }
     }
-    
-    public function getView()
+
+    public function getView() : string
     {
         return $this->view;
     }

@@ -22,7 +22,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 {
     protected ilPropertyFormGUI $form;
     protected ilPropertyFormGUI $form_gui;
-    protected $page_back_title = "";
+    protected string $page_back_title = "";
     protected bool $enabledmapareas;
     protected ilTabsGUI $tabs;
     protected ilAccessHandler $access;
@@ -36,7 +36,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
 
     public function __construct(
         ilPageObject $a_pg_obj,
-        ilPageContent $a_content_obj,
+        ?ilPageContent $a_content_obj,
         string $a_hier_id,
         string $a_pc_id = ""
     ) {
@@ -993,7 +993,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
     /**
     * save table properties in db and return to page edit screen
     */
-    public function saveAliasProperties()
+    public function saveAliasProperties() : void
     {
         $this->initAliasForm();
         $form = $this->form_gui;
@@ -1242,7 +1242,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         );
         //$this->setBasicTableCellStyles();
         $this->setCharacteristics([]);
-        $this->getCharacteristicsOfCurrentStyle("media_caption");
+        $this->getCharacteristicsOfCurrentStyle(["media_caption"]);
         $chars = $this->getCharacteristics();
         $options = $chars;
         //$options = array_merge(array("" => $this->lng->txt("none")), $chars);
@@ -1253,9 +1253,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         }
 
         if (count($options) > 0) {
-            $current_value = $this->content_obj->getCaptionClass()
-                ? $this->content_obj->getCaptionClass()
-                : "MediaCaption";
+            $current_value = $this->content_obj->getCaptionClass() ?: "MediaCaption";
             $cap_style->setValue($current_value);
             $form->addItem($cap_style);
         }

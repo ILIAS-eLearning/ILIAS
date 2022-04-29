@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -56,30 +56,32 @@ class ilObjCategory extends ilContainer
         $ilAppEventHandler->raise(
             'Modules/Category',
             'delete',
-            array('object' => $this,
-                'obj_id' => $this->getId())
+            [
+                'object' => $this,
+                'obj_id' => $this->getId()
+            ]
         );
         
         return true;
     }
 
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
 
         return $new_obj;
     }
     
-    public function cloneDependencies(int $a_target_id, int $a_copy_id) : bool
+    public function cloneDependencies(int $target_id, int $copy_id) : bool
     {
-        parent::cloneDependencies($a_target_id, $a_copy_id);
+        parent::cloneDependencies($target_id, $copy_id);
     
                                 
         // clone taxonomies
 
         $all_tax = ilObjTaxonomy::getUsageOfObject($this->getId());
-        if (sizeof($all_tax)) {
-            $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+        if (count($all_tax)) {
+            $cwo = ilCopyWizardOptions::_getInstance($copy_id);
             $mappings = $cwo->getMappings();
             
             foreach ($all_tax as $old_tax_id) {
@@ -90,7 +92,7 @@ class ilObjCategory extends ilContainer
                     $tax_map = $old_tax->getNodeMapping();
                 
                     // assign new taxonomy to new category
-                    ilObjTaxonomy::saveUsage($new_tax->getId(), ilObject::_lookupObjId($a_target_id));
+                    ilObjTaxonomy::saveUsage($new_tax->getId(), ilObject::_lookupObjId($target_id));
                                                         
                     // clone assignments (for all sub-items)
                     foreach ($mappings as $old_ref_id => $new_ref_id) {
@@ -101,7 +103,7 @@ class ilObjCategory extends ilContainer
                                                                     
                             $tax_ass = new ilTaxNodeAssignment($obj_type, $old_obj_id, "obj", $old_tax_id);
                             $assignmts = $tax_ass->getAssignmentsOfItem($old_obj_id);
-                            if (sizeof($assignmts)) {
+                            if (count($assignmts)) {
                                 $new_tax_ass = new ilTaxNodeAssignment($obj_type, $new_obj_id, "obj", $new_tax->getId());
                                 foreach ($assignmts as $a) {
                                     if ($tax_map[$a["node_id"]]) {

@@ -1,7 +1,25 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\DI\RBACServices;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Data\Factory;
 
 /**
  * Class ilSamlSettingsGUI
@@ -17,7 +35,7 @@ class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    protected static $globalCommands = [
+    protected static array $globalCommands = [
         self::DEFAULT_CMD,
         'showAddIdpForm',
         'showSettings',
@@ -29,7 +47,7 @@ class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    protected static $globalEntityCommands = [
+    protected static array $globalEntityCommands = [
         'deactivateIdp',
         'activateIdp',
         'confirmDeleteIdp',
@@ -39,7 +57,7 @@ class ilSamlSettingsGUI
     /**
      * @var string[]
      */
-    protected static $ignoredUserFields = [
+    protected static array $ignoredUserFields = [
         'mail_incoming_mail',
         'preferences',
         'hide_own_online_status',
@@ -60,15 +78,15 @@ class ilSamlSettingsGUI
     ];
 
     protected int $ref_id;
-    protected ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
     protected ilAccessHandler $access;
-    protected \ILIAS\DI\RBACServices $rbac;
+    protected RBACServices $rbac;
     protected ilErrorHandling $error_handler;
     protected ilTabsGUI $tabs;
     protected ilToolbarGUI $toolbar;
-    protected \ILIAS\HTTP\GlobalHttpState $httpState;
+    protected GlobalHttpState $httpState;
     protected Refinery $refinery;
     protected ilHelpGUI $help;
     protected ?ilExternalAuthUserAttributeMapping $mapping = null;
@@ -166,7 +184,7 @@ class ilSamlSettingsGUI
         switch ($this->ctrl->getNextClass()) {
             default:
                 $cmd = $this->ctrl->getCmd();
-                if ($cmd === '' || !method_exists($this, $cmd)) {
+                if ($cmd === null || $cmd === '' || !method_exists($this, $cmd)) {
                     $cmd = self::DEFAULT_CMD;
                 }
 
@@ -407,18 +425,21 @@ class ilSamlSettingsGUI
         return $form;
     }
 
+    /**
+     * @return array<int, string>
+     */
     private function prepareRoleSelection() : array
     {
-        $global_roles = ilUtil::_sortIds(
+        $global_roles = array_map('intval', ilUtil::_sortIds(
             $this->rbac->review()->getGlobalRoles(),
             'object_data',
             'title',
             'obj_id'
-        );
+        ));
 
         $select[0] = $this->lng->txt('links_select_one');
         foreach ($global_roles as $role_id) {
-            $select[$role_id] = ilObject::_lookupTitle((int) $role_id);
+            $select[$role_id] = ilObject::_lookupTitle($role_id);
         }
 
         return $select;
@@ -594,7 +615,7 @@ class ilSamlSettingsGUI
             $this->lng->txt('auth_saml_add_idp_md_label'),
             'metadata',
             new ilSamlIdpXmlMetadataParser(
-                new \ILIAS\Data\Factory(),
+                new Factory(),
                 new ilSamlIdpXmlMetadataErrorFormatter()
             )
         );

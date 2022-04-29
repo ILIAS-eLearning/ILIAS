@@ -20,12 +20,12 @@
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilAuthFrontendCredentialsHTTP extends ilAuthFrontendCredentials implements ilAuthCredentials
+class ilAuthFrontendCredentialsHTTP extends ilAuthFrontendCredentials
 {
     /**
      * Init credentials from request
      */
-    public function initFromRequest()
+    public function initFromRequest() : void
     {
         $this->setUsername($_SERVER['PHP_AUTH_USER']);
         $this->setPassword($_SERVER['PHP_AUTH_PW']);

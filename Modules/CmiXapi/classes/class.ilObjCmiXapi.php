@@ -858,7 +858,7 @@ class ilObjCmiXapi extends ilObject2
     }
 
     //todo?
-    public function doRead() : void
+    protected function doRead() : void
     {
         $this->load();
     }
@@ -936,7 +936,7 @@ class ilObjCmiXapi extends ilObject2
     }
 
     //todo?
-    public function doUpdate() : void
+    protected function doUpdate() : void
     {
         $this->save();
     }
@@ -1433,18 +1433,14 @@ class ilObjCmiXapi extends ilObject2
     }
 
     /**
-     * Clone object
-     * @param ilObjCmiXapi $new_obj
-     * @param int          $a_target_id
-     * @param int|null     $a_copy_id
-     * @param bool         $a_omit_tree
      * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-//    protected function doCloneObject(ilObjCmiXapi $new_obj, int $a_target_id, ?int $a_copy_id = null, bool $a_omit_tree = false) : void
-    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false) : void
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
     {
+        assert($new_obj instanceof ilObjCmiXapi);
+        
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $this->cloneMetaData($new_obj);

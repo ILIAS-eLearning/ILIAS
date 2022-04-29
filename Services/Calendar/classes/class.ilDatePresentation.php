@@ -63,7 +63,7 @@ class ilDatePresentation
         self::$lang = $a_lng;
     }
 
-    public static function getLanguage()
+    public static function getLanguage() : ilLanguage
     {
         global $DIC;
 

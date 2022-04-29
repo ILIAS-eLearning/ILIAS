@@ -24,7 +24,7 @@ abstract class ilContainerContentGUI
     public const VIEW_MODE_LIST = 0;
     public const VIEW_MODE_TILE = 1;
 
-    protected \ilGlobalTemplateInterface $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
     protected ilLanguage $lng;
@@ -74,7 +74,7 @@ abstract class ilContainerContentGUI
 
         $this->log = ilLoggerFactory::getLogger('cont');
 
-        $this->view_mode = (ilContainer::_lookupContainerSetting($this->container_obj->getId(), "list_presentation") == "tile" && !$this->container_gui->isActiveAdministrationPanel() && !$this->container_gui->isActiveOrdering())
+        $this->view_mode = (ilContainer::_lookupContainerSetting($this->container_obj->getId(), "list_presentation") === "tile" && !$this->container_gui->isActiveAdministrationPanel() && !$this->container_gui->isActiveOrdering())
             ? self::VIEW_MODE_TILE
             : self::VIEW_MODE_LIST;
 
@@ -134,7 +134,7 @@ abstract class ilContainerContentGUI
         // note: we do not want to get the center html in case of
         // asynchronous calls to blocks in the right column (e.g. news)
         // see #13012
-        if ($ilCtrl->getNextClass() == "ilcolumngui" &&
+        if ($ilCtrl->getNextClass() === "ilcolumngui" &&
             $ilCtrl->isAsynch()) {
             $tpl->setRightContent($this->getRightColumnHTML());
         }
@@ -152,13 +152,13 @@ abstract class ilContainerContentGUI
         // END ChangeEvent: record read event.
         
         $html = $this->getCenterColumnHTML();
-        if (strlen($html)) {
+        if ($html !== '') {
             $tpl->setContent($html);
         }
 
         // see above, all other cases (this was the old position of setRightContent,
         // maybe the position above is ok and all ifs can be removed)
-        if ($ilCtrl->getNextClass() != "ilcolumngui" ||
+        if ($ilCtrl->getNextClass() !== "ilcolumngui" ||
             !$ilCtrl->isAsynch()) {
             $tpl->setRightContent($this->getRightColumnHTML());
         }
@@ -176,28 +176,25 @@ abstract class ilContainerContentGUI
 
         $column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
 
-        if ($column_gui->getScreenMode() == IL_SCREEN_FULL) {
+        if ($column_gui::getScreenMode() === IL_SCREEN_FULL) {
             return "";
         }
 
         $this->getContainerGUI()->setColumnSettings($column_gui);
         
-        if ($ilCtrl->getNextClass() == "ilcolumngui" &&
-            $column_gui->getCmdSide() == IL_COL_RIGHT &&
-            $column_gui->getScreenMode() == IL_SCREEN_SIDE) {
+        if ($ilCtrl->getNextClass() === "ilcolumngui" &&
+            $column_gui::getCmdSide() === IL_COL_RIGHT &&
+            $column_gui::getScreenMode() === IL_SCREEN_SIDE) {
             $html = $ilCtrl->forwardCommand($column_gui);
         } else {
-            $render_content = ($ilCtrl->getNextClass() == "" &&
-                in_array($ilCtrl->getCmd(), ["view", "render"]));
-            $render_content = false;
-            if (!$ilCtrl->isAsynch() || $render_content) {
+            if (!$ilCtrl->isAsynch()) {
                 $html = "";
                 
                 // user interface plugin slot + default rendering
                 $uip = new ilUIHookProcessor(
                     "Services/Container",
                     "right_column",
-                    array("container_content_gui" => $this)
+                    ["container_content_gui" => $this]
                 );
                 if (!$uip->replaced()) {
                     $html = $ilCtrl->getHTML($column_gui);
@@ -222,7 +219,7 @@ abstract class ilContainerContentGUI
 
         $tpl->addOnLoadCode("il.Object.setRatingUrl('" .
             $ilCtrl->getLinkTargetByClass(
-                array(get_class($this->container_gui), "ilcommonactiondispatchergui", "ilratinggui"),
+                [get_class($this->container_gui), "ilcommonactiondispatchergui", "ilratinggui"],
                 "saveRating",
                 "",
                 true,
@@ -232,7 +229,7 @@ abstract class ilContainerContentGUI
         switch ($ilCtrl->getNextClass()) {
             case "ilcolumngui":
                 $this->container_gui->setSideColumnReturn();
-                $html = $this->__forwardToColumnGUI();
+                $html = $this->forwardToColumnGUI();
                 break;
                 
             default:
@@ -261,7 +258,7 @@ abstract class ilContainerContentGUI
         $this->renderer = new ilContainerRenderer(
             ($this->getContainerGUI()->isActiveAdministrationPanel() && !$this->clipboard->hasEntries()),
             $this->getContainerGUI()->isMultiDownloadEnabled(),
-            $this->getContainerGUI()->isActiveOrdering() && (get_class($this) != "ilContainerObjectiveGUI") // no block sorting in objective view
+            $this->getContainerGUI()->isActiveOrdering() && (get_class($this) !== "ilContainerObjectiveGUI") // no block sorting in objective view
             ,
             $sorting->getBlockPositions(),
             $this->container_gui,
@@ -272,7 +269,7 @@ abstract class ilContainerContentGUI
     /**
      * Get columngui output
      */
-    private function __forwardToColumnGUI() : string
+    private function forwardToColumnGUI() : string
     {
         $ilCtrl = $this->ctrl;
         $html = "";
@@ -284,16 +281,15 @@ abstract class ilContainerContentGUI
         $obj_type = ilObject::_lookupType($obj_id);
 
         if (!$ilCtrl->isAsynch()) {
-            //if ($column_gui->getScreenMode() != IL_SCREEN_SIDE)
-            if (ilColumnGUI::getScreenMode() != IL_SCREEN_SIDE) {
+            if (ilColumnGUI::getScreenMode() !== IL_SCREEN_SIDE) {
                 // right column wants center
-                if (ilColumnGUI::getCmdSide() == IL_COL_RIGHT) {
+                if (ilColumnGUI::getCmdSide() === IL_COL_RIGHT) {
                     $column_gui = new ilColumnGUI($obj_type, IL_COL_RIGHT);
                     $this->getContainerGUI()->setColumnSettings($column_gui);
                     $html = $ilCtrl->forwardCommand($column_gui);
                 }
                 // left column wants center
-                if (ilColumnGUI::getCmdSide() == IL_COL_LEFT) {
+                if (ilColumnGUI::getCmdSide() === IL_COL_LEFT) {
                     $column_gui = new ilColumnGUI($obj_type, IL_COL_LEFT);
                     $this->getContainerGUI()->setColumnSettings($column_gui);
                     $html = $ilCtrl->forwardCommand($column_gui);
@@ -340,9 +336,9 @@ abstract class ilContainerContentGUI
         }
 
         // unique js-ids
-        $item_list_gui->setParentRefId((int) $item_data["parent"] ?? 0);
+        $item_list_gui->setParentRefId((int) ($item_data["parent"] ?? 0));
         
-        $item_list_gui->setDefaultCommandParameters(array());
+        $item_list_gui->setDefaultCommandParameters([]);
         $item_list_gui->disableTitleLink(false);
         $item_list_gui->resetConditionTarget();
 
@@ -350,17 +346,10 @@ abstract class ilContainerContentGUI
             $item_list_gui->enablePath(
                 true,
                 $this->container_obj->getRefId(),
-                new \ilSessionClassificationPathGUI()
+                new ilSessionClassificationPathGUI()
             );
         }
 
-        // show administration command buttons (or not)
-        if (!$this->getContainerGUI()->isActiveAdministrationPanel()) {
-            //			$item_list_gui->enableDelete(false);
-//			$item_list_gui->enableLink(false);
-//			$item_list_gui->enableCut(false);
-        }
-        
         // activate common social commands
         $item_list_gui->enableComments(true);
         $item_list_gui->enableNotes(true);
@@ -422,7 +411,7 @@ abstract class ilContainerContentGUI
     {
         // item groups
         if (isset($this->embedded_block["itgr"]) && is_array($this->embedded_block["itgr"])) {
-            $item_groups = array();
+            $item_groups = [];
             if (isset($this->items["itgr"]) && is_array($this->items["itgr"])) {
                 foreach ($this->items["itgr"] as $ig) {
                     $item_groups[$ig["ref_id"]] = $ig;
@@ -441,7 +430,7 @@ abstract class ilContainerContentGUI
             foreach ($this->embedded_block["type"] as $type) {
                 if (isset($this->items[$type]) && is_array($this->items[$type]) && $this->renderer->addTypeBlock($type)) {
                     // :TODO: obsolete?
-                    if ($type == 'sess') {
+                    if ($type === 'sess') {
                         $this->items['sess'] = ilArrayUtil::sortArray($this->items['sess'], 'start', 'ASC', true, true);
                     }
                     
@@ -482,18 +471,19 @@ abstract class ilContainerContentGUI
 
         $view_mode = $this->getViewMode();
         if ($item_group_list_presentation != "") {
-            $view_mode = ($item_group_list_presentation == "tile")
+            $view_mode = ($item_group_list_presentation === "tile")
                 ? self::VIEW_MODE_TILE
                 : self::VIEW_MODE_LIST;
         }
 
-        if ($view_mode == self::VIEW_MODE_TILE) {
+        if ($view_mode === self::VIEW_MODE_TILE) {
             return $this->renderCard($a_item_data, $a_position, $a_force_icon, $a_pos_prefix);
         }
 
         $item_list_gui = $this->getItemGUI($a_item_data);
-        if ($ilSetting->get("icon_position_in_lists") == "item_rows" ||
-            $a_item_data["type"] == "sess" || $a_force_icon) {
+        if ($a_item_data["type"] === "sess" ||
+            $a_force_icon ||
+            $ilSetting->get("icon_position_in_lists") === "item_rows") {
             $item_list_gui->enableIcon(true);
         }
 
@@ -504,14 +494,14 @@ abstract class ilContainerContentGUI
             $item_list_gui->enableDownloadCheckbox((int) $a_item_data["ref_id"]);
         }
         
-        if ($this->getContainerGUI()->isActiveItemOrdering() && ($a_item_data['type'] != 'sess' || get_class($this) != 'ilContainerSessionsContentGUI')) {
+        if ($this->getContainerGUI()->isActiveItemOrdering() && ($a_item_data['type'] !== 'sess' || get_class($this) !== 'ilContainerSessionsContentGUI')) {
             $item_list_gui->setPositionInputField(
                 $a_pos_prefix . "[" . $a_item_data["ref_id"] . "]",
                 sprintf('%d', $a_position * 10)
             );
         }
         
-        if ($a_item_data['type'] == 'sess' and get_class($this) != 'ilContainerObjectiveGUI') {
+        if ($a_item_data['type'] === 'sess' && get_class($this) !== 'ilContainerObjectiveGUI') {
             switch ($this->getDetailsLevel($a_item_data['obj_id'])) {
                 case self::DETAILS_TITLE:
                     $item_list_gui->setDetailsLevel(ilObjectListGUI::DETAILS_MINIMAL);
@@ -543,12 +533,11 @@ abstract class ilContainerContentGUI
         }
 
         // show subitems
-        if ($a_item_data['type'] == 'sess' and (
-                                            $this->getDetailsLevel($a_item_data['obj_id']) != self::DETAILS_TITLE or
-                                            $this->getContainerGUI()->isActiveAdministrationPanel() or
-                                            $this->getContainerGUI()->isActiveItemOrdering()
-                                            )
-        ) {
+        if ($a_item_data['type'] === 'sess' && (
+            $this->getDetailsLevel($a_item_data['obj_id']) !== self::DETAILS_TITLE ||
+            $this->getContainerGUI()->isActiveAdministrationPanel() ||
+            $this->getContainerGUI()->isActiveItemOrdering()
+        )) {
             $pos = 1;
                         
             $items = ilObjectActivation::getItemsByEvent($a_item_data['obj_id']);
@@ -569,10 +558,10 @@ abstract class ilContainerContentGUI
                 $item_list_gui2->enableItemDetailLinks(false);
                 
                 // unique js-ids
-                $item_list_gui2->setParentRefId((int) $a_item_data['ref_id'] ?? 0);
+                $item_list_gui2->setParentRefId((int) ($a_item_data['ref_id'] ?? 0));
                 
                 // @see mantis 10488
-                if (!$item_readable and !$ilAccess->checkAccess('write', '', $item['ref_id'])) {
+                if (!$item_readable && !$ilAccess->checkAccess('write', '', $item['ref_id'])) {
                     $item_list_gui2->forceVisibleOnly(true);
                 }
                 
@@ -602,7 +591,7 @@ abstract class ilContainerContentGUI
                 );
                                         
                 $this->determineAdminCommands($item["ref_id"], $item_list_gui2->adminCommandsIncluded());
-                if (strlen($sub_item_html)) {
+                if ($sub_item_html !== '') {
                     $item_list_gui->addSubItemHTML($sub_item_html);
                 }
             }
@@ -629,7 +618,7 @@ abstract class ilContainerContentGUI
             $a_item_data['ref_id'],
             $a_item_data['obj_id'],
             $a_item_data['title'],
-            $a_item_data['description'],
+            (string) $a_item_data['description'],
             $asynch,
             false,
             $asynch_url
@@ -766,7 +755,7 @@ abstract class ilContainerContentGUI
         
         if (empty($this->type_grps)) {
             $this->type_grps =
-                $objDefinition->getGroupedRepositoryObjectTypes($this->getContainerObject()->getType());
+                $objDefinition::getGroupedRepositoryObjectTypes($this->getContainerObject()->getType());
         }
         return $this->type_grps;
     }
@@ -816,12 +805,12 @@ abstract class ilContainerContentGUI
         $items = ilObjectActivation::getItemsByItemGroup($a_itgr['ref_id']);
 
         // get all valid ids (this is filtered)
-        $all_ids = array_map(function ($i) {
-            return $i["child"];
+        $all_ids = array_map(static function (array $i) : int {
+            return (int) $i["child"];
         }, $this->items["_all"]);
 
         // remove filtered items
-        $items = array_filter($items, function ($i) use ($all_ids) {
+        $items = array_filter($items, static function (array $i) use ($all_ids) : bool {
             return in_array($i["ref_id"], $all_ids);
         });
 
@@ -855,17 +844,17 @@ abstract class ilContainerContentGUI
             $ilUser->getId(),
             "opened"
         );
-        if ($stored_val != "" && $beh != ilItemGroupBehaviour::ALWAYS_OPEN) {
-            $beh = ($stored_val == "1")
+        if ($stored_val !== "" && $beh !== ilItemGroupBehaviour::ALWAYS_OPEN) {
+            $beh = ($stored_val === "1")
                 ? ilItemGroupBehaviour::EXPANDABLE_OPEN
                 : ilItemGroupBehaviour::EXPANDABLE_CLOSED;
         }
 
-        $data = array(
+        $data = [
             "behaviour" => $beh,
             "store-url" => "./ilias.php?baseClass=ilcontainerblockpropertiesstoragegui&cmd=store" .
                 "&cont_block_id=itgr_" . $a_itgr['ref_id']
-        );
+        ];
         if (ilObjItemGroup::lookupHideTitle($a_itgr["obj_id"]) &&
             !$this->getContainerGUI()->isActiveAdministrationPanel()) {
             $this->renderer->addCustomBlock($a_itgr["ref_id"], "", $commands_html, $data);

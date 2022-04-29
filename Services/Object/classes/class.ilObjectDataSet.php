@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Object data set class
  *
@@ -107,8 +121,8 @@ class ilObjectDataSet extends ilDataSet
                 case "5.4.0":
                     $this->getDirectDataFromQuery(
                         "SELECT obj_id, title, description, lang_code, lang_default" . PHP_EOL
-                        ."FROM object_translation" . PHP_EOL
-                        ."WHERE " . $this->db->in("obj_id", $ids, false, "integer") . PHP_EOL
+                        . "FROM object_translation" . PHP_EOL
+                        . "WHERE " . $this->db->in("obj_id", $ids, false, "integer") . PHP_EOL
                     );
                     break;
             }
@@ -122,8 +136,8 @@ class ilObjectDataSet extends ilDataSet
                 case "5.4.0":
                     $this->getDirectDataFromQuery(
                         "SELECT obj_id, master_lang" . PHP_EOL
-                        ."FROM obj_content_master_lng" . PHP_EOL
-                        ."WHERE " . $this->db->in("obj_id", $ids, false, "integer") . PHP_EOL
+                        . "FROM obj_content_master_lng" . PHP_EOL
+                        . "WHERE " . $this->db->in("obj_id", $ids, false, "integer") . PHP_EOL
                     );
                     break;
             }
@@ -150,7 +164,7 @@ class ilObjectDataSet extends ilDataSet
                             $settings[] = ilObjectServiceSettingsGUI::USE_NEWS;
                         }
                         foreach ($settings as $s) {
-                            $val = ilContainer::_lookupContainerSetting($id, $s);
+                            $val = ilContainer::_lookupContainerSetting((int) $id, $s);
                             if ($val) {
                                 $this->data[] = [
                                     "ObjId" => $id,
@@ -177,7 +191,7 @@ class ilObjectDataSet extends ilDataSet
             $cs = $DIC->object()->commonSettings();
             $this->data = [];
             foreach ($ids as $id) {
-                $ti = $cs->tileImage()->getByObjId($id);
+                $ti = $cs->tileImage()->getByObjId((int) $id);
                 if ($ti->exists()) {
                     $this->data[] = [
                         "ObjId" => $id,
@@ -194,7 +208,7 @@ class ilObjectDataSet extends ilDataSet
             $this->data = [];
             foreach ($ids as $id) {
                 /** @var ilObjectCustomIcon $customIcon */
-                $customIcon = $customIconFactory->getByObjId($id, ilObject::_lookupType($id));
+                $customIcon = $customIconFactory->getByObjId((int) $id, ilObject::_lookupType((int) $id));
                 if ($customIcon->exists()) {
                     $this->data[] = [
                         "ObjId" => $id,
@@ -314,7 +328,7 @@ class ilObjectDataSet extends ilDataSet
         }
     }
 
-    public function getNewObjId(ilImportMapping $mapping, string $old_id) : ?int
+    public function getNewObjId(ilImportMapping $mapping, string $old_id) : int
     {
         global $DIC;
         

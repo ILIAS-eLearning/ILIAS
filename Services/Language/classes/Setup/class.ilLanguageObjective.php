@@ -6,7 +6,7 @@ use ILIAS\Setup;
 
 abstract class ilLanguageObjective implements Setup\Objective
 {
-    protected $config;
+    protected ?ilLanguageSetupConfig $config = null;
 
     public function __construct(
         ?\ilLanguageSetupConfig $config

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -18,6 +18,7 @@ namespace ILIAS\Style\Content;
 use ILIAS\Style\Content\Access;
 use ILIAS\Filesystem;
 use ilShellUtil;
+use Generator;
 
 /**
  * Main business logic for content style images
@@ -41,10 +42,10 @@ class ImageManager
 
     /**
      * Get images of style
-     * @return \Generator
+     * @return Generator
      * @throws Filesystem\Exception\DirectoryNotFoundException
      */
-    public function getImages() : \Generator
+    public function getImages() : Generator
     {
         return $this->repo->getImages($this->style_id);
     }

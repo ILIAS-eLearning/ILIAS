@@ -9,8 +9,13 @@
  */
 class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery
 {
-
+    /**
+     * @var string[]
+     */
     protected array $locked_table_full_names = [];
+    /**
+     * @var string[]
+     */
     protected array $locked_table_names = [];
 
 
@@ -29,7 +34,7 @@ class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery
     /**
      * @throws \ilAtomQueryException
      */
-    protected function runWithLocks(): void
+    protected function runWithLocks() : void
     {
         $this->ilDBInstance->lockTables($this->getLocksForDBInstance());
         try {
@@ -46,7 +51,7 @@ class ilAtomQueryLock extends ilAtomQueryBase implements ilAtomQuery
      * @throws \ilAtomQueryException
      * @return array<int, array<string, int|string|bool>>
      */
-    protected function getLocksForDBInstance(): array
+    protected function getLocksForDBInstance() : array
     {
         $locks = array();
         foreach ($this->tables as $table) {

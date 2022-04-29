@@ -201,7 +201,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
     }
 
 
-    public function testRenderWithErrorOnField()
+    public function testRenderWithErrorOnField() : void
     {
         $r = $this->getDefaultRenderer();
         $df = new Data\Factory();
@@ -266,7 +266,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
     }
 
 
-    public function testRenderWithErrorOnForm()
+    public function testRenderWithErrorOnForm() : void
     {
         $r = $this->getDefaultRenderer();
         $df = new Data\Factory();

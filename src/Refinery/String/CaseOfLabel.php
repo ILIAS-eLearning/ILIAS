@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Refinery\String;
 
 use ILIAS\Data\Factory;
@@ -15,18 +31,14 @@ use ILIAS\Refinery\DeriveInvokeFromTransform;
  * Format a text for the title capitalization presentation (Specification at https://docu.ilias.de/goto_docu_pg_1430_42.html)
  *
  * Throws a LogicException in the transform method, if a not supported language is passed
- *
- * @package ILIAS\Refinery\String
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class CaseOfLabel implements Transformation
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
-    protected string $language_key;
-    protected Factory $factory;
+    private string $language_key;
+    /** @var array<string, string[]>  */
     protected array $not_capitalize = [
         "en" => [
             // conjunctions
@@ -168,19 +180,17 @@ class CaseOfLabel implements Transformation
         ]
     ];
 
-    public function __construct(string $language_key, Factory $factory)
+    public function __construct(string $language_key)
     {
         $this->language_key = $language_key;
-        $this->factory = $factory;
     }
 
 
     /**
      * @inheritDoc
-     *
      * @throws LogicException
      */
-    public function transform($from)
+    public function transform($from) : string
     {
         if (!is_string($from)) {
             throw new InvalidArgumentException(__METHOD__ . " the argument is not a string.");
@@ -206,7 +216,7 @@ class CaseOfLabel implements Transformation
         return $to;
     }
 
-    protected function buildPatterns(array $words) : array
+    private function buildPatterns(array $words) : array
     {
         return array_reduce($words, function (array $patterns, string $word) : array {
             $patterns[$this->buildPattern($word)] = [ $this, "replaceHelper" ];
@@ -215,7 +225,7 @@ class CaseOfLabel implements Transformation
         }, []);
     }
 
-    protected function buildPattern(string $word) : string
+    private function buildPattern(string $word) : string
     {
         // Before the word muss be the start of the string or a space
         // After the word muss be the end of the string or a space
@@ -223,7 +233,7 @@ class CaseOfLabel implements Transformation
         return "/(\s|^)" . preg_quote($word, '/') . "(\s|$)/i";
     }
 
-    protected function replaceHelper(array $result) : string
+    private function replaceHelper(array $result) : string
     {
         return strtolower($result[0] ?? "");
     }

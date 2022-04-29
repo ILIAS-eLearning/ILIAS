@@ -106,7 +106,7 @@ class ilPersonalWorkspaceGUI
             // ilObjLinkResourceGUI tries to forward to ilLinkInputGUI (adding an internal link
             // when creating a link resource)
             // Without this fix, the cmdClass ilObjectCopyGUI would never be reached
-            if (strtolower($ilCtrl->getNextClass($this)) != strtolower("ilObj" . $class_name . "GUI")) {
+            if (strtolower($ilCtrl->getNextClass($this)) !== strtolower("ilObj" . $class_name . "GUI")) {
                 $ilCtrl->setCmdClass("ilObj" . $class_name . "GUI");
             }
         }

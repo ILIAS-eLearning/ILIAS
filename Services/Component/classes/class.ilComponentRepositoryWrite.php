@@ -7,8 +7,9 @@ use ILIAS\Data\Version;
  */
 interface ilComponentRepositoryWrite extends ilComponentRepository
 {
-    public function setCurrentPluginVersion(string $plugin_id, Version $version, int $db_version);
+    public function setCurrentPluginVersion(string $plugin_id, Version $version, int $db_version) : void;
 
-    public function setActivation(string $plugin_id, bool $activated);
-    public function removeStateInformationOf(string $plugin_id);
+    public function setActivation(string $plugin_id, bool $activated) : void;
+
+    public function removeStateInformationOf(string $plugin_id) : void;
 }

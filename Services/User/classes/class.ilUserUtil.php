@@ -46,7 +46,8 @@ class ilUserUtil
      * modifications by jposselt at databay . de :
      * if $a_user_id is an array of user ids the method returns an array of
      * "id" => "NamePresentation" pairs.
-     * @param int|array    $a_user_id
+     * @param int|int[]    $a_user_id
+     * @param string|array $a_ctrl_path
      * @return array|false|mixed
      * @throws ilWACException
      */
@@ -59,7 +60,7 @@ class ilUserUtil
         bool $a_omit_login = false,
         bool $a_sortable = true,
         bool $a_return_data_array = false,
-        string $a_ctrl_path = "ilpublicuserprofilegui"
+        $a_ctrl_path = "ilpublicuserprofilegui"
     ) {
         global $DIC;
 
@@ -220,6 +221,7 @@ class ilUserUtil
     
     /**
      * Get all valid starting points
+     * @return array<int,string>
      */
     public static function getPossibleStartingPoints(bool $a_force_all = false) : array
     {

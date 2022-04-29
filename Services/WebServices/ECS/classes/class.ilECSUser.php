@@ -32,6 +32,10 @@ class ilECSUser
     public $institution;
     public $uid_hash;
 
+    protected string $external_account = '';
+    protected string $auth_mode = '';
+
+
     /**
      * Constructor
      * @param mixed ilObjUser or encoded json string
@@ -64,7 +68,14 @@ class ilECSUser
     {
         return $this->login;
     }
-    
+
+    public function getExternalAccount() : string
+    {
+        return $this->external_account;
+    }
+
+
+
     /**
      * get firstname
      *
@@ -123,15 +134,18 @@ class ilECSUser
      * @access public
      *
      */
-    public function loadFromObject()
+    public function loadFromObject() : void
     {
         $this->login = $this->source->getLogin();
         $this->firstname = $this->source->getFirstname();
         $this->lastname = $this->source->getLastname();
         $this->email = $this->source->getEmail();
         $this->institution = $this->source->getInstitution();
-        
-        $this->uid_hash = 'il_' . $this->setting->get('inst_id', 0) . '_usr_' . $this->source->getId();
+        if ($this->source instanceof ilObjUser) {
+            $this->external_account = $this->source->getExternalAccount();
+            $this->auth_mode = $this->source->getAuthMode();
+        }
+        $this->uid_hash = 'il_' . $this->setting->get('inst_id', "0") . '_usr_' . $this->source->getId();
     }
     
     /**
@@ -140,9 +154,9 @@ class ilECSUser
      * @access public
      *
      */
-    public function loadFromJSON()
+    public function loadFromJSON() : void
     {
-        $this->source = json_decode(urldecode($this->source));
+        $this->source = json_decode(urldecode($this->source), false, 512, JSON_THROW_ON_ERROR);
         
         $this->login = $this->source->login();
         $this->firstname = $this->source->firstname();
@@ -159,7 +173,7 @@ class ilECSUser
      * @access public
      *
      */
-    public function loadFromGET()
+    public function loadFromGET() : void
     {
         $this->login = ilUtil::stripSlashes(urldecode($_GET['ecs_login']));
         $this->firstname = ilUtil::stripSlashes(urldecode($_GET['ecs_firstname']));
@@ -173,17 +187,10 @@ class ilECSUser
             $this->uid_hash = ilUtil::stripSlashes(urldecode($_GET['ecs_uid']));
         }
     }
-    
-    /**
-     *
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function toJSON()
+
+    public function toJSON() : string
     {
-        return urlencode(json_encode($this));
+        return urlencode(json_encode($this, JSON_THROW_ON_ERROR));
     }
     
     /**
@@ -192,29 +199,54 @@ class ilECSUser
      * @access public
      *
      */
-    public function toGET()
+    public function toGET(ilECSParticipantSetting $setting) : string
     {
-        return '&ecs_login=' . urlencode((string) $this->login) .
+        $login = '';
+        $external_account_info = '';
+
+        // check for external auth mode
+        $external_auth_modes = $setting->getOutgoingExternalAuthModes();
+        if (in_array($this->auth_mode, $external_auth_modes)) {
+            $placeholder = $setting->getOutgoingUsernamePlaceholderByAuthMode($this->auth_mode);
+            if (stristr($placeholder, ilECSParticipantSetting::LOGIN_PLACEHOLDER) !== false) {
+                $login = str_replace(
+                    ilECSParticipantSetting::LOGIN_PLACEHOLDER,
+                    $this->getLogin(),
+                    $placeholder
+                );
+            }
+            if (stristr($placeholder, ilECSParticipantSetting::EXTERNAL_ACCOUNT_PLACEHOLDER) !== false) {
+                $login = str_replace(
+                    ilECSParticipantSetting::EXTERNAL_ACCOUNT_PLACEHOLDER,
+                    $this->getExternalAccount(),
+                    $placeholder
+                );
+            }
+            $external_account_info = '&ecs_external_account=1';
+        } else {
+            $login = $this->getLogin();
+        }
+        return '&ecs_login=' . urlencode((string) $login) .
             '&ecs_firstname=' . urlencode((string) $this->firstname) .
             '&ecs_lastname=' . urlencode((string) $this->lastname) .
             '&ecs_email=' . urlencode((string) $this->email) .
             '&ecs_institution=' . urlencode((string) $this->institution) .
-            '&ecs_uid_hash=' . urlencode((string) $this->uid_hash);
-        '&ecs_uid=' . urlencode((string) $this->uid_hash);
+            '&ecs_uid_hash=' . urlencode((string) $this->uid_hash) .
+            $external_account_info;
     }
     
     /**
      * Concatenate all attributes to one string
      * @return string
      */
-    public function toREALM()
+    public function toREALM() : string
     {
         return
-            (string) $this->login . '' .
-            (string) $this->firstname . '' .
-            (string) $this->lastname . '' .
-            (string) $this->email . '' .
-            (string) $this->institution . '' .
-            (string) $this->uid_hash;
+            $this->login . '' .
+            $this->firstname .
+            $this->lastname .
+            $this->email .
+            $this->institution .
+            $this->uid_hash;
     }
 }

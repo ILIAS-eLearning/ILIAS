@@ -92,8 +92,10 @@ class arField
     {
         $return = array();
         foreach (arFieldList::getAllowedConnectorFields() as $field_name) {
-            if (isset($this->{$field_name}) && $this->{$field_name} && self::isAllowedAttribute($this->getFieldType(),
-                    $field_name)) {
+            if (isset($this->{$field_name}) && $this->{$field_name} && self::isAllowedAttribute(
+                $this->getFieldType(),
+                $field_name
+            )) {
                 $return[arFieldList::mapKey($field_name)] = $this->{$field_name};
             }
         }

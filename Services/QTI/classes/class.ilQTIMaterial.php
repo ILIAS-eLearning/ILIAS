@@ -31,128 +31,70 @@
 */
 class ilQTIMaterial
 {
-    public $label;
-    public $flow;
-    public $comment;
-    public $mattext;
-    public $matemtext;
-    public $matimage;
-    public $mataudio;
-    public $matvideo;
-    public $matapplet;
-    public $matapplication;
-    public $matref;
-    public $matbreak;
-    public $mat_extension;
-    public $altmaterial;
-    public $materials;
+    public ?string $label;
+    public int $flow;
+
+    /**
+     * @var array{material: ilQTIMattext|ilQTIMatimage|ilQTIMatapplet|null, type: string}[]
+     */
+    public array $materials;
     
     public function __construct()
     {
+        $this->label = null;
         $this->flow = 0;
-        $this->altmaterial = array();
-        $this->materials = array();
-    }
-    
-    public function addMattext($a_mattext)
-    {
-        array_push($this->materials, array("material" => $a_mattext, "type" => "mattext"));
+        $this->materials = [];
     }
 
-    public function addMatimage($a_matimage)
+    public function addMattext(?ilQTIMattext $a_mattext) : void
     {
-        array_push($this->materials, array("material" => $a_matimage, "type" => "matimage"));
+        $this->materials[] = array("material" => $a_mattext, "type" => "mattext");
     }
 
-    public function addMatemtext($a_matemtext)
+    public function addMatimage(?ilQTIMatimage $a_matimage) : void
     {
-        array_push($this->materials, array("material" => $a_matemtext, "type" => "matemtext"));
+        $this->materials[] = array("material" => $a_matimage, "type" => "matimage");
     }
 
-    public function addMataudio($a_mataudio)
+    public function addMatapplet(?ilQTIMatapplet $a_matapplet) : void
     {
-        array_push($this->materials, array("material" => $a_mataudio, "type" => "mataudio"));
+        $this->materials[] = array("material" => $a_matapplet, "type" => "matapplet");
     }
 
-    public function addMatvideo($a_matvideo)
-    {
-        array_push($this->materials, array("material" => $a_matvideo, "type" => "matvideo"));
-    }
-
-    public function addMatapplet($a_matapplet)
-    {
-        array_push($this->materials, array("material" => $a_matapplet, "type" => "matapplet"));
-    }
-
-    public function addMatapplication($a_matapplication)
-    {
-        array_push($this->materials, array("material" => $a_matapplication, "type" => "matapplication"));
-    }
-
-    public function addMatref($a_matref)
-    {
-        array_push($this->materials, array("material" => $a_matref, "type" => "matref"));
-    }
-
-    public function addMatbreak($a_matbreak)
-    {
-        array_push($this->materials, array("material" => $a_matbreak, "type" => "matbreak"));
-    }
-
-    public function addMat_extension($a_mat_extension)
-    {
-        array_push($this->materials, array("material" => $a_mat_extension, "type" => "mat_extension"));
-    }
-
-    public function addAltmaterial($a_altmaterial)
-    {
-        array_push($this->materials, array("material" => $a_altmaterial, "type" => "altmaterial"));
-    }
-    
-    public function getMaterialCount()
+    public function getMaterialCount() : int
     {
         return count($this->materials);
     }
-    
-    public function getMaterial($a_index)
+
+    /**
+     * @return false|array{material: ilQTIMattext|ilQTIMatimage|ilQTIMatapplet|null, type: string}
+     */
+    public function getMaterial(int $a_index)
     {
         if (array_key_exists($a_index, $this->materials)) {
             return $this->materials[$a_index];
-        } else {
-            return false;
         }
+
+        return false;
     }
-    
-    public function setFlow($a_flow)
+
+    public function setFlow(int $a_flow) : void
     {
         $this->flow = $a_flow;
     }
-    
-    public function getFlow()
+
+    public function getFlow() : int
     {
         return $this->flow;
     }
-    
-    public function setLabel($a_label)
+
+    public function setLabel(string $a_label) : void
     {
         $this->label = $a_label;
     }
-    
-    public function getLabel()
+
+    public function getLabel() : ?string
     {
         return $this->label;
-    }
-    
-    public function extractText()
-    {
-        $text = "";
-        if ($this->getMaterialCount()) {
-            foreach ($this->materials as $mat) {
-                if (strcmp($mat["type"], "mattext") == 0) {
-                    $text .= $mat["material"];
-                }
-            }
-        }
-        return $text;
     }
 }

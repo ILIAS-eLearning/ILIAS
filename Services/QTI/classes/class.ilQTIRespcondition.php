@@ -21,8 +21,8 @@
     +-----------------------------------------------------------------------------+
 */
 
-define("CONTINUE_YES", "1");
-define("CONTINUE_NO", "2");
+const CONTINUE_YES = "1";
+const CONTINUE_NO = "2";
 
 /**
 * QTI respcondition class
@@ -34,21 +34,26 @@ define("CONTINUE_NO", "2");
 */
 class ilQTIRespcondition
 {
-    public $continue;
-    public $title;
-    public $comment;
-    public $conditionvar;
-    public $setvar;
-    public $displayfeedback;
-    public $respcond_extension;
+    public ?string $continue;
+    public ?string $title;
+    public ?string $comment;
+    public ?ilQTIConditionvar $conditionvar;
+    /** @var ilQTISetvar[] */
+    public array $setvar;
+    /** @var ilQTIDisplayfeedback[] */
+    public array $displayfeedback;
     
     public function __construct()
     {
-        $this->setvar = array();
-        $this->displayfeedback = array();
+        $this->continue = null;
+        $this->title = null;
+        $this->comment = null;
+        $this->conditionvar = null;
+        $this->setvar = [];
+        $this->displayfeedback = [];
     }
-    
-    public function setContinue($a_continue)
+
+    public function setContinue(string $a_continue) : void
     {
         switch (strtolower($a_continue)) {
             case "1":
@@ -61,59 +66,49 @@ class ilQTIRespcondition
                 break;
         }
     }
-    
-    public function getContinue()
+
+    public function getContinue() : ?string
     {
         return $this->continue;
     }
-    
-    public function setTitle($a_title)
+
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
-    
-    public function getTitle()
+
+    public function getTitle() : ?string
     {
         return $this->title;
     }
-    
-    public function setComment($a_comment)
+
+    public function setComment(string $a_comment) : void
     {
         $this->comment = $a_comment;
     }
-    
-    public function getComment()
+
+    public function getComment() : ?string
     {
         return $this->comment;
     }
-    
-    public function setConditionvar($a_conditionvar)
+
+    public function setConditionvar(ilQTIConditionvar $a_conditionvar) : void
     {
         $this->conditionvar = $a_conditionvar;
     }
-    
-    public function getConditionvar()
+
+    public function getConditionvar() : ?ilQTIConditionvar
     {
         return $this->conditionvar;
     }
-    
-    public function setRespcond_extension($a_respcond_extension)
+
+    public function addSetvar(ilQTISetvar $a_setvar) : void
     {
-        $this->respcond_extension = $a_respcond_extension;
+        $this->setvar[] = $a_setvar;
     }
     
-    public function getRespcond_extension()
+    public function addDisplayfeedback(ilQTIDisplayfeedback $a_displayfeedback) : void
     {
-        return $this->respcond_extension;
-    }
-    
-    public function addSetvar($a_setvar)
-    {
-        array_push($this->setvar, $a_setvar);
-    }
-    
-    public function addDisplayfeedback($a_displayfeedback)
-    {
-        array_push($this->displayfeedback, $a_displayfeedback);
+        $this->displayfeedback[] = $a_displayfeedback;
     }
 }

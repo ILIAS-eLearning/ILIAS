@@ -43,7 +43,7 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
     /**
      * @return assQuestion
      */
-    public function getQuestion()
+    public function getQuestion() : ?assQuestion
     {
         return $this->question;
     }
@@ -59,7 +59,7 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
     /**
      * @return ilAssQuestionSkillAssignment
      */
-    public function getAssignment()
+    public function getAssignment() : ?ilAssQuestionSkillAssignment
     {
         return $this->assignment;
     }
@@ -75,7 +75,7 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
     /**
      * @return boolean
      */
-    public function isManipulationEnabled()
+    public function isManipulationEnabled() : bool
     {
         return $this->manipulationEnabled;
     }
@@ -194,7 +194,7 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
         $evaluationMode->addSubItem($questResultSkillPoints);
     }
     
-    private function buildResultSkillPointsInputField()
+    private function buildResultSkillPointsInputField() : ilNumberInputGUI
     {
         $questResultSkillPoints = new ilNumberInputGUI($this->lng->txt('tst_comp_points'), 'q_res_skill_points');
         $questResultSkillPoints->setRequired(true);
@@ -210,7 +210,7 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
         return $questResultSkillPoints;
     }
     
-    private function questionSupportsSolutionCompare()
+    private function questionSupportsSolutionCompare() : bool
     {
         return (
             $this->question instanceof iQuestionCondition

@@ -1,7 +1,23 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+    
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Course/group notifications
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -26,7 +42,7 @@ class ilMembershipCronNotifications extends ilCronJob
     /**
      * @var ilMembershipCronNotificationsData
      */
-    protected $data;
+    protected ilMembershipCronNotificationsData $data;
 
     public function getId() : string
     {
@@ -81,16 +97,16 @@ class ilMembershipCronNotifications extends ilCronJob
 
             $status_details = "No previous run found - starting from yesterday.";
         } // migration: used to be date-only value
-        elseif (strlen($last_run) == 10) {
+        elseif (strlen($last_run) === 10) {
             $last_run .= " 00:00:00";
 
             $status_details = "Switched from daily runs to open schedule.";
         }
-        //$last_run = date("Y-m-d H:i:s", strtotime("yesterday"));
+        $last_run_unix = strtotime($last_run);
 
         $this->logger->debug("Last run: " . $last_run);
 
-        $this->data = new ilMembershipCronNotificationsData($last_run, $this->getId());
+        $this->data = new ilMembershipCronNotificationsData($last_run_unix, $this->getId());
 
         $this->logger->debug("prepare sending mails");
 
@@ -101,7 +117,7 @@ class ilMembershipCronNotifications extends ilCronJob
         ilDatePresentation::setUseRelativeDates(false);
 
         $user_news_aggr = $this->data->getAggregatedNews();
-        if (sizeof($user_news_aggr)) {
+        if (count($user_news_aggr)) {
             foreach ($user_news_aggr as $user_id => $user_news) {
                 $this->logger->debug("sending mails to user " . $user_id . ", nr news: " . count($user_news));
                 $this->sendMail($user_id, $user_news, $last_run);
@@ -112,7 +128,6 @@ class ilMembershipCronNotifications extends ilCronJob
         }
 
         ilDatePresentation::setUseRelativeDates($old_dt);
-        $lng = $old_lng;
 
         $this->logger->debug("save run");
 
@@ -129,6 +144,10 @@ class ilMembershipCronNotifications extends ilCronJob
 
     /**
      * Convert news item to summary html
+     * @throws ilWACException
+     * @throws ilDateTimeException
+     * @throws ilWACException
+     * @throws ilDateTimeException
      */
     protected function parseNewsItem(
         int $a_parent_ref_id,
@@ -157,8 +176,8 @@ class ilMembershipCronNotifications extends ilCronJob
         $sub = null;
         if ($a_item["aggregation"]) {
             $do_sub = true;
-            if ($item_obj_type == "file" &&
-                sizeof($a_item["aggregation"]) == 1) {
+            if ($item_obj_type === "file" &&
+                count($a_item["aggregation"]) === 1) {
                 $do_sub = false;
             }
             if ($do_sub) {
@@ -212,14 +231,14 @@ class ilMembershipCronNotifications extends ilCronJob
 
             case "file":
                 if (!is_array($a_item["aggregation"]) ||
-                    sizeof($a_item["aggregation"]) == 1) {
+                    count($a_item["aggregation"]) === 1) {
                     $res = $this->lng->txt("obj_" . $item_obj_type) .
                         ' "' . $item_obj_title . '" - ' . $title;
                 } else {
                     // if files were removed from aggregation update summary count
                     $title = str_replace(
-                        " " . sizeof($a_item["aggregation"]) . " ",
-                        " " . sizeof($sub) . " ",
+                        " " . count($a_item["aggregation"]) . " ",
+                        " " . count($sub) . " ",
                         $title
                     );
                     $res = $title;
@@ -271,7 +290,7 @@ class ilMembershipCronNotifications extends ilCronJob
             ? "- " . $res
             : "# " . $res;
 
-        if (is_array($sub) && sizeof($sub)) {
+        if (is_array($sub) && count($sub)) {
             $res .= "\n" . implode("\n", $sub);
         }
         // see 29967
@@ -304,7 +323,7 @@ class ilMembershipCronNotifications extends ilCronJob
         }
         // if news has multiple parents find "lowest" parent in path
         foreach ($parent_map as $news_id => $parents) {
-            if (sizeof($parents) > 1 && $news_map[$news_id] > 0) {
+            if (count($parents) > 1 && $news_map[$news_id] > 0) {
                 $path = $this->tree->getPathId($news_map[$news_id]);
                 $lookup = array_flip($path);
 
@@ -322,6 +341,7 @@ class ilMembershipCronNotifications extends ilCronJob
 
     /**
      * Send news mail for 1 user and n objects
+     * @throws ilDateTimeException|ilWACException
      */
     protected function sendMail(int $a_user_id, array $a_objects, string $a_last_run) : void
     {
@@ -373,14 +393,14 @@ class ilMembershipCronNotifications extends ilCronJob
             }
 
             // any news?
-            if (sizeof($parsed)) {
+            if (count($parsed)) {
                 $parent["news"] = implode("\n\n", $parsed);
                 $tmp[$path] = $parent;
             }
         }
 
         // any objects?
-        if (!sizeof($tmp)) {
+        if (!count($tmp)) {
             $this->logger->debug("returning");
             return;
         }
@@ -389,7 +409,7 @@ class ilMembershipCronNotifications extends ilCronJob
         $counter = 0;
         $obj_index = array();
         $txt = "";
-        foreach ($tmp as $path => $item) {
+        foreach ($tmp as $item) {
             $counter++;
 
             $txt .= "(" . $counter . ") " . $item["title"] . "\n" .

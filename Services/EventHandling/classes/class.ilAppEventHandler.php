@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -46,17 +46,13 @@
 class ilAppEventHandler
 {
     protected ilDBInterface $db;
-    protected array $listener; // [array]
+    protected array $listener;
     protected ilLogger $logger;
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
 
-    /**
-    * Constructor
-    */
     public function __construct()
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->db = $DIC->database();
@@ -109,25 +105,25 @@ class ilAppEventHandler
             $a_component
         ));
 
-        // lazy transforming event data to string
-        $this->logger->debug(new class($a_parameter) {
-            protected array $parameter;
-
-            public function __construct(array $parameter)
-            {
-                $this->parameter = $parameter;
+        $parameter_formatter = static function ($value) use (&$parameter_formatter) {
+            if (is_object($value)) {
+                return get_class($value);
             }
 
-            public function __toString()
-            {
-                if (is_object($this->parameter)) {
-                    return 'Event data class: ' . get_class($this->parameter);
-                }
-
-                return 'Event data size: ' . sizeof($this->parameter);
-                //return 'Event data: ' . print_r($this->parameter, 1);
+            if (is_array($value)) {
+                return array_map(
+                    $parameter_formatter,
+                    $value
+                );
             }
-        });
+
+            return $value;
+        };
+
+        $this->logger->debug('Event data: ' . var_export(array_map(
+            $parameter_formatter,
+            $a_parameter
+        ), true));
 
         $this->logger->debug("Started event propagation for event listeners ...");
 
@@ -170,7 +166,7 @@ class ilAppEventHandler
 
         $this->logger->debug("Finished event hook plugin handling, started event propagation for workflow engine ...");
 
-        $workflow_engine = new ilWorkflowEngine(false);
+        $workflow_engine = new ilWorkflowEngine();
         $workflow_engine->handleEvent($a_component, $a_event, $a_parameter);
 
         $this->logger->debug("Finished workflow engine handling.");

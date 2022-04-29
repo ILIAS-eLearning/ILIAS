@@ -64,12 +64,13 @@ class ilLTIProviderObjectSettingGUI
      */
     public function __construct(int $a_ref_id)
     {
+        global $DIC;
         $this->ref_id = $a_ref_id;
-        $this->logger = ilLoggerFactory::getLogger('lti');
-        $this->ctrl = $GLOBALS['DIC']->ctrl();
-        $this->tpl = $GLOBALS['DIC']['tpl'];
+        $this->logger = ilLoggerFactory::getLogger('ltis');
+        $this->ctrl = $DIC->ctrl();
+        $this->tpl = $DIC['tpl'];
 
-        $this->lng = $GLOBALS['DIC']->language();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('lti');
     }
 
@@ -79,11 +80,12 @@ class ilLTIProviderObjectSettingGUI
      */
     public function hasSettingsAccess() : bool
     {
+        global $DIC;
         if (!ilObjLTIAdministration::isEnabledForType(ilObject::_lookupType($this->ref_id, true))) {
             $this->logger->debug('No LTI consumers activated for object type: ' . ilObject::_lookupType($this->ref_id, true));
             return false;
         }
-        $access = $GLOBALS['DIC']->rbac()->system();
+        $access = $DIC->rbac()->system();
         return $access->checkAccess(
             'release_objects',
             ilObjLTIAdministration::lookupLTISettingsRefId()
@@ -96,9 +98,10 @@ class ilLTIProviderObjectSettingGUI
      */
     public function setCustomRolesForSelection(array $a_roles) : void
     {
+        global $DIC;
         if (empty($a_roles)) {
             $this->checkLocalRole();
-            $a_roles = $GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->ref_id);
+            $a_roles = $DIC->rbac()->review()->getLocalRoles($this->ref_id);
         }
         $this->custom_roles = $a_roles;
     }
@@ -169,8 +172,8 @@ class ilLTIProviderObjectSettingGUI
                 $connector
             );
             
-            $active = new ilCheckboxInputGUI($GLOBALS['lng']->txt('lti_obj_active'), 'lti_active_' . $global_consumer->getExtConsumerId());
-            $active->setInfo($GLOBALS['lng']->txt('lti_obj_active_info'));
+            $active = new ilCheckboxInputGUI($this->lng->txt('lti_obj_active'), 'lti_active_' . $global_consumer->getExtConsumerId());
+            $active->setInfo($this->lng->txt('lti_obj_active_info'));
             $active->setValue("1");
             $form->addItem($active);
 
@@ -272,7 +275,7 @@ class ilLTIProviderObjectSettingGUI
      */
     protected function saveRoleSelection(ilPropertyFormGUI $form, string $global_consumer_id) : void
     {
-        $object_info = new ilLTIProviderObjectSetting($this->ref_id, $global_consumer_id);
+        $object_info = new ilLTIProviderObjectSetting($this->ref_id, (int) $global_consumer_id);
         
         $admin_role = (int) $form->getInput('lti_admin_' . $global_consumer_id);
         if ($admin_role > 0) {
@@ -313,9 +316,9 @@ class ilLTIProviderObjectSettingGUI
         global $DIC;
         $a_global_role = ilObject::_getIdsForTitle("il_lti_global_role", "role", false);
         if (is_array($a_global_role) && !empty($a_global_role)) {
-            $rbacreview = $DIC['rbacreview'];
+            $rbacreview = $DIC->rbac()->review();
             if (count($rbacreview->getRolesOfObject($this->ref_id, false)) == 0) {
-                $rbacadmin = $DIC['rbacadmin'];
+                $rbacadmin = $DIC->rbac()->admin();
                 $type = ilObject::_lookupType($this->ref_id, true);
                 $role = new ilObjRole();
                 $role->setTitle("il_lti_learner");

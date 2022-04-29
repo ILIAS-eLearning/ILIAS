@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -30,34 +30,35 @@ class ilCategoryExporter extends ilXmlExporter
     public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         // always trigger container because of co-page(s)
-        return array(
-            array(
+        return [
+            [
                 'component' => 'Services/Container',
                 'entity' => 'struct',
                 'ids' => $a_ids
-            )
-        );
+            ]
+        ];
     }
     
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
-        if ($a_entity == "cat") {
-            $tax_ids = array();
+        if ($a_entity === "cat") {
+            $tax_ids = [];
             foreach ($a_ids as $id) {
-                $t_ids = ilObjTaxonomy::getUsageOfObject($id);
+                $t_ids = ilObjTaxonomy::getUsageOfObject((int) $id);
                 if (count($t_ids) > 0) {
                     $tax_ids[$t_ids[0]] = $t_ids[0];
                 }
             }
 
-            return array(
-                array(
+            return [
+                [
                     "component" => "Services/Taxonomy",
                     "entity" => "tax",
-                    "ids" => $tax_ids)
-                );
+                    "ids" => $tax_ids
+                ]
+            ];
         }
-        return array();
+        return [];
     }
 
     /**
@@ -66,7 +67,7 @@ class ilCategoryExporter extends ilXmlExporter
      */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        $all_ref = ilObject::_getAllReferences($a_id);
+        $all_ref = ilObject::_getAllReferences((int) $a_id);
         $cat_ref_id = end($all_ref);
         $category = ilObjectFactory::getInstanceByRefId($cat_ref_id, false);
 
@@ -89,14 +90,15 @@ class ilCategoryExporter extends ilXmlExporter
      */
     public function getValidSchemaVersions(string $a_entity) : array
     {
-        return array(
-            "4.3.0" => array(
+        return [
+            "4.3.0" => [
                 "namespace" => "https://www.ilias.de/Modules/Category/cat/4_3",
                 "xsd_file" => "ilias_cat_4_3.xsd",
                 "uses_dataset" => false,
                 "min" => "4.3.0",
-                "max" => "")
-        );
+                "max" => ""
+            ]
+        ];
     }
 
     /**

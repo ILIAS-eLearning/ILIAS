@@ -98,14 +98,14 @@ abstract class ilADTActiveRecordBridge
     /**
      * Get field value
      * @param string $a_field_name
-     * @return mixed
+     * @return
      */
-    abstract public function getFieldValue(string $a_field_name) : mixed;
+    abstract public function getFieldValue(string $a_field_name);
 
     /**
      * Set field value
      * @param string $a_field_name
-     * @param mixed  $a_field_value
+     * @param string|int       $a_field_value
      */
-    abstract public function setFieldValue(string $a_field_name, mixed $a_field_value) : void;
+    abstract public function setFieldValue(string $a_field_name, $a_field_value) : void;
 }

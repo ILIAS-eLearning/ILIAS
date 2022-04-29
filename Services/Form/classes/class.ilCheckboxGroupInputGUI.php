@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -47,8 +47,11 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
     {
         return $this->use_values_as_keys;
     }
-    
-    public function addOption(ilCheckboxOption $a_option) : void
+
+    /**
+     * @param ilCheckboxOption|ilCheckboxInputGUI $a_option
+     */
+    public function addOption($a_option) : void
     {
         $this->options[] = $a_option;
     }

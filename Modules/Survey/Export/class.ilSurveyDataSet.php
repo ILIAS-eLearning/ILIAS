@@ -32,7 +32,7 @@ class ilSurveyDataSet extends ilDataSet
         return array("5.1.0");
     }
     
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "https://www.ilias.de/xml/Modules/Survey/" . $a_entity;
     }
@@ -42,7 +42,7 @@ class ilSurveyDataSet extends ilDataSet
      */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
-        if ($a_entity == "svy_quest_skill") {
+        if ($a_entity === "svy_quest_skill") {
             switch ($a_version) {
                 case "5.1.0":
                     return array(
@@ -53,7 +53,7 @@ class ilSurveyDataSet extends ilDataSet
                     );
             }
         }
-        if ($a_entity == "svy_skill_threshold") {
+        if ($a_entity === "svy_skill_threshold") {
             switch ($a_version) {
                 case "5.1.0":
                     return array(
@@ -74,7 +74,7 @@ class ilSurveyDataSet extends ilDataSet
 
         $this->data = array();
 
-        if ($a_entity == "svy_quest_skill") {
+        if ($a_entity === "svy_quest_skill") {
             switch ($a_version) {
                 case "5.1.0":
                     $this->getDirectDataFromQuery("SELECT * " .
@@ -85,7 +85,7 @@ class ilSurveyDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "svy_skill_threshold") {
+        if ($a_entity === "svy_skill_threshold") {
             switch ($a_version) {
                 case "5.1.0":
                     $this->getDirectDataFromQuery("SELECT * " .

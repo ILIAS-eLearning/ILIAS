@@ -31,7 +31,7 @@
  */
 class ilGroupEditParticipantsTableGUI extends ilTable2GUI
 {
-    protected ilObjGroup $rep_object;
+    protected ilObject $rep_object;
     protected ilPrivacySettings $privacy;
     protected ilParticipants $participants;
 
@@ -42,7 +42,7 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
      * @param object parent gui object
      * @return void
      */
-    public function __construct(object $a_parent_obj, ilObjGroup $rep_object)
+    public function __construct(object $a_parent_obj, ilObject $rep_object)
     {
         global $DIC;
 

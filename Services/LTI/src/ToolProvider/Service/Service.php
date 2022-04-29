@@ -18,40 +18,39 @@ use ILIAS\LTI\ToolProvider\ToolConsumer;
 class Service
 {
 
-/**
- * Whether service request should be sent unsigned.
- *
- * @var boolean $unsigned
- */
-    public $unsigned = false;
+    /**
+     * Whether service request should be sent unsigned.
+     *
+     * @var boolean $unsigned
+     */
+    public bool $unsigned = false;
 
     /**
      * Service endpoint.
      *
      * @var string $endpoint
      */
-    protected $endpoint;
+    protected string $endpoint;
     /**
      * Tool Consumer for this service request.
      *
      * @var ToolConsumer $consumer
      */
-    private $consumer;
+    private ToolConsumer $consumer;
     /**
      * Media type of message body.
      *
      * @var string $mediaType
      */
-    private $mediaType;
+    private string $mediaType;
 
     /**
      * Class constructor.
-     *
-     * @param ToolConsumer $consumer   Tool consumer object for this service request
-     * @param string       $endpoint   Service endpoint
-     * @param string       $mediaType  Media type of message body
+     * @param ToolConsumer $consumer  Tool consumer object for this service request
+     * @param string       $endpoint  Service endpoint
+     * @param string       $mediaType Media type of message body
      */
-    public function __construct($consumer, $endpoint, $mediaType)
+    public function __construct(ToolConsumer $consumer, string $endpoint, string $mediaType)
     {
         $this->consumer = $consumer;
         $this->endpoint = $endpoint;
@@ -60,14 +59,12 @@ class Service
 
     /**
      * Send a service request.
-     *
-     * @param string  $method      The action type constant (optional, default is GET)
-     * @param array   $parameters  Query parameters to add to endpoint (optional, default is none)
-     * @param string  $body        Body of request (optional, default is null)
-     *
+     * @param string      $method     The action type constant (optional, default is GET)
+     * @param array       $parameters Query parameters to add to endpoint (optional, default is none)
+     * @param string|null $body       Body of request (optional, default is null)
      * @return HTTPMessage HTTP object containing request and response details
      */
-    public function send($method, $parameters = array(), $body = null)
+    public function send(string $method, array $parameters = array(), ?string $body = null) : HTTPMessage
     {
         $url = $this->endpoint;
         if (!empty($parameters)) {

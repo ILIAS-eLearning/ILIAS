@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * class ilRbacLog
  *  Log changes in Rbac-related settings
@@ -63,11 +77,11 @@ class ilRbacLog
         // roles
         foreach ((array) $a_old["ops"] as $role_id => $ops) {
             $diff = array_diff($ops, $a_new["ops"][$role_id]);
-            if (sizeof($diff)) {
+            if ($diff !== []) {
                 $result["ops"][$role_id]["rmv"] = array_values($diff);
             }
             $diff = array_diff($a_new["ops"][$role_id], $ops);
-            if (sizeof($diff)) {
+            if ($diff !== []) {
                 $result["ops"][$role_id]["add"] = array_values($diff);
             }
         }
@@ -79,11 +93,11 @@ class ilRbacLog
                 $result["inht"]["add"] = $a_new["inht"];
             } else {
                 $diff = array_diff($a_old["inht"], $a_new["inht"]);
-                if (sizeof($diff)) {
+                if ($diff !== []) {
                     $result["inht"]["rmv"] = array_values($diff);
                 }
                 $diff = array_diff($a_new["inht"], $a_old["inht"]);
-                if (sizeof($diff)) {
+                if ($diff !== []) {
                     $result["inht"]["add"] = array_values($diff);
                 }
             }
@@ -110,11 +124,11 @@ class ilRbacLog
                 $result[$type]["rmv"] = $a_old[$type];
             } else {
                 $diff = array_diff($a_old[$type], $a_new[$type]);
-                if (sizeof($diff)) {
+                if ($diff !== []) {
                     $result[$type]["rmv"] = array_values($diff);
                 }
                 $diff = array_diff($a_new[$type], $a_old[$type]);
-                if (sizeof($diff)) {
+                if ($diff !== []) {
                     $result[$type]["add"] = array_values($diff);
                 }
             }
@@ -129,7 +143,7 @@ class ilRbacLog
         $ilUser = $DIC->user();
         $ilDB = $DIC->database();
 
-        if (self::isValidAction($a_action) && sizeof($a_diff)) {
+        if (self::isValidAction($a_action) && count($a_diff)) {
             if ($a_source_ref_id) {
                 $a_diff["src"] = $a_source_ref_id;
             }
@@ -147,7 +161,8 @@ class ilRbacLog
 
     protected static function isValidAction(int $a_action) : bool
     {
-        if (in_array($a_action,
+        if (in_array(
+            $a_action,
             [
                 self::EDIT_PERMISSIONS,
                 self::MOVE_OBJECT,
@@ -192,8 +207,10 @@ class ilRbacLog
             }
         }
 
-        $set = $ilDB->query("SELECT COUNT(*) FROM rbac_log WHERE ref_id = " . $ilDB->quote($a_ref_id,
-                "integer") . implode('', $where));
+        $set = $ilDB->query("SELECT COUNT(*) FROM rbac_log WHERE ref_id = " . $ilDB->quote(
+            $a_ref_id,
+            "integer"
+        ) . implode('', $where));
         $res = $ilDB->fetchAssoc($set);
         $count = array_pop($res);
 
@@ -226,7 +243,9 @@ class ilRbacLog
         $settings = ilPrivacySettings::getInstance();
         $max = $settings->getRbacLogAge();
 
-        $ilDB->query("DELETE FROM rbac_log WHERE created < " . $ilDB->quote(strtotime("-" . $max . "months"),
-                "integer"));
+        $ilDB->query("DELETE FROM rbac_log WHERE created < " . $ilDB->quote(
+            strtotime("-" . $max . "months"),
+            "integer"
+        ));
     }
 }

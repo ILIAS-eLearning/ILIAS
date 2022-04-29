@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -50,10 +50,10 @@ class ilStyleColorTableGUI extends ilTable2GUI
         $this->style_obj = $a_style_obj;
         
         $this->addColumn("", "", "1");	// checkbox
-        $this->addColumn($this->lng->txt("sty_color_name"), "");
-        $this->addColumn($this->lng->txt("sty_color_code"), "");
-        $this->addColumn($this->lng->txt("sty_color"), "");
-        $this->addColumn($this->lng->txt("sty_color_flavors"), "");
+        $this->addColumn($this->lng->txt("sty_color_name"));
+        $this->addColumn($this->lng->txt("sty_color_code"));
+        $this->addColumn($this->lng->txt("sty_color"));
+        $this->addColumn($this->lng->txt("sty_color_flavors"));
         $this->addColumn($this->lng->txt("sty_commands"), "", "1");
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));

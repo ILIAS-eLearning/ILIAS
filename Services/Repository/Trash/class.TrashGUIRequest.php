@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -31,6 +31,7 @@ class TrashGUIRequest
         );
     }
 
+    /** @return int[] */
     public function getTrashIds() : array
     {
         $trash_ids = $this->intArray("trash_id");
@@ -38,10 +39,10 @@ class TrashGUIRequest
             return $trash_ids;
         }
         $trash_ids = $this->str("trash_ids");
-        if ($trash_ids == "") {
+        if ($trash_ids === "") {
             return [];
-        } else {
-            return explode(",", $trash_ids);
         }
+
+        return array_map('intval', explode(",", $trash_ids));
     }
 }

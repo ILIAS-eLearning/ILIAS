@@ -24,12 +24,12 @@ class ilUsersGallerySortedUserGroup implements ilUsersGalleryUserCollection
         $this->sorter = $sorter;
     }
 
-    public function setItems(array $items) : void
+    public function setItems(array $items) : void // Missing array type.
     {
         $this->collection->setItems($items);
     }
 
-    public function getItems() : array
+    public function getItems() : array // Missing array type.
     {
         return $this->collection->getItems();
     }

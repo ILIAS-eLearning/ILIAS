@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
@@ -22,7 +22,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\MainMenuMainCollector as Main;
  */
 class ilMMCustomItemFacade extends ilMMAbstractItemFacade
 {
-    
     protected ?ilMMCustomItemStorage $custom_item_storage;
     
     protected string $action = '';
@@ -89,6 +88,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
     private function getCustomStorage() : ?ilMMCustomItemStorage
     {
         $id = $this->raw_item->getProviderIdentification()->getInternalIdentifier();
+        /** @var ilMMCustomItemStorage $mm */
         $mm = ilMMCustomItemStorage::find($id);
         
         return $mm;
@@ -174,7 +174,7 @@ class ilMMCustomItemFacade extends ilMMAbstractItemFacade
         if ($this->raw_item instanceof \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem) {
             return parent::isTopItem();
         }
-        
+
         return $this->top_item;
     }
     

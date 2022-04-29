@@ -57,7 +57,7 @@ class assFormulaQuestionTest extends assBaseTestCase
     /**
      *
      */
-    public function simpleRatedCalculationsData()
+    public function simpleRatedCalculationsData() : array
     {
         global $DIC;
     

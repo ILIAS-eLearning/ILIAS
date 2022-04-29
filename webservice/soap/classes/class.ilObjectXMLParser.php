@@ -11,7 +11,7 @@
  *****************************************************************************/
 class ilObjectXMLParser extends ilSaxParser
 {
-    public array $object_data = array();
+    public array $object_data = [];
 
     private int $ref_id = 0;
     private int $parent_id = 0;
@@ -19,7 +19,7 @@ class ilObjectXMLParser extends ilSaxParser
     private array $time_target = [];
     private string $cdata = '';
 
-    public function __construct($a_xml_data = '', ?bool $throw_exception = false)
+    public function __construct(string $a_xml_data = '', ?bool $throw_exception = false)
     {
         parent::__construct('', $throw_exception);
         $this->setXMLContent($a_xml_data);
@@ -30,11 +30,10 @@ class ilObjectXMLParser extends ilSaxParser
         return $this->object_data;
     }
 
-    public function parse($a_xml_parser, $a_fp = null) : void
-    {
-        parent::parse($a_xml_parser, $a_fp);
-    }
-
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @return void
+     */
     public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
@@ -42,6 +41,12 @@ class ilObjectXMLParser extends ilSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @param array $a_attribs
+     * @return void
+     */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
@@ -52,33 +57,27 @@ class ilObjectXMLParser extends ilSaxParser
             case 'Object':
                 ++$this->curr_obj;
 
-                $this->__addProperty('type', $a_attribs['type']);
-                $this->__addProperty('obj_id',
-                    is_numeric($a_attribs['obj_id']) ? (int) $a_attribs["obj_id"] : ilUtil::__extractId($a_attribs["obj_id"],
-                        IL_INST_ID));
-                $this->__addProperty('offline', $a_attribs['offline']);
-                break;
-
-            case 'Title':
-                break;
-
-            case 'Description':
-                break;
-
-            case 'Owner':
-                break;
-
-            case 'CreateDate':
-                break;
-
-            case 'LastUpdate':
+                $this->addProperty('type', (string) $a_attribs['type']);
+                $this->addProperty(
+                    'obj_id',
+                    is_numeric($a_attribs['obj_id']) ? (int) $a_attribs["obj_id"] : ilUtil::__extractId(
+                        $a_attribs["obj_id"],
+                        IL_INST_ID
+                    )
+                );
+                $this->addProperty('offline', $a_attribs['offline']);
                 break;
 
             case 'ImportId':
+            case 'LastUpdate':
+            case 'CreateDate':
+            case 'Owner':
+            case 'Description':
+            case 'Title':
                 break;
 
             case 'References':
-                $this->time_target = array();
+                $this->time_target = [];
                 $this->ref_id = $a_attribs["ref_id"];
                 $this->parent_id = $a_attribs['parent_id'];
                 break;
@@ -115,52 +114,58 @@ class ilObjectXMLParser extends ilSaxParser
         }
     }
 
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @return void
+     */
     public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         switch ($a_name) {
+            case 'Object':
             case 'Objects':
                 break;
 
-            case 'Object':
-                break;
-
             case 'Title':
-                $this->__addProperty('title', trim($this->cdata));
+                $this->addProperty('title', trim($this->cdata));
                 break;
 
             case 'Description':
-                $this->__addProperty('description', trim($this->cdata));
+                $this->addProperty('description', trim($this->cdata));
                 break;
 
             case 'Owner':
-                $this->__addProperty('owner', trim($this->cdata));
+                $this->addProperty('owner', trim($this->cdata));
                 break;
 
             case 'CreateDate':
-                $this->__addProperty('create_date', trim($this->cdata));
+                $this->addProperty('create_date', trim($this->cdata));
                 break;
 
             case 'LastUpdate':
-                $this->__addProperty('last_update', trim($this->cdata));
+                $this->addProperty('last_update', trim($this->cdata));
                 break;
 
             case 'ImportId':
-                $this->__addProperty('import_id', trim($this->cdata));
+                $this->addProperty('import_id', trim($this->cdata));
                 break;
 
             case 'References':
-                $this->__addReference($this->ref_id, $this->parent_id, $this->time_target);
+                $this->addReference($this->ref_id, $this->parent_id, $this->time_target);
                 break;
         }
 
         $this->cdata = '';
-
-        return;
     }
 
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_data
+     * @return void
+     */
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
-        if ($a_data != "\n") {
+        if ($a_data !== "\n") {
             // Replace multiple tabs with one space
             $a_data = preg_replace("/\t+/", " ", $a_data);
 
@@ -168,21 +173,27 @@ class ilObjectXMLParser extends ilSaxParser
         }
     }
 
-    public function __addProperty($a_name, $a_value) : void
+    /**
+     * @param string$a_name
+     * @param string | int $a_value
+     * @return void
+     */
+    private function addProperty(string $a_name, $a_value) : void
     {
         $this->object_data[$this->curr_obj][$a_name] = $a_value;
     }
 
-    public function __addReference(int $a_ref_id, int $a_parent_id, array $a_time_target) : void
+    private function addReference(int $a_ref_id, int $a_parent_id, array $a_time_target) : void
     {
         $reference['ref_id'] = $a_ref_id;
         $reference['parent_id'] = $a_parent_id;
         $reference['time_target'] = $a_time_target;
 
-        if (isset($reference['time_target']['changeable']) and $reference['time_target']['changeable']) {
-            if (!isset($reference['time_target']['suggestion_start']) or !isset($reference['time_target']['suggestion_end'])) {
-                throw new ilObjectXMLException('Missing attributes: "starting_time" and "ending_time" required for attribute "changeable"');
-            }
+        if (isset($reference['time_target']['changeable']) && $reference['time_target']['changeable'] &&
+            !isset($reference['time_target']['suggestion_start'], $reference['time_target']['suggestion_end'])) {
+            throw new ilObjectXMLException(
+                'Missing attributes: "starting_time" and "ending_time" required for attribute "changeable"'
+            );
         }
 
         $this->object_data[$this->curr_obj]['references'][] = $reference;

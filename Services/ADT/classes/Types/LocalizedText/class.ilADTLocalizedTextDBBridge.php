@@ -75,7 +75,8 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
      */
     protected function deleteTranslations() : void
     {
-        $this->db->manipulate($q =
+        $this->db->manipulate(
+            $q =
             'delete from ' . $this->getTable() . ' ' .
             'where ' . $this->buildPrimaryWhere() . ' ' .
             'and value_index != ' . $this->db->quote('', ilDBConstants::T_TEXT)

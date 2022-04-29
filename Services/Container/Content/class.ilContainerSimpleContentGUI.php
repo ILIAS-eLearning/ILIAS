@@ -52,12 +52,12 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
         // @todo
         //		$this->__showFeedBack();
 
-        $this->__showMaterials($tpl);
+        $this->showMaterials($tpl);
             
         return $tpl->get();
     }
 
-    public function __showMaterials(
+    private function showMaterials(
         ilTemplate $a_tpl
     ) : void {
         $lng = $this->lng;
@@ -70,7 +70,7 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
         $output_html = $this->getContainerGUI()->getContainerPageHTML();
         
         // get embedded blocks
-        if ($output_html != "") {
+        if ($output_html !== "") {
             $output_html = $this->insertPageEmbeddedBlocks($output_html);
         }
 
@@ -103,9 +103,9 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
     {
         $this->handleSessionExpand();
 
-        if ($this->getContainerObject()->getType() == 'crs') {
+        if ($this->getContainerObject()->getType() === 'crs') {
             if ($session = ilSessionAppointment::lookupNextSessionByCourse($this->getContainerObject()->getRefId())) {
-                $this->force_details = $session;
+                $this->force_details = (int) $session;
             } elseif ($session = ilSessionAppointment::lookupLastSessionByCourse($this->getContainerObject()->getRefId())) {
                 $this->force_details = $session;
             }
@@ -122,8 +122,8 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
         }
         if ($a_item_id == $this->force_details) {
             return self::DETAILS_ALL;
-        } else {
-            return self::DETAILS_TITLE;
         }
+
+        return self::DETAILS_TITLE;
     }
 }

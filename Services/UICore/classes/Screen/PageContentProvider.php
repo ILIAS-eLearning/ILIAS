@@ -61,7 +61,8 @@ class PageContentProvider extends AbstractModificationProvider
 
     public function getContentModification(CalledContexts $screen_context_stack) : ?ContentModification
     {
-        return $this->globalScreen()->layout()->factory()->content()->withModification(function (Legacy $content
+        return $this->globalScreen()->layout()->factory()->content()->withModification(function (
+            Legacy $content
         ) : Legacy {
             $ui = $this->dic->ui();
             return $ui->factory()->legacy(
@@ -74,7 +75,7 @@ class PageContentProvider extends AbstractModificationProvider
     {
         /** @var $modification TitleModification */
         $modification = $this->globalScreen()->layout()->factory()->title()->withModification(
-            fn(string $content) : string => self::$title
+            fn (string $content) : string => self::$title
         )->withLowPriority();
 
         return $modification;
@@ -84,7 +85,7 @@ class PageContentProvider extends AbstractModificationProvider
     {
         /** @var $modification ShortTitleModification */
         $modification = $this->globalScreen()->layout()->factory()->short_title()->withModification(
-            fn(string $content) : string => self::$short_title
+            fn (string $content) : string => self::$short_title
         )->withLowPriority();
 
         return $modification;
@@ -94,7 +95,7 @@ class PageContentProvider extends AbstractModificationProvider
     {
         /** @var $modification ViewTitleModification */
         $modification = $this->globalScreen()->layout()->factory()->view_title()->withModification(
-            fn(string $content) : string => self::$view_title
+            fn (string $content) : string => self::$view_title
         )->withLowPriority();
 
         return $modification;
@@ -111,8 +112,13 @@ class PageContentProvider extends AbstractModificationProvider
             $text = "powered by ILIAS (v{$ilias_version})";
 
             // Imprint
-            $baseClass = (string) ($_REQUEST["baseClass"] ?? '');
-            if ($baseClass !== "ilImprintGUI" && \ilImprint::isActive()) {
+            $base_class = ($this->dic->http()->wrapper()->query()->has(\ilCtrlInterface::PARAM_BASE_CLASS)) ?
+                $this->dic->http()->wrapper()->query()->retrieve(
+                    \ilCtrlInterface::PARAM_BASE_CLASS,
+                    $this->dic->refinery()->kindlyTo()->string()
+                ) : null;
+
+            if ($base_class !== \ilImprintGUI::class && \ilImprint::isActive()) {
                 $imprint_title = $this->dic->language()->txt("imprint");
                 $imprint_url = \ilLink::_getStaticLink(0, "impr");
                 $links[] = $f->link()->standard($imprint_title, $imprint_url);

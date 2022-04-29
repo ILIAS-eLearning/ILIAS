@@ -44,7 +44,14 @@ class ilSkillDataSet extends ilDataSet
     protected int $init_top_order_nr = 0;
     protected int $init_templ_top_order_nr = 0;
 
+    /**
+     * @var int[]
+     */
     protected array $selected_nodes = [];
+
+    /**
+     * @var int[]
+     */
     protected array $selected_profiles = [];
     protected string $mode = "";
 
@@ -494,6 +501,11 @@ class ilSkillDataSet extends ilDataSet
         }
     }
 
+    /**
+     * @param array{Id: int, Child: int Type: string} $a_rec
+     *
+     * @return array<string, array{ids: int[]}>
+     */
     protected function getDependencies(
         string $a_entity,
         string $a_version,
@@ -551,7 +563,7 @@ class ilSkillDataSet extends ilDataSet
                     $set = $ilDB->query("SELECT DISTINCT(templ_id) FROM skl_templ_ref " .
                             " WHERE " . $ilDB->in("skl_node_id", $ref_nodes, false, "integer"));
                     while ($rec = $ilDB->fetchAssoc($set)) {
-                        $deps["skl_templ_subtree"]["ids"][] = $rec["templ_id"];
+                        $deps["skl_templ_subtree"]["ids"][] = (int) $rec["templ_id"];
                     }
 
                     // export subtree after templates

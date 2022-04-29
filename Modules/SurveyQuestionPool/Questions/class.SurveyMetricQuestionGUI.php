@@ -210,7 +210,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
 
         $template->setVariable("INPUT_SIZE", 10);
 
-        if (strcmp($error_message, "") != 0) {
+        if (strcmp($error_message, "") !== 0) {
             $template->setVariable("ERROR_MESSAGE", "<p class=\"warning\">$error_message</p>");
         }
         $template->parseCurrentBlock();

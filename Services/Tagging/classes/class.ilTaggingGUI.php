@@ -1,8 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
-use \Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\RequestInterface;
 
 /**
  * Class ilTaggingGUI. User interface class for tagging engine.
@@ -46,15 +60,16 @@ class ilTaggingGUI
         $this->requested_mess = ($params["mess"] ?? "");
     }
 
-    
+
     /**
      * Execute command
      */
     public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
-        
+
         $next_class = $ilCtrl->getNextClass();
+        // PHP8 Review: 'switch' with single 'case'
         switch ($next_class) {
             default:
                 $cmd = $ilCtrl->getCmd();
@@ -62,8 +77,8 @@ class ilTaggingGUI
                 break;
         }
     }
-    
-    
+
+
     /**
      * Set Object.
      * @param int    $a_obj_id          Object ID
@@ -83,21 +98,21 @@ class ilTaggingGUI
         $this->obj_type = $a_obj_type;
         $this->sub_obj_id = $a_sub_obj_id;
         $this->sub_obj_type = $a_sub_obj_type;
-        
+
         $this->setSaveCmd("saveTags");
         $this->setUserId($ilUser->getId());
         $this->setInputFieldName("il_tags");
-        
+
         $tags_set = new ilSetting("tags");
         $forbidden = $tags_set->get("forbidden_tags");
         if ($forbidden != "") {
-            $this->forbidden = unserialize($forbidden);
+            $this->forbidden = unserialize((string) $forbidden, ['allowed_classes' => false]);
         } else {
             $this->forbidden = array();
         }
     }
-    
-    public function setUserId(int $a_userid)
+
+    public function setUserId(int $a_userid) : void
     {
         $this->userid = $a_userid;
     }
@@ -107,7 +122,7 @@ class ilTaggingGUI
         return $this->userid;
     }
 
-    public function setSaveCmd(string $a_savecmd)
+    public function setSaveCmd(string $a_savecmd) : void
     {
         $this->savecmd = $a_savecmd;
     }
@@ -117,7 +132,7 @@ class ilTaggingGUI
         return $this->savecmd;
     }
 
-    public function setInputFieldName(string $a_inputfieldname)
+    public function setInputFieldName(string $a_inputfieldname) : void
     {
         $this->inputfieldname = $a_inputfieldname;
     }
@@ -148,7 +163,7 @@ class ilTaggingGUI
         $ttpl->setVariable("TXT_COMMA_SEPARATED", $lng->txt("comma_separated"));
         $ttpl->setVariable("CMD_SAVE", $this->savecmd);
         $ttpl->setVariable("NAME_TAGS", $this->getInputFieldName());
-        
+
         return $ttpl->get();
     }
 
@@ -189,7 +204,7 @@ class ilTaggingGUI
         );
         $this->main_tpl->setOnScreenMessage('success', $lng->txt('msg_obj_modified'));
     }
-    
+
     // Check whether a tag is forbiddens
     public function isForbidden(string $a_tag) : bool
     {
@@ -203,7 +218,7 @@ class ilTaggingGUI
         }
         return false;
     }
-    
+
     // Get Input HTML for Tagging of an object (and a user)
     public function getAllUserTagsForObjectHTML() : string
     {
@@ -231,15 +246,15 @@ class ilTaggingGUI
                 $ttpl->parseCurrentBlock();
             }
         }
-        
+
         return $ttpl->get();
     }
 
-    
+
     ////
     //// Ajax related methods
     ////
-    
+
     public static function initJavascript(
         string $a_ajax_url,
         ilGlobalTemplateInterface $a_main_tpl = null
@@ -259,10 +274,10 @@ class ilTaggingGUI
 
         iljQueryUtil::initjQuery($tpl);
         $tpl->addJavaScript("./Services/Tagging/js/ilTagging.js");
-        
+
         $tpl->addOnLoadCode("ilTagging.setAjaxUrl('" . $a_ajax_url . "');");
     }
-    
+
     // Get tagging js call
     public static function getListTagsJSCall(
         string $a_hash,
@@ -284,7 +299,7 @@ class ilTaggingGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ui = $this->ui;
-        
+
         $lng->loadLanguageModule("tagging");
         $tpl = new ilTemplate("tpl.edit_tags.html", true, true, "Services/Tagging");
         $tpl->setVariable("TXT_TAGS", $lng->txt("tagging_tags"));
@@ -294,6 +309,7 @@ class ilTaggingGUI
         $mess = $this->requested_mess != ""
             ? $this->requested_mess
             : $this->mess;
+        // PHP8 Review: 'switch' with single 'case'
         switch ($mess) {
             case "mod":
                 $mtype = "success";
@@ -328,16 +344,16 @@ class ilTaggingGUI
         $tpl->setVariable("TXT_SAVE", $lng->txt("save"));
         $tpl->setVariable("TXT_COMMA_SEPARATED", $lng->txt("comma_separated"));
         $tpl->setVariable("CMD_SAVE", "saveJS");
-        
+
         $os = "ilTagging.cmdAjaxForm(event, '" .
             $ilCtrl->getFormActionByClass("iltagginggui", "", "", true) .
             "');";
         $tpl->setVariable("ON_SUBMIT", $os);
-        
+
         $tags_set = new ilSetting("tags");
         if ($tags_set->get("enable_all_users")) {
             $tpl->setVariable("TAGS_TITLE", $lng->txt("tagging_my_tags"));
-            
+
             $all_obj_tags = ilTagging::_getListTagsForObjects(array($this->obj_id));
             $all_obj_tags = $all_obj_tags[$this->obj_id];
             if (is_array($all_obj_tags) &&
@@ -352,11 +368,11 @@ class ilTaggingGUI
                 }
             }
         }
-        
+
         echo $tpl->get();
         exit;
     }
-    
+
     /**
      * Save JS
      */
@@ -383,9 +399,9 @@ class ilTaggingGUI
             $this->getUserId(),
             $tags
         );
-        
+
         $this->mess = "mod";
-        
+
         $this->getHTML();
     }
 }

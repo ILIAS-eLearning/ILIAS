@@ -1,26 +1,25 @@
-<?php
+<?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
 {
-    protected static ?ilWkhtmlToPdfRenderer $instance = null;
-
     protected ilWkhtmlToPdfConfig $config;
-
     protected ilLanguage $lng;
-
     protected ilLogger $log;
 
     public function __construct(bool $phpunit = false)
@@ -85,30 +84,18 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
         return ilFileUtils::ilTempnam() . '.' . $file_type;
     }
 
-    public function createPDFFileFromHTMLFile(string $a_path_to_file, array $config, \ilPDFGenerationJob $job) : void
+    public function createPDFFileFromHTMLFile(string $a_path_to_file, array $config, ilPDFGenerationJob $job) : void
     {
-        if (is_array($a_path_to_file)) {
-            $files_list_as_string = ' ';
-            foreach ($a_path_to_file as $file) {
-                if (file_exists($file)) {
-                    $files_list_as_string .= ' ' . $files_list_as_string;
-                }
-            }
-            $this->runCommandLine($files_list_as_string, $job->getFilename(), $config);
-        } else {
-            if (file_exists($a_path_to_file)) {
-                $this->runCommandLine($a_path_to_file, $job->getFilename(), $config);
-            }
-        }
+        $this->runCommandLine($a_path_to_file, $job->getFilename(), $config);
     }
 
     protected function runCommandLine(string $a_path_to_file, string $a_target, array $config) : void
     {
-        $config = new ilWkhtmlToPdfConfig($config);
+        $wkConfig = new ilWkhtmlToPdfConfig($config);
         $temp_file = $this->getPdfTempName();
-        $args = $config->getCommandLineConfig() . ' ' . $a_path_to_file . ' ' . $temp_file . $this->redirectLog();
-        $this->appendDefaultFontStyle($a_path_to_file, $config);
-        $return_value = ilShellUtil::execQuoted($config->getWKHTMLToPdfDefaultPath(), $args);
+        $args = $wkConfig->getCommandLineConfig() . ' ' . $a_path_to_file . ' ' . $temp_file . $this->redirectLog();
+        $this->appendDefaultFontStyle($a_path_to_file, $wkConfig);
+        $return_value = ilShellUtil::execQuoted($wkConfig->getWKHTMLToPdfDefaultPath(), $args);
         $this->log->debug('ilWebkitHtmlToPdfTransformer command line config: ' . $args);
         $this->checkReturnValueFromCommandLine($return_value, $temp_file, $a_target);
         unlink($a_path_to_file);

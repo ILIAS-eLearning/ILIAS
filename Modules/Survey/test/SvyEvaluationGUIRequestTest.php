@@ -11,11 +11,6 @@ class SvyEvaluationGUIRequestTest extends TestCase
 {
     //protected $backupGlobals = false;
 
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }
@@ -34,7 +29,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testShowTable()
+    public function testShowTable() : void
     {
         $request = $this->getRequest(
             [
@@ -49,7 +44,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testShowChart()
+    public function testShowChart() : void
     {
         $request = $this->getRequest(
             [
@@ -64,7 +59,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testShowAbsolute()
+    public function testShowAbsolute() : void
     {
         $request = $this->getRequest(
             [
@@ -79,7 +74,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testShowPercentage()
+    public function testShowPercentage() : void
     {
         $request = $this->getRequest(
             [
@@ -94,7 +89,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testAppraiseeId()
+    public function testAppraiseeId() : void
     {
         $request = $this->getRequest(
             [
@@ -109,7 +104,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testRaterId()
+    public function testRaterId() : void
     {
         $request = $this->getRequest(
             [
@@ -124,7 +119,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId()
+    public function testRefId() : void
     {
         $request = $this->getRequest(
             [
@@ -139,7 +134,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testCompEvalMode()
+    public function testCompEvalMode() : void
     {
         $request = $this->getRequest(
             [
@@ -154,7 +149,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testSurveyCode()
+    public function testSurveyCode() : void
     {
         $request = $this->getRequest(
             [
@@ -169,7 +164,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testExportLabel()
+    public function testExportLabel() : void
     {
         $request = $this->getRequest(
             [
@@ -184,7 +179,7 @@ class SvyEvaluationGUIRequestTest extends TestCase
         );
     }
 
-    public function testExportFormat()
+    public function testExportFormat() : void
     {
         $request = $this->getRequest(
             [

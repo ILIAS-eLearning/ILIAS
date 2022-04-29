@@ -23,15 +23,14 @@
 
 
 /**
-* Class for storing all rpc communication settings
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*/
-
-
+ * Class for storing all rpc communication settings
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilRPCServerSettings
 {
-    public const RPC_SERVER_PATH = "/RPC2";
+    private const RPC_SERVER_PATH = "/RPC2";
+
     private static ?ilRPCServerSettings $instance = null;
 
     public string $rpc_host = '';
@@ -55,43 +54,46 @@ class ilRPCServerSettings
         }
         return self::$instance = new ilRPCServerSettings();
     }
-    
+
     /**
      * Returns true if server ip and port are set.
      */
     public function isEnabled() : bool
     {
-        return strlen($this->getHost()) and strlen($this->getPort());
+        return $this->getHost() !== '' && $this->getPort() !== '';
     }
-    
+
     public function getServerUrl() : string
     {
         return 'http://' . $this->getHost() . ':' . $this->getPort() . '/' . self::RPC_SERVER_PATH;
     }
-    
 
     public function getHost() : string
     {
-        if (strlen($this->rpc_host)) {
+        if ($this->rpc_host !== '') {
             return $this->rpc_host;
         }
         return $this->rpc_host = (string) $this->settings->get('rpc_server_host');
     }
+
     public function setHost($a_host) : void
     {
         $this->rpc_host = $a_host;
     }
+
     public function getPort() : string
     {
-        if (strlen($this->rpc_port)) {
+        if ($this->rpc_port !== '') {
             return $this->rpc_port;
         }
         return $this->rpc_port = (string) $this->settings->get('rpc_server_port');
     }
+
     public function setPort(string $a_port) : void
     {
         $this->rpc_port = $a_port;
     }
+
     public function getPath() : string
     {
         return self::RPC_SERVER_PATH;

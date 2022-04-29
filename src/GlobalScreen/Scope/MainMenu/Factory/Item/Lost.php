@@ -34,19 +34,10 @@ use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
 class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, isChild, hasTitle, hasAction, hasSymbol
 {
     use SymbolDecoratorTrait;
-    
-    /**
-     * @var isChild[]
-     */
-    private $children = array();
-    /**
-     * @var IdentificationInterface
-     */
-    private $parent;
-    /**
-     * @var string
-     */
-    private $title = '';
+
+    private array $children = array();
+    private IdentificationInterface $parent;
+    private string $title = '';
     
     /**
      * @inheritDoc
@@ -147,7 +138,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     
     /**
      * @inheritDoc
-     * @param \ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild[] $children
+     * @param isChild[] $children
      */
     public function withChildren(array $children) : isParent
     {

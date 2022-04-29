@@ -32,7 +32,7 @@ class ilObjRemoteGlossary extends ilRemoteObjectBase
     
     protected $availability_type;
 
-    public function initType()
+    public function initType() : void
     {
         $this->type = "rglo";
     }
@@ -100,18 +100,18 @@ class ilObjRemoteGlossary extends ilRemoteObjectBase
         $a_fields["availability_type"] = array("integer", 0);
     }
 
-    protected function doUpdateCustomFields(array &$a_fields)
+    protected function doUpdateCustomFields(array &$a_fields) : void
     {
         $a_fields["availability_type"] = array("integer", $this->getAvailabilityType());
     }
 
-    protected function doReadCustomFields($a_row)
+    protected function doReadCustomFields($a_row) : void
     {
         $this->setAvailabilityType($a_row->availability_type);
     }
     
-    protected function updateCustomFromECSContent(ilECSSetting $a_server, $a_ecs_content)
+    protected function updateCustomFromECSContent(ilECSSetting $a_server, $ecs_content) : void
     {
-        $this->setAvailabilityType($a_ecs_content->availability == 'online' ? self::ACTIVATION_ONLINE : self::ACTIVATION_OFFLINE);
+        $this->setAvailabilityType($ecs_content->availability == 'online' ? self::ACTIVATION_ONLINE : self::ACTIVATION_OFFLINE);
     }
 }

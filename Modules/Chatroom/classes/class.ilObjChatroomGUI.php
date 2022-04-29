@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\ResponseHeader;
@@ -13,20 +28,12 @@ use ILIAS\HTTP\Response\ResponseHeader;
  * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI, ilExportGUI
  * @ingroup           ModulesChatroom
  */
-class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
+class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInterface
 {
-    public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
+    public function __construct($data = null, ?int $id = 0, bool $call_by_reference = true, bool $prepare_output = true)
     {
-        // TODO: PHP 8 This will be removed with another ILIAS 8 feature, please ignore this on review
-        if (isset($_REQUEST['cmd']) && in_array($_REQUEST['cmd'], array('getOSDNotifications', 'removeOSDNotifications'))) {
-            require_once 'Services/Notifications/classes/class.ilNotificationGUI.php';
-            $notifications = new ilNotificationGUI();
-            $notifications->{$_REQUEST['cmd'] . 'Object'}();
-            exit;
-        }
-
         $this->type = 'chtr';
-        parent::__construct($a_data, $a_id, $a_call_by_reference, false);
+        parent::__construct($data, $id, $call_by_reference, false);
         $this->lng->loadLanguageModule('chatroom');
         $this->lng->loadLanguageModule('chatroom_adm');
     }
@@ -71,7 +78,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
                 $DIC->language()->txt('msg_no_perm_read_item'),
                 ilObject::_lookupTitle(ilObject::_lookupObjId($ref_id))
             ), true);
-            ilObjectGUI::_gotoRepositoryNode(ROOT_FOLDER_ID, '');
+            ilObjectGUI::_gotoRepositoryNode(ROOT_FOLDER_ID);
         }
 
         $DIC['ilErr']->raiseError(
@@ -88,12 +95,12 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
         return ilChatroomObjectDefinition::getDefaultDefinition('Chatroom');
     }
 
-    protected function initCreationForms($a_new_type) : array
+    protected function initCreationForms(string $new_type) : array
     {
-        $forms = parent::initCreationForms($a_new_type);
+        $forms = parent::initCreationForms($new_type);
 
         $forms[self::CFORM_NEW]->clearCommandButtons();
-        $forms[self::CFORM_NEW]->addCommandButton('create-save', $this->lng->txt($a_new_type . '_add'));
+        $forms[self::CFORM_NEW]->addCommandButton('create-save', $this->lng->txt($new_type . '_add'));
         $forms[self::CFORM_NEW]->addCommandButton('cancel', $this->lng->txt('cancel'));
 
         return $forms;
@@ -294,7 +301,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
 
         // create permission is already checked in createObject.
         // This check here is done to prevent hacking attempts
-        if (!$this->rbacsystem->checkAccess('create', $refId, $new_type)) {
+        if (!$this->rbac_system->checkAccess('create', $refId, $new_type)) {
             $this->ilias->raiseError(
                 $this->lng->txt('no_create_permission'),
                 $this->ilias->error_obj->MESSAGE
@@ -302,7 +309,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
         }
 
         // create and insert object in objecttree
-        $class_name = 'ilObj' . $this->objDefinition->getClassName($new_type);
+        $class_name = 'ilObj' . $this->obj_definition->getClassName($new_type);
 
         $newObj = new $class_name();
         $newObj->setType($new_type);
@@ -323,7 +330,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
             'private_rooms_enabled' => 0
         ]);
 
-        $rbac_log_roles = $this->rbacreview->getParentRoleIds($newObj->getRefId(), false);
+        $rbac_log_roles = $this->rbac_review->getParentRoleIds($newObj->getRefId());
         $rbac_log = ilRbacLog::gatherFaPa($newObj->getRefId(), array_keys($rbac_log_roles), true);
         ilRbacLog::add(ilRbacLog::CREATE_OBJECT, $newObj->getRefId(), $rbac_log);
 

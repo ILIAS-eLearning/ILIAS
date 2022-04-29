@@ -1,10 +1,24 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * This class handles all operations on files for the forum object.
  * @author    Stefan Meyer <meyer@leifos.com>
- * @version   $Id$
  * @ingroup   ModulesForum
  */
 class ilFileDataForum extends ilFileData
@@ -15,7 +29,7 @@ class ilFileDataForum extends ilFileData
     private int $pos_id;
     private string $forum_path;
     private ilErrorHandling $error;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(int $a_obj_id = 0, int $a_pos_id = 0)
     {
@@ -208,14 +222,14 @@ class ilFileDataForum extends ilFileData
     }
 
     /**
-     * @param string md5 encrypted filename
+     * @param string $hashedFilename
      * @return array{path: string, filename: string, clean_filename: string}|null
      */
-    public function getFileDataByMD5Filename(string $a_md5_filename) : ?array
+    public function getFileDataByMD5Filename(string $hashedFilename) : ?array
     {
         $files = ilFileUtils::getDir($this->forum_path);
         foreach ($files as $file) {
-            if ($file['type'] === 'file' && md5($file['entry']) === $a_md5_filename) {
+            if ($file['type'] === 'file' && md5($file['entry']) === $hashedFilename) {
                 return [
                     'path' => $this->forum_path . '/' . $file['entry'],
                     'filename' => $file['entry'],
@@ -228,15 +242,15 @@ class ilFileDataForum extends ilFileData
     }
 
     /**
-     * @param string|string[] md5 encrypted filename or array of multiple md5 encrypted files
+     * @param string|string[] $hashedFilenameOrFilenames
      * @return bool
      */
-    public function unlinkFilesByMD5Filenames($a_md5_filename) : bool
+    public function unlinkFilesByMD5Filenames($hashedFilenameOrFilenames) : bool
     {
         $files = ilFileUtils::getDir($this->forum_path);
-        if (is_array($a_md5_filename)) {
+        if (is_array($hashedFilenameOrFilenames)) {
             foreach ($files as $file) {
-                if ($file['type'] === 'file' && in_array(md5($file['entry']), $a_md5_filename, true)) {
+                if ($file['type'] === 'file' && in_array(md5($file['entry']), $hashedFilenameOrFilenames, true)) {
                     unlink($this->forum_path . '/' . $file['entry']);
                 }
             }
@@ -245,7 +259,7 @@ class ilFileDataForum extends ilFileData
         }
 
         foreach ($files as $file) {
-            if ($file['type'] === 'file' && md5($file['entry']) === $a_md5_filename) {
+            if ($file['type'] === 'file' && md5($file['entry']) === $hashedFilenameOrFilenames) {
                 return unlink($this->forum_path . '/' . $file['entry']);
             }
         }

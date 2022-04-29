@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * A Whoops error handler that prints the same content as the PrettyPageHandler but as plain text.
@@ -47,9 +61,8 @@ class ilPlainTextHandler extends Handler
 
     /**
      * Get a short info about the exception.
-     * @return string
      */
-    protected function exceptionContent()
+    protected function exceptionContent() : string
     {
         return Formatter::formatExceptionPlain($this->getInspector());
     }
@@ -70,13 +83,17 @@ class ilPlainTextHandler extends Handler
                     // indent all but first line, then implode again.
                     $first = true;
                     $indentation = str_pad("", self::KEY_SPACE);
-                    $value = implode("\n", array_map(function ($line) use (&$first, $indentation) {
-                        if ($first) {
-                            $first = false;
-                            return $line;
-                        }
-                        return $indentation . $line;
-                    }, explode("\n", print_r($value, true))));
+                    $value = implode(
+                        "\n", array_map(
+                        function ($line) use (&$first, $indentation) : string {
+                            if ($first) {
+                                $first = false;
+                                return $line;
+                            }
+                            return $indentation . $line;
+                        }, explode("\n", print_r($value, true))
+                    )
+                    );
 
                     $ret .= "$key: $value\n";
                 }
@@ -141,7 +158,9 @@ class ilPlainTextHandler extends Handler
         foreach ($cookie_content as $key => $content) {
             $content_array = explode("=", $content);
             if (trim($content_array[0]) == session_name()) {
-                $content_array[1] = substr($content_array[1], 0, 5) . " (SHORTENED FOR SECURITY)";
+                $content_array[1] = substr(
+                        $content_array[1], 0, 5
+                    ) . " (SHORTENED FOR SECURITY)";
                 $cookie_content[$key] = implode("=", $content_array);
             }
         }

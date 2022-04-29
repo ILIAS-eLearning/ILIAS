@@ -30,6 +30,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      * @var string
      */
     public static $identifier = ";n:m;";
+    private $numeric_value;
 
     /**
      * A numeric value which should be the left index of an element
@@ -45,7 +46,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      */
     protected $right_numeric_value;
 
-    protected function getPattern()
+    protected function getPattern() : string
     {
         return '/;(\d+):(\d+);/';
     }
@@ -66,7 +67,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
     /**
      * @return float
      */
-    public function getRightNumericValue()
+    public function getRightNumericValue() : float
     {
         return $this->right_numeric_value;
     }
@@ -74,7 +75,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
     /**
      * @return float
      */
-    public function getLeftNumericValue()
+    public function getLeftNumericValue() : float
     {
         return $this->left_numeric_value;
     }
@@ -83,7 +84,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      * Get the value of this Expression
      * @return string
      */
-    public function getValue()
+    public function getValue() : string
     {
         return ";" . $this->left_numeric_value . ":" . $this->right_numeric_value . ";";
     }
@@ -92,7 +93,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      * Get a human readable description of the Composite element
      * @return string
      */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->numeric_value . " beantwortet ";
     }
@@ -104,7 +105,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      *
      * @return bool
      */
-    public function checkResult($result, $comperator, $index = null)
+    public function checkResult($result, $comperator, $index = null) : bool
     {
         $solutions = $result->getSolutions();
         $isTrue = false;
@@ -121,7 +122,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      *
      * @return bool
      */
-    private function compare($comperator, $left, $right)
+    private function compare($comperator, $left, $right) : bool
     {
         switch ($comperator) {
             case "=":

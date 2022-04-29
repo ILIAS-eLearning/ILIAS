@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Skill\Service\SkillTreeService;
+
 /**
  * Explorer for skill management
  * @author Alexander Killing <killing@leifos.de>
@@ -26,6 +28,9 @@ class ilSurveySkillExplorer extends ilExplorer
     protected array $force_open_path;
     protected ilObjUser $user;
     protected ilCtrl $ctrl;
+    protected array $all_nodes = [];
+    protected array $child_nodes = [];
+    protected SkillTreeService $skill_tree_service;
 
     public function __construct(
         string $a_target,
@@ -46,8 +51,9 @@ class ilSurveySkillExplorer extends ilExplorer
         $this->addFilter("scat");
         //		$this->addFilter("sktr");
         $this->setTitleLength(999);
-        
-        $this->tree = new ilSkillTree();
+
+        $this->skill_tree_service = $DIC->skills()->tree();
+        $this->tree = $this->skill_tree_service->getGlobalSkillTree();
         $this->root_id = $this->tree->readRootId();
         
         $this->setSessionExpandVariable("skpexpand");
@@ -82,13 +88,10 @@ class ilSurveySkillExplorer extends ilExplorer
     }
 
     public function isClickable(
-        string $a_type,
-        $a_ref_id = 0
+        string $type,
+        int $ref_id = 0
     ) : bool {
-        if ($a_type == "skll") {
-            return true;
-        }
-        return false;
+        return $type === "skll";
     }
     
     public function buildLinkTarget($a_node_id, string $a_type) : string
@@ -115,7 +118,7 @@ class ilSurveySkillExplorer extends ilExplorer
         string $a_type = "",
         $a_obj_id = ""
     ) : string {
-        if ($a_type == "sktr") {
+        if ($a_type === "sktr") {
             return ilUtil::getImagePath("icon_skll_s.gif");
         }
         return ilUtil::getImagePath($a_name);

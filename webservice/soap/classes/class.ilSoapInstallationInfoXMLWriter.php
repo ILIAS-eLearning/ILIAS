@@ -8,32 +8,27 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
 {
     protected array $settings = [];
 
-    /**
-     * write access to property settings
-     */
-    public function setSettings(array $settings)
+    public function setSettings(array $settings) : void
     {
         $this->settings = $settings;
     }
 
     public function start() : void
     {
-        $this->__buildHeader();
-        $this->__buildInstallationInfo();
+        $this->buildHeader();
+        $this->buildInstallationInfo();
         $this->xmlStartTag("Clients");
     }
 
-    public function addClient(?ilSetting $client) : void
+    public function addClient(string $client_directory) : bool
     {
-        if (is_object($client)) {
-            $this->__buildClient($client);
-        }
+        return $this->buildClient($client_directory);
     }
 
     public function end() : void
     {
         $this->xmlEndTag("Clients");
-        $this->__buildFooter();
+        $this->buildFooter();
     }
 
     public function getXML() : string
@@ -41,7 +36,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
         return $this->xmlDumpMem(false);
     }
 
-    private function __buildHeader() : void
+    private function buildHeader() : void
     {
         // we have to build the http path here since this request is client independent!
         $httpPath = ilSoapFunctions::buildHTTPPath();
@@ -57,51 +52,74 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
         );
     }
 
-    private function __buildFooter() : void
+    private function buildFooter() : void
     {
         $this->xmlEndTag('Installation');
     }
 
-    private function __buildClient(ilSetting $setting) : void
+    private function buildClient(string $client_directory) : bool
     {
-        // determine skins/styles
-        $skin_styles = array();
-        include_once("./Services/Style/System/classes/class.ilStyleDefinition.php");
-        $skins = ilStyleDefinition::getAllSkins();
+        global $DIC;
 
-        if (is_array($skins)) {
-            foreach ($skins as $skin) {
-                foreach ($skin->getStyles() as $style) {
-                    include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
-                    if (!ilSystemStyleSettings::_lookupActivatedStyle($skin->getId(), $style->getId())) {
-                        continue;
-                    }
-                    $skin_styles [] = $skin->getId() . ":" . $style->getId();
-                }
+        $ini_file = "./" . $client_directory . "/client.ini.php";
+
+        // get settings from ini file
+        require_once("./Services/Init/classes/class.ilIniFile.php");
+
+        $ilClientIniFile = new ilIniFile($ini_file);
+        $ilClientIniFile->read();
+        if ($ilClientIniFile->ERROR !== "") {
+            return false;
+        }
+        $client_id = $ilClientIniFile->readVariable('client', 'name');
+        if ($ilClientIniFile->variableExists('client', 'expose')) {
+            $client_expose = $ilClientIniFile->readVariable('client', 'expose');
+            if ($client_expose === "0") {
+                return false;
             }
         }
 
-        // timezones
-        include_once('Services/Calendar/classes/class.ilTimeZone.php');
-
-        $this->xmlStartTag(
-            "Client",
-            array(
-                "inst_id" => $setting->get("inst_id"),
-                "id" => $setting->clientid,
-                "enabled" => $setting->access == 1 ? "TRUE" : "FALSE",
-                "default_lang" => $setting->language,
-
-            )
+        // build dsn of database connection and connect
+        $ilDB = ilDBWrapperFactory::getWrapper(
+            $ilClientIniFile->readVariable("db", "type")
         );
-        $this->xmlEndTag("Client");
+        $ilDB->initFromIniFile($ilClientIniFile);
+        if ($ilDB->connect(true)) {
+            unset($DIC['ilDB']);
+            $DIC['ilDB'] = $ilDB;
+
+            require_once("Services/Administration/classes/class.ilSetting.php");
+
+            $settings = new ilSetting();
+            unset($DIC["ilSetting"]);
+            $DIC["ilSetting"] = $settings;
+
+            // workaround to determine http path of client
+            define("IL_INST_ID", (int) $settings->get("inst_id", '0'));
+
+            $this->xmlStartTag(
+                "Client",
+                [
+                    "inst_id" => $settings->get("inst_id"),
+                    "id" => basename($client_directory),
+                    'enabled' =>  $ilClientIniFile->readVariable("client", "access") ? "TRUE" : "FALSE",
+                    "default_lang" => $ilClientIniFile->readVariable("language", "default")
+                ]
+            );
+            $this->xmlEndTag("Client");
+        }
+        return true;
+
     }
 
-    private function __buildInstallationInfo() : void
+    private function buildInstallationInfo() : void
     {
         $this->xmlStartTag("Settings");
-        $this->xmlElement("Setting", array("key" => "default_client"),
-            $GLOBALS['DIC']['ilIliasIniFile']->readVariable("clients", "default"));
+        $this->xmlElement(
+            "Setting",
+            array("key" => "default_client"),
+            $GLOBALS['DIC']['ilIliasIniFile']->readVariable("clients", "default")
+        );
         $this->xmlEndTag("Settings");
     }
 }

@@ -31,7 +31,7 @@
 */
 class ilSearchCommandQueue
 {
-    private static $instance = null;
+    private static ?self $instance = null;
 
     protected ilDBInterface $db;
 
@@ -77,7 +77,6 @@ class ilSearchCommandQueue
      */
     protected function insert(ilSearchCommandQueueElement $element) : void
     {
-        
         $query = "INSERT INTO search_command_queue (obj_id,obj_type,sub_id,sub_type,command,last_update,finished) " .
             "VALUES( " .
             $this->db->quote($element->getObjId(), 'integer') . ", " .

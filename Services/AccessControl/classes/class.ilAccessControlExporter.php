@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Role Exporter
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -26,16 +40,10 @@ class ilAccessControlExporter extends ilXmlExporter
 
     /**
      * Get xml
-     * @param string $a_entity
-     * @param string $a_schema_version
-     * @param string $a_id
-     * @return string
      */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
 
         $writer = new ilRoleXmlExport();
 
@@ -52,7 +60,6 @@ class ilAccessControlExporter extends ilXmlExporter
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     * @return array
      */
     public function getValidSchemaVersions(string $a_entity) : array
     {

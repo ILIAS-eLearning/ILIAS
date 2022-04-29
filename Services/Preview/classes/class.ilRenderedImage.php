@@ -40,7 +40,7 @@ class ilRenderedImage
      * @param string $img_path The absolute path to the image.
      * @param bool $is_temporary Defines whether the image is temporary and can be deleted after the preview was created.
      */
-    public function __construct($img_path, $is_temporary = true)
+    public function __construct(string $img_path, bool $is_temporary = true)
     {
         $this->img_path = $img_path;
         $this->is_temporary = $is_temporary;

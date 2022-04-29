@@ -44,29 +44,6 @@ class ilLTIConsumerDataService
     
     public static function initIlias($client_id) : void
     {
-        // if (isset($_GET["client_id"]))
-        // {
-        // $cookie_domain = $_SERVER['SERVER_NAME'];
-        // $cookie_path = dirname( $_SERVER['PHP_SELF'] );
-
-        // /* if ilias is called directly within the docroot $cookie_path
-        // is set to '/' expecting on servers running under windows..
-        // here it is set to '\'.
-        // in both cases a further '/' won't be appended due to the following regex
-        // */
-        // $cookie_path .= (!preg_match("/[\/|\\\\]$/", $cookie_path)) ? "/" : "";
-
-        // if($cookie_path == "\\") $cookie_path = '/';
-
-        // $cookie_domain = ''; // Temporary Fix
-
-        // setcookie("ilClientId", $_GET["client_id"], 0, $cookie_path, $cookie_domain);
-
-        // $_COOKIE["ilClientId"] = $_GET["client_id"];
-        // }
-
-
-
         define("CLIENT_ID", $client_id);
         define('IL_COOKIE_HTTPONLY', true); // Default Value
         define('IL_COOKIE_EXPIRE', 0);
@@ -74,26 +51,6 @@ class ilLTIConsumerDataService
         define('IL_COOKIE_DOMAIN', '');
         \ilContext::init(\ilContext::CONTEXT_SCORM);
         \ilInitialisation::initILIAS();
-        // Remember original values
-        // $_ORG_SERVER = array(
-          // 'HTTP_HOST'    => $_SERVER['HTTP_HOST'],
-          // 'REQUEST_URI'  => $_SERVER['REQUEST_URI'],
-          // 'PHP_SELF'     => $_SERVER['PHP_SELF'],
-        // );
-        // // Overwrite $_SERVER entries which would confuse ILIAS during initialisation
-        // $_SERVER['REQUEST_URI'] = '';
-        // $_SERVER['PHP_SELF']    = '/index.php';
-        // $_SERVER['HTTP_HOST']   = self::getIniHost();
-        // require_once "./Services/Utilities/classes/class.ilUtil.php";
-        // //ilInitialisation::initIliasIniFile();
-        // ilInitialisation::initClientIniFile();
-        // ilInitialisation::initDatabase();
-
-        // // Restore original, since this could lead to bad side-effects otherwise
-        // $_SERVER['HTTP_HOST']   = $_ORG_SERVER['HTTP_HOST'];
-        // $_SERVER['REQUEST_URI'] = $_ORG_SERVER['REQUEST_URI'];
-        // $_SERVER['PHP_SELF']    = $_ORG_SERVER['PHP_SELF'];
-        // ilInitialisation::initLog();//UK
     }
 }
 

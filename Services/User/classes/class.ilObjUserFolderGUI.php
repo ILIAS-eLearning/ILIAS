@@ -46,10 +46,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
     private Container $dic;
     protected ilPropertyFormGUI $loginSettingsForm;
     protected ilPropertyFormGUI $form;
-    protected array $requested_ids;
+    protected array $requested_ids; // Missing array type.
     protected string $selected_action;
     protected \ILIAS\User\StandardGUIRequest $user_request;
-    protected int $user_owner_id;
+    protected int $user_owner_id = 0;
     protected int $confirm_change = 0;
     protected ilLogger $log;
     protected ilUserSettingsConfig $user_settings_config;
@@ -400,9 +400,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
     protected function addUserAutoCompleteObject() : void
     {
         $auto = new ilUserAutoComplete();
-        $auto->addUserAccessFilterCallable(function ($usrIds) {
-            return $this->filterUserIdsByRbacOrPositionOfCurrentUser($usrIds);
-        });
+        $auto->addUserAccessFilterCallable(\Closure::fromCallable([$this, 'filterUserIdsByRbacOrPositionOfCurrentUser']));
         // [$this, 'filterUserIdsByRbacOrPositionOfCurrentUser']);
         $auto->setSearchFields(array('login', 'firstname', 'lastname', 'email', 'second_email'));
         $auto->enableFieldSearchableCheck(false);
@@ -445,92 +443,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
     }
 
     /**
-     * show possible action (form buttons)
-     */
-    public function showActions(bool $with_subobjects = false) : void
-    {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-        $subobjs = null;
-
-        $operations = array();
-        //var_dump($this->actions);
-        if ($this->actions == "") {
-            $d = array(
-                "delete" => array("name" => "delete", "lng" => "delete"),
-                "activate" => array("name" => "activate", "lng" => "activate"),
-                "deactivate" => array("name" => "deactivate", "lng" => "deactivate"),
-                "accessRestrict" => array("name" => "accessRestrict", "lng" => "accessRestrict"),
-                "accessFree" => array("name" => "accessFree", "lng" => "accessFree"),
-                "export" => array("name" => "export", "lng" => "export")
-            );
-        } else {
-            $d = $this->actions;
-        }
-        foreach ($d as $row) {
-            if ($rbacsystem->checkAccess(
-                $row["name"],
-                $this->object->getRefId()
-            )) {
-                $operations[] = $row;
-            }
-        }
-
-        if (count($operations) > 0) {
-            $select = "<select name=\"selectedAction\">\n";
-            foreach ($operations as $val) {
-                $select .= "<option value=\"" . $val["name"] . "\"";
-                if (strcmp(
-                    $this->user_request->getSelectedAction(),
-                    $val["name"]
-                ) == 0) {
-                    $select .= " selected=\"selected\"";
-                }
-                $select .= ">";
-                $select .= $this->lng->txt($val["lng"]);
-                $select .= "</option>";
-            }
-            $select .= "</select>";
-            $this->tpl->setCurrentBlock("tbl_action_select");
-            $this->tpl->setVariable(
-                "SELECT_ACTION",
-                $select
-            );
-            $this->tpl->setVariable(
-                "BTN_NAME",
-                "userAction"
-            );
-            $this->tpl->setVariable(
-                "BTN_VALUE",
-                $this->lng->txt("submit")
-            );
-            $this->tpl->parseCurrentBlock();
-        }
-
-        if ($with_subobjects === true) {
-            $subobjs = $this->showPossibleSubObjects();
-        }
-
-        if ((count($operations) > 0) or $subobjs === true) {
-            $this->tpl->setCurrentBlock("tbl_action_row");
-            $this->tpl->setVariable(
-                "COLUMN_COUNTS",
-                count($this->data["cols"])
-            );
-            $this->tpl->setVariable(
-                "IMG_ARROW",
-                ilUtil::getImagePath("arrow_downright.svg")
-            );
-            $this->tpl->setVariable(
-                "ALT_ARROW",
-                $this->lng->txt("actions")
-            );
-            $this->tpl->parseCurrentBlock();
-        }
-    }
-
-    /**
      * show possible subobjects (pulldown menu)
      * overwritten to prevent displaying of role templates in local role folders
      */
@@ -555,7 +467,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $count = 0;
                 if ($row["max"] > 0) {
                     //how many elements are present?
-                    for ($i = 0; $i < count($this->data["ctrl"]); $i++) {
+                    for ($i = 0, $iMax = count($this->data["ctrl"]); $i < $iMax; $i++) {
                         if ($this->data["ctrl"][$i]["type"] == $row["name"]) {
                             $count++;
                         }
@@ -1186,9 +1098,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    protected function inAdministration()
+    protected function inAdministration() : bool
     {
-        return (strtolower($this->user_request->getBaseClass()) == 'iladministrationgui');
+        return (strtolower($this->user_request->getBaseClass()) === 'iladministrationgui');
     }
 
     public function importCancelledObject() : void
@@ -1433,11 +1345,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $roleMailboxSearch = new \ilRoleMailboxSearch(new \ilMailRfc822AddressParserFactory());
                 foreach ($roles as $role_id => $role) {
                     if ($role["type"] == "Local") {
-                        $searchName = (substr(
-                            $role['name'],
-                            0,
-                            1
-                        ) == '#') ? $role['name'] : '#' . $role['name'];
+                        $searchName = (strpos($role['name'], '#') === 0) ? $role['name'] : '#' . $role['name'];
                         $matching_role_ids = $roleMailboxSearch->searchRoleIdsByAddressString($searchName);
                         foreach ($matching_role_ids as $mid) {
                             if (!in_array(
@@ -1458,7 +1366,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $l_roles = array();
 
             // create a search array with  .
-            $l_roles_mailbox_searcharray = array();
             foreach ($loc_roles as $key => $loc_role) {
                 // fetch context path of role
                 $rolf = $rbacreview->getFoldersAssignedToRole(
@@ -1526,11 +1433,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 if ($role["type"] == "Local") {
                     /*$this->tpl->setCurrentBlock("local_role");
                     $this->tpl->setVariable("TXT_IMPORT_LOCAL_ROLE", $role["name"]);*/
-                    $searchName = (substr(
-                        $role['name'],
-                        0,
-                        1
-                    ) == '#') ? $role['name'] : '#' . $role['name'];
+                    $searchName = (strpos($role['name'], '#') === 0) ? $role['name'] : '#' . $role['name'];
                     $matching_role_ids = $roleMailboxSearch->searchRoleIdsByAddressString($searchName);
                     $pre_select = count($matching_role_ids) == 1 ? $role_id . "-" . $matching_role_ids[0] : "ignore";
 
@@ -1586,7 +1489,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
         // new account mail
         $this->lng->loadLanguageModule("mail");
         $amail = ilObjUserFolder::_lookupNewAccountMail($this->lng->getDefaultLanguage());
-        if (trim($amail["body"]) != "" && trim($amail["subject"]) != "") {
+        $mail_section = null;
+        if (trim($amail["body"] ?? "") != "" && trim($amail["subject"] ?? "") != "") {
             $send_checkbox = $ui->input()->field()->checkbox($this->lng->txt("user_send_new_account_mail"))
                                 ->withValue(true);
 
@@ -1643,7 +1547,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $form_elements["conflict_action"] = $conflict_action_section;
 
-        if (!empty($mail_section)) {
+        if ($mail_section !== null) {
             $form_elements["send_mail"] = $mail_section;
         }
 
@@ -1883,10 +1787,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
                             SYSTEM_ROLE_ID,
                             $roles_of_user
                         )) {
-                            if ($role_id == SYSTEM_ROLE_ID && !in_array(
+                            if (($role_id == SYSTEM_ROLE_ID && !in_array(
                                 SYSTEM_ROLE_ID,
                                 $roles_of_user
-                            )
+                            ))
                                 || ($this->object->getRefId() != USER_FOLDER_ID
                                     && !ilObjRole::_getAssignUsersStatus($role_id))
                             ) {
@@ -2040,7 +1944,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    private function getPasswordPolicySettingsMap(\ilSecuritySettings $security) : array
+    private function getPasswordPolicySettingsMap(\ilSecuritySettings $security) : array // Missing array type.
     {
         return [
             'password_must_not_contain_loginame' => $security->getPasswordMustNotContainLoginnameStatus() ? 1 : 0,
@@ -2060,7 +1964,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
     {
         global $DIC;
 
-        $ilUser = $DIC['ilUser'];
         $ilSetting = $DIC['ilSetting'];
 
         $this->initFormGeneralSettings();
@@ -2676,7 +2579,6 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
-        $ilias = $DIC['ilias'];
         $ilTabs = $DIC['ilTabs'];
 
         $lng->loadLanguageModule("administration");
@@ -2882,7 +2784,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $field,
                 $fixed_required_fields
             );
-            if ($is_fixed && $fixed_required_fields[$field] || !$is_fixed && ($checked["required_" . $field] ?? false)) {
+            if (($is_fixed && $fixed_required_fields[$field]) || (!$is_fixed && ($checked["required_" . $field] ?? false))) {
                 $ilias->setSetting(
                     "require_" . $field,
                     "1"
@@ -3299,7 +3201,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $langs = $lng->getInstalledLanguages();
         foreach ($langs as $lang_key) {
-            $amail = $this->object->_lookupNewAccountMail($lang_key);
+            $amail = ilObjUserFolder::_lookupNewAccountMail($lang_key);
 
             $title = $lng->txt("meta_l_" . $lang_key);
             if ($lang_key == $lng->getDefaultLanguage()) {
@@ -3495,7 +3397,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
 
         $langs = $lng->getInstalledLanguages();
         foreach ($langs as $lang_key) {
-            $this->object->_writeNewAccountMail(
+            ilObjUserFolder::_writeNewAccountMail(
                 $lang_key,
                 $this->user_request->getMailSubject($lang_key),
                 $this->user_request->getMailSalutation("g", $lang_key),
@@ -3505,7 +3407,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             );
 
             if ($_FILES["att_" . $lang_key]["tmp_name"]) {
-                $this->object->_updateAccountMailAttachment(
+                ilObjUserFolder::_updateAccountMailAttachment(
                     $lang_key,
                     $_FILES["att_" . $lang_key]["tmp_name"],
                     $_FILES["att_" . $lang_key]["name"]
@@ -3513,7 +3415,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             }
 
             if ($this->user_request->getMailAttDelete($lang_key)) {
-                $this->object->_deleteAccountMailAttachment($lang_key);
+                ilObjUserFolder::_deleteAccountMailAttachment($lang_key);
             }
         }
 
@@ -3616,12 +3518,9 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    public function setSubTabs($a_tab) : void
+    public function setSubTabs(string $a_tab) : void
     {
         global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilUser = $DIC['ilUser'];
 
         switch ($a_tab) {
             case "settings":
@@ -3877,7 +3776,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         }
     }
 
-    public function searchUserAccessFilterCallable(array $a_user_ids) : array
+    public function searchUserAccessFilterCallable(array $a_user_ids) : array // Missing array type.
     {
         global $DIC;
         $access = $DIC->access();
@@ -3908,10 +3807,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $this->requested_ids = $a_usr_ids;
 
         // no real confirmation here
-        if (stristr(
-            $a_cmd,
-            "export"
-        )) {
+        if (stripos($a_cmd, "export") !== false) {
             $cmd = $a_cmd . "Object";
             return $this->$cmd();
         }
@@ -3922,7 +3818,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public function getUserMultiCommands(bool $a_search_form = false) : array
+    public function getUserMultiCommands(bool $a_search_form = false) : array // Missing array type.
     {
         global $DIC;
 
@@ -4172,7 +4068,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
     }
 
-    public function addToExternalSettingsForm(int $a_form_id) : array
+    public function addToExternalSettingsForm(int $a_form_id) : array // Missing array type.
     {
         global $DIC;
 

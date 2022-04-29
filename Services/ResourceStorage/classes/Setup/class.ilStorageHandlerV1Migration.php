@@ -118,7 +118,6 @@ class ilStorageHandlerV1Migration implements Migration
             $this->database,
             $this->data_dir
         );
-
     }
 
     public function step(Environment $environment) : void
@@ -152,5 +151,4 @@ class ilStorageHandlerV1Migration implements Migration
 
         return (int) ($d->old_storage ?? 0);
     }
-
 }

@@ -208,7 +208,7 @@ class ilPCQuestion extends ilPageContent
         if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
             // #14154
             $q_ids = $this->getPage()->getQuestionIds();
-            if (sizeof($q_ids)) {
+            if (count($q_ids)) {
                 foreach ($q_ids as $q_id) {
                     $q_gui = assQuestionGUI::_getQuestionGUI("", $q_id);
                     // object check due to #16557
@@ -238,7 +238,7 @@ class ilPCQuestion extends ilPageContent
             if (!is_array($qhtml) || count($qhtml) == 0) {
                 // #14154
                 $q_ids = $this->getPage()->getQuestionIds();
-                if (sizeof($q_ids)) {
+                if (count($q_ids)) {
                     foreach ($q_ids as $k) {
                         $a_output = str_replace("{{{{{Question;il__qst_$k" . "}}}}}", " " . $lng->txt("copg_questions_not_supported_here"), $a_output);
                     }
@@ -291,8 +291,7 @@ class ilPCQuestion extends ilPageContent
     {
         if ($this->getPage()->getPageConfig()->getEnableSelfAssessment()) {
             return array("./Modules/Scorm2004/templates/default/question_handling.css",
-                "Modules/TestQuestionPool/templates/default/test_javascript.css",
-                'Modules/Test/templates/default/ta.css');
+                "Modules/TestQuestionPool/templates/default/test_javascript.css");
         }
         return array();
     }

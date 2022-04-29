@@ -105,6 +105,7 @@ class ilUserActionAdminGUI
 
     /**
      * Get actions, !!!! note in the future this must depend on the context, currently we only have one
+     * @return array[]
      */
     public function getActions() : array
     {

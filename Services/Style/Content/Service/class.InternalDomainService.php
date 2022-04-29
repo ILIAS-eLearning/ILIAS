@@ -20,8 +20,9 @@ use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICDomainServices;
 use ILIAS\Style\Content\Container\ContainerManager;
 use ILIAS\Style\Content\Object\ObjectManager;
+use ilRbacSystem;
 
- /**
+/**
  * @author Alexander Killing <killing@leifos.de>
  */
 class InternalDomainService
@@ -31,7 +32,7 @@ class InternalDomainService
     protected Container $dic;
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
-    protected \ilRbacSystem $rbacsystem;
+    protected ilRbacSystem $rbacsystem;
 
     public function __construct(
         Container $DIC,

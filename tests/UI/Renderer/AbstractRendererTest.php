@@ -17,7 +17,7 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Glyph {
         {
         }
 
-        public function _getTemplate($a, $b, $c) : Template
+        public function _getTemplate(string $a, bool $b, bool $c) : Template
         {
             return $this->getTemplate($a, $b, $c);
         }
@@ -130,12 +130,11 @@ namespace {
 
     class NullDefaultRenderer implements Renderer
     {
-        public function render($component) : string
+        public function render($component, ?Renderer $root = null)
         {
             return "";
         }
-
-        public function renderAsync($component) : string
+        public function renderAsync($component, ?Renderer $root = null)
         {
             return '';
         }

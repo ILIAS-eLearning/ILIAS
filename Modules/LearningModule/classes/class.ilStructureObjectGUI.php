@@ -52,7 +52,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $this->obj = $a_st_object;
     }
     
-    public function getType()
+    public function getType() : string
     {
         return "st";
     }
@@ -152,6 +152,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $ml_head = ilObjContentObjectGUI::getMultiLangHeader($this->content_object->getId(), $this);
         
         $this->tpl->setContent($ml_head . $ctpl->get());
+        $this->tpl->addOnloadCode("window.setTimeout(() => { $('body').trigger('il-lm-editor-tree'); }, 500);");
     }
     
     /**
@@ -163,14 +164,14 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $ids = $this->request->getIds();
-        if (count($ids) == 0) {
+        $items = $this->request->getIds();
+        if (count($items) == 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showHierarchy");
         }
         
         $todel = array();			// delete IDs < 0 (needed for non-js editing)
-        foreach ($ids as $k => $item) {
+        foreach ($items as $k => $item) {
             if ($item < 0) {
                 $todel[] = $k;
             }
@@ -200,14 +201,14 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $ids = $this->request->getIds();
-        if (count($ids) == 0) {
+        $items = $this->request->getIds();
+        if (count($items) == 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showHierarchy");
         }
         
         $todel = array();				// delete IDs < 0 (needed for non-js editing)
-        foreach ($ids as $k => $item) {
+        foreach ($items as $k => $item) {
             if ($item < 0) {
                 $todel[] = $k;
             }
@@ -289,7 +290,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             );
 
             $this->tpl->parseCurrentBlock();
+            $cnt++;
         }
+
         if ($cnt == 0) {
             $this->tpl->setCurrentBlock("notfound");
             $this->tpl->setVariable("NUM_COLS", 3);

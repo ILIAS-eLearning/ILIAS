@@ -101,4 +101,3 @@ class RevisionRepositoryTest extends AbstractBaseTest
         $this->assertNotEquals($old_revisions_id, $revision->getVersionNumber());
     }
 }
-

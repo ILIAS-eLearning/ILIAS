@@ -323,7 +323,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
     {
         parent::read();
         $query = 'SELECT * FROM didactic_tpl_alp ' .
-            'WHERE action_id = ' . $this->db->quote($this->getActionId());
+            'WHERE action_id = ' . $this->db->quote($this->getActionId(), ilDBConstants::T_INTEGER);
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setFilterType($row->filter_type);

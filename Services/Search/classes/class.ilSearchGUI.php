@@ -1,7 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 
 /**
@@ -39,35 +52,68 @@ class ilSearchGUI extends ilSearchBaseGUI
         $this->tabs_gui = $DIC->tabs();
         $this->help_gui = $DIC->help();
         $this->lng->loadLanguageModule("search");
-        
+
+        $post_search = (array) ($this->http->request()->getParsedBody()['search'] ?? []);
+        $post_filter_type = (array) ($this->http->request()->getParsedBody()['filter_type'] ?? []);
+        $post_cmd = (array) ($this->http->request()->getParsedBody()['cmd'] ?? []);
+
         // put form values into "old" post variables
         $this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
         $this->form->checkInput();
-        
-        $new_search = isset($_POST['cmd']['performSearch']) ? true : false;
 
+        $new_search = (bool) ($post_cmd['performSearch']) ?? false;
         $enabled_types = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
         foreach ($enabled_types as $type => $pval) {
-            if ($_POST['filter_type'][$type] == 1) {
-                $_POST["search"]["details"][$type] = $_POST['filter_type'][$type];
+            if ($post_filter_type[$type] == 1) {
+                $post_search["details"][$type] = $post_filter_type[$type];
             }
         }
 
-        $_POST["search"]["string"] = $_POST["term"];
-        $_POST["search"]["combination"] = $_POST["combination"];
-        $_POST["search"]["type"] = $_POST["type"];
-        $_SESSION['search_root'] = $_POST["area"];
+        $post_term = '';
+        if ($this->http->wrapper()->post()->has('term')) {
+            $post_term = $this->http->wrapper()->post()->retrieve(
+                'term',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $post_combination = '';
+        if ($this->http->wrapper()->post()->has('combination')) {
+            $post_combination = $this->http->wrapper()->post()->retrieve(
+                'combination',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $post_type = 0;
+        if ($this->http->wrapper()->post()->has('type')) {
+            $post_type = $this->http->wrapper()->post()->retrieve(
+                'type',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $post_area = 0;
+        if ($this->http->wrapper()->post()->has('area')) {
+            $post_area = $this->http->wrapper()->post()->retrieve(
+                'area',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $post_search["string"] = $post_term;
+        $post_search["combination"] = $post_combination;
+        $post_search["type"] = $post_type;
+        ilSession::set('search_root', (string) $post_area);
 
-        $this->root_node = (int) ($_SESSION['search_root'] ?? ROOT_FOLDER_ID);
-        $this->setType((int) ($_POST['search']['type'] ?? $_SESSION['search']['type']));
+        $this->root_node = (int) (ilSession::get('search_root') ?? ROOT_FOLDER_ID);
+
+        $session_search = ilSession::get('search') ?? [];
+        $this->setType((int) ($post_search['type'] ?? ($session_search['type'] ?? ilSearchBaseGUI::SEARCH_FAST)));
 
         $this->setCombination(
             ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND ?
                 self::SEARCH_AND :
                 self::SEARCH_OR
         );
-        $this->setString((string) ($_POST['search']['string'] ?? $_SESSION['search']['string']));
-        $this->setDetails($new_search ? $_POST['search']['details'] : $_SESSION['search']['details']);
+        $this->setString((string) ($post_search['string'] ?? ($session_search['string'] ?? '')));
+        $this->setDetails($new_search ? $post_search['details'] : ($session_search['details'] ?? []));
     }
 
 
@@ -92,7 +138,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             case 'ilobjectcopygui':
                 $this->prepareOutput();
                 $this->ctrl->setReturn($this, '');
-                                $cp = new ilObjectCopyGUI($this);
+                $cp = new ilObjectCopyGUI($this);
                 $this->ctrl->forwardCommand($cp);
                 break;
             
@@ -112,8 +158,11 @@ class ilSearchGUI extends ilSearchBaseGUI
     */
     public function setType(int $a_type) : void
     {
-        $_SESSION['search']['type'] = $this->type = $a_type;
+        $session_search = ilSession::get('saerch');
+        $session_search['type'] = $this->type = $a_type;
+        ilSession::set('search', $session_search);
     }
+
     public function getType() : int
     {
         return $this->type ?? ilSearchBaseGUI::SEARCH_FAST;
@@ -124,7 +173,9 @@ class ilSearchGUI extends ilSearchBaseGUI
     */
     public function setCombination(string $a_combination) : void
     {
-        $_SESSION['search']['combination'] = $this->combination = $a_combination;
+        $session_search = ilSession::get('search') ?? [];
+        $session_search['combination'] = $this->combination = $a_combination;
+        ilSession::set('search', $session_search);
     }
     public function getCombination() : string
     {
@@ -136,7 +187,9 @@ class ilSearchGUI extends ilSearchBaseGUI
     */
     public function setString(string $a_str) : void
     {
-        $_SESSION['search']['string'] = $this->string = $a_str;
+        $session_search = ilSession::get('search') ?? [];
+        $session_search['string'] = $this->string = $a_str;
+        ilSession::set('search', $session_search);
     }
     public function getString() : string
     {
@@ -148,7 +201,9 @@ class ilSearchGUI extends ilSearchBaseGUI
     */
     public function setDetails(array $a_details) : void
     {
-        $_SESSION['search']['details'] = $this->details = $a_details;
+        $session_search = ilSession::get('search') ?? [];
+        $session_search['details'] = $this->details = $a_details;
+        ilSession::set('search', $session_search);
     }
     public function getDetails() : array
     {
@@ -160,9 +215,10 @@ class ilSearchGUI extends ilSearchBaseGUI
     {
         return $this->root_node ?: ROOT_FOLDER_ID;
     }
+
     public function setRootNode(int $a_node_id) : void
     {
-        $_SESSION['search_root'] = $this->root_node = $a_node_id;
+        ilSession::set('search_root', $this->root_node = $a_node_id);
     }
         
     
@@ -207,7 +263,21 @@ class ilSearchGUI extends ilSearchBaseGUI
     */
     public function autoComplete() : void
     {
-        if ((int) $_REQUEST['search_type'] == -1) {
+        $query = '';
+        if ($this->http->wrapper()->post()->has('term')) {
+            $query = $this->http->wrapper()->post()->retrieve(
+                'term',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $search_type = 0;
+        if ($this->http->wrapper()->post()->has('search_type')) {
+            $search_type = $this->http->wrapper()->post()->retrieve(
+                'search_type',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ((int) $search_type === -1) {
             $a_fields = array('login','firstname','lastname','email');
             $result_field = 'login';
 
@@ -221,8 +291,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             $auto->enableFieldSearchableCheck(true);
             $auto->setUserLimitations(true);
 
-            $res = $auto->getList($_REQUEST['term']);
-            
+            $res = $auto->getList($query);
             $res_obj = json_decode($res);
             
             ilLoggerFactory::getLogger('sea')->debug($res);
@@ -234,8 +303,7 @@ class ilSearchGUI extends ilSearchBaseGUI
                 exit;
             }
         } else {
-            $q = $_REQUEST["term"];
-            $list = ilSearchAutoComplete::getList($q);
+            $list = ilSearchAutoComplete::getList($query);
             ilLoggerFactory::getLogger('sea')->dump(json_decode($list));
             echo $list;
             exit;
@@ -322,7 +390,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     {
         $page_number = $this->initPageNumberFromQuery();
         if (!$page_number and $this->search_mode != 'in_results') {
-            unset($_SESSION['max_page']);
+            ilSession::clear('max_page');
             $this->search_cache->deleteCachedEntries();
         }
 

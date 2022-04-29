@@ -84,8 +84,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param integer $owner    A numerical ID to identify the owner/creator
      * @param string  $question The question string of the matching question
      * @param int     $matching_type
-     *
-     * @return \assMatchingQuestion
      */
     public function __construct(
         $title = "",
@@ -131,15 +129,16 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function saveToDb($original_id = "") : void
     {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
+        if ($original_id == "") {
+            $this->saveQuestionDataToDb();
+        } else {
+            $this->saveQuestionDataToDb($original_id);
+        }
 
-        $this->saveQuestionDataToDb($original_id);
         $this->saveAdditionalQuestionDataToDb();
-        $this->saveAnswerSpecificDataToDb($ilDB);
+        $this->saveAnswerSpecificDataToDb();
 
-
-        parent::saveToDb($original_id);
+        parent::saveToDb();
     }
 
     public function saveAnswerSpecificDataToDb()
@@ -264,17 +263,17 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $data = $ilDB->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
-            $this->setTitle($data["title"]);
-            $this->setComment($data["description"]);
+            $this->setTitle((string) $data["title"]);
+            $this->setComment((string) $data["description"]);
             $this->setOriginalId($data["original_id"]);
             $this->setNrOfTries($data['nr_of_tries']);
             $this->setAuthor($data["author"]);
             $this->setPoints($data["points"]);
             $this->setOwner($data["owner"]);
             include_once("./Services/RTE/classes/class.ilRTE.php");
-            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc($data["question_text"], 1));
+            $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
             $this->setThumbGeometry($data["thumb_geometry"]);
-            $this->setShuffle($data["shuffle"]);
+            $this->setShuffle((bool) $data["shuffle"]);
             $this->setMatchingMode($data['matching_mode'] === null ? self::MATCHING_MODE_1_ON_1 : $data['matching_mode']);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
             
@@ -390,11 +389,10 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
     * Copies an assMatchingQuestion
     */
-    public function copyObject($target_questionpool_id, $title = "")
+    public function copyObject($target_questionpool_id, $title = "") : int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
         // duplicate the question in database
         $clone = $this;
@@ -419,11 +417,10 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $clone->id;
     }
     
-    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "")
+    public function createNewOriginalFromThisDuplicate($targetParentId, $targetQuestionTitle = "") : int
     {
-        if ($this->id <= 0) {
-            // The question has not been saved. It cannot be duplicated
-            return;
+        if ($this->getId() <= 0) {
+            throw new RuntimeException('The question has not been saved. It cannot be duplicated');
         }
 
         include_once("./Modules/TestQuestionPool/classes/class.assQuestion.php");
@@ -634,7 +631,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return object ASS_AnswerMatching-Object
     * @see $matchingpairs
     */
-    public function getMatchingPair($index = 0)
+    public function getMatchingPair($index = 0) : ?object
     {
         if ($index < 0) {
             return null;
@@ -685,7 +682,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return integer The number of matching pairs of the matching question
     * @see $matchingpairs
     */
-    public function getMatchingPairCount()
+    public function getMatchingPairCount() : int
     {
         return count($this->matchingpairs);
     }
@@ -696,7 +693,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return array An array containing the terms
     * @see $terms
     */
-    public function getTerms()
+    public function getTerms() : array
     {
         return $this->terms;
     }
@@ -707,7 +704,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return array An array containing the definitions
     * @see $terms
     */
-    public function getDefinitions()
+    public function getDefinitions() : array
     {
         return $this->definitions;
     }
@@ -718,7 +715,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return integer The number of terms
     * @see $terms
     */
-    public function getTermCount()
+    public function getTermCount() : int
     {
         return count($this->terms);
     }
@@ -729,7 +726,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @return integer The number of definitions
     * @see $definitions
     */
-    public function getDefinitionCount()
+    public function getDefinitionCount() : int
     {
         return count($this->definitions);
     }
@@ -862,7 +859,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param boolean $returndetails (deprecated !!)
      * @return integer/array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false) : int
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);
@@ -905,7 +902,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $points;
     }
 
-    public function getMaximumScoringMatchingPairs()
+    public function getMaximumScoringMatchingPairs() : array
     {
         if ($this->getMatchingMode() == self::MATCHING_MODE_N_ON_N) {
             return $this->getPositiveScoredMatchingPairs();
@@ -916,7 +913,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return array();
     }
 
-    private function getPositiveScoredMatchingPairs()
+    private function getPositiveScoredMatchingPairs() : array
     {
         $matchingPairs = array();
 
@@ -931,7 +928,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $matchingPairs;
     }
 
-    private function getMostPositiveScoredUniqueTermMatchingPairs()
+    private function getMostPositiveScoredUniqueTermMatchingPairs() : array
     {
         $matchingPairsByDefinition = array();
 
@@ -979,7 +976,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param string $filename Original filename
     * @return string Encrypted filename
     */
-    public function getEncryptedFilename($filename)
+    public function getEncryptedFilename($filename) : string
     {
         $extension = "";
         if (preg_match("/.*\\.(\\w+)$/", $filename, $matches)) {
@@ -1053,7 +1050,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $result;
     }
 
-    private function fetchSubmittedMatchingsFromPost()
+    private function fetchSubmittedMatchingsFromPost() : array
     {
         $postData = $_POST['matching'][$this->getId()];
 
@@ -1076,7 +1073,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $matchings;
     }
 
-    private function checkSubmittedMatchings($submittedMatchings)
+    private function checkSubmittedMatchings($submittedMatchings) : bool
     {
         if ($this->getMatchingMode() == self::MATCHING_MODE_N_ON_N) {
             return true;
@@ -1172,7 +1169,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
     }
 
-    public function getRandomId()
+    public function getRandomId() : int
     {
         mt_srand((double) microtime() * 1000000);
         $random_number = mt_rand(1, 100000);
@@ -1220,22 +1217,12 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return "assMatchingQuestion";
     }
     
-    /**
-    * Returns the name of the additional question data table in the database
-    *
-    * @return string The additional table name
-    */
-    public function getAdditionalTableName()
+    public function getAdditionalTableName() : string
     {
         return "qpl_qst_matching";
     }
 
-    /**
-    * Returns the name of the answer table in the database
-    *
-    * @return string The answer table name
-    */
-    public function getAnswerTableName()
+    public function getAnswerTableName() : array
     {
         return array("qpl_a_matching", "qpl_a_mterm");
     }
@@ -1252,7 +1239,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
     * Returns the matchingpairs array
     */
-    public function &getMatchingPairs()
+    public function &getMatchingPairs() : array
     {
         return $this->matchingpairs;
     }
@@ -1301,7 +1288,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @return integer Geometry
     */
-    public function getThumbGeometry()
+    public function getThumbGeometry() : int
     {
         return $this->thumb_geometry;
     }
@@ -1311,7 +1298,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @return integer Geometry
     */
-    public function getThumbSize()
+    public function getThumbSize() : int
     {
         return $this->getThumbGeometry();
     }
@@ -1343,7 +1330,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
     }
     
-    public function getThumbPrefix()
+    public function getThumbPrefix() : string
     {
         return "thumb.";
     }
@@ -1377,11 +1364,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         $result = array();
         
-        $result['id'] = (int) $this->getId();
+        $result['id'] = $this->getId();
         $result['type'] = (string) $this->getQuestionType();
-        $result['title'] = (string) $this->getTitle();
+        $result['title'] = $this->getTitle();
         $result['question'] = $this->formatSAQuestion($this->getQuestion());
-        $result['nr_of_tries'] = (int) $this->getNrOfTries();
+        $result['nr_of_tries'] = $this->getNrOfTries();
         $result['matching_mode'] = $this->getMatchingMode();
         $result['shuffle'] = true;
         $result['feedback'] = array(
@@ -1395,7 +1382,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         foreach ($this->getShuffler()->transform($this->getTerms()) as $term) {
             $terms[] = array(
                 "text" => $this->formatSAQuestion($term->text),
-                "id" => (int) $this->getId() . $term->identifier
+                "id" => $this->getId() . $term->identifier
             );
         }
         $result['terms'] = $terms;
@@ -1411,7 +1398,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         foreach ($this->getShuffler()->transform($this->getDefinitions()) as $def) {
             $definitions[] = array(
                 "text" => $this->formatSAQuestion((string) $def->text),
-                "id" => (int) $this->getId() . $def->identifier
+                "id" => $this->getId() . $def->identifier
             );
         }
         $result['definitions'] = $definitions;
@@ -1432,8 +1419,8 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             
             if (!isset($matchings[$pid]) || $matchings[$pid]["points"] < $pair->points) {
                 $matchings[$pid] = array(
-                    "term_id" => (int) $this->getId() . $pair->term->identifier,
-                    "def_id" => (int) $this->getId() . $pair->definition->identifier,
+                    "term_id" => $this->getId() . $pair->term->identifier,
+                    "def_id" => $this->getId() . $pair->definition->identifier,
                     "points" => (int) $pair->points
                 );
             }
@@ -1467,7 +1454,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->matchingMode = $matchingMode;
     }
 
-    public function getMatchingMode()
+    public function getMatchingMode() : string
     {
         return $this->matchingMode;
     }
@@ -1476,7 +1463,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @param $found_values
      * @return int
      */
-    protected function calculateReachedPointsForSolution($found_values)
+    protected function calculateReachedPointsForSolution($found_values) : int
     {
         $points = 0;
         foreach ($found_values as $definition => $terms) {
@@ -1499,7 +1486,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @internal param string $expression_type
      * @return array
      */
-    public function getOperators($expression)
+    public function getOperators($expression) : array
     {
         require_once "./Modules/TestQuestionPool/classes/class.ilOperatorsExpressionMapping.php";
         return ilOperatorsExpressionMapping::getOperatorsByExpression($expression);
@@ -1509,7 +1496,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * Get all available expression types for a specific question
      * @return array
      */
-    public function getExpressionTypes()
+    public function getExpressionTypes() : array
     {
         return array(
             iQuestionCondition::PercentageResultExpression,
@@ -1526,7 +1513,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @return ilUserQuestionResult
     */
-    public function getUserQuestionResult($active_id, $pass)
+    public function getUserQuestionResult($active_id, $pass) : ilUserQuestionResult
     {
         /** @var ilDBInterface $ilDB */
         global $DIC;
@@ -1592,8 +1579,6 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * Else it returns the specific answer option
      *
      * @param null|int $index
-     *
-     * @return array|ASS_AnswerSimple
      */
     public function getAvailableAnswerOptions($index = null)
     {

@@ -31,93 +31,107 @@
 */
 class ilQTIPresentation
 {
-    public $label;
-    public $xmllang;
-    public $x0;
-    public $y0;
-    public $width;
-    public $height;
-    
-    public $material;
-    public $response;
-    public $order;
+    public ?string $label;
+    public ?string $xmllang;
+    public ?string $x0;
+    public ?string $y0;
+    public ?string $width;
+    public ?string $height;
+    /** @var ilQTIMaterial[] */
+    public array $material;
+
+    /**
+     * @var ilQTIResponse[]
+     */
+    public array $response;
+
+    /**
+     * @var array{type: string, index: int}[]
+     */
+    public array $order;
     
     public function __construct()
     {
-        $this->response = array();
-        $this->material = array();
-        $this->order = array();
+        $this->label = null;
+        $this->xmllang = null;
+        $this->x0 = null;
+        $this->y0 = null;
+        $this->width = null;
+        $this->height = null;
+        $this->response = [];
+        $this->material = [];
+        $this->order = [];
     }
-    
-    public function setLabel($a_label)
+
+    public function setLabel(string $a_label) : void
     {
         $this->label = $a_label;
     }
-    
-    public function getLabel()
+
+    public function getLabel() : ?string
     {
         return $this->label;
     }
-    
-    public function setXmllang($a_xmllang)
+
+    public function setXmllang(string $a_xmllang) : void
     {
         $this->xmllang = $a_xmllang;
     }
-    
-    public function getXmllang()
+
+    public function getXmllang() : ?string
     {
         return $this->xmllang;
     }
     
-    public function setX0($a_x0)
+    public function setX0(string $a_x0) : void
     {
         $this->x0 = $a_x0;
     }
     
-    public function getX0()
+    public function getX0() : ?string
     {
         return $this->x0;
     }
     
-    public function setY0($a_y0)
+    public function setY0(string $a_y0) : void
     {
         $this->y0 = $a_y0;
     }
     
-    public function getY0()
+    public function getY0() : ?string
     {
         return $this->y0;
     }
-    
-    public function setWidth($a_width)
+
+    public function setWidth(string $a_width) : void
     {
         $this->width = $a_width;
     }
-    
-    public function getWidth()
+
+    public function getWidth() : ?string
     {
         return $this->width;
     }
-    
-    public function setHeight($a_height)
+
+    public function setHeight(string $a_height) : void
     {
         $this->height = $a_height;
     }
-    
-    public function getHeight()
+
+    public function getHeight() : ?string
     {
         return $this->height;
     }
     
-    public function addMaterial($a_material)
+    public function addMaterial(ilQTIMaterial $a_material) : void
     {
         $count = array_push($this->material, $a_material);
-        array_push($this->order, array("type" => "material", "index" => $count - 1));
+        $this->order[] = array("type" => "material", "index" => $count - 1);
     }
-    
-    public function addResponse($a_response)
+
+    public function addResponse(ilQTIResponse $a_response) : void
     {
         $count = array_push($this->response, $a_response);
-        array_push($this->order, array("type" => "response", "index" => $count - 1));
+        $this->order[] = array("type" => "response", "index" => $count - 1);
     }
 }

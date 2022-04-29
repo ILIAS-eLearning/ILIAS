@@ -20,22 +20,22 @@
  */
 class ilLearningModuleLP extends ilObjectLP
 {
-    public static function getDefaultModes(bool $a_lp_active) : array
+    public static function getDefaultModes(bool $lp_active) : array
     {
-        if (!$a_lp_active) {
+        if (!$lp_active) {
             return array(
                 ilLPObjSettings::LP_MODE_DEACTIVATED,
-                ilLPObjSettings::LP_MODE_QUESTIONS,
-                ilLPObjSettings::LP_MODE_VISITED_PAGES
-            );
-        } else {
-            return array(
-                ilLPObjSettings::LP_MODE_DEACTIVATED,
-                ilLPObjSettings::LP_MODE_MANUAL,
                 ilLPObjSettings::LP_MODE_QUESTIONS,
                 ilLPObjSettings::LP_MODE_VISITED_PAGES
             );
         }
+
+        return array(
+            ilLPObjSettings::LP_MODE_DEACTIVATED,
+            ilLPObjSettings::LP_MODE_MANUAL,
+            ilLPObjSettings::LP_MODE_QUESTIONS,
+            ilLPObjSettings::LP_MODE_VISITED_PAGES
+        );
     }
     
     public function getDefaultMode() : int

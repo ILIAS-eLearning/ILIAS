@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -15,7 +15,7 @@
 
 namespace ILIAS\Style\Content\Container;
 
-use \ILIAS\Style\Content\InternalRepoService;
+use ILIAS\Style\Content\InternalRepoService;
 
     /**
  * Manages container related content style behaviour
@@ -23,20 +23,9 @@ use \ILIAS\Style\Content\InternalRepoService;
  */
 class ContainerManager
 {
-    /**
-     * @var ContainerDBRepository
-     */
-    protected $container_repo;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * @var InternalRepoService
-     */
-    protected $repo_service;
+    protected ContainerDBRepository $container_repo;
+    protected int $ref_id;
+    protected InternalRepoService $repo_service;
 
     public function __construct(
         InternalRepoService $repo_service,
@@ -47,7 +36,7 @@ class ContainerManager
         $this->container_repo = $repo_service->repositoryContainer();
     }
 
-    public function saveReuse(bool $reuse)
+    public function saveReuse(bool $reuse) : void
     {
         $this->container_repo->updateReuse($this->ref_id, $reuse);
     }

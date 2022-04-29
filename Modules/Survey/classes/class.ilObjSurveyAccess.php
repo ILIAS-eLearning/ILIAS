@@ -48,7 +48,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
     {
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_FINISHED:
-                if (ilObjSurveyAccess::_lookupFinished($a_trigger_obj_id, $a_usr_id)) {
+                if (self::_lookupFinished($a_trigger_obj_id, $a_usr_id)) {
                     return true;
                 } else {
                     return false;
@@ -76,7 +76,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         switch ($permission) {
             case "visible":
             case "read":
-                if (!ilObjSurveyAccess::_lookupCreationComplete($obj_id) &&
+                if (!self::_lookupCreationComplete($obj_id) &&
                     !$is_admin) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
                     return false;
@@ -86,18 +86,18 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 
         switch ($cmd) {
             case "run":
-                if (!ilObjSurveyAccess::_lookupCreationComplete($obj_id)) {
+                if (!self::_lookupCreationComplete($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
                     return false;
                 }
                 break;
 
             case "evaluation":
-                if (!ilObjSurveyAccess::_lookupCreationComplete($obj_id)) {
+                if (!self::_lookupCreationComplete($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("warning_survey_not_complete"));
                     return false;
                 }
-                if ($rbacsystem->checkAccess("write", $ref_id) || ilObjSurveyAccess::_hasEvaluationAccess($obj_id, $user_id)) {
+                if ($rbacsystem->checkAccess("write", $ref_id) || self::_hasEvaluationAccess($obj_id, $user_id)) {
                     return true;
                 } else {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("status_no_permission"));
@@ -141,7 +141,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         );
 
         $row = null;
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $row = $ilDB->fetchAssoc($result);
         }
         if (is_null($row) || !$row["complete"]) {
@@ -164,7 +164,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
             array('integer'),
             array($a_obj_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $row = $ilDB->fetchAssoc($result);
             return (int) $row["evaluation_access"];
         }
@@ -184,7 +184,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
             array('integer','integer'),
             array($user_id, $survey_id)
         );
-        return $result->numRows() == 1;
+        return $result->numRows() === 1;
     }
     
     public static function _lookupAnonymize(
@@ -199,7 +199,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
             array('integer'),
             array($a_obj_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $row = $ilDB->fetchAssoc($result);
             return (bool) $row["anonymize"];
         } else {
@@ -211,10 +211,10 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         int $a_obj_id,
         int $user_id
     ) : bool {
-        $evaluation_access = ilObjSurveyAccess::_lookupEvaluationAccess($a_obj_id);
+        $evaluation_access = self::_lookupEvaluationAccess($a_obj_id);
         $svy_mode = self::_lookupMode($a_obj_id);
 
-        if ($svy_mode == ilObjSurvey::MODE_IND_FEEDB) {
+        if ($svy_mode === ilObjSurvey::MODE_IND_FEEDB) {
             $svy = new ilObjSurvey($a_obj_id, false);
             $svy->read();
             switch ($svy->get360Results()) {
@@ -235,12 +235,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                 return false;
             case 1:
                 // evaluation access for all registered users
-                if (($user_id > 0) && ($user_id != ANONYMOUS_USER_ID)) {
-                    return true;
-                } else {
-                    return false;
-                }
-                // no break
+                return ($user_id > 0) && ($user_id !== ANONYMOUS_USER_ID);
             case 2:
                 switch ($svy_mode) {
                     case ilObjSurvey::MODE_360:
@@ -290,7 +285,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 
                         // show the evaluation button for anonymized surveys for all users
                         // access is only granted with the survey access code
-                        if (ilObjSurveyAccess::_lookupAnonymize($a_obj_id)) {
+                        if (self::_lookupAnonymize($a_obj_id)) {
                             return true;
                         }
 
@@ -302,10 +297,10 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                             array('integer'),
                             array($a_obj_id)
                         );
-                        if ($result->numRows() == 1) {
+                        if ($result->numRows() === 1) {
                             $row = $ilDB->fetchAssoc($result);
 
-                            if (ilObjSurveyAccess::_isSurveyParticipant($user_id, $row["survey_id"])) {
+                            if (self::_isSurveyParticipant($user_id, $row["survey_id"])) {
                                 return true;
                             }
                         }
@@ -331,7 +326,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         $ilUser = $DIC->user();
 
         $finished = 0;
-        if ($a_user_id == 0) {
+        if ($a_user_id === 0) {
             $a_user_id = $ilUser->getId();
         }
 
@@ -340,9 +335,9 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
             array('integer'),
             array($a_obj_id)
         );
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $row = $ilDB->fetchObject($result);
-            if ($row->anonymize == 1) {
+            if ((int) $row->anonymize === 1) {
                 $result = $ilDB->queryF(
                     "SELECT * FROM svy_finished, svy_anonymous WHERE svy_finished.survey_fi = %s " .
                     "AND svy_finished.survey_fi = svy_anonymous.survey_fi AND svy_anonymous.user_key = %s " .
@@ -357,7 +352,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                     array($row->survey_id, $a_user_id)
                 );
             }
-            if ($result->numRows() == 1) {
+            if ($result->numRows() === 1) {
                 $foundrow = $ilDB->fetchAssoc($result);
                 $finished = (int) $foundrow["state"];
             }
@@ -382,7 +377,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
             array($a_obj_id)
         );
 
-        if ($result->numRows() == 1) {
+        if ($result->numRows() === 1) {
             $row = $ilDB->fetchAssoc($result);
             return (int) $row["mode"];
         }
@@ -423,7 +418,7 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         
         $t_arr = explode("_", $target);
 
-        if ($t_arr[0] != "svy" || ((int) $t_arr[1]) <= 0) {
+        if ($t_arr[0] !== "svy" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
         

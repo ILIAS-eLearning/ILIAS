@@ -17,6 +17,7 @@ namespace ILIAS\Style\Content;
 
 use ILIAS\Filesystem;
 use ILIAS\FileUpload\FileUpload;
+use ilDBInterface;
 
 /**
  * Content style internal repo service
@@ -24,7 +25,7 @@ use ILIAS\FileUpload\FileUpload;
  */
 class InternalRepoService
 {
-    protected \ilDBInterface $db;
+    protected ilDBInterface $db;
     protected InternalDataService $data_factory;
     protected ColorDBRepo $color_repo;
     protected CharacteristicDBRepo $characteristic_repo;
@@ -34,7 +35,7 @@ class InternalRepoService
 
     public function __construct(
         InternalDataService $data_factory,
-        \ilDBInterface $db,
+        ilDBInterface $db,
         Filesystem\Filesystem $web_files,
         FileUpload $upload
     ) {

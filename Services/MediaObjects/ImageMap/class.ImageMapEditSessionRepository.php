@@ -28,6 +28,9 @@ class ImageMapEditSessionRepository
     {
     }
 
+    /**
+     * @return mixed|null
+     */
     protected function get(string $key)
     {
         if (\ilSession::has(self::KEY_BASE . $key)) {
@@ -36,6 +39,9 @@ class ImageMapEditSessionRepository
         return null;
     }
 
+    /**
+     * @param mixed $val
+     */
     protected function set(string $key, $val) : void
     {
         \ilSession::set(self::KEY_BASE . $key, $val);
@@ -162,7 +168,10 @@ class ImageMapEditSessionRepository
         $this->set("il_targetframe", $target_frame);
         $this->set("il_anchor", $anchor);
     }
-
+    
+    /**
+     * @return string[]
+     */
     public function getInternalLink() : array
     {
         return [

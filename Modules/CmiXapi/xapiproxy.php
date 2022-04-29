@@ -31,7 +31,7 @@
         $token = $basicAuth[1];
     } else {
         header('HTTP/1.1 401 Authorization Required');
-        header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+        header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
         header('Access-Control-Allow-Credentials: true');
         header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
         header('Access-Control-Allow-Headers: X-Experience-API-Version,Accept,Authorization,Etag,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With');

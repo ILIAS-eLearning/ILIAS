@@ -54,5 +54,4 @@ class MaxNestingFileSystemStorageHandler extends AbstractFileSystemStorageHandle
     {
         return true;
     }
-
 }

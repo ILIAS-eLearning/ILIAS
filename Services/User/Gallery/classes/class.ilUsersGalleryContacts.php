@@ -28,7 +28,7 @@ class ilUsersGalleryContacts extends ilAbstractUsersGalleryCollectionProvider
         return [$requested_for_me, $linked, $requested_by_me + $me_ignored,  $ignored];
     }
 
-    public function getGroupedCollections(bool $ignore_myself = false) : array
+    public function getGroupedCollections(bool $ignore_myself = false) : array // Missing array type.
     {
         global $DIC;
 

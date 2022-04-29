@@ -31,7 +31,7 @@ class ilObjHelpSettings extends ilObject2
         $this->settings = $DIC->settings();
     }
 
-    public function initType()
+    protected function initType() : void
     {
         $this->type = "hlps";
     }
@@ -71,13 +71,13 @@ class ilObjHelpSettings extends ilObject2
     public function uploadHelpModule(
         array $a_file
     ) : void {
-        $id = $this->createHelpModule();
+        $id = self::createHelpModule();
         
         try {
             $imp = new ilImport();
             $conf = $imp->getConfig("Services/Help");
             $conf->setModuleId($id);
-            $new_id = $imp->importObject("", $a_file["tmp_name"], $a_file["name"], "lm", "Modules/LearningModule");
+            $new_id = $imp->importObject(null, $a_file["tmp_name"], $a_file["name"], "lm", "Modules/LearningModule"); //
             $newObj = new ilObjLearningModule($new_id, false);
 
             self::writeHelpModuleLmId($id, $newObj->getId());
@@ -104,9 +104,9 @@ class ilObjHelpSettings extends ilObject2
         
         $mods = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
-            if (ilObject::_lookupType($rec["lm_id"]) == "lm") {
+            if (ilObject::_lookupType((int) $rec["lm_id"]) === "lm") {
                 $rec["title"] = ilObject::_lookupTitle($rec["lm_id"]);
-                $rec["create_date"] = ilObject::_lookupCreationDate($rec["lm_id"]);
+                $rec["create_date"] = ilObject::_lookupCreationDate((int) $rec["lm_id"]);
             }
             
             $mods[] = $rec;
@@ -127,8 +127,8 @@ class ilObjHelpSettings extends ilObject2
             " WHERE id = " . $ilDB->quote($a_id, "integer")
         );
         $rec = $ilDB->fetchAssoc($set);
-        if (ilObject::_lookupType($rec["lm_id"]) == "lm") {
-            return ilObject::_lookupTitle($rec["lm_id"]);
+        if (ilObject::_lookupType((int) $rec["lm_id"]) === "lm") {
+            return ilObject::_lookupTitle((int) $rec["lm_id"]);
         }
         return "";
     }
@@ -145,7 +145,7 @@ class ilObjHelpSettings extends ilObject2
             " WHERE id = " . $ilDB->quote($a_id, "integer")
         );
         $rec = $ilDB->fetchAssoc($set);
-        return $rec["lm_id"];
+        return (int) $rec["lm_id"];
     }
     
     public function deleteModule(
@@ -155,7 +155,7 @@ class ilObjHelpSettings extends ilObject2
         $ilSetting = $this->settings;
         
         // if this is the currently activated one, deactivate it first
-        if ($a_id == (int) $ilSetting->get("help_module")) {
+        if ($a_id === (int) $ilSetting->get("help_module")) {
             $ilSetting->set("help_module", "");
         }
         
@@ -166,8 +166,8 @@ class ilObjHelpSettings extends ilObject2
         $rec = $ilDB->fetchAssoc($set);
 
         // delete learning module
-        if (ilObject::_lookupType($rec["lm_id"]) == "lm") {
-            $lm = new ilObjLearningModule($rec["lm_id"], false);
+        if (ilObject::_lookupType($rec["lm_id"]) === "lm") {
+            $lm = new ilObjLearningModule((int) $rec["lm_id"], false);
             $lm->delete();
         }
         

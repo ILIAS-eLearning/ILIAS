@@ -46,7 +46,7 @@ class ilCtrlSecurityArtifactObjective extends BuildArtifactObjective
 
                 $security_information[strtolower($class)] = [
                     ilCtrlStructureInterface::KEY_UNSAFE_COMMANDS => $gui_object->getUnsafeGetCommands(),
-                    ilCtrlStructureInterface::KEY_SAFE_COMMANDS   => $gui_object->getSafePostCommands(),
+                    ilCtrlStructureInterface::KEY_SAFE_COMMANDS => $gui_object->getSafePostCommands(),
                 ];
             } catch (ReflectionException $e) {
                 continue;

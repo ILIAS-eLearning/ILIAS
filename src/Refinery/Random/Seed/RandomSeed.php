@@ -1,8 +1,21 @@
 <?php declare(strict_types=1);
 
 /**
- * @author  Lukas Scharmer <lscharmer@databay.de>
- */
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\Refinery\Random\Seed;
 
 class RandomSeed extends GivenSeed
@@ -15,8 +28,8 @@ class RandomSeed extends GivenSeed
     public function createSeed() : int
     {
         $array = explode(' ', microtime());
-        $seed = $array[1] + ($array[0] * 100000);
+        $seed = ((int) $array[1]) + (((float) $array[0]) * 100000);
 
-        return $seed;
+        return (int) $seed;
     }
 }

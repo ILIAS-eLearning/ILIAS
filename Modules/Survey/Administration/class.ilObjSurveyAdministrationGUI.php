@@ -56,7 +56,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
                 break;
 
             default:
-                if ($cmd == "" || $cmd == "view") {
+                if ($cmd === null || $cmd === "" || $cmd === "view") {
                     $cmd = "settings";
                 }
                 $cmd .= "Object";
@@ -90,7 +90,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
 
         $surveySetting = new ilSetting("survey");
-        $use_anonymous_id = $surveySetting->get("use_anonymous_id");
+        $use_anonymous_id = (bool) $surveySetting->get("use_anonymous_id");
         
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
@@ -125,7 +125,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
         
         $anon_part = new ilCheckboxInputGUI($lng->txt("svy_anonymous_participants"), "anon_part");
         $anon_part->setInfo($lng->txt("svy_anonymous_participants_info"));
-        $anon_part->setChecked($surveySetting->get("anonymous_participants", false));
+        $anon_part->setChecked((bool) $surveySetting->get("anonymous_participants", '0'));
         $form->addItem($anon_part);
         
         $anon_part_min = new ilNumberInputGUI($lng->txt("svy_anonymous_participants_min"), "anon_part_min");
@@ -163,7 +163,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
                     : null
             );
 
-            if ($form->getInput("skcust") == "lng") {
+            if ($form->getInput("skcust") === "lng") {
                 $surveySetting->set("skipped_is_custom", false);
             } else {
                 $surveySetting->set("skipped_is_custom", true);
@@ -187,7 +187,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
     {
         $lng = $this->lng;
 
-        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbac_system->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTab(
                 "settings",
                 $lng->txt("settings"),

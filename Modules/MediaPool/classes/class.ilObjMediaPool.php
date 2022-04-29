@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Media pool object
@@ -86,7 +89,7 @@ class ilObjMediaPool extends ilObject
             $this->setDefaultHeight($rec["default_height"]);
             $this->setForTranslation($rec["for_translation"]);
         }
-        $this->mep_tree = ilObjMediaPool::_getPoolTree($this->getId());
+        $this->mep_tree = self::_getPoolTree($this->getId());
     }
 
 
@@ -178,7 +181,7 @@ class ilObjMediaPool extends ilObject
             $fid = ilMediaPoolItem::lookupForeignId($child["obj_id"]);
             switch ($child["type"]) {
                 case "mob":
-                    if (ilObject::_lookupType($fid) == "mob") {
+                    if (ilObject::_lookupType($fid) === "mob") {
                         $mob = new ilObjMediaObject($fid);
                         $mob->delete();
                     }
@@ -199,20 +202,20 @@ class ilObjMediaPool extends ilObject
         $objs = array();
         $mobs = array();
         $pgs = array();
-        if ($obj_id == 0) {
+        if ($obj_id === 0) {
             $obj_id = $this->mep_tree->getRootId();
         }
 
-        if ($a_type == "fold" || $a_type == "") {
+        if ($a_type === "fold" || $a_type === "") {
             $objs = $this->mep_tree->getChildsByType($obj_id, "fold");
         }
-        if ($a_type == "mob" || $a_type == "") {
+        if ($a_type === "mob" || $a_type === "") {
             $mobs = $this->mep_tree->getChildsByType($obj_id, "mob");
         }
         foreach ($mobs as $key => $mob) {
             $objs[] = $mob;
         }
-        if ($a_type == "pg" || $a_type == "") {
+        if ($a_type === "pg" || $a_type === "") {
             $pgs = $this->mep_tree->getChildsByType($obj_id, "pg");
         }
         foreach ($pgs as $key => $pg) {
@@ -225,76 +228,12 @@ class ilObjMediaPool extends ilObject
     public function getChildsExceptFolders(
         int $obj_id = 0
     ) : array {
-        if ($obj_id == 0) {
+        if ($obj_id === 0) {
             $obj_id = $this->mep_tree->getRootId();
         }
 
-        $objs = $this->mep_tree->getFilteredChilds(array("fold", "dummy"), $obj_id);
-        return $objs;
+        return $this->mep_tree->getFilteredChilds(array("fold", "dummy"), $obj_id);
     }
-
-    /**
-     * Get media objects by filter
-     */
-    public function getMediaObjects(
-        string $a_title_filter = "",
-        string $a_format_filter = "",
-        string $a_keyword_filter = '',
-        string $a_caption_filter = ""
-    ) : array {
-        $ilDB = $this->db;
-
-        $query = "SELECT DISTINCT mep_tree.*, object_data.* " .
-            "FROM mep_tree JOIN mep_item ON (mep_tree.child = mep_item.obj_id) " .
-            " JOIN object_data ON (mep_item.foreign_id = object_data.obj_id) ";
-            
-        if ($a_format_filter != "" or $a_caption_filter != '') {
-            $query .= " JOIN media_item ON (media_item.mob_id = object_data.obj_id) ";
-        }
-            
-        $query .=
-            " WHERE mep_tree.mep_id = " . $ilDB->quote($this->getId(), "integer") .
-            " AND object_data.type = " . $ilDB->quote("mob", "text");
-            
-        // filter
-        if (trim($a_title_filter) != "") {	// title
-            $query .= " AND " . $ilDB->like("object_data.title", "text", "%" . trim($a_title_filter) . "%");
-        }
-        if ($a_format_filter != "") {			// format
-            $filter = ($a_format_filter == "unknown")
-                ? ""
-                : $a_format_filter;
-            $query .= " AND " . $ilDB->equals("media_item.format", $filter, "text", true);
-        }
-        if (trim($a_caption_filter)) {
-            $query .= 'AND ' . $ilDB->like('media_item.caption', 'text', '%' . trim($a_caption_filter) . '%');
-        }
-            
-        $query .=
-            " ORDER BY object_data.title";
-        
-        $objs = array();
-        $set = $ilDB->query($query);
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $rec["foreign_id"] = $rec["obj_id"];
-            $rec["obj_id"] = "";
-            $objs[] = $rec;
-        }
-        
-        // Keyword filter
-        if ($a_keyword_filter) {
-            $res = ilMDKeyword::_searchKeywords($a_keyword_filter, 'mob', 0);
-            $filtered = [];
-            foreach ($objs as $obj) {
-                if (in_array($obj['foreign_id'], $res)) {
-                    $filtered[] = $obj;
-                }
-            }
-            return $filtered;
-        }
-        return $objs;
-    }
-
 
     /**
      * @param int $a_id media pool id
@@ -350,10 +289,10 @@ class ilObjMediaPool extends ilObject
     
     public function getParentId(int $obj_id = 0) : ?int
     {
-        if ($obj_id == 0) {
+        if ($obj_id === 0) {
             return null;
         }
-        if ($obj_id == $this->mep_tree->getRootId()) {
+        if ($obj_id === $this->mep_tree->getRootId()) {
             return null;
         }
 
@@ -373,9 +312,9 @@ class ilObjMediaPool extends ilObject
                 : $a_parent;
             $this->mep_tree->insertNode($a_obj_id, $parent);
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
 
@@ -395,25 +334,19 @@ class ilObjMediaPool extends ilObject
         // delete objects
         foreach ($subtree as $node) {
             $fid = ilMediaPoolItem::lookupForeignId($node["child"]);
-            if ($node["type"] == "mob") {
-                if (ilObject::_lookupType($fid) == "mob") {
-                    $obj = new ilObjMediaObject($fid);
-                    $obj->delete();
-                }
+            if ($node["type"] === "mob" && ilObject::_lookupType($fid) === "mob") {
+                $obj = new ilObjMediaObject($fid);
+                $obj->delete();
             }
 
-            if ($node["type"] == "fold") {
-                if ($fid > 0 && ilObject::_lookupType($fid) == "fold") {
-                    $obj = new ilObjFolder($fid, false);
-                    $obj->delete();
-                }
+            if ($node["type"] === "fold" && $fid > 0 && ilObject::_lookupType($fid) === "fold") {
+                $obj = new ilObjFolder($fid, false);
+                $obj->delete();
             }
 
-            if ($node["type"] == "pg") {
-                if (ilPageObject::_exists("mep", $node["child"])) {
-                    $pg = new ilMediaPoolPage($node["child"]);
-                    $pg->delete();
-                }
+            if ($node["type"] === "pg" && ilPageObject::_exists("mep", $node["child"])) {
+                $pg = new ilMediaPoolPage($node["child"]);
+                $pg->delete();
             }
 
             $item = new ilMediaPoolItem($node["child"]);
@@ -489,10 +422,10 @@ class ilObjMediaPool extends ilObject
      * @param int target ref_id
      * @param int copy id
      */
-    public function cloneObject(int $a_target_id, int $a_copy_id = 0, bool $a_omit_tree = false) : ?ilObject
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ?ilObject
     {
         /** @var ilObjMediaPool $new_obj */
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         
         $new_obj->setTitle($this->getTitle());
         $new_obj->setDescription($this->getDescription());
@@ -565,7 +498,7 @@ class ilObjMediaPool extends ilObject
         if (in_array($a_mode, array("master", "masternomedia"))) {
             $exp = new ilExport();
             $conf = $exp->getConfig("Modules/MediaPool");
-            $conf->setMasterLanguageOnly(true, ($a_mode == "master"));
+            $conf->setMasterLanguageOnly(true, ($a_mode === "master"));
             $exp->exportObject($this->getType(), $this->getId(), "4.4.0");
         }
     }

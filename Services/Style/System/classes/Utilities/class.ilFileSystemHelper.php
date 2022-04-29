@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 declare(strict_types=1);
 
 /**
@@ -14,20 +30,16 @@ class ilFileSystemHelper
     protected ilSystemStyleMessageStack $message_stack;
     protected ilLanguage $lng;
 
-    public function __construct(ilLanguage $lng, ?ilSystemStyleMessageStack $message_stack = null)
+    public function __construct(ilLanguage $lng, ilSystemStyleMessageStack $message_stack)
     {
-        if (!$message_stack) {
-            $this->setMessageStack(new ilSystemStyleMessageStack());
-        } else {
-            $this->setMessageStack($message_stack);
-        }
+        $this->setMessageStack($message_stack);
         $this->lng = $lng;
     }
 
     /**
      * Used to move a complete directory of a skin
      */
-    public function move(string $from, string $to)
+    public function move(string $from, string $to) : void
     {
         rename($from, $to);
     }
@@ -40,7 +52,7 @@ class ilFileSystemHelper
     /**
      * Deletes a given file in the container
      */
-    public function saveDeleteFile(string $file_path)
+    public function saveDeleteFile(string $file_path) : void
     {
         if (file_exists($file_path)) {
             unlink($file_path);
@@ -104,7 +116,7 @@ class ilFileSystemHelper
      * Creates a resource directory (sound, images or fonts) by copying from the source (mostly delos)
      * @throws ilSystemStyleException
      */
-    public function createResourceDirectory(string $source, string $target)
+    public function createResourceDirectory(string $source, string $target) : void
     {
         mkdir($target, 0775, true);
 
@@ -123,7 +135,7 @@ class ilFileSystemHelper
      * Alters the name/path of a resource directory
      * @throws ilSystemStyleException
      */
-    public function changeResourceDirectory(string $skin_dir, string $new_dir, string $old_dir, bool $has_references)
+    public function changeResourceDirectory(string $skin_dir, string $new_dir, string $old_dir, bool $has_references) : void
     {
         $absolut_new_dir = $skin_dir . $new_dir;
         $absolut_old_dir = $skin_dir . $old_dir;

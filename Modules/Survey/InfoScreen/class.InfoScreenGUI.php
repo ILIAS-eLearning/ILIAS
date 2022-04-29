@@ -57,7 +57,7 @@ class InfoScreenGUI
         $this->toolbar = $toolbar;
         $this->survey_gui = $survey_gui;
         /** @var \ilObjSurvey $survey */
-        $survey = $survey_gui->object;
+        $survey = $survey_gui->getObject();
         $this->survey = $survey;
         $this->status_manager = $domain_service->participants()->status($this->survey, $user->getId());
         $this->access_manager = $domain_service->access($this->survey->getRefId(), $user->getId());
@@ -165,13 +165,13 @@ class InfoScreenGUI
         */
 
         // introduction
-        if (strlen($survey->getIntroduction())) {
+        if ($survey->getIntroduction() !== '') {
             $introduction = $survey->getIntroduction();
             $info->addSection($this->lng->txt("introduction"));
             $info->addProperty("", $survey->prepareTextareaOutput($introduction) .
                 "<br />" . $info->getHiddenToggleButton());
         } else {
-            $info->addSection("");
+            $info->addSection($this->lng->txt("show_details"));
             $info->addProperty("", $info->getHiddenToggleButton());
         }
 
@@ -245,11 +245,11 @@ class InfoScreenGUI
 
                 // registered user
                 // if an auto-code was generated, we still have to check for the original user id
-                if (!$appr_ids && $this->user->getId() != ANONYMOUS_USER_ID) {
+                if (!$appr_ids && $this->user->getId() !== ANONYMOUS_USER_ID) {
                     $appr_ids = $survey->getAppraiseesToRate($this->user->getId());
                 }
 
-                if (sizeof($appr_ids)) {
+                if (count($appr_ids)) {
                     // map existing runs to appraisees
                     $active_appraisees = array();
                     foreach ($this->run_manager
@@ -312,7 +312,7 @@ class InfoScreenGUI
             $info->addSection($this->lng->txt("survey_360_appraisee_info"));
 
             $privacy_info = $this->lng->txt("svy_rater_see_app_info");
-            if (in_array($survey->get360Results(), [\ilObjSurvey::RESULTS_360_OWN, \ilObjSurvey::RESULTS_360_ALL])) {
+            if (in_array($survey->get360Results(), [\ilObjSurvey::RESULTS_360_OWN, \ilObjSurvey::RESULTS_360_ALL], true)) {
                 $privacy_info .= " " . $this->lng->txt("svy_app_see_rater_info");
             }
             $info->addProperty($this->lng->txt("svy_privacy_info"), $privacy_info);

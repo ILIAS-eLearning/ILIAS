@@ -136,6 +136,9 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         return $recent;
     }
 
+    /**
+     * @return array<int, array[]>
+     */
     public function getNewAchievementsPerUser(
         string $a_timestamp,
         string $a_timestamp_to = null,
@@ -162,6 +165,16 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             " ORDER BY user_id, status_date ASC ");
         $achievements = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec['user_id'] = (int) $rec['user_id'];
+            $rec['level_id'] = (int) $rec['level_id'];
+            $rec['skill_id'] = (int) $rec['skill_id'];
+            $rec['status'] = (int) $rec['status'];
+            $rec['valid'] = (int) $rec['valid'];
+            $rec['trigger_ref_id'] = (int) $rec['trigger_ref_id'];
+            $rec['trigger_obj_id'] = (int) $rec['trigger_obj_id'];
+            $rec['tref_id'] = (int) $rec['tref_id'];
+            $rec['self_eval'] = (int) $rec['self_eval'];
+            $rec['next_level_fullfilment'] = (float) $rec['next_level_fullfilment'];
             $achievements[$rec["user_id"]][] = $rec;
         }
 
@@ -362,6 +375,31 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         return $max_level;
     }
 
+    public function getNextLevelFulfilmentPerType(
+        int $skill_id,
+        int $a_tref_id,
+        string $a_type,
+        int $a_user_id = 0,
+        int $a_self_eval = 0
+    ) : float {
+        $ilDB = $this->db;
+
+        $set = $ilDB->query(
+            $q = "SELECT next_level_fulfilment FROM skl_user_has_level " .
+                " WHERE trigger_obj_type = " . $ilDB->quote($a_type, "text") .
+                " AND skill_id = " . $ilDB->quote($skill_id, "integer") .
+                " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
+                " AND user_id = " . $ilDB->quote($a_user_id, "integer") .
+                " AND self_eval = " . $ilDB->quote($a_self_eval, "integer")
+        );
+
+        if ($rec = $ilDB->fetchAssoc($set)) {
+            return $rec["next_level_fulfilment"];
+        }
+
+        return 0;
+    }
+
     public function getAllLevelEntriesOfUser(
         int $skill_id,
         int $a_tref_id,
@@ -408,6 +446,9 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         );
         $levels = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec['tref_id'] = (int) $rec['tref_id'];
+            $rec['skill_id'] = (int) $rec['skill_id'];
+            $rec['user_id'] = (int) $rec['user_id'];
             $levels[] = $rec;
         }
         return $levels;
@@ -445,6 +486,31 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         return $max_level;
     }
 
+    public function getNextLevelFulfilmentPerObject(
+        int $skill_id,
+        int $a_tref_id,
+        int $a_object_id,
+        int $a_user_id = 0,
+        int $a_self_eval = 0
+    ) : float {
+        $ilDB = $this->db;
+
+        $set = $ilDB->query(
+            $q = "SELECT next_level_fulfilment FROM skl_user_has_level " .
+                " WHERE trigger_obj_id = " . $ilDB->quote($a_object_id, "integer") .
+                " AND skill_id = " . $ilDB->quote($skill_id, "integer") .
+                " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
+                " AND user_id = " . $ilDB->quote($a_user_id, "integer") .
+                " AND self_eval = " . $ilDB->quote($a_self_eval, "integer")
+        );
+
+        if ($rec = $ilDB->fetchAssoc($set)) {
+            return $rec["next_level_fulfilment"];
+        }
+
+        return 0;
+    }
+
     public function getMaxLevel(
         int $skill_id,
         array $levels,
@@ -475,6 +541,29 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         return $max_level;
     }
 
+    public function getNextLevelFulfilment(
+        int $skill_id,
+        int $a_tref_id,
+        int $a_user_id = 0,
+        int $a_self_eval = 0
+    ) : float {
+        $ilDB = $this->db;
+
+        $set = $ilDB->query(
+            $q = "SELECT next_level_fulfilment FROM skl_user_has_level " .
+                " WHERE skill_id = " . $ilDB->quote($skill_id, "integer") .
+                " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
+                " AND user_id = " . $ilDB->quote($a_user_id, "integer") .
+                " AND self_eval = " . $ilDB->quote($a_self_eval, "integer")
+        );
+
+        if ($rec = $ilDB->fetchAssoc($set)) {
+            return $rec["next_level_fulfilment"];
+        }
+
+        return 0;
+    }
+
     public function hasSelfEvaluated(int $a_user_id, int $a_skill_id, int $a_tref_id) : bool
     {
         $ilDB = $this->db;
@@ -487,10 +576,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             " AND self_eval = " . $ilDB->quote(1, "integer")
         );
 
-        if ($rec = $ilDB->fetchAssoc($set)) {
-            return true;
-        }
-        return false;
+        return !!$ilDB->fetchAssoc($set);
     }
 
     public function getLastLevelPerObject(
@@ -514,7 +600,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         );
 
         if ($rec = $ilDB->fetchAssoc($set)) {
-            return $rec["level_id"];
+            return (int) $rec["level_id"];
         }
 
         return 0;

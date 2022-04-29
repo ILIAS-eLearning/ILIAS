@@ -1,8 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
 class ilObjLearningSequenceSettingsGUI
@@ -80,7 +93,7 @@ class ilObjLearningSequenceSettingsGUI
         $this->lng->loadLanguageModule('obj');
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd('settings');
 
@@ -127,9 +140,7 @@ class ilObjLearningSequenceSettingsGUI
 
     protected function buildForm() : ilPropertyFormGUI
     {
-        $txt = function ($id) {
-            return $this->lng->txt($id);
-        };
+        $txt = fn($id) => $this->lng->txt($id);
         $settings = $this->settings;
         $activation = $this->activation;
 
@@ -239,9 +250,7 @@ class ilObjLearningSequenceSettingsGUI
 
     protected function addCommonFieldsToForm(ilPropertyFormGUI $form) : void
     {
-        $txt = function ($id) {
-            return $this->lng->txt($id);
-        };
+        $txt = fn($id) => $this->lng->txt($id);
         $section_appearance = new ilFormSectionHeaderGUI();
         $section_appearance->setTitle($txt('cont_presentation'));
         $form->addItem($section_appearance);
@@ -264,20 +273,20 @@ class ilObjLearningSequenceSettingsGUI
 
         $lso = $this->obj;
 
-        $lso->setTitle($this->post_wrapper->retrieve(self::PROP_TITLE , $this->refinery->kindlyTo()->string()));
-        $lso->setDescription($this->post_wrapper->retrieve(self::PROP_DESC , $this->refinery->kindlyTo()->string()));
+        $lso->setTitle($this->post_wrapper->retrieve(self::PROP_TITLE, $this->refinery->kindlyTo()->string()));
+        $lso->setDescription($this->post_wrapper->retrieve(self::PROP_DESC, $this->refinery->kindlyTo()->string()));
 
         $settings = $this->settings
-            ->withAbstract($this->post_wrapper->retrieve(self::PROP_ABSTRACT , $this->refinery->kindlyTo()->string()))
-            ->withExtro($this->post_wrapper->retrieve(self::PROP_EXTRO , $this->refinery->kindlyTo()->string()))
-            ->withMembersGallery($this->post_wrapper->retrieve(self::PROP_GALLERY , $this->refinery->kindlyTo()->bool()))
+            ->withAbstract($this->post_wrapper->retrieve(self::PROP_ABSTRACT, $this->refinery->kindlyTo()->string()))
+            ->withExtro($this->post_wrapper->retrieve(self::PROP_EXTRO, $this->refinery->kindlyTo()->string()))
+            ->withMembersGallery($this->post_wrapper->retrieve(self::PROP_GALLERY, $this->refinery->kindlyTo()->bool()))
         ;
 
         $inpt = $form->getItemByPostVar(self::PROP_AVAIL_PERIOD);
         $start = $inpt->getStart();
         $end = $inpt->getEnd();
         $activation = $this->activation
-            ->withIsOnline($this->post_wrapper->retrieve(self::PROP_ONLINE , $this->refinery->kindlyTo()->bool()));
+            ->withIsOnline($this->post_wrapper->retrieve(self::PROP_ONLINE, $this->refinery->kindlyTo()->bool()));
 
         if ($start) {
             $activation = $activation

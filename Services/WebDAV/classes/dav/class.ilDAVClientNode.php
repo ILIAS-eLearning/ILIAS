@@ -27,6 +27,7 @@ class ilDAVClientNode implements ICollection
     
     protected ilWebDAVObjFactory $dav_factory;
     protected ilWebDAVRepositoryHelper $repository_helper;
+    protected string $client_name;
     protected string $name_of_repository_root;
     
     public function __construct(

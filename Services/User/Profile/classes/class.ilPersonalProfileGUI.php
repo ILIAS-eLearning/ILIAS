@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use Psr\Http\Message\RequestInterface;
+
 /**
  * GUI class for personal profile
  * @author Alexander Killing <killing@leifos.de>
@@ -38,6 +40,7 @@ class ilPersonalProfileGUI
     protected ilProfileChecklistGUI $checklist;
     protected ilUserSettingsConfig $user_settings_config;
     protected ilProfileChecklistStatus $checklist_status;
+    private RequestInterface $request;
 
     public function __construct(
         \ilTermsOfServiceDocumentEvaluation $termsOfServiceEvaluation = null,
@@ -53,6 +56,7 @@ class ilPersonalProfileGUI
         $this->ctrl = $DIC->ctrl();
         $this->errorHandler = $DIC['ilErr'];
         $this->eventHandler = $DIC['ilAppEventHandler'];
+        $this->request = $DIC->http()->request();
 
         if ($termsOfServiceEvaluation === null) {
             $termsOfServiceEvaluation = $DIC['tos.document.evaluator'];
@@ -172,8 +176,7 @@ class ilPersonalProfileGUI
                 } else {        // cam capture png
                     $uploaded_file = $image_dir . "/" . "upload_" . $ilUser->getId() . ".png";
                     $img = $this->profile_request->getUserFileCapture();
-                    $img = str_replace('data:image/png;base64,', '', $img);
-                    $img = str_replace(' ', '+', $img);
+                    $img = str_replace(['data:image/png;base64,', ' '], ['', '+'], $img);
                     $data = base64_decode($img);
                     $success = file_put_contents($uploaded_file, $data);
                     if (!$success) {
@@ -225,229 +228,8 @@ class ilPersonalProfileGUI
 
         $ilUser = $DIC['ilUser'];
         $ilUser->removeUserPicture();
-        //$this->saveProfile();
     }
 
-
-    /*
-    public function saveProfile() : void
-    {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-        $ilSetting = $DIC['ilSetting'];
-
-        //init checking var
-        $form_valid = true;
-
-        // testing by ratana ty:
-        // if people check on check box it will
-        // write some datata to table usr_pref
-        // if check on Public Profile
-        if (($_POST["chk_pub"]) == "on") {
-            $ilUser->setPref("public_profile", "y");
-        } else {
-            $ilUser->setPref("public_profile", "n");
-        }
-
-        // if check on Institute
-        $val_array = array("institution", "department", "upload", "street",
-            "zip", "city", "country", "phone_office", "phone_home", "phone_mobile",
-            "fax", "email", "second_email", "hobby", "matriculation");
-
-        // set public profile preferences
-        foreach ($val_array as $key => $value) {
-            if (($_POST["chk_" . $value]) == "on") {
-                $ilUser->setPref("public_" . $value, "y");
-            } else {
-                $ilUser->setPref("public_" . $value, "n");
-            }
-        }
-
-        // check dynamically required fields
-        foreach ($this->settings as $key => $val) {
-            if (substr($key, 0, 8) == "require_") {
-                $require_keys[] = substr($key, 8);
-            }
-        }
-
-        foreach ($require_keys as $key => $val) {
-            // exclude required system and registration-only fields
-            $system_fields = array("login", "default_role", "passwd", "passwd2");
-            if (!in_array($val, $system_fields)) {
-                if ($this->workWithUserSetting($val)) {
-                    if (isset($this->settings["require_" . $val]) && $this->settings["require_" . $val]) {
-                        if (empty($_POST["usr_" . $val])) {
-                            ilUtil::sendFailure($this->lng->txt("fill_out_all_required_fields") . ": " . $this->lng->txt($val));
-                            $form_valid = false;
-                        }
-                    }
-                }
-            }
-        }
-
-        // Check user defined required fields
-        if ($form_valid and !$this->__checkUserDefinedRequiredFields()) {
-            ilUtil::sendFailure($this->lng->txt("fill_out_all_required_fields"));
-            $form_valid = false;
-        }
-
-        // check email
-        if ($this->workWithUserSetting("email")) {
-            if (!ilUtil::is_email($_POST["usr_email"]) and !empty($_POST["usr_email"]) and $form_valid) {
-                ilUtil::sendFailure($this->lng->txt("email_not_valid"));
-                $form_valid = false;
-            }
-        }
-        // check second email
-        if ($this->workWithUserSetting("second_email")) {
-            if (!ilUtil::is_email($_POST["usr_second_email"]) and !empty($_POST["usr_second_email"]) and $form_valid) {
-                ilUtil::sendFailure($this->lng->txt("second_email_not_valid"));
-                $form_valid = false;
-            }
-        }
-
-        //update user data (not saving!)
-        if ($this->workWithUserSetting("firstname")) {
-            $ilUser->setFirstName(ilUtil::stripSlashes($_POST["usr_firstname"]));
-        }
-        if ($this->workWithUserSetting("lastname")) {
-            $ilUser->setLastName(ilUtil::stripSlashes($_POST["usr_lastname"]));
-        }
-        if ($this->workWithUserSetting("gender")) {
-            $ilUser->setGender($_POST["usr_gender"]);
-        }
-        if ($this->workWithUserSetting("title")) {
-            $ilUser->setUTitle(ilUtil::stripSlashes($_POST["usr_title"]));
-        }
-        $ilUser->setFullname();
-        if ($this->workWithUserSetting("institution")) {
-            $ilUser->setInstitution(ilUtil::stripSlashes($_POST["usr_institution"]));
-        }
-        if ($this->workWithUserSetting("department")) {
-            $ilUser->setDepartment(ilUtil::stripSlashes($_POST["usr_department"]));
-        }
-        if ($this->workWithUserSetting("street")) {
-            $ilUser->setStreet(ilUtil::stripSlashes($_POST["usr_street"]));
-        }
-        if ($this->workWithUserSetting("zipcode")) {
-            $ilUser->setZipcode(ilUtil::stripSlashes($_POST["usr_zipcode"]));
-        }
-        if ($this->workWithUserSetting("city")) {
-            $ilUser->setCity(ilUtil::stripSlashes($_POST["usr_city"]));
-        }
-        if ($this->workWithUserSetting("country")) {
-            $ilUser->setCountry(ilUtil::stripSlashes($_POST["usr_country"]));
-        }
-        if ($this->workWithUserSetting("phone_office")) {
-            $ilUser->setPhoneOffice(ilUtil::stripSlashes($_POST["usr_phone_office"]));
-        }
-        if ($this->workWithUserSetting("phone_home")) {
-            $ilUser->setPhoneHome(ilUtil::stripSlashes($_POST["usr_phone_home"]));
-        }
-        if ($this->workWithUserSetting("phone_mobile")) {
-            $ilUser->setPhoneMobile(ilUtil::stripSlashes($_POST["usr_phone_mobile"]));
-        }
-        if ($this->workWithUserSetting("fax")) {
-            $ilUser->setFax(ilUtil::stripSlashes($_POST["usr_fax"]));
-        }
-        if ($this->workWithUserSetting("email")) {
-            $ilUser->setEmail(ilUtil::stripSlashes($_POST["usr_email"]));
-        }
-        if ($this->workWithUserSetting("second_email")) {
-            $ilUser->setSecondEmail(ilUtil::stripSlashes($_POST["usr_second_email"]));
-        }
-        if ($this->workWithUserSetting("hobby")) {
-            $ilUser->setHobby(ilUtil::stripSlashes($_POST["usr_hobby"]));
-        }
-        if ($this->workWithUserSetting("referral_comment")) {
-            $ilUser->setComment(ilUtil::stripSlashes($_POST["usr_referral_comment"]));
-        }
-        if ($this->workWithUserSetting("matriculation")) {
-            $ilUser->setMatriculation(ilUtil::stripSlashes($_POST["usr_matriculation"]));
-        }
-
-        // Set user defined data
-        $ilUser->setUserDefinedData($_POST['udf']);
-
-        // everthing's ok. save form data
-        if ($form_valid) {
-            // init reload var. page should only be reloaded if skin or style were changed
-            $reload = false;
-
-            if ($this->workWithUserSetting("skin_style")) {
-                //set user skin and style
-                if ($_POST["usr_skin_style"] != "") {
-                    $sknst = explode(":", $_POST["usr_skin_style"]);
-
-                    if ($ilUser->getPref("style") != $sknst[1] ||
-                        $ilUser->getPref("skin") != $sknst[0]) {
-                        $ilUser->setPref("skin", $sknst[0]);
-                        $ilUser->setPref("style", $sknst[1]);
-                        $reload = true;
-                    }
-                }
-            }
-
-            if ($this->workWithUserSetting("language")) {
-                // reload page if language was changed
-                //if ($_POST["usr_language"] != "" and $_POST["usr_language"] != $_SESSION['lang'])
-                // (this didn't work as expected, alex)
-                if ($_POST["usr_language"] != $ilUser->getLanguage()) {
-                    $reload = true;
-                }
-
-                // set user language
-                $ilUser->setLanguage($_POST["usr_language"]);
-            }
-            if ($this->workWithUserSetting("hits_per_page")) {
-                // set user hits per page
-                if ($_POST["hits_per_page"] != "") {
-                    $ilUser->setPref("hits_per_page", $_POST["hits_per_page"]);
-                }
-            }
-
-            // set hide own online_status
-            if ($this->workWithUserSetting("hide_own_online_status")) {
-                if ($_POST["chk_hide_own_online_status"] != "") {
-                    $ilUser->setPref("hide_own_online_status", "y");
-                } else {
-                    $ilUser->setPref("hide_own_online_status", "n");
-                }
-            }
-
-
-            // profile ok
-            $ilUser->setProfileIncomplete(false);
-
-            // save user data & object_data
-            $ilUser->setTitle($ilUser->getFullname());
-            $ilUser->setDescription($ilUser->getEmail());
-
-            $ilUser->update();
-
-            // update lucene index
-            ilLuceneIndexer::updateLuceneIndex(array($GLOBALS['DIC']['ilUser']->getId()));
-
-
-            // reload page only if skin or style were changed
-            // feedback
-            if (!empty($this->password_error)) {
-                ilUtil::sendFailure($this->password_error, true);
-            } elseif (!empty($this->upload_error)) {
-                ilUtil::sendFailure($this->upload_error, true);
-            } elseif ($reload) {
-                // feedback
-                ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
-                $this->ctrl->redirect($this, "");
-            } else {
-                ilUtil::sendSuccess($this->lng->txt("saved_successfully"), true);
-            }
-        }
-
-        $this->showProfile();
-    }*/
-    
     /**
     * show profile form
     *
@@ -726,7 +508,7 @@ class ilPersonalProfileGUI
                         true,
                         0,
                         '',
-                        '',
+                        [],
                         $disabled
                     )
                 );
@@ -744,18 +526,6 @@ class ilPersonalProfileGUI
         }
         return true;
     }
-
-    /*
-    public function __checkUserDefinedRequiredFields() : bool
-    {
-        foreach ($this->user_defined_fields->getVisibleDefinitions() as $definition) {
-            $field_id = $definition['field_id'];
-            if ($definition['required'] and !strlen($_POST['udf'][$field_id])) {
-                return false;
-            }
-        }
-        return true;
-    }*/
 
     public function setHeader() : void
     {
@@ -786,25 +556,24 @@ class ilPersonalProfileGUI
         if ($this->profile_request->getPrompted() == 1) {
             $it = $prompt_service->data()->getSettings()->getPromptText($ilUser->getLanguage());
         }
-        if ($it == "") {
+        if ($it === "") {
             $it = $prompt_service->data()->getSettings()->getInfoText($ilUser->getLanguage());
         }
-        if (trim($it) != "") {
+        if (trim($it) !== "") {
             $pub_prof = in_array($ilUser->prefs["public_profile"], array("y", "n", "g"))
                 ? $ilUser->prefs["public_profile"]
                 : "n";
-            if ($pub_prof == "n") {
-                $box = $DIC->ui()->factory()->messageBox()->info($it)->withLinks(
+            $box = $DIC->ui()->factory()->messageBox()->info($it);
+            if ($pub_prof === "n") {
+                $box = $box->withLinks(
                     [$DIC->ui()->factory()->link()->standard(
                         $lng->txt("user_make_profile_public"),
                         $ctrl->getLinkTarget($this, "showPublicProfile")
                     )]
                 );
-
-                $it = $DIC->ui()->renderer()->render($box);
             }
+            $it = $DIC->ui()->renderer()->render($box);
         }
-
         $this->setHeader();
 
         $this->showChecklist(ilProfileChecklistStatus::STEP_PROFILE_DATA);
@@ -816,7 +585,6 @@ class ilPersonalProfileGUI
                 $this->tpl->setOnScreenMessage('info', $lng->txt("profile_incomplete"));
             }
         }
-
         $this->tpl->setContent($it . $this->form->getHTML());
 
         $this->tpl->printToStdout();
@@ -913,10 +681,7 @@ class ilPersonalProfileGUI
                             $ilUser->setSecondEmail($value);
                             break;
                         default:
-                            $m = ucfirst($f);
-                            if (isset($map[$f])) {
-                                $m = $map[$f];
-                            }
+                            $m = $map[$f] ?? ucfirst($f);
                             $ilUser->{"set" . $m}($value);
                             break;
                     }
@@ -1235,7 +1000,7 @@ class ilPersonalProfileGUI
                     }
                 }
 
-                if (sizeof($badge_options) > 1) {
+                if (count($badge_options) > 1) {
                     $badge_order = new ilNonEditableValueGUI($this->lng->txt("obj_bdga"), "bpos" . $key_suffix);
                     $badge_order->setMultiValues($badge_options);
                     $badge_order->setValue(array_shift($badge_options));
@@ -1345,13 +1110,12 @@ class ilPersonalProfileGUI
         $tpl->showPublicProfile(true);
     }
 
-    protected function getCheckedValues() : array
+    protected function getCheckedValues() : array // Missing array type.
     {
         $checked_values = [];
-        foreach ($_POST as $k => $v) {
-            if (substr($k, 0, 4) == "chk_") {
-                $k = str_replace("-1", "", $k);
-                $k = str_replace("-2", "", $k);
+        foreach ($this->request->getParsedBody() as $k => $v) {
+            if (strpos($k, "chk_") === 0) {
+                $k = str_replace(["-1", "-2"], "", $k);
                 $checked_values[$k] = $v;
             }
         }

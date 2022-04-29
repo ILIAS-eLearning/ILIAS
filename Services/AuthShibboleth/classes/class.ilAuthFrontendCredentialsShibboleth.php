@@ -13,19 +13,17 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Description of class class
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilAuthFrontendCredentialsShibboleth extends ilAuthFrontendCredentials implements ilAuthCredentials
+class ilAuthFrontendCredentialsShibboleth extends ilAuthFrontendCredentials
 {
-    private \ilSetting $settings;
+    private ilSetting $settings;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -33,14 +31,11 @@ class ilAuthFrontendCredentialsShibboleth extends ilAuthFrontendCredentials impl
         $this->settings = $DIC->settings();
     }
 
-    protected function getSettings() : \ilSetting
+    protected function getSettings() : ilSetting
     {
         return $this->settings;
     }
 
-    /**
-     * Init credentials from request
-     */
     public function initFromRequest() : void
     {
         $this->setUsername($this->settings->get('shib_login', ''));

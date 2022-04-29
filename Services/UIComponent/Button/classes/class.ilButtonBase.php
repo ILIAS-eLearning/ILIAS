@@ -180,7 +180,7 @@ abstract class ilButtonBase implements ilToolbarItem
             }
         }
         
-        if (sizeof($res)) {
+        if (count($res)) {
             return " " . implode(" ", $res);
         }
         return "";
@@ -200,7 +200,7 @@ abstract class ilButtonBase implements ilToolbarItem
             $attr["disabled"] = "disabled";
         }
         
-        if (sizeof($a_additional_attr)) {
+        if (count($a_additional_attr)) {
             $attr = array_merge($attr, $a_additional_attr);
         }
         

@@ -1,7 +1,21 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\DI\Container;
 
 /**
@@ -16,7 +30,7 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
     protected ilTabsGUI $tabs;
 
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
         $this->dic = $DIC;
@@ -33,8 +47,6 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
     public function create() : void
     {
-        $ilTabs = $this->dic->tabs();
-
         $this->lng->loadLanguageModule("crsv");
 
         $this->tabs->setBackTarget(
@@ -148,16 +160,21 @@ class ilObjCourseVerificationGUI extends ilObject2GUI
 
     public static function _goto(string $a_target) : void
     {
+        global $DIC;
+
+        $ctrl = $DIC->ctrl();
+
         $id = explode("_", $a_target);
 
-        $_GET["baseClass"] = "ilsharedresourceGUI";
-        $_GET["wsp_id"] = $id[0];
-        include("ilias.php");
-        exit;
+        $ctrl->setParameterByClass(
+            ilSharedResourceGUI::class,
+            'wsp_id',
+            $id[0]
+        );
+        $ctrl->redirectByClass(ilSharedResourceGUI::class);
     }
 
     /**
-     * @param string $key
      * @param mixed  $default
      * @return mixed|null
      */

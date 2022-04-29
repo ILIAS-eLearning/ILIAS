@@ -1,9 +1,24 @@
 <?php
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilBiblAdminFieldTableGUI
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
-
 class ilBiblAdminFieldTableGUI extends ilTable2GUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
@@ -16,9 +31,8 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
     /**
      * ilBiblAdminFieldTableGUI constructor.
      * @param object                             $a_parent_obj
-     * @param \ilBiblAdminFactoryFacadeInterface $facade
      */
-    public function __construct($a_parent_obj, ilBiblAdminFactoryFacadeInterface $facade)
+    public function __construct(?object $a_parent_obj, ilBiblAdminFactoryFacadeInterface $facade)
     {
         $this->facade = $facade;
         $this->parent_obj = $a_parent_obj;
@@ -66,23 +80,15 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
         $this->addAndReadFilterItem($field);
     }
 
-    /**
-     * @param $field
-     */
     protected function addAndReadFilterItem(ilTableFilterItem $field) : void
     {
         $this->addFilterItem($field);
         $field->readFromSession();
-        if ($field instanceof ilCheckboxInputGUI) {
-            $this->filter[$field->getPostVar()] = $field->getChecked();
-        } else {
-            $this->filter[$field->getPostVar()] = $field->getValue();
-        }
+        $this->filter[$field->getPostVar()] = $field instanceof ilCheckboxInputGUI ? $field->getChecked() : $field->getValue();
     }
 
     /**
      * Fills table rows with content from $a_set.
-     * @param array $a_set
      */
     public function fillRow(array $a_set) : void
     {
@@ -116,9 +122,6 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
         $this->position_index++;
     }
 
-    /**
-     * @param \ilBiblFieldInterface $field
-     */
     protected function addActionMenu(ilBiblFieldInterface $field) : void
     {
         $selectionList = new ilAdvancedSelectionListGUI();
@@ -128,13 +131,18 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
         $this->ctrl()
              ->setParameter($this->parent_obj, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER, $field->getId());
         $this->ctrl()
-             ->setParameterByClass(ilBiblTranslationGUI::class, ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER,
-                 $field->getId());
+             ->setParameterByClass(
+                 ilBiblTranslationGUI::class,
+                 ilBiblAdminRisFieldGUI::FIELD_IDENTIFIER,
+                 $field->getId()
+             );
 
         $txt = $this->lng()->txt('translate');
         $selectionList->addItem($txt, '', $this->ctrl()
-                                               ->getLinkTargetByClass(ilBiblTranslationGUI::class,
-                                                   ilBiblTranslationGUI::CMD_DEFAULT));
+                                               ->getLinkTargetByClass(
+                                                   ilBiblTranslationGUI::class,
+                                                   ilBiblTranslationGUI::CMD_DEFAULT
+                                               ));
 
         $this->tpl->setVariable('VAL_ACTIONS', $selectionList->getHTML());
     }

@@ -15,6 +15,11 @@
 
 namespace ILIAS\Awareness;
 
+use ILIAS\Notifications\ilNotificationOSDRepository;
+use ILIAS\Notifications\Model\ilNotificationConfig;
+use ILIAS\Notifications\Model\ilNotificationLink;
+use ILIAS\Notifications\ilNotificationOSDHandler;
+use ILIAS\Notifications\Model\ilNotificationParameter;
 use ilArrayUtil;
 
 /**
@@ -81,37 +86,38 @@ class WidgetManager
         foreach ($d as $u) {
             $uname = "[" . $u->login . "]";
             if ($u->public_profile) {
-                $uname = "<a href='./goto.php?target=usr_" . $u->id . "'>" . $u->lastname . ", " . $u->firstname . " " . $uname . "</a>";
+                $uname = $u->lastname . ", " . $u->firstname . " " . $uname;
             }
             if (!in_array($u->id, $no_ids)) {
-                $new_online_users[] = $uname;
+                $new_online_users[] = new ilNotificationLink(
+                    new ilNotificationParameter($uname),
+                    './goto.php?target=usr_' . $u->id
+                );
                 $no_ids[] = $u->id;
             }
         }
         if (count($new_online_users) == 0) {
             return;
         }
-        //var_dump($d); exit;
-        $lng->loadLanguageModule('mail');
 
-        //$recipient = ilObjectFactory::getInstanceByObjId($this->user_id);
-        $bodyParams = array(
-            'online_user_names' => implode("<br />", $new_online_users)
-        );
-        $notification = new \ilNotificationConfig('osd_main');
-        $notification->setTitleVar('awareness_now_online', $bodyParams, 'awrn');
-        $notification->setShortDescriptionVar('awareness_now_online_users', $bodyParams, 'awrn');
-        $notification->setLongDescriptionVar('', $bodyParams, '');
-        $notification->setAutoDisable(false);
-        //$notification->setLink();
+        $notification = new ilNotificationConfig('who_is_online');
+        $notification->setTitleVar('awareness_now_online', [], 'awrn');
+        $notification->setShortDescriptionVar('');
+        $notification->setLongDescriptionVar('');
+        $notification->setLinks($new_online_users);
         $notification->setIconPath('templates/default/images/icon_usr.svg');
-        $notification->setValidForSeconds(\ilNotificationConfig::TTL_SHORT);
-        $notification->setVisibleForSeconds(\ilNotificationConfig::DEFAULT_TTS);
-
-        //$notification->setHandlerParam('mail.sender', $sender_id);
+        $notification->setValidForSeconds(ilNotificationConfig::TTL_SHORT);
+        $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
 
         $this->session_repo->setOnlineUsersTS(date("Y-m-d H:i:s", time()));
-        
+
+        $handler = new ilNotificationOSDHandler();
+        foreach ($handler->getNotificationsForUser($this->user_id) as $osd) {
+            if ($osd['type'] === 'who_is_online') {
+                $handler->removeNotification($osd['notification_osd_id']);
+            }
+        }
+
         $notification->notifyByUsers(array($this->user_id));
     }
 
@@ -125,8 +131,8 @@ class WidgetManager
         }
         return true;
     }
-
-    public function processMetaBar()
+    
+    public function processMetaBar() : Counter
     {
         $cache_period = (int) $this->settings->get("caching_period");
         $last_update = $this->session_repo->getLastUpdate();

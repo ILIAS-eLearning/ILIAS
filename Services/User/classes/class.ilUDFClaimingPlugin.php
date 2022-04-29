@@ -56,7 +56,7 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
     /**
      * Get existing field values
      */
-    protected static function getDBField(string $a_field_id) : array
+    protected static function getDBField(string $a_field_id) : array // Missing array type.
     {
         global $DIC;
 
@@ -83,7 +83,7 @@ abstract class ilUDFClaimingPlugin extends ilPlugin
         array &$fields,
         ?array $a_access = null,
         ? array $a_existing = null
-    ) {
+    ) : void {
         $map = array("visible", "changeable", "searchable", "required", "export",
             "course_export", "group_export", "registration_visible", "visible_lua",
             "changeable_lua", "certificate");

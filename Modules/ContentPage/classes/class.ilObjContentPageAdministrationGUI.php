@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -22,9 +37,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
     private GlobalHttpState $http;
     private Factory $uiFactory;
     private Renderer $uiRenderer;
-    protected ILIAS\Refinery\Factory $refinery;
     private Storage $settingsStorage;
-    protected ilErrorHandling $error;
 
     public function __construct(array $a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
@@ -37,8 +50,6 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
         $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
-        $this->error = $DIC['ilErr'];
         $this->settingsStorage = new StorageImpl($DIC->settings());
     }
 

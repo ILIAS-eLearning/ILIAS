@@ -56,9 +56,18 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($gui);
                 break;
 
+            case strtolower(ilECSUserConsentModalGUI::class):
+                $consent_gui = new ilECSUserConsentModalGUI(
+                    $this->user->getId(),
+                    $this->ref_id
+                );
+                $this->ctrl->setReturn($this, 'call');
+                $this->ctrl->forwardCommand($consent_gui);
+                break;
+
             default:
-                if (!$cmd || $cmd == 'view') {
-                    $cmd = "editSettings";
+                if (!$cmd || $cmd === 'view') {
+                    $cmd = "infoScreen";
                 }
                 $cmd .= "Object";
                 $this->logger->info("cmd before call:" . print_r($cmd, true));
@@ -71,9 +80,9 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
     /**
      * show remote object
      */
-    public function showObject()
+    public function showObject() : void
     {
-        if ($this->user->getId() == ANONYMOUS_USER_ID ||
+        if ($this->user->getId() === ANONYMOUS_USER_ID ||
             $this->object->isLocalObject()) {
             $this->ctrl->redirectToURL($this->object->getRemoteLink());
         } else {
@@ -85,7 +94,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
     /**
      * get tabs
      */
-    public function setTabs() : void
+    protected function setTabs() : void
     {
         if ($this->checkPermissionBool('visible')) {
             $this->tabs_gui->addTab(
@@ -112,7 +121,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
      *
      * @return bool
      */
-    public function callObject()
+    public function callObject() : bool
     {
         ilChangeEvent::_recordReadEvent(
             $this->getType(),
@@ -127,11 +136,11 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
         if ($link) {
             $this->ctrl->redirectToURL($link);
             return true;
-        } else {
-            $this->tpl->setOnScreenMessage('failure', 'Cannot call remote object.');
-            $this->infoScreenObject();
-            return false;
         }
+
+        $this->tpl->setOnScreenMessage('failure', 'Cannot call remote object.');
+        $this->infoScreenObject();
+        return false;
     }
     
     /**
@@ -139,7 +148,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
     * not very nice to set cmdClass/Cmd manually, if everything
     * works through ilCtrl in the future this may be changed
     */
-    public function infoScreenObject()
+    public function infoScreenObject() : void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
@@ -149,31 +158,26 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
     /**
      * show info screen
      */
-    public function infoScreen()
+    public function infoScreen() : void
     {
         if (!$this->access->checkAccess("visible", "", $this->object->getRefId())) {
-            $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
+            $this->error->raiseError(
+                $this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE
+            );
         }
-        
+
+        $this->ctrl->setReturn($this,'call');
+        $consent_gui = new ilECSUserConsentModalGUI(
+            $this->user->getId(),
+            $this->ref_id,
+            $this
+        );
+        $consent_gui->addLinkToToolbar($this->toolbar);
+
         $this->tabs_gui->activateTab('info');
 
         $info = new ilInfoScreenGUI($this);
-    
-        if ($this->user->getId() == ANONYMOUS_USER_ID ||
-            $this->object->isLocalObject()) {
-            $info->addButton(
-                $this->lng->txt($this->getType() . '_call'),
-                $this->object->getRemoteLink(),
-                'target="_blank"'
-            );
-        } else {
-            $info->addButton(
-                $this->lng->txt($this->getType() . '_call'),
-                $this->ctrl->getLinkTarget($this, 'call'),
-                'target="_blank"'
-            );
-        }
-        
+
         $info->addSection($this->lng->txt('ecs_general_info'));
         $info->addProperty($this->lng->txt('title'), $this->object->getTitle());
         if ($this->object->getOrganization()) {
@@ -204,8 +208,9 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
      *
      * @param ilInfoScreenGUI $a_info
      */
-    protected function addCustomInfoFields(ilInfoScreenGUI $a_info)
+    protected function addCustomInfoFields(ilInfoScreenGUI $a_info) : void
     {
+        // can be overwritten by subclasses
     }
     
     /**
@@ -251,7 +256,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
         $form->addItem($area);
         
         $area = new ilTextAreaInputGUI($this->lng->txt('ecs_local_information'), 'local_info');
-        $area->setValue(strval($this->object->getLocalInformation()));
+        $area->setValue($this->object->getLocalInformation());
         $area->setRows(3);
         $area->setCols(80);
         $form->addItem($area);
@@ -274,7 +279,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
      *
      * @param ilPropertyFormGUI $a_form
      */
-    protected function addCustomEditForm(ilPropertyFormGUI $a_form)
+    protected function addCustomEditForm(ilPropertyFormGUI $a_form) : void
     {
     }
 
@@ -314,7 +319,7 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
      *
      * @param ilPropertyFormGUI $a_form
      */
-    protected function updateCustomValues(ilPropertyFormGUI $a_form)
+    protected function updateCustomValues(ilPropertyFormGUI $a_form) : void
     {
     }
     
@@ -323,19 +328,19 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
     *
     * @param string $a_target
     */
-    public static function _goto($a_target)
+    public static function _goto($a_target) : void
     {
         global $DIC;
 
         $ilAccess = $DIC->access();
         $ilErr = $DIC["ilErr"];
         $lng = $DIC->language();
-        if ($ilAccess->checkAccess("read", "", $a_target)) {
-            ilObjectGUI::_gotoRepositoryNode($a_target);
+        if ($ilAccess->checkAccess("read", "", (int) $a_target)) {
+            ilObjectGUI::_gotoRepositoryNode((int) $a_target);
         }
         
-        if ($ilAccess->checkAccess("visible", "", $a_target)) {
-            ilObjectGUI::_gotoRepositoryNode($a_target, "infoScreen");
+        if ($ilAccess->checkAccess("visible", "", (int) $a_target)) {
+            ilObjectGUI::_gotoRepositoryNode((int) $a_target, "infoScreen");
         }
         $ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
     }

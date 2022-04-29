@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemStorageHandler;
@@ -53,33 +67,18 @@ class ilBibliographicDataSet extends ilDataSet
     }
 
 
-    /**
-     * @return array
-     */
     public function getSupportedVersions() : array
     {
         return array('4.5.0');
     }
 
 
-    /**
-     * @param string $a_entity
-     * @param string $a_schema_version
-     * @return string
-     */
     public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return 'http://www.ilias.de/xml/Modules/Bibliographic/' . $a_entity;
     }
 
 
-    /**
-     * @param string $a_entity
-     * @param array $a_types
-     * @param array $a_rec
-     * @param ilImportMapping $a_mapping
-     * @param string $a_schema_version
-     */
     public function importRecord(
         string $a_entity,
         array $a_types,
@@ -115,9 +114,6 @@ class ilBibliographicDataSet extends ilDataSet
 
     /**
      * Map XML attributes of entities to datatypes (text, integer...)
-     * @param string $a_entity
-     * @param string $a_version
-     * @return array
      */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
@@ -139,11 +135,6 @@ class ilBibliographicDataSet extends ilDataSet
     /**
      * Return dependencies form entities to other entities (in our case these are all the DB
      * relations)
-     * @param string $a_entity
-     * @param string $a_version
-     * @param array|null $a_rec
-     * @param array|null $a_ids
-     * @return array
      */
     protected function getDependencies(
         string $a_entity,
@@ -168,7 +159,7 @@ class ilBibliographicDataSet extends ilDataSet
     /**
      * Build data array, data is read from cache except bibl object itself
      */
-    protected function _readData(string $a_entity, array $a_ids): void
+    protected function _readData(string $a_entity, array $a_ids) : void
     {
         switch ($a_entity) {
             case 'bibl':
@@ -191,7 +182,7 @@ class ilBibliographicDataSet extends ilDataSet
     }
 
 
-    public function exportLibraryFile(int $a_id): void
+    public function exportLibraryFile(int $a_id) : void
     {
         $obj = new ilObjBibliographic($a_id);
         $fileAbsolutePath = $obj->getLegacyAbsolutePath();

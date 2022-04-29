@@ -447,7 +447,7 @@ class ilDidacticTemplateSettingsGUI
             $type->setRequired(true);
             $type->setInfo($this->lng->txt('dtpl_obj_type_info'));
             $assigned = $set->getAssignments();
-            $type->setValue(isset($assigned[0]) ? $assigned[0] : '');
+            $type->setValue($assigned[0] ?? '');
             $subs = $this->objDefinition->getSubObjectsRecursively('root', false);
             $options = array();
             foreach (array_merge($subs, array('fold' => 1)) as $obj => $null) {

@@ -64,13 +64,11 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     public function getConfiguration() : stdClass
     {
         $options = array_map(
-            function ($tag) {
-                return [
-                    'value' => urlencode(trim($tag)),
-                    'display' => $tag,
-                    'searchBy' => $tag
-                ];
-            },
+            fn($tag) => [
+                'value' => urlencode(trim($tag)),
+                'display' => $tag,
+                'searchBy' => $tag
+            ],
             $this->getTags()
         );
 
@@ -101,18 +99,12 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
      */
     protected function getConstraintForRequirement() : ?Constraint
     {
-        return $this->refinery->custom()->constraint(
-            function ($value) {
-                $valueIsAString = $this->refinery
-                    ->to()
-                    ->string()
-                    ->applyTo(new Ok($value))
-                    ->isOK();
-
-                return ($valueIsAString);
-            },
-            "No string"
-        );
+        return $this->refinery->logical()->sequential([
+            $this->refinery->logical()->not($this->refinery->null()),
+            $this->refinery->string()->hasMinLength(1)
+        ])->withProblemBuilder(function ($txt) {
+            return $txt('ui_tag_required');
+        });
     }
 
     /**
@@ -123,9 +115,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
         if ($this->getMaxTags() > 0) {
             $max_tags = $this->getMaxTags();
             $max_tags_ok = $this->refinery->custom()->constraint(
-                function ($value) use ($max_tags) {
-                    return (is_array($value) && count($value) <= $max_tags);
-                },
+                fn($value) => is_array($value) && count($value) <= $max_tags,
                 'Too many Tags'
             );
             if (!$max_tags_ok->accepts($value)) {
@@ -294,14 +284,12 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
      */
     public function getUpdateOnLoadCode() : Closure
     {
-        return function ($id) {
-            return "$('#$id').on('add', function(event) {
+        return fn($id) => "$('#$id').on('add', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			$('#$id').on('remove', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
-        };
     }
 }

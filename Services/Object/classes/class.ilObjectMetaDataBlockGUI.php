@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Metadata block
  *
@@ -64,7 +78,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
         return IL_SCREEN_SIDE;
     }
     
-    public function setValues(ilAdvancedMDValues $a_values)
+    public function setValues(ilAdvancedMDValues $a_values) : void
     {
         $this->values = $a_values;
     }
@@ -91,7 +105,7 @@ class ilObjectMetaDataBlockGUI extends ilBlockGUI
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
 
     /**

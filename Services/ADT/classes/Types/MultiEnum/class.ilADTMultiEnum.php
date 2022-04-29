@@ -24,7 +24,11 @@ abstract class ilADTMultiEnum extends ilADT
 
     // properties
 
-    abstract protected function handleSelectionValue(mixed $a_value) : mixed;
+    /**
+     * @param string|int $a_value
+     * @return string|int
+     */
+    abstract protected function handleSelectionValue($a_value);
 
     public function addSelection(int $value_index) : void
     {
@@ -54,7 +58,11 @@ abstract class ilADTMultiEnum extends ilADT
         return $this->values;
     }
 
-    public function isValidOption(mixed $a_value) : bool
+    /**
+     * @param string|int $a_value
+     * @return bool
+     */
+    public function isValidOption($a_value) : bool
     {
         $a_value = $this->handleSelectionValue($a_value);
         return array_key_exists($a_value, $this->getDefinition()->getOptions());

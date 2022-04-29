@@ -87,7 +87,7 @@ class ilBadgeTableGUI extends ilTable2GUI
         $handler = ilBadgeHandler::getInstance();
         $valid_types = $handler->getAvailableTypesForObjType($this->parent_type);
         if ($valid_types &&
-            sizeof($valid_types) > 1) {
+            count($valid_types) > 1) {
             $lng->loadLanguageModule("search");
                     
             $options = array("" => $lng->txt("search_any"));
@@ -111,7 +111,7 @@ class ilBadgeTableGUI extends ilTable2GUI
                 "id" => $badge->getId(),
                 "title" => $badge->getTitle(),
                 "active" => $badge->isActive(),
-                "type" => ($this->parent_type != "bdga")
+                "type" => ($this->parent_type !== "bdga")
                     ? ilBadge::getExtendedTypeCaption($badge->getTypeInstance())
                     : $badge->getTypeInstance()->getCaption(),
                 "manual" => (!$badge->getTypeInstance() instanceof ilBadgeAuto),

@@ -36,9 +36,9 @@ class ilFileUtils
      * @deprecated Will be removed completely with ILIAS 9
      */
     public static function processZipFile(
-        $a_directory,
+        string $a_directory,
         string $a_file,
-        $structure
+        bool $structure
     ) : void {
         global $DIC;
         
@@ -102,6 +102,7 @@ class ilFileUtils
         }
         
         // If archive is to be used "flat"
+        $doublettes = '';
         if (!$structure) {
             foreach (array_count_values($filearray["file"]) as $key => $value) {
                 // Archive contains same filenames in different directories
@@ -109,7 +110,7 @@ class ilFileUtils
                     $doublettes .= " '" . ilFileUtils::utf8_encode($key) . "'";
                 }
             }
-            if (isset($doublettes)) {
+            if (strlen($doublettes) > 0) {
                 throw new ilFileUtilsException(
                     $lng->txt("exc_upload_error") . "<br />" . $lng->txt(
                         "zip_structure_error"
@@ -207,7 +208,7 @@ class ilFileUtils
     /**
      * @deprecated
      */
-    public static function rename($a_source, $a_target) : bool
+    public static function rename(string $a_source, string $a_target) : bool
     {
         $pi = pathinfo($a_target);
         global $DIC;
@@ -295,7 +296,7 @@ class ilFileUtils
      *
      * @see        \ILIAS\Filesystem\Filesystem::createDir()
      */
-    public static function makeDirParents($a_dir)
+    public static function makeDirParents(string $a_dir) : bool
     {
         $dirs = [$a_dir];
         $a_dir = dirname($a_dir);
@@ -328,7 +329,7 @@ class ilFileUtils
                         // at the end of a directory in mkdir, see Mantis #2554
                         $dir = substr($dir, 0, strlen($dir) - 1);
                     }
-                    if (!mkdir($dir, $umask)) {
+                    if (!mkdir($dir)) {
                         error_log("Can't make directory: $dir");
                         return false;
                     }
@@ -354,7 +355,7 @@ class ilFileUtils
      * @see        \ILIAS\DI\Container::filesystem()
      * @see        \ILIAS\Filesystem\Filesystems::storage()
      */
-    public static function getDataDir()
+    public static function getDataDir() : string
     {
         return CLIENT_DATA_DIR;
     }
@@ -367,7 +368,7 @@ class ilFileUtils
      * @static
      *
      */
-    public static function dirsize($directory)
+    public static function dirsize(string $directory) : int
     {
         $size = 0;
         if (!is_dir($directory)) {
@@ -420,7 +421,7 @@ class ilFileUtils
      *
      * @see        \ILIAS\Filesystem\Filesystem::createDir()
      */
-    public static function makeDir($a_dir)
+    public static function makeDir(string $a_dir) : bool
     {
         $a_dir = trim($a_dir);
         
@@ -440,7 +441,10 @@ class ilFileUtils
         
         // create directory with file permissions of parent directory
         umask(0000);
-        return @mkdir($a_dir, fileperms($path));
+        if (is_dir($a_dir)) {
+            return true;
+        }
+        return mkdir($a_dir, fileperms($path));
     }
     
     protected static function sanitateTargetPath(string $a_target) : array
@@ -495,11 +499,11 @@ class ilFileUtils
      * @see        \ILIAS\DI\Container::upload()
      */
     public static function moveUploadedFile(
-        $a_file,
-        $a_name,
-        $a_target,
-        $a_raise_errors = true,
-        $a_mode = "move_uploaded"
+        string $a_file,
+        string $a_name,
+        string $a_target,
+        bool $a_raise_errors = true,
+        string $a_mode = "move_uploaded"
     ) : bool {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -560,8 +564,11 @@ class ilFileUtils
      * @static
      *
      */
-    public static function zip($a_dir, $a_file, $compress_content = false)
-    {
+    public static function zip(
+        string $a_dir,
+        string $a_file,
+        bool $compress_content = false
+    ) : bool {
         $cdir = getcwd();
         
         if ($compress_content) {
@@ -621,7 +628,7 @@ class ilFileUtils
      *
      * @see        \ILIAS\Filesystem\Filesystem::deleteDir()
      */
-    public static function delDir($a_dir, $a_clean_only = false)
+    public static function delDir(string $a_dir, bool $a_clean_only = false) : void
     {
         if (!is_dir($a_dir) || is_int(strpos($a_dir, ".."))) {
             return;
@@ -656,11 +663,7 @@ class ilFileUtils
         }
     }
     
-    /**
-     * @param string $a_initial_filename
-     * @return mixed|string
-     */
-    public static function getSafeFilename($a_initial_filename)
+    public static function getSafeFilename(string $a_initial_filename) : string
     {
         $file_peaces = explode('.', $a_initial_filename);
         
@@ -677,8 +680,8 @@ class ilFileUtils
         if (in_array($file_extension, $sufixes)) {
             $file_extension = "sec";
         }
-        
-        array_push($file_peaces, $file_extension);
+    
+        $file_peaces[] = $file_extension;
         
         $safe_filename = "";
         foreach ($file_peaces as $piece) {
@@ -696,9 +699,9 @@ class ilFileUtils
      *
      * @static
      *
-     * @param        $a_dir
-     * @param bool   $a_rec
-     * @param string $a_sub_dir
+     * @param string      $a_dir
+     * @param bool        $a_rec
+     * @param string|null $a_sub_dir
      *
      * @return array
      *
@@ -706,8 +709,11 @@ class ilFileUtils
      *
      * @see        \ILIAS\Filesystem\Filesystem::listContents()
      */
-    public static function getDir($a_dir, $a_rec = false, $a_sub_dir = "")
-    {
+    public static function getDir(
+        string $a_dir,
+        bool $a_rec = false,
+        ?string $a_sub_dir = ""
+    ) : array {
         $current_dir = opendir($a_dir . $a_sub_dir);
         
         $dirs = [];
@@ -759,9 +765,9 @@ class ilFileUtils
      * @see        \ILIAS\DI\Container::filesystem()
      * @see        Filesystems::web()
      */
-    public static function getWebspaceDir($mode = "filesystem")
+    public static function getWebspaceDir(string $mode = "filesystem") : string
     {
-        if ($mode == "filesystem") {
+        if ($mode === "filesystem") {
             return "./" . ILIAS_WEB_DIR . "/" . CLIENT_ID;
         } else {
             if (defined("ILIAS_MODULE")) {
@@ -784,7 +790,7 @@ class ilFileUtils
      *
      * @see        \ILIAS\Filesystem\Filesystem::createDir()
      */
-    public static function createDirectory($a_dir, $a_mod = 0755)
+    public static function createDirectory(string $a_dir, int $a_mod = 0755) : void
     {
         ilFileUtils::makeDir($a_dir);
     }
@@ -848,11 +854,11 @@ class ilFileUtils
     /**
      * Returns a unique and non existing Path for e temporary file or directory
      *
-     * @param string $a_temp_path
+     * @param string|null $a_temp_path
      *
      * @return    string
      */
-    public static function ilTempnam($a_temp_path = null)
+    public static function ilTempnam(?string $a_temp_path = null) : string
     {
         if ($a_temp_path === null) {
             $temp_path = ilFileUtils::getDataDir() . "/temp";
@@ -876,7 +882,7 @@ class ilFileUtils
      * @static
      *
      */
-    public static function unzip($a_file, $overwrite = false, $a_flat = false)
+    public static function unzip(string $a_file, bool $overwrite = false, bool $a_flat = false) : void
     {
         global $DIC;
         
@@ -904,43 +910,6 @@ class ilFileUtils
         $cdir = getcwd();
         chdir($dir);
         $unzip = PATH_TO_UNZIP;
-        
-        // the following workaround has been removed due to bug
-        // http://www.ilias.de/mantis/view.php?id=7578
-        // since the workaround is quite old, it may not be necessary
-        // anymore, alex 9 Oct 2012
-        /*
-                // workaround for unzip problem (unzip of subdirectories fails, so
-                // we create the subdirectories ourselves first)
-                // get list
-                $unzipcmd = "-Z -1 ".ilUtil::escapeShellArg($file);
-                $arr = ilUtil::execQuoted($unzip, $unzipcmd);
-                $zdirs = array();
-
-                foreach($arr as $line)
-                {
-                    if(is_int(strpos($line, "/")))
-                    {
-                        $zdir = substr($line, 0, strrpos($line, "/"));
-                        $nr = substr_count($zdir, "/");
-                        //echo $zdir." ".$nr."<br>";
-                        while ($zdir != "")
-                        {
-                            $nr = substr_count($zdir, "/");
-                            $zdirs[$zdir] = $nr;				// collect directories
-                            //echo $dir." ".$nr."<br>";
-                            $zdir = substr($zdir, 0, strrpos($zdir, "/"));
-                        }
-                    }
-                }
-
-                asort($zdirs);
-
-                foreach($zdirs as $zdir => $nr)				// create directories
-                {
-                    ilUtil::createDirectory($zdir);
-                }
-        */
         
         // real unzip
         if (!$overwrite) {
@@ -1067,8 +1036,7 @@ class ilFileUtils
      */
     public static function getUploadSizeLimitBytes() : string
     {
-        $convertPhpIniSizeValueToBytes = function ($phpIniSizeValue)
-        {
+        $convertPhpIniSizeValueToBytes = function ($phpIniSizeValue) {
             if (is_numeric($phpIniSizeValue)) {
                 return $phpIniSizeValue;
             }

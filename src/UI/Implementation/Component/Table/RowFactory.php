@@ -13,6 +13,9 @@ class RowFactory implements T\RowFactory
      */
     protected array $cell_transformations;
 
+    /**
+     * @param \ILIAS\UI\Implementation\Component\Table\Transformation[] $cell_transformations
+     */
     public function __construct(array $cell_transformations)
     {
         $this->cell_transformations = $cell_transformations;

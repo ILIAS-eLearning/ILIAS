@@ -19,7 +19,7 @@ div.ilPreconditionItem {
 
 /* Repository */
 div.ilContainerListItemOuter {
-	padding: @panel-body-padding @padding-large-horizontal;
+	padding: @panel-body-padding @il-padding-large-horizontal;
 	zoom: 1;
 }
 [dir="rtl"] div.ilContainerListItemOuter {
@@ -158,6 +158,11 @@ div.il_ContainerListItem {
 		margin: 0;
 		color: @panel-heading-color;
 	}
+	//See headings overlays input field in sorting view 32364
+	.form-control {
+		width: auto;
+		display: inline-block;
+	}
 }
 
 .ilContainerBlockHeaderExpanded, .ilContainerBlockHeaderCollapsed {
@@ -229,7 +234,7 @@ div#ilContRepIntro img {
 
 .ilContainerTileRows {
 	margin: 0px -15px 0 -15px;
-	padding: @padding-large-vertical @padding-large-horizontal;
+	padding: @il-padding-large-vertical @il-padding-large-horizontal;
 	background-color: @il-main-bg;
 
 	>.il-deck{
@@ -254,4 +259,23 @@ div#ilContRepIntro img {
 	background-color: @il-main-dark-bg;
 	text-align: center;
 	margin: 0 -15px;
+}
+
+.il_ContainerListItem .navbar-form .modal .radio {
+       display: block;
+}
+
+.il_ContainerListItem .navbar-form .modal .form-group {
+       display: block;
+}
+
+.il_ContainerItemTitle .modal .form-horizontal .radio {
+	display: block;
+}
+
+.il_ContainerItemTitle .modal .form-horizontal .form-group {
+	display: block;
+}
+.il_ContainerItemTitle .btn {
+	font-size: 1em;
 }

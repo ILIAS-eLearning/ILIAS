@@ -1,7 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\ResourceStorage\Services;
 use ILIAS\DI\Container;
 
@@ -40,8 +54,8 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     const SUBTAB_SETTINGS = "settings";
     const CMD_EDIT_OBJECT = 'editObject';
     const CMD_UPDATE_OBJECT = 'updateObject';
-
-    public ?ilObject $object;
+    
+    public ?ilObject $object = null;
     protected ?\ilBiblFactoryFacade $facade = null;
     protected \ilBiblTranslationFactory $translation_factory;
     protected \ilBiblFieldFactory $field_factory;
@@ -54,12 +68,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     protected \ilObjBibliographicStakeholder $stakeholder;
     protected ?string $cmd = self::CMD_SHOW_CONTENT;
 
-    /**
-     * @param int $a_id
-     * @param int $a_id_type
-     * @param int $a_parent_node_id
-     */
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
 
@@ -142,11 +151,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
                 $cp->setType('bibl');
                 $this->dic()['tpl']->loadStandardTemplate();
                 $this->ctrl->forwardCommand($cp);
-                break;
-            case strtolower(ilObjFileGUI::class):
-                $this->prepareOutput();
-                $this->dic()->tabs()->setTabActive(self::TAB_ID_RECORDS);
-                $this->ctrl->forwardCommand(new ilObjFile($this));
                 break;
             case strtolower(ilExportGUI::class):
                 $this->prepareOutput();
@@ -267,10 +271,9 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
     }
 
     /**
-     * @param string $a_new_type
      * @return mixed[]
      */
-    protected function initCreationForms($a_new_type) : array
+    protected function initCreationForms(string $a_new_type) : array
     {
         global $DIC;
 
@@ -300,9 +303,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         }
     }
 
-    /**
-     * @param \ilObject $a_new_object
-     */
     protected function afterSave(ilObject $a_new_object) : void
     {
         $this->addNews($a_new_object->getId(), 'created');
@@ -407,7 +407,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
 
         $form = $this->initEditForm();
         $values = $this->getEditFormValues();
-        if ($values) {
+        if ($values !== []) {
             $form->setValuesByArray($values, true);
         }
 
@@ -448,9 +448,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         return $form;
     }
 
-    /**
-     * @param ilPropertyFormGUI $a_form
-     */
     protected function initEditCustomForm(ilPropertyFormGUI $a_form) : void
     {
         global $DIC;
@@ -629,7 +626,7 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $DIC->ctrl()->redirect($this, "");
     }
 
-    public function addNews($obj_id, string $change = 'created') : void
+    public function addNews(int $obj_id, string $change = 'created') : void
     {
         global $DIC;
 
@@ -661,9 +658,6 @@ class ilObjBibliographicGUI extends ilObject2GUI implements ilDesktopItemHandlin
         $this->removeFromDeskObject();
     }
 
-    /**
-     * @param \ilObject $a_new_object
-     */
     protected function afterImport(ilObject $a_new_object) : void
     {
         /**

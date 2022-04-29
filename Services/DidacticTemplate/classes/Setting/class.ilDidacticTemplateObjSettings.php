@@ -76,12 +76,6 @@ class ilDidacticTemplateObjSettings
         $ilDB->manipulate($query);
     }
 
-    /**
-     * Assign template to object
-     * @param int $a_obj_id
-     * @param int $a_tpl_id
-     * @return void
-     */
     public static function assignTemplate(int $a_ref_id, int $a_obj_id, int $a_tpl_id) : void
     {
         global $DIC;

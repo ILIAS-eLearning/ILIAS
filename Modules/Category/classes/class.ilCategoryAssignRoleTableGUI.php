@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -20,7 +20,7 @@
 class ilCategoryAssignRoleTableGUI extends ilTable2GUI
 {
     public function __construct(
-        object $a_parent_obj,
+        ilObjCategoryGUI $a_parent_obj,
         string $a_parent_cmd
     ) {
         global $DIC;

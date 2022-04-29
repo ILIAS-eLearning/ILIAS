@@ -51,7 +51,6 @@ interface ilAuthDefinition
     
     /**
      * Check if auth mode is active
-     * @return bool
      */
     public function isAuthActive(int $a_auth_id) : bool;
     

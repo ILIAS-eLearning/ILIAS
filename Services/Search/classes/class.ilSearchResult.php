@@ -42,8 +42,8 @@ class ilSearchResult
     private array $observers = array();
     private int $max_hits = 0;
 
-    protected $search_cache = null;
-    protected $offset = 0;
+    protected ilUserSearchCache $search_cache;
+    protected int $offset = 0;
 
     // OBJECT VARIABLES
     protected ILIAS $ilias;
@@ -122,7 +122,7 @@ class ilSearchResult
     {
         $this->max_hits = $a_max_hits;
     }
-    public function getMaxHits()
+    public function getMaxHits() : int
     {
         return $this->max_hits;
     }

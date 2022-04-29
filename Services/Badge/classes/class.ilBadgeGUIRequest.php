@@ -34,38 +34,66 @@ class ilBadgeGUIRequest
     protected function initRequest(
         HTTP\Services $http,
         Refinery\Factory $refinery
-    ) {
+    ) : void {
         $this->http = $http;
         $this->refinery = $refinery;
     }
 
     // get string parameter kindly
-    protected function str($key) : string
+    protected function str(string $key) : string
     {
         $t = $this->refinery->kindlyTo()->string();
         return \ilUtil::stripSlashes((string) ($this->get($key, $t) ?? ""));
     }
 
     // get integer parameter kindly
-    protected function int($key) : int
+    protected function int(string $key) : int
     {
         $t = $this->refinery->kindlyTo()->int();
         return (int) ($this->get($key, $t) ?? 0);
     }
 
     // get integer array kindly
-    protected function intArray($key) : array
+    protected function intArray(string $key) : array
+    {
+        if (!$this->isArray($key)) {
+            return [];
+        }
+        $t = $this->refinery->custom()->transformation(
+            static function (array $arr) : array {
+                // keep keys(!), transform all values to int
+                return array_column(
+                    array_map(
+                        static function ($k, $v) : array {
+                            return [$k, (int) $v];
+                        },
+                        array_keys($arr),
+                        $arr
+                    ),
+                    1,
+                    0
+                );
+            }
+        );
+        return (array) ($this->get($key, $t) ?? []);
+    }
+
+    // get string array kindly
+    protected function strArray($key) : array
     {
         if (!$this->isArray($key)) {
             return [];
         }
         $t = $this->refinery->custom()->transformation(
             function ($arr) {
-                // keep keys(!), transform all values to int
+                // keep keys(!), transform all values to string
                 return array_column(
                     array_map(
                         function ($k, $v) {
-                            return [$k, (int) $v];
+                            if (is_array($v)) {
+                                $v = "";
+                            }
+                            return [$k, \ilUtil::stripSlashes((string) $v)];
                         },
                         array_keys($arr),
                         $arr
@@ -115,10 +143,8 @@ class ilBadgeGUIRequest
     public function getBadgeIds() : array
     {
         $badge_ids = $this->intArray("badge_id");
-        if (count($badge_ids) == 0) {
-            if ($this->int("badge_id") > 0) {
-                $badge_ids = [$this->int("badge_id")];
-            }
+        if (count($badge_ids) === 0 && $this->int("badge_id") > 0) {
+            $badge_ids = [$this->int("badge_id")];
         }
         return $badge_ids;
     }
@@ -133,10 +159,10 @@ class ilBadgeGUIRequest
         return $this->int("id");
     }
 
-    /** @return int [] */
+    /** @return string[] */
     public function getIds() : array
     {
-        return $this->intArray("id");
+        return $this->strArray("id");
     }
 
     public function getType() : string
