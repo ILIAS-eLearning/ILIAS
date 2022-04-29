@@ -29,9 +29,9 @@ class ilObjLTIConsumer extends ilObject2
      * repository object activation settings (handled by ilObject)
      */
     protected bool $activationLimited;
-    protected ?int $activationStartingTime;
-    protected ?int $activationEndingTime;
-    protected ?bool $activationVisibility;
+    protected ?int $activationStartingTime = null;
+    protected ?int $activationEndingTime = null;
+    protected ?bool $activationVisibility = null;
     
     protected int $providerId = 0;
     
@@ -78,8 +78,6 @@ class ilObjLTIConsumer extends ilObject2
 
     /**
      * ilObjLTIConsumer constructor.
-     * @param int $a_id
-     * @param bool $a_reference
      */
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {
@@ -91,7 +89,7 @@ class ilObjLTIConsumer extends ilObject2
         $this->type = "lti";
     }
     
-    public function isActivationLimited() : ?bool
+    public function isActivationLimited() : bool
     {
         return $this->activationLimited;
     }
@@ -556,24 +554,18 @@ class ilObjLTIConsumer extends ilObject2
         return $retval;
     }
 
-    /**
-     * @return int
-     */
     public function getHighscoreMode() : int
     {
         switch (true) {
             case $this->getHighscoreOwnTable() && $this->getHighscoreTopTable():
                 return self::HIGHSCORE_SHOW_ALL_TABLES;
-                break;
 
             case $this->getHighscoreTopTable():
                 return self::HIGHSCORE_SHOW_TOP_TABLE;
-                break;
 
             case $this->getHighscoreOwnTable():
             default:
                 return self::HIGHSCORE_SHOW_OWN_TABLE;
-                break;
         }
     }
 
@@ -602,13 +594,6 @@ class ilObjLTIConsumer extends ilObject2
     }
     /* End GET/SET for highscore feature*/
     /**
-     * @param ilCmiXapiUser $cmixUser
-     * @param string        $token
-     * @param string        $contextType
-     * @param string        $contextId
-     * @param string        $contextTitle
-     * @param string|null   $returnUrl
-     * @return array
      * @throws ilWACException
      */
     public function buildLaunchParameters(ilCmiXapiUser $cmixUser, string $token, string $contextType, string $contextId, string $contextTitle, ?string $returnUrl = '') : array
@@ -715,8 +700,6 @@ class ilObjLTIConsumer extends ilObject2
             "data" => ($launch_vars + $custom_params)
         ];
         
-        $launchParameters = ilLTIConsumerLaunch::signOAuth($OAuthParams);
-        
-        return $launchParameters;
+        return ilLTIConsumerLaunch::signOAuth($OAuthParams);
     }
 }

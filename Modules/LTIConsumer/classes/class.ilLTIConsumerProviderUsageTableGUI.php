@@ -31,7 +31,6 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
 
     /**
      * ilLTIConsumerProviderUsageTableGUI constructor.
-     * @param ilLTIConsumerAdministrationGUI $a_parent_obj
      * @param $a_parent_cmd
      */
     public function __construct(ilLTIConsumerAdministrationGUI $a_parent_obj, string $a_parent_cmd)
@@ -94,10 +93,6 @@ class ilLTIConsumerProviderUsageTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param int    $objId
-     * @param int    $refId
-     * @param string $title
-     * @param bool   $trashed
      * @return array<string, string>
      */
     protected function buildLinkToUsedBy(int $objId, int $refId, string $title, bool $trashed) : array
