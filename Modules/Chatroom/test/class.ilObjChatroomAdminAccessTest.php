@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use PHPUnit\Framework\MockObject\MockObject;
+
 /**
  * Class ilObjChatroomAdminAccessTest
  * @author Thomas Joußen <tjoussen@gmx.de>
@@ -23,7 +25,7 @@
 class ilObjChatroomAdminAccessTest extends ilChatroomAbstractTest
 {
     protected ilObjChatroomAdminAccess $adminAccess;
-    /** @var ilRbacSystem&\PHPUnit\Framework\MockObject\MockObject */
+    /** @var ilRbacSystem&MockObject */
     protected ilRbacSystem $ilAccessMock;
 
     public function testCommandDefitionFullfilsExpectations() : void
