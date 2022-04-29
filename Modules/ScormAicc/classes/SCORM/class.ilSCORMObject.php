@@ -27,12 +27,9 @@ class ilSCORMObject
     public ?string $type;
     public int $slm_id;
 
-
     /**
     * Constructor
-    *
-    * @param	int		$a_id		Object ID
-    * @access	public
+    * @param int $a_id Object ID
     */
     public function __construct(int $a_id = 0)
     {
@@ -42,70 +39,42 @@ class ilSCORMObject
         }
     }
 
-    /**
-     * @return int
-     */
     public function getId() : int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $a_id
-     * @return void
-     */
-    public function setId(int $a_id)
+    public function setId(int $a_id) : void
     {
         $this->id = $a_id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getType() : ?string
     {
         return $this->type;
     }
 
-    /**
-     * @param string|null $a_type
-     * @return void
-     */
-    public function setType(?string $a_type)
+    public function setType(?string $a_type) : void
     {
         $this->type = $a_type;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTitle() : ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param string|null $a_title
-     * @return void
-     */
-    public function setTitle(?string $a_title)
+    public function setTitle(?string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-     * @return int
-     */
     public function getSLMId() : int
     {
         return $this->slm_id;
     }
 
-    /**
-     * @param int $a_slm_id
-     * @return void
-     */
-    public function setSLMId(int $a_slm_id)
+    public function setSLMId(int $a_slm_id) : void
     {
         $this->slm_id = $a_slm_id;
     }
@@ -131,9 +100,6 @@ class ilSCORMObject
 
     /**
      * Count number of presentable SCOs/Assets of SCORM learning module.
-     *
-     * @param int $a_slm_id
-     * @return array
      */
     public static function _lookupPresentableItems(int $a_slm_id) : array
     {
@@ -160,8 +126,6 @@ class ilSCORMObject
 
     /**
      * Create database record for SCORM object.
-     *
-     * @return void
      */
     public function create() : void
     {
@@ -182,8 +146,6 @@ class ilSCORMObject
 
     /**
      * Updates database record for SCORM object.
-     *
-     * @return void
      */
     public function update() : void
     {
@@ -202,9 +164,6 @@ class ilSCORMObject
         );
     }
 
-    /**
-     * @return void
-     */
     public function delete() : void
     {
         global $DIC;
@@ -217,8 +176,6 @@ class ilSCORMObject
     }
 
     /**
-     * @param int $a_id
-     * @param int $a_slm_id
      * @return ilSCORMItem|ilSCORMManifest|ilSCORMOrganization|ilSCORMOrganizations|ilSCORMResource|ilSCORMResources
      */
     public static function &_getInstance(int $a_id, int $a_slm_id)

@@ -20,13 +20,10 @@
  */
 class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
 {
-    private int $obj_id = 0;
+    private int $obj_id;
     private int $user_id = 0;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_obj_id, ?object $a_parent_obj, string $a_parent_cmd)
+    public function __construct(int $a_obj_id, ?object $a_parent_obj, string $a_parent_cmd)
     {
         $this->obj_id = $a_obj_id;
 
@@ -34,10 +31,6 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
-    /**
-     * Get Obj id
-     * @return int
-     */
     public function getObjId() : int
     {
         return $this->obj_id;
@@ -45,17 +38,12 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
 
     /**
      * Set current user id
-     * @param int $a_usr_id
      */
     public function setUserId(int $a_usr_id) : void
     {
         $this->user_id = $a_usr_id;
     }
 
-    /**
-     * Get user id
-     * @return int
-     */
     public function getUserId() : int
     {
         return $this->user_id;
@@ -79,7 +67,6 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
 
     /**
      * Fill row template
-     * @param array $a_set
      */
     protected function fillRow(array $a_set) : void
     {
@@ -97,9 +84,6 @@ class ilSCORMTrackingItemsPerUserTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_SCORE', $a_set['score']);
     }
 
-    /**
-     * Init table
-     */
     protected function initTable() : void
     {
         global $DIC;

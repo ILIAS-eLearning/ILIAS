@@ -29,16 +29,12 @@ class ilObjSCORMVerificationAccess extends ilObjectAccess
         return $commands;
     }
 
-    /**
-     * @param $a_target
-     * @return bool
-     */
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
         $ilAccess = $DIC->access();
         
-        $t_arr = explode('_', $a_target);
+        $t_arr = explode('_', $target);
         
         // #11021
         // personal workspace context: do not force normal login

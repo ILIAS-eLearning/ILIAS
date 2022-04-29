@@ -38,7 +38,6 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
     * Constructor
-    * @access	public
     * @param	integer	reference_id or object_id
     * @param	boolean	treat the id as reference_id (true) or object_id (false)
     */
@@ -50,9 +49,6 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * create file based lm
-     *
-     * @param bool $upload
-     * @return void
      */
     public function create(bool $upload = false) : int
     {
@@ -80,7 +76,6 @@ class ilObjSAHSLearningModule extends ilObject
     /**
      * read object
      *
-     * @return void
      * @throws ilObjectNotFoundException
      * @throws ilObjectTypeMismatchException
      */
@@ -135,7 +130,7 @@ class ilObjSAHSLearningModule extends ilObject
             $this->setMasteryScore($lm_rec["mastery_score"]);
             $this->setIdSetting((int) $lm_rec["id_setting"]);
             $this->setNameSetting((int) $lm_rec["name_setting"]);
-            if (ilObject::_lookupType($this->getStyleSheetId()) != "sty") {
+            if (ilObject::_lookupType($this->getStyleSheetId()) !== "sty") {
                 $this->setStyleSheetId(0);
             }
         }
@@ -143,9 +138,6 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * Get affective localization
-     *
-     * @param int $a_id
-     * @return string
      */
     public static function getAffectiveLocalization(int $a_id) : string
     {
@@ -168,9 +160,6 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * lookup subtype id (scorm, )
-     *
-     * @param int $a_obj_id
-     * @return string
      */
     public static function _lookupSubType(int $a_obj_id) : string
     {
@@ -197,11 +186,6 @@ class ilObjSAHSLearningModule extends ilObject
 //        $this->editable = $a_editable;
 //    }
 
-    /**
-    * Get Editable.
-    *
-    * @return	boolean	Editable
-    */
     public function getEditable() : bool
     {
         return false;
@@ -209,37 +193,22 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * Set default tries for questions
-     * @param int $a_tries
      */
     public function setTries(int $a_tries) : void
     {
         $this->tries = $a_tries;
     }
 
-    /**
-     * Get Tries.
-     * @return int
-     */
     public function getTries() : int
     {
         return $this->tries;
     }
-    
-    /**
-     * Set localization
-     *
-     * @param string $a_val localization
-     */
+
     public function setLocalization(string $a_val) : void
     {
         $this->localization = $a_val;
     }
-    
-    /**
-     * Get localization
-     *
-     * @return string localization
-     */
+
     public function getLocalization() : string
     {
         return $this->localization;
@@ -247,9 +216,6 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * obsolet?
-     *
-     * @param int $a_id
-     * @return int
      */
     public static function _getTries(int $a_id) : int
     {
@@ -266,6 +232,16 @@ class ilObjSAHSLearningModule extends ilObject
         return (int) $lm_rec['question_tries'];
     }
 
+    /**
+    * Gets the disk usage of the object in bytes.
+    *
+    * @return integer the disk usage in bytes
+    */
+    public function getDiskUsage() : int
+    {
+        return ilObjSAHSLearningModuleAccess::_lookupDiskUsage($this->id);
+    }
+
 
     /**
     * creates data directory for package files
@@ -280,20 +256,15 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * get data directory of lm
-     * @param string|null $mode
-     * @return string
      */
-    public function getDataDirectory($mode = "filesystem") : string
+    public function getDataDirectory(?string $mode = "filesystem") : string
     {
         $lm_data_dir = ilFileUtils::getWebspaceDir($mode) . "/lm_data";
-        $lm_dir = $lm_data_dir . "/lm_" . $this->getId();
-
-        return $lm_dir;
+        return $lm_data_dir . "/lm_" . $this->getId();
     }
 
     /**
      * get api adapter name
-     * @return string
      */
     public function getAPIAdapterName() : string
     {
@@ -302,8 +273,6 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * set api adapter name
-     * @param string $a_api
-     * @return void
      */
     public function setAPIAdapterName(string $a_api) : void
     {
@@ -316,13 +285,11 @@ class ilObjSAHSLearningModule extends ilObject
      */
     public function getAPIFunctionsPrefix() : string
     {
-        return $this->api_func_prefix;
+        return $this->api_func_prefix;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
     /**
      * set api functions prefix
-     * @param string $a_prefix
-     * @return void
      */
     public function setAPIFunctionsPrefix(string $a_prefix) : void
     {
@@ -331,17 +298,14 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * get credit mode
-     * @return string
      */
     public function getCreditMode() : string
     {
-        return $this->credit_mode;
+        return $this->credit_mode;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
     /**
      * set credit mode
-     * @param string $a_credit_mode
-     * @return void
      */
     public function setCreditMode(string $a_credit_mode) : void
     {
@@ -350,17 +314,14 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * set default lesson mode
-     * @param string $a_lesson_mode
-     * @return void
      */
     public function setDefaultLessonMode(string $a_lesson_mode) : void
     {
-        $this->lesson_mode = $a_lesson_mode;
+        $this->lesson_mode = $a_lesson_mode;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
     /**
      * get default lesson mode
-     * @return string
      */
     public function getDefaultLessonMode() : string
     {
@@ -373,17 +334,14 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * get ID of assigned style sheet object
-     * @return int
      */
     public function getStyleSheetId() : int
     {
-        return $this->style_id;
+        return $this->style_id;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
     /**
      * set ID of assigned style sheet object
-     * @param int $a_style_id
-     * @return void
      */
     public function setStyleSheetId(int $a_style_id) : void
     {
@@ -392,16 +350,14 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * set auto review as true/false for SCORM 1.2
-     * @param bool $a_auto_review
      */
     public function setAutoReview(bool $a_auto_review) : void
     {
-        $this->auto_review = ilUtil::tf2yn($a_auto_review);
+        $this->auto_review = ilUtil::tf2yn($a_auto_review);//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
     /**
      * get auto review as true/false for SCORM 1.2
-     * @return bool
      */
     public function getAutoReview() : bool
     {
@@ -410,7 +366,6 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * set auto review as Char for SCORM 2004
-     * @param string $a_auto_review
      */
     public function setAutoReviewChar(string $a_auto_review) : void
     {
@@ -419,81 +374,47 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * get auto review as Char for SCORM 2004
-     * @return string
      */
     public function getAutoReviewChar() : string
     {
         return $this->auto_review;
     }
 
-    /**
-     * get max attempt
-     * @return int
-     */
     public function getMaxAttempt() : int
     {
-        return $this->max_attempt;
+        return $this->max_attempt;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * set max attempt
-     * @param int $a_max_attempt
-     */
     public function setMaxAttempt(int $a_max_attempt) : void
     {
         $this->max_attempt = $a_max_attempt;
     }
 
-    /**
-     * get module version
-     * @return int
-     */
     public function getModuleVersion() : int
     {
-        return $this->module_version;
+        return $this->module_version;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * get assigned glossary
-     * @return int
-     */
     public function getAssignedGlossary() : int
     {
-        return $this->assigned_glossary;
+        return $this->assigned_glossary;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * set assigned glossary
-     * @param int $a_assigned_glossary
-     * @return void
-     */
     public function setAssignedGlossary(int $a_assigned_glossary) : void
     {
         $this->assigned_glossary = $a_assigned_glossary;
     }
 
-    /**
-     * @param int $a_module_version
-     * @return void
-     */
     public function setModuleVersion(int $a_module_version) : void
     {
         $this->module_version = $a_module_version;
     }
 
-    /**
-     * get session setting
-     * @return bool
-     */
     public function getSession() : bool
     {
-        return $this->session;
+        return $this->session;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * set session setting
-     * @param bool $a_session
-     */
     public function setSession(bool $a_session) : void
     {
         $this->session = $a_session;
@@ -501,16 +422,14 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * disable menu
-     * @return bool
      */
     public function getNoMenu() : bool
     {
-        return $this->no_menu;
+        return $this->no_menu;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
     /**
      * disable menu
-     * @param bool $a_no_menu
      */
     public function setNoMenu(bool $a_no_menu) : void
     {
@@ -519,16 +438,14 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * hide navigation tree
-     * @return bool
      */
     public function getHideNavig() : bool
     {
-        return $this->hide_navig;
+        return $this->hide_navig;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
     /**
      * disable menu
-     * @param bool $a_hide_navig
      */
     public function setHideNavig(bool $a_hide_navig) : void
     {
@@ -537,62 +454,45 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * BrowserCacheDisabled for SCORM 2004 / ENABLE_JS_DEBUG
-     * @return bool
      */
     public function getCacheDeactivated() : bool
     {
         global $DIC;
         $ilSetting = $DIC->settings();
         $lm_set = new ilSetting("lm");
-        if ($lm_set->get("scormdebug_disable_cache") == "1") {
-            return true;
-        }
-        return false;
+        return $lm_set->get("scormdebug_disable_cache") == "1";
     }
 
     /**
      * sessionDisabled for SCORM 2004
-     * @return bool
      */
     public function getSessionDeactivated() : bool
     {
         global $DIC;
         $ilSetting = $DIC->settings();
         $lm_set = new ilSetting("lm");
-        if ($lm_set->get("scorm_without_session") == "1") {
-            return true;
-        }
-        return false;
+        return $lm_set->get("scorm_without_session") == "1";
     }
 
     /**
      * debugActivated
-     * @return bool
      */
     public function getDebugActivated() : bool
     {
         global $DIC;
         $ilSetting = $DIC->settings();
         $lm_set = new ilSetting("lm");
-        if ($lm_set->get("scormdebug_global_activate") == "1") {
-            return true;
-        }
-        return false;
+        return $lm_set->get("scormdebug_global_activate") === "1";
     }
 
     /**
      * force Internet Explorer to render again after some Milliseconds - useful for learning Modules with a lot of iframes or frames and IE >=10
-     * @return bool
      */
     public function getIe_force_render() : bool
     {
-        return $this->ie_force_render;
+        return $this->ie_force_render;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * @param bool $a_ie_force_render
-     * @return void
-     */
     public function setIe_force_render(bool $a_ie_force_render) : void
     {
         $this->ie_force_render = $a_ie_force_render;
@@ -600,125 +500,72 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * SCORM 2004 4th edition features
-     * @return bool
      */
     public function getFourth_Edition() : bool
     {
-        return $this->fourth_edition;
+        return $this->fourth_edition;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * @param bool $a_fourth_edition
-     * @return void
-     */
     public function setFourth_edition(bool $a_fourth_edition) : void
     {
         $this->fourth_edition = $a_fourth_edition;
     }
 
-    /**
-     * sequencing
-     * @return bool
-     */
     public function getSequencing() : bool
     {
         return $this->sequencing;
     }
 
-    /**
-     * @param bool $a_sequencing
-     * @return void
-     */
     public function setSequencing(bool $a_sequencing) : void
     {
         $this->sequencing = $a_sequencing;
     }
 
-    /**
-     * interactions
-     * @return bool
-     */
     public function getInteractions() : bool
     {
-        return $this->interactions;
+        return $this->interactions;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * @param bool $a_interactions
-     * @return void
-     */
     public function setInteractions(bool $a_interactions) : void
     {
         $this->interactions = $a_interactions;
     }
 
-    /**
-     * objectives
-     * @return bool
-     */
     public function getObjectives() : bool
     {
-        return $this->objectives;
+        return $this->objectives;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * @param bool $a_objectives
-     * @return void
-     */
     public function setObjectives(bool $a_objectives) : void
     {
         $this->objectives = $a_objectives;
     }
 
-    /**
-     * comments
-     * @return bool
-     */
     public function getComments() : bool
     {
-        return $this->comments;
+        return $this->comments;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * @param bool $a_comments
-     * @return void
-     */
     public function setComments(bool $a_comments) : void
     {
         $this->comments = $a_comments;
     }
 
-    /**
-     * time_from_lms
-     * @return bool
-     */
     public function getTime_from_lms() : bool
     {
-        return $this->time_from_lms;
+        return $this->time_from_lms;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * @param bool $a_time_from_lms
-     * @return void
-     */
     public function setTime_from_lms(bool $a_time_from_lms) : void
     {
         $this->time_from_lms = $a_time_from_lms;
     }
 
-    /**
-     * check_values
-     * @return bool
-     */
     public function getCheck_values() : bool
     {
-        return $this->check_values;
+        return $this->check_values;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * @param bool $a_check_values
-     * @return void
-     */
     public function setCheck_values(bool $a_check_values) : void
     {
         $this->check_values = $a_check_values;
@@ -737,19 +584,11 @@ class ilObjSAHSLearningModule extends ilObject
 //        $this->offline_mode = $a_offline_mode;
 //    }
 
-    /**
-     * debug
-     * @return bool
-     */
     public function getDebug() : bool
     {
-        return $this->debug;
+        return $this->debug;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * @param bool $a_debug
-     * @return void
-     */
     public function setDebug(bool $a_debug) : void
     {
         $this->debug = $a_debug;
@@ -771,37 +610,21 @@ class ilObjSAHSLearningModule extends ilObject
 //        $this->debug_pw = $a_debug_pw;
 //    }
 
-    /**
-     * set auto continue
-     * @param bool $a_auto_continue
-     * @return void
-     */
     public function setAutoContinue(bool $a_auto_continue) : void
     {
-        $this->auto_continue = $a_auto_continue;
+        $this->auto_continue = $a_auto_continue;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * get auto continue
-     * @return bool
-     */
     public function getAutoContinue() : bool
     {
         return $this->auto_continue;
     }
 
-    /**
-     * @return bool
-     */
     public function getAuto_last_visited() : bool
     {
-        return $this->auto_last_visited;
+        return $this->auto_last_visited;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * @param bool $a_auto_last_visited
-     * @return void
-     */
     public function setAuto_last_visited(bool $a_auto_last_visited) : void
     {
         $this->auto_last_visited = $a_auto_last_visited;
@@ -828,20 +651,11 @@ class ilObjSAHSLearningModule extends ilObject
 //        return $this->seq_exp_mode;
 //    }
 
-    /**
-     * set auto suspend
-     * @param bool $a_auto_suspend
-     * @return void
-     */
     public function setAutoSuspend(bool $a_auto_suspend) : void
     {
-        $this->auto_suspend = $a_auto_suspend;
+        $this->auto_suspend = $a_auto_suspend;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * get auto suspend
-     * @return bool
-     */
     public function getAutoSuspend() : bool
     {
         return $this->auto_suspend;
@@ -856,70 +670,42 @@ class ilObjSAHSLearningModule extends ilObject
      * 4:
      * 5: in new Window without specified width and height
      * 6: in new Window with specified width and height
-     *
-     * @return int
      */
     public function getOpenMode() : int
     {
-        return $this->open_mode;
+        return $this->open_mode;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * @param int $a_open_mode
-     * @return void
-     */
     public function setOpenMode(int $a_open_mode) : void
     {
         $this->open_mode = $a_open_mode;
     }
 
-    /**
-     * @return int
-     */
     public function getWidth() : int
     {
-        return $this->width;
+        return $this->width;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * @param int $a_width
-     * @return void
-     */
     public function setWidth(int $a_width) : void
     {
         $this->width = $a_width;
     }
 
-    /**
-     * @return int
-     */
     public function getHeight() : int
     {
-        return $this->height;
+        return $this->height;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * @param int $a_height
-     * @return void
-     */
     public function setHeight(int $a_height) : void
     {
         $this->height = $a_height;
     }
 
-    /**
-     * get mastery_score
-     * @return int|null
-     */
     public function getMasteryScore() : ?int
     {
-        return $this->mastery_score;
+        return $this->mastery_score;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * set mastery_score
-     * @param int|null $a_mastery_score
-     */
     public function setMasteryScore(?int $a_mastery_score) : void
     {
         $this->mastery_score = $a_mastery_score;
@@ -934,9 +720,9 @@ class ilObjSAHSLearningModule extends ilObject
         $ilDB = $DIC->database();
         $s_result = "";
         $a_result = array();
-        $type = $this->_lookupSubType($this->getID());
+        $type = self::_lookupSubType($this->getID());
 
-        if ($type == "scorm2004") {
+        if ($type === "scorm2004") {
             $set = $ilDB->query("SELECT minnormalmeasure FROM cp_objective, cp_node" .
                 " WHERE satisfiedbymeasure=1 AND minnormalmeasure is not null AND cp_objective.cp_node_id=cp_node.cp_node_id AND" .
                 " slm_id = " . $ilDB->quote($this->getID(), "integer"));
@@ -960,60 +746,31 @@ class ilObjSAHSLearningModule extends ilObject
         $this->mastery_score_values = $s_result;
     }
 
-    /**
-     * get mastery_score_values
-     * @return string
-     */
     public function getMasteryScoreValues() : string
     {
         return $this->mastery_score_values;
     }
 
-    /**
-     * get id_setting
-     * @return int
-     */
     public function getIdSetting() : int
     {
-        return $this->id_setting;
+        return $this->id_setting;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * set id_setting
-     * @param int $a_id_setting
-     */
     public function setIdSetting(int $a_id_setting) : void
     {
         $this->id_setting = $a_id_setting;
     }
 
-    /**
-     * get name_setting
-     * @return int
-     */
     public function getNameSetting() : int
     {
-        return $this->name_setting;
+        return $this->name_setting;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * set name_setting
-     * @param int $a_name_setting
-     */
     public function setNameSetting(int $a_name_setting) : void
     {
         $this->name_setting = $a_name_setting;
     }
 
-    
-
-
-    /**
-    * update object data
-    *
-    * @access	public
-    * @return	boolean
-    */
     public function update() : bool
     {
         global $DIC;
@@ -1146,8 +903,6 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * Get SCORM modules that assign a certain glossary
-     * @param int $a_glo_id
-     * @return array
      */
     public static function getScormModulesForGlossary(int $a_glo_id) : array
     {
@@ -1167,8 +922,6 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * Get SCORM modules that assign a certain glossary
-     * @param int $a_slm_id
-     * @return int
      */
     public static function lookupAssignedGlossary(int $a_slm_id) : int
     {
@@ -1179,25 +932,17 @@ class ilObjSAHSLearningModule extends ilObject
             " id = " . $ilDB->quote($a_slm_id, "integer"));
         $rec = $ilDB->fetchAssoc($set);
         $glo_id = $rec["glossary"];
-        if (ilObject::_lookupType($glo_id) == "glo") {
+        if (ilObject::_lookupType($glo_id) === "glo") {
             return $glo_id;
         }
         return 0;
     }
 
-    /**
-     * get sub type
-     * @param string $a_sub_type
-     */
     public function setSubType(string $a_sub_type) : void
     {
-        $this->sub_type = $a_sub_type;
+        $this->sub_type = $a_sub_type;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * set sub type
-     * @return string
-     */
     public function getSubType() : string
     {
         return $this->sub_type;
@@ -1211,7 +956,6 @@ class ilObjSAHSLearningModule extends ilObject
     * manifest, resources and items), tracking data and data directory
     * have been deleted correctly as desired
     *
-    * @access	public
     * @return	boolean	true if all object data were removed; false if only a references were removed
     */
     public function delete() : bool
@@ -1240,7 +984,7 @@ class ilObjSAHSLearningModule extends ilObject
         
         $ilLog->write("SAHS Delete(SAHSLM), Subtype: " . $this->getSubType());
         
-        if ($this->getSubType() == "scorm") {
+        if ($this->getSubType() === "scorm") {
             $sc_tree = new ilSCORMTree($this->getId());
             $r_id = $sc_tree->readRootId();
             if ($r_id > 0) {
@@ -1255,7 +999,7 @@ class ilObjSAHSLearningModule extends ilObject
             }
         }
 
-        if ($this->getSubType() != "scorm") {
+        if ($this->getSubType() !== "scorm") {
             // delete aicc data
             $res = $ilDB->queryF(
                 '
@@ -1329,7 +1073,6 @@ class ilObjSAHSLearningModule extends ilObject
      * Returns the points in percent for the learning module
      * This is called by the certificate generator if [SCORM_POINTS] is
      * inserted.
-     * @return float|null
      */
     public function getPointsInPercent() : ?float
     {
@@ -1339,19 +1082,18 @@ class ilObjSAHSLearningModule extends ilObject
             $res = ilObjSCORM2004LearningModule::_getUniqueScaledScoreForUser($this->getId(), $ilUser->getId());
             if (!is_null($res)) {
                 return $res * 100.0;
-            } else {
-                return $res;
             }
-        } else {
-            return null;
+
+            return $res;
         }
+
+        return null;
     }
 
     /**
      * Returns score.max for the learning module, refered to the last sco where score.max is set.
      * This is called by the certificate generator if [SCORM_POINTS_MAX] is
      * inserted.
-     * @return float|null
      */
     public function getMaxPoints() : ?float
     {
@@ -1361,9 +1103,9 @@ class ilObjSAHSLearningModule extends ilObject
         if (strcmp($this->getSubType(), 'scorm2004') == 0) {
             $res = ilObjSCORM2004LearningModule::_getMaxScoreForUser($this->getId(), $ilUser->getId());
             return $res;
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
@@ -1371,8 +1113,6 @@ class ilObjSAHSLearningModule extends ilObject
      * ILIAS SCORM export files. If the corresponding directory is found
      * within the passed directory path (i.e. "htlm_<id>") this
      * subdirectory is used instead.
-     * @param string $a_dir
-     * @param string $a_filename
      * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
@@ -1390,10 +1130,6 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * Clone scorm object
-     * @param int  $a_target_id
-     * @param int  $a_copy_id
-     * @param bool $a_omit_tree
-     * @return ilObjSCORM2004LearningModule|ilObjSCORMLearningModule|object
      * @throws \ILIAS\Filesystem\Exception\DirectoryNotFoundException
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
@@ -1407,100 +1143,102 @@ class ilObjSAHSLearningModule extends ilObject
         $lng = $DIC->language();
 
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
-        $this->cloneMetaData($new_obj);
+        if ($new_obj !== null) {
+            $this->cloneMetaData($new_obj);
 
-        $new_obj->setOfflineStatus($this->getOfflineStatus());
-        //copy online status if object is not the root copy object
-        $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
-        if ($cp_options->isRootNode($this->getRefId())) {
-            $new_obj->setOfflineStatus(true);
-        }
+            $new_obj->setOfflineStatus($this->getOfflineStatus());
+            //copy online status if object is not the root copy object
+            $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
+            if ($cp_options->isRootNode($this->getRefId())) {
+                $new_obj->setOfflineStatus(true);
+            }
 
-        // copy properties
-        // $new_obj->setTitle($this->getTitle() . ' ' . $lng->txt('copy_of_suffix'));
-        $new_obj->setDescription($this->getDescription());
-        $new_obj->setSubType($this->getSubType());
-        $new_obj->setAPIAdapterName($this->getAPIAdapterName());
-        $new_obj->setAPIFunctionsPrefix($this->getAPIFunctionsPrefix());
-        $new_obj->setAutoReviewChar($this->getAutoReviewChar());
-        $new_obj->setDefaultLessonMode($this->getDefaultLessonMode());
+            // copy properties
+            // $new_obj->setTitle($this->getTitle() . ' ' . $lng->txt('copy_of_suffix'));
+            $new_obj->setDescription($this->getDescription());
+            $new_obj->setSubType($this->getSubType());
+            $new_obj->setAPIAdapterName($this->getAPIAdapterName());
+            $new_obj->setAPIFunctionsPrefix($this->getAPIFunctionsPrefix());
+            $new_obj->setAutoReviewChar($this->getAutoReviewChar());
+            $new_obj->setDefaultLessonMode($this->getDefaultLessonMode());
 //        $new_obj->setEditable($this->getEditable());
-        $new_obj->setMaxAttempt($this->getMaxAttempt());
-        $new_obj->setModuleVersion($this->getModuleVersion());
-        $new_obj->setModuleVersion(1);
-        $new_obj->setCreditMode($this->getCreditMode());
-        $new_obj->setAssignedGlossary($this->getAssignedGlossary());
-        $new_obj->setTries($this->getTries());
-        $new_obj->setSession($this->getSession());
-        $new_obj->setNoMenu($this->getNoMenu());
-        $new_obj->setHideNavig($this->getHideNavig());
-        $new_obj->setFourth_edition($this->getFourth_edition());
-        $new_obj->setSequencing($this->getSequencing());
-        $new_obj->setInteractions($this->getInteractions());
-        $new_obj->setObjectives($this->getObjectives());
-        $new_obj->setComments($this->getComments());
-        $new_obj->setTime_from_lms($this->getTime_from_lms());
-        $new_obj->setDebug($this->getDebug());
-        $new_obj->setLocalization($this->getLocalization());
+            $new_obj->setMaxAttempt($this->getMaxAttempt());
+            $new_obj->setModuleVersion($this->getModuleVersion());
+            $new_obj->setModuleVersion(1);
+            $new_obj->setCreditMode($this->getCreditMode());
+            $new_obj->setAssignedGlossary($this->getAssignedGlossary());
+            $new_obj->setTries($this->getTries());
+            $new_obj->setSession($this->getSession());
+            $new_obj->setNoMenu($this->getNoMenu());
+            $new_obj->setHideNavig($this->getHideNavig());
+            $new_obj->setFourth_edition($this->getFourth_edition());
+            $new_obj->setSequencing($this->getSequencing());
+            $new_obj->setInteractions($this->getInteractions());
+            $new_obj->setObjectives($this->getObjectives());
+            $new_obj->setComments($this->getComments());
+            $new_obj->setTime_from_lms($this->getTime_from_lms());
+            $new_obj->setDebug($this->getDebug());
+            $new_obj->setLocalization($this->getLocalization());
 //        $new_obj->setSequencingExpertMode(0); //$this->getSequencingExpertMode()
 //        $new_obj->setDebugPw($this->getDebugPw());
-        $new_obj->setOpenMode($this->getOpenMode());
-        $new_obj->setWidth($this->getWidth());
-        $new_obj->setHeight($this->getHeight());
-        $new_obj->setAutoContinue($this->getAutoContinue());
-        $new_obj->setAuto_last_visited($this->getAuto_last_visited());
-        $new_obj->setCheck_values($this->getCheck_values());
+            $new_obj->setOpenMode($this->getOpenMode());
+            $new_obj->setWidth($this->getWidth());
+            $new_obj->setHeight($this->getHeight());
+            $new_obj->setAutoContinue($this->getAutoContinue());
+            $new_obj->setAuto_last_visited($this->getAuto_last_visited());
+            $new_obj->setCheck_values($this->getCheck_values());
 //        $new_obj->setOfflineMode($this->getOfflineMode());
-        $new_obj->setAutoSuspend($this->getAutoSuspend());
-        $new_obj->setIe_force_render($this->getIe_force_render());
-        $new_obj->setStyleSheetId($this->getStyleSheetId());
-        $new_obj->update();
+            $new_obj->setAutoSuspend($this->getAutoSuspend());
+            $new_obj->setIe_force_render($this->getIe_force_render());
+            $new_obj->setStyleSheetId($this->getStyleSheetId());
+            $new_obj->update();
 
 
-        // set/copy stylesheet
-        /*		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-                $style_id = $this->getStyleSheetId();
-                if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
-                {
-                    $style_obj = $ilias->obj_factory->getInstanceByObjId($style_id);
-                    $new_id = $style_obj->ilClone();
-                    $new_obj->setStyleSheetId($new_id);
-                    $new_obj->update();
-                }*/
-        
-        // up to this point $new_obj is of type ilobjsahslearning module
-        
-        // create instance of correct subtype and call forward it to
-        // cloneIntoNewObject method
-        switch ($this->getSubType()) {
-            case "scorm":
-                $source_obj = new ilObjSCORMLearningModule($this->getRefId());
-                $new_obj = new ilObjSCORMLearningModule($new_obj->getRefId());
-                break;
-                
-            case "scorm2004":
-                $source_obj = new ilObjSCORM2004LearningModule($this->getRefId());
-                $new_obj = new ilObjSCORM2004LearningModule($new_obj->getRefId());
-                break;
-        }
+            // set/copy stylesheet
+            /*		include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
+                    $style_id = $this->getStyleSheetId();
+                    if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
+                    {
+                        $style_obj = $ilias->obj_factory->getInstanceByObjId($style_id);
+                        $new_id = $style_obj->ilClone();
+                        $new_obj->setStyleSheetId($new_id);
+                        $new_obj->update();
+                    }*/
 
-        // copy data directory
-        $new_obj->populateByDirectoy($source_obj->getDataDirectory());
+            // up to this point $new_obj is of type ilobjsahslearning module
+
+            // create instance of correct subtype and call forward it to
+            // cloneIntoNewObject method
+            switch ($this->getSubType()) {
+                case "scorm":
+                    $source_obj = new ilObjSCORMLearningModule($this->getRefId());
+                    $new_obj = new ilObjSCORMLearningModule($new_obj->getRefId());
+                    break;
+
+                case "scorm2004":
+                    $source_obj = new ilObjSCORM2004LearningModule($this->getRefId());
+                    $new_obj = new ilObjSCORM2004LearningModule($new_obj->getRefId());
+                    break;
+            }
+
+            // copy data directory
+            $new_obj->populateByDirectoy($source_obj->getDataDirectory());
 
 //        // copy authored content ...
 //        if ($new_obj->getEditable()) {
 //            $source_obj->copyAuthoredContent($new_obj);
 //        } else {
-        // ... or read manifest file
-        $new_obj->readObject();
+            // ... or read manifest file
+            $new_obj->readObject();
 //        }
-        $obj_settings = new ilLPObjSettings($this->getId());
-        $obj_settings->cloneSettings($new_obj->getId());
-        /** @var ilScormLP $olp */
-        $olp = ilObjectLP::getInstance($this->getId());
-        $collection = $olp->getCollectionInstance();
-        if ($collection) {
-            $collection->cloneCollection($new_obj->getRefId(), $cp_options->getCopyId());
+            $obj_settings = new ilLPObjSettings($this->getId());
+            $obj_settings->cloneSettings($new_obj->getId());
+            /** @var ilScormLP $olp */
+            $olp = ilObjectLP::getInstance($this->getId());
+            $collection = $olp->getCollectionInstance();
+            if ($collection) {
+                $collection->cloneCollection($new_obj->getRefId(), $cp_options->getCopyId());
+            }
         }
         return $new_obj;
     }
@@ -1514,7 +1252,6 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * Get cmi.core.student_id / cmi.learner_id for API
-     * @return string
      */
     public function getApiStudentId() : string
     {
@@ -1536,7 +1273,6 @@ class ilObjSAHSLearningModule extends ilObject
     /**
      * Get cmi.core.student_name / cmi.learner_name for API
      * note: 'lastname, firstname' is required for SCORM 1.2; 9 = no name to hide student_name for external content
-     * @return string
      */
     public function getApiStudentName() : string
     {
@@ -1584,7 +1320,6 @@ class ilObjSAHSLearningModule extends ilObject
 
     /**
      * get button for view
-     * @return ilLinkButton
      */
     public function getViewButton() : ilLinkButton
     {

@@ -24,12 +24,9 @@ class ilSCORMResources extends ilSCORMObject
 {
     public ?string $xml_base;
 
-
     /**
     * Constructor
-    *
-    * @param	int		$a_id		Object ID
-    * @access	public
+    * @param int $a_id Object ID
     */
     public function __construct(int $a_id = 0)
     {
@@ -42,26 +39,16 @@ class ilSCORMResources extends ilSCORMObject
         $this->setTitle($lng->txt('cont_resources'));
     }
 
-    /**
-     * @return string|null
-     */
     public function getXmlBase() : ?string
     {
         return $this->xml_base;
     }
 
-    /**
-     * @param string|null $a_xml_base
-     * @return void
-     */
     public function setXmlBase(?string $a_xml_base) : void
     {
         $this->xml_base = $a_xml_base;
     }
 
-    /**
-     * @return void
-     */
     public function read() : void
     {
         global $DIC;
@@ -78,9 +65,6 @@ class ilSCORMResources extends ilSCORMObject
         $this->setXmlBase($obj_rec['xml_base']);
     }
 
-    /**
-     * @return void
-     */
     public function create() : void
     {
         global $DIC;
@@ -95,9 +79,6 @@ class ilSCORMResources extends ilSCORMObject
         );
     }
 
-    /**
-     * @return void
-     */
     public function update() : void
     {
         global $DIC;
@@ -113,9 +94,6 @@ class ilSCORMResources extends ilSCORMObject
         );
     }
 
-    /**
-     * @return void
-     */
     public function delete() : void
     {
         global $DIC;

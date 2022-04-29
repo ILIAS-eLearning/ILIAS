@@ -20,9 +20,6 @@
  */
 class ilObjSCORMTracking
 {
-    /**
-     * @return void
-     */
     public static function storeJsApi() : void
     {
         global $DIC;
@@ -48,12 +45,6 @@ class ilObjSCORMTracking
         }
     }
 
-    /**
-     * @param int    $user_id
-     * @param int    $obj_id
-     * @param object $data
-     * @return bool
-     */
     public static function storeJsApiCmi(int $user_id, int $obj_id, object $data) : bool
     {
         global $DIC;
@@ -70,10 +61,10 @@ class ilObjSCORMTracking
         // $aa_data[] = array("sco_id" => $value, "left" => $_POST["L"][$key], "right" => $_POST["R"][$key]);
         // }
         // }
-        for ($i = 0; $i < count($data->cmi); $i++) {
-            $aa_data[] = array("sco_id" => (int) $data->cmi[$i][0],
-                               "left" => $data->cmi[$i][1],
-                               "right" => $data->cmi[$i][2]
+        foreach ($data->cmi as $value) {
+            $aa_data[] = array("sco_id" => (int) $value[0],
+                               "left" => $value[1],
+                               "right" => $value[2]
             );
             //			$aa_data[] = array("sco_id" => (int) $data->cmi[$i][0], "left" => $data->cmi[$i][1], "right" => rawurldecode($data->cmi[$i][2]));
         }
@@ -93,7 +84,7 @@ class ilObjSCORMTracking
                     array($user_id, $a_data["sco_id"], $a_data["left"], $obj_id)
                 );
                 if ($rec = $ilDB->fetchAssoc($set)) {
-                    if ($a_data["left"] == 'cmi.core.lesson_status' && $a_data["right"] != $rec["rvalue"]) {
+                    if ($a_data["left"] === 'cmi.core.lesson_status' && $a_data["right"] != $rec["rvalue"]) {
                         $b_updateStatus = true;
                     }
                     $ilDB->update(
@@ -112,7 +103,7 @@ class ilObjSCORMTracking
                     $ilLog->debug("ScormAicc: storeJsApi Updated - L:" . $a_data["left"] . ",R:" .
                         $a_data["right"] . " for obj_id:" . $obj_id . ",sco_id:" . $a_data["sco_id"] . ",user_id:" . $user_id);
                 } else {
-                    if ($a_data["left"] == 'cmi.core.lesson_status') {
+                    if ($a_data["left"] === 'cmi.core.lesson_status') {
                         $b_updateStatus = true;
                     }
                     $ilDB->insert('scorm_tracking', array(
@@ -126,10 +117,10 @@ class ilObjSCORMTracking
                     $ilLog->debug("ScormAicc: storeJsApi Inserted - L:" . $a_data["left"] . ",R:" .
                         $a_data["right"] . " for obj_id:" . $obj_id . ",sco_id:" . $a_data["sco_id"] . ",user_id:" . $user_id);
                 }
-                if ($a_data["left"] == 'cmi.core.score.max') {
+                if ($a_data["left"] === 'cmi.core.score.max') {
                     $i_score_max = $a_data["right"];
                 }
-                if ($a_data["left"] == 'cmi.core.score.raw') {
+                if ($a_data["left"] === 'cmi.core.score.raw') {
                     $i_score_raw = $a_data["right"];
                 }
             }
@@ -154,14 +145,6 @@ class ilObjSCORMTracking
         return true;
     }
 
-    /**
-     * @param int      $userId
-     * @param int      $packageId
-     * @param int      $refId
-     * @param object   $data
-     * @param int|null $new_global_status
-     * @return bool
-     */
     public static function syncGlobalStatus(int $userId, int $packageId, int $refId, object $data, ?int $new_global_status) : bool
     {
         global $DIC;
@@ -227,13 +210,6 @@ class ilObjSCORMTracking
         return true;
     }
 
-    /**
-     * @param int    $a_sahs_id
-     * @param string $a_lval
-     * @param string $a_rval
-     * @param int    $a_obj_id
-     * @return void
-     */
     public static function _insertTrackData(int $a_sahs_id, string $a_lval, string $a_rval, int $a_obj_id) : void
     {
         global $DIC;
@@ -249,7 +225,7 @@ class ilObjSCORMTracking
             'c_timestamp' => array('timestamp', ilUtil::now())
         ));
 
-        if ($a_lval == "cmi.core.lesson_status") {
+        if ($a_lval === "cmi.core.lesson_status") {
             ilLPStatusWrapper::_updateStatus($a_obj_id, $ilUser->getId());
         }
     }
@@ -258,9 +234,6 @@ class ilObjSCORMTracking
 
     /**
      * like necessary because of Oracle
-     * @param object $scorm_item_id
-     * @param int    $a_obj_id
-     * @return array
      */
     public static function _getCompleted(object $scorm_item_id, int $a_obj_id) : array
     {
@@ -307,12 +280,6 @@ class ilObjSCORMTracking
         return $user_ids;
     }
 
-    /**
-     * @param array|null $a_scos
-     * @param int        $a_obj_id
-     * @param int        $a_user_id
-     * @return string
-     */
     public static function _getCollectionStatus(?array $a_scos, int $a_obj_id, int $a_user_id) : string
     {
         global $DIC;
@@ -337,10 +304,10 @@ class ilObjSCORMTracking
             $completed = true;
             $failed = false;
             while ($rec = $ilDB->fetchAssoc($res)) {
-                if ($rec["rvalue"] == "failed") {
+                if ($rec["rvalue"] === "failed") {
                     $failed = true;
                 }
-                if ($rec["rvalue"] != "completed" && $rec["rvalue"] != "passed") {
+                if ($rec["rvalue"] !== "completed" && $rec["rvalue"] !== "passed") {
                     $completed = false;
                 }
                 $cnt++;
@@ -358,12 +325,6 @@ class ilObjSCORMTracking
         return $status;
     }
 
-    /**
-     * @param array|null $a_scos
-     * @param int        $a_obj_id
-     * @param int        $a_user_id
-     * @return int
-     */
     public static function _countCompleted(?array $a_scos, int $a_obj_id, int $a_user_id) : int
     {
         global $DIC;
@@ -384,7 +345,7 @@ class ilObjSCORMTracking
             );
 
             while ($rec = $ilDB->fetchAssoc($res)) {
-                if ($rec["rvalue"] == "completed" || $rec["rvalue"] == "passed") {
+                if ($rec["rvalue"] === "completed" || $rec["rvalue"] === "passed") {
                     $cnt++;
                 }
             }
@@ -394,7 +355,6 @@ class ilObjSCORMTracking
 
     /**
      * Lookup last acccess time for all users of a scorm module
-     * @param int $a_obj_id
      * @return array<int|string, mixed>
      */
     public static function lookupLastAccessTimes(int $a_obj_id) : array
@@ -417,8 +377,6 @@ class ilObjSCORMTracking
 
     /**
      * Get all tracked users
-     * @param int $a_obj_id
-     * @return array
      */
     public static function _getTrackedUsers(int $a_obj_id) : array
     {
@@ -443,9 +401,6 @@ class ilObjSCORMTracking
 
     /**
      * like necessary because of Oracle
-     * @param object $scorm_item_id
-     * @param int    $a_obj_id
-     * @return array
      */
     public static function _getFailed(object $scorm_item_id, int $a_obj_id) : array
     {
@@ -487,9 +442,6 @@ class ilObjSCORMTracking
 
     /**
      * Get users who have status completed or passed.
-     * @param array $a_scorm_item_ids
-     * @param int   $a_obj_id
-     * @return array
      */
     public static function _getCountCompletedPerUser(array $a_scorm_item_ids, int $a_obj_id) : array
     {
@@ -521,9 +473,6 @@ class ilObjSCORMTracking
 
     /**
      * Get info about
-     * @param array $sco_item_ids
-     * @param int   $a_obj_id
-     * @return array
      */
     public static function _getProgressInfo(array $sco_item_ids, int $a_obj_id) : array
     {
@@ -567,9 +516,6 @@ class ilObjSCORMTracking
 
     /**
      * @param array|int  $scorm_item_id
-     * @param int        $a_obj_id
-     * @param array|null $a_blocked_user_ids
-     * @return array
      */
     public static function _getInProgress($scorm_item_id, int $a_obj_id, ?array $a_blocked_user_ids = null) : array
     {
@@ -610,9 +556,6 @@ class ilObjSCORMTracking
         return $in_progress;
     }
 
-    /**
-     * @return void
-     */
     public static function scorm12PlayerUnload() : void
     {
         global $DIC;
@@ -647,12 +590,6 @@ class ilObjSCORMTracking
         print("");
     }
 
-    /**
-     * @param int $packageId
-     * @param int $userId
-     * @param int $hash
-     * @return void
-     */
     public static function checkIfAllowed(int $packageId, int $userId, int $hash) : void
     {
         global $DIC;
@@ -672,13 +609,6 @@ class ilObjSCORMTracking
         }
     }
 
-    /**
-     * @param int    $a_obj_id
-     * @param int    $a_user_id
-     * @param string $a_type
-     * @param int    $a_ref_id
-     * @return void
-     */
     public static function _syncReadEvent(int $a_obj_id, int $a_user_id, string $a_type, int $a_ref_id) : void
     {
         global $DIC;
@@ -698,12 +628,7 @@ class ilObjSCORMTracking
         }
         $attempts = $val_rec["package_attempts"];
 
-        $time = 0;
-        // if ($val_rec["time_from_lms"] == "y") {
-        // $time = (int)$val_rec["total_time_sec"];
-        // } else {
         $time = (int) $val_rec["sco_total_time_sec"];
-        // }
 
         // get learning time for old ILIAS-Versions
         if ($time == 0) {
