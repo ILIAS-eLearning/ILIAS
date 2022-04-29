@@ -45,7 +45,7 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
     }
 
     /**
-     * @return MockObject|ilLanguage
+     * @return MockObject&ilLanguage
      */
     protected function getLanguageMock() : ilLanguage
     {
@@ -59,7 +59,7 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
     }
 
     /**
-     * @return MockObject|Factory
+     * @return MockObject&Factory
      */
     protected function getUiFactoryMock() : Factory
     {
