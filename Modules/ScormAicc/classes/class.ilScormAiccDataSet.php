@@ -15,16 +15,11 @@
  *****************************************************************************/
 class ilScormAiccDataSet extends ilDataSet
 {
-    /**
-     *
-     */
     public function __construct()
     {
-        $this->db_table = "sahs_lm";
-        $this->properties = [
-            //"OfflineZipCreated" => "datetime",
+        $this->db_table = "sahs_lm";//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        $this->properties = [//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
             "Id" => ["db_col" => "id", "db_type" => "integer"],
-            //"EntryPage" => "integer",
             "APIAdapterName" => ["db_col" => "api_adapter", "db_type" => "text"],
             "APIFunctionsPrefix" => ["db_col" => "api_func_prefix", "db_type" => "text"],
             "AssignedGlossary" => ["db_col" => "glossary", "db_type" => "integer"],
@@ -64,19 +59,12 @@ class ilScormAiccDataSet extends ilDataSet
             "NameSetting" => ["db_col" => "name_setting", "db_type" => "integer"]
         ];
 
-        $this->element_db_mapping = [];
+        $this->element_db_mapping = [];//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
         foreach ($this->properties as $key => $value) {
             $this->element_db_mapping [$value["db_col"]] = $key;
         }
     }
 
-    /**
-     * @param string     $a_entity
-     * @param string     $a_version
-     * @param array|null $a_rec
-     * @param array|null $a_ids
-     * @return array
-     */
     protected function getDependencies(
         string $a_entity,
         string $a_version,
@@ -86,13 +74,6 @@ class ilScormAiccDataSet extends ilDataSet
         return [];
     }
 
-    /**
-     * @param string $a_entity
-     * @param string $a_version
-     * @param int    $a_id
-     * @param array  $data
-     * @return void
-     */
     public function writeData(string $a_entity, string $a_version, int $a_id, array $data) : void
     {
         global $DIC;
@@ -101,14 +82,14 @@ class ilScormAiccDataSet extends ilDataSet
         if (count($data) > 0) {
             $columns = [];
             foreach ($this->properties as $key => $value) {
-                if ($key == "Id" || $key == "title" || $key == "description") {
+                if ($key === "Id" || $key === "title" || $key === "description") {
                     continue;
                 }
                 //fix localization and mastery_score
-                if ($key == "MasteryScore" && $data[$key][0] == 0) {
+                if ($key === "MasteryScore" && $data[$key][0] == 0) {
                     continue;
                 }
-                if ($key == "Localization" && $data[$key][0] == "") {
+                if ($key === "Localization" && $data[$key][0] == "") {
                     continue;
                 }
                 //end fix
@@ -148,13 +129,6 @@ class ilScormAiccDataSet extends ilDataSet
 
     /**
      * own getXmlRepresentation function to embed zipfile in xml
-     * @param string $a_entity
-     * @param string $a_schema_version
-     * @param array  $a_ids (obj_id)
-     * @param string $a_field
-     * @param bool   $a_omit_header
-     * @param bool   $a_omit_types
-     * @return string
      */
     public function getExtendedXmlRepresentation(
         string $a_entity,
@@ -194,7 +168,9 @@ class ilScormAiccDataSet extends ilDataSet
         $baseFileName = "sahs_" . $id;
         $scormBasePath = $exportDir . "/" . $baseFileName;
         if (!file_exists($exportDir)) {
-            mkdir($exportDir, 0755, true);
+            if (!mkdir($exportDir, 0755, true) && !is_dir($exportDir)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $exportDir));
+            }
         }
         ilFileUtils::zip($lmDir, $scormBasePath, true);
         $scormFilePath = $scormBasePath . ".zip";
@@ -207,7 +183,7 @@ class ilScormAiccDataSet extends ilDataSet
         $xmlFilePath = $exportDir . "/" . $baseExportName . ".xml";
 
         if (!file_exists($xmlFilePath)) {
-            $xmlFile = fopen($xmlFilePath, "w");
+            $xmlFile = fopen($xmlFilePath, "w");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
             fwrite($xmlFile, $xml);
             fclose($xmlFile);
         }
@@ -217,7 +193,7 @@ class ilScormAiccDataSet extends ilDataSet
 
         $metaDataFilePath = $exportDir . "/" . $baseExportName . "_metadata.xml";
         if (!file_exists($metaDataFilePath)) {
-            $metaDataFile = fopen($metaDataFilePath, "w");
+            $metaDataFile = fopen($metaDataFilePath, "w");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
             fwrite($metaDataFile, $metaData);
             fclose($metaDataFile);
         }
@@ -242,7 +218,7 @@ class ilScormAiccDataSet extends ilDataSet
 
         $manifestFilePath = $exportDir . "/" . $baseExportName . "_manifest.xml";
         if (!file_exists($manifestFilePath)) {
-            $manifestFile = fopen($manifestFilePath, "w");
+            $manifestFile = fopen($manifestFilePath, "w");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
             fwrite($manifestFile, $manifest);
             fclose($manifestFile);
         }
@@ -278,7 +254,7 @@ class ilScormAiccDataSet extends ilDataSet
      */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
-        if ($a_entity == "sahs") {
+        if ($a_entity === "sahs") {
             switch ($a_version) {
                 case "5.1.0":
                     $types = [];
@@ -291,13 +267,6 @@ class ilScormAiccDataSet extends ilDataSet
         return [];
     }
 
-    /**
-     * Read data
-     * @param string $a_entity
-     * @param string $a_version
-     * @param array  $a_ids
-     * @return void
-     */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         global $DIC;
@@ -306,7 +275,7 @@ class ilScormAiccDataSet extends ilDataSet
         $obj_id = (int) $a_ids;
         $columns = [];
         foreach ($this->properties as $property) {
-            array_push($columns, $property["db_col"]);
+            $columns[] = $property["db_col"];
         }
 
         $query = "SELECT " . implode(",", $columns) . " FROM " . $this->db_table;
@@ -328,37 +297,27 @@ class ilScormAiccDataSet extends ilDataSet
 
     /**
      * retrieve element name by database column name
-     * @param string $db_col_name
-     * @return string
      */
     public function getElementNameByDbColumn(string $db_col_name) : string
     {
-        if ($db_col_name == "title") {
+        if ($db_col_name === "title") {
             return "Title";
         }
-        if ($db_col_name == "description") {
+        if ($db_col_name === "description") {
             return "Description";
         }
         return $this->element_db_mapping[$db_col_name];
     }
 
-    /**
-     * @param int $id
-     * @return string
-     */
     public function buildMetaData(int $id) : string
     {
         $md2xml = new ilMD2XML($id, $id, "sahs");
         $md2xml->startExport();
-        $xml = $md2xml->getXML();
-        return $xml;
+        return $md2xml->getXML();
     }
 
     /**
      * Get xml namespace
-     * @param string $a_entity
-     * @param string $a_schema_version
-     * @return string
      */
     public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {

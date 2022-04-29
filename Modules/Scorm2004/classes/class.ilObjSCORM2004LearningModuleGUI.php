@@ -38,14 +38,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     protected ilErrorHandling $error;
     protected ContextServices $tool_context;
 
-    /**
-     * Constructor
-     * @access    public
-     * @param array     $a_data
-     * @param int       $a_id
-     * @param bool      $a_call_by_reference
-     * @param bool|null $a_prepare_output
-     */
     public function __construct(array $a_data, int $a_id, bool $a_call_by_reference, ?bool $a_prepare_output = true)
     {
         global $DIC;
@@ -74,9 +66,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         #$this->tabs_gui = new ilTabsGUI();
     }
 
-    /**
-     * execute command
-     */
     public function executeCommand() : void
     {
 //        $ilAccess = $this->access;
@@ -105,8 +94,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $ilSetting = $this->settings;
         $ilTabs = $this->tabs;
 
-//        $this->setSubTabs("settings", "general_settings");
-        ilObjSAHSLearningModuleGUI::setSettingsSubTabs();
+        $this->setSettingsSubTabs();
         $ilTabs->setSubTabActive('cont_settings');
         // view
         $ilToolbar->addButtonInstance($this->object->getViewButton());
@@ -119,9 +107,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
     /**
      * Initialize properties form
-     *
-     * @param
-     * @return
      */
     public function initPropertiesForm() : void
     {
@@ -464,7 +449,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $t_auto_review = $this->dic->http()->wrapper()->post()->retrieve('auto_review', $this->dic->refinery()->kindlyTo()->string());
         $t_auto_suspend = $this->dic->http()->wrapper()->post()->has('cobj_auto_suspend');
         $t_session = $this->dic->http()->wrapper()->post()->has('cobj_session');
-        if ($t_auto_review == "s") {
+        if ($t_auto_review === "s") {
             $t_auto_suspend = true;
             //if not storing without session
             $t_session = true;
@@ -529,7 +514,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
     {
         $ilTabs = $this->tabs;
 
-        ilObjSCORMLearningModuleGUI::setSubTabs();
+        $this->setSubTabs();
         $ilTabs->setTabActive("cont_tracking_data");
         $ilTabs->setSubTabActive("cont_tracking_bysco");
 
@@ -549,16 +534,16 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $this->ctrl->setParameter($this, 'report', $report);
         $filter = new ilSCORM2004TrackingItemsPerScoFilterGUI($this, 'showTrackingItemsBySco');
         $filter->parse($scoSelected, $report, $reports);
-        if ($report == "choose") {
+        if ($report === "choose") {
             $this->tpl->setContent($filter->form->getHTML());
         } else {
             $scosSelected = array();
-            if ($scoSelected != "all") {
+            if ($scoSelected !== "all") {
                 $scosSelected[] = $scoSelected;
             } else {
                 $tmpscos = $this->object->getTrackedItems();
-                for ($i = 0; $i < count($tmpscos); $i++) {
-                    $scosSelected[] = $tmpscos[$i]["id"];
+                foreach ($tmpscos as $i => $value) {
+                    $scosSelected[] = $value["id"];
                 }
             }
             $a_users = ilTrQuery::getParticipantsForObject($this->ref_id);
@@ -576,7 +561,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         $ilTabs->setTabActive('cont_tracking_data');
 
         if ($ilAccess->checkAccess("read_learning_progress", "", $this->object->getRefId())) {
-            ilObjSCORMLearningModuleGUI::setSubTabs();
+            $this->setSubTabs();
             $ilTabs->setSubTabActive('cont_tracking_byuser');
 
             $reports = array('exportSelectedSuccess','exportSelectedCore','exportSelectedInteractions','exportSelectedObjectives','exportObjGlobalToSystem');
@@ -594,25 +579,25 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $this->ctrl->setParameter($this, 'report', $report);
             $filter = new ilSCORM2004TrackingItemsPerUserFilterGUI($this, 'showTrackingItems');
             $filter->parse($userSelected, $report, $reports);
-            if ($report == "choose") {
+            if ($report === "choose") {
                 $this->tpl->setContent($filter->form->getHTML());
             } else {
                 $usersSelected = array();
-                if ($userSelected != "all") {
+                if ($userSelected !== "all") {
                     $usersSelected[] = $userSelected;
                 } else {
                     $users = ilTrQuery::getParticipantsForObject($this->ref_id);
                     foreach ($users as $usr) {
                         $user = (int) $usr;
-                        if (ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr') {
+                        if (ilObject::_exists($user) && ilObject::_lookUpType($user) === 'usr') {
                             $usersSelected[] = $user;
                         }
                     }
                 }
                 $scosSelected = array();
                 $tmpscos = $this->object->getTrackedItems();
-                for ($i = 0; $i < count($tmpscos); $i++) {
-                    $scosSelected[] = $tmpscos[$i]["id"];
+                foreach ($tmpscos as $i => $value) {
+                    $scosSelected[] = $value["id"];
                 }
                 $tbl = new ilSCORM2004TrackingItemsTableGUI($this->object->getId(), $this, 'showTrackingItems', $usersSelected, $scosSelected, $report);
                 $this->tpl->setContent($filter->form->getHTML() . $tbl->getHTML());

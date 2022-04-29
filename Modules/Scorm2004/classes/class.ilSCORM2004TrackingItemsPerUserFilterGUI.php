@@ -27,10 +27,7 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
 
     public ilPropertyFormGUI $form;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(ilObjSCORM2004LearningModuleGUI $a_parent_obj, string $a_parent_cmd)
     {
         $this->parent_obj = $a_parent_obj;
         $this->parent_cmd = $a_parent_cmd;
@@ -38,10 +35,6 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
     }
 
     /**
-     * @param string $userSelected
-     * @param string $report
-     * @param array  $reports
-     * @return void
      * @throws ilCtrlException
      */
     public function parse(string $userSelected, string $report, array $reports) : void
@@ -60,7 +53,7 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
 
         if ($users && count($users) > 0) {
             foreach ($users as $user) {
-                if (ilObject::_exists((integer) $user) && ilObject::_lookUpType((integer) $user) == 'usr') {
+                if (ilObject::_exists((integer) $user) && ilObject::_lookUpType((integer) $user) === 'usr') {
                     if ($allowExportPrivacy == true) {
                         $e_user = new ilObjUser((integer) $user);
                         $options[$user] = $e_user->getLastname() . ", " . $e_user->getFirstname();
@@ -79,8 +72,8 @@ class ilSCORM2004TrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         $this->form->addItem($si);
 
         $options = array("choose" => $lng->txt("please_choose"));
-        for ($i = 0;$i < count($reports);$i++) {
-            $options[$reports[$i]] = $lng->txt(strtolower($reports[$i]));
+        foreach ($reports as $value) {
+            $options[$value] = $lng->txt(strtolower($value));
         }
         $si = new ilSelectInputGUI($lng->txt("report"), "report");
         $si->setOptions($options);

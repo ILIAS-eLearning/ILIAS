@@ -27,10 +27,7 @@ class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
 
     public ilPropertyFormGUI $form;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(ilObjSCORM2004LearningModuleGUI $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
 
@@ -42,10 +39,6 @@ class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
     }
 
     /**
-     * @param string  $scoSelected
-     * @param string $report
-     * @param array  $reports
-     * @return void
      * @throws ilCtrlException
      */
     public function parse(string $scoSelected, string $report, array $reports) : void
@@ -67,8 +60,8 @@ class ilSCORM2004TrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
         $this->form->addItem($si);
 
         $options = array("choose" => $lng->txt("please_choose"));
-        for ($i = 0;$i < count($reports);$i++) {
-            $options[$reports[$i]] = $lng->txt(strtolower($reports[$i]));
+        foreach ($reports as $value) {
+            $options[$value] = $lng->txt(strtolower($value));
         }
         $si = new ilSelectInputGUI($lng->txt("report"), "report");
         $si->setOptions($options);

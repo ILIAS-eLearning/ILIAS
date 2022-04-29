@@ -20,9 +20,6 @@
  */
 class ilSCORM2004Tree extends ilTree
 {
-    /**
-     * Constructor
-     */
     public function __construct(int $a_id)
     {
         parent::__construct($a_id);

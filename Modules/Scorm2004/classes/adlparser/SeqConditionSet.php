@@ -76,7 +76,7 @@
         public bool $mRetry = false;
         public bool $mRollup = false;
         
-        public function __construct($iRollup)
+        public function __construct(bool $iRollup)
         {
             $this->mRollup = $iRollup;
         }

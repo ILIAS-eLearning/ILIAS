@@ -21,15 +21,9 @@
  */
 class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    protected ilRbacSystem $rbacsystem;
 
     private int $obj_id = 0;
     private int $user_id = 0;
@@ -40,9 +34,6 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
     private string $lmTitle = "";
     private string $report = "";
 
-    /**
-     * Constructor
-     */
     public function __construct(int $a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, array $a_userSelected, array $a_scosSelected, string $a_report)
     {
         global $DIC;
@@ -58,12 +49,14 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         $this->report = $a_report;
         $this->scosSelected = $a_scosSelected;
         $this->userSelected = $a_userSelected;
-        if ($a_parent_cmd == "showTrackingItemsBySco") {
+        if ($a_parent_cmd === "showTrackingItemsBySco") {
             $this->bySCO = true;
         }
-        $this->lmTitle = $a_parent_obj->object->getTitle();
-        $this->setId('2004' . $this->report);
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        if ($a_parent_obj !== null) {
+            $this->lmTitle = $a_parent_obj->object->getTitle();
+            $this->setId('2004' . $this->report);
+            parent::__construct($a_parent_obj, $a_parent_cmd);
+        }
         $privacy = ilPrivacySettings::getInstance();
         $this->allowExportPrivacy = $privacy->enabledExportSCORM();
 
@@ -80,13 +73,13 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
                 // $l =
             }
             $s = $this->lng->txt($l);
-            if (substr($l, 0, 14) == "interaction_id") {
+            if (substr($l, 0, 14) === "interaction_id") {
                 $s = $this->lng->txt(substr($l, 0, 14)) . ' ' . substr($l, 14);
             }
-            if (substr($l, 0, 17) == "interaction_value") {
+            if (substr($l, 0, 17) === "interaction_value") {
                 $s = sprintf($this->lng->txt(substr($l, 0, 17)), substr($l, 17, (strpos($l, ' ') - 17))) . substr($l, strpos($l, ' '));
             }
-            if (substr($l, 0, 23) == "interaction_description") {
+            if (substr($l, 0, 23) === "interaction_description") {
                 $s = $this->lng->txt(substr($l, 0, 23)) . ' ' . substr($l, 23);
             }
             $this->addColumn($s, $c);
@@ -108,11 +101,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         //		$this->initFilter();
         $this->getItems();
     }
-    /**
-     * Get selectable columns
-     * @param
-     * @return array
-     */
+
     public function getSelectableColumns() : array
     {
         // default fields
@@ -148,17 +137,11 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    /**
-     * Get Obj id
-     */
     public function getObjId() : int
     {
         return $this->obj_id;
     }
 
-    /**
-     * @return void
-     */
     public function getItems() : void
     {
         $this->determineOffsetAndOrder(true);
@@ -204,20 +187,18 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param string                $id
      * @param string|float|int|null $value
-     * @param string                $type
-     * @return float|int|string|null
+     * @return string|float|int|null
      */
     protected function parseValue(string $id, $value, string $type)
     {
-        if ($id == "status") {
+        if ($id === "status") {
             $path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
             $text = ilLearningProgressBaseGUI::_getStatusText((integer) $value);
             $value = ilUtil::img($path, $text);
         }
         //BLUM round
-        elseif ($id == "launch_data" || $id == "suspend_data") {
+        elseif ($id === "launch_data" || $id === "suspend_data") {
             return $value;
         }
         if (is_numeric($value)) {
@@ -228,7 +209,6 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
 
     /**
      * Fill table row
-     * @param array $a_set
      * @throws ilTemplateException
      */
     protected function fillRow(array $a_set) : void
@@ -241,11 +221,6 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param ilExcel $a_excel
-     * @param int     $a_row
-     * @return void
-     */
     protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
     {
         $labels = $this->getSelectableColumns();
@@ -256,19 +231,13 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param ilExcel $a_excel
-     * @param int     $a_row
-     * @param array   $a_set
-     * @return void
-     */
     protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
 //        $lng = $this->lng;
 //        $lng->loadLanguageModule("trac");
         $cnt = 0;
         foreach ($this->getSelectedColumns() as $c) {
-            if ($c != 'status') {
+            if ($c !== 'status') {
                 $val = $this->parseValue($c, $a_set[$c], "user");
             } else {
                 $val = ilLearningProgressBaseGUI::_getStatusText((int) $a_set[$c]);
@@ -278,10 +247,6 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param ilCSVWriter $a_csv
-     * @return void
-     */
     protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
     {
         $labels = $this->getSelectableColumns();
@@ -292,17 +257,12 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-    /**
-     * @param ilCSVWriter $a_csv
-     * @param array       $a_set
-     * @return void
-     */
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
 //        $lng = $this->lng;
 //        $lng->loadLanguageModule("trac");
         foreach ($this->getSelectedColumns() as $c) {
-            if ($c != 'status') {
+            if ($c !== 'status') {
                 $val = $this->parseValue($c, $a_set[$c], "user");
             } else {
                 $val = ilLearningProgressBaseGUI::_getStatusText((int) $a_set[$c]);

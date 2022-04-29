@@ -52,11 +52,11 @@ class ilObjSAHSLearningModuleListGUI extends ilObjectListGUI
     /**
      * @inheritdoc
      */
-    public function initItem($a_ref_id, $a_obj_id, $type, $a_title = "", $a_description = "") : void
+    public function initItem(int $ref_id, int $obj_id, string $type, string $title = "", string $description = "") : void
     {
         // general commands array
-        $this->commands = ilObjSAHSLearningModuleAccess::_getCommands($a_obj_id);
-        parent::initItem($a_ref_id, $a_obj_id, $type, $a_title, $a_description);
+        $this->commands = ilObjSAHSLearningModuleAccess::_getCommands($obj_id);
+        parent::initItem($ref_id, $obj_id, $type, $title, $description);
     }
 
     /**

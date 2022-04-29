@@ -30,12 +30,8 @@ class ilSCORMResource extends ilSCORMObject
     public array $files;
     public array $dependencies;
 
-
     /**
-    * Constructor
-    *
-    * @param	int		$a_id		Object ID
-    * @access	public
+    * @param int $a_id Object ID
     */
     public function __construct(int $a_id = 0)
     {
@@ -45,129 +41,77 @@ class ilSCORMResource extends ilSCORMObject
         parent::__construct($a_id);
     }
 
-    /**
-     * @return string
-     */
     public function getImportId() : string
     {
         return $this->import_id;
     }
 
-    /**
-     * @param string $a_import_id
-     * @return void
-     */
     public function setImportId(string $a_import_id) : void
     {
         $this->import_id = $a_import_id;
     }
 
-    /**
-     * @return string
-     */
     public function getResourceType() : string
     {
         return $this->resourcetype;
     }
 
-    /**
-     * @param string $a_type
-     * @return void
-     */
     public function setResourceType(string $a_type) : void
     {
         $this->resourcetype = $a_type;
     }
 
-    /**
-     * @return string|null
-     */
     public function getScormType() : ?string
     {
         return $this->scormtype;
     }
 
-    /**
-     * @param string|null $a_scormtype
-     * @return void
-     */
     public function setScormType(?string $a_scormtype) : void
     {
         $this->scormtype = $a_scormtype;
     }
 
-    /**
-     * @return string|null
-     */
     public function getHRef() : ?string
     {
         return $this->href;
     }
 
-    /**
-     * @param string|null $a_href
-     * @return void
-     */
     public function setHRef(?string $a_href) : void
     {
         $this->href = $a_href;
         $this->setTitle($a_href);
     }
 
-    /**
-     * @return string|null
-     */
     public function getXmlBase() : ?string
     {
         return $this->xml_base;
     }
 
-    /**
-     * @param string|null $a_xml_base
-     * @return void
-     */
     public function setXmlBase(?string $a_xml_base) : void
     {
         $this->xml_base = $a_xml_base;
     }
 
-    /**
-     * @param ilSCORMResourceFile $a_file_obj
-     * @return void
-     */
-    public function addFile(ilSCORMResourceFile &$a_file_obj) : void
+    public function addFile(ilSCORMResourceFile $a_file_obj) : void
     {
         $this->files[] = &$a_file_obj;
     }
 
-    /**
-     * @return array
-     */
     public function &getFiles() : array
     {
         return $this->files;
     }
 
-    /**
-     * @param ilSCORMResourceDependency $a_dependency
-     * @return void
-     */
-    public function addDependency(ilSCORMResourceDependency &$a_dependency) : void
+    public function addDependency(ilSCORMResourceDependency $a_dependency) : void
     {
         $this->dependencies[] = &$a_dependency;
     }
 
-    /**
-     * @return array
-     */
     public function &getDependencies() : array
     {
         return $this->dependencies;
     }
 
-    /**
-     * @return void
-     */
     public function read() : void
     {
         global $DIC;
@@ -212,11 +156,6 @@ class ilSCORMResource extends ilSCORMObject
         }
     }
 
-    /**
-     * @param string $a_id_ref
-     * @param int $a_slm_id
-     * @return void
-     */
     public function readByIdRef(string $a_id_ref, int $a_slm_id) : void
     {
         global $DIC;
@@ -242,11 +181,6 @@ class ilSCORMResource extends ilSCORMObject
         }
     }
 
-    /**
-     * @param string $a_id_ref
-     * @param int $a_slm_id
-     * @return int
-     */
     public static function _lookupIdByIdRef(string $a_id_ref, int $a_slm_id) : int
     {
         global $DIC;
@@ -268,10 +202,6 @@ class ilSCORMResource extends ilSCORMObject
         return 0;
     }
 
-    /**
-     * @param int $a_obj_id
-     * @return string
-     */
     public static function _lookupScormType(int $a_obj_id) : string
     {
         global $DIC;
@@ -288,9 +218,6 @@ class ilSCORMResource extends ilSCORMObject
         return "";
     }
 
-    /**
-     * @return void
-     */
     public function create() : void
     {
         global $DIC;
@@ -314,7 +241,7 @@ class ilSCORMResource extends ilSCORMObject
         );
 
         // save files
-        for ($i = 0; $i < count($this->files); $i++) {
+        foreach ($this->files as $i => $value) {
             $nextId = $ilDB->nextId('sc_resource_file');
 
             $ilDB->manipulateF(
@@ -322,12 +249,12 @@ class ilSCORMResource extends ilSCORMObject
 				INSERT INTO sc_resource_file (id,res_id, href, nr) 
 				VALUES(%s, %s, %s, %s)',
                 array('integer', 'integer', 'text', 'integer'),
-                array($nextId, $this->getId(), $this->files[$i]->getHref(), ($i + 1))
+                array($nextId, $this->getId(), $value->getHref(), ($i + 1))
             );
         }
 
         // save dependencies
-        for ($i = 0; $i < count($this->dependencies); $i++) {
+        for ($i = 0, $max = count($this->dependencies); $i < $max; $i++) {
             $nextId = $ilDB->nextId('sc_resource_dependen');
 
             $ilDB->manipulateF(
@@ -340,9 +267,6 @@ class ilSCORMResource extends ilSCORMObject
         }
     }
 
-    /**
-     * @return void
-     */
     public function update() : void
     {
         global $DIC;
@@ -374,15 +298,15 @@ class ilSCORMResource extends ilSCORMObject
             array('integer'),
             array($this->getId())
         );
-        
-        for ($i = 0; $i < count($this->files); $i++) {
+
+        foreach ($this->files as $i => $value) {
             $nextId = $ilDB->nextId('sc_resource_file');
             
             $ilDB->manipulateF(
                 'INSERT INTO sc_resource_file (id, res_id, href, nr) 
 				VALUES (%s, %s, %s, %s)',
                 array('integer', 'integer', 'text', 'integer'),
-                array($nextId, $this->getId(), $this->files[$i]->getHref(), ($i + 1))
+                array($nextId, $this->getId(), $value->getHref(), ($i + 1))
             );
         }
 
@@ -392,8 +316,8 @@ class ilSCORMResource extends ilSCORMObject
             array('integer'),
             array($this->getId())
         );
-        
-        for ($i = 0; $i < count($this->dependencies); $i++) {
+
+        foreach ($this->dependencies as $i => $value) {
             $nextId = $ilDB->nextId('sc_resource_dependen');
 
             $ilDB->manipulateF(
@@ -401,14 +325,11 @@ class ilSCORMResource extends ilSCORMObject
 				INSERT INTO sc_resource_dependen (id, res_id, identifierref, nr) VALUES
 				(%s, %s, %s, %s) ',
                 array('integer', 'integer', 'text', 'integer'),
-                array($nextId, $this->getId(), $this->dependencies[$i]->getIdentifierRef(), ($i + 1))
+                array($nextId, $this->getId(), $value->getIdentifierRef(), ($i + 1))
             );
         }
     }
 
-    /**
-     * @return void
-     */
     public function delete() : void
     {
         global $DIC;

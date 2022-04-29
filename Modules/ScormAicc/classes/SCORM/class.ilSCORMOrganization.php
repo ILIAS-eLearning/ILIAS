@@ -25,12 +25,9 @@ class ilSCORMOrganization extends ilSCORMObject
     public string $import_id;
     public ?string $structure;
 
-
     /**
     * Constructor
-    *
-    * @param	int		$a_id		Object ID
-    * @access	public
+    * @param int $a_id Object ID
     */
     public function __construct(int $a_id = 0)
     {
@@ -38,43 +35,26 @@ class ilSCORMOrganization extends ilSCORMObject
         $this->setType('sor');
     }
 
-    /**
-     * @return string
-     */
     public function getImportId() : string
     {
         return $this->import_id;
     }
 
-    /**
-     * @param string $a_import_id
-     * @return void
-     */
     public function setImportId(string $a_import_id) : void
     {
         $this->import_id = $a_import_id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getStructure() : ?string
     {
         return $this->structure;
     }
 
-    /**
-     * @param string|null $a_structure
-     * @return void
-     */
     public function setStructure(?string $a_structure) : void
     {
         $this->structure = $a_structure;
     }
 
-    /**
-     * @return void
-     */
     public function read() : void
     {
         global $DIC;
@@ -94,9 +74,6 @@ class ilSCORMOrganization extends ilSCORMObject
         $this->setStructure($obj_rec['structure']);
     }
 
-    /**
-     * @return void
-     */
     public function create() : void
     {
         global $DIC;
@@ -112,9 +89,6 @@ class ilSCORMOrganization extends ilSCORMObject
         );
     }
 
-    /**
-     * @return void
-     */
     public function update() : void
     {
         global $DIC;
@@ -130,9 +104,6 @@ class ilSCORMOrganization extends ilSCORMObject
         );
     }
 
-    /**
-     * @return void
-     */
     public function delete() : void
     {
         global $DIC;

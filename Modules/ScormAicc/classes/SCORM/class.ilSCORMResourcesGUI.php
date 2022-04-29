@@ -22,18 +22,12 @@
 */
 class ilSCORMResourcesGUI extends ilSCORMObjectGUI
 {
-    /**
-     * @param int $a_id
-     */
     public function __construct(int $a_id)
     {
         parent::__construct();
         $this->sc_object = new ilSCORMResources($a_id);
     }
 
-    /**
-     * @return void
-     */
     public function view() : void
     {
         $this->tpl->addBlockFile("CONTENT", "content", "tpl.scorm_obj.html", "Modules/ScormAicc");
