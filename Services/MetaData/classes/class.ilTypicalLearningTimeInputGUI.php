@@ -31,13 +31,13 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
     public function setValueByLOMDuration(string $a_value) : void
     {
         $this->lom_duration = $a_value;
-        $this->valid        = true;
+        $this->valid = true;
 
         $tlt = ilMDUtils::_LOMDurationToArray($a_value);
 
         if (!$tlt) {
             $this->setValue(array(0, 0, 0, 0, 0));
-            if ($a_value != "") {
+            if ($a_value !== "") {
                 $this->valid = false;
             }
         } else {
@@ -60,7 +60,6 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
 
     public function checkInput() : bool
     {
-
         $_POST[$this->getPostVar()][0] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][0]);
         $_POST[$this->getPostVar()][1] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][1]);
         $_POST[$this->getPostVar()][2] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][2]);
@@ -101,7 +100,7 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
     public function insert(ilTemplate $a_tpl) : void
     {
         $ttpl = new ilTemplate("tpl.prop_typical_learning_time.html", true, true, "Services/MetaData");
-        $val  = $this->getValue();
+        $val = $this->getValue();
 
         $ttpl->setVariable("TXT_MONTH", $this->lng->txt('md_months'));
         $ttpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect((string) $val[0]));
@@ -110,10 +109,11 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         $ttpl->setVariable("TXT_DAYS", $this->lng->txt('md_days'));
         $ttpl->setVariable("TXT_TIME", $this->lng->txt('md_time'));
 
-        $ttpl->setVariable("SEL_TLT",
+        $ttpl->setVariable(
+            "SEL_TLT",
             ilLegacyFormElementsUtil::makeTimeSelect(
                 $this->getPostVar(),
-                $val[4] ? false : true,
+                !$val[4],
                 $val[2],
                 $val[3],
                 $val[4],

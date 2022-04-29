@@ -28,7 +28,6 @@
  */
 class ilMDDescription extends ilMDBase
 {
-
     private string $description = '';
     private ?ilMDLanguageItem $description_language = null;
 
@@ -45,9 +44,7 @@ class ilMDDescription extends ilMDBase
 
     public function setDescriptionLanguage(ilMDLanguageItem $lng_obj) : void
     {
-        if (is_object($lng_obj)) {
-            $this->description_language = $lng_obj;
-        }
+        $this->description_language = $lng_obj;
     }
 
     public function getDescriptionLanguage() : ?ilMDLanguageItem
@@ -62,8 +59,7 @@ class ilMDDescription extends ilMDBase
 
     public function save() : int
     {
-
-        $fields                        = $this->__getFields();
+        $fields = $this->__getFields();
         $fields['meta_description_id'] = array('integer', $next_id = $this->db->nextId('il_meta_description'));
 
         if ($this->db->insert('il_meta_description', $fields)) {
@@ -75,26 +71,19 @@ class ilMDDescription extends ilMDBase
 
     public function update() : bool
     {
-
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_description',
-                $this->__getFields(),
-                array("meta_description_id" => array('integer', $this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_description',
+            $this->__getFields(),
+            array("meta_description_id" => array('integer', $this->getMetaId()))
+        );
     }
 
     public function delete() : bool
     {
-
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_description " .
                 "WHERE meta_description_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res   = $this->db->manipulate($query);
+            $res = $this->db->manipulate($query);
 
             return true;
         }
@@ -107,20 +96,18 @@ class ilMDDescription extends ilMDBase
     public function __getFields() : array
     {
         return array(
-            'rbac_id'              => array('integer', $this->getRBACId()),
-            'obj_id'               => array('integer', $this->getObjId()),
-            'obj_type'             => array('text', $this->getObjType()),
-            'parent_type'          => array('text', $this->getParentType()),
-            'parent_id'            => array('integer', $this->getParentId()),
-            'description'          => array('clob', $this->getDescription()),
+            'rbac_id' => array('integer', $this->getRBACId()),
+            'obj_id' => array('integer', $this->getObjId()),
+            'obj_type' => array('text', $this->getObjType()),
+            'parent_type' => array('text', $this->getParentType()),
+            'parent_id' => array('integer', $this->getParentId()),
+            'description' => array('clob', $this->getDescription()),
             'description_language' => array('text', $this->getDescriptionLanguageCode())
         );
     }
 
     public function read() : bool
     {
-
-
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_description " .
                 "WHERE meta_description_id = " . $this->db->quote($this->getMetaId(), 'integer');
@@ -144,14 +131,11 @@ class ilMDDescription extends ilMDBase
         $writer->xmlElement(
             'Description',
             array(
-                'Language' => $this->getDescriptionLanguageCode() ?
-                    $this->getDescriptionLanguageCode() :
-                    'en'
+                'Language' => $this->getDescriptionLanguageCode() ?: 'en'
             ),
             $this->getDescription()
         );
     }
-
 
     // STATIC
 

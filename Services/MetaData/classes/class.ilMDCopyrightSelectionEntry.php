@@ -48,8 +48,8 @@ class ilMDCopyrightSelectionEntry
     {
         global $DIC;
 
-        $this->logger   = $DIC->logger()->meta();
-        $this->db       = $DIC->database();
+        $this->logger = $DIC->logger()->meta();
+        $this->db = $DIC->database();
         $this->entry_id = $a_entry_id;
         $this->read();
     }
@@ -61,10 +61,10 @@ class ilMDCopyrightSelectionEntry
     {
         global $DIC;
 
-        $ilDB = $DIC->database();;
+        $ilDB = $DIC->database();
 
         $query = "SELECT entry_id FROM il_md_cpr_selections ORDER BY is_default DESC, position ASC";
-        $res   = $ilDB->query($query);
+        $res = $ilDB->query($query);
 
         $entries = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -77,7 +77,7 @@ class ilMDCopyrightSelectionEntry
     {
         global $DIC;
 
-        $ilDB = $DIC->database();;
+        $ilDB = $DIC->database();
 
         if (!$entry_id = self::_extractEntryId($a_cp_string)) {
             return $a_cp_string;
@@ -85,16 +85,16 @@ class ilMDCopyrightSelectionEntry
 
         $query = "SELECT title FROM il_md_cpr_selections " .
             "WHERE entry_id = " . $ilDB->quote($entry_id, ilDBConstants::T_INTEGER) . " ";
-        $res   = $ilDB->query($query);
-        $row   = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        return $row->title ? $row->title : '';
+        $res = $ilDB->query($query);
+        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+        return $row->title ?: '';
     }
 
     public static function _lookupCopyright(string $a_cp_string) : string
     {
         global $DIC;
 
-        $ilDB = $DIC->database();;
+        $ilDB = $DIC->database();
 
         if (!$entry_id = self::_extractEntryId($a_cp_string)) {
             return $a_cp_string;
@@ -102,9 +102,9 @@ class ilMDCopyrightSelectionEntry
 
         $query = "SELECT copyright FROM il_md_cpr_selections " .
             "WHERE entry_id = " . $ilDB->quote($entry_id, ilDBConstants::T_INTEGER) . " ";
-        $res   = $ilDB->query($query);
-        $row   = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        return $row->copyright ? $row->copyright : '';
+        $res = $ilDB->query($query);
+        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+        return $row->copyright ?: '';
     }
 
     public static function lookupCopyrightByText(string $copyright_text) : int
@@ -115,7 +115,7 @@ class ilMDCopyrightSelectionEntry
 
         $query = 'SELECT entry_id FROM il_md_cpr_selections ' .
             'WHERE copyright = ' . $db->quote($copyright_text, 'text');
-        $res   = $db->query($query);
+        $res = $db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->entry_id;
         }
@@ -256,26 +256,25 @@ class ilMDCopyrightSelectionEntry
     protected function getNextOrderPosition() : int
     {
         $query = "SELECT count(entry_id) total FROM il_md_cpr_selections";
-        $res   = $this->db->query($query);
-        $row   = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
+        $res = $this->db->query($query);
+        $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
         return $row['total'] + 1;
     }
 
     public function add() : bool
     {
-
         $next_id = $this->db->nextId('il_md_cpr_selections');
 
         $this->db->insert('il_md_cpr_selections', array(
-            'entry_id'         => array('integer', $next_id),
-            'title'            => array('text', $this->getTitle()),
-            'description'      => array('clob', $this->getDescription()),
-            'copyright'        => array('clob', $this->getCopyright()),
-            'language'         => array('text', $this->getLanguage()),
-            'costs'            => array('integer', $this->getCosts()),
+            'entry_id' => array('integer', $next_id),
+            'title' => array('text', $this->getTitle()),
+            'description' => array('clob', $this->getDescription()),
+            'copyright' => array('clob', $this->getCopyright()),
+            'language' => array('text', $this->getLanguage()),
+            'costs' => array('integer', $this->getCosts()),
             'cpr_restrictions' => array('integer', $this->getCopyrightAndOtherRestrictions()),
-            'position'         => array('integer', $this->getNextOrderPosition())
+            'position' => array('integer', $this->getNextOrderPosition())
         ));
         $this->entry_id = $next_id;
         return true;
@@ -283,16 +282,15 @@ class ilMDCopyrightSelectionEntry
 
     public function update() : bool
     {
-
         $this->db->update('il_md_cpr_selections', array(
-            'title'            => array('text', $this->getTitle()),
-            'description'      => array('clob', $this->getDescription()),
-            'copyright'        => array('clob', $this->getCopyright()),
-            'language'         => array('text', $this->getLanguage()),
-            'costs'            => array('integer', $this->getCosts()),
+            'title' => array('text', $this->getTitle()),
+            'description' => array('clob', $this->getDescription()),
+            'copyright' => array('clob', $this->getCopyright()),
+            'language' => array('text', $this->getLanguage()),
+            'costs' => array('integer', $this->getCosts()),
             'cpr_restrictions' => array('integer', $this->getCopyrightAndOtherRestrictions()),
-            'outdated'         => array('integer', $this->getOutdated()),
-            'position'         => array('integer', $this->getOrderPosition())
+            'outdated' => array('integer', $this->getOutdated()),
+            'position' => array('integer', $this->getOrderPosition())
         ), array(
             'entry_id' => array('integer', $this->getEntryId())
         ));
@@ -301,23 +299,18 @@ class ilMDCopyrightSelectionEntry
 
     public function delete() : void
     {
-
         $query = "DELETE FROM il_md_cpr_selections " .
             "WHERE entry_id = " . $this->db->quote($this->getEntryId(), 'integer') . " ";
-        $res   = $this->db->manipulate($query);
+        $res = $this->db->manipulate($query);
     }
 
     public function validate() : bool
     {
-        if (!strlen($this->getTitle())) {
-            return false;
-        }
-        return true;
+        return $this->getTitle() !== '';
     }
 
     private function read() : void
     {
-
         $query = "SELECT * FROM il_md_cpr_selections " .
             "WHERE entry_id = " . $this->db->quote($this->entry_id, 'integer') . " " .
             "ORDER BY is_default DESC, position ASC ";
@@ -336,10 +329,13 @@ class ilMDCopyrightSelectionEntry
         }
 
         $query = "SELECT count(meta_rights_id) used FROM il_meta_rights " .
-            "WHERE description = " . $this->db->quote('il_copyright_entry__' . IL_INST_ID . '__' . $this->getEntryId(), 'text');
+            "WHERE description = " . $this->db->quote(
+                'il_copyright_entry__' . IL_INST_ID . '__' . $this->getEntryId(),
+                'text'
+            );
 
-        $res         = $this->db->query($query);
-        $row         = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
+        $res = $this->db->query($query);
+        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         $this->usage = (bool) $row->used;
     }
 

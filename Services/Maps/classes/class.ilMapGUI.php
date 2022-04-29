@@ -18,6 +18,7 @@ abstract class ilMapGUI
     protected bool $enable_type_control;
     protected bool $enable_update_listener;
     protected bool $enable_navigation_control;
+    /** @var int[] */
     protected array $user_marker;
     protected bool $large_map_control;
     protected bool $central_marker;
@@ -165,9 +166,10 @@ abstract class ilMapGUI
         return $this->central_marker;
     }
 
-    public function addUserMarker(int $user_id)
+    public function addUserMarker(int $user_id) : ilMapGUI
     {
-        return $this->user_marker[] = $user_id;
+        $this->user_marker[] = $user_id;
+        return $this;
     }
 
     abstract public function getHtml() : string;

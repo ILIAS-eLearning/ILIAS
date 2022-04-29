@@ -250,9 +250,9 @@ class ilTermsOfServiceDocumentTest extends ilTermsOfServiceCriterionBaseTest
 
     /**
      * @dataProvider criteriaAssignmentProvider
-     * @param ilTermsOfServiceDocumentCriterionAssignment|MockObject $criterionAssignment1
-     * @param ilTermsOfServiceDocumentCriterionAssignment|MockObject $criterionAssignment2
-     * @param ilTermsOfServiceDocumentCriterionAssignment|MockObject $criterionAssignment3
+     * @param ilTermsOfServiceDocumentCriterionAssignment&MockObject $criterionAssignment1
+     * @param ilTermsOfServiceDocumentCriterionAssignment&MockObject $criterionAssignment2
+     * @param ilTermsOfServiceDocumentCriterionAssignment&MockObject $criterionAssignment3
      */
     public function testCriteriaCanBeAttachedToAndDetachedFromDocumentPersistently(
         ilTermsOfServiceDocumentCriterionAssignment $criterionAssignment1,

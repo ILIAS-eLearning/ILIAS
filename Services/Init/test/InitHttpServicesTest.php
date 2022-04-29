@@ -14,12 +14,12 @@ class InitHttpServicesTest extends TestCase
     /**
      * Http services has no additional deps so far to be set up.
      */
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->dic = new \ILIAS\DI\Container();
     }
 
-    public function testUIFrameworkInitialization()
+    public function testUIFrameworkInitialization() : void
     {
         $this->assertFalse(isset($this->dic['http']));
         $this->assertFalse(isset($this->dic['http.response_sender_strategy']));

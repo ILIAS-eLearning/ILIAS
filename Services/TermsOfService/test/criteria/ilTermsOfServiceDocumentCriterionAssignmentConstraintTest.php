@@ -26,7 +26,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsOfServiceCriterionBaseTest
 {
     /**
-     * @return MockObject|ilTermsOfServiceCriterionTypeFactoryInterface
+     * @return MockObject&ilTermsOfServiceCriterionTypeFactoryInterface
      */
     protected function getCriterionTypeFactoryMock() : ilTermsOfServiceCriterionTypeFactoryInterface
     {
@@ -39,7 +39,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
 
     /**
      * @param string $typeIdent
-     * @return MockObject|ilTermsOfServiceCriterionType
+     * @return MockObject&ilTermsOfServiceCriterionType
      */
     protected function getCriterionTypeMock(string $typeIdent) : ilTermsOfServiceCriterionType
     {
@@ -55,7 +55,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
     }
 
     /**
-     * @return MockObject|ilTermsOfServiceCriterionTypeFactoryInterface
+     * @return MockObject&ilTermsOfServiceCriterionTypeFactoryInterface
      */
     protected function getTypeMockForConstraint() : ilTermsOfServiceCriterionTypeFactoryInterface
     {

@@ -80,7 +80,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
 
     public function testFetchingDataSetForTableWithLimitParamterAndWithoutFilters() : void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database
             ->expects($this->atLeastOnce())
@@ -139,7 +139,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
 
     public function testFetchingDataSetForTableWithOrderFieldDate() : void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database
             ->expects($this->atLeastOnce())
@@ -204,7 +204,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database
             ->expects($this->atLeastOnce())
@@ -249,7 +249,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database
             ->expects($this->atLeastOnce())
@@ -294,7 +294,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database
             ->expects($this->atLeastOnce())
@@ -344,7 +344,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database
             ->expects($this->atLeastOnce())
@@ -394,7 +394,7 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database
             ->expects($this->atLeastOnce())

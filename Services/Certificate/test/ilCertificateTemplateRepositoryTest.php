@@ -23,7 +23,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 {
     public function testCertificateWillBeSavedToTheDatabase() : void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -82,7 +82,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 
     public function testFetchCertificateTemplatesByObjId() : void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -136,7 +136,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 
     public function testFetchCurrentlyActiveCertificate() : void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -247,7 +247,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
      */
     public function testDeleteTemplateFromDatabase() : void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -276,7 +276,7 @@ AND obj_id = 200');
 
     public function testActivatePreviousCertificate() : void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -342,7 +342,7 @@ WHERE id = 30'
 
     public function testFetchAllObjectIdsByType() : void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -398,7 +398,7 @@ WHERE id = 30'
     {
         $this->expectException(ilException::class);
 
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -427,7 +427,7 @@ WHERE id = 30'
 
     public function fetchFirstCreateTemplate() : void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()

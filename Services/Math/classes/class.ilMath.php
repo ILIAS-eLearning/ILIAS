@@ -16,6 +16,10 @@
  *
  *********************************************************************/
 
+/**
+ * @method static _round(mixed $value, int $precision) : string
+ * @method static _equals(mixed $left_operand, mixed $right_operand, int $scale = null) : bool
+ */
 class ilMath
 {
     protected static ?ilMathAdapter $default_adapter = null;

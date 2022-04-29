@@ -23,31 +23,17 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 {
-    /**
-     * @var MockObject
-     */
+    /** @var MockObject&ilDBInterface */
     private $database;
-
-    /**
-     * @var MockObject
-     */
+    /** @var MockObject&ilLogger */
     private $logger;
-
-    /**
-     * @var MockObject
-     */
+    /** @var MockObject&ilCtrlInterface */
     private $controller;
 
     protected function setUp() : void
     {
-        $this->database = $this->getMockBuilder(ilDBInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->controller = $this->getMockBuilder(ilCtrl::class)
-                               ->disableOriginalConstructor()
-                               ->getMock();
-
+        $this->database = $this->createMock(ilDBInterface::class);
+        $this->controller = $this->createMock(ilCtrlInterface::class);
         $this->logger = $this->getMockBuilder(ilLogger::class)
                          ->disableOriginalConstructor()
                          ->getMock();

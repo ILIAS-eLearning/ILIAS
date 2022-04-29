@@ -49,6 +49,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
     /**
      * Handle update status
      */
+    // TODO PHP8 Review: Missing Parameter Type Declaration
     protected function handleUpdateStatus(int $a_obj_id, int $a_usr_id, $a_status, $a_percentage) : void
     {
         $this->logger->debug('Handle update status');
@@ -124,6 +125,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
     /**
      * try outcome service
      */
+    // TODO PHP8 Review: Missing Parameter Type Declaration
     protected function tryOutcomeService($resource, string $ext_account, $a_status, $a_percentage) : void
     {
         $resource_link = \ILIAS\LTI\ToolProvider\ResourceLink::fromRecordId($resource, $this->connector);

@@ -23,15 +23,11 @@ use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 
 class ilForumTopicTest extends TestCase
 {
-    /**
-     * @var MockObject|ilDBInterface
-     */
+    /** @var MockObject&ilDBInterface */
     private $mockDatabase;
-
-    /**
-     * @var MockObject|ilObjUser
-     */
+    /** @var MockObject&ilObjUser */
     private $mockUser;
+    private ?Container $dic = null;
 
     public function testConstruct() : void
     {
@@ -516,6 +512,8 @@ class ilForumTopicTest extends TestCase
     {
         global $DIC;
 
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
         $DIC = new Container();
 
         $this->mockDatabase = $this->getMockBuilder(ilDBInterface::class)->getMock();
@@ -523,6 +521,15 @@ class ilForumTopicTest extends TestCase
 
         $DIC['ilDB'] = $this->mockDatabase;
         $DIC['ilUser'] = $this->mockUser;
+    }
+
+    protected function tearDown() : void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 
     private function withIgnoredQuery(InvocationMocker $mock, ...$expected) : InvocationMocker

@@ -21,9 +21,7 @@ class ilOerHarvesterSettings
     protected ilSetting $storage;
     protected ilSetting $settings;
 
-
     private int $target = 0;
-
 
     /**
      * @var string[]
@@ -31,9 +29,6 @@ class ilOerHarvesterSettings
     private array $copyright_templates = [];
 
     private ?ilCronOerHarvester $cronjob = null;
-
-
-
 
     protected function __construct()
     {
@@ -45,17 +40,13 @@ class ilOerHarvesterSettings
         $this->read();
     }
 
-
-
-
-    public static function getInstance() : ilOerHarvesterSettings
+    public static function getInstance() : self
     {
-        if (!self::$instance instanceof ilOerHarvesterSettings) {
+        if (!self::$instance instanceof self) {
             self::$instance = new self();
         }
         return self::$instance;
     }
-
 
     public function supportsHarvesting(string $a_type) : bool
     {
@@ -70,12 +61,10 @@ class ilOerHarvesterSettings
         return self::COLLECTED_TYPES;
     }
 
-
     public function setTarget(int $a_target) : void
     {
         $this->target = $a_target;
     }
-
 
     public function getTarget() : int
     {
@@ -98,7 +87,6 @@ class ilOerHarvesterSettings
         return $this->copyright_templates;
     }
 
-
     public function isActiveCopyrightTemplate(int $a_id) : bool
     {
         return in_array($a_id, $this->getCopyrightTemplates());
@@ -117,18 +105,15 @@ class ilOerHarvesterSettings
         return $lom_entries;
     }
 
-
-
     public function save() : void
     {
         $this->storage->set('target', (string) $this->getTarget());
         $this->storage->set('templates', serialize($this->copyright_templates));
     }
 
-
     public function read() : void
     {
         $this->setTarget((int) $this->storage->get('target', '0'));
-        $this->setCopyrightTemplates(unserialize($this->storage->get('templates', serialize([]))));
+        $this->setCopyrightTemplates(unserialize($this->storage->get('templates', serialize([])), ['allowed_classes' => false]));
     }
 }

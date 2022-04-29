@@ -38,8 +38,6 @@ class ilLTIConsumeProviderSettingsGUI
 
     /**
      * ilLTIConsumerAccess constructor.
-     * @param ilObjLTIConsumer    $object
-     * @param ilLTIConsumerAccess $access
      */
     public function __construct(ilObjLTIConsumer $object, ilLTIConsumerAccess $access)
     {
@@ -90,8 +88,6 @@ class ilLTIConsumeProviderSettingsGUI
     }
 
     /**
-     * @param ilLTIConsumeProvider $provider
-     * @return ilLTIConsumeProviderFormGUI
      * @throws ilCtrlException
      */
     protected function buildForm(ilLTIConsumeProvider $provider) : ilLTIConsumeProviderFormGUI

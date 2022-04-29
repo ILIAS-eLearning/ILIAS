@@ -12,6 +12,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Abstract meta data sax parser
  * This class should be inherited by all classes that want to parse meta data. E.g ContObjParser, CourseXMLParser ...
@@ -99,11 +100,9 @@ class ilMDSaxParser extends ilSaxParser
     }
 
     /**
-    * set event handlers
-    *
-    * @param	resource	reference to the xml parser
-    * @access	private
-    */
+     * Set event handlers
+     * @param XMLParser|resource reference to the xml parser
+     */
     public function setHandlers($a_xml_parser) : void
     {
         xml_set_object($a_xml_parser, $this);
@@ -112,7 +111,7 @@ class ilMDSaxParser extends ilSaxParser
     }
 
     /**
-     * @param resource $a_xml_parser
+     * @param XMLParser|resource $a_xml_parser
      */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
@@ -158,9 +157,9 @@ class ilMDSaxParser extends ilSaxParser
             case 'Description':
                 $par = $this->__getParent();
 
-                if (strtolower(get_class($par)) == 'ilmdrights' or
-                    strtolower(get_class($par)) == 'ilmdannotation' or
-                    strtolower(get_class($par)) == 'ilmdclassification') {
+                if (strtolower(get_class($par)) === 'ilmdrights' ||
+                    strtolower(get_class($par)) === 'ilmdannotation' ||
+                    strtolower(get_class($par)) === 'ilmdclassification') {
                     $par->setDescriptionLanguage(new ilMDLanguageItem($a_attribs['Language']));
                     break;
                 } else {
@@ -174,7 +173,7 @@ class ilMDSaxParser extends ilSaxParser
             // no break
             case 'Keyword':
                 $par = $this->__getParent();
-                if (!in_array(get_class($par), ["ilMD"])) {
+                if (!$par instanceof ilMD) {
                     $this->md_key = $par->addKeyword();
                     $this->md_key->setKeywordLanguage(new ilMDLanguageItem($a_attribs['Language']));
                     $this->md_key->save();
@@ -211,7 +210,7 @@ class ilMDSaxParser extends ilSaxParser
             case 'Entity':
                 $par = $this->__getParent();
 
-                if (strtolower(get_class($par)) == 'ilmdcontribute') {
+                if (strtolower(get_class($par)) === 'ilmdcontribute') {
                     $this->md_ent = $par->addEntity();
                     $this->md_ent->save();
                     $this->__pushParent($this->md_ent);
@@ -448,7 +447,7 @@ class ilMDSaxParser extends ilSaxParser
 
             case 'Keyword':
                 $par = $this->__getParent();
-                if (!in_array(get_class($par), ["ilMD"])) {
+                if (!$par instanceof ilMD) {
                     $par->setKeyword($this->__getCharacterData());
                     $this->meta_log->debug("Keyword: " . $this->__getCharacterData());
                     $par->update();
@@ -481,7 +480,7 @@ class ilMDSaxParser extends ilSaxParser
             case 'Entity':
                 $par = $this->__getParent();
 
-                if (strtolower(get_class($par)) == 'ilmdentity') {
+                if (strtolower(get_class($par)) === 'ilmdentity') {
                     $par->setEntity($this->__getCharacterData());
                     $par->update();
                     $this->__popParent();
@@ -643,7 +642,7 @@ class ilMDSaxParser extends ilSaxParser
             return;
         }
 
-        if ($this->inMetaData() and $a_data != "\n") {
+        if ($a_data !== "\n" && $this->inMetaData()) {
             // Replace multiple tabs with one space
             $a_data = preg_replace("/\t+/", " ", $a_data);
 
@@ -657,7 +656,7 @@ class ilMDSaxParser extends ilSaxParser
         return trim($this->md_chr_data);
     }
 
-    public function __pushParent(object &$md_obj) : void
+    public function __pushParent(object $md_obj) : void
     {
         $this->md_parent[] = &$md_obj;
         $this->meta_log->debug('New parent stack (push)...');

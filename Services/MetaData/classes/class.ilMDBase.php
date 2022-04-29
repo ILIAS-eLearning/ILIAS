@@ -77,14 +77,14 @@ abstract class ilMDBase
 
         $this->db = $DIC->database();
 
-        if ($a_obj_id == 0) {
+        if ($a_obj_id === 0) {
             $a_obj_id = $a_rbac_id;
         }
 
         $this->log = ilLoggerFactory::getLogger("meta");
 
-        $this->rbac_id  = $a_rbac_id;
-        $this->obj_id   = $a_obj_id;
+        $this->rbac_id = $a_rbac_id;
+        $this->obj_id = $a_obj_id;
         $this->obj_type = $a_type;
     }
     

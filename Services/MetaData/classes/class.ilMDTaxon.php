@@ -45,9 +45,7 @@ class ilMDTaxon extends ilMDBase
 
     public function setTaxonLanguage(ilMDLanguageItem $lng_obj) : void
     {
-        if (is_object($lng_obj)) {
-            $this->taxon_language = $lng_obj;
-        }
+        $this->taxon_language = $lng_obj;
     }
 
     public function getTaxonLanguage() : ?ilMDLanguageItem
@@ -72,8 +70,7 @@ class ilMDTaxon extends ilMDBase
 
     public function save() : int
     {
-
-        $fields                  = $this->__getFields();
+        $fields = $this->__getFields();
         $fields['meta_taxon_id'] = array('integer', $next_id = $this->db->nextId('il_meta_taxon'));
 
         if ($this->db->insert('il_meta_taxon', $fields)) {
@@ -85,22 +82,15 @@ class ilMDTaxon extends ilMDBase
 
     public function update() : bool
     {
-
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_taxon',
-                $this->__getFields(),
-                array("meta_taxon_id" => array('integer', $this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_taxon',
+            $this->__getFields(),
+            array("meta_taxon_id" => array('integer', $this->getMetaId()))
+        );
     }
 
     public function delete() : bool
     {
-
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_taxon " .
                 "WHERE meta_taxon_id = " . $this->db->quote($this->getMetaId(), 'integer');
@@ -118,21 +108,19 @@ class ilMDTaxon extends ilMDBase
     public function __getFields() : array
     {
         return array(
-            'rbac_id'        => array('integer', $this->getRBACId()),
-            'obj_id'         => array('integer', $this->getObjId()),
-            'obj_type'       => array('text', $this->getObjType()),
-            'parent_type'    => array('text', $this->getParentType()),
-            'parent_id'      => array('integer', $this->getParentId()),
-            'taxon'          => array('text', $this->getTaxon()),
+            'rbac_id' => array('integer', $this->getRBACId()),
+            'obj_id' => array('integer', $this->getObjId()),
+            'obj_type' => array('text', $this->getObjType()),
+            'parent_type' => array('text', $this->getParentType()),
+            'parent_id' => array('integer', $this->getParentId()),
+            'taxon' => array('text', $this->getTaxon()),
             'taxon_language' => array('text', $this->getTaxonLanguageCode()),
-            'taxon_id'       => array('text', $this->getTaxonId())
+            'taxon_id' => array('text', $this->getTaxonId())
         );
     }
 
     public function read() : bool
     {
-
-
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_taxon " .
                 "WHERE meta_taxon_id = " . $this->db->quote($this->getMetaId(), 'integer');
@@ -158,16 +146,12 @@ class ilMDTaxon extends ilMDBase
         $writer->xmlElement(
             'Taxon',
             array(
-                'Language' => $this->getTaxonLanguageCode()
-                    ? $this->getTaxonLanguageCode()
-                    : 'en',
-                'Id'       => $this->getTaxonId() ?
-                    $this->getTaxonId() : ("ID" . $random->int())
+                'Language' => $this->getTaxonLanguageCode() ?: 'en',
+                'Id' => $this->getTaxonId() ?: ("ID" . $random->int())
             ),
             $this->getTaxon()
         );
     }
-
 
     // STATIC
 

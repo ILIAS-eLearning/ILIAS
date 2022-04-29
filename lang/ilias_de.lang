@@ -10676,6 +10676,8 @@ mail#:#mail_incoming_smtp#:#An eingetragene E-Mail-Adresse weiterleiten
 mail#:#mail_insert_folder_name#:#Bitte geben Sie einen Ordnernamen ein
 mail#:#mail_insert_query#:#Bitte geben Sie einen Suchbegriff ein
 mail#:#mail_invite_users_to_chat#:#Benutzer in Chat einladen
+mail#:#mail_is_read#:#gelesen
+mail#:#mail_is_unread#:#ungelesen
 mail#:#mail_list_members#:#Mitglieder auflisten
 mail#:#mail_mailing_lists_all_contact_entries_assigned#:#Sie haben bereits all Ihre Kontakte diesem Verteiler zugeordnet.
 mail#:#mail_mailing_lists_no_contact_entries#:#Sie haben keine Einträge in den Kontakten die Sie zur Verteilerliste hinzufügen können.
@@ -14585,6 +14587,9 @@ skmg#:#skmg_enable_skmg#:#Kompetenzmanagement aktivieren
 skmg#:#skmg_eval_type_1#:#Fremdeinschätzung
 skmg#:#skmg_eval_type_2#:#Messung
 skmg#:#skmg_eval_type_3#:#Selbsteinschätzung
+skmg#:#skmg_eval_type_latest_1#:#Letzte Fremdeinschätzung
+skmg#:#skmg_eval_type_latest_2#:#Letzte Messung
+skmg#:#skmg_eval_type_latest_3#:#Letzte Selbsteinschätzung
 skmg#:#skmg_execute_self_evaluation#:#Start
 skmg#:#skmg_form_presentation#:#Darstellung
 skmg#:#skmg_from_lower_to_higher_levels#:#Bitte geben Sie niedrigeren Kompetenzstufen auch niedrigere Ordnungsnummern. Je Zeile sollte die Kompetenz nach unten zunehmen.
@@ -14649,6 +14654,8 @@ skmg#:#skmg_self_evaluation_byline#:#Die Selbsteinschätzung wird bei der Erreic
 skmg#:#skmg_self_evaluation#:#Selbsteinschätzung
 skmg#:#skmg_self_evaluations#:#Selbsteinschätzungen
 skmg#:#skmg_settings#:#Kompetenzmanagement Einstellungen
+skmg#:#skmg_show_all#:#Alle anzeigen
+skmg#:#skmg_show_latest_entries#:#Letzte Einträge anzeigen
 skmg#:#skmg_skill_in_use#:#Diese Kompetenz wird durch Benutzer oder Inhalte genutzt. Daher stehen nicht alle Aktionen zur Verfügung. Bedenken Sie bitte, dass sich alle Änderungen auf die bestehenden Benutzungen auswirken.
 skmg#:#skmg_skill#:#Kompetenz
 skmg#:#skmg_skill_level#:#Kompetenzstufe
@@ -16227,11 +16234,13 @@ trac#:#trac_object_stat_types#:#Anzahl der Objekte
 trac#:#trac_others#:#Sonstige
 trac#:#trac_participants#:#Teilnehmer zeigen
 trac#:#trac_participated#:#Teilgenommen
+trac#:#trac_paths#:#Pfade
 trac#:#trac_percentage#:#Prozent
 trac#:#trac_periodic_system_load#:#Periodische Lastdarstellung
 trac#:#trac_progress#:#Persönlicher Lernfortschritt
 trac#:#trac_read_count_spent_seconds#:#Bearbeitungszeit / Zugriffe
 trac#:#trac_read_count#:#Zugriffe
+trac#:#trac_reference_ids_column#:#Referenz-Ids
 trac#:#trac_reference#:#Referenzen
 trac#:#trac_refresh#:#Ansicht aktualisieren
 trac#:#trac_registered#:#Angemeldet
@@ -16657,6 +16666,7 @@ wiki#:#wiki_rename#:#Umbenennen
 wiki#:#wiki_save_ordering_and_indent#:#Reihenfolge und Einzug speichern
 wiki#:#wiki_search_results#:#Suchergebnisse
 wiki#:#wiki_search#:#Suche
+wiki#:#wiki_sec_protect_info#:#Geschützte Blöcke können nur von Benutzenden mit "Einstellungen bearbeiten" Recht editiert werden.
 wiki#:#wiki_selected_pages#:#Ausgewählte Seiten
 wiki#:#wiki_select_one_item#:#Bitte wählen Sie ein Element aus.
 wiki#:#wiki_set_as_start_page#:#Als Startseite setzen

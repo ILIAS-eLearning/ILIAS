@@ -351,7 +351,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
             return $result;
         });
         
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
         $database->expects($this->once())->method('queryF')->with(
             $isGlobalLpEnabled
                 ? $this->logicalAnd(

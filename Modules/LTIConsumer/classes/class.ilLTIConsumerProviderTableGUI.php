@@ -109,209 +109,131 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         return $this->title;
     }
     
-    /**
-     * @return string
-     */
     public function getEditProviderCmd() : string
     {
         return $this->editProviderCmd;
     }
     
-    /**
-     * @param string $editProviderCmd
-     */
     public function setEditProviderCmd(string $editProviderCmd) : void
     {
         $this->editProviderCmd = $editProviderCmd;
     }
     
-    /**
-     * @return string
-     */
     public function getAcceptProviderAsGlobalCmd() : string
     {
         return $this->acceptProviderAsGlobalCmd;
     }
     
-    /**
-     * @param string $acceptProviderAsGlobalCmd
-     */
     public function setAcceptProviderAsGlobalCmd(string $acceptProviderAsGlobalCmd) : void
     {
         $this->acceptProviderAsGlobalCmd = $acceptProviderAsGlobalCmd;
     }
     
-    /**
-     * @return string
-     */
     public function getAcceptProviderAsGlobalMultiCmd() : string
     {
         return $this->acceptProviderAsGlobalMultiCmd;
     }
     
-    /**
-     * @param string $acceptProviderAsGlobalMultiCmd
-     */
     public function setAcceptProviderAsGlobalMultiCmd(string $acceptProviderAsGlobalMultiCmd) : void
     {
         $this->acceptProviderAsGlobalMultiCmd = $acceptProviderAsGlobalMultiCmd;
     }
     
-    /**
-     * @return string
-     */
     public function getResetProviderToUserScopeCmd() : string
     {
         return $this->resetProviderToUserScopeCmd;
     }
     
-    /**
-     * @param string $resetProviderToUserScopeCmd
-     */
     public function setResetProviderToUserScopeCmd(string $resetProviderToUserScopeCmd) : void
     {
         $this->resetProviderToUserScopeCmd = $resetProviderToUserScopeCmd;
     }
     
-    /**
-     * @return string
-     */
     public function getResetProviderToUserScopeMultiCmd() : string
     {
         return $this->resetProviderToUserScopeMultiCmd;
     }
     
-    /**
-     * @param string $resetProviderToUserScopeMultiCmd
-     */
     public function setResetProviderToUserScopeMultiCmd(string $resetProviderToUserScopeMultiCmd) : void
     {
         $this->resetProviderToUserScopeMultiCmd = $resetProviderToUserScopeMultiCmd;
     }
     
-    /**
-     * @return string
-     */
     public function getSelectProviderCmd() : string
     {
         return $this->selectProviderCmd;
     }
     
-    /**
-     * @param string $selectProviderCmd
-     */
     public function setSelectProviderCmd(string $selectProviderCmd) : void
     {
         $this->selectProviderCmd = $selectProviderCmd;
     }
     
-    /**
-     * @return string
-     */
     public function getDeleteProviderCmd() : string
     {
         return $this->deleteProviderCmd;
     }
     
-    /**
-     * @param string $deleteProviderCmd
-     */
     public function setDeleteProviderCmd(string $deleteProviderCmd) : void
     {
         $this->deleteProviderCmd = $deleteProviderCmd;
     }
     
-    /**
-     * @return string
-     */
     public function getDeleteProviderMultiCmd() : string
     {
         return $this->deleteProviderMultiCmd;
     }
     
-    /**
-     * @param string $deleteProviderMultiCmd
-     */
     public function setDeleteProviderMultiCmd(string $deleteProviderMultiCmd) : void
     {
         $this->deleteProviderMultiCmd = $deleteProviderMultiCmd;
     }
     
-    /**
-     * @return bool
-     */
     public function isAvailabilityColumnEnabled() : bool
     {
         return $this->availabilityColumnEnabled;
     }
     
-    /**
-     * @param bool $availabilityColumnEnabled
-     */
     public function setAvailabilityColumnEnabled(bool $availabilityColumnEnabled) : void
     {
         $this->availabilityColumnEnabled = $availabilityColumnEnabled;
     }
     
-    /**
-     * @return bool
-     */
     public function isOwnProviderColumnEnabled() : bool
     {
         return $this->ownProviderColumnEnabled;
     }
     
-    /**
-     * @param bool $ownProviderColumnEnabled
-     */
     public function setOwnProviderColumnEnabled(bool $ownProviderColumnEnabled) : void
     {
         $this->ownProviderColumnEnabled = $ownProviderColumnEnabled;
     }
     
-    /**
-     * @return bool
-     */
     public function isProviderCreatorColumnEnabled() : bool
     {
         return $this->providerCreatorColumnEnabled;
     }
     
-    /**
-     * @param bool $providerCreatorColumnEnabled
-     */
     public function setProviderCreatorColumnEnabled(bool $providerCreatorColumnEnabled) : void
     {
         $this->providerCreatorColumnEnabled = $providerCreatorColumnEnabled;
     }
     
-    /**
-     * @return bool
-     */
     public function isActionsColumnEnabled() : bool
     {
         return $this->actionsColumnEnabled;
     }
     
-    /**
-     * @param bool $actionsColumnEnabled
-     */
     public function setActionsColumnEnabled(bool $actionsColumnEnabled) : void
     {
         $this->actionsColumnEnabled = $actionsColumnEnabled;
     }
     
-    /**
-     * @return bool
-     */
     public function isDetailedUsagesEnabled() : bool
     {
         return $this->detailedUsagesEnabled;
     }
     
-    /**
-     * @param bool $detailedUsagesEnabled
-     */
     public function setDetailedUsagesEnabled(bool $detailedUsagesEnabled) : void
     {
         $this->detailedUsagesEnabled = $detailedUsagesEnabled;
@@ -716,7 +638,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         
         $items = $this->getActionItems($data);
         
-        if (count($items)) {
+        if ($items !== []) {
             return $DIC->ui()->renderer()->render(
                 $DIC->ui()->factory()->dropdown()->standard($items)->withLabel(
                     $DIC->language()->txt('actions')
@@ -727,6 +649,9 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         return '';
     }
     
+    /**
+     * @return mixed[]
+     */
     protected function getActionItems(array $data) : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */

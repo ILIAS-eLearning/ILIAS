@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -38,7 +39,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
     protected GlobalHttpState $http;
     protected Factory $refinery;
 
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($a_data, $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         global $DIC;
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
@@ -113,7 +114,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
 
             default:
                 $this->initMDSettings();
-                if (!$cmd || $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = "showGeneralSettings";
                 }
 
@@ -207,7 +208,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         if ($form->checkInput()) {
             $delim = $form->getInput('delimiter');
             $delim = (
-                trim($delim) == '' ?
+                trim($delim) === '' ?
                 ',' :
                 trim($delim)
             );
@@ -260,7 +261,7 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         $this->showCopyrightSettings($form);
     }
 
-    public function showCopyrightUsages()
+    public function showCopyrightUsages() : void
     {
         $this->ctrl->setParameterByClass('ilmdcopyrightusagegui', 'entry_id', $this->initEntryIdFromQuery());
         $this->ctrl->redirectByClass('ilmdcopyrightusagegui', "showUsageTable");

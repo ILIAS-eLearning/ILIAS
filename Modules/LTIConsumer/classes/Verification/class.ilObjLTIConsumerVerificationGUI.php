@@ -78,7 +78,7 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
                 return;
             }
 
-            if ($newObj) {
+            if ($newObj !== null) {
                 $parent_id = $this->node_id;
                 $this->node_id = null;
                 $this->putObjectInTree($newObj, $parent_id);
@@ -105,9 +105,6 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
 
     /**
      * Render content
-     * @param bool $a_return
-     * @param bool $a_url
-     * @return string
      */
     public function render(bool $a_return = false, bool $a_url = false) : string
     {
@@ -171,7 +168,6 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
     }
 
     /**
-     * @param string $key
      * @param mixed  $default
      * @return mixed|null
      */

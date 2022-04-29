@@ -36,6 +36,8 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
      */
     protected function setUp() : void
     {
+        parent::setUp();
+
         $this->languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();

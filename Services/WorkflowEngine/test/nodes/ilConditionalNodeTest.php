@@ -258,6 +258,8 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         $detector = new ilSimpleDetector($node);
         $node->addDetector($detector);
 
+        vfs\vfsStream::setup('example');
+
         require_once './Services/WorkflowEngine/classes/activities/class.ilLoggingActivity.php';
         $activity = new ilLoggingActivity($node);
         $activity->setLogFile(vfs\vfsStream::url('example/ilTransitionLog.txt'));
@@ -287,6 +289,8 @@ class ilConditionalNodeTest extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
         $detector = new ilSimpleDetector($node);
         $node->addDetector($detector);
+
+        vfs\vfsStream::setup('example');
 
         require_once './Services/WorkflowEngine/classes/activities/class.ilLoggingActivity.php';
         $activity = new ilLoggingActivity($node);

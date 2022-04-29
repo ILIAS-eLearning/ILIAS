@@ -25,7 +25,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTest
 {
     /**
-     * @return MockObject|ilRbacReview
+     * @return MockObject&ilRbacReview
      */
     protected function getRbacReviewMock() : ilRbacReview
     {
@@ -43,7 +43,7 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
     }
 
     /**
-     * @return MockObject|ilObjectDataCache
+     * @return MockObject&ilObjectDataCache
      */
     protected function getObjectDataCacheMock() : ilObjectDataCache
     {
@@ -56,7 +56,7 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
     }
 
     /**
-     * @return MockObject|ilRadioGroupInputGUI
+     * @return MockObject&ilRadioGroupInputGUI
      */
     protected function getRadioGroupMock() : ilRadioGroupInputGUI
     {
@@ -70,7 +70,7 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
     }
 
     /**
-     * @return MockObject|ilPropertyFormGUI
+     * @return MockObject&ilPropertyFormGUI
      */
     protected function getFormMock() : ilPropertyFormGUI
     {
@@ -84,7 +84,7 @@ abstract class ilTermsOfServiceCriterionBaseTest extends ilTermsOfServiceBaseTes
     }
 
     /**
-     * @return MockObject|ilObjUser
+     * @return MockObject&ilObjUser
      */
     protected function getUserMock() : ilObjUser
     {
