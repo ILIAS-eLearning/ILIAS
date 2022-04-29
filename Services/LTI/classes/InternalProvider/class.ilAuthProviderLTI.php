@@ -43,7 +43,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @return int|string auth_mode
      */
     // TODO PHP8 Review: Union Types are not supported by PHP 7.4! int|string
-    public static function getKeyByAuthMode(string $a_auth_mode) : int|string
+    public static function getKeyByAuthMode(string $a_auth_mode)
     {
         $auth_arr = explode('_', $a_auth_mode);
         if (count($auth_arr) > 1) {
