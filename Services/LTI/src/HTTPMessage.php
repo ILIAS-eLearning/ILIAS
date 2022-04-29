@@ -13,7 +13,7 @@ namespace ILIAS\LTI;
  *****************************************************************************/
 class HTTPMessage
 {
-    public mixed $responseJson;
+    public mixed $responseJson; // TODO PHP8 Review: Type `mixed` is not supported!
 
     /**
  * True if message was sent successfully.
@@ -27,13 +27,14 @@ class HTTPMessage
      *
      * @var mixed|null|string $request
      */
-    public mixed $request = null;
+    public mixed $request = null; // TODO PHP8 Review: Type `mixed` is not supported!
 
     /**
      * Request headers.
      *
      * @var bool|string|string[] $requestHeaders
      */
+    // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
     public string|array|bool $requestHeaders = '';
 
     /**
