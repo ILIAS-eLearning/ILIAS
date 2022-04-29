@@ -261,7 +261,7 @@ class ilObjectXMLWriter extends ilXmlWriter
                 $this->xmlElement(
                     'Property',
                     array('name' => 'fileVersion'),
-                    (string) ilObjFileAccess::_lookupVersion($obj->getId())
+                    (string) $obj->getVersion()
                 );
                 $this->xmlEndTag('Properties');
                 break;
