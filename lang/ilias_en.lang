@@ -10800,6 +10800,8 @@ mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are acce
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#system_notification_installation_changed_by#:#Changed By
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.
+mail#:#mail_is_read#:#gelesen
+mail#:#mail_is_unread#:#ungelesen
 maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
 maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search/[QUERY]?format=json.
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
