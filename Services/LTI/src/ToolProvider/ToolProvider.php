@@ -261,14 +261,14 @@ class ToolProvider
      * @var string|string[]|null $mediaTypes
      */
     // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
-    protected string|array|null $mediaTypes = null;
+    protected $mediaTypes = null;
     /**
      * URL to redirect user to on successful completion of the request.
      *
      * @var string|string[]|null $documentTargets
      */
     // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
-    protected string|array|null $documentTargets = null;
+    protected $documentTargets = null;
     /**
      * HTML to be displayed on a successful completion of the request.
      *

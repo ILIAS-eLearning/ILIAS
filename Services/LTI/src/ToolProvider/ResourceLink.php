@@ -613,7 +613,7 @@ EOF;
      * @return array|bool Array of User objects or False if the request was not successful
      */
     // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
-    public function doMembershipsService(bool $withGroups = false) : bool|array
+    public function doMembershipsService(bool $withGroups = false)
     {
         $users = array();
         $oldUsers = $this->getUserResultSourcedIDs(true, ToolProvider::ID_SCOPE_RESOURCE);
