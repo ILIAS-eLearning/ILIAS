@@ -361,7 +361,6 @@ administration#:#usr_loginname_history_info#:#The user changed its login at last
 administration#:#vc_information_not_determined#:#ILIAS could not determine any version control information.
 administration#:#vc_information#:#Show Version Control Information
 administration#:#view_last_log#:#View last Scan log
-administration#:#view_log#:#View details
 adn#:#administrative_notification#:#Administrative Notifications
 adn#:#administrative_notification_description#:#Provide system-wide notifications in topbar of ILIAS
 adn#:#btn_cancel#:#Cancel

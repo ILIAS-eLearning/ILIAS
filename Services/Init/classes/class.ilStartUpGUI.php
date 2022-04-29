@@ -16,6 +16,11 @@ use ILIAS\HTTP\Services as HTTPServices;
  */
 class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
+    public const CMD_STANDARD_AUTH = 'doStandardAuthentication';
+
+    public const KEY_DELAY_IN_SECONDS = 'delay_in_seconds';
+    public const KEY_DELAY_MULTIPLIER = 'delay_multiplier';
+
     protected const ACCOUNT_MIGRATION_MIGRATE = 1;
     protected const ACCOUNT_MIGRATION_NEW = 2;
 
@@ -184,6 +189,17 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     protected function showLoginPageOrStartupPage() : void
     {
+        $this->http->delay()->add(
+            $this->http->delay()->new(
+                (float) $this->setting->get(self::KEY_DELAY_IN_SECONDS)
+            )->withIncrement(
+                $this->http->delay()->increments()->multiplier(
+                    (float) $this->setting->get(self::KEY_DELAY_MULTIPLIER)
+                )
+            ),
+            self::CMD_STANDARD_AUTH
+        );
+
         /**
          * @var ilAuthSession
          */
@@ -655,6 +671,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     protected function doStandardAuthentication() : void
     {
+        $this->http->delay()->await(self::CMD_STANDARD_AUTH);
+
         $form = $this->initStandardLoginForm();
         if ($form->checkInput()) {
             $this->getLogger()->debug('Trying to authenticate user.');
@@ -692,6 +710,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
             switch ($status->getStatus()) {
                 case ilAuthStatus::STATUS_AUTHENTICATED:
+                    $this->http->delay()->remove(self::CMD_STANDARD_AUTH);
                     ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
                     ilInitialisation::redirectToStartingPage();
                     return;

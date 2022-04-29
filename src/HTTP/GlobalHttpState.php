@@ -9,6 +9,7 @@ use ILIAS\HTTP\Wrapper\WrapperFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\Throttling\DelayFactory;
 
 /******************************************************************************
  *
@@ -38,6 +39,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 interface GlobalHttpState
 {
+    public function delay() : DelayFactory;
+
     public function wrapper() : WrapperFactory;
 
     /**

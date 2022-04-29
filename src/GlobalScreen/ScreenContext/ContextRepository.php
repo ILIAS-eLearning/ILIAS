@@ -29,6 +29,7 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 class ContextRepository
 {
     private array $contexts = [];
+    private const C_AUTH = 'auth';
     private const C_MAIN = 'main';
     private const C_DESKTOP = 'desktop';
     private const C_REPO = 'repo';
@@ -43,6 +44,11 @@ class ContextRepository
         global $DIC;
         $this->wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
+    }
+
+    public function auth() : ScreenContext
+    {
+        return $this->get(BasicScreenContext::class, self::C_AUTH);
     }
     
     /**

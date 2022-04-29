@@ -1275,6 +1275,24 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ti->setInfo($this->lng->txt("adm_locale_info"));
         $ti->setValue($ilSetting->get("locale"));
         $this->form->addItem($ti);
+
+        $throttling_section = new ilCheckboxInputGUI($this->lng->txt("throttling_section"), "enable_throttling");
+        $throttling_section->setInfo($this->lng->txt("throttling_section_info"));
+        $throttling_section->setChecked(
+            (bool) $this->settings->get("enable_throttling")
+        );
+
+        $throttling_delay = new ilNumberInputGUI($this->lng->txt("throttling_delay"), ilStartUpGUI::KEY_DELAY_IN_SECONDS);
+        $throttling_delay->setInfo($this->lng->txt("throttling_delay_info"));
+        $throttling_delay->setValue($this->settings->get(ilStartUpGUI::KEY_DELAY_IN_SECONDS));
+
+        $throttling_multiplier = new ilNumberInputGUI($this->lng->txt("throttling_multiplier"), ilStartUpGUI::KEY_DELAY_MULTIPLIER);
+        $throttling_multiplier->setInfo($this->lng->txt("throttling_multiplier_info"));
+        $throttling_multiplier->setValue($this->settings->get(ilStartUpGUI::KEY_DELAY_MULTIPLIER));
+
+        $throttling_section->addSubItem($throttling_delay);
+        $throttling_section->addSubItem($throttling_multiplier);
+        $this->form->addItem($throttling_section);
         
         // save and cancel commands
         $this->form->addCommandButton("saveBasicSettings", $lng->txt("save"));
