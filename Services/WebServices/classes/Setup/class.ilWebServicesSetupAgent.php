@@ -62,13 +62,14 @@ class ilWebServicesSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        if (is_null($config)) {
-            return new Setup\Objective\NullObjective();
+        $wsrv_objective = new Setup\Objective\NullObjective();
+        if (!is_null($config)) {
+            $wsrv_objective = new ilWebServicesConfigStoredObjective($config);
         }
         return new ILIAS\Setup\ObjectiveCollection(
             'Updates of Services/WebServices',
             false,
-            new ilWebServicesConfigStoredObjective($config),
+            $wsrv_objective,
             new ilDatabaseUpdateStepsExecutedObjective(
                 new ilECSUpdateSteps8()
             )
