@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use PHPUnit\Framework\MockObject\MockObject;
+
 /**
  * Class ilMailAddressTypesTest
  * @author Michael Jansen <mjansen@databay.de>
@@ -28,6 +30,9 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         ilMailCachedAddressType::clearCache();
     }
 
+    /**
+     * @return ilGroupNameAsMailValidator&MockObject
+     */
     private function createGroupNameAsValidatorMock() : ilGroupNameAsMailValidator
     {
         return $this->getMockBuilder(ilGroupNameAsMailValidator::class)
