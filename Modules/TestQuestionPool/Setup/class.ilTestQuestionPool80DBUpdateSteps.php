@@ -30,4 +30,28 @@ class ilTestQuestionPool80DBUpdateSteps implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_3() : void
+    {
+        $fields = ['gap_id'];
+        if (!$this->db->indexExistsByFields('qpl_a_cloze', $fields)) {
+            $this->db->addIndex(
+                'qpl_a_cloze',
+                $fields,
+                'i2'
+            );
+        }
+    }
+
+    public function step_4() : void
+    {
+        $fields = ['gap_fi', 'question_fi'];
+        if (!$this->db->indexExistsByFields('qpl_a_cloze_combi_res', $fields)) {
+            $this->db->addIndex(
+                'qpl_a_cloze_combi_res',
+                $fields,
+                'i1'
+            );
+        }
+    }
 }
