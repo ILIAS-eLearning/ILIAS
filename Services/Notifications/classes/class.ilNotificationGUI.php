@@ -22,7 +22,7 @@ use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\Notifications\ilNotificationDatabaseHandler;
 use ILIAS\Notifications\ilNotificationHandler;
 use ILIAS\Notifications\ilNotificationOSDHandler;
-use ILIAS\Notifications\ilNotificationOSDRepository;
+use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
 use ILIAS\Notifications\ilNotificationSettingsTable;
 
 /**
@@ -40,7 +40,7 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
     public function __construct(
         ?ilObjUser $user = null,
         ?ilGlobalTemplateInterface $template = null,
-        ?ilCtrl $controller = null,
+        ?ilCtrlInterface $controller = null,
         ?ilLanguage $language = null,
         ?Container $dic = null
     ) {
@@ -121,19 +121,19 @@ class ilNotificationGUI implements ilCtrlBaseClassInterface
         $toasts = [];
         foreach ($result->notifications as $notification) {
             $toast = $this->dic->ui()->factory()->toast()->standard(
-                $notification['data']->title,
-                $this->dic->ui()->factory()->symbol()->icon()->custom($notification['data']->iconPath, '')
+                $notification->getObject()->title,
+                $this->dic->ui()->factory()->symbol()->icon()->custom($notification->getObject()->iconPath, '')
             )
             ->withAction('ilias.php?' . http_build_query([
                     'baseClass' => 'ilNotificationGUI',
                     'cmd' => 'removeOSDNotifications',
                     'cmdMode' => 'asynch',
-                    'notification_id' => $notification['notification_osd_id']
+                    'notification_id' => $notification->getId()
             ]))
-            ->withDescription($notification['data']->shortDescription)
+            ->withDescription($notification->getObject()->shortDescription)
             ->withVanishTime($settings->get('osd_vanish') * 1000)
             ->withDelayTime((int) $settings->get('osd_delay'));
-            foreach ($notification['data']->links as $link) {
+            foreach ($notification->getObject()->links as $link) {
                 $toast = $toast->withAdditionalLink($this->dic->ui()->factory()->link()->standard(
                     $link->getTitle(),
                     $link->getUrl()

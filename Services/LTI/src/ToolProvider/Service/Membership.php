@@ -20,7 +20,7 @@ class Membership extends Service
      * @var ToolProvider\Context|ToolProvider\ResourceLink $source
      */
     // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
-    private ToolProvider\Context|ToolProvider\ResourceLink $source;
+    private $source;
 
     /**
      * Class constructor.

@@ -35,7 +35,7 @@ class HTTPMessage
      * @var bool|string|string[] $requestHeaders
      */
     // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
-    public string|array|bool $requestHeaders = '';
+    public $requestHeaders = '';
 
     /**
      * Response body.

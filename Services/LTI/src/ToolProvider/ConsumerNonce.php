@@ -29,7 +29,7 @@ class ConsumerNonce
      * @var int|null $expires
      */
     // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
-    public int|null $expires = null;
+    public $expires = null;
 
     /**
          * Tool Consumer to which this nonce applies.
