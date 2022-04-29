@@ -670,7 +670,7 @@ class ilSetupLanguage extends ilLanguage
      */
     public function setDbHandler(ilDBInterface $a_db_handler) : bool
     {
-        $this->db = &$a_db_handler;// Todo-PHP8-Review This property is not defined
+        $this->db = &$a_db_handler;
         return true;
     }
     
