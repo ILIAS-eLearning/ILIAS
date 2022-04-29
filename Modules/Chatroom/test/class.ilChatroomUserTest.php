@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+use PHPUnit\Framework\MockObject\MockObject;
+
 /**
  * Class ilChatroomUserTest
  * @author Thomas Joußen <tjoussen@gmx.de>
