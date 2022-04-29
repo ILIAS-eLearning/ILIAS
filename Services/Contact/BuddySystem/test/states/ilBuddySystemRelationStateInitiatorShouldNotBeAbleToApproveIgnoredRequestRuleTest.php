@@ -22,7 +22,7 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
 {
     public function testConstruct() : void
     {
-        $relation = $this->mock(ilBuddySystemRelation::class);
+        $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
         $this->assertInstanceOf(
             DontApprove::class,
             new DontApprove($relation)
@@ -31,7 +31,7 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
 
     public function testMatches() : void
     {
-        $relation = $this->mock(ilBuddySystemRelation::class);
+        $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
         $relation->expects(self::once())->method('isIgnored')->willReturn(true);
         $relation->expects(self::once())->method('isOwnedByActor')->willReturn(true);
         $instance = new DontApprove($relation);
@@ -41,7 +41,7 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
 
     public function testMatchesIgnored() : void
     {
-        $relation = $this->mock(ilBuddySystemRelation::class);
+        $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
         $relation->expects(self::once())->method('isIgnored')->willReturn(false);
         $relation->expects(self::never())->method('isOwnedByActor');
         $instance = new DontApprove($relation);
@@ -51,7 +51,7 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
 
     public function testMatchesOwned() : void
     {
-        $relation = $this->mock(ilBuddySystemRelation::class);
+        $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
         $relation->expects(self::once())->method('isIgnored')->willReturn(true);
         $relation->expects(self::once())->method('isOwnedByActor')->willReturn(false);
         $instance = new DontApprove($relation);
@@ -61,8 +61,8 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
 
     public function testInvoke() : void
     {
-        $relation = $this->mock(ilBuddySystemRelation::class);
-        $state = $this->mock(ilBuddySystemRelationState::class);
+        $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
+        $state = $this->getMockBuilder(ilBuddySystemRelationState::class)->disableOriginalConstructor()->getMock();
 
         $instance = new DontApprove($relation);
 
@@ -71,16 +71,11 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
 
     public function testInvokeFalse() : void
     {
-        $relation = $this->mock(ilBuddySystemRelation::class);
-        $state = $this->mock(ilBuddySystemLinkedRelationState::class);
+        $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
+        $state = $this->getMockBuilder(ilBuddySystemRelationState::class)->disableOriginalConstructor()->getMock();
 
         $instance = new DontApprove($relation);
 
         $this->assertFalse($instance($state));
-    }
-
-    private function mock(string $className) : \PHPUnit\Framework\MockObject\MockObject
-    {
-        return $this->getMockBuilder($className)->disableOriginalConstructor()->getMock();
     }
 }
