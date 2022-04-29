@@ -72,7 +72,7 @@ class ilBuddySystemRelationStateInitiatorShouldNotBeAbleToApproveIgnoredRequestR
     public function testInvokeFalse() : void
     {
         $relation = $this->getMockBuilder(ilBuddySystemRelation::class)->disableOriginalConstructor()->getMock();
-        $state = $this->getMockBuilder(ilBuddySystemRelationState::class)->disableOriginalConstructor()->getMock();
+        $state = $this->getMockBuilder(ilBuddySystemLinkedRelationState::class)->disableOriginalConstructor()->getMock();
 
         $instance = new DontApprove($relation);
 
