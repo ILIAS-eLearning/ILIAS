@@ -79,17 +79,12 @@ class ilMDEditorGUI
 
     public function debug()
     {
-        include_once 'Services/MetaData/classes/class.ilMD2XML.php';
-
-
         $xml_writer = new ilMD2XML($this->md_obj->getRBACId(), $this->md_obj->getObjId(), $this->md_obj->getObjType());
         $xml_writer->startExport();
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
-        
         $this->__setTabs('meta_general');
 
-        $this->tpl->setVariable("MD_CONTENT", htmlentities($xml_writer->getXML()));
+        $this->tpl->setContent(htmlentities($xml_writer->getXML()));
 
         return true;
     }
@@ -107,21 +102,19 @@ class ilMDEditorGUI
             $this->md_section->save();
         }
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
-        
         $this->__setTabs('meta_quickedit');
 
-        $this->tpl->addBlockFile('MD_CONTENT', 'md_content', 'tpl.md_quick_edit_scorm.html', 'Services/MetaData');
+        $tpl = new ilTemplate('tpl.md_quick_edit_scorm.html', true, true, 'Services/MetaData');
 
         $this->ctrl->setReturn($this, 'listGeneral');
         $this->ctrl->setParameter($this, 'section', 'meta_general');
-        $this->tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
+        $tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
 
-        $this->tpl->setVariable("TXT_QUICK_EDIT", $this->lng->txt("meta_quickedit"));
-        $this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
-        $this->tpl->setVariable("TXT_KEYWORD", $this->lng->txt("meta_keyword"));
-        $this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
-        $this->tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
+        $tpl->setVariable("TXT_QUICK_EDIT", $this->lng->txt("meta_quickedit"));
+        $tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
+        $tpl->setVariable("TXT_KEYWORD", $this->lng->txt("meta_keyword"));
+        $tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+        $tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
 
         // Language
         $first = true;
@@ -129,10 +122,10 @@ class ilMDEditorGUI
             $md_lan = $this->md_section->getLanguage($id);
             
             if ($first) {
-                $this->tpl->setCurrentBlock("language_head");
-                $this->tpl->setVariable("ROWSPAN_LANG", count($ids));
-                $this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("language_head");
+                $tpl->setVariable("ROWSPAN_LANG", count($ids));
+                $tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+                $tpl->parseCurrentBlock();
                 $first = false;
             }
 
@@ -140,36 +133,36 @@ class ilMDEditorGUI
                 $this->ctrl->setParameter($this, 'meta_index', $id);
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_language');
 
-                $this->tpl->setCurrentBlock("language_delete");
-                $this->tpl->setVariable("LANGUAGE_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-                $this->tpl->setVariable("LANGUAGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("language_delete");
+                $tpl->setVariable("LANGUAGE_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+                $tpl->setVariable("LANGUAGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+                $tpl->parseCurrentBlock();
             }
-            $this->tpl->setCurrentBlock("language_loop");
-            $this->tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
+            $tpl->setCurrentBlock("language_loop");
+            $tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
                 'gen_language[' . $id . '][language]',
                 $md_lan->getLanguageCode()
             ));
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         }
 
         if ($first) {
-            $this->tpl->setCurrentBlock("language_head");
-            $this->tpl->setVariable("ROWSPAN_LANG", 1);
-            $this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-            $this->tpl->parseCurrentBlock();
-            $this->tpl->setCurrentBlock("language_loop");
-            $this->tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
+            $tpl->setCurrentBlock("language_head");
+            $tpl->setVariable("ROWSPAN_LANG", 1);
+            $tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+            $tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock("language_loop");
+            $tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
                 'gen_language[][language]',
                 ""
             ));
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         }
 
         // TITLE
-        $this->tpl->setVariable("TXT_TITLE", $this->lng->txt('title'));
-        $this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($this->md_section->getTitle()));
-        $this->tpl->setVariable("VAL_TITLE_LANGUAGE", $this->__showLanguageSelect(
+        $tpl->setVariable("TXT_TITLE", $this->lng->txt('title'));
+        $tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($this->md_section->getTitle()));
+        $tpl->setVariable("VAL_TITLE_LANGUAGE", $this->__showLanguageSelect(
             'gen_title_language',
             $this->md_section->getTitleLanguageCode()
         ));
@@ -182,23 +175,23 @@ class ilMDEditorGUI
                 $this->ctrl->setParameter($this, 'meta_index', $id);
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_description');
 
-                $this->tpl->setCurrentBlock("description_delete");
-                $this->tpl->setVariable("DESCRIPTION_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-                $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("description_delete");
+                $tpl->setVariable("DESCRIPTION_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+                $tpl->setVariable("DESCRIPTION_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+                $tpl->parseCurrentBlock();
             }
 
-            $this->tpl->setCurrentBlock("description_loop");
-            $this->tpl->setVariable("DESCRIPTION_LOOP_NO", $id);
-            $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
-            $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-            $this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($md_des->getDescription()));
-            $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-            $this->tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
+            $tpl->setCurrentBlock("description_loop");
+            $tpl->setVariable("DESCRIPTION_LOOP_NO", $id);
+            $tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+            $tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+            $tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($md_des->getDescription()));
+            $tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+            $tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
                 "gen_description[" . $id . '][language]',
                 $md_des->getDescriptionLanguageCode()
             ));
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         }
 
         // KEYWORD
@@ -212,34 +205,34 @@ class ilMDEditorGUI
         
         foreach ($keywords as $lang => $keyword_set) {
             if ($first) {
-                $this->tpl->setCurrentBlock("keyword_head");
-                $this->tpl->setVariable("ROWSPAN_KEYWORD", count($keywords));
-                $this->tpl->setVariable("TXT_COMMA_SEP2", $this->lng->txt('comma_separated'));
-                $this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("keywords"));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("keyword_head");
+                $tpl->setVariable("ROWSPAN_KEYWORD", count($keywords));
+                $tpl->setVariable("TXT_COMMA_SEP2", $this->lng->txt('comma_separated'));
+                $tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("keywords"));
+                $tpl->parseCurrentBlock();
                 $first = false;
             }
 
-            $this->tpl->setCurrentBlock("keyword_loop");
-            $this->tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput(
+            $tpl->setCurrentBlock("keyword_loop");
+            $tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput(
                 implode(", ", $keyword_set)
             ));
-            $this->tpl->setVariable("LANG", $lang);
-            $this->tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
+            $tpl->setVariable("LANG", $lang);
+            $tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
                 "keyword[language][$lang]",
                 $lang
             ));
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         }
 
         if (count($keywords) == 0) {
-            $this->tpl->setCurrentBlock("keyword_head");
-            $this->tpl->setVariable("ROWSPAN_KEYWORD", 1);
-            $this->tpl->setVariable("TXT_COMMA_SEP2", $this->lng->txt('comma_separated'));
-            $this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("keywords"));
-            $this->tpl->parseCurrentBlock();
-            $this->tpl->setCurrentBlock("keyword_loop");
-            $this->tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
+            $tpl->setCurrentBlock("keyword_head");
+            $tpl->setVariable("ROWSPAN_KEYWORD", 1);
+            $tpl->setVariable("TXT_COMMA_SEP2", $this->lng->txt('comma_separated'));
+            $tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("keywords"));
+            $tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock("keyword_loop");
+            $tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
                 "keyword[language][$lang]",
                 $lang
             ));
@@ -247,9 +240,9 @@ class ilMDEditorGUI
         
         // Lifecycle...
         // experts
-        $this->tpl->setVariable("TXT_EXPERTS", $lng->txt('meta_subjectmatterexpert'));
-        $this->tpl->setVariable("TXT_COMMA_SEP", $this->lng->txt('comma_separated'));
-        $this->tpl->setVariable("TXT_SCOPROP_EXPERT", $this->lng->txt('sco_propagate'));
+        $tpl->setVariable("TXT_EXPERTS", $lng->txt('meta_subjectmatterexpert'));
+        $tpl->setVariable("TXT_COMMA_SEP", $this->lng->txt('comma_separated'));
+        $tpl->setVariable("TXT_SCOPROP_EXPERT", $this->lng->txt('sco_propagate'));
         if (is_object($this->md_section = $this->md_obj->getLifecycle())) {
             $sep = $ent_str = "";
             foreach (($ids = $this->md_section->getContributeIds()) as $con_id) {
@@ -262,11 +255,11 @@ class ilMDEditorGUI
                     }
                 }
             }
-            $this->tpl->setVariable("EXPERTS_VAL", ilUtil::prepareFormOutput($ent_str));
+            $tpl->setVariable("EXPERTS_VAL", ilUtil::prepareFormOutput($ent_str));
         }
         // InstructionalDesigner
-        $this->tpl->setVariable("TXT_DESIGNERS", $lng->txt('meta_instructionaldesigner'));
-        $this->tpl->setVariable("TXT_SCOPROP_DESIGNERS", $this->lng->txt('sco_propagate'));
+        $tpl->setVariable("TXT_DESIGNERS", $lng->txt('meta_instructionaldesigner'));
+        $tpl->setVariable("TXT_SCOPROP_DESIGNERS", $this->lng->txt('sco_propagate'));
         if (is_object($this->md_section = $this->md_obj->getLifecycle())) {
             $sep = $ent_str = "";
             foreach (($ids = $this->md_section->getContributeIds()) as $con_id) {
@@ -279,11 +272,11 @@ class ilMDEditorGUI
                     }
                 }
             }
-            $this->tpl->setVariable("DESIGNERS_VAL", ilUtil::prepareFormOutput($ent_str));
+            $tpl->setVariable("DESIGNERS_VAL", ilUtil::prepareFormOutput($ent_str));
         }
         // Point of Contact
-        $this->tpl->setVariable("TXT_POC", $lng->txt('meta_pointofcontact'));
-        $this->tpl->setVariable("TXT_SCOPROP_POC", $this->lng->txt('sco_propagate'));
+        $tpl->setVariable("TXT_POC", $lng->txt('meta_pointofcontact'));
+        $tpl->setVariable("TXT_SCOPROP_POC", $this->lng->txt('sco_propagate'));
         if (is_object($this->md_section = $this->md_obj->getLifecycle())) {
             $sep = $ent_str = "";
             foreach (($ids = $this->md_section->getContributeIds()) as $con_id) {
@@ -296,16 +289,16 @@ class ilMDEditorGUI
                     }
                 }
             }
-            $this->tpl->setVariable("POC_VAL", ilUtil::prepareFormOutput($ent_str));
+            $tpl->setVariable("POC_VAL", ilUtil::prepareFormOutput($ent_str));
         }
         
-        $this->tpl->setVariable("TXT_STATUS", $this->lng->txt('meta_status'));
+        $tpl->setVariable("TXT_STATUS", $this->lng->txt('meta_status'));
         if (!is_object($this->md_section = $this->md_obj->getLifecycle())) {
             $this->md_section = $this->md_obj->addLifecycle();
             $this->md_section->save();
         }
         if (is_object($this->md_section = $this->md_obj->getLifecycle())) {
-            $this->tpl->setVariable("SEL_STATUS", ilMDUtilSelect::_getStatusSelect(
+            $tpl->setVariable("SEL_STATUS", ilMDUtilSelect::_getStatusSelect(
                 $this->md_section->getStatus(),
                 "lif_status",
                 array(0 => $this->lng->txt('meta_please_select'))
@@ -328,15 +321,15 @@ class ilMDEditorGUI
                 }
             }
         }
-        $this->tpl->setVariable("TXT_MONTH", $this->lng->txt('md_months'));
-        $this->tpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect($tlt[0]));
-        $this->tpl->setVariable("SEL_DAYS", $this->__buildDaysSelect($tlt[1]));
+        $tpl->setVariable("TXT_MONTH", $this->lng->txt('md_months'));
+        $tpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect($tlt[0]));
+        $tpl->setVariable("SEL_DAYS", $this->__buildDaysSelect($tlt[1]));
         
-        $this->tpl->setVariable("TXT_DAYS", $this->lng->txt('md_days'));
-        $this->tpl->setVariable("TXT_TIME", $this->lng->txt('md_time'));
+        $tpl->setVariable("TXT_DAYS", $this->lng->txt('md_days'));
+        $tpl->setVariable("TXT_TIME", $this->lng->txt('md_time'));
 
-        $this->tpl->setVariable("TXT_TYPICAL_LEARN_TIME", $this->lng->txt('meta_typical_learning_time'));
-        $this->tpl->setVariable("SEL_TLT", ilUtil::makeTimeSelect(
+        $tpl->setVariable("TXT_TYPICAL_LEARN_TIME", $this->lng->txt('meta_typical_learning_time'));
+        $tpl->setVariable("SEL_TLT", ilUtil::makeTimeSelect(
             'tlt',
             $tlt[4] ? false : true,
             $tlt[2],
@@ -344,18 +337,19 @@ class ilMDEditorGUI
             $tlt[4],
             false
         ));
-        $this->tpl->setVariable("TLT_HINT", $tlt[4] ? '(hh:mm:ss)' : '(hh:mm)');
+        $tpl->setVariable("TLT_HINT", $tlt[4] ? '(hh:mm:ss)' : '(hh:mm)');
 
         if (!$valid) {
-            $this->tpl->setCurrentBlock("tlt_not_valid");
-            $this->tpl->setVariable("TXT_CURRENT_VAL", $this->lng->txt('meta_current_value'));
-            $this->tpl->setVariable("TLT", $this->md_section->getTypicalLearningTime());
-            $this->tpl->setVariable("INFO_TLT_NOT_VALID", $this->lng->txt('meta_info_tlt_not_valid'));
-            $this->tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock("tlt_not_valid");
+            $tpl->setVariable("TXT_CURRENT_VAL", $this->lng->txt('meta_current_value'));
+            $tpl->setVariable("TLT", $this->md_section->getTypicalLearningTime());
+            $tpl->setVariable("INFO_TLT_NOT_VALID", $this->lng->txt('meta_info_tlt_not_valid'));
+            $tpl->parseCurrentBlock();
         }
-        
-    
-        $this->tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
+
+        $tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
+
+        $this->tpl->setContent($tpl->get());
     }
     
     public function listQuickEdit()
@@ -1252,33 +1246,31 @@ class ilMDEditorGUI
             $this->md_section->save();
         }
 
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
-        
         $this->__setTabs('meta_general');
 
-        $this->tpl->addBlockFile('MD_CONTENT', 'md_content', 'tpl.md_general.html', 'Services/MetaData');
+        $tpl = new ilTemplate('tpl.md_general.html', true, true, 'Services/MetaData');
 
         $this->ctrl->setReturn($this, 'listGeneral');
         $this->ctrl->setParameter($this, 'section', 'meta_general');
-        $this->tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
+        $tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
 
-        $this->__fillSubelements();
+        $this->__fillSubelements($tpl);
         
-        $this->tpl->setVariable("TXT_GENERAL", $this->lng->txt("meta_general"));
-        $this->tpl->setVariable("TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
-        $this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
-        $this->tpl->setVariable("TXT_KEYWORD", $this->lng->txt("meta_keyword"));
-        $this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
-        $this->tpl->setVariable("TXT_STRUCTURE", $this->lng->txt("meta_structure"));
-        $this->tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
-        $this->tpl->setVariable("TXT_ATOMIC", $this->lng->txt("meta_atomic"));
-        $this->tpl->setVariable("TXT_COLLECTION", $this->lng->txt("meta_collection"));
-        $this->tpl->setVariable("TXT_NETWORKED", $this->lng->txt("meta_networked"));
-        $this->tpl->setVariable("TXT_HIERARCHICAL", $this->lng->txt("meta_hierarchical"));
-        $this->tpl->setVariable("TXT_LINEAR", $this->lng->txt("meta_linear"));
+        $tpl->setVariable("TXT_GENERAL", $this->lng->txt("meta_general"));
+        $tpl->setVariable("TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
+        $tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
+        $tpl->setVariable("TXT_KEYWORD", $this->lng->txt("meta_keyword"));
+        $tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+        $tpl->setVariable("TXT_STRUCTURE", $this->lng->txt("meta_structure"));
+        $tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
+        $tpl->setVariable("TXT_ATOMIC", $this->lng->txt("meta_atomic"));
+        $tpl->setVariable("TXT_COLLECTION", $this->lng->txt("meta_collection"));
+        $tpl->setVariable("TXT_NETWORKED", $this->lng->txt("meta_networked"));
+        $tpl->setVariable("TXT_HIERARCHICAL", $this->lng->txt("meta_hierarchical"));
+        $tpl->setVariable("TXT_LINEAR", $this->lng->txt("meta_linear"));
 
         // Structure
-        $this->tpl->setVariable("STRUCTURE_VAL_" . strtoupper($this->md_section->getStructure()), " selected=selected");
+        $tpl->setVariable("STRUCTURE_VAL_" . strtoupper($this->md_section->getStructure()), " selected=selected");
 
         // Identifier
         $first = true;
@@ -1287,12 +1279,12 @@ class ilMDEditorGUI
 
             //
             if ($first) {
-                $this->tpl->setCurrentBlock("id_head");
-                $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
-                $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
-                $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
-                $this->tpl->setVariable("ROWSPAN_ID", count($ids));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("id_head");
+                $tpl->setVariable("IDENTIFIER_LOOP_TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
+                $tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
+                $tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
+                $tpl->setVariable("ROWSPAN_ID", count($ids));
+                $tpl->parseCurrentBlock();
                 $first = false;
             }
             
@@ -1301,27 +1293,27 @@ class ilMDEditorGUI
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_identifier');
 
                 if ($md_ide->getCatalog() != "ILIAS") {
-                    $this->tpl->setCurrentBlock("identifier_delete");
-                    $this->tpl->setVariable("IDENTIFIER_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-                    $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_DELETE", $this->lng->txt('delete'));
-                    $this->tpl->parseCurrentBlock();
+                    $tpl->setCurrentBlock("identifier_delete");
+                    $tpl->setVariable("IDENTIFIER_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+                    $tpl->setVariable("IDENTIFIER_LOOP_TXT_DELETE", $this->lng->txt('delete'));
+                    $tpl->parseCurrentBlock();
                 }
             }
 
-            $this->tpl->setCurrentBlock("identifier_loop");
+            $tpl->setCurrentBlock("identifier_loop");
             if ($md_ide->getCatalog() == "ILIAS") {
-                $this->tpl->setVariable("DISABLE_IDENT", ' disabled="disabled" ');
+                $tpl->setVariable("DISABLE_IDENT", ' disabled="disabled" ');
             }
-            $this->tpl->setVariable("IDENTIFIER_LOOP_NO", $id);
-            $this->tpl->setVariable(
+            $tpl->setVariable("IDENTIFIER_LOOP_NO", $id);
+            $tpl->setVariable(
                 "IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG",
                 ilUtil::prepareFormOutput($md_ide->getCatalog())
             );
-            $this->tpl->setVariable(
+            $tpl->setVariable(
                 "IDENTIFIER_LOOP_VAL_IDENTIFIER_ENTRY",
                 ilUtil::prepareFormOutput($md_ide->getEntry())
             );
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         }
 
 
@@ -1331,10 +1323,10 @@ class ilMDEditorGUI
             $md_lan = $this->md_section->getLanguage($id);
             
             if ($first) {
-                $this->tpl->setCurrentBlock("language_head");
-                $this->tpl->setVariable("ROWSPAN_LANG", count($ids));
-                $this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("language_head");
+                $tpl->setVariable("ROWSPAN_LANG", count($ids));
+                $tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+                $tpl->parseCurrentBlock();
                 $first = false;
             }
 
@@ -1342,23 +1334,23 @@ class ilMDEditorGUI
                 $this->ctrl->setParameter($this, 'meta_index', $id);
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_language');
 
-                $this->tpl->setCurrentBlock("language_delete");
-                $this->tpl->setVariable("LANGUAGE_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-                $this->tpl->setVariable("LANGUAGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("language_delete");
+                $tpl->setVariable("LANGUAGE_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+                $tpl->setVariable("LANGUAGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+                $tpl->parseCurrentBlock();
             }
-            $this->tpl->setCurrentBlock("language_loop");
-            $this->tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
+            $tpl->setCurrentBlock("language_loop");
+            $tpl->setVariable("LANGUAGE_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
                 'gen_language[' . $id . '][language]',
                 $md_lan->getLanguageCode()
             ));
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         }
 
         // TITLE
-        $this->tpl->setVariable("TXT_TITLE", $this->lng->txt('title'));
-        $this->tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($this->md_section->getTitle()));
-        $this->tpl->setVariable("VAL_TITLE_LANGUAGE", $this->__showLanguageSelect(
+        $tpl->setVariable("TXT_TITLE", $this->lng->txt('title'));
+        $tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($this->md_section->getTitle()));
+        $tpl->setVariable("VAL_TITLE_LANGUAGE", $this->__showLanguageSelect(
             'gen_title_language',
             $this->md_section->getTitleLanguageCode()
         ));
@@ -1372,23 +1364,23 @@ class ilMDEditorGUI
                 $this->ctrl->setParameter($this, 'meta_index', $id);
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_description');
 
-                $this->tpl->setCurrentBlock("description_delete");
-                $this->tpl->setVariable("DESCRIPTION_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-                $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("description_delete");
+                $tpl->setVariable("DESCRIPTION_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+                $tpl->setVariable("DESCRIPTION_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+                $tpl->parseCurrentBlock();
             }
 
-            $this->tpl->setCurrentBlock("description_loop");
-            $this->tpl->setVariable("DESCRIPTION_LOOP_NO", $id);
-            $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
-            $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-            $this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($md_des->getDescription()));
-            $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-            $this->tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
+            $tpl->setCurrentBlock("description_loop");
+            $tpl->setVariable("DESCRIPTION_LOOP_NO", $id);
+            $tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+            $tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+            $tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($md_des->getDescription()));
+            $tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+            $tpl->setVariable("DESCRIPTION_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
                 "gen_description[" . $id . '][language]',
                 $md_des->getDescriptionLanguageCode()
             ));
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         }
 
         // KEYWORD
@@ -1397,10 +1389,10 @@ class ilMDEditorGUI
             $md_key = $this->md_section->getKeyword($id);
             
             if ($first) {
-                $this->tpl->setCurrentBlock("keyword_head");
-                $this->tpl->setVariable("ROWSPAN_KEYWORD", count($ids));
-                $this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("meta_keyword"));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("keyword_head");
+                $tpl->setVariable("ROWSPAN_KEYWORD", count($ids));
+                $tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("meta_keyword"));
+                $tpl->parseCurrentBlock();
                 $first = false;
             }
 
@@ -1409,35 +1401,37 @@ class ilMDEditorGUI
                 $this->ctrl->setParameter($this, 'meta_index', $id);
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_keyword');
 
-                $this->tpl->setCurrentBlock("keyword_delete");
-                $this->tpl->setVariable("KEYWORD_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-                $this->tpl->setVariable("KEYWORD_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("keyword_delete");
+                $tpl->setVariable("KEYWORD_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+                $tpl->setVariable("KEYWORD_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+                $tpl->parseCurrentBlock();
             }
             
-            $this->tpl->setCurrentBlock("keyword_loop");
-            $this->tpl->setVariable("KEYWORD_LOOP_NO", $id);
-            $this->tpl->setVariable("KEYWORD_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-            $this->tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput($md_key->getKeyword()));
-            $this->tpl->setVariable("KEYWORD_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-            $this->tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
+            $tpl->setCurrentBlock("keyword_loop");
+            $tpl->setVariable("KEYWORD_LOOP_NO", $id);
+            $tpl->setVariable("KEYWORD_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+            $tpl->setVariable("KEYWORD_LOOP_VAL", ilUtil::prepareFormOutput($md_key->getKeyword()));
+            $tpl->setVariable("KEYWORD_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+            $tpl->setVariable("KEYWORD_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
                 "gen_keyword[" . $id . '][language]',
                 $md_key->getKeywordLanguageCode()
             ));
 
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         }
 
         // Coverage
-        $this->tpl->setVariable("COVERAGE_LOOP_TXT_COVERAGE", $this->lng->txt('meta_coverage'));
-        $this->tpl->setVariable("COVERAGE_LOOP_VAL", ilUtil::prepareFormOutput($this->md_section->getCoverage()));
-        $this->tpl->setVariable("COVERAGE_LOOP_TXT_LANGUAGE", $this->lng->txt('meta_language'));
-        $this->tpl->setVariable("COVERAGE_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
+        $tpl->setVariable("COVERAGE_LOOP_TXT_COVERAGE", $this->lng->txt('meta_coverage'));
+        $tpl->setVariable("COVERAGE_LOOP_VAL", ilUtil::prepareFormOutput($this->md_section->getCoverage()));
+        $tpl->setVariable("COVERAGE_LOOP_TXT_LANGUAGE", $this->lng->txt('meta_language'));
+        $tpl->setVariable("COVERAGE_LOOP_VAL_LANGUAGE", $this->__showLanguageSelect(
             'gen_coverage_language',
             $this->md_section->getCoverageLanguageCode()
         ));
 
-        $this->tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
+        $tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
+
+        $this->tpl->setContent($tpl->get());
     }
 
     /**
@@ -1564,75 +1558,75 @@ class ilMDEditorGUI
 
     public function listTechnical()
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_technical');
-        $this->tpl->addBlockFile('MD_CONTENT', 'md_content', 'tpl.md_technical.html', 'Services/MetaData');
 
+        $tpl = new ilTemplate('tpl.md_technical.html', true, true, 'Services/MetaData');
 
         $this->ctrl->setParameter($this, "section", "meta_technical");
         if (!is_object($this->md_section = $this->md_obj->getTechnical())) {
-            $this->tpl->setCurrentBlock("no_technical");
-            $this->tpl->setVariable("TXT_NO_TECHNICAL", $this->lng->txt("meta_no_technical"));
-            $this->tpl->setVariable("TXT_ADD_TECHNICAL", $this->lng->txt("meta_add"));
-            $this->tpl->setVariable("ACTION_ADD_TECHNICAL", $this->ctrl->getLinkTarget($this, "addSection"));
-            $this->tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock("no_technical");
+            $tpl->setVariable("TXT_NO_TECHNICAL", $this->lng->txt("meta_no_technical"));
+            $tpl->setVariable("TXT_ADD_TECHNICAL", $this->lng->txt("meta_add"));
+            $tpl->setVariable("ACTION_ADD_TECHNICAL", $this->ctrl->getLinkTarget($this, "addSection"));
+            $tpl->parseCurrentBlock();
 
+            $this->tpl->setContent($tpl->get());
             return true;
         }
         $this->ctrl->setReturn($this, 'listTechnical');
         $this->ctrl->setParameter($this, "meta_index", $this->md_section->getMetaId());
 
-        $this->tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
-        $this->tpl->setVariable("TXT_TECHNICAL", $this->lng->txt('meta_technical'));
+        $tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
+        $tpl->setVariable("TXT_TECHNICAL", $this->lng->txt('meta_technical'));
 
         // Delete link
-        $this->tpl->setVariable(
+        $tpl->setVariable(
             "ACTION_DELETE",
             $this->ctrl->getLinkTarget($this, "deleteSection")
         );
-        $this->tpl->setVariable("TXT_DELETE", $this->lng->txt('delete'));
+        $tpl->setVariable("TXT_DELETE", $this->lng->txt('delete'));
 
         // New element
-        $this->__fillSubelements();
+        $this->__fillSubelements($tpl);
 
         // Format
         foreach ($ids = $this->md_section->getFormatIds() as $id) {
             $md_for = &$this->md_section->getFormat($id);
 
-            $this->tpl->setCurrentBlock("format_loop");
+            $tpl->setCurrentBlock("format_loop");
 
             $this->ctrl->setParameter($this, 'meta_index', $id);
             $this->ctrl->setParameter($this, 'meta_path', 'meta_format');
-            $this->tpl->setVariable("FORMAT_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-            $this->tpl->setVariable("FORMAT_LOOP_TXT_DELETE", $this->lng->txt('delete'));
+            $tpl->setVariable("FORMAT_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+            $tpl->setVariable("FORMAT_LOOP_TXT_DELETE", $this->lng->txt('delete'));
 
-            $this->tpl->setVariable("FORMAT_LOOP_NO", $id);
-            $this->tpl->setVariable("FORMAT_LOOP_TXT_FORMAT", $this->lng->txt('meta_format'));
-            $this->tpl->setVariable("FORMAT_LOOP_VAL", ilUtil::prepareFormOutput($md_for->getFormat()));
+            $tpl->setVariable("FORMAT_LOOP_NO", $id);
+            $tpl->setVariable("FORMAT_LOOP_TXT_FORMAT", $this->lng->txt('meta_format'));
+            $tpl->setVariable("FORMAT_LOOP_VAL", ilUtil::prepareFormOutput($md_for->getFormat()));
 
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         }
         // Size
-        $this->tpl->setVariable("SIZE_TXT_SIZE", $this->lng->txt('meta_size'));
-        $this->tpl->setVariable("SIZE_VAL", ilUtil::prepareFormOutput($this->md_section->getSize()));
+        $tpl->setVariable("SIZE_TXT_SIZE", $this->lng->txt('meta_size'));
+        $tpl->setVariable("SIZE_VAL", ilUtil::prepareFormOutput($this->md_section->getSize()));
 
         // Location
         foreach ($ids = $this->md_section->getLocationIds() as $id) {
             $md_loc = &$this->md_section->getLocation($id);
 
-            $this->tpl->setCurrentBlock("location_loop");
+            $tpl->setCurrentBlock("location_loop");
 
             $this->ctrl->setParameter($this, 'meta_index', $id);
             $this->ctrl->setParameter($this, 'meta_path', 'meta_location');
-            $this->tpl->setVariable("LOCATION_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-            $this->tpl->setVariable("LOCATION_LOOP_TXT_DELETE", $this->lng->txt('delete'));
+            $tpl->setVariable("LOCATION_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+            $tpl->setVariable("LOCATION_LOOP_TXT_DELETE", $this->lng->txt('delete'));
 
-            $this->tpl->setVariable("LOCATION_LOOP_TXT_LOCATION", $this->lng->txt('meta_location'));
-            $this->tpl->setVariable("LOCATION_LOOP_NO", $id);
-            $this->tpl->setVariable("LOCATION_LOOP_TXT_TYPE", $this->lng->txt('meta_type'));
-            $this->tpl->setVariable("LOCATION_LOOP_VAL", ilUtil::prepareFormOutput($md_loc->getLocation()));
+            $tpl->setVariable("LOCATION_LOOP_TXT_LOCATION", $this->lng->txt('meta_location'));
+            $tpl->setVariable("LOCATION_LOOP_NO", $id);
+            $tpl->setVariable("LOCATION_LOOP_TXT_TYPE", $this->lng->txt('meta_type'));
+            $tpl->setVariable("LOCATION_LOOP_VAL", ilUtil::prepareFormOutput($md_loc->getLocation()));
 
-            $this->tpl->setVariable(
+            $tpl->setVariable(
                 "SEL_LOCATION_TYPE",
                 ilMDUtilSelect::_getLocationTypeSelect(
                     $md_loc->getLocationType(),
@@ -1640,29 +1634,29 @@ class ilMDEditorGUI
                     array(0 => $this->lng->txt('meta_please_select'))
                                     )
             );
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         }
         // Requirement
         foreach ($ids = $this->md_section->getRequirementIds() as $id) {
             $md_re = &$this->md_section->getRequirement($id);
 
-            $this->tpl->setCurrentBlock("requirement_loop");
+            $tpl->setCurrentBlock("requirement_loop");
 
             $this->ctrl->setParameter($this, 'meta_index', $id);
             $this->ctrl->setParameter($this, 'meta_path', 'meta_requirement');
-            $this->tpl->setVariable("REQUIREMENT_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-            $this->tpl->setVariable("REQUIREMENT_LOOP_TXT_DELETE", $this->lng->txt('delete'));
+            $tpl->setVariable("REQUIREMENT_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+            $tpl->setVariable("REQUIREMENT_LOOP_TXT_DELETE", $this->lng->txt('delete'));
 
-            $this->tpl->setVariable("REQUIREMENT_LOOP_TXT_REQUIREMENT", $this->lng->txt('meta_requirement'));
-            $this->tpl->setVariable("REQUIREMENT_LOOP_TXT_TYPE", $this->lng->txt('meta_type'));
-            $this->tpl->setVariable("REQUIREMENT_LOOP_TXT_OPERATINGSYSTEM", $this->lng->txt('meta_operating_system'));
-            $this->tpl->setVariable("REQUIREMENT_LOOP_TXT_BROWSER", $this->lng->txt('meta_browser'));
-            $this->tpl->setVariable("REQUIREMENT_LOOP_TXT_NAME", $this->lng->txt('meta_name'));
-            $this->tpl->setVariable("REQUIREMENT_LOOP_TXT_MINIMUMVERSION", $this->lng->txt('meta_minimum_version'));
-            $this->tpl->setVariable("REQUIREMENT_LOOP_TXT_MAXIMUMVERSION", $this->lng->txt('meta_maximum_version'));
+            $tpl->setVariable("REQUIREMENT_LOOP_TXT_REQUIREMENT", $this->lng->txt('meta_requirement'));
+            $tpl->setVariable("REQUIREMENT_LOOP_TXT_TYPE", $this->lng->txt('meta_type'));
+            $tpl->setVariable("REQUIREMENT_LOOP_TXT_OPERATINGSYSTEM", $this->lng->txt('meta_operating_system'));
+            $tpl->setVariable("REQUIREMENT_LOOP_TXT_BROWSER", $this->lng->txt('meta_browser'));
+            $tpl->setVariable("REQUIREMENT_LOOP_TXT_NAME", $this->lng->txt('meta_name'));
+            $tpl->setVariable("REQUIREMENT_LOOP_TXT_MINIMUMVERSION", $this->lng->txt('meta_minimum_version'));
+            $tpl->setVariable("REQUIREMENT_LOOP_TXT_MAXIMUMVERSION", $this->lng->txt('meta_maximum_version'));
 
-            $this->tpl->setVariable("REQUIREMENT_LOOP_NO", $id);
-            $this->tpl->setVariable(
+            $tpl->setVariable("REQUIREMENT_LOOP_NO", $id);
+            $tpl->setVariable(
                 "REQUIREMENT_SEL_OS_NAME",
                 ilMDUtilSelect::_getOperatingSystemSelect(
                     $md_re->getOperatingSystemName(),
@@ -1670,7 +1664,7 @@ class ilMDEditorGUI
                     array(0 => $this->lng->txt('meta_please_select'))
                                     )
             );
-            $this->tpl->setVariable(
+            $tpl->setVariable(
                 "REQUIREMENT_SEL_BROWSER_NAME",
                 ilMDUtilSelect::_getBrowserSelect(
                     $md_re->getBrowserName(),
@@ -1679,26 +1673,26 @@ class ilMDEditorGUI
                                     )
             );
 
-            $this->tpl->setVariable(
+            $tpl->setVariable(
                 "REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MINIMUMVERSION",
                 ilUtil::prepareFormOutput($md_re->getOperatingSystemMinimumVersion())
             );
             
-            $this->tpl->setVariable(
+            $tpl->setVariable(
                 "REQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION",
                 ilUtil::prepareFormOutput($md_re->getOperatingSystemMaximumVersion())
             );
 
-            $this->tpl->setVariable(
+            $tpl->setVariable(
                 "REQUIREMENT_LOOP_VAL_BROWSER_MINIMUMVERSION",
                 ilUtil::prepareFormOutput($md_re->getBrowserMinimumVersion())
             );
             
-            $this->tpl->setVariable(
+            $tpl->setVariable(
                 "REQUIREMENT_LOOP_VAL_BROWSER_MAXIMUMVERSION",
                 ilUtil::prepareFormOutput($md_re->getBrowserMaximumVersion())
             );
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         }
         // OrComposite
         foreach ($ids = $this->md_section->getOrCompositeIds() as $or_id) {
@@ -1706,23 +1700,23 @@ class ilMDEditorGUI
             foreach ($ids = $md_or->getRequirementIds() as $id) {
                 $md_re = &$this->md_section->getRequirement($id);
 
-                $this->tpl->setCurrentBlock("orrequirement_loop");
+                $tpl->setCurrentBlock("orrequirement_loop");
 
                 $this->ctrl->setParameter($this, 'meta_index', $id);
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_requirement');
-                $this->tpl->setVariable("ORREQUIREMENT_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-                $this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_DELETE", $this->lng->txt('delete'));
+                $tpl->setVariable("ORREQUIREMENT_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+                $tpl->setVariable("ORREQUIREMENT_LOOP_TXT_DELETE", $this->lng->txt('delete'));
 
-                $this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_REQUIREMENT", $this->lng->txt('meta_requirement'));
-                $this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_TYPE", $this->lng->txt('meta_type'));
-                $this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_OPERATINGSYSTEM", $this->lng->txt('meta_operating_system'));
-                $this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_BROWSER", $this->lng->txt('meta_browser'));
-                $this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_NAME", $this->lng->txt('meta_name'));
-                $this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_MINIMUMVERSION", $this->lng->txt('meta_minimum_version'));
-                $this->tpl->setVariable("ORREQUIREMENT_LOOP_TXT_MAXIMUMVERSION", $this->lng->txt('meta_maximum_version'));
+                $tpl->setVariable("ORREQUIREMENT_LOOP_TXT_REQUIREMENT", $this->lng->txt('meta_requirement'));
+                $tpl->setVariable("ORREQUIREMENT_LOOP_TXT_TYPE", $this->lng->txt('meta_type'));
+                $tpl->setVariable("ORREQUIREMENT_LOOP_TXT_OPERATINGSYSTEM", $this->lng->txt('meta_operating_system'));
+                $tpl->setVariable("ORREQUIREMENT_LOOP_TXT_BROWSER", $this->lng->txt('meta_browser'));
+                $tpl->setVariable("ORREQUIREMENT_LOOP_TXT_NAME", $this->lng->txt('meta_name'));
+                $tpl->setVariable("ORREQUIREMENT_LOOP_TXT_MINIMUMVERSION", $this->lng->txt('meta_minimum_version'));
+                $tpl->setVariable("ORREQUIREMENT_LOOP_TXT_MAXIMUMVERSION", $this->lng->txt('meta_maximum_version'));
 
-                $this->tpl->setVariable("ORREQUIREMENT_LOOP_NO", $id);
-                $this->tpl->setVariable(
+                $tpl->setVariable("ORREQUIREMENT_LOOP_NO", $id);
+                $tpl->setVariable(
                     "ORREQUIREMENT_SEL_OS_NAME",
                     ilMDUtilSelect::_getOperatingSystemSelect(
                         $md_re->getOperatingSystemName(),
@@ -1730,7 +1724,7 @@ class ilMDEditorGUI
                         array(0 => $this->lng->txt('meta_please_select'))
                                         )
                 );
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "ORREQUIREMENT_SEL_BROWSER_NAME",
                     ilMDUtilSelect::_getBrowserSelect(
                         $md_re->getBrowserName(),
@@ -1739,45 +1733,45 @@ class ilMDEditorGUI
                                         )
                 );
 
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "ORREQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MINIMUMVERSION",
                     ilUtil::prepareFormOutput($md_re->getOperatingSystemMinimumVersion())
                 );
             
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "ORREQUIREMENT_LOOP_VAL_OPERATINGSYSTEM_MAXIMUMVERSION",
                     ilUtil::prepareFormOutput($md_re->getOperatingSystemMaximumVersion())
                 );
 
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "ORREQUIREMENT_LOOP_VAL_BROWSER_MINIMUMVERSION",
                     ilUtil::prepareFormOutput($md_re->getBrowserMinimumVersion())
                 );
             
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "ORREQUIREMENT_LOOP_VAL_BROWSER_MAXIMUMVERSION",
                     ilUtil::prepareFormOutput($md_re->getBrowserMaximumVersion())
                 );
-                $this->tpl->parseCurrentBlock();
+                $tpl->parseCurrentBlock();
             }
-            $this->tpl->setCurrentBlock("orcomposite_loop");
+            $tpl->setCurrentBlock("orcomposite_loop");
 
             $this->ctrl->setParameter($this, 'meta_index', $or_id);
             $this->ctrl->setParameter($this, 'meta_path', 'meta_or_composite');
             $this->ctrl->setParameter($this, 'meta_technical', $this->md_section->getMetaId());
-            $this->tpl->setVariable("ORCOMPOSITE_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-            $this->tpl->setVariable("ORCOMPOSITE_LOOP_TXT_DELETE", $this->lng->txt('delete'));
+            $tpl->setVariable("ORCOMPOSITE_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+            $tpl->setVariable("ORCOMPOSITE_LOOP_TXT_DELETE", $this->lng->txt('delete'));
 
-            $this->tpl->setVariable("ORCOMPOSITE_LOOP_TXT_ORCOMPOSITE", $this->lng->txt('meta_or_composite'));
-            $this->tpl->parseCurrentBlock();
+            $tpl->setVariable("ORCOMPOSITE_LOOP_TXT_ORCOMPOSITE", $this->lng->txt('meta_or_composite'));
+            $tpl->parseCurrentBlock();
         }
 
         // InstallationRemarks
-        $this->tpl->setVariable("INSTALLATIONREMARKS_TXT_INSTALLATIONREMARKS", $this->lng->txt('meta_installation_remarks'));
-        $this->tpl->setVariable("INSTALLATIONREMARKS_TXT_LANGUAGE", $this->lng->txt('meta_language'));
+        $tpl->setVariable("INSTALLATIONREMARKS_TXT_INSTALLATIONREMARKS", $this->lng->txt('meta_installation_remarks'));
+        $tpl->setVariable("INSTALLATIONREMARKS_TXT_LANGUAGE", $this->lng->txt('meta_language'));
 
-        $this->tpl->setVariable("INSTALLATIONREMARKS_VAL", ilUtil::prepareFormOutput($this->md_section->getInstallationRemarks()));
-        $this->tpl->setVariable(
+        $tpl->setVariable("INSTALLATIONREMARKS_VAL", ilUtil::prepareFormOutput($this->md_section->getInstallationRemarks()));
+        $tpl->setVariable(
             "INSTALLATIONREMARKS_VAL_LANGUAGE",
             $this->__showLanguageSelect(
                 'inst_language',
@@ -1786,17 +1780,17 @@ class ilMDEditorGUI
         );
 
         // Other platform requirement
-        $this->tpl->setVariable(
+        $tpl->setVariable(
             "OTHERPLATTFORMREQUIREMENTS_TXT_OTHERPLATTFORMREQUIREMENTS",
             $this->lng->txt('meta_other_plattform_requirements')
         );
-        $this->tpl->setVariable("OTHERPLATTFORMREQUIREMENTS_TXT_LANGUAGE", $this->lng->txt('meta_language'));
+        $tpl->setVariable("OTHERPLATTFORMREQUIREMENTS_TXT_LANGUAGE", $this->lng->txt('meta_language'));
 
-        $this->tpl->setVariable(
+        $tpl->setVariable(
             "OTHERPLATTFORMREQUIREMENTS_VAL",
             ilUtil::prepareFormOutput($this->md_section->getOtherPlatformRequirements())
         );
-        $this->tpl->setVariable(
+        $tpl->setVariable(
             "OTHERPLATTFORMREQUIREMENTS_VAL_LANGUAGE",
             $this->__showLanguageSelect(
                 'opr_language',
@@ -1805,62 +1799,64 @@ class ilMDEditorGUI
         );
 
         // Duration
-        $this->tpl->setVariable("DURATION_TXT_DURATION", $this->lng->txt('meta_duration'));
-        $this->tpl->setVariable("DURATION_VAL", ilUtil::prepareFormOutput($this->md_section->getDuration()));
+        $tpl->setVariable("DURATION_TXT_DURATION", $this->lng->txt('meta_duration'));
+        $tpl->setVariable("DURATION_VAL", ilUtil::prepareFormOutput($this->md_section->getDuration()));
 
-        $this->tpl->setCurrentBlock("technical");
-        $this->tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
-        $this->tpl->parseCurrentBlock();
+        $tpl->setCurrentBlock("technical");
+        $tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
+        $tpl->parseCurrentBlock();
+
+        $this->tpl->setContent($tpl->get());
     }
     
 
 
     public function listLifecycle()
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_lifecycle');
-        $this->tpl->addBlockFile('MD_CONTENT', 'md_content', 'tpl.md_lifecycle.html', 'Services/MetaData');
 
+        $tpl = new ilTemplate('tpl.md_lifecycle.html', true, true, 'Services/MetaData');
 
         $this->ctrl->setParameter($this, "section", "meta_lifecycle");
         if (!is_object($this->md_section = $this->md_obj->getLifecycle())) {
-            $this->tpl->setCurrentBlock("no_lifecycle");
-            $this->tpl->setVariable("TXT_NO_LIFECYCLE", $this->lng->txt("meta_no_lifecycle"));
-            $this->tpl->setVariable("TXT_ADD_LIFECYCLE", $this->lng->txt("meta_add"));
-            $this->tpl->setVariable("ACTION_ADD_LIFECYCLE", $this->ctrl->getLinkTarget($this, "addSection"));
-            $this->tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock("no_lifecycle");
+            $tpl->setVariable("TXT_NO_LIFECYCLE", $this->lng->txt("meta_no_lifecycle"));
+            $tpl->setVariable("TXT_ADD_LIFECYCLE", $this->lng->txt("meta_add"));
+            $tpl->setVariable("ACTION_ADD_LIFECYCLE", $this->ctrl->getLinkTarget($this, "addSection"));
+            $tpl->parseCurrentBlock();
 
+            $this->tpl->setContent($tpl->get());
             return true;
         }
         $this->ctrl->setReturn($this, 'listLifecycle');
         $this->ctrl->setParameter($this, "meta_index", $this->md_section->getMetaId());
 
-        $this->tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
-        $this->tpl->setVariable("TXT_LIFECYCLE", $this->lng->txt('meta_lifecycle'));
+        $tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
+        $tpl->setVariable("TXT_LIFECYCLE", $this->lng->txt('meta_lifecycle'));
 
         // Delete link
-        $this->tpl->setVariable(
+        $tpl->setVariable(
             "ACTION_DELETE",
             $this->ctrl->getLinkTarget($this, "deleteSection")
         );
-        $this->tpl->setVariable("TXT_DELETE", $this->lng->txt('delete'));
+        $tpl->setVariable("TXT_DELETE", $this->lng->txt('delete'));
 
         // New element
-        $this->__fillSubelements();
+        $this->__fillSubelements($tpl);
 
         // Status
-        $this->tpl->setVariable("TXT_STATUS", $this->lng->txt('meta_status'));
-        $this->tpl->setVariable("SEL_STATUS", ilMDUtilSelect::_getStatusSelect(
+        $tpl->setVariable("TXT_STATUS", $this->lng->txt('meta_status'));
+        $tpl->setVariable("SEL_STATUS", ilMDUtilSelect::_getStatusSelect(
             $this->md_section->getStatus(),
             "lif_status",
             array(0 => $this->lng->txt('meta_please_select'))
         ));
         // Version
-        $this->tpl->setVariable("TXT_VERSION", $this->lng->txt('meta_version'));
-        $this->tpl->setVariable("VAL_VERSION", ilUtil::prepareFormOutput($this->md_section->getVersion()));
+        $tpl->setVariable("TXT_VERSION", $this->lng->txt('meta_version'));
+        $tpl->setVariable("VAL_VERSION", ilUtil::prepareFormOutput($this->md_section->getVersion()));
 
-        $this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt('meta_language'));
-        $this->tpl->setVariable("VAL_VERSION_LANGUAGE", $this->__showLanguageSelect(
+        $tpl->setVariable("TXT_LANGUAGE", $this->lng->txt('meta_language'));
+        $tpl->setVariable("VAL_VERSION_LANGUAGE", $this->__showLanguageSelect(
             'lif_language',
             $this->md_section->getVersionLanguageCode()
         ));
@@ -1873,10 +1869,10 @@ class ilMDEditorGUI
                 $this->ctrl->setParameter($this, 'meta_index', $con_id);
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_contribute');
                 
-                $this->tpl->setCurrentBlock("contribute_delete");
-                $this->tpl->setVariable("CONTRIBUTE_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-                $this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_DELETE", $this->lng->txt('delete'));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("contribute_delete");
+                $tpl->setVariable("CONTRIBUTE_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+                $tpl->setVariable("CONTRIBUTE_LOOP_TXT_DELETE", $this->lng->txt('delete'));
+                $tpl->parseCurrentBlock();
             }
             // Entities
             foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
@@ -1885,47 +1881,49 @@ class ilMDEditorGUI
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_entity');
                 
                 if (count($ent_ids) > 1) {
-                    $this->tpl->setCurrentBlock("contribute_entity_delete");
+                    $tpl->setCurrentBlock("contribute_entity_delete");
                     
                     $this->ctrl->setParameter($this, 'meta_index', $ent_id);
-                    $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-                    $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_DELETE", $this->lng->txt('delete'));
-                    $this->tpl->parseCurrentBlock();
+                    $tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+                    $tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_DELETE", $this->lng->txt('delete'));
+                    $tpl->parseCurrentBlock();
                 }
                 
-                $this->tpl->setCurrentBlock("contribute_entity_loop");
+                $tpl->setCurrentBlock("contribute_entity_loop");
 
-                $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO", $con_id);
-                $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_NO", $ent_id);
-                $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY", ilUtil::prepareFormOutput($md_ent->getEntity()));
-                $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ENTITY", $this->lng->txt('meta_entity'));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO", $con_id);
+                $tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_NO", $ent_id);
+                $tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY", ilUtil::prepareFormOutput($md_ent->getEntity()));
+                $tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ENTITY", $this->lng->txt('meta_entity'));
+                $tpl->parseCurrentBlock();
             }
-            $this->tpl->setCurrentBlock("contribute_loop");
+            $tpl->setCurrentBlock("contribute_loop");
             
             $this->ctrl->setParameter($this, 'section_element', 'meta_entity');
             $this->ctrl->setParameter($this, 'meta_index', $con_id);
-            $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_ADD", $this->ctrl->getLinkTarget($this, 'addSectionElement'));
-            $this->tpl->setVariable(
+            $tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_ADD", $this->ctrl->getLinkTarget($this, 'addSectionElement'));
+            $tpl->setVariable(
                 "CONTRIBUTE_ENTITY_LOOP_TXT_ADD",
                 $this->lng->txt('add') . " " . $this->lng->txt('meta_entity')
             );
 
-            $this->tpl->setVariable("CONTRIBUTE_LOOP_ROWSPAN", 2 + count($ent_ids));
-            $this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_CONTRIBUTE", $this->lng->txt('meta_contribute'));
-            $this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_ROLE", $this->lng->txt('meta_role'));
-            $this->tpl->setVariable("SEL_CONTRIBUTE_ROLE", ilMDUtilSelect::_getRoleSelect(
+            $tpl->setVariable("CONTRIBUTE_LOOP_ROWSPAN", 2 + count($ent_ids));
+            $tpl->setVariable("CONTRIBUTE_LOOP_TXT_CONTRIBUTE", $this->lng->txt('meta_contribute'));
+            $tpl->setVariable("CONTRIBUTE_LOOP_TXT_ROLE", $this->lng->txt('meta_role'));
+            $tpl->setVariable("SEL_CONTRIBUTE_ROLE", ilMDUtilSelect::_getRoleSelect(
                 $md_con->getRole(),
                 "met_contribute[" . $con_id . "][Role]",
                 array(0 => $this->lng->txt('meta_please_select'))
             ));
-            $this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_DATE", $this->lng->txt('meta_date'));
-            $this->tpl->setVariable("CONTRIBUTE_LOOP_NO", $con_id);
-            $this->tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE", ilUtil::prepareFormOutput($md_con->getDate()));
+            $tpl->setVariable("CONTRIBUTE_LOOP_TXT_DATE", $this->lng->txt('meta_date'));
+            $tpl->setVariable("CONTRIBUTE_LOOP_NO", $con_id);
+            $tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE", ilUtil::prepareFormOutput($md_con->getDate()));
             
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         }
-        $this->tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
+        $tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
+
+        $this->tpl->setContent($tpl->get());
     }
 
     public function updateLifecycle()
@@ -1977,42 +1975,42 @@ class ilMDEditorGUI
 
     public function listMetaMetaData()
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_meta_metadata');
-        $this->tpl->addBlockFile('MD_CONTENT', 'md_content', 'tpl.md_meta_metadata.html', 'Services/MetaData');
 
+        $tpl = new ilTemplate('tpl.md_meta_metadata.html', true, true, 'Services/MetaData');
 
         $this->ctrl->setParameter($this, "section", "meta_meta_metadata");
         if (!is_object($this->md_section = $this->md_obj->getMetaMetadata())) {
-            $this->tpl->setCurrentBlock("no_meta_meta");
-            $this->tpl->setVariable("TXT_NO_META_META", $this->lng->txt("meta_no_meta_metadata"));
-            $this->tpl->setVariable("TXT_ADD_META_META", $this->lng->txt("meta_add"));
-            $this->tpl->setVariable("ACTION_ADD_META_META", $this->ctrl->getLinkTarget($this, "addSection"));
-            $this->tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock("no_meta_meta");
+            $tpl->setVariable("TXT_NO_META_META", $this->lng->txt("meta_no_meta_metadata"));
+            $tpl->setVariable("TXT_ADD_META_META", $this->lng->txt("meta_add"));
+            $tpl->setVariable("ACTION_ADD_META_META", $this->ctrl->getLinkTarget($this, "addSection"));
+            $tpl->parseCurrentBlock();
 
+            $this->tpl->setContent($tpl->get());
             return true;
         }
         $this->ctrl->setReturn($this, 'listMetaMetaData');
         $this->ctrl->setParameter($this, "meta_index", $this->md_section->getMetaId());
 
-        $this->tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
-        $this->tpl->setVariable("TXT_META_METADATA", $this->lng->txt('meta_meta_metadata'));
+        $tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
+        $tpl->setVariable("TXT_META_METADATA", $this->lng->txt('meta_meta_metadata'));
 
         // Delete link
-        $this->tpl->setVariable(
+        $tpl->setVariable(
             "ACTION_DELETE",
             $this->ctrl->getLinkTarget($this, "deleteSection")
         );
-        $this->tpl->setVariable("TXT_DELETE", $this->lng->txt('delete'));
+        $tpl->setVariable("TXT_DELETE", $this->lng->txt('delete'));
 
         // New element
-        $this->__fillSubelements();
+        $this->__fillSubelements($tpl);
 
-        $this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt('meta_language'));
+        $tpl->setVariable("TXT_LANGUAGE", $this->lng->txt('meta_language'));
 
-        $this->tpl->setVariable("VAL_LANGUAGE", $this->__showLanguageSelect('met_language', $this->md_section->getLanguageCode()));
-        $this->tpl->setVariable("TXT_METADATASCHEME", $this->lng->txt('meta_metadatascheme'));
-        $this->tpl->setVariable("VAL_METADATASCHEME", $this->md_section->getMetaDataScheme());
+        $tpl->setVariable("VAL_LANGUAGE", $this->__showLanguageSelect('met_language', $this->md_section->getLanguageCode()));
+        $tpl->setVariable("TXT_METADATASCHEME", $this->lng->txt('meta_metadatascheme'));
+        $tpl->setVariable("VAL_METADATASCHEME", $this->md_section->getMetaDataScheme());
 
 
         // Identifier
@@ -2023,26 +2021,26 @@ class ilMDEditorGUI
                 $this->ctrl->setParameter($this, 'meta_index', $id);
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_identifier');
                 
-                $this->tpl->setCurrentBlock("identifier_delete");
-                $this->tpl->setVariable("IDENTIFIER_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-                $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_DELETE", $this->lng->txt('delete'));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("identifier_delete");
+                $tpl->setVariable("IDENTIFIER_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+                $tpl->setVariable("IDENTIFIER_LOOP_TXT_DELETE", $this->lng->txt('delete'));
+                $tpl->parseCurrentBlock();
             }
 
-            $this->tpl->setCurrentBlock("identifier_loop");
-            $this->tpl->setVariable("IDENTIFIER_LOOP_NO", $id);
-            $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
-            $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
-            $this->tpl->setVariable(
+            $tpl->setCurrentBlock("identifier_loop");
+            $tpl->setVariable("IDENTIFIER_LOOP_NO", $id);
+            $tpl->setVariable("IDENTIFIER_LOOP_TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
+            $tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
+            $tpl->setVariable(
                 "IDENTIFIER_LOOP_VAL_IDENTIFIER_CATALOG",
                 ilUtil::prepareFormOutput($md_ide->getCatalog())
             );
-            $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
-            $this->tpl->setVariable(
+            $tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
+            $tpl->setVariable(
                 "IDENTIFIER_LOOP_VAL_IDENTIFIER_ENTRY",
                 ilUtil::prepareFormOutput($md_ide->getEntry())
             );
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         }
 
         // Contributes
@@ -2053,10 +2051,10 @@ class ilMDEditorGUI
                 $this->ctrl->setParameter($this, 'meta_index', $con_id);
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_contribute');
                 
-                $this->tpl->setCurrentBlock("contribute_delete");
-                $this->tpl->setVariable("CONTRIBUTE_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-                $this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_DELETE", $this->lng->txt('delete'));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("contribute_delete");
+                $tpl->setVariable("CONTRIBUTE_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+                $tpl->setVariable("CONTRIBUTE_LOOP_TXT_DELETE", $this->lng->txt('delete'));
+                $tpl->parseCurrentBlock();
             }
             // Entities
             foreach ($ent_ids = $md_con->getEntityIds() as $ent_id) {
@@ -2065,44 +2063,46 @@ class ilMDEditorGUI
                 $this->ctrl->setParameter($this, 'meta_path', 'meta_entity');
                 
                 if (count($ent_ids) > 1) {
-                    $this->tpl->setCurrentBlock("contribute_entity_delete");
+                    $tpl->setCurrentBlock("contribute_entity_delete");
                     
                     $this->ctrl->setParameter($this, 'meta_index', $ent_id);
-                    $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
-                    $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_DELETE", $this->lng->txt('delete'));
-                    $this->tpl->parseCurrentBlock();
+                    $tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_DELETE", $this->ctrl->getLinkTarget($this, 'deleteElement'));
+                    $tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_DELETE", $this->lng->txt('delete'));
+                    $tpl->parseCurrentBlock();
                 }
                 
-                $this->tpl->setCurrentBlock("contribute_entity_loop");
+                $tpl->setCurrentBlock("contribute_entity_loop");
 
                 $this->ctrl->setParameter($this, 'section_element', 'meta_entity');
                 $this->ctrl->setParameter($this, 'meta_index', $con_id);
-                $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_ADD", $this->ctrl->getLinkTarget($this, 'addSectionElement'));
-                $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ADD", $this->lng->txt('add'));
+                $tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_ACTION_ADD", $this->ctrl->getLinkTarget($this, 'addSectionElement'));
+                $tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ADD", $this->lng->txt('add'));
 
 
-                $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO", $con_id);
-                $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_NO", $ent_id);
-                $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY", ilUtil::prepareFormOutput($md_ent->getEntity()));
-                $this->tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ENTITY", $this->lng->txt('meta_entity'));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_CONTRIBUTE_NO", $con_id);
+                $tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_NO", $ent_id);
+                $tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_VAL_ENTITY", ilUtil::prepareFormOutput($md_ent->getEntity()));
+                $tpl->setVariable("CONTRIBUTE_ENTITY_LOOP_TXT_ENTITY", $this->lng->txt('meta_entity'));
+                $tpl->parseCurrentBlock();
             }
-            $this->tpl->setCurrentBlock("contribute_loop");
-            $this->tpl->setVariable("CONTRIBUTE_LOOP_ROWSPAN", 2 + count($ent_ids));
-            $this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_CONTRIBUTE", $this->lng->txt('meta_contribute'));
-            $this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_ROLE", $this->lng->txt('meta_role'));
-            $this->tpl->setVariable("SEL_CONTRIBUTE_ROLE", ilMDUtilSelect::_getRoleSelect(
+            $tpl->setCurrentBlock("contribute_loop");
+            $tpl->setVariable("CONTRIBUTE_LOOP_ROWSPAN", 2 + count($ent_ids));
+            $tpl->setVariable("CONTRIBUTE_LOOP_TXT_CONTRIBUTE", $this->lng->txt('meta_contribute'));
+            $tpl->setVariable("CONTRIBUTE_LOOP_TXT_ROLE", $this->lng->txt('meta_role'));
+            $tpl->setVariable("SEL_CONTRIBUTE_ROLE", ilMDUtilSelect::_getRoleSelect(
                 $md_con->getRole(),
                 "met_contribute[" . $con_id . "][Role]",
                 array(0 => $this->lng->txt('meta_please_select'))
             ));
-            $this->tpl->setVariable("CONTRIBUTE_LOOP_TXT_DATE", $this->lng->txt('meta_date'));
-            $this->tpl->setVariable("CONTRIBUTE_LOOP_NO", $con_id);
-            $this->tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE", ilUtil::prepareFormOutput($md_con->getDate()));
+            $tpl->setVariable("CONTRIBUTE_LOOP_TXT_DATE", $this->lng->txt('meta_date'));
+            $tpl->setVariable("CONTRIBUTE_LOOP_NO", $con_id);
+            $tpl->setVariable("CONTRIBUTE_LOOP_VAL_DATE", ilUtil::prepareFormOutput($md_con->getDate()));
             
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         }
-        $this->tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
+        $tpl->setVariable("TXT_SAVE", $this->lng->txt('save'));
+
+        $this->tpl->setContent($tpl->get());
     }
 
 
@@ -2153,50 +2153,50 @@ class ilMDEditorGUI
      */
     public function listRights()
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_rights');
-        $this->tpl->addBlockFile('MD_CONTENT', 'md_content', 'tpl.md_rights.html', 'Services/MetaData');
+
+        $tpl = new ilTemplate('tpl.md_rights.html', true, true, 'Services/MetaData');
 
         if (!is_object($this->md_section = $this->md_obj->getRights())) {
-            $this->tpl->setCurrentBlock("no_rights");
-            $this->tpl->setVariable("TXT_NO_RIGHTS", $this->lng->txt("meta_no_rights"));
-            $this->tpl->setVariable("TXT_ADD_RIGHTS", $this->lng->txt("meta_add"));
+            $tpl->setCurrentBlock("no_rights");
+            $tpl->setVariable("TXT_NO_RIGHTS", $this->lng->txt("meta_no_rights"));
+            $tpl->setVariable("TXT_ADD_RIGHTS", $this->lng->txt("meta_add"));
             $this->ctrl->setParameter($this, "section", "meta_rights");
-            $this->tpl->setVariable(
+            $tpl->setVariable(
                 "ACTION_ADD_RIGHTS",
                 $this->ctrl->getLinkTarget($this, "addSection")
             );
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         } else {
             $this->ctrl->setReturn($this, 'listRights');
             $this->ctrl->setParameter($this, 'section', 'meta_rights');
-            $this->tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
+            $tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
 
-            $this->tpl->setVariable("TXT_RIGHTS", $this->lng->txt("meta_rights"));
-            $this->tpl->setVariable("TXT_COST", $this->lng->txt("meta_cost"));
-            $this->tpl->setVariable("TXT_COPYRIGHTANDOTHERRESTRICTIONS", $this->lng->txt("meta_copyright_and_other_restrictions"));
-            $this->tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
-            $this->tpl->setVariable("TXT_YES", $this->lng->txt("meta_yes"));
-            $this->tpl->setVariable("TXT_NO", $this->lng->txt("meta_no"));
+            $tpl->setVariable("TXT_RIGHTS", $this->lng->txt("meta_rights"));
+            $tpl->setVariable("TXT_COST", $this->lng->txt("meta_cost"));
+            $tpl->setVariable("TXT_COPYRIGHTANDOTHERRESTRICTIONS", $this->lng->txt("meta_copyright_and_other_restrictions"));
+            $tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
+            $tpl->setVariable("TXT_YES", $this->lng->txt("meta_yes"));
+            $tpl->setVariable("TXT_NO", $this->lng->txt("meta_no"));
 
             $this->ctrl->setParameter($this, "section", "meta_rights");
             $this->ctrl->setParameter($this, "meta_index", $this->md_section->getMetaId());
-            $this->tpl->setVariable(
+            $tpl->setVariable(
                 "ACTION_DELETE",
                 $this->ctrl->getLinkTarget($this, "deleteSection")
             );
 
-            $this->tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
+            $tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
 
-            $this->tpl->setVariable("VAL_COST_" . strtoupper($this->md_section->getCosts()), " selected");
-            $this->tpl->setVariable("VAL_COPYRIGHTANDOTHERRESTRICTIONS_" .
+            $tpl->setVariable("VAL_COST_" . strtoupper($this->md_section->getCosts()), " selected");
+            $tpl->setVariable("VAL_COPYRIGHTANDOTHERRESTRICTIONS_" .
                 strtoupper($this->md_section->getCopyrightAndOtherRestrictions()), " selected");
 
-            $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
-            $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-            $this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($this->md_section->getDescription()));
-            $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-            $this->tpl->setVariable(
+            $tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+            $tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+            $tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($this->md_section->getDescription()));
+            $tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+            $tpl->setVariable(
                 "DESCRIPTION_LOOP_VAL_LANGUAGE",
                 $this->__showLanguageSelect(
                     'rights[DescriptionLanguage]',
@@ -2204,11 +2204,13 @@ class ilMDEditorGUI
             )
             );
 
-            $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+            $tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
     
-            $this->tpl->setCurrentBlock("rights");
-            $this->tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock("rights");
+            $tpl->parseCurrentBlock();
         }
+
+        $this->tpl->setContent($tpl->get());
     }
 
     public function updateRights()
@@ -2233,93 +2235,93 @@ class ilMDEditorGUI
      */
     public function listEducational()
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_educational');
-        $this->tpl->addBlockFile('MD_CONTENT', 'md_content', 'tpl.md_educational.html', 'Services/MetaData');
+
+        $tpl = new ilTemplate('tpl.md_educational.html', true, true, 'Services/MetaData');
 
         if (!is_object($this->md_section = $this->md_obj->getEducational())) {
-            $this->tpl->setCurrentBlock("no_educational");
-            $this->tpl->setVariable("TXT_NO_EDUCATIONAL", $this->lng->txt("meta_no_educational"));
-            $this->tpl->setVariable("TXT_ADD_EDUCATIONAL", $this->lng->txt("meta_add"));
+            $tpl->setCurrentBlock("no_educational");
+            $tpl->setVariable("TXT_NO_EDUCATIONAL", $this->lng->txt("meta_no_educational"));
+            $tpl->setVariable("TXT_ADD_EDUCATIONAL", $this->lng->txt("meta_add"));
             $this->ctrl->setParameter($this, "section", "meta_educational");
-            $this->tpl->setVariable(
+            $tpl->setVariable(
                 "ACTION_ADD_EDUCATIONAL",
                 $this->ctrl->getLinkTarget($this, "addSection")
             );
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         } else {
             $this->ctrl->setReturn($this, 'listEducational');
             $this->ctrl->setParameter($this, 'section', 'meta_educational');
-            $this->tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
+            $tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
 
             $this->ctrl->setParameter($this, "meta_index", $this->md_section->getMetaId());
-            $this->tpl->setVariable(
+            $tpl->setVariable(
                 "ACTION_DELETE",
                 $this->ctrl->getLinkTarget($this, "deleteSection")
             );
 
-            $this->tpl->setVariable("TXT_EDUCATIONAL", $this->lng->txt("meta_educational"));
-            $this->tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
-            $this->tpl->setVariable("TXT_NEW_ELEMENT", $this->lng->txt("meta_new_element"));
-            $this->tpl->setVariable("TXT_TYPICALAGERANGE", $this->lng->txt("meta_typical_age_range"));
-            $this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
-            $this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
-            $this->tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
-            $this->tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
+            $tpl->setVariable("TXT_EDUCATIONAL", $this->lng->txt("meta_educational"));
+            $tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
+            $tpl->setVariable("TXT_NEW_ELEMENT", $this->lng->txt("meta_new_element"));
+            $tpl->setVariable("TXT_TYPICALAGERANGE", $this->lng->txt("meta_typical_age_range"));
+            $tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+            $tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
+            $tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
+            $tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
 
-            $this->tpl->setVariable("TXT_INTERACTIVITYTYPE", $this->lng->txt("meta_interactivity_type"));
-            $this->tpl->setVariable("TXT_LEARNINGRESOURCETYPE", $this->lng->txt("meta_learning_resource_type"));
-            $this->tpl->setVariable("TXT_INTERACTIVITYLEVEL", $this->lng->txt("meta_interactivity_level"));
-            $this->tpl->setVariable("TXT_SEMANTICDENSITY", $this->lng->txt("meta_semantic_density"));
-            $this->tpl->setVariable("TXT_INTENDEDENDUSERROLE", $this->lng->txt("meta_intended_end_user_role"));
-            $this->tpl->setVariable("TXT_CONTEXT", $this->lng->txt("meta_context"));
-            $this->tpl->setVariable("TXT_DIFFICULTY", $this->lng->txt("meta_difficulty"));
+            $tpl->setVariable("TXT_INTERACTIVITYTYPE", $this->lng->txt("meta_interactivity_type"));
+            $tpl->setVariable("TXT_LEARNINGRESOURCETYPE", $this->lng->txt("meta_learning_resource_type"));
+            $tpl->setVariable("TXT_INTERACTIVITYLEVEL", $this->lng->txt("meta_interactivity_level"));
+            $tpl->setVariable("TXT_SEMANTICDENSITY", $this->lng->txt("meta_semantic_density"));
+            $tpl->setVariable("TXT_INTENDEDENDUSERROLE", $this->lng->txt("meta_intended_end_user_role"));
+            $tpl->setVariable("TXT_CONTEXT", $this->lng->txt("meta_context"));
+            $tpl->setVariable("TXT_DIFFICULTY", $this->lng->txt("meta_difficulty"));
             
-            $this->tpl->setVariable("VAL_INTERACTIVITYTYPE_" . strtoupper($this->md_section->getInteractivityType()), " selected");
-            $this->tpl->setVariable("VAL_LEARNINGRESOURCETYPE_" . strtoupper($this->md_section->getLearningResourceType()), " selected");
-            $this->tpl->setVariable("VAL_INTERACTIVITYLEVEL_" . strtoupper($this->md_section->getInteractivityLevel()), " selected");
-            $this->tpl->setVariable("VAL_SEMANTICDENSITY_" . strtoupper($this->md_section->getSemanticDensity()), " selected");
-            $this->tpl->setVariable("VAL_INTENDEDENDUSERROLE_" . strtoupper($this->md_section->getIntendedEndUserRole()), " selected");
-            $this->tpl->setVariable("VAL_CONTEXT_" . strtoupper($this->md_section->getContext()), " selected");
-            $this->tpl->setVariable("VAL_DIFFICULTY_" . strtoupper($this->md_section->getDifficulty()), " selected");
-            #$this->tpl->setVariable("VAL_TYPICALLEARNINGTIME", ilUtil::prepareFormOutput($this->md_section->getTypicalLearningTime()));
+            $tpl->setVariable("VAL_INTERACTIVITYTYPE_" . strtoupper($this->md_section->getInteractivityType()), " selected");
+            $tpl->setVariable("VAL_LEARNINGRESOURCETYPE_" . strtoupper($this->md_section->getLearningResourceType()), " selected");
+            $tpl->setVariable("VAL_INTERACTIVITYLEVEL_" . strtoupper($this->md_section->getInteractivityLevel()), " selected");
+            $tpl->setVariable("VAL_SEMANTICDENSITY_" . strtoupper($this->md_section->getSemanticDensity()), " selected");
+            $tpl->setVariable("VAL_INTENDEDENDUSERROLE_" . strtoupper($this->md_section->getIntendedEndUserRole()), " selected");
+            $tpl->setVariable("VAL_CONTEXT_" . strtoupper($this->md_section->getContext()), " selected");
+            $tpl->setVariable("VAL_DIFFICULTY_" . strtoupper($this->md_section->getDifficulty()), " selected");
+            #$tpl->setVariable("VAL_TYPICALLEARNINGTIME", ilUtil::prepareFormOutput($this->md_section->getTypicalLearningTime()));
             
-            $this->tpl->setVariable("TXT_ACTIVE", $this->lng->txt("meta_active"));
-            $this->tpl->setVariable("TXT_EXPOSITIVE", $this->lng->txt("meta_expositive"));
-            $this->tpl->setVariable("TXT_MIXED", $this->lng->txt("meta_mixed"));
-            $this->tpl->setVariable("TXT_EXERCISE", $this->lng->txt("meta_exercise"));
-            $this->tpl->setVariable("TXT_SIMULATION", $this->lng->txt("meta_simulation"));
-            $this->tpl->setVariable("TXT_QUESTIONNAIRE", $this->lng->txt("meta_questionnaire"));
-            $this->tpl->setVariable("TXT_DIAGRAMM", $this->lng->txt("meta_diagramm"));
-            $this->tpl->setVariable("TXT_FIGURE", $this->lng->txt("meta_figure"));
-            $this->tpl->setVariable("TXT_GRAPH", $this->lng->txt("meta_graph"));
-            $this->tpl->setVariable("TXT_INDEX", $this->lng->txt("meta_index"));
-            $this->tpl->setVariable("TXT_SLIDE", $this->lng->txt("meta_slide"));
-            $this->tpl->setVariable("TXT_TABLE", $this->lng->txt("meta_table"));
-            $this->tpl->setVariable("TXT_NARRATIVETEXT", $this->lng->txt("meta_narrative_text"));
-            $this->tpl->setVariable("TXT_EXAM", $this->lng->txt("meta_exam"));
-            $this->tpl->setVariable("TXT_EXPERIMENT", $this->lng->txt("meta_experiment"));
-            $this->tpl->setVariable("TXT_PROBLEMSTATEMENT", $this->lng->txt("meta_problem_statement"));
-            $this->tpl->setVariable("TXT_SELFASSESSMENT", $this->lng->txt("meta_self_assessment"));
-            $this->tpl->setVariable("TXT_LECTURE", $this->lng->txt("meta_lecture"));
-            $this->tpl->setVariable("TXT_VERYLOW", $this->lng->txt("meta_very_low"));
-            $this->tpl->setVariable("TXT_LOW", $this->lng->txt("meta_low"));
-            $this->tpl->setVariable("TXT_MEDIUM", $this->lng->txt("meta_medium"));
-            $this->tpl->setVariable("TXT_HIGH", $this->lng->txt("meta_high"));
-            $this->tpl->setVariable("TXT_VERYHIGH", $this->lng->txt("meta_very_high"));
-            $this->tpl->setVariable("TXT_TEACHER", $this->lng->txt("meta_teacher"));
-            $this->tpl->setVariable("TXT_AUTHOR", $this->lng->txt("meta_author"));
-            $this->tpl->setVariable("TXT_LEARNER", $this->lng->txt("meta_learner"));
-            $this->tpl->setVariable("TXT_MANAGER", $this->lng->txt("meta_manager"));
-            $this->tpl->setVariable("TXT_SCHOOL", $this->lng->txt("meta_school"));
-            $this->tpl->setVariable("TXT_HIGHEREDUCATION", $this->lng->txt("meta_higher_education"));
-            $this->tpl->setVariable("TXT_TRAINING", $this->lng->txt("meta_training"));
-            $this->tpl->setVariable("TXT_OTHER", $this->lng->txt("meta_other"));
-            $this->tpl->setVariable("TXT_VERYEASY", $this->lng->txt("meta_very_easy"));
-            $this->tpl->setVariable("TXT_EASY", $this->lng->txt("meta_easy"));
-            $this->tpl->setVariable("TXT_DIFFICULT", $this->lng->txt("meta_difficult"));
-            $this->tpl->setVariable("TXT_VERYDIFFICULT", $this->lng->txt("meta_very_difficult"));
-            $this->tpl->setVariable("TXT_TYPICALLEARNINGTIME", $this->lng->txt("meta_typical_learning_time"));
+            $tpl->setVariable("TXT_ACTIVE", $this->lng->txt("meta_active"));
+            $tpl->setVariable("TXT_EXPOSITIVE", $this->lng->txt("meta_expositive"));
+            $tpl->setVariable("TXT_MIXED", $this->lng->txt("meta_mixed"));
+            $tpl->setVariable("TXT_EXERCISE", $this->lng->txt("meta_exercise"));
+            $tpl->setVariable("TXT_SIMULATION", $this->lng->txt("meta_simulation"));
+            $tpl->setVariable("TXT_QUESTIONNAIRE", $this->lng->txt("meta_questionnaire"));
+            $tpl->setVariable("TXT_DIAGRAMM", $this->lng->txt("meta_diagramm"));
+            $tpl->setVariable("TXT_FIGURE", $this->lng->txt("meta_figure"));
+            $tpl->setVariable("TXT_GRAPH", $this->lng->txt("meta_graph"));
+            $tpl->setVariable("TXT_INDEX", $this->lng->txt("meta_index"));
+            $tpl->setVariable("TXT_SLIDE", $this->lng->txt("meta_slide"));
+            $tpl->setVariable("TXT_TABLE", $this->lng->txt("meta_table"));
+            $tpl->setVariable("TXT_NARRATIVETEXT", $this->lng->txt("meta_narrative_text"));
+            $tpl->setVariable("TXT_EXAM", $this->lng->txt("meta_exam"));
+            $tpl->setVariable("TXT_EXPERIMENT", $this->lng->txt("meta_experiment"));
+            $tpl->setVariable("TXT_PROBLEMSTATEMENT", $this->lng->txt("meta_problem_statement"));
+            $tpl->setVariable("TXT_SELFASSESSMENT", $this->lng->txt("meta_self_assessment"));
+            $tpl->setVariable("TXT_LECTURE", $this->lng->txt("meta_lecture"));
+            $tpl->setVariable("TXT_VERYLOW", $this->lng->txt("meta_very_low"));
+            $tpl->setVariable("TXT_LOW", $this->lng->txt("meta_low"));
+            $tpl->setVariable("TXT_MEDIUM", $this->lng->txt("meta_medium"));
+            $tpl->setVariable("TXT_HIGH", $this->lng->txt("meta_high"));
+            $tpl->setVariable("TXT_VERYHIGH", $this->lng->txt("meta_very_high"));
+            $tpl->setVariable("TXT_TEACHER", $this->lng->txt("meta_teacher"));
+            $tpl->setVariable("TXT_AUTHOR", $this->lng->txt("meta_author"));
+            $tpl->setVariable("TXT_LEARNER", $this->lng->txt("meta_learner"));
+            $tpl->setVariable("TXT_MANAGER", $this->lng->txt("meta_manager"));
+            $tpl->setVariable("TXT_SCHOOL", $this->lng->txt("meta_school"));
+            $tpl->setVariable("TXT_HIGHEREDUCATION", $this->lng->txt("meta_higher_education"));
+            $tpl->setVariable("TXT_TRAINING", $this->lng->txt("meta_training"));
+            $tpl->setVariable("TXT_OTHER", $this->lng->txt("meta_other"));
+            $tpl->setVariable("TXT_VERYEASY", $this->lng->txt("meta_very_easy"));
+            $tpl->setVariable("TXT_EASY", $this->lng->txt("meta_easy"));
+            $tpl->setVariable("TXT_DIFFICULT", $this->lng->txt("meta_difficult"));
+            $tpl->setVariable("TXT_VERYDIFFICULT", $this->lng->txt("meta_very_difficult"));
+            $tpl->setVariable("TXT_TYPICALLEARNINGTIME", $this->lng->txt("meta_typical_learning_time"));
 
 
             // Typical learning time
@@ -2335,15 +2337,15 @@ class ilMDEditorGUI
                 }
             }
 
-            $this->tpl->setVariable("TXT_MONTH", $this->lng->txt('md_months'));
-            $this->tpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect($tlt[0]));
-            $this->tpl->setVariable("SEL_DAYS", $this->__buildDaysSelect($tlt[1]));
+            $tpl->setVariable("TXT_MONTH", $this->lng->txt('md_months'));
+            $tpl->setVariable("SEL_MONTHS", $this->__buildMonthsSelect($tlt[0]));
+            $tpl->setVariable("SEL_DAYS", $this->__buildDaysSelect($tlt[1]));
         
-            $this->tpl->setVariable("TXT_DAYS", $this->lng->txt('md_days'));
-            $this->tpl->setVariable("TXT_TIME", $this->lng->txt('md_time'));
+            $tpl->setVariable("TXT_DAYS", $this->lng->txt('md_days'));
+            $tpl->setVariable("TXT_TIME", $this->lng->txt('md_time'));
 
-            $this->tpl->setVariable("TXT_TYPICAL_LEARN_TIME", $this->lng->txt('meta_typical_learning_time'));
-            $this->tpl->setVariable("SEL_TLT", ilUtil::makeTimeSelect(
+            $tpl->setVariable("TXT_TYPICAL_LEARN_TIME", $this->lng->txt('meta_typical_learning_time'));
+            $tpl->setVariable("SEL_TLT", ilUtil::makeTimeSelect(
                 'tlt',
                 $tlt[4] ? false : true,
                 $tlt[2],
@@ -2351,14 +2353,14 @@ class ilMDEditorGUI
                 $tlt[4],
                 false
             ));
-            $this->tpl->setVariable("TLT_HINT", $tlt[4] ? '(hh:mm:ss)' : '(hh:mm)');
+            $tpl->setVariable("TLT_HINT", $tlt[4] ? '(hh:mm:ss)' : '(hh:mm)');
 
             if (!$valid) {
-                $this->tpl->setCurrentBlock("tlt_not_valid");
-                $this->tpl->setVariable("TXT_CURRENT_VAL", $this->lng->txt('meta_current_value'));
-                $this->tpl->setVariable("TLT", $this->md_section->getTypicalLearningTime());
-                $this->tpl->setVariable("INFO_TLT_NOT_VALID", $this->lng->txt('meta_info_tlt_not_valid'));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setCurrentBlock("tlt_not_valid");
+                $tpl->setVariable("TXT_CURRENT_VAL", $this->lng->txt('meta_current_value'));
+                $tpl->setVariable("TLT", $this->md_section->getTypicalLearningTime());
+                $tpl->setVariable("INFO_TLT_NOT_VALID", $this->lng->txt('meta_info_tlt_not_valid'));
+                $tpl->parseCurrentBlock();
             }
 
 
@@ -2370,13 +2372,13 @@ class ilMDEditorGUI
                 // extra test due to bug 5316 (may be due to eLaix import)
                 if (is_object($md_age)) {
                     if ($first) {
-                        $this->tpl->setCurrentBlock("agerange_head");
-                        $this->tpl->setVariable(
+                        $tpl->setCurrentBlock("agerange_head");
+                        $tpl->setVariable(
                             "TYPICALAGERANGE_LOOP_TXT_TYPICALAGERANGE",
                             $this->lng->txt("meta_typical_age_range")
                         );
-                        $this->tpl->setVariable("ROWSPAN_AGERANGE", count($ids));
-                        $this->tpl->parseCurrentBlock();
+                        $tpl->setVariable("ROWSPAN_AGERANGE", count($ids));
+                        $tpl->parseCurrentBlock();
                         $first = false;
                     }
                         
@@ -2384,20 +2386,20 @@ class ilMDEditorGUI
                     $this->ctrl->setParameter($this, 'meta_index', $id);
                     $this->ctrl->setParameter($this, 'meta_path', 'educational_typical_age_range');
         
-                    $this->tpl->setCurrentBlock("typicalagerange_delete");
-                    $this->tpl->setVariable(
+                    $tpl->setCurrentBlock("typicalagerange_delete");
+                    $tpl->setVariable(
                         "TYPICALAGERANGE_LOOP_ACTION_DELETE",
                         $this->ctrl->getLinkTarget($this, "deleteElement")
                     );
-                    $this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-                    $this->tpl->parseCurrentBlock();
+                    $tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+                    $tpl->parseCurrentBlock();
     
-                    $this->tpl->setCurrentBlock("typicalagerange_loop");
-                    $this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-                    $this->tpl->setVariable("TYPICALAGERANGE_LOOP_VAL", ilUtil::prepareFormOutput($md_age->getTypicalAgeRange()));
-                    $this->tpl->setVariable("TYPICALAGERANGE_LOOP_NO", $id);
-                    $this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-                    $this->tpl->setVariable(
+                    $tpl->setCurrentBlock("typicalagerange_loop");
+                    $tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+                    $tpl->setVariable("TYPICALAGERANGE_LOOP_VAL", ilUtil::prepareFormOutput($md_age->getTypicalAgeRange()));
+                    $tpl->setVariable("TYPICALAGERANGE_LOOP_NO", $id);
+                    $tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+                    $tpl->setVariable(
                         "TYPICALAGERANGE_LOOP_VAL_LANGUAGE",
                         $this->__showLanguageSelect(
                             'educational[TypicalAgeRange][' . $id . '][Language]',
@@ -2405,12 +2407,12 @@ class ilMDEditorGUI
                         )
                     );
                     $this->ctrl->setParameter($this, "section_element", "educational_typical_age_range");
-                    $this->tpl->setVariable(
+                    $tpl->setVariable(
                         "TYPICALAGERANGE_LOOP_ACTION_ADD",
                         $this->ctrl->getLinkTarget($this, "addSectionElement")
                     );
-                    $this->tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
-                    $this->tpl->parseCurrentBlock();
+                    $tpl->setVariable("TYPICALAGERANGE_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+                    $tpl->parseCurrentBlock();
                 }
             }
 
@@ -2418,10 +2420,10 @@ class ilMDEditorGUI
             $first = true;
             foreach ($ids = $this->md_section->getDescriptionIds() as $id) {
                 if ($first) {
-                    $this->tpl->setCurrentBlock("desc_head");
-                    $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
-                    $this->tpl->setVariable("ROWSPAN_DESC", count($ids));
-                    $this->tpl->parseCurrentBlock();
+                    $tpl->setCurrentBlock("desc_head");
+                    $tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+                    $tpl->setVariable("ROWSPAN_DESC", count($ids));
+                    $tpl->parseCurrentBlock();
                     $first = false;
                 }
 
@@ -2430,30 +2432,30 @@ class ilMDEditorGUI
                 $this->ctrl->setParameter($this, 'meta_index', $id);
                 $this->ctrl->setParameter($this, 'meta_path', 'educational_description');
                 
-                $this->tpl->setCurrentBlock("description_loop");
-                $this->tpl->setVariable("DESCRIPTION_LOOP_NO", $id);
-                $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-                $this->tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($md_des->getDescription()));
-                $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-                $this->tpl->setVariable(
+                $tpl->setCurrentBlock("description_loop");
+                $tpl->setVariable("DESCRIPTION_LOOP_NO", $id);
+                $tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+                $tpl->setVariable("DESCRIPTION_LOOP_VAL", ilUtil::prepareFormOutput($md_des->getDescription()));
+                $tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+                $tpl->setVariable(
                     "DESCRIPTION_LOOP_VAL_LANGUAGE",
                     $this->__showLanguageSelect(
                         'educational[Description][' . $id . '][Language]',
                         $md_des->getDescriptionLanguageCode()
                     )
                 );
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "DESCRIPTION_LOOP_ACTION_DELETE",
                     $this->ctrl->getLinkTarget($this, "deleteElement")
                 );
-                $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+                $tpl->setVariable("DESCRIPTION_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
                 $this->ctrl->setParameter($this, "section_element", "educational_description");
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "DESCRIPTION_LOOP_ACTION_ADD",
                     $this->ctrl->getLinkTarget($this, "addSectionElement")
                 );
-                $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setVariable("DESCRIPTION_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+                $tpl->parseCurrentBlock();
             }
 
 
@@ -2461,10 +2463,10 @@ class ilMDEditorGUI
             $first = true;
             foreach ($ids = $this->md_section->getLanguageIds() as $id) {
                 if ($first) {
-                    $this->tpl->setCurrentBlock("language_head");
-                    $this->tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-                    $this->tpl->setVariable("ROWSPAN_LANG", count($ids));
-                    $this->tpl->parseCurrentBlock();
+                    $tpl->setCurrentBlock("language_head");
+                    $tpl->setVariable("LANGUAGE_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+                    $tpl->setVariable("ROWSPAN_LANG", count($ids));
+                    $tpl->parseCurrentBlock();
                     $first = false;
                 }
                 
@@ -2473,8 +2475,8 @@ class ilMDEditorGUI
                 $this->ctrl->setParameter($this, 'meta_index', $id);
                 $this->ctrl->setParameter($this, 'meta_path', 'educational_language');
 
-                $this->tpl->setCurrentBlock("language_loop");
-                $this->tpl->setVariable(
+                $tpl->setCurrentBlock("language_loop");
+                $tpl->setVariable(
                     "LANGUAGE_LOOP_VAL_LANGUAGE",
                     $this->__showLanguageSelect(
                         'educational[Language][' . $id . ']',
@@ -2482,25 +2484,27 @@ class ilMDEditorGUI
                     )
                 );
 
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "LANGUAGE_LOOP_ACTION_DELETE",
                     $this->ctrl->getLinkTarget($this, "deleteElement")
                 );
-                $this->tpl->setVariable("LANGUAGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+                $tpl->setVariable("LANGUAGE_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
                 $this->ctrl->setParameter($this, "section_element", "educational_language");
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "LANGUAGE_LOOP_ACTION_ADD",
                     $this->ctrl->getLinkTarget($this, "addSectionElement")
                 );
-                $this->tpl->setVariable("LANGUAGE_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
-                $this->tpl->parseCurrentBlock();
+                $tpl->setVariable("LANGUAGE_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+                $tpl->parseCurrentBlock();
             }
 
-            $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+            $tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
 
-            $this->tpl->setCurrentBlock("educational");
-            $this->tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock("educational");
+            $tpl->parseCurrentBlock();
         }
+
+        $this->tpl->setContent($tpl->get());
     }
 
     public function updateEducational()
@@ -2576,21 +2580,21 @@ class ilMDEditorGUI
      */
     public function listRelation()
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_relation');
-        $this->tpl->addBlockFile('MD_CONTENT', 'md_content', 'tpl.md_relation.html', 'Services/MetaData');
+
+        $tpl = new ilTemplate('tpl.md_relation.html', true, true, 'Services/MetaData');
 
         $rel_ids = $this->md_obj->getRelationIds();
         if (!is_array($rel_ids) || count($rel_ids) == 0) {
-            $this->tpl->setCurrentBlock("no_relation");
-            $this->tpl->setVariable("TXT_NO_RELATION", $this->lng->txt("meta_no_relation"));
-            $this->tpl->setVariable("TXT_ADD_RELATION", $this->lng->txt("meta_add"));
+            $tpl->setCurrentBlock("no_relation");
+            $tpl->setVariable("TXT_NO_RELATION", $this->lng->txt("meta_no_relation"));
+            $tpl->setVariable("TXT_ADD_RELATION", $this->lng->txt("meta_add"));
             $this->ctrl->setParameter($this, "section", "meta_relation");
-            $this->tpl->setVariable(
+            $tpl->setVariable(
                 "ACTION_ADD_RELATION",
                 $this->ctrl->getLinkTarget($this, "addSection")
             );
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         } else {
             foreach ($rel_ids as $rel_id) {
                 $this->md_section = $this->md_obj->getRelation($rel_id);
@@ -2605,38 +2609,38 @@ class ilMDEditorGUI
                     $this->ctrl->setParameter($this, "meta_index", $res_id);
 
                     if (count($res_ids) > 1) {
-                        $this->tpl->setCurrentBlock("identifier_delete");
+                        $tpl->setCurrentBlock("identifier_delete");
                         $this->ctrl->setParameter($this, "meta_path", "relation_resource_identifier");
-                        $this->tpl->setVariable(
+                        $tpl->setVariable(
                             "IDENTIFIER_LOOP_ACTION_DELETE",
                             $this->ctrl->getLinkTarget($this, "deleteElement")
                         );
-                        $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-                        $this->tpl->parseCurrentBlock();
+                        $tpl->setVariable("IDENTIFIER_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+                        $tpl->parseCurrentBlock();
                     }
 
-                    $this->tpl->setCurrentBlock("identifier_loop");
+                    $tpl->setCurrentBlock("identifier_loop");
 
-                    $this->tpl->setVariable("IDENTIFIER_LOOP_NO", $res_id);
-                    $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
+                    $tpl->setVariable("IDENTIFIER_LOOP_NO", $res_id);
+                    $tpl->setVariable("IDENTIFIER_LOOP_TXT_IDENTIFIER", $this->lng->txt("meta_identifier"));
                     $this->ctrl->setParameter($this, 'meta_index', $rel_id);
                     $this->ctrl->setParameter($this, "section_element", "relation_resource_identifier");
-                    $this->tpl->setVariable(
+                    $tpl->setVariable(
                         "IDENTIFIER_LOOP_ACTION_ADD",
                         $this->ctrl->getLinkTarget($this, "addSectionElement")
                     );
-                    $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
-                    $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
-                    $this->tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
-                    $this->tpl->setVariable(
+                    $tpl->setVariable("IDENTIFIER_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+                    $tpl->setVariable("IDENTIFIER_LOOP_TXT_ENTRY", $this->lng->txt("meta_entry"));
+                    $tpl->setVariable("IDENTIFIER_LOOP_TXT_CATALOG", $this->lng->txt("meta_catalog"));
+                    $tpl->setVariable(
                         "IDENTIFIER_LOOP_VAL_CATALOG",
                         ilUtil::prepareFormOutput($ident->getCatalog())
                     );
-                    $this->tpl->setVariable(
+                    $tpl->setVariable(
                         "IDENTIFIER_LOOP_VAL_ENTRY",
                         ilUtil::prepareFormOutput($ident->getEntry())
                     );
-                    $this->tpl->parseCurrentBlock();
+                    $tpl->parseCurrentBlock();
                 }
     
                 /* Description */
@@ -2646,82 +2650,84 @@ class ilMDEditorGUI
                     $this->ctrl->setParameter($this, "meta_index", $res_des);
 
                     if (count($res_dess) > 1) {
-                        $this->tpl->setCurrentBlock("description_delete");
+                        $tpl->setCurrentBlock("description_delete");
                         $this->ctrl->setParameter($this, "meta_path", "relation_resource_description");
-                        $this->tpl->setVariable(
+                        $tpl->setVariable(
                             "DESCRIPTION_LOOP_ACTION_DELETE",
                             $this->ctrl->getLinkTarget($this, "deleteElement")
                         );
-                        $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-                        $this->tpl->parseCurrentBlock();
+                        $tpl->setVariable("DESCRIPTION_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+                        $tpl->parseCurrentBlock();
                     }
     
-                    $this->tpl->setCurrentBlock("description_loop");
-                    $this->tpl->setVariable("DESCRIPTION_LOOP_NO", $res_des);
-                    $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+                    $tpl->setCurrentBlock("description_loop");
+                    $tpl->setVariable("DESCRIPTION_LOOP_NO", $res_des);
+                    $tpl->setVariable("DESCRIPTION_LOOP_TXT_DESCRIPTION", $this->lng->txt("meta_description"));
                     $this->ctrl->setParameter($this, 'meta_index', $rel_id);
                     $this->ctrl->setParameter($this, "section_element", "relation_resource_description");
-                    $this->tpl->setVariable(
+                    $tpl->setVariable(
                         "DESCRIPTION_LOOP_ACTION_ADD",
                         $this->ctrl->getLinkTarget($this, "addSectionElement")
                     );
-                    $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
-                    $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-                    $this->tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-                    $this->tpl->setVariable(
+                    $tpl->setVariable("DESCRIPTION_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+                    $tpl->setVariable("DESCRIPTION_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+                    $tpl->setVariable("DESCRIPTION_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+                    $tpl->setVariable(
                         "DESCRIPTION_LOOP_VAL",
                         ilUtil::prepareFormOutput($des->getDescription())
                     );
-                    $this->tpl->setVariable(
+                    $tpl->setVariable(
                         "DESCRIPTION_LOOP_VAL_LANGUAGE",
                         $this->__showLanguageSelect(
                             'relation[Resource][Description][' . $res_des . '][Language]',
                             $des->getDescriptionLanguageCode()
                         )
                     );
-                    $this->tpl->parseCurrentBlock();
+                    $tpl->parseCurrentBlock();
                 }
                 
-                $this->tpl->setCurrentBlock("relation_loop");
-                $this->tpl->setVariable("REL_ID", $rel_id);
-                $this->tpl->setVariable("TXT_RELATION", $this->lng->txt("meta_relation"));
+                $tpl->setCurrentBlock("relation_loop");
+                $tpl->setVariable("REL_ID", $rel_id);
+                $tpl->setVariable("TXT_RELATION", $this->lng->txt("meta_relation"));
                 $this->ctrl->setParameter($this, "meta_index", $this->md_section->getMetaId());
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "ACTION_DELETE",
                     $this->ctrl->getLinkTarget($this, "deleteSection")
                 );
                 $this->ctrl->setParameter($this, "section", "meta_relation");
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "ACTION_ADD",
                     $this->ctrl->getLinkTarget($this, "addSection")
                 );
-                $this->tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
-                $this->tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
-                $this->tpl->setVariable("TXT_NEW_ELEMENT", $this->lng->txt("meta_new_element"));
-                $this->tpl->setVariable("TXT_KIND", $this->lng->txt("meta_kind"));
-                $this->tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
-                $this->tpl->setVariable("TXT_ISPARTOF", $this->lng->txt("meta_is_part_of"));
-                $this->tpl->setVariable("TXT_HASPART", $this->lng->txt("meta_has_part"));
-                $this->tpl->setVariable("TXT_ISVERSIONOF", $this->lng->txt("meta_is_version_of"));
-                $this->tpl->setVariable("TXT_HASVERSION", $this->lng->txt("meta_has_version"));
-                $this->tpl->setVariable("TXT_ISFORMATOF", $this->lng->txt("meta_is_format_of"));
-                $this->tpl->setVariable("TXT_HASFORMAT", $this->lng->txt("meta_has_format"));
-                $this->tpl->setVariable("TXT_REFERENCES", $this->lng->txt("meta_references"));
-                $this->tpl->setVariable("TXT_ISREFERENCEDBY", $this->lng->txt("meta_is_referenced_by"));
-                $this->tpl->setVariable("TXT_ISBASEDON", $this->lng->txt("meta_is_based_on"));
-                $this->tpl->setVariable("TXT_ISBASISFOR", $this->lng->txt("meta_is_basis_for"));
-                $this->tpl->setVariable("TXT_REQUIRES", $this->lng->txt("meta_requires"));
-                $this->tpl->setVariable("TXT_ISREQUIREDBY", $this->lng->txt("meta_is_required_by"));
-                $this->tpl->setVariable("TXT_RESOURCE", $this->lng->txt("meta_resource"));
-                $this->tpl->setVariable("VAL_KIND_" . strtoupper($this->md_section->getKind()), " selected");
-                $this->tpl->parseCurrentBlock();
+                $tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
+                $tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
+                $tpl->setVariable("TXT_NEW_ELEMENT", $this->lng->txt("meta_new_element"));
+                $tpl->setVariable("TXT_KIND", $this->lng->txt("meta_kind"));
+                $tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
+                $tpl->setVariable("TXT_ISPARTOF", $this->lng->txt("meta_is_part_of"));
+                $tpl->setVariable("TXT_HASPART", $this->lng->txt("meta_has_part"));
+                $tpl->setVariable("TXT_ISVERSIONOF", $this->lng->txt("meta_is_version_of"));
+                $tpl->setVariable("TXT_HASVERSION", $this->lng->txt("meta_has_version"));
+                $tpl->setVariable("TXT_ISFORMATOF", $this->lng->txt("meta_is_format_of"));
+                $tpl->setVariable("TXT_HASFORMAT", $this->lng->txt("meta_has_format"));
+                $tpl->setVariable("TXT_REFERENCES", $this->lng->txt("meta_references"));
+                $tpl->setVariable("TXT_ISREFERENCEDBY", $this->lng->txt("meta_is_referenced_by"));
+                $tpl->setVariable("TXT_ISBASEDON", $this->lng->txt("meta_is_based_on"));
+                $tpl->setVariable("TXT_ISBASISFOR", $this->lng->txt("meta_is_basis_for"));
+                $tpl->setVariable("TXT_REQUIRES", $this->lng->txt("meta_requires"));
+                $tpl->setVariable("TXT_ISREQUIREDBY", $this->lng->txt("meta_is_required_by"));
+                $tpl->setVariable("TXT_RESOURCE", $this->lng->txt("meta_resource"));
+                $tpl->setVariable("VAL_KIND_" . strtoupper($this->md_section->getKind()), " selected");
+                $tpl->parseCurrentBlock();
             }
             
-            $this->tpl->setCurrentBlock("relation");
-            $this->tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
-            $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-            $this->tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock("relation");
+            $tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
+            $tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+            $tpl->parseCurrentBlock();
         }
+
+        $this->tpl->setContent($tpl->get());
     }
 
     public function updateRelation()
@@ -2767,21 +2773,21 @@ class ilMDEditorGUI
      */
     public function listAnnotation()
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_annotation');
-        $this->tpl->addBlockFile('MD_CONTENT', 'md_content', 'tpl.md_annotation.html', 'Services/MetaData');
+
+        $tpl = new ilTemplate('tpl.md_annotation.html', true, true, 'Services/MetaData');
 
         $anno_ids = $this->md_obj->getAnnotationIds();
         if (!is_array($anno_ids) || count($anno_ids) == 0) {
-            $this->tpl->setCurrentBlock("no_annotation");
-            $this->tpl->setVariable("TXT_NO_ANNOTATION", $this->lng->txt("meta_no_annotation"));
-            $this->tpl->setVariable("TXT_ADD_ANNOTATION", $this->lng->txt("meta_add"));
+            $tpl->setCurrentBlock("no_annotation");
+            $tpl->setVariable("TXT_NO_ANNOTATION", $this->lng->txt("meta_no_annotation"));
+            $tpl->setVariable("TXT_ADD_ANNOTATION", $this->lng->txt("meta_add"));
             $this->ctrl->setParameter($this, "section", "meta_annotation");
-            $this->tpl->setVariable(
+            $tpl->setVariable(
                 "ACTION_ADD_ANNOTATION",
                 $this->ctrl->getLinkTarget($this, "addSection")
             );
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         } else {
             foreach ($anno_ids as $anno_id) {
                 $this->ctrl->setParameter($this, 'meta_index', $anno_id);
@@ -2789,33 +2795,33 @@ class ilMDEditorGUI
 
                 $this->md_section = $this->md_obj->getAnnotation($anno_id);
                                 
-                $this->tpl->setCurrentBlock("annotation_loop");
-                $this->tpl->setVariable("ANNOTATION_ID", $anno_id);
-                $this->tpl->setVariable("TXT_ANNOTATION", $this->lng->txt("meta_annotation"));
+                $tpl->setCurrentBlock("annotation_loop");
+                $tpl->setVariable("ANNOTATION_ID", $anno_id);
+                $tpl->setVariable("TXT_ANNOTATION", $this->lng->txt("meta_annotation"));
                 $this->ctrl->setParameter($this, "meta_index", $anno_id);
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "ACTION_DELETE",
                     $this->ctrl->getLinkTarget($this, "deleteSection")
                 );
                 $this->ctrl->setParameter($this, "section", "meta_annotation");
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "ACTION_ADD",
                     $this->ctrl->getLinkTarget($this, "addSection")
                 );
-                $this->tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
-                $this->tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
+                $tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
+                $tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
                 
-                $this->tpl->setVariable("TXT_ENTITY", $this->lng->txt("meta_entity"));
-                $this->tpl->setVariable("VAL_ENTITY", ilUtil::prepareFormOutput($this->md_section->getEntity()));
-                $this->tpl->setVariable("TXT_DATE", $this->lng->txt("meta_date"));
-                $this->tpl->setVariable("VAL_DATE", ilUtil::prepareFormOutput($this->md_section->getDate()));
+                $tpl->setVariable("TXT_ENTITY", $this->lng->txt("meta_entity"));
+                $tpl->setVariable("VAL_ENTITY", ilUtil::prepareFormOutput($this->md_section->getEntity()));
+                $tpl->setVariable("TXT_DATE", $this->lng->txt("meta_date"));
+                $tpl->setVariable("VAL_DATE", ilUtil::prepareFormOutput($this->md_section->getDate()));
     
                 /* Description */
-                $this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
-                $this->tpl->setVariable("TXT_VALUE", $this->lng->txt("meta_value"));
-                $this->tpl->setVariable("VAL_DESCRIPTION", ilUtil::prepareFormOutput($this->md_section->getDescription()));
-                $this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
-                $this->tpl->setVariable(
+                $tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+                $tpl->setVariable("TXT_VALUE", $this->lng->txt("meta_value"));
+                $tpl->setVariable("VAL_DESCRIPTION", ilUtil::prepareFormOutput($this->md_section->getDescription()));
+                $tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
+                $tpl->setVariable(
                     "VAL_DESCRIPTION_LANGUAGE",
                     $this->__showLanguageSelect(
                         'annotation[' . $anno_id . '][Language]',
@@ -2823,14 +2829,16 @@ class ilMDEditorGUI
                     )
                 );
                 
-                $this->tpl->parseCurrentBlock();
+                $tpl->parseCurrentBlock();
             }
             
-            $this->tpl->setCurrentBlock("annotation");
-            $this->tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
-            $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-            $this->tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock("annotation");
+            $tpl->setVariable("EDIT_ACTION", $this->ctrl->getFormAction($this));
+            $tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+            $tpl->parseCurrentBlock();
         }
+
+        $this->tpl->setContent($tpl->get());
     }
 
     public function updateAnnotation()
@@ -2861,21 +2869,21 @@ class ilMDEditorGUI
      */
     public function listClassification()
     {
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.md_editor.html', 'Services/MetaData');
         $this->__setTabs('meta_classification');
-        $this->tpl->addBlockFile('MD_CONTENT', 'md_content', 'tpl.md_classification.html', 'Services/MetaData');
+
+        $tpl = new ilTemplate('tpl.md_classification.html', true, true, 'Services/MetaData');
 
         $class_ids = $this->md_obj->getClassificationIds();
         if (!is_array($class_ids) || count($class_ids) == 0) {
-            $this->tpl->setCurrentBlock("no_classification");
-            $this->tpl->setVariable("TXT_NO_CLASSIFICATION", $this->lng->txt("meta_no_classification"));
-            $this->tpl->setVariable("TXT_ADD_CLASSIFICATION", $this->lng->txt("meta_add"));
+            $tpl->setCurrentBlock("no_classification");
+            $tpl->setVariable("TXT_NO_CLASSIFICATION", $this->lng->txt("meta_no_classification"));
+            $tpl->setVariable("TXT_ADD_CLASSIFICATION", $this->lng->txt("meta_add"));
             $this->ctrl->setParameter($this, "section", "meta_classification");
-            $this->tpl->setVariable(
+            $tpl->setVariable(
                 "ACTION_ADD_CLASSIFICATION",
                 $this->ctrl->getLinkTarget($this, "addSection")
             );
-            $this->tpl->parseCurrentBlock();
+            $tpl->parseCurrentBlock();
         } else {
             foreach ($class_ids as $class_id) {
                 $this->md_section = $this->md_obj->getClassification($class_id);
@@ -2892,27 +2900,27 @@ class ilMDEditorGUI
                         $taxon = $tax_path->getTaxon($tax_id);
                         
                         if (count($tax_ids) > 1) {
-                            $this->tpl->setCurrentBlock("taxon_delete");
+                            $tpl->setCurrentBlock("taxon_delete");
                             $this->ctrl->setParameter($this, "meta_index", $tax_id);
                             $this->ctrl->setParameter($this, "meta_path", "classification_taxon");
-                            $this->tpl->setVariable(
+                            $tpl->setVariable(
                                 "TAXONPATH_TAXON_LOOP_ACTION_DELETE",
                                 $this->ctrl->getLinkTarget($this, "deleteElement")
                             );
-                            $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-                            $this->tpl->parseCurrentBlock();
+                            $tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+                            $tpl->parseCurrentBlock();
                         }
 
-                        $this->tpl->setCurrentBlock("taxonpath_taxon_loop");
-                        $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_NO", $tax_id);
-                        $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_TAXONPATH_NO", $tp_id);
-                        $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_TAXON", $this->lng->txt("meta_taxon"));
-                        $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-                        $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_TAXON", ilUtil::prepareFormOutput($taxon->getTaxon()));
-                        $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_ID", $this->lng->txt("meta_id"));
-                        $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_ID", ilUtil::prepareFormOutput($taxon->getTaxonId()));
-                        $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-                        $this->tpl->setVariable(
+                        $tpl->setCurrentBlock("taxonpath_taxon_loop");
+                        $tpl->setVariable("TAXONPATH_TAXON_LOOP_NO", $tax_id);
+                        $tpl->setVariable("TAXONPATH_TAXON_LOOP_TAXONPATH_NO", $tp_id);
+                        $tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_TAXON", $this->lng->txt("meta_taxon"));
+                        $tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+                        $tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_TAXON", ilUtil::prepareFormOutput($taxon->getTaxon()));
+                        $tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_ID", $this->lng->txt("meta_id"));
+                        $tpl->setVariable("TAXONPATH_TAXON_LOOP_VAL_ID", ilUtil::prepareFormOutput($taxon->getTaxonId()));
+                        $tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+                        $tpl->setVariable(
                             "TAXONPATH_TAXON_LOOP_VAL_TAXON_LANGUAGE",
                             $this->__showLanguageSelect(
                                 'classification[TaxonPath][Taxon][' . $tax_id . '][Language]',
@@ -2922,35 +2930,35 @@ class ilMDEditorGUI
 
                         $this->ctrl->setParameter($this, "section_element", "Taxon_" . $class_id);
                         $this->ctrl->setParameter($this, "meta_index", $tp_id);
-                        $this->tpl->setVariable(
+                        $tpl->setVariable(
                             "TAXONPATH_TAXON_LOOP_ACTION_ADD",
                             $this->ctrl->getLinkTarget($this, "addSectionElement")
                         );
-                        $this->tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
-                        $this->tpl->parseCurrentBlock();
+                        $tpl->setVariable("TAXONPATH_TAXON_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+                        $tpl->parseCurrentBlock();
                     }
 
                     if (count($tp_ids) > 1) {
-                        $this->tpl->setCurrentBlock("taxonpath_delete");
+                        $tpl->setCurrentBlock("taxonpath_delete");
                         $this->ctrl->setParameter($this, "meta_index", $tp_id);
                         $this->ctrl->setParameter($this, "meta_path", "classification_taxon_path");
-                        $this->tpl->setVariable(
+                        $tpl->setVariable(
                             "TAXONPATH_LOOP_ACTION_DELETE",
                             $this->ctrl->getLinkTarget($this, "deleteElement")
                         );
-                        $this->tpl->setVariable("TAXONPATH_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-                        $this->tpl->parseCurrentBlock();
+                        $tpl->setVariable("TAXONPATH_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+                        $tpl->parseCurrentBlock();
                     }
 
-                    $this->tpl->setCurrentBlock("taxonpath_loop");
-                    $this->tpl->setVariable("TAXONPATH_LOOP_NO", $tp_id);
-                    $this->tpl->setVariable("TAXONPATH_LOOP_ROWSPAN", (3 * count($tax_ids)) + 2);
-                    $this->tpl->setVariable("TAXONPATH_LOOP_TXT_TAXONPATH", $this->lng->txt("meta_taxon_path"));
-                    $this->tpl->setVariable("TAXONPATH_LOOP_TXT_SOURCE", $this->lng->txt("meta_source"));
-                    $this->tpl->setVariable("TAXONPATH_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-                    $this->tpl->setVariable("TAXONPATH_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-                    $this->tpl->setVariable("TAXONPATH_LOOP_VAL_SOURCE", ilUtil::prepareFormOutput($tax_path->getSource()));
-                    $this->tpl->setVariable(
+                    $tpl->setCurrentBlock("taxonpath_loop");
+                    $tpl->setVariable("TAXONPATH_LOOP_NO", $tp_id);
+                    $tpl->setVariable("TAXONPATH_LOOP_ROWSPAN", (3 * count($tax_ids)) + 2);
+                    $tpl->setVariable("TAXONPATH_LOOP_TXT_TAXONPATH", $this->lng->txt("meta_taxon_path"));
+                    $tpl->setVariable("TAXONPATH_LOOP_TXT_SOURCE", $this->lng->txt("meta_source"));
+                    $tpl->setVariable("TAXONPATH_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+                    $tpl->setVariable("TAXONPATH_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+                    $tpl->setVariable("TAXONPATH_LOOP_VAL_SOURCE", ilUtil::prepareFormOutput($tax_path->getSource()));
+                    $tpl->setVariable(
                         "TAXONPATH_LOOP_VAL_SOURCE_LANGUAGE",
                         $this->__showLanguageSelect(
                             'classification[TaxonPath][' . $tp_id . '][Source][Language]',
@@ -2959,23 +2967,23 @@ class ilMDEditorGUI
                     );
                     $this->ctrl->setParameter($this, "section_element", "TaxonPath_" . $class_id);
                     $this->ctrl->setParameter($this, "meta_index", $class_id);
-                    $this->tpl->setVariable(
+                    $tpl->setVariable(
                         "TAXONPATH_LOOP_ACTION_ADD",
                         $this->ctrl->getLinkTarget($this, "addSectionElement")
                     );
-                    $this->tpl->setVariable("TAXONPATH_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
-                    $this->tpl->parseCurrentBlock();
+                    $tpl->setVariable("TAXONPATH_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+                    $tpl->parseCurrentBlock();
                 }
 
                 /* Description */
-                $this->tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
-                $this->tpl->setVariable("TXT_VALUE", $this->lng->txt("meta_value"));
-                $this->tpl->setVariable(
+                $tpl->setVariable("TXT_DESCRIPTION", $this->lng->txt("meta_description"));
+                $tpl->setVariable("TXT_VALUE", $this->lng->txt("meta_value"));
+                $tpl->setVariable(
                     "VAL_DESCRIPTION",
                     ilUtil::prepareFormOutput($this->md_section->getDescription())
                 );
-                $this->tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
-                $this->tpl->setVariable(
+                $tpl->setVariable("TXT_LANGUAGE", $this->lng->txt("meta_language"));
+                $tpl->setVariable(
                     "VAL_DESCRIPTION_LANGUAGE",
                     $this->__showLanguageSelect(
                         'classification[' . $class_id . '][Language]',
@@ -2989,26 +2997,26 @@ class ilMDEditorGUI
                     if (count($key_ids) > 1) {
                         $this->ctrl->setParameter($this, "meta_index", $key_id);
                         $this->ctrl->setParameter($this, "meta_path", "classification_keyword");
-                        $this->tpl->setCurrentBlock("keyword_delete");
-                        $this->tpl->setVariable(
+                        $tpl->setCurrentBlock("keyword_delete");
+                        $tpl->setVariable(
                             "KEYWORD_LOOP_ACTION_DELETE",
                             $this->ctrl->getLinkTarget($this, "deleteElement")
                         );
-                        $this->tpl->setVariable("KEYWORD_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
-                        $this->tpl->parseCurrentBlock();
+                        $tpl->setVariable("KEYWORD_LOOP_TXT_DELETE", $this->lng->txt("meta_delete"));
+                        $tpl->parseCurrentBlock();
                     }
                     
                     $keyword = $this->md_section->getKeyword($key_id);
-                    $this->tpl->setCurrentBlock("keyword_loop");
-                    $this->tpl->setVariable("KEYWORD_LOOP_NO", $key_id);
-                    $this->tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("meta_keyword"));
-                    $this->tpl->setVariable("KEYWORD_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
-                    $this->tpl->setVariable(
+                    $tpl->setCurrentBlock("keyword_loop");
+                    $tpl->setVariable("KEYWORD_LOOP_NO", $key_id);
+                    $tpl->setVariable("KEYWORD_LOOP_TXT_KEYWORD", $this->lng->txt("meta_keyword"));
+                    $tpl->setVariable("KEYWORD_LOOP_TXT_VALUE", $this->lng->txt("meta_value"));
+                    $tpl->setVariable(
                         "KEYWORD_LOOP_VAL",
                         ilUtil::prepareFormOutput($keyword->getKeyword())
                     );
-                    $this->tpl->setVariable("KEYWORD_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
-                    $this->tpl->setVariable(
+                    $tpl->setVariable("KEYWORD_LOOP_TXT_LANGUAGE", $this->lng->txt("meta_language"));
+                    $tpl->setVariable(
                         "KEYWORD_LOOP_VAL_LANGUAGE",
                         $this->__showLanguageSelect(
                             'classification[Keyword][' . $key_id . '][Language]',
@@ -3017,57 +3025,59 @@ class ilMDEditorGUI
                     );
                     $this->ctrl->setParameter($this, "meta_index", $class_id);
                     $this->ctrl->setParameter($this, "section_element", "Keyword_" . $class_id);
-                    $this->tpl->setVariable(
+                    $tpl->setVariable(
                         "KEYWORD_LOOP_ACTION_ADD",
                         $this->ctrl->getLinkTarget($this, "addSectionElement")
                     );
-                    $this->tpl->setVariable("KEYWORD_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
-                    $this->tpl->parseCurrentBlock();
+                    $tpl->setVariable("KEYWORD_LOOP_TXT_ADD", $this->lng->txt("meta_add"));
+                    $tpl->parseCurrentBlock();
                 }
                 
-                $this->tpl->setCurrentBlock("classification_loop");
-                $this->tpl->setVariable("TXT_CLASSIFICATION", $this->lng->txt("meta_classification"));
+                $tpl->setCurrentBlock("classification_loop");
+                $tpl->setVariable("TXT_CLASSIFICATION", $this->lng->txt("meta_classification"));
                 $this->ctrl->setParameter($this, "meta_index", $class_id);
-                $this->tpl->setVariable(
+                $tpl->setVariable(
                     "ACTION_DELETE",
                     $this->ctrl->getLinkTarget($this, "deleteSection")
                 );
-                $this->tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
-                $this->tpl->setVariable(
+                $tpl->setVariable("TXT_DELETE", $this->lng->txt("meta_delete"));
+                $tpl->setVariable(
                     "ACTION_ADD",
                     $this->ctrl->getLinkTarget($this, "addSection")
                 );
-                $this->tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
+                $tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
     
-                $this->tpl->setVariable("TXT_NEW_ELEMENT", $this->lng->txt("meta_new_element"));
-                $this->tpl->setVariable("TXT_TAXONPATH", $this->lng->txt("meta_taxon_path"));
-                $this->tpl->setVariable("TXT_KEYWORD", $this->lng->txt("meta_keyword"));
-                $this->tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
+                $tpl->setVariable("TXT_NEW_ELEMENT", $this->lng->txt("meta_new_element"));
+                $tpl->setVariable("TXT_TAXONPATH", $this->lng->txt("meta_taxon_path"));
+                $tpl->setVariable("TXT_KEYWORD", $this->lng->txt("meta_keyword"));
+                $tpl->setVariable("TXT_ADD", $this->lng->txt("meta_add"));
                 
-                $this->tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
-                $this->tpl->setVariable("CLASS_ID", $class_id);
-                $this->tpl->setVariable("TXT_PURPOSE", $this->lng->txt("meta_purpose"));
-                $this->tpl->setVariable("TXT_DISCIPLINE", $this->lng->txt("meta_learning_resource_type"));
-                $this->tpl->setVariable("TXT_IDEA", $this->lng->txt("meta_idea"));
-                $this->tpl->setVariable("TXT_PREREQUISITE", $this->lng->txt("meta_prerequisite"));
-                $this->tpl->setVariable("TXT_EDUCATIONALOBJECTIVE", $this->lng->txt("meta_educational_objective"));
-                $this->tpl->setVariable("TXT_ACCESSIBILITYRESTRICTIONS", $this->lng->txt("meta_accessibility_restrictions"));
-                $this->tpl->setVariable("TXT_EDUCATIONALLEVEL", $this->lng->txt("meta_educational_level"));
-                $this->tpl->setVariable("TXT_SKILLLEVEL", $this->lng->txt("meta_skill_level"));
-                $this->tpl->setVariable("TXT_SECURITYLEVEL", $this->lng->txt("meta_security_level"));
-                $this->tpl->setVariable("TXT_COMPETENCY", $this->lng->txt("meta_competency"));
-                $this->tpl->setVariable("VAL_PURPOSE_" . strtoupper($this->md_section->getPurpose()), " selected");
-                $this->tpl->parseCurrentBlock();
+                $tpl->setVariable("TXT_PLEASE_SELECT", $this->lng->txt("meta_please_select"));
+                $tpl->setVariable("CLASS_ID", $class_id);
+                $tpl->setVariable("TXT_PURPOSE", $this->lng->txt("meta_purpose"));
+                $tpl->setVariable("TXT_DISCIPLINE", $this->lng->txt("meta_learning_resource_type"));
+                $tpl->setVariable("TXT_IDEA", $this->lng->txt("meta_idea"));
+                $tpl->setVariable("TXT_PREREQUISITE", $this->lng->txt("meta_prerequisite"));
+                $tpl->setVariable("TXT_EDUCATIONALOBJECTIVE", $this->lng->txt("meta_educational_objective"));
+                $tpl->setVariable("TXT_ACCESSIBILITYRESTRICTIONS", $this->lng->txt("meta_accessibility_restrictions"));
+                $tpl->setVariable("TXT_EDUCATIONALLEVEL", $this->lng->txt("meta_educational_level"));
+                $tpl->setVariable("TXT_SKILLLEVEL", $this->lng->txt("meta_skill_level"));
+                $tpl->setVariable("TXT_SECURITYLEVEL", $this->lng->txt("meta_security_level"));
+                $tpl->setVariable("TXT_COMPETENCY", $this->lng->txt("meta_competency"));
+                $tpl->setVariable("VAL_PURPOSE_" . strtoupper($this->md_section->getPurpose()), " selected");
+                $tpl->parseCurrentBlock();
             }
             
-            $this->tpl->setCurrentBlock("classification");
-            $this->tpl->setVariable(
+            $tpl->setCurrentBlock("classification");
+            $tpl->setVariable(
                 "EDIT_ACTION",
                 $this->ctrl->getFormAction($this)
             );
-            $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
-            $this->tpl->parseCurrentBlock();
+            $tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));
+            $tpl->parseCurrentBlock();
         }
+        
+        $this->tpl->setContent($tpl->get());
     }
 
     public function updateClassification()
@@ -3389,17 +3399,17 @@ class ilMDEditorGUI
 
 
     // PRIVATE
-    public function __fillSubelements()
+    private function __fillSubelements(ilTemplate $tpl)
     {
         if (count($subs = $this->md_section->getPossibleSubelements())) {
             //$subs = array_merge(array('' => 'meta_please_select'),$subs);
 
-            $this->tpl->setCurrentBlock("subelements");
-            $this->tpl->setVariable("SEL_SUBELEMENTS", ilUtil::formSelect('', 'section_element', $subs));
-            $this->tpl->setVariable("TXT_NEW_ELEMENT", $this->lng->txt("meta_new_element"));
-            $this->tpl->parseCurrentBlock();
+            $tpl->setCurrentBlock("subelements");
+            $tpl->setVariable("SEL_SUBELEMENTS", ilUtil::formSelect('', 'section_element', $subs));
+            $tpl->setVariable("TXT_NEW_ELEMENT", $this->lng->txt("meta_new_element"));
+            $tpl->parseCurrentBlock();
 
-            $this->tpl->setVariable("TXT_ADD", $this->lng->txt('meta_add'));
+            $tpl->setVariable("TXT_ADD", $this->lng->txt('meta_add'));
         }
         return true;
     }
