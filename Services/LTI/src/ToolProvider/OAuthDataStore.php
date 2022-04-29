@@ -22,7 +22,7 @@ use ILIAS\LTIOAuth;
 class OAuthDataStore extends LTIOAuth\OAuthDataStore
 {
 
-/**
+    /**
      * Tool Provider object.
      */
     private ?\ILIAS\LTI\ToolProvider\ToolProvider $toolProvider = null;
@@ -107,6 +107,7 @@ class OAuthDataStore extends LTIOAuth\OAuthDataStore
      * @param string|null                   $verifier Verification code
      * @return string Null value
      */
+    // TODO PHP8 Review: Missing Parameter Type Declaration $token
     public function new_access_token($token, LTIOAuth\OAuthConsumer $consumer, string $verifier = null) : ?string
     {
         return null;

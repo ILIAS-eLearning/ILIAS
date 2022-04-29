@@ -18,11 +18,11 @@ use ILIAS\LTI\ToolProvider\ToolConsumer;
 class Service
 {
 
-/**
- * Whether service request should be sent unsigned.
- *
- * @var boolean $unsigned
- */
+    /**
+     * Whether service request should be sent unsigned.
+     *
+     * @var boolean $unsigned
+     */
     public bool $unsigned = false;
 
     /**

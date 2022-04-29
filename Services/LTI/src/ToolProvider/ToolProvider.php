@@ -260,12 +260,14 @@ class ToolProvider
      *
      * @var string|string[]|null $mediaTypes
      */
+    // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
     protected string|array|null $mediaTypes = null;
     /**
      * URL to redirect user to on successful completion of the request.
      *
      * @var string|string[]|null $documentTargets
      */
+    // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
     protected string|array|null $documentTargets = null;
     /**
      * HTML to be displayed on a successful completion of the request.
@@ -358,10 +360,10 @@ class ToolProvider
      *
      * @return object The service object
      */
-    public function findService(string $format, array $methods) : object
+    public function findService(string $format, array $methods) : object // TODO PHP8 Review: Check/Resolve Type-Mismatch, this can return an `object` or bool
     {
         $found = false;
-        $services = $this->consumer->profile->service_offered;
+        $services = $this->consumer->profile->service_offered; // TODO PHP8 Review: Undefined Property
         if (is_array($services)) {
             $n = -1;
             foreach ($services as $service) {
@@ -417,7 +419,7 @@ class ToolProvider
      *
      * @return array Array of roles
      */
-    public static function parseRoles(mixed $roles) : array
+    public static function parseRoles(mixed $roles) : array // TODO PHP8 Review: Type `mixed` is not supported!
     {
         if (!is_array($roles)) {
             $roles = explode(',', $roles);
@@ -445,6 +447,7 @@ class ToolProvider
          */
     public static function sendForm(string $url, array $params, string $target = '') : string
     {
+        // TODO PHP8 Review: Please avoid inline HTML
         $page = <<< EOD
 <html>
 <head>
@@ -537,6 +540,7 @@ EOD;
      *
      * @return boolean True if no error reported
      */
+    // TODO PHP8 Review: Missing Parameter Type Declaration
     private function doCallback($method = null) : void
     {
         global $DIC;

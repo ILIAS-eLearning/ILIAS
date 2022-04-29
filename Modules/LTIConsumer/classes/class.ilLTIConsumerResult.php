@@ -41,12 +41,10 @@ class ilLTIConsumerResult
     /**
      * @var float|null
      */
-    public ?float $result;
+    public ?float $result = null;
 
     /**
      * Get a result by id
-     * @param int $a_id
-     * @return ilLTIConsumerResult|null
      */
     public static function getById(int $a_id) : ?ilLTIConsumerResult
     {
@@ -67,9 +65,6 @@ class ilLTIConsumerResult
 
     /**
      * Get a result by object and user key
-     * @param int       $a_obj_id
-     * @param int       $a_usr_id
-     * @param bool|null $a_create
      * @return ilLTIConsumerResult
      */
     public static function getByKeys(int $a_obj_id, int $a_usr_id, ?bool $a_create = false) : ?ilLTIConsumerResult
@@ -116,7 +111,7 @@ class ilLTIConsumerResult
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        if (!isset($this->usr_id) or !isset($this->obj_id)) {
+        if (!isset($this->usr_id) || !isset($this->obj_id)) {
             return false;
         }
         if (!isset($this->id)) {

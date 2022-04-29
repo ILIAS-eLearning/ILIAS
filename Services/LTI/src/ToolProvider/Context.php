@@ -73,6 +73,7 @@ class Context
      *
      * @var mixed $dataConnector
      */
+    // TODO PHP8 Review: Type mixed is not supported!
     private mixed $dataConnector = null;
 
     /**
@@ -294,7 +295,7 @@ class Context
      * @param boolean $simple True if all the simple media type is to be used (optional, default is true)
      * @return mixed The array of settings if successful, otherwise false
      */
-    public function getToolSettings(int $mode = Service\ToolSettings::MODE_CURRENT_LEVEL, bool $simple = true) : mixed
+    public function getToolSettings(int $mode = Service\ToolSettings::MODE_CURRENT_LEVEL, bool $simple = true) : mixed // TODO PHP8 Review: mixed type is not supported!
     {
         $url = $this->getSetting('custom_context_setting_url');
         $service = new Service\ToolSettings($this, $url, $simple);
@@ -336,7 +337,7 @@ class Context
      *
      * @return mixed The array of User objects if successful, otherwise false
      */
-    public function getMembership() : mixed
+    public function getMembership() : mixed // TODO PHP8 Review: type mixed is not supported!
     {
         $url = $this->getSetting('custom_context_memberships_url');
         $service = new Service\Membership($this, $url);

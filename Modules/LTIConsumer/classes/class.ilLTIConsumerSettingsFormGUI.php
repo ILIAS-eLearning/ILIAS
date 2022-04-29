@@ -30,10 +30,6 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
     
     /**
      * ilLTIConsumerSettingsFormGUI constructor.
-     * @param ilObjLTIConsumer $object
-     * @param string $formaction
-     * @param string $saveCommand
-     * @param string $cancelCommand
      */
     public function __construct(ilObjLTIConsumer $object, string $formaction, string $saveCommand, string $cancelCommand)
     {
@@ -44,12 +40,6 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         $this->initForm($formaction, $saveCommand, $cancelCommand);
     }
 
-    /**
-     * @param string $formaction
-     * @param string $saveCommand
-     * @param string $cancelCommand
-     * @return void
-     */
     protected function initForm(string $formaction, string $saveCommand, string $cancelCommand) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -221,9 +211,6 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         }
     }
     
-    /**
-     * @param ilObjLTIConsumer $object
-     */
     public function initObject(ilObjLTIConsumer $object) : void
     {
         $object->setTitle($this->getInput('title'));

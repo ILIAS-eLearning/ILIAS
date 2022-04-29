@@ -86,7 +86,7 @@ class ResourceLinkShareKey
     {
         $this->initialize();
         $this->dataConnector = $resourceLink->getDataConnector();
-        $this->resourceLinkId = $resourceLink->getRecordId();
+        $this->resourceLinkId = $resourceLink->getRecordId(); // TODO PHP8 Review: Check/Resolve Type-Mismatch, getRecordId return int,$this->resourceLinkId is string
         $this->id = $id;
         if (!empty($id)) {
             $this->load();

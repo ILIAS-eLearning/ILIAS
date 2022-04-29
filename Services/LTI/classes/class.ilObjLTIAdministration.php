@@ -61,7 +61,7 @@ class ilObjLTIAdministration extends ilObject
      */
     public function saveConsumerObjectTypes(int $a_consumer_id, array $a_obj_types) : void
     {
-        global $ilDB;
+        global $ilDB; // TODO PHP8 Review: Move Global Access to Constructor
 
         $ilDB->manipulate("DELETE FROM lti_ext_consumer_otype WHERE consumer_id = " . $ilDB->quote($a_consumer_id, "integer"));
 
