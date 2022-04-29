@@ -4784,8 +4784,8 @@ common#:#obj_coms#:#Comments
 common#:#obj_coms_desc#:#Comments settings
 common#:#obj_copa#:#Content Page
 common#:#obj_cpad#:#Content Pages
-common#:#obj_cpad_desc#:#Content Page Administration
 common#:#obj_cpad#_desc#:#Content Page Administration
+common#:#obj_cpad_desc#:#Content Page Administration
 common#:#obj_crs#:#Course
 common#:#obj_crs_duplicate#:#Copy Course
 common#:#obj_crsr#:#Course Link
@@ -10649,6 +10649,8 @@ mail#:#mail_incoming_smtp#:#forward to e-mail address
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
+mail#:#mail_is_read#:#gelesen
+mail#:#mail_is_unread#:#ungelesen
 mail#:#mail_list_members#:#List members
 mail#:#mail_mailing_list#:#Mailing List
 mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already assigned all of your contacts to this mailing list.
@@ -10800,8 +10802,6 @@ mail#:#show_mail_settings_info#:#If enabled, the user's `Mail Settings` are acce
 mail#:#show_mail_settings#:#Show Mail Settings
 mail#:#system_notification_installation_changed_by#:#Changed By
 mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.
-mail#:#mail_is_read#:#gelesen
-mail#:#mail_is_unread#:#ungelesen
 maps#:#configure_geolocation#:#Please finish the geolocation configuration in the "Third Party Software" administration menu to enable address search.
 maps#:#maps_custom_geolocation_server_info#:#Server URL to provide geolocation-data using Nominatim. Your entry should contain the placeholder [QUERY] to define a position for request information. Example: https://nominatim.example.com/search/[QUERY]?format=json.
 maps#:#maps_custom_tile_server_info#:#Server URL to provide tile-data. Multiple inputs should be separated by spaces. Defaults is "%s".
@@ -16206,11 +16206,13 @@ trac#:#trac_objects#:#Users
 trac#:#trac_others#:#Others
 trac#:#trac_participants#:#Show Participants
 trac#:#trac_participated#:#Participated
+trac#:#trac_paths#:#Paths
 trac#:#trac_percentage#:#Percentage
 trac#:#trac_periodic_system_load#:#Periodic
 trac#:#trac_progress#:#Personal Learning Progress
 trac#:#trac_read_count#:#Access Number
 trac#:#trac_read_count_spent_seconds#:#Time Spent / Access
+trac#:#trac_reference_ids_column#:#Reference-Ids
 trac#:#trac_reference#:#References
 trac#:#trac_refresh#:#Refresh
 trac#:#trac_registered#:#Registered
@@ -16634,6 +16636,7 @@ wiki#:#wiki_rename#:#Rename
 wiki#:#wiki_save_ordering_and_indent#:#Save Ordering and Indentation
 wiki#:#wiki_search_results#:#Search Results
 wiki#:#wiki_search#:#Search
+wiki#:#wiki_sec_protect_info#:#Protected sections can only be edited by users having "Edit Settings" permission.
 wiki#:#wiki_selected_pages#:#Selected Pages
 wiki#:#wiki_select_one_item#:#Please select one item.
 wiki#:#wiki_set_as_start_page#:#Set as Start Page
@@ -16758,6 +16761,3 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
-trac#:#trac_reference_ids_column#:#Reference-Ids
-trac#:#trac_paths#:#Paths
-wiki#:#wiki_sec_protect_info#:#Protected sections can only be edited by users having "Edit Settings" permission.
