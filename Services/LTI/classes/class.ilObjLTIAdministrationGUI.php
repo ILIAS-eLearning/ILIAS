@@ -35,7 +35,9 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         $this->dataConnector = new ilLTIDataConnector();
         
         $GLOBALS['DIC']->language()->loadLanguageModule('lti');
+        // TODO PHP8 Review: Remove/Replace SuperGlobals
         if (isset($_REQUEST["cid"])) {
+            // TODO PHP8 Review: Remove/Replace SuperGlobals
             $this->consumer_id = (int) $_REQUEST["cid"];
         }
     }
@@ -112,7 +114,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     protected function addProvidingSubtabs() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        $rbacsystem = $DIC->rbac()->system();
+        $rbacsystem = $DIC->rbac()->system(); // TODO PHP8 Review: Move Global Access to Constructor
 
         if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             // currently no general settings.
@@ -207,7 +209,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     // create global role LTI-User
     protected function createLtiUserRole() : void
     {
-        global $DIC;
+        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor
         $rbacadmin = $DIC->rbac()->admin();
         // include_once './Services/AccessControl/classes/class.ilObjRole.php';
         $role = new ilObjRole();
@@ -292,7 +294,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $options[$role_id] = $role_name;
         }
         $si_roles = new ilSelectInputGUI($this->lng->txt("gbl_roles_to_users"), 'role');
-        $si_roles->setOptions($options);
+        $si_roles->setOptions($options); // TODO PHP8 Review: Variable $options is probably undefined
         $form->addItem($si_roles);
 
         if ($a_mode == 'edit') {
@@ -316,7 +318,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     protected function editConsumer(ilPropertyFormGUI $a_form = null) : void
     {
         global $DIC;
-        $ilCtrl = $DIC->ctrl();
+        $ilCtrl = $DIC->ctrl(); // TODO PHP8 Review: Move Global Access to Constructor
         $tpl = $DIC->ui()->mainTemplate();
 
         $ilCtrl->setParameter($this, "cid", $this->consumer_id);
@@ -412,7 +414,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     protected function deleteLTIConsumer() : void
     {
         global $DIC;
-        $ilCtrl = $DIC->ctrl();
+        $ilCtrl = $DIC->ctrl(); // TODO PHP8 Review: Move Global Access to Constructor
 
         $consumer_id = $_REQUEST['cid'];
 
@@ -431,7 +433,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
      */
     protected function listConsumers() : void
     {
-        global $DIC;
+        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor
         $ilAccess = $DIC->access();
         $ilToolbar = $DIC->toolbar();
 
@@ -463,7 +465,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
      */
     protected function changeStatusLTIConsumer() : void
     {
-        global $DIC;
+        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor
         $ilCtrl = $DIC->ctrl();
 
         if (!$this->consumer_id) {
@@ -489,7 +491,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
      */
     protected function releasedObjects() : void
     {
-        $GLOBALS['DIC']->tabs()->activateSubTab('releasedObjects');
+        $GLOBALS['DIC']->tabs()->activateSubTab('releasedObjects'); // TODO PHP8 Review: Move Global Access to Constructor
         
         $table = new ilLTIProviderReleasedObjectsTableGUI($this, 'releasedObjects', 'ltireleases');
         $table->init();

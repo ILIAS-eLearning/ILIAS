@@ -60,9 +60,7 @@ class ilCertificateSettingsLTIConsumerFormRepository implements ilCertificateFor
 
     public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
     {
-        $form = $this->settingsFormRepository->createForm($certificateGUI);
-
-        return $form;
+        return $this->settingsFormRepository->createForm($certificateGUI);
     }
 
 
@@ -70,14 +68,8 @@ class ilCertificateSettingsLTIConsumerFormRepository implements ilCertificateFor
     {
     }
 
-    /**
-     * @param string $content
-     * @return array
-     */
     public function fetchFormFieldData(string $content) : array
     {
-        $formFields = $this->settingsFormRepository->fetchFormFieldData($content);
-
-        return $formFields;
+        return $this->settingsFormRepository->fetchFormFieldData($content);
     }
 }

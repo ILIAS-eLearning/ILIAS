@@ -63,7 +63,7 @@ abstract class assQuestionGUI
     private $ui;
     private ilObjectDataCache $ilObjDataCache;
     private ilHelpGUI $ilHelp;
-    private ilAccess $access;
+    private ilAccessHandler $access;
     private ilObjUser $ilUser;
     private ilTabsGUI $ilTabs;
     private ilRbacSystem $rbacsystem;

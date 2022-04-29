@@ -29,11 +29,6 @@ class ilLTIConsumerPlaceholderDescription implements ilCertificatePlaceholderDes
 
     private array $placeholder;
 
-    /**
-     * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
-     * @param ilLanguage|null $language
-     * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
-     */
     public function __construct(
         ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
         ?ilLanguage $language = null,

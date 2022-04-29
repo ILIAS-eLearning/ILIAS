@@ -99,7 +99,7 @@ class ToolSettings extends Service
             }
         }
 
-        return $response;
+        return $response; // TODO PHP8 Review: Variable $response is probably undefined
     }
 
     /**

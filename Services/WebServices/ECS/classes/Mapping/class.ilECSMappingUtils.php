@@ -203,30 +203,27 @@ class ilECSMappingUtils
     }
     
     /**
-     * Get auth mode selection
-     * @return array
+     * Get auth mode selection with active authentication modes
+     * @return array<string, string>
      */
     public static function getAuthModeSelection() : array
     {
         global $DIC;
 
         $lng = $DIC->language();
-        $ilSetting = $DIC->settings();
-
-
-        $options[0] = $lng->txt('select_one');
-        $options['local'] = $lng->txt('auth_local');
-
-        foreach (ilLDAPServer::getServerIds() as $sid) {
-            $server = ilLDAPServer::getInstanceByServerId($sid);
-            $options['ldap_' . $server->getServerId()] = 'LDAP (' . $server->getName() . ')';
+        $active_auth_modes = ilAuthUtils::_getActiveAuthModes();
+        $options = [];
+        $options["0"] = $lng->txt('select_one');
+        foreach ($active_auth_modes as $auth_string => $auth_int) {
+            if (
+                $auth_string === 'default' ||
+                $auth_string === 'ecs' ||
+                substr($auth_string, 0, 3) === 'lti'
+            ) {
+                continue;
+            }
+            $options[$auth_string] = ilAuthUtils::getAuthModeTranslation($auth_int);
         }
-
-        if ($ilSetting->get('shib_active', "0")) {
-            $options[ilAuthUtils::_getAuthModeName(ilAuthUtils::AUTH_SHIBBOLETH)] =
-                $lng->txt('auth_shibboleth');
-        }
-
         return $options;
     }
 }

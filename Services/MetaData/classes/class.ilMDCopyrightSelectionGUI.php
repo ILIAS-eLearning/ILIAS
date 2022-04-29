@@ -28,8 +28,8 @@
  */
 class ilMDCopyrightSelectionGUI
 {
-    const MODE_QUICKEDIT = 1;
-    const MODE_EDIT = 2;
+    public const MODE_QUICKEDIT = 1;
+    public const MODE_EDIT = 2;
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
@@ -46,15 +46,13 @@ class ilMDCopyrightSelectionGUI
         $this->tpl = $DIC->ui()->mainTemplate();
 
         $this->rbac_id = $a_rbac_id;
-        $this->obj_id  = $a_obj_id;
+        $this->obj_id = $a_obj_id;
 
         $this->settings = ilMDSettings::_getInstance();
     }
 
     public function fillTemplate() : bool
     {
-
-
         $desc = ilMDRights::_lookupDescription($this->rbac_id, $this->obj_id);
 
         if (!$this->settings->isCopyrightSelectionActive() or
@@ -73,7 +71,7 @@ class ilMDCopyrightSelectionGUI
         foreach ($entries as $entry) {
             $this->tpl->setCurrentBlock('copyright_selection');
 
-            if ($entry->getEntryId() == $default_id) {
+            if ($entry->getEntryId() === $default_id) {
                 $found = true;
                 $this->tpl->setVariable('COPYRIGHT_CHECKED', 'checked="checked"');
             }

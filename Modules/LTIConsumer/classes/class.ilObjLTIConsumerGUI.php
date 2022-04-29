@@ -47,7 +47,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public ?ilObject $object = null;
     protected ilLTIConsumerAccess $ltiAccess;
 
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -67,10 +67,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return 'lti';
     }
 
-    /**
-     * @param string $a_new_type
-     * @return array
-     */
     protected function initCreationForms(string $a_new_type) : array
     {
         global $DIC;
@@ -90,10 +86,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return $forms;
     }
 
-    /**
-     * @param string $a_new_type
-     * @return ilLTIConsumerProviderSelectionFormTableGUI
-     */
     protected function initCreateForm(string $a_new_type) : \ilLTIConsumerProviderSelectionFormTableGUI
     {
         global $DIC;
@@ -330,8 +322,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     }
 
     /**
-     * @param string|null $a_sub_type
-     * @param int|null    $a_sub_id
      * @return ilObjectListGUI
      * @throws ilCtrlException
      */
@@ -870,7 +860,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     }
 
     /**
-     * @param string $key
      * @param mixed  $default
      * @return mixed|null
      */

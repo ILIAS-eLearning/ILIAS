@@ -25,6 +25,8 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ilMailBaseTest extends TestCase
 {
+    private ?Container $dic = null;
+
     protected function brutallyTrimHTML(string $html) : string
     {
         $html = str_replace(["\n", "\r", "\t"], "", $html);
@@ -42,9 +44,22 @@ abstract class ilMailBaseTest extends TestCase
             define('ANONYMOUS_USER_ID', 13);
         }
 
-        $GLOBALS['DIC'] = new Container();
+        global $DIC;
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
+        $DIC = new Container();
 
         parent::setUp();
+    }
+
+    protected function tearDown() : void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 
     protected function setGlobalVariable(string $name, $value) : void
@@ -52,6 +67,7 @@ abstract class ilMailBaseTest extends TestCase
         global $DIC;
 
         $GLOBALS[$name] = $value;
+        
 
         unset($DIC[$name]);
         $DIC[$name] = static function (Container $c) use ($name) {

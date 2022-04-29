@@ -42,7 +42,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param string $a_auth_mode
      * @return int|string auth_mode
      */
-    public static function getKeyByAuthMode(string $a_auth_mode) : int|string
+    // TODO PHP8 Review: Union Types are not supported by PHP 7.4! int|string
+    public static function getKeyByAuthMode(string $a_auth_mode)
     {
         $auth_arr = explode('_', $a_auth_mode);
         if (count($auth_arr) > 1) {
@@ -212,6 +213,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
                 'launch_presentation_document_target',
                 $DIC->refinery()->kindlyTo()->string()
             )) {
+            // TODO PHP8 Review: Remove/Replace SuperGlobals
             $_POST['launch_presentation_document_target'] = 'window';
         }
 
@@ -264,13 +266,10 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         }
 
         // for testing external css
-        // $_POST['launch_presentation_css_url'] = "https://ltiprovider6.example.com/Services/LTI/templates/default/lti_extern.css";
 
         // store POST into Consumer Session
-//        $_SESSION['lti_' . $this->ref_id . '_post_data'] = $_POST;
         $post = (array) $DIC->http()->wrapper()->post();
         ilSession::set('lti_' . $this->ref_id . '_post_data', $post);
-//        $_GET['target'] = ilObject::_lookupType($this->ref_id, true) . '_' . $this->ref_id;//Todo
         ilSession::set('lti_init_target', ilObject::_lookupType($this->ref_id, true) . '_' . $this->ref_id);
 
         // lti service activation

@@ -63,7 +63,7 @@ abstract class ilPageConfig
     protected bool $link_filter_white_list = false;
     protected string $localization_lang = "";
     protected int $section_protection = self::SEC_PROTECT_NONE;
-    protected string $section_protection_info;
+    protected string $section_protection_info = "";
 
     final public function __construct()
     {

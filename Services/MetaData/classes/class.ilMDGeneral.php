@@ -41,14 +41,13 @@ class ilMDGeneral extends ilMDBase
      */
     public function getPossibleSubelements() : array
     {
-        $subs['Keyword']     = 'meta_keyword';
-        $subs['Language']    = 'meta_language';
-        $subs['Identifier']  = 'meta_identifier';
+        $subs['Keyword'] = 'meta_keyword';
+        $subs['Language'] = 'meta_language';
+        $subs['Identifier'] = 'meta_identifier';
         $subs['Description'] = 'meta_description';
 
         return $subs;
     }
-
 
     // Subelements (Identifier, Language, Description, Keyword)
 
@@ -57,15 +56,11 @@ class ilMDGeneral extends ilMDBase
      */
     public function getIdentifierIds() : array
     {
-
-
         return ilMDIdentifier::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_general');
     }
 
     public function getIdentifier(int $a_identifier_id) : ?ilMDIdentifier
     {
-
-
         if (!$a_identifier_id) {
             return null;
         }
@@ -77,8 +72,6 @@ class ilMDGeneral extends ilMDBase
 
     public function addIdentifier() : ilMDIdentifier
     {
-
-
         $ide = new ilMDIdentifier($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $ide->setParentId($this->getMetaId());
         $ide->setParentType('meta_general');
@@ -91,15 +84,11 @@ class ilMDGeneral extends ilMDBase
      */
     public function getLanguageIds() : array
     {
-
-
         return ilMDLanguage::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_general');
     }
 
     public function getLanguage(int $a_language_id) : ?ilMDLanguage
     {
-
-
         if (!$a_language_id) {
             return null;
         }
@@ -111,8 +100,6 @@ class ilMDGeneral extends ilMDBase
 
     public function addLanguage() : ilMDLanguage
     {
-
-
         $lan = new ilMDLanguage($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $lan->setParentId($this->getMetaId());
         $lan->setParentType('meta_general');
@@ -125,15 +112,11 @@ class ilMDGeneral extends ilMDBase
      */
     public function getDescriptionIds() : array
     {
-
-
         return ilMDDescription::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_general');
     }
 
     public function getDescription(int $a_description_id) : ?ilMDDescription
     {
-
-
         if (!$a_description_id) {
             return null;
         }
@@ -145,8 +128,6 @@ class ilMDGeneral extends ilMDBase
 
     public function addDescription() : ilMDDescription
     {
-
-
         $des = new ilMDDescription($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $des->setParentId($this->getMetaId());
         $des->setParentType('meta_general');
@@ -159,15 +140,11 @@ class ilMDGeneral extends ilMDBase
      */
     public function getKeywordIds() : array
     {
-
-
         return ilMDKeyword::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_general');
     }
 
     public function getKeyword(int $a_keyword_id) : ?ilMDKeyword
     {
-
-
         if (!$a_keyword_id) {
             return null;
         }
@@ -179,8 +156,6 @@ class ilMDGeneral extends ilMDBase
 
     public function addKeyword() : ilMDKeyword
     {
-
-
         $key = new ilMDKeyword($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $key->setParentId($this->getMetaId());
         $key->setParentType('meta_general');
@@ -222,9 +197,7 @@ class ilMDGeneral extends ilMDBase
 
     public function setTitleLanguage(ilMDLanguageItem $lng_obj) : void
     {
-        if (is_object($lng_obj)) {
-            $this->title_language = $lng_obj;
-        }
+        $this->title_language = $lng_obj;
     }
 
     public function getTitleLanguage() : ?ilMDLanguageItem
@@ -249,9 +222,7 @@ class ilMDGeneral extends ilMDBase
 
     public function setCoverageLanguage(ilMDLanguageItem $lng_obj) : void
     {
-        if (is_object($lng_obj)) {
-            $this->coverage_language = $lng_obj;
-        }
+        $this->coverage_language = $lng_obj;
     }
 
     public function getCoverageLanguage() : ?ilMDLanguageItem
@@ -266,8 +237,7 @@ class ilMDGeneral extends ilMDBase
 
     public function save() : int
     {
-
-        $fields                    = $this->__getFields();
+        $fields = $this->__getFields();
         $fields['meta_general_id'] = array('integer', $next_id = $this->db->nextId('il_meta_general'));
 
         $this->log->debug("Insert General " . print_r($fields, true));
@@ -283,22 +253,15 @@ class ilMDGeneral extends ilMDBase
 
     public function update() : bool
     {
-
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_general',
-                $this->__getFields(),
-                array("meta_general_id" => array('integer', $this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_general',
+            $this->__getFields(),
+            array("meta_general_id" => array('integer', $this->getMetaId()))
+        );
     }
 
     public function delete() : bool
     {
-
         if (!$this->getMetaId()) {
             return false;
         }
@@ -329,7 +292,7 @@ class ilMDGeneral extends ilMDBase
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_general " .
                 "WHERE meta_general_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res   = $this->db->manipulate($query);
+            $res = $this->db->manipulate($query);
             return true;
         }
 
@@ -342,21 +305,19 @@ class ilMDGeneral extends ilMDBase
     public function __getFields() : array
     {
         return array(
-            'rbac_id'           => array('integer', $this->getRBACId()),
-            'obj_id'            => array('integer', $this->getObjId()),
-            'obj_type'          => array('text', $this->getObjType()),
+            'rbac_id' => array('integer', $this->getRBACId()),
+            'obj_id' => array('integer', $this->getObjId()),
+            'obj_type' => array('text', $this->getObjType()),
             'general_structure' => array('text', $this->getStructure()),
-            'title'             => array('text', $this->getTitle()),
-            'title_language'    => array('text', $this->getTitleLanguageCode()),
-            'coverage'          => array('text', $this->getCoverage()),
+            'title' => array('text', $this->getTitle()),
+            'title_language' => array('text', $this->getTitleLanguageCode()),
+            'coverage' => array('text', $this->getCoverage()),
             'coverage_language' => array('text', $this->getCoverageLanguageCode())
         );
     }
 
     public function read() : bool
     {
-
-
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_general " .
                 "WHERE meta_general_id = " . $this->db->quote($this->getMetaId(), 'integer');
@@ -379,14 +340,11 @@ class ilMDGeneral extends ilMDBase
     public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('General', array(
-            'Structure' => $this->getStructure() ?
-                $this->getStructure() :
-                'Atomic'
+            'Structure' => $this->getStructure() ?: 'Atomic'
         ));
 
         // Identifier
-        $first       = true;
-        $identifiers = array();
+        $first = true;
         $identifiers = $this->getIdentifierIds();
         foreach ($identifiers as $id) {
             $ide = $this->getIdentifier($id);
@@ -395,7 +353,6 @@ class ilMDGeneral extends ilMDBase
             $first = false;
         }
         if (!count($identifiers)) {
-
             $ide = new ilMDIdentifier(
                 $this->getRBACId(),
                 $this->getObjId(),
@@ -409,9 +366,7 @@ class ilMDGeneral extends ilMDBase
         $writer->xmlElement(
             'Title',
             array(
-                'Language' => $this->getTitleLanguageCode() ?
-                    $this->getTitleLanguageCode() :
-                    'en'
+                'Language' => $this->getTitleLanguageCode() ?: 'en'
             ),
             $this->getTitle()
         );
@@ -456,13 +411,11 @@ class ilMDGeneral extends ilMDBase
         }
 
         // Copverage
-        if (strlen($this->getCoverage())) {
+        if ($this->getCoverage() !== '') {
             $writer->xmlElement(
                 'Coverage',
                 array(
-                    'Language' => $this->getCoverageLanguageCode() ?
-                        $this->getCoverageLanguageCode() :
-                        'en'
+                    'Language' => $this->getCoverageLanguageCode() ?: 'en'
                 ),
                 $this->getCoverage()
             );

@@ -25,6 +25,28 @@ use PHPUnit\Framework\TestCase;
  */
 class ilBuddySystemBaseTest extends TestCase
 {
+    private ?Container $dic = null;
+
+    protected function setUp() : void
+    {
+        global $DIC;
+
+        parent::setUp();
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
+        $DIC = new Container();
+    }
+    
+    protected function tearDown() : void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
+    }
+
     /**
      * @param string $name
      * @param mixed $value
@@ -32,10 +54,6 @@ class ilBuddySystemBaseTest extends TestCase
     protected function setGlobalVariable(string $name, $value) : void
     {
         global $DIC;
-
-        if (!$DIC) {
-            $DIC = new Container();
-        }
 
         $GLOBALS[$name] = $value;
 

@@ -26,7 +26,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCriterionBaseTest
 {
-    /** @var MockObject|ilLanguage */
+    /** @var MockObject&ilLanguage */
     protected ilLanguage $lng;
     protected string $expectedInitialValue = 'en';
     protected string $expectedAfterFormSubmitValue = 'de';
@@ -66,7 +66,7 @@ class ilTermsOfServiceUserHasLanguageCriterionTest extends ilTermsOfServiceCrite
     /**
      * @param ilTermsOfServiceCriterionTypeGUI $gui
      * @param string                           $httpCriterionSelectionBodyParameter
-     * @return MockObject|ilPropertyFormGUI
+     * @return MockObject&ilPropertyFormGUI
      */
     protected function buildForm(
         ilTermsOfServiceCriterionTypeGUI $gui,

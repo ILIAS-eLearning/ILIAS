@@ -28,7 +28,7 @@ class ilObjLTIConsumerAccess extends ilObjectAccess implements ilConditionHandli
      */
     public static function _getCommands() : array
     {
-        $commands = array(
+        return array(
             array(
                 "permission" => "read",
                 "cmd" => "infoScreen",
@@ -41,8 +41,6 @@ class ilObjLTIConsumerAccess extends ilObjectAccess implements ilConditionHandli
                 'lang_var' => 'settings'
             )
         );
-        
-        return $commands;
     }
 
     /**

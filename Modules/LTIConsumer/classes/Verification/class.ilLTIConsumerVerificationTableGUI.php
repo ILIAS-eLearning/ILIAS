@@ -25,8 +25,6 @@ class ilLTIConsumerVerificationTableGUI extends ilTable2GUI
 {
     /**
      * Constructor
-     * @param ilObjLTIConsumerVerificationGUI|null $a_parent_obj
-     * @param string|null                          $a_parent_cmd
      * @throws ilCtrlException
      */
     public function __construct(?ilObjLTIConsumerVerificationGUI $a_parent_obj, ?string $a_parent_cmd = "")
@@ -80,7 +78,6 @@ class ilLTIConsumerVerificationTableGUI extends ilTable2GUI
     
     /**
      * Fill template row
-     * @param array $a_set
      */
     protected function fillRow(array $a_set) : void
     {

@@ -74,6 +74,7 @@ class ilLTIViewGUI
      * for compatiblity with ilLTIRouterGUI
      * @return mixed
      */
+    // TODO PHP8 Review: Wrong Return type Declaration (mixed is not compatible with PHP 7.4)
     public static function getInstance() : mixed
     {
         global $DIC;
@@ -119,7 +120,7 @@ class ilLTIViewGUI
      */
     public function initGUI() : void
     {
-        global $DIC;
+        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor, additionally this doesnt seem to be used.
         $this->log->debug("initGUI");
         $baseclass = strtolower($DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string()));
         $cmdclass = strtolower($DIC->http()->wrapper()->query()->retrieve('cmdClass', $DIC->refinery()->kindlyTo()->string()));
@@ -133,7 +134,7 @@ class ilLTIViewGUI
     */
     protected function getContextId() : ?int
     {
-        global $ilLocator, $DIC;
+        global $ilLocator, $DIC; // TODO PHP8 Review: Move Global Access to Constructor
 
         // forced lti_context_id for example request command in exitLTI
         if ($DIC->http()->wrapper()->query()->has('lti_context_id') &&
@@ -175,7 +176,9 @@ class ilLTIViewGUI
             if (isset($_SERVER['HTTP_REFERER'])) {
                 $this->findEffectiveRefId($_SERVER['HTTP_REFERER']);
             } else { // only fallback and not reliable on multiple browser LTi contexts
+                // TODO PHP8 Review: Remove/Replace SuperGlobals
                 if (isset($_SESSION['referer_ref_id'])) {
+                    // TODO PHP8 Review: Remove/Replace SuperGlobals
                     $this->effectiveRefId = $_SESSION['referer_ref_id'];
                 }
             }
@@ -340,7 +343,7 @@ class ilLTIViewGUI
      */
     public function logout(bool $force_ilias_logout = false) : void
     {
-        global $DIC;
+        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor
         if ($force_ilias_logout) {
             $this->log->warning("forcing logout ilias session, maybe a broken LTI context");
         } else {
@@ -357,7 +360,6 @@ class ilLTIViewGUI
 //        $auth->setExpired($auth::SESSION_AUTH_EXPIRED, ilAuthStatus::STATUS_UNDEFINED);
         $auth->setExpired(true);
         session_destroy();
-//        $client_id = $_COOKIE["ilClientId"];
         ilUtil::setCookie("ilClientId", "");
         ilUtil::setCookie("PHPSESSID", "");
     }
@@ -387,7 +389,9 @@ class ilLTIViewGUI
 
     private function getCookieValue(String $cookie_key) : String
     {
+        // TODO PHP8 Review: Remove/Replace SuperGlobals
         if (isset($_COOKIE[$cookie_key]) && $_COOKIE[$cookie_key] != '') {
+            // TODO PHP8 Review: Remove/Replace SuperGlobals
             return $_COOKIE[$cookie_key];
         } else {
             return '';
@@ -409,8 +413,9 @@ class ilLTIViewGUI
      */
     private function findEffectiveRefId(?string $url = null) : void
     {
-        global $DIC;
+        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor
         if ($url === null) {
+            // TODO PHP8 Review: Remove/Replace SuperGlobals
             $query = $_GET;//$DIC->http()->wrapper()->query();
         } else {
             parse_str((string) parse_url($url, PHP_URL_QUERY), $query);

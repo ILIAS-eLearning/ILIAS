@@ -41,8 +41,21 @@ class ilWikiPageConfig extends ilPageConfig
      */
     public function configureByObjectId(int $a_obj_id) : void
     {
+        global $DIC;
+
         if ($a_obj_id > 0) {
+            $access = $DIC->access();
+            $lng = $DIC->language();
+            $request = $DIC->wiki()->internal()->gui()->editing()->request();
+
             $this->setEnablePageToc(ilObjWiki::_lookupPageToc($a_obj_id));
+            if ($access->checkAccess("write", "", $request->getRefId())) {
+                $this->setSectionProtection(ilPageConfig::SEC_PROTECT_EDITABLE);
+                $lng->loadLanguageModule("wiki");
+                $this->setSectionProtectionInfo($lng->txt("wiki_sec_protect_info"));
+            } else {
+                $this->setSectionProtection(ilPageConfig::SEC_PROTECT_PROTECTED);
+            }
         }
     }
 }

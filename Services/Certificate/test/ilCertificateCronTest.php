@@ -145,9 +145,7 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
     public function testGetId() : void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $queueRepository = $this->getMockBuilder(ilCertificateQueueRepository::class)
             ->disableOriginalConstructor()

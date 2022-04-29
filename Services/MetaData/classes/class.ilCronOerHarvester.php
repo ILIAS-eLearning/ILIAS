@@ -21,7 +21,7 @@ class ilCronOerHarvester extends ilCronJob
         global $DIC;
 
         $this->logger = $DIC->logger()->meta();
-        $this->lng    = $DIC->language();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('meta');
 
         $this->settings = ilOerHarvesterSettings::getInstance();
@@ -125,7 +125,7 @@ class ilCronOerHarvester extends ilCronJob
     {
         $this->logger->info('Started cron oer harvester.');
         $harvester = new ilOerHarvester(new ilCronJobResult());
-        $res       = $harvester->run();
+        $res = $harvester->run();
         $this->logger->info('cron oer harvester finished');
 
         return $res;
@@ -138,7 +138,7 @@ class ilCronOerHarvester extends ilCronJob
 
                 $a_fields['meta_oer_harvester'] =
                     (
-                    $a_is_active ?
+                        $a_is_active ?
                         $this->lng->txt('enabled') :
                         $this->lng->txt('disabled')
                     );

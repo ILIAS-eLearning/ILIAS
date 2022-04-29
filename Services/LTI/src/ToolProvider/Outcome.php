@@ -18,11 +18,11 @@ namespace ILIAS\LTI\ToolProvider;
 class Outcome
 {
 
-/**
- * Language value.
- *
- * @var string $language
- */
+    /**
+     * Language value.
+     *
+     * @var string $language
+     */
     public ?string $language = null;
     /**
      * Outcome status value.

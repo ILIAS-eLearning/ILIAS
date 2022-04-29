@@ -25,7 +25,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTest
 {
     /**
-     * @return MockObject|ilObjUser
+     * @return MockObject&ilObjUser
      */
     protected function getUserMock() : ilObjUser
     {
@@ -47,7 +47,7 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
     }
 
     /**
-     * @return MockObject|ilLogger
+     * @return MockObject&ilLogger
      */
     protected function getLogMock() : ilLogger
     {
@@ -60,7 +60,7 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
     }
 
     /**
-     * @return MockObject|ilTermsOfServiceDocumentCriteriaEvaluation
+     * @return MockObject&ilTermsOfServiceDocumentCriteriaEvaluation
      */
     protected function getEvaluatorMock() : ilTermsOfServiceDocumentCriteriaEvaluation
     {
@@ -73,7 +73,7 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
     }
 
     /**
-     * @return MockObject|ilTermsOfServiceCriterionTypeFactoryInterface
+     * @return MockObject&ilTermsOfServiceCriterionTypeFactoryInterface
      */
     protected function getCriterionTypeFactoryMock() : ilTermsOfServiceCriterionTypeFactoryInterface
     {
@@ -86,7 +86,7 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
 
     /**
      * @param string $typeIdent
-     * @return MockObject|ilTermsOfServiceCriterionType
+     * @return MockObject&ilTermsOfServiceCriterionType
      */
     protected function getCriterionTypeMock(string $typeIdent) : ilTermsOfServiceCriterionType
     {
@@ -103,7 +103,7 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
 
     /**
      * @param ilTermsOfServiceCriterionType $criterionType
-     * @return MockObject|ilTermsOfServiceEvaluableCriterion
+     * @return MockObject&ilTermsOfServiceEvaluableCriterion
      */
     protected function getCriterionAssignmentMock(
         ilTermsOfServiceCriterionType $criterionType

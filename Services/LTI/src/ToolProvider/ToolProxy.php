@@ -79,8 +79,8 @@ class ToolProxy
         $this->id = null;
         $this->recordId = null;
 //        $this->toolProxy = null;
-        $this->created = null;
-        $this->updated = null;
+        $this->created = null; // TODO PHP8 Review: Undefined Property
+        $this->updated = null; // TODO PHP8 Review: Undefined Property
     }
 
     /**
@@ -100,7 +100,7 @@ class ToolProxy
      */
     public function getRecordId() : ?int
     {
-        return $this->recordId;
+        return $this->recordId; // TODO PHP8 Review: Check/Resolve Type-Mismatch
     }
 
     /**
@@ -109,7 +109,7 @@ class ToolProxy
      */
     public function setRecordId(int $recordId)
     {
-        $this->recordId = $recordId;
+        $this->recordId = $recordId; // TODO PHP8 Review: Check/Resolve Type-Mismatch
     }
 
     /**
@@ -162,7 +162,7 @@ class ToolProxy
         $this->id = $id;
         $ok = $this->dataConnector->loadToolProxy($this);
         if (!$ok) {
-            $this->enabled = false;//$autoEnable;
+            $this->enabled = false;//$autoEnable; // TODO PHP8 Review: Undefined Property
         }
     }
 }

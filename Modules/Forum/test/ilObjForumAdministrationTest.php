@@ -22,10 +22,9 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ilObjForumAdministrationTest extends TestCase
 {
-    /**
-     * @var MockObject|ilLanguage
-     */
+    /** @var MockObject&ilLanguage */
     private $mockLanguage;
+    private ?Container $dic = null;
 
     public function testConstruct() : void
     {
@@ -41,6 +40,8 @@ class ilObjForumAdministrationTest extends TestCase
     {
         global $DIC;
 
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
         $DIC = new Container();
 
         $DIC['ilias'] = null; // not used just added received
@@ -51,5 +52,14 @@ class ilObjForumAdministrationTest extends TestCase
         $DIC['ilAppEventHandler'] = null;
         $DIC['objDefinition'] = null;
         $DIC['lng'] = ($this->mockLanguage = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock());
+    }
+
+    protected function tearDown() : void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 }

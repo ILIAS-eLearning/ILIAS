@@ -23,8 +23,7 @@ class ilCertificateActiveActionTest extends ilCertificateBaseTestCase
 {
     public function testCertificateIsActive() : void
     {
-        $databaseMock = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $databaseMock = $this->createMock(ilDBInterface::class);
 
         $databaseMock->expects($this->atLeastOnce())
             ->method('query');
@@ -41,8 +40,7 @@ class ilCertificateActiveActionTest extends ilCertificateBaseTestCase
 
     public function testCertificateIsNotActive() : void
     {
-        $databaseMock = $this->getMockBuilder(ilDBInterface::class)
-            ->getMock();
+        $databaseMock = $this->createMock(ilDBInterface::class);
 
 
         $databaseMock->expects($this->atLeastOnce())

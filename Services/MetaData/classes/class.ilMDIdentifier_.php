@@ -28,7 +28,6 @@
  */
 class ilMDIdentifier_ extends ilMDBase
 {
-
     private string $catalog = '';
     private string $entry = '';
 
@@ -55,8 +54,7 @@ class ilMDIdentifier_ extends ilMDBase
 
     public function save() : int
     {
-
-        $fields                        = $this->__getFields();
+        $fields = $this->__getFields();
         $fields['meta_identifier__id'] = array('integer', $next_id = $this->db->nextId('il_meta_identifier_'));
 
         if ($this->db->insert('il_meta_identifier_', $fields)) {
@@ -68,26 +66,19 @@ class ilMDIdentifier_ extends ilMDBase
 
     public function update() : bool
     {
-
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_identifier_',
-                $this->__getFields(),
-                array("meta_identifier__id" => array('integer', $this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_identifier_',
+            $this->__getFields(),
+            array("meta_identifier__id" => array('integer', $this->getMetaId()))
+        );
     }
 
     public function delete() : bool
     {
-
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_identifier_ " .
                 "WHERE meta_identifier__id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res   = $this->db->manipulate($query);
+            $res = $this->db->manipulate($query);
             return true;
         }
         return false;
@@ -99,19 +90,18 @@ class ilMDIdentifier_ extends ilMDBase
     public function __getFields() : array
     {
         return array(
-            'rbac_id'     => array('integer', $this->getRBACId()),
-            'obj_id'      => array('integer', $this->getObjId()),
-            'obj_type'    => array('text', $this->getObjType()),
+            'rbac_id' => array('integer', $this->getRBACId()),
+            'obj_id' => array('integer', $this->getObjId()),
+            'obj_type' => array('text', $this->getObjType()),
             'parent_type' => array('text', $this->getParentType()),
-            'parent_id'   => array('integer', $this->getParentId()),
-            'catalog'     => array('text', $this->getCatalog()),
-            'entry'       => array('text', $this->getEntry())
+            'parent_id' => array('integer', $this->getParentId()),
+            'catalog' => array('text', $this->getCatalog()),
+            'entry' => array('text', $this->getEntry())
         );
     }
 
     public function read() : bool
     {
-
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_identifier_ " .
                 "WHERE meta_identifier__id = " . $this->db->quote($this->getMetaId(), 'integer');
@@ -134,10 +124,9 @@ class ilMDIdentifier_ extends ilMDBase
     {
         $writer->xmlElement('Identifier_', array(
             'Catalog' => $this->getCatalog(),
-            'Entry'   => $this->getEntry() ? $this->getEntry() : "ID1"
+            'Entry' => $this->getEntry() ?: "ID1"
         ));
     }
-
 
     // STATIC
 

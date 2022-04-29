@@ -189,7 +189,7 @@ class ResourceLink
      *
      * @var mixed $dataConnector
      */
-    private mixed $dataConnector = null;
+    private mixed $dataConnector = null; // TODO PHP8 Review: Type `mixed` is not supported!
 
     /**
      * Class constructor.
@@ -612,7 +612,8 @@ EOF;
      *
      * @return array|bool Array of User objects or False if the request was not successful
      */
-    public function doMembershipsService(bool $withGroups = false) : bool|array
+    // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
+    public function doMembershipsService(bool $withGroups = false)
     {
         $users = array();
         $oldUsers = $this->getUserResultSourcedIDs(true, ToolProvider::ID_SCOPE_RESOURCE);
@@ -721,7 +722,7 @@ EOF;
      * @param string|null $value  The setting value (optional, default is null)
      * @return mixed The setting value for a read action, true if a write or delete action was successful, otherwise false
      */
-    public function doSettingService(int $action, ?string $value = null) : mixed
+    public function doSettingService(int $action, ?string $value = null) : mixed // TODO PHP8 Review: Type `mixed` is not supported!
     {
         $response = false;
         $this->extResponse = null;
@@ -788,7 +789,7 @@ EOF;
      * @param boolean $simple True if all the simple media type is to be used (optional, default is true)
      * @return mixed The array of settings if successful, otherwise false
      */
-    public function getToolSettings(int $mode = Service\ToolSettings::MODE_CURRENT_LEVEL, bool $simple = true) : mixed
+    public function getToolSettings(int $mode = Service\ToolSettings::MODE_CURRENT_LEVEL, bool $simple = true) : mixed // TODO PHP8 Review: Type `mixed` is not supported!
     {
         $url = $this->getSetting('custom_link_setting_url');
         $service = new Service\ToolSettings($this, $url, $simple);
@@ -834,7 +835,7 @@ EOF;
      *
      * @return mixed The array of User objects if successful, otherwise false
      */
-    public function getMembership() : mixed
+    public function getMembership() : mixed // TODO PHP8 Review: Type `mixed` is not supported!
     {
         $response = false;
         if (!empty($this->contextId)) {

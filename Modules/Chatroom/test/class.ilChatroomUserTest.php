@@ -16,14 +16,16 @@
  *
  *********************************************************************/
 
+use PHPUnit\Framework\MockObject\MockObject;
+
 /**
  * Class ilChatroomUserTest
  * @author Thomas Joußen <tjoussen@gmx.de>
  */
 class ilChatroomUserTest extends ilChatroomAbstractTest
 {
+    /** @var ilObjUser&MockObject */
     protected ilObjUser $ilUserMock;
-
     protected ilChatroomUser $user;
 
     public function testGetUserIdIfNotAnonymous() : void
