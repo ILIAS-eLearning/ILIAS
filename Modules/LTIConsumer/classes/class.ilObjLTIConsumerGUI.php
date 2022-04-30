@@ -829,12 +829,23 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $returnUrl
         );
 
-        $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("launch") . '" />';
         $target = $this->object->getLaunchMethod() == "newWin" ? "_blank" : "_self";
-
-        $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getProviderUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
-        foreach ($launchParameters as $field => $value) {
-            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', $field, $value) . "\n";
+        $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("launch") . '" />';
+        $output = '';
+        if ($this->object->getProvider()->getLtiVersion() == "LTI-1p0") {
+            $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getProviderUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
+            foreach ($launchParameters as $field => $value) {
+                $output .= sprintf('<input type="hidden" name="%s" value="%s" />', $field, $value) . "\n";
+            }
+        } else {
+            ilSession::set('lti_message_hint', (string) $this->object->getRefId());
+            $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getInitiateLogin() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
+            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'iss', ILIAS_HTTP_PATH) . "\n";
+            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'target_link_uri', $this->object->getProvider()->getProviderUrl()) . "\n";
+            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'login_hint', $user_ident) . "\n";
+            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lti_message_hint', $this->object->getRefId()) . "\n";
+            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'client_id', $this->object->getProvider()->getClientId()) . "\n";
+            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lti_deployment_id', $this->object->getProvider()->getId()) . "\n";
         }
         $output .= $button;
         $output .= '</form>';

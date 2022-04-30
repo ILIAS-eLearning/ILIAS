@@ -127,6 +127,33 @@ class ilLTIConsumeProvider
     
     protected bool $is_global = false;
 
+    protected bool $instructor_send_name = false;
+
+    protected bool $instructor_send_email = false;
+
+    protected string $client_id = '';
+
+    protected string $enabled_capability = '';
+
+    protected string $key_type = '';
+
+    protected string $public_key = '';
+
+    protected string $public_keyset = '';
+
+    protected string $initiate_login = '';
+
+    protected string $redirection_uris = '';
+
+    protected bool $content_item = false;
+
+    protected string $content_item_url = '';
+
+    protected bool $grade_synchronization = false;
+
+    protected string $lti_version = 'LTI-1p0';
+
+
     /**
      * ilLTIConsumeProvider constructor.
      * @throws IOException
@@ -610,6 +637,143 @@ class ilLTIConsumeProvider
         $this->is_global = $is_global;
     }
 
+    public function isInstructorSendName() : bool
+    {
+        return $this->instructor_send_name;
+    }
+
+    public function setInstructorSendName(bool $instructor_send_name) : void
+    {
+        $this->instructor_send_name = $instructor_send_name;
+    }
+
+    public function isInstructorSendEmail() : bool
+    {
+        return $this->instructor_send_email;
+    }
+
+    public function setInstructorSendEmail(bool $instructor_send_email) : void
+    {
+        $this->instructor_send_email = $instructor_send_email;
+    }
+
+    public function getClientId() : string
+    {
+        if ($this->client_id == '') {
+            //ohne Sonderzeichen
+            $this->client_id = ILIAS\LTI\ToolProvider\DataConnector\DataConnector::getRandomString(15);
+        }
+        return $this->client_id;
+    }
+
+    public function setClientId(string $client_id) : void
+    {
+        $this->client_id = $client_id;
+    }
+
+    public function getEnabledCapability() : string
+    {
+        return $this->enabled_capability;
+    }
+
+    public function setEnabledCapability(string $enabled_capability) : void
+    {
+        $this->enabled_capability = $enabled_capability;
+    }
+
+    public function getKeyType() : string
+    {
+        return $this->key_type;
+    }
+
+    public function setKeyType(string $key_type) : void
+    {
+        $this->key_type = $key_type;
+    }
+
+    public function getPublicKey() : string
+    {
+        return $this->public_key;
+    }
+
+    public function setPublicKey(string $public_key) : void
+    {
+        $this->public_key = $public_key;
+    }
+
+    public function getPublicKeyset() : string
+    {
+        return $this->public_keyset;
+    }
+
+    public function setPublicKeyset(string $public_keyset) : void
+    {
+        $this->public_keyset = $public_keyset;
+    }
+
+    public function getInitiateLogin() : string
+    {
+        return $this->initiate_login;
+    }
+
+    public function setInitiateLogin(string $initiate_login) : void
+    {
+        $this->initiate_login = $initiate_login;
+    }
+
+    public function getRedirectionUris() : string
+    {
+        return $this->redirection_uris;
+    }
+
+    public function setRedirectionUris(string $redirection_uris) : void
+    {
+        $this->redirection_uris = $redirection_uris;
+    }
+
+    public function isContentItem() : bool
+    {
+        return $this->content_item;
+    }
+
+    public function setContentItem(bool $content_item) : void
+    {
+        $this->content_item = $content_item;
+    }
+
+    public function getContentItemUrl() : string
+    {
+        return $this->content_item_url;
+    }
+
+    public function setContentItemUrl(string $content_item_url) : void
+    {
+        $this->content_item_url = $content_item_url;
+    }
+
+    public function isGradeSynchronization() : bool
+    {
+        return $this->grade_synchronization;
+    }
+
+    public function setGradeSynchronization(bool $grade_synchronization) : void
+    {
+        $this->grade_synchronization = $grade_synchronization;
+    }
+
+    public function getLtiVersion() : string
+    {
+        return $this->lti_version;
+    }
+
+    public function setLtiVersion(string $lti_version) : void
+    {
+        $this->lti_version = $lti_version;
+    }
+
+
+
+
     /**
      * @throws IOException
      */
@@ -652,6 +816,19 @@ class ilLTIConsumeProvider
                 case 'creator': $this->setCreator((int) $value); break;
                 case 'accepted_by': $this->setAcceptedBy((int) $value); break;
                 case 'global': $this->setIsGlobal((bool) $value); break;
+                case 'instructor_send_name': $this->setInstructorSendName((bool) $value); break;
+                case 'instructor_send_email': $this->setInstructorSendEmail((bool) $value); break;
+                case 'client_id': $this->setClientId((string) $value); break;
+                case 'enabled_capability': $this->setEnabledCapability((string) $value); break;
+                case 'key_type': $this->setKeyType((string) $value); break;
+                case 'public_key': $this->setPublicKey((string) $value); break;
+                case 'public_keyset': $this->setPublicKeyset((string) $value); break;
+                case 'initiate_login': $this->setInitiateLogin((string) $value); break;
+                case 'redirection_uris': $this->setRedirectionUris((string) $value); break;
+                case 'content_item': $this->setContentItem((bool) $value); break;
+                case 'content_item_url': $this->setContentItemUrl((string) $value); break;
+                case 'grade_synchronization': $this->setGradeSynchronization((bool) $value); break;
+                case 'lti_version': $this->setLtiVersion((string) $value); break;
             }
         }
         
@@ -756,7 +933,20 @@ class ilLTIConsumeProvider
             'keywords' => array('text', $this->getKeywords()),
             'creator' => array('integer', $this->getCreator()),
             'accepted_by' => array('integer', $this->getAcceptedBy()),
-            'global' => array('integer', (int) $this->isGlobal())
+            'global' => array('integer', (int) $this->isGlobal()),
+            'instructor_send_name' => array('integer', (int) $this->isInstructorSendName()),
+            'instructor_send_email' => array('integer', (int) $this->isInstructorSendEmail()),
+            'client_id' => array('text', $this->getClientId()),
+            'enabled_capability' => array('text', $this->getEnabledCapability()),
+            'key_type' => array('text', $this->getKeyType()),
+            'public_key' => array('text', $this->getPublicKey()),
+            'public_keyset' => array('text', $this->getPublicKeyset()),
+            'initiate_login' => array('text', $this->getInitiateLogin()),
+            'redirection_uris' => array('text', $this->getRedirectionUris()),
+            'content_item' => array('integer', (int) $this->isContentItem()),
+            'content_item_url' => array('text', $this->getContentItemUrl()),
+            'grade_synchronization' => array('integer', (int) $this->isGradeSynchronization()),
+            'lti_version' => array('text', $this->getLtiVersion())
         );
     }
     

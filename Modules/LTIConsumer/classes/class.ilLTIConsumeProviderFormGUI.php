@@ -115,30 +115,105 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $sectionHeader->setTitle($lng->txt('lti_con_prov_authentication'));
         $this->addItem($sectionHeader);
         
-        
+        $versionInp = new ilRadioGroupInputGUI($lng->txt('lti_con_version'), 'lti_version');
+        $lti11 = new ilRadioOption($lng->txt('lti_con_version_1.1'), 'LTI-1p0');
+        $versionInp->addOption($lti11);
+
         $providerUrlInp = new ilTextInputGUI($lng->txt('lti_con_prov_url'), 'provider_url');
         $providerUrlInp->setValue($this->provider->getProviderUrl());
         $providerUrlInp->setRequired(true);
-        $this->addItem($providerUrlInp);
+        $lti11->addSubItem($providerUrlInp);
 //        Abfrage ob Key und secret von Objekterstellern eingegeben werden soll
-        $item = new ilCheckboxInputGUI($lng->txt('lti_con_prov_provider_key_global'), 'provider_key_global');
-        $item->setValue("1");
+        $keyGlobal = new ilCheckboxInputGUI($lng->txt('lti_con_prov_provider_key_global'), 'provider_key_global');
+        $keyGlobal->setValue("1");
         if (!$this->provider->isProviderKeyCustomizable()) {
-            $item->setChecked(true);
+            $keyGlobal->setChecked(true);
         }
-        $item->setInfo($lng->txt('lti_con_prov_provider_key_global_info'));
+        $keyGlobal->setInfo($lng->txt('lti_con_prov_provider_key_global_info'));
 
         $providerKeyInp = new ilTextInputGUI($lng->txt('lti_con_prov_key'), 'provider_key');
         $providerKeyInp->setValue($this->provider->getProviderKey());
         $providerKeyInp->setRequired(true);
-        $item->addSubItem($providerKeyInp);
-        
+        $keyGlobal->addSubItem($providerKeyInp);
+
         $providerSecretInp = new ilTextInputGUI($lng->txt('lti_con_prov_secret'), 'provider_secret');
         $providerSecretInp->setValue($this->provider->getProviderSecret());
         $providerSecretInp->setRequired(true);
-        $item->addSubItem($providerSecretInp);
-        
-        $this->addItem($item);
+        $keyGlobal->addSubItem($providerSecretInp);
+        $lti11->addSubItem($keyGlobal);
+
+        //1.3
+        $lti13 = new ilRadioOption($lng->txt('lti_con_version_1.3'), '1.3.0');
+        if ($this->provider->getId() == 0) {
+            $lti13->setInfo($lng->txt('lti_con_version_1.3_before_id'));
+        }
+        $versionInp->addOption($lti13);
+        $providerUrlInp = new ilTextInputGUI($lng->txt('lti_con_tool_url'), 'provider_url');
+        $providerUrlInp->setValue($this->provider->getProviderUrl());
+        $providerUrlInp->setRequired(true);
+        $lti13->addSubItem($providerUrlInp);
+
+        $initiateLogin = new ilTextInputGUI($lng->txt('lti_con_initiate_login_url'), 'initiate_login');
+        $initiateLogin->setValue($this->provider->getInitiateLogin());
+        $initiateLogin->setRequired(true);
+        $lti13->addSubItem($initiateLogin);
+
+        $redirectionUris = new ilTextInputGUI($lng->txt('lti_con_redirection_uris'), 'redirection_uris');
+        $redirectionUris->setValue($this->provider->getRedirectionUris());
+        $redirectionUris->setRequired(true);
+        $lti13->addSubItem($redirectionUris);
+        //key_type
+        $keyType = new ilRadioGroupInputGUI($lng->txt('lti_con_key_type'), 'key_type');
+        $keyType->setRequired(true);
+        //RSA
+        $keyRsa = new ilRadioOption($lng->txt('lti_con_key_type_rsa'), 'RSA_KEY');
+        $keyType->addOption($keyRsa);
+        $publicKey = new ilTextAreaInputGUI($lng->txt('lti_con_key_type_rsa_public_key'), 'public_key');
+        $publicKey->setRows(6);
+        $publicKey->setRequired(true);
+        $publicKey->setInfo($lng->txt('lti_con_key_type_rsa_public_key_info'));
+        $keyRsa->addSubItem($publicKey);
+        //JWK
+        $keyJwk = new ilRadioOption($lng->txt('lti_con_key_type_jwk'), 'JWK_KEYSET');
+        $keyType->addOption($keyJwk);
+        $keyset = new ilTextInputGUI($lng->txt('lti_con_key_type_jwk_url'), 'public_keyset');
+        $keyset->setValue($this->provider->getPublicKeyset());
+        $keyset->setRequired(true);
+        $keyJwk->addSubItem($keyset);
+
+        $keyType->setValue($this->provider->getKeyType());
+        $lti13->addSubItem($keyType);
+
+        $contentItem = new ilCheckboxInputGUI($lng->txt('lti_con_content_item'), 'content_item');
+        $contentItem->setValue('1');
+        $contentItem->setChecked($this->provider->isContentItem());
+        $contentItemUrl = new ilTextInputGUI($lng->txt('lti_con_content_item_url'), 'content_item_url');
+        $contentItemUrl->setValue($this->provider->getContentItemUrl());
+        $contentItem->addSubItem($contentItemUrl);
+        $lti13->addSubItem($contentItem);
+
+        //grade sync
+
+        if ($this->provider->getId() > 0) {
+            $Lti13Info = new ilTextAreaInputGUI($lng->txt('lti13_hints'), 'lti13_hints');
+            $Lti13Info->setRows(6);
+            $Lti13Info->setValue(
+                "Platform ID: "
+                . "\nClient ID: " . $this->provider->getClientId()
+                . "\nDeployment ID: " . (string) $this->provider->getId()
+                . "\nPublic keyset URL: "
+                . "\nAccess token URL: "
+                . "\nAuthentication request URL: "
+            );
+            $Lti13Info->setDisabled(true);
+            $lti13->addSubItem($Lti13Info);
+        }
+
+
+        $versionInp->setValue($this->provider->getLtiVersion());
+        $this->addItem($versionInp);
+
+
 
         //privacy-settings
 
@@ -177,7 +252,15 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         );
         $item->setRequired(false);
         $this->addItem($item);
-        
+
+        $item = new ilCheckboxInputGUI($lng->txt('lti_con_prov_instructor_email'), 'instructor_email');
+        $item->setValue("1");
+        if ($this->provider->isInstructorSendEmail()) {
+            $item->setChecked(true);
+        }
+        $item->setInfo($lng->txt('lti_con_prov_instructor_email_info'));
+        $this->addItem($item);
+
         $item = new ilRadioGroupInputGUI($DIC->language()->txt('conf_privacy_name'), 'privacy_name');
         $op = new ilRadioOption($DIC->language()->txt('conf_privacy_name_none'), (string) ilLTIConsumeProvider::PRIVACY_NAME_NONE);
         $op->setInfo($DIC->language()->txt('conf_privacy_name_none_info'));
@@ -195,7 +278,15 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         $item->setInfo($DIC->language()->txt('conf_privacy_name_info'));
         $item->setRequired(false);
         $this->addItem($item);
-        
+
+        $item = new ilCheckboxInputGUI($lng->txt('lti_con_prov_instructor_name'), 'instructor_name');
+        $item->setValue("1");
+        if ($this->provider->isInstructorSendName()) {
+            $item->setChecked(true);
+        }
+        $item->setInfo($lng->txt('lti_con_prov_instructor_name_info'));
+        $this->addItem($item);
+
         $includeUserImage = new ilCheckboxInputGUI($lng->txt('lti_con_prov_inc_usr_pic'), 'inc_usr_pic');
         $includeUserImage->setInfo($lng->txt('lti_con_prov_inc_usr_pic_info'));
         $includeUserImage->setChecked($this->provider->getIncludeUserPicture());
@@ -340,16 +431,38 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         if ($this->isAdminContext()) {
             $provider->setAvailability((int) $this->getInput('availability'));
         }
-        
-        if ($this->getInput('provider_key_global') == 1) {
-            $provider->setProviderKeyCustomizable(false);
-            $provider->setProviderKey($this->getInput('provider_key'));
-            $provider->setProviderSecret($this->getInput('provider_secret'));
+
+        //authenticate
+        if (null !== $this->getInput('provider_url')) {
+            $provider->setProviderUrl($this->getInput('provider_url'));
+        }
+        $provider->setLtiVersion($this->getInput('lti_version'));
+        if ($provider->getLtiVersion() == 'LTI-1p0') {
+            if ($this->getInput('provider_key_global') == 1) {
+                $provider->setProviderKeyCustomizable(false);
+                $provider->setProviderKey($this->getInput('provider_key'));
+                $provider->setProviderSecret($this->getInput('provider_secret'));
+            } else {
+                $provider->setProviderKeyCustomizable(true);
+            }
         } else {
-            $provider->setProviderKeyCustomizable(true);
+            $provider->setInitiateLogin($this->getInput('initiate_login'));
+            $provider->setRedirectionUris($this->getInput('redirection_uris'));
+            $provider->setKeyType($this->getInput('key_type'));
+            if ($provider->getKeyType() == 'RSA_KEY') {
+                $provider->setPublicKey($this->getInput('public_key'));
+            } else {
+                $provider->setPublicKeyset($this->getInput('public_keyset'));
+            }
+            $provider->setContentItem((bool) $this->getInput('content_item'));
+            if ($provider->isContentItem()) {
+                $provider->setContentItemUrl($this->getInput('content_item_url'));
+            }
         }
         $provider->setPrivacyIdent((int) $this->getInput('privacy_ident'));
+        $provider->setInstructorSendEmail((bool) $this->getInput('instructor_email'));
         $provider->setPrivacyName((int) $this->getInput('privacy_name'));
+        $provider->setInstructorSendName((bool) $this->getInput('instructor_name'));
         $provider->setIncludeUserPicture((bool) $this->getInput('inc_usr_pic'));
         $provider->setIsExternalProvider((bool) $this->getInput('is_external_provider'));
         
@@ -369,9 +482,6 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             $provider->setCategory($this->getInput('category'));
         }
         
-        if (null !== $this->getInput('provider_url')) {
-            $provider->setProviderUrl($this->getInput('provider_url'));
-        }
         if ($provider->isProviderKeyCustomizable()) {
             $provider->setProviderKey($this->getInput('provider_key'));
             $provider->setProviderSecret($this->getInput('provider_secret'));

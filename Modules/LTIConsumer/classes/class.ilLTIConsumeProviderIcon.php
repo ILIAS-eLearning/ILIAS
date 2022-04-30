@@ -201,11 +201,12 @@ class ilLTIConsumeProviderIcon
         }
         
         // ilImageFileInputGUI does NOT come with a set value that could be fetched with
-        $fileData = $DIC->http()->wrapper()->post()->retrieve($fileInput->getPostVar(), $DIC->refinery()->kindlyTo()->string());
+        // ToDo
+//        $fileData = $DIC->http()->wrapper()->post()->retrieve($fileInput->getPostVar(), $DIC->refinery()->kindlyTo()->string());
 
-        if ($fileData['tmp_name']) {
-            $this->save($fileData['tmp_name']);
-        }
+//        if ($fileData['tmp_name']) {
+//            $this->save($fileData['tmp_name']);
+//        }
     }
 
     public static function getSupportedFileExtensions() : array
