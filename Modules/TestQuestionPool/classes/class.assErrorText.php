@@ -1051,7 +1051,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @return double Points for wrong selection
     */
-    public function getPointsWrong() : float
+    public function getPointsWrong() : ?float
     {
         return $this->points_wrong;
     }

@@ -64,6 +64,7 @@ class ilTestSkillAdministrationGUI
      * @var ilObjTest
      */
     private $testOBJ;
+    private $refId;
 
     public function __construct(ILIAS $ilias, ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilTree $tree, ilPluginAdmin $pluginAdmin, ilObjTest $testOBJ, $refId)
     {

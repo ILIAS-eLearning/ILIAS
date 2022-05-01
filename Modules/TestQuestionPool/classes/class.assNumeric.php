@@ -574,7 +574,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @return integer The maximum number of characters
      */
-    public function getMaxChars() : int
+    public function getMaxChars()
     {
         return $this->maxchars;
     }

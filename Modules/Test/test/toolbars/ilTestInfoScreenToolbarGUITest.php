@@ -8,8 +8,11 @@
 class ilTestInfoScreenToolbarGUITest extends ilTestBaseTestCase
 {
     private ilTestInfoScreenToolbarGUI $testInfoScreenToolbarGUI;
-    
-    
+    /**
+     * @var \ILIAS\DI\Container|mixed
+     */
+    private $backup_dic;
+
     protected function setUp() : void
     {
         parent::setUp();

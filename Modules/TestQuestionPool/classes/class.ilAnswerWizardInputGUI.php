@@ -192,9 +192,10 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $this->sanitizeSuperGlobalSubmitValue();
+
         $foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
+            $foundvalues = ilArrayUtil::stripSlashesRecursive($foundvalues);
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $aidx => $answervalue) {

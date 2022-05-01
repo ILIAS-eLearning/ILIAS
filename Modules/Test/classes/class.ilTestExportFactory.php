@@ -28,14 +28,9 @@ class ilTestExportFactory
     {
         if ($this->testOBJ->isFixedTest()) {
             return new ilTestExportFixedQuestionSet($this->testOBJ, $mode);
-        }
-        
-        if ($this->testOBJ->isRandomTest()) {
+        } elseif ($this->testOBJ->isRandomTest()) {
             return new ilTestExportRandomQuestionSet($this->testOBJ, $mode);
         }
-        
-        if ($this->testOBJ->isDynamicTest()) {
-            return new ilTestExportDynamicQuestionSet($this->testOBJ, $mode);
-        }
+        return new ilTestExportDynamicQuestionSet($this->testOBJ, $mode);
     }
 }

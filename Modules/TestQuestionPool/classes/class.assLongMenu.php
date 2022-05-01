@@ -111,7 +111,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->answers = $answers;
     }
 
-    public function getAnswers() : array
+    public function getAnswers()
     {
         return $this->answers;
     }

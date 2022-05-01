@@ -337,6 +337,9 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
     public function saveFeedback()
     {
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+        // @PHP8-CR: This appears as if the feedback feature was not implmented completely for the question type.
+        // Fixing this situation would require these calls to be intact and since it's always been here like this,
+        // I like to leave it and put the work-item on the to-do list.
         $errors = $this->feedback(true);
         $this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
         $this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
@@ -382,7 +385,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
@@ -433,7 +436,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         $this->addTab_SuggestedSolution($ilTabs, $classname);
 
         // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             $ilTabs->addTarget(
                 "statistics",
                 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
@@ -500,7 +503,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
     {
         // ordertext
         $ordertext = new ilTextAreaInputGUI($this->lng->txt("ordertext"), "ordertext");
-        $ordertext->setValue(ilUtil::prepareTextareaOutput($this->object->getOrderText()));
+        $ordertext->setValue(self::prepareTextareaOutput($this->object->getOrderText()));
         $ordertext->setRequired(true);
         $ordertext->setInfo(sprintf($this->lng->txt("ordertext_info"), $this->object->separator));
         $ordertext->setRows(10);

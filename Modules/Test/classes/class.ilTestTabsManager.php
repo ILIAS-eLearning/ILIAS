@@ -498,11 +498,11 @@ class ilTestTabsManager
         
         // questions tab
         if ($this->isWriteAccessGranted() && !$this->isHiddenTab('assQuestions')) {
-            $force_active = ($_GET["up"] != "" || $_GET["down"] != "")
+            $force_active = ($this->testrequest->raw("up") != "" || $this->testrequest->raw("down") != "")
                 ? true
                 : false;
             if (!$force_active) {
-                if ($_GET["browse"] == 1) {
+                if ($this->testrequest->raw("browse") == 1) {
                     $force_active = true;
                 }
             }

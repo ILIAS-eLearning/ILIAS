@@ -1970,7 +1970,7 @@ abstract class assQuestion
         $complete = "0";
         $estw_time = $this->getEstimatedWorkingTime();
         $estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
-        $obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($_GET["ref_id"])) ? $_GET["ref_id"] : $_POST["sel_qpl"])) : $this->getObjId();
+        $obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($DIC->testQuestionPool()->internal()->request()->getRefId())) ? $DIC->testQuestionPool()->internal()->request()->getRefId() : $_POST["sel_qpl"])) : $this->getObjId();
         if ($obj_id > 0) {
             if ($a_create_page) {
                 $tstamp = 0;
@@ -2449,6 +2449,7 @@ abstract class assQuestion
     
     public static function _getInternalLinkHref(string $target = "") : string
     {
+        global $DIC;
         $linktypes = array(
             "lm" => "LearningModule",
             "pg" => "PageObject",
@@ -2463,7 +2464,9 @@ abstract class assQuestion
             include_once "./Services/Utilities/classes/class.ilUtil.php";
             switch ($linktypes[$matches[1]]) {
                 case "MediaObject":
-                    $href = "./ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=" . $_GET["ref_id"] . "&mob_id=" . $target_id;
+                    $href = "./ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type]
+                        . "&cmd=media&ref_id=" . $DIC->testQuestionPool()->internal()->request()->getRefId()
+                        . "&mob_id=" . $target_id;
                     break;
                 case "StructureObject":
                 case "GlossaryItem":

@@ -13,13 +13,8 @@
  */
 class ilObjTestVerificationGUI extends ilObject2GUI
 {
-
-    private \ILIAS\Test\InternalRequestService $testrequest;
-
     public function __construct(int $id = 0, int $id_type = self::REPOSITORY_NODE_ID, int $parent_node_id = 0)
     {
-        global $DIC;
-        $this->testrequest = $DIC->test()->internal()->request();
         parent::__construct($id, $id_type, $parent_node_id);
     }
 
@@ -149,12 +144,10 @@ class ilObjTestVerificationGUI extends ilObject2GUI
 
     public static function _goto(string $a_target) : void
     {
+        global $DIC;
         $id = explode("_", $a_target);
-
-        $_GET["baseClass"] = "ilsharedresourceGUI";
-        $_GET["wsp_id"] = $id[0];
-        include("ilias.php");
-        exit;
+        $DIC->ctrl()->setParameterByClass('ilsharedresourceGUI', 'wsp_id', $id[0]);
+        $DIC->ctrl()->redirectByClass('ilsharedresourceGUI');
     }
 
     /**

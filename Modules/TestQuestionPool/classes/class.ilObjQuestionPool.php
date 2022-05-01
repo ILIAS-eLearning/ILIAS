@@ -17,7 +17,7 @@ class ilObjQuestionPool extends ilObject
 {
     private array $mob_ids;
     private array $file_ids;
-    private array $import_mapping;
+
     /**
     * Online status of questionpool
     *
@@ -786,11 +786,7 @@ class ilObjQuestionPool extends ilObject
     */
     public function getImportMapping() : array
     {
-        if (!is_array($this->import_mapping)) {
-            return array();
-        } else {
-            return $this->import_mapping;
-        }
+        return array();
     }
 
     /**

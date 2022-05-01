@@ -35,7 +35,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
      */
     public function isCRUDContext() : bool
     {
-        if (!isset($_GET[self::REQUEST_PARAM_SUB_CONTEXT_ID]) || $_GET[self::REQUEST_PARAM_SUB_CONTEXT_ID] == $this->repository->getConsumerId()) {
+        if (!$this->request->isset(self::REQUEST_PARAM_SUB_CONTEXT_ID) || $this->request->raw(self::REQUEST_PARAM_SUB_CONTEXT_ID) == $this->repository->getConsumerId()) {
             return true;
         } else {
             return false;
@@ -150,46 +150,34 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
      */
     protected function confirmImportGlobalCategory()
     {
-        if (!isset($_GET['category_id'])) {
+        if (!$this->request->isset('category_id')) {
             $this->showGlobalUnitCategories();
             return;
         }
-        $_POST['category_ids'] = array($_GET['category_id']);
-
-        $this->confirmImportGlobalCategories();
+        $this->confirmImportGlobalCategories(array($this->request->raw('category_id')));
     }
 
     /**
      *
      */
-    protected function confirmImportGlobalCategories()
+    protected function confirmImportGlobalCategories($category_ids)
     {
-        if (!isset($_POST['category_ids']) || !is_array($_POST['category_ids'])) {
-            $this->showGlobalUnitCategories();
-            return;
-        }
-        
         // @todo: Confirmation Currently not implemented, so forward to import
-        $this->importGlobalCategories();
+        $this->importGlobalCategories($category_ids);
     }
 
     /**
      *
      */
-    protected function importGlobalCategories()
+    protected function importGlobalCategories($category_ids)
     {
         if ($this->isCRUDContext()) {
             $this->{$this->getDefaultCommand()}();
             return;
         }
-        
-        if (!isset($_POST['category_ids']) || !is_array($_POST['category_ids'])) {
-            $this->showGlobalUnitCategories();
-            return;
-        }
-        
+
         $i = 0;
-        foreach ($_POST['category_ids'] as $category_id) {
+        foreach ($category_ids as $category_id) {
             try {
                 $category = $this->repository->getUnitCategoryById((int) $category_id);
             } catch (ilException $e) {

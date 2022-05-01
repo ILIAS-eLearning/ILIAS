@@ -219,7 +219,10 @@ class ilAssQuestionPreviewGUI
             return false;
         }
         
-        return $DIC->rbac()->system()->checkAccess('write', (int) $_GET['ref_id']);
+        return $DIC->rbac()->system()->checkAccess(
+            'write',
+            $DIC->testQuestionPool()->internal()->request()->getRefId()
+        );
     }
     
     private function showCmd($notesPanelHTML = '')

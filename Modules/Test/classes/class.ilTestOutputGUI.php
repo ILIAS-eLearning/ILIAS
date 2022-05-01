@@ -54,7 +54,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         );
 
         $testSessionFactory = new ilTestSessionFactory($this->object);
-        $this->testSession = $testSessionFactory->getSession($_GET['active_id']);
+        $this->testSession = $testSessionFactory->getSession($this->testrequest->raw('active_id'));
         
         $this->ensureExistingTestSession($this->testSession);
         $this->checkTestSessionUser($this->testSession);
@@ -605,7 +605,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
      */
     protected function getCurrentQuestionId() : int
     {
-        return $this->testSequence->getQuestionForSequence($_GET["sequence"]);
+        return $this->testSequence->getQuestionForSequence($this->testrequest->raw("sequence"));
     }
     
     /**
@@ -618,7 +618,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         if (!$force) {
             $formtimestamp = $_POST["formtimestamp"];
             if (strlen($formtimestamp) == 0) {
-                $formtimestamp = $_GET["formtimestamp"];
+                $formtimestamp = $this->testrequest->raw("formtimestamp");
             }
             if (ilSession::get('formtimestamp') == null || $formtimestamp != ilSession::get("formtimestamp")) {
                 ilSession::set("formtimestamp", $formtimestamp);
@@ -639,7 +639,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
         // save question solution
         if ($this->canSaveResult() || $force) {
             // but only if the ending time is not reached
-            $q_id = $this->testSequence->getQuestionForSequence($_GET["sequence"]);
+            $q_id = $this->testSequence->getQuestionForSequence($this->testrequest->raw("sequence"));
             
             if ($this->isParticipantsAnswerFixed($q_id)) {
                 // should only be reached by firebugging the disabled form in ui
@@ -898,9 +898,11 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
 
         $this->backToInfoScreenCmd();
     }
-    
+
     /**
      * @param ilTestNavigationToolbarGUI $navigationToolbarGUI
+     * @param                            $currentQuestionId
+     * @return bool
      */
     protected function handlePrimaryButton(ilTestNavigationToolbarGUI $navigationToolbarGUI, $currentQuestionId) : bool
     {

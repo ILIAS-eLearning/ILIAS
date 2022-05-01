@@ -100,9 +100,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $this->testGUI = $testGUI;
 
         require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-        $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->pluginAdmin, $testGUI->getObject());
+        $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->pluginAdmin, $testGUI->getTestObject());
 
-        parent::__construct($testGUI->getObject());
+        parent::__construct($testGUI->getTestObject());
     }
 
     /**
@@ -641,9 +641,11 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $this->testOBJ->update();
 
         // pool usage setting
+        /* Never used, but I see traces in settings-templates, so I leave this commented out.
         if ($form->getItemByPostVar('use_pool') instanceof ilFormPropertyGUI) {
             $this->testOBJ->setPoolUsage((int) $form->getItemByPostVar('use_pool')->getValue());
         }
+        */
 
         if (!$this->testOBJ->participantDataExist()) {
             // question set type

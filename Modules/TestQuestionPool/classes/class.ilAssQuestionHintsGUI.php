@@ -277,7 +277,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId())) {
+        if ($this->request->raw("calling_test") && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId())) {
             $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
         }
         
@@ -334,7 +334,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId())) {
+        if ($this->request->raw("calling_test") && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId())) {
             $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
         }
         
@@ -605,6 +605,8 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      */
     private static function fetchHintIdsParameter() : array
     {
+        global $DIC;
+        $request = $DIC->testQuestionPool()->internal()->request();
         $hintIds = array();
         
         if (isset($_POST['hint_ids']) && is_array($_POST['hint_ids'])) {
@@ -613,8 +615,8 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
                     $hintIds[] = (int) $hintId;
                 }
             }
-        } elseif (isset($_GET['hint_id']) && (int) $_GET['hint_id']) {
-            $hintIds[] = (int) $_GET['hint_id'];
+        } elseif ($request->isset('hint_id') && (int) $request->raw('hint_id')) {
+            $hintIds[] = (int) $request->raw('hint_id');
         }
         
         return $hintIds;
@@ -700,7 +702,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
         
-        if (!isset($_GET['hintId']) || !(int) $_GET['hintId']) {
+        if (!$this->request->isset('hintId') || !(int) $this->request->raw('hintId')) {
             throw new ilTestException('no hint id given');
         }
         
@@ -712,7 +714,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
             $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_LIST)
         );
         
-        $questionHint = ilAssQuestionHint::getInstanceById((int) $_GET['hintId']);
+        $questionHint = ilAssQuestionHint::getInstanceById((int) $this->request->raw('hintId'));
         
         // build form
         

@@ -196,13 +196,13 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
+            $foundvalues = ilArrayUtil::stripSlashesRecursive(
                 $_POST[$this->getPostVar()],
                 true,
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
             );
         }
-        $foundvalues = $_POST[$this->getPostVar()];
+        //$foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
             // check answers
             if (is_array($foundvalues['answer'])) {

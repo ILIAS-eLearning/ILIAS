@@ -177,6 +177,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $this->setData($this->getQuestionsData());
         
         $this->mainTpl->setContent($this->ctrl->getHTML($this));
+        return true;
     }
     
     private function applyFilterCmd()
@@ -229,28 +230,21 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     private function handleParameters()
     {
         $this->ctrl->saveParameter($this, self::CONTEXT_PARAMETER);
-        if (isset($_GET[self::CONTEXT_PARAMETER])) {
-            $this->addHiddenInput(self::CONTEXT_PARAMETER, $_GET[self::CONTEXT_PARAMETER]);
-        } elseif (isset($_POST[self::CONTEXT_PARAMETER])) {
-            $this->addHiddenInput(self::CONTEXT_PARAMETER, $_POST[self::CONTEXT_PARAMETER]);
+
+        if ($this->testrequest->isset(self::CONTEXT_PARAMETER)) {
+            $this->addHiddenInput(self::CONTEXT_PARAMETER, $this->testrequest->raw(self::CONTEXT_PARAMETER));
         }
         
         $this->ctrl->saveParameter($this, self::MODE_PARAMETER);
-        if (isset($_GET[self::MODE_PARAMETER])) {
-            $this->addHiddenInput(self::MODE_PARAMETER, $_GET[self::MODE_PARAMETER]);
-        } elseif (isset($_POST[self::MODE_PARAMETER])) {
-            $this->addHiddenInput(self::MODE_PARAMETER, $_POST[self::MODE_PARAMETER]);
+        if ($this->testrequest->isset(self::MODE_PARAMETER)) {
+            $this->addHiddenInput(self::MODE_PARAMETER, $this->testrequest->raw(self::MODE_PARAMETER));
         }
     }
 
     private function fetchContextParameter()
     {
-        if (isset($_POST[self::CONTEXT_PARAMETER])) {
-            return $_POST[self::CONTEXT_PARAMETER];
-        }
-
-        if (isset($_GET[self::CONTEXT_PARAMETER])) {
-            return $_GET[self::CONTEXT_PARAMETER];
+        if ($this->testrequest->isset(self::CONTEXT_PARAMETER)) {
+            return $this->testrequest->raw(self::CONTEXT_PARAMETER);
         }
 
         return null;
@@ -258,14 +252,10 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
     private function fetchModeParameter()
     {
-        if (isset($_POST[self::MODE_PARAMETER])) {
-            return $_POST[self::MODE_PARAMETER];
+        if ($this->testrequest->isset(self::MODE_PARAMETER)) {
+            return $this->testrequest->raw(self::MODE_PARAMETER);
         }
 
-        if (isset($_GET[self::MODE_PARAMETER])) {
-            return $_GET[self::MODE_PARAMETER];
-        }
-        
         return null;
     }
     
@@ -516,7 +506,10 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
                 }
             }
         }
-        
+        if ($repositoryRootNode < 1) {
+            $repositoryRootNode = self::REPOSITORY_ROOT_NODE_ID;
+        }
+
         $parentObjectIds = $this->getQuestionParentObjIds($repositoryRootNode);
         
         if (!count($parentObjectIds)) {

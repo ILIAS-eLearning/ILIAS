@@ -79,7 +79,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);
         $table->setManualScoringPointsPostData($manPointsPost);
 
-        $qst_id = $table->getFilterItemByPostVar('question')->getValue();
+        $qst_id = (int) $table->getFilterItemByPostVar('question')->getValue();
         $passNr = $table->getFilterItemByPostVar('pass')->getValue();
         $finalized_filter = $table->getFilterItemByPostVar('finalize_evaluation')->getValue();
         $table_data = [];
@@ -223,7 +223,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
                 $maxPointsByQuestionId[$qst_id] = assQuestion::_getMaximumPoints($qst_id);
                 $manPointsPost[$pass][$active_id][$qst_id] = $reached_points;
                 if ($reached_points > $maxPointsByQuestionId[$qst_id]) {
-                    ilUtil::sendFailure(sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1));
+                    $this->tpl->setOnScreenMessage('failure', sprintf($this->lng->txt('tst_save_manscoring_failed'), $pass + 1), false);
                     $this->showManScoringByQuestionParticipantsTable($manPointsPost);
                     return;
                 }
@@ -338,7 +338,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
     {
         $active_id = $this->testrequest->getActiveId();
         $pass = $this->testrequest->getPassId();
-        $question_id = (int) $_GET['qst_id'];
+        $question_id = (int) $this->testrequest->raw('qst_id');
         
         if (!$this->getTestAccess()->checkScoreParticipantsAccessForActiveId($active_id)) {
             exit; // illegal ajax call

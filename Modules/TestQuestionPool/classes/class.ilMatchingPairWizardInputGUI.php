@@ -113,9 +113,10 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         $lng = $DIC['lng'];
         
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $foundvalues = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+        } else {
+            $foundvalues = $_POST[$this->getPostVar()];
         }
-        $foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
             // check answers
             if (is_array($foundvalues['term'])) {

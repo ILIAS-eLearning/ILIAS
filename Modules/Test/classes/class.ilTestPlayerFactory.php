@@ -31,17 +31,12 @@ class ilTestPlayerFactory
     /**
      * creates and returns an instance of a player gui
      * that corresponds to the current test mode
-     *
-     * @return ilTestPlayerAbstractGUI
      */
     public function getPlayerGUI()
     {
         if ($this->testOBJ->isFixedTest()) {
             return new ilTestPlayerFixedQuestionSetGUI($this->testOBJ);
         }
-            
-        if ($this->testOBJ->isRandomTest()) {
-            return new ilTestPlayerRandomQuestionSetGUI($this->testOBJ);
-        }
+        return new ilTestPlayerRandomQuestionSetGUI($this->testOBJ);
     }
 }

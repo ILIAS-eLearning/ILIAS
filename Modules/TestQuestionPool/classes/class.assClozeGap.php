@@ -49,8 +49,6 @@ class assClozeGap
      */
     public $shuffle;
 
-    private $shuffler;
-    
     private $gap_size = 0;
 
     /**
@@ -292,33 +290,6 @@ class assClozeGap
     {
         return $this->shuffle;
     }
-
-    /**
-     * @param ilArrayElementShuffler $shuffler
-     */
-    public function setShuffler(ilArrayElementShuffler $shuffler = null)
-    {
-        if ($shuffler == null) {
-            require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
-            $shuffler = new ilArrayElementShuffler();
-            $seed = $shuffler->buildRandomSeed();
-            $shuffler->setSeed($seed);
-        }
-        $this->shuffler = $shuffler;
-    }
-
-    /**
-     * @return ilArrayElementShuffler
-     */
-    public function getShuffler() : ilArrayElementShuffler
-    {
-        if ($this->shuffler == null) {
-            $this->setShuffler();
-        }
-        return $this->shuffler;
-    }
-
-
 
     /**
     * Returns the maximum width of the gap

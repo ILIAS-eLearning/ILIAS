@@ -28,6 +28,7 @@ class InternalRequestService
         \ILIAS\HTTP\Services $http,
         \ILIAS\Refinery\Factory $refinery
     ) {
+
         $this->initRequest(
             $http,
             $refinery
@@ -62,5 +63,21 @@ class InternalRequestService
     public function getIds() : array
     {
         return $this->strArray("id");
+    }
+
+    /**
+     * @return mixed|null
+     */
+    public function raw(string $key)
+    {
+        $no_transform = $this->refinery->custom()->transformation(function ($v) {
+            return $v;
+        });
+        return $this->get($key, $no_transform);
+    }
+
+    public function getParsedBody()
+    {
+        return $this->http->request()->getParsedBody();
     }
 }

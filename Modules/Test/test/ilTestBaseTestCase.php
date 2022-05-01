@@ -92,7 +92,7 @@ class ilTestBaseTestCase extends TestCase
     /**
      * @return ilTemplate|mixed|MockObject
      */
-    protected function getGlobalTemplateMock() : mixed
+    protected function getGlobalTemplateMock()
     {
         return $this->getMockBuilder(ilTemplate::class)->disableOriginalConstructor()->getMock();
     }
@@ -100,7 +100,7 @@ class ilTestBaseTestCase extends TestCase
     /**
      * @return ilDBInterface|mixed|MockObject
      */
-    protected function getDatabaseMock() : mixed
+    protected function getDatabaseMock()
     {
         return $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock();
     }

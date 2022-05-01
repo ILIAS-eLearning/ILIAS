@@ -1025,7 +1025,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     *
     * @return double Max file size
     */
-    public function getMaxSize() : ?float
+    public function getMaxSize()
     {
         return $this->maxsize;
     }

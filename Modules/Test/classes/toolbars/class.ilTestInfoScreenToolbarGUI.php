@@ -286,8 +286,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     {
         if ($this->globalToolbar instanceof parent) {
             $this->globalToolbar->addFormInput($formInput);
-        } else {
-            parent::addFormInput($formInput);
         }
     }
     

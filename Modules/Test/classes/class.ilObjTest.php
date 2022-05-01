@@ -73,13 +73,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     private $specific_answer_feedback;
     private $activation_limited;
-    /**
-     * @var false
-     */
-    private bool $express_mode;
+
     private array $mob_ids;
     private array $file_ids;
-    private $import_mapping;
     private bool $online;
 
     /**
@@ -695,8 +691,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->show_examview_html = false;
         $this->show_examview_pdf = false;
         $this->enable_archiving = false;
-        
-        $this->express_mode = false;
+
         $this->template_id = '';
         $this->redirection_mode = 0;
         $this->redirection_url = null;
@@ -2048,7 +2043,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
      * Gets the introduction text of the ilObjTest object
      *
-     * @return mixed The introduction text of the test, NULL if empty
+     * @return string|null The introduction text of the test, NULL if empty
      * @see $introduction
      */
     public function getIntroduction()
@@ -2120,7 +2115,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
     * Get the custom style
     *
-    * @return mixed The custom style, NULL if empty
+    * @return string|null The custom style, NULL if empty
     * @access public
     * @see $_customStyle
     */
@@ -2144,7 +2139,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
     * Gets the final statement
     *
-    * @return mixed The final statement, NULL if empty
+    * @return string|null The final statement, NULL if empty
     * @see $_finalstatement
     */
     public function getFinalStatement()
@@ -5605,7 +5600,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 			$where
 		");
         $rows = array();
-        $types = $this->getQuestionTypeTranslations();
+
         if ($query_result->numRows()) {
             while ($row = $ilDB->fetchAssoc($query_result)) {
                 $row = ilAssQuestionType::completeMissingPluginName($row);
@@ -6740,11 +6735,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function getImportMapping() : array
     {
-        if (!is_array($this->import_mapping)) {
-            return array();
-        } else {
-            return $this->import_mapping;
-        }
+        return array();
     }
 
     /**
@@ -6760,7 +6751,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function canShowEctsGrades() : bool
     {
-        return $this->getReportingDate();
+        return (bool) $this->getReportingDate();
     }
 
     /**
@@ -7041,6 +7032,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     {
         global $DIC;
 
+        /** @noinspection PhpUndefinedMethodInspection */
         $certificateLogger = $DIC->logger()->cert();
         $tree = $DIC['tree'];
         $ilDB = $DIC->database();
@@ -7932,11 +7924,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $row = array();
                 $reached_points = 0;
                 $max_points = 0;
+                $pass = ilObjTest::_getResultPass($active_id);
                 foreach ($this->questions as $value) {
                     $question = ilObjTest::_instanciateQuestion($value);
                     if (is_object($question)) {
                         $max_points += $question->getMaximumPoints();
-                        $reached_points += $question->getReachedPoints($active_id);
+                        $reached_points += $question->getReachedPoints($active_id, $pass);
                     }
                 }
                 if ($max_points > 0) {
@@ -8224,11 +8217,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     /**
      * Checks if the test is executable by the given user
-     *
-     * @param ilTestSession|ilTestSessionDynamicQuestionSet
+     * @param         $testSession
      * @param integer $user_id The user id
+     * @param bool    $allowPassIncrease
      * @return array Result array
-     * @access public
+     * @throws ilDateTimeException
      */
     public function isExecutable($testSession, $user_id, $allowPassIncrease = false) : array
     {
@@ -8350,7 +8343,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * Returns the unix timestamp of the time a user started a test
     *
     * @param integer $active_id The active id of the user
-    * @return mixed The unix timestamp if the user started the test, FALSE otherwise
+    * @return false|int The unix timestamp if the user started the test, FALSE otherwise
     * @access public
     */
     public function getStartingTimeOfUser($active_id, $pass = null)
@@ -9256,6 +9249,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function prepareTextareaOutput($txt_output, $prepare_for_latex_output = false, $omitNl2BrWhenTextArea = false)
     {
+        if ($txt_output == null) {
+            $txt_output = '';
+        }
         include_once "./Services/Utilities/classes/class.ilUtil.php";
         
         return ilLegacyFormElementsUtil::prepareTextareaOutput(
@@ -9934,6 +9930,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         try {
             $pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo);
             $filename = (strlen($title)) ? $title : $this->getTitle();
+            // @PHP8-CR This $pdf_base64->scalar is here since (at least) ILIAS 5.4. This is another candidate for a
+            // more thorough analysis than it's scope of the PHP8 refactoring, so I leave this error "intact" for now.
             ilUtil::deliverData(
                 $pdf_base64->scalar,
                 ilFileUtils::getASCIIFilename($filename) . ".pdf",
@@ -10192,11 +10190,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 $row = array();
                 $reached_points = 0;
                 $max_points = 0;
+                $pass = ilObjTest::_getResultPass($active_id);
                 foreach ($this->questions as $value) {
                     $question = ilObjTest::_instanciateQuestion($value);
                     if (is_object($question)) {
                         $max_points += $question->getMaximumPoints();
-                        $reached_points += $question->getReachedPoints($active_id);
+                        $reached_points += $question->getReachedPoints($active_id, $pass);
                         if ($max_points > 0) {
                             $percentvalue = $reached_points / $max_points;
                             if ($percentvalue < 0) {
@@ -11423,8 +11422,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     /**
      * getter for the test setting passDeletionAllowed
-     *
-     * @return integer
+     * @return bool|null
      */
     public function isPassDeletionAllowed()
     {
