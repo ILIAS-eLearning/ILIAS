@@ -52,6 +52,7 @@ class ilSetupLanguage extends ilLanguage
     public string $lang_key;
     public string $separator = "#:#";
     public string $comment_separator = "###";
+    protected ilDBInterface $db;
 
     public function __construct(string $a_lang_key)
     {
@@ -185,8 +186,8 @@ class ilSetupLanguage extends ilLanguage
                 }
             }
         }
-return true;
-        return ($err_lang) ? $err_lang : true;
+
+        return ($err_lang) ?: true;
     }
 
 
@@ -667,12 +668,9 @@ return true;
      * @string   object      db handler
      * Return true on success
      */
-    public function setDbHandler($a_db_handler) : bool
+    public function setDbHandler(ilDBInterface $a_db_handler) : bool
     {
-        if (empty($a_db_handler) || !is_object($a_db_handler)) {
-            return false;
-        }
-        $this->db = &$a_db_handler;// Todo-PHP8-Review This property is not defined
+        $this->db = &$a_db_handler;
         return true;
     }
     

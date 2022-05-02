@@ -59,7 +59,7 @@ class ilLanguage
         global $DIC;
         $client_ini = $DIC->clientIni();
 
-        $this->log = $DIC->logger()->lang();
+        $this->log = $DIC->logger()->root();
 
         $this->lang_key = $a_lang_key;
 
@@ -387,20 +387,26 @@ class ilLanguage
         if ($DIC->offsetExists("ilUser")) {
             $ilUser = $DIC->user();
         }
-
-        if (!ilSession::get("lang") && empty($_GET["lang"]) && $ilUser instanceof ilObjUser &&
+    
+        $isset_get_lang = $DIC->http()->wrapper()->query()->has("lang");
+        if (!ilSession::get("lang") && !$isset_get_lang && $ilUser instanceof ilObjUser &&
             (!$ilUser->getId() || $ilUser->isAnonymous())) {
             $language_detection = new ilLanguageDetection();
             $language = $language_detection->detect();
 
             $ilUser->setPref("language", $language);
-            $_GET["lang"] = $language;
         }
 
-        if (isset($_POST["change_lang_to"]) && $_POST["change_lang_to"] != "") {
-            $_GET["lang"] = ilUtil::stripSlashes($_POST["change_lang_to"]);
+        $post_change_lang_to = [];
+        if ($DIC->http()->wrapper()->post()->has('change_lang_to')) {
+            $post_change_lang_to = $DIC->http()->wrapper()->post()->retrieve(
+                'change_lang_to',
+                $DIC->refinery()->kindlyTo()->dictOf(
+                    $DIC->refinery()->kindlyTo()->float()
+                )
+            );
         }
-
+        
         // prefer personal setting when coming from login screen
         // Added check for ilUser->getId > 0 because it is 0 when the language is changed and
         // the terms of service should be displayed
@@ -410,7 +416,14 @@ class ilLanguage
             ilSession::set("lang", $ilUser->getPref("language"));
         }
 
-        ilSession::set("lang", (isset($_GET["lang"]) && $_GET["lang"]) ? $_GET["lang"] : ilSession::get("lang"));
+        $get_lang = null;
+        if ($isset_get_lang) {
+            $get_lang = $DIC->http()->wrapper()->query()->retrieve(
+                "lang",
+                $DIC->refinery()->kindlyTo()->string()
+            );
+        }
+        ilSession::set("lang", ($isset_get_lang && $get_lang) ? $get_lang : ilSession::get("lang"));
 
         // check whether lang selection is valid
         $langs = self::_getInstalledLanguages();
@@ -421,7 +434,6 @@ class ilLanguage
                 ilSession::set("lang", $langs[0]);
             }
         }
-        $_GET["lang"] = ilSession::get("lang");
 
         return new self(ilSession::get("lang"));
     }

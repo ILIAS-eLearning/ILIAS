@@ -188,12 +188,6 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["lng"] = new ilLanguage('en');
-        //Todo-PHP8-Review Begin: variable $plugin_admin is not defined
-        $GLOBALS["DIC"]["ilPluginAdmin"] = $plugin_admin;
-        //Todo-PHP8-Review End
-        //Todo-PHP8-Review Begin: All required arguments are missing to instantiate ilCtrl
-        $GLOBALS["DIC"]["ilCtrl"] = new ilCtrl();
-        //Todo-PHP8-Review End: All required arguments are missing to instantiate ilCtrl
         $GLOBALS["DIC"]["ilias"] = null;
         $GLOBALS["DIC"]["ilErr"] = null;
         $GLOBALS["DIC"]["tree"] = new class() extends ilTree {
@@ -223,10 +217,6 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
             }
         };
         $GLOBALS["DIC"]["ilUser"] = new class() extends ilObjUser {
-            //Todo-PHP8-Review Begin: variable is already defined as public array $prefs = [];
-            public array $prefs = [];
-            //Todo-PHP8-Review End
-
             public function __construct()
             {
                 $this->prefs["language"] = "en";
