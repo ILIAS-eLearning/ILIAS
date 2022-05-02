@@ -19,7 +19,9 @@
 
 namespace ILIAS\HTTP;
 
-use ILIAS\HTTP\AbstractBaseTest;
+/** @noRector */
+require_once "AbstractBaseTest.php";
+
 use ILIAS\HTTP\Throttling\Delay;
 
 /**
