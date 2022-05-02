@@ -134,7 +134,6 @@ class ilInitialisation
         define("ILIAS_LOG_FILE", $ilIliasIniFile->readVariable("log", "file"));
         define("ILIAS_LOG_ENABLED", $ilIliasIniFile->readVariable("log", "enabled"));
         define("ILIAS_LOG_LEVEL", $ilIliasIniFile->readVariable("log", "level"));
-        define("SLOW_REQUEST_TIME", $ilIliasIniFile->readVariable("log", "slow_request_time"));
 
         // read path + command for third party tools from ilias.ini
         define("PATH_TO_CONVERT", $ilIliasIniFile->readVariable("tools", "convert"));
@@ -508,7 +507,6 @@ class ilInitialisation
 
         self::initGlobal("ilClientIniFile", $ilClientIniFile);
         // set constants
-        define("SESSION_REMINDER_LEADTIME", 30);
         define("DEBUG", (int) $ilClientIniFile->readVariable("system", "DEBUG"));
         define("DEVMODE", (int) $ilClientIniFile->readVariable("system", "DEVMODE"));
         define("SHOWNOTICES", (int) $ilClientIniFile->readVariable("system", "SHOWNOTICES"));
