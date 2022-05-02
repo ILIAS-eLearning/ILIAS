@@ -1,5 +1,22 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
 use PHPUnit\Framework\TestCase;
 
 class ilQTIRespconditionTest extends TestCase
@@ -37,10 +54,10 @@ class ilQTIRespconditionTest extends TestCase
     {
         class_exists(ilQTIRespcondition::class); // Force autoload to define the constants.
         return [
-            ['1', CONTINUE_YES],
-            ['yes', CONTINUE_YES],
-            ['2', CONTINUE_NO],
-            ['no', CONTINUE_NO],
+            ['1', ilQTIRespcondition::CONTINUE_YES],
+            ['yes', ilQTIRespcondition::CONTINUE_YES],
+            ['2', ilQTIRespcondition::CONTINUE_NO],
+            ['no', ilQTIRespcondition::CONTINUE_NO],
             ['Random input', null],
         ];
     }

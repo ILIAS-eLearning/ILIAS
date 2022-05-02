@@ -546,7 +546,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 
         // start verification of QTI files
         include_once "./Services/QTI/classes/class.ilQTIParser.php";
-        $qtiParser = new ilQTIParser($qti_file, IL_MO_VERIFY_QTI, 0, "");
+        $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_VERIFY_QTI, 0, "");
         $qtiParser->startParsing();
         $founditems = &$qtiParser->getFoundItems();
         if (count($founditems) == 0) {
@@ -736,7 +736,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         } else {
             // start parsing of QTI files
             include_once "./Services/QTI/classes/class.ilQTIParser.php";
-            $qtiParser = new ilQTIParser(ilSession::get("qpl_import_qti_file"), IL_MO_PARSE_QTI, $newObj->getId(), $this->qplrequest->raw("ident"));
+
+            $qtiParser = new ilQTIParser(ilSession::get("qpl_import_qti_file"), ilQTIParser::IL_MO_PARSE_QTI, $newObj->getId(), $this->qplrequest->raw("ident"));
             $qtiParser->startParsing();
 
             // import page data

@@ -1,5 +1,22 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
 use PHPUnit\Framework\TestCase;
 
 class ilQTIMattextTest extends TestCase
@@ -100,10 +117,10 @@ class ilQTIMattextTest extends TestCase
     {
         class_exists(ilQTIMattext::class); // Force autoload to define the constants.
         return [
-            ['preserve', SPACE_PRESERVE],
-            [ '1', SPACE_PRESERVE],
-            ['default', SPACE_DEFAULT],
-            ['2', SPACE_DEFAULT],
+            ['preserve', ilQTIMattext::SPACE_PRESERVE],
+            [ '1', ilQTIMattext::SPACE_PRESERVE],
+            ['default', ilQTIMattext::SPACE_DEFAULT],
+            ['2', ilQTIMattext::SPACE_DEFAULT],
             ['Random input', null],
         ];
     }

@@ -1,35 +1,21 @@
-<?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
+<?php declare(strict_types=1);
 
-const RSHUFFLE_NO = "1";
-const RSHUFFLE_YES = "2";
-
-const RAREA_ELLIPSE = "1";
-const RAREA_RECTANGLE = "2";
-const RAREA_BOUNDED = "3";
-
-const RRANGE_EXACT = "1";
-const RRANGE_RANGE = "2";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
 * QTI response label class
@@ -41,43 +27,39 @@ const RRANGE_RANGE = "2";
 */
 class ilQTIResponseLabel
 {
-    public ?string $rshuffle;
-    public ?string $rarea;
-    public ?string $rrange;
-    public ?string $labelrefid;
-    public ?string $ident;
-    public ?string $match_group;
-    public ?string $match_max;
-    /** @var ilQTIMaterial[] */
-    public array $material;
-    /** @var ilQTIFlowMat[] */
-    public array $flow_mat;
-    public ?string $content;
+    public const RSHUFFLE_NO = "1";
+    public const RSHUFFLE_YES = "2";
 
-    public function __construct()
-    {
-        $this->rshuffle = null;
-        $this->rarea = null;
-        $this->rrange = null;
-        $this->labelrefid = null;
-        $this->ident = null;
-        $this->match_group = null;
-        $this->match_max = null;
-        $this->material = [];
-        $this->flow_mat = [];
-        $this->content = null;
-    }
+    public const RAREA_ELLIPSE = "1";
+    public const RAREA_RECTANGLE = "2";
+    public const RAREA_BOUNDED = "3";
+
+    public const RRANGE_EXACT = "1";
+    public const RRANGE_RANGE = "2";
+
+    public ?string $rshuffle = null;
+    public ?string $rarea = null;
+    public ?string $rrange = null;
+    public ?string $labelrefid = null;
+    public ?string $ident = null;
+    public ?string $match_group = null;
+    public ?string $match_max = null;
+    /** @var ilQTIMaterial[] */
+    public array $material = [];
+    /** @var ilQTIFlowMat[] */
+    public array $flow_mat = [];
+    public ?string $content = null;
 
     public function setRshuffle(string $a_rshuffle) : void
     {
         switch (strtolower($a_rshuffle)) {
             case "1":
             case "no":
-                $this->rshuffle = RSHUFFLE_NO;
+                $this->rshuffle = self::RSHUFFLE_NO;
                 break;
             case "2":
             case "yes":
-                $this->rshuffle = RSHUFFLE_YES;
+                $this->rshuffle = self::RSHUFFLE_YES;
                 break;
         }
     }
@@ -92,15 +74,15 @@ class ilQTIResponseLabel
         switch (strtolower($a_rarea)) {
             case "1":
             case "ellipse":
-                $this->rarea = RAREA_ELLIPSE;
+                $this->rarea = self::RAREA_ELLIPSE;
                 break;
             case "2":
             case "rectangle":
-                $this->rarea = RAREA_RECTANGLE;
+                $this->rarea = self::RAREA_RECTANGLE;
                 break;
             case "3":
             case "bounded":
-                $this->rarea = RAREA_BOUNDED;
+                $this->rarea = self::RAREA_BOUNDED;
                 break;
         }
     }
@@ -115,11 +97,11 @@ class ilQTIResponseLabel
         switch (strtolower($a_rrange)) {
             case "1":
             case "excact":
-                $this->rrange = RRANGE_EXACT;
+                $this->rrange = self::RRANGE_EXACT;
                 break;
             case "2":
             case "range":
-                $this->rrange = RRANGE_RANGE;
+                $this->rrange = self::RRANGE_RANGE;
                 break;
         }
     }
