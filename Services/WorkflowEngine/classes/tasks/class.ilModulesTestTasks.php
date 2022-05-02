@@ -22,13 +22,11 @@ class ilModulesTestTasks
         $input_params = $params[0];
         $output_params = $params[1];
 
-        require_once './Modules/Test/classes/class.ilObjTest.php';
-
         $test_object = new ilObjTest();
         $test_object->setType('tst');
         $test_object->setTitle('Prüfung'); // Input?
         $test_object->setDescription("");
-        $test_object->create(true); // true for upload
+        $test_object->create();
         $test_object->createReference();
         $test_object->putInTree($input_params['crsRefId']);
         $test_object->setPermissions($input_params['crsRefId']);
@@ -49,18 +47,13 @@ class ilModulesTestTasks
      */
     public static function assignUsersToTest(ilNode $context, array $params) : array
     {
-        require_once './Modules/Test/classes/class.ilObjTest.php';
         //IN: anonuserlist
         //OUT: void
 
         $input_params = $params[0];
         $output_params = $params[1];
 
-        $usr_id_list = array();
-
-        if (isset($input_params['usrIdList'])) {
-            $usr_id_list = $input_params['usrIdList'];
-        }
+        $usr_id_list = $input_params['usrIdList'] ?? [];
         if (isset($input_params['discloseMap'])) {
             foreach ($input_params['discloseMap'] as $map_entry) {
                 $usr_id_list[] = $map_entry['Anon User'];

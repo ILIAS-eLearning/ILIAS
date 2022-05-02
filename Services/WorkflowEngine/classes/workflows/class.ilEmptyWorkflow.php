@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php';
-
 /**
  * ilEmptyWorkflow is part of the petri net based workflow engine.
  *
@@ -27,7 +24,7 @@ class ilEmptyWorkflow extends ilBaseWorkflow
         $this->workflow_subject_type = 'none';
         $this->workflow_subject_identifier = '0';
         $this->workflow_context_type = 'none';
-        $this->workflow_context_id = '0';
+        $this->workflow_context_id = '0';// TODO PHP8-REVIEW Property dynamically declared
         $this->workflow_class = 'class.ilEmptyWorkflow.php';
         $this->workflow_location = 'Services/WorkflowEngine/classes/workflows';
     }

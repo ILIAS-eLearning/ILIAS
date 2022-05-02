@@ -21,7 +21,6 @@ class InternalRequestService
 {
     use BaseGUIRequest;
 
-    protected \ILIAS\HTTP\Services $http;
     protected array $params;
 
     public function __construct(
@@ -47,7 +46,7 @@ class InternalRequestService
 
     public function is_set($key) : bool
     {
-        if ($this->str($key) == "") {
+        if ($this->str($key) === "") {
             return false;
         }
         return true;

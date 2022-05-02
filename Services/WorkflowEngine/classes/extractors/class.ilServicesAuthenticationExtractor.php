@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/extractors/class.ilBaseExtractor.php';
-
 /**
  * Class ilServicesAuthenticationExtractor
  *
@@ -37,7 +34,7 @@ class ilServicesAuthenticationExtractor extends ilBaseExtractor
     /**
      * @param array $parameters
      */
-    protected function extractAfterLogin(array $parameters)
+    protected function extractAfterLogin(array $parameters) : void
     {
         $this->ilExtractedParams->setSubjectId(0);
         $this->ilExtractedParams->setContextType('user');

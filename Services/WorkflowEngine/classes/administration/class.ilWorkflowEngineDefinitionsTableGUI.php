@@ -1,15 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Table/classes/class.ilTable2GUI.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Form/classes/class.ilTextInputGUI.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Form/classes/class.ilCheckboxInputGUI.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
-
 /**
  * Class ilWorkflowEngineDefinitionsTableGUI
  *
@@ -83,19 +74,19 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 
         $selected_columns = $this->getSelectedColumns();
 
-        if (in_array('file', $selected_columns)) {
+        if (in_array('file', $selected_columns, true)) {
             $this->addColumn($this->lng->txt("file"), "file", "30%");
         }
 
-        if (in_array('version', $selected_columns)) {
+        if (in_array('version', $selected_columns, true)) {
             $this->addColumn($this->lng->txt("version"), "version", "10%");
         }
 
-        if (in_array('status', $selected_columns)) {
+        if (in_array('status', $selected_columns, true)) {
             $this->addColumn($this->lng->txt("status"), "status", "10%");
         }
 
-        if (in_array('instances', $selected_columns)) {
+        if (in_array('instances', $selected_columns, true)) {
             $this->addColumn($this->lng->txt("instances"), "instances", "15%");
         }
 
@@ -129,7 +120,6 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
     {
         global $DIC;
 
-        require_once 'Services/WorkflowEngine/classes/administration/class.ilWorkflowDefinitionRepository.php';
         $repository = new ilWorkflowDefinitionRepository(
             $DIC['ilDB'],
             $DIC['filesystem'],
@@ -140,7 +130,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 
         $that = $this;
 
-        array_walk($baseList, function (array &$definition) use ($that) {
+        array_walk($baseList, static function (array &$definition) use ($that) : void {
             $status = $that->lng->txt('missing_parsed_class');
             if ($definition['status']) {
                 $status = 'OK';
@@ -149,7 +139,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
             $definition['status'] = $status;
         });
 
-        $filteredBaseList = array_filter($baseList, function ($item) use ($that) {
+        $filteredBaseList = array_filter($baseList, function ($item) : bool {
             return !$this->isFiltered($item);
         });
 
@@ -164,15 +154,13 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
     {
         // Title filter
         $title_filter = $this->getFilterItemByPostVar('title');
-        if ($title_filter->getValue() != null) {
-            if (strpos(strtolower($row['title']), strtolower($title_filter->getValue())) === false) {
-                return true;
-            }
+        if ($title_filter->getValue() != null && stripos($row['title'], $title_filter->getValue()) === false) {
+            return true;
         }
 
         // Instances filter
         $instances_filter = $this->getFilterItemByPostVar('instances');
-        if ($instances_filter->getChecked() && $row['instances']['active'] == 0) {
+        if ($row['instances']['active'] == 0 && $instances_filter->getChecked()) {
             return true;
         }
 
@@ -188,23 +176,23 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 
         $selected_columns = $this->getSelectedColumns();
 
-        if (in_array('file', $selected_columns)) {
+        if (in_array('file', $selected_columns, true)) {
             $this->tpl->setVariable('VAL_FILE', $a_set['file']);
         }
 
-        if (in_array('version', $selected_columns)) {
+        if (in_array('version', $selected_columns, true)) {
             $this->tpl->setVariable('VAL_VERSION', $a_set['version']);
         }
 
-        if (in_array('status', $selected_columns)) {
-            if ($a_set['status'] != 'OK') {
+        if (in_array('status', $selected_columns, true)) {
+            if ($a_set['status'] !== 'OK') {
                 $this->tpl->setVariable('VAL_STATUS', $a_set['status']);
             } else {
                 $this->tpl->setVariable('VAL_STATUS', $this->lng->txt('ok'));
             }
         }
 
-        if (in_array('instances', $selected_columns)) {
+        if (in_array('instances', $selected_columns, true)) {
             $this->tpl->setVariable('TXT_INSTANCES_TOTAL', $this->lng->txt('total'));
             $this->tpl->setVariable('VAL_INSTANCES_TOTAL', 0 + $a_set['instances']['total']);
             $this->tpl->setVariable('TXT_INSTANCES_ACTIVE', $this->lng->txt('active'));
@@ -221,7 +209,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
             $this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.start')
         );
 
-        if (0 + $a_set['instances']['active'] == 0) {
+        if (0 + $a_set['instances']['active'] === 0) {
             $action->addItem(
                 $this->lng->txt('delete_definition'),
                 'delete',
@@ -231,7 +219,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 
         require_once ilObjWorkflowEngine::getRepositoryDir() . '/' . $a_set['id'] . '.php';
         $class = substr($a_set['id'], 4);
-        if ($class::$startEventRequired == true) {
+        if ($class::$startEventRequired == true) {// TODO PHP8-REVIEW Property dynamically declared
             $action->addItem(
                 $this->lng->txt('start_listening'),
                 'startlistening',

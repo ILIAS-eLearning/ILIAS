@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
-
 /**
  * Class ilSendMailActivity
  *
@@ -75,7 +70,6 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
         $mail_text = $this->decodeMessageText($mail_data['content']);
         $mail_text = $this->processPlaceholders($mail_text);
 
-        require_once './Services/WorkflowEngine/classes/activities/class.ilWorkflowEngineMailNotification.php';
         $mail = new ilWorkflowEngineMailNotification();
         $mail->setSubjectText($subject);
         $mail->setBodyText($mail_text);
@@ -165,11 +159,11 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
         preg_match_all('/\[(.*?)\]/', $message_text, $matches, PREG_PATTERN_ORDER);
 
         foreach ($matches[0] as $match) {
-            $placeholder = substr($match, 1, strlen($match) - 2);
+            $placeholder = substr($match, 1, -1);
 
             $handled = false;
             $content = '';
-            if (strtolower(substr($placeholder, 0, strlen('EVENTLINK'))) == 'eventlink') {
+            if (stripos($placeholder, 'eventlink') === 0) {
                 $handled = true;
                 $content = $this->getEventLink($match);
             }
@@ -178,7 +172,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
                 $content = $this->context->getContext()->getInstanceVarById($placeholder);
             }
 
-            if (strlen($content)) {
+            if ($content != '') {
                 $message_text = str_replace($match, $content, $message_text);
             }
         }
@@ -193,7 +187,7 @@ class ilSendMailActivity implements ilActivity, ilWorkflowEngineElement
         $matches = array();
         preg_match_all('/\{{(.*?)\}}/', $params, $matches, PREG_PATTERN_ORDER);
         foreach ($matches[1] as $match) {
-            if ($match == 'THIS:WFID') {
+            if ($match === 'THIS:WFID') {
                 $params = str_replace('{{' . $match . '}}', $this->getContext()->getContext()->getDbId(), $params);
             }
         }

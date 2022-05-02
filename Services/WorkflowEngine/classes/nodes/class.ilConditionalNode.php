@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
-
 /**
  * Conditional node of the petri net based workflow engine.
  *
@@ -107,15 +104,7 @@ class ilConditionalNode extends ilBaseNode
             return eval($this->evaluation_expression);
         };
 
-        if ($eval_function($this->detectors) === null) {
-            return false;
-        }
-
-        if ($eval_function($this->detectors) === true) {
-            return true;
-        } else {
-            return true;
-        }
+        return $eval_function($this->detectors) !== null;
     }
 
     /**
@@ -139,18 +128,19 @@ class ilConditionalNode extends ilBaseNode
         if ($eval_function($this->detectors) === true) {
             $this->executeTransition();
             return true;
-        } else {
-            $this->executeElseTransition();
-            return true;
         }
+
+        $this->executeElseTransition();
+
+        return true;
     }
 
     /**
      * Executes all 'then'-activities attached to the node.
      */
-    private function executeActivities()
+    private function executeActivities() : void
     {
-        if (count($this->activities) != 0) {
+        if (count($this->activities) !== 0) {
             foreach ($this->activities as $activity) {
                 $activity->execute();
             }
@@ -160,9 +150,9 @@ class ilConditionalNode extends ilBaseNode
     /**
      * Exectes all 'else'-activities attached to the node.
      */
-    private function executeElseActivities()
+    private function executeElseActivities() : void
     {
-        if (count($this->else_activities) != 0) {
+        if (count($this->else_activities) !== 0) {
             foreach ($this->else_activities as $activity) {
                 $activity->execute();
             }
@@ -172,9 +162,9 @@ class ilConditionalNode extends ilBaseNode
     /**
      * Executes all 'then'-emitters attached to the node.
      */
-    private function executeEmitters()
+    private function executeEmitters() : void
     {
-        if (count($this->emitters) != 0) {
+        if (count($this->emitters) !== 0) {
             foreach ($this->emitters as $emitter) {
                 $emitter->emit();
             }
@@ -184,9 +174,9 @@ class ilConditionalNode extends ilBaseNode
     /**
      * Executes all 'else'-emitters attached to the node.
      */
-    private function executeElseEmitters()
+    private function executeElseEmitters() : void
     {
-        if (count($this->else_emitters) != 0) {
+        if (count($this->else_emitters) !== 0) {
             foreach ($this->else_emitters as $emitter) {
                 $emitter->emit();
             }
@@ -206,7 +196,7 @@ class ilConditionalNode extends ilBaseNode
     /**
      * Executes the 'else'-transition of the node.
      */
-    public function executeElseTransition()
+    public function executeElseTransition() : void
     {
         $this->deactivate();
         $this->executeElseActivities();

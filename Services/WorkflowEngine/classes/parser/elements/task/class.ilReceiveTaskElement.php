@@ -29,21 +29,21 @@ class ilReceiveTaskElement extends ilBaseElement
         $event_definition = null;
         if (count($element['children'])) {
             foreach ($element['children'] as $child) {
-                if ($child['name'] == 'messageEventDefinition') {
+                if ($child['name'] === 'messageEventDefinition') {
                     $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
                         $child['attributes']['messageRef'],
                         'message',
                         $this->bpmn2_array
                     );
                 }
-                if ($child['name'] == 'signalEventDefinition') {
+                if ($child['name'] === 'signalEventDefinition') {
                     $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
                         $child['attributes']['signalRef'],
                         'signal',
                         $this->bpmn2_array
                     );
                 }
-                if ($child['name'] == 'timerEventDefinition') {
+                if ($child['name'] === 'timerEventDefinition') {
                     $event_definition = ilBPMN2ParserUtils::extractTimeDateEventDefinitionFromElement(
                         $child['attributes']['id'],
                         'intermediateCatchEvent',
@@ -72,7 +72,7 @@ class ilReceiveTaskElement extends ilBaseElement
             if (isset($event_definition['listening_start']) || isset($event_definition['listening_end'])) {
                 $code .= $this->element_varname . '_detector->setListeningTimeframe(' . (int) $event_definition['listening_start'] .
                     ', ' . (int) $event_definition['listening_end'] . ');';
-            } elseif (isset($event_definition['listening_relative']) && isset($event_definition['listening_interval'])) {
+            } elseif (isset($event_definition['listening_relative'], $event_definition['listening_interval'])) {
                 $code .= $this->element_varname . '_detector->setTimerRelative(true);';
                 $code .= $this->element_varname . '_detector->setTimerLimit(' . (int) $event_definition['listening_interval'] . ');';
             }

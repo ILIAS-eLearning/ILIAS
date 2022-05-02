@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilDetector.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
-
 /**
  * ilSimpleDetector of the petri net based workflow engine.
  *
@@ -71,14 +66,14 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      *
      * @return boolean False, if detector was already satisfied before.
      */
-    public function trigger($params)
+    public function trigger($params)// TODO PHP8-REVIEW Return type missing
     {
-        if ($this->detection_state == false) {
+        if ($this->detection_state === false) {
             $this->setDetectorState(true);
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -104,7 +99,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
     {
         $this->detection_state = $new_state;
 
-        if ($new_state == true) {
+        if ($new_state === true) {
             $this->context->notifyDetectorSatisfaction($this);
         }
     }
@@ -115,7 +110,6 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      */
     public function onActivate() : void
     {
-        return;
     }
 
     /**
@@ -124,7 +118,6 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      */
     public function onDeactivate() : void
     {
-        return;
     }
 
     /**
@@ -151,7 +144,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
     /**
      * @return ilNode
      */
-    public function getSourceNode()
+    public function getSourceNode()// TODO PHP8-REVIEW Return type missing
     {
         return $this->source_node;
     }

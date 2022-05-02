@@ -1,13 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilExternalDetector.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilWorkflow.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
-
 /**
  * ilBaseWorkflow is part of the petri net based workflow engine.
  *
@@ -52,7 +45,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * This holds the database id of the workflow
      *
      */
-    protected $db_id;
+    protected $db_id;// TODO PHP8-REVIEW Property type missing
 
     /**
      * Holds the type of the workflow.
@@ -64,7 +57,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_type Name of type of the workflow.
      */
-    protected $workflow_type;
+    protected $workflow_type;// TODO PHP8-REVIEW Property type missing
 
     /**
      * Holds a content description of the workflow instance.
@@ -75,19 +68,19 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_content Content description of the workflow.
      */
-    protected $workflow_content;
+    protected $workflow_content;// TODO PHP8-REVIEW Property type missing
 
     /**
      * Holds the classname of the workflow definition.
      * @var string $workflow_class Name of the class. e.g. ComplianceWorkflow1 for class.ilComplianceWorkflow1.php
      */
-    protected $workflow_class;
+    protected $workflow_class;// TODO PHP8-REVIEW Property type missing
 
     /**
      * Holds the path to the workflow definition class relative to the applications root.
      * @var string $workflow_location Path to class, e.g. Services/WorkflowEngine for './Services/WorkflowEngine/classes/class..."
      */
-    protected $workflow_location;
+    protected $workflow_location;// TODO PHP8-REVIEW Property type missing
 
     /**
      * Holding the subject type of the workflow.
@@ -96,7 +89,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * E.g. crs, usr
      * @var string $workflow_subject_type Name of the subject type.
      */
-    protected $workflow_subject_type;
+    protected $workflow_subject_type;// TODO PHP8-REVIEW Property type missing
 
     /**
      * This is the actual identifier of the 'who'. If subject_type is a usr, this
@@ -104,7 +97,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var integer $workflow_subject_identifier Identifier of the events subject.
      */
-    protected $workflow_subject_identifier;
+    protected $workflow_subject_identifier;// TODO PHP8-REVIEW Property type missing
 
     /**
      * Type of the workflows context.
@@ -113,7 +106,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_context_type Type if the events context type.
      */
-    protected $workflow_context_type;
+    protected $workflow_context_type;// TODO PHP8-REVIEW Property type missing
 
     /**
      * Identifier of the workflows context.
@@ -122,7 +115,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var integer $workflow_context_identifier Identifier of the events context.
      */
-    protected $workflow_context_identifier;
+    protected $workflow_context_identifier;// TODO PHP8-REVIEW Property type missing
 
     /**
      * Array of instance variables to be shared across the workflow.
@@ -132,10 +125,10 @@ abstract class ilBaseWorkflow implements ilWorkflow
     protected array $instance_vars = array();
 
     /** @var array $data_inputs Input data for the workflow (readonly). */
-    protected $data_inputs;
+    protected $data_inputs;// TODO PHP8-REVIEW Property type missing, array shape should be additionally specied in PhpDocs (if possible)
 
     /** @var array $data_outputs Output data for the workflow. */
-    protected $data_outputs;
+    protected $data_outputs;// TODO PHP8-REVIEW Property type missing, array shape should be additionally specied in PhpDocs (if possible)
 
     /** @var bool $require_data_persistence True, if the persistence needs to deal with data. */
     protected bool $require_data_persistence = false;
@@ -146,14 +139,13 @@ abstract class ilBaseWorkflow implements ilWorkflow
     public function startWorkflow()
     {
         // Write the workflow to the database, so detectors find a parent id to save with them.
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
         $this->active = true;
         ilWorkflowDbHelper::writeWorkflow($this);
         $this->onStartWorkflow();
 
         // Figure out, if there is a start-node set - or nodes at all.
         if ($this->start_node == null) {
-            if (count($this->nodes) != 0) {
+            if (count($this->nodes) !== 0) {
                 $this->start_node = $this->nodes[0];
             } else {
                 //ilWorkflowDbHelper::deleteWorkflow($this);
@@ -182,7 +174,6 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function onStartWorkflow()
     {
-        return;
     }
 
     /**
@@ -194,7 +185,6 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function onStopWorkflow()
     {
-        return;
     }
 
     /**
@@ -206,7 +196,6 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function onWorkflowFinished()
     {
-        return;
     }
 
     /**
@@ -239,7 +228,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
             }
         }
 
-        if ($active_nodes_available == false) {
+        if ($active_nodes_available === false) {
             $this->active = false;
             $this->onWorkflowFinished();
         }
@@ -305,10 +294,9 @@ abstract class ilBaseWorkflow implements ilWorkflow
     {
         if ($this->db_id != null) {
             return $this->db_id;
-        } else {
-            require_once './Services/WorkflowEngine/exceptions/ilWorkflowObjectStateException.php';
-            throw new ilWorkflowObjectStateException('No database ID set.');
         }
+
+        throw new ilWorkflowObjectStateException('No database ID set.');
     }
 
     /**
@@ -351,7 +339,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @param string $class
      */
-    public function setWorkflowClass(string $class)
+    public function setWorkflowClass(string $class) : void
     {
         $this->workflow_class = $class;
     }
@@ -375,7 +363,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @param string $path e.g. Services/WorkflowEngine
      */
-    public function setWorkflowLocation(string $path)
+    public function setWorkflowLocation(string $path) : void
     {
         $this->workflow_location = $path;
     }
@@ -407,22 +395,22 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * objects during deserialization.
      * @param string $class_name
      */
-    public static function autoload(string $class_name)
+    public static function autoload(string $class_name) : void
     {
         switch (true) {
-            case strtolower(substr($class_name, strlen($class_name) - 8, 8)) == 'activity':
+            case strtolower(substr($class_name, strlen($class_name) - 8, 8)) === 'activity':
                 $componentDirectory = 'activities';
                 break;
 
-            case strtolower(substr($class_name, strlen($class_name) - 8, 8)) == 'detector':
+            case strtolower(substr($class_name, strlen($class_name) - 8, 8)) === 'detector':
                 $componentDirectory = 'detectors';
                 break;
 
-            case strtolower(substr($class_name, strlen($class_name) - 7, 7)) == 'emitter':
+            case strtolower(substr($class_name, strlen($class_name) - 7, 7)) === 'emitter':
                 $componentDirectory = 'emitters';
                 break;
 
-            case strtolower(substr($class_name, strlen($class_name) - 4, 4)) == 'node':
+            case strtolower(substr($class_name, strlen($class_name) - 4, 4)) === 'node':
                 $componentDirectory = 'node';
                 break;
 
@@ -431,9 +419,6 @@ abstract class ilBaseWorkflow implements ilWorkflow
         }
 
         $filename = './Services/WorkflowEngine/classes/' . $componentDirectory . '/class.' . $class_name . '.php';
-        if (is_file($filename)) {
-            require_once $filename;
-        }
     }
 
     /**
@@ -491,7 +476,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
     public function hasInstanceVarByName(string $name) : bool
     {
         foreach ($this->instance_vars as $instance_var) {
-            if ($instance_var['name'] == $name) {
+            if ($instance_var['name'] === $name) {
                 return true;
             }
         }
@@ -506,7 +491,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
     public function hasInstanceVarById(string $id) : bool
     {
         foreach ($this->instance_vars as $instance_var) {
-            if ($instance_var['id'] == $id) {
+            if ($instance_var['id'] === $id) {
                 return true;
             }
         }
@@ -519,13 +504,13 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function getInstanceVarByName(string $name)
     {
-        foreach ($this->instance_vars as &$instance_var) {
-            if ($instance_var['name'] == $name) {
+        foreach ($this->instance_vars as $instance_var) {
+            if ($instance_var['name'] === $name) {
                 if ($instance_var['reference'] === true) {
                     return $this->getInstanceVarByName($instance_var['target']);
-                } else {
-                    return $instance_var['value'];
                 }
+
+                return $instance_var['value'];
             }
         }
         return false;
@@ -539,12 +524,12 @@ abstract class ilBaseWorkflow implements ilWorkflow
     public function getInstanceVarById(string $id)
     {
         foreach ($this->instance_vars as $instance_var) {
-            if ($instance_var['id'] == $id) {
+            if ($instance_var['id'] === $id) {
                 if ($instance_var['reference'] === true) {
                     return $this->getInstanceVarById($instance_var['target']);
-                } else {
-                    return $instance_var['value'];
                 }
+
+                return $instance_var['value'];
             }
         }
         return false;
@@ -557,7 +542,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
     public function setInstanceVarByName(string $name, $value)
     {
         foreach ($this->instance_vars as &$instance_var) {
-            if ($instance_var['name'] == $name) {
+            if ($instance_var['name'] === $name) {
                 if ($instance_var['reference'] === true) {
                     $this->setInstanceVarById($instance_var['target'], $value);
                 } else {
@@ -574,7 +559,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
     public function setInstanceVarById(string $id, $value)
     {
         foreach ($this->instance_vars as &$instance_var) {
-            if ($instance_var['id'] == $id) {
+            if ($instance_var['id'] === $id) {
                 if ($instance_var['reference'] === true) {
                     $this->setInstanceVarById($instance_var['target'], $value);
                 } else {
@@ -590,10 +575,10 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * *only during startup to write event params*
      * @param string $role Role of the variable
      */
-    public function setInstanceVarByRole(string $role, $value)
+    public function setInstanceVarByRole(string $role, $value) : void
     {
         foreach ($this->instance_vars as &$instance_var) {
-            if ($instance_var['role'] == $role) {
+            if ($instance_var['role'] === $role) {
                 if ($instance_var['reference'] === true) {
                     $this->setInstanceVarById($instance_var['target'], $value);
                 } else {
@@ -629,7 +614,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * @deprecated
      */
-    public function defineInputVar($name)
+    public function defineInputVar($name) : void
     {
         $this->data_inputs[$name] = null;
         $this->require_data_persistence = true;
@@ -638,7 +623,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * @deprecated
      */
-    public function defineOutputVar($name)
+    public function defineOutputVar($name) : void
     {
         $this->data_outputs[$name] = null;
         $this->require_data_persistence = true;
@@ -674,7 +659,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * @deprecated
      */
-    public function writeInputVar($name, $value)
+    public function writeInputVar($name, $value) : void
     {
         $this->data_inputs[$name] = $value;
         $this->require_data_persistence = true;
@@ -694,7 +679,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * @deprecated
      */
-    public function writeOutputVar($name, $value)
+    public function writeOutputVar($name, $value) : void
     {
         $this->data_outputs[$name] = $value;
         $this->require_data_persistence = true;
@@ -713,7 +698,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
         return (array) $this->data_outputs;
     }
 
-    public function registerInputVar(string $name, $definition)
+    public function registerInputVar(string $name, $definition) : void
     {
         $definition['name'] = $name;
         $this->data_inputs[$name] = $definition;
@@ -722,7 +707,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
     /**
      * @param string $name
      */
-    public function registerOutputVar(string $name)
+    public function registerOutputVar(string $name) : void
     {
         $this->data_outputs[] = $name;
     }

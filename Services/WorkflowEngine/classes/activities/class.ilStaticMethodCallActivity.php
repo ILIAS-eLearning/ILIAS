@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
-
 /**
  * Class ilStaticMethodCallActivity
  *
@@ -168,10 +163,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
         }
 
         /** @var array $return_value */
-        $return_value = call_user_func_array(
-            array($name[0], $name[1]),
-            array($this, array($params, $this->outputs))
-        );
+        $return_value = call_user_func([$name[0], $name[1]], $this, [$params, $this->outputs]);
         foreach ((array) $return_value as $key => $value) {
             $this->context->getContext()->setInstanceVarById($key, $value);
         }

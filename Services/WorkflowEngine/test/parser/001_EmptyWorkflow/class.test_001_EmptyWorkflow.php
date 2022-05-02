@@ -11,9 +11,9 @@ require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
  */
 class test_001_EmptyWorkflow extends ilWorkflowEngineBaseTest
 {
-    public function setUp() : void
+    protected function setUp() : void
     {
-        chdir(dirname(__FILE__));
+        chdir(__DIR__);
         chdir('../../../../../');
 
         parent::setUp();
@@ -21,7 +21,7 @@ class test_001_EmptyWorkflow extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
     }
 
-    public function test_EmptyWorkflowShouldReturnEmptyPHPBrackets()
+    public function test_EmptyWorkflowShouldReturnEmptyPHPBrackets() : void
     {
         $xml = file_get_contents('./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1.bpmn2');
         $parser = new ilBPMN2Parser();
@@ -32,7 +32,7 @@ class test_001_EmptyWorkflow extends ilWorkflowEngineBaseTest
 
         file_put_contents('./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1_output.php', $parse_result);
         $return = exec('php -l ./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1_output.php');
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
         unlink('./Services/WorkflowEngine/test/parser/001_EmptyWorkflow/EmptyWorkflow_1_output.php');
     }
 }

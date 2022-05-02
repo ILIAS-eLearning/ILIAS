@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
-
 /**
  * Plugin node of the petri net based workflow engine.
  *
@@ -86,9 +83,9 @@ class ilPluginNode extends ilBaseNode
      */
     public function trigger($a_type, $a_params = null) : void
     {
-        if ($this->active == true && count($this->detectors) != 0) {
+        if ($this->active === true && count($this->detectors) !== 0) {
             foreach ($this->detectors as $detector) {
-                if (get_class($detector) == $a_type) {
+                if (get_class($detector) === $a_type) {
                     $detector->trigger($a_params);
                 }
             }
@@ -115,12 +112,8 @@ class ilPluginNode extends ilBaseNode
         if ($eval_function($this->detectors) === null) {
             return false;
         }
-        
-        if ($eval_function($this->detectors) === true) {
-            return true;
-        } else {
-            return true;
-        }
+
+        return true;
     }
 
     /**
@@ -155,9 +148,9 @@ class ilPluginNode extends ilBaseNode
     /**
      * Executes all 'then'-activities attached to the node.
      */
-    private function executeActivities()
+    private function executeActivities() : void
     {
-        if (count($this->activities) != 0) {
+        if (count($this->activities) !== 0) {
             foreach ($this->activities as $activity) {
                 $activity->execute();
             }
@@ -167,9 +160,9 @@ class ilPluginNode extends ilBaseNode
     /**
      * Executes all 'then'-emitters attached to the node.
      */
-    private function executeEmitters()
+    private function executeEmitters() : void
     {
-        if (count($this->emitters) != 0) {
+        if (count($this->emitters) !== 0) {
             foreach ($this->emitters as $emitter) {
                 $emitter->emit();
             }

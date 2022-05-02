@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilExternalDetector.php';
-
 /**
  * ilTimerDetector is part of the petri net based workflow engine.
  *
@@ -81,21 +76,12 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
     private ?int $db_id = null;
 
     /**
-     * Default constructor, passing the context to the parent constructor.
-     * @param ilNode $context
-     */
-    public function __construct(ilNode $context)
-    {
-        parent::__construct($context);
-    }
-
-    /**
      * Sets the timers start datetime.
      * @param integer $timer_start Unix timestamp.
      */
-    public function setTimerStart(int $timer_start)
+    public function setTimerStart(int $timer_start) : void
     {
-        $this->timer_start = (int) $timer_start;
+        $this->timer_start = $timer_start;
     }
 
     /**
@@ -112,9 +98,9 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      * Sets the timers limit
      * @param integer $timer_limit Seconds of the timers runtime.
      */
-    public function setTimerLimit(int $timer_limit)
+    public function setTimerLimit(int $timer_limit) : void
     {
-        $this->timer_limit = (int) $timer_limit;
+        $this->timer_limit = $timer_limit;
     }
 
     /**
@@ -139,11 +125,10 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      */
     public function trigger($params) : bool
     {
-        if ($this->getDetectorState() == true) {
+        if ($this->getDetectorState() === true) {
             return false;
         }
 
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
         if ($this->timer_limit + $this->timer_start <= ilWorkflowUtils::time()) {
             $this->setDetectorState(true);
         }
@@ -158,16 +143,14 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
     public function isListening() : bool
     {
         // No listening phase = always listening.
-        if ($this->listening_start == 0 && $this->listening_end == 0) {
+        if ($this->listening_start === 0 && $this->listening_end === 0) {
             return true;
         }
 
         // Listening started?
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
         if ($this->listening_start < ilWorkflowUtils::time()) {
             // Listening not ended or infinite?
-            if ($this->listening_end > ilWorkflowUtils::time()
-                || $this->listening_end == 0) {
+            if ($this->listening_end === 0 || $this->listening_end > ilWorkflowUtils::time()) {
                 return true;
             }
         }
@@ -185,8 +168,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
     {
         $this->listening_start = $listening_start;
 
-        if ($this->listening_start > $listening_end && $listening_end != 0) {
-            require_once './Services/WorkflowEngine/exceptions/ilWorkflowInvalidArgumentException.php';
+        if ($this->listening_start > $listening_end && $listening_end !== 0) {
             throw new ilWorkflowInvalidArgumentException('Listening timeframe is (start vs. end) is invalid.');
         }
 
@@ -199,12 +181,12 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
     public function onActivate() : void
     {
         if ($this->timer_relative) {
-            if ($this->timer_start == 0) {
+            if ($this->timer_start === 0) {
                 $this->listening_start = time();
             } else {
                 $this->listening_start = $this->timer_start;
             }
-            if ($this->timer_limit != 0) {
+            if ($this->timer_limit !== 0) {
                 $this->listening_end = $this->listening_start + $this->timer_limit;
             } else {
                 $this->listening_end = 0;
@@ -242,10 +224,9 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
     {
         if ($this->db_id != null) {
             return $this->db_id;
-        } else {
-            require_once './Services/WorkflowEngine/exceptions/ilWorkflowObjectStateException.php';
-            throw new ilWorkflowObjectStateException('No database ID set.');
         }
+
+        throw new ilWorkflowObjectStateException('No database ID set.');
     }
 
     /**
@@ -268,7 +249,6 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      */
     public function writeDetectorToDb() : void
     {
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
         ilWorkflowDbHelper::writeDetector($this);
     }
 
@@ -278,7 +258,6 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      */
     public function deleteDetectorFromDb() : void
     {
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowDbHelper.php';
         ilWorkflowDbHelper::deleteDetector($this);
     }
 
@@ -332,7 +311,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * @param bool $timer_relative
      */
-    public function setTimerRelative(bool $timer_relative)
+    public function setTimerRelative(bool $timer_relative) : void
     {
         $this->timer_relative = $timer_relative;
     }

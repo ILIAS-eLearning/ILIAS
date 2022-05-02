@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/classes/nodes/class.ilBaseNode.php';
-
 /**
  * Case node of the petri net based workflow engine.
  *
@@ -46,12 +43,12 @@ class ilCaseNode extends ilBaseNode
         $this->is_exclusive = false;
     }
 
-    public function setIsExclusiveJoin($is_exclusive)
+    public function setIsExclusiveJoin($is_exclusive) : void
     {
         $this->is_exclusive_join = $is_exclusive;
     }
 
-    public function setIsExclusiveFork($is_exclusive)
+    public function setIsExclusiveFork($is_exclusive) : void
     {
         $this->is_exclusive_fork = $is_exclusive;
     }
@@ -95,7 +92,7 @@ class ilCaseNode extends ilBaseNode
         // queries the $detectors if their conditions are met.
         $isPreconditionMet = true;
         foreach ($this->detectors as $detector) {
-            if ($isPreconditionMet == true) {
+            if ($isPreconditionMet === true) {
                 $isPreconditionMet = $detector->getDetectorState();
                 if ($isPreconditionMet && ($this->is_exclusive_join || $this->is_exclusive_fork || $this->is_exclusive)) {
                     break;
@@ -115,12 +112,12 @@ class ilCaseNode extends ilBaseNode
      */
     public function attemptTransition() : bool
     {
-        if ($this->checkTransitionPreconditions() == true) {
+        if ($this->checkTransitionPreconditions() === true) {
             $this->executeTransition();
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -129,14 +126,14 @@ class ilCaseNode extends ilBaseNode
     public function executeTransition()
     {
         $this->deactivate();
-        if (count($this->activities) != 0) {
+        if (count($this->activities) !== 0) {
             foreach ($this->activities as $activity) {
                 $activity->execute();
             }
         }
 
         foreach ($this->condition_emitter_pairs as $pair) {
-            $eval_function = function ($that) use ($pair) {
+            $eval_function = static function ($that) use ($pair) {
                 return eval($pair['expression']);
             };
 
@@ -154,13 +151,13 @@ class ilCaseNode extends ilBaseNode
      * Adds an emitter to one of the lists attached to the node.
      *
      * @param ilEmitter $emitter
-     * @param boolean   $else_emitter True, if the emitter should be an 'else'-emitter.
+     * @param boolean   $else True, if the emitter should be an 'else'-emitter.
      */
-    public function addEmitter(ilEmitter $emitter, $expression = 'return true;') : void
+    public function addEmitter(ilEmitter $emitter, $else = 'return true;') : void
     {
         $this->condition_emitter_pairs[] = array(
             'emitter' => $emitter,
-            'expression' => $expression
+            'expression' => $else
         );
     }
 

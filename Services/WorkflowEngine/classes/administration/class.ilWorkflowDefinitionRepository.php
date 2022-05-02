@@ -6,10 +6,10 @@
  */
 class ilWorkflowDefinitionRepository
 {
-    const FILE_EXTENSTION_BPMN2 = 'bpmn2';
-    const FILE_EXTENSTION_PHP = 'php';
+    private const FILE_EXTENSTION_BPMN2 = 'bpmn2';
+    private const FILE_EXTENSTION_PHP = 'php';
 
-    const FILE_PREFIX = 'wsd.il';
+    private const FILE_PREFIX = 'wsd.il';
 
     /**
      * @var \ilDBInterface
@@ -52,7 +52,7 @@ class ilWorkflowDefinitionRepository
     /**
      *
      */
-    protected function lazyLoadWorkflowDefinitions()
+    protected function lazyLoadWorkflowDefinitions() : void
     {
         if ($this->definitionsLoaded) {
             return;
@@ -75,7 +75,7 @@ class ilWorkflowDefinitionRepository
         }
 
         $contents = $this->fs->storage()->listContents($this->path, false);
-        $contents = array_filter($contents, function (ILIAS\Filesystem\DTO\Metadata $file) {
+        $contents = array_filter($contents, static function (ILIAS\Filesystem\DTO\Metadata $file) : bool {
             if (!$file->isFile()) {
                 return false;
             }

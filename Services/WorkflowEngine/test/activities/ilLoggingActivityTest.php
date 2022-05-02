@@ -22,37 +22,24 @@ class ilLoggingActivityTest extends TestCase
     private ilEmptyWorkflow $workflow;
     private ilBasicNode $node;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        chdir(dirname(__FILE__));
+        chdir(__DIR__);
         chdir('../../../../');
 
-        try {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            //ilUnitUtil::performInitialisation();
-        } catch (Exception $exception) {
-            if (!defined('IL_PHPUNIT_TEST')) {
-                define('IL_PHPUNIT_TEST', false);
-            }
-        }
-
         // Empty workflow.
-        require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
         
         // Basic node
-        require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
         $this->node = new ilBasicNode($this->workflow);
         
         // Wiring up so the node is attached to the workflow.
         $this->workflow->addNode($this->node);
                 
-        require_once './Services/WorkflowEngine/classes/activities/class.ilLoggingActivity.php';
-
         $this->test_dir = vfs\vfsStream::setup('example');
     }
 
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         global $ilSetting;
         if ($ilSetting != null) {
@@ -61,7 +48,7 @@ class ilLoggingActivityTest extends TestCase
         }
     }
     
-    public function testConstructorValidContext()
+    public function testConstructorValidContext() : void
     {
         // Act
         $activity = new ilLoggingActivity($this->node);
@@ -74,7 +61,7 @@ class ilLoggingActivityTest extends TestCase
         );
     }
 
-    public function testSetGetValidLogFile()
+    public function testSetGetValidLogFile() : void
     {
         // Arrange
         $activity = new ilLoggingActivity($this->node);
@@ -94,7 +81,7 @@ class ilLoggingActivityTest extends TestCase
     /**
      *
      */
-    public function testSetGetNonWriteableLogFile()
+    public function testSetGetNonWriteableLogFile() : void
     {
         $this->expectException(ilWorkflowFilesystemException::class);
 
@@ -112,7 +99,7 @@ class ilLoggingActivityTest extends TestCase
     /**
      *
      */
-    public function testSetGetIllegalExtensionLogFile()
+    public function testSetGetIllegalExtensionLogFile() : void
     {
         $this->expectException(ilWorkflowObjectStateException::class);
 
@@ -128,7 +115,7 @@ class ilLoggingActivityTest extends TestCase
         // Assertion via phpdoc. (Exception)
     }
     
-    public function testSetGetLegalMessage()
+    public function testSetGetLegalMessage() : void
     {
         // Arrange
         $activity = new ilLoggingActivity($this->node);
@@ -149,7 +136,7 @@ class ilLoggingActivityTest extends TestCase
     /**
      *
      */
-    public function testSetGetEmptyLogMessage()
+    public function testSetGetEmptyLogMessage() : void
     {
         $this->expectException(ilWorkflowObjectStateException::class);
 
@@ -163,7 +150,7 @@ class ilLoggingActivityTest extends TestCase
         // Assertion via phpdoc. (Exception)
     }
 
-    public function testSetGetValidLogLevel()
+    public function testSetGetValidLogLevel() : void
     {
         // Arrange
         $activity = new ilLoggingActivity($this->node);
@@ -184,7 +171,7 @@ class ilLoggingActivityTest extends TestCase
     /**
      *
      */
-    public function testSetGetInvalidLogLevel()
+    public function testSetGetInvalidLogLevel() : void
     {
         $this->expectException(ilWorkflowObjectStateException::class);
 
@@ -197,7 +184,7 @@ class ilLoggingActivityTest extends TestCase
         $actual = $activity->getLogLevel();
     }
 
-    public function testExecute()
+    public function testExecute() : void
     {
         // Arrange
         $activity = new ilLoggingActivity($this->node);
@@ -210,9 +197,9 @@ class ilLoggingActivityTest extends TestCase
 
         // Assert
         $expected = ' :: MESSAGE :: TEST';
-        $fp = fopen(vfs\vfsStream::url('example/log.txt'), 'r');
+        $fp = fopen(vfs\vfsStream::url('example/log.txt'), 'rb');
         $line = fgets($fp);
-        $actual = substr($line, 25, strlen($line) - 27);
+        $actual = substr($line, 25, -2);
 
         $this->assertEquals(
             $actual,
@@ -224,7 +211,7 @@ class ilLoggingActivityTest extends TestCase
     /**
      *
      */
-    public function testPassInUnwriteablePath()
+    public function testPassInUnwriteablePath() : void
     {
         $this->expectException(ilWorkflowFilesystemException::class);
 
@@ -233,7 +220,7 @@ class ilLoggingActivityTest extends TestCase
         $activity->setLogFile(vfs\vfsStream::url('example.txt'));
     }
 
-    public function testGetContext()
+    public function testGetContext() : void
     {
         // Arrange
         $activity = new ilLoggingActivity($this->node);
@@ -245,7 +232,7 @@ class ilLoggingActivityTest extends TestCase
         if ($actual === $this->node) {
             $this->assertEquals($actual, $this->node);
         } else {
-            $this->assertTrue(false, 'Context not identical.');
+            $this->fail('Context not identical.');
         }
     }
 }

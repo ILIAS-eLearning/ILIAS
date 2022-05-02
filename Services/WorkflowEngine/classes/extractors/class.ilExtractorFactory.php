@@ -16,7 +16,6 @@ class ilExtractorFactory
      */
     public static function getExtractorByEventDescriptor(string $component)
     {
-        require_once './Services/WorkflowEngine/classes/extractors/class.ilExtractedParams.php';
         $params_object = new ilExtractedParams();
 
         // Code for transition phase only!
@@ -35,8 +34,8 @@ class ilExtractorFactory
         if (class_exists($extractor_class_name, false)) {
             $extractor = new $extractor_class_name($params_object);
             return $extractor;
-        } else {
-            return new stdClass();
         }
+
+        return new stdClass();
     }
 }

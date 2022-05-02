@@ -10,11 +10,11 @@
  */
 class ilServicesUserTasks
 {
-    const ANON_FIRSTNAME = 'Anonymous';
-    const ANON_LASTNAME = 'Exam-User';
-    const ANON_LOGIN_PREFIX = 'EX-';
-    const ANON_GENDER = 'm';
-    const PASSWORD_CHARACTERSET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    private const ANON_FIRSTNAME = 'Anonymous';
+    private const ANON_LASTNAME = 'Exam-User';
+    private const ANON_LOGIN_PREFIX = 'EX-';
+    private const ANON_GENDER = 'm';
+    private const PASSWORD_CHARACTERSET = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 
     /**
      * @param ilNode $context
@@ -29,9 +29,7 @@ class ilServicesUserTasks
         // IN: useridlist
         // OUT: anonaccountlist, userIdList
 
-        $pseudonymousUserMap = array();
         $discloseMap = array();
-        $usrIdList = array();
 
         foreach ($input_params['usrIdList'] as $user_id) {
             $source_user = new ilObjUser($user_id, false);
@@ -41,11 +39,6 @@ class ilServicesUserTasks
                 $anon_login,
                 $anon_password,
                 $source_user->getEmail()
-            );
-
-            $pseudonymousUserMap[] = array(
-                'Original User' => $user_id,
-                'Anonymous User' => $new_id
             );
 
             $discloseMap[] = array(
@@ -60,8 +53,6 @@ class ilServicesUserTasks
                 'Anon Login' => $anon_login,
                 'Anon Password' => $anon_password
             );
-
-            $usrIdList[] = $new_id;
         }
 
         return array($output_params[0] => $discloseMap);
@@ -135,7 +126,7 @@ class ilServicesUserTasks
      * @param ilNode $context
      * @param array  $params
      */
-    public static function repersonalizeUsers(ilNode $context, array $params)
+    public static function repersonalizeUsers(ilNode $context, array $params) : void
     {
         // IN: discloseMap
         $input_params = $params[0];

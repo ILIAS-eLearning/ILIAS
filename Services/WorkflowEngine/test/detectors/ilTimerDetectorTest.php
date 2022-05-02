@@ -14,10 +14,8 @@
  */
 class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
 {
-    public function setUp() : void
+    protected function setUp() : void
     {
-        parent::__construct();
-        
         require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
         
         // Empty workflow.
@@ -34,7 +32,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/detectors/class.ilTimerDetector.php';
     }
     
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         global $DIC;
 
@@ -44,7 +42,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         }
     }
     
-    public function testConstructorValidContext()
+    public function testConstructorValidContext() : void
     {
         // Act
         $detector = new ilTimerDetector($this->node);
@@ -57,7 +55,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testSetGetTimerStart()
+    public function testSetGetTimerStart() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -71,7 +69,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($actual, $expected);
     }
     
-    public function testSetGetTimerLimit()
+    public function testSetGetTimerLimit() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -85,7 +83,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($actual, $expected);
     }
 
-    public function testTriggerEarly()
+    public function testTriggerEarly() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -102,7 +100,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($actual, 'Early trigger should not satisfy detector');
     }
 
-    public function testTriggerValid()
+    public function testTriggerValid() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -119,7 +117,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($actual, 'Trigger should not satisfy detector');
     }
 
-    public function testTriggerValidTwice()
+    public function testTriggerValidTwice() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -136,7 +134,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($actual, 'Detector should be satisfied after single trigger');
     }
 
-    public function testIsListeningWithTimeFrame()
+    public function testIsListeningWithTimeFrame() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -151,7 +149,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($actual, 'Detector should not be listening.');
     }
     
-    public function testIsListeningWithoutTimeFrame()
+    public function testIsListeningWithoutTimeFrame() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -168,7 +166,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
     /**
      *
      */
-    public function testSetGetIllegalListeningTimeframe()
+    public function testSetGetIllegalListeningTimeframe() : void
     {
         $this->expectException(ilWorkflowInvalidArgumentException::class);
 
@@ -185,12 +183,12 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($exp_start . $exp_end, $act['listening_start'] . $act['listening_end']);
     }
 
-    public function testIsListeningWithPastTimeFrame()
+    public function testIsListeningWithPastTimeFrame() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
-        $timer_start = ilWorkflowUtils::time() - 5 * 60; # -5 Minutes from now.
-        $timer_end = ilWorkflowUtils::time() - 1 * 60; # -1 Minute from now.
+        $timer_start = ilWorkflowUtils::time() - (5 * 60); # -5 Minutes from now.
+        $timer_end = ilWorkflowUtils::time() - (1 * 60); # -1 Minute from now.
         $detector->setListeningTimeframe($timer_start, $timer_end);
 
         // Act
@@ -200,7 +198,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($actual, 'Detector should not be listening.');
     }
 
-    public function testIsListeningWithWildcardEndingTimeFrame()
+    public function testIsListeningWithWildcardEndingTimeFrame() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -215,7 +213,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($actual, 'Detector should not be listening.');
     }
 
-    public function testIsListeningWithWildcardBeginningTimeFrame()
+    public function testIsListeningWithWildcardBeginningTimeFrame() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -230,7 +228,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($actual, 'Detector should not be listening.');
     }
 
-    public function testSetGetListeningTimeframe()
+    public function testSetGetListeningTimeframe() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -245,7 +243,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($exp_start . $exp_end, $act['listening_start'] . $act['listening_end']);
     }
     
-    public function testSetGetDbId()
+    public function testSetGetDbId() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -259,7 +257,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($expected, $actual);
     }
     
-    public function testHasDbIdSet()
+    public function testHasDbIdSet() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -276,7 +274,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
     /**
      *
      */
-    public function testGetNonExistingDbId()
+    public function testGetNonExistingDbId() : void
     {
         $this->expectException(ilWorkflowObjectStateException::class);
 
@@ -291,7 +289,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($expected, $actual);
     }
 
-    public function testHasDbIdUnset()
+    public function testHasDbIdUnset() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -303,7 +301,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertFalse($actual);
     }
 
-    public function testGetEvent()
+    public function testGetEvent() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -319,7 +317,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($exp_type . $exp_content, $act_type . $act_content);
     }
     
-    public function testGetEventSubject()
+    public function testGetEventSubject() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -335,7 +333,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($exp_type . $exp_id, $act_type . $act_id);
     }
     
-    public function testGetEventContext()
+    public function testGetEventContext() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -351,7 +349,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($exp_type . $exp_id, $act_type . $act_id);
     }
     
-    public function testGetContext()
+    public function testGetContext() : void
     {
         // Arrange
         $detector = new ilTimerDetector($this->node);
@@ -363,7 +361,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         if ($actual === $this->node) {
             $this->assertEquals($actual, $this->node);
         } else {
-            $this->assertTrue(false, 'Context not identical.');
+            $this->fail('Context not identical.');
         }
     }
 }

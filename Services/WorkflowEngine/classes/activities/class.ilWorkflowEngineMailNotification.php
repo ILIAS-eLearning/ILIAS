@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Mail/classes/class.ilMailNotification.php';
-
 /**
  * @author Maximilian Becker <mbecker@databay.de>
  * @version $Id$

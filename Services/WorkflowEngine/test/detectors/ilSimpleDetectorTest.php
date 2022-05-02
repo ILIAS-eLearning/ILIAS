@@ -14,10 +14,8 @@
  */
 class ilSimpleDetectorTest extends ilWorkflowEngineBaseTest
 {
-    public function setUp() : void
+    protected function setUp() : void
     {
-        parent::__construct();
-        
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
@@ -32,7 +30,7 @@ class ilSimpleDetectorTest extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
     }
     
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         global $DIC;
 
@@ -42,7 +40,7 @@ class ilSimpleDetectorTest extends ilWorkflowEngineBaseTest
         }
     }
     
-    public function testConstructorValidContext()
+    public function testConstructorValidContext() : void
     {
         // Act
         $detector = new ilSimpleDetector($this->node);
@@ -55,7 +53,7 @@ class ilSimpleDetectorTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testSetDetectorState()
+    public function testSetDetectorState() : void
     {
         // Arrange
         $workflow = new ilEmptyWorkflow();
@@ -86,7 +84,7 @@ class ilSimpleDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($valid_state, 'Invalid state after setting of detector state.');
     }
     
-    public function testTrigger()
+    public function testTrigger() : void
     {
         // Arrange
         $workflow = new ilEmptyWorkflow();
@@ -116,7 +114,7 @@ class ilSimpleDetectorTest extends ilWorkflowEngineBaseTest
         $this->assertTrue($valid_state, 'Invalid state after setting of detector state.');
     }
     
-    public function testGetContext()
+    public function testGetContext() : void
     {
         // Arrange
         $detector = new ilSimpleDetector($this->node);
@@ -128,7 +126,7 @@ class ilSimpleDetectorTest extends ilWorkflowEngineBaseTest
         if ($actual === $this->node) {
             $this->assertEquals($actual, $this->node);
         } else {
-            $this->assertTrue(false, 'Context not identical.');
+            $this->fail('Context not identical.');
         }
     }
 }

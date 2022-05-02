@@ -14,12 +14,12 @@ abstract class ilBaseElement
     /** @var array $bpmn2_array */
     protected array $bpmn2_array;
 
-    public function getBpmn2Array()
+    public function getBpmn2Array()// TODO PHP8-REVIEW Return type missing
     {
         return $this->bpmn2_array;
     }
 
-    public function setBpmn2Array($bpmn2_array)
+    public function setBpmn2Array($bpmn2_array) : void
     {
         $this->bpmn2_array = $bpmn2_array;
     }
@@ -29,7 +29,7 @@ abstract class ilBaseElement
         $code = '';
         if (isset($element['children']) && count($element['children'])) {
             foreach ($element['children'] as $child) {
-                if ($child['name'] == 'dataInputAssociation') {
+                if ($child['name'] === 'dataInputAssociation') {
                     $class_object->registerRequire('./Services/WorkflowEngine/classes/detectors/class.ilDataDetector.php');
                     $reference_name = $child['children'][0]['content'];
                     $code .= '
@@ -40,7 +40,7 @@ abstract class ilBaseElement
 		';
                 }
 
-                if ($child['name'] == 'dataOutputAssociation') {
+                if ($child['name'] === 'dataOutputAssociation') {
                     $class_object->registerRequire('./Services/WorkflowEngine/classes/emitters/class.ilDataEmitter.php');
                     $reference_name = $child['children'][0]['content'];
                     // So we need a data emitter to the given
@@ -68,9 +68,9 @@ abstract class ilBaseElement
 
         if (isset($element['children'])) {
             foreach ($element['children'] as $child) {
-                if ($child['namespace'] == 'bpmn2' && $child['name'] == 'dataInputAssociation') {
+                if ($child['namespace'] === 'bpmn2' && $child['name'] === 'dataInputAssociation') {
                     foreach ($child['children'] as $reference) {
-                        if ($reference['namespace'] == 'bpmn2' && $reference['name'] == 'sourceRef') {
+                        if ($reference['namespace'] === 'bpmn2' && $reference['name'] === 'sourceRef') {
                             $retval[] = $reference['content'];
                         }
                     }
@@ -92,9 +92,9 @@ abstract class ilBaseElement
 
         if (isset($element['children'])) {
             foreach ($element['children'] as $child) {
-                if ($child['namespace'] == 'bpmn2' && $child['name'] == 'dataOutputAssociation') {
+                if ($child['namespace'] === 'bpmn2' && $child['name'] === 'dataOutputAssociation') {
                     foreach ($child['children'] as $reference) {
-                        if ($reference['namespace'] == 'bpmn2' && $reference['name'] == 'targetRef') {
+                        if ($reference['namespace'] === 'bpmn2' && $reference['name'] === 'targetRef') {
                             $retval[] = $reference['content'];
                         }
                     }

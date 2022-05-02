@@ -1,17 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilEmitter.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilDetector.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilWorkflow.php';
-
 /**
  * Class ilBaseNode
  *
@@ -33,21 +22,21 @@ abstract class ilBaseNode implements ilNode
      *
      * @var \ilDetector Array if ilDetector
      */
-    protected $detectors;
+    protected $detectors;// TODO PHP8-REVIEW Property type missing
 
     /**
      * This holds an array of emitters attached to this node.
      *
      * @var \ilEmitter Array of ilEmitter
      */
-    protected $emitters;
+    protected $emitters;// TODO PHP8-REVIEW Property type missing
 
     /**
      * This holds an array of activities attached to this node.
      *
      * @var \ilActivity Array of ilActivity
      */
-    protected $activities;
+    protected $activities;// TODO PHP8-REVIEW Property type missing
 
     /**
      * This holds the activation status of the node.
@@ -98,6 +87,7 @@ abstract class ilBaseNode implements ilNode
      * Adds an emitter to the list of emitters.
      *
      * @param ilEmitter $emitter
+     * @param bool $else
      */
     public function addEmitter(ilEmitter $emitter, bool $else = false) : void
     {
@@ -116,6 +106,7 @@ abstract class ilBaseNode implements ilNode
      * Adds an activity to the list of activities.
      *
      * @param ilActivity $activity
+     * @param bool $else
      */
     public function addActivity(ilActivity $activity, bool $else = false) : void
     {
@@ -125,7 +116,7 @@ abstract class ilBaseNode implements ilNode
     /**
      * Returns all currently set activities
      */
-    public function getActivities()
+    public function getActivities()// TODO PHP8-REVIEW Return type missing
     {
         return $this->activities;
     }
@@ -194,7 +185,6 @@ abstract class ilBaseNode implements ilNode
      */
     public function onActivate() : void
     {
-        return;
     }
 
     /**
@@ -204,7 +194,6 @@ abstract class ilBaseNode implements ilNode
      */
     public function onDeactivate() : void
     {
-        return;
     }
 
     /**

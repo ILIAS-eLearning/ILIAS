@@ -24,7 +24,6 @@ class ilBPMN2Parser
 
         $workflow_name = $this->determineWorkflowClassName($workflow_name, $bpmn2_array, $process);
 
-        require_once './Services/WorkflowEngine/classes/parser/class.ilWorkflowScaffold.php';
         $class_object = new ilWorkflowScaffold($bpmn2_array);
 
         $constructor_method_content = '';
@@ -39,12 +38,10 @@ class ilBPMN2Parser
                                                // so we need to stash the connectors to add them after the nodes.
             $stashed_process_extensions = array(); // It was found that modelers add extensions at process level,
                                                // they are stored for possible future use.
-            require_once './Services/WorkflowEngine/classes/parser/elements/class.ilBPMN2ElementLoader.php';
-
             $loader = new ilBPMN2ElementLoader($bpmn2_array);
 
             foreach ($process['children'] as $element) {
-                if ($element['name'] == 'ioSpecification') {
+                if ($element['name'] === 'ioSpecification') {
                     foreach ($element['children'] as $iospec_element) {
                         $element_object = $loader->load($iospec_element['name']);
                         $constructor_method_content .= $element_object->getPHP($iospec_element, $class_object);
@@ -53,11 +50,11 @@ class ilBPMN2Parser
                     continue;
                 }
 
-                if ($element['name'] == 'sequenceFlow') {
+                if ($element['name'] === 'sequenceFlow') {
                     $stashed_sequence_flows[] = $element;
-                } elseif ($element['name'] == 'association') {
+                } elseif ($element['name'] === 'association') {
                     $stashed_associations[] = $element;
-                } elseif ($element['name'] == 'extensionElements') {
+                } elseif ($element['name'] === 'extensionElements') {
                     $stashed_process_extensions[] = $element;
                 } else {
                     $element_object = $loader->load($element['name']);
@@ -98,7 +95,7 @@ class ilBPMN2Parser
         $class_object->setConstructorMethodContent($constructor_method_content);
         $class_source = '';
 
-        if (strlen($constructor_method_content)) {
+        if ($constructor_method_content !== '') {
             $class_source .= $class_object->getPHP();
         }
 
@@ -111,7 +108,6 @@ class ilBPMN2Parser
      */
     public function convertXmlToArray(string $xml)
     {
-        require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2ParserUtils.php';
         $xml_to_array_parser = new ilBPMN2ParserUtils();
         $bpmn2 = $xml_to_array_parser->load_string($xml);
         return $bpmn2;
@@ -127,7 +123,7 @@ class ilBPMN2Parser
 
         if (isset($bpmn2['children']) && is_iterable($bpmn2['children'])) {
             foreach ($bpmn2['children'] as $bpmn2_part) {
-                if ($bpmn2_part['name'] == 'process') {
+                if ($bpmn2_part['name'] === 'process') {
                     $process = $bpmn2_part;
                     break;
                 }
@@ -147,7 +143,7 @@ class ilBPMN2Parser
 
         if (isset($bpmn2['children']) && is_iterable($bpmn2['children'])) {
             foreach ($bpmn2['children'] as $bpmn2_part) {
-                if ($bpmn2_part['name'] == 'message') {
+                if ($bpmn2_part['name'] === 'message') {
                     $messages[] = $bpmn2_part;
                     break;
                 }

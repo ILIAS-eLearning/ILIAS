@@ -29,8 +29,7 @@ class ilDataOutputElement extends ilBaseElement
         if ($ext_name != null) {
             $name = $ext_name;
         }
-        $code = "";
-        $code .= '
+        $code = '
 			$this->defineInstanceVar("' . $element_id . '","' . $name . '" );
 			$this->registerOutputVar("' . $element_id . '");
 ';

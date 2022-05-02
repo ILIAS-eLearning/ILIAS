@@ -31,8 +31,6 @@ class ilWorkflowCron
      */
     public static function raiseTimePassedEvent() : void
     {
-        /** @noinspection PhpIncludeInspection */
-        require_once './Services/WorkflowEngine/classes/class.ilWorkflowEngine.php';
         $workflow_engine = new ilWorkflowEngine();
 
         $workflow_engine->processEvent(

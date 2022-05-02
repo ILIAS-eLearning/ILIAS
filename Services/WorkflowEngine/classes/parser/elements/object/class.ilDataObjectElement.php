@@ -38,9 +38,8 @@ class ilDataObjectElement extends ilBaseElement
         if ($ext_name != null) {
             $name = $ext_name;
         }
-        $code = "";
-        $code .= '
-			$this->defineInstanceVar("' . $element_id . '","' . $name . '", false, "", "' . $type . '", "' . $role . '" );
+        $code = '
+			$this->defineInstanceVar("' . $element_id . '","' . $name . '");
 		';
 
         return $code;

@@ -1,13 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
-
 /**
  * Class ilLoggingActivity
  *
@@ -80,7 +73,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
             throw new ilWorkflowFilesystemException('Could not write to filesystem - no pointer returned.', 1002);
         }
 
-        $file_handle = fopen($a_log_file, 'a+');
+        $file_handle = fopen($a_log_file, 'ab+');
         if (!is_resource($file_handle)) {
             throw new ilWorkflowFilesystemException('Could not write to filesystem - no pointer returned.', 1002);
         }
@@ -98,9 +91,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      */
     private function checkExtensionValidity($extension) : void
     {
-        if ($extension != '.log' && $extension != '.txt') {
-            /** @noinspection PhpIncludeInspection */
-            require_once './Services/WorkflowEngine/exceptions/ilWorkflowObjectStateException.php';
+        if ($extension !== '.log' && $extension !== '.txt') {
             throw new ilWorkflowObjectStateException('Illegal extension. Log file must be either .txt or .log.', 1002);
         }
     }
@@ -138,8 +129,6 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
     private function checkForExistingLogMessageContent($a_log_message) : void
     {
         if ($a_log_message == null || $a_log_message == '') {
-            /** @noinspection PhpIncludeInspection */
-            require_once './Services/WorkflowEngine/exceptions/ilWorkflowObjectStateException.php';
             throw new ilWorkflowObjectStateException('Log message must not be null or empty.', 1002);
         }
     }
@@ -164,9 +153,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
     public function setLogLevel(string $a_log_level) : void
     {
         $valid = $this->determineValidityOfLogLevel($a_log_level);
-        if ($valid == false) {
-            /** @noinspection PhpIncludeInspection */
-            require_once './Services/WorkflowEngine/exceptions/ilWorkflowObjectStateException.php';
+        if ($valid === false) {
             throw new ilWorkflowObjectStateException('Log level must be one of: message, warning, debug, info, fatal.', 1002);
         }
         $this->log_level = strtoupper($a_log_level);
@@ -224,7 +211,6 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      */
     public function execute() : void
     {
-        $file_pointer = null;
         $file_pointer = $this->acquireFilePointer();
         $this->writeLogMessage($file_pointer);
         $this->closeFilePointer($file_pointer);
@@ -242,8 +228,6 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
     private function closeFilePointer($file_pointer) : void
     {
         if (!fclose($file_pointer)) {
-            /** @noinspection PhpIncludeInspection */
-            require_once './Services/WorkflowEngine/exceptions/ilWorkflowFilesystemException.php';
             throw new ilWorkflowFilesystemException('Cannot write to filesystem - pointer returned did not close.', 1001);
         }
     }
@@ -257,8 +241,6 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      */
     private function writeLogMessage($file_pointer) : void
     {
-        /** @noinspection PhpIncludeInspection */
-        require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
         fwrite($file_pointer, date('Y/m/d H:i:s') . substr((string) ilWorkflowUtils::microtime(), 1, 6) . ' :: ');
         fwrite($file_pointer, $this->log_level . ' :: ');
         fwrite($file_pointer, $this->log_message . "\r\n");
@@ -273,10 +255,8 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      */
     private function acquireFilePointer()
     {
-        $file_pointer = fopen($this->log_file, 'a');
+        $file_pointer = fopen($this->log_file, 'ab');
         if ($file_pointer == null) {
-            /** @noinspection PhpIncludeInspection */
-            require_once './Services/WorkflowEngine/exceptions/ilWorkflowFilesystemException.php';
             throw new ilWorkflowFilesystemException('Cannot write to filesystem - no pointer returned.', 1000);
         }
         return $file_pointer;

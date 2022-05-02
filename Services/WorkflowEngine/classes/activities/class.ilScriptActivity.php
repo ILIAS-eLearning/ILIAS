@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilNode.php';
-
 /**
  * Class ilScriptActivity
  *
@@ -20,7 +15,7 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
     private $context;
 
 
-    private $method = '';
+    private $method = '';// TODO PHP8-REVIEW Property type missing
 
     /** @var string $name */
     protected string $name;
@@ -47,7 +42,7 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @return string
      */
-    public function getScript()
+    public function getScript()// TODO PHP8-REVIEW Return type missing
     {
         return $this->method;
     }

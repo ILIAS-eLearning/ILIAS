@@ -1,11 +1,6 @@
 <?php
 /* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilDetector.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
-
 /**
  * ilDataDetector of the petri net based workflow engine.
  *
@@ -30,9 +25,9 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
      */
     private bool $detection_state = false;
 
-    protected $name;
+    protected $name;// TODO PHP8-REVIEW Property type missing
 
-    protected $source_node;
+    protected $source_node;// TODO PHP8-REVIEW Property type missing
 
     /** @var  string $var_name */
     protected string $var_name = '';
@@ -121,7 +116,6 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
      */
     public function onActivate() : void
     {
-        return;
     }
 
     /**
@@ -130,7 +124,6 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
      */
     public function onDeactivate() : void
     {
-        return;
     }
 
     /**
