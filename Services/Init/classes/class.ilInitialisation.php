@@ -523,9 +523,6 @@ class ilInitialisation
         // ref id of the online module
         define("OH_REF_ID", $ilClientIniFile->readVariable("system", "OH_REF_ID"));
 
-        define("SYSTEM_MAIL_ADDRESS", $ilClientIniFile->readVariable('system', 'MAIL_SENT_ADDRESS')); // Change SS
-        define("MAIL_REPLY_WARNING", $ilClientIniFile->readVariable('system', 'MAIL_REPLY_WARNING')); // Change SS
-
         // see ilObject::TITLE_LENGTH, ilObject::DESC_LENGTH
         // define ("MAXLENGTH_OBJ_TITLE",125);#$ilClientIniFile->readVariable('system','MAXLENGTH_OBJ_TITLE'));
         // define ("MAXLENGTH_OBJ_DESC",$ilClientIniFile->readVariable('system','MAXLENGTH_OBJ_DESC'));
