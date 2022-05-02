@@ -170,11 +170,11 @@ class ilCASSettingsGUI
 
         if (count($server_ids)) {
             $ldap = new ilRadioOption(
-                $this->lng->txt('auth_radius_ldap'),
+                $this->lng->txt('auth_css_ldap'),
                 (string) ilCASSettings::SYNC_LDAP,
                 ''
             );
-            $ldap->setInfo($this->lng->txt('auth_radius_ldap_info'));
+            $ldap->setInfo($this->lng->txt('auth_cas_ldap_info'));
             $sync->addOption($ldap);
 
             $ldap_server_select = new ilSelectInputGUI($this->lng->txt('auth_ldap_server_ds'), 'ldap_sid');

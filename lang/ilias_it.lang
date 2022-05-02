@@ -1937,6 +1937,8 @@ auth#:#auth_account_migration_new#:#Crea un nuovo Account Utente
 auth#:#auth_activation_code_success#:#Il tuo account è stato riattivato. Adesso puoi collegarti a ILIAS.
 auth#:#auth_allow_local_info#:#Se è ancora possibile abilitare un'autenticazione locale contro il database ILIAS (con un accesso/password locale) per quegli account utente la cui modalità di autenticazione è impostata su SAML.
 auth#:#auth_auth_settings#:#Impostazioni
+auth#:#auth_cas_ldap#:#Sincronizzazione attraverso LDAP
+auth#:#auth_cas_ldap_info#:#Se abilitata, la sincronizzazione degli account utente e delle assegnazioni di ruolo viene eseguita utilizzando una configurazione LDAP esistente.
 auth#:#auth_err_expired#:#La tua sessione è stata disattivata a causa della inattività.
 auth#:#auth_err_invalid_user_account#:#L’autenticazione è fallita a causa di un guasto interno.
 auth#:#auth_err_ldap_exception#:#L’autenticazione è fallita a causa di un guasto interno di autenticazione (LDAP).
@@ -1985,14 +1987,6 @@ auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, d
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 auth#:#auth_oidconnect#:#OpenID Connect
-auth#:#auth_rad_migration#:#Migrazione dell'account:
-auth#:#auth_rad_migration_info#:#Attiva questa opzione per dare la possibilità ai nuovi utenti di far migrare il loro account ILIAS esistente all'autenticazione Radius.
-auth#:#auth_radius_charset#:#Codifica dei caratteri
-auth#:#auth_radius_charset_info#:#Scegli per favore la codifica dei caratteri per il collegamento con il server Radius. Se non sei sicuro, scegli UTF-8.
-auth#:#auth_radius_ldap#:#Sincronizzazione attraverso LDAP
-auth#:#auth_radius_ldap_info#:#Se abilitata, la sincronizzazione degli account utente e delle assegnazioni di ruolo viene eseguita utilizzando una configurazione LDAP esistente.
-auth#:#auth_radius_sync_rad#:#Generazione automatica degli account utente
-auth#:#auth_radius_sync_rad_info#:#Crea automaticamente gli account utente ILIAS, per gli utenti che hanno eseguito l'autenticazione con RADIUS, senza avere ancora un account ILIAS.
 auth#:#auth_saml#:#SAML
 auth#:#auth_saml_add_idp_btn#:#Aggiungi nuovo provider di identità
 auth#:#auth_saml_add_idp_md_error#:#Il valore fornito non è un documento XML valido. Assicurarsi che il codice XML contenga un provider di identità valido.
@@ -3381,14 +3375,6 @@ common#:#auth_mode_not_changed#:#(Nessuna modifica)
 common#:#auth_mode_roles_changed#:#E' stata modificata la modalita' di autenticazione per questo Ruolo
 common#:#auth_new_account_mail_desc#:#Send new account mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated.
 common#:#auth_per_default#:#Per impostazione predefinita
-common#:#auth_radius#:#RADIUS
-common#:#auth_radius_configure#:#Configura l'autenticazione tramite RADIUS
-common#:#auth_radius_enable#:#Abilita il supporto di RADIUS
-common#:#auth_radius_not_configured#:#L&
-common#:#auth_radius_port#:#Porta
-common#:#auth_radius_server#:#Server
-common#:#auth_radius_server_desc#:#E&
-common#:#auth_radius_shared_secret#:#Condivisione password
 common#:#auth_remark_non_local_auth#:#Quando selezioni un&
 common#:#auth_role_auth_mode#:#Modalit&
 common#:#auth_saml#:#SAML
@@ -3820,7 +3806,6 @@ common#:#err_auth_apache_failed#:#The authentication has failed. Maybe you have 
 common#:#err_auth_cas_no_ilias_user#:#Accesso non riuscito. Autenticazione CAS riuscita, ma non esiste alcun utente ILIAS corrispondente. Si prega di contattare il proprio amministratore di sistema.
 common#:#err_auth_ldap_no_ilias_user#:#Accesso non riuscito. Autenticazione LDAP riuscita, ma non esiste alcun utente ILIAS corrispondente. Si prega di contattare il proprio amministratore di sistema.
 common#:#err_auth_mode_inactive#:#Il tuo metodo di autenticazione è disattivato.
-common#:#err_auth_radius_no_ilias_user#:#Accesso non riuscito. Autenticazione Radius riuscita, ma non esiste alcun utente ILIAS corrispondente.
 common#:#err_auth_soap_no_ilias_user#:#Accesso non riuscito. Autenticazione SOAP riuscita, ma non esiste alcun utente ILIAS corrispondente. Si prega di contattare il proprio amministratore di sistema.
 common#:#err_check_input#:#Le impostazioni non possono essere salvate. Controllare il proprio ingresso.
 common#:#err_count_param#:#Causa: errato numero dei parametri.
@@ -9704,7 +9689,7 @@ ldap#:#ldap_add_missing#:#Assegnare ruoli mancanti
 ldap#:#ldap_add_remove#:#Aggiungi / Rimuovi ruoli
 ldap#:#ldap_add_role_ass_rule#:#Nuova regola per le assegnazioni del ruolo
 ldap#:#ldap_as_ds#:#Utilizza come origine dati
-ldap#:#ldap_as_ds_info#:#Se attivata, questa configurazione LDAP viene utilizzato solo per la sincronizzazione di account utente in combinazione con altri metodi di autenticazione (ad esempio, CAS o Radius).
+ldap#:#ldap_as_ds_info#:#Se attivata, questa configurazione LDAP viene utilizzato solo per la sincronizzazione di account utente in combinazione con altri metodi di autenticazione (ad esempio, CAS).
 ldap#:#ldap_assignment_type#:#Tipo di Proprietà
 ldap#:#ldap_authentication_settings#:#Regole di autenticazione
 ldap#:#ldap_bind_anonymous#:#Relaziona anonimamente
@@ -13154,10 +13139,6 @@ rbac#:#wiks_write#:#Modifica impostazioni nell’amministrazione del Wiki
 rbac#:#write#:#Modifica impostazioni
 rcat#:#rcat_call#:#Richiama Categoria ESC
 rcrs#:#rcrs_call#:#Chiama Corso remoto
-registration#:#auth_radius_name#:#Nome della configurazione REDIUS
-registration#:#auth_radius_name_desc#:#Per favore, scegli un nome per questa configurazione di server
-registration#:#auth_radius_role_select#:#Ruolo:
-registration#:#auth_radius_sync#:#Sincronizzazione Utenti
 registration#:#reg_access_limitation_limited_time#:#Dopo la registrazione, accesso per
 registration#:#reg_access_limitation_limited_until#:#Accesso limitato fino a
 registration#:#reg_access_limitation_missing_mode#:#Per favore, seleziona per tutti i Ruoli una modalità di limitazione d'accesso.

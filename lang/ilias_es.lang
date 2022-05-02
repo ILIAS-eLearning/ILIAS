@@ -1939,6 +1939,8 @@ auth#:#auth_account_migration_new#:#Crear nueva cuenta de usuario
 auth#:#auth_activation_code_success#:#Su cuenta se ha reactivado. Ahora puede iniciar sesión en ILIAS.
 auth#:#auth_allow_local_info#:#Si se habilita, aún será posible una autenticación local en la base de datos ILIAS (con una contraseña/inicio de sesión local) para aquellas cuentas de usuario cuyo modo de autenticación esté configurado como SAML.
 auth#:#auth_auth_settings#:#Configuración
+auth#:#auth_cas_ldap#:#Sincronización usando LDAP
+auth#:#auth_cas_ldap_info#:#Si está activado, la sincronización de cuentas de usuarios y asignación de roles se hace usando una configuración existente de LDAP
 auth#:#auth_err_expired#:#Se ha desactivado su sesión debido a la inactividad.
 auth#:#auth_err_invalid_user_account#:#No se pudo autenticar a causa de un error interno.
 auth#:#auth_err_ldap_exception#:#No se pudo autenticar a causa de un error de autenticación interno (LDAP).
@@ -1987,14 +1989,6 @@ auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, d
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 auth#:#auth_oidconnect#:#OpenID Connect
-auth#:#auth_rad_migration#:#Migración de cuenta:
-auth#:#auth_rad_migration_info#:#Activar esta opción para dar a los nuevos usuarios la posibilidad de migrar sus cuentas ILIAS existentes a autenticación RADIUS.
-auth#:#auth_radius_charset#:#Codificación de caracteres
-auth#:#auth_radius_charset_info#:#Por favor escoja la codificación de caracteres para la comunicación con el servidor radius. Si no está seguro, escoja UTF-8.
-auth#:#auth_radius_ldap#:#Sincronización usando LDAP
-auth#:#auth_radius_ldap_info#:#Si está activado, la sincronización de cuentas de usuarios y asignación de roles se hace usando una configuración existente de LDAP
-auth#:#auth_radius_sync_rad#:#Generación automática de cuentas de usuario
-auth#:#auth_radius_sync_rad_info#:#Crea cuentas de usuario de ILIAS de forma automática, para los usuarios que se han autenticado correctamente contra Radius, sin tener una cuenta ILIAS todavía
 auth#:#auth_saml#:#SAML
 auth#:#auth_saml_add_idp_btn#:#Añadir nuevo proveedor de identidades
 auth#:#auth_saml_add_idp_md_error#:#El valor dado no era un documento XML válido. Asegúrese de que el XML contiene un proveedor de identidades válido.
@@ -3383,14 +3377,6 @@ common#:#auth_mode_not_changed#:#(No se ha realizado modificación alguna)
 common#:#auth_mode_roles_changed#:#Modificado el modo de autenticación para este rol
 common#:#auth_new_account_mail_desc#:#Enviar e-mail de nueva cuenta al usuario, si el usuario es generado automáticamente. Sólo se generará una contraseña, si también se activa "Permitir Autenticación Local".
 common#:#auth_per_default#:#Por defecto
-common#:#auth_radius#:#RADIUS
-common#:#auth_radius_configure#:#Configurar Autenticación RADIUS
-common#:#auth_radius_enable#:#Habilitar soporte RADIUS
-common#:#auth_radius_not_configured#:#RADIUS no configurado aún
-common#:#auth_radius_port#:#Puerto
-common#:#auth_radius_server#:#Servidores
-common#:#auth_radius_server_desc#:#Puede añadir múltiples servidores separados por comas. Los servidores rotan a modo "Round-robin" cuando son consultados.
-common#:#auth_radius_shared_secret#:#Secreto compartido
 common#:#auth_remark_non_local_auth#:#Al seleccionar otro modo de autenticación distinto al modo 'base de datos ILIAS', no podrá modificar el usuario y contraseña nunca más.
 common#:#auth_role_auth_mode#:#Modo de Autenticación
 common#:#auth_saml#:#SAML
@@ -3822,7 +3808,6 @@ common#:#err_auth_apache_failed#:#La autenticación ha fallado. Tal vez no tiene
 common#:#err_auth_cas_no_ilias_user#:#Login incorrecto. La autenticación CAS fue ejecutada con éxito, pero no existe un usuario ILIAS asociado. Por favor contacte con su administrador
 common#:#err_auth_ldap_no_ilias_user#:#La identificación falló. Autenticación LDAP exitosa, pero no existe el usuario ILIAS correspondiente. Por favor, contacte con su administrador de sistema.
 common#:#err_auth_mode_inactive#:#Su método de autenticación está desactivado.
-common#:#err_auth_radius_no_ilias_user#:#Fallo en la identificación. Autenticación Radius exitosa, pero no existe usuario ILIAS correspondiente.
 common#:#err_auth_soap_no_ilias_user#:#La identificación falló. La autenticación SOAP tuvo éxito, pero no existe usuario ILIAS correspondiente. Por favor contacte con el administrador del sistema.
 common#:#err_check_input#:#La configuración no pudo ser guardada. Por favor compruebe sus datos.
 common#:#err_count_param#:#Razón: número de parámetros incorrecto
@@ -9706,7 +9691,7 @@ ldap#:#ldap_add_missing#:#Asignar Roles ausentes
 ldap#:#ldap_add_remove#:#Añadir/Eliminar Roles
 ldap#:#ldap_add_role_ass_rule#:#Nueva regla para asignación de rol
 ldap#:#ldap_as_ds#:#Usar como fuente de datos
-ldap#:#ldap_as_ds_info#:#Si se activa, la configuración de este ldap se usa para sincronización de cuentas de usuario con otros métodos de autenticación (ej. CAS o Radius)
+ldap#:#ldap_as_ds_info#:#Si se activa, la configuración de este ldap se usa para sincronización de cuentas de usuario con otros métodos de autenticación (ej. CAS)
 ldap#:#ldap_assignment_type#:#Tipo de asignación
 ldap#:#ldap_authentication_settings#:#Configuración de Autenticación
 ldap#:#ldap_bind_anonymous#:#Bind Anónimamente
@@ -13156,10 +13141,6 @@ rbac#:#wiks_write#:#Editar la configuración de la Administración de la Wiki
 rbac#:#write#:#Cambiar configuración
 rcat#:#rcat_call#:#Llamar categoría ECS
 rcrs#:#rcrs_call#:#Llamada a curso remoto
-registration#:#auth_radius_name#:#Nombre de la Configuración RADIUS
-registration#:#auth_radius_name_desc#:#Por favor escoja un nombre para esta configuración de servidor
-registration#:#auth_radius_role_select#:#Rol:
-registration#:#auth_radius_sync#:#Sincronización de Usuarios
 registration#:#reg_access_limitation_limited_time#:#Después del registro acceso para
 registration#:#reg_access_limitation_limited_until#:#El acceso es limitado hasta
 registration#:#reg_access_limitation_missing_mode#:#Por favor escoja para todos los roles un Modo de Limitación de Acceso

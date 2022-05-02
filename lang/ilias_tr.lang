@@ -1937,6 +1937,8 @@ auth#:#auth_account_migration_new#:#Yeni Kullanıcı Hesabı Oluşturma
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###07 02 2017 new variable
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.###31 08 2017 new variable
 auth#:#auth_auth_settings#:#Settings###24 10 2013 new variable
+auth#:#auth_cas_ldap#:#LDAP kullanarak Senkronizasyon
+auth#:#auth_cas_ldap_info#:#Etkinse kullanıcı hesapları ve rol atamalarını senkronizasyon varolan LDAP yapılandırması kullanılarak yapılır.
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.###25 10 2016 new variable
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.###25 10 2016 new variable
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).###25 10 2016 new variable
@@ -1985,14 +1987,6 @@ auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, d
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren###10 11 2018 new variable
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden###10 11 2018 new variable
 auth#:#auth_oidconnect#:#OpenID Connect###10 11 2018 new variable
-auth#:#auth_rad_migration#:#Hesap Göç:
-auth#:#auth_rad_migration_info#:#yeni kullanıcılar Radius Kimlik doğrulama için mevcut ILIAS hesaplarına geçiş imkanı vermek için bu seçeneği etkinleştirin.
-auth#:#auth_radius_charset#:#Karakter Kodlama
-auth#:#auth_radius_charset_info#:#radius sunucu ile iletişim için karakter kodlama seçiniz. Eğer emin değilseniz, UTF-8 seçin.
-auth#:#auth_radius_ldap#:#LDAP kullanarak Senkronizasyon
-auth#:#auth_radius_ldap_info#:#Etkinse kullanıcı hesapları ve rol atamalarını senkronizasyon varolan LDAP yapılandırması kullanılarak yapılır.
-auth#:#auth_radius_sync_rad#:#Kullanıcı hesapları Otomatik nesil
-auth#:#auth_radius_sync_rad_info#:#Henüz bir ILIAS hesabı kalmadan başarıyla Radius karşı kimliği doğrulanmış kullanıcılar için, otomatik ILIAS kullanıcı hesapları oluşturur.
 auth#:#auth_saml#:#SAML###31 08 2017 new variable
 auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider###31 08 2017 new variable
 auth#:#auth_saml_add_idp_md_error#:#The given value was not a valid XML document. Ensure the XML contains a valid Identity Provider.###31 08 2017 new variable
@@ -3381,14 +3375,6 @@ common#:#auth_mode_not_changed#:#(Hiçbir şey değişmedi)
 common#:#auth_mode_roles_changed#:#Bu Rol için Değiştirilen kimlik doğrulama modu
 common#:#auth_new_account_mail_desc#:#Kullanıcı otomatik olarak oluşturulur ise kullanıcıya yeni bir hesap e-posta gönderin. Ayrıca etkinleştirildi "Yerel Kimlik Allow" eğer bir şifre sadece oluşacaktır.
 common#:#auth_per_default#:#Standart Başına
-common#:#auth_radius#:#RADIUS
-common#:#auth_radius_configure#:#Yapılandırma RADIUS kimlik doğrulama
-common#:#auth_radius_enable#:#RADIUS desteği etkinleştir
-common#:#auth_radius_not_configured#:#RADIUS henüz kullanılmamış
-common#:#auth_radius_port#:#Port
-common#:#auth_radius_server#:#Sunucular
-common#:#auth_radius_server_desc#:#Sen virgüllerle ayrılmış birden fazla sunucu ekleyebilirsiniz. Sorgulandığında Sunucular Round robin moda döndürülür.
-common#:#auth_radius_shared_secret#:#Paylaşılan gizli
 common#:#auth_remark_non_local_auth#:#ILIAS veritabanı dışında başka bir kimlik doğrulama modunu seçerken, artık kullanıcı adını ve parolasını değiştiremezsiniz.
 common#:#auth_role_auth_mode#:#Kimlik doğrulama modu
 common#:#auth_saml#:#SAML###31 08 2017 new variable
@@ -3820,7 +3806,6 @@ common#:#err_auth_apache_failed#:#Kimlik doğrulama başarısız oldu. Belki hi�
 common#:#err_auth_cas_no_ilias_user#:#Oturum açılamadı. CAS kimlik doğrulaması başarılı, ancak ilgili ILIAS kullanıcı bulunmadığı. Sistem yöneticinize başvurun.
 common#:#err_auth_ldap_no_ilias_user#:#Oturum açılamadı. LDAP kimlik doğrulaması başarılı, ancak ilgili ILIAS kullanıcı bulunmadığı. Sistem yöneticinize başvurun.
 common#:#err_auth_mode_inactive#:#Kimlik doğrulama yöntemi devre dışı bırakılır.
-common#:#err_auth_radius_no_ilias_user#:#Oturum açılamadı. Radius başarılı kimlik, ancak hiçbir ilgili ILIAS kullanıcı zaten var.
 common#:#err_auth_soap_no_ilias_user#:#Oturum açılamadı. SOAP kimlik doğrulaması başarılı, ancak ilgili ILIAS kullanıcı bulunmadığı. Sistem yöneticinize başvurun.
 common#:#err_check_input#:#ayarları kaydedilemedi. Lütfen girişinizi kontrol edin.
 common#:#err_count_param#:#Sebep: Yanlış parametre sayısı
@@ -5551,7 +5536,7 @@ common#:#user_defined_list#:#Seçimli Kullanıcı Veri Alanları
 common#:#user_deleted#:#Kullanıcı silindi
 common#:#user_detail#:#Detay Veri
 common#:#user_ext_account#:#Dış Hesap
-common#:#user_ext_account_desc#:#Hesap, harici kimlik doğrulaması için kullanılır. (CAS, SOAP, LDAP veya Radius kimlik doğrulama)
+common#:#user_ext_account_desc#:#Hesap, harici kimlik doğrulaması için kullanılır. (CAS, SOAP veya LDAP kimlik doğrulama)
 common#:#user_image#:#Kullanıcı Resmi
 common#:#user_import_failed#:#Kullanıcı içe aktarılamadı.
 common#:#user_imported#:#Kullanıcı içe aktarımı tamamlandı.
@@ -9704,7 +9689,7 @@ ldap#:#ldap_add_missing#:#Ata Eksik Rolleri
 ldap#:#ldap_add_remove#:#Ekle / Kaldır Rolleri
 ldap#:#ldap_add_role_ass_rule#:#Rol Atamaları için Yeni Kural
 ldap#:#ldap_as_ds#:#Veri kaynağı olarak Kullanım
-ldap#:#ldap_as_ds_info#:#aktif ise, bu LDAP yapılandırmasını diğer kimlik doğrulama yöntemleri (örneğin CAS veya Radius) ile birlikte kullanıcı hesaplarının senkronizasyonu için kullanılır.
+ldap#:#ldap_as_ds_info#:#aktif ise, bu LDAP yapılandırmasını diğer kimlik doğrulama yöntemleri (örneğin CAS) ile birlikte kullanıcı hesaplarının senkronizasyonu için kullanılır.
 ldap#:#ldap_assignment_type#:#Atama Türü
 ldap#:#ldap_authentication_settings#:#Kimlik Doğrulama Ayarları
 ldap#:#ldap_bind_anonymous#:#Bind Anonim
@@ -13154,10 +13139,6 @@ rbac#:#wiks_write#:#Edit settings in Wiki administration###30 12 2013 new variab
 rbac#:#write#:#Ayarları Düzenle
 rcat#:#rcat_call#:#Çağrı ECS Kategori
 rcrs#:#rcrs_call#:#Çağrı Kurs ECS
-registration#:#auth_radius_name#:#RADIUS Yapılandırması Adı
-registration#:#auth_radius_name_desc#:#Bu sunucu yapılandırması için bir ad seçiniz
-registration#:#auth_radius_role_select#:#Rolü:
-registration#:#auth_radius_sync#:#Kullanıcı Senkronizasyon
 registration#:#reg_access_limitation_limited_time#:#Için kayıt erişim sonra
 registration#:#reg_access_limitation_limited_until#:#Erişim kadar sınırlıdır
 registration#:#reg_access_limitation_missing_mode#:#Lütfen tüm roller için bir Erişim Sınırlama Modu seçin
