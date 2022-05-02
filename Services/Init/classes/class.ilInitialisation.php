@@ -186,13 +186,14 @@ class ilInitialisation
                 define("IL_ICAP_PORT", $ilIliasIniFile->readVariable("tools", "i_cap_port"));
                 define("IL_ICAP_AV_COMMAND", $ilIliasIniFile->readVariable("tools", "i_cap_av_command"));
                 define("IL_ICAP_CLIENT", $ilIliasIniFile->readVariable("tools", "i_cap_client"));
+                define("IL_VIRUS_CLEAN_COMMAND", '');
                 break;
 
             default:
                 define("IL_VIRUS_SCANNER", "None");
+                define("IL_VIRUS_CLEAN_COMMAND", '');
                 break;
         }
-        define("IL_VIRUS_CLEAN_COMMAND", '');
 
         $tz = ilTimeZone::initDefaultTimeZone($ilIliasIniFile);
         define("IL_TIMEZONE", $tz);
