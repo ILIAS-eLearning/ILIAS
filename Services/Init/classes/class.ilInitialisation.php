@@ -509,9 +509,9 @@ class ilInitialisation
         self::initGlobal("ilClientIniFile", $ilClientIniFile);
         // set constants
         define("SESSION_REMINDER_LEADTIME", 30);
-        define("DEBUG", $ilClientIniFile->readVariable("system", "DEBUG"));
-        define("DEVMODE", $ilClientIniFile->readVariable("system", "DEVMODE"));
-        define("SHOWNOTICES", $ilClientIniFile->readVariable("system", "SHOWNOTICES"));
+        define("DEBUG", (int) $ilClientIniFile->readVariable("system", "DEBUG"));
+        define("DEVMODE", (int) $ilClientIniFile->readVariable("system", "DEVMODE"));
+        define("SHOWNOTICES", (int) $ilClientIniFile->readVariable("system", "SHOWNOTICES"));
         define("ROOT_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
         define("SYSTEM_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
         define("ROLE_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
@@ -521,7 +521,7 @@ class ilInitialisation
 
         // this is for the online help installation, which sets OH_REF_ID to the
         // ref id of the online module
-        define("OH_REF_ID", $ilClientIniFile->readVariable("system", "OH_REF_ID"));
+        define("OH_REF_ID", (int) $ilClientIniFile->readVariable("system", "OH_REF_ID"));
 
         // see ilObject::TITLE_LENGTH, ilObject::DESC_LENGTH
         // define ("MAXLENGTH_OBJ_TITLE",125);#$ilClientIniFile->readVariable('system','MAXLENGTH_OBJ_TITLE'));
@@ -803,7 +803,7 @@ class ilInitialisation
 
         // define default suffix replacements
         define("SUFFIX_REPL_DEFAULT", "php,php3,php4,inc,lang,phtml,htaccess");
-        define("SUFFIX_REPL_ADDITIONAL", $ilSetting->get("suffix_repl_additional"));
+        define("SUFFIX_REPL_ADDITIONAL", $ilSetting->get("suffix_repl_additional", ""));
 
         if (ilContext::usesHTTP()) {
             self::buildHTTPPath();
