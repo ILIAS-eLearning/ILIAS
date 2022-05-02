@@ -20,8 +20,7 @@
 namespace ILIAS\HTTP\Throttling\Increment;
 
 /**
- * @author       Thibeau Fuhrer <thibeau@sr.solutions>
- * @noinspection AutoloadingIssuesInspection
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 class StaticIncrement implements DelayIncrement
 {

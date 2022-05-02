@@ -18,6 +18,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\RawHTTPServices;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Throttling\DelayFactory;
 
 /******************************************************************************
  *
@@ -58,6 +59,10 @@ class HTTPServicesTest extends PHPUnitTestCase
      */
     private CookieJarFactory $mockCookieJarFactory;
     /**
+     * @var DelayFactory|MockObject
+     */
+    private DelayFactory $mockDelayFactory;
+    /**
      * @var ResponseSenderStrategy|MockObject $mockSenderStrategy
      */
     private ResponseSenderStrategy $mockSenderStrategy;
@@ -75,7 +80,9 @@ class HTTPServicesTest extends PHPUnitTestCase
 
         $this->mockCookieJarFactory = $this->getMockBuilder(CookieJarFactory::class)->getMock();
 
-        $this->httpState = new RawHTTPServices($this->mockSenderStrategy, $this->mockCookieJarFactory, $this->mockRequestFactory, $this->mockResponseFactory);
+        $this->mockDelayFactory = $this->createMock(DelayFactory::class);
+
+        $this->httpState = new RawHTTPServices($this->mockSenderStrategy, $this->mockCookieJarFactory, $this->mockRequestFactory, $this->mockResponseFactory, $this->mockDelayFactory);
     }
 
 

@@ -20,8 +20,6 @@
 namespace ILIAS\HTTP\Throttling;
 
 use ILIAS\HTTP\Throttling\Increment\DelayIncrementFactory;
-use ILIAS\HTTP\Throttling\Delay\DelayInterface;
-use ILIAS\HTTP\Throttling\Delay\Delay;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
@@ -42,14 +40,18 @@ class DelayFactory
         return $this->increment_factory;
     }
 
-    public function new(float $delay_in_seconds) : DelayInterface
+    public function new(float $delay_in_seconds) : Delay
     {
         return new Delay($delay_in_seconds);
     }
 
-    public function add(DelayInterface $delay, string $identifier) : self
+    public function add(Delay $delay, string $identifier) : self
     {
-        $this->delay_repository->set($delay, $identifier);
+        // only store the delay if it doesn't exist, otherwise
+        // the delay increments will not be applied.
+        if (null === $this->delay_repository->get($identifier)) {
+            $this->delay_repository->set($delay, $identifier);
+        }
 
         return $this;
     }
@@ -65,10 +67,14 @@ class DelayFactory
     {
         $delay = $this->delay_repository->get($identifier);
 
-        $delay->await();
-        $delay->increment();
+        if (null === $delay) {
+            return $this;
+        }
 
-        $this->delay_repository->set($delay, $identifier);
+        $this->delay_repository->set(
+            $delay->await()->increment(),
+            $identifier
+        );
 
         return $this;
     }

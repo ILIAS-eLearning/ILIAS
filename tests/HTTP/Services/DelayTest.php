@@ -19,13 +19,13 @@
 
 namespace HTTP\Services;
 
-use ILIAS\HTTP\_Throttling\Delay;
+use ILIAS\HTTP\Throttling\Delay;
+use ILIAS\HTTP\AbstractBaseTest;
 
 /**
- * @author       Thibeau Fuhrer <thibeau@sr.solutions>
- * @noinspection AutoloadingIssuesInspection
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class DelayTest extends \ILIAS\HTTP\AbstractBaseTest
+class DelayTest extends AbstractBaseTest
 {
     public function testDelayWithNegativeSeconds() : void
     {
@@ -65,12 +65,12 @@ class DelayTest extends \ILIAS\HTTP\AbstractBaseTest
         return new class($delay) extends Delay {
             public function s() : int
             {
-                return $this->getSeconds();
+                return $this->getFullSeconds();
             }
 
             public function us() : int
             {
-                return $this->getMicroSeconds();
+                return $this->getRemainingMicroSeconds();
             }
         };
     }

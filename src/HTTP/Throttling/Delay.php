@@ -17,16 +17,14 @@
  ********************************************************************
  */
 
-namespace ILIAS\HTTP\Throttling\Delay;
+namespace ILIAS\HTTP\Throttling;
 
 use ILIAS\HTTP\Throttling\Increment\DelayIncrement;
-use ILIAS\HTTP\Throttling\DelayRepository;
 
 /**
- * @author       Thibeau Fuhrer <thibeau@sr.solutions>
- * @noinspection AutoloadingIssuesInspection
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class Delay implements DelayInterface
+class Delay
 {
     protected ?DelayIncrement $delay_increment;
     protected float $delay_in_seconds;
@@ -44,31 +42,37 @@ class Delay implements DelayInterface
         return $clone;
     }
 
-    public function increment() : void
+    public function increment() : self
     {
         if (null !== $this->delay_increment) {
             $this->delay_in_seconds = $this->delay_increment->increment($this->delay_in_seconds);
         }
+
+        return $this;
     }
 
-    public function await() : void
+    public function await() : self
     {
-        usleep($this->getFractionInMicroSeconds());
+        $full_seconds = (int) floor($this->delay_in_seconds);
+
+        usleep($this->getRemainingMicroSeconds());
         sleep($this->getFullSeconds());
+
+        return $this;
     }
 
-    private function getFractionInMicroSeconds() : int
+    protected function getRemainingMicroSeconds() : int
     {
-        if (0 > $this->delay_in_seconds) {
-            return (int) round(1000 * fmod(1, $this->delay_in_seconds));
+        if (0 < $this->delay_in_seconds) {
+            return (int) round(1_000_000 * ($this->delay_in_seconds - $this->getFullSeconds()));
         }
 
         return 0;
     }
 
-    private function getFullSeconds() : int
+    protected function getFullSeconds() : int
     {
-        if (0 > $this->delay_in_seconds) {
+        if (0 < $this->delay_in_seconds) {
             return (int) floor($this->delay_in_seconds);
         }
 

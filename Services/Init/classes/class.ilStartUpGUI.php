@@ -186,17 +186,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     protected function showLoginPageOrStartupPage() : void
     {
-        $this->http->delay()->add(
-            $this->http->delay()->new(
-                (float) $this->setting->get(ilObjSystemFolderGUI::KEY_DELAY_IN_SECONDS)
-            )->withIncrement(
-                $this->http->delay()->increments()->multiplier(
-                    (float) $this->setting->get(ilObjSystemFolderGUI::KEY_DELAY_MULTIPLIER)
-                )
-            ),
-            self::CMD_STANDARD_AUTH
-        );
-
         /**
          * @var ilAuthSession
          */
@@ -291,6 +280,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $page_editor_html = $this->showRegistrationLinks($page_editor_html);
         $page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
         $page_editor_html = $this->purgePlaceholders($page_editor_html);
+
+        $this->addConfiguredHttpDelay();
 
         // check expired session and send message
         if ($this->authSession->isExpired()) {
@@ -2127,5 +2118,19 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $table->setData($items);
         $this->mainTemplate->setVariable('CONTENT', $table->getHtml());
         $this->mainTemplate->printToStdout('DEFAULT', false);
+    }
+
+    protected function addConfiguredHttpDelay() : void
+    {
+        $this->http->delay()->add(
+            $this->http->delay()->new(
+                (float) $this->setting->get(ilObjSystemFolderGUI::KEY_DELAY_IN_SECONDS)
+            )->withIncrement(
+                $this->http->delay()->increments()->multiplier(
+                    (float) $this->setting->get(ilObjSystemFolderGUI::KEY_DELAY_MULTIPLIER)
+                )
+            ),
+            self::CMD_STANDARD_AUTH
+        );
     }
 }

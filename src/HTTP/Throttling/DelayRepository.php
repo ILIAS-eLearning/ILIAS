@@ -19,29 +19,29 @@
 
 namespace ILIAS\HTTP\Throttling;
 
-use ILIAS\HTTP\Throttling\Delay\DelayInterface;
-use ILIAS\HTTP\Throttling\Delay\NullDelay;
-use ILIAS\HTTP\Throttling\Delay\Delay;
-
 /**
- * @author       Thibeau Fuhrer <thibeau@sr.solutions>
- * @noinspection AutoloadingIssuesInspection
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 class DelayRepository
 {
     protected const SESISION_KEY_PREFIX = 'http_delay_';
 
-    public function get(string $identifier) : DelayInterface
+    public function get(string $identifier) : ?Delay
     {
         $identifier = $this->getSessionId($identifier);
-        if (\ilSession::has($identifier)) {
-            return unserialize(\ilSession::get($identifier), [Delay::class]);
+        if (!\ilSession::has($identifier)) {
+            return null;
         }
 
-        return new NullDelay();
+        $delay = \ilSession::get($identifier);
+        if (null === $delay) {
+            return null;
+        }
+
+        return unserialize(\ilSession::get($identifier), [Delay::class]);
     }
 
-    public function set(DelayInterface $delay, string $identifier) : void
+    public function set(Delay $delay, string $identifier) : void
     {
         $identifier = $this->getSessionId($identifier);
         \ilSession::set($identifier, serialize($delay));
@@ -51,7 +51,7 @@ class DelayRepository
     {
         $identifier = $this->getSessionId($identifier);
         if (\ilSession::has($identifier)) {
-            \ilSession::set($identifier, serialize(new NullDelay()));
+            \ilSession::set($identifier, null);
         }
     }
 
