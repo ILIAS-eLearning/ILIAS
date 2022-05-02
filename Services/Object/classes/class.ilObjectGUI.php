@@ -748,7 +748,7 @@ class ilObjectGUI
 
         if (sizeof($options) > 1) {
             $type = new ilRadioGroupInputGUI(
-                $this->lng->txt('type'),
+                $this->lng->txt('didactic_template'),
                 'didactic_type'
             );
             // workaround for containers in edit mode
