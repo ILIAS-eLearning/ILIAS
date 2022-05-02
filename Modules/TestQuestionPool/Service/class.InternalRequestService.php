@@ -70,9 +70,7 @@ class InternalRequestService
      */
     public function raw(string $key)
     {
-        $no_transform = $this->refinery->custom()->transformation(function ($v) {
-            return $v;
-        });
+        $no_transform = $this->refinery->identity();
         return $this->get($key, $no_transform);
     }
 
