@@ -28,7 +28,6 @@ class InternalRequestService
         \ILIAS\HTTP\Services $http,
         \ILIAS\Refinery\Factory $refinery
     ) {
-
         $this->initRequest(
             $http,
             $refinery
