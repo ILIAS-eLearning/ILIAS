@@ -17,10 +17,10 @@
  ********************************************************************
  */
 
-namespace HTTP\Services;
+namespace ILIAS\HTTP;
 
-use ILIAS\HTTP\Throttling\Delay;
 use ILIAS\HTTP\AbstractBaseTest;
+use ILIAS\HTTP\Throttling\Delay;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
