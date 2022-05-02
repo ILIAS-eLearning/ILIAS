@@ -245,7 +245,7 @@ The commands bellow must be run from the ILIAS web root directory.
 To execute the complete ILIAS test suite you can either run the respective bash script or call the `PHPUnit`
 executable directly.
 
-Bash (all additional arguments passed are passed to the `PHPUnit` test runner:
+Bash (all additional arguments passed are passed to the `PHPUnit` test runner):
 
 ```bash
 ./CI/PHPUnit/run_tests.sh
@@ -259,7 +259,7 @@ Executable:
 
 #### Execution Order
 
-Tests are executed in an random order to make issues visible which are caused by hidden dependencies of the tests
+Tests are executed in a random order to make issues visible which are caused by hidden dependencies of the tests
 among themselves.
 
 The random order seed is printed after the respective test suites have been added in a test run:
