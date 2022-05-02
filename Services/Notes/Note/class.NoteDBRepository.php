@@ -34,6 +34,28 @@ class NoteDBRepository
         $this->data = $data;
     }
 
+    public function createNote(
+        Note $note
+    ) : Note {
+        $db = $this->db;
+
+        $id = $db->nextId("note");
+        $context = $note->getContext();
+        $db->insert("note", array(
+            "id" => array("integer", $id),
+            "rep_obj_id" => array("integer", $context->getObjId()),
+            "obj_id" => array("integer", $context->getSubObjId()),
+            "obj_type" => array("text", $context->getType()),
+            "news_id" => array("integer", $context->getNewsId()),
+            "type" => array("integer", $note->getType()),
+            "author" => array("integer", $note->getAuthor()),
+            "note_text" => array("clob", $note->getText()),
+            "creation_date" => array("timestamp", $note->getCreationDate()),
+            "no_repository" => array("integer", (int) !$context->getInRepository())
+        ));
+        return $this->getById($id);
+    }
+
     public function updateNoteText(
         int $id,
         string $text
@@ -51,10 +73,11 @@ class NoteDBRepository
 
     /**
      * Get note by id
+     * @throws NoteNotFoundException
      */
     public function getById(
         int $id
-    ) : ?Note {
+    ) : Note {
         $db = $this->db;
 
         $set = $db->queryF(
@@ -66,7 +89,7 @@ class NoteDBRepository
         if ($rec = $db->fetchAssoc($set)) {
             return $this->getNoteFromRecord($rec);
         }
-        return null;
+        throw new NoteNotFoundException("Note with ID $id not found.");
     }
 
     protected function getNoteFromRecord(array $rec) : Note

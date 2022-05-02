@@ -52,6 +52,13 @@ class Note
         $this->creation_date = $creation_date;
     }
 
+    public function withCreationDate(string $creation_date) : self
+    {
+        $note = clone $this;
+        $note->creation_date = $creation_date;
+        return $note;
+    }
+
     public function getId() : int
     {
         return $this->id;

@@ -20,7 +20,8 @@ namespace ILIAS\Notes;
  */
 class NotesManager
 {
-    protected AccessManager $access;
+    protected NotificationsManager $notification;
+    protected AccessManager $note_access;
     protected NoteSettingsDBRepository $db_settings_repo;
     protected NoteDBRepository $db_repo;
     protected InternalDomainService $domain;
@@ -39,7 +40,8 @@ class NotesManager
         $this->sess_repo = $repo->notesSession();
         $this->db_repo = $repo->note();
         $this->db_settings_repo = $repo->settings();
-        $this->access = $domain->access();
+        $this->note_access = $domain->noteAccess();
+        $this->notification = $domain->notification();
     }
 
     public function setSortAscending(bool $asc) : void
@@ -53,15 +55,30 @@ class NotesManager
     }
 
 
+    public function createNote(
+        Note $note,
+        array $observer,
+        bool $use_provided_creation_date = false
+    ) : void {
+        if (!$use_provided_creation_date) {
+            $note = $note->withCreationDate(\ilUtil::now());
+        }
+        $note = $this->db_repo->createNote($note);
+        $this->notification->sendNotifications($note, false);
+        $this->notification->notifyObserver($observer, "new", $note);
+    }
+
     public function updateNoteText(
         int $id,
-        string $text
+        string $text,
+        array $observer
     ) : void {
         $note = $this->db_repo->getById($id);
-        if ($this->access->canEdit($note)) {
+        if ($this->note_access->canEdit($note)) {
             $this->db_repo->updateNoteText($id, $text);
-            $this->sendNotifications(true);
-            $this->notifyObserver("update", $note);
+            $note = $this->db_repo->getById($id);
+            $this->notification->sendNotifications($note, true);
+            $this->notification->notifyObserver($observer, "update", $note);
         }
     }
 
@@ -174,6 +191,14 @@ class NotesManager
         });
 
         return $ids;
+    }
+
+    /**
+     * @throws NoteNotFoundException
+     */
+    public function getById(int $id) : Note
+    {
+        return $this->db_repo->getById($id);
     }
 
     /**

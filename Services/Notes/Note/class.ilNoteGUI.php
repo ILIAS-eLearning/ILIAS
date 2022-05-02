@@ -24,6 +24,7 @@ use ILIAS\Notes\Note;
  */
 class ilNoteGUI
 {
+    protected \ILIAS\Notes\AccessManager $notes_access;
     protected \ILIAS\Notes\InternalDataService $data;
     protected ilWorkspaceAccessHandler $wsp_access_handler;
     protected ilWorkspaceTree $wsp_tree;
@@ -113,6 +114,7 @@ class ilNoteGUI
             ->gui()
             ->standardRequest();
         $this->data = $ns->data();
+        $this->notes_access = $ns->domain()->noteAccess();
 
         $lng->loadLanguageModule("notes");
         
@@ -1145,14 +1147,25 @@ class ilNoteGUI
 
         //if ($this->form->checkInput())
         if ($this->request->getNoteText() !== "") {
-            $note = new ilNote();
-            $note->setObject($this->obj_type, $this->rep_obj_id, $this->obj_id, $this->news_id);
-            $note->setInRepository($this->repository_mode);
-            $note->setType($this->requested_note_type);
-            $note->setAuthor($ilUser->getId());
-            $note->setText($this->request->getNoteText());
-            $note->create();
-            $this->notifyObserver("new", $note);
+            $context = $this->data->context(
+                $this->rep_obj_id,
+                $this->obj_id,
+                $this->obj_type,
+                $this->news_id,
+                $this->repository_mode
+            );
+            $note = $this->data->note(
+                0,
+                $context,
+                $this->request->getNoteText(),
+                $ilUser->getId(),
+                $this->requested_note_type
+            );
+            $this->manager->createNote(
+                $note,
+                $this->observer
+            );
+
             $ilCtrl->setParameter($this, "note_mess", "mod");
         }
         $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
@@ -1162,19 +1175,19 @@ class ilNoteGUI
     {
         $ilCtrl = $this->ctrl;
 
-        $note = new ilNote($this->requested_note_id);
+        $note = $this->manager->getById($this->requested_note_id);
         $this->initNoteForm(
             "edit",
             $note->getType(),
             $note
         );
 
-        $note->setText($this->request->getNoteText());
-        if ($this->checkEdit($note)) {
-            $note->update();
-                
-            $this->notifyObserver("update", $note);
-                
+        if ($this->notes_access->canEdit($note)) {
+            $this->manager->updateNoteText(
+                $this->requested_note_id,
+                $this->request->getNoteText(),
+                $this->observer
+            );
             $ilCtrl->setParameter($this, "note_mess", "mod");
         }
         $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);

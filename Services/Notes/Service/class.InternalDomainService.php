@@ -38,7 +38,7 @@ class InternalDomainService
         $this->initDomainServices($DIC);
     }
 
-    public function access() : AccessManager
+    public function noteAccess() : AccessManager
     {
         return new AccessManager(
             $this->data_service,
@@ -50,6 +50,15 @@ class InternalDomainService
     public function notes() : NotesManager
     {
         return new NotesManager(
+            $this->data_service,
+            $this->repo_service,
+            $this
+        );
+    }
+
+    public function notification() : NotificationsManager
+    {
+        return new NotificationsManager(
             $this->data_service,
             $this->repo_service,
             $this
