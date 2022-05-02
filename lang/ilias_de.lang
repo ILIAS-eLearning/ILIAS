@@ -2929,7 +2929,8 @@ chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#display_past_msgs#:#Anzahl vergangene Nachrichten
 chatroom#:#duration_from#:#Von
 chatroom#:#duration_to#:#Bis
-chatroom#:#enable_history#:#Historie aktivieren
+chatroom#:#chat_enable_history#:#Historie aktivieren
+chatroom#:#chat_enable_history_info#:#Alle können im Reiter „Verlauf“ öffentliche Chat-Beiträge aus der Vergangenheit lesen und exportieren. Beiträge aus Séparées sind nur für Benutzer zugänglich, die dort eingeladen waren.
 chatroom#:#enable_smilies#:#Smilies aktivieren
 chatroom#:#end_whisper#:#Beenden
 chatroom#:#enter#:#Chat beitreten
@@ -2992,6 +2993,7 @@ chatroom#:#user_kicked#:#Der Benutzer <b>#user#</b> wurde aus dem Chatraum gewor
 chatroom#:#users#:#Benutzer
 chatroom#:#welcome_to_chat#:#Willkommen im Chatraum
 chatroom#:#whisper_to#:#<b>#user#</b> anflüstern
+chatroom#:#chat_settings_functions_header#:#Funktionen des Chats
 classification#:#clsfct_back_to_cat#:#Zurück zur Kategorie
 classification#:#clsfct_block_info#:#Ihre Auswahl filtert die Objekte.
 classification#:#clsfct_block_title#:#Auswahl nach Themen

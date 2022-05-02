@@ -2926,7 +2926,8 @@ chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#display_past_msgs#:#Number of Past Messages
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
-chatroom#:#enable_history#:#Enable History
+chatroom#:#chat_enable_history#:#Enable History
+chatroom#:#chat_enable_history_info#:#Everybody can read and export past public chat messages in the tab „History“. Messages from within private rooms are only accessible by invited users.
 chatroom#:#enable_smilies#:#Enable Smileys
 chatroom#:#end_whisper#:#Cancel
 chatroom#:#enter#:#Enter Chat Room
@@ -2989,6 +2990,7 @@ chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.
 chatroom#:#users#:#Users
 chatroom#:#welcome_to_chat#:#Welcome to the chat room
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
+chatroom#:#chat_settings_functions_header#:#Chat Room Functions
 classification#:#clsfct_back_to_cat#:#Back to Category
 classification#:#clsfct_block_info#:#Your Selection filters the objects.
 classification#:#clsfct_block_title#:#Selection by Topics
