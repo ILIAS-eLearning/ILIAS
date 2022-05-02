@@ -85,10 +85,6 @@ class ilAuthProviderFactory
             case ilAuthUtils::AUTH_CAS:
                 $this->logger->debug('Using CAS authentication');
                 return new ilAuthProviderCAS($credentials);
-
-            case ilAuthUtils::AUTH_RADIUS:
-                $this->logger->debug('Using radius authentication.');
-                return new ilAuthProviderRadius($credentials);
                 
             case ilAuthUtils::AUTH_SHIBBOLETH:
                 $this->logger->debug('Using shibboleth authentication.');

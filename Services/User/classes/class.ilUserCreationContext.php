@@ -22,7 +22,6 @@ class ilUserCreationContext
     public const CONTEXT_ADMINISTRATION = 2;
     public const CONTEXT_SOAP = 3;
     public const CONTEXT_LDAP = 4;
-    public const CONTEXT_RADIUS = 5;
     public const CONTEXT_SHIB = 6;
 
     private static ?ilUserCreationContext $instance = null;
@@ -47,7 +46,6 @@ class ilUserCreationContext
             self::CONTEXT_ADMINISTRATION,
             self::CONTEXT_SOAP,
             self::CONTEXT_LDAP,
-            self::CONTEXT_RADIUS,
             self::CONTEXT_SHIB
         );
     }

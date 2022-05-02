@@ -500,7 +500,6 @@ class ilUserImportParser extends ilSaxParser
 
                         case "default":
                         case "local":
-                        case "radius":
                         case "shibboleth":
                         case "script":
                         case "cas":
@@ -642,7 +641,6 @@ class ilUserImportParser extends ilSaxParser
 
                         case "default":
                         case "local":
-                        case "radius":
                         case "shibboleth":
                         case "script":
                         case "cas":

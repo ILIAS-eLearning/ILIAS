@@ -2009,6 +2009,8 @@ auth#:#auth_account_migration_new#:#Neues ILIAS-Benutzerkonto anlegen
 auth#:#auth_activation_code_success#:#Ihr Zugang wurde aktiviert. Sie können sich nun einloggen.
 auth#:#auth_allow_local_info#:#Wenn aktiviert, ist die lokale Authentifizierung gegen die ILIAS-Datenbank mit Benutzername/Passwort auch für jene Benutzerkonten möglich, deren Authentifizierungsmodus SAML ist.
 auth#:#auth_auth_settings#:#Einstellungen
+auth#:#auth_cas_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutzerdaten und Rollenzuordnungen, gemäß der LDAP-Einstellungen vorgenommen.
+auth#:#auth_cas_ldap#:#Synchronisierung über LDAP-Einstellungen
 auth#:#auth_err_expired#:#Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.
 auth#:#auth_err_invalid_user_account#:#Die Authentifizierung konnte wegen eines internen Fehlers nicht durchgeführt werden.
 auth#:#auth_err_ldap_exception#:#Die Authentifizierung konnte wegen eines Fehlers im Anmeldungsverfahren (LDAP) nicht durchgeführt werden.
@@ -2061,14 +2063,6 @@ auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, d
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 auth#:#auth_page_type_auth#:#Login-Seite
-auth#:#auth_radius_charset_info#:#Wählen Sie hier die Zeichenkodierung aus, die für die Kommunikation mit dem Radius Server genutzt werden soll. Wählen Sie im Zweifelsfall UTF-8.
-auth#:#auth_radius_charset#:#Zeichenkodierung
-auth#:#auth_radius_ldap_info#:#Wenn aktiviert, wird die Synchronisierung der Benutzerdaten und Rollenzuordnungen, gemäß der LDAP-Einstellungen vorgenommen.
-auth#:#auth_radius_ldap#:#Synchronisierung über LDAP-Einstellungen
-auth#:#auth_radius_sync_rad#:#Automatische Generierung von ILIAS-Benutzerkonten
-auth#:#auth_radius_sync_rad_info#:#Benutzer, die sich erfolgreich gegen Radius authentifiziert haben, jedoch über kein ILIAS-Benutzerkonto verfügen, werden automatisch angelegt.
-auth#:#auth_rad_migration#:#Account-Migration:
-auth#:#auth_rad_migration_info#:#Aktivieren Sie diese Einstellung, um neuen Benutzern die Möglichkeit zu bieten eventuell vorhandene ILIAS Benutzerkonten auf Radius Authentifizierung umzustellen.
 auth#:#auth_saml_add_idp_btn#:#Identity - hinzufügen
 auth#:#auth_saml_add_idp_md_error#:#Der eingegeben Wert entsprach leider nicht einem wohlgeformten XML-Dokument. Bitte stellen Sie sicher, dass das XML einen gültigen Identity-Provider enthält.
 auth#:#auth_saml_add_idp_md_info#:#Bitte fügen Sie hier die Metadaten des Identity-Provider als XML-formatierte Zeichenkette ein.
@@ -3483,14 +3477,6 @@ common#:#author#:#Autor
 common#:#authoring_mode#:#Autorenmodus
 common#:#authors#:#Autoren
 common#:#auth_per_default#:#Standardwert
-common#:#auth_radius_configure#:#RADIUS-Authentifizierung konfigurieren
-common#:#auth_radius_enable#:#RADIUS-Unterstützung aktivieren
-common#:#auth_radius_not_configured#:#RADIUS ist noch nicht eingerichtet
-common#:#auth_radius_port#:#Port
-common#:#auth_radius#:#RADIUS
-common#:#auth_radius_server_desc#:#Mehrere Server können mit Komma getrennt angegeben werden. Die Server werden dann im Round-Robin-Verfahren angefragt.
-common#:#auth_radius_server#:#Server
-common#:#auth_radius_shared_secret#:#Shared Secret
 common#:#auth_remark_non_local_auth#:#Bei allen Authentifizierungsmethoden, die nicht über die ILIAS-Datenbank erfolgen, sind Benutzername und -passwort nicht mehr änderbar.
 common#:#auth_role_auth_mode#:#Authentifizierungsmethode
 common#:#auth_saml#:#SAML
@@ -3913,7 +3899,6 @@ common#:#err_auth_apache_failed#:#Die Authentifikation ist fehlgeschlagen.
 common#:#err_auth_cas_no_ilias_user#:#Anmeldung fehlgeschlagen! Die CAS-Authentifizierung war erfolgreich, aber es existiert kein entsprechender ILIAS-Benutzer. Bitte kontaktieren Sie Ihren Systemadministrator.
 common#:#err_auth_ldap_no_ilias_user#:#Anmeldung fehlgeschlagen! Die LDAP-Authentifizierung war erfolgreich, aber es existiert kein entsprechender ILIAS-Benutzer. Bitte kontaktieren Sie Ihren Systemadministrator.
 common#:#err_auth_mode_inactive#:#Zur Zeit ist leider keine Anmeldung möglich.
-common#:#err_auth_radius_no_ilias_user#:#Anmeldung fehlgeschlagen! Die Radius-Authentifizierung war erfolgreich aber es existiert kein entsprechender ILIAS-Benutzer.
 common#:#err_auth_soap_no_ilias_user#:#Anmeldung fehlgeschlagen! Die SOAP-Authentifizierung war erfolgreich, aber es existiert kein entsprechender ILIAS-Benutzer. Bitte kontaktieren Sie Ihren Systemadministrator.
 common#:#err_check_input#:#Die Einstellungen konnten nicht gespeichert werden. Bitte überprüfen Sie Ihre Eingaben.
 common#:#err_count_param#:#Grund: Falsche Parameteranzahl
@@ -5726,7 +5711,7 @@ common#:#user_defined_fields#:#Benutzerdefinierte Felder
 common#:#user_defined_list#:#Übersicht benutzerdefinierter Felder
 common#:#user_deleted#:#Benutzer gelöscht
 common#:#user_detail#:#Details
-common#:#user_ext_account_desc#:#Benutzerkonto, das für die externe Authentifizierung benutzt wird. (CAS-, SOAP-, LDAP- oder Radius-Authentifizierung)
+common#:#user_ext_account_desc#:#Benutzerkonto, das für die externe Authentifizierung benutzt wird. (CAS-, SOAP- oder LDAP-Authentifizierung)
 common#:#user_ext_account#:#Externes Benutzerkonto
 common#:#userfolder_export_csv#:#Durch Komma getrennte Werte (CSV)
 common#:#userfolder_export_excel_x86#:#Microsoft Excel
@@ -10074,7 +10059,7 @@ ldap#:#ldap_add_missing#:#Fehlende Rollen zuweisen
 ldap#:#ldap_add_remove#:#Rollen hinzufügen/entfernen
 ldap#:#ldap_add_role_ass_rule#:#Neue Regel für die ILIAS-Rollenzuordnung
 ldap#:#ldap_as_ds#:#Als Datenquelle verwenden
-ldap#:#ldap_as_ds_info#:#Wenn aktiviert, wird die LDAP-Konfiguration zur Benutzerdatensynchronisierung in Kombination mit anderen Authentifizierungsarten (CAS, Radius, ...) genutzt. Eine direkte Authentifizierung über LDAP ist nicht möglich.
+ldap#:#ldap_as_ds_info#:#Wenn aktiviert, wird die LDAP-Konfiguration zur Benutzerdatensynchronisierung in Kombination mit anderen Authentifizierungsarten (CAS, ...) genutzt. Eine direkte Authentifizierung über LDAP ist nicht möglich.
 ldap#:#ldap_assignment_type#:#Art der Zuordnung
 ldap#:#ldap_authentication_settings#:#Einstellungen zur Authentifizierung
 ldap#:#ldap_bind_anonymous#:#Anonym verbinden
@@ -13780,10 +13765,6 @@ rbac#:#wiks_write#:#Einstellungen in Wiki-Verwaltung bearbeiten
 rbac#:#write#:#Einstellungen bearbeiten
 rcat#:#rcat_call#:#ECS-Kategorie aufrufen
 rcrs#:#rcrs_call#:#ECS-Kurs aufrufen
-registration#:#auth_radius_name_desc#:#Bitte wählen Sie einen Namen für diese Server-Konfiguration
-registration#:#auth_radius_name#:#Name der RADIUS Konfiguration
-registration#:#auth_radius_role_select#:#Rolle:
-registration#:#auth_radius_sync#:#Benutzer-Synchronisierung
 registration#:#reg_access_limitation_limited_time#:#Zugang ab Anmeldedatum für
 registration#:#reg_access_limitation_limited_until#:#Zugang ist befristet bis zum
 registration#:#reg_access_limitation_missing_mode#:#Bitte für alle Rollen die Art der Zugangsbefristung auswählen

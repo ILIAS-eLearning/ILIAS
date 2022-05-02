@@ -1937,6 +1937,8 @@ auth#:#auth_account_migration_new#:#Create New User Account###26 03 2010 new var
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###07 02 2017 new variable
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.###31 08 2017 new variable
 auth#:#auth_auth_settings#:#Settings###24 10 2013 new variable
+auth#:#auth_cas_ldap#:#Synchronization using LDAP###22 03 2011 new variable
+auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.###22 03 2011 new variable
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.###25 10 2016 new variable
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.###25 10 2016 new variable
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).###25 10 2016 new variable
@@ -1985,14 +1987,6 @@ auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, d
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren###10 11 2018 new variable
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden###10 11 2018 new variable
 auth#:#auth_oidconnect#:#OpenID Connect###10 11 2018 new variable
-auth#:#auth_rad_migration#:#Account Migration:###16 08 2007 new variable
-auth#:#auth_rad_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to Radius authentication.###16 08 2007 new variable
-auth#:#auth_radius_charset#:#Character Encoding###23 10 2007 new variable
-auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.###23 10 2007 new variable
-auth#:#auth_radius_ldap#:#Synchronization using LDAP###22 03 2011 new variable
-auth#:#auth_radius_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.###22 03 2011 new variable
-auth#:#auth_radius_sync_rad#:#Automatic generation of user accounts###22 03 2011 new variable
-auth#:#auth_radius_sync_rad_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against Radius, without having an ILIAS account yet.###22 03 2011 new variable
 auth#:#auth_saml#:#SAML###31 08 2017 new variable
 auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider###31 08 2017 new variable
 auth#:#auth_saml_add_idp_md_error#:#The given value was not a valid XML document. Ensure the XML contains a valid Identity Provider.###31 08 2017 new variable
@@ -3381,14 +3375,6 @@ common#:#auth_mode_not_changed#:#(Asgjë nuk është ndërruar)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role###10 Jul 2006 new variable
 common#:#auth_new_account_mail_desc#:#Send new account mail to user, if user is generated automatically. A password will only be generated, if "Allow Local Authentication" is also activated.###15 Jul 2006 new variable
 common#:#auth_per_default#:#Per Default###10 Jul 2006 new variable
-common#:#auth_radius#:#RADIUS
-common#:#auth_radius_configure#:#Configure RADIUS-Authentication###08 Jul 2005 new variable
-common#:#auth_radius_enable#:#Enable RADIUS support###08 Jul 2005 new variable
-common#:#auth_radius_not_configured#:#RADIUS is not configured yet###08 Jul 2005 new variable
-common#:#auth_radius_port#:#Port###08 Jul 2005 new variable
-common#:#auth_radius_server#:#Servers###08 Jul 2005 new variable
-common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.###08 Jul 2005 new variable
-common#:#auth_radius_shared_secret#:#Shared secret###08 Jul 2005 new variable
 common#:#auth_remark_non_local_auth#:#Kur zgjedh mod tjetër të verifikimit nga ai i paradefinuar, identifikimi i shfrytëzuesve dhe parullat nuk mund të ndërrohen më dhe opsioni për të regjistruar shfrytëzues të ri është i pamundësuar.###08 Jul 2005 content changed
 common#:#auth_role_auth_mode#:#Authentication mode###08 Jul 2005 new variable
 common#:#auth_saml#:#SAML###31 08 2017 new variable
@@ -3820,7 +3806,6 @@ common#:#err_auth_apache_failed#:#The authentication has failed. Maybe you have 
 common#:#err_auth_cas_no_ilias_user#:#Login failed. CAS authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###10 Jul 2006 new variable
 common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###09 07 2007 new variable
 common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.###23 07 2008 new variable
-common#:#err_auth_radius_no_ilias_user#:#Login failed. Radius authentication successful, but no corresponding ILIAS user exists.###16 08 2007 new variable
 common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.###10 Jul 2006 new variable
 common#:#err_check_input#:#The settings could not be saved. Please check your input.###09 07 2007 new variable
 common#:#err_count_param#:#Arsyeja: Gabim gjatë numrimit të parametrave
@@ -9704,7 +9689,7 @@ ldap#:#ldap_add_missing#:#Assign Missing Roles###24 07 2009 new variable
 ldap#:#ldap_add_remove#:#Add/Remove Roles###24 07 2009 new variable
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments###23 08 2007 new variable
 ldap#:#ldap_as_ds#:#Use as Data Source###22 03 2011 new variable
-ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS or Radius).###22 03 2011 new variable
+ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS).###22 03 2011 new variable
 ldap#:#ldap_assignment_type#:#Assignment Type###23 08 2007 new variable
 ldap#:#ldap_authentication_settings#:#Authentication Settings###08 12 2006 new variable
 ldap#:#ldap_bind_anonymous#:#Bind Anonymously###08 12 2006 new variable
@@ -13154,10 +13139,6 @@ rbac#:#wiks_write#:#Edit settings in Wiki administration###30 12 2013 new variab
 rbac#:#write#:#Edit Settings###20 08 2010 new variable
 rcat#:#rcat_call#:#Call ECS Category ###28 08 2012 new variable
 rcrs#:#rcrs_call#:#Call Remote Course###23 07 2008 new variable
-registration#:#auth_radius_name#:#Name of RADIUS Configuration###02 04 2007 new variable
-registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration###02 04 2007 new variable
-registration#:#auth_radius_role_select#:#Role:###02 04 2007 new variable
-registration#:#auth_radius_sync#:#User Synchronization###02 04 2007 new variable
 registration#:#reg_access_limitation_limited_time#:#After registration access for###25 02 2007 new variable
 registration#:#reg_access_limitation_limited_until#:#Access is limited until###25 02 2007 new variable
 registration#:#reg_access_limitation_missing_mode#:#Please choose for all roles an Access Limitation Mode###25 02 2007 new variable
