@@ -189,7 +189,7 @@ class ilPDNotesGUI
             // #13707
             if ($this->current_rel_obj > 0 &&
                 count($current_ref_ids) > 0 &&
-                $ilSetting->get("comments_del_tutor", 1)) {
+                $ilSetting->get("comments_del_tutor", '1')) {
                 foreach ($current_ref_ids as $ref_id) {
                     if ($ilAccess->checkAccess("write", "", $ref_id)) {
                         $notes_gui->enablePublicNotesDeletion(true);

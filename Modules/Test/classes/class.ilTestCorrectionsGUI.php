@@ -46,18 +46,20 @@ class ilTestCorrectionsGUI
         if (!$this->testAccess->checkCorrectionsAccess()) {
             ilObjTestGUI::accessViolationRedirect();
         }
-        
-        if (isset($_GET['eqid']) && (int) $_GET["eqid"] && isset($_GET['eqpl']) && (int) $_GET["eqpl"]) {
-            $this->DIC->ctrl()->setParameter($this, 'qid', (int) $_GET["eqid"]);
+        if (
+            $this->testrequest->isset('eqid') && (int) $this->testrequest->raw('eqid')
+            && $this->testrequest->isset('eqpl') && (int) $this->testrequest->raw('eqpl')
+        ) {
+            $this->DIC->ctrl()->setParameter($this, 'qid', (int) $this->testrequest->raw('eqid'));
             $this->DIC->ctrl()->redirect($this, 'showQuestion');
         }
-        
-        if (isset($_GET['removeQid']) && (int) $_GET['removeQid']) {
-            $this->DIC->ctrl()->setParameter($this, 'qid', (int) $_GET['removeQid']);
+        if ($this->testrequest->isset('removeQid') && (int) $this->testrequest->raw('removeQid')) {
+            $this->DIC->ctrl()->setParameter($this, 'qid', (int) $this->testrequest->raw('removeQid'));
             $this->DIC->ctrl()->redirect($this, 'confirmQuestionRemoval');
         }
         
-        if ((int) $_GET['qid'] && !$this->checkQuestion((int) $_GET['qid'])) {
+        if ((int) $this->testrequest->raw('qid')
+            && !$this->checkQuestion((int) $this->testrequest->raw('qid'))) {
             ilObjTestGUI::accessViolationRedirect();
         }
         
@@ -105,7 +107,7 @@ class ilTestCorrectionsGUI
     
     protected function showQuestion(ilPropertyFormGUI $form = null)
     {
-        $questionGUI = $this->getQuestion((int) $_GET['qid']);
+        $questionGUI = $this->getQuestion((int) $this->testrequest->raw('qid'));
         
         $this->setCorrectionTabsContext($questionGUI, 'question');
         
@@ -119,7 +121,7 @@ class ilTestCorrectionsGUI
     
     protected function saveQuestion()
     {
-        $questionGUI = $this->getQuestion((int) $_GET['qid']);
+        $questionGUI = $this->getQuestion((int) $this->testrequest->raw('qid'));
         
         $form = $this->buildQuestionCorrectionForm($questionGUI);
         
@@ -193,7 +195,7 @@ class ilTestCorrectionsGUI
     
     protected function confirmManualScoringReset()
     {
-        $questionGUI = $this->getQuestion((int) $_GET['qid']);
+        $questionGUI = $this->getQuestion((int) $this->testrequest->raw('qid'));
         
         $this->setCorrectionTabsContext($questionGUI, 'question');
         
@@ -220,7 +222,7 @@ class ilTestCorrectionsGUI
     
     protected function showSolution()
     {
-        $questionGUI = $this->getQuestion((int) $_GET['qid']);
+        $questionGUI = $this->getQuestion((int) $this->testrequest->raw('qid'));
         
         $this->setCorrectionTabsContext($questionGUI, 'solution');
         
@@ -250,8 +252,7 @@ class ilTestCorrectionsGUI
         $this->populatePageTitleAndDescription($questionGUI);
 
         $this->DIC->ui()->mainTemplate()->setContent($tpl->get());
-        $this->DIC->ui()->mainTemplate()->addCss('Modules/Test/templates/default/ta.css');
-        
+
         $this->DIC->ui()->mainTemplate()->setCurrentBlock("ContentStyle");
         $stylesheet = ilObjStyleSheet::getContentStylePath(0);
         $this->DIC->ui()->mainTemplate()->setVariable("LOCATION_CONTENT_STYLESHEET", $stylesheet);
@@ -265,7 +266,7 @@ class ilTestCorrectionsGUI
     
     protected function showAnswerStatistic()
     {
-        $questionGUI = $this->getQuestion((int) $_GET['qid']);
+        $questionGUI = $this->getQuestion((int) $this->testrequest->raw('qid'));
         $solutions = $this->getSolutions($questionGUI->object);
         
         $this->setCorrectionTabsContext($questionGUI, 'answers');
@@ -285,7 +286,6 @@ class ilTestCorrectionsGUI
         
         $this->populatePageTitleAndDescription($questionGUI);
         $this->DIC->ui()->mainTemplate()->setContent($tablesHtml);
-        $this->DIC->ui()->mainTemplate()->addCss('Modules/Test/templates/default/ta.css');
     }
     
     protected function addAnswerAsynch()
@@ -353,7 +353,7 @@ class ilTestCorrectionsGUI
     {
         $this->DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_CORRECTION);
         
-        $questionGUI = $this->getQuestion((int) $_GET['qid']);
+        $questionGUI = $this->getQuestion((int) $this->testrequest->raw('qid'));
 
         $confirmation = sprintf(
             $this->DIC->language()->txt('tst_corrections_qst_remove_confirmation'),
@@ -381,7 +381,7 @@ class ilTestCorrectionsGUI
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
-        $questionGUI = $this->getQuestion((int) $_GET['qid']);
+        $questionGUI = $this->getQuestion((int) $this->testrequest->raw('qid'));
         $scoring = new ilTestScoring($this->testOBJ);
         
         $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());

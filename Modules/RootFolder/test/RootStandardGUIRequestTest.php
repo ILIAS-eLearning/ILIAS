@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -9,13 +9,6 @@ use PHPUnit\Framework\TestCase;
  */
 class RootStandardGUIRequestTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown() : void
     {
     }
@@ -37,7 +30,7 @@ class RootStandardGUIRequestTest extends TestCase
     /**
      * Test ref id
      */
-    public function testRefId()
+    public function testRefId() : void
     {
         $request = $this->getRequest(
             [
@@ -55,7 +48,7 @@ class RootStandardGUIRequestTest extends TestCase
     /**
      * Test no ref id
      */
-    public function testNoRefId()
+    public function testNoRefId() : void
     {
         $request = $this->getRequest(
             [
@@ -72,7 +65,7 @@ class RootStandardGUIRequestTest extends TestCase
     /**
      * Test base class
      */
-    public function testBaseClass()
+    public function testBaseClass() : void
     {
         $request = $this->getRequest(
             [

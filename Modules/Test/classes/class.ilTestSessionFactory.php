@@ -102,22 +102,10 @@ class ilTestSessionFactory
      */
     private function getNewTestSessionObject()
     {
-        switch ($this->testOBJ->getQuestionSetType()) {
-            case ilObjTest::QUESTION_SET_TYPE_FIXED:
-            case ilObjTest::QUESTION_SET_TYPE_RANDOM:
-
-                require_once 'Modules/Test/classes/class.ilTestSession.php';
-                $testSession = new ilTestSession();
-                break;
-
-            case ilObjTest::QUESTION_SET_TYPE_DYNAMIC:
-
-                require_once 'Modules/Test/classes/class.ilTestSessionDynamicQuestionSet.php';
-                $testSession = new ilTestSessionDynamicQuestionSet();
-                break;
+        if ($this->testOBJ->isDynamicTest()) {
+            return new ilTestSessionDynamicQuestionSet();
         }
-        
-        return $testSession;
+        return new ilTestSession();
     }
 
     /**

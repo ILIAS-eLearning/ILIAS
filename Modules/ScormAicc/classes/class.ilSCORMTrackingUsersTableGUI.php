@@ -20,16 +20,10 @@
  */
 class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
 {
-    private int $obj_id = 0;
+    private int $obj_id;
     private array $filter;
 
-    /**
-     * Constructor
-     * @param             $a_obj_id
-     * @param object|null $a_parent_obj
-     * @param string      $a_parent_cmd
-     */
-    public function __construct($a_obj_id, ?object $a_parent_obj, string $a_parent_cmd)
+    public function __construct(int $a_obj_id, ?object $a_parent_obj, string $a_parent_cmd)
     {
         $this->obj_id = $a_obj_id;
 
@@ -38,10 +32,6 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
         $this->initFilter();
     }
 
-    /**
-     * Get Obj id
-     * @return int
-     */
     public function getObjId() : int
     {
         return $this->obj_id;
@@ -49,7 +39,6 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
 
     /**
      * Parse table content
-     * @return void
      * @throws ilDateTimeException
      */
     public function parse() : void
@@ -88,18 +77,18 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
     }
 
     /**
-     * @return void
      * @throws Exception
      */
     public function initFilter() : void
     {
         $item = $this->addFilterItemByMetaType("lastname", ilTable2GUI::FILTER_TEXT);
-        $this->filter["lastname"] = $item->getValue();
+        if ($item !== null) {
+            $this->filter["lastname"] = $item->getValue();
+        }
     }
 
     /**
      * Fill row template
-     * @param array $a_set
      */
     protected function fillRow(array $a_set) : void
     {
@@ -117,9 +106,6 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_VERSION', (string) $a_set['version']);
     }
 
-    /**
-     * Init table
-     */
     protected function initTable() : void
     {
         global $DIC;

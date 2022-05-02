@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Booking process ui class
@@ -19,9 +23,6 @@
  */
 class ilBookingProcessGUI
 {
-    /**
-     * @var array|object|null
-     */
     protected array $raw_post_data;
     protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
     protected ilObjBookingPool $pool;
@@ -160,11 +161,11 @@ class ilBookingProcessGUI
         $this->lng->loadLanguageModule("dateplaner");
         $this->ctrl->setParameter($this, 'object_id', $obj->getId());
 
-        if ($this->user_id_to_book != $this->user_id_assigner) {
+        if ($this->user_id_to_book !== $this->user_id_assigner) {
             $this->ctrl->setParameter($this, 'bkusr', $this->user_id_to_book);
         }
 
-        if ($this->pool->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+        if ($this->pool->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             $schedule = new ilBookingSchedule($obj->getScheduleId());
 
             $tpl->setContent($this->renderSlots($schedule, array($obj->getId()), $obj->getTitle()));
@@ -208,33 +209,33 @@ class ilBookingProcessGUI
             for ($i = $morning_aggr;$i <= $evening_aggr;$i++) {
                 switch ($user_settings->getTimeFormat()) {
                     case ilCalendarSettings::TIME_FORMAT_24:
-                        if ($morning_aggr > 0 && $i == $morning_aggr) {
+                        if ($morning_aggr > 0 && $i === $morning_aggr) {
                             $hours[$i] = sprintf('%02d:00', 0) . "-";
                         }
                         $hours[$i] .= sprintf('%02d:00', $i);
-                        if ($evening_aggr < 23 && $i == $evening_aggr) {
+                        if ($evening_aggr < 23 && $i === $evening_aggr) {
                             $hours[$i] .= "-" . sprintf('%02d:00', 23);
                         }
                         break;
 
                     case ilCalendarSettings::TIME_FORMAT_12:
-                        if ($morning_aggr > 0 && $i == $morning_aggr) {
+                        if ($morning_aggr > 0 && $i === $morning_aggr) {
                             $hours[$i] = date('h a', mktime(0, 0, 0, 1, 1, 2000)) . "-";
                         }
                         $hours[$i] .= date('h a', mktime($i, 0, 0, 1, 1, 2000));
-                        if ($evening_aggr < 23 && $i == $evening_aggr) {
+                        if ($evening_aggr < 23 && $i === $evening_aggr) {
                             $hours[$i] .= "-" . date('h a', mktime(23, 0, 0, 1, 1, 2000));
                         }
                         break;
                 }
             }
 
-            if ($this->seed != "") {
+            if ($this->seed !== "") {
                 $find_first_open = false;
                 $seed = new ilDate($this->seed, IL_CAL_DATE);
             } else {
                 $find_first_open = true;
-                $seed = ($this->sseed != "")
+                $seed = ($this->sseed !== "")
                     ? new ilDate($this->sseed, IL_CAL_DATE)
                     : new ilDate(time(), IL_CAL_UNIX);
             }
@@ -345,9 +346,9 @@ class ilBookingProcessGUI
         array $hours,
         ilBookingSchedule $schedule,
         array $object_ids,
-        string $seed,
+        ilDate $seed,
         array &$dates
-    ) {
+    ) : bool {
         $ilUser = $this->user;
 
         $user_settings = ilCalendarUserSettings::_getInstanceByUserId($ilUser->getId());
@@ -397,15 +398,15 @@ class ilBookingProcessGUI
                 $period = explode("-", $period);
 
                 // #13738
-                if ($user_settings->getTimeFormat() == ilCalendarSettings::TIME_FORMAT_12) {
+                if ($user_settings->getTimeFormat() === ilCalendarSettings::TIME_FORMAT_12) {
                     $period[0] = date("H", strtotime($period[0]));
-                    if (sizeof($period) == 2) {
+                    if (count($period) === 2) {
                         $period[1] = date("H", strtotime($period[1]));
                     }
                 }
 
                 $period_from = (int) substr($period[0], 0, 2) . "00";
-                if (sizeof($period) == 1) {
+                if (count($period) === 1) {
                     $period_to = (int) substr($period[0], 0, 2) . "59";
                 } else {
                     $period_to = (int) substr($period[1], 0, 2) . "59";
@@ -420,7 +421,7 @@ class ilBookingProcessGUI
                     }
                 }
 
-                if (sizeof($slots)) {
+                if (count($slots)) {
                     $in = false;
                     foreach ($slots as $slot) {
                         $slot_from = mktime(substr($slot['from'], 0, 2), substr($slot['from'], 2, 2), 0, $date_info["mon"], $date_info["mday"], $date_info["year"]);
@@ -499,7 +500,7 @@ class ilBookingProcessGUI
     public function bookMultipleParticipants() : void
     {
         $participants = $this->book_request->getParticipants();
-        if (count($participants) == 0) {
+        if (count($participants) === 0) {
             $this->back();
             return;
         }
@@ -517,12 +518,12 @@ class ilBookingProcessGUI
         }
 
         $available = ilBookingReservation::numAvailableFromObjectNoSchedule($this->book_obj_id);
-        if (sizeof($participants) > $available) {
+        if (count($participants) > $available) {
             $obj = new ilBookingObject($this->book_obj_id);
             $conf->setHeaderText(
                 sprintf(
                     $this->lng->txt('book_limit_objects_available'),
-                    sizeof($participants),
+                    count($participants),
                     $obj->getTitle(),
                     $available
                 )
@@ -561,7 +562,7 @@ class ilBookingProcessGUI
             $rsv_ids[] = $this->processBooking($this->book_obj_id);
         }
 
-        if (sizeof($rsv_ids)) {
+        if (count($rsv_ids)) {
             $this->tpl->setOnScreenMessage('success', "booking_multiple_succesfully");
         } else {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('book_reservation_failed_overbooked'), true);
@@ -580,12 +581,12 @@ class ilBookingProcessGUI
         $success = false;
         $rsv_ids = array();
 
-        if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_FIX_SCHEDULE) {
+        if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_FIX_SCHEDULE) {
             if ($this->book_obj_id > 0) {
                 $object_id = $this->book_obj_id;
                 if ($object_id) {
                     if (ilBookingReservation::isObjectAvailableNoSchedule($object_id) &&
-                        count(ilBookingReservation::getObjectReservationForUser($object_id, $this->user_id_to_book)) == 0) { // #18304
+                        count(ilBookingReservation::getObjectReservationForUser($object_id, $this->user_id_to_book)) === 0) { // #18304
                         $rsv_ids[] = $this->processBooking($object_id);
                         $success = $object_id;
                     } else {
@@ -597,7 +598,7 @@ class ilBookingProcessGUI
             }
         } else {
             $dates = $this->book_request->getDates();
-            if (count($dates) == 0) {
+            if (count($dates) === 0) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
                 $this->book();
                 return false;
@@ -617,18 +618,19 @@ class ilBookingProcessGUI
                     $group_id = $repo->getNewGroupId();
                     foreach ($dates as $date) {
                         $fromto = explode('_', $date);
-                        $fromto[1]--;
+                        $from = (int) $fromto[0];
+                        $to = (int) $fromto[1] - 1;
 
-                        $counter = ilBookingReservation::getAvailableObject(array($object_id), $fromto[0], $fromto[1], false, true);
+                        $counter = ilBookingReservation::getAvailableObject(array($object_id), $from, $to, false, true);
                         $counter = $counter[$object_id];
                         if ($counter) {
                             // needed for recurrence
-                            $confirm[$object_id . "_" . $fromto[0] . "_" . ($fromto[1] + 1)] = $counter;
+                            $confirm[$object_id . "_" . $from . "_" . ($to + 1)] = $counter;
                         }
                     }
                 }
 
-                if (sizeof($confirm)) {
+                if (count($confirm)) {
                     $this->confirmBookingNumbers($confirm, $group_id);
                     return false;
                 }
@@ -691,7 +693,9 @@ class ilBookingProcessGUI
             $entry->save();
 
             $assignment = new ilCalendarCategoryAssignments($entry->getEntryId());
-            $assignment->addAssignment($def_cat->getCategoryID());
+            if ($def_cat !== null) {
+                $assignment->addAssignment($def_cat->getCategoryID());
+            }
         }
 
         return $reservation->getId();
@@ -802,7 +806,7 @@ class ilBookingProcessGUI
             $form->addItem($grp);
         }
 
-        if ($this->user_id_assigner != $this->user_id_to_book) {
+        if ($this->user_id_assigner !== $this->user_id_to_book) {
             $usr = new ilHiddenInputGUI("bkusr");
             $usr->setValue($this->user_id_to_book);
             $form->addItem($usr);
@@ -826,7 +830,7 @@ class ilBookingProcessGUI
         $counter = array();
         $current_first = $obj_id = null;
         foreach (array_keys($this->raw_post_data) as $id) {
-            if (substr($id, 0, 9) == "conf_nr__") {
+            if (str_starts_with($id, "conf_nr__")) {
                 $id = explode("_", substr($id, 9));
                 $counter[$id[0] . "_" . $id[1] . "_" . $id[2]] = (int) $id[3];
                 if (!$current_first) {
@@ -928,8 +932,14 @@ class ilBookingProcessGUI
 
             $rece_date = new ilDate($rece_year . "-" . $rece_month . "-" . $rece_day, IL_CAL_DATE);
 
-            $form->getItemByPostVar("rece")->setDate($rece_date);
-            $form->getItemByPostVar("recm")->setHideSubForm($recm < 1);
+            $rece = $form->getItemByPostVar("rece");
+            if ($rece !== null) {
+                $rece->setDate($rece_date);
+            }
+            $recm = $form->getItemByPostVar("recm");
+            if ($recm !== null) {
+                $recm->setHideSubForm($recm < 1);
+            }
 
             $hidden_date = new ilHiddenInputGUI("rece");
             $hidden_date->setValue($rece_date);
@@ -979,7 +989,7 @@ class ilBookingProcessGUI
         $ptext = $obj->getPostText();
 
         if (trim($ptext) || $pfile) {
-            if (sizeof($a_rsv_ids)) {
+            if (count($a_rsv_ids)) {
                 $this->ctrl->setParameter($this, 'rsv_ids', implode(";", $a_rsv_ids));
             }
             $this->ctrl->redirect($this, 'displayPostInfo');
@@ -1055,8 +1065,11 @@ class ilBookingProcessGUI
 
         if ($ptext) {
             // placeholder
-            $ptext = str_replace("[OBJECT]", $obj->getTitle(), $ptext);
-            $ptext = str_replace("[PERIOD]", implode("<br />", $period), $ptext);
+            $ptext = str_replace(
+                ["[OBJECT]", "[PERIOD]"],
+                [$obj->getTitle(), implode("<br />", $period)],
+                $ptext
+            );
 
             $mytpl->setVariable("POST_TEXT", nl2br($ptext));
         }
@@ -1088,7 +1101,7 @@ class ilBookingProcessGUI
         $book_ids = ilBookingReservation::getObjectReservationForUser($id, $this->user_id_assigner);
         $book_id = current($book_ids);
         $obj = new ilBookingReservation($book_id);
-        if ($obj->getUserId() != $this->user_id_assigner) {
+        if ($obj->getUserId() !== $this->user_id_assigner) {
             return;
         }
 

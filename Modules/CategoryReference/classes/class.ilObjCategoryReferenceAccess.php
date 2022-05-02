@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,7 +34,7 @@ class ilObjCategoryReferenceAccess extends ilContainerReferenceAccess
      *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
      *	);
      */
-    public static function _getCommands($a_ref_id = null) : array
+    public static function _getCommands(int $a_ref_id = null) : array
     {
         global $DIC;
 
@@ -42,10 +42,10 @@ class ilObjCategoryReferenceAccess extends ilContainerReferenceAccess
 
         if ($ilAccess->checkAccess('write', '', $a_ref_id)) {
             // Only local (reference specific commands)
-            $commands = array(
-                array("permission" => "visible", "cmd" => "", "lang_var" => "show","default" => true),
-                array("permission" => "write", "cmd" => "editReference", "lang_var" => "settings")
-            );
+            $commands = [
+                ["permission" => "visible", "cmd" => "", "lang_var" => "show", "default" => true],
+                ["permission" => "write", "cmd" => "editReference", "lang_var" => "settings"]
+            ];
         } else {
             $commands = ilObjCategoryAccess::_getCommands();
         }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -123,6 +123,7 @@ class StandardGUIRequest
         return $this->int("oobj");
     }
 
+    /** @return int[] */
     public function getNodes() : array
     {
         if ($this->int("node") > 0) {
@@ -141,26 +142,30 @@ class StandardGUIRequest
         return $this->arrayArray("position");
     }
 
+    /** @return int[] */
     public function getTrashIds() : array
     {
         return $this->intArray("trash_id");
     }
 
+    /** @return int[] */
     public function getAlreadyRenderedRefIds() : array
     {
         $ids = $this->strArray("ids");
-        $ref_ids = array_map(function ($i) {
+        $ref_ids = array_map(static function (string $i) : int {
             $parts = explode("_", $i);
-            return $parts[2];
+            return (int) $parts[2];
         }, $ids);
         return $ref_ids;
     }
 
+    /** @return int[] */
     public function getStartObjPositions() : array
     {
         return $this->intArray("pos");
     }
 
+    /** @return int[] */
     public function getStartObjIds() : array
     {
         return $this->intArray("starter");

@@ -274,7 +274,7 @@ class ilUserAutoComplete
         
         $this->logger->dump($result_json, ilLogLevel::DEBUG);
         
-        return ilJsonUtil::encode($result_json);
+        return json_encode($result_json, JSON_THROW_ON_ERROR);
     }
 
     protected function getSelectPart() : string
@@ -340,7 +340,7 @@ class ilUserAutoComplete
             $this->getUser() instanceof ilObjUser &&
             $this->getUser()->isAnonymous()
         ) {
-            if (!$ilSetting->get('enable_global_profiles', 0)) {
+            if (!$ilSetting->get('enable_global_profiles', '0')) {
                 // If 'Enable User Content Publishing' is not set in the administration, no user should be found for 'anonymous' context.
                 return '1 = 2';
             } else {

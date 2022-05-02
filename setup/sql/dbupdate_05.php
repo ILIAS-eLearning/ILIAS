@@ -799,7 +799,7 @@ include_once('./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObje
 $lp_type_id = ilDBUpdateNewObjectType::getObjectTypeId('lso');
 if ($lp_type_id) {
     $ops_id = ilDBUpdateNewObjectType::getCustomRBACOperationId("lp_other_users");
-    ilDBUpdateNewObjectType::deleteRBACOperation($lp_type_id, $ops_id);
+    ilDBUpdateNewObjectType::deleteRBACOperation("lso", $ops_id);
 }
 
 ?>

@@ -53,13 +53,12 @@ class ilUserSearchFilter
     private int $usr_id;
 
     protected ilDBInterface $db;
-    protected ILIAS $ilias;
     protected ilSearchResult $result_obj;
+    protected ilSetting $settings;
     private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * ilUserSearchFilter constructor.
-     * @todo remove ilias dependency
      */
     public function __construct(int $a_usr_id)
     {
@@ -68,10 +67,11 @@ class ilUserSearchFilter
 
         $this->usr_id = $a_usr_id;
         $this->db = $DIC->database();
-        $this->ilias = $DIC['ilias'];
+        $this->settings = $DIC->settings();
 
         // Limit of filtered objects is search max hits
-        $this->limit = (int) $this->ilias->getSetting('search_max_hits', 50);// @TODO: PHP8 Review: Invalid argument.
+
+        $this->limit = (int) $this->settings->get('search_mx_hits', '50');
         $this->result_obj = new ilSearchResult();
     }
 

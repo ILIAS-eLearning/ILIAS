@@ -16,6 +16,7 @@ class ilAppointmentPresentationFactory extends ilCalendarAppointmentBaseFactory
     ) {
         $class_base = self::getClassBaseName($a_appointment);
         $class_name = "ilAppointmentPresentation" . $class_base . "GUI";
+        /** @noinspection PhpUndefinedMethodInspection */
         return $class_name::getInstance($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
     }
 }

@@ -18,12 +18,12 @@ class ilObjDataCollection extends ilObject2
     private string $public_notes = "";
     private string $notification = "";
 
-    public function initType()
+    public function initType() : void
     {
         $this->type = "dcl";
     }
 
-    public function doRead()
+    protected function doRead() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -40,7 +40,7 @@ class ilObjDataCollection extends ilObject2
         }
     }
 
-    protected function doCreate($clone_mode = false)
+    protected function doCreate(bool $clone_mode = false) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -76,15 +76,7 @@ class ilObjDataCollection extends ilObject2
         );
     }
 
-    /**
-     * @return bool
-     */
-    public function doClone()
-    {
-        return false;
-    }
-
-    protected function doDelete()
+    protected function doDelete() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -97,7 +89,7 @@ class ilObjDataCollection extends ilObject2
         $ilDB->manipulate($query);
     }
 
-    public function doUpdate()
+    protected function doUpdate() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -273,14 +265,15 @@ class ilObjDataCollection extends ilObject2
 
     /**
      * Clone DCL
-     * @param ilObjDataCollection $new_obj
-     * @param int                 $a_target_id ref_id
-     * @param int                 $a_copy_id
-     * @return ilObjPoll
+     *
+     * @param ilObject2 $new_obj
+     * @param int       $a_target_id ref_id
+     * @param int|null  $a_copy_id
+     * @return void
      */
-    public function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false)
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
     {
-
+        assert($new_obj instanceof ilObjDataCollection);
         //copy online status if object is not the root copy object
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
 
@@ -289,48 +282,16 @@ class ilObjDataCollection extends ilObject2
         }
 
         $new_obj->cloneStructure($this->getRefId());
-
-        return $new_obj;
     }
 
-    //TODO: Find better way to copy data (including references)
-    /*public function doCloneObject(ilObjDataCollection $new_obj, $a_target_id, $a_copy_id = 0) {
-        //$new_obj->delete();
-        $created_new_id = $new_obj->getId();
-        $obj_id = $this->getId();
-
-        $exp = new ilExport();
-        $exp->exportObject($this->getType(), $obj_id, "5.0.0");
-
-        $file_name = substr(strrchr($exp->export_run_dir, DIRECTORY_SEPARATOR), 1);
-
-        $import = new ilImport((int)$a_target_id);
-        $new_id = $import->importObject(null, $exp->export_run_dir.".zip", $file_name.".zip", $this->getType(), "", true);
-
-        $new_obj->delete();
-
-        if ($new_id > 0)
-        {
-            $obj = ilObjectFactory::getInstanceByObjId($new_id);
-            $obj->setId($created_new_id);
-
-            $obj->createReference();
-            $obj->putInTree($a_target_id);
-            $obj->setPermissions($a_target_id);
-
-
-        }
-
-        return $obj;
-    }*/
 
     /**
      * Attention only use this for objects who have not yet been created (use like: $x = new ilObjDataCollection; $x->cloneStructure($id))
-     * @param $original_id The original ID of the dataselection you want to clone it's structure
+     * @param int $original_id The original ID of the dataselection you want to clone it's structure
      */
     public function cloneStructure($original_id)
     {
-        $original = new ilObjDataCollection($original_id);
+        $original = new ilObjDataCollection((int) $original_id);
 
         $this->setApproval($original->getApproval());
         $this->setNotification($original->getNotification());

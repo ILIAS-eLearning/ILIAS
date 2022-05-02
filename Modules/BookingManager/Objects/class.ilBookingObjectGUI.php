@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -74,9 +78,9 @@ class ilBookingObjectGUI
 
         $this->pool_gui = $a_parent_obj;
         $this->pool_has_schedule =
-            ($a_parent_obj->getObject()->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE);
+            ($a_parent_obj->getObject()->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE);
         $this->pool_uses_preferences =
-            ($a_parent_obj->getObject()->getScheduleType() == ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES);
+            ($a_parent_obj->getObject()->getScheduleType() === ilObjBookingPool::TYPE_NO_SCHEDULE_PREFERENCES);
         $this->pool_overall_limit = $this->pool_has_schedule
             ? null
             : $a_parent_obj->getObject()->getOverallLimit();
@@ -116,7 +120,7 @@ class ilBookingObjectGUI
      */
     protected function hasPoolSchedule() : bool
     {
-        return ($this->pool_gui->getObject()->getScheduleType() == ilObjBookingPool::TYPE_FIX_SCHEDULE);
+        return ($this->pool_gui->getObject()->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE);
     }
 
     /**
@@ -285,7 +289,7 @@ class ilBookingObjectGUI
      */
     public function initForm(
         string $a_mode = "create",
-        ?int $id = null
+        int $id = null
     ) : ilPropertyFormGUI {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -350,7 +354,7 @@ class ilBookingObjectGUI
         $this->record_gui->setPropertyForm($form_gui);
         $this->record_gui->parse();
 
-        if ($a_mode == "edit") {
+        if ($a_mode === "edit") {
             $form_gui->setTitle($lng->txt("book_edit_object"));
             
             $item = new ilHiddenInputGUI('object_id');
@@ -414,14 +418,14 @@ class ilBookingObjectGUI
                 $file = $form->getItemByPostVar("file");
                 if ($_FILES["file"]["tmp_name"]) {
                     $obj->uploadFile($_FILES["file"]);
-                } elseif ($file->getDeletionFlag()) {
+                } elseif ($file !== null && $file->getDeletionFlag()) {
                     $obj->deleteFile();
                 }
 
                 $pfile = $form->getItemByPostVar("post_file");
                 if ($_FILES["post_file"]["tmp_name"]) {
                     $obj->uploadPostFile($_FILES["post_file"]);
-                } elseif ($pfile->getDeletionFlag()) {
+                } elseif ($pfile !== null && $pfile->getDeletionFlag()) {
                     $obj->deletePostFile();
                 }
 
@@ -467,14 +471,14 @@ class ilBookingObjectGUI
                 $file = $form->getItemByPostVar("file");
                 if ($_FILES["file"]["tmp_name"]) {
                     $obj->uploadFile($_FILES["file"]);
-                } elseif ($file->getDeletionFlag()) {
+                } elseif ($file !== null && $file->getDeletionFlag()) {
                     $obj->deleteFile();
                 }
 
                 $pfile = $form->getItemByPostVar("post_file");
                 if ($_FILES["post_file"]["tmp_name"]) {
                     $obj->uploadPostFile($_FILES["post_file"]);
-                } elseif ($pfile->getDeletionFlag()) {
+                } elseif ($pfile !== null && $pfile->getDeletionFlag()) {
                     $obj->deletePostFile();
                 }
 

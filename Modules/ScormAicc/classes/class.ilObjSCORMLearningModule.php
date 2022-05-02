@@ -25,7 +25,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 {
     /**
     * Constructor
-    * @access	public
     * @param	integer	reference_id or object_id
     * @param	boolean	treat the id as reference_id (true) or object_id (false)
     */
@@ -35,9 +34,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    /**
-     * @return array
-     */
     public function getTrackingItems() : array
     {
         return ilObjSCORMLearningModule::_getTrackingItems($this->getId());
@@ -45,9 +41,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * get all tracking items of scorm object
-     * @access static
-     * @param int $a_obj_id
-     * @return array
      */
     public static function _getTrackingItems(int $a_obj_id) : array
     {
@@ -58,10 +51,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         $childs = $tree->getSubTree($tree->getNodeData($root_id));
 
         foreach ($childs as $child) {
-            if ($child["c_type"] == "sit") {
+            if ($child["c_type"] === "sit") {
                 $sc_item = new ilSCORMItem($child["obj_id"]);
                 if ($sc_item->getIdentifierRef() != "") {
-                    $items[count($items)] = $sc_item;
+                    $items[] = $sc_item;
                 }
             }
         }
@@ -71,8 +64,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * read manifest file
-     * @access    public
-     * @return string
      * @throws ilSaxParserException
      */
     public function readObject() : string
@@ -125,12 +116,12 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
                 // read backupfile, convert each line to utf8, write line to new file
                 // php < 4.3 style
-                $f_write_handler = fopen($manifest_file . ".new", "w");
-                $f_read_handler = fopen($manifest_file . ".old", "r");
+                $f_write_handler = fopen($manifest_file . ".new", "w");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
+                $f_read_handler = fopen($manifest_file . ".old", "r");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
                 while (!feof($f_read_handler)) {
                     $zeile = fgets($f_read_handler);
                     //echo mb_detect_encoding($zeile);
-                    fputs($f_write_handler, utf8_encode($zeile));
+                    fwrite($f_write_handler, utf8_encode($zeile));
                 }
                 fclose($f_read_handler);
                 fclose($f_write_handler);
@@ -153,13 +144,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             }
         } else {
             // check whether file starts with BOM (that confuses some sax parsers, see bug #1795)
-            $hmani = fopen($manifest_file, "r");
+            $hmani = fopen($manifest_file, "r");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
             $start = fread($hmani, 3);
-            if (strtolower(bin2hex($start)) == "efbbbf") {
-                $f_write_handler = fopen($manifest_file . ".new", "w");
+            if (strtolower(bin2hex($start)) === "efbbbf") {
+                $f_write_handler = fopen($manifest_file . ".new", "w");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
                 while (!feof($hmani)) {
                     $n = fread($hmani, 900);
-                    fputs($f_write_handler, $n);
+                    fwrite($f_write_handler, $n);
                 }
                 fclose($f_write_handler);
                 fclose($hmani);
@@ -181,7 +172,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * set settings for learning progress determination per default at upload
-     * @return void
      */
     public function setLearningProgressSettingsAtUpload() : void
     {
@@ -208,7 +198,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * get all tracked items of current user
-     * @return array
      */
     public function getTrackedItems() : array
     {
@@ -227,7 +216,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         while ($sco_rec = $ilDB->fetchAssoc($sco_set)) {
             $sc_item = new ilSCORMItem((int) $sco_rec["sco_id"]);
             if ($sc_item->getIdentifierRef() != "") {
-                $items[count($items)] = $sc_item;
+                $items[] = $sc_item;
             }
         }
 
@@ -262,10 +251,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 //        return "";
 //    }
 
-    /**
-     * @param string $a_search
-     * @return array
-     */
     public function getTrackedUsers(string $a_search) : array
     {
         global $DIC;
@@ -293,9 +278,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     //toDo
     /**
      * Get attempts for all users
-     * @return array
+     *
+     * @return int[]
      */
-    public function getAttemptsForUsers()
+    public function getAttemptsForUsers() : array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -313,8 +299,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * get number of attempts for a certain user and package
-     * @param int $a_user_id
-     * @return int
      */
     public function getAttemptsForUser(int $a_user_id) : int
     {
@@ -336,7 +320,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * Get module version for users.
-     * @return array
      */
     public function getModuleVersionForUsers() : array
     {
@@ -354,8 +337,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * get module version that tracking data for a user was recorded on
-     * @param int $a_user_id
-     * @return mixed|string
      */
     public function getModuleVersionForUser(int $a_user_id) : string
     {
@@ -377,9 +358,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * Get tracking data per user
-     * @param int $a_sco_id
-     * @param int $a_user_id
-     * @return array
      */
     public function getTrackingDataPerUser(int $a_sco_id, int $a_user_id) : array
     {
@@ -405,10 +383,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return $data;
     }
 
-    /**
-     * @param int $a_user_id
-     * @return array
-     */
     public function getTrackingDataAgg(int $a_user_id) : array
     {
         global $DIC;
@@ -471,10 +445,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return (array) $data;
     }
 
-    /**
-     * @param int $a_sco_id
-     * @return array
-     */
     public function getTrackingDataAggSco(int $a_sco_id) : array
     {
         global $DIC;
@@ -537,8 +507,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * Export selected user tracking data
-     * @param bool       $a_all
-     * @param mixed[]    $a_users
      * @global ilObjUser $ilUser
      */
     public function exportSelected(bool $a_all, array $a_users = array()) : void
@@ -579,10 +547,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         $this->sendExportFile($header, $csv);
     }
 
-    /**
-     * @param string $a_file
-     * @return bool
-     */
     public function importTrackingData(string $a_file) : bool
     {
         global $DIC;
@@ -594,10 +558,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         $method = null;
         
         //lets import
-        $fhandle = fopen($a_file, "r");
+        $fhandle = fopen($a_file, "r");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
         
         //the top line is the field names
-        $fields = fgetcsv($fhandle, pow(2, 16), ';');
+        $fields = fgetcsv($fhandle, 2 ** 16, ';');
         //lets check the import method
         fclose($fhandle);
        
@@ -616,10 +580,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return $success;
     }
 
-    /**
-     * @param string $a_file
-     * @return bool
-     */
     public function importSuccess(string $a_file) : bool
     {
         global $DIC;
@@ -632,13 +592,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             $scos = $collection->getItems();
         }
         
-        $fhandle = fopen($a_file, "r");
+        $fhandle = fopen($a_file, "r");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
 
         $obj_id = $this->getID();
-        $fields = fgetcsv($fhandle, pow(2, 16), ';');
+        $fields = fgetcsv($fhandle, 2 ** 16, ';');
         $users = array();
         $usersToDelete = array();
-        while (($csv_rows = fgetcsv($fhandle, pow(2, 16), ";")) !== false) {
+        while (($csv_rows = fgetcsv($fhandle, 2 ** 16, ";")) !== false) {
             $data = array_combine($fields, $csv_rows);
             //no check the format - sufficient to import users
             if ($data["Login"]) {
@@ -754,15 +714,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return true;
     }
 
-    /**
-     * @param int    $user_id
-     * @param string $last_access
-     * @param int    $status
-     * @param        $attempts
-     * @param        $percentage_completed
-     * @param        $sco_total_time_sec
-     * @return void
-     */
     public function importSuccessForSahsUser(
         int $user_id,
         string $last_access,
@@ -770,7 +721,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         $attempts = null,
         $percentage_completed = null,
         $sco_total_time_sec = null
-    ) {
+    ) : void {
         global $DIC;
         $ilDB = $DIC->database();
         $statement = $ilDB->queryF(
@@ -809,8 +760,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * Parse il_usr_123_6 id
-     * @param string $il_id
-     * @return int
      */
     private function parseUserId(string $il_id) : int
     {
@@ -833,8 +782,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * Import raw data
-     * @param string $a_file
-     * @return bool
      */
     private function importRaw(string $a_file) : bool
     {
@@ -844,15 +791,15 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         $lng = $DIC->language();
         $lng->loadLanguageModule("scormtrac");
 
-        $fhandle = fopen($a_file, "r");
+        $fhandle = fopen($a_file, "r");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
 
-        $fields = fgetcsv($fhandle, pow(2, 16), ';');
+        $fields = fgetcsv($fhandle, 2 ** 16, ';');
         $users = array();
         $a_last_access = array();
         $a_time = array();
         $a_package_attempts = array();
         $a_module_version = array();
-        while (($csv_rows = fgetcsv($fhandle, pow(2, 16), ";")) !== false) {
+        while (($csv_rows = fgetcsv($fhandle, 2 ** 16, ";")) !== false) {
             $data = array_combine($fields, $csv_rows);
             if ($data['Userid']) {
                 $user_id = $this->parseUserId($data['Userid']);
@@ -905,7 +852,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                 $data['Value'] = "";
             }
 
-            if ($data['Key'] == "cmi.core.total_time" && $data['Value'] != "") {
+            if ($data['Key'] === "cmi.core.total_time" && $data['Value'] != "") {
                 $tarr = explode(":", $data['Value']);
                 $sec = (int) $tarr[2] + (int) $tarr[1] * 60 +
                     (int) substr($tarr[0], strlen($tarr[0]) - 3) * 60 * 60;
@@ -954,7 +901,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             }
             // $package_attempts = 1;
             if ($il_sco_id == 0) {
-                if ($data['Key'] == "package_attempts") {
+                if ($data['Key'] === "package_attempts") {
                     $a_package_attempts[$user_id] = $data['Value'];
                 }
                 // if ($data['Key'] == "module_version") $a_module_version[$user_id] = $data['Value'];
@@ -995,10 +942,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     
     //helper function
 
-    /**
-     * @param string $a_login
-     * @return int|null
-     */
     public function get_user_id(string $a_login) : ?int
     {
         global $DIC;
@@ -1014,15 +957,13 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         
         if (count($val_rec) > 0) {
             return (int) $val_rec['usr_id'];
-        } else {
-            return null;
         }
+
+        return null;
     }
 
     /**
      * resolves manifest SCOID to internal ILIAS SCO ID
-     * @param string $a_referrer
-     * @return int
      */
     private function lookupSCOId(string $a_referrer) : int
     {
@@ -1051,8 +992,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 
     /**
      * assumes that only one account exists for a mailadress
-     * @param string $a_mail
-     * @return int
      */
     public function getUserIdEmail(string $a_mail) : int
     {
@@ -1074,10 +1013,8 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     //todo
     /**
      * send export file to browser
-     * @param $a_header
-     * @param $a_content
      */
-    public function sendExportFile($a_header, $a_content)
+    public function sendExportFile(string $a_header, string $a_content) : void
     {
         $timestamp = time();
         $refid = $this->getRefId();
@@ -1120,7 +1057,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         );
 
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-            array_push($scos, $val_rec['scoid']);
+            $scos[] = $val_rec['scoid'];
         }
         return $scos;
     }
@@ -1212,17 +1149,11 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         );
 
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-            array_push($scos, $val_rec['scoid']);
+            $scos[] = $val_rec['scoid'];
         }
         return $scos;
     }
 
-    /**
-     * @param int   $a_user
-     * @param array $a_allScoIds
-     * @param bool  $a_numerical
-     * @return bool
-     */
     public function getStatusForUser(int $a_user, array $a_allScoIds, bool $a_numerical = false) : bool
     {
         global $DIC;
@@ -1256,10 +1187,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return $completion;
     }
 
-    /**
-     * @param int $a_user
-     * @return bool
-     */
     public function getCourseCompletionForUser(int $a_user) : bool
     {
         return $this->getStatusForUser($a_user, $this->getAllScoIds(), true);
@@ -1267,8 +1194,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
     
     /**
      * to be called from IlObjUser
-     * @param int $user_id
-     * @return void
      */
     public static function _removeTrackingDataForUser(int $user_id) : void
     {
@@ -1287,11 +1212,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         );
     }
 
-    /**
-     * @param int $a_item_id
-     * @param int $a_user_id
-     * @return null[]
-     */
     public static function _getScoresForUser(int $a_item_id, int $a_user_id) : array
     {
         global $DIC;
@@ -1308,10 +1228,10 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             array($a_item_id, $a_user_id)
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-            if ($val_rec['lvalue'] == "cmi.core.score.raw") {
+            if ($val_rec['lvalue'] === "cmi.core.score.raw") {
                 $retAr["raw"] = $val_rec["rvalue"];
             }
-            if ($val_rec['lvalue'] == "cmi.core.score.max") {
+            if ($val_rec['lvalue'] === "cmi.core.score.max") {
                 $retAr["max"] = $val_rec["rvalue"];
             }
         }
@@ -1322,10 +1242,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return $retAr;
     }
 
-    /**
-     * @param int $user_id
-     * @return string
-     */
     public function getLastVisited(int $user_id) : string
     {
         global $DIC;
@@ -1343,10 +1259,6 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         return '0';
     }
 
-    /**
-     * @param array $a_users
-     * @return void
-     */
     public function deleteTrackingDataOfUsers(array $a_users) : void
     {
         global $DIC;

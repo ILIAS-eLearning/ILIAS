@@ -3,26 +3,35 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilMediaPoolPage
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilMediaPoolPage extends ilPageObject
 {
+    protected ilObjMediaPool $pool;
+
     public function getParentType() : string
     {
         return "mep";
+    }
+
+    public function setPool(ilObjMediaPool $pool) : void
+    {
+        $this->pool = $pool;
     }
 
     public static function deleteAllPagesOfMediaPool(int $a_media_pool_id) : void
@@ -110,4 +119,74 @@ class ilMediaPoolPage extends ilPageObject
         
         return $ret;
     }
+
+    protected function getMetadataType() : string
+    {
+        return "mpg";
+    }
+
+    /**
+     * Meta data update listener
+     *
+     * Important note: Do never call create() or update()
+     * method of ilObject here. It would result in an
+     * endless loop: update object -> update meta -> update
+     * object -> ...
+     * Use static _writeTitle() ... methods instead.
+     */
+    public function MDUpdateListener(string $a_element) : bool
+    {
+        switch ($a_element) {
+            case 'General':
+
+                // Update Title and description
+                $md = new ilMD($this->pool->getId(), $this->getId(), $this->getMetadataType());
+                $md_gen = $md->getGeneral();
+
+                $item = new ilMediaPoolItem($this->getId());
+                $item->setTitle($md_gen->getTitle());
+                $item->update();
+
+                break;
+
+            default:
+        }
+        return true;
+    }
+
+    /**
+     * create meta data entry
+     */
+    public function createMetaData(int $pool_id) : bool
+    {
+        $ilUser = $this->user;
+
+        $md_creator = new ilMDCreator($pool_id, $this->getId(), $this->getMetadataType());
+        $md_creator->setTitle(self::lookupTitle($this->getId()));
+        $md_creator->setTitleLanguage($ilUser->getPref('language'));
+        $md_creator->setDescription("");
+        $md_creator->setDescriptionLanguage($ilUser->getPref('language'));
+        $md_creator->setKeywordLanguage($ilUser->getPref('language'));
+        $md_creator->setLanguage($ilUser->getPref('language'));
+        $md_creator->create();
+
+        return true;
+    }
+
+    public function updateMetaData() : void
+    {
+        $md = new ilMD($this->pool->getId(), $this->getId(), $this->getMetadataType());
+        $md_gen = $md->getGeneral();
+        $md_gen->setTitle(self::lookupTitle($this->getId()));
+        $md_gen->update();
+    }
+
+
+    public function deleteMetaData() : void
+    {
+        // Delete meta data
+        $md = new ilMD($this->pool->getId(), $this->getId(), $this->getMetadataType());
+        $md->deleteAll();
+    }
+
 }

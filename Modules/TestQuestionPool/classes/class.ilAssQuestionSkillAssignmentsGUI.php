@@ -75,6 +75,8 @@ class ilAssQuestionSkillAssignmentsGUI
      */
     private $assignmentConfigurationHintMessage;
 
+    private \ILIAS\TestQuestionPool\InternalRequestService $request;
+
     /**
      * @param ilCtrl $ctrl
      * @param ilAccessHandler $access
@@ -89,6 +91,8 @@ class ilAssQuestionSkillAssignmentsGUI
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->db = $db;
+        global $DIC;
+        $this->request = $DIC->testQuestionPool()->internal()->request();
     }
 
     /**
@@ -266,7 +270,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
     private function updateSkillQuestionAssignmentsCmd()
     {
-        $questionId = (int) $_GET['question_id'];
+        $questionId = (int) $this->request->raw('question_id');
 
         if ($this->isTestQuestion($questionId)) {
             $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
@@ -337,7 +341,7 @@ class ilAssQuestionSkillAssignmentsGUI
     private function showSkillSelectionCmd()
     {
         $this->ctrl->saveParameter($this, 'question_id');
-        $questionId = (int) $_GET['question_id'];
+        $questionId = (int) $this->request->raw('question_id');
 
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
         $assignmentList->setParentObjId($this->getQuestionContainerId());
@@ -380,14 +384,14 @@ class ilAssQuestionSkillAssignmentsGUI
         $this->keepAssignmentParameters();
         
         if ($questionGUI === null) {
-            $questionGUI = assQuestionGUI::_getQuestionGUI('', (int) $_GET['question_id']);
+            $questionGUI = assQuestionGUI::_getQuestionGUI('', (int) $this->request->raw('question_id'));
         }
 
         if ($assignment === null) {
             $assignment = $this->buildQuestionSkillAssignment(
-                (int) $_GET['question_id'],
-                (int) $_GET['skill_base_id'],
-                (int) $_GET['skill_tref_id']
+                (int) $this->request->raw('question_id'),
+                (int) $this->request->raw('skill_base_id'),
+                (int) $this->request->raw('skill_tref_id')
             );
         }
         
@@ -402,15 +406,15 @@ class ilAssQuestionSkillAssignmentsGUI
     
     private function saveSkillQuestionAssignmentPropertiesFormCmd()
     {
-        $questionId = (int) $_GET['question_id'];
+        $questionId = (int) $this->request->raw('question_id');
         
         if ($this->isTestQuestion($questionId)) {
             $questionGUI = assQuestionGUI::_getQuestionGUI('', $questionId);
     
             $assignment = $this->buildQuestionSkillAssignment(
-                (int) $_GET['question_id'],
-                (int) $_GET['skill_base_id'],
-                (int) $_GET['skill_tref_id']
+                (int) $this->request->raw('question_id'),
+                (int) $this->request->raw('skill_base_id'),
+                (int) $this->request->raw('skill_tref_id')
             );
 
             $this->keepAssignmentParameters();
@@ -452,8 +456,8 @@ class ilAssQuestionSkillAssignmentsGUI
             // add skill usage
             ilSkillUsage::setUsage(
                 $this->getQuestionContainerId(),
-                (int) $_GET['skill_base_id'],
-                (int) $_GET['skill_tref_id']
+                (int) $this->request->raw('skill_base_id'),
+                (int) $this->request->raw('skill_tref_id')
             );
             
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('qpl_qst_skl_assign_properties_modified'), true);
@@ -520,7 +524,7 @@ class ilAssQuestionSkillAssignmentsGUI
 
     private function showSyncOriginalConfirmationCmd()
     {
-        $questionId = (int) $_GET['question_id'];
+        $questionId = (int) $this->request->raw('question_id');
 
         $confirmation = new ilConfirmationGUI();
 
@@ -679,7 +683,7 @@ class ilAssQuestionSkillAssignmentsGUI
         return true;
     }
 
-    private function validateSolutionCompareExpression(ilAssQuestionSolutionComparisonExpression $expression, iQuestionCondition $question) : bool
+    private function validateSolutionCompareExpression(ilAssQuestionSolutionComparisonExpression $expression, $question) : bool
     {
         try {
             $conditionParser = new ilAssLacConditionParser();
@@ -687,7 +691,8 @@ class ilAssQuestionSkillAssignmentsGUI
             $questionProvider = new ilAssLacQuestionProvider();
             $questionProvider->setQuestion($question);
             $conditionValidator = new ilAssLacCompositeValidator($questionProvider);
-
+            // @PHP8-CR I have flat zero clue what is going on here. I like to leave this "intact" for further analysis
+            // and not remove eventually helpful hints.
             $conditionValidator->validate($conditionComposite);
         } catch (ilAssLacException $e) {
             if ($e instanceof ilAssLacFormAlertProvider) {

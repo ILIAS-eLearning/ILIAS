@@ -29,7 +29,7 @@
  */
 class ilMDSettings
 {
-    protected static $instance = null;
+    protected static ?self $instance = null;
 
     protected ilSetting $settings;
     private bool $copyright_selection_active = false;
@@ -50,7 +50,7 @@ class ilMDSettings
 
     public function isCopyrightSelectionActive() : bool
     {
-        return $this->copyright_selection_active ? true : false;
+        return $this->copyright_selection_active;
     }
 
     public function activateCopyrightSelection(bool $a_status) : void
@@ -65,7 +65,7 @@ class ilMDSettings
 
     public function getDelimiter() : string
     {
-        if (trim($this->delimiter) == "") {
+        if (trim($this->delimiter) === '') {
             return ",";
         }
         return $this->delimiter;
@@ -82,6 +82,6 @@ class ilMDSettings
         $this->settings = new ilSetting('md_settings');
 
         $this->copyright_selection_active = (bool) $this->settings->get('copyright_selection_active', '0');
-        $this->delimiter                  = (string) $this->settings->get('delimiter', ",");
+        $this->delimiter = (string) $this->settings->get('delimiter', ",");
     }
 }

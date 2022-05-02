@@ -35,10 +35,7 @@ class ilSCORMItem extends ilSCORMObject
     public ?string $masteryscore = null;
 
     /**
-    * Constructor
-    *
-    * @param	int		$a_id		Object ID
-    * @access	public
+    * @param int $a_id Object ID
     */
     public function __construct(int $a_id = 0)
     {
@@ -46,179 +43,106 @@ class ilSCORMItem extends ilSCORMObject
         $this->setType("sit");
     }
 
-    /**
-     * @return string
-     */
     public function getImportId() : string
     {
         return $this->import_id;
     }
 
-    /**
-     * @param string $a_import_id
-     * @return void
-     */
     public function setImportId(string $a_import_id) : void
     {
         $this->import_id = $a_import_id;
     }
 
-    /**
-     * @return string
-     */
     public function getIdentifierRef() : string
     {
         return $this->identifierref;
     }
 
-    /**
-     * @param string $a_id_ref
-     * @return void
-     */
     public function setIdentifierRef(string $a_id_ref) : void
     {
         $this->identifierref = $a_id_ref;
     }
 
-    /**
-     * @return bool
-     */
     public function getVisible() : bool
     {
         return $this->isvisible;
     }
 
-    /**
-     * @param bool $a_visible
-     * @return void
-     */
     public function setVisible(bool $a_visible) : void
     {
         $this->isvisible = $a_visible;
     }
 
-    /**
-     * @return string|null
-     */
     public function getParameters() : ?string
     {
         return $this->parameters;
     }
 
-    /**
-     * @param string|null $a_par
-     * @return void
-     */
     public function setParameters(?string $a_par) : void
     {
         $this->parameters = $a_par;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPrereqType() : ?string
     {
         return $this->prereq_type;
     }
 
-    /**
-     * @param string|null $a_p_type
-     * @return void
-     */
     public function setPrereqType(?string $a_p_type) : void
     {
         $this->prereq_type = $a_p_type;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPrerequisites() : ?string
     {
         return $this->prerequisites;
     }
 
-    /**
-     * @param string|null $a_pre
-     * @return void
-     */
     public function setPrerequisites(?string $a_pre) : void
     {
         $this->prerequisites = $a_pre;
     }
 
-    /**
-     * @return string|null
-     */
     public function getMaxTimeAllowed() : ?string
     {
         return $this->maxtimeallowed;
     }
 
-    /**
-     * @param string|null $a_max
-     * @return void
-     */
     public function setMaxTimeAllowed(?string $a_max) : void
     {
         $this->maxtimeallowed = $a_max;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTimeLimitAction() : ?string
     {
         return $this->timelimitaction;
     }
 
-    /**
-     * @param string|null $a_lim_act
-     * @return void
-     */
     public function setTimeLimitAction(?string $a_lim_act) : void
     {
         $this->timelimitaction = $a_lim_act;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDataFromLms() : ?string
     {
         return $this->datafromlms;
     }
 
-    /**
-     * @param string|null $a_data
-     * @return void
-     */
     public function setDataFromLms(?string $a_data) : void
     {
         $this->datafromlms = $a_data;
     }
 
-    /**
-     * @return string|null
-     */
     public function getMasteryScore() : ?string
     {
         return $this->masteryscore;
     }
 
-    /**
-     * @param string|null $a_score
-     * @return void
-     */
     public function setMasteryScore(?string $a_score) : void
     {
         $this->masteryscore = $a_score;
     }
 
-    /**
-     * @return void
-     */
     public function read() : void
     {
         global $DIC;
@@ -235,7 +159,7 @@ class ilSCORMItem extends ilSCORMObject
         
         $this->setImportId($obj_rec["import_id"]);
         $this->setIdentifierRef($obj_rec["identifierref"]);
-        if (strtolower($obj_rec["isvisible"]) == "false") {
+        if (strtolower($obj_rec["isvisible"]) === "false") {
             $this->setVisible(false);
         } else {
             $this->setVisible(true);
@@ -249,9 +173,6 @@ class ilSCORMItem extends ilSCORMObject
         $this->setMasteryScore($obj_rec["masteryscore"]);
     }
 
-    /**
-     * @return void
-     */
     public function create() : void
     {
         global $DIC;
@@ -276,9 +197,6 @@ class ilSCORMItem extends ilSCORMObject
         ));
     }
 
-    /**
-     * @return void
-     */
     public function update() : void
     {
         global $DIC;
@@ -342,9 +260,6 @@ class ilSCORMItem extends ilSCORMObject
     }
 
     /**
-     * @param int $a_item_id
-     * @param int $a_user_id
-     * @param int $a_obj_id
      * @return array<int|string, mixed>
      */
     public static function _lookupTrackingDataOfUser(int $a_item_id, int $a_user_id = 0, int $a_obj_id = 0) : array
@@ -375,9 +290,6 @@ class ilSCORMItem extends ilSCORMObject
         return $trdata;
     }
 
-    /**
-     * @return void
-     */
     public function delete() : void
     {
         global $DIC;
@@ -402,12 +314,6 @@ class ilSCORMItem extends ilSCORMObject
         ilLPStatusWrapper::_refreshStatus($this->getSLMId());
     }
 
-    /**
-     * @param string $a_lval
-     * @param string $a_rval
-     * @param int    $a_obj_id
-     * @return void
-     */
     public function insertTrackData(string $a_lval, string $a_rval, int $a_obj_id) : void
     {
         //ilObjSCORMTracking::_insertTrackData($this->getId(), $a_lval, $a_rval, $a_ref_id);
@@ -415,10 +321,9 @@ class ilSCORMItem extends ilSCORMObject
     }
 
     /**
-     * @param int $a_obj_id
-     * @return array
+     * @return int[]
      */
-    public static function _getItems(int $a_obj_id)
+    public static function _getItems(int $a_obj_id) : array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -438,10 +343,6 @@ class ilSCORMItem extends ilSCORMObject
         return $item_ids;
     }
 
-    /**
-     * @param int $a_obj_id
-     * @return string
-     */
     public static function _lookupTitle(int $a_obj_id) : string
     {
         global $DIC;

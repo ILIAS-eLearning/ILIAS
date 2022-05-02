@@ -464,29 +464,47 @@ class ilCalendarSettings
         $this->setDefaultDayEnd((int) $this->storage->get('default_day_end', (string) self::DEFAULT_DAY_END));
         $this->useCache((bool) $this->storage->get('cache_enabled', (string) $this->cache_enabled));
         $this->setCacheMinutes((int) $this->storage->get('cache_minutes', (string) self::DEFAULT_CACHE_MINUTES));
-        $this->enableSynchronisationCache((bool) $this->storage->get('sync_cache_enabled',
-            (string) $this->isSynchronisationCacheEnabled()));
-        $this->setSynchronisationCacheMinutes((int) $this->storage->get('sync_cache_minutes',
-            (string) self::DEFAULT_SYNC_CACHE_MINUTES));
+        $this->enableSynchronisationCache((bool) $this->storage->get(
+            'sync_cache_enabled',
+            (string) $this->isSynchronisationCacheEnabled()
+        ));
+        $this->setSynchronisationCacheMinutes((int) $this->storage->get(
+            'sync_cache_minutes',
+            (string) self::DEFAULT_SYNC_CACHE_MINUTES
+        ));
         $this->enableNotification((bool) $this->storage->get('notification', (string) $this->isNotificationEnabled()));
-        $this->enableConsultationHours((bool) $this->storage->get('consultation_hours',
-            (string) $this->areConsultationHoursEnabled()));
-        $this->enableCGRegistration((bool) $this->storage->get('cg_registration',
-            (string) $this->isCGRegistrationEnabled()));
-        $this->enableCourseCalendar((bool) $this->storage->get('course_cal',
-            (string) $this->isCourseCalendarEnabled()));
-        $this->setCourseCalendarVisible((bool) $this->storage->get('course_cal_visible',
-            (string) $this->isCourseCalendarVisible()));
+        $this->enableConsultationHours((bool) $this->storage->get(
+            'consultation_hours',
+            (string) $this->areConsultationHoursEnabled()
+        ));
+        $this->enableCGRegistration((bool) $this->storage->get(
+            'cg_registration',
+            (string) $this->isCGRegistrationEnabled()
+        ));
+        $this->enableCourseCalendar((bool) $this->storage->get(
+            'course_cal',
+            (string) $this->isCourseCalendarEnabled()
+        ));
+        $this->setCourseCalendarVisible((bool) $this->storage->get(
+            'course_cal_visible',
+            (string) $this->isCourseCalendarVisible()
+        ));
         $this->enableGroupCalendar((bool) $this->storage->get('group_cal', (string) $this->isGroupCalendarEnabled()));
-        $this->setGroupCalendarVisible((bool) $this->storage->get('group_cal_visible',
-            (string) $this->isGroupCalendarVisible()));
-        $this->enableUserNotification((bool) $this->storage->get('notification_user',
-            (string) $this->isUserNotificationEnabled()));
+        $this->setGroupCalendarVisible((bool) $this->storage->get(
+            'group_cal_visible',
+            (string) $this->isGroupCalendarVisible()
+        ));
+        $this->enableUserNotification((bool) $this->storage->get(
+            'notification_user',
+            (string) $this->isUserNotificationEnabled()
+        ));
         $this->enableWebCalSync((bool) $this->storage->get('webcal_sync', (string) $this->isWebCalSyncEnabled()));
         $this->setWebCalSyncHours((int) $this->storage->get('webcal_sync_hours', (string) $this->getWebCalSyncHours()));
         $this->setShowWeeks((bool) $this->storage->get('show_weeks', (string) $this->getShowWeeks()));
-        $this->enableBatchFileDownloads((bool) $this->storage->get('batch_files',
-            (string) $this->isBatchFileDownloadsEnabled()));
+        $this->enableBatchFileDownloads((bool) $this->storage->get(
+            'batch_files',
+            (string) $this->isBatchFileDownloadsEnabled()
+        ));
         $this->setDefaultCal((int) $this->storage->get('default_calendar_view', (string) $this->getDefaultCal()));
         $this->setDefaultPeriod((int) $this->storage->get('default_period', (string) $this->getDefaultPeriod()));
     }

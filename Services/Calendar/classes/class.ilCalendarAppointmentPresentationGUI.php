@@ -4,7 +4,6 @@ use ILIAS\UI\Component\Item\Item;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HttpServices;
 
-
 /**
  * Class ilCalendarAppointmentPresentationGUI
  * @author       Jesús López <lopez@leifos.com>

@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilTermsOfServiceAcceptanceEntityTest
@@ -66,7 +81,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
         $expected = 4711;
 
         $entity = new ilTermsOfServiceAcceptanceEntity();
-        $this->assertEquals($expected, $entity->withId($expected)->getId());
+        $this->assertSame($expected, $entity->withId($expected)->getId());
     }
 
     public function testEntityShouldReturnUserIdWhenUserIdIsSet() : void
@@ -74,7 +89,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
         $expected = 1337;
 
         $entity = new ilTermsOfServiceAcceptanceEntity();
-        $this->assertEquals($expected, $entity->withUserId($expected)->getUserId());
+        $this->assertSame($expected, $entity->withUserId($expected)->getUserId());
     }
 
     public function testEntityShouldReturnTextWhenTextIsSet() : void
@@ -82,7 +97,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
         $expected = 'Lorem Ipsum';
 
         $entity = new ilTermsOfServiceAcceptanceEntity();
-        $this->assertEquals($expected, $entity->withText($expected)->getText());
+        $this->assertSame($expected, $entity->withText($expected)->getText());
     }
 
     public function testEntityShouldReturnDocumentIdWhenDocumentIdIsSet() : void
@@ -90,7 +105,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
         $expected = 4711;
 
         $entity = new ilTermsOfServiceAcceptanceEntity();
-        $this->assertEquals($expected, $entity->withDocumentId($expected)->getDocumentId());
+        $this->assertSame($expected, $entity->withDocumentId($expected)->getDocumentId());
     }
 
     public function testEntityShouldReturnSourceTypeWhenSourceTypeIsSet() : void
@@ -98,7 +113,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
         $expected = 'Document PHP Unit';
 
         $entity = new ilTermsOfServiceAcceptanceEntity();
-        $this->assertEquals($expected, $entity->withTitle($expected)->getTitle());
+        $this->assertSame($expected, $entity->withTitle($expected)->getTitle());
     }
 
     public function testEntityShouldReturnTimestampWhenTimestampIsSet() : void
@@ -106,7 +121,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
         $expected = time();
 
         $entity = new ilTermsOfServiceAcceptanceEntity();
-        $this->assertEquals($expected, $entity->withTimestamp($expected)->getTimestamp());
+        $this->assertSame($expected, $entity->withTimestamp($expected)->getTimestamp());
     }
 
     public function testEntityShouldReturnHashWhenHashIsSet() : void
@@ -114,7 +129,7 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
         $expected = 'hash';
 
         $entity = new ilTermsOfServiceAcceptanceEntity();
-        $this->assertEquals($expected, $entity->withHash($expected)->getHash());
+        $this->assertSame($expected, $entity->withHash($expected)->getHash());
     }
 
     public function testEntityShouldReturnCriteriaWhenCriteriaAreSet() : void
@@ -122,6 +137,6 @@ class ilTermsOfServiceAcceptanceEntityTest extends ilTermsOfServiceBaseTest
         $expected = 'criteria';
 
         $entity = new ilTermsOfServiceAcceptanceEntity();
-        $this->assertEquals($expected, $entity->withSerializedCriteria($expected)->getSerializedCriteria());
+        $this->assertSame($expected, $entity->withSerializedCriteria($expected)->getSerializedCriteria());
     }
 }

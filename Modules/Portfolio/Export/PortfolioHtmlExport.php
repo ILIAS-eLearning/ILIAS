@@ -48,7 +48,7 @@ class PortfolioHtmlExport
 
         $this->portfolio_gui = $portfolio_gui;
         /** @var \ilObjPortfolio $portfolio */
-        $portfolio = $portfolio_gui->object;
+        $portfolio = $portfolio_gui->getObject();
         $this->portfolio = $portfolio;
 
 
@@ -226,7 +226,9 @@ class PortfolioHtmlExport
         }
 
         // for sub-pages, e.g. blog postings
-        $tpl_callback = [$this, "getInitialisedTemplate"];
+        $tpl_callback = function (array $js_files = []) : \ilGlobalPageTemplate {
+            return $this->getInitialisedTemplate($js_files);
+        };
 
         $has_index = false;
         foreach ($pages as $page) {
@@ -246,14 +248,12 @@ class PortfolioHtmlExport
                     $this->co_page_html_export->collectPageElements("prtf:pg", $page["id"]);
                 }
 
-                if (!$has_index) {
-                    if (is_file($this->target_dir . "/prtf_" . $page["id"] . ".html")) {	// #20144
-                        copy(
-                            $this->target_dir . "/prtf_" . $page["id"] . ".html",
-                            $this->target_dir . "/index.html"
-                        );
-                        $has_index = true;
-                    }
+                if (!$has_index && is_file($this->target_dir . "/prtf_" . $page["id"] . ".html")) {	// #20144
+                    copy(
+                        $this->target_dir . "/prtf_" . $page["id"] . ".html",
+                        $this->target_dir . "/index.html"
+                    );
+                    $has_index = true;
                 }
             }
         }

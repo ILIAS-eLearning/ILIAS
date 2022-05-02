@@ -382,14 +382,13 @@ class ilCalendarUtil
     /**
      * get max day of month
      * 2008,2 => 29
-     * @access public
-     * @param int year
-     * @param int month
-     * @return
      */
     public static function _getMaxDayOfMonth(int $a_year, int $a_month) : int
     {
-        return cal_days_in_month(CAL_GREGORIAN, $a_month, $a_year);
+        if (function_exists('cal_days_in_month')) {
+            return cal_days_in_month(CAL_GREGORIAN, $a_month, $a_year);
+        }
+        return (int) date('t', mktime(0, 0, 0, $a_month, 1, $a_year));
     }
 
     /**
@@ -555,8 +554,15 @@ class ilCalendarUtil
         global $DIC;
 
         $tpl = $DIC->ui()->mainTemplate();
-        foreach (self::getCodeForPicker($a_id, $a_add_time, $a_custom_config, $a_id2, $a_custom_config2, $a_toggle_id,
-            $a_subform_id) as $code) {
+        foreach (self::getCodeForPicker(
+            $a_id,
+            $a_add_time,
+            $a_custom_config,
+            $a_id2,
+            $a_custom_config2,
+            $a_toggle_id,
+            $a_subform_id
+        ) as $code) {
             $tpl->addOnLoadCode($code);
         }
     }
@@ -649,7 +655,7 @@ class ilCalendarUtil
      * @return array date, warnings, errors
      * @throws ilDateTimeException
      */
-    public static function parseDateString(string $a_date, bool $a_add_time = false, bool $a_use_generic_format = false)
+    public static function parseDateString(string $a_date, bool $a_add_time = false, bool $a_use_generic_format = false) : array
     {
         global $DIC;
 

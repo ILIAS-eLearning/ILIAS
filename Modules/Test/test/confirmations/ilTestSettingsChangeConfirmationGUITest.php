@@ -19,8 +19,11 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
      * @var ilLanguage|MockObject
      */
     private $lng_mock;
+    /**
+     * @var \ILIAS\DI\Container|mixed
+     */
+    private $backup_dic;
 
-    
     protected function setUp() : void
     {
         parent::setUp();

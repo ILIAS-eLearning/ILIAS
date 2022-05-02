@@ -43,8 +43,12 @@ class ilSkillProfileCompletionManager
         return $this->user_id;
     }
 
+    /**
+     * @param array{base_skill_id: int, tref_id: int, level_id: int} $a_skills
+     * @return array<int, array<int, int>>
+     */
     public function getActualMaxLevels(
-        array $a_skills = null,
+        array $a_skills,
         string $a_gap_mode = "",
         string $a_gap_mode_type = "",
         int $a_gap_mode_obj_id = 0
@@ -67,12 +71,40 @@ class ilSkillProfileCompletionManager
     }
 
     public function getActualLastLevels(
-        ?array $a_skills = null,
+        array $a_skills,
         string $a_gap_mode = "",
         string $a_gap_mode_type = "",
         int $a_gap_mode_obj_id = 0
     ) : array {
         // todo for coming feature
+        return [];
+    }
+
+    /**
+     * @param array{base_skill_id: int, tref_id: int, level_id: int} $a_skills
+     * @return array<int, array<int, float>>
+     */
+    public function getActualNextLevelFulfilments(
+        array $a_skills,
+        string $a_gap_mode = "",
+        string $a_gap_mode_type = "",
+        int $a_gap_mode_obj_id = 0
+    ) : array {
+        // get actual next level fulfilments for gap analysis
+        $fuls = [];
+        foreach ($a_skills as $sk) {
+            $bs = new ilBasicSkill($sk["base_skill_id"]);
+            if ($a_gap_mode == "max_per_type") {
+                $perc = $bs->getNextLevelFulfilmentPerType($sk["tref_id"], $a_gap_mode_type, $this->getUserId());
+            } elseif ($a_gap_mode == "max_per_object") {
+                $perc = $bs->getNextLevelFulfilmentPerObject($sk["tref_id"], $a_gap_mode_obj_id, $this->getUserId());
+            } else {
+                $perc = $bs->getNextLevelFulfilment($sk["tref_id"], $this->getUserId());
+            }
+            $fuls[$sk["base_skill_id"]][$sk["tref_id"]] = $perc;
+        }
+
+        return $fuls;
     }
 
     /**
@@ -121,6 +153,7 @@ class ilSkillProfileCompletionManager
 
     /**
      * Get all profiles of user which are fulfilled or non-fulfilled
+     * @return array<int, bool>
      */
     public function getAllProfileCompletionsForUser() : array
     {

@@ -63,7 +63,7 @@ class ilNewsData
      * Delete a news item
      * @param ilNewsItem $news_item
      */
-    public function delete(ilNewsItem $news_item)
+    public function delete(ilNewsItem $news_item) : void
     {
         $news_item->delete();
     }

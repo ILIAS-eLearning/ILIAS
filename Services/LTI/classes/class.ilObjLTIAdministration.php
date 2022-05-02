@@ -61,7 +61,7 @@ class ilObjLTIAdministration extends ilObject
      */
     public function saveConsumerObjectTypes(int $a_consumer_id, array $a_obj_types) : void
     {
-        global $ilDB;
+        global $ilDB; // TODO PHP8 Review: Move Global Access to Constructor
 
         $ilDB->manipulate("DELETE FROM lti_ext_consumer_otype WHERE consumer_id = " . $ilDB->quote($a_consumer_id, "integer"));
 
@@ -87,7 +87,7 @@ class ilObjLTIAdministration extends ilObject
 
         $obj_ids = array();
         while ($record = $ilDB->fetchAssoc($result)) {
-            array_push($obj_ids, $record['object_type']);
+            $obj_ids[] = $record['object_type'];
         }
         return $obj_ids;
     }
@@ -171,7 +171,7 @@ class ilObjLTIAdministration extends ilObject
             'on id = ext_consumer_id where enabled = ' . $db->quote(1, 'integer');
         $res = $db->query($query);
         
-        ilLoggerFactory::getLogger('lti')->debug($query);
+        ilLoggerFactory::getLogger('ltis')->debug($query);
         
         $rows = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

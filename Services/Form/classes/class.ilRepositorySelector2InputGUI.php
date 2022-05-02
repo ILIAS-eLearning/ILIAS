@@ -74,7 +74,7 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
         if (is_callable($c)) {
             return $c($a_id);
         }
-        return ilObject::_lookupTitle(ilObject::_lookupObjId($a_id));
+        return ilObject::_lookupTitle(ilObject::_lookupObjId((int) $a_id));
     }
 
     public function getExplorerGUI() : ilRepositorySelectorExplorerGUI

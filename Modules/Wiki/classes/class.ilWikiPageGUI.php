@@ -376,7 +376,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         // notes
         if (!$ilSetting->get("disable_comments") &&
             ilObjWiki::_lookupPublicNotes($this->getPageObject()->getParentId())) {
-            $may_delete = ($ilSetting->get("comments_del_tutor", 1) &&
+            $may_delete = ($ilSetting->get("comments_del_tutor", '1') &&
                 $ilAccess->checkAccess("write", "", $this->requested_ref_id));
             $wtpl->setVariable("NOTES", $this->getNotesHTML(
                 $this->getPageObject(),
@@ -1152,7 +1152,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
             $result[] = $entry;
         }
 
-        echo ilJsonUtil::encode($result);
+        echo json_encode($result, JSON_THROW_ON_ERROR);
         exit;
     }
 

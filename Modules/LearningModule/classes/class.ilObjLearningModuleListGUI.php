@@ -22,6 +22,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
 {
     protected PresentationGUIRequest $request;
     private int $child_id = 0;
+    protected \ILIAS\LearningModule\ReadingTime\ReadingTimeManager $reading_time_manager;
 
     public function init() : void
     {
@@ -37,6 +38,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         $this->type = "lm";
         $this->gui_class_name = "ilobjlearningmodulegui";
 
+
         $this->request = $DIC
             ->learningModule()
             ->internal()
@@ -44,8 +46,11 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
             ->presentation()
             ->request();
         $this->enableLearningProgress(true);
+        $this->lng->loadLanguageModule("copg");
+
         // general commands array
         $this->commands = ilObjLearningModuleAccess::_getCommands();
+        $this->reading_time_manager = new \ILIAS\LearningModule\ReadingTime\ReadingTimeManager();
     }
 
     public function setChildId(int $a_child_id) : void
@@ -60,50 +65,55 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
     
     public function getCommandLink(string $cmd) : string
     {
-        $ilCtrl = $this->ctrl;
+        $ctrl = $this->ctrl;
         
         switch ($cmd) {
             case "continue":
-                $cmd_link = "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=" . $this->ref_id .
-                    "&amp;cmd=resume";
+                $ctrl->setParameterByClass(ilLMPresentationGUI::class, "ref_id", $this->ref_id);
+                $cmd_link = $ctrl->getLinkTargetByClass(ilLMPresentationGUI::class, "resume");
                 break;
 
             case "page":
-                // Used for presentation of single pages chapters in search results
-                $cmd_link = "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=" . $this->ref_id .
-                    "&amp;obj_id=" . $this->getChildId();
+                $ctrl->setParameterByClass(ilLMPresentationGUI::class, "ref_id", $this->ref_id);
+                $ctrl->setParameterByClass(ilLMPresentationGUI::class, "obj_id", $this->getChildId());
+                $cmd_link = $ctrl->getLinkTargetByClass(ilLMPresentationGUI::class, "");
                 break;
 
             case "view":
-                $cmd_link = "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=" . $this->ref_id;
+                $ctrl->setParameterByClass(ilLMPresentationGUI::class, "ref_id", $this->ref_id);
+                $cmd_link = $ctrl->getLinkTargetByClass(ilLMPresentationGUI::class, "");
                 break;
 
             case "learningProgress":
-                $cmd_link = "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=" . $this->ref_id . "&amp;cmd=learningProgress";
+                $ctrl->setParameterByClass(ilLMPresentationGUI::class, "ref_id", $this->ref_id);
+                $cmd_link = $ctrl->getLinkTargetByClass(ilLMPresentationGUI::class, "learningProgress");
                 break;
 
             case "edit":
-                $cmd_link = "ilias.php?baseClass=ilLMEditorGUI&amp;ref_id=" . $this->ref_id;
+                $ctrl->setParameterByClass(ilObjLearningModuleGUI::class, "ref_id", $this->ref_id);
+                $cmd_link = $ctrl->getLinkTargetByClass([ilLMEditorGUI::class, ilObjLearningModuleGUI::class], "");
                 break;
                 
             case "properties":
-                $cmd_link = "ilias.php?baseClass=ilLMEditorGUI&amp;ref_id=" . $this->ref_id . "&amp;to_props=1";
+                $ctrl->setParameterByClass(ilObjLearningModuleGUI::class, "ref_id", $this->ref_id);
+                $cmd_link = $ctrl->getLinkTargetByClass([ilLMEditorGUI::class, ilObjLearningModuleGUI::class], "properties");
                 break;
                 
             case "infoScreen":
-                $cmd_link = "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=" . $this->ref_id .
-                    "&amp;cmd=infoScreen&amp;file_id" . $this->getChildId();
+                $ctrl->setParameterByClass(ilLMPresentationGUI::class, "ref_id", $this->ref_id);
+                $cmd_link = $ctrl->getLinkTargetByClass(ilLMPresentationGUI::class, "infoScreen");
                 break;
                 
             case 'downloadFile':
-                $cmd_link = 'ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=' . $this->ref_id .
-                    '&amp;cmd=downloadFile&amp;file_id=' . $this->getChildId();
+                $ctrl->setParameterByClass(ilLMPresentationGUI::class, "ref_id", $this->ref_id);
+                $ctrl->setParameterByClass(ilLMPresentationGUI::class, "file_id", $this->getChildId());
+                $cmd_link = $ctrl->getLinkTargetByClass(ilLMPresentationGUI::class, "file_id");
                 break;
 
             default:
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
-                $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $cmd);
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->request->getRefId());
+                $ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
+                $cmd_link = $ctrl->getLinkTargetByClass("ilrepositorygui", $cmd);
+                $ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->request->getRefId());
                 break;
         }
 
@@ -140,6 +150,15 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         if ($rbacsystem->checkAccess('write', $this->ref_id)) {
             $props[] = array("alert" => false, "property" => $lng->txt("type"),
                 "value" => $lng->txt("lm"));
+        }
+
+        $est_reading_time = $this->reading_time_manager->getReadingTime($this->obj_id);
+        if (!is_null($est_reading_time)) {
+            $props[] = array(
+                "alert" => false,
+                "property" => $lng->txt("copg_est_reading_time"),
+                "value" => sprintf($lng->txt("copg_x_minutes"), $est_reading_time)
+            );
         }
 
         return $props;

@@ -310,7 +310,7 @@ class ilHelpGUI implements ilCtrlBaseClassInterface
 
         $module_id = (int) $ilSetting->get("help_module");
 
-        if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() === "de") {
+        if (((int) OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() === "de") {
             if (ilSession::get("help_pg") > 0) {
                 $a_tpl->addOnLoadCode("il.Help.showCurrentPage(" . ilSession::get("help_pg") . ");", 3);
             } else {

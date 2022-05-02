@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 class ilMailErrorFormatterTest extends ilMailBaseTest
 {
@@ -75,6 +74,6 @@ class ilMailErrorFormatterTest extends ilMailBaseTest
      */
     public function testErrorFormatter(array $errors, string $expectedHtml) : void
     {
-        $this->assertEquals($expectedHtml, $this->brutallyTrimHTML($this->errorFormatter->format($errors)));
+        $this->assertSame($expectedHtml, $this->brutallyTrimHTML($this->errorFormatter->format($errors)));
     }
 }

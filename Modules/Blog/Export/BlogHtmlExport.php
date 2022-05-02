@@ -52,7 +52,7 @@ class BlogHtmlExport
 
         $this->blog_gui = $blog_gui;
         /** @var \ilObjBlog $blog */
-        $blog = $blog_gui->object;
+        $blog = $blog_gui->getObject();
         $this->blog = $blog;
         $this->export_dir = $exp_dir;
         $this->sub_dir = $sub_dir;
@@ -75,7 +75,7 @@ class BlogHtmlExport
         }
 
         $cs = $DIC->contentStyle();
-        if ($this->blog_gui->getIdType() == \ilObject2GUI::REPOSITORY_NODE_ID) {
+        if ($this->blog_gui->getIdType() === \ilObject2GUI::REPOSITORY_NODE_ID) {
             $this->content_style_domain = $cs->domain()->styleForRefId($this->blog->getRefId());
         } else {
             $this->content_style_domain = $cs->domain()->styleForObjId($this->blog->getId());
@@ -210,7 +210,7 @@ class BlogHtmlExport
             if (!$a_tpl_callback) {
                 $tpl = $this->getInitialisedTemplate();
             } else {
-                $tpl = call_user_func($a_tpl_callback);
+                $tpl = $a_tpl_callback();
             }
 
             $file = self::buildExportLink($a_link_template, "list", $month, $this->keywords);
@@ -234,7 +234,7 @@ class BlogHtmlExport
             if (!$a_tpl_callback) {
                 $tpl = $this->getInitialisedTemplate();
             } else {
-                $tpl = call_user_func($a_tpl_callback);
+                $tpl = $a_tpl_callback();
             }
 
             $file = self::buildExportLink($a_link_template, "keyword", $keyword, $this->keywords);
@@ -265,7 +265,7 @@ class BlogHtmlExport
                 if (!$a_tpl_callback) {
                     $tpl = $this->getInitialisedTemplate();
                 } else {
-                    $tpl = call_user_func($a_tpl_callback);
+                    $tpl = $a_tpl_callback();
                 }
 
                 $comments = ($this->include_comments)
@@ -340,8 +340,7 @@ class BlogHtmlExport
                 break;
         }
 
-        $link = str_replace("{TYPE}", $a_type, $a_template);
-        return str_replace("{ID}", $a_id, $link);
+        return str_replace(array("{TYPE}", "{ID}"), array($a_type, $a_id), $a_template);
     }
 
     /**
@@ -407,14 +406,12 @@ class BlogHtmlExport
         } else {
             $ep_tpl->setVariable("LIST", $a_content);
         }
-        unset($a_content);
         $a_tpl->setContent($ep_tpl->get());
         unset($ep_tpl);
 
         // template: right content
         if ($a_right_content) {
             $a_tpl->setRightContent($a_right_content);
-            unset($a_right_content);
         }
 
         $content = $a_tpl->printToString();

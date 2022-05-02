@@ -20,7 +20,7 @@
  */
 class ilWACToken
 {
-    const SALT_FILE_PATH = './data/wacsalt.php';
+    private const SALT_FILE_PATH = './data/wacsalt.php';
     protected static string $SALT = '';
     protected string $session_id = '';
     protected int $timestamp = 0;
@@ -45,7 +45,7 @@ class ilWACToken
         $this->setClient($client);
         $this->setPath($path);
         $session_id = session_id();
-        $this->setSessionId($session_id ? $session_id : '-');
+        $this->setSessionId($session_id ?: '-');
         if (isset($_SERVER['REMOTE_ADDR'])) {
             $this->setIp($_SERVER['REMOTE_ADDR']);
         }

@@ -13,6 +13,11 @@
 class ILIAS
 {
     public string $INI_FILE;
+
+    /**
+     * @var string
+     * @deprecated
+     */
     public string $client_id = '';
 
     /**
@@ -53,7 +58,7 @@ class ILIAS
      * setup ILIAS global object
      * @access    public
      */
-    public function __construct($a_client_id = 0)
+    public function __construct()
     {
         global $DIC, $ilClientIniFile, $ilIliasIniFile, $ilDB;
 
@@ -122,7 +127,7 @@ class ILIAS
      * wrapper for downward compability
      * @deprecated
      */
-    public function raiseError(string $a_msg, int $a_err_obj)
+    public function raiseError(string $a_msg, int $a_err_obj) : void
     {
         $this->error_obj->raiseError($a_msg, $a_err_obj);
     }

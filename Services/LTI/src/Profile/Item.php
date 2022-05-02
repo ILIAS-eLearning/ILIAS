@@ -18,11 +18,11 @@ namespace ILIAS\LTI\Profile;
 class Item
 {
 
-/**
- * ID of item.
- *
- * @var string|null $id
- */
+    /**
+     * ID of item.
+     *
+     * @var string|null $id
+     */
     public ?string $id = null;
     /**
      * Name of item.
@@ -41,7 +41,7 @@ class Item
      *
      * @var string $url
      */
-    public $url = null;
+    public ?string $url = null;
     /**
      * Version of item.
      *

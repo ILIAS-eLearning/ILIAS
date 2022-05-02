@@ -1,10 +1,24 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjForumAccess
  * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
  * @ingroup ModulesForum
  */
 class ilObjForumAccess extends ilObjectAccess
@@ -103,7 +117,10 @@ class ilObjForumAccess extends ilObjectAccess
     public static function getCachedUserInstance(int $usr_id) : ilObjUser
     {
         if (!isset(self::$userInstanceCache[$usr_id]) && ilObjUser::userExists([$usr_id])) {
-            self::$userInstanceCache[$usr_id] = ilObjectFactory::getInstanceByObjId($usr_id, false);
+            $user = ilObjectFactory::getInstanceByObjId($usr_id, false);
+            if ($user instanceof ilObjUser) {
+                self::$userInstanceCache[$usr_id] = $user;
+            }
         }
 
         return self::$userInstanceCache[$usr_id];

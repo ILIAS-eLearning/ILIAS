@@ -148,7 +148,6 @@ class Notifications
      */
     private function handleRerender() : void
     {
-
         $notifications = [];
         $amount = 0;
         foreach ($this->notification_groups as $group) {

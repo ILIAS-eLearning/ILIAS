@@ -100,9 +100,9 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $this->testGUI = $testGUI;
 
         require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-        $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->pluginAdmin, $testGUI->getObject());
+        $this->testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($this->tree, $this->db, $this->pluginAdmin, $testGUI->getTestObject());
 
-        parent::__construct($testGUI->getObject());
+        parent::__construct($testGUI->getTestObject());
     }
 
     /**
@@ -135,6 +135,11 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
     private function showFormCmd(ilPropertyFormGUI $form = null)
     {
         $this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
+        
+        if ($this->testOBJ->isDynamicTest()) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("ctm_cannot_be_changed"));
+            return;
+        }
 
         if ($form === null) {
             $form = $this->buildForm();
@@ -260,15 +265,6 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $qstSetSetting = $form->getItemByPostVar('question_set_type');
         $qTitleSetting = $form->getItemByPostVar('title_output');
         
-        if ($qstSetSetting->getValue() == ilObjTest::QUESTION_SET_TYPE_DYNAMIC && $qTitleSetting->getValue() == 2) {
-            $qstSetSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
-            $qTitleSetting->setAlert($this->lng->txt('tst_conflicting_setting'));
-            
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('tst_settings_conflict_message'));
-            $this->showFormCmd($form);
-            return;
-        }
-        
         // avoid settings conflict "obligate questions" and "freeze answer"
         
         $obligationsSetting = $form->getItemByPostVar('obligations_enabled');
@@ -325,9 +321,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             $newQuestionSetType = $form->getItemByPostVar('question_set_type')->getValue();
 
             if (!$this->testOBJ->participantDataExist() && $newQuestionSetType != $oldQuestionSetType) {
-                $oldQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfigByType(
-                    $oldQuestionSetType
-                );
+                $oldQuestionSetConfig = $this->testQuestionSetConfigFactory->getQuestionSetConfigByType();
 
                 if ($oldQuestionSetConfig->doesQuestionSetRelatedDataExist()) {
                     if (!$isConfirmedSave) {
@@ -588,47 +582,19 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
             }
         }
         $form->addItem($desc);
+        
+        $question_set_type = new ilRadioGroupInputGUI($this->lng->txt('test_question_set_type'), 'question_set_type');
 
+        $fixed = new ilRadioOption($this->lng->txt('test_question_set_type_fixed'), ilObjTest::QUESTION_SET_TYPE_FIXED);
+        $fixed->setInfo($this->lng->txt('test_question_set_type_fixed_info'));
+        $question_set_type->addOption($fixed);
 
-        // pool usage
-        $pool_usage = new ilRadioGroupInputGUI($this->lng->txt('test_question_pool_usage'), 'use_pool');
+        $random = new ilRadioOption($this->lng->txt('test_question_set_type_random'), ilObjTest::QUESTION_SET_TYPE_RANDOM);
+        $random->setInfo($this->lng->txt('test_question_set_type_random_info'));
+        $question_set_type->addOption($random);
 
-        $optional_qpl = new ilRadioOption($this->lng->txt('test_question_pool_usage_optional'), 1);
-        $optional_qpl->setInfo($this->lng->txt('test_question_pool_usage_optional_info'));
-        $pool_usage->addOption($optional_qpl);
-
-        $tst_directly = new ilRadioOption($this->lng->txt('test_question_pool_usage_tst_directly'), 0);
-        $tst_directly->setInfo($this->lng->txt('test_question_pool_usage_tst_directly_info'));
-        $pool_usage->addOption($tst_directly);
-
-        $pool_usage->setValue($this->testOBJ->getPoolUsage() ? 1 : 0);
-        $form->addItem($pool_usage);
-
-        // test mode (question set type)
-        $questSetType = new ilRadioGroupInputGUI($this->lng->txt("tst_question_set_type"), 'question_set_type');
-        $questSetTypeFixed = new ilRadioOption(
-            $this->lng->txt("tst_question_set_type_fixed"),
-            ilObjTest::QUESTION_SET_TYPE_FIXED,
-            $this->lng->txt("tst_question_set_type_fixed_desc")
-        );
-        $questSetType->addOption($questSetTypeFixed);
-        $questSetTypeRandom = new ilRadioOption(
-            $this->lng->txt("tst_question_set_type_random"),
-            ilObjTest::QUESTION_SET_TYPE_RANDOM,
-            $this->lng->txt("tst_question_set_type_random_desc")
-        );
-        $questSetType->addOption($questSetTypeRandom);
-        $questSetTypeContinues = new ilRadioOption(
-            $this->lng->txt("tst_question_set_type_dynamic"),
-            ilObjTest::QUESTION_SET_TYPE_DYNAMIC,
-            $this->lng->txt("tst_question_set_type_dynamic_desc")
-        );
-        $questSetType->addOption($questSetTypeContinues);
-        $questSetType->setValue($this->testOBJ->getQuestionSetType());
-        if ($this->testOBJ->participantDataExist()) {
-            $questSetType->setDisabled(true);
-        }
-        $form->addItem($questSetType);
+        $question_set_type->setValue($this->testOBJ->getQuestionSetType());
+        $form->addItem($question_set_type);
 
         // anonymity
         $anonymity = new ilRadioGroupInputGUI($this->lng->txt('tst_anonymity'), 'anonymity');
@@ -675,9 +641,11 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
         $this->testOBJ->update();
 
         // pool usage setting
+        /* Never used, but I see traces in settings-templates, so I leave this commented out.
         if ($form->getItemByPostVar('use_pool') instanceof ilFormPropertyGUI) {
             $this->testOBJ->setPoolUsage((int) $form->getItemByPostVar('use_pool')->getValue());
         }
+        */
 
         if (!$this->testOBJ->participantDataExist()) {
             // question set type

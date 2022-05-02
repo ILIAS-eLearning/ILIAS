@@ -181,8 +181,8 @@ class ilDateDurationInputGUI extends ilSubEnabledFormPropertyGUI implements ilTa
                     $this->setEnd(new ilDate(null, IL_CAL_UNIX));
                 }
             } else {
-                $this->setStart(ilCalendarUtil::parseIncomingDate($incoming["start"], (bool) $format));
-                $this->setEnd(ilCalendarUtil::parseIncomingDate($incoming["end"], (bool) $format));
+                $this->setStart(ilCalendarUtil::parseIncomingDate((string) $incoming["start"], (bool) $format));
+                $this->setEnd(ilCalendarUtil::parseIncomingDate((string) $incoming["end"], (bool) $format));
             }
         }
 

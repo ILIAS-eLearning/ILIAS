@@ -7,74 +7,63 @@ class ilStudyProgrammeGUIMessagesTest extends TestCase
     protected ilPRGMessagePrinter $messages;
     protected string $topic;
 
-    protected function setUp() : void
+    public function setUp() : void
     {
         $collection = new ilPRGMessageCollection();
         $lng = $this->createMock(ilLanguage::class);
         $tpl = $this->createMock(ilGlobalTemplateInterface::class);
         $this->messages = new ilPRGMessagePrinter($collection, $lng, $tpl);
         $this->topic = 'a test topic';
+
+        $this->collection = $this->messages->getMessageCollection($this->topic);
+        $this->collection2 = $this->messages->getMessageCollection($this->topic);
     }
 
-    public function testMessageFactory() : ilPRGMessageCollection
+    public function testMessageFactory() : void
     {
-        $collection = $this->messages->getMessageCollection($this->topic);
-        $collection2 = $this->messages->getMessageCollection($this->topic);
-        
-        $this->assertInstanceOf(ilPRGMessageCollection::class, $collection);
-        $this->assertEquals($collection, $collection2);
-        $this->assertNotSame($collection, $collection2);
-
-        return $collection;
+        $this->assertInstanceOf(ilPRGMessageCollection::class, $this->collection);
+        $this->assertEquals($this->collection, $this->collection2);
+        $this->assertNotSame($this->collection, $this->collection2);
     }
     
-    /**
-     * @depends testMessageFactory
-     */
-    public function testCollectionDefaults(ilPRGMessageCollection $collection)
+    public function testCollectionDefaults() : void
     {
-        $this->assertEquals($this->topic, $collection->getDescription());
+        $this->assertEquals($this->topic, $this->collection->getDescription());
 
-        $this->assertFalse($collection->hasErrors());
-        $this->assertEquals([], $collection->getErrors());
+        $this->assertFalse($this->collection->hasErrors());
+        $this->assertEquals([], $this->collection->getErrors());
 
-        $this->assertFalse($collection->hasSuccess());
-        $this->assertEquals([], $collection->getSuccess());
+        $this->assertFalse($this->collection->hasSuccess());
+        $this->assertEquals([], $this->collection->getSuccess());
         
-        $this->assertFalse($collection->hasAnyMessages());
+        $this->assertFalse($this->collection->hasAnyMessages());
     }
 
-    /**
-     * @depends testMessageFactory
-     */
-    public function testAddMessages(ilPRGMessageCollection $collection)
+    public function testAddMessages() : void
     {
         $ok_message = 'looks good';
         $ok_id = 'some good record';
-        $collection->add(true, $ok_message, $ok_id);
+        $this->collection->add(true, $ok_message, $ok_id);
 
-        $this->assertTrue($collection->hasAnyMessages());
+        $this->assertTrue($this->collection->hasAnyMessages());
         
-        $this->assertFalse($collection->hasErrors());
-        $this->assertEquals([], $collection->getErrors());
+        $this->assertFalse($this->collection->hasErrors());
+        $this->assertEquals([], $this->collection->getErrors());
 
-        $this->assertTrue($collection->hasSuccess());
+        $this->assertTrue($this->collection->hasSuccess());
         $this->assertEquals(
             [[$ok_message, $ok_id]],
-            $collection->getSuccess()
+            $this->collection->getSuccess()
         );
     }
 
-    /**
-     * @depends testMessageFactory
-     */
-    public function testAddErrorMessages(ilPRGMessageCollection $collection)
+    public function testAddErrorMessages() : void
     {
         $message = 'looks bad';
         $id = 'some record';
 
-        $this->assertTrue($collection->hasAnyMessages());
-        $collection = $collection->withNewTopic($this->topic);
+        $this->assertFalse($this->collection->hasAnyMessages());
+        $collection = $this->collection->withNewTopic($this->topic);
         $this->assertFalse($collection->hasAnyMessages());
 
         $collection->add(false, $message, $id);

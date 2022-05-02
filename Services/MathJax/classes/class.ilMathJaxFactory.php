@@ -20,6 +20,17 @@ use ILIAS\DI\Container;
  */
 class ilMathJaxFactory
 {
+    protected ilGlobalTemplateInterface $template;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        global $DIC;
+        $this->template = $DIC->ui()->mainTemplate();
+    }
+
     /**
      * Create an ilMathJaxServer object
      */
@@ -41,8 +52,6 @@ class ilMathJaxFactory
      */
     public function template() : ilGlobalTemplateInterface
     {
-        /** @var Container $DIC */
-        global $DIC;
-        return $DIC->ui()->mainTemplate();
+        return $this->template;
     }
 }

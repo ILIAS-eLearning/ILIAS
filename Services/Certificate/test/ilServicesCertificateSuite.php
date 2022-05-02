@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
 
@@ -17,21 +33,21 @@ class ilServicesCertificateSuite extends TestSuite
     {
         $suite = new self();
 
-        $recursiveIteratorIterator = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator(__DIR__, \FilesystemIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::LEAVES_ONLY
+        $recursiveIteratorIterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::LEAVES_ONLY
         );
 
-        $regexIterator = new \RegExIterator($recursiveIteratorIterator, '/(?<!Base)Test\.php$/');
+        $regexIterator = new RegExIterator($recursiveIteratorIterator, '/(?<!Base)Test\.php$/');
 
         foreach ($regexIterator as $file) {
-            /** @var \SplFileInfo $file */
+            /** @var SplFileInfo $file */
             require_once $file->getPathname();
 
             $className = preg_replace('/(.*?)(\.php)/', '$1', $file->getBasename());
 
             if (class_exists($className)) {
-                $reflection = new \ReflectionClass($className);
+                $reflection = new ReflectionClass($className);
                 if (
                     !$reflection->isAbstract() &&
                     !$reflection->isInterface() &&

@@ -25,6 +25,7 @@ class ilCalendarViewGUI
     protected bool $view_with_appointments = false;
     protected ilDate $seed;
     protected int $ch_user_id = 0;
+    protected ?string $period_end_day = null;
 
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
@@ -236,7 +237,7 @@ class ilCalendarViewGUI
 
         //item => array containing ilcalendary object, dstart of the event , dend etc.
         foreach ($events as $item) {
-            if ($item["event"]->getEntryId() == $this->initAppointmentIdFromQuery() && $item['dstart'] == (int) $this->initInitialDateFromQuery()) {
+            if ($item["event"]->getEntryId() == $this->initAppointmentIdFromQuery() && $item['dstart'] == $this->initInitialDateFromQuery()) {
                 $dates = $this->getDatesForItem($item);
                 // content of modal
                 $next_gui = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, $item);

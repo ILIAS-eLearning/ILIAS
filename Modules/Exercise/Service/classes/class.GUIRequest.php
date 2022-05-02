@@ -126,9 +126,7 @@ class GUIRequest
     protected function isArray(string $key) : bool
     {
         if ($this->passed_query_params === null && $this->passed_post_data === null) {
-            $no_transform = $this->refinery->custom()->transformation(function ($v) {
-                return $v;
-            });
+            $no_transform = $this->refinery->identity();
             $w = $this->http->wrapper();
             if ($w->post()->has($key)) {
                 return is_array($w->post()->retrieve($key, $no_transform));

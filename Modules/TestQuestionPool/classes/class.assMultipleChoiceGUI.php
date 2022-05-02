@@ -669,7 +669,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
@@ -712,7 +712,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $this->addTab_SuggestedSolution($ilTabs, $classname);
 
         // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             $ilTabs->addTarget(
                 "statistics",
                 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
@@ -764,7 +764,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         } else {
             $this->object->isSingleline = ($_POST["types"] == 0) ? true : false;
         }
-        $this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : "");
+        $this->object->setThumbSize((strlen($_POST["thumb_size"])) ? $_POST["thumb_size"] : null);
     }
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
@@ -839,7 +839,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         $form->addItem($selLim);
         
         if ($this->object->getId()) {
-            $hidden = new ilHiddenInputGUI("", "ID");
+            $hidden = new ilHiddenInputGUI("ID");
             $hidden->setValue($this->object->getId());
             $form->addItem($hidden);
         }
@@ -851,12 +851,10 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
             $types = new ilSelectInputGUI($this->lng->txt("answer_types"), "types");
             $types->setRequired(false);
             $types->setValue(($isSingleline) ? 0 : 1);
-            $types->setOptions(
-                array(
-                                    0 => $this->lng->txt('answers_singleline'),
-                                    1 => $this->lng->txt('answers_multiline'),
-                                )
-            );
+            $types->setOptions([
+                0 => $this->lng->txt('answers_singleline'),
+                1 => $this->lng->txt('answers_multiline'),
+            ]);
             $form->addItem($types);
         }
 

@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 namespace ILIAS\BookingManager;
 
@@ -88,10 +92,10 @@ class StandardGUIRequest
     public function getReservationIds() : array
     {
         $ids = $this->strArray("mrsv");
-        if (count($ids) == 0) {
+        if (count($ids) === 0) {
             $ids = $this->strArray("reservation_id");
         }
-        if (count($ids) == 0) {
+        if (count($ids) === 0) {
             $ids = $this->strArray("rsv_id");
         }
         return $ids;
@@ -115,7 +119,7 @@ class StandardGUIRequest
     public function getParticipants() : array
     {
         $p = $this->intArray("mass");
-        if (count($p) == 0) {
+        if (count($p) === 0) {
             $p = $this->intArray("participants");
         }
         return $p;

@@ -53,6 +53,9 @@ class SkillPersonalGUIRequest extends SkillGUIRequest
         return $this->int("skill_id");
     }
 
+    /**
+     * @return int[]
+     */
     public function getSkillIds() : array
     {
         return $this->getIds();
@@ -83,6 +86,9 @@ class SkillPersonalGUIRequest extends SkillGUIRequest
         return $this->int("wsp_id");
     }
 
+    /**
+     * @return int[]
+     */
     public function getWorkspaceIds() : array
     {
         return $this->intArray("wsp_id");

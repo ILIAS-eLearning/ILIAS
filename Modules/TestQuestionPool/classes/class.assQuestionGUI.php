@@ -63,7 +63,7 @@ abstract class assQuestionGUI
     private $ui;
     private ilObjectDataCache $ilObjDataCache;
     private ilHelpGUI $ilHelp;
-    private ilAccess $access;
+    private ilAccessHandler $access;
     private ilObjUser $ilUser;
     private ilTabsGUI $ilTabs;
     private ilRbacSystem $rbacsystem;
@@ -227,7 +227,7 @@ abstract class assQuestionGUI
                 $form = $this->buildEditForm();
 
                 $form_prop_dispatch = new ilFormPropertyDispatchGUI();
-                $form_prop_dispatch->setItem($form->getItemByPostVar(ilUtil::stripSlashes($_GET['postvar'])));
+                $form_prop_dispatch->setItem($form->getItemByPostVar(ilUtil::stripSlashes($this->request->raw('postvar'))));
                 return $this->ctrl->forwardCommand($form_prop_dispatch);
 
             default:
@@ -584,14 +584,14 @@ abstract class assQuestionGUI
 
     public function cancel() : void
     {
-        if ($_GET["calling_test"]) {
-            $_GET["ref_id"] = $_GET["calling_test"];
-            ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $_GET["calling_test"]);
-        } elseif ($_GET["test_ref_id"]) {
-            $_GET["ref_id"] = $_GET["test_ref_id"];
-            ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $_GET["test_ref_id"]);
+        if ($this->request->raw("calling_test")) {
+            $_GET["ref_id"] = $this->request->raw("calling_test");
+            ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("calling_test"));
+        } elseif ($this->request->raw("test_ref_id")) {
+            $_GET["ref_id"] = $this->request->raw("test_ref_id");
+            ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("test_ref_id"));
         } else {
-            if ($_GET["q_id"] > 0) {
+            if ($this->request->raw("q_id") > 0) {
                 $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $this->request->getQuestionId());
                 $this->ctrl->redirectByClass("ilAssQuestionPageGUI", "edit");
             } else {
@@ -604,8 +604,8 @@ abstract class assQuestionGUI
     {
         if (strlen($return_to)) {
             $this->ctrl->setParameter($this, "return_to", $return_to);
-        } elseif ($_REQUEST['return_to']) {
-            $this->ctrl->setParameter($this, "return_to", $_REQUEST['return_to']);
+        } elseif ($this->request->raw('return_to')) {
+            $this->ctrl->setParameter($this, "return_to", $this->request->raw('return_to'));
         }
         if (strlen($return_to_feedback)) {
             $this->ctrl->setParameter($this, 'return_to_fb', 'true');
@@ -627,53 +627,53 @@ abstract class assQuestionGUI
         if ($original_id) {
             $this->object->syncWithOriginal();
         }
-        if (strlen($_GET["return_to"])) {
-            $this->ctrl->redirect($this, $_GET["return_to"]);
+        if (strlen($this->request->raw("return_to"))) {
+            $this->ctrl->redirect($this, $this->request->raw("return_to"));
         }
-        if (strlen($_REQUEST["return_to_fb"])) {
+        if (strlen($this->request->raw("return_to_fb"))) {
             $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', 'showFeedbackForm');
         } else {
-            if (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer']) {
-                $ref_id = (int) $_GET['calling_consumer'];
+            if ($this->request->isset('calling_consumer') && (int) $this->request->raw('calling_consumer')) {
+                $ref_id = (int) $this->request->raw('calling_consumer');
                 $consumer = ilObjectFactory::getInstanceByRefId($ref_id);
                 if ($consumer instanceof ilQuestionEditingFormConsumer) {
-                    ilUtil::redirect($consumer->getQuestionEditingFormBackTarget($_GET['consumer_context']));
+                    ilUtil::redirect($consumer->getQuestionEditingFormBackTarget($this->request->raw('consumer_context')));
                 }
 
                 ilUtil::redirect(ilLink::_getLink($ref_id));
             }
-            $_GET["ref_id"] = $_GET["calling_test"];
+            $_GET["ref_id"] = $this->request->raw("calling_test");
             
-            if ($_REQUEST['test_express_mode']) {
+            if ($this->request->raw('test_express_mode')) {
                 ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
             } else {
-                ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $_GET["calling_test"]);
+                ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("calling_test"));
             }
         }
     }
 
     public function cancelSync() : void
     {
-        if (strlen($_GET["return_to"])) {
-            $this->ctrl->redirect($this, $_GET["return_to"]);
+        if (strlen($this->request->raw("return_to"))) {
+            $this->ctrl->redirect($this, $this->request->raw("return_to"));
         }
-        if (strlen($_REQUEST['return_to_fb'])) {
+        if (strlen($this->request->raw('return_to_fb'))) {
             $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', 'showFeedbackForm');
         } else {
-            if (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer']) {
-                $ref_id = (int) $_GET['calling_consumer'];
+            if ($this->request->isset('calling_consumer') && (int) $this->request->raw('calling_consumer')) {
+                $ref_id = (int) $this->request->raw('calling_consumer');
                 $consumer = ilObjectFactory::getInstanceByRefId($ref_id);
                 if ($consumer instanceof ilQuestionEditingFormConsumer) {
-                    ilUtil::redirect($consumer->getQuestionEditingFormBackTarget($_GET['consumer_context']));
+                    ilUtil::redirect($consumer->getQuestionEditingFormBackTarget($this->request->raw('consumer_context')));
                 }
                 ilUtil::redirect(ilLink::_getLink($ref_id));
             }
-            $_GET["ref_id"] = $_GET["calling_test"];
+            $_GET["ref_id"] = $this->request->raw("calling_test");
 
-            if ($_REQUEST['test_express_mode']) {
+            if ($this->request->raw('test_express_mode')) {
                 ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($this->object->getId()));
             } else {
-                ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $_GET["calling_test"]);
+                ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("calling_test"));
             }
         }
     }
@@ -688,26 +688,26 @@ abstract class assQuestionGUI
             $this->object->saveToDb();
             $originalexists = $this->object->_questionExists($this->object->getOriginalId());
 
-            if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
+            if ($this->request->raw("calling_test") && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
                 $this->ctrl->redirect($this, "originalSyncForm");
-            } elseif ($_GET["calling_test"]) {
-                $_GET["ref_id"] = $_GET["calling_test"];
-                ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $_GET["calling_test"]);
+            } elseif ($this->request->raw("calling_test")) {
+                $_GET["ref_id"] = $this->request->raw("calling_test");
+                ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("calling_test"));
                 return;
-            } elseif ($_GET["test_ref_id"]) {
+            } elseif ($this->request->raw("test_ref_id")) {
                 global $DIC;
                 $tree = $DIC['tree'];
                 $ilDB = $DIC['ilDB'];
                 $ilPluginAdmin = $DIC['ilPluginAdmin'];
                 // TODO: Courier Antipattern!
-                $_GET["ref_id"] = $_GET["test_ref_id"];
-                $test = new ilObjTest($_GET["test_ref_id"], true);
+                $_GET["ref_id"] = $this->request->raw("test_ref_id");
+                $test = new ilObjTest($this->request->raw("test_ref_id"), true);
 
                 $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
 
                 $test->insertQuestion($testQuestionSetConfigFactory->getQuestionSetConfig(), $this->object->getId());
                 
-                ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $_GET["test_ref_id"]);
+                ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("test_ref_id"));
             } else {
                 $this->ctrl->setParameter($this, "q_id", $this->object->getId());
                 $this->editQuestion();
@@ -725,7 +725,7 @@ abstract class assQuestionGUI
     public function save() : void
     {
         $ilUser = $this->ilUser;
-        $old_id = $_GET["q_id"];
+        $old_id = $this->request->raw("q_id");
         $result = $this->writePostData();
 
         if ($result == 0) {
@@ -738,21 +738,24 @@ abstract class assQuestionGUI
                 $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
             }
 
-            if (($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
+            if (($this->request->raw("calling_test") ||
+                    ($this->request->isset('calling_consumer')
+                        && (int) $this->request->raw('calling_consumer')))
+                && $originalexists && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->setParameter($this, 'return_to', 'editQuestion');
                 $this->ctrl->redirect($this, "originalSyncForm");
                 return;
-            } elseif ($_GET["calling_test"]) {
-                $test = new ilObjTest($_GET["calling_test"]);
+            } elseif ($this->request->raw("calling_test")) {
+                $test = new ilObjTest($this->request->raw("calling_test"));
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
                     global $DIC;
                     $tree = $DIC['tree'];
                     $ilDB = $DIC['ilDB'];
                     $ilPluginAdmin = $DIC['ilPluginAdmin'];
                     // TODO: Courier Antipattern!
-                    $_GET["ref_id"] = $_GET["calling_test"];
-                    $test = new ilObjTest($_GET["calling_test"], true);
+                    $_GET["ref_id"] = $this->request->raw("calling_test");
+                    $test = new ilObjTest($this->request->raw("calling_test"), true);
                     $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
 
                     $new_id = $test->insertQuestion(
@@ -760,12 +763,12 @@ abstract class assQuestionGUI
                         $this->object->getId()
                     );
 
-                    if (isset($_REQUEST['prev_qid'])) {
-                        $test->moveQuestionAfter($this->object->getId() + 1, $_REQUEST['prev_qid']);
+                    if ($this->request->isset('prev_qid')) {
+                        $test->moveQuestionAfter($this->object->getId() + 1, $this->request->raw('prev_qid'));
                     }
 
                     $this->ctrl->setParameter($this, 'q_id', $new_id);
-                    $this->ctrl->setParameter($this, 'calling_test', $_GET['calling_test']);
+                    $this->ctrl->setParameter($this, 'calling_test', $this->request->raw("calling_test"));
                     #$this->ctrl->setParameter($this, 'test_ref_id', false);
                 }
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
@@ -775,20 +778,20 @@ abstract class assQuestionGUI
 
                 if ($this->object->getId() != $old_id) {
                     // first save
-                    $this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
-                    $this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
+                    $this->ctrl->setParameterByClass($this->request->raw("cmdClass"), "q_id", $this->object->getId());
+                    $this->ctrl->setParameterByClass($this->request->raw("cmdClass"), "sel_question_types", $this->request->raw("sel_question_types"));
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
 
                     //global $___test_express_mode;
                     /**
                      * in express mode, so add question to test directly
                      */
-                    if ($_REQUEST['prev_qid']) {
+                    if ($this->request->raw('prev_qid')) {
                         // @todo: bheyser/mbecker wtf? ..... thx@jposselt ....
                         $test = new ilObjTest($this->request->getRefId(), true);
-                        $test->moveQuestionAfter($_REQUEST['prev_qid'], $this->object->getId());
+                        $test->moveQuestionAfter($this->request->raw('prev_qid'), $this->object->getId());
                     }
-                    if ( /*$___test_express_mode || */ $_REQUEST['express_mode']) {
+                    if ( /*$___test_express_mode || */ $this->request->raw('express_mode')) {
                         global $DIC;
                         $tree = $DIC['tree'];
                         $ilDB = $DIC['ilDB'];
@@ -804,7 +807,7 @@ abstract class assQuestionGUI
                         ilUtil::redirect(ilTestExpressPage::getReturnToPageLink());
                     }
 
-                    $this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
+                    $this->ctrl->redirectByClass($this->request->raw("cmdClass"), "editQuestion");
                 }
                 if (ilSession::get("info") != null) {
                     $this->tpl->setOnScreenMessage('success', ilSession::get("info") . "<br />" . $this->lng->txt("msg_obj_modified"), true);
@@ -830,13 +833,15 @@ abstract class assQuestionGUI
             } else {
                 $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
             }
-            if (($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
+            if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
+                        && (int) $this->request->raw('calling_consumer')))
+                && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                $this->ctrl->setParameter($this, 'test_express_mode', $_REQUEST['test_express_mode']);
+                $this->ctrl->setParameter($this, 'test_express_mode', $this->request->raw('test_express_mode'));
                 $this->ctrl->redirect($this, "originalSyncForm");
                 return;
-            } elseif ($_GET["calling_test"]) {
-                $test = new ilObjTest($_GET["calling_test"]);
+            } elseif ($this->request->raw("calling_test")) {
+                $test = new ilObjTest($this->request->raw("calling_test"));
                 #var_dump(assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId()));
                 $q_id = $this->object->getId();
                 if (!assQuestion::_questionExistsInTest($this->object->getId(), $test->getTestId())) {
@@ -845,8 +850,8 @@ abstract class assQuestionGUI
                     $ilDB = $DIC['ilDB'];
                     $ilPluginAdmin = $DIC['ilPluginAdmin'];
                     // TODO: Courier Antipattern!
-                    $_GET["ref_id"] = $_GET["calling_test"];
-                    $test = new ilObjTest($_GET["calling_test"], true);
+                    $_GET["ref_id"] = $this->request->raw("calling_test");
+                    $test = new ilObjTest($this->request->raw("calling_test"), true);
 
                     $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
 
@@ -856,21 +861,21 @@ abstract class assQuestionGUI
                     );
 
                     $q_id = $new_id;
-                    if (isset($_REQUEST['prev_qid'])) {
-                        $test->moveQuestionAfter($this->object->getId() + 1, $_REQUEST['prev_qid']);
+                    if ($this->request->isset('prev_qid')) {
+                        $test->moveQuestionAfter($this->object->getId() + 1, $this->request->raw('prev_qid'));
                     }
 
                     $this->ctrl->setParameter($this, 'q_id', $new_id);
-                    $this->ctrl->setParameter($this, 'calling_test', $_GET['calling_test']);
+                    $this->ctrl->setParameter($this, 'calling_test', $this->request->raw("calling_test"));
                     #$this->ctrl->setParameter($this, 'test_ref_id', false);
                 }
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 if ( /*$___test_express_mode || */
-                $_REQUEST['test_express_mode']
+                $this->request->raw('test_express_mode')
                 ) {
                     ilUtil::redirect(ilTestExpressPage::getReturnToPageLink($q_id));
                 } else {
-                    ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $_GET["calling_test"]);
+                    ilUtil::redirect("ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=" . $this->request->raw("calling_test"));
                 }
             } else {
                 if ($this->object->getId() != $old_id) {
@@ -1312,7 +1317,9 @@ abstract class assQuestionGUI
                         $file->setValue($_FILES["file"]["name"]);
                         $this->object->saveSuggestedSolution("file", "", 0, array("name" => $_FILES["file"]["name"], "type" => $_FILES["file"]["type"], "size" => $_FILES["file"]["size"], "filename" => $_POST["filename"]));
                         $originalexists = $this->object->_questionExistsInPool($this->object->original_id);
-                        if (($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
+                        if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
+                                    && (int) $this->request->raw('calling_consumer'))) && $originalexists
+                            && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
                             $this->originalSyncForm("suggestedsolution");
                             return;
                         } else {
@@ -1372,7 +1379,9 @@ abstract class assQuestionGUI
                             break;
                     }
                     $originalexists = $this->object->_questionExistsInPool($this->object->original_id);
-                    if (($_GET["calling_test"] || (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer'])) && $originalexists && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
+                    if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
+                                && (int) $this->request->raw('calling_consumer'))) && $originalexists
+                        && assQuestion::_isWriteable($this->object->original_id, $ilUser->getId())) {
                         $this->originalSyncForm("suggestedsolution");
                         return;
                     } else {
@@ -1422,8 +1431,8 @@ abstract class assQuestionGUI
         global $DIC;
         $tree = $DIC['tree'];
 
-        $type = $_GET["link_new_type"];
-        $search = $_GET["search_link_type"];
+        $type = $this->request->raw("link_new_type");
+        $search = $this->request->raw("search_link_type");
         $this->ctrl->setParameter($this, "link_new_type", $type);
         $this->ctrl->setParameter($this, "search_link_type", $search);
         $this->ctrl->saveParameter($this, array("subquestion_index", "link_new_type", "search_link_type"));
@@ -1432,13 +1441,13 @@ abstract class assQuestionGUI
 
         $parent_ref_id = $tree->getParentId($this->request->getRefId());
         $exp = new ilSolutionExplorer($this->ctrl->getLinkTarget($this, 'suggestedsolution'), get_class($this));
-        $exp->setExpand($_GET['expand_sol'] ? $_GET['expand_sol'] : $parent_ref_id);
+        $exp->setExpand($this->request->raw('expand_sol') ? $this->request->raw('expand_sol') : $parent_ref_id);
         $exp->setExpandTarget($this->ctrl->getLinkTarget($this, 'outSolutionExplorer'));
         $exp->setTargetGet("ref_id");
         $exp->setRefId($this->request->getRefId());
         $exp->addFilter($type);
         $exp->setSelectableType($type);
-        if (isset($_GET['expandCurrentPath']) && $_GET['expandCurrentPath']) {
+        if ($this->request->isset('expandCurrentPath') && $this->request->raw('expandCurrentPath')) {
             $exp->expandPathByRefId($parent_ref_id);
         }
 
@@ -1497,7 +1506,7 @@ abstract class assQuestionGUI
     {
         $this->ctrl->setParameter($this, 'q_id', $this->object->getId());
 
-        $cont_obj_gui = new ilObjContentObjectGUI('', $_GET['source_id'], true);
+        $cont_obj_gui = new ilObjContentObjectGUI('', $this->request->raw('source_id'), true);
         $cont_obj = $cont_obj_gui->getObject();
         $pages = ilLMPageObject::getPageList($cont_obj->getId());
         $shownpages = array();
@@ -1509,7 +1518,7 @@ abstract class assQuestionGUI
         foreach ($chapters as $chapter) {
             $chapterpages = $tree->getChildsByType($chapter['obj_id'], 'pg');
             foreach ($chapterpages as $page) {
-                if ($page['type'] == $_GET['search_link_type']) {
+                if ($page['type'] == $this->request->raw('search_link_type')) {
                     array_push($shownpages, $page['obj_id']);
 
                     if ($tree->isInTree($page['obj_id'])) {
@@ -1541,7 +1550,7 @@ abstract class assQuestionGUI
         }
 
         $table = new ilQuestionInternalLinkSelectionTableGUI($this, 'cancelExplorer', __METHOD__);
-        $table->setTitle($this->lng->txt('obj_' . ilUtil::stripSlashes($_GET['search_link_type'])));
+        $table->setTitle($this->lng->txt('obj_' . ilUtil::stripSlashes($this->request->raw('search_link_type'))));
         $table->setData($rows);
 
         $this->tpl->setContent($table->getHTML());
@@ -1551,7 +1560,7 @@ abstract class assQuestionGUI
     {
         $this->ctrl->setParameter($this, 'q_id', $this->object->getId());
 
-        $cont_obj_gui = new ilObjContentObjectGUI('', $_GET['source_id'], true);
+        $cont_obj_gui = new ilObjContentObjectGUI('', $this->request->raw('source_id'), true);
         $cont_obj = $cont_obj_gui->getObject();
         $ctree = $cont_obj->getLMTree();
         $nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
@@ -1559,7 +1568,7 @@ abstract class assQuestionGUI
         $rows = array();
 
         foreach ($nodes as $node) {
-            if ($node['type'] == $_GET['search_link_type']) {
+            if ($node['type'] == $this->request->raw('search_link_type')) {
                 $this->ctrl->setParameter($this, $node['type'], $node['obj_id']);
                 $rows[] = array(
                     'title' => $node['title'],
@@ -1571,7 +1580,7 @@ abstract class assQuestionGUI
         }
 
         $table = new ilQuestionInternalLinkSelectionTableGUI($this, 'cancelExplorer', __METHOD__);
-        $table->setTitle($this->lng->txt('obj_' . ilUtil::stripSlashes($_GET['search_link_type'])));
+        $table->setTitle($this->lng->txt('obj_' . ilUtil::stripSlashes($this->request->raw('search_link_type'))));
         $table->setData($rows);
 
         $this->tpl->setContent($table->getHTML());
@@ -1581,7 +1590,7 @@ abstract class assQuestionGUI
     {
         $this->ctrl->setParameter($this, 'q_id', $this->object->getId());
 
-        $glossary = new ilObjGlossary($_GET['source_id'], true);
+        $glossary = new ilObjGlossary($this->request->raw('source_id'), true);
         $terms = $glossary->getTermList();
 
         $rows = array();
@@ -1606,7 +1615,7 @@ abstract class assQuestionGUI
     public function linkChilds() : void
     {
         $this->ctrl->saveParameter($this, array("subquestion_index", "link_new_type", "search_link_type"));
-        switch ($_GET["search_link_type"]) {
+        switch ($this->request->raw("search_link_type")) {
             case "pg":
                 $this->outPageSelector();
                 break;
@@ -1617,8 +1626,8 @@ abstract class assQuestionGUI
                 $this->outGlossarySelector();
                 break;
             case "lm":
-                $subquestion_index = ($_GET["subquestion_index"] > 0) ? $_GET["subquestion_index"] : 0;
-                $this->object->saveSuggestedSolution("lm", "il__lm_" . $_GET["source_id"], $subquestion_index);
+                $subquestion_index = ($this->request->raw("subquestion_index") > 0) ? $this->request->raw("subquestion_index") : 0;
+                $this->object->saveSuggestedSolution("lm", "il__lm_" . $this->request->raw("source_id"), $subquestion_index);
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("suggested_solution_added_successfully"), true);
                 $this->ctrl->redirect($this, "suggestedsolution");
                 break;
@@ -1628,10 +1637,10 @@ abstract class assQuestionGUI
     public function addPG() : void
     {
         $subquestion_index = 0;
-        if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0) {
-            $subquestion_index = $_GET["subquestion_index"];
+        if (strlen($this->request->raw("subquestion_index")) && $this->request->raw("subquestion_index") >= 0) {
+            $subquestion_index = $this->request->raw("subquestion_index");
         }
-        $this->object->saveSuggestedSolution("pg", "il__pg_" . $_GET["pg"], $subquestion_index);
+        $this->object->saveSuggestedSolution("pg", "il__pg_" . $this->request->raw("pg"), $subquestion_index);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("suggested_solution_added_successfully"), true);
         $this->ctrl->redirect($this, "suggestedsolution");
     }
@@ -1639,10 +1648,10 @@ abstract class assQuestionGUI
     public function addST() : void
     {
         $subquestion_index = 0;
-        if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0) {
-            $subquestion_index = $_GET["subquestion_index"];
+        if (strlen($this->request->raw("subquestion_index")) && $this->request->raw("subquestion_index") >= 0) {
+            $subquestion_index = $this->request->raw("subquestion_index");
         }
-        $this->object->saveSuggestedSolution("st", "il__st_" . $_GET["st"], $subquestion_index);
+        $this->object->saveSuggestedSolution("st", "il__st_" . $this->request->raw("st"), $subquestion_index);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("suggested_solution_added_successfully"), true);
         $this->ctrl->redirect($this, "suggestedsolution");
     }
@@ -1650,10 +1659,10 @@ abstract class assQuestionGUI
     public function addGIT() : void
     {
         $subquestion_index = 0;
-        if (strlen($_GET["subquestion_index"]) && $_GET["subquestion_index"] >= 0) {
-            $subquestion_index = $_GET["subquestion_index"];
+        if (strlen($this->request->raw("subquestion_index")) && $this->request->raw("subquestion_index") >= 0) {
+            $subquestion_index = $this->request->raw("subquestion_index");
         }
-        $this->object->saveSuggestedSolution("git", "il__git_" . $_GET["git"], $subquestion_index);
+        $this->object->saveSuggestedSolution("git", "il__git_" . $this->request->raw("git"), $subquestion_index);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("suggested_solution_added_successfully"), true);
         $this->ctrl->redirect($this, "suggestedsolution");
     }
@@ -1932,23 +1941,23 @@ abstract class assQuestionGUI
 
     protected function addBackTab(ilTabsGUI $ilTabs) : void
     {
-        if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0)) {
-            $ref_id = $_GET["calling_test"];
+        if (($this->request->raw("calling_test") > 0) || ($this->request->raw("test_ref_id") > 0)) {
+            $ref_id = $this->request->raw("calling_test");
             if (strlen($ref_id) == 0) {
-                $ref_id = $_GET["test_ref_id"];
+                $ref_id = $this->request->raw("test_ref_id");
             }
 
-            if (!$_GET['test_express_mode'] && (!isset($GLOBALS['___test_express_mode']) || !$GLOBALS['___test_express_mode'])) {
+            if (!$this->request->raw('test_express_mode') && (!isset($GLOBALS['___test_express_mode']) || !$GLOBALS['___test_express_mode'])) {
                 $ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
             } else {
                 $link = ilTestExpressPage::getReturnToPageLink();
                 $ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), $link);
             }
-        } elseif (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer']) {
-            $ref_id = (int) $_GET['calling_consumer'];
+        } elseif ($this->request->isset('calling_consumer') && (int) $this->request->raw('calling_consumer')) {
+            $ref_id = (int) $this->request->raw('calling_consumer');
             $consumer = ilObjectFactory::getInstanceByRefId($ref_id);
             if ($consumer instanceof ilQuestionEditingFormConsumer) {
-                $ilTabs->setBackTarget($consumer->getQuestionEditingFormBackTargetLabel(), $consumer->getQuestionEditingFormBackTarget($_GET['consumer_context']));
+                $ilTabs->setBackTarget($consumer->getQuestionEditingFormBackTargetLabel(), $consumer->getQuestionEditingFormBackTarget($this->request->raw('consumer_context')));
             } else {
                 $ilTabs->setBackTarget($this->lng->txt("qpl"), ilLink::_getLink($ref_id));
             }
@@ -2031,5 +2040,60 @@ abstract class assQuestionGUI
 
     public function saveCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
+    }
+
+    /**
+     * Prepares a string for a text area output where latex code may be in it
+     * If the text is HTML-free, CHR(13) will be converted to a line break
+     *
+     * @param string $txt_output String which should be prepared for output
+     * @access public
+     *
+     */
+    public static function prepareTextareaOutput($txt_output, $prepare_for_latex_output = false, $omitNl2BrWhenTextArea = false)
+    {
+        $result = $txt_output;
+        $is_html = false;
+        if (strlen(strip_tags($result)) < strlen($result)) {
+            $is_html = true;
+        }
+
+        // removed: did not work with magic_quotes_gpc = On
+        if (!$is_html) {
+            if (!$omitNl2BrWhenTextArea) {
+                // if the string does not contain HTML code, replace the newlines with HTML line breaks
+                $result = preg_replace("/[\n]/", "<br />", $result);
+            }
+        } else {
+            // patch for problems with the <pre> tags in tinyMCE
+            if (preg_match_all("/(\<pre>.*?\<\/pre>)/ims", $result, $matches)) {
+                foreach ($matches[0] as $found) {
+                    $replacement = "";
+                    if (strpos("\n", $found) === false) {
+                        $replacement = "\n";
+                    }
+                    $removed = preg_replace("/\<br\s*?\/>/ims", $replacement, $found);
+                    $result = str_replace($found, $removed, $result);
+                }
+            }
+        }
+
+        // since server side mathjax rendering does include svg-xml structures that indeed have linebreaks,
+        // do latex conversion AFTER replacing linebreaks with <br>. <svg> tag MUST NOT contain any <br> tags.
+        if ($prepare_for_latex_output) {
+            include_once './Services/MathJax/classes/class.ilMathJax.php';
+            $result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
+            $result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
+        }
+
+        if ($prepare_for_latex_output) {
+            // replace special characters to prevent problems with the ILIAS template system
+            // eg. if someone uses {1} as an answer, nothing will be shown without the replacement
+            $result = str_replace("{", "&#123;", $result);
+            $result = str_replace("}", "&#125;", $result);
+            $result = str_replace("\\", "&#92;", $result);
+        }
+
+        return $result;
     }
 }

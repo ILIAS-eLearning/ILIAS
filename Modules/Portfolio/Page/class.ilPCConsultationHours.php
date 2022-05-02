@@ -72,7 +72,7 @@ class ilPCConsultationHours extends ilPageContent
             }
         }
 
-        if ($a_mode == "manual") {
+        if ($a_mode === "manual") {
             foreach ($a_grp_ids as $grp_id) {
                 $field_node = $this->dom->create_element("ConsultationHoursGroup");
                 $field_node = $this->cach_node->append_child($field_node);

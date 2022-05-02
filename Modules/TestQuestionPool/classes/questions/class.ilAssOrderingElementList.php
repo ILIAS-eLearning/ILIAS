@@ -45,7 +45,7 @@ class ilAssOrderingElementList implements Iterator
     /**
      * @var array
      */
-    protected $elements;
+    protected $elements = array();
     
     /**
      * ilAssOrderingElementList constructor.
@@ -566,6 +566,7 @@ class ilAssOrderingElementList implements Iterator
         switch ($identifierType) {
             case self::IDENTIFIER_TYPE_SOLUTION:
                 return $this->buildSolutionIdentifier();
+            default:
             case self::IDENTIFIER_TYPE_RANDOM:
                 return $this->buildRandomIdentifier();
         }
@@ -931,9 +932,9 @@ class ilAssOrderingElementList implements Iterator
     }
     
     /**
-     * @return ilAssOrderingElement
+     * @return ilAssOrderingElement|false
      */
-    public function rewind() : ilAssOrderingElement
+    public function rewind()
     {
         return reset($this->elements);
     }

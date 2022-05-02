@@ -34,10 +34,7 @@ use ILIAS\Skill\Tree;
  */
 class ilObjSkillManagementGUI extends ilObjectGUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    protected ilRbacSystem $rbacsystem;
     protected ilErrorHandling $error;
     protected ilTabsGUI $tabs;
     protected Factory $ui_fac;
@@ -54,7 +51,15 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     protected int $requested_templates_tree = 0;
     protected string $requested_skexpand = "";
     protected int $requested_tmpmode = 0;
+
+    /**
+     * @var string[]
+     */
     protected array $requested_titles = [];
+
+    /**
+     * @var int[]
+     */
     protected array $requested_node_ids = [];
 
     /**
@@ -354,7 +359,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $this->ctrl->redirectByClass("skilltreeadmingui", "listTrees");
     }
 
-    public function saveAllTitles(bool $a_succ_mess = true)
+    public function saveAllTitles(bool $a_succ_mess = true) : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -374,7 +379,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "editSkills");
     }
 
-    public function saveAllTemplateTitles(bool $a_succ_mess = true)
+    public function saveAllTemplateTitles(bool $a_succ_mess = true) : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -394,7 +399,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "editSkillTemplates");
     }
 
-    public function expandAll(bool $a_redirect = true)
+    public function expandAll(bool $a_redirect = true) : void
     {
         $this->requested_skexpand = "";
         $n_id = ($this->requested_node_id > 0)
@@ -409,7 +414,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $this->saveAllTitles(false);
     }
 
-    public function collapseAll(bool $a_redirect = true)
+    public function collapseAll(bool $a_redirect = true) : void
     {
         $this->requested_skexpand = "";
         $n_id = ($this->requested_node_id > 0)
@@ -554,7 +559,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     // Skill Templates
     //
 
-    public function editSkillTemplates()
+    public function editSkillTemplates() : void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
@@ -570,7 +575,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     // Tree
     //
 
-    public function showTree(bool $a_templates, $a_gui = null, string $a_gui_cmd = "")
+    public function showTree(bool $a_templates, $a_gui = null, string $a_gui_cmd = "") : void
     {
         $ilUser = $this->user;
         $tpl = $this->tpl;

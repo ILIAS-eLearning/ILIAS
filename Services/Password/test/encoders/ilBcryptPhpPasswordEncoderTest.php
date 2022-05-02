@@ -33,7 +33,7 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
     private const WRONG_PASSWORD = 'wrong_password';
 
     /**
-     * @return array<string, string>
+     * @return array<string, string[]>
      */
     public function costsProvider() : array
     {
@@ -54,7 +54,7 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
             'cost' => self::VALID_COSTS
         ]);
         $this->assertInstanceOf(ilBcryptPhpPasswordEncoder::class, $encoder);
-        $this->assertEquals(self::VALID_COSTS, $encoder->getCosts());
+        $this->assertSame(self::VALID_COSTS, $encoder->getCosts());
 
         return $encoder;
     }
@@ -68,7 +68,7 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
         $expected = '04';
 
         $encoder->setCosts($expected);
-        $this->assertEquals($expected, $encoder->getCosts());
+        $this->assertSame($expected, $encoder->getCosts());
     }
 
     /**
@@ -145,7 +145,7 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
      */
     public function testNameShouldBeBcryptPhp(ilBcryptPhpPasswordEncoder $encoder) : void
     {
-        $this->assertEquals('bcryptphp', $encoder->getName());
+        $this->assertSame('bcryptphp', $encoder->getName());
     }
 
     /**

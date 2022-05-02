@@ -14,8 +14,7 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
+ *********************************************************************/
 
 class ilTermsOfServiceHistorizedCriterionTest extends ilTermsOfServiceCriterionBaseTest
 {
@@ -28,8 +27,8 @@ class ilTermsOfServiceHistorizedCriterionTest extends ilTermsOfServiceCriterionB
             json_decode($config, false, 512, JSON_THROW_ON_ERROR)
         );
 
-        $this->assertEquals('usr_language', $criterion->getCriterionId());
-        $this->assertEquals($config, $criterion->getCriterionValue()->toJson());
-        $this->assertEquals($config, $criterion->getCriterionValue()->toJson());
+        $this->assertSame('usr_language', $criterion->getCriterionId());
+        $this->assertSame($config, $criterion->getCriterionValue()->toJson());
+        $this->assertSame($config, $criterion->getCriterionValue()->toJson());
     }
 }

@@ -149,12 +149,12 @@ class ilCustomBlock
         $set = $ilDB->query($query);
         $rec = $ilDB->fetchAssoc($set);
 
-        $this->setContextObjId($rec["context_obj_id"]);
+        $this->setContextObjId((int) $rec["context_obj_id"]);
         $this->setContextObjType($rec["context_obj_type"]);
-        $this->setContextSubObjId($rec["context_sub_obj_id"]);
+        $this->setContextSubObjId((int) $rec["context_sub_obj_id"]);
         $this->setContextSubObjType((string) $rec["context_sub_obj_type"]);
         $this->setType($rec["type"]);
-        $this->setTitle($rec["title"]);
+        $this->setTitle((string) $rec["title"]);
     }
 
     public function update() : void

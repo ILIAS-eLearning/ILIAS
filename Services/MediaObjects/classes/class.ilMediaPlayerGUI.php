@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * User interface for media player. Wraps flash mp3 player and similar tools.
@@ -45,7 +48,7 @@ class ilMediaPlayerGUI
     ) {
         global $DIC;
 
-        $this->tpl = $DIC["tpl"];
+        $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
         $this->id = $a_id;
         $this->event_callback_url = $a_event_callback_url;
@@ -240,7 +243,7 @@ class ilMediaPlayerGUI
             if ($a_preview) {
                 $mp_tpl->setVariable("CLASS", "ilNoDisplay");
             }
-            $mp_tpl->setVariable("PV", $p["v"]);
+            $mp_tpl->setVariable("SRC", "https://www.youtube.com/embed/" . $p["v"]);
             $mp_tpl->setVariable("PLAYER_NR", $this->id . "_" . $this->current_nr);
             $mp_tpl->setVariable("TXT_PLAY", $lng->txt("mob_play"));
             $mp_tpl->setVariable("TITLE", $this->getTitle());
@@ -254,11 +257,43 @@ class ilMediaPlayerGUI
 
         // vimeo
         if (ilExternalMediaAnalyzer::isVimeo($this->getFile())) {
-            $p = ilExternalMediaAnalyzer::extractVimeoParameters($this->getFile());
-            $html = '<iframe src="//player.vimeo.com/video/' . $p["id"] . '" width="320" height="240" ' .
-                '></iframe>';
+            $mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
+            if ($a_preview) {
+                if ($this->getDownloadLink() != "") {
+                    $mp_tpl->setCurrentBlock("ytdownload");
+                    $mp_tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
+                    $mp_tpl->setVariable("HREF_DOWNLOAD", $this->getDownloadLink());
+                    $mp_tpl->parseCurrentBlock();
+                }
 
-            return $html;
+                $mp_tpl->setCurrentBlock("ytpreview");
+                if ($this->getVideoPreviewPic() != "") {
+                    $mp_tpl->setVariable("IMG_SRC", $this->getVideoPreviewPic());
+                } else {
+                    $mp_tpl->setVariable("IMG_SRC", ilUtil::getImagePath("mcst_preview.svg"));
+                }
+                $height = $this->getDisplayHeight();
+                $width = $this->getDisplayWidth();
+                $mp_tpl->setVariable("DISPLAY_HEIGHT", $height);
+                $mp_tpl->setVariable("DISPLAY_WIDTH", $width);
+                $mp_tpl->setVariable("IMG_ALT", $this->video_preview_pic_alt);
+                $mp_tpl->setVariable("PTITLE", $this->getTitle());
+                $mp_tpl->parseCurrentBlock();
+            }
+            $mp_tpl->setCurrentBlock("youtube");
+            if ($a_preview) {
+                $mp_tpl->setVariable("CLASS", "ilNoDisplay");
+            }
+            $mp_tpl->setVariable("SRC", $this->getFile() . "?controls=0");
+            $mp_tpl->setVariable("PLAYER_NR", $this->id . "_" . $this->current_nr);
+            $mp_tpl->setVariable("TITLE", $this->getTitle());
+            $mp_tpl->setVariable("DESCRIPTION", $this->getDescription());
+            include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
+            if ($a_preview) {
+                $mp_tpl->setVariable("CLOSE", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
+            }
+            $mp_tpl->parseCurrentBlock();
+            return $mp_tpl->get();
         }
 
         $mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;
@@ -299,7 +334,6 @@ class ilMediaPlayerGUI
                 $mp_tpl->setVariable("PTITLE", $this->getTitle());
                 $mp_tpl->parseCurrentBlock();
             }
-
             $mp_tpl->setCurrentBlock("mejs_video");
 
             if ($a_preview) {
@@ -309,9 +343,17 @@ class ilMediaPlayerGUI
 
             // sources
             $mp_tpl->setVariable("FILE", $this->getFile());
-            $mp_tpl->setVariable("PLAYER_NR", $this->id . "_" . $this->current_nr);
+            $player_nr = $this->id . "_" . $this->current_nr;
+            $mp_tpl->setVariable("PLAYER_NR", $player_nr);
             $mp_tpl->setVariable("TXT_PLAY", $lng->txt("mob_play"));
-            $mp_tpl->setVariable("EVENT_URL", $this->event_callback_url);
+
+            $onload_code = "il.MediaObjects.setPlayerConfig('player_" . $player_nr .
+                "', {event_url: '" . $this->event_callback_url . "'});";
+
+            $this->tpl->addOnLoadCode(
+                $onload_code
+            );
+
             $height = $this->getDisplayHeight();
             $width = $this->getDisplayWidth();
             if (is_int(strpos($mimeType, "audio/mpeg"))) {
@@ -327,8 +369,7 @@ class ilMediaPlayerGUI
             if ($style != "") {
                 $mp_tpl->setVariable("STYLE", "style='$style'");
             }
-            //$mp_tpl->setVariable("DISPLAY_HEIGHT", $height);
-            //$mp_tpl->setVariable("DISPLAY_WIDTH", $width);
+            $mp_tpl->setVariable("FILE", $this->getFile());
             $mp_tpl->setVariable("PREVIEW_PIC", $this->getVideoPreviewPic());
             $mp_tpl->setVariable("TITLE", $this->getTitle());
             $mp_tpl->setVariable("DESCRIPTION", $this->getDescription());

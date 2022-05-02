@@ -18,40 +18,59 @@ use ILIAS\Refinery\Random\Group as RandomGroup;
  */
 class ilTestBaseTestCase extends TestCase
 {
-    protected Container $dic;
+    protected ?Container $dic = null;
 
     /**
      * @inheritdoc
      */
     protected function setUp() : void
     {
-        $this->dic = new Container();
-        $GLOBALS['DIC'] = $this->dic;
+        global $DIC;
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
+        $DIC = new Container();
+
         $this->addGlobal_tpl();
         $this->addGlobal_ilDB();
         $this->addGlobal_ilias();
         $this->addGlobal_ilLog();
         $this->addGlobal_ilErr();
         $this->addGlobal_tree();
+        $this->addGlobal_lng();
         $this->addGlobal_ilAppEventHandler();
         $this->addGlobal_objDefinition();
-        $DIC['logger'] = $this->getMockBuilder(\ILIAS\DI\LoggingServices::class)->disableOriginalConstructor()->getMock();
-        $this->dic['logger'] = $DIC['logger'];
+        $this->addGlobal_refinery();
 
-        $http_mock = $this->getMockBuilder(\ILIAS\HTTP\Services::class)->disableOriginalConstructor()->onlyMethods(array('request','wrapper'))->getMock();
+        $this->getMockBuilder(\ILIAS\DI\LoggingServices::class)->disableOriginalConstructor()->getMock();
+        
+        $http_mock = $this
+            ->getMockBuilder(\ILIAS\HTTP\Services::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['request', 'wrapper'])->getMock();
 
-        $request_mock = $this->getMockBuilder(\GuzzleHttp\Psr7\ServerRequest::class)->disableOriginalConstructor()->onlyMethods(array('getParsedBody'))->getMock();
-        $request_mock->expects($this->any())->method('getParsedBody')->willReturn(array());
-        $http_mock->expects($this->any())->method('request')->willReturn($request_mock);
+        $request_mock = $this
+            ->getMockBuilder(\GuzzleHttp\Psr7\ServerRequest::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getParsedBody'])->getMock();
+        $request_mock->method('getParsedBody')->willReturn(array());
+        $http_mock->method('request')->willReturn($request_mock);
 
         $wrapper_mock = $this->createMock(\ILIAS\HTTP\Wrapper\WrapperFactory::class);
-        $http_mock->expects($this->any())->method('wrapper')->willReturn($wrapper_mock);
+        $http_mock->method('wrapper')->willReturn($wrapper_mock);
 
-        $DIC['http'] = $http_mock;
-        $this->dic['http'] = $DIC['http'];
-        $DIC['refinery'] = $this->getMockBuilder(ILIAS\Refinery\Factory::class)->disableOriginalConstructor()->getMock();
-        $this->dic['refinery'] = $DIC['refinery'];
+        $this->setGlobalVariable('http', $http_mock);
+
         parent::setUp();
+    }
+
+    protected function tearDown() : void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 
     /**
@@ -65,7 +84,7 @@ class ilTestBaseTestCase extends TestCase
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = static function (\ILIAS\DI\Container $c) use ($value) {
+        $DIC[$name] = static function (Container $c) use ($value) {
             return $value;
         };
     }
@@ -73,7 +92,7 @@ class ilTestBaseTestCase extends TestCase
     /**
      * @return ilTemplate|mixed|MockObject
      */
-    protected function getGlobalTemplateMock() : mixed
+    protected function getGlobalTemplateMock()
     {
         return $this->getMockBuilder(ilTemplate::class)->disableOriginalConstructor()->getMock();
     }
@@ -81,7 +100,7 @@ class ilTestBaseTestCase extends TestCase
     /**
      * @return ilDBInterface|mixed|MockObject
      */
-    protected function getDatabaseMock() : mixed
+    protected function getDatabaseMock()
     {
         return $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock();
     }

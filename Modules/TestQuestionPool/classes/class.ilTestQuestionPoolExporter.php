@@ -55,6 +55,7 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
         
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $DIC['ilLog']->write(__METHOD__ . ': Created zip file');
+        return ''; // sagt mjansen
     }
 
     /**

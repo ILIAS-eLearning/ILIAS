@@ -33,7 +33,6 @@ class ilScorm2004BaseTestCase extends TestCase
     }
 
     /**
-     * @param string $name
      * @param mixed  $value
      */
     protected function setGlobalVariable(string $name, $value) : void
@@ -48,26 +47,17 @@ class ilScorm2004BaseTestCase extends TestCase
         };
     }
 
-    /**
-     * @return ilTemplate|mixed|MockObject
-     */
-    protected function getGlobalTemplateMock()
+    protected function getGlobalTemplateMock() : MockObject
     {
         return $this->getMockBuilder(ilTemplate::class)->disableOriginalConstructor()->getMock();
     }
 
-    /**
-     * @return ilDBInterface|mixed|MockObject
-     */
-    protected function getDatabaseMock()
+    protected function getDatabaseMock() : MockObject
     {
         return $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock();
     }
 
-    /**
-     * @return ILIAS|mixed|MockObject
-     */
-    protected function getIliasMock()
+    protected function getIliasMock() : MockObject
     {
         $mock = $this->getMockBuilder(ILIAS::class)->disableOriginalConstructor()->getMock();
 

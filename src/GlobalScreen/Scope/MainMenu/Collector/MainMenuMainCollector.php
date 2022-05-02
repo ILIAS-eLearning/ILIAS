@@ -184,7 +184,6 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             
             return true;
         });
-     
     }
     
     public function sortItemsForUIRepresentation() : void

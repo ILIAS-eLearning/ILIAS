@@ -17,22 +17,38 @@ use Sabre\DAV\Exception\Forbidden;
  *****************************************************************************/
 trait ilWebDAVReadOnlyNodeWriteFunctionsTrait
 {
-    public function createDirectory($name)
+    /**
+     * {@inheritDoc}
+     * @see \Sabre\DAV\ICollection::createDirectory()
+     */
+    public function createDirectory($name) : void
     {
         throw new Forbidden("It is not possible to create a directory here");
     }
     
-    public function createFile($name, $data = null)
+    /**
+     * {@inheritDoc}
+     * @see \Sabre\DAV\ICollection::createFile()
+     */
+    public function createFile($name, $data = null) : ?string
     {
         throw new Forbidden("It is not possible to create a file here");
     }
     
-    public function setName($name)
+    /**
+     * {@inheritDoc}
+     * @see \Sabre\DAV\INode::setName()
+     */
+    public function setName($name) : void
     {
         throw new Forbidden("It is not possible to change the name of the root");
     }
     
-    public function delete()
+    /**
+     * {@inheritDoc}
+     * @see \Sabre\DAV\INode::delete()
+     */
+    public function delete() : void
     {
         throw new Forbidden("It is not possible to delete the root");
     }

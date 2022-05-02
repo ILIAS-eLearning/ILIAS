@@ -164,17 +164,17 @@ class ObjectManager
         }
 
         // check global fixed content style, which overwrites anything
-        $fixed_style = $settings->get("fixed_content_style_id");
+        $fixed_style = (int) $settings->get("fixed_content_style_id");
         if ($fixed_style > 0) {
             $style_id = $fixed_style;
         }
 
         // if no style id is set up to this point, check/use global default style
         if ($style_id <= 0) {
-            $style_id = $settings->get("default_content_style_id");
+            $style_id = (int) $settings->get("default_content_style_id");
         }
 
-        if ($style_id > 0 && ilObject::_lookupType($style_id) == "sty") {
+        if ($style_id > 0 && ilObject::_lookupType($style_id) === "sty") {
             return $style_id;
         }
         return 0;

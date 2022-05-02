@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesCalendarSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : self
     {
         $suite = new ilServicesCalendarSuite();
         include_once './Services/Calendar/test/class.ilCalendarRecurrenceCalculationTest.php';

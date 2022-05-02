@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\MockObject\Builder\InvocationMocker;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -12,13 +26,11 @@ use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
  */
 abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
 {
-    /** @var MockObject|ilChatroomObjectGui */
+    /** @var MockObject&ilChatroomObjectGUI */
     protected $gui;
-
-    /** @var MockObject|ilChatroomServerConnector */
+    /** @var MockObject&ilChatroomServerConnector */
     protected $ilChatroomServerConnectorMock;
-
-    /** @var MockObject|ilObjChatroom */
+    /** @var MockObject&ilObjChatroom */
     protected $object;
 
     protected function setUp() : void
@@ -76,13 +88,9 @@ abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
             );
     }
 
-    protected function createGlobalIlCtrlMock() : ilCtrl
+    protected function createGlobalIlCtrlMock() : ilCtrlInterface
     {
-        $ctrl = $this->getMockBuilder('ilCtrl')->disableOriginalConstructor()->onlyMethods(
-            ['setParameterByClass', 'redirectByClass', 'forwardCommand']
-        )->getMock();
-        $ctrl->method('setParameterByClass');
-        $ctrl->method('redirectByClass');
+        $ctrl = $this->createMock(ilCtrlInterface::class);
 
         $this->setGlobalVariable('ilCtrl', $ctrl);
 

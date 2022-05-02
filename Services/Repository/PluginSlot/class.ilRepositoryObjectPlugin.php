@@ -97,7 +97,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
         // object database and that all permissions exist
         $type = $this->getId();
         
-        if (substr($type, 0, 1) != "x") {
+        if (strpos($type, "x") !== 0) {
             throw new ilPluginException("Object plugin type must start with an x. Current type is " . $type . ".");
         }
         
@@ -125,7 +125,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
 
         // add rbac operations
         // 1: edit_permissions, 2: visible, 3: read, 4:write, 6:delete
-        $ops = array(1, 2, 3, 4, 6);
+        $ops = [1, 2, 3, 4, 6];
         if ($this->allowCopy()) {
             $ops[] = ilRbacReview::_getOperationIdByName("copy");
         }
@@ -172,20 +172,18 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
                 " WHERE type = " . $ilDB->quote("typ", "text") .
                 " AND title = " . $ilDB->quote($par_type, "text")
             );
-            if ($rec = $ilDB->fetchAssoc($set)) {
-                if ($rec["obj_id"] > 0) {
-                    $set = $ilDB->query(
-                        "SELECT * FROM rbac_ta " .
-                        " WHERE typ_id = " . $ilDB->quote($rec["obj_id"], "integer") .
-                        " AND ops_id = " . $ilDB->quote($create_ops_id, "integer")
-                    );
-                    if (!$ilDB->fetchAssoc($set)) {
-                        $ilDB->manipulate("INSERT INTO rbac_ta " .
-                            "(typ_id, ops_id) VALUES (" .
-                            $ilDB->quote($rec["obj_id"], "integer") . "," .
-                            $ilDB->quote($create_ops_id, "integer") .
-                            ")");
-                    }
+            if (($rec = $ilDB->fetchAssoc($set)) && $rec["obj_id"] > 0) {
+                $set = $ilDB->query(
+                    "SELECT * FROM rbac_ta " .
+                    " WHERE typ_id = " . $ilDB->quote($rec["obj_id"], "integer") .
+                    " AND ops_id = " . $ilDB->quote($create_ops_id, "integer")
+                );
+                if (!$ilDB->fetchAssoc($set)) {
+                    $ilDB->manipulate("INSERT INTO rbac_ta " .
+                        "(typ_id, ops_id) VALUES (" .
+                        $ilDB->quote($rec["obj_id"], "integer") . "," .
+                        $ilDB->quote($create_ops_id, "integer") .
+                        ")");
                 }
             }
         }
@@ -221,7 +219,7 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
      */
     public function getParentTypes() : array
     {
-        $par_types = array("root", "cat", "crs", "grp", "fold");
+        $par_types = ["root", "cat", "crs", "grp", "fold"];
         return $par_types;
     }
 

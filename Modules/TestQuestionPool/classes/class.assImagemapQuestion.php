@@ -23,6 +23,8 @@ require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php'
  */
 class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdjustable, ilObjAnswerScoringAdjustable, iQuestionCondition
 {
+    private \ILIAS\TestQuestionPool\InternalRequestService $request; // Hate it.
+
     // hey: prevPassSolutions - wtf is imagemap ^^
     public $currentSolution = array();
     // hey.
@@ -70,6 +72,9 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
         $this->image_filename = $image_filename;
         $this->answers = array();
         $this->coords = array();
+
+        global $DIC;
+        $this->request = $DIC->testQuestionPool()->internal()->request();
     }
 
     /**
@@ -760,13 +765,13 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
 
                     if ($this->is_multiple_choice) {
                         $this->deleteSolutionRecordByValues($active_id, $pass, $authorized, array(
-                            'value1' => (int) $_GET['selImage']
+                            'value1' => (int) $this->request->raw('selImage')
                         ));
                     } else {
                         $this->removeCurrentSolution($active_id, $pass, $authorized);
                     }
 
-                    $this->saveCurrentSolution($active_id, $pass, $_GET['selImage'], null, $authorized);
+                    $this->saveCurrentSolution($active_id, $pass, $this->request->raw('selImage'), null, $authorized);
 
                     $solutionSelectionChanged = true;
                 }
@@ -797,16 +802,16 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
     {
         $solution = $previewSession->getParticipantsSolution();
 
-        if ($this->is_multiple_choice && strlen($_GET['remImage'])) {
-            unset($solution[(int) $_GET['remImage']]);
+        if ($this->is_multiple_choice && strlen($this->request->raw('remImage'))) {
+            unset($solution[(int) $this->request->raw('remImage')]);
         }
 
-        if (strlen($_GET['selImage'])) {
+        if (strlen($this->request->raw('selImage'))) {
             if (!$this->is_multiple_choice) {
                 $solution = array();
             }
 
-            $solution[(int) $_GET['selImage']] = (int) $_GET['selImage'];
+            $solution[(int) $this->request->raw('selImage')] = (int) $this->request->raw('selImage');
         }
 
         $previewSession->setParticipantsSolution($solution);
@@ -1082,15 +1087,15 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return null;
         }
 
-        return $_GET["selImage"];
+        return $this->request->raw('selImage');
     }
     protected function isAddSolutionSelectionRequest() : bool
     {
-        if (!isset($_GET["selImage"])) {
+        if (!$this->request->isset("selImage")) {
             return false;
         }
 
-        if (!strlen($_GET["selImage"])) {
+        if (!strlen($this->request->raw('selImage'))) {
             return false;
         }
 
@@ -1102,7 +1107,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return null;
         }
 
-        return $_GET["remImage"];
+        return $this->request->raw('remImage');
     }
     protected function isRemoveSolutionSelectionRequest() : bool
     {
@@ -1110,11 +1115,11 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return false;
         }
 
-        if (!isset($_GET["remImage"])) {
+        if (!$this->request->isset("remImage")) {
             return false;
         }
 
-        if (!strlen($_GET["remImage"])) {
+        if (!strlen($this->request->raw('remImage'))) {
             return false;
         }
 
@@ -1126,7 +1131,7 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return null;
         }
 
-        return assQuestion::explodeKeyValues($_GET["reuseSelection"]);
+        return assQuestion::explodeKeyValues($this->request->raw("reuseSelection"));
     }
     protected function isReuseSolutionSelectionRequest() : bool
     {
@@ -1134,15 +1139,15 @@ class assImagemapQuestion extends assQuestion implements ilObjQuestionScoringAdj
             return false;
         }
 
-        if (!isset($_GET["reuseSelection"])) {
+        if (!$this->request->isset("reuseSelection")) {
             return false;
         }
 
-        if (!strlen($_GET["reuseSelection"])) {
+        if (!strlen($this->request->raw("reuseSelection"))) {
             return false;
         }
 
-        if (!preg_match('/\d(,\d)*/', $_GET["reuseSelection"])) {
+        if (!preg_match('/\d(,\d)*/', $this->request->raw("reuseSelection"))) {
             return false;
         }
 

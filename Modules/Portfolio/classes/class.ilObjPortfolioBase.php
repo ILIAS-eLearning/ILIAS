@@ -162,12 +162,15 @@ abstract class ilObjPortfolioBase extends ilObject2
         
         $this->doReadCustom($row);
     }
-    
-    protected function doReadCustom(array $a_row)
+
+    /**
+     * May be overwritten by derived classes
+     */
+    protected function doReadCustom(array $a_row) : void
     {
     }
 
-    protected function doCreate()
+    protected function doCreate(bool $clone_mode = false) : void
     {
         $ilDB = $this->db;
         
@@ -176,7 +179,7 @@ abstract class ilObjPortfolioBase extends ilObject2
             $ilDB->quote(0, "integer") . ")");
     }
     
-    protected function doUpdate()
+    protected function doUpdate() : void
     {
         $ilDB = $this->db;
         
@@ -198,12 +201,15 @@ abstract class ilObjPortfolioBase extends ilObject2
             array("id" => array("integer", $this->id))
         );
     }
-    
-    protected function doUpdateCustom(array &$a_fields)
+
+    /**
+     * May be overwritte by derived classes
+     */
+    protected function doUpdateCustom(array &$a_fields) : void
     {
     }
 
-    protected function doDelete()
+    protected function doDelete() : void
     {
         $ilDB = $this->db;
         
@@ -228,12 +234,12 @@ abstract class ilObjPortfolioBase extends ilObject2
         bool $a_as_thumb = false
     ) : string {
         if ($this->img) {
-            $path = $this->initStorage($this->id);
+            $path = self::initStorage($this->id);
             if (!$a_as_thumb) {
                 return $path . $this->img;
-            } else {
-                return $path . "thb_" . $this->img;
             }
+
+            return $path . "thb_" . $this->img;
         }
         return "";
     }
@@ -266,8 +272,8 @@ abstract class ilObjPortfolioBase extends ilObject2
         if ($a_subdir) {
             $path .= $a_subdir . "/";
             
-            if (!is_dir($path)) {
-                mkdir($path);
+            if (!is_dir($path) && !mkdir($path) && !is_dir($path)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $path));
             }
         }
                 
@@ -289,7 +295,7 @@ abstract class ilObjPortfolioBase extends ilObject2
         // #10074
         $clean_name = preg_replace("/[^a-zA-Z0-9\_\.\-]/", "", $a_upload["name"]);
     
-        $path = $this->initStorage($this->id);
+        $path = self::initStorage($this->id);
         $original = "org_" . $this->id . "_" . $clean_name;
         $thumb = "thb_" . $this->id . "_" . $clean_name;
         $processed = $this->id . "_" . $clean_name;
@@ -336,6 +342,8 @@ abstract class ilObjPortfolioBase extends ilObject2
         ilObjPortfolioBase $a_source,
         ilObjPortfolioBase $a_target
     ) : void {
+        global $DIC;
+
         // copy portfolio properties
         $a_target->setPublicComments($a_source->hasPublicComments());
         $a_target->setProfilePicture($a_source->hasProfilePicture());
@@ -423,7 +431,7 @@ abstract class ilObjPortfolioBase extends ilObject2
         foreach (ilPortfolioPage::getAllPortfolioPages($source_id) as $page) {
             $page_id = $page["id"];
             
-            if ($direction == "t2p") {
+            if ($direction === "t2p") {
                 $source_page = new ilPortfolioTemplatePage($page_id);
                 $target_page = new ilPortfolioPage();
             } else {
@@ -448,7 +456,7 @@ abstract class ilObjPortfolioBase extends ilObject2
             switch ($page_type) {
                 // blog => blog template
                 case ilPortfolioPage::TYPE_BLOG:
-                    if ($direction == "p2t") {
+                    if ($direction === "p2t") {
                         $page_type = ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE;
                         $page_title = $lng->txt("obj_blog") . " " . (++$blog_count);
                         $valid = true;
@@ -457,28 +465,26 @@ abstract class ilObjPortfolioBase extends ilObject2
                 
                 // blog template => blog (needs recipe)
                 case ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE:
-                    if ($direction == "t2p" && (is_array($page_recipe) || $copy_all)) {
+                    if ($direction === "t2p" && (is_array($page_recipe) || $copy_all)) {
                         $page_type = ilPortfolioPage::TYPE_BLOG;
                         if ($copy_all) {
                             $page_title = self::createBlogInPersonalWorkspace($page_title);
                             $valid = true;
-                        } else {
-                            if ($page_recipe[0] == "blog") {
-                                switch ($page_recipe[1]) {
-                                    case "create":
-                                        $page_title = self::createBlogInPersonalWorkspace($page_recipe[2]);
-                                        $valid = true;
-                                        break;
+                        } elseif ($page_recipe[0] == "blog") {
+                            switch ($page_recipe[1]) {
+                                case "create":
+                                    $page_title = self::createBlogInPersonalWorkspace($page_recipe[2]);
+                                    $valid = true;
+                                    break;
 
-                                    case "reuse":
-                                        $page_title = $page_recipe[2];
-                                        $valid = true;
-                                        break;
+                                case "reuse":
+                                    $page_title = $page_recipe[2];
+                                    $valid = true;
+                                    break;
 
-                                    case "ignore":
-                                        // do nothing
-                                        break;
-                                }
+                                case "ignore":
+                                    // do nothing
+                                    break;
                             }
                         }
                     }
@@ -497,7 +503,7 @@ abstract class ilObjPortfolioBase extends ilObject2
 
                     // parse content / blocks
 
-                    if ($direction == "t2p") {
+                    if ($direction === "t2p") {
                         $dom = $target_page->getDom();
                         if ($dom instanceof php4DOMDocument) {
                             $dom = $dom->myDOMDocument;
@@ -544,7 +550,7 @@ abstract class ilObjPortfolioBase extends ilObject2
                 $target_page->setTitle($page_title);
                 $target_page->create(false);
 
-                if ($page_type == ilPortfolioPage::TYPE_PAGE) {
+                if ($page_type === ilPortfolioPage::TYPE_PAGE) {
                     $target_page->update();	// handle mob usages!
                 }
                 $page_map[$source_page->getId()] = $target_page->getId();
@@ -603,7 +609,7 @@ abstract class ilObjPortfolioBase extends ilObject2
     public function fixLinksOnTitleChange(array $a_title_changes) : void
     {
         foreach (ilPortfolioPage::getAllPortfolioPages($this->getId()) as $port_page) {
-            if ($this->getType() == "prtt") {
+            if ($this->getType() === "prtt") {
                 $page = new ilPortfolioTemplatePage($port_page["id"]);
             } else {
                 $page = new ilPortfolioPage($port_page["id"]);

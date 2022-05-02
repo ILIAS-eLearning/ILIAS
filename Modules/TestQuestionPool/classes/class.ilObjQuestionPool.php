@@ -17,7 +17,7 @@ class ilObjQuestionPool extends ilObject
 {
     private array $mob_ids;
     private array $file_ids;
-    private array $import_mapping;
+
     /**
     * Online status of questionpool
     *
@@ -198,21 +198,7 @@ class ilObjQuestionPool extends ilObject
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 
         $question = assQuestion::instantiateQuestion($question_id);
-        $this->addQuestionChangeListeners($question);
         $question->delete($question_id);
-    }
-
-    /**
-     * @param assQuestion $question
-     */
-    public function addQuestionChangeListeners(assQuestion $question)
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        foreach (ilObjTest::getPoolQuestionChangeListeners($ilDB, $this->getId()) as $listener) {
-            $question->addQuestionChangeListener($listener);
-        }
     }
 
     /**
@@ -800,11 +786,7 @@ class ilObjQuestionPool extends ilObject
     */
     public function getImportMapping() : array
     {
-        if (!is_array($this->import_mapping)) {
-            return array();
-        } else {
-            return $this->import_mapping;
-        }
+        return array();
     }
 
     /**

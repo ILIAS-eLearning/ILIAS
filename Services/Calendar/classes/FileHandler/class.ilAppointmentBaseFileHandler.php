@@ -68,8 +68,10 @@ class ilAppointmentBaseFileHandler
                 break;
 
             case ilCalendarCategory::TYPE_GLOBAL:
-                if ($this->rbacsystem->checkAccess('edit_event',
-                    ilCalendarSettings::_getInstance()->getCalendarSettingsId())) {
+                if ($this->rbacsystem->checkAccess(
+                    'edit_event',
+                    ilCalendarSettings::_getInstance()->getCalendarSettingsId()
+                )) {
                     $cat_info["editable"] = true;
                 }
                 break;

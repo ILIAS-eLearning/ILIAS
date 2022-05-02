@@ -1,9 +1,23 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
  * @ingroup ModulesForum
  */
 class ilForumPost
@@ -588,7 +602,7 @@ class ilForumPost
         $this->setLft((int) $row['lft']);
         $this->setRgt((int) $row['rgt']);
         $this->setDepth((int) $row['depth']);
-        $this->setIsRead((bool) (isset($row['post_read']) && (int) $row['post_read'] ?? 1));
+        $this->setIsRead(isset($row['post_read']) && (int) $row['post_read']);
         $this->setDisplayUserId((int) $row['pos_display_user_id']);
         $this->setPosAuthorId((int) $row['pos_author_id']);
         $this->setIsAuthorModerator((bool) $row['is_author_moderator']);

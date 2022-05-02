@@ -45,11 +45,11 @@ class ilObjBlogListGUI extends ilObjectListGUI
         // #10182 - handle edit and contribute
         $permissions = array();
         foreach ($commands as $idx => $item) {
-            if ($item["lang_var"] == "edit" && $item["granted"]) {
+            if ($item["lang_var"] === "edit" && $item["granted"]) {
                 $permissions[$item["permission"]] = $idx;
             }
         }
-        if (sizeof($permissions) == 2) {
+        if (count($permissions) === 2) {
             unset($commands[$permissions["contribute"]]);
         }
         
@@ -66,16 +66,16 @@ class ilObjBlogListGUI extends ilObjectListGUI
     ) : void {
         $ctrl = $this->ctrl;
 
-        if ($cmd != "export" || !ilObjBlogAccess::isCommentsExportPossible($this->obj_id)) {
+        if ($cmd !== "export" || !ilObjBlogAccess::isCommentsExportPossible($this->obj_id)) {
             parent::insertCommand($href, $text, $frame, $img, $cmd, $onclick);
             return;
         }
 
         // #11099
         $chksum = md5($href . $text);
-        if ($href == "#" ||
+        if ($href === "#" ||
             !in_array($chksum, $this->prevent_duplicate_commands)) {
-            if ($href != "#") {
+            if ($href !== "#") {
                 $this->prevent_duplicate_commands[] = $chksum;
             }
 

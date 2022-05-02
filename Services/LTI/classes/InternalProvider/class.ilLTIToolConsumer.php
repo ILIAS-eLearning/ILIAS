@@ -204,7 +204,7 @@ class ilLTIToolConsumer extends ToolConsumer
         }
         $toolConsumer->setRecordId($id);
 
-        ilLoggerFactory::getLogger('lti')->info('Loading with record id: ' . $toolConsumer->getRecordId());
+        ilLoggerFactory::getLogger('ltis')->info('Loading with record id: ' . $toolConsumer->getRecordId());
 
         return $toolConsumer;
     }
@@ -230,9 +230,9 @@ class ilLTIToolConsumer extends ToolConsumer
      * @param int                $a_ext_consumer_id
      * @param int                $a_ref_id
      * @param ilLTIDataConnector $a_data_connector
-     * @return ilLTIToolConsumer|object
+     * @return ilLTIToolConsumer
      */
-    public static function fromGlobalSettingsAndRefId(int $a_ext_consumer_id, int $a_ref_id, ilLTIDataConnector $a_data_connector)
+    public static function fromGlobalSettingsAndRefId(int $a_ext_consumer_id, int $a_ref_id, ilLTIDataConnector $a_data_connector) : ilLTIToolConsumer
     {
         $toolConsumer = new ilLTIToolConsumer(null, $a_data_connector);
         $toolConsumer->initialize();

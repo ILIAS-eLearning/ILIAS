@@ -39,7 +39,7 @@ class ilAuthProviderFactory
     public function getProviders(ilAuthCredentials $credentials) : array
     {
         // Fixed provider selection;
-        if (strlen($credentials->getAuthMode())) {
+        if ($credentials->getAuthMode() !== '') {
             $this->logger->debug('Returning fixed provider for auth mode: ' . $credentials->getAuthMode());
             return array(
                 $this->getProviderByAuthMode($credentials, $credentials->getAuthMode())

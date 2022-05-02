@@ -5,7 +5,7 @@
 		<xsl:apply-templates select="node()"/>
 	</xsl:template>
 	<xsl:template match="PageObject">
-		<table width="120" height="160" cellcpacing="0" cellpadding="0" style="margin:3px; border-width:1px; border-style:solid;-webkit-box-shadow: 5px 5px 5px #888;-moz-box-shadow: 5px 5px 5px #888;">
+		<table class="il-style-layout-preview-wrapper">
 			<tr>
 				<td valign="top">
 					<xsl:apply-templates/>

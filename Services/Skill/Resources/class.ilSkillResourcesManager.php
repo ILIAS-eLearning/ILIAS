@@ -55,13 +55,16 @@ class ilSkillResourcesManager
         return $too_low;
     }
 
+    /**
+     * @return array{level_id: int, rep_ref_id: int, trigger: int, imparting: int}[]
+     */
     public function getSuggestedResources() : array
     {
         $resources = $this->res->getResources();
         $imp_resources = [];
         foreach ($resources as $level) {
             foreach ($level as $r) {
-                if ($r["imparting"] == true &&
+                if ($r["imparting"] &&
                     $this->current_target_level == $r["level_id"]) {
                     $imp_resources[] = $r;
                 }

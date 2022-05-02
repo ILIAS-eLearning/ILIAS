@@ -46,7 +46,7 @@ class ilContainerFilterUtil
     ) : string {
         $lng = $this->lng;
 
-        if ($record_id == 0) {
+        if ($record_id === 0) {
             return $lng->txt("cont_std_filter_title_" . $field_id);
         }
 
@@ -62,7 +62,7 @@ class ilContainerFilterUtil
     {
         $lng = $this->lng;
 
-        if ($record_id == 0) {
+        if ($record_id === 0) {
             return $lng->txt("cont_std_record_title");
         }
 
@@ -110,7 +110,7 @@ class ilContainerFilterUtil
 
         foreach ($set->getFields() as $field) {
             // standard fields
-            if ($field->getRecordSetId() == 0) {
+            if ($field->getRecordSetId() === 0) {
                 $title = $service->util()->getContainerFieldTitle(0, $field->getFieldId());
                 $key = "std_" . $field->getFieldId();
                 switch ($field->getFieldId()) {

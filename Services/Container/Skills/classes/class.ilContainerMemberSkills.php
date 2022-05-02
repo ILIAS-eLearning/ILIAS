@@ -97,9 +97,9 @@ class ilContainerMemberSkills
      */
     public function getOrderedSkillLevels() : array
     {
-        $skill_levels = array_map(function ($a, $k) {
+        $skill_levels = array_map(static function ($a, $k) : array {
             $s = explode(":", $k);
-            return array("level_id" => $a, "skill_id" => $s[0], "tref_id" => $s[1]);
+            return ["level_id" => $a, "skill_id" => $s[0], "tref_id" => $s[1]];
         }, $this->getSkillLevels(), array_keys($this->getSkillLevels()));
 
         $vtree = $this->tree_service->getGlobalVirtualSkillTree();

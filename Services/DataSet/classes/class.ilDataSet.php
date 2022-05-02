@@ -132,7 +132,7 @@ abstract class ilDataSet
 
     public function getDSPrefixString() : string
     {
-        if ($this->getDSPrefix() != "") {
+        if ($this->getDSPrefix() !== "") {
             return $this->getDSPrefix() . ":";
         }
         return "";
@@ -176,7 +176,7 @@ abstract class ilDataSet
     public function convertToLeadingUpper(string $a_str) : string
     {
         $a_str = strtoupper(substr($a_str, 0, 1)) . substr($a_str, 1);
-        while (is_int($pos = strpos($a_str, "_"))) {
+        while (($pos = strpos($a_str, "_")) !== false) {
             $a_str = substr($a_str, 0, $pos) .
                 strtoupper(substr($a_str, $pos + 1, 1)) .
                 substr($a_str, $pos + 2);
@@ -184,28 +184,6 @@ abstract class ilDataSet
         return $a_str;
     }
 
-            
-    /**
-     * Get json representation
-     */
-    final public function getJsonRepresentation() : string
-    {
-        if ($this->version === "") {
-            return "";
-        }
-        
-        $arr["entity"] = $this->getJsonEntityName("", "");
-        $arr["version"] = $this->version;
-        $arr["install_id"] = IL_INST_ID;
-        $arr["install_url"] = ILIAS_HTTP_PATH;
-        $arr["types"] = $this->getJsonTypes("", "");
-        $arr["set"] = array();
-        foreach ($this->data as $d) {
-            $arr["set"][] = $this->getJsonRecord($d);
-        }
-        
-        return ilJsonUtil::encode($arr);
-    }
 
     /**
      * Get xml representation
@@ -238,11 +216,7 @@ abstract class ilDataSet
     ) : string {
         $this->dircnt = 1;
         
-        // step 1: check target release and supported versions
-        
-        
-        
-        // step 2: init writer
+        // init writer
         $writer = new ilXmlWriter();
         if (!$a_omit_header) {
             $writer->xmlHeader();
@@ -275,12 +249,8 @@ abstract class ilDataSet
         $this->ds_log->debug("...write records");
         $this->addRecordsXml($writer, $prefixes, $a_entity, $a_schema_version, $a_ids, $a_field);
         
-        
         $writer->xmlEndTag($this->getDSPrefixString() . "DataSet");
-        //if ($a_entity == "mep")
-        //{
-        //	echo "<pre>".htmlentities($writer->xmlDumpMem(true))."</pre>"; exit;
-        //}
+
         return $writer->xmlDumpMem(false);
     }
     
@@ -309,16 +279,12 @@ abstract class ilDataSet
 
             $rec = $this->getXmlRecord($a_entity, $a_schema_version, $d);
             foreach ($rec as $f => $c) {
-                switch ($types[$f]) {
-                    case "directory":
-                        if ($this->absolute_export_dir != "" && $this->relative_export_dir != "") {
-                            ilFileUtils::makeDirParents($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
-                            ilFileUtils::rCopy($c, $this->absolute_export_dir . "/dsDir_" . $this->dircnt);
-                            //echo "<br>copy-".$c."-".$this->absolute_export_dir."/dsDir_".$this->dircnt."-";
-                            $c = $this->relative_export_dir . "/dsDir_" . $this->dircnt;
-                            $this->dircnt++;
-                        }
-                        break;
+                if (($types[$f] == "directory") && $this->absolute_export_dir !== "" && $this->relative_export_dir !== "") {
+                    ilFileUtils::makeDirParents($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
+                    ilFileUtils::rCopy($c, $this->absolute_export_dir . "/dsDir_" . $this->dircnt);
+                    //echo "<br>copy-".$c."-".$this->absolute_export_dir."/dsDir_".$this->dircnt."-";
+                    $c = $this->relative_export_dir . "/dsDir_" . $this->dircnt;
+                    $this->dircnt++;
                 }
                 // this changes schema/dtd
                 //$a_writer->xmlElement($a_prefixes[$a_entity].":".$f,
@@ -391,7 +357,7 @@ abstract class ilDataSet
     public function getNamespaces(array &$namespaces, string $a_entity, string $a_schema_version) : void
     {
         $ns = $this->getXmlNamespace($a_entity, $a_schema_version);
-        if ($ns != "") {
+        if ($ns !== "") {
             $namespaces[$a_entity] = $ns;
         }
         // add types of dependent entities
@@ -409,27 +375,12 @@ abstract class ilDataSet
     {
         return $a_set;
     }
-    
-    // Get json record for version
-    public function getJsonRecord(array $a_set) : array
-    {
-        return $a_set;
-    }
-    
+
     /**
      * Get xml types
      * @return	array	types array for xml/version set in constructor
      */
     public function getXmlTypes(string $a_entity, string $a_version) : array
-    {
-        return $this->getTypes($a_entity, $a_version);
-    }
-    
-    /**
-     * Get json types
-     * @return	array	types array for json/version set in constructor
-     */
-    public function getJsonTypes(string $a_entity, string $a_version) : array
     {
         return $this->getTypes($a_entity, $a_version);
     }
@@ -451,16 +402,7 @@ abstract class ilDataSet
         return $this->convertToLeadingUpper($a_entity);
     }
     
-    /**
-     * Get entity name for json
-     * (may be overwritten)
-     */
-    public function getJsonEntityName(string $a_entity, string $a_version) : string
-    {
-        return $a_entity;
-    }
-    
-    public function setImport(ilSurveyImporter $a_val)
+    public function setImport(ilSurveyImporter $a_val) : void
     {
         $this->import = $a_val;
     }
@@ -495,21 +437,24 @@ abstract class ilDataSet
     protected function parseObjectExportId(string $a_id, ?string $a_fallback_id = null) : array
     {
         // ilias export id?
-        if (substr($a_id, 0, 3) == "il_") {
+        if (strpos($a_id, "il_") === 0) {
             $parts = explode("_", $a_id);
+            if (count($parts) !== 4) {
+                throw new ilException("Invalid import ID '" . $a_id . "'.");
+            }
             $inst_id = $parts[1];
             $type = $parts[2];
             $id = $parts[3];
             
             // missing installation ids?
-            if (($inst_id == 0 || IL_INST_ID == 0) && !DEVMODE) {
+            if (($inst_id == 0 || IL_INST_ID === "0") && !DEVMODE) {
                 return array("type" => self::EXPORT_NO_INST_ID, "id" => $a_fallback_id);
             }
                             
             // same installation?
             if ($inst_id == IL_INST_ID) {
                 // still existing?
-                if (ilObject::_lookupType($id) == $type) {
+                if (ilObject::_lookupType($id) === $type) {
                     return array("type" => self::EXPORT_ID_ILIAS_LOCAL, "id" => $id);
                 }
                 // not found
@@ -521,7 +466,7 @@ abstract class ilDataSet
             else {
                 $id = ilObject::_getIdForImportId($a_id);
                 // matching type?
-                if ($id && ilObject::_lookupType($id) == $type) {
+                if ($id && ilObject::_lookupType($id) === $type) {
                     return array("type" => self::EXPORT_ID_ILIAS_REMOTE, "id" => $id);
                 }
                 // not found
@@ -529,17 +474,20 @@ abstract class ilDataSet
                     return array("type" => self::EXPORT_ID_ILIAS_REMOTE_INVALID, "id" => $a_fallback_id);
                 }
             }
-        }
-        
-        // external id
-        $id = ilObject::_getIdForImportId($a_id);
-        if ($id) {
-            return array("type" => self::EXPORT_ID, "id" => $id);
         } else {
-            return array("type" => self::EXPORT_ID_INVALID, "id" => $a_fallback_id);
+            // external id
+            $id = ilObject::_getIdForImportId($a_id);
+            if ($id) {
+                return array("type" => self::EXPORT_ID, "id" => $id);
+            } else {
+                return array("type" => self::EXPORT_ID_INVALID, "id" => $a_fallback_id);
+            }
         }
     }
 
+    /**
+     * Needs to be overwritten for import use case.
+     */
     public function importRecord(
         string $a_entity,
         array $a_types,

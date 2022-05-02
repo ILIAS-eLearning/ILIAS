@@ -1,7 +1,6 @@
 <?php declare(strict_types = 1);
 
-use ILIAS\FileSystem\Filesystem;
-use ILIAS\FileUpload\DTO\ProcessingStatus;
+use ILIAS\Filesystem\Filesystem;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\FileUpload\Location;
@@ -26,7 +25,7 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
     protected ilHtmlPurifierInterface $document_purifier;
     protected ilObjUser $actor;
     protected FileUpload $file_upload;
-    protected FileSystem $tmp_filesystem;
+    protected Filesystem $tmp_filesystem;
     protected string $form_action;
     protected string $save_command;
     protected string $cancel_command;
@@ -39,7 +38,7 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         ilWebDAVMountInstructionsRepository $mount_instructions_repository,
         ?ilHtmlPurifierInterface $document_purifier,
         ilObjUser $actor,
-        FileSystem $tmp_filesystem,
+        Filesystem $tmp_filesystem,
         FileUpload $fileupload,
         string $form_action,
         string $save_command,
@@ -80,15 +79,10 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         $title->setValue($this->document->getTitle());
         $title->setMaxLength(255);
         $this->addItem($title);
-
-        if ($document_already_exists) {
-            $document_label = $this->lng->txt('webdav_form_document');
-            $document_by_line = $this->lng->txt('webdav_form_document_info');
-        } else {
-            $document_label = $this->lng->txt('webdav_form_document');
-            $document_by_line = $this->lng->txt('webdav_form_document_info');
-        }
-
+        
+        $document_label = $this->lng->txt('webdav_form_document');
+        $document_by_line = $this->lng->txt('webdav_form_document_info');
+        
         $language_selection = new ilSelectInputGUI(
             $this->lng->txt('language'),
             'lng'
@@ -103,7 +97,7 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         asort($options);
 
         $language_selection->setOptions(['' => $this->lng->txt('please_choose')] + $options);
-        $language_selection->setValue((string) ($this->document->getLanguage() ?? ''));
+        $language_selection->setValue($this->document->getLanguage());
 
         $this->addItem($language_selection);
 
@@ -114,7 +108,7 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         } else {
             $document_upload = new ilFileInputGUI($document_label, 'document');
             $document_upload->setInfo($document_by_line);
-            $document_upload->setRequired($document_already_exists ? false : true);
+            $document_upload->setRequired(true);
             $document_upload->setDisabled(!$this->is_editable);
             $document_upload->setSuffixes(['html', 'htm', 'txt']);
             $this->addItem($document_upload);

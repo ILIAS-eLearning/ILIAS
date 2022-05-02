@@ -121,17 +121,17 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
         
-        if (!isset($_GET['hintId']) || !(int) $_GET['hintId']) {
+        if (!$this->request->isset('hintId') || !(int) $this->request->raw('hintId')) {
             throw new ilTestException('no hint id given');
         }
         
-        $isRequested = $this->questionHintTracking->isRequested((int) $_GET['hintId']);
+        $isRequested = $this->questionHintTracking->isRequested((int) $this->request->raw('hintId'));
         
         if (!$isRequested) {
             throw new ilTestException('hint with given id is not yet requested for given testactive and testpass');
         }
         
-        $questionHint = ilAssQuestionHint::getInstanceById((int) $_GET['hintId']);
+        $questionHint = ilAssQuestionHint::getInstanceById((int) $this->request->raw('hintId'));
         
         require_once 'Services/Utilities/classes/class.ilUtil.php';
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
@@ -229,7 +229,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         
-        if (!isset($_GET['hintId']) || !(int) $_GET['hintId']) {
+        if (!$this->request->isset('hintId') || !(int) $this->request->raw('hintId')) {
             throw new ilTestException('no hint id given');
         }
         
@@ -239,7 +239,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
             $ilCtrl->redirect($this, self::CMD_BACK_TO_QUESTION);
         }
         
-        if ($nextRequestableHint->getId() != (int) $_GET['hintId']) {
+        if ($nextRequestableHint->getId() != (int) $this->request->raw('hintId')) {
             throw new ilTestException('given hint id does not relate to the next requestable hint');
         }
 

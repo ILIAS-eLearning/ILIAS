@@ -38,14 +38,14 @@ class ilHtmlPurifierLibWrapperTest extends TestCase
     {
         $purifier = $this->getPurifier();
 
-        $this->assertEquals('phpunit', $purifier->purify('phpunit'));
+        $this->assertSame('phpunit', $purifier->purify('phpunit'));
 
         $toPurify = [
             'phpunit1',
             'phpunit2',
             'phpunit3',
         ];
-        $this->assertEquals($toPurify, $purifier->purifyArray($toPurify));
+        $this->assertSame($toPurify, $purifier->purifyArray($toPurify));
     }
 
     public function invalidHtmlDataTypeProvider() : array

@@ -16,76 +16,11 @@ class assMultipleChoiceTest extends assBaseTestCase
 
     protected function setUp() : void
     {
-        require_once './Modules/TestQuestionPool/classes/class.assMultipleChoice.php';
-        chdir(dirname(__FILE__));
-        chdir('../../../');
-        require_once './Services/Utilities/classes/class.ilUtil.php';
+        parent::setUp();
+        $this->setGlobalVariable('ilias', $this->getIliasMock());
+        $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
     }
-    
-    /**
-    * Create a sample question and save it to the database
-    *
-    * @param integer $obj_id Object ID of the containing question pool object (optional)
-    */
-    /*	public static function createSampleQuestion($obj_id = null)
-        {
-            $obj_id = ($obj_id) ? $obj_id : 99999999;
-            include_once './Modules/TestQuestionPool/classes/class.assMultipleChoice.php';
 
-            $mc = new assMultipleChoice('unit test multiple choice question', 'unit test multiple choice question comment', 'Helmut Schottmüller', -1, '<p><strong>unit tests</strong> are...</p>');
-            $mc->addAnswer(
-                'important',
-                0.5,
-                -0.5,
-                1
-            );
-            $mc->addAnswer(
-                'useless',
-                -0.5,
-                0.5,
-                2
-            );
-            $mc->addAnswer(
-                'stupid',
-                -0.5,
-                0.5,
-                3
-            );
-            $mc->addAnswer(
-                'cool',
-                0.5,
-                -0.5,
-                4
-            );
-            $mc->setObjId($obj_id);
-            $mc->saveToDb();
-            return $mc->getId();
-        }
-    */
-
-    /*	public function t_e_stCreation()
-        {
-            global $DIC;
-            $ilDB = $DIC['ilDB'];
-
-            include_once './Modules/TestQuestionPool/classes/class.assMultipleChoice.php';
-            $insert_id = self::createSampleQuestion(null);
-            $this->assertGreaterThan(0, $insert_id);
-            if ($insert_id > 0)
-            {
-                $mc = new assMultipleChoice();
-                $mc->loadFromDb($insert_id);
-                $this->assertEquals($mc->getPoints(),2);
-                $this->assertEquals($mc->getTitle(),"unit test multiple choice question");
-                $this->assertEquals($mc->getComment(),"unit test multiple choice question comment");
-                $this->assertEquals($mc->getAuthor(),"Helmut Schottmüller");
-                $this->assertEquals($mc->getQuestion(),"<p><strong>unit tests</strong> are...</p>");
-                $this->assertEquals(count($mc->getAnswers()), 4);
-                $result = $mc->delete($insert_id);
-                $this->assertEquals($result,true);
-            }
-        }
-    */
     public function test_isComplete_shouldReturnTrue()
     {
         $obj = new assMultipleChoice();

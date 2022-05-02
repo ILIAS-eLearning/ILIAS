@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -9,8 +9,6 @@ use PHPUnit\Framework\TestCase;
  */
 class CategoryReferenceTest extends TestCase
 {
-    //protected $backupGlobals = false;
-
     protected function setUp() : void
     {
         $dic = new ILIAS\DI\Container();
@@ -23,8 +21,8 @@ class CategoryReferenceTest extends TestCase
             $this->createConfiguredMock(
                 ilAccess::class,
                 [
-                "checkAccess" => true
-            ]
+                    "checkAccess" => true
+                ]
             )
         );
     }
@@ -52,7 +50,7 @@ class CategoryReferenceTest extends TestCase
     /**
      * Test commands
      */
-    public function testCommands()
+    public function testCommands() : void
     {
         $commands = ilObjCategoryReferenceAccess::_getCommands(10);
         $this->assertIsArray($commands);

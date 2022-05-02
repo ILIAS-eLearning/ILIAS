@@ -47,9 +47,9 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         }
         if (in_array($a_item_id, $this->force_details)) {
             return self::DETAILS_ALL;
-        } else {
-            return self::DETAILS_TITLE;
         }
+
+        return self::DETAILS_TITLE;
     }
 
     public function getMainContent() : string
@@ -64,12 +64,12 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
             "Services/Container"
         );
 
-        $this->__showMaterials($tpl);
+        $this->showMaterials($tpl);
             
         return $tpl->get();
     }
 
-    public function __showMaterials(ilTemplate $a_tpl) : void
+    private function showMaterials(ilTemplate $a_tpl) : void
     {
         $lng = $this->lng;
 
@@ -123,7 +123,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
             
             foreach ($this->items["_all"] as $item_data) {
                 // #14599
-                if ($item_data["type"] == "sess" || $item_data["type"] == "itgr") {
+                if ($item_data["type"] === "sess" || $item_data["type"] === "itgr") {
                     continue;
                 }
                 
@@ -209,7 +209,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         if ($session = ilSessionAppointment::lookupNextSessionByCourse($this->getContainerObject()->getRefId())) {
             $this->force_details = $session;
         } elseif ($session = ilSessionAppointment::lookupLastSessionByCourse($this->getContainerObject()->getRefId())) {
-            $this->force_details = array($session);
+            $this->force_details = [$session];
         }
     }
 
@@ -236,13 +236,13 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
             !$include_side_block &&
             $items['sess'] &&
             is_array($items['sess']) &&
-            (($container->getViewMode() == ilContainer::VIEW_SESSIONS) || ($container->getViewMode() == ilContainer::VIEW_INHERIT)) &&
-            $container->isSessionLimitEnabled()
+            $container->isSessionLimitEnabled() &&
+            ($container->getViewMode() === ilContainer::VIEW_SESSIONS || $container->getViewMode() === ilContainer::VIEW_INHERIT)
         ) {
             $limit_sessions = true;
         }
 
-        if ($container->getViewMode() == ilContainer::VIEW_INHERIT) {
+        if ($container->getViewMode() === ilContainer::VIEW_INHERIT) {
             $parent = $tree->checkForParentType($container->getRefId(), 'crs');
             $crs = ilObjectFactory::getInstanceByRefId($parent, false);
             if (!$crs instanceof ilObjCourse) {
@@ -287,8 +287,8 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         }
         $sessions = ilArrayUtil::sortArray($session_rbac_checked, 'start', 'ASC', true, false);
         //$sessions = ilUtil::sortArray($this->items['sess'],'start','ASC',true,false);
-        $today = new ilDate(date('Ymd', time()), IL_CAL_DATE);
-        $previous = $current = $next = array();
+        $today = new ilDate(date('Ymd'), IL_CAL_DATE);
+        $previous = $current = $next = [];
         foreach ($sessions as $key => $item) {
             $start = new ilDateTime($item['start'], IL_CAL_UNIX);
             $end = new ilDateTime($item['end'], IL_CAL_UNIX);

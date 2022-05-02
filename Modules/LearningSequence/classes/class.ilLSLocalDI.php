@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use Pimple\Container;
 use ILIAS\Data\Factory as DataFactory;
 
@@ -55,9 +69,8 @@ class ilLSLocalDI extends Container
         };
 
 
-        $this["get.params"] = function ($c) : ArrayAccess {
-            /** @var ArrayAccess $_GET **/
-            return $_GET;
+        $this["get.params"] = function ($c) use ($dic) : RequestWrapper {
+            return $dic["http"]->wrapper()->query();
         };
 
 
@@ -141,7 +154,7 @@ class ilLSLocalDI extends Container
             return new LSUrlBuilder($player_base_url);
         };
 
-        $this["globalsetttings"] = function ($c) use ($dic) {
+        $this["globalsetttings"] = function ($c) use ($dic) : \LSGlobalSettings {
             $db = new ilLSGlobalSettingsDB($dic['ilSetting']);
             return $db->getSettings();
         };

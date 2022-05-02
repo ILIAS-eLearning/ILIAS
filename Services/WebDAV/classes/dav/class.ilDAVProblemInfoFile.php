@@ -77,6 +77,9 @@ class ilDAVProblemInfoFile implements Sabre\DAV\IFile
         throw new Forbidden("The error info file cannot be renamed");
     }
     
+    /**
+     * @return array<string, array<int, string>|bool>
+     */
     protected function analyseObjectsOfDAVContainer() : array
     {
         $already_seen_titles = array();
@@ -112,6 +115,9 @@ class ilDAVProblemInfoFile implements Sabre\DAV\IFile
         return $problem_infos;
     }
     
+    /**
+     * @param array[] $problem_infos
+     */
     protected function createMessageStringFromProblemInfoArray(array $problem_infos) : string
     {
         $message_string = "";
@@ -147,7 +153,7 @@ class ilDAVProblemInfoFile implements Sabre\DAV\IFile
     
     public function delete() : void
     {
-        throw Forbidden("It is not possible to delete this file since it is just virtual.");
+        throw new Forbidden("It is not possible to delete this file since it is just virtual.");
     }
     
     public function getLastModified()

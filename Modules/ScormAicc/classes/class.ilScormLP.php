@@ -24,7 +24,6 @@ class ilScormLP extends ilObjectLP
     protected ?bool $precondition_cache = null;
 
     /**
-     * @param bool $a_lp_active
      * @return int[]
      */
     public static function getDefaultModes(bool $a_lp_active) : array
@@ -35,17 +34,11 @@ class ilScormLP extends ilObjectLP
         );
     }
 
-    /**
-     * @return int
-     */
     public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
 
-    /**
-     * @return array
-     */
     public function getValidModes() : array
     {
         $subtype = ilObjSAHSLearningModule::_lookupSubType($this->obj_id);
@@ -99,9 +92,6 @@ class ilScormLP extends ilObjectLP
         return parent::getCurrentMode();
     }
 
-    /**
-     * @return bool
-     */
     protected function checkSCORMPreconditions() : bool
     {
         if (is_bool($this->precondition_cache)) {
@@ -116,12 +106,6 @@ class ilScormLP extends ilObjectLP
         return $this->precondition_cache;
     }
 
-    /**
-     * @param array $a_res
-     * @param int   $a_usr_id
-     * @param array $a_obj_ids
-     * @return bool
-     */
     protected static function isLPMember(array &$a_res, int $a_usr_id, array $a_obj_ids) : bool
     {
         global $DIC;
@@ -144,7 +128,6 @@ class ilScormLP extends ilObjectLP
                 " WHERE " . $ilDB->in("obj_id", $types["scorm2004"], false, "integer") .
                 " AND user_id = " . $ilDB->quote($a_usr_id, "integer"));
             while ($row = $ilDB->fetchAssoc($set)) {
-//                $a_res[$row["obj_id"]] = true;
                 return true;
             }
         }
@@ -157,16 +140,12 @@ class ilScormLP extends ilObjectLP
                 " AND user_id = " . $ilDB->quote($a_usr_id, "integer") .
                 " AND lvalue = " . $ilDB->quote("cmi.core.lesson_status", "text"));
             while ($row = $ilDB->fetchAssoc($set)) {
-//                $a_res[$row["obj_id"]] = true;
                 return true;
             }
         }
         return false;
     }
 
-    /**
-     * @return string
-     */
     public function getMailTemplateId() : string
     {
         return ilScormMailTemplateLPContext::ID;

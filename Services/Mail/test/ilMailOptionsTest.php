@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailOptionsTest
@@ -21,10 +35,10 @@ class ilMailOptionsTest extends ilMailBaseTest
         $queryMock = $this->getMockBuilder(ilDBStatement::class)
             ->getMock();
 
-        $object = $this->getMockBuilder(stdClass::class)->getMock();
+        $object = new stdClass();
         $object->cronjob_notification = false;
         $object->signature = 'smth';
-        $object->linebreak = false;
+        $object->linebreak = 0;
         $object->incoming_type = 1;
         $object->mail_address_option = 0;
         $object->email = 'test@test.com';
@@ -32,7 +46,6 @@ class ilMailOptionsTest extends ilMailBaseTest
 
         $database->expects($this->once())->method('fetchObject')->willReturn($object);
         $database->expects($this->once())->method('queryF')->willReturn($queryMock);
-        $database->method('replace');
 
         $this->setGlobalVariable('ilDB', $database);
 
@@ -43,9 +56,9 @@ class ilMailOptionsTest extends ilMailBaseTest
         $this->setGlobalVariable('ilSetting', $settings);
 
         $mailOptions = new ilMailOptions($userId);
-        $this->assertEquals($object->signature, $mailOptions->getSignature());
-        $this->assertEquals($object->incoming_type, $mailOptions->getIncomingType());
-        $this->assertEquals($object->linebreak, $mailOptions->getLinebreak());
-        $this->assertEquals($object->cronjob_notification, $mailOptions->isCronJobNotificationEnabled());
+        $this->assertSame($object->signature, $mailOptions->getSignature());
+        $this->assertSame($object->incoming_type, $mailOptions->getIncomingType());
+        $this->assertSame($object->linebreak, $mailOptions->getLinebreak());
+        $this->assertSame($object->cronjob_notification, $mailOptions->isCronJobNotificationEnabled());
     }
 }

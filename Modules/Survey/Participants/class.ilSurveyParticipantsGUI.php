@@ -300,7 +300,7 @@ class ilSurveyParticipantsGUI
             $this->object->hasAnonymousUserList()) {
             $end = $this->object->getEndDate();
             if ($end && $end < date("YmdHis")) {
-                $min = $surveySetting->get("anonymous_participants_min", 0);
+                $min = (int) $surveySetting->get("anonymous_participants_min", '0');
                 $total = $this->object->getSurveyParticipants();
                 if (!$min || count($total) >= $min) {
                     return true;

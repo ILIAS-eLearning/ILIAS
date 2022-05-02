@@ -119,15 +119,6 @@ class ilCourseStart
         }
     }
 
-    public function __deleteAll() : void
-    {
-        global $DIC;
-
-        $query = "DELETE FROM crs_start " .
-            "WHERE crs_id = " . $this->db->quote($this->getId(), 'integer') . " ";
-        $res = $this->db->manipulate($query);
-    }
-
     public function getPossibleStarters() : array
     {
         $poss_items = [];

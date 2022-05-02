@@ -349,12 +349,6 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                             if ($ltarget == "") {
                                 $ltarget = "_parent";
                             }
-                            // scorm always in 1window view and link target
-                            // is always same frame
-                            if ($this->export_format == "scorm" &&
-                                $this->offline) {
-                                $ltarget = "";
-                            }
                             $cmd = "layout";
                             if ($nframe != "") {
                                 $cmd = "page";

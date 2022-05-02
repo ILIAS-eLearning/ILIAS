@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\HTTP\Response\ResponseHeader;
@@ -135,7 +150,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         if ($settings->getSmiliesEnabled()) {
             $smileys_array = ilChatroomSmilies::_getSmilies();
             foreach ($smileys_array as $smiley_array) {
-                $new_keys = array();
+                $new_keys = [];
                 $new_val = '';
                 foreach ($smiley_array as $key => $value) {
                     if ($key === 'smiley_keywords') {
@@ -171,10 +186,10 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         if ($sub !== null) {
             if ($known_private_room[$sub]) {
                 if (!$room->isAllowedToEnterPrivateRoom($chat_user->getUserId(), $sub)) {
-                    $initial->messages[] = array(
+                    $initial->messages[] = [
                         'type' => 'error',
                         'message' => $this->ilLng->txt('not_allowed_to_enter'),
-                    );
+                    ];
                 } else {
                     $scope = $room->getRoomId();
                     $params = [];
@@ -441,7 +456,6 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $chatSettings = new ilSetting('chatroom');
         if (!$chatSettings->get('chat_enabled', '0')) {
             $this->ilCtrl->redirect($this->gui, 'settings-general');
-            exit;
         }
 
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());

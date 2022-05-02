@@ -41,7 +41,7 @@ class ilWebDAVMountInstructionsDocumentsContainsHtmlValidator
             );
             foreach ($iter as $element) {
                 /** @var $element DOMNode */
-                if (in_array(strtolower($element->nodeName), ['body'])) {
+                if (strtolower($element->nodeName) === 'body') {
                     continue;
                 }
 
@@ -49,10 +49,10 @@ class ilWebDAVMountInstructionsDocumentsContainsHtmlValidator
                     return true;
                 }
             }
-        } catch (Exception $e) {
-            return false;
-        } catch (Throwable $e) {
+        } catch (Exception|Throwable $e) {
             return false;
         }
+        
+        return false;
     }
 }

@@ -16,6 +16,7 @@
 namespace ILIAS\MediaObjects;
 
 use ILIAS\MediaObjects\ImageMap\ImageMapEditSessionRepository;
+use ILIAS\MediaObjects\Usage\UsageDBRepository;
 
 /**
  * Repository internal repo service
@@ -44,5 +45,10 @@ class InternalRepoService
     public function imageMap() : ImageMapEditSessionRepository
     {
         return new ImageMapEditSessionRepository();
+    }
+
+    public function usage() : UsageDBRepository
+    {
+        return new UsageDBRepository($this->db);
     }
 }

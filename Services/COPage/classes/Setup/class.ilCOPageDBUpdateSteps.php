@@ -50,4 +50,65 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
 
         $this->db->modifyTableColumn("copg_pc_def", "order_nr", $field);
     }
+
+    public function step_3() : void
+    {
+        $this->db->update(
+            "page_layout",
+            [
+            "title" => ["text", "Text page with accompanying media"]
+        ],
+            [    // where
+                "title" => ["text", "1A Simple text page with accompanying media"]
+            ]
+        );
+        $this->db->update(
+            "page_layout",
+            [
+            "title" => ["text", "Text page with accompanying media and test"]
+        ],
+            [    // where
+                "title" => ["text", "1C Text page with accompanying media and test"]
+            ]
+        );
+        $this->db->update(
+            "page_layout",
+            [
+            "title" => ["text", "Text page with accompanying media followed by test and text"]
+        ],
+            [    // where
+                "title" => ["text", "1E Text page with accompanying media followed by test and text"]
+            ]
+        );
+        $this->db->update(
+            "page_layout",
+            [
+            "title" => ["text", "Media page with accompanying text and test"]
+        ],
+            [    // where
+                "title" => ["text", "2C Simple media page with accompanying text and test"]
+            ]
+        );
+        $this->db->update(
+            "page_layout",
+            [
+            "title" => ["text", "Vertical component navigation page with media and text	"]
+        ],
+            [    // where
+                "title" => ["text", "7C Vertical component navigation page with media and text"]
+            ]
+        );
+    }
+
+    public function step_4() : void
+    {
+        if (!$this->db->tableColumnExists('page_object', 'est_reading_time')) {
+            $this->db->addTableColumn('page_object', 'est_reading_time', array(
+                'type' => 'integer',
+                'notnull' => true,
+                'length' => 4,
+                'default' => 0
+            ));
+        }
+    }
 }

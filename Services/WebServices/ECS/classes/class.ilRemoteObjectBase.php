@@ -80,7 +80,7 @@ abstract class ilRemoteObjectBase extends ilObject2
         }
     }
     
-    public function beforeCreate() : bool
+    protected function beforeCreate() : bool
     {
         $this->setOwner(self::OBJECT_OWNER);
         return parent::beforeCreate();
@@ -237,8 +237,9 @@ abstract class ilRemoteObjectBase extends ilObject2
     
     /**
      * Create remote object
-     */
-    public function doCreate(bool $a_clone_mode = false) : void
+     *
+     * @param bool $clone_mode*/
+    protected function doCreate(bool $clone_mode = false,bool $a_clone_mode = false) : void
     {
         $fields = array(
             "obj_id" => array("integer", $this->getId()),
@@ -263,7 +264,7 @@ abstract class ilRemoteObjectBase extends ilObject2
     /**
      * Update remote object
      */
-    public function doUpdate() : void
+    protected function doUpdate() : void
     {
         $fields = array(
             "local_information" => array("text", $this->getLocalInformation()),
@@ -289,7 +290,7 @@ abstract class ilRemoteObjectBase extends ilObject2
     /**
      * Delete remote object
      */
-    public function doDelete() : void
+    protected function doDelete() : void
     {
         //put here your module specific stuff
         ilECSImportManager::getInstance()->_deleteByObjId($this->getId());
@@ -302,7 +303,7 @@ abstract class ilRemoteObjectBase extends ilObject2
     /**
      * read settings
      */
-    public function doRead() : void
+    protected function doRead() : void
     {
         $query = "SELECT * FROM " . $this->getTableName() .
             " WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . " ";

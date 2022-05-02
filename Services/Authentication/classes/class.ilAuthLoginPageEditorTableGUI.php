@@ -59,7 +59,7 @@ class ilAuthLoginPageEditorTableGUI extends ilTable2GUI
         $this->tpl->setVariable('LANGKEY_CHECKED', $a_set['status'] ? 'checked="checked' : '');
         $this->tpl->setVariable('TXT_LANGUAGE', $a_set['language']);
 
-        if ($this->lng->getDefaultLanguage() == $a_set['key']) {
+        if ($this->lng->getDefaultLanguage() === $a_set['key']) {
             $this->tpl->setVariable('TXT_SYSTEM', $this->lng->txt('system_language'));
         }
         if ($a_set['status']) {

@@ -292,7 +292,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     }
 
     /**
-     * @param ilTemplate|ilGlobalTemplateInterface
+     * @param ilTemplate|ilGlobalTemplateInterface $tpl
      */
     public static function printToGlobalTemplate($tpl) : void
     {
@@ -302,7 +302,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $gtpl->printToStdout("DEFAULT", false, true);
     }
 
-    protected function showCodeForm($a_username = null, $a_form = null)
+    protected function showCodeForm($a_username = null, $a_form = null) : void
     {
         global $tpl;
 
@@ -337,9 +337,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     }
 
     /**
-     * @todo has to be refactored.
+     * @todo needs rafactoring
      */
-    protected function processCode()
+    protected function processCode() : ?bool
     {
         $uname = $_POST["uname"];
         $form = $this->initCodeForm($uname);
@@ -404,6 +404,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $form->setValuesByPost();
         $this->showCodeForm($uname, $form);
+        return null;
     }
 
     /**
@@ -745,7 +746,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * Show login information
      */
-    protected function showLoginInformation(string $page_editor_html, $tpl) : string
+    protected function showLoginInformation(string $page_editor_html, ilGlobalTemplateInterface $tpl) : string
     {
         if (strlen($page_editor_html)) {
             // page editor active return
@@ -804,8 +805,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             ); // Bugfix http://ilias.de/mantis/view.php?id=10662 {$tpl->setVariable('SHIB_FORMACTION', $this->ctrl->getFormAction($this));}
             $federation_name = $this->setting->get("shib_federation_name");
             $admin_mail = ' <a href="mailto:' . $this->setting->get("admin_email") . '">ILIAS ' . $this->lng->txt(
-                    "administrator"
-                ) . '</a>.';
+                "administrator"
+            ) . '</a>.';
             if ($this->setting->get("shib_hos_type") == 'external_wayf') {
                 $tpl->setCurrentBlock("shibboleth_login");
                 $tpl->setVariable("TXT_SHIB_LOGIN", $this->lng->txt("login_to_ilias_via_shibboleth"));
@@ -903,8 +904,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     protected function getLoginPageEditorHTML() : string
     {
-        global $tpl;
-
         include_once './Services/Authentication/classes/class.ilAuthLoginPageEditorSettings.php';
         $lpe = ilAuthLoginPageEditorSettings::getInstance();
         $active_lang = $lpe->getIliasEditorLanguage($this->lng->getLangKey());
@@ -923,7 +922,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $page_gui = new ilLoginPageGUI(ilLanguage::lookupId($active_lang));
 
         include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
-        $page_gui->setStyleId(0, 'auth');
+        $page_gui->setStyleId(0);
 
         $page_gui->setPresentationTitle("");
         $page_gui->setTemplateOutput(false);
@@ -1116,17 +1115,13 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         self::printToGlobalTemplate($tpl);
     }
 
-    /**
-     * Migrate Account
-     * @return bool
-     */
-    protected function migrateAccount() : bool
+    protected function migrateAccount() : void
     {
         if (!isset($this->httpRequest->getParsedBody()['account_migration'])) {
             $this->showAccountMigration(
                 $this->lng->txt('select_one')
             );
-            return false;
+            return;
         }
 
         if (
@@ -1142,14 +1137,17 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $this->showAccountMigration(
                 $this->lng->txt('err_wrong_login')
             );
-            return false;
+            return;
         }
 
         if ((int) $this->httpRequest->getParsedBody()['account_migration'] == self::ACCOUNT_MIGRATION_MIGRATE) {
-            return $this->doMigration();
+            $this->doMigration();
+            return;
         } elseif ((int) $this->httpRequest->getParsedBody()['account_migration'] == static::ACCOUNT_MIGRATION_NEW) {
-            return $this->doMigrationNewAccount();
+            $this->doMigrationNewAccount();
+            return;
         }
+        return;
     }
 
     protected function doMigrationNewAccount() : bool
@@ -1186,9 +1184,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         return true;
     }
 
-    /**
-     * @return bool
-     */
     protected function doMigration() : bool
     {
         $username = '';
@@ -1315,7 +1310,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * show logout screen
      */
-    public function doLogout()
+    public function doLogout() : void
     {
         global $DIC;
 
@@ -1535,6 +1530,10 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         $this->showLoginPage();
     }
 
+    /**
+     * Return type depends on _checkGoto calls
+     * @return bool|mixed
+     */
     public static function _checkGoto($a_target)
     {
         global $DIC;
@@ -1778,7 +1777,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      * @param bool  $a_show_back
      * @param bool  $a_show_logout
      */
-    public static function initStartUpTemplate($a_tmpl, bool $a_show_back = false, bool $a_show_logout = false)
+    public static function initStartUpTemplate($a_tmpl, bool $a_show_back = false, bool $a_show_logout = false) : ilGlobalTemplateInterface
     {
         /**
          * @var $tpl       ilTemplate
@@ -1910,7 +1909,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
     /**
      * do open id connect authentication
      */
-    protected function doOpenIdConnectAuthentication()
+    protected function doOpenIdConnectAuthentication() : void
     {
         $this->getLogger()->debug('Trying openid connect authentication');
 

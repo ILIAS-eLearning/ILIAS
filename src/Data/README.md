@@ -53,31 +53,31 @@ $f = new \ILIAS\Data\Factory;
 $pi = $f->ok(3.1416);
 
 // Value is ok and thus no error.
-assert($pi->isOK());
-assert(!$pi->isError());
+itIsTrueThat($pi->isOK());
+itIsTrueThat(!$pi->isError());
 
 // Do some transformation with the value.
 $r = 10;
 $A = $pi->map(function($value_of_pi) use ($r) { return 2 * $value_of_pi * $r; });
 
 // Still ok and no error.
-assert($A->isOk());
-assert(!$A->isError());
+itIsTrueThat($A->isOk());
+itIsTrueThat(!$A->isError());
 
 // Retrieve the contained value.
 $A_value = $A->value();
-assert($A_value == 2 * 3.1416 * 10);
+itIsTrueThat($A_value == 2 * 3.1416 * 10);
 
 // No error contained...
 $raised = false;
 try {
 	$A->error();
-	assert(false); // Won't happen, error raises.
+	itIsTrueThat(false); // Won't happen, error raises.
 }
 catch(\LogicException $e) {
 	$raised = true;
 }
-assert($raised);
+itIsTrueThat($raised);
 
 ?>
 ```
@@ -96,26 +96,26 @@ $pi = $f->ok(3.1416);
 $error = $f->error("There was some error...");
 
 // This is of course an error.
-assert(!$error->isOK());
-assert($error->isError());
+itIsTrueThat(!$error->isOK());
+itIsTrueThat($error->isError());
 
 // Transformations do nothing.
-$A = $error->map(function($v) { assert(false); });
+$A = $error->map(function($v) { itIsTrueThat(false); });
 
 // Attempts to retrieve the value will throw.
 $raised = false;
 try {
 	$A->value();
-	assert(false); // Won't happen.	
+	itIsTrueThat(false); // Won't happen.
 }
 catch (\ILIAS\Data\NotOKException $e) {
 	$raised = true;
 }
-assert($raised);
+itIsTrueThat($raised);
 
 // For retrieving a default could be supplied.
 $v = $error->valueOr("default");
-assert($v == "default");
+itIsTrueThat($v == "default");
 
 // Result also has an interface for chaining computations known as promise
 // interface (or monad interface for pros!).
@@ -135,11 +135,11 @@ $pi = $pi->then(function($_) use ($f) {
 
 // The error can be catched later on and be corrected:
 $pi = $pi->except(function($e) use ($f) {
-	assert($e === "Do not know value of Pi.");
+	itIsTrueThat($e === "Do not know value of Pi.");
 	return $f->ok(3); // for large threes
 });
 
-assert($pi->value() === 3);
+itIsTrueThat($pi->value() === 3);
 
 ?>
 ```
@@ -161,8 +161,8 @@ $rgb = $f->color(array(255,255,0));
 //construct color with hex-value:
 $hex = $f->color('#ffff00');
 
-assert($rgb->asHex() === '#ffff00');
-assert($hex->asRGBString() === 'rgb(255, 255, 0)');
+itIsTrueThat($rgb->asHex() === '#ffff00');
+itIsTrueThat($hex->asRGBString() === 'rgb(255, 255, 0)');
 ?>
 ```
 
@@ -180,16 +180,16 @@ $f = new \ILIAS\Data\Factory;
 // construct uri
 $uri = $f->uri('https://example.org:12345/test?search=test#frag');
 
-assert($uri->getBaseURI() === 'https://example.org:12345/test');
-assert($uri->getSchema() === 'https');
-assert($uri->getAuthority() === 'example.org:12345');
-assert($uri->getHost() === 'example.org');
-assert($uri->getPath() === 'test');
-assert($uri->getQuery() === 'search=test');
-assert($uri->getFragment() === 'frag');
-assert($uri->getPort() === 12345);
-assert($uri->getParameters() === ['search' => 'test']);
-assert($uri->getParameter('search') === 'test');
+itIsTrueThat($uri->getBaseURI() === 'https://example.org:12345/test');
+itIsTrueThat($uri->getSchema() === 'https');
+itIsTrueThat($uri->getAuthority() === 'example.org:12345');
+itIsTrueThat($uri->getHost() === 'example.org');
+itIsTrueThat($uri->getPath() === 'test');
+itIsTrueThat($uri->getQuery() === 'search=test');
+itIsTrueThat($uri->getFragment() === 'frag');
+itIsTrueThat($uri->getPort() === 12345);
+itIsTrueThat($uri->getParameters() === ['search' => 'test']);
+itIsTrueThat($uri->getParameter('search') === 'test');
 ?>
 ```
 
@@ -207,9 +207,9 @@ $f = new \ILIAS\Data\Factory;
 // construct data size
 $data_size = $f->dataSize(123, 'GB');
 
-assert($data_size->getSize() === 123.0);
-assert($data_size->getUnit() === 1000000000);
-assert($data_size->inBytes() === 123000000000.0);
+itIsTrueThat($data_size->getSize() === 123.0);
+itIsTrueThat($data_size->getUnit() === 1000000000);
+itIsTrueThat($data_size->inBytes() === 123000000000.0);
 ?>
 ```
 
@@ -227,7 +227,7 @@ $f = new \ILIAS\Data\Factory;
 // construct password
 $password = $f->Password('secret');
 
-assert($password->toString() === 'secret');
+itIsTrueThat($password->toString() === 'secret');
 ?>
 ```
 
@@ -245,7 +245,7 @@ $f = new \ILIAS\Data\Factory;
 // construct client id
 $client_id = $f->clientId('Client_Id-With.Special#Chars');
 
-assert($client_id->toString() === 'Client_Id-With.Special#Chars');
+itIsTrueThat($client_id->toString() === 'Client_Id-With.Special#Chars');
 ?>
 ```
 
@@ -263,7 +263,7 @@ $f = new \ILIAS\Data\Factory;
 // construct reference id
 $ref_id = $f->refId(9);
 
-assert($ref_id->toInt() === 9);
+itIsTrueThat($ref_id->toInt() === 9);
 ?>
 ```
 
@@ -281,7 +281,7 @@ $f = new \ILIAS\Data\Factory;
 // construct object id
 $ref_id = $f->objId(9);
 
-assert($ref_id->toInt() === 9);
+itIsTrueThat($ref_id->toInt() === 9);
 ?>
 ```
 
@@ -302,8 +302,8 @@ $numeric = $f->alphanumeric(963);
 // construct alphanumeric with mixed values as string
 $alphanumeric = $f->alphanumeric('23da33');
 
-assert($numeric->getValue() === 963);
-assert($alphanumeric->getValue() === '23da33');
+itIsTrueThat($numeric->getValue() === 963);
+itIsTrueThat($alphanumeric->getValue() === '23da33');
 ?>
 ```
 
@@ -321,7 +321,7 @@ $f = new \ILIAS\Data\Factory;
 // construct a positive integer
 $positive_integer = $f->positiveInteger(963);
 
-assert($positive_integer->getValue() === 963);
+itIsTrueThat($positive_integer->getValue() === 963);
 ?>
 ```
 
@@ -349,17 +349,17 @@ $german_long = $f->dateFormat()->germanLong();
 // construct custom date format
 $custom = $f->dateFormat()->custom()->twoDigitYear()->dash()->month()->dash()->day()->get();
 
-assert($standard->toString() === "Y-m-d");
-assert($standard->toArray() === ['Y', '-', 'm', '-', 'd']);
+itIsTrueThat($standard->toString() === "Y-m-d");
+itIsTrueThat($standard->toArray() === ['Y', '-', 'm', '-', 'd']);
 
-assert($german_short->toString() === "d.m.Y");
-assert($german_short->toArray() === ['d', '.', 'm', '.', 'Y']);
+itIsTrueThat($german_short->toString() === "d.m.Y");
+itIsTrueThat($german_short->toArray() === ['d', '.', 'm', '.', 'Y']);
 
-assert($german_long->toString() === "l, d.m.Y");
-assert($german_long->toArray() === ['l', ',', ' ', 'd', '.', 'm', '.', 'Y']);
+itIsTrueThat($german_long->toString() === "l, d.m.Y");
+itIsTrueThat($german_long->toArray() === ['l', ',', ' ', 'd', '.', 'm', '.', 'Y']);
 
-assert($custom->toString() === "y-m-d");
-assert($custom->toArray() === ['y', '-', 'm', '-', 'd']);
+itIsTrueThat($custom->toString() === "y-m-d");
+itIsTrueThat($custom->toArray() === ['y', '-', 'm', '-', 'd']);
 ?>
 ```
 
@@ -377,10 +377,10 @@ $f = new \ILIAS\Data\Factory;
 // construct a range
 $range = $f->range(10, 20);
 
-assert($range->unpack() === [10, 20]);
-assert($range->getStart() === 10);
-assert($range->getLength() === 20);
-assert($range->getEnd() === 30);
+itIsTrueThat($range->unpack() === [10, 20]);
+itIsTrueThat($range->getStart() === 10);
+itIsTrueThat($range->getLength() === 20);
+itIsTrueThat($range->getEnd() === 30);
 ?>
 ```
 
@@ -404,9 +404,9 @@ $order2 = $order1->append('subject2', 'DESC');
 // join the subjects to an order statement
 $join = $order2->join('sort', function($pre, $k, $v) { return "$pre $k $v,"; });
 
-assert($order1->get() === ['subject1' => 'ASC']);
-assert($order2->get() === ['subject1' => 'ASC', 'subject2' => 'DESC']);
-assert($join === 'sort subject1 ASC, subject2 DESC,');
+itIsTrueThat($order1->get() === ['subject1' => 'ASC']);
+itIsTrueThat($order2->get() === ['subject1' => 'ASC', 'subject2' => 'DESC']);
+itIsTrueThat($join === 'sort subject1 ASC, subject2 DESC,');
 ?>
 ```
 
@@ -476,7 +476,7 @@ $f = new \ILIAS\Data\Factory;
 // construct dimension
 $cardinal = $f->dimension()->cardinal(["low", "medium", "high"]);
 
-assert($cardinal->getLabels() === ["low", "medium", "high"]);
+itIsTrueThat($cardinal->getLabels() === ["low", "medium", "high"]);
 ?>
 ```
 
@@ -495,7 +495,7 @@ $f = new \ILIAS\Data\Factory;
 $cardinal = $f->dimension()->cardinal(["low", "medium", "high"]);
 $range = $f->dimension()->range($cardinal);
 
-assert($range->getLabels() === $cardinal->getLabels());
+itIsTrueThat($range->getLabels() === $cardinal->getLabels());
 ?>
 ```
 
@@ -543,7 +543,23 @@ $dataset = $dataset->withPoint(
     ]
 );
 
-assert($dataset->getMinValueForDimension("Measurement 1") === -1);
-assert($dataset->getMaxValueForDimension("Target") === 1.5);
+itIsTrueThat($dataset->getMinValueForDimension("Measurement 1") === -1.0);
+itIsTrueThat($dataset->getMaxValueForDimension("Target") === 1.5);
+?>
+```
+
+## Helper
+
+To make this run, we need a little helper:
+
+```php
+<?php
+
+function itIsTrueThat(bool $truth) {
+    if (!$truth) {
+        throw new \LogicException("Some code in the Data/README.md is wrong!");
+    }
+}
+
 ?>
 ```

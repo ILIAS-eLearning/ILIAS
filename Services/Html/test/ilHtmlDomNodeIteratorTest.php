@@ -50,6 +50,6 @@ class ilHtmlDomNodeIteratorTest extends TestCase
             $actualElements[] = $element->nodeName;
         }
 
-        $this->assertEquals($expectedElements, $actualElements);
+        $this->assertSame($expectedElements, $actualElements);
     }
 }

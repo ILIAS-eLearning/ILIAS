@@ -107,14 +107,7 @@ class ilObjFileBasedLM extends ilObject
             $this->start_file = $a_file;
         }
     }
-
-    /**
-     * Gets the disk usage of the object in bytes.
-     */
-    public function getDiskUsage() : int
-    {
-        return ilObjFileBasedLMAccess::_lookupDiskUsage($this->id);
-    }
+    
 
     public function delete() : bool
     {

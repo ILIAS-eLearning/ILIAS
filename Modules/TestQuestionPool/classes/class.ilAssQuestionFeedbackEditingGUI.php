@@ -268,7 +268,7 @@ class ilAssQuestionFeedbackEditingGUI
         global $DIC;
         $ilUser = $DIC['ilUser'];
         
-        if (!$_GET["calling_test"]) {
+        if (!$this->request->isset("calling_test")) {
             return false;
         }
         

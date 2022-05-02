@@ -16,12 +16,14 @@ use ILIAS\HTTP\Services as HttpServices;
  */
 class ilCalendarBlockGUI extends ilBlockGUI
 {
+    protected array $cal_footer = [];
+    protected ?ilCalendarSchedule $scheduler = null;
     protected RefineryFactory $refinery;
     protected HttpServices $http;
     protected int $mode = ilCalendarCategories::MODE_UNDEFINED;
     protected string $display_mode = '';
 
-    public static $block_type = "cal";
+    public static string $block_type = "cal";
 
     protected ilTabsGUI $tabs;
     protected ilObjectDataCache $obj_data_cache;
@@ -741,7 +743,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
      * @param array $item item
      * @return array
      */
-    public function getDatesForItem($item)
+    public function getDatesForItem(array $item) : array
     {
         $start = $item["dstart"];
         $end = $item["dend"];
@@ -770,7 +772,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         // @todo: this needs optimization
         $events = $this->getEvents();
         foreach ($events as $item) {
-            if ($item["event"]->getEntryId() == (int) $this->initAppointmentIdFromQuery() && $item['dstart'] == $this->initInitialDateQuery()) {
+            if ($item["event"]->getEntryId() == $this->initAppointmentIdFromQuery() && $item['dstart'] == $this->initInitialDateQuery()) {
                 $dates = $this->getDatesForItem($item);
 
                 // content of modal
@@ -791,7 +793,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
     /**
      * @inheritdoc

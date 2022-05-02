@@ -136,7 +136,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $this->customTrueOptionLabel = $customTrueOptionLabel;
     }
 
-    public function getCustomTrueOptionLabel() : string
+    public function getCustomTrueOptionLabel()
     {
         return $this->customTrueOptionLabel;
     }
@@ -146,7 +146,7 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
         $this->customFalseOptionLabel = $customFalseOptionLabel;
     }
 
-    public function getCustomFalseOptionLabel() : string
+    public function getCustomFalseOptionLabel()
     {
         return $this->customFalseOptionLabel;
     }

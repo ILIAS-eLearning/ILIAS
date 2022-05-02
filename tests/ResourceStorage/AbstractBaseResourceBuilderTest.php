@@ -1,6 +1,7 @@
 <?php
 
 namespace ILIAS\ResourceStorage;
+
 /** @noRector  */
 require_once('AbstractBaseTest.php');
 /** @noRector  */
@@ -141,4 +142,3 @@ abstract class AbstractBaseResourceBuilderTest extends AbstractBaseTest
         return array($upload_result, $info_resolver, $identification);
     }
 }
-

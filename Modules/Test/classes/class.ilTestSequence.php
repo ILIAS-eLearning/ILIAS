@@ -509,11 +509,13 @@ class ilTestSequence implements ilTestQuestionSequence, ilTestSequenceSummaryPro
             if ($this->isHiddenSequence($sequenceKey) && !$this->isConsiderHiddenQuestionsEnabled()) {
                 continue;
             }
-            
+
+            /* Doesn't seem to ever work, commenting out for future forensic
             if ($this->isSequenceOptional($sequenceKey) && !$this->isConsiderOptionalQuestionsEnabled()) {
                 continue;
             }
-            
+            */
+
             $sequenceKeys[] = $sequenceKey;
         }
         

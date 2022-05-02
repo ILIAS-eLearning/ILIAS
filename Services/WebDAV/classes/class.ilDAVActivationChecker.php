@@ -18,9 +18,9 @@
  */
 class ilDAVActivationChecker
 {
-    public static function _isActive()
+    public static function _isActive() : bool
     {
         $settings = new ilSetting('webdav');
-        return $settings->get('webdav_enabled', '0') == '1';
+        return $settings->get('webdav_enabled', '0') === '1';
     }
 }

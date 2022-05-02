@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 
 class ilObjLearningSequenceLPPollingGUI
@@ -26,7 +42,7 @@ class ilObjLearningSequenceLPPollingGUI
         $this->request_wrapper = $request_wrapper;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
@@ -38,7 +54,7 @@ class ilObjLearningSequenceLPPollingGUI
         }
     }
     
-    protected function getCurrentItemLearningProgress()
+    protected function getCurrentItemLearningProgress() : void
     {
         $obj_id = $this->request_wrapper->retrieve(self::PARAM_LSO_LP_OBJID, $this->refinery->kindlyTo()->int());
         $il_lp_status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;

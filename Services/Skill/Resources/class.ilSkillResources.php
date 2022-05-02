@@ -45,6 +45,9 @@ class ilSkillResources implements ilSkillUsageInfo
     // rep_ref_id (int): the ref id of the repository resource
     // trigger: 1, if the resource triggers the skill level (0 otherwise)
     // imparting: 1, if the resource imparts knowledge of the skill level (0 otherwise)
+    /**
+     * @var array<int, array<int, array{level_id: int, rep_ref_id: int, trigger: int, imparting: int}>>
+     */
     protected array $resources = [];
 
     public function __construct(int $a_skill_id = 0, int $a_tref_id = 0)
@@ -93,12 +96,12 @@ class ilSkillResources implements ilSkillUsageInfo
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
             if ($tree->isInTree($rec["rep_ref_id"])) {
-                $this->resources[$rec["level_id"]][$rec["rep_ref_id"]] = array(
-                    "level_id" => $rec["level_id"],
-                    "rep_ref_id" => $rec["rep_ref_id"],
-                    "trigger" => $rec["ltrigger"],
-                    "imparting" => $rec["imparting"]
-                    );
+                $this->resources[(int) $rec["level_id"]][(int) $rec["rep_ref_id"]] = array(
+                    "level_id" => (int) $rec["level_id"],
+                    "rep_ref_id" => (int) $rec["rep_ref_id"],
+                    "trigger" => (int) $rec["ltrigger"],
+                    "imparting" => (int) $rec["imparting"]
+                );
             }
         }
     }
@@ -119,8 +122,8 @@ class ilSkillResources implements ilSkillUsageInfo
                         "(base_skill_id, tref_id, level_id, rep_ref_id, imparting, ltrigger) VALUES (" .
                         $ilDB->quote($this->getBaseSkillId(), "integer") . "," .
                         $ilDB->quote($this->getTemplateRefId(), "integer") . "," .
-                        $ilDB->quote((int) $level_id, "integer") . "," .
-                        $ilDB->quote((int) $ref_id, "integer") . "," .
+                        $ilDB->quote($level_id, "integer") . "," .
+                        $ilDB->quote($ref_id, "integer") . "," .
                         $ilDB->quote((int) $r["imparting"], "integer") . "," .
                         $ilDB->quote((int) $r["trigger"], "integer") .
                         ")");
@@ -129,11 +132,17 @@ class ilSkillResources implements ilSkillUsageInfo
         }
     }
 
+    /**
+     * @return array<int, array<int, array{level_id: int, rep_ref_id: int, trigger: int, imparting: int}>>
+     */
     public function getResources() : array
     {
         return $this->resources;
     }
 
+    /**
+     * @return array<int, array{level_id: int, rep_ref_id: int, trigger: int, imparting: int}>
+     */
     public function getResourcesOfLevel(int $a_level_id) : array
     {
         $ret = (isset($this->resources[$a_level_id]) && is_array($this->resources[$a_level_id]))
@@ -167,11 +176,15 @@ class ilSkillResources implements ilSkillUsageInfo
         $this->resources[$a_level_id][$a_rep_ref_id]["imparting"] = $a_imparting;
     }
 
-    public static function getUsageInfo(array $a_cskill_ids, array &$a_usages)
+    /**
+     * @param array{skill_id: int, tref_id: int}[] $a_cskill_ids array of common skill ids
+     *
+     * @return array<string, array<string, array{key: string}[]>>
+     */
+    public static function getUsageInfo(array $a_cskill_ids) : array
     {
-        ilSkillUsage::getUsageInfoGeneric(
+        return ilSkillUsage::getUsageInfoGeneric(
             $a_cskill_ids,
-            $a_usages,
             ilSkillUsage::RESOURCE,
             "skl_skill_resource",
             "rep_ref_id",
@@ -179,6 +192,9 @@ class ilSkillResources implements ilSkillUsageInfo
         );
     }
 
+    /**
+     * @return array{base_skill_id: int, tref_id: int, level_id: int}[]
+     */
     public static function getTriggerLevelsForRefId(int $a_ref_id) : array
     {
         global $DIC;
@@ -192,9 +208,9 @@ class ilSkillResources implements ilSkillUsageInfo
         $skill_levels = [];
         while ($rec = $db->fetchAssoc($set)) {
             $skill_levels[] = array(
-                "base_skill_id" => $rec["base_skill_id"],
-                "tref_id" => $rec["tref_id"],
-                "level_id" => $rec["level_id"]
+                "base_skill_id" => (int) $rec["base_skill_id"],
+                "tref_id" => (int) $rec["tref_id"],
+                "level_id" => (int) $rec["level_id"]
             );
         }
         return $skill_levels;

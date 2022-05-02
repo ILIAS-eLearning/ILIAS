@@ -22,12 +22,9 @@
 */
 class ilSCORMTree extends ilTree
 {
-
     /**
     * Constructor
-    *
-    * @param	int		$a_id		tree id (= SCORM Learning Module Object ID)
-    * @access	public
+    * @param int $a_id tree id (= SCORM Learning Module Object ID)
     */
     public function __construct(int $a_id = 0)
     {
@@ -38,11 +35,9 @@ class ilSCORMTree extends ilTree
     
     /**
     * get child nodes of given node
-    * @access	public
-    * @param	integer		node_id
-    * @param	string		sort order of returned childs, optional (possible values: 'title','desc','last_update' or 'type')
-    * @param	string		sort direction, optional (possible values: 'DESC' or 'ASC'; defalut is 'ASC')
-    * @return    array        with node data of all childs or empty array
+    * @param string $a_order	sort order of returned childs, optional (possible values: 'title','desc','last_update' or 'type')
+    * @param string $a_direction	sort direction, optional (possible values: 'DESC' or 'ASC'; defalut is 'ASC')
+    * @return array with node data of all childs or empty array
     * @throws InvalidArgumentException
     */
     public function getChilds(int $a_node_id, string $a_order = "", string $a_direction = "ASC") : array
@@ -71,8 +66,6 @@ class ilSCORMTree extends ilTree
         } else {
             $order_clause = "ORDER BY " . $this->table_tree . ".lft";
         }
-
-        //666
     
         $r = $ilDB->queryF(
             "
@@ -96,8 +89,8 @@ class ilSCORMTree extends ilTree
             $childs[$count - 1]["last"] = true;
 
             return $childs;
-        } else {
-            return $childs;
         }
+
+        return $childs;
     }
 }

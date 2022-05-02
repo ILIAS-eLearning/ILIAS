@@ -30,9 +30,9 @@ class ilWebDAVMountInstructionsUploadGUI
     const ACTION_SAVE_ADD_DOCUMENT_FORM = 'saveAddDocumentForm';
     const ACTION_SAVE_EDIT_DOCUMENT_FORM = 'saveEditDocumentForm';
     
-    private ilGlobalPageTemplate $tpl;
+    private ilGlobalTemplateInterface $tpl;
     private ilObjUser $user;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
     private ilRbacSystem $rbacsystem;
     private ilErrorHandling $error;
@@ -48,9 +48,9 @@ class ilWebDAVMountInstructionsUploadGUI
     private int $webdav_object_ref_id;
 
     public function __construct(
-        ilGlobalPageTemplate $tpl,
+        ilGlobalTemplateInterface $tpl,
         ilObjUser $user,
-        ilCtrl $ctrl,
+        ilCtrlInterface $ctrl,
         ilLanguage $lng,
         ilRbacSystem $rbacsystem,
         ilErrorHandling $error,
@@ -100,7 +100,7 @@ class ilWebDAVMountInstructionsUploadGUI
         $this->$cmd();
     }
     
-    public function setRefId(int $ref_id)
+    public function setRefId(int $ref_id) : void
     {
         $this->webdav_object_ref_id = $ref_id;
     }
@@ -179,7 +179,7 @@ class ilWebDAVMountInstructionsUploadGUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $document_id = $this->http->wrapper()->query()->retrieve('document_id', $this->refinery > kindlyTo()->int());
+        $document_id = $this->http->wrapper()->query()->retrieve('document_id', $this->refinery->kindlyTo()->int());
         $document = $this->mount_instructions_repository->getMountInstructionsDocumentById($document_id);
         $form = $this->getDocumentForm($document);
         $this->tpl->setContent($form->getHTML());
@@ -218,7 +218,7 @@ class ilWebDAVMountInstructionsUploadGUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $document_id = $this->http->wrapper()->query()->retrieve('document_id', $this->refinery > kindlyTo()->int());
+        $document_id = $this->http->wrapper()->query()->retrieve('document_id', $this->refinery->kindlyTo()->int());
         $form = $this->getDocumentForm($this->mount_instructions_repository->getMountInstructionsDocumentById($document_id));
         if ($form->updateObject()) {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);

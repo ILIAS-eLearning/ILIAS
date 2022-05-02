@@ -34,11 +34,12 @@ class ilLTIProviderObjectSetting
     /**
      * Constructor
      */
+    // TODO PHP8 Review: Missing Parameter Type Declaration
     public function __construct($a_ref_id, $a_ext_consumer_id)
     {
         global $DIC;
         
-        $this->log = ilLoggerFactory::getLogger('lti');
+        $this->log = ilLoggerFactory::getLogger('ltis');
         $this->db = $DIC->database();
         
         $this->ref_id = $a_ref_id;

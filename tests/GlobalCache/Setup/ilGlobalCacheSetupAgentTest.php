@@ -152,7 +152,6 @@ class ilGlobalCacheSetupAgentTest extends TestCase
                 "components" => ["dummy"]
             ]
         );
-
     }
 
     public function testGetArrayToConfigTransformationWithMemcachedNode() : void

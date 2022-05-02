@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -22,9 +22,11 @@
  */
 class ilObjWebDAVGUI extends ilObjectGUI
 {
-    const CMD_EDIT_SETTINGS = 'editSettings';
-    const CMD_SAVE_SETTINGS = 'saveSettings';
+    protected const SETTING_COMMANDS = [
+        'edit' => 'editSettings',
+        'save' => 'saveSettings'];
     
+    protected ilWebDAVDIC $webdav_dic;
     public ilErrorHandling $error_handling;
     
     public function __construct(?array $a_data, int $a_id, bool $a_call_by_reference)
@@ -60,8 +62,8 @@ class ilObjWebDAVGUI extends ilObjectGUI
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
-                    $cmd = self::CMD_EDIT_SETTINGS;
+                if (!$cmd || $cmd === 'view' || !in_array($cmd, self::SETTING_COMMANDS)) {
+                    $cmd = self::SETTING_COMMANDS['edit'];
                 }
                 $this->$cmd();
                 break;
@@ -74,7 +76,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
             $this->tabs_gui->addTab(
                 'webdav_general_settings',
                 $this->lng->txt("webdav_general_settings"),
-                $this->ctrl->getLinkTarget($this, self::CMD_EDIT_SETTINGS)
+                $this->ctrl->getLinkTarget($this, self::SETTING_COMMANDS['edit'])
             );
             $this->tabs_gui->addTab(
                 'webdav_upload_instructions',
@@ -108,7 +110,7 @@ class ilObjWebDAVGUI extends ilObjectGUI
         $cb_prop->setChecked($this->object->isWebdavVersioningEnabled());
         $form->addItem($cb_prop);
         
-        $form->addCommandButton(self::CMD_SAVE_SETTINGS, $this->lng->txt('save'));
+        $form->addCommandButton(self::SETTING_COMMANDS['save'], $this->lng->txt('save'));
 
         return $form;
     }
@@ -133,16 +135,16 @@ class ilObjWebDAVGUI extends ilObjectGUI
     {
         if (!$this->rbac_system->checkAccess("write", $this->object->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
-            $this->ctrl->redirect($this, self::CMD_EDIT_SETTINGS);
+            $this->ctrl->redirect($this, self::SETTING_COMMANDS['edit']);
         }
 
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
-            $this->object->setWebdavEnabled($_POST['enable_webdav'] == '1');
-            $this->object->setWebdavVersioningEnabled($_POST['enable_versioning_webdav'] == '1');
+            $this->object->setWebdavEnabled(($form->getInput('enable_webdav') === '1'));
+            $this->object->setWebdavVersioningEnabled(($form->getInput('enable_versioning_webdav') === '1'));
             $this->object->update();
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
-            $this->ctrl->redirect($this, self::CMD_EDIT_SETTINGS);
+            $this->ctrl->redirect($this, self::SETTING_COMMANDS['edit']);
         } else {
             $form->setValuesByPost();
             $this->tpl->setContent($form->getHTML());

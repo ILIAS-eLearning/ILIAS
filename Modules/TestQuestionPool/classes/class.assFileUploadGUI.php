@@ -448,7 +448,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
@@ -490,7 +490,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $this->addTab_SuggestedSolution($ilTabs, $classname);
 
         // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             $ilTabs->addTarget(
                 "statistics",
                 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
@@ -500,15 +500,15 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             );
         }
         
-        if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0)) {
-            $ref_id = $_GET["calling_test"];
+        if (($this->request->raw("calling_test") > 0) || ($this->request->raw("test_ref_id") > 0)) {
+            $ref_id = $this->request->raw("calling_test");
             if (strlen($ref_id) == 0) {
-                $ref_id = $_GET["test_ref_id"];
+                $ref_id = $this->request->raw("test_ref_id");
             }
 
             global $___test_express_mode;
 
-            if (!$_GET['test_express_mode'] && !$___test_express_mode) {
+            if (!$this->request->raw('test_express_mode') && !$___test_express_mode) {
                 $ilTabs->setBackTarget($this->lng->txt("backtocallingtest"), "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
             } else {
                 $link = ilTestExpressPage::getReturnToPageLink();

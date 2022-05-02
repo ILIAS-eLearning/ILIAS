@@ -25,5 +25,4 @@ class MetaDatum
     {
         return $this->value;
     }
-    
 }

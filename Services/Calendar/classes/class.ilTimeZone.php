@@ -119,7 +119,7 @@ class ilTimeZone
     /**
      * Switch timezone to given timezone
      */
-    public function switchTZ()
+    public function switchTZ() : bool
     {
         try {
             self::_switchTimeZone($this->timezone);
@@ -207,7 +207,7 @@ class ilTimeZone
         }
         // PHP >= 5.2.0
         // php throws a warning date_default_timezone_get relies on os determination. There is no way to check if this could happen.
-        if (function_exists('date_default_timezone_get') and $tz = @date_default_timezone_get()) {
+        if (function_exists('date_default_timezone_get') and $tz = date_default_timezone_get()) {
             return self::$default_timezone = $tz;
         }
         // PHP ini option (PHP >= 5.1.0)

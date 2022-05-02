@@ -19,6 +19,9 @@ class ilWebDAVCheckValidTitleTraitTest extends TestCase
 {
     use ilWebDAVCheckValidTitleTrait;
     
+    /**
+     * @var string[]
+     */
     protected array $notDavableCharacters = [
         '\\',
         '<',
@@ -32,6 +35,9 @@ class ilWebDAVCheckValidTitleTraitTest extends TestCase
         '#'
     ];
     
+    /**
+     * @var string[]
+     */
     protected array $randomUnicodeStrings = [
         '斛翔簫輷㠋캍쵮읞㉡⚫ﴏ',
                 'ੳ卵Ὃ죿퐥㿼㘩輔푬㳟宵錠◷⻨돁',

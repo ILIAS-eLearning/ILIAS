@@ -52,7 +52,7 @@ final class ilWebDAVMountInstructionsDocument
     
     public function getId() : int
     {
-        return (int) $this->id;
+        return $this->id;
     }
     
     public function getTitle() : string

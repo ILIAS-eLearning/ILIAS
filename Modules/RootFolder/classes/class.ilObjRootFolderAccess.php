@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -34,11 +34,13 @@ class ilObjRootFolderAccess extends ilObjectAccess
      */
     public static function _getCommands() : array
     {
-        $commands = array(
-            array("permission" => "read", "cmd" => "render", "lang_var" => "show",
-                "default" => true),
-            array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-        );
+        $commands = [
+            [
+                "permission" => "read", "cmd" => "render", "lang_var" => "show",
+                "default" => true
+            ],
+            ["permission" => "write", "cmd" => "edit", "lang_var" => "edit"],
+        ];
         
         return $commands;
     }

@@ -80,7 +80,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, string[]>
      */
     public function costsProvider() : array
     {
@@ -120,7 +120,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
             'data_directory' => $this->getTestDirectoryUrl()
         ]);
         $this->assertInstanceOf(ilBcryptPasswordEncoder::class, $encoder);
-        $this->assertEquals(self::VALID_COSTS, $encoder->getCosts());
+        $this->assertSame(self::VALID_COSTS, $encoder->getCosts());
         $this->assertFalse($encoder->isSecurityFlawIgnored());
         $encoder->setClientSalt(self::CLIENT_SALT);
 
@@ -136,7 +136,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
         $expected = '04';
 
         $encoder->setCosts($expected);
-        $this->assertEquals($expected, $encoder->getCosts());
+        $this->assertSame($expected, $encoder->getCosts());
     }
 
     /**
@@ -229,7 +229,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
      */
     public function testNameShouldBeBcrypt(ilBcryptPasswordEncoder $encoder) : void
     {
-        $this->assertEquals('bcrypt', $encoder->getName());
+        $this->assertSame('bcrypt', $encoder->getName());
     }
 
     public function testExceptionIsRaisedIfSaltIsMissingIsOnEncoding() : void
@@ -262,7 +262,7 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
         vfs\vfsStream::newFile(ilBcryptPasswordEncoder::SALT_STORAGE_FILENAME)->withContent(self::CLIENT_SALT)->at($this->getTestDirectory());
 
         $encoder = $this->getInstanceWithConfiguredDataDirectory();
-        $this->assertEquals(self::CLIENT_SALT, $encoder->getClientSalt());
+        $this->assertSame(self::CLIENT_SALT, $encoder->getClientSalt());
     }
 
     public function testClientSaltIsGeneratedWhenNoClientSaltExistsYet() : void
@@ -306,14 +306,14 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
         $encoded_password = $encoder->encodePassword(self::PASSWORD, self::PASSWORD_SALT);
         $this->assertTrue($encoder->isPasswordValid($encoded_password, self::PASSWORD, self::PASSWORD_SALT));
-        $this->assertEquals('$2a$', substr($encoded_password, 0, 4));
+        $this->assertSame('$2a$', substr($encoded_password, 0, 4));
 
         $another_encoder = $this->getInstanceWithConfiguredDataDirectory();
         $another_encoder->setClientSalt(self::CLIENT_SALT);
 
         $another_encoder->setBackwardCompatibility(false);
         $another_encoded_password = $another_encoder->encodePassword(self::PASSWORD, self::PASSWORD_SALT);
-        $this->assertEquals('$2y$', substr($another_encoded_password, 0, 4));
+        $this->assertSame('$2y$', substr($another_encoded_password, 0, 4));
         $this->assertTrue($another_encoder->isPasswordValid($encoded_password, self::PASSWORD, self::PASSWORD_SALT));
     }
 

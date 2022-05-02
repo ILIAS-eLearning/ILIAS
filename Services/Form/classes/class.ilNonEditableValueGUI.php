@@ -118,12 +118,12 @@ class ilNonEditableValueGUI extends ilSubEnabledFormPropertyGUI implements ilTab
             $tpl->setCurrentBlock("hidden");
             $tpl->setVariable('NON_EDITABLE_ID', $postvar);
             $tpl->setVariable('MULTI_HIDDEN_ID', $this->getFieldId());
-            $tpl->setVariable("HVALUE", ilLegacyFormElementsUtil::prepareFormOutput($this->getValue()));
+            $tpl->setVariable("HVALUE", ilLegacyFormElementsUtil::prepareFormOutput((string) $this->getValue()));
             $tpl->parseCurrentBlock();
         }
         $value = $this->getValue();
         if (!$this->disable_escaping) {
-            $value = ilLegacyFormElementsUtil::prepareFormOutput($value);
+            $value = ilLegacyFormElementsUtil::prepareFormOutput((string) $value);
         }
         $tpl->setVariable("VALUE", $value);
         if ($this->getFieldId() != "") {

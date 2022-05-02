@@ -35,12 +35,7 @@ class ilCalendarAppointmentGUI
     private ilLogger $logger;
     protected HTTPServices $http;
     protected RefineryFactory $refinery;
-
-
-    /**
-     * @var RequestInterface|ServerRequestInterface
-     */
-    protected $request;
+    protected RequestInterface $request;
 
     /**
      * @todo make appointment_id required and remove all GET request
@@ -147,12 +142,11 @@ class ilCalendarAppointmentGUI
                 if ($a_as_milestone) {
                     $this->form->setTitle($this->lng->txt('cal_new_ms'));
                     $this->form->addCommandButton('saveMilestone', $this->lng->txt('cal_add_milestone'));
-                    $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
                 } else {
                     $this->form->setTitle($this->lng->txt('cal_new_app'));
                     $this->form->addCommandButton('save', $this->lng->txt('cal_add_appointment'));
-                    $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
                 }
+                $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
                 break;
 
             case 'edit':
@@ -205,9 +199,16 @@ class ilCalendarAppointmentGUI
         }
         // calendar selection
         $calendar = new ilSelectInputGUI($this->lng->txt('cal_category_selection'), 'calendar');
-        if ($_POST['category']) {
-            $calendar->setValue((int) $_POST['calendar']);
-            $selected_calendar = (int) $_POST['calendar'];
+
+        $selected_calendar = 0;
+        if ($this->http->wrapper()->post()->has('calendar')) {
+            $selected_calendar = $this->http->wrapper()->post()->retrieve(
+                'calendar',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ($selected_calendar > 0) {
+            $calendar->setValue($selected_calendar);
         } elseif ($category_id) {
             $calendar->setValue((int) $category_id);
             $selected_calendar = (int) $category_id;
@@ -309,12 +310,23 @@ class ilCalendarAppointmentGUI
         }
 
         if (ilCalendarSettings::_getInstance()->isUserNotificationEnabled()) {
-            $notu = new ilTextWizardInputGUI($this->lng->txt('cal_user_notification'), 'notu');
-            $notu->setInfo($this->lng->txt('cal_user_notification_info'));
-            $notu->setSize(20);
-            $notu->setMaxLength(64);
+            $ajax_url = $this->ctrl->getLinkTarget(
+                $this,
+                'doUserAutoComplete',
+                '',
+                true,
+                false
+            );
 
-            $values = array();
+            $notu = new ilTextInputGUI(
+                $this->lng->txt('cal_user_notification'),
+                'notu'
+            );
+            $notu->setMulti(true, true);
+            $notu->setInfo($this->lng->txt('cal_user_notification_info'));
+            $notu->setDataSource($ajax_url, ',');
+
+            $values = [];
             foreach ($this->notification->getRecipients() as $rcp) {
                 switch ($rcp['type']) {
                     case ilCalendarUserNotification::TYPE_USER:
@@ -326,11 +338,7 @@ class ilCalendarAppointmentGUI
                         break;
                 }
             }
-            if (count($values)) {
-                $notu->setValues($values);
-            } else {
-                $notu->setValues(array(''));
-            }
+            $notu->setValue($values);
             $this->form->addItem($notu);
         }
 
@@ -353,6 +361,51 @@ class ilCalendarAppointmentGUI
             $this->form->addItem($not);
         }
         return $this->form;
+    }
+
+
+    protected function doUserAutoComplete() : ?string
+    {
+        // hide anonymout request
+        if ($this->user->getId() == ANONYMOUS_USER_ID) {
+            return json_encode(new stdClass(), JSON_THROW_ON_ERROR);
+        }
+        if (!$this->http->wrapper()->query()->has('autoCompleteField')) {
+            $a_fields = [
+                'login',
+                'firstname',
+                'lastname',
+                'email'
+            ];
+            $result_field = 'login';
+        } else {
+            $auto_complete_field = $this->http->wrapper()->query()->retrieve(
+                'autoCompleteField',
+                $this->refinery->kindlyTo()->string()
+            );
+            $a_fields = [$auto_complete_field];
+            $result_field = $auto_complete_field;
+        }
+        $auto = new ilUserAutoComplete();
+        $auto->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
+
+        if ($this->http->wrapper()->query()->has('fetchall')) {
+            $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
+        }
+
+        $auto->setMoreLinkAvailable(true);
+        $auto->setSearchFields($a_fields);
+        $auto->setResultField($result_field);
+        $auto->enableFieldSearchableCheck(true);
+        $query = '';
+        if ($this->http->wrapper()->post()->has('term')) {
+            $query = $this->http->wrapper()->post()->retrieve(
+                'term',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        echo $auto->getList($query);
+        return null;
     }
 
     /**
@@ -390,13 +443,13 @@ class ilCalendarAppointmentGUI
 
     protected function save(bool $a_as_milestone = false) : void
     {
-        $this->load('create', $a_as_milestone);
+        $form = $this->load('create', $a_as_milestone);
 
         if ($this->app->validate() and $this->notification->validate()) {
-            if (!(int) $_POST['calendar']) {
+            if ((int) $form->getInput('calendar') === 0) {
                 $cat_id = $this->createDefaultCalendar();
             } else {
-                $cat_id = (int) $_POST['calendar'];
+                $cat_id = (int) $form->getInput('calendar');
             }
 
             $this->app->save();
@@ -409,7 +462,10 @@ class ilCalendarAppointmentGUI
             $ass->addAssignment($cat_id);
 
             // Send notifications
-            if (ilCalendarSettings::_getInstance()->isNotificationEnabled() and $_POST['not']) {
+            if (
+                ilCalendarSettings::_getInstance()->isNotificationEnabled() &&
+                (int) $form->getInput('not')
+            ) {
                 $this->distributeNotifications($cat_id, $this->app->getEntryId(), true);
             }
             if (ilCalendarSettings::_getInstance()->isUserNotificationEnabled()) {
@@ -535,7 +591,16 @@ class ilCalendarAppointmentGUI
      */
     public function saveMilestoneResponsibleUsers() : void
     {
-        $this->app->writeResponsibleUsers($_POST["user_id"]);
+        $user_ids = [];
+        if ($this->http->wrapper()->post()->has('user_id')) {
+            $user_ids = $this->http->wrapper()->post()->retrieve(
+                'user_id',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        $this->app->writeResponsibleUsers($user_ids);
         $this->ctrl->returnToParent($this);
     }
 
@@ -714,13 +779,13 @@ class ilCalendarAppointmentGUI
     {
         $single_editing = (bool) $this->getRecurrenceExclusionFromQuery();
 
-        $this->load('edit', $this->app->isMilestone());
+        $form = $this->load('edit', $this->app->isMilestone());
 
         if ($this->app->validate() and $this->notification->validate()) {
-            if (!(int) $_POST['calendar']) {
+            if (!(int) $form->getInput('calendar')) {
                 $cat_id = $this->createDefaultCalendar();
             } else {
-                $cat_id = (int) $_POST['calendar'];
+                $cat_id = (int) $form->getInput('calendar');
             }
 
             if ($single_editing) {
@@ -747,7 +812,11 @@ class ilCalendarAppointmentGUI
             $ass->addAssignment($cat_id);
 
             // Send notifications
-            if (ilCalendarSettings::_getInstance()->isNotificationEnabled() and $_POST['not']) {
+            $notification = (bool) $form->getInput('not');
+            if (
+                ilCalendarSettings::_getInstance()->isNotificationEnabled() &&
+                $notification
+            ) {
                 $this->distributeNotifications($cat_id, $this->app->getEntryId(), false);
             }
             if (ilCalendarSettings::_getInstance()->isUserNotificationEnabled()) {
@@ -916,29 +985,26 @@ class ilCalendarAppointmentGUI
         }
     }
 
-    protected function load($a_mode, $a_as_milestone = false) : void
+    protected function load($a_mode, $a_as_milestone = false) : ilPropertyFormGUI
     {
         // needed for date handling
-        $this->initForm($a_mode, $a_as_milestone);
+        $form = $this->initForm($a_mode, $a_as_milestone);
         $this->form->checkInput();
 
         if ($a_as_milestone) {
             $this->app->setMilestone(true);
-            $this->app->setCompletion(ilUtil::stripSlashes($_POST['completion']));
+            $this->app->setCompletion((int) $form->getInput('completion'));
         }
 
-        $this->app->setTitle(ilUtil::stripSlashes($_POST['title']));
-        $this->app->setLocation(ilUtil::stripSlashes($_POST['location']));
-        $this->app->setDescription(ilUtil::stripSlashes($_POST['description']));
-        $this->app->setTitle(ilUtil::stripSlashes($_POST['title']));
-        $this->app->enableNotification((bool) $_POST['not']);
+        $this->app->setTitle($form->getInput('title'));
+        $this->app->setLocation($form->getInput('location'));
+        $this->app->setDescription($form->getInput('description'));
+        $this->app->enableNotification((bool) $form->getInput('not'));
 
         if ($a_as_milestone) {    // milestones are always fullday events
             $start = $this->form->getItemByPostVar('event_start');
             $start = $start->getDate();
-
             $this->app->setFullday(true);
-
             // for milestones is end date = start date
             $this->app->setStart($start);
             $this->app->setEnd($start);
@@ -952,22 +1018,25 @@ class ilCalendarAppointmentGUI
             $this->app->setEnd($end);
         }
 
-        $this->loadNotificationRecipients();
-        $this->loadRecurrenceSettings($a_as_milestone = false);
+        $this->loadNotificationRecipients($form);
+        $this->loadRecurrenceSettings($form, $a_as_milestone = false);
+        return $form;
     }
 
-    protected function loadNotificationRecipients() : void
+    protected function loadNotificationRecipients(ilPropertyFormGUI $form) : void
     {
         $this->notification->setRecipients(array());
-
-        foreach ((array) $_POST['notu'] as $rcp) {
-            $rcp = trim(ilUtil::stripSlashes($rcp));
+        $map = [];
+        foreach ($form->getInput('notu') as $rcp) {
+            $rcp = trim($rcp);
             $usr_id = (int) ilObjUser::_loginExists($rcp);
-
-            if (strlen($rcp) == 0) {
+            if ($rcp === '') {
                 continue;
             }
-
+            if (in_array($rcp, $map)) {
+                continue;
+            }
+            $map[] = $rcp;
             if ($usr_id) {
                 $this->notification->addRecipient(
                     ilCalendarUserNotification::TYPE_USER,
@@ -983,106 +1052,16 @@ class ilCalendarAppointmentGUI
         }
     }
 
-    protected function loadRecurrenceSettings($a_as_milestone = false) : void
+    protected function loadRecurrenceSettings(ilPropertyFormGUI $form, bool $a_as_milestone = false) : void
     {
-        $this->rec->reset();
-
-        switch ($_POST['frequence']) {
-            case ilCalendarRecurrence::FREQ_DAILY:
-                $this->rec->setFrequenceType($_POST['frequence']);
-                $this->rec->setInterval((int) $_POST['count_DAILY']);
-                break;
-
-            case ilCalendarRecurrence::FREQ_WEEKLY:
-                $this->rec->setFrequenceType($_POST['frequence']);
-                $this->rec->setInterval((int) $_POST['count_WEEKLY']);
-                if (is_array($_POST['byday_WEEKLY'])) {
-                    $this->rec->setBYDAY(ilUtil::stripSlashes(implode(',', $_POST['byday_WEEKLY'])));
-                }
-                break;
-
-            case ilCalendarRecurrence::FREQ_MONTHLY:
-                $this->rec->setFrequenceType($_POST['frequence']);
-                $this->rec->setInterval((int) $_POST['count_MONTHLY']);
-                switch ((int) $_POST['subtype_MONTHLY']) {
-                    case 0:
-                        // nothing to do;
-                        break;
-
-                    case 1:
-                        switch ((int) $_POST['monthly_byday_day']) {
-                            case 8:
-                                // Weekday
-                                $this->rec->setBYSETPOS((string) $_POST['monthly_byday_num']);
-                                $this->rec->setBYDAY('MO,TU,WE,TH,FR');
-                                break;
-
-                            case 9:
-                                // Day of month
-                                $this->rec->setBYMONTHDAY((string) $_POST['monthly_byday_num']);
-                                break;
-
-                            default:
-                                $this->rec->setBYDAY((int) $_POST['monthly_byday_num'] . $_POST['monthly_byday_day']);
-                                break;
-                        }
-                        break;
-
-                    case 2:
-                        $this->rec->setBYMONTHDAY((string) $_POST['monthly_bymonthday']);
-                        break;
-                }
-                break;
-
-            case ilCalendarRecurrence::FREQ_YEARLY:
-                $this->rec->setFrequenceType($_POST['frequence']);
-                $this->rec->setInterval((int) $_POST['count_YEARLY']);
-                switch ((int) $_POST['subtype_YEARLY']) {
-                    case 0:
-                        // nothing to do;
-                        break;
-
-                    case 1:
-                        $this->rec->setBYMONTH((string) $_POST['yearly_bymonth_byday']);
-                        $this->rec->setBYDAY((int) $_POST['yearly_byday_num'] . $_POST['yearly_byday']);
-                        break;
-
-                    case 2:
-                        $this->rec->setBYMONTH((string) $_POST['yearly_bymonth_by_monthday']);
-                        $this->rec->setBYMONTHDAY((string) $_POST['yearly_bymonthday']);
-                        break;
-                }
-                break;
-        }
-
-        // UNTIL
-        switch ((int) $_POST['until_type']) {
-            case 1:
-                $this->rec->setFrequenceUntilDate(null);
-                // nothing to do
-                break;
-
-            case 2:
-                $this->rec->setFrequenceUntilDate(null);
-                $this->rec->setFrequenceUntilCount((int) $_POST['count']);
-                break;
-
-            case 3:
-                $dt = new ilDateTimeInputGUI('', 'until_end');
-                $dt->setRequired(true);
-                if ($dt->checkInput()) {
-                    $this->rec->setFrequenceUntilCount(0);
-                    $this->rec->setFrequenceUntilDate($dt->getDate());
-                }
-                break;
-        }
+        $this->rec = $form->getItemByPostVar('frequence')->getRecurrence();
     }
 
     protected function saveRecurrenceSettings() : void
     {
-        switch ($_POST['frequence']) {
-            case 'NONE':
+        switch ($this->rec->getFrequenceType()) {
             case '':
+            case ilCalendarRecurrence::FREQ_NONE:
                 // No recurrence => delete if there is an recurrence rule
                 if ($this->rec->getRecurrenceId()) {
                     $this->rec->delete();
@@ -1099,7 +1078,7 @@ class ilCalendarAppointmentGUI
         }
     }
 
-    protected function createDefaultCalendar()
+    protected function createDefaultCalendar() : int
     {
         $cat = new ilCalendarCategory();
         $cat->setColor(ilCalendarCategory::DEFAULT_COLOR);
@@ -1168,8 +1147,14 @@ class ilCalendarAppointmentGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-
-        $reg = new ilCalendarRegistration((int) $_POST['app_id']);
+        $app_id = 0;
+        if ($this->http->wrapper()->post()->has('app_id')) {
+            $app_id = $this->http->wrapper()->post()->retrieve(
+                'app_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $reg = new ilCalendarRegistration($app_id);
         $reg->register(
             $this->user->getId(),
             new ilDateTime($dstart, IL_CAL_UNIX),
@@ -1236,9 +1221,14 @@ class ilCalendarAppointmentGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-
-
-        $reg = new ilCalendarRegistration((int) $_POST['app_id']);
+        $app_id = 0;
+        if ($this->http->wrapper()->post()->has('app_id')) {
+            $app_id = $this->http->wrapper()->post()->retrieve(
+                'app_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $reg = new ilCalendarRegistration($app_id);
         $reg->unregister(
             $this->user->getId(),
             new ilDateTime((int) $dstart, IL_CAL_UNIX),
@@ -1359,10 +1349,14 @@ class ilCalendarAppointmentGUI
      */
     public function cancelConfirmed() : void
     {
-        $entry = (int) $_POST['app_id'];
-
-        $entry = new ilCalendarEntry($entry);
-
+        $app_id = 0;
+        if ($this->http->wrapper()->post()->has('app_id')) {
+            $app_id = $this->http->wrapper()->post()->retrieve(
+                'app_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $entry = new ilCalendarEntry($app_id);
         $category = $this->calendarEntryToCategory($entry);
         if ($category->getType() == ilCalendarCategory::TYPE_CH) {
             // find cloned calendar entry in user calendar
@@ -1404,39 +1398,5 @@ class ilCalendarAppointmentGUI
         $assignment = new ilCalendarCategoryAssignments($entry->getEntryId());
         $assignment = $assignment->getFirstAssignment();
         return new ilCalendarCategory($assignment);
-    }
-
-    protected function doUserAutoComplete() : void
-    {
-        $autoCompleteField = '';
-        if ($this->http->wrapper()->query()->has('autoCompleteField')) {
-            $autoCompleteField = $this->http->wrapper()->query()->retrieve(
-                'autoCompleteField',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-        if (!strlen($autoCompleteField)) {
-            $a_fields = array('login', 'firstname', 'lastname', 'email');
-        } else {
-            $a_fields = array($autoCompleteField);
-        }
-
-        $auto = new ilUserAutoComplete();
-        $auto->setSearchFields($a_fields);
-        $auto->enableFieldSearchableCheck(true);
-        $auto->setMoreLinkAvailable(true);
-
-        if ($this->http->wrapper()->query()->has('fetchall')) {
-            $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
-        }
-        $query = '';
-        if ($this->http->wrapper()->query()->has('query')) {
-            $query = $this->http->wrapper()->query()->retrieve(
-                'query',
-                $this->refinery->kindlyTo()->string()
-            );
-        }
-        echo $auto->getList($query);
-        exit();
     }
 }

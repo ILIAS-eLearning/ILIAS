@@ -22,7 +22,6 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\TopItem\TopParentItem;
  */
 class MapTest extends TestCase
 {
-
     protected IdentificationFactory $identification;
     protected MainMenuItemFactory $factory;
     protected StaticMainMenuProvider $provider;
@@ -60,7 +59,6 @@ class MapTest extends TestCase
             $this->factory->topParentItem($p1),
             $this->factory->topParentItem($p2),
             $this->factory->topParentItem($p3)
-
         );
         
         $p4 = $this->getId('parent_4');
@@ -87,7 +85,6 @@ class MapTest extends TestCase
             $this->factory->topParentItem($p2),
             $this->factory->topParentItem($p3),
             $this->factory->topParentItem($p4)
-
         );
         
         $this->assertTrue($map->has());

@@ -267,7 +267,7 @@ class ilObjPoll extends ilObject2
         );
     }
 
-    protected function doCreate() : void
+    protected function doCreate(bool $clone_mode = false) : void
     {
         $ilDB = $this->db;
         
@@ -334,15 +334,9 @@ class ilObjPoll extends ilObject2
         }
     }
     
-    /**
-     * @param ilObjPoll new object
-     * @param int target ref_id
-     * @param int copy id
-     * @return ilObjPoll
-     */
-    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = 0) : ilObjPoll
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = 0) : void
     {
-        assert($new_obj instanceof self);
+        assert($new_obj instanceof ilObjPoll);
         
         // question/image
         $new_obj->setQuestion($this->getQuestion());
@@ -372,8 +366,6 @@ class ilObjPoll extends ilObject2
                 $new_obj->saveAnswer($item["answer"]);
             }
         }
-        
-        return $new_obj;
     }
         
     

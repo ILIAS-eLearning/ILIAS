@@ -9,8 +9,11 @@
 class ilTestResultsGUITest extends ilTestBaseTestCase
 {
     private ilTestResultsGUI $testObj;
-    
-    
+    /**
+     * @var \ILIAS\DI\Container|mixed
+     */
+    private $backup_dic;
+
     protected function setUp() : void
     {
         parent::setUp();

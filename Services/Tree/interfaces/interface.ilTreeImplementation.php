@@ -66,9 +66,6 @@ interface ilTreeImplementation
 
     /**
      * Move a source subtree to target
-     * @param int $a_source_id
-     * @param int $a_target_id
-     * @param int $a_position
      * @throws InvalidArgumentException
      */
     public function moveTree(int $a_source_id, int $a_target_id, int $a_position) : void;

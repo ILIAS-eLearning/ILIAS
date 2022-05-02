@@ -95,6 +95,7 @@ abstract class ilPageObject
     protected array $file_item_ids = [];
     protected ?string $activationstart = null;      // IL_CAL_DATETIME format
     protected ?string $activationend = null;        // IL_CAL_DATETIME format
+    protected \ILIAS\COPage\ReadingTime\ReadingTimeManager $reading_time_manager;
 
     final public function __construct(
         int $a_id = 0,
@@ -108,6 +109,8 @@ abstract class ilPageObject
         $this->lng = $DIC->language();
         $this->tree = $DIC->repositoryTree();
         $this->log = ilLoggerFactory::getLogger('copg');
+
+        $this->reading_time_manager = new ILIAS\COPage\ReadingTime\ReadingTimeManager();
 
         $this->parent_type = $this->getParentType();
         $this->id = $a_id;
@@ -2192,6 +2195,16 @@ s     */
         $this->buildDom();
         $this->log->debug("Handle repository links...");
 
+        // pc classes hook, @todo: move rest of function to this hook, too
+        $defs = ilCOPagePCDef::getPCDefinitions();
+        foreach ($defs as $def) {
+            ilCOPagePCDef::requirePCClassByName($def["name"]);
+            if (method_exists($def["pc_class"], 'afterRepositoryCopy')) {
+                call_user_func($def["pc_class"] . '::afterRepositoryCopy', $this, $a_mapping, $a_source_ref_id);
+            }
+        }
+
+
         // resolve normal internal links
         $xpc = xpath_new_context($this->dom);
         $path = "//IntLink";
@@ -2428,6 +2441,9 @@ s     */
 
             // save style usage
             $this->saveStyleUsage($a_domdoc);
+
+            // save estimated reading time
+            $this->reading_time_manager->saveTime($this);
 
             // pc classes hook
             $defs = ilCOPagePCDef::getPCDefinitions();
@@ -2679,6 +2695,8 @@ s     */
                 $copg_logger->debug("ilPageObject: ... missing mob " . $mob_id . ".");
             }
         }
+
+        $this->__afterDelete();
     }
 
     /**
@@ -2693,6 +2711,15 @@ s     */
             $cl = $def["pc_class"];
             call_user_func($def["pc_class"] . '::beforePageDelete', $this);
         }
+    }
+
+    final protected function __afterDelete() : void
+    {
+        $this->afterDelete();
+    }
+
+    protected function afterDelete() : void
+    {
     }
 
     final protected function __afterHistoryEntry(

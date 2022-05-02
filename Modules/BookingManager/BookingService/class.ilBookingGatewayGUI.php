@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 use ILIAS\BookingManager;
 
@@ -66,7 +70,7 @@ class ilBookingGatewayGUI
         $this->obj_id = $parent_gui->getObject()->getId();
         $this->ref_id = $parent_gui->getObject()->getRefId();
 
-        $this->main_host_ref_id = ($main_host_ref_id == 0)
+        $this->main_host_ref_id = ($main_host_ref_id === 0)
             ? $this->ref_id
             : $main_host_ref_id;
 
@@ -200,7 +204,7 @@ class ilBookingGatewayGUI
     
     protected function selectPool() : void
     {
-        if ($this->return_to != "") {
+        if ($this->return_to !== "") {
             $this->ctrl->redirectByClass($this->return_to);
         }
     }
@@ -224,7 +228,7 @@ class ilBookingGatewayGUI
                 $ctrl->getLinkTargetByClass("ilbookingreservationsgui", "")
             );
         }
-        if ($this->ref_id == $this->main_host_ref_id) {
+        if ($this->ref_id === $this->main_host_ref_id) {
             $tabs->addSubTab(
                 "settings",
                 $lng->txt("settings"),
@@ -240,7 +244,7 @@ class ilBookingGatewayGUI
         $ctrl = $this->ctrl;
         if ($this->pools_selected) {
             $ctrl->redirectByClass("ilbookingobjectservicegui");
-        } elseif ($this->ref_id == $this->main_host_ref_id) {
+        } elseif ($this->ref_id === $this->main_host_ref_id) {
             $ctrl->redirect($this, "settings");
         }
 
@@ -293,7 +297,7 @@ class ilBookingGatewayGUI
         if ($form->checkInput()) {
             $b_ids = $form->getInput("booking_obj_ids");
             $b_ids = is_array($b_ids)
-                ? array_map(function ($i) {
+                ? array_map(static function ($i) {
                     return (int) $i;
                 }, $b_ids)
                 : [];

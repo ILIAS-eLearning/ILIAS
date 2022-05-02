@@ -40,7 +40,7 @@ class UserInteractionOption implements Option
         return $this->lang_var;
     }
     
-    public function setLangVar(string $lang_var): void
+    public function setLangVar(string $lang_var) : void
     {
         $this->lang_var = $lang_var;
     }
@@ -52,7 +52,7 @@ class UserInteractionOption implements Option
     }
     
 
-    public function setValue(string $value): void
+    public function setValue(string $value) : void
     {
         $this->value = $value;
     }

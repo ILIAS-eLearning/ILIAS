@@ -84,14 +84,14 @@ class ilContainerFilterService
     {
         return new ilContainerFilterSet(
             [
-            $this->field(0, ilContainerFilterField::STD_FIELD_TITLE),
-            $this->field(0, ilContainerFilterField::STD_FIELD_DESCRIPTION),
-            $this->field(0, ilContainerFilterField::STD_FIELD_TITLE_DESCRIPTION),
-            $this->field(0, ilContainerFilterField::STD_FIELD_KEYWORD),
-            $this->field(0, ilContainerFilterField::STD_FIELD_AUTHOR),
-            $this->field(0, ilContainerFilterField::STD_FIELD_COPYRIGHT),
-            $this->field(0, ilContainerFilterField::STD_FIELD_TUTORIAL_SUPPORT),
-            $this->field(0, ilContainerFilterField::STD_FIELD_OBJECT_TYPE)
+                $this->field(0, ilContainerFilterField::STD_FIELD_TITLE),
+                $this->field(0, ilContainerFilterField::STD_FIELD_DESCRIPTION),
+                $this->field(0, ilContainerFilterField::STD_FIELD_TITLE_DESCRIPTION),
+                $this->field(0, ilContainerFilterField::STD_FIELD_KEYWORD),
+                $this->field(0, ilContainerFilterField::STD_FIELD_AUTHOR),
+                $this->field(0, ilContainerFilterField::STD_FIELD_COPYRIGHT),
+                $this->field(0, ilContainerFilterField::STD_FIELD_TUTORIAL_SUPPORT),
+                $this->field(0, ilContainerFilterField::STD_FIELD_OBJECT_TYPE)
             ]
         );
     }

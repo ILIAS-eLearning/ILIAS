@@ -334,7 +334,7 @@ class ilNoteGUI
         
         // #15948 - public enabled vs. comments_settings
         $comments_col = false;
-        if ($this->public_enabled && (!$this->delete_note || $this->public_deletion_enabled || $ilSetting->get("comments_del_user", 0))
+        if ($this->public_enabled && (!$this->delete_note || $this->public_deletion_enabled || $ilSetting->get("comments_del_user", '0'))
             && !$hide_comments /* && $ilUser->getId() != ANONYMOUS_USER_ID */) {
             $ntpl->setVariable("COMMENTS", $this->getNoteListHTML(ilNote::PUBLIC, $a_init_form));
             $comments_col = true;
@@ -866,7 +866,7 @@ class ilNoteGUI
             return true;
         }
         
-        if ($is_author && $a_note->getType() === ilNote::PUBLIC && $ilSetting->get("comments_del_user", 0)) {
+        if ($is_author && $a_note->getType() === ilNote::PUBLIC && $ilSetting->get("comments_del_user", '0')) {
             return true;
         }
         

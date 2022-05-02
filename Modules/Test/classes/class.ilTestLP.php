@@ -12,10 +12,20 @@ include_once "Services/Object/classes/class.ilObjectLP.php";
  */
 class ilTestLP extends ilObjectLP
 {
+    private \ILIAS\Test\InternalRequestService $request;
+
     /**
      * @var \ilObjTest
      */
     protected $testObj;
+
+    public function __construct(int $obj_id)
+    {
+        global $DIC;
+        $this->request = $DIC->test()->internal()->request();
+
+        parent::__construct($obj_id);
+    }
 
     public static function getDefaultModes(bool $a_lp_active) : array
     {
@@ -67,10 +77,11 @@ class ilTestLP extends ilObjectLP
         $testOBJ->removeTestResultsByUserIds($a_user_ids);
 
         // :TODO: there has to be a better way
-        $test_ref_id = (int) $_REQUEST["ref_id"];
+        $test_ref_id = (int) $this->request->raw("ref_id");
         if ($this->testObj && $this->testObj->getRefId()) {
             $test_ref_id = $this->testObj->getRefId();
         }
+
         if ($test_ref_id) {
             require_once "Modules/Course/classes/Objectives/class.ilLOSettings.php";
             $course_obj_id = ilLOSettings::isObjectiveTest($test_ref_id);

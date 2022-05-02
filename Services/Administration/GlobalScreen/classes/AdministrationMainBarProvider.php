@@ -1,17 +1,23 @@
-<?php namespace ILIAS\Administration;
+<?php declare(strict_types=1);
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
+
+namespace ILIAS\Administration;
 
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
@@ -56,7 +62,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                 // Entries
                 $links = [];
                 foreach ($group_items as $group_item) {
-                    if ($group_item == "---") {
+                    if ($group_item === "---") {
                         continue;
                     }
 
@@ -64,7 +70,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         ->withIsOutlined(true);
                     
                     $ref_id = $titems[$group_item]["ref_id"];
-                    if ($admin_request->getAdminMode() != 'repository' && $ref_id == ROOT_FOLDER_ID) {
+                    if ($admin_request->getAdminMode() !== 'repository' && $ref_id == ROOT_FOLDER_ID) {
                         $identification = $this->if->identifier('mm_adm_rep');
                         $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $ref_id . "&admin_mode=repository";
                     } else {
@@ -79,7 +85,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         ->withAction($action)
                         ->withSymbol($icon)
                         ->withVisibilityCallable(function () use ($ref_id) {
-                            return $this->dic->rbac()->system()->checkAccess('visible,read', $ref_id);
+                            return $this->dic->rbac()->system()->checkAccess('visible,read', (int) $ref_id);
                         });
                 }
 
@@ -145,7 +151,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             $new_objects[$object["title"] . ":" . $object["child"]]
                 = $object;
             // have to set it manually as translation type of main node cannot be "sys" as this type is a orgu itself.
-            if ($object["type"] == "orgu") {
+            if ($object["type"] === "orgu") {
                 $new_objects[$object["title"] . ":" . $object["child"]]["title"] = $lng->txt("objs_orgu");
             }
         }
@@ -179,15 +185,15 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         $items = array();
         foreach ($new_objects as $c) {
             // check visibility
-            if ($tree->getParentId($c["ref_id"]) == ROOT_FOLDER_ID && $c["type"] != "adm"
-                && $admin_request->getAdminMode() != "repository"
+            if ($c["type"] !== "adm" && $tree->getParentId((int) $c["ref_id"]) === ROOT_FOLDER_ID
+                && $admin_request->getAdminMode() !== "repository"
             ) {
                 continue;
             }
             // these objects may exist due to test cases that didnt clear
             // data properly
-            if ($c["type"] == "" || $c["type"] == "objf"
-                || $c["type"] == "xxx"
+            if ($c["type"] == "" || $c["type"] === "objf"
+                || $c["type"] === "xxx"
             ) {
                 continue;
             }
@@ -227,12 +233,12 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             $groups[$group] = array();
             $entries_since_last_sep = false;
             foreach ($entries as $e) {
-                if ($e == "---" || (isset($titems[$e]["type"]) && $titems[$e]["type"] != "")) {
-                    if ($e == "---" && $entries_since_last_sep) {
+                if ($e === "---" || (isset($titems[$e]["type"]) && $titems[$e]["type"] != "")) {
+                    if ($e === "---" && $entries_since_last_sep) {
                         $groups[$group][] = $e;
                         $entries_since_last_sep = false;
                     } else {
-                        if ($e != "---") {
+                        if ($e !== "---") {
                             $groups[$group][] = $e;
                             $entries_since_last_sep = true;
                         }

@@ -20,6 +20,7 @@
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
+use ILIAS\UI\Component\Legacy\Legacy;
 
 /**
  * Workspace GS tool provider
@@ -57,21 +58,14 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
 
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_skmg.svg"), $title);
 
-
         $additional_data = $called_contexts->current()->getAdditionalData();
         if ($additional_data->is(self::SHOW_SKILL_TREE, true)) {
             $tree_id = $additional_data->get(self::SKILL_TREE_ID);
-            $iff = function ($id) {
-                return $this->identification_provider->contextAwareIdentifier($id);
-            };
-            $l = function (string $content) {
-                return $this->dic->ui()->factory()->legacy($content);
-            };
-            $tools[] = $this->factory->tool($iff("tree"))
+            $tools[] = $this->factory->tool($this->identification_provider->contextAwareIdentifier("tree"))
                 ->withTitle($title)
                 ->withSymbol($icon)
-                ->withContentWrapper(function () use ($l, $tree_id) {
-                    return $l($this->getSkillTree($tree_id));
+                ->withContentWrapper(function () use ($tree_id) : Legacy {
+                    return $this->dic->ui()->factory()->legacy($this->getSkillTree($tree_id));
                 });
         }
 
@@ -80,17 +74,11 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
 
         if ($additional_data->is(self::SHOW_TEMPLATE_TREE, true)) {
             $tree_id = $additional_data->get(self::SKILL_TREE_ID);
-            $iff = function ($id) {
-                return $this->identification_provider->contextAwareIdentifier($id);
-            };
-            $l = function (string $content) {
-                return $this->dic->ui()->factory()->legacy($content);
-            };
-            $tools[] = $this->factory->tool($iff("tree"))
+            $tools[] = $this->factory->tool($this->identification_provider->contextAwareIdentifier("tree"))
                 ->withTitle("Templates")
                 ->withSymbol($icon)
-                ->withContentWrapper(function () use ($l, $tree_id) {
-                    return $l($this->getTemplateTree($tree_id));
+                ->withContentWrapper(function () use ($tree_id) : Legacy {
+                    return $this->dic->ui()->factory()->legacy($this->getTemplateTree($tree_id));
                 });
         }
         return $tools;

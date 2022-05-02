@@ -67,7 +67,7 @@ class ilObjTaxonomy extends ilObject2
         return $this->node_mapping;
     }
 
-    protected function doCreate() : void
+    protected function doCreate(bool $clone_mode = false) : void
     {
         $ilDB = $this->db;
 
@@ -87,17 +87,18 @@ class ilObjTaxonomy extends ilObject2
         $tax_tree->addTree($this->getId(), $node->getId());
     }
 
-    protected function doCloneObject($a_new_obj, $a_target_id, $a_copy_id = null) : void
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
     {
-        $a_new_obj->setTitle($this->getTitle());
-        $a_new_obj->setDescription($this->getDescription());
-        $a_new_obj->setSortingMode($this->getSortingMode());
+        assert($new_obj instanceof ilObjTaxonomy);
+        $new_obj->setTitle($this->getTitle());
+        $new_obj->setDescription($this->getDescription());
+        $new_obj->setSortingMode($this->getSortingMode());
 
         $this->node_mapping = array();
 
         $this->cloneNodes(
-            $a_new_obj,
-            $a_new_obj->getTree()->readRootId(),
+            $new_obj,
+            $new_obj->getTree()->readRootId(),
             $this->getTree()->readRootId()
         );
     }

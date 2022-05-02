@@ -1,9 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Data;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
@@ -99,7 +111,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected ArrayBasedRequestWrapper $post_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
 
-    public static function _goto(string $target)
+    public static function _goto(string $target) : void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -159,7 +171,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         return $DIC->access()->checkAccess($mode, '', $id);
     }
 
-    protected static function forwardByClass(string $base_class, array $classes, array $params, string $cmd = '')
+    protected static function forwardByClass(string $base_class, array $classes, array $params, string $cmd = '') : void
     {
         global $DIC;
         $ctrl = $DIC->ctrl();
@@ -587,7 +599,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     public function unparticipate() : void
     {
         if ($this->checkAccess('unparticipate')) {
-            $usr_id = (int) $this->user->getId();
+            $usr_id = $this->user->getId();
             $this->getObject()->getLSRoles()->leave($usr_id);
             $this->learnerView();
         }
@@ -624,7 +636,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 || (
                     $this->getObject()->getLSSettings()->getMembersGallery()
                     &&
-                    $this->getObject()->getLSRoles()->isMember((int) $this->user->getId())
+                    $this->getObject()->getLSRoles()->isMember($this->user->getId())
                 )
             ) {
                 $this->tabs->addTab(
@@ -777,14 +789,13 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     /**
      * append additional types to ilRepositoryExplorerGUI's whitelist
+     * @return int[]|string[]
      */
     protected function getAdditionalWhitelistTypes() : array
     {
         return array_filter(
             array_keys($this->obj_definition->getSubObjects('lso', false)),
-            function ($type) {
-                return $type !== 'rolf';
-            }
+            fn($type) => $type !== 'rolf'
         );
     }
 

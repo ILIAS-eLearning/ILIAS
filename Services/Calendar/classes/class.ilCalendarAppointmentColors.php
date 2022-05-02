@@ -27,7 +27,7 @@
  */
 class ilCalendarAppointmentColors
 {
-    protected static $colors = array(
+    protected static array $colors = array(
         'crs' => array(
             "#ADD8E6",
             "#BFEFFF",

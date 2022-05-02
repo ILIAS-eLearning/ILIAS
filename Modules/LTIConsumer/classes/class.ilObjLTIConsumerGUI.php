@@ -47,7 +47,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     public ?ilObject $object = null;
     protected ilLTIConsumerAccess $ltiAccess;
 
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
         /* @var \ILIAS\DI\Container $DIC */
@@ -67,10 +67,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return 'lti';
     }
 
-    /**
-     * @param string $a_new_type
-     * @return array
-     */
     protected function initCreationForms(string $a_new_type) : array
     {
         global $DIC;
@@ -90,10 +86,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         return $forms;
     }
 
-    /**
-     * @param string $a_new_type
-     * @return ilLTIConsumerProviderSelectionFormTableGUI
-     */
     protected function initCreateForm(string $a_new_type) : \ilLTIConsumerProviderSelectionFormTableGUI
     {
         global $DIC;
@@ -330,8 +322,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     }
 
     /**
-     * @param string|null $a_sub_type
-     * @param int|null    $a_sub_id
      * @return ilObjectListGUI
      * @throws ilCtrlException
      */
@@ -839,12 +829,23 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $returnUrl
         );
 
-        $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("launch") . '" />';
         $target = $this->object->getLaunchMethod() == "newWin" ? "_blank" : "_self";
-
-        $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getProviderUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
-        foreach ($launchParameters as $field => $value) {
-            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', $field, $value) . "\n";
+        $button = '<input class="btn btn-default ilPre" type="button" onClick="ltilaunch()" value = "' . $this->lng->txt("launch") . '" />';
+        $output = '';
+        if ($this->object->getProvider()->getLtiVersion() == "LTI-1p0") {
+            $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getProviderUrl() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
+            foreach ($launchParameters as $field => $value) {
+                $output .= sprintf('<input type="hidden" name="%s" value="%s" />', $field, $value) . "\n";
+            }
+        } else {
+            ilSession::set('lti_message_hint', (string) $this->object->getRefId());
+            $output = '<form id="lti_launch_form" name="lti_launch_form" action="' . $this->object->getProvider()->getInitiateLogin() . '" method="post" target="' . $target . '" encType="application/x-www-form-urlencoded">';
+            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'iss', ILIAS_HTTP_PATH) . "\n";
+            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'target_link_uri', $this->object->getProvider()->getProviderUrl()) . "\n";
+            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'login_hint', $user_ident) . "\n";
+            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lti_message_hint', $this->object->getRefId()) . "\n";
+            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'client_id', $this->object->getProvider()->getClientId()) . "\n";
+            $output .= sprintf('<input type="hidden" name="%s" value="%s" />', 'lti_deployment_id', $this->object->getProvider()->getId()) . "\n";
         }
         $output .= $button;
         $output .= '</form>';
@@ -870,7 +871,6 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
     }
 
     /**
-     * @param string $key
      * @param mixed  $default
      * @return mixed|null
      */

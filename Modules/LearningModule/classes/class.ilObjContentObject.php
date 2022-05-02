@@ -383,11 +383,6 @@ class ilObjContentObject extends ilObject
         }
         // create Export subdirectory (data_dir/lm_data/lm_<id>/Export)
         switch ($a_type) {
-            // scorm
-            case "scorm":
-                $export_dir = $lm_dir . "/export_scorm";
-                break;
-
             default:		// = xml
                 if (substr($a_type, 0, 4) == "html") {
                     $export_dir = $lm_dir . "/export_" . $a_type;
@@ -407,10 +402,6 @@ class ilObjContentObject extends ilObject
         string $a_type = "xml"
     ) : string {
         switch ($a_type) {
-            case "scorm":
-                $export_dir = ilFileUtils::getDataDir() . "/lm_data" . "/lm_" . $this->getId() . "/export_scorm";
-                break;
-                
             default:			// = xml
                 if (substr($a_type, 0, 4) == "html") {
                     $export_dir = ilFileUtils::getDataDir() . "/lm_data" . "/lm_" . $this->getId() . "/export_" . $a_type;
@@ -912,7 +903,6 @@ class ilObjContentObject extends ilObject
         $this->setPublicAccessMode($lm_rec["public_access_mode"]);
         $this->setPublicExportFile("xml", (string) $lm_rec["public_xml_file"]);
         $this->setPublicExportFile("html", (string) $lm_rec["public_html_file"]);
-        $this->setPublicExportFile("scorm", (string) $lm_rec["public_scorm_file"]);
         $this->setLayoutPerPage((bool) $lm_rec["layout_per_page"]);
         $this->setRating($lm_rec["rating"]);
         $this->setRatingPages($lm_rec["rating_pages"]);
@@ -952,7 +942,6 @@ class ilObjContentObject extends ilObject
             " public_access_mode = " . $ilDB->quote($this->getPublicAccessMode(), "text") . "," .
             " public_xml_file = " . $ilDB->quote($this->getPublicExportFile("xml"), "text") . "," .
             " public_html_file = " . $ilDB->quote($this->getPublicExportFile("html"), "text") . "," .
-            " public_scorm_file = " . $ilDB->quote($this->getPublicExportFile("scorm"), "text") . "," .
             " header_page = " . $ilDB->quote($this->getHeaderPage(), "integer") . "," .
             " footer_page = " . $ilDB->quote($this->getFooterPage(), "integer") . "," .
             " lm_menu_active = " . $ilDB->quote(ilUtil::tf2yn($this->isActiveLMMenu()), "text") . ", " .
@@ -1650,7 +1639,7 @@ class ilObjContentObject extends ilObject
     {
         $file = array();
         
-        $types = array("xml", "html", "scorm");
+        $types = array("xml", "html");
         
         foreach ($types as $type) {
             $dir = $this->getExportDirectory($type);
@@ -2220,10 +2209,10 @@ class ilObjContentObject extends ilObject
         int $a_id,
         bool $a_as_obj_id = false
     ) : bool {
-        if (!$a_as_obj_id && $a_id > 0 && $a_id == OH_REF_ID) {
+        if (!$a_as_obj_id && $a_id > 0 && $a_id === (int) OH_REF_ID) {
             return true;
         }
-        if ($a_as_obj_id && $a_id > 0 && $a_id == ilObject::_lookupObjId(OH_REF_ID)) {
+        if ($a_as_obj_id && $a_id > 0 && $a_id === ilObject::_lookupObjId((int) OH_REF_ID)) {
             return true;
         }
         return false;
@@ -2295,7 +2284,7 @@ class ilObjContentObject extends ilObject
      */
     public function getPublicExportFiles() : array
     {
-        $dirs = array("xml", "scorm");
+        $dirs = array("xml");
         $export_files = array();
 
         $ot = ilObjectTranslation::getInstance($this->getId());

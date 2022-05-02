@@ -26,13 +26,14 @@ use ILIAS\Skill\Service\SkillAdminGUIRequest;
  */
 class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
 {
-    /**
-     * @var object|string
-     */
-    protected $select_gui = "";
+    protected string $select_gui = "";
     protected string $select_cmd = "";
     protected string $select_par = "";
     protected SkillAdminGUIRequest $admin_gui_request;
+
+    /**
+     * @var string[]
+     */
     protected array $requested_selected_ids = [];
 
     public function __construct(

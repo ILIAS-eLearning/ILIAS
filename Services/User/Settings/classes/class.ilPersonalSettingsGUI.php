@@ -442,7 +442,7 @@ class ilPersonalSettingsGUI
 
         // help tooltips
         $module_id = (int) $ilSetting->get("help_module");
-        if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de" &&
+        if (((int) OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de" &&
             $ilSetting->get("help_mode") != "1") {
             $this->lng->loadLanguageModule("help");
             $cb = new ilCheckboxInputGUI($this->lng->txt("help_toggle_tooltips"), "help_tooltips");
@@ -660,7 +660,7 @@ class ilPersonalSettingsGUI
 
             // help tooltips
             $module_id = (int) $ilSetting->get("help_module");
-            if ((OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de" &&
+            if (((int) OH_REF_ID > 0 || $module_id > 0) && $ilUser->getLanguage() == "de" &&
                 $ilSetting->get("help_mode") != "1") {
                 $ilUser->setPref("hide_help_tt", (int) !$this->form->getInput("help_tooltips"));
             }

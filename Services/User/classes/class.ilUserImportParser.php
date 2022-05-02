@@ -57,7 +57,7 @@ class ilUserImportParser extends ilSaxParser
     protected array $prefs; // Missing array type.
     protected string $current_role_action;
     protected string $current_role_type;
-    protected ?int $current_role_id = null;
+    protected string $current_role_id = "";
     protected string $cdata;
     protected array $role_assign; // Missing array type.
     protected string $req_send_mail;
@@ -168,9 +168,9 @@ class ilUserImportParser extends ilSaxParser
      */
     public int $error_level;
 
-    public string $currPasswordType;
-    public string $currPassword;
-    public ?int $currActive = null;
+    public ?string $currPasswordType;
+    public ?string $currPassword;
+    public ?string $currActive = null;
     public int $userCount;
     public array $user_mapping = []; // Missing array type.
     public int $mapping_mode;
@@ -408,7 +408,7 @@ class ilUserImportParser extends ilSaxParser
                     $this->current_role_id = $internal_id;
                 }
                 $this->current_role_type = $a_attribs["Type"];
-                $this->current_role_action = (is_null($a_attribs["Action"])) ? "Assign" : $a_attribs["Action"];
+                $this->current_role_action = (!isset($a_attribs["Action"])) ? "Assign" : $a_attribs["Action"];
                 break;
 
             case "PersonalPicture":
@@ -568,7 +568,7 @@ class ilUserImportParser extends ilSaxParser
                 && $this->current_role_type !== 'Local') {
                     $this->logFailure($this->userObj->getLogin(), sprintf($lng->txt("usrimport_xml_attribute_missing"), "Role", "Type"));
                 }
-                $this->current_role_action = (is_null($a_attribs["Action"])) ? "Assign" : $a_attribs["Action"];
+                $this->current_role_action = (!isset($a_attribs["Action"])) ? "Assign" : $a_attribs["Action"];
                 if ($this->current_role_action !== "Assign"
                 && $this->current_role_action !== "AssignWithParents"
                 && $this->current_role_action !== "Detach") {
@@ -1024,7 +1024,7 @@ class ilUserImportParser extends ilSaxParser
 
                                     case "PLAIN":
                                         $this->userObj->setPasswd($this->currPassword, ilObjUser::PASSWD_PLAIN);
-                                        $this->acc_mail->setUserPassword($this->currPassword);
+                                        $this->acc_mail->setUserPassword((string) $this->currPassword);
                                         break;
 
                                     default:
@@ -1161,7 +1161,7 @@ class ilUserImportParser extends ilSaxParser
 
                                     case "PLAIN":
                                         $updateUser->setPasswd($this->currPassword, ilObjUser::PASSWD_PLAIN);
-                                        $this->acc_mail->setUserPassword($this->currPassword);
+                                        $this->acc_mail->setUserPassword((string) $this->currPassword);
                                         break;
 
                                     default:
@@ -1740,7 +1740,7 @@ class ilUserImportParser extends ilSaxParser
 
                     case "PLAIN":
                         $this->userObj->setPasswd($this->cdata, ilObjUser::PASSWD_PLAIN);
-                        $this->acc_mail->setUserPassword($this->currPassword);
+                        $this->acc_mail->setUserPassword((string) $this->currPassword);
                         break;
 
                     default:

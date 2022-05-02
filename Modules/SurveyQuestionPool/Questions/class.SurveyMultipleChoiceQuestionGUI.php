@@ -81,7 +81,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
         
         // values
         $orientation->setValue($this->object->getOrientation());
-        $minanswers->setChecked($this->object->use_min_answers);
+        $minanswers->setChecked((bool) $this->object->use_min_answers);
         $nranswers->setValue($this->object->nr_min_answers);
         $nrmaxanswers->setValue($this->object->nr_max_answers);
         if (!$this->object->getCategories()->getCategoryCount()) {

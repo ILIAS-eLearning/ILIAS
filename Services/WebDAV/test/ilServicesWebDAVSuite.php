@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -31,7 +31,7 @@ require_once __DIR__ . "/../../../libs/composer/vendor/autoload.php";
  */
 class ilServicesWebDAVSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : ilServicesWebDAVSuite
     {
         $suite = new ilServicesWebDAVSuite();
         

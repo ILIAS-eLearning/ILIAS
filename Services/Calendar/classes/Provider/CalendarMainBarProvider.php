@@ -1,4 +1,6 @@
-<?php namespace ILIAS\Calendar\Provider;
+<?php
+
+namespace ILIAS\Calendar\Provider;
 
 use ilCalendarSettings;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;

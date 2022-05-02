@@ -43,8 +43,10 @@ class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObj
     {
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_id = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_ID);
-        return $ini->readVariable('clients',
-                'datadir') . '/' . $client_id . '/' . $this->base_dir;
+        return $ini->readVariable(
+            'clients',
+            'datadir'
+        ) . '/' . $client_id . '/' . $this->base_dir;
     }
 
     /**
@@ -98,5 +100,4 @@ class ilStorageContainersExistingObjective extends Objective\DirectoryCreatedObj
         }
         return false;
     }
-
 }

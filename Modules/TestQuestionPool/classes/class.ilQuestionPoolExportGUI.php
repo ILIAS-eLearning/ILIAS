@@ -26,9 +26,13 @@ class ilQuestionPoolExportGUI extends ilExportGUI
      */
     public function download() : void
     {
+        // @MBECKER Check if this is still needed.
+        /*
         if (isset($_GET['file']) && $_GET['file']) {
             $_POST['file'] = array($_GET['file']);
         }
+        // If not, remove the whole overwrite.
+        */
         parent::download();
     }
 }

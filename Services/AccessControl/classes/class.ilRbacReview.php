@@ -1320,4 +1320,39 @@ class ilRbacReview
         self::$is_assigned_cache = array();
         self::$assigned_users_cache = array();
     }
+
+    public static function _getCustomRBACOperationId(string $operation) : ?int
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+
+        $sql =
+            "SELECT ops_id" . PHP_EOL
+            ."FROM rbac_operations" . PHP_EOL
+            ."WHERE operation = " . $ilDB->quote($operation, "text") . PHP_EOL
+        ;
+
+        $res = $ilDB->query($sql);
+        if ($ilDB->numRows($res) == 0) {
+            return null;
+        }
+
+        $row = $ilDB->fetchAssoc($res);
+        return (int) $row["ops_id"] ?? null;
+    }
+
+    public static function _isRBACOperation(int $type_id, int $ops_id) : bool
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+
+        $sql =
+            "SELECT typ_id" . PHP_EOL
+            ."FROM rbac_ta" . PHP_EOL
+            ."WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
+            ."AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
+        ;
+
+        return (bool) $ilDB->numRows($ilDB->query($sql));
+    }
 } // END class.ilRbacReview

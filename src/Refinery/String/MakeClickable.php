@@ -27,7 +27,21 @@ class MakeClickable implements Transformation
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
-
+    
+    const PATTERN = '(^|[^[:alnum:]])(((https?:\/\/)|(www.))[^[:cntrl:][:space:]<>\'"]+)([^[:alnum:]]|$)';
+    
+    protected function determineParameters() : array
+    {
+        if (function_exists('mb_ereg')) {
+            $matcher = 'mb_ereg';
+            $pattern = self::PATTERN;
+        } else {
+            $matcher = 'preg_match';
+            $pattern = '@' . self::PATTERN . '@';
+        }
+        return [$matcher, $pattern];
+    }
+    
     /**
      * @inheritDoc
      */
@@ -38,15 +52,27 @@ class MakeClickable implements Transformation
         $endOfMatch = 0;
         $stringParts = [];
         $matches = [];
-        while (1 === preg_match('@(^|[^[:alnum:]])(((https?://)|(www.))[^[:cntrl:][:space:]<>\'"]+)([^[:alnum:]]|$)@', substr($from, $endOfMatch), $matches)) {
+        [$matcher, $pattern] = $this->determineParameters();
+    
+        $checker = function ()  use($matcher, $pattern, &$from, &$endOfMatch, &$matches) : bool {
+           $r = call_user_func_array($matcher, [$pattern, substr($from, $endOfMatch), &$matches]);
+           return $r === true || $r >>= 1; // since the return value differs in PHP7.4/8 and in preg_match/mb_ereg
+        };
+        
+        while ($checker()) {
             $oldIndex = $endOfMatch;
             $endOfMatch += strpos(substr($from, $endOfMatch), $matches[0]);
             $stringParts[] = substr($from, $oldIndex, $endOfMatch - $oldIndex);
             $startOfMatch = $endOfMatch;
             $endOfMatch += strlen($matches[1] . $matches[2]);
             if ($this->shouldReplace($from, $startOfMatch, $endOfMatch)) {
-                $maybeProtocol = '' === $matches[4] ? 'https://' : '';
-                $stringParts[] = sprintf('%s<a href="%s">%s</a>', $matches[1], $maybeProtocol . $matches[2], $matches[2]);
+                $maybeProtocol = ('' === $matches[4] || false === $matches[4]) ? 'https://' : '';
+                $stringParts[] = sprintf(
+                    '%s<a href="%s">%s</a>',
+                    $matches[1],
+                    $maybeProtocol . $matches[2],
+                    $matches[2]
+                );
                 continue;
             }
             $stringParts[] = $matches[1] . $matches[2];

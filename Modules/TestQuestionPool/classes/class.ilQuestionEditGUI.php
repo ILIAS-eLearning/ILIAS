@@ -28,16 +28,16 @@ class ilQuestionEditGUI
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        
-        if ($_GET["qpool_ref_id"]) {
-            $this->setPoolRefId($_GET["qpool_ref_id"]);
-        } elseif ($_GET["qpool_obj_id"]) {
-            $this->setPoolObjId($_GET["qpool_obj_id"]);
-        }
         $this->request = $DIC->testQuestionPool()->internal()->request();
+        $lng = $DIC['lng'];
+
+        if ($this->request->raw("qpool_ref_id")) {
+            $this->setPoolRefId($this->request->raw("qpool_ref_id"));
+        } elseif ($this->request->raw("qpool_obj_id")) {
+            $this->setPoolObjId($this->request->raw("qpool_obj_id"));
+        }
         $this->setQuestionId($this->request->getQuestionId());
-        $this->setQuestionType($_GET["q_type"]);
+        $this->setQuestionType($this->request->raw("q_type"));
         $lng->loadLanguageModule("assessment");
         
         $ilCtrl->saveParameter($this, array("qpool_ref_id", "qpool_obj_id", "q_id", "q_type"));

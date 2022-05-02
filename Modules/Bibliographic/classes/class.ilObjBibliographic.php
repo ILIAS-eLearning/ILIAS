@@ -104,8 +104,9 @@ class ilObjBibliographic extends ilObject2
 
     /**
      * Create object
-     */
-    protected function doCreate() : void
+     *
+     * @param bool $clone_mode*/
+    protected function doCreate(bool $clone_mode = false) : void
     {
         global $DIC;
 
@@ -307,15 +308,8 @@ class ilObjBibliographic extends ilObject2
 
         return $instance->getId();
     }
-
-    /**
-     * Clone BIBL
-     * @param ilObjBibliographic $new_obj
-     * @param int                $a_target_id
-     * @param int                $a_copy_id copy id
-     * @param bool               $a_copy_id copy id
-     */
-    public function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, $a_omit_tree = false) : \ilObjBibliographic
+    
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
     {
         assert($new_obj instanceof ilObjBibliographic);
         //copy online status if object is not the root copy object
@@ -326,10 +320,7 @@ class ilObjBibliographic extends ilObject2
         }
 
         $new_obj->cloneStructure($this->getId());
-
         $new_obj->parseFileToDatabase();
-
-        return $new_obj;
     }
 
     /**

@@ -77,7 +77,7 @@ class ilDateList implements Iterator
     /**
      * @inheritDoc
      */
-    public function valid()
+    public function valid() : bool
     {
         return $this->current() !== false;
     }

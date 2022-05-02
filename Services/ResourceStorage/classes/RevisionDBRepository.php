@@ -95,9 +95,11 @@ class RevisionDBRepository implements RevisionRepository
     public function store(Revision $revision) : void
     {
         $rid = $revision->getIdentification()->serialize();
-        $r = $this->db->queryF("SELECT " . self::IDENTIFICATION . " FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s AND version_number = %s",
+        $r = $this->db->queryF(
+            "SELECT " . self::IDENTIFICATION . " FROM " . self::TABLE_NAME . " WHERE " . self::IDENTIFICATION . " = %s AND version_number = %s",
             ['text', 'integer'],
-            [$rid, $revision->getVersionNumber()]);
+            [$rid, $revision->getVersionNumber()]
+        );
 
         if ($r->numRows() > 0) {
             // UPDATE
@@ -177,8 +179,12 @@ class RevisionDBRepository implements RevisionRepository
     public function preload(array $identification_strings) : void
     {
         $r = $this->db->query(
-            "SELECT * FROM " . self::TABLE_NAME . " WHERE " . $this->db->in(self::IDENTIFICATION,
-                $identification_strings, false, 'text')
+            "SELECT * FROM " . self::TABLE_NAME . " WHERE " . $this->db->in(
+                self::IDENTIFICATION,
+                $identification_strings,
+                false,
+                'text'
+            )
         );
         while ($d = $this->db->fetchAssoc($r)) {
             $this->populateFromArray($d);
@@ -193,5 +199,4 @@ class RevisionDBRepository implements RevisionRepository
         $revision->setTitle((string) $data['title']);
         $this->cache[$data['rid']][(int) $data['version_number']] = $revision;
     }
-
 }

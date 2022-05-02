@@ -26,6 +26,9 @@ class ilWebDAVObjFactory
 {
     use ilWebDAVCheckValidTitleTrait;
     
+    /**
+     * @var string[]
+     */
     private array $davable_object_types = [
         'cat',
         'crs',

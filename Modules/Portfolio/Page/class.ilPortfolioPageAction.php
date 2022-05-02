@@ -37,7 +37,7 @@ class ilPortfolioPageAction
     {
         $pages = ilPortfolioPage::getPagesForBlog($a_blog_id);
         foreach ($pages as $page) {
-            if (ilObject::_lookupOwner($page->getPortfolioId()) == $this->actor->getId()) {
+            if (ilObject::_lookupOwner($page->getPortfolioId()) === $this->actor->getId()) {
                 $page->delete();
             }
         }

@@ -53,7 +53,7 @@ class ilPCAMDForm extends ilPageContent
 
     protected function isTemplate() : bool
     {
-        return ($this->getPage()->getParentType() == "prtt");
+        return ($this->getPage()->getParentType() === "prtt");
     }
 
     public function create(
@@ -133,11 +133,11 @@ class ilPCAMDForm extends ilPageContent
                 $nodes = $xpath->query("//AMDForm");
                 foreach ($nodes as $node) {
                     $old_ids = explode(",", (string) $node->getAttribute("RecordIds"));
-                    $new_ids = array_map(function ($i) use ($mappings, $key) {
+                    $new_ids = array_map(static function ($i) use ($mappings, $key) {
                         return $mappings[$key][(int) $i];
                     }, $old_ids);
                     $new_ids = implode(",", $new_ids);
-                    if ($new_ids != "") {
+                    if ($new_ids !== "") {
                         $node->setAttribute("RecordIds", $new_ids);
                     }
                 }

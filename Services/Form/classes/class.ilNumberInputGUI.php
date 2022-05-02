@@ -120,7 +120,7 @@ class ilNumberInputGUI extends ilSubEnabledFormPropertyGUI
 
     public function setValueByArray(array $a_values) : void
     {
-        $this->setValue($a_values[$this->getPostVar()] ?? "");
+        $this->setValue((string) ($a_values[$this->getPostVar()] ?? ""));
     }
 
     public function getSize() : int

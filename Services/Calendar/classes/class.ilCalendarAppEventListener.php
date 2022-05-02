@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php /** @noinspection ALL */
+declare(strict_types=1);
 /*
         +-----------------------------------------------------------------------------+
         | ILIAS open source                                                           |
@@ -76,10 +77,8 @@ class ilCalendarAppEventListener implements ilAppEventListener
             case 'Services/Booking':
                 switch ($a_event) {
                     case 'create':
-                        break;
-                    case 'update':
-                        break;
                     case 'delete':
+                    case 'update':
                         break;
                 }
                 break;
@@ -135,7 +134,6 @@ class ilCalendarAppEventListener implements ilAppEventListener
         if ($a_check_existing &&
             ilCalendarCategory::_getInstanceByObjId($a_obj->getId())) {
             return self::updateCategory($a_obj);
-
         }
         $cat = new ilCalendarCategory();
         $cat->setTitle($a_obj->getTitle() ? $a_obj->getTitle() : $lng->txt('obj_' . $a_obj->getType()));

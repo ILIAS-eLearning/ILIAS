@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilMailAutoCompleteRecipientProvider
@@ -8,7 +23,7 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
 {
     protected ilDBInterface $db;
     protected ?ilDBStatement $res = null;
-    /** @var null|array{login: string, firstname: string, lastname: string} */
+    /** @var null|array{login?: string, firstname?: string, lastname?: string} */
     protected ?array $data = null;
     protected string $quoted_term ;
     protected string $term = '';

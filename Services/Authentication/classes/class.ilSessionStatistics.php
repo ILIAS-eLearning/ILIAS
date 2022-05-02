@@ -19,7 +19,7 @@
 */
 class ilSessionStatistics
 {
-    const SLOT_SIZE = 15;
+    private const SLOT_SIZE = 15;
     
     /**
      * Is session statistics active at all?
@@ -36,7 +36,7 @@ class ilSessionStatistics
     /**
      * Create raw data entry
      */
-    public static function createRawEntry(string $a_session_id, int $a_session_type, int $a_timestamp, int $a_user_id)
+    public static function createRawEntry(string $a_session_id, int $a_session_type, int $a_timestamp, int $a_user_id) : void
     {
         global $DIC;
 
@@ -69,7 +69,7 @@ class ilSessionStatistics
      * @param int $a_context
      * @param int|bool $a_expired_at
      */
-    public static function closeRawEntry($a_session_id, ?int $a_context = null, $a_expired_at = null)
+    public static function closeRawEntry($a_session_id, ?int $a_context = null, $a_expired_at = null) : void
     {
         global $DIC;
 
@@ -268,7 +268,7 @@ class ilSessionStatistics
      * Aggregate statistics data for one slot
      *
      */
-    public static function aggregateRawHelper(int $a_begin, int $a_end)
+    public static function aggregateRawHelper(int $a_begin, int $a_end) : void
     {
         global $DIC;
 
@@ -301,7 +301,7 @@ class ilSessionStatistics
             }
             // session closed
             if ($item["end_time"] && $item["end_time"] <= $a_end) {
-                if (in_array($item["end_context"], $separate_closed)) {
+                if (in_array($item["end_context"], $separate_closed, true)) {
                     $closed_counter[$item["end_context"]]++;
                 } else {
                     $closed_counter[0]++;
@@ -315,7 +315,7 @@ class ilSessionStatistics
         $active_end = $active_min = $active_max = $active_avg = $active_begin;
         
         // parsing events / building avergages
-        if (sizeof($events)) {
+        if (count($events)) {
             $last_update_avg = $a_begin - 1;
             $slot_seconds = self::SLOT_SIZE * 60;
             $active_avg = 0;
@@ -350,8 +350,7 @@ class ilSessionStatistics
                 $active_avg += $diff / $slot_seconds * $active_end;
                 $last_update_avg = $ts;
             }
-            unset($actions);
-            
+
             // add up to end of slot if needed
             if ($last_update_avg < $a_end) {
                 $diff = $a_end - $last_update_avg;
@@ -396,7 +395,7 @@ class ilSessionStatistics
      *
      * @param integer $a_now
      */
-    protected static function deleteAggregatedRaw($a_now)
+    protected static function deleteAggregatedRaw($a_now) : void
     {
         global $DIC;
 
@@ -428,6 +427,7 @@ class ilSessionStatistics
         if ($row["latest"]) {
             return $row["latest"];
         }
+        //TODO check if return null as timestamp causes issues
         return null;
     }
     
@@ -452,17 +452,14 @@ class ilSessionStatistics
         if ($row["dur"]) {
             return $row["dur"];
         }
+        //TODO check if return null as timestamp causes issues
         return null;
     }
     
     /**
      * Get session counters by type (opened, closed)
-     *
-     * @param int $a_from
-     * @param int $a_to
-     * @return array
      */
-    public static function getNumberOfSessionsByType($a_from, $a_to)
+    public static function getNumberOfSessionsByType(int $a_from, int $a_to) : array
     {
         global $DIC;
 
@@ -481,12 +478,8 @@ class ilSessionStatistics
     
     /**
      * Get active sessions aggregated data
-     *
-     * @param int $a_from
-     * @param int $a_to
-     * @return array
      */
-    public static function getActiveSessions($a_from, $a_to)
+    public static function getActiveSessions(int $a_from, int $a_to) : array
     {
         global $DIC;
 
@@ -508,8 +501,6 @@ class ilSessionStatistics
     
     /**
      * Get timestamp of last aggregation
-     *
-     * @return ?int timestamp
      */
     public static function getLastAggregation() : ?int
     {
@@ -523,6 +514,7 @@ class ilSessionStatistics
         if ($row["latest"]) {
             return $row["latest"];
         }
+        //TODO check if return null as timestamp causes issues
         return null;
     }
     
@@ -545,17 +537,15 @@ class ilSessionStatistics
         $val = $ilDB->fetchAssoc($res);
         if (isset($val["maxval"]) && $val["maxval"]) {
             return (int) $val["maxval"];
-        } else {
-            return (int) $ilSetting->get("session_max_count", (string) ilSessionControl::DEFAULT_MAX_COUNT);
         }
+
+        return (int) $ilSetting->get("session_max_count", (string) ilSessionControl::DEFAULT_MAX_COUNT);
     }
     
     /**
      * Log max session setting
-     *
-     * @param int $a_new_value
      */
-    public static function updateLimitLog($a_new_value)
+    public static function updateLimitLog(int $a_new_value) : void
     {
         global $DIC;
 
@@ -563,10 +553,10 @@ class ilSessionStatistics
         $ilSetting = $DIC['ilSetting'];
         $ilUser = $DIC['ilUser'];
         
-        $new_value = (int) $a_new_value;
+        $new_value = $a_new_value;
         $old_value = (int) $ilSetting->get("session_max_count", (string) ilSessionControl::DEFAULT_MAX_COUNT);
         
-        if ($new_value != $old_value) {
+        if ($new_value !== $old_value) {
             $fields = array(
                 "tstamp" => array("timestamp", time()),
                 "maxval" => array("integer", $new_value),

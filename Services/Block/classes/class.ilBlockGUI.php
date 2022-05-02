@@ -16,6 +16,9 @@
  *
  *********************************************************************/
 
+use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
+
 /**
  * This class represents a block method of a block.
  *
@@ -38,6 +41,7 @@ abstract class ilBlockGUI
     protected object $gui_object;
     protected \ILIAS\Block\StandardGUIRequest $request;
     protected \ILIAS\Block\BlockManager $block_manager;
+    private \ILIAS\HTTP\GlobalHttpState $http;
 
     protected bool $repositorymode = false;
     protected \ILIAS\DI\UIServices $ui;
@@ -627,7 +631,7 @@ abstract class ilBlockGUI
     //
 
     // temporary flag
-    protected $new_rendering = false;
+    protected bool $new_rendering = false;
 
 
     /**
@@ -951,8 +955,7 @@ abstract class ilBlockGUI
 
 
         if ($ctrl->isAsynch()) {
-            echo $html;
-            exit;
+            $this->send($html);
         } else {
             // return incl. wrapping div with id
             $html = '<div id="' . "block_" . $this->getBlockType() . "_" . $this->block_id . '">' .
@@ -960,6 +963,19 @@ abstract class ilBlockGUI
         }
 
         return $html;
+    }
+
+    /**
+     * Send
+     * @throws ResponseSendingException
+     */
+    protected function send(string $output) : void
+    {
+        $this->http->saveResponse($this->http->response()->withBody(
+            Streams::ofString($output)
+        ));
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     public function getNoItemFoundContent() : string

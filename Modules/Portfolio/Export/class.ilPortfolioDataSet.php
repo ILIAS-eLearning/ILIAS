@@ -33,14 +33,14 @@ class ilPortfolioDataSet extends ilDataSet
         return array("4.4.0", "5.0.0");
     }
     
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "https://www.ilias.de/xml/Modules/Portfolio/" . $a_entity;
     }
     
     protected function getTypes(string $a_entity, string $a_version) : array
     {
-        if ($a_entity == "prtt") {
+        if ($a_entity === "prtt") {
             switch ($a_version) {
                 case "4.4.0":
                 case "5.0.0":
@@ -58,7 +58,7 @@ class ilPortfolioDataSet extends ilDataSet
             }
         }
         
-        if ($a_entity == "portfolio_page") {
+        if ($a_entity === "portfolio_page") {
             switch ($a_version) {
                 case "4.4.0":
                 case "5.0.0":
@@ -82,7 +82,7 @@ class ilPortfolioDataSet extends ilDataSet
             $a_ids = array($a_ids);
         }
         
-        if ($a_entity == "prtt") {
+        if ($a_entity === "prtt") {
             switch ($a_version) {
                 case "4.4.0":
                     $this->getDirectDataFromQuery("SELECT prtf.id,od.title,od.description," .
@@ -104,7 +104,7 @@ class ilPortfolioDataSet extends ilDataSet
             }
         }
         
-        if ($a_entity == "portfolio_page") {
+        if ($a_entity === "portfolio_page") {
             switch ($a_version) {
                 case "4.4.0":
                 case "5.0.0":
@@ -122,11 +122,10 @@ class ilPortfolioDataSet extends ilDataSet
         ?array $a_rec = null,
         ?array $a_ids = null
     ) : array {
-        switch ($a_entity) {
-            case "prtt":
-                return array(
-                    "portfolio_page" => array("ids" => $a_rec["Id"])
-                );
+        if ($a_entity === "prtt") {
+            return array(
+                "portfolio_page" => array("ids" => $a_rec["Id"])
+            );
         }
         return [];
     }
@@ -136,7 +135,7 @@ class ilPortfolioDataSet extends ilDataSet
         string $a_version,
         array $a_set
     ) : array {
-        if ($a_entity == "prtt") {
+        if ($a_entity === "prtt") {
             $dir = ilObjPortfolioTemplate::initStorage($a_set["Id"]);
             $a_set["Dir"] = $dir;
             
@@ -176,7 +175,7 @@ class ilPortfolioDataSet extends ilDataSet
                 // handle image(s)
                 if ($a_rec["Img"]) {
                     $dir = str_replace("..", "", $a_rec["Dir"]);
-                    if ($dir != "" && $this->getImportDirectory() != "") {
+                    if ($dir !== "" && $this->getImportDirectory() !== "") {
                         $source_dir = $this->getImportDirectory() . "/" . $dir;
                         $target_dir = ilObjPortfolioTemplate::initStorage($newObj->getId());
                         ilFileUtils::rCopy($source_dir, $target_dir);

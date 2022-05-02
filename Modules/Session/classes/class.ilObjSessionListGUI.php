@@ -27,7 +27,7 @@
 */
 class ilObjSessionListGUI extends ilObjectListGUI
 {
-    public ilCtrl $ctrl;
+    protected ilCtrlInterface $ctrl;
     protected ilLanguage $lng;
     protected array $app_info = [];
     protected bool $subitems_enabled = false;

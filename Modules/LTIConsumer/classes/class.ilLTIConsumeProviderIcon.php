@@ -45,8 +45,6 @@ class ilLTIConsumeProviderIcon
     
     /**
      * ilLTIConsumeProviderIcon constructor.
-     * @param int $providerId
-     * @param string $filename
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
     public function __construct(int $providerId, string $filename = '')
@@ -64,33 +62,21 @@ class ilLTIConsumeProviderIcon
         return "{$this->providerId}.{$fileExtension}";
     }
     
-    /**
-     * @return string
-     */
     public function getFilename() : string
     {
         return $this->filename;
     }
     
-    /**
-     * @param string $filename
-     */
     public function setFilename(string $filename) : void
     {
         $this->filename = $filename;
     }
     
-    /**
-     * @return string
-     */
     public function getRelativeDirectory() : string
     {
         return implode(DIRECTORY_SEPARATOR, self::$RELATIVE_DIRECTORY_PATH);
     }
     
-    /**
-     * @return string
-     */
     public function getRelativeFilePath() : string
     {
         return implode(DIRECTORY_SEPARATOR, [
@@ -98,9 +84,6 @@ class ilLTIConsumeProviderIcon
         ]);
     }
     
-    /**
-     * @return string
-     */
     public function getAbsoluteFilePath() : string
     {
         return implode(DIRECTORY_SEPARATOR, [
@@ -120,14 +103,11 @@ class ilLTIConsumeProviderIcon
         }
     }
     
-    /**
-     * @return bool
-     */
     public function exists() : bool
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        if (!strlen($this->getFilename())) {
+        if ($this->getFilename() === '') {
             return false;
         }
         
@@ -169,7 +149,6 @@ class ilLTIConsumeProviderIcon
     }
     
     /**
-     * @param string $uploadFile
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
@@ -209,7 +188,6 @@ class ilLTIConsumeProviderIcon
     }
     
     /**
-     * @param ilImageFileInputGUI $fileInput
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
@@ -223,17 +201,14 @@ class ilLTIConsumeProviderIcon
         }
         
         // ilImageFileInputGUI does NOT come with a set value that could be fetched with
-        // $fileInput->getValue(). Instead ilImageFileInputGUI provides upload info in $_POST.
-        $fileData = $DIC->http()->wrapper()->post()->retrieve($fileInput->getPostVar(), $DIC->refinery()->kindlyTo()->string());
+        // ToDo
+//        $fileData = $DIC->http()->wrapper()->post()->retrieve($fileInput->getPostVar(), $DIC->refinery()->kindlyTo()->string());
 
-        if ($fileData['tmp_name']) {
-            $this->save($fileData['tmp_name']);
-        }
+//        if ($fileData['tmp_name']) {
+//            $this->save($fileData['tmp_name']);
+//        }
     }
 
-    /**
-     * @return array
-     */
     public static function getSupportedFileExtensions() : array
     {
         return self::$SUPPORTED_FILE_EXTENSIONS;

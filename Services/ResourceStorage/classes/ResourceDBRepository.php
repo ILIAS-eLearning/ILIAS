@@ -162,5 +162,4 @@ class ResourceDBRepository implements ResourceRepository
         $resource->setStorageID($data['storage_id']);
         $this->cache[$data['rid']] = $resource;
     }
-
 }

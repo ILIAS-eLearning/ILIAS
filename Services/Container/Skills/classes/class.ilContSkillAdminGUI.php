@@ -106,16 +106,20 @@ class ilContSkillAdminGUI
             default:
                 if (
                     ($this->access->checkAccess("write", "", $this->ref_id) &&
-                        in_array($cmd, array("listCompetences", "settings", "saveSettings", "selectSkill",
-                        "saveSelectedSkill", "confirmRemoveSelectedSkill", "removeSelectedSkill",
-                        "listProfiles", "saveSelectedProfile", "confirmRemoveSelectedGlobalProfiles",
-                        "removeSelectedGlobalProfiles", "confirmRemoveSingleGlobalProfile", "removeSingleGlobalProfile",
-                        "confirmDeleteSingleLocalProfile", "deleteSingleLocalProfile",
-                        "confirmDeleteSelectedLocalProfiles", "deleteSelectedLocalProfiles")))
+                        in_array($cmd, [
+                            "listCompetences", "settings", "saveSettings", "selectSkill",
+                            "saveSelectedSkill", "confirmRemoveSelectedSkill", "removeSelectedSkill",
+                            "listProfiles", "saveSelectedProfile", "confirmRemoveSelectedGlobalProfiles",
+                            "removeSelectedGlobalProfiles", "confirmRemoveSingleGlobalProfile", "removeSingleGlobalProfile",
+                            "confirmDeleteSingleLocalProfile", "deleteSingleLocalProfile",
+                            "confirmDeleteSelectedLocalProfiles", "deleteSelectedLocalProfiles"
+                        ]))
                     ||
                     ($this->access->checkAccess("grade", "", $this->ref_id) &&
-                        in_array($cmd, array("listMembers", "assignCompetences",
-                            "saveCompetenceAssignment", "publishAssignments", "deassignCompetencesConfirm", "deassignCompetences")))
+                        in_array($cmd, [
+                            "listMembers", "assignCompetences",
+                            "saveCompetenceAssignment", "publishAssignments", "deassignCompetencesConfirm", "deassignCompetences"
+                        ]))
                 ) {
                     $this->$cmd();
                 }
@@ -167,9 +171,9 @@ class ilContSkillAdminGUI
             $skill = new ilBasicSkill($sk["skill_id"]);
 
             // skill level options
-            $options = array(
+            $options = [
                 "-1" => $this->lng->txt("cont_skill_do_not_set"),
-                );
+            ];
             foreach ($skill->getLevelData() as $l) {
                 $options[$l["id"]] = $l["title"];
             }
@@ -197,7 +201,7 @@ class ilContSkillAdminGUI
         $path = $this->skill_tree_service->getSkillTreePath($a_skill_id, $a_tref_id);
         $titles = [];
         foreach ($path as $v) {
-            if ($v["type"] != "skrt" && !($v["skill_id"] == $a_skill_id && $v["tref_id"] == $a_tref_id)) {
+            if ($v["type"] !== "skrt" && !($v["skill_id"] == $a_skill_id && $v["tref_id"] == $a_tref_id)) {
                 $titles[] = $v["title"];
             }
         }
@@ -224,7 +228,7 @@ class ilContSkillAdminGUI
         $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $this->requested_usr_id);
         $mem_skills->saveLevelForSkills($levels);
 
-        if (!ilContainer::_lookupContainerSetting($this->container->getId(), "cont_skill_publish", 0)) {
+        if (!ilContainer::_lookupContainerSetting($this->container->getId(), "cont_skill_publish", '0')) {
             $mem_skills->publish($this->container->getRefId());
         }
 
@@ -250,10 +254,10 @@ class ilContSkillAdminGUI
             }
         }
 
-        if (count($not_changed) == 0) {
+        if (count($not_changed) === 0) {
             $this->tpl->setOnScreenMessage('success', $lng->txt("cont_skll_published"), true);
         } else {
-            $names = array_map(function ($id) {
+            $names = array_map(static function ($id) {
                 return ilUserUtil::getNamePresentation($id, false, false, "", true);
             }, $not_changed);
             $this->tpl->setOnScreenMessage('info', $lng->txt("cont_skll_published_some_not") . " (" . implode("; ", $names) . ")", true);
@@ -276,7 +280,7 @@ class ilContSkillAdminGUI
             $user_ids[] = $this->requested_usr_id;
         }
 
-        if (!is_array($user_ids) || count($user_ids) == 0) {
+        if (!is_array($user_ids) || count($user_ids) === 0) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("no_checkbox"), true);
             $ctrl->redirect($this, "listMembers");
         } else {
@@ -487,7 +491,7 @@ class ilContSkillAdminGUI
 
         $profile_id = $this->requested_selected_profile_id;
 
-        if (!$profile_id > 0) {
+        if (!($profile_id > 0)) {
             $this->tpl->setOnScreenMessage('info', $lng->txt("cont_skill_no_profile_selected"), true);
             $ctrl->redirect($this, "listProfiles");
         }
@@ -558,7 +562,7 @@ class ilContSkillAdminGUI
 
         $profile_id = (int) $this->params["profile_id"];
 
-        if (!$profile_id > 0) {
+        if (!($profile_id > 0)) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("error_sry_error"), true);
             $ctrl->redirect($this, "listProfiles");
         } else {
@@ -567,7 +571,7 @@ class ilContSkillAdminGUI
             $cgui->setHeaderText($lng->txt("cont_skill_really_remove_profile_from_list"));
             $cgui->setCancel($lng->txt("cancel"), "listProfiles");
             $cgui->setConfirm($lng->txt("remove"), "removeSingleGlobalProfile");
-            $cgui->addItem("", $profile_id, ilSkillProfile::lookupTitle($profile_id));
+            $cgui->addItem("", (string) $profile_id, ilSkillProfile::lookupTitle($profile_id));
 
             $tpl->setContent($cgui->getHTML());
         }
@@ -609,7 +613,7 @@ class ilContSkillAdminGUI
             $cgui->setConfirm($lng->txt("delete"), "deleteSelectedLocalProfiles");
 
             foreach ($this->requested_profile_ids as $i) {
-                if (!ilSkillProfile::lookupRefId($i) > 0) {
+                if (!(ilSkillProfile::lookupRefId($i) > 0)) {
                     $this->tpl->setOnScreenMessage('info', $lng->txt("cont_skill_deletion_not_possible"), true);
                     $ctrl->redirect($this, "listProfiles");
                 }
@@ -649,7 +653,7 @@ class ilContSkillAdminGUI
 
         $profile_id = (int) $this->params["profile_id"];
 
-        if (!$profile_id > 0) {
+        if (!($profile_id > 0)) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("error_sry_error"), true);
             $ctrl->redirect($this, "listProfiles");
         } else {
@@ -658,7 +662,7 @@ class ilContSkillAdminGUI
             $cgui->setHeaderText($lng->txt("cont_skill_really_delete_profile_from_list"));
             $cgui->setCancel($lng->txt("cancel"), "listProfiles");
             $cgui->setConfirm($lng->txt("delete"), "deleteSingleLocalProfile");
-            $cgui->addItem("", $profile_id, ilSkillProfile::lookupTitle($profile_id));
+            $cgui->addItem("", (string) $profile_id, ilSkillProfile::lookupTitle($profile_id));
 
             $tpl->setContent($cgui->getHTML());
         }
@@ -704,12 +708,12 @@ class ilContSkillAdminGUI
 
         // publish
         $radg = new ilRadioGroupInputGUI($lng->txt("cont_skill_publish"), "cont_skill_publish");
-        $op1 = new ilRadioOption($lng->txt("cont_skill_publish_auto"), 0, $lng->txt("cont_skill_publish_auto_info"));
+        $op1 = new ilRadioOption($lng->txt("cont_skill_publish_auto"), '0', $lng->txt("cont_skill_publish_auto_info"));
         $radg->addOption($op1);
-        $op2 = new ilRadioOption($lng->txt("cont_skill_publish_manual"), 1, $lng->txt("cont_skill_publish_manual_info"));
+        $op2 = new ilRadioOption($lng->txt("cont_skill_publish_manual"), '1', $lng->txt("cont_skill_publish_manual_info"));
         $radg->addOption($op2);
         $form->addItem($radg);
-        $radg->setValue(ilContainer::_lookupContainerSetting($this->container->getId(), "cont_skill_publish", 0));
+        $radg->setValue(ilContainer::_lookupContainerSetting($this->container->getId(), "cont_skill_publish", '0'));
 
         $form->addCommandButton("saveSettings", $lng->txt("save"));
 

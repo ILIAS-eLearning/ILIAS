@@ -313,6 +313,9 @@ export default class TableUI {
     const pcModel = pageModel.getPCModel(pageModel.getCurrentPCId());
     const tableModel = this.tableModel;
     const wrapper = this.tinyWrapper;
+    if (tableModel.getCurrentRow() == null) {
+      return;
+    }
     pcModel.content[tableModel.getCurrentRow()][tableModel.getCurrentColumn()] = wrapper.getText();
   }
 

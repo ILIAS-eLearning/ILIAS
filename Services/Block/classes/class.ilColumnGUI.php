@@ -432,14 +432,14 @@ class ilColumnGUI
                 $path = "./" . self::$locations[$gui_class] . "classes/" .
                     "class." . $block_class . ".php";
                 if (file_exists($path)) {
-                    $app_block = new $block_class($block["id"]);
+                    $app_block = new $block_class((int) $block["id"]);
                 } else {
                     // we only need generic block
-                    $app_block = new ilCustomBlock($block["id"]);
+                    $app_block = new ilCustomBlock((int) $block["id"]);
                 }
                 $block_gui->setBlock($app_block);
                 if (isset($block["ref_id"])) {
-                    $block_gui->setRefId($block["ref_id"]);
+                    $block_gui->setRefId((int) $block["ref_id"]);
                 }
             }
 
@@ -563,7 +563,7 @@ class ilColumnGUI
         $this->blocks[IL_COL_RIGHT] = array();
         $this->blocks[IL_COL_CENTER] = array();
         
-        $user_id = ($this->getColType() == "pd")
+        $user_id = ($this->getColType() === "pd")
             ? $ilUser->getId()
             : 0;
 
@@ -646,18 +646,18 @@ class ilColumnGUI
                     }
                     foreach ($rep_items[$block_type] as $item) {
                         $costum_block = new ilCustomBlock();
-                        $costum_block->setContextObjId($item["obj_id"]);
+                        $costum_block->setContextObjId((int) $item["obj_id"]);
                         $costum_block->setContextObjType($block_type);
                         $c_blocks = $costum_block->queryBlocksForContext();
                         $c_block = $c_blocks[0];
                         
                         $type = $block_type;
                         $class = array_search($type, self::$block_types);
-                        $nr = ilBlockSetting::_lookupNr($type, $user_id, $c_block["id"]);
+                        $nr = ilBlockSetting::_lookupNr($type, $user_id, (int) $c_block["id"]);
                         if ($nr === null) {
                             $nr = $def_nr++;
                         }
-                        $side = ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
+                        $side = ilBlockSetting::_lookupSide($type, $user_id, (int) $c_block["id"]);
                         if ($side == false) {
                             $side = IL_COL_RIGHT;
                         }

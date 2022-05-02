@@ -38,7 +38,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());
         $this->app_colors = new ilCalendarAppointmentColors($this->user->getId());
         if ($this->user->getTimeZone()) {
-            $this->timezone = (string) $this->user->getTimeZone();
+            $this->timezone = $this->user->getTimeZone();
         }
     }
 
@@ -86,8 +86,12 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
         $this->tpl->setVariable('NAVIGATION', $navigation->getHTML());
         $this->setUpCalendar();
 
-        $scheduler = new ilCalendarSchedule($this->seed, ilCalendarSchedule::TYPE_WEEK, $this->user->getId(),
-            $this->disable_empty);
+        $scheduler = new ilCalendarSchedule(
+            $this->seed,
+            ilCalendarSchedule::TYPE_WEEK,
+            $this->user->getId(),
+            $this->disable_empty
+        );
         $scheduler->addSubitemCalendars(true);
         $scheduler->calculate();
 
@@ -180,8 +184,10 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
         $this->ctrl->clearParametersByClass('ilcalendarappointmentgui');
         $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'app_id', $a_app['event']->getEntryId());
-        $event_tpl->setVariable('F_APP_EDIT_LINK',
-            $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'edit'));
+        $event_tpl->setVariable(
+            'F_APP_EDIT_LINK',
+            $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'edit')
+        );
 
         if ($event_html_by_plugin = $this->getContentByPlugins($a_app['event'], $a_app['dstart'], $title, $event_tpl)) {
             $event_html = $event_html_by_plugin;
@@ -242,9 +248,9 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
         $this->tpl->setCurrentBlock('day_cell');
 
-        $this->tpl->setVariable('DAY_ID', 'a'.$this->num_appointments);
+        $this->tpl->setVariable('DAY_ID', 'a' . $this->num_appointments);
         $this->tpl->setVariable('TD_ROWSPAN', $a_app['rowspan']);
-        $this->tpl->setVariable('TD_STYLE',$a_app['event']->getPresentationStyle());
+        $this->tpl->setVariable('TD_STYLE', $a_app['event']->getPresentationStyle());
         $this->tpl->setVariable('TD_CLASS', 'calevent il_calevent');
 
         $this->tpl->parseCurrentBlock();
@@ -389,8 +395,10 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
             $this->tpl->setCurrentBlock("new_ms");
             $this->tpl->setVariable('DD_ID', $date->get(IL_CAL_UNIX));
-            $this->tpl->setVariable('DD_TRIGGER',
-                $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add()));
+            $this->tpl->setVariable(
+                'DD_TRIGGER',
+                $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add())
+            );
             $this->tpl->setVariable('URL_DD_NEW_APP', $new_app_url);
             $this->tpl->setVariable('TXT_DD_NEW_APP', $this->lng->txt('cal_new_app'));
             $this->tpl->setVariable('URL_DD_NEW_MS', $new_ms_url);
@@ -507,15 +515,20 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
 
                     $this->ctrl->clearParameterByClass('ilcalendarappointmentgui', 'app_id');
 
-                    $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'idate',
-                        $this->weekdays[$num_day]->get(IL_CAL_DATE));
+                    $this->ctrl->setParameterByClass(
+                        'ilcalendarappointmentgui',
+                        'idate',
+                        $this->weekdays[$num_day]->get(IL_CAL_DATE)
+                    );
                     $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'seed', $this->seed->get(IL_CAL_DATE));
                     $this->ctrl->setParameterByClass('ilcalendarappointmentgui', 'hour', floor($num_hour / 60));
 
                     //todo:it could be nice use also ranges of 15 min to create events.
                     $new_app_url = $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'add');
-                    $this->tpl->setVariable("DAY_NEW_APP_LINK",
-                        $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add($new_app_url)));
+                    $this->tpl->setVariable(
+                        "DAY_NEW_APP_LINK",
+                        $this->ui_renderer->render($this->ui_factory->symbol()->glyph()->add($new_app_url))
+                    );
                     $this->tpl->setVariable('DAY_NEW_ID', ++$new_link_counter);
                     $this->tpl->parseCurrentBlock();
                 }

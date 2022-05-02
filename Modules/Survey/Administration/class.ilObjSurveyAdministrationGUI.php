@@ -90,7 +90,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
 
         $surveySetting = new ilSetting("survey");
-        $use_anonymous_id = $surveySetting->get("use_anonymous_id");
+        $use_anonymous_id = (bool) $surveySetting->get("use_anonymous_id");
         
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
@@ -125,7 +125,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
         
         $anon_part = new ilCheckboxInputGUI($lng->txt("svy_anonymous_participants"), "anon_part");
         $anon_part->setInfo($lng->txt("svy_anonymous_participants_info"));
-        $anon_part->setChecked($surveySetting->get("anonymous_participants", false));
+        $anon_part->setChecked((bool) $surveySetting->get("anonymous_participants", '0'));
         $form->addItem($anon_part);
         
         $anon_part_min = new ilNumberInputGUI($lng->txt("svy_anonymous_participants_min"), "anon_part_min");

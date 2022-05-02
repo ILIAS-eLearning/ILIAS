@@ -21,6 +21,7 @@ use ILIAS\Repository\PluginSlot\PluginSlotGUIRequest;
  */
 abstract class ilObjectPluginGUI extends ilObject2GUI
 {
+    protected ilComponentRepository $component_repository;
     protected ilNavigationHistory $nav_history;
     protected ilTabsGUI $tabs;
     protected ilPlugin $plugin;
@@ -50,6 +51,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         $this->locator = $DIC["ilLocator"];
         $this->user = $DIC->user();
         $this->component_factory = $DIC["component.factory"];
+        $this->component_repository = $DIC["component.repository"];
         parent::__construct($a_ref_id, $a_id_type, $a_parent_node_id);
         $this->plugin = $this->getPlugin();
     }
@@ -72,7 +74,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
             $tpl->setTitleIcon(ilObject::_getIcon($this->object->getId()));
 
             // set tabs
-            if (strtolower($this->slot_request->getBaseClass()) != "iladministrationgui") {
+            if (strtolower($this->slot_request->getBaseClass()) !== "iladministrationgui") {
                 $this->setTabs();
                 $this->setLocator();
             } else {
@@ -134,17 +136,16 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 
             case 'illearningprogressgui':
                 $user_id = $this->user->getId();
-                if ($this->access->checkAccess(
+                if ($this->slot_request->getUserId() > 0 && $this->access->checkAccess(
                     'write',
                     "",
                     $this->object->getRefId()
-                ) &&
-                    $this->slot_request->getUserId() > 0) {
+                )) {
                     $user_id = $this->slot_request->getUserId();
                 }
                 $ilTabs->setTabActive("learning_progress");
                 $new_gui = new ilLearningProgressGUI(
-                    ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+                    ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
                     $this->object->getRefId(),
                     $user_id
                 );
@@ -155,14 +156,14 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                 $this->ctrl->forwardCommand($gui);
                 break;
             default:
-                if ($this->getCreationMode() || $cmd == "save") {
+                if ($cmd === "save" && $this->getCreationMode()) {
                     $this->$cmd();
                     return;
                 }
                 if (!$cmd) {
                     $cmd = $this->getStandardCmd();
                 }
-                if ($cmd == "infoScreen") {
+                if ($cmd === "infoScreen") {
                     $ilCtrl->setCmd("showSummary");
                     $ilCtrl->setCmdClass("ilinfoscreengui");
                     $this->infoScreen();
@@ -232,7 +233,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
      */
     protected function initCreationForms(string $new_type) : array
     {
-        $forms = array();
+        $forms = [];
         $forms[self::CFORM_NEW] = $this->initCreateForm($new_type);
 
         if ($this->supportsExport()) {
@@ -327,7 +328,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         $form->setTitle($this->lng->txt("import"));
 
         $fi = new ilFileInputGUI($this->lng->txt("import_file"), "importfile");
-        $fi->setSuffixes(array("zip"));
+        $fi->setSuffixes(["zip"]);
         $fi->setRequired(true);
         $form->addItem($fi);
 
@@ -345,7 +346,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 
         $ilCtrl->setTargetScript('ilias.php');
         $ilCtrl->setParameterByClass(get_class($this), "ref_id", $new_object->getRefId());
-        $ilCtrl->redirectByClass(array("ilobjplugindispatchgui", get_class($this)), $this->getAfterCreationCmd());
+        $ilCtrl->redirectByClass(["ilobjplugindispatchgui", get_class($this)], $this->getAfterCreationCmd());
     }
 
     /**
@@ -355,7 +356,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 
     abstract public function getStandardCmd() : string;
 
-    //	abstract function performCommand();
+    abstract public function performCommand(string $cmd) : void;
 
     public function addInilPluginAdminfoTab() : void
     {
@@ -386,7 +387,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
             $ilTabs->addTarget(
                 "perm_settings",
                 $ilCtrl->getLinkTargetByClass("ilpermissiongui", "perm"),
-                array("perm", "info", "owner"),
+                ["perm", "info", "owner"],
                 'ilpermissiongui'
             );
         }
@@ -437,7 +438,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     /**
      * Goto redirection
      */
-    public static function _goto($a_target)
+    public static function _goto(string $a_target) : void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -453,11 +454,11 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         if ($ilAccess->checkAccess("read", "", $ref_id)) {
             $ilCtrl->setTargetScript('ilias.php');
             $ilCtrl->setParameterByClass($class_name, "ref_id", $ref_id);
-            $ilCtrl->redirectByClass(array("ilobjplugindispatchgui", $class_name), "");
+            $ilCtrl->redirectByClass(["ilobjplugindispatchgui", $class_name], "");
         } elseif ($ilAccess->checkAccess("visible", "", $ref_id)) {
             $ilCtrl->setTargetScript('ilias.php');
             $ilCtrl->setParameterByClass($class_name, "ref_id", $ref_id);
-            $ilCtrl->redirectByClass(array("ilobjplugindispatchgui", $class_name), "infoScreen");
+            $ilCtrl->redirectByClass(["ilobjplugindispatchgui", $class_name], "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('failure', sprintf(
                 $lng->txt("msg_no_perm_read_item"),

@@ -73,7 +73,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
 
     protected function isTemplate() : bool
     {
-        return ($this->getPage()->getParentType() == "prtt");
+        return ($this->getPage()->getParentType() === "prtt");
     }
 
     public function insert(Form\Standard $form = null) : void
@@ -146,7 +146,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         $lng = $this->lng;
         $tpl = $this->tpl;
 
-        if ($request->getMethod() == "POST") {
+        if ($request->getMethod() === "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
             if (is_null($data)) {
@@ -176,7 +176,8 @@ class ilPCAMDFormGUI extends ilPageContentGUI
             $recs = $this->getAdvRecords();
             $ids = [];
             foreach ($recs as $r) {
-                if (isset($data["sec"]["rec" . $r->getRecordId()]) && $data["sec"]["rec" . $r->getRecordId()]) {
+                $rec_id = $data["sec"]["rec" . $r->getRecordId()];
+                if (isset($rec_id) && $rec_id) {
                     $ids[] = $r->getRecordId();
                 }
             }
@@ -190,7 +191,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
             $id = $this->requested_ref_id;
             $is_ref_id = true;
         } else {
-            $id = (int) $this->getPage()->getPortfolioId();
+            $id = $this->getPage()->getPortfolioId();
             $is_ref_id = false;
         }
 
@@ -205,7 +206,7 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         $lng = $this->lng;
         $tpl = $this->tpl;
 
-        if ($request->getMethod() == "POST") {
+        if ($request->getMethod() === "POST") {
             $form = $form->withRequest($request);
             $data = $form->getData();
             if (is_null($data)) {

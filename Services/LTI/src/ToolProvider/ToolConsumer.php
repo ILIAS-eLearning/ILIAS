@@ -23,108 +23,108 @@ use ILIAS\LTIOAuth;
 class ToolConsumer
 {
 
-/**
+    /**
  * Local name of tool consumer.
  *
  * @var string $name
  */
-    public $name = null;
+    public ?string $name = null;
     /**
      * Shared secret.
      *
      * @var string $secret
      */
-    public $secret = null;
+    public ?string $secret = null;
     /**
      * LTI version (as reported by last tool consumer connection).
      *
      * @var string $ltiVersion
      */
-    public $ltiVersion = null;
+    public ?string $ltiVersion = null;
     /**
      * Name of tool consumer (as reported by last tool consumer connection).
      *
      * @var string $consumerName
      */
-    public $consumerName = null;
+    public ?string $consumerName = null;
     /**
      * Tool consumer version (as reported by last tool consumer connection).
      *
      * @var string $consumerVersion
      */
-    public $consumerVersion = null;
+    public ?string $consumerVersion = null;
     /**
      * Tool consumer GUID (as reported by first tool consumer connection).
      *
      * @var string $consumerGuid
      */
-    public $consumerGuid = null;
+    public ?string $consumerGuid = null;
     /**
      * Optional CSS path (as reported by last tool consumer connection).
      *
      * @var string $cssPath
      */
-    public $cssPath = null;
+    public ?string $cssPath = null;
     /**
      * Whether the tool consumer instance is protected by matching the consumer_guid value in incoming requests.
      *
      * @var boolean $protected
      */
-    public $protected = false;
+    public bool $protected = false;
     /**
      * Whether the tool consumer instance is enabled to accept incoming connection requests.
      *
      * @var boolean $enabled
      */
-    public $enabled = false;
+    public bool $enabled = false;
     /**
      * Date/time from which the the tool consumer instance is enabled to accept incoming connection requests.
      *
-     * @var int $enableFrom
+     * @var int|null $enableFrom
      */
-    public $enableFrom = null;
+    public ?int $enableFrom = null;
     /**
      * Date/time until which the tool consumer instance is enabled to accept incoming connection requests.
      *
      * @var int $enableUntil
      */
-    public $enableUntil = null;
+    public ?int $enableUntil = null;
     /**
      * Date of last connection from this tool consumer.
      *
      * @var int $lastAccess
      */
-    public $lastAccess = null;
+    public ?int $lastAccess = null;
     /**
      * Default scope to use when generating an Id value for a user.
      *
      * @var int $idScope
      */
-    public $idScope = ToolProvider::ID_SCOPE_ID_ONLY;
+    public int $idScope = ToolProvider::ID_SCOPE_ID_ONLY;
     /**
      * Default email address (or email domain) to use when no email address is provided for a user.
      *
      * @var string $defaultEmail
      */
-    public $defaultEmail = '';
+    public string $defaultEmail = '';
     /**
      * Setting values (LTI parameters, custom parameters and local parameters).
      *
      * @var array $settings
      */
-    public $settings = null;
+    public ?array $settings = null;
     /**
      * Date/time when the object was created.
      *
      * @var int $created
      */
-    public $created = null;
+    public ?int $created = null;
     /**
      * Date/time when the object was last updated.
      *
      * @var int $updated
      */
-    public $updated = null;
+    public ?int $updated = null;
 
     /**
          * Consumer ID value.
@@ -141,18 +141,17 @@ class ToolConsumer
     /**
      * Data connector object or string.
      *
-     * @var mixed $dataConnector
+     * @var DataConnector $dataConnector
      */
-    private $dataConnector = null;
+    private ?DataConnector $dataConnector = null;
 
     /**
      * Class constructor.
-     *
-     * @param string  $key             Consumer key
-     * @param DataConnector   $dataConnector   A data connector object
-     * @param boolean $autoEnable      true if the tool consumers is to be enabled automatically (optional, default is false)
+     * @param string|null        $key           Consumer key
+     * @param DataConnector|null $dataConnector A data connector object
+     * @param boolean            $autoEnable    true if the tool consumers is to be enabled automatically (optional, default is false)
      */
-    public function __construct($key = null, $dataConnector = null, $autoEnable = false)
+    public function __construct(?string $key = null, DataConnector $dataConnector = null, bool $autoEnable = false)
     {
         $this->initialize();
         if (empty($dataConnector)) {
@@ -179,8 +178,8 @@ class ToolConsumer
         $this->consumerName = null;
         $this->consumerVersion = null;
         $this->consumerGuid = null;
-        $this->profile = null;
-        $this->toolProxy = null;
+        $this->profile = null; // TODO PHP8 Review: Undefined Property
+        $this->toolProxy = null; // TODO PHP8 Review: Undefined Property
         $this->settings = array();
         $this->protected = false;
         $this->enabled = false;
@@ -319,11 +318,10 @@ class ToolConsumer
 
     /**
      * Set a setting value.
-     *
-     * @param string $name  Name of setting
-     * @param string $value Value to set, use an empty value to delete a setting (optional, default is null)
+     * @param string      $name  Name of setting
+     * @param string|null $value Value to set, use an empty value to delete a setting (optional, default is null)
      */
-    public function setSetting(string $name, $value = null) : void
+    public function setSetting(string $name, ?string $value = null) : void
     {
         $old_value = $this->getSetting($name);
         if ($value !== $old_value) {
@@ -391,7 +389,7 @@ class ToolConsumer
      *
      * @return mixed The array of settings if successful, otherwise false
      */
-    public function getToolSettings(bool $simple = true)
+    public function getToolSettings(bool $simple = true) : mixed // TODO PHP8 Review: Type `mixed` is not supported!
     {
         $url = $this->getSetting('custom_system_setting_url');
         $service = new Service\ToolSettings($this, $url, $simple);
@@ -469,7 +467,8 @@ class ToolConsumer
      *
      * @return array|string|null Array of signed message parameters or header string
      */
-    public static function addSignature(string $endpoint, $consumerKey, $consumerSecret, $data, string $method = 'POST', $type = null)
+    // TODO PHP8 Review: Missing Parameter Type Declaration
+    public static function addSignature(string $endpoint, $consumerKey, $consumerSecret, $data, string $method = 'POST', $type = null) : mixed // TODO PHP8 Review: Type `mixed` is not supported!
     {
         $params = array();
         if (is_array($data)) {
@@ -532,7 +531,7 @@ class ToolConsumer
          * @param mixed  $data     Array of parameters or body string
          * @return HTTPMessage HTTP object containing request and response details
          */
-    public function doServiceRequest(object $service, string $method, string $format, $data) : \ILIAS\LTI\HTTPMessage
+    public function doServiceRequest(object $service, string $method, string $format, mixed $data) : \ILIAS\LTI\HTTPMessage // TODO PHP8 Review: Type `mixed` is not supported!
     {
         $header = ToolConsumer::addSignature($service->endpoint, $this->getKey(), $this->secret, $data, $method, $format);
 
