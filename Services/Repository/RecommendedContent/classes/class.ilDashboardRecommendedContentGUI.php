@@ -123,6 +123,9 @@ class ilDashboardRecommendedContentGUI
 
         foreach ($this->recommendations as $ref_id) {
             try {
+                if (!$DIC->access()->checkAccess('visible', '', $ref_id)) {
+                    continue;
+                }
                 $list_items[] = $this->getListItemForData($ref_id);
             } catch (ilException $e) {
                 continue;
