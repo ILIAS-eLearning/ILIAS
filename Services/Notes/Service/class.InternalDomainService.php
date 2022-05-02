@@ -38,21 +38,21 @@ class InternalDomainService
         $this->initDomainServices($DIC);
     }
 
-    /*
-    public function access(int $ref_id, int $user_id) : Access\AccessManager
+    public function access() : AccessManager
     {
-        return new Access\AccessManager(
-            $this,
-            $this->access,
-            $ref_id,
-            $user_id
+        return new AccessManager(
+            $this->data_service,
+            $this->repo_service,
+            $this
         );
-    }*/
+    }
 
     public function notes() : NotesManager
     {
         return new NotesManager(
-            $this->repo_service->notesSession()
+            $this->data_service,
+            $this->repo_service,
+            $this
         );
     }
 }

@@ -37,6 +37,7 @@ class ilObjectGUI
     const CFORM_NEW = 1;
     const CFORM_IMPORT = 2;
     const CFORM_CLONE = 3;
+    private \ILIAS\Notes\Service $notes_service;
 
     protected ServerRequestInterface $request;
     protected ilLocatorGUI $locator;
@@ -174,6 +175,8 @@ class ilObjectGUI
         if ($prepare_output) {
             $this->prepareOutput();
         }
+
+        $this->notes_service = $DIC->notes();
     }
 
     public function getRefId() : int
@@ -373,7 +376,7 @@ class ilObjectGUI
                 if (
                     $this->access->checkAccess("write", "", $this->ref_id) ||
                     $this->access->checkAccess("edit_permissions", "", $this->ref_id) ||
-                    ilNote::commentsActivated($this->object->getId(), 0, $this->object->getType())
+                    $this->notes_service->domain()->commentsActive($this->object->getId())
                 ) {
                     $lg->enableComments(true);
                 }

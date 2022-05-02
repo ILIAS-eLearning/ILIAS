@@ -20,6 +20,7 @@
  */
 abstract class ilObjPortfolioBase extends ilObject2
 {
+    protected \ILIAS\Notes\Service $notes;
     protected ilSetting $setting;
     protected bool $online;
     protected bool $comments;
@@ -44,6 +45,7 @@ abstract class ilObjPortfolioBase extends ilObject2
             ->contentStyle()
             ->domain()
             ->styleForObjId($this->getId());
+        $this->notes = $DIC->notes();
     }
 
 
@@ -158,7 +160,7 @@ abstract class ilObjPortfolioBase extends ilObject2
         $this->setImage((string) $row["img"]);
         
         // #14661
-        $this->setPublicComments(ilNote::commentsActivated($this->id, 0, $this->getType()));
+        $this->setPublicComments($this->notes->domain()->commentsActive($this->id));
         
         $this->doReadCustom($row);
     }
@@ -193,7 +195,7 @@ abstract class ilObjPortfolioBase extends ilObject2
         $this->doUpdateCustom($fields);
         
         // #14661
-        ilNote::activateComments($this->id, 0, $this->getType(), $this->hasPublicComments());
+        $this->notes->domain()->activateComments($this->id, $this->hasPublicComments());
         
         $ilDB->update(
             "usr_portfolio",

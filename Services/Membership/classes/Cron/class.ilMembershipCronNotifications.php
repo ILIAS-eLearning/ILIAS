@@ -265,6 +265,7 @@ class ilMembershipCronNotifications extends ilCronJob
         if (count($comments) > 0) {
             $res .= "\n" . $this->lng->txt("news_new_comments") . " (" . count($comments) . ")";
         }
+        /** @var \ILIAS\Notes\Note $c */
         foreach ($comments as $c) {
             $res .= "\n* " .
                 ilUserUtil::getNamePresentation($c->getAuthor()) . ", " . ilDatePresentation::formatDate(

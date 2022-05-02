@@ -36,4 +36,20 @@ class Service
     {
         return new InternalService($this->DIC);
     }
+
+    /**
+     * Internal service, do not use in other components
+     */
+    public function data() : DataService
+    {
+        return new DataService($this->internal()->data());
+    }
+
+    /**
+     * Internal service, do not use in other components
+     */
+    public function domain() : DomainService
+    {
+        return new DomainService($this->internal()->domain());
+    }
 }

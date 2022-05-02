@@ -61,6 +61,7 @@ class ilObjectListGUI
     protected static int $js_unique_id = 0;
     protected static string $tpl_file_name = "tpl.container_list_item.html";
     protected static string $tpl_component = "Services/Container";
+    private \ILIAS\Notes\Service $notes_service;
 
     protected array $access_cache;
     protected ilAccessHandler $access;
@@ -222,6 +223,7 @@ class ilObjectListGUI
             ->internal()
             ->domain()
             ->clipboard();
+        $this->notes_service = $DIC->notes();
     }
 
     public function setContainerObject(object $container_obj) : void
@@ -2991,6 +2993,7 @@ class ilObjectListGUI
         $lng = $DIC->language();
         $ilSetting = $DIC->settings();
         $ilUser = $DIC->user();
+        $notes_manager = $DIC->notes()->internal()->domain()->notes();
 
         if ($context == self::CONTEXT_REPOSITORY) {
             $active_notes = !$ilSetting->get("disable_notes");
@@ -2998,13 +3001,21 @@ class ilObjectListGUI
         
             if ($active_comments) {
                 // needed for action
-                self::$comments_activation = ilNote::getRepObjActivation($obj_ids);
+                self::$comments_activation = $DIC->notes()
+                    ->internal()
+                    ->domain()
+                    ->notes()->commentsActiveMultiple($obj_ids);
             }
             
             // properties are optional
             if ($ilSetting->get('comments_tagging_in_lists')) {
                 if ($active_notes || $active_comments) {
-                    self::$cnt_notes = ilNote::_countNotesAndCommentsMultiple($obj_ids, true);
+
+                    // @todo: should be refactored, see comment in notes db repo
+                    self::$cnt_notes = $notes_manager->countNotesAndCommentsMultipleObjects(
+                        $obj_ids,
+                        true
+                    );
                     
                     $lng->loadLanguageModule("notes");
                 }
@@ -3053,14 +3064,12 @@ class ilObjectListGUI
             // fallback to single object check if no preloaded data
             // only the repository does preloadCommonProperties() yet
             if (!$header_actions && self::$preload_done) {
-                if (isset(self::$comments_activation[$obj_id][$type]) &&
-                    self::$comments_activation[$obj_id][$type]) {
+                if (isset(self::$comments_activation[$obj_id]) &&
+                    self::$comments_activation[$obj_id]) {
                     return true;
                 }
-            } else {
-                if (ilNote::commentsActivated($obj_id, 0, $type)) {
-                    return true;
-                }
+            } elseif ($this->notes_service->domain()->commentsActive($obj_id)) {
+                return true;
             }
         }
         return false;

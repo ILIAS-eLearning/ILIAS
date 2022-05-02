@@ -23,6 +23,7 @@ use ILIAS\Blog\StandardGUIRequest;
  */
 class ilBlogPostingGUI extends ilPageObjectGUI
 {
+    protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Blog\ReadingTime\ReadingTimeManager $reading_time_manager;
     protected StandardGUIRequest $blog_request;
     protected ilTabsGUI$tabs;
@@ -100,6 +101,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $this->term = $this->blog_request->getTerm();
 
         $this->reading_time_manager = new \ILIAS\Blog\ReadingTime\ReadingTimeManager();
+        $this->notes = $DIC->notes();
     }
 
     public function executeCommand() : string
@@ -384,7 +386,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             $dtpl->setVariable("PAGE_TITLE", $this->getBlogPosting()->getTitle());
             
             // notes/comments
-            $cnt_note_users = ilNote::getUserCount(
+            $cnt_note_users = $this->notes->domain()->getUserCount(
                 $this->getBlogPosting()->getParentId(),
                 $this->getBlogPosting()->getId(),
                 "wpg"

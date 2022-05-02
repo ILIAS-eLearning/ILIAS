@@ -230,7 +230,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
         if ($setting->get("disable_comments")) {
             return false;
         }
-        if (!ilNote::commentsActivated($this->id, 0, $this->getType())) {
+        if (!$this->notes->domain()->commentsActive($this->id)) {
             return false;
         }
         if (!$privacy->enabledCommentsExport()) {

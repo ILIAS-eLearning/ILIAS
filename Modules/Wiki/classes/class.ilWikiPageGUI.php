@@ -25,6 +25,7 @@
  */
 class ilWikiPageGUI extends ilPageObjectGUI
 {
+    protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\Wiki\Editing\EditingGUIRequest $wiki_request;
     protected ?ilAdvancedMDRecordGUI $record_gui = null;
@@ -57,6 +58,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
             ->gui()
             ->editing()
             ->request();
+        $this->notes = $DIC->notes();
     }
     
     public function setScreenIdComponent() : void
@@ -655,7 +657,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
             }
             
             // notes/comments
-            $cnt_note_users = ilNote::getUserCount(
+            $cnt_note_users = $this->notes->domain()->getUserCount(
                 $this->getPageObject()->getParentId(),
                 $this->getPageObject()->getId(),
                 "wpg"
