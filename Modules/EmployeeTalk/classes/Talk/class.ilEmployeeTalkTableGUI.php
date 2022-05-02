@@ -72,7 +72,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
         $this->determineOffsetAndOrder();
     }
 
-    public function initFilter()
+    public function initFilter(): void
     {
         $this->setFilterCols(6);
         $this->addFilterItemByMetaType('etal_title', self::FILTER_TEXT, false, $this->language->txt('title'));

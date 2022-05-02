@@ -29,7 +29,7 @@ final class ilObjTalkTemplateAdministration extends ilContainer
      * @param int  $a_id
      * @param bool $a_call_by_reference
      */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->type = "tala";
         parent::__construct($a_id, $a_call_by_reference);
