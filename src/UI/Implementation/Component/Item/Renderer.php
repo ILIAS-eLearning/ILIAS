@@ -14,6 +14,7 @@ use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -73,6 +74,7 @@ class Renderer extends AbstractComponentRenderer
         $this->renderTitle($component, $default_renderer, $tpl);
         $this->renderDescription($component, $tpl);
         $this->renderProperties($component, $default_renderer, $tpl);
+        $this->renderAudioPlayer($component, $default_renderer, $tpl);
         // color
         $color = $component->getColor();
         if ($color !== null) {
@@ -107,7 +109,7 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setVariable("LEAD_IMAGE", $default_renderer->render($lead));
                 $tpl->parseCurrentBlock();
             }
-            if ($lead instanceof Icon) {
+            if ($lead instanceof Icon || $lead instanceof Avatar) {
                 $tpl->setCurrentBlock("lead_icon");
                 $tpl->setVariable("LEAD_ICON", $default_renderer->render($lead));
                 $tpl->parseCurrentBlock();
@@ -230,7 +232,7 @@ class Renderer extends AbstractComponentRenderer
          * @var $component Notification
          */
         $component = $component->withAdditionalOnLoadCode(
-            fn($id) => "il.UI.item.notification.getNotificationItemObject($($id)).registerAggregates($toggleable);"
+            fn ($id) => "il.UI.item.notification.getNotificationItemObject($($id)).registerAggregates($toggleable);"
         );
 
         //Bind id
@@ -248,7 +250,7 @@ class Renderer extends AbstractComponentRenderer
              * @var $close_action Close
              */
             $close_action = $this->getUIFactory()->button()->close()->withAdditionalOnLoadCode(
-                fn($id) => "il.UI.item.notification.getNotificationItemObject($($id)).registerCloseAction('$url',1);"
+                fn ($id) => "il.UI.item.notification.getNotificationItemObject($($id)).registerCloseAction('$url',1);"
             );
             $tpl->setVariable("CLOSE_ACTION", $default_renderer->render($close_action));
         }
@@ -278,6 +280,20 @@ class Renderer extends AbstractComponentRenderer
         if (!is_null($desc) && trim($desc) != "") {
             $tpl->setCurrentBlock("desc");
             $tpl->setVariable("DESC", htmlentities($desc));
+            $tpl->parseCurrentBlock();
+        }
+    }
+
+    protected function renderAudioPlayer(
+        Item $component,
+        RendererInterface $default_renderer,
+        Template $tpl
+    ) : void {
+        // description
+        $audio = $component->getAudioPlayer();
+        if (!is_null($audio)) {
+            $tpl->setCurrentBlock("audio");
+            $tpl->setVariable("AUDIO", $default_renderer->render($audio));
             $tpl->parseCurrentBlock();
         }
     }

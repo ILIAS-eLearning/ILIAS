@@ -118,8 +118,8 @@ class ilTestRandomQuestionSetPoolDeriver
         $questionList->loadQuestions();
         
         $questions = array();
-        
-        foreach ($questionList as $questionId) {
+        $list = $questionList->getQuestions();
+        foreach ($list as $questionId) {
             $questions[] = assQuestion::_instantiateQuestion($questionId);
         }
         

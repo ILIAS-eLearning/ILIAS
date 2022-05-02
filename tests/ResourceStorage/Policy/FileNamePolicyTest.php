@@ -39,7 +39,7 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
         );
     }
 
-    protected function getFileNamePolicy(string $denied_ending): \ILIAS\ResourceStorage\Policy\FileNamePolicy
+    protected function getFileNamePolicy(string $denied_ending) : \ILIAS\ResourceStorage\Policy\FileNamePolicy
     {
         return new class($denied_ending) implements FileNamePolicy {
             public function __construct(string $denied_ending)
@@ -69,7 +69,6 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
             {
                 return $filename_with_extension;
             }
-
         };
     }
 
@@ -85,7 +84,9 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
         list($upload_result, $info_resolver, $identification) = $this->mockResourceAndRevision(
             $expected_file_name,
             "",
-            0, 1, 0
+            0,
+            1,
+            0
         );
 
         // RUN
@@ -110,7 +111,9 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
         list($upload_result, $info_resolver, $identification) = $this->mockResourceAndRevision(
             $expected_file_name,
             "",
-            0, 1, 0
+            0,
+            1,
+            0
         );
 
         // RUN
@@ -122,4 +125,3 @@ class FileNamePolicyTest extends AbstractBaseResourceBuilderTest
         $resource_builder->store($resource);
     }
 }
-

@@ -7,6 +7,7 @@ use ILIAS\UI\Component\Component;
 use LogicException;
 use ReflectionFunction;
 use ReflectionType;
+use Throwable;
 
 /**
  * Trait ComponentDecoratorTrait
@@ -68,7 +69,7 @@ trait ComponentDecoratorTrait
             }
             
             return true;
-        } catch (\Throwable $i) {
+        } catch (Throwable $i) {
             return false;
         }
     }

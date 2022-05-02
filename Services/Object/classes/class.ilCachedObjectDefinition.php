@@ -1,6 +1,22 @@
 <?php declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Cache for object definitions, based on ilGlobalCache.
  */
 class ilCachedObjectDefinition
@@ -30,9 +46,9 @@ class ilCachedObjectDefinition
 
         $sql =
             "SELECT id, class_name, component, location, checkbox, inherit, translate, devmode, allow_link," . PHP_EOL
-            ."allow_copy, rbac, system, sideblock, default_pos, grp, default_pres_pos, export, repository," . PHP_EOL
-            ."workspace, administration, amet, orgunit_permissions, lti_provider, offline_handling" . PHP_EOL
-            ."FROM il_object_def" . PHP_EOL
+            . "allow_copy, rbac, system, sideblock, default_pos, grp, default_pres_pos, export, repository," . PHP_EOL
+            . "workspace, administration, amet, orgunit_permissions, lti_provider, offline_handling" . PHP_EOL
+            . "FROM il_object_def" . PHP_EOL
         ;
         $set = $db->query($sql);
         while ($rec = $db->fetchAssoc($set)) {
@@ -41,7 +57,7 @@ class ilCachedObjectDefinition
 
         $sql =
             "SELECT parent, subobj, mmax" . PHP_EOL
-            ."FROM il_object_subobj" . PHP_EOL
+            . "FROM il_object_subobj" . PHP_EOL
         ;
         $set = $db->query($sql);
         while ($rec = $db->fetchAssoc($set)) {
@@ -51,13 +67,13 @@ class ilCachedObjectDefinition
 
         $sql =
             "SELECT DISTINCT(id) AS sid, parent, id, class_name, component, location, checkbox, inherit," . PHP_EOL
-            ."translate, devmode, allow_link, allow_copy, rbac, system, sideblock, default_pos, grp," . PHP_EOL
-            ."default_pres_pos, export, repository, workspace, administration, amet, orgunit_permissions," . PHP_EOL
-            ."lti_provider, offline_handling" . PHP_EOL
-            ."FROM il_object_def, il_object_subobj" . PHP_EOL
-            ."WHERE NOT (" . $db->quoteIdentifier('system') . " = 1)" . PHP_EOL
-            ."AND NOT (sideblock = 1)" . PHP_EOL
-            ."AND subobj = id" . PHP_EOL
+            . "translate, devmode, allow_link, allow_copy, rbac, system, sideblock, default_pos, grp," . PHP_EOL
+            . "default_pres_pos, export, repository, workspace, administration, amet, orgunit_permissions," . PHP_EOL
+            . "lti_provider, offline_handling" . PHP_EOL
+            . "FROM il_object_def, il_object_subobj" . PHP_EOL
+            . "WHERE NOT (" . $db->quoteIdentifier('system') . " = 1)" . PHP_EOL
+            . "AND NOT (sideblock = 1)" . PHP_EOL
+            . "AND subobj = id" . PHP_EOL
         ;
         $set = $db->query($sql);
         while ($rec = $db->fetchAssoc($set)) {
@@ -66,7 +82,7 @@ class ilCachedObjectDefinition
 
         $sql =
             "SELECT id, name, default_pres_pos" . PHP_EOL
-            ."FROM il_object_group" . PHP_EOL
+            . "FROM il_object_group" . PHP_EOL
         ;
         $set = $db->query($sql);
         while ($rec = $db->fetchAssoc($set)) {
@@ -75,7 +91,7 @@ class ilCachedObjectDefinition
 
         $sql =
             "SELECT obj_type, sub_type, amet" . PHP_EOL
-            ."FROM il_object_sub_type" . PHP_EOL
+            . "FROM il_object_sub_type" . PHP_EOL
         ;
         $set = $db->query($sql);
         while ($rec = $db->fetchAssoc($set)) {

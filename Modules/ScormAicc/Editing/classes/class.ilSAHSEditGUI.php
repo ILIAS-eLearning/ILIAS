@@ -46,8 +46,6 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
     }
 
     /**
-     * execute command
-     * @return void
      * @throws ilCtrlException
      */
     public function executeCommand() : void
@@ -87,7 +85,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         switch ($type) {
 
             case "scorm":
-                $this->slm_gui = new ilObjSCORMLearningModuleGUI([], $this->refId, true, false);
+                $this->slm_gui = new ilObjSCORMLearningModuleGUI([], $this->refId, true, false);//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
                 break;
 
             case "scorm2004":
@@ -118,20 +116,20 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
 
         case "ilexportgui":
             $obj_id = ilObject::_lookupObjectId($this->refId);
-            if ($cmd == "create_xml") {
+            if ($cmd === "create_xml") {
                 $exporter = new ilScormAiccExporter();
                 $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", (string) $obj_id);
-            } elseif ($cmd == "download") {
-                $file = $_GET["file"];
+            } elseif ($cmd === "download") {
+                $file = $_GET["file"];//PHP8Review: Use of $_ global. Pls use the DIC instead
                 $ftmp = explode(":", $file);
                 $fileName = (string) $ftmp[1];
                 $exportDir = ilExport::_getExportDirectory($obj_id);
                 ilFileDelivery::deliverFileLegacy($exportDir . "/" . $fileName, $fileName, "zip");
-            } elseif ($cmd == "confirmDeletion") {
+            } elseif ($cmd === "confirmDeletion") {
                 $exportDir = ilExport::_getExportDirectory($obj_id);
                 //not possible - no array
 //                $files = $report = $DIC->http()->wrapper()->post()->retrieve('file',$DIC->refinery()->kindlyTo()->string());
-                $files = $_POST['file'];
+                $files = $_POST['file'];//PHP8Review: Use of $_ global. Pls use the DIC instead
                 foreach ($files as $file) {
                     $file = explode(":", $file);
                     $file[1] = basename($file[1]);

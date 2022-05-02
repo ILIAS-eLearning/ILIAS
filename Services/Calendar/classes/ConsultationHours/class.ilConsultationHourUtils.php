@@ -48,13 +48,19 @@ class ilConsultationHourUtils
 
             $ctrl->setParameterByClass(end($ctrl_class_structure), 'ch_user_id', $user_id);
             if ($next_entry instanceof \ilCalendarEntry) {
-                $ctrl->setParameterByClass(end($ctrl_class_structure), 'seed',
-                    $next_entry->getStart()->get(IL_CAL_DATE));
+                $ctrl->setParameterByClass(
+                    end($ctrl_class_structure),
+                    'seed',
+                    $next_entry->getStart()->get(IL_CAL_DATE)
+                );
             }
             $current_link = [
                 'link' => $ctrl->getLinkTargetByClass($ctrl_class_structure, 'selectCHCalendarOfUser'),
-                'txt' => str_replace("%1", ilObjUser::_lookupFullname($user_id),
-                    $lng->txt("cal_consultation_hours_for_user"))
+                'txt' => str_replace(
+                    "%1",
+                    ilObjUser::_lookupFullname($user_id),
+                    $lng->txt("cal_consultation_hours_for_user")
+                )
             ];
             $links[] = $current_link;
         }
@@ -80,10 +86,14 @@ class ilConsultationHourUtils
             'join cal_cat_assignments cca on ce.cal_id = cca.cal_id ' .
             'join cal_categories cc on cca.cat_id = cc.cat_id ' .
             'where context_id = ' . $db->quote($booking->getId(), 'integer') . ' ' .
-            'and starta = ' . $db->quote($start->get(IL_CAL_DATETIME, '', \ilTimeZone::UTC),
-                \ilDBConstants::T_TIMESTAMP) . ' ' .
-            'and enda = ' . $db->quote($end->get(IL_CAL_DATETIME, '', \ilTimeZone::UTC),
-                \ilDBConstants::T_TIMESTAMP) . ' ' .
+            'and starta = ' . $db->quote(
+                $start->get(IL_CAL_DATETIME, '', \ilTimeZone::UTC),
+                \ilDBConstants::T_TIMESTAMP
+            ) . ' ' .
+            'and enda = ' . $db->quote(
+                $end->get(IL_CAL_DATETIME, '', \ilTimeZone::UTC),
+                \ilDBConstants::T_TIMESTAMP
+            ) . ' ' .
             'and type = ' . $db->quote(\ilCalendarCategory::TYPE_CH, 'integer');
         $res = $db->query($query);
 

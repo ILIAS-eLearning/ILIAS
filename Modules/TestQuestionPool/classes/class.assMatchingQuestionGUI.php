@@ -106,6 +106,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             } else {
                 $filename = '';
             }
+            // @PHP8-CR: There seems to be a bigger issue lingering here and won't suppress / "quickfix" this but
+            // postpone further analysis, eventually involving T&A TechSquad (see also remark in assMatchingQuestionGUI
             $this->object->addTerm(
                 new assAnswerMatchingTerm($answer, $filename, $_POST['terms']['identifier'][$index])
             );
@@ -354,6 +356,9 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $terms->setImageName($this->lng->txt('term_image'));
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
         if (!count($this->object->getTerms())) {
+            // @PHP8-CR: If you look above, how $this->object->addDefinition does in fact take an object, I take this
+            // issue as an indicator for a bigger issue and won't suppress / "quickfix" this but postpone further
+            // analysis, eventually involving T&A TechSquad
             $this->object->addTerm(new assAnswerMatchingTerm());
         }
         $termvalues = $this->object->getTerms();
@@ -985,7 +990,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
@@ -1029,7 +1034,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->addTab_SuggestedSolution($ilTabs, $classname);
 
         // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             $ilTabs->addTarget(
                 "statistics",
                 $this->ctrl->getLinkTargetByClass($classname, "assessment"),

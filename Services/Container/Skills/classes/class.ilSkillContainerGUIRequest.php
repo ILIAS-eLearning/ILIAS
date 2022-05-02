@@ -17,8 +17,6 @@
  ********************************************************************
  */
 
-use ILIAS\HTTP;
-use ILIAS\Refinery;
 use ILIAS\Skill\Service\SkillGUIRequest;
 
 /**

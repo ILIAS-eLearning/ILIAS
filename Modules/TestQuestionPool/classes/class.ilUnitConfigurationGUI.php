@@ -9,7 +9,8 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  */
 abstract class ilUnitConfigurationGUI
 {
-    private \ILIAS\TestQuestionPool\InternalRequestService $request;
+    protected \ILIAS\TestQuestionPool\InternalRequestService $request;
+
     /**
      * @var ilPropertyFormGUI
      */

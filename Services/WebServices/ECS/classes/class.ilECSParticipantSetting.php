@@ -27,6 +27,19 @@ class ilECSParticipantSetting
     public const PERSON_LOGIN = 3;
     public const PERSON_UID = 4;
 
+    public const LOGIN_PLACEHOLDER = '[LOGIN]';
+    public const EXTERNAL_ACCOUNT_PLACEHOLDER = '[EXTERNAL_ACCOUNT]';
+
+    public const INCOMING_AUTH_TYPE_INACTIVE = 0;
+    public const INCOMING_AUTH_TYPE_LOGIN_PAGE = 1;
+    public const INCOMING_AUTH_TYPE_SHIBBOLETH = 2;
+
+    public const OUTGOING_AUTH_MODE_DEFAULT = 'default';
+
+    public const VALIDATION_OK = 0;
+    public const ERR_MISSING_USERNAME_PLACEHOLDER = 1;
+
+
     protected static array $instances = [];
 
 
@@ -52,6 +65,13 @@ class ilECSParticipantSetting
 
     private array $export_types = array();
     private array $import_types = array();
+    private array $username_placeholders = [];
+    private bool $incoming_local_accounts = true;
+    private int $incoming_auth_type = self::INCOMING_AUTH_TYPE_INACTIVE;
+    /**
+     * @var string[]
+     */
+    private array $outgoing_auth_modes = [];
 
     private bool $exists = false;
 
@@ -172,6 +192,67 @@ class ilECSParticipantSetting
     {
         return $this->export_types;
     }
+
+    public function getOutgoingUsernamePlaceholders() : array
+    {
+        return $this->username_placeholders;
+    }
+
+    public function setOutgoingUsernamePlaceholders(array $a_username_placeholders) : void
+    {
+        $this->username_placeholders = $a_username_placeholders;
+    }
+
+    public function getOutgoingUsernamePlaceholderByAuthMode(string $auth_mode) : string
+    {
+        return $this->getOutgoingUsernamePlaceholders()[$auth_mode] ?? '';
+    }
+
+    public function areIncomingLocalAccountsSupported() : bool
+    {
+        return $this->incoming_local_accounts;
+    }
+
+    public function enableIncomingLocalAccounts(bool $a_status)
+    {
+        $this->incoming_local_accounts = $a_status;
+    }
+
+    public function setIncomingAuthType(int $incoming_auth_type) : void
+    {
+        $this->incoming_auth_type = $incoming_auth_type;
+    }
+
+    public function getIncomingAuthType() : int
+    {
+        return $this->incoming_auth_type;
+    }
+
+    public function setOutgoingAuthModes(array $auth_modes) : void
+    {
+        $this->outgoing_auth_modes = $auth_modes;
+    }
+
+    public function getOutgoingAuthModes() : array
+    {
+        return $this->outgoing_auth_modes;
+    }
+
+    public function getOutgoingExternalAuthModes()
+    {
+        return array_filter(
+            $this->getOutgoingAuthModes(),
+            static function (string $auth_mode) : bool {
+                return $auth_mode !== self::OUTGOING_AUTH_MODE_DEFAULT;
+            }
+        );
+    }
+
+    public function isOutgoingAuthModeEnabled(string $auth_mode) : bool
+    {
+        return (bool) ($this->getOutgoingAuthModes()[$auth_mode] ?? false);
+    }
+
     
     public function setImportTypes(array $a_types) : void
     {
@@ -197,7 +278,24 @@ class ilECSParticipantSetting
     {
         return $this->exists;
     }
-    
+
+    public function validate() : int
+    {
+        foreach ($this->getOutgoingAuthModes() as $auth_mode) {
+            if ($auth_mode === self::OUTGOING_AUTH_MODE_DEFAULT) {
+                continue;
+            }
+            $placeholder = $this->getOutgoingUsernamePlaceholderByAuthMode($auth_mode);
+            if (
+                !stristr($placeholder, self::LOGIN_PLACEHOLDER) &&
+                !stristr($placeholder, self::EXTERNAL_ACCOUNT_PLACEHOLDER)
+            ) {
+                return self::ERR_MISSING_USERNAME_PLACEHOLDER;
+            }
+        }
+        return self::VALIDATION_OK;
+    }
+
     /**
      * Update
      * Calls create automatically when no entry exists
@@ -219,7 +317,11 @@ class ilECSParticipantSetting
             'token = ' . $this->db->quote($this->isTokenEnabled(), 'integer') . ', ' .
             'dtoken = ' . $this->db->quote($this->isDeprecatedTokenEnabled(), 'integer') . ', ' .
             'export_types = ' . $this->db->quote(serialize($this->getExportTypes()), 'text') . ', ' .
-            'import_types = ' . $this->db->quote(serialize($this->getImportTypes()), 'text') . ' ' .
+            'import_types = ' . $this->db->quote(serialize($this->getImportTypes()), ilDBConstants::T_TEXT) . ', ' .
+            'username_placeholders = ' . $this->db->quote(serialize($this->getOutgoingUsernamePlaceholders()), ilDBConstants::T_TEXT) . ', ' .
+            'incoming_local_accounts = ' . $this->db->quote($this->areIncomingLocalAccountsSupported(), ilDBConstants::T_INTEGER) . ', ' .
+            'incoming_auth_type = ' . $this->db->quote($this->getIncomingAuthType(), ilDBConstants::T_INTEGER) . ', ' .
+            'outgoing_auth_modes = ' . $this->db->quote(serialize($this->getOutgoingAuthModes()), ilDBConstants::T_TEXT) . ' ' .
             'WHERE sid = ' . $this->db->quote($this->getServerId(), 'integer') . ' ' .
             'AND mid  = ' . $this->db->quote($this->getMid(), 'integer');
         $this->db->manipulate($query);
@@ -242,6 +344,11 @@ class ilECSParticipantSetting
             $this->db->quote($this->isDeprecatedTokenEnabled(), 'integer') . ', ' .
             $this->db->quote(serialize($this->getExportTypes()), 'text') . ', ' .
             $this->db->quote(serialize($this->getImportTypes()), 'text') . ' ' .
+            $this->db->quote(serialize($this->getImportTypes()), 'text') . ', ' .
+            $this->db->quote(serialize($this->getOutgoingUsernamePlaceholders()), ilDBConstants::T_TEXT) . ', ' .
+            $this->db->quote($this->areIncomingLocalAccountsSupported(), ilDBConstants::T_INTEGER) . ', ' .
+            $this->db->quote($this->getIncomingAuthType(), ilDBConstants::T_INTEGER) . ', ' .
+            $this->db->quote(serialize($this->getOutgoingAuthModes()), ilDBConstants::T_TEXT) . ' ' .
             ')';
         $this->db->manipulate($query);
         return true;
@@ -280,9 +387,12 @@ class ilECSParticipantSetting
             $this->setCommunityName($row->cname);
             $this->enableToken((bool) $row->token);
             $this->enableDeprecatedToken((bool) $row->dtoken);
-            
             $this->setExportTypes((array) unserialize($row->export_types, ['allowed_classes' => true]));
             $this->setImportTypes((array) unserialize($row->import_types, ['allowed_classes' => true]));
+            $this->setOutgoingUsernamePlaceholders((array) unserialize((string) $row->username_placeholders, ['allowed_classes' => true]));
+            $this->setIncomingAuthType((int) $row->incoming_auth_type);
+            $this->enableIncomingLocalAccounts((bool) $row->incoming_local_accounts);
+            $this->setOutgoingAuthModes((array) unserialize((string) $row->outgoing_auth_modes, ['allowed_classes' => true]));
         }
     }
 }

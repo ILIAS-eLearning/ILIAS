@@ -1,24 +1,33 @@
 <?php
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilField
  * @author: Benjamin Seglias   <bs@studer-raimann.ch>
  */
-
 class ilBiblField extends ActiveRecord implements ilBiblFieldInterface
 {
     const TABLE_NAME = 'il_bibl_field';
     
-    /**
-     * @return string
-     */
     public static function returnDbTableName() : string
     {
         return self::TABLE_NAME;
     }
     
-    /**
-     * @return string
-     */
     public function getConnectorContainerName() : string
     {
         return self::TABLE_NAME;
@@ -35,7 +44,6 @@ class ilBiblField extends ActiveRecord implements ilBiblFieldInterface
      */
     protected ?int $id = null;
     /**
-     * @var
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     50

@@ -213,14 +213,15 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
     
     final public function checkInput() : bool
     {
+        /*
         if (!is_array($_POST[$this->getPostVar()])) {
             $_POST[$this->getPostVar()] = array();
         }
-        
+
         $_POST[$this->getPostVar()] = $this->prepareMultiValuesSubmit(
             $_POST[$this->getPostVar()]
         );
-        
+        */
         return $this->onCheckInput();
     }
     

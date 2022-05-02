@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -70,7 +70,7 @@ class ilContainerPageGUI extends ilPageObjectGUI
         $class = $this->obj_definition->getClassName($type);
 
         $items = [];
-        if ($class != "") {
+        if ($class !== "") {
             $items[] = $ui->factory()->link()->standard(
                 $lng->txt("obj_sty"),
                 $ctrl->getLinkTargetByClass([

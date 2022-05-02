@@ -189,13 +189,13 @@ class ilFSStorageExercise extends ilFileSystemAbstractionStorage
         $this->create();
         // TODO:
         // CHECK UPLOAD LIMIT
+
         //
         $result = null;
         if (isset($a_http_post_file) && $a_http_post_file['size']) {
             $filename = $a_http_post_file['name'];
 
             $filename = ilFileUtils::getValidFilename($filename);
-
             // replace whitespaces with underscores
             $filename = preg_replace("/\s/", "_", $filename);
             // remove all special characters

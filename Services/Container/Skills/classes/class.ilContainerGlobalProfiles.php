@@ -71,9 +71,9 @@ class ilContainerGlobalProfiles
 
     public function addProfile(int $a_profile_id) : void
     {
-        $this->profiles[$a_profile_id] = array(
+        $this->profiles[$a_profile_id] = [
             "profile_id" => $a_profile_id
-        );
+        ];
     }
 
     public function removeProfile(int $a_profile_id) : void

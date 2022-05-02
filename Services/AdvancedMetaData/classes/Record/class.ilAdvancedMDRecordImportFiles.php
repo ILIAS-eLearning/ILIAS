@@ -50,8 +50,8 @@ class ilAdvancedMDRecordImportFiles
      */
     public function getImportFileByCreationDate(int $a_unix_time) : string
     {
-        $unix_time = (int) $a_unix_time;
-        return $this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . (string) $unix_time . '.xml';
+        $unix_time = $a_unix_time;
+        return $this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . $unix_time . '.xml';
     }
 
     /**
@@ -60,8 +60,8 @@ class ilAdvancedMDRecordImportFiles
      */
     public function deleteFileByCreationDate(int $a_unix_time) : bool
     {
-        $unix_time = (int) $a_unix_time;
-        return @unlink($this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . (string) $unix_time . '.xml');
+        $unix_time = $a_unix_time;
+        return unlink($this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . $unix_time . '.xml');
     }
 
     /**
@@ -86,7 +86,7 @@ class ilAdvancedMDRecordImportFiles
      */
     private function init() : void
     {
-        if (!@is_dir($this->import_dir)) {
+        if (!is_dir($this->import_dir)) {
             ilFileUtils::makeDirParents($this->import_dir);
         }
     }

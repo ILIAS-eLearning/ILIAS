@@ -53,8 +53,10 @@ class ilSCTreeTasks
 
         $ilDB = $DIC->database();
 
-        $query = 'SELECT * FROM tree WHERE child = ' . $ilDB->quote($a_child,
-                ilDBConstants::T_INTEGER) . ' AND tree = ' . $ilDB->quote($a_tree_id, ilDBConstants::T_INTEGER);
+        $query = 'SELECT * FROM tree WHERE child = ' . $ilDB->quote(
+            $a_child,
+            ilDBConstants::T_INTEGER
+        ) . ' AND tree = ' . $ilDB->quote($a_tree_id, ilDBConstants::T_INTEGER);
         $res = $ilDB->query($query);
 
         $node = array();
@@ -64,8 +66,10 @@ class ilSCTreeTasks
             $node['depth'] = (int) $row->depth;
 
             // read obj_id
-            $query = 'SELECT obj_id FROM object_reference WHERE ref_id = ' . $ilDB->quote($a_child,
-                    ilDBConstants::T_INTEGER);
+            $query = 'SELECT obj_id FROM object_reference WHERE ref_id = ' . $ilDB->quote(
+                $a_child,
+                ilDBConstants::T_INTEGER
+            );
             $ref_res = $ilDB->query($query);
             while ($ref_row = $ref_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $node['obj_id'] = (int) $ref_row->obj_id;
@@ -90,8 +94,10 @@ class ilSCTreeTasks
 
         $ilDB = $DIC->database();
 
-        $query = 'SELECT * FROM tree WHERE tree = ' . $ilDB->quote($a_tree_id,
-                ilDBConstants::T_INTEGER) . ' ' . 'AND child = ' . $ilDB->quote($a_childs, ilDBConstants::T_INTEGER);
+        $query = 'SELECT * FROM tree WHERE tree = ' . $ilDB->quote(
+            $a_tree_id,
+            ilDBConstants::T_INTEGER
+        ) . ' ' . 'AND child = ' . $ilDB->quote($a_childs, ilDBConstants::T_INTEGER);
         $res = $ilDB->query($query);
 
         $childs = array();
@@ -141,10 +147,10 @@ class ilSCTreeTasks
     {
         $dups = self::findDuplicates($a_duplicate_id);
         foreach ($dups as $dup) {
-            if ($a_delete_trash and $dup['tree'] < 1) {
+            if ($a_delete_trash && $dup['tree'] < 1) {
                 self::deleteDuplicate($dup['tree'], $dup['child']);
             }
-            if (!$a_delete_trash and $dup['tree'] == 1) {
+            if (!$a_delete_trash && $dup['tree'] == 1) {
                 self::deleteDuplicate($dup['tree'], $dup['child']);
             }
         }
@@ -233,7 +239,6 @@ class ilSCTreeTasks
 
     public function findMissingTreeEntries() : int
     {
-
         $failures = $this->readMissingTreeEntries();
 
         if (count($failures)) {
@@ -249,7 +254,6 @@ class ilSCTreeTasks
 
     public function findMissing() : int
     {
-
         $failures = $this->readMissing();
 
         if (count($failures)) {
@@ -287,7 +291,6 @@ class ilSCTreeTasks
 
             $done = false;
             while ($orow = $ores->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-
                 $done = true;
 
                 $factory = new ilObjectFactory();
@@ -304,10 +307,11 @@ class ilSCTreeTasks
             }
             if (!$done) {
                 // delete reference value
-                $query = 'DELETE FROM object_reference WHERE ref_id = ' . $this->db->quote($a_ref_id,
-                        ilDBConstants::T_INTEGER);
+                $query = 'DELETE FROM object_reference WHERE ref_id = ' . $this->db->quote(
+                    $a_ref_id,
+                    ilDBConstants::T_INTEGER
+                );
                 $this->db->manipulate($query);
-
             }
         }
     }
@@ -317,7 +321,6 @@ class ilSCTreeTasks
      */
     protected function readMissing() : array
     {
-
         $query = 'SELECT ref_id FROM object_reference ' .
             'LEFT JOIN tree ON ref_id = child ' .
             'WHERE child IS NULL';
@@ -346,7 +349,6 @@ class ilSCTreeTasks
 
     protected function deleteMissingTreeEntry(int $a_tree_id, int $a_ref_id) : void
     {
-
         $query = 'SELECT child FROM tree ' .
             'WHERE parent = ' . $this->db->quote($a_ref_id, ilDBConstants::T_INTEGER) . ' ' .
             'AND tree = ' . $this->db->quote($a_tree_id, ilDBConstants::T_INTEGER);
@@ -367,7 +369,7 @@ class ilSCTreeTasks
         $factory = new ilObjectFactory();
         $ref_obj = $factory->getInstanceByRefId($a_ref_id, false);
 
-        if (($ref_obj instanceof ilObject) and $ref_obj->getType()) {
+        if (($ref_obj instanceof ilObject) && $ref_obj->getType()) {
             $ref_obj->delete();
         }
 
@@ -383,7 +385,6 @@ class ilSCTreeTasks
      */
     protected function readMissingTreeEntries() : array
     {
-
         $query = 'SELECT child FROM tree ' .
             'LEFT JOIN object_reference ON child = ref_id ' .
             'WHERE ref_id IS NULL';

@@ -19,6 +19,8 @@
  */
 class ilLMPage extends ilPageObject
 {
+    protected \ILIAS\LearningModule\ReadingTime\ReadingTimeManager $lm_reading_time_manager;
+
     public function getParentType() : string
     {
         return "lm";
@@ -27,6 +29,7 @@ class ilLMPage extends ilPageObject
     public function afterConstructor() : void
     {
         $this->getPageConfig()->configureByObjectId($this->getParentId());
+        $this->lm_reading_time_manager = new \ILIAS\LearningModule\ReadingTime\ReadingTimeManager();
     }
 
     public function beforePageContentUpdate(ilPageContent $a_page_content) : void
@@ -39,6 +42,7 @@ class ilLMPage extends ilPageObject
 
     public function afterUpdate(DOMDocument $domdoc, string $xml) : void
     {
+        // send notifications
         $references = ilObject::_getAllReferences($this->getParentId());
         $notification = new ilLearningModuleNotification(
             ilLearningModuleNotification::ACTION_UPDATE,
@@ -46,8 +50,19 @@ class ilLMPage extends ilPageObject
             new ilObjLearningModule(reset($references)),
             $this->getId()
         );
-
         $notification->send();
+
+        // update lm reading time
+        if ((int) $this->getParentId() > 0) {
+            $this->lm_reading_time_manager->updateReadingTime($this->getParentId());
+        }
+    }
+
+    protected function afterDelete() : void
+    {
+        if ((int) $this->getParentId() > 0) {
+            $this->lm_reading_time_manager->updateReadingTime($this->getParentId());
+        }
     }
 
     public function createWithLayoutId(int $a_layout_id) : void

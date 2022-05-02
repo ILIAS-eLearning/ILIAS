@@ -609,7 +609,7 @@ class ilHierarchyFormGUI extends ilFormGUI
             return "";
         }
 
-        $childs = $this->getChilds($a_par_node["node_id"]);
+        $childs = $this->getChilds((int) $a_par_node["node_id"]);
         $a_childs = $childs;
         $ttpl = new ilTemplate("tpl.hierarchy_form_nodes.html", true, true, "Services/Form");
 

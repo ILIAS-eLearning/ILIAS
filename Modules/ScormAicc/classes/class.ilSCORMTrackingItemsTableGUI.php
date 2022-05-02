@@ -20,25 +20,18 @@
  */
 class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 {
-    private int $obj_id = 0;
+    private int $obj_id;
     private int $user_id = 0;
     private bool $bySCO = false;
-    private array $scosSelected = array();
-    private array $userSelected = array();
-    private bool $allowExportPrivacy = false;
+    private array $scosSelected;
+    private array $userSelected;
+    private bool $allowExportPrivacy;
     private string $lmTitle = "";
 
     /**
-     * Constructor
-     * @param             $a_obj_id
-     * @param object|null $a_parent_obj
-     * @param string      $a_parent_cmd
-     * @param array       $a_userSelected
-     * @param array       $a_scosSelected
-     * @param             $a_report
      * @throws ilCtrlException
      */
-    public function __construct($a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, array $a_userSelected, array $a_scosSelected, $a_report)
+    public function __construct(int $a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, array $a_userSelected, array $a_scosSelected, $a_report)//PHP8Review: Missing Typehint
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -49,13 +42,15 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         $lng->loadLanguageModule("scormtrac");
     
         $this->obj_id = $a_obj_id;
-        $this->report = $a_report;
+        $this->report = $a_report;//PHP8Review: Missing Typehint. Also schouldnt be declared dynamicly
         $this->scosSelected = $a_scosSelected;
         $this->userSelected = $a_userSelected;
-        if ($a_parent_cmd == "showTrackingItemsBySco") {
+        if ($a_parent_cmd === "showTrackingItemsBySco") {
             $this->bySCO = true;
         }
-        $this->lmTitle = $a_parent_obj->object->getTitle();
+        if ($a_parent_obj !== null) {
+            $this->lmTitle = $a_parent_obj->object->getTitle();
+        }
 
         $this->setId('AICC' . $this->report);
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -77,13 +72,13 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
                 // $l =
             }
             $s = $this->lng->txt($l);
-            if (substr($l, 0, 14) == "interaction_id") {
+            if (substr($l, 0, 14) === "interaction_id") {
                 $s = $this->lng->txt(substr($l, 0, 14)) . ' ' . substr($l, 14);
             }
-            if (substr($l, 0, 17) == "interaction_value") {
+            if (substr($l, 0, 17) === "interaction_value") {
                 $s = sprintf($this->lng->txt(substr($l, 0, 17)), substr($l, 17, (strpos($l, ' ') - 17))) . substr($l, strpos($l, ' '));
             }
-            if (substr($l, 0, 23) == "interaction_description") {
+            if (substr($l, 0, 23) === "interaction_description") {
                 $s = $this->lng->txt(substr($l, 0, 23)) . ' ' . substr($l, 23);
             }
             $this->addColumn($s, $c);
@@ -106,10 +101,6 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         $this->getItems();
     }
 
-    /**
-     * Get selectable columns
-     * @return array
-     */
     public function getSelectableColumns() : array
     {
         // default fields
@@ -145,18 +136,11 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    /**
-     * Get Obj id
-     * @return int
-     */
     public function getObjId() : int
     {
         return $this->obj_id;
     }
 
-    /**
-     * @return void
-     */
     public function getItems() : void
     {
         global $DIC;
@@ -205,23 +189,21 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param string $id
      * @param string|float|int|null $value
-     * @param string $type
-     * @return float|mixed|string
+     * @return string|float|int|null
      */
     protected function parseValue(string $id, $value, string $type)
     {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("trac");
-        if ($id == "status") {
+        if ($id === "status") {
             $path = ilLearningProgressBaseGUI::_getImagePathForStatus($value);
             $text = ilLearningProgressBaseGUI::_getStatusText((integer) $value);
             $value = ilUtil::img($path, $text);
         }
         //BLUM round
-        if ($id == "launch_data" || $id == "suspend_data") {
+        if ($id === "launch_data" || $id === "suspend_data") {
             return $value;
         }
         if (is_numeric($value)) {
@@ -232,8 +214,6 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
 
     /**
      * Fill table row
-     * @param array $a_set
-     * @return void
      * @throws ilTemplateException
      */
     protected function fillRow(array $a_set) : void
@@ -249,11 +229,6 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param ilExcel $a_excel
-     * @param int     $a_row
-     * @return void
-     */
     protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
     {
         $labels = $this->getSelectableColumns();
@@ -264,12 +239,6 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param ilExcel $a_excel
-     * @param int     $a_row
-     * @param array   $a_set
-     * @return void
-     */
     protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         global $DIC;
@@ -277,7 +246,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         $lng->loadLanguageModule("trac");
         $cnt = 0;
         foreach ($this->getSelectedColumns() as $c) {
-            if ($c != 'status') {
+            if ($c !== 'status') {
                 $val = $this->parseValue($c, $a_set[$c], "user");
             } else {
                 $val = ilLearningProgressBaseGUI::_getStatusText((int) $a_set[$c]);
@@ -287,10 +256,6 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param ilCSVWriter $a_csv
-     * @return void
-     */
     protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
     {
         $labels = $this->getSelectableColumns();
@@ -301,18 +266,13 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-    /**
-     * @param ilCSVWriter $a_csv
-     * @param array       $a_set
-     * @return void
-     */
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("trac");
         foreach ($this->getSelectedColumns() as $c) {
-            if ($c != 'status') {
+            if ($c !== 'status') {
                 $val = $this->parseValue($c, $a_set[$c], "user");
             } else {
                 $val = ilLearningProgressBaseGUI::_getStatusText((int) $a_set[$c]);

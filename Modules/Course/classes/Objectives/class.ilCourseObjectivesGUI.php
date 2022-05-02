@@ -1,27 +1,21 @@
 <?php declare(strict_types=0);
 
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2001 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\UI\Component\Listing\Workflow\Step;
 use ILIAS\UI\Component\Listing\Workflow\Factory as Workflow;
 use ILIAS\UI\Renderer as UIRenderer;
@@ -198,7 +192,6 @@ class ilCourseObjectivesGUI
         if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
         }
-        $error = false;
 
         $post_self_limit = [];
         if ($this->http->wrapper()->post()->has('self')) {
@@ -223,7 +216,7 @@ class ilCourseObjectivesGUI
             $qst = new ilCourseObjectiveQuestion($objective_id);
             $max_points = $qst->getSelfAssessmentPoints();
 
-            if ($limit < 0 or $limit > $max_points) {
+            if ($limit < 0 || $limit > $max_points) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_objective_limit_err'));
                 $this->questionOverview();
                 return;
@@ -233,7 +226,7 @@ class ilCourseObjectivesGUI
             $qst = new ilCourseObjectiveQuestion($objective_id);
             $max_points = $qst->getFinalTestPoints();
 
-            if ($limit < 0 or $limit > $max_points) {
+            if ($limit < 0 || $limit > $max_points) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('crs_objective_limit_err'));
                 $this->questionOverview();
                 return;
@@ -241,13 +234,19 @@ class ilCourseObjectivesGUI
         }
 
         foreach ($post_self_limit as $objective_id => $limit) {
-            ilCourseObjectiveQuestion::_updateTestLimits($objective_id, ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT,
-                $limit);
+            ilCourseObjectiveQuestion::_updateTestLimits(
+                $objective_id,
+                ilCourseObjectiveQuestion::TYPE_SELF_ASSESSMENT,
+                $limit
+            );
         }
 
         foreach ($post_final_limit as $objective_id => $limit) {
-            ilCourseObjectiveQuestion::_updateTestLimits($objective_id, ilCourseObjectiveQuestion::TYPE_FINAL_TEST,
-                $limit);
+            ilCourseObjectiveQuestion::_updateTestLimits(
+                $objective_id,
+                ilCourseObjectiveQuestion::TYPE_FINAL_TEST,
+                $limit
+            );
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
@@ -368,7 +367,7 @@ class ilCourseObjectivesGUI
         $this->ctrl->redirect($this, 'materialAssignment');
     }
 
-    protected function materialAssignment()
+    protected function materialAssignment() : void
     {
         if (!$this->access->checkAccess('write', '', $this->course_obj->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt('permission_denied'), $this->ilErr->WARNING);
@@ -382,8 +381,11 @@ class ilCourseObjectivesGUI
         $this->ctrl->saveParameter($this, 'objective_id');
         $this->objective = new ilCourseObjective($this->course_obj, $this->initObjectiveIdFromQuery());
 
-        $table = new ilCourseObjectiveMaterialAssignmentTableGUI($this, $this->course_obj,
-            $this->initObjectiveIdFromQuery());
+        $table = new ilCourseObjectiveMaterialAssignmentTableGUI(
+            $this,
+            $this->course_obj,
+            $this->initObjectiveIdFromQuery()
+        );
         $table->setTitle(
             $this->lng->txt('crs_objective_wiz_materials'),
             '',
@@ -548,7 +550,6 @@ class ilCourseObjectivesGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
             $this->selfAssessmentLimits();
         } else {
-
             switch (ilSession::get('objective_mode')) {
                 case self::MODE_CREATE:
                     $this->finalTestAssignment();
@@ -557,7 +558,6 @@ class ilCourseObjectivesGUI
                 case self::MODE_UPDATE:
                     $this->selfAssessmentAssignment();
                     $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_objectives_assigned_lm'));
-                    return;
             }
         }
     }
@@ -663,12 +663,12 @@ class ilCourseObjectivesGUI
 
     protected function isRandomTestType(int $a_tst_type = 0) : bool
     {
-        if (!$a_tst_type) {
+        if ($a_tst_type === 0) {
             $a_tst_type = $this->test_type;
         }
 
         $tst_ref_id = $this->getSettings()->getTestByType($a_tst_type);
-        if (!$tst_ref_id) {
+        if ($tst_ref_id === 0) {
             return false;
         }
         return ilObjTest::_lookupRandomTest(ilObject::_lookupObjId($tst_ref_id));
@@ -1070,7 +1070,7 @@ class ilCourseObjectivesGUI
         return $this->form;
     }
 
-    protected function initWizard(int $active_step)
+    protected function initWizard(int $active_step) : void
     {
         $steps = [];
         $step_positions = [];

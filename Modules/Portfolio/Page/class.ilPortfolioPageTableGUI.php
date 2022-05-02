@@ -46,7 +46,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         $portfolio = $a_parent_obj->getObject();
         $this->portfolio = $portfolio;
         $this->page_gui = $this->parent_obj->getPageGUIClassName();
-        $this->is_template = ($this->portfolio->getType() == "prtt");
+        $this->is_template = ($this->portfolio->getType() === "prtt");
         
         $this->setTitle($lng->txt("tabs"));
 
@@ -184,7 +184,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
             $split_button = ilSplitButtonGUI::getInstance();
             $i = 0;
             foreach ($action_items as $item) {
-                if ($i++ == 0) {
+                if ($i++ === 0) {
                     $split_button->setDefaultButton($item);
                 } else {
                     $split_button->addMenuItem(new ilButtonToSplitButtonMenuItemAdapter($item));

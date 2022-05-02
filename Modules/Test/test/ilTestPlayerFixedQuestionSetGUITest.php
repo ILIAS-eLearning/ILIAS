@@ -14,8 +14,6 @@ class ilTestPlayerFixedQuestionSetGUITest extends ilTestBaseTestCase
     {
         parent::setUp();
 
-        $_GET["ref_id"] = 0;
-
         $this->addGlobal_lng();
         $this->addGlobal_tpl();
         $this->addGlobal_ilCtrl();
@@ -28,8 +26,6 @@ class ilTestPlayerFixedQuestionSetGUITest extends ilTestBaseTestCase
         $this->addGlobal_rbacsystem();
         $this->addGlobal_ilUser();
         $this->addGlobal_refinery();
-
-        $_GET["ref_id"] = 0;
 
         $this->testObj = new ilTestPlayerFixedQuestionSetGUI(
             $this->createMock(ilObjTest::class)

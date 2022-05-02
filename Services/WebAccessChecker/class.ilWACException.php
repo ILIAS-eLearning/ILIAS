@@ -20,17 +20,17 @@
  */
 class ilWACException extends ilException
 {
-    const CODE_NO_TYPE = 9001;
-    const CODE_NO_PATH = 9002;
-    const ACCESS_WITHOUT_CHECK = 9003;
-    const NO_CHECKING_INSTANCE = 9004;
-    const WRONG_PATH_TYPE = 9005;
-    const INITIALISATION_FAILED = 9006;
-    const DATA_DIR_NON_WRITEABLE = 9007;
-    const ACCESS_DENIED = 9010;
-    const ACCESS_DENIED_NO_PUB = 9011;
-    const ACCESS_DENIED_NO_LOGIN = 9012;
-    const MAX_LIFETIME = 9013;
+    public const CODE_NO_TYPE = 9001;
+    public const CODE_NO_PATH = 9002;
+    public const ACCESS_WITHOUT_CHECK = 9003;
+    public const NO_CHECKING_INSTANCE = 9004;
+    public const WRONG_PATH_TYPE = 9005;
+    public const INITIALISATION_FAILED = 9006;
+    public const DATA_DIR_NON_WRITEABLE = 9007;
+    public const ACCESS_DENIED = 9010;
+    public const ACCESS_DENIED_NO_PUB = 9011;
+    public const ACCESS_DENIED_NO_LOGIN = 9012;
+    public const MAX_LIFETIME = 9013;
     /**
      * @var array
      */
@@ -57,7 +57,7 @@ class ilWACException extends ilException
         $message = self::$messages[$code];
 
         if ($this->isNonEmptyString($additional_message)) {
-            $message = "\"{$this->message}\" with additional message: \"$additional_message\"";
+            $message = "\"$this->message\" with additional message: \"$additional_message\"";
         }
 
         //ilWACLog::getInstance()->write('Exception in ' . $this->getFile() . ':' . $this->getLine() . ': ' . $message);

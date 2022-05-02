@@ -54,7 +54,7 @@ class ilSysStyleCatAssignmentTableGUI extends ilTable2GUI
         $this->addMultiCommand('deleteAssignments', $DIC->language()->txt('remove_assignment'));
     }
 
-    public function getStyleCatAssignments()
+    public function getStyleCatAssignments() : void
     {
         $this->setData(ilSystemStyleSettings::getSubStyleCategoryAssignments(
             $this->skin_id,

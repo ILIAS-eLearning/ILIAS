@@ -55,10 +55,9 @@ class ilAuthFrontendCredentialsSoap extends ilAuthFrontendCredentials
         if (isset($this->httpRequest->getQueryParams()['cmd']) && is_string($this->httpRequest->getQueryParams()['cmd'])) {
             $cmd = $this->httpRequest->getQueryParams()['cmd'];
         }
-        if ('' === $cmd) {
-            if (isset($this->httpRequest->getParsedBody()['cmd']) && is_string($this->httpRequest->getParsedBody()['cmd'])) {
-                $cmd = $this->httpRequest->getParsedBody()['cmd'];
-            }
+        if ('' === $cmd &&
+            isset($this->httpRequest->getParsedBody()['cmd']) && is_string($this->httpRequest->getParsedBody()['cmd'])) {
+            $cmd = $this->httpRequest->getParsedBody()['cmd'];
         }
 
         $passedSso = '';

@@ -286,8 +286,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     {
         if ($this->globalToolbar instanceof parent) {
             $this->globalToolbar->addFormInput($formInput);
-        } else {
-            parent::addFormInput($formInput);
         }
     }
     
@@ -349,70 +347,14 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     {
         return md5($_COOKIE[session_name()] . time());
     }
-
-    /**
-     * @param $testSession
-     * @param $testSequence
-     * @return bool
-     */
-    private function isDeleteDynamicTestResultsButtonRequired() : bool
-    {
-        if (!$this->getTestSession()->getActiveId()) {
-            return false;
-        }
-
-        if (!$this->getTestOBJ()->isDynamicTest()) {
-            return false;
-        }
-
-        if (!$this->getTestOBJ()->isPassDeletionAllowed()) {
-            return false;
-        }
-
-        if (!$this->getTestSequence()->hasStarted($this->getTestSession())) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @param $testSession
-     * @param $big_button
-     */
-    private function populateDeleteDynamicTestResultsButton()
-    {
-        require_once 'Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php';
-
-        $this->ctrl->setParameterByClass(
-            'iltestevaluationgui',
-            'context',
-            ilTestPassDeletionConfirmationGUI::CONTEXT_INFO_SCREEN
-        );
-
-        $this->setParameter('iltestevaluationgui', 'active_id', $this->getTestSession()->getActiveId());
-        $this->setParameter('iltestevaluationgui', 'pass', $this->getTestSession()->getPass());
-
-        $btn = ilLinkButton::getInstance();
-        $btn->setCaption('tst_delete_dyn_test_results_btn');
-        $btn->setUrl($this->buildLinkTarget('iltestevaluationgui', 'confirmDeletePass'));
-        $btn->setPrimary(false);
-        
-        $this->addButtonInstance($btn);
-    }
-
+    
     private function areSkillLevelThresholdsMissing() : bool
     {
         if (!$this->getTestOBJ()->isSkillServiceEnabled()) {
             return false;
         }
-
-        if ($this->getTestOBJ()->isDynamicTest()) {
-            $questionSetConfig = $this->getTestQuestionSetConfig();
-            $questionContainerId = $questionSetConfig->getSourceQuestionPoolId();
-        } else {
-            $questionContainerId = $this->getTestOBJ()->getId();
-        }
+        
+        $questionContainerId = $this->getTestOBJ()->getId();
 
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         require_once 'Modules/Test/classes/class.ilTestSkillLevelThreshold.php';
@@ -483,13 +425,15 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
 
     public function build()
     {
-        $this->ensureInitialisedSessionLockString();
-        
-        $this->setParameter($this->getTestPlayerGUI(), 'lock', $this->getSessionLockString());
-        $this->setParameter($this->getTestPlayerGUI(), 'sequence', $this->getTestSession()->getLastSequence());
-        $this->setParameter('ilObjTestGUI', 'ref_id', $this->getTestOBJ()->getRefId());
-        
-        $this->setFormAction($this->buildFormAction($this->testPlayerGUI));
+        if (!$this->testOBJ->isDynamicTest()) {
+            $this->ensureInitialisedSessionLockString();
+            
+            $this->setParameter($this->getTestPlayerGUI(), 'lock', $this->getSessionLockString());
+            $this->setParameter($this->getTestPlayerGUI(), 'sequence', $this->getTestSession()->getLastSequence());
+            $this->setParameter('ilObjTestGUI', 'ref_id', $this->getTestOBJ()->getRefId());
+            
+            $this->setFormAction($this->buildFormAction($this->getTestPlayerGUI()));
+        }
         
         $online_access = false;
         if ($this->getTestOBJ()->getFixedParticipants()) {
@@ -549,10 +493,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
                 } else {
                     $this->addInfoMessage($executable['errormessage']);
                 }
-            }
-
-            if ($this->isDeleteDynamicTestResultsButtonRequired()) {
-                $this->populateDeleteDynamicTestResultsButton();
             }
 
             if ($this->DIC->user()->getId() == ANONYMOUS_USER_ID) {

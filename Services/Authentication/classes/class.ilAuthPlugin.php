@@ -53,7 +53,7 @@ abstract class ilAuthPlugin extends ilPlugin implements ilAuthDefinition
 
     /**
      *
-     * @param string $id
+     * @param int $id
      *            (can be your Mode or – if you have any – a Sub-mode.
      */
     abstract public function isAuthActive(int $a_auth_id) : bool;

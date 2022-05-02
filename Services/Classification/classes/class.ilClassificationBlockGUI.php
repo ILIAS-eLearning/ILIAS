@@ -387,7 +387,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
     /**
      * Get sub item ids depending on container type that match the preselected

@@ -24,11 +24,11 @@ abstract class arStatementCollection
     /**
      * @var arStatementCollection[]
      */
-    protected static array $cache = array();
+    protected static array $cache = [];
     /**
      * @var arStatement[]
      */
-    protected $statements = array();
+    protected array $statements = [];
     protected ?\ActiveRecord $ar = null;
 
     public function add(arStatement $statement) : void
@@ -38,7 +38,7 @@ abstract class arStatementCollection
 
     public function hasStatements() : bool
     {
-        return count($this->statements) > 0;
+        return $this->statements !== [];
     }
 
     public static function getInstance(ActiveRecord $ar) : arStatementCollection

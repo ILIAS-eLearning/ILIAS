@@ -12,14 +12,14 @@ interface ilCtrlStructureInterface
     /**
      * array key constants that are used for certain information.
      */
-    public const KEY_CLASS_CID       = 'cid';
-    public const KEY_CLASS_PATH      = 'class_path';
-    public const KEY_CLASS_NAME      = 'class_name';
+    public const KEY_CLASS_CID = 'cid';
+    public const KEY_CLASS_PATH = 'class_path';
+    public const KEY_CLASS_NAME = 'class_name';
     public const KEY_CLASS_CID_PATHS = 'cid_paths';
-    public const KEY_CLASS_PARENTS   = 'parents';
-    public const KEY_CLASS_CHILDREN  = 'children';
+    public const KEY_CLASS_PARENTS = 'parents';
+    public const KEY_CLASS_CHILDREN = 'children';
     public const KEY_UNSAFE_COMMANDS = 'unsafe_commands';
-    public const KEY_SAFE_COMMANDS   = 'safe_commands';
+    public const KEY_SAFE_COMMANDS = 'safe_commands';
 
     /**
      * Returns whether the given class is registered as a valid

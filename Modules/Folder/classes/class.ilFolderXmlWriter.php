@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -41,9 +41,9 @@ class ilFolderXmlWriter extends ilXmlWriter
         if ($this->add_header) {
             $this->buildHeader();
         }
-        $this->xmlStartTag('Folder', array('Id' => $this->folder->getId()));
-        $this->xmlElement('Title', array(), $this->folder->getTitle());
-        $this->xmlElement('Description', array(), $this->folder->getDescription());
+        $this->xmlStartTag('Folder', ['Id' => $this->folder->getId()]);
+        $this->xmlElement('Title', [], $this->folder->getTitle());
+        $this->xmlElement('Description', [], $this->folder->getDescription());
         ilContainerSortingSettings::_exportContainerSortingSettings($this, $this->obj_id);
         $this->xmlEndTag('Folder');
     }
@@ -65,7 +65,7 @@ class ilFolderXmlWriter extends ilXmlWriter
         if (!$this->folder = ilObjectFactory::getInstanceByObjId($this->obj_id, false)) {
             throw new UnexpectedValueException('Invalid obj_id given: ' . $this->obj_id);
         }
-        if ($this->folder->getType() != 'fold') {
+        if ($this->folder->getType() !== 'fold') {
             throw new UnexpectedValueException('Invalid obj_id given. Object is not of type folder');
         }
     }

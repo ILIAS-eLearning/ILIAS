@@ -20,7 +20,7 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
      * @param object|string|array $a_parent_obj
      */
     public function __construct(
-        mixed $a_parent_obj,
+        $a_parent_obj,
         string $a_parent_cmd,
         int $a_tax_id,
         string $a_target_gui,

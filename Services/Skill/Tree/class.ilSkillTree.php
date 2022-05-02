@@ -31,6 +31,9 @@ class ilSkillTree extends ilTree
         $this->setTableNames('skl_tree', 'skl_tree_node');
     }
 
+    /**
+     * @return array{skill_id: int, child: int, tref_id: int, parent: int}[]
+     */
     public function getSkillTreePath(int $a_base_skill_id, int $a_tref_id = 0) : array
     {
         if ($a_tref_id > 0) {
@@ -112,11 +115,6 @@ class ilSkillTree extends ilTree
             );
         }
 
-        $max = 0;
-        foreach ($childs as $k => $c) {
-            $max = max(array($c["order_nr"], $max));
-        }
-
-        return $max;
+        return max(0, ...array_column($childs, 'order_nr'));
     }
 }

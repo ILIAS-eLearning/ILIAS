@@ -41,13 +41,12 @@ class ilContainerFilterTableGUI extends ilTable2GUI
     {
         $service = $this->container_filter_service;
 
-        $items = array_map(function ($i) use ($service) {
-            /** @var ilContainerFilterField $i */
-            return array(
+        $items = array_map(static function (ilContainerFilterField $i) use ($service) : array {
+            return [
                 "record_set_id" => $i->getRecordSetId(),
                 "record_title" => $service->util()->getContainerRecordTitle($i->getRecordSetId()),
                 "field_title" => $service->util()->getContainerFieldTitle($i->getRecordSetId(), $i->getFieldId())
-            );
+            ];
         }, $service->data()->getFilterSetForRefId($this->ref_id)->getFields());
         return $items;
     }

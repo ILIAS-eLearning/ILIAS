@@ -27,7 +27,7 @@ class MediaCastStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testRefId()
+    public function testRefId() : void
     {
         $request = $this->getRequest(
             [
@@ -42,7 +42,7 @@ class MediaCastStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testMimeTypes()
+    public function testMimeTypes() : void
     {
         $request = $this->getRequest(
             [
@@ -57,7 +57,7 @@ class MediaCastStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testItemIds()
+    public function testItemIds() : void
     {
         $request = $this->getRequest(
             [
@@ -73,7 +73,7 @@ class MediaCastStandardGUIRequestTest extends TestCase
         );
     }
 
-    public function testSeconds()
+    public function testSeconds() : void
     {
         $request = $this->getRequest(
             [

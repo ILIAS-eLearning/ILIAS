@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use PHPUnit\Framework\TestCase;
 
 class LSItemTest extends TestCase
@@ -49,7 +63,7 @@ class LSItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithOnline(LSItem $object)
+    public function testWithOnline(LSItem $object) : void
     {
         $new_obj = $object->withOnline(false);
 
@@ -75,7 +89,7 @@ class LSItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithOrderNumber(LSItem $object)
+    public function testWithOrderNumber(LSItem $object) : void
     {
         $new_obj = $object->withOrderNumber(20);
 
@@ -101,7 +115,7 @@ class LSItemTest extends TestCase
     /**
      * @depends testCreate
      */
-    public function testWithPostCondition(LSItem $object)
+    public function testWithPostCondition(LSItem $object) : void
     {
         $pc = new ilLSPostCondition(555, 'always');
         $new_obj = $object->withPostCondition($pc);

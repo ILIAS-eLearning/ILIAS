@@ -36,14 +36,11 @@ class arConnectorDB extends arConnector
     /**
      * @return mixed
      */
-    public function nextID(ActiveRecord $ar)
+    public function nextID(ActiveRecord $ar) : int
     {
         return $this->returnDB()->nextId($ar->getConnectorContainerName());
     }
 
-    /**
-     * @param array $fields
-     */
     public function installDatabase(ActiveRecord $ar, array $fields) : bool
     {
         $ilDB = $this->returnDB();
@@ -118,9 +115,6 @@ class arConnectorDB extends arConnector
         return true;
     }
 
-    /**
-     * @return bool
-     */
     public function checkTableExists(ActiveRecord $ar) : bool
     {
         $ilDB = $this->returnDB();
@@ -132,10 +126,6 @@ class arConnectorDB extends arConnector
         return $ilDB->tableExists($ar->getConnectorContainerName());
     }
 
-    /**
-     * @param string $field_name
-     * @return bool
-     */
     public function checkFieldExists(ActiveRecord $ar, string $field_name) : bool
     {
         $ilDB = $this->returnDB();
@@ -239,7 +229,7 @@ class arConnectorDB extends arConnector
         $set = $ilDB->query($q);
 
         /** @noinspection PhpParamsInspection */
-        return (int) $ilDB->numRows($set);
+        return $ilDB->numRows($set);
     }
 
     /**
@@ -272,7 +262,6 @@ class arConnectorDB extends arConnector
 
     /**
      * @param        $value
-     * @param string $type
      */
     public function quote($value, string $type) : string
     {

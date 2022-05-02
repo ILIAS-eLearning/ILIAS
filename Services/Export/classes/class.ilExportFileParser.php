@@ -23,6 +23,7 @@ class ilExportFileParser extends ilSaxParser
     private string $install_id = '';
     private string $install_url = '';
     private string $schema_version = '';
+    // currently not used.
     private array $expfiles = [];
     private string $current_id = '';
     protected string $item_xml = "";

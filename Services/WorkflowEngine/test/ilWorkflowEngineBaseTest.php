@@ -1,12 +1,15 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\DI\Container;
 
 /**
  * Class ilWorkflowEngineBaseTest
  */
 abstract class ilWorkflowEngineBaseTest extends TestCase
 {
+    private ?Container $dic = null;
+
     protected function setGlobalVariable(string $name, $value) : void
     {
         global $DIC;
@@ -26,6 +29,12 @@ abstract class ilWorkflowEngineBaseTest extends TestCase
     {
         parent::setUp();
 
+        global $DIC;
+
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
+        $DIC = new Container();
+
         $this->setGlobalVariable('ilDB', $this->getMockBuilder(ilDBInterface::class)->getMock());
 
         $this->setGlobalVariable(
@@ -37,5 +46,14 @@ abstract class ilWorkflowEngineBaseTest extends TestCase
             'ilSetting',
             $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods(array('delete', 'get', 'set'))->getMock()
         );
+    }
+
+    protected function tearDown() : void
+    {
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 }

@@ -25,13 +25,13 @@ interface isItem extends isGlobalScreenItem
     public function isVisible() : bool;
     
     /**
-     * Pass a callable which can decide wheter your element is available in
+     * Pass a callable which can decide whether your element is available in
      * general, e.g. return false for the Badges Item when the Badges-Service
      * is disabled.
      * @param callable $is_avaiable
      * @return isItem|isChild
      */
-    public function withAvailableCallable(callable $is_avaiable) : isItem;
+    public function withAvailableCallable(callable $is_available) : isItem;
     
     /**
      * @return bool

@@ -47,8 +47,6 @@ class ilLTIConsumerSettingsGUI
 
     /**
      * ilLTIConsumerAccess constructor.
-     * @param ilObjLTIConsumer    $object
-     * @param ilLTIConsumerAccess $access
      */
     public function __construct(ilObjLTIConsumer $object, ilLTIConsumerAccess $access)
     {
@@ -171,7 +169,7 @@ class ilLTIConsumerSettingsGUI
             $form->initObject($this->object);
             $this->object->update();
             
-            if ($oldMasteryScore != $this->object->getMasteryScore()) {
+            if ($oldMasteryScore !== $this->object->getMasteryScore()) {
                 ilLPStatusWrapper::_refreshStatus($this->object->getId());
             }
             
@@ -202,7 +200,7 @@ class ilLTIConsumerSettingsGUI
 
         $validator = new ilCertificateDownloadValidator();
 
-        if (!$validator->isCertificateDownloadable((int) $DIC->user()->getId(), (int) $this->object->getId())) {
+        if (!$validator->isCertificateDownloadable($DIC->user()->getId(), $this->object->getId())) {
             $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt("permission_denied"), true);
             $DIC->ctrl()->redirectByClass(ilObjLTIConsumerGUI::class, ilObjLTIConsumerGUI::DEFAULT_CMD);
         }
@@ -219,6 +217,6 @@ class ilLTIConsumerSettingsGUI
             $DIC->language()->txt('error_creating_certificate_pdf')
         );
 
-        $pdfAction->downloadPdf((int) $DIC->user()->getId(), (int) $this->object->getId());
+        $pdfAction->downloadPdf($DIC->user()->getId(), $this->object->getId());
     }
 }

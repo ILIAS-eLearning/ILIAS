@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\Refinery\Factory as Refinery;
@@ -11,7 +27,7 @@ use ILIAS\Refinery\Factory as Refinery;
 class ilMailSearchGUI
 {
     private ilGlobalTemplateInterface $tpl;
-    private ilCtrl $ctrl;
+    private ilCtrlInterface $ctrl;
     protected ilRbacReview $rbacreview;
     protected ilObjectDataCache $object_data_cache;
     private ilLanguage $lng;
@@ -357,7 +373,6 @@ class ilMailSearchGUI
             $tbl_contacts->setData($result);
 
             $tbl_contacts->setDefaultOrderField('login');
-            $tbl_contacts->setPrefix('addr_');
             $tbl_contacts->enable('select_all');
             $tbl_contacts->setSelectAllCheckbox('search_name_to_addr');
             $tbl_contacts->setFormName('recipients');
@@ -461,7 +476,6 @@ class ilMailSearchGUI
             $tbl_users->setData($result);
 
             $tbl_users->setDefaultOrderField('login');
-            $tbl_users->setPrefix('usr_');
             $tbl_users->enable('select_all');
             $tbl_users->setSelectAllCheckbox('search_name_to_usr');
             $tbl_users->setFormName('recipients');
@@ -550,7 +564,6 @@ class ilMailSearchGUI
                 $tbl_grp->addColumn($this->lng->txt('description'), 'description', '15%');
 
                 $tbl_grp->setDefaultOrderField('title');
-                $tbl_grp->setPrefix('grp_');
                 $tbl_grp->enable('select_all');
                 $tbl_grp->setSelectAllCheckbox('search_name_to_grp');
                 $tbl_grp->setFormName('recipients');

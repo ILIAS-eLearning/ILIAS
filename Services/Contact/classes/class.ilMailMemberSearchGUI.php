@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -11,20 +26,16 @@ use Psr\Http\Message\ServerRequestInterface;
 class ilMailMemberSearchGUI
 {
     private ServerRequestInterface $httpRequest;
-    protected $mail_roles;
-    /**
-     * @var ilObjGroupGUI|ilObjCourseGUI
-     */
-    protected $gui;
-    protected ilAbstractMailMemberRoles $objMailMemberRoles;
-    /**
-     * @var null object ilCourseParticipants || ilGroupParticipants
-     */
-    protected $objParticipants;
-    protected ilCtrl $ctrl;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilLanguage $lng;
-    protected ilAccessHandler $access;
+    /** @var array{role_id: int, mailbox: string, form_option_title: string, default_checked: bool}[] */
+    private array $mail_roles;
+    /** @var ilObjGroupGUI|ilObjCourseGUI|ilMembershipGUI */
+    private $gui;
+    private ilAbstractMailMemberRoles $objMailMemberRoles;
+    private ?ilParticipants $objParticipants;
+    private ilCtrlInterface $ctrl;
+    private ilGlobalTemplateInterface $tpl;
+    private ilLanguage $lng;
+    private ilAccessHandler $access;
     public int $ref_id;
 
     /**
@@ -206,12 +217,12 @@ class ilMailMemberSearchGUI
     }
 
     
-    protected function sendMailToSelectedUsers() : bool
+    protected function sendMailToSelectedUsers() : void
     {
         if (!isset($this->httpRequest->getParsedBody()['user_ids']) || !is_array($this->httpRequest->getParsedBody()['user_ids']) || 0 === count($this->httpRequest->getParsedBody()['user_ids'])) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
-            return false;
+            return;
         }
 
         $rcps = [];
@@ -222,7 +233,7 @@ class ilMailMemberSearchGUI
         if (!count(array_filter($rcps))) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
             $this->showSelectableUsers();
-            return false;
+            return;
         }
 
         ilMailFormCall::setRecipients($rcps);
@@ -237,8 +248,6 @@ class ilMailMemberSearchGUI
             ],
             $this->generateContextArray()
         ));
-
-        return true;
     }
 
     protected function showSearchForm() : void
@@ -250,13 +259,13 @@ class ilMailMemberSearchGUI
     }
 
     
-    protected function getObjParticipants() : ilParticipants
+    protected function getObjParticipants() : ?ilParticipants
     {
         return $this->objParticipants;
     }
 
     /**
-     * @param $objParticipants ilParticipants
+     * @param ilParticipants $objParticipants
      */
     public function setObjParticipants(ilParticipants $objParticipants) : void
     {
@@ -283,9 +292,9 @@ class ilMailMemberSearchGUI
     }
 
     /**
-     * @return
+     * @return array{role_id: int, mailbox: string, form_option_title: string, default_checked?: bool}[]
      */
-    private function getMailRoles()
+    private function getMailRoles() : array
     {
         return $this->mail_roles;
     }
@@ -303,10 +312,10 @@ class ilMailMemberSearchGUI
         foreach ($mail_roles as $role) {
             $chk_role = new ilCheckboxInputGUI($role['form_option_title'], 'roles[]');
 
-            if (array_key_exists('default_checked', $role) && $role['default_checked']) {
+            if (isset($role['default_checked']) && $role['default_checked'] === true) {
                 $chk_role->setChecked(true);
             }
-            $chk_role->setValue($role['role_id']);
+            $chk_role->setValue((string) $role['role_id']);
             $chk_role->setInfo($role['mailbox']);
             $radio_roles->addSubItem($chk_role);
         }

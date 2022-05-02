@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
@@ -10,7 +12,7 @@ use ILIAS\Refinery\Factory;
  */
 class ilMDCopyrightUsageGUI
 {
-    const DEFAULT_CMD = 'showUsageTable';
+    public const DEFAULT_CMD = 'showUsageTable';
 
     protected int $entry_id;
 
@@ -52,7 +54,10 @@ class ilMDCopyrightUsageGUI
         $next_class = $this->ctrl->getNextClass($this);
         switch ($this->ctrl->getNextClass($this)) {
             case 'ilpublicuserprofilegui':
-                $profile_gui = new ilPublicUserProfileGUI(ilUtil::stripSlashes($user));
+                $profile_gui = new ilPublicUserProfileGUI($this->http->wrapper()->query()->retrieve(
+                    'user',
+                    $this->refinery->kindlyTo()->int()
+                ));
                 $profile_gui->setBackUrl(
                     $this->ctrl->getLinkTarget($this, self::DEFAULT_CMD)
                 );

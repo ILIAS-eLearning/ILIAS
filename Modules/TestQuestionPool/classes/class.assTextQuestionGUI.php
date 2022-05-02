@@ -569,6 +569,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $this->editQuestion();
                 return;
             }
+            // @MBECKER: Check this in running test
             if (!$this->checkInput()) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt("fill_out_all_required_fields_add_answer"));
                 $this->editQuestion();
@@ -579,7 +580,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $this->ctrl->setParameter($this, "q_id", $this->object->getId());
         $this->tpl->setVariable("HEADER", $this->object->getTitle());
         $this->getQuestionTemplate();
-        parent::addSuggestedSolution();
     }
 
     /**
@@ -607,7 +607,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
@@ -650,7 +650,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $this->addTab_SuggestedSolution($ilTabs, $classname);
 
         // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             $ilTabs->addTarget(
                 "statistics",
                 $this->ctrl->getLinkTargetByClass($classname, "assessment"),

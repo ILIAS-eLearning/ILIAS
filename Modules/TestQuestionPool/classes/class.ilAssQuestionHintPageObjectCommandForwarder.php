@@ -61,8 +61,8 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
         
         $this->questionHint = new ilAssQuestionHint();
 
-        if (!isset($_GET['hint_id']) || !(int) $_GET['hint_id'] || !$this->questionHint->load((int) $_GET['hint_id'])) {
-            $main_tpl->setOnScreenMessage('failure', 'invalid hint id given: ' . (int) $_GET['hint_id'], true);
+        if (!$this->request->isset('hint_id') || !(int) $this->request->raw('hint_id') || !$this->questionHint->load((int) $this->request->raw('hint_id'))) {
+            $main_tpl->setOnScreenMessage('failure', 'invalid hint id given: ' . (int) $this->request->raw('hint_id'), true);
             $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
         }
     }

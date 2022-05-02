@@ -141,9 +141,10 @@ class ilCmiXapiContentUploadImporter
      */
     public function importFormUpload(ilFormPropertyGUI $uploadInput) : void
     {
+        global $DIC;
         $this->ensureCreatedObjectDirectory();
         
-        $fileData = $_POST[$uploadInput->getPostVar()];
+        $fileData = $DIC->http()->wrapper()->post()->retrieve($uploadInput->getPostVar(), $DIC->refinery()->kindlyTo()->string());
         
         $uploadResult = $this->getUpload(
             $fileData['tmp_name']
@@ -468,7 +469,7 @@ class ilCmiXapiContentUploadImporter
         $this->object->save();
     }
 
-    private function generateActivityId(string $publisherId)
+    private function generateActivityId(string $publisherId) : string
     {
         global $DIC;
         $objId = $this->object->getId();

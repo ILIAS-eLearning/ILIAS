@@ -3,6 +3,7 @@
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Identification\Map\IdentificationMap;
 use ILIAS\GlobalScreen\Provider\ProviderFactory;
+use LogicException;
 
 /**
  * Interface SerializerInterface
@@ -16,7 +17,7 @@ interface SerializerInterface
      * The string MUST be shorter than 64 characters
      * @param IdentificationInterface $identification
      * @return string
-     * @throws \LogicException whn longer than 64 characters
+     * @throws LogicException whn longer than 64 characters
      */
     public function serialize(IdentificationInterface $identification) : string;
     

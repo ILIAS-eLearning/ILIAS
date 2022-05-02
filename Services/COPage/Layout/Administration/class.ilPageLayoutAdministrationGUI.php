@@ -96,7 +96,7 @@ class ilPageLayoutAdministrationGUI
 
             default:
                 if (in_array($cmd, array("listLayouts", "editPg", "addPageLayout", "cancelCreate", "createPg", "exportLayout",
-                    "savePageLayoutTypes", "activate", "deactivate", "importPageLayoutForm", "deletePgl", "cancelDeletePg",
+                    "activate", "deactivate", "importPageLayoutForm", "deletePgl", "cancelDeletePg",
                     "confirmedDeletePg", "importPageLayout"))) {
                     $this->$cmd();
                 } else {
@@ -352,33 +352,6 @@ class ilPageLayoutAdministrationGUI
         $this->executeCommand();
     }
 
-    /**
-     * Save page layout types
-     */
-    public function savePageLayoutTypes() : void
-    {
-        $types = $this->admin_request->getLayoutTypes();
-        $modules = $this->admin_request->getLayoutModules();
-        if (count($types) > 0) {
-            foreach ($types as $id => $t) {
-                if ($id > 0) {
-                    $l = new ilPageLayout($id);
-                    $l->readObject();
-                    $l->setSpecialPage($t);
-                    if (isset($modules[$id])) {
-                        $l->setModules(array_keys($modules[$id]));
-                    } else {
-                        $l->setModules();
-                    }
-                    $l->update();
-                }
-            }
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"));
-        }
-
-        $this->ctrl->redirect($this, "listLayouts");
-    }
-
 
     /**
      * Export page layout template object
@@ -399,7 +372,7 @@ class ilPageLayoutAdministrationGUI
             $tmpdir
         );
 
-        if ($succ["success"]) {
+        if (is_file($succ["directory"] . "/" . $succ["file"])) {
             ilFileDelivery::deliverFileLegacy(
                 $succ["directory"] . "/" . $succ["file"],
                 $succ["file"],
@@ -413,7 +386,7 @@ class ilPageLayoutAdministrationGUI
             unlink($succ["directory"] . "/" . $succ["file"]);
         }
         if (is_dir($succ["directory"])) {
-            unlink($succ["directory"]);
+            //unlink($succ["directory"]);
         }
     }
 

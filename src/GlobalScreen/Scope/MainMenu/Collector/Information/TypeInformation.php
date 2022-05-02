@@ -29,9 +29,9 @@ final class TypeInformation
 {
     private TypeRenderer $renderer;
     private isItem $instance;
-    private string $type = "";
-    private string $type_name_for_presentation = "";
-    private string $type_byline_for_presentation = "";
+    private string $type;
+    private string $type_name_for_presentation;
+    private string $type_byline_for_presentation;
     private TypeHandler $type_handler;
     private bool $creation_prevented = false;
     

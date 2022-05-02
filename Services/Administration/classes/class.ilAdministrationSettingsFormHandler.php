@@ -1,17 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Administration settings form handler
@@ -20,7 +24,10 @@
  */
 class ilAdministrationSettingsFormHandler
 {
-    protected static $OBJ_MAP;
+    /**
+     * @var array<string, int>
+     */
+    protected static array $OBJ_MAP;
     
     public const FORM_PRIVACY = 1;
     public const FORM_SECURITY = 2;
@@ -68,18 +75,18 @@ class ilAdministrationSettingsFormHandler
         
         $map = array("adm" => SYSTEM_FOLDER_ID);
         foreach ($tree->getChilds(SYSTEM_FOLDER_ID) as $obj) {
-            $map[$obj["type"]] = $obj["ref_id"];
+            $map[$obj["type"]] = (int) $obj["ref_id"];
         }
 
         self::$OBJ_MAP = $map;
     }
 
-    protected static function getRefId($a_obj_type) : int
+    protected static function getRefId(string $a_obj_type) : int
     {
-        if (!is_array(self::$OBJ_MAP)) {
+        if (!isset(self::$OBJ_MAP)) {
             self::initObjectMap();
         }
-        return (int) (self::$OBJ_MAP[$a_obj_type] ?? 0);
+        return self::$OBJ_MAP[$a_obj_type] ?? 0;
     }
     
     public static function getSettingsGUIInstance(string $a_settings_obj_type) : ilObjectGUI
@@ -172,15 +179,19 @@ class ilAdministrationSettingsFormHandler
         
         $gui = new ilCronManagerGUI();
         $data = $gui->addToExternalSettingsForm($a_form_id);
-        if (is_array($data) && sizeof($data)) {
+        if (is_array($data) && count($data)) {
             self::parseFieldDefinition("cron", $a_form, $parent_gui, $data);
         }
     }
-    
+
+    /**
+     * @param mixed $a_field_value
+     * @return mixed
+     */
     protected static function parseFieldValue(
         ?string $a_field_type,
-        string &$a_field_value
-    ) : bool {
+        &$a_field_value
+    ) {
         global $DIC;
 
         $lng = $DIC->language();
@@ -198,10 +209,7 @@ class ilAdministrationSettingsFormHandler
             $a_field_value = "-";
         }
 
-        if (is_numeric($a_field_value) || $a_field_value !== "") {
-            return true;
-        }
-        return false;
+        return is_numeric($a_field_value) || $a_field_value !== "";
     }
     
     protected static function parseFieldDefinition(
@@ -242,7 +250,7 @@ class ilAdministrationSettingsFormHandler
                 $area_caption = "obj_" . $a_type;
             }
 
-            if (is_array($fields) && sizeof($fields) == 2) {
+            if (is_array($fields) && count($fields) === 2) {
                 $cmd = $fields[0];
                 $fields = $fields[1];
                 if (is_array($fields)) {

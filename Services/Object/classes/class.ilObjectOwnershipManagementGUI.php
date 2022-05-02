@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilObjectOwnershipManagementGUI
  *
@@ -11,6 +25,7 @@
  */
 class ilObjectOwnershipManagementGUI
 {
+    const P_OWNID = 'ownid';
     protected ilObjUser $user;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
@@ -18,8 +33,9 @@ class ilObjectOwnershipManagementGUI
     protected ilLanguage $lng;
     protected ilObjectDefinition $obj_definition;
     protected ilTree $tree;
-
     protected int $user_id;
+    protected int $own_id = 0;
+    private ilObjectRequestRetriever $retriever;
     
     public function __construct(int $user_id = null)
     {
@@ -32,11 +48,13 @@ class ilObjectOwnershipManagementGUI
         $this->lng = $DIC->language();
         $this->obj_definition = $DIC["objDefinition"];
         $this->tree = $DIC->repositoryTree();
+        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $DIC->refinery());
 
         $this->user_id = $this->user->getId();
         if (!is_null($user_id)) {
             $this->user_id = $user_id;
         }
+        $this->own_id = $this->retriever->getMaybeInt(self::P_OWNID, 0);
     }
     
     public function executeCommand() : void
@@ -78,8 +96,8 @@ class ilObjectOwnershipManagementGUI
             asort($options);
             $sel->setOptions($options);
 
-            $sel_type = (string) $_REQUEST["type"];
-            if ($sel_type) {
+            $sel_type = $this->retriever->getMaybeString('type', '');
+            if ($sel_type !== '') {
                 $sel->setValue($sel_type);
             } else {
                 $sel_type = array_keys($options);
@@ -147,7 +165,7 @@ class ilObjectOwnershipManagementGUI
                 $this->ctrl->redirectByClass($path);
             }
         }
-                        
+        
         $this->ctrl->setParameterByClass($class, "ref_id", $ref_id);
         $this->ctrl->setParameterByClass($class, "cmd", $cmd);
         $this->ctrl->redirectByClass($path);
@@ -155,25 +173,34 @@ class ilObjectOwnershipManagementGUI
     
     public function delete() : void
     {
-        $ref_id = (int) $_REQUEST["ownid"];
-        $this->redirectParentCmd($ref_id, "delete");
+        $this->redirectParentCmd(
+            $this->own_id,
+            "delete"
+        );
     }
     
     public function move() : void
     {
-        $ref_id = (int) $_REQUEST["ownid"];
-        $this->redirectParentCmd($ref_id, "cut");
+        $this->redirectParentCmd(
+            $this->own_id,
+            "cut"
+        );
     }
     
     public function export() : void
     {
-        $ref_id = (int) $_REQUEST["ownid"];
-        $this->redirectCmd($ref_id, "ilExportGUI");
+        $this->redirectCmd(
+            $this->own_id,
+            ilExportGUI::class
+        );
     }
     
     public function changeOwner() : void
     {
-        $ref_id = (int) $_REQUEST["ownid"];
-        $this->redirectCmd($ref_id, "ilPermissionGUI", "owner");
+        $this->redirectCmd(
+            $this->own_id,
+            ilPermissionGUI::class,
+            "owner"
+        );
     }
 }

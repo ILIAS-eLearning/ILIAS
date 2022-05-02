@@ -42,7 +42,7 @@ class NotificationTest extends TestCase
         return $db_mock;
     }
 
-    public function testRemoveForUser()
+    public function testRemoveForUser() : void
     {
         $db_mock = $this->initDBMock();
         $db_mock->expects($this->once())

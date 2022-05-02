@@ -21,7 +21,7 @@ class ilNewsDataSet extends ilDataSet
 {
     public function getSupportedVersions() : array
     {
-        return array("5.4.0", "4.1.0");
+        return ["5.4.0", "4.1.0"];
     }
     
     protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
@@ -31,11 +31,11 @@ class ilNewsDataSet extends ilDataSet
     
     protected function getTypes(string $a_entity, string $a_version) : array
     {
-        if ($a_entity == "news") {
+        if ($a_entity === "news") {
             switch ($a_version) {
                 case "4.1.0":
                 case "5.4.0":
-                    return array(
+                    return [
                         "Id" => "integer",
                         "Title" => "text",
                         "Content" => "text",
@@ -50,13 +50,13 @@ class ilNewsDataSet extends ilDataSet
                         "ContentIsLangVar" => "integer",
                         "MobId" => "integer",
                         "Playtime" => "text"
-                        );
+                    ];
             }
         }
-        if ($a_entity == "news_settings") {
+        if ($a_entity === "news_settings") {
             switch ($a_version) {
                 case "5.4.0":
-                    return array(
+                    return [
                         "ObjId" => "integer",
                         "PublicFeed" => "integer",
                         "DefaultVisibility" => "text",
@@ -64,7 +64,7 @@ class ilNewsDataSet extends ilDataSet
                         "HideNewsPerDate" => "integer",
                         "HideNewsDate" => "text",
                         "PublicNotifications" => "integer"
-                    );
+                    ];
             }
         }
         return [];
@@ -75,10 +75,10 @@ class ilNewsDataSet extends ilDataSet
         $ilDB = $this->db;
 
         if (!is_array($a_ids)) {
-            $a_ids = array($a_ids);
+            $a_ids = [$a_ids];
         }
                 
-        if ($a_entity == "news") {
+        if ($a_entity === "news") {
             switch ($a_version) {
                 case "4.1.0":
                 case "5.4.0":
@@ -92,7 +92,7 @@ class ilNewsDataSet extends ilDataSet
             }
         }
 
-        if ($a_entity == "news_settings") {
+        if ($a_entity === "news_settings") {
             switch ($a_version) {
                 case "5.4.0":
                     foreach ($a_ids as $obj_id) {
@@ -108,24 +108,9 @@ class ilNewsDataSet extends ilDataSet
             }
         }
     }
-    
-    /**
-     * Determine the dependent sets of data
-     */
-    protected function getDependencies(
-        string $a_entity,
-        string $a_version,
-        ?array $a_rec = null,
-        ?array $a_ids = null
-    ) : array {
-        return [];
-    }
-    
+
     public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
     {
-        //echo $a_entity;
-        //var_dump($a_rec);
-
         switch ($a_entity) {
             case "news":
                 $mob_id = null;
@@ -136,24 +121,23 @@ class ilNewsDataSet extends ilDataSet
                     ":" . $a_rec["ContextSubObjType"];
                 $context = $a_mapping->getMapping("Services/News", "news_context", $c);
                 $context = explode(":", $context);
-//var_dump($c);
-//var_dump($a_mapping->mappings["Services/News"]["news_context"]);
+
                 $newObj = new ilNewsItem();
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setContent($a_rec["Content"]);
                 $newObj->setPriority($a_rec["Priority"]);
-                $newObj->setContextObjId($context[0]);
+                $newObj->setContextObjId((int) $context[0]);
                 $newObj->setContextObjType($context[1]);
-                $newObj->setContextSubObjId($context[2]);
+                $newObj->setContextSubObjId((int) $context[2]);
                 $newObj->setContextSubObjType($context[3]);
                 $newObj->setContentType($a_rec["ContentType"]);
                 $newObj->setVisibility($a_rec["Visibility"]);
                 $newObj->setContentLong($a_rec["ContentLong"]);
                 $newObj->setContentIsLangVar($a_rec["ContentIsLangVar"]);
-                $newObj->setMobId($mob_id);
+                $newObj->setMobId((int) $mob_id);
                 $newObj->setPlaytime($a_rec["Playtime"]);
                 $newObj->create();
-                $a_mapping->addMapping("Services/News", "news", $a_rec["Id"], $newObj->getId());
+                $a_mapping->addMapping("Services/News", "news", $a_rec["Id"], (string) $newObj->getId());
                 break;
 
             case "news_settings":
@@ -161,7 +145,7 @@ class ilNewsDataSet extends ilDataSet
                 $dummy_dataset = new ilObjectDataSet();
                 $new_obj_id = $dummy_dataset->getNewObjId($a_mapping, $a_rec["ObjId"]);
 
-                if ($new_obj_id > 0 && $a_schema_version == "5.4.0") {
+                if ($new_obj_id > 0 && $a_schema_version === "5.4.0") {
                     foreach ([
                         "public_feed" => "PublicFeed",
                         "keep_rss_min" => "KeepRssMin",

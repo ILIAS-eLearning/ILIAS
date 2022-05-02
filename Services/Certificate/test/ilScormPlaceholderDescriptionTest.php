@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
@@ -34,7 +50,7 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->getMock();
 
         $collectionInstance->method('getPossibleItems')
-            ->willReturn(array(0 => array('title' => 'Some SCORM Title')));
+            ->willReturn([0 => ['title' => 'Some SCORM Title']]);
 
         $learningProgressMock->method('getCollectionInstance')
             ->willReturn($collectionInstance);
@@ -47,7 +63,7 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->willReturn('');
 
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $placeholderDescriptionObject = new ilScormPlaceholderDescription(
             $objectMock,
@@ -59,7 +75,7 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 
         $html = $placeholderDescriptionObject->createPlaceholderHtmlDescription($templateMock);
 
-        $this->assertEquals('', $html);
+        $this->assertSame('', $html);
     }
 
     public function testPlaceholderDescriptions() : void
@@ -91,7 +107,7 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->willReturn('');
 
         $userDefinePlaceholderMock->method('getPlaceholderDescriptions')
-            ->willReturn(array());
+            ->willReturn([]);
 
         $placeholderDescriptionObject = new ilScormPlaceholderDescription(
             $objectMock,
@@ -103,8 +119,8 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 
         $placeHolders = $placeholderDescriptionObject->getPlaceholderDescriptions();
 
-        $this->assertEquals(
-            array(
+        $this->assertSame(
+            [
                 'USER_LOGIN' => 'Something translated',
                 'USER_FULLNAME' => 'Something translated',
                 'USER_FIRSTNAME' => 'Something translated',
@@ -126,7 +142,7 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
                 'SCORM_POINTS_MAX' => 'Something translated',
                 'DATE_COMPLETED' => 'Something translated',
                 'DATETIME_COMPLETED' => 'Something translated'
-            ),
+            ],
             $placeHolders
         );
     }

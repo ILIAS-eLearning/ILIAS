@@ -32,8 +32,8 @@ class ilCalendarMailNotification extends ilMailNotification
     protected const TYPE_GRP_NEW_NOTIFICATION = 2;
     protected const TYPE_CRS_NOTIFICATION = 3;
     protected const TYPE_CRS_NEW_NOTIFICATION = 4;
-    protected const TYPE_BOOKING_CONFIRMATION = 5;
-    protected const TYPE_BOOKING_CANCELLATION = 6;
+    public const TYPE_BOOKING_CONFIRMATION = 5;
+    public const TYPE_BOOKING_CANCELLATION = 6;
     protected const TYPE_USER = 7;
     protected const TYPE_USER_ANONYMOUS = 8;
     protected const TYPE_BOOKING_REMINDER = 9;
@@ -51,7 +51,6 @@ class ilCalendarMailNotification extends ilMailNotification
         parent::__construct($a_is_personal_workspace);
         $this->lng = $DIC->language();
         $this->rbacreview = $DIC->rbac()->review();
-
     }
 
     public function setAppointmentId(int $a_id) : void
@@ -166,8 +165,10 @@ class ilCalendarMailNotification extends ilMailNotification
 
                 $this->addAttachment();
 
-                $this->sendMail(array('#il_grp_admin_' . $this->getRefId(), '#il_grp_member_' . $this->getRefId()),
-                    false);
+                $this->sendMail(
+                    array('#il_grp_admin_' . $this->getRefId(), '#il_grp_member_' . $this->getRefId()),
+                    false
+                );
                 break;
 
             case self::TYPE_GRP_NOTIFICATION:
@@ -196,8 +197,10 @@ class ilCalendarMailNotification extends ilMailNotification
 
                 $this->addAttachment();
 
-                $this->sendMail(array('#il_grp_admin_' . $this->getRefId(), '#il_grp_member_' . $this->getRefId()),
-                    false);
+                $this->sendMail(
+                    array('#il_grp_admin_' . $this->getRefId(), '#il_grp_member_' . $this->getRefId()),
+                    false
+                );
                 break;
 
             case self::TYPE_CRS_NEW_NOTIFICATION:
@@ -279,8 +282,10 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->setBody(ilMail::getSalutation($user_id, $this->getLanguage()));
                 $this->appendBody("\n\n");
                 $this->appendBody(
-                    sprintf($this->getLanguageText('cal_booking_confirmation_body'),
-                        ilObjUser::_lookupFullname($booking->getObjId()))
+                    sprintf(
+                        $this->getLanguageText('cal_booking_confirmation_body'),
+                        ilObjUser::_lookupFullname($booking->getObjId())
+                    )
                 );
                 $this->appendBody("\n\n");
                 $this->appendAppointmentDetails();
@@ -320,8 +325,10 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->setBody(ilMail::getSalutation($user_id, $this->getLanguage()));
                 $this->appendBody("\n\n");
                 $this->appendBody(
-                    sprintf($this->getLanguageText('cal_booking_cancellation_body'),
-                        ilObjUser::_lookupFullname($booking->getObjId()))
+                    sprintf(
+                        $this->getLanguageText('cal_booking_cancellation_body'),
+                        ilObjUser::_lookupFullname($booking->getObjId())
+                    )
                 );
                 $this->appendBody("\n\n");
 
@@ -355,8 +362,10 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->setBody(ilMail::getSalutation($user_id, $this->getLanguage()));
                 $this->appendBody("\n\n");
                 $this->appendBody(
-                    sprintf($this->getLanguageText('cal_ch_booking_reminder_body'),
-                        ilObjUser::_lookupFullname($booking->getObjId()))
+                    sprintf(
+                        $this->getLanguageText('cal_ch_booking_reminder_body'),
+                        ilObjUser::_lookupFullname($booking->getObjId())
+                    )
                 );
                 $this->appendBody("\n\n");
                 $this->appendAppointmentDetails();

@@ -1,7 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 
 /**
@@ -39,37 +52,68 @@ class ilSearchGUI extends ilSearchBaseGUI
         $this->tabs_gui = $DIC->tabs();
         $this->help_gui = $DIC->help();
         $this->lng->loadLanguageModule("search");
-        
+
+        $post_search = (array) ($this->http->request()->getParsedBody()['search'] ?? []);
+        $post_filter_type = (array) ($this->http->request()->getParsedBody()['filter_type'] ?? []);
+        $post_cmd = (array) ($this->http->request()->getParsedBody()['cmd'] ?? []);
+
         // put form values into "old" post variables
         $this->initStandardSearchForm(ilSearchBaseGUI::SEARCH_FORM_STANDARD);
         $this->form->checkInput();
-        
-        $new_search = isset($_POST['cmd']['performSearch']) ? true : false;// @TODO: PHP8 Review: Direct access to $_POST.
 
+        $new_search = (bool) ($post_cmd['performSearch']) ?? false;
         $enabled_types = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
         foreach ($enabled_types as $type => $pval) {
-            if ($_POST['filter_type'][$type] == 1) {// @TODO: PHP8 Review: Direct access to $_POST.
-                $_POST["search"]["details"][$type] = $_POST['filter_type'][$type];// @TODO: PHP8 Review: Direct access to $_POST.
+            if ($post_filter_type[$type] == 1) {
+                $post_search["details"][$type] = $post_filter_type[$type];
             }
         }
 
-        $_POST["search"]["string"] = $_POST["term"];// @TODO: PHP8 Review: Direct access to $_POST.
-        $_POST["search"]["combination"] = $_POST["combination"];// @TODO: PHP8 Review: Direct access to $_POST.
-        $_POST["search"]["type"] = $_POST["type"];// @TODO: PHP8 Review: Direct access to $_POST.
-        ilSession::set('search_root', $_POST['area']);// @TODO: PHP8 Review: Direct access to $_POST.
+        $post_term = '';
+        if ($this->http->wrapper()->post()->has('term')) {
+            $post_term = $this->http->wrapper()->post()->retrieve(
+                'term',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $post_combination = '';
+        if ($this->http->wrapper()->post()->has('combination')) {
+            $post_combination = $this->http->wrapper()->post()->retrieve(
+                'combination',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $post_type = 0;
+        if ($this->http->wrapper()->post()->has('type')) {
+            $post_type = $this->http->wrapper()->post()->retrieve(
+                'type',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $post_area = 0;
+        if ($this->http->wrapper()->post()->has('area')) {
+            $post_area = $this->http->wrapper()->post()->retrieve(
+                'area',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $post_search["string"] = $post_term;
+        $post_search["combination"] = $post_combination;
+        $post_search["type"] = $post_type;
+        ilSession::set('search_root', (string) $post_area);
 
         $this->root_node = (int) (ilSession::get('search_root') ?? ROOT_FOLDER_ID);
 
         $session_search = ilSession::get('search') ?? [];
-        $this->setType((int) ($_POST['search']['type'] ?? ($session_search['type'] ?? ilSearchBaseGUI::SEARCH_FAST)));// @TODO: PHP8 Review: Direct access to $_POST.
+        $this->setType((int) ($post_search['type'] ?? ($session_search['type'] ?? ilSearchBaseGUI::SEARCH_FAST)));
 
         $this->setCombination(
             ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND ?
                 self::SEARCH_AND :
                 self::SEARCH_OR
         );
-        $this->setString((string) ($_POST['search']['string'] ?? ($session_search['string'] ?? '')));// @TODO: PHP8 Review: Direct access to $_POST.
-        $this->setDetails($new_search ? $_POST['search']['details'] : ($session_search['details'] ?? []));// @TODO: PHP8 Review: Direct access to $_POST.
+        $this->setString((string) ($post_search['string'] ?? ($session_search['string'] ?? '')));
+        $this->setDetails($new_search ? $post_search['details'] : ($session_search['details'] ?? []));
     }
 
 
@@ -94,7 +138,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             case 'ilobjectcopygui':
                 $this->prepareOutput();
                 $this->ctrl->setReturn($this, '');
-                                $cp = new ilObjectCopyGUI($this);// @TODO: PHP8 Review: Invalid argument.
+                $cp = new ilObjectCopyGUI($this);
                 $this->ctrl->forwardCommand($cp);
                 break;
             
@@ -219,7 +263,21 @@ class ilSearchGUI extends ilSearchBaseGUI
     */
     public function autoComplete() : void
     {
-        if ((int) $_REQUEST['search_type'] == -1) {// @TODO: PHP8 Review: Direct access to $_REQUEST.
+        $query = '';
+        if ($this->http->wrapper()->post()->has('term')) {
+            $query = $this->http->wrapper()->post()->retrieve(
+                'term',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $search_type = 0;
+        if ($this->http->wrapper()->post()->has('search_type')) {
+            $search_type = $this->http->wrapper()->post()->retrieve(
+                'search_type',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        if ((int) $search_type === -1) {
             $a_fields = array('login','firstname','lastname','email');
             $result_field = 'login';
 
@@ -233,8 +291,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             $auto->enableFieldSearchableCheck(true);
             $auto->setUserLimitations(true);
 
-            $res = $auto->getList($_REQUEST['term']);// @TODO: PHP8 Review: Direct access to $_REQUEST.
-            
+            $res = $auto->getList($query);
             $res_obj = json_decode($res);
             
             ilLoggerFactory::getLogger('sea')->debug($res);
@@ -246,8 +303,7 @@ class ilSearchGUI extends ilSearchBaseGUI
                 exit;
             }
         } else {
-            $q = $_REQUEST["term"];// @TODO: PHP8 Review: Direct access to $_REQUEST.
-            $list = ilSearchAutoComplete::getList($q);
+            $list = ilSearchAutoComplete::getList($query);
             ilLoggerFactory::getLogger('sea')->dump(json_decode($list));
             echo $list;
             exit;

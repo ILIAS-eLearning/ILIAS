@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as ArrayBasedRequestWrapper;
 
 /**
 * This class represents a single choice wizard property in a property form.
@@ -19,7 +19,8 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     protected $suffixes = array();
     protected $showPoints = true;
     protected $hideImages = false;
-    
+    protected ArrayBasedRequestWrapper $post_wrapper;
+
     /**
     * Constructor
     *
@@ -32,6 +33,8 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         $this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
         $this->setSize('25');
         $this->validationRegexp = "";
+        global $DIC;
+        $this->post_wrapper = $DIC->http()->wrapper()->post();
     }
 
     public function setValue($a_value) : void
@@ -193,13 +196,13 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
+            $foundvalues = ilArrayUtil::stripSlashesRecursive(
                 $_POST[$this->getPostVar()],
                 true,
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
             );
         }
-        $foundvalues = $_POST[$this->getPostVar()];
+        //$foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
             // check answers
             if (is_array($foundvalues['answer'])) {

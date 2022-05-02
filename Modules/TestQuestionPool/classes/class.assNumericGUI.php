@@ -334,7 +334,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
@@ -377,7 +377,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         $this->addTab_SuggestedSolution($ilTabs, $classname);
 
         // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             $ilTabs->addTarget(
                 "statistics",
                 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
@@ -449,7 +449,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         $lower_limit->setSize(25);
         $lower_limit->setMaxLength(20);
         $lower_limit->setRequired(true);
-        $lower_limit->setValue($this->object->getLowerLimit());
+        $lower_limit->setValue((string) $this->object->getLowerLimit());
         $form->addItem($lower_limit);
 
         // upper bound
@@ -457,7 +457,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         $upper_limit->setSize(25);
         $upper_limit->setMaxLength(20);
         $upper_limit->setRequired(true);
-        $upper_limit->setValue($this->object->getUpperLimit());
+        $upper_limit->setValue((string) $this->object->getUpperLimit());
         $form->addItem($upper_limit);
 
         // reset input length, if max chars are set

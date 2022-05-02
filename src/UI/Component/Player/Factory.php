@@ -39,9 +39,34 @@ interface Factory
      * context:
      *   - Listing Items in Panels
      * ----
-     * @param string $source
+     * @param string $source relative web root path of an mp3 file or a URL of an external mp3 resource
      * @param string $transcript
      * @return \ILIAS\UI\Component\Player\Audio
      */
     public function audio(string $source, string $transcript = "") : Audio;
+
+    /**
+     * ---
+     * description:
+     *   purpose: The Video component is used to play and control mp4 video files, youtube or vimeo videos.
+     *   composition: >
+     *       The Video component is composed by a video area, play/pause button, a playtime presentation,
+     *       a volume button, a volume slider and a time slider. Additionally it optionally
+     *       provides subtitles stored in WebVTT files, see https://en.wikipedia.org/wiki/WebVTT.
+     * rules:
+     *   accessibility:
+     *     1: >
+     *        A subtitle file SHOULD be provided, if the video content contains speech.
+     *   style:
+     *     1: >
+     *        The widget will be presented with the full width of its container.
+     * context:
+     *   - Main Content
+     *   - Modal Content
+     * ----
+     * @param string $source relative web root path of an mp4 file, URL of an external mp4 resource,
+     *                       youtube or vimeo URL
+     * @return \ILIAS\UI\Component\Player\Video
+     */
+    public function video(string $source) : Video;
 }

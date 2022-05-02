@@ -1,13 +1,23 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory as Refinery;
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilMailSearchObjectsTableGUI extends ilTable2GUI
 {
-    private GlobalHttpState $http;
-    private Refinery $refinery;
     protected ilObjUser $user;
     protected ilRbacSystem $rbacsystem;
     protected object $parentObject;
@@ -27,8 +37,6 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
         $this->ctrl = $DIC['ilCtrl'];
         $this->user = $DIC['ilUser'];
         $this->rbacsystem = $DIC['rbacsystem'];
-        $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
 
         $this->lng->loadLanguageModule('crs');
         $this->lng->loadLanguageModule('buddysystem');
@@ -66,24 +74,28 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
 
         $this->ctrl->setParameter($a_parent_obj, 'view', $mode['view']);
 
+        $http = $DIC['http'];
+        $refinery = $DIC->refinery();
+
+
         if (
-            $this->http->wrapper()->query()->has('ref') &&
-            $this->http->wrapper()->query()->retrieve('ref', $this->refinery->kindlyTo()->string()) !== ''
+            $http->wrapper()->query()->has('ref') &&
+            $http->wrapper()->query()->retrieve('ref', $refinery->kindlyTo()->string()) !== ''
         ) {
             $this->ctrl->setParameter(
                 $a_parent_obj,
                 'ref',
-                $this->http->wrapper()->query()->retrieve('ref', $this->refinery->kindlyTo()->string())
+                $http->wrapper()->query()->retrieve('ref', $refinery->kindlyTo()->string())
             );
         }
 
-        if ($this->http->wrapper()->post()->has($mode['checkbox'])) {
-            $ids = $this->http->wrapper()->post()->retrieve(
+        if ($http->wrapper()->post()->has($mode['checkbox'])) {
+            $ids = $http->wrapper()->post()->retrieve(
                 $mode['checkbox'],
-                $this->refinery->kindlyTo()->listOf(
-                    $this->refinery->in()->series([
-                        $this->refinery->kindlyTo()->int(),
-                        $this->refinery->kindlyTo()->string()
+                $refinery->kindlyTo()->listOf(
+                    $refinery->in()->series([
+                        $refinery->kindlyTo()->int(),
+                        $refinery->kindlyTo()->string()
                     ])
                 )
             );
@@ -122,8 +134,8 @@ class ilMailSearchObjectsTableGUI extends ilTable2GUI
         $this->addMultiCommand('showMembers', $this->lng->txt('mail_list_members'));
 
         if (
-            $this->http->wrapper()->query()->has('ref') &&
-            $this->http->wrapper()->query()->retrieve('ref', $this->refinery->to()->string()) === 'mail'
+            $http->wrapper()->query()->has('ref') &&
+            $http->wrapper()->query()->retrieve('ref', $refinery->to()->string()) === 'mail'
         ) {
             $this->addCommandButton('cancel', $this->lng->txt('cancel'));
         }

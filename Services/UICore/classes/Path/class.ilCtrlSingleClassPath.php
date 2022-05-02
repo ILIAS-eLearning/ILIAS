@@ -25,7 +25,7 @@ class ilCtrlSingleClassPath extends ilCtrlAbstractPath
     {
         parent::__construct($structure);
 
-        $this->context  = $context;
+        $this->context = $context;
 
         try {
             $this->cid_path = $this->getCidPathByClass($target_class);

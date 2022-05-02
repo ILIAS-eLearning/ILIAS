@@ -179,8 +179,9 @@ class ilCmiXapiImporter extends ilXmlImporter
         $xmlRoot = null;
         $xml = $DIC->filesystem()->temp()->readStream($this->_relImportDir . '/properties.xml');
         if ($xml != false) {
-            libxml_use_internal_errors(true);
+            $use_internal_errors = libxml_use_internal_errors(true);
             $xmlRoot = simplexml_load_string((string) $xml);
+            libxml_use_internal_errors($use_internal_errors);
         }
         foreach ($this->_dataset->_cmixSettingsProperties as $key => $property) {
             $this->_moduleProperties[$key] = trim($xmlRoot->$key->__toString());

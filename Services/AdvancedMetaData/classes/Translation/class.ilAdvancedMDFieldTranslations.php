@@ -148,7 +148,9 @@ class ilAdvancedMDFieldTranslations
             );
             if ((string) $row->lang_code == $this->default_language && $row->tfield == null) {
                 $this->translations[(int) $row->ofield][(string) $row->lang_code]->setTitle($this->definitions[(int) $row->ofield]->getTitle());
-                $this->translations[(int) $row->ofield][(string) $row->lang_code]->setDescription((string) $this->definitions[(int) $row->ofield]->getDescription());
+                $this->translations[(int) $row->ofield][(string) $row->lang_code]->setDescription(
+                    $this->definitions[(int) $row->ofield]->getDescription()
+                );
             }
         }
     }
@@ -222,8 +224,10 @@ class ilAdvancedMDFieldTranslations
 
     public function getTitleForLanguage(int $field_id, string $language) : string
     {
-        if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation($field_id,
-                $language)->getTitle())) {
+        if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation(
+            $field_id,
+            $language
+        )->getTitle())) {
             return $this->getTranslation($field_id, $language)->getTitle();
         }
         if (
@@ -240,8 +244,10 @@ class ilAdvancedMDFieldTranslations
 
     public function getDescriptionForLanguage(int $field_id, string $language) : string
     {
-        if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation($field_id,
-                $language)->getDescription())) {
+        if ($this->getTranslation($field_id, $language) && strlen($this->getTranslation(
+            $field_id,
+            $language
+        )->getDescription())) {
             return $this->getTranslation($field_id, $language)->getDescription();
         }
         if ($this->getTranslation($field_id, $this->getDefaultLanguage()) &&

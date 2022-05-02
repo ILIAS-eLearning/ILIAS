@@ -3,7 +3,7 @@
 namespace ILIAS\MainMenu\Provider;
 
 use ILIAS\DI\Container;
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MyStaff\ilMyStaffAccess;
@@ -11,6 +11,7 @@ use ILIAS\MyStaff\ilMyStaffCachedAccessDecorator;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopParentItemDrilldownRenderer;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 
 /**
  * Class StandardTopItemsProvider
@@ -56,7 +57,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
     public function __construct(Container $dic)
     {
         parent::__construct($dic);
-        $this->basic_access_helper = BasicAccessCheckClosures::getInstance();
+        $this->basic_access_helper = BasicAccessCheckClosuresSingleton::getInstance();
         $this->repository_identification = $this->if->identifier('repository');
         $this->personal_workspace_identification = $this->if->identifier('personal_workspace');
         $this->achievements_identification = $this->if->identifier('achievements');

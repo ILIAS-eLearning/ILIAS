@@ -11,7 +11,7 @@
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *********************************************************************/
 
 /**
  * Webresource xml importer
@@ -42,9 +42,16 @@ class ilWebResourceImporter extends ilXmlImporter
         ilImportMapping $a_mapping
     ) : void {
         if ($new_id = $a_mapping->getMapping(
-            'Services/Container', 'objs', $a_id
+            'Services/Container',
+            'objs',
+            $a_id
         )) {
             $this->link = ilObjectFactory::getInstanceByObjId($new_id, false);
+            if (!$this->link instanceof ilObjLinkResource) {
+                throw new ilObjectNotFoundException(
+                    'Invalid id given ' . $a_id
+                );
+            }
         } else {
             $this->link = new ilObjLinkResource();
             $this->link->setType('webr');
@@ -56,7 +63,9 @@ class ilWebResourceImporter extends ilXmlImporter
             $parser->setMode(ilWebLinkXmlParser::MODE_CREATE);
             $parser->start();
             $a_mapping->addMapping(
-                'Modules/WebResource', 'webr', $a_id,
+                'Modules/WebResource',
+                'webr',
+                $a_id,
                 (string) $this->link->getId()
             );
         } catch (ilSaxParserException $e) {

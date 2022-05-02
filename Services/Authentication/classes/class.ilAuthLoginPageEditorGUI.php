@@ -35,7 +35,7 @@ class ilAuthLoginPageEditorGUI
     private ilErrorHandling $ilErr;
     private ?ilPropertyFormGUI $form;
 
-    private int $ref_id = 0;
+    private int $ref_id;
     private ilAuthLoginPageEditorSettings $settings;
     private ?ilSetting $loginSettings = null;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
@@ -93,7 +93,7 @@ class ilAuthLoginPageEditorGUI
                     '_top'
                 );
 
-                if ($_GET["redirectSource"] != "ilinternallinkgui") {
+                if ($_GET["redirectSource"] !== "ilinternallinkgui") {
                     $this->forwardToPageObject();
                 }
                 break;
@@ -150,19 +150,18 @@ class ilAuthLoginPageEditorGUI
         // style tab
         //$page_gui->setTabHook($this, "addPageTabs");
 
-        if ($this->ctrl->getCmd() == 'editPage') {
+        if ($this->ctrl->getCmd() === 'editPage') {
             $this->ctrl->setCmd('edit');
         }
         $html = $this->ctrl->forwardCommand($page_gui);
 
-        if ($html != "") {
+        if ($html !== "") {
             $this->tpl->setContent($html);
         }
     }
 
     /**
      * Show current activated editor
-     * @return void
      */
     protected function show() : void
     {
@@ -234,7 +233,7 @@ class ilAuthLoginPageEditorGUI
     {
         $settings = ilAuthLoginPageEditorSettings::getInstance();
         foreach ((array) $_POST['visible_languages'] as $lang_key) {
-            $settings->enableIliasEditor($lang_key, in_array($lang_key, (array) $_POST['languages']));
+            $settings->enableIliasEditor($lang_key, in_array($lang_key, (array) $_POST['languages'], true));
         }
         $settings->update();
 
@@ -260,7 +259,7 @@ class ilAuthLoginPageEditorGUI
      * @global ilSetting $ilSetting
      * @author Michael Jansen
      */
-    protected function showRichtextEditor()
+    protected function showRichtextEditor() : void
     {
         if (!$this->rbacsystem->checkAccess("visible,read", $this->getRefId())) {
             $this->ilErr->raiseError($this->lng->txt("permission_denied"), $this->ilErr->MESSAGE);
@@ -284,7 +283,6 @@ class ilAuthLoginPageEditorGUI
     /**
      * saves the login information data
      *
-     * @access protected
      * @author Michael Jansen
      */
     protected function saveLoginInfo() : void
@@ -326,7 +324,7 @@ class ilAuthLoginPageEditorGUI
         $this->form->addCommandButton('saveLoginInfo', $this->lng->txt('save'));
 
         $rad_settings = ilRadiusSettings::_getInstance();
-        if ($ldap_id = ilLDAPServer::_getFirstActiveServer() or $rad_settings->isActive()) {
+        if (($ldap_id = ilLDAPServer::_getFirstActiveServer()) || $rad_settings->isActive()) {
             $select = new ilSelectInputGUI($this->lng->txt('default_auth_mode'), 'default_auth_mode');
             $select->setValue($this->setting->get('default_auth_mode', (string) ilAuthUtils::AUTH_LOCAL));
             $select->setInfo($this->lng->txt('default_auth_mode_info'));
@@ -351,7 +349,7 @@ class ilAuthLoginPageEditorGUI
 
         foreach ($this->setDefLangFirst($def_language, $languages) as $lang_key) {
             $add = "";
-            if ($lang_key == $def_language) {
+            if ($lang_key === $def_language) {
                 $add = " (" . $this->lng->txt("default") . ")";
             }
 
@@ -360,8 +358,9 @@ class ilAuthLoginPageEditorGUI
                 'login_message_' . $lang_key
             );
             $textarea->setRows(10);
-            if (isset($login_settings["login_message_" . $lang_key])) {
-                $textarea->setValue($login_settings["login_message_" . $lang_key]);
+            $msg_login_lang = "login_message_" . $lang_key;
+            if (isset($login_settings[$msg_login_lang])) {
+                $textarea->setValue($login_settings[$msg_login_lang]);
             }
             $textarea->setUseRte(true);
             $textarea->setRteTagSet("extended");
@@ -381,7 +380,7 @@ class ilAuthLoginPageEditorGUI
             $textarea->setValue($message);
             $textarea->setUseRte(true);
             $textarea->setRteTagSet("extended");
-            if (!in_array($lang_key, $languages)) {
+            if (!in_array($lang_key, $languages, true)) {
                 $textarea->setAlert($this->lng->txt("not_installed"));
             }
             $this->form->addItem($textarea);
@@ -389,31 +388,26 @@ class ilAuthLoginPageEditorGUI
     }
 
     /**
-     *
      * returns an array of all installed languages, default language at the first position
-     *
      * @param string $a_def_language Default language of the current installation
      * @param array $a_languages Array of all installed languages
-     * @return array $languages Array of the installed languages, default language at first position
-     * @access public
+     * @return array $languages Array of the installed languages, default language at first position or
+     *         an empty array, if $a_a_def_language is empty
      * @author Michael Jansen
-     *
      */
-    protected function setDefLangFirst($a_def_language, $a_languages)
+    private function setDefLangFirst(string $a_def_language, array $a_languages) : array
     {
-        if (is_array($a_languages) && $a_def_language != "") {
-            $languages = array();
+        $languages = [];
+        if ($a_def_language !== "") {
             $languages[] = $a_def_language;
 
             foreach ($a_languages as $val) {
-                if (!in_array($val, $languages)) {
+                if (!in_array($val, $languages, true)) {
                     $languages[] = $val;
                 }
             }
-
-            return $languages;
-        } else {
-            return array();
         }
+
+        return $languages;
     }
 }

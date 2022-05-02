@@ -1,5 +1,16 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * TableGUI class for registration codes
@@ -81,7 +92,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
             (string) $this->filter["alimit"]
         );
 
-        if (count($codes_data["set"]) == 0 && $this->getOffset() > 0) {
+        if (count($codes_data["set"]) === 0 && $this->getOffset() > 0) {
             $this->resetOffset();
             $codes_data = ilRegistrationCode::getCodesData(
                 $this->getOrderField(),
@@ -125,7 +136,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
                         $local[] = $role;
                     }
                 }
-                if (sizeof($local)) {
+                if (count($local)) {
                     sort($local);
                     $result[$k]["role_local"] = implode("<br />", $local);
                 }
@@ -144,7 +155,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
 
                     case "relative":
                         $limit_caption = array();
-                        $limit = unserialize($code["alimitdt"]);
+                        $limit = unserialize($code["alimitdt"], ['allowed_classes' => false]);
                         if ((int) $limit["d"]) {
                             $limit_caption[] = (int) $limit["d"] . " " . $this->lng->txt("days");
                         }
@@ -154,7 +165,7 @@ class ilRegistrationCodesTableGUI extends ilTable2GUI
                         if ((int) $limit["y"]) {
                             $limit_caption[] = (int) $limit["y"] . " " . $this->lng->txt("years");
                         }
-                        if (sizeof($limit_caption)) {
+                        if (count($limit_caption)) {
                             $result[$k]["alimit"] = $this->lng->txt("reg_access_limitation_mode_relative_target") .
                                 ": " . implode(", ", $limit_caption);
                         }

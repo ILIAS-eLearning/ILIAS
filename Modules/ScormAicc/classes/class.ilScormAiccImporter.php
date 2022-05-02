@@ -14,31 +14,20 @@
  *****************************************************************************/
 class ilScormAiccImporter extends ilXmlImporter
 {
-    /**
-     *
-     */
     public function __construct()
     {
-        $this->dataset = new ilScormAiccDataSet();
+        $this->dataset = new ilScormAiccDataSet();//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
         //todo: at the moment restricted to one module in xml file, extend?
-        $this->moduleProperties = [];
-        $this->manifest = [];
+        $this->moduleProperties = [];//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        $this->manifest = [];//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
     }
 
-    /**
-     * @return void
-     */
     public function init() : void
     {
     }
 
     /**
      * Import XML
-     * @param string          $a_entity
-     * @param string          $a_id
-     * @param string          $a_xml
-     * @param ilImportMapping|null $a_mapping
-     * @return void
      * @throws ilDatabaseException
      * @throws ilFileUtilsException
      * @throws ilObjectNotFoundException
@@ -52,15 +41,17 @@ class ilScormAiccImporter extends ilXmlImporter
 //            return;
 //        }
         // case i container
-        if ($a_id != null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
-            $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+        if ($a_id !== "" && $a_mapping !== null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+            $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
             $exportDir = ilExport::_getExportDirectory((int) $a_id);
             $tempFile = dirname($exportDir) . '/export/' . basename($this->getImportDirectory()) . '.zip';
             $timeStamp = time();
             $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
             $lmTempDir = $lmDir . $timeStamp;
             if (!file_exists($lmTempDir)) {
-                mkdir($lmTempDir, 0755, true);
+                if (!mkdir($lmTempDir, 0755, true) && !is_dir($lmTempDir)) {
+                    throw new \RuntimeException(sprintf('Directory "%s" was not created', $lmTempDir));
+                }
             }
             $zar = new ZipArchive();
             $zar->open($tempFile);
@@ -87,34 +78,36 @@ class ilScormAiccImporter extends ilXmlImporter
                         $this->moduleProperties["Title"] = $xmlRoot->Title;
                         $this->moduleProperties["Description"] = $xmlRoot->Description;
                         
-                        if ($a_id != null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
-                            $this->dataset->writeData("sahs", "5.1.0", $newObj->getId(), $this->moduleProperties);
+                        if ($a_id !== "" && $a_mapping !== null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
+                            if ($newObj !== null) {
+                                $this->dataset->writeData("sahs", "5.1.0", $newObj->getId(), $this->moduleProperties);
 
-                            $newObj->createReference();
+                                $newObj->createReference();
 
-                            $scormFile = "content.zip";
-                            $scormFilePath = $a_xml . "/" . $scormFile;
-                            $targetPath = $newObj->getDataDirectory() . "/" . $scormFile;
-                            $file_path = $targetPath;
+                                $scormFile = "content.zip";
+                                $scormFilePath = $a_xml . "/" . $scormFile;
+                                $targetPath = $newObj->getDataDirectory() . "/" . $scormFile;
+                                $file_path = $targetPath;
 
-                            ilFileUtils::rename($scormFilePath, $targetPath);
-                            ilFileUtils::unzip($file_path);
-                            unlink($file_path);
-                            ilFileUtils::delDir($lmTempDir, false);
-                            ilFileUtils::renameExecutables($newObj->getDataDirectory());
+                                ilFileUtils::rename($scormFilePath, $targetPath);
+                                ilFileUtils::unzip($file_path);
+                                unlink($file_path);
+                                ilFileUtils::delDir($lmTempDir, false);
+                                ilFileUtils::renameExecutables($newObj->getDataDirectory());
 
-                            $newId = $newObj->getRefId();
-                            // $newObj->putInTree($newId);
-                            // $newObj->setPermissions($newId);
-                            $subType = $this->moduleProperties["SubType"][0];
-                            if ($subType == "scorm") {
-                                $newObj = new ilObjSCORMLearningModule($newId);
-                            } else {
-                                $newObj = new ilObjSCORM2004LearningModule($newId);
+                                $newId = $newObj->getRefId();
+                                // $newObj->putInTree($newId);
+                                // $newObj->setPermissions($newId);
+                                $subType = $this->moduleProperties["SubType"][0];
+                                if ($subType === "scorm") {
+                                    $newObj = new ilObjSCORMLearningModule($newId);
+                                } else {
+                                    $newObj = new ilObjSCORM2004LearningModule($newId);
+                                }
+                                $title = $newObj->readObject();
+                                //auto set learning progress settings
+                                $newObj->setLearningProgressSettingsAtUpload();
                             }
-                            $title = $newObj->readObject();
-                            //auto set learning progress settings
-                            $newObj->setLearningProgressSettingsAtUpload();
                         }
                         
                         
@@ -135,12 +128,6 @@ class ilScormAiccImporter extends ilXmlImporter
         }
     }
 
-    /**
-     * @param string $a_entity
-     * @param string $a_version
-     * @param int    $a_id
-     * @return void
-     */
     public function writeData(string $a_entity, string $a_version, int $a_id) : void
     {
         $this->dataset->writeData($a_entity, $a_version, $a_id, $this->moduleProperties);

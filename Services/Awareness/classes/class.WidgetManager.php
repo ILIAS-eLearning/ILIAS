@@ -15,9 +15,11 @@
 
 namespace ILIAS\Awareness;
 
-use ilNotificationLink;
-use ilNotificationOSDHandler;
-use ilNotificationParameter;
+use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
+use ILIAS\Notifications\Model\ilNotificationConfig;
+use ILIAS\Notifications\Model\ilNotificationLink;
+use ILIAS\Notifications\ilNotificationOSDHandler;
+use ILIAS\Notifications\Model\ilNotificationParameter;
 use ilArrayUtil;
 
 /**
@@ -98,20 +100,21 @@ class WidgetManager
             return;
         }
 
-        $notification = new \ilNotificationConfig('who_is_online');
+        $notification = new ilNotificationConfig('who_is_online');
         $notification->setTitleVar('awareness_now_online', [], 'awrn');
         $notification->setShortDescriptionVar('');
         $notification->setLongDescriptionVar('');
         $notification->setLinks($new_online_users);
         $notification->setIconPath('templates/default/images/icon_usr.svg');
-        $notification->setValidForSeconds(\ilNotificationConfig::TTL_SHORT);
-        $notification->setVisibleForSeconds(\ilNotificationConfig::DEFAULT_TTS);
+        $notification->setValidForSeconds(ilNotificationConfig::TTL_SHORT);
+        $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
 
         $this->session_repo->setOnlineUsersTS(date("Y-m-d H:i:s", time()));
 
-        foreach (ilNotificationOSDHandler::getNotificationsForUser($this->user_id) as $osd) {
-            if ($osd['type'] === 'who_is_online') {
-                ilNotificationOSDHandler::removeNotification($osd['notification_osd_id']);
+        $handler = new ilNotificationOSDHandler();
+        foreach ($handler->getNotificationsForUser($this->user_id) as $osd) {
+            if ($osd->getType() === 'who_is_online') {
+                $handler->removeNotification($osd->getId());
             }
         }
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -54,7 +54,7 @@ class ilCategoryXmlWriter extends ilXmlWriter
 
     public function export(bool $a_with_header = true) : void
     {
-        if ($this->getMode() == self::MODE_EXPORT) {
+        if ($this->getMode() === self::MODE_EXPORT) {
             if ($a_with_header) {
                 $this->buildHeader();
             }
@@ -104,12 +104,13 @@ class ilCategoryXmlWriter extends ilXmlWriter
         foreach ($translations as $translation) {
             $this->xmlStartTag(
                 'Translation',
-                array(
-                'default' => (int) $translation['lang_default'],
-                'language' => $translation['lang_code'])
+                [
+                    'default' => (int) $translation['lang_default'],
+                    'language' => $translation['lang_code']
+                ]
             );
-            $this->xmlElement('Title', array(), $translation['title']);
-            $this->xmlElement('Description', array(), $translation['description']);
+            $this->xmlElement('Title', [], $translation['title']);
+            $this->xmlElement('Description', [], $translation['description']);
             $this->xmlEndTag('Translation');
         }
         $this->xmlEndTag('Translations');

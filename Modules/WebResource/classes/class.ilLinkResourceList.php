@@ -3,16 +3,19 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilLinkResourceList
  * @author Thomas Famula <famula@leifos.com>
@@ -90,11 +93,12 @@ class ilLinkResourceList
     {
         $query = "SELECT * FROM webr_lists " .
             "WHERE webr_id = " . $this->db->quote(
-                $this->getListResourceId(), 'integer'
+                $this->getListResourceId(),
+                'integer'
             );
 
         $res = $this->db->query($query);
-        if ($this->db->numRows($res)) {
+        if ($this->db->numRows($res) !== 0) {
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $this->setTitle($row->title);
                 $this->setDescription($row->description);
@@ -110,7 +114,8 @@ class ilLinkResourceList
     {
         $query = "DELETE FROM webr_lists " .
             "WHERE webr_id = " . $this->db->quote(
-                $this->getListResourceId(), 'integer'
+                $this->getListResourceId(),
+                'integer'
             );
         $res = $this->db->manipulate($query);
 
@@ -124,10 +129,6 @@ class ilLinkResourceList
         return true;
     }
 
-    /**
-     * @param bool $a_update_history
-     * @return bool
-     */
     public function update(bool $a_update_history = true) : bool
     {
         if (!$this->getListResourceId()) {
@@ -136,16 +137,20 @@ class ilLinkResourceList
         $this->setLastUpdateDate(time());
         $query = "UPDATE webr_lists " .
             "SET title = " . $this->db->quote(
-                $this->getTitle(), 'text'
+                $this->getTitle(),
+                'text'
             ) . ", " .
             "description = " . $this->db->quote(
-                $this->getDescription(), 'text'
+                $this->getDescription(),
+                'text'
             ) . ", " .
             "last_update = " . $this->db->quote(
-                $this->getLastUpdateDate(), 'integer'
+                $this->getLastUpdateDate(),
+                'integer'
             ) . " " .
             "WHERE webr_id = " . $this->db->quote(
-                $this->getListResourceId(), 'integer'
+                $this->getListResourceId(),
+                'integer'
             );
         $res = $this->db->manipulate($query);
 
@@ -237,9 +242,6 @@ class ilLinkResourceList
             "WHERE webr_id = " . $ilDB->quote($a_webr_id, 'integer');
 
         $res = $ilDB->query($query);
-        if ($ilDB->numRows($res)) {
-            return true;
-        }
-        return false;
+        return (bool) $ilDB->numRows($res);
     }
 }

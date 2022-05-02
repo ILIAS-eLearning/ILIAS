@@ -20,9 +20,6 @@
  */
 class ilMediaCastDataSet extends ilDataSet
 {
-    /**
-     * @var bool|ilObject|ilObjMediaCast
-     */
     protected ilObjMediaCast $current_obj;
     protected array $order = array();
     

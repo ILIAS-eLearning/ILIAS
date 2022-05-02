@@ -3,16 +3,19 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
+ *
+ *********************************************************************/
+ 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Services as HTTPService;
 
@@ -50,7 +53,9 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('valid'), 'valid', '10px');
         $this->addColumn($this->lng->txt('webr_active'), 'active', '10px');
         $this->addColumn(
-            $this->lng->txt('webr_disable_check'), 'disable_check', '10px'
+            $this->lng->txt('webr_disable_check'),
+            'disable_check',
+            '10px'
         );
 
         $this->setEnableHeader(true);
@@ -58,7 +63,8 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $this->ctrl->getFormAction($this->getParentObject())
         );
         $this->setRowTemplate(
-            "tpl.webr_editable_link_row.html", 'Modules/WebResource'
+            "tpl.webr_editable_link_row.html",
+            'Modules/WebResource'
         );
         $this->setEnableTitle(true);
         $this->setEnableNumInfo(true);
@@ -103,7 +109,7 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    public function updateFromPost()
+    public function updateFromPost() : void
     {
         $request_link_info = (array) ($this->http->request()->getParsedBody(
             )['links'] ?? []);
@@ -156,30 +162,40 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('external');
             $this->tpl->setVariable('VAL_ID', $a_set['id']);
             $this->tpl->setVariable(
-                'VAL_TARGET', ilLegacyFormElementsUtil::prepareFormOutput(
-                $a_set['target']
-            )
+                'VAL_TARGET',
+                ilLegacyFormElementsUtil::prepareFormOutput(
+                    $a_set['target']
+                )
             );
             $this->tpl->parseCurrentBlock();
         } else {
             $this->ctrl->setParameterByClass(
-                'ilinternallinkgui', 'postvar', 'tar_' . $a_set['id']
+                'ilinternallinkgui',
+                'postvar',
+                'tar_' . $a_set['id']
             );
             $trigger_link = array(get_class($this->parent_obj),
                                   'ilinternallinkgui'
             );
             $trigger_link = $this->ctrl->getLinkTargetByClass(
-                $trigger_link, '', '', true, false
+                $trigger_link,
+                '',
+                '',
+                true,
+                false
             );
             $this->ctrl->setParameterByClass(
-                'ilinternallinkgui', 'postvar', ''
+                'ilinternallinkgui',
+                'postvar',
+                ''
             );
 
             $this->tpl->setCurrentBlock('internal');
             $this->tpl->setVariable('VAL_ID', $a_set['id']);
             $this->tpl->setVariable('VAL_TRIGGER_INTERNAL', $trigger_link);
             $this->tpl->setVariable(
-                'TXT_TRIGGER_INTERNAL', $this->lng->txt('edit')
+                'TXT_TRIGGER_INTERNAL',
+                $this->lng->txt('edit')
             );
 
             // info about current link
@@ -192,7 +208,8 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
                 $parts = ilLinkInputGUI::getTranslatedValue($a_set['target']);
 
                 $this->tpl->setVariable(
-                    'TXT_TRIGGER_INFO', $parts['type'] . ' "' .
+                    'TXT_TRIGGER_INFO',
+                    $parts['type'] . ' "' .
                                       $parts['name'] . '"'
                 );
             }
@@ -201,7 +218,8 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         }
 
         $this->tpl->setVariable(
-            'TXT_LAST_CHECK', $this->lng->txt('webr_last_check_table')
+            'TXT_LAST_CHECK',
+            $this->lng->txt('webr_last_check_table')
         );
         $this->tpl->setVariable(
             'LAST_CHECK',
@@ -216,7 +234,9 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->tpl->setVariable(
             'VAL_VALID',
             ilLegacyFormElementsUtil::formCheckbox(
-                $a_set['valid'], 'links[' . $a_set['id'] . '][vali]', '1'
+                $a_set['valid'],
+                'links[' . $a_set['id'] . '][vali]',
+                '1'
             )
         );
 
@@ -224,7 +244,9 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->tpl->setVariable(
             'VAL_ACTIVE',
             ilLegacyFormElementsUtil::formCheckbox(
-                $a_set['active'], 'links[' . $a_set['id'] . '][act]', '1'
+                $a_set['active'],
+                'links[' . $a_set['id'] . '][act]',
+                '1'
             )
         );
 
@@ -232,7 +254,9 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->tpl->setVariable(
             'VAL_CHECK',
             ilLegacyFormElementsUtil::formCheckbox(
-                $a_set['disable_check'], 'links[' . $a_set['id'] . '][che]', '1'
+                $a_set['disable_check'],
+                'links[' . $a_set['id'] . '][che]',
+                '1'
             )
         );
 
@@ -241,24 +265,31 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('dyn_del_row');
             $this->tpl->setVariable('TXT_DYN_DEL', $this->lng->txt('delete'));
             $this->ctrl->setParameterByClass(
-                get_class($this->getParentObject()), 'param_id', $param_id
+                get_class($this->getParentObject()),
+                'param_id',
+                $param_id
             );
             $this->tpl->setVariable(
-                'DYN_DEL_LINK', $this->ctrl->getLinkTarget(
-                $this->getParentObject(), 'deleteParameter'
-            )
+                'DYN_DEL_LINK',
+                $this->ctrl->getLinkTarget(
+                    $this->getParentObject(),
+                    'deleteParameter'
+                )
             );
             $this->tpl->setVariable(
-                'VAL_DYN', ilParameterAppender::parameterToInfo(
-                $param['name'], $param['value']
-            )
+                'VAL_DYN',
+                ilParameterAppender::parameterToInfo(
+                    $param['name'],
+                    $param['value']
+                )
             );
             $this->tpl->parseCurrentBlock();
         }
         if ($a_set['params']) {
             $this->tpl->setCurrentBlock('dyn_del_rows');
             $this->tpl->setVariable(
-                'TXT_EXISTING', $this->lng->txt('links_existing_params')
+                'TXT_EXISTING',
+                $this->lng->txt('links_existing_params')
             );
             $this->tpl->parseCurrentBlock();
         }
@@ -266,14 +297,17 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         if (ilParameterAppender::_isEnabled()) {
             $this->tpl->setCurrentBlock('dyn_add');
             $this->tpl->setVariable(
-                'TXT_DYN_ADD', $this->lng->txt('links_add_param')
+                'TXT_DYN_ADD',
+                $this->lng->txt('links_add_param')
             );
 
             $this->tpl->setVariable(
-                'TXT_DYN_NAME', $this->lng->txt('links_name')
+                'TXT_DYN_NAME',
+                $this->lng->txt('links_name')
             );
             $this->tpl->setVariable(
-                'TXT_DYN_VALUE', $this->lng->txt('links_value')
+                'TXT_DYN_VALUE',
+                $this->lng->txt('links_value')
             );
             $this->tpl->setVariable('VAL_DYN_NAME', $a_set['name']);
             $this->tpl->setVariable('DYN_ID', $a_set['id']);
@@ -299,22 +333,26 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
         $this->tpl->setVariable(
             'VAL_CHECKBOX',
             ilLegacyFormElementsUtil::formCheckbox(
-                false, 'link_ids[]', (string) $a_set['id']
+                false,
+                'link_ids[]',
+                (string) $a_set['id']
             )
         );
 
         // Column title
         $this->tpl->setVariable('TXT_TITLE', $this->lng->txt('title'));
         $this->tpl->setVariable(
-            'VAL_TITLE', ilLegacyFormElementsUtil::prepareFormOutput(
-            $a_set['title']
-        )
+            'VAL_TITLE',
+            ilLegacyFormElementsUtil::prepareFormOutput(
+                $a_set['title']
+            )
         );
         $this->tpl->setVariable('TXT_DESC', $this->lng->txt('description'));
         $this->tpl->setVariable(
-            'VAL_DESC', ilLegacyFormElementsUtil::prepareFormOutput(
-            $a_set['description']
-        )
+            'VAL_DESC',
+            ilLegacyFormElementsUtil::prepareFormOutput(
+                $a_set['description']
+            )
         );
 
         // Column Target

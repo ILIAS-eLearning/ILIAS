@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjLinkResource
@@ -20,8 +23,6 @@
  */
 class ilObjLinkResource extends ilObject
 {
-    private ?ilLinkResourceItems $items_obj = null;
-
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->type = "webr";
@@ -62,8 +63,8 @@ class ilObjLinkResource extends ilObject
         switch ($a_element) {
             case 'General':
                 if (ilLinkResourceItems::lookupNumberOfLinks(
-                        $this->getId()
-                    ) == 1) {
+                    $this->getId()
+                ) == 1) {
                     $link_arr = ilLinkResourceItems::_getFirstLink(
                         $this->getId()
                     );
@@ -95,18 +96,12 @@ class ilObjLinkResource extends ilObject
         return true;
     }
 
-    public function initLinkResourceItemsObject() : bool
-    {
-        $this->items_obj = new ilLinkResourceItems($this->getId());
-        return true;
-    }
-
     public function cloneObject(
-        int $a_target_id,
-        int $a_copy_id = 0,
-        bool $a_omit_tree = false
+        int $target_id,
+        int $copy_id = 0,
+        bool $omit_tree = false
     ) : ?ilObject {
-        $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $new_obj = parent::cloneObject($target_id, $copy_id, $omit_tree);
         $this->cloneMetaData($new_obj);
 
         // object created now copy other settings
@@ -117,7 +112,8 @@ class ilObjLinkResource extends ilObject
         if (ilLinkResourceItems::_isSingular($new_obj->getId())) {
             $first = ilLinkResourceItems::_getFirstLink($new_obj->getId());
             ilLinkResourceItems::updateTitle(
-                $first['link_id'], $new_obj->getTitle()
+                $first['link_id'],
+                $new_obj->getTitle()
             );
         }
         return $new_obj;
@@ -159,6 +155,4 @@ class ilObjLinkResource extends ilObject
         $links->toXML($writer);
         $writer->xmlEndTag('WebLinks');
     }
-
-    // PRIVATE
-} // END class.ilObjLinkResource
+}

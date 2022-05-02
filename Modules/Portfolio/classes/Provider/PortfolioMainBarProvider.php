@@ -43,7 +43,7 @@ class PortfolioMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withParent(StandardTopItemsProvider::getInstance()->getPersonalWorkspaceIdentification())
                 ->withPosition(50)
                 ->withSymbol($icon)
-                ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+                ->withNonAvailableReason($this->dic->ui()->factory()->legacy(($this->dic->language()->txt('component_not_active'))))
                 ->withAvailableCallable(
                     function () use ($dic) {
                         return (bool) ($dic->settings()->get('user_portfolios'));

@@ -19,9 +19,6 @@
  */
 class ilObjSCORMVerificationListGUI extends ilObjectListGUI
 {
-    /**
-     * @return void
-     */
     public function init() : void
     {
         $this->delete_enabled = true;

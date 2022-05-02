@@ -20,7 +20,7 @@ class InlineCss extends AbstractMedia
     /**
      * @var string
      */
-    private string $media = self::MEDIA_SCREEN;
+    private string $media;
     
     /**
      * InlineCss constructor.

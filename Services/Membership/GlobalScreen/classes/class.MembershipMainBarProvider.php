@@ -18,7 +18,7 @@
  
 namespace ILIAS\Membership\GlobalScreen;
 
-use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosuresSingleton;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 
@@ -43,7 +43,7 @@ class MembershipMainBarProvider extends AbstractStaticMainMenuProvider
     public function getStaticSubItems() : array
     {
         $dic = $this->dic;
-        $access_helper = BasicAccessCheckClosures::getInstance();
+        $access_helper = BasicAccessCheckClosuresSingleton::getInstance();
 
         $title = $this->dic->language()->txt("my_courses_groups");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(

@@ -52,7 +52,7 @@ class ilLuceneSubItemListGUIFactory
         if (@include_once($location . "/class." . $full_class . ".php")) {
             return self::$instances[$a_type] = new $full_class($a_cmd_class);
         } else {
-            return self::$instances[$a_type] = new ilObjectSubItemListGUI($a_cmd_class);// @TODO: PHP8 Review: Invalid argument.
+            return self::$instances[$a_type] = new ilObjectSubItemListGUI(get_class($a_cmd_class));
         }
     }
 }

@@ -106,7 +106,7 @@ class ilSystemNotification extends ilMailNotification
                 // try to find ref_id(s)
                 if (!$this->is_in_wsp) {
                     $ref_ids = ilObject::_getAllReferences($this->getObjId());
-                    if (sizeof($ref_ids) == 1) {
+                    if (count($ref_ids) === 1) {
                         $this->ref_id = array_shift($ref_ids);
                     } else {
                         $this->all_ref_ids = $ref_ids;
@@ -125,7 +125,7 @@ class ilSystemNotification extends ilMailNotification
         $recipient_ids = array();
         foreach (array_unique($a_user_ids) as $user_id) {
             // author of change should not get notification
-            if ($this->changed_by == $user_id) {
+            if ($this->changed_by === $user_id) {
                 continue;
             }
             if ($this->composeAndSendMail($user_id, $a_goto_additional, $a_permission)) {
@@ -272,7 +272,7 @@ class ilSystemNotification extends ilMailNotification
         string $a_permission = "read"
     ) : bool {
         if ($this->compose($a_user_id, $a_goto_additional, $a_permission)) {
-            parent::sendMail(array($a_user_id), is_numeric($a_user_id));
+            $this->sendMail(array($a_user_id), is_numeric($a_user_id));
             return true;
         }
         return false;

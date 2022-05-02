@@ -1,6 +1,22 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Class ilMailAddressTypesTest
@@ -14,6 +30,9 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         ilMailCachedAddressType::clearCache();
     }
 
+    /**
+     * @return ilGroupNameAsMailValidator&MockObject
+     */
     private function createGroupNameAsValidatorMock() : ilGroupNameAsMailValidator
     {
         return $this->getMockBuilder(ilGroupNameAsMailValidator::class)
@@ -171,7 +190,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
 
         $this->assertCount(1, $usrIds);
         $this->assertArrayHasKey(0, $usrIds);
-        $this->assertEquals(4711, $usrIds[0]);
+        $this->assertSame(4711, $usrIds[0]);
     }
 
     public function testNoUserIdCanBeResolvedFromUnknownLoginAddress() : void
@@ -247,7 +266,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
 
         $this->assertFalse($type->validate(666));
         $this->assertArrayHasKey(0, $type->getErrors());
-        $this->assertEquals('user_cant_receive_mail', $type->getErrors()[0]->getLanguageVariable());
+        $this->assertSame('user_cant_receive_mail', $type->getErrors()[0]->getLanguageVariable());
 
         $type = new ilMailLoginOrEmailAddressAddressType(
             $addressTypeHelper,
@@ -404,7 +423,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $this->assertFalse($type->validate(666));
         $this->assertCount(1, $type->getErrors());
         $this->assertArrayHasKey(0, $type->getErrors());
-        $this->assertEquals('mail_no_valid_mailing_list', $type->getErrors()[0]->getLanguageVariable());
+        $this->assertSame('mail_no_valid_mailing_list', $type->getErrors()[0]->getLanguageVariable());
     }
 
     public function testUserIdsCanBeResolvedFromRoleAddress() : void
@@ -544,17 +563,17 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $this->assertFalse($type->validate(4711));
         $this->assertCount(1, $type->getErrors());
         $this->assertArrayHasKey(0, $type->getErrors());
-        $this->assertEquals('mail_to_global_roles_not_allowed', $type->getErrors()[0]->getLanguageVariable());
+        $this->assertSame('mail_to_global_roles_not_allowed', $type->getErrors()[0]->getLanguageVariable());
 
         $this->assertFalse($type->validate(4711));
         $this->assertCount(1, $type->getErrors());
         $this->assertArrayHasKey(0, $type->getErrors());
-        $this->assertEquals('mail_recipient_not_found', $type->getErrors()[0]->getLanguageVariable());
+        $this->assertSame('mail_recipient_not_found', $type->getErrors()[0]->getLanguageVariable());
 
         $this->assertFalse($type->validate(4711));
         $this->assertCount(1, $type->getErrors());
         $this->assertArrayHasKey(0, $type->getErrors());
-        $this->assertEquals('mail_multiple_role_recipients_found', $type->getErrors()[0]->getLanguageVariable());
+        $this->assertSame('mail_multiple_role_recipients_found', $type->getErrors()[0]->getLanguageVariable());
 
         $this->assertTrue($type->validate(4711));
         $this->assertCount(0, $type->getErrors());

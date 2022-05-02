@@ -21,7 +21,7 @@
 class ilChartDataLines extends ilChartData
 {
     protected ?int $line_width = null;
-    protected bool $steps;
+    protected bool $steps = false;
     
     protected function getTypeString() : string
     {

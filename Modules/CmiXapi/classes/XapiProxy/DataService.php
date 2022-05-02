@@ -21,10 +21,10 @@ class DataService
     {
         define("CLIENT_ID", $client_id);
         // Im Plugin war das auskommentiert(?)
-        define('IL_COOKIE_HTTPONLY', true); // Default Value
-        define('IL_COOKIE_EXPIRE', 0);
-        define('IL_COOKIE_PATH', '/');
-        define('IL_COOKIE_DOMAIN', '');
+//        define('IL_COOKIE_HTTPONLY', true); // Default Value
+//        define('IL_COOKIE_EXPIRE', 0);
+//        define('IL_COOKIE_PATH', '/');
+//        define('IL_COOKIE_DOMAIN', '');
         \ilContext::init(\ilContext::CONTEXT_SCORM);
         \ilInitialisation::initILIAS();
         // Remember original values

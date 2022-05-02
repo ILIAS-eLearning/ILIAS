@@ -1,13 +1,9 @@
 <?php namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaData;
 
-use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Js;
-use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Css;
-use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\InlineCss;
-use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCode;
+use Iterator;
 
 /**
  * Class MetaDataCollection
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class MetaDataCollection
@@ -28,9 +24,9 @@ class MetaDataCollection
     }
     
     /**
-     * @return \Iterator|MetaDatum[]
+     * @return Iterator|MetaDatum[]
      */
-    public function getItems() : \Iterator
+    public function getItems() : Iterator
     {
         yield from $this->items;
     }

@@ -3,16 +3,19 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
+ *
+ *********************************************************************/
+ 
 /**
  * TableGUI class for search results
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -41,7 +44,9 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
 
         // Initialize
         if ($this->access->checkAccess(
-            'write', '', $this->getParentObject()->getObject()->getRefId()
+            'write',
+            '',
+            $this->getParentObject()->getObject()->getRefId()
         )) {
             $this->editable = true;
         }
@@ -61,7 +66,8 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
                 $this->addColumn('', '', '10%');
 
                 $this->addMultiCommand(
-                    'saveSorting', $this->lng->txt('sorting_save')
+                    'saveSorting',
+                    $this->lng->txt('sorting_save')
                 );
             } else {
                 $this->addColumn($this->lng->txt('title'), '', '90%');
@@ -92,7 +98,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
         return $this->link_sort_enabled;
     }
 
-    public function parse()
+    public function parse() : void
     {
         $rows = [];
 
@@ -116,11 +122,13 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         $this->ctrl->setParameterByClass(
-            get_class($this->getParentObject()), 'link_id', $a_set['link_id']
+            get_class($this->getParentObject()),
+            'link_id',
+            $a_set['link_id']
         );
 
         $this->tpl->setVariable('TITLE', $a_set['title']);
-        if (strlen($a_set['description'])) {
+        if (strlen($a_set['description']) !== 0) {
             $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
         }
         // $this->tpl->setVariable('TARGET',$a_set['target']);
@@ -154,21 +162,24 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
             $this->lng->txt('edit'),
             '',
             $this->ctrl->getLinkTargetByClass(
-                get_class($this->getParentObject()), 'editLink'
+                get_class($this->getParentObject()),
+                'editLink'
             )
         );
         $actions->addItem(
             $this->lng->txt('webr_deactivate'),
             '',
             $this->ctrl->getLinkTargetByClass(
-                get_class($this->getParentObject()), 'deactivateLink'
+                get_class($this->getParentObject()),
+                'deactivateLink'
             )
         );
         $actions->addItem(
             $this->lng->txt('delete'),
             '',
             $this->ctrl->getLinkTargetByClass(
-                get_class($this->getParentObject()), 'confirmDeleteLink'
+                get_class($this->getParentObject()),
+                'confirmDeleteLink'
             )
         );
         $this->tpl->setVariable('ACTION_HTML', $actions->getHTML());
@@ -178,7 +189,7 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
      * Get Web resource items object
      * @return object    ilLinkResourceItems
      */
-    protected function getWebResourceItems()
+    protected function getWebResourceItems() : \ilLinkResourceItems
     {
         return $this->webresource_items;
     }
@@ -187,12 +198,12 @@ class ilWebResourceLinkTableGUI extends ilTable2GUI
      * Check if links are editable
      * @return
      */
-    protected function isEditable()
+    protected function isEditable() : bool
     {
         return $this->editable;
     }
 
-    protected function initSorting()
+    protected function initSorting() : void
     {
         $this->link_sort_mode = ilContainerSortingSettings::_lookupSortMode(
             $this->getParentObject()->getObject()->getId()

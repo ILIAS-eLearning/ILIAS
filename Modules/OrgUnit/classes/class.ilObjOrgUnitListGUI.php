@@ -8,17 +8,6 @@
  */
 class ilObjOrgUnitListGUI extends ilObjectListGUI
 {
-    protected $tpl;
-
-    public function __construct()
-    {
-        global $DIC;
-        $tpl = $DIC['tpl'];
-        parent::__construct();
-        $this->tpl = $tpl;
-        //$this->enableComments(false, false);
-    }
-
     /**
      * initialisation
      */

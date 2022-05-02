@@ -3,7 +3,6 @@
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Collector\Renderer\TopLegacyItemRenderer;
 use ILIAS\UI\Component\Legacy\Legacy;
-use ILIAS\UI\Component\Symbol\Glyph\Glyph;
 use ILIAS\UI\Component\Symbol\Symbol;
 
 /******************************************************************************

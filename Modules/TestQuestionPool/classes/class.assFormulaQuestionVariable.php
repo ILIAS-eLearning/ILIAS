@@ -50,7 +50,8 @@ class assFormulaQuestionVariable
         if ($this->getIntprecision() > $this->getRangeMax()) {
             global $DIC;
             $lng = $DIC['lng'];
-            ilUtil::sendFailure($lng->txt('err_divider_too_big'));
+            $tpl = $DIC['tpl'];
+            $tpl->setOnScreenMessage('failure', $lng->txt("err_divider_too_big"));
         }
         
         include_once "./Services/Math/classes/class.ilMath.php";

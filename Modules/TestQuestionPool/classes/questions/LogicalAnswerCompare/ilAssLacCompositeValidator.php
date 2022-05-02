@@ -71,9 +71,13 @@ class ilAssLacCompositeValidator
 
             if ($this->isResultOfAnswerExpression($question_expression)) {
                 $answer_index = $question_expression->getAnswerIndex() - 1;
+                // @PHP8-CR I suspect this cluster of typizations is broken in some way. I still leave these remarks "intact"
+                // to assist a more thorough analysis.
                 $this->checkIfAnswerIndexOfQuestionExists($question, $question_index, $answer_index);
             }
             if ($answer_expression instanceof ilAssLacNumberOfResultExpression && !($question instanceof assClozeTest)) {
+                // @PHP8-CR I suspect this cluster of typizations is broken in some way. I still leave these remarks "intact"
+                // to assist a more thorough analysis.
                 $this->checkIfAnswerIndexOfQuestionExists($question, $question_index, $answer_expression->getNumericValue() - 1);
             }
 
@@ -101,6 +105,8 @@ class ilAssLacCompositeValidator
                 $this->validateClozeTest($answer_index, $question, $answer_expression, $question_index);
             } elseif (
                 $answer_expression instanceof ilAssLacPercentageResultExpression &&
+                // @PHP8-CR I suspect this cluster of typizations is broken in some way. I still leave these remarks "intact"
+                // to assist a more thorough analysis.
                 $this->isResultOfAnswerExpression($question_expression) &&
                 !($question instanceof assFormulaQuestion)
             ) {
@@ -206,6 +212,8 @@ class ilAssLacCompositeValidator
      */
     private function isResultOfAnswerExpression($expression) : bool
     {
+        // @PHP8-CR I suspect this cluster of typizations is broken in some way. I still leave these remarks "intact"
+        // to assist a more thorough analysis.
         if ($expression instanceof ilAssLacResultOfAnswerOfQuestionExpression) {
             return true;
         }

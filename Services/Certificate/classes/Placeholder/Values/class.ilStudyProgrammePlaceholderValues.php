@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValues
 {
@@ -84,7 +98,7 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         );
 
         if (!$latest_progress) {
-            throw new \ilInvalidCertificateException('PRG: no valid progress for user ' . $userId . ' while generating certificate');
+            throw new ilInvalidCertificateException('PRG: no valid progress for user ' . $userId . ' while generating certificate');
         }
 
         $type = $object->getSubType();
@@ -93,12 +107,12 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         $placeholders['PRG_TYPE'] = ilLegacyFormElementsUtil::prepareFormOutput($type ? $type->getTitle() : '');
         $placeholders['PRG_POINTS'] = ilLegacyFormElementsUtil::prepareFormOutput((string) $object->getPoints());
         $placeholders['PRG_COMPLETION_DATE'] = ilLegacyFormElementsUtil::prepareFormOutput(
-            $latest_progress->getCompletionDate() instanceof \DateTimeImmutable ? $latest_progress->getCompletionDate(
+            $latest_progress->getCompletionDate() instanceof DateTimeImmutable ? $latest_progress->getCompletionDate(
             )->format('d.m.Y') : ''
         );
         $placeholders['PRG_EXPIRES_AT'] = ilLegacyFormElementsUtil::prepareFormOutput(
             $latest_progress->getValidityOfQualification(
-            ) instanceof \DateTimeImmutable ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : ''
+            ) instanceof DateTimeImmutable ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : ''
         );
         return $placeholders;
     }

@@ -253,7 +253,6 @@ class ilParticipantsTestResultsGUI
         
         require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
         $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-        //$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
         $participantData->setParticipantAccessFilter($accessFilter);
         $participantData->load($this->getTestObj()->getTestId());
         
@@ -287,7 +286,6 @@ class ilParticipantsTestResultsGUI
         
         require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
         $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-        //$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
         $participantData->setParticipantAccessFilter($accessFilter);
         
         $participantData->setActiveIdsFilter((array) $_POST["chbUser"]);
@@ -326,7 +324,6 @@ class ilParticipantsTestResultsGUI
             
             require_once 'Modules/Test/classes/class.ilTestParticipantData.php';
             $participantData = new ilTestParticipantData($DIC->database(), $DIC->language());
-            //$participantData->setScoredParticipantsFilterEnabled(!$this->getTestObj()->isDynamicTest());
             $participantData->setParticipantAccessFilter($accessFilter);
             $participantData->setActiveIdsFilter($_POST["chbUser"]);
             
@@ -442,9 +439,9 @@ class ilParticipantsTestResultsGUI
         $DIC->ctrl()->setParameter($this, 'pdf', '');
         
         if ($show_answers) {
-            if (isset($_GET['show_best_solutions'])) {
+            if ($this->testrequest->isset('show_best_solutions')) {
                 ilSession::set('tst_results_show_best_solutions', true);
-            } elseif (isset($_GET['hide_best_solutions'])) {
+            } elseif ($this->testrequest->isset('hide_best_solutions')) {
                 ilSession::set('tst_results_show_best_solutions', false);
             } elseif (ilSession::get('tst_results_show_best_solutions') !== null) {
                 ilSession::set('tst_results_show_best_solutions', false);
@@ -530,11 +527,11 @@ class ilParticipantsTestResultsGUI
      */
     protected function isPdfDeliveryRequest() : bool
     {
-        if (!isset($_GET['pdf'])) {
+        if (!$this->testrequest->isset('pdf')) {
             return false;
         }
         
-        if (!(bool) $_GET['pdf']) {
+        if (!(bool) $this->testrequest->raw('pdf')) {
             return false;
         }
         

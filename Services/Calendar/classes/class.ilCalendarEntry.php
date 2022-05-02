@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-define('IL_CAL_TRANSLATION_NONE', 0);
-define('IL_CAL_TRANSLATION_SYSTEM', 1);
+const IL_CAL_TRANSLATION_NONE = 0;
+const IL_CAL_TRANSLATION_SYSTEM = 1;
 
 /**
  * Model for a calendar entry.
@@ -178,8 +178,11 @@ class ilCalendarEntry implements ilDatePeriod
                         /*
                          * if($entry->hasBooked($this->getEntryId()))
                          */
-                        $apps = ilConsultationHourAppointments::getAppointmentIds($entry->getObjId(),
-                            $this->getContextId(), $this->getStart());
+                        $apps = ilConsultationHourAppointments::getAppointmentIds(
+                            $entry->getObjId(),
+                            $this->getContextId(),
+                            $this->getStart()
+                        );
                         $orig_event = $apps[0];
                         if ($entry->hasBooked($orig_event)) {
                             $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: green';

@@ -40,7 +40,10 @@ class ilSCORM13Package
 //    private $idmap = array();
     private float $progress = 0.0;
 
-    private static $elements = array(
+    /**
+     * @var string[][]
+     */
+    private static array $elements = array(
         'cp' => array(
             'manifest',
             'organization',
@@ -92,10 +95,7 @@ class ilSCORM13Package
 
     /**
      * Imports an extracted SCORM 2004 module from ilias-data dir into database
-     * @param string $packageFolder
-     * @param int    $packageId
-     * @param bool   $reimport
-     * @return       string title of package
+     * @return string|false title of package or false
      * @throws ilSaxParserException
      */
     public function il_import(string $packageFolder, int $packageId, bool $reimport = false)
@@ -138,7 +138,7 @@ class ilSCORM13Package
             $n = $items->item(0);
             $resource = $path->query("//scorm:resource");//[&id='"+$n->getAttribute("resourceId")+"']");
             foreach ($resource as $res) {
-                if ($res->getAttribute('id') == $n->getAttribute("resourceId")) {
+                if ($n !== null && $res->getAttribute('id') == $n->getAttribute("resourceId")) {
                     $res->setAttribute('scormType', 'sco');
                 }
             }
@@ -146,12 +146,15 @@ class ilSCORM13Package
         $this->dbImport($this->manifest);
 
         if (file_exists($this->packageFolder . '/' . 'index.xml')) {
-            $doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');
+            $doc = simplexml_load_file($this->packageFolder . '/' . 'index.xml');//PHP8Review: This may cause no trouble here but i still worth a look: https://bugs.php.net/bug.php?id=62577
             $l = $doc->xpath("/ContentObject/MetaData");
             if ($l[0]) {
                 $mdxml = new ilMDXMLCopier($l[0]->asXML(), $packageId, $packageId, ilObject::_lookupType($packageId));
                 $mdxml->startParsing();
-                $mdxml->getMDObject()->update();
+                $mdo = $mdxml->getMDObject();
+                if ($mdo) {
+                    $mdo->update();
+                }
             }
         } else {
             $importer = new ilSCORM13MDImporter($this->imsmanifest, $packageId);
@@ -184,7 +187,7 @@ class ilSCORM13Package
             if ($b = $r[strval($xe['resourceId'])]) {
                 $xe['href'] = strval($b['base']) . strval($b['href']);
                 unset($xe['resourceId']);
-                if (strval($b['scormType']) == 'sco') {
+                if (strval($b['scormType']) === 'sco') {
                     $xe['sco'] = true;
                 }
             }
@@ -192,9 +195,9 @@ class ilSCORM13Package
         // iterate recursivly through activities and build up simple php object
         // with items and associated sequencings
         // top node is the default organization which is handled as an item
-        self::jsonNode($x->organization, $j['item']);
+        $this->jsonNode($x->organization, $j['item']);
         foreach ($x->sequencing as $s) {
-            self::jsonNode($s, $j['sequencing'][]);
+            $this->jsonNode($s, $j['sequencing'][]);
         }
         // combined manifest+resources xml:base is set as organization base
         $j['item']['base'] = strval($x['base']);
@@ -236,9 +239,8 @@ class ilSCORM13Package
      * Elements are translated into sub array, attributes into literals
      * xml element to process
      * reference to array object where to copy values
-     * @return void
      */
-    public function jsonNode(object $node, array &$sink)
+    public function jsonNode(object $node, array &$sink) : void
     {
         foreach ($node->attributes() as $k => $v) {
             // cast to boolean and number if possible
@@ -257,14 +259,7 @@ class ilSCORM13Package
         }
     }
 
-    /**
-     * @param object   $node
-     * @param int|null $lft
-     * @param int|null $depth
-     * @param int|null $parent
-     * @return void
-     */
-    public function dbImport(object $node, ?int &$lft = 1, ?int $depth = 1, ?int $parent = 0)
+    public function dbImport(object $node, ?int &$lft = 1, ?int $depth = 1, ?int $parent = 0) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -383,9 +378,9 @@ class ilSCORM13Package
                                       'read_shared_data', 'write_shared_data',
                                       'shared_data_global_to_system', 'completedbymeasure')
                     )) {
-                        if ($attr->value == 'true') {
+                        if ($attr->value === 'true') {
                             $values[] = 1;
-                        } elseif ($attr->value == 'false') {
+                        } elseif ($attr->value === 'false') {
                             $values[] = 0;
                         } else {
                             $values[] = (int) $attr->value;
@@ -417,10 +412,7 @@ class ilSCORM13Package
                         array('jsdata', 'xmldata', 'activitytree', 'data')
                     )) {
                         $types[] = 'clob';
-                    } elseif (in_array(
-                        $names[count($names) - 1],
-                        array('objectivemeasweight')
-                    )) {
+                    } elseif ($names[count($names) - 1] === 'objectivemeasweight') {
                         $types[] = 'float';
                     } else {
                         $types[] = 'text';
@@ -526,9 +518,6 @@ class ilSCORM13Package
     }
 
     /**
-     * @param DOMDocument $inputdoc
-     * @param string      $xslfile
-     * @param string|null $outputpath
      * @return DOMDocument|false|void
      */
     public function transform(\DOMDocument $inputdoc, string $xslfile, ?string $outputpath = null)
@@ -552,10 +541,6 @@ class ilSCORM13Package
     }
 
     //to be called from IlObjUser
-    /**
-     * @param int $user_id
-     * @return void
-     */
     public static function _removeTrackingDataForUser(int $user_id) : void
     {
         ilSCORM2004DeleteData::removeCMIDataForUser($user_id);

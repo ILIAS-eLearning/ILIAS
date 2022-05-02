@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Class ilBookingParticipantGUI
@@ -67,8 +71,8 @@ class ilBookingParticipantGUI
             case 'ilrepositorysearchgui':
                 $rep_search = new ilRepositorySearchGUI();
                 $ref_id = $this->ref_id;
-                $rep_search->addUserAccessFilterCallable(function ($a_user_id) use ($ref_id) {
-                    return $GLOBALS['DIC']->access()->filterUserIdsByRbacOrPositionOfCurrentUser(
+                $rep_search->addUserAccessFilterCallable(function ($a_user_id) {
+                    return $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
                         'render',
                         'render',
                         $this->ref_id,
@@ -114,7 +118,7 @@ class ilBookingParticipantGUI
 
     public function addUserFromAutoCompleteObject() : bool
     {
-        if (!strlen(trim($this->book_request->getUserLogin()))) {
+        if (trim($this->book_request->getUserLogin()) === '') {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_search_string'));
             $this->render();
             return false;
@@ -139,7 +143,6 @@ class ilBookingParticipantGUI
     /**
      * Add new participant
      * @param int[] $a_user_ids
-     * @return bool
      * @throws ilCtrlException
      */
     public function addParticipantObject(

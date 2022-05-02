@@ -29,7 +29,7 @@ trait ilWebDAVAccessChildrenFunctionsTrait
         $has_only_files_with_missing_storage = false;
         
         if ($name === ilDAVProblemInfoFile::PROBLEM_INFO_FILE_NAME) {
-            return $dav_object_factory->getProblemInfoFile($this->obj->getRefId());
+            return $dav_object_factory->getProblemInfoFile($parent_ref_id);
         }
 
         foreach ($repository_helper->getChildrenOfRefId($parent_ref_id) as $child_ref) {
@@ -58,7 +58,7 @@ trait ilWebDAVAccessChildrenFunctionsTrait
         throw new NotFound("$name not found");
     }
     
-    /*
+    /**
      * @return INode[]
      */
     protected function getChildrenByParentRefId(
@@ -90,7 +90,7 @@ trait ilWebDAVAccessChildrenFunctionsTrait
         }
         
         if ($problem_info_file_needed) {
-            $child_nodes[] = $dav_object_factory->getProblemInfoFile($this->obj->getRefId());
+            $child_nodes[] = $dav_object_factory->getProblemInfoFile($parent_ref_id);
         }
         
         return $child_nodes;

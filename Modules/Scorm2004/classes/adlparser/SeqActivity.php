@@ -27,15 +27,15 @@ class SeqActivity
     
      
     //SeqRuleset
-    public $mPreConditionRules = null;
+    public $mPreConditionRules = null;//PHP8Review: Missing Typehint
 
     //SeqRuleset
-    public $mPostConditionRules = null;
+    public $mPostConditionRules = null;//PHP8Review: Missing Typehint
 
     //SeqRuleset
-    public $mExitActionRules = null;
+    public $mExitActionRules = null;//PHP8Review: Missing Typehint
 
-    public $mXML = null;
+    public $mXML = null;//PHP8Review: Missing Typehint
 
     public int $mDepth = 0;
 
@@ -216,7 +216,7 @@ class SeqActivity
         $c_ioChild['_SeqActivity'] = $ioChild;
 
         //keep both in sync
-        array_push($this->mChildren, $c_ioChild);
+        $this->mChildren[] = $c_ioChild;
         //array_push($this->mActiveChildren,$c_ioChild);
 
         //$this->mActiveChildren = $this->mChildren;
@@ -494,8 +494,8 @@ class SeqActivity
     public function setObjectives(array $iObjs) : void
     {
         $this->mObjectives = $iObjs;
-        for ($i = 0; $i < count($iObjs); $i++) {
-            $obj = $iObjs[$i];
+        foreach ($iObjs as $value) {
+            $obj = $value;
             if ($obj['_SeqObjective']->mMaps != null) {
                 $index = $obj['_SeqObjective']->mObjID;
                 $this->mObjMaps["$index"] = $obj['_SeqObjective']->mMaps;

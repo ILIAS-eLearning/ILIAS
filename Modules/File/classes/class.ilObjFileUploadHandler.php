@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\FileUpload\Handler\AbstractCtrlAwareUploadHandler;
 use ILIAS\FileUpload\Handler\HandlerResult;
 use ILIAS\FileUpload\Handler\FileInfoResult;
@@ -16,15 +32,8 @@ use ILIAS\FileUpload\Handler\BasicFileInfoResult;
  */
 class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
 {
-    /**
-     * @var \ILIAS\ResourceStorage\Services
-     */
-    private $storage;
-
-    /**
-     * @var ilObjFileStakeholder
-     */
-    private $stakeholder;
+    private \ILIAS\ResourceStorage\Services $storage;
+    private ilObjFileStakeholder $stakeholder;
 
     /**
      * ilObjFileUploadHandler constructor
@@ -33,8 +42,8 @@ class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
     {
         global $DIC;
 
-        $this->storage      = $DIC->resourceStorage();
-        $this->stakeholder  = new ilObjFileStakeholder($DIC->user()->getId());
+        $this->storage = $DIC->resourceStorage();
+        $this->stakeholder = new ilObjFileStakeholder($DIC->user()->getId());
 
         parent::__construct();
     }
@@ -65,7 +74,6 @@ class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
     }
 
     /**
-     * @return HandlerResult
      * @throws \ILIAS\FileUpload\Exception\IllegalStateException
      */
     protected function getUploadResult() : HandlerResult
@@ -89,10 +97,6 @@ class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);
     }
 
-    /**
-     * @param string $identifier
-     * @return HandlerResult
-     */
     protected function getRemoveResult(string $identifier) : HandlerResult
     {
         if (null !== ($id = $this->storage->manage()->find($identifier))) {
@@ -108,7 +112,6 @@ class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
     }
 
     /**
-     * @param string $identifier
      * @return FileInfoResult
      */
     public function getInfoResult(string $identifier) : ?FileInfoResult
@@ -127,8 +130,7 @@ class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
     }
 
     /**
-     * @param array $file_ids
-     * @return FileInfoResult[]
+     * @return \ILIAS\FileUpload\Handler\FileInfoResult[]|null[]
      */
     public function getInfoForExistingFiles(array $file_ids) : array
     {

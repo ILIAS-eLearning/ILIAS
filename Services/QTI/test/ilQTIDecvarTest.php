@@ -1,5 +1,22 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
 use PHPUnit\Framework\TestCase;
 
 class ilQTIDecvarTest extends TestCase
@@ -72,20 +89,20 @@ class ilQTIDecvarTest extends TestCase
     {
         class_exists(ilQTIDecvar::class); // Force autoload to define the constants.
         return [
-            ['integer', VARTYPE_INTEGER],
-            ['1', VARTYPE_INTEGER],
-            ['string', VARTYPE_STRING],
-            ['2', VARTYPE_STRING],
-            ['decimal', VARTYPE_DECIMAL],
-            ['3', VARTYPE_DECIMAL],
-            ['scientific', VARTYPE_SCIENTIFIC],
-            ['4', VARTYPE_SCIENTIFIC],
-            ['boolean', VARTYPE_BOOLEAN],
-            ['5', VARTYPE_BOOLEAN],
-            ['enumerated', VARTYPE_ENUMERATED],
-            ['6', VARTYPE_ENUMERATED],
-            ['set', VARTYPE_SET],
-            ['7', VARTYPE_SET],
+            ['integer', ilQTIDecvar::VARTYPE_INTEGER],
+            ['1', ilQTIDecvar::VARTYPE_INTEGER],
+            ['string', ilQTIDecvar::VARTYPE_STRING],
+            ['2', ilQTIDecvar::VARTYPE_STRING],
+            ['decimal', ilQTIDecvar::VARTYPE_DECIMAL],
+            ['3', ilQTIDecvar::VARTYPE_DECIMAL],
+            ['scientific', ilQTIDecvar::VARTYPE_SCIENTIFIC],
+            ['4', ilQTIDecvar::VARTYPE_SCIENTIFIC],
+            ['boolean', ilQTIDecvar::VARTYPE_BOOLEAN],
+            ['5', ilQTIDecvar::VARTYPE_BOOLEAN],
+            ['enumerated', ilQTIDecvar::VARTYPE_ENUMERATED],
+            ['6', ilQTIDecvar::VARTYPE_ENUMERATED],
+            ['set', ilQTIDecvar::VARTYPE_SET],
+            ['7', ilQTIDecvar::VARTYPE_SET],
             ['8', null],
             ['', null],
             ['Some random input.', null],

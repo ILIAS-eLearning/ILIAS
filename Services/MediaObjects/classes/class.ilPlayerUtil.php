@@ -17,15 +17,16 @@
  * Audio/Video Player Utility
  *
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated use KS components instead
  */
 class ilPlayerUtil
 {
-    /**
-     * Get local path of jQuery file
-     */
-    public static function getLocalMediaElementJsPath() : string
+    public static function getLocalMediaElementJsPath() : array
     {
-        return "./node_modules/mediaelement/build/mediaelement-and-player.min.js";
+        return [
+            "./node_modules/mediaelement/build/mediaelement-and-player.min.js",
+            "./node_modules/mediaelement/build/renderers/vimeo.min.js"
+        ];
     }
 
     /**
@@ -71,10 +72,7 @@ class ilPlayerUtil
      */
     public static function getJsFilePaths() : array
     {
-        return array(
-            self::getLocalMediaElementJsPath(),
-            "./Services/MediaObjects/js/MediaElementHelper.js"
-        );
+        return self::getLocalMediaElementJsPath();
     }
     
     public static function getFlashVideoPlayerDirectory() : string

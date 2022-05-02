@@ -22,13 +22,16 @@ class ilECSAppEventListener implements ilAppEventListener
 {
     private ilLogger $logger;
     private ilSetting $settings;
+    private ilRbacAdmin $rbac_admin;
 
     public function __construct(
         \ilLogger $logger,
-        ilSetting $settings
+        ilSetting $settings,
+        ilRbacAdmin $rbac_admin
     ) {
         $this->logger = $logger;
         $this->settings = $settings;
+        $this->rbac_admin = $rbac_admin;
     }
 
     /**
@@ -43,7 +46,8 @@ class ilECSAppEventListener implements ilAppEventListener
         
         $eventHandler = new static(
             $DIC->logger()->wsrv(),
-            $DIC->settings()
+            $DIC->settings(),
+            $DIC->rbac()->admin(),
             );
         $eventHandler->handle($a_component, $a_event, $a_parameter);
     }
@@ -53,10 +57,19 @@ class ilECSAppEventListener implements ilAppEventListener
         $this->logger->debug('Listening to event from: ' . $a_component . ' ' . $a_event);
         
         switch ($a_component) {
+            case 'Services/Authentication':
+                switch ($a_event) {
+                    case 'afterLogin':
+                        $this->handleNewAccountCreation((string) $a_parameter['username']);
+                        break;
+                }
+                break;
+                
             case 'Services/User':
                 if ($a_event === 'afterCreate') {
                     $user = $a_parameter['user_obj'];
                     $this->handleMembership($user);
+                    $this->handleNewAccountCreation((string) $a_parameter['username']);
                 }
                 break;
             
@@ -210,7 +223,45 @@ class ilECSAppEventListener implements ilAppEventListener
         $import->setSubId(1);
         $import->save();
     }
-    
+
+    protected function handleNewAccountCreation(string $username) : void
+    {
+        $user_id = ilObjUser::_loginExists($username);
+        if (!$user_id) {
+            $this->logger->warning('Invalid username given: ' . $username);
+        }
+
+        $external_account = ilObjUser::_lookupExternalAccount($user_id);
+        if ($external_account == '') {
+            return;
+        }
+        $remote_user_repo = new ilECSRemoteUserRepository();
+        $remote_user = $remote_user_repo->getECSRemoteUserByRemoteId($external_account);
+        if ($remote_user === null) {
+            return;
+        }
+        if ($remote_user->getServerId() === 0) {
+            $this->logger->warning('Found remote user without server id: ' . $external_account);
+            return;
+        }
+        if ($remote_user->getMid() === 0) {
+            $this->logger->warning('Found remote user without mid id: ' . $external_account);
+            return;
+        }
+        $part = ilECSParticipantSetting::getInstance(
+            $remote_user->getServerId(),
+            $remote_user->getMid()
+        );
+        $server = ilECSSetting::getInstanceByServerId($remote_user->getServerId());
+        if (
+            $part->getIncomingAuthType() === ilECSParticipantSetting::INCOMING_AUTH_TYPE_LOGIN_PAGE ||
+            $part->getIncomingAuthType() === ilECSParticipantSetting::INCOMING_AUTH_TYPE_SHIBBOLETH
+        ) {
+            $this->logger->info('Assigning ' . $username . ' to global ecs role');
+            $this->rbac_admin->assignUser($server->getGlobalRole(), $user_id);
+        }
+    }
+
     /**
      * Assign missing course/groups to new user accounts
      */

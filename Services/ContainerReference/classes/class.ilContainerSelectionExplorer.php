@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -61,16 +61,9 @@ class ilContainerSelectionExplorer extends ilExplorer
         return $this->target_type;
     }
     
-    public function isClickable(string $a_type, $a_ref_id = 0) : bool
+    public function isClickable(string $type, int $ref_id = 0) : bool
     {
-        $ilAccess = $this->access;
-        
-        if ($this->getTargetType() == $a_type) {
-            if ($ilAccess->checkAccess('visible', '', $a_ref_id)) {
-                return true;
-            }
-        }
-        return false;
+        return ($this->getTargetType() === $type && $this->access->checkAccess('visible', '', $ref_id));
     }
 
     public function isVisible($a_ref_id, string $a_type) : bool
@@ -84,12 +77,12 @@ class ilContainerSelectionExplorer extends ilExplorer
     {
         $lng = $this->lng;
 
-        $tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
+        $tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");// TODO PHP8-REVIEW Why is this overwritten? Are you sure this is correct?
 
         $tpl->setCurrentBlock("text");
         $tpl->setVariable("OBJ_TITLE", $lng->txt("repository"));
         $tpl->parseCurrentBlock();
 
-        $this->output[] = $tpl->get();
+        $this->output[] = $tpl->get();// TODO PHP8-REVIEW `$this->output` is a string, so this operator (`[]`) is not supported
     }
 }

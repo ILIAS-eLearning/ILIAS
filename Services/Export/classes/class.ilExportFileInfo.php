@@ -58,8 +58,10 @@ class ilExportFileInfo
         global $DIC;
 
         $ilDB = $DIC->database();
-        $ilDB->manipulate("DELETE FROM export_file_info WHERE obj_id = " . $ilDB->quote($a_obj_id,
-                ilDBConstants::T_INTEGER));
+        $ilDB->manipulate("DELETE FROM export_file_info WHERE obj_id = " . $ilDB->quote(
+            $a_obj_id,
+            ilDBConstants::T_INTEGER
+        ));
         return true;
     }
 
@@ -133,8 +135,10 @@ class ilExportFileInfo
                 $this->db->quote($this->getExportType(), 'text') . ', ' .
                 $this->db->quote($this->getFilename(), 'text') . ', ' .
                 $this->db->quote($this->getVersion(), 'text') . ', ' .
-                $this->db->quote($this->getCreationDate()->get(IL_CAL_DATETIME, '', ilTimeZone::UTC),
-                    'timestamp') . ' ' .
+                $this->db->quote(
+                    $this->getCreationDate()->get(IL_CAL_DATETIME, '', ilTimeZone::UTC),
+                    'timestamp'
+                ) . ' ' .
                 ")";
             $this->db->manipulate($query);
         }

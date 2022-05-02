@@ -1,25 +1,33 @@
 <?php
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilBiblAttribute
  *
  * @author Benjamin Seglias   <bs@studer-raimann.ch>
  */
-
 class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
 {
-
-    /**
-     * @return string
-     */
     public static function returnDbTableName() : string
     {
         return 'il_bibl_attribute';
     }
 
 
-    /**
-     * @return string
-     */
     public function getConnectorContainerName() : string
     {
         return 'il_bibl_attribute';
@@ -56,9 +64,6 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     protected ?int $id = null;
 
 
-    /**
-     * @return int
-     */
     public function getEntryId() : int
     {
         return $this->entry_id;
@@ -74,9 +79,6 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     }
 
 
-    /**
-     * @return string
-     */
     public function getName() : string
     {
         return $this->name;
@@ -92,9 +94,6 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     }
 
 
-    /**
-     * @return string
-     */
     public function getValue() : string
     {
         return $this->value;
@@ -110,9 +109,6 @@ class ilBiblAttribute extends ActiveRecord implements ilBiblAttributeInterface
     }
 
 
-    /**
-     * @return int|null
-     */
     public function getId() : ?int
     {
         return $this->id;

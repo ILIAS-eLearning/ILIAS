@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilBiblAdminFieldGUI
  * @author Benjamin Seglias   <bs@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -26,7 +42,6 @@ abstract class ilBiblAdminFieldGUI
     
     /**
      * ilBiblAdminFieldGUI constructor.
-     * @param \ilBiblAdminFactoryFacadeInterface $facade
      */
     public function __construct(ilBiblAdminFactoryFacadeInterface $facade)
     {
@@ -35,7 +50,7 @@ abstract class ilBiblAdminFieldGUI
         $this->facade = $facade;
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $nextClass = $this->ctrl()->getNextClass();
         $this->tabs()->activateTab(ilObjBibliographicAdminGUI::TAB_FIELDS);

@@ -72,7 +72,7 @@ class BlogPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 
         $selected_pages = (count($this->selected_pages) > 0)
             ? $this->selected_pages
-            : array_map(function ($i) {
+            : array_map(static function ($i) {
                 return $i["id"];
             }, \ilBlogPosting::getAllPostings($this->blog->getId()));
 

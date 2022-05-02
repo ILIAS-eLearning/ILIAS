@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomSettingsGUI
@@ -12,8 +27,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
     public function saveGeneral() : void
     {
         $formFactory = new ilChatroomFormFactory();
-        $settingsForm = $formFactory->getSettingsForm();
-        $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->getObject())->addTileImage();
+        $settingsForm = $formFactory->getSettingsForm($this->obj_service, $this->gui->getObject());
 
         if (!$settingsForm->checkInput()) {
             $settingsForm->setValuesByPost();
@@ -75,7 +89,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
 
         if (!$settingsForm) {
-            $settingsForm = $formFactory->getSettingsForm();
+            $settingsForm = $formFactory->getSettingsForm($this->obj_service, $this->gui->getObject());
 
             $settings = [
                 'title' => $this->gui->getObject()->getTitle(),
@@ -92,11 +106,6 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
                 ],
                 'access_visibility' => (bool) $this->gui->getObject()->getAccessVisibility()
             ];
-
-            $presentationHeader = new ilFormSectionHeaderGUI();
-            $presentationHeader->setTitle($this->ilLng->txt('settings_presentation_header'));
-            $settingsForm->addItem($presentationHeader);
-            $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->getObject())->addTileImage();
 
             if ($room) {
                 ilChatroomFormFactory::applyValues(

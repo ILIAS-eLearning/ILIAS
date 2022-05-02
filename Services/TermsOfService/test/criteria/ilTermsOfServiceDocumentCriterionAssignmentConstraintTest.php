@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Data\Factory;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -11,7 +26,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsOfServiceCriterionBaseTest
 {
     /**
-     * @return MockObject|ilTermsOfServiceCriterionTypeFactoryInterface
+     * @return MockObject&ilTermsOfServiceCriterionTypeFactoryInterface
      */
     protected function getCriterionTypeFactoryMock() : ilTermsOfServiceCriterionTypeFactoryInterface
     {
@@ -24,7 +39,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
 
     /**
      * @param string $typeIdent
-     * @return MockObject|ilTermsOfServiceCriterionType
+     * @return MockObject&ilTermsOfServiceCriterionType
      */
     protected function getCriterionTypeMock(string $typeIdent) : ilTermsOfServiceCriterionType
     {
@@ -40,7 +55,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
     }
 
     /**
-     * @return MockObject|ilTermsOfServiceCriterionTypeFactoryInterface
+     * @return MockObject&ilTermsOfServiceCriterionTypeFactoryInterface
      */
     protected function getTypeMockForConstraint() : ilTermsOfServiceCriterionTypeFactoryInterface
     {
@@ -228,7 +243,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
             $constraint->check($criterionAssignment3);
             $raised = false;
         } catch (UnexpectedValueException $e) {
-            $this->assertEquals('The passed assignment must be unique for the document!', $e->getMessage());
+            $this->assertSame('The passed assignment must be unique for the document!', $e->getMessage());
             $raised = true;
         }
 
@@ -350,7 +365,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $newConstraint = $constraint->withProblemBuilder(function () {
             return 'phpunit';
         });
-        $this->assertEquals('phpunit', $newConstraint->problemWith($criterionAssignment3));
+        $this->assertSame('phpunit', $newConstraint->problemWith($criterionAssignment3));
     }
 
     /**
@@ -391,11 +406,11 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraintTest extends ilTermsO
         $constraint->accepts($criterionAssignment4);
         $constraint->accepts($criterionAssignment5);
 
-        $this->assertEquals(
+        $this->assertSame(
             'The passed assignment must be unique for the document!',
             $constraint->problemWith($criterionAssignment3)
         );
-        $this->assertEquals(
+        $this->assertSame(
             'The passed assignment must be unique for the document!',
             $constraint->problemWith($criterionAssignment5)
         );

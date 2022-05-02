@@ -10,16 +10,13 @@
  */
 class ilOerHarvester
 {
-
     private ilLogger $logger;
 
     private ilCronJobResult $cronresult;
 
-
     private ilOerHarvesterSettings $settings;
 
     protected ilTree $tree;
-
 
     public function __construct(ilCronJobResult $result)
     {
@@ -30,7 +27,6 @@ class ilOerHarvester
         $this->cronresult = $result;
         $this->settings = ilOerHarvesterSettings::getInstance();
     }
-
 
     public function run() : ilCronJobResult
     {
@@ -85,7 +81,6 @@ class ilOerHarvester
      */
     protected function filter(array $a_collectable_obj_ids) : array
     {
-
         $filtered = [];
         foreach ($a_collectable_obj_ids as $obj_id) {
             $status = new ilOerHarvesterObjectStatus($obj_id);
@@ -139,7 +134,6 @@ class ilOerHarvester
         return $num;
     }
 
-
     protected function harvestObject(ilObject $object) : bool
     {
         $this->logger->debug('Create new reference');
@@ -158,7 +152,6 @@ class ilOerHarvester
         return true;
     }
 
-
     protected function deleteObject(int $a_ref_id) : bool
     {
         $object = ilObjectFactory::getInstanceByRefId($a_ref_id, false);
@@ -170,14 +163,12 @@ class ilOerHarvester
         $this->logger->debug('Deleting reference...');
         $object->delete();
 
-
         $status = new ilOerHarvesterObjectStatus(
             ilOerHarvesterObjectStatus::lookupObjIdByHarvestingId($a_ref_id)
         );
         $status->delete();
         return true;
     }
-
 
     protected function deleteDeprecated() : int
     {

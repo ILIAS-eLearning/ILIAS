@@ -79,5 +79,4 @@ class ilResourceStorageSetupAgent implements Agent
     {
         return [new ilStorageHandlerV1Migration()];
     }
-
 }

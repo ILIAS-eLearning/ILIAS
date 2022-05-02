@@ -631,7 +631,7 @@ class assFormulaQuestionResult
         include_once "./Services/Math/classes/class.EvalMath.php";
         $math = new EvalMath();
         $math->suppress_errors = true;
-        $result = $math->evaluate($range_min);
+        $result = $math->evaluate((string) $range_min);
         $this->range_min = $result;
     }
 
@@ -663,7 +663,7 @@ class assFormulaQuestionResult
         include_once "./Services/Math/classes/class.EvalMath.php";
         $math = new EvalMath();
         $math->suppress_errors = true;
-        $result = $math->evaluate($range_max);
+        $result = $math->evaluate((string) $range_max);
         $this->range_max = $result;
     }
 
@@ -708,7 +708,7 @@ class assFormulaQuestionResult
         $this->formula = $formula;
     }
 
-    public function getFormula() : string
+    public function getFormula()
     {
         return $this->formula;
     }

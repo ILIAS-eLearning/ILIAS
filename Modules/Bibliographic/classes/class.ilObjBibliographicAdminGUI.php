@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Bibliographic Administration Settings.
  *
@@ -20,21 +34,18 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
     const CMD_DEFAULT = 'view';
 
     protected string $type = 'bibs';
-    public ?ilObject $object;
+    public ?ilObject $object = null;
     protected \ilBiblAdminFactoryFacadeInterface $facade;
 
 
     /**
      * ilObjBibliographicAdminGUI constructor.
      *
-     * @param      $a_data
-     * @param      $a_id
-     * @param bool $a_call_by_reference
-     * @param bool $a_prepare_output
+     * @param mixed $a_data
      *
      * @throws \ilObjectException
      */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->type = 'bibs';
@@ -45,10 +56,9 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
 
 
     /**
-     * @return bool|void$
      * @throws ilCtrlException
      */
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
@@ -82,13 +92,13 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
     }
 
 
-    protected function view(): void
+    protected function view() : void
     {
         $this->ctrl->redirectByClass(ilBiblAdminRisFieldGUI::class);
     }
 
 
-    public function getAdminTabs(): void
+    public function getAdminTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -114,13 +124,13 @@ class ilObjBibliographicAdminGUI extends ilObjectGUI
     }
 
 
-    public function getTabsGui(): \ilTabsGUI
+    public function getTabsGui() : \ilTabsGUI
     {
         return $this->tabs_gui;
     }
 
 
-    public function setTabsGui(\ilTabsGUI $tabs_gui): void
+    public function setTabsGui(\ilTabsGUI $tabs_gui) : void
     {
         $this->tabs_gui = $tabs_gui;
     }

@@ -25,11 +25,6 @@ class ilTestSkillEvaluationGUI
     private $ctrl;
 
     /**
-     * @var ilTabsGUI
-     */
-    private $tabs;
-
-    /**
      * @var ilGlobalTemplateInterface
      */
     private $tpl;
@@ -76,7 +71,6 @@ class ilTestSkillEvaluationGUI
     public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilObjTest $testOBJ)
     {
         $this->ctrl = $ctrl;
-        $this->tabs = $tabs;
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->db = $db;

@@ -3,16 +3,19 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
+ *
+ *********************************************************************/
+ 
 /**
  * XML  parser for weblink xml
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -48,7 +51,8 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 
         $this->setMDObject(
             new ilMD(
-                $this->getWebLink()->getId(), $this->getWebLink()->getId(),
+                $this->getWebLink()->getId(),
+                $this->getWebLink()->getId(),
                 'webr'
             )
         );
@@ -90,7 +94,9 @@ class ilWebLinkXmlParser extends ilMDSaxParser
     {
         xml_set_object($a_xml_parser, $this);
         xml_set_element_handler(
-            $a_xml_parser, 'handlerBeginTag', 'handlerEndTag'
+            $a_xml_parser,
+            'handlerBeginTag',
+            'handlerEndTag'
         );
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
@@ -104,8 +110,6 @@ class ilWebLinkXmlParser extends ilMDSaxParser
         array $a_attribs
     ) : void {
         global $DIC;
-
-        $ilErr = $DIC['ilErr'];
 
         if ($this->in_metadata) {
             parent::handlerBeginTag($a_xml_parser, $a_name, $a_attribs);
@@ -131,13 +135,13 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                 $this->current_parameters = [];
 
                 if ($this->getMode(
-                    ) == self::MODE_CREATE or (isset($a_attribs['action']) and $a_attribs['action'] == 'Create')) {
+                    ) == self::MODE_CREATE || isset($a_attribs['action']) && $a_attribs['action'] == 'Create') {
                     // New weblink
                     $this->current_link = new ilLinkResourceItems(
                         $this->getWebLink()->getId()
                     );
                 } elseif ($this->getMode(
-                    ) == self::MODE_UPDATE and $a_attribs['action'] == 'Delete') {
+                    ) == self::MODE_UPDATE && $a_attribs['action'] == 'Delete') {
                     $this->current_link_delete = true;
                     $this->current_link = new ilLinkResourceItems(
                         $this->getWebLink()->getId()
@@ -145,14 +149,15 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                     $this->current_link->delete($a_attribs['id']);
                     break;
                 } elseif ($this->getMode(
-                    ) == self::MODE_UPDATE and ($a_attribs['action'] == 'Update' or !isset($a_attribs['action']))) {
+                    ) == self::MODE_UPDATE && ($a_attribs['action'] == 'Update' || !isset($a_attribs['action']))) {
                     $this->current_link = new ilLinkResourceItems(
                         $this->getWebLink()->getId()
                     );
                     $this->current_link->readItem($a_attribs['id']);
                     $this->current_link_update = true;
                     foreach (ilParameterAppender::getParameterIds(
-                        $this->getWebLink()->getId(), $a_attribs['id']
+                        $this->getWebLink()->getId(),
+                        $a_attribs['id']
                     ) as $param_id) {
                         $param = new ilParameterAppender(
                             $this->getWebLink()->getId()
@@ -240,7 +245,6 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                         throw new ilWebLinkXmlParserException(
                             'Invalid attribute "type" given for element "Dynamic parameter". Aborting'
                         );
-                        break;
                 }
                 $this->current_parameters[] = $param;
                 break;

@@ -39,7 +39,7 @@ trait GlobalDICDomainServices
     protected \ilSetting $settings;
     protected \ilObjectDefinition $object_definition;
 
-    protected function initDomainServices(\ILIAS\DI\Container $DIC)
+    protected function initDomainServices(\ILIAS\DI\Container $DIC) : void
     {
         $this->repo_tree = $DIC->repositoryTree();
         $this->access = $DIC->access();

@@ -1,8 +1,6 @@
 <?php declare(strict_types = 1);
 
 use PHPUnit\Framework\TestCase;
-use Sabre\DAV\INode;
-use Sabre\DAV\Exception\NotFound;
 use Sabre\DAV\Exception\Forbidden;
 
 require_once './Services/WebDAV/test/webdav_overrides.php';
@@ -23,7 +21,7 @@ require_once './Services/WebDAV/test/webdav_overrides.php';
 
 class ilDAVClientNodeTest extends TestCase
 {
-    public function testGetNameGetsObjectTitle()
+    public function testGetNameGetsObjectTitle() : void
     {
         $webdav_test_helper = new ilWebDAVTestHelper();
         $dav_client = $this->getDAVClientNodeWithExpectationForFunctions();
@@ -31,7 +29,7 @@ class ilDAVClientNodeTest extends TestCase
         $this->assertEquals($webdav_test_helper->getClientId(), $dav_client->getName());
     }
     
-    /*public function testGetChildWithWellformedSlugContainingRefIdReturnsCorrespondingObject()
+    /*public function testGetChildWithWellformedSlugContainingRefIdReturnsCorrespondingObject() : void
     {
         $slug = 'ref_7';
     }
@@ -83,7 +81,7 @@ class ilDAVClientNodeTest extends TestCase
             }
         }
 
-        public function testGetChildWithExistingNameOfFolderOrFileWithoutAccessThrowsNotFoundError()
+        public function testGetChildWithExistingNameOfFolderOrFileWithoutAccessThrowsNotFoundError() : void
         {
             $ref_ids = [
                 '7' => [
@@ -110,7 +108,7 @@ class ilDAVClientNodeTest extends TestCase
             }
         }
 
-        public function testGetChildWithNonExistentNameOfFolderOrFileThrowsNotFoundError()
+        public function testGetChildWithNonExistentNameOfFolderOrFileThrowsNotFoundError() : void
         {
             $ref_id = 7;
             $name = 'None existent name';
@@ -128,7 +126,7 @@ class ilDAVClientNodeTest extends TestCase
             }
         }
 
-        public function testGetChildWithExistingNameOfOtherObjectTypeThrowsNotFoundError()
+        public function testGetChildWithExistingNameOfOtherObjectTypeThrowsNotFoundError() : void
         {
             $ref_ids = [
                 '7' => [
@@ -156,7 +154,7 @@ class ilDAVClientNodeTest extends TestCase
             }
         }
 
-        public function testGetChilrendWithExistingNameOfFolderOrFileReturnsArrayOfObjects()
+        public function testGetChilrendWithExistingNameOfFolderOrFileReturnsArrayOfObjects() : void
         {
             $ref_id = 23356343;
             $additional_information = [
@@ -170,7 +168,7 @@ class ilDAVClientNodeTest extends TestCase
             $this->getChildrenTest($ref_id, $additional_information);
         }
 
-        public function testGetChilrendWithExistingNameOfFolderOrFileReturnsArrayWithProblemInfoFile()
+        public function testGetChilrendWithExistingNameOfFolderOrFileReturnsArrayWithProblemInfoFile() : void
         {
             $ref_id = 7;
             $additional_information = [
@@ -199,7 +197,7 @@ class ilDAVClientNodeTest extends TestCase
             }
         }
 
-        public function testGetChildrenFromFolderWithOnlyNonDavableNamedContentReturnsEmptyArray()
+        public function testGetChildrenFromFolderWithOnlyNonDavableNamedContentReturnsEmptyArray() : void
         {
             $ref_id = 22;
 
@@ -211,7 +209,7 @@ class ilDAVClientNodeTest extends TestCase
             $this->assertEquals(0, count($children));
         }
 
-        public function testChildExistsWithExistingNameOfFolderOrFileReturnsTrue()
+        public function testChildExistsWithExistingNameOfFolderOrFileReturnsTrue() : void
         {
             $ref_ids = [
                 '7' => [
@@ -233,7 +231,7 @@ class ilDAVClientNodeTest extends TestCase
             }
         }
 
-        public function testChildExistsWithExistingNameOfFolderOrFileWhenOtherObjectOfSameNameExistsReturnsTrue()
+        public function testChildExistsWithExistingNameOfFolderOrFileWhenOtherObjectOfSameNameExistsReturnsTrue() : void
         {
             $ref_id = 7;
             $additional_information = [
@@ -248,7 +246,7 @@ class ilDAVClientNodeTest extends TestCase
             $this->assertTrue($dav_container->childExists($additional_information['name']));
         }
 
-        public function testChildExistsWithExistingNonDavableNameReturnsFalse()
+        public function testChildExistsWithExistingNonDavableNameReturnsFalse() : void
         {
             $ref_id = '22';
             $webdav_test_helper = new ilWebDAVTestHelper();
@@ -263,7 +261,7 @@ class ilDAVClientNodeTest extends TestCase
             }
         }
 
-        public function testChildExistsWithExistingNameOfFolderOrFileWithoutAccessReturnsFalse()
+        public function testChildExistsWithExistingNameOfFolderOrFileWithoutAccessReturnsFalse() : void
         {
             $ref_ids = [
                 '7' => [
@@ -285,7 +283,7 @@ class ilDAVClientNodeTest extends TestCase
             }
         }
 
-        public function testChildExistsWithNonExistentNameOfFolderOrFileReturnsFalse()
+        public function testChildExistsWithNonExistentNameOfFolderOrFileReturnsFalse() : void
         {
             $ref_id = 7;
             $name = 'None existent name';
@@ -298,7 +296,7 @@ class ilDAVClientNodeTest extends TestCase
             $this->assertFalse($dav_container->childExists($name));
         }
 
-        public function testChildExistsWithExistingNameOfOtherObjectTypeReturnsFalse()
+        public function testChildExistsWithExistingNameOfOtherObjectTypeReturnsFalse() : void
         {
             $ref_ids = [
                 '7' => [
@@ -321,7 +319,7 @@ class ilDAVClientNodeTest extends TestCase
             }
         } */
     
-    public function testSetNameThrowsForbiddenError()
+    public function testSetNameThrowsForbiddenError() : void
     {
         $dav_client = $this->getDAVClientNodeWithExpectationForFunctions();
         
@@ -333,7 +331,7 @@ class ilDAVClientNodeTest extends TestCase
         }
     }
     
-    public function testCreateFileThrowsForbiddenError()
+    public function testCreateFileThrowsForbiddenError() : void
     {
         $dav_client = $this->getDAVClientNodeWithExpectationForFunctions();
         
@@ -345,7 +343,7 @@ class ilDAVClientNodeTest extends TestCase
         }
     }
     
-    public function testCreateDirectoryThrowsForbiddenError()
+    public function testCreateDirectoryThrowsForbiddenError() : void
     {
         $dav_client = $this->getDAVClientNodeWithExpectationForFunctions();
         
@@ -357,7 +355,7 @@ class ilDAVClientNodeTest extends TestCase
         }
     }
     
-    public function testDeleteThrowsForbiddenError()
+    public function testDeleteThrowsForbiddenError() : void
     {
         $dav_client = $this->getDAVClientNodeWithExpectationForFunctions();
         

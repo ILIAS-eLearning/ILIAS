@@ -18,6 +18,8 @@ class ilExportSelectionTableGUI extends ilTable2GUI
     {
         global $DIC;
 
+        //TODO PHP8-Review: please check the usage of $_POST
+        /** @var ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement $_POST */
         $this->post_data = $_POST;
 
         $this->tree = $DIC->repositoryTree();
@@ -92,14 +94,18 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             $this->tpl->touchBlock('padding');
             $this->tpl->touchBlock('end_padding');
         }
-        $this->tpl->setVariable('TREE_IMG',
-            ilObject::_getIcon(ilObject::_lookupObjId((int) $a_set['ref_id']), "tiny", $a_set['type']));
+        $this->tpl->setVariable(
+            'TREE_IMG',
+            ilObject::_getIcon(ilObject::_lookupObjId((int) $a_set['ref_id']), "tiny", $a_set['type'])
+        );
         $this->tpl->setVariable('TREE_ALT_IMG', $this->lng->txt('obj_' . $a_set['type']));
         $this->tpl->setVariable('TREE_TITLE', $a_set['title']);
 
         if ($a_set['last_export']) {
-            $this->tpl->setVariable('VAL_LAST_EXPORT',
-                ilDatePresentation::formatDate(new ilDateTime($a_set['last_export'], IL_CAL_UNIX)));
+            $this->tpl->setVariable(
+                'VAL_LAST_EXPORT',
+                ilDatePresentation::formatDate(new ilDateTime($a_set['last_export'], IL_CAL_UNIX))
+            );
         } else {
             $this->tpl->setVariable('VAL_LAST_EXPORT', $this->lng->txt('no_file'));
         }
@@ -114,8 +120,10 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             $this->tpl->setVariable('TXT_EXPORT_E', $this->lng->txt('export_existing'));
             $this->tpl->setVariable('NAME_EXPORT_E', 'cp_options[' . $a_set['ref_id'] . '][type]');
             $this->tpl->setVariable('VALUE_EXPORT_E', ilExportOptions::EXPORT_EXISTING);
-            $this->tpl->setVariable('ID_EXPORT_E',
-                $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_export_e');
+            $this->tpl->setVariable(
+                'ID_EXPORT_E',
+                $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_export_e'
+            );
             $this->tpl->setVariable('EXPORT_E_CHECKED', 'checked="checked"');
             $this->tpl->parseCurrentBlock();
         } elseif (!$a_set['perm_export']) {
@@ -130,8 +138,10 @@ class ilExportSelectionTableGUI extends ilTable2GUI
             $this->tpl->setVariable('TXT_EXPORT', $this->lng->txt('export'));
             $this->tpl->setVariable('NAME_EXPORT', 'cp_options[' . $a_set['ref_id'] . '][type]');
             $this->tpl->setVariable('VALUE_EXPORT', ilExportOptions::EXPORT_BUILD);
-            $this->tpl->setVariable('ID_EXPORT',
-                $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_export');
+            $this->tpl->setVariable(
+                'ID_EXPORT',
+                $a_set['depth'] . '_' . $a_set['type'] . '_' . $a_set['ref_id'] . '_export'
+            );
             if ($selected == "EXPORT") {
                 $this->tpl->setVariable('EXPORT_CHECKED', 'checked="checked"');
             }

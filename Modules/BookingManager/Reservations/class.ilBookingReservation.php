@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * a booking reservation
@@ -120,7 +124,7 @@ class ilBookingReservation
         if ($a_status === null) {
             $this->status = null;
         }
-        if ($this->isValidStatus((int) $a_status)) {
+        if (self::isValidStatus((int) $a_status)) {
             $this->status = (int) $a_status;
         }
     }
@@ -135,10 +139,7 @@ class ilBookingReservation
 
     public static function isValidStatus(int $a_status) : bool
     {
-        if (in_array($a_status, array(self::STATUS_IN_USE, self::STATUS_CANCELLED))) {
-            return true;
-        }
-        return false;
+        return in_array($a_status, array(self::STATUS_IN_USE, self::STATUS_CANCELLED));
     }
     
     public function setGroupId(int $a_group_id) : void
@@ -273,7 +274,7 @@ class ilBookingReservation
         }
         
         $available = array_diff($a_ids, $blocked);
-        if (sizeof($available)) {
+        if (count($available)) {
             if ($a_return_counter) {
                 foreach ($a_ids as $id) {
                     if (!isset($counter[$id])) {
@@ -281,11 +282,11 @@ class ilBookingReservation
                     }
                 }
                 return $counter;
-            } elseif ($a_return_single) {
-                return array_shift($available);
-            } else {
-                return $available;
             }
+            if ($a_return_single) {
+                return array_shift($available);
+            }
+            return $available;
         }
         return [];
     }
@@ -345,9 +346,9 @@ class ilBookingReservation
                     $slot_from = strtotime(date("Y-m-d", $a_from) . " " . $slot[0]);
                     $slot_to = strtotime(date("Y-m-d", $a_from) . " " . $slot[1]);
                     // slot has to be in the future and part of schedule availability
-                    if ($slot_to > time() &&
-                        $slot_from >= $av_from &&
-                        ($slot_to <= $av_to || is_null($av_to))) {
+                    if ($slot_from >= $av_from &&
+                        ($slot_to <= $av_to || is_null($av_to)) &&
+                        $slot_to > time()) {
                         $available_in_period += $per_slot;
                     }
                 }
@@ -355,11 +356,7 @@ class ilBookingReservation
             
             $a_from += (60 * 60 * 24);
         }
-        if ($available_in_period - $booked_in_period > 0) {
-            return true;
-        }
-
-        return false;
+        return $available_in_period - $booked_in_period > 0;
     }
 
     //check if the user reached the limit of bookings in this booking pool.
@@ -376,7 +373,7 @@ class ilBookingReservation
             " FROM booking_reservation" .
             " WHERE " . $ilDB->in('object_id', $booking_pool_objects, false, 'integer') .
             " AND user_id = " . $a_user_id .
-            " AND (status IS NULL OR status <> " . ilBookingReservation::STATUS_CANCELLED . ')';
+            " AND (status IS NULL OR status <> " . self::STATUS_CANCELLED . ')';
         $res = $ilDB->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
 
@@ -402,7 +399,7 @@ class ilBookingReservation
             'SELECT user_id' .
             ' FROM booking_reservation' .
             ' WHERE object_id = ' . $ilDB->quote($a_object_id, 'integer') .
-            ' AND (status IS NULL OR status <> ' . ilBookingReservation::STATUS_CANCELLED . '))';
+            ' AND (status IS NULL OR status <> ' . self::STATUS_CANCELLED . '))';
 
         $set = $ilDB->query($query);
 
@@ -421,8 +418,7 @@ class ilBookingReservation
 
     public static function numAvailableFromObjectNoSchedule(int $a_obj_id) : int
     {
-        $available = self::getNumAvailablesNoSchedule($a_obj_id);
-        return $available;
+        return self::getNumAvailablesNoSchedule($a_obj_id);
     }
 
     public static function getNumAvailablesNoSchedule(int $a_obj_id) : int
@@ -493,7 +489,7 @@ class ilBookingReservation
 
     /**
      * List all reservations
-     * @return	array[]
+     * @return array<string, array>
      */
     public static function getList(
         array $a_object_ids,
@@ -528,7 +524,7 @@ class ilBookingReservation
         if (isset($filter['to'])) {
             $where[] = 'date_to <= ' . $ilDB->quote($filter['to'], 'integer');
         }
-        if (sizeof($where)) {
+        if (count($where)) {
             $sql .= ' WHERE ' . implode(' AND ', $where);
             $count_sql .= ' WHERE ' . implode(' AND ', $where);
         }
@@ -558,7 +554,7 @@ class ilBookingReservation
      */
     public static function getUserFilter(
         array $a_object_ids
-    ) {
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();

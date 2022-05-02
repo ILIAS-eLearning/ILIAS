@@ -9,7 +9,6 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 {
     public function collectPropertiesAndActions() : void
     {
-
         $a_app = $this->appointment;
 
         $cat_id = $this->getCatId($a_app['event']->getEntryId());
@@ -51,15 +50,17 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
         }
 
         // owner
-        $this->addInfoProperty($this->lng->txt('cal_ch_booking_owner'),
-            ilObjUser::_lookupFullname($booking->getObjId()));
+        $this->addInfoProperty(
+            $this->lng->txt('cal_ch_booking_owner'),
+            ilObjUser::_lookupFullname($booking->getObjId())
+        );
 
         if ($deadline = $booking->getDeadlineHours()) {
             $limit = $a_app['dstart'] - ($deadline * 60 * 60);
 
             if (time() > $limit) {
                 $this->addInfoProperty($this->lng->txt("cal_ch_deadline"), $this->lng->txt("exc_time_over_short"));
-                //$this->addListItemProperty($this->lng->txt("cal_ch_deadline"),$this->lng->txt("exc_time_over_short"));
+            //$this->addListItemProperty($this->lng->txt("cal_ch_deadline"),$this->lng->txt("exc_time_over_short"));
             } else {
                 //appointment starts at -> $a_app['dstart']
                 //limit registration  -> $a_app['dstart'] - $deadline
@@ -83,8 +84,11 @@ class ilAppointmentPresentationConsultationHoursGUI extends ilAppointmentPresent
 
         if ($user_entry && !$is_owner) {
             // find source calendar entry in owner calendar
-            $apps = ilConsultationHourAppointments::getAppointmentIds($booking->getObjId(),
-                $a_app['event']->getContextId(), $a_app['event']->getStart());
+            $apps = ilConsultationHourAppointments::getAppointmentIds(
+                $booking->getObjId(),
+                $a_app['event']->getContextId(),
+                $a_app['event']->getStart()
+            );
             $ref_event = $apps[0];
         } else {
             $ref_event = $a_app['event']->getEntryId();

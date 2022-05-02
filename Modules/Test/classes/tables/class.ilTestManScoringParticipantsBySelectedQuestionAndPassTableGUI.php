@@ -46,7 +46,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->setRowTemplate("tpl.il_as_tst_man_scoring_by_question_tblrow.html", "Modules/Test");
         $this->setShowRowsSelector(true);
 
-	$this->initOrdering();
+        $this->initOrdering();
         $this->initColumns();
         $this->initFilter();
     }
@@ -151,7 +151,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
             $this->tpl->setVariable('VAL_NAME', $this->lng->txt("anonymous"));
         } else {
             $this->tpl->setVariable('VAL_NAME', $a_set['name']);
-	    }
+        }
 
         if (!$this->first_row_rendered) {
             $this->first_row_rendered = true;

@@ -14,6 +14,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
     const IMAGE_UPLOAD_SUBFIELD_NAME = 'imageupload';
     
     const FILE_DATA_INDEX_DODGING_FILE = 'dodging_file';
+
     /**
      * @var bool
      */
@@ -164,14 +165,13 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
      */
     public function onCheckInput() : bool
     {
-        $lng = $GLOBALS['DIC'] ? $GLOBALS['DIC']['lng'] : $GLOBALS['lng'];
         $F = $_FILES[$this->getPostVar()];
         if ($F && isset($_REQUEST[$this->getPostVar()][self::FILE_DATA_INDEX_DODGING_FILE])) {
             $F = array_merge(array(self::FILE_DATA_INDEX_DODGING_FILE => $_REQUEST[$this->getPostVar()][self::FILE_DATA_INDEX_DODGING_FILE]), $F);
         }
 
         if ($this->getRequired() && !is_array($F['error'])) {
-            $this->setAlert($lng->txt("form_msg_file_no_upload"));
+            $this->setAlert($this->lng->txt("form_msg_file_no_upload"));
             return false;
         } else {
             foreach ($F['error'] as $index => $error) {
@@ -180,12 +180,12 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                     switch ($error) {
                         case UPLOAD_ERR_FORM_SIZE:
                         case UPLOAD_ERR_INI_SIZE:
-                        $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+                        $this->setAlert($this->lng->txt("form_msg_file_size_exceeds"));
                         return false;
                         break;
 
                         case UPLOAD_ERR_PARTIAL:
-                        $this->setAlert($lng->txt("form_msg_file_partially_uploaded"));
+                        $this->setAlert($this->lng->txt("form_msg_file_partially_uploaded"));
                         return false;
                         break;
                     
@@ -195,22 +195,22 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                         } elseif (strlen($F[self::FILE_DATA_INDEX_DODGING_FILE][$index])) {
                             break;
                         }
-                        $this->setAlert($lng->txt("form_msg_file_no_upload"));
+                        $this->setAlert($this->lng->txt("form_msg_file_no_upload"));
                         return false;
                         break;
                     
                     case UPLOAD_ERR_NO_TMP_DIR:
-                        $this->setAlert($lng->txt("form_msg_file_missing_tmp_dir"));
+                        $this->setAlert($this->lng->txt("form_msg_file_missing_tmp_dir"));
                         return false;
                         break;
                     
                     case UPLOAD_ERR_CANT_WRITE:
-                        $this->setAlert($lng->txt("form_msg_file_cannot_write_to_disk"));
+                        $this->setAlert($this->lng->txt("form_msg_file_cannot_write_to_disk"));
                         return false;
                         break;
                     
                     case UPLOAD_ERR_EXTENSION:
-                        $this->setAlert($lng->txt("form_msg_file_upload_stopped_ext"));
+                        $this->setAlert($this->lng->txt("form_msg_file_upload_stopped_ext"));
                         return false;
                         break;
                 }
@@ -228,7 +228,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
                 // check suffixes
                 if (strlen($tmpname) && is_array($this->getSuffixes())) {
                     if (!in_array(strtolower($suffix), $this->getSuffixes())) {
-                        $this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
+                        $this->setAlert($this->lng->txt("form_msg_file_wrong_file_type"));
                         return false;
                     }
                 }
@@ -245,7 +245,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
             if (strlen($tmpname)) {
                 $vir = ilVirusScanner::virusHandling($tmpname, $filename);
                 if ($vir[0] == false) {
-                    $this->setAlert($lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
+                    $this->setAlert($this->lng->txt("form_msg_file_virus_found") . "<br />" . $vir[1]);
                     return false;
                 }
             }

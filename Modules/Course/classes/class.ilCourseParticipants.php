@@ -1,26 +1,20 @@
 <?php declare(strict_types=0);
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ModulesCourse
@@ -43,7 +37,7 @@ class ilCourseParticipants extends ilParticipants
 
     public static function _getInstanceByObjId(int $a_obj_id) : ilCourseParticipants
     {
-        if (isset(self::$instances[$a_obj_id]) and self::$instances[$a_obj_id]) {
+        if (isset(self::$instances[$a_obj_id]) && self::$instances[$a_obj_id]) {
             return self::$instances[$a_obj_id];
         }
         return self::$instances[$a_obj_id] = new ilCourseParticipants($a_obj_id);
@@ -130,7 +124,7 @@ class ilCourseParticipants extends ilParticipants
         if ($res->numRows()) {
             // #9284 - only needs updating when status has changed
             $old = $ilDB->fetchAssoc($res);
-            if ((int) $old["passed"] != (int) $a_passed) {
+            if ((int) $old["passed"] !== (int) $a_passed) {
                 $update_query = "UPDATE obj_members SET " .
                     "passed = " . $ilDB->quote($a_passed, 'integer') . ", " .
                     "origin = " . $ilDB->quote($origin, 'integer') . ", " .
@@ -328,7 +322,6 @@ class ilCourseParticipants extends ilParticipants
         global $DIC;
 
         $ilDB = $DIC->database();
-        $res = array();
         $sql = "SELECT usr_id,obj_id FROM obj_members" .
             " WHERE " . $ilDB->in("usr_id", $a_usr_ids, false, "integer") .
             " AND " . $ilDB->in("obj_id", $a_obj_ids, false, "integer") .

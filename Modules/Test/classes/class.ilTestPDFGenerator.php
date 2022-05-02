@@ -35,7 +35,8 @@ class ilTestPDFGenerator
     }
 
     /**
-     * @param $html
+     * @param $contentHtml
+     * @param $styleHtml
      * @return string
      */
     private static function makeHtmlDocument($contentHtml, $styleHtml) : string

@@ -41,8 +41,8 @@ class ilAssQuestionPageCommandForwarder
         $this->testrequest = $DIC->test()->internal()->request();
         require_once "./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php";
         //echo $_REQUEST['prev_qid'];
-        if ($_REQUEST['prev_qid']) {
-            $DIC->ctrl()->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
+        if ($this->testrequest->raw('prev_qid')) {
+            $DIC->ctrl()->setParameter($this, 'prev_qid', $this->testrequest->raw('prev_qid'));
         }
         
         //global $___test_express_mode;

@@ -28,8 +28,6 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
     * The text which defines the correct set of answers
     *
-    * The text which defines the correct set of answers
-    *
     * @var array
     */
     public $answers;
@@ -37,15 +35,11 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     /**
     * The number of correct answers to solve the question
     *
-    * The number of correct answers to solve the question
-    *
     * @var integer
     */
     public $correctanswers;
 
     /**
-    * The method which should be chosen for text comparisons
-    *
     * The method which should be chosen for text comparisons
     *
     * @var string
@@ -145,7 +139,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             $this->setOwner($data["owner"]);
             include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setQuestion(ilRTE::_replaceMediaObjectImageSrc((string) $data["question_text"], 1));
-            $this->setCorrectAnswers($data["correctanswers"]);
+            $this->setCorrectAnswers((int) $data["correctanswers"]);
             $this->setTextRating($data["textgap_rating"]);
             $this->setEstimatedWorkingTime(substr($data["working_time"], 0, 2), substr($data["working_time"], 3, 2), substr($data["working_time"], 6, 2));
             
@@ -566,7 +560,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @param integer $a_correct_anwers The number of correct answers
     * @access public
     */
-    public function setCorrectAnswers($a_correct_answers)
+    public function setCorrectAnswers(int $a_correct_answers)
     {
         $this->correctanswers = $a_correct_answers;
     }

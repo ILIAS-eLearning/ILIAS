@@ -56,7 +56,7 @@ class ilDAVMountPoint implements ICollection
      */
     public function getChildren() : array
     {
-        if ($this->user_id === null || $this->user_id === ANONYMOUS_USER_ID) {
+        if ($this->user_id === ANONYMOUS_USER_ID) {
             throw new Forbidden('Only for logged in users');
         }
         return array($this->web_dav_object_factory->getClientNode($this->client_id));

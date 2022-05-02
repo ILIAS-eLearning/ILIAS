@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -113,7 +113,7 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
         // general commands array
         $this->commands = ilObjCategoryReferenceAccess::_getCommands($this->reference_ref_id);
 
-        if ($ilAccess->checkAccess('write', '', $this->reference_ref_id) or $this->deleted) {
+        if ($this->deleted || $ilAccess->checkAccess('write', '', $this->reference_ref_id)) {
             $this->info_screen_enabled = false;
         } else {
             $this->info_screen_enabled = true;
@@ -127,14 +127,16 @@ class ilObjCategoryReferenceListGUI extends ilObjCategoryListGUI
         $tree = $this->tree;
 
         $props = parent::getProperties();
-        
+
         // offline
         if ($tree->isDeleted($this->ref_id)) {
-            $props[] = array("alert" => true, "property" => $lng->txt("status"),
-                "value" => $lng->txt("reference_deleted"));
+            $props[] = [
+                "alert" => true, "property" => $lng->txt("status"),
+                "value" => $lng->txt("reference_deleted")
+            ];
         }
 
-        return $props ?: array();
+        return $props;
     }
     
     public function checkCommandAccess(

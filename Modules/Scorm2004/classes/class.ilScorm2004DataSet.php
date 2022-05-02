@@ -31,26 +31,14 @@ class ilScorm2004DataSet extends ilDataSet
         return array("5.1.0");
     }
 
-    /**
-     * Get xml namespace
-     * @param string $a_entity
-     * @param string $a_schema_version
-     * @return string
-     */
     public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "http://www.ilias.de/xml/Modules/Scorm2004/" . $a_entity;
     }
 
-    /**
-     * Get field types for entity
-     * @param string $a_entity
-     * @param string $a_version
-     * @return array
-     */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
-        if ($a_entity == "sahs") {
+        if ($a_entity === "sahs") {
             switch ($a_version) {
                 case "5.1.0":
                     return array(
@@ -66,13 +54,6 @@ class ilScorm2004DataSet extends ilDataSet
         return [];
     }
 
-    /**
-     * Read data
-     * @param string $a_entity
-     * @param string $a_version
-     * @param array  $a_ids
-     * @return void
-     */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
@@ -82,13 +63,13 @@ class ilScorm2004DataSet extends ilDataSet
         }
 
         // sahs
-        if ($a_entity == "sahs") {
+        if ($a_entity === "sahs") {
             $this->data = array();
 
             switch ($a_version) {
                 case "5.1.0":
                     foreach ($a_ids as $sahs_id) {
-                        if (ilObject::_lookupType((int) $sahs_id) == "sahs") {
+                        if (ilObject::_lookupType((int) $sahs_id) === "sahs") {
                             $this->data[] = array("Id" => $sahs_id,
                                 "Title" => ilObject::_lookupTitle((int) $sahs_id),
                                 "Description" => ilObject::_lookupDescription((int) $sahs_id),
@@ -153,15 +134,9 @@ class ilScorm2004DataSet extends ilDataSet
 //        return $a_set;
 //    }
 
-    /**
-     * @param string $a_entity
-     * @param string $a_version
-     * @param array  $a_set
-     * @return void
-     */
     public function afterXmlRecordWriting(string $a_entity, string $a_version, array $a_set) : void
     {
-        if ($a_entity == "sahs") {
+        if ($a_entity === "sahs") {
             // delete our temp dir
             if (isset($this->temp_dir[$a_set["Id"]]) && is_dir($this->temp_dir[$a_set["Id"]])) {
                 ilFileUtils::delDir($this->temp_dir[$a_set["Id"]]);

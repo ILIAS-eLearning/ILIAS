@@ -21,10 +21,10 @@
 class ilNewItemGroupTableGUI extends ilTable2GUI
 {
     protected bool $has_write;
-    protected \ilGlobalTemplateInterface $main_tpl;
+    protected ilGlobalTemplateInterface $main_tpl;
     
     public function __construct(
-        object $a_parent_obj,
+        ilObjRepositorySettingsGUI $a_parent_obj,
         string $a_parent_cmd = "",
         bool $a_has_write = false
     ) {
@@ -45,7 +45,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
         $this->setTitle($lng->txt("rep_new_item_groups"));
 
         if ($this->has_write) {
-            $this->addColumn("", "", 1);
+            $this->addColumn("", "", '1');
         }
         $this->addColumn($lng->txt("cmps_add_new_rank"), "");
         $this->addColumn($lng->txt("title"), "");
@@ -73,26 +73,26 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
     {
         $lng = $this->lng;
         
-        $data = array();
+        $data = [];
                 
         $subitems = ilObjRepositorySettings::getNewItemGroupSubItems();
         
         if ($subitems[0]) {
             $this->main_tpl->setOnScreenMessage('info', sprintf(
                 $lng->txt("rep_new_item_group_unassigned_subitems"),
-                is_array($subitems[0]) ? sizeof($subitems[0]) : 0
+                is_array($subitems[0]) ? count($subitems[0]) : 0
             ));
             unset($subitems[0]);
         }
         
         foreach (ilObjRepositorySettings::getNewItemGroups() as $item) {
-            $data[] = array(
+            $data[] = [
                 "id" => $item["id"],
                 "pos" => $item["pos"],
                 "title" => $item["title"],
                 "type" => $item["type"],
-                "subitems" => is_array($subitems[$item["id"]]) ? sizeof($subitems[$item["id"]]) : 0
-            );
+                "subitems" => is_array($subitems[$item["id"]]) ? count($subitems[$item["id"]]) : 0
+            ];
         }
         
         $data = ilArrayUtil::sortArray($data, "pos", "asc", true);
@@ -114,7 +114,7 @@ class ilNewItemGroupTableGUI extends ilTable2GUI
         $this->tpl->setVariable("VAL_POS", $a_set["pos"]);
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         
-        if ($a_set["type"] == ilObjRepositorySettings::NEW_ITEM_GROUP_TYPE_GROUP) {
+        if ((int) $a_set["type"] === ilObjRepositorySettings::NEW_ITEM_GROUP_TYPE_GROUP) {
             $this->tpl->setVariable("VAL_ITEMS", $a_set["subitems"]);
 
             if ($this->has_write) {

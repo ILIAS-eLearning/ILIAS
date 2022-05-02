@@ -1,5 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilChatroomFormFactory
@@ -70,7 +85,7 @@ class ilChatroomFormFactory
         return $form;
     }
 
-    public function getSettingsForm() : ilPropertyFormGUI
+    public function getSettingsForm(ilObjectService $objectService, ilObjChatroom $chatroom) : ilPropertyFormGUI
     {
         $this->lng->loadLanguageModule('rep');
 
@@ -81,31 +96,6 @@ class ilChatroomFormFactory
 
         $description = new ilTextAreaInputGUI($this->lng->txt('description'), 'desc');
         $form->addItem($description);
-
-        $cb = new ilCheckboxInputGUI($this->lng->txt('allow_anonymous'), 'allow_anonymous');
-        $cb->setInfo($this->lng->txt('anonymous_hint'));
-
-        $txt = new ilTextInputGUI($this->lng->txt('autogen_usernames'), 'autogen_usernames');
-        $txt->setRequired(true);
-        $txt->setInfo($this->lng->txt('autogen_usernames_info'));
-        $cb->addSubItem($txt);
-        $form->addItem($cb);
-
-        $cb = new ilCheckboxInputGUI($this->lng->txt('allow_custom_usernames'), 'allow_custom_usernames');
-        $form->addItem($cb);
-
-        $cb_history = new ilCheckboxInputGUI($this->lng->txt('enable_history'), 'enable_history');
-        $form->addItem($cb_history);
-
-        $num_msg_history = new ilNumberInputGUI($this->lng->txt('display_past_msgs'), 'display_past_msgs');
-        $num_msg_history->setInfo($this->lng->txt('hint_display_past_msgs'));
-        $num_msg_history->setMinValue(0);
-        $num_msg_history->setMaxValue(100);
-        $form->addItem($num_msg_history);
-
-        $cb = new ilCheckboxInputGUI($this->lng->txt('private_rooms_enabled'), 'private_rooms_enabled');
-        $cb->setInfo($this->lng->txt('private_rooms_enabled_info'));
-        $form->addItem($cb);
 
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('rep_activation_availability'));
@@ -123,6 +113,47 @@ class ilChatroomFormFactory
         $visible->setValue('1');
         $visible->setInfo($this->lng->txt('chtr_activation_limited_visibility_info'));
         $dur->addSubItem($visible);
+
+        $presentationHeader = new ilFormSectionHeaderGUI();
+        $presentationHeader->setTitle($this->lng->txt('settings_presentation_header'));
+        $form->addItem($presentationHeader);
+
+        $objectService->commonSettings()->legacyForm(
+            $form,
+            $chatroom
+        )->addTileImage();
+
+        $num_msg_history = new ilNumberInputGUI($this->lng->txt('display_past_msgs'), 'display_past_msgs');
+        $num_msg_history->setSuffix($this->lng->txt('display_past_msgs_suffix'));
+        $num_msg_history->allowDecimals(false);
+        $num_msg_history->setSize(5);
+        $num_msg_history->setInfo($this->lng->txt('hint_display_past_msgs'));
+        $num_msg_history->setMinValue(0);
+        $num_msg_history->setMaxValue(100);
+        $form->addItem($num_msg_history);
+
+        $cb_history = new ilCheckboxInputGUI($this->lng->txt('chat_enable_history'), 'enable_history');
+        $cb_history->setInfo($this->lng->txt('chat_enable_history_info'));
+        $form->addItem($cb_history);
+
+        $functionsnHeader = new ilFormSectionHeaderGUI();
+        $functionsnHeader->setTitle($this->lng->txt('chat_settings_functions_header'));
+        $form->addItem($functionsnHeader);
+
+        $cb = new ilCheckboxInputGUI($this->lng->txt('allow_anonymous'), 'allow_anonymous');
+        $cb->setInfo($this->lng->txt('anonymous_hint'));
+        $form->addItem($cb);
+
+        $cb = new ilCheckboxInputGUI($this->lng->txt('allow_custom_usernames'), 'allow_custom_usernames');
+        $txt = new ilTextInputGUI($this->lng->txt('autogen_usernames'), 'autogen_usernames');
+        $txt->setRequired(true);
+        $txt->setInfo($this->lng->txt('autogen_usernames_info'));
+        $cb->addSubItem($txt);
+        $form->addItem($cb);
+
+        $cb = new ilCheckboxInputGUI($this->lng->txt('private_rooms_enabled'), 'private_rooms_enabled');
+        $cb->setInfo($this->lng->txt('private_rooms_enabled_info'));
+        $form->addItem($cb);
 
         return $form;
     }
@@ -168,7 +199,7 @@ class ilChatroomFormFactory
 
     /**
      * Returns chatname selection form.
-     * @param array $name_options
+     * @param array<string, string> $name_options
      * @return ilPropertyFormGUI
      */
     public function getUserChatNameSelectionForm(array $name_options) : ilPropertyFormGUI
@@ -185,7 +216,7 @@ class ilChatroomFormFactory
         $custom_opt = new ilRadioOption($this->lng->txt('custom_username'), 'custom_username');
         $radio->addOption($custom_opt);
 
-        $txt = new ilTextInputGUI($this->lng->txt('custom_username'), 'custom_username_text');
+        $txt = new ilTextInputGUI($this->lng->txt('preferred_chatname'), 'custom_username_text');
         $custom_opt->addSubItem($txt);
         $form->addItem($radio);
 

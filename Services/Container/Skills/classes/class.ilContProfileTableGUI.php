@@ -83,18 +83,18 @@ class ilContProfileTableGUI extends ilTable2GUI
         $profiles = [];
         if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {
             foreach ($this->container_global_profiles->getProfiles() as $gp) {
-                $profiles[$gp["profile_id"]] = array(
+                $profiles[$gp["profile_id"]] = [
                     "profile_id" => $gp["profile_id"],
                     "title" => ilSkillProfile::lookupTitle($gp["profile_id"])
-                );
+                ];
             }
         }
         if ($this->skmg_settings->getAllowLocalProfiles()) {
             foreach ($this->container_local_profiles->getProfiles() as $lp) {
-                $profiles[$lp["profile_id"]] = array(
+                $profiles[$lp["profile_id"]] = [
                     "profile_id" => $lp["profile_id"],
                     "title" => ilSkillProfile::lookupTitle($lp["profile_id"])
-                );
+                ];
             }
         }
         ksort($profiles);
@@ -124,7 +124,7 @@ class ilContProfileTableGUI extends ilTable2GUI
         $ctrl->setParameterByClass("ilskillprofilegui", "local_context", true);
 
         if (ilSkillProfile::lookupRefId($a_set["profile_id"]) > 0) {
-            $items = array(
+            $items = [
                 $ui_factory->link()->standard(
                     $lng->txt("edit"),
                     $ctrl->getLinkTargetByClass("ilskillprofilegui", "showLevelsWithLocalContext")
@@ -133,14 +133,14 @@ class ilContProfileTableGUI extends ilTable2GUI
                     $lng->txt("delete"),
                     $ctrl->getLinkTarget($this->parent_obj, "confirmDeleteSingleLocalProfile")
                 )
-            );
+            ];
         } else {
-            $items = array(
+            $items = [
                 $ui_factory->link()->standard(
                     $lng->txt("remove"),
                     $ctrl->getLinkTarget($this->parent_obj, "confirmRemoveSingleGlobalProfile")
                 )
-            );
+            ];
         }
 
         $dropdown = $this->ui_factory->dropdown()->standard($items)->withLabel($lng->txt("actions"));

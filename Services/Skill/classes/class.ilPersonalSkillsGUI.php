@@ -23,6 +23,9 @@ use ILIAS\UI\Renderer;
 use ILIAS\Skill\Service\SkillTreeService;
 use ILIAS\Skill\Service\SkillPersonalGUIRequest;
 use ILIAS\ResourceStorage\Services as ResourceStorage;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Component\Chart\Bar\BarConfig;
+use ILIAS\UI\Component\Chart\Bar\XAxis;
 
 /**
  * Personal skills GUI class
@@ -36,11 +39,32 @@ class ilPersonalSkillsGUI
     public const LIST_PROFILES = "";
 
     protected string $offline_mode = "";
+
+    /**
+     * @var array<int, array<int, int>>
+     */
     protected array $actual_levels = [];
+
+    /**
+     * @var array<int, array<int, float>>
+     */
+    protected array $next_level_fuls = [];
+
+    /**
+     * @var array<int, array<int, int>>
+     */
     protected array $gap_self_eval_levels = [];
     protected bool $history_view = false;
+
+    /**
+     * @var int[]
+     */
     protected array $trigger_objects_filter = [];
     protected string $intro_text = "";
+
+    /**
+     * @var string[]
+     */
     protected array $hidden_skills = [];
     protected string $mode = "";
     protected string $gap_mode = "";
@@ -61,12 +85,29 @@ class ilPersonalSkillsGUI
     protected Factory $ui_fac;
     protected Renderer $ui_ren;
     protected ResourceStorage $storage;
+    protected DataFactory $data_fac;
 
     protected int $obj_id = 0;
+
+    /**
+     * @var array<string, array{base_skill_id: int, tref_id: int, title: int}>
+     */
     protected array $obj_skills = [];
     protected int $profile_id = 0;
+
+    /**
+     * @var array{base_skill_id: int, tref_id: int, level_id: int, order_nr: int}[]
+     */
     protected array $profile_levels = [];
+
+    /**
+     * @var array{id: int, title: string, description: string, image_id: string}[]
+     */
     protected array $user_profiles = [];
+
+    /**
+     * @var array<int, array{profile_id: int, role_id: int, title: string}|{profile_id: int}>
+     */
     protected array $cont_profiles = [];
     protected bool $use_materials = false;
     protected ilSkillManagementSettings $skmg_settings;
@@ -78,13 +119,25 @@ class ilPersonalSkillsGUI
     protected int $requested_node_id = 0;
     protected int $requested_profile_id = 0;
     protected int $requested_skill_id = 0;
+
+    /**
+     * @var int[]
+     */
     protected array $requested_skill_ids = [];
     protected int $requested_basic_skill_id = 0;
     protected int $requested_tref_id = 0;
     protected int $requested_level_id = 0;
     protected int $requested_self_eval_level_id = 0;
     protected int $requested_wsp_id = 0;
+
+    /**
+     * @var int[]
+     */
     protected array $requested_wsp_ids = [];
+
+    /**
+     * @var string[]
+     */
     protected array $trigger_user_filter = [];
 
     public function __construct()
@@ -104,6 +157,7 @@ class ilPersonalSkillsGUI
         $this->ui_ren = $DIC->ui()->renderer();
         $this->ui = $DIC->ui();
         $this->storage = $DIC->resourceStorage();
+        $this->data_fac = new \ILIAS\Data\Factory();
         $this->personal_gui_request = $DIC->skills()->internal()->gui()->personal_request();
 
         $ilCtrl = $this->ctrl;
@@ -161,7 +215,7 @@ class ilPersonalSkillsGUI
     }
     
     /**
-     * @param array $a_val self evaluation values key1: base_skill_id, key2: tref_id: value: level id
+     * @param array<int, array<int, int>> $a_val self evaluation values key1: base_skill_id, key2: tref_id: value: level id
      */
     public function setGapAnalysisSelfEvalLevels(array $a_val) : void
     {
@@ -207,17 +261,17 @@ class ilPersonalSkillsGUI
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getTriggerUserFilter()
+    public function getTriggerUserFilter() : array
     {
         return $this->trigger_user_filter;
     }
 
     /**
-     * @param array $trigger_user_filter
+     * @param string[] $trigger_user_filter
      */
-    public function setTriggerUserFilter($trigger_user_filter)
+    public function setTriggerUserFilter(array $trigger_user_filter) : void
     {
         $this->trigger_user_filter = $trigger_user_filter;
     }
@@ -263,12 +317,18 @@ class ilPersonalSkillsGUI
         return $this->obj_id;
     }
 
+    /**
+     * @return array<string, array{base_skill_id: int, tref_id: int, title: int}>
+     */
     public function getObjectSkills() : array
     {
         return $this->obj_skills;
     }
 
-    public function setObjectSkills(int $a_obj_id, ?array $a_skills = null) : void
+    /**
+     * @param array<string, array{base_skill_id: int, tref_id: int, title: int}> $a_skills
+     */
+    public function setObjectSkills(int $a_obj_id, array $a_skills) : void
     {
         $this->obj_id = $a_obj_id;
         $this->obj_skills = $a_skills;
@@ -378,7 +438,7 @@ class ilPersonalSkillsGUI
             // check draft
             foreach ($path as $p) {
                 if ($p["status"] == ilSkillTreeNode::STATUS_DRAFT) {
-                    continue(2); // todo: test if continue or continue 2
+                    continue(2);
                 }
             }
             $html .= $this->getSkillHTML($s["skill_node_id"], 0, true);
@@ -428,6 +488,8 @@ class ilPersonalSkillsGUI
         bool $a_edit = false,
         int $a_tref_id = 0
     ) : string {
+        $main_tpl = $this->tpl;
+
         // user interface plugin slot + default rendering
         $uip = new ilUIHookProcessor(
             "Services/Skill",
@@ -440,6 +502,7 @@ class ilPersonalSkillsGUI
             $skill_html = $this->renderSkillHTML($a_top_skill_id, $a_user_id, $a_edit, $a_tref_id);
         }
         $skill_html = $uip->getHTML($skill_html);
+        $main_tpl->addJavaScript("./Services/Skill/js/SkillEntries.js");
 
         return $skill_html;
     }
@@ -464,8 +527,7 @@ class ilPersonalSkillsGUI
 
         $tpl = new ilTemplate("tpl.skill_pres.html", true, true, "Services/Skill");
 
-        $vtree_id = $this->tree_repo->getTreeIdForNodeId($a_top_skill_id);
-        $vtree = new ilVirtualSkillTree($vtree_id);
+        $vtree = $this->tree_repo->getVirtualTreeForNodeId($a_top_skill_id);
         $tref_id = $a_tref_id;
         $skill_id = $a_top_skill_id;
         if (ilSkillTreeNode::_lookupType($a_top_skill_id) == "sktr") {
@@ -486,7 +548,7 @@ class ilPersonalSkillsGUI
             // check draft
             foreach ($path as $p) {
                 if ($p["status"] == ilSkillTreeNode::STATUS_DRAFT) {
-                    continue(2); // todo: test if continue or continue 2
+                    continue(2);
                 }
             }
             reset($path);
@@ -514,13 +576,45 @@ class ilPersonalSkillsGUI
 
 
             // skill level description
-            $panel_comps[] = $this->ui_fac->legacy($this->getSkillLevelDescription($skill));
+            $skl_lvl_desc = $this->getSkillLevelDescription($skill);
+            if (!empty($skl_lvl_desc)) {
+                $acc = new ilAccordionGUI();
+                $acc->setBehaviour(ilAccordionGUI::ALL_CLOSED);
+                $acc->addItem($lng->txt('skmg_skill_levels'), $skl_lvl_desc);
+                $panel_comps[] = $this->ui_fac->legacy($acc->getHTML());
+            }
 
-
+            $prof_comp_head_rendered = false;
             if ($this->getProfileId() > 0) {
+                // get all self eval entries and render them
+                $self_eval_entries_latest = $this->getLatestEntriesForSkillHTML(
+                    $a_top_skill_id,
+                    $bs,
+                    $skill,
+                    $user,
+                    ilBasicSkill::EVAL_BY_SELF,
+                    $level_data
+                );
+                $self_eval_entries_non_latest = $this->getNonLatestEntriesForSkillHTML(
+                    $a_top_skill_id,
+                    $bs,
+                    $skill,
+                    $user,
+                    ilBasicSkill::EVAL_BY_SELF,
+                    $level_data
+                );
+
+                if (!empty($self_eval_entries_latest)) {
+                    $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_SELF));
+                }
+                $panel_comps[] = $this->ui_fac->legacy($self_eval_entries_latest);
+                $panel_comps[] = $this->ui_fac->legacy($self_eval_entries_non_latest);
+
                 if (!$this->skmg_settings->getHideProfileBeforeSelfEval() ||
                     ilBasicSkill::hasSelfEvaluated($user->getId(), $bs["id"], $bs["tref"])) {
                     if ($this->getFilter()->showTargetLevel()) {
+                        $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_OTHERS));
+                        $prof_comp_head_rendered = true;
                         $panel_comps[] = $this->ui_fac->legacy($this->getProfileTargetItem($this->getProfileId(), $level_data, $bs["tref"]));
                     }
                 }
@@ -530,26 +624,56 @@ class ilPersonalSkillsGUI
                 $panel_comps[] = $this->ui_fac->legacy($this->getActualGapItem($level_data, $bs["tref"]));
                 $panel_comps[] = $this->ui_fac->legacy($this->getSelfEvalGapItem($level_data, $bs["tref"]));
             } else {
-                // get date of self evaluation
-                $se_date = ilPersonalSkill::getSelfEvaluationDate($user->getId(), $a_top_skill_id, $bs["tref"], $bs["id"]);
-                $se_rendered = $se_date == "";
-                    
-                // get all object triggered entries and render them
-                foreach ($skill->getAllHistoricLevelEntriesOfUser($bs["tref"], $user->getId(), ilBasicSkill::EVAL_BY_ALL) as $level_entry) {
-                    if (count($this->getTriggerObjectsFilter()) && !in_array($level_entry['trigger_obj_id'], $this->getTriggerObjectsFilter())) {
-                        continue;
+                if ($this->getProfileId() > 0) {
+                    // get all non-self eval entries and render them
+                    $object_entries_latest = $this->getLatestEntriesForSkillHTML(
+                        $a_top_skill_id,
+                        $bs,
+                        $skill,
+                        $user,
+                        ilBasicSkill::EVAL_BY_OTHERS,
+                        $level_data
+                    );
+                    $object_entries_non_latest = $this->getNonLatestEntriesForSkillHTML(
+                        $a_top_skill_id,
+                        $bs,
+                        $skill,
+                        $user,
+                        ilBasicSkill::EVAL_BY_OTHERS,
+                        $level_data
+                    );
+
+                    if (!empty($object_entries_latest) && !$prof_comp_head_rendered) {
+                        $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_OTHERS));
                     }
-                    if (count($this->getTriggerUserFilter()) && !in_array($level_entry['trigger_user_id'], $this->getTriggerUserFilter())) {
-                        continue;
+                    $panel_comps[] = $this->ui_fac->legacy($object_entries_latest);
+                    $panel_comps[] = $this->ui_fac->legacy($object_entries_non_latest);
+                } else {
+                    // get all skill entries and render them
+                    $all_entries_latest = $this->getLatestEntriesForSkillHTML(
+                        $a_top_skill_id,
+                        $bs,
+                        $skill,
+                        $user,
+                        ilBasicSkill::EVAL_BY_ALL,
+                        $level_data
+                    );
+                    $all_entries_non_latest = $this->getNonLatestEntriesForSkillHTML(
+                        $a_top_skill_id,
+                        $bs,
+                        $skill,
+                        $user,
+                        ilBasicSkill::EVAL_BY_ALL,
+                        $level_data
+                    );
+
+                    if (!empty($all_entries_latest) && !$prof_comp_head_rendered) {
+                        $panel_comps[] = $this->ui_fac->legacy($this->getSkillEntriesHeader(ilBasicSkill::EVAL_BY_OTHERS));
                     }
 
-                    // render the self evaluation at the correct position within the list of object triggered entries
-                    if ($se_date > $level_entry["status_date"] && !$se_rendered) {
-                        $se_rendered = true;
-                    }
-                    if ($this->getFilter()->isInRange($level_data, $level_entry)) {
-                        $panel_comps[] = $this->ui_fac->legacy($this->getEvalItem($level_data, $level_entry));
-                    }
+                    $panel_comps[] = $this->ui_fac->legacy($all_entries_latest);
+
+                    $panel_comps[] = $this->ui_fac->legacy($all_entries_non_latest);
                 }
             }
 
@@ -777,8 +901,7 @@ class ilPersonalSkillsGUI
             ".svg"));
          
         // basic skill selection
-        $vtree_id = $this->tree_repo->getTreeIdForNodeId($this->requested_skill_id);
-        $vtree = new ilVirtualSkillTree($vtree_id);
+        $vtree = $this->tree_repo->getVirtualTreeForNodeId($this->requested_skill_id);
         $tref_id = 0;
         $skill_id = $this->requested_skill_id;
         if (ilSkillTreeNode::_lookupType($this->requested_skill_id) == "sktr") {
@@ -902,7 +1025,7 @@ class ilPersonalSkillsGUI
                     $this->requested_tref_id,
                     $this->requested_basic_skill_id,
                     $this->requested_level_id,
-                    (int) $w
+                    $w
                 );
             }
             $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
@@ -964,8 +1087,7 @@ class ilPersonalSkillsGUI
             ".svg"));
          
         // basic skill selection
-        $vtree_id = $this->tree_repo->getTreeIdForNodeId($this->requested_skill_id);
-        $vtree = new ilVirtualSkillTree($vtree_id);
+        $vtree = $this->tree_repo->getVirtualTreeForNodeId($this->requested_skill_id);
         $tref_id = 0;
         $skill_id = $this->requested_skill_id;
         if (ilSkillTreeNode::_lookupType($this->requested_skill_id) == "sktr") {
@@ -1124,7 +1246,7 @@ class ilPersonalSkillsGUI
         $this->mode = "gap";
     }
 
-    public function getGapAnalysisHTML($a_user_id = 0, array $a_skills = null) : string
+    public function getGapAnalysisHTML(int $a_user_id = 0, array $a_skills = null) : string
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -1175,6 +1297,69 @@ class ilPersonalSkillsGUI
             $this->gap_mode_type,
             $this->gap_mode_obj_id
         );
+        $this->next_level_fuls = $prof_manager->getActualNextLevelFulfilments(
+            $skills,
+            $this->gap_mode,
+            $this->gap_mode_type,
+            $this->gap_mode_obj_id
+        );
+
+        if (!$this->getProfileId() > 0) {
+            // order skills per virtual skill tree
+            $vtree = $this->tree_service->getGlobalVirtualSkillTree();
+            $skills = $vtree->getOrderedNodeset($skills, "base_skill_id", "tref_id");
+        }
+
+        $bc_skills = [];
+        $html = "";
+
+        foreach ($skills as $s) {
+            $path = $this->tree_service->getSkillTreePath($s["base_skill_id"]);
+
+            // check draft
+            foreach ($path as $p) {
+                if ($p["status"] == ilSkillTreeNode::STATUS_DRAFT) {
+                    continue(2);
+                }
+            }
+            $bc_skills[] = $s;
+            $html .= $this->getSkillHTML($s["base_skill_id"], $user_id, false, $s["tref_id"]);
+        }
+
+
+        // output bar charts
+        $all_chart_html = $this->getBarChartHTML($bc_skills);
+
+        if (!empty($all_chart_html)) {
+            $pan = ilPanelGUI::getInstance();
+            $pan->setPanelStyle(ilPanelGUI::PANEL_STYLE_PRIMARY);
+            $pan->setBody($all_chart_html);
+            $all_chart_html = $pan->getHTML();
+        }
+
+        // list skills
+
+        return $intro_html . $all_chart_html . $html;
+    }
+
+    /**
+     * @param array<int, array{base_skill_id: int, tref_id: int, title: int}> $skills
+     */
+    protected function getBarChartHTML(array $skills) : string
+    {
+        $lng = $this->lng;
+
+        // dimension names
+        $target_dim = $lng->txt("skmg_target_level");
+        $eval_dim = $lng->txt("skmg_eval_type_1");
+        if ($this->gap_cat_title != "") {
+            $eval_dim = $this->gap_cat_title;
+        } elseif ($this->gap_mode == "max_per_type") {
+            $eval_dim = $lng->txt("objs_" . $this->gap_mode_type);
+        } elseif ($this->gap_mode == "max_per_object") {
+            $eval_dim = ilObject::_lookupTitle($this->gap_mode_obj_id);
+        }
+        $self_eval_dim = $lng->txt("skmg_self_evaluation");
 
         $incl_self_eval = false;
         $self_vals = [];
@@ -1183,152 +1368,144 @@ class ilPersonalSkillsGUI
             $self_vals = $this->getGapAnalysisSelfEvalLevels();
         }
 
-        // output spider stuff
-        $all_chart_html = "";
-
-        // determine skills that should be shown in the spider web
-        $sw_skills = [];
-        foreach ($skills as $sk) {
-            if (!in_array($sk["base_skill_id"] . ":" . $sk["tref_id"], $this->hidden_skills)) {
-                $sw_skills[] = $sk;
-            }
-        }
-
-        if (count($sw_skills) >= 3) {
-            $skill_packages = [];
-
-            if (count($sw_skills) < 8) {
-                $skill_packages[1] = $sw_skills;
-            } else {
-                $mod = count($sw_skills) % 7;
-                $pkg_num = floor((count($sw_skills) - 1) / 7) + 1;
-                $cpkg = 1;
-                foreach ($sw_skills as $k => $s) {
-                    $skill_packages[$cpkg][$k] = $s;
-                    if ($mod < 3 && count($skill_packages) == ($pkg_num - 1) && count($skill_packages[$cpkg]) == 3 + $mod) {
-                        $cpkg += 1;
-                    } elseif (count($skill_packages[$cpkg]) == 7) {
-                        $cpkg += 1;
-                    }
-                }
+        $chart_counter = 0;
+        $bar_counter = 0;
+        $tmp_labels = [];
+        $all_chart_data = [];
+        foreach ($skills as $l) {
+            $bs = new ilBasicSkill($l["base_skill_id"]);
+            $levels = $bs->getLevelData();
+            // filter out skills with no levels from chart
+            if (empty($levels)) {
+                continue;
             }
 
-            $pkg_cnt = 0;
-            foreach ($skill_packages as $pskills) {
-                $pkg_cnt++;
-                $max_cnt = 0;
-                $leg_labels = [];
-
-                // write target, actual and self counter to skill array
-                foreach ($pskills as $k => $l) {
-                    $bs = new ilBasicSkill($l["base_skill_id"]);
-                    $leg_labels[] = ilBasicSkill::_lookupTitle($l["base_skill_id"], $l["tref_id"]);
-                    $levels = $bs->getLevelData();
-                    $cnt = 0;
-                    foreach ($levels as $lv) {
-                        $cnt++;
-                        if ($l["level_id"] == $lv["id"]) {
-                            $pskills[$k]["target_cnt"] = $cnt;
-                        }
-                        if ($this->actual_levels[$l["base_skill_id"]][$l["tref_id"]] == $lv["id"]) {
-                            $pskills[$k]["actual_cnt"] = $cnt;
-                        }
-                        if ($incl_self_eval) {
-                            if ($self_vals[$l["base_skill_id"]][$l["tref_id"]] == $lv["id"]) {
-                                $pskills[$k]["self_cnt"] = $cnt;
-                            }
-                        }
-                        $max_cnt = max($max_cnt, $cnt);
-                    }
-                }
-
-                $chart = ilChart::getInstanceByType(ilChart::TYPE_SPIDER, "gap_chart" . $pkg_cnt);
-                $chart->setSize(800, 300);
-                $chart->setYAxisMax($max_cnt);
-                $chart->setLegLabels($leg_labels);
-
-                // target level
-                $cd = $chart->getDataInstance();
-                $cd->setLabel($lng->txt("skmg_target_level"));
-                $cd->setFill(true, "#A0A0A0");
-
-                // other users
-                $cd2 = $chart->getDataInstance();
-                if ($this->gap_cat_title != "") {
-                    $cd2->setLabel($this->gap_cat_title);
-                } elseif ($this->gap_mode == "max_per_type") {
-                    $cd2->setLabel($lng->txt("objs_" . $this->gap_mode_type));
-                } elseif ($this->gap_mode == "max_per_object") {
-                    $cd2->setLabel(ilObject::_lookupTitle($this->gap_mode_obj_id));
-                }
-                //$cd2->setFill(true, "#dcb496");
-                $cd2->setFill(true, "#FF8080");
-                $cd2->setFill(true, "#cc8466");
-
-                // self evaluation
-                if ($incl_self_eval) {
-                    $cd3 = $chart->getDataInstance();
-                    $cd3->setLabel($lng->txt("skmg_self_evaluation"));
-                    $cd3->setFill(true, "#6ea03c");
-                }
-
-                // fill in data
-                $cnt = 0;
-                foreach ($pskills as $pl) {
-                    $cd->addPoint($cnt, (int) $pl["target_cnt"]);
-                    $cd2->addPoint($cnt, (int) $pl["actual_cnt"]);
-                    if ($incl_self_eval) {
-                        $cd3->addPoint($cnt, (int) $pl["self_cnt"]);
-                    }
-                    $cnt++;
-                }
-
-                // add data to chart
+            $cnt = 0;
+            $points = [];
+            $tooltips = [];
+            $labels = [0 => ""];
+            foreach ($levels as $lv) {
+                // points and tooltips
+                $cnt++;
+                $labels[] = $lv["title"];
                 if ($this->getProfileId() > 0) {
-                    $chart->addData($cd);
+                    if ($l["level_id"] == $lv["id"]) {
+                        $points[$target_dim] = [$cnt - 0.01, $cnt + 0.01];
+                        $tooltips[$target_dim] = $lv["title"];
+                    } else {
+                        $points[$target_dim] = $points[$target_dim] ?: null;
+                        $tooltips[$target_dim] = $tooltips[$target_dim] ?: null;
+                    }
                 }
-                $chart->addData($cd2);
-                if ($incl_self_eval && count($this->getGapAnalysisSelfEvalLevels()) > 0) {
-                    $chart->addData($cd3);
+                if ($this->actual_levels[$l["base_skill_id"]][$l["tref_id"]] == $lv["id"]) {
+                    $perc = $this->next_level_fuls[$l["base_skill_id"]][$l["tref_id"]];
+                    $points[$eval_dim] = $cnt + $perc;
+                    $tooltips[$eval_dim] = null;
+                    if ($perc > 0) {
+                        $tooltips[$eval_dim] = $lv["title"] . " + " . $perc * 100 . "%";
+                    }
+                } else {
+                    $points[$eval_dim] = $points[$eval_dim] ?: null;
+                    $tooltips[$eval_dim] = $tooltips[$eval_dim] ?: null;
                 }
-
-                if ($pkg_cnt == 1) {
-                    $lg = new ilChartLegend();
-                    $chart->setLegend($lg);
-                }
-
-                $chart_html = $chart->getHTML();
-                $all_chart_html .= $chart_html;
-            }
-
-            $pan = ilPanelGUI::getInstance();
-            $pan->setPanelStyle(ilPanelGUI::PANEL_STYLE_PRIMARY);
-            $pan->setBody($all_chart_html);
-            $all_chart_html = $pan->getHTML();
-        }
-
-        $html = "";
-
-        if (!$this->getProfileId() > 0) {
-            // order skills per virtual skill tree
-            $vtree = new ilGlobalVirtualSkillTree();
-            $skills = $vtree->getOrderedNodeset($skills, "base_skill_id", "tref_id");
-        }
-        foreach ($skills as $s) {
-            $path = $this->tree_service->getSkillTreePath($s["base_skill_id"]);
-
-            // check draft
-            foreach ($path as $p) {
-                if ($p["status"] == ilSkillTreeNode::STATUS_DRAFT) {
-                    continue(2); // todo: test if continue or continue 2
+                if ($incl_self_eval) {
+                    if ($self_vals[$l["base_skill_id"]][$l["tref_id"]] == $lv["id"]) {
+                        $points[$self_eval_dim] = $cnt;
+                        $tooltips[$self_eval_dim] = null;
+                    } else {
+                        $points[$self_eval_dim] = $points[$self_eval_dim] ?: null;
+                        $tooltips[$self_eval_dim] = $tooltips[$self_eval_dim] ?: null;
+                    }
                 }
             }
-            $html .= $this->getSkillHTML($s["base_skill_id"], $user_id, false, $s["tref_id"]);
+
+            /*
+             * create new chart when number and title of the levels of the current skill are not identical with
+             * the previous skill
+            */
+            if (!empty($tmp_labels) && $tmp_labels !== $labels) {
+                $chart_counter++;
+                $bar_counter = 0;
+            }
+            $tmp_labels = $labels;
+
+            $all_chart_data[$chart_counter][$bar_counter]["item_title"] = ilBasicSkill::_lookupTitle(
+                $l["base_skill_id"],
+                $l["tref_id"]
+            );
+            $all_chart_data[$chart_counter][$bar_counter]["levels"] = $labels;
+            $all_chart_data[$chart_counter][$bar_counter]["points"] = $points;
+            $all_chart_data[$chart_counter][$bar_counter]["tooltips"] = $tooltips;
+
+            $bar_counter++;
         }
 
-        // list skills
+        $all_chart_html = "";
+        foreach ($all_chart_data as $chart_data) {
+            $c_dimension = $this->data_fac->dimension()->cardinal($chart_data[0]["levels"]);
+            $r_dimension = $this->data_fac->dimension()->range($c_dimension);
 
-        return $intro_html . $all_chart_html . $html;
+            // dimensions and bar configs
+            $ds = [];
+            $bars = [];
+
+            if ($this->getProfileId() > 0) {
+                $target_bar = new BarConfig();
+                $target_bar = $target_bar->withRelativeWidth(1.1);
+                $target_bar = $target_bar->withColor($this->data_fac->color("#333333"));
+                $ds[$target_dim] = $r_dimension;
+                $bars[$target_dim] = $target_bar;
+            }
+
+            $eval_bar = new BarConfig();
+            $eval_bar = $eval_bar->withRelativeWidth(0.5);
+            $eval_bar = $eval_bar->withColor($this->data_fac->color("#307C88"));
+            if (ilObject::_lookupType($this->gap_mode_obj_id) == "tst") {
+                $eval_bar = $eval_bar->withColor($this->data_fac->color("#d38000"));
+            }
+            $ds[$eval_dim] = $c_dimension;
+            $bars[$eval_dim] = $eval_bar;
+
+            if ($incl_self_eval) {
+                $self_eval_bar = new BarConfig();
+                $self_eval_bar = $self_eval_bar->withRelativeWidth(0.5);
+                $self_eval_bar = $self_eval_bar->withColor($this->data_fac->color("#557b2e"));
+                $ds[$self_eval_dim] = $c_dimension;
+                $bars[$self_eval_dim] = $self_eval_bar;
+            }
+
+            $dataset = $this->data_fac->dataset($ds);
+
+            $render_chart = false;
+            foreach ($chart_data as $a) {
+                $dataset = $dataset->withPoint($a["item_title"], $a["points"]);
+                $dataset = $dataset->withAlternativeInformation($a["item_title"], $a["tooltips"]);
+                foreach ($a["points"] as $dim => $p) {
+                    // render chart only if there are bars
+                    if (!is_null($p) && $dim != $target_dim) {
+                        $render_chart = true;
+                    }
+                }
+            }
+
+            if ($render_chart) {
+                $bar_chart = $this->ui_fac->chart()->bar()->horizontal(
+                    "",
+                    $dataset,
+                    $bars
+                );
+
+                $x_axis = new XAxis();
+                $x_axis = $x_axis->withMaxValue(count($chart_data[0]["levels"]) - 1);
+                /** @var XAxis $x_axis */
+                $bar_chart = $bar_chart->withCustomXAxis($x_axis);
+                $bar_chart = $bar_chart->withTitleVisible(false);
+
+                $all_chart_html .= $this->ui_ren->render($bar_chart);
+            }
+        }
+
+        return $all_chart_html;
     }
 
     public function selectProfile() : void
@@ -1509,7 +1686,7 @@ class ilPersonalSkillsGUI
         return $this->ui_ren->render($scale_bar);
     }
 
-    public function getEvalItem(array $a_levels, array $a_level_entry) : string
+    public function getEvalItem(array $a_levels, array $a_level_entry, bool $is_latest = false) : string
     {
         $lng = $this->lng;
         $ilAccess = $this->access;
@@ -1537,7 +1714,11 @@ class ilPersonalSkillsGUI
             $title = "<a href='" . ilLink::_getLink($a_level_entry["trigger_ref_id"]) . "'>" . $title . "</a>";
         }
 
-        $tpl->setVariable("TYPE", $lng->txt("skmg_eval_type_" . $type));
+        if ($is_latest) {
+            $tpl->setVariable("TYPE", $lng->txt("skmg_eval_type_latest_" . $type));
+        } else {
+            $tpl->setVariable("TYPE", $lng->txt("skmg_eval_type_" . $type));
+        }
         if ($type > 0) {
             $tpl->touchBlock("st" . $type);
             $tpl->touchBlock("stb" . $type);
@@ -1549,6 +1730,226 @@ class ilPersonalSkillsGUI
         );
 
         ilDatePresentation::setUseRelativeDates(true);
+
+        return $tpl->get();
+    }
+
+    protected function getLatestEntriesForSkillHTML(
+        int $top_skill_id,
+        array $bs,
+        ilSkillTreeNode $skill,
+        ilObjUser $user,
+        int $eval_type,
+        array $level_data
+    ) : string {
+        $lng = $this->lng;
+
+        $tpl = new ilTemplate("tpl.skill_entries_latest.html", true, true, "Services/Skill");
+
+        $user_entries = $skill->getAllHistoricLevelEntriesOfUser($bs["tref"], $user->getId(), $eval_type);
+        if ($eval_type == ilBasicSkill::EVAL_BY_SELF) {
+            $latest_entries = $this->getSelfEvalEntriesLatestOnly($user_entries);
+        } else {
+            $latest_entries = $this->getAllEntriesLatestOnly($user_entries);
+        }
+        if (!empty($latest_entries)) {
+            $latest_entries_filtered = $this->getFilteredEntriesForSkill(
+                $latest_entries,
+                $top_skill_id,
+                $bs,
+                $user
+            );
+
+            $latest_entries_filtered_html = "";
+            foreach ($latest_entries_filtered as $f_entry) {
+                $latest_entries_filtered_html .= $this->ui_ren->render(
+                    $this->ui_fac->legacy($this->getEvalItem($level_data, $f_entry, true))
+                );
+            }
+
+            if (!empty($latest_entries_filtered_html)) {
+                $tpl->setVariable("SKILL_ENTRIES", $latest_entries_filtered_html);
+
+                if (count($user_entries) != count($latest_entries)) {
+                    $tpl->setCurrentBlock("all_entries_button");
+                    $show_all_button = $this->ui_fac->button()->standard($lng->txt("skmg_show_all"), "#")
+                                                    ->withOnLoadCode(function ($id) {
+                                                        return "$('#$id').on('click', function() {SkillEntries.showNonLatest($id); return false;})";
+                                                    });
+                    $tpl->setVariable("BUTTON", $this->ui_ren->render($show_all_button));
+                    $tpl->parseCurrentBlock();
+                }
+
+                return $tpl->get();
+            }
+        }
+
+        return "";
+    }
+
+    protected function getNonLatestEntriesForSkillHTML(
+        int $top_skill_id,
+        array $bs,
+        ilSkillTreeNode $skill,
+        ilObjUser $user,
+        int $eval_type,
+        array $level_data
+    ) : string {
+        $lng = $this->lng;
+
+        $tpl = new ilTemplate("tpl.skill_entries_non_latest.html", true, true, "Services/Skill");
+
+        $user_entries = $skill->getAllHistoricLevelEntriesOfUser($bs["tref"], $user->getId(), $eval_type);
+        if ($eval_type == ilBasicSkill::EVAL_BY_SELF) {
+            $non_latest_entries = $this->getSelfEvalEntriesWithoutLatest($user_entries);
+        } else {
+            $non_latest_entries = $this->getAllEntriesWithoutLatest($user_entries);
+        }
+        if (!empty($non_latest_entries)) {
+            $non_latest_entries_filtered = $this->getFilteredEntriesForSkill(
+                $non_latest_entries,
+                $top_skill_id,
+                $bs,
+                $user
+            );
+
+            $non_latest_entries_filtered_html = "";
+            foreach ($non_latest_entries_filtered as $f_entry) {
+                $non_latest_entries_filtered_html .= $this->ui_ren->render(
+                    $this->ui_fac->legacy($this->getEvalItem($level_data, $f_entry, false))
+                );
+            }
+
+            if (!empty($non_latest_entries_filtered_html)) {
+                $tpl->setVariable("SKILL_ENTRIES", $non_latest_entries_filtered_html);
+
+                $show_latest_button = $this->ui_fac->button()->standard($lng->txt("skmg_show_latest_entries"), "#")
+                                                   ->withOnLoadCode(function ($id) {
+                                                       return "$('#$id').on('click', function() {SkillEntries.hideNonLatest($id); return false;})";
+                                                   });
+                $tpl->setVariable("BUTTON", $this->ui_ren->render($show_latest_button));
+
+                return $tpl->get();
+            }
+        }
+
+        return "";
+    }
+
+    protected function getFilteredEntriesForSkill(
+        array $entries,
+        int $top_skill_id,
+        array $bs,
+        ilObjUser $user
+    ) : array {
+        // get date of self evaluation
+        $se_date = ilPersonalSkill::getSelfEvaluationDate($user->getId(), $top_skill_id, $bs["tref"], $bs["id"]);
+        $se_rendered = $se_date == "";
+
+        $filtered_entries = [];
+        foreach ($entries as $level_entry) {
+            if (count($this->getTriggerObjectsFilter()) && !in_array($level_entry['trigger_obj_id'], $this->getTriggerObjectsFilter())) {
+                continue;
+            }
+            if (count($this->getTriggerUserFilter()) && !in_array($level_entry['trigger_user_id'], $this->getTriggerUserFilter())) {
+                continue;
+            }
+
+            // render the self evaluation at the correct position within the list of object triggered entries
+            if ($se_date > $level_entry["status_date"] && !$se_rendered) {
+                $se_rendered = true;
+            }
+            if ($this->getFilter()->isInRange($level_entry)) {
+                $filtered_entries[] = $level_entry;
+            }
+        }
+
+        return $filtered_entries;
+    }
+
+    protected function getSelfEvalEntriesLatestOnly(array $entries) : array
+    {
+        if (!empty($entries)) {
+            $last_entry[] = $entries[0];
+            return $last_entry;
+        }
+
+        return [];
+    }
+
+    protected function getSelfEvalEntriesWithoutLatest(array $entries) : array
+    {
+        if (count($entries) > 1) {
+            array_shift($entries);
+            return $entries;
+        }
+
+        return [];
+    }
+
+    protected function getAllEntriesLatestOnly(array $entries) : array
+    {
+        $first_self_added = false;
+        $first_measurement_added = false;
+        $first_appraisal_added = false;
+        $latest_entries = [];
+        foreach ($entries as $entry) {
+            if (!$first_self_added && $entry["self_eval"] == 1) {
+                $latest_entries[] = $entry;
+                $first_self_added = true;
+                continue;
+            }
+            if (!$first_measurement_added && $entry["trigger_obj_type"] == "tst") {
+                $latest_entries[] = $entry;
+                $first_measurement_added = true;
+                continue;
+            }
+            if (!$first_appraisal_added && $entry["self_eval"] != 1 && $entry["trigger_obj_type"] != "tst") {
+                $latest_entries[] = $entry;
+                $first_appraisal_added = true;
+            }
+        }
+
+        return $latest_entries;
+    }
+
+    protected function getAllEntriesWithoutLatest(array $entries) : array
+    {
+        $first_self_filtered = false;
+        $first_measurement_filtered = false;
+        $first_appraisal_filtered = false;
+        $non_latest_entries = [];
+        foreach ($entries as $entry) {
+            if (!$first_self_filtered && $entry["self_eval"] == 1) {
+                $first_self_filtered = true;
+                continue;
+            }
+            if (!$first_measurement_filtered && $entry["trigger_obj_type"] == "tst") {
+                $first_measurement_filtered = true;
+                continue;
+            }
+            if (!$first_appraisal_filtered && $entry["self_eval"] != 1 && $entry["trigger_obj_type"] != "tst") {
+                $first_appraisal_filtered = true;
+                continue;
+            }
+            $non_latest_entries[] = $entry;
+        }
+
+        return $non_latest_entries;
+    }
+
+    protected function getSkillEntriesHeader(int $eval_type) : string
+    {
+        $tpl = new ilTemplate("tpl.skill_entries_header.html", true, true, "Services/Skill");
+
+        if ($eval_type == ilBasicSkill::EVAL_BY_SELF) {
+            $tpl->setVariable("HEADING", $this->lng->txt("skmg_self_evaluation"));
+            $tpl->setCurrentBlock("header_byline");
+            $tpl->setVariable("BYLINE", $this->lng->txt("skmg_self_evaluation_byline"));
+            $tpl->parseCurrentBlock();
+        } else {
+            $tpl->setVariable("HEADING", $this->lng->txt("skmg_skill_profile_comparison"));
+        }
 
         return $tpl->get();
     }
@@ -1717,8 +2118,8 @@ class ilPersonalSkillsGUI
                 $image = $this->ui_fac->image()->responsive($src->getSrc(), $this->lng->txt("skmg_custom_image_alt"));
             } else {
                 $image = $this->ui_fac->image()->responsive(
-                    "src/UI/examples/Image/HeaderIconLarge.svg",           // das hier so lassen?
-                    "Thumbnail Example"
+                    "src/UI/examples/Image/HeaderIconLarge.svg",
+                    "ILIAS"
                 );
             }
 

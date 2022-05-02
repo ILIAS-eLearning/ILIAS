@@ -24,7 +24,14 @@ class ilObjMediaCast extends ilObject
     public const ORDER_CREATION_DATE_DESC = 3;
     public const ORDER_MANUAL = 4;
     public const VIEW_LIST = "";
-    public const VIEW_GALLERY = "gallery";
+    public const VIEW_GALLERY = "gallery";          // legacy gallery, @todo remove
+    public const VIEW_IMG_GALLERY = "img_gallery";
+    public const VIEW_PODCAST = "podcast";
+    public const VIEW_VCAST = "video";
+    public const AUTOPLAY_NO = 0;
+    public const AUTOPLAY_ACT = 1;
+    public const AUTOPLAY_INACT = 2;
+
 
     protected array $itemsarray;
     protected ilObjUser $user;
@@ -33,10 +40,13 @@ class ilObjMediaCast extends ilObject
     protected bool $publicfiles = false;
     protected bool $downloadable = true;
     protected int $order = 0;
-    protected string $view_mode = "";
+    protected string $view_mode = self::VIEW_VCAST;
     protected int $defaultAccess = 0;   // 0 = logged in users, 1 = public access
     protected array $mob_mapping = [];
-    
+    protected int $nr_initial_videos = 5;
+    protected bool $new_items_in_lp = true;
+    protected int $autoplay_mode = self::AUTOPLAY_ACT;
+
     public function __construct(
         int $a_id = 0,
         bool $a_call_by_reference = true
@@ -46,10 +56,10 @@ class ilObjMediaCast extends ilObject
         $this->db = $DIC->database();
         $this->user = $DIC->user();
         $this->type = "mcst";
-        parent::__construct($a_id, $a_call_by_reference);
         $mcst_set = new ilSetting("mcst");
         $this->setDefaultAccess($mcst_set->get("defaultaccess") == "users" ? 0 : 1);
         $this->setOrder(self::ORDER_CREATION_DATE_DESC);
+        parent::__construct($a_id, $a_call_by_reference);
     }
 
     public function setOnline(bool $a_online) : void
@@ -92,6 +102,39 @@ class ilObjMediaCast extends ilObject
         return $this->itemsarray;
     }
 
+    public function setAutoplayMode(int $a_val) : void
+    {
+        $this->autoplay_mode = $a_val;
+    }
+
+    public function getAutoplayMode() : int
+    {
+        return $this->autoplay_mode;
+    }
+
+    public function setNumberInitialVideos(int $a_val) : void
+    {
+        $this->nr_initial_videos = $a_val;
+    }
+
+    public function getNumberInitialVideos() : int
+    {
+        return $this->nr_initial_videos;
+    }
+
+    /**
+     * Set new items automatically in lp
+     */
+    public function setNewItemsInLearningProgress(bool $a_val) : void
+    {
+        $this->new_items_in_lp = $a_val;
+    }
+
+    public function getNewItemsInLearningProgress() : bool
+    {
+        return $this->new_items_in_lp;
+    }
+
     public function getSortedItemsArray() : array
     {
         $med_items = $this->getItemsArray();
@@ -126,7 +169,6 @@ class ilObjMediaCast extends ilObject
                 $med_items = ilArrayUtil::sortArray($med_items, "order", "asc", true, true);
                 break;
         }
-
         return $med_items;
     }
     
@@ -147,7 +189,7 @@ class ilObjMediaCast extends ilObject
     
     public function setDefaultAccess(int $value) : void
     {
-        $this->defaultAccess = $value == 0 ? 0 : 1;
+        $this->defaultAccess = ($value === 0) ? 0 : 1;
     }
     
     public function setOrder(int $a_value) : void
@@ -160,13 +202,6 @@ class ilObjMediaCast extends ilObject
         return $this->order;
     }
     
-    /**
-     * Gets the disk usage of the object in bytes.
-     */
-    public function getDiskUsage() : int
-    {
-        return ilObjMediaCastAccess::_lookupDiskUsage($this->id);
-    }
     
     public function create() : int
     {
@@ -182,14 +217,20 @@ class ilObjMediaCast extends ilObject
             ", def_access" .
             ", sortmode" .
             ", viewmode" .
+            ", autoplaymode" .
+            ", nr_initial_videos" .
+            ", new_items_in_lp" .
             " ) VALUES (" .
             $ilDB->quote($this->getId(), "integer")
             . "," . $ilDB->quote((int) $this->getOnline(), "integer")
             . "," . $ilDB->quote((int) $this->getPublicFiles(), "integer")
             . "," . $ilDB->quote((int) $this->getDownloadable(), "integer")
-            . "," . $ilDB->quote($this->getDefaultAccess(), "integer")
-            . "," . $ilDB->quote($this->getOrder(), "integer")
-            . "," . $ilDB->quote((int) $this->getViewMode(), "text")
+            . "," . $ilDB->quote((int) $this->getDefaultAccess(), "integer")
+            . "," . $ilDB->quote((int) $this->getOrder(), "integer")
+            . "," . $ilDB->quote($this->getViewMode(), "text")
+            . "," . $ilDB->quote((int) $this->getAutoplayMode(), "integer")
+            . "," . $ilDB->quote((int) $this->getNumberInitialVideos(), "integer")
+            . "," . $ilDB->quote((int) $this->getNewItemsInLearningProgress(), "integer")
             . ")";
         $ilDB->manipulate($query);
         return $id;
@@ -211,6 +252,9 @@ class ilObjMediaCast extends ilObject
             ", def_access = " . $ilDB->quote($this->getDefaultAccess(), "integer") .
             ", sortmode = " . $ilDB->quote($this->getOrder(), "integer") .
             ", viewmode = " . $ilDB->quote($this->getViewMode(), "text") .
+            ", autoplaymode = " . $ilDB->quote($this->getAutoplayMode(), "integer") .
+            ", nr_initial_videos = " . $ilDB->quote($this->getNumberInitialVideos(), "integer") .
+            ", new_items_in_lp = " . $ilDB->quote($this->getNewItemsInLearningProgress(), "integer") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
 
         $ilDB->manipulate($query);
@@ -234,8 +278,11 @@ class ilObjMediaCast extends ilObject
         $this->setPublicFiles($rec["public_files"]);
         $this->setDownloadable($rec["downloadable"]);
         $this->setDefaultAccess($rec["def_access"]);
-        $this->setOrder($rec["sortmode"]);
+        $this->setOrder((int) $rec["sortmode"]);
         $this->setViewMode($rec["viewmode"]);
+        $this->setAutoplayMode((int) $rec["autoplaymode"]);
+        $this->setNumberInitialVideos((int) $rec["nr_initial_videos"]);
+        $this->setNewItemsInLearningProgress((bool) $rec["new_items_in_lp"]);
     }
 
 
@@ -353,12 +400,15 @@ class ilObjMediaCast extends ilObject
             $new_obj->setOnline($this->getOnline());
         }
         
-        //$new_obj->setTitle($this->getTitle());
         $new_obj->setPublicFiles($this->getPublicFiles());
         $new_obj->setDownloadable($this->getDownloadable());
         $new_obj->setDefaultAccess($this->getDefaultAccess());
         $new_obj->setOrder($this->getOrder());
         $new_obj->setViewMode($this->getViewMode());
+        $new_obj->setAutoplayMode($this->getAutoplayMode());
+        $new_obj->setNumberInitialVideos($this->getNumberInitialVideos());
+        $new_obj->setNewItemsInLearningProgress($this->getNewItemsInLearningProgress());
+
         $new_obj->update();
 
         $pf = ilBlockSetting::_lookup("news", "public_feed", 0, $this->getId());
@@ -369,7 +419,6 @@ class ilObjMediaCast extends ilObject
         // copy items
         $mapping = $this->copyItems($new_obj);
         $this->copyOrder($new_obj, $mapping);
-        
 
         // clone LP settings
         $obj_settings = new ilLPObjSettings($this->getId());
@@ -381,7 +430,7 @@ class ilObjMediaCast extends ilObject
         $olp = ilObjectLP::getInstance($this->getId());
         $collection = $olp->getCollectionInstance();
         if ($collection) {
-            $collection->cloneCollection($new_obj->getRefId(), $cp_options->getCopyId(), $this->mob_mapping);
+            $collection->cloneCollection($new_obj->getRefId(), $cp_options->getCopyId());
         }
 
         return $new_obj;
@@ -468,11 +517,9 @@ class ilObjMediaCast extends ilObject
         // see ilLPListOfSettingsGUI assign
         $collection = $lp->getCollectionInstance();
         if ($collection && $collection->hasSelectableItems()) {
-            /* not yet...
             $collection->activateEntries([$mob_id]);
             $lp->resetCaches();
             ilLPStatusWrapper::_refreshStatus($this->getId());
-            */
         }
         return $mc_item->getId();
     }
@@ -480,7 +527,7 @@ class ilObjMediaCast extends ilObject
     /**
      * Get playtime for seconds
      */
-    protected function getPlaytimeForSeconds(int $seconds) : string
+    public function getPlaytimeForSeconds(int $seconds) : string
     {
         $hours = floor($seconds / 3600);
         $minutes = floor(($seconds % 3600) / 60);

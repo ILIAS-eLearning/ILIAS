@@ -169,15 +169,13 @@ class ilSystemStyleIconsGUI
 
         $color_set = [];
 
-        if ($this->getIconFolder()) {
-            try {
-                $color_set = $this->getIconFolder()->getColorSet()->getColorsSortedAsArray();
-            } catch (ilSystemStyleExceptionBase $e) {
-                $this->message_stack->addMessage(new ilSystemStyleMessage(
-                    $e->getMessage(),
-                    ilSystemStyleMessage::TYPE_ERROR
-                ));
-            }
+        try {
+            $color_set = $this->getIconFolder()->getColorSet()->getColorsSortedAsArray();
+        } catch (ilSystemStyleExceptionBase $e) {
+            $this->message_stack->addMessage(new ilSystemStyleMessage(
+                $e->getMessage(),
+                ilSystemStyleMessage::TYPE_ERROR
+            ));
         }
 
         foreach ($color_set as $type => $colors) {
@@ -221,7 +219,7 @@ class ilSystemStyleIconsGUI
             }
         }
 
-        $has_icons = $this->getIconFolder() && count($this->getIconFolder()->getIcons()) > 0;
+        $has_icons = count($this->getIconFolder()->getIcons()) > 0;
 
         if ($has_icons) {
             $form->addCommandButton('update', $this->lng->txt('update_colors'));
@@ -240,15 +238,13 @@ class ilSystemStyleIconsGUI
     {
         $values = [];
 
-        if ($this->getIconFolder()) {
-            $colors = $this->getIconFolder()->getColorSet()->getColors();
-            foreach ($colors as $color) {
-                $id = $color->getId();
-                if ($colors[$color->getId()]) {
-                    $values[$id] = $colors[$color->getId()]->getColor();
-                } else {
-                    $values[$id] = $color->getColor();
-                }
+        $colors = $this->getIconFolder()->getColorSet()->getColors();
+        foreach ($colors as $color) {
+            $id = $color->getId();
+            if (array_key_exists($color->getId(), $colors)) {
+                $values[$id] = $colors[$color->getId()]->getColor();
+            } else {
+                $values[$id] = $color->getColor();
             }
         }
 
@@ -333,7 +329,7 @@ class ilSystemStyleIconsGUI
         }
     }
 
-    protected function addSelectIconToolbar(?string $icon_name = '')
+    protected function addSelectIconToolbar(?string $icon_name = '') : void
     {
         $si = new ilSelectInputGUI($this->lng->txt('select_icon'), 'selected_icon');
 
@@ -387,7 +383,7 @@ class ilSystemStyleIconsGUI
         $hidden_path->setValue($icon->getPath());
         $form->addItem($hidden_path);
 
-        if ($this->getIconFolder() && count($this->getIconFolder()->getIcons()) > 0) {
+        if (count($this->getIconFolder()->getIcons()) > 0) {
             $form->addCommandButton('updateIcon', $this->lng->txt('update_icon'));
             $form->addCommandButton('cancelIcon', $this->lng->txt('cancel'));
         }
@@ -515,7 +511,7 @@ class ilSystemStyleIconsGUI
         return $this->style_container;
     }
 
-    protected function setStyleContainer(ilSkinStyleContainer $style_container)
+    protected function setStyleContainer(ilSkinStyleContainer $style_container) : void
     {
         $this->style_container = $style_container;
     }
@@ -525,7 +521,7 @@ class ilSystemStyleIconsGUI
         return $this->icon_folder;
     }
 
-    protected function setIconFolder(ilSystemStyleIconFolder $icon_folder)
+    protected function setIconFolder(ilSystemStyleIconFolder $icon_folder) : void
     {
         $this->icon_folder = $icon_folder;
     }

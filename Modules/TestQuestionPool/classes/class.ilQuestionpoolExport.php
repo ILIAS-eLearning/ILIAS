@@ -14,7 +14,6 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 */
 class ilQuestionpoolExport
 {
-    private $inst;
     public $err;			// error object
     public $db;			// database object
     public $ilias;			// ilias object
@@ -49,7 +48,6 @@ class ilQuestionpoolExport
         $this->db = &$ilDB;
         $this->mode = $a_mode;
         $this->lng = &$lng;
-        
         $settings = $this->ilias->getAllSettings();
         $this->inst_id = IL_INST_ID;
         $this->questions = $array_questions;
@@ -122,7 +120,7 @@ class ilQuestionpoolExport
 
         // set generated comment
         $this->xml->xmlSetGenCmt("Export of ILIAS Test Questionpool " .
-            $this->qpl_obj->getId() . " of installation " . $this->inst . ".");
+            $this->qpl_obj->getId() . " of installation " . $this->inst_id);
 
         // set xml header
         $this->xml->xmlHeader();

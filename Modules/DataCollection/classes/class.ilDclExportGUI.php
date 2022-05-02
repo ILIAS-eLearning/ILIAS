@@ -21,7 +21,7 @@ class ilDclExportGUI extends ilExportGUI
     /**
      * overwrite to check if exportable fields are available (for async xls export)
      */
-    public function createExportFile()
+    public function createExportFile() : void
     {
         if ($_POST['format'] == 'xlsx') {
             $this->checkForExportableFields();

@@ -536,7 +536,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @return string Order text
     */
-    public function getOrderText() : string
+    public function getOrderText()
     {
         return $this->ordertext;
     }

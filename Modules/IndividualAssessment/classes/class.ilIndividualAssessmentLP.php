@@ -24,7 +24,6 @@ class ilIndividualAssessmentLP extends ilObjectLP
     
     /**
      * Get an array of member ids participating in the object corresponding to this.
-     * @return array
      */
     public function getMembers(bool $a_search = true) : array
     {

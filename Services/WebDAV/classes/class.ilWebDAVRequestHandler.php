@@ -27,7 +27,8 @@ class ilWebDAVRequestHandler
     {
         $this->webdav_dic = $webdav_dic;
     }
-    public function handleRequest(array $post_array)
+    
+    public function handleRequest(array $post_array) : void
     {
         $post_object = $_POST;
         $_POST = $post_array;
@@ -37,7 +38,7 @@ class ilWebDAVRequestHandler
         $server->start();
     }
     
-    protected function setPlugins(Server $server)
+    protected function setPlugins(Server $server) : void
     {
         $auth_plugin = $this->webdav_dic->authplugin();
         $server->addPlugin($auth_plugin);

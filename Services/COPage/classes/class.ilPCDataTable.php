@@ -88,7 +88,7 @@ class ilPCDataTable extends ilPCTable
                             $error
                         );
 
-                        $par_node = $this->getCellNode($i, $j);
+                        $par_node = $this->getCellNode($i, $j, true);
                         // remove all childs
                         if (empty($error) && is_object($par_node)) {
                             // delete children of paragraph node

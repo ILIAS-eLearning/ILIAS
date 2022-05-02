@@ -3,16 +3,19 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
+ *
+ *********************************************************************/
+ 
 /**
  * Class for permanent links
  * @author Alexander Killing <killing@leifos.de>
@@ -52,13 +55,17 @@ class ilPermanentLinkGUI
         $this->setTarget($a_target);
     }
     
-    // Set Include permanent link text.
+    /**
+     * Set Include permanent link text.
+     */
     public function setIncludePermanentLinkText(bool $a_includepermanentlinktext) : void
     {
         $this->includepermanentlinktext = $a_includepermanentlinktext;
     }
-
-    // Include permanent link text
+    
+    /**
+     * Include permanent link text
+     */
     public function getIncludePermanentLinkText() : bool
     {
         return $this->includepermanentlinktext;

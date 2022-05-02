@@ -24,6 +24,7 @@
  */
 class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
+    protected \ILIAS\LearningModule\ReadingTime\ReadingTimeManager $reading_time_manager;
     protected string $requested_url;
     protected string $requested_type;
     protected ilLMTracker $tracker;
@@ -80,7 +81,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
     protected ilObjectTranslation $ot;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected \ILIAS\Style\Content\GUIService $content_style_gui;
-    protected \ILIAS\Style\Content\Service $cs;
+    protected ?\ILIAS\Style\Content\Service $cs = null;
 
     public function __construct(
         string $a_export_format = "",
@@ -122,6 +123,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $this->frames = array();
         $this->ctrl = $ilCtrl;
         $this->ctrl->saveParameter($this, array("ref_id", "transl", "focus_id", "focus_return"));
+
+        $this->cs = $DIC->contentStyle();
 
         // note: using $DIC->http()->request()->getQueryParams() here will
         // fail, since the goto magic currently relies on setting $_GET
@@ -166,8 +169,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
                 $params
             );
         }
-
-        $this->cs = $DIC->contentStyle();
+        $this->reading_time_manager = new \ILIAS\LearningModule\ReadingTime\ReadingTimeManager();
     }
 
     public function getUnsafeGetCommands() : array
@@ -315,6 +317,12 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             case "illmpagegui":
                 $page_gui = $this->getLMPageGUI($this->requested_obj_id);
                 $this->basicPageGuiInit($page_gui);
+                $ret = $ilCtrl->forwardCommand($page_gui);
+                break;
+
+            case "ilassgenfeedbackpagegui":
+                $page_gui = new ilAssGenFeedbackPageGUI($this->requested_pg_id);
+                //$this->basicPageGuiInit($page_gui);
                 $ret = $ilCtrl->forwardCommand($page_gui);
                 break;
 
@@ -773,7 +781,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             $page_id = $this->getCurrentPageId();
 
             // permanent link
-            $this->tpl->setPermanentLink("pg", "", $page_id . "_" . $this->lm->getRefId());
+            $this->tpl->setPermanentLink("pg", 0, $page_id . "_" . $this->lm->getRefId());
         }
 
         $this->tpl->setVariable("SUBMENU", $tpl_menu->get());
@@ -940,7 +948,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         $notes_gui = new ilNoteGUI($this->lm->getId(), $this->getCurrentPageId(), "pg");
 
         if ($ilAccess->checkAccess("write", "", $this->requested_ref_id) &&
-            $ilSetting->get("comments_del_tutor", 1)) {
+            $ilSetting->get("comments_del_tutor", '1')) {
             $notes_gui->enablePublicNotesDeletion(true);
         }
 
@@ -1382,6 +1390,15 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
         // show standard meta data section
         $info->addMetaDataSections($this->lm->getId(), 0, $this->lm->getType());
+
+        $this->lng->loadLanguageModule("copg");
+        $est_reading_time = $this->reading_time_manager->getReadingTime($this->lm->getId());
+        if (!is_null($est_reading_time)) {
+            $info->addProperty(
+                $this->lng->txt("copg_est_reading_time"),
+                sprintf($this->lng->txt("copg_x_minutes"), $est_reading_time)
+            );
+        }
 
         if ($this->offlineMode()) {
             $this->tpl->setContent($info->getHTML());

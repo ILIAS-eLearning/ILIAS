@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -56,7 +56,7 @@ class ilObjFolderListGUI extends ilObjectListGUI
         switch ($cmd) {
             default:
 
-                if ($cmd == 'mount_webfolder' && ilDAVActivationChecker::_isActive()) {
+                if ($cmd === 'mount_webfolder' && ilDAVActivationChecker::_isActive()) {
                     global $DIC;
                     $uri_builder = new ilWebDAVUriBuilder($DIC->http()->request());
                     $uri_builder->getUriToMountInstructionModalByRef($this->ref_id);

@@ -102,7 +102,7 @@ class ilSystemStyleMessageStack
     /**
      * @param ilSystemStyleMessage[] $messages
      */
-    public function setMessages(array $messages)
+    public function setMessages(array $messages) : void
     {
         $this->messages = $messages;
     }

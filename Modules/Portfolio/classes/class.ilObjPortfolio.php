@@ -21,7 +21,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
 {
     protected bool $default;
 
-    public function initType()
+    protected function initType() : void
     {
         $this->type = "prtf";
     }
@@ -45,12 +45,12 @@ class ilObjPortfolio extends ilObjPortfolioBase
     // CRUD
     //
             
-    protected function doReadCustom(array $a_row)
+    protected function doReadCustom(array $a_row) : void
     {
         $this->setDefault((bool) $a_row["is_default"]);
     }
     
-    protected function doUpdate()
+    protected function doUpdate() : void
     {
         // must be online to be default
         if (!$this->isOnline() && $this->isDefault()) {
@@ -60,7 +60,7 @@ class ilObjPortfolio extends ilObjPortfolioBase
         parent::doUpdate();
     }
 
-    protected function doUpdateCustom(array &$a_fields)
+    protected function doUpdateCustom(array &$a_fields) : void
     {
         $a_fields["is_default"] = array("integer", $this->isDefault());
     }

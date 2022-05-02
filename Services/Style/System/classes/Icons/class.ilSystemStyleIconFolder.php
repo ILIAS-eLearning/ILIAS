@@ -190,7 +190,7 @@ class ilSystemStyleIconFolder
     /**
      * @param ilSystemStyleIcon[] $icons
      */
-    public function setIcons(array $icons)
+    public function setIcons(array $icons) : void
     {
         $this->icons = $icons;
     }
@@ -200,7 +200,7 @@ class ilSystemStyleIconFolder
         return $this->path;
     }
 
-    public function setPath(string $path)
+    public function setPath(string $path) : void
     {
         $this->path = $path;
     }

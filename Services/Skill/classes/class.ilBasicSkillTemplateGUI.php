@@ -150,7 +150,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         );
     }
 
-    public function setTabs(string $a_tab = "") : void
+    public function setTabs(string $a_tab = "levels") : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;

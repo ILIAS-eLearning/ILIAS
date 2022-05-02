@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -38,7 +38,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
 
         parent::__construct(null);
 
-        $this->mode = ilContainerReferenceXmlParser::MODE_CREATE;
+        $this->mode = self::MODE_CREATE;
         $this->setXMLContent($a_xml);
 
         $this->logger = $DIC->logger()->exp();
@@ -61,7 +61,12 @@ class ilContainerReferenceXmlParser extends ilSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @param array $a_attribs
+     * @return void
+     */
     public function handlerBeginTag(
         $a_xml_parser,
         string $a_name,
@@ -96,7 +101,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
 
     protected function parseTargetId(string $attribute_target) : int
     {
-        if (!strlen($attribute_target)) {
+        if ($attribute_target === '') {
             $this->logger->debug('No target id provided');
             return 0;
         }
@@ -108,10 +113,15 @@ class ilContainerReferenceXmlParser extends ilSaxParser
             $this->logger->debug('Cannot find object mapping for target_id: ' . $attribute_target);
             return 0;
         }
-        return $obj_mapping_id;
+
+        return (int) $obj_mapping_id;
     }
 
-
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_name
+     * @return void
+     */
     public function handlerEndTag(
         $a_xml_parser,
         string $a_name
@@ -122,7 +132,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
                 break;
 
             case 'Title':
-                if ($this->getReference()->getTitleType() == ilContainerReference::TITLE_TYPE_CUSTOM) {
+                if ($this->getReference()->getTitleType() === ilContainerReference::TITLE_TYPE_CUSTOM) {
                     $this->getReference()->setTitle(trim($this->cdata));
                 }
                 break;
@@ -130,13 +140,15 @@ class ilContainerReferenceXmlParser extends ilSaxParser
         $this->cdata = '';
     }
 
+    /**
+     * @param XMLParser|resource $a_xml_parser
+     * @param string $a_data
+     * @return void
+     */
     public function handlerCharacterData(
         $a_xml_parser,
         string $a_data
     ) : void {
-        #$a_data = str_replace("<","&lt;",$a_data);
-        #$a_data = str_replace(">","&gt;",$a_data);
-
         if (!empty($a_data)) {
             $this->cdata .= $a_data;
         }
@@ -148,7 +160,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
 
     protected function save() : void
     {
-        if ($this->mode == ilCategoryXmlParser::MODE_CREATE) {
+        if ($this->mode === ilCategoryXmlParser::MODE_CREATE) {
             $this->create();
             $this->getReference()->create();
             $this->getReference()->createReference();
@@ -169,7 +181,7 @@ class ilContainerReferenceXmlParser extends ilSaxParser
         $this->ref = $ref;
     }
 
-    public function getReference() : ?\ilContainerReference
+    public function getReference() : ?ilContainerReference
     {
         return $this->ref;
     }

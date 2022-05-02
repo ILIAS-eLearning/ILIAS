@@ -90,8 +90,7 @@ abstract class ActiveRecord
     }
 
     /**
-     * @param int         $primary_key
-     * @param arConnector $connector
+     * @param mixed         $primary_key
      */
     public function __construct($primary_key = 0)
     {
@@ -223,7 +222,7 @@ abstract class ActiveRecord
      * @param $old_name
      * @param $new_name
      */
-    final public static function renameDBField($old_name, $new_name) : bool
+    final public static function renameDBField(string $old_name, string $new_name) : bool
     {
         return self::getCalledClass()->getArConnector()->renameField(self::getCalledClass(), $old_name, $new_name);
     }
@@ -236,7 +235,7 @@ abstract class ActiveRecord
     /**
      * @param $field_name
      */
-    final public static function fieldExists($field_name) : bool
+    final public static function fieldExists(string $field_name) : bool
     {
         return self::getCalledClass()->getArConnector()->checkFieldExists(self::getCalledClass(), $field_name);
     }
@@ -244,7 +243,7 @@ abstract class ActiveRecord
     /**
      * @param $field_name
      */
-    final public static function removeDBField($field_name) : bool
+    final public static function removeDBField(string $field_name) : bool
     {
         return self::getCalledClass()->getArConnector()->removeField(self::getCalledClass(), $field_name);
     }
@@ -509,7 +508,7 @@ abstract class ActiveRecord
         $on_external,
         array $fields = array('*'),
         string $operator = '=',
-        $both_external = false
+        bool $both_external = false
     ) : \ActiveRecordList {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
@@ -528,7 +527,7 @@ abstract class ActiveRecord
         $on_external,
         array $fields = array('*'),
         string $operator = '=',
-        $both_external = false
+        bool $both_external = false
     ) : \ActiveRecordList {
         $srModelObjectList = new ActiveRecordList(self::getCalledClass());
 
@@ -640,9 +639,7 @@ abstract class ActiveRecord
     }
 
     /**
-     * @param string|null $key
      * @param null        $values
-     * @return array
      */
     public static function getArray(?string $key = null, $values = null) : array
     {

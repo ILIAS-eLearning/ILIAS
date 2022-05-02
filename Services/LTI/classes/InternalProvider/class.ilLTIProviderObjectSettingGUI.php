@@ -66,7 +66,7 @@ class ilLTIProviderObjectSettingGUI
     {
         global $DIC;
         $this->ref_id = $a_ref_id;
-        $this->logger = ilLoggerFactory::getLogger('lti');
+        $this->logger = ilLoggerFactory::getLogger('ltis');
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC['tpl'];
 

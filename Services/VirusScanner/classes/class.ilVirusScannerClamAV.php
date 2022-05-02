@@ -1,20 +1,24 @@
-<?php
-/******************************************************************************
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 class ilVirusScannerClamAV extends ilVirusScanner
 {
-    const ADD_SCAN_PARAMS = '--no-summary -i';
+    private const ADD_SCAN_PARAMS = '--no-summary -i';
 
     public function __construct(string $scan_command, string $clean_command)
     {
@@ -34,7 +38,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
 
     protected function isBufferScanPossible() : bool
     {
-        $functions = array('proc_open', 'proc_close');
+        $functions = ['proc_open', 'proc_close'];
 
         foreach ($functions as $func) {
             if (function_exists($func)) {
@@ -49,13 +53,13 @@ class ilVirusScannerClamAV extends ilVirusScanner
 
     protected function processBufferScan(string $buffer) : bool
     {
-        $descriptor_spec = array(
-            0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
-            1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
-            2 => array("pipe", "w")        // stderr for the child
-        );
+        $descriptor_spec = [
+            0 => ["pipe", "r"],  // stdin is a pipe that the child will read from
+            1 => ["pipe", "w"],  // stdout is a pipe that the child will write to
+            2 => ["pipe", "w"]        // stderr for the child
+        ];
 
-        $pipes = array(); // will look like follows after passing
+        $pipes = []; // will look like follows after passing
         // 0 => writeable handle connected to child stdin
         // 1 => readable handle connected to child stdout
 
@@ -76,7 +80,7 @@ class ilVirusScannerClamAV extends ilVirusScanner
 
         $return = proc_close($process);
 
-        return $this->hasDetections($detectionReport);
+        return (bool) $this->hasDetections($detectionReport);
     }
 
     protected function buildScanCommand(string $file = '-') : string
@@ -107,9 +111,9 @@ class ilVirusScannerClamAV extends ilVirusScanner
             $this->scanFileIsInfected = true;
             $this->logScanResult();
             return $this->scanResult;
-        } else {
-            $this->scanFileIsInfected = false;
-            return "";
         }
+
+        $this->scanFileIsInfected = false;
+        return "";
     }
 }

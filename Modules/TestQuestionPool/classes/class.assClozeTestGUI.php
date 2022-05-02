@@ -74,12 +74,15 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             $cloze_text = $this->object->getHtmlQuestionContentPurifier()->purify($_POST['cloze_text']);
 
             $cloze_text = $this->removeIndizesFromGapText($cloze_text);
-            $_POST['cloze_text'] = $cloze_text;
+            //$_POST['cloze_text'] = $cloze_text;
             $this->object->setQuestion($_POST['question']);
 
             $this->writeQuestionGenericPostData();
-            $this->object->setClozeText($_POST["cloze_text"]);
-            $this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
+            $this->object->setClozeText($cloze_text);
+            $this->object->setTextgapRating($_POST["textgap_rating"]);
+            $this->object->setIdenticalScoring($_POST["identical_scoring"]);
+            $this->object->setFixedTextLength($_POST["fixedTextLength"]);
+            //$this->writeQuestionSpecificPostData(new ilPropertyFormGUI());
             //$this->object->flushGaps();
             $this->writeAnswerSpecificPostData(new ilPropertyFormGUI());
             $this->saveTaxonomyAssignments();

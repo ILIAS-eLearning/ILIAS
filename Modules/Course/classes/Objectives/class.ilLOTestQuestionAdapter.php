@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Test question filter
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -45,22 +59,22 @@ class ilLOTestQuestionAdapter
 
         $relevant_objective_ids = array();
         if (!$this->getSettings()->hasSeparateInitialTests()) {
-            if ($a_tst_ref_id == $this->getSettings()->getInitialTest()) {
+            if ($a_tst_ref_id === $this->getSettings()->getInitialTest()) {
                 $relevant_objective_ids = $objective_ids;
             }
         } elseif (!$this->getSettings()->hasSeparateQualifiedTests()) {
-            if ($a_tst_ref_id == $this->getSettings()->getQualifiedTest()) {
+            if ($a_tst_ref_id === $this->getSettings()->getQualifiedTest()) {
                 $relevant_objective_ids = $objective_ids;
             }
         }
 
         foreach ($objective_ids as $objective_id) {
             $assigned_itest = $assignments->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_INITIAL);
-            if ($assigned_itest == $a_tst_ref_id) {
+            if ($assigned_itest === $a_tst_ref_id) {
                 $relevant_objective_ids[] = $objective_id;
             }
             $assigned_qtest = $assignments->getTestByObjective($objective_id, ilLOSettings::TYPE_TEST_QUALIFIED);
-            if ($assigned_qtest == $a_tst_ref_id) {
+            if ($assigned_qtest === $a_tst_ref_id) {
                 $relevant_objective_ids[] = $objective_id;
             }
         }
@@ -73,8 +87,6 @@ class ilLOTestQuestionAdapter
 
         // filter passed objectives
         $test_type = $assignments->getTypeByTest($a_tst_ref_id);
-
-        $passed_objectives = array();
         $results = new ilLOUserResults($a_container_id, $a_user_id);
 
         $passed = $results->getCompletedObjectiveIds();
@@ -190,7 +202,7 @@ class ilLOTestQuestionAdapter
                 $objectiveIds = $this->lookupObjectiveIdByFixedQuestionId($questionId);
             }
 
-            if (count($objectiveIds)) {
+            if ($objectiveIds !== []) {
                 $a_objectives_list->addQuestionRelatedObjectives($questionId, $objectiveIds);
             }
         }
@@ -209,7 +221,7 @@ class ilLOTestQuestionAdapter
     protected function getRelatedObjectivesForSeparatedTest(int $testRefId) : ?int
     {
         foreach ($this->getAssignments()->getAssignments() as $assignment) {
-            if ($assignment->getTestRefId() == $testRefId) {
+            if ($assignment->getTestRefId() === $testRefId) {
                 return $assignment->getObjectiveId();
             }
         }
@@ -246,7 +258,6 @@ class ilLOTestQuestionAdapter
         }
 
         foreach ($this->run as $run) {
-
             $old_result = ilLOUserResults::lookupResult(
                 $this->container_id,
                 $this->user_id,
@@ -303,7 +314,7 @@ class ilLOTestQuestionAdapter
             return false;
         }
 
-        if ($session->getRefId() != $this->getSettings()->getQualifiedTest()) {
+        if ($session->getRefId() !== $this->getSettings()->getQualifiedTest()) {
             $this->logger->debug('No qualified test run');
             return false;
         }
@@ -335,8 +346,10 @@ class ilLOTestQuestionAdapter
     {
         foreach ($this->run as $run) {
             if ($run->questionExists($qst->getId())) {
-                $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': reached points are ' . $qst->getReachedPoints($session->getActiveId(),
-                        $session->getPass()));
+                $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': reached points are ' . $qst->getReachedPoints(
+                    $session->getActiveId(),
+                    $session->getPass()
+                ));
                 $run->setQuestionResult(
                     $qst->getId(),
                     $qst->getReachedPoints($session->getActiveId(), $session->getPass())
@@ -407,7 +420,7 @@ class ilLOTestQuestionAdapter
         );
     }
 
-    protected function storeTestRun()
+    protected function storeTestRun() : void
     {
         foreach ($this->run as $tst_run) {
             $tst_run->update();
@@ -434,7 +447,7 @@ class ilLOTestQuestionAdapter
         foreach ($this->run as $tst_run) {
             $tst_run->clearQuestions();
             $points = 0;
-            foreach ($seq->getQuestionIds() as $idx => $qst_id) {
+            foreach ($seq->getQuestionIds() as $qst_id) {
                 $tst_run->addQuestion($qst_id);
                 $points += ilCourseObjectiveQuestion::_lookupMaximumPointsOfQuestion($qst_id);
             }
@@ -461,7 +474,6 @@ class ilLOTestQuestionAdapter
 
     protected function updateRandomQuestions(ilTestSession $session, ilTestSequenceRandomQuestionSet $seq) : void
     {
-
         foreach ($this->run as $tst_run) {
             // Clear questions of previous run
             $tst_run->clearQuestions();
@@ -471,7 +483,7 @@ class ilLOTestQuestionAdapter
                 $tst_run->getObjectiveId(),
                 ilObject::_lookupObjId($session->getRefId()),
                 (
-                ($this->getSettings()->getQualifiedTest() == $session->getRefId()) ?
+                    ($this->getSettings()->getQualifiedTest() === $session->getRefId()) ?
                     ilLOSettings::TYPE_TEST_QUALIFIED :
                     ilLOSettings::TYPE_TEST_INITIAL
                 )
@@ -496,24 +508,6 @@ class ilLOTestQuestionAdapter
             }
         }
         return false;
-    }
-
-    private static function getQuestionData(int $testObjId, array $questionIds) : array
-    {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-        $lng = $DIC->language();
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
-        $questionList = new ilAssQuestionList($ilDB, $lng, $ilPluginAdmin);
-        $questionList->setParentObjId($testObjId);
-
-        $questionList->setQuestionInstanceTypeFilter(ilAssQuestionList::QUESTION_INSTANCE_TYPE_DUPLICATES);
-        $questionList->setIncludeQuestionIdsFilter($questionIds);
-        $questionList->load();
-
-        return $questionList->getQuestionDataArray();
     }
 
     public static function getInstance(ilTestSession $a_test_session) : self

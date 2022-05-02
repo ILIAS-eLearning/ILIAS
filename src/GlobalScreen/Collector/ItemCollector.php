@@ -3,6 +3,7 @@
 namespace ILIAS\GlobalScreen\Collector;
 
 use LogicException;
+use Generator;
 
 /**
  * Interface Collector
@@ -17,9 +18,9 @@ interface ItemCollector extends Collector
     public function prepareItemsForUIRepresentation() : void;
     
     /**
-     * @return \Generator
+     * @return Generator
      */
-    public function getItemsForUIRepresentation() : \Generator;
+    public function getItemsForUIRepresentation() : Generator;
     
     /**
      * @return bool

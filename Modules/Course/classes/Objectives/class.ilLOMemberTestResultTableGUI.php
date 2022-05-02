@@ -1,6 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilLOmemberTestResultTableGUI
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
@@ -44,9 +58,9 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
     {
         $name = ilObjUser::_lookupName($this->getUserId());
 
-        if (strlen($name['firstname']) and strlen($name['lastname'])) {
+        if (strlen($name['firstname']) && strlen($name['lastname'])) {
             $name_string = $name['lastname'] . ', ' . $name['firstname'] . ' [' . $name['login'] . ']';
-        } elseif (strlen($name['lastname'])) {
+        } elseif (strlen($name['lastname']) !== 0) {
             $name_string = $name['lastname'] . ' [' . $name['login'] . ']';
         } else {
             $name_string = $name['login'];
@@ -130,7 +144,7 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
         $assignments = ilLOTestAssignments::getInstance($this->getParentContainer()->getId());
 
         $test_ref_id = $assignments->getTestByObjective($a_objective_id, $a_type);
-        if (!$test_ref_id) {
+        if ($test_ref_id === 0) {
             return '';
         }
         return ilLOUtils::getTestResultLinkForUser($test_ref_id, $this->getUserId());

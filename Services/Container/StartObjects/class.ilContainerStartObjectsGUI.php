@@ -33,15 +33,8 @@ class ilContainerStartObjectsGUI
     protected ilObject $object;
     protected ilContainerStartObjects $start_object;
     protected StandardGUIRequest $request;
-    /**
-     * @var \ILIAS\Style\Content\GUIService
-     */
-    protected $content_style_gui;
-
-    /**
-     * @var \ILIAS\Style\Content\Object\ObjectFacade
-     */
-    protected $content_style_domain;
+    protected \ILIAS\Style\Content\GUIService $content_style_gui;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(ilObject $a_parent_obj)
     {
@@ -190,7 +183,7 @@ class ilContainerStartObjectsGUI
     
     protected function askDeleteStarterObject() : void
     {
-        if (count($this->request->getStartObjIds()) == 0) {
+        if (count($this->request->getStartObjIds()) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, "listStructure");
         }
@@ -212,7 +205,7 @@ class ilContainerStartObjectsGUI
             $title = ilObject::_lookupTitle($obj_id);
             $icon = ilObject::_getIcon($obj_id, "tiny");
             $alt = $this->lng->txt('obj_' . ilObject::_lookupType($obj_id));
-            $cgui->addItem("starter[]", $starter_id, $title, $icon, $alt);
+            $cgui->addItem("starter[]", (string) $starter_id, $title, $icon, $alt);
         }
 
         $this->tpl->setContent($cgui->getHTML());
@@ -222,7 +215,7 @@ class ilContainerStartObjectsGUI
     {
         $this->checkPermission('write');
         
-        if (count($this->request->getStartObjIds()) == 0) {
+        if (count($this->request->getStartObjIds()) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
         } else {
             foreach ($this->request->getStartObjIds() as $starter_id) {
@@ -248,7 +241,7 @@ class ilContainerStartObjectsGUI
     {
         $this->checkPermission('write');
 
-        if (count($this->request->getStartObjIds()) == 0) {
+        if (count($this->request->getStartObjIds()) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, "selectStarter");
         }

@@ -52,6 +52,7 @@ class ilSetupLanguage extends ilLanguage
     public string $lang_key;
     public string $separator = "#:#";
     public string $comment_separator = "###";
+    protected ilDBInterface $db;
 
     public function __construct(string $a_lang_key)
     {
@@ -185,8 +186,8 @@ class ilSetupLanguage extends ilLanguage
                 }
             }
         }
-return true;
-        return ($err_lang) ? $err_lang : true;
+
+        return ($err_lang) ?: true;
     }
 
 
@@ -477,13 +478,13 @@ return true;
 
                     // check if the value has a local change
                     if (isset($local_changes[$separated[0]])) {
-                        $local_value = $local_changes[$separated[0]][$separated[1]] ?? null;
+                        $local_value = $local_changes[$separated[0]][$separated[1]] ?? "";
                     } else {
-                        $local_value = null;
+                        $local_value = "";
                     }
 
                     if (empty($scope)) {
-                        if ($local_value !== "" && $local_value != $separated[2]) {
+                        if ($local_value !== "" && $local_value !== $separated[2]) {
                             // keep the locally changed value
                             $lang_array[$separated[0]][$separated[1]] = $local_value;
                         } else {
@@ -667,12 +668,9 @@ return true;
      * @string   object      db handler
      * Return true on success
      */
-    public function setDbHandler($a_db_handler) : bool
+    public function setDbHandler(ilDBInterface $a_db_handler) : bool
     {
-        if (empty($a_db_handler) || !is_object($a_db_handler)) {
-            return false;
-        }
-        $this->db = &$a_db_handler;// Todo-PHP8-Review This property is not defined
+        $this->db = &$a_db_handler;
         return true;
     }
     

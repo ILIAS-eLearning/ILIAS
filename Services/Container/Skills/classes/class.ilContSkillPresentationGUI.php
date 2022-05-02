@@ -80,7 +80,7 @@ class ilContSkillPresentationGUI
                 break;
             
             default:
-                if ($cmd == "show") {
+                if ($cmd === "show") {
                     $this->$cmd();
                 }
         }
@@ -140,7 +140,7 @@ class ilContSkillPresentationGUI
         if ($access->checkAccess('read', '', $ref_id) && ilContainer::_lookupContainerSetting(
             $obj_id,
             ilObjectServiceSettingsGUI::SKILLS,
-            false
+            '0'
         )) {
             $skmg_set = new ilSetting("skmg");
             if ($skmg_set->get("enable_skmg")) {

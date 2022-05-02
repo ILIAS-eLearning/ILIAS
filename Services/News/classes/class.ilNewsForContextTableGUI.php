@@ -23,9 +23,8 @@ class ilNewsForContextTableGUI extends ilTable2GUI
     protected int $perm_ref_id = 0;
     protected ilAccessHandler $access;
 
-
     public function __construct(
-        object $a_parent_obj,
+        ilNewsItemGUI $a_parent_obj,
         string $a_parent_cmd = "",
         int $a_perm_ref_id = 0
     ) {
@@ -82,8 +81,8 @@ class ilNewsForContextTableGUI extends ilTable2GUI
         if ($enable_internal_rss) {
             $this->tpl->setCurrentBlock("access");
             $this->tpl->setVariable("TXT_ACCESS", $lng->txt("news_news_item_visibility"));
-            if ($a_set["visibility"] == NEWS_PUBLIC ||
-                ($a_set["priority"] == 0 &&
+            if ($a_set["visibility"] === NEWS_PUBLIC ||
+                ((int) $a_set["priority"] === 0 &&
                 ilBlockSetting::_lookup(
                     "news",
                     "public_notifications",
@@ -98,7 +97,7 @@ class ilNewsForContextTableGUI extends ilTable2GUI
         }
 
         // last update
-        if ($a_set["creation_date"] != $a_set["update_date"]) {
+        if ($a_set["creation_date"] !== $a_set["update_date"]) {
             $this->tpl->setCurrentBlock("ni_update");
             $this->tpl->setVariable("TXT_LAST_UPDATE", $lng->txt("last_update"));
             $this->tpl->setVariable(

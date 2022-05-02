@@ -26,6 +26,8 @@ class ilMultipleImagesFileSubmissionDataCompletion implements ilFormValuesManipu
     
     public function manipulateFormSubmitValues(array $submitValues) : array
     {
+        global $DIC;
+
         $_REQUEST[$this->getPostVar()] = $this->populateStoredFileCustomUploadProperty(
             $_REQUEST[$this->getPostVar()],
             $submitValues

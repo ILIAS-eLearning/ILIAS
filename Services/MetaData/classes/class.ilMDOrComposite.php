@@ -29,7 +29,6 @@
  */
 class ilMDOrComposite extends ilMDRequirement
 {
-
     private int $or_composite_id = 0;
 
     // SET/GET
@@ -40,7 +39,6 @@ class ilMDOrComposite extends ilMDRequirement
 
     public function getOrCompositeId() : int
     {
-
         if (!$this->or_composite_id) {
             $query = "SELECT MAX(or_composite_id) orc FROM il_meta_requirement " .
                 "WHERE rbac_id = " . $this->db->quote($this->getRBACId(), 'integer') . " " .
@@ -60,8 +58,6 @@ class ilMDOrComposite extends ilMDRequirement
      */
     public function getRequirementIds() : array
     {
-
-
         return ilMDRequirement::_getIds(
             $this->getRBACId(),
             $this->getObjId(),
@@ -73,8 +69,6 @@ class ilMDOrComposite extends ilMDRequirement
 
     public function getRequirement(int $a_requirement_id) : ?ilMDRequirement
     {
-
-
         if (!$a_requirement_id) {
             return null;
         }
@@ -86,8 +80,6 @@ class ilMDOrComposite extends ilMDRequirement
 
     public function addRequirement() : ilMDRequirement
     {
-
-
         $req = new ilMDRequirement($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $req->setParentId($this->getParentId());
         $req->setParentType('meta_technical');
@@ -122,21 +114,24 @@ class ilMDOrComposite extends ilMDRequirement
             $req->toXML($writer);
         }
         if (!count($reqs)) {
-
             $req = new ilMDRequirement($this->getRBACId(), $this->getObjId());
             $req->toXML($writer);
         }
         $writer->xmlEndTag('OrComposite');
     }
 
-
     // STATIC
 
     /**
      * @return int[]
      */
-    public static function _getIds(int $a_rbac_id, int $a_obj_id, int $a_parent_id, string $a_parent_type, int $a_or_composite_id = 0) : array
-    {
+    public static function _getIds(
+        int $a_rbac_id,
+        int $a_obj_id,
+        int $a_parent_id,
+        string $a_parent_type,
+        int $a_or_composite_id = 0
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();

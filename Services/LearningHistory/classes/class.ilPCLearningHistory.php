@@ -71,8 +71,8 @@ class ilPCLearningHistory extends ilPageContent
     {
         // delete properties
         $children = $this->lhist_node->child_nodes();
-        for ($i = 0, $iMax = count($children); $i < $iMax; $i++) {
-            $this->lhist_node->remove_child($children[$i]);
+        foreach ($children as $iValue) {
+            $this->lhist_node->remove_child($iValue);
         }
         // set classes
         foreach ($a_val as $key => $class) {
@@ -87,8 +87,8 @@ class ilPCLearningHistory extends ilPageContent
         $classes = [];
         // delete properties
         $children = $this->lhist_node->child_nodes();
-        for ($i = 0, $iMax = count($children); $i < $iMax; $i++) {
-            $classes[] = $children[$i]->get_attribute("Name");
+        foreach ($children as $iValue) {
+            $classes[] = $iValue->get_attribute("Name");
         }
         return $classes;
     }

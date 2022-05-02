@@ -61,10 +61,10 @@ class ilContainerSkills
 
     public function addSkill(int $a_skill_id, int $a_tref_id) : void
     {
-        $this->skills[$a_skill_id . "-" . $a_tref_id] = array(
+        $this->skills[$a_skill_id . "-" . $a_tref_id] = [
             "skill_id" => $a_skill_id,
             "tref_id" => $a_tref_id
-        );
+        ];
     }
 
     public function removeSkill(int $a_skill_id, int $a_tref_id) : void

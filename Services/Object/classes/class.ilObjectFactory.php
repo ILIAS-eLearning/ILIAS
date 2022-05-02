@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilObjectFactory
  * This class offers methods to get instances of
@@ -25,8 +39,8 @@ class ilObjectFactory
 
         $sql =
             "SELECT obj_id, type, title, description, owner, create_date, last_update, import_id, offline" . PHP_EOL
-            ."FROM object_data" . PHP_EOL
-            ."WHERE obj_id = " . $ilDB->quote($obj_id, 'integer') . PHP_EOL
+            . "FROM object_data" . PHP_EOL
+            . "WHERE obj_id = " . $ilDB->quote($obj_id, 'integer') . PHP_EOL
         ;
 
         $result = $ilDB->query($sql);
@@ -44,10 +58,10 @@ class ilObjectFactory
 
         $sql =
             "SELECT object_data.obj_id" . PHP_EOL
-            ."FROM object_data, object_reference" . PHP_EOL
-            ."WHERE object_reference.obj_id = object_data.obj_id" . PHP_EOL
-            ."AND object_data.type = " . $ilDB->quote($object_type, 'text') . PHP_EOL
-            ."AND object_data.owner = " . $ilDB->quote($owner_id, 'integer') . PHP_EOL
+            . "FROM object_data, object_reference" . PHP_EOL
+            . "WHERE object_reference.obj_id = object_data.obj_id" . PHP_EOL
+            . "AND object_data.type = " . $ilDB->quote($object_type, 'text') . PHP_EOL
+            . "AND object_data.owner = " . $ilDB->quote($owner_id, 'integer') . PHP_EOL
         ;
 
         $result = $ilDB->query($sql);
@@ -83,8 +97,8 @@ class ilObjectFactory
         // read object data
         $sql =
             "SELECT obj_id, type, title, description, owner, create_date, last_update, import_id, offline" . PHP_EOL
-            ."FROM object_data" . PHP_EOL
-            ."WHERE obj_id = " . $ilDB->quote($obj_id, 'integer') . PHP_EOL
+            . "FROM object_data" . PHP_EOL
+            . "WHERE obj_id = " . $ilDB->quote($obj_id, 'integer') . PHP_EOL
         ;
         $result = $ilDB->query($sql);
         // check number of records
@@ -142,9 +156,9 @@ class ilObjectFactory
         // read object data
         $sql =
             "SELECT object_data.obj_id, object_data.type" . PHP_EOL
-            ."FROM object_data, object_reference" . PHP_EOL
-            ."WHERE object_reference.obj_id = object_data.obj_id" . PHP_EOL
-            ."AND object_reference.ref_id = " . $ilDB->quote($ref_id, 'integer') . PHP_EOL
+            . "FROM object_data, object_reference" . PHP_EOL
+            . "WHERE object_reference.obj_id = object_data.obj_id" . PHP_EOL
+            . "AND object_reference.ref_id = " . $ilDB->quote($ref_id, 'integer') . PHP_EOL
         ;
 
         $result = $ilDB->query($sql);
@@ -203,9 +217,9 @@ class ilObjectFactory
         // read object data
         $sql =
             "SELECT object_data.obj_id, object_data.type" . PHP_EOL
-            ."FROM object_data" . PHP_EOL
-            ."LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id " . PHP_EOL
-            ."WHERE object_reference.ref_id=" . $ilDB->quote($ref_id, 'integer') . PHP_EOL
+            . "FROM object_data" . PHP_EOL
+            . "LEFT JOIN object_reference ON object_data.obj_id=object_reference.obj_id " . PHP_EOL
+            . "WHERE object_reference.ref_id=" . $ilDB->quote($ref_id, 'integer') . PHP_EOL
         ;
         $result = $ilDB->query($sql);
 
@@ -245,7 +259,7 @@ class ilObjectFactory
         string $class_name,
         string $a_obj_type,
         ilObjectDefinition $objDefinition
-    ) {
+    ) : void {
         if (!class_exists($class_name)) {
             $location = $objDefinition->getLocation($a_obj_type);
             include_once($location . "/class." . $class_name . ".php");

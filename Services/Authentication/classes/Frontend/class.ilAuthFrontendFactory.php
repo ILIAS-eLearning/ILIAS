@@ -22,20 +22,20 @@
  */
 class ilAuthFrontendFactory
 {
-    const CONTEXT_UNDEFINED = 0;
+    private const CONTEXT_UNDEFINED = 0;
     
     // authentication with id and password. Used for standard form based authentication
     // soap auth (login) but not for (CLI (cron)?) and HTTP basic authentication
-    const CONTEXT_STANDARD_FORM = 2;
+    public const CONTEXT_STANDARD_FORM = 2;
     
     // CLI context for cron
-    const CONTEXT_CLI = 3;
+    public const CONTEXT_CLI = 3;
     
     // Rest soap context
-    const CONTEXT_WS = 4;
+    public const CONTEXT_WS = 4;
     
     // http auth
-    const CONTEXT_HTTP = 5;
+    public const CONTEXT_HTTP = 5;
     
     
     private int $context = self::CONTEXT_UNDEFINED;

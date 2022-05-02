@@ -1,7 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\Setup;
-use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Refinery\Transformation;
 
@@ -21,11 +20,8 @@ use ILIAS\Refinery\Transformation;
 class ilGlobalScreenSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
-    
-    /**
-     * @var Refinery
-     */
-    protected $refinery;
+
+    protected Refinery $refinery;
     
     public function __construct(Refinery $refinery)
     {
@@ -45,7 +41,7 @@ class ilGlobalScreenSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Transformation
     {
-        throw new \LogicException(self::class . " has no Config.");
+        throw new LogicException(self::class . " has no Config.");
     }
     
     /**
@@ -69,7 +65,7 @@ class ilGlobalScreenSetupAgent implements Setup\Agent
      */
     public function getBuildArtifactObjective() : Setup\Objective
     {
-        return new \ilGlobalScreenBuildProviderMapObjective();
+        return new ilGlobalScreenBuildProviderMapObjective();
     }
     
     /**

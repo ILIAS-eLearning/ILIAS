@@ -31,12 +31,12 @@ interface isStandardItem extends isItem
      * Get the callable to be executed, when this specific item is closed.
      * @return callable|null
      */
-    public function getClosedCallable();
+    public function getClosedCallable() : ?callable;
     
     /**
      * Get whether there are any callables to be executed when the notification
      * center is closed.
      * @return bool
      */
-    public function hasClosedCallable();
+    public function hasClosedCallable() : bool;
 }

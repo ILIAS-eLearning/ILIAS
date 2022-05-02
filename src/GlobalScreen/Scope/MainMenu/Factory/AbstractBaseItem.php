@@ -5,6 +5,7 @@ use ILIAS\GlobalScreen\Identification\NullIdentification;
 use ILIAS\GlobalScreen\Scope\ComponentDecoratorTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 use ILIAS\UI\Component\Legacy\Legacy;
+use Closure;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -29,9 +30,9 @@ abstract class AbstractBaseItem implements isItem
     private bool $is_visible_static;
     
     protected IdentificationInterface $provider_identification;
-    protected ?\Closure $available_callable = null;
-    protected ?\Closure $active_callable = null;
-    protected ?\Closure $visiblility_callable = null;
+    protected ?Closure $available_callable = null;
+    protected ?Closure $active_callable = null;
+    protected ?Closure $visiblility_callable = null;
     protected bool $is_always_available = false;
     protected ?TypeInformation $type_information = null;
     protected Legacy $non_available_reason;

@@ -389,6 +389,11 @@ class Container extends \Pimple\Container
         return new \ILIAS\Style\Content\Service($this);
     }
 
+    public function notifications() : \ILIAS\Notifications\Service
+    {
+        return new \ILIAS\Notifications\Service($this);
+    }
+
     public function cron() : \ilCronServices
     {
         return new \ilCronServicesImpl($this);

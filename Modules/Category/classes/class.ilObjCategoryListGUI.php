@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -72,28 +72,12 @@ class ilObjCategoryListGUI extends ilObjectListGUI
         if (ilContainer::_lookupContainerSetting(
             $this->obj_id,
             ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-            true
+            '1'
         )) {
             return $this->info_screen_enabled;
         }
 
         return false;
-    }
-
-    /**
-    * Get command target frame.
-    *
-    * Overwrite this method if link frame is not current frame
-    *
-    * @param	string		$cmd			command
-    *
-    * @return	string		command target frame
-    */
-    public function getCommandFrame(string $cmd) : string
-    {
-        // begin-patch fm
-        return parent::getCommandFrame($cmd);
-        // end-patch fm
     }
 
     public function getCommandLink(string $cmd) : string

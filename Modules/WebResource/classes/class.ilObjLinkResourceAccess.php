@@ -3,16 +3,19 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
-
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilObjLinkResourceAccess
  * @author        Alex Killing <alex.killing@gmx.de>
@@ -28,7 +31,7 @@ class ilObjLinkResourceAccess extends ilObjectAccess
      */
     public static function _getCommands() : array
     {
-        $commands = array(
+        return array(
             array("permission" => "read",
                   "cmd" => "",
                   "lang_var" => "show",
@@ -47,8 +50,6 @@ class ilObjLinkResourceAccess extends ilObjectAccess
                   "lang_var" => "settings"
             )
         );
-
-        return $commands;
     }
 
     /**
@@ -90,15 +91,21 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         // Set offline if no valid link exists
         if ($permission == 'read') {
             if (!self::_getFirstLink(
-                    $obj_id
-                ) && !$rbacsystem->checkAccessOfUser(
-                    $user_id, 'write', $ref_id
-                )) {
+                $obj_id
+            ) && !$rbacsystem->checkAccessOfUser(
+                $user_id,
+                'write',
+                $ref_id
+            )) {
                 return false;
             }
         }
         return parent::_checkAccess(
-            $cmd, $permission, $ref_id, $obj_id, $user_id
+            $cmd,
+            $permission,
+            $ref_id,
+            $obj_id,
+            $user_id
         );
     }
 
@@ -141,7 +148,6 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
 
         $res = $ilDB->query(
             "SELECT * FROM webr_items WHERE " .

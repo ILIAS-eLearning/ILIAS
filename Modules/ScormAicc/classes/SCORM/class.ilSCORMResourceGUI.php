@@ -22,9 +22,6 @@
 */
 class ilSCORMResourceGUI extends ilSCORMObjectGUI
 {
-    /**
-     * @param int $a_id
-     */
     public function __construct(int $a_id)
     {
         parent::__construct();
@@ -33,7 +30,6 @@ class ilSCORMResourceGUI extends ilSCORMObjectGUI
     }
 
     /**
-     * @return void
      * @throws ilTemplateException
      */
     public function view() : void
@@ -66,10 +62,10 @@ class ilSCORMResourceGUI extends ilSCORMObjectGUI
 
         // files
         $files = &$this->sc_object->getFiles();
-        for ($i = 0; $i < count($files); $i++) {
+        foreach ($files as $value) {
             $this->displayParameter(
                 $this->lng->txt("cont_href"),
-                $files[$i]->getHRef()
+                $value->getHRef()
             );
         }
         $this->tpl->setCurrentBlock("partable");
@@ -78,10 +74,10 @@ class ilSCORMResourceGUI extends ilSCORMObjectGUI
 
         // dependencies
         $deps = &$this->sc_object->getDependencies();
-        for ($i = 0; $i < count($deps); $i++) {
+        foreach ($deps as $value) {
             $this->displayParameter(
                 $this->lng->txt("cont_id_ref"),
-                $deps[$i]->getIdentifierRef()
+                $value->getIdentifierRef()
             );
         }
         $this->tpl->setCurrentBlock("partable");

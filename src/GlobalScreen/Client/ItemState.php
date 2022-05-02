@@ -4,6 +4,8 @@ namespace ILIAS\GlobalScreen\Client;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
+use ILIAS\HTTP\Wrapper\WrapperFactory;
+use ILIAS\Refinery\Factory;
 
 /******************************************************************************
  * This file is part of ILIAS, a powerful learning management system.
@@ -17,6 +19,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
 /**
  * Class ItemState
+ *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ItemState
@@ -24,20 +27,26 @@ class ItemState
     use Hasher;
     
     public const LEVEL_OF_TOOL = 1;
-    public const LEVEL_OF_TOPITEM = 2;
-    public const LEVEL_OF_SUBITEM = 10;
     public const COOKIE_NS_GS = 'gs_active_items';
     private IdentificationInterface $identification;
-    private array $storage = [];
+    private array $storage;
+    
+    protected WrapperFactory $wrapper;
+    protected Factory $refinery;
     
     /**
      * ItemState constructor.
+     *
      * @param IdentificationInterface $identification
      */
     public function __construct(IdentificationInterface $identification)
     {
         $this->identification = $identification;
         $this->storage = $this->getStorage();
+        \ilInitialisation::initILIAS();
+        global $DIC;
+        $this->wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
     }
     
     public function isItemActive() : bool
@@ -55,7 +64,11 @@ class ItemState
     {
         static $json_decode;
         if (!isset($json_decode)) {
-            $json_decode = json_decode($_COOKIE[self::COOKIE_NS_GS], true);
+            $cookie_value = $this->wrapper->cookie()->has(self::COOKIE_NS_GS)
+                ? $this->wrapper->cookie()->retrieve(self::COOKIE_NS_GS, $this->refinery->to()->string())
+                : '{}';
+            
+            $json_decode = json_decode($cookie_value, true);
             $json_decode = is_array($json_decode) ? $json_decode : [];
         }
         

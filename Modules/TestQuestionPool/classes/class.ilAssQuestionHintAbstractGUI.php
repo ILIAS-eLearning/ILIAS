@@ -14,6 +14,8 @@ require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
  */
 abstract class ilAssQuestionHintAbstractGUI
 {
+    protected \ILIAS\TestQuestionPool\InternalRequestService $request;
+
     /**
      * gui instance of current question
      *
@@ -40,5 +42,7 @@ abstract class ilAssQuestionHintAbstractGUI
     {
         $this->questionGUI = $questionGUI;
         $this->questionOBJ = $questionGUI->object;
+        global $DIC;
+        $this->request = $DIC->testQuestionPool()->internal()->request();
     }
 }

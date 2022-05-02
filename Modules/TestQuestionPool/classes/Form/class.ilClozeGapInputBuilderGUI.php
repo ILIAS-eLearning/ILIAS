@@ -19,11 +19,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $this->value = $a_value;
     }
 
-    /**
-     * Get Value.
-     * @return    string    Value
-     */
-    public function getValue() : string
+    public function getValue()
     {
         $editOrOpen = $this->value;
         if (isset($editOrOpen['author'])) {
@@ -66,12 +62,12 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
     public function checkInput() : bool
     {
         $error = false;
-        $json = ilArrayUtil::stripSlashesRecursive(json_decode($_POST['gap_json_post']), false);
-        $_POST['gap'] = ilArrayUtil::stripSlashesRecursive($_POST['gap']);
+        $json = self::stripSlashesRecursive(json_decode($_POST['gap_json_post']), false);
+        $gap = self::stripSlashesRecursive($this->raw('gap'));
         $gaps_used_in_combination = array();
         if (isset($_POST['gap_combination'])) {
-            $_POST['gap_combination'] = ilArrayUtil::stripSlashesRecursive($_POST['gap_combination']);
-            $_POST['gap_combination_values'] = ilArrayUtil::stripSlashesRecursive($_POST['gap_combination_values']);
+            $_POST['gap_combination'] = self::stripSlashesRecursive($_POST['gap_combination']);
+            $_POST['gap_combination_values'] = self::stripSlashesRecursive($_POST['gap_combination_values']);
             $gap_with_points = array();
 
             for ($i = 0; $i < count($_POST['gap_combination']['select']); $i++) {
@@ -99,16 +95,14 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
             }
         }
 
-        if (isset($_POST['gap']) && is_array($_POST['gap'])) {
-            foreach ($_POST['gap'] as $key => $item) {
-                $_POST['clozetype_' . $key] = ilUtil::stripSlashes($_POST['clozetype_' . $key]);
-                $getType = $_POST['clozetype_' . $key];
-                $gapsize = $_POST['gap_' . $key . '_gapsize'];
+        if (is_array($gap)) {
+            foreach ($gap as $key => $item) {
+                $getType = ilUtil::stripSlashes($this->raw('clozetype_' . $key));
+                $gapsize = $this->raw('gap_' . $key . '_gapsize');
                 $json[0][$key]->text_field_length = $gapsize > 0 ? $gapsize : '';
                 $select_at_least_on_positive = false;
                 if ($getType == CLOZE_TEXT || $getType == CLOZE_SELECT) {
-                    $_POST['gap_' . $key] = ilArrayUtil::stripSlashesRecursive($_POST['gap_' . $key], false);
-                    $gapText = $_POST['gap_' . $key];
+                    $gapText = self::stripSlashesRecursive($this->raw('gap_' . $key), false);
                     foreach ($gapText['answer'] as $row => $answer) {
                         if (!isset($answer) || $answer == '') {
                             $error = true;
@@ -135,8 +129,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                             }
                         }
                         if ($getType == CLOZE_SELECT) {
-                            $_POST['shuffle_' . $key] = ilUtil::stripSlashes($_POST['shuffle_' . $key]);
-                            if (!isset($_POST['shuffle_' . $key])) {
+                            if (!strlen(ilUtil::stripSlashes($this->raw('shuffle_' . $key)))) {
                                 $error = true;
                             }
                         }
@@ -155,7 +148,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                                     'lower' => '_numeric_lower',
                                     'upper' => '_numeric_upper',
                                     'points' => '_numeric_points') as $part => $suffix) {
-                        $val = ilUtil::stripSlashes($_POST['gap_' . $key . $suffix], false);
+                        $val = ilUtil::stripSlashes($this->raw('gap_' . $key . $suffix), false);
                         $val = str_replace(',', '.', $val);
                         if ($eval->e($val) === false) {
                             $mark_errors[$part] = true;
@@ -181,7 +174,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                 }
             }
         }
-        $_POST['gap_json_post'] = json_encode($json);
+        //$_POST['gap_json_post'] = json_encode($json);
         return !$error;
     }
 
@@ -249,5 +242,28 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $template->setCurrentBlock('prop_generic');
         $template->setVariable('PROP_GENERIC', $custom_template->get());
         $template->parseCurrentBlock();
+    }
+
+    /**
+     * @param $data string|array
+     * @deprecated
+     */
+    public static function stripSlashesRecursive($a_data, bool $a_strip_html = true, string $a_allow = "")
+    {
+        if (is_array($a_data)) {
+            foreach ($a_data as $k => $v) {
+                if (is_array($v)) {
+                    $a_data[$k] = self::stripSlashesRecursive($v, $a_strip_html, $a_allow);
+                } else {
+                    $a_data[$k] = ilUtil::stripSlashes($v, $a_strip_html, $a_allow);
+                }
+            }
+        } else {
+            if ($a_data != null) {
+                $a_data = ilUtil::stripSlashes($a_data, $a_strip_html, $a_allow);
+            }
+        }
+
+        return $a_data;
     }
 }

@@ -1,7 +1,21 @@
 <?php declare(strict_types=0);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Course to lp connector
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -51,12 +65,9 @@ class ilCourseLP extends ilObjectLP
         return parent::getCurrentMode();
     }
 
-    protected function checkObjectives()
+    protected function checkObjectives() : bool
     {
-        if (ilObjCourse::_lookupViewMode($this->obj_id) == ilCourseConstants::IL_CRS_VIEW_OBJECTIVE) {
-            return true;
-        }
-        return false;
+        return ilObjCourse::_lookupViewMode($this->obj_id) == ilCourseConstants::IL_CRS_VIEW_OBJECTIVE;
     }
 
     public function getSettingsInfo() : string
@@ -73,6 +84,9 @@ class ilCourseLP extends ilObjectLP
         return '';
     }
 
+    /**
+     * @return int[]
+     */
     public function getMembers(bool $a_search = true) : array
     {
         $member_obj = ilCourseParticipants::_getInstanceByObjId($this->obj_id);

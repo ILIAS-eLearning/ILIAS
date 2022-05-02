@@ -1,12 +1,26 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilObjDataCollectionListGUI
  *
  * @author  Oskar Truffer <ot@studer-raimann.ch>
  * @author  Martin Studer <ms@studer-raimann.ch>
- *
- * @extends ilObjectListGUI
  */
 class ilObjBibliographicListGUI extends ilObjectListGUI
 {
@@ -14,7 +28,7 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
-    public function init(): void
+    public function init() : void
     {
         $this->lng->loadLanguageModule('bibl');
         $this->copy_enabled = true;
@@ -37,11 +51,10 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
      *                    "property" (string) => property name
      *                    "value" (string) => property value
      */
-    public function getProperties(): array
+    public function getProperties() : array
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
 
         $props = array();
         $obj = new ilObjBibliographic($this->obj_id);

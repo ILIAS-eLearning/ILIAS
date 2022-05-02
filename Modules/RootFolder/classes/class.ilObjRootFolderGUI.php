@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -81,7 +81,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 "edit",
                 get_class($this),
                 "",
-                $cmd == 'edit'
+                $cmd === 'edit'
             );
         }
 
@@ -96,7 +96,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
         switch ($next_class) {
             case strtolower(ilRepositoryTrashGUI::class):
-                $ru = new \ilRepositoryTrashGUI($this);
+                $ru = new ilRepositoryTrashGUI($this);
                 $this->ctrl->setReturn($this, 'trash');
                 $this->ctrl->forwardCommand($ru);
                 break;
@@ -105,7 +105,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
             case "ilcontainerpagegui":
                 $this->prepareOutput(false);
                 $ret = $this->forwardToPageObject();
-                if ($ret != "") {
+                if ($ret !== "") {
                     $this->tpl->setContent($ret);
                 }
                 break;
@@ -160,7 +160,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
                 break;
 
             default:
-                if ($cmd == "infoScreen") {
+                if ($cmd === "infoScreen") {
                     $this->checkPermission("visible");
                 } else {
                     try {
@@ -192,8 +192,8 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
         ilObjectListGUI::prepareJsLinks(
             "",
-            $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
-            $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
+            $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "ilnotegui"], "", "", true, false),
+            $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "", "", true, false)
         );
         
         $ilTabs->activateTab("view_content");
@@ -207,7 +207,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
     {
         $this->checkPermission('read');
 
-        if (strtolower($this->root_request->getBaseClass()) == "iladministrationgui") {
+        if (strtolower($this->root_request->getBaseClass()) === "iladministrationgui") {
             parent::viewObject();
         }
 
@@ -221,9 +221,9 @@ class ilObjRootFolderGUI extends ilContainerGUI
         parent::setTitleAndDescription();
         $this->tpl->setDescription("");
         if (!ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title")) {
-            if ($this->object->getTitle() == "ILIAS") {
+            if ($this->object->getTitle() === "ILIAS") {
                 $this->tpl->setTitle($lng->txt("repository"));
-            } elseif ($this->object->getDescription() != "") {
+            } elseif ($this->object->getDescription() !== "") {
                 $this->tpl->setDescription($this->object->getDescription()); // #13479
             }
         }
@@ -268,11 +268,11 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
         $this->initSortingForm(
             $form,
-            array(
+            [
                     ilContainer::SORT_TITLE,
                     ilContainer::SORT_CREATION,
                     ilContainer::SORT_MANUAL
-                )
+            ]
         );
 
 
@@ -300,54 +300,54 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
         if (!$this->checkPermissionBool("write")) {
             throw new ilPermissionException($this->lng->txt("msg_no_perm_write"));
-        } else {
-            $form = $this->initEditForm();
-            if ($form->checkInput()) {
-                $this->saveSortingSettings($form);
+        }
 
-                // list presentation
-                $this->saveListPresentation($form);
+        $form = $this->initEditForm();
+        if ($form->checkInput()) {
+            $this->saveSortingSettings($form);
 
-                if ($ilSetting->get('custom_icons')) {
-                    global $DIC;
-                    /** @var \ilObjectCustomIconFactory $customIconFactory */
-                    $customIconFactory = $DIC['object.customicons.factory'];
-                    $customIcon = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
+            // list presentation
+            $this->saveListPresentation($form);
 
-                    /** @var \ilImageFileInputGUI $item */
-                    $fileData = (array) $form->getInput('cont_icon');
-                    $item = $form->getItemByPostVar('cont_icon');
+            if ($ilSetting->get('custom_icons')) {
+                global $DIC;
+                /** @var ilObjectCustomIconFactory $customIconFactory */
+                $customIconFactory = $DIC['object.customicons.factory'];
+                $customIcon = $customIconFactory->getByObjId($this->object->getId(), $this->object->getType());
 
-                    if ($item->getDeletionFlag()) {
-                        $customIcon->remove();
-                    }
+                /** @var ilImageFileInputGUI $item */
+                $fileData = (array) $form->getInput('cont_icon');
+                $item = $form->getItemByPostVar('cont_icon');
 
-                    if ($fileData['tmp_name']) {
-                        $customIcon->saveFromHttpRequest();
-                    }
+                if ($item->getDeletionFlag()) {
+                    $customIcon->remove();
                 }
 
-                // custom icon
-                $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
-
-                // BEGIN ChangeEvent: Record update
-                global $ilUser;
-                ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
-                ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
-                // END ChangeEvent: Record update
-
-                $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
-                $this->ctrl->redirect($this, "edit");
+                if ($fileData['tmp_name']) {
+                    $customIcon->saveFromHttpRequest();
+                }
             }
 
-            // display form to correct errors
-            $this->setEditTabs();
-            $form->setValuesByPost();
-            $this->tpl->setContent($form->getHTML());
+            // custom icon
+            $obj_service->commonSettings()->legacyForm($form, $this->object)->saveTitleIconVisibility();
+
+            // BEGIN ChangeEvent: Record update
+            global $ilUser;
+            ilChangeEvent::_recordWriteEvent($this->object->getId(), $ilUser->getId(), 'update');
+            ilChangeEvent::_catchupWriteEvents($this->object->getId(), $ilUser->getId());
+            // END ChangeEvent: Record update
+
+            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
+            $this->ctrl->redirect($this, "edit");
         }
+
+        // display form to correct errors
+        $this->setEditTabs();
+        $form->setValuesByPost();
+        $this->tpl->setContent($form->getHTML());
     }
 
-    public static function _goto($a_target)
+    public static function _goto(string $a_target) : void
     {
         ilObjectGUI::_gotoRepositoryRoot(true);
     }

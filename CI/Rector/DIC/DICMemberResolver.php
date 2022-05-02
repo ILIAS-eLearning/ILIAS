@@ -1,5 +1,21 @@
-<?php declare (strict_types=1);
+<?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 namespace ILIAS\CI\Rector\DIC;
 
 use Rector\Transform\NodeTypeAnalyzer\TypeProvidingExprFromClassResolver;
@@ -20,7 +36,6 @@ use PhpParser\Node\Stmt\Class_;
 
 final class DICMemberResolver
 {
-    
     const DIC = 'DIC';
     const THIS = 'this';
     const GLOBALS = 'GLOBALS';
@@ -72,7 +87,7 @@ final class DICMemberResolver
         // new variable like $main_tpl;
         $dic_dependenc_variable = new Variable($DICMember->getPropertyName());
         // MethodCall to get DIC Dependency
-       $property_assign = new Expression(
+        $property_assign = new Expression(
             new Assign(
                 $dic_dependenc_variable,
                 $this->appendDICMethods(
@@ -104,7 +119,6 @@ final class DICMemberResolver
         $classMethodName = $classMethod->name->name ?? null;
         if ($classMethod->isStatic()
             || $classMethodName === \Rector\Core\ValueObject\MethodName::CONSTRUCT) {
-            
             return $this->getStaticDICCall($DICMember, $class, $classMethod);
         }
         

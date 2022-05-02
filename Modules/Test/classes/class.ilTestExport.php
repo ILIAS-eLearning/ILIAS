@@ -16,7 +16,6 @@ require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';
  */
 abstract class ilTestExport
 {
-    private $inst;
     private string $export_dir;
     private string $subdir;
     private string $qti_filename;
@@ -211,7 +210,7 @@ abstract class ilTestExport
      * Exports the aggregated results to the Microsoft Excel file format
      * @param boolean $deliver TRUE to directly deliver the file, FALSE to return the binary data
      */
-    protected function aggregatedResultsToExcel($deliver = true)
+    protected function aggregatedResultsToExcel($deliver = true) : string
     {
         $data = $this->test_obj->getAggregatedResultsData();
 
@@ -1087,7 +1086,7 @@ abstract class ilTestExport
 
         // set generated comment
         $this->xml->xmlSetGenCmt("Export of ILIAS Test " .
-            $this->test_obj->getId() . " of installation " . $this->inst . ".");
+            $this->test_obj->getId() . " of installation " . $this->inst_id . ".");
 
         // set xml header
         $this->xml->xmlHeader();
@@ -1229,10 +1228,11 @@ abstract class ilTestExport
             }
         }
     }
-    
+
     /**
-     * @param ilXmlWriter $a_xml_writer
-     * @param $questions
+     * @param ilXmlWriter                      $a_xml_writer
+     * @param ilAssQuestionSkillAssignmentList $assignmentList
+     * @param                                  $questions
      */
     protected function populateQuestionSkillAssignmentsXml(ilXmlWriter $a_xml_writer, ilAssQuestionSkillAssignmentList $assignmentList, $questions)
     {

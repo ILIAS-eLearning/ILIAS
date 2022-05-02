@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * Reservations screen
@@ -19,9 +23,6 @@
  */
 class ilBookingReservationsGUI
 {
-    /**
-     * @var array|object|null
-     */
     protected array $raw_post_data;
     protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
     protected ilBookingHelpAdapter $help;
@@ -66,7 +67,7 @@ class ilBookingReservationsGUI
 
         // user who's reservation is being tackled (e.g. canceled)
         $this->booked_user = $this->book_request->getBookedUser();
-        if ($this->booked_user == 0) {
+        if ($this->booked_user === 0) {
             $this->booked_user = $DIC->user()->getId();
         }
         // we get this from the reservation screen
@@ -74,7 +75,7 @@ class ilBookingReservationsGUI
 
         $this->ctrl->saveParameter($this, ["object_id", "bkusr"]);
 
-        if ($this->book_request->getObjectId() > 0 && ilBookingObject::lookupPoolId($this->book_request->getObjectId()) != $this->pool->getId()) {
+        if ($this->book_request->getObjectId() > 0 && ilBookingObject::lookupPoolId($this->book_request->getObjectId()) !== $this->pool->getId()) {
             throw new ilException("Booking Object ID does not match Booking Pool.");
         }
 
@@ -89,7 +90,8 @@ class ilBookingReservationsGUI
         $mrsv = $this->book_request->getReservationIds();
         if (count($mrsv) > 0) {
             return $mrsv;
-        } elseif ($this->reservation_id > 0) {
+        }
+        if ($this->reservation_id > 0) {
             return array($this->reservation_id);
         }
         return [];
@@ -152,7 +154,7 @@ class ilBookingReservationsGUI
             $this->ref_id,
             $this->pool->getId(),
             $show_all,
-            ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE),
+            ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_NO_SCHEDULE),
             $filter,
             $reservation_id,
             $context_filter
@@ -179,7 +181,7 @@ class ilBookingReservationsGUI
     public function changeStatusObject() : void
     {
         $rsv_ids = $this->book_request->getReservationIds();
-        if (count($rsv_ids) == 0) {
+        if (count($rsv_ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->log();
         }
@@ -213,9 +215,7 @@ class ilBookingReservationsGUI
 
     protected function checkPermissionBool(string $a_perm) : bool
     {
-        $ilAccess = $this->access;
-
-        return $ilAccess->checkAccess($a_perm, "", $this->ref_id);
+        return $this->access->checkAccess($a_perm, "", $this->ref_id);
     }
 
     //
@@ -272,7 +272,7 @@ class ilBookingReservationsGUI
         $ids = ilBookingReservation::getObjectReservationForUser($id, $user_id);
         $id = current($ids);
         $obj = new ilBookingReservation($id);
-        if ($obj->getUserId() != $user_id) {
+        if ($obj->getUserId() !== $user_id) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt('permission_denied'), true);
             $this->back();
         }
@@ -303,29 +303,27 @@ class ilBookingReservationsGUI
         $ilUser = $this->user;
 
         $ids = $this->getLogReservationIds();
-        if (count($ids) == 0) {
+        if (count($ids) === 0) {
             $this->back();
         }
 
         $max = array();
         foreach ($ids as $idx => $id) {
             if (!is_numeric($id)) {
-                list($obj_id, $user_id, $from, $to) = explode("_", $id);
+                [$obj_id, $user_id, $from, $to] = explode("_", $id);
 
                 $valid_ids = array();
                 foreach (ilBookingObject::getList($this->pool->getId()) as $item) {
                     $valid_ids[$item["booking_object_id"]] = $item["title"];
                 }
 
-                if (($this->checkPermissionBool("write") || $user_id == $ilUser->getId()) &&
-                    $from > time() &&
-                    in_array($obj_id, array_keys($valid_ids))) {
+                if (array_key_exists($obj_id, $valid_ids) && $from > time() && ($this->checkPermissionBool("write") || $user_id === $ilUser->getId())) {
                     $rsv_ids = ilBookingReservation::getCancelDetails($obj_id, $user_id, $from, $to);
-                    if (!sizeof($rsv_ids)) {
+                    if (!count($rsv_ids)) {
                         unset($ids[$idx]);
                     }
-                    if (sizeof($rsv_ids) > 1) {
-                        $max[$id] = sizeof($rsv_ids);
+                    if (count($rsv_ids) > 1) {
+                        $max[$id] = count($rsv_ids);
                         $ids[$idx] = $rsv_ids;
                     } else {
                         // only 1 in group?  treat as normal reservation
@@ -337,12 +335,12 @@ class ilBookingReservationsGUI
             }
         }
 
-        if (!is_array($ids) || !sizeof($ids)) {
+        if (!is_array($ids) || !count($ids)) {
             $this->ctrl->redirect($this, 'log');
         }
 
         // show form instead
-        if (sizeof($max) && max($max) > 1) {
+        if (count($max) && max($max) > 1) {
             $this->rsvConfirmCancelAggregation($ids);
             return;
         }
@@ -366,7 +364,7 @@ class ilBookingReservationsGUI
             $obj = new ilBookingObject($rsv->getObjectId());
 
             $details = $obj->getTitle();
-            if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE) {
+            if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_NO_SCHEDULE) {
                 $details .= ", " . ilDatePresentation::formatPeriod(
                     new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
                     new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
@@ -434,7 +432,7 @@ class ilBookingReservationsGUI
 
             // #17869
             if (is_array($ids)) {
-                $caption .= " (" . sizeof($ids) . ")";
+                $caption .= " (" . count($ids) . ")";
             }
 
             $item = new ilNumberInputGUI($caption, "rsv_id_" . $idx);
@@ -444,7 +442,7 @@ class ilBookingReservationsGUI
             $form->addItem($item);
 
             if (is_array($ids)) {
-                $item->setMaxValue(sizeof($ids));
+                $item->setMaxValue(count($ids));
 
                 foreach ($ids as $id) {
                     $hidden = new ilHiddenInputGUI("rsv_aggr[" . $idx . "][]");
@@ -518,7 +516,7 @@ class ilBookingReservationsGUI
                 $res = new ilBookingReservation($id);
 
                 // either write permission or own booking
-                $cancel_allowed_per_read = ($this->checkPermissionBool("read") && ($res->getUserId() == $ilUser->getId()));
+                $cancel_allowed_per_read = ($this->checkPermissionBool("read") && ($res->getUserId() === $ilUser->getId()));
                 $cancel_allowed_per_write = ($this->checkPermissionBool("write"));
                 if (!$cancel_allowed_per_read && !$cancel_allowed_per_write) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -528,7 +526,7 @@ class ilBookingReservationsGUI
                 $res->setStatus(ilBookingReservation::STATUS_CANCELLED);
                 $res->update();
 
-                if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE) {
+                if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_NO_SCHEDULE) {
                     // remove user calendar entry (#11086)
                     $cal_entry_id = $res->getCalendarEntry();
                     if ($cal_entry_id) {
@@ -563,13 +561,13 @@ class ilBookingReservationsGUI
         $conf->setConfirm($this->lng->txt('book_set_delete'), 'rsvDelete');
         $conf->setCancel($this->lng->txt('cancel'), 'log');
 
-        list($obj_id, $user_id, $from, $to) = explode("_", $DIC->http()->request()->getQueryParams()['reservation_id']);
+        [$obj_id, $user_id, $from, $to] = explode("_", $DIC->http()->request()->getQueryParams()['reservation_id']);
         $ids = ilBookingReservation::getCancelDetails($obj_id, $user_id, $from, $to);
         $rsv = new ilBookingReservation($ids[0]);
         $obj = new ilBookingObject($rsv->getObjectId());
 
         $details = sprintf($this->lng->txt('X_reservations_of'), count($ids)) . ' ' . $obj->getTitle();
-        if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE) {
+        if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_NO_SCHEDULE) {
             $details .= ", " . ilDatePresentation::formatPeriod(
                 new ilDateTime($rsv->getFrom(), IL_CAL_UNIX),
                 new ilDateTime($rsv->getTo() + 1, IL_CAL_UNIX)
@@ -588,11 +586,11 @@ class ilBookingReservationsGUI
             foreach (explode(',', $get) as $id) {
                 $res = new ilBookingReservation($id);
                 $obj = new ilBookingObject($res->getObjectId());
-                if ($obj->getPoolId() != $this->pool->getId() || !$this->checkPermissionBool("write")) {
+                if (!$this->checkPermissionBool("write") || $obj->getPoolId() !== $this->pool->getId()) {
                     $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
                     $this->ctrl->redirect($this, 'log');
                 }
-                if ($this->pool->getScheduleType() != ilObjBookingPool::TYPE_NO_SCHEDULE) {
+                if ($this->pool->getScheduleType() !== ilObjBookingPool::TYPE_NO_SCHEDULE) {
                     $cal_entry_id = $res->getCalendarEntry();
                     if ($cal_entry_id) {
                         $entry = new ilCalendarEntry($cal_entry_id);

@@ -1,17 +1,21 @@
 <?php
 
-/**
+/******************************************************************************
+ *
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
+ *     https://www.ilias.de
+ *     https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 
 /**
  * List booking objects (for booking type)
@@ -28,7 +32,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
     protected bool $has_schedule;
     protected bool $may_edit;
     protected bool $may_assign;
-    protected ?int $overall_limit;
+    protected ?int $overall_limit = null;
     protected array $reservations = array();
     protected int $current_bookings;
     protected array $advmd;
@@ -37,22 +41,13 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
     protected bool $active_management;
     protected \ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     * Constructor
-     * @param	object	$a_parent_obj
-     * @param	string	$a_parent_cmd
-     * @param	int		$a_ref_id
-     * @param	int		$a_pool_id
-     * @param	bool	$a_pool_has_schedule
-     * @param	int		$a_pool_overall_limit
-     */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_ref_id,
-        $a_pool_id,
-        $a_pool_has_schedule,
-        $a_pool_overall_limit,
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_ref_id,
+        int $a_pool_id,
+        bool $a_pool_has_schedule,
+        ?int $a_pool_overall_limit,
         bool $active_management = true
     ) {
         global $DIC;
@@ -129,8 +124,10 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             false,
             $lng->txt("title") . "/" . $lng->txt("description")
         );
-        $this->filter["title"] = $title->getValue();
-        
+        if ($title !== null) {
+            $this->filter["title"] = $title->getValue();
+        }
+
         // #18651
         if ($this->has_schedule) {
             // booking period
@@ -140,7 +137,9 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                 false,
                 $lng->txt("book_period")
             );
-            $this->filter["period"] = $period->getValue();
+            if ($period !== null) {
+                $this->filter["period"] = $period->getValue();
+            }
         }
     }
     
@@ -248,15 +247,15 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             );
         }
         
-        $this->setMaxCount(sizeof($data));
+        $this->setMaxCount(count($data));
         $this->setData($data);
     }
     
     public function numericOrdering(string $a_field) : bool
     {
-        if (substr($a_field, 0, 3) == "md_") {
+        if (str_starts_with($a_field, "md_")) {
             $md_id = (int) substr($a_field, 3);
-            if ($this->advmd[$md_id]["type"] == ilAdvancedMDFieldDefinition::TYPE_DATE) {
+            if ($this->advmd[$md_id]["type"] === ilAdvancedMDFieldDefinition::TYPE_DATE) {
                 return true;
             }
         }
@@ -297,7 +296,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         
-        if (in_array("description", $selected)) {
+        if (in_array("description", $selected, true)) {
             $this->tpl->setVariable("TXT_DESC", nl2br($a_set["description"]));
         }
         
@@ -364,7 +363,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         
         // #16663
         if (!$this->has_schedule && $has_booking) {
-            if (trim($a_set['post_text']) || $a_set['post_file']) {
+            if ($a_set['post_file'] || trim($a_set['post_text'])) {
                 $items[] = $this->ui_factory->button()->shy(
                     $lng->txt('book_post_booking_information'),
                     $ilCtrl->getLinkTargetByClass("ilbookingprocessgui", 'displayPostInfo')
@@ -429,8 +428,9 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                 }
                                 
                 $val = " ";
-                if (isset($a_set["md_" . $advmd_id . "_presentation"])) {
-                    $pb = $a_set["md_" . $advmd_id . "_presentation"]->getList();
+                $key = "md_" . $advmd_id . "_presentation";
+                if (isset($a_set[$key])) {
+                    $pb = $a_set[$key]->getList();
                     if ($pb) {
                         $val = $pb;
                     }
@@ -442,7 +442,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
             }
         }
 
-        if (sizeof($items)) {
+        if (count($items)) {
             $actions_dropdown = $this->ui_factory->dropdown()->standard($items)->withLabel($this->lng->txt('actions'));
             $this->tpl->setVariable("ACTION_DROPDOWN", $this->ui_renderer->render($actions_dropdown));
         }

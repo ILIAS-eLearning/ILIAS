@@ -34,7 +34,7 @@ class TableGUIRequestTest extends TestCase
         );
     }
 
-    public function testTableId()
+    public function testTableId() : void
     {
         $request = $this->getRequest(
             [
@@ -49,7 +49,7 @@ class TableGUIRequestTest extends TestCase
         );
     }
 
-    public function testRows()
+    public function testRows() : void
     {
         $request = $this->getRequest(
             [

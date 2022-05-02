@@ -70,8 +70,6 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     protected function writePostData(bool $always = false) : int
     {
         $form = $this->buildEditForm();
-        $hasErrors = (!$always) ? $this->editQuestion($this->buildEditForm()) : false;
-
         $form->setValuesByPost();
 
         if (!$always && !$form->checkInput()) {
@@ -162,7 +160,6 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         $this->getQuestionTemplate();
-        $this->tpl->addCss('Modules/Test/templates/default/ta.css');
 
         $this->tpl->setVariable('QUESTION_DATA', $this->ctrl->getHTML($form));
     }
@@ -267,13 +264,15 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $editorTpl = new ilTemplate('tpl.il_as_qpl_imagemap_question.html', true, true, 'Modules/TestQuestionPool');
 
         $coords = array();
-        if (is_array($_POST['image']['mapcoords'])) {
-            foreach ($_POST['image']['mapcoords'] as $value) {
+        $mapcoords = $this->request->raw('image');
+        if ($mapcoords != null && is_array($mapcoords['mapcoords'])) {
+            foreach ($mapcoords['mapcoords'] as $value) {
                 array_push($coords, $value);
             }
         }
-        if (is_array($_POST['cmd']['areaEditor']['image'])) {
-            array_push($coords, $_POST['cmd']['areaEditor']['image'][0] . "," . $_POST['cmd']['areaEditor']['image'][1]);
+        $cmd = $this->request->raw('cmd');
+        if ($cmd != null && array_key_exists('areaEditor', $cmd) && is_array($cmd['areaEditor']['image'])) {
+            array_push($coords, $cmd['areaEditor']['image'][0] . "," . $cmd['areaEditor']['image'][1]);
         }
         foreach ($coords as $value) {
             $editorTpl->setCurrentBlock("hidden");
@@ -795,7 +794,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
                 // edit page
                 $ilTabs->addTarget(
@@ -843,7 +842,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->addTab_SuggestedSolution($ilTabs, $classname);
 
         // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             $ilTabs->addTarget(
                 "statistics",
                 $this->ctrl->getLinkTargetByClass($classname, "assessment"),

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Media pool object
@@ -231,69 +234,6 @@ class ilObjMediaPool extends ilObject
 
         return $this->mep_tree->getFilteredChilds(array("fold", "dummy"), $obj_id);
     }
-
-    /**
-     * Get media objects by filter
-     */
-    public function getMediaObjects(
-        string $a_title_filter = "",
-        string $a_format_filter = "",
-        string $a_keyword_filter = '',
-        string $a_caption_filter = ""
-    ) : array {
-        $ilDB = $this->db;
-
-        $query = "SELECT DISTINCT mep_tree.*, object_data.* " .
-            "FROM mep_tree JOIN mep_item ON (mep_tree.child = mep_item.obj_id) " .
-            " JOIN object_data ON (mep_item.foreign_id = object_data.obj_id) ";
-            
-        if ($a_format_filter !== "" || $a_caption_filter !== '') {
-            $query .= " JOIN media_item ON (media_item.mob_id = object_data.obj_id) ";
-        }
-            
-        $query .=
-            " WHERE mep_tree.mep_id = " . $ilDB->quote($this->getId(), "integer") .
-            " AND object_data.type = " . $ilDB->quote("mob", "text");
-            
-        // filter
-        if (trim($a_title_filter) !== "") {	// title
-            $query .= " AND " . $ilDB->like("object_data.title", "text", "%" . trim($a_title_filter) . "%");
-        }
-        if ($a_format_filter !== "") {			// format
-            $filter = ($a_format_filter === "unknown")
-                ? ""
-                : $a_format_filter;
-            $query .= " AND " . $ilDB->equals("media_item.format", $filter, "text", true);
-        }
-        if (trim($a_caption_filter)) {
-            $query .= 'AND ' . $ilDB->like('media_item.caption', 'text', '%' . trim($a_caption_filter) . '%');
-        }
-            
-        $query .=
-            " ORDER BY object_data.title";
-        
-        $objs = array();
-        $set = $ilDB->query($query);
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $rec["foreign_id"] = $rec["obj_id"];
-            $rec["obj_id"] = "";
-            $objs[] = $rec;
-        }
-        
-        // Keyword filter
-        if ($a_keyword_filter) {
-            $res = ilMDKeyword::_searchKeywords($a_keyword_filter, 'mob', 0);
-            $filtered = [];
-            foreach ($objs as $obj) {
-                if (in_array($obj['foreign_id'], $res)) {
-                    $filtered[] = $obj;
-                }
-            }
-            return $filtered;
-        }
-        return $objs;
-    }
-
 
     /**
      * @param int $a_id media pool id

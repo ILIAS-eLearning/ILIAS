@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class ilObjLanguageFolderGUI
@@ -18,15 +20,21 @@ require_once "./Services/Object/classes/class.ilObjectGUI.php";
 
 class ilObjLanguageFolderGUI extends ilObjectGUI
 {
+    protected HTTPServices $http;
+    protected Refinery $refinery;
+    
     /**
      * Constructor
      */
     public function __construct(?array $a_data, int $a_id, bool $a_call_by_reference)
     {
+        global $DIC;
         $this->type = "lngf";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
         //$_GET["sort_by"] = "language";
         $this->lng->loadLanguageModule("lng");
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
 
     /**
@@ -83,12 +91,8 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->checkPermission("write");
         $this->lng->loadLanguageModule("meta");
 
-        if (!isset($_POST["id"])) {
-            $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
-        }
-
-        foreach ($_POST["id"] as $obj_id) {
-            $langObj = new ilObjLanguage($obj_id);
+        foreach ($this->getPostId() as $obj_id) {
+            $langObj = new ilObjLanguage((int) $obj_id);
             $key = $langObj->install();
 
             if ($key !== "") {
@@ -124,11 +128,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->checkPermission("write");
         $this->lng->loadLanguageModule("meta");
 
-        if (!isset($_POST["id"])) {
-            $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
-        }
-
-        foreach ($_POST["id"] as $obj_id) {
+        foreach ($this->getPostId() as $obj_id) {
             $langObj = new ilObjLanguage($obj_id);
             $key = $langObj->install();
 
@@ -186,15 +186,11 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->checkPermission('write');
         $this->lng->loadLanguageModule("meta");
 
-        if (!isset($_POST["id"])) {
-            $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
-        }
-
         $sys_lang = false;
         $usr_lang = false;
 
         // uninstall all selected languages
-        foreach ($_POST["id"] as $obj_id) {
+        foreach ($this->getPostId() as $obj_id) {
             $langObj = new ilObjLanguage($obj_id);
             if (!($sys_lang = $langObj->isSystemLanguage()) && !($usr_lang = $langObj->isUserLanguage())) {
                 $key = $langObj->uninstall();
@@ -239,7 +235,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->data = $this->lng->txt("selected_languages_updated");
         $this->lng->loadLanguageModule("meta");
 
-        foreach ($_POST["id"] as $id) {
+        foreach ($this->getPostId() as $id) {
             $langObj = new ilObjLanguage((int) $id, false);
 
             if ($langObj->isInstalled()) {
@@ -282,7 +278,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->lng->loadLanguageModule("meta");
 
         $refreshed = array();
-        foreach ($_POST["id"] as $id) {
+        foreach ($this->getPostId() as $id) {
             $langObj = new ilObjLanguage((int) $id, false);
             if ($langObj->refresh()) {
                 $refreshed[] = $langObj->getKey();
@@ -308,15 +304,13 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
         require_once "./Services/User/classes/class.ilObjUser.php";
 
-        if (!isset($_POST["id"])) {
-            $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
-        }
+        $post_id = $this->getPostId();
 
-        if (count($_POST["id"]) !== 1) {
+        if (count($post_id) !== 1) {
             $this->ilias->raiseError($this->lng->txt("choose_only_one_language") . "<br/>" . $this->lng->txt("action_aborted"), $this->ilias->error_obj->MESSAGE);
         }
 
-        $obj_id = $_POST["id"][0];
+        $obj_id = $post_id[0];
 
         $newUserLangObj = new ilObjLanguage($obj_id);
 
@@ -346,15 +340,13 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->checkPermission("write");
         $this->lng->loadLanguageModule("meta");
 
-        if (!isset($_POST["id"])) {
-            $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
-        }
+        $post_id = $this->getPostId();
 
-        if (count($_POST["id"]) !== 1) {
+        if (count($post_id) !== 1) {
             $this->ilias->raiseError($this->lng->txt("choose_only_one_language") . "<br/>" . $this->lng->txt("action_aborted"), $this->ilias->error_obj->MESSAGE);
         }
 
-        $obj_id = $_POST["id"][0];
+        $obj_id = $post_id[0];
 
         $newSysLangObj = new ilObjLanguage($obj_id);
 
@@ -470,13 +462,12 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         if (!empty($a_ids)) {
             $ids = $a_ids;
             $header = $this->lng->txt("lang_refresh_confirm");
-        } elseif (!empty($_POST["id"])) {
-            $ids = $_POST["id"];
+        } elseif (!empty($post_id = $this->getPostId())) {
+            $ids = $post_id;
             $header = $this->lng->txt("lang_refresh_confirm_selected");
         } else {
             $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
         }
-
 
         $conf_screen = new ilConfirmationGUI();
         $some_changed = false;
@@ -489,7 +480,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
                 $lang_title .= " (" . $this->lng->txt("last_change") . " "
                     . ilDatePresentation::formatDate(new ilDateTime($last_change, IL_CAL_DATETIME)) . ")";
             }
-            $conf_screen->addItem("id[]", $id, $lang_title);
+            $conf_screen->addItem("id[]", (string) $id, $lang_title);
         }
 
         $conf_screen->setFormAction($this->ctrl->getFormAction($this));
@@ -506,17 +497,13 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     {
         $this->checkPermission("write");
 
-        if (!isset($_POST["id"])) {
-            $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
-        }
-
         $this->lng->loadLanguageModule("meta");
         $conf_screen = new ilConfirmationGUI();
         $conf_screen->setFormAction($this->ctrl->getFormAction($this));
         $conf_screen->setHeaderText($this->lng->txt("lang_uninstall_confirm"));
-        foreach ($_POST["id"] as $id) {
+        foreach ($this->getPostId() as $id) {
             $lang_title = ilObject::_lookupTitle($id);
-            $conf_screen->addItem("id[]", $id, $this->lng->txt("meta_l_" . $lang_title));
+            $conf_screen->addItem("id[]", (string) $id, $this->lng->txt("meta_l_" . $lang_title));
         }
         $conf_screen->setCancel($this->lng->txt("cancel"), "view");
         $conf_screen->setConfirm($this->lng->txt("ok"), "uninstall");
@@ -527,17 +514,13 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     {
         $this->checkPermission('write');
 
-        if (!isset($_POST["id"])) {
-            $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
-        }
-
         $this->lng->loadLanguageModule("meta");
         $conf_screen = new ilConfirmationGUI();
         $conf_screen->setFormAction($this->ctrl->getFormAction($this));
         $conf_screen->setHeaderText($this->lng->txt("lang_uninstall_changes_confirm"));
-        foreach ($_POST["id"] as $id) {
+        foreach ($this->getPostId() as $id) {
             $lang_title = ilObject::_lookupTitle($id);
-            $conf_screen->addItem("id[]", $id, $this->lng->txt("meta_l_" . $lang_title));
+            $conf_screen->addItem("id[]", (string) $id, $this->lng->txt("meta_l_" . $lang_title));
         }
         $conf_screen->setCancel($this->lng->txt("cancel"), "view");
         $conf_screen->setConfirm($this->lng->txt("ok"), "uninstallChanges");
@@ -615,5 +598,25 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         }
 
         ilUtil::deliverData($res, "lang_deprecated.csv");
+    }
+    
+    /**
+     * @return int[]|mixed
+     */
+    private function getPostId()
+    {
+        $post_field = [];
+        if ($this->http->wrapper()->post()->has("id")) {
+            $post_field = $this->http->wrapper()->post()->retrieve(
+                "id",
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        if ($post_field == null) {
+            $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
+        }
+        return $post_field;
     }
 } // END class.ilObjLanguageFolderGUI

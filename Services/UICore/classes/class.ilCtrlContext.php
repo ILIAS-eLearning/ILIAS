@@ -87,10 +87,10 @@ class ilCtrlContext implements ilCtrlContextInterface
      */
     public function __construct(ilCtrlPathFactory $path_factory, RequestWrapper $request_wrapper, Refinery $refinery)
     {
-        $this->path_factory    = $path_factory;
-        $this->path            = $path_factory->null();
+        $this->path_factory = $path_factory;
+        $this->path = $path_factory->null();
         $this->request_wrapper = $request_wrapper;
-        $this->refinery        = $refinery;
+        $this->refinery = $refinery;
 
         $this->adoptRequestParameters();
     }
@@ -271,7 +271,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     {
         $this->redirect = $this->getQueryParam(ilCtrlInterface::PARAM_REDIRECT);
         $this->cmd_mode = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_MODE);
-        $this->cmd      = $this->getQueryParam(ilCtrlInterface::PARAM_CMD);
+        $this->cmd = $this->getQueryParam(ilCtrlInterface::PARAM_CMD);
 
         // the context is considered asynchronous if
         // the command mode is 'async'.

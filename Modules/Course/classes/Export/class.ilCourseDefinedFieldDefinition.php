@@ -1,26 +1,20 @@
 <?php
-/*
-    +-----------------------------------------------------------------------------+
-    | ILIAS open source                                                           |
-    +-----------------------------------------------------------------------------+
-    | Copyright (c) 1998-2006 ILIAS open source, University of Cologne            |
-    |                                                                             |
-    | This program is free software; you can redistribute it and/or               |
-    | modify it under the terms of the GNU General Public License                 |
-    | as published by the Free Software Foundation; either version 2              |
-    | of the License, or (at your option) any later version.                      |
-    |                                                                             |
-    | This program is distributed in the hope that it will be useful,             |
-    | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
-    | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
-    | GNU General Public License for more details.                                |
-    |                                                                             |
-    | You should have received a copy of the GNU General Public License           |
-    | along with this program; if not, write to the Free Software                 |
-    | Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
-    +-----------------------------------------------------------------------------+
-*/
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * @author  Stefan Meyer <meyer@leifos.com>
  * @version $Id$
@@ -59,7 +53,7 @@ class ilCourseDefinedFieldDefinition
         }
     }
 
-    public static function _clone(int $a_source_id, int $a_target_id)
+    public static function _clone(int $a_source_id, int $a_target_id) : void
     {
         foreach (ilCourseDefinedFieldDefinition::_getFields($a_source_id) as $field_obj) {
             $cdf = new ilCourseDefinedFieldDefinition($a_target_id);
@@ -110,6 +104,7 @@ class ilCourseDefinedFieldDefinition
 
     /**
      * Get required filed id's
+     * @return int[]
      */
     public static function _getRequiredFieldIds(int $a_obj_id) : array
     {
@@ -143,6 +138,9 @@ class ilCourseDefinedFieldDefinition
         return implode('<br />', $fields);
     }
 
+    /**
+     * @return int[]
+     */
     public static function _getFieldIds(int $a_container_id, string $a_sort = self::IL_CDF_SORT_ID) : array
     {
         global $DIC;
@@ -262,11 +260,7 @@ class ilCourseDefinedFieldDefinition
     public function prepareValues(array $a_values) : array
     {
         $tmp_values = [];
-        foreach ($a_values as $idx => $value) {
-            if (strlen($value)) {
-                $tmp_values[$idx] = $value;
-            }
-        }
+        $tmp_values = array_filter($a_values, 'strlen');
         return $tmp_values;
     }
 
@@ -307,7 +301,7 @@ class ilCourseDefinedFieldDefinition
         $res = $this->db->manipulate($query);
     }
 
-    public function delete()
+    public function delete() : void
     {
         ilCourseUserData::_deleteByField($this->getId());
         $query = "DELETE FROM crs_f_definitions " .
@@ -315,7 +309,7 @@ class ilCourseDefinedFieldDefinition
         $res = $this->db->manipulate($query);
     }
 
-    private function read()
+    private function read() : void
     {
         $query = "SELECT * FROM crs_f_definitions " .
             "WHERE field_id = " . $this->db->quote($this->getId(), 'integer') . " " .

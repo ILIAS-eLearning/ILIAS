@@ -37,5 +37,4 @@ class ilObjCalendarSettings extends ilObject
         $this->type = "cals";
         parent::__construct($a_id, $a_call_by_reference);
     }
-
 } // END class.ilObjCalendarSettings

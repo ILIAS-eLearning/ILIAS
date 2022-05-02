@@ -101,17 +101,15 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
 
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
+            $foundvalues = ilArrayUtil::stripSlashesRecursive(
                 $_POST[$this->getPostVar()],
                 false,
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
             );
+        } else {
+            $foundvalues = $_POST[$this->getPostVar()];
         }
-        
-        $foundvalues = $_POST[$this->getPostVar()];
-        
-        #vd($foundvalues);
-        
+
         if (is_array($foundvalues)) {
             // check answers
             if (is_array($foundvalues['answer'])) {
@@ -187,7 +185,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 $tpl->setCurrentBlock("prop_text_propval");
                 $tpl->setVariable(
                     "PROPERTY_VALUE",
-                    ilLegacyFormElementsUtil::prepareFormOutput($value->getAnswertext())
+                    ilLegacyFormElementsUtil::prepareFormOutput((string) $value->getAnswertext())
                 );
                 $tpl->parseCurrentBlock();
 

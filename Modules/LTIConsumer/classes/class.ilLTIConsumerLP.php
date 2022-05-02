@@ -39,9 +39,6 @@ class ilLTIConsumerLP extends ilObjectLP
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
     
-    /**
-     * @return array
-     */
     public function getValidModes() : array
     {
         return array(

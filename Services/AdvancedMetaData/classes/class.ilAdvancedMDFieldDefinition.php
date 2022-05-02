@@ -1,7 +1,20 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/ADT/classes/class.ilADTFactory.php";
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * AMD field abstract base class
@@ -39,13 +52,18 @@ abstract class ilAdvancedMDFieldDefinition
     protected ilDBInterface $db;
     protected ilLanguage $lng;
     protected ilLogger $logger;
+    protected GlobalHttpState $http;
+    protected RefineryFactory $refinery;
 
     public function __construct(?int $a_field_id = null, string $language = '')
     {
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->language = (string) $DIC->language()->getLangKey();
+        $this->language = $DIC->language()->getLangKey();
+        $this->refinery = $DIC->refinery();
+        $this->http = $DIC->http();
+
 
         if ($language) {
             $this->language = $language;
@@ -169,7 +187,7 @@ abstract class ilAdvancedMDFieldDefinition
             " JOIN adv_md_record amr ON aro.record_id = amr.record_id" .
             " JOIN adv_mdf_definition amf ON aro.record_id = amf.record_id" .
             " WHERE obj_type = " . $ilDB->quote($a_obj_type, 'text');
-        if ((bool) $a_active_only) {
+        if ($a_active_only) {
             $query .= " AND active = " . $ilDB->quote(1, "integer");
         }
         $query .= " ORDER BY aro.record_id,position";
@@ -273,7 +291,7 @@ abstract class ilAdvancedMDFieldDefinition
 
     public static function isValidType(int $a_type) : bool
     {
-        return in_array((int) $a_type, self::getValidTypes());
+        return in_array($a_type, self::getValidTypes());
     }
 
     /**
@@ -366,7 +384,7 @@ abstract class ilAdvancedMDFieldDefinition
      */
     protected function setFieldId(int $a_id) : void
     {
-        $this->field_id = (int) $a_id;
+        $this->field_id = $a_id;
     }
 
     /**
@@ -382,7 +400,7 @@ abstract class ilAdvancedMDFieldDefinition
      */
     public function setRecordId(int $a_id) : void
     {
-        $this->record_id = (int) $a_id;
+        $this->record_id = $a_id;
     }
 
     /**
@@ -417,7 +435,7 @@ abstract class ilAdvancedMDFieldDefinition
      */
     public function setPosition(int $a_pos) : void
     {
-        $this->position = (int) $a_pos;
+        $this->position = $a_pos;
     }
 
     /**
@@ -507,7 +525,7 @@ abstract class ilAdvancedMDFieldDefinition
      */
     public function setRequired(bool $a_status) : void
     {
-        $this->required = (bool) $a_status;
+        $this->required = $a_status;
     }
 
     /**
@@ -876,8 +894,12 @@ abstract class ilAdvancedMDFieldDefinition
         $a_writer->xmlStartTag('FieldTranslations');
         foreach ($translations->getTranslations($this->getFieldId()) as $translation) {
             $a_writer->xmlStartTag('FieldTranslation', ['language' => $translation->getLangKey()]);
-            $a_writer->xmlElement('FieldTranslationTitle', [], (string) $translation->getTitle());
-            $a_writer->xmlElement('FieldTranslationDescription', [], (string) $translation->getDescription());
+            $a_writer->xmlElement('FieldTranslationTitle', [],
+                                  $translation->getTitle()
+            );
+            $a_writer->xmlElement('FieldTranslationDescription', [],
+                                  $translation->getDescription()
+            );
             $a_writer->xmlEndTag('FieldTranslation');
         }
         $a_writer->xmlEndTag('FieldTranslations');
@@ -952,7 +974,6 @@ abstract class ilAdvancedMDFieldDefinition
     public function setSearchValueSerialized(ilADTSearchBridge $a_adt_search, $a_value) : void
     {
         $a_adt_search->setSerializedValue($a_value);
-        return;
     }
 
     /**
@@ -990,8 +1011,12 @@ abstract class ilAdvancedMDFieldDefinition
 
         $condition = $a_adt_search->getSQLCondition($element_id);
         if ($condition) {
-            $objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(),
-                $condition);
+            $objects = ilADTActiveRecordByType::find(
+                "adv_md_values",
+                $this->getADT()->getType(),
+                $this->getFieldId(),
+                $condition
+            );
             if (sizeof($objects)) {
                 $res = array();
                 foreach ($objects as $item) {
@@ -1020,8 +1045,13 @@ abstract class ilAdvancedMDFieldDefinition
         // search type only supported/needed for text
         $condition = $a_adt_search->getSQLCondition(ilADTActiveRecordByType::SINGLE_COLUMN_NAME);
         if ($condition) {
-            $objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(),
-                $condition, $a_locate);
+            $objects = ilADTActiveRecordByType::find(
+                "adv_md_values",
+                $this->getADT()->getType(),
+                $this->getFieldId(),
+                $condition,
+                $a_locate
+            );
             if (sizeof($objects)) {
                 return $this->parseSearchObjects($objects, $a_object_types);
             }
@@ -1060,7 +1090,7 @@ abstract class ilAdvancedMDFieldDefinition
         $obj->setRequired($this->isRequired());
         $obj->setPosition($this->getPosition());
         $obj->setSearchable($this->isSearchable());
-        $obj->importFieldDefinition((array) $this->getFieldDefinition());
+        $obj->importFieldDefinition($this->getFieldDefinition());
         $obj->save(true);
 
         return $obj;

@@ -24,7 +24,7 @@ class BlockSessionRepositoryTest extends TestCase
     /**
      * Test parent set/get
      */
-    public function testParent()
+    public function testParent() : void
     {
         $repo = $this->repo;
         $repo->setNavPar("one", "test");

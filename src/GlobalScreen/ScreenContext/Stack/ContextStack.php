@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\ScreenContext\Stack;
 
 use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
+use LogicException;
 
 /******************************************************************************
  *
@@ -33,7 +34,7 @@ class ContextStack
     public function push(ScreenContext $context) : void
     {
         if (in_array($context, $this->stack)) {
-            throw new \LogicException("A context can only be claimed once");
+            throw new LogicException("A context can only be claimed once");
         }
         $this->stack[] = $context;
     }

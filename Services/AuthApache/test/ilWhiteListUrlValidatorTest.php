@@ -68,6 +68,6 @@ class ilWhiteListUrlValidatorTest extends TestCase
      */
     public function testValidator(string $domain, array $whitelist, bool $result) : void
     {
-        $this->assertEquals((new ilWhiteListUrlValidator($domain, $whitelist))->isValid(), $result);
+        $this->assertSame((new ilWhiteListUrlValidator($domain, $whitelist))->isValid(), $result);
     }
 }

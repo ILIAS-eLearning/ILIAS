@@ -37,7 +37,7 @@ class ilAdvancedMDRecordExportFilesTableGUI extends ilTable2GUI
     public function __construct($a_parent_obj, $a_parent_cmd = '')
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->addColumn('', 'f', 1);
+        $this->addColumn('', 'f', '1');
         $this->addColumn($this->lng->txt('md_adv_records'), 'records', "33%");
         $this->addColumn($this->lng->txt('date'), 'date', "33%");
         $this->addColumn($this->lng->txt('filesize'), 'file_size', "33%");

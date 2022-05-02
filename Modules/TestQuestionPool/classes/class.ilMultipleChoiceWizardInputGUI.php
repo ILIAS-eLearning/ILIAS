@@ -40,15 +40,21 @@ class ilMultipleChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         global $DIC;
         $lng = $DIC['lng'];
         
-        include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
-        if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
-                $_POST[$this->getPostVar()],
-                false,
-                ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
-            );
+        $post_var = $this->getPostVar();
+        if (!$this->post_wrapper->has($post_var)) {
+            return false;
         }
-        $foundvalues = $_POST[$this->getPostVar()];
+
+        $values = $this->post_wrapper->retrieve($post_var, $this->refinery->custom()->transformation(fn ($v) => $v));
+        
+        $values = ilArrayUtil::stripSlashesRecursive( //TODO: move into transform
+            $values,
+            false,
+            ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
+        );
+
+        $foundvalues = $values;
+        
         if (is_array($foundvalues)) {
             // check answers
             if (is_array($foundvalues['answer'])) {

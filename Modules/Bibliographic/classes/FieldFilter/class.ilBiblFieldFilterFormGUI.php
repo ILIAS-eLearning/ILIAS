@@ -1,11 +1,26 @@
 <?php
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilBiblFieldFilterFormGUI
  *
  * @author Benjamin Seglias   <bs@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-
 class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
@@ -18,10 +33,6 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
 
     /**
      * ilBiblFieldFilterFormGUI constructor.
-     *
-     * @param \ilBiblFieldFilterGUI       $parent_gui
-     * @param \ilBiblFieldFilterInterface $field_filter
-     * @param \ilBiblFactoryFacade        $facade
      */
     public function __construct(ilBiblFieldFilterGUI $parent_gui, ilBiblFieldFilterInterface $field_filter, ilBiblFactoryFacade $facade)
     {
@@ -41,7 +52,7 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
     }
 
 
-    public function initForm(): void
+    public function initForm() : void
     {
         $this->setTarget('_top');
 
@@ -105,14 +116,14 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
     }
 
 
-    public function fillForm(): void
+    public function fillForm() : void
     {
         $array = array(self::F_FIELD_ID => $this->filter->getFieldId(), self::F_FILTER_TYPE => $this->filter->getFilterType(),);
         $this->setValuesByArray($array);
     }
 
 
-    protected function fillObject(): bool
+    protected function fillObject() : bool
     {
         if (!$this->checkInput()) {
             return false;
@@ -131,20 +142,13 @@ class ilBiblFieldFilterFormGUI extends ilPropertyFormGUI
     }
 
 
-    /**
-     * @return bool|string
-     */
-    public function saveObject(): bool
+    public function saveObject() : bool
     {
-        if (!$this->fillObject()) {
-            return false;
-        }
-
-        return true;
+        return $this->fillObject();
     }
 
 
-    protected function initButtons(): void
+    protected function initButtons() : void
     {
         if ($this->filter->getId()) {
             $this->addCommandButton(ilBiblFieldFilterGUI::CMD_UPDATE, $this->lng()->txt('save'));

@@ -126,7 +126,6 @@ class ilPageContentUsage
                 "id" => $rec["pc_id"]
             );
         }
-
         return $usages;
     }
 }

@@ -13,7 +13,7 @@
  */
 class ilPDCalendarBlockGUI extends ilCalendarBlockGUI
 {
-    public static $block_type = "pdcal";
+    public static string $block_type = "pdcal";
     protected bool $initialized = false;
 
     /**

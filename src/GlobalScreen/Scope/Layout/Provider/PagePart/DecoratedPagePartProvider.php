@@ -33,7 +33,7 @@ class DecoratedPagePartProvider implements PagePartProvider
 
     private PagePartProvider $original;
     private Closure $deco;
-    private string $purpose = '';
+    private string $purpose;
     
     /**
      * DecoratedPagePartProvider constructor.

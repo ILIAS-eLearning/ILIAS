@@ -128,6 +128,9 @@ with the il- variable set here.
 @il-padding-large-vertical: 6px;
 @il-padding-large-horizontal: 12px;
 
+@il-padding-xlarge-vertical: 9px;
+@il-padding-xlarge-horizontal: 15px;
+
 @il-padding-small-vertical: 4px;
 @il-padding-small-horizontal: 6px;
 
@@ -140,6 +143,9 @@ with the il- variable set here.
 
 @il-margin-large-vertical: @il-padding-large-vertical;
 @il-margin-large-horizontal: @il-padding-large-horizontal;
+
+@il-margin-xlarge-vertical: @il-padding-xlarge-vertical;
+@il-margin-xlarge-horizontal: @il-padding-xlarge-horizontal;
 
 @il-margin-small-vertical: @il-padding-small-vertical;
 @il-margin-small-horizontal: @il-padding-small-horizontal;
@@ -167,6 +173,7 @@ with the il- variable set here.
 @il-standard-page-logo-width: 45px;
 @il-standard-page-header-height: 60px;
 @il-standard-page-header-bg-color: @il-main-bg;
+@il-standard-page-header-page-title-color: @il-text-color;
 @il-standard-page-border-light-color: @il-main-border-color;
 @il-standard-page-content-padding: 20px;
 
@@ -591,6 +598,7 @@ with the il- variable set here.
 @il-item-divider-margin: 0 0 10px 0;
 @il-item-divider-border-bottom: dashed 0.5px @il-main-border-color;
 @il-item-description-padding: 10px 0 0 0;
+@il-item-audio-padding: @padding-large-vertical 0;
 @il-item-padding: @padding-large-horizontal;
 @il-item-marker-border-left: 5px solid;
 @il-item-h5-margin: 4px 0px 2px 0px;
@@ -755,7 +763,7 @@ with the il- variable set here.
 @il-card-border: 1px solid @il-main-border-color;
 @il-card-background: @il-main-bg;
 @il-card-highlight-bg: @il-warning-color;
-@il-card-highlight-height: @padding-large-vertical;
+@il-card-highlight-height: @il-padding-large-vertical;
 @il-card-list-key-color: @il-text-light-color;
 @il-card-repository-head-color: rgba(0, 0, 0, 0.5);
 @il-card-repository-dropdown-border: @il-main-border-color 1px solid;
@@ -763,6 +771,7 @@ with the il- variable set here.
 @il-card-repository-outlined-disabled-icon-filter: @il-card-repository-outlined-icon-filter;
 //** Sets the maximum width of cards in small screens
 @il-card-max-width-xs: 350px;
+@il-card-box-shadow: 0 1px 2px rgba(0, 0, 0, 15%), 0 0px 0px rgba(0, 0, 0, 15%);
 
 
 //== Workflow

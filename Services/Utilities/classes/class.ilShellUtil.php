@@ -64,10 +64,10 @@ class ilShellUtil
     protected static function processConvertVersion(string $a_version) : int
     {
         if (preg_match("/([0-9]+)\.([0-9]+)\.([0-9]+)([\.|\-]([0-9]+))?/", $a_version, $match)) {
-            $version = str_pad($match[1], 2, 0, STR_PAD_LEFT) .
-                str_pad($match[2], 2, 0, STR_PAD_LEFT) .
-                str_pad($match[3], 2, 0, STR_PAD_LEFT) .
-                str_pad($match[5], 2, 0, STR_PAD_LEFT);
+            $version = str_pad($match[1], 2, "0", STR_PAD_LEFT) .
+                str_pad($match[2], 2, "0", STR_PAD_LEFT) .
+                str_pad($match[3], 2, "0", STR_PAD_LEFT) .
+                str_pad($match[5], 2, "0", STR_PAD_LEFT);
             return (int) $version;
         }
         return 0;

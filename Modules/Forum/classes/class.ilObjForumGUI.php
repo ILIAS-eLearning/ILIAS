@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -507,8 +521,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->objCurrentTopic->update();
 
                 $this->ctrl->redirect($this, "showThreads");
-                break;
 
+                // no break
             case strtolower(ilCommonActionDispatcherGUI::class):
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
@@ -1699,7 +1713,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             'ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=' . $ref_id
         );
 
-        /** @var $frm ilForum */
+        /** @var ilForum $frm */
         $frm = $a_forum_obj->Forum;
         $frm->setForumId($a_forum_obj->getId());
     }
@@ -3291,9 +3305,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             }
             $bottom_toolbar->addStickyItem($bottom_split_button);
             $this->toolbar->addStickyItem($bottom_split_button);
-        }
-
-        if ($bottom_toolbar_split_button_items) {
             $bottom_toolbar->addSeparator();
         }
 
@@ -3464,7 +3475,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        /** @var $ref_obj ilObjForum */
+        /** @var ilObjForum $ref_obj */
         $ref_obj = ilObjectFactory::getInstanceByRefId($a_forum_ref_id);
         if ($ref_obj->getType() === 'frm') {
             $forumObj = new ilObjForum($a_forum_ref_id);
@@ -3645,13 +3656,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $errorMessages = $this->object->Forum->moveThreads(
                 (array) (ilSession::get('threads2move') ?? []),
                 $this->object,
-                (int) $this->ilObjDataCache->lookupObjId((int) $frm_ref_id)
+                $this->ilObjDataCache->lookupObjId((int) $frm_ref_id)
             );
 
             if ([] !== $errorMessages) {
                 $this->tpl->setOnScreenMessage('failure', implode("<br><br>", $errorMessages), true);
                 $this->ctrl->redirect($this, 'showThreads');
-                return;
             }
 
             ilSession::set('threads2move', []);
@@ -4461,10 +4471,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $frm_noti = new ilForumNotification($ref_id);
             $frm_noti->setUserId($this->user->getId());
 
-            $user_toggle = (int) $frm_noti->isUserToggleNotification();
-            if ($user_toggle === 0 && $this->objProperties->isUserToggleNoti() === false) {
-                return true;
-            }
+            return $frm_noti->isUserToggleNotification() === false;
         }
 
         return false;
@@ -4496,8 +4503,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         foreach ($threadIdToSortValueMap as $threadId => $sortValue) {
             $sortValue = str_replace(',', '.', $sortValue);
-            $sortValue = (float) $sortValue * 100;
-            $this->object->setThreadSorting((int) $threadId, $sortValue);
+            $sortValue = ((float) $sortValue) * 100;
+            $this->object->setThreadSorting((int) $threadId, (int) $sortValue);
         }
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('saved_successfully'), true);
@@ -5554,7 +5561,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $actions['delete'] = $this->ctrl->getFormAction($this, 'deletePostingDraft');
             $this->ctrl->clearParameters($this);
 
-            if (isset($draft_id) && $action === 'editdraft') {
+            if ($draft_id !== 0 && $action === 'editdraft') {
                 $actions = [];
             }
         }
@@ -5722,9 +5729,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $node->isCensored()
             )
         ) {
-            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->getMessage());
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         } elseif ($action === 'showreply' && !$this->access->checkAccess('add_reply', '', $ref_id)) {
-            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->getMessage());
+            $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
         $tpl->setVariable('REPLY_ANKER', 'reply_' . $this->objCurrentPost->getId());

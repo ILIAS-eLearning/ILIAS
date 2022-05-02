@@ -23,7 +23,7 @@ use Psr\Http\Message\RequestInterface;
  */
 class ilDAVContainer implements ICollection
 {
-    use ilWebDAVCheckValidTitleTrait, ilWebDAVAccessChildrenFunctionsTrait;
+    use ilWebDAVCheckValidTitleTrait, ilWebDAVAccessChildrenFunctionsTrait, ilWebDAVCommonINodeFunctionsTrait;
     
     protected ilObjUser $current_user;
     protected ilObject $obj;
@@ -32,13 +32,13 @@ class ilDAVContainer implements ICollection
     protected ilWebDAVRepositoryHelper $repository_helper;
     
     public function __construct(
-        ilContainer $a_obj,
+        ilContainer $obj,
         ilObjUser $current_user,
         RequestInterface $request,
         ilWebDAVObjFactory $dav_factory,
         ilWebDAVRepositoryHelper $repository_helper
     ) {
-        $this->obj = $a_obj;
+        $this->obj = $obj;
         $this->current_user = $current_user;
         $this->request = $request;
         $this->dav_factory = $dav_factory;
@@ -50,6 +50,10 @@ class ilDAVContainer implements ICollection
         return $this->obj->getTitle();
     }
     
+    /**
+     * {@inheritDoc}
+     * @see \Sabre\DAV\ICollection::getChild()
+     */
     public function getChild($name) : INode
     {
         return $this->getChildByParentRefId(
@@ -72,6 +76,10 @@ class ilDAVContainer implements ICollection
         );
     }
     
+    /**
+     * {@inheritDoc}
+     * @see \Sabre\DAV\ICollection::childExists()
+     */
     public function childExists($name) : bool
     {
         return $this->checkIfChildExistsByParentRefId(
@@ -82,7 +90,11 @@ class ilDAVContainer implements ICollection
         );
     }
     
-    public function setName($name)
+    /**
+     * {@inheritDoc}
+     * @see \Sabre\DAV\INode::setName()
+     */
+    public function setName($name) : void
     {
         if (!$this->repository_helper->checkAccess("write", $this->obj->getRefId())) {
             throw new Forbidden('Permission denied');
@@ -97,9 +109,10 @@ class ilDAVContainer implements ICollection
     }
     
     /**
-     * @param resource|string $data Initial payload
+     * {@inheritDoc}
+     * @see \Sabre\DAV\ICollection::createFile()
      */
-    public function createFile($name, $data = null)
+    public function createFile($name, $data = null) : ?string
     {
         if (!$this->repository_helper->checkCreateAccessForType($this->obj->getRefId(), 'file')) {
             throw new Forbidden('Permission denied');
@@ -127,7 +140,11 @@ class ilDAVContainer implements ICollection
         return $file_dav->put($data);
     }
 
-    public function createDirectory($name)
+    /**
+     * {@inheritDoc}
+     * @see \Sabre\DAV\ICollection::createDirectory()
+     */
+    public function createDirectory($name) : void
     {
         $new_obj = $this->getChildCollection();
         
@@ -144,19 +161,19 @@ class ilDAVContainer implements ICollection
         }
     }
     
-    public function delete()
+    public function delete() : void
     {
         $this->repository_helper->deleteObject($this->obj->getRefId());
     }
     
     public function getLastModified() : ?int
     {
-        return ($this->obj == null) ? null : strtotime($this->obj->getLastUpdateDate());
+        return $this->retrieveLastModifiedAsIntFromObjectLastUpdateString($this->obj->getLastUpdateDate());
     }
     
     protected function getChildCollection() : ilContainer
     {
-        if (get_class($this->obj) === 'cat') {
+        if (get_class($this->obj) === 'ilObjCategory') {
             return new ilObjCategory();
         }
         

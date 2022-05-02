@@ -18,16 +18,17 @@ namespace ILIAS\LTI\ToolProvider;
 class ConsumerNonce
 {
 
-/**
- * Maximum age nonce values will be retained for (in minutes).
- */
+    /**
+     * Maximum age nonce values will be retained for (in minutes).
+     */
     const MAX_NONCE_AGE = 30;  // in minutes
 
     /**
      * Date/time when the nonce value expires.
      *
-     * @var int $expires
+     * @var int|null $expires
      */
+    // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
     public $expires = null;
 
     /**
@@ -41,11 +42,10 @@ class ConsumerNonce
 
     /**
      * Class constructor.
-     *
-     * @param ToolConsumer      $consumer Consumer object
-     * @param string            $value    Nonce value (optional, default is null)
+     * @param ToolConsumer $consumer Consumer object
+     * @param string|null  $value    Nonce value (optional, default is null)
      */
-    public function __construct($consumer, $value = null)
+    public function __construct(ToolConsumer $consumer, ?string $value = null)
     {
         $this->consumer = $consumer;
         $this->value = $value;

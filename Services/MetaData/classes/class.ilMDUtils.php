@@ -68,7 +68,7 @@ class ilMDUtils
         }
 
         // Hack for zero values
-        if (!$months and !$days and !$hours and !$min and !$sec) {
+        if (!$months && !$days && !$hours && !$min && !$sec) {
             return [];
         }
 
@@ -82,10 +82,14 @@ class ilMDUtils
         // currently disabled due to mantis 0026864
         return true;
 
-        $tpl            = $DIC['tpl'];
+        $tpl = $DIC['tpl'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
-        foreach (ilMDKeyword::_getKeywordsByLanguageAsString($a_rbac_id, $a_obj_id, $a_type) as $lng_code => $key_string) {
+        foreach (ilMDKeyword::_getKeywordsByLanguageAsString(
+            $a_rbac_id,
+            $a_obj_id,
+            $a_type
+        ) as $lng_code => $key_string) {
             $tpl->setCurrentBlock('mh_meta_item');
             $tpl->setVariable('MH_META_NAME', 'keywords');
             $tpl->setVariable('MH_META_LANG', $lng_code);
@@ -104,7 +108,6 @@ class ilMDUtils
 
     public static function _parseCopyright(string $a_copyright) : string
     {
-
         $settings = ilMDSettings::_getInstance();
         if (!$settings->isCopyrightSelectionActive()) {
             return $a_copyright;

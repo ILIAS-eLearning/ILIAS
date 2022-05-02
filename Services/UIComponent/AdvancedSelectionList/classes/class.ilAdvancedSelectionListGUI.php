@@ -696,9 +696,9 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             $cfg["toggle_class_on"] = $toggle["class_on"];
         }
         //echo "<br>".htmlentities($this->getAsynchUrl());
-        $tpl->setVariable("CFG", ilJsonUtil::encode($cfg));
+        $tpl->setVariable("CFG", json_encode($cfg, JSON_THROW_ON_ERROR));
          
-        //echo htmlentities(ilJsonUtil::encode($cfg));
+        //echo htmlentities(json_encode($cfg, JSON_THROW_ON_ERROR));
         
         $tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
         if ($this->getListTitle() === "" || $this->getAriaListTitle() !== "") {
@@ -731,6 +731,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             case self::STYLE_LINK:
                 $tpl->setVariable("BTN_CLASS", "");
                 $tpl->setVariable("TAG", "a");
+                $tpl->touchBlock("href_link");
                 break;
         }
 

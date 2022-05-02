@@ -115,11 +115,11 @@ class ilCtrlStructureReader
                     new ReflectionClass($class_name)
                 ;
 
-                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_CID]      = $this->cid_generator->getCid();
-                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_NAME]     = $class_name;
-                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_PATH]     = $this->getRelativePath($path);
+                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_CID] = $this->cid_generator->getCid();
+                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_NAME] = $class_name;
+                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_PATH] = $this->getRelativePath($path);
                 $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $this->getChildren($reflection);
-                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS]  = $this->getParents($reflection);
+                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS] = $this->getParents($reflection);
 
                 // temporarily store base classes in order to filer the
                 // structure afterwards.

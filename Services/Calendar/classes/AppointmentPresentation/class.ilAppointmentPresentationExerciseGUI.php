@@ -62,7 +62,7 @@ class ilAppointmentPresentationExerciseGUI extends ilAppointmentPresentationGUI 
                     $this->ctrl->setParameterByClass("ilexsubmissiongui", "ref_if", "");
                     $str_files[$file["name"]] = $r->render($f->button()->shy($file["name"], $url));
                 }
-                ksort($str_files, SORT_NATURAL|SORT_FLAG_CASE);
+                ksort($str_files, SORT_NATURAL | SORT_FLAG_CASE);
                 $str_files = implode("<br>", $str_files);
                 $this->addInfoProperty($this->lng->txt("exc_instruction_files"), $str_files);
                 $this->addListItemProperty(

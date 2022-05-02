@@ -12,13 +12,14 @@ class ilPublicSectionSettings
      * @var ilPublicSectionSettings
      */
     protected static $instance = null;
-
-    /**
-     * @var ilSetting
-     */
+    
     private ilSetting $settings;
 
     private bool $enabled = false;
+    
+    /**
+     * @var string[]
+     */
     private array $domains = array();
 
     /**
@@ -40,11 +41,18 @@ class ilPublicSectionSettings
         return self::$instance;
     }
 
-    public function setDomains(array $domains)
+    /**
+     * @param string[] $domains
+     */
+    public function setDomains(array $domains) : void
     {
         $this->domains = $domains;
     }
 
+    /**
+     *
+     * @return string[]
+     */
     public function getDomains() : array
     {
         return $this->domains;

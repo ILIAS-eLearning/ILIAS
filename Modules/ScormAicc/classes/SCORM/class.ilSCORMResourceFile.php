@@ -24,18 +24,11 @@ class ilSCORMResourceFile
 {
     public string $href;
 
-    /**
-     * @return string
-     */
     public function getHRef() : string
     {
         return $this->href;
     }
 
-    /**
-     * @param string $a_href
-     * @return void
-     */
     public function setHRef(string $a_href) : void
     {
         $this->href = $a_href;

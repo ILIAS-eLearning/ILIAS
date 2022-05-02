@@ -19,10 +19,6 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
      */
     protected $is_editable = true;
 
-    /**
-     * @param        $parent
-     * @param string $cmd
-     */
     public function __construct($parent, $cmd, $template_context = '', ilMarkSchemaAware $object = null)
     {
         /**

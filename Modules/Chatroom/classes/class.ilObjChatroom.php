@@ -1,5 +1,20 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once 'Services/Object/classes/class.ilObject.php';
 require_once 'Services/Object/classes/class.ilObjectActivation.php';
@@ -79,7 +94,7 @@ class ilObjChatroom extends ilObject
             $activation->setSuggestionEndRelative(0);
             $activation->setEarliestStart(0);
             $activation->setEarliestStartRelative(0);
-            $activation->toggleChangeable(0);
+            $activation->toggleChangeable(true);
             $activation->update($this->ref_id);
         }
 
@@ -105,7 +120,7 @@ class ilObjChatroom extends ilObject
     {
         $settings = new ilSetting('chatroom');
 
-        return (int) $settings->get('public_room_ref', 0);
+        return (int) $settings->get('public_room_ref', '0');
     }
 
     public static function _getPublicObjId() : int

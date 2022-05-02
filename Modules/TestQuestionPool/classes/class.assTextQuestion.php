@@ -996,7 +996,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
-    public function getKeywordRelation() : string
+    public function getKeywordRelation()
     {
         return $this->keyword_relation;
     }

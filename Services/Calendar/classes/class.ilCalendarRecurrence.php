@@ -32,6 +32,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
     protected const REC_RECURRENCE = 0;
     protected const REC_EXCLUSION = 1;
 
+    public const FREQ_NONE = 'NONE';
     public const FREQ_DAILY = 'DAILY';
     public const FREQ_WEEKLY = 'WEEKLY';
     public const FREQ_MONTHLY = 'MONTHLY';
@@ -57,7 +58,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
     private string $bysetpos = '';
     private string $weekstart = '';
 
-    private $exclusion_dates = array();
+    private array $exclusion_dates = array();
 
     private string $timezone = 'Europe/Berlin';
 

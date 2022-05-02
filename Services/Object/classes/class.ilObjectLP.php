@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Base class for object lp connectors
  *
@@ -165,10 +179,13 @@ class ilObjectLP
     {
         return ilLPObjSettings::LP_MODE_UNDEFINED;
     }
-    
+
+    /**
+     * @return int[]
+     */
     public function getValidModes() : array
     {
-        return array();
+        return [];
     }
     
     public function getCurrentMode() : int
@@ -316,10 +333,10 @@ class ilObjectLP
         // find collections with ref_ids
         $sql =
             "SELECT DISTINCT(ut_lp_collections.obj_id) obj_id" . PHP_EOL
-            ."FROM object_reference" . PHP_EOL
-            ."JOIN ut_lp_collections ON" . PHP_EOL
-            ."(" . $ilDB->in("object_reference.ref_id", $ref_ids, false, "integer") . PHP_EOL
-            ."AND object_reference.ref_id = ut_lp_collections.item_id)" . PHP_EOL
+            . "FROM object_reference" . PHP_EOL
+            . "JOIN ut_lp_collections ON" . PHP_EOL
+            . "(" . $ilDB->in("object_reference.ref_id", $ref_ids, false, "integer") . PHP_EOL
+            . "AND object_reference.ref_id = ut_lp_collections.item_id)" . PHP_EOL
         ;
         $result = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($result)) {
@@ -346,8 +363,8 @@ class ilObjectLP
                     // delete all items of moved (sub-)tree
                     $sql =
                         "DELETE FROM ut_lp_collections" . PHP_EOL
-                        ."WHERE obj_id = " . $ilDB->quote($row["obj_id"], "integer") . PHP_EOL
-                        ."AND " . $ilDB->in("item_id", $ref_ids, false, "integer") . PHP_EOL
+                        . "WHERE obj_id = " . $ilDB->quote($row["obj_id"], "integer") . PHP_EOL
+                        . "AND " . $ilDB->in("item_id", $ref_ids, false, "integer") . PHP_EOL
                     ;
                     $ilDB->manipulate($sql);
                     
@@ -381,10 +398,10 @@ class ilObjectLP
         // update parent collections?
         $sql =
             "SELECT ut_lp_collections.obj_id obj_id" . PHP_EOL
-            ."FROM object_reference" . PHP_EOL
-            ."JOIN ut_lp_collections ON" . PHP_EOL
-            ."(object_reference.obj_id = " . $this->db->quote($this->obj_id, "integer") . PHP_EOL
-            ."AND object_reference.ref_id = ut_lp_collections.item_id)" . PHP_EOL
+            . "FROM object_reference" . PHP_EOL
+            . "JOIN ut_lp_collections ON" . PHP_EOL
+            . "(object_reference.obj_id = " . $this->db->quote($this->obj_id, "integer") . PHP_EOL
+            . "AND object_reference.ref_id = ut_lp_collections.item_id)" . PHP_EOL
         ;
         $result = $this->db->query($sql);
         while ($row = $this->db->fetchAssoc($result)) {
@@ -392,8 +409,8 @@ class ilObjectLP
                 // remove from parent collection
                 $sql =
                     "DELETE FROM ut_lp_collections" . PHP_EOL
-                    ."WHERE obj_id = " . $this->db->quote($row["obj_id"], "integer") . PHP_EOL
-                    ."AND item_id = " . $this->db->quote($this->obj_id, "integer") . PHP_EOL
+                    . "WHERE obj_id = " . $this->db->quote($row["obj_id"], "integer") . PHP_EOL
+                    . "AND item_id = " . $this->db->quote($this->obj_id, "integer") . PHP_EOL
                 ;
                 $this->db->manipulate($sql);
                 
@@ -494,8 +511,8 @@ class ilObjectLP
         $types_map = [];
         $sql =
             "SELECT obj_id, type" . PHP_EOL
-            ."FROM object_data" . PHP_EOL
-            ."WHERE " . $ilDB->in("obj_id", $obj_ids, false, "integer") . PHP_EOL
+            . "FROM object_data" . PHP_EOL
+            . "WHERE " . $ilDB->in("obj_id", $obj_ids, false, "integer") . PHP_EOL
         ;
         $result = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($result)) {
@@ -567,9 +584,9 @@ class ilObjectLP
             if (is_array($find_by_parent) && count($find_by_parent) > 0) {
                 $sql =
                     "SELECT obj_id" . PHP_EOL
-                    ."FROM read_event" . PHP_EOL
-                    ."WHERE " . $ilDB->in("obj_id", $find_by_parent, false, "integer") . PHP_EOL
-                    ."AND usr_id = " . $ilDB->quote($usr_id, "integer") . PHP_EOL
+                    . "FROM read_event" . PHP_EOL
+                    . "WHERE " . $ilDB->in("obj_id", $find_by_parent, false, "integer") . PHP_EOL
+                    . "AND usr_id = " . $ilDB->quote($usr_id, "integer") . PHP_EOL
                 ;
                 $result = $ilDB->query($sql);
                 while ($row = $ilDB->fetchAssoc($result)) {
@@ -609,6 +626,7 @@ class ilObjectLP
     
     /**
      * Get available type-specific default modes (no administration needed)
+     * @return int[]
      */
     public static function getDefaultModes(bool $lp_active) : array
     {

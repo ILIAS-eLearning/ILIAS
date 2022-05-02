@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Exercise XML Parser which completes/updates a given file by an xml string.
  *
  * @author  Roland Küstermann <roland@kuestermann.com>
@@ -10,23 +26,9 @@
  *
  * @extends ilSaxParser
  */
-
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\MimeType;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 class ilFileXMLParser extends ilSaxParser
 {
     public static int $CONTENT_NOT_COMPRESSED = 0;
@@ -69,14 +71,8 @@ class ilFileXMLParser extends ilSaxParser
 
     /**
      * Constructor
-     *
-     * @param ilObjFile $file       existing file object
-     * @param string    $a_xml_file xml data
-     * @param int       $obj_id     obj id of exercise which is to be updated
-     *
-     * @access    public
      */
-    public function __construct($file, $a_xml_data, $obj_id = -1, $mode = 0)
+    public function __construct(ilObjFile $file, string $a_xml_data, int $obj_id = -1, int $mode = 0)
     {
         parent::__construct();
         $this->file = $file;
@@ -133,16 +129,14 @@ class ilFileXMLParser extends ilSaxParser
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         global $DIC;
-        $ilErr = $DIC['ilErr'];
         
         global $DIC;
-        $ilLog = $DIC['ilLog'];
         
         switch ($a_name) {
             case 'File':
                 if (isset($a_attribs["obj_id"])) {
                     $read_obj_id = ilUtil::__extractId($a_attribs["obj_id"], IL_INST_ID);
-                    if ($this->obj_id != -1 && (int) $read_obj_id != -1 && (int) $this->obj_id != (int) $read_obj_id) {
+                    if ($this->obj_id != -1 && (int) $read_obj_id != -1 && $this->obj_id != (int) $read_obj_id) {
                         throw new ilFileException(
                             "Object IDs (xml $read_obj_id and argument " . $this->obj_id . ") do not match!",
                             ilFileException::$ID_MISMATCH
@@ -223,7 +217,7 @@ class ilFileXMLParser extends ilSaxParser
                 $this->result = true;
                 break;
             case 'Filename':
-                if (strlen($this->cdata) === 0) {
+                if ($this->cdata === '') {
                     throw new ilFileException("Filename ist missing!");
                 }
                 
@@ -295,7 +289,6 @@ class ilFileXMLParser extends ilSaxParser
                     // if no file type is given => lookup mime type
                     if (!$this->file->getFileType()) {
                         global $DIC;
-                        $ilLog = $DIC['ilLog'];
                         $this->file->setFileType(MimeType::getMimeType($this->tmpFilename));
                     }
                 }
@@ -315,8 +308,6 @@ class ilFileXMLParser extends ilSaxParser
         }
         
         $this->cdata = '';
-        
-        return;
     }
     
     /**

@@ -1,18 +1,21 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+ 
 /**
  * Class ilObjFileListGUI
  * @author        Alex Killing <alex.killing@gmx.de>
@@ -40,19 +43,16 @@ class ilObjFileListGUI extends ilObjectListGUI
         $this->type = ilObjFile::OBJECT_TYPE;
         $this->gui_class_name = ilObjFileGUI::class;
 
-        // general commands array
         $this->commands = ilObjFileAccess::_getCommands();
     }
 
     /**
      * Get command target frame
-     * @param string $a_cmd command
-     * @return    string        command target frame
      */
-    public function getCommandFrame($a_cmd) : string
+    public function getCommandFrame(string $cmd) : string
     {
         $frame = "";
-        switch ($a_cmd) {
+        switch ($cmd) {
             case 'sendfile':
                 if (ilObjFileAccess::_isFileInline($this->title)) {
                     $frame = '_blank';
@@ -103,10 +103,15 @@ class ilObjFileListGUI extends ilObjectListGUI
         $props = parent::getProperties();
         
         // to do: implement extra smaller file info object
-        
+
+        global $DIC;
+        $file_obj = new ilObjFile($this->ref_id);
+        $file_rid = $DIC->resourceStorage()->manage()->find($file_obj->getResourceId());
+        $revision = (null !== $file_rid) ? $DIC->resourceStorage()->manage()->getCurrentRevision($file_rid) : null;
+
         // Display a warning if a file is not a hidden Unix file, and
         // the filename extension is missing
-        if (!preg_match('/^\\.|\\.[a-zA-Z0-9]+$/', $this->title)) {
+        if (null === $revision && !preg_match('/^\\.|\\.[a-zA-Z0-9]+$/', $this->title)) {
             $props[] = array(
                 "alert" => false,
                 "property" => $DIC->language()->txt("filename_interoperability"),
@@ -118,9 +123,14 @@ class ilObjFileListGUI extends ilObjectListGUI
         $props[] = array(
             "alert" => false,
             "property" => $DIC->language()->txt("type"),
-            "value" => ilObjFileAccess::_getFileExtension($this->title),
+            "value" => ilObjFileAccess::_getFileExtension(
+                (null !== $revision) ?
+                    $revision->getInformation()->getTitle() :
+                    $this->title
+            ),
             'propertyNameVisible' => false,
         );
+
         ilObjFileAccess::_preloadData([$this->obj_id], [$this->ref_id]);
         $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
         
@@ -174,10 +184,7 @@ class ilObjFileListGUI extends ilObjectListGUI
      */
     public function getCommandImage($a_cmd) : string
     {
-        switch ($a_cmd) {
-            default:
-                return "";
-        }
+        return "";
     }
 
     /**
@@ -185,16 +192,16 @@ class ilObjFileListGUI extends ilObjectListGUI
      * @param string $a_cmd The command to get the link for.
      * @return string The command link.
      */
-    public function getCommandLink($a_cmd) : string
+    public function getCommandLink(string $cmd) : string
     {
         // overwritten to always return the permanent download link
 
         // only create permalink for repository
-        if ($a_cmd == "sendfile" && $this->context == self::CONTEXT_REPOSITORY) {
+        if ($cmd == "sendfile" && $this->context == self::CONTEXT_REPOSITORY) {
             // return the perma link for downloads
             return ilObjFileAccess::_getPermanentDownloadLink($this->ref_id);
         }
 
-        return parent::getCommandLink($a_cmd);
+        return parent::getCommandLink($cmd);
     }
 }

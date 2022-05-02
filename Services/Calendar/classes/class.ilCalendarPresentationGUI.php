@@ -770,7 +770,7 @@ class ilCalendarPresentationGUI
     }
 
     #21613
-    public function showToolbarAndSidebar()
+    public function showToolbarAndSidebar() : bool
     {
         #21783
         return !(

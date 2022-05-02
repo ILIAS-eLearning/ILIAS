@@ -20,22 +20,14 @@
  */
 class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
 {
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct($a_parent_obj, $a_parent_cmd)//PHP8Review: Missing Typehint
     {
-        $this->parent_obj = $a_parent_obj;
-        $this->parent_cmd = $a_parent_cmd;
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        $this->parent_obj = $a_parent_obj;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        $this->parent_cmd = $a_parent_cmd;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        parent::__construct();
     }
 
     /**
-     * @param string $userSelected
-     * @param string $report
-     * @param array  $reports
-     * @return void
      * @throws ilCtrlException
      */
     public function parse(string $userSelected, string $report, array $reports) : void
@@ -44,7 +36,7 @@ class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         $lng->loadLanguageModule("scormtrac");
-        $this->form = new ilPropertyFormGUI();
+        $this->form = new ilPropertyFormGUI();//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
         $this->form->setFormAction($ilCtrl->getFormAction($this->parent_obj));
 
         $options = array("all" => $lng->txt("all"));
@@ -55,7 +47,7 @@ class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         if ($users && count($users) > 0) {
             foreach ($users as $usr) {
                 $user = (int) $usr;
-                if (ilObject::_exists($user) && ilObject::_lookUpType($user) == 'usr') {
+                if (ilObject::_exists($user) && ilObject::_lookUpType($user) === 'usr') {
                     if ($allowExportPrivacy == true) {
                         $e_user = new ilObjUser((int) $user);
                         $options[$user] = $e_user->getLastname() . ", " . $e_user->getFirstname();
@@ -74,8 +66,8 @@ class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         $this->form->addItem($si);
 
         $options = array("choose" => $lng->txt("please_choose"));
-        for ($i = 0;$i < count($reports);$i++) {
-            $options[$reports[$i]] = $lng->txt(strtolower($reports[$i]));
+        foreach ($reports as $value) {
+            $options[$value] = $lng->txt(strtolower($value));
         }
         $si = new ilSelectInputGUI($lng->txt("report"), "report");
         $si->setOptions($options);

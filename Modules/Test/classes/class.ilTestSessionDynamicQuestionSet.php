@@ -20,7 +20,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
      * @var ilTestDynamicQuestionSetFilterSelection
      */
     private $questionSetFilterSelection = null;
-    
+
     public function __construct()
     {
         parent::__construct();
@@ -52,7 +52,6 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             $this->anonymous_id = $row["anonymous_id"];
             $this->test_id = $row["test_fi"];
             $this->lastsequence = $row["lastindex"];
-            $this->pass = $row["tries"];
             $this->submitted = ($row["submitted"]) ? true : false;
             $this->submittedTimestamp = $row["submittimestamp"];
             $this->tstamp = $row["tstamp"];
@@ -105,7 +104,6 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             $this->anonymous_id = $row["anonymous_id"];
             $this->test_id = $row["test_fi"];
             $this->lastsequence = $row["lastindex"];
-            $this->pass = $row["tries"];
             $this->submitted = ($row["submitted"]) ? true : false;
             $this->submittedTimestamp = $row["submittimestamp"];
             $this->tstamp = $row["tstamp"];
@@ -151,7 +149,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             );
         } else {
             if (!$this->activeIDExists($this->getUserId(), $this->getTestId())) {
-                $anonymous_id = ($this->getAnonymousId()) ? $this->getAnonymousId() : null;
+                $anonymous_id = ($this->getAnonymousId()) ?: null;
 
                 $next_id = $ilDB->nextId('tst_active');
                 $affectedRows = $ilDB->insert(

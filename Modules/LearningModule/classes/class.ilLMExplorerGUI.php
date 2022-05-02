@@ -21,7 +21,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 {
     protected ilObjContentObject $lm;
     protected ilObjUser $user;
-    protected array $lp_cache;
+    protected array $lp_cache = [];
     protected int $cnt_lmobj = 0;
     protected string $obj_id = "";
     protected string $transl = "";

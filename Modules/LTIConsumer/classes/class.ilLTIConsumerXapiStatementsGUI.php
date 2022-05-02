@@ -35,9 +35,6 @@ class ilLTIConsumerXapiStatementsGUI
     protected ilLTIConsumerAccess $access;
     private \ilGlobalTemplateInterface $main_tpl;
     
-    /**
-     * @param ilObjLTIConsumer $object
-     */
     public function __construct(ilObjLTIConsumer $object)
     {
         global $DIC;
@@ -172,17 +169,13 @@ class ilLTIConsumerXapiStatementsGUI
         $auto->setMoreLinkAvailable(true);
         
         //$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
-        
+        // TODO PHP8 Review: Remove/Replace SuperGlobals
         $result = json_decode($auto->getList(ilUtil::stripSlashes($_REQUEST['term'])), true);
         
         echo json_encode($result);
         exit();
     }
     
-    /**
-     * @param ilCmiXapiStatementsTableGUI $table
-     * @param ilCmiXapiStatementsReportFilter $filter
-     */
     protected function initTableData(ilCmiXapiStatementsTableGUI $table, ilCmiXapiStatementsReportFilter $filter) : void
     {
         $aggregateEndPointUrl = str_replace(
@@ -212,9 +205,6 @@ class ilLTIConsumerXapiStatementsGUI
         $table->setMaxCount($statementsReport->getMaxCount());
     }
     
-    /**
-     * @return ilCmiXapiStatementsTableGUI
-     */
     protected function buildTableGUI() : ilCmiXapiStatementsTableGUI
     {
         $isMultiActorReport = $this->access->hasOutcomesAccess();

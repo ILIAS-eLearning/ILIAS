@@ -25,7 +25,7 @@ class ilContainerFilterSet
      */
     protected array $filters;
     /**
-     * @var int[]
+     * @var string[]
      */
     protected array $ids = [];
 
@@ -37,8 +37,7 @@ class ilContainerFilterSet
     {
         $this->filters = $filters;
 
-        $this->ids = array_map(function ($f) {
-            /** @var ilContainerFilterField $f */
+        $this->ids = array_map(static function (ilContainerFilterField $f) : string {
             return $f->getRecordSetId() . "_" . $f->getFieldId();
         }, $filters);
     }
@@ -59,6 +58,6 @@ class ilContainerFilterSet
      */
     public function has(int $record_set_id, int $field_id) : bool
     {
-        return in_array($record_set_id . "_" . $field_id, $this->ids);
+        return in_array($record_set_id . "_" . $field_id, $this->ids, true);
     }
 }

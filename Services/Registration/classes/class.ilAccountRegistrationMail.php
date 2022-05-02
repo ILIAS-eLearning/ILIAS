@@ -1,5 +1,16 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilAccountRegistrationMail
@@ -11,14 +22,12 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
     protected const MODE_REGISTRATION_WITH_EMAIL_CONFIRMATION = 2;
 
     private ilRegistrationSettings $settings;
-    private ilLanguage $lng;
     private ilLogger $logger;
     private int $mode = self::MODE_DIRECT_REGISTRATION;
 
     public function __construct(ilRegistrationSettings $settings, ilLanguage $lng, ilLogger $logger)
     {
         $this->settings = $settings;
-        $this->lng = $lng;
         $this->logger = $logger;
         parent::__construct(false);
     }
@@ -45,10 +54,9 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
     private function isEmptyMailConfigurationData(array $mailData) : bool
     {
         return !(
-            isset($mailData['body']) &&
+            isset($mailData['body'], $mailData['subject']) &&
             is_string($mailData['body']) &&
             $mailData['body'] !== '' &&
-            isset($mailData['subject']) &&
             is_string($mailData['subject']) &&
             $mailData['subject'] !== ''
         );
@@ -56,7 +64,7 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
 
     private function trySendingUserDefinedAccountMail(ilObjUser $user, string $rawPassword) : bool
     {
-        $trimStrings = function ($value) {
+        $trimStrings = static function ($value) {
             if (is_string($value)) {
                 $value = trim($value);
             }
@@ -115,9 +123,9 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
             $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
             $fs->create();
 
-            $pathToFile = '/' . implode('/', array_map(function ($pathPart) {
-                    return trim($pathPart, '/');
-                }, [
+            $pathToFile = '/' . implode('/', array_map(static function ($pathPart) {
+                return trim($pathPart, '/');
+            }, [
                     $fs->getAbsolutePath(),
                     $mailData['lang'],
                 ]));
@@ -175,7 +183,7 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
         }
 
         if ($this->getMode() === self::MODE_DIRECT_REGISTRATION) {
-            if ($this->settings->getRegistrationType() == ilRegistrationSettings::IL_REG_APPROVE && !$usedRegistrationCode) {
+            if ($this->settings->getRegistrationType() === ilRegistrationSettings::IL_REG_APPROVE && !$usedRegistrationCode) {
                 $this->appendBody("\n");
                 $this->appendBody($this->language->txt('reg_mail_body_pwd_generation'));
                 $this->appendBody("\n\n");

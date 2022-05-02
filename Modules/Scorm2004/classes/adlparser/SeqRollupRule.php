@@ -75,15 +75,15 @@
             //$this->mRules=$iRules;
         }
         
-        public function setRollupAction($iAction) : void
+        public function setRollupAction(string $iAction) : void
         {
-            if ($iAction == "satisfied") {
+            if ($iAction === "satisfied") {
                 $this->mAction = ROLLUP_ACTION_SATISFIED;
-            } elseif ($iAction == "notSatisfied") {
+            } elseif ($iAction === "notSatisfied") {
                 $this->mAction = ROLLUP_ACTION_NOTSATISFIED;
-            } elseif ($iAction == "completed") {
+            } elseif ($iAction === "completed") {
                 $this->mAction = ROLLUP_ACTION_COMPLETED;
-            } elseif ($iAction == "incomplete") {
+            } elseif ($iAction === "incomplete") {
                 $this->mAction = ROLLUP_ACTION_INCOMPLETE;
             }
         }

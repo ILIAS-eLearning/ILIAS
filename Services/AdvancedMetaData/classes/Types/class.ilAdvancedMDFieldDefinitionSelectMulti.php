@@ -9,7 +9,7 @@
 class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinitionSelect
 {
     protected const XML_SEPARATOR = "~|~";
-
+    
     public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : string
     {
         return $a_adt_search->getADT()->getSelections()[0] ?? "";
@@ -52,8 +52,11 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
         if (sizeof($missing)) {
             $this->confirmed_objects = $this->buildConfirmedObjects($a_form);
             if (!is_array($this->confirmed_objects)) {
-                $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($this->getADTDefinition(),
-                    false, false);
+                $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance(
+                    $this->getADTDefinition(),
+                    false,
+                    false
+                );
                 foreach ($missing as $missing_idx => $missing_value) {
                     $in_use = $this->findBySingleValue($search, $missing_idx);
                     if (is_array($in_use)) {
@@ -81,7 +84,7 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
     {
         $this->getADT()->setSelections(explode(self::XML_SEPARATOR, $a_cdata));
     }
-
+    
     public function prepareElementForEditor(ilADTFormBridge $a_bridge) : void
     {
         assert($a_bridge instanceof ilADTMultiEnumFormBridge);

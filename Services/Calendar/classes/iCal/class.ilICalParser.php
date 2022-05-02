@@ -37,7 +37,7 @@ class ilICalParser
     protected string $ical = '';
     protected string $file = '';
     protected ?ilTimeZone $default_timezone = null;
-    protected $container = array();
+    protected array $container = array();
 
     public function __construct(string $a_ical, int $a_type)
     {

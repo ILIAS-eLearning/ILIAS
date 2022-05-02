@@ -30,4 +30,9 @@ class Factory implements P\Factory
     {
         return new Audio($source, $transcript);
     }
+
+    public function video(string $source) : P\Video
+    {
+        return new Video($source);
+    }
 }

@@ -61,13 +61,14 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
     public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
     {
-        if (is_array($_POST['errordata']['key'])) {
+        $errordata = $this->request->raw('errordata');
+        if ($errordata != null && is_array($errordata['key'])) {
             $this->object->flushErrorData();
-            foreach ($_POST['errordata']['key'] as $idx => $val) {
+            foreach ($errordata['key'] as $idx => $val) {
                 $this->object->addErrorData(
                     $val,
-                    $_POST['errordata']['value'][$idx],
-                    $_POST['errordata']['points'][$idx]
+                    $errordata['value'][$idx],
+                    $errordata['points'][$idx]
                 );
             }
         }

@@ -51,14 +51,34 @@ class ilSkillProfileGUI
     protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_ref_id = 0;
     protected int $requested_sprof_id = 0;
+
+    /**
+     * @var int[]
+     */
     protected array $requested_profile_ids = [];
     protected bool $requested_local_context = false;
     protected string $requested_cskill_id = "";
     protected int $requested_level_id = 0;
+
+    /**
+     * @var string[]
+     */
     protected array $requested_level_ass_ids = [];
+
+    /**
+     * @var int[]
+     */
     protected array $requested_level_order = [];
     protected string $requested_user_login = "";
+
+    /**
+     * @var int[]
+     */
     protected array $requested_users = [];
+
+    /**
+     * @var int[]
+     */
     protected array $requested_user_ids = [];
     protected bool $local_context = false;
 
@@ -901,11 +921,11 @@ class ilSkillProfileGUI
                 $type = ilObject::_lookupType($i);
                 switch ($type) {
                     case 'usr':
-                        $this->profile->removeUserFromProfile((int) $i);
+                        $this->profile->removeUserFromProfile($i);
                         break;
 
                     case 'role':
-                        $this->profile->removeRoleFromProfile((int) $i);
+                        $this->profile->removeRoleFromProfile($i);
                         break;
 
                     default:

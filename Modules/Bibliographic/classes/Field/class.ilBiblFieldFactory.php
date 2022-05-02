@@ -1,20 +1,33 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilBiblFieldFactory
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
 {
-
     protected \ilBiblTypeInterface $type;
 
 
     /**
      * ilBiblFieldFactory constructor.
-     *
-     * @param \ilBiblTypeInterface $type
      */
     public function __construct(\ilBiblTypeInterface $type)
     {
@@ -37,10 +50,10 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
     public function findById(int $id) : ilBiblFieldInterface
     {
         /**
-         * @var $inst ilBiblField
+         * @var ilBiblField $inst
          */
         $inst = ilBiblField::findOrFail($id);
-        if ($this->type->isStandardField($inst->getIdentifier()) != $inst->isStandardField()) {
+        if ($this->type->isStandardField($inst->getIdentifier()) !== $inst->isStandardField()) {
             $inst->setIsStandardField($this->type->isStandardField($inst->getIdentifier()));
             $inst->update();
         }
@@ -70,16 +83,16 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
     public function findOrCreateFieldByTypeAndIdentifier(int $type, string $identifier) : ilBiblFieldInterface
     {
         $inst = $this->getARInstance($type, $identifier);
-        if (!$inst) {
+        if ($inst === null) {
             $inst = new ilBiblField();
             $inst->setIdentifier($identifier);
             $inst->setDataType($type);
-            $inst->setIsStandardField((bool) $this->getType()->isStandardField($identifier));
+            $inst->setIsStandardField($this->getType()->isStandardField($identifier));
             $inst->create();
         }
         $inst->setDataType($type);
         $inst->setIdentifier($identifier);
-        $inst->setIsStandardField((bool) $this->getType()->isStandardField($identifier));
+        $inst->setIsStandardField($this->getType()->isStandardField($identifier));
         $inst->update();
 
         return $inst;
@@ -197,13 +210,13 @@ class ilBiblFieldFactory implements ilBiblFieldFactoryInterface
     }
 
 
-    private function getARInstance(int $type, string $identifier): ?\ilBiblField
+    private function getARInstance(int $type, string $identifier) : ?\ilBiblField
     {
         return ilBiblField::where(["identifier" => $identifier, "data_type" => $type])->first();
     }
 
 
-    private function getCollectionForFilter(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null): \ActiveRecordList
+    private function getCollectionForFilter(ilBiblTypeInterface $type, ilBiblTableQueryInfoInterface $queryInfo = null) : \ActiveRecordList
     {
         $collection = ilBiblField::getCollection();
 

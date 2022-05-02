@@ -28,13 +28,13 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
         $main_tpl = $DIC->ui()->mainTemplate();
         parent::__construct($questionOBJ, $ctrl, $tabs, $lng);
         
-        if (!isset($_GET['feedback_id']) || !(int) $_GET['feedback_id'] || !$questionOBJ->feedbackOBJ->checkFeedbackParent((int) $_GET['feedback_id'])) {
-            $main_tpl->setOnScreenMessage('failure', 'invalid feedback id given: ' . (int) $_GET['feedback_id'], true);
+        if (!$this->request->isset('feedback_id') || !(int) $this->request->raw('feedback_id') || !$questionOBJ->feedbackOBJ->checkFeedbackParent((int) $this->request->raw('feedback_id'))) {
+            $main_tpl->setOnScreenMessage('failure', 'invalid feedback id given: ' . (int) $this->request->raw('feedback_id'), true);
             $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
         }
         
-        if (!isset($_GET['feedback_type']) || !ilAssQuestionFeedback::isValidFeedbackPageObjectType($_GET['feedback_type'])) {
-            $main_tpl->setOnScreenMessage('failure', 'invalid feedback type given: ' . $_GET['feedback_type'], true);
+        if (!$this->request->isset('feedback_type') || !ilAssQuestionFeedback::isValidFeedbackPageObjectType($this->request->raw('feedback_type'))) {
+            $main_tpl->setOnScreenMessage('failure', 'invalid feedback type given: ' . $this->request->raw('feedback_type'), true);
             $this->ctrl->redirectByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
         }
     }
@@ -46,7 +46,7 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
     {
         //$this->ensurePageObjectExists($_GET['feedback_type'], $_GET['feedback_id']);
         
-        $pageObjectGUI = $this->getPageObjectGUI($_GET['feedback_type'], $_GET['feedback_id']);
+        $pageObjectGUI = $this->getPageObjectGUI($$this->request->raw('feedback_type'), $this->request->raw('feedback_id'));
         $pageObjectGUI->setEnabledTabs(true);
         
         $this->tabs->setBackTarget(
@@ -54,8 +54,8 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
             $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW)
         );
         
-        $this->ctrl->setParameter($pageObjectGUI, 'feedback_id', $_GET['feedback_id']);
-        $this->ctrl->setParameter($pageObjectGUI, 'feedback_type', $_GET['feedback_type']);
+        $this->ctrl->setParameter($pageObjectGUI, 'feedback_id', $this->request->raw('feedback_id'));
+        $this->ctrl->setParameter($pageObjectGUI, 'feedback_type', $this->request->raw('feedback_type'));
         
         $this->ctrl->forwardCommand($pageObjectGUI);
     }
