@@ -143,8 +143,14 @@ class ilObjLanguageAccess
     public static function _isPageTranslation() : bool
     {
         global $DIC;
-        $cmdClass = $DIC->http()->wrapper()->query()->retrieve("cmdClass", $DIC->refinery()->kindlyTo()->string()) ?? "";
+        $cmdClass = "";
         $view_mode_get = "";
+        if ($DIC->http()->wrapper()->query()->has("cmdClass")) {
+            $cmdClass = $DIC->http()->wrapper()->query()->retrieve(
+                "cmdClass",
+                $DIC->refinery()->kindlyTo()->string()
+            );
+        }
         if ($DIC->http()->wrapper()->query()->has("view_mode")) {
             $view_mode_get = $DIC->http()->wrapper()->query()->retrieve(
                 "view_mode",
