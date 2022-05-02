@@ -309,8 +309,8 @@ class ilFormPropertyGUI
         string $a_value
     ) : string {
         return '<input type="hidden" name="' . $a_post_var . '" value="' . ilLegacyFormElementsUtil::prepareFormOutput(
-                $a_value
-            ) . '" />';
+            $a_value
+        ) . '" />';
     }
     
     public function setMulti(
