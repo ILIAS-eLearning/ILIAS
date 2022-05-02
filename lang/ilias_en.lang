@@ -2830,6 +2830,8 @@ chatroom#:#chat_deletion_interval_unit#:#Unit
 chatroom#:#chat_deletion_interval_value#:#Value
 chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s
 chatroom#:#chat_deletion_section_head#:#Deletion of old Messages
+chatroom#:#chat_enable_history#:#Enable History
+chatroom#:#chat_enable_history_info#:#Everybody can read and export past public chat messages in the tab „History“. Messages from within private rooms are only accessible by invited users.
 chatroom#:#chat_error_log_info#:#Please define an absolute server path to the chat server's error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
 chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
@@ -2897,6 +2899,7 @@ chatroom#:#chat_select_room#:#Select Chat Room
 chatroom#:#chatserver_address#:#IP-Address/FQN of Chat Server
 chatroom#:#chatserver_port#:#Port of Chat Server
 chatroom#:#chat_settings#:#Chat Settings
+chatroom#:#chat_settings_functions_header#:#Chat Room Functions
 chatroom#:#chat_show_auto_messages#:#Show Status Messages
 chatroom#:#chat_to_mainroom#:#To Main Room
 chatroom#:#chat_use_osc#:#Using On-Screen-Chat
@@ -2926,8 +2929,6 @@ chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#display_past_msgs#:#Number of Past Messages
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
-chatroom#:#chat_enable_history#:#Enable History
-chatroom#:#chat_enable_history_info#:#Everybody can read and export past public chat messages in the tab „History“. Messages from within private rooms are only accessible by invited users.
 chatroom#:#enable_smilies#:#Enable Smileys
 chatroom#:#end_whisper#:#Cancel
 chatroom#:#enter#:#Enter Chat Room
@@ -2990,7 +2991,6 @@ chatroom#:#user_kicked#:#The user <b>#user#</b> has been kicked.
 chatroom#:#users#:#Users
 chatroom#:#welcome_to_chat#:#Welcome to the chat room
 chatroom#:#whisper_to#:#Whisper to <b>#user#</b>
-chatroom#:#chat_settings_functions_header#:#Chat Room Functions
 classification#:#clsfct_back_to_cat#:#Back to Category
 classification#:#clsfct_block_info#:#Your Selection filters the objects.
 classification#:#clsfct_block_title#:#Selection by Topics
