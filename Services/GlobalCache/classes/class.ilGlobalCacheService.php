@@ -120,7 +120,7 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
     {
         $matches = [];
         $memory_limit = $this->getMemoryLimit();
-        if (preg_match('#(\d*)([M|K])#uism', $memory_limit, $matches)) {
+        if (preg_match('#(\d*)([M|K])#uim', $memory_limit, $matches)) {
             if ($matches[2] === 'M') {
                 $memory_limit = $matches[1] * 1024 * 1024;
             } elseif ($matches[2] === 'K') {

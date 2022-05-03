@@ -42,17 +42,13 @@ class ilShm extends ilGlobalCacheService
         return shm_has_var(self::$shm_id, $key);
     }
 
-    /**
-     * @param mixed $serialized_value
-     */
+
     public function set(string $key, $serialized_value, int $ttl = null) : bool
     {
-        return shmop_write(self::$shm_id, $key, $serialized_value);
+        return (bool) shmop_write(self::$shm_id, $key, $serialized_value);
     }
 
-    /**
-     * @return mixed
-     */
+
     public function get(string $key)
     {
         return shmop_read(self::$shm_id, 0, self::$block_size);
