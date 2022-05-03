@@ -124,6 +124,7 @@ The ILIAS Testserver (https://test7.ilias.de) is currently configured as follows
 | wkhtmltopdf    | 0.12.6                      |
 | Ghostscript    | 9.50                        |
 | Imagemagick    | 6.9.10-23 Q16               |
+| MathJax        | 2.7.9                       |
 
 
 <a name="other-platforms"></a>
