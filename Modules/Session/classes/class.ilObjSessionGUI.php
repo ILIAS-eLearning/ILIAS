@@ -44,6 +44,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     public ilTree $tree;
     protected ilAccessHandler $access;
     protected ilToolbarGUI $toolbar;
+    //TODO PHP8-REVIEW: Missing property's declaration?
     protected $ilErr;
     protected ilObjectService $object_service;
     public ilObjectDefinition $objDefinition;
@@ -869,6 +870,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $new_ref_id = $file->createReference();
             $file->putInTree($tree->getParentId($this->object->getRefId()));
             $file->setPermissions($tree->getParentId($this->object->getRefId()));
+            //TODO PHP8-REVIEW: Method 'createDirectory' is undefined
             $file->createDirectory();
 
             $upload = $this->upload;
