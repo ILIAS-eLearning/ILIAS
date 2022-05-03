@@ -56,14 +56,14 @@ class AdminManager
     /**
      * Activate provider
      */
-    public function setActivationMode(string $provider_id, bool $a_val) : void
+    public function setActivationMode(string $provider_id, int $a_val) : void
     {
         $this->settings->set("up_act_" . $provider_id, (string) $a_val);
     }
 
-    public function getActivationMode(string $provider_id) : bool
+    public function getActivationMode(string $provider_id) : int
     {
-        return (bool) $this->settings->get("up_act_" . $provider_id);
+        return (int) $this->settings->get("up_act_" . $provider_id);
     }
 
     public function isProviderActivated(string $provider_id) : bool
