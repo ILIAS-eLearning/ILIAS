@@ -53,7 +53,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
         $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($this->getRecordId());
 
         $definition = ilADTFactory::getInstance()->getDefinitionInstanceByType(ilADTFactory::TYPE_LOCALIZED_TEXT);
-        $definition->setMaxLength($this->getMaxLength());
+        $definition->setMaxLength($this->getMaxLength() ?? 0);
         $definition->setActiveLanguages($field_translations->getActivatedLanguages($this->getFieldId(), true));
         $definition->setDefaultLanguage($field_translations->getDefaultLanguage());
         return $definition;
