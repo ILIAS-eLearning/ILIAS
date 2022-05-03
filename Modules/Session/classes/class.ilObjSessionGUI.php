@@ -49,10 +49,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     public ilObjectDefinition $objDefinition;
     protected ilTabsGUI $tabs_gui;
     protected ilLocatorGUI $locator;
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacreview;
+    protected ilRbacReview $rbacreview;
 
     protected int $container_ref_id = 0;
     protected int $container_obj_id = 0;
@@ -1283,9 +1280,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $list->setCallback(array($this, 'getAttendanceListUserData'));
 
         $this->event_part = new ilEventParticipants($this->object->getId());
-        
-        echo $list->getFullscreenHTML();
-        exit();
+        $list->getFullscreenHTML();
     }
 
     public function getAttendanceListUserData(int $a_user_id, array $a_filters) : ?array
