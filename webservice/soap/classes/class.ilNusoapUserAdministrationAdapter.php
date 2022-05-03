@@ -206,33 +206,6 @@ class ilNusoapUserAdministrationAdapter
             'ILIAS lookupUser(): check if username exists. Return usr_id or 0 if lookup fails.'
         );
 
-        // getUser()
-        $this->server->register(
-            'getUser',
-            array('sid' => 'xsd:string',
-                  'user_id' => 'xsd:int'
-            ),
-            array('user_data' => 'tns:ilUserData'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#getUser',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS getUser(): get complete set of user data. DEPRECATED with release 5.2, will be deleted with 5.3. Use searchUsers() instead.'
-        );
-
-        // deleteUser()
-        $this->server->register(
-            'deleteUser',
-            array('sid' => 'xsd:string',
-                  'user_id' => 'xsd:int'
-            ),
-            array('success' => 'xsd:boolean'),
-            SERVICE_NAMESPACE,
-            SERVICE_NAMESPACE . '#deleteUser',
-            SERVICE_STYLE,
-            SERVICE_USE,
-            'ILIAS deleteUser(). Deletes all user related data (Bookmarks, Mails ...). DEPRECATED: Use importUsers() for deletion of user data.'
-        );
 
         // addCourse()
         $this->server->register(
