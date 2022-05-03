@@ -197,7 +197,7 @@ abstract class ilFileSystemAbstractionStorage
             case self::STORAGE_WEB:
                 break;
             case self::STORAGE_SECURED:
-                $this->path .= '/' . self::SECURED_DIRECTORY;
+                $this->path = rtrim($this->path, '/') . '/' . self::SECURED_DIRECTORY . '/';
                 break;
         }
         
