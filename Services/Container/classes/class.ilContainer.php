@@ -914,7 +914,7 @@ class ilContainer extends ilObject
                         }
                         if ($short_desc && $short_desc_max_length) {
                             $long_desc[$object["obj_id"]] = ilStr::shortenTextExtended(
-                                $long_desc[$object["obj_id"]],
+                                $long_desc[$object["obj_id"]] ?? '',
                                 (int) $short_desc_max_length,
                                 true
                             );

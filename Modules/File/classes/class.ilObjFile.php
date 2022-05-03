@@ -88,8 +88,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $this->implementation = new ilObjFileImplementationStorage($resource);
             $this->max_version = $resource->getMaxRevision();
             $this->version = $resource->getMaxRevision();
-        } else {
-            throw new RuntimeException('cannot read resource from resource storage service');
         }
     }
     

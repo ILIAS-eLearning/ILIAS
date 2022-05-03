@@ -415,8 +415,11 @@ class ilColumnGUI
         $sum_moveable = count($this->blocks[$this->getSide()]);
 
         foreach ($this->blocks[$this->getSide()] as $block) {
-            $gui_class = $block["class"];
-            $block_class = substr($block["class"], 0, strlen($block["class"]) - 3);
+            $gui_class = $block["class"] ?? null;
+            if(!is_string($gui_class)) {
+                continue;
+            }
+            $block_class = substr($gui_class, 0, strlen($gui_class) - 3);
 
             // get block gui class
             $block_gui = new $gui_class();
