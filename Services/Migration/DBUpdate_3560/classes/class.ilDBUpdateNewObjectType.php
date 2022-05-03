@@ -522,7 +522,7 @@ class ilDBUpdateNewObjectType
         foreach ($tmp as $role_id => $parents) {
             foreach ($parents as $parent_id => $ops_ids) {
                 // only if the target op is missing
-                if (sizeof($ops_ids) < 2 && in_array($source_op_id, $ops_ids)) {
+                if (count($ops_ids) < 2 && in_array($source_op_id, $ops_ids)) {
                     $values = [
                         "rol_id" => ["integer", $role_id],
                         "type" => ["text", $obj_type],
@@ -567,7 +567,6 @@ class ilDBUpdateNewObjectType
     /**
      * This method will apply the 'Initial Permissions Guideline' when introducing new object types.
      * This method does not apply permissions to existing obejcts in the ILIAS repository ('change existing objects').
-     * @param string $objectType
      * @param bool $hasLearningProgress A boolean flag whether the object type supports learning progress
      * @param bool $usedForAuthoring A boolean flag to tell whether the object type is mainly used for authoring
      * @see https://www.ilias.de/docu/goto_docu_wiki_wpage_2273_1357.html
@@ -605,7 +604,7 @@ class ilDBUpdateNewObjectType
         foreach (self::$initialPermissionDefinition as $roleType => $roles) {
             foreach ($roles as $roleTitle => $definition) {
                 if (
-                    true === $usedForAuthoring &&
+                    $usedForAuthoring &&
                     array_key_exists('ignore_for_authoring_objects', $definition) &&
                     true === $definition['ignore_for_authoring_objects']
                 ) {

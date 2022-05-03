@@ -22,8 +22,6 @@ class ilServicesMigrationSuite extends TestSuite
 {
     public static function suite() : ilServicesMigrationSuite
     {
-        $suite = new ilServicesMigrationSuite();
-
-        return $suite;
+        return new ilServicesMigrationSuite();
     }
 }
