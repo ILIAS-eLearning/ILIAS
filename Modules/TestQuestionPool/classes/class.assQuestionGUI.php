@@ -69,6 +69,7 @@ abstract class assQuestionGUI
     private ilObjUser $ilUser;
     private ilTabsGUI $ilTabs;
     private ilRbacSystem $rbacsystem;
+    protected \ILIAS\Notes\GUIService $notes_gui;
 
     protected ilCtrl $ctrl;
     private array $new_id_listeners = array();
@@ -152,6 +153,7 @@ abstract class assQuestionGUI
         $this->ctrl->saveParameterByClass('ilobjquestionpoolgui', 'consumer_context');
 
         $this->errormessage = $this->lng->txt("fill_out_all_required_fields");
+        $this->notes_gui = $DIC->notes()->gui();
     }
     
     public function hasInlineFeedback() : bool
@@ -165,17 +167,9 @@ abstract class assQuestionGUI
             "HEAD_ACTION",
             $this->getHeaderAction()
         );
-        
-        $notesUrl = $this->ctrl->getLinkTargetByClass(
-            array("ilcommonactiondispatchergui", "ilnotegui"),
-            "",
-            "",
-            true,
-            false
-        );
-        
-        ilNoteGUI::initJavascript($notesUrl, Note::PUBLIC, $this->ui->mainTemplate());
-        
+
+        $this->notes_gui->initJavascript();
+
         $redrawActionsUrl = $this->ctrl->getLinkTarget($this, 'redrawHeaderAction', '', true);
         $this->ui->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");
     }

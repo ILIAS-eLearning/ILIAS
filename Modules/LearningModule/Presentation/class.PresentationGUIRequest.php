@@ -97,7 +97,10 @@ class PresentationGUIRequest
 
     public function getCmd() : string
     {
-        return $this->str("cmd");
+        if (!$this->isArray("cmd")) {
+            return $this->str("cmd");
+        }
+        return "";
     }
 
     public function getPgId() : int

@@ -143,17 +143,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         }
         $this->notes = $DIC->notes();
         if ($this->isQuestionCommentingEnabled()) {
-            global $DIC; /* @var ILIAS\DI\Container $DIC */
-            
-            $notesUrl = $this->ctrl->getLinkTargetByClass(
-                array("ilcommonactiondispatchergui", "ilnotegui"),
-                "",
-                "",
-                true,
-                false
-            );
-            
-            ilNoteGUI::initJavascript($notesUrl, ilNote::PUBLIC, $DIC->ui()->mainTemplate());
+            $this->notes->gui()->initJavascript();
         }
     }
     

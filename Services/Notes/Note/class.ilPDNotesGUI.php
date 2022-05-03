@@ -76,7 +76,7 @@ class ilPDNotesGUI
         // link from ilPDNotesBlockGUI
         $rel_obj = $this->request->getRelatedObjId();
         if ($rel_obj > 0) {
-            $mode = ($this->request->getNoteType() === ilNote::PRIVATE)
+            $mode = ($this->request->getNoteType() === Note::PRIVATE)
                 ? self::PRIVATE_NOTES
                 : self::PUBLIC_COMMENTS;
             $ilUser->writePref("pd_notes_mode", $mode);
@@ -85,7 +85,7 @@ class ilPDNotesGUI
         // edit link
         elseif ($this->request->getNoteId() > 0) {
             $note = $this->notes_manager->getById($this->request->getNoteId());
-            $mode = ($note->getType() === ilNote::PRIVATE) ? self::PRIVATE_NOTES : self::PUBLIC_COMMENTS;
+            $mode = ($note->getType() === Note::PRIVATE) ? self::PRIVATE_NOTES : self::PUBLIC_COMMENTS;
             $context = $note->getContext();
             $ilUser->writePref("pd_notes_mode", $mode);
             $ilUser->writePref("pd_notes_rel_obj" . $mode, $context->getObjId());

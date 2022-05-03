@@ -113,7 +113,7 @@ class NoteDBRepository
             ),
             $rec["note_text"],
             (int) $rec["author"],
-            $rec["type"],
+            (int) $rec["type"],
             $rec["creation_date"],
             $rec["update_date"]
         );
@@ -218,6 +218,9 @@ class NoteDBRepository
         return (int) $rec["cnt"];
     }
 
+    /**
+     * @return int[]
+     */
     public function getRelatedObjIdsOfUser(
         int $user_id,
         int $type
@@ -232,7 +235,7 @@ class NoteDBRepository
         $set = $db->query($q);
         $ids = [];
         while ($rec = $db->fetchAssoc($set)) {
-            $ids[] = $rec["rep_obj_id"];
+            $ids[] = (int) $rec["rep_obj_id"];
         }
         return $ids;
     }

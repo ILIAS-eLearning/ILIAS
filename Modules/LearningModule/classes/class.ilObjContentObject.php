@@ -76,6 +76,8 @@ class ilObjContentObject extends ilObject
             $this->locator = $DIC["ilLocator"];
         }
 
+        $this->notes = $DIC->notes();
+
         // this also calls read() method! (if $a_id is set)
         parent::__construct($a_id, $a_call_by_reference);
 
@@ -90,7 +92,6 @@ class ilObjContentObject extends ilObject
         $this->q_ids = array();
         $cs = $DIC->contentStyle();
         $this->content_style_domain = $cs->domain();
-        $this->notes = $DIC->notes();
     }
 
     /**
