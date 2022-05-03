@@ -631,7 +631,7 @@ class ilDBUpdateNewObjectType
                     $operationIds = [];
 
                     if (array_key_exists('object', $definition) && is_array($definition['object'])) {
-                        $operationIds = array_merge($operationIds, (array) $definition['object']);
+                        $operationIds = array_merge($operationIds, $definition['object']);
                     }
 
                     if (array_key_exists('lp', $definition) && true === $definition['lp']) {
