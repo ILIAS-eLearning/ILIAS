@@ -10835,7 +10835,7 @@ maps#:#maps_std_location_desc#:#Klicken Sie auf die Karte, um die eigene Positio
 maps#:#maps_std_location#:#Standardposition
 maps#:#maps_tile_server#:#Server für Kacheln
 maps#:#maps_zoom_level#:#Vergrößerungsstufe
-mathjax#:#mathjax_enable_client_info#:#Aktiviert die Darstellung von TeX im Browser durch Einbindung des MathJax-Skripts
+mathjax#:#mathjax_enable_client_info#:#Aktiviert die Darstellung von TeX im Browser durch Einbindung des MathJax-Skripts. MathJax 3 wird unterstützt, aber MathJax 2 empfohlen.
 mathjax#:#mathjax_enable_client#:#MathJax im Browser aktivieren
 mathjax#:#mathjax_enable_server_info#:#Aktiviert die serverseitige Umwandlung von TeX in Grafiken.
 mathjax#:#mathjax_enable_server#:#MathJax im Server aktivieren

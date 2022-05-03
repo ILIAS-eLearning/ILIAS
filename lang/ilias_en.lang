@@ -10809,7 +10809,7 @@ maps#:#maps_std_location_desc#:#Click map to set location.
 maps#:#maps_tile_server#:#Server for Tiles
 maps#:#maps_zoom_level#:#Zoom Level
 mathjax#:#mathjax_enable_client#:#Enable MathJax in the Browser
-mathjax#:#mathjax_enable_client_info#:#Activates a client-side rendering of TeX in the browser by including the MathJax script.
+mathjax#:#mathjax_enable_client_info#:#Activates a client-side rendering of TeX in the browser by including the MathJax script. Mathjax 3 is supported, but MathJax 2 is recommended.
 mathjax#:#mathjax_enable_server#:#Enable MathJax on the Server
 mathjax#:#mathjax_enable_server_info#:#Activates a server-side rendering of TeX to graphics.
 mathjax#:#mathjax_home_link#:# » MathJax
