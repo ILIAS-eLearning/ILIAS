@@ -14455,7 +14455,8 @@ p#copg-auto-save {
 #ed_datatable th {
   vertical-align: middle;
 }
-.copg-new-content-placeholder {
+.copg-new-content-placeholder,
+.copg-content-placeholder-lso-curriculum {
   text-align: center;
   color: #6f6f6f;
   padding: 20px;
@@ -18774,6 +18775,10 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .ilLSOKioskModeCurriculum .il-workflow-container {
   padding: 5px;
+}
+/* intro page */
+.il-lso-startbutton-container {
+  margin: 9px 0;
 }
 .ilLearningHistoryShowMore {
   text-align: center;
