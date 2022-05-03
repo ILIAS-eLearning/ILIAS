@@ -8,7 +8,7 @@
 	padding: @il-item-padding;
 
 	.il-item-title {
-		font-size: @font-size-base;
+		font-size: @il-font-size-base;
 		display: inline-block;
 		.btn-link, a {
 			font-size: inherit;
@@ -36,18 +36,18 @@
 
 	.il-item-description {
 		padding: @il-item-description-padding;
-		font-size: @font-size-small;
+		font-size: @il-font-size-small;
 		clear: both;
 	}
 
 	.il-item-property-name {
-		font-size: @font-size-small;
+		font-size: @il-font-size-small;
 		color: @il-text-light-color;
 		overflow: hidden;
 	}
 
 	.il-item-property-value {
-		font-size: @font-size-small;
+		font-size: @il-font-size-small;
 		overflow: hidden;
 	}
 
@@ -85,7 +85,7 @@
 	> h3 {
 		float:left;
 		color: @panel-heading-color;
-		font-size: @font-size-h4;
+		font-size: @il-font-size-large;
 		font-weight: normal;
 		padding: @panel-heading-padding;
 		margin: 0;
@@ -124,7 +124,7 @@
 	}
 
 	.dropdown{
-		margin-top: -(@font-size-base+@il-margin-large-vertical);
+		margin-top: -1.25rem;
 	}
 
 }
@@ -176,7 +176,7 @@
 
 		.il-item-description {
 			padding-top: 0;
-			font-size: @font-size-xs;
+			font-size: @il-font-size-xsmall;
 			word-break: break-word;
 		}
 
