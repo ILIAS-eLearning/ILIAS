@@ -4222,7 +4222,7 @@
 <xsl:template match="Curriculum">
 	<xsl:if test="$mode = 'edit'">
 		<div class="copg-content-placeholder-lso-curriculum">
-			<img class="icon pemed medium" src="./templates/default/images/icon_lso.svg" alt="curriculum" />
+			<img class="icon pewl medium" src="./templates/default/images/icon_pewl.svg" alt="curriculum" />
 			<div>Curriculum</div>
 		</div>
 	</xsl:if>
@@ -4236,14 +4236,16 @@
 <!-- (LSO) Launcher -->
 <xsl:template match="Launcher">
 	<xsl:if test="$mode = 'edit'">
-		<div class="copg-content-placeholder-lso-startbutton">
-			<button class="btn btn-standard">Start Learning Sequence</button>
+		<div class="copg-content-placeholder-lso-startbutton il-lso-startbutton-container">
+			<button class="btn btn-default">Start Learning Sequence</button>
 		</div>
 	</xsl:if>
 	<xsl:if test="$mode != 'edit'">
-		<Launcher>
-			[[[LAUNCHER]]]
-		</Launcher>
+		<div class="il-lso-startbutton-container">
+			<Launcher>
+				[[[LAUNCHER]]]
+			</Launcher>
+		</div>
 	</xsl:if>
 </xsl:template>
 
