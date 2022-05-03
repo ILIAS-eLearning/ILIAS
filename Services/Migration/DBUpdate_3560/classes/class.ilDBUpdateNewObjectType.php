@@ -194,9 +194,9 @@ class ilDBUpdateNewObjectType
 
         $sql =
             "SELECT typ_id" . PHP_EOL
-            ."FROM rbac_ta" . PHP_EOL
-            ."WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
-            ."AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
+            . "FROM rbac_ta" . PHP_EOL
+            . "WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
+            . "AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
         ;
         $res = $ilDB->query($sql);
 
@@ -224,9 +224,9 @@ class ilDBUpdateNewObjectType
 
         $sql =
             "SELECT typ_id" . PHP_EOL
-            ."FROM rbac_ta" . PHP_EOL
-            ."WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
-            ."AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
+            . "FROM rbac_ta" . PHP_EOL
+            . "WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
+            . "AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
         ;
 
         return (bool) $ilDB->numRows($ilDB->query($sql));
@@ -252,8 +252,8 @@ class ilDBUpdateNewObjectType
 
         $sql =
             "DELETE FROM rbac_ta" . PHP_EOL
-            ."WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
-            ."AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
+            . "WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
+            . "AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
         ;
         $GLOBALS['ilLog']->write(__METHOD__ . ': ' . $sql);
         $ilDB->manipulate($sql);
@@ -276,8 +276,8 @@ class ilDBUpdateNewObjectType
 
         $sql =
             "DELETE FROM rbac_templates" . PHP_EOL
-            ."WHERE type = " . $ilDB->quote($type, "text") . PHP_EOL
-            ."ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
+            . "WHERE type = " . $ilDB->quote($type, "text") . PHP_EOL
+            . "ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
         ;
         $GLOBALS['ilLog']->write(__METHOD__ . ': ' . $sql);
         $ilDB->manipulate($sql);
@@ -313,8 +313,8 @@ class ilDBUpdateNewObjectType
 
         $sql =
             "SELECT ops_id" . PHP_EOL
-            ."FROM rbac_operations" . PHP_EOL
-            ."WHERE operation = " . $ilDB->quote($operation, "text") . PHP_EOL
+            . "FROM rbac_operations" . PHP_EOL
+            . "WHERE operation = " . $ilDB->quote($operation, "text") . PHP_EOL
         ;
 
         $res = $ilDB->query($sql);
@@ -373,8 +373,8 @@ class ilDBUpdateNewObjectType
 
         $sql =
             "SELECT obj_id FROM object_data" . PHP_EOL
-            ."WHERE type = 'typ'" . PHP_EOL
-            ."AND title = " . $ilDB->quote($type, 'text') . PHP_EOL
+            . "WHERE type = 'typ'" . PHP_EOL
+            . "AND title = " . $ilDB->quote($type, 'text') . PHP_EOL
         ;
 
         $res = $ilDB->query($sql);
@@ -481,11 +481,11 @@ class ilDBUpdateNewObjectType
 
         $sql =
             "SELECT rpa.rol_id, rpa.ops_id, rpa.ref_id" . PHP_EOL
-            ."FROM rbac_pa rpa" . PHP_EOL
-            ."JOIN object_reference ref ON (ref.ref_id = rpa.ref_id)" . PHP_EOL
-            ."JOIN object_data od ON (od.obj_id = ref.obj_id AND od.type = " . $db->quote($obj_type, "text") . ")" . PHP_EOL
-            ."WHERE (" . $db->like("ops_id", "text", "%i:" . $source_op_id . "%") . PHP_EOL
-            ."OR " . $db->like("ops_id", "text", "%:\"" . $source_op_id . "\";%") . ")" . PHP_EOL
+            . "FROM rbac_pa rpa" . PHP_EOL
+            . "JOIN object_reference ref ON (ref.ref_id = rpa.ref_id)" . PHP_EOL
+            . "JOIN object_data od ON (od.obj_id = ref.obj_id AND od.type = " . $db->quote($obj_type, "text") . ")" . PHP_EOL
+            . "WHERE (" . $db->like("ops_id", "text", "%i:" . $source_op_id . "%") . PHP_EOL
+            . "OR " . $db->like("ops_id", "text", "%:\"" . $source_op_id . "\";%") . ")" . PHP_EOL
         ;
 
         while ($row = $db->fetchAssoc($db->query($sql))) {
@@ -496,9 +496,9 @@ class ilDBUpdateNewObjectType
 
                 $sql =
                     "UPDATE rbac_pa" . PHP_EOL
-                    ."SET ops_id = " . $db->quote(serialize($ops), "text") . PHP_EOL
-                    ."WHERE rol_id = " . $db->quote($row["rol_id"], "integer") . PHP_EOL
-                    ."AND ref_id = " . $db->quote($row["ref_id"], "integer") . PHP_EOL
+                    . "SET ops_id = " . $db->quote(serialize($ops), "text") . PHP_EOL
+                    . "WHERE rol_id = " . $db->quote($row["rol_id"], "integer") . PHP_EOL
+                    . "AND ref_id = " . $db->quote($row["ref_id"], "integer") . PHP_EOL
                 ;
 
                 $db->manipulate($sql);
@@ -509,10 +509,10 @@ class ilDBUpdateNewObjectType
         $tmp = [];
         $sql =
             "SELECT rol_id, parent, ops_id" . PHP_EOL
-            ."FROM rbac_templates" . PHP_EOL
-            ."WHERE type = " . $db->quote($obj_type, "text") . PHP_EOL
-            ."AND (ops_id = " . $db->quote($source_op_id, "integer") . PHP_EOL
-            ."OR ops_id = " . $db->quote($target_op_id, "integer") . ")" . PHP_EOL
+            . "FROM rbac_templates" . PHP_EOL
+            . "WHERE type = " . $db->quote($obj_type, "text") . PHP_EOL
+            . "AND (ops_id = " . $db->quote($source_op_id, "integer") . PHP_EOL
+            . "OR ops_id = " . $db->quote($target_op_id, "integer") . ")" . PHP_EOL
         ;
 
         while ($row = $db->fetchAssoc($db->query($sql))) {
