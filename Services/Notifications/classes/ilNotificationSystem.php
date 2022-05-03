@@ -65,6 +65,7 @@ class ilNotificationSystem
             $usersWithCustomConfig = ilNotificationDatabaseHandler::getUsersWithCustomConfig($users);
             $channels = ilNotificationDatabaseHandler::getAvailableChannels();
             $types = ilNotificationDatabaseHandler::getAvailableTypes();
+            //TODO PHP8-REVIEW: Parameter '$notification->getLanguageParameters()' type is not compatible with declaration
             $lang = ilNotificationDatabaseHandler::getTranslatedLanguageVariablesOfNotificationParameters($notification->getLanguageParameters());
 
             $user_by_handler = [];
