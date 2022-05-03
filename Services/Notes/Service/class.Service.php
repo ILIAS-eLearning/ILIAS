@@ -38,7 +38,7 @@ class Service
     }
 
     /**
-     * Internal service, do not use in other components
+     * External data service facade
      */
     public function data() : DataService
     {
@@ -46,10 +46,18 @@ class Service
     }
 
     /**
-     * Internal service, do not use in other components
+     * External domain service facade
      */
     public function domain() : DomainService
     {
         return new DomainService($this->internal()->domain());
+    }
+
+    /**
+     * External gui service facade
+     */
+    public function gui() : GUIService
+    {
+        return new GUIService($this->internal()->gui());
     }
 }

@@ -20,6 +20,7 @@ namespace ILIAS\Notes;
  */
 class AccessManager
 {
+    protected \ilSetting $settings;
     protected int $user_id;
     protected InternalDomainService $domain;
     protected InternalRepoService $repo;
@@ -34,16 +35,45 @@ class AccessManager
         $this->repo = $repo;
         $this->domain = $domain;
         $this->user_id = $domain->user()->getId();
+        $this->settings = $domain->settings();
     }
 
-    public function canEdit(?Note $note, int $user_id = 0) : bool
-    {
-        if (is_null($note)) {
-            return false;
-        }
+    public function canEdit(
+        Note $note,
+        int $user_id = 0
+    ) : bool {
         if ($user_id === 0) {
             $user_id = $this->user_id;
         }
-        return $user_id !== ANONYMOUS_USER_ID && $note->getAuthor() === $user_id->getId();
+        return $user_id !== ANONYMOUS_USER_ID && $note->getAuthor() === $user_id;
+    }
+
+    public function canDelete(
+        Note $note,
+        int $user_id = 0,
+        $public_deletion_enabled = false
+    ) : bool {
+        $settings = $this->settings;
+        $user_can_delete_their_comments = (bool) $settings->get("comments_del_user", '0');
+
+        if ($user_id === ANONYMOUS_USER_ID) {
+            return false;
+        }
+
+        $is_author = ($note->getAuthor() === $user_id);
+
+        if ($is_author && $note->getType() === Note::PRIVATE) {
+            return true;
+        }
+
+        if ($public_deletion_enabled && $note->getType() === Note::PUBLIC) {
+            return true;
+        }
+
+        if ($is_author && $user_can_delete_their_comments && $note->getType() === Note::PUBLIC) {
+            return true;
+        }
+
+        return false;
     }
 }

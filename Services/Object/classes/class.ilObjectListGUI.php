@@ -1327,7 +1327,6 @@ class ilObjectListGUI
         $redraw_js = "il.Object.redrawListItem(" . $note_ref_id . ");";
 
         // add common properties (comments, notes, tags)
-        new ilNote();  // this is only needed to make constants available, constants should be refactored
         if (
             (
                 (

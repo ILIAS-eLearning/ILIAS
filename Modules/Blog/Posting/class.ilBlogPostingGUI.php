@@ -569,9 +569,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         int $a_note_id
     ) : void {
         // #10040 - get note text
-        $note = new ilNote($a_note_id);
-        $note = $note->getText();
-        ilObjBlog::sendNotification("comment", $this->isInWorkspace(), $this->node_id, $a_posting_id, $note);
+        $note = $this->notes->domain()->getById($a_note_id);
+        $text = $note->getText();
+        ilObjBlog::sendNotification("comment", $this->isInWorkspace(), $this->node_id, $a_posting_id, $text);
     }
     
     public function getActivationCaptions() : array

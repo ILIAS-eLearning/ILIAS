@@ -45,4 +45,32 @@ class InternalGUIService
             $this->domain_service->refinery()
         );
     }
+
+    public function initJavascript(
+        string $ajax_url = "",
+        ?\ilGlobalTemplateInterface $main_tpl = null
+    ) : void {
+        $tpl = $main_tpl ?? $this->mainTemplate();
+        $lng = $this->domain_service->lng();
+        $ctrl = $this->ctrl();
+
+        if ($ajax_url === "") {
+            $ajax_url = $this->ctrl->getLinkTargetByClass(
+                array("ilcommonactiondispatchergui", "ilnotegui"),
+                "",
+                "",
+                true,
+                false
+            );
+        }
+
+        $lng->loadLanguageModule("notes");
+        \ilModalGUI::initJS($tpl);
+
+        $lng->toJS(array("private_notes", "notes_public_comments"), $tpl);
+
+        \iljQueryUtil::initjQuery($tpl);
+        $tpl->addJavaScript("./Services/Notes/js/ilNotes.js");
+        $tpl->addOnLoadCode("ilNotes.setAjaxUrl('" . $ajax_url . "');");
+    }
 }

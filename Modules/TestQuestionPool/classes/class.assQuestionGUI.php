@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Notes\Note;
+
 require_once './Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
 require_once './Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
 require_once './Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php';
@@ -172,7 +174,7 @@ abstract class assQuestionGUI
             false
         );
         
-        ilNoteGUI::initJavascript($notesUrl, ilNote::PUBLIC, $this->ui->mainTemplate());
+        ilNoteGUI::initJavascript($notesUrl, Note::PUBLIC, $this->ui->mainTemplate());
         
         $redrawActionsUrl = $this->ctrl->getLinkTarget($this, 'redrawHeaderAction', '', true);
         $this->ui->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");

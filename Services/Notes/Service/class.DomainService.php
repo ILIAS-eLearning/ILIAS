@@ -57,6 +57,15 @@ class DomainService
     }
 
     /**
+     * Get note by id
+     */
+    public function getById(
+        int $id
+    ) : Note {
+        return $this->notes_manager->getById($id);
+    }
+
+    /**
      * Gets all comments of a repo object, incl.
      * comments of subobjects.
      * @return Note[]

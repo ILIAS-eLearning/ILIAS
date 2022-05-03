@@ -13,6 +13,9 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Notes\InternalService;
+use ILIAS\Notes\Note;
+
 /**
  * Notes Data set class. Entities
  * - user_notes: All personal notes of a user (do not use this for object
@@ -22,6 +25,18 @@
  */
 class ilNotesDataSet extends ilDataSet
 {
+    protected \ILIAS\Notes\InternalDataService $notes_data;
+    protected \ILIAS\Notes\NotesManager $notes_manager;
+
+    public function __construct()
+    {
+        global $DIC;
+
+        parent::__construct();
+        $this->notes_manager = $DIC->notes()->internal()->domain()->notes();
+        $this->notes_data = $DIC->notes()->internal()->data();
+    }
+
     public function getSupportedVersions() : array
     {
         return array("4.3.0");
@@ -97,15 +112,24 @@ class ilNotesDataSet extends ilDataSet
                         $a_rec["ObjId"] == $a_rec["Author"] &&
                         $a_rec["Type"] === ilNote::PRIVATE &&
                         $a_rec["ObjType"] === "pd") {
-                        $note = new ilNote();
-                        $note->setObject("pd", 0, (int) $usr_id);
-                        $note->setType(ilNote::PRIVATE);
-                        $note->setAuthor((int) $usr_id);
-                        $note->setText($a_rec["NoteText"]);
-                        $note->setSubject($a_rec["Subject"]);
-                        $note->setCreationDate($a_rec["CreationDate"]);
-                        $note->setLabel($a_rec["Label"]);
-                        $note->create(true);
+                        $context = $this->notes_data->context(
+                            0,
+                            (int) $usr_id,
+                            "pd"
+                        );
+                        $note = $this->notes_data->note(
+                            0,
+                            $context,
+                            $a_rec["NoteText"],
+                            (int) $usr_id,
+                            Note::PRIVATE,
+                            $a_rec["CreationDate"]
+                        );
+                        $this->notes_manager->createNote(
+                            $note,
+                            [],
+                            true
+                        );
                     }
                 }
                 break;

@@ -20,6 +20,7 @@
 use ILIAS\Container\Content\ViewManager;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\Notes\Note;
 
 /**
  * BlockGUI class for polls.
@@ -462,7 +463,7 @@ class ilPollBlockGUI extends ilBlockGUI
             return 0;
         }
 
-        return (int) $number[$obj_id][ilNote::PUBLIC];
+        return (int) $number[$obj_id][Note::PUBLIC];
     }
 
     public function fillDataSection() : void

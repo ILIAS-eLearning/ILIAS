@@ -56,6 +56,14 @@ class NoteDBRepository
         return $this->getById($id);
     }
 
+    public function deleteNote(int $id) : void
+    {
+        $db = $this->db;
+        $q = "DELETE FROM note WHERE id = " .
+            $db->quote($id, "integer");
+        $db->manipulate($q);
+    }
+
     public function updateNoteText(
         int $id,
         string $text

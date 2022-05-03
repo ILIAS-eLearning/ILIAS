@@ -70,7 +70,9 @@ class ilPDNotesGUI
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        
+
+        $this->notes_manager = $DIC->notes()->internal()->domain()->notes();
+
         // link from ilPDNotesBlockGUI
         $rel_obj = $this->request->getRelatedObjId();
         if ($rel_obj > 0) {
@@ -82,13 +84,12 @@ class ilPDNotesGUI
         }
         // edit link
         elseif ($this->request->getNoteId() > 0) {
-            $note = new ilNote($this->request->getNoteId());
+            $note = $this->notes_manager->getById($this->request->getNoteId());
             $mode = ($note->getType() === ilNote::PRIVATE) ? self::PRIVATE_NOTES : self::PUBLIC_COMMENTS;
-            $obj = $note->getObject();
+            $context = $note->getContext();
             $ilUser->writePref("pd_notes_mode", $mode);
-            $ilUser->writePref("pd_notes_rel_obj" . $mode, $obj["rep_obj_id"]);
+            $ilUser->writePref("pd_notes_rel_obj" . $mode, $context->getObjId());
         }
-        $this->notes_manager = $DIC->notes()->internal()->domain()->notes();
     }
 
     public function executeCommand() : void

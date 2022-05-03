@@ -54,7 +54,6 @@ class NotesManager
         return $this->sess_repo->getSortAscending();
     }
 
-
     public function createNote(
         Note $note,
         array $observer,
@@ -66,6 +65,13 @@ class NotesManager
         $note = $this->db_repo->createNote($note);
         $this->notification->sendNotifications($note, false);
         $this->notification->notifyObserver($observer, "new", $note);
+    }
+
+    public function deleteNote(Note $note, int $user_id, $public_deletion_enabled = false) : void
+    {
+        if ($this->note_access->canDelete($note, $user_id, $public_deletion_enabled)) {
+            $this->db_repo->deleteNote($note->getId());
+        }
     }
 
     public function updateNoteText(

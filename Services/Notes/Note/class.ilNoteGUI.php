@@ -892,15 +892,15 @@ class ilNoteGUI
         $ilUser = $this->user;
 
         $tpl = new ilTemplate("tpl.pd_note.html", true, true, "Services/Notes");
-        $note = new ilNote($note_id);
-        $target = $note->getObject();
+        $note = $this->manager->getById($note_id);
+        $context = $note->getContext();
         
         if ($note->getAuthor() !== $ilUser->getId()) {
             return "";
         }
         
         $tpl->setCurrentBlock("edit_note");
-        $ilCtrl->setParameterByClass("ilnotegui", "rel_obj", $target["rep_obj_id"]);
+        $ilCtrl->setParameterByClass("ilnotegui", "rel_obj", $context->getObjId());
         $ilCtrl->setParameterByClass("ilnotegui", "note_id", $note_id);
         $ilCtrl->setParameterByClass("ilnotegui", "note_type", $note->getType());
         $tpl->setVariable(
@@ -929,7 +929,6 @@ class ilNoteGUI
             );
         }
         
-        $tpl->setVariable("VAL_SUBJECT", $note->getSubject());
         $text = (trim($note->getText()) !== "")
             ? nl2br($note->getText())
             : "<p class='subtitle'>" . $lng->txt("note_content_removed") . "</p>";
@@ -1241,9 +1240,9 @@ class ilNoteGUI
         $cnt = 0;
         $ids = $this->request->getNoteIds();
         foreach ($ids as $id) {
-            $note = new ilNote($id);
-            if ($this->checkDeletion($note)) {
-                $note->delete();
+            $note = $this->manager->getById($id);
+            if ($this->notes_access->canDelete($note, $this->user->getId(), $this->public_deletion_enabled)) {
+                $this->manager->deleteNote($note, $this->user->getId(), $this->public_deletion_enabled);
                 $cnt++;
             }
         }
