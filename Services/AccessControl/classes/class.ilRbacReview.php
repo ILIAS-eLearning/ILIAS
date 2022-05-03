@@ -297,9 +297,9 @@ class ilRbacReview
             'where ' . $this->db->in('rol_id', $a_roles, false, 'integer');
 
         $res = $this->db->query($query);
-        if ($res->numRows()) {
+        if ($res->numRows() > 0) {
             $row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT);
-            return $row->num;
+            return isset($row->num) && is_numeric($row->num) ? (int) $row->num : 0;
         }
         return 0;
     }
