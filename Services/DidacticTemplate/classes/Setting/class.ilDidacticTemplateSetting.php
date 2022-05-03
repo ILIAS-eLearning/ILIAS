@@ -617,11 +617,7 @@ class ilDidacticTemplateSetting
         return ilMultilingualism::getInstance($this->getId(), "dtpl");
     }
 
-    /**
-     * @param int $a_node_id
-     * @return bool
-     */
-    public function isEffective($a_node_id) : bool
+    public function isEffective(int $a_node_id) : bool
     {
         if (!count($this->getEffectiveFrom()) || in_array($a_node_id, $this->getEffectiveFrom())) {
             return true;

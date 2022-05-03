@@ -301,7 +301,7 @@ class ilObjUser extends ilObject
         $this->setTimeLimitUnlimited($a_data["time_limit_unlimited"]);
         $this->setTimeLimitFrom($a_data["time_limit_from"]);
         $this->setTimeLimitUntil($a_data["time_limit_until"]);
-        $this->setTimeLimitMessage($a_data['time_limit_message']);
+        $this->setTimeLimitMessage((string) $a_data['time_limit_message']);
 
         // user profile incomplete?
         $this->setProfileIncomplete((bool) $a_data["profile_incomplete"]);

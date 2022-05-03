@@ -731,7 +731,7 @@ class ilObjectGUI
         $templates = ilDidacticTemplateSettings::getInstanceByObjectType($this->type)->getTemplates();
         if ($templates) {
             foreach ($templates as $template) {
-                if ($template->isEffective($this->requested_ref_id)) {
+                if ($template->isEffective((int) $this->requested_ref_id)) {
                     $options["dtpl_" . $template->getId()] = array(
                         $template->getPresentationTitle(),
                         $template->getPresentationDescription()
