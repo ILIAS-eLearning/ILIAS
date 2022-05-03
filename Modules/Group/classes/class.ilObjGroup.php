@@ -1509,11 +1509,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             " FROM grp_settings" .
             " WHERE obj_id = " . $ilDB->quote($a_group_id, "integer"));
         $row = $ilDB->fetchAssoc($set);
-        if ($row && $row["leave_end"]) {
+        if ($row && isset($row["leave_end"]) && is_numeric($row["leave_end"])) {
             // timestamp to date
-            $limit = date("Ymd", $row["leave_end"]);
+            $limit = date("Ymd", (int) $row["leave_end"]);
             if ($limit < date("Ymd")) {
-                $a_date = new ilDate(date("Y-m-d", $row["leave_end"]), IL_CAL_DATE);
+                $a_date = new ilDate(date("Y-m-d", (int) $row["leave_end"]), IL_CAL_DATE);
                 return false;
             }
         }

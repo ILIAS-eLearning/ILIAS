@@ -111,8 +111,8 @@ class SettingsDBRepository
         $settings = [];
         while ($rec = $db->fetchAssoc($set)) {
             $settings[(int) $rec["survey_id"]] = $this->set_factory->accessSettings(
-                $this->toUnixTS($rec["startdate"]),
-                $this->toUnixTS($rec["enddate"]),
+                $this->toUnixTS($rec["startdate"] ?? ''),
+                $this->toUnixTS($rec["enddate"] ?? ''),
                 in_array($rec["anonymize"], ["1", "3"], true)
             );
         }
