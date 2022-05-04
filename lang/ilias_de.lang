@@ -3930,6 +3930,7 @@ common#:#object_id#:#Objekt-ID
 common#:#object_imported#:#Objekt importiert
 common#:#objects#:#Objekte
 common#:#objf#:#Objektdefinitionen
+common#:#objs_root#:#Magazin
 common#:#objs_book#:#Buchungspools
 common#:#objs_cat#:#Kategorien
 common#:#objs_catr#:#Kategorielinks
