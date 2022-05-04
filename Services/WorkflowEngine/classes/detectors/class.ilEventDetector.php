@@ -129,9 +129,9 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Set the event subject type to the detector. 'WHO'
      * @param string  $event_subject_type
-     * @param integer $event_subject_identifier
+     * @param integer|string $event_subject_identifier
      */
-    public function setEventSubject(string $event_subject_type, int $event_subject_identifier) : void
+    public function setEventSubject(string $event_subject_type, $event_subject_identifier) : void
     {
         $this->event_subject_type = $event_subject_type;
         $this->event_subject_identifier = $event_subject_identifier;

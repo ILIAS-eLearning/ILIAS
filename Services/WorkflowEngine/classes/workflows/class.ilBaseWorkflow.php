@@ -45,7 +45,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * This holds the database id of the workflow
      *
      */
-    protected ?int $db_id;
+    protected $db_id;
 
     /**
      * Holds the type of the workflow.

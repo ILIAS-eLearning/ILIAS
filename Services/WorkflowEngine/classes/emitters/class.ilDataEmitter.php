@@ -26,7 +26,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
     /** @var bool $emitted Holds information if the emitter emitted at least once. */
     private bool $emitted;
 
-    protected ?string $name;
+    protected $name;
 
     /** @var string $var_name */
     protected string $var_name = '';

@@ -25,7 +25,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
      */
     private bool $detection_state = false;
 
-    protected ?string $name;
+    protected $name;
 
     protected ?\ilNode $source_node;
 
