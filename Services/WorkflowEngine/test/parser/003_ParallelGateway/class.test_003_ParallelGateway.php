@@ -45,7 +45,7 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
         $test_name = 'ParallelGateway_Simple';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
         $parser = new ilBPMN2Parser();
-        $parse_result = str_replace("\n", "\r\n", $parser->parseBPMN2XML($xml));
+        $parse_result = $parser->parseBPMN2XML($xml);
         
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
@@ -96,7 +96,7 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
         $test_name = 'ParallelGateway_Joining';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
         $parser = new ilBPMN2Parser();
-        $parse_result = str_replace("\n", "\r\n", $parser->parseBPMN2XML($xml));
+        $parse_result = $parser->parseBPMN2XML($xml);
 
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
@@ -136,7 +136,7 @@ class test_003_ParallelGateway extends ilWorkflowEngineBaseTest
         $test_name = 'ParallelGateway_Forking';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
         $parser = new ilBPMN2Parser();
-        $parse_result = str_replace("\n", "\r\n", $parser->parseBPMN2XML($xml));
+        $parse_result = $parser->parseBPMN2XML($xml);
 
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));

@@ -45,7 +45,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * This holds the database id of the workflow
      *
      */
-    protected $db_id;
+    protected ?int $db_id = null;
 
     /**
      * Holds the type of the workflow.
@@ -57,7 +57,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_type Name of type of the workflow.
      */
-    protected $workflow_type;
+    protected ?string $workflow_type = null;
 
     /**
      * Holds a content description of the workflow instance.
@@ -68,19 +68,19 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_content Content description of the workflow.
      */
-    protected ?string $workflow_content;
+    protected ?string $workflow_content = null;
 
     /**
      * Holds the classname of the workflow definition.
      * @var string $workflow_class Name of the class. e.g. ComplianceWorkflow1 for class.ilComplianceWorkflow1.php
      */
-    protected ?string $workflow_class;
+    protected ?string $workflow_class = null;
 
     /**
      * Holds the path to the workflow definition class relative to the applications root.
      * @var string $workflow_location Path to class, e.g. Services/WorkflowEngine for './Services/WorkflowEngine/classes/class..."
      */
-    protected ?string $workflow_location;
+    protected ?string $workflow_location = null;
 
     /**
      * Holding the subject type of the workflow.
@@ -89,7 +89,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * E.g. crs, usr
      * @var string $workflow_subject_type Name of the subject type.
      */
-    protected ?string $workflow_subject_type;
+    protected ?string $workflow_subject_type = null;
 
     /**
      * This is the actual identifier of the 'who'. If subject_type is a usr, this
@@ -97,7 +97,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var integer $workflow_subject_identifier Identifier of the events subject.
      */
-    protected ?int $workflow_subject_identifier;
+    protected ?int $workflow_subject_identifier = null;
 
     /**
      * Type of the workflows context.
@@ -106,7 +106,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_context_type Type if the events context type.
      */
-    protected ?string $workflow_context_type;
+    protected ?string $workflow_context_type = null;
 
     /**
      * Identifier of the workflows context.
@@ -115,7 +115,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var integer $workflow_context_identifier Identifier of the events context.
      */
-    protected ?int $workflow_context_identifier;
+    protected ?int $workflow_context_identifier = null;
 
     /**
      * Array of instance variables to be shared across the workflow.
@@ -125,10 +125,10 @@ abstract class ilBaseWorkflow implements ilWorkflow
     protected array $instance_vars = array();
 
     /** @var array $data_inputs Input data for the workflow (readonly). */
-    protected ?array $data_inputs;
+    protected ?array $data_inputs = array();
 
     /** @var array $data_outputs Output data for the workflow. */
-    protected ?array $data_outputs;
+    protected ?array $data_outputs = array();
 
     /** @var bool $require_data_persistence True, if the persistence needs to deal with data. */
     protected bool $require_data_persistence = false;
