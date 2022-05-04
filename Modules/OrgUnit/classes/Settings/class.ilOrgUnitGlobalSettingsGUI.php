@@ -29,7 +29,7 @@ class ilOrgUnitGlobalSettingsGUI
         }
     }
 
-    final public function executeCommand() : void
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd('settings');
         $next_class = $this->ctrl->getNextClass($this);

@@ -39,7 +39,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $this->initCSSandJS();
     }
 
-    final public function getHook(string $key) : bool|string
+    public function getHook(string $key) : bool|string
     {
         if (isset($this->hooks[$key])) {
             return $this->hooks[$key];
@@ -48,56 +48,56 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return false;
     }
 
-    final public function addHook(string $key, array $options) : void
+    public function addHook(string $key, array $options) : void
     {
         $this->hooks[$key] = $options;
     }
 
-    final public function removeHook(string $key) : void
+    public function removeHook(string $key) : void
     {
         if (isset($this->hooks[$key])) {
             unset($this->hooks[$key]);
         }
     }
 
-    final public function addInput(\ilFormPropertyGUI $input, array $options = array()) : void
+    public function addInput(\ilFormPropertyGUI $input, array $options = array()) : void
     {
         $this->inputs[$input->getPostVar()] = $input;
         $this->input_options[$input->getPostVar()] = $options;
         $this->counter++;
     }
 
-    final public function getTemplateDir() : string
+    public function getTemplateDir() : string
     {
         return $this->template_dir;
     }
 
-    final public function setTemplateDir(string $template_dir) : void
+    public function setTemplateDir(string $template_dir) : void
     {
         $this->template_dir = $template_dir;
     }
 
-    final public function isShowLabel() : bool
+    public function isShowLabel() : bool
     {
         return $this->show_label;
     }
 
-    final public function setShowLabel(bool $show_label)
+    public function setShowLabel(bool $show_label)
     {
         $this->show_label = $show_label;
     }
 
-    final public function getInputs() : array
+    public function getInputs() : array
     {
         return $this->inputs;
     }
 
-    final public function setMulti(bool $a_multi, bool $a_sortable = false, bool $a_addremove = true) : void
+    public function setMulti(bool $a_multi, bool $a_sortable = false, bool $a_addremove = true) : void
     {
         $this->multi = $a_multi;
     }
 
-    final public function setValue(string $a_value) : void
+    public function setValue(string $a_value) : void
     {
         foreach ($this->inputs as $key => $item) {
             if (method_exists($item, 'setValue')) {
@@ -109,7 +109,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         $this->value = $a_value;
     }
 
-    final public function getValue() : array
+    public function getValue() : array
     {
         $out = array();
         foreach ($this->inputs as $key => $item) {
@@ -123,7 +123,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
      * Set value by array
      * @param array $a_values value array
      */
-    final public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values) : void
     {
         $data = $a_values[$this->getPostVar()];
         if ($this->getMulti()) {
@@ -137,7 +137,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
      * Check input, strip slashes etc. set alert, if input is not ok.
      * @return    bool        Input ok, true/false
      */
-    final public function checkInput() : bool
+    public function checkInput() : bool
     {
         global $lng;
         $valid = true;
@@ -169,7 +169,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return $valid;
     }
 
-    final public function addCustomAttribute(string $key, string $value, bool $override = false) : void
+    public function addCustomAttribute(string $key, string $value, bool $override = false) : void
     {
         if (isset($this->cust_attr[$key]) && !$override) {
             $this->cust_attr[$key] .= ' ' . $value;
@@ -178,7 +178,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         }
     }
 
-    final public function getCustomAttributes() : array
+    public function getCustomAttributes() : array
     {
         return (array) $this->cust_attr;
     }
@@ -196,7 +196,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
      * @throws ilTemplateException
      * @throws ilException
      */
-    final public function render(int $iterator_id = 0, bool $clean_render = false) : string
+    public function render(int $iterator_id = 0, bool $clean_render = false) : string
     {
         $first_label = true;
         $tpl = new \ilTemplate("tpl.multi_line_input.html", true, true,
@@ -314,13 +314,13 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
         return $tpl->get();
     }
 
-    final public function initCSSandJS() : void
+    public function initCSSandJS() : void
     {
         global $tpl;
         $tpl->addJavascript('./Modules/OrgUnit/templates/default/multi_line_input.js');
     }
 
-    final public function insert(ilTemplate $a_tpl) : int
+    public function insert(ilTemplate $a_tpl) : int
     {
         $output = "";
 
@@ -348,7 +348,7 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
     /**
      * Get HTML for table filter
      */
-    final public function getTableFilterHTML()
+    public function getTableFilterHTML()
     {
         return $this->render();
     }
@@ -356,38 +356,38 @@ class ilOrgUnitMultiLineInputGUI extends \ilFormPropertyGUI
     /**
      * Get HTML for toolbar
      */
-    final public function getToolbarHTML() : string
+    public function getToolbarHTML() : string
     {
         return $this->render("toolbar");
     }
 
-    final public function isPositionMovable() : bool
+    public function isPositionMovable() : bool
     {
         return $this->position_movable;
     }
 
-    final public function setPositionMovable(bool $position_movable)
+    public function setPositionMovable(bool $position_movable)
     {
         $this->position_movable = $position_movable;
     }
 
-    final public function isShowLabelOnce() : bool
+    public function isShowLabelOnce() : bool
     {
         return $this->show_label_once;
     }
 
-    final public function setShowLabelOnce(bool $show_label_once) : void
+    public function setShowLabelOnce(bool $show_label_once) : void
     {
         $this->setShowLabel(false);
         $this->show_label_once = $show_label_once;
     }
 
-    final public function isShowInfo() : bool
+    public function isShowInfo() : bool
     {
         return $this->show_info;
     }
 
-    final public function setShowInfo(bool $show_info) : void
+    public function setShowInfo(bool $show_info) : void
     {
         $this->show_info = $show_info;
     }

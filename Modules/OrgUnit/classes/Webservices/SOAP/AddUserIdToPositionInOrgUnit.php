@@ -36,7 +36,7 @@ class AddUserIdToPositionInOrgUnit extends Base
         return "addUserToPositionInOrgUnit";
     }
 
-    final protected function getAdditionalInputParams(): array
+    protected function getAdditionalInputParams(): array
     {
         return array(self::POSITION_ID => Base::TYPE_INT,
                      self::USR_ID => Base::TYPE_INT,

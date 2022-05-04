@@ -56,7 +56,7 @@ class ilOrgUnitStaffGUI
      * @throws ilCtrlException
      * @throws ilException
      */
-    final public function executeCommand(): bool
+    public function executeCommand(): bool
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -107,7 +107,7 @@ class ilOrgUnitStaffGUI
     /**
      * @throws ilCtrlException
      */
-    final public function showStaff(): void
+    public function showStaff(): void
     {
         if (!ilObjOrgUnitAccess::_checkAccessStaff($this->parent_object->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
@@ -120,7 +120,7 @@ class ilOrgUnitStaffGUI
         $this->tpl->setContent($this->getStaffTableHTML(false, "showStaff"));
     }
 
-    final public function showOtherRoles(): void
+    public function showOtherRoles(): void
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
@@ -132,7 +132,7 @@ class ilOrgUnitStaffGUI
         $this->tpl->setContent($this->getOtherRolesTableHTML());
     }
 
-    final public function showStaffRec(): void
+    public function showStaffRec(): void
     {
         if (!ilObjOrgUnitAccess::_checkAccessStaffRec($this->parent_object->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);

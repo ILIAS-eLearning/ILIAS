@@ -156,7 +156,7 @@ class ilObjOrgUnitTree
      * with the parameter "write".
      * @return int[] ids of the org units.
      */
-    final public function getOrgusWhereUserHasPermissionForOperation($operation) : array
+    public function getOrgusWhereUserHasPermissionForOperation($operation) : array
     {
 
         /*$q = "SELECT object_data.obj_id, object_reference.ref_id, object_data.title, object_data.type, rbac_pa.ops_id, rbac_operations.ops_id as op_id FROM object_data
@@ -195,7 +195,7 @@ class ilObjOrgUnitTree
      * with the parameter 3 (3 is the "write" permission as in rbac_operations).
      * @return int[] ids of the org units.
      */
-    final public function getOrgusWhereUserHasPermissionForOperationId(string $operation_id) : array
+    public function getOrgusWhereUserHasPermissionForOperationId(string $operation_id) : array
     {
         $q = "SELECT object_data.obj_id, object_data.title, object_data.type, rbac_pa.ops_id FROM object_data
 		INNER JOIN rbac_ua ON rbac_ua.usr_id = " . $this->db->quote($this->ilUser->getId(), "integer") . "

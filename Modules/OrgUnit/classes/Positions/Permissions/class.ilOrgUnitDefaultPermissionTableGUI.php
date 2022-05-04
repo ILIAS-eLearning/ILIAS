@@ -47,7 +47,7 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
         $this->setCloseFormTag(false);
     }
 
-    final public function start() : void
+    public function start() : void
     {
         $this->setEnableHeader(false);
         $this->setOpenFormTag(true);
@@ -56,7 +56,7 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
         $this->addMultiCommand(BaseCommands::CMD_UPDATE, $this->lng->txt('save'));
     }
 
-    final public function end() : void
+    public function end() : void
     {
         $this->setCloseFormTag(true);
         $this->addCommandButton(BaseCommands::CMD_UPDATE, $this->lng->txt('save'));
@@ -76,7 +76,7 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
             . $a_set['operation_string']));
     }
 
-    final public function collectData(): void
+    public function collectData(): void
     {
     }
 

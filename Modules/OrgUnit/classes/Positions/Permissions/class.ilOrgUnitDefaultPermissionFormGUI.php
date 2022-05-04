@@ -36,7 +36,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         parent::__construct();
     }
 
-    final public function saveObject() : bool
+    public function saveObject() : bool
     {
         if ($this->fillObject() === false) {
             return false;
@@ -74,7 +74,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         }
     }
 
-    final public function fillForm() : void
+    public function fillForm() : void
     {
         $operations = array();
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {

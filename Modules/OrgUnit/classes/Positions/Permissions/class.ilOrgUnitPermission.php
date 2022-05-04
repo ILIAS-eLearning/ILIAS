@@ -63,7 +63,7 @@ class ilOrgUnitPermission extends ActiveRecord
     protected bool $protected = false;
     protected bool $newly_created = false;
 
-    final public function update(): void
+    public function update(): void
     {
         if ($this->isProtected()) {
             throw new ilException('Cannot modify a protected ilOrgUnitPermission');

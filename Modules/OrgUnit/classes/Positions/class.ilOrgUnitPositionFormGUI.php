@@ -13,7 +13,7 @@ class ilOrgUnitPositionFormGUI extends BaseForm
     public const F_TITLE = 'title';
     public const F_DESCRIPTION = 'description';
 
-    final protected function initFormElements(): void
+    protected function initFormElements(): void
     {
         $te = new ilTextInputGUI($this->parent_gui->txt(self::F_TITLE), self::F_TITLE);
         $te->setRequired(true);
@@ -51,7 +51,7 @@ class ilOrgUnitPositionFormGUI extends BaseForm
         $this->addItem($m);
     }
 
-    final public function fillForm(): void
+    public function fillForm(): void
     {
         $array = array(
             self::F_TITLE => $this->object->getTitle(),
@@ -62,7 +62,7 @@ class ilOrgUnitPositionFormGUI extends BaseForm
         $this->setValuesByArray($array);
     }
 
-    final public function fillObject(): bool
+    public function fillObject(): bool
     {
         if (!$this->checkInput()) {
             return false;

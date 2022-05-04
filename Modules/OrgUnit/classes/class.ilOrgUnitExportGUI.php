@@ -47,13 +47,13 @@ class ilOrgUnitExportGUI extends ilExportGUI
             $this->ctrl->getLinkTarget($this, "simpleExportExcel"));
     }
 
-    final public function simpleExport() : void
+    public function simpleExport() : void
     {
         $ilOrgUnitExporter = new ilOrgUnitExporter();
         $ilOrgUnitExporter->sendAndCreateSimpleExportFile();
     }
 
-    final public function simpleExportExcel() : void
+    public function simpleExportExcel() : void
     {
         $ilOrgUnitExporter = new ilOrgUnitExporter();
         $ilOrgUnitExporter->simpleExportExcel(ilObjOrgUnit::getRootOrgRefId());
