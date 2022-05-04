@@ -150,9 +150,9 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Set the event context to the detector. 'WHERE' / 'ON WHAT' / 'ON WHOM'
      * @param string  $event_context_type
-     * @param integer $event_context_identifier
+     * @param int|string $event_context_identifier
      */
-    public function setEventContext(string $event_context_type, int $event_context_identifier) : void
+    public function setEventContext(string $event_context_type, $event_context_identifier) : void
     {
         $this->event_context_type = $event_context_type;
         $this->event_context_identifier = $event_context_identifier;
