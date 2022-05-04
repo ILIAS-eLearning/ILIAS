@@ -1712,3 +1712,8 @@ if ( !$ilDB->tableColumnExists('cmix_settings', 'switch_to_review') ) {
     ));
 }
 ?>
+<#74>
+<?php
+$ilDB->manipulateF('DELETE FROM desktop_item WHERE item_id = %s', ['integer'], [1]);
+$ilDB->manipulateF('DELETE FROM rep_rec_content_role WHERE ref_id = %s', ['integer'], [1]);
+?>
