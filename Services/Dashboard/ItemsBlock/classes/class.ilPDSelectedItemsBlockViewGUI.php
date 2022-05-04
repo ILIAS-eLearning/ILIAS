@@ -202,7 +202,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
 
         $objDefinition = $DIC["objDefinition"];
 
-        $object_types_by_container = $DIC['objDefinition']->getGroupedRepositoryObjectTypes(array('cat', 'crs', 'grp', 'fold'));
+        $object_types_by_container = $DIC['objDefinition']->getGroupedRepositoryObjectTypes(array('', 'cat', 'crs', 'grp', 'fold'));
 
         $grouped_items = array();
 
@@ -336,7 +336,9 @@ abstract class ilPDSelectedItemsBlockViewGUI
                 $group = new ilPDSelectedItemsBlockGroup();
                 /* The parent objects of items grouped by location do not need an image (per current concept), so
                    we do not determine images to reduced the runtime/memory */
-                if ($this->isRootNode($item['parent_ref'])) {
+                if($this->isRootNode($item['ref_id'])) {
+                    $group->setLabel('');
+                } elseif ($this->isRootNode($item['parent_ref'])) {
                     $group->setLabel($this->getRepositoryTitle());
                 } else {
                     $group->setLabel($this->object_cache->lookupTitle($this->object_cache->lookupObjId($item['parent_ref'])));

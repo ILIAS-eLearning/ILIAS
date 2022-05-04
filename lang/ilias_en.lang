@@ -3417,6 +3417,7 @@ common#:#object_imported#:#Object imported
 common#:#object#:#Object
 common#:#objects#:#Objects
 common#:#objf#:#Object definitions
+common#:#objs_root#:#Repository
 common#:#objs_cat#:#Categories
 common#:#objs_catr#:#Category Link
 common#:#objs_crs#:#Courses
