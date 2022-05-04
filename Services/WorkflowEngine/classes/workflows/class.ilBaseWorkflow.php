@@ -57,7 +57,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_type Name of type of the workflow.
      */
-    protected ?string $workflow_type;
+    protected $workflow_type;
 
     /**
      * Holds a content description of the workflow instance.
