@@ -157,7 +157,7 @@ class ilBPMN2ParserUtils
      * @param array  $bpmn2_array
      * @return ?array
      */
-    public static function extractTimeDateEventDefinitionFromElement(string $start_event_ref, string $type, array $bpmn2_array)// TODO PHP8-REVIEW Return type missing
+    public static function extractTimeDateEventDefinitionFromElement(string $start_event_ref, string $type, array $bpmn2_array) : ?array
     {
         $content = '';
         foreach ($bpmn2_array['children'] as $elements) {
@@ -262,9 +262,9 @@ class ilBPMN2ParserUtils
 
     /**
      * @param array $element
-     * @return null
+     * @return ?string
      */
-    public static function extractDataNamingFromElement(array $element)// TODO PHP8-REVIEW Return type declaration missing
+    public static function extractDataNamingFromElement(array $element) : ?string
     {
         if (!isset($element['children'])) {
             return null;
@@ -316,9 +316,9 @@ class ilBPMN2ParserUtils
                         $prefix = '';
                     }
                     if ($extension['name'] === $prefix . 'properties') {
-                        foreach ((array) $extension['children'] as $child) {// TODO PHP8-REVIEW $child overrides outer $child
-                            if ($child['name'] === 'inputproperty') {
-                                $retval[$child['attributes']['name']] = $child['attributes']['value'];
+                        foreach ((array) $extension['children'] as $s_child) {
+                            if ($s_child['name'] === 'inputproperty') {
+                                $retval[$s_child['attributes']['name']] = $s_child['attributes']['value'];
                             }
                         }
                     }
@@ -350,10 +350,10 @@ class ilBPMN2ParserUtils
                         $prefix = '';
                     }
                     if ($extension['name'] === $prefix . 'properties') {
-                        foreach ((array) $extension['children'] as $child) {// TODO PHP8-REVIEW $child overrides outer $child
-                            if ($child['name'] === 'dataobject') {
-                                $retval['role'] = $child['attributes']['role'];
-                                $retval['type'] = $child['attributes']['type'];
+                        foreach ((array) $extension['children'] as $s_child) {
+                            if ($s_child['name'] === 'dataobject') {
+                                $retval['role'] = $s_child['attributes']['role'];
+                                $retval['type'] = $s_child['attributes']['type'];
                             }
                         }
                     }
@@ -385,9 +385,9 @@ class ilBPMN2ParserUtils
                         $prefix = '';
                     }
                     if (isset($extension['name']) && $extension['name'] === $prefix . 'properties') {
-                        foreach ((array) $extension['children'] as $child) {// TODO PHP8-REVIEW $child overrides outer $child
-                            if (isset($child['attributes']['name']) && $child['attributes']['name'] === 'mailtext') {
-                                $retval['mailtext'] = base64_encode($child['content']);
+                        foreach ((array) $extension['children'] as $s_child) {
+                            if (isset($s_child['attributes']['name']) && $s_child['attributes']['name'] === 'mailtext') {
+                                $retval['mailtext'] = base64_encode($s_child['content']);
                             }
                         }
                     }

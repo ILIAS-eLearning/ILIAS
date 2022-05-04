@@ -23,7 +23,7 @@ class InternalService
 
     public function __construct(Container $DIC)
     {
-        $this->gui = new InternalRequestService($DIC->http(), $DIC->refinery());// TODO PHP8-REVIEW Property dynamically declared
+        $this->request = new InternalRequestService($DIC->http(), $DIC->refinery());
     }
 
     public function request() : InternalRequestService

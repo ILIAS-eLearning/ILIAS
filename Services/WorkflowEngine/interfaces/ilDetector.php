@@ -20,7 +20,7 @@ interface ilDetector
      *
      * @return mixed
      */
-    public function trigger($params);
+    public function trigger($params) : ?bool;
 
     /**
      * @return mixed

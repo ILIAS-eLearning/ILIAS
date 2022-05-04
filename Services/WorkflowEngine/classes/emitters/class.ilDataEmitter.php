@@ -14,19 +14,19 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
     /**
      * This holds a reference to the detector, which is to be triggered.
      */
-    private $target_detector;// TODO PHP8-REVIEW Property type missing
+    private ?\ilDetector $target_detector = null;
 
     /**
      * This holds a reference to the parent ilNode.
      *
      * @var ilNode
      */
-    private ilNode $context;
+    private ?\ilNode $context = null;
 
     /** @var bool $emitted Holds information if the emitter emitted at least once. */
     private bool $emitted;
 
-    protected $name;// TODO PHP8-REVIEW Property type missing
+    protected $name;
 
     /** @var string $var_name */
     protected string $var_name = '';
@@ -55,7 +55,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
     /**
      * Gets the currently set target detector of this emitter.
      */
-    public function getTargetDetector()
+    public function getTargetDetector() : ?ilDetector
     {
         return $this->target_detector;
     }
@@ -65,7 +65,7 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
      *
      * @return ilNode Reference to the parent node.
      */
-    public function getContext()// TODO PHP8-REVIEW Return type missing
+    public function getContext() : ?\ilNode
     {
         return $this->context;
     }

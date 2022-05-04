@@ -14,9 +14,9 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
     /**
      * Holds a reference to the parent object
      *
-     * @var ilWorkflowEngineElement
+     * @var null|ilWorkflowEngineElement
      */
-    private $context;
+    private ?ilWorkflowEngineElement $context = null;
 
     /**
      * Holds the current detection state.
@@ -25,9 +25,9 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
      */
     private bool $detection_state = false;
 
-    protected $name;// TODO PHP8-REVIEW Property type missing
+    protected $name;
 
-    protected $source_node;// TODO PHP8-REVIEW Property type missing
+    protected ?\ilNode $source_node = null;
 
     /** @var  string $var_name */
     protected string $var_name = '';
@@ -60,7 +60,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
      *
      * @return boolean False, if detector was already satisfied before.
      */
-    public function trigger($params) : bool
+    public function trigger($params) : ?bool
     {
         return true;
     }
@@ -147,7 +147,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
         return $this->name;
     }
 
-    public function getSourceNode()
+    public function getSourceNode() : ?ilNode
     {
         return $this->source_node;
     }

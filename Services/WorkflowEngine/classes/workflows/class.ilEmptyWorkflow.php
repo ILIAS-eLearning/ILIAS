@@ -14,6 +14,8 @@
  */
 class ilEmptyWorkflow extends ilBaseWorkflow
 {
+    public string $workflow_context_id;
+
     /**
      * ilEmptyWorkflow constructor.
      */
@@ -24,7 +26,7 @@ class ilEmptyWorkflow extends ilBaseWorkflow
         $this->workflow_subject_type = 'none';
         $this->workflow_subject_identifier = '0';
         $this->workflow_context_type = 'none';
-        $this->workflow_context_id = '0';// TODO PHP8-REVIEW Property dynamically declared
+        $this->workflow_context_id = '0';
         $this->workflow_class = 'class.ilEmptyWorkflow.php';
         $this->workflow_location = 'Services/WorkflowEngine/classes/workflows';
     }

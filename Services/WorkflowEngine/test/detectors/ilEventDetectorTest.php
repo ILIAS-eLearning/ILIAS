@@ -14,6 +14,9 @@
  */
 class ilEventDetectorTest extends ilWorkflowEngineBaseTest
 {
+    private ilEmptyWorkflow $workflow;
+    private ilBasicNode $node;
+
     protected function setUp() : void
     {
         // Empty workflow.
@@ -69,6 +72,7 @@ class ilEventDetectorTest extends ilWorkflowEngineBaseTest
         // Arrange
         $detector = new ilEventDetector($this->node);
         $timer_start = ilWorkflowUtils::time() - (5 * 60); # -5 Minutes from now.
+        /** @noinspection PhpIdempotentOperationInspection Keeping for readability purposes*/
         $timer_end = ilWorkflowUtils::time() - (1 * 60); # -1 Minute from now.
         $detector->setListeningTimeframe($timer_start, $timer_end);
 

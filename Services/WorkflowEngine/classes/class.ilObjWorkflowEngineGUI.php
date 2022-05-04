@@ -13,6 +13,7 @@ use ILIAS\DI\Container;
  */
 class ilObjWorkflowEngineGUI extends ilObjectGUI
 {
+    private \ILIAS\WorkflowEngine\Service $service;
     public ilCtrl $ilCtrl;
     public ilTabsGUI $ilTabs;
     public ilLanguage $lng;
@@ -35,7 +36,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         $this->ilLocator = $DIC['ilLocator'];
         $this->ilToolbar = $DIC['ilToolbar'];
         $this->dic = $DIC;
-        $this->service = $DIC->workflowEngine();// TODO PHP8-REVIEW Property dynamically declared
+        $this->service = $DIC->workflowEngine();
         parent::__construct($this->service->internal()->request()->getRefId());
         $this->assignObject();
     }

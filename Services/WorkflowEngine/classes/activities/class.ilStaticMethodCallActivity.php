@@ -162,7 +162,7 @@ class ilStaticMethodCallActivity implements ilActivity, ilWorkflowEngineElement
             }
         }
 
-        /** @var array $return_value */
+        /** @var ?array $return_value */
         $return_value = call_user_func([$name[0], $name[1]], $this, [$params, $this->outputs]);
         foreach ((array) $return_value as $key => $value) {
             $this->context->getContext()->setInstanceVarById($key, $value);

@@ -151,7 +151,7 @@ class ilCaseNode extends ilBaseNode
      * Adds an emitter to one of the lists attached to the node.
      *
      * @param ilEmitter $emitter
-     * @param boolean   $else True, if the emitter should be an 'else'-emitter.
+     * @param string|boolean   $else True, if the emitter should be an 'else'-emitter.
      */
     public function addEmitter(ilEmitter $emitter, $else = 'return true;') : void
     {

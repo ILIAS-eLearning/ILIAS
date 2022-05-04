@@ -14,8 +14,8 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
     /** @var ilWorkflowEngineElement $context Holds a reference to the parent object */
     private $context;
 
-
-    private $method = '';// TODO PHP8-REVIEW Property type missing
+    /** @var string|Closure|null */
+    private $method = null;
 
     /** @var string $name */
     protected string $name;
@@ -40,9 +40,9 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @see $setting_value
      *
-     * @return string
+     * @return string|Closure|null
      */
-    public function getScript()// TODO PHP8-REVIEW Return type missing
+    public function getScript()
     {
         return $this->method;
     }

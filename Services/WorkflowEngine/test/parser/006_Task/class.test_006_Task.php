@@ -209,13 +209,13 @@ class test_006_Task extends ilWorkflowEngineBaseTest
     }
 
     public static bool $wasListRequestTriggered;
-    public static $callParams;// TODO PHP8-REVIEW Property type missing
+    //public static $callParams;
     public static array $retval = array(1, 2, 3, 4, 5);
 
     public static function requestList($context, $params) : array
     {
         self::$wasListRequestTriggered = true;
-        self::$callParams = $params;
+        //self::$callParams = $params;
         return array('DataObjectReference_1' => self::$retval);
     }
 

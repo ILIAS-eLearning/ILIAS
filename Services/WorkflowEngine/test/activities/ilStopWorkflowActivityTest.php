@@ -16,6 +16,8 @@ use PHPUnit\Framework\TestCase;
  */
 class ilStopWorkflowActivityTest extends TestCase
 {
+    private ilEmptyWorkflow $workflow;
+    private ilBasicNode $node;
     /** vfsStream Test Directory, see setup. */
     public vfs\vfsStreamDirectory $test_dir;
 

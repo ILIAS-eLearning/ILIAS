@@ -20,23 +20,23 @@ abstract class ilBaseNode implements ilNode
     /**
      * This holds an array of detectors attached to this node.
      *
-     * @var \ilDetector Array if ilDetector
+     * @var \ilDetector[]|null Array if ilDetector
      */
-    protected $detectors;// TODO PHP8-REVIEW Property type missing
+    protected ?array $detectors = null;
 
     /**
      * This holds an array of emitters attached to this node.
      *
-     * @var \ilEmitter Array of ilEmitter
+     * @var \ilEmitter[]|null Array of ilEmitter
      */
-    protected $emitters;// TODO PHP8-REVIEW Property type missing
+    protected ?array $emitters = null;
 
     /**
      * This holds an array of activities attached to this node.
      *
-     * @var \ilActivity Array of ilActivity
+     * @var \ilActivity[]|null Array of ilActivity
      */
-    protected $activities;// TODO PHP8-REVIEW Property type missing
+    protected ?array $activities = null;
 
     /**
      * This holds the activation status of the node.
@@ -115,8 +115,9 @@ abstract class ilBaseNode implements ilNode
 
     /**
      * Returns all currently set activities
+     * @return \ilActivity[]|null
      */
-    public function getActivities()// TODO PHP8-REVIEW Return type missing
+    public function getActivities() : ?array
     {
         return $this->activities;
     }

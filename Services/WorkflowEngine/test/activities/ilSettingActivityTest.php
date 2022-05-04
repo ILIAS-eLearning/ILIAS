@@ -15,6 +15,9 @@ require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
  */
 class ilSettingActivityTest extends ilWorkflowEngineBaseTest
 {
+    private ilEmptyWorkflow $workflow;
+    private ilBasicNode $node;
+
     protected function setUp() : void
     {
         parent::setUp();

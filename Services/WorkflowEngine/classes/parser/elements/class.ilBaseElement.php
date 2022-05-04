@@ -14,7 +14,7 @@ abstract class ilBaseElement
     /** @var array $bpmn2_array */
     protected array $bpmn2_array;
 
-    public function getBpmn2Array()// TODO PHP8-REVIEW Return type missing
+    public function getBpmn2Array() : ?array
     {
         return $this->bpmn2_array;
     }
