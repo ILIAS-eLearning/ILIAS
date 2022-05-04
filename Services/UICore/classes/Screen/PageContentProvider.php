@@ -108,7 +108,7 @@ class PageContentProvider extends AbstractModificationProvider
 
             $links = [];
             // ILIAS Version and Text
-            $ilias_version = $this->dic->settings()->get('ilias_version');
+            $ilias_version = ILIAS_VERSION;
             $text = "powered by ILIAS (v{$ilias_version})";
 
             // Imprint
