@@ -180,11 +180,11 @@ class ilMDRights extends ilMDBase
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
-                $this->setObjType($row->obj_type);
-                $this->setDescription($row->description);
-                $this->setDescriptionLanguage(new ilMDLanguageItem($row->description_language));
-                $this->setCosts($row->costs);
-                $this->setCopyrightAndOtherRestrictions($row->cpr_and_or);
+                $this->setObjType((string) $row->obj_type);
+                $this->setDescription((string) $row->description);
+                $this->setDescriptionLanguage(new ilMDLanguageItem((string) $row->description_language));
+                $this->setCosts((string) $row->costs);
+                $this->setCopyrightAndOtherRestrictions((string) $row->cpr_and_or);
             }
             return true;
         }
