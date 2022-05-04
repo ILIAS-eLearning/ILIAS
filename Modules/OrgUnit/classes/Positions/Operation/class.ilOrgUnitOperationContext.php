@@ -6,20 +6,20 @@
  */
 class ilOrgUnitOperationContext extends ActiveRecord
 {
-    const CONTEXT_OBJECT = "object";
-    const CONTEXT_CRS = "crs";
-    const CONTEXT_GRP = "grp";
-    const CONTEXT_IASS = "iass";
-    const CONTEXT_TST = "tst";
-    const CONTEXT_EXC = "exc";
-    const CONTEXT_SVY = "svy";
-    const CONTEXT_USRF = "usrf";
-    const CONTEXT_PRG = "prg";
+    public const CONTEXT_OBJECT = "object";
+    public const CONTEXT_CRS = "crs";
+    public const CONTEXT_GRP = "grp";
+    public const CONTEXT_IASS = "iass";
+    public const CONTEXT_TST = "tst";
+    public const CONTEXT_EXC = "exc";
+    public const CONTEXT_SVY = "svy";
+    public const CONTEXT_USRF = "usrf";
+    public const CONTEXT_PRG = "prg";
 
     /**
      * @var array
      */
-    public static $available_contexts = [
+    public static array $available_contexts = [
         self::CONTEXT_OBJECT,
         self::CONTEXT_CRS,
         self::CONTEXT_GRP,
@@ -32,9 +32,9 @@ class ilOrgUnitOperationContext extends ActiveRecord
     ];
 
     /**
-     * @return array if own and
+     * @return string[]
      */
-    public function getPopulatedContextNames()
+    public function getPopulatedContextNames() : array
     {
         $contexts = array($this->getContext());
         $this->appendParentContextName($contexts);
@@ -43,9 +43,9 @@ class ilOrgUnitOperationContext extends ActiveRecord
     }
 
     /**
-     * @return array if own and
+     * @return string[]
      */
-    public function getPopulatedContextIds()
+    public function getPopulatedContextIds() : array
     {
         $contexts = array($this->getId());
         $this->appendParentContextName($contexts);
@@ -62,7 +62,7 @@ class ilOrgUnitOperationContext extends ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $id = 0;
+    protected ?int $id = 0;
     /**
      * @var string
      * @con_has_field  true
@@ -71,67 +71,46 @@ class ilOrgUnitOperationContext extends ActiveRecord
      * @con_length     16
      * @con_index      true
      */
-    protected $context = self::CONTEXT_OBJECT;
+    protected string $context = self::CONTEXT_OBJECT;
     /**
      * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $parent_context_id = 0;
+    protected int $parent_context_id = 0;
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId() : ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function setId(?int $id) : void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
-    public function getContext()
+    public function getContext() : string
     {
         return $this->context;
     }
 
-    /**
-     * @param string $context
-     */
-    public function setContext($context)
+    public function setContext(string $context) : void
     {
         $this->context = $context;
     }
 
-    /**
-     * @return int
-     */
-    public function getParentContextId()
+    public function getParentContextId() : int
     {
         return $this->parent_context_id;
     }
 
-    /**
-     * @param int $parent_context_id
-     */
-    public function setParentContextId($parent_context_id)
+    public function setParentContextId(int $parent_context_id)
     {
         $this->parent_context_id = $parent_context_id;
     }
 
-    /**
-     * @return string
-     */
-    public static function returnDbTableName() : string
+     public static function returnDbTableName() : string
     {
         return 'il_orgu_op_contexts';
     }
@@ -145,9 +124,9 @@ class ilOrgUnitOperationContext extends ActiveRecord
     }
 
     /**
-     * @param $contexts
+     * @param string[] $contexts
      */
-    protected function appendParentContextName(&$contexts)
+    private function appendParentContextName(array $contexts) : void
     {
         if ($this->getParentContextId()) {
             /**
@@ -162,9 +141,9 @@ class ilOrgUnitOperationContext extends ActiveRecord
     }
 
     /**
-     * @param $contexts
+     * @param string [] $contexts
      */
-    protected function appendParentContextId(&$contexts)
+    private function appendParentContextId(array $contexts) : void
     {
         if ($this->getParentContextId()) {
             /**
