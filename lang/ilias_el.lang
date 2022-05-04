@@ -16300,3 +16300,8 @@ common#:#obj_chtr_duplicate#:#Copy Chat Room###16 03 2022 new variable
 assessment#:#err_division#:#This value has to be smaller than the maximum range.###16 03 2022 new variable
 assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###16 03 2022 new variable
 tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###16 03 2022 new variable
+buddysystem#:#buddy_bs_state_linked_p#:#Linked###04 05 2022 new variable
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###04 05 2022 new variable
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###04 05 2022 new variable
+buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction###04 05 2022 new variable
+buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required###04 05 2022 new variable
