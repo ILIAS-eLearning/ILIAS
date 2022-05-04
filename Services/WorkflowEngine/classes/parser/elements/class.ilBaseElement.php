@@ -1,12 +1,25 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBaseElement
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 abstract class ilBaseElement
@@ -19,7 +32,7 @@ abstract class ilBaseElement
         return $this->bpmn2_array;
     }
 
-    public function setBpmn2Array($bpmn2_array) : void
+    public function setBpmn2Array($bpmn2_array) : void// TODO PHP8-REVIEW Type hint or corresponding PHPDoc missing
     {
         $this->bpmn2_array = $bpmn2_array;
     }
@@ -64,7 +77,7 @@ abstract class ilBaseElement
      */
     public function getDataInputAssociationIdentifiers(array $element) : array
     {
-        $retval = array();
+        $retval = [];
 
         if (isset($element['children'])) {
             foreach ($element['children'] as $child) {
@@ -88,7 +101,7 @@ abstract class ilBaseElement
      */
     public function getDataOutputAssociationIdentifiers(array $element) : array
     {
-        $retval = array();
+        $retval = [];
 
         if (isset($element['children'])) {
             foreach ($element['children'] as $child) {

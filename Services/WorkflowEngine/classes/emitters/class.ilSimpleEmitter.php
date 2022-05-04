@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ilSimpleEmitter is part of the petri net based workflow engine.
@@ -8,8 +23,6 @@
  * the designated simple detector.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
@@ -28,7 +41,6 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
      */
     private ilNode $context;
 
-    /** @var string $name */
     protected string $name;
 
     /**
@@ -76,7 +88,7 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
      */
     public function emit() : void
     {
-        $this->target_detector->trigger(array());
+        $this->target_detector->trigger([]);
     }
 
     public function setName($name)
@@ -84,9 +96,6 @@ class ilSimpleEmitter implements ilEmitter, ilWorkflowEngineElement
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
     public function getName() : string
     {
         return $this->name;

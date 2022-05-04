@@ -1,20 +1,30 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Workflow Node of the petri net based workflow engine.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilBasicNode extends ilBaseNode
 {
-    /** @var bool $is_forward_condition_event*/
     public bool $is_forward_condition_event;
-
-    /** @var string $ident */
     public string $ident;
 
     /**
@@ -25,9 +35,9 @@ class ilBasicNode extends ilBaseNode
     public function __construct(ilWorkflow $context)
     {
         $this->context = $context;
-        $this->detectors = array();
-        $this->emitters = array();
-        $this->activities = array();
+        $this->detectors = [];
+        $this->emitters = [];
+        $this->activities = [];
         $this->active = false;
         $this->is_forward_condition_node = false;
         $this->is_forward_condition_event = false;
@@ -67,7 +77,7 @@ class ilBasicNode extends ilBaseNode
     /**
      * Checks, if the preconditions of the node to transit are met.
      *
-     * @return boolean True, if node is ready to transit.
+     * @return null|bool True, if node is ready to transit.
      */
     public function checkTransitionPreconditions() : ?bool
     {
@@ -87,7 +97,7 @@ class ilBasicNode extends ilBaseNode
      * Basically, this checks for preconditions and transits, returning true or
      * false if preconditions are not met, aka detectors are not fully satisfied.
      *
-     * @return boolean True, if transition succeeded.
+     * @return bool True, if transition succeeded.
      */
     public function attemptTransition() : bool
     {
@@ -146,17 +156,11 @@ class ilBasicNode extends ilBaseNode
         }
     }
 
-    /**
-     * @return boolean
-     */
     public function isForwardConditionNode() : bool
     {
         return $this->is_forward_condition_node;
     }
 
-    /**
-     * @param boolean $is_forward_condition_node
-     */
     public function setIsForwardConditionNode(bool $is_forward_condition_node) : void
     {
         $this->is_forward_condition_node = $is_forward_condition_node;

@@ -1,12 +1,25 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilWorkflowScaffold
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilWorkflowScaffold
@@ -14,9 +27,8 @@ class ilWorkflowScaffold
     #region Requires / File inclusion
 
     /** @var array $requires */
-    public array $requires = array();
+    public array $requires = [];
 
-    /** @var string $constructor_method_content */
     public string $constructor_method_content;
 
     /** @var array $bpmn2_array */
@@ -25,12 +37,8 @@ class ilWorkflowScaffold
     /** @var array $auxilliary_methods */
     public array $auxilliary_methods;
 
-    /** @var string $workflow_name */
     public string $workflow_name;
 
-    /**
-     * @param string $require
-     */
     public function registerRequire(string $require) : void
     {
         if (!in_array($require, $this->requires, true)) {
@@ -38,9 +46,6 @@ class ilWorkflowScaffold
         }
     }
 
-    /**
-     * @return string
-     */
     public function getRequires() : string
     {
         $requires = '';
@@ -57,38 +62,26 @@ class ilWorkflowScaffold
     /** @var array $start_event_refs */
     public array $start_event_refs = [];
 
-    /**
-     * @param string $start_event_ref
-     */
     public function registerStartEventRef(string $start_event_ref) : void
     {
-        $this->start_event_refs[] = array('type' => 'message', 'ref' => $start_event_ref);
+        $this->start_event_refs[] = ['type' => 'message', 'ref' => $start_event_ref];
     }
 
-    /**
-     * @param string $start_event_ref
-     */
     public function registerStartSignalRef(string $start_event_ref) : void
     {
-        $this->start_event_refs[] = array('type' => 'signal', 'ref' => $start_event_ref);
+        $this->start_event_refs[] = ['type' => 'signal', 'ref' => $start_event_ref];
     }
 
-    /**
-     * @param string $start_event_ref
-     */
     public function registerStartTimerRef(string $start_event_ref) : void
     {
-        $this->start_event_refs[] = array('type' => 'timeDate', 'ref' => $start_event_ref);
+        $this->start_event_refs[] = ['type' => 'timeDate', 'ref' => $start_event_ref];
     }
 
-    /**
-     * @return string
-     */
     public function getStartEventInfo() : string
     {
-        $event_definitions = array();
+        $event_definitions = [];
         foreach ($this->start_event_refs as $start_event_ref) {
-            $event_definition = array();
+            $event_definition = [];
             switch ($start_event_ref['type']) {
                 case 'message':
                     $event_definition = ilBPMN2ParserUtils::extractILIASEventDefinitionFromProcess(
@@ -151,19 +144,16 @@ class ilWorkflowScaffold
         $this->workflow_name = $workflow_name;
     }
 
-    /**
-     * @param string $auxilliary_method
-     */
     public function addAuxilliaryMethod(string $auxilliary_method) : void
     {
         $this->auxilliary_methods[] = $auxilliary_method;
     }
 
-    public function __construct($bpmn2_array)
+    public function __construct($bpmn2_array)// TODO PHP8-REVIEW Type hint or corresponding PHPDoc missing
     {
         $this->registerRequire('./Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php');
         $this->bpmn2_array = $bpmn2_array;
-        $this->auxilliary_methods = array();
+        $this->auxilliary_methods = [];
     }
 
     public function getConstructorMethodContent() : ?string
@@ -171,14 +161,11 @@ class ilWorkflowScaffold
         return $this->constructor_method_content;
     }
 
-    public function setConstructorMethodContent($constructor_method_content) : void
+    public function setConstructorMethodContent($constructor_method_content) : void// TODO PHP8-REVIEW Type hint or corresponding PHPDoc missing
     {
         $this->constructor_method_content = $constructor_method_content;
     }
 
-    /**
-     * @return string
-     */
     public function getPHP() : string
     {
         $pre_constructor_content = $this->getRequires();
@@ -228,7 +215,7 @@ class ilWorkflowScaffold
         $start = date('U', strtotime($content));
         $end = 0;
 
-        return array(
+        return [
             'type' => 'time_passed',
             'content' => 'time_passed',
             'subject_type' => 'none',
@@ -237,6 +224,6 @@ class ilWorkflowScaffold
             'context_id' => 0,
             'listening_start' => $start,
             'listening_end' => $end
-        );
+        ];
     }
 }

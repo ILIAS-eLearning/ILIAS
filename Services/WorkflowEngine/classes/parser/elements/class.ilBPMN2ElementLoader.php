@@ -1,12 +1,25 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBPMN2ElementLoader
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilBPMN2ElementLoader
@@ -19,12 +32,12 @@ class ilBPMN2ElementLoader
      *
      * @param $bpmn2_array
      */
-    public function __construct($bpmn2_array)
+    public function __construct($bpmn2_array)// TODO PHP8-REVIEW Type hint or corresponding PHPDoc missing
     {
         $this->bpmn2_array = $bpmn2_array;
     }
 
-    public function load(string $element_name)
+    public function load(string $element_name)// TODO PHP8-REVIEW Return type or corresponding PHPDoc missing
     {
         preg_match('/[A-Z]/', $element_name, $matches, PREG_OFFSET_CAPTURE);
         $type = strtolower(substr($element_name, (int) ($matches[0][1] ?? 0)));
