@@ -82,9 +82,9 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * This can be a course_ref_id, when the context_type is crs or the like.
      *
-     * @var integer Identifier of the events context.
+     * @var int|string Identifier of the events context.
      */
-    private int $event_context_identifier = 0;
+    private $event_context_identifier = 0;
 
     /**
      * Holds the start of the listening period.
