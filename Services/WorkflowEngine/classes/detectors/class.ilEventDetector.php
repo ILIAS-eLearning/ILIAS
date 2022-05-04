@@ -60,10 +60,10 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * This is the actual identifier of the 'who'. If subject_type is a usr, this
      * is a usr_id. If subject_type is a grp, this is a group_id. (or  group ref id)
      *
-     * @var integer Identifier of the events subject.
+     * @var integer|string Identifier of the events subject.
      *
      */
-    private int $event_subject_identifier = 0;
+    private $event_subject_identifier = 0;
 
     /**
      * Type of the event context.
