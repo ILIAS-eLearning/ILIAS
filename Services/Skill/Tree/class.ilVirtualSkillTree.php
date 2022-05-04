@@ -248,7 +248,7 @@ class ilVirtualSkillTree
     }
 
     /**
-     * @return {cskill_id: string, id: string, skill_id: string, tref_id: string, parent: string, type: string}[]
+     * @return array{cskill_id: string, id: string, skill_id: string, tref_id: string, parent: string, type: string}[]
      */
     public function getSubTreeForCSkillId(string $a_cskill_id, bool $a_only_basic = false) : array
     {
@@ -270,7 +270,7 @@ class ilVirtualSkillTree
     }
 
     /**
-     * @return {cskill_id: string, id: string, skill_id: string, tref_id: string, parent: string, type: string}[]
+     * @return array{cskill_id: string, id: string, skill_id: string, tref_id: string, parent: string, type: string}[]
      */
     protected function __getSubTreeRec(string $id, bool $a_only_basic) : array
     {

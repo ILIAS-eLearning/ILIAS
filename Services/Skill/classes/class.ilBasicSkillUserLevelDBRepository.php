@@ -369,7 +369,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         $max_level = 0;
         foreach ($levels as $l) {
             if (isset($has_level[$l["id"]])) {
-                $max_level = $l["id"];
+                $max_level = (int) $l["id"];
             }
         }
         return $max_level;
@@ -394,7 +394,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         );
 
         if ($rec = $ilDB->fetchAssoc($set)) {
-            return $rec["next_level_fulfilment"];
+            return (float) $rec["next_level_fulfilment"];
         }
 
         return 0;
@@ -419,6 +419,16 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
 
         $levels = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec['user_id'] = (int) $rec['user_id'];
+            $rec['level_id'] = (int) $rec['level_id'];
+            $rec['skill_id'] = (int) $rec['skill_id'];
+            $rec['status'] = (int) $rec['status'];
+            $rec['valid'] = (int) $rec['valid'];
+            $rec['trigger_ref_id'] = (int) $rec['trigger_ref_id'];
+            $rec['trigger_obj_id'] = (int) $rec['trigger_obj_id'];
+            $rec['tref_id'] = (int) $rec['tref_id'];
+            $rec['self_eval'] = (int) $rec['self_eval'];
+            $rec['next_level_fullfilment'] = (float) $rec['next_level_fullfilment'];
             $levels[] = $rec;
         }
         return $levels;
@@ -446,9 +456,16 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         );
         $levels = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $rec['tref_id'] = (int) $rec['tref_id'];
-            $rec['skill_id'] = (int) $rec['skill_id'];
             $rec['user_id'] = (int) $rec['user_id'];
+            $rec['level_id'] = (int) $rec['level_id'];
+            $rec['skill_id'] = (int) $rec['skill_id'];
+            $rec['status'] = (int) $rec['status'];
+            $rec['valid'] = (int) $rec['valid'];
+            $rec['trigger_ref_id'] = (int) $rec['trigger_ref_id'];
+            $rec['trigger_obj_id'] = (int) $rec['trigger_obj_id'];
+            $rec['tref_id'] = (int) $rec['tref_id'];
+            $rec['self_eval'] = (int) $rec['self_eval'];
+            $rec['next_level_fullfilment'] = (float) $rec['next_level_fullfilment'];
             $levels[] = $rec;
         }
         return $levels;
@@ -480,7 +497,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         $max_level = 0;
         foreach ($levels as $l) {
             if (isset($has_level[$l["id"]])) {
-                $max_level = $l["id"];
+                $max_level = (int) $l["id"];
             }
         }
         return $max_level;
@@ -505,7 +522,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         );
 
         if ($rec = $ilDB->fetchAssoc($set)) {
-            return $rec["next_level_fulfilment"];
+            return (float) $rec["next_level_fulfilment"];
         }
 
         return 0;
@@ -535,7 +552,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         $max_level = 0;
         foreach ($levels as $l) {
             if (isset($has_level[$l["id"]])) {
-                $max_level = $l["id"];
+                $max_level = (int) $l["id"];
             }
         }
         return $max_level;
@@ -558,7 +575,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
         );
 
         if ($rec = $ilDB->fetchAssoc($set)) {
-            return $rec["next_level_fulfilment"];
+            return (float) $rec["next_level_fulfilment"];
         }
 
         return 0;

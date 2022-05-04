@@ -287,7 +287,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
     }
 
     /**
-     * @param array{skill_id: int tref_id: int}[] $a_cskill_ids
+     * @param array{skill_id: int, tref_id: int}[] $a_cskill_ids
      *
      * @return array<string, array<string, array{key: string}[]>>
      */

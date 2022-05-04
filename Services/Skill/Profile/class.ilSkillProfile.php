@@ -156,6 +156,8 @@ class ilSkillProfile implements ilSkillUsageInfo
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
         );
         $rec = $ilDB->fetchAssoc($set);
+        $rec["ref_id"] = (int) $rec["ref_id"];
+        $rec["skill_tree_id"] = (int) $rec["skill_tree_id"];
         $this->setTitle($rec["title"]);
         $this->setDescription($rec["description"]);
         $this->setRefId($rec["ref_id"]);
@@ -494,6 +496,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         );
         $users = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec["user_id"] = (int) $rec["user_id"];
             $name = ilUserUtil::getNamePresentation($rec["user_id"]);
             $type = $lng->txt("user");
             $users[$rec["user_id"]] = array(
@@ -614,6 +617,8 @@ class ilSkillProfile implements ilSkillUsageInfo
         );
         $roles = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec["profile_id"] = (int) $rec["profile_id"];
+            $rec["role_id"] = (int) $rec["role_id"];
             $name = ilObjRole::_getTranslation(ilObjRole::_lookupTitle($rec["role_id"]));
             $type = $lng->txt("role");
             // get object of role
@@ -738,6 +743,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             " ORDER BY p.title ASC"
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec['id'] = (int) $rec['id'];
             $profiles[] = $rec;
         }
         return $profiles;
@@ -784,6 +790,6 @@ class ilSkillProfile implements ilSkillUsageInfo
             [$a_profile_id]
         );
         $rec = $db->fetchAssoc($set);
-        return $rec["skill_tree_id"] ?? 0;
+        return (int) $rec["skill_tree_id"] ?? 0;
     }
 }

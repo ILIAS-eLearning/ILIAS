@@ -502,7 +502,7 @@ class ilSkillDataSet extends ilDataSet
     }
 
     /**
-     * @param array{Id: int, Child: int Type: string} $a_rec
+     * @param array{Id: int, Child: int, Type: string} $a_rec
      *
      * @return array<string, array{ids: int[]}>
      */
