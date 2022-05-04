@@ -22,7 +22,7 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    private int $id = 0;
+    protected ?int $id = 0;
     /**
      * @var int
      * @con_has_field  true
@@ -90,12 +90,12 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         parent::delete();
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }

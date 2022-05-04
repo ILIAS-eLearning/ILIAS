@@ -11,7 +11,7 @@ class ilObjOrgUnitTree
 {
     protected static ?string $temporary_table_name_getOrgUnitOfUser = null;
     protected static string $temporary_table_name;
-    private static ilObjOrgUnitTree $instance;
+    protected static ?ilObjOrgUnitTree $instance = null;
     /** @var int[][] "employee" | "superior" => orgu_ref_id => role_id */
     private array $roles;
     /** @var int[][] "employee" | "superior" => role_id => orgu_ref_id id */
@@ -19,9 +19,9 @@ class ilObjOrgUnitTree
     /** @var int[][][] "employee" | "superior" => orgu ref id =>  array(obj_id of users) */
     private $staff;
     /** @var int[][] org_unit ref id => childrens org_unit ref ids. */
-    private array $tree_childs;
+    private array $tree_childs = [];
     /** @var int[] orgu_ref => parent_ref */
-    private array $parent;
+    private array $parent = [];
     private ilDBInterface $db;
     private ilObjUser $ilUser;
     private \ilTree $tree;
@@ -38,11 +38,11 @@ class ilObjOrgUnitTree
 
     public static function _getInstance() : \ilObjOrgUnitTree
     {
-        if (self::$instance === null) {
-            self::$instance = new self();
+        if (static::$instance === null) {
+            static::$instance = new self();
         }
 
-        return self::$instance;
+        return static::$instance;
     }
 
     /**
@@ -220,7 +220,7 @@ class ilObjOrgUnitTree
         return $orgus;
     }
 
-    private function getChildren(int $ref_id) : arraz
+    private function getChildren(int $ref_id) : array
     {
         $this->loadChildren($ref_id);
 
@@ -512,7 +512,7 @@ class ilObjOrgUnitTree
 
     public function getParent(int $orgu_ref) : int
     {
-        if (!$this->parent[$orgu_ref]) {
+        if (array_key_exists($orgu_ref,$this->parent) === false) {
             $this->parent[$orgu_ref] = $this->tree->getParentId($orgu_ref);
         }
 

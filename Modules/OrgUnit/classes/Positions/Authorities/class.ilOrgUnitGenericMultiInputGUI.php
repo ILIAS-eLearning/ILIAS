@@ -146,8 +146,11 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         $valid = true;
         // escape data
         $out_array = array();
-        if (is_array($_POST[$this->getPostVar()])) {
-            foreach ($_POST[$this->getPostVar()] as $item_num => $item) {
+
+        $post =  $_POST[$this->getPostVar()];
+
+        if (is_array($post[$this->getPostVar()])) {
+            foreach ($post[$this->getPostVar()] as $item_num => $item) {
                 foreach ($this->inputs as $input_key => $input) {
                     if (isset($item[$input_key])) {
                         $out_array[$item_num][$input_key] = (is_string($item[$input_key])) ? \ilUtil::stripSlashes($item[$input_key]) : $item[$input_key];
@@ -155,15 +158,15 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
                 }
             }
         }
-        $_POST[$this->getPostVar()] = $out_array;
-        if ($this->getRequired() && !trim(implode("", $_POST[$this->getPostVar()]))) {
+        $post[$this->getPostVar()] = $out_array;
+        if ($this->getRequired() && !trim(implode("", $post[$this->getPostVar()]))) {
             $valid = false;
         }
         // validate
 
         foreach ($this->inputs as $input_key => $inputs) {
             foreach ($out_array as $subitem) {
-                $_POST[$inputs->getPostVar()] = $subitem[$inputs->getPostVar()];
+                $post[$inputs->getPostVar()] = $subitem[$inputs->getPostVar()];
                 if (!$inputs->checkInput()) {
                     $valid = false;
                 }
@@ -331,7 +334,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
      * Insert property html
      * @throws ilTemplateException|ilException
      */
-    public function insert(\ilTemplate $a_tpl) : bool
+    public function insert(\ilTemplate $a_tpl) : void
     {
         $output = "";
 

@@ -15,14 +15,17 @@ class ilOrgUnitPositionFormGUI extends BaseForm
 
     protected function initFormElements(): void
     {
-        $te = new ilTextInputGUI($this->parent_gui->txt(self::F_TITLE), self::F_TITLE);
+        global $DIC;
+        $lng = $DIC->language();
+
+        $te = new ilTextInputGUI($lng->txt(self::F_TITLE), self::F_TITLE);
         $te->setRequired(true);
         $this->addItem($te);
 
-        $te = new ilTextAreaInputGUI($this->parent_gui->txt(self::F_DESCRIPTION), self::F_DESCRIPTION);
+        $te = new ilTextAreaInputGUI($lng->txt(self::F_DESCRIPTION), self::F_DESCRIPTION);
         $this->addItem($te);
 
-        $m = new ilOrgUnitGenericMultiInputGUI($this->parent_gui->txt(self::F_AUTHORITIES), self::F_AUTHORITIES);
+        $m = new ilOrgUnitGenericMultiInputGUI($lng->txt(self::F_AUTHORITIES), self::F_AUTHORITIES);
         $m->setShowLabel(true);
         $m->setRenderOneForEmptyValue(false);
         $m->setMulti(true);
@@ -30,9 +33,9 @@ class ilOrgUnitPositionFormGUI extends BaseForm
         $id = new ilHiddenInputGUI('id');
         $m->addInput($id);
 
-        $over = new ilSelectInputGUI($this->parent_gui->txt('over'), 'over');
+        $over = new ilSelectInputGUI($lng->txt('over'), 'over');
         $over_options = array();
-        $over_options[ilOrgUnitAuthority::OVER_EVERYONE] = $this->parent_gui->txt('over_'
+        $over_options[ilOrgUnitAuthority::OVER_EVERYONE] = $lng->txt('over_'
             . ilOrgUnitAuthority::OVER_EVERYONE);
         $over_options += ilOrgUnitPosition::getArray('id', 'title');
         $over->setOptions($over_options);
@@ -40,11 +43,11 @@ class ilOrgUnitPositionFormGUI extends BaseForm
 
         $available_scopes = array();
         foreach (ilOrgUnitAuthority::getScopes() as $scope) {
-            $txt = $this->parent_gui->txt('scope_' . $scope);
+            $txt = $lng->txt('scope_' . $scope);
             $available_scopes[$scope] = $txt;
         }
 
-        $scopes = new ilSelectInputGUI($this->parent_gui->txt('scope'), 'scope');
+        $scopes = new ilSelectInputGUI($lng->txt('scope'), 'scope');
         $scopes->setOptions($available_scopes);
         $m->addInput($scopes);
 

@@ -45,7 +45,7 @@ class ilOrgUnitAuthority extends \ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected int $id = 0;
+    protected $id = 0;
     /**
      * @var int
      * @con_has_field  true
@@ -67,16 +67,16 @@ class ilOrgUnitAuthority extends \ActiveRecord
      * @con_length     1
      */
     protected int $position_id = 0;
-    protected static \Closure $name_render;
+    protected static ?\Closure $name_render = null;
 
     /**
      * ilOrgUnitAuthority constructor.
-     * @param int               $primary_key
+     * @param                $primary_key
      */
-    public function __construct(int $primary_key = 0)
+    public function __construct($primary_key = 0)
     {
         parent::__construct($primary_key);
-        if (!self::$name_render) {
+        if (static::$name_render === null) {
             self::$name_render = function($id) {
                 return $id;
             };
@@ -108,12 +108,18 @@ class ilOrgUnitAuthority extends \ActiveRecord
         );
     }
 
-    public function getId(): int
+    /**
+     * @return mixed
+     */
+    public function getId()
     {
         return $this->id;
     }
 
-    public function setId(int $id): void
+    /**
+     * @param mixed
+     */
+    public function setId($id): void
     {
         $this->id = $id;
     }

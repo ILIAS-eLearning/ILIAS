@@ -357,7 +357,27 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->WARNING);
         }
 
-        parent::renderObject();
+        $container_view = $this->getContentGUI();
+
+        $this->setContentSubTabs();
+        if ($this->isActiveAdministrationPanel()) {
+            $this->tabs->activateSubTab("manage");
+        } else {
+            $this->tabs->activateSubTab("view_content");
+        }
+
+        //$container_view->setOutput();
+
+        $this->adminCommands = $container_view->adminCommands;
+
+        // it is important not to show the subobjects/admin panel here, since
+        // we will create nested forms in case, e.g. a news/calendar item is added
+        if ($this->ctrl->getNextClass() !== "ilcolumngui") {
+            $this->showAdministrationPanel();
+            $this->showPossibleSubObjects();
+
+        }
+        $this->showPermanentLink();
         $this->tabs_gui->activateTab(self::TAB_VIEW_CONTENT);
         $this->tabs_gui->removeSubTab("page_editor");
         $this->tabs_gui->removeSubTab("ordering"); // Mantis 0014728

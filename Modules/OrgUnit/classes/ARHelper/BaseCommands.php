@@ -83,6 +83,15 @@ abstract class BaseCommands
      */
     public function executeCommand()
     {
+        global $DIC;
+        $this->ctrl = $DIC->ctrl();
+        $this->http = $DIC->http();
+        $this->access = $DIC->access();
+        $this->tabsGUI = $DIC->tabs();
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->lng->loadLanguageModule("orgu");
+
         $cmd = $this->ctrl->getCmd(self::CMD_INDEX);
         $next_class = $this->ctrl->getNextClass();
         if ($next_class) {
