@@ -26,7 +26,7 @@ class ilADTFloatDefinition extends ilADTDefinition
         return $this->min_value;
     }
     
-    public function setMin(float $a_value) : void
+    public function setMin(?float $a_value) : void
     {
         $this->min_value = $this->handleNumber($a_value);
     }
@@ -36,7 +36,7 @@ class ilADTFloatDefinition extends ilADTDefinition
         return $this->max_value;
     }
     
-    public function setMax(float $a_value) : void
+    public function setMax(?float $a_value) : void
     {
         $this->max_value = $this->handleNumber($a_value);
     }
