@@ -19,20 +19,8 @@
 namespace ILIAS\Setup;
 
 /**
- * Signals that a necessary confirmation from the admin is missing.
+ * Signals that the setup is not executable at all.
  */
-class NoConfirmationException extends NotExecutableException 
+class NotExecutableException extends \RuntimeException
 {
-    protected string $confirmation;
-
-    public function __construct(string $confirmation, ...$rest)
-    {
-        parent::__construct(...$rest);
-        $this->confirmation = $confirmation;
-    }
-
-    public function getRequestedConfirmation() : string
-    {
-        return $this->confirmation;
-    }
 }
