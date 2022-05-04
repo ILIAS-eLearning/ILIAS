@@ -20,7 +20,7 @@ namespace ILIAS\Setup\CLI;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\Environment;
 use ILIAS\Setup\ObjectiveIterator;
-use ILIAS\Setup\UnachievableException;
+use ILIAS\Setup\NotExecutableException;
 
 /**
  * Add this to an Command that has wants to achieve objectives.
@@ -58,6 +58,8 @@ trait ObjectiveHelper
                     $io->finishedLastObjective();
                 }
                 $iterator->setEnvironment($environment);
+            } catch (NotExecutableException $e) {
+                throw $e;
             } catch (\Throwable $e) {
                 $iterator->markAsFailed($current);
                 if ($io) {
