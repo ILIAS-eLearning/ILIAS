@@ -29,10 +29,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
      */
     protected function getInstallLanguages() : array
     {
-        if (!is_null($this->config)) {
-            return $this->config->getInstallLanguages();
-        }
-        return $this->il_setup_language->getInstalledLanguages();
+        return $this->il_setup_language->getInstalledLanguages() ?: ['en'];
     }
 
     /**
@@ -40,9 +37,6 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
      */
     protected function getInstallLocalLanguages() : array
     {
-        if (!is_null($this->config)) {
-            return $this->config->getInstallLocalLanguages();
-        }
         return $this->il_setup_language->getInstalledLocalLanguages();
     }
 
