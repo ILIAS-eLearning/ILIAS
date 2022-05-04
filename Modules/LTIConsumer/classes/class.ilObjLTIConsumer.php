@@ -683,7 +683,7 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_instance_contact_email" => $DIC->settings()->get("admin_email"),
             "launch_presentation_css_url" => "",
             "tool_consumer_info_product_family_code" => "ilias",
-            "tool_consumer_info_version" => $DIC->settings()->get("ilias_version"),
+            "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => $token,
             "lis_outcome_service_url" => ILIAS_HTTP_PATH . "/Modules/LTIConsumer/result.php?client_id=" . CLIENT_ID,
             "role_scope_mentor" => ""

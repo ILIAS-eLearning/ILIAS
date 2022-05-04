@@ -99,7 +99,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         if (DEVMODE) {
             $php = ", PHP " . phpversion();
         }
-        $ftpl->setVariable("ILIAS_VERSION", $ilSetting->get("ilias_version") . $php);
+        $ftpl->setVariable("ILIAS_VERSION", ILIAS_VERSION . $php);
 
         $link_items = array();
 
@@ -440,7 +440,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $ilSetting = $DIC->settings();
 
         if (is_object($ilSetting)) {        // maybe this one can be removed
-            $vers = "vers=" . str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
+            $vers = "vers=" . str_replace(array(".", " "), "-", ILIAS_VERSION);
 
             if (DEVMODE) {
                 $vers .= '-' . time();

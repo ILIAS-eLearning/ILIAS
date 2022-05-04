@@ -1059,7 +1059,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         
         // ilias version
         $ne = new ilNonEditableValueGUI($lng->txt("ilias_version"), "");
-        $ne->setValue($ilSetting->get("ilias_version"));
+        $ne->setValue(ILIAS_VERSION);
         $this->form->addItem($ne);
 
         // host

@@ -6045,7 +6045,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $a_xml_writer->xmlStartTag("qtimetadata");
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "ILIAS_VERSION");
-        $a_xml_writer->xmlElement("fieldentry", null, $this->ilias->getSetting("ilias_version"));
+        $a_xml_writer->xmlElement("fieldentry", null, ILIAS_VERSION);
         $a_xml_writer->xmlEndTag("qtimetadatafield");
 
         // anonymity
