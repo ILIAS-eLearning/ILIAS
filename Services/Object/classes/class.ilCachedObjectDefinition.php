@@ -70,14 +70,13 @@ class ilCachedObjectDefinition
             . "translate, devmode, allow_link, allow_copy, rbac, system, sideblock, default_pos, grp," . PHP_EOL
             . "default_pres_pos, export, repository, workspace, administration, amet, orgunit_permissions," . PHP_EOL
             . "lti_provider, offline_handling" . PHP_EOL
-            . "FROM il_object_def, il_object_subobj" . PHP_EOL
-            . "WHERE NOT (" . $db->quoteIdentifier('system') . " = 1)" . PHP_EOL
-            . "AND NOT (sideblock = 1)" . PHP_EOL
-            . "AND subobj = id" . PHP_EOL
+            . "FROM il_object_def LEFT JOIN il_object_subobj ON subobj = id " . PHP_EOL
+            . "WHERE administration != 1" . PHP_EOL
+            . "AND sideblock != 1" . PHP_EOL
         ;
         $set = $db->query($sql);
         while ($rec = $db->fetchAssoc($set)) {
-            $this->grouped_rep_obj_types[$rec['parent']][] = $rec;
+            $this->grouped_rep_obj_types[$rec['parent'] ?? ''][] = $rec;
         }
 
         $sql =

@@ -4943,6 +4943,7 @@ common#:#obj_rtst#:#ECS Test
 common#:#obj_rwik#:#ECS Wiki
 common#:#obj_sahs_duplicate#:#Copy Learning Module
 common#:#obj_sahs#:#Learning Module SCORM
+common#:#objs_root#:#Repository
 common#:#objs_bibl#:#Bibliographies
 common#:#objs_blog#:#Blogs
 common#:#objs_book#:#Booking Pools
