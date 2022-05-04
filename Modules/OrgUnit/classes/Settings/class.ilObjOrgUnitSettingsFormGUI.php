@@ -13,6 +13,7 @@ class ilObjOrgUnitSettingsFormGUI extends ilPropertyFormGUI
     {
         global $DIC;
 
+
         parent::__construct();
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];

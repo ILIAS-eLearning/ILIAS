@@ -29,7 +29,7 @@ trait DIC
         return $this->lng()->txt($variable);
     }
 
-
+    
     protected function tpl(): \ilGlobalTemplateInterface
     {
         return $this->dic()->ui()->mainTemplate();
