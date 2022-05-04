@@ -164,7 +164,7 @@ class ilLoggingDBSettings implements ilLoggingSettings
     /**
      * Update setting
      */
-    public function update()
+    public function update() : void
     {
         $this->getStorage()->set('level', (string) $this->getLevel());
         $this->getStorage()->set('cache', (string) $this->isCacheEnabled());
@@ -180,7 +180,7 @@ class ilLoggingDBSettings implements ilLoggingSettings
      *
      * @access private
      */
-    private function read()
+    private function read() : void
     {
         $this->setLevel((int) $this->getStorage()->get('level', (string) $this->level));
         $this->enableCaching((bool) $this->getStorage()->get('cache', (string) $this->cache));

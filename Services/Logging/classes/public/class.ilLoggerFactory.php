@@ -30,7 +30,7 @@ class ilLoggerFactory
     private ilLoggingSettings $settings;
     protected Container $dic;
     
-    private bool $enabled;
+    private bool $enabled; //ToDo PHP8 Review: This is a private var never read only written and should probably be removed.
 
     /**
      * @var array<string, ilComponentLogger>

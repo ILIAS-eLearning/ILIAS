@@ -51,8 +51,7 @@ class ilLog
         string $a_tag = "",
         bool $a_enabled = true,
         ?int $a_log_level = null
-    )
-    {
+    ) {
         // init vars
 
         $this->FATAL = ilLogLevel::CRITICAL;
@@ -84,6 +83,9 @@ class ilLog
         }
     }
 
+    /**
+     * @param int $a_log_level
+     */
     public function checkLogLevel($a_log_level) : int
     {
         if (empty($a_log_level)) {
@@ -188,6 +190,9 @@ class ilLog
     * specified in ilias.ini:
     * [log]
     * level = "<level>" possible values are fatal,warning,message
+    *
+    *
+    * @param ?int $a_log_level
     *
     */
     public function write(string $a_msg, $a_log_level = null) : void
