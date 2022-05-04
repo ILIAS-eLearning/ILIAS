@@ -24,7 +24,7 @@ class ilMediaPoolItem
     protected string $type;
     protected int $id;
     protected ilDBInterface $db;
-    protected string $import_id;
+    protected string $import_id = '';
 
     /**
      * @param int $a_id media pool item id

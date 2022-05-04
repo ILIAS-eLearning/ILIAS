@@ -32,6 +32,7 @@ use ILIAS\MediaPool\StandardGUIRequest;
  */
 class ilObjMediaPoolGUI extends ilObject2GUI
 {
+    const P_MEP_HASH = 'mep_hash';
     protected ilPropertyFormGUI $form;
     protected string $mode;
     protected int $mep_item_id = 0;
@@ -65,6 +66,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
 
         $this->upload = $DIC->upload();
+        $this->request = $DIC->http()->request();
 
         $this->mep_log = ilLoggerFactory::getLogger("mep");
 
@@ -149,6 +151,14 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         }
 
         switch ($next_class) {
+            case strtolower(ilMediaPoolBulkUploadGUI::class):
+                $this->checkPermission("write");
+                $this->ctrl->forwardCommand(new ilMediaPoolBulkUploadGUI(
+                    $this->object,
+                    $this->mep_item_id,
+                    $this->ctrl->getLinkTarget($this, 'performBulkUpload'),
+                    $this->mep_request->getUploadHash()
+                ));
             case 'ilobjectmetadatagui':
                 $this->checkPermission("write");
 
@@ -190,8 +200,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 if ($cmd === "create" || $cmd === "save" || $cmd === "cancel") {
                     $ret_obj = $this->mep_item_id;
                     $ilObjMediaObjectGUI = new ilObjMediaObjectGUI("", 0, false, false);
-                    $ilObjMediaObjectGUI->setWidthPreset($this->getMediaPool()->getDefaultWidth());
-                    $ilObjMediaObjectGUI->setHeightPreset($this->getMediaPool()->getDefaultHeight());
+                    $ilObjMediaObjectGUI->setWidthPreset($this->getMediaPool()->getDefaultWidth()??0);
+                    $ilObjMediaObjectGUI->setHeightPreset($this->getMediaPool()->getDefaultHeight()??0);
                 } else {
                     $ret_obj = $tree->getParentId($this->mep_item_id);
                     $ilObjMediaObjectGUI = new ilObjMediaObjectGUI("", ilMediaPoolItem::lookupForeignId($this->mep_item_id), false, false);
@@ -660,7 +670,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             ilMediaPoolTableGUI::IL_MEP_EDIT,
             true
         );
-            
+        
         if ($this->mep_request->getForceFilter() > 0) {
             $mep_table_gui->setTitleFilter(
                 ilMediaPoolItem::lookupTitle($this->mep_request->getForceFilter())
@@ -890,7 +900,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $cgui->setHeaderText($this->lng->txt("info_remove_sure"));
         $cgui->setCancel($this->lng->txt("cancel"), "cancelRemove");
         $cgui->setConfirm($this->lng->txt("confirm"), "remove");
-            
+        
         foreach ($ids as $obj_id) {
             $type = ilMediaPoolItem::lookupType($obj_id);
             $title = ilMediaPoolItem::lookupTitle($obj_id);
@@ -1207,7 +1217,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             $this->form->addCommandButton("cancelFolderUpdate", $lng->txt("cancel"));
             $this->form->setTitle($lng->txt("mep_edit_folder"));
         }
-                    
+        
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
@@ -1660,41 +1670,18 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
     protected function bulkUpload() : void
     {
+        global $DIC;
         $this->checkPermission("write");
-
-        $main_tpl = $this->main_tpl;
-
-        $form = $this->initBulkUploadForm();
-        $main_tpl->setContent($form->getHTML());
-    }
-
-    /**
-     * Init bulk upload form
-     */
-    public function initBulkUploadForm() : ilPropertyFormGUI
-    {
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
-
-        $form = new ilPropertyFormGUI();
-
-        $form->setFormAction($ctrl->getFormAction($this));
-        $form->setPreventDoubleSubmission(false);
-
-        $item = new ilFileStandardDropzoneInputGUI(
-            'cancel',
-            $lng->txt("mep_media_files"),
-            'media_files'
+        $mep_hash = uniqid();
+        $this->ctrl->setParameter($this, self::P_MEP_HASH, $mep_hash);
+        $bulk_upload = new ilMediaPoolBulkUploadGUI(
+            $this->object,
+            $this->mep_item_id,
+            $this->ctrl->getLinkTarget($this, 'performBulkUpload'),
+            $mep_hash
         );
-        $item->setUploadUrl($ctrl->getLinkTarget($this, "performBulkUpload", "", true, true));
-        $item->setMaxFiles(20);
-        $form->addItem($item);
-
-        $form->addCommandButton("performBulkUpload", $lng->txt("upload"));
-
-        $form->setTitle($lng->txt("mep_bulk_upload"));
-
-        return $form;
+        
+        $this->main_tpl->setContent($DIC->ui()->renderer()->render($bulk_upload->getAsForm()));
     }
 
     /**
@@ -1703,94 +1690,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
     public function performBulkUpload() : void
     {
         $this->checkPermission("write");
-
-        $ctrl = $this->ctrl;
-        $lng = $this->lng;
-        $main_tpl = $this->main_tpl;
-        $upload = $this->upload;
-        $log = $this->mep_log;
-
-        $form = $this->initBulkUploadForm();
-        if ($form->checkInput()) {
-            // Check if this is a request to upload a file
-            $log->debug("checking for uploads...");
-            if ($upload->hasUploads()) {
-                $log->debug("has upload...");
-                try {
-                    $upload->process();
-                    $log->debug("nr of results: " . count($upload->getResults()));
-                    foreach ($upload->getResults() as $result) {
-                        $title = $result->getName();
-
-                        $mob = new ilObjMediaObject();
-                        $mob->setTitle($title);
-                        $mob->setDescription("");
-                        $mob->create();
-
-                        $mob->createDirectory();
-                        $media_item = new ilMediaItem();
-                        $mob->addMediaItem($media_item);
-                        $media_item->setPurpose("Standard");
-
-                        $mob_dir = ilObjMediaObject::_getRelativeDirectory($mob->getId());
-                        $file_name = ilObjMediaObject::fixFilename($title);
-                        $file = $mob_dir . "/" . $file_name;
-
-                        $upload->moveOneFileTo(
-                            $result,
-                            $mob_dir,
-                            Location::WEB,
-                            $file_name,
-                            true
-                        );
-
-                        $mep_item = new ilMediaPoolItem();
-                        $mep_item->setTitle($title);
-                        $mep_item->setType("mob");
-                        $mep_item->setForeignId($mob->getId());
-                        $mep_item->create();
-
-                        $tree = $this->object->getTree();
-                        $parent = $this->mep_item_id;
-                        $tree->insertNode($mep_item->getId(), $parent);
-
-                        // get mime type
-                        $format = ilObjMediaObject::getMimeType($file);
-                        $location = $file_name;
-
-                        // set real meta and object data
-                        $media_item->setFormat($format);
-                        $media_item->setLocation($location);
-                        $media_item->setLocationType("LocalFile");
-                        $media_item->setUploadHash($this->mep_request->getUploadHash());
-                        $mob->update();
-
-                        $item_ids[] = $mob->getId();
-
-                        $mob = new ilObjMediaObject($mob->getId());
-                        $mob->generatePreviewPic(320, 240);
-
-                        // duration
-                        $med_item = $mob->getMediaItem("Standard");
-                        $med_item->determineDuration();
-                        $med_item->update();
-                    }
-                } catch (Exception $e) {
-                    $log->debug("Got exception: " . $e->getMessage());
-                    echo json_encode(['success' => false, 'message' => $e->getMessage()], JSON_THROW_ON_ERROR);
-                }
-                $log->debug("end of 'has_uploads'");
-            }
-            $log->debug("has no upload...");
-
-            $log->debug("calling redirect... (" . $this->mep_request->getUploadHash() . ")");
-            $this->main_tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
-            $ctrl->setParameter($this, "mep_hash", $this->mep_request->getUploadHash());
-            $ctrl->redirect($this, "editTitlesAndDescriptions");
-        }
-
-        $form->setValuesByPost();
-        $main_tpl->setContent($form->getHTML());
+        $this->ctrl->setParameter($this, self::P_MEP_HASH, $this->mep_request->getUploadHash());
+        $this->ctrl->redirect($this, "editTitlesAndDescriptions");
     }
 
     protected function editTitlesAndDescriptions() : void
@@ -1799,7 +1700,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $lng = $this->lng;
 
         $this->checkPermission("write");
-        $ctrl->saveParameter($this, "mep_hash");
+        $ctrl->saveParameter($this, self::P_MEP_HASH);
 
         $main_tpl = $this->main_tpl;
 
