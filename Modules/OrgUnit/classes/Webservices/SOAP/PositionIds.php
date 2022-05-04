@@ -10,7 +10,7 @@ use ilOrgUnitPosition;
  */
 class PositionIds extends Base
 {
-    final protected function run(array $params): array
+    protected function run(array $params): array
     {
         return ilOrgUnitPosition::getArray(null, 'id');
     }
@@ -20,12 +20,12 @@ class PositionIds extends Base
         return "getPositionIds";
     }
 
-    final protected function getAdditionalInputParams(): array
+    protected function getAdditionalInputParams(): array
     {
         return array();
     }
 
-    final public function getOutputParams() : array
+    public function getOutputParams() : array
     {
         return array('position_ids' => Base::TYPE_INT_ARRAY);
     }

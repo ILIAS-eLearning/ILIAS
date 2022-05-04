@@ -12,7 +12,7 @@ class ilOrgUnitAuthorityFormGUI extends BaseForm
     private const F_TITLE = 'title';
     private const F_DESCRIPTION = 'description';
 
-    final public function initFormElements() : void
+    public function initFormElements() : void
     {
         $te = new ilTextInputGUI($this->lng->txt(self::F_TITLE), self::F_TITLE);
         $te->setRequired(true);
@@ -33,7 +33,7 @@ class ilOrgUnitAuthorityFormGUI extends BaseForm
         $this->addItem($c);
     }
 
-    final public function fillForm() : void
+    public function fillForm() : void
     {
         $array = array(
             self::F_TITLE => $this->object->getTitle(),
@@ -43,7 +43,7 @@ class ilOrgUnitAuthorityFormGUI extends BaseForm
         $this->setValuesByArray($array);
     }
 
-    final public function fillObject(): bool
+    public function fillObject(): bool
     {
         if (!$this->checkInput()) {
             return false;

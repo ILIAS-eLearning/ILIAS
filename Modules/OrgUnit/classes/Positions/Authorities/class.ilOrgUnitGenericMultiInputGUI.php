@@ -38,7 +38,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         $this->initCSSandJS();
     }
 
-    final public function getHook(string $key)
+    public function getHook(string $key)
     {
         if (isset($this->hooks[$key])) {
             return $this->hooks[$key];
@@ -47,12 +47,12 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         return false;
     }
 
-    final public function addHook(string $key, array $options)
+    public function addHook(string $key, array $options)
     {
         $this->hooks[$key] = $options;
     }
 
-    final public function removeHook(string $key) : bool
+    public function removeHook(string $key) : bool
     {
         if (isset($this->hooks[$key])) {
             unset($this->hooks[$key]);
@@ -63,29 +63,29 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         return false;
     }
 
-    final public function addInput(\ilFormPropertyGUI $input, array $options = array()) : void
+    public function addInput(\ilFormPropertyGUI $input, array $options = array()) : void
     {
         $this->inputs[$input->getPostVar()] = $input;
         $this->input_options[$input->getPostVar()] = $options;
         $this->counter++;
     }
 
-    final public function getTemplateDir() : string
+    public function getTemplateDir() : string
     {
         return $this->template_dir;
     }
 
-    final public function setTemplateDir(string $template_dir)
+    public function setTemplateDir(string $template_dir)
     {
         $this->template_dir = $template_dir;
     }
 
-    final public function isShowLabel() : bool
+    public function isShowLabel() : bool
     {
         return $this->show_label;
     }
 
-    final public function setShowLabel(bool $show_label)
+    public function setShowLabel(bool $show_label)
     {
         $this->show_label = $show_label;
     }
@@ -94,17 +94,17 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
      * Get Options.
      * @return    array    Options. Array ("value" => "option_text")
      */
-    final public function getInputs() : array
+    public function getInputs() : array
     {
         return $this->inputs;
     }
 
-    final public function setMulti(bool $a_multi, bool $a_sortable = false, bool $a_addremove = true) : void
+    public function setMulti(bool $a_multi, bool $a_sortable = false, bool $a_addremove = true) : void
     {
         $this->multi = $a_multi;
     }
 
-    final public function setValue(string $a_value)
+    public function setValue(string $a_value)
     {
         foreach ($this->inputs as $key => $item) {
             if (method_exists($item, 'setValue')) {
@@ -116,7 +116,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         $this->value = $a_value;
     }
 
-    final  public function getValue() : array
+     public function getValue() : array
     {
         $out = array();
         foreach ($this->inputs as $key => $item) {
@@ -126,7 +126,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         return $out;
     }
 
-    final public function setValueByArray(array $a_values) : void
+    public function setValueByArray(array $a_values) : void
     {
         $data = $a_values[$this->getPostVar()];
         if ($this->getMulti()) {
@@ -140,7 +140,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
      * Check input, strip slashes etc. set alert, if input is not ok.
      * @return    bool        Input ok, true/false
      */
-    final public function checkInput() : bool
+    public function checkInput() : bool
     {
         global $lng;
         $valid = true;
@@ -178,7 +178,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    final public function addCustomAttribute(string $key, string $value, bool $override = false) : void
+    public function addCustomAttribute(string $key, string $value, bool $override = false) : void
     {
         if (isset($this->cust_attr[$key]) && !$override) {
             $this->cust_attr[$key] .= ' ' . $value;
@@ -187,7 +187,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         }
     }
 
-    final public function getCustomAttributes() : array
+    public function getCustomAttributes() : array
     {
         return (array) $this->cust_attr;
     }
@@ -202,7 +202,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     }
 
 
-    final public function render(int $iterator_id = 0, bool $clean_render = false) : string
+    public function render(int $iterator_id = 0, bool $clean_render = false) : string
     {
         $first_label = true;
         //		$tpl = new \ilTemplate("tpl.multi_line_input.html", true, true, 'Customizing/global/plugins/Services/Repository/RepositoryObject/LiveVoting');
@@ -321,7 +321,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
         return $tpl->get();
     }
 
-    final public function initCSSandJS()
+    public function initCSSandJS()
     {
         global $tpl;
         $tpl->addJavascript('Modules/OrgUnit/js/generic_multi_line_input.js');
@@ -331,7 +331,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
      * Insert property html
      * @throws ilTemplateException|ilException
      */
-    final public function insert(\ilTemplate $a_tpl) : bool
+    public function insert(\ilTemplate $a_tpl) : bool
     {
         $output = "";
 
@@ -374,7 +374,7 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     /**
      * Get HTML for table filter
      */
-    final public function getTableFilterHTML() : string
+    public function getTableFilterHTML() : string
     {
         return $this->render();
     }
@@ -382,48 +382,48 @@ class ilOrgUnitGenericMultiInputGUI extends ilFormPropertyGUI
     /**
      * Get HTML for toolbar
      */
-    final public function getToolbarHTML() : string
+    public function getToolbarHTML() : string
     {
         return $this->render("toolbar");
     }
 
-    final public function isPositionMovable() : bool
+    public function isPositionMovable() : bool
     {
         return $this->position_movable;
     }
 
-    final public function setPositionMovable(bool $position_movable) : void
+    public function setPositionMovable(bool $position_movable) : void
     {
         $this->position_movable = $position_movable;
     }
 
-    final public function isShowLabelOnce() : bool
+    public function isShowLabelOnce() : bool
     {
         return $this->show_label_once;
     }
 
-    final public function setShowLabelOnce(bool $show_label_once) : void
+    public function setShowLabelOnce(bool $show_label_once) : void
     {
         $this->setShowLabel(false);
         $this->show_label_once = $show_label_once;
     }
 
-    final public function isShowInfo() : bool
+    public function isShowInfo() : bool
     {
         return $this->show_info;
     }
 
-    final public function setShowInfo(bool $show_info): void
+    public function setShowInfo(bool $show_info): void
     {
         $this->show_info = $show_info;
     }
 
-    final public function isRenderOneForEmptyValue() : bool
+    public function isRenderOneForEmptyValue() : bool
     {
         return $this->render_one_for_empty_value;
     }
 
-    final public function setRenderOneForEmptyValue(bool $render_one_for_empty_value): void
+    public function setRenderOneForEmptyValue(bool $render_one_for_empty_value): void
     {
         $this->render_one_for_empty_value = $render_one_for_empty_value;
     }

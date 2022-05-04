@@ -34,7 +34,7 @@ class ilOrgUnitUser
     /**
      * @throws Exception
      */
-    final public static function getInstanceById(int $user_id) : self
+    public static function getInstanceById(int $user_id) : self
     {
         if (null === static::$instances[$user_id]) {
             $org_unit_user_repository = new ilOrgUnitUserRepository();
@@ -49,7 +49,7 @@ class ilOrgUnitUser
         return static::$instances[$user_id];
     }
 
-    final public static function getInstance(int $user_id, string $login, string $email, string $second_email) : self
+    public static function getInstance(int $user_id, string $login, string $email, string $second_email) : self
     {
         if (null === static::$instances[$user_id]) {
             static::$instances[$user_id] = new self($user_id, $login, $email, $second_email);
@@ -59,12 +59,12 @@ class ilOrgUnitUser
     }
 
 
-    final public function addSuperior(ilOrgUnitUser $org_unit_user) : void
+    public function addSuperior(ilOrgUnitUser $org_unit_user) : void
     {
         $this->superiors[] = $org_unit_user;
     }
 
-    final public function addPositions(\ilOrgUnitPosition $org_unit_position)
+    public function addPositions(\ilOrgUnitPosition $org_unit_position)
     {
         $this->org_unit_positions[] = $org_unit_position;
     }
@@ -73,7 +73,7 @@ class ilOrgUnitUser
      * @return ilOrgUnitUser[]
      * eager loading
      */
-    final public function getSuperiors() : array
+    public function getSuperiors() : array
     {
         if (count($this->superiors) === 0) {
             $this->loadSuperiors();
@@ -82,7 +82,7 @@ class ilOrgUnitUser
         return $this->superiors;
     }
 
-    final public function loadSuperiors() : void
+    public function loadSuperiors() : void
     {
         $org_unit_user_repository = new ilOrgUnitUserRepository();
         $org_unit_user_repository->loadSuperiors([$this->user_id]);
@@ -92,7 +92,7 @@ class ilOrgUnitUser
      * @return \ilOrgUnitPosition[]
      * eager loading
      */
-    final public function getOrgUnitPositions() : array
+    public function getOrgUnitPositions() : array
     {
         if (count($this->org_unit_positions) == 0) {
             $this->loadOrgUnitPositions();
@@ -111,27 +111,27 @@ class ilOrgUnitUser
         $org_unit_user_repository->loadPositions([$this->user_id]);
     }
 
-    final public function getUserId() : int
+    public function getUserId() : int
     {
         return $this->user_id;
     }
 
-    final  public function getLogin() : string
+    public function getLogin() : string
     {
         return $this->login;
     }
 
-    final public function getEmail() : string
+    public function getEmail() : string
     {
         return $this->email;
     }
 
-    final public function getSecondEmail() : string
+    public function getSecondEmail() : string
     {
         return $this->second_email;
     }
 
-    final public function setSecondEmail(string $second_email) : void
+    public function setSecondEmail(string $second_email) : void
     {
         $this->second_email = $second_email;
     }

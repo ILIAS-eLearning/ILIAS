@@ -58,7 +58,7 @@ class RemoveUserIdFromPositionInOrgUnit extends Base
         return "removeUserFromPositionInOrgUnit";
     }
 
-    final protected function getAdditionalInputParams(): array
+    protected function getAdditionalInputParams(): array
     {
         return array(self::POSITION_ID => Base::TYPE_INT,
                      self::USR_ID => Base::TYPE_INT,
@@ -66,12 +66,12 @@ class RemoveUserIdFromPositionInOrgUnit extends Base
         );
     }
 
-    final public function getOutputParams() : array
+    public function getOutputParams() : array
     {
         return [];
     }
 
-    final public function getDocumentation() : string
+    public function getDocumentation() : string
     {
         return "Removes a user from a position in a orgunit";
     }

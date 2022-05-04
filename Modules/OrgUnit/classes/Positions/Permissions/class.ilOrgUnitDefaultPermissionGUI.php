@@ -17,7 +17,7 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
         $this->main_tpl = $DIC->ui()->mainTemplate();
     }
 
-    final protected function index() : void
+    protected function index() : void
     {
         $this->getParentGui()->addSubTabs();
         $this->getParentGui()->activeSubTab(ilOrgUnitPositionGUI::SUBTAB_PERMISSIONS);
@@ -32,7 +32,7 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
         $this->setContent($ilOrgUnitDefaultPermissionFormGUI->getHTML());
     }
 
-    final protected function update(): void
+    protected function update(): void
     {
         $this->getParentGui()->addSubTabs();
         $ilOrgUnitPermissions = ilOrgUnitPermissionQueries::getAllTemplateSetsForAllActivedContexts($this->getCurrentPositionId(), true);
@@ -49,7 +49,7 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
         $this->setContent($ilOrgUnitDefaultPermissionFormGUI->getHTML());
     }
 
-    final protected function getCurrentPositionId(): int
+    protected function getCurrentPositionId(): int
     {
         static $id;
         if (!$id) {
@@ -59,7 +59,7 @@ class ilOrgUnitDefaultPermissionGUI extends BaseCommands
         return (int) $id;
     }
 
-    final protected function cancel(): void
+    protected function cancel(): void
     {
         $this->ctrl()->redirectByClass(ilOrgUnitPositionGUI::class);
     }

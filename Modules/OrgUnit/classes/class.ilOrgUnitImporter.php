@@ -62,7 +62,7 @@ class ilOrgUnitImporter extends ilXmlImporter
         }
     }
 
-    final public function hasMoreThanOneMatch(string $external_id) : bool
+    public function hasMoreThanOneMatch(string $external_id) : bool
     {
         $query = "SELECT * FROM object_data " .
             "INNER JOIN object_reference as ref on ref.obj_id = object_data.obj_id and ref.deleted is null " .
@@ -78,43 +78,43 @@ class ilOrgUnitImporter extends ilXmlImporter
         }
     }
 
-    final public function hasErrors() : bool
+    public function hasErrors() : bool
     {
         return count($this->errors) != 0;
     }
 
-    final public function hasWarnings() : bool
+    public function hasWarnings() : bool
     {
         return count($this->warnings) != 0;
     }
 
-    final public function addWarning(string $lang_var, string $import_id, ?string $action = null) : void
+    public function addWarning(string $lang_var, string $import_id, ?string $action = null) : void
     {
         $this->warnings[] = array('lang_var' => $lang_var, 'import_id' => $import_id, 'action' => $action);
     }
 
-    final public function addError(string $lang_var, string $import_id, ?string $action = null) : void
+    public function addError(string $lang_var, string $import_id, ?string $action = null) : void
     {
         $this->errors[] = array('lang_var' => $lang_var, 'import_id' => $import_id, 'action' => $action);
     }
 
-    final public function getErrors() : array
+    public function getErrors() : array
     {
         return $this->errors;
     }
 
-    final public function getWarnings() : array
+    public function getWarnings() : array
     {
         return $this->warnings;
     }
 
-    final public function getStats() : array
+    public function getStats() : array
     {
         return $this->stats;
     }
 
     /** @deprecated */
-    final public function importXmlRepresentation(
+    public function importXmlRepresentation(
         string $a_entity,
         string $a_id,
         string $a_xml,

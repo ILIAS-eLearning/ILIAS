@@ -8,7 +8,7 @@ use ILIAS\DI\Container;
  */
 class ilOrgUnitUserAssignment extends \ActiveRecord
 {
-    final public static function returnDbTableName() : string
+    public static function returnDbTableName() : string
     {
         return 'il_orgu_ua';
     }
@@ -45,7 +45,7 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
      */
     private int $orgu_id = 0;
 
-    final public static function findOrCreateAssignment(int $user_id, int $position_id, int $orgu_id): ilOrgUnitUserAssignment
+    public static function findOrCreateAssignment(int $user_id, int $position_id, int $orgu_id): ilOrgUnitUserAssignment
     {
         $inst = self::where(array(
             'user_id' => $user_id,
@@ -63,7 +63,7 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         return $inst;
     }
 
-    final protected function raiseEvent(string $event): void
+    protected function raiseEvent(string $event): void
     {
         global $DIC;
 
@@ -78,54 +78,54 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         ));
     }
 
-    final public function create() : void
+    public function create() : void
     {
         $this->raiseEvent('assignUserToPosition');
         parent::create();
     }
 
-    final public function delete(): void
+    public function delete(): void
     {
         $this->raiseEvent('deassignUserFromPosition');
         parent::delete();
     }
 
-    final public function getId(): int
+    public function getId(): int
     {
         return $this->id;
     }
 
-    final public function setId(int $id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    final public function getUserId(): int
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    final public function setUserId(int $user_id)
+    public function setUserId(int $user_id)
     {
         $this->user_id = $user_id;
     }
 
-    final  public function getPositionId(): int
+     public function getPositionId(): int
     {
         return $this->position_id;
     }
 
-    final public function setPositionId(int $position_id)
+    public function setPositionId(int $position_id)
     {
         $this->position_id = $position_id;
     }
 
-    final public function getOrguId(): int
+    public function getOrguId(): int
     {
         return $this->orgu_id;
     }
 
-    final public function setOrguId(int $orgu_id): void
+    public function setOrguId(int $orgu_id): void
     {
         $this->orgu_id = $orgu_id;
     }

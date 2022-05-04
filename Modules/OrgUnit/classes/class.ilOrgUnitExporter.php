@@ -17,7 +17,7 @@ class ilOrgUnitExporter extends ilCategoryExporter
         $this->tree = $DIC['tree'];
     }
 
-    final public function simpleExport(int $orgu_ref_id): ilXmlWriter
+    public function simpleExport(int $orgu_ref_id): ilXmlWriter
     {
         $nodes = $this->getStructure($orgu_ref_id);
         $writer = new ilXmlWriter();
@@ -40,19 +40,19 @@ class ilOrgUnitExporter extends ilCategoryExporter
         return $writer;
     }
 
-    final protected function getExternalId(int $orgu_ref_id): string
+    protected function getExternalId(int $orgu_ref_id): string
     {
         $import_id = ilObjOrgunit::_lookupImportId(ilObjOrgUnit::_lookupObjectId($orgu_ref_id));
 
         return $import_id ?: $this->buildExternalId($orgu_ref_id);
     }
 
-    final protected function buildExternalId(int $orgu_ref_id): string
+    protected function buildExternalId(int $orgu_ref_id): string
     {
         return "orgu_" . CLIENT_ID . "_" . $orgu_ref_id;
     }
 
-    final public function simpleExportExcel(int $orgu_ref_id): void
+    public function simpleExportExcel(int $orgu_ref_id): void
     {
         // New File and Sheet
         $file_name = "org_unit_export_" . $orgu_ref_id;
@@ -92,7 +92,7 @@ class ilOrgUnitExporter extends ilCategoryExporter
         $worksheet->sendToClient($file_name);
     }
 
-    final public function sendAndCreateSimpleExportFile(): array
+    public function sendAndCreateSimpleExportFile(): array
     {
         $orgu_id = ilObjOrgUnit::getRootOrgId();
         $orgu_ref_id = ilObjOrgUnit::getRootOrgRefId();

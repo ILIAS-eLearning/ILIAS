@@ -52,7 +52,7 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("action"));
     }
 
-    final public function readData() : void
+    public function readData() : void
     {
         $this->parseData();
     }
@@ -82,12 +82,12 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
         return $data;
     }
 
-    final public function setRoleId(int $role_id) : void
+    public function setRoleId(int $role_id) : void
     {
         $this->role_id = $role_id;
     }
 
-    final public function getRoleId() : int
+    public function getRoleId() : int
     {
         return $this->role_id;
     }
@@ -103,7 +103,7 @@ class ilOrgUnitOtherRolesTableGUI extends ilTable2GUI
         return $set;
     }
 
-    final public function fillRow(array $a_set) : void
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];

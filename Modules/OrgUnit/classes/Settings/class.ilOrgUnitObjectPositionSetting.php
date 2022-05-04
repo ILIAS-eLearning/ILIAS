@@ -22,7 +22,7 @@ class ilOrgUnitObjectPositionSetting
     /**
      * Lookup activation status
      */
-    final public function lookupActive(int $a_obj_id) : bool
+    public function lookupActive(int $a_obj_id) : bool
     {
         $db = $GLOBALS['DIC']->database();
 
@@ -37,7 +37,7 @@ class ilOrgUnitObjectPositionSetting
     /**
      * Check if position access is active. This returns true or false if it is object specific or null if the object has no setting.
      */
-    final public function isActive() : ?bool
+    public function isActive() : ?bool
     {
         return $this->active;
     }
@@ -45,12 +45,12 @@ class ilOrgUnitObjectPositionSetting
     /**
      * Set active for object
      */
-    final public function setActive(bool $a_status) : void
+    public function setActive(bool $a_status) : void
     {
         $this->active = $a_status;
     }
 
-    final public function update() : void
+    public function update() : void
     {
         $this->db->replace('orgu_obj_pos_settings', [
             'obj_id' => ['integer', $this->obj_id],
@@ -59,7 +59,7 @@ class ilOrgUnitObjectPositionSetting
         ]);
     }
 
-    final public function delete() : void
+    public function delete() : void
     {
         $query = 'DELETE from orgu_obj_pos_settings ' . 'WHERE obj_id = '
             . $this->db->quote($this->obj_id, 'integer');
@@ -70,7 +70,7 @@ class ilOrgUnitObjectPositionSetting
      * @return bool Returns true if the object has a specific setting false if there is no object specific setting, take the global setting in this
      * case.
      */
-    final public function hasObjectSpecificActivation() : bool
+    public function hasObjectSpecificActivation() : bool
     {
         return $this->active !== null;
     }

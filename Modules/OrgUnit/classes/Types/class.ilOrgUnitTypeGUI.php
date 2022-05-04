@@ -46,7 +46,7 @@ class ilOrgUnitTypeGUI
         $this->checkAccess();
     }
 
-    final public function executeCommand() : void
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);

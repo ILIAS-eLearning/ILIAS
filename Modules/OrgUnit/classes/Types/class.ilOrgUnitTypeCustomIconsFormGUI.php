@@ -29,7 +29,7 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
     /**
      * Save object (create or update)
      */
-    final public function saveObject(): bool
+    public function saveObject(): bool
     {
         if (!$this->fillObject()) {
             return false;
