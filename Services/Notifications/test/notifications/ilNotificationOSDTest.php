@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @author  Ingmar Szmais <iszmais@databay.de>
  */
-class ilNotifcationOSDTest extends ilNotificationsBaseTest
+class ilNotificationOSDTest extends ilNotificationsBaseTest
 {
     private \ILIAS\Notifications\ilNotificationOSDHandler $handler;
     private ilObjUser $user;
@@ -94,8 +94,8 @@ class ilNotifcationOSDTest extends ilNotificationsBaseTest
     {
         $this->createDBFunctionCalls(1);
         $config = new \ILIAS\Notifications\Model\ilNotificationConfig('who_is_online');
-        $config->setTitleVar('Test Notifcation');
-        $config->setShortDescriptionVar('This is a test notifcation');
+        $config->setTitleVar('Test Notification');
+        $config->setShortDescriptionVar('This is a test notification');
         $test_obj = new \ILIAS\Notifications\Model\ilNotificationObject($config, $this->user);
 
         $this->handler->notify($test_obj);

@@ -1,6 +1,22 @@
 <?php declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilAsyncNotifications
  * Allows displaying async notifications on a page
  *
@@ -33,7 +49,7 @@ class ilAsyncNotifications
     {
         $this->js_init = false;
         $this->js_path = "./Modules/StudyProgramme/templates/js/";
-        $this->content_container_id = ($content_container_id != null)? $content_container_id : "ilContentContainer";
+        $this->content_container_id = $content_container_id ?? "ilContentContainer";
     }
 
     /**
@@ -59,10 +75,9 @@ class ilAsyncNotifications
                 "$('#" .
                 $this->content_container_id .
                 "').study_programme_notifications(" .
-                json_encode($this->js_config) .
+                json_encode($this->js_config, JSON_THROW_ON_ERROR) .
                 ");"
-            )
-            ;
+            );
 
             $this->js_init = true;
         }
@@ -124,7 +139,7 @@ class ilAsyncNotifications
      * @param mixed $key
      * @param mixed $value
      */
-    public function addJsConfig($key, $value)
+    public function addJsConfig($key, $value) : void
     {
         $this->js_config[$key] = $value;
     }

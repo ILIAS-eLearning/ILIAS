@@ -88,7 +88,7 @@ class BucketContainer extends \ActiveRecord
      * @con_has_field  true
      * @con_fieldtype  timestamp
      */
-    protected int $last_heartbeat = 0;
+    protected ?int $last_heartbeat = 0;
     
     public function getId() : ?int
     {

@@ -10,17 +10,13 @@
  */
 class ilExtractedParams
 {
-    /** @var string $subject_type */
     protected string $subject_type;
-
-    /** @var integer $subject_id */
-    protected int $subject_id;
-
-    /** @var string $context_type */
-    protected string $context_type;
-
-    /** @var integer $context_id */
-    protected int $context_id;
+    
+    protected int $subject_id = 0;
+    
+    protected string $context_type = '';
+    
+    protected int $context_id = 0;
 
     /**
      * @return string

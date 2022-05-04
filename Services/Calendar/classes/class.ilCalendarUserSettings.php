@@ -217,7 +217,7 @@ class ilCalendarUserSettings
         );
         $this->setShowWeeks(
             $this->user->getPref('show_weeks') != false ?
-                (int) $this->user->getPref('show_weeks') :
+                (bool) $this->user->getPref('show_weeks') :
                 $this->settings->getShowWeeks()
         );
     }

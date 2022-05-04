@@ -320,6 +320,10 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *path_to_logfile* (type: string) to be used for logging
   * *errorlog_dir* (type: string) to put error logs in
 * *mathjax* (type: object) contains settings for Services/MathJax
+    
+    The MathJax settings can also be done manually in the ILIAS adminstration.  
+    Settings included here will overwrite those at the next update.
+    MathJax 3 is supported, but MathJax 2 is recommended.
     ```
 	"mathjax": {
 		"client_enabled": true,

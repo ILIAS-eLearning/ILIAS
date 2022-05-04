@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 interface ilStudyProgrammeAssignmentRepository
 {
     /**
@@ -16,11 +32,13 @@ interface ilStudyProgrammeAssignmentRepository
 
     /**
      * Get all assignments of a user.
+     * @return ilStudyProgrammeAssignment[]
      */
     public function getByUsrId(int $usr_id) : array;
 
     /**
      * Get all assignments to a prg.
+     * @return ilStudyProgrammeAssignment[]
      */
     public function getByPrgId(int $prg_id) : array;
 
@@ -33,6 +51,7 @@ interface ilStudyProgrammeAssignmentRepository
 
     /**
      * Get all assignments due to restart and not restrted yet.
+     * @return ilStudyProgrammeAssignment[]
      */
     public function getDueToManuelRestart(int $days_before_end) : array;
 

@@ -8,7 +8,7 @@ a.ilEditSubmit {
 	border-bottom-color: @il-neutral-light-color;
 	border-right-color: @il-neutral-light-color;
 	text-decoration: none;
-	font-size: 80%;
+	font-size: @il-font-size-xsmall;
 	line-height: 14px;
 	cursor: pointer;
 }
@@ -17,7 +17,7 @@ input.ilEditSubmit {
 	color: #2255a0;
 	padding: 1px;
 	margin: 0;
-	font-size: 12px;
+	font-size: @il-font-size-small;
 	line-height: 14px;
 	cursor: pointer;
 	background: url("@{il-background-images-path}ButtonsBack.png") repeat-x bottom white;
@@ -32,7 +32,7 @@ input.ilEditSubmit {
 div.ilEditHelpline {
 	margin: 3px 0;
 	padding: 0;
-	font-size: 80%;
+	font-size: @il-font-size-xsmall;
 	background-color: @il-main-bg;
 	color: black;
 }
@@ -42,7 +42,7 @@ select.ilEditSelect {
 	border: 1px solid #bbb;
 	padding: 1px;
 	text-decoration: none;
-	font-size: 12px;
+	font-size: @il-font-size-small;
 }
 
 [data-copg-ed-type='add-area'] {
@@ -137,7 +137,7 @@ div.ilEditLabel {
 	position: absolute;
 	background-color: @il-main-color;
 	color: @il-text-light-color;
-	font-size: 70%;
+	font-size: @il-font-size-small;
 	padding: 1px 3px;
 	margin-top: -15px;
 	margin-left: -2px;
@@ -210,7 +210,7 @@ div.il_editarea_active_selected {
 	text-align: left;
 	font-style: normal;
 	text-indent: 0;
-	font-size: 14px;
+	font-size: @il-font-size-base;
 	z-index: 5000;
 }
 
@@ -389,7 +389,7 @@ a.ilTinyMenuDropDown {
 
 /* Page TOC */
 div.ilc_page_toc_PageTOC {
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	padding: 5px 5px 10px;
 	background-color: @il-main-dark-bg;
 	border: 1px solid #f0f0f0;
@@ -398,7 +398,7 @@ div.ilc_page_toc_PageTOC {
 
 h1.ilc_page_toc_PageTOCHead {
 	margin: 0;
-	font-size: 100%;
+	font-size: @il-font-size-base;
 	padding: 0;
 	font-weight: bold;
 	text-align: center;
@@ -495,7 +495,7 @@ table.ilc_media {
 
 h1.il_LMHead {
 	margin: 12px 15px 6px;
-	font-size: 120%;
+	font-size: @il-font-size-large;
 	font-weight: normal;
 }
 
@@ -588,7 +588,7 @@ a.nostyle:hover {
 	border: 1px solid #d0d0d0;
 	height: 21px;
 	display: inline-block;
-	font-size: 12px;
+	font-size: @il-font-size-small;
 	padding: 1px 5px;
 	text-align: center;
 }
@@ -742,7 +742,7 @@ div.ilCOPGMediaPrint {
 		.ilFormHeader {
 			padding: @il-padding-xlarge-vertical @il-padding-xlarge-horizontal;
 			h3.ilHeader {
-				font-size: @font-size-base;
+				font-size: @il-font-size-base;
 			}
 		}
 		.col-sm-3, .col-sm-9 {

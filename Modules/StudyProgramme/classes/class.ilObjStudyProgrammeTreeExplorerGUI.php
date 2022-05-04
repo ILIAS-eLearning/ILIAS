@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilStudyProgrammeTreeGUI
@@ -141,10 +155,10 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         $node_title_classes = array($this->class_configuration['node']['node_title']);
         if ($node_config['is_study_programme']) {
             if ($node_config['is_current_node']) {
-                array_push($node_title_classes, $this->class_configuration['node']['node_current']);
+                $node_title_classes[] = $this->class_configuration['node']['node_current'];
             }
         } else {
-            array_push($node_title_classes, $this->class_configuration['lp_object']);
+            $node_title_classes[] = $this->class_configuration['lp_object'];
         }
 
         return $node_title_classes;
@@ -279,15 +293,9 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
     public function getRootNode() : ilObjStudyProgramme
     {
         $node = ilObjStudyProgramme::getInstanceByRefId($this->tree_root_id);
-        if ($node->getRoot() != null) {
-            return $node->getRoot();
-        }
         return $node;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getNodeIcon($node) : string
     {
         global $DIC;
@@ -301,16 +309,12 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         return ilObject::_getIcon($obj_id, "tiny");
     }
 
-
-    /**
-     * @inheritdoc
-     */
     public function getNodeHref($node) : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
 
-        if ($ilCtrl->getCmd() == "performPaste") {
+        if ($ilCtrl->getCmd() === "performPaste") {
             $ilCtrl->setParameterByClass("ilObjStudyProgrammeGUI", "target_node", $node->getRefId());
         }
 
@@ -319,9 +323,6 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         return '#';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getChildsOfNode($a_parent_node_id) : array
     {
         $parent_obj = ilObjectFactoryWrapper::singleton()->getInstanceByRefId((int) $a_parent_node_id);
@@ -344,18 +345,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         return $children_with_permission;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function isNodeClickable($a_node) : bool
-    {
-        return true;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getNodeId($a_node)
+    public function getNodeId($a_node) : ?int
     {
         if (!is_null($a_node)) {
             return $a_node->getRefId();
@@ -363,15 +353,12 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         return null;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function listItemStart(ilTemplate $tpl, $a_node) : void
     {
         $tpl->setCurrentBlock("list_item_start");
 
         if (
-            $this->getAjax() && $this->nodeHasVisibleChilds($a_node) ||
+            ($this->getAjax() && $this->nodeHasVisibleChilds($a_node)) ||
             ($a_node instanceof ilObjStudyProgramme && $a_node->getParent() === null)
         ) {
             $tpl->touchBlock("li_closed");
@@ -396,7 +383,10 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
         $this->tpl->addCss($this->css_study_programme_path);
 
         $this->tpl->addOnLoadCode(
-            '$("#' . $this->getContainerId() . '").study_programme_tree(' . json_encode($this->js_conf) . ');'
+            '$("#' . $this->getContainerId() . '").study_programme_tree(' . json_encode(
+                $this->js_conf,
+                JSON_THROW_ON_ERROR
+            ) . ');'
         );
 
         return parent::getHTML();
@@ -409,7 +399,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
      *
      * @param mixed $node_id
      */
-    public function closeCertainNode($node_id)
+    public function closeCertainNode($node_id) : void
     {
         if (in_array($node_id, $this->open_nodes)) {
             $k = array_search($node_id, $this->open_nodes);
@@ -424,7 +414,7 @@ class ilObjStudyProgrammeTreeExplorerGUI extends ilExplorerBaseGUI
      *
      * @param mixed $node_id
      */
-    public function openCertainNode($node_id)
+    public function openCertainNode($node_id) : void
     {
         $id = $this->getNodeIdForDomNodeId($node_id);
         if (!in_array($id, $this->open_nodes)) {

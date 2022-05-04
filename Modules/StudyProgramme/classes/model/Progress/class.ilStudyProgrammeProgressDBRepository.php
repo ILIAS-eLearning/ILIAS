@@ -1,27 +1,43 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRepository
 {
-    const TABLE = 'prg_usr_progress';
+    public const TABLE = 'prg_usr_progress';
 
-    const FIELD_ID = 'id';
-    const FIELD_ASSIGNMENT_ID = 'assignment_id';
-    const FIELD_PRG_ID = 'prg_id';
-    const FIELD_USR_ID = 'usr_id';
-    const FIELD_POINTS = 'points';
-    const FIELD_POINTS_CUR = 'points_cur';
-    const FIELD_STATUS = 'status';
-    const FIELD_COMPLETION_BY = 'completion_by';
-    const FIELD_ASSIGNMENT_DATE = 'assignment_date';
-    const FIELD_LAST_CHANGE = 'last_change';
-    const FIELD_LAST_CHANGE_BY = 'last_change_by';
-    const FIELD_COMPLETION_DATE = 'completion_date';
-    const FIELD_DEADLINE = 'deadline';
-    const FIELD_VQ_DATE = 'vq_date';
-    const FIELD_INVALIDATED = 'invalidated';
-    const FIELD_MAIL_SENT_RISKYTOFAIL = 'sent_mail_risky_to_fail';
-    const FIELD_MAIL_SENT_WILLEXPIRE = 'sent_mail_expires';
-    const FIELD_IS_INDIVIDUAL = 'individual';
+    private const FIELD_ID = 'id';
+    private const FIELD_ASSIGNMENT_ID = 'assignment_id';
+    private const FIELD_PRG_ID = 'prg_id';
+    private const FIELD_USR_ID = 'usr_id';
+    private const FIELD_POINTS = 'points';
+    private const FIELD_POINTS_CUR = 'points_cur';
+    private const FIELD_STATUS = 'status';
+    private const FIELD_COMPLETION_BY = 'completion_by';
+    private const FIELD_ASSIGNMENT_DATE = 'assignment_date';
+    private const FIELD_LAST_CHANGE = 'last_change';
+    private const FIELD_LAST_CHANGE_BY = 'last_change_by';
+    private const FIELD_COMPLETION_DATE = 'completion_date';
+    private const FIELD_DEADLINE = 'deadline';
+    private const FIELD_VQ_DATE = 'vq_date';
+    private const FIELD_INVALIDATED = 'invalidated';
+    private const FIELD_MAIL_SENT_RISKYTOFAIL = 'sent_mail_risky_to_fail';
+    private const FIELD_MAIL_SENT_WILLEXPIRE = 'sent_mail_expires';
+    private const FIELD_IS_INDIVIDUAL = 'individual';
 
     protected static array $cache = [];
     protected ilDBInterface $db;
@@ -172,6 +188,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
      * @inheritdoc
      *
      * @throws ilException
+     * @return ilStudyProgrammeProgress[]
      */
     public function getByAssignmentId(int $assignment_id) : array
     {
@@ -263,15 +280,6 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         );
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function delete(ilStudyProgrammeProgress $progress) : void
-    {
-        // TODO: DW search for proper method to call
-        $this->deleteDB($progress->getId());
-    }
-
     protected function insertRowDB(array $row) : void
     {
         $this->db->insert(
@@ -311,7 +319,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         $this->db->manipulate($query);
 
         return array_map(
-            function ($progress) {
+            static function (ilStudyProgrammeProgress $progress) : int {
                 return $progress->getNodeId();
             },
             $progresses
@@ -597,7 +605,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
     public function getRiskyToFail(array $programmes_and_due) : array
     {
         $ret = [];
-        if (count($programmes_and_due) == 0) {
+        if (count($programmes_and_due) === 0) {
             return $ret;
         }
 
@@ -628,7 +636,7 @@ class ilStudyProgrammeProgressDBRepository implements ilStudyProgrammeProgressRe
         bool $discard_formerly_notified = true
     ) : array {
         $ret = [];
-        if (count($programmes_and_due) == 0) {
+        if (count($programmes_and_due) === 0) {
             return $ret;
         }
 

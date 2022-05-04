@@ -75,6 +75,7 @@ abstract class ilFileSystemAbstractionStorage
             case self::STORAGE_DATA:
                 return $this->file_system_service->storage();
             case self::STORAGE_WEB:
+            case self::STORAGE_SECURED:
             case self::SECURED_DIRECTORY:
                 return $this->file_system_service->web();
         }
@@ -196,7 +197,7 @@ abstract class ilFileSystemAbstractionStorage
             case self::STORAGE_WEB:
                 break;
             case self::STORAGE_SECURED:
-                $this->path .= '/' . self::SECURED_DIRECTORY;
+                $this->path = rtrim($this->path, '/') . '/' . self::SECURED_DIRECTORY . '/';
                 break;
         }
         

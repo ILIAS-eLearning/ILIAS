@@ -171,7 +171,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         $allow_shorter_periods = $news_set->get("allow_shorter_periods");
         $allow_longer_periods = $news_set->get("allow_longer_periods");
         $enable_private_feed = $news_set->get("enable_private_feed");
-
         // show feed url
         if ($enable_internal_rss) {
             // @todo: rss icon html ilRSSButtonGUI::get(ilRSSButtonGUI::ICON_RSS)

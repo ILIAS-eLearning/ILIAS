@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 require_once(__DIR__ . "/prg_mocks.php");
 
 use PHPUnit\Framework\TestCase;
@@ -10,11 +26,10 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
     public AssignmentRepoMock $assignment_repo;
     public SettingsRepoMock $settings_repo;
     public ilPRGMessageCollection $messages;
-    public array $mock_tree;
+    public array $mock_tree = [];
 
     protected function buildProgramme(int $prg_id) : ilObjStudyProgramme
     {
-        $prg = new PrgMock($prg_id, $this);
         $settings = new SettingsMock(
             $prg_id
         );
@@ -35,7 +50,7 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
                 ->withAssignmentId(-42)
                 ->withNodeId($prg_id);
         $this->progress_repo->update($progress);
-        return $prg;
+        return new PrgMock($prg_id, $this->progress_repo, $this->assignment_repo, $this->settings_repo, $this->mock_tree);
     }
 
     protected function setUp() : void
@@ -53,14 +68,12 @@ class ilStudyProgrammeProgressCalculationsTest extends TestCase
             ├── 12
             └── 13
         */
-        $this->mock_tree = [
-            1 => ['parent' => null, 'children' => [11,12,13], 'prg' => $this->buildProgramme(1)],
-                11 => ['parent' => 1, 'children' => [111,112], 'prg' => $this->buildProgramme(11)],
-                    111 => ['parent' => 11, 'children' => [], 'prg' => $this->buildProgramme(111)],
-                    112 => ['parent' => 11, 'children' => [], 'prg' => $this->buildProgramme(112)],
-                12 => ['parent' => 1, 'children' => [], 'prg' => $this->buildProgramme(12)],
-                13 => ['parent' => 1, 'children' => [], 'prg' => $this->buildProgramme(13)]
-        ];
+        $this->mock_tree[1] = ['parent' => null, 'children' => [11,12,13], 'prg' => $this->buildProgramme(1)];
+        $this->mock_tree[11] = ['parent' => 1, 'children' => [111,112], 'prg' => $this->buildProgramme(11)];
+        $this->mock_tree[111] = ['parent' => 11, 'children' => [], 'prg' => $this->buildProgramme(111)];
+        $this->mock_tree[112] = ['parent' => 11, 'children' => [], 'prg' => $this->buildProgramme(112)];
+        $this->mock_tree[12] = ['parent' => 1, 'children' => [], 'prg' => $this->buildProgramme(12)];
+        $this->mock_tree[13] = ['parent' => 1, 'children' => [], 'prg' => $this->buildProgramme(13)];
 
         $assignment = (new ilStudyProgrammeAssignment(-42))
             ->withRootId(1);

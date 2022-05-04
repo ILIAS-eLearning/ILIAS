@@ -1,13 +1,27 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilObjStudyProgrammeIndividualPlanGUI
 {
-    const POST_VAR_STATUS = "status";
-    const POST_VAR_REQUIRED_POINTS = "required_points";
-    const POST_VAR_DEADLINE = "deadline";
-    const MANUAL_STATUS_NONE = -1;
+    private const POST_VAR_STATUS = "status";
+    private const POST_VAR_REQUIRED_POINTS = "required_points";
+    private const POST_VAR_DEADLINE = "deadline";
+    public const MANUAL_STATUS_NONE = -1;
 
     public ilGlobalTemplateInterface $tpl;
     public ilCtrl $ctrl;
@@ -22,7 +36,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
     protected ?ilStudyProgrammeAssignment $assignment_object;
     public ?ilObjStudyProgramme $object;
     protected ?ilPRGPermissionsHelper $permissions;
-    protected $parent_gui;
+    protected ilObjStudyProgrammeMembersGUI $parent_gui;
     protected int $ref_id;
 
     public function __construct(
@@ -55,7 +69,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         $this->tpl->addCss("Modules/StudyProgramme/templates/css/ilStudyProgramme.css");
     }
 
-    public function setParentGUI($parent_gui) : void
+    public function setParentGUI(ilObjStudyProgrammeMembersGUI $parent_gui) : void
     {
         $this->parent_gui = $parent_gui;
     }
@@ -71,7 +85,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
     {
         $cmd = $this->ctrl->getCmd();
 
-        if ($cmd == "") {
+        if ($cmd === "" || $cmd === null) {
             $cmd = "view";
         }
 
@@ -147,7 +161,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
         return $frame;
     }
 
-    protected function updateFromCurrentPlan()
+    protected function updateFromCurrentPlan() : void
     {
         $ass = $this->getAssignmentObject();
 
@@ -181,7 +195,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
                 $this->refinery->kindlyTo()->dictOf(
                     $this->refinery->kindlyTo()->string()
                 ),
-                $this->refinery->custom()->transformation(function($a) {
+                $this->refinery->custom()->transformation(function ($a) {
                     krsort($a, SORT_NUMERIC);
                     return $a;
                 })
@@ -213,10 +227,10 @@ class ilObjStudyProgrammeIndividualPlanGUI
                     $progress = $this->progress_repository->get($progress_id);
                     $cur_status = $progress->getStatus();
 
-                    if ($cur_status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
+                    if ($cur_status === ilStudyProgrammeProgress::STATUS_ACCREDITED) {
                         $programme->unmarkAccredited($progress_id, $acting_user_id, $msgs);
                     }
-                    if ($cur_status == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
+                    if ($cur_status === ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
                         $programme->markRelevant($progress_id, $acting_user_id, $msgs);
                     }
                     break;
@@ -275,7 +289,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
             $progress = $this->progress_repository->get($progress_id);
             $cur_points = $progress->getAmountOfPoints();
 
-            if ($points != $cur_points) {
+            if ($points !== $cur_points) {
                 $programme->changeAmountOfPoints($progress_id, $acting_user_id, $msgs, $points);
             }
         }
@@ -303,7 +317,7 @@ class ilObjStudyProgrammeIndividualPlanGUI
 
         foreach ($tabs as $_tab) {
             $tpl->setCurrentBlock("sub_tab");
-            $tpl->setVariable("CLASS", $_tab == $tab ? "active" : "");
+            $tpl->setVariable("CLASS", $_tab === $tab ? "active" : "");
             $tpl->setVariable("LINK", $this->getLinkTargetForSubTab($_tab, $ass->getId()));
             $tpl->setVariable("TITLE", $this->lng->txt("prg_$_tab"));
             $tpl->parseCurrentBlock();

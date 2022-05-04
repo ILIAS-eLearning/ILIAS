@@ -7,23 +7,18 @@ require_once 'Modules/Test/classes/class.ilObjTest.php';
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionProcessLocker.php';
 
 /**
-* Class ilObjAssessmentFolderGUI
-*
-* @author Helmut Schottmüller <hschottm@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjAssessmentFolderGUI: ilPermissionGUI, ilSettingsTemplateGUI, ilGlobalUnitConfigurationGUI
-*
-* @extends ilObjectGUI
-*/
+ * Class ilObjAssessmentFolderGUI
+ *
+ * @author Helmut Schottmüller <hschottm@gmx.de>
+ * @ilCtrl_Calls ilObjAssessmentFolderGUI: ilPermissionGUI, ilSettingsTemplateGUI, ilGlobalUnitConfigurationGUI
+ */
 class ilObjAssessmentFolderGUI extends ilObjectGUI
 {
-    public $conditions;
     protected \ILIAS\Test\InternalRequestService $testrequest;
     /**
      * Constructor
      */
-    public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct($a_data, int $a_id = 0, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -80,7 +75,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
                 break;
 
             default:
-                if ($cmd == "" || $cmd == "view") {
+                if ($cmd === null || $cmd === "" || $cmd === "view") {
                     $cmd = "settings";
                 }
                 $cmd .= "Object";
@@ -115,7 +110,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
     * display assessment folder settings form
     */
-    public function settingsObject(ilPropertyFormGUI $form = null)
+    public function settingsObject(ilPropertyFormGUI $form = null) : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -225,7 +220,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $allowedtypes = array();
         foreach ($questiontypes as $qt) {
             if (!in_array($qt['question_type_id'], $forbidden_types)) {
-                array_push($allowedtypes, $qt['question_type_id']);
+                $allowedtypes[] = $qt['question_type_id'];
             }
         }
         $allowed->setValue($allowedtypes);
@@ -271,7 +266,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
     * Save Assessment settings
     */
-    public function saveSettingsObject()
+    public function saveSettingsObject() : void
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -294,7 +289,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $forbidden_types = array();
         foreach ($questiontypes as $name => $row) {
             if (!in_array($row["question_type_id"], $_POST["chb_allowed_questiontypes"])) {
-                array_push($forbidden_types, $row["question_type_id"]);
+                $forbidden_types[] = $row["question_type_id"];
             }
         }
         $this->object->_setForbiddenQuestionTypes($forbidden_types);
@@ -303,7 +298,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $scoring_types = array();
         foreach ($questiontypes as $name => $row) {
             if (in_array($row["question_type_id"], (array) $_POST["chb_scoring_adjustment"])) {
-                array_push($scoring_types, $row["question_type_id"]);
+                $scoring_types[] = $row["question_type_id"];
             }
         }
         $this->object->setScoringAdjustableQuestions($scoring_types);
@@ -329,7 +324,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
     * Called when the a log should be shown
     */
-    public function showLogObject()
+    public function showLogObject() : void
     {
         $form = $this->getLogDataOutputForm();
         $form->checkInput();
@@ -341,7 +336,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
     * Called when the a log should be exported
     */
-    public function exportLogObject()
+    public function exportLogObject() : void
     {
         $form = $this->getLogDataOutputForm();
         if (!$form->checkInput()) {
@@ -365,7 +360,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         $available_tests = ilObjTest::_getAvailableTests(1);
-        array_push($csv, ilCSVUtil::processCSVRow($row, true, $separator));
+        $csv[] = ilCSVUtil::processCSVRow($row, true, $separator);
         $log_output = ilObjAssessmentFolder::getLog($from, $until, $test);
         $users = array();
         foreach ($log_output as $key => $log) {
@@ -382,15 +377,15 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             }
             $csvrow = array();
             $date = new ilDateTime($log['tstamp'], IL_CAL_UNIX);
-            array_push($csvrow, $date->get(IL_CAL_FKT_DATE, 'Y-m-d H:i'));
-            array_push($csvrow, trim($users[$log["user_fi"]]["title"] . " " . $users[$log["user_fi"]]["firstname"] . " " . $users[$log["user_fi"]]["lastname"]));
-            array_push($csvrow, trim($log["logtext"]));
-            array_push($csvrow, $title);
-            array_push($csv, ilCSVUtil::processCSVRow($csvrow, true, $separator));
+            $csvrow[] = $date->get(IL_CAL_FKT_DATE, 'Y-m-d H:i');
+            $csvrow[] = trim($users[$log["user_fi"]]["title"] . " " . $users[$log["user_fi"]]["firstname"] . " " . $users[$log["user_fi"]]["lastname"]);
+            $csvrow[] = trim($log["logtext"]);
+            $csvrow[] = $title;
+            $csv[] = ilCSVUtil::processCSVRow($csvrow, true, $separator);
         }
         $csvoutput = "";
         foreach ($csv as $row) {
-            $csvoutput .= join($separator, $row) . "\n";
+            $csvoutput .= implode($separator, $row) . "\n";
         }
         ilUtil::deliverData(
             $csvoutput,
@@ -455,9 +450,9 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     }
 
     /**
-     * @param $form ilPropertyFormGUI|null
+     * @param ilPropertyFormGUI|null $form
      */
-    public function logsObject(ilPropertyFormGUI $form = null)
+    public function logsObject(ilPropertyFormGUI $form = null) : void
     {
         /**
          * @var $ilTabs ilTabsGUI
@@ -484,7 +479,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             if ($this->testrequest->isset('log_from')) {
                 $fromdate = $this->testrequest->int('log_from');
             } else {
-                $fromdate = mktime(0, 0, 0, 1, 1, date('Y'));
+                $fromdate = mktime(0, 0, 0, 1, 1, (int) date('Y'));
             }
 
             if ($this->testrequest->isset('log_until')) {
@@ -521,7 +516,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
             $log_output = ilObjAssessmentFolder::getLog($fromdate, $untildate, $p_test);
 
             $self = $this;
-            array_walk($log_output, function (&$row) use ($self) {
+            array_walk($log_output, static function (&$row) use ($self) {
                 if (is_numeric($row['ref_id']) && $row['ref_id'] > 0) {
                     $row['location_href'] = ilLink::_getLink($row['ref_id'], 'tst');
                     $row['location_txt'] = $self->lng->txt("perma_link");
@@ -537,7 +532,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
     * Deletes the log entries for one or more tests
     */
-    public function deleteLogObject()
+    public function deleteLogObject() : void
     {
         if (is_array($_POST["chb_test"]) && (count($_POST["chb_test"]))) {
             $this->object->deleteLogEntries($_POST["chb_test"]);
@@ -551,7 +546,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
     * Administration output for assessment log files
     */
-    public function logAdminObject()
+    public function logAdminObject() : void
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -569,13 +564,13 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $data = array();
         foreach ($available_tests as $ref_id => $title) {
             $obj_id = ilObject::_lookupObjectId($ref_id);
-            array_push($data, array(
+            $data[] = array(
                 "title" => $title,
                 "nr" => $this->object->getNrOfLogEntries($obj_id),
                 "id" => $obj_id,
                 "location_href" => ilLink::_getLink($ref_id, 'tst'),
                 "location_txt" => $this->lng->txt("perma_link")
-            ));
+            );
         }
         $table_gui->setData($data);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
@@ -586,7 +581,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $this->getTabs();
     }
 
-    public function getLogdataSubtabs()
+    public function getLogdataSubtabs() : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -617,12 +612,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         );
     }
 
-    /**
-    * get tabs
-    *
-    * @param	object	tabs gui object
-    */
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -679,7 +669,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      * @param ilPropertyFormGUI $form
      */
-    protected function showLogSettingsObject(ilPropertyFormGUI $form = null)
+    protected function showLogSettingsObject(ilPropertyFormGUI $form = null) : void
     {
         $this->tabs_gui->activateTab('logs');
 
@@ -697,7 +687,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
     /**
      *
      */
-    protected function saveLogSettingsObject()
+    protected function saveLogSettingsObject() : void
     {
         /**
          * @var $ilAccess ilAccessHandler
@@ -738,7 +728,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         $form->setTitle($this->lng->txt('assessment_log_logging'));
 
         $logging = new ilCheckboxInputGUI('', 'chb_assessment_logging');
-        $logging->setValue(1);
+        $logging->setValue('1');
         $logging->setOptionTitle($this->lng->txt('activate_assessment_logging'));
         $form->addItem($logging);
 
@@ -759,7 +749,7 @@ class ilObjAssessmentFolderGUI extends ilObjectGUI
         return $form;
     }
 
-    private function forwardToSettingsTemplateGUI()
+    private function forwardToSettingsTemplateGUI() : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];

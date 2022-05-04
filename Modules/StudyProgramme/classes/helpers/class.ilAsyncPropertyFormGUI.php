@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\HTTP\Wrapper\RequestWrapper;
 
 /**
@@ -63,7 +79,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
         global $DIC;
         $tpl = $DIC['tpl'];
 
-        $js_path = (isset($js_base_path))? $js_base_path : self::$js_path;
+        $js_path = $js_base_path ?? self::$js_path;
 
         $tpl->addJavaScript($js_path . 'ilAsyncPropertyFormGUI.js');
 
@@ -107,7 +123,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
         foreach ($this->getItems() as $item) {
             // We call method exists as there are items in the form (ilFormSectionHeaderGUI)
             // that do not have alerts. (#16956)
-            if (method_exists($item, "getAlert") && $item->getAlert() != "") {
+            if (method_exists($item, "getAlert") && $item->getAlert() !== "") {
                 $errors[] = array('key' => $item->getFieldId(), 'message' => $item->getAlert());
             }
         }
@@ -221,7 +237,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
         return self::$js_path;
     }
 
-    public function setJsPath(string $js_path)
+    public function setJsPath(string $js_path) : void
     {
         self::$js_path = $js_path;
     }

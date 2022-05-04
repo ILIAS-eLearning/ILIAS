@@ -16,8 +16,8 @@ class ilDidacticTemplateSetting
     private string $description = '';
     private string $info = '';
     private int $type = self::TYPE_CREATION;
-    private array $assignments = array();
-    private array $effective_from = array();
+    private array $assignments = [];
+    private array $effective_from = [];
     private bool $auto_generated = false;
     private bool $exclusive = false;
     private string $icon_ide = '';
@@ -459,7 +459,7 @@ class ilDidacticTemplateSetting
             'WHERE id = ' . $this->db->quote($this->getId(), 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $effective_nodes[] = $row->node;
+            $effective_nodes[] = (int) $row->node;
         }
 
         $this->setEffectiveFrom($effective_nodes);
@@ -617,11 +617,7 @@ class ilDidacticTemplateSetting
         return ilMultilingualism::getInstance($this->getId(), "dtpl");
     }
 
-    /**
-     * @param int $a_node_id
-     * @return bool
-     */
-    public function isEffective($a_node_id) : bool
+    public function isEffective(int $a_node_id) : bool
     {
         if (!count($this->getEffectiveFrom()) || in_array($a_node_id, $this->getEffectiveFrom())) {
             return true;

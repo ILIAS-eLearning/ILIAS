@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\MessageBox;
@@ -18,23 +34,23 @@ use ILIAS\UI\Component\Link;
  */
 class ilObjStudyProgrammeAutoMembershipsGUI
 {
-    const ROLEFOLDER_REF_ID = 8;
-    const CHECKBOX_SOURCE_IDS = 'c_amsids';
+    private const ROLEFOLDER_REF_ID = 8;
+    public const CHECKBOX_SOURCE_IDS = 'c_amsids';
 
-    const F_SOURCE_TYPE = 'f_st';
-    const F_SOURCE_ID = 'f_sid';
-    const F_ORIGINAL_SOURCE_TYPE = 'f_st_org';
-    const F_ORIGINAL_SOURCE_ID = 'f_sid_org';
+    private const F_SOURCE_TYPE = 'f_st';
+    private const F_SOURCE_ID = 'f_sid';
+    private const F_ORIGINAL_SOURCE_TYPE = 'f_st_org';
+    private const F_ORIGINAL_SOURCE_ID = 'f_sid_org';
 
-    const CMD_VIEW = 'view';
-    const CMD_SAVE = 'save';
-    const CMD_DELETE = 'delete';
-    const CMD_DELETE_CONFIRMATION = 'deleteConfirmation';
-    const CMD_GET_ASYNC_MODAL_OUTPUT = 'getAsynchModalOutput';
-    const CMD_NEXT_STEP = 'nextStep';
-    const CMD_ENABLE = 'enable';
-    const CMD_DISABLE = 'disable';
-    const CMD_PROFILE_NOT_PUBLIC = 'profile_not_public';
+    private const CMD_VIEW = 'view';
+    private const CMD_SAVE = 'save';
+    private const CMD_DELETE = 'delete';
+    private const CMD_DELETE_CONFIRMATION = 'deleteConfirmation';
+    private const CMD_GET_ASYNC_MODAL_OUTPUT = 'getAsynchModalOutput';
+    private const CMD_NEXT_STEP = 'nextStep';
+    private const CMD_ENABLE = 'enable';
+    private const CMD_DISABLE = 'disable';
+    private const CMD_PROFILE_NOT_PUBLIC = 'profile_not_public';
 
     private static array $switch_to_ref_id = [
         ilStudyProgrammeAutoMembershipSource::TYPE_COURSE,
@@ -458,10 +474,11 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         if (is_null($source_type)) {
             $source_type = "";
         }
-        if (is_null($source_id)) {
-            $source_id = "";
-        }
-        $form->setId(uniqid($source_type . $source_id));
+        /** @var string $source_id */
+        // TODO: This should not be necessary anymore when we change to new forms.
+        $source_id = (string) $source_id ?? "";
+
+        $form->setId(uniqid($source_type . $source_id, true));
         $form->setFormAction($this->ctrl->getFormAction($this, 'save'));
 
         $rgroup = new ilRadioGroupInputGUI($this->txt('membership_source_type'), self::F_SOURCE_TYPE);
@@ -698,7 +715,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             case ilStudyProgrammeAutoMembershipSource::TYPE_GROUP:
                 $url = ilLink::_getStaticLink($src_id, 'grp');
                 $hops = array_map(
-                    function ($c) {
+                    static function (array $c) : string {
                         return ilObject::_lookupTitle((int) $c["obj_id"]);
                     },
                     $this->tree->getPathFull($src_id)
@@ -709,7 +726,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
             case ilStudyProgrammeAutoMembershipSource::TYPE_ORGU:
                 $hops = array_map(
-                    function ($c) {
+                    static function (array $c) : string {
                         return ilObject::_lookupTitle($c["obj_id"]);
                     },
                     $this->tree->getPathFull($src_id)

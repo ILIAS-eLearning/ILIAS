@@ -77,29 +77,6 @@ class ilSoapFunctions
         return $sua->lookupUser($sid, $user_name);
     }
 
-    public static function getUser(string $sid, int $user_id)
-    {
-        include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
-
-        $sua = new ilSoapUserAdministration();
-
-        return $sua->getUser($sid, $user_id);
-    }
-
-
-
-    /**
-     */
-    public static function deleteUser(string $sid, int $user_id)
-    {
-        include_once './webservice/soap/classes/class.ilSoapUserAdministration.php';
-
-        $sua = new ilSoapUserAdministration();
-
-        return $sua->deleteUser($sid, $user_id);
-    }
-
-
     public static function addCourse(string $sid, int $target_id, string $crs_xml)
     {
         include_once './webservice/soap/classes/class.ilSoapCourseAdministration.php';

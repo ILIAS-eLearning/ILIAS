@@ -935,11 +935,10 @@ class ilInitialisation
         }
 
         // we do not know if ref_id of request is accesible, so redirecting to root
-        $_GET["ref_id"] = ROOT_FOLDER_ID;
-        $_GET["cmd"] = "";
         self::redirect(
-            "ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=" .
-            $_GET["cmd"] . "&ref_id=" . $_GET["ref_id"]
+            "ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=&ref_id=" . (defined(
+                'ROOT_FOLDER_ID'
+            ) ? (string) ROOT_FOLDER_ID : '0')
         );
     }
 

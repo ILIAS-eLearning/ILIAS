@@ -789,11 +789,13 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
      * @throws ilCtrlException
      */
     public static function _goto(
-        string $a_target,
-        string $a_access_code = ""
+        string $a_target
     ) : void {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
+
+        $request = $DIC->survey()->internal()->gui()->execution()->request();
+        $a_access_code = $request->getAccessCode();
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();

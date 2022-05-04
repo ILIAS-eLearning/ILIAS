@@ -984,7 +984,7 @@ class ilObjectCopyGUI
         $this->ctrl->setParameter($this, 'new_type', $this->getType());
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setTitle($this->lng->txt($this->getType() . '_copy'));
-        $this->form->addCommandButton('searchSource', $this->lng->txt('btn_next'));
+        $this->form->addCommandButton('searchSource', $this->lng->txt('search_for'));
         $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
         
         $tit = new ilTextInputGUI($this->lng->txt('title'), 'tit');

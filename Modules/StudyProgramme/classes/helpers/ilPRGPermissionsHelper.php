@@ -1,6 +1,22 @@
 <?php declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Both role and OrgU-based permissions are relevant in many places of the PRG.
  * This is to bundle permission-checks.
  *
@@ -10,7 +26,7 @@
  */
 class ilPRGPermissionsHelper
 {
-    const ORGU_OPERATIONS = [
+    public const ORGU_OPERATIONS = [
         ilOrgUnitOperation::OP_VIEW_MEMBERS,
         ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
         ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN,
@@ -18,14 +34,14 @@ class ilPRGPermissionsHelper
         ilOrgUnitOperation::OP_MANAGE_MEMBERS
     ];
 
-    const ROLEPERM_VIEW = 'rp_visible';
-    const ROLEPERM_READ = 'rp_read';
-    const ROLEPERM_WRITE = 'rp_write';
+    public const ROLEPERM_VIEW = 'rp_visible';
+    public const ROLEPERM_READ = 'rp_read';
+    public const ROLEPERM_WRITE = 'rp_write';
     //both org-unit and rbac permission read "manage_members";
     //however, rbac-manage_members does include all of the orgu-permissions listed here.
-    const ROLEPERM_MANAGE_MEMBERS = 'rp_manage_members';
+    public const ROLEPERM_MANAGE_MEMBERS = 'rp_manage_members';
 
-    const ROLEMAPPINGS = [
+    private const ROLEMAPPINGS = [
         'rp_visible' => 'visible',
         'rp_read' => 'read',
         'rp_write' => 'write',
@@ -63,9 +79,9 @@ class ilPRGPermissionsHelper
                     $this->getProgrammeRefId()
                 )
                 || $this->access->checkPositionAccess($operation, $this->getProgrammeRefId());
-        } else {
-            return $this->access->checkAccess(self::ROLEMAPPINGS[$operation], '', $this->getProgrammeRefId());
         }
+
+        return $this->access->checkAccess(self::ROLEMAPPINGS[$operation], '', $this->getProgrammeRefId());
     }
 
     /**

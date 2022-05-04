@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Data\Factory;
 
@@ -17,16 +31,16 @@ class ilObjStudyProgrammeMembersGUI
 {
     use ilTableCommandHelper;
 
-    const DEFAULT_CMD = "view";
+    private const DEFAULT_CMD = "view";
 
-    const ACTION_MARK_ACCREDITED = "mark_accredited";
-    const ACTION_UNMARK_ACCREDITED = "unmark_accredited";
-    const ACTION_SHOW_INDIVIDUAL_PLAN = "show_individual_plan";
-    const ACTION_REMOVE_USER = "remove_user";
-    const ACTION_CHANGE_DEADLINE = "change_deadline";
+    public const ACTION_MARK_ACCREDITED = "mark_accredited";
+    public const ACTION_UNMARK_ACCREDITED = "unmark_accredited";
+    public const ACTION_SHOW_INDIVIDUAL_PLAN = "show_individual_plan";
+    public const ACTION_REMOVE_USER = "remove_user";
+    public const ACTION_CHANGE_DEADLINE = "change_deadline";
 
-    const F_ALL_PROGRESS_IDS = 'all_progress_ids';
-    const F_SELECTED_PROGRESS_IDS = 'prgs_ids';
+    public const F_ALL_PROGRESS_IDS = 'all_progress_ids';
+    public const F_SELECTED_PROGRESS_IDS = 'prgs_ids';
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;
@@ -111,7 +125,7 @@ class ilObjStudyProgrammeMembersGUI
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
-        if ($cmd == "") {
+        if ($cmd === "" || $cmd === null) {
             $cmd = $this->getDefaultCommand();
         }
 
@@ -207,8 +221,8 @@ class ilObjStudyProgrammeMembersGUI
     {
         $assignments = $this->object->getAssignments();
 
-        return array_filter($assignments, function (ilStudyProgrammeAssignment $assignment) {
-            return $assignment->getRootId() == $this->object->getId();
+        return array_filter($assignments, function (ilStudyProgrammeAssignment $assignment) : bool {
+            return $assignment->getRootId() === $this->object->getId();
         });
     }
 
@@ -405,7 +419,7 @@ class ilObjStudyProgrammeMembersGUI
             $assignments[$user_id] = $prg->assignUser((int) $user_id);
         }
 
-        if (count($assignments) == 1) {
+        if (count($assignments) === 1) {
             $this->tpl->setOnScreenMessage("success", $this->lng->txt("prg_added_member"), true);
         }
         if (count($assignments) > 1) {
@@ -635,7 +649,7 @@ class ilObjStudyProgrammeMembersGUI
                 $not_removed[] = $prgrs_id;
             }
         }
-        if (count($not_removed) == count($prgrs_ids)) {
+        if (count($not_removed) === count($prgrs_ids)) {
             $this->showInfoMessage("remove_users_not_possible");
         } elseif (count($not_removed) > 0) {
             $this->showSuccessMessage("remove_users_partial_success");
@@ -684,7 +698,7 @@ class ilObjStudyProgrammeMembersGUI
 
         $ass = $this->sp_user_assignment_db->get($prgrs->getAssignmentId());
         $prg_ref_id = ilObjStudyProgramme::getRefIdFor($ass->getRootId());
-        if ($prg_ref_id != $this->ref_id) {
+        if ($prg_ref_id !== $this->ref_id) {
             throw new ilException("Can only remove users from the node they where assigned to.");
         }
         $prg = ilObjStudyProgramme::getInstanceByRefId($prg_ref_id);

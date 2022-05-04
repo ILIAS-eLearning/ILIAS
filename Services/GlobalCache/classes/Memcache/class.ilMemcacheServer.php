@@ -56,7 +56,7 @@ class ilMemcacheServer extends ActiveRecord
      * @con_fieldtype  integer
      * @con_length     1
      */
-    protected $status = self::STATUS_INACTIVE;
+    protected int $status = self::STATUS_INACTIVE;
     /**
      * @con_has_field  true
      * @con_fieldtype  text

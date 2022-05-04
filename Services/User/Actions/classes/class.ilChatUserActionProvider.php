@@ -68,7 +68,9 @@ class ilChatUserActionProvider extends ilUserActionProvider
     protected function acceptsMessages(int $a_user_id) : bool
     {
         if (!array_key_exists($a_user_id, self::$accepts_messages_cache)) {
-            self::$accepts_messages_cache[$a_user_id] = ilUtil::yn2tf(ilObjUser::_lookupPref($a_user_id, 'chat_osc_accept_msg'));
+            self::$accepts_messages_cache[$a_user_id] = ilUtil::yn2tf(
+                ilObjUser::_lookupPref($a_user_id, 'chat_osc_accept_msg') ?? 'n'
+            );
         }
 
         return (bool) self::$accepts_messages_cache[$a_user_id];

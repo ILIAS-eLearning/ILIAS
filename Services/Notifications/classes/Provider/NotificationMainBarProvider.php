@@ -66,7 +66,7 @@ class NotificationMainBarProvider extends AbstractStaticMainMenuProvider
                                   ->withParent($top)
                                   ->withTitle($title)
                                   ->withSymbol($icon)
-                                  ->withPosition(6)
+                                  ->withPosition(65)
                                   ->withVisibilityCallable($access_helper->hasAdministrationAccess());
 
         return $items;

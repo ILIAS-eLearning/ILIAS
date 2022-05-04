@@ -369,6 +369,7 @@ html, body {
 	overflow: hidden;
 }
 html {
+	font-size: 100%;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		-webkit-text-size-adjust: none;
 	}
@@ -446,7 +447,7 @@ ul ul, ol ol {
 }
 
 small, sub, sup {
-	font-size: .8em;
+	font-size: @il-font-size-xsmall;
 }
 
 em, i {
@@ -498,7 +499,7 @@ hr {
 }
 
 table {
-	font-size: 100%;
+	font-size: @il-font-size-base;
 }
 
 img {
@@ -525,7 +526,7 @@ tr, td {
 
 code {
 	font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	color: @il-text-light-color;
 }
 
@@ -675,7 +676,7 @@ div.input {
 	border: 1px solid @il-main-border-dark-color;
 	padding: 3px;
 	text-decoration: none;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	background-color: white;
 	overflow: auto;
 }
@@ -868,7 +869,7 @@ td.boxed {
 /*Link, Visited, Hover, Focus, Activ*/
 a.il_ContainerItemCommand2:link, a.il_ContainerItemCommand2:visited,
 a.il_ContainerItemCommand:link, a.il_ContainerItemCommand:visited {
-	font-size: 80%;
+	font-size: @il-font-size-small;
 	text-decoration: none;
 	margin: 0 3px 0 0;
 	white-space: nowrap;
@@ -904,7 +905,7 @@ h3.il_ContainerItemTitle {
 	padding: 0;
 	margin: 0;
 	font-weight: normal;
-	font-size: 100%;
+	font-size: @il-font-size-base;
 	display: inline;
 }
 
@@ -922,7 +923,7 @@ div.il_ItemProperties {
 	margin: 2px 0 5px;
 	text-align: left;
 	font-weight: normal;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 }
 
 [dir="rtl"] div.il_ItemProperties {
@@ -933,7 +934,7 @@ div.il_ItemNotice {
 	margin: 2px 0 5px;
 	text-align: left;
 	font-weight: normal;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	color: green;
 }
 
@@ -958,7 +959,7 @@ span.il_ItemAlertProperty {
 /* --- description text ---*/
 div.il_Description, td.il_Description {
 	margin: 2px 0 5px;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	font-weight: normal;
 	text-align: left;
 }
@@ -969,7 +970,7 @@ div.il_Description, td.il_Description {
 }
 
 div.il_Description_no_margin, td.il_Description_no_margin {
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	font-style: italic;
 	text-align: left;
 }
@@ -980,7 +981,7 @@ div.il_Description_no_margin, td.il_Description_no_margin {
 }
 
 div.il_info {
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	text-align: left;
 }
 
@@ -994,10 +995,11 @@ div.il_info {
 a#il_mhead_t_focus {
 	color: darken(@il-secondary-color, 20%);
 	vertical-align: middle;
-	font-size: 26px;
+	font-size: @il-font-size-h1;
+	font-weight: 600;
     cursor: default;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
-        font-size: 20px;
+        font-size: @il-font-size-xxlarge;
     }
     &[href] {
         cursor: pointer;
@@ -1016,7 +1018,7 @@ h2.ilHeader {
 	padding: 0;
 	margin: 0;
 	display: inline;
-	font-size: @font-size-h3;
+	font-size: @il-font-size-xlarge;
 	color: @il-neutral-color;
 }
 
@@ -1068,16 +1070,14 @@ div.ilHeadAction ul.dropdown-menu button {
 }
 
 div.ilHeaderDesc {
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	padding: 0;
 	color: @il-text-color;
-	font-weight: 300;
 }
 
 div.ilHeaderAlert {
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	padding: 0;
-	font-weight: 300;
 	color: @il-warning-color;
 }
 
@@ -1107,7 +1107,7 @@ div.il_TreeIcons {
 /* ----------------- permanent link  ------------- */
 #current_perma_link {
 	color: @il-text-color;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	
 	&:focus-visible {
 		outline: @il-focus-outline-inner-width solid @il-focus-protection-color;
@@ -1171,30 +1171,30 @@ div.invisible_border {
 
 /* ------- Helptext --------- */
 span.il_Helptext {
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	font-weight: normal;
 }
 
 /* ----------------- alternative text styles ------------- */
 .small {
 	text-decoration: none;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 }
 
 .xsmall {
 	text-decoration: none;
-	font-size: 80%;
+	font-size: @il-font-size-xsmall;
 }
 
 .smallgreen {
 	text-decoration: none;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	color: green;
 }
 
 .smallred {
 	text-decoration: none;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	color: @il-danger-color;
 }
 
@@ -1219,7 +1219,7 @@ div.Access {
 
 .asterisk {
 	color: @il-danger-color;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 }
 
 .default {
@@ -1236,7 +1236,7 @@ div.Access {
 .subtitle {
 	font-style: italic;
 	font-weight: normal;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 }
 
 .questiontext {
@@ -1449,7 +1449,7 @@ div.ilSideBarHead{
 }
 
 div.ilSideBarHead h3, div.ilSideBarHead h1 {
-	font-size: 110%;
+	font-size: @il-font-size-large;
 	color: @il-text-color;
 	display: inline;
 	padding: 0;
@@ -1468,7 +1468,7 @@ div.ilSideBarContent{
 	float: left;
 	background-color: @dropdown-bg;
 	border: 1px solid @il-main-border-color;
-	font-size: 90%;
+	font-size: @il-font-size-small;
     .box-shadow(2px 2px 4px #c0c0c0);
 	.ui-menu-item {
 		margin: 0;
@@ -1668,7 +1668,7 @@ img[src$="icon_checked.svg"] {
 }
 
 .glyphicon-ok {
-    font-size: 11px;
+    font-size: @il-font-size-small;
 	text-align: center;
 }
 
@@ -1785,4 +1785,4 @@ div.ilGoogleMap {
 
 }
 
-@import "less/print.less";
+@import "less/print.less"; 

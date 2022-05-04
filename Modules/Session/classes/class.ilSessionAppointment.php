@@ -268,7 +268,7 @@ class ilSessionAppointment implements ilDatePeriod
         }
     }
 
-    public function appointmentToString()
+    public function appointmentToString() : string
     {
         return self::_appointmentToString($this->getStartingTime(), $this->getEndingTime(), $this->isFullday());
     }

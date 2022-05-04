@@ -76,7 +76,8 @@
 		"friendsofphp/php-cs-fixer": "^3.5",
 		"sebastian/environment": "^5.0",
 		"captainhook/captainhook": "^5.3",
-		"rector/rector": "^0.12.12"
+		"rector/rector": "^0.12.12",
+		"phpstan/phpstan": "^1.6"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -424,6 +425,16 @@
 			"last_update": "2019-07-11",
 			"last_update_by": "Guido Vollbach <gvollbach@databaay.de",
 			"approved-by": "Jour Fixe",
+			"approved-date": "YYYY-MM-DD"
+		},
+		"phpstan/phpstan": {
+			"source": "https://github.com/phpstan/phpstanr",
+			"used_version": "1.6",
+			"added_by": "Michael Jansen <mjansen@databay.de>",
+			"wrapped_by": null,
+			"last_update": "2022-05-02",
+			"last_update_by": "",
+			"approved-by": "",
 			"approved-date": "YYYY-MM-DD"
 		},
 		"symfony/console": {

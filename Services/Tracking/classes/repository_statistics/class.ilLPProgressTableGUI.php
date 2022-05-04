@@ -1,5 +1,20 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for learning progress
@@ -9,14 +24,14 @@
  */
 class ilLPProgressTableGUI extends ilLPTableBaseGUI
 {
-    protected ?ilObjUser $tracked_user;
-    protected ?array $obj_ids;
-    protected bool $details;
-    protected int $mode;
-    protected int $parent_obj_id;
-    protected int $ref_id;
-    protected int $obj_id;
-    protected int $lp_context;
+    protected ?ilObjUser $tracked_user = null;
+    protected ?array $obj_ids = null;
+    protected bool $details = false;
+    protected int $mode = 0;
+    protected int $parent_obj_id = 0;
+    protected int $ref_id = 0;
+    protected int $obj_id = 0;
+    protected int $lp_context = 0;
     protected bool $has_object_subitems = false;
 
     /**
@@ -65,10 +80,14 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
             $this->addColumn($this->lng->txt("trac_title"), "title", "26%");
             $this->addColumn($this->lng->txt("status"), "status", "7%");
             $this->addColumn(
-                $this->lng->txt('trac_status_changed'), 'status_changed', '10%'
+                $this->lng->txt('trac_status_changed'),
+                'status_changed',
+                '10%'
             );
             $this->addColumn(
-                $this->lng->txt("trac_percentage"), "percentage", "7%"
+                $this->lng->txt("trac_percentage"),
+                "percentage",
+                "7%"
             );
             $this->addColumn($this->lng->txt("trac_mark"), "", "5%");
             $this->addColumn($this->lng->txt("comment"), "", "10%");
@@ -86,7 +105,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 
             $this->setSelectAllCheckbox("item_id");
             $this->addMultiCommand(
-                "hideSelected", $this->lng->txt("trac_hide_selected")
+                "hideSelected",
+                $this->lng->txt("trac_hide_selected")
             );
 
             $this->setShowTemplates(true);
@@ -105,11 +125,14 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
                 $this->addColumn($this->lng->txt('cont_score'), 'score', '10%');
             } elseif ($this->has_object_subitems) {
                 $this->addColumn(
-                    $this->lng->txt('trac_status_changed'), 'status_changed',
+                    $this->lng->txt('trac_status_changed'),
+                    'status_changed',
                     '10%'
                 );
                 $this->addColumn(
-                    $this->lng->txt("trac_percentage"), "percentage", "7%"
+                    $this->lng->txt("trac_percentage"),
+                    "percentage",
+                    "7%"
                 );
                 $this->addColumn($this->lng->txt("trac_mark"), "", "5%");
                 $this->addColumn($this->lng->txt("comment"), "", "10%");
@@ -123,7 +146,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
             $this->ctrl->getFormActionByClass(get_class($this))
         );
         $this->setRowTemplate(
-            "tpl.lp_progress_list_row.html", "Services/Tracking"
+            "tpl.lp_progress_list_row.html",
+            "Services/Tracking"
         );
         $this->setEnableHeader(true);
         $this->setEnableNumInfo(false);
@@ -156,13 +180,15 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
             switch ($this->lp_context) {
                 case ilLearningProgressGUI::LP_CONTEXT_ORG_UNIT:
                     $obj_ids = $this->searchObjects(
-                        $this->getCurrentFilter(true), ''
+                        $this->getCurrentFilter(true),
+                        ''
                     );
                     break;
 
                 default:
                     $obj_ids = $this->searchObjects(
-                        $this->getCurrentFilter(true), "read"
+                        $this->getCurrentFilter(true),
+                        "read"
                     );
 
                     // check for LP relevance
@@ -211,7 +237,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 
                 default:
                     $data = ilTrQuery::getObjectsStatusForUser(
-                        $this->tracked_user->getId(), $obj_ids
+                        $this->tracked_user->getId(),
+                        $obj_ids
                     );
                     foreach ($data as $idx => $item) {
                         if (!$item["status"] && !$this->filter["status"] && !$this->details) {
@@ -246,7 +273,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         }
 
         $this->tpl->setVariable(
-            "ICON_SRC", ilObject::_getIcon(0, "tiny", $a_set["type"])
+            "ICON_SRC",
+            ilObject::_getIcon(0, "tiny", $a_set["type"])
         );
         $this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
         $this->tpl->setVariable("TITLE_TEXT", $a_set["title"]);
@@ -259,14 +287,16 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         }
 
         $this->tpl->setVariable(
-            "STATUS_ALT", ilLearningProgressBaseGUI::_getStatusText(
-            $a_set["status"]
-        )
+            "STATUS_ALT",
+            ilLearningProgressBaseGUI::_getStatusText(
+                $a_set["status"]
+            )
         );
         $this->tpl->setVariable(
-            "STATUS_IMG", ilLearningProgressBaseGUI::_getImagePathForStatus(
-            $a_set["status"]
-        )
+            "STATUS_IMG",
+            ilLearningProgressBaseGUI::_getImagePathForStatus(
+                $a_set["status"]
+            )
         );
 
         if ($this->mode == ilLPObjSettings::LP_MODE_SCORM) {
@@ -286,7 +316,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
 
             $olp = ilObjectLP::getInstance($a_set["obj_id"]);
             $this->tpl->setVariable(
-                "MODE_TEXT", $olp->getModeText($a_set["u_mode"])
+                "MODE_TEXT",
+                $olp->getModeText($a_set["u_mode"])
             );
             $this->tpl->setVariable("MARK_VALUE", $a_set["mark"]);
             $this->tpl->setVariable("COMMENT_TEXT", $a_set["comment"]);
@@ -295,7 +326,8 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
                 $this->tpl->setVariable("PERCENTAGE_VALUE", "");
             } else {
                 $this->tpl->setVariable(
-                    "PERCENTAGE_VALUE", sprintf("%d%%", $a_set["percentage"])
+                    "PERCENTAGE_VALUE",
+                    sprintf("%d%%", $a_set["percentage"])
                 );
             }
 
@@ -319,26 +351,29 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
                 $ref_id = $a_set["ref_ids"];
                 $ref_id = array_shift($ref_id);
                 $timing = $this->showTimingsWarning(
-                    $ref_id, $this->tracked_user->getId()
+                    $ref_id,
+                    $this->tracked_user->getId()
                 );
                 if ($timing) {
                     if ($timing !== true) {
                         $timing = ": " . ilDatePresentation::formatDate(
-                                new ilDate($timing, IL_CAL_UNIX)
-                            );
+                            new ilDate($timing, IL_CAL_UNIX)
+                        );
                     } else {
                         $timing = "";
                     }
                     $this->tpl->setCurrentBlock('warning_img');
                     $this->tpl->setVariable(
-                        'WARNING_IMG', ilUtil::getImagePath(
-                        'time_warn.svg'
-                    )
+                        'WARNING_IMG',
+                        ilUtil::getImagePath(
+                            'time_warn.svg'
+                        )
                     );
                     $this->tpl->setVariable(
-                        'WARNING_ALT', $this->lng->txt(
-                                         'trac_time_passed'
-                                     ) . $timing
+                        'WARNING_ALT',
+                        $this->lng->txt(
+                            'trac_time_passed'
+                        ) . $timing
                     );
                     $this->tpl->parseCurrentBlock();
                 }
@@ -348,15 +383,20 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
             if (!$this->details) {
                 $this->tpl->setCurrentBlock("item_command");
                 $this->ctrl->setParameterByClass(
-                    get_class($this), 'hide', $a_set["obj_id"]
+                    get_class($this),
+                    'hide',
+                    $a_set["obj_id"]
                 );
                 $this->tpl->setVariable(
-                    "HREF_COMMAND", $this->ctrl->getLinkTargetByClass(
-                    get_class($this), 'hide'
-                )
+                    "HREF_COMMAND",
+                    $this->ctrl->getLinkTargetByClass(
+                        get_class($this),
+                        'hide'
+                    )
                 );
                 $this->tpl->setVariable(
-                    "TXT_COMMAND", $this->lng->txt('trac_hide')
+                    "TXT_COMMAND",
+                    $this->lng->txt('trac_hide')
                 );
                 $this->tpl->parseCurrentBlock();
 
@@ -365,19 +405,25 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
                     $ref_id = $a_set["ref_ids"];
                     $ref_id = array_shift($ref_id);
                     $this->ctrl->setParameterByClass(
-                        $this->ctrl->getCmdClass(), 'details_id', $ref_id
+                        $this->ctrl->getCmdClass(),
+                        'details_id',
+                        $ref_id
                     );
                     $this->tpl->setVariable(
                         "HREF_COMMAND",
                         $this->ctrl->getLinkTargetByClass(
-                            $this->ctrl->getCmdClass(), 'details'
+                            $this->ctrl->getCmdClass(),
+                            'details'
                         )
                     );
                     $this->ctrl->setParameterByClass(
-                        $this->ctrl->getCmdClass(), 'details_id', ''
+                        $this->ctrl->getCmdClass(),
+                        'details_id',
+                        ''
                     );
                     $this->tpl->setVariable(
-                        "TXT_COMMAND", $this->lng->txt('trac_subitems')
+                        "TXT_COMMAND",
+                        $this->lng->txt('trac_subitems')
                     );
                     $this->tpl->parseCurrentBlock();
                 }
@@ -411,15 +457,20 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         $a_excel->setCell($a_row, 0, $this->lng->txt($a_set["type"]));
         $a_excel->setCell($a_row, 1, $a_set["title"]);
         $a_excel->setCell(
-            $a_row, 2, ilLearningProgressBaseGUI::_getStatusText(
-            $a_set["status"]
-        )
+            $a_row,
+            2,
+            ilLearningProgressBaseGUI::_getStatusText(
+                $a_set["status"]
+            )
         );
 
         $a_excel->setCell(
-            $a_row, 3, new ilDateTime(
-            $a_set['status_changed'], IL_CAL_DATETIME
-        )
+            $a_row,
+            3,
+            new ilDateTime(
+                $a_set['status_changed'],
+                IL_CAL_DATETIME
+            )
         );
 
         if (!$this->isPercentageAvailable($a_set['obj_id'])) {
@@ -430,7 +481,9 @@ class ilLPProgressTableGUI extends ilLPTableBaseGUI
         $a_excel->setCell($a_row, 5, $a_set["mark"]);
         $a_excel->setCell($a_row, 6, $a_set["comment"]);
         $a_excel->setCell(
-            $a_row, 7, ilLPObjSettings::_mode2Text($a_set["u_mode"])
+            $a_row,
+            7,
+            ilLPObjSettings::_mode2Text($a_set["u_mode"])
         );
     }
 

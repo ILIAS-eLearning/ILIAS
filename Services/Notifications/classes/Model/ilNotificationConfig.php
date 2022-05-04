@@ -132,7 +132,7 @@ class ilNotificationConfig
     }
 
     /**
-     * @return string[]
+     * @return array<string, ilNotificationParameter>
      */
     public function getLanguageParameters() : array
     {

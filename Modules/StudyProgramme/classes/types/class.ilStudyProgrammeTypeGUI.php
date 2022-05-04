@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\UI\Component\Input;
 use ILIAS\UI\Component\Input\Field\Input as InputField;
 use ILIAS\UI\Renderer;
@@ -258,7 +274,7 @@ class ilStudyProgrammeTypeGUI
     {
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
-                ilStudyProgrammeTypeGUI::class,
+                __CLASS__,
                 'create'
             ),
             $this->lng->txt('prg_type_add')
@@ -274,7 +290,7 @@ class ilStudyProgrammeTypeGUI
 
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
-                ilStudyProgrammeTypeGUI::class,
+                __CLASS__,
                 'update'
             ),
             $this->lng->txt('prg_type_edit'),
@@ -288,7 +304,7 @@ class ilStudyProgrammeTypeGUI
     {
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
-                ilStudyProgrammeTypeGUI::class,
+                __CLASS__,
                 'create'
             ),
             $this->lng->txt('prg_type_add')
@@ -312,7 +328,7 @@ class ilStudyProgrammeTypeGUI
         $type = $this->type_repository->getType($type_id);
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
-                ilStudyProgrammeTypeGUI::class,
+                __CLASS__,
                 'update'
             ),
             $this->lng->txt('prg_type_edit'),
