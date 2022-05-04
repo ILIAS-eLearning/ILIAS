@@ -18,6 +18,7 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 class ilQuestionBrowserTableGUI extends ilTable2GUI
 {
     private \ILIAS\TestQuestionPool\InternalRequestService $request;
+    protected \ILIAS\Notes\Service $notes;
     protected $editable = true;
     protected $writeAccess = false;
     protected $totalPoints = 0;
@@ -140,19 +141,9 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
             $this->setResetCommand('resetQuestionBrowser');
             $this->initFilter();
         }
-        
+        $this->notes = $DIC->notes();
         if ($this->isQuestionCommentingEnabled()) {
-            global $DIC; /* @var ILIAS\DI\Container $DIC */
-            
-            $notesUrl = $this->ctrl->getLinkTargetByClass(
-                array("ilcommonactiondispatchergui", "ilnotegui"),
-                "",
-                "",
-                true,
-                false
-            );
-            
-            ilNoteGUI::initJavascript($notesUrl, ilNote::PUBLIC, $DIC->ui()->mainTemplate());
+            $this->notes->gui()->initJavascript();
         }
     }
     
@@ -181,12 +172,16 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     {
         if ($this->isQuestionCommentingEnabled() && ($this->isCommentsColumnSelected() || $this->filter['commented'])) {
             foreach ($questionData as $key => $data) {
-                $numComments = count(ilNote::_getNotesOfObject(
-                    $this->parent_obj->object->getId(),
-                    $data['question_id'],
-                    'quest',
-                    ilNote::PUBLIC
-                ));
+                $notes_context = $this->notes
+                    ->data()
+                    ->context(
+                        $this->parent_obj->object->getId(),
+                        $data['question_id'],
+                        'quest'
+                    );
+                $numComments = $this->notes
+                    ->domain()
+                    ->getNrOfCommentsForContext($notes_context);
                 
                 if ($this->filter['commented'] && !$numComments) {
                     unset($questionData[$key]);

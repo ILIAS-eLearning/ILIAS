@@ -119,8 +119,10 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->setDefaultOrderField($default_sort_title);
         }
 
-        if (($this->table->getExportEnabled() || ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->parent_obj->object->getRefId(),
-                $this->table->getId()))) {
+        if (($this->table->getExportEnabled() || ilObjDataCollectionAccess::hasAccessToFields(
+            $this->parent_obj->parent_obj->object->getRefId(),
+            $this->table->getId()
+        ))) {
             $this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_EXCEL_ASYNC));
         }
 
@@ -174,7 +176,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                 }
 
                 if ($field->getId() == 'comments') {
-                    $record_data['n_comments'] = count($record->getComments());
+                    $record_data['n_comments'] = $record->getNrOfComments();
                 }
             }
 
@@ -194,8 +196,11 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $alist->setListTitle($lng->txt("actions"));
 
             if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
-                $alist->addItem($lng->txt('view'), 'view',
-                    $ilCtrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord'));
+                $alist->addItem(
+                    $lng->txt('view'),
+                    'view',
+                    $ilCtrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord')
+                );
             }
 
             if ($record->hasPermissionToEdit($this->parent_obj->parent_obj->getRefId())) {
@@ -203,13 +208,25 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             }
 
             if ($record->hasPermissionToDelete($this->parent_obj->parent_obj->getRefId())) {
-                $alist->addItem($lng->txt('delete'), 'delete',
-                    $ilCtrl->getLinkTargetByClass("ildclrecordeditgui", 'confirmDelete'));
+                $alist->addItem(
+                    $lng->txt('delete'),
+                    'delete',
+                    $ilCtrl->getLinkTargetByClass("ildclrecordeditgui", 'confirmDelete')
+                );
             }
 
             if ($this->table->getPublicCommentsEnabled()) {
-                $alist->addItem($lng->txt('dcl_comments'), 'comment', '', '', '', '', '', '',
-                    $this->getCommentsAjaxLink($record->getId()));
+                $alist->addItem(
+                    $lng->txt('dcl_comments'),
+                    'comment',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    $this->getCommentsAjaxLink($record->getId())
+                );
             }
 
             $record_data["_actions"] = $alist->getHTML();
@@ -251,8 +268,10 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         if ($a_set["_front"]) {
             $this->tpl->setCurrentBlock('view');
             $this->tpl->setVariable("VIEW_IMAGE_LINK", $a_set["_front"]);
-            $this->tpl->setVariable("VIEW_IMAGE_SRC",
-                ilUtil::img(ilUtil::getImagePath("enlarge.svg"), $this->lng->txt('dcl_display_record_alt')));
+            $this->tpl->setVariable(
+                "VIEW_IMAGE_SRC",
+                ilUtil::img(ilUtil::getImagePath("enlarge.svg"), $this->lng->txt('dcl_display_record_alt'))
+            );
             $this->tpl->parseCurrentBlock();
         }
         $this->tpl->setVariable("ACTIONS", $a_set["_actions"]);
@@ -393,8 +412,11 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                 $this->row_data = ilUtil::sortArray($this->row_data, $this->getOrderField(), $this->getOrderDirection(), $this->numericOrdering($this->getOrderField()));
             }*/
 
-            $exporter = new ilDclContentExporter($this->parent_obj->parent_obj->object->getRefId(),
-                $this->table->getId(), $this->filter);
+            $exporter = new ilDclContentExporter(
+                $this->parent_obj->parent_obj->object->getRefId(),
+                $this->table->getId(),
+                $this->filter
+            );
             $exporter->export(ilDclContentExporter::EXPORT_EXCEL, null, true);
         }
     }

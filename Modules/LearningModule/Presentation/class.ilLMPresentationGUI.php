@@ -24,6 +24,7 @@
  */
 class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 {
+    protected \ILIAS\Notes\DomainService $notes;
     protected \ILIAS\LearningModule\ReadingTime\ReadingTimeManager $reading_time_manager;
     protected string $requested_url;
     protected string $requested_type;
@@ -170,6 +171,7 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
             );
         }
         $this->reading_time_manager = new \ILIAS\LearningModule\ReadingTime\ReadingTimeManager();
+        $this->notes = $DIC->notes()->domain();
     }
 
     public function getUnsafeGetCommands() : array
@@ -2391,15 +2393,15 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
         string $a_action,
         int $a_note_id
     ) : void {
-        $note = new ilNote($a_note_id);
-        $note = $note->getText();
+        $note = $this->notes->getById($a_note_id);
+        $text = $note->getText();
 
         $notification = new ilLearningModuleNotification(
             ilLearningModuleNotification::ACTION_COMMENT,
             ilNotification::TYPE_LM_PAGE,
             $this->lm,
             $a_page_id,
-            $note
+            $text
         );
 
         $notification->send();

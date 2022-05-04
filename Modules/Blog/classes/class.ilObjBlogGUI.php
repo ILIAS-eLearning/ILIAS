@@ -26,6 +26,7 @@ use ILIAS\Blog\StandardGUIRequest;
  */
 class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 {
+    protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\Blog\ReadingTime\BlogSettingsGUI $reading_time_gui;
     protected \ILIAS\Blog\ReadingTime\ReadingTimeManager $reading_time_manager;
 
@@ -146,6 +147,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
 
         $this->reading_time_gui = new \ILIAS\Blog\ReadingTime\BlogSettingsGUI($blog_id);
         $this->reading_time_manager = new \ILIAS\Blog\ReadingTime\ReadingTimeManager();
+        $this->notes = $DIC->notes();
     }
 
     public function getType() : string
@@ -1524,12 +1526,16 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             // comments
             if ($this->object->getNotesStatus() && !$a_link_template && !$this->disable_notes) {
                 // count (public) notes
-                $count = count(ilNote::_getNotesOfObject(
-                    $this->obj_id,
-                    $item["id"],
-                    "blp",
-                    ilNote::PUBLIC
-                ));
+                $notes_context = $this->notes
+                    ->data()
+                    ->context(
+                        $this->obj_id,
+                        (int) $item["id"],
+                        "blp"
+                    );
+                $count = $this->notes
+                    ->domain()
+                    ->getNrOfCommentsForContext($notes_context);
                 
                 if ($a_cmd !== "preview") {
                     $wtpl->setCurrentBlock("comments");

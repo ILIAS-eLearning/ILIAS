@@ -15,6 +15,7 @@
 
 use ILIAS\Notes\NotesManager;
 use ILIAS\Notes\StandardGUIRequest;
+use ILIAS\Notes\Note;
 
 /**
  * Notes GUI class. An instance of this class handles all notes
@@ -23,10 +24,10 @@ use ILIAS\Notes\StandardGUIRequest;
  */
 class ilNoteGUI
 {
+    protected \ILIAS\Notes\AccessManager $notes_access;
+    protected \ILIAS\Notes\InternalDataService $data;
     protected ilWorkspaceAccessHandler $wsp_access_handler;
     protected ilWorkspaceTree $wsp_tree;
-    protected array $comment_img;
-    protected array $note_img;
     protected bool $public_enabled;
     protected string $only;
     protected StandardGUIRequest $request;
@@ -105,14 +106,15 @@ class ilNoteGUI
         $lng = $DIC->language();
         $this->log = ilLoggerFactory::getLogger('note');
 
-        $this->manager = $DIC->notes()
-            ->internal()
+        $ns = $DIC->notes()->internal();
+        $this->manager = $ns
             ->domain()
             ->notes();
-        $this->request = $DIC->notes()
-            ->internal()
+        $this->request = $ns
             ->gui()
             ->standardRequest();
+        $this->data = $ns->data();
+        $this->notes_access = $ns->domain()->noteAccess();
 
         $lng->loadLanguageModule("notes");
         
@@ -139,7 +141,7 @@ class ilNoteGUI
         $this->edit_note_form = false;
         $this->private_enabled = false;
 
-        if (ilNote::commentsActivated($this->rep_obj_id, $this->obj_id, $this->obj_type, $this->news_id)) {
+        if ($this->manager->commentsActive($this->rep_obj_id)) {
             $this->public_enabled = true;
         } else {
             $this->public_enabled = false;
@@ -150,43 +152,7 @@ class ilNoteGUI
         $this->export_html = false;
         $this->print = false;
         $this->comments_settings = false;
-        
-        $this->note_img = array(
-            IL_NOTE_UNLABELED => array(
-                "img" => ilUtil::getImagePath("note_unlabeled.svg"),
-                "alt" => $lng->txt("note")),
-            IL_NOTE_IMPORTANT => array(
-                "img" => ilUtil::getImagePath("note_unlabeled.svg"),
-                "alt" => $lng->txt("note") . ", " . $lng->txt("important")),
-            IL_NOTE_QUESTION => array(
-                "img" => ilUtil::getImagePath("note_unlabeled.svg"),
-                "alt" => $lng->txt("note") . ", " . $lng->txt("question")),
-            IL_NOTE_PRO => array(
-                "img" => ilUtil::getImagePath("note_unlabeled.svg"),
-                "alt" => $lng->txt("note") . ", " . $lng->txt("pro")),
-            IL_NOTE_CONTRA => array(
-                "img" => ilUtil::getImagePath("note_unlabeled.svg"),
-                "alt" => $lng->txt("note") . ", " . $lng->txt("contra"))
-            );
-            
-        $this->comment_img = array(
-            IL_NOTE_UNLABELED => array(
-                "img" => ilUtil::getImagePath("comment_unlabeled.svg"),
-                "alt" => $lng->txt("notes_comment")),
-            IL_NOTE_IMPORTANT => array(
-                "img" => ilUtil::getImagePath("comment_unlabeled.svg"),
-                "alt" => $lng->txt("notes_comment") . ", " . $lng->txt("important")),
-            IL_NOTE_QUESTION => array(
-                "img" => ilUtil::getImagePath("comment_unlabeled.svg"),
-                "alt" => $lng->txt("notes_comment") . ", " . $lng->txt("question")),
-            IL_NOTE_PRO => array(
-                "img" => ilUtil::getImagePath("comment_unlabeled.svg"),
-                "alt" => $lng->txt("notes_comment") . ", " . $lng->txt("pro")),
-            IL_NOTE_CONTRA => array(
-                "img" => ilUtil::getImagePath("comment_unlabeled.svg"),
-                "alt" => $lng->txt("notes_comment") . ", " . $lng->txt("contra"))
-            );
-        
+
         // default: notes for repository objects
         $this->setRepositoryMode(true);
 
@@ -305,10 +271,10 @@ class ilNoteGUI
             case "editNoteForm":
             case "addNote":
             case "updateNote":
-                if ($this->requested_note_type === ilNote::PRIVATE) {
+                if ($this->requested_note_type === Note::PRIVATE) {
                     $hide_comments = true;
                 }
-                if ($this->requested_note_type === ilNote::PUBLIC) {
+                if ($this->requested_note_type === Note::PUBLIC) {
                     $hide_notes = true;
                 }
                 break;
@@ -327,7 +293,7 @@ class ilNoteGUI
         $nodes_col = false;
         if ($this->private_enabled && !$hide_notes && $ilUser->getId() !== ANONYMOUS_USER_ID) {
             $ntpl->setCurrentBlock("notes_col");
-            $ntpl->setVariable("NOTES", $this->getNoteListHTML(ilNote::PRIVATE, $a_init_form));
+            $ntpl->setVariable("NOTES", $this->getNoteListHTML(Note::PRIVATE, $a_init_form));
             $ntpl->parseCurrentBlock();
             $nodes_col = true;
         }
@@ -336,15 +302,14 @@ class ilNoteGUI
         $comments_col = false;
         if ($this->public_enabled && (!$this->delete_note || $this->public_deletion_enabled || $ilSetting->get("comments_del_user", '0'))
             && !$hide_comments /* && $ilUser->getId() != ANONYMOUS_USER_ID */) {
-            $ntpl->setVariable("COMMENTS", $this->getNoteListHTML(ilNote::PUBLIC, $a_init_form));
+            $ntpl->setVariable("COMMENTS", $this->getNoteListHTML(Note::PUBLIC, $a_init_form));
             $comments_col = true;
         }
         
         // Comments Settings
         if ($this->comments_settings && !$hide_comments && !$this->delete_note
             && !$this->edit_note_form && !$this->add_note_form && $ilUser->getId() !== ANONYMOUS_USER_ID) {
-            //$active = $notes_settings->get("activate_".$id);
-            $active = ilNote::commentsActivated($this->rep_obj_id, $this->obj_id, $this->obj_type);
+            $active = $this->manager->commentsActive($this->rep_obj_id);
 
             if ($active) {
                 if ($this->news_id === 0) {
@@ -404,7 +369,7 @@ class ilNoteGUI
         $ilCtrl = $this->ctrl;
         
         if ($this->comments_settings) {
-            ilNote::activateComments($this->rep_obj_id, $this->obj_id, $this->obj_type, true);
+            $this->manager->activateComments($this->rep_obj_id, true);
         }
         
         $ilCtrl->redirectByClass("ilnotegui", "showNotes", "", $this->ajax);
@@ -415,14 +380,14 @@ class ilNoteGUI
         $ilCtrl = $this->ctrl;
         
         if ($this->comments_settings) {
-            ilNote::activateComments($this->rep_obj_id, $this->obj_id, $this->obj_type, false);
+            $this->manager->activateComments($this->rep_obj_id, false);
         }
         
         $ilCtrl->redirectByClass("ilnotegui", "showNotes", "", $this->ajax);
     }
 
     public function getNoteListHTML(
-        int $a_type = ilNote::PRIVATE,
+        int $a_type = Note::PRIVATE,
         bool $a_init_form = true
     ) : string {
         $lng = $this->lng;
@@ -431,7 +396,7 @@ class ilNoteGUI
 
         $mtype = "";
 
-        $suffix = ($a_type === ilNote::PRIVATE)
+        $suffix = ($a_type === Note::PRIVATE)
             ? "private"
             : "public";
         
@@ -447,23 +412,27 @@ class ilNoteGUI
             }
         }
 
-        $order = $this->manager->getSortAscending();
+        $ascending = $this->manager->getSortAscending();
         if ($this->only_latest) {
             $order = false;
         }
 
+        $author_id = ($a_type === Note::PRIVATE || $user_setting_notes_public_all === "n")
+            ? $ilUser->getId()
+            : 0;
 
-        $notes = ilNote::_getNotesOfObject(
-            $this->rep_obj_id,
-            $this->obj_id,
-            $this->obj_type,
+        $notes = $this->manager->getNotesForContext(
+            $this->data->context(
+                $this->rep_obj_id,
+                $this->obj_id,
+                $this->obj_type,
+                $this->news_id,
+                $this->repository_mode
+            ),
             $a_type,
             $this->inc_sub,
-            (string) $filter,
-            $user_setting_notes_public_all,
-            $this->repository_mode,
-            $order,
-            $this->news_id
+            $author_id,
+            $ascending
         );
 
         $tpl = new ilTemplate("tpl.notes_list.html", true, true, "Services/Notes");
@@ -511,12 +480,12 @@ class ilNoteGUI
         if ($this->delete_note) {
             $cnt_str = "";
         }
-        if ($a_type === ilNote::PRIVATE) {
+        if ($a_type === Note::PRIVATE) {
             $tpl->setVariable("TXT_NOTES", $lng->txt("private_notes") . $cnt_str);
-            $ilCtrl->setParameterByClass("ilnotegui", "note_type", ilNote::PRIVATE);
+            $ilCtrl->setParameterByClass("ilnotegui", "note_type", Note::PRIVATE);
         } else {
             $tpl->setVariable("TXT_NOTES", $lng->txt("notes_public_comments") . $cnt_str);
-            $ilCtrl->setParameterByClass("ilnotegui", "note_type", ilNote::PUBLIC);
+            $ilCtrl->setParameterByClass("ilnotegui", "note_type", Note::PUBLIC);
         }
         $anch = $this->anchor_jump
             ? "notes_top"
@@ -528,7 +497,7 @@ class ilNoteGUI
                     $ilCtrl->getFormActionByClass("ilnotegui", "", "", true) .
                     "'); return false;\"";
                 $tpl->setVariable("ON_SUBMIT_FORM", $os);
-                /*if ($a_type == ilNote::PRIVATE) {
+                /*if ($a_type == Note::PRIVATE) {
                     $tpl->setVariable("FORM_ID", "id='ilNoteFormAjax'");
                 } else {
                     $tpl->setVariable("FORM_ID", "id='ilCommentFormAjax'");
@@ -547,7 +516,7 @@ class ilNoteGUI
             && !$this->add_note_form) {
             // never individually hide for anonymous users
             if ($ilUser->getId() !== ANONYMOUS_USER_ID) {
-                if ($a_type === ilNote::PUBLIC) {
+                if ($a_type === Note::PUBLIC) {
                     $txt = $lng->txt("notes_hide_comments");
                 } else {
                     $txt = $lng->txt("hide_" . $suffix . "_notes");
@@ -555,7 +524,7 @@ class ilNoteGUI
                 $this->renderLink($tpl, "hide_notes", $txt, "hideNotes", "notes_top");
 
                 // show all public notes / my notes only switch
-                if ($a_type === ilNote::PUBLIC) {
+                if ($a_type === Note::PUBLIC) {
                     $this->renderLink(
                         $tpl,
                         "my_pub_notes",
@@ -661,7 +630,7 @@ class ilNoteGUI
                     $tpl->setVariable("CNT_COL", $cnt_col);
                     
                     // output author account
-                    if ($a_type === ilNote::PUBLIC && ilObject::_exists($note->getAuthor())) {
+                    if ($a_type === Note::PUBLIC && ilObject::_exists($note->getAuthor())) {
                         //$tpl->setCurrentBlock("author");
                         //$tpl->setVariable("VAL_AUTHOR", ilObjUser::_lookupLogin($note->getAuthor()));
                         //$tpl->parseCurrentBlock();
@@ -700,15 +669,12 @@ class ilNoteGUI
                         $tpl->setVariable("HID_NOTE_ID", $note->getId());
                         $tpl->parseCurrentBlock();
                     }
-                    $target = $note->getObject();
-                    
 
                     $tpl->setCurrentBlock("note");
                     $text = (trim($note->getText()) !== "")
                         ? nl2br($note->getText())
                         : "<p class='subtitle'>" . $lng->txt("note_content_removed") . "</p>";
                     $tpl->setVariable("NOTE_TEXT", $text);
-                    $tpl->setVariable("VAL_SUBJECT", $note->getSubject());
                     $tpl->setVariable("NOTE_ID", $note->getId());
 
                     // target objects
@@ -725,7 +691,7 @@ class ilNoteGUI
             
             if (!$notes_given) {
                 $tpl->setCurrentBlock("no_notes");
-                if ($a_type === ilNote::PUBLIC && !$this->only_latest) {
+                if ($a_type === Note::PUBLIC && !$this->only_latest) {
                     $tpl->setVariable("NO_NOTES", $lng->txt("notes_no_comments"));
                 }
                 $tpl->parseCurrentBlock();
@@ -736,7 +702,7 @@ class ilNoteGUI
             // multiple items commands
             if ($this->multi_selection && !$this->delete_note && !$this->edit_note_form
                 && count($notes) > 0) {
-                if ($a_type === ilNote::PRIVATE) {
+                if ($a_type === Note::PRIVATE) {
                     $tpl->setCurrentBlock("delete_cmd");
                     $tpl->setVariable("TXT_DELETE_NOTES", $this->lng->txt("delete"));
                     $tpl->parseCurrentBlock();
@@ -779,14 +745,14 @@ class ilNoteGUI
                 
             case "ntsdel":
                 $mtype = "success";
-                $mtxt = ($a_type === ilNote::PRIVATE)
+                $mtxt = ($a_type === Note::PRIVATE)
                     ? $lng->txt("notes_notes_deleted")
                     : $lng->txt("notes_comments_deleted");
                 break;
 
             case "ntdel":
                 $mtype = "success";
-                $mtxt = ($a_type === ilNote::PRIVATE)
+                $mtxt = ($a_type === Note::PRIVATE)
                     ? $lng->txt("notes_note_deleted")
                     : $lng->txt("notes_comment_deleted");
                 break;
@@ -847,7 +813,7 @@ class ilNoteGUI
      * Check whether deletion is allowed
      */
     public function checkDeletion(
-        ilNote $a_note
+        Note $note
     ) : bool {
         $ilUser = $this->user;
         $ilSetting = $this->settings;
@@ -856,17 +822,17 @@ class ilNoteGUI
             return false;
         }
                 
-        $is_author = ($a_note->getAuthor() === $ilUser->getId());
+        $is_author = ($note->getAuthor() === $ilUser->getId());
         
-        if ($is_author && $a_note->getType() === ilNote::PRIVATE) {
+        if ($is_author && $note->getType() === Note::PRIVATE) {
             return true;
         }
 
-        if ($this->public_deletion_enabled && $a_note->getType() === ilNote::PUBLIC) {
+        if ($this->public_deletion_enabled && $note->getType() === Note::PUBLIC) {
             return true;
         }
         
-        if ($is_author && $a_note->getType() === ilNote::PUBLIC && $ilSetting->get("comments_del_user", '0')) {
+        if ($is_author && $note->getType() === Note::PUBLIC && $ilSetting->get("comments_del_user", '0')) {
             return true;
         }
         
@@ -874,11 +840,11 @@ class ilNoteGUI
     }
     
     public function checkEdit(
-        ilNote $a_note
+        Note $note
     ) : bool {
         $ilUser = $this->user;
 
-        if ($ilUser->getId() !== ANONYMOUS_USER_ID && $a_note->getAuthor() === $ilUser->getId()) {
+        if ($ilUser->getId() !== ANONYMOUS_USER_ID && $note->getAuthor() === $ilUser->getId()) {
             return true;
         }
 
@@ -888,27 +854,27 @@ class ilNoteGUI
     public function initNoteForm(
         string $a_mode,
         int $a_type,
-        ilNote $a_note = null
+        Note $note = null
     ) : void {
         $lng = $this->lng;
 
         $this->form_tpl = new ilTemplate("tpl.notes_edit.html", true, true, "Services/Notes");
-        $this->form_tpl->setVariable("LABEL", ($a_type === ilNote::PUBLIC)
+        $this->form_tpl->setVariable("LABEL", ($a_type === Note::PUBLIC)
             ? $lng->txt("comment")
             : $lng->txt("note"));
         
-        if ($a_note) {
-            $this->form_tpl->setVariable("VAL_NOTE", ilLegacyFormElementsUtil::prepareFormOutput($a_note->getText()));
-            $this->form_tpl->setVariable("NOTE_ID", $a_note->getId());
+        if ($note) {
+            $this->form_tpl->setVariable("VAL_NOTE", ilLegacyFormElementsUtil::prepareFormOutput($note->getText()));
+            $this->form_tpl->setVariable("NOTE_ID", $note->getId());
         }
 
         if ($a_mode === "create") {
-            $this->form_tpl->setVariable("TXT_CMD", ($a_type === ilNote::PUBLIC)
+            $this->form_tpl->setVariable("TXT_CMD", ($a_type === Note::PUBLIC)
                 ? $lng->txt("note_add_comment")
                 : $lng->txt("note_add_note"));
             $this->form_tpl->setVariable("CMD", "addNote");
         } else {
-            $this->form_tpl->setVariable("TXT_CMD", ($a_type === ilNote::PUBLIC)
+            $this->form_tpl->setVariable("TXT_CMD", ($a_type === Note::PUBLIC)
                 ? $lng->txt("note_update_comment")
                 : $lng->txt("note_update_note"));
             $this->form_tpl->setVariable("CMD", "updateNote");
@@ -926,15 +892,15 @@ class ilNoteGUI
         $ilUser = $this->user;
 
         $tpl = new ilTemplate("tpl.pd_note.html", true, true, "Services/Notes");
-        $note = new ilNote($note_id);
-        $target = $note->getObject();
+        $note = $this->manager->getById($note_id);
+        $context = $note->getContext();
         
         if ($note->getAuthor() !== $ilUser->getId()) {
             return "";
         }
         
         $tpl->setCurrentBlock("edit_note");
-        $ilCtrl->setParameterByClass("ilnotegui", "rel_obj", $target["rep_obj_id"]);
+        $ilCtrl->setParameterByClass("ilnotegui", "rel_obj", $context->getObjId());
         $ilCtrl->setParameterByClass("ilnotegui", "note_id", $note_id);
         $ilCtrl->setParameterByClass("ilnotegui", "note_type", $note->getType());
         $tpl->setVariable(
@@ -963,7 +929,6 @@ class ilNoteGUI
             );
         }
         
-        $tpl->setVariable("VAL_SUBJECT", $note->getSubject());
         $text = (trim($note->getText()) !== "")
             ? nl2br($note->getText())
             : "<p class='subtitle'>" . $lng->txt("note_content_removed") . "</p>";
@@ -976,7 +941,7 @@ class ilNoteGUI
      * show related objects as links
      */
     public function renderTargets(
-        ilNote $a_note
+        Note $note
     ) : string {
         $tree = $this->tree;
         $ilAccess = $this->access;
@@ -987,18 +952,18 @@ class ilNoteGUI
             return "";
         }
 
-        $a_note_id = $a_note->getId();
-        $target = $a_note->getObject();
-        $a_obj_type = $target["obj_type"];
-        $a_obj_id = $target["obj_id"];
+        $a_note_id = $note->getId();
+        $context = $note->getContext();
+        $a_obj_type = $context->getType();
+        $a_obj_id = $context->getSubObjId();
 
         $target_tpl = new ilTemplate("tpl.note_target_object.html", true, true, "Services/Notes");
 
-        if ($target["rep_obj_id"] > 0) {
+        if ($context->getObjId() > 0) {
             // get all visible references of target object
 
             // repository
-            $ref_ids = ilObject::_getAllReferences($target["rep_obj_id"]);
+            $ref_ids = ilObject::_getAllReferences($context->getObjId());
             if ($ref_ids) {
                 $vis_ref_ids = array();
                 foreach ($ref_ids as $ref_id) {
@@ -1011,7 +976,7 @@ class ilNoteGUI
                 if (count($vis_ref_ids) > 0) {
                     foreach ($vis_ref_ids as $vis_ref_id) {
                         $type = ilObject::_lookupType($vis_ref_id, true);
-                        $title = ilObject::_lookupTitle($target["rep_obj_id"]);
+                        $title = ilObject::_lookupTitle($context->getObjId());
 
                         $sub_link = $sub_title = "";
                         if ($type === "poll") {
@@ -1026,10 +991,10 @@ class ilNoteGUI
                             // for references, get original title
                             // (link will lead to orignal, which basically is wrong though)
                             if ($a_obj_type === "crsr" || $a_obj_type === "catr" || $a_obj_type === "grpr") {
-                                $tgt_obj_id = ilContainerReference::_lookupTargetId($target["rep_obj_id"]);
+                                $tgt_obj_id = ilContainerReference::_lookupTargetId($context->getObjId());
                                 $title = ilObject::_lookupTitle($tgt_obj_id);
                             }
-                            $this->item_list_gui[$type]->initItem($vis_ref_id, $target["rep_obj_id"], $title, $a_obj_type);
+                            $this->item_list_gui[$type]->initItem($vis_ref_id, $context->getObjId(), $title, $a_obj_type);
                             $link = $this->item_list_gui[$type]->getCommandLink("infoScreen");
 
                             // workaround, because # anchor can't be passed through frameset
@@ -1037,7 +1002,7 @@ class ilNoteGUI
 
                             $link = $this->item_list_gui[$type]->appendRepositoryFrameParameter($link) . "#note_" . $a_note_id;
                         } else {
-                            $title = ilObject::_lookupTitle($target["rep_obj_id"]);
+                            $title = ilObject::_lookupTitle($context->getObjId());
                             $link = "goto.php?target=pg_" . $a_obj_id . "_" . $vis_ref_id;
                         }
 
@@ -1082,7 +1047,7 @@ class ilNoteGUI
                     $this->wsp_tree = new ilWorkspaceTree($ilUser->getId());
                     $this->wsp_access_handler = new ilWorkspaceAccessHandler($this->wsp_tree);
                 }
-                $node_id = $this->wsp_tree->lookupNodeId($target["rep_obj_id"]);
+                $node_id = $this->wsp_tree->lookupNodeId($context->getObjId());
                 if ($this->wsp_access_handler->checkAccess("visible", "", $node_id)) {
                     $path = $this->wsp_tree->getPathFull($node_id);
                     if ($path) {
@@ -1096,21 +1061,21 @@ class ilNoteGUI
                         // sub-objects
                         $additional = null;
                         if ($a_obj_id) {
-                            $sub_title = $this->getSubObjectTitle($target["rep_obj_id"], $a_obj_id);
+                            $sub_title = $this->getSubObjectTitle($context->getObjId(), $a_obj_id);
                             if ($sub_title) {
                                 $item["title"] .= " (" . $sub_title . ")";
                                 $additional = "_" . $a_obj_id;
                             }
                         }
 
-                        $link = ilWorkspaceAccessHandler::getGotoLink($node_id, $target["rep_obj_id"], $additional);
+                        $link = ilWorkspaceAccessHandler::getGotoLink($node_id, $context->getObjId(), $additional);
                     }
                     // shared resource
                     else {
-                        $owner = ilObject::_lookupOwner($target["rep_obj_id"]);
+                        $owner = ilObject::_lookupOwner($context->getObjId());
                         $parent["title"] = $this->lng->txt("wsp_tab_shared") .
                             " (" . ilObject::_lookupOwnerName($owner) . ")";
-                        $item["title"] = ilObject::_lookupTitle($target["rep_obj_id"]);
+                        $item["title"] = ilObject::_lookupTitle($context->getObjId());
                         $link = "ilias.php?baseClass=ilDashboardGUI&cmd=jumpToWorkspace&dsh=" .
                             $owner;
                     }
@@ -1145,7 +1110,7 @@ class ilNoteGUI
     ) : string {
         $ilUser = $this->user;
         
-        $suffix = ($this->requested_note_type === ilNote::PRIVATE)
+        $suffix = ($this->requested_note_type === Note::PRIVATE)
             ? "private"
             : "public";
         $ilUser->setPref("notes_" . $suffix, "y");
@@ -1181,14 +1146,25 @@ class ilNoteGUI
 
         //if ($this->form->checkInput())
         if ($this->request->getNoteText() !== "") {
-            $note = new ilNote();
-            $note->setObject($this->obj_type, $this->rep_obj_id, $this->obj_id, $this->news_id);
-            $note->setInRepository($this->repository_mode);
-            $note->setType($this->requested_note_type);
-            $note->setAuthor($ilUser->getId());
-            $note->setText($this->request->getNoteText());
-            $note->create();
-            $this->notifyObserver("new", $note);
+            $context = $this->data->context(
+                $this->rep_obj_id,
+                $this->obj_id,
+                $this->obj_type,
+                $this->news_id,
+                $this->repository_mode
+            );
+            $note = $this->data->note(
+                0,
+                $context,
+                $this->request->getNoteText(),
+                $ilUser->getId(),
+                $this->requested_note_type
+            );
+            $this->manager->createNote(
+                $note,
+                $this->observer
+            );
+
             $ilCtrl->setParameter($this, "note_mess", "mod");
         }
         $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
@@ -1198,21 +1174,19 @@ class ilNoteGUI
     {
         $ilCtrl = $this->ctrl;
 
-        $note = new ilNote($this->requested_note_id);
+        $note = $this->manager->getById($this->requested_note_id);
         $this->initNoteForm(
             "edit",
             $note->getType(),
             $note
         );
 
-        $note->setText($this->request->getNoteText());
-        $note->setSubject($this->request->getNoteSubject());
-        $note->setLabel($this->request->getNoteLabel());
-        if ($this->checkEdit($note)) {
-            $note->update();
-                
-            $this->notifyObserver("update", $note);
-                
+        if ($this->notes_access->canEdit($note)) {
+            $this->manager->updateNoteText(
+                $this->requested_note_id,
+                $this->request->getNoteText(),
+                $this->observer
+            );
             $ilCtrl->setParameter($this, "note_mess", "mod");
         }
         $ilCtrl->redirect($this, "showNotes", "notes_top", $this->ajax);
@@ -1266,9 +1240,9 @@ class ilNoteGUI
         $cnt = 0;
         $ids = $this->request->getNoteIds();
         foreach ($ids as $id) {
-            $note = new ilNote($id);
-            if ($this->checkDeletion($note)) {
-                $note->delete();
+            $note = $this->manager->getById($id);
+            if ($this->notes_access->canDelete($note, $this->user->getId(), $this->public_deletion_enabled)) {
+                $this->manager->deleteNote($note, $this->user->getId(), $this->public_deletion_enabled);
                 $cnt++;
             }
         }
@@ -1311,7 +1285,7 @@ class ilNoteGUI
     {
         $ilUser = $this->user;
 
-        $suffix = ($this->requested_note_type === ilNote::PRIVATE)
+        $suffix = ($this->requested_note_type === Note::PRIVATE)
             ? "private"
             : "public";
         $ilUser->writePref("notes_" . $suffix, "y");
@@ -1323,7 +1297,7 @@ class ilNoteGUI
     {
         $ilUser = $this->user;
 
-        $suffix = ($this->requested_note_type === ilNote::PRIVATE)
+        $suffix = ($this->requested_note_type === Note::PRIVATE)
             ? "private"
             : "public";
         $ilUser->writePref("notes_" . $suffix, "n");
@@ -1354,30 +1328,7 @@ class ilNoteGUI
         
         return $this->getNotesHTML();
     }
-    
-    public static function initJavascript(
-        string $a_ajax_url,
-        int $a_type = ilNote::PRIVATE,
-        ilGlobalTemplateInterface $a_main_tpl = null
-    ) : void {
-        global $DIC;
 
-        $tpl = $a_main_tpl ?? $DIC["tpl"];
-        $lng = $DIC->language();
-
-        $lng->loadLanguageModule("notes");
-
-        ilModalGUI::initJS($tpl);
-        ilYuiUtil::initConnection($tpl);
-
-        $lng->toJS(array("private_notes", "notes_public_comments"), $tpl);
-
-        iljQueryUtil::initjQuery($tpl);
-        $tpl->addJavaScript("./Services/Notes/js/ilNotes.js");
-
-        $tpl->addOnLoadCode("ilNotes.setAjaxUrl('" . $a_ajax_url . "');");
-    }
-    
     /**
      * Get list notes js call
      */
@@ -1448,26 +1399,6 @@ class ilNoteGUI
     ) : void {
         $this->observer[] = $a_callback;
     }
-    
-    /**
-     * Notify observers on update/create
-     */
-    protected function notifyObserver(
-        string $a_action,
-        ilNote $a_note
-    ) : void {
-        $this->log->debug("Notifying Observers (" . count($this->observer) . ").");
-        if (count($this->observer) > 0) {
-            foreach ($this->observer as $item) {
-                $param = $a_note->getObject();
-                //TODO refactor this, check what is this news_id from getObject
-                unset($param['news_id']);
-                $param["action"] = $a_action;
-                $param["note_id"] = $a_note->getId();
-                call_user_func_array($item, $param);
-            }
-        }
-    }
 
     protected function listSortAsc() : string
     {
@@ -1507,8 +1438,16 @@ class ilNoteGUI
             $this->news_id
         );
 
-        $cnt = ilNote::_countNotesAndComments($this->rep_obj_id, $this->obj_id, $this->obj_type, $this->news_id);
-        $cnt = $cnt[$this->rep_obj_id][ilNote::PUBLIC] ?? 0;
+        $context = $this->data->context(
+            $this->rep_obj_id,
+            $this->obj_id,
+            $this->obj_type,
+            $this->news_id
+        );
+
+        $cnt[$this->obj_id][Note::PUBLIC] = $this->manager->getNrOfNotesForContext($context, Note::PUBLIC);
+        $cnt[$this->obj_id][Note::PRIVATE] = $this->manager->getNrOfNotesForContext($context, Note::PRIVATE);
+        $cnt = $cnt[$this->rep_obj_id][Note::PUBLIC] ?? 0;
 
         $tpl = new ilTemplate("tpl.note_widget_header.html", true, true, "Services/Notes");
         $widget_el_id = "notew_" . str_replace(";", "_", $hash);
@@ -1540,7 +1479,7 @@ class ilNoteGUI
         $this->hide_new_form = true;
         $this->only_latest = true;
         $this->no_actions = true;
-        $html = "<div id='" . $widget_el_id . "'>" . $this->getNoteListHTML(ilNote::PUBLIC) . "</div>";
+        $html = "<div id='" . $widget_el_id . "'>" . $this->getNoteListHTML(Note::PUBLIC) . "</div>";
         $ctrl->setParameter($this, "news_id", $this->requested_news_id);
         return $html;
     }

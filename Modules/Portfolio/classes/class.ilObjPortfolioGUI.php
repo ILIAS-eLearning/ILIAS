@@ -24,6 +24,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  */
 class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 {
+    protected \ILIAS\Notes\GUIService $notes_gui;
     protected ilWorkspaceAccessHandler $ws_access;
     protected ContextServices $tool_context;
     protected ilPortfolioDeclarationOfAuthorship $declaration_authorship;
@@ -46,6 +47,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         $this->declaration_authorship = new ilPortfolioDeclarationOfAuthorship();
 
         $this->ctrl->saveParameter($this, "exc_back_ref_id");
+        $this->notes_gui = $DIC->notes()->gui();
     }
     
     public function getType() : string
@@ -79,7 +81,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
         // we have to init the note js handling here, might go to
         // a better place in the future
-        ilNoteGUI::initJavascript(
+        $this->notes_gui->initJavascript(
             $this->ctrl->getLinkTargetByClass(
                 array("ilnotegui"),
                 "",

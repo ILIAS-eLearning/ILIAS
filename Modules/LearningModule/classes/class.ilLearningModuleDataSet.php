@@ -26,6 +26,7 @@
  */
 class ilLearningModuleDataSet extends ilDataSet
 {
+    protected \ILIAS\Notes\Service $notes;
     protected ilObjLearningModule $current_obj;
     protected bool $master_lang_only = false;
     protected bool $transl_into = false;
@@ -35,8 +36,11 @@ class ilLearningModuleDataSet extends ilDataSet
 
     public function __construct()
     {
+        global $DIC;
+
         parent::__construct();
         $this->lm_log = ilLoggerFactory::getLogger('lm');
+        $this->notes = $DIC->notes();
     }
 
     public function setMasterLanguageOnly(bool $a_val) : void
@@ -242,7 +246,8 @@ class ilLearningModuleDataSet extends ilDataSet
                     $this->data = array();
                     while ($rec = $ilDB->fetchAssoc($set)) {
                         // comments activated?
-                        $rec["comments"] = ilNote::commentsActivated($rec["id"], 0, "lm");
+                        $rec["comments"] =
+                            $this->notes->domain()->commentsActive((int) $rec["id"]);
 
                         if ($this->getMasterLanguageOnly()) {
                             $rec["for_translation"] = 1;
@@ -423,7 +428,7 @@ class ilLearningModuleDataSet extends ilDataSet
                 $this->current_obj = $newObj;
 
                 // activated comments
-                ilNote::activateComments($newObj->getId(), 0, "lm", (int) $a_rec["Comments"]);
+                $this->notes->domain()->activateComments($newObj->getId());
 
                 $a_mapping->addMapping("Modules/LearningModule", "lm", $a_rec["Id"], $newObj->getId());
                 $a_mapping->addMapping("Modules/LearningModule", "lm_style", $newObj->getId(), $a_rec["StyleId"]);

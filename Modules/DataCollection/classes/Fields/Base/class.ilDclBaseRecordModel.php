@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Notes\Service;
+
 /**
  * Class ilDclBaseRecordModel
  * @author  Martin Studer <ms@studer-raimann.ch>
@@ -13,6 +15,7 @@
  */
 class ilDclBaseRecordModel
 {
+    protected Service $notes;
 
     /**
      * @var ilDclBaseRecordFieldModel[]
@@ -47,20 +50,22 @@ class ilDclBaseRecordModel
      * @var ilDateTime
      */
     protected $create_date;
-    /**
-     * @var array ilNote[]
-     */
-    protected $comments;
+
+    protected ?int $nr_of_comments = null;
 
     /**
      * @param int $a_id
      */
     public function __construct($a_id = 0)
     {
+        global $DIC;
+
         if ($a_id != 0) {
             $this->id = $a_id;
             $this->doRead();
         }
+
+        $this->notes = $DIC->notes();
     }
 
     /**
@@ -161,10 +166,14 @@ class ilDclBaseRecordModel
 			Last_update,
 			owner,
 			last_edit_by
-			) VALUES (" . $ilDB->quote($this->getId(), "integer") . "," . $ilDB->quote($this->getTableId(),
-                "integer") . ","
-            . $ilDB->quote($this->getCreateDate(), "timestamp") . "," . $ilDB->quote($this->getLastUpdate(),
-                "timestamp") . ","
+			) VALUES (" . $ilDB->quote($this->getId(), "integer") . "," . $ilDB->quote(
+                $this->getTableId(),
+                "integer"
+            ) . ","
+            . $ilDB->quote($this->getCreateDate(), "timestamp") . "," . $ilDB->quote(
+                $this->getLastUpdate(),
+                "timestamp"
+            ) . ","
             . $ilDB->quote($this->getOwner(), "integer") . "," . $ilDB->quote($this->getLastEditBy(), "integer") . "
 			)";
         $ilDB->manipulate($query);
@@ -661,7 +670,7 @@ class ilDclBaseRecordModel
             case 'create_date':
                 return ilDatePresentation::formatDate(new ilDateTime($this->getCreateDate(), IL_CAL_DATETIME));
             case 'comments':
-                $nComments = count($this->getComments());
+                $nComments = $this->getNrOfComments();
                 $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
                     1,
                     (int) $_GET['ref_id'],
@@ -687,17 +696,7 @@ class ilDclBaseRecordModel
     {
         switch ($field_id) {
             case 'comments':
-                return count(ilNote::_getNotesOfObject(
-                    $this->table->getCollectionObject()->getId(),
-                    $this->getId(),
-                    "dcl",
-                    2,
-                    false,
-                    "",
-                    "y",
-                    true,
-                    true
-                ));
+                return $this->getNrOfComments();
             default:
                 return strip_tags($this->getStandardFieldHTML($field_id));
         }
@@ -848,8 +847,10 @@ class ilDclBaseRecordModel
             if (!isset($filter["filter_" . $field->getId()]) || !$filter["filter_" . $field->getId()]) {
                 continue;
             }
-            if (!ilDclCache::getFieldRepresentation($field)->passThroughFilter($this,
-                $filter["filter_" . $field->getId()])) {
+            if (!ilDclCache::getFieldRepresentation($field)->passThroughFilter(
+                $this,
+                $filter["filter_" . $field->getId()]
+            )) {
                 return false;
             }
         }
@@ -905,16 +906,23 @@ class ilDclBaseRecordModel
     }
 
     /**
-     * Get all comments of this record
-     * @return array ilNote[]
+     * Get nr of comments of this record
      */
-    public function getComments()
+    public function getNrOfComments() : int
     {
-        if ($this->comments === null) {
-            $this->comments = ilNote::_getNotesOfObject($this->table->getCollectionObject()->getId(), $this->getId(),
-                'dcl', ilNote::PUBLIC);
+        if ($this->nr_of_comments === null) {
+            $context = $this->notes
+                ->data()
+                ->context(
+                    $this->table->getCollectionObject()->getId(),
+                    $this->getId(),
+                    'dcl'
+                );
+            $this->nr_of_comments = $this->notes
+                ->domain()
+                ->getNrOfCommentsForContext($context);
         }
 
-        return $this->comments;
+        return $this->nr_of_comments;
     }
 }

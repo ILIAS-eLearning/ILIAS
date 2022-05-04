@@ -13,6 +13,10 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Notes\NotesManager;
+use ILIAS\Notes\StandardGUIRequest;
+use ILIAS\Notes\Note;
+
 /**
  * Private Notes on PD
  * @author Alexander Killing <killing@leifos.de>
@@ -22,9 +26,10 @@ class ilPDNotesGUI
 {
     public const PUBLIC_COMMENTS = "publiccomments";
     public const PRIVATE_NOTES = "privatenotes";
+    protected NotesManager $notes_manager;
 
     protected int $current_rel_obj;
-    protected \ILIAS\Notes\StandardGUIRequest $request;
+    protected StandardGUIRequest $request;
 
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
@@ -65,11 +70,13 @@ class ilPDNotesGUI
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        
+
+        $this->notes_manager = $DIC->notes()->internal()->domain()->notes();
+
         // link from ilPDNotesBlockGUI
         $rel_obj = $this->request->getRelatedObjId();
         if ($rel_obj > 0) {
-            $mode = ($this->request->getNoteType() === ilNote::PRIVATE)
+            $mode = ($this->request->getNoteType() === Note::PRIVATE)
                 ? self::PRIVATE_NOTES
                 : self::PUBLIC_COMMENTS;
             $ilUser->writePref("pd_notes_mode", $mode);
@@ -77,11 +84,11 @@ class ilPDNotesGUI
         }
         // edit link
         elseif ($this->request->getNoteId() > 0) {
-            $note = new ilNote($this->request->getNoteId());
-            $mode = ($note->getType() === ilNote::PRIVATE) ? self::PRIVATE_NOTES : self::PUBLIC_COMMENTS;
-            $obj = $note->getObject();
+            $note = $this->notes_manager->getById($this->request->getNoteId());
+            $mode = ($note->getType() === Note::PRIVATE) ? self::PRIVATE_NOTES : self::PUBLIC_COMMENTS;
+            $context = $note->getContext();
             $ilUser->writePref("pd_notes_mode", $mode);
-            $ilUser->writePref("pd_notes_rel_obj" . $mode, $obj["rep_obj_id"]);
+            $ilUser->writePref("pd_notes_rel_obj" . $mode, $context->getObjId());
         }
     }
 
@@ -134,36 +141,30 @@ class ilPDNotesGUI
         $ilAccess = $this->access;
         $ilToolbar = $this->toolbar;
 
-        $rel_objs = ilNote::_getRelatedObjectsOfUser($this->getMode());
-        //var_dump($rel_objs);
-        // prepend personal dektop, if first object
-        //		if ($rel_objs[0]["rep_obj_id"] > 0 && $this->getMode() == ilPDNotesGUI::PRIVATE_NOTES)
+        $rel_objs = $this->notes_manager->getRelatedObjectsOfUser(
+            $this->getMode() === self::PRIVATE_NOTES ? Note::PRIVATE : Note::PUBLIC
+        );
+
         if ($this->getMode() === self::PRIVATE_NOTES) {
             $rel_objs = array_merge(
-                [0 => [
-                    "rep_obj_id" => 0,
-                    "ref_ids" => []
-                ]],
+                [0],
                 $rel_objs
             );
         }
 
         // #9410
-        if (!$rel_objs && $this->getMode() === self::PUBLIC_COMMENTS) {
+        if (count($rel_objs) === 0 && $this->getMode() === self::PUBLIC_COMMENTS) {
             $lng->loadLanguageModule("notes");
             $this->tpl->setOnScreenMessage('info', $lng->txt("msg_no_search_result"));
             return;
         }
         $first = true;
-        $current_ref_ids = [];
-        foreach ($rel_objs as $r) {
+        foreach ($rel_objs as $id) {
             if ($first) {	// take first one as default
-                $this->current_rel_obj = (int) $r["rep_obj_id"];
-                $current_ref_ids = $r["ref_ids"];
+                $this->current_rel_obj = $id;
             }
-            if ($r["rep_obj_id"] == $ilUser->getPref("pd_notes_rel_obj" . $this->getMode())) {
-                $this->current_rel_obj = (int) $r["rep_obj_id"];
-                $current_ref_ids = $r["ref_ids"];
+            if ($id == $ilUser->getPref("pd_notes_rel_obj" . $this->getMode())) {
+                $this->current_rel_obj = $id;
             }
             $first = false;
         }
@@ -188,9 +189,8 @@ class ilPDNotesGUI
             $notes_gui->enablePublicNotes(true);
             // #13707
             if ($this->current_rel_obj > 0 &&
-                count($current_ref_ids) > 0 &&
                 $ilSetting->get("comments_del_tutor", '1')) {
-                foreach ($current_ref_ids as $ref_id) {
+                foreach (\ilObject::_getAllReferences($this->current_rel_obj) as $ref_id) {
                     if ($ilAccess->checkAccess("write", "", $ref_id)) {
                         $notes_gui->enablePublicNotesDeletion(true);
                         break;
@@ -214,22 +214,19 @@ class ilPDNotesGUI
         }
         
         if (count($rel_objs) > 1 ||
-            ($rel_objs[0]["rep_obj_id"] > 0)) {
+            ($rel_objs[0] > 0)) {
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
 
             $options = [];
-            foreach ($rel_objs as $obj) {
-                if ($obj["rep_obj_id"] > 0) {
-                    $type = ilObject::_lookupType($obj["rep_obj_id"]);
-                    $type_str = (in_array($type, array("lm", "htlm", "sahs")))
-                        ? $lng->txt("obj_lm")
-                        : $lng->txt("obj_" . $type);
-                    $caption = $type_str . ": " . ilObject::_lookupTitle($obj["rep_obj_id"]);
+            foreach ($rel_objs as $obj_id) {
+                if ($obj_id > 0) {
+                    $type = ilObject::_lookupType($obj_id);
+                    $type_str = $lng->txt("obj_" . $type);
+                    $caption = $type_str . ": " . ilObject::_lookupTitle($obj_id);
                 } else {
                     $caption = $lng->txt("note_without_object");
                 }
-                
-                $options[$obj["rep_obj_id"]] = $caption;
+                $options[$obj_id] = $caption;
             }
             
             $rel = new ilSelectInputGUI($lng->txt("related_to"), "rel_obj");

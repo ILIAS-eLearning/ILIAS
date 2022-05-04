@@ -25,85 +25,65 @@ use ILIAS\GlobalScreen;
  */
 trait GlobalDICGUIServices
 {
-    protected UIServices $ui;
-    protected \ilObjectServiceInterface $object_service;
-    protected \ilCtrl $ctrl;
-    protected \ilGlobalTemplateInterface $main_tpl;
-    protected HTTP\Services $http;
-    protected FileUpload $upload;
-    protected \ilToolbarGUI $toolbar;
-    protected GlobalScreen\Services $global_screen;
-    protected \ilHelpGUI $help;
-    protected \ilTabsGUI $tabs;
-    protected \ilLocatorGUI $locator;
+    private \ILIAS\DI\Container $DIC;
 
     protected function initGUIServices(\ILIAS\DI\Container $DIC) : void
     {
-        $this->ui = $DIC->ui();
-        $this->object_service = $DIC->object();
-        $this->ctrl = $DIC->ctrl();
-        $this->http = $DIC->http();
-        $this->main_tpl = $DIC->ui()->mainTemplate();
-        $this->upload = $DIC->upload();
-        $this->toolbar = $DIC->toolbar();
-        $this->global_screen = $DIC->globalScreen();
-        $this->help = $DIC->help();
-        $this->tabs = $DIC->tabs();
-        $this->locator = $DIC["ilLocator"];
+        $this->DIC = $DIC;
     }
 
     public function ui() : UIServices
     {
-        return $this->ui;
+        return $this->DIC->ui();
     }
 
     public function object() : \ilObjectServiceInterface
     {
-        return $this->object_service;
+        return $this->DIC->object();
     }
 
     public function ctrl() : \ilCtrl
     {
-        return $this->ctrl;
+        return $this->DIC->ctrl();
     }
 
     public function http() : HTTP\Services
     {
-        return $this->http;
+        return $this->DIC->http();
     }
 
     public function mainTemplate() : \ilGlobalTemplateInterface
     {
-        return $this->main_tpl;
+        return $this->DIC->ui()->mainTemplate();
     }
 
     public function upload() : FileUpload
     {
-        return $this->upload;
+        return $this->DIC->upload();
     }
 
     public function toolbar() : \ilToolbarGUI
     {
-        return $this->toolbar;
+        return $this->DIC->toolbar();
     }
 
     public function globalScreen() : GlobalScreen\Services
     {
-        return $this->global_screen;
+        return $this->DIC->globalScreen();
     }
 
     public function help() : \ilHelpGUI
     {
-        return $this->help;
+        return $this->DIC->help();
     }
 
     public function tabs() : \ilTabsGUI
     {
-        return $this->tabs;
+        return $this->DIC->tabs();
     }
 
     public function locator() : \ilLocatorGUI
     {
-        return $this->locator;
+        return $this->DIC["ilLocator"];
     }
 }

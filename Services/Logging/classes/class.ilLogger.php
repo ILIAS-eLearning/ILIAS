@@ -93,6 +93,8 @@ abstract class ilLogger
      * write log message
      * @deprecated since version 5.1
      * @see ilLogger->info(), ilLogger()->debug(), ...
+     *
+     * @param int $_level
      */
     public function write(string $a_message, $a_level = ilLogLevel::INFO) : void
     {

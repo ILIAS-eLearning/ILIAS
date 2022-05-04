@@ -22,6 +22,7 @@ use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Modal\Modal;
 use ILIAS\UI\Component\Card\RepositoryObject;
 use ILIAS\UI\Component\Item\Item;
+use ILIAS\Notes\Note;
 
 /**
  * Important note:
@@ -61,6 +62,7 @@ class ilObjectListGUI
     protected static int $js_unique_id = 0;
     protected static string $tpl_file_name = "tpl.container_list_item.html";
     protected static string $tpl_component = "Services/Container";
+    private \ILIAS\Notes\Service $notes_service;
 
     protected array $access_cache;
     protected ilAccessHandler $access;
@@ -222,6 +224,7 @@ class ilObjectListGUI
             ->internal()
             ->domain()
             ->clipboard();
+        $this->notes_service = $DIC->notes();
     }
 
     public function setContainerObject(object $container_obj) : void
@@ -1325,15 +1328,14 @@ class ilObjectListGUI
         $redraw_js = "il.Object.redrawListItem(" . $note_ref_id . ");";
 
         // add common properties (comments, notes, tags)
-        new ilNote();  // this is only needed to make constants available, constants should be refactored
         if (
             (
                 (
-                    isset(self::$cnt_notes[$note_obj_id][ilNote::PRIVATE]) &&
-                    self::$cnt_notes[$note_obj_id][ilNote::PRIVATE] > 0
+                    isset(self::$cnt_notes[$note_obj_id][Note::PRIVATE]) &&
+                    self::$cnt_notes[$note_obj_id][Note::PRIVATE] > 0
                 ) || (
-                    isset(self::$cnt_notes[$note_obj_id][ilNote::PUBLIC]) &&
-                    self::$cnt_notes[$note_obj_id][ilNote::PUBLIC] > 0
+                    isset(self::$cnt_notes[$note_obj_id][Note::PUBLIC]) &&
+                    self::$cnt_notes[$note_obj_id][Note::PUBLIC] > 0
                 ) || (
                     isset(self::$cnt_tags[$note_obj_id]) && self::$cnt_tags[$note_obj_id] > 0
                 ) || (
@@ -1343,27 +1345,27 @@ class ilObjectListGUI
         ) {
             $nl = true;
             if ($this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, false, false)
-                && self::$cnt_notes[$note_obj_id][ilNote::PUBLIC] > 0) {
+                && self::$cnt_notes[$note_obj_id][Note::PUBLIC] > 0) {
                 $props[] = [
                     "alert" => false,
                     "property" => $this->lng->txt("notes_comments"),
                     "value" =>
                         "<a href='#' onclick=\"return " .
                         ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js) . "\">" .
-                        self::$cnt_notes[$note_obj_id][ilNote::PUBLIC] . "</a>",
+                        self::$cnt_notes[$note_obj_id][Note::PUBLIC] . "</a>",
                     "newline" => $nl
                 ];
                 $nl = false;
             }
 
-            if ($this->notes_enabled && self::$cnt_notes[$note_obj_id][ilNote::PRIVATE] > 0) {
+            if ($this->notes_enabled && self::$cnt_notes[$note_obj_id][Note::PRIVATE] > 0) {
                 $props[] = [
                     "alert" => false,
                     "property" => $this->lng->txt("notes"),
                     "value" =>
                         "<a href='#' onclick=\"return " .
                         ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js) . "\">" .
-                        self::$cnt_notes[$note_obj_id][ilNote::PRIVATE] . "</a>",
+                        self::$cnt_notes[$note_obj_id][Note::PRIVATE] . "</a>",
                     "newline" => $nl
                 ];
                 $nl = false;
@@ -2301,13 +2303,14 @@ class ilObjectListGUI
         string $tags_url,
         ilGlobalTemplateInterface $tpl = null
     ) : void {
+        global $DIC;
+
         if (is_null($tpl)) {
-            global $DIC;
             $tpl = $DIC["tpl"];
         }
         
         if ($notes_url) {
-            ilNoteGUI::initJavascript($notes_url, ilNote::PRIVATE, $tpl);
+            $DIC->notes()->gui()->initJavascript($notes_url);
         }
         
         if ($tags_url) {
@@ -2394,33 +2397,34 @@ class ilObjectListGUI
         $comments_enabled = $this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, true, false);
         if ($this->notes_enabled || $comments_enabled) {
             $type = ($this->sub_obj_type == "") ? $this->type : $this->sub_obj_type;
-            $cnt = ilNote::_countNotesAndComments($this->obj_id, $this->sub_obj_id, $type);
-
+            $context = $this->notes_service->data()->context($this->obj_id, $this->sub_obj_id, $type);
+            $cnt[$this->obj_id][Note::PUBLIC] = $this->notes_service->domain()->getNrOfCommentsForContext($context);
+            $cnt[$this->obj_id][Note::PRIVATE] = $this->notes_service->domain()->getNrOfNotesForContext($context);
             if (
                 $this->notes_enabled &&
-                isset($cnt[$this->obj_id][ilNote::PRIVATE]) &&
-                $cnt[$this->obj_id][ilNote::PRIVATE] > 0
+                isset($cnt[$this->obj_id][Note::PRIVATE]) &&
+                $cnt[$this->obj_id][Note::PRIVATE] > 0
             ) {
                 $f = $this->ui->factory();
                 $this->addHeaderGlyph(
                     "notes",
                     $f->symbol()->glyph()->note("#")
-                      ->withCounter($f->counter()->status((int) $cnt[$this->obj_id][ilNote::PRIVATE])),
+                      ->withCounter($f->counter()->status((int) $cnt[$this->obj_id][Note::PRIVATE])),
                     ilNoteGUI::getListNotesJSCall($this->ajax_hash, $redraw_js)
                 );
             }
 
             if (
                 $comments_enabled &&
-                isset($cnt[$this->obj_id][ilNote::PUBLIC]) &&
-                $cnt[$this->obj_id][ilNote::PUBLIC] > 0
+                isset($cnt[$this->obj_id][Note::PUBLIC]) &&
+                $cnt[$this->obj_id][Note::PUBLIC] > 0
             ) {
                 $this->lng->loadLanguageModule("notes");
                 $f = $this->ui->factory();
                 $this->addHeaderGlyph(
                     "comments",
                     $f->symbol()->glyph()->comment("#")
-                      ->withCounter($f->counter()->status((int) $cnt[$this->obj_id][ilNote::PUBLIC])),
+                      ->withCounter($f->counter()->status((int) $cnt[$this->obj_id][Note::PUBLIC])),
                     ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js)
                 );
             }
@@ -2991,6 +2995,7 @@ class ilObjectListGUI
         $lng = $DIC->language();
         $ilSetting = $DIC->settings();
         $ilUser = $DIC->user();
+        $notes_manager = $DIC->notes()->internal()->domain()->notes();
 
         if ($context == self::CONTEXT_REPOSITORY) {
             $active_notes = !$ilSetting->get("disable_notes");
@@ -2998,13 +3003,21 @@ class ilObjectListGUI
         
             if ($active_comments) {
                 // needed for action
-                self::$comments_activation = ilNote::getRepObjActivation($obj_ids);
+                self::$comments_activation = $DIC->notes()
+                    ->internal()
+                    ->domain()
+                    ->notes()->commentsActiveMultiple($obj_ids);
             }
             
             // properties are optional
             if ($ilSetting->get('comments_tagging_in_lists')) {
                 if ($active_notes || $active_comments) {
-                    self::$cnt_notes = ilNote::_countNotesAndCommentsMultiple($obj_ids, true);
+
+                    // @todo: should be refactored, see comment in notes db repo
+                    self::$cnt_notes = $notes_manager->countNotesAndCommentsMultipleObjects(
+                        $obj_ids,
+                        true
+                    );
                     
                     $lng->loadLanguageModule("notes");
                 }
@@ -3053,14 +3066,12 @@ class ilObjectListGUI
             // fallback to single object check if no preloaded data
             // only the repository does preloadCommonProperties() yet
             if (!$header_actions && self::$preload_done) {
-                if (isset(self::$comments_activation[$obj_id][$type]) &&
-                    self::$comments_activation[$obj_id][$type]) {
+                if (isset(self::$comments_activation[$obj_id]) &&
+                    self::$comments_activation[$obj_id]) {
                     return true;
                 }
-            } else {
-                if (ilNote::commentsActivated($obj_id, 0, $type)) {
-                    return true;
-                }
+            } elseif ($this->notes_service->domain()->commentsActive($obj_id)) {
+                return true;
             }
         }
         return false;
