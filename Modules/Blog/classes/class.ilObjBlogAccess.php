@@ -103,6 +103,7 @@ class ilObjBlogAccess extends ilObjectAccess
         global $DIC;
 
         $setting = $DIC->settings();
+        $notes = $DIC->notes();
         $privacy = ilPrivacySettings::getInstance();
         if ($setting->get("disable_comments")) {
             return false;
@@ -110,7 +111,7 @@ class ilObjBlogAccess extends ilObjectAccess
         if (!$privacy->enabledCommentsExport()) {
             return false;
         }
-        if (!ilNote::commentsActivated($blog_id, 0, "blog")) {
+        if (!$notes->domain()->commentsActive($blog_id)) {
             return false;
         }
         return true;

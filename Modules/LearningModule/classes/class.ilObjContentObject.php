@@ -19,6 +19,7 @@
  */
 class ilObjContentObject extends ilObject
 {
+    protected \ILIAS\Notes\Service $notes;
     protected array $q_ids = [];
     protected array $mob_ids = [];
     protected array $file_ids = [];
@@ -74,6 +75,8 @@ class ilObjContentObject extends ilObject
         if (isset($DIC["ilLocator"])) {
             $this->locator = $DIC["ilLocator"];
         }
+
+        $this->notes = $DIC->notes();
 
         // this also calls read() method! (if $a_id is set)
         parent::__construct($a_id, $a_call_by_reference);
@@ -912,7 +915,7 @@ class ilObjContentObject extends ilObject
         $this->setRestrictForwardNavigation($lm_rec["restrict_forw_nav"]);
         
         // #14661
-        $this->setPublicNotes(ilNote::commentsActivated($this->getId(), 0, $this->getType()));
+        $this->setPublicNotes($this->notes->domain()->commentsActive($this->getId()));
 
         $this->setForTranslation($lm_rec["for_translation"]);
     }
@@ -956,7 +959,7 @@ class ilObjContentObject extends ilObject
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($q);
         // #14661
-        ilNote::activateComments($this->getId(), 0, $this->getType(), $this->publicNotes());
+        $this->notes->domain()->activateComments($this->getId());
     }
 
     /**
@@ -970,7 +973,7 @@ class ilObjContentObject extends ilObject
         $ilDB->manipulate($q);
 
         // #14661
-        ilNote::activateComments($this->getId(), 0, $this->getType(), true);
+        $this->notes->domain()->activateComments($this->getId());
 
         $this->readProperties();		// to get db default values
     }

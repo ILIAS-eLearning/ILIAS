@@ -18,22 +18,17 @@ namespace ILIAS\Notes;
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class NotesManager
+class GUIService
 {
-    protected NotesSessionRepository $sess_repo;
+    protected InternalGUIService $internal_gui_service;
 
-    public function __construct(NotesSessionRepository $repo)
+    public function __construct(InternalGUIService $internal_gui_service)
     {
-        $this->sess_repo = $repo;
+        $this->internal_gui_service = $internal_gui_service;
     }
 
-    public function setSortAscending(bool $asc) : void
+    public function initJavascript(string $ajax_url = "") : void
     {
-        $this->sess_repo->setSortAscending($asc);
-    }
-
-    public function getSortAscending() : bool
-    {
-        return $this->sess_repo->getSortAscending();
+        $this->internal_gui_service->initJavascript($ajax_url);
     }
 }

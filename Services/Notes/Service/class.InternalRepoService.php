@@ -30,17 +30,24 @@ class InternalRepoService
         $this->db = $db;
     }
 
-    /*
-    public function ...() : ...\RepoService
+    public function note() : NoteDBRepository
     {
-        return new ...\RepoService(
+        return new NoteDBRepository(
             $this->data,
             $this->db
         );
-    }*/
+    }
 
     public function notesSession() : NotesSessionRepository
     {
         return new NotesSessionRepository();
+    }
+
+    public function settings() : NoteSettingsDBRepository
+    {
+        return new NoteSettingsDBRepository(
+            $this->data,
+            $this->db
+        );
     }
 }

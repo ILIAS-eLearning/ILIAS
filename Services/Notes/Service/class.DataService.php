@@ -19,11 +19,13 @@ namespace ILIAS\Notes;
  * Repository internal data service
  * @author Alexander Killing <killing@leifos.de>
  */
-class InternalDataService
+class DataService
 {
-    public function __construct()
+    protected InternalDataService $internal_data;
+
+    public function __construct(InternalDataService $internal_data)
     {
-        //$this->..._factory = new ...\DataFactory();
+        $this->internal_data = $internal_data;
     }
 
     /**
@@ -40,32 +42,12 @@ class InternalDataService
         int $news_id = 0,
         bool $in_repo = true
     ) : Context {
-        return new Context(
+        return $this->internal_data->context(
             $obj_id,
             $sub_obj_id,
             $type,
             $news_id,
             $in_repo
-        );
-    }
-
-    public function note(
-        int $id,
-        Context $context,
-        string $text,
-        int $author,
-        int $type = Note::PRIVATE,
-        ?string $creation_date = null,
-        ?string $update_date = null
-    ) : Note {
-        return new Note(
-            $id,
-            $context,
-            $text,
-            $author,
-            $type,
-            $creation_date,
-            $update_date
         );
     }
 }

@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Notes\Service;
+
 /**
  * Blog Data set class
  *
@@ -24,6 +26,7 @@
  */
 class ilBlogDataSet extends ilDataSet
 {
+    protected Service $notes;
     protected ilObjBlog $current_blog;
     public static array $style_map = array();
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
@@ -35,6 +38,7 @@ class ilBlogDataSet extends ilDataSet
         $this->content_style_domain = $DIC
             ->contentStyle()
             ->domain();
+        $this->notes = $DIC->notes();
     }
 
     public function getSupportedVersions() : array
@@ -248,7 +252,7 @@ class ilBlogDataSet extends ilDataSet
             $a_set["Style"] = $style->getStyleId();
             
             // #14734
-            $a_set["Notes"] = ilNote::commentsActivated($a_set["Id"], 0, "blog");
+            $a_set["Notes"] = $this->notes->domain()->commentsActive((int) $a_set["Id"]);
         }
 
         return $a_set;
