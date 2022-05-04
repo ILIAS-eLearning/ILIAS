@@ -16,7 +16,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
      *
      * @var null|ilWorkflowEngineElement
      */
-    private ?ilWorkflowEngineElement $context;
+    private ?ilWorkflowEngineElement $context = null;
 
     /**
      * Holds the current detection state.
@@ -27,7 +27,7 @@ class ilDataDetector implements ilDetector, ilWorkflowEngineElement
 
     protected $name;
 
-    protected ?\ilNode $source_node;
+    protected ?\ilNode $source_node = null;
 
     /** @var  string $var_name */
     protected string $var_name = '';

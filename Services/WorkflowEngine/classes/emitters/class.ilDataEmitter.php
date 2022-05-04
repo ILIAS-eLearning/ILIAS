@@ -14,14 +14,14 @@ class ilDataEmitter implements ilEmitter, ilWorkflowEngineElement
     /**
      * This holds a reference to the detector, which is to be triggered.
      */
-    private ?\ilDetector $target_detector;
+    private ?\ilDetector $target_detector = null;
 
     /**
      * This holds a reference to the parent ilNode.
      *
      * @var ilNode
      */
-    private ilNode $context;
+    private ?\ilNode $context = null;
 
     /** @var bool $emitted Holds information if the emitter emitted at least once. */
     private bool $emitted;
