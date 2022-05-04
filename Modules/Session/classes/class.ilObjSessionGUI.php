@@ -44,8 +44,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
     public ilTree $tree;
     protected ilAccessHandler $access;
     protected ilToolbarGUI $toolbar;
-    //TODO PHP8-REVIEW: Missing property's declaration?
-    protected $ilErr;
+    protected ilErrorHandling $ilErr;
     protected ilObjectService $object_service;
     public ilObjectDefinition $objDefinition;
     protected ilTabsGUI $tabs_gui;
@@ -760,7 +759,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function saveObject(bool $a_redirect_on_success = true) : void
     {
-        $ilErr = $this->ilErr;
         $ilUser = $this->user;
         $object_service = $this->object_service;
         
@@ -769,7 +767,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->ctrl->saveParameter($this, "new_type");
         
         $this->initForm('create');
-        $ilErr->setMessage('');
+        $this->ilErr->setMessage('');
         if (!$this->form->checkInput()) {
             $this->tpl->setOnScreenMessage(
                 ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
@@ -782,7 +780,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         if ($this->record_gui instanceof \ilAdvancedMDRecordGUI && !$this->record_gui->importEditFormPostValues()
         ) {
-            $ilErr->setMessage($this->lng->txt('err_check_input'));
+            $this->ilErr->setMessage($this->lng->txt('err_check_input'));
         }
         
         $this->load();
@@ -791,8 +789,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->object->validate();
         $this->object->getFirstAppointment()->validate();
 
-        if (strlen($ilErr->getMessage())) {
-            $this->tpl->setOnScreenMessage('failure', $ilErr->getMessage());
+        if (strlen($this->ilErr->getMessage())) {
+            $this->tpl->setOnScreenMessage('failure', $this->ilErr->getMessage());
             $this->form->setValuesByPost();
             $this->createObject();
         }
@@ -870,8 +868,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
             $new_ref_id = $file->createReference();
             $file->putInTree($tree->getParentId($this->object->getRefId()));
             $file->setPermissions($tree->getParentId($this->object->getRefId()));
-            //TODO PHP8-REVIEW: Method 'createDirectory' is undefined
-            $file->createDirectory();
 
             $upload = $this->upload;
             if (!$upload->hasBeenProcessed()) {
@@ -980,13 +976,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function updateObject() : void
     {
-        $ilErr = $this->ilErr;
         $object_service = $this->object_service;
         
         $old_autofill = $this->object->hasWaitingListAutoFill();
                 
         $this->initForm('edit');
-        $ilErr->setMessage('');
+        $this->ilErr->setMessage('');
         if (!$this->form->checkInput()) {
             $this->tpl->setOnScreenMessage(
                 ilGlobalTemplateInterface::MESSAGE_TYPE_FAILURE,
@@ -1014,8 +1009,8 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->object->validate();
         $this->object->getFirstAppointment()->validate();
 
-        if (strlen($ilErr->getMessage())) {
-            $this->tpl->setOnScreenMessage('failure', $ilErr->getMessage());
+        if (strlen($this->ilErr->getMessage())) {
+            $this->tpl->setOnScreenMessage('failure', $this->ilErr->getMessage());
             $this->editObject();
         }
         // Update event
@@ -1305,13 +1300,12 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function eventsListObject() : void
     {
-        $ilErr = $this->ilErr;
         $ilAccess = $this->access;
         $ilUser = $this->user;
         $tree = $this->tree;
 
         if (!$ilAccess->checkAccess('manage_members', '', $this->object->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $ilErr->MESSAGE);
+            $this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilErr->MESSAGE);
         }
         
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.sess_list.html', 'Modules/Session');
