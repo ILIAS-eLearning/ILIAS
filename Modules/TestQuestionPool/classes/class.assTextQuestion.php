@@ -813,7 +813,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $assessment_folder = new ilObjAssessmentFolder();
 
         $string_escaping_org_value = $worksheet->getStringEscaping();
-        if ($assessment_folder->getExportEssayQuestionsWithHtml() == 1) {
+        if ($assessment_folder->getExportEssayQuestionsWithHtml()) {
             $worksheet->setStringEscaping(false);
         }
 
