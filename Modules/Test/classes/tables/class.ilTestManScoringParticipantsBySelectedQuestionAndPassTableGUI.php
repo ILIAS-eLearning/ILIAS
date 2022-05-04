@@ -119,6 +119,12 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->addFilterItem($pass);
         $pass->readFromSession();
         $this->filter['pass'] = $pass->getValue();
+
+        $only_answered = new ilCheckboxInputGUI($this->lng->txt('tst_man_scoring_only_answered'),'only_answered');
+        $this->addFilterItem($only_answered);
+        $only_answered->readFromSession();;
+        $this->filter['only_answered'] = $only_answered->getChecked();
+
         $correction = new ilSelectInputGUI(
             $this->lng->txt('finalized_evaluation'),
             'finalize_evaluation'
