@@ -62,7 +62,7 @@ class ilOrgUnitOperationContext extends ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected int $id = 0;
+    protected ?int $id = 0;
     /**
      * @var string
      * @con_has_field  true
@@ -80,12 +80,12 @@ class ilOrgUnitOperationContext extends ActiveRecord
      */
     protected int $parent_context_id = 0;
 
-    public function getId() : int
+    public function getId() : ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id) : void
+    public function setId(?int $id) : void
     {
         $this->id = $id;
     }

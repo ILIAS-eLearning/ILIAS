@@ -106,9 +106,10 @@ class ilOrgUnitPosition extends \ActiveRecord
      * @con_sequence   true
      * @con_has_field  true
      * @con_fieldtype  integer
+     * @con_is_notnull true
      * @con_length     8
      */
-    protected int $id = 0;
+    protected ?int $id = 0;
     /**
      * @var string
      * @con_has_field  true
@@ -202,12 +203,12 @@ class ilOrgUnitPosition extends \ActiveRecord
         parent::delete();
     }
 
-    public function getId() : int
+    public function getId() : ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id)
+    public function setId(?int $id)
     {
         $this->id = $id;
     }
