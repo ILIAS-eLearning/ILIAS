@@ -192,9 +192,11 @@ class ilLocalUserGUI
         $offset = $_GET["offset"];
         // init sort_by (unfortunatly sort_by is preset with 'title'
         if ($_GET["sort_by"] == "title" or empty($_GET["sort_by"])) {
-            $_GET["sort_by"] = "login";
+            $order = "login";
+        } else {
+            $order = $_GET["sort_by"];
         }
-        $order = $_GET["sort_by"];
+
         $direction = $_GET["sort_order"];
         if (!isset($_GET['obj_id'])) {
             $this->tpl->setOnScreenMessage('failure', 'no_user_selected');

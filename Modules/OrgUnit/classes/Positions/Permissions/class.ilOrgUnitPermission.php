@@ -17,7 +17,7 @@ class ilOrgUnitPermission extends ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected int $id = 0;
+    protected ?int $id = 0;
     /**
      * @var int
      * @con_has_field  true
@@ -54,7 +54,7 @@ class ilOrgUnitPermission extends ActiveRecord
      * @con_length     8
      */
     protected int $position_id = 0;
-    protected ilOrgUnitOperationContext $context;
+    protected ?ilOrgUnitOperationContext $context = null;
     /**
      * @con_has_field  true
      * @con_fieldtype  integer
@@ -97,7 +97,7 @@ class ilOrgUnitPermission extends ActiveRecord
         $this->context = ilOrgUnitOperationContextQueries::findById($this->getContextId());
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -105,7 +105,7 @@ class ilOrgUnitPermission extends ActiveRecord
     /**
      * @param int $id
      */
-    public function setId(int $id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
@@ -167,7 +167,7 @@ class ilOrgUnitPermission extends ActiveRecord
         return in_array($operation_id, $this->selected_operation_ids);
     }
 
-    public function getContext(): ilOrgUnitOperationContext
+    public function getContext(): ?ilOrgUnitOperationContext
     {
         return $this->context;
     }

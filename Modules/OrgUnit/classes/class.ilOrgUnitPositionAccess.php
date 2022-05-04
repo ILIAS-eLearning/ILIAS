@@ -147,7 +147,7 @@ class ilOrgUnitPositionAccess implements ilOrgUnitPositionAccessHandler, ilOrgUn
     }
 
 
-    public function checkPositionAccess(string $pos_perm, int $ref_id) : boolean
+    public function checkPositionAccess(string $pos_perm, int $ref_id) : bool
     {
         // If context is not activated, return same array of $user_ids
         if (!$this->isPositionActiveForRefId($ref_id)) {
