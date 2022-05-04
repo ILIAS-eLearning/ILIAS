@@ -30,7 +30,7 @@ class ilOrgUnitOperation extends ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected int $operation_id = 0;
+    protected ?int $operation_id = 0;
     /**
      * @var string
      * @con_has_field  true
@@ -75,7 +75,7 @@ class ilOrgUnitOperation extends ActiveRecord
         parent::create();
     }
 
-    public function getOperationId() : int
+    public function getOperationId() : ?int
     {
         return $this->operation_id;
     }
