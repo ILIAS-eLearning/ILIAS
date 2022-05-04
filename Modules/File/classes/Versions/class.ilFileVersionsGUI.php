@@ -86,14 +86,14 @@ class ilFileVersionsGUI
             ? $this->http->wrapper()->query()->retrieve(self::HIST_ID, $DIC->refinery()->kindlyTo()->int())
             : null;
     }
-
-    public function executeCommand() : void
+    
+    /**
+     * @return void
+     * @throws \ILIAS\FileUpload\Collection\Exception\NoSuchElementException
+     * @throws \ILIAS\FileUpload\Exception\IllegalStateException
+     */
+    protected function performCommand() : void
     {
-        // bugfix mantis 26007: use new function hasPermission to ensure that the check also works for workspace files
-        if (!$this->hasPermission('write')) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-            $this->ctrl->returnToParent($this);
-        }
         $cmd = $this->ctrl->getCmd(self::CMD_DEFAULT);
         switch ($cmd) {
             case self::CMD_DEFAULT:
@@ -134,9 +134,45 @@ class ilFileVersionsGUI
                 break;
         }
     }
-
+    
+    /**
+     * @return void
+     * @throws ilCtrlException
+     */
+    protected function setBackTab() : void
+    {
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget(
+            $this->lng->txt('back'),
+            $this->ctrl->getLinkTarget($this, self::CMD_DEFAULT)
+        );
+    }
+    
+    public function executeCommand() : void
+    {
+        // bugfix mantis 26007: use new function hasPermission to ensure that the check also works for workspace files
+        if (!$this->hasPermission('write')) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->ctrl->returnToParent($this);
+        }
+        switch ($this->ctrl->getNextClass()) {
+            case strtolower(ilFileVersionsUploadHandlerGUI::class):
+                $this->ctrl->forwardCommand(
+                    new ilFileVersionsUploadHandlerGUI(
+                        $this->file
+                    )
+                );
+                return;
+            default:
+                $this->performCommand();
+                break;
+        }
+        
+    }
+    
     private function unzipCurrentRevision() : void
     {
+        $this->setBackTab();
         $this->tpl->setContent(
             $this->ui->renderer()->render(
                 $this->getFileZipOptionsForm()
@@ -207,11 +243,9 @@ class ilFileVersionsGUI
 
     private function addVersion(int $mode = ilFileVersionFormGUI::MODE_ADD) : void
     {
-        $this->tabs->clearTargets();
-        $this->tabs->setBackTarget($this->lng->txt('back'), $this->ctrl->getLinkTarget($this, self::CMD_DEFAULT));
-
+        $this->setBackTab();
+        
         $form = new ilFileVersionFormGUI($this, $mode);
-        $form->fillForm();
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -226,7 +260,6 @@ class ilFileVersionsGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this, self::CMD_DEFAULT);
         }
-        $form->setValuesByPost();
         $this->tpl->setContent($form->getHTML());
     }
 
