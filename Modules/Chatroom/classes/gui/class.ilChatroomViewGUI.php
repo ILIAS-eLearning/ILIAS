@@ -132,8 +132,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $initial = new stdClass();
         $initial->users = $room->getConnectedUsers();
         $initial->private_rooms = array_values($known_private_room);
-        $initial->redirect_url = $this->ilCtrl->getLinkTarget($this->gui, 'view-lostConnection', '', false, false);
-        $initial->profile_image_url = $this->ilCtrl->getLinkTarget($this->gui, 'view-getUserProfileImages', '', true, false);
+        $initial->redirect_url = $this->ilCtrl->getLinkTarget($this->gui, 'view-lostConnection', '', false);
+        $initial->profile_image_url = $this->ilCtrl->getLinkTarget($this->gui, 'view-getUserProfileImages', '', true);
         $initial->no_profile_image_url = ilUtil::getImagePath('no_photo_xxsmall.jpg');
         $initial->private_rooms_enabled = (bool) $room->getSetting('private_rooms_enabled');
         $initial->subdirectory = $settings->getSubDirectory();
@@ -229,7 +229,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $roomTpl->setVariable('BASEURL', $settings->generateClientUrl());
         $roomTpl->setVariable('INSTANCE', $settings->getInstance());
         $roomTpl->setVariable('SCOPE', $scope);
-        $roomTpl->setVariable('POSTURL', $this->ilCtrl->getLinkTarget($this->gui, 'postMessage', '', true, true));
+        $roomTpl->setVariable('POSTURL', $this->ilCtrl->getLinkTarget($this->gui, 'postMessage', '', true));
 
         $roomTpl->setVariable('ACTIONS', $this->ilLng->txt('actions'));
         $roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $this->ilLng->txt('create_private_room_label'));
@@ -266,7 +266,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             )
         );
 
-        $toggleUrl = $this->ilCtrl->getFormAction($this->gui, 'view-toggleAutoMessageDisplayState', '', true, true);
+        $toggleUrl = $this->ilCtrl->getFormAction($this->gui, 'view-toggleAutoMessageDisplayState', '', true, false);
         $roomTpl->setVariable(
             'TOGGLE_AUTO_MESSAGE_COMPONENT',
             $this->uiRenderer->render(
