@@ -23,7 +23,7 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
     /** @var  array $fixed_params Fixed params that are always to be sent with the event. Will be overriden by context. */
     protected array $fixed_params = [];
 
-    protected $name;// TODO PHP8-REVIEW Property type missing
+    protected ?string $name;
 
     /**
      * @param string $key
@@ -106,7 +106,7 @@ class ilEventRaisingActivity implements ilActivity, ilWorkflowEngineElement
         $params = array();
         $params[] = array('key' => 'context', 'value' => $this);
 
-        return array_merge((array) $this->fixed_params, $params);
+        return array_merge($this->fixed_params, $params);
     }
 
     /**

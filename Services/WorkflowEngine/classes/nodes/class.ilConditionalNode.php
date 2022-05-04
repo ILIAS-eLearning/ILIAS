@@ -29,17 +29,17 @@ class ilConditionalNode extends ilBaseNode
      * This holds a list of emitters attached to the node.
      * In this node type, these are the 'else' emitters.
      *
-     * @var \ilEmitter Array of ilEmitter
+     * @var null|\ilEmitter[] Array of ilEmitter
      */
-    private $else_emitters;
+    private ?array $else_emitters = null;
 
     /**
      * This holds a list of activities attached to the node.
      * In this node type, these are the 'else' activities.
      *
-     * @var \ilActivity Array of ilActivity
+     * @var null|\ilActivity[] Array of ilActivity
      */
-    private $else_activities;
+    private ?array $else_activities = null;
 
     /**
      * This holds the piece of code used to determine if the 'then' or the 'else'

@@ -241,7 +241,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      */
     private function writeLogMessage($file_pointer) : void
     {
-        fwrite($file_pointer, date('Y/m/d H:i:s') . substr((string) ilWorkflowUtils::microtime(), 1, 6) . ' :: ');
+        fwrite($file_pointer, date('Y/m/d H:i:s') . substr(ilWorkflowUtils::microtime(), 1, 6) . ' :: ');
         fwrite($file_pointer, $this->log_level . ' :: ');
         fwrite($file_pointer, $this->log_message . "\r\n");
     }

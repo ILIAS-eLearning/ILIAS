@@ -14,6 +14,9 @@
  */
 class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
 {
+    private ilEmptyWorkflow $workflow;
+    private ilBasicNode $node;
+
     protected function setUp() : void
     {
         require_once './Services/WorkflowEngine/classes/utils/class.ilWorkflowUtils.php';
@@ -188,6 +191,7 @@ class ilTimerDetectorTest extends ilWorkflowEngineBaseTest
         // Arrange
         $detector = new ilTimerDetector($this->node);
         $timer_start = ilWorkflowUtils::time() - (5 * 60); # -5 Minutes from now.
+        /** @noinspection PhpIdempotentOperationInspection Keeping for readability purposes*/
         $timer_end = ilWorkflowUtils::time() - (1 * 60); # -1 Minute from now.
         $detector->setListeningTimeframe($timer_start, $timer_end);
 

@@ -45,7 +45,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * This holds the database id of the workflow
      *
      */
-    protected $db_id;// TODO PHP8-REVIEW Property type missing
+    protected ?int $db_id;
 
     /**
      * Holds the type of the workflow.
@@ -57,7 +57,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_type Name of type of the workflow.
      */
-    protected $workflow_type;// TODO PHP8-REVIEW Property type missing
+    protected ?string $workflow_type;
 
     /**
      * Holds a content description of the workflow instance.
@@ -68,19 +68,19 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_content Content description of the workflow.
      */
-    protected $workflow_content;// TODO PHP8-REVIEW Property type missing
+    protected ?string $workflow_content;
 
     /**
      * Holds the classname of the workflow definition.
      * @var string $workflow_class Name of the class. e.g. ComplianceWorkflow1 for class.ilComplianceWorkflow1.php
      */
-    protected $workflow_class;// TODO PHP8-REVIEW Property type missing
+    protected ?string $workflow_class;
 
     /**
      * Holds the path to the workflow definition class relative to the applications root.
      * @var string $workflow_location Path to class, e.g. Services/WorkflowEngine for './Services/WorkflowEngine/classes/class..."
      */
-    protected $workflow_location;// TODO PHP8-REVIEW Property type missing
+    protected ?string $workflow_location;
 
     /**
      * Holding the subject type of the workflow.
@@ -89,7 +89,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * E.g. crs, usr
      * @var string $workflow_subject_type Name of the subject type.
      */
-    protected $workflow_subject_type;// TODO PHP8-REVIEW Property type missing
+    protected ?string $workflow_subject_type;
 
     /**
      * This is the actual identifier of the 'who'. If subject_type is a usr, this
@@ -97,7 +97,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var integer $workflow_subject_identifier Identifier of the events subject.
      */
-    protected $workflow_subject_identifier;// TODO PHP8-REVIEW Property type missing
+    protected ?int $workflow_subject_identifier;
 
     /**
      * Type of the workflows context.
@@ -106,7 +106,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var string $workflow_context_type Type if the events context type.
      */
-    protected $workflow_context_type;// TODO PHP8-REVIEW Property type missing
+    protected ?string $workflow_context_type;
 
     /**
      * Identifier of the workflows context.
@@ -115,7 +115,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var integer $workflow_context_identifier Identifier of the events context.
      */
-    protected $workflow_context_identifier;// TODO PHP8-REVIEW Property type missing
+    protected ?int $workflow_context_identifier;
 
     /**
      * Array of instance variables to be shared across the workflow.
@@ -125,10 +125,10 @@ abstract class ilBaseWorkflow implements ilWorkflow
     protected array $instance_vars = array();
 
     /** @var array $data_inputs Input data for the workflow (readonly). */
-    protected $data_inputs;// TODO PHP8-REVIEW Property type missing, array shape should be additionally specied in PhpDocs (if possible)
+    protected ?array $data_inputs;
 
     /** @var array $data_outputs Output data for the workflow. */
-    protected $data_outputs;// TODO PHP8-REVIEW Property type missing, array shape should be additionally specied in PhpDocs (if possible)
+    protected ?array $data_outputs;
 
     /** @var bool $require_data_persistence True, if the persistence needs to deal with data. */
     protected bool $require_data_persistence = false;
@@ -596,7 +596,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function getInstanceVars() : array
     {
-        return (array) $this->instance_vars;
+        return $this->instance_vars;
     }
 
     /**
@@ -645,7 +645,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function hasInputVar($name) : bool
     {
-        return array_key_exists($name, (array) $this->data_inputs);
+        return array_key_exists($name, $this->data_inputs);
     }
 
     /**
@@ -653,7 +653,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function hasOutputVar($name) : bool
     {
-        return array_key_exists($name, (array) $this->data_outputs);
+        return array_key_exists($name, $this->data_outputs);
     }
 
     /**
@@ -687,7 +687,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
 
     public function getInputVars() : array
     {
-        return (array) $this->data_inputs;
+        return $this->data_inputs;
     }
 
     /**
@@ -695,7 +695,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function getOutputVars() : array
     {
-        return (array) $this->data_outputs;
+        return $this->data_outputs;
     }
 
     public function registerInputVar(string $name, $definition) : void

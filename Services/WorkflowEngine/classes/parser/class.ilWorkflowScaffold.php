@@ -87,7 +87,7 @@ class ilWorkflowScaffold
     public function getStartEventInfo() : string
     {
         $event_definitions = array();
-        foreach ((array) $this->start_event_refs as $start_event_ref) {
+        foreach ($this->start_event_refs as $start_event_ref) {
             $event_definition = array();
             switch ($start_event_ref['type']) {
                 case 'message':
@@ -166,14 +166,12 @@ class ilWorkflowScaffold
         $this->auxilliary_methods = array();
     }
 
-    public function getConstructorMethodContent()// TODO PHP8-REVIEW Return type missing
-    : string
+    public function getConstructorMethodContent() : ?string
     {
         return $this->constructor_method_content;
     }
 
-    public function setConstructorMethodContent($constructor_method_content)// TODO PHP8-REVIEW Return type missing
-    : void
+    public function setConstructorMethodContent($constructor_method_content) : void
     {
         $this->constructor_method_content = $constructor_method_content;
     }

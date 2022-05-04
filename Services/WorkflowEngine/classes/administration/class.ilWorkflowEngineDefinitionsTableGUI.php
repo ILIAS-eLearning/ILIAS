@@ -219,7 +219,8 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 
         require_once ilObjWorkflowEngine::getRepositoryDir() . '/' . $a_set['id'] . '.php';
         $class = substr($a_set['id'], 4);
-        if ($class::$startEventRequired == true) {// TODO PHP8-REVIEW Property dynamically declared
+        /** @noinspection PhpUndefinedFieldInspection (defined in ilWorkflowScaffold.php / generated code */
+        if ($class::$startEventRequired == true) {
             $action->addItem(
                 $this->lng->txt('start_listening'),
                 'startlistening',

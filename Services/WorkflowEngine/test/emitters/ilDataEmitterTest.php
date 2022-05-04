@@ -14,6 +14,9 @@
  */
 class ilDataEmitterTest extends ilWorkflowEngineBaseTest
 {
+    private ilEmptyWorkflow $workflow;
+    private ilBasicNode $node;
+
     protected function setUp() : void
     {
         // Empty workflow.

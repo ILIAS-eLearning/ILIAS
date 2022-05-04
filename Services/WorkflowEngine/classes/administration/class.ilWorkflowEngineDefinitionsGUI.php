@@ -46,7 +46,7 @@ class ilWorkflowEngineDefinitionsGUI
      * @return string HTML
      * @noinspection PhpInconsistentReturnPointsInspection
      */
-    public function handle(string $command)// TODO PHP8-REVIEW Return type missing
+    public function handle(string $command) : ?string
     {
         switch (strtolower($command)) {
             case 'uploadform':

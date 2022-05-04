@@ -158,8 +158,6 @@ class ilWorkflowDbHelper
 				FROM wfe_io_outputs
 				WHERE workflow_id = ' . $ilDB->quote($a_workflow->getDbId(), 'integer')
             );
-        } else {
-            return;
         }
     }
 
@@ -340,6 +338,8 @@ class ilWorkflowDbHelper
     /**
      * Takes a detector as an argument and saves it to the database.
      * @param array $event
+     * @param       $process_id
+     * @return mixed
      */
     public static function writeStartEventData(array $event, $process_id)
     {

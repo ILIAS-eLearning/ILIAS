@@ -31,7 +31,7 @@ class ilWorkflowUtils
         return time();
     }
 
-    public static function microtime()// TODO PHP8-REVIEW Return type declaration missing
+    public static function microtime() : string
     {
         if (defined('IL_PHPUNIT_TEST') && IL_PHPUNIT_TEST == true) {
             global $DIC;

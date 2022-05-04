@@ -86,7 +86,7 @@ class ilCounterDetector extends ilSimpleDetector
      *
      * @return boolean False, if detector was already satisfied before.
      */
-    public function trigger($params) : bool
+    public function trigger($params) : ?bool
     {
         if ($this->actual_trigger_events < $this->expected_trigger_events) {
             $this->actual_trigger_events++;

@@ -63,7 +63,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * @var integer Identifier of the events subject.
      *
      */
-    private $event_subject_identifier = 0;// TODO PHP8-REVIEW Property type missing
+    private int $event_subject_identifier = 0;
 
     /**
      * Type of the event context.
@@ -84,7 +84,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @var integer Identifier of the events context.
      */
-    private $event_context_identifier = 0;// TODO PHP8-REVIEW Property type missing
+    private int $event_context_identifier = 0;
 
     /**
      * Holds the start of the listening period.
@@ -131,7 +131,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * @param string  $event_subject_type
      * @param integer $event_subject_identifier
      */
-    public function setEventSubject(string $event_subject_type, $event_subject_identifier) : void// TODO PHP8-REVIEW Type hint missing
+    public function setEventSubject(string $event_subject_type, int $event_subject_identifier) : void
     {
         $this->event_subject_type = $event_subject_type;
         $this->event_subject_identifier = $event_subject_identifier;
@@ -152,7 +152,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * @param string  $event_context_type
      * @param integer $event_context_identifier
      */
-    public function setEventContext(string $event_context_type, $event_context_identifier) : void// TODO PHP8-REVIEW Type hint missing
+    public function setEventContext(string $event_context_type, int $event_context_identifier) : void
     {
         $this->event_context_type = $event_context_type;
         $this->event_context_identifier = $event_context_identifier;
@@ -188,40 +188,40 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return bool|void
      */
-    public function trigger($params)
+    public function trigger($params) : ?bool
     {
         if (!$this->isListening()) {
-            return;
+            return null;
         }
 
         if ($this->event_type !== $params[0]) {
             // Wrong event type -> no action here.
-            return;
+            return null;
         }
 
         if ($this->event_content !== $params[1]) {
             // Wrong event content -> no action here.
-            return;
+            return null;
         }
 
         if ($this->event_subject_type !== $params[2]) {
             // Wrong event subject type -> no action here.
-            return;
+            return null;
         }
 
         if ($this->event_subject_identifier !== $params[3] && $this->event_subject_identifier != 0) {
             // Wrong event subject identifier and identifier here not 0 (not *all*) -> no action.
-            return;
+            return null;
         }
         
         if ($this->event_context_type !== $params[4]) {
             // Wrong event context type -> no action.
-            return;
+            return null;
         }
 
         if ($this->event_context_identifier !== $params[5] && $this->event_context_identifier != 0) {
             // Wrong event context identifier and identifier here not 0 (not *all*) -> no action.
-            return;
+            return null;
         }
 
         // We're through checks now, let's see if this detector is already satisfied.

@@ -66,7 +66,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      *
      * @return boolean False, if detector was already satisfied before.
      */
-    public function trigger($params)// TODO PHP8-REVIEW Return type missing
+    public function trigger($params) : ?bool
     {
         if ($this->detection_state === false) {
             $this->setDetectorState(true);
@@ -142,9 +142,9 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
     }
 
     /**
-     * @return ilNode
+     * @return \ilNode
      */
-    public function getSourceNode()// TODO PHP8-REVIEW Return type missing
+    public function getSourceNode() : ?\ilNode
     {
         return $this->source_node;
     }

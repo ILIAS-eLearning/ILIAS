@@ -12,6 +12,7 @@
  */
 class ilWorkflowEngineSettingsForm
 {
+    private \ILIAS\WorkflowEngine\Service $service;
     /** @var ilPropertyFormGUI $form */
     protected ilPropertyFormGUI $form;
 
@@ -25,7 +26,7 @@ class ilWorkflowEngineSettingsForm
         global $DIC;
         $this->dic = $DIC;
         $this->lng = $this->dic->language();
-        $this->service = $DIC->workflowEngine();// TODO PHP8-REVIEW Property dynamically declared
+        $this->service = $DIC->workflowEngine();
     }
 
     public function getForm($action) : ilPropertyFormGUI

@@ -123,7 +123,7 @@ class ilTimerDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @return boolean False, if detector was already satisfied before.
      */
-    public function trigger($params) : bool
+    public function trigger($params) : ?bool
     {
         if ($this->getDetectorState() === true) {
             return false;

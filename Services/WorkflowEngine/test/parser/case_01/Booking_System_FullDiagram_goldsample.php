@@ -9,7 +9,7 @@ require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector
 
         class Booking_System_FullDiagram extends ilBaseWorkflow
         {
-            public static $startEventRequired = true;// TODO PHP8-REVIEW Property type missing
+            public static $startEventRequired = true;
 
             /**
              * @return string[]

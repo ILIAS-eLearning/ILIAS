@@ -138,8 +138,6 @@ class ilBasicNode extends ilBaseNode
      * This method is called by detectors, that just switched to being satisfied.
      *
      * @param ilDetector $detector ilDetector which is now satisfied.
-     *
-     * @return mixed|void
      */
     public function notifyDetectorSatisfaction(ilDetector $detector)
     {

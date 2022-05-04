@@ -26,9 +26,11 @@ class ilWorkflowEngineSettingsGUI
     }
 
     /**
+     * @todo return type never in PHP 8.1+
      * @param string $command
+     * @return string
      */
-    public function handle(string $command)// TODO PHP8-REVIEW Return type missing
+    public function handle(string $command) : string
     {
         global $DIC;
         /** @var ilSetting $ilSetting */
