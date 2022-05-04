@@ -26,92 +26,70 @@ use ILIAS\Refinery;
  */
 trait GlobalDICDomainServices
 {
-    protected \ilTree $repo_tree;
-    protected \ilAccessHandler $access;
-    protected \ilLanguage $lng;
-    protected \ilObjUser $user;
-    protected Refinery\Factory $refinery;
-    protected RBACServices $rbac;
-    protected \ilAppEventHandler $event;
-    protected Filesystems $filesystem;
-    protected ResourceStorage\Services $resource_storage;
-    protected LoggingServices $logger;
-    protected \ilSetting $settings;
-    protected \ilObjectDefinition $object_definition;
+    private \ILIAS\DI\Container $DIC;
 
     protected function initDomainServices(\ILIAS\DI\Container $DIC) : void
     {
-        $this->repo_tree = $DIC->repositoryTree();
-        $this->access = $DIC->access();
-        $this->rbac = $DIC->rbac();
-        $this->lng = $DIC->language();
-        $this->user = $DIC->user();
-        $this->logger = $DIC->logger();
-        $this->refinery = $DIC->refinery();
-        $this->filesystem = $DIC->filesystem();
-        $this->resource_storage = $DIC->resourceStorage();
-        $this->event = $DIC->event();
-        $this->settings = $DIC->settings();
-        $this->object_definition = $DIC["objDefinition"];
+        $this->DIC = $DIC;
     }
 
     public function repositoryTree() : \ilTree
     {
-        return $this->repo_tree;
+        return $this->DIC->repositoryTree();
     }
 
     public function access() : \ilAccessHandler
     {
-        return $this->access;
+        return $this->DIC->access();
     }
 
     public function rbac() : RBACServices
     {
-        return $this->rbac;
+        return $this->DIC->rbac();
     }
 
     public function lng() : \ilLanguage
     {
-        return $this->lng;
+        return $this->DIC->language();
     }
 
     public function user() : \ilObjUser
     {
-        return $this->user;
+        return $this->DIC->user();
     }
 
     public function logger() : LoggingServices
     {
-        return $this->logger;
+        return $this->DIC->logger();
     }
 
     public function refinery() : Refinery\Factory
     {
-        return $this->refinery;
+        return $this->DIC->refinery();
     }
 
     public function filesystem() : Filesystems
     {
-        return $this->filesystem;
+        return $this->DIC->filesystem();
     }
 
     public function resourceStorage() : ResourceStorage\Services
     {
-        return $this->resource_storage;
+        return $this->DIC->resourceStorage();
     }
 
     public function event() : \ilAppEventHandler
     {
-        return $this->event;
+        return $this->DIC->event();
     }
 
     public function settings() : \ilSetting
     {
-        return $this->settings;
+        return $this->DIC->settings();
     }
 
     public function objectDefinition() : \ilObjectDefinition
     {
-        return $this->object_definition;
+        return $this->DIC["objDefinition"];
     }
 }
