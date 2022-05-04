@@ -473,6 +473,7 @@ adve#:#char_selector_test#:#Selector Special Characters (Unicode)
 adve#:#char_selector_unicode_all#:#All Unicode Blocks
 adve#:#char_selector_user#:#Menu for Selecting Special Characters (Unicode) in Tests
 assessment#:#action#:#Action
+assessment#:#tst_man_scoring_only_answered#:#Only answered
 assessment#:#add_answers#:#Add answers
 assessment#:#add_circle#:#Add circle area
 assessment#:#add_gap#:#Add Gap Text

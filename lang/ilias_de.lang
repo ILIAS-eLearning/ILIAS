@@ -476,6 +476,7 @@ adve#:#char_selector_test#:#Auswahlmenü mit Sonderzeichen
 adve#:#char_selector_unicode_all#:#Alle Unicode-Blöcke
 adve#:#char_selector_user#:#Auswahlmenü mit Sonderzeichen (Unicode) für Tests
 assessment#:#action#:#Aktion
+assessment#:#tst_man_scoring_only_answered#:#Nur beantwortete
 assessment#:#add_answers#:#Antworten hinzufügen
 assessment#:#add_circle#:#Kreis hinzufügen
 assessment#:#add_gap#:#Lückentext hinzufügen
