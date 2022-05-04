@@ -1448,7 +1448,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     protected function showTermsOfService(bool $accepted = false) : void
     {
-        $back_to_login = ('getAcceptance' != $this->ctrl->getCmd());
+        $back_to_login = ('getAcceptance' !== $this->ctrl->getCmd());
         $target = $this->initTargetFromQuery();
 
         if (!$this->user->getId()) {
@@ -1471,9 +1471,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     if (ilSession::get('orig_request_target')) {
                         $target = ilSession::get('orig_request_target');
                         ilSession::set('orig_request_target', '');
-                        ilUtil::redirect($target);
+                        $this->ctrl->redirectToURL($target);
                     } else {
-                        ilUtil::redirect('index.php?target=' . $target . '&client_id=' . CLIENT_ID);
+                        $this->ctrl->redirectToURL('index.php?target=' . $target . '&client_id=' . CLIENT_ID);
                     }
                 }
 
@@ -1492,7 +1492,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 );
             }
 
-            $tpl->setPermanentLink('usr', null, 'agreement');
+            $tpl->setPermanentLink('usr', 0, 'agreement');
             $tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
         } else {
             $tpl->setVariable(
