@@ -162,13 +162,12 @@ class ilCalendarPresentationGUI
      */
     protected function initCalendarView() : void
     {
-        global $DIC;
-
-        $request = $DIC->http()->request();
-        if (!empty($request->getQueryParams()["cal_view"])) {
-            $this->cal_view = $request->getQueryParams()["cal_view"];
-        } else {
-            $this->cal_view = $this->cal_settings->getDefaultCal();
+        $this->cal_view = $this->cal_settings->getDefaultCal();
+        if ($this->http->wrapper()->query()->has('cal_view')) {
+            $this->cal_view = $this->http->wrapper()->query()->retrieve(
+                'cal_view',
+                $this->refinery->kindlyTo()->int()
+            );
         }
     }
 
