@@ -7272,25 +7272,28 @@ button.list-group-item-danger.active:focus {
   padding: 3px;
   width: 100%;
 }
-.ui-dropzone-wrapper {
-  background: none;
-  border: none;
+.ui-dropzone .btn {
+  padding: revert;
 }
 .ui-dropzone.highlight {
   border: 1px dashed #757575;
-  border-radius: 0px;
   background: #FFFFD6;
-  padding: calc(3px - 1px);
 }
 .ui-dropzone.highlight-current {
   border: 1px dashed #5b5b5b;
   background-color: #FFF9BC;
-  padding: calc(3px - 1px);
 }
 .ui-dropzone-message {
   font-size: 0.875rem;
   margin-bottom: 3px;
   float: right;
+}
+.ui-dropzone-wrapper {
+  background: none;
+  border: none;
+}
+.ui-dropzone-wrapper.highlight {
+  padding: calc(3px - 1px);
 }
 .ui-dropzone-container button {
   font-size: 0.875rem;
@@ -7301,6 +7304,25 @@ button.list-group-item-danger.active:focus {
 .ui-dropzone .form-group input,
 .ui-dropzone .form-group textarea {
   width: 100%;
+}
+.ui-dropzone-large {
+  background-color: #ffff5;
+  border-radius: 0px;
+  border-width: 2px;
+}
+.ui-dropzone-large .ui-dropzone-container {
+  text-align: center;
+  padding: 6rem;
+}
+.ui-dropzone-large .ui-dropzone-container .btn,
+.ui-dropzone-large .ui-dropzone-container .ui-dropzone-message {
+  margin: auto;
+  display: block;
+  clear: both;
+  float: inherit;
+}
+.ui-dropzone-large.highlight {
+  border-width: 2px;
 }
 .btn {
   font-size: 0.75rem;

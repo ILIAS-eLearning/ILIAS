@@ -79,10 +79,21 @@ class Renderer extends AbstractComponentRenderer
             $dropzone->getTitle(),
             [$dropzone->getForm()]
         );
-
-        $template = $this->getTemplate("tpl.dropzone.html", true, true);
+    
+        switch ($dropzone->getSize()) {
+            case Standard::SIZE_SMALL:
+            default:
+                $additional_class = 'ui-dropzone-small';
+                break;
+            case Standard::SIZE_LARGE:
+                $additional_class = 'ui-dropzone-large';
+        }
+        $template_file = "tpl.dropzone.html";
+        
+        $template = $this->getTemplate($template_file, true, true);
         $template->setVariable('MODAL', $default_renderer->render($modal));
         $template->setVariable('MESSAGE', $dropzone->getMessage());
+        $template->setVariable('DROPZONE_SIZE_CLASS', $additional_class);
 
         $upload_button = $dropzone->getUploadButton();
         if (null !== $upload_button) {

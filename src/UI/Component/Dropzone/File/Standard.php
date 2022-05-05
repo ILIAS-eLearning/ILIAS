@@ -47,4 +47,8 @@ interface Standard extends File
      * Get the button to upload the files to the server.
      */
     public function getUploadButton() : ?Button;
+    
+    public function withLargeZone() : Standard;
+    
+    public function withSmallZone() : Standard;
 }

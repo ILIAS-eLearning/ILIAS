@@ -32,8 +32,11 @@ use ilLanguage;
  */
 class Standard extends File implements StandardInterface
 {
+    const SIZE_SMALL = 16;
+    const SIZE_LARGE = 32;
     protected string $message = "";
     protected ?Button $upload_button = null;
+    protected int $size = self::SIZE_SMALL;
 
     public function withMessage(string $message) : self
     {
@@ -57,5 +60,24 @@ class Standard extends File implements StandardInterface
     public function getUploadButton() : ?Button
     {
         return $this->upload_button;
+    }
+    
+    public function withLargeZone() : Standard
+    {
+        $clone = clone $this;
+        $clone->size = self::SIZE_LARGE;
+        return $clone;
+    }
+    
+    public function withSmallZone() : Standard
+    {
+        $clone = clone $this;
+        $clone->size = self::SIZE_SMALL;
+        return $clone;
+    }
+    
+    public function getSize() : int
+    {
+        return $this->size;
     }
 }

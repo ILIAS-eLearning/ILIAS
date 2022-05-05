@@ -7,30 +7,34 @@
 	margin-bottom: @il-margin-xs-horizontal;
 	padding: @il-margin-base-vertical;
 	width: 100%;
-}
-
-.ui-dropzone-wrapper {
-	background: none;
-	border: none;
+    .btn {
+      padding: revert;
+    }
 }
 
 .ui-dropzone.highlight {
 	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
-	border-radius: @il-dropzone-border-radius;
 	background: @il-dropzone-highlight-bg;
-	padding: calc(@il-padding-base-vertical - @il-dropzone-border-width);
 }
 
 .ui-dropzone.highlight-current {
 	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color-hover;
 	background-color: @il-dropzone-hover-bg;
-	padding: calc(@il-padding-base-vertical - @il-dropzone-border-width);
 }
 
 .ui-dropzone-message {
 	font-size: @il-font-size-base;
 	margin-bottom: @il-margin-base-vertical;
 	float: right;
+}
+
+.ui-dropzone-wrapper {
+  background: none;
+  border: none;
+
+  &.highlight {
+    padding: calc(@il-padding-base-vertical - @il-dropzone-border-width);
+  }
 }
 
 .ui-dropzone-container button {
@@ -45,4 +49,25 @@
 .ui-dropzone .form-group input,
 .ui-dropzone .form-group textarea {
 	width: 100%;
+}
+
+.ui-dropzone-large {
+  background-color: @il-dropzone-large-bg;
+  border-radius: @il-dropzone-large-border-radius;
+  border-width: @il-dropzone-large-border-width;
+
+  .ui-dropzone-container {
+    text-align: center;
+    padding: @il-dropzone-large-padding;
+    .btn, .ui-dropzone-message {
+      margin: auto;
+      display: block;
+      clear: both;
+      float: inherit;
+    }
+  }
+}
+
+.ui-dropzone-large.highlight {
+  border-width: @il-dropzone-large-border-width;
 }
