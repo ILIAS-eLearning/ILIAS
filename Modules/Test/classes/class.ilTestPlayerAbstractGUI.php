@@ -359,7 +359,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function populateGenericFeedbackBlock(assQuestionGUI $question_gui, $solutionCorrect)
     {
-        $feedback = $question_gui->getGenericFeedbackOutput($this->testSession->getActiveId(), null);
+        // fix #031263: add pass
+        $feedback = $question_gui->getGenericFeedbackOutput($this->testSession->getActiveId(), $this->testSession->getPass());
         
         if (strlen($feedback)) {
             $cssClass = (
