@@ -55,7 +55,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         ilDataCollectionEndpointPort $dclEndPoint,
         ilDataCollectionAccessPort $dclAccess,
         ilDataCollectionGuiClassFactoryPort $dclGuiClass
-    ) {
+    ): void {
         $this->dclUi = $dclUi;
         $this->dclLanguage = $dclLanguage;
         $this->dclEndPoint = $dclEndPoint;
@@ -77,15 +77,17 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             $this->ref_id = $this->object->getRefId();
         }
 
+        parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+
         $dclOutbounds = \ilDataCollectionOutboundsAdapter::new();
         $this->init(
             $dclOutbounds->getDataCollectionUi(),
             $dclOutbounds->getDataCollectionLanguage(),
             $dclOutbounds->getDataCollectionEndpoint(),
             $dclOutbounds->getDataCollectionAccess(),
-            $dclOutbounds->getDataCollectionGuiClassFactory($this, $this->object)
+            $dclOutbounds->getDataCollectionGuiClassFactory($this, $this->getObject())
         );
-        parent::__construct($a_id, $a_id_type, $a_parent_node_id);
+
         //todo get rid of ctrl
         $this->ctrl = $DIC->ctrl();
 
@@ -106,6 +108,11 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         } elseif ($objectOrRefId > 0) {
             $this->tableId = $this->object->getFirstVisibleTableId();
         }
+    }
+
+    public function getRefId() : int
+    {
+        return $this->getRefId();
     }
 
     private function addJavaScript() : void

@@ -8,10 +8,6 @@
  */
 class ilDclCreateViewDefinitionConfig extends ilPageConfig
 {
-
-    /**
-     * Init
-     */
     public function init() : void
     {
         // config

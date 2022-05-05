@@ -14,14 +14,8 @@ class ilDclContentImporter
     //const SOAP_FUNCTION_NAME = 'exportDataCollectionContent';
 
     const EXPORT_EXCEL = 'xlsx';
-    /**
-     * @var int
-     */
-    protected $max_imports = 100;
-    /**
-     * @var array
-     */
-    protected $supported_import_datatypes
+    protected int $max_imports = 100;
+    protected array $supported_import_datatypes
         = array(
             ilDclDatatype::INPUTFORMAT_BOOLEAN,
             ilDclDatatype::INPUTFORMAT_NUMBER,
@@ -32,29 +26,25 @@ class ilDclContentImporter
             ilDclDataType::INPUTFORMAT_TEXT_SELECTION,
             ilDclDatatype::INPUTFORMAT_DATE_SELECTION,
         );
-    protected $warnings;
+    protected array $warnings;
     /**
-     * @var int $ref_id Ref-ID of DataCollection
+     * Ref-ID of DataCollection
      */
-    protected $ref_id;
+    protected int $ref_id;
     /**
-     * @var int $table_id Table-Id for export
+     * Table-Id for export
      */
-    protected $table_id;
-    /**
-     * @var ilObjDataCollection
-     */
-    protected $dcl;
+    protected int $table_id;
+
+    protected ilObjDataCollection $dcl;
     /**
      * @var ilDclTable[]
      */
-    protected $tables;
-    /**
-     * @var
-     */
-    protected $lng;
+    protected array $tables;
 
-    public function __construct($ref_id, $table_id = null)
+    protected string $lng;
+
+    public function __construct(int $ref_id, ?int $table_id = null)
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -68,7 +58,12 @@ class ilDclContentImporter
         $this->tables = ($table_id) ? array($this->dcl->getTableById($table_id)) : $this->dcl->getTables();
     }
 
-    public function import($file, $simulate = false)
+    /**
+     * @throws ilException
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws ilDateTimeException
+     */
+    public function import(string $file, bool $simulate = false): array
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -169,11 +164,7 @@ class ilDclContentImporter
         return array('line' => ($i - 2 < 0 ? 0 : $i - 2), 'warnings' => $this->warnings);
     }
 
-    /**
-     * @param ilDclBaseFieldModel $field
-     * @return bool
-     */
-    protected function checkImportType($field)
+    protected function checkImportType(ilDclBaseFieldModel $field): bool
     {
         if (in_array($field->getDatatypeId(), $this->supported_import_datatypes)) {
             return true;
@@ -185,11 +176,10 @@ class ilDclContentImporter
     }
 
     /**
-     * @param ilDclTable $table
-     * @param            $titles string[]
+     * @param  string[] $titles
      * @return ilDclBaseFieldModel[]
      */
-    protected function getImportFieldsFromTitles($table, $titles)
+    protected function getImportFieldsFromTitles(ilDclTable $table, array $titles): array
     {
         $fields = $table->getRecordFields();
         $import_fields = array();

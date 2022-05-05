@@ -77,14 +77,28 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
         $this->error->raiseError($message);
     }
 
+    public function displayInfoMessage(string $message) : void
+    {
+        $this->ui->mainTemplate()->setOnScreenMessage('info', $message, true);
+    }
+
     public function addTab(string $tabId, string $tabLabel, string $link) : void
     {
         $this->tabs->addTab($tabId, $tabLabel, $link);
     }
 
+    public function addSubTab(string $tabId, string $tabLabel, string $link) : void
+    {
+        $this->tabs->addSubTab($tabId, $tabLabel, $link);
+    }
+
     public function activateTab(string $tabId) : void
     {
         $this->tabs->activateTab($tabId);
+    }
+
+    public function activateSubTab(string $tabId): void {
+        $this->tabs->activateSubTab($tabId);
     }
 
     public function addLocatorItem(string $title, string $link, int $itemId) : void
@@ -95,6 +109,7 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
     public function resetTabs() : void
     {
         $this->tabs->clearTargets();
+        $this->tabs->clearSubTabs();
     }
 
     public function setBackTab(string $label, string $link)
@@ -105,5 +120,20 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
     public function addDataCollectionEndpointToNavigationHistory(int $refId, string $link) : void
     {
         $this->navigationHistory->addItem($refId, $link, "dcl");
+    }
+
+    public function addCssFile(string $filePath) : void
+    {
+        $this->tpl->addCss($filePath);
+    }
+
+    public function addPermaLinkTableView(int $refId, int $tableviewId) : void
+    {
+        $this->tpl->setPermanentLink("dcl", $$refId, "_" . $tableviewId);
+    }
+
+    public function setContent(string $content) : void
+    {
+        $this->tpl->setContent($content);
     }
 }

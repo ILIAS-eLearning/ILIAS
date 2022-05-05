@@ -12,11 +12,14 @@ use ILIAS\FileUpload\MimeType;
  */
 class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    public function parseValue($value)
+    /**
+     * @param array|int $value
+     */
+    public function parseValue($value): ?array
     {
         global $DIC;
         if ($value == -1) { //marked for deletion.
-            return 0;
+            return null;
         }
 
         $file = $value;
@@ -30,8 +33,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
             $file_obj->setTitle($file["name"]);
             $file_obj->setFileName($file["name"]);
             $file_obj->setFileType(MimeType::getMimeType("", $file["name"], $file["type"]));
-            $file_obj->setFileSize($file["size"]);
-            $file_obj->setMode("object");
+            $file_obj->setMode(ilObjFile::MODE_OBJECT);
             $file_obj->create();
 
             if ($has_save_confirmation) {
@@ -77,10 +79,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         return $return;
     }
 
-    /**
-     * @param ilConfirmationGUI $confirmation
-     */
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation)
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation): void
     {
         if (is_array($this->getValue())) {
             foreach ($this->getValue() as $key => $value) {
@@ -91,10 +90,10 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
 
     /**
      * Set value for record field
-     * @param mixed $value
+     * @param string|int $value
      * @param bool  $omit_parsing If true, does not parse the value and stores it in the given format
      */
-    public function setValue($value, $omit_parsing = false)
+    public function setValue($value, bool $omit_parsing = false): void
     {
         $this->loadValue();
 

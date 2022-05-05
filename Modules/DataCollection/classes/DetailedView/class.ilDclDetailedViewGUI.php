@@ -11,65 +11,41 @@
  */
 class ilDclDetailedViewGUI
 {
-    /**
-     * @var \ILIAS\Style\Content\Object\ObjectFacade
-     */
-    protected $content_style_domain;
-
-    /**
-     * @var ilObjDataCollectionGUI
-     */
-    protected $dcl_gui_object;
-    /**
-     * @var  ilNoteGUI
-     */
-    protected $notes_gui;
-    /**
-     * @var  ilDclTable
-     */
-    protected $table;
-    /**
-     * @var integer
-     */
-    protected $tableview_id;
-    /**
-     * @var  ilDclBaseRecordModel
-     */
-    protected $record_obj;
-    /**
-     * @var int
-     */
-    protected $next_record_id = 0;
-    /**
-     * @var int
-     */
-    protected $prev_record_id = 0;
-    /**
-     * @var int
-     */
-    protected $current_record_position = 0;
-    /**
-     * @var array
-     */
-    protected $record_ids = array();
-    /**
-     * @var bool
-     */
-    protected $is_enabled_paging = true;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected \ILIAS\Style\Content\Object\ObjectFacade$content_style_domain;
+    protected ilObjDataCollectionGUI $dcl_gui_object;
+    protected ilNoteGUI $notes_gui;
+    protected ilDclTable $table;
+    protected int $tableview_id;
+    protected ilDclBaseRecordModel $record_obj;
+    protected int $next_record_id = 0;
+    protected int $prev_record_id = 0;
+    protected int $current_record_position = 0;
+    protected array $record_ids = array();
+    protected bool $is_enabled_paging = true;
+    protected ilLanguage $lng;
     private \ilGlobalTemplateInterface $main_tpl;
+
+    private ilDataCollectionUiPort $dclUi;
+    private ilDataCollectionLanguagePort $dclLanguage;
+    private ilDataCollectionEndpointPort $dclEndPoint;
+    private ilDataCollectionAccessPort $dclAccess;
+
+    private function init(
+        ilDataCollectionOutboundsAdapter $adapter
+    ) : void {
+        $this->dclUi = $adapter->getDataCollectionUi();
+        $this->dclLanguage = $adapter->getDataCollectionLanguage();
+        $this->dclAccess = $adapter->getDataCollectionAccess();
+        $this->dclEndPoint = $adapter->getDataCollectionEndpoint();
+    }
 
     /**
      * @param ilObjDataCollectionGUI $a_dcl_object
      */
     public function __construct(ilObjDataCollectionGUI $a_dcl_object)
     {
-        global $DIC;
-        $main_tpl = $DIC->ui()->mainTemplate();
-        $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->init(ilDataCollectionOutboundsAdapter::new());
+
         $tpl = $DIC['tpl'];
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
@@ -80,8 +56,9 @@ class ilDclDetailedViewGUI
         $this->record_obj = ilDclCache::getRecordCache($this->record_id);
 
         if (!$this->record_obj->hasPermissionToView((int) $_GET['ref_id'])) {
-            $main_tpl->setOnScreenMessage('failure', 'dcl_msg_no_perm_view', true);
-            $ilCtrl->redirectByClass('ildclrecordlistgui', 'listRecords');
+            $this->dclUi->displayFailureMessage($this->dclLanguage->translate('dcl_msg_no_perm_view'));
+
+            $this->dclEndPoint->redirect($this->dclEndPoint->getListRecordsLink());
         }
 
         // content style (using system defaults)

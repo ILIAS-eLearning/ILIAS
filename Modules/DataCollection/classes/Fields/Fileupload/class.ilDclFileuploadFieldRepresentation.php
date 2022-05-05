@@ -7,11 +7,7 @@
  */
 class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-
-    /**
-     * @inheritdoc
-     */
-    public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilFileInputGUI
     {
         $input = new ilFileInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         $input->setSuffixes($this->getField()->getSupportedExtensions());
@@ -22,7 +18,7 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-    protected function requiredWorkaroundForInputField($input, $record_id)
+    protected function requiredWorkaroundForInputField(ilFileInputGUI $input, int $record_id): void
     {
         if ($record_id) {
             $record = ilDclCache::getRecordCache($record_id);
@@ -45,7 +41,8 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
     }
 
     /**
-     * @inheritdoc
+     * @return array|string|null
+     * @throws Exception
      */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
@@ -58,10 +55,7 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
+    public function passThroughFilter(ilDclBaseRecordModel $record, string $filter): bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
         $pass = false;

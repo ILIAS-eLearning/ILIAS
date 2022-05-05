@@ -7,11 +7,11 @@ class ilDataCollectionGuiClassFactoryAdapter implements ilDataCollectionGuiClass
 {
 
     private ilObjDataCollectionGUI $dataCollectionGUI;
-    private ?ilObjDataCollection $dataCollection;
+    private ?ilObject $dataCollection;
 
     private function __construct(
         ilObjDataCollectionGUI $dataCollectionGUI,
-        ?ilObjDataCollection $dataCollection
+        ?ilObject $dataCollection
     ) {
         $this->dataCollectionGUI = $dataCollectionGUI;
         $this->dataCollection = $dataCollection;
@@ -19,7 +19,7 @@ class ilDataCollectionGuiClassFactoryAdapter implements ilDataCollectionGuiClass
 
     public static function new(
         ilObjDataCollectionGUI $dataCollectionGUI,
-        ?ilObjDataCollection $dataCollection
+        ?ilObject $dataCollection
     ) : self {
         return new self($dataCollectionGUI, $dataCollection);
     }

@@ -9,29 +9,17 @@
  */
 class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
 {
+    public ilDclTableView $tableview;
+    protected ilDclCreateViewTableGUI $table_gui;
+    protected ilCtrl $ctrl;
+    protected int $tableview_id;
 
-    /**
-     * @var ilDclTableView
-     */
-    public $tableview;
-    /**
-     * @var ilDclCreateViewTableGUI
-     */
-    protected $table_gui;
-
-    /**
-     * @param     $tableview_id
-     * @param int $a_definition_id
-     */
-    public function __construct($tableview_id, $a_definition_id = 0)
+    public function __construct(int $tableview_id, int $a_definition_id = 0)
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        /**
-         * @var $ilCtrl ilCtrl
-         */
-        $this->ctrl = $ilCtrl;
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->tableview_id = $tableview_id;
+
         $this->tableview = ilDclTableView::findOrGetInstance($tableview_id);
 
         // we always need a page object - create on demand
@@ -50,9 +38,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    /**
-     * execute command
-     */
     public function executeCommand() : string
     {
         global $DIC;
@@ -80,10 +65,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         }
     }
 
-    /**
-     *
-     */
-    protected function activate()
+    protected function activate(): void
     {
         $page = $this->getPageObject();
         $page->setActive(true);
@@ -91,10 +73,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    /**
-     *
-     */
-    protected function deactivate()
+    protected function deactivate(): void
     {
         $page = $this->getPageObject();
         $page->setActive(false);
@@ -102,10 +81,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    /**
-     * confirmDelete
-     */
-    public function confirmDelete()
+    public function confirmDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -124,10 +100,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $tpl->setContent($conf->getHTML());
     }
 
-    /**
-     * cancelDelete
-     */
-    public function cancelDelete()
+    public function cancelDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -135,10 +108,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $ilCtrl->redirect($this, "edit");
     }
 
-    /**
-     *
-     */
-    public function deleteView()
+    public function deleteView(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -209,7 +179,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
     /**
      * Save table entries
      */
-    public function saveTable()
+    public function saveTable(): void
     {
         $f = new ilDclDefaultValueFactory();
         foreach ($_POST as $key => $value) {

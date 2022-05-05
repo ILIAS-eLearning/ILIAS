@@ -38,7 +38,7 @@ class ilDataCollectionOutboundsAdapter implements ilDataCollectionOutboundsPort
 
     public function getDataCollectionGuiClassFactory(
         ilObjDataCollectionGUI $dataCollectionGUI,
-        ?ilObjDataCollection $dataCollection
+        ?ilObject $dataCollection
     ): ilDataCollectionGuiClassFactoryPort {
         return ilDataCollectionGuiClassFactoryAdapter::new(
             $dataCollectionGUI,

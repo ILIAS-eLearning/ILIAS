@@ -213,7 +213,7 @@ class ilDclCache
      * @param $field_id
      * @return ilDclFieldProperty
      */
-    public static function getFieldProperties($field_id)
+    public static function getFieldProperties($field_id): ilDclFieldProperty
     {
         if (!isset(self::$field_properties_cache[$field_id])) {
             self::$field_properties_cache[$field_id] = array();

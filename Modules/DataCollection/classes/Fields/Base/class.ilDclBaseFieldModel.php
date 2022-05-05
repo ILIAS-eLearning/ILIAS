@@ -14,49 +14,22 @@ class ilDclBaseFieldModel
 {
 
     /**
-     * @var mixed int for custom fields string for standard fields
+     * @var int|string int for custom fields string for standard fields
      */
     protected $id;
+    protected int $table_id;
+    protected string $title;
+    protected string $description;
+    protected int $datatypeId;
+    protected int $order;
+    protected bool $unique;
+    protected ?ilDclFieldProperty $property = null;
+    protected bool $exportable;
+    protected ?ilDclDatatype $datatype = null;
     /**
-     * @var int
+     * With this property the datatype-storage-location can be overwritten. This need to be done in plugins.
      */
-    protected $table_id;
-    /**
-     * @var string
-     */
-    protected $title;
-    /**
-     * @var string
-     */
-    protected $description;
-    /**
-     * @var int
-     */
-    protected $datatypeId;
-    /**
-     * @var int
-     */
-    protected $order;
-    /**
-     * @var bool
-     */
-    protected $unique;
-    /**
-     * @var array
-     */
-    protected $property = array();
-    /**
-     * @var bool
-     */
-    protected $exportable;
-    /**
-     * @var ilDclDatatype This fields Datatype.
-     */
-    protected $datatype;
-    /**
-     * @var null|int With this property the datatype-storage-location can be overwritten. This need to be done in plugins.
-     */
-    protected $storage_location_override = null;
+    protected ?int $storage_location_override = null;
     /**
      * General properties
      */
@@ -84,10 +57,7 @@ class ilDclBaseFieldModel
     const EDIT_VIEW = 2;
     const EXPORTABLE_VIEW = 4;
 
-    /**
-     * @param int $a_id
-     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         if ($a_id != 0) {
             $this->id = $a_id;
@@ -97,10 +67,8 @@ class ilDclBaseFieldModel
 
     /**
      * All valid chars for filed titles
-     * @param bool $a_as_regex
-     * @return string
      */
-    public static function _getTitleInvalidChars($a_as_regex = true)
+    public static function _getTitleInvalidChars(bool $a_as_regex = true) : string
     {
         if ($a_as_regex) {
             return '/^[^<>\\\\":]*$/i';
@@ -110,11 +78,9 @@ class ilDclBaseFieldModel
     }
 
     /**
-     * @param $title    Title of the field
-     * @param $table_id ID of table where the field belongs to
      * @return int
      */
-    public static function _getFieldIdByTitle($title, $table_id)
+    public static function _getFieldIdByTitle(string $title, int $table_id) : int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -132,45 +98,40 @@ class ilDclBaseFieldModel
 
     /**
      * Set field id
-     * @param int $a_id
      */
-    public function setId($a_id)
+    public function setId(int $a_id)
     {
         $this->id = $a_id;
     }
 
     /**
      * Get field id
-     * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
     /**
      * Set table id
-     * @param int $a_id
      */
-    public function setTableId($a_id)
+    public function setTableId(int $a_id)
     {
         $this->table_id = $a_id;
     }
 
     /**
      * Get table id
-     * @return int
      */
-    public function getTableId()
+    public function getTableId() : int
     {
         return $this->table_id;
     }
 
     /**
      * Set title
-     * @param string $a_title
      */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title)
     {
         //title cannot begin with _ as this is saved for other purposes. make __ instead.
         if (substr($a_title, 0, 1) == "_" && substr($a_title, 0, 2) != "__") {
@@ -181,36 +142,32 @@ class ilDclBaseFieldModel
 
     /**
      * Get title
-     * @return string
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
     /**
      * Set description
-     * @param string $a_desc
      */
-    public function setDescription($a_desc)
+    public function setDescription(string $a_desc)
     {
         $this->description = $a_desc;
     }
 
     /**
      * Get description
-     * @return string
      */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
 
     /**
      * Set datatype id
-     * @param int $a_id
      */
-    public function setDatatypeId($a_id)
+    public function setDatatypeId(int $a_id)
     {
         //unset the cached datatype.
         $this->datatype = null;
@@ -219,9 +176,8 @@ class ilDclBaseFieldModel
 
     /**
      * Get datatype_id
-     * @return int
      */
-    public function getDatatypeId()
+    public function getDatatypeId(): int
     {
         if ($this->isStandardField()) {
             return ilDclStandardField::_getDatatypeForId($this->getId());
@@ -230,36 +186,24 @@ class ilDclBaseFieldModel
         return $this->datatypeId;
     }
 
-    /**
-     * @return bool
-     */
-    public function isUnique()
+    public function isUnique(): bool
     {
         return $this->unique;
     }
 
-    /**
-     * @param bool $unique
-     */
-    public function setUnique($unique)
+    public function setUnique(bool $unique)
     {
         $this->unique = $unique ? 1 : 0;
     }
 
-    /**
-     * @return ilDclDatatype
-     */
-    public function getDatatype()
+    public function getDatatype(): ilDclDatatype
     {
         $this->loadDatatype();
 
         return $this->datatype;
     }
 
-    /**
-     * @return string
-     */
-    public function getDatatypeTitle()
+    public function getDatatypeTitle(): string
     {
         $this->loadDatatype();
 
@@ -268,9 +212,8 @@ class ilDclBaseFieldModel
 
     /**
      * Get storage location for the model
-     * @return int|null
      */
-    public function getStorageLocation()
+    public function getStorageLocation(): ?int
     {
         if ($this->getStorageLocationOverride() !== null) {
             return $this->getStorageLocationOverride();
@@ -284,7 +227,7 @@ class ilDclBaseFieldModel
     /**
      * Load datatype for model
      */
-    protected function loadDatatype()
+    protected function loadDatatype(): void
     {
         if ($this->datatype == null) {
             $this->datatype = ilDclCache::getDatatype($this->datatypeId);
@@ -294,7 +237,7 @@ class ilDclBaseFieldModel
     /**
      * loadTableFieldSetting
      */
-    protected function loadTableFieldSetting()
+    protected function loadTableFieldSetting(): void
     {
         $tablefield_setting = ilDclTableFieldSetting::getInstance($this->getTableId(), $this->getId());
         $this->exportable = $tablefield_setting->isExportable();
@@ -304,7 +247,7 @@ class ilDclBaseFieldModel
     /**
      * @return bool
      */
-    public function getExportable()
+    public function getExportable(): bool
     {
         if (!isset($this->exportable)) {
             $this->loadExportability();
@@ -316,33 +259,24 @@ class ilDclBaseFieldModel
     /**
      * Load exportability
      */
-    private function loadExportability()
+    private function loadExportability(): void
     {
         if ($this->exportable == null) {
             $this->loadTableFieldSetting();
         }
     }
 
-    /**
-     * @return array
-     */
-    public function toArray()
+    public function toArray(): array
     {
         return (array) $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isStandardField()
+    public function isStandardField(): bool
     {
         return false;
     }
 
-    /**
-     * Read field
-     */
-    public function doRead()
+    public function doRead(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -363,9 +297,8 @@ class ilDclBaseFieldModel
 
     /**
      * Builds model from db record
-     * @param $rec
      */
-    public function buildFromDBRecord($rec) : void
+    public function buildFromDBRecord(array $rec) : void
     {
         $this->setId($rec["id"]);
         $this->setTableId($rec["table_id"]);
@@ -375,10 +308,7 @@ class ilDclBaseFieldModel
         $this->setUnique($rec["is_unique"] ?? null);
     }
 
-    /**
-     * Create new field
-     */
-    public function doCreate()
+    public function doCreate(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -404,17 +334,14 @@ class ilDclBaseFieldModel
     /**
      * create ilDclTableViewFieldSettings for this field in each tableview
      */
-    protected function addToTableViews()
+    protected function addToTableViews(): void
     {
         foreach (ilDclTableView::getAllForTableId($this->table_id) as $tableview) {
             $tableview->createFieldSetting($this->id);
         }
     }
 
-    /**
-     * Update field
-     */
-    public function doUpdate()
+    public function doUpdate(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -457,7 +384,7 @@ class ilDclBaseFieldModel
     /**
      * Update properties of this field in Database
      */
-    public function updateProperties()
+    public function updateProperties(): void
     {
         foreach ($this->property as $prop) {
             $prop->store();
@@ -467,7 +394,7 @@ class ilDclBaseFieldModel
     /**
      * update exportable and fieldorder
      */
-    protected function updateTableFieldSetting()
+    protected function updateTableFieldSetting(): void
     {
         $tablefield_setting = ilDclTableFieldSetting::getInstance($this->getTableId(), $this->getId());
         $tablefield_setting->setExportable($this->exportable);
@@ -478,7 +405,7 @@ class ilDclBaseFieldModel
     /**
      * Remove field and properties
      */
-    public function doDelete()
+    public function doDelete(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -507,19 +434,13 @@ class ilDclBaseFieldModel
 
     /**
      * @param int $tableview_id
-     * @return ilDclTableViewFieldSetting
      */
     public function getViewSetting(int $tableview_id) : ilDclTableViewFieldSetting
     {
-        return ilDclTableViewFieldSetting::where(array('field' => $this->getId(),
-                                                       'tableview_id' => $tableview_id
-        ))->first();
+        return ilDclTableViewFieldSetting::getTableViewFieldSetting($this->getId(), $tableview_id);
     }
 
-    /**
-     * @return int
-     */
-    public function getOrder()
+    public function getOrder(): int
     {
         if ($this->order == null) {
             $this->loadTableFieldSetting();
@@ -528,29 +449,23 @@ class ilDclBaseFieldModel
         return !$this->order ? 0 : $this->order;
     }
 
-    /**
-     * @param $order
-     */
-    public function setOrder($order)
+    public function setOrder(string $order)
     {
         $this->order = $order;
     }
 
     /**
      * Get all properties of a field
-     * @return array
      */
-    protected function loadProperties()
+    protected function loadProperties(): void
     {
         $this->property = ilDclCache::getFieldProperties($this->getId());
     }
 
     /**
      * Checks if a certain property for a field is set
-     * @param $key
-     * @return bool
      */
-    public function hasProperty($key)
+    public function hasProperty(string $key): bool
     {
         $this->loadProperties();
 
@@ -559,10 +474,9 @@ class ilDclBaseFieldModel
 
     /**
      * Returns a certain property of a field
-     * @param $key
-     * @return null
+     * @return ?mixed
      */
-    public function getProperty($key)
+    public function getProperty(string $key)
     {
         $instance = $this->getPropertyInstance($key);
 
@@ -571,10 +485,9 @@ class ilDclBaseFieldModel
 
     /**
      * Return ActiveRecord of property
-     * @param $key
-     * @return null
+     * @return ?mixed
      */
-    public function getPropertyInstance($key)
+    public function getPropertyInstance(string $key)
     {
         $this->loadProperties();
         if ($this->hasProperty($key)) {
@@ -588,10 +501,9 @@ class ilDclBaseFieldModel
 
     /**
      * Set a property for a field (does not save)
-     * @param $key
-     * @param $value
+     * @param mixed $value
      */
-    public function setProperty($key, $value)
+    public function setProperty(string $key, $value): ilDclFieldProperty
     {
         $this->loadProperties();
         if (isset($this->property[$key])) {
@@ -610,18 +522,13 @@ class ilDclBaseFieldModel
 
     /**
      * Returns all valid properties for a field-type
-     * @return array
      */
-    public function getValidFieldProperties()
+    public function getValidFieldProperties(): array
     {
-        return array();
+        return [];
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     * @param null              $record_id
-     */
-    public function checkValidityFromForm(ilPropertyFormGUI &$form, $record_id = null)
+    public function checkValidityFromForm(ilPropertyFormGUI &$form, ?int $record_id = null): void
     {
         $value = $form->getInput('field_' . $this->getId());
         $this->checkValidity($value, $record_id);
@@ -629,12 +536,11 @@ class ilDclBaseFieldModel
 
     /**
      * Check if input is valid
-     * @param      $value
-     * @param null $record_id
+     * @param mixed    $value
      * @return bool
      * @throws ilDclInputException
      */
-    public function checkValidity($value, $record_id = null)
+    public function checkValidity(?array $value, ?int $record_id = null): bool
     {
         //Don't check empty values
         if ($value == null) {
@@ -654,10 +560,9 @@ class ilDclBaseFieldModel
     }
 
     /**
-     * @param $value
-     * @return string
+     * @param mixed $value
      */
-    protected function normalizeValue($value)
+    protected function normalizeValue($value): string
     {
         if (is_string($value)) {
             $value = trim(preg_replace("/\\s+/uism", " ", $value));
@@ -667,10 +572,9 @@ class ilDclBaseFieldModel
     }
 
     /**
-     * @param $original_id
      * @throws ilException
      */
-    public function cloneStructure($original_id)
+    public function cloneStructure(int $original_id): void
     {
         $original = ilDclCache::getFieldCache($original_id);
         $this->setTitle($original->getTitle());
@@ -686,20 +590,14 @@ class ilDclBaseFieldModel
         ilDclCache::setCloneOf($original_id, $this->getId(), ilDclCache::TYPE_FIELD);
     }
 
-    /**
-     * @param $records
-     */
-    public function afterClone($records)
+    public function afterClone(array $records)
     {
         foreach ($records as $rec) {
             ilDclCache::getRecordFieldCache($rec, $this)->afterClone();
         }
     }
 
-    /**
-     * @param ilDclBaseFieldModel $originalField
-     */
-    public function cloneProperties(ilDclBaseFieldModel $originalField)
+    public function cloneProperties(ilDclBaseFieldModel $originalField): void
     {
         $orgProps = $originalField->getValidFieldProperties();
         if (count($orgProps) == 0) {
@@ -722,29 +620,21 @@ class ilDclBaseFieldModel
         }
     }
 
-    /**
-     * @param boolean $exportable
-     */
-    public function setExportable($exportable)
+    public function setExportable(bool $exportable): void
     {
         $this->exportable = $exportable;
     }
 
-    /**
-     * @return bool
-     */
-    public function allowFilterInListView()
+    public function allowFilterInListView(): bool
     {
         return true;
     }
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     * @param string  $direction
-     * @param boolean $sort_by_status The specific sort object is a status field
-     * @return null|ilDclRecordQueryObject
+     * @param bool $sort_by_status The specific sort object is a status field
      */
-    public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false)
+    public function getRecordQuerySortObject(string $direction = "asc", bool $sort_by_status = false): ?ilDclRecordQueryObject
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -768,27 +658,24 @@ class ilDclBaseFieldModel
      * Returns a query-object for building the record-loader-sql-query
      * @param string                   $filter_value
      * @param ilDclBaseFieldModel|null $sort_field
-     * @return null|ilDclRecordQueryObject
      */
-    public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null)
+    public function getRecordQueryFilterObject(string $filter_value = "", ilDclBaseFieldModel $sort_field = null): ?ilDclRecordQueryObject
     {
         return null;
     }
 
     /**
      * Returns the sort-field id
-     * @return string
      */
-    public function getSortField()
+    public function getSortField(): string
     {
         return $this->getTitle();
     }
 
     /**
      * Set to true, when the sorting should be handled numerical
-     * @return bool
      */
-    public function hasNumericSorting()
+    public function hasNumericSorting(): bool
     {
         if ($this->getDatatypeId() == ilDclDatatype::INPUTFORMAT_NUMBER) {
             return true;
@@ -800,45 +687,30 @@ class ilDclBaseFieldModel
     /**
      * Checks input of specific fields befor saving
      * @param ilPropertyFormGUI $form
-     * @return boolean if checkInput was successful
+     * @return bool if checkInput was successful
      */
-    public function checkFieldCreationInput(ilPropertyFormGUI $form)
+    public function checkFieldCreationInput(ilPropertyFormGUI $form): bool
     {
         return true;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getStorageLocationOverride()
+    public function getStorageLocationOverride(): ?int
     {
         return $this->storage_location_override;
     }
 
-    /**
-     * @param int|null $storage_location_override
-     */
-    public function setStorageLocationOverride($storage_location_override)
+    public function setStorageLocationOverride(?int $storage_location_override): void
     {
         $this->storage_location_override = $storage_location_override;
     }
 
-    /**
-     * @param ilExcel $worksheet
-     * @param         $row
-     * @param         $col
-     */
-    public function fillHeaderExcel(ilExcel $worksheet, &$row, &$col)
+    public function fillHeaderExcel(ilExcel $worksheet, int &$row, int &$col)
     {
         $worksheet->setCell($row, $col, $this->getTitle());
         $col++;
     }
 
-    /**
-     * @param array $titles
-     * @param array $import_fields
-     */
-    public function checkTitlesForImport(array &$titles, array &$import_fields)
+    public function checkTitlesForImport(array &$titles, array &$import_fields): void
     {
         foreach ($titles as $k => $title) {
             if (!ilStr::isUtf8($title)) {
@@ -852,9 +724,8 @@ class ilDclBaseFieldModel
 
     /**
      * called when saving the 'edit field' form
-     * @param ilPropertyFormGUI $form
      */
-    public function storePropertiesFromForm(ilPropertyFormGUI $form)
+    public function storePropertiesFromForm(ilPropertyFormGUI $form): void
     {
         $field_props = $this->getValidFieldProperties();
         foreach ($field_props as $property) {
@@ -871,9 +742,8 @@ class ilDclBaseFieldModel
     /**
      * called to fill the 'edit field' form
      * @param ilPropertyFormGUI $form
-     * @return bool
      */
-    public function fillPropertiesForm(ilPropertyFormGUI &$form)
+    public function fillPropertiesForm(ilPropertyFormGUI &$form): bool
     {
         $values = array(
             'table_id' => $this->getTableId(),
@@ -898,9 +768,8 @@ class ilDclBaseFieldModel
      * called by ilDclFieldEditGUI when updating field properties
      * if you overwrite this method, remember to also overwrite getConfirmationGUI
      * @param ilPropertyFormGUI $form
-     * @return bool
      */
-    public function isConfirmationRequired(ilPropertyFormGUI $form)
+    public function isConfirmationRequired(ilPropertyFormGUI $form): bool
     {
         return false;
     }
@@ -908,9 +777,8 @@ class ilDclBaseFieldModel
     /**
      * called by ilDclFieldEditGUI if isConfirmationRequired returns true
      * @param ilPropertyFormGUI $form
-     * @return ilConfirmationGUI
      */
-    public function getConfirmationGUI(ilPropertyFormGUI $form)
+    public function getConfirmationGUI(ilPropertyFormGUI $form): ilConfirmationGUI
     {
         global $DIC;
         $ilConfirmationGUI = new ilConfirmationGUI();

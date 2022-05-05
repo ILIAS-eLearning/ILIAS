@@ -344,6 +344,10 @@ class ilDclTableView extends ActiveRecord
         return ilDclCache::getTableCache($this->table_id);
     }
 
+    public static function findOrGetInstance($primary_key, array $add_constructor_args = array()): self {
+        parent::findOrGetInstance($primary_key, $add_constructor_args);
+    }
+
     /**
      * getFilterableFields
      * Returns all  fieldsetting-objects of this tableview which have set their filterable to true, including standard fields.
@@ -401,6 +405,7 @@ class ilDclTableView extends ActiveRecord
             )
         )->innerjoin('il_dcl_tfield_set', 'field', 'field', array('field_order'))->orderBy('field_order')->get();
     }
+
 
     /**
      * @param $field_id

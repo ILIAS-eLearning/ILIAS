@@ -10,11 +10,8 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
 
     /**
      * Outputs html of a certain field
-     * @param mixed     $value
-     * @param bool|true $link
-     * @return string
      */
-    public function getHTML($link = true)
+    public function getHTML(bool $link = true): string
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -28,11 +25,9 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
     }
 
     /**
-     * @param $value
-     * @param $format
-     * @return false|string
+     * @return bool|string
      */
-    protected function formatDate($value, $format)
+    protected function formatDate(string $value, string $format)
     {
         $timestamp = strtotime($value);
         switch ($format) {
@@ -49,10 +44,9 @@ class ilDclDatetimeRecordRepresentation extends ilDclBaseRecordRepresentation
 
     /**
      * function parses stored value to the variable needed to fill into the form for editing.
-     * @param $value
-     * @return mixed
+     * @param string|int $value
      */
-    public function parseFormInput($value)
+    public function parseFormInput($value): ?string
     {
         if (!$value || $value == "-") {
             return null;

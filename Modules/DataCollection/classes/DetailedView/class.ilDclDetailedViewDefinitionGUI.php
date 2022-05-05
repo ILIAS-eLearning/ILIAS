@@ -12,17 +12,9 @@
  */
 class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 {
+    protected int $tableview_id;
 
-    /**
-     * @var int
-     */
-    protected $tableview_id;
-
-    /**
-     * @param     $tableview_id
-     * @param int $a_definition_id
-     */
-    public function __construct($tableview_id, $a_definition_id = 0)
+    public function __construct(int $tableview_id, int $a_definition_id = 0)
     {
         global $DIC;
         $tpl = $DIC['tpl'];

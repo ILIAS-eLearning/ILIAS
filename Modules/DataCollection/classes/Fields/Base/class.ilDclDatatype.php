@@ -30,33 +30,20 @@ class ilDclDatatype
     const INPUTFORMAT_TEXT_SELECTION = 14;
     const INPUTFORMAT_DATE_SELECTION = 15;
     //public static $mob_suffixes = array('jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv');
-    /**
-     * @var int
-     */
-    protected $id;
-    /**
-     * @var string
-     */
-    protected $title;
-    /**
-     * @var int
-     */
-    protected $storageLocation;
-    /**
-     * @var string
-     */
-    protected $dbType;
+    protected int $id;
+    protected string $title;
+    protected int $storageLocation;
+    protected string $dbType;
     /**
      * @var ilDclDatatype[]
      */
-    public static $datatype_cache;
+    public static array $datatype_cache;
 
     /**
      * Constructor
      * @access public
-     * @param integer datatype_id
      */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         if ($a_id != 0) {
             $this->id = $a_id;
@@ -64,55 +51,38 @@ class ilDclDatatype
         }
     }
 
-    /**
-     * Get field id
-     * @return int
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * Set title
-     * @param string $a_title
-     */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title)
     {
         $this->title = $a_title;
     }
 
-    /**
-     * Get title
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
     /**
      * Set Storage Location
-     * @param int $a_id
      */
-    public function setStorageLocation($a_id)
+    public function setStorageLocation(int $a_id)
     {
         $this->storageLocation = $a_id;
     }
 
     /**
      * Get Storage Location
-     * @return int
      */
-    public function getStorageLocation()
+    public function getStorageLocation(): int
     {
         return $this->storageLocation;
     }
 
-    /*
-     * getDbType
-     */
-    public function getDbType()
+    public function getDbType(): string
     {
         return $this->dbType;
     }
@@ -120,7 +90,7 @@ class ilDclDatatype
     /**
      * Read Datatype
      */
-    public function doRead()
+    public function doRead(): void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -135,9 +105,8 @@ class ilDclDatatype
 
     /**
      * Get all possible Datatypes
-     * @return array
      */
-    public static function getAllDatatype()
+    public static function getAllDatatype(): array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -159,7 +128,7 @@ class ilDclDatatype
         return self::$datatype_cache;
     }
 
-    protected function loadDatatype($rec)
+    protected function loadDatatype(array $rec): void
     {
         $this->id = $rec['id'];
         $this->dbType = $rec["ildb_type"];
