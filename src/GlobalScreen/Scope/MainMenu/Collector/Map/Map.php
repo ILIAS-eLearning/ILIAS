@@ -114,13 +114,12 @@ class Map implements Filterable, Walkable
         return $this->filtered->offsetExists($identification->serialize());
     }
 
-    /**
-     * @return bool
-     */
+    
     public function has() : bool
     {
         return $this->raw->count() > 0;
     }
+    
 
     private function applyFilters() : void
     {

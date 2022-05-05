@@ -208,13 +208,21 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     {
         yield from $this->map->getAllFromFilter();
     }
-
-    /**
-     * @inheritDoc
-     */
+    
     public function hasItems() : bool
     {
         return $this->map->has();
+    }
+    
+    public function hasVisibleItems() : bool
+    {
+        if (!$this->hasItems()) {
+            return false;
+        }
+        foreach ($this->getItemsForUIRepresentation() as $item) {
+            return $item instanceof isItem;
+        }
+        return false;
     }
 
     /**
