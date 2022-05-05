@@ -34,21 +34,25 @@
             return $this->token;
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
         public function client()
         {
             return $this->client;
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
         public function lrsType()
         {
             return $this->lrsType;
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
         public function replacedValues()
         {
             return $this->replacedValues;
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
         public function specificAllowedStatements()
         {
             return $this->specificAllowedStatements;
@@ -58,12 +62,13 @@
         {
             return $this->blockSubStatements;
         }
-
+        // TODO PHP8 Review: Missing Return type Declaration
         public function cmdParts()
         {
             return $this->cmdParts;
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
         public function method()
         {
             return $this->method;
@@ -99,26 +104,30 @@
             return $this->fallbackLrsSecret;
         }
 
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         public function setXapiProxyRequest($xapiProxyRequest) : void
         {
             $this->xapiProxyRequest = $xapiProxyRequest;
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
         public function getXapiProxyRequest()
         {
             return $this->xapiProxyRequest;
         }
 
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         public function setXapiProxyResponse($xapiProxyResponse) : void
         {
             $this->xapiProxyResponse = $xapiProxyResponse;
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
         public function getXapiProxyResponse()
         {
             return $this->xapiProxyResponse;
         }
-
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         public function processStatements($request, $body) : ?array
         {
             // everything is allowed
@@ -153,10 +162,11 @@
                 $this->log()->debug($this->msg("json is array of statements"));
                 $ret = array();
                 $up = array();
-                for ($i = 0; $i < count($obj); $i++) {
-                    array_push($ret, $obj[$i]->id); // push every statementid for fakePostResponse
-                    $isSubStatement = $this->isSubStatementCheck($obj[$i]);
-                    $verb = $obj[$i]->verb->id;
+                foreach ($obj as $i => $singleObj) {
+                    $ret[] = $singleObj->id;
+                    // push every statementid for fakePostResponse
+                    $isSubStatement = $this->isSubStatementCheck($singleObj);
+                    $verb = $singleObj->verb->id;
                     if ($this->blockSubStatements && $isSubStatement) {
                         $this->log()->debug($this->msg("sub-statement is NOT allowed - " . $verb));
                     } else {
@@ -166,7 +176,7 @@
                         }
                     }
                 }
-                if (count($up) === 0) { // nothing allowed
+                if ($up === []) { // nothing allowed
                     $this->log()->debug($this->msg("no allowed statements in array - fake response..."));
                     $this->xapiProxyResponse->fakeResponseBlocked("");
 //                    $this->xapiProxyResponse->fakeResponseBlocked($ret);
@@ -180,7 +190,8 @@
             }
             return null;
         }
-
+        // TODO PHP8 Review: Missing Parameter Type Declaration
+        // TODO PHP8 Review: Missing Return type Declaration
         public function modifyBody($body)
         {
             $obj = json_decode($body, false);
@@ -213,7 +224,7 @@
             }
             return json_encode($obj);
         }
-        
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         private function handleStatementEvaluation($xapiStatement) : void
         {
             global $DIC;
@@ -239,7 +250,7 @@
                 }
             }
         }
-
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         private function setValue(&$obj, $path, $value) : void
         {
             $path_components = explode('.', $path);
@@ -253,7 +264,7 @@
                 }
             }
         }
-
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         private function setStatus($obj) : void
         {
 //            if (isset($obj->verb) && isset($obj->actor) && isset($obj->object)) {
@@ -274,6 +285,8 @@
 //            }
         }
 
+        // TODO PHP8 Review: Missing Return type Declaration
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         private function isSubStatementCheck($obj)
         {
             if (

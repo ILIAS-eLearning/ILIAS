@@ -42,9 +42,6 @@ class ilCmiXapiSettingsGUI
     protected ilObjCmiXapi $object;
     private \ilGlobalTemplateInterface $main_tpl;
     
-    /**
-     * @param ilObjCmiXapi $object
-     */
     public function __construct(ilObjCmiXapi $object)
     {
         global $DIC;
@@ -55,7 +52,7 @@ class ilCmiXapiSettingsGUI
     public function initSubtabs() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $DIC->tabs()->addSubTab(
             self::SUBTAB_ID_SETTINGS,
             $DIC->language()->txt(self::SUBTAB_ID_SETTINGS),
@@ -76,7 +73,7 @@ class ilCmiXapiSettingsGUI
     public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $this->initSubtabs();
         
         switch ($DIC->ctrl()->getNextClass()) {
@@ -106,7 +103,7 @@ class ilCmiXapiSettingsGUI
     protected function saveCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $form = $this->buildForm();
         
         if ($form->checkInput()) {
@@ -122,7 +119,7 @@ class ilCmiXapiSettingsGUI
     protected function showCmd(ilPropertyFormGUI $form = null) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $DIC->tabs()->activateSubTab(self::SUBTAB_ID_SETTINGS);
         
         $form = $this->buildForm();
@@ -133,6 +130,7 @@ class ilCmiXapiSettingsGUI
     protected function buildForm() : \ilPropertyFormGUI
     {
         global $DIC;
+        // TODO PHP8 Review: Move Global Access to Constructor
         $form = new ilPropertyFormGUI();
         $form->setFormAction($DIC->ctrl()->getFormAction($this));
         
@@ -227,13 +225,14 @@ class ilCmiXapiSettingsGUI
             $launchMode->addOption($optReview);
             $form->addItem($launchMode);
         }
-            
+        
         $lpDeterioration = new ilCheckboxInputGUI($DIC->language()->txt('conf_keep_lp'), 'avoid_lp_deterioration');
         $lpDeterioration->setInfo($DIC->language()->txt('conf_keep_lp_info'));
         if ($this->object->isKeepLpStatusEnabled()) {
             $lpDeterioration->setChecked(true);
         }
         if (!$this->object->isSourceTypeExternal()) {
+            // TODO PHP8 Review: Variable $optNormal is probably undefined
             $optNormal->addSubItem($lpDeterioration);
         } else {
             $form->addItem($lpDeterioration);
@@ -245,6 +244,7 @@ class ilCmiXapiSettingsGUI
             if ($this->object->isSwitchToReviewEnabled()) {
                 $switchMode->setChecked(true);
             }
+            // TODO PHP8 Review: Variable $optNormal is probably undefined
             $optNormal->addSubItem($switchMode);
             
             $masteryScore = new ilNumberInputGUI($DIC->language()->txt('conf_mastery_score'), 'mastery_score');
@@ -635,10 +635,10 @@ class ilCmiXapiSettingsGUI
     protected function deliverCertificateCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
+        // TODO PHP8 Review: Move Global Access to Constructor
         $validator = new ilCertificateDownloadValidator();
 
-        if (!$validator->isCertificateDownloadable((int) $DIC->user()->getId(), (int) $this->object->getId())) {
+        if (!$validator->isCertificateDownloadable((int) $DIC->user()->getId(), $this->object->getId())) {
             $this->main_tpl->setOnScreenMessage('failure', $DIC->language()->txt("permission_denied"), true);
             $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
         }
@@ -655,6 +655,6 @@ class ilCmiXapiSettingsGUI
             $DIC->language()->txt('error_creating_certificate_pdf')
         );
 
-        $pdfAction->downloadPdf((int) $DIC->user()->getId(), (int) $this->object->getId());
+        $pdfAction->downloadPdf((int) $DIC->user()->getId(), $this->object->getId());
     }
 }

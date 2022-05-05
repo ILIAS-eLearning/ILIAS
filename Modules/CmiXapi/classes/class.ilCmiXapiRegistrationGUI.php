@@ -29,21 +29,14 @@ class ilCmiXapiRegistrationGUI
     const CMD_CANCEL = 'cancel';
     
     const DEFAULT_CMD = self::CMD_SHOW_FORM;
-    
-    /**
-     * @var ilObjCmiXapi
-     */
+
     protected ilObjCmiXapi $object;
     
-    /**
-     * @var ilCmiXapiUser
-     */
     protected ilCmiXapiUser $cmixUser;
     private \ilGlobalTemplateInterface $main_tpl;
     
     /**
      * ilCmiXapiRegistrationGUI constructor.
-     * @param ilObjCmiXapi $object
      */
     public function __construct(ilObjCmiXapi $object)
     {
@@ -56,7 +49,6 @@ class ilCmiXapiRegistrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     public function executeCommand() : void
@@ -71,39 +63,35 @@ class ilCmiXapiRegistrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function cancelCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        // TODO PHP8 Review: Move Global Access to Constructor
         
         $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
     }
 
     /**
      * @param ilPropertyFormGUI|null $form
-     * @return void
      */
     protected function showFormCmd(ilPropertyFormGUI $form = null) : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         if ($form === null) {
             $form = $this->buildForm();
         }
         
-        $DIC->ui()->mainTemplate()->setContent($form->getHTML());
+        $this->main_tpl->setContent($form->getHTML());
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function saveFormCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $form = $this->buildForm();
     
         if (!$form->checkInput()) {
@@ -119,13 +107,12 @@ class ilCmiXapiRegistrationGUI
     }
 
     /**
-     * @return ilPropertyFormGUI
      * @throws ilCtrlException
      */
     protected function buildForm() : \ilPropertyFormGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $form = new ilPropertyFormGUI();
         
         $form->setFormAction($DIC->ctrl()->getFormAction($this, self::CMD_SHOW_FORM));
@@ -149,18 +136,11 @@ class ilCmiXapiRegistrationGUI
         return $form;
     }
 
-    /**
-     * @return int
-     */
     protected function hasRegistration() : int
     {
         return strlen($this->cmixUser->getUsrIdent());
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     * @return void
-     */
     protected function saveRegistration(ilPropertyFormGUI $form) : void
     {
         $this->cmixUser->setUsrIdent($form->getInput('user_ident'));

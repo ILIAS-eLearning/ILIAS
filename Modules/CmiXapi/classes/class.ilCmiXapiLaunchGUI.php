@@ -26,24 +26,12 @@ class ilCmiXapiLaunchGUI
 {
     const XAPI_PROXY_ENDPOINT = 'Modules/CmiXapi/xapiproxy.php';
     
-    /**
-     * @var ilObjCmiXapi
-     */
     protected ilObjCmiXapi $object;
     
-    /**
-     * @var ilCmiXapiUser
-     */
     protected ilCmiXapiUser $cmixUser;
 
-    /**
-     * @var bool
-     */
     protected bool $plugin = false;
     
-    /**
-     * @param ilObjCmiXapi $object
-     */
     public function __construct(ilObjCmiXapi $object)
     {
         $this->object = $object;
@@ -57,6 +45,7 @@ class ilCmiXapiLaunchGUI
     protected function launchCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        // TODO PHP8 Review: Move $DIC->ctrl() to constructor
         
         $this->initCmixUser();
         $token = $this->getValidToken();
@@ -68,6 +57,8 @@ class ilCmiXapiLaunchGUI
         $DIC->ctrl()->redirectToURL($launchLink);
     }
     
+    // TODO PHP8 Review: Missing Return type Declaration
+    // TODO PHP8 Review: Missing Parameter Type Declaration
     protected function buildLaunchLink($token)
     {
         $launchLink = "";
@@ -96,7 +87,6 @@ class ilCmiXapiLaunchGUI
     }
 
     /**
-     * @param string $token
      * @return array<string, mixed>
      */
     protected function getLaunchParameters(string $token) : array
@@ -140,7 +130,6 @@ class ilCmiXapiLaunchGUI
     }
 
     /**
-     * @return string
      * @throws ilCmiXapiException
      */
     protected function getAuthTokenFetchLink() : string
@@ -150,13 +139,11 @@ class ilCmiXapiLaunchGUI
         ]);
         
         $param = $this->buildAuthTokenFetchParam();
-        $link = iLUtil::appendUrlParameterString($link, "param={$param}");
         
-        return $link;
+        return iLUtil::appendUrlParameterString($link, "param={$param}");
     }
 
     /**
-     * @return string
      * @throws ilCmiXapiException
      */
     protected function buildAuthTokenFetchParam() : string
@@ -169,20 +156,15 @@ class ilCmiXapiLaunchGUI
         ];
         
         $encryptionKey = ilCmiXapiAuthToken::getWacSalt();
-        
-        $param = urlencode(base64_encode(openssl_encrypt(
+        return urlencode(base64_encode(openssl_encrypt(
             json_encode($params),
             ilCmiXapiAuthToken::OPENSSL_ENCRYPTION_METHOD,
             $encryptionKey,
             0,
             ilCmiXapiAuthToken::OPENSSL_IV
         )));
-        return $param;
     }
 
-    /**
-     * @return string
-     */
     protected function getValidToken() : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -196,18 +178,10 @@ class ilCmiXapiLaunchGUI
         return $token;
     }
 
-    /**
-     * @return void
-     */
     protected function initCmixUser() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        $doLpUpdate = false;
-
-        // if (!ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId())) {
-        // $doLpUpdate = true;
-        // }
+        global $DIC;
+        // TODO PHP8 Review: Move $DIC->user() to constructor
 
         $this->cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(), $this->object->getPrivacyIdent());
         $user_ident = $this->cmixUser->getUsrIdent();
@@ -221,9 +195,6 @@ class ilCmiXapiLaunchGUI
             $this->cmixUser->save();
             ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
         }
-        // if ($doLpUpdate) {
-            // ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
-        // }
     }
 
     /**
@@ -232,20 +203,19 @@ class ilCmiXapiLaunchGUI
     protected function getCmi5LearnerPreferences() : array
     {
         global $DIC;
+        // TODO PHP8 Review: Move $DIC->user() to constructor
         $language = $DIC->user()->getLanguage();
         $audio = "on";
-        $prefs = [
+        return [
             "languagePreference" => "{$language}",
             "audioPreference" => "{$audio}"
         ];
-        return $prefs;
     }
 
     /**
      * Prelaunch
      * post cmi5LearnerPreference (agent profile)
      * post LMS.LaunchData
-     * @param string $token
      * @return array<string, mixed>
      * @throws ilCmiXapiException
      * @throws ilDateTimeException
@@ -253,6 +223,7 @@ class ilCmiXapiLaunchGUI
     protected function CMI5preLaunch(string $token) : array
     {
         global $DIC;
+        // TODO PHP8 Review: Move $DIC->yx() to constructor
         
         $lrsType = $this->object->getLrsType();
         $defaultLrs = $lrsType->getLrsEndpoint();
@@ -348,6 +319,7 @@ class ilCmiXapiLaunchGUI
         
         // abandonedStatement
         if ($abandoned) {
+            // TODO PHP8 Review: Variable XY $duration probably undefined
             $abandonedStatement = $this->object->getAbandonedStatement($oldSession, $duration, $this->cmixUser);
             $abandonedStatementParams = [];
             $abandonedStatementParams['statementId'] = $abandonedStatement['id'];
@@ -425,8 +397,10 @@ class ilCmiXapiLaunchGUI
     /**
      * @return CliLog|ilLogger
      */
+    // TODO PHP8 Review: Missing Return type Declaration
     private function log()
     {
+        // TODO PHP8 Review: Move global access to constructor
         global $log;
         if ($this->plugin) {
             return $log;

@@ -24,19 +24,10 @@
  */
 class ilCmiXapiStatementsReport
 {
-    /**
-     * @var string
-     */
     protected string $response;
     
-    /**
-     * @var array
-     */
     protected array $statements;
     
-    /**
-     * @var int
-     */
     protected int $maxCount;
     
     /**
@@ -44,18 +35,12 @@ class ilCmiXapiStatementsReport
      */
     protected array $cmixUsersByIdent;
 
-    /**
-     * @var string
-     */
     protected string $userLanguage;
     /**
-    * @var ilObjCmiXapi::CONT_TYPE_GENERIC|CONT_TYPE_CMI5
+    * @var ilObjCmiXapi::CONT_TYPE_GENERIC|ilObjCmiXapi::CONT_TYPE_CMI5
     */
     protected string $contentType;
     
-    /**
-    * @var bool
-    */
     protected bool $isMixedContentType;
 
     public function __construct(string $responseBody, int $objId)
@@ -69,7 +54,7 @@ class ilCmiXapiStatementsReport
         
         $this->isMixedContentType = ilObjCmiXapi::getInstance($objId, false)->isMixedContentType();
         
-        if (count($responseBody)) {
+        if (count($responseBody) > 0) {
             $this->response = current($responseBody);
             $this->statements = $this->response['statements'];
             $this->maxCount = $this->response['maxcount'];
@@ -109,7 +94,7 @@ class ilCmiXapiStatementsReport
     {
         $data = [];
         
-        foreach ($this->statements as $index => $statement) {
+        foreach ($this->statements as $statement) {
             $data[] = [
                 'date' => $this->fetchDate($statement),
                 'actor' => $this->fetchActor($statement),
@@ -125,7 +110,6 @@ class ilCmiXapiStatementsReport
     }
 
     /**
-     * @param array $statement
      * @return mixed
      */
     protected function fetchDate(array $statement)
@@ -176,8 +160,6 @@ class ilCmiXapiStatementsReport
 
     /**
      *  with multiple language keys like [de-DE] [en-US]
-     * @param array  $obj
-     * @param string $userLanguage
      * @return array<string, mixed>
      */
     public static function getLanguageEntry(array $obj, string $userLanguage) : array

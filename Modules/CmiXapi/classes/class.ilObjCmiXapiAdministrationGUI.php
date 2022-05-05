@@ -38,6 +38,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     public function getAdminTabs() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        // TODO PHP8 Review: Move Global Access to Constructor
         
         // lrs types tab
         
@@ -59,7 +60,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $DIC->language()->loadLanguageModule('cmix');
         
         $this->prepareOutput();
@@ -88,7 +89,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     protected function showLrsTypesListCmd() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $DIC->tabs()->activateTab(self::TAB_ID_LRS_TYPES);
         
         $toolbar = $this->buildLrsTypesToolbarGUI();
@@ -102,13 +103,13 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     
     protected function buildLrsTypesTableGUI() : \ilCmiXapiLrsTypesTableGUI
     {
-        $table = new ilCmiXapiLrsTypesTableGUI($this, self::CMD_SHOW_LRS_TYPES_LIST);
-        return $table;
+        return new ilCmiXapiLrsTypesTableGUI($this, self::CMD_SHOW_LRS_TYPES_LIST);
     }
     
     protected function buildLrsTypesToolbarGUI() : \ilToolbarGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        // TODO PHP8 Review: Move Global Access to Constructor
         //todo
         $createTypeButton = ilLinkButton::getInstance();
         $createTypeButton->setCaption('btn_create_lrs_type');
@@ -123,6 +124,7 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     protected function showLrsTypeFormCmd(ilPropertyFormGUI $form = null) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        // TODO PHP8 Review: Move Global Access to Constructor
         
         $DIC->tabs()->activateTab(self::TAB_ID_LRS_TYPES);
         
@@ -137,10 +139,11 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     
     protected function initLrsType() : \ilCmiXapiLrsType
     {
+        // TODO PHP8 Review: Remove/Replace SuperGlobals
         if (isset($_POST['lrs_type_id']) && (int) $_POST['lrs_type_id']) {
             return new ilCmiXapiLrsType((int) $_POST['lrs_type_id']);
         }
-        
+        // TODO PHP8 Review: Remove/Replace SuperGlobals
         if (isset($_GET['lrs_type_id']) && (int) $_GET['lrs_type_id']) {
             return new ilCmiXapiLrsType((int) $_GET['lrs_type_id']);
         }

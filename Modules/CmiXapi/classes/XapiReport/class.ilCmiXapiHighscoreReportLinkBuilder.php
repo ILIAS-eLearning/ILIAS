@@ -24,9 +24,6 @@
  */
 class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBuilder
 {
-    /**
-     * @return array
-     */
     protected function buildPipeline() : array
     {
         $pipeline = [];

@@ -42,6 +42,7 @@ class ilCmiXapiDateDurationInputGUI extends ilDateDurationInputGUI
     /**
      * @return ilCmiXapiDateTime|null
      */
+    // TODO PHP8 Review: Missing Return type Declaration
     public function getStartXapiDateTime()
     {
         if ($this->getStart() instanceof ilDateTime) {
@@ -51,13 +52,14 @@ class ilCmiXapiDateDurationInputGUI extends ilDateDurationInputGUI
                 return null;
             }
         }
-        
+        // TODO PHP8 Review: Variable $xapiDateTime is probably undefined
         return $xapiDateTime;
     }
     
     /**
      * @return ilCmiXapiDateTime|null
      */
+    // TODO PHP8 Review: Missing Return type Declaration
     public function getEndXapiDateTime()
     {
         if ($this->getEnd() instanceof ilDateTime) {
@@ -67,7 +69,7 @@ class ilCmiXapiDateDurationInputGUI extends ilDateDurationInputGUI
                 return null;
             }
         }
-        
+        // TODO PHP8 Review: Variable $xapiDateTime is probably undefined
         return $xapiDateTime;
     }
 }

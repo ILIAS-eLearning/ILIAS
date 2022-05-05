@@ -29,9 +29,6 @@ class ilObjCmiXapiVerification extends ilVerificationObject
         $this->type = "cmxv";
     }
     
-    /**
-     * @return array
-     */
     protected function getPropertyMap() : array
     {
         return array("issued_on" => self::TYPE_DATE,

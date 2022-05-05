@@ -26,7 +26,6 @@ class ilCmiXapiImporter extends ilXmlImporter
 {
     private array $_moduleProperties = [];
 
-    /** @var array */
     public array $manifest = [];
 
     private \ilCmiXapiDataSet $_dataset;
@@ -35,15 +34,9 @@ class ilCmiXapiImporter extends ilXmlImporter
 
     private ?int $_newId = null;
 
-//    private string $_entity;
-
     private int $_import_objId;
 
-//    private string $_import_dirname;
-
     private \ilImportMapping $_mapping;
-
-//    private bool $_hasContent = false;
 
     private ?string $_relWebDir = 'lm_data/lm_';
 
@@ -65,20 +58,12 @@ class ilCmiXapiImporter extends ilXmlImporter
 
     /**
      * Init the object creation from import
-     * @param string          $a_entity
-     * @param string          $a_id
-     * @param string          $a_xml
-     * @param ilImportMapping $a_mapping
-     * @return void
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
-        global $DIC; /** @var \ILIAS\DI\Container $DIC */
-//        $this->_entity = $a_entity;
         $this->_import_objId = (int) $a_id;
-//        $this->_import_dirname = $a_xml;
         $this->_mapping = $a_mapping;
 
         if (false === ($this->_newId = $a_mapping->getMapping('Services/Container', 'objs', (string) $this->_import_objId))) {
@@ -96,13 +81,9 @@ class ilCmiXapiImporter extends ilXmlImporter
 
     /**
      * Builds the CmiXapi Object
-     * @return $this
      */
     private function prepareSingleObject() : self
     {
-        global $DIC;
-        /** @var \ILIAS\DI\Container $DIC */
-
         // create new cmix object
         $this->_cmixObj = new ilObjCmiXapi();
         // set type of questionpool object
@@ -126,9 +107,6 @@ class ilCmiXapiImporter extends ilXmlImporter
      */
     private function prepareContainerObject() : void
     {
-        global $DIC;
-//        $this->_import_dirname = $this->getImportDirectoryContainer();
-
         if ($this->_newId = $this->_mapping->getMapping('Services/Container', 'objs', (string) $this->_import_objId)) {
             // container content
             $this->_cmixObj = ilObjectFactory::getInstanceByObjId($this->_newId, false);
@@ -143,19 +121,19 @@ class ilCmiXapiImporter extends ilXmlImporter
 
     /**
      * Creates a folder in the data directory of the document root
-     * @return $this
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
     private function prepareLocalSourceStorage() : self
     {
         global $DIC;
+        // TODO PHP8 Review: Move $DIC->filesystem() to constructor
         /** @var \ILIAS\DI\Container $DIC */
 
-        if (true === (bool) $DIC->filesystem()->temp()->has($this->_relImportDir . '/content.zip')) {
+        if (true === $DIC->filesystem()->temp()->has($this->_relImportDir . '/content.zip')) {
 //            $this->_hasContent = true;
             $this->_relWebDir = $this->_relWebDir . $this->_cmixObj->getId();
-            if (false === (bool) $DIC->filesystem()->web()->has($this->_relWebDir)) {
+            if (false === $DIC->filesystem()->web()->has($this->_relWebDir)) {
                 $DIC->filesystem()->web()->createDir($this->_relWebDir);
                 $DIC->filesystem()->web()->put($this->_relWebDir . '/content.zip', $DIC->filesystem()->temp()->read($this->_relImportDir . '/content.zip'));
                 $webDataDir = ilFileUtils::getWebspaceDir();
@@ -175,7 +153,7 @@ class ilCmiXapiImporter extends ilXmlImporter
     private function parseXmlFileProperties() : self
     {
         global $DIC; /** @var \ILIAS\DI\Container $DIC */
-
+        // TODO PHP8 Review: Move $DIC->filesystem() to constructor
         $xmlRoot = null;
         $xml = $DIC->filesystem()->temp()->readStream($this->_relImportDir . '/properties.xml');
         if ($xml != false) {
@@ -196,6 +174,7 @@ class ilCmiXapiImporter extends ilXmlImporter
     private function updateNewObj() : self
     {
         global $DIC; /** @var \ILIAS\DI\Container $DIC */
+        // TODO PHP8 Review: Move $DIC->language() to constructor
         $this->_cmixObj->setTitle($this->_moduleProperties['Title'] . " " . $DIC->language()->txt("copy_of_suffix"));
         $this->_cmixObj->setDescription($this->_moduleProperties['Description']);
         $this->_cmixObj->update();
@@ -257,13 +236,13 @@ class ilCmiXapiImporter extends ilXmlImporter
 
     /**
      * Delete the import directory
-     * @return $this
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
     private function deleteImportDirectiry() : self
     {
         global $DIC; /** @var \ILIAS\DI\Container $DIC */
+        // TODO PHP8 Review: Move $DIC->filesystem() to constructor
         $DIC->filesystem()->temp()->delete($this->_relImportDir);
         return $this;
     }
@@ -289,12 +268,8 @@ class ilCmiXapiImporter extends ilXmlImporter
         $importTempDir = $this->getImportDirectory();
         $dirArr = array_reverse(explode('/', $importTempDir));
         $this->_relImportDir = $dirArr[3] . '/' . $dirArr[2] . '/' . $dirArr[1] . '/' . $dirArr[0];
+        
         return $this;
-        /*
-        $dir = $this->getImportDirectory();
-        $dir = dirname($dir);
-        return $dir;
-        */
     }
 
     /**  */
@@ -307,8 +282,8 @@ class ilCmiXapiImporter extends ilXmlImporter
      */
     public function __destruct()
     {
-        if (true === $this->_isSingleImport) {
+        if ($this->_isSingleImport) {
             $this->deleteImportDirectiry();
         }
     }
-}  // EOF class
+}

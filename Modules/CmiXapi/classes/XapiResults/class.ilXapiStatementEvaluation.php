@@ -13,6 +13,7 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class ilXapiStatementEvaluation
  *
@@ -25,36 +26,30 @@
 class ilXapiStatementEvaluation
 {
     /**
-     * @var array
      * http://adlnet.gov/expapi/verbs/satisfied: should never be sent by AU
      * https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#939-satisfied
      */
-    protected array $resultStatusByXapiVerbMap = array(
+    protected array $resultStatusByXapiVerbMap = [
         ilCmiXapiVerbList::COMPLETED => "completed",
         ilCmiXapiVerbList::PASSED => "passed",
         ilCmiXapiVerbList::FAILED => "failed",
         ilCmiXapiVerbList::SATISFIED => "passed"
-    );
+    ];
 
-    protected array $resultProgressByXapiVerbMap = array(
+    protected array $resultProgressByXapiVerbMap = [
         ilCmiXapiVerbList::PROGRESSED => "progressed",
         ilCmiXapiVerbList::EXPERIENCED => "experienced"
-    );
+    ];
     
     protected ilObject $object;
     
     //todo
-    /**
-     * @var ilLogger
-     */
     protected ilLogger $log;
 
     protected ?int $lpMode;
 
     /**
      * ilXapiStatementEvaluation constructor.
-     * @param ilLogger $log
-     * @param ilObject $object
      */
     public function __construct(ilLogger $log, ilObject $object)
     {
@@ -229,6 +224,8 @@ class ilXapiStatementEvaluation
         return $xapiStatement->result->score->scaled;
     }
     
+    // TODO PHP8 Review: Missing Return type Declaration
+    // TODO PHP8 Review: `object` is a very general declaration for $xapiStatement, sould it be more precise?
     protected function getProgressedScore(object $xapiStatement)
     {
         if (!isset($xapiStatement->result)) {
@@ -277,7 +274,7 @@ class ilXapiStatementEvaluation
         
         return true;
     }
-    
+    // TODO PHP8 Review: Missing Return type Declaration
     protected function isLpModeInterestedInResultStatus(string $resultStatus, ?bool $deactivated = true)
     {
         if ($this->lpMode == ilLPObjSettings::LP_MODE_DEACTIVATED) {

@@ -7,6 +7,7 @@ use GuzzleHttp\Promise;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
+use ILIAS\DI\Container;
 
 //use GuzzleHttp\Exception\ConnectException;
 //use GuzzleHttp\Exception\RequestException;
@@ -22,11 +23,14 @@ use GuzzleHttp\Psr7\Uri;
  *****************************************************************************/
 class XapiProxyRequest
 {
-    private $dic;
+    private Container $dic;
+    // TODO PHP8 Review: Missing Type-Declarations
     private $xapiproxy;
-//    private $request;
-    private $xapiProxyResponse;
 
+    // TODO PHP8 Review: Missing Type-Declarations
+    private $xapiProxyResponse;
+    
+    // TODO PHP8 Review: Missing Type-Declarations
     public function __construct($xapiproxy)
     {
         $this->dic = $GLOBALS['DIC'];
@@ -52,12 +56,13 @@ class XapiProxyRequest
             $this->handleProxy($request);
         }
     }
-
+    // TODO PHP8 Review: Missing Parameter Type Declaration
+    // TODO PHP8 Review: Missing Return type Declaration
     private function msg($msg)
     {
         return $this->xapiproxy->msg($msg);
     }
-
+    // TODO PHP8 Review: Missing Parameter Type Declaration
     private function handleStatementsRequest($request) : void
     {
         $method = $this->xapiproxy->method();
@@ -68,7 +73,8 @@ class XapiProxyRequest
             $this->handleProxy($request);
         }
     }
-
+    
+    // TODO PHP8 Review: Missing Parameter Type Declaration
     private function handlePostPutStatementsRequest($request) : void
     {
         $body = $request->getBody()->getContents();
@@ -99,7 +105,8 @@ class XapiProxyRequest
     }
 
     // Cookies?, ServerRequestParams required?
-
+    
+    // TODO PHP8 Review: Missing Parameter Type Declaration
     private function handleProxy($request, $fakePostBody = null) : void
     {
         $endpointDefault = $this->xapiproxy->getDefaultLrsEndpoint();
@@ -207,7 +214,8 @@ class XapiProxyRequest
             }
         }
     }
-
+    
+    // TODO PHP8 Review: Missing Parameter Type Declaration
     private function createProxyRequest($request, $uri, $auth, $body) : \GuzzleHttp\Psr7\Request
     {
         $headers = array(

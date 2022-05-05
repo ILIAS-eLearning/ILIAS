@@ -9,18 +9,18 @@ require_once __DIR__ . '/bootstrap.php';
 
 /**
  * Class ilModulesScormAICCSuite
+ *
  * @author Uwe Kohnle <support@internetlehrer-gmbh.de>
  */
 class ilModulesCmiXapiSuite extends TestSuite
 {
     /**
-     * @return self
      * @throws ReflectionException
      */
     public static function suite() : self
     {
         $suite = new self();
-
+        
         foreach (new RegExIterator(
             new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
@@ -31,7 +31,7 @@ class ilModulesCmiXapiSuite extends TestSuite
             /** @var SplFileInfo $file */
             require_once $file->getPathname();
         }
-
+        
         foreach (new RegExIterator(
             new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
@@ -41,7 +41,7 @@ class ilModulesCmiXapiSuite extends TestSuite
         ) as $file) {
             /** @var SplFileInfo $file */
             require_once $file->getPathname();
-
+            
             $className = preg_replace('/(.*?)(\.php)/', '$1', $file->getBasename());
             if (class_exists($className)) {
                 $reflection = new ReflectionClass($className);

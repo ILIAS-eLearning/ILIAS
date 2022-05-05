@@ -25,11 +25,8 @@ class ilCmiXapiVerificationTableGUI extends ilTable2GUI
 {
     /**
      * Constructor
-     *
-     * @param ilObject $a_parent_obj
-     * @param string $a_parent_cmd
      */
-    public function __construct(?object $a_parent_obj, string $a_parent_cmd = "")
+    public function __construct(ilObjCmiXapiVerificationGUI $a_parent_obj, string $a_parent_cmd = "")
     {
         global $ilCtrl;
         
@@ -80,7 +77,6 @@ class ilCmiXapiVerificationTableGUI extends ilTable2GUI
     
     /**
      * Fill template row
-     * @param array $a_set
      */
     protected function fillRow(array $a_set) : void
     {

@@ -25,6 +25,7 @@ class ilCmiXapiLrsTypeList
      * @param mixed        required availability or null
      * @return    array        array of assoc data arrays
      */
+    // TODO PHP8 Review: Missing Parameter Type Declaration
     public static function getTypesData($a_extended = false, $a_availability = null) : array
     {
         global $ilDB;
@@ -50,8 +51,6 @@ class ilCmiXapiLrsTypeList
 
     /**
      * Count the number of untrashed usages of a type
-     * @return    integer        number of references
-     * @var        integer        type_id
      */
     public static function countUntrashedUsages(int $a_type_id) : int
     {
@@ -98,7 +97,7 @@ class ilCmiXapiLrsTypeList
      */
     public static function getTypesStruct() : array
     {
-        $a_s = array(
+        return array(
             'type_name' => array('type' => 'text', 'maxlength' => 32)
             ,
             'title' => array('type' => 'text', 'maxlength' => 255)
@@ -127,7 +126,6 @@ class ilCmiXapiLrsTypeList
             ,
             'remarks' => array('type' => 'text', 'maxlength' => 4000)
         );
-        return $a_s;
     }
 
     public static function getCountTypesForCreate() : int

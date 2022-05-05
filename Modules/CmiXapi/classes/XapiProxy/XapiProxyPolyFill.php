@@ -49,21 +49,12 @@
         
         const TERMINATED_VERB = "http://adlnet.gov/expapi/verbs/terminated";
 
-        /**
-         * @param string    $client
-         * @param string    $token
-         * @param bool|null $plugin
-         */
         public function __construct(string $client, string $token, ?bool $plugin = false)
         {
             $this->client = $client;
             $this->token = $token;
             $this->plugin = $plugin;
-            if ($this->plugin) {
-                $this->table_prefix = "xxcf";
-            } else {
-                $this->table_prefix = "cmix";
-            }
+            $this->table_prefix = $this->plugin ? "xxcf" : "cmix";
             preg_match(self::PARTS_REG, $GLOBALS['DIC']->http()->request()->getUri(), $this->cmdParts);
             $this->method = strtolower($GLOBALS['DIC']->http()->request()->getMethod());
         }
@@ -80,7 +71,7 @@
                 return \ilLoggerFactory::getLogger('cmix');
             }
         }
-
+        // TODO PHP8 Review: Missing Parameter Type Declaration
         public function msg($msg) : string
         {
             if ($this->plugin) {
@@ -157,6 +148,7 @@
         /**
          * @return \ilCmiXapiLrsType|void|null
          */
+        // TODO PHP8 Review: Missing Return type Declaration
         private function getLrsType()
         { // Core new > 6
             try {
@@ -189,28 +181,29 @@
          * hybrid function, maybe two distinct functions would be better?
          * @return \ilCmiXapiLrsType|null
          */
+        // TODO PHP8 Review: Missing Return type Declaration
         private function getLrsTypeAndMoreByToken()
         {
             $type_id = null;
             $lrs = null;
             $db = $GLOBALS['DIC']->database();
             $query = "SELECT {$this->table_prefix}_settings.lrs_type_id,
-                                {$this->table_prefix}_settings.only_moveon, 
-                                {$this->table_prefix}_settings.achieved, 
-                                {$this->table_prefix}_settings.answered, 
-                                {$this->table_prefix}_settings.completed, 
-                                {$this->table_prefix}_settings.failed, 
-                                {$this->table_prefix}_settings.initialized, 
-                                {$this->table_prefix}_settings.passed, 
-                                {$this->table_prefix}_settings.progressed, 
-                                {$this->table_prefix}_settings.satisfied, 
-                                {$this->table_prefix}_settings.c_terminated, 
-                                {$this->table_prefix}_settings.hide_data, 
-                                {$this->table_prefix}_settings.c_timestamp, 
-                                {$this->table_prefix}_settings.duration, 
+                                {$this->table_prefix}_settings.only_moveon,
+                                {$this->table_prefix}_settings.achieved,
+                                {$this->table_prefix}_settings.answered,
+                                {$this->table_prefix}_settings.completed,
+                                {$this->table_prefix}_settings.failed,
+                                {$this->table_prefix}_settings.initialized,
+                                {$this->table_prefix}_settings.passed,
+                                {$this->table_prefix}_settings.progressed,
+                                {$this->table_prefix}_settings.satisfied,
+                                {$this->table_prefix}_settings.c_terminated,
+                                {$this->table_prefix}_settings.hide_data,
+                                {$this->table_prefix}_settings.c_timestamp,
+                                {$this->table_prefix}_settings.duration,
                                 {$this->table_prefix}_settings.no_substatements,
                                 {$this->table_prefix}_settings.privacy_ident
-                        FROM {$this->table_prefix}_settings, {$this->table_prefix}_token 
+                        FROM {$this->table_prefix}_settings, {$this->table_prefix}_token
                         WHERE {$this->table_prefix}_settings.obj_id = {$this->table_prefix}_token.obj_id AND {$this->table_prefix}_token.token = " . $db->quote($this->token, 'text');
 
             $res = $db->query($query);

@@ -28,17 +28,13 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
 {
     const TABLE_ID = 'cmix_statements_table';
     
-    /**
-     * @var bool
-     */
     protected bool $isMultiActorReport;
-
+    protected array $filter = [];
+    
     /**
-     * @param object|null $a_parent_obj
-     * @param string      $a_parent_cmd
-     * @param bool        $isMultiActorReport
      * @throws ilCtrlException
      */
+    // TODO PHP8 Review: Typing for objects is very unspecific
     public function __construct(?object $a_parent_obj, string $a_parent_cmd, bool $isMultiActorReport)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -71,7 +67,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     protected function initColumns() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $this->addColumn($DIC->language()->txt('tbl_statements_date'), 'date');
         
         if ($this->isMultiActorReport) {
@@ -87,7 +83,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     public function initFilter() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         if ($this->isMultiActorReport) {
             $ti = new ilTextInputGUI('User', "actor");
             $ti->setDataSource($DIC->ctrl()->getLinkTarget($this->parent_obj, 'asyncUserAutocomplete', '', true));
@@ -126,7 +122,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        // TODO PHP8 Review: Move Global Access to Constructor
         $r = $DIC->ui()->renderer();
 
         $a_set['rowkey'] = md5(serialize($a_set));
@@ -161,49 +157,42 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param RoundTrip $rawDataModal
-     * @param array     $data
      * @return \ILIAS\UI\Component\Dropdown\Dropdown
      */
+    // TODO PHP8 Review: Missing Return type Declaration
     protected function getActionsList(RoundTrip $rawDataModal, array $data)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        // TODO PHP8 Review: Move Global Access to Constructor
         $f = $DIC->ui()->factory();
         
-        $actions = $f->dropdown()->standard([
+        return $f->dropdown()->standard([
             $f->button()->shy(
                 $DIC->language()->txt('tbl_action_raw_data'),
                 '#'
             )->withOnClick($rawDataModal->getShowSignal())
         ])->withLabel($DIC->language()->txt('actions'));
-        
-        return $actions;
     }
 
     /**
      * @param $data
-     * @return RoundTrip
      */
     protected function getRawDataModal($data) : RoundTrip
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        // TODO PHP8 Review: Move Global Access to Constructor
         $f = $DIC->ui()->factory();
         
-        $modal = $f->modal()->roundtrip(
+        return $f->modal()->roundtrip(
             'Raw Statement',
             $f->legacy('<pre>' . $data['statement'] . '</pre>')
         )->withCancelButtonLabel('close');
-        
-        return $modal;
     }
 
-    /**
-     * @param ilCmiXapiUser $cmixUser
-     * @return string
-     */
     protected function getUsername(ilCmiXapiUser $cmixUser) : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        // TODO PHP8 Review: Move Global Access to Constructor
         $ret = 'not found';
         try {
             $userObj = ilObjectFactory::getInstanceByObjId($cmixUser->getUsrId());

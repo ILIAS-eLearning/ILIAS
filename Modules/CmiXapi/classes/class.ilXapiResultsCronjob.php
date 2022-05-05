@@ -26,20 +26,11 @@ class ilXapiResultsCronjob extends ilCronJob
 {
     const LAST_RUN_TS_SETTING_NAME = 'cron_xapi_res_eval_last_run';
     
-    /**
-     * @var int
-     */
-    protected $thisRunTS;
+    protected int $thisRunTS;
     
-    /**
-     * @var int
-     */
-    protected $lastRunTS;
+    protected int $lastRunTS;
     
-    /**
-     * @var ilLogger
-     */
-    protected $log;
+    protected ilLogger $log;
     
     public function __construct()
     {
@@ -61,6 +52,7 @@ class ilXapiResultsCronjob extends ilCronJob
     protected function readLastRunTS() : void
     {
         $settings = new ilSetting('cmix');
+        // TODO PHP8 Review: Check return value of $settings->get, since this is string but a int is needed for lastRunTS
         $this->lastRunTS = $settings->get(self::LAST_RUN_TS_SETTING_NAME, "0");
     }
     
@@ -88,12 +80,14 @@ class ilXapiResultsCronjob extends ilCronJob
     public function getTitle() : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        // TODO PHP8 Review: Move Global Access to Constructor
         return $DIC->language()->txt("cron_xapi_results_evaluation");
     }
     
     public function getDescription() : string
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        // TODO PHP8 Review: Move Global Access to Constructor
         return $DIC->language()->txt("cron_xapi_results_evaluation_desc");
     }
     
@@ -157,8 +151,10 @@ class ilXapiResultsCronjob extends ilCronJob
         return $result;
     }
     
-    protected function getXapiStatementsReport(ilObject $object, ilCmiXapiStatementsReportFilter $filter) : \ilCmiXapiStatementsReport
-    {
+    protected function getXapiStatementsReport(
+        ilObject $object,
+        ilCmiXapiStatementsReportFilter $filter
+    ) : \ilCmiXapiStatementsReport {
         $filter->setActivityId($object->getActivityId());
         
         $linkBuilder = new ilCmiXapiStatementsReportLinkBuilder(
@@ -181,7 +177,7 @@ class ilXapiResultsCronjob extends ilCronJob
         
         $start = $end = null;
         
-        if ($this->getLastRunTS()) {
+        if ($this->getLastRunTS() !== 0) {
             $filter->setStartDate(new ilCmiXapiDateTime($this->getLastRunTS(), IL_CAL_UNIX));
             $start = $filter->getStartDate()->get(IL_CAL_DATETIME);
         }
@@ -194,16 +190,11 @@ class ilXapiResultsCronjob extends ilCronJob
         return $filter;
     }
     
-    /**
-     * @return array
-     */
     protected function getObjectsToBeReported() : array
     {
-        $objects = array_unique(array_merge(
+        return array_unique(array_merge(
             ilCmiXapiUser::getCmixObjectsHavingUsersMissingProxySuccess(),
             ilObjCmiXapi::getObjectsHavingBypassProxyEnabledAndRegisteredUsers()
         ));
-        
-        return $objects;
     }
 }
