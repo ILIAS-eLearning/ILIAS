@@ -291,23 +291,6 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *proxy* (type: object) for outgoing http connections
     * *host* (type: string) the proxy runs on
     * *port* (type: string or number) the proxy listens on
-* **language** (type: object) configuration, e.g.:
-    ```
-	"language" : {
-		"default_language" : "de",
-		"install_languages" : [
-			"de",
-			"en"
-		],
-		"install_local_languages" : [
-			"de"
-		]
-	},
-    ```
-  * *default_language* (type: string) language to be used for users, defaults to `en`
-  * *install_languages* (type: array of strings) defines all languages that should be available in a list,
-    defaults to `en`
-  * *install_local_languages* (type: array of strings) defines all languages with a local language file, default: no local file(s)
 * *logging* (type: object) configuration if logging should be used
     ```
 	"logging" : {
