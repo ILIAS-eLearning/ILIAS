@@ -140,7 +140,7 @@ class ilObjFileListGUI extends ilObjectListGUI
             "value" => ilUtil::formatSize($file_data['size'] ?? 0, 'short'),
             'propertyNameVisible' => false,
         );
-        $version = $file_data['version'];
+        $version = $file_data['version'] ?? 1;
         if ($version > 1) {
             // add versions link
             if (parent::checkCommandAccess("write", "versions", $this->ref_id, $this->type)) {
@@ -157,8 +157,7 @@ class ilObjFileListGUI extends ilObjectListGUI
             );
         }
         
-        // #6040
-        if ($file_data["date"]) {
+        if (isset($file_data["date"])) {
             $props[] = array(
                 "alert" => false,
                 "property" => $DIC->language()->txt("last_update"),
@@ -166,8 +165,8 @@ class ilObjFileListGUI extends ilObjectListGUI
                 'propertyNameVisible' => false,
             );
         }
-        
-        if ($file_data["page_count"]) {
+    
+        if (isset($file_data["page_count"])) {
             $props[] = array(
                 "alert" => false,
                 "property" => $DIC->language()->txt("page_count"),
