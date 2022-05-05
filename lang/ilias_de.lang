@@ -11310,7 +11310,7 @@ ecs#:#ecs_cmap_att_module#:#Modul
 ecs#:#ecs_cmap_att_venue#:#Ort
 assessment#:#tst_man_scoring_by_part#:#Bewertung nach Teilnehmer
 assessment#:#tst_man_scoring_by_qst#:#Bewertung nach Frage
-assessment#:#tst_man_scoring_only_answered#:#Nur beantwortetete
+assessment#:#tst_man_scoring_only_answered#:#Nur beantwortete
 assessment#:#tst_no_scorable_qst_available#:#Keine manuell bewertbare Frage verfügbar
 assessment#:#part_received_a_of_b_points#:#Der Teilnehmer hat %s von %s möglichen Punkten erreicht.
 assessment#:#answers_of#:#Antworten von:
