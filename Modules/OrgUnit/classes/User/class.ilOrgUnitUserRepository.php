@@ -11,27 +11,17 @@ use ilOrgUnitUserAssignment;
  */
 class ilOrgUnitUserRepository
 {
-
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
+    protected \ILIAS\DI\Container $dic;
     /**
      * @var self[]
      */
-    protected static $instance;
+    protected static array $instance;
     /**
      * @var ilOrgUnitUser[]
      */
-    protected $orgu_users;
-    /**
-     * @var bool
-     */
-    protected $with_superiors = false;
-    /**
-     * @var bool
-     */
-    protected $with_positions = false;
+    protected array $orgu_users;
+    protected bool $with_superiors = false;
+    protected bool $with_positions = false;
 
     /**
      * ilOrgUnitUserRepository constructor.

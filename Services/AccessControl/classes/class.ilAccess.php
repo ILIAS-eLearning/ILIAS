@@ -83,7 +83,7 @@ class ilAccess implements ilAccessHandler
         $this->obj_tree_cache = [];
         $this->ac_cache = [];
 
-        $this->ilOrgUnitPositionAccess = new ilOrgUnitPositionAccess();
+        $this->ilOrgUnitPositionAccess = new ilOrgUnitPositionAccess($this);
 
         $this->ac_logger = ilLoggerFactory::getLogger('ac');
     }

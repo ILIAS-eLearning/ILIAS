@@ -10,14 +10,12 @@ use ilOrgUnitPosition;
  */
 class PositionTitle extends Base
 {
+    public const POSITION_ID = 'position_id';
 
     /**
-     * @param array $params
-     * @return array
+     * @throws \SoapFault
      */
-    const POSITION_ID = 'position_id';
-
-    protected function run(array $params)
+    protected function run(array $params): string
     {
         $position_id = $params[self::POSITION_ID];
 
@@ -25,7 +23,7 @@ class PositionTitle extends Base
         if ($record instanceof ilOrgUnitPosition) {
             return $record->getTitle();
         } else {
-            $this->error("Position with id {$position_id} not found");
+            $this->addError("Position with id {$position_id} not found");
         }
     }
 
@@ -37,25 +35,16 @@ class PositionTitle extends Base
         return "getPositionTitle";
     }
 
-    /**
-     * @return array
-     */
-    protected function getAdditionalInputParams()
+    protected function getAdditionalInputParams(): array
     {
         return array(self::POSITION_ID => Base::TYPE_INT);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getOutputParams() : array
     {
         return array('title' => Base::TYPE_STRING);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getDocumentation() : string
     {
         return "Returns the title of a position for a given position id";

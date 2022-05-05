@@ -73,10 +73,7 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ACTIONS', $selection->getHTML());
     }
 
-    /**
-     * Add columns
-     */
-    protected function initColumns()
+    private function initColumns(): void
     {
         foreach ($this->columns as $column) {
             $this->addColumn($this->DIC->language()->txt($column), $column);
@@ -86,7 +83,7 @@ class ilOrgUnitPositionTableGUI extends ilTable2GUI
     /**
      * Build and set data for table.
      */
-    protected function buildData()
+    private function buildData(): void
     {
         $this->setData(ilOrgUnitPosition::getArray());
     }

@@ -30,7 +30,7 @@ class ilOrgUnitOperation extends ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $operation_id = 0;
+    protected ?int $operation_id = 0;
     /**
      * @var string
      * @con_has_field  true
@@ -38,14 +38,14 @@ class ilOrgUnitOperation extends ActiveRecord
      * @con_length     127
      * @con_index      true
      */
-    protected $operation_string = '';
+    protected string $operation_string = '';
     /**
      * @var string
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     512
      */
-    protected $description = '';
+    protected string $description = '';
     /**
      * @var int
      * @con_has_field  true
@@ -53,7 +53,7 @@ class ilOrgUnitOperation extends ActiveRecord
      * @con_length     8
      * @con_index      true
      */
-    protected $list_order = 0;
+    protected int $list_order = 0;
     /**
      * @var int
      * @con_has_field  true
@@ -61,7 +61,7 @@ class ilOrgUnitOperation extends ActiveRecord
      * @con_length     8
      * @con_index      true
      */
-    protected $context_id = 0;
+    protected int $context_id = 0;
 
     public function create() : void
     {
@@ -75,89 +75,56 @@ class ilOrgUnitOperation extends ActiveRecord
         parent::create();
     }
 
-    /**
-     * @return int
-     */
-    public function getOperationId()
+    public function getOperationId() : ?int
     {
         return $this->operation_id;
     }
 
-    /**
-     * @param int $operation_id
-     */
-    public function setOperationId($operation_id)
+    public function setOperationId(int $operation_id) : void
     {
         $this->operation_id = $operation_id;
     }
 
-    /**
-     * @return string
-     */
-    public function getOperationString()
+    public function getOperationString() : string
     {
         return $this->operation_string;
     }
 
-    /**
-     * @param string $operation_string
-     */
-    public function setOperationString($operation_string)
+    public function setOperationString(string $operation_string) : void
     {
         $this->operation_string = $operation_string;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
+    public function setDescription(string $description) : void
     {
         $this->description = $description;
     }
 
-    /**
-     * @return int
-     */
-    public function getListOrder()
+    public function getListOrder() : int
     {
         return $this->list_order;
     }
 
-    /**
-     * @param int $list_order
-     */
-    public function setListOrder($list_order)
+    public function setListOrder(int $list_order) : void
     {
         $this->list_order = $list_order;
     }
 
-    /**
-     * @return int
-     */
-    public function getContextId()
+    public function getContextId() : int
     {
         return $this->context_id;
     }
 
-    /**
-     * @param int $context_id
-     */
-    public function setContextId($context_id)
+    public function setContextId(int $context_id) : void
     {
         $this->context_id = $context_id;
     }
 
-    /**
-     * @return string
-     */
     public static function returnDbTableName() : string
     {
         return 'il_orgu_operations';

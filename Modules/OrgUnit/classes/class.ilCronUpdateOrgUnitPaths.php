@@ -7,19 +7,20 @@
  */
 class ilCronUpdateOrgUnitPaths extends ilCronJob
 {
-    const ID = "orgunit_paths";
-    /**
-     * @var ilDB
-     */
-    protected $db;
-    /**
-     * @var ilLog
-     */
-    protected $log;
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    public const ID = "orgunit_paths";
+    protected ilDBInterface $db;
+    protected ilLogger $log;
+    protected ilTree $tree;
+
+    private ilLanguage $lng;
+
+    public function __construct()
+    {
+        global $DIC;
+
+        $this->lng = $DIC->language();
+
+    }
 
     public function getId() : string
     {
@@ -28,18 +29,12 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
 
     public function getTitle() : string
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
-        return $lng->txt("update_orgunits");
+        return $this->lng->txt("update_orgunits");
     }
 
     public function getDescription() : string
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-
-        return $lng->txt("update_orgunits_desc");
+        return $this->lng->txt("update_orgunits_desc");
     }
 
     public function hasAutoActivation() : bool
@@ -52,7 +47,7 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
         return true;
     }
 
-    public function getDefaultScheduleType() : int
+     public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }

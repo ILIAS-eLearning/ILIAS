@@ -8,10 +8,6 @@ use ILIAS\DI\Container;
  */
 class ilOrgUnitUserAssignment extends \ActiveRecord
 {
-
-    /**
-     * @return string
-     */
     public static function returnDbTableName() : string
     {
         return 'il_orgu_ua';
@@ -26,36 +22,30 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $id = 0;
+    protected ?int $id = 0;
     /**
      * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $user_id = 0;
+    private int $user_id = 0;
     /**
      * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $position_id = 0;
+    private int $position_id = 0;
     /**
      * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    protected $orgu_id = 0;
+    private int $orgu_id = 0;
 
-    /**
-     * @param $user_id
-     * @param $position_id
-     * @param $orgu_id
-     * @return \ilOrgUnitUserAssignment
-     */
-    public static function findOrCreateAssignment($user_id, $position_id, $orgu_id)
+    public static function findOrCreateAssignment(int $user_id, int $position_id, int $orgu_id): ilOrgUnitUserAssignment
     {
         $inst = self::where(array(
             'user_id' => $user_id,
@@ -73,12 +63,10 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         return $inst;
     }
 
-    protected function raiseEvent(string $event)
+    protected function raiseEvent(string $event): void
     {
         global $DIC;
-        /**
-         * @var $DIC Container
-         */
+
         if (!$DIC->offsetExists('ilAppEventHandler')) {
             return;
         }
@@ -96,72 +84,48 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         parent::create();
     }
 
-    public function delete()
+    public function delete(): void
     {
         $this->raiseEvent('deassignUserFromPosition');
         parent::delete();
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     */
-    public function setId($id)
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return int
-     */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->user_id;
     }
 
-    /**
-     * @param int $user_id
-     */
-    public function setUserId($user_id)
+    public function setUserId(int $user_id)
     {
         $this->user_id = $user_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getPositionId()
+     public function getPositionId(): int
     {
         return $this->position_id;
     }
 
-    /**
-     * @param int $position_id
-     */
-    public function setPositionId($position_id)
+    public function setPositionId(int $position_id)
     {
         $this->position_id = $position_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getOrguId()
+    public function getOrguId(): int
     {
         return $this->orgu_id;
     }
 
-    /**
-     * @param int $orgu_id
-     */
-    public function setOrguId($orgu_id)
+    public function setOrguId(int $orgu_id): void
     {
         $this->orgu_id = $orgu_id;
     }
