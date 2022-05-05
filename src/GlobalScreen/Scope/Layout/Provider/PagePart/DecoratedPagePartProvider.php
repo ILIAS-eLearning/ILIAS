@@ -30,6 +30,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     const PURPOSE_VIEWTITLE = 'vtitle';
     const PURPOSE_LOGO = 'plogo';
     const PURPOSE_RESPONSIVE_LOGO = 'prlogo';
+    const PURPOSE_FAVICON = 'pfavicon';
 
     private PagePartProvider $original;
     private Closure $deco;
@@ -108,6 +109,11 @@ class DecoratedPagePartProvider implements PagePartProvider
     public function getResponsiveLogo() : ?Image
     {
         return $this->getDecoratedOrOriginal(self::PURPOSE_RESPONSIVE_LOGO, $this->original->getResponsiveLogo());
+    }
+
+    public function getFaviconPath() : string
+    {
+        return $this->getDecoratedOrOriginal(self::PURPOSE_FAVICON, $this->original->getFaviconPath());
     }
 
     /**

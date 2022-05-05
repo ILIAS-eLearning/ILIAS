@@ -65,6 +65,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->crumbs,
             $this->logo,
             $this->responsive_logo,
+            'favicon.ico',
             $this->overlay,
             null,
             $this->title
@@ -135,6 +136,15 @@ class StandardPageTest extends ILIAS_UI_TestBase
     public function testHasResponsiveLogo() : void
     {
         $this->assertTrue($this->stdpage->hasResponsiveLogo());
+    }
+
+    public function testWithFaviconPath() : void
+    {
+        $this->assertEquals("favicon.ico", $this->stdpage->getFaviconPath());
+        $this->assertEquals(
+            "test",
+            $this->stdpage->withFaviconPath("test")->getFaviconPath()
+        );
     }
 
     public function testGetOverlay() : void
@@ -230,6 +240,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>Short Title: View Title</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style></style>
 </head>
 
@@ -271,6 +282,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>:</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style></style>
 </head>
 
@@ -313,6 +325,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>:</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style></style>
     <meta name="meta_datum_key_1" content="meta_datum_value_1" />
     <meta name="meta_datum_key_2" content="meta_datum_value_2" />
@@ -372,6 +385,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $crumbs,
             $this->logo,
             $this->responsive_logo,
+            'favicon.ico',
             $this->overlay,
             null,
             $this->title
@@ -387,6 +401,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>:</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style></style>
 </head>
 
