@@ -1434,4 +1434,23 @@ if(!$ilDB->indexExistsByFields('il_exc_team', ['id'])) {
     $ilDB->addIndex('il_exc_team', ['id'], 'i1');
 }
 ?>
+<#82>
+<?php
+$fields = ['gap_id'];
+if (!$ilDB->indexExistsByFields('qpl_a_cloze', $fields)) {
+    $ilDB->addIndex(
+        'qpl_a_cloze',
+        $fields,
+        'i2'
+    );
+}
 
+$fields = ['gap_fi', 'question_fi'];
+if (!$ilDB->indexExistsByFields('qpl_a_cloze_combi_res', $fields)) {
+    $ilDB->addIndex(
+        'qpl_a_cloze_combi_res',
+        $fields,
+        'i1'
+    );
+}
+?>
