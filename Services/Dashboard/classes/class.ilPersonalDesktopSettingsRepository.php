@@ -203,24 +203,4 @@ class ilPersonalDesktopSettingsRepository
     {
         $this->settings->set("block_activated_pdfrmpostdraft", (int) $active);
     }
-
-    /**
-     * block moving enabled?
-     *
-     * @return bool
-     */
-    protected function ifMoveBlocks()
-    {
-        return (bool) $this->settings->get('enable_block_moving', 0);
-    }
-
-    /**
-     * Enable block moving
-     *
-     * @param bool $active
-     */
-    protected function enableMoveBlocks(bool $active = true)
-    {
-        $this->settings->set("enable_block_moving", (int) $active);
-    }
 }

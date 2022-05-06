@@ -1712,3 +1712,8 @@ if ( !$ilDB->tableColumnExists('cmix_settings', 'switch_to_review') ) {
     ));
 }
 ?>
+<#74>
+<?php
+$ilDB->manipulateF('DELETE FROM settings WHERE keyword = %s', ['text'], ['enable_block_moving']);
+$ilDB->manipulate('DELETE FROM il_block_setting WHERE ' . $ilDB->like('type', 'text', 'pd%'));
+?>
