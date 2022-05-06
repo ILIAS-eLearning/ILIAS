@@ -82,7 +82,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         $this->mainTpl->addCss('Modules/Chatroom/templates/default/style.css');
 
-        $this->mainTpl->setPermanentLink($this->gui->object->getType(), $this->gui->object->getRefId());
+        $this->mainTpl->setPermanentLink($this->gui->getObject()->getType(), $this->gui->getObject()->getRefId());
     }
 
     /**
