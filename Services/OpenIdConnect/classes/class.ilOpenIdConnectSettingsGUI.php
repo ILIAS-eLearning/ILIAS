@@ -14,48 +14,33 @@
  *
  *****************************************************************************/
 
-/**
- * Class ilOpenIdConnectSettingsGUI
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
- *
- */
 use ILIAS\FileUpload\FileUpload;
 
+/**
+ * Class ilOpenIdConnectSettingsGUI
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ */
 class ilOpenIdConnectSettingsGUI
 {
-    const STAB_SETTINGS = 'settings';
-    const STAB_PROFILE = 'profile';
-    const STAB_ROLES = 'roles';
+    private const STAB_SETTINGS = 'settings';
+    private const STAB_PROFILE = 'profile';
+    private const STAB_ROLES = 'roles';
 
-    const DEFAULT_CMD = 'settings';
-
-    private int $ref_id = 0;
-
+    private const DEFAULT_CMD = 'settings';
+    private int $ref_id;
+    /** @var array $body */
+    private $body;
     private ilOpenIdConnectSettings $settings;
-
-    protected ilLanguage $lng;
-
-    protected ilCtrl $ctrl;
-
-    protected ilLogger $logger;
-
-    protected ilAccessHandler $access;
-
-    protected ilRbacReview $review;
-
-    protected ilErrorHandling $error;
-
-    protected ilGlobalTemplateInterface $mainTemplate;
-
-    protected ilTabsGUI $tabs;
-
+    private ilLanguage $lng;
+    private ilCtrl $ctrl;
+    private ilLogger $logger;
+    private ilAccessHandler $access;
+    private ilRbacReview $review;
+    private ilErrorHandling $error;
+    private ilGlobalTemplateInterface $mainTemplate;
+    private ilTabsGUI $tabs;
     private FileUpload $upload;
 
-    /**
-     * ilOpenIdConnectSettingsGUI constructor.
-     */
     public function __construct(int $a_ref_id)
     {
         global $DIC;
@@ -74,7 +59,7 @@ class ilOpenIdConnectSettingsGUI
         $this->review = $DIC->rbac()->review();
         $this->error = $DIC['ilErr'];
         $this->upload = $DIC->upload();
-
+        $this->body = $DIC->http()->request()->getParsedBody();
         $this->settings = ilOpenIdConnectSettings::getInstance();
     }
 
@@ -154,7 +139,7 @@ class ilOpenIdConnectSettingsGUI
         $secret->setSkipSyntaxCheck(true);
         $secret->setRetype(false);
         $secret->setRequired(false);
-        if (strlen($this->settings->getSecret())) {
+        if ($this->settings->getSecret() !== '') {
             $secret->setValue('******');
         }
         $form->addItem($secret);
@@ -216,7 +201,7 @@ class ilOpenIdConnectSettingsGUI
             '',
             'le_img'
         );
-        $image->setALlowDeletion(false);
+        $image->setAllowDeletion(false);
 
         if ($this->settings->hasImageFile()) {
             $image->setImage($this->settings->getImageFilePath());
@@ -300,7 +285,6 @@ class ilOpenIdConnectSettingsGUI
             $form->addCommandButton('saveSettings', $this->lng->txt('save'));
         }
 
-
         // User sync settings --------------------------------------------------------------
         $user_sync = new ilFormSectionHeaderGUI();
         $user_sync->setTitle($this->lng->txt('auth_oidc_settings_section_user_sync'));
@@ -336,9 +320,6 @@ class ilOpenIdConnectSettingsGUI
         return $form;
     }
 
-    /**
-     * Save settings
-     */
     protected function saveSettings() : void
     {
         $this->checkAccess('write');
@@ -351,6 +332,7 @@ class ilOpenIdConnectSettingsGUI
             return;
         }
 
+        $scopes = [];
         if (!empty($form->getInput('scopes'))) {
             $scopes = $form->getInput('scopes');
             foreach ($scopes as $key => $value) {
@@ -362,7 +344,10 @@ class ilOpenIdConnectSettingsGUI
 
         $invalid_scopes = $this->settings->validateScopes((string) $form->getInput('provider'), (array) $scopes);
         if (!empty($invalid_scopes)) {
-            $this->mainTemplate->setOnScreenMessage('failure', sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'), implode(",", $invalid_scopes)));
+            $this->mainTemplate->setOnScreenMessage(
+                'failure',
+                sprintf($this->lng->txt('auth_oidc_settings_invalid_scopes'), implode(",", $invalid_scopes))
+            );
             $form->setValuesByPost();
             $this->settings($form);
             return;
@@ -371,7 +356,7 @@ class ilOpenIdConnectSettingsGUI
         $this->settings->setActive((bool) $form->getInput('activation'));
         $this->settings->setProvider((string) $form->getInput('provider'));
         $this->settings->setClientId((string) $form->getInput('client_id'));
-        if (strlen($form->getInput('secret')) && strcmp($form->getInput('secret'), '******') !== 0) {
+        if ((string) $form->getInput('secret') !== '' && strcmp($form->getInput('secret'), '******') !== 0) {
             $this->settings->setSecret((string) $form->getInput('secret'));
         }
         $this->settings->setAdditionalScopes((array) $scopes);
@@ -387,7 +372,7 @@ class ilOpenIdConnectSettingsGUI
 
         $fileData = (array) $form->getInput('le_img');
 
-        if (strlen($fileData['tmp_name'])) {
+        if ((string) ($fileData['tmp_name'] ?? '') !== '') {
             $this->saveImageFromHttpRequest();
         }
 
@@ -397,9 +382,6 @@ class ilOpenIdConnectSettingsGUI
         $this->ctrl->redirect($this, 'settings');
     }
 
-    /**
-     * Save image from http request
-     */
     protected function saveImageFromHttpRequest() : void
     {
         try {
@@ -423,9 +405,9 @@ class ilOpenIdConnectSettingsGUI
 
     /**
      * @param bool $a_with_select_option
-     * @return mixed
+     * @return array<string, string>
      */
-    protected function prepareRoleSelection($a_with_select_option = true) : array
+    protected function prepareRoleSelection(bool $a_with_select_option = true) : array
     {
         $global_roles = ilUtil::_sortIds(
             $this->review->getGlobalRoles(),
@@ -439,11 +421,12 @@ class ilOpenIdConnectSettingsGUI
             $select[0] = $this->lng->txt('links_select_one');
         }
         foreach ($global_roles as $role_id) {
-            if ($role_id == ANONYMOUS_ROLE_ID) {
+            if ($role_id === ANONYMOUS_ROLE_ID) {
                 continue;
             }
-            $select[$role_id] = ilObject::_lookupTitle((int) $role_id);
+            $select[(string) $role_id] = ilObject::_lookupTitle((int) $role_id);
         }
+
         return $select;
     }
 
@@ -458,7 +441,7 @@ class ilOpenIdConnectSettingsGUI
         $this->mainTemplate->setContent($form->getHTML());
     }
 
-    protected function initProfileForm() : \ilPropertyFormGUI
+    protected function initProfileForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('auth_oidc_mapping_table'));
@@ -481,13 +464,11 @@ class ilOpenIdConnectSettingsGUI
         if ($this->checkAccessBool('write')) {
             $form->addCommandButton('saveProfile', $this->lng->txt('save'));
         }
+
         return $form;
     }
 
-    /**
-     * @return bool
-     */
-    protected function saveProfile() : bool
+    protected function saveProfile() : void
     {
         $this->checkAccessBool('write');
 
@@ -496,7 +477,7 @@ class ilOpenIdConnectSettingsGUI
             $this->mainTemplate->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
             $form->setValuesByPost();
             $this->profile($form);
-            return false;
+            return;
         }
 
         foreach ($this->settings->getProfileMappingFields() as $field => $lng_key) {
@@ -506,7 +487,7 @@ class ilOpenIdConnectSettingsGUI
             );
             $this->settings->setProfileMappingFieldUpdate(
                 $field,
-                $form->getInput($field . '_update')
+                (bool) $form->getInput($field . '_update')
             );
         }
         $this->settings->save();
@@ -514,7 +495,7 @@ class ilOpenIdConnectSettingsGUI
         $this->ctrl->redirect($this, self::STAB_PROFILE);
     }
 
-    protected function roles(\ilPropertyFormGUI $form = null) : void
+    protected function roles(ilPropertyFormGUI $form = null) : void
     {
         $this->checkAccess('read');
         $this->setSubTabs(self::STAB_ROLES);
@@ -537,7 +518,7 @@ class ilOpenIdConnectSettingsGUI
                 'role_map_' . $role_id
             );
             $role_map->setInfo($this->lng->txt('auth_oidc_role_info'));
-            $role_map->setValue($this->settings->getRoleMappingValueForId($role_id));
+            $role_map->setValue($this->settings->getRoleMappingValueForId((int) $role_id));
             $form->addItem($role_map);
 
             $update = new ilCheckboxInputGUI(
@@ -546,7 +527,7 @@ class ilOpenIdConnectSettingsGUI
             );
             $update->setOptionTitle($this->lng->txt('auth_oidc_update_role_info'));
             $update->setValue("1");
-            $update->setChecked(!$this->settings->getRoleMappingUpdateForId($role_id));
+            $update->setChecked(!$this->settings->getRoleMappingUpdateForId((int) $role_id));
             $form->addItem($update);
         }
 
@@ -556,34 +537,33 @@ class ilOpenIdConnectSettingsGUI
         return $form;
     }
 
-    /**
-     * save role selection
-     */
     protected function saveRoles() : void
     {
         $this->checkAccess('write');
         $form = $this->initRolesForm();
         if ($form->checkInput()) {
-            $this->logger->dump($_POST, \ilLogLevel::DEBUG);
+            $this->logger->dump($this->body, ilLogLevel::DEBUG);
 
 
             $role_settings = [];
             $role_valid = true;
             foreach ($this->prepareRoleSelection(false) as $role_id => $role_title) {
-                if (!strlen(trim($form->getInput('role_map_' . $role_id)))) {
+                if (trim($form->getInput('role_map_' . $role_id)) === '') {
                     continue;
                 }
 
                 $role_params = explode('::', $form->getInput('role_map_' . $role_id));
-                $this->logger->dump($role_params, \ilLogLevel::DEBUG);
+                $this->logger->dump($role_params, ilLogLevel::DEBUG);
 
                 if (count($role_params) !== 2) {
-                    $form->getItemByPostVar('role_map_' . $role_id)->setAlert($this->lng->txt('msg_wrong_format'));
+                    if ($form->getItemByPostVar('role_map_' . $role_id)) {
+                        $form->getItemByPostVar('role_map_' . $role_id)->setAlert($this->lng->txt('msg_wrong_format'));
+                    }
                     $role_valid = false;
                     continue;
                 }
-                $role_settings[$role_id]['update'] = (bool) !$form->getInput('role_map_update_' . $role_id);
-                $role_settings[$role_id]['value'] = (string) $form->getInput('role_map_' . $role_id);
+                $role_settings[(int) $role_id]['update'] = !$form->getInput('role_map_update_' . $role_id);
+                $role_settings[(int) $role_id]['value'] = (string) $form->getInput('role_map_' . $role_id);
             }
 
             if (!$role_valid) {
@@ -604,9 +584,6 @@ class ilOpenIdConnectSettingsGUI
         $this->roles($form);
     }
 
-    /**
-     * Set sub tabs
-     */
     protected function setSubTabs(string $active_tab) : void
     {
         $this->tabs->addSubTab(
