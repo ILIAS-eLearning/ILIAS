@@ -23,6 +23,7 @@ use ilOrgUnitOperationContext;
 use ilOrgUnitOperationQueries;
 use ilOrgUnitOperation;
 use ilTree;
+use ILIAS\Modules\EmployeeTalk\TalkSeries\Entity\EmployeeTalkSerieSettings;
 
 /**
  * @author Nicolas Schaefli <nick@fluxlabs.ch>
@@ -167,7 +168,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
                 $this->db->beginTransaction();
             }
 
-            \ILIAS\Modules\EmployeeTalk\TalkSeries\Entity\EmployeeTalkSerieSettings::updateDB();
+            EmployeeTalkSerieSettings::updateDB();
         } catch (\Exception $exception) {
             if ($this->db->supportsTransactions()) {
                 $this->db->rollback();

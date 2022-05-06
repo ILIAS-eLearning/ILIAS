@@ -49,7 +49,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
 
         $this->set = ilOrgUnitGlobalSettings::getInstance();
         $this->ua = ilOrgUnitUserAssignmentQueries::getInstance();
-        $this->orgUnitAccess = new ilOrgUnitPositionAccess();
+        $this->orgUnitAccess = new ilOrgUnitPositionAccess($this->container->access());
         $this->talkPositionSettings = $this->set->getObjectPositionSettingsByType(ilObjEmployeeTalk::TYPE);
         $this->seriesSettingsRepository = new IliasDBEmployeeTalkSeriesRepository($this->container->user(), $this->container->database());
     }
@@ -137,7 +137,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
             if ($talkParticipant === null) {
                 foreach ($positions as $position) {
                     // Check if the position has any relevant position rights
-                    $permissionSet = ilOrgUnitPermissionQueries::getTemplateSetForContextName(ilObjEmployeeTalk::TYPE, $position->getId());
+                    $permissionSet = ilOrgUnitPermissionQueries::getTemplateSetForContextName(ilObjEmployeeTalk::TYPE, strval($position->getId() ?? 0));
                     $isAbleToExecuteOperation = array_reduce($permissionSet->getOperations(), function (bool $prev, ilOrgUnitOperation $it) {
                         return $prev || $it->getOperationString() === EmployeeTalkPositionAccessLevel::CREATE;
                     }, false);
@@ -226,7 +226,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
         $data = $talk->getData();
         $seriesSettings = $this->seriesSettingsRepository->readEmployeeTalkSerieSettings($series->getId());
         $canExecuteOperation = $this->orgUnitAccess->checkPositionAccess($operation, $refId);
-        $isOwner = intval($talk->getOwner()) === $currentUserId;
+        $isOwner = $talk->getOwner() === $currentUserId;
 
         if ($isOwner) {
             return true;
@@ -292,7 +292,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
 
         foreach ($managedOrgUnitUsersOfUserByPosition as $position => $managedOrgUnitUserByPosition) {
             // Check if the position has any relevant position rights
-            $permissionSet = ilOrgUnitPermissionQueries::getTemplateSetForContextName(ilObjEmployeeTalk::TYPE, intval($position));
+            $permissionSet = ilOrgUnitPermissionQueries::getTemplateSetForContextName(ilObjEmployeeTalk::TYPE, strval($position));
             $isAbleToExecuteOperation = array_reduce($permissionSet->getOperations(), function (bool $prev, ilOrgUnitOperation $it) use ($operation) {
                 return $prev || $it->getOperationString() === $operation;
             }, false);
