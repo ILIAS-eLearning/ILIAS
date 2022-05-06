@@ -33,6 +33,6 @@ class ilDashboardUpdateSteps implements ilDatabaseUpdateSteps
     public function step_1() : void
     {
         $this->db->manipulateF('DELETE FROM settings WHERE keyword = %s', ['text'], ['enable_block_moving']);
-        $this->db->manipulateF('DELETE FROM il_block_setting WHERE type LIKE %s', ['text'], ['pd%']);
+        $this->db->manipulate('DELETE FROM il_block_setting WHERE ' . $this->db->like('type', 'text', 'pd%'));
     }
 }
