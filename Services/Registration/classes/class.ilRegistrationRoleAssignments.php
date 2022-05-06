@@ -21,7 +21,7 @@ class ilRegistrationRoleAssignments
     public const IL_REG_MISSING_DOMAIN = 1;
     public const IL_REG_MISSING_ROLE = 2;
 
-    public array $assignments = array();
+    public array $assignments = [];
     public int $default_role = 0;
 
     protected ilDBInterface $db;
@@ -125,7 +125,7 @@ class ilRegistrationRoleAssignments
         $query = "SELECT * FROM reg_er_assignments ";
         $res = $this->db->query($query);
 
-        $this->assignments = array();
+        $this->assignments = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->assignments[$row->assignment_id]['id'] = $row->assignment_id;
             $this->assignments[$row->assignment_id]['role'] = $row->role;
