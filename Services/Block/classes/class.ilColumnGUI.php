@@ -61,8 +61,6 @@ class ilColumnGUI
     /** @var array<string,array<string,string>> */
     protected array $block_property = array();
     protected bool $admincommands = false;
-    protected bool $movementmode = false;
-    protected bool $enablemovement = false;
     protected ?ilAdvancedSelectionListGUI $action_menu = null;
     
     //
@@ -272,26 +270,6 @@ class ilColumnGUI
     public function getAdminCommands() : bool
     {
         return $this->admincommands;
-    }
-
-    public function setMovementMode(bool $a_movementmode) : void
-    {
-        $this->movementmode = $a_movementmode;
-    }
-
-    public function getMovementMode() : bool
-    {
-        return $this->movementmode;
-    }
-
-    public function setEnableMovement(bool $a_enablemovement) : void
-    {
-        $this->enablemovement = $a_enablemovement;
-    }
-
-    public function getEnableMovement() : bool
-    {
-        return $this->enablemovement;
     }
 
     public static function getScreenMode() : string
@@ -575,11 +553,7 @@ class ilColumnGUI
             foreach ($this->default_blocks[$this->getColType()] as $class => $def_side) {
                 $type = self::$block_types[$class];
                 if ($this->isGloballyActivated($type)) {
-                    $nr = ilBlockSetting::_lookupNr($type, $user_id);
-                    if ($nr === null) {
-                        $nr = $def_nr++;
-                    }
-                    
+                    $nr = $def_nr++;
                     
                     // extra handling for system messages, feedback block and news
                     if ($type == "news") {		// always show news first
@@ -623,10 +597,7 @@ class ilColumnGUI
                 
                 if ($this->isGloballyActivated($type)) {
                     $class = array_search($type, self::$block_types);
-                    $nr = ilBlockSetting::_lookupNr($type, $user_id, $c_block["id"]);
-                    if ($nr === null) {
-                        $nr = $def_nr++;
-                    }
+                    $nr = $def_nr++;
                     $side = ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
                     if (is_null($side)) {
                         $side = IL_COL_RIGHT;
@@ -656,10 +627,7 @@ class ilColumnGUI
                         
                         $type = $block_type;
                         $class = array_search($type, self::$block_types);
-                        $nr = ilBlockSetting::_lookupNr($type, $user_id, (int) $c_block["id"]);
-                        if ($nr === null) {
-                            $nr = $def_nr++;
-                        }
+                        $nr = $def_nr++;
                         $side = ilBlockSetting::_lookupSide($type, $user_id, (int) $c_block["id"]);
                         if ($side == false) {
                             $side = IL_COL_RIGHT;
