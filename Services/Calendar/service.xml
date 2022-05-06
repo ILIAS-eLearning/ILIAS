@@ -14,6 +14,7 @@
 		<event type="listen" id="Modules/Session" />
 		<event type="listen" id="Modules/Course" />
 		<event type="listen" id="Modules/Exercise" />
+		<event type="listen" id="Modules/EmployeeTalk" />
 	</events>
 	<crons>
 		<cron id="cal_consultation" class="ilConsultationHourCron" path="Services/Calendar/classes/ConsultationHours/" />

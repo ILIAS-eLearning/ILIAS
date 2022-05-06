@@ -21,6 +21,8 @@
         +-----------------------------------------------------------------------------+
 */
 
+use ILIAS\Modules\EmployeeTalk\TalkSeries\Repository\IliasDBEmployeeTalkSeriesRepository;
+
 /**
  * class for calendar categories
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
@@ -547,6 +549,14 @@ class ilCalendarCategories
         if (!$a_container_only) {
             $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['crs']));
             $this->readSelectedCategories(ilParticipants::_getMembershipByType($this->user_id, ['grp']));
+
+            $repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $this->db);
+            $talks = $repository->findByOwnerAndEmployee();
+            $talkIds = array_map(function (ilObjEmployeeTalkSeries $item) {
+                return $item->getId();
+            }, $talks);
+    
+            $this->readSelectedCategories($talkIds, 0, false);
         }
     }
 
@@ -797,7 +807,7 @@ class ilCalendarCategories
         }
     }
 
-    protected function readSelectedCategories(array $a_obj_ids, int $a_source_ref_id = 0) : void
+    protected function readSelectedCategories(array $a_obj_ids, int $a_source_ref_id = 0, bool $check_permissions = true) : void
     {
         if (!count($a_obj_ids)) {
             return;
@@ -833,7 +843,7 @@ class ilCalendarCategories
                     $exists = true;
                 }
             }
-            if (!$exists) {
+            if (!$exists && $check_permissions) {
                 continue;
             }
             $this->categories_info[(int) $row->cat_id]['editable'] = $editable;
@@ -861,19 +871,19 @@ class ilCalendarCategories
         $course_ids = array();
         foreach ($this->categories as $cat_id) {
             if (isset($this->categories_info[$cat_id]['obj_type']) &&
-                in_array($this->categories_info[$cat_id]['obj_type'], ['crs', 'grp'])) {
+                in_array($this->categories_info[$cat_id]['obj_type'], ['crs', 'grp', 'tals'])) {
                 $course_ids[] = $this->categories_info[$cat_id]['obj_id'];
             }
         }
 
-        $query = "SELECT od2.obj_id sess_id, od1.obj_id crs_id,cat_id, or2.ref_id sess_ref_id FROM object_data od1 " .
+        $query = "SELECT od2.obj_id sess_id, od1.obj_id crs_id,cat_id, or2.ref_id sess_ref_id, od2.type FROM object_data od1 " .
             "JOIN object_reference or1 ON od1.obj_id = or1.obj_id " .
             "JOIN tree t ON or1.ref_id = t.parent " .
             "JOIN object_reference or2 ON t.child = or2.ref_id " .
             "JOIN object_data od2 ON or2.obj_id = od2.obj_id " .
             "JOIN cal_categories cc ON od2.obj_id = cc.obj_id " .
-            "WHERE " . $this->db->in('od2.type', array('sess', 'exc'), false, 'text') .
-            "AND (od1.type = 'crs' OR od1.type = 'grp') " .
+            "WHERE " . $this->db->in('od2.type', array('sess', 'exc', 'etal'), false, 'text') .
+            "AND (od1.type = 'crs' OR od1.type = 'grp' OR od1.type = 'tals') " .
             "AND " . $this->db->in('od1.obj_id', $course_ids, false, 'integer') . ' ' .
             "AND or2.deleted IS NULL";
 
@@ -881,11 +891,13 @@ class ilCalendarCategories
         $cat_ids = array();
         $course_sessions = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if (
-                !$this->access->checkAccessOfUser($this->user_id, 'read', '', (int) $row->sess_ref_id) ||
-                !$this->access->checkAccessOfUser($this->user_id, 'visible', '', (int) $row->sess_ref_id)
-            ) {
-                continue;
+            if ($row->type !== 'etal') {
+                if (
+                    !$this->access->checkAccessOfUser($this->user_id, 'read', '', (int) $row->sess_ref_id) ||
+                    !$this->access->checkAccessOfUser($this->user_id, 'visible', '', (int) $row->sess_ref_id)
+                ) {
+                    continue;
+                }
             }
             $cat_ids[] = (int) $row->cat_id;
             $course_sessions[(int) $row->crs_id][(int) $row->sess_id] = (int) $row->cat_id;
@@ -895,7 +907,7 @@ class ilCalendarCategories
         foreach ($this->categories as $cat_id) {
             if (
                 (isset($this->categories_info[$cat_id]['obj_type']) &&
-                    in_array($this->categories_info[$cat_id]['obj_type'], ['crs', 'grp'])) &&
+                    in_array($this->categories_info[$cat_id]['obj_type'], ['crs', 'grp', 'tals'])) &&
                 isset($this->categories_info[$cat_id]['obj_id']) &&
                 isset($course_sessions[$this->categories_info[$cat_id]['obj_id']]) &&
                 is_array($course_sessions[$this->categories_info[$cat_id]['obj_id']])) {
