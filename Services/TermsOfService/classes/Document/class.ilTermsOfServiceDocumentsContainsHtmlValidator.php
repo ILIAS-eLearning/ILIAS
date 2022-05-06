@@ -47,6 +47,10 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
         }
 
         try {
+            set_error_handler(static function (int $severity, string $message, string $file, int $line, array $errcontext) : void {
+                throw new ErrorException($message, $severity, $severity, $file, $line);
+            });
+
             $this->beginXmlLogging();
 
             $dom = new DOMDocument();
@@ -73,6 +77,8 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
         } catch (Throwable $e) {
             return false;
         } finally {
+            restore_error_handler();
+
             $this->endXmlLogging();
         }
     }
