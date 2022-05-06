@@ -13,23 +13,23 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
-* A collection of static utility functions for LDAP attribute mapping
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*/
+ * A collection of static utility functions for LDAP attribute mapping
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilLDAPAttributeMappingUtils
 {
     /**
      * Get mapping rule by objectClass
-     *
-     * @param string
-     *
+     * @param string $a_class
+     * @return array<string, string>
      */
     public static function _getMappingRulesByClass(string $a_class) : array
     {
-        $mapping_rule = array();
-        
+        $mapping_rule = [];
+
         switch ($a_class) {
             case 'inetOrgPerson':
                 $mapping_rule['firstname'] = 'givenName';
@@ -39,8 +39,8 @@ class ilLDAPAttributeMappingUtils
                 $mapping_rule['phone_mobile'] = 'mobile';
                 $mapping_rule['email'] = 'mail';
                 $mapping_rule['photo'] = 'jpegPhoto';
-                // no break since it inherits from organizationalPerson and person
-                
+            // no break since it inherits from organizationalPerson and person
+
             case 'organizationalPerson':
                 $mapping_rule['fax'] = 'facsimileTelephoneNumber';
                 $mapping_rule['title'] = 'title';
@@ -48,13 +48,13 @@ class ilLDAPAttributeMappingUtils
                 $mapping_rule['zipcode'] = 'postalCode';
                 $mapping_rule['city'] = 'l';
                 $mapping_rule['country'] = 'st';
-                // no break since it inherits from person
-                
+            // no break since it inherits from person
+
             case 'person':
                 $mapping_rule['lastname'] = 'sn';
                 $mapping_rule['phone_office'] = 'telephoneNumber';
                 break;
-                
+
             case 'ad_2003':
                 $mapping_rule['firstname'] = 'givenName';
                 $mapping_rule['lastname'] = 'sn';
@@ -71,6 +71,7 @@ class ilLDAPAttributeMappingUtils
                 $mapping_rule['fax'] = 'facsimileTelephoneNumber';
                 break;
         }
+
         return $mapping_rule;
     }
 }

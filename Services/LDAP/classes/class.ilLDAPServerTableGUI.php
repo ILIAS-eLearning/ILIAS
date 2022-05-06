@@ -54,7 +54,10 @@ class ilLDAPServerTableGUI extends ilTable2GUI
         $data = ilLDAPServer::_getAllServer();
         $this->setData($data);
     }
-    
+
+    /**
+     * @throws ilCtrlException
+     */
     protected function fillRow(array $a_set) : void
     {
         if ($a_set['active']) {

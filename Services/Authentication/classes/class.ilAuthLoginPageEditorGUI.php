@@ -141,11 +141,9 @@ class ilAuthLoginPageEditorGUI
         //$page_gui->setFullscreenLink($this->ctrl->getLinkTarget($this, "showMediaFullscreen"));
         //$page_gui->setLinkParams($this->ctrl->getUrlParameterString()); // todo
         //		$page_gui->setSourcecodeDownloadScript($this->ctrl->getLinkTarget($this, ""));
-        $page_gui->setPresentationTitle("");
         $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
         $page_gui->setTemplateOutput(false);
         //$page_gui->setLocator($contObjLocator);
-        $page_gui->setHeader("");
 
         // style tab
         //$page_gui->setTabHook($this, "addPageTabs");

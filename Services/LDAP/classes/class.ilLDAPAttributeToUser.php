@@ -21,19 +21,16 @@
 */
 class ilLDAPAttributeToUser
 {
-    const MODE_INITIALIZE_ROLES = 1;
+    public const MODE_INITIALIZE_ROLES = 1;
 
     private array $modes = [];
-
-
     private ilLDAPServer $server_settings;
-    
     private array $user_data = [];
     private ilLDAPAttributeMapping $mapping;
-
     private string $new_user_auth_mode = 'ldap';
-    
     private ilLogger $logger;
+    private ilXmlWriter $writer;
+    private ilUserDefinedFields $udf;
     
     /**
      * Construct of ilLDAPAttribute2XML
@@ -93,7 +90,7 @@ class ilLDAPAttributeToUser
     public function addMode(int $a_mode) : void
     {
         //TODO check for proper value
-        if (!in_array($a_mode, $this->modes)) {
+        if (!in_array($a_mode, $this->modes, true)) {
             $this->modes[] = $a_mode;
         }
     }
@@ -105,7 +102,7 @@ class ilLDAPAttributeToUser
      */
     public function isModeActive(int $a_mode) : bool
     {
-        return in_array($a_mode, $this->modes);
+        return in_array($a_mode, $this->modes, true);
     }
     
     
@@ -121,8 +118,7 @@ class ilLDAPAttributeToUser
         $importParser->setRoleAssignment(ilLDAPRoleAssignmentRules::getAllPossibleRoles($this->getServer()->getServerId()));
         $importParser->setFolderId(7);
         $importParser->startParsing();
-        $importParser->getProtocol();
-        
+
         return true;
     }
 
@@ -196,7 +192,7 @@ class ilLDAPAttributeToUser
                 $this->writer->xmlStartTag('User', array('Id' => $usr_id,'Action' => 'Update'));
                 $this->writer->xmlElement('Login', array(), $user['ilInternalAccount']);
                 $this->writer->xmlElement('ExternalAccount', array(), $external_account);
-                $this->writer->xmlElement('AuthMode', array('type' => $this->getNewUserAuthMode()), null);
+                $this->writer->xmlElement('AuthMode', array('type' => $this->getNewUserAuthMode()));
 
                 if ($this->isModeActive(self::MODE_INITIALIZE_ROLES)) {
                     $this->parseRoleAssignmentsForCreation($external_account, $user);
@@ -211,7 +207,7 @@ class ilLDAPAttributeToUser
                 $this->writer->xmlElement('Login', array(), ilAuthUtils::_generateLogin($external_account));
 
                 $this->parseRoleAssignmentsForCreation($external_account, $user);
-                $rules = $this->mapping->getRules();
+                $rules = $this->mapping->getRules(true);
             }
 
             $this->writer->xmlElement('Active', array(), "true");
@@ -334,7 +330,7 @@ class ilLDAPAttributeToUser
                     */
                     default:
                         // Handle user defined fields
-                        if (substr($field, 0, 4) != 'udf_') {
+                        if (strpos($field, 'udf_') !== 0) {
                             continue 2;
                         }
                         $id_data = explode('_', $field);
@@ -342,7 +338,7 @@ class ilLDAPAttributeToUser
                             continue 2;
                         }
                         $this->initUserDefinedFields();
-                        $definition = $this->udf->getDefinition($id_data[1]);
+                        $definition = $this->udf->getDefinition((int) $id_data[1]);
                         $this->writer->xmlElement(
                             'UserDefinedField',
                             array('Id' => $definition['il_id'],
@@ -377,36 +373,31 @@ class ilLDAPAttributeToUser
     {
         if (is_array($a_value)) {
             return $a_value[0];
-        } else {
-            return $a_value;
         }
+
+        return $a_value;
     }
     
-    /**
-     * doMapping
-     */
     private function doMapping(array $user, array $rule) : string
     {
-        $mapping = trim(strtolower($rule['value']));
+        $mapping = strtolower(trim($rule['value']));
         
         if (strpos($mapping, ',') === false) {
-            return $this->convertInput($user[$mapping]);
+            return $this->convertInput($user[$mapping] ?? '');
         }
         // Is multiple mapping
         
         $fields = explode(',', $mapping);
         $value = '';
         foreach ($fields as $field) {
-            if (strlen($value)) {
+            if ($value !== '') {
                 $value .= ' ';
             }
-            $value .= ($this->convertInput($user[trim($field)]));
+            $value .= ($this->convertInput($user[trim($field)] ?? ''));
         }
-        return $value ? $value : '';
+        return $value;
     }
-    
-    
-    
+
     private function initLDAPAttributeMapping() : void
     {
         $this->mapping = ilLDAPAttributeMapping::_getInstanceByServerId($this->server_settings->getServerId());
