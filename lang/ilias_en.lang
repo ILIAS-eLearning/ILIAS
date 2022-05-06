@@ -2178,12 +2178,12 @@ badge#:#badge_notification_reason#:#You are receiving this message to be able to
 badge#:#badge_notification_subject#:#Badges received
 badge#:#badge_no_valid_types_for_obj#:#There are currently no active badge types. You cannot create new badges. Please contact your administrator.
 badge#:#badge_obi_activate#:#Activate Mozilla Open Badges Infrastructure
-badge#:#badge_obi_activate_info#:#Users can export Badges from ILIAS. They can use their Badges to prove their qualification in other web applications.
+badge#:#badge_obi_activate_info#:#Users can export badges from ILIAS. They can use their badges to prove their qualification in other web applications.
 badge#:#badge_obi_contact#:#Contact E-Mail
-badge#:#badge_obi_contact_info#:#This E-Mail adress will not be shown but baked into the Badge.
-badge#:#badge_obi_organisation_info#:#This entry will be displayed as the Issuer of the Badge.
+badge#:#badge_obi_contact_info#:#This e-mail address is not displayed, but it is baked into the badge.
+badge#:#badge_obi_organisation_info#:#This entry will be displayed as the issuer of the badge.
 badge#:#badge_obi_organisation#:#Organisation
-badge#:#badge_obi_salt_info#:#Enter a combination of characters and numbers to allow third parties to validate the authenticity of a Badge. Please do not change the entry afterwards.
+badge#:#badge_obi_salt_info#:#Enter a combination of characters and numbers to allow third parties to validate the authenticity of a badge. Please do not change the entry afterwards.
 badge#:#badge_obi_salt#:#Salt
 badge#:#badge_object_badges#:#Object Badges
 badge#:#badge_personal_badges#:#My Badges
@@ -2194,7 +2194,7 @@ badge#:#badge_profile_view#:#View
 badge#:#badge_remove_badge#:#Revoke Badge
 badge#:#badge_remove_from_profile#:#Remove from Profile
 badge#:#badge_service_activate#:#Activate Service
-badge#:#badge_service_activate_info#:#Activate the service to make badges available
+badge#:#badge_service_activate_info#:#Activate the service to make badges available.
 badge#:#badge_settings#:#Badge Settings
 badge#:#badge_subtype_auto#:#automatic
 badge#:#badge_subtype_manual#:#manual
@@ -3709,8 +3709,8 @@ common#:#cron_jobs#:#Cron Jobs
 common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at ’Administration -> Search’.
 common#:#cron_lucene_index#:#Update Lucene search index
 common#:#cron_mail_notification_cron#:#regularly per cron job
-common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail. Please enable the option ‘%s’ first to use this function.
-common#:#cron_mail_notification_message_info#:#If enabled, all users will get notifications with complete mail message by external mail.
+common#:#cron_mail_notification_desc#:#On request, ILIAS sends e-mail notifications about new mails. In contrast to the immediate forwarding of all mails, this cronjob collects the mails of one day and delivers them as a package. Please enable the option '%s' to use this feature. Additionally, the e-mail notifications for each ILIAS account have to be activated in the personal mail settings.
+common#:#cron_mail_notification_message_info#:#E-mail notifications contain the complete content of the mails received in ILIAS. This means that they can be read without having to log in again.
 common#:#cron_mail_notification_message#:#Send Mail Notifications with Mail-Message
 common#:#cron_mail_notification_never#:#never
 common#:#cron_mail_notification#:#New Mail Notifications
@@ -3857,8 +3857,8 @@ common#:#enable_anonymous_fora#:#Allow posting with pseudonym
 common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature ‘Posting with pseudonym’ is not available in forums anymore.
 common#:#enable_calendar#:#Enable Calendar
 common#:#enable_comments_export#:#Enable Comments Export
-common#:#enable_course_group_notifications#:#Daily Mail for Groups and Course News
-common#:#enable_course_group_notifications_desc#:#If enabled, Participants can subscribe to a daily summary of news.
+common#:#enable_course_group_notifications#:#Daily mail for group and course news
+common#:#enable_course_group_notifications_desc#:#If enabled, participants can subscribe to a daily summary of news.
 common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_custom_icons_info#:#This allows you to define custom icons for single container objects and the content page object. The properties section of these objects will provide an image upload dialog.
 common#:#enabled#:#Enabled
@@ -4143,7 +4143,7 @@ common#:#grp_list_reg_start#:#Registration Begin
 common#:#grp_list_users#:#List users
 common#:#grp_members_gallery#:#Group Members Gallery
 common#:#grp_mem_change_status#:#Change Participant Status
-common#:#grp_mem_send_mail#:#Send Participants a Message
+common#:#grp_mem_send_mail#:#Send member a mail
 common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)
 common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
 common#:#grp_msg_membership_annulled#:#Cancelled membership.
@@ -4366,8 +4366,8 @@ common#:#like#:#Like
 common#:#link_all#:#Link all
 common#:#link_checker_refreshed#:#Refreshed view
 common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by mail.
-common#:#link_check_message_disabled#:#Messages disabled
-common#:#link_check_message_enabled#:#Messages enabled
+common#:#link_check_message_disabled#:#The sending of mails is deactivated.
+common#:#link_check_message_enabled#:#The sending of mails is activated.
 common#:#link_check_subject#:#[ILIAS] Weblink check
 common#:#link_check#:#Weblink Check
 common#:#link#:#Link
@@ -4456,8 +4456,8 @@ common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_member#:#Mail to Member
 common#:#mail_members#:#Mail to Members
-common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s
-common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.
+common#:#mail_multiple_recipients_found#:#Please enter a more precise e-mail address, as ILIAS has found several possible recipients for this address: %s
+common#:#mail_no_recipient_found#:#Please enter a different e-mail address. ILIAS could not find a corresponding recipient.
 common#:#mail_not_sent#:#Mail not sent!
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s
 common#:#mail_search_no#:#No entries found.
@@ -5413,7 +5413,7 @@ common#:#select_question_pool_info#:#As long as the import file contains questio
 common#:#select_questionpool#:#Insert questions into
 common#:#select#:#Select
 common#:#sender#:#Sender
-common#:#send_mail#:#Send Message
+common#:#send_mail#:#Send mail
 common#:#send#:#Send
 common#:#sent#:#Sent
 common#:#sequence#:#Sequence
@@ -5638,7 +5638,7 @@ common#:#tst#:#Test
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
 common#:#tst_warning_test_not_complete#:#The test is not complete!
 common#:#tutors#:#Tutors
-common#:#txt_registered_passw_gen#:#You successfully registered to ILIAS. You should receive an e-Mail including your generated password shortly.
+common#:#txt_registered_passw_gen#:#You have successfully registered with ILIAS. You will receive an e-mail with your password shortly.
 common#:#txt_registered#:#You successfully registered to ILIAS. Please click on the button below to login to ILIAS with your user account.
 common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.
 common#:#type#:#Type
@@ -5723,7 +5723,7 @@ common#:#username#:#Username
 common#:#user_never_logged_in#:#Delete user accounts without login
 common#:#user_never_logged_in_info#:#All user accounts without login at all be deleted.
 common#:#user_never_logged_in_info_threshold_err_num#:#Only positive non decimal numbers are accepted.
-common#:#user_new_account_mail_desc#:#This mail is sent automatically to users that have self-registered or to those who have been registered by an administrator with enabled setting ‘Send mail to inform user about changes’.
+common#:#user_new_account_mail_desc#:#This e-mail is sent after an ILIAS account has been created. If the account was created by an administrator, ILIAS will only send an e-mail if the option "Send mail to inform user about changes" was activated when creating the account.
 common#:#user_new_account_mail#:#New Account Mail
 common#:#user_not_found_to_delete#:#A user could not be found to delete.
 common#:#user_not_found#:#User not found

@@ -1437,7 +1437,7 @@ assessment#:#tst_finished#:#Beendet
 assessment#:#tst_finish_notification_advanced#:#Komplettes Testergebnis pro Benutzer
 assessment#:#tst_finish_notification#:#Benachrichtigung
 assessment#:#tst_finish_notification_content#:#Inhalt der Benachrichtigung
-assessment#:#tst_finish_notification_desc#:#Für jede Person, die einen Test beendet, wird eine E-Mail versendet. Die E-Mail wird an den Benutzer versendet, welcher im Reiter "Rechte" unter "Im Besitz von" eingetragen ist. Die E-Mail enthält die folgenden Informationen:###Modified as part of gender mainstreaming activities for ILIAS 8
+assessment#:#tst_finish_notification_desc#:#Für jede Person, die einen Test beendet, wird eine Mail versendet. Die Mail wird an den Benutzer versendet, welcher im Reiter „Rechte“ unter „Im Besitz von“ eingetragen ist. Die Mail enthält die folgenden Informationen:###Modified as part of gender mainstreaming activities for ILIAS 8
 assessment#:#tst_finish_notification_no#:#Keine Benachrichtigung
 assessment#:#tst_finish_notification_simple#:#Nur Anmeldename und Datum des Beendens
 assessment#:#tst_form_dynamic_question_set_config#:#Fortlaufende Fragenauswahl
@@ -2182,7 +2182,7 @@ badge#:#badge_notification_subject#:#Badge erhalten
 badge#:#badge_no_valid_types_for_obj#:#Es gibt aktuell keine aktiven Badge-Typen. Es können keine neuen Badges erstellt werden. Bitte wenden Sie sich an Ihren Administrator.
 badge#:#badge_obi_activate_info#:#Benutzer Badges können aus ILIAS exportieren und im Internet als Nachweis ihrer Qualifikation nutzen.
 badge#:#badge_obi_activate#:#Mozilla Open Badges Infrastructure aktivieren
-badge#:#badge_obi_contact_info#:#Diese E-Mail wird zwar nicht angezeigt, aber in das Badge eingebacken.
+badge#:#badge_obi_contact_info#:#Diese E-Mail-Adresse wird zwar nicht angezeigt, aber in das Badge eingebacken.
 badge#:#badge_obi_contact#:#Kontakt-E-Mail
 badge#:#badge_obi_organisation_info#:#Diese Angabe wird als Herausgeber des Badges angezeigt.
 badge#:#badge_obi_organisation#:#Organisation
@@ -3100,7 +3100,7 @@ cmix#:#conf_user_ident_il_uuid_random#:#Zufalls-ID kombiniert mit einer eindeuti
 cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist
 cmix#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
 cmix#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
-cmix#:#conf_user_ident_real_email#:#E-Mail Adresse
+cmix#:#conf_user_ident_real_email#:#E-Mail-Adresse
 cmix#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
 cmix#:#conf_user_name#:#Benutzername
 cmix#:#conf_user_name_firstname_info#:#Sendet den Vornamen
@@ -3127,7 +3127,7 @@ cmix#:#edit_lrs_type_form#:#LRS-Typ
 cmix#:#failed_info#:#Die Aktivität wurde nicht erfolgreich bestanden bis zu einem vorher festgelegten Grad an Zufriedenheit.
 cmix#:#failed_label#:#Statements mit dem Verb 'failed'
 cmix#:#fetch_xapi_statements#:#Ergebnisse aus dem Learning Record Store holen
-cmix#:#field_user_ident#:#E-Mail Adresse
+cmix#:#field_user_ident#:#E-Mail-Adresse
 cmix#:#field_user_ident_info#:#Geben Sie die E-Mail-Adresse ein, die in der externen Anwendung verwendet wird, um Sie zu identifizieren.
 cmix#:#form_change_registration#:#Registrierung
 cmix#:#form_create_registration#:#Registrierung
@@ -3711,10 +3711,10 @@ common#:#cron_jobs#:#Cron-Jobs
 common#:#cron_lucene_index_info#:#Wenn eingeschaltet, wird der Lucene-Suchindex aktualisiert. Bitte konfigurieren Sie vorher den Lucene-Server unter 'Administration » Suche'.
 common#:#cron_lucene_index#:#Lucene-Suchindex aktualisieren
 common#:#cron_mail_notification_cron#:#Regelmäßig per Cron-Job
-common#:#cron_mail_notification_desc#:#Wenn diese Option eingeschaltet ist, werden Benutzer über neue Mails benachrichtigt. Bitte aktivieren Sie vorher die Option '%s' um diese Funktion nutzen zu können.
+common#:#cron_mail_notification_desc#:#ILIAS verschickt auf Wunsch E-Mail-Benachrichtigungen über neue Mails. Im Gegensatz zur sofortigen Weiterleitung aller Mails sammelt dieser Cronjob die Mails eines Tages und stellt diese als Paket zu. Bitte aktivieren Sie die Option '%s', um diese Funktion zu nutzen. Zusätzlich müssen die E-Mail-Benachrichtigungen für jedes ILIAS-Konto in den persönlichen Mail-Einstellungen aktiviert werden.
 common#:#cron_mail_notification#:#E-Mail-Benachrichtigungen für neue Nachrichten versenden
-common#:#cron_mail_notification_message_info#:#Wenn diese Option eingeschaltet ist, werden die Mail-Benachrichtigungen mit dem Inhalt der Mails an die Benutzer versendet.
-common#:#cron_mail_notification_message#:#Mail-Benachrichtigungen mit Inhalt versenden
+common#:#cron_mail_notification_message_info#:#E-Mail-Benachrichtigungen enthalten den kompletten Inhalt der in ILIAS erhaltenen Mails. So können diese ohne weitere Anmeldung gelesen werden.
+common#:#cron_mail_notification_message#:#Mail content as part of the e-mail notification
 common#:#cron_mail_notification_never#:#Nie
 common#:#cron_users_without_login_del_create_date_thr_info#:#Alle Benutzerkonten, deren Erstellung länger her ist als der hier definierte Schwellenwert, werden für eine Löschung berücksichtigt.
 common#:#cron_users_without_login_del_create_date_thr#:#Schwellenwert
@@ -4850,7 +4850,7 @@ common#:#obj_lsos#:#Lernsequenzen
 common#:#obj_lti#:#LTI-Konsument
 common#:#obj_ltis_desc#:#Learning Tools Interoperability
 common#:#obj_ltis#:#LTI
-common#:#obj_mail_desc#:#Globale Mailkonfiguration
+common#:#obj_mail_desc#:#Globale Mail-Einstellungen
 common#:#obj_mail#:#Mail
 common#:#obj_mcst_duplicate#:#Mediacast kopieren
 common#:#obj_mcst#:#Mediacast
@@ -5267,7 +5267,7 @@ common#:#register_notification#:#"%s" hat die Teilnahme an der Sitzung "%s" bean
 common#:#register#:#Registrieren
 common#:#registration#:#Neues Benutzerkonto registrieren
 common#:#reg_mail_body_2_confirmation#:#Der Link wird nur für %s gültig sein, danach müssen Sie sich erneut registrieren.
-common#:#reg_mail_body_3_confirmation#:#Falls Sie diese E-Mail unerwartet erhalten haben, ist es möglich, dass eine andere Person Ihre E-Mail Adresse versehentlich oder vorsätzlich angegeben hat. In diesem Fall ignorieren Sie diese Mail bitte.
+common#:#reg_mail_body_3_confirmation#:#Falls Sie diese E-Mail unerwartet erhalten haben, ist es möglich, dass eine andere Person Ihre E-Mail-Adresse versehentlich oder vorsätzlich angegeben hat. In diesem Fall ignorieren Sie diese Mail bitte.
 common#:#reg_mail_body_forgot_password_info#:#Um ein neues Passwort für diesen Benutzerzugang zu beantragen nutzen Sie bitte die Funktion « Passwort vergessen? » auf der Login-Seite.
 common#:#reg_mail_body_salutation#:#Hallo
 common#:#reg_mail_body_text1#:#Willkommen auf der eLearning-Plattform ILIAS!
@@ -5729,7 +5729,7 @@ common#:#user_never_logged_in#:#Benutzerzugänge ohne Anmeldung löschen
 common#:#user_never_logged_in_info#:#Accounts werden gelöscht, wenn sie sich noch nie in ILIAS angemeldet haben.
 common#:#user_never_logged_in_info_threshold_err_num#:#Der Schwellenwert muss eine ganzzahlige, positive Zahl sein.
 common#:#user_new_account_mail#:#Benachrichtigung über Neuanmeldung
-common#:#user_new_account_mail_desc#:#Diese Mail wird an Benutzer gesendet, die sich selbst registriert haben. Wurde der Account von einem Administrator angelegt, verschickt ILIAS nur dann eine Benachrichtigung, wenn beim Anlegen des Accounts die Option "Benutzer per Mail über Änderungen informieren" aktiviert wurde.
+common#:#user_new_account_mail_desc#:#Diese E-Mail wird nach dem Anlegen eines ILIAS-Kontos verschickt. Wurde das Konto von der technischen Leitung angelegt, verschickt ILIAS nur dann eine E-Mail, wenn beim Anlegen die Option „Benutzer per Mail über Änderungen informieren“ aktiviert wurde.
 common#:#user_not_found#:#Der Benutzer wurde nicht gefunden
 common#:#user_not_found_to_delete#:#Ein Benutzer, der gelöscht werden sollte, konnte nicht gefunden werden.
 common#:#user_not_known#:#Bitte geben Sie einen gültigen Benutzernamen ein.
@@ -7225,7 +7225,7 @@ cron#:#cron_status_info#:#Status-Info
 cron#:#cron_status#:#Status
 crs#:#activation_times_not_valid#:#Die Zeitdauer für 'Verfügbarkeit' ist nicht gültig.
 crs#:#assigned#:#Zugeordnet
-crs#:#contact_email_not_valid#:#Die E-Mail Adresse ist nicht gültig.
+crs#:#contact_email_not_valid#:#Die E-Mail-Adresse ist nicht gültig.
 crs#:#crs_accept_subscriber#:#Aufnahme in Kurs "%s"
 crs#:#crs_accept_subscriber_body#:#Sie sind in den Kurs "%s" aufgenommen worden.
 crs#:#crs_access#:#Zugang
@@ -7285,7 +7285,7 @@ crs#:#crs_cdf_tbl_last_edit#:#Aktualisiert (Kursspezifische Daten)
 crs#:#crs_checklist_objective#:#Checkliste Lernziel
 crs#:#crs_contact_consultation#:#Sprechstunde
 crs#:#crs_contact_email#:#E-Mail
-crs#:#crs_contact_email_info#:#Sie können eine oder mehrere (durch Komma getrennt) E-Mail Adressen eingeben.
+crs#:#crs_contact_email_info#:#Sie können eine oder mehrere (durch Komma getrennte) E-Mail-Adressen eingeben.
 crs#:#crs_contact#:#Kontakt
 crs#:#crs_contact_name#:#Name
 crs#:#crs_contact_phone#:#Telefon
@@ -8462,7 +8462,7 @@ dcl#:#dcl_notification_deactivate_dcl#:#Benachrichtigung deaktivieren
 dcl#:#dcl_notification_info#:#Aktiviert die individuelle Benachrichtigungsfunktion für Benutzer.
 dcl#:#dcl_notimage_exception#:#Die Datei muss ein Bild sein.
 dcl#:#dcl_not_supported_in_import#:#Dieser Feldtyp ist für den Import nicht unterstützt.
-dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail Adresse ein.
+dcl#:#dcl_noturl_exception#:#Bitte geben Sie einen Link (beginnend mit http:// oder www.) oder eine E-Mail-Adresse ein.
 dcl#:#dcl_no_warnings#:#Der Import wurde reibungslos abgeschlossen.
 dcl#:#dcl_number_desc#:#Eingabefeld für ganze Zahlen (maximal 9 Ziffern). Nicht erlaubt sind Brüche und Dezimalzahlen.
 dcl#:#dcl_number#:#Ganze Zahlen
@@ -10351,7 +10351,7 @@ lti#:#conf_user_ident_il_uuid_login_info#:#Dies ist identisch mit jedem Aufruf, 
 lti#:#conf_user_ident_il_uuid_user_id#:#ILIAS-Benutzer-ID kombiniert mit einer eindeutigen ILIAS-Plattform-ID, die als E-Mail-Adresse formatiert ist.
 lti#:#conf_user_ident_il_uuid_user_id_info#:#Dies ist identisch mit jedem Aufruf, erlaubt aber keine direkte Rückschlüsse auf den ILIAS-Benutzer.
 lti#:#conf_user_ident_info#:#Standard ist häufig die E-Mail-Adresse. Die eindeutige ILIAS-Plattform-ID lautet:
-lti#:#conf_user_ident_real_email#:#E-Mail Adresse
+lti#:#conf_user_ident_real_email#:#E-Mail-Adresse
 lti#:#conf_user_ident_real_email_info#:#Sendet die E-Mail-Adresse des Benutzers als Identifikation (Achtung: eine E-Mail-Adresse kann von mehreren Benutzern verwendet werden!)
 lti#:#conf_user_name#:#Benutzername
 lti#:#conf_user_name_firstname_info#:#Sendet den Vornamen.
