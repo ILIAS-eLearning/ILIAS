@@ -20,6 +20,9 @@ class ilOrgUnitOperation extends ActiveRecord
     const OP_VIEW_MEMBERS = 'view_members';
     const OP_VIEW_INDIVIDUAL_PLAN = 'view_individual_plan';
     const OP_EDIT_INDIVIDUAL_PLAN = 'edit_individual_plan';
+    const OP_READ_EMPLOYEE_TALK = 'read_employee_talk';
+    const OP_CREATE_EMPLOYEE_TALK = 'create_employee_talk';
+    const OP_EDIT_EMPLOYEE_TALK = 'edit_employee_talk';
 
     /**
      * @var int
