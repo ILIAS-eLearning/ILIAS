@@ -506,8 +506,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
     public function manageObject()
     {
-        $this->main_tpl->setTitle($this->lng->txt("dash_favourites"));
-
         $this->blockView->setIsInManageMode(true);
 
         $top_tb = new ilToolbarGUI();
