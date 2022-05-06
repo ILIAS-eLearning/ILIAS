@@ -1454,3 +1454,8 @@ if (!$ilDB->indexExistsByFields('qpl_a_cloze_combi_res', $fields)) {
     );
 }
 ?>
+<#83>
+<?php
+$ilDB->manipulateF('DELETE FROM settings WHERE keyword = %s', ['text'], ['enable_block_moving']);
+$ilDB->manipulateF('DELETE FROM il_block_setting WHERE type LIKE %s', ['text'], ['pd%']);
+?>

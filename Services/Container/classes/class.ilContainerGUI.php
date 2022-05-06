@@ -2498,12 +2498,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         $ilAccess = $this->access;
         parent::setColumnSettings($column_gui);
-
-        if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
-            $this->isActiveAdministrationPanel() &&
-            $this->allowBlocksMoving()) {
-            $column_gui->setEnableMovement(true);
-        }
         
         $column_gui->setRepositoryItems(
             $this->object->getSubItems($this->isActiveAdministrationPanel(), true)

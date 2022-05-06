@@ -777,10 +777,6 @@ class ilDashboardGUI
      */
     public function initColumn($a_column_gui)
     {
-        $pd_set = new ilSetting("pd");
-        if ($pd_set->get("enable_block_moving")) {
-            $a_column_gui->setEnableMovement(true);
-        }
         $a_column_gui->setActionMenu($this->action_menu);
     }
     

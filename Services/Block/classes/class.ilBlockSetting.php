@@ -200,17 +200,6 @@ class ilBlockSetting
     }
 
     /**
-    * Lookup number.
-    *
-    */
-    public static function _lookupNr($a_type, $a_user = 0, $a_block_id = 0)
-    {
-        $nr = ilBlockSetting::_lookup($a_type, "nr", $a_user, $a_block_id);
-
-        return $nr;
-    }
-
-    /**
     * Write number to database.
     *
     */
