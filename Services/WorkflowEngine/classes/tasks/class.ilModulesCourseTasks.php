@@ -32,7 +32,7 @@ class ilModulesCourseTasks
 
         $participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
         $learners = $participants->getMembers();
-        $retval = array($output_params[0] => $learners);
+        $retval = [$output_params[0] => $learners];
 
         return $retval;
     }
@@ -60,7 +60,7 @@ class ilModulesCourseTasks
 
         $participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
         $tutors = $participants->getTutors();
-        $retval = array($output_params[0] => $tutors);
+        $retval = [$output_params[0] => $tutors];
 
         return $retval;
     }
@@ -88,7 +88,7 @@ class ilModulesCourseTasks
 
         $participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
         $admins = $participants->getAdmins();
-        $retval = array($output_params[0] => $admins);
+        $retval = [$output_params[0] => $admins];
 
         return $retval;
     }
@@ -124,7 +124,7 @@ class ilModulesCourseTasks
         $course_object->putInTree($input_params['destRefId']);
         $course_object->setPermissions($input_params['destRefId']);
 
-        $retval = array($output_params[0] => $course_object->getRefId());
+        $retval = [$output_params[0] => $course_object->getRefId()];
 
         return $retval;
     }

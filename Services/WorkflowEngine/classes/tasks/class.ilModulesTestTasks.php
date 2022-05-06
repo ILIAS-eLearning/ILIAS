@@ -35,7 +35,7 @@ class ilModulesTestTasks
         $test_object->updateMetaData();
         $test_object->saveToDb();
 
-        $retval = array($output_params[0] => $test_object->getRefId());
+        $retval = [$output_params[0] => $test_object->getRefId()];
 
         return $retval;
     }
@@ -64,6 +64,6 @@ class ilModulesTestTasks
         foreach ($usr_id_list as $user_id) {
             $test_object->inviteUser($user_id);
         }
-        return array();
+        return [];
     }
 }

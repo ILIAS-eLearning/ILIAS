@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ilWorkflowEngine is part of the petri net based workflow engine.
@@ -9,8 +24,6 @@
  * and so on.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilWorkflowEngine
@@ -19,14 +32,6 @@ class ilWorkflowEngine
     {
     }
 
-    /**
-     * @param string  $type
-     * @param string  $content
-     * @param string  $subject_type
-     * @param integer $subject_id
-     * @param string  $context_type
-     * @param integer $context_id
-     */
     public function processEvent(
         string $type,
         string $content,
@@ -36,8 +41,7 @@ class ilWorkflowEngine
         int $context_id
     ) : void {
         global $DIC;
-        /** @var ilSetting $ilSetting */
-        $ilSetting = $DIC['ilSetting'];
+        $ilSetting = $DIC->settings();
 
         if (0 === (int) $ilSetting->get('wfe_activation', '0')) {
             return;
@@ -61,14 +65,14 @@ class ilWorkflowEngine
                 }
 
                 $wf_instance->handleEvent(
-                    array(
+                    [
                         $type,
                         $content,
                         $subject_type,
                         $subject_id,
                         $context_type,
                         $context_id
-                    )
+                    ]
                 );
                 ilWorkflowDbHelper::writeWorkflow($wf_instance);
             }
@@ -136,9 +140,9 @@ class ilWorkflowEngine
     }
 
     /**
-     * @param \ilExtractedParams $extractedParams
+     * @param ilExtractedParams $extractedParams
      */
-    public function launchArmedWorkflows($component, $event, ilExtractedParams $extractedParams) : void
+    public function launchArmedWorkflows($component, $event, ilExtractedParams $extractedParams) : void// TODO PHP8-REVIEW Type hints or corresponding PHPDoc missing
     {
         global $DIC;
         /** @var ilSetting $ilSetting */
@@ -178,14 +182,14 @@ class ilWorkflowEngine
 
             $workflow_instance->startWorkflow();
             $workflow_instance->handleEvent(
-                array(
+                [
                     'time_passed',
                     'time_passed',
                     'none',
                     0,
                     'none',
                     0
-                )
+                ]
             );
 
             ilWorkflowDbHelper::writeWorkflow($workflow_instance);

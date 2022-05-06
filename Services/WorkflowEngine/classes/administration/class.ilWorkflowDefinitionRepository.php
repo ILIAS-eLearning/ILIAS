@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilWorkflowDefinitionRepository
@@ -8,50 +23,24 @@ class ilWorkflowDefinitionRepository
 {
     private const FILE_EXTENSTION_BPMN2 = 'bpmn2';
     private const FILE_EXTENSTION_PHP = 'php';
-
     private const FILE_PREFIX = 'wsd.il';
 
-    /**
-     * @var \ilDBInterface
-     */
     protected ilDBInterface $db;
-
-    /**
-     * @var \ILIAS\Filesystem\FilesystemsImpl
-     */
-    protected $fs;
-
-    /**
-     * @var string
-     */
+    protected \ILIAS\Filesystem\FilesystemsImpl $fs;
     protected string $path;
-
-    /**
-     * @var bool
-     */
     protected bool $definitionsLoaded = false;
-
     /**
      * @var array
      */
     protected array $definitions = [];
 
-    /**
-     * ilWorkflowDefinitionRepository constructor.
-     * @param ilDBInterface                 $db
-     * @param \ILIAS\Filesystem\Filesystems $fs
-     * @param string                        $path
-     */
-    public function __construct(\ilDBInterface $db, \ILIAS\Filesystem\Filesystems $fs, string $path)
+    public function __construct(ilDBInterface $db, \ILIAS\Filesystem\Filesystems $fs, string $path)
     {
         $this->db = $db;
         $this->fs = $fs;
         $this->path = $path;
     }
 
-    /**
-     *
-     */
     protected function lazyLoadWorkflowDefinitions() : void
     {
         if ($this->definitionsLoaded) {
@@ -64,13 +53,13 @@ class ilWorkflowDefinitionRepository
 				  GROUP BY workflow_class';
         $result = $this->db->query($query);
 
-        $stats = array();
+        $stats = [];
         while ($row = $this->db->fetchAssoc($result)) {
-            $stats[$row['workflow_class']] = array('total' => $row['total'], 'active' => $row['active']);
+            $stats[$row['workflow_class']] = ['total' => $row['total'], 'active' => $row['active']];
         }
 
         if (!$this->fs->storage()->hasDir($this->path)) {
-            $this->definitions = array();
+            $this->definitions = [];
             return;
         }
 
@@ -122,10 +111,6 @@ class ilWorkflowDefinitionRepository
         return $this->definitions;
     }
 
-    /**
-     * @param string $id
-     * @return bool
-     */
     public function has(string $id) : bool
     {
         $this->lazyLoadWorkflowDefinitions();
@@ -135,13 +120,13 @@ class ilWorkflowDefinitionRepository
     /**
      * @param string $id
      * @return array
-     * @throws \ilWorkflowEngineException
+     * @throws ilWorkflowEngineException
      */
     public function getById(string $id) : array
     {
         $this->lazyLoadWorkflowDefinitions();
         if (!$this->has($id)) {
-            throw new \ilWorkflowEngineException(sprintf("Could not find definition for id: %s", $id));
+            throw new ilWorkflowEngineException(sprintf("Could not find definition for id: %s", $id));
         }
 
         return $this->definitions[$id];

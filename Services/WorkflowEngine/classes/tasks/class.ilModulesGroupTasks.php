@@ -32,7 +32,7 @@ class ilModulesGroupTasks
 
         $participants = ilGroupParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['grpRefId']));
         $members = $participants->getMembers();
-        $retval = array($output_params[0] => $members);
+        $retval = [$output_params[0] => $members];
 
         return $retval;
     }
@@ -60,7 +60,7 @@ class ilModulesGroupTasks
 
         $participants = ilGroupParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['grpRefId']));
         $admins = $participants->getAdmins();
-        $retval = array($output_params[0] => $admins);
+        $retval = [$output_params[0] => $admins];
 
         return $retval;
     }

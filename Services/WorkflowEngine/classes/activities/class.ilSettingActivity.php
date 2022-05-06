@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilSettingActivity
@@ -23,7 +38,7 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @todo Check for constraints imposed by ilSetting.
      *
-     * @var string Name of a setting, $ilSetting constraints are in effect.
+     * Name of a setting, $ilSetting constraints are in effect.
      */
     private string $setting_name = '';
 
@@ -32,18 +47,12 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
      *
      * @todo Check for constraints imposed by ilSetting.
      *
-     * @var string Value of a setting, $ilSetting constraints are in effect.
+     * alue of a setting, $ilSetting constraints are in effect.
      */
     private string $setting_value = '';
 
-    /** @var string $name */
     protected string $name;
 
-    /**
-     * Default constructor.
-     *
-     * @param ilNode $context
-     */
     public function __construct(ilNode $context)
     {
         $this->context = $context;
@@ -110,7 +119,7 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * Executes this action according to its settings.
      * @return void
-     *@todo Use exceptions / internal logging.
+     * @todo Use exceptions / internal logging.
      */
     public function execute() : void
     {
@@ -136,9 +145,6 @@ class ilSettingActivity implements ilActivity, ilWorkflowEngineElement
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
     public function getName() : string
     {
         return $this->name;

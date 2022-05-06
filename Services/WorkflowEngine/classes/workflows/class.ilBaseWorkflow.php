@@ -15,15 +15,13 @@ abstract class ilBaseWorkflow implements ilWorkflow
 {
     /**
      *Holds a list of references nodes attached to the workflow.
-     *
-     * @var \ilNode[] $nodes Array of ilNode
+     * @var ilNode[] $nodes Array of ilNode
      */
     protected array $nodes;
 
     /**
      * Holds a list of references to all external detectors of all nodes attached to the workflow.
-     *
-     * @var \ilExternalDetector[] $detectors Array of ilDetector
+     * @var ilExternalDetector[] $detectors Array of ilDetector
      */
     protected array $detectors;
 
@@ -122,13 +120,13 @@ abstract class ilBaseWorkflow implements ilWorkflow
      *
      * @var array $instance_vars Associative array of  mixed.
      */
-    protected array $instance_vars = array();
+    protected array $instance_vars = [];
 
     /** @var array $data_inputs Input data for the workflow (readonly). */
-    protected ?array $data_inputs = array();
+    protected ?array $data_inputs = [];
 
     /** @var array $data_outputs Output data for the workflow. */
-    protected ?array $data_outputs = array();
+    protected ?array $data_outputs = [];
 
     /** @var bool $require_data_persistence True, if the persistence needs to deal with data. */
     protected bool $require_data_persistence = false;
@@ -172,7 +170,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * Method called on start of the workflow, prior to activating the first node.
      * @return void
      */
-    public function onStartWorkflow()
+    public function onStartWorkflow() : void
     {
     }
 
@@ -183,7 +181,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * end of a workflow is handled with @see onWorkflowFinished().
      * @return void
      */
-    public function onStopWorkflow()
+    public function onStopWorkflow() : void
     {
     }
 
@@ -194,7 +192,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * Forced shutdown of a workflow is handled in @see onStopWorkflow().
      * @return void
      */
-    public function onWorkflowFinished()
+    public function onWorkflowFinished() : void
     {
     }
 
@@ -235,7 +233,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
     }
 
     /**
-     * @param \ilDetector $detector
+     * @param ilDetector $detector
      */
     public function registerDetector(ilDetector $detector)
     {
@@ -252,7 +250,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function getWorkflowData() : array
     {
-        return array('type' => $this->workflow_type, 'content' => $this->workflow_content);
+        return ['type' => $this->workflow_type, 'content' => $this->workflow_content];
     }
 
     /**
@@ -262,7 +260,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function getWorkflowSubject() : array
     {
-        return array('type' => $this->workflow_subject_type, 'identifier' => $this->workflow_subject_identifier);
+        return ['type' => $this->workflow_subject_type, 'identifier' => $this->workflow_subject_identifier];
     }
 
     /**
@@ -272,7 +270,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function getWorkflowContext() : array
     {
-        return array('type' => $this->workflow_context_type, 'identifier' => $this->workflow_context_identifier);
+        return ['type' => $this->workflow_context_type, 'identifier' => $this->workflow_context_identifier];
     }
 
     /**
@@ -288,7 +286,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      * Returns the database id of the detector if set.
      *
      * @return int
-     * @throws \ilWorkflowObjectStateException
+     * @throws ilWorkflowObjectStateException
      */
     public function getDbId() : int
     {
@@ -429,10 +427,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
         return $this->require_data_persistence;
     }
 
-    /**
-     * @return void
-     */
-    public function resetDataPersistenceRequirement()
+    public function resetDataPersistenceRequirement() : void
     {
         $this->require_data_persistence = false;
     }
@@ -457,7 +452,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
         string $id,
         string $name
     ) {
-        $this->instance_vars[] = array(
+        $this->instance_vars[] = [
             'id' => $id,
             'name' => $name,
             'value' => null,
@@ -465,7 +460,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
             'target' => null,
             'type' => null,
             'role' => null
-        );
+        ];
     }
 
     /**
@@ -604,7 +599,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
      */
     public function flushInstanceVars()
     {
-        $this->instance_vars = array();
+        $this->instance_vars = [];
     }
 
     #endregion
@@ -715,4 +710,4 @@ abstract class ilBaseWorkflow implements ilWorkflow
     #endregion
 }
 
-spl_autoload_register(array('ilBaseWorkflow', 'autoload'));
+spl_autoload_register(['ilBaseWorkflow', 'autoload']);

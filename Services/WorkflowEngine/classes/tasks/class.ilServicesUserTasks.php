@@ -29,7 +29,7 @@ class ilServicesUserTasks
         // IN: useridlist
         // OUT: anonaccountlist, userIdList
 
-        $discloseMap = array();
+        $discloseMap = [];
 
         foreach ($input_params['usrIdList'] as $user_id) {
             $source_user = new ilObjUser($user_id, false);
@@ -41,7 +41,7 @@ class ilServicesUserTasks
                 $source_user->getEmail()
             );
 
-            $discloseMap[] = array(
+            $discloseMap[] = [
                 'Original User' => $user_id,
                 'Original Login' => $source_user->getLogin(),
                 'Original Firstname' => $source_user->getFirstname(),
@@ -52,10 +52,10 @@ class ilServicesUserTasks
                 'Anon User' => $new_id,
                 'Anon Login' => $anon_login,
                 'Anon Password' => $anon_password
-            );
+            ];
         }
 
-        return array($output_params[0] => $discloseMap);
+        return [$output_params[0] => $discloseMap];
     }
 
     /**
@@ -63,7 +63,7 @@ class ilServicesUserTasks
      */
     protected static function getValidLogin() : string
     {
-        $random = new \ilRandom();
+        $random = new ilRandom();
         do {
             $login = self::ANON_LOGIN_PREFIX . str_pad($random->int(0, 9999999), 7, STR_PAD_LEFT);
         } while (ilObjUser::_loginExists($login));
@@ -77,8 +77,8 @@ class ilServicesUserTasks
      */
     protected static function generatePassword(int $length = 8) : string
     {
-        $random = new \ilRandom();
-        $password = array();
+        $random = new ilRandom();
+        $password = [];
         $setLength = strlen(self::PASSWORD_CHARACTERSET) - 1;
 
         for ($i = 0; $i < $length; $i++) {
