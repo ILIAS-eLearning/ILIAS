@@ -34,8 +34,7 @@ class ilLTIProviderObjectSetting
     /**
      * Constructor
      */
-    // TODO PHP8 Review: Missing Parameter Type Declaration
-    public function __construct($a_ref_id, $a_ext_consumer_id)
+    public function __construct(int $a_ref_id, int $a_ext_consumer_id)
     {
         global $DIC;
         

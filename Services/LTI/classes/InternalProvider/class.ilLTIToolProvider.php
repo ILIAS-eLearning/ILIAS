@@ -134,12 +134,16 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
      */
     public bool $debugMode = true;
 
+    private \ILIAS\DI\Container $dic;
+
     /**
      * ilLTIToolProvider constructor.
      * @param DataConnector $dataConnector
      */
     public function __construct(DataConnector $dataConnector)
     {
+        global $DIC;
+        $this->dic = $DIC;
         $this->logger = ilLoggerFactory::getLogger('ltis');
         parent::__construct($dataConnector);
     }
@@ -154,6 +158,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         // TODO PHP8 Review: Move Global Access to Constructor
         $ok = true;
         $doSaveResourceLink = true;
+        $key = null;
 
         $id = $this->resourceLink->primaryResourceLinkId;
         $shareRequest = $DIC->http()->wrapper()->post()->has('custom_share_key') && !empty($DIC->http()->wrapper()->post()->retrieve('custom_share_key', $DIC->refinery()->kindlyTo()->string()));
@@ -187,7 +192,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     }
                 }
                 if ($ok) {
-                    $ok = !is_null($key); // TODO PHP8 Review: Variable $key is probably undefined
+                    $ok = !is_null($key);
                     if (!$ok) {
                         $this->reason = 'You have requested to share a resource link but none is available.';
                     } else {
@@ -410,7 +415,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     $last = date('Y-m-d', $this->consumer->lastAccess);
                     $doSaveConsumer = $doSaveConsumer || ($last !== $today);
                 }
-                $this->consumer->last_access = $now; // TODO PHP8 Review: Undefined Property
+                $this->consumer->lastAccess = $now;
                 try {
                     $store = new OAuthDataStore($this);
                     $server = new \ILIAS\LTIOAuth\OAuthServer($store);
@@ -446,7 +451,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                     $last = date('Y-m-d', $this->consumer->lastAccess);
                     $doSaveConsumer = $doSaveConsumer || ($last !== $today);
                 }
-                $this->consumer->last_access = $now; // TODO PHP8 Review: Undefined Property
+                $this->consumer->lastAccess = $now;
                 if ($this->consumer->protected) {
                     if (!is_null($this->consumer->consumerGuid)) {
                         $this->ok = empty($DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_guid', $DIC->refinery()->kindlyTo()->string())) ||

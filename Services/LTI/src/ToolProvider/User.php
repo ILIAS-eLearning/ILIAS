@@ -104,7 +104,7 @@ class User
      *
      * @var mixed $dataConnector
      */
-    private mixed $dataConnector = null; // TODO PHP8 Review: Type `mixed` is not supported!
+    private $dataConnector = null;
 
     /**
      * Class constructor.
@@ -200,7 +200,7 @@ class User
      */
     public function setRecordId(int $id) : void
     {
-        $this->id = $id; // TODO PHP8 Review: Check/Resolve Type-Mismatch
+        $this->id = (string) $id;
     }
 
     /**
@@ -218,7 +218,7 @@ class User
      *
      * @return mixed Data connector object or string
      */
-    public function getDataConnector() : mixed // TODO PHP8 Review: Type `mixed` is not supported!
+    public function getDataConnector()
     {
         return $this->dataConnector;
     }
@@ -374,10 +374,10 @@ class User
     {
         $user = new User();
         $user->resourceLink = $resourceLink;
-        if (!is_null($resourceLink)) { // TODO PHP8 Review: $recourse can't be null
+//        if (!is_null($resourceLink)) {
             $user->resourceLinkId = $resourceLink->getRecordId();
             $user->dataConnector = $resourceLink->getDataConnector();
-        }
+//        }
         $user->ltiUserId = $ltiUserId;
         if (!empty($ltiUserId)) {
             $user->load();

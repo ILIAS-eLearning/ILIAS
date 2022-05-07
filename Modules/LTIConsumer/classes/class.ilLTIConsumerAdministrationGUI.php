@@ -360,12 +360,9 @@ class ilLTIConsumerAdministrationGUI
     private function prepareProvider() : \ilLTIConsumeProvider
     {
         $provider = new ilLTIConsumeProvider();
-        // TODO PHP8 Review: Check/Resolve Type-Mismatch
         $provider->setTitle($this->getInput('title'));
-        // TODO PHP8 Review: Check/Resolve Type-Mismatch
         $provider->setDescription($this->getInput('description'));
         if (null !== $this->getInput('provider_url')) {
-            // TODO PHP8 Review: Check/Resolve Type-Mismatch
             $provider->setProviderUrl($this->getInput('provider_url'));
         }
         $provider->setIsGlobal(true);
@@ -373,7 +370,6 @@ class ilLTIConsumerAdministrationGUI
 
         // PROVIDER ICON
         $pId = $provider->getId();
-        // TODO PHP8 Review: Check/Resolve Type-Mismatch
         if (null !== $pIconFileName = $this->getIconXml($this->getInput('provider_icon'), (string) $pId)) {
             $provider->setProviderIconFilename($pIconFileName);
             $provider->update();
@@ -383,15 +379,11 @@ class ilLTIConsumerAdministrationGUI
         return $provider;
     }
 
-    /**
-     * @param $key
-     * @return mixed[]
-     */
-    private function getInput($key) : array
+    private function getInput(mixed $key) : string
     {
-        /*if( !is_bool($this->_importedXmlData[$key]) ) {
+        if( !is_bool($this->_importedXmlData[$key]) ) {
             $this->_importedXmlData[$key] = trim($this->_importedXmlData[$key]);
-        }*/
+        }
         return $this->_importedXmlData[$key];
     }
 
