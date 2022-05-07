@@ -58,12 +58,16 @@ class ilCmiXapiContentUploadImporter
     ];
     
     protected ilObjCmiXapi $object;
+
+    private \ILIAS\DI\Container $dic;
     
     /**
      * ilCmiXapiContentUploadImporter constructor.
      */
     public function __construct(ilObjCmiXapi $object)
     {
+        global $DIC;
+        $this->dic = $DIC;
         $this->object = $object;
     }
     
@@ -311,13 +315,10 @@ class ilCmiXapiContentUploadImporter
 
     protected function getStoredContentXml() : string
     {
-        // TODO PHP8 Review: Move $DIC->filesystem()->web() to constructor
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         foreach (self::$CONTENT_XML_FILENAMES as $xmlFileName) {
             $xmlFilePath = $this->getWebDataDirRelativeObjectDirectory() . DIRECTORY_SEPARATOR . $xmlFileName;
             
-            if ($DIC->filesystem()->web()->has($xmlFilePath)) {
+            if ($this->dic->filesystem()->web()->has($xmlFilePath)) {
                 return $this->getAbsoluteObjectDirectory() . DIRECTORY_SEPARATOR . $xmlFileName;
             }
         }
@@ -347,7 +348,9 @@ class ilCmiXapiContentUploadImporter
 
         $activityId = $this->generateActivityId($publisherId);
         $this->object->setActivityId($activityId);
-        
+
+        $moveOn = '';
+
         foreach ($xPath->query("//*[local-name()='au']") as $assignedUnitNode) {
             $relativeLaunchUrl = $xPath->query("//*[local-name()='url']", $assignedUnitNode)->item(0)->nodeValue;
             $launchParameters = $xPath->query("//*[local-name()='launchParameters']", $assignedUnitNode)->item(0)->nodeValue;
@@ -385,7 +388,7 @@ class ilCmiXapiContentUploadImporter
         
         $lpSettings = new ilLPObjSettings($this->object->getId());
         $mode = ilLPObjSettings::LP_MODE_DEACTIVATED;
-        // TODO PHP8 Review: Variable $moveOn is probably undefined
+
         switch ($moveOn) {
             case ilCmiXapiLP::MOVEON_COMPLETED:
                 $mode = ilLPObjSettings::LP_MODE_CMIX_COMPLETED;

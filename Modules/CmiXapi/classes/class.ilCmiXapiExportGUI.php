@@ -26,11 +26,6 @@ class ilCmiXapiExportGUI extends ilExportGUI
 {
     public function __construct(ilObjCmiXapiGUI $a_parent_gui, ?ilObjCmiXapi $a_main_obj = null)
     {
-        if (null === $a_main_obj) {
-            /** @var ilObjCmiXapi $a_main_obj */
-            // TODO PHP8 Review: Undefined, cant access protected property
-            $a_main_obj = $a_parent_gui->object;
-        }
         parent::__construct($a_parent_gui, $a_main_obj);
         $this->addFormat('xml');
         new ilCmiXapiExporter($a_main_obj);

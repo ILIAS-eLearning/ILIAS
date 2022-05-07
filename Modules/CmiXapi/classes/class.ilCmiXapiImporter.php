@@ -44,12 +44,21 @@ class ilCmiXapiImporter extends ilXmlImporter
 
     private bool $_isSingleImport = false;
 
+    private \ILIAS\DI\Container $dic;
+
+    private \ILIAS\Filesystem\Filesystem $filesystemWeb;
+
+    private \ILIAS\Filesystem\Filesystem $filesystemTemp;
     /**
      * ilCmiXapiImporter constructor.
      */
     public function __construct()
     {
         parent::__construct();
+        global $DIC;
+        $this->dic = $DIC;
+        $this->filesystemWeb = $DIC->filesystem()->web();
+        $this->filesystemTemp = $DIC->filesystem()->temp();
         $this->_dataset = new ilCmiXapiDataSet();
         $this->_dataset->_cmixSettingsProperties['Title'] = '';
         $this->_dataset->_cmixSettingsProperties['Description'] = '';
@@ -126,19 +135,15 @@ class ilCmiXapiImporter extends ilXmlImporter
      */
     private function prepareLocalSourceStorage() : self
     {
-        global $DIC;
-        // TODO PHP8 Review: Move $DIC->filesystem() to constructor
-        /** @var \ILIAS\DI\Container $DIC */
-
-        if (true === $DIC->filesystem()->temp()->has($this->_relImportDir . '/content.zip')) {
+        if (true === $this->filesystemTemp->has($this->_relImportDir . '/content.zip')) {
 //            $this->_hasContent = true;
             $this->_relWebDir = $this->_relWebDir . $this->_cmixObj->getId();
-            if (false === $DIC->filesystem()->web()->has($this->_relWebDir)) {
-                $DIC->filesystem()->web()->createDir($this->_relWebDir);
-                $DIC->filesystem()->web()->put($this->_relWebDir . '/content.zip', $DIC->filesystem()->temp()->read($this->_relImportDir . '/content.zip'));
+            if (false === $this->filesystemWeb->has($this->_relWebDir)) {
+                $this->filesystemWeb->createDir($this->_relWebDir);
+                $this->filesystemWeb->put($this->_relWebDir . '/content.zip', $this->filesystemTemp->read($this->_relImportDir . '/content.zip'));
                 $webDataDir = ilFileUtils::getWebspaceDir();
                 ilFileUtils::unzip($webDataDir . "/" . $this->_relWebDir . "/content.zip");
-                $DIC->filesystem()->web()->delete($this->_relWebDir . '/content.zip');
+                $this->filesystemWeb->delete($this->_relWebDir . '/content.zip');
             }
         }
         return $this;
@@ -152,10 +157,8 @@ class ilCmiXapiImporter extends ilXmlImporter
       */
     private function parseXmlFileProperties() : self
     {
-        global $DIC; /** @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move $DIC->filesystem() to constructor
         $xmlRoot = null;
-        $xml = $DIC->filesystem()->temp()->readStream($this->_relImportDir . '/properties.xml');
+        $xml = $this->filesystemTemp->readStream($this->_relImportDir . '/properties.xml');
         if ($xml != false) {
             $use_internal_errors = libxml_use_internal_errors(true);
             $xmlRoot = simplexml_load_string((string) $xml);
@@ -173,9 +176,7 @@ class ilCmiXapiImporter extends ilXmlImporter
      */
     private function updateNewObj() : self
     {
-        global $DIC; /** @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move $DIC->language() to constructor
-        $this->_cmixObj->setTitle($this->_moduleProperties['Title'] . " " . $DIC->language()->txt("copy_of_suffix"));
+        $this->_cmixObj->setTitle($this->_moduleProperties['Title'] . " " . $this->dic->language()->txt("copy_of_suffix"));
         $this->_cmixObj->setDescription($this->_moduleProperties['Description']);
         $this->_cmixObj->update();
 
@@ -241,9 +242,7 @@ class ilCmiXapiImporter extends ilXmlImporter
      */
     private function deleteImportDirectiry() : self
     {
-        global $DIC; /** @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move $DIC->filesystem() to constructor
-        $DIC->filesystem()->temp()->delete($this->_relImportDir);
+        $this->filesystemTemp->delete($this->_relImportDir);
         return $this;
     }
 

@@ -274,8 +274,8 @@ class ilXapiStatementEvaluation
         
         return true;
     }
-    // TODO PHP8 Review: Missing Return type Declaration
-    protected function isLpModeInterestedInResultStatus(string $resultStatus, ?bool $deactivated = true)
+
+    protected function isLpModeInterestedInResultStatus(string $resultStatus, ?bool $deactivated = true) : bool
     {
         if ($this->lpMode == ilLPObjSettings::LP_MODE_DEACTIVATED) {
             return $deactivated;

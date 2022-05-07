@@ -40,10 +40,12 @@ class ilCmiXapiScoringGUI
     private ?int $userRank;
     private \ilGlobalTemplateInterface $main_tpl;
 
+    private \ILIAS\DI\Container $dic;
 
     public function __construct(ilObjCmiXapi $object)
     {
         global $DIC;
+        $this->dic = $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
 
@@ -55,15 +57,13 @@ class ilCmiXapiScoringGUI
      */
     public function executeCommand() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
         if (!$this->access->hasHighscoreAccess()) {
             throw new ilCmiXapiException('access denied!');
         }
 
-        switch ($DIC->ctrl()->getNextClass($this)) {
+        switch ($this->dic->ctrl()->getNextClass($this)) {
             default:
-                $cmd = $DIC->ctrl()->getCmd('show') . 'Cmd';
+                $cmd = $this->dic->ctrl()->getCmd('show') . 'Cmd';
                 $this->{$cmd}();
         }
     }
@@ -86,8 +86,6 @@ class ilCmiXapiScoringGUI
 
     protected function showCmd() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
         try {
             $this->initTableData()
                 ->initHighScoreTable()
@@ -103,7 +101,7 @@ class ilCmiXapiScoringGUI
             $this->tableHtml = $table->getHTML();
         }
 
-        $DIC->ui()->mainTemplate()->setContent($this->tableHtml);
+        $this->dic->ui()->mainTemplate()->setContent($this->tableHtml);
     }
     
     protected function initTableData() : self

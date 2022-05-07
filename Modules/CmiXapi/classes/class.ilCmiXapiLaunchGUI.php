@@ -31,6 +31,10 @@ class ilCmiXapiLaunchGUI
     protected ilCmiXapiUser $cmixUser;
 
     protected bool $plugin = false;
+
+    private ilObjUser $user;
+
+    private ilCtrlInterface $ctrl;
     
     public function __construct(ilObjCmiXapi $object)
     {
@@ -39,14 +43,14 @@ class ilCmiXapiLaunchGUI
     
     public function executeCommand() : void
     {
+        global $DIC;
+        $this->user = $DIC->user();
+        $this->ctrl = $DIC->ctrl();
         $this->launchCmd();
     }
     
     protected function launchCmd() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move $DIC->ctrl() to constructor
-        
         $this->initCmixUser();
         $token = $this->getValidToken();
         if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
@@ -54,12 +58,10 @@ class ilCmiXapiLaunchGUI
             $token = $ret['token'];
         }
         $launchLink = $this->buildLaunchLink($token);
-        $DIC->ctrl()->redirectToURL($launchLink);
+        $this->ctrl->redirectToURL($launchLink);
     }
     
-    // TODO PHP8 Review: Missing Return type Declaration
-    // TODO PHP8 Review: Missing Parameter Type Declaration
-    protected function buildLaunchLink($token)
+    protected function buildLaunchLink(string $token) : string
     {
         $launchLink = "";
 
@@ -91,8 +93,6 @@ class ilCmiXapiLaunchGUI
      */
     protected function getLaunchParameters(string $token) : array
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
         $params = [];
         
         if ($this->object->isBypassProxyEnabled()) {
@@ -120,11 +120,11 @@ class ilCmiXapiLaunchGUI
             $registration = $this->cmixUser->getRegistration();
             // for old CMI5 Content after switch commit but before cmi5 bugfix
             if ($registration == '') {
-                $registration = ilCmiXapiUser::generateRegistration($this->object, $DIC->user());
+                $registration = ilCmiXapiUser::generateRegistration($this->object, $this->user);
             }
             $params['registration'] = $registration;
         } else {
-            $params['registration'] = urlencode((string) ilCmiXapiUser::generateRegistration($this->object, $DIC->user()));
+            $params['registration'] = urlencode((string) ilCmiXapiUser::generateRegistration($this->object, $this->user));
         }
         return $params;
     }
@@ -167,10 +167,8 @@ class ilCmiXapiLaunchGUI
 
     protected function getValidToken() : string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         $token = ilCmiXapiAuthToken::fillToken(
-            $DIC->user()->getId(),
+            $this->user->getId(),
             $this->object->getRefId(),
             $this->object->getId(),
             $this->object->getLrsType()->getTypeId()
@@ -180,20 +178,17 @@ class ilCmiXapiLaunchGUI
 
     protected function initCmixUser() : void
     {
-        global $DIC;
-        // TODO PHP8 Review: Move $DIC->user() to constructor
-
-        $this->cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(), $this->object->getPrivacyIdent());
+        $this->cmixUser = new ilCmiXapiUser($this->object->getId(), $this->user->getId(), $this->object->getPrivacyIdent());
         $user_ident = $this->cmixUser->getUsrIdent();
         if ($user_ident == '' || $user_ident == null) {
-            $user_ident = ilCmiXapiUser::getIdent($this->object->getPrivacyIdent(), $DIC->user());
+            $user_ident = ilCmiXapiUser::getIdent($this->object->getPrivacyIdent(), $this->user);
             $this->cmixUser->setUsrIdent($user_ident);
 
             if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
-                $this->cmixUser->setRegistration((string) ilCmiXapiUser::generateCMI5Registration($this->object->getId(), $DIC->user()->getId()));
+                $this->cmixUser->setRegistration((string) ilCmiXapiUser::generateCMI5Registration($this->object->getId(), $this->user->getId()));
             }
             $this->cmixUser->save();
-            ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
+            ilLPStatusWrapper::_updateStatus($this->object->getId(), $this->user->getId());
         }
     }
 
@@ -202,9 +197,7 @@ class ilCmiXapiLaunchGUI
      */
     protected function getCmi5LearnerPreferences() : array
     {
-        global $DIC;
-        // TODO PHP8 Review: Move $DIC->user() to constructor
-        $language = $DIC->user()->getLanguage();
+        $language = $this->user->getLanguage();
         $audio = "on";
         return [
             "languagePreference" => "{$language}",
@@ -222,9 +215,7 @@ class ilCmiXapiLaunchGUI
      */
     protected function CMI5preLaunch(string $token) : array
     {
-        global $DIC;
-        // TODO PHP8 Review: Move $DIC->yx() to constructor
-        
+        $duration = '';
         $lrsType = $this->object->getLrsType();
         $defaultLrs = $lrsType->getLrsEndpoint();
         //$fallbackLrs = $lrsType->getLrsFallbackEndpoint();
@@ -240,7 +231,7 @@ class ilCmiXapiLaunchGUI
         $registration = $this->cmixUser->getRegistration();
         // for old CMI5 Content after switch commit but before cmi5 bugfix
         if ($registration == '') {
-            $registration = ilCmiXapiUser::generateRegistration($this->object, $DIC->user());
+            $registration = ilCmiXapiUser::generateRegistration($this->object, $this->user);
         }
         
         $activityId = $this->object->getActivityId();
@@ -319,7 +310,6 @@ class ilCmiXapiLaunchGUI
         
         // abandonedStatement
         if ($abandoned) {
-            // TODO PHP8 Review: Variable XY $duration probably undefined
             $abandonedStatement = $this->object->getAbandonedStatement($oldSession, $duration, $this->cmixUser);
             $abandonedStatementParams = [];
             $abandonedStatementParams['statementId'] = $abandonedStatement['id'];
@@ -395,14 +385,12 @@ class ilCmiXapiLaunchGUI
     }
 
     /**
-     * @return CliLog|ilLogger
+     * @return ilLogger
      */
-    // TODO PHP8 Review: Missing Return type Declaration
-    private function log()
+    private function log() : ilLogger
     {
-        // TODO PHP8 Review: Move global access to constructor
-        global $log;
         if ($this->plugin) {
+            global $log;
             return $log;
         } else {
             return \ilLoggerFactory::getLogger('cmix');

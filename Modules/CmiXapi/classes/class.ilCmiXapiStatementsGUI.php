@@ -27,10 +27,12 @@ class ilCmiXapiStatementsGUI
     protected ilObjCmiXapi $object;
     protected ilCmiXapiAccess $access;
     private \ilGlobalTemplateInterface $main_tpl;
+    private \ILIAS\DI\Container $dic;
 
     public function __construct(ilObjCmiXapi $object)
     {
         global $DIC;
+        $this->dic = $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
 
@@ -73,8 +75,6 @@ class ilCmiXapiStatementsGUI
 
     protected function showCmd() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
         $table = $this->buildTableGUI();
 
         try {
@@ -93,7 +93,7 @@ class ilCmiXapiStatementsGUI
             $table->resetOffset();
         }
 
-        $DIC->ui()->mainTemplate()->setContent($table->getHTML());
+        $this->dic->ui()->mainTemplate()->setContent($table->getHTML());
     }
 
     protected function initLimitingAndOrdering(ilCmiXapiStatementsReportFilter $filter, ilCmiXapiStatementsTableGUI $table) : void
@@ -111,8 +111,6 @@ class ilCmiXapiStatementsGUI
         ilCmiXapiStatementsReportFilter $filter,
         ilCmiXapiStatementsTableGUI $table
     ) : void {
-        global $DIC;
-        // TODO PHP8 Review: Move Global Access to Constructor
         if ($this->access->hasOutcomesAccess()) {
             $actor = $table->getFilterItemByPostVar('actor')->getValue();
             if ($actor && strlen($actor)) {
@@ -126,7 +124,7 @@ class ilCmiXapiStatementsGUI
                 }
             }
         } else {
-            $filter->setActor(new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(), $this->object->getPrivacyIdent()));
+            $filter->setActor(new ilCmiXapiUser($this->object->getId(), $this->dic->user()->getId(), $this->object->getPrivacyIdent()));
         }
     }
 
@@ -134,8 +132,7 @@ class ilCmiXapiStatementsGUI
         ilCmiXapiStatementsReportFilter $filter,
         ilCmiXapiStatementsTableGUI $table
     ) : void {
-        // TODO PHP8 Review: Check getFilterItemByPostVar which could return null as well
-        if ($table->getFilterItemByPostVar('verb')->getValue()) {
+        if ($table->getFilterItemByPostVar('verb') != null) {
             $verb = urldecode($table->getFilterItemByPostVar('verb')->getValue());
 
             if (ilCmiXapiVerbList::getInstance()->isValidVerb($verb)) {
@@ -148,15 +145,16 @@ class ilCmiXapiStatementsGUI
         ilCmiXapiStatementsReportFilter $filter,
         ilCmiXapiStatementsTableGUI $table
     ) : void {
-        // TODO PHP8 Review: Check getFilterItemByPostVar which could return null as well
-        $period = $table->getFilterItemByPostVar('period');
+        if ($table->getFilterItemByPostVar('period') != null) {
+            $period = $table->getFilterItemByPostVar('period');
 
-        if ($period->getStartXapiDateTime()) {
-            $filter->setStartDate($period->getStartXapiDateTime());
-        }
+            if ($period->getStartXapiDateTime()) {
+                $filter->setStartDate($period->getStartXapiDateTime());
+            }
 
-        if ($period->getEndXapiDateTime()) {
-            $filter->setEndDate($period->getEndXapiDateTime());
+            if ($period->getEndXapiDateTime()) {
+                $filter->setEndDate($period->getEndXapiDateTime());
+            }
         }
     }
 
@@ -169,10 +167,16 @@ class ilCmiXapiStatementsGUI
         $auto->setMoreLinkAvailable(true);
 
         //$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
-        // TODO PHP8 Review: Remove/Replace SuperGlobals
-        $result = json_decode($auto->getList(ilUtil::stripSlashes($_REQUEST['term'])), true);
-
-        echo json_encode($result);
+        $term = '';
+        if ($this->dic->http()->wrapper()->query()->has('term')) {
+            $term = $this->dic->http()->wrapper()->query()->retrieve('term', $this->dic->refinery()->kindlyTo()->string());
+        } elseif ($this->dic->http()->wrapper()->post()->has('term')) {
+            $term = $this->dic->http()->wrapper()->post()->retrieve('term', $this->dic->refinery()->kindlyTo()->string());
+        }
+        if ($term != '') {
+            $result = json_decode($auto->getList(ilUtil::stripSlashes($term)), true);
+            echo json_encode($result);
+        }
         exit();
     }
 

@@ -24,14 +24,12 @@ use ILIAS\DI\Container;
 class XapiProxyRequest
 {
     private Container $dic;
-    // TODO PHP8 Review: Missing Type-Declarations
-    private $xapiproxy;
 
-    // TODO PHP8 Review: Missing Type-Declarations
-    private $xapiProxyResponse;
+    private XapiProxy $xapiproxy;
+
+    private XapiProxyResponse $xapiProxyResponse;
     
-    // TODO PHP8 Review: Missing Type-Declarations
-    public function __construct($xapiproxy)
+    public function __construct(XapiProxy $xapiproxy)
     {
         $this->dic = $GLOBALS['DIC'];
         $this->xapiproxy = $xapiproxy;
@@ -56,14 +54,13 @@ class XapiProxyRequest
             $this->handleProxy($request);
         }
     }
-    // TODO PHP8 Review: Missing Parameter Type Declaration
-    // TODO PHP8 Review: Missing Return type Declaration
-    private function msg($msg)
+
+    private function msg(string $msg) : string
     {
         return $this->xapiproxy->msg($msg);
     }
-    // TODO PHP8 Review: Missing Parameter Type Declaration
-    private function handleStatementsRequest($request) : void
+
+    private function handleStatementsRequest(\Psr\Http\Message\RequestInterface $request) : void
     {
         $method = $this->xapiproxy->method();
         if ($method === "post" || $method === "put") {
@@ -74,8 +71,7 @@ class XapiProxyRequest
         }
     }
     
-    // TODO PHP8 Review: Missing Parameter Type Declaration
-    private function handlePostPutStatementsRequest($request) : void
+    private function handlePostPutStatementsRequest(\Psr\Http\Message\RequestInterface $request) : void
     {
         $body = $request->getBody()->getContents();
         if (empty($body)) {
@@ -106,8 +102,7 @@ class XapiProxyRequest
 
     // Cookies?, ServerRequestParams required?
     
-    // TODO PHP8 Review: Missing Parameter Type Declaration
-    private function handleProxy($request, $fakePostBody = null) : void
+    private function handleProxy(\Psr\Http\Message\RequestInterface $request, $fakePostBody = null) : void
     {
         $endpointDefault = $this->xapiproxy->getDefaultLrsEndpoint();
         $endpointFallback = $this->xapiproxy->getFallbackLrsEndpoint();
@@ -170,7 +165,7 @@ class XapiProxyRequest
                         $fakePostBody
                     );
                 } catch (\Exception $e) {
-                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
+//                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
                     $this->xapiProxyResponse->exitProxyError();
                 }
             } elseif ($fallbackOk) {
@@ -181,7 +176,7 @@ class XapiProxyRequest
                         $fakePostBody
                     );
                 } catch (\Exception $e) {
-                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
+//                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
                     $this->xapiProxyResponse->exitProxyError();
                 }
             } else {
@@ -206,7 +201,7 @@ class XapiProxyRequest
                         $fakePostBody
                     );
                 } catch (\Exception $e) {
-                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
+//                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
                     $this->xapiProxyResponse->exitProxyError();
                 }
             } else {
@@ -215,8 +210,7 @@ class XapiProxyRequest
         }
     }
     
-    // TODO PHP8 Review: Missing Parameter Type Declaration
-    private function createProxyRequest($request, $uri, $auth, $body) : \GuzzleHttp\Psr7\Request
+    private function createProxyRequest(\Psr\Http\Message\RequestInterface $request, \GuzzleHttp\Psr7\Uri $uri, string $auth, string $body) : \GuzzleHttp\Psr7\Request
     {
         $headers = array(
             'Cache-Control' => 'no-cache, no-store, must-revalidate',

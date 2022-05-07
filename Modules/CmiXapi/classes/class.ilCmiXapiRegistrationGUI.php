@@ -34,6 +34,7 @@ class ilCmiXapiRegistrationGUI
     
     protected ilCmiXapiUser $cmixUser;
     private \ilGlobalTemplateInterface $main_tpl;
+    private \ILIAS\DI\Container $dic;
     
     /**
      * ilCmiXapiRegistrationGUI constructor.
@@ -41,7 +42,8 @@ class ilCmiXapiRegistrationGUI
     public function __construct(ilObjCmiXapi $object)
     {
         global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate(); /* @var \ILIAS\DI\Container $DIC */
+        $this->dic = $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         
         $this->object = $object;
         
@@ -67,10 +69,7 @@ class ilCmiXapiRegistrationGUI
      */
     protected function cancelCmd() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
-        
-        $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
+        $this->dic->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
     }
 
     /**
@@ -90,8 +89,6 @@ class ilCmiXapiRegistrationGUI
      */
     protected function saveFormCmd() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
         $form = $this->buildForm();
     
         if (!$form->checkInput()) {
@@ -102,8 +99,8 @@ class ilCmiXapiRegistrationGUI
         
         $this->saveRegistration($form);
         
-        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('registration_saved_successfully'), true);
-        $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
+        $this->main_tpl->setOnScreenMessage('success', $this->dic->language()->txt('registration_saved_successfully'), true);
+        $this->dic->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
     }
 
     /**
@@ -111,24 +108,22 @@ class ilCmiXapiRegistrationGUI
      */
     protected function buildForm() : \ilPropertyFormGUI
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
         $form = new ilPropertyFormGUI();
         
-        $form->setFormAction($DIC->ctrl()->getFormAction($this, self::CMD_SHOW_FORM));
+        $form->setFormAction($this->dic->ctrl()->getFormAction($this, self::CMD_SHOW_FORM));
         
         if (!$this->hasRegistration()) {
-            $form->setTitle($DIC->language()->txt('form_create_registration'));
-            $form->addCommandButton(self::CMD_SAVE_FORM, $DIC->language()->txt('btn_create_registration'));
+            $form->setTitle($this->dic->language()->txt('form_create_registration'));
+            $form->addCommandButton(self::CMD_SAVE_FORM, $this->dic->language()->txt('btn_create_registration'));
         } else {
-            $form->setTitle($DIC->language()->txt('form_change_registration'));
-            $form->addCommandButton(self::CMD_SAVE_FORM, $DIC->language()->txt('btn_change_registration'));
+            $form->setTitle($this->dic->language()->txt('form_change_registration'));
+            $form->addCommandButton(self::CMD_SAVE_FORM, $this->dic->language()->txt('btn_change_registration'));
         }
         
-        $form->addCommandButton(self::CMD_CANCEL, $DIC->language()->txt('cancel'));
+        $form->addCommandButton(self::CMD_CANCEL, $this->dic->language()->txt('cancel'));
         
-        $userIdent = new ilEMailInputGUI($DIC->language()->txt('field_user_ident'), 'user_ident');
-        $userIdent->setInfo($DIC->language()->txt('field_user_ident_info'));
+        $userIdent = new ilEMailInputGUI($this->dic->language()->txt('field_user_ident'), 'user_ident');
+        $userIdent->setInfo($this->dic->language()->txt('field_user_ident_info'));
         $userIdent->setRequired(true);
         $userIdent->setValue($this->cmixUser->getUsrIdent());
         $form->addItem($userIdent);

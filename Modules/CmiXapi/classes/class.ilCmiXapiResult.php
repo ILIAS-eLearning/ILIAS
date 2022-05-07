@@ -37,12 +37,16 @@ class ilCmiXapiResult
     protected string $status;
 
     protected string $lastUpdate;
+
+    private ilDBInterface $database;
     
     /**
      * ilCmiXapiResult constructor.
      */
     public function __construct()
     {
+        global $DIC;
+        $this->database = $DIC->database();
         $this->id = 0;
         $this->objId = 0;
         $this->usrId = 0;
@@ -133,9 +137,7 @@ class ilCmiXapiResult
     
     protected function update() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
-        $DIC->database()->update('cmix_results', array(
+        $this->database->update('cmix_results', array(
                 'obj_id' => array('intger', $this->getObjId()),
                 'usr_id' => array('intger', $this->getUsrId()),
                 'version' => array('intger', $this->getVersion()),
@@ -149,11 +151,9 @@ class ilCmiXapiResult
     
     protected function insert() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
-        $this->setId($DIC->database()->nextId('cmix_results'));
+        $this->setId($this->database->nextId('cmix_results'));
         
-        $DIC->database()->insert('cmix_results', array(
+        $this->database->insert('cmix_results', array(
             'id' => array('intger', $this->getId()),
             'obj_id' => array('intger', $this->getObjId()),
             'usr_id' => array('intger', $this->getUsrId()),
@@ -181,7 +181,6 @@ class ilCmiXapiResult
     public static function getInstanceByObjIdAndUsrId(int $objId, int $usrId) : \ilCmiXapiResult
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
         $query = "
 			SELECT * FROM cmix_results
 			WHERE obj_id = %s AND usr_id = %s

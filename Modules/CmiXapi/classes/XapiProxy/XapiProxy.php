@@ -34,26 +34,22 @@
             return $this->token;
         }
 
-        // TODO PHP8 Review: Missing Return type Declaration
-        public function client()
+        public function client() : string
         {
             return $this->client;
         }
 
-        // TODO PHP8 Review: Missing Return type Declaration
-        public function lrsType()
+        public function lrsType() : ?\ilCmiXapiLrsType
         {
             return $this->lrsType;
         }
 
-        // TODO PHP8 Review: Missing Return type Declaration
-        public function replacedValues()
+        public function replacedValues() : ?array
         {
             return $this->replacedValues;
         }
 
-        // TODO PHP8 Review: Missing Return type Declaration
-        public function specificAllowedStatements()
+        public function specificAllowedStatements() : ?array
         {
             return $this->specificAllowedStatements;
         }
@@ -62,14 +58,13 @@
         {
             return $this->blockSubStatements;
         }
-        // TODO PHP8 Review: Missing Return type Declaration
-        public function cmdParts()
+
+        public function cmdParts() : array
         {
             return $this->cmdParts;
         }
 
-        // TODO PHP8 Review: Missing Return type Declaration
-        public function method()
+        public function method() : string
         {
             return $this->method;
         }
@@ -104,31 +99,27 @@
             return $this->fallbackLrsSecret;
         }
 
-        // TODO PHP8 Review: Missing Parameter Type Declaration
-        public function setXapiProxyRequest($xapiProxyRequest) : void
+        public function setXapiProxyRequest(XapiProxyRequest $xapiProxyRequest) : void
         {
             $this->xapiProxyRequest = $xapiProxyRequest;
         }
 
-        // TODO PHP8 Review: Missing Return type Declaration
-        public function getXapiProxyRequest()
+        public function getXapiProxyRequest() : XapiProxyRequest
         {
             return $this->xapiProxyRequest;
         }
 
-        // TODO PHP8 Review: Missing Parameter Type Declaration
-        public function setXapiProxyResponse($xapiProxyResponse) : void
+        public function setXapiProxyResponse(XapiProxyResponse $xapiProxyResponse) : void
         {
             $this->xapiProxyResponse = $xapiProxyResponse;
         }
 
-        // TODO PHP8 Review: Missing Return type Declaration
-        public function getXapiProxyResponse()
+        public function getXapiProxyResponse() : XapiProxyResponse
         {
             return $this->xapiProxyResponse;
         }
-        // TODO PHP8 Review: Missing Parameter Type Declaration
-        public function processStatements($request, $body) : ?array
+
+        public function processStatements(\Psr\Http\Message\RequestInterface $request, $body) : ?array
         {
             // everything is allowed
             if (!is_array($this->specificAllowedStatements) && !$this->blockSubStatements) {
@@ -190,9 +181,8 @@
             }
             return null;
         }
-        // TODO PHP8 Review: Missing Parameter Type Declaration
-        // TODO PHP8 Review: Missing Return type Declaration
-        public function modifyBody($body)
+
+        public function modifyBody(string $body) : string
         {
             $obj = json_decode($body, false);
 
@@ -224,8 +214,8 @@
             }
             return json_encode($obj);
         }
-        // TODO PHP8 Review: Missing Parameter Type Declaration
-        private function handleStatementEvaluation($xapiStatement) : void
+
+        private function handleStatementEvaluation(object $xapiStatement) : void
         {
             global $DIC;
             if ($this->plugin) {
@@ -264,8 +254,8 @@
                 }
             }
         }
-        // TODO PHP8 Review: Missing Parameter Type Declaration
-        private function setStatus($obj) : void
+
+        private function setStatus(object $obj) : void
         {
 //            if (isset($obj->verb) && isset($obj->actor) && isset($obj->object)) {
 //                $verb = $obj->verb->id;
@@ -285,9 +275,8 @@
 //            }
         }
 
-        // TODO PHP8 Review: Missing Return type Declaration
-        // TODO PHP8 Review: Missing Parameter Type Declaration
-        private function isSubStatementCheck($obj)
+
+        private function isSubStatementCheck(object $obj) : bool
         {
             if (
                 isset($obj->context) &&

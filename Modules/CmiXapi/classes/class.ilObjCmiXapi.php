@@ -38,7 +38,7 @@ class ilObjCmiXapi extends ilObject2
     protected ?int $activationEndingTime = null;
     protected ?bool $activationVisibility = null;
 
-    protected int $lrsTypeId;
+    protected ?int $lrsTypeId;
  
     protected ilCmiXapiLrsType $lrsType;
 
@@ -140,11 +140,16 @@ class ilObjCmiXapi extends ilObject2
 
     protected ?ilCmiXapiUser $currentCmixUser = null;
 
+    private ilDBInterface $database;
+
     /**
      * ilObjCmiXapi constructor.
      */
     public function __construct(int $a_id = 0, bool $a_reference = true)
     {
+        global $DIC;
+        $this->database = $DIC->database();
+
         $this->lrsTypeId = 0;
         
         $this->contentType = self::CONT_TYPE_GENERIC;
@@ -198,7 +203,7 @@ class ilObjCmiXapi extends ilObject2
         $this->type = "cmix";
     }
     
-    public function getLrsTypeId() : int
+    public function getLrsTypeId() : ?int
     {
         return $this->lrsTypeId;
     }
@@ -671,14 +676,12 @@ class ilObjCmiXapi extends ilObject2
         $this->load();
     }
     
-    public function load() : void
+    protected function load() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
         $query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE obj_id = %s";
-        $res = $DIC->database()->queryF($query, ['integer'], [$this->getId()]);
+        $res = $this->database->queryF($query, ['integer'], [$this->getId()]);
         
-        while ($row = $DIC->database()->fetchAssoc($res)) {
+        while ($row = $this->database->fetchAssoc($res)) {
             if ($row['lrs_type_id']) {
                 $this->setLrsTypeId((int) $row['lrs_type_id']);
                 $this->initLrsType();
@@ -752,7 +755,7 @@ class ilObjCmiXapi extends ilObject2
     public function save() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
+        // not possible: Move Global Access to Constructor
         $DIC->database()->replace(self::DB_TABLE_NAME, [
             'obj_id' => ['integer', $this->getId()]
         ], [
@@ -846,7 +849,7 @@ class ilObjCmiXapi extends ilObject2
     public static function updatePrivacySettingsFromLrsType(ilCmiXapiLrsType $lrsType) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
+        //not possible: Move Global Access to Constructor
         $tableName = self::DB_TABLE_NAME;
         
         $query = "
@@ -914,7 +917,7 @@ class ilObjCmiXapi extends ilObject2
     public static function updateByPassProxyFromLrsType(ilCmiXapiLrsType $lrsType) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
+        // not possible: Move Global Access to Constructor
         $tableName = self::DB_TABLE_NAME;
         
         $query = "
@@ -936,7 +939,7 @@ class ilObjCmiXapi extends ilObject2
     public static function getObjectsHavingBypassProxyEnabledAndRegisteredUsers() : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
+        // not possible: Move Global Access to Constructor
         $query = "
 			SELECT DISTINCT s.obj_id FROM " . self::DB_TABLE_NAME . " s
 			INNER JOIN " . self::DB_USERS_TABLE_NAME . " u ON u.obj_id = s.obj_id
@@ -1152,7 +1155,6 @@ class ilObjCmiXapi extends ilObject2
      */
     public function getDataSetMapping() : array
     {
-        // TODO PHP8 Review: Check comparisation since getLrsTypeId() always return int
         if (null === ($lrsTypeId = $this->getLrsTypeId())) {
             $this->doRead();
         }
@@ -1214,8 +1216,6 @@ class ilObjCmiXapi extends ilObject2
     {
         assert($new_obj instanceof ilObjCmiXapi);
         
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
         $this->cloneMetaData($new_obj);
 
         $new_obj->setLrsTypeId($this->getLrsTypeId());
@@ -1276,12 +1276,9 @@ class ilObjCmiXapi extends ilObject2
 
     protected function doDelete() : void
     {
-        global $DIC;
-        $ilDB = $DIC->database();
-        // TODO PHP8 Review: Move Global Access to Constructor
         // delete file data entry
-        $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer');
-        $ilDB->manipulate($query);
+        $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE obj_id = " . $this->database->quote($this->getId(), 'integer');
+        $this->database->manipulate($query);
         ilHistory::_removeEntriesForObject($this->getId());
 
         // delete entire directory and its content
@@ -1296,30 +1293,29 @@ class ilObjCmiXapi extends ilObject2
 
         //delete results
         $query = "DELETE FROM " . self::DB_RESULTS_TABLE_NAME .
-                "WHERE obj_id = " . $ilDB->quote($this->getId(), 'integer') . " ";
-        $ilDB->manipulate($query);
+                "WHERE obj_id = " . $this->database->quote($this->getId(), 'integer') . " ";
+        $this->database->manipulate($query);
 
         // TODO check xapidel
     }
 
-    /**
-     * @return string[]
-     */
-    public function getRegistrations() : array
-    {
-        global $DIC;
-        // TODO PHP8 Review: Move Global Access to Constructor
-        $res = $DIC->database()->queryF(
-            "SELECT DISTINCT registration FROM " . self::DB_USERS_TABLE_NAME . " WHERE obj_id = %s",
-            array('text'),
-            array($this->getId())
-        );
-        $ret = [];
-        while ($row = $DIC->database()->fetchAssoc($res)) {
-            $ret[] = (string) $row['registration'];
-        }
-        return $ret;
-    }
+//    /**
+//     * @return string[]
+//     */
+//    public function getRegistrations() : array
+//    {
+//        global $DIC;
+//        $res = $DIC->database()->queryF(
+//            "SELECT DISTINCT registration FROM " . self::DB_USERS_TABLE_NAME . " WHERE obj_id = %s",
+//            array('text'),
+//            array($this->getId())
+//        );
+//        $ret = [];
+//        while ($row = $DIC->database()->fetchAssoc($res)) {
+//            $ret[] = (string) $row['registration'];
+//        }
+//        return $ret;
+//    }
 
     /**
      * @throws Exception
@@ -1756,7 +1752,7 @@ class ilObjCmiXapi extends ilObject2
 
     public static function iliasUrl() : string
     {
-        //todo
+        global $DIC;
         // TODO PHP8 Review: Check this method, always return empty string
 //        $regex = '/^(https?:\/\/[^\/]+).*/';
 //        preg_match($regex, $GLOBALS['DIC']->http()->request()->getUri(), $request_parts);
@@ -1764,14 +1760,10 @@ class ilObjCmiXapi extends ilObject2
         return "";
     }
 
-    /**
-     * @return CliLog|ilLogger
-     */
-    // TODO PHP8 Review: Missing Return type Declaration
-    public static function log()
+    public static function log() : ilLogger
     {
-        global $log;
         if (self::PLUGIN) {
+            global $log;
             return $log;
         } else {
             return \ilLoggerFactory::getLogger('cmix');

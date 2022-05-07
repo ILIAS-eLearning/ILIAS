@@ -25,8 +25,7 @@ class ilCmiXapiLrsTypeList
      * @param mixed        required availability or null
      * @return    array        array of assoc data arrays
      */
-    // TODO PHP8 Review: Missing Parameter Type Declaration
-    public static function getTypesData($a_extended = false, $a_availability = null) : array
+    public static function getTypesData(bool $a_extended = false, ?int $a_availability = null) : array
     {
         global $ilDB;
 

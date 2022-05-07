@@ -53,7 +53,7 @@ class ilXapiResultsCronjob extends ilCronJob
     {
         $settings = new ilSetting('cmix');
         // TODO PHP8 Review: Check return value of $settings->get, since this is string but a int is needed for lastRunTS
-        $this->lastRunTS = $settings->get(self::LAST_RUN_TS_SETTING_NAME, "0");
+        $this->lastRunTS = (int) $settings->get(self::LAST_RUN_TS_SETTING_NAME, "0");
     }
     
     protected function writeThisAsLastRunTS() : void
@@ -114,6 +114,7 @@ class ilXapiResultsCronjob extends ilCronJob
     public function run() : ilCronJobResult
     {
         $objects = $this->getObjectsToBeReported();
+        $objectIds = [];
         
         foreach ($objects as $objId) {
             $this->log->debug('handle object (' . $objId . ')');

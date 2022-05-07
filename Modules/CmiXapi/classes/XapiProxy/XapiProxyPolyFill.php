@@ -27,7 +27,7 @@
         protected ?array $specificAllowedStatements = null;
         protected ?array $replacedValues = null;
         protected bool $blockSubStatements = false;
-        protected string $cmdParts = "";
+        protected array $cmdParts = [];
         protected string $method;
 
         protected string $defaultLrsEndpoint = '';
@@ -59,20 +59,17 @@
             $this->method = strtolower($GLOBALS['DIC']->http()->request()->getMethod());
         }
 
-        /**
-         * @return \CliLog|\ilLogger
-         */
-        public function log()
+        public function log() : \ilLogger
         {
-            global $log;
             if ($this->plugin) {
+                global $log;
                 return $log;
             } else {
                 return \ilLoggerFactory::getLogger('cmix');
             }
         }
-        // TODO PHP8 Review: Missing Parameter Type Declaration
-        public function msg($msg) : string
+
+        public function msg(string $msg) : string
         {
             if ($this->plugin) {
                 return "XapiCmi5Plugin: " . $msg;
@@ -148,8 +145,7 @@
         /**
          * @return \ilCmiXapiLrsType|void|null
          */
-        // TODO PHP8 Review: Missing Return type Declaration
-        private function getLrsType()
+        private function getLrsType() : \ilCmiXapiLrsType
         { // Core new > 6
             try {
                 $lrsType = $this->getLrsTypeAndMoreByToken();
@@ -181,8 +177,7 @@
          * hybrid function, maybe two distinct functions would be better?
          * @return \ilCmiXapiLrsType|null
          */
-        // TODO PHP8 Review: Missing Return type Declaration
-        private function getLrsTypeAndMoreByToken()
+        private function getLrsTypeAndMoreByToken() : ?\ilCmiXapiLrsType
         {
             $type_id = null;
             $lrs = null;

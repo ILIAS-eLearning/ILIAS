@@ -33,6 +33,10 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
     
     private bool $hasOutcomeAccess;
 
+    private \ILIAS\DI\Container $dic;
+
+    private ilLanguage $language;
+
     /**
      * ilCmiXapiScoringTableGUI constructor.
      */
@@ -44,6 +48,7 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
         bool $hasOutcomeAccess
     ) {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $this->dic = $DIC;
 
         $this->isMultiActorReport = $isMultiActorReport;
         
@@ -52,15 +57,15 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
         $this->_parent = $a_parent_obj;
 
         $DIC->language()->loadLanguageModule('assessment');
-        
+        $this->language = $DIC->language();
         $this->setRowTemplate('tpl.cmix_scoring_table_row.html', 'Modules/CmiXapi');
 
         if ($tableId === 'highscore') {
             $this->setTitle(
-                sprintf($DIC->language()->txt('toplist_top_n_results'), $this->_parent->object->getHighscoreTopNum())
+                sprintf($this->language->txt('toplist_top_n_results'), $this->_parent->object->getHighscoreTopNum())
             );
         } else {
-            $this->setTitle($DIC->language()->txt('toplist_your_result'));
+            $this->setTitle($this->language->txt('toplist_your_result'));
         }
 
         $this->initColumns();
@@ -77,21 +82,19 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
 
     protected function initColumns() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
-        $this->addColumn($DIC->language()->txt('toplist_col_rank'));
-        $this->addColumn($DIC->language()->txt('toplist_col_participant'));
+        $this->addColumn($this->language->txt('toplist_col_rank'));
+        $this->addColumn($this->language->txt('toplist_col_participant'));
 
         if ($this->_parent->object->getHighscoreAchievedTS()) {
-            $this->addColumn($DIC->language()->txt('toplist_col_achieved'));
+            $this->addColumn($this->language->txt('toplist_col_achieved'));
         }
 
         if ($this->_parent->object->getHighscorePercentage()) {
-            $this->addColumn($DIC->language()->txt('toplist_col_percentage'));
+            $this->addColumn($this->language->txt('toplist_col_percentage'));
         }
 
         if ($this->_parent->object->getHighscoreWTime()) {
-            $this->addColumn($DIC->language()->txt('toplist_col_wtime'));
+            $this->addColumn($this->language->txt('toplist_col_wtime'));
         }
 
         $this->setEnableNumInfo(false);
@@ -100,8 +103,6 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set) : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
         $this->tpl->setVariable('SCORE_RANK', $a_set['rank']);
 
         $this->tpl->setCurrentBlock('personal');
@@ -126,19 +127,17 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $highlight = $a_set['ilias_user_id'] == $DIC->user()->getId() ? 'tblrowmarked' : '';
+        $highlight = $a_set['ilias_user_id'] == $this->dic->user()->getId() ? 'tblrowmarked' : '';
         $this->tpl->setVariable('HIGHLIGHT', $highlight);
     }
 
     /**
-     * @return mixed|string
+     * @return string
      * @throws ilDatabaseException
      * @throws ilObjectNotFoundException
      */
-    protected function getUsername(array $data)
+    protected function getUsername(array $data) : string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
         if ($this->hasOutcomeAccess) {
             $user = ilObjectFactory::getInstanceByObjId($data['ilias_user_id'], false);
             
@@ -146,9 +145,9 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
                 return $user->getFullname();
             }
             
-            return $DIC->language()->txt('deleted_user');
+            return $this->language->txt('deleted_user');
         }
-        
-        return $data['user'];
+        return "";
+//        return $data['user'];
     }
 }

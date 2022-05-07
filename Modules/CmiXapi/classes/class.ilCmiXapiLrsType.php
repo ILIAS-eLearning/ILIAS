@@ -101,11 +101,15 @@ class ilCmiXapiLrsType
 
     protected bool $no_substatements = false;
 
+    private ilDBInterface $database;
+
     /**
      * Constructor
      */
     public function __construct(int $a_type_id = 0)
     {
+        global $DIC;
+        $this->database = $DIC->database();
         if ($a_type_id) {
             $this->type_id = $a_type_id;
             $this->read();
@@ -420,15 +424,12 @@ class ilCmiXapiLrsType
         $this->bypassProxyEnabled = $bypassProxyEnabled;
     }
     
-    public function read() : bool
+    protected function read() : bool
     {
-        global $ilDB, $ilErr;
-        // TODO PHP8 Review: Move global access to constructor
-        
         $query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE type_id = %s";
         
-        $res = $ilDB->queryF($query, ['integer'], [$this->getTypeId()]);
-        $row = $ilDB->fetchObject($res);
+        $res = $this->database->queryF($query, ['integer'], [$this->getTypeId()]);
+        $row = $this->database->fetchObject($res);
         if ($row) {
             $this->setTypeId((int) $row->type_id);
             $this->setTitle($row->title);
@@ -476,19 +477,15 @@ class ilCmiXapiLrsType
     }
     
 
-    public function create() : void
+    protected function create() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move global access to constructor
-        $this->setTypeId($DIC->database()->nextId(self::DB_TABLE_NAME));
+        $this->setTypeId($this->database->nextId(self::DB_TABLE_NAME));
         $this->update();
     }
     
-    public function update() : bool
+    protected function update() : bool
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move global access to constructor
-        $DIC->database()->replace(
+        $this->database->replace(
             self::DB_TABLE_NAME,
             array(
                 'type_id' => array('integer', $this->getTypeId())
@@ -528,12 +525,10 @@ class ilCmiXapiLrsType
         return true;
     }
     
-    public function delete() : bool
+    protected function delete() : bool
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move global access to constructor
         $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE type_id = %s";
-        $DIC->database()->manipulateF($query, ['integer'], [$this->getTypeId()]);
+        $this->database->manipulateF($query, ['integer'], [$this->getTypeId()]);
         
         return true;
     }

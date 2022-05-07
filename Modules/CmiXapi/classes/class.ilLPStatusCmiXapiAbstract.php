@@ -50,8 +50,7 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
      * @throws ilDatabaseException
      * @throws ilObjectNotFoundException
      */
-    // TODO PHP8 Review: Missing Parameter Type Declaration $object
-    protected function ensureObject(int $objId, $object = null)
+    protected function ensureObject(int $objId, ?ilObject $object = null)
     {
         if (!($object instanceof ilObjCmiXapi)) {
             $object = ilObjectFactory::getInstanceByObjId($objId);
@@ -184,8 +183,7 @@ abstract class ilLPStatusCmiXapiAbstract extends ilLPStatus
     public function determinePercentage(int $a_obj_id, int $a_usr_id, ?object $a_obj = null) : int
     {
         $cmixResult = $this->getCmixUserResult($a_obj_id, $a_usr_id);
-        // TODO PHP8 Review: Check return type, getScore() return float
-        return 100 * $cmixResult->getScore();
+        return (int) round((100 * $cmixResult->getScore()));
     }
 
     abstract protected function resultSatisfyCompleted(ilCmiXapiResult $result) : bool;
