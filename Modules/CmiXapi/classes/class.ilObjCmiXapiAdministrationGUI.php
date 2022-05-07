@@ -126,14 +126,14 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     protected function initLrsType() : \ilCmiXapiLrsType
     {
         if ($this->post_wrapper->has('lrs_type_id')) {
-            if (is_int($this->post_wrapper->retrieve('lrs_typ_id', $this->refinery->kindlyTo()->int()))) {
-                return new ilCmiXapiLrsType($this->post_wrapper->retrieve('lrs_typ_id', $this->refinery->kindlyTo()->int()));
+            if (is_int($this->post_wrapper->retrieve('lrs_type_id', $this->refinery->kindlyTo()->int()))) {
+                return new ilCmiXapiLrsType($this->post_wrapper->retrieve('lrs_type_id', $this->refinery->kindlyTo()->int()));
             }
         }
 
         if ($this->request_wrapper->has('lrs_type_id')) {
-            if (is_int($this->request_wrapper->retrieve('lrs_typ_id', $this->refinery->kindlyTo()->int()))) {
-                return new ilCmiXapiLrsType($this->request_wrapper->retrieve('lrs_typ_id', $this->refinery->kindlyTo()->int()));
+            if (is_int($this->request_wrapper->retrieve('lrs_type_id', $this->refinery->kindlyTo()->int()))) {
+                return new ilCmiXapiLrsType($this->request_wrapper->retrieve('lrs_type_id', $this->refinery->kindlyTo()->int()));
             }
         }
 

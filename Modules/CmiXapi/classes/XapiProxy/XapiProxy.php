@@ -196,7 +196,7 @@
             if (is_object($obj)) {
                 if (is_array($this->replacedValues)) {
                     foreach ($this->replacedValues as $key => $value) {
-                        $this->setValue($obj, $key, $value);
+                        $this->setValue($obj, (string) $key, (string) $value);
                     }
                 }
                 $this->handleStatementEvaluation($obj); // ToDo
@@ -206,7 +206,7 @@
                 for ($i = 0; $i < count($obj); $i++) {
                     if (is_array($this->replacedValues)) {
                         foreach ($this->replacedValues as $key => $value) {
-                            $this->setValue($obj[$i], $key, $value);
+                            $this->setValue($obj[$i], (string) $key, (string) $value);
                         }
                     }
                     $this->handleStatementEvaluation($obj[$i]); // ToDo
@@ -240,8 +240,8 @@
                 }
             }
         }
-        // TODO PHP8 Review: Missing Parameter Type Declaration
-        private function setValue(&$obj, $path, $value) : void
+
+        private function setValue(object &$obj, string $path, string $value) : void
         {
             $path_components = explode('.', $path);
             if (count($path_components) == 1) {

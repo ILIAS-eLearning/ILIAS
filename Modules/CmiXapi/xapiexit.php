@@ -5,7 +5,7 @@
 $messages = array();
 
 $defaultLanguage = "en";
-// TODO PHP8 Review: Remove/Replace SuperGlobals
+
 $lang = (isset($_GET['lang'])) ? $_GET['lang'] : $defaultLanguage;
 
 $messages['de'] = "Sie können nun das Fenster schließen.";

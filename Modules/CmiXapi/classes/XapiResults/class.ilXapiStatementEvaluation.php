@@ -139,7 +139,7 @@ class ilXapiStatementEvaluation
             if ($this->hasResultProgressRelevantXapiVerb($xapiVerb)) {
                 $userResult = $this->getUserResult($usrId);
                 $progressedScore = $this->getProgressedScore($xapiStatement);
-                if ($progressedScore !== false && (float) $progressedScore > 0) {
+                if ($progressedScore !== null && $progressedScore > 0) {
                     $userResult->setScore((float) ($progressedScore / 100));
                     $userResult->save();
                 }
@@ -224,22 +224,20 @@ class ilXapiStatementEvaluation
         return $xapiStatement->result->score->scaled;
     }
     
-    // TODO PHP8 Review: Missing Return type Declaration
-    // TODO PHP8 Review: `object` is a very general declaration for $xapiStatement, sould it be more precise?
-    protected function getProgressedScore(object $xapiStatement)
+    protected function getProgressedScore(object $xapiStatement) : ?float
     {
         if (!isset($xapiStatement->result)) {
-            return false;
+            return null;
         }
         
         if (!isset($xapiStatement->result->extensions)) {
-            return false;
+            return null;
         }
         
         if (!isset($xapiStatement->result->extensions->{'https://w3id.org/xapi/cmi5/result/extensions/progress'})) {
-            return false;
+            return null;
         }
-        return $xapiStatement->result->extensions->{'https://w3id.org/xapi/cmi5/result/extensions/progress'};
+        return (float) $xapiStatement->result->extensions->{'https://w3id.org/xapi/cmi5/result/extensions/progress'};
     }
 
     protected function getUserResult(int $usrId) : \ilCmiXapiResult

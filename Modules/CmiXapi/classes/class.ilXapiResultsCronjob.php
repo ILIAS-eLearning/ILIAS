@@ -31,10 +31,13 @@ class ilXapiResultsCronjob extends ilCronJob
     protected int $lastRunTS;
     
     protected ilLogger $log;
+
+    private \ILIAS\DI\Container $dic;
     
     public function __construct()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $this->dic = $DIC;
         
         $DIC->language()->loadLanguageModule('cmix');
         
@@ -52,7 +55,7 @@ class ilXapiResultsCronjob extends ilCronJob
     protected function readLastRunTS() : void
     {
         $settings = new ilSetting('cmix');
-        // TODO PHP8 Review: Check return value of $settings->get, since this is string but a int is needed for lastRunTS
+        // Check return value of $settings->get, since this is string but a int is needed for lastRunTS
         $this->lastRunTS = (int) $settings->get(self::LAST_RUN_TS_SETTING_NAME, "0");
     }
     
@@ -79,16 +82,12 @@ class ilXapiResultsCronjob extends ilCronJob
     
     public function getTitle() : string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
-        return $DIC->language()->txt("cron_xapi_results_evaluation");
+        return $this->dic->language()->txt("cron_xapi_results_evaluation");
     }
     
     public function getDescription() : string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        // TODO PHP8 Review: Move Global Access to Constructor
-        return $DIC->language()->txt("cron_xapi_results_evaluation_desc");
+        return $this->dic->language()->txt("cron_xapi_results_evaluation_desc");
     }
     
     public function hasAutoActivation() : bool

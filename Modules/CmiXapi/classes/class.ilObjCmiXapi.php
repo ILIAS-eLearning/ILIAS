@@ -1753,11 +1753,9 @@ class ilObjCmiXapi extends ilObject2
     public static function iliasUrl() : string
     {
         global $DIC;
-        // TODO PHP8 Review: Check this method, always return empty string
-//        $regex = '/^(https?:\/\/[^\/]+).*/';
-//        preg_match($regex, $GLOBALS['DIC']->http()->request()->getUri(), $request_parts);
-//        return $request_parts[1];
-        return "";
+        $regex = '/^(https?:\/\/[^\/]+).*/';
+        preg_match($regex, (string) $DIC->http()->request()->getUri(), $request_parts);
+        return $request_parts[1];
     }
 
     public static function log() : ilLogger
