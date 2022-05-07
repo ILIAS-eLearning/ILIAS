@@ -379,9 +379,13 @@ class ilLTIConsumerAdministrationGUI
         return $provider;
     }
 
-    private function getInput(mixed $key) : string
+    /**
+     * @param mixed $key
+     * @return string
+     */
+    private function getInput($key) : string
     {
-        if( !is_bool($this->_importedXmlData[$key]) ) {
+        if (!is_bool($this->_importedXmlData[$key])) {
             $this->_importedXmlData[$key] = trim($this->_importedXmlData[$key]);
         }
         return $this->_importedXmlData[$key];

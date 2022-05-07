@@ -987,7 +987,7 @@ if (!class_exists('OAuthUtil')) {
          * @param mixed $input
          * @return string|array
          */
-        public static function urlencode_rfc3986(mixed $input)
+        public static function urlencode_rfc3986($input)
         {
             if (is_array($input)) {
                 return array_map(['ILIAS\LTIOAuth\OAuthUtil', 'urlencode_rfc3986'], $input);
