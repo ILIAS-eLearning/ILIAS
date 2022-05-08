@@ -77,7 +77,7 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         }
         $this->addItem($item);
         
-        if ($this->object->getProvider()->isProviderKeyCustomizable()) {
+        if ($this->object->getProvider()->getLtiVersion() == 'LTI-1p0' && $this->object->getProvider()->isProviderKeyCustomizable()) {
             $sectionHeader = new ilFormSectionHeaderGUI();
             $sectionHeader->setTitle($DIC->language()->txt('lti_con_prov_authentication'));
             $this->addItem($sectionHeader);
@@ -217,7 +217,7 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         $object->setDescription($this->getInput('description'));
         $object->setOfflineStatus(!(bool) $this->getInput('online'));
         
-        if ($object->getProvider()->isProviderKeyCustomizable()) {
+        if ($object->getProvider()->getLtiVersion() == 'LTI-1p0' && $object->getProvider()->isProviderKeyCustomizable()) {
             $object->setCustomLaunchKey($this->getInput('provider_key'));
             $object->setCustomLaunchSecret($this->getInput('provider_secret'));
         }

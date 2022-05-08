@@ -167,20 +167,14 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
         $ctrl->redirectByClass(ilSharedResourceGUI::class);
     }
 
-    /**
-     * @param mixed  $default
-     * @return mixed|null
-     */
-    protected function getRequestValue(string $key, $default = null)
+    protected function getRequestValue(string $key) : ?string
     {
-        if (isset($this->request->getQueryParams()[$key])) {
-            return $this->request->getQueryParams()[$key];
+        if ($this->request_wrapper->has($key)) {
+            return $this->request_wrapper->retrieve($key, $this->refinery->kindlyTo()->string());
         }
-
-        if (isset($this->request->getParsedBody()[$key])) {
-            return $this->request->getParsedBody()[$key];
+        if ($this->post_wrapper->has($key)) {
+            return $this->post_wrapper->retrieve($key, $this->refinery->kindlyTo()->string());
         }
-
-        return $default ?? null;
+        return null;
     }
 }

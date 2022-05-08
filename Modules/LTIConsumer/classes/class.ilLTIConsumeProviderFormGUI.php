@@ -148,7 +148,7 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
             $lti13->setInfo($lng->txt('lti_con_version_1.3_before_id'));
         }
         $versionInp->addOption($lti13);
-        $providerUrlInp = new ilTextInputGUI($lng->txt('lti_con_tool_url'), 'provider_url');
+        $providerUrlInp = new ilTextInputGUI($lng->txt('lti_con_tool_url'), 'provider_url13');
         $providerUrlInp->setValue($this->provider->getProviderUrl());
         $providerUrlInp->setRequired(true);
         $lti13->addSubItem($providerUrlInp);
@@ -433,11 +433,11 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
         }
 
         //authenticate
-        if (null !== $this->getInput('provider_url')) {
-            $provider->setProviderUrl($this->getInput('provider_url'));
-        }
         $provider->setLtiVersion($this->getInput('lti_version'));
         if ($provider->getLtiVersion() == 'LTI-1p0') {
+            if (null !== $this->getInput('provider_url')) {
+                $provider->setProviderUrl($this->getInput('provider_url'));
+            }
             if ($this->getInput('provider_key_global') == 1) {
                 $provider->setProviderKeyCustomizable(false);
                 $provider->setProviderKey($this->getInput('provider_key'));
@@ -446,6 +446,9 @@ class ilLTIConsumeProviderFormGUI extends ilPropertyFormGUI
                 $provider->setProviderKeyCustomizable(true);
             }
         } else {
+            if (null !== $this->getInput('provider_url13')) {
+                $provider->setProviderUrl($this->getInput('provider_url13'));
+            }
             $provider->setInitiateLogin($this->getInput('initiate_login'));
             $provider->setRedirectionUris($this->getInput('redirection_uris'));
             $provider->setKeyType($this->getInput('key_type'));
