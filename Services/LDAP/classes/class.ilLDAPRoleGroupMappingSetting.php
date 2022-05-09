@@ -23,6 +23,15 @@ class ilLDAPRoleGroupMappingSetting
     private ilRbacReview $rbacreview;
 
     private int $mapping_id;
+    private int $server_id;
+
+    private ?string $url;
+    private ?string $dn;
+    private ?string $member_attribute;
+    private ?bool $mapping_info_type;
+    private ?bool $member_isdn;
+    private ?int $role;
+    private ?string $mapping_info;
 
     public function __construct(int $a_mapping_id)
     {
@@ -43,16 +52,15 @@ class ilLDAPRoleGroupMappingSetting
                 . "WHERE mapping_id = " . $this->db->quote($this->getMappingId(), 'integer');
         $set = $this->db->query($query);
         $rec = $this->db->fetchAssoc($set);
-        
-        $this->setMappingId($rec["mapping_id"]);
-        $this->setServerId($rec["server_id"]);
+        $this->setMappingId((int) $rec["mapping_id"]);
+        $this->setServerId((int) $rec["server_id"]);
         $this->setURL($rec["url"]);
         $this->setDN($rec["dn"]);
         $this->setMemberAttribute($rec["member_attribute"]);
         $this->setMemberISDN($rec["member_isdn"]);
-        $this->setRole($rec["role"]);
+        $this->setRole((int) $rec["role"]);
         $this->setMappingInfo($rec["mapping_info"]);
-        $this->setMappingInfoType($rec["mapping_info_type"]);
+        $this->setMappingInfoType((bool) $rec["mapping_info_type"]);
     }
     
     /**
@@ -108,7 +116,7 @@ class ilLDAPRoleGroupMappingSetting
      * get mapping id
      * @return int mapping id
      */
-    public function getMappingId()
+    public function getMappingId() : int
     {
         return $this->mapping_id;
     }
@@ -117,7 +125,7 @@ class ilLDAPRoleGroupMappingSetting
      * set mapping id
      * @param int $a_value mapping id
      */
-    public function setMappingId($a_value)
+    public function setMappingId(int $a_value) : void
     {
         $this->mapping_id = $a_value;
     }
@@ -126,7 +134,7 @@ class ilLDAPRoleGroupMappingSetting
      * get server id
      * @return int server id id
      */
-    public function getServerId()
+    public function getServerId() : int
     {
         return $this->server_id;
     }
@@ -135,7 +143,7 @@ class ilLDAPRoleGroupMappingSetting
      * set server id
      * @param int $a_value server id
      */
-    public function setServerId($a_value)
+    public function setServerId(int $a_value) : void
     {
         $this->server_id = $a_value;
     }
@@ -144,7 +152,7 @@ class ilLDAPRoleGroupMappingSetting
      * get url
      * @return string url
      */
-    public function getURL()
+    public function getURL() : string
     {
         return $this->url;
     }
@@ -153,52 +161,47 @@ class ilLDAPRoleGroupMappingSetting
      * set url
      * @param string $a_value url
      */
-    public function setURL($a_value)
+    public function setURL(string $a_value) : void
     {
         $this->url = $a_value;
     }
     
     /**
      * get group dn
-     * @return string
      */
-    public function getDN()
+    public function getDN() : string
     {
         return $this->dn;
     }
     
     /**
      * set group dn
-     * @param string $a_value
      */
-    public function setDN($a_value)
+    public function setDN(string $a_value) : void
     {
         $this->dn = $a_value;
     }
     
     /**
      * get Group Member Attribute
-     * @return string
      */
-    public function getMemberAttribute()
+    public function getMemberAttribute() : string
     {
         return $this->member_attribute;
     }
     
     /**
      * set Group Member Attribute
-     * @param string $a_value
      */
-    public function setMemberAttribute($a_value)
+    public function setMemberAttribute(string $a_value) : void
     {
         $this->member_attribute = $a_value;
     }
     
     /**
      * get Member Attribute Value is DN
-     * @return bool
      */
-    public function getMemberISDN()
+    public function getMemberISDN() : bool
     {
         return $this->member_isdn;
     }
@@ -207,79 +210,71 @@ class ilLDAPRoleGroupMappingSetting
      * set Member Attribute Value is DN
      * @param bool $a_value
      */
-    public function setMemberISDN($a_value)
+    public function setMemberISDN(bool $a_value) : void
     {
         $this->member_isdn = $a_value;
     }
     
     /**
      * get ILIAS Role Name id
-     * @return int
      */
-    public function getRole()
+    public function getRole() : int
     {
         return $this->role;
     }
     
     /**
      * set ILIAS Role Name id
-     * @param int $a_value
      */
-    public function setRole($a_value)
+    public function setRole(int $a_value) : void
     {
         $this->role = $a_value;
     }
     
     /**
      * get ILIAS Role Name
-     * @return string
      */
-    public function getRoleName()
+    public function getRoleName() : string
     {
         return $this->ilObjDataCache->lookupTitle($this->role);
     }
     
     /**
      * set ILIAS Role Name
-     * @param string $a_value
      */
-    public function setRoleByName($a_value)
+    public function setRoleByName(string $a_value) : void
     {
         $this->role = $this->rbacreview->roleExists(ilUtil::stripSlashes($a_value));
     }
     
     /**
      * get Information Text
-     * @return string
      */
-    public function getMappingInfo()
+    public function getMappingInfo() : string
     {
         return $this->mapping_info;
     }
     
     /**
      * set Information Text
-     * @param string $a_value
      */
-    public function setMappingInfo($a_value)
+    public function setMappingInfo(string $a_value) : void
     {
         $this->mapping_info = $a_value;
     }
     
     /**
      * get Show Information also in the Repository/Personal Desktop
-     * @return bool
      */
-    public function getMappingInfoType()
+    public function getMappingInfoType() : bool
     {
         return $this->mapping_info_type;
     }
     
     /**
      * set Show Information also in the Repository/Personal Desktop
-     * @param bool $a_value
      */
-    public function setMappingInfoType($a_value)
+    public function setMappingInfoType(bool $a_value) : void
     {
         $this->mapping_info_type = $a_value;
     }

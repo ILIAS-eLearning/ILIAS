@@ -13,9 +13,17 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-/**
- * @author Stefan Meyer <meyer@leifos.com>
- */
-class ilLDAPSynchronisationForbiddenException extends ilException
+
+use PHPUnit\Framework\TestSuite;
+
+class ilServicesLDAPSuite extends TestSuite
 {
+    public static function suite() : self
+    {
+        $suite = new ilServicesLDAPSuite();
+        require_once __DIR__ . '/ilLDAPServerTest.php';
+        $suite->addTestSuite(ilLDAPServerTest::class);
+
+        return $suite;
+    }
 }

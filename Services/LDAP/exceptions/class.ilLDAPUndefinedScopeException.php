@@ -14,8 +14,8 @@
  *
  *****************************************************************************/
 /**
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author Per Pascal Seeland <pascal.seeland@tik.uni-stuttgart.de>
  */
-class ilLDAPSynchronisationForbiddenException extends ilException
+class ilLDAPUndefinedScopeException extends ilException
 {
 }
