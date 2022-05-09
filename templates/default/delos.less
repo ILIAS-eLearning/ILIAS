@@ -37,8 +37,6 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 // Core CSS
 @import "@{bsbase}scaffolding.less";
 @import "@{bsbase}type.less";
-@import "@{bsbase}code.less";
-@import "@{bsbase}grid.less";
 @import "@{bsbase}tables.less";
 @import "@{bsbase}forms.less";
 @import "@{bsbase}buttons.less";
@@ -108,7 +106,14 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Player/player.less";
 
 @import "less/variables.less"; //ILIAS Less variables
-@import "less/bootstrap-variables.less"; //Boostrap Variales, overwritten by ILIAS
+
+// Bootstrap overrides
+@boostrap_delos: "less/bootstrap/";
+@import "@{boostrap_delos}focus-mixin.less";
+@import "@{boostrap_delos}code.less";
+@import "@{boostrap_delos}bootstrap-variables.less"; //Boostrap Variales, overwritten by ILIAS
+@import "@{boostrap_delos}screenreader-only-mixins.less";
+@import "@{boostrap_delos}grid.less";
 
 // UI framework components which make use of variables from less/variables.less
 // Note: These files need to be imported after less/variables.less
@@ -124,8 +129,7 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 // general multi line cap
 @import "less/multi-line-cap.less";
 
-// tab focus ilias mixin
-@import "less/focus-mixin.less";
+
 
 /* flex grid support start */
 
