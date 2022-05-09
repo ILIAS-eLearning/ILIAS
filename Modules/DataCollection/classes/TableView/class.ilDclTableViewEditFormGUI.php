@@ -6,19 +6,9 @@
  */
 class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
 {
-
-    /**
-     * @var ilDclTableView
-     */
-    protected $tableview;
-    /**
-     * @var ilDclTable
-     */
-    protected $table;
-    /**
-     * @var ilDclTableViewEditGUI
-     */
-    protected $parent_gui;
+    protected ilDclTableView $tableview;
+    protected ilDclTable $table;
+    protected ilDclTableViewEditGUI $parent_gui;
 
     public function __construct(ilDclTableViewEditGUI $parent_gui, ilDclTableView $tableview, ilDclTable $table = null)
     {
@@ -35,7 +25,7 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-    protected function initForm()
+    protected function initForm() : void
     {
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
@@ -74,7 +64,7 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
 
-    public function updateTableView()
+    public function updateTableView() : void
     {
         $this->tableview->setTitle($this->getInput('title'));
         $this->tableview->setDescription($this->getInput('description'));
@@ -84,7 +74,7 @@ class ilDclTableViewEditFormGUI extends ilPropertyFormGUI
         $this->global_tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableview_updated'), true);
     }
 
-    public function createTableView()
+    public function createTableView() : void
     {
         $this->tableview->setTitle($this->getInput('title'));
         $this->tableview->setDescription($this->getInput('description'));

@@ -11,7 +11,7 @@
  */
 class ilDclDetailedViewGUI
 {
-    protected \ILIAS\Style\Content\Object\ObjectFacade$content_style_domain;
+    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected ilObjDataCollectionGUI $dcl_gui_object;
     protected ilNoteGUI $notes_gui;
     protected ilDclTable $table;
@@ -89,13 +89,13 @@ class ilDclDetailedViewGUI
             $this->determineNextPrevRecords();
         }
         $this->content_style_domain = $DIC->contentStyle()
-            ->domain()
-            ->styleForRefId(
-                $this->dcl_gui_object->getDataCollectionObject()->getRefId()
-            );
+                                          ->domain()
+                                          ->styleForRefId(
+                                              $this->dcl_gui_object->getDataCollectionObject()->getRefId()
+                                          );
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -144,7 +144,7 @@ class ilDclDetailedViewGUI
         }
     }
 
-    protected function offerAlternativeViews()
+    protected function offerAlternativeViews() : void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -153,10 +153,7 @@ class ilDclDetailedViewGUI
         $tpl->setContent($table_gui->getHTML());
     }
 
-    /**
-     * @param bool $editComments
-     */
-    public function renderRecord($editComments = false)
+    public function renderRecord(bool $editComments = false) : void
     {
         global $DIC;
         $ilTabs = $DIC->tabs();
@@ -253,27 +250,19 @@ class ilDclDetailedViewGUI
         $tpl->setContent($rctpl->get());
     }
 
-    /**
-     * @param $found
-     * @return array|string
-     */
-    public function doReplace($found)
+    public function doReplace(array $found) : string
     {
         return $this->record_obj->getRecordFieldSingleHTML($this->currentField->getId(), $this->setOptions($found[1]));
     }
 
-    /**
-     * @param $found
-     * @return string
-     */
-    public function doExtReplace($found)
+    public function doExtReplace(array $found) : ?string
     {
         $ref_rec_ids = $this->record_obj->getRecordFieldValue($this->currentField->getId());
         if (!is_array($ref_rec_ids)) {
             $ref_rec_ids = array($ref_rec_ids);
         }
         if (!count($ref_rec_ids) || !$ref_rec_ids) {
-            return;
+            return null;
         }
         $ref_recs = array();
         foreach ($ref_rec_ids as $ref_rec_id) {
@@ -285,11 +274,12 @@ class ilDclDetailedViewGUI
         $tpl->setCurrentBlock("reference_list");
 
         if (!$field) {
-            if (ilObjDataCollectionAccess::hasWriteAccess($this->dcl_gui_object->ref_id)) {
-                $this->main_tpl->setOnScreenMessage('info', "Bad Viewdefinition at [ext tableOf=\"" . $found[1] . "\" ...]", true);
+            if (ilObjDataCollectionAccess::hasWriteAccess($this->dcl_gui_object->getRefId())) {
+                $this->main_tpl->setOnScreenMessage('info',
+                    "Bad Viewdefinition at [ext tableOf=\"" . $found[1] . "\" ...]", true);
             }
 
-            return;
+            return null;
         }
 
         foreach ($ref_recs as $ref_record) {
@@ -302,9 +292,11 @@ class ilDclDetailedViewGUI
         if ($field) {
             return $tpl->get();
         }
+
+        return null;
     }
 
-    protected function renderComments($edit = false)
+    protected function renderComments(bool $edit = false) : string
     {
         if (!$edit) {
             return $this->notesGUI->getOnlyCommentsHtml();
@@ -316,7 +308,7 @@ class ilDclDetailedViewGUI
     /**
      * Find the previous/next record from the current position. Also determine position of current record in whole set.
      */
-    protected function determineNextPrevRecords()
+    protected function determineNextPrevRecords() : void
     {
         if (!isset($_SESSION['dcl_record_ids']) || $_SESSION['dcl_table_id'] != $this->table->getId()) {
             $this->loadSession();
@@ -341,9 +333,8 @@ class ilDclDetailedViewGUI
 
     /**
      * Determine and return the markup for the previous/next records
-     * @return string
      */
-    protected function renderPrevNextLinks()
+    protected function renderPrevNextLinks() : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -363,9 +354,8 @@ class ilDclDetailedViewGUI
 
     /**
      * Render select options
-     * @return string
      */
-    protected function renderSelectOptions()
+    protected function renderSelectOptions() : string
     {
         $out = '';
         foreach ($this->record_ids as $k => $recId) {
@@ -380,7 +370,7 @@ class ilDclDetailedViewGUI
      * setOptions
      * string $link_name
      */
-    private function setOptions($link_name)
+    private function setOptions(string $link_name) : array
     {
         $options = array();
         $options['link']['display'] = true;
@@ -392,7 +382,7 @@ class ilDclDetailedViewGUI
     /**
      * If we come from a goto Link we need to build up the session data.
      */
-    private function loadSession()
+    private function loadSession() : void
     {
         // We need the default sorting etc. to dertermine on which position we currently are, thus we instantiate the table gui.
         $list = new ilDclRecordListTableGUI(new ilDclRecordListGUI($this->dcl_gui_object, $this->table->getId()),
@@ -405,7 +395,7 @@ class ilDclDetailedViewGUI
     /**
      * @return bool
      */
-    protected function checkAccess()
+    protected function checkAccess() : bool
     {
         return ilObjDataCollectionAccess::hasAccessTo(filter_input(INPUT_GET, 'ref_id'), $this->table->getId(),
                 $this->tableview_id)

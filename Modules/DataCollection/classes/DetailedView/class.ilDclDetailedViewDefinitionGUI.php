@@ -118,10 +118,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         return parent::showPage();
     }
 
-    /**
-     *
-     */
-    protected function activate()
+    protected function activate(): void
     {
         $page = $this->getPageObject();
         $page->setActive(true);
@@ -129,10 +126,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    /**
-     *
-     */
-    protected function deactivate()
+    protected function deactivate(): void
     {
         $page = $this->getPageObject();
         $page->setActive(false);
@@ -140,10 +134,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    /**
-     * confirmDelete
-     */
-    public function confirmDelete()
+    public function confirmDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -162,10 +153,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $tpl->setContent($conf->getHTML());
     }
 
-    /**
-     * cancelDelete
-     */
-    public function cancelDelete()
+    public function cancelDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -173,10 +161,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $ilCtrl->redirect($this, "edit");
     }
 
-    /**
-     *
-     */
-    public function deleteView()
+    public function deleteView(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

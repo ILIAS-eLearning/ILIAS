@@ -92,11 +92,13 @@ class ilDclRecordListGUI
                 self::$available_modes)) ? (int) $_GET[self::GET_MODE] : self::MODE_VIEW;
     }
 
-    public function getRefId(): int {
+    public function getRefId() : int
+    {
         return $this->parent_obj->getRefId();
     }
 
-    public function getObjId(): int {
+    public function getObjId() : int
+    {
         return $this->parent_obj->getObject()->getId();
     }
 
@@ -233,7 +235,7 @@ class ilDclRecordListGUI
     /**
      * Import Data from Excel sheet
      */
-    public function importExcel()
+    public function importExcel() : void
     {
         if (!(ilObjDataCollectionAccess::hasPermissionToAddRecord($this->parent_obj->getRefId(),
                 $this->table_id)) || !$this->table_obj->getImportEnabled()) {
@@ -265,7 +267,7 @@ class ilDclRecordListGUI
      * End import
      * @throws ilTemplateException
      */
-    public function endImport(int $i, array $warnings)
+    public function endImport(int $i, array $warnings) : void
     {
         $output = new ilTemplate("tpl.dcl_import_terminated.html", true, true, "Modules/DataCollection");
         $output->setVariable("IMPORT_TERMINATED", $this->dclLanguage->translate("dcl_import_terminated") . ": " . $i);
@@ -288,7 +290,7 @@ class ilDclRecordListGUI
      * doTableSwitch
      * @throws ilCtrlException
      */
-    public function doTableSwitch()
+    public function doTableSwitch() : void
     {
         $this->ctrl->clearParameters($this);
         $this->ctrl->setParameterByClass(ilObjDataCollectionGUI::class, "table_id", $_POST['table_id']);
@@ -301,7 +303,7 @@ class ilDclRecordListGUI
      * doTableViewSwitch
      * @throws ilCtrlException
      */
-    public function doTableViewSwitch()
+    public function doTableViewSwitch() : void
     {
         $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "tableview_id", $_POST['tableview_id']);
         $this->ctrl->redirect($this, self::CMD_SHOW);
@@ -310,7 +312,7 @@ class ilDclRecordListGUI
     /**
      * @throws ilCtrlException
      */
-    protected function applyFilter()
+    protected function applyFilter() : void
     {
         $table = new ilDclRecordListTableGUI($this, "listRecords", $this->table_obj, $this->tableview_id);
         $table->initFilter();
@@ -322,7 +324,7 @@ class ilDclRecordListGUI
     /**
      * @throws ilCtrlException
      */
-    protected function resetFilter()
+    protected function resetFilter() : void
     {
         $table = new ilDclRecordListTableGUI($this, "show", $this->table_obj, $this->tableview_id);
         $table->initFilter();

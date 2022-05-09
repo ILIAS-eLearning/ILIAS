@@ -86,10 +86,7 @@ class ilDclRecordEditGUI
         return true;
     }
 
-    /**
-     *
-     */
-    public function getRecord()
+    public function getRecord(): void
     {
         if ($_GET['mode']) {
             $this->ctrl->saveParameter($this, 'mode');

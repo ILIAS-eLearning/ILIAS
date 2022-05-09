@@ -238,9 +238,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 $rgui = new ilRatingGUI();
                 $rgui->setObject($_GET['record_id'], "dcl_record", $_GET["field_id"], "dcl_field");
                 $rgui->executeCommand();
-                //todo get rid of GET
                 $viewId = $_GET["tableview_id"];
-                $this->dclEndPoint->forwardCommand($this->dclEndPoint->getListRecordsLink($viewId));
+                $guiObject = $this->dclGuiClass->getIlDclRecordListGUI($this, $viewId);
+                $this->dclEndPoint->forwardCommand($guiObject);
                 break;
 
             case $this->dclGuiClass->getIlDclDetailedViewGUI()->getLowerCaseGuiClassName():
@@ -250,7 +250,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
                 $this->dclUi->resetTabs();
 
-                //todo get rid of GET
                 $viewId = $_GET["tableview_id"];
                 $this->dclUi->setBackTab(
                     $this->dclLanguage->translate('back'),
@@ -381,7 +380,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
         //load record list
         if ($dclAccess->hasReadPermission($refId) === true) {
-            //todo get rid of the GET Parameters
             $_GET["baseClass"] = "ilRepositoryGUI";
             $_GET[self::GET_REF_ID] = $refId;
             $_GET[self::GET_VIEW_ID] = $viewId;
@@ -525,7 +523,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     final public function listRecords() : void
     {
-        //todo get rid of GET
         $viewId = $_GET["tableview_id"];
         $listRecordsLink = $this->dclEndPoint->getListRecordsLink($viewId);
         $this->dclEndPoint->redirect($listRecordsLink);

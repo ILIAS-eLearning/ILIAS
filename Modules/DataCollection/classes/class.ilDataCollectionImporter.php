@@ -8,11 +8,7 @@
  */
 class ilDataCollectionImporter extends ilXmlImporter
 {
-
-    /**
-     * @var ilDataCollectionDataSet
-     */
-    protected $ds;
+    protected ilDataCollectionDataSet $ds;
 
     public function init() : void
     {
@@ -47,11 +43,7 @@ class ilDataCollectionImporter extends ilXmlImporter
         $this->ds->beforeFinishImport($a_mapping);
     }
 
-    /**
-     * @param $int
-     * @return string
-     */
-    public static function getExcelCharForInteger($int)
+    public static function getExcelCharForInteger(int $int): string
     {
         $char = "";
         $rng = range("A", "Z");

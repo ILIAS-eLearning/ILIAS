@@ -7,7 +7,7 @@
  */
 class ilDclExportTableGUI extends ilExportTableGUI
 {
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_exp_obj)
+    public function __construct(ilDclExportGUI $a_parent_obj, string $a_parent_cmd, ilObject $a_exp_obj)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_exp_obj);
 
@@ -59,8 +59,6 @@ class ilDclExportTableGUI extends ilExportTableGUI
         reset($file);
 
         return $file;
-
-        return $files;
     }
 
     protected function fillRow(array $a_set) : void
@@ -100,7 +98,7 @@ class ilDclExportTableGUI extends ilExportTableGUI
         }
     }
 
-    public function parseExportStatus($type, $file)
+    public function parseExportStatus(string $type, string $file) : string
     {
         if ($type == 'xlsx') {
             if ($this->isExportInProgress($file)) {
@@ -108,14 +106,12 @@ class ilDclExportTableGUI extends ilExportTableGUI
             } else {
                 return $this->lng->txt('dcl_export_finished');
             }
-
-            return $file;
         } else {
             return $this->lng->txt('dcl_export_finished');
         }
     }
 
-    protected function isExportInProgress($file)
+    protected function isExportInProgress(string $file) : string
     {
         $ending = substr($file, -strlen(ilDclContentExporter::IN_PROGRESS_POSTFIX));
 

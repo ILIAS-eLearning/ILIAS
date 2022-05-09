@@ -7,10 +7,6 @@
  */
 class ilDclExportGUI extends ilExportGUI
 {
-
-    /**
-     * @return ilTestExportTableGUI
-     */
     protected function buildExportTableGUI() : ilExportTableGUI
     {
         $table = new ilDclExportTableGUI($this, 'listExportFiles', $this->obj);
@@ -32,9 +28,8 @@ class ilDclExportGUI extends ilExportGUI
 
     /**
      * send failure and redirect if no exportable fields
-     * @return bool
      */
-    protected function checkForExportableFields()
+    protected function checkForExportableFields(): bool
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

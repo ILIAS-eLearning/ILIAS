@@ -6,21 +6,15 @@
 class ilDclLinkButton extends ilLinkButton
 {
     const TYPE_DATACOLLECTION_LINK = 99;
-    protected $attributes;
-    protected $useWrapper = false;
+    protected array $attributes;
+    protected bool $useWrapper = false;
 
-    /**
-     * @return boolean
-     */
-    public function isUseWrapper()
+    public function isUseWrapper() : bool
     {
         return $this->useWrapper;
     }
 
-    /**
-     * @param boolean $useWrapper
-     */
-    public function setUseWrapper($useWrapper)
+    public function setUseWrapper(bool $useWrapper)
     {
         $this->useWrapper = $useWrapper;
     }
@@ -56,12 +50,12 @@ class ilDclLinkButton extends ilLinkButton
         return $output;
     }
 
-    public function addAttribute($key, $value, $wrapper = false)
+    public function addAttribute(string $key, string $value, bool $wrapper = false) : void
     {
         $this->attributes[$this->getGroupKey($wrapper)][$key] = $value;
     }
 
-    public function removeAttribute($key, $wrapper = false)
+    public function removeAttribute(string $key, $wrapper = false) : bool
     {
         if (isset($this->attributes[$this->getGroupKey($wrapper)][$key])) {
             unset($this->attributes[$this->getGroupKey($wrapper)][$key]);
@@ -72,7 +66,7 @@ class ilDclLinkButton extends ilLinkButton
         return false;
     }
 
-    public function getAttribute($key, $wrapper = false)
+    public function getAttribute(string $key, bool $wrapper = false) : ?string
     {
         if (isset($this->attributes[$this->getGroupKey($wrapper)][$key])) {
             return $this->attributes[$this->getGroupKey($wrapper)][$key];
@@ -81,7 +75,7 @@ class ilDclLinkButton extends ilLinkButton
         return null;
     }
 
-    protected function getGroupKey($wrapper)
+    protected function getGroupKey($wrapper) : string
     {
         return ($wrapper) ? 'wrapper' : 'default';
     }

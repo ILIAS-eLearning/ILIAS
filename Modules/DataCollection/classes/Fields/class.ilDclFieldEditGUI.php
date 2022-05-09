@@ -14,10 +14,8 @@ class ilDclFieldEditGUI
 {
     protected int $obj_id;
     protected int $table_id;
-    /**
-     * @var ilObjDataCollectionGUI|object
-     */
-    protected $parent_obj;
+
+    protected ilDclTableListGUI $parent_obj;
     protected ilDclTable $table;
     protected ilPropertyFormGUI $form;
     protected ilDclBaseFieldModel $field_obj;
@@ -25,7 +23,6 @@ class ilDclFieldEditGUI
 
     /**
      * Constructor
-     * @param ilDclTableListGUI $a_parent_obj
      */
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
@@ -61,7 +58,7 @@ class ilDclFieldEditGUI
     /**
      * execute command
      */
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -87,7 +84,7 @@ class ilDclFieldEditGUI
     /**
      * create field add form
      */
-    public function create(): void
+    public function create() : void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -99,7 +96,7 @@ class ilDclFieldEditGUI
     /**
      * create field edit form
      */
-    public function edit(): void
+    public function edit() : void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -114,7 +111,7 @@ class ilDclFieldEditGUI
     /*
      * permissionDenied
      */
-    public function permissionDenied(): void
+    public function permissionDenied() : void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -124,7 +121,7 @@ class ilDclFieldEditGUI
     /**
      * confirmDelete
      */
-    public function confirmDelete(): void
+    public function confirmDelete() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -146,7 +143,7 @@ class ilDclFieldEditGUI
     /**
      * cancelDelete
      */
-    public function cancelDelete(): void
+    public function cancelDelete() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -157,7 +154,7 @@ class ilDclFieldEditGUI
     /*
      * delete
      */
-    public function delete(): void
+    public function delete() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -169,7 +166,7 @@ class ilDclFieldEditGUI
     /*
      * cancel
      */
-    public function cancel(): void
+    public function cancel() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -180,7 +177,7 @@ class ilDclFieldEditGUI
      * initEditCustomForm
      * @param string $a_mode values: create | edit
      */
-    public function initForm(string $a_mode = "create"): void
+    public function initForm(string $a_mode = "create") : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -250,7 +247,7 @@ class ilDclFieldEditGUI
      * save Field
      * @param string $a_mode values: create | update
      */
-    public function save(string $a_mode = "create"): void
+    public function save(string $a_mode = "create") : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -310,7 +307,7 @@ class ilDclFieldEditGUI
      * @param $a_mode 'create' | 'update'
      * @return bool
      */
-    protected function checkInput(string $a_mode): bool
+    protected function checkInput(string $a_mode) : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -349,7 +346,7 @@ class ilDclFieldEditGUI
     /**
      * @return bool
      */
-    protected function checkAccess(): bool
+    protected function checkAccess() : bool
     {
         if ($field_id = $this->field_obj->getId()) {
             return ilObjDataCollectionAccess::hasAccessToField($this->getDataCollectionObject()->getRefId(),
@@ -363,7 +360,7 @@ class ilDclFieldEditGUI
     /**
      * @return ilObjDataCollection
      */
-    public function getDataCollectionObject(): ilObjDataCollection
+    public function getDataCollectionObject() : ilObjDataCollection
     {
         return $this->parent_obj->getDataCollectionObject();
     }

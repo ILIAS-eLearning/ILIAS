@@ -9,37 +9,19 @@
 class ilDclTableViewGUI
 {
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-    /**
-     * @var ilDclTable
-     */
-    protected $table;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilToolbarGUI $toolbar;
+    protected ilTemplate $tpl;
+    protected ilTabsGUI $tabs;
+    protected ilDclTable $table;
 
     /**
      * Constructor
      * @param ilDclTableListGUI $a_parent_obj
      * @param int               $table_id
      */
-    public function __construct(ilDclTableListGUI $a_parent_obj, $table_id = 0)
+    public function __construct(ilDclTableListGUI $a_parent_obj, int $table_id = 0)
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -72,10 +54,7 @@ class ilDclTableViewGUI
         }
     }
 
-    /**
-     *
-     */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $this->ctrl->saveParameter($this, 'table_id');
         $cmd = $this->ctrl->getCmd("show");
@@ -98,19 +77,13 @@ class ilDclTableViewGUI
         }
     }
 
-    /**
-     * @return bool
-     */
-    protected function checkAccess()
+    protected function checkAccess(): bool
     {
         return ilObjDataCollectionAccess::hasAccessToEditTable($this->parent_obj->getDataCollectionObject()->getRefId(),
             $this->table->getId());
     }
 
-    /**
-     *
-     */
-    public function show()
+    public function show(): void
     {
         $add_new = ilLinkButton::getInstance();
         $add_new->setPrimary(true);
@@ -142,10 +115,7 @@ class ilDclTableViewGUI
         $this->tpl->setContent($table_gui->getHTML());
     }
 
-    /**
-     *
-     */
-    public function doTableSwitch()
+    public function doTableSwitch(): void
     {
         $this->ctrl->setParameterByClass("ilDclTableViewGUI", "table_id", $_POST['table_id']);
         $this->ctrl->redirectByClass("ilDclTableViewGUI", "show");
@@ -154,7 +124,7 @@ class ilDclTableViewGUI
     /**
      * Confirm deletion of multiple fields
      */
-    public function confirmDeleteTableviews()
+    public function confirmDeleteTableviews(): void
     {
         //at least one view must exist
         $tableviews = isset($_POST['dcl_tableview_ids']) ? $_POST['dcl_tableview_ids'] : array();
@@ -173,10 +143,7 @@ class ilDclTableViewGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-    /**
-     *
-     */
-    protected function deleteTableviews()
+    protected function deleteTableviews(): void
     {
         $tableviews = isset($_POST['dcl_tableview_ids']) ? $_POST['dcl_tableview_ids'] : array();
         foreach ($tableviews as $tableview_id) {
@@ -191,7 +158,7 @@ class ilDclTableViewGUI
      * redirects if there are no tableviews left after deletion of {$delete_count} tableviews
      * @param $delete_count number of tableviews to delete
      */
-    public function checkViewsLeft($delete_count)
+    public function checkViewsLeft(int $delete_count): void
     {
         if ($delete_count >= count($this->table->getTableViews())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_msg_tableviews_delete_all'), true);
@@ -202,7 +169,7 @@ class ilDclTableViewGUI
     /**
      * invoked by ilDclTableViewTableGUI
      */
-    public function saveTableViewOrder()
+    public function saveTableViewOrder(): void
     {
         $orders = $_POST['order'];
         asort($orders);

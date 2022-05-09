@@ -7,101 +7,70 @@
  */
 class ilDclRecordQueryObject
 {
-    protected $selectStatement;
-    protected $joinStatement;
-    protected $whereStatement;
-    protected $groupStatement;
-    protected $orderStatement;
+    protected string $selectStatement;
+    protected string $joinStatement;
+    protected string $whereStatement;
+    protected string $groupStatement;
+    protected string $orderStatement;
 
-    /**
-     * @return mixed
-     */
-    public function getSelectStatement()
+    public function getSelectStatement() : string
     {
         return $this->selectStatement;
     }
 
-    /**
-     * @param mixed $selectStatement
-     */
-    public function setSelectStatement($selectStatement)
+    public function setSelectStatement(string $selectStatement)
     {
         $this->selectStatement = " " . $selectStatement;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getJoinStatement()
+    public function getJoinStatement() : string
     {
         return $this->joinStatement;
     }
 
-    /**
-     * @param mixed $joinStatement
-     */
-    public function setJoinStatement($joinStatement)
+    public function setJoinStatement(string $joinStatement)
     {
         $this->joinStatement = " " . $joinStatement;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getWhereStatement()
+    public function getWhereStatement() : string
     {
         return $this->whereStatement;
     }
 
-    /**
-     * @param mixed $whereStatement
-     */
-    public function setWhereStatement($whereStatement)
+    public function setWhereStatement(string $whereStatement)
     {
         $this->whereStatement = " " . $whereStatement;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getGroupStatement()
+    public function getGroupStatement() : string
     {
         return $this->groupStatement;
     }
 
-    /**
-     * @param mixed $groupStatement
-     */
-    public function setGroupStatement($groupStatement)
+    public function setGroupStatement(string $groupStatement)
     {
         $this->groupStatement = " " . $groupStatement;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getOrderStatement()
+    public function getOrderStatement() : string
     {
         return $this->orderStatement;
     }
 
-    /**
-     * @param mixed $orderStatement
-     */
-    public function setOrderStatement($orderStatement)
+    public function setOrderStatement(string $orderStatement)
     {
         $this->orderStatement = " " . $orderStatement;
     }
 
     /**
      * Apply custom sorting
-     * @param ilDclBaseFieldModel $field
-     * @param array               $all_records
-     * @param string              $direction
-     * @return array
      */
-    public function applyCustomSorting(ilDclBaseFieldModel $field, array $all_records, string $direction = 'asc'): array
-    {
+    public function applyCustomSorting(
+        ilDclBaseFieldModel $field,
+        array $all_records,
+        string $direction = 'asc'
+    ) : array {
         return $all_records;
     }
 }

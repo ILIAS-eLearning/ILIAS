@@ -8,27 +8,11 @@
  */
 class ilDclTableListGUI
 {
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilTemplate $tpl;
+    protected ilTabsGUI $tabs;
+    protected ilToolbarGUI $toolbar;
 
     /**
      * ilDclTableListGUI constructor.
@@ -65,7 +49,7 @@ class ilDclTableListGUI
     /**
      * execute command
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         global $DIC;
         $cmd = $this->ctrl->getCmd('listTables');
@@ -127,7 +111,7 @@ class ilDclTableListGUI
         }
     }
 
-    public function listTables()
+    public function listTables(): void
     {
         $add_new = ilLinkButton::getInstance();
         $add_new->setPrimary(true);
@@ -139,7 +123,7 @@ class ilDclTableListGUI
         $this->tpl->setContent($table_gui->getHTML());
     }
 
-    protected function setTabs($active)
+    protected function setTabs(string $active): void
     {
         $this->tabs->setBackTarget($this->lng->txt('dcl_tables'), $this->ctrl->getLinkTarget($this, 'listTables'));
         $this->tabs->addTab('settings', $this->lng->txt('settings'),
@@ -151,10 +135,7 @@ class ilDclTableListGUI
         $this->tabs->setTabActive($active);
     }
 
-    /**
-     *
-     */
-    protected function save()
+    protected function save(): void
     {
         $comments = $_POST['comments'];
         $visible = $_POST['visible'];
@@ -172,10 +153,7 @@ class ilDclTableListGUI
         $this->ctrl->redirect($this);
     }
 
-    /**
-     * Confirm deletion of multiple fields
-     */
-    public function confirmDeleteTables()
+    public function confirmDeleteTables(): void
     {
         //at least one table must exist
         $tables = isset($_POST['dcl_table_ids']) ? $_POST['dcl_table_ids'] : array();
@@ -194,10 +172,7 @@ class ilDclTableListGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-    /**
-     *
-     */
-    protected function deleteTables()
+    protected function deleteTables(): void
     {
         $tables = isset($_POST['dcl_table_ids']) ? $_POST['dcl_table_ids'] : array();
         foreach ($tables as $table_id) {
@@ -211,7 +186,7 @@ class ilDclTableListGUI
      * redirects if there are no tableviews left after deletion of {$delete_count} tableviews
      * @param $delete_count number of tableviews to delete
      */
-    public function checkTablesLeft($delete_count)
+    public function checkTablesLeft(int $delete_count): void
     {
         if ($delete_count >= count($this->getDataCollectionObject()->getTables())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_msg_tables_delete_all'), true);
@@ -219,20 +194,14 @@ class ilDclTableListGUI
         }
     }
 
-    /**
-     * @return bool
-     */
-    protected function checkAccess()
+    protected function checkAccess(): bool
     {
         $ref_id = $this->parent_obj->getRefId();
 
         return ilObjDataCollectionAccess::hasWriteAccess($ref_id);
     }
 
-    /**
-     * @return ilObjDataCollection
-     */
-    public function getDataCollectionObject()
+    public function getDataCollectionObject(): ilObjDataCollection
     {
         return $this->parent_obj->getDataCollectionObject();
     }
