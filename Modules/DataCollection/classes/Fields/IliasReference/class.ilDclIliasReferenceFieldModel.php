@@ -10,10 +10,11 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     * @return null|ilDclRecordQueryObject
      */
-    public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false)
-    {
+    public function getRecordQuerySortObject(
+        string $direction = "asc",
+        bool $sort_by_status = false
+    ) : ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -43,11 +44,11 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     * @param string $filter_value
-     * @return null|ilDclRecordQueryObject
      */
-    public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null)
-    {
+    public function getRecordQueryFilterObject(
+        string $filter_value = "",
+        ?ilDclBaseFieldModel $sort_field = null
+    ) : ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -65,10 +66,7 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getValidFieldProperties()
+    public function getValidFieldProperties() : array
     {
         return array(ilDclBaseFieldModel::PROP_LEARNING_PROGRESS,
                      ilDclBaseFieldModel::PROP_ILIAS_REFERENCE_LINK,

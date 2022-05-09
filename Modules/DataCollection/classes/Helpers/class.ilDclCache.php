@@ -132,7 +132,7 @@ class ilDclCache
      * @param int $field_id
      * @return ilDclBaseFieldModel
      */
-    public static function getFieldCache($field_id = 0)
+    public static function getFieldCache($field_id = 0): ilDclBaseFieldModel
     {
         $fields_cache = &self::$fields_cache;
         if (!isset($fields_cache[$field_id])) {

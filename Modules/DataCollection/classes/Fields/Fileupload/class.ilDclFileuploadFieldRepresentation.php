@@ -7,7 +7,7 @@
  */
 class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilFileInputGUI
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilFileInputGUI
     {
         $input = new ilFileInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         $input->setSuffixes($this->getField()->getSupportedExtensions());
@@ -18,7 +18,7 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-    protected function requiredWorkaroundForInputField(ilFileInputGUI $input, int $record_id): void
+    protected function requiredWorkaroundForInputField(ilFileInputGUI $input, int $record_id) : void
     {
         if ($record_id) {
             $record = ilDclCache::getRecordCache($record_id);
@@ -55,7 +55,7 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-    public function passThroughFilter(ilDclBaseRecordModel $record, string $filter): bool
+    public function passThroughFilter(ilDclBaseRecordModel $record, string $filter) : bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
         $pass = false;
@@ -75,7 +75,7 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
     /**
      * @inheritDoc
      */
-    public function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create')
+    public function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 

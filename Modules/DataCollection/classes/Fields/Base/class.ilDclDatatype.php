@@ -51,7 +51,7 @@ class ilDclDatatype
         }
     }
 
-    public function getId(): int
+    public function getId() : int
     {
         return $this->id;
     }
@@ -61,7 +61,7 @@ class ilDclDatatype
         $this->title = $a_title;
     }
 
-    public function getTitle(): string
+    public function getTitle() : string
     {
         return $this->title;
     }
@@ -77,12 +77,12 @@ class ilDclDatatype
     /**
      * Get Storage Location
      */
-    public function getStorageLocation(): int
+    public function getStorageLocation() : int
     {
         return $this->storageLocation;
     }
 
-    public function getDbType(): string
+    public function getDbType() : string
     {
         return $this->dbType;
     }
@@ -90,7 +90,7 @@ class ilDclDatatype
     /**
      * Read Datatype
      */
-    public function doRead(): void
+    public function doRead() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -106,7 +106,7 @@ class ilDclDatatype
     /**
      * Get all possible Datatypes
      */
-    public static function getAllDatatype(): array
+    public static function getAllDatatype() : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -128,7 +128,7 @@ class ilDclDatatype
         return self::$datatype_cache;
     }
 
-    protected function loadDatatype(array $rec): void
+    protected function loadDatatype(array $rec) : void
     {
         $this->id = $rec['id'];
         $this->dbType = $rec["ildb_type"];

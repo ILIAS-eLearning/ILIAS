@@ -47,7 +47,7 @@ class ilDclBaseRecordModel
         return $value;
     }
 
-    public function doUpdate($omit_notification = false): void
+    public function doUpdate($omit_notification = false) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -91,7 +91,7 @@ class ilDclBaseRecordModel
         }
     }
 
-    public function doRead(): void
+    public function doRead() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -111,7 +111,7 @@ class ilDclBaseRecordModel
     /**
      * @throws ilException
      */
-    public function doCreate(): void
+    public function doCreate() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -159,12 +159,12 @@ class ilDclBaseRecordModel
         }
     }
 
-    public function setId(int $a_id): void
+    public function setId(int $a_id) : void
     {
         $this->id = $a_id;
     }
 
-    public function getId(): int
+    public function getId() : int
     {
         return $this->id;
     }
@@ -174,47 +174,47 @@ class ilDclBaseRecordModel
         $this->table_id = $a_id;
     }
 
-    public function getTableId(): int
+    public function getTableId() : int
     {
         return $this->table_id;
     }
 
-    public function setCreateDate(ilDateTime $a_datetime): void
+    public function setCreateDate(ilDateTime $a_datetime) : void
     {
         $this->create_date = $a_datetime;
     }
 
-    public function getCreateDate(): ilDateTime
+    public function getCreateDate() : ilDateTime
     {
         return $this->create_date;
     }
 
-    public function setLastUpdate(ilDateTime $a_datetime): void
+    public function setLastUpdate(ilDateTime $a_datetime) : void
     {
         $this->last_update = $a_datetime;
     }
 
-    public function getLastUpdate(): ilDateTime
+    public function getLastUpdate() : ilDateTime
     {
         return $this->last_update;
     }
 
-    public function setOwner(int $a_id): void
+    public function setOwner(int $a_id) : void
     {
         $this->owner = $a_id;
     }
 
-    public function getOwner(): int
+    public function getOwner() : int
     {
         return $this->owner;
     }
 
-    public function getLastEditBy(): string
+    public function getLastEditBy() : string
     {
         return $this->last_edit_by;
     }
 
-    public function setLastEditBy(string $last_edit_by): void
+    public function setLastEditBy(string $last_edit_by) : void
     {
         $this->last_edit_by = $last_edit_by;
     }
@@ -224,7 +224,7 @@ class ilDclBaseRecordModel
      * @param int|string $value
      * @return void
      */
-    public function setRecordFieldValue($field_id, $value): void
+    public function setRecordFieldValue($field_id, $value) : void
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
@@ -260,7 +260,7 @@ class ilDclBaseRecordModel
         return $this->recordfields[$field->getId()]->getValueFromExcel($excel, $row, $col);
     }
 
-    public function setStandardFieldValueFromExcel(ilExcel $excel, int $row, int $col, ilDclStandardField $field): void
+    public function setStandardFieldValueFromExcel(ilExcel $excel, int $row, int $col, ilDclStandardField $field) : void
     {
         $value = $field->getValueFromExcel($excel, $row, $col);
         if ($value) {
@@ -268,7 +268,7 @@ class ilDclBaseRecordModel
         }
     }
 
-    public function getRecordFieldValues(): array
+    public function getRecordFieldValues() : array
     {
         $this->loadRecordFields();
         $return = array();
@@ -389,7 +389,7 @@ class ilDclBaseRecordModel
     /**
      * @param int|string $field_id
      */
-    public function getRecordFieldHTML($field_id, array $options = array()): string
+    public function getRecordFieldHTML($field_id, array $options = array()) : string
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
@@ -413,7 +413,7 @@ class ilDclBaseRecordModel
     /**
      * @param int|string $field_id
      */
-    public function getRecordFieldSortingValue($field_id, array $options = array()): string
+    public function getRecordFieldSortingValue($field_id, array $options = array()) : string
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
@@ -436,9 +436,9 @@ class ilDclBaseRecordModel
 
     /**
      * @param int|string $field_id
-     * @param array $options
+     * @param array      $options
      */
-    public function getRecordFieldSingleHTML($field_id, array $options = array()): string
+    public function getRecordFieldSingleHTML($field_id, array $options = array()) : string
     {
         $this->loadRecordFields();
 
@@ -463,7 +463,7 @@ class ilDclBaseRecordModel
     /**
      * @param int|string $field_id
      */
-    public function fillRecordFieldFormInput($field_id , ilPropertyFormGUI &$form): void
+    public function fillRecordFieldFormInput($field_id, ilPropertyFormGUI &$form) : void
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
@@ -476,7 +476,7 @@ class ilDclBaseRecordModel
     /**
      * @param int|string $field_id
      */
-    protected function setStandardFieldFromForm($field_id, ilPropertyFormGUI &$form): void
+    protected function setStandardFieldFromForm($field_id, ilPropertyFormGUI &$form) : void
     {
         if ($item = $form->getItemByPostVar("field_" . $field_id)) {
             $this->setStandardField($field_id, $item->getValue());
@@ -501,7 +501,7 @@ class ilDclBaseRecordModel
     /**
      * @param int|string $field_id
      */
-    protected function fillStandardFieldFormInput($field_id, ilPropertyFormGUI &$form): void
+    protected function fillStandardFieldFormInput($field_id, ilPropertyFormGUI &$form) : void
     {
         if ($item = $form->getItemByPostVar('field_' . $field_id)) {
             $item->setValue($this->getStandardField($field_id));
@@ -511,7 +511,7 @@ class ilDclBaseRecordModel
     /**
      * @param int|string $field_id
      */
-    protected function getStandardField($field_id): string
+    protected function getStandardField($field_id) : string
     {
         switch ($field_id) {
             case "last_edit_by":
@@ -530,12 +530,12 @@ class ilDclBaseRecordModel
     /**
      * @param int|string $field_id
      */
-    public function getStandardFieldFormulaValue($field_id): string
+    public function getStandardFieldFormulaValue($field_id) : string
     {
         return $this->getStandardFieldHTML($field_id);
     }
 
-    public function getStandardFieldHTML(string $field_id, array $options = array()): string
+    public function getStandardFieldHTML(string $field_id, array $options = array()) : string
     {
         switch ($field_id) {
             case 'id':
@@ -581,7 +581,7 @@ class ilDclBaseRecordModel
         }
     }
 
-    private function loadRecordFields(): void
+    private function loadRecordFields() : void
     {
         if ($this->recordfields == null) {
             $this->loadTable();
@@ -596,21 +596,21 @@ class ilDclBaseRecordModel
         }
     }
 
-    private function loadTable(): void
+    private function loadTable() : void
     {
         if ($this->table === null) {
             $this->table = ilDclCache::getTableCache($this->getTableId());
         }
     }
 
-    public function getRecordField(int $field_id): ilDclBaseRecordFieldModel
+    public function getRecordField(int $field_id) : ilDclBaseRecordFieldModel
     {
         $this->loadRecordFields();
 
         return $this->recordfields[$field_id];
     }
 
-    public function doDelete(bool $omit_notification = false): void
+    public function doDelete(bool $omit_notification = false) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -650,9 +650,8 @@ class ilDclBaseRecordModel
         }
     }
 
-
     // TODO: Find better way to copy data (including all references)
-    public function cloneStructure(int $original_id, array $new_fields): void
+    public function cloneStructure(int $original_id, array $new_fields) : void
     {
         $original = ilDclCache::getRecordCache($original_id);
         $this->setCreateDate($original->getCreateDate());
@@ -671,7 +670,7 @@ class ilDclBaseRecordModel
         ilDclCache::setCloneOf($original_id, $this->getId(), ilDclCache::TYPE_RECORD);
     }
 
-    public function deleteFile(int $obj_id): void
+    public function deleteFile(int $obj_id) : void
     {
         if (ilObject2::_exists($obj_id, false)) {
             $file = new ilObjFile($obj_id, false);
@@ -679,7 +678,7 @@ class ilDclBaseRecordModel
         }
     }
 
-    public function deleteMob(int $obj_id): void
+    public function deleteMob(int $obj_id) : void
     {
         if (ilObject2::_lookupObjId($obj_id)) {
             $mob = new ilObjMediaObject($obj_id);
@@ -687,7 +686,7 @@ class ilDclBaseRecordModel
         }
     }
 
-    public function passThroughFilter(array $filter): bool
+    public function passThroughFilter(array $filter) : bool
     {
         $this->loadTable();
         // If one field returns false, the whole record does not pass the filter #performance-improvements
@@ -706,17 +705,17 @@ class ilDclBaseRecordModel
         return true;
     }
 
-    public function hasPermissionToEdit(int $ref_id): bool
+    public function hasPermissionToEdit(int $ref_id) : bool
     {
         return $this->getTable()->hasPermissionToEditRecord($ref_id, $this);
     }
 
-    public function hasPermissionToDelete(int $ref_id): bool
+    public function hasPermissionToDelete(int $ref_id) : bool
     {
         return $this->getTable()->hasPermissionToDeleteRecord($ref_id, $this);
     }
 
-    public function hasPermissionToView(int $ref_id): bool
+    public function hasPermissionToView(int $ref_id) : bool
     {
         return $this->getTable()->hasPermissionToViewRecord($ref_id, $this);
     }
@@ -724,14 +723,14 @@ class ilDclBaseRecordModel
     /**
      * @return ilDclBaseRecordFieldModel[]
      */
-    public function getRecordFields(): array
+    public function getRecordFields() : array
     {
         $this->loadRecordFields();
 
         return $this->recordfields;
     }
 
-    public function getTable(): ilDclTable
+    public function getTable() : ilDclTable
     {
         $this->loadTable();
 

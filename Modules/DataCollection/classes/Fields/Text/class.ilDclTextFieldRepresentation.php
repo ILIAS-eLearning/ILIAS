@@ -7,11 +7,7 @@
  */
 class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-
-    /**
-     * @inheritdoc
-     */
-    public function addFilterInputFieldToTable(ilTable2GUI $table)
+    public function addFilterInputFieldToTable(ilTable2GUI $table) : ?string
     {
         $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_TEXT,
             false, $this->getField()->getId());
@@ -23,9 +19,9 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
     }
 
     /**
-     * @inheritdoc
+     * @param string $filter
      */
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter) : bool
     {
         $pass = parent::passThroughFilter($record, $filter);
 
@@ -37,10 +33,7 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
         return $pass;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilDclTextInputGUI
     {
         $input = new ilDclTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {
@@ -67,10 +60,7 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create')
+    public function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 

@@ -142,7 +142,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
             $alist->setId($a_set->getId());
             $alist->setListTitle($lng->txt('actions'));
 
-            if (ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->getDataCollectionObject()->ref_id,
+            if (ilObjDataCollectionAccess::hasAccessToFields($this->parent_obj->getDataCollectionObject()->getRefId(),
                 $this->table->getId())) {
                 $alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass('ildclfieldeditgui', 'edit'));
                 $alist->addItem($lng->txt('delete'), 'delete',

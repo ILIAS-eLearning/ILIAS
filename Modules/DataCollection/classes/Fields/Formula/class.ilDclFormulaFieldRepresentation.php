@@ -7,7 +7,7 @@
  */
 class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilTextInputGUI
     {
         $input = new ilTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         $input->setDisabled(true);
@@ -17,10 +17,7 @@ class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create')
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 

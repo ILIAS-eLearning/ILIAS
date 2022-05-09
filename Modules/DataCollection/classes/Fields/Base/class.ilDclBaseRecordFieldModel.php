@@ -18,7 +18,8 @@ class ilDclBaseRecordFieldModel
     protected ilDclBaseRecordModel $record;
     protected ilDclBaseRecordRepresentation $record_representation;
     protected ilDclBaseFieldRepresentation $field_representation;
-    protected string $value;
+    /** @var int|float|array|null */
+    protected $value;
     protected ilObjUser $user;
     protected ilCtrl $ctrl;
     protected ilDBInterface $db;

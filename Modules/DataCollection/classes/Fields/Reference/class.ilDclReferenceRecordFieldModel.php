@@ -69,7 +69,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    public function getValueFromExcel($excel, $row, $col)
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -97,10 +97,9 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
      * This method tries to get as many valid references out of a string separated by commata. This is problematic as a string value could contain commata itself.
      * It is optimized to work with an exported list from this DataCollection. And works fine in most cases. Only areference list with the values "hello" and "hello, world"
      * Will mess with it.
-     * @param $stringValues string
      * @return int[]
      */
-    protected function getReferencesFromString($stringValues)
+    protected function getReferencesFromString(string $stringValues) : array
     {
         $delimiter = strpos($stringValues, '; ') ? '; ' : ', ';
         $slicedStrings = explode($delimiter, $stringValues);
@@ -129,12 +128,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         return $slicedReferences;
     }
 
-    /**
-     * @param $field ilDclBaseFieldModel
-     * @param $value
-     * @return int
-     */
-    public function getReferenceFromValue($value)
+    public function getReferenceFromValue(int $value) : int
     {
         $field = ilDclCache::getFieldCache($this->getField()->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
         $table = ilDclCache::getTableCache($field->getTableId());
@@ -153,7 +147,7 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         return $record_id;
     }
 
-    public function afterClone()
+    public function afterClone() : void
     {
         $field_clone = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
         $record_clone = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);

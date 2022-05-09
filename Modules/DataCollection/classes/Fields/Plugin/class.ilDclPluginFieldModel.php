@@ -6,20 +6,15 @@
  */
 class ilDclPluginFieldModel extends ilDclBaseFieldModel
 {
-
-    /**
-     * @inheritDoc
-     */
-    public function getValidFieldProperties()
+    public function getValidFieldProperties() : array
     {
         return array_merge(array(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME), $this->getCustomValidFieldProperties());
     }
 
     /**
      * Method for adding custom fields to plugins
-     * @return array
      */
-    public function getCustomValidFieldProperties()
+    public function getCustomValidFieldProperties() : array
     {
         return array();
     }
@@ -27,7 +22,7 @@ class ilDclPluginFieldModel extends ilDclBaseFieldModel
     /**
      * @return bool
      */
-    public function allowFilterInListView()
+    public function allowFilterInListView() : bool
     {
         return false;
     }

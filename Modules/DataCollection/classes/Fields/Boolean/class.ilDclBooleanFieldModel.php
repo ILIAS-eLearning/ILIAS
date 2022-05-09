@@ -10,10 +10,12 @@ class ilDclBooleanFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     * @param  string|int $filter_value
+     * @param string|int $filter_value
      */
-    public function getRecordQueryFilterObject($filter_value = "", ?ilDclBaseFieldModel $sort_field = null): ilDclRecordQueryObject
-    {
+    public function getRecordQueryFilterObject(
+        $filter_value = "",
+        ?ilDclBaseFieldModel $sort_field = null
+    ) : ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 

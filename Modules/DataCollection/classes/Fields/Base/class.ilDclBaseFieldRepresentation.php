@@ -49,9 +49,9 @@ abstract class ilDclBaseFieldRepresentation
 
     /**
      * Checks if a filter affects a record
-     * @param ilDclBaseRecordModel $record
+     * @param int|string $filter
      */
-    public function passThroughFilter(ilDclBaseRecordModel $record, string $filter): bool
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
         $pass = true;

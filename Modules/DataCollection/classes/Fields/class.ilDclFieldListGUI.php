@@ -12,32 +12,14 @@
  */
 class ilDclFieldListGUI
 {
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilToolbarGUI $toolbar;
+    protected ilTemplate $tpl;
+    protected ilTabsGUI $tabs;
 
     /**
      * Constructor
-     * @param ilDclTableListGUI $a_parent_obj
-     * @param int               $table_id
      */
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
@@ -75,7 +57,7 @@ class ilDclFieldListGUI
     /**
      * execute command
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd('listFields');
         switch ($cmd) {
@@ -88,7 +70,7 @@ class ilDclFieldListGUI
     /**
      * Delete multiple fields
      */
-    public function deleteFields()
+    public function deleteFields(): void
     {
         $field_ids = isset($_POST['dcl_field_ids']) ? $_POST['dcl_field_ids'] : array();
         $table = ilDclCache::getTableCache($this->table_id);
@@ -102,7 +84,7 @@ class ilDclFieldListGUI
     /**
      * Confirm deletion of multiple fields
      */
-    public function confirmDeleteFields()
+    public function confirmDeleteFields(): void
     {
         $this->tabs->clearSubTabs();
         $conf = new ilConfirmationGUI();
@@ -122,7 +104,7 @@ class ilDclFieldListGUI
     /*
      * save
      */
-    public function save()
+    public function save(): void
     {
         $table = ilDclCache::getTableCache($_GET['table_id']);
         $fields = $table->getFields();
@@ -150,7 +132,7 @@ class ilDclFieldListGUI
     /**
      * list fields
      */
-    public function listFields()
+    public function listFields(): void
     {
         //add button
         $add_new = ilLinkButton::getInstance();
@@ -184,26 +166,20 @@ class ilDclFieldListGUI
     /*
      * doTableSwitch
      */
-    public function doTableSwitch()
+    public function doTableSwitch(): void
     {
         $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
         $this->ctrl->redirectByClass("ilDclFieldListGUI", "listFields");
     }
 
-    /**
-     * @return bool
-     */
-    protected function checkAccess()
+    protected function checkAccess(): bool
     {
         $ref_id = $this->getDataCollectionObject()->getRefId();
 
         return ilObjDataCollectionAccess::hasAccessToEditTable($ref_id, $this->table_id);
     }
 
-    /**
-     * @return ilObjDataCollection
-     */
-    public function getDataCollectionObject()
+    public function getDataCollectionObject(): ilObjDataCollection
     {
         return $this->parent_obj->getDataCollectionObject();
     }

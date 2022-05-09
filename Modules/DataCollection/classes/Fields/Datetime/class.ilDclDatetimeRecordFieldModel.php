@@ -38,7 +38,7 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
      * Returns sortable value for the specific field-types
      * @param string $value
      */
-    public function parseSortingValue($value, bool $link = true): ?int
+    public function parseSortingValue($value, bool $link = true) : ?int
     {
         return strtotime($value);
     }

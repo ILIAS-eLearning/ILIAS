@@ -10,20 +10,9 @@
  */
 class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
 {
+    protected string $expression = '';
+    protected string $parsed_value = '';
 
-    /**
-     * @var string
-     */
-    protected $expression = '';
-    /**
-     * @var string
-     */
-    protected $parsed_value = '';
-
-    /**
-     * @param ilDclBaseRecordModel $record
-     * @param ilDclBaseFieldModel  $field
-     */
     public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
     {
         parent::__construct($record, $field);
@@ -31,10 +20,7 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->expression = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
     }
 
-    /**
-     * @param ilConfirmationGUI $confirmation
-     */
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation)
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) : void
     {
         return;
     }
@@ -42,17 +28,17 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * Do nothing, value is runtime only and not stored in DB
      */
-    protected function loadValue()
+    protected function loadValue() : void
     {
-        return null;
+        return;
     }
 
     /**
      * Set value for record field
-     * @param mixed $value
-     * @param bool  $omit_parsing If true, does not parse the value and stores it in the given format
+     * @param int|float $value
+     * @param bool      $omit_parsing If true, does not parse the value and stores it in the given format
      */
-    public function setValue($value, $omit_parsing = false)
+    public function setValue($value, bool $omit_parsing = false) : void
     {
         unset($value);
     }
@@ -60,64 +46,51 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * Do nothing, value is runtime only and not stored in DB
      */
-    public function doUpdate()
+    public function doUpdate() : void
     {
-        return null;
+        return;
     }
 
     /**
      * Do nothing, value is runtime only and not stored in DB
      */
-    public function doRead()
+    public function doRead() : void
     {
-        return null;
+        return;
     }
 
     /**
      * Do nothing, value is runtime only and not stored in DB
      */
-    public function delete()
+    public function delete() : void
     {
-        return null;
+        return;
     }
 
-    /**
-     * @return mixed|string
-     */
-    public function getFormInput()
+    public function getFormInput() : string
     {
         return $this->parse();
     }
 
-    /**
-     * @return string
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         return $this->parse();
     }
 
-    /**
-     * @return string
-     */
-    public function getExportValue()
+    public function getExportValue() : string
     {
         return $this->parse();
     }
 
-    /**
-     * @return string
-     */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->parse();
     }
 
     /**
      * Parse expression
-     * @return string
      */
-    protected function parse()
+    protected function parse() : string
     {
         if (!$this->parsed_value && $this->expression) {
             $parser = new ilDclExpressionParser($this->expression, $this->getRecord(), $this->getField());

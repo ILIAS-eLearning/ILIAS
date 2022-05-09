@@ -6,15 +6,8 @@
  */
 class ilDclNReferenceFieldGUI
 {
+    protected ilDclNReferenceRecordFieldModel $field;
 
-    /**
-     * @var ilDclNReferenceRecordFieldModel
-     */
-    protected $field;
-
-    /**
-     * @param ilDclNReferenceRecordFieldModel $field
-     */
     public function __construct(ilDclNReferenceRecordFieldModel $field)
     {
         $this->field = $field;
@@ -22,10 +15,8 @@ class ilDclNReferenceFieldGUI
 
     /**
      * @param ilDclNReferenceRecordFieldModel $field
-     * @param null                            $options
-     * @return string
      */
-    public function getSingleHTML($options = null)
+    public function getSingleHTML(?array $options = null) : string
     {
         $values = $this->field->getValue();
 
@@ -38,14 +29,11 @@ class ilDclNReferenceFieldGUI
         return $tpl->get();
     }
 
-    /**
-     * @param $record_field
-     * @param $values
-     * @param $options
-     * @return ilTemplate
-     */
-    protected function buildTemplate(ilDclNReferenceRecordFieldModel $record_field, $values, $options)
-    {
+    protected function buildTemplate(
+        ilDclNReferenceRecordFieldModel $record_field,
+        array $values,
+        ?array $options
+    ) : ilTemplate {
         $tpl = new ilTemplate("tpl.reference_list.html", true, true, "Modules/DataCollection");
         $tpl->setCurrentBlock("reference_list");
         foreach ($values as $value) {
@@ -70,10 +58,7 @@ class ilDclNReferenceFieldGUI
         return $tpl;
     }
 
-    /**
-     * @return array|mixed|string
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         $values = $this->field->getValue();
         $record_field = $this->field;

@@ -9,13 +9,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
 {
     const LINK_MAX_LENGTH = 40;
 
-    /**
-     * Outputs html of a certain field
-     * @param mixed     $value
-     * @param bool|true $link
-     * @return string
-     */
-    public function getHTML($link = true)
+    public function getHTML(bool $link = true) : string
     {
         $value = $this->getRecordField()->getValue();
 
@@ -63,7 +57,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
      * @param $value The link in it's original form.
      * @return string The shortened link
      */
-    protected function shortenLink($value)
+    protected function shortenLink(string $value) : string
     {
         if (strlen($value) > self::LINK_MAX_LENGTH) {
             if (substr($value, 0, 7) == "http://") {
@@ -87,10 +81,7 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
         return $link;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function fillFormInput($form)
+    public function fillFormInput(ilPropertyFormGUI $form) : void
     {
         $input_field = $form->getItemByPostVar('field_' . $this->getField()->getId());
         $raw_input = $this->getFormInput();

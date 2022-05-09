@@ -11,7 +11,7 @@ class ilDclBooleanRecordRepresentation extends ilDclBaseRecordRepresentation
     /**
      * Outputs html of a certain field
      */
-    public function getHTML(bool $link = true): string
+    public function getHTML(bool $link = true) : string
     {
         $value = $this->getRecordField()->getValue();
         switch ($value) {

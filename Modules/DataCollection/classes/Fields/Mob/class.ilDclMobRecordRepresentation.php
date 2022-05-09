@@ -10,11 +10,8 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
 
     /**
      * Outputs html of a certain field
-     * @param mixed     $value
-     * @param bool|true $link
-     * @return string
      */
-    public function getHTML($link = true)
+    public function getHTML(bool $link = true): string
     {
         $value = $this->getRecordField()->getValue();
 
@@ -77,8 +74,8 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
 
     /**
      * function parses stored value to the variable needed to fill into the form for editing.
-     * @param $value
-     * @return mixed
+     * @param array|int $value
+     * @return array|int|string
      */
     public function parseFormInput($value)
     {

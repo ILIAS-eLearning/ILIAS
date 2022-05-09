@@ -27,7 +27,7 @@ class ilDclBaseRecordRepresentation
         $this->record_field = $record_field;
     }
 
-    public function getFormGUI(ilPropertyFormGUI $formGUI): void
+    public function getFormGUI(ilPropertyFormGUI $formGUI) : void
     {
         // Apply form-elements to record-entry-gui
     }
@@ -66,7 +66,7 @@ class ilDclBaseRecordRepresentation
     /**
      * Outputs html of a certain field
      */
-    public function getHTML(bool $link = true): string
+    public function getHTML(bool $link = true) : string
     {
         return $this->getRecordField()->getValue();
     }
@@ -74,7 +74,7 @@ class ilDclBaseRecordRepresentation
     /**
      * Returns data for single record view
      */
-    public function getSingleHTML(?array $options = null, bool $link = true): string
+    public function getSingleHTML(?array $options = null, bool $link = true) : string
     {
         return $this->getHTML($link);
     }
@@ -83,7 +83,7 @@ class ilDclBaseRecordRepresentation
      * Returns data for confirmation list
      * When returning false, attribute is ignored in list
      */
-    public function getConfirmationHTML(): string
+    public function getConfirmationHTML() : string
     {
         return $this->getHTML();
     }
@@ -92,14 +92,14 @@ class ilDclBaseRecordRepresentation
      * Fills row with record data
      * @param ilTemplate $tpl
      */
-    public function fillRow(ilTemplate $tpl): void
+    public function fillRow(ilTemplate $tpl) : void
     {
     }
 
     /**
      * Get Record Field
      */
-    public function getRecordField(): ilDclBaseRecordFieldModel
+    public function getRecordField() : ilDclBaseRecordFieldModel
     {
         return $this->record_field;
     }
@@ -107,7 +107,7 @@ class ilDclBaseRecordRepresentation
     /**
      * Getter shortcut for field
      */
-    public function getField(): ilDclBaseFieldModel
+    public function getField() : ilDclBaseFieldModel
     {
         return $this->record_field->getField();
     }
@@ -115,7 +115,7 @@ class ilDclBaseRecordRepresentation
     /**
      * Getter shortcut for record
      */
-    public function getRecord(): ilDclBaseRecordModel
+    public function getRecord() : ilDclBaseRecordModel
     {
         return $this->record_field->getRecord();
     }

@@ -100,7 +100,7 @@ class ilDclRecordQueryObject
      * @param string              $direction
      * @return array
      */
-    public function applyCustomSorting(ilDclBaseFieldModel $field, array $all_records, $direction = 'asc')
+    public function applyCustomSorting(ilDclBaseFieldModel $field, array $all_records, string $direction = 'asc'): array
     {
         return $all_records;
     }

@@ -12,38 +12,20 @@
  */
 class ilDclFieldEditGUI
 {
-
-    /**
-     * @var int
-     */
-    protected $obj_id;
-    /**
-     * @var int
-     */
-    protected $table_id;
+    protected int $obj_id;
+    protected int $table_id;
     /**
      * @var ilObjDataCollectionGUI|object
      */
     protected $parent_obj;
-    /**
-     * @var ilDclTable
-     */
-    protected $table;
-    /**
-     * @var ilPropertyFormGUI
-     */
-    protected $form;
-    /**
-     * @var ilDclBaseFieldModel
-     */
-    protected $field_obj;
+    protected ilDclTable $table;
+    protected ilPropertyFormGUI $form;
+    protected ilDclBaseFieldModel $field_obj;
     private \ilGlobalTemplateInterface $main_tpl;
 
     /**
      * Constructor
      * @param ilDclTableListGUI $a_parent_obj
-     * @param int               $table_id We need a table_id if no field_id is set (creation mode). We ignore the table_id by edit mode
-     * @param int               $field_id The field_id of a existing fiel (edit mode)
      */
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
@@ -79,7 +61,7 @@ class ilDclFieldEditGUI
     /**
      * execute command
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -89,7 +71,6 @@ class ilDclFieldEditGUI
 
         if (!$this->checkAccess()) {
             $this->permissionDenied();
-
             return;
         }
 
@@ -101,14 +82,12 @@ class ilDclFieldEditGUI
                 $this->$cmd();
                 break;
         }
-
-        return true;
     }
 
     /**
      * create field add form
      */
-    public function create()
+    public function create(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -120,7 +99,7 @@ class ilDclFieldEditGUI
     /**
      * create field edit form
      */
-    public function edit()
+    public function edit(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -135,7 +114,7 @@ class ilDclFieldEditGUI
     /*
      * permissionDenied
      */
-    public function permissionDenied()
+    public function permissionDenied(): void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -145,7 +124,7 @@ class ilDclFieldEditGUI
     /**
      * confirmDelete
      */
-    public function confirmDelete()
+    public function confirmDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -167,7 +146,7 @@ class ilDclFieldEditGUI
     /**
      * cancelDelete
      */
-    public function cancelDelete()
+    public function cancelDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -178,7 +157,7 @@ class ilDclFieldEditGUI
     /*
      * delete
      */
-    public function delete()
+    public function delete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -190,7 +169,7 @@ class ilDclFieldEditGUI
     /*
      * cancel
      */
-    public function cancel()
+    public function cancel(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -201,7 +180,7 @@ class ilDclFieldEditGUI
      * initEditCustomForm
      * @param string $a_mode values: create | edit
      */
-    public function initForm($a_mode = "create")
+    public function initForm(string $a_mode = "create"): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -271,7 +250,7 @@ class ilDclFieldEditGUI
      * save Field
      * @param string $a_mode values: create | update
      */
-    public function save($a_mode = "create")
+    public function save(string $a_mode = "create"): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -331,7 +310,7 @@ class ilDclFieldEditGUI
      * @param $a_mode 'create' | 'update'
      * @return bool
      */
-    protected function checkInput($a_mode)
+    protected function checkInput(string $a_mode): bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -370,13 +349,13 @@ class ilDclFieldEditGUI
     /**
      * @return bool
      */
-    protected function checkAccess()
+    protected function checkAccess(): bool
     {
         if ($field_id = $this->field_obj->getId()) {
-            return ilObjDataCollectionAccess::hasAccessToField($this->getDataCollectionObject()->ref_id,
+            return ilObjDataCollectionAccess::hasAccessToField($this->getDataCollectionObject()->getRefId(),
                 $this->table_id, $field_id);
         } else {
-            return ilObjDataCollectionAccess::hasAccessToFields($this->getDataCollectionObject()->ref_id,
+            return ilObjDataCollectionAccess::hasAccessToFields($this->getDataCollectionObject()->getRefId(),
                 $this->table_id);
         }
     }
@@ -384,7 +363,7 @@ class ilDclFieldEditGUI
     /**
      * @return ilObjDataCollection
      */
-    public function getDataCollectionObject()
+    public function getDataCollectionObject(): ilObjDataCollection
     {
         return $this->parent_obj->getDataCollectionObject();
     }

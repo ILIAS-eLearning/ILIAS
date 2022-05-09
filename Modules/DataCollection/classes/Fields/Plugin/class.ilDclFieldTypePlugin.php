@@ -18,15 +18,14 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
     const CONFIG_FIELD_REPRESENTATION = "field_representation";
     const CONFIG_RECORD_REPRESENTATION = "record_representation";
     /**
-     * @var ilDclFieldTypePlugin singleton-instance
+     * @var ilDclFieldTypePlugin[] singleton-instance
      */
-    protected static $instances = array();
+    protected static array $instances = array();
 
     /**
      * Singleton for abstract class
-     * @return ilDclFieldTypePlugin
      */
-    public static function getInstance()
+    public static function getInstance(): ilDclFieldTypePlugin
     {
         $class = get_called_class();
         if (!isset(self::$instances[$class])) {
@@ -36,22 +35,22 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
         return self::$instances[$class];
     }
 
-    public function getPluginTablePrefix()
+    public function getPluginTablePrefix(): string
     {
         return $this->getLanguageHandler()->getPrefix();
     }
 
-    public function getPluginTableName()
+    public function getPluginTableName(): string
     {
         return $this->getPluginTablePrefix() . "_props";
     }
 
-    public function getPluginConfigTableName()
+    public function getPluginConfigTableName(): string
     {
         return $this->getPluginTablePrefix() . "_config";
     }
 
-    public function getPluginClassPrefix()
+    public function getPluginClassPrefix(): string
     {
         return 'il';
     }

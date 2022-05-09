@@ -7,11 +7,7 @@
  */
 class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-
-    /**
-     * @return array|mixed|string
-     */
-    public function getHTML($link = true)
+    public function getHTML(bool $link = true): string
     {
         $value = $this->getRecordField()->getValue();
         $record_field = $this->getRecordField();
@@ -59,11 +55,9 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
     }
 
     /**
-     * @param null $link_name
-     * @param      $value
-     * @return string
+     * @param string|null|int $value
      */
-    protected function getLinkHTML($link_name = null, $value)
+    protected function getLinkHTML(?string $link_name = null, $value): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

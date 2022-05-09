@@ -13,12 +13,9 @@ class ilDclTextSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel
     const PROP_SELECTION_OPTIONS = 'text_selection_options';
 
     /**
-     * @param ilExcel $worksheet
-     * @param         $row
-     * @param         $col
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function fillExcelExport(ilExcel $worksheet, &$row, &$col)
+    public function fillExcelExport(ilExcel $worksheet, int &$row, int &$col): void
     {
         $worksheet->setCell($row, $col, $this->getExportValue(), DataType::TYPE_STRING);
         $col++;

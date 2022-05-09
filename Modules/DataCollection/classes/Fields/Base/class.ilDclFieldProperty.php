@@ -61,7 +61,7 @@ class ilDclFieldProperty extends ActiveRecord
         return "il_dcl_field_prop";
     }
 
-    public function getId(): int
+    public function getId() : int
     {
         return $this->id;
     }
@@ -71,7 +71,7 @@ class ilDclFieldProperty extends ActiveRecord
         $this->id = $id;
     }
 
-    public function getFieldId(): int
+    public function getFieldId() : int
     {
         return $this->field_id;
     }
@@ -81,7 +81,7 @@ class ilDclFieldProperty extends ActiveRecord
         $this->field_id = $field_id;
     }
 
-    public function getName(): string
+    public function getName() : string
     {
         return $this->name;
     }
@@ -91,12 +91,18 @@ class ilDclFieldProperty extends ActiveRecord
         $this->name = $name;
     }
 
-    public function getValue(): string
+    /**
+     * @return string|array
+     */
+    public function getValue()
     {
         return $this->value;
     }
 
-    public function setValue(string $value)
+    /**
+     * @param string|array|int $value
+     */
+    public function setValue($value): void
     {
         $this->value = $value;
     }
@@ -122,7 +128,7 @@ class ilDclFieldProperty extends ActiveRecord
      * Serialize data before storing to db
      * @param int|string|array $value
      */
-    public function serializeData($value): string
+    public function serializeData($value) : string
     {
         if (is_array($value)) {
             $value = json_encode($value);

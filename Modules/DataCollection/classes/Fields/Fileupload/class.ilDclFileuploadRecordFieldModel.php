@@ -15,7 +15,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * @param array|int $value
      */
-    public function parseValue($value): ?array
+    public function parseValue($value) : ?array
     {
         global $DIC;
         if ($value == -1) { //marked for deletion.
@@ -79,7 +79,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         return $return;
     }
 
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation): void
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) : void
     {
         if (is_array($this->getValue())) {
             foreach ($this->getValue() as $key => $value) {
@@ -91,9 +91,9 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * Set value for record field
      * @param string|int $value
-     * @param bool  $omit_parsing If true, does not parse the value and stores it in the given format
+     * @param bool       $omit_parsing If true, does not parse the value and stores it in the given format
      */
-    public function setValue($value, bool $omit_parsing = false): void
+    public function setValue($value, bool $omit_parsing = false) : void
     {
         $this->loadValue();
 
@@ -116,7 +116,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * @inheritdoc
      */
-    public function parseExportValue($value)
+    public function parseExportValue(string $value) : ?string
     {
         if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
             return;
@@ -135,12 +135,8 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
 
     /**
      * Returns sortable value for the specific field-types
-     * @param                           $value
-     * @param ilDclBaseRecordFieldModel $record_field
-     * @param bool|true                 $link
-     * @return int|string
      */
-    public function parseSortingValue($value, $link = true)
+    public function parseSortingValue(int $value, bool $link = true) : string
     {
         if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
             return '';
@@ -153,7 +149,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * @inheritDoc
      */
-    public function setValueFromForm($form)
+    public function setValueFromForm(ilPropertyFormGUI $form) : void
     {
         $value = $form->getInput("field_" . $this->getField()->getId());
         if ($form->getItemByPostVar("field_" . $this->getField()->getId())->getDeletionFlag()) {
@@ -165,7 +161,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      *
      */
-    public function afterClone()
+    public function afterClone() : void
     {
         $field = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
         $record = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);
