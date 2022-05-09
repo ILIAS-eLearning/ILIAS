@@ -37,8 +37,8 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
      * Returns a query-object for building the record-loader-sql-query
      */
     public function getRecordQueryFilterObject(
-        string $filter_value = "",
-        ilDclBaseFieldModel $sort_field = null
+        $filter_value = "",
+        ?ilDclBaseFieldModel $sort_field = null
     ) : ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];

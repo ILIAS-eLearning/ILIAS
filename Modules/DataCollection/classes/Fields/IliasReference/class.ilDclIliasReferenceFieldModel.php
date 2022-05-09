@@ -46,9 +46,9 @@ class ilDclIliasReferenceFieldModel extends ilDclBaseFieldModel
      * Returns a query-object for building the record-loader-sql-query
      */
     public function getRecordQueryFilterObject(
-        string $filter_value = "",
+        $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null
-    ) : ilDclRecordQueryObject {
+    ) : ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
