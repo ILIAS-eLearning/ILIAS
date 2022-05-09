@@ -638,7 +638,7 @@ class ilECSMappingSettingsGUI
         $this->tabs->setTabActive('ecs_crs_allocation');
         $this->tabs->setSubTabActive('cAttributes');
 
-        $table = new ilECSCourseAttributesTableGUI(
+        $table = new ilECSCourseAttributesTableGUI(// TODO PHP8-REVIEW Undefined class
             $this,
             'attributes',
             $this->getServer()->getServerId(),
@@ -956,7 +956,7 @@ class ilECSMappingSettingsGUI
 
             $this->log->dump($res, ilLogLevel::DEBUG);
 
-            foreach ((array) $res->getLinkIds() as $cms_id) {
+            foreach ((array) $res->getLinkIds() as $cms_id) {// TODO PHP8-REVIEW Undefined method
                 $event = new ilECSEventQueueReader($this->getServer());
                 $event->add(
                     ilECSEventQueueReader::TYPE_DIRECTORY_TREES,
@@ -1183,7 +1183,7 @@ class ilECSMappingSettingsGUI
      * Set Sub tabs
      * @param string $a_tab
      */
-    protected function setSubTabs($a_tab) : void
+    protected function setSubTabs($a_tab) : void//TODO PHP8-REVIEW Missing type hints
     {
         if ($a_tab === self::TAB_DIRECTORY) {
             $this->tabs->addSubTab(

@@ -30,10 +30,10 @@ class ilECSCourseMappingRule
     private int $rid;
     private int $sid;
     private int $mid;
-    private $attribute;
+    private $attribute;// TODO PHP8-REVIEW Missing type
     private int $ref_id;
     private bool $is_filter = false;
-    private $filter;
+    private $filter;// TODO PHP8-REVIEW Missing type
     private array $filter_elements = [];
     private bool $create_subdir = true;
     private string $directory = '';

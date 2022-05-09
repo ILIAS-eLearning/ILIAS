@@ -35,7 +35,7 @@ class ilECSCourseLmsUrl
     /**
      * Set url
      */
-    public function setUrl(string $a_url)
+    public function setUrl(string $a_url) : void
     {
         $this->url = $a_url;
     }

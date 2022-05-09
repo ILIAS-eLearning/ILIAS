@@ -36,32 +36,32 @@ class ilECSSetting
     public const PROTOCOL_HTTPS = 1;
     
     protected static ?array $instances = null;
-    protected static $configured;
+    protected static $configured;// TODO PHP8-REVIEW Missing type
 
-    private $server_id;
+    private $server_id;// TODO PHP8-REVIEW Missing type
     private bool $active = false;
     private string $title = '';
     private int $auth_type = self::AUTH_CERTIFICATE;
-    private $server;
-    private $protocol;
-    private $port;
-    private $client_cert_path;
-    private $ca_cert_path;
-    private $cert_serial_number;
-    private $key_path;
-    private $key_password;
-    private $polling;
+    private $server;// TODO PHP8-REVIEW Missing type
+    private $protocol;// TODO PHP8-REVIEW Missing type
+    private $port;// TODO PHP8-REVIEW Missing type
+    private $client_cert_path;// TODO PHP8-REVIEW Missing type
+    private $ca_cert_path;// TODO PHP8-REVIEW Missing type
+    private $cert_serial_number;// TODO PHP8-REVIEW Missing type
+    private $key_path;// TODO PHP8-REVIEW Missing type
+    private $key_password;// TODO PHP8-REVIEW Missing type
+    private $polling;// TODO PHP8-REVIEW Missing type
     private int $import_id = 0;
-    private $cert_serial;
-    private $global_role;
+    private $cert_serial;// TODO PHP8-REVIEW Missing type
+    private $global_role;// TODO PHP8-REVIEW Missing type
     private int $duration;
 
     private string $auth_user = '';
     private string $auth_pass = '';
     
-    private $user_recipients = array();
-    private array $econtent_recipients = array();
-    private $approval_recipients = array();
+    private array $user_recipients = [];
+    private array $econtent_recipients = [];
+    private array $approval_recipients = [];
     
     private ilDBInterface $db;
     private ilLogger $log;
@@ -116,7 +116,7 @@ class ilECSSetting
      * Set title
      * @param string $a_title
      */
-    public function setTitle($a_title) : void
+    public function setTitle($a_title) : void//TODO PHP8-REVIEW Missing type hints
     {
         $this->title = $a_title;
     }

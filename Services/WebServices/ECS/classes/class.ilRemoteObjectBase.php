@@ -25,7 +25,7 @@ abstract class ilRemoteObjectBase extends ilObject2
     protected ?string $remote_link = null;
     protected ?string $organization = null;
     protected ?int $mid = null;
-    protected $auth_hash = '';
+    protected string $auth_hash = '';
     
     protected string $realm_plain = '';
     
@@ -234,12 +234,8 @@ abstract class ilRemoteObjectBase extends ilObject2
             return false;
         }
     }
-    
-    /**
-     * Create remote object
-     *
-     * @param bool $clone_mode*/
-    protected function doCreate(bool $clone_mode = false,bool $a_clone_mode = false) : void
+
+    protected function doCreate(bool $clone_mode = false) : void
     {
         $fields = array(
             "obj_id" => array("integer", $this->getId()),
@@ -299,10 +295,7 @@ abstract class ilRemoteObjectBase extends ilObject2
             " WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . " ";
         $this->db->manipulate($query);
     }
-    
-    /**
-     * read settings
-     */
+
     protected function doRead() : void
     {
         $query = "SELECT * FROM " . $this->getTableName() .
@@ -365,7 +358,7 @@ abstract class ilRemoteObjectBase extends ilObject2
      * @param object $a_ecs_content object with object settings
      * @param int $a_owner
      */
-    public function updateFromECSContent(ilECSSetting $a_server, $a_ecs_content, $a_owner) : void
+    public function updateFromECSContent(ilECSSetting $a_server, $a_ecs_content, $a_owner) : void//TODO PHP8-REVIEW Missing type hints
     {
         $this->logger->info('updateFromECSContent: ' . print_r($a_ecs_content, true));
         
@@ -414,7 +407,7 @@ abstract class ilRemoteObjectBase extends ilObject2
      * @param array $a_definition
      * @param int $a_mapping_mode
      */
-    protected function importMetadataFromJson($a_json, ilECSSetting $a_server, array $a_definition, $a_mapping_mode) : void
+    protected function importMetadataFromJson($a_json, ilECSSetting $a_server, array $a_definition, $a_mapping_mode) : void//TODO PHP8-REVIEW Missing type hints
     {
         $this->logger->info("importing metadata from json: " . print_r($a_json, true));
         

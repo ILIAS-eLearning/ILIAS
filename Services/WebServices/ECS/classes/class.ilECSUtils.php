@@ -131,7 +131,7 @@ class ilECSUtils
      * @param object $a_ecs_content
      * @param int $a_owner
      */
-    public static function getMatchableContent($a_resource_id, $a_server_id, $a_ecs_content, $a_owner) : array
+    public static function getMatchableContent($a_resource_id, $a_server_id, $a_ecs_content, $a_owner) : array//TODO PHP8-REVIEW Missing type hints
     {
         // see ilECSCategoryMapping::getPossibleFields();
         $res = array();

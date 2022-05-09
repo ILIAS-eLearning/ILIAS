@@ -19,12 +19,12 @@
  */
 class ilECSNodeMappingAssignment
 {
-    private $server_id;
-    private $mid;
-    private $cs_root;
-    private $cs_id;
-    private $ref_id;
-    private $obj_id;
+    private $server_id;// TODO PHP8-REVIEW Missing type
+    private $mid;// TODO PHP8-REVIEW Missing type
+    private $cs_root;// TODO PHP8-REVIEW Missing type
+    private $cs_id;// TODO PHP8-REVIEW Missing type
+    private $ref_id;// TODO PHP8-REVIEW Missing type
+    private $obj_id;// TODO PHP8-REVIEW Missing type
 
     private bool $title_update = false;
     private bool $position_update = false;

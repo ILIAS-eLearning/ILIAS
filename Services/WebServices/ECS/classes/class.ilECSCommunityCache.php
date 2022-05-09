@@ -19,7 +19,8 @@
 */
 class ilECSCommunityCache
 {
-    protected static $instance;
+    /** @var array<int, array<int, self>>  */
+    protected static array $instance = [];
 
     protected int $server_id = 0;
     protected int $community_id = 0;

@@ -23,14 +23,14 @@ class ilECSUser
 {
     private ilSetting $setting;
 
-    protected $source;
+    protected $source;// TODO PHP8-REVIEW Missing type
     
-    public $login;
-    public $email;
-    public $firstname;
-    public $lastname;
-    public $institution;
-    public $uid_hash;
+    public $login;// TODO PHP8-REVIEW Missing type
+    public $email;// TODO PHP8-REVIEW Missing type
+    public $firstname;// TODO PHP8-REVIEW Missing type
+    public $lastname;// TODO PHP8-REVIEW Missing type
+    public $institution;// TODO PHP8-REVIEW Missing type
+    public $uid_hash;// TODO PHP8-REVIEW Missing type
 
     protected string $external_account = '';
     protected string $auth_mode = '';

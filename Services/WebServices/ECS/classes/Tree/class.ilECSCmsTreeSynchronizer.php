@@ -26,8 +26,8 @@ class ilECSCmsTreeSynchronizer
     private ilTree $tree;
     
     private ?\ilECSSetting $server = null;
-    private $mid;
-    private $tree_id;
+    private $mid;// TODO PHP8-REVIEW Missing type
+    private $tree_id;// TODO PHP8-REVIEW Missing type
     private ?\ilECSCmsTree $ecs_tree = null;
     
     private array $default_settings = array();

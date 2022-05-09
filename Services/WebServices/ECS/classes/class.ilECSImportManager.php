@@ -66,7 +66,7 @@ class ilECSImportManager
     /**
      * Lookup obj_id by content id
      */
-    public function lookupObjIdByContentId($a_server_id, $a_mid, $a_content_id, $a_sub_id = null)
+    public function lookupObjIdByContentId($a_server_id, $a_mid, $a_content_id, $a_sub_id = null) : int // TODO PHP8-REVIEW Missing type hints
     {
         $query = "SELECT obj_id FROM ecs_import " .
             "WHERE content_id = " . $this->db->quote($a_content_id, 'integer') . " " .
@@ -81,7 +81,7 @@ class ilECSImportManager
         $res = $this->db->query($query);
 
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->obj_id;
+            return (int) $row->obj_id;
         }
         return 0;
     }
@@ -204,7 +204,7 @@ class ilECSImportManager
      * @param int econtent_id
      *
      */
-    public function _lookupObjId($a_server_id, $a_econtent_id, $a_mid, $a_sub_id = null)
+    public function _lookupObjId($a_server_id, $a_econtent_id, $a_mid, $a_sub_id = null) : int// TODO PHP8-REVIEW Missing type hints
     {
         $query = "SELECT obj_id FROM ecs_import " .
             "WHERE econtent_id = " . $this->db->quote($a_econtent_id, 'text') . " " .
@@ -219,7 +219,7 @@ class ilECSImportManager
         $res = $this->db->query($query);
 
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->obj_id;
+            return (int) $row->obj_id;
         }
         return 0;
     }
@@ -228,13 +228,13 @@ class ilECSImportManager
      * Lookup mid
      *
      */
-    public function _lookupMID($a_server_id, $a_obj_id)
+    public function _lookupMID($a_server_id, $a_obj_id) : int// TODO PHP8-REVIEW Missing type hints
     {
         $query = "SELECT * FROM ecs_emport WHERE obj_id = " . $this->db->quote($a_obj_id) . " " .
             'AND server_id = ' . $this->db->quote($a_server_id, 'integer');
         $res = $this->db->query($query);
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->mid;
+            return (int) $row->mid;
         }
         return 0;
     }
@@ -273,7 +273,7 @@ class ilECSImportManager
      * Delete by server id
      * @param int $a_server_id
      */
-    public function deleteByServer($a_server_id) : void
+    public function deleteByServer($a_server_id) : void//TODO PHP8-REVIEW Missing type hints
     {
         $query = 'DELETE FROM ecs_import ' .
             'WHERE server_id = ' . $this->db->quote($a_server_id, 'integer');
@@ -299,7 +299,7 @@ class ilECSImportManager
      * @param int econtent id
      * @param int mid
      */
-    public function _isImported($a_server_id, $a_econtent_id, $a_mid, $a_sub_id = null)
+    public function _isImported($a_server_id, $a_econtent_id, $a_mid, $a_sub_id = null) : int // TODO PHP8-REVIEW Missing type hints
     {
         return $this->_lookupObjId($a_server_id, $a_econtent_id, $a_mid, $a_sub_id);
     }

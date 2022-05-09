@@ -634,7 +634,7 @@ class ilECSSettingsGUI
      * Validate import types
      * @param array $import_types
      */
-    protected function validateImportTypes(&$import_types) : bool
+    protected function validateImportTypes(&$import_types) : bool//TODO PHP8-REVIEW Missing type hints
     {
         $num_cms = 0;
         foreach ((array) $import_types as $sid => $server) {
@@ -731,7 +731,7 @@ class ilECSSettingsGUI
      * Handle tabs for ECS data mapping
      * @param int $a_active
      */
-    protected function setMappingTabs($a_active) : void
+    protected function setMappingTabs($a_active) : void//TODO PHP8-REVIEW Missing type hints
     {
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->clearSubTabs();
@@ -907,7 +907,7 @@ class ilECSSettingsGUI
      * @param int $a_server_id
      * @param int $mapping_type
      */
-    protected function initMappingsForm($a_server_id, $mapping_type) : ilPropertyFormGUI
+    protected function initMappingsForm($a_server_id, $mapping_type) : ilPropertyFormGUI//TODO PHP8-REVIEW Missing type hints
     {
         $mapping_settings = ilECSDataMappingSettings::getInstanceByServerId($a_server_id);
             

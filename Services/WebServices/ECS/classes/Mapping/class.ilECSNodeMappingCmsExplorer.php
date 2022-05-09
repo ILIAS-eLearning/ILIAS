@@ -24,9 +24,9 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
     public const SEL_TYPE_CHECK = 1;
     public const SEL_TYPE_RADIO = 2;
 
-    private $server_id;
-    private $mid;
-    private $tree_id;
+    private $server_id;// TODO PHP8-REVIEW Missing type
+    private $mid;// TODO PHP8-REVIEW Missing type
+    private $tree_id;// TODO PHP8-REVIEW Missing type
 
     private array $checked_items = array();
     private string $post_var = '';

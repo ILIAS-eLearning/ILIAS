@@ -45,7 +45,7 @@ class ilECSDataMappingSettings
      * @param int $a_server_id
      * @return ilECSDataMappingSettings
      */
-    public static function getInstanceByServerId($a_server_id) : ilECSDataMappingSettings
+    public static function getInstanceByServerId($a_server_id) : ilECSDataMappingSettings//TODO PHP8-REVIEW Missing type hints
     {
         return self::$instances[$a_server_id] ?? (self::$instances[$a_server_id] = new ilECSDataMappingSettings($a_server_id));
     }

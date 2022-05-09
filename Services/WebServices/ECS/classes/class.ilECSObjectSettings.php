@@ -554,7 +554,7 @@ abstract class ilECSObjectSettings
      * @param string $a_etype
      * @return object
      */
-    protected function getJsonCore($a_etype)
+    protected function getJsonCore($a_etype)//TODO PHP8-REVIEW Missing type hints
     {
         $json = new stdClass();
         $json->lang = 'en_EN'; // :TODO: obsolet?
@@ -575,7 +575,7 @@ abstract class ilECSObjectSettings
      * @param ilECSSetting $a_server
      * @param array $a_definition
      */
-    protected function addMetadataToJson($a_json, ilECSSetting $a_server, array $a_definition) : void
+    protected function addMetadataToJson($a_json, ilECSSetting $a_server, array $a_definition) : void//TODO PHP8-REVIEW Missing type hints
     {
         $mappings = ilECSDataMappingSettings::getInstanceByServerId($a_server->getServerId());
         

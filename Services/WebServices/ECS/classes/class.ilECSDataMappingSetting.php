@@ -27,8 +27,8 @@ class ilECSDataMappingSetting
 
     private int $server_id = 0;
     private int $mapping_type = 0;
-    private $ecs_field = 0;
-    private $advmd_id = 0;
+    private $ecs_field = 0;// TODO PHP8-REVIEW Missing type
+    private $advmd_id = 0;// TODO PHP8-REVIEW Missing type
 
     public function __construct($a_server_id = 0, $mapping_type = 0, $ecs_field = '')
     {
@@ -45,7 +45,7 @@ class ilECSDataMappingSetting
      * set server id
      * @param int $a_server_id
      */
-    public function setServerId($a_server_id) : void
+    public function setServerId($a_server_id) : void//TODO PHP8-REVIEW Missing type hints
     {
         $this->server_id = $a_server_id;
     }
@@ -62,7 +62,7 @@ class ilECSDataMappingSetting
      *
      * @param string $ecs_field
      */
-    public function setECSField($ecs_field) : void
+    public function setECSField($ecs_field) : void//TODO PHP8-REVIEW Missing type hints
     {
         $this->ecs_field = $ecs_field;
     }

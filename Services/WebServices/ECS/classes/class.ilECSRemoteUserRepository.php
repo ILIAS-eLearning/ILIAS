@@ -150,6 +150,5 @@ class ilECSRemoteUserRepository
             return $this->getECSRemoteUserById($row->eru_id);
         }
         return null;
-
     }
 }

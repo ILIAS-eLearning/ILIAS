@@ -24,8 +24,8 @@ class ilECSTreeReader
 {
     private ilLogger $logger;
     
-    private $server_id;
-    private $mid;
+    private $server_id;// TODO PHP8-REVIEW Missing type
+    private $mid;// TODO PHP8-REVIEW Missing type
 
     /**
      * Constructor

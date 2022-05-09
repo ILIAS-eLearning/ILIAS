@@ -48,7 +48,7 @@ class ilECSMappingUtils
      * Get mapping status as string
      * @param int $a_status
      */
-    public static function mappingStatusToString($a_status)
+    public static function mappingStatusToString($a_status)//TODO PHP8-REVIEW Missing type hints
     {
         global $DIC;
 

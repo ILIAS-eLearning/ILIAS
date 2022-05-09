@@ -24,10 +24,10 @@ class ilECSEvent
     public const DESTROYED = 'destroyed';
     public const NEW_EXPORT = 'new_export';
 
-    protected $json_obj;
+    protected $json_obj;// TODO PHP8-REVIEW Missing type
     public string $status = '';
     public string $ressource = '';
-    public $ressource_id = 0;
+    public int $ressource_id = 0;
     public ?string $ressource_type = '';
     
     /**

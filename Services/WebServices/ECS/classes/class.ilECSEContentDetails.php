@@ -45,7 +45,7 @@ class ilECSEContentDetails
      * @param string $a_resource_type
      * @return ilECSEContentDetails
      */
-    public static function getInstanceFromServer($a_server_id, $a_econtent_id, $a_resource_type) : ilECSEContentDetails
+    public static function getInstanceFromServer($a_server_id, $a_econtent_id, $a_resource_type) : ilECSEContentDetails//TODO PHP8-REVIEW Missing type hints
     {
         $instance = new self();
         $instance->loadFromJson($instance->loadFromServer($a_server_id, $a_econtent_id, $a_resource_type));
