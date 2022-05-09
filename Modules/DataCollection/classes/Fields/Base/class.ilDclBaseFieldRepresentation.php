@@ -49,7 +49,7 @@ abstract class ilDclBaseFieldRepresentation
 
     /**
      * Checks if a filter affects a record
-     * @param int|string $filter
+     * @param int|string|array $filter
      */
     public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
     {
