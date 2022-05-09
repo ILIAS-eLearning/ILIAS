@@ -860,9 +860,9 @@ assessment#:#delete_image_question#:#Möchten Sie das Bild wirklich entfernen?
 assessment#:#delete_user_data#:#Testdaten entfernen
 assessment#:#deleteSuggestedSolution#:#Inhalte zur Wiederholung entfernen
 assessment#:#description_maxchars#:#Wenn nichts eingegeben wird, ist die maximale Anzahl von Zeichen für diese Textantwort unbegrenzt.
-assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungsdauer des Tests überschritten. Der Test konnte nur bis %s bearbeitet werden.
+assessment#:#detail_ending_time_reached#:#Sie haben die längstmögliche Bearbeitungsdauer des Tests überschritten. Der Test konnte nur bis %s Uhr bearbeitet werden.
 assessment#:#detail_max_processing_time_reached#:#Sie haben die maximale Bearbeitungsdauer des Tests überschritten. Sie dürfen den Test nicht weiter bearbeiten!
-assessment#:#detail_starting_time_not_reached#:#Der Test kann noch nicht bearbeitet werden. Eine Bearbeitung ist frühestens ab %s möglich.
+assessment#:#detail_starting_time_not_reached#:#Der Test kann noch nicht bearbeitet werden. Eine Bearbeitung ist frühestens ab %s Uhr möglich.
 assessment#:#detailed_evaluation#:#Detaillierte Statistik
 assessment#:#detailed_evaluation_for#:#Detaillierte Statistik für %s
 assessment#:#detailed_evaluation_missing_active_id#:#Sie müssen die detaillierte Statistik für einen bestimmten Teilnehmer aufrufen!
