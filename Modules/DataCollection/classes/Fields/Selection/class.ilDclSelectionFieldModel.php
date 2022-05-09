@@ -140,7 +140,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
     /**
      * @param array $value
      */
-    public function setProperty(string $key, $value) : ilDclFieldProperty
+    public function setProperty(string $key, $value) : ?ilDclFieldProperty
     {
         $is_update = $this->getProperty($key);
         switch ($key) {
@@ -168,6 +168,8 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
             default:
                 parent::setProperty($key, $value)->store();
         }
+
+        return null;
     }
 
     /**

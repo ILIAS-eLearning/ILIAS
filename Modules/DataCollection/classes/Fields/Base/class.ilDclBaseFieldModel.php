@@ -503,7 +503,7 @@ class ilDclBaseFieldModel
      * Set a property for a field (does not save)
      * @param string|array|int $value
      */
-    public function setProperty(string $key, $value) : ilDclFieldProperty
+    public function setProperty(string $key, $value) : ?ilDclFieldProperty
     {
         $this->loadProperties();
         if (isset($this->property[$key])) {
