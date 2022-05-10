@@ -44,9 +44,14 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
 
     public function __construct()
     {
-        parent::__construct([], $_GET["ref_id"], true, false);
-
         $this->container = $GLOBALS["DIC"];
+
+        $refId = $this->container
+            ->http()
+            ->wrapper()
+            ->query()
+            ->retrieve("ref_id", $this->container->refinery()->kindlyTo()->int());
+        parent::__construct([], $refId, true, false);
 
         $this->container->language()->loadLanguageModule('mst');
         $this->container->language()->loadLanguageModule('trac');

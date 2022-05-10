@@ -31,14 +31,14 @@ final class EmployeeTalkSerieSettings extends ActiveRecord
     protected string $connector_container_name = 'etal_serie';
      
     /**
-     * @var int $id
+     * @var ?int $id
      * @con_has_field  true
      * @con_is_primary true
      * @con_fieldtype  integer
      * @con_length     8
      * @con_is_notnull true
      */
-    protected int $id = -1;
+    protected ?int $id = -1;
     /**
      * @var integer $editing_locked
      *
@@ -55,7 +55,7 @@ final class EmployeeTalkSerieSettings extends ActiveRecord
      */
     public function getId() : int
     {
-        return $this->id;
+        return intval($this->id);
     }
 
     /**

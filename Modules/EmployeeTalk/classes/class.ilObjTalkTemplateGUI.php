@@ -32,9 +32,17 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
 {
     public function __construct()
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        parent::__construct([], $_GET["ref_id"], true, false);
+        /**
+         * @var \ILIAS\DI\Container $container
+         */
+        $container = $GLOBALS['DIC'];
+        $lng = $container->language();
+        $refId = $container
+            ->http()
+            ->wrapper()
+            ->query()
+            ->retrieve("ref_id", $container->refinery()->kindlyTo()->int());
+        parent::__construct([], $refId, true, false);
 
 
         $this->type = 'talt';

@@ -47,7 +47,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         $statement = $this->database->prepare('SELECT * FROM etal_data;');
         $statement = $statement->execute();
         $talks = [];
-        while (($result = $statement->fetchObject()) !== false) {
+        while (($result = $statement->fetchObject()) !== null) {
             $talks[] = $this->parseFromStdClass($result);
         }
 
@@ -64,7 +64,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         );
         $statement = $statement->execute();
         $talks = [];
-        while (($result = $statement->fetchObject()) !== false) {
+        while (($result = $statement->fetchObject()) !== null) {
             $talks[] = $this->parseFromStdClass($result);
         }
 
@@ -80,7 +80,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
             WHERE ' . $this->database->in('employee', $employees, false, "integer") . ' OR od.owner = ?;', ["integer"]);
         $statement = $statement->execute([$owner]);
         $talks = [];
-        while (($result = $statement->fetchObject()) !== false) {
+        while (($result = $statement->fetchObject()) !== null) {
             $talks[] = $this->parseFromStdClass($result);
         }
 
@@ -96,7 +96,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
             WHERE talk.employee = ? AND od.owner = ?;', ["integer", "integer"]);
         $statement = $statement->execute([$employee, $owner]);
         $talks = [];
-        while (($result = $statement->fetchObject()) !== false) {
+        while (($result = $statement->fetchObject()) !== null) {
             $talks[] = $this->parseFromStdClass($result);
         }
 
@@ -170,7 +170,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         $statement = $statement->execute([$iliasUserId]);
 
         $talks = [];
-        while (($result = $statement->fetchObject()) !== false) {
+        while (($result = $statement->fetchObject()) !== null) {
             $talks[] = $this->parseFromStdClass($result);
         }
 
@@ -185,7 +185,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         $statement = $statement->execute([$seriesId]);
 
         $talks = [];
-        while (($result = $statement->fetchObject()) !== false) {
+        while (($result = $statement->fetchObject()) !== null) {
             $talks[] = $this->parseFromStdClass($result);
         }
 

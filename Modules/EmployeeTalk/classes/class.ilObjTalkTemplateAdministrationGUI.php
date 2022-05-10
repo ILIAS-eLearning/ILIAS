@@ -37,7 +37,12 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
          */
         $container = $GLOBALS['DIC'];
         $language = $container->language();
-        parent::__construct([], $_GET["ref_id"], true, false);
+        $refId = $container
+            ->http()
+            ->wrapper()
+            ->query()
+            ->retrieve("ref_id", $container->refinery()->kindlyTo()->int());
+        parent::__construct([], $refId, true, false);
 
         $this->type = 'tala';
 
@@ -98,8 +103,8 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
 
     public function viewObject(): void
     {
-        if (!$this->rbacsystem->checkAccess("read", $_GET["ref_id"])) {
-            if ($this->rbacsystem->checkAccess("visible", $_GET["ref_id"])) {
+        if (!$this->rbacsystem->checkAccess("read", $this->getRefId())) {
+            if ($this->rbacsystem->checkAccess("visible", $this->getRefId())) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_perm_read"));
                 $this->ctrl->redirectByClass(strtolower(ilInfoScreenGUI::class), '');
             }

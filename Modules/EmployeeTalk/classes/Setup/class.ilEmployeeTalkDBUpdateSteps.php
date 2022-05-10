@@ -24,6 +24,7 @@ use ilOrgUnitOperationQueries;
 use ilOrgUnitOperation;
 use ilTree;
 use ILIAS\Modules\EmployeeTalk\TalkSeries\Entity\EmployeeTalkSerieSettings;
+use ilUtil;
 
 /**
  * @author Nicolas Schaefli <nick@fluxlabs.ch>
@@ -37,36 +38,55 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db = $db;
     }
 
-    public function step_1() : void
-    {
-        // create object data entry
-        $id = $this->db->nextId("object_data");
-        $this->db->manipulateF(
-            "INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) " .
-            "VALUES (%s, %s, %s, %s, %s, %s, %s)",
-            array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
-            array($id, "tala", "__TalkTemplateAdministration", "Talk Templates", -1, ilUtil::now(), ilUtil::now())
-        );
-
-        // create object reference entry
-        $ref_id = $this->db->nextId('object_reference');
-        $res = $this->db->manipulateF(
-            "INSERT INTO object_reference (ref_id, obj_id) VALUES (%s, %s)",
-            array("integer", "integer"),
-            array($ref_id, $id)
-        );
-
-        // put in tree
-        $tree = new ilTree(ROOT_FOLDER_ID);
-        $tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
-    }
-
-    public function step_2() : void
+    private function useTransaction(callable $updateStep): void
     {
         try {
             if ($this->db->supportsTransactions()) {
                 $this->db->beginTransaction();
             }
+
+            $updateStep();
+
+            if ($this->db->supportsTransactions()) {
+                $this->db->commit();
+            }
+        } catch (\Exception $exception) {
+            if ($this->db->supportsTransactions()) {
+                $this->db->rollback();
+            }
+            throw $exception;
+        }
+    }
+
+    public function step_1() : void
+    {
+        $this->useTransaction(function () {
+            // create object data entry
+            $id = $this->db->nextId("object_data");
+            $this->db->manipulateF(
+                "INSERT INTO object_data (obj_id, type, title, description, owner, create_date, last_update) " .
+                "VALUES (%s, %s, %s, %s, %s, %s, %s)",
+                array("integer", "text", "text", "text", "integer", "timestamp", "timestamp"),
+                array($id, "tala", "__TalkTemplateAdministration", "Talk Templates", -1, ilUtil::now(), ilUtil::now())
+            );
+
+            // create object reference entry
+            $ref_id = $this->db->nextId('object_reference');
+            $res = $this->db->manipulateF(
+                "INSERT INTO object_reference (ref_id, obj_id) VALUES (%s, %s)",
+                array("integer", "integer"),
+                array($ref_id, $id)
+            );
+
+            // put in tree
+            $tree = new ilTree(ROOT_FOLDER_ID);
+            $tree->insertNode($ref_id, SYSTEM_FOLDER_ID);
+        });
+    }
+
+    public function step_2() : void
+    {
+        $this->useTransaction(function () {
             $etalTableName = 'etal_data';
 
             $this->db->createTable($etalTableName, [
@@ -83,24 +103,12 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
             $this->db->addPrimaryKey($etalTableName, ['object_id']);
             $this->db->addIndex($etalTableName, ['series_id'], 'ser');
             $this->db->addIndex($etalTableName, ['employee'], 'emp');
-
-            if ($this->db->supportsTransactions()) {
-                $this->db->commit();
-            }
-        } catch (\Exception $exception) {
-            if ($this->db->supportsTransactions()) {
-                $this->db->rollback();
-            }
-            throw $exception;
-        }
+        });
     }
 
     public function step_3() : void
     {
-        try {
-            if ($this->db->supportsTransactions()) {
-                $this->db->beginTransaction();
-            }
+        $this->useTransaction(function () {
             $etalTableName = 'etal_data';
 
             $this->db->addTableColumn(
@@ -113,24 +121,12 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
                     'default' => 0
                 ]
             );
-
-            if ($this->db->supportsTransactions()) {
-                $this->db->commit();
-            }
-        } catch (\Exception $exception) {
-            if ($this->db->supportsTransactions()) {
-                $this->db->rollback();
-            }
-            throw $exception;
-        }
+        });
     }
 
     public function step_4() : void
     {
-        try {
-            if ($this->db->supportsTransactions()) {
-                $this->db->beginTransaction();
-            }
+        $this->useTransaction(function () {
             ilOrgUnitOperationContextQueries::registerNewContext(
                 ilOrgUnitOperationContext::CONTEXT_ETAL,
                 ilOrgUnitOperationContext::CONTEXT_OBJECT
@@ -153,27 +149,13 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
                 'Edit Employee Talk (not only own)',
                 ilOrgUnitOperationContext::CONTEXT_ETAL
             );
-        } catch (\Exception $exception) {
-            if ($this->db->supportsTransactions()) {
-                $this->db->rollback();
-            }
-            throw $exception;
-        }
+        });
     }
 
     public function step_5() : void
     {
-        try {
-            if ($this->db->supportsTransactions()) {
-                $this->db->beginTransaction();
-            }
-
+        $this->useTransaction(function () {
             EmployeeTalkSerieSettings::updateDB();
-        } catch (\Exception $exception) {
-            if ($this->db->supportsTransactions()) {
-                $this->db->rollback();
-            }
-            throw $exception;
-        }
+        });
     }
 }

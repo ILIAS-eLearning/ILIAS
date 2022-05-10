@@ -31,8 +31,8 @@ use ILIAS\DI\UIServices;
  *
  * @ilCtrl_IsCalledBy ilEmployeeTalkMyStaffUserGUI: ilMStShowUserGUI
  * @ilCtrl_IsCalledBy ilEmployeeTalkMyStaffUserGUI: ilFormPropertyDispatchGUI
- *
- * @ilCtrl_Calls ilEmployeeTalkMyStaffUserGUI: ilObjEmployeeTalkGUI, ilObjEmployeeTalkSeriesGUI
+ * @ilCtrl_Calls ilEmployeeTalkMyStaffUserGUI: ilObjEmployeeTalkGUI
+ * @ilCtrl_Calls ilEmployeeTalkMyStaffUserGUI: ilObjEmployeeTalkSeriesGUI
  */
 final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
 {
@@ -82,7 +82,7 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
         $this->talkAccess = $employeeTalkAccess;
         $this->currentUser = $currentUser;
 
-        $this->usrId = $this->request->getQueryParams()['usr_id'];
+        $this->usrId = intval($this->request->getQueryParams()['usr_id']);
         $this->ctrl->setParameter($this, 'usr_id', $this->usrId);
         $this->language->loadLanguageModule('etal');
     }
@@ -107,7 +107,7 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
     /**
      *
      */
-    public function executeCommand(): bool
+    public function executeCommand(): void
     {
         $this->checkAccessOrFail();
 
@@ -152,8 +152,6 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
                         break;
                 }
         }
-
-        return true;
     }
 
     private function applyFilter(): void

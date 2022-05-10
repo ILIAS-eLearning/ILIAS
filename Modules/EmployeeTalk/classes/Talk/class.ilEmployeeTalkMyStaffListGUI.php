@@ -25,25 +25,27 @@ use ILIAS\Modules\EmployeeTalk\Talk\Repository\IliasDBEmployeeTalkRepository;
 use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
 use ILIAS\Modules\EmployeeTalk\Talk\EmployeeTalkPositionAccessLevel;
 use ILIAS\HTTP\Services as HTTPServices;
+use ILIAS\DI\UIServices;
 
 /**
  * Class ilEmployeeTalkMyStaffListGUI
  *
  * @ilCtrl_IsCalledBy ilEmployeeTalkMyStaffListGUI: ilMyStaffGUI
  * @ilCtrl_IsCalledBy ilEmployeeTalkMyStaffListGUI: ilFormPropertyDispatchGUI
- * @ilCtrl_Calls ilEmployeeTalkMyStaffListGUI: ilObjEmployeeTalkGUI, ilObjEmployeeTalkSeriesGUI
+ * @ilCtrl_Calls ilEmployeeTalkMyStaffListGUI: ilObjEmployeeTalkGUI
+ * @ilCtrl_Calls ilEmployeeTalkMyStaffListGUI: ilObjEmployeeTalkSeriesGUI
  */
 final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
 {
-    private \ILIAS\DI\UIServices $ui;
+    private UIServices $ui;
     private ilLanguage $language;
     private ilTabsGUI $tabs;
-    private ilToolbarGUI $toolbar;
     private ilCtrl $controlFlow;
     private ilObjUser $currentUser;
     private EmployeeTalkRepository $repository;
     private HTTPServices $http;
     private ilObjEmployeeTalkAccess $talkAccess;
+    private ILIAS\Refinery\Factory $refinery;
 
     public function __construct()
     {
@@ -60,24 +62,26 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
 
         $this->tabs = $container->tabs();
         $this->ui = $container->ui();
+        $this->refinery = $container->refinery();
         $this->controlFlow = $container->ctrl();
         $this->ui->mainTemplate()->setTitle($container->language()->txt('mm_org_etal'));
-        $this->toolbar = $container->toolbar();
         $this->currentUser = $container->user();
         $this->repository = new IliasDBEmployeeTalkRepository($container->database());
     }
 
-    public function executeCommand() : bool
+    public function executeCommand() : void
     {
         $nextClass = $this->controlFlow->getNextClass();
         $command = $this->controlFlow->getCmd(ControlFlowCommand::DEFAULT);
         switch ($nextClass) {
             case strtolower(ilObjEmployeeTalkSeriesGUI::class):
                 $gui = new ilObjEmployeeTalkSeriesGUI();
-                return $this->controlFlow->forwardCommand($gui);
+                $this->controlFlow->forwardCommand($gui);
+                break;
             case strtolower(ilObjEmployeeTalkGUI::class):
                 $gui = new ilObjEmployeeTalkGUI();
-                return $this->controlFlow->forwardCommand($gui);
+                $this->controlFlow->forwardCommand($gui);
+                break;
             case strtolower(ilFormPropertyDispatchGUI::class):
                 $this->controlFlow->setReturn($this, ControlFlowCommand::INDEX);
                 $table = new ilEmployeeTalkTableGUI($this, ControlFlowCommand::INDEX);
@@ -87,15 +91,15 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
                 switch ($command) {
                     case ControlFlowCommand::APPLY_FILTER:
                         $this->applyFilter();
-                        return true;
+                        break;
                     case ControlFlowCommand::RESET_FILTER:
                         $this->resetFilter();
-                        return true;
+                        break;
                     case ControlFlowCommand::TABLE_ACTIONS:
                         $this->getActions();
-                        return true;
+                        break;
                     default:
-                        return $this->view();
+                        $this->view();
                 }
 
         }
@@ -118,8 +122,11 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
             echo $listGUI->getHTML(true);
             exit;
         }
-
-        $refId = intval($this->http->request()->getQueryParams()['ref_id']);
+        
+        $refId = $this->http
+            ->wrapper()
+            ->query()
+            ->retrieve('ref_id', $this->refinery->kindlyTo()->int());
         $this->controlFlow->setParameterByClass($class, "ref_id", $refId);
         if ($this->talkAccess->canEdit($refId)) {
             $listGUI->addItem($this->language->txt('edit'), '', $this->controlFlow->getLinkTargetByClass($classPath, ControlFlowCommand::UPDATE));
@@ -192,16 +199,17 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         foreach ($templates as $item) {
             $type = $item["type"];
 
-            $path = ilObject::_getIcon('', 'tiny', $type);
+            $objId = intval($item['obj_id']);
+            $path = ilObject::_getIcon($objId, 'tiny', $type);
             $icon = ($path != "")
                 ? ilUtil::img($path, "") . " "
                 : "";
 
-            $base_url = $this->controlFlow->getLinkTargetByClass(strtolower(ilObjEmployeeTalkSeriesGUI::class), ControlFlowCommand::CREATE);
-            $url = $this->controlFlow->appendRequestTokenParameterString($base_url . "&new_type=" . ilObjEmployeeTalkSeries::TYPE);
-            $refId = ilObject::_getAllReferences(intval($item['obj_id']));
+            $url = $this->controlFlow->getLinkTargetByClass(strtolower(ilObjEmployeeTalkSeriesGUI::class), ControlFlowCommand::CREATE);
+            $refId = ilObject::_getAllReferences($objId);
 
             // Templates only have one ref id
+            $url .= "&new_type=" . ilObjEmployeeTalkSeries::TYPE;
             $url .= "&template=" . array_pop($refId);
             $url .= "&ref_id=" . ilObjTalkTemplateAdministration::getRootRefId();
 
@@ -262,7 +270,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
 
         foreach ($managedOrgUnitUsersOfUserByPosition as $position => $managedOrgUnitUserByPosition) {
             // Check if the position has any relevant position rights
-            $permissionSet = ilOrgUnitPermissionQueries::getTemplateSetForContextName(ilObjEmployeeTalk::TYPE, intval($position));
+            $permissionSet = ilOrgUnitPermissionQueries::getTemplateSetForContextName(ilObjEmployeeTalk::TYPE, strval($position));
             $isAbleToExecuteOperation = array_reduce($permissionSet->getOperations(), function (bool $prev, ilOrgUnitOperation $it) {
                 return $prev || $it->getOperationString() === EmployeeTalkPositionAccessLevel::VIEW;
             }, false);

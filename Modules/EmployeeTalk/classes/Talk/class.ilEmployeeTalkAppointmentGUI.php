@@ -67,7 +67,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         $this->language->loadLanguageModule('cal');
     }
 
-    public function executeCommand(): bool
+    public function executeCommand(): void
     {
         $cmd = $this->controlFlow->getCmd(ControlFlowCommand::DEFAULT);
         $params = $this->controlFlow->getParameterArrayByClass(strtolower(self::class));
@@ -78,12 +78,14 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 
         switch ($this->editMode()) {
             case self::EDIT_MODE_SERIES:
-                return $this->executeSeriesCommand($cmd);
+                $this->executeSeriesCommand($cmd);
+                break;
             case self::EDIT_MODE_APPOINTMENT:
-                return $this->executeAppointmentCommand($cmd);
+                $this->executeAppointmentCommand($cmd);
+                break;
             default:
                 $this->controlFlow->redirectByClass(strtolower(ilObjEmployeeTalkGUI::class), ControlFlowCommand::DEFAULT);
-                return true;
+                break;
         }
     }
 
@@ -339,76 +341,76 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
     {
         $rec = new ilCalendarRecurrence();
 
-        switch ($_POST['frequence']) {
-            case IL_CAL_FREQ_DAILY:
-                $rec->setFrequenceType($_POST['frequence']);
-                $rec->setInterval((int) $_POST['count_DAILY']);
+        switch ($form->getInput('frequence')) {
+            case ilCalendarRecurrence::FREQ_DAILY:
+                $rec->setFrequenceType($form->getInput('frequence'));
+                $rec->setInterval((int) $form->getInput('count_DAILY'));
                 break;
 
-            case IL_CAL_FREQ_WEEKLY:
-                $rec->setFrequenceType($_POST['frequence']);
-                $rec->setInterval((int) $_POST['count_WEEKLY']);
-                if (is_array($_POST['byday_WEEKLY'])) {
-                    $rec->setBYDAY(ilUtil::stripSlashes(implode(',', $_POST['byday_WEEKLY'])));
+            case ilCalendarRecurrence::FREQ_WEEKLY:
+                $rec->setFrequenceType($form->getInput('frequence'));
+                $rec->setInterval((int) $form->getInput('count_WEEKLY'));
+                if (is_array($form->getInput('byday_WEEKLY'))) {
+                    $rec->setBYDAY(ilUtil::stripSlashes(implode(',', $form->getInput('byday_WEEKLY'))));
                 }
                 break;
 
-            case IL_CAL_FREQ_MONTHLY:
-                $rec->setFrequenceType($_POST['frequence']);
-                $rec->setInterval((int) $_POST['count_MONTHLY']);
-                switch ((int) $_POST['subtype_MONTHLY']) {
+            case ilCalendarRecurrence::FREQ_MONTHLY:
+                $rec->setFrequenceType($form->getInput('frequence'));
+                $rec->setInterval((int) $form->getInput('count_MONTHLY'));
+                switch ((int) $form->getInput('subtype_MONTHLY')) {
                     case 0:
                         // nothing to do;
                         break;
 
                     case 1:
-                        switch ((int) $_POST['monthly_byday_day']) {
+                        switch ((int) $form->getInput('monthly_byday_day')) {
                             case 8:
                                 // Weekday
-                                $rec->setBYSETPOS($_POST['monthly_byday_num']);
+                                $rec->setBYSETPOS($form->getInput('monthly_byday_num'));
                                 $rec->setBYDAY('MO,TU,WE,TH,FR');
                                 break;
 
                             case 9:
                                 // Day of month
-                                $rec->setBYMONTHDAY($_POST['monthly_byday_num']);
+                                $rec->setBYMONTHDAY($form->getInput('monthly_byday_num'));
                                 break;
 
                             default:
-                                $rec->setBYDAY($_POST['monthly_byday_num'] . $_POST['monthly_byday_day']);
+                                $rec->setBYDAY(($form->getInput('monthly_byday_num') . $form->getInput('monthly_byday_day')));
                                 break;
                         }
                         break;
 
                     case 2:
-                        $rec->setBYMONTHDAY($_POST['monthly_bymonthday']);
+                        $rec->setBYMONTHDAY($form->getInput('monthly_bymonthday'));
                         break;
                 }
                 break;
 
-            case IL_CAL_FREQ_YEARLY:
-                $rec->setFrequenceType($_POST['frequence']);
-                $rec->setInterval((int) $_POST['count_YEARLY']);
-                switch ((int) $_POST['subtype_YEARLY']) {
+            case ilCalendarRecurrence::FREQ_YEARLY:
+                $rec->setFrequenceType($form->getInput('frequence'));
+                $rec->setInterval((int) $form->getInput('count_YEARLY'));
+                switch ((int) $form->getInput('subtype_YEARLY')) {
                     case 0:
                         // nothing to do;
                         break;
 
                     case 1:
-                        $rec->setBYMONTH($_POST['yearly_bymonth_byday']);
-                        $rec->setBYDAY($_POST['yearly_byday_num'] . $_POST['yearly_byday']);
+                        $rec->setBYMONTH($form->getInput('yearly_bymonth_byday'));
+                        $rec->setBYDAY(($form->getInput('yearly_byday_num') . $form->getInput('yearly_byday')));
                         break;
 
                     case 2:
-                        $rec->setBYMONTH($_POST['yearly_bymonth_by_monthday']);
-                        $rec->setBYMONTHDAY($_POST['yearly_bymonthday']);
+                        $rec->setBYMONTH($form->getInput('yearly_bymonth_by_monthday'));
+                        $rec->setBYMONTHDAY($form->getInput('yearly_bymonthday'));
                         break;
                 }
                 break;
         }
 
         // UNTIL
-        switch ((int) $_POST['until_type']) {
+        switch ((int) $form->getInput('until_type')) {
             case 1:
                 $rec->setFrequenceUntilDate(null);
                 // nothing to do
@@ -416,7 +418,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 
             case 2:
                 $rec->setFrequenceUntilDate(null);
-                $rec->setFrequenceUntilCount((int) $_POST['count']);
+                $rec->setFrequenceUntilCount((int) $form->getInput('count'));
                 break;
 
             case 3:

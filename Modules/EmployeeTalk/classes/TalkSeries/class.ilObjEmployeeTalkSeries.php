@@ -38,7 +38,7 @@ final class ilObjEmployeeTalkSeries extends ilContainer
      * @param int  $a_id
      * @param bool $a_call_by_reference
      */
-    public function __construct($a_id = 0, $a_call_by_reference = true, $locked_editing = false)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true, bool $locked_editing = false)
     {
         $this->setType(self::TYPE);
         $this->locked_editing = $locked_editing;
@@ -59,7 +59,7 @@ final class ilObjEmployeeTalkSeries extends ilContainer
         //TODO: Copy metadata from template
         parent::create();
 
-        $this->_writeContainerSetting($this->getId(), ilObjectServiceSettingsGUI::CUSTOM_METADATA, true);
+        $this->_writeContainerSetting($this->getId(), ilObjectServiceSettingsGUI::CUSTOM_METADATA, '1');
 
 
         /**
@@ -101,12 +101,12 @@ final class ilObjEmployeeTalkSeries extends ilContainer
     }
 
     /**
-     * @param        $a_id
-     * @param bool   $a_reference
-     * @param string $type
+     * @param int         $a_id
+     * @param bool        $a_reference
+     * @param string|null $type
      * @return bool
      */
-    public static function _exists($a_id, $a_reference = false, $type = null): bool
+    public static function _exists(int $a_id, bool $a_reference = false, ?string $type = null): bool
     {
         return parent::_exists($a_id, $a_reference, self::TYPE);
     }

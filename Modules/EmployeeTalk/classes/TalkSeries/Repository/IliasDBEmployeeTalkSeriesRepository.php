@@ -69,7 +69,7 @@ final class IliasDBEmployeeTalkSeriesRepository
         $statement = $statement->execute([$userId, $userId]);
 
         $talkSeries = [];
-        while ($result = $statement->fetchObject()) {
+        while (($result = $statement->fetchObject()) !== null) {
             $talkSeries[] = new ilObjEmployeeTalkSeries($result->refId, true);
         }
 

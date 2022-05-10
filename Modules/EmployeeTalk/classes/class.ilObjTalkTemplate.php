@@ -21,8 +21,8 @@ final class ilObjTalkTemplate extends ilContainer
 {
     const TYPE = 'talt';
 
-    private static int $root_ref_id;
-    private static int $root_id;
+    private static int $root_ref_id = -1;
+    private static int $root_id = -1;
 
 
     /**
@@ -46,7 +46,7 @@ final class ilObjTalkTemplate extends ilContainer
     {
         $this->setOfflineStatus(true);
         parent::create();
-        $this->_writeContainerSetting($this->getId(), ilObjectServiceSettingsGUI::CUSTOM_METADATA, true);
+        $this->_writeContainerSetting($this->getId(), ilObjectServiceSettingsGUI::CUSTOM_METADATA, '1');
         //$this->_writeContainerSetting($this->getId(), ilObjectServiceSettingsGUI::ORGU_POSITION_ACCESS, true);
         return $this->getId();
     }
@@ -82,7 +82,7 @@ final class ilObjTalkTemplate extends ilContainer
 
     private static function loadRootOrgRefIdAndId() : void
     {
-        if (self::$root_ref_id === null || self::$root_id === null) {
+        if (self::$root_ref_id === -1 || self::$root_id === -1) {
             global $DIC;
             $ilDB = $DIC['ilDB'];
             $q = "SELECT o.obj_id, r.ref_id FROM object_data o

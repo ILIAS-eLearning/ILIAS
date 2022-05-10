@@ -57,7 +57,8 @@ final class EmployeeTalkEmailNotificationService
      *
      * @return bool
      */
-    public function send(): bool {
+    public function send(): bool
+    {
         global $DIC;
 
         $language = $DIC->language();
@@ -75,24 +76,39 @@ final class EmployeeTalkEmailNotificationService
         $toName = $this->to->getFullname();
         $replayTo = $sender->getReplyToAddress();
         $replayToName = strlen($sender->getReplyToName()) > 0 ? $sender->getReplyToName() : $replayTo;
-        $headers = 'From: ' . $this->encodeWord("$fromName <$from>") . "\n";
-        $headers .= 'Cc: ' . $this->encodeWord("$ccName <$cc>") . "\n";
-        $headers .= 'Reply-To: ' . $this->encodeWord("$replayToName <$replayTo>") . "\n";
-        $headers .= "MIME-Version: 1.0\n";
-        $headers .= "Content-Type: multipart/mixed; boundary=\"$mime_boundary\"\n";
-        $headers .= "Content-class: urn:content-classes:calendarmessage\n";
+        //$headers = 'From: ' . $this->encodeWord("$fromName <$from>") . "\n";
+        //$headers .= 'Cc: ' . $this->encodeWord("$ccName <$cc>") . "\n";
+        //$headers .= 'Reply-To: ' . $this->encodeWord("$replayToName <$replayTo>") . "\n";
+        //$headers .= "MIME-Version: 1.0\n";
+        //$headers .= "Content-Type: multipart/mixed; boundary=\"$mime_boundary\"\n";
+        //$headers .= "Content-class: urn:content-classes:calendarmessage\n";
 
         $subjectPrefix = strval($this->settings->get('mail_subject_prefix'));
         $subjectDetails = $this->subject;
         $allowExternalMails = boolval(intval($this->settings->get('mail_allow_external')));
 
-        $mailsent = false;
+        //$mailsent = false;
         $subject =  $language->txt('notification_talks_subject');
-        if($allowExternalMails) {
-            $mailsent = mail($this->encodeWord($toName) . " <$to>", $this->encodeWord("$subjectPrefix $subject: $subjectDetails"), $this->getMessage($mime_boundary), $headers);
-        }
+        //if ($allowExternalMails) {
+            //$mailsent = mail($this->encodeWord($toName) . " <$to>", $this->encodeWord("$subjectPrefix $subject: $subjectDetails"), $this->getMessage($mime_boundary), $headers);
+        //}
+        
+        $mail = new \ilSystemNotification();
+        $mail->setSubjectDirect("$subjectPrefix $subject: $subjectDetails");
+        $attachment = new \ilFileDataMail(ANONYMOUS_USER_ID);
 
-        return $mailsent;
+        $attachmentName = 'appointments.ics';
+        $attachment->storeAsAttachment(
+            $attachmentName,
+            $this->calendar->render()
+        );
+        $mail->setAttachments([
+            $attachment
+        ]);
+        $mail->sendMail([$this->to]);
+
+        //return $mailsent;
+        return true;
     }
 
     /**
@@ -102,7 +118,8 @@ final class EmployeeTalkEmailNotificationService
      * @param string $text
      * @return string
      */
-    private function encodeWord(string $text): string {
+    private function encodeWord(string $text): string
+    {
         /*
          * The encoding must be either B or Q, these mean base 64 and quoted-printable respectively.
          * See RFC 1342 for more infos.
@@ -112,20 +129,8 @@ final class EmployeeTalkEmailNotificationService
         return mb_encode_mimeheader($text, 'utf8', 'B', "\r\n ", 0);
     }
 
-    private function getMessage(string $mimeBoundary): string {
-        $message = "--$mimeBoundary\r\n";
-        $childBoundary = "b2_" . md5(strval(time()));
-        $message .= "Content-Type: multipart/alternative; boundary=\"$childBoundary\"\r\n\r\n";
-        $message .= $this->getTextMessage($childBoundary);
-        $message .= $this->getHtmlMessage($childBoundary);
-        $message .= "--$childBoundary--\r\n\r\n";
-        $message .= $this->getIcalEvent($mimeBoundary);
-        $message .= "--$mimeBoundary--";
-
-        return $message;
-    }
-
-    private function getHtmlMessage(string $mime_boundary): string {
+    private function getHtmlMessage(string $mime_boundary): string
+    {
         $template = new ilTemplate('tpl.email_appointments.html', true, true, 'Modules/EmployeeTalk');
 
         $template->setCurrentBlock();
@@ -157,7 +162,8 @@ final class EmployeeTalkEmailNotificationService
         return $message;
     }
 
-    private function getTextMessage(string $mime_boundary): string {
+    private function getTextMessage(string $mime_boundary): string
+    {
         $message = "--$mime_boundary\r\n";
         $message .= "Content-Type: text/plain; charset=\"utf-8\"\r\n";
         $message .= "Content-Transfer-Encoding: UTF8\r\n\r\n";

@@ -21,5 +21,5 @@ namespace ILIAS\EmployeeTalk\UI;
 
 interface ControlFlowCommandHandler
 {
-    public function executeCommand(): bool;
+    public function executeCommand(): void;
 }

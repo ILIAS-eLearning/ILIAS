@@ -31,21 +31,31 @@ use ILIAS\EmployeeTalk\Service\EmployeeTalkEmailNotification;
  * @ilCtrl_IsCalledBy ilObjEmployeeTalkSeriesGUI: ilEmployeeTalkMyStaffUserGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilCommonActionDispatcherGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilRepositorySearchGUI
- * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI
+ * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilColumnGUI
+ * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilObjectCopyGUI
+ * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilUserTableGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilPermissionGUI
  * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilInfoScreenGUI
+ * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilObjFileGUI
+ * @ilCtrl_Calls      ilObjEmployeeTalkSeriesGUI: ilObjFileUploadHandlerGUI
  */
 final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 {
     private \ILIAS\DI\Container $container;
     protected ilPropertyFormGUI $form;
-    private int $userId;
+    private int $userId = -1;
 
     public function __construct()
     {
-        parent::__construct([], $_GET["ref_id"], true, false);
-
         $this->container = $GLOBALS["DIC"];
+
+        $refId = $this->container
+            ->http()
+            ->wrapper()
+            ->query()
+            ->retrieve("ref_id", $this->container->refinery()->kindlyTo()->int());
+
+        parent::__construct([], $refId, true, false);
 
         $this->container->language()->loadLanguageModule('mst');
         $this->container->language()->loadLanguageModule('trac');
@@ -55,7 +65,11 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $this->type = ilObjEmployeeTalkSeries::TYPE;
 
         $this->setReturnLocation("save", strtolower(ilEmployeeTalkMyStaffListGUI::class));
-        $this->userId = $this->container->http()->request()->getQueryParams()['usr_id'];
+        $wrapper = $this->container->http()->wrapper()->query();
+        
+        if ($wrapper->has('usr_id')) {
+            $this->userId = $wrapper->retrieve('usr_id', $this->container->refinery()->kindlyTo()->int());
+        }
 
         $this->container->ui()->mainTemplate()->setTitle($this->container->language()->txt('mst_my_staff'));
     }
@@ -184,7 +198,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $this->copyTemplateValues($newObject);
         $this->createRecurringTalks($newObject, $event);
 
-        ilUtil::sendSuccess($this->lng->txt("object_added"), true);
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt("object_added"), true);
         $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
     }
 
@@ -256,7 +270,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             strtolower(ilRepositorySearchGUI::class)
         ], 'doUserAutoComplete', '', true));
 
-        if ($this->userId) {
+        if ($this->userId !== -1) {
             $user = new ilObjUser($this->userId);
             $login->setValue($user->getLogin());
         }
@@ -345,76 +359,76 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
     {
         $rec = new ilCalendarRecurrence();
 
-        switch ($_POST['frequence']) {
-            case IL_CAL_FREQ_DAILY:
-                $rec->setFrequenceType($_POST['frequence']);
-                $rec->setInterval((int) $_POST['count_DAILY']);
+        switch ($this->form->getInput('frequence')) {
+            case ilCalendarRecurrence::FREQ_DAILY:
+                $rec->setFrequenceType($this->form->getInput('frequence'));
+                $rec->setInterval((int) $this->form->getInput('count_DAILY'));
                 break;
 
-            case IL_CAL_FREQ_WEEKLY:
-                $rec->setFrequenceType($_POST['frequence']);
-                $rec->setInterval((int) $_POST['count_WEEKLY']);
-                if (is_array($_POST['byday_WEEKLY'])) {
-                    $rec->setBYDAY(ilUtil::stripSlashes(implode(',', $_POST['byday_WEEKLY'])));
+            case ilCalendarRecurrence::FREQ_WEEKLY:
+                $rec->setFrequenceType($this->form->getInput('frequence'));
+                $rec->setInterval((int) $this->form->getInput('count_WEEKLY'));
+                if (is_array($this->form->getInput('byday_WEEKLY'))) {
+                    $rec->setBYDAY(ilUtil::stripSlashes(implode(',', $this->form->getInput('byday_WEEKLY'))));
                 }
                 break;
 
-            case IL_CAL_FREQ_MONTHLY:
-                $rec->setFrequenceType($_POST['frequence']);
-                $rec->setInterval((int) $_POST['count_MONTHLY']);
-                switch ((int) $_POST['subtype_MONTHLY']) {
+            case ilCalendarRecurrence::FREQ_MONTHLY:
+                $rec->setFrequenceType($this->form->getInput('frequence'));
+                $rec->setInterval((int) $this->form->getInput('count_MONTHLY'));
+                switch ((int) $this->form->getInput('subtype_MONTHLY')) {
                     case 0:
                         // nothing to do;
                         break;
 
                     case 1:
-                        switch ((int) $_POST['monthly_byday_day']) {
+                        switch ((int) $this->form->getInput('monthly_byday_day')) {
                             case 8:
                                 // Weekday
-                                $rec->setBYSETPOS($_POST['monthly_byday_num']);
+                                $rec->setBYSETPOS($this->form->getInput('monthly_byday_num'));
                                 $rec->setBYDAY('MO,TU,WE,TH,FR');
                                 break;
 
                             case 9:
                                 // Day of month
-                                $rec->setBYMONTHDAY($_POST['monthly_byday_num']);
+                                $rec->setBYMONTHDAY($this->form->getInput('monthly_byday_num'));
                                 break;
 
                             default:
-                                $rec->setBYDAY($_POST['monthly_byday_num'] . $_POST['monthly_byday_day']);
+                                $rec->setBYDAY(($this->form->getInput('monthly_byday_num') . $this->form->getInput('monthly_byday_day')));
                                 break;
                         }
                         break;
 
                     case 2:
-                        $rec->setBYMONTHDAY($_POST['monthly_bymonthday']);
+                        $rec->setBYMONTHDAY($this->form->getInput('monthly_bymonthday'));
                         break;
                 }
                 break;
 
-            case IL_CAL_FREQ_YEARLY:
-                $rec->setFrequenceType($_POST['frequence']);
-                $rec->setInterval((int) $_POST['count_YEARLY']);
-                switch ((int) $_POST['subtype_YEARLY']) {
+            case ilCalendarRecurrence::FREQ_YEARLY:
+                $rec->setFrequenceType($this->form->getInput('frequence'));
+                $rec->setInterval((int) $this->form->getInput('count_YEARLY'));
+                switch ((int) $this->form->getInput('subtype_YEARLY')) {
                     case 0:
                         // nothing to do;
                         break;
 
                     case 1:
-                        $rec->setBYMONTH($_POST['yearly_bymonth_byday']);
-                        $rec->setBYDAY($_POST['yearly_byday_num'] . $_POST['yearly_byday']);
+                        $rec->setBYMONTH($this->form->getInput('yearly_bymonth_byday'));
+                        $rec->setBYDAY(($this->form->getInput('yearly_byday_num') . $this->form->getInput('yearly_byday')));
                         break;
 
                     case 2:
-                        $rec->setBYMONTH($_POST['yearly_bymonth_by_monthday']);
-                        $rec->setBYMONTHDAY($_POST['yearly_bymonthday']);
+                        $rec->setBYMONTH($this->form->getInput('yearly_bymonth_by_monthday'));
+                        $rec->setBYMONTHDAY($this->form->getInput('yearly_bymonthday'));
                         break;
                 }
                 break;
         }
 
         // UNTIL
-        switch ((int) $_POST['until_type']) {
+        switch ((int) $this->form->getInput('until_type')) {
             case 1:
                 $rec->setFrequenceUntilDate(null);
                 // nothing to do
@@ -422,7 +436,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
             case 2:
                 $rec->setFrequenceUntilDate(null);
-                $rec->setFrequenceUntilCount((int) $_POST['count']);
+                $rec->setFrequenceUntilCount((int) $this->form->getInput('count'));
                 break;
 
             case 3:
@@ -479,6 +493,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $talk->update();
 
         ilAdvancedMDValues::_cloneValues(
+            0,
             $template->getId(),
             $talk->getId(),
             ilObjEmployeeTalk::TYPE
@@ -581,7 +596,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
             !ilObjTalkTemplate::_exists($refId, true) ||
             ilObjTalkTemplate::lookupOfflineStatus(ilObjTalkTemplate::_lookupObjectId($refId)) ?? true
         ) {
-            ilUtil::sendFailure($this->lng->txt('etal_create_invalid_template_ref'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('etal_create_invalid_template_ref'), true);
             $this->ctrl->redirectByClass([
                 strtolower(ilDashboardGUI::class),
                 strtolower(ilMyStaffGUI::class),

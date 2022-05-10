@@ -19,6 +19,7 @@ declare(strict_types=1);
 
 use ILIAS\Modules\EmployeeTalk\Talk\Repository\EmployeeTalkRepository;
 use ILIAS\Modules\EmployeeTalk\Talk\DAO\EmployeeTalk;
+use ILIAS\Modules\EmployeeTalk\Talk\Repository\IliasDBEmployeeTalkRepository;
 
 final class ilObjEmployeeTalk extends ilObject
 {
@@ -27,11 +28,11 @@ final class ilObjEmployeeTalk extends ilObject
     /**
      * @var int
      */
-    private static $root_ref_id;
+    private static int $root_ref_id = -1;
     /**
      * @var int
      */
-    private static $root_id;
+    private static int $root_id = -1;
 
     /**
      * @var EmployeeTalkRepository $repository
@@ -47,11 +48,11 @@ final class ilObjEmployeeTalk extends ilObject
      * @param int  $a_id
      * @param bool $a_call_by_reference
      */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->setType(self::TYPE);
 
-        $this->repository = new \ILIAS\Modules\EmployeeTalk\Talk\Repository\IliasDBEmployeeTalkRepository($GLOBALS['DIC']->database());
+        $this->repository = new IliasDBEmployeeTalkRepository($GLOBALS['DIC']->database());
         $datetime = new ilDateTime(1, IL_CAL_UNIX);
         $this->data = new EmployeeTalk(-1, $datetime, $datetime, false, '', '', -1, false, false);
 
@@ -155,7 +156,7 @@ final class ilObjEmployeeTalk extends ilObject
 
     private static function loadRootOrgRefIdAndId() : void
     {
-        if (self::$root_ref_id === null || self::$root_id === null) {
+        if (self::$root_ref_id === -1 || self::$root_id === -1) {
             global $DIC;
             $ilDB = $DIC['ilDB'];
             $q = "SELECT o.obj_id, r.ref_id FROM object_data o
@@ -174,12 +175,12 @@ final class ilObjEmployeeTalk extends ilObject
     }
 
     /**
-     * @param        $a_id
-     * @param bool   $a_reference
-     * @param string $type
+     * @param int         $a_id
+     * @param bool        $a_reference
+     * @param string|null $type
      * @return bool
      */
-    public static function _exists($a_id, $a_reference = false, $type = null): bool
+    public static function _exists(int $a_id, bool $a_reference = false, ?string $type = null): bool
     {
         return parent::_exists($a_id, $a_reference, "etal");
     }
@@ -232,12 +233,12 @@ final class ilObjEmployeeTalk extends ilObject
         return $this;
     }
 
-    public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false): ilObjEmployeeTalk
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false): ilObjEmployeeTalk
     {
         /**
          * @var ilObjEmployeeTalk $talkClone
          */
-        $talkClone = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
+        $talkClone = parent::cloneObject($target_id, $copy_id, $omit_tree);
         $data = $this->getData()->setObjectId($talkClone->getId());
         $this->repository->update($data);
         $talkClone->setData($data);
