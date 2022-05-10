@@ -627,9 +627,9 @@ class ilOrgUnitType
      * Get array of all acitve plugins for the ilOrgUnitTypeHook plugin slot
      * @return array
      */
-    protected function getActivePlugins() : array
+    public function getActivePlugins() : array
     {
-        return $this->component_factory->getActivePluginsForSlot("orgutypehk");
+        return iterator_to_array($this->component_factory->getActivePluginsInSlot("orgutypehk"));
     }
 
     /**
