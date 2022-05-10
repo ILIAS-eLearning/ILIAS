@@ -74,7 +74,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $this->container->ui()->mainTemplate()->setTitle($this->container->language()->txt('mst_my_staff'));
     }
 
-    private function checkAccessOrFail(): void
+    private function checkAccessOrFail() : void
     {
         $talkAccess = new ilObjEmployeeTalkAccess();
         if (!$talkAccess->canCreate()) {
@@ -157,7 +157,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         return false;
     }
 
-    public function confirmedDeleteObject(): void
+    public function confirmedDeleteObject() : void
     {
         if ($this->post_wrapper->has("mref_id")) {
             $mref_id = $this->post_wrapper->retrieve(
@@ -202,7 +202,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
     }
 
-    protected function validateCustom(ilPropertyFormGUI $a_form): bool
+    protected function validateCustom(ilPropertyFormGUI $a_form) : bool
     {
         /**
          * @var ilTextInputGUI $userName
@@ -287,30 +287,30 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         return $form;
     }
 
-    protected function initCreationForms($new_type): array
+    protected function initCreationForms($new_type) : array
     {
         return [
             self::CFORM_NEW => $this->initCreateForm($new_type)
         ];
     }
 
-    public function viewObject(): void
+    public function viewObject() : void
     {
         $this->tabs_gui->activateTab('view_content');
     }
 
-    public function getTabs(): void
+    public function getTabs() : void
     {
     }
 
-    public function getAdminTabs(): void
+    public function getAdminTabs() : void
     {
     }
 
     /**
      * @param ilObjEmployeeTalk[] $talks
      */
-    private function sendNotification(array $talks): void
+    private function sendNotification(array $talks) : void
     {
         if (count($talks) === 0) {
             return;
@@ -355,7 +355,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
      * @access protected
      * @return
      */
-    protected function loadRecurrenceSettings(): ilCalendarRecurrence
+    protected function loadRecurrenceSettings() : ilCalendarRecurrence
     {
         $rec = new ilCalendarRecurrence();
 
@@ -452,7 +452,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
 
 
-    private function loadEtalkData(): EmployeeTalk
+    private function loadEtalkData() : EmployeeTalk
     {
         $location = $this->form->getInput('etal_location');
         $employee = $this->form->getInput('etal_employee');
@@ -571,7 +571,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         return true;
     }
 
-    public static function _goto(string $refId): void
+    public static function _goto(string $refId) : void
     {
         /**
          * @var \ILIAS\DI\Container $container
@@ -586,7 +586,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         ], ControlFlowCommand::INDEX);
     }
 
-    private function getTemplateRefId(): int
+    private function getTemplateRefId() : int
     {
         $template = filter_input(INPUT_GET, 'template', FILTER_VALIDATE_INT);
         $refId = intval($template);

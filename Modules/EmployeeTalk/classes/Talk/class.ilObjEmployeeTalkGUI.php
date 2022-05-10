@@ -69,7 +69,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $this->repository = new IliasDBEmployeeTalkSeriesRepository($this->user, $this->container->database());
     }
 
-    private function checkAccessOrFail(): void
+    private function checkAccessOrFail() : void
     {
         if (!$this->talkAccess->canRead(intval($this->object->getRefId()))) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
@@ -123,7 +123,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
     }
 
-    public function editObject(): void
+    public function editObject() : void
     {
         $this->tabs_gui->activateTab('view_content');
 
@@ -138,7 +138,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function validateCustom(ilPropertyFormGUI $a_form): bool
+    protected function validateCustom(ilPropertyFormGUI $a_form) : bool
     {
         $refId = intval($this->object->getRefId());
         $settings = $this->repository->readEmployeeTalkSerieSettings(intval($this->object->getId()));
@@ -153,7 +153,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         return $this->talkAccess->canEditTalkLockStatus($refId);
     }
 
-    public function updateObject(): void
+    public function updateObject() : void
     {
         $form = $this->initEditForm();
         if ($form->checkInput() &&
@@ -174,7 +174,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHtml());
     }
 
-    public function confirmedDeleteObject(): void
+    public function confirmedDeleteObject() : void
     {
         if ($this->isReadonly) {
             ilSession::clear("saved_post");
@@ -219,7 +219,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     /**
      * @param ilObjEmployeeTalk[] $talks
      */
-    private function sendNotification(array $talks): void
+    private function sendNotification(array $talks) : void
     {
         $firstTalk = $talks[0];
         $talkTitle = $firstTalk->getTitle();
@@ -270,7 +270,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     /**
      * @param ilObjEmployeeTalk[] $talks
      */
-    private function sendUpdateNotification(array $talks): void
+    private function sendUpdateNotification(array $talks) : void
     {
         if (count($talks) === 0) {
             return;
@@ -309,14 +309,14 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $vCalSender->send();
     }
 
-    public function cancelDeleteObject(): void
+    public function cancelDeleteObject() : void
     {
         ilSession::clear("saved_post");
 
         $this->ctrl->redirectByClass(strtolower(ilEmployeeTalkMyStaffListGUI::class), ControlFlowCommand::DEFAULT, "", false);
     }
 
-    protected function initEditForm(): ilPropertyFormGUI
+    protected function initEditForm() : ilPropertyFormGUI
     {
         $lng = $this->lng;
 
@@ -375,7 +375,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         return $form;
     }
 
-    public function addExternalEditFormCustom(ilPropertyFormGUI $a_form): void
+    public function addExternalEditFormCustom(ilPropertyFormGUI $a_form) : void
     {
         /**
          * @var EmployeeTalk $data
@@ -415,7 +415,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         parent::addExternalEditFormCustom($a_form);
     }
 
-    protected function getEditFormCustomValues(array &$a_values): void
+    protected function getEditFormCustomValues(array &$a_values) : void
     {
         /**
          * @var EmployeeTalk $data
@@ -429,7 +429,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $a_values['etal_settings_locked_for_others'] = $settings->isLockedEditing();
     }
 
-    protected function updateCustom(ilPropertyFormGUI $a_form): void
+    protected function updateCustom(ilPropertyFormGUI $a_form) : void
     {
         /**
          * @var ilObjEmployeeTalkSeries $series
@@ -495,13 +495,13 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         $this->sendUpdateNotification($talks);
     }
 
-    public function viewObject(): void
+    public function viewObject() : void
     {
         $this->tabs_gui->activateTab('view_content');
         $this->editObject();
     }
 
-    public function getTabs(): void
+    public function getTabs() : void
     {
         $this->tabs_gui->addTab('view_content', $this->lng->txt("content"), $this->ctrl->getLinkTarget($this, ControlFlowCommand::UPDATE));
         $this->tabs_gui->addTab("info_short", "Info", $this->ctrl->getLinkTargetByClass(strtolower(ilInfoScreenGUI::class), "showSummary"));
@@ -513,7 +513,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
     /**
      * @param ilTabsGUI $tabs_gui
      */
-    public function getAdminTabs(): void
+    public function getAdminTabs() : void
     {
         $this->getTabs();
 
@@ -532,7 +532,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         }
     }
 
-    private function initMetaDataForm(ilPropertyFormGUI $form): ilAdvancedMDRecordGUI
+    private function initMetaDataForm(ilPropertyFormGUI $form) : ilAdvancedMDRecordGUI
     {
         /**
          * @var ilObjEmployeeTalkSeries $series
@@ -543,7 +543,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
         return $md;
     }
 
-    public static function _goto(string $refId): void
+    public static function _goto(string $refId) : void
     {
         /**
          * @var \ILIAS\DI\Container $container

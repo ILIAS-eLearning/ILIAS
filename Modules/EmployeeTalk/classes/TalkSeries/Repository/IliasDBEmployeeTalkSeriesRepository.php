@@ -78,7 +78,7 @@ final class IliasDBEmployeeTalkSeriesRepository
         return $talkSeries;
     }
 
-    public function storeEmployeeTalkSerieSettings(EmployeeTalkSerieSettingsDto $settingsDto): void
+    public function storeEmployeeTalkSerieSettings(EmployeeTalkSerieSettingsDto $settingsDto) : void
     {
         $activeRecord = new EmployeeTalkSerieSettings();
 
@@ -87,7 +87,7 @@ final class IliasDBEmployeeTalkSeriesRepository
         $activeRecord->store();
     }
 
-    public function readEmployeeTalkSerieSettings(int $obj_id): EmployeeTalkSerieSettingsDto
+    public function readEmployeeTalkSerieSettings(int $obj_id) : EmployeeTalkSerieSettingsDto
     {
         /** @var EmployeeTalkSerieSettings $activeRecord */
         $activeRecord = EmployeeTalkSerieSettings::findOrGetInstance($obj_id);

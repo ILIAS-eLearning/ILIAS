@@ -36,13 +36,13 @@ final class ilObjTalkTemplate extends ilContainer
     }
 
 
-    public function read(): void
+    public function read() : void
     {
         parent::read();
     }
 
 
-    public function create(): int
+    public function create() : int
     {
         $this->setOfflineStatus(true);
         parent::create();
@@ -52,7 +52,7 @@ final class ilObjTalkTemplate extends ilContainer
     }
 
 
-    public function update(): bool
+    public function update() : bool
     {
         return parent::update();
     }
@@ -101,7 +101,7 @@ final class ilObjTalkTemplate extends ilContainer
      * @param string|null $type
      * @return bool
      */
-    public static function _exists(int $id, bool $reference = false, ?string $type = null): bool
+    public static function _exists(int $id, bool $reference = false, ?string $type = null) : bool
     {
         return parent::_exists($id, $reference, self::TYPE);
     }
@@ -112,7 +112,7 @@ final class ilObjTalkTemplate extends ilContainer
      * @return    boolean    true if all object data were removed; false if only a references were
      *                       removed
      */
-    public function delete(): bool
+    public function delete() : bool
     {
         return parent::delete();
     }

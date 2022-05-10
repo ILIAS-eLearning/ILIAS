@@ -46,12 +46,12 @@ final class ilObjEmployeeTalkSeries extends ilContainer
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function read(): void
+    public function read() : void
     {
         parent::read();
     }
 
-    public function create(): int
+    public function create() : int
     {
         $this->setOfflineStatus(true);
 
@@ -81,7 +81,7 @@ final class ilObjEmployeeTalkSeries extends ilContainer
 
 
 
-    public function update(): bool
+    public function update() : bool
     {
         parent::update();
 
@@ -106,7 +106,7 @@ final class ilObjEmployeeTalkSeries extends ilContainer
      * @param string|null $type
      * @return bool
      */
-    public static function _exists(int $a_id, bool $a_reference = false, ?string $type = null): bool
+    public static function _exists(int $a_id, bool $a_reference = false, ?string $type = null) : bool
     {
         return parent::_exists($a_id, $a_reference, self::TYPE);
     }
@@ -116,7 +116,7 @@ final class ilObjEmployeeTalkSeries extends ilContainer
      * @return    boolean    true if all object data were removed; false if only a references were
      *                       removed
      */
-    public function delete(): bool
+    public function delete() : bool
     {
         /**
          * @var \ILIAS\DI\Container $container
@@ -136,7 +136,7 @@ final class ilObjEmployeeTalkSeries extends ilContainer
         return parent::delete();
     }
 
-    public function hasChildren(): bool
+    public function hasChildren() : bool
     {
         $children = $this->tree->getChildIds(intval($this->getRefId()));
         return count($children) > 0;

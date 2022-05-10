@@ -30,13 +30,13 @@ final class VCalendarFactory
      * @param string                  $method
      * @return VCalender
      */
-    public static function getInstanceFromTalks(\ilObjEmployeeTalkSeries $series, string $method = VCalenderMethod::PUBLISH): VCalender
+    public static function getInstanceFromTalks(\ilObjEmployeeTalkSeries $series, string $method = VCalenderMethod::PUBLISH) : VCalender
     {
         global $DIC;
 
         $tree = $DIC->repositoryTree();
         $children = $tree->getChildIds($series->getRefId());
-        $talks = array_map(function ($val): ilObjEmployeeTalk {
+        $talks = array_map(function ($val) : ilObjEmployeeTalk {
             return new ilObjEmployeeTalk(intval($val), true);
         }, $children);
 
@@ -66,7 +66,7 @@ final class VCalendarFactory
         ilObjEmployeeTalkSeries $series,
         string $title,
         string $method = VCalenderMethod::PUBLISH
-    ): VCalender {
+    ) : VCalender {
         return new VCalender(
             $title,
             md5($series->getType() . $series->getId()),

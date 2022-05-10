@@ -23,7 +23,7 @@ final class ilObjEmployeeTalkSeriesAccess extends ilObjectAccess
 {
     private static ?self $instance = null;
 
-    public static function getInstance(): self
+    public static function getInstance() : self
     {
         if (is_null(self::$instance)) {
             self::$instance = new ilObjEmployeeTalkSeriesAccess();
@@ -58,7 +58,7 @@ final class ilObjEmployeeTalkSeriesAccess extends ilObjectAccess
         return $commands;
     }
 
-    public static function _isOffline($a_obj_id): bool
+    public static function _isOffline($a_obj_id) : bool
     {
         return false;
     }

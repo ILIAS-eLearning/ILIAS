@@ -34,7 +34,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
     private ilOrgUnitObjectTypePositionSetting $talkPositionSettings;
     private IliasDBEmployeeTalkSeriesRepository $seriesSettingsRepository;
 
-    public static function getInstance(): self
+    public static function getInstance() : self
     {
         if (is_null(self::$instance)) {
             self::$instance = new ilObjEmployeeTalkAccess();
@@ -116,7 +116,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
      * @param ilObjUser|null $talkParticipant   The talk participant which should get invited into the new talk.
      * @return bool                             True if the user has creation rights otherwise false.
      */
-    public function canCreate(?ilObjUser $talkParticipant = null): bool
+    public function canCreate(?ilObjUser $talkParticipant = null) : bool
     {
         try {
             $currentUserId = $this->getCurrentUsersId();
@@ -161,7 +161,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
         }
     }
 
-    public function hasPermissionToReadUnownedTalksOfUser(int $userId): bool
+    public function hasPermissionToReadUnownedTalksOfUser(int $userId) : bool
     {
         try {
             return $this->hasAuthorityAndOperationPermissionOverUser(new ilObjUser($userId), EmployeeTalkPositionAccessLevel::VIEW);
@@ -170,12 +170,12 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
         }
     }
 
-    public function canRead(int $refId): bool
+    public function canRead(int $refId) : bool
     {
         return $this->isPermittedToExecuteOperation($refId, EmployeeTalkPositionAccessLevel::VIEW);
     }
 
-    public function canEditTalkLockStatus(int $refId): bool
+    public function canEditTalkLockStatus(int $refId) : bool
     {
         $currentUserId = $this->getCurrentUsersId();
 
@@ -192,7 +192,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
      * @param int $refId
      * @return bool
      */
-    public function canEdit(int $refId): bool
+    public function canEdit(int $refId) : bool
     {
         return $this->isPermittedToExecuteOperation($refId, EmployeeTalkPositionAccessLevel::EDIT);
     }
@@ -201,12 +201,12 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
      * @param int $refId
      * @return bool
      */
-    public function canDelete(int $refId): bool
+    public function canDelete(int $refId) : bool
     {
         return $this->isPermittedToExecuteOperation($refId, EmployeeTalkPositionAccessLevel::CREATE);
     }
 
-    private function isPermittedToExecuteOperation(int $refId, string $operation): bool
+    private function isPermittedToExecuteOperation(int $refId, string $operation) : bool
     {
         $currentUserId = $this->getCurrentUsersId();
 
@@ -266,7 +266,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
      *
      * @return bool
      */
-    public function isTalkReadonlyByCurrentUser(int $ref_id): bool
+    public function isTalkReadonlyByCurrentUser(int $ref_id) : bool
     {
         return !$this->canEdit($ref_id);
     }
@@ -274,12 +274,12 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
     /**
      * @return int
      */
-    private function getCurrentUsersId(): int
+    private function getCurrentUsersId() : int
     {
         return $this->container->user()->getId();
     }
 
-    private function hasAuthorityAndOperationPermissionOverUser(ilObjUser $user, string $operation): bool
+    private function hasAuthorityAndOperationPermissionOverUser(ilObjUser $user, string $operation) : bool
     {
         $myStaffAccess = ilMyStaffAccess::getInstance();
         $currentUserId = $this->getCurrentUsersId();

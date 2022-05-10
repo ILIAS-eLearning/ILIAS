@@ -105,7 +105,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         }
     }
 
-    private function getActions(): void
+    private function getActions() : void
     {
         $listGUI = new ilAdvancedSelectionListGUI();
 
@@ -143,7 +143,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         exit;
     }
 
-    private function applyFilter(): void
+    private function applyFilter() : void
     {
         $table = new ilEmployeeTalkTableGUI($this, ControlFlowCommand::APPLY_FILTER);
         $table->writeFilterToSession();
@@ -151,7 +151,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         $this->view();
     }
 
-    private function resetFilter(): void
+    private function resetFilter() : void
     {
         $table = new ilEmployeeTalkTableGUI($this, ControlFlowCommand::RESET_FILTER);
         $table->resetOffset();
@@ -159,7 +159,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         $this->view();
     }
 
-    private function view(): bool
+    private function view() : bool
     {
         $this->loadActionBar();
         $this->loadTabs();
@@ -167,7 +167,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         return true;
     }
 
-    private function loadTabs(): void
+    private function loadTabs() : void
     {
         $this->tabs->addTab("view_content", "Content", "#");
         $this->tabs->activateTab("view_content");
@@ -175,7 +175,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         $this->tabs->setForcePresentationOfSingleTab(true);
     }
 
-    private function loadActionBar(): void
+    private function loadActionBar() : void
     {
         $talkAccess = new ilObjEmployeeTalkAccess();
         if (!$talkAccess->canCreate()) {
@@ -238,7 +238,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         $this->ui->mainTemplate()->setVariable("SELECT_OBJTYPE_REPOS", $adv->getHTML());
     }
 
-    private function loadTable(): ilEmployeeTalkTableGUI
+    private function loadTable() : ilEmployeeTalkTableGUI
     {
         $table = new ilEmployeeTalkTableGUI($this, ControlFlowCommand::DEFAULT);
 
@@ -257,7 +257,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         return $table;
     }
 
-    private function getEmployeeIdsWithValidPermissionRights(int $userId): array
+    private function getEmployeeIdsWithValidPermissionRights(int $userId) : array
     {
         $myStaffAccess = ilMyStaffAccess::getInstance();
         //The user has always access to his own talks

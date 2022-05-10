@@ -22,7 +22,7 @@ final class ilObjTalkTemplateListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
-    public function init(): void
+    public function init() : void
     {
         parent::init();
 
@@ -42,7 +42,7 @@ final class ilObjTalkTemplateListGUI extends ilObjectListGUI
     /**
      * no timing commands needed in orgunits.
      */
-    public function insertTimingsCommand(): void
+    public function insertTimingsCommand() : void
     {
     }
 
@@ -50,7 +50,7 @@ final class ilObjTalkTemplateListGUI extends ilObjectListGUI
      * no social commands needed in orgunits.
      * @param bool $header_actions
      */
-    public function insertCommonSocialCommands(bool $header_actions = false): void
+    public function insertCommonSocialCommands(bool $header_actions = false) : void
     {
     }
 
@@ -59,7 +59,7 @@ final class ilObjTalkTemplateListGUI extends ilObjectListGUI
      * @return string
      * @throws ilCtrlException
      */
-    public function getCommandLink(string $cmd): string
+    public function getCommandLink(string $cmd) : string
     {
         $this->ctrl->setParameterByClass(strtolower(ilObjTalkTemplateGUI::class), "ref_id", $this->ref_id);
         return $this->ctrl->getLinkTargetByClass(strtolower(ilObjTalkTemplateGUI::class), $cmd);

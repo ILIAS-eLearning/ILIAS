@@ -228,6 +228,4 @@ final class EmployeeTalk
         $this->standalone = $standalone;
         return $this;
     }
-
-
 }

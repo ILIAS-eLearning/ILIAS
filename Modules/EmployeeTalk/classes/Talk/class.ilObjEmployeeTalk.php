@@ -59,13 +59,13 @@ final class ilObjEmployeeTalk extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    public function read(): void
+    public function read() : void
     {
         parent::read();
         $this->data = $this->repository->findByObjectId($this->getId());
     }
 
-    public function create(): int
+    public function create() : int
     {
         $this->setOfflineStatus(true);
         parent::create();
@@ -102,7 +102,7 @@ final class ilObjEmployeeTalk extends ilObject
 
 
 
-    public function update(): bool
+    public function update() : bool
     {
         parent::update();
         $this->repository->update($this->data);
@@ -180,7 +180,7 @@ final class ilObjEmployeeTalk extends ilObject
      * @param string|null $type
      * @return bool
      */
-    public static function _exists(int $a_id, bool $a_reference = false, ?string $type = null): bool
+    public static function _exists(int $a_id, bool $a_reference = false, ?string $type = null) : bool
     {
         return parent::_exists($a_id, $a_reference, "etal");
     }
@@ -190,7 +190,7 @@ final class ilObjEmployeeTalk extends ilObject
      * @return    boolean    true if all object data were removed; false if only a references were
      *                       removed
      */
-    public function delete(): bool
+    public function delete() : bool
     {
         /**
          * @var \ILIAS\DI\Container $container
@@ -233,7 +233,7 @@ final class ilObjEmployeeTalk extends ilObject
         return $this;
     }
 
-    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false): ilObjEmployeeTalk
+    public function cloneObject(int $target_id, int $copy_id = 0, bool $omit_tree = false) : ilObjEmployeeTalk
     {
         /**
          * @var ilObjEmployeeTalk $talkClone
@@ -245,5 +245,4 @@ final class ilObjEmployeeTalk extends ilObject
 
         return $talkClone;
     }
-
 }

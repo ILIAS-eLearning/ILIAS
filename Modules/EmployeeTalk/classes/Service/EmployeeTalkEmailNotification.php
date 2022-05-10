@@ -92,7 +92,7 @@ final class EmployeeTalkEmailNotification
         return $this->dates;
     }
 
-    public function __toString(): string
+    public function __toString() : string
     {
         $dateList = "";
         foreach ($this->dates as $date) {
@@ -105,5 +105,4 @@ final class EmployeeTalkEmailNotification
             . $this->getDateHeader() . ":\r\n"
             . $dateList;
     }
-
 }

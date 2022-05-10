@@ -67,7 +67,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         $this->language->loadLanguageModule('cal');
     }
 
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         $cmd = $this->controlFlow->getCmd(ControlFlowCommand::DEFAULT);
         $params = $this->controlFlow->getParameterArrayByClass(strtolower(self::class));
@@ -89,7 +89,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         }
     }
 
-    private function executeSeriesCommand(string $cmd): bool
+    private function executeSeriesCommand(string $cmd) : bool
     {
         $this->template->setTitle($this->language->txt('etal_date_series_edit'));
 
@@ -105,7 +105,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         return false;
     }
 
-    private function executeAppointmentCommand(string $cmd): bool
+    private function executeAppointmentCommand(string $cmd) : bool
     {
         $this->template->setTitle($this->language->txt('etal_date_appointment_edit'));
 
@@ -121,14 +121,14 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         return false;
     }
 
-    private function editSeries(): void
+    private function editSeries() : void
     {
         $form = $this->initSeriesEditForm($this->talk->getData());
 
         $this->template->setContent($form->getHTML());
     }
 
-    private function updateSeries(): void
+    private function updateSeries() : void
     {
         $form = $this->initSeriesEditForm();
         if ($form->checkInput()) {
@@ -148,7 +148,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         );
     }
 
-    private function initTalkEditForm(?EmployeeTalk $employeeTalk = null): ilPropertyFormGUI
+    private function initTalkEditForm(?EmployeeTalk $employeeTalk = null) : ilPropertyFormGUI
     {
         // Init dom events or ui will break on page load
         ilYuiUtil::initDomEvent();
@@ -183,7 +183,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         return $form;
     }
 
-    private function initSeriesEditForm(?EmployeeTalk $employeeTalk = null): ilPropertyFormGUI
+    private function initSeriesEditForm(?EmployeeTalk $employeeTalk = null) : ilPropertyFormGUI
     {
         // Init dom events or ui will break on page load
         ilYuiUtil::initDomEvent();
@@ -227,14 +227,14 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         return $form;
     }
 
-    private function editAppointment(): void
+    private function editAppointment() : void
     {
         $form = $this->initTalkEditForm($this->talk->getData());
 
         $this->template->setContent($form->getHTML());
     }
 
-    private function updateAppointment(): void
+    private function updateAppointment() : void
     {
         $form = $this->initTalkEditForm();
         $form->setValuesByPost();
@@ -261,7 +261,6 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
             $this->sendNotification([$this->talk]);
 
             $this->template->setOnScreenMessage('success', $this->language->txt('saved_successfully'), true);
-
         }
 
 
@@ -276,7 +275,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
     /**
      * @param ilObjEmployeeTalk[] $talks
      */
-    private function sendNotification(array $talks): void
+    private function sendNotification(array $talks) : void
     {
         if (count($talks) === 0) {
             return;
@@ -315,7 +314,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         $vCalSender->send();
     }
 
-    private function editMode(): string
+    private function editMode() : string
     {
         return filter_input(INPUT_GET, self::EDIT_MODE, FILTER_CALLBACK, ['options' => function (string $value) {
             if ($value === self::EDIT_MODE_SERIES || $value === self::EDIT_MODE_APPOINTMENT) {
@@ -326,7 +325,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         }]) ?? 'invalid';
     }
 
-    private function getEditModeParameter(string $mode): string
+    private function getEditModeParameter(string $mode) : string
     {
         return '&' . ilEmployeeTalkAppointmentGUI::EDIT_MODE . '=' . $mode;
     }
@@ -337,7 +336,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
      * @access protected
      * @return
      */
-    private function loadRecurrenceSettings(ilPropertyFormGUI $form): ilCalendarRecurrence
+    private function loadRecurrenceSettings(ilPropertyFormGUI $form) : ilCalendarRecurrence
     {
         $rec = new ilCalendarRecurrence();
 
@@ -507,7 +506,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         return true;
     }
 
-    private function deletePendingTalks(ilObjEmployeeTalkSeries $series): void
+    private function deletePendingTalks(ilObjEmployeeTalkSeries $series) : void
     {
         $subItems = $series->getSubItems()['_all'];
 
@@ -525,7 +524,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
         }
     }
 
-    private function loadEtalkData(ilPropertyFormGUI $form): EmployeeTalk
+    private function loadEtalkData(ilPropertyFormGUI $form) : EmployeeTalk
     {
         $data = $this->talk->getData();
         ['tgl' => $tgl] = $form->getInput('event');

@@ -30,7 +30,7 @@ final class ilObjEmployeeTalkListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
-    public function init(): void
+    public function init() : void
     {
         parent::init();
 
@@ -50,7 +50,7 @@ final class ilObjEmployeeTalkListGUI extends ilObjectListGUI
     /**
      * no timing commands needed in orgunits.
      */
-    public function insertTimingsCommand(): void
+    public function insertTimingsCommand() : void
     {
     }
 
@@ -58,7 +58,7 @@ final class ilObjEmployeeTalkListGUI extends ilObjectListGUI
      * no social commands needed in orgunits.
      * @param bool $a_header_actions
      */
-    public function insertCommonSocialCommands($a_header_actions = false): void
+    public function insertCommonSocialCommands($a_header_actions = false) : void
     {
     }
 
@@ -67,7 +67,7 @@ final class ilObjEmployeeTalkListGUI extends ilObjectListGUI
      *
      * @return string
      */
-    public function getCommandLink(string $a_cmd): string
+    public function getCommandLink(string $a_cmd) : string
     {
         $this->ctrl->setParameterByClass(strtolower(ilObjEmployeeTalkGUI::class), "ref_id", $this->ref_id);
         return $this->ctrl->getLinkTargetByClass(strtolower(ilObjEmployeeTalkGUI::class), $a_cmd);

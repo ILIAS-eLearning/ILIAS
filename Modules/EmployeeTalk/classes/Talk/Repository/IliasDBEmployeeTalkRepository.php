@@ -42,7 +42,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         $this->database = $database;
     }
 
-    public function findAll(): array
+    public function findAll() : array
     {
         $statement = $this->database->prepare('SELECT * FROM etal_data;');
         $statement = $statement->execute();
@@ -56,7 +56,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         return $talks;
     }
 
-    public function findByEmployees(array $employees): array
+    public function findByEmployees(array $employees) : array
     {
         $statement = $this->database->prepare(
             'SELECT * FROM etal_data AS talk 
@@ -73,7 +73,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         return $talks;
     }
 
-    public function findByEmployeesAndOwner(array $employees, int $owner): array
+    public function findByEmployeesAndOwner(array $employees, int $owner) : array
     {
         $statement = $this->database->prepare('SELECT * FROM etal_data AS talk
             INNER JOIN object_data AS od ON od.obj_id = talk.object_id
@@ -89,7 +89,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         return $talks;
     }
 
-    public function findTalksBetweenEmployeeAndOwner(int $employee, int $owner): array
+    public function findTalksBetweenEmployeeAndOwner(int $employee, int $owner) : array
     {
         $statement = $this->database->prepare('SELECT * FROM etal_data AS talk
             INNER JOIN object_data AS od ON od.obj_id = talk.object_id
@@ -105,7 +105,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         return $talks;
     }
 
-    public function findUsersByPositionRights(int $user): array
+    public function findUsersByPositionRights(int $user) : array
     {
         return $managedUser;
     }
@@ -125,15 +125,15 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
     public function create(EmployeeTalk $talk) : EmployeeTalk
     {
         $this->database->insert('etal_data', [
-            'object_id'             => ['int', $talk->getObjectId()],
-            'series_id'             => ['text', $talk->getSeriesId()],
-            'start_date'            => ['int', $talk->getStartDate()->getUnixTime()],
-            'end_date'              => ['int', $talk->getEndDate()->getUnixTime()],
-            'all_day'               => ['int', $talk->isAllDay()],
-            'location'              => ['text', $talk->getLocation()],
-            'employee'              => ['int', $talk->getEmployee()],
-            'completed'             => ['int', $talk->isCompleted()],
-            'standalone_date'       => ['int', $talk->isStandalone()]
+            'object_id' => ['int', $talk->getObjectId()],
+            'series_id' => ['text', $talk->getSeriesId()],
+            'start_date' => ['int', $talk->getStartDate()->getUnixTime()],
+            'end_date' => ['int', $talk->getEndDate()->getUnixTime()],
+            'all_day' => ['int', $talk->isAllDay()],
+            'location' => ['text', $talk->getLocation()],
+            'employee' => ['int', $talk->getEmployee()],
+            'completed' => ['int', $talk->isCompleted()],
+            'standalone_date' => ['int', $talk->isStandalone()]
             ]);
 
         return $talk;
@@ -142,16 +142,16 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
     public function update(EmployeeTalk $talk) : EmployeeTalk
     {
         $this->database->update('etal_data', [
-            'series_id'             => ['text', $talk->getSeriesId()],
-            'start_date'            => ['int', $talk->getStartDate()->getUnixTime()],
-            'end_date'              => ['int', $talk->getEndDate()->getUnixTime()],
-            'all_day'               => ['int', $talk->isAllDay()],
-            'location'              => ['text', $talk->getLocation()],
-            'employee'              => ['int', $talk->getEmployee()],
-            'completed'             => ['int', $talk->isCompleted()],
-            'standalone_date'       => ['int', $talk->isStandalone()]
+            'series_id' => ['text', $talk->getSeriesId()],
+            'start_date' => ['int', $talk->getStartDate()->getUnixTime()],
+            'end_date' => ['int', $talk->getEndDate()->getUnixTime()],
+            'all_day' => ['int', $talk->isAllDay()],
+            'location' => ['text', $talk->getLocation()],
+            'employee' => ['int', $talk->getEmployee()],
+            'completed' => ['int', $talk->isCompleted()],
+            'standalone_date' => ['int', $talk->isStandalone()]
         ], [
-            'object_id'             => ['int', $talk->getObjectId()]
+            'object_id' => ['int', $talk->getObjectId()]
         ]);
 
         return $talk;
@@ -194,7 +194,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
         return $talks;
     }
 
-    private function parseFromStdClass($stdClass): EmployeeTalk
+    private function parseFromStdClass($stdClass) : EmployeeTalk
     {
         return new EmployeeTalk(
             intval($stdClass->object_id),

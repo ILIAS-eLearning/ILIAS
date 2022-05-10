@@ -67,7 +67,7 @@ final class VCalender
             'NAME:' . $this->name . "\r\n" .
             'X-WR-CALNAME:' . $this->name . "\r\n" .
             'LAST-MODIFIED:' . date("Ymd\THis") . "\r\n" .
-            'METHOD:' .$this->method. "\r\n" .
+            'METHOD:' . $this->method . "\r\n" .
             'BEGIN:VTIMEZONE' . "\r\n" .
             'TZID:Europe/Paris' . "\r\n" .
             'X-LIC-LOCATION:Europe/Paris' . "\r\n" .
@@ -89,7 +89,7 @@ final class VCalender
 
             $this->renderVEvents() .
 
-            'END:VCALENDAR'. "\r\n";
+            'END:VCALENDAR' . "\r\n";
     }
 
     /**

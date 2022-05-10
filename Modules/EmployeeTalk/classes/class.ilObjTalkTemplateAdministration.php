@@ -36,19 +36,19 @@ final class ilObjTalkTemplateAdministration extends ilContainer
     }
 
 
-    public function read(): void
+    public function read() : void
     {
         parent::read();
     }
 
 
-    public function create(): int
+    public function create() : int
     {
         return parent::create();
     }
 
 
-    public function update(): bool
+    public function update() : bool
     {
         return parent::update();
     }
@@ -92,7 +92,7 @@ final class ilObjTalkTemplateAdministration extends ilContainer
         }
     }
 
-    public function getTitle(): string
+    public function getTitle() : string
     {
         if (parent::getTitle() !== "__TalkTemplateAdministration") {
             return parent::getTitle();
@@ -107,7 +107,7 @@ final class ilObjTalkTemplateAdministration extends ilContainer
      * @param string|null $type
      * @return bool
      */
-    public static function _exists(int $a_id, bool $a_reference = false, ?string $type = null): bool
+    public static function _exists(int $a_id, bool $a_reference = false, ?string $type = null) : bool
     {
         return parent::_exists($a_id, $a_reference, "tala");
     }
@@ -118,7 +118,7 @@ final class ilObjTalkTemplateAdministration extends ilContainer
      * @return    boolean    true if all object data were removed; false if only a references were
      *                       removed
      */
-    public function delete(): bool
+    public function delete() : bool
     {
         return parent::delete();
     }

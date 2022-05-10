@@ -90,7 +90,7 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
     /**
      *
      */
-    private function checkAccessOrFail(): void
+    private function checkAccessOrFail() : void
     {
         if (!$this->usrId) {
             $this->template->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
@@ -107,7 +107,7 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
     /**
      *
      */
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         $this->checkAccessOrFail();
 
@@ -154,7 +154,7 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
         }
     }
 
-    private function applyFilter(): void
+    private function applyFilter() : void
     {
         $table = new ilEmployeeTalkTableGUI($this, ControlFlowCommand::APPLY_FILTER);
         $table->writeFilterToSession();
@@ -163,7 +163,7 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
     }
 
 
-    private function resetFilter(): void
+    private function resetFilter() : void
     {
         $table = new ilEmployeeTalkTableGUI($this, ControlFlowCommand::RESET_FILTER);
         $table->resetOffset();
@@ -171,7 +171,7 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
         $this->view();
     }
 
-    private function view(): void
+    private function view() : void
     {
         $this->loadActionBar();
         $table = new ilEmployeeTalkTableGUI($this, ControlFlowCommand::INDEX);
@@ -187,13 +187,14 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
         $this->template->setContent($table->getHTML());
     }
 
-    private function loadActionBar(): void {
+    private function loadActionBar() : void
+    {
         $gl = new ilGroupedListGUI();
         $gl->setAsDropDown(true, false);
 
         $templates = new CallbackFilterIterator(
             new ArrayIterator(ilObject::_getObjectsByType("talt")),
-            function(array $item) {
+            function (array $item) {
                 return
                     (
                         $item['offline'] === "0" ||

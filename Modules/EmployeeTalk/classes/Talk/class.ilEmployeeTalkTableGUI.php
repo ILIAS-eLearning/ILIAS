@@ -72,7 +72,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
         $this->determineOffsetAndOrder();
     }
 
-    public function initFilter(): void
+    public function initFilter() : void
     {
         $this->setFilterCols(6);
         $this->addFilterItemByMetaType('etal_title', self::FILTER_TEXT, false, $this->language->txt('title'));
@@ -100,7 +100,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
         ]);
     }
 
-    private function addColumns(): void
+    private function addColumns() : void
     {
         $this->addColumn(
             $this->language->txt('title'),
@@ -142,7 +142,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("etal_date");
     }
 
-    protected function fillRow($a_set): void
+    protected function fillRow($a_set) : void
     {
         $class = strtolower(ilObjEmployeeTalkGUI::class);
         $classPath = [
@@ -182,7 +182,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ACTIONS", $actions->getHTML());
     }
 
-    public function setTalkData(array $talks): void
+    public function setTalkData(array $talks) : void
     {
         $filter = $this->getCurrentState()['filter_values'];
 

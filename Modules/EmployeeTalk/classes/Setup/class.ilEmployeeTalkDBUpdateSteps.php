@@ -38,7 +38,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
         $this->db = $db;
     }
 
-    private function useTransaction(callable $updateStep): void
+    private function useTransaction(callable $updateStep) : void
     {
         try {
             if ($this->db->supportsTransactions()) {

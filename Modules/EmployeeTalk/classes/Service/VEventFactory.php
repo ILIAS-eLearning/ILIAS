@@ -32,7 +32,7 @@ final class VEventFactory
      *
      * @see VEventStatus
      */
-    public static function getInstanceFromTalk(ilObjEmployeeTalk $talk, string $status = VEventStatus::CONFIRMED): VEvent
+    public static function getInstanceFromTalk(ilObjEmployeeTalk $talk, string $status = VEventStatus::CONFIRMED) : VEvent
     {
         $data = $talk->getData();
         $superior = new ilObjUser($talk->getOwner());
@@ -57,7 +57,7 @@ final class VEventFactory
         );
     }
 
-    private static function msOutlook2013Workaround(ilObjEmployeeTalk $talk): string
+    private static function msOutlook2013Workaround(ilObjEmployeeTalk $talk) : string
     {
         
         /**

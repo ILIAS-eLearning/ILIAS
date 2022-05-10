@@ -82,7 +82,7 @@ final class EmployeeTalkSerieSettings extends ActiveRecord
      */
     public function setEditingLocked(int $editing_locked) : EmployeeTalkSerieSettings
     {
-        $this->editing_locked =  $editing_locked;
+        $this->editing_locked = $editing_locked;
         return $this;
     }
 }

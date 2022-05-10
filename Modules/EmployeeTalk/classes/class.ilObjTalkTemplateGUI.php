@@ -51,7 +51,7 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         $lng->loadLanguageModule("meta");
     }
 
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
@@ -75,12 +75,12 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         }
     }
 
-    public function viewObject(): void
+    public function viewObject() : void
     {
         $this->tabs_gui->activateTab('view_content');
     }
 
-    protected function initEditCustomForm(ilPropertyFormGUI $a_form): void
+    protected function initEditCustomForm(ilPropertyFormGUI $a_form) : void
     {
         $online = new ilCheckboxInputGUI($this->lng->txt('rep_activation_online'), 'activation_online');
         $online->setInfo($this->lng->txt('talt_activation_online_info'));
@@ -89,14 +89,14 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         parent::initEditCustomForm($a_form);
     }
 
-    protected function getEditFormCustomValues(array &$a_values): void
+    protected function getEditFormCustomValues(array &$a_values) : void
     {
         $a_values['activation_online'] = !boolval($this->object->getOfflineStatus());
 
         parent::getEditFormCustomValues($a_values);
     }
 
-    public function addExternalEditFormCustom(ilPropertyFormGUI $form): void
+    public function addExternalEditFormCustom(ilPropertyFormGUI $form) : void
     {
         $header = new ilFormSectionHeaderGUI();
         $header->setParentForm($form);
@@ -108,7 +108,7 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         parent::addExternalEditFormCustom($form);
     }
 
-    protected function updateCustom(ilPropertyFormGUI $a_form): void
+    protected function updateCustom(ilPropertyFormGUI $a_form) : void
     {
         $this->object->setOfflineStatus(!boolval($a_form->getInput('activation_online')));
 
@@ -121,12 +121,12 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
     /**
      * infoScreen redirect handling of ObjListGUI
      */
-    public function infoScreenObject(): void
+    public function infoScreenObject() : void
     {
         $this->ctrl->redirectByClass(strtolower(ilInfoScreenGUI::class), "showSummary");
     }
 
-    public function getTabs(): void
+    public function getTabs() : void
     {
         $read_access_ref_id = $this->rbacsystem->checkAccess('visible,read', $this->object->getRefId());
         if ($read_access_ref_id) {
@@ -141,19 +141,19 @@ final class ilObjTalkTemplateGUI extends ilContainerGUI
         parent::getTabs();
     }
 
-    protected function initCreationForms(string $new_type): array
+    protected function initCreationForms(string $new_type) : array
     {
         return [
             self::CFORM_NEW => $this->initCreateForm($new_type)
         ];
     }
 
-    public function getAdminTabs(): void
+    public function getAdminTabs() : void
     {
         $this->getTabs();
     }
 
-    private function initMetaDataForm(ilPropertyFormGUI $form): ilAdvancedMDRecordGUI
+    private function initMetaDataForm(ilPropertyFormGUI $form) : ilAdvancedMDRecordGUI
     {
         $md = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_REC_SELECTION, $this->object->getType(), $this->object->getId(), "etal");
         $md->setRefId($this->object->getRefId());

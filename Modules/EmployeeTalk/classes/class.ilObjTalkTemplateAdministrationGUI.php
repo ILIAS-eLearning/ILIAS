@@ -49,7 +49,7 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
         $language->loadLanguageModule("tala");
     }
 
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
@@ -82,7 +82,7 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
     /**
      * called by prepare output
      */
-    public function setTitleAndDescription(): void
+    public function setTitleAndDescription() : void
     {
         # all possible create permissions
         parent::setTitleAndDescription();
@@ -92,7 +92,7 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
         $this->tpl->setTitleIcon("", $this->lng->txt("obj_" . $this->object->getType()));
     }
 
-    public function showPossibleSubObjects(): void
+    public function showPossibleSubObjects() : void
     {
         $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
         $gui->setMode(ilObjectDefinition::MODE_ADMINISTRATION);
@@ -101,7 +101,7 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
         $gui->render();
     }
 
-    public function viewObject(): void
+    public function viewObject() : void
     {
         if (!$this->rbacsystem->checkAccess("read", $this->getRefId())) {
             if ($this->rbacsystem->checkAccess("visible", $this->getRefId())) {
@@ -120,12 +120,12 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
      *
      * @return ilContainerContentGUI
      */
-    public function getContentGUI(): ilContainerContentGUI
+    public function getContentGUI() : ilContainerContentGUI
     {
         return new ilContainerByTypeContentGUI($this, new ilContainerUserFilter(['std_' . ilContainerFilterField::STD_FIELD_OBJECT_TYPE => ilObjTalkTemplate::TYPE]));
     }
 
-    public function getTabs(): void
+    public function getTabs() : void
     {
         $read_access_ref_id = $this->rbacsystem->checkAccess('visible,read', $this->object->getRefId());
         if ($read_access_ref_id) {
@@ -139,7 +139,7 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
     /**
      * @param ilTabsGUI $tabs_gui
      */
-    public function getAdminTabs(): void
+    public function getAdminTabs() : void
     {
         $this->getTabs();
     }

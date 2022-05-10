@@ -80,7 +80,8 @@ final class MyStaffListEntryProvider extends AbstractStaticMainMenuProvider
                                   ->withVisibilityCallable(
                                       function () {
                                           return ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
-                                      });
+                                      }
+                                  );
 
         return $items;
     }
@@ -92,5 +93,4 @@ final class MyStaffListEntryProvider extends AbstractStaticMainMenuProvider
     {
         return "Modules/EmployeeTalk";
     }
-
 }

@@ -30,7 +30,7 @@ final class ilObjTalkTemplateAdministrationListGUI extends ilObjectListGUI
     /**
      * initialisation
      */
-    public function init(): void
+    public function init() : void
     {
         parent::init();
 
@@ -48,11 +48,11 @@ final class ilObjTalkTemplateAdministrationListGUI extends ilObjectListGUI
     }
 
 
-    public function insertTimingsCommand(): void
+    public function insertTimingsCommand() : void
     {
     }
     
-    public function insertCommonSocialCommands(bool $header_actions = false): void
+    public function insertCommonSocialCommands(bool $header_actions = false) : void
     {
     }
 

@@ -41,17 +41,17 @@ final class EmployeeTalkPeriod implements ilDatePeriod
         $this->fullDay = $fullDay;
     }
 
-    public function getStart(): ilDateTime
+    public function getStart() : ilDateTime
     {
         return $this->start;
     }
 
-    public function getEnd(): ilDateTime
+    public function getEnd() : ilDateTime
     {
         return $this->end;
     }
 
-    public function isFullday(): bool
+    public function isFullday() : bool
     {
         return $this->fullDay;
     }
