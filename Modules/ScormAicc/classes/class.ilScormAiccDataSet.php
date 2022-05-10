@@ -15,10 +15,14 @@
  *****************************************************************************/
 class ilScormAiccDataSet extends ilDataSet
 {
+    private string $db_table;
+    public array $properties;
+    private array $element_db_mapping;
+
     public function __construct()
     {
-        $this->db_table = "sahs_lm";//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
-        $this->properties = [//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        $this->db_table = "sahs_lm";
+        $this->properties = [
             "Id" => ["db_col" => "id", "db_type" => "integer"],
             "APIAdapterName" => ["db_col" => "api_adapter", "db_type" => "text"],
             "APIFunctionsPrefix" => ["db_col" => "api_func_prefix", "db_type" => "text"],
@@ -59,7 +63,7 @@ class ilScormAiccDataSet extends ilDataSet
             "NameSetting" => ["db_col" => "name_setting", "db_type" => "integer"]
         ];
 
-        $this->element_db_mapping = [];//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        $this->element_db_mapping = [];
         foreach ($this->properties as $key => $value) {
             $this->element_db_mapping [$value["db_col"]] = $key;
         }

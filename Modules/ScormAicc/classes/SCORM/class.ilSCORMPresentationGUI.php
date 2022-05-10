@@ -25,11 +25,11 @@
 */
 class ilSCORMPresentationGUI
 {
-    public $slm;//PHP8Review: Missing Typehint
+    public ilObjSCORMLearningModule $slm;
     public $tpl;//PHP8Review: Missing Typehint (probably ilTemplate)
-    public $lng;//PHP8Review: Missing Typehint (probably ilLanguage)
+    public ilLanguage $lng;
     protected int $refId;
-    protected $ctrl;//PHP8Review: Missing Typehint (probably ilCtrl)
+    protected ilCtrlInterface $ctrl;
 
     public function __construct()
     {

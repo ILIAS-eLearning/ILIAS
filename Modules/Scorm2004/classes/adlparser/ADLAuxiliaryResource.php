@@ -14,9 +14,9 @@
      *****************************************************************************/
     class ADLAuxiliaryResource
     {
-        public $mType = null;//PHP8Review: Missing Typehint
+        public ?string $mType = null;
         
-        public $mResourceID = null;//PHP8Review: Missing Typehint
+        public ?string $mResourceID = null;
 
-        public $mParameter = null;//PHP8Review: Missing Typehint
+        public ?string $mParameter = null;
     }

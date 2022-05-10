@@ -27,15 +27,15 @@ class SeqActivity
     
      
     //SeqRuleset
-    public $mPreConditionRules = null;//PHP8Review: Missing Typehint
+    public ?array $mPreConditionRules = null;
 
     //SeqRuleset
-    public $mPostConditionRules = null;//PHP8Review: Missing Typehint
+    public ?array $mPostConditionRules = null;
 
     //SeqRuleset
-    public $mExitActionRules = null;//PHP8Review: Missing Typehint
+    public ?array $mExitActionRules = null;
 
-    public $mXML = null;//PHP8Review: Missing Typehint
+//    public $mXML = null;
 
     public int $mDepth = 0;
 

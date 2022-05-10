@@ -28,13 +28,12 @@ class ConsumerNonce
      *
      * @var int|null $expires
      */
-    // TODO PHP8 Review: Union Types are not supported by PHP 7.4!
-    public $expires = null;
+    public ?int $expires = null;
 
     /**
          * Tool Consumer to which this nonce applies.
          */
-    private ?\ILIAS\LTI\ToolProvider\ToolConsumer $consumer = null;
+    private ?\ILIAS\LTI\ToolProvider\Platform $consumer = null;
     /**
          * Nonce value.
          */
@@ -42,10 +41,10 @@ class ConsumerNonce
 
     /**
      * Class constructor.
-     * @param ToolConsumer $consumer Consumer object
-     * @param string|null  $value    Nonce value (optional, default is null)
+     * @param Platform    $consumer Consumer object
+     * @param string|null $value    Nonce value (optional, default is null)
      */
-    public function __construct(ToolConsumer $consumer, ?string $value = null)
+    public function __construct(Platform $consumer, ?string $value = null)
     {
         $this->consumer = $consumer;
         $this->value = $value;
@@ -74,10 +73,9 @@ class ConsumerNonce
 
     /**
      * Get tool consumer.
-     *
-     * @return ToolConsumer Consumer for this nonce
+     * @return Platform Consumer for this nonce
      */
-    public function getConsumer() : ?\ILIAS\LTI\ToolProvider\ToolConsumer
+    public function getConsumer() : ?\ILIAS\LTI\ToolProvider\Platform
     {
         return $this->consumer;
     }

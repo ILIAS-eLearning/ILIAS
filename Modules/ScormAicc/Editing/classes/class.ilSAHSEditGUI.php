@@ -32,6 +32,11 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
     protected int $refId;
 
     /**
+     * @var ilObjSCORMLearningModuleGUI|ilObjSCORM2004LearningModuleGUI
+     */
+    protected $slm_gui;
+
+    /**
      * @throws ilCtrlException
      */
     public function __construct()
@@ -85,7 +90,7 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         switch ($type) {
 
             case "scorm":
-                $this->slm_gui = new ilObjSCORMLearningModuleGUI([], $this->refId, true, false);//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+                $this->slm_gui = new ilObjSCORMLearningModuleGUI([], $this->refId, true, false);
                 break;
 
             case "scorm2004":

@@ -64,7 +64,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
      *    );
      * @return array<int, array>
      */
-    public static function _getCommands($a_obj_id = null) : array//PHP8Review: Missing Typehint
+    public static function _getCommands(int $a_obj_id = null) : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true),
@@ -77,7 +77,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     /**
      * check whether goto script will succeed
      */
-    public static function _checkGoto($target) : bool//PHP8Review: Missing Typehint
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
         $ilAccess = $DIC->access();

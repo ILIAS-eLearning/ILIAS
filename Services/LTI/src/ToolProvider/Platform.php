@@ -20,81 +20,179 @@ use ILIAS\LTIOAuth;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+//toDo Change to Platform
 class ToolConsumer
 {
+    use System;
 
     /**
- * Local name of tool consumer.
- *
- * @var string $name
- */
-    public ?string $name = null;
-    /**
-     * Shared secret.
-     *
-     * @var string $secret
+     * List of supported incoming message types.
      */
-    public ?string $secret = null;
+    public static array $MESSAGE_TYPES = array(
+        'ContentItemSelection',
+        'LtiStartAssessment'
+    );
+
     /**
-     * LTI version (as reported by last tool consumer connection).
+     * Local name of platform.
      *
-     * @var string $ltiVersion
+     * @var string|null $name
+     */
+    public ?string $name = null;
+//    /**
+//     * Shared secret.
+//     *
+//     * @var string $secret
+//     */
+//    public ?string $secret = null;
+    /**
+     * Platform ID.
+     *
+     * @var string|null $platformId
+     */
+    public ?string $platformId = null;
+
+    /**
+     * Client ID.
+     *
+     * @var string|null $clientId
+     */
+    public ?string $clientId = null;
+
+    /**
+     * Deployment ID.
+     *
+     * @var string|null $deploymentId
+     */
+    public ?string $deploymentId = null;
+
+    /**
+     * Authorization server ID.
+     *
+     * @var string|null $authorizationServerId
+     */
+    public ?string $authorizationServerId = null;
+
+    /**
+     * Login authentication URL.
+     *
+     * @var string|null $authenticationUrl
+     */
+    public ?string $authenticationUrl = null;
+
+    /**
+     * Access Token service URL.
+     *
+     * @var string|null $accessTokenUrl
+     */
+    public ?string $accessTokenUrl = null;
+
+    /**
+     * LTI version (as reported by last platform connection).
+     *
+     * @var string|null $ltiVersion
      */
     public ?string $ltiVersion = null;
+
     /**
      * Name of tool consumer (as reported by last tool consumer connection).
      *
-     * @var string $consumerName
+     * @var string|null $consumerName
      */
     public ?string $consumerName = null;
+
     /**
      * Tool consumer version (as reported by last tool consumer connection).
      *
-     * @var string $consumerVersion
+     * @var string|null $consumerVersion
      */
     public ?string $consumerVersion = null;
+
+    /**
+     * The platform profile data.
+     *
+     * @var object|null $profile
+     */
+    public $profile = null;
+
+    /**
+     * The tool proxy.
+     *
+     * @var object|null $toolProxy
+     */
+    public $toolProxy = null;
+
     /**
      * Tool consumer GUID (as reported by first tool consumer connection).
      *
-     * @var string $consumerGuid
+     * @var string|null $consumerGuid
      */
     public ?string $consumerGuid = null;
+
     /**
      * Optional CSS path (as reported by last tool consumer connection).
      *
      * @var string $cssPath
      */
     public ?string $cssPath = null;
+
+    /**
+     * Access token to authorize service requests.
+     *
+     * @var AccessToken|null $accessToken
+     */
+    private $accessToken = null;
+
+    /**
+     * Get the authorization access token
+     *
+     * @return AccessToken Access token
+     */
+    public function getAccessToken()
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * Set the authorization access token
+     *
+     * @param AccessToken $accessToken  Access token
+     */
+    public function setAccessToken($accessToken)
+    {
+        $this->accessToken = $accessToken;
+    }
+
     /**
      * Whether the tool consumer instance is protected by matching the consumer_guid value in incoming requests.
      *
-     * @var boolean $protected
+     * @var bool $protected
      */
     public bool $protected = false;
-    /**
-     * Whether the tool consumer instance is enabled to accept incoming connection requests.
-     *
-     * @var boolean $enabled
-     */
-    public bool $enabled = false;
-    /**
-     * Date/time from which the the tool consumer instance is enabled to accept incoming connection requests.
-     *
-     * @var int|null $enableFrom
-     */
-    public ?int $enableFrom = null;
-    /**
-     * Date/time until which the tool consumer instance is enabled to accept incoming connection requests.
-     *
-     * @var int $enableUntil
-     */
-    public ?int $enableUntil = null;
-    /**
-     * Date of last connection from this tool consumer.
-     *
-     * @var int $lastAccess
-     */
-    public ?int $lastAccess = null;
+//    /**
+//     * Whether the tool consumer instance is enabled to accept incoming connection requests.
+//     *
+//     * @var boolean $enabled
+//     */
+//    public bool $enabled = false;
+//    /**
+//     * Date/time from which the the tool consumer instance is enabled to accept incoming connection requests.
+//     *
+//     * @var int|null $enableFrom
+//     */
+//    public ?int $enableFrom = null;
+//    /**
+//     * Date/time until which the tool consumer instance is enabled to accept incoming connection requests.
+//     *
+//     * @var int $enableUntil
+//     */
+//    public ?int $enableUntil = null;
+//    /**
+//     * Date of last connection from this tool consumer.
+//     *
+//     * @var int $lastAccess
+//     */
+//    public ?int $lastAccess = null;
     /**
      * Default scope to use when generating an Id value for a user.
      *
@@ -107,24 +205,24 @@ class ToolConsumer
      * @var string $defaultEmail
      */
     public string $defaultEmail = '';
-    /**
-     * Setting values (LTI parameters, custom parameters and local parameters).
-     *
-     * @var array $settings
-     */
-    public ?array $settings = null;
-    /**
-     * Date/time when the object was created.
-     *
-     * @var int $created
-     */
-    public ?int $created = null;
-    /**
-     * Date/time when the object was last updated.
-     *
-     * @var int $updated
-     */
-    public ?int $updated = null;
+//    /**
+//     * Setting values (LTI parameters, custom parameters and local parameters).
+//     *
+//     * @var array $settings
+//     */
+//    public ?array $settings = null;
+//    /**
+//     * Date/time when the object was created.
+//     *
+//     * @var int $created
+//     */
+//    public ?int $created = null;
+//    /**
+//     * Date/time when the object was last updated.
+//     *
+//     * @var int $updated
+//     */
+//    public ?int $updated = null;
 
     /**
          * Consumer ID value.
@@ -138,12 +236,12 @@ class ToolConsumer
          * Whether the settings value have changed since last saved.
          */
     private bool $settingsChanged = false;
-    /**
-     * Data connector object or string.
-     *
-     * @var DataConnector $dataConnector
-     */
-    private ?DataConnector $dataConnector = null;
+//    /**
+//     * Data connector object or string.
+//     *
+//     * @var DataConnector $dataConnector
+//     */
+//    private ?DataConnector $dataConnector = null;
 
     /**
      * Class constructor.

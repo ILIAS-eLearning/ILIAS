@@ -22,14 +22,14 @@
 */
 class ilSCORMPackageParser extends ilSaxParser
 {
-    public $cnt;				// counts open elements//PHP8Review: Missing Typehint
+    public int $cnt;				// counts open elements
     public array $current_element;	// store current element type
-    public $slm_object;//PHP8Review: Missing Typehint (probably ilObjSCORMModule)
+    public object $slm_object;      //better ilObjSCORMModule
     public array $parent_stack;		// stack of current parent nodes
     public bool $tree_created;		// flag that determines wether the scorm tree has been created
-    public $scorm_tree;		// manifest tree//PHP8Review: Missing Typehint
-    public $current_organization;	// current organization object//PHP8Review: Missing Typehint
-    public $current_resource;	// current resource object//PHP8Review: Missing Typehint
+    public object $scorm_tree;		// manifest tree
+    public object $current_organization;	// current organization object
+    public object $current_resource;	// current resource object
     public array $item_stack;		// current open item objects
     public string $package_title = "";	// title for the package (title from organisation)
 
@@ -54,7 +54,7 @@ class ilSCORMPackageParser extends ilSaxParser
      * set event handler
      * should be overwritten by inherited class
      *
-     * @param resource $a_xml_parser
+     * @param resource|XMLParser $a_xml_parser
      * @return void
      */
     public function setHandlers($a_xml_parser) : void

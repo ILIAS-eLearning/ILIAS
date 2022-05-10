@@ -14,12 +14,15 @@
  *****************************************************************************/
 class ilScormAiccImporter extends ilXmlImporter
 {
+    private ilScormAiccDataSet $dataset;
+    public array $moduleProperties;
+
     public function __construct()
     {
-        $this->dataset = new ilScormAiccDataSet();//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        $this->dataset = new ilScormAiccDataSet();
         //todo: at the moment restricted to one module in xml file, extend?
-        $this->moduleProperties = [];//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
-        $this->manifest = [];//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        $this->moduleProperties = [];
+        //$this->manifest = [];
     }
 
     public function init() : void
