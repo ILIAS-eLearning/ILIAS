@@ -23,7 +23,7 @@ class ilMembershipOverviewGUI
 
 
     /**
-     * @var \ilTemplate
+     * @var \ilGlobalPageTemplate
      */
     protected $main_tpl;
 
@@ -48,6 +48,7 @@ class ilMembershipOverviewGUI
 
         $next_class = $ctrl->getNextClass($this);
         $cmd = $ctrl->getCmd("show");
+        $this->main_tpl->setTitle($this->lng->txt("my_courses_groups"));
 
         switch ($next_class) {
             case "ilpdmembershipblockgui":
@@ -55,9 +56,7 @@ class ilMembershipOverviewGUI
                 $block = new ilPDMembershipBlockGUI(true);
                 $ret = $this->ctrl->forwardCommand($block);
                 if ($ret != "") {
-                    //$this->displayHeader();
                     $this->main_tpl->setContent($ret);
-                    //$this->tpl->printToStdout();
                 }
                 break;
 
