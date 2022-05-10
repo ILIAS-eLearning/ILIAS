@@ -51,20 +51,6 @@ final class VEvent
 
     /**
      * VEvent constructor.
-     * @param string $uid
-     * @param string $description
-     * @param string $summary
-     * @param int    $sequence
-     * @param string $status
-     * @param string $organiserName
-     * @param string $organiserEmail
-     * @param string $attendeeName
-     * @param string $attendeeEmail
-     * @param int    $startTime
-     * @param int    $endTime
-     * @param bool   $allDay
-     * @param string $url
-     * @param string $location
      */
     public function __construct(
         string $uid,

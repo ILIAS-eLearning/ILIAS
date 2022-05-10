@@ -29,7 +29,6 @@ final class IliasDBTalkTemplateRepository
 
     /**
      * IliasDBTalkTemplateRepository constructor.
-     * @param ilTree $tree
      */
     public function __construct(ilTree $tree)
     {

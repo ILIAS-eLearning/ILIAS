@@ -50,36 +50,22 @@ final class EmployeeTalkSerieSettings extends ActiveRecord
     protected int $editing_locked = 0;
 
 
-    /**
-     * @return int
-     */
     public function getId() : int
     {
         return intval($this->id);
     }
 
-    /**
-     * @param int $id
-     * @return EmployeeTalkSerieSettings
-     */
     public function setId(int $id) : EmployeeTalkSerieSettings
     {
         $this->id = $id;
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getEditingLocked() : int
     {
         return $this->editing_locked;
     }
 
-    /**
-     * @param int $editing_locked
-     * @return EmployeeTalkSerieSettings
-     */
     public function setEditingLocked(int $editing_locked) : EmployeeTalkSerieSettings
     {
         $this->editing_locked = $editing_locked;

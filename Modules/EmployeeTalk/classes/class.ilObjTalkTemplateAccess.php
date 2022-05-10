@@ -51,7 +51,6 @@ final class ilObjTalkTemplateAccess extends ilObjectAccess
 
     /**
      * @param string $target check whether goto script will succeed
-     * @return bool
      */
     public static function _checkGoto(string $target) : bool
     {

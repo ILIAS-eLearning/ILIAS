@@ -32,10 +32,6 @@ final class EmployeeTalkEmailNotification
 
     /**
      * EmployeeTalkEmailNotification constructor.
-     * @param string $salutation
-     * @param string $dateHeader
-     * @param string $talkTitle
-     * @param string $appointmentDetails
      * @param string[] $dates
      */
     public function __construct(
@@ -52,33 +48,21 @@ final class EmployeeTalkEmailNotification
         $this->dates = $dates;
     }
 
-    /**
-     * @return string
-     */
     public function getSalutation() : string
     {
         return $this->salutation;
     }
 
-    /**
-     * @return string
-     */
     public function getDateHeader() : string
     {
         return $this->dateHeader;
     }
 
-    /**
-     * @return string
-     */
     public function getTalkTitle() : string
     {
         return $this->talkTitle;
     }
 
-    /**
-     * @return string
-     */
     public function getAppointmentDetails() : string
     {
         return $this->appointmentDetails;

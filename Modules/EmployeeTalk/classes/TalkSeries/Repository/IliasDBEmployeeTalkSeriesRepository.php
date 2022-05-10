@@ -36,8 +36,6 @@ final class IliasDBEmployeeTalkSeriesRepository
 
     /**
      * IliasDBEmployeeTalkSeriesRepository constructor.
-     * @param ilObjUser     $currentUser
-     * @param ilDBInterface $database
      */
     public function __construct(ilObjUser $currentUser, ilDBInterface $database)
     {

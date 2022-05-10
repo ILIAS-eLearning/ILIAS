@@ -25,10 +25,6 @@ final class ilObjTalkTemplate extends ilContainer
     private static int $root_id = -1;
 
 
-    /**
-     * @param int  $id
-     * @param bool $a_call_by_reference
-     */
     public function __construct(int $id = 0, bool $a_call_by_reference = true)
     {
         $this->setType(self::TYPE);
@@ -52,15 +48,6 @@ final class ilObjTalkTemplate extends ilContainer
     }
 
 
-    public function update() : bool
-    {
-        return parent::update();
-    }
-
-
-    /**
-     * @return int
-     */
     public static function getRootOrgRefId() : int
     {
         self::loadRootOrgRefIdAndId();
@@ -69,9 +56,6 @@ final class ilObjTalkTemplate extends ilContainer
     }
 
 
-    /**
-     * @return int
-     */
     public static function getRootOrgId() : int
     {
         self::loadRootOrgRefIdAndId();
@@ -95,25 +79,8 @@ final class ilObjTalkTemplate extends ilContainer
         }
     }
 
-    /**
-     * @param int         $id
-     * @param bool        $reference
-     * @param string|null $type
-     * @return bool
-     */
     public static function _exists(int $id, bool $reference = false, ?string $type = null) : bool
     {
         return parent::_exists($id, $reference, self::TYPE);
-    }
-
-    /**
-     * delete orgunit, childs and all related data
-     *
-     * @return    boolean    true if all object data were removed; false if only a references were
-     *                       removed
-     */
-    public function delete() : bool
-    {
-        return parent::delete();
     }
 }

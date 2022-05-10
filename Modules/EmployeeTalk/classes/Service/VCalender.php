@@ -44,10 +44,7 @@ final class VCalender
 
     /**
      * VCalender constructor.
-     * @param string   $name
-     * @param string   $uid
      * @param VEvent[] $events
-     * @param string   $method
      */
     public function __construct(string $name, string $uid, array $events, string $method)
     {
@@ -92,17 +89,11 @@ final class VCalender
             'END:VCALENDAR' . "\r\n";
     }
 
-    /**
-     * @return string
-     */
     public function getName() : string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getUid() : string
     {
         return $this->uid;
@@ -116,9 +107,6 @@ final class VCalender
         return $this->events;
     }
 
-    /**
-     * @return string
-     */
     public function getMethod() : string
     {
         return $this->method;

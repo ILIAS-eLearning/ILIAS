@@ -35,7 +35,6 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
 
     /**
      * IliasDBEmployeeTalkRepository constructor.
-     * @param ilDBInterface $database
      */
     public function __construct(ilDBInterface $database)
     {

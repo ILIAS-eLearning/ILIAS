@@ -30,9 +30,6 @@ final class EmployeeTalkPeriod implements ilDatePeriod
 
     /**
      * EmployeeTalkPeriod constructor.
-     * @param ilDateTime $start
-     * @param ilDateTime $end
-     * @param bool       $fullDay
      */
     public function __construct(ilDateTime $start, ilDateTime $end, bool $fullDay)
     {

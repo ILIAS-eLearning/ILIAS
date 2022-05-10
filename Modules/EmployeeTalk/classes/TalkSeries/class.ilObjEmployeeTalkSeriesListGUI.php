@@ -56,17 +56,11 @@ final class ilObjEmployeeTalkSeriesListGUI extends ilObjectListGUI
 
     /**
      * no social commands needed in orgunits.
-     * @param bool $a_header_actions
      */
     public function insertCommonSocialCommands(bool $a_header_actions = false) : void
     {
     }
 
-    /**
-     * @param string $a_cmd
-     *
-     * @return string
-     */
     public function getCommandLink(string $a_cmd) : string
     {
         $this->ctrl->setParameterByClass(strtolower(ilObjEmployeeTalkSeriesGUI::class), "ref_id", $this->ref_id);

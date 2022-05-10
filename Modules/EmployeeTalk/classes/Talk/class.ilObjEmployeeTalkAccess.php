@@ -183,19 +183,11 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
         return intval($talk->getOwner()) === $currentUserId;
     }
 
-    /**
-     * @param int $refId
-     * @return bool
-     */
     public function canEdit(int $refId) : bool
     {
         return $this->isPermittedToExecuteOperation($refId, EmployeeTalkPositionAccessLevel::EDIT);
     }
 
-    /**
-     * @param int $refId
-     * @return bool
-     */
     public function canDelete(int $refId) : bool
     {
         return $this->isPermittedToExecuteOperation($refId, EmployeeTalkPositionAccessLevel::CREATE);
@@ -256,19 +248,11 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
         return false;
     }
 
-    /**
-     * @param int $ref_id
-     *
-     * @return bool
-     */
     public function isTalkReadonlyByCurrentUser(int $ref_id) : bool
     {
         return !$this->canEdit($ref_id);
     }
 
-    /**
-     * @return int
-     */
     private function getCurrentUsersId() : int
     {
         return $this->container->user()->getId();

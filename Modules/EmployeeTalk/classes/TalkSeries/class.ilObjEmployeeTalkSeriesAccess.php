@@ -65,8 +65,6 @@ final class ilObjEmployeeTalkSeriesAccess extends ilObjectAccess
 
     /**
      * @param string $a_target check whether goto script will succeed
-     *
-     * @return bool
      */
     public static function _checkGoto(string $a_target) : bool
     {

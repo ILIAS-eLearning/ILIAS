@@ -45,11 +45,6 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 
     /**
      * ilEmployeeTalkAppointmentGUI constructor.
-     * @param ilGlobalTemplateInterface $template
-     * @param ilLanguage                $language
-     * @param ilCtrl                    $controlFlow
-     * @param ilTabsGUI                 $tabs
-     * @param ilObjEmployeeTalk         $talk
      */
     public function __construct(
         ilGlobalTemplateInterface $template,
@@ -433,9 +428,6 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
 
     /**
      * create recurring talks
-     * @param ilPropertyFormGUI       $form
-     * @param ilCalendarRecurrence    $recurrence
-     * @param ilObjEmployeeTalkSeries $series
      *
      * @return bool true if successful otherwise false
      * @throws ilDateTimeException

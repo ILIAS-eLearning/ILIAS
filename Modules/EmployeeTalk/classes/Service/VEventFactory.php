@@ -26,9 +26,7 @@ use ILIAS\DI\Container;
 final class VEventFactory
 {
     /**
-     * @param ilObjEmployeeTalk $talk
      * @param string            $status VEventStatus
-     * @return VEvent
      *
      * @see VEventStatus
      */

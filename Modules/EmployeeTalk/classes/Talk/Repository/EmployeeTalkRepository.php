@@ -26,15 +26,11 @@ interface EmployeeTalkRepository
     public function findByObjectId(int $objectId) : EmployeeTalk;
 
     /**
-     * @param int $iliasUserId
-     *
      * @return EmployeeTalk[]
      */
     public function findByEmployee(int $iliasUserId) : array;
 
     /**
-     * @param string $seriesId
-     *
      * @return EmployeeTalk[]
      */
     public function findBySeries(string $seriesId) : array;
@@ -50,14 +46,11 @@ interface EmployeeTalkRepository
 
     /**
      * @param int[] $employees
-     * @param int   $owner
      * @return EmployeeTalk[]
      */
     public function findByEmployeesAndOwner(array $employees, int $owner) : array;
 
     /**
-     * @param int $employee
-     * @param int $owner
      * @return EmployeeTalk[]
      */
     public function findTalksBetweenEmployeeAndOwner(int $employee, int $owner) : array;

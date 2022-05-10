@@ -101,12 +101,6 @@ final class ilObjEmployeeTalkSeries extends ilContainer
         return true;
     }
 
-    /**
-     * @param int         $a_id
-     * @param bool        $a_reference
-     * @param string|null $type
-     * @return bool
-     */
     public static function _exists(int $a_id, bool $a_reference = false, ?string $type = null) : bool
     {
         return parent::_exists($a_id, $a_reference, self::TYPE);

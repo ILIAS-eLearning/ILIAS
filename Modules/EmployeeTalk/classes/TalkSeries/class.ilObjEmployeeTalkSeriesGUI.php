@@ -143,11 +143,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
      * Talk Series does not use RBAC and therefore does not require the usual permission checks.
      * Talk series it self can no longer be edited after creation.
      *
-     * @param string $a_perm
-     * @param string $a_cmd
-     * @param string $a_type
      * @param null   $a_ref_id
-     * @return bool
      */
     protected function checkPermissionBool(string $a_perm, string $a_cmd = "", string $a_type = "", ?int $a_ref_id = null) : bool
     {
@@ -184,8 +180,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
     /**
      * Redirect to etalk mystaff list instead of parent which is not accessible by most users.
-     *
-     * @param ilObject $a_new_object
      */
     protected function afterSave(ilObject $a_new_object) : void
     {
@@ -482,8 +476,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
     /**
      * Copy the template values, into the talk series object.
-     *
-     * @param ilObjEmployeeTalkSeries $talk
      */
     private function copyTemplateValues(ilObjEmployeeTalkSeries $talk) : void
     {
@@ -503,8 +495,6 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
 
     /**
      * create recurring talks
-     * @param ilObjEmployeeTalkSeries    $talk
-     * @param ilCalendarRecurrence $recurrence
      *
      * @return bool true if successful otherwise false
      */

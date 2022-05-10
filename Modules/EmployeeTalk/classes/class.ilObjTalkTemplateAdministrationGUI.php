@@ -117,8 +117,6 @@ final class ilObjTalkTemplateAdministrationGUI extends ilContainerGUI
 
     /**
      * Filter the view by talk templates because the talk series objects are also children of the talk template administration.
-     *
-     * @return ilContainerContentGUI
      */
     public function getContentGUI() : ilContainerContentGUI
     {

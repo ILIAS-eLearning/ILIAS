@@ -241,11 +241,6 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
     private function loadTable() : ilEmployeeTalkTableGUI
     {
         $table = new ilEmployeeTalkTableGUI($this, ControlFlowCommand::DEFAULT);
-
-        /**
-         * @var EmployeeTalk[] $talks
-         */
-        $talks = [];
         if ($this->currentUser->getId() === 6) {
             $talks = $this->repository->findAll();
         } else {

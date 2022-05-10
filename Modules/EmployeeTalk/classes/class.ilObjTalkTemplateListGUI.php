@@ -48,15 +48,12 @@ final class ilObjTalkTemplateListGUI extends ilObjectListGUI
 
     /**
      * no social commands needed in orgunits.
-     * @param bool $header_actions
      */
     public function insertCommonSocialCommands(bool $header_actions = false) : void
     {
     }
 
     /**
-     * @param string $cmd
-     * @return string
      * @throws ilCtrlException
      */
     public function getCommandLink(string $cmd) : string

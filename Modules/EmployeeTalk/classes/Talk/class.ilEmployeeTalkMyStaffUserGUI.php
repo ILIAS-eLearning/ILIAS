@@ -50,14 +50,6 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
 
     /**
      * ilEmployeeTalkMyStaffUserGUI constructor.
-     * @param ilMyStaffAccess           $access
-     * @param ilCtrl                    $ctrl
-     * @param ilLanguage                $language
-     * @param RequestInterface          $request
-     * @param ilGlobalTemplateInterface $template
-     * @param ilTabsGUI                 $tabs
-     * @param EmployeeTalkRepository    $repository
-     * @param UIServices                $ui
      */
     public function __construct(
         ilMyStaffAccess $access,

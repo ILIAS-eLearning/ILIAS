@@ -25,11 +25,6 @@ use ilObjEmployeeTalkSeries;
 
 final class VCalendarFactory
 {
-    /**
-     * @param ilObjEmployeeTalkSeries $series
-     * @param string                  $method
-     * @return VCalender
-     */
     public static function getInstanceFromTalks(\ilObjEmployeeTalkSeries $series, string $method = VCalenderMethod::PUBLISH) : VCalender
     {
         global $DIC;
@@ -56,12 +51,6 @@ final class VCalendarFactory
         );
     }
 
-    /**
-     * @param ilObjEmployeeTalkSeries  $series
-     * @param string                   $title
-     * @param string                   $method
-     * @return VCalender
-     */
     public static function getEmptyInstance(
         ilObjEmployeeTalkSeries $series,
         string $title,

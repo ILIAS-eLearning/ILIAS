@@ -38,10 +38,6 @@ final class ilObjEmployeeTalk extends ilObject
     
     private EmployeeTalk $data;
 
-    /**
-     * @param int  $a_id
-     * @param bool $a_call_by_reference
-     */
     public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->setType(self::TYPE);
@@ -128,9 +124,6 @@ final class ilObjEmployeeTalk extends ilObject
         return true;
     }
 
-    /**
-     * @return int
-     */
     public static function getRootOrgRefId() : int
     {
         self::loadRootOrgRefIdAndId();
@@ -138,9 +131,6 @@ final class ilObjEmployeeTalk extends ilObject
         return self::$root_ref_id;
     }
 
-    /**
-     * @return int
-     */
     public static function getRootOrgId() : int
     {
         self::loadRootOrgRefIdAndId();
@@ -168,12 +158,6 @@ final class ilObjEmployeeTalk extends ilObject
         return new ilObjEmployeeTalkSeries($this->tree->getParentId($this->getRefId()), true);
     }
 
-    /**
-     * @param int         $a_id
-     * @param bool        $a_reference
-     * @param string|null $type
-     * @return bool
-     */
     public static function _exists(int $a_id, bool $a_reference = false, ?string $type = null) : bool
     {
         return parent::_exists($a_id, $a_reference, "etal");
@@ -209,18 +193,11 @@ final class ilObjEmployeeTalk extends ilObject
         return $result;
     }
 
-    /**
-     * @return EmployeeTalk
-     */
     public function getData() : EmployeeTalk
     {
         return clone $this->data;
     }
 
-    /**
-     * @param EmployeeTalk $data
-     * @return ilObjEmployeeTalk
-     */
     public function setData(EmployeeTalk $data) : ilObjEmployeeTalk
     {
         $this->data = clone $data;
