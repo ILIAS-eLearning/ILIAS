@@ -58,7 +58,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
                                       ->withSymbol($icon)
                                       ->withPosition(10)
                                       ->withVisibilityCallable(
-                                          $access_helper->hasAdministrationAccess(function () {
+                                          $access_helper->hasAdministrationAccess(function () : bool {
                                               return $this->dic->access()->checkAccess(
                                                   'read',
                                                   '',
@@ -80,7 +80,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
                                                     ->withSymbol($icon)
                                                     ->withPosition(20)
                                                     ->withVisibilityCallable(
-                                                        $access_helper->hasAdministrationAccess(function () {
+                                                        $access_helper->hasAdministrationAccess(function () : bool {
                                                             return $this->dic->access()->checkAccess(
                                                                 'read',
                                                                 '',
@@ -101,7 +101,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
                                   ->withPosition(7)
                                   ->withLinks([$linkOrgUnit, $linkEmployeeTalkTemplates])
                                   ->withVisibilityCallable(
-                                      $access_helper->hasAdministrationAccess(function () {
+                                      $access_helper->hasAdministrationAccess(function () : bool {
                                           return $this->dic->access()->checkAccess(
                                               'read',
                                               '',
