@@ -16,7 +16,7 @@ class ilDclTableViewTextDefaultValue extends ilDclTableViewBaseDefaultValue
      * @db_length           4
      * @db_sequence         true
      */
-    protected int $id;
+    protected ?int $id;
     /**
      * @var int
      * @db_has_field        true

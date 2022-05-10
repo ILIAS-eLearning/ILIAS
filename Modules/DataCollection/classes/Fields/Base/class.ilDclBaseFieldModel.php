@@ -14,12 +14,12 @@ class ilDclBaseFieldModel
 {
 
     /**
-     * @var int|string int for custom fields string for standard fields
+     * @var int|string $id int for custom fields string for standard fields
      */
     protected $id = 0;
-    protected int $table_id;
-    protected string $title;
-    protected string $description;
+    protected int $table_id = 0;
+    protected string $title = "";
+    protected string $description = "";
     protected int $datatypeId = 0;
     protected ?int $order = null;
     protected bool $unique;

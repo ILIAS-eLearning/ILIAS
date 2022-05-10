@@ -13,13 +13,15 @@
  */
 class ilDclTableEditGUI
 {
-    private int $table_id;
+    private ?int $table_id;
     private ilDclTable $table;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
-    protected ilGlobalPageTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilToolbarGUI $toolbar;
     protected ilPropertyFormGUI $form;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * Constructor
@@ -27,20 +29,23 @@ class ilDclTableEditGUI
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
         global $DIC;
-        $main_tpl = $DIC->ui()->mainTemplate();
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        $toolbar = $DIC['ilToolbar'];
+
+
         $locator = $DIC['ilLocator'];
 
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
-        $this->tpl = $tpl;
-        $this->toolbar = $toolbar;
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->toolbar = $DIC->toolbar();
         $this->parent_object = $a_parent_obj;
         $this->obj_id = $a_parent_obj->obj_id;
-        $this->table_id = $_GET['table_id'];
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
+
+        $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+
+        $this->table_id = $table_id;
         $this->table = ilDclCache::getTableCache($this->table_id);
 
         $this->ctrl->saveParameter($this, 'table_id');
@@ -50,7 +55,7 @@ class ilDclTableEditGUI
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {
-            $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }

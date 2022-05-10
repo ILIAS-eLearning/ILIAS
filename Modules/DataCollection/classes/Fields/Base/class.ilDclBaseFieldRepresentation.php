@@ -11,6 +11,8 @@ abstract class ilDclBaseFieldRepresentation
     protected ilDclBaseFieldModel $field;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
@@ -18,11 +20,12 @@ abstract class ilDclBaseFieldRepresentation
     public function __construct(ilDclBaseFieldModel $field)
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
+
         $this->field = $field;
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->component_repository = $DIC["component.repository"];
         $this->component_factory = $DIC["component.factory"];
     }

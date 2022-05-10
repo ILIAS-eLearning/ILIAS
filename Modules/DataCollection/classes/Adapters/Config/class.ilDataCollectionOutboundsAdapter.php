@@ -21,11 +21,6 @@ class ilDataCollectionOutboundsAdapter implements ilDataCollectionOutboundsPort
         return ilDataCollectionUiAdapter::new();
     }
 
-    public function getDataCollectionLanguage() : ilDataCollectionLanguagePort
-    {
-        return ilDataCollectionLanguageAdapter::new();
-    }
-
     public function getDataCollectionAccess() : ilDataCollectionAccessPort
     {
         return ilDataCollectionAccessAdapter::new();
@@ -34,15 +29,5 @@ class ilDataCollectionOutboundsAdapter implements ilDataCollectionOutboundsPort
     public function getDataCollectionEndpoint() : ilDataCollectionEndpointPort
     {
         return ilDataCollectionEndpointAdapter::new();
-    }
-
-    public function getDataCollectionGuiClassFactory(
-        ilObjDataCollectionGUI $dataCollectionGUI,
-        ?ilObject $dataCollection
-    ): ilDataCollectionGuiClassFactoryPort {
-        return ilDataCollectionGuiClassFactoryAdapter::new(
-            $dataCollectionGUI,
-            $dataCollection
-        );
     }
 }

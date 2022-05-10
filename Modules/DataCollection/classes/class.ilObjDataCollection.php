@@ -18,6 +18,7 @@ class ilObjDataCollection extends ilObject2
     private string $public_notes = "";
     private string $notification = "";
 
+
     public function initType() : void
     {
         $this->type = "dcl";
@@ -120,6 +121,8 @@ class ilObjDataCollection extends ilObject2
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $ilAccess = $DIC['ilAccess'];
+        $http = $DIC->http();
+        $refinery = $DIC->refinery();
 
         // If coming from trash, never send notifications and don't load dcl Object
         if ($_GET['ref_id'] == SYSTEM_FOLDER_ID) {
@@ -144,7 +147,11 @@ class ilObjDataCollection extends ilObject2
         ilNotification::updateNotificationTime(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), $users);
 
         //FIXME  $_GET['ref_id]
-        $link = ilLink::_getLink($_GET['ref_id']);
+        $http = $DIC->http();
+        $refinery = $DIC->refinery();
+        $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
+
+        $link = ilLink::_getLink($ref_id);
 
         // prepare mail content
         // use language of recipient to compose message
@@ -175,7 +182,12 @@ class ilObjDataCollection extends ilObject2
                     }
                     //					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id.":\n";
                     $t = "";
-                    if ($tableview_id = $record->getTable()->getFirstTableViewId($_GET['ref_id'], $user_id)) {
+
+
+                    $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
+
+
+                    if ($tableview_id = $record->getTable()->getFirstTableViewId($ref_id, $user_id)) {
                         $visible_fields = ilDclTableView::find($tableview_id)->getVisibleFields();
                         if (empty($visible_fields)) {
                             continue;

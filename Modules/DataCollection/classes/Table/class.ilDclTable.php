@@ -17,7 +17,7 @@ class ilDclTable
     protected int $id = 0;
     protected ?int $objId = null;
     protected ?ilObjDataCollection $obj = null;
-    protected string $title;
+    protected string $title = "";
     /**
      * @var ilDclBaseFieldModel[]
      */
@@ -29,7 +29,7 @@ class ilDclTable
     /**
      * @var ilDclBaseRecordModel[]
      */
-    protected array $records;
+    protected array $records = [];
     protected bool $is_visible = false;
     protected bool $add_perm = false;
     protected bool $edit_perm = false;
@@ -45,8 +45,9 @@ class ilDclTable
     protected bool $import_enabled = false;
     /**
      * ID of the default sorting field. Can be a DB field (int) or a standard field (string)
+     * @var int|string $default_sort_field
      */
-    protected int $default_sort_field = 0;
+    protected $default_sort_field = 0;
     /**
      * Default sort-order (asc|desc)
      */
@@ -315,7 +316,7 @@ class ilDclTable
         $field->doDelete();
     }
 
-    public function getField(int $field_id) : ?ilDclBaseFieldModel
+    public function getField(string $field_id) : ?ilDclBaseFieldModel
     {
         $fields = $this->getFields();
         $field = null;
@@ -488,8 +489,9 @@ class ilDclTable
 
     /**
      * get id of first (for current user) available view
+     * @return bool|int|null
      */
-    public function getFirstTableViewId(int $ref_id, int $user_id = 0) : bool
+    public function getFirstTableViewId(int $ref_id, int $user_id = 0)
     {
         $uid = $user_id;
         $array = $this->getVisibleTableViews($ref_id, false, $uid);

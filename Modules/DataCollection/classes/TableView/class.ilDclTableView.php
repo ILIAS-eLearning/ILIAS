@@ -55,46 +55,46 @@ class ilDclTableView extends ActiveRecord
      * @db_fieldtype        integer
      * @db_length           8
      */
-    protected int $tableview_order;
+    protected int $tableview_order = 0;
     /**
      * @var bool
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected bool $step_vs;
+    protected bool $step_vs = false;
     /**
      * @var bool
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected bool $step_c;
+    protected bool $step_c  = false;
     /**
      * @var bool
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected bool $step_e;
+    protected bool $step_e = false;
     /**
      * @var bool
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected bool $step_o;
+    protected bool $step_o = false;
     /**
      * @var bool
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected bool $step_s;
+    protected bool $step_s = false;
     /**
      * @var ilDclBaseFieldModel[]
      */
-    protected array $visible_fields_cache;
+    protected array $visible_fields_cache = [];
 
     /**
      * @return string
@@ -479,21 +479,31 @@ class ilDclTableView extends ActiveRecord
 
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
+        $http = $DIC->http();
+        $refinery = $DIC->refinery();
+
         $roles = array();
-        foreach ($rbacreview->getParentRoleIds($_GET['ref_id']) as $role_array) {
+
+        $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
+        foreach ($rbacreview->getParentRoleIds($ref_id) as $role_array) {
             $roles[] = $role_array['obj_id'];
         }
 
         $view = new self();
 
-        if ($_GET['ref_id']) {
+        $hasRefId = $http->wrapper()->query()->has('ref_id');
+
+        if ($hasRefId) {
             global $DIC;
             $rbacreview = $DIC['rbacreview'];
+
+            $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
+
             $roles = array();
-            foreach ($rbacreview->getParentRoleIds($_GET['ref_id']) as $role_array) {
+            foreach ($rbacreview->getParentRoleIds($ref_id) as $role_array) {
                 $roles[] = $role_array['obj_id'];
             }
-            $view->setRoles(array_merge($roles, $rbacreview->getLocalRoles($_GET['ref_id'])));
+            $view->setRoles(array_merge($roles, $rbacreview->getLocalRoles($ref_id)));
         }
         $view->setTableId($table_id);
         // bugfix mantis 0023307

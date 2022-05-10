@@ -57,7 +57,7 @@ class ilDclCache
      * )
      * @var array[]
      */
-    protected static array $clone_mapping;
+    protected static array $clone_mapping = [];
 
     public static function setCloneOf(int $old, int $new, string $type) : void
     {
@@ -111,7 +111,7 @@ class ilDclCache
         }
     }
 
-    public static function getTableCache(?int $table_id = null) : ilDclTable
+    public static function getTableCache(int $table_id = null) : ilDclTable
     {
         if (is_null($table_id) === true || $table_id === 0) {
             return new ilDclTable();
@@ -191,9 +191,10 @@ class ilDclCache
 
     /**
      * Cache Field properties
+     * @param int|string $field_id
      * @return ilDclFieldProperty[]
      */
-    public static function getFieldProperties(int $field_id) : array
+    public static function getFieldProperties($field_id) : array
     {
         if (!isset(self::$field_properties_cache[$field_id])) {
             self::$field_properties_cache[$field_id] = array();

@@ -26,15 +26,17 @@ class ilDclDetailedViewGUI
     private \ilGlobalTemplateInterface $main_tpl;
 
     private ilDataCollectionUiPort $dclUi;
-    private ilDataCollectionLanguagePort $dclLanguage;
     private ilDataCollectionEndpointPort $dclEndPoint;
     private ilDataCollectionAccessPort $dclAccess;
+
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
+
 
     private function init(
         ilDataCollectionOutboundsAdapter $adapter
     ) : void {
         $this->dclUi = $adapter->getDataCollectionUi();
-        $this->dclLanguage = $adapter->getDataCollectionLanguage();
         $this->dclAccess = $adapter->getDataCollectionAccess();
         $this->dclEndPoint = $adapter->getDataCollectionEndpoint();
     }
@@ -44,19 +46,23 @@ class ilDclDetailedViewGUI
      */
     public function __construct(ilObjDataCollectionGUI $a_dcl_object)
     {
+        global $DIC;
         $this->init(ilDataCollectionOutboundsAdapter::new());
 
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
+        $tpl = $DIC->ui()->mainTemplate();
+        $ilCtrl = $DIC->ctrl();
+
         $this->dcl_gui_object = $a_dcl_object;
-        $this->lng = $lng;
+        $this->lng = $DIC->language();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->record_id = (int) $_REQUEST['record_id'];
         $this->record_obj = ilDclCache::getRecordCache($this->record_id);
 
-        if (!$this->record_obj->hasPermissionToView((int) $_GET['ref_id'])) {
-            $this->dclUi->displayFailureMessage($this->dclLanguage->translate('dcl_msg_no_perm_view'));
+        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+        if (!$this->record_obj->hasPermissionToView($ref_id)) {
+            $this->dclUi->displayFailureMessage($this->lng->txt('dcl_msg_no_perm_view'));
 
             $this->dclEndPoint->redirect($this->dclEndPoint->getListRecordsLink());
         }
@@ -81,7 +87,10 @@ class ilDclDetailedViewGUI
         $ilCtrl->setParameterByClass("ilnotegui", "record_id", $this->record_id);
         $ilCtrl->setParameterByClass("ilnotegui", "rep_id", $repId);
 
-        if (isset($_GET['disable_paging']) && $_GET['disable_paging']) {
+
+
+        if ($this->http->wrapper()->query()->has('disable_paging')
+            && $this->http->wrapper()->query()->retrieve('disable_paging', $this->refinery->kindlyTo()->bool())) {
             $this->is_enabled_paging = false;
         }
         // Find current, prev and next records for navigation
@@ -99,13 +108,29 @@ class ilDclDetailedViewGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
-        $this->tableview_id = $_GET['tableview_id'] ? $_GET['tableview_id'] : $this->table->getFirstTableViewId($_GET['ref_id']);
+
+        if($this->http->wrapper()->query()->has('tableview_id')) {
+            $this->tableview_id =$this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
+        } else {
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+            $this->tableview_id = $this->table->getFirstTableViewId($ref_id);
+        }
         $ilCtrl->setParameter($this, 'tableview_id', $this->tableview_id);
-        $ilCtrl->setParameter($this->dcl_gui_object, 'tableview_id',
-            $_GET['back_tableview_id'] ? $_GET['back_tableview_id'] : $this->tableview_id);
+
+        if($this->http->wrapper()->query()->has('back_tableview_id')) {
+            $ilCtrl->setParameter($this->dcl_gui_object, 'tableview_id',
+            $this->http->wrapper()->query()->retrieve('back_tableview_id', $this->refinery->kindlyTo()->int())
+            );
+        } else {
+            $ilCtrl->setParameter($this->dcl_gui_object, 'tableview_id',$this->tableview_id);
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+            $this->tableview_id = $this->table->getFirstTableViewId($ref_id);
+        }
 
         if (!$this->checkAccess()) {
-            if ($this->table->getVisibleTableViews($_GET['ref_id'], true)) {
+
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+            if ($this->table->getVisibleTableViews($ref_id, true)) {
                 $this->offerAlternativeViews();
             } else {
                 $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -231,7 +256,9 @@ class ilDclDetailedViewGUI
         }
 
         // Edit Button
-        if ($this->record_obj->hasPermissionToEdit((int) $_GET['ref_id'])) {
+        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
+        if ($this->record_obj->hasPermissionToEdit($ref_id)) {
             $button = ilLinkButton::getInstance();
             $ilCtrl->setParameterByClass('ildclrecordeditgui', 'table_id', $this->table->getId());
             $ilCtrl->setParameterByClass('ildclrecordeditgui', 'tableview_id', $this->tableview_id);

@@ -24,6 +24,8 @@ class ilDclBaseRecordFieldModel
     protected ilCtrl $ctrl;
     protected ilDBInterface $db;
     protected ilLanguage $lng;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * @param ilDclBaseRecordModel $record
@@ -32,16 +34,15 @@ class ilDclBaseRecordFieldModel
     public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilUser = $DIC['ilUser'];
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
+
         $this->record = $record;
         $this->field = $field;
-        $this->ctrl = $ilCtrl;
-        $this->user = $ilUser;
-        $this->db = $ilDB;
-        $this->lng = $lng;
+        $this->ctrl = $DIC->ctrl();
+        $this->user =  $DIC->user();
+        $this->db = $DIC->database();
+        $this->lng = $DIC->language();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->doRead();
     }
 

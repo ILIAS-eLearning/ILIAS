@@ -12,6 +12,8 @@ class ilDclBaseRecordRepresentation
     protected ilLanguage $lng;
     protected ilAccess $access;
     protected ilCtrl $ctrl;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     public function __construct(ilDclBaseRecordFieldModel $record_field)
     {
@@ -23,6 +25,8 @@ class ilDclBaseRecordRepresentation
         $this->lng = $lng;
         $this->access = $ilAccess;
         $this->ctrl = $ilCtrl;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->record_field = $record_field;
     }

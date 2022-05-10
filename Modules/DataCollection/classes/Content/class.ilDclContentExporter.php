@@ -20,7 +20,7 @@ class ilDclContentExporter
     /**
      * Table-Id for export
      */
-    protected int $table_id;
+    protected ?int $table_id;
     /**
      * Array with filters
      */
@@ -33,7 +33,7 @@ class ilDclContentExporter
     protected ilDclTable $table;
     private \ilGlobalTemplateInterface $main_tpl;
 
-    public function __construct(int $ref_id, int $table_id = null, array $filter = array())
+    public function __construct(int $ref_id, ?int $table_id, array $filter = array())
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();

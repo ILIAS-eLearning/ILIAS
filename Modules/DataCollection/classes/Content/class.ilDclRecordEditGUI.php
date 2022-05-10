@@ -20,28 +20,19 @@ class ilDclRecordEditGUI
     const REDIRECT_DETAIL = 2;
 
     protected bool $tableview_id;
-
-    protected int $record_id;
-
+    protected ?int $record_id = null;
     protected int $table_id;
-
     protected ilDclTable $table;
-
     protected ilObjDataCollectionGUI $parent_obj;
-
     protected ilDclBaseRecordModel $record;
-
     protected ilCtrl $ctrl;
-
-    protected ilTemplate $tpl;
-
+    protected ilGlobalPageTemplate $tpl;
     protected ilLanguage $lng;
-
     protected ilObjUser $user;
-
     protected ilDclPropertyFormGUI $form;
-
     protected ilDclTableView $tableview;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * @param ilObjDataCollectionGUI $parent_obj
@@ -54,6 +45,9 @@ class ilDclRecordEditGUI
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
 
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
         $this->lng = $lng;
@@ -62,6 +56,10 @@ class ilDclRecordEditGUI
         $this->record_id = $_REQUEST['record_id'];
         $this->table_id = $_REQUEST['table_id'];
         $this->tableview_id = $_REQUEST['tableview_id'];
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
         if (!$this->tableview_id) {
             $this->tableview_id = ilDclCache::getTableCache($this->table_id)
                                             ->getFirstTableViewId($this->parent_obj->getRefId());
@@ -88,9 +86,12 @@ class ilDclRecordEditGUI
 
     public function getRecord(): void
     {
-        if ($_GET['mode']) {
+        $hasMode = $this->http->wrapper()->query()->has('mode');
+        if ($hasMode) {
+            $mode = $this->http->wrapper()->query()->retrieve('mode', $this->refinery->kindlyTo()->int());
+
             $this->ctrl->saveParameter($this, 'mode');
-            $this->ctrl->setParameterByClass("ildclrecordlistgui", "mode", $_GET['mode']);
+            $this->ctrl->setParameterByClass("ildclrecordlistgui", "mode", $mode);
         }
         $this->ctrl->setParameterByClass('ildclrecordlistgui', 'tableview_id', $this->tableview_id);
         $this->ctrl->saveParameter($this, 'redirect');
@@ -103,7 +104,8 @@ class ilDclRecordEditGUI
             $this->table_id = $this->table->getId();
         } else {
             $this->table = ilDclCache::getTableCache($this->table_id);
-            if (!ilObjDataCollectionAccess::hasAddRecordAccess($_GET['ref_id'])) {
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+            if (!ilObjDataCollectionAccess::hasAddRecordAccess($ref_id)) {
                 $this->accessDenied();
             }
         }
@@ -209,7 +211,9 @@ class ilDclRecordEditGUI
      */
     public function getRecordData(int $record_id = 0): array
     {
-        $record_id = ($record_id) ? $record_id : $_GET['record_id'];
+        $get_record_id = $this->http->wrapper()->query()->retrieve('record_id', $this->refinery->kindlyTo()->int());
+
+        $record_id = ($record_id) ? $record_id : $get_record_id;
         $return = array();
         if ($record_id) {
             $record = ilDclCache::getRecordCache((int) $record_id);
@@ -645,8 +649,12 @@ class ilDclRecordEditGUI
      */
     protected function checkAndPerformRedirect(bool $force_redirect = false): void
     {
-        if ($force_redirect || (isset($_GET['redirect']) && !$this->ctrl->isAsynch())) {
-            switch ((int) $_GET['redirect']) {
+        $hasRedirect = $this->http->wrapper()->query()->has('redirect');
+
+        if ($force_redirect || ($hasRedirect && !$this->ctrl->isAsynch())) {
+            $redirect = $this->http->wrapper()->query()->retrieve('redirect', $this->refinery->kindlyTo()->int());
+
+            switch ($redirect) {
                 case self::REDIRECT_DETAIL:
                     $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id', $this->record_id);
                     $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'table_id', $this->table_id);

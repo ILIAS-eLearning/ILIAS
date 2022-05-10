@@ -33,7 +33,7 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
         return $pass;
     }
 
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilDclTextInputGUI
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilFormPropertyGUI
     {
         $input = new ilDclTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_TEXTAREA)) {

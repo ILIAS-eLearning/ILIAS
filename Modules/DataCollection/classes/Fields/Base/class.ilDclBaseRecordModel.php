@@ -29,6 +29,8 @@ class ilDclBaseRecordModel
     protected ilDateTime $last_update;
     protected ilDateTime $create_date;
     protected ?int $nr_of_comments = null;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     public function __construct(int $a_id = 0)
     {
@@ -40,6 +42,8 @@ class ilDclBaseRecordModel
         }
 
         $this->notes = $DIC->notes();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
 
     private function fixDate(string $value)
@@ -550,9 +554,12 @@ class ilDclBaseRecordModel
                 return ilDatePresentation::formatDate(new ilDateTime($this->getCreateDate(), IL_CAL_DATETIME));
             case 'comments':
                 $nComments = $this->getNrOfComments();
+
+                $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
                 $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
                     1,
-                    $_GET['ref_id'],
+                    $ref_id,
                     'dcl',
                     $this->table->getCollectionObject()
                                 ->getId(),

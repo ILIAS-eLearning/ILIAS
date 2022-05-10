@@ -12,9 +12,11 @@ class ilDclTableViewGUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
-    protected ilGlobalPageTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilTabsGUI $tabs;
     protected ilDclTable $table;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * Constructor
@@ -24,24 +26,22 @@ class ilDclTableViewGUI
     public function __construct(ilDclTableListGUI $a_parent_obj, int $table_id = 0)
     {
         global $DIC;
-        $main_tpl = $DIC->ui()->mainTemplate();
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $tpl = $DIC['tpl'];
-        $ilTabs = $DIC['ilTabs'];
+
         $locator = $DIC['ilLocator'];
+        $this->parent_obj = $a_parent_obj;
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->tabs = $DIC->tabs();
+        $this->toolbar = $DIC->toolbar();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         if ($table_id == 0) {
-            $table_id = $_GET['table_id'];
+            $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
         }
 
-        $this->parent_obj = $a_parent_obj;
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
-        $this->tpl = $tpl;
-        $this->tabs = $ilTabs;
-        $this->toolbar = $ilToolbar;
+
         $this->table = ilDclCache::getTableCache($table_id);
 
         $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
@@ -49,7 +49,7 @@ class ilDclTableViewGUI
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {
-            $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }
@@ -62,8 +62,15 @@ class ilDclTableViewGUI
 
         switch ($next_class) {
             case 'ildcltablevieweditgui':
+                if($this->http->wrapper()->query()->has('tableview_id')) {
+                    $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
+                } else {
+                    $tableview_id = 0;
+                }
+
+
                 $edit_gui = new ilDclTableViewEditGUI($this, $this->table,
-                    ilDclTableView::findOrGetInstance($_GET['tableview_id']));
+                    ilDclTableView::findOrGetInstance($tableview_id));
                 $this->ctrl->saveParameter($edit_gui, 'tableview_id');
                 $this->ctrl->forwardCommand($edit_gui);
                 break;

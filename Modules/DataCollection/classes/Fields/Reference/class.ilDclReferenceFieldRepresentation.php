@@ -77,7 +77,9 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 
         $input->setOptions($options);
 
-        if (ilObjDataCollectionAccess::hasPermissionToAddRecord($_GET['ref_id'], $reftable->getId())) {
+        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
+        if (ilObjDataCollectionAccess::hasPermissionToAddRecord($ref_id, $reftable->getId())) {
             $input->addCustomAttribute('data-ref="1"');
             $input->addCustomAttribute('data-ref-table-id="' . $reftable->getId() . '"');
             $input->addCustomAttribute('data-ref-field-id="' . $reffield->getId() . '"');

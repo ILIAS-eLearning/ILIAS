@@ -26,14 +26,9 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     protected array $filter = array();
     protected int $mode;
     protected int $userId;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
 
-    private ilDataCollectionLanguagePort $dclLanguage;
-
-    private function init(
-        ilDataCollectionOutboundsAdapter $adapter
-    ) : void {
-        $this->dclLanguage = $adapter->getDataCollectionLanguage();
-    }
 
     public function __construct(
         ilDclRecordListGUI $a_parent_obj,
@@ -43,11 +38,9 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         int $mode = ilDclRecordListGUI::MODE_VIEW
     ) {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $userId = $DIC->user()->getId();
-
-        $this->init(ilDataCollectionOutboundsAdapter::new());
+        $this->ctrl = $DIC->ctrl();
+        $this->userId = $DIC->user()->getId();
+        $this->lng = $DIC->language();
 
         $this->tableview = ilDclTableView::find($tableview_id);
         $identifier = 'dcl_rl_' . $table->getId() . '_' . $tableview_id;
@@ -65,7 +58,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             // Add checkbox columns
             $this->addColumn("", "", "1", true);
             $this->setSelectAllCheckbox("record_ids[]");
-            $this->addMultiCommand("confirmDeleteRecords", $this->dclLanguage->translate('dcl_delete_records'));
+            $this->addMultiCommand("confirmDeleteRecords", $this->lng->txt('dcl_delete_records'));
         }
 
         if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
@@ -84,10 +77,10 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->addColumn($title, $sort_field);
 
             if ($field->hasProperty(ilDclBaseFieldModel::PROP_LEARNING_PROGRESS)) {
-                $this->addColumn($this->dclLanguage->translate("dcl_status"), "_status_" . $field->getTitle());
+                $this->addColumn($this->lng->txt("dcl_status"), "_status_" . $field->getTitle());
             }
         }
-        $this->addColumn($this->dclLanguage->translate("actions"), "", "30px");
+        $this->addColumn($this->lng->txt("actions"), "", "30px");
         $this->setTopCommands(true);
         $this->setEnableHeader(true);
         $this->setShowRowsSelector(true);
@@ -119,8 +112,8 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_EXCEL_ASYNC));
         }
 
-        $ilCtrl->saveParameter($a_parent_obj, 'tableview_id');
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj, "applyFilter"));
+        $this->ctrl->saveParameter($a_parent_obj, 'tableview_id');
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, "applyFilter"));
         $this->setStyle('table', $this->getStyle('table') . ' ' . 'dcl_record_list');
     }
 
@@ -148,10 +141,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
      */
     private function buildData() : void
     {
-        global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-
         $data = array();
         foreach ($this->object_data as $record) {
             $record_data = array();
@@ -172,45 +161,45 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                 }
             }
 
-            $ilCtrl->setParameterByClass("ildclfieldeditgui", "record_id", $record->getId());
-            $ilCtrl->setParameterByClass("ilDclDetailedViewGUI", "record_id", $record->getId());
-            $ilCtrl->setParameterByClass("ilDclDetailedViewGUI", "tableview_id", $this->tableview->getId());
-            $ilCtrl->setParameterByClass("ildclrecordeditgui", "record_id", $record->getId());
-            $ilCtrl->setParameterByClass("ildclrecordeditgui", "tableview_id", $this->tableview->getId());
-            $ilCtrl->setParameterByClass("ildclrecordeditgui", "mode", $this->mode);
+            $this->ctrl->setParameterByClass("ildclfieldeditgui", "record_id", $record->getId());
+            $this->ctrl->setParameterByClass("ilDclDetailedViewGUI", "record_id", $record->getId());
+            $this->ctrl->setParameterByClass("ilDclDetailedViewGUI", "tableview_id", $this->tableview->getId());
+            $this->ctrl->setParameterByClass("ildclrecordeditgui", "record_id", $record->getId());
+            $this->ctrl->setParameterByClass("ildclrecordeditgui", "tableview_id", $this->tableview->getId());
+            $this->ctrl->setParameterByClass("ildclrecordeditgui", "mode", $this->mode);
 
             if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
-                $record_data["_front"] = $ilCtrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord');
+                $record_data["_front"] = $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord');
             }
 
             $alist = new ilAdvancedSelectionListGUI();
             $alist->setId($record->getId());
-            $alist->setListTitle($lng->txt("actions"));
+            $alist->setListTitle($this->lng->txt("actions"));
 
             if (ilDclDetailedViewDefinition::isActive($this->tableview->getId())) {
                 $alist->addItem(
-                    $lng->txt('view'),
+                    $this->lng->txt('view'),
                     'view',
-                    $ilCtrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord')
+                    $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI", 'renderRecord')
                 );
             }
 
             if ($record->hasPermissionToEdit($this->parent_obj->getRefId())) {
-                $alist->addItem($lng->txt('edit'), 'edit', $ilCtrl->getLinkTargetByClass("ildclrecordeditgui", 'edit'));
+                $alist->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass("ildclrecordeditgui", 'edit'));
             }
 
             if ($record->hasPermissionToDelete($this->parent_obj->getRefId())) {
                 $alist->addItem(
-                    $lng->txt('delete'),
+                    $this->lng->txt('delete'),
                     'delete',
-                    $ilCtrl->getLinkTargetByClass("ildclrecordeditgui", 'confirmDelete')
+                    $this->ctrl->getLinkTargetByClass("ildclrecordeditgui", 'confirmDelete')
                 );
 
             }
 
             if ($this->table->getPublicCommentsEnabled()) {
                 $alist->addItem(
-                    $lng->txt('dcl_comments'),
+                    $this->lng->txt('dcl_comments'),
                     'comment',
                     '',
                     '',
@@ -260,7 +249,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->tpl->setVariable(
                 "VIEW_IMAGE_SRC",
                 ilUtil::img(ilUtil::getImagePath("enlarge.svg"),
-                    $this->dclLanguage->translate('dcl_display_record_alt'))
+                    $this->lng->txt('dcl_display_record_alt'))
             );
             $this->tpl->parseCurrentBlock();
         }

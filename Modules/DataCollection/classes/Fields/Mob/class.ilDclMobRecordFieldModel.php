@@ -33,7 +33,10 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
         }
 
         $media = $value;
-        $has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && !isset($_GET['record_id']));
+
+        $hasRecordId = $this->http->wrapper()->query()->has('record_id');
+
+        $has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && $hasRecordId);
         $is_confirmed = (bool) (isset($_POST['save_confirmed']));
 
         if (is_array($media) && $media['tmp_name'] != "" && (!$has_save_confirmation || $is_confirmed)) {

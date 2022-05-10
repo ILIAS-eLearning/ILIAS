@@ -37,7 +37,9 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
                     $ref_record = ilDclCache::getRecordCache($v);
                     $ref_table = $ref_record->getTable();
 
-                    if ($ref_table->getVisibleTableViews($_GET['ref_id'], true)) {
+                    $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
+                    if ($ref_table->getVisibleTableViews($ref_id, true)) {
                         $html .= $this->getLinkHTML(null, $v);
                     } else {
                         $html .= $ref_record->getRecordFieldHTML($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
@@ -74,7 +76,9 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
         $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, "record_id", $ref_record->getId());
         $ilDCLTableView = ilDCLTableView::createOrGetStandardView($ref_record->getTableId());
         $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, "tableview_id", $ilDCLTableView->getId());
-        $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, "back_tableview_id", $_GET['tableview_id']);
+
+        $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
+        $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, "back_tableview_id", $tableview_id);
         $html = "<a href='" . $ilCtrl->getLinkTargetByClass(ilDclDetailedViewGUI::class,
                 "renderRecord") . "&disable_paging=1'>" . $link_name . "</a>";
 

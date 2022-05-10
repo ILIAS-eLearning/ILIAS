@@ -7,11 +7,11 @@
  */
 class ilDclRecordQueryObject
 {
-    protected string $selectStatement;
-    protected string $joinStatement;
-    protected string $whereStatement;
-    protected string $groupStatement;
-    protected string $orderStatement;
+    protected string $selectStatement = "";
+    protected string $joinStatement = "";
+    protected string $whereStatement = "";
+    protected string $groupStatement = "";
+    protected string $orderStatement = "";
 
     public function getSelectStatement() : string
     {

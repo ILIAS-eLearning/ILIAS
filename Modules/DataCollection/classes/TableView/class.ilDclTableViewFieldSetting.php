@@ -42,7 +42,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected bool $visible;
+    protected bool $visible = false;
     /**
      * @var bool
      * @db_has_field        true
@@ -84,7 +84,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @db_fieldtype        text
      * @db_length           128
      */
-    protected string $default_value = "";
+    protected ?string $default_value = null;
     /**
      * @var bool
      * @db_has_field        true
@@ -238,12 +238,12 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->locked_edit = $locked_edit;
     }
 
-    public function getDefaultValue() : string
+    public function getDefaultValue() : ?string
     {
         return $this->default_value;
     }
 
-    public function setDefaultValue(string $default_value) : void
+    public function setDefaultValue(?string $default_value) : void
     {
         $this->default_value = $default_value;
     }
@@ -357,7 +357,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
     /**
      * @return ilDclBaseFieldModel|ilDclStandardField
      */
-    public function getFieldObject() : ilDclStandardField
+    public function getFieldObject()
     {
         if (is_numeric($this->field)) {   //normal field
             return ilDclCache::getFieldCache($this->field);

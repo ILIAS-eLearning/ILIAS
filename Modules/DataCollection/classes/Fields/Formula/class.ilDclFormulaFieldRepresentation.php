@@ -21,7 +21,8 @@ class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 
-        $table = ilDclCache::getTableCache((int) $_GET['table_id']);
+        $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+        $table = ilDclCache::getTableCache($table_id);
         $fields = array();
         foreach ($table->getFieldsForFormula() as $f) {
             $placeholder = ($f->isStandardField()) ? $f->getId() : $f->getTitle();

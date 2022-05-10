@@ -176,25 +176,27 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
         $valid = true;
 
+        $value = $this->getValue();
+
         // escape data
         $out_array = array();
-        foreach ($_POST[$this->getPostVar()] as $item_num => $item) {
+        foreach ($value as $item_num => $item) {
             foreach ($this->inputs as $input_key => $input) {
                 if (isset($item[$input_key])) {
                     $out_array[$item_num][$input_key] = (is_string($item[$input_key])) ? ilUtil::stripSlashes($item[$input_key]) : $item[$input_key];
                 }
             }
         }
-        $_POST[$this->getPostVar()] = $out_array;
+        $this->setValue($out_array);
 
-        if ($this->getRequired() && !trim(implode("", $_POST[$this->getPostVar()]))) {
+        if ($this->getRequired() && !trim(implode("", $this->getValue()))) {
             $valid = false;
         }
 
         // validate
         foreach ($this->inputs as $input_key => $inputs) {
             foreach ($out_array as $subitem) {
-                $_POST[$inputs->getPostVar()] = $subitem[$inputs->getPostVar()];
+                $this->setValue($subitem[$inputs->getPostVar()]);
                 if (!$inputs->checkInput()) {
                     $valid = false;
                 }

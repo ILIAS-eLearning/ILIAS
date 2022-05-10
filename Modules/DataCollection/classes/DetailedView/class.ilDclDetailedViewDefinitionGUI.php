@@ -13,6 +13,8 @@
 class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 {
     protected int $tableview_id;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     public function __construct(int $tableview_id, int $a_definition_id = 0)
     {
@@ -24,12 +26,16 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
          */
         $this->ctrl = $ilCtrl;
         $this->tableview_id = $tableview_id;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         // we always need a page object - create on demand
         if (!ilPageObject::_exists('dclf', $tableview_id)) {
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
             $viewdef = new ilDclDetailedViewDefinition();
             $viewdef->setId($tableview_id);
-            $viewdef->setParentId(ilObject2::_lookupObjectId($_GET['ref_id']));
+            $viewdef->setParentId(ilObject2::_lookupObjectId($ref_id));
             $viewdef->setActive(false);
             $viewdef->create(false);
         }

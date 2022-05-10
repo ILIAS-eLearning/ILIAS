@@ -24,8 +24,9 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
 
         $file = $value;
 
-        $has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && !isset($_GET['record_id']));
-        $is_confirmed = (bool) (isset($_POST['save_confirmed']));
+        $hasRecordId = $this->http->wrapper()->query()->has('record_id');
+        $is_confirmed =  $this->http->wrapper()->query()->has('save_confirmed');
+        $has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && $hasRecordId);
 
         if (is_array($file) && $file['tmp_name'] != "" && (!$has_save_confirmation || $is_confirmed)) {
             $file_obj = new ilObjFile();
@@ -37,7 +38,9 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
             $file_obj->create();
 
             if ($has_save_confirmation) {
-                $move_file = ilDclPropertyFormGUI::getTempFilename($_POST['ilfilehash'],
+                $ilfilehash = $this->http->wrapper()->query()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string());
+
+                $move_file = ilDclPropertyFormGUI::getTempFilename($ilfilehash,
                     'field_' . $this->getField()->getId(), $file["name"], $file["type"]);
 
                 $file_obj->appendStream(

@@ -82,25 +82,6 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
         $this->ui->mainTemplate()->setOnScreenMessage('info', $message, true);
     }
 
-    public function addTab(string $tabId, string $tabLabel, string $link) : void
-    {
-        $this->tabs->addTab($tabId, $tabLabel, $link);
-    }
-
-    public function addSubTab(string $tabId, string $tabLabel, string $link) : void
-    {
-        $this->tabs->addSubTab($tabId, $tabLabel, $link);
-    }
-
-    public function activateTab(string $tabId) : void
-    {
-        $this->tabs->activateTab($tabId);
-    }
-
-    public function activateSubTab(string $tabId): void {
-        $this->tabs->activateSubTab($tabId);
-    }
-
     public function addLocatorItem(string $title, string $link, int $itemId) : void
     {
         $this->locatorGui->addItem($title, $link, "", $itemId);
@@ -129,7 +110,7 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
 
     public function addPermaLinkTableView(int $refId, int $tableviewId) : void
     {
-        $this->tpl->setPermanentLink("dcl", $$refId, "_" . $tableviewId);
+        $this->tpl->setPermanentLink("dcl", $refId, "_" . $tableviewId);
     }
 
     public function setContent(string $content) : void

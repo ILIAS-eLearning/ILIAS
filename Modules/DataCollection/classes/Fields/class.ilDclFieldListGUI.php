@@ -15,8 +15,10 @@ class ilDclFieldListGUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
-    protected ilGlobalPageTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilTabsGUI $tabs;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * Constructor
@@ -24,24 +26,18 @@ class ilDclFieldListGUI
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
         global $DIC;
-        $main_tpl = $DIC->ui()->mainTemplate();
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $tpl = $DIC['tpl'];
-        $ilTabs = $DIC['ilTabs'];
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+        $this->table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
         $locator = $DIC['ilLocator'];
-
-        $table_id = $_GET['table_id'];
-
-        $this->table_id = $table_id;
         $this->parent_obj = $a_parent_obj;
         $this->obj_id = $a_parent_obj->obj_id;
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
-        $this->tpl = $tpl;
-        $this->tabs = $ilTabs;
-        $this->toolbar = $ilToolbar;
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->tabs = $DIC->tabs();
+        $this->toolbar = $DIC->toolbar();
 
         $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
         $locator->addItem(ilDclCache::getTableCache($this->table_id)->getTitle(),
@@ -49,7 +45,7 @@ class ilDclFieldListGUI
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {
-            $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }
@@ -106,7 +102,9 @@ class ilDclFieldListGUI
      */
     public function save(): void
     {
-        $table = ilDclCache::getTableCache($_GET['table_id']);
+        $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+
+        $table = ilDclCache::getTableCache($table_id);
         $fields = $table->getFields();
         $order = $_POST['order'];
         asort($order);

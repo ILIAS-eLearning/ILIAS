@@ -13,6 +13,8 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
     {
         $value = $this->getRecordField()->getValue();
 
+        $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
+
         //Property URL
         $field = $this->getField();
         if ($field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
@@ -37,11 +39,11 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
 
             $html = "<a rel='noopener' target='_blank' href='" . htmlspecialchars($link,
                     ENT_QUOTES) . "'>" . htmlspecialchars($link_value, ENT_QUOTES) . "</a>";
-        } elseif ($field->hasProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT) && $link && ilDclDetailedViewDefinition::isActive($_GET['tableview_id'])) {
+        } elseif ($field->hasProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT) && $link && ilDclDetailedViewDefinition::isActive($tableview_id)) {
             $this->ctrl->clearParametersByClass("ilDclDetailedViewGUI");
             $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'record_id',
                 $this->getRecordField()->getRecord()->getId());
-            $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $_GET['tableview_id']);
+            $this->ctrl->setParameterByClass('ilDclDetailedViewGUI', 'tableview_id', $tableview_id);
             $html = '<a href="' . $this->ctrl->getLinkTargetByClass("ilDclDetailedViewGUI",
                     'renderRecord') . '">' . $value . '</a>';
         } else {

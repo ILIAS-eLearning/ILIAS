@@ -25,17 +25,5 @@ interface ilDataCollectionUiPort
 
     public function addDataCollectionEndpointToNavigationHistory(int $refId, string $link) : void;
 
-    public function addTab(string $tabId, string $tabLabel, string $link) : void;
-
-    public function addSubTab(string $tabId, string $tabLabel, string $link) : void;
-
-    public function activateTab(string $tabId) : void;
-
-    public function activateSubTab(string $tabId): void;
-
     public function addLocatorItem(string $title, string $link, int $itemId) : void;
-
-    public function resetTabs() : void;
-
-    public function setBackTab(string $label, string $link);
 }

@@ -15,7 +15,12 @@ class ilDclBooleanFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-    public function addFilterInputFieldToTable(ilTable2GUI $table) : ?array
+    /**
+     * @param ilTable2GUI $table
+     * @return array|string|null
+     * @throws Exception
+     */
+    public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
         $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT,
             false, $this->getField()->getId());

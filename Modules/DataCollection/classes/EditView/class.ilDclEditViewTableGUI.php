@@ -6,21 +6,26 @@
  */
 class ilDclEditViewTableGUI extends ilTable2GUI
 {
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+
     public function __construct(ilDclEditViewDefinitionGUI $a_parent_obj)
     {
         global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+
+
         parent::__construct($a_parent_obj);
 
         $this->setId('dcl_tableviews');
-        $this->setTitle($lng->txt('dcl_tableview_fieldsettings'));
-        $this->addColumn($lng->txt('dcl_tableview_fieldtitle'), null, 'auto');
-        $this->addColumn($lng->txt('dcl_tableview_field_access'), null, 'auto');
+        $this->setTitle($this->lng->txt('dcl_tableview_fieldsettings'));
+        $this->addColumn($this->lng->txt('dcl_tableview_fieldtitle'), "", 'auto');
+        $this->addColumn($this->lng->txt('dcl_tableview_field_access'), "", 'auto');
 
-        $ilCtrl->saveParameter($this, 'tableview_id');
-        $this->setFormAction($ilCtrl->getFormActionByClass('ildcleditviewdefinitiongui'));
-        $this->addCommandButton('saveTable', $lng->txt('dcl_save'));
+        $this->ctrl->saveParameter($this, 'tableview_id');
+        $this->setFormAction( $this->ctrl->getFormActionByClass('ildcleditviewdefinitiongui'));
+        $this->addCommandButton('saveTable', $this->lng->txt('dcl_save'));
 
         $this->setExternalSegmentation(true);
         $this->setExternalSorting(true);

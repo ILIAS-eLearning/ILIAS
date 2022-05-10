@@ -32,7 +32,7 @@ class ilDclDatatype
     //public static $mob_suffixes = array('jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv');
     protected int $id = 0;
     protected string $title = "";
-    protected int $storageLocation;
+    protected int $storageLocation = 0;
     protected string $dbType;
     /**
      * @var ilDclDatatype[]

@@ -20,6 +20,8 @@ class ilDclFieldEditGUI
     protected ilPropertyFormGUI $form;
     protected ilDclBaseFieldModel $field_obj;
     private \ilGlobalTemplateInterface $main_tpl;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * Constructor
@@ -32,9 +34,19 @@ class ilDclFieldEditGUI
 
         $this->obj_id = $a_parent_obj->obj_id;
         $this->parent_obj = $a_parent_obj;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
-        $this->table_id = $_GET["table_id"];
-        $this->field_id = $_GET['field_id'] ? $_GET['field_id']: 0;
+        $this->table_id =  $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+
+        $hasFieldId =  $this->http->wrapper()->query()->has('field_id');
+        if($hasFieldId) {
+            $this->field_id = $this->http->wrapper()->query()->retrieve('field_id', $this->refinery->kindlyTo()->int());
+        } else {
+            $this->field_id = 0;
+        }
+
+
 
         if ($this->field_id) {
             $this->field_obj = ilDclCache::getFieldCache($this->field_id);

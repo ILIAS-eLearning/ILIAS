@@ -13,6 +13,9 @@ class ilDclTableListGUI
     protected ilGlobalPageTemplate $tpl;
     protected ilTabsGUI $tabs;
     protected ilToolbarGUI $toolbar;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
+
 
     /**
      * ilDclTableListGUI constructor.
@@ -39,6 +42,9 @@ class ilDclTableListGUI
         $this->tpl = $tpl;
         $this->tabs = $ilTabs;
         $this->toolbar = $ilToolbar;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
 
         if (!$this->checkAccess()) {
             $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -59,7 +65,9 @@ class ilDclTableListGUI
         /*
          * see https://www.ilias.de/mantis/view.php?id=22775
          */
-        $tableHelper = new ilDclTableHelper((int) $this->obj_id, (int) $_GET['ref_id'], $DIC->rbac()->review(),
+        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
+        $tableHelper = new ilDclTableHelper((int) $this->obj_id, $ref_id, $DIC->rbac()->review(),
             $DIC->user(), $DIC->database());
         // send a warning if there are roles with rbac read access on the data collection but without read access on any standard view
         $role_titles = $tableHelper->getRoleTitlesWithoutReadRightOnAnyStandardView();
@@ -132,7 +140,7 @@ class ilDclTableListGUI
             $this->ctrl->getLinkTargetByClass('ilDclFieldListGUI', 'listFields'));
         $this->tabs->addTab('tableviews', $this->lng->txt('dcl_tableviews'),
             $this->ctrl->getLinkTargetByClass('ilDclTableViewGUI'));
-        $this->tabs->setTabActive($active);
+        $this->tabs->activateTab($active);
     }
 
     protected function save(): void
