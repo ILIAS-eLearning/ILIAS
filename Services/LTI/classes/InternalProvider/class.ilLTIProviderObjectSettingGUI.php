@@ -166,7 +166,7 @@ class ilLTIProviderObjectSettingGUI
 
             $connector = new ilLTIDataConnector();
             
-            $active_consumer = ilLTIToolConsumer::fromGlobalSettingsAndRefId(
+            $active_consumer = ilLTIPlatform::fromGlobalSettingsAndRefId(
                 $global_consumer->getExtConsumerId(),
                 $this->ref_id,
                 $connector
@@ -240,7 +240,7 @@ class ilLTIProviderObjectSettingGUI
         foreach (ilObjLTIAdministration::getEnabledConsumersForType(ilObject::_lookupType($this->ref_id, true)) as $global_consumer) {
             $this->saveRoleSelection($form, (string) $global_consumer->getExtConsumerId());
             
-            $consumer = ilLTIToolConsumer::fromGlobalSettingsAndRefId(
+            $consumer = ilLTIPlatform::fromGlobalSettingsAndRefId(
                 $global_consumer->getExtConsumerId(),
                 $this->ref_id,
                 $connector

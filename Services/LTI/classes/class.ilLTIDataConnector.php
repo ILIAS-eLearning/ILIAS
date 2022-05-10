@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-// namespace ILIAS\LTI\ToolProvider\DataConnector;
+// namespace ILIAS\LTI\Tool\DataConnector;
 
 use ILIAS\LTI\ToolProvider;
-use ILIAS\LTI\ToolProvider\ConsumerNonce;
+use ILIAS\LTI\ToolProvider\PlatformNonce;
 use ILIAS\LTI\ToolProvider\Context;
 use ILIAS\LTI\ToolProvider\ResourceLink;
 use ILIAS\LTI\ToolProvider\ResourceLinkShareKey;
-use ILIAS\LTI\ToolProvider\ToolConsumer;
+use ILIAS\LTI\ToolProvider\Platform;
 use ILIAS\LTI\ToolProvider\User;
 
 /******************************************************************************
@@ -23,12 +23,18 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 {
     private ?\ilLogger $logger = null;
 
+    private \ILIAS\DI\Container $dic;
+
+    private ilDBInterface $database;
+
     /**
      * ilLTIDataConnector constructor.
      */
     public function __construct()
     {
         global $DIC;
+        $this->dic = $DIC;
+        $this->database = $DIC->database();
 
         $this->logger = ilLoggerFactory::getLogger('ltis');
         $this->db = null;
@@ -40,10 +46,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     //
     /**
      * Load tool consumer object.
-     * @param ToolConsumer $consumer ToolConsumer object
+     * @param Platform $consumer Platform object
      * @return boolean True if the tool consumer object was successfully loaded
      */
-    public function loadToolConsumer(\ILIAS\LTI\ToolProvider\ToolConsumer $consumer) : bool
+    public function loadToolConsumer(\ILIAS\LTI\ToolProvider\Platform $consumer) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -126,10 +132,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
     /**
      * Load tool consumer settings
-     * @param ilLTIToolConsumer $consumer
+     * @param ilLTIPlatform $consumer
      * @return bool
      */
-    public function loadObjectToolConsumerSettings(ilLTIToolConsumer $consumer) : bool
+    public function loadObjectToolConsumerSettings(ilLTIPlatform $consumer) : bool
     {
         $this->loadGlobalToolConsumerSettings($consumer);
 
@@ -152,10 +158,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
     /**
      * Load global tool consumer settings in consumer
-     * @param ilLTIToolConsumer $consumer
+     * @param ilLTIPlatform $consumer
      * @return bool
      */
-    public function loadGlobalToolConsumerSettings(ilLTIToolConsumer $consumer) : bool
+    public function loadGlobalToolConsumerSettings(ilLTIPlatform $consumer) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -176,10 +182,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
     /**
      * Load extended tool consumer object with ILIAS extension.
-     * @param ToolConsumer $consumer ToolConsumer object
+     * @param Platform $consumer Platform object
      * @return boolean True if the tool consumer object was successfully loaded
      */
-    public function loadToolConsumerILIAS(ilLTIToolConsumer $consumer) : bool
+    public function loadToolConsumerILIAS(ilLTIPlatform $consumer) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -267,10 +273,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
     /**
      * Lookup record id for global settings and ref_id
-     * @param ilLTIToolConsumer $consumer
+     * @param ilLTIPlatform $consumer
      * @return int|null
      */
-    public function lookupRecordIdByGlobalSettingsAndRefId(ilLTIToolConsumer $consumer) : ?int
+    public function lookupRecordIdByGlobalSettingsAndRefId(ilLTIPlatform $consumer) : ?int
     {
         $db = $GLOBALS['DIC']->database();
 
@@ -286,10 +292,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
     /**
      * Save tool consumer object.
-     * @param ToolConsumer $consumer Consumer object
+     * @param Platform $consumer Consumer object
      * @return boolean True if the tool consumer object was successfully saved
      */
-    public function saveToolConsumer(\ILIAS\LTI\ToolProvider\ToolConsumer $consumer) : bool
+    public function saveToolConsumer(\ILIAS\LTI\ToolProvider\Platform $consumer) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -430,7 +436,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     /**
      * Save lti_ext_consumer
      */
-    public function saveGlobalToolConsumerSettings(ilLTIToolConsumer $consumer) : bool
+    public function saveGlobalToolConsumerSettings(ilLTIPlatform $consumer) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -470,10 +476,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
     /**
      * Save extended tool consumer object with ILIAS extensions.
-     * @param ToolConsumer $consumer Consumer object
+     * @param Platform $consumer Consumer object
      * @return boolean True if the tool consumer object was successfully saved
      */
-    public function saveToolConsumerILIAS(ilLTIToolConsumer $consumer) : bool
+    public function saveToolConsumerILIAS(ilLTIPlatform $consumer) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -620,7 +626,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     /**
      *  Delete global tool consumer settings
      */
-    public function deleteGlobalToolConsumerSettings(ilLTIToolConsumer $consumer) : bool
+    public function deleteGlobalToolConsumerSettings(ilLTIPlatform $consumer) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -642,10 +648,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
     /**
      * Delete tool consumer object.
-     * @param ToolConsumer $consumer Consumer object
+     * @param Platform $consumer Consumer object
      * @return boolean True if the tool consumer object was successfully deleted
      */
-    public function deleteToolConsumer(\ILIAS\LTI\ToolProvider\ToolConsumer $consumer) : bool
+    public function deleteToolConsumer(\ILIAS\LTI\ToolProvider\Platform $consumer) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -755,7 +761,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
     /**
      * Get global consumer settings
-     * @return \ilLTIToolConsumer[]
+     * @return \ilLTIPlatform[]
      */
     public function getGlobalToolConsumerSettings() : array
     {
@@ -766,7 +772,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $query = 'SELECT * from lti_ext_consumer ';
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $consumer = new ilLTIToolConsumer(null, $this);
+            $consumer = new ilLTIPlatform(null, $this);
             $consumer->setExtConsumerId((int) $row->id);
             $consumer->setTitle($row->title);
             $consumer->setDescription($row->description);
@@ -785,7 +791,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
     #    Load all tool consumers from the database
     ###
     /**
-     * @return \ilLTIToolConsumer[]
+     * @return \ilLTIPlatform[]
      */
     public function getToolConsumers() : array
     {
@@ -803,7 +809,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         // $sql = 'SELECT consumer_pk, consumer_key, consumer_key, name, secret, lti_version, consumer_name, consumer_version, consumer_guid, ' .
         // 'profile, tool_proxy, settings, ' .
         // 'protected, enabled, enable_from, enable_until, last_access, created, updated ' .
-        // "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::CONSUMER_TABLE_NAME . ' ' .
+        // "FROM {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::CONSUMER_TABLE_NAME . ' ' .
         // 'ORDER BY name';
         // $rsConsumers = mysql_query($sql);
         // if ($rsConsumers) {
@@ -811,8 +817,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $res = $ilDB->query($query);
         // if ($rsConsumer) {
         while ($row = $ilDB->fetchObject($res)) {
-            // $consumer = new ToolProvider\ToolConsumer($row->consumer_key, $this); //ACHTUNG: FEHLER IN BIBLIOTHEK; $row->consumer_key ist i.d.R. null
-            $consumer = new ilLTIToolConsumer(null, $this);
+            // $consumer = new Tool\Platform($row->consumer_key, $this); //ACHTUNG: FEHLER IN BIBLIOTHEK; $row->consumer_key ist i.d.R. null
+            $consumer = new ilLTIPlatform(null, $this);
             $consumer->setRecordId(intval($row->consumer_pk));
             $consumer->name = $row->name;
             $consumer->secret = $row->secret;
@@ -896,7 +902,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param Context $context Context object
      * @return boolean True if the context object was successfully loaded
      */
-    public function loadContext(\ILIAS\LTI\ToolProvider\Context $context) : bool
+    public function loadContext(Context $context) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -941,7 +947,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param Context $context Context object
      * @return boolean True if the context object was successfully saved
      */
-    public function saveContext(\ILIAS\LTI\ToolProvider\Context $context) : bool
+    public function saveContext(Context $context) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -982,7 +988,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param Context $context Context object
      * @return boolean True if the Context object was successfully deleted
      */
-    public function deleteContext(\ILIAS\LTI\ToolProvider\Context $context) : bool
+    public function deleteContext(Context $context) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -1045,7 +1051,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param ResourceLink $resourceLink Resource_Link object
      * @return boolean True if the resource link object was successfully loaded
      */
-    public function loadResourceLink(\ILIAS\LTI\ToolProvider\ResourceLink $resourceLink) : bool
+    public function loadResourceLink(ResourceLink $resourceLink) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -1115,7 +1121,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param ResourceLink $resourceLink Resource_Link object
      * @return boolean True if the resource link object was successfully saved
      */
-    public function saveResourceLink(\ILIAS\LTI\ToolProvider\ResourceLink $resourceLink) : bool
+    public function saveResourceLink(ResourceLink $resourceLink) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -1226,7 +1232,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param ResourceLink $resourceLink Resource_Link object
      * @return boolean True if the resource link object was successfully deleted
      */
-    public function deleteResourceLink(\ILIAS\LTI\ToolProvider\ResourceLink $resourceLink) : bool
+    public function deleteResourceLink(ResourceLink $resourceLink) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -1283,7 +1289,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @return array Array of User objects
      */
     public function getUserResultSourcedIDsResourceLink(
-        \ILIAS\LTI\ToolProvider\ResourceLink $resourceLink,
+        ResourceLink $resourceLink,
         bool $localOnly,
         int $idScope
     ) : array {
@@ -1294,15 +1300,15 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // if ($localOnly) {
         // $query = 'SELECT u.user_pk, u.lti_result_sourcedid, u.lti_user_id, u.created, u.updated ' .
-        // "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' AS u '  .
-        // "INNER JOIN {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' AS rl '  .
+        // "FROM {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' AS u '  .
+        // "INNER JOIN {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' AS rl '  .
         // 'ON u.resource_link_pk = rl.resource_link_pk ' .
         // "WHERE (rl.resource_link_pk = %d) AND (rl.primary_resource_link_pk IS NULL)",
         // $resourceLink->getRecordId());
         // } else {
         // $query = 'SELECT u.user_pk, u.lti_result_sourcedid, u.lti_user_id, u.created, u.updated ' .
-        // "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' AS u '  .
-        // "INNER JOIN {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' AS rl '  .
+        // "FROM {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' AS u '  .
+        // "INNER JOIN {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' AS rl '  .
         // 'ON u.resource_link_pk = rl.resource_link_pk ' .
         // 'WHERE ((rl.resource_link_pk = %d) AND (rl.primary_resource_link_pk IS NULL)) OR ' .
         // '((rl.primary_resource_link_pk = %d) AND (share_approved = 1))',
@@ -1311,7 +1317,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         // $rsUser = mysql_query($sql);
         // if ($rsUser) {
         // while ($row = $ilDB->fetchObject($rsUser)) {
-        // $user = ToolProvider\User::fromResourceLink($resourceLink, $row->lti_user_id);
+        // $user = Tool\User::fromResourceLink($resourceLink, $row->lti_user_id);
         // $user->setRecordId(intval($row->user_pk));
         // $user->ltiResultSourcedId = $row->lti_result_sourcedid;
         // $user->created = strtotime($row->created);
@@ -1332,7 +1338,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 //     * @param ResourceLink $resourceLink Resource_Link object
 //     * @return array Array of ResourceLinkShare objects
 //     */
-//    public function getSharesResourceLink(\ILIAS\LTI\ToolProvider\ResourceLink $resourceLink) : array
+//    public function getSharesResourceLink(\ILIAS\LTI\Tool\ResourceLink $resourceLink) : array
 //    {
 //        global $DIC;
 //        $ilDB = $DIC->database();
@@ -1340,7 +1346,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 //        $shares = array();
 //
 //        $query = 'SELECT consumer_pk, resource_link_pk, share_approved ' .
-//            "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' ' .
+//            "FROM {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::RESOURCE_LINK_TABLE_NAME . ' ' .
 //            'WHERE (primary_resource_link_pk = %s) ' .
 //            'ORDER BY consumer_pk';
 //        $types = array("integer");
@@ -1348,7 +1354,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 //        $rsShare = $ilDB->queryF($query, $types, $values);
 //        if ($rsShare) {
 //            while ($row = $ilDB->fetchObject($rsShare)) {
-//                $share = new ToolProvider\ResourceLinkShare();
+//                $share = new Tool\ResourceLinkShare();
 //                $share->resourceLinkId = intval($row->resource_link_pk);
 //                $share->approved = (intval($row->share_approved) === 1);
 //                $shares[] = $share;
@@ -1360,15 +1366,15 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
 
     ###
-    ###  ConsumerNonce methods
+    ###  PlatformNonce methods
     ###
 
     /**
      * Load nonce object.
-     * @param ConsumerNonce $nonce Nonce object
+     * @param PlatformNonce $nonce Nonce object
      * @return boolean True if the nonce object was successfully loaded
      */
-    public function loadConsumerNonce(\ILIAS\LTI\ToolProvider\ConsumerNonce $nonce) : bool
+    public function loadConsumerNonce(\ILIAS\LTI\ToolProvider\PlatformNonce $nonce) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -1398,10 +1404,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
     /**
      * Save nonce object.
-     * @param ConsumerNonce $nonce Nonce object
+     * @param PlatformNonce $nonce Nonce object
      * @return boolean True if the nonce object was successfully saved
      */
-    public function saveConsumerNonce(\ILIAS\LTI\ToolProvider\ConsumerNonce $nonce) : bool
+    public function saveConsumerNonce(\ILIAS\LTI\ToolProvider\PlatformNonce $nonce) : bool
     {
         global $DIC;
         $ilDB = $DIC->database(); // TODO PHP8 Review: Move Global Access to Constructor
@@ -1425,7 +1431,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param ResourceLinkShareKey $shareKey Resource_Link share key object
      * @return boolean True if the resource link share key object was successfully loaded
      */
-//    public function loadResourceLinkShareKey(\ILIAS\LTI\ToolProvider\ResourceLinkShareKey $shareKey) : bool
+//    public function loadResourceLinkShareKey(\ILIAS\LTI\Tool\ResourceLinkShareKey $shareKey) : bool
     public function loadResourceLinkShareKey(ResourceLinkShareKey $shareKey) : bool
     {
         global $DIC;
@@ -1466,7 +1472,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
      * @param ResourceLinkShareKey $shareKey Resource link share key object
      * @return boolean True if the resource link share key object was successfully saved
      */
-//    public function saveResourceLinkShareKey(\ILIAS\LTI\ToolProvider\ResourceLinkShareKey $shareKey) : bool
+//    public function saveResourceLinkShareKey(\ILIAS\LTI\Tool\ResourceLinkShareKey $shareKey) : bool
     public function saveResourceLinkShareKey(ResourceLinkShareKey $shareKey) : bool
     {
         global $DIC;
@@ -1534,7 +1540,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             $query = 'SELECT user_pk, resource_link_pk, lti_user_id, lti_result_sourcedid, created, updated ' .
                 'FROM ' . $this->dbTableNamePrefix . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
                 'WHERE resource_link_pk = ' . $ilDB->quote($user->getResourceLink()->getRecordId(), 'integer') . ' ' .
-                'AND lti_user_id = ' . $ilDB->quote($user->getId(ToolProvider\ToolProvider::ID_SCOPE_ID_ONLY), 'text');
+                'AND lti_user_id = ' . $ilDB->quote($user->getId(ToolProvider\Tool::ID_SCOPE_ID_ONLY), 'text');
         }
 
         $this->logger->debug('Loading user with query: ' . $query);
@@ -1558,15 +1564,15 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
         // if (!empty($user->getRecordId())) {
         // $query = 'SELECT user_pk, resource_link_pk, lti_user_id, lti_result_sourcedid, created, updated ' .
-        // "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
+        // "FROM {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
         // 'WHERE (user_pk = %d)',
         // $user->getRecordId());
         // } else {
         // $query = 'SELECT user_pk, resource_link_pk, lti_user_id, lti_result_sourcedid, created, updated ' .
-        // "FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
+        // "FROM {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
         // 'WHERE (resource_link_pk = %d) AND (lti_user_id = %s)',
         // $user->getResourceLink()->getRecordId(),
-        // ToolProvider\DataConnector\DataConnector::quoted($user->getId(ToolProvider\ToolProvider::ID_SCOPE_ID_ONLY)));
+        // Tool\DataConnector\DataConnector::quoted($user->getId(Tool\Tool::ID_SCOPE_ID_ONLY)));
         // }
         // $rsUser = mysql_query($sql);
         // if ($rsUser) {
@@ -1605,7 +1611,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                 'VALUES( ' .
                 $ilDB->quote($user->getRecordId(), 'integer') . ', ' .
                 $ilDB->quote($user->getResourceLink()->getRecordId(), 'integer') . ', ' .
-                $ilDB->quote($user->getId(ToolProvider\ToolProvider::ID_SCOPE_ID_ONLY), 'text') . ', ' .
+                $ilDB->quote($user->getId(ToolProvider\Tool::ID_SCOPE_ID_ONLY), 'text') . ', ' .
                 $ilDB->quote($user->ltiResultSourcedId, 'text') . ', ' .
                 $ilDB->quote($now, 'text') . ', ' .
                 $ilDB->quote($now, 'text') .
@@ -1633,18 +1639,18 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         // $time = time();
         // $now = date("{$this->dateFormat} {$this->timeFormat}", $time);
         // if (is_null($user->created)) {
-        // $query = "INSERT INTO {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' (resource_link_pk, ' .
+        // $query = "INSERT INTO {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' (resource_link_pk, ' .
         // 'lti_user_id, lti_result_sourcedid, created, updated) ' .
         // 'VALUES (%d, %s, %s, %s, %s)',
         // $user->getResourceLink()->getRecordId(),
-        // ToolProvider\DataConnector\DataConnector::quoted($user->getId(ToolProvider\ToolProvider::ID_SCOPE_ID_ONLY)), ToolProvider\DataConnector\DataConnector::quoted($user->ltiResultSourcedId),
-        // ToolProvider\DataConnector\DataConnector::quoted($now), ToolProvider\DataConnector\DataConnector::quoted($now));
+        // Tool\DataConnector\DataConnector::quoted($user->getId(Tool\Tool::ID_SCOPE_ID_ONLY)), Tool\DataConnector\DataConnector::quoted($user->ltiResultSourcedId),
+        // Tool\DataConnector\DataConnector::quoted($now), Tool\DataConnector\DataConnector::quoted($now));
         // } else {
-        // $query = "UPDATE {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
+        // $query = "UPDATE {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
         // 'SET lti_result_sourcedid = %s, updated = %s ' .
         // 'WHERE (user_pk = %d)',
-        // ToolProvider\DataConnector\DataConnector::quoted($user->ltiResultSourcedId),
-        // ToolProvider\DataConnector\DataConnector::quoted($now),
+        // Tool\DataConnector\DataConnector::quoted($user->ltiResultSourcedId),
+        // Tool\DataConnector\DataConnector::quoted($now),
         // $user->getRecordId());
         // }
         // $ok = mysql_query($sql);
@@ -1682,7 +1688,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         }
         return $ok;
 
-        // $query = "DELETE FROM {$this->dbTableNamePrefix}" . ToolProvider\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
+        // $query = "DELETE FROM {$this->dbTableNamePrefix}" . Tool\DataConnector\DataConnector::USER_RESULT_TABLE_NAME . ' ' .
         // 'WHERE (user_pk = %d)',
         // $user->getRecordId());
         // $ok = mysql_query($sql);

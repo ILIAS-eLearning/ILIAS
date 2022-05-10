@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use ILIAS\LTI\ToolProvider\ToolConsumer;
+use ILIAS\LTI\ToolProvider\Platform;
 
 /******************************************************************************
  *
@@ -21,7 +21,7 @@ use ILIAS\LTI\ToolProvider\ToolConsumer;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilLTIToolConsumer extends ToolConsumer
+class ilLTIPlatform extends Platform
 {
     /**
      * @var int ref_id
@@ -84,10 +84,10 @@ class ilLTIToolConsumer extends ToolConsumer
         return $this->ref_id;
     }
 
-    public function getId() : ?int
-    {
-        return $this->getRecordId();
-    }
+//    public function getId() : ?int
+//    {
+//        return $this->getRecordId();
+//    }
 
     public function setTitle(string $title) : void
     {
@@ -187,15 +187,13 @@ class ilLTIToolConsumer extends ToolConsumer
 
     /**
      * Load the tool consumer from the database by its record ID.
-     *
-     * @param int             $id                The consumer key record ID
-     * @param \ILIAS\LTI\ToolProvider\DataConnector\DataConnector   $dataConnector    Database connection object
-     *
-     * @return object ToolConsumer       The tool consumer object
+     * @param string        $id            The consumer key record ID
+     * @param DataConnector $dataConnector Database connection object
+     * @return object Platform       The tool consumer object
      */
-    public static function fromRecordId(int $id, \ILIAS\LTI\ToolProvider\DataConnector\DataConnector $dataConnector) : \ilLTIToolConsumer
+    public static function fromRecordId(string $id, \ILIAS\LTI\ToolProvider\DataConnector\DataConnector $dataConnector) : \ilLTIPlatform
     {
-        $toolConsumer = new ilLTIToolConsumer(null, $dataConnector);
+        $toolConsumer = new ilLTIPlatform(null, $dataConnector);
 
         $toolConsumer->initialize();
         $toolConsumer->setRecordId($id);
@@ -212,11 +210,11 @@ class ilLTIToolConsumer extends ToolConsumer
     /**
      * @param int                $id
      * @param ilLTIDataConnector $dataConnector
-     * @return ilLTIToolConsumer
+     * @return ilLTIPlatform
      */
-    public static function fromExternalConsumerId(int $id, ilLTIDataConnector $dataConnector) : \ilLTIToolConsumer
+    public static function fromExternalConsumerId(int $id, ilLTIDataConnector $dataConnector) : \ilLTIPlatform
     {
-        $toolConsumer = new ilLTIToolConsumer(null, $dataConnector);
+        $toolConsumer = new ilLTIPlatform(null, $dataConnector);
         $toolConsumer->initialize();
         $toolConsumer->setExtConsumerId($id);
         if (!$dataConnector->loadGlobalToolConsumerSettings($toolConsumer)) {
@@ -230,11 +228,11 @@ class ilLTIToolConsumer extends ToolConsumer
      * @param int                $a_ext_consumer_id
      * @param int                $a_ref_id
      * @param ilLTIDataConnector $a_data_connector
-     * @return ilLTIToolConsumer
+     * @return ilLTIPlatform
      */
-    public static function fromGlobalSettingsAndRefId(int $a_ext_consumer_id, int $a_ref_id, ilLTIDataConnector $a_data_connector) : ilLTIToolConsumer
+    public static function fromGlobalSettingsAndRefId(int $a_ext_consumer_id, int $a_ref_id, ilLTIDataConnector $a_data_connector) : ilLTIPlatform
     {
-        $toolConsumer = new ilLTIToolConsumer(null, $a_data_connector);
+        $toolConsumer = new ilLTIPlatform(null, $a_data_connector);
         $toolConsumer->initialize();
         $toolConsumer->setExtConsumerId($a_ext_consumer_id);
         $toolConsumer->setRefId($a_ref_id);

@@ -115,7 +115,7 @@ class ilObjLTIAdministration extends ilObject
     /**
      * Get enabled consumers for type
      * @param string object type
-     * @return ilLTIToolConsumer[]
+     * @return ilLTIPlatform[]
      */
     public static function getEnabledConsumersForType(string $a_type) : array
     {
@@ -132,7 +132,7 @@ class ilObjLTIAdministration extends ilObject
         $connector = new ilLTIDataConnector();
         $consumers = array();
         while ($row = $res->fetchObject()) {
-            $consumers[] = ilLTIToolConsumer::fromExternalConsumerId((int) $row->id, $connector);
+            $consumers[] = ilLTIPlatform::fromExternalConsumerId((int) $row->id, $connector);
         }
         return $consumers;
     }

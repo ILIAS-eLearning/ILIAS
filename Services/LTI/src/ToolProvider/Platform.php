@@ -4,8 +4,9 @@ namespace ILIAS\LTI\ToolProvider;
 
 use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
 use ILIAS\LTI\ToolProvider\Service;
-use ILIAS\LTI\HTTPMessage;
-use ILIAS\LTIOAuth;
+use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
+//use ILIAS\LTIOAuth;
+use ILIAS\LTI\ToolProvider\ApiHook\ApiHook;
 
 /******************************************************************************
  *
@@ -20,10 +21,19 @@ use ILIAS\LTIOAuth;
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
-//toDo Change to Platform
-class ToolConsumer
+
+/**
+ * Class to represent a platform
+ *
+ * @author  Stephen P Vickers <stephen@spvsoftwareproducts.com>
+ * @copyright  SPV Software Products
+ * @license  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public License, version 3
+ */
+
+class Platform
 {
     use System;
+    use ApiHook; //added UK
 
     /**
      * List of supported incoming message types.
@@ -39,12 +49,7 @@ class ToolConsumer
      * @var string|null $name
      */
     public ?string $name = null;
-//    /**
-//     * Shared secret.
-//     *
-//     * @var string $secret
-//     */
-//    public ?string $secret = null;
+
     /**
      * Platform ID.
      *
@@ -113,14 +118,14 @@ class ToolConsumer
      *
      * @var object|null $profile
      */
-    public $profile = null;
+    public ?object $profile = null;
 
     /**
      * The tool proxy.
      *
      * @var object|null $toolProxy
      */
-    public $toolProxy = null;
+    public ?object $toolProxy = null;
 
     /**
      * Tool consumer GUID (as reported by first tool consumer connection).
@@ -141,244 +146,192 @@ class ToolConsumer
      *
      * @var AccessToken|null $accessToken
      */
-    private $accessToken = null;
+    private ?AccessToken $accessToken = null;
 
     /**
      * Get the authorization access token
      *
      * @return AccessToken Access token
      */
-    public function getAccessToken()
+    public function getAccessToken() : ?AccessToken
     {
         return $this->accessToken;
     }
 
     /**
      * Set the authorization access token
-     *
-     * @param AccessToken $accessToken  Access token
+     * @param AccessToken $accessToken Access token
      */
-    public function setAccessToken($accessToken)
+    public function setAccessToken(AccessToken $accessToken)
     {
         $this->accessToken = $accessToken;
     }
 
     /**
-     * Whether the tool consumer instance is protected by matching the consumer_guid value in incoming requests.
+     * Whether the platform instance is protected by matching the consumer_guid value in incoming requests.
      *
      * @var bool $protected
      */
     public bool $protected = false;
-//    /**
-//     * Whether the tool consumer instance is enabled to accept incoming connection requests.
-//     *
-//     * @var boolean $enabled
-//     */
-//    public bool $enabled = false;
-//    /**
-//     * Date/time from which the the tool consumer instance is enabled to accept incoming connection requests.
-//     *
-//     * @var int|null $enableFrom
-//     */
-//    public ?int $enableFrom = null;
-//    /**
-//     * Date/time until which the tool consumer instance is enabled to accept incoming connection requests.
-//     *
-//     * @var int $enableUntil
-//     */
-//    public ?int $enableUntil = null;
-//    /**
-//     * Date of last connection from this tool consumer.
-//     *
-//     * @var int $lastAccess
-//     */
-//    public ?int $lastAccess = null;
+
     /**
      * Default scope to use when generating an Id value for a user.
      *
      * @var int $idScope
      */
-    public int $idScope = ToolProvider::ID_SCOPE_ID_ONLY;
+    public int $idScope = Tool::ID_SCOPE_ID_ONLY;
+
     /**
      * Default email address (or email domain) to use when no email address is provided for a user.
      *
      * @var string $defaultEmail
      */
     public string $defaultEmail = '';
-//    /**
-//     * Setting values (LTI parameters, custom parameters and local parameters).
-//     *
-//     * @var array $settings
-//     */
-//    public ?array $settings = null;
-//    /**
-//     * Date/time when the object was created.
-//     *
-//     * @var int $created
-//     */
-//    public ?int $created = null;
-//    /**
-//     * Date/time when the object was last updated.
-//     *
-//     * @var int $updated
-//     */
-//    public ?int $updated = null;
 
     /**
-         * Consumer ID value.
-         */
-    private ?int $id = null;
-    /**
-         * Consumer key value.
-         */
-    private ?string $key = null;
-    /**
-         * Whether the settings value have changed since last saved.
-         */
-    private bool $settingsChanged = false;
-//    /**
-//     * Data connector object or string.
-//     *
-//     * @var DataConnector $dataConnector
-//     */
-//    private ?DataConnector $dataConnector = null;
+     * HttpMessage object for last service request.
+     *
+     * @var HttpMessage|null $lastServiceRequest
+     */
+    public ?HTTPMessage $lastServiceRequest = null;
 
     /**
      * Class constructor.
-     * @param string|null        $key           Consumer key
      * @param DataConnector|null $dataConnector A data connector object
-     * @param boolean            $autoEnable    true if the tool consumers is to be enabled automatically (optional, default is false)
      */
-    public function __construct(?string $key = null, DataConnector $dataConnector = null, bool $autoEnable = false)
+    public function __construct(DataConnector $dataConnector = null)
     {
         $this->initialize();
         if (empty($dataConnector)) {
             $dataConnector = DataConnector::getDataConnector();
         }
         $this->dataConnector = $dataConnector;
-        if (!empty($key)) {
-            $this->load($key, $autoEnable);
-        } else {
-            $this->secret = DataConnector::getRandomString(32);
-        }
     }
 
     /**
-     * Initialise the tool consumer.
+     * Initialise the platform.
      */
-    public function initialize() : void
+    public function initialize()
     {
         $this->id = null;
         $this->key = null;
         $this->name = null;
         $this->secret = null;
+        $this->signatureMethod = 'HMAC-SHA1';
+        $this->encryptionMethod = null;
+        $this->rsaKey = null;
+        $this->kid = null;
+        $this->jku = null;
+        $this->platformId = null;
+        $this->clientId = null;
+        $this->deploymentId = null;
         $this->ltiVersion = null;
         $this->consumerName = null;
         $this->consumerVersion = null;
         $this->consumerGuid = null;
-        $this->profile = null; // TODO PHP8 Review: Undefined Property
-        $this->toolProxy = null; // TODO PHP8 Review: Undefined Property
+        $this->profile = null;
+        $this->toolProxy = null;
         $this->settings = array();
         $this->protected = false;
         $this->enabled = false;
         $this->enableFrom = null;
         $this->enableUntil = null;
         $this->lastAccess = null;
-        $this->idScope = ToolProvider::ID_SCOPE_ID_ONLY;
+        $this->idScope = Tool::ID_SCOPE_ID_ONLY;
         $this->defaultEmail = '';
         $this->created = null;
         $this->updated = null;
     }
 
     /**
-     * Initialise the tool consumer.
+     * Initialise the platform.
      *
-     * Pseudonym for initialize().
+     * Synonym for initialize().
      */
-    public function initialise() : void
+    public function initialise()
     {
         $this->initialize();
     }
 
     /**
-     * Save the tool consumer to the database.
+     * Save the platform to the database.
      *
-     * @return boolean True if the object was successfully saved
+     * @return bool    True if the object was successfully saved
      */
     public function save() : bool
     {
-        $ok = $this->dataConnector->saveToolConsumer($this);
-        if ($ok) {
-            $this->settingsChanged = false;
-        }
-
-        return $ok;
+        return $this->dataConnector->savePlatform($this);
     }
 
     /**
-     * Delete the tool consumer from the database.
+     * Delete the platform from the database.
      *
-     * @return boolean True if the object was successfully deleted
+     * @return bool    True if the object was successfully deleted
      */
     public function delete() : bool
     {
-        return $this->dataConnector->deleteToolConsumer($this);
+        return $this->dataConnector->deletePlatform($this);
     }
 
     /**
-     * Get the tool consumer record ID.
+     * Get the platform ID.
      *
-     * @return int Consumer record ID value
+     * The ID will be the consumer key if one exists, otherwise a concatenation of the platform/client/deployment IDs
+     *
+     * @return string  Platform ID value
      */
-    public function getRecordId() : ?int
+    public function getId() : ?string
     {
-        return $this->id;
+        if (!empty($this->key)) {
+            $id = $this->key;
+        } elseif (!empty($this->platformId)) {
+            $id = $this->platformId;
+            if (!empty($this->clientId)) {
+                $id .= '/' . $this->clientId;
+            }
+            if (!empty($this->deploymentId)) {
+                $id .= '#' . $this->deploymentId;
+            }
+        } else {
+            $id = null;
+        }
+
+        return $id;
     }
 
     /**
-     * Sets the tool consumer record ID.
+     * Get platform family code (as reported by last platform connection).
      *
-     * @param int $id  Consumer record ID value
+     * @return string Family code
      */
-    public function setRecordId(int $id) : void
+    public function getFamilyCode() : ?string
     {
-        $this->id = $id;
-    }
+        $familyCode = '';
+        if (!empty($this->consumerVersion)) {
+            $familyCode = $this->consumerVersion;
+            $pos = strpos($familyCode, '-');
+            if ($pos !== false) {
+                $familyCode = substr($familyCode, 0, $pos);
+            }
+        }
 
-    /**
-     * Get the tool consumer key.
-     *
-     * @return string Consumer key value
-     */
-    public function getKey() : ?string
-    {
-        return $this->key;
-    }
-
-    /**
-     * Set the tool consumer key.
-     *
-     * @param string $key  Consumer key value
-     */
-    public function setKey(string $key) : void
-    {
-        $this->key = $key;
+        return $familyCode;
     }
 
     /**
      * Get the data connector.
      *
-     * @return mixed Data connector object or string
+     * @return DataConnector|null Data connector object or string
      */
-    public function getDataConnector() : \ILIAS\LTI\ToolProvider\DataConnector\DataConnector
+    public function getDataConnector() : ?DataConnector
     {
         return $this->dataConnector;
     }
 
     /**
-     * Is the consumer key available to accept launch requests?
+     * Is the platform available to accept launch requests?
      *
-     * @return boolean True if the consumer key is enabled and within any date constraints
+     * @return bool    True if the platform is enabled and within any date constraints
      */
     public function getIsAvailable() : bool
     {
@@ -396,296 +349,373 @@ class ToolConsumer
     }
 
     /**
-     * Get a setting value.
-     *
-     * @param string $name    Name of setting
-     * @param string $default Value to return if the setting does not exist (optional, default is an empty string)
-     *
-     * @return string Setting value
-     */
-    public function getSetting(string $name, string $default = '') : string
-    {
-        if (array_key_exists($name, $this->settings)) {
-            $value = $this->settings[$name];
-        } else {
-            $value = $default;
-        }
-
-        return $value;
-    }
-
-    /**
-     * Set a setting value.
-     * @param string      $name  Name of setting
-     * @param string|null $value Value to set, use an empty value to delete a setting (optional, default is null)
-     */
-    public function setSetting(string $name, ?string $value = null) : void
-    {
-        $old_value = $this->getSetting($name);
-        if ($value !== $old_value) {
-            if (!empty($value)) {
-                $this->settings[$name] = $value;
-            } else {
-                unset($this->settings[$name]);
-            }
-            $this->settingsChanged = true;
-        }
-    }
-
-    /**
-     * Get an array of all setting values.
-     *
-     * @return array Associative array of setting values
-     */
-    public function getSettings() : array
-    {
-        return $this->settings;
-    }
-
-    /**
-     * Set an array of all setting values.
-     *
-     * @param array $settings  Associative array of setting values
-     */
-    public function setSettings(array $settings) : void
-    {
-        $this->settings = $settings;
-    }
-
-    /**
-     * Save setting values.
-     *
-     * @return boolean True if the settings were successfully saved
-     */
-    public function saveSettings() : bool
-    {
-        if ($this->settingsChanged) {
-            $ok = $this->save();
-        } else {
-            $ok = true;
-        }
-
-        return $ok;
-    }
-
-    /**
      * Check if the Tool Settings service is supported.
      *
-     * @return boolean True if this tool consumer supports the Tool Settings service
+     * @return bool    True if this platform supports the Tool Settings service
      */
     public function hasToolSettingsService() : bool
     {
-        $url = $this->getSetting('custom_system_setting_url');
-
-        return !empty($url);
+        $has = !empty($this->getSetting('custom_system_setting_url'));
+        if (!$has) {
+            $has = self::hasConfiguredApiHook(self::$TOOL_SETTINGS_SERVICE_HOOK, $this->getFamilyCode(), $this);
+        }
+        return $has;
     }
 
     /**
      * Get Tool Settings.
-     *
-     * @param boolean  $simple     True if all the simple media type is to be used (optional, default is true)
-     *
+     * @param bool $simple True if all the simple media type is to be used (optional, default is true)
      * @return mixed The array of settings if successful, otherwise false
      */
-    public function getToolSettings(bool $simple = true) : mixed // TODO PHP8 Review: Type `mixed` is not supported!
+    public function getToolSettings(bool $simple = true)
     {
-        $url = $this->getSetting('custom_system_setting_url');
-        $service = new Service\ToolSettings($this, $url, $simple);
-        $response = $service->get();
+        $ok = false;
+        $settings = array();
+        if (!empty($this->getSetting('custom_system_setting_url'))) {
+            $url = $this->getSetting('custom_system_setting_url');
+            $service = new Service\ToolSettings($this, $url, $simple);
+            $settings = $service->get();
+            $this->lastServiceRequest = $service->getHttpMessage();
+            $ok = $settings !== false;
+        }
+        if (!$ok && $this->hasConfiguredApiHook(self::$TOOL_SETTINGS_SERVICE_HOOK, $this->getFamilyCode(), $this)) {
+            $className = $this->getApiHook(self::$TOOL_SETTINGS_SERVICE_HOOK, $this->getFamilyCode());
+            $hook = new $className($this);
+            $settings = $hook->getToolSettings($simple);
+        }
 
-        return $response;
+        return $settings;
     }
 
     /**
-     * Perform a Tool Settings service request.
-     *
-     * @param array    $settings   An associative array of settings (optional, default is none)
-     *
-     * @return boolean True if action was successful, otherwise false
+     * Set Tool Settings.
+     * @param array $settings An associative array of settings (optional, default is none)
+     * @return bool    True if action was successful, otherwise false
      */
     public function setToolSettings(array $settings = array()) : bool
     {
-        $url = $this->getSetting('custom_system_setting_url');
-        $service = new Service\ToolSettings($this, $url);
-        $response = $service->set($settings);
-
-//        return $response;
-        return true;
-    }
-
-    /**
-     * Add the OAuth signature to an LTI message.
-     *
-     * @param string  $url         URL for message request
-     * @param string  $type        LTI message type
-     * @param string  $version     LTI version
-     * @param array   $params      Message parameters
-     *
-     * @return array Array of signed message parameters
-     */
-    public function signParameters(string $url, string $type, string $version, array $params) : array
-    {
-        if (!empty($url)) {
-            // Check for query parameters which need to be included in the signature
-            $queryParams = array();
-            $queryString = parse_url($url, PHP_URL_QUERY);
-            if (!is_null($queryString)) {
-                $queryItems = explode('&', $queryString);
-                foreach ($queryItems as $item) {
-                    if (strpos($item, '=') !== false) {
-                        list($name, $value) = explode('=', $item);
-                        $queryParams[urldecode($name)] = urldecode($value);
-                    } else {
-                        $queryParams[urldecode($item)] = '';
-                    }
-                }
-            }
-            $params = $params + $queryParams;
-            // Add standard parameters
-            $params['lti_version'] = $version;
-            $params['lti_message_type'] = $type;
-            $params['oauth_callback'] = 'about:blank';
-            // Add OAuth signature
-            $hmacMethod = new \ILIAS\LTIOAuth\OAuthSignatureMethod_HMAC_SHA1();
-            $consumer = new \ILIAS\LTIOAuth\OAuthConsumer($this->getKey(), $this->secret, null);
-            $req = \ILIAS\LTIOAuth\OAuthRequest::from_consumer_and_token($consumer, null, 'POST', $url, $params);
-            $req->sign_request($hmacMethod, $consumer, null);
-            $params = $req->get_parameters();
-            // Remove parameters being passed on the query string
-            foreach (array_keys($queryParams) as $name) {
-                unset($params[$name]);
-            }
+        $ok = false;
+        if (!empty($this->getSetting('custom_system_setting_url'))) {
+            $url = $this->getSetting('custom_system_setting_url');
+            $service = new Service\ToolSettings($this, $url);
+            $ok = $service->set($settings);
+            $this->lastServiceRequest = $service->getHttpMessage();
         }
-
-        return $params;
-    }
-
-    /**
-     * Add the OAuth signature to an array of message parameters or to a header string.
-     *
-     * @return array|string|null Array of signed message parameters or header string
-     */
-    // TODO PHP8 Review: Missing Parameter Type Declaration
-    public static function addSignature(string $endpoint, $consumerKey, $consumerSecret, $data, string $method = 'POST', $type = null) : mixed // TODO PHP8 Review: Type `mixed` is not supported!
-    {
-        $params = array();
-        if (is_array($data)) {
-            $params = $data;
-        }
-        // Check for query parameters which need to be included in the signature
-        $queryParams = array();
-        $queryString = parse_url($endpoint, PHP_URL_QUERY);
-        if (!is_null($queryString)) {
-            $queryItems = explode('&', $queryString);
-            foreach ($queryItems as $item) {
-                if (strpos($item, '=') !== false) {
-                    list($name, $value) = explode('=', $item);
-                    $queryParams[urldecode($name)] = urldecode($value);
-                } else {
-                    $queryParams[urldecode($item)] = '';
-                }
-            }
-            $params = $params + $queryParams;
-        }
-
-        if (!is_array($data)) {
-            // Calculate body hash
-            $hash = base64_encode(sha1($data, true));
-            $params['oauth_body_hash'] = $hash;
-        }
-
-        // Add OAuth signature
-        $hmacMethod = new \ILIAS\LTIOAuth\OAuthSignatureMethod_HMAC_SHA1();
-        $oauthConsumer = new \ILIAS\LTIOAuth\OAuthConsumer($consumerKey, $consumerSecret, null);
-        $oauthReq = \ILIAS\LTIOAuth\OAuthRequest::from_consumer_and_token($oauthConsumer, null, $method, $endpoint, $params);
-        $oauthReq->sign_request($hmacMethod, $oauthConsumer, null);
-        $params = $oauthReq->get_parameters();
-        // Remove parameters being passed on the query string
-        foreach (array_keys($queryParams) as $name) {
-            unset($params[$name]);
-        }
-
-        if (!is_array($data)) {
-            $header = $oauthReq->to_header();
-            if (empty($data)) {
-                if (!empty($type)) {
-                    $header .= "\nAccept: {$type}";
-                }
-            } elseif (isset($type)) {
-                $header .= "\nContent-Type: {$type}";
-                $header .= "\nContent-Length: " . strlen($data);
-            }
-            return $header;
-        } else {
-            return $params;
-        }
-    }
-
-    /**
-         * Perform a service request
-         *
-         * @param string $method   HTTP action
-         * @param string $format   Media type
-         * @param mixed  $data     Array of parameters or body string
-         * @return HTTPMessage HTTP object containing request and response details
-         */
-    public function doServiceRequest(object $service, string $method, string $format, mixed $data) : \ILIAS\LTI\HTTPMessage // TODO PHP8 Review: Type `mixed` is not supported!
-    {
-        $header = ToolConsumer::addSignature($service->endpoint, $this->getKey(), $this->secret, $data, $method, $format);
-
-        // Connect to tool consumer
-        $http = new HTTPMessage($service->endpoint, $method, $data, $header);
-        // Parse JSON response
-        if ($http->send() && !empty($http->response)) {
-            $http->responseJson = json_decode($http->response);
-            $http->ok = !is_null($http->responseJson);
-        }
-
-        return $http;
-    }
-
-    /**
-     * Load the tool consumer from the database by its record ID.
-     *
-//     * @param string          $id                The consumer key record ID
-     * @param DataConnector   $dataConnector    Database connection object
-     *
-     * @return object ToolConsumer       The tool consumer object
-     */
-    public static function fromRecordId(int $id, \ILIAS\LTI\ToolProvider\DataConnector\DataConnector $dataConnector) : \ILIAS\LTI\ToolProvider\ToolConsumer
-    {
-        $toolConsumer = new ToolConsumer(null, $dataConnector);
-
-        $toolConsumer->initialize();
-        $toolConsumer->setRecordId($id);
-        if (!$dataConnector->loadToolConsumer($toolConsumer)) {
-            $toolConsumer->initialize();
-        }
-
-        return $toolConsumer;
-    }
-
-
-    ###
-    ###  PRIVATE METHOD
-    ###
-
-    /**
-     * Load the tool consumer from the database.
-     *
-     * @param string  $key        The consumer key value
-     * @param boolean $autoEnable True if the consumer should be enabled (optional, default if false)
-     *
-     * @return boolean True if the consumer was successfully loaded
-     */
-    private function load(string $key, bool $autoEnable = false) : bool
-    {
-        $this->key = $key;
-        $ok = $this->dataConnector->loadToolConsumer($this);
-        if (!$ok) {
-            $this->enabled = $autoEnable;
+        if (!$ok && $this->hasConfiguredApiHook(self::$TOOL_SETTINGS_SERVICE_HOOK, $this->getFamilyCode(), $this)) {
+            $className = $this->getApiHook(self::$TOOL_SETTINGS_SERVICE_HOOK, $this->getFamilyCode());
+            $hook = new $className($this);
+            $ok = $hook->setToolSettings($settings);
         }
 
         return $ok;
     }
+
+    /**
+     * Get an array of defined tools
+     *
+     * @return array Array of Tool objects
+     */
+    public function getTools() : array
+    {
+        return $this->dataConnector->getTools();
+    }
+
+    /**
+     * Check if the Access Token service is supported.
+     *
+     * @return bool    True if this platform supports the Access Token service
+     */
+    public function hasAccessTokenService() : bool
+    {
+        $has = !empty($this->getSetting('custom_oauth2_access_token_url'));
+        if (!$has) {
+            $has = self::hasConfiguredApiHook(self::$ACCESS_TOKEN_SERVICE_HOOK, $this->getFamilyCode(), $this);
+        }
+        return $has;
+    }
+
+    /**
+     * Get the message parameters
+     *
+     * @return array The message parameter array
+     */
+    public function getMessageParameters() : array
+    {
+        if ($this->ok && is_null($this->messageParameters)) {
+            $this->parseMessage();
+        }
+
+        return $this->messageParameters;
+    }
+
+    /**
+     * Process an incoming request
+     */
+    public function handleRequest()
+    {
+        $parameters = Util::getRequestParameters();
+        if ($this->debugMode) {
+            Util::$logLevel = Util::LOGLEVEL_DEBUG;
+        }
+        if ($this->ok) {
+            if (!empty($parameters['client_id'])) {  // Authentication request
+                Util::logRequest();
+                $this->handleAuthenticationRequest();
+            } else {  // LTI message
+                $this->getMessageParameters();
+                Util::logRequest();
+                if ($this->ok && $this->authenticate()) {
+                    $this->doCallback();
+                }
+            }
+        }
+        if (!$this->ok) {
+            $this->onError();
+        }
+        if (!$this->ok) {
+            $errorMessage = "Request failed with reason: '{$this->reason}'";
+            if (!empty($this->details)) {
+                $errorMessage .= PHP_EOL . 'Debug information:';
+                foreach ($this->details as $detail) {
+                    $errorMessage .= PHP_EOL . "  {$detail}";
+                }
+            }
+            Util::logError($errorMessage);
+        }
+    }
+
+    /**
+     * Load the platform from the database by its consumer key.
+     * @param string|null        $key           Consumer key
+     * @param DataConnector|null $dataConnector A data connector object
+     * @param bool               $autoEnable    true if the platform is to be enabled automatically (optional, default is false)
+     * @return Platform       The platform object
+     */
+    public static function fromConsumerKey(string $key = null, DataConnector $dataConnector = null, bool $autoEnable = false) : Platform
+    {
+        $platform = new static($dataConnector);
+        $platform->key = $key;
+        if (!empty($dataConnector)) {
+            $ok = $dataConnector->loadPlatform($platform);
+            if ($ok && $autoEnable) {
+                $platform->enabled = true;
+            }
+        }
+
+        return $platform;
+    }
+
+    /**
+     * Load the platform from the database by its platform, client and deployment IDs.
+     * @param string             $platformId    The platform ID
+     * @param string             $clientId      The client ID
+     * @param string             $deploymentId  The deployment ID
+     * @param DataConnector|null $dataConnector A data connector object
+     * @param bool               $autoEnable    True if the platform is to be enabled automatically (optional, default is false)
+     * @return Platform       The platform object
+     */
+    public static function fromPlatformId(string $platformId, string $clientId, string $deploymentId, DataConnector $dataConnector = null, bool $autoEnable = false) : Platform
+    {
+        $platform = new static($dataConnector);
+        $platform->platformId = $platformId;
+        $platform->clientId = $clientId;
+        $platform->deploymentId = $deploymentId;
+        if ($dataConnector->loadPlatform($platform)) {
+            if ($autoEnable) {
+                $platform->enabled = true;
+            }
+        }
+
+        return $platform;
+    }
+
+    /**
+     * Load the platform from the database by its record ID.
+     * @param string        $id            The platform record ID
+     * @param DataConnector $dataConnector A data connector object
+     * @return Platform       The platform object
+     */
+    public static function fromRecordId(string $id, DataConnector $dataConnector) : Platform
+    {
+        $platform = new static($dataConnector);
+        $platform->setRecordId($id);
+        $dataConnector->loadPlatform($platform);
+
+        return $platform;
+    }
+
+###
+###    PROTECTED METHODS
+###
+
+    /**
+     * Save the hint and message parameters when sending an initiate login request.
+     * Override this method to save the data elsewhere.
+     * @param string $url            The message URL
+     * @param string $loginHint      The ID of the user
+     * @param string $ltiMessageHint The message hint being sent to the tool
+     * @param array  $params         An associative array of message parameters
+     */
+    protected function onInitiateLogin(string &$url, string &$loginHint, string &$ltiMessageHint, array $params)
+    {
+        $hasSession = !empty(session_id());
+        if (!$hasSession) {
+            session_start();
+        }
+        $_SESSION['ceLTIc_lti_initiated_login'] = array(
+            'messageUrl' => $url,
+            'login_hint' => $loginHint,
+            'lti_message_hint' => $ltiMessageHint,
+            'params' => $params
+        );
+        if (!$hasSession) {
+            session_write_close();
+        }
+    }
+
+    /**
+     * Check the hint and recover the message parameters for an authentication request.
+     *
+     * Override this method if the data has been saved elsewhere.
+     */
+    protected function onAuthenticate()
+    {
+        $hasSession = !empty(session_id());
+        if (!$hasSession) {
+            session_start();
+        }
+        if (isset($_SESSION['ceLTIc_lti_initiated_login'])) {
+            $login = $_SESSION['ceLTIc_lti_initiated_login'];
+            $parameters = Util::getRequestParameters();
+            if ($parameters['login_hint'] !== $login['login_hint'] ||
+                (isset($login['lti_message_hint']) && (!isset($parameters['lti_message_hint']) || ($parameters['lti_message_hint'] !== $login['lti_message_hint'])))) {
+                $this->ok = false;
+                $this->messageParameters['error'] = 'access_denied';
+            } else {
+                Tool::$defaultTool->messageUrl = $login['messageUrl'];
+                $this->messageParameters = $login['params'];
+            }
+            unset($_SESSION['ceLTIc_lti_initiated_login']);
+        }
+        if (!$hasSession) {
+            session_write_close();
+        }
+    }
+
+    /**
+     * Process a valid content-item message
+     */
+    protected function onContentItem()
+    {
+        $this->reason = 'No onContentItem method found for platform';
+        $this->onError();
+    }
+
+    /**
+     * Process a valid start assessment message
+     */
+    protected function onLtiStartAssessment()
+    {
+        $this->reason = 'No onLtiStartAssessment method found for platform';
+        $this->onError();
+    }
+
+    /**
+     * Process a response to an invalid message
+     */
+    protected function onError()
+    {
+        $this->ok = false;
+    }
+
+###
+###  PRIVATE METHODS
+###
+
+    /**
+     * Check the authenticity of the LTI message.
+     *
+     * The platform, resource link and user objects will be initialised if the request is valid.
+     *
+     * @return bool    True if the request has been successfully validated.
+     */
+    private function authenticate() : bool
+    {
+        $this->checkMessage();
+        if ($this->ok) {
+            $this->ok = $this->verifySignature();
+        }
+
+        return $this->ok;
+    }
+
+    /**
+     * Process an authentication request.
+     *
+     * Generates an auto-submit form to respond to the request.
+     */
+    private function handleAuthenticationRequest()
+    {
+        $this->messageParameters = array();
+        $parameters = Util::getRequestParameters();
+        $this->ok = isset($parameters['scope']) && isset($parameters['response_type']) &&
+            isset($parameters['client_id']) && isset($parameters['redirect_uri']) &&
+            isset($parameters['login_hint']) && isset($parameters['nonce']);
+        if (!$this->ok) {
+            $this->messageParameters['error'] = 'invalid_request';
+        }
+        if ($this->ok) {
+            $scopes = explode(' ', $parameters['scope']);
+            $this->ok = in_array('openid', $scopes);
+            if (!$this->ok) {
+                $this->messageParameters['error'] = 'invalid_scope';
+            }
+        }
+        if ($this->ok && ($parameters['response_type'] !== 'id_token')) {
+            $this->ok = false;
+            $this->messageParameters['error'] = 'unsupported_response_type';
+        }
+        if ($this->ok && ($parameters['client_id'] !== $this->clientId)) {
+            $this->ok = false;
+            $this->messageParameters['error'] = 'unauthorized_client';
+        }
+        if ($this->ok) {
+            $this->ok = in_array($parameters['redirect_uri'], Tool::$defaultTool->redirectionUris);
+            if (!$this->ok) {
+                $this->messageParameters['error'] = 'invalid_request';
+                $this->messageParameters['error_description'] = 'Unregistered redirect_uri';
+            }
+        }
+        if ($this->ok) {
+            if (isset($parameters['response_mode'])) {
+                $this->ok = ($parameters['response_mode'] === 'form_post');
+            } else {
+                $this->ok = false;
+            }
+            if (!$this->ok) {
+                $this->messageParameters['error'] = 'invalid_request';
+                $this->messageParameters['error_description'] = 'Invalid response_mode';
+            }
+        }
+        if ($this->ok && (!isset($parameters['prompt']) || ($parameters['prompt'] !== 'none'))) {
+            $this->ok = false;
+            $this->messageParameters['error'] = 'invalid_request';
+            $this->messageParameters['error_description'] = 'Invalid prompt';
+        }
+
+        if ($this->ok) {
+            $this->onAuthenticate();
+        }
+        if ($this->ok) {
+            $this->messageParameters = $this->addSignature(Tool::$defaultTool->messageUrl, $this->messageParameters, 'POST', null,
+                $parameters['nonce']);
+        }
+        if (isset($parameters['state'])) {
+            $this->messageParameters['state'] = $parameters['state'];
+        }
+        $html = Util::sendForm($parameters['redirect_uri'], $this->messageParameters);
+        echo $html;
+        exit;
+    }
+
 }

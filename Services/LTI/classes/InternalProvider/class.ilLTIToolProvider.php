@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 
-use ILIAS\LTI\ToolProvider;
+//use ILIAS\LTI\ToolProvider;
 use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
-use ILIAS\LTI\HTTPMessage;
+
+use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
 use ILIAS\LTI\ToolProvider\OAuthDataStore;
 use ILIAS\LTI\ToolProvider\Context;
 use ILIAS\LTI\ToolProvider\ResourceLink;
@@ -10,7 +11,7 @@ use ILIAS\LTI\ToolProvider\User;
 use ILIAS\LTI\ToolProvider\ResourceLinkShareKey;
 #use ILIAS\LTI\Profile\Item;
 
-#use ILIAS\LTI\ToolProvider\MediaType;
+#use ILIAS\LTI\Tool\MediaType;
 use ILIAS\LTI\Profile;
 
 #use ILIAS\LTI\OAuth;
@@ -30,99 +31,99 @@ use ILIAS\LTI\Profile;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @author Uwe Kohnle <kohnle@internetlehrer-gmbh.de>
  */
-class ilLTIToolProvider extends ToolProvider\ToolProvider
+class ilLTITool extends ToolProvider\Tool
 {
-    /**
-     * Permitted LTI versions for messages.
-     * @var string[]
-     */
-    private static array $LTI_VERSIONS = array(self::LTI_VERSION1, self::LTI_VERSION2);
+//    /**
+//     * Permitted LTI versions for messages.
+//     * @var string[]
+//     */
+//    private static array $LTI_VERSIONS = array(self::LTI_VERSION1, self::LTI_VERSION2);
+//
+//    /**
+//     * List of supported message types and associated class methods.
+//     * @var array<string, string>
+//     */
+//    private static array $MESSAGE_TYPES = array('basic-lti-launch-request' => 'onLaunch',
+//                                                'ContentItemSelectionRequest' => 'onContentItem',
+//                                                'ToolProxyRegistrationRequest' => 'register'
+//    );
+//
+//    /**
+//     * List of supported message types and associated class methods
+//     */
+//    private static array $METHOD_NAMES = array('basic-lti-launch-request' => 'onLaunch',
+//                                               'ContentItemSelectionRequest' => 'onContentItem',
+//                                               'ToolProxyRegistrationRequest' => 'onRegister'
+//    );
 
-    /**
-     * List of supported message types and associated class methods.
-     * @var array<string, string>
-     */
-    private static array $MESSAGE_TYPES = array('basic-lti-launch-request' => 'onLaunch',
-                                                'ContentItemSelectionRequest' => 'onContentItem',
-                                                'ToolProxyRegistrationRequest' => 'register'
-    );
+//    /**
+//     * Names of LTI parameters to be retained in the consumer settings property.
+//     */
+//    private static array $LTI_CONSUMER_SETTING_NAMES = array('custom_tc_profile_url', 'custom_system_setting_url');
+//
+//    /**
+//     * Names of LTI parameters to be retained in the context settings property.
+//     */
+//    private static array $LTI_CONTEXT_SETTING_NAMES = array('custom_context_setting_url',
+//                                                            'custom_lineitems_url',
+//                                                            'custom_results_url',
+//                                                            'custom_context_memberships_url'
+//    );
 
-    /**
-     * List of supported message types and associated class methods
-     */
-    private static array $METHOD_NAMES = array('basic-lti-launch-request' => 'onLaunch',
-                                               'ContentItemSelectionRequest' => 'onContentItem',
-                                               'ToolProxyRegistrationRequest' => 'onRegister'
-    );
+//    /**
+//     * Names of LTI parameters to be retained in the resource link settings property.
+//     */
+//    private static array $LTI_RESOURCE_LINK_SETTING_NAMES = array('lis_result_sourcedid',
+//                                                                  'lis_outcome_service_url',
+//                                                                  'ext_ims_lis_basic_outcome_url',
+//                                                                  'ext_ims_lis_resultvalue_sourcedids',
+//                                                                  'ext_ims_lis_memberships_id',
+//                                                                  'ext_ims_lis_memberships_url',
+//                                                                  'ext_ims_lti_tool_setting',
+//                                                                  'ext_ims_lti_tool_setting_id',
+//                                                                  'ext_ims_lti_tool_setting_url',
+//                                                                  'custom_link_setting_url',
+//                                                                  'custom_lineitem_url',
+//                                                                  'custom_result_url'
+//    );
 
-    /**
-     * Names of LTI parameters to be retained in the consumer settings property.
-     */
-    private static array $LTI_CONSUMER_SETTING_NAMES = array('custom_tc_profile_url', 'custom_system_setting_url');
-
-    /**
-     * Names of LTI parameters to be retained in the context settings property.
-     */
-    private static array $LTI_CONTEXT_SETTING_NAMES = array('custom_context_setting_url',
-                                                            'custom_lineitems_url',
-                                                            'custom_results_url',
-                                                            'custom_context_memberships_url'
-    );
-
-    /**
-     * Names of LTI parameters to be retained in the resource link settings property.
-     */
-    private static array $LTI_RESOURCE_LINK_SETTING_NAMES = array('lis_result_sourcedid',
-                                                                  'lis_outcome_service_url',
-                                                                  'ext_ims_lis_basic_outcome_url',
-                                                                  'ext_ims_lis_resultvalue_sourcedids',
-                                                                  'ext_ims_lis_memberships_id',
-                                                                  'ext_ims_lis_memberships_url',
-                                                                  'ext_ims_lti_tool_setting',
-                                                                  'ext_ims_lti_tool_setting_id',
-                                                                  'ext_ims_lti_tool_setting_url',
-                                                                  'custom_link_setting_url',
-                                                                  'custom_lineitem_url',
-                                                                  'custom_result_url'
-    );
-
-    /**
-     * Names of LTI custom parameter substitution variables (or capabilities) and their associated default message parameter names.
-     */
-    private static array $CUSTOM_SUBSTITUTION_VARIABLES = array('User.id' => 'user_id',
-                                                                'User.image' => 'user_image',
-                                                                'User.username' => 'username',
-                                                                'User.scope.mentor' => 'role_scope_mentor',
-                                                                'Membership.role' => 'roles',
-                                                                'Person.sourcedId' => 'lis_person_sourcedid',
-                                                                'Person.name.full' => 'lis_person_name_full',
-                                                                'Person.name.family' => 'lis_person_name_family',
-                                                                'Person.name.given' => 'lis_person_name_given',
-                                                                'Person.email.primary' => 'lis_person_contact_email_primary',
-                                                                'Context.id' => 'context_id',
-                                                                'Context.type' => 'context_type',
-                                                                'Context.title' => 'context_title',
-                                                                'Context.label' => 'context_label',
-                                                                'CourseOffering.sourcedId' => 'lis_course_offering_sourcedid',
-                                                                'CourseSection.sourcedId' => 'lis_course_section_sourcedid',
-                                                                'CourseSection.label' => 'context_label',
-                                                                'CourseSection.title' => 'context_title',
-                                                                'ResourceLink.id' => 'resource_link_id',
-                                                                'ResourceLink.title' => 'resource_link_title',
-                                                                'ResourceLink.description' => 'resource_link_description',
-                                                                'Result.sourcedId' => 'lis_result_sourcedid',
-                                                                'BasicOutcome.url' => 'lis_outcome_service_url',
-                                                                'ToolConsumerProfile.url' => 'custom_tc_profile_url',
-                                                                'ToolProxy.url' => 'tool_proxy_url',
-                                                                'ToolProxy.custom.url' => 'custom_system_setting_url',
-                                                                'ToolProxyBinding.custom.url' => 'custom_context_setting_url',
-                                                                'LtiLink.custom.url' => 'custom_link_setting_url',
-                                                                'LineItems.url' => 'custom_lineitems_url',
-                                                                'LineItem.url' => 'custom_lineitem_url',
-                                                                'Results.url' => 'custom_results_url',
-                                                                'Result.url' => 'custom_result_url',
-                                                                'ToolProxyBinding.memberships.url' => 'custom_context_memberships_url'
-    );
+//    /**
+//     * Names of LTI custom parameter substitution variables (or capabilities) and their associated default message parameter names.
+//     */
+//    private static array $CUSTOM_SUBSTITUTION_VARIABLES = array('User.id' => 'user_id',
+//                                                                'User.image' => 'user_image',
+//                                                                'User.username' => 'username',
+//                                                                'User.scope.mentor' => 'role_scope_mentor',
+//                                                                'Membership.role' => 'roles',
+//                                                                'Person.sourcedId' => 'lis_person_sourcedid',
+//                                                                'Person.name.full' => 'lis_person_name_full',
+//                                                                'Person.name.family' => 'lis_person_name_family',
+//                                                                'Person.name.given' => 'lis_person_name_given',
+//                                                                'Person.email.primary' => 'lis_person_contact_email_primary',
+//                                                                'Context.id' => 'context_id',
+//                                                                'Context.type' => 'context_type',
+//                                                                'Context.title' => 'context_title',
+//                                                                'Context.label' => 'context_label',
+//                                                                'CourseOffering.sourcedId' => 'lis_course_offering_sourcedid',
+//                                                                'CourseSection.sourcedId' => 'lis_course_section_sourcedid',
+//                                                                'CourseSection.label' => 'context_label',
+//                                                                'CourseSection.title' => 'context_title',
+//                                                                'ResourceLink.id' => 'resource_link_id',
+//                                                                'ResourceLink.title' => 'resource_link_title',
+//                                                                'ResourceLink.description' => 'resource_link_description',
+//                                                                'Result.sourcedId' => 'lis_result_sourcedid',
+//                                                                'BasicOutcome.url' => 'lis_outcome_service_url',
+//                                                                'ToolConsumerProfile.url' => 'custom_tc_profile_url',
+//                                                                'ToolProxy.url' => 'tool_proxy_url',
+//                                                                'ToolProxy.custom.url' => 'custom_system_setting_url',
+//                                                                'ToolProxyBinding.custom.url' => 'custom_context_setting_url',
+//                                                                'LtiLink.custom.url' => 'custom_link_setting_url',
+//                                                                'LineItems.url' => 'custom_lineitems_url',
+//                                                                'LineItem.url' => 'custom_lineitem_url',
+//                                                                'Results.url' => 'custom_results_url',
+//                                                                'Result.url' => 'custom_result_url',
+//                                                                'ToolProxyBinding.memberships.url' => 'custom_context_memberships_url'
+//    );
 
     /**
      * @var \ilLogger
@@ -137,7 +138,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
     private \ILIAS\DI\Container $dic;
 
     /**
-     * ilLTIToolProvider constructor.
+     * ilLTITool constructor.
      * @param DataConnector $dataConnector
      */
     public function __construct(DataConnector $dataConnector)
@@ -212,8 +213,8 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         }
         // Look up primary resource link
         if ($ok && !is_null($id)) {
-            // $consumer = new ToolConsumer($key, $this->dataConnector);
-            $consumer = new ilLTIToolConsumer($DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()), $this->dataConnector);
+            // $consumer = new Platform($key, $this->dataConnector);
+            $consumer = new ilLTIPlatform($DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()), $this->dataConnector);
             $ok = !is_null($consumer->created);
             if ($ok) {
                 $resourceLink = ResourceLink::fromConsumer($consumer, $id);
@@ -236,57 +237,57 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
     ###    PROTECTED METHODS
     ###
 
-    /**
-     * Process a valid launch request
-     */
-    protected function onLaunch() : void
-    {
-        // save/update current user
-        if ($this->user instanceof User) {
-            $this->user->save();
-        }
+//    /**
+//     * Process a valid launch request
+//     */
+//    protected function onLaunch() : void
+//    {
+//        // save/update current user
+//        if ($this->user instanceof User) {
+//            $this->user->save();
+//        }
+//
+//        if ($this->context instanceof Context) {
+//            $this->context->save();
+//        }
+//
+//        if ($this->resourceLink instanceof ResourceLink) {
+//            $this->resourceLink->save();
+//        }
+//    }
 
-        if ($this->context instanceof Context) {
-            $this->context->save();
-        }
+//    /**
+//     * Process a valid content-item request
+//     * @return boolean True if no error
+//     */
+//    protected function onContentItem() : void
+//    {
+//        $this->onError();
+//    }
 
-        if ($this->resourceLink instanceof ResourceLink) {
-            $this->resourceLink->save();
-        }
-    }
+//    /**
+//     * Process a valid tool proxy registration request
+//     * @return boolean True if no error
+//     */
+//    protected function onRegister() : void
+//    {
+//        $this->onError();
+//    }
 
-    /**
-     * Process a valid content-item request
-     * @return boolean True if no error
-     */
-    protected function onContentItem() : void
-    {
-        $this->onError();
-    }
-
-    /**
-     * Process a valid tool proxy registration request
-     * @return boolean True if no error
-     */
-    protected function onRegister() : void
-    {
-        $this->onError();
-    }
-
-    /**
-     * Process an incoming request
-     */
-    public function handleRequest() : void
-    {
-        if ($this->ok) {
-            if ($this->authenticate()) {
-                $this->doCallback();
-            }
-        }
-        // if return url is given, this redirects in case of errors
-        $this->result();
-//        return $this->ok;
-    }
+//    /**
+//     * Process an incoming request
+//     */
+//    public function handleRequest() : void
+//    {
+//        if ($this->ok) {
+//            if ($this->authenticate()) {
+//                $this->doCallback();
+//            }
+//        }
+//        // if return url is given, this redirects in case of errors
+//        $this->result();
+////        return $this->ok;
+//    }
 
     ###
     ###    PRIVATE METHODS
@@ -401,7 +402,7 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
                 $this->reason = 'Missing consumer key.';
             }
             if ($this->ok) {
-                $this->consumer = new ilLTIToolConsumer($DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()), $this->dataConnector);
+                $this->consumer = new ilLTIPlatform($DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()), $this->dataConnector);
                 $this->ok = !is_null($this->consumer->created);
                 if (!$this->ok) {
                     $this->reason = 'Invalid consumer key.';
@@ -557,8 +558,8 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
             }
             // Check for required capabilities
             if ($this->ok) {
-                // $this->consumer = new ToolConsumer($_POST['reg_key'], $this->dataConnector);
-                $this->consumer = new ilLTIToolConsumer($DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()), $this->dataConnector);
+                // $this->consumer = new Platform($_POST['reg_key'], $this->dataConnector);
+                $this->consumer = new ilLTIPlatform($DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()), $this->dataConnector);
                 // TODO PHP8 Review: Variable $tcProfile is probably undefined
                 $this->consumer->profile = $tcProfile; // TODO PHP8 Review: Undefined Property
                 $capabilities = $this->consumer->profile->capability_offered;
@@ -852,50 +853,50 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         return $this->ok;
     }
 
-    /**
-     * Validate a parameter value from an array of permitted values.
-     * @param string $value
-     * @param array  $values
-     * @param string $reason
-     * @return boolean True if value is valid
-     */
-    private function checkValue(string $value, array $values, string $reason) : bool
-    {
-        $ok = in_array($value, $values);
-        if (!$ok && !empty($reason)) {
-            $this->reason = sprintf($reason, $value);
-        }
+//    /**
+//     * Validate a parameter value from an array of permitted values.
+//     * @param string $value
+//     * @param array  $values
+//     * @param string $reason
+//     * @return boolean True if value is valid
+//     */
+//    private function checkValue(string $value, array $values, string $reason) : bool
+//    {
+//        $ok = in_array($value, $values);
+//        if (!$ok && !empty($reason)) {
+//            $this->reason = sprintf($reason, $value);
+//        }
+//
+//        return $ok;
+//    }
 
-        return $ok;
-    }
-
-    /**
-     * Call any callback function for the requested action.
-     * This function may set the redirect_url and output properties.
-     * @param string|null $method
-     * @return void True if no error reported
-     */
-    private function doCallback(?string $method = null) : void
-    {
-        // TODO PHP8 Review: Move Global Access to Constructor
-        global $DIC;
-        $callback = $method;
-        if (is_null($callback)) {
-            $callback = self::$METHOD_NAMES[$DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string())
-];
-        }
-        if (method_exists($this, $callback)) {
-            $result = $this->$callback(); // ACHTUNG HIER PROBLEM UK
-        } elseif (is_null($method) && $this->ok) {
-            $this->ok = false;
-            $this->reason = "Message type not supported: {$DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string())
-}";
-        }
-        if ($this->ok && ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string())
- == 'ToolProxyRegistrationRequest')) {
-            $this->consumer->save();
-        }
-    }
+//    /**
+//     * Call any callback function for the requested action.
+//     * This function may set the redirect_url and output properties.
+//     * @param string|null $method
+//     * @return void True if no error reported
+//     */
+//    private function doCallback(?string $method = null) : void
+//    {
+//        // TODO PHP8 Review: Move Global Access to Constructor
+//        global $DIC;
+//        $callback = $method;
+//        if (is_null($callback)) {
+//            $callback = self::$METHOD_NAMES[$DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string())
+//];
+//        }
+//        if (method_exists($this, $callback)) {
+//            $result = $this->$callback(); // ACHTUNG HIER PROBLEM UK
+//        } elseif (is_null($method) && $this->ok) {
+//            $this->ok = false;
+//            $this->reason = "Message type not supported: {$DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string())
+//}";
+//        }
+//        if ($this->ok && ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string())
+// == 'ToolProxyRegistrationRequest')) {
+//            $this->consumer->save();
+//        }
+//    }
 
     /**
      * Perform the result of an action.
@@ -963,16 +964,16 @@ class ilLTIToolProvider extends ToolProvider\ToolProvider
         }
     }
 
-    /**
-     * Process a response to an invalid request
-     * boolean True if no further error processing required
-     */
-    protected function onError() : void
-    {
-        // only return error status
-//        return $this->ok;
-
-        $this->doCallback('onError');
-        // return parent::onError(); //Stefan M.
-    }
+//    /**
+//     * Process a response to an invalid request
+//     * boolean True if no further error processing required
+//     */
+//    protected function onError() : void
+//    {
+//        // only return error status
+////        return $this->ok;
+//
+//        $this->doCallback('onError');
+//        // return parent::onError(); //Stefan M.
+//    }
 }

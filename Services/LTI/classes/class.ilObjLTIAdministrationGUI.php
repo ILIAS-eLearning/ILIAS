@@ -316,7 +316,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $this->ctrl->redirect($this, "listConsumers");
         }
 
-        $consumer = ilLTIToolConsumer::fromExternalConsumerId($this->consumer_id, $this->dataConnector);
+        $consumer = ilLTIPlatform::fromExternalConsumerId($this->consumer_id, $this->dataConnector);
         if (!$a_form instanceof ilPropertyFormGUI) {
             $a_form = $this->getConsumerForm('edit');
             $a_form->getItemByPostVar("title")->setValue($consumer->getTitle());
@@ -342,7 +342,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         if ($form->checkInput()) {
             // $consumer = new ilLTIExternalConsumer();
             // $dataConnector = new ilLTIDataConnector();
-            $consumer = new ilLTIToolConsumer(null, $this->dataConnector);
+            $consumer = new ilLTIPlatform(null, $this->dataConnector);
             $consumer->setTitle($form->getInput('title'));
             $consumer->setDescription($form->getInput('description'));
             $consumer->setPrefix($form->getInput('prefix'));
@@ -380,7 +380,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
         $ilCtrl->setParameter($this, "cid", $this->consumer_id);
 
-        $consumer = ilLTIToolConsumer::fromExternalConsumerId($this->consumer_id, $this->dataConnector);
+        $consumer = ilLTIPlatform::fromExternalConsumerId($this->consumer_id, $this->dataConnector);
         $form = $this->getConsumerForm('edit');
         if ($form->checkInput()) {
             $consumer->setTitle($form->getInput('title'));
@@ -410,7 +410,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
         if ($consumer_id == 0) {
             $this->ctrl->redirect($this, "listConsumers");
         }
-        $consumer = ilLTIToolConsumer::fromExternalConsumerId($consumer_id, $this->dataConnector);
+        $consumer = ilLTIPlatform::fromExternalConsumerId($consumer_id, $this->dataConnector);
         $consumer->deleteGlobalToolConsumerSettings($this->dataConnector);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("lti_consumer_deleted"), true);
         $this->ctrl->redirect($this, 'listConsumers');
@@ -454,7 +454,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
             $this->ctrl->redirect($this, "listConsumers");
         }
 
-        $consumer = ilLTIToolConsumer::fromExternalConsumerId($this->consumer_id, $this->dataConnector);
+        $consumer = ilLTIPlatform::fromExternalConsumerId($this->consumer_id, $this->dataConnector);
         if ($consumer->getActive()) {
             $consumer->setActive(false);
             $msg = "lti_consumer_set_inactive";
