@@ -107,6 +107,7 @@ final class IliasDBEmployeeTalkRepository implements EmployeeTalkRepository
 
     public function findUsersByPositionRights(int $user) : array
     {
+        // TODO PHP8 Review: Check/Resolve Type-Mismatch, $managedUser is undefined and not an array
         return $managedUser;
     }
 

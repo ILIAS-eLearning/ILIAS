@@ -206,12 +206,14 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
         foreach ($templates as $item) {
             $type = $item["type"];
 
+            // TODO PHP8 Review: Check/Resolve Type-Mismatch, _getIcon needs int in first parameter
             $path = ilObject::_getIcon('', 'tiny', $type);
             $icon = ($path != "")
                 ? ilUtil::img($path, "") . " "
                 : "";
 
             $base_url = $this->ctrl->getLinkTargetByClass(strtolower(ilObjEmployeeTalkSeriesGUI::class), ControlFlowCommand::CREATE);
+            // TODO PHP8 Review: Undefined, method appendRequestTokenParameterString does no longer exist
             $url = $this->ctrl->appendRequestTokenParameterString($base_url . "&new_type=" . ilObjEmployeeTalkSeries::TYPE);
             $refId = ilObject::_getAllReferences(intval($item['obj_id']));
 

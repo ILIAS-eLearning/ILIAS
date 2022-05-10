@@ -136,7 +136,7 @@ final class ilEmployeeTalkAppointmentGUI implements ControlFlowCommandHandler
             $parent = $this->talk->getParent();
             $this->deletePendingTalks($parent);
             $this->createRecurringTalks($form, $reoccurrence, $parent);
-
+            // TODO PHP8 Review: Undefined, ilUtil::sendSuccess no longer exists, use setOnScreenMessage in global template
             ilUtil::sendSuccess($this->language->txt('saved_successfully'), true);
         }
 
