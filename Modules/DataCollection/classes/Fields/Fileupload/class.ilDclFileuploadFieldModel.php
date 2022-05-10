@@ -82,7 +82,11 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
         return array_map($trim_function, $supported_extensions);
     }
 
-    public function checkValidity(?array $value, ?int $record_id = null) : bool
+    /**
+     * @param array|null $value
+     * @throws ilDclInputException$
+     */
+    public function checkValidity($value, ?int $record_id = null) : bool
     {
         //Don't check empty values
         if ($value == null || $value['size'] == 0) {

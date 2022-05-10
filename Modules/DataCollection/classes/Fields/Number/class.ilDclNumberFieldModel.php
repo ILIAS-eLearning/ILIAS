@@ -47,7 +47,10 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
         return true;
     }
 
-    public function checkValidity(float $value, ?int $record_id = null): bool
+    /**
+     * @param float    $value
+     */
+    public function checkValidity($value, ?int $record_id = null): bool
     {
         $valid = parent::checkValidity($value, $record_id);
 
