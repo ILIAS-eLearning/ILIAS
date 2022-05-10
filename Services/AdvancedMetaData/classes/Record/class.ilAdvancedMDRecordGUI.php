@@ -84,6 +84,7 @@ class ilAdvancedMDRecordGUI
         global $DIC;
 
         $this->user = $DIC->user();
+        $this->lng = $DIC->language();
         $this->mode = $a_mode;
         $this->obj_type = $a_obj_type;
         $this->obj_id = $a_obj_id;
