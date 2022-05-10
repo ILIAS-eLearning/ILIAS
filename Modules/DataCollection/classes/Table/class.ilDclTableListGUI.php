@@ -10,7 +10,7 @@ class ilDclTableListGUI
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
-    protected ilTemplate $tpl;
+    protected ilGlobalPageTemplate $tpl;
     protected ilTabsGUI $tabs;
     protected ilToolbarGUI $toolbar;
 

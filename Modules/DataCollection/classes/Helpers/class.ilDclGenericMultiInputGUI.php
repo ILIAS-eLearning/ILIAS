@@ -11,14 +11,14 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     const HOOK_IS_INPUT_DISABLED = "hook_is_disabled";
     const HOOK_BEFORE_INPUT_RENDER = "hook_before_render";
 
-    protected array $cust_attr = array();
-    protected string $value;
-    protected array $inputs = array();
-    protected array $input_options = array();
-    protected array $hooks = array();
-    protected array $line_values = array();
+    protected array $cust_attr = [];
+    protected array $value = [];
+    protected array $inputs = [];
+    protected array $input_options = [];
+    protected array $hooks = [];
+    protected ?array $line_values = [];
     protected string $template_dir = '';
-    protected array $post_var_cache = array();
+    protected array $post_var_cache = [];
     protected bool $show_label = false;
     protected int $limit = 0;
     protected bool $allow_empty_fields = false;
@@ -56,7 +56,10 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         $this->setMulti(true);
     }
 
-    public function getHook($key) : string
+    /**
+     * @return string|bool
+     */
+    public function getHook($key)
     {
         if (isset($this->hooks[$key])) {
             return $this->hooks[$key];
@@ -119,7 +122,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     /**
      * Set Value.
      */
-    public function setValue(string $a_value) : void
+    public function setValue(array $a_value) : void
     {
         foreach ($this->inputs as $key => $item) {
             if ($item instanceof ilCheckboxInputGUI) {

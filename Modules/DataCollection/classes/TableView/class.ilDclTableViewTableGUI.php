@@ -15,7 +15,7 @@ class ilDclTableViewTableGUI extends ilTable2GUI
      * @param string            $a_parent_cmd
      * @param ilDclTable        $table
      */
-    public function __construct(ilDclDetailedViewGUI $a_parent_obj, $a_parent_cmd, ilDclTable $table)
+    public function __construct(ilDclTableViewGUI $a_parent_obj, $a_parent_cmd, ilDclTable $table)
     {
         global $DIC;
         $lng = $DIC['lng'];

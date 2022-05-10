@@ -15,36 +15,36 @@ class ilDclCache
     /**
      * @var ilDclTable[]
      */
-    protected static array $tables_cache;
+    protected static array $tables_cache = [];
     /**
      * @var ilDclBaseFieldModel[]
      */
-    protected static array $fields_cache;
+    protected static array $fields_cache = [];
     /**
      * @var ilDclBaseRecordModel[]
      */
-    protected static array $records_cache;
+    protected static array $records_cache = [];
     /**
      * record_field_cache[record_id][field_id]
      * @var ilDclBaseRecordFieldModel[][]
      */
-    protected static array $record_field_cache;
+    protected static array $record_field_cache = [];
     /**
      * @var ilDclBaseFieldRepresentation[]
      */
-    protected static array $field_representation_cache;
+    protected static array $field_representation_cache = [];
     /**
      * @var ilDclBaseRecordRepresentation[]
      */
-    protected static array $record_representation_cache;
+    protected static array $record_representation_cache = [];
     /**
      * @var ilDclFieldProperty[]
      */
-    protected static array $field_properties_cache;
+    protected static array $field_properties_cache = [];
     /**
-     * @var ilDclDatatype
+     * @var ilDclDatatype[]
      */
-    protected static ilDclDatatype $datatype_cache;
+    protected static array $datatype_cache = [];
     /**
      * used when cloning datacollections, contains mappings of all components
      * form:
@@ -111,9 +111,9 @@ class ilDclCache
         }
     }
 
-    public static function getTableCache(int $table_id = 0) : ilDclTable
+    public static function getTableCache(?int $table_id = null) : ilDclTable
     {
-        if ($table_id == 0) {
+        if (is_null($table_id) === true || $table_id === 0) {
             return new ilDclTable();
         }
         $tables_cache = &self::$tables_cache;
@@ -191,8 +191,9 @@ class ilDclCache
 
     /**
      * Cache Field properties
+     * @return ilDclFieldProperty[]
      */
-    public static function getFieldProperties(int $field_id) : ilDclFieldProperty
+    public static function getFieldProperties(int $field_id) : array
     {
         if (!isset(self::$field_properties_cache[$field_id])) {
             self::$field_properties_cache[$field_id] = array();

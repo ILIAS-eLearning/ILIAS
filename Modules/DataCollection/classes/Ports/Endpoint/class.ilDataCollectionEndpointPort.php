@@ -7,7 +7,7 @@ interface ilDataCollectionEndpointPort
 {
     public function getListTablesLink() : string;
 
-    public function getListRecordsLink(int $viewId) : string;
+    public function getListRecordsLink(string $viewId) : string;
 
     public function getEditRecordLink(string $viewId, int $recordId) : string;
 

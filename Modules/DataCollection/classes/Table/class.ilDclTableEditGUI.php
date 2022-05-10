@@ -17,7 +17,7 @@ class ilDclTableEditGUI
     private ilDclTable $table;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
-    protected ilTemplate $tpl;
+    protected ilGlobalPageTemplate $tpl;
     protected ilToolbarGUI $toolbar;
     protected ilPropertyFormGUI $form;
 

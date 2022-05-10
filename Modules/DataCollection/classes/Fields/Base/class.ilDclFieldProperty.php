@@ -19,7 +19,7 @@ class ilDclFieldProperty extends ActiveRecord
      * @db_length           8
      * @db_sequence         true
      */
-    protected int $id;
+    protected ?int $id;
     /**
      * @var int
      * @db_has_field        true
@@ -47,7 +47,7 @@ class ilDclFieldProperty extends ActiveRecord
     /**
      * ilDclFieldProperty constructor.
      */
-    public function __construct(int $primary_key = 0)
+    public function __construct(?int $primary_key = 0)
     {
         parent::__construct($primary_key);
     }

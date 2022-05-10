@@ -420,7 +420,7 @@ class ilDataCollectionDataSet extends ilDataSet
         }
         foreach ($this->import_temp_refs_props as $field_prop_id => $old_field_id) {
             $new_field_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_field', $old_field_id);
-            $value = ($new_field_id) ? (int) $new_field_id : null;
+            $value = ($new_field_id) ? (int) $new_field_id : 0;
             $field_prop = new ilDclFieldProperty($field_prop_id);
             $field_prop->setValue($value);
             $field_prop->update();

@@ -292,7 +292,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return $table->getIsVisible() || ($table_id == $table->getCollectionObject()->getFirstVisibleTableId());
     }
 
-    public static function hasAccessTo(int $ref_id, int $table_id, int $tableview_id): bool
+    public static function hasAccessTo(int $ref_id, ?int $table_id, ?int $tableview_id): bool
     {
         /** @var ilDclTableView $tableview */
         $tableview = ilDclTableView::find($tableview_id);

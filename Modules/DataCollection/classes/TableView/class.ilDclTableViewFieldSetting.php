@@ -19,7 +19,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @db_length           8
      * @db_sequence         true
      */
-    protected int $id;
+    protected ?int $id;
     /**
      * @var int
      * @db_has_field        true
@@ -35,7 +35,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @db_fieldtype        text
      * @db_length           128
      */
-    protected string $field;
+    protected string $field = "";
     /**
      * @var bool
      * @db_has_field        true
@@ -49,42 +49,42 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected bool $in_filter;
+    protected bool $in_filter = false;
     /**
      * @var string
      * @db_has_field        true
      * @db_fieldtype        text
      * @db_length           128
      */
-    protected string $filter_value;
+    protected $filter_value = "";
     /**
      * @var bool
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected bool $filter_changeable;
+    protected bool $filter_changeable = false;
     /**
      * @var bool
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected bool $required_create;
+    protected bool $required_create = false;
     /**
      * @var bool
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected bool $locked_create;
+    protected bool $locked_create = false;
     /**
      * @var string
      * @db_has_field        true
      * @db_fieldtype        text
      * @db_length           128
      */
-    protected string $default_value;
+    protected string $default_value = "";
     /**
      * @var bool
      * @db_has_field        true
@@ -92,7 +92,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @db_is_notnull       true
      * @db_length           1
      */
-    protected bool $visible_create;
+    protected bool $visible_create = false;
     /**
      * @var bool
      * @db_has_field        true
@@ -100,21 +100,21 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      * @db_is_notnull       true
      * @db_length           1
      */
-    protected bool $visible_edit;
+    protected bool $visible_edit = false;
     /**
      * @var bool
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected bool $required_edit;
+    protected bool $required_edit = false;
     /**
      * @var bool
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected bool $locked_edit;
+    protected bool $locked_edit = false;
 
     /**
      * @return string
@@ -135,12 +135,15 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->tableview_id = $tableview_id;
     }
 
-    public function getField() : int
+    public function getField() : string
     {
         return $this->field;
     }
 
-    public function setField(int $field) : void
+    /**
+     * @param $field
+     */
+    public function setField(string $field) : void
     {
         $this->field = $field;
     }
@@ -165,12 +168,12 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         $this->in_filter = $in_filter;
     }
 
-    public function getFilterValue() : string
+    public function getFilterValue()
     {
         return $this->filter_value;
     }
 
-    public function setFilterValue(string $filter_value) : void
+    public function setFilterValue($filter_value) : void
     {
         $this->filter_value = $filter_value;
     }

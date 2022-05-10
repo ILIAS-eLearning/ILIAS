@@ -30,14 +30,14 @@ class ilDclDatatype
     const INPUTFORMAT_TEXT_SELECTION = 14;
     const INPUTFORMAT_DATE_SELECTION = 15;
     //public static $mob_suffixes = array('jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv');
-    protected int $id;
-    protected string $title;
+    protected int $id = 0;
+    protected string $title = "";
     protected int $storageLocation;
     protected string $dbType;
     /**
      * @var ilDclDatatype[]
      */
-    public static array $datatype_cache;
+    public static array $datatype_cache = [];
 
     /**
      * Constructor

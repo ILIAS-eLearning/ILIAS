@@ -179,10 +179,10 @@ class ilDclStandardField extends ilDclBaseFieldModel
     }
 
     /**
-     * @param $field_id
+     * @param int|string $field_id
      * @return bool
      */
-    public static function _isStandardField(int $field_id) : bool
+    public static function _isStandardField($field_id) : bool
     {
         $return = false;
         foreach (self::_getStandardFieldsAsArray() as $field) {
@@ -196,10 +196,9 @@ class ilDclStandardField extends ilDclBaseFieldModel
 
     /**
      * gives you the datatype id of a specified standard field.
-     * @param int $id the id of the standardfield eg. "create_date"
-     * @return int|null
+     * @param string $id the id of the standardfield eg. "create_date"
      */
-    public static function _getDatatypeForId(int $id) : ?int
+    public static function _getDatatypeForId(string $id) : ?string
     {
         $datatype = null;
         foreach (self::_getStandardFieldsAsArray() as $fields_data) {

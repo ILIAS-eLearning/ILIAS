@@ -29,7 +29,7 @@ class ilDclRecordListGUI
 
     protected ilDclTable $table_obj;
 
-    protected int $table_id;
+    protected ?int $table_id;
 
     protected int $obj_id;
 
@@ -37,7 +37,7 @@ class ilDclRecordListGUI
 
     protected ilLanguage $lng;
 
-    protected int $tableview_id;
+    protected ?int $tableview_id;
 
     protected static array $available_modes = array(self::MODE_VIEW, self::MODE_MANAGE);
 

@@ -16,15 +16,16 @@ class ilDclBaseFieldModel
     /**
      * @var int|string int for custom fields string for standard fields
      */
-    protected $id;
+    protected $id = 0;
     protected int $table_id;
     protected string $title;
     protected string $description;
-    protected int $datatypeId;
-    protected int $order;
+    protected int $datatypeId = 0;
+    protected ?int $order = null;
     protected bool $unique;
-    protected ?ilDclFieldProperty $property = null;
-    protected bool $exportable;
+    /** @var ilDclFieldProperty[] */
+    protected array $property = [];
+    protected bool $exportable = false;
     protected ?ilDclDatatype $datatype = null;
     /**
      * With this property the datatype-storage-location can be overwritten. This need to be done in plugins.
@@ -98,16 +99,18 @@ class ilDclBaseFieldModel
 
     /**
      * Set field id
+     * @param int|string
      */
-    public function setId(int $a_id)
+    public function setId($a_id)
     {
         $this->id = $a_id;
     }
 
     /**
      * Get field id
+     * @param int|string
      */
-    public function getId() : int
+    public function getId()
     {
         return $this->id;
     }
@@ -191,7 +194,7 @@ class ilDclBaseFieldModel
         return $this->unique;
     }
 
-    public function setUnique(bool $unique)
+    public function setUnique(?bool $unique)
     {
         $this->unique = $unique ? 1 : 0;
     }

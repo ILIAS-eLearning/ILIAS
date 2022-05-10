@@ -36,7 +36,7 @@ class ilDataCollectionEndpointAdapter implements ilDataCollectionEndpointPort
     /**
      * @throws ilCtrlException
      */
-    public function getListRecordsLink(?int $viewId = null) : string
+    public function getListRecordsLink(?string $viewId = null) : string
     {
         if($viewId !== null) {
             $this->ctrl->setParameterByClass("ildclrecordlistgui", "tableview_id", $viewId);

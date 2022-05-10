@@ -211,7 +211,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         return $this->render();
     }
 
-    public function fillRowFromObject(ilDclStandardField $a_set) : void
+    public function fillRowFromObject(ilDclBaseFieldModel $a_set) : void
     {
         global $DIC;
         $lng = $DIC['lng'];

@@ -18,7 +18,7 @@ class ilDclTableView extends ActiveRecord
      * @db_length           8
      * @db_sequence         true
      */
-    protected int $id;
+    protected ?int $id;
     /**
      * @var int
      * @db_has_field        true
@@ -26,7 +26,7 @@ class ilDclTableView extends ActiveRecord
      * @db_fieldtype        integer
      * @db_length           8
      */
-    protected int $table_id;
+    protected int $table_id = 0;
     /**
      * @var string
      * @db_has_field        true
@@ -34,7 +34,7 @@ class ilDclTableView extends ActiveRecord
      * @db_fieldtype        text
      * @db_length           128
      */
-    protected string $title;
+    protected string $title = "";
     /**
      * @var array
      * @db_has_field        true
@@ -48,7 +48,7 @@ class ilDclTableView extends ActiveRecord
      * @db_fieldtype        text
      * @db_length           128
      */
-    protected string $description;
+    protected string $description = '';
     /**
      * @var int
      * @db_has_field        true
@@ -105,7 +105,7 @@ class ilDclTableView extends ActiveRecord
         return "il_dcl_tableview";
     }
 
-    public function getId() : int
+    public function getId() : ?int
     {
         return $this->id;
     }
@@ -371,9 +371,9 @@ class ilDclTableView extends ActiveRecord
 
     /**
      * create ilDclTableViewFieldSetting for this tableview and the given field id
-     * @param $field_id
+     * @param int|string $field_id
      */
-    public function createFieldSetting(int $field_id) : void
+    public function createFieldSetting($field_id) : void
     {
         if (!ilDclTableViewFieldSetting::where(
             array(

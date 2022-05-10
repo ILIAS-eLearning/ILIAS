@@ -34,7 +34,7 @@ class ilDclFieldEditGUI
         $this->parent_obj = $a_parent_obj;
 
         $this->table_id = $_GET["table_id"];
-        $this->field_id = $_GET['field_id'];
+        $this->field_id = $_GET['field_id'] ? $_GET['field_id']: 0;
 
         if ($this->field_id) {
             $this->field_obj = ilDclCache::getFieldCache($this->field_id);

@@ -12,7 +12,7 @@ class ilDclTableViewGUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
-    protected ilTemplate $tpl;
+    protected ilGlobalPageTemplate $tpl;
     protected ilTabsGUI $tabs;
     protected ilDclTable $table;
 

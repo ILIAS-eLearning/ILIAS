@@ -15,34 +15,34 @@
 class ilDclTable
 {
     protected int $id = 0;
-    protected int $objId;
-    protected ilObjDataCollection $obj;
+    protected ?int $objId = null;
+    protected ?ilObjDataCollection $obj = null;
     protected string $title;
     /**
      * @var ilDclBaseFieldModel[]
      */
-    protected array $fields;
+    protected array $fields = [];
     /**
      * @var ilDclStandardField[]
      */
-    protected array $stdFields;
+    protected array $stdFields = [];
     /**
      * @var ilDclBaseRecordModel[]
      */
     protected array $records;
-    protected bool $is_visible;
-    protected bool $add_perm;
-    protected bool $edit_perm;
-    protected bool $delete_perm;
-    protected bool $edit_by_owner;
-    protected bool $delete_by_owner;
-    protected bool $save_confirmation;
-    protected bool $limited;
-    protected string $limit_start;
-    protected string $limit_end;
-    protected bool $export_enabled;
-    protected int $table_order;
-    protected bool $import_enabled;
+    protected bool $is_visible = false;
+    protected bool $add_perm = false;
+    protected bool $edit_perm = false;
+    protected bool $delete_perm = false;
+    protected bool $edit_by_owner = false;
+    protected bool $delete_by_owner = false;
+    protected bool $save_confirmation = false;
+    protected bool $limited = false;
+    protected ?string $limit_start = null;
+    protected ?string $limit_end = null;
+    protected bool $export_enabled = false;
+    protected int $table_order = 0;
+    protected bool $import_enabled = false;
     /**
      * ID of the default sorting field. Can be a DB field (int) or a standard field (string)
      */
@@ -246,7 +246,7 @@ class ilDclTable
         $this->objId = $a_id;
     }
 
-    public function getObjId() : int
+    public function getObjId() : ?int
     {
         return $this->objId;
     }
@@ -863,7 +863,7 @@ class ilDclTable
         return $this->limited;
     }
 
-    public function setLimitEnd(string $limit_end) : void
+    public function setLimitEnd(?string $limit_end) : void
     {
         $this->limit_end = $limit_end;
     }
@@ -871,17 +871,17 @@ class ilDclTable
     /**
      * @return string
      */
-    public function getLimitEnd() : string
+    public function getLimitEnd() : ?string
     {
         return $this->limit_end;
     }
 
-    public function setLimitStart(string $limit_start)
+    public function setLimitStart(?string $limit_start)
     {
         $this->limit_start = $limit_start;
     }
 
-    public function getLimitStart() : string
+    public function getLimitStart() : ?string
     {
         return $this->limit_start;
     }
@@ -971,7 +971,7 @@ class ilDclTable
         return (count($this->fields) > 0) ? true : false;
     }
 
-    public function compareOrder(ilDclStandardField $a, ilDclStandardField $b) : int
+    public function compareOrder(ilDclBaseFieldModel $a, ilDclBaseFieldModel $b) : int
     {
         if (is_null($a->getOrder() == null) && is_null($b->getOrder() == null)) {
             return 0;

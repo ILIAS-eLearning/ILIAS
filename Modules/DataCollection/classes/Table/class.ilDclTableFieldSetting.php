@@ -19,7 +19,7 @@ class ilDclTableFieldSetting extends ActiveRecord
      * @db_length           8
      * @db_sequence         true
      */
-    protected int $id;
+    protected ?int $id;
     /**
      * @var int
      * @db_has_field        true
@@ -42,14 +42,14 @@ class ilDclTableFieldSetting extends ActiveRecord
      * @db_fieldtype        integer
      * @db_length           8
      */
-    protected int $field_order;
+    protected int $field_order = 0;
     /**
      * @var bool
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected bool $exportable;
+    protected bool $exportable = false;
 
     /**
      * @description Return the Name of your Database Table

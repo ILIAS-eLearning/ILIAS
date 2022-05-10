@@ -13,7 +13,7 @@ class ilDclTableViewEditGUI
     protected ilDclTableViewGUI $parent_obj;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
-    protected ilTemplate $tpl;
+    protected ilGlobalPageTemplate $tpl;
     public ilDclTableView $tableview;
     protected ilPropertyFormGUI $form;
     protected ilDclTableViewEditFieldsTableGUI $table_gui;

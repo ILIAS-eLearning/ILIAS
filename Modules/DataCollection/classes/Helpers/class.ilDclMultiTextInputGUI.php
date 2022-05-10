@@ -7,7 +7,7 @@
  */
 class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
 {
-    public function setValues(array $values) : void
+    public function setValues($values) : void
     {
         $this->setIdentifiedMultiValues($values);
     }
@@ -17,7 +17,7 @@ class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
         return $this->getIdentifiedMultiValues();
     }
 
-    public function setValue(string $a_value) : void
+    public function setValue($a_value) : void
     {
         $this->setIdentifiedMultiValues($a_value);
     }
