@@ -7,7 +7,7 @@
  */
 class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilFileInputGUI
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilFileInputGUI
     {
         $input = new ilFileInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         $input->setSuffixes(ilDclMobFieldModel::$mob_suffixes);
@@ -33,7 +33,10 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-    public function passThroughFilter(ilDclBaseRecordModel $record, srting $filter): bool
+    /**
+     * @param string $filter
+     */
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter) : bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
 
@@ -46,7 +49,7 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
         return false;
     }
 
-    public function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
+    public function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
     {
         $opt = new ilRadioOption($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
             $this->getField()->getDatatypeId());

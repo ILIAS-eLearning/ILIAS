@@ -41,7 +41,7 @@ class ilDclTable
     protected string $limit_start;
     protected string $limit_end;
     protected bool $export_enabled;
-    protected integer $table_order;
+    protected int $table_order;
     protected bool $import_enabled;
     /**
      * ID of the default sorting field. Can be a DB field (int) or a standard field (string)

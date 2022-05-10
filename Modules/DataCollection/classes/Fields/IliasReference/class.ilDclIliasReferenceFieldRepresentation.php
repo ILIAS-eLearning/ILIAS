@@ -30,7 +30,10 @@ class ilDclIliasReferenceFieldRepresentation extends ilDclBaseFieldRepresentatio
         return $this->getFilterInputFieldValue($input);
     }
 
-    public function passThroughFilter(ilDclBaseRecordModel $record, ?string $filter) : bool
+    /**
+     * @param string|null          $filter
+     */
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter) : bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
         $obj_id = ilObject::_lookupObjId($value);

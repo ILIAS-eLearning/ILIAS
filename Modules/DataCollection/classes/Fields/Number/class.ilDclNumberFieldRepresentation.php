@@ -7,7 +7,7 @@
  */
 class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilNumberInputGUI
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilNumberInputGUI
     {
         $input = new ilNumberInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         // 9 is the maximum number of digits for an integer
@@ -34,7 +34,10 @@ class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-    public function passThroughFilter(ilDclBaseRecordModel $record, array $filter): bool
+    /**
+     * @param array $filter
+     */
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter) : bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
         if ((!$filter['from'] || $value >= $filter['from']) && (!$filter['to'] || $value <= $filter['to'])) {
@@ -44,7 +47,7 @@ class ilDclNumberFieldRepresentation extends ilDclBaseFieldRepresentation
         return false;
     }
 
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 

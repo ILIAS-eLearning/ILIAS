@@ -114,12 +114,12 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
     }
 
     /**
-     * @inheritdoc
+     * @param string $value
      */
-    public function parseExportValue(string $value) : ?string
+    public function parseExportValue($value) : ?string
     {
         if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
-            return;
+            return null;
         }
 
         $file = $value;
@@ -135,8 +135,9 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
 
     /**
      * Returns sortable value for the specific field-types
+     * @param int $value
      */
-    public function parseSortingValue(int $value, bool $link = true) : string
+    public function parseSortingValue($value, bool $link = true) : string
     {
         if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
             return '';

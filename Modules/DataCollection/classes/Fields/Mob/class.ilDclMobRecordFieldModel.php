@@ -157,8 +157,9 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
 
     /**
      * Returns sortable value for the specific field-types
+     * @param int $value
      */
-    public function parseSortingValue(int $value, bool $link = true) : string
+    public function parseSortingValue($value, bool $link = true) : string
     {
         $mob = new ilObjMediaObject($value, false);
 

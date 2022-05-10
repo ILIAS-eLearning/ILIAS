@@ -55,7 +55,10 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-    public function passThroughFilter(ilDclBaseRecordModel $record, string $filter) : bool
+    /**
+     * @param string $filter
+     */
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter) : bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
         $pass = false;
