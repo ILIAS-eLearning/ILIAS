@@ -41,9 +41,8 @@ final class IliasDBTalkTemplateRepository
     public function findAll() : array
     {
         $rawTemplates = $this->tree->getChildsByType(ilObjTalkTemplateAdministration::getRootRefId(), ilObjTalkTemplate::TYPE);
-        $templates = array_map(function (array $template) : \ilObjTalkTemplate {
+        return array_map(function (array $template) : \ilObjTalkTemplate {
             return new ilObjTalkTemplate($template['ref_id']);
         }, $rawTemplates);
-        return $templates;
     }
 }

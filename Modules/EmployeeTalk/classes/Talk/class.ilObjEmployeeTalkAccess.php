@@ -68,7 +68,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
      */
     public static function _getCommands() : array
     {
-        $commands = [
+        return [
             [
                 'permission' => 'read',
                 'cmd' => ControlFlowCommand::DEFAULT,
@@ -76,8 +76,6 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
                 'default' => true,
             ]
         ];
-
-        return $commands;
     }
 
     public static function _isOffline($a_obj_id) : bool

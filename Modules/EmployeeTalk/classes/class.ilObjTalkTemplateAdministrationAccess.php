@@ -35,7 +35,7 @@ final class ilObjTalkTemplateAdministrationAccess extends ilObjectAccess
      */
     public static function _getCommands() : array
     {
-        $commands = [
+        return [
             [
                 'permission' => 'read',
                 'cmd' => ControlFlowCommand::DEFAULT,
@@ -49,8 +49,6 @@ final class ilObjTalkTemplateAdministrationAccess extends ilObjectAccess
                 'default' => false,
             ]
         ];
-
-        return $commands;
     }
 
 

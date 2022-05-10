@@ -279,8 +279,6 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
             }
         }
 
-        $managedUsers = array_unique($managedUsers, SORT_NUMERIC);
-
-        return $managedUsers;
+        return array_unique($managedUsers, SORT_NUMERIC);
     }
 }
