@@ -189,6 +189,7 @@ final class ilObjEmployeeTalkGUI extends ilObjectGUI
                 "mref_id",
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
+            // TODO PHP8 Review: Remove/Replace SuperGlobals
             $_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $mref_id));
         }
 
