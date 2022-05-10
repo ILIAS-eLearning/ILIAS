@@ -98,6 +98,7 @@ final class ilObjEmployeeTalkSeries extends ilContainer
                   'appointments' => []
             ]
         );
+        return true;
     }
 
     /**

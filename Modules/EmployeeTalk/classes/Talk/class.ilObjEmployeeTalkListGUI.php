@@ -56,9 +56,9 @@ final class ilObjEmployeeTalkListGUI extends ilObjectListGUI
 
     /**
      * no social commands needed in orgunits.
-     * @param bool $a_header_actions
+     * @param bool $header_actions
      */
-    public function insertCommonSocialCommands($a_header_actions = false) : void
+    public function insertCommonSocialCommands(bool $header_actions = false) : void
     {
     }
 

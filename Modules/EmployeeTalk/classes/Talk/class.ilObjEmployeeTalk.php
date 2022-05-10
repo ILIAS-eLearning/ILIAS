@@ -33,16 +33,10 @@ final class ilObjEmployeeTalk extends ilObject
      * @var int
      */
     private static int $root_id = -1;
-
-    /**
-     * @var EmployeeTalkRepository $repository
-     */
-    private $repository;
-
-    /**
-     * @var EmployeeTalk $data
-     */
-    private $data;
+    
+    private EmployeeTalkRepository $repository;
+    
+    private EmployeeTalk $data;
 
     /**
      * @param int  $a_id
