@@ -16774,3 +16774,53 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
+common#:#objs_tala#:#Gesprächsvorlagen
+common#:#objs_talt#:#Gesprächsvorlagen
+common#:#obj_talt#:#Gesprächsvorlage
+common#:#obj_tala#:#Gesprächsvorlagen
+common#:#obj_tala_desc#:#Gesprächsvorlagen
+etal#:#mm_talk_template#:#Gesprächsvorlagen
+orgu#:#mm_organisation#:#Organisation
+etal#:#talt_activation_online_info#:#Markieren Sie die Vorlage als aktiv, damit diese für Mitarbeiter zur Verfügung steht.
+etal#:#meta_adv_records#:#Metadaten
+etal#:#talt_edit#:#Allgemein
+etal#:#talt_add#:#Erstellen
+etal#:#talt_new#:#Neue Gesprächsvorlage
+etal#:#mm_org_etal#:#Gespräch
+common#:#objs_etal#:#Mitarbeiter-Gespräche
+common#:#obj_tals#:#Mitarbeiter Gesprächsserie
+common#:#tals_etal#:#Gespräch
+common#:#talt_etal#:#Gespräch
+common#:#obj_etal#:#Mitarbeiter-Gespräch
+etal#:#etal_edit#:#Allgemein
+etal#:#etal_add#:#Hinzufügen
+etal#:#etal_new#:#Neues Gespräch
+etal#:#talt_etal#:#Mitarbeiter-Gespräch
+etal#:#date_of_talk#:#Start Datum
+etal#:#etal_add_new_item#:#Neues Gespräch hinzufügen
+etal#:#change_date_of_talk#:#Gesprächsdatum anpassen
+etal#:#change_date_of_series#:#Gesprächsserie anpassen
+etal#:#etal_status_pending#:#Ausstehend
+etal#:#etal_status_completed#:#Abgeschlossen
+etal#:#etal_status_all#:#Alle
+etal#:#tals_add#:#Gespräche hinzufügen
+etal#:#tals_new#:#Neue Gesprächsserie
+etal#:#cal_type_tals#:#Gespräche
+etal#:#etal_date_appointment_edit#:#Gesprächsdatum
+etal#:#etal_date_series_edit#:#Gesprächsserie
+etal#:#etal_unknown_username#:#Unbekannter Benutzer
+common#:#etal_talks#:#Gespräche
+etal#:#appointments#:#Sitzungen
+etal#:#notification_talks_created#:#Sie wurden von %s zu einem Gespräch eingeladen.
+etal#:#notification_talks_updated#:#Folgende Gesprächstermine mit %s wurden angepasst.
+etal#:#notification_talks_removed#:#Folgende Termine mit %s wurden abgesagt.
+etal#:#notification_talks_subject#:#Termineinladung
+etal#:#notification_talks_date_details#:#Termindetails
+etal#:#notification_talks_talk_title#:#Titel: %s
+etal#:#notification_talks_date_list_header#:#Daten
+orgu#:#org_op_read_employee_talk#:#Auf Gespräche lesend zugreifen
+orgu#:#org_op_create_employee_talk#:#Gespräche erstellen / Gespräche, welche man selbst erstellt hat, bearbeiten
+orgu#:#org_op_edit_employee_talk#:#Gespräche bearbeiten
+etal#:#etal_open#:#Gespräch öffnen
+etal#:#lock_edititng_for_others#:#Bearbeitung für andere sperren
+etal#:#talk_serial#:#Talk Serial

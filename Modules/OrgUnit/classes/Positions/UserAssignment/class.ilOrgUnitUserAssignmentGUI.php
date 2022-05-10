@@ -25,6 +25,9 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
     public function __construct()
     {
         global $DIC;
+        
+        parent::__construct();
+        
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->http = $DIC->http();
         $this->ctrl = $DIC->ctrl();
@@ -37,7 +40,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
     {
         if (!ilObjOrgUnitAccess::_checkAccessPositions((int) filter_input(INPUT_GET, "ref_id",
             FILTER_SANITIZE_NUMBER_INT))) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
             $this->ctrl->redirectByClass(ilObjOrgUnitGUI::class);
         }
 
@@ -163,7 +166,7 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
     public function addStaff(): void
     {
         if (!$this->access->checkAccess("write", "", $this->getParentRefId())) {
-            $this->main_tpl->setOnScreenMessage('failure', $this->txt("permission_denied"), true);
+            $this->main_tpl->setOnScreenMessage('failure', $this->language->txt("permission_denied"), true);
             $this->ctrl->redirect($this, self::CMD_INDEX);
         }
 

@@ -81,7 +81,7 @@ class ilOrgUnitGlobalSettingsGUI
             if ($objDefinition->isPlugin($object_type)) {
                 $label = ilObjectPlugin::lookupTxtById($object_type, 'objs_' . $object_type);
             } else {
-                $is_multi = !$objDefinition->isSystemObject($object_type);
+                $is_multi = !$objDefinition->isSystemObject($object_type) && $object_type != ilOrgUnitOperationContext::CONTEXT_ETAL;
                 $lang_prefix = $is_multi ? 'objs_' : 'obj_';
                 $label = $this->lng->txt($lang_prefix . $object_type);
             }

@@ -22,6 +22,9 @@ class ilOrgUnitPositionGUI extends BaseCommands
     public function __construct()
     {
         global $DIC;
+        
+        parent::__construct();
+        
         $main_tpl = $DIC->ui()->mainTemplate();
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();

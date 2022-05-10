@@ -16031,3 +16031,53 @@ wsp#:#wsp_type_scov#:#Certyfikat: SCORM
 wsp#:#wsp_type_tstv#:#Certyfikat: test
 wsp#:#wsp_type_webr#:#Zasób web
 wsp#:#wsp_type_wfld#:#Folder
+common#:#objs_tala#:#Talk Templates
+common#:#objs_talt#:#Talk Templates
+common#:#obj_talt#:#Talk Template
+common#:#obj_tala#:#Talk Templates
+common#:#obj_tala_desc#:#Talk Templates
+etal#:#mm_talk_template#:#Talk Templates
+orgu#:#mm_organisation#:#Organisation
+etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.
+etal#:#meta_adv_records#:#Metadata
+etal#:#talt_edit#:#General
+etal#:#talt_add#:#Add Template
+etal#:#talt_new#:#New Talk Template
+etal#:#mm_org_etal#:#Talks
+common#:#objs_etal#:#Employee Talks
+common#:#obj_tals#:#Employee Talk Series
+common#:#tals_etal#:#Talk
+common#:#talt_etal#:#Talk
+common#:#obj_etal#:#Employee Talk
+etal#:#etal_edit#:#General
+etal#:#etal_add#:#Add Talk
+etal#:#etal_new#:#New Talk
+etal#:#talt_etal#:#Employee Talk
+etal#:#date_of_talk#:#Start Date
+etal#:#etal_add_new_item#:#Add new Talk
+etal#:#change_date_of_talk#:#Change date of talk
+etal#:#change_date_of_series#:#Change date of talk series
+etal#:#etal_status_pending#:#Pending
+etal#:#etal_status_completed#:#Completed
+etal#:#etal_status_all#:#All
+etal#:#tals_add#:#Add Talks
+etal#:#tals_new#:#New Talks
+etal#:#cal_type_tals#:#Talks
+etal#:#etal_date_appointment_edit#:#Date of Talk
+etal#:#etal_date_series_edit#:#Date of Talk Series
+etal#:#etal_unknown_username#:#Unknown User
+common#:#etal_talks#:#Talks
+etal#:#appointments#:#Appointments
+etal#:#notification_talks_created#:#You have been invited by %s to the following employee talks.
+etal#:#notification_talks_updated#:#The following talk appointments have been changed by %s.
+etal#:#notification_talks_removed#:#The following appointments have been canceled by %s.
+etal#:#notification_talks_subject#:#Invitation
+etal#:#notification_talks_date_details#:#Appointment details
+etal#:#notification_talks_talk_title#:#Titel: %s
+etal#:#notification_talks_date_list_header#:#Dates
+orgu#:#org_op_read_employee_talk#:#Read access talk appointments
+orgu#:#org_op_create_employee_talk#:#Create talk appointments / edit talk appointments that you have created yourself
+orgu#:#org_op_edit_employee_talk#:#Edit Talk appointments
+etal#:#etal_open#:#Open Employee Talk
+etal#:#lock_edititng_for_others#:#Lock editing for others
+etal#:#talk_serial#:#Talk Serial

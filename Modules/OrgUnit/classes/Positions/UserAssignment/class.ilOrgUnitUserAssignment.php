@@ -29,21 +29,21 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
      * @con_fieldtype  integer
      * @con_length     8
      */
-    private int $user_id = 0;
+    protected int $user_id = 0;
     /**
      * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    private int $position_id = 0;
+    protected int $position_id = 0;
     /**
      * @var int
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     8
      */
-    private int $orgu_id = 0;
+    protected int $orgu_id = 0;
 
     public static function findOrCreateAssignment(int $user_id, int $position_id, int $orgu_id): ilOrgUnitUserAssignment
     {

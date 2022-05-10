@@ -1,6 +1,8 @@
 <?php
 
 use ILIAS\MyStaff\ilMyStaffAccess;
+use ILIAS\Modules\EmployeeTalk\Talk\Repository\IliasDBEmployeeTalkRepository;
+use ILIAS\EmployeeTalk\UI\ControlFlowCommand;
 
 /**
  * Class ilMStShowUserGUI
@@ -16,6 +18,7 @@ class ilMStShowUserGUI
     public const TAB_SHOW_COURSES = 'show_courses';
     public const TAB_SHOW_CERTIFICATES = 'show_certificates';
     public const TAB_SHOW_COMPETENCES = 'show_competences';
+    public const TAB_SHOW_TALKS = 'show_talks';
 
     protected int $usr_id;
     protected ilMyStaffAccess $access;
@@ -83,6 +86,22 @@ class ilMStShowUserGUI
                 $gui = new ilMStShowUserCompetencesGUI($DIC);
                 $DIC->ctrl()->forwardCommand($gui);
                 break;
+            case strtolower(ilEmployeeTalkMyStaffUserGUI::class):
+                $this->addTabs(self::TAB_SHOW_TALKS);
+                $gui = new ilEmployeeTalkMyStaffUserGUI(
+                    ilMyStaffAccess::getInstance(),
+                    $DIC->ctrl(),
+                    $DIC->language(),
+                    $DIC->http()->request(),
+                    $DIC->ui()->mainTemplate(),
+                    $DIC->tabs(),
+                    new IliasDBEmployeeTalkRepository($DIC->database()),
+                    $DIC->ui(),
+                    ilObjEmployeeTalkAccess::getInstance(),
+                    $DIC->user()
+                );
+                $DIC->ctrl()->forwardCommand($gui);
+                break;
             default:
 
                 switch ($cmd) {
@@ -135,30 +154,39 @@ class ilMStShowUserGUI
         )));
 
         if ($this->access->hasCurrentUserAccessToMyStaff()) {
-            $DIC->tabs()->addTab(self::TAB_SHOW_COURSES, $DIC->language()->txt('mst_list_courses'),
+            $DIC->tabs()->addTab(
+                self::TAB_SHOW_COURSES,
+                $DIC->language()->txt('mst_list_courses'),
                 $DIC->ctrl()->getLinkTargetByClass(array(
                     ilMyStaffGUI::class,
                     self::class,
                     ilMStShowUserCoursesGUI::class,
-                )));
+                ))
+            );
         }
 
         if ($this->access->hasCurrentUserAccessToCertificates()) {
-            $DIC->tabs()->addTab(self::TAB_SHOW_CERTIFICATES, $DIC->language()->txt('mst_list_certificates'),
+            $DIC->tabs()->addTab(
+                self::TAB_SHOW_CERTIFICATES,
+                $DIC->language()->txt('mst_list_certificates'),
                 $DIC->ctrl()->getLinkTargetByClass(array(
                     ilMyStaffGUI::class,
                     self::class,
                     ilUserCertificateGUI::class,
-                )));
+                ))
+            );
         }
 
         if ($this->access->hasCurrentUserAccessToCompetences()) {
-            $DIC->tabs()->addTab(self::TAB_SHOW_COMPETENCES, $DIC->language()->txt('mst_list_competences'),
+            $DIC->tabs()->addTab(
+                self::TAB_SHOW_COMPETENCES,
+                $DIC->language()->txt('mst_list_competences'),
                 $DIC->ctrl()->getLinkTargetByClass(array(
                     ilMyStaffGUI::class,
                     self::class,
                     ilMStShowUserCompetencesGUI::class,
-                )));
+                ))
+            );
         }
 
         $user = new ilObjUser($this->usr_id);
@@ -168,6 +196,15 @@ class ilMStShowUserGUI
             $DIC->tabs()->addTab(self::TAB_SHOW_USER, $DIC->language()->txt('public_profile'), $public_profile_url);
         }
 
+        if ($this->access->hasCurrentUserAccessToMyStaff()) {
+            $DIC->ctrl()->setParameterByClass(strtolower(self::class), 'usr_id', $this->usr_id);
+            $DIC->tabs()->addTab(self::TAB_SHOW_TALKS, $DIC->language()->txt('etal_talks'), $DIC->ctrl()->getLinkTargetByClass([
+                    strtolower(ilMyStaffGUI::class),
+                    strtolower(self::class),
+                    strtolower(ilEmployeeTalkMyStaffUserGUI::class)
+                ], ControlFlowCommand::INDEX));
+        }
+        
         if ($active_tab_id) {
             $DIC->tabs()->activateTab($active_tab_id);
         }

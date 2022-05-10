@@ -31,7 +31,7 @@ abstract class BaseCommands
 
     protected ?BaseCommands $parent_gui = null;
 
-    private function __construct() {
+    protected function __construct() {
         global $DIC;
 
         $this->lng = $DIC->language();
