@@ -68,7 +68,7 @@ final class MyStaffListEntryProvider extends AbstractStaticMainMenuProvider
                                       ilEmployeeTalkMyStaffListGUI::class,
                                   ], ControlFlowCommand::INDEX))
                                   ->withAvailableCallable(
-                                      function () {
+                                      function () : bool {
                                           return boolval($this->settings->get('enable_my_staff'));
                                       }
                                   )
@@ -78,7 +78,7 @@ final class MyStaffListEntryProvider extends AbstractStaticMainMenuProvider
                                   ->withSymbol($icon)
                                   ->withPosition(60)
                                   ->withVisibilityCallable(
-                                      function () {
+                                      function () : bool {
                                           return ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
                                       }
                                   );

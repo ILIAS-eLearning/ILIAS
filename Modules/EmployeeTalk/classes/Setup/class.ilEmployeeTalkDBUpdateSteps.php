@@ -60,7 +60,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
 
     public function step_1() : void
     {
-        $this->useTransaction(function () {
+        $this->useTransaction(function () : void {
             // create object data entry
             $id = $this->db->nextId("object_data");
             $this->db->manipulateF(
@@ -86,7 +86,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
 
     public function step_2() : void
     {
-        $this->useTransaction(function () {
+        $this->useTransaction(function () : void {
             $etalTableName = 'etal_data';
 
             $this->db->createTable($etalTableName, [
@@ -108,7 +108,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
 
     public function step_3() : void
     {
-        $this->useTransaction(function () {
+        $this->useTransaction(function () : void {
             $etalTableName = 'etal_data';
 
             $this->db->addTableColumn(
@@ -126,7 +126,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
 
     public function step_4() : void
     {
-        $this->useTransaction(function () {
+        $this->useTransaction(function () : void {
             ilOrgUnitOperationContextQueries::registerNewContext(
                 ilOrgUnitOperationContext::CONTEXT_ETAL,
                 ilOrgUnitOperationContext::CONTEXT_OBJECT
@@ -154,7 +154,7 @@ final class ilEmployeeTalkDBUpdateSteps implements \ilDatabaseUpdateSteps
 
     public function step_5() : void
     {
-        $this->useTransaction(function () {
+        $this->useTransaction(function () : void {
             EmployeeTalkSerieSettings::updateDB();
         });
     }

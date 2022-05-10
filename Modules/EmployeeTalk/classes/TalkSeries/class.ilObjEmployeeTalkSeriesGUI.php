@@ -118,7 +118,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
         switch ($next_class) {
             case strtolower(ilRepositorySearchGUI::class):
                 $repo = new ilRepositorySearchGUI();
-                $repo->addUserAccessFilterCallable(function ($userIds) {
+                $repo->addUserAccessFilterCallable(function ($userIds) : array {
 
                     /**
                      * @var ilAccess $access
@@ -485,7 +485,7 @@ final class ilObjEmployeeTalkSeriesGUI extends ilContainerGUI
      *
      * @param ilObjEmployeeTalkSeries $talk
      */
-    private function copyTemplateValues(ilObjEmployeeTalkSeries $talk)
+    private function copyTemplateValues(ilObjEmployeeTalkSeries $talk) : void
     {
         $template = new ilObjTalkTemplate($this->getTemplateRefId(), true);
         $talk->setTitle($template->getTitle());

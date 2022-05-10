@@ -133,7 +133,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
                 foreach ($positions as $position) {
                     // Check if the position has any relevant position rights
                     $permissionSet = ilOrgUnitPermissionQueries::getTemplateSetForContextName(ilObjEmployeeTalk::TYPE, strval($position->getId() ?? 0));
-                    $isAbleToExecuteOperation = array_reduce($permissionSet->getOperations(), function (bool $prev, ilOrgUnitOperation $it) {
+                    $isAbleToExecuteOperation = array_reduce($permissionSet->getOperations(), function (bool $prev, ilOrgUnitOperation $it) : bool {
                         return $prev || $it->getOperationString() === EmployeeTalkPositionAccessLevel::CREATE;
                     }, false);
 
@@ -288,7 +288,7 @@ final class ilObjEmployeeTalkAccess extends ilObjectAccess
         foreach ($managedOrgUnitUsersOfUserByPosition as $position => $managedOrgUnitUserByPosition) {
             // Check if the position has any relevant position rights
             $permissionSet = ilOrgUnitPermissionQueries::getTemplateSetForContextName(ilObjEmployeeTalk::TYPE, strval($position));
-            $isAbleToExecuteOperation = array_reduce($permissionSet->getOperations(), function (bool $prev, ilOrgUnitOperation $it) use ($operation) {
+            $isAbleToExecuteOperation = array_reduce($permissionSet->getOperations(), function (bool $prev, ilOrgUnitOperation $it) use ($operation) : bool {
                 return $prev || $it->getOperationString() === $operation;
             }, false);
 

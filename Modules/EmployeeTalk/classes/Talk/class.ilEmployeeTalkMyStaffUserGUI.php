@@ -194,7 +194,7 @@ final class ilEmployeeTalkMyStaffUserGUI implements ControlFlowCommandHandler
 
         $templates = new CallbackFilterIterator(
             new ArrayIterator(ilObject::_getObjectsByType("talt")),
-            function (array $item) {
+            function (array $item) : bool {
                 return
                     (
                         $item['offline'] === "0" ||

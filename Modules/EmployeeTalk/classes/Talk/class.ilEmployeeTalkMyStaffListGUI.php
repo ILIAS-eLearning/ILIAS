@@ -187,7 +187,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
 
         $templates = new CallbackFilterIterator(
             new ArrayIterator(ilObject::_getObjectsByType("talt")),
-            function (array $item) {
+            function (array $item) : bool {
                 return
                     (
                         $item['offline'] === "0" ||
@@ -271,7 +271,7 @@ final class ilEmployeeTalkMyStaffListGUI implements ControlFlowCommandHandler
         foreach ($managedOrgUnitUsersOfUserByPosition as $position => $managedOrgUnitUserByPosition) {
             // Check if the position has any relevant position rights
             $permissionSet = ilOrgUnitPermissionQueries::getTemplateSetForContextName(ilObjEmployeeTalk::TYPE, strval($position));
-            $isAbleToExecuteOperation = array_reduce($permissionSet->getOperations(), function (bool $prev, ilOrgUnitOperation $it) {
+            $isAbleToExecuteOperation = array_reduce($permissionSet->getOperations(), function (bool $prev, ilOrgUnitOperation $it) : bool {
                 return $prev || $it->getOperationString() === EmployeeTalkPositionAccessLevel::VIEW;
             }, false);
 

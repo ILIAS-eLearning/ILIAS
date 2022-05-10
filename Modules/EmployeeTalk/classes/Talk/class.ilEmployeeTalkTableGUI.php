@@ -31,7 +31,7 @@ final class ilEmployeeTalkTableGUI extends ilTable2GUI
     private ilObjUser $currentUser;
     private UIServices $ui;
 
-    public function __construct(ControlFlowCommandHandler $a_parent_obj, $a_parent_cmd = "")
+    public function __construct(ControlFlowCommandHandler $a_parent_obj, string $a_parent_cmd = "")
     {
         /**
          * @var \ILIAS\DI\Container $container
