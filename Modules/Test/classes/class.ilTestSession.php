@@ -428,7 +428,7 @@ class ilTestSession
     
     public function setSubmittedTimestamp()
     {
-        $this->submittedTimestamp = strftime("%Y-%m-%d %H:%M:%S");
+        $this->submittedTimestamp = date('Y-m-d H:i:s');
     }
 
     public function setLastFinishedPass($lastFinishedPass)
