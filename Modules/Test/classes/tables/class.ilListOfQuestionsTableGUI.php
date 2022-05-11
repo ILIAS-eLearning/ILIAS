@@ -97,7 +97,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         
         $this->addCommandButton(
             ilTestPlayerCommands::SHOW_QUESTION,
-            $this->lng->txt('back')
+            $this->lng->txt('tst_resume_test')
         );
 
         if (!$this->areObligationsNotAnswered() && $this->isFinishTestButtonEnabled()) {
