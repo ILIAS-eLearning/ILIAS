@@ -225,9 +225,9 @@ trait System
     /**
      * Get the consumer key.
      *
-     * @return string  Consumer key value
+     * @return string|null  Consumer key value //UK: added |null
      */
-    public function getKey() : string
+    public function getKey() : ?string
     {
         return $this->key;
     }
