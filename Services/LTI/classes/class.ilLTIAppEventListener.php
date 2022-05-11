@@ -132,7 +132,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
             return;
         }
         $this->logger->debug('Trying outcome service with status ' . $a_status . ' and percentage ' . $a_percentage);
-        $user = \ILIAS\LTI\ToolProvider\User::fromResourceLink($resource_link, $ext_account);
+        $user = \ILIAS\LTI\ToolProvider\UserResult::fromResourceLink($resource_link, $ext_account);
 
         if ($a_status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
             $score = 1;
@@ -234,7 +234,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
                 // $this->tryOutcomeService($resource, $ext_account, $a_status, $a_percentage);
                 $resource_link = \ILIAS\LTI\ToolProvider\ResourceLink::fromRecordId($resource, $connector);
                 if ($resource_link->hasOutcomesService()) {
-                    $user = \ILIAS\LTI\ToolProvider\User::fromResourceLink($resource_link, $ext_account);
+                    $user = \ILIAS\LTI\ToolProvider\UserResult::fromResourceLink($resource_link, $ext_account);
                     $logger->debug('Sending score: ' . (string) $score);
                     $outcome = new \ILIAS\LTI\ToolProvider\Outcome((string) $score);
 

@@ -223,9 +223,9 @@ class LineItem extends AssignmentGrade
         return $lineItem;
     }
 
-###
-###  PRIVATE METHODS
-###
+    ###
+    ###  PRIVATE METHODS
+    ###
 
     /**
      * Create a line item from a JSON object.
@@ -298,5 +298,4 @@ class LineItem extends AssignmentGrade
 
         return json_encode($json);
     }
-
 }

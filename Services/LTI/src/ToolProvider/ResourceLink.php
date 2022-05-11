@@ -400,9 +400,9 @@ class ResourceLink
 
     /**
      * Set platform ID.
-     * @param int $platformId Platform ID for this resource link.
+     * @param int|null $platformId Platform ID for this resource link. //UK: added |null
      */
-    public function setPlatformId(int $platformId)
+    public function setPlatformId(?int $platformId)
     {
         $this->platform = null;
         $this->platformId = $platformId;
@@ -448,9 +448,9 @@ class ResourceLink
 
     /**
      * Set context ID.
-     * @param int $contextId Context ID for this resource link.
+     * @param int|null $contextId Context ID for this resource link. //UK: added |null
      */
-    public function setContextId(int $contextId)
+    public function setContextId(?int $contextId)
     {
         if ($this->contextId !== $contextId) {
             $this->context = null;
@@ -715,11 +715,11 @@ class ResourceLink
     {
         $ok = false;
         $this->extResponse = '';
-// Lookup service details from the source resource link appropriate to the user (in case the destination is being shared)
+        // Lookup service details from the source resource link appropriate to the user (in case the destination is being shared)
         $sourceResourceLink = $userResult->getResourceLink();
         $sourcedId = $userResult->ltiResultSourcedId;
 
-// Use LTI 1.1 service in preference to extension service if it is available
+        // Use LTI 1.1 service in preference to extension service if it is available
         $urlAGS = $sourceResourceLink->getSetting('custom_lineitem_url');
         $urlLTI11 = $sourceResourceLink->getSetting('lis_outcome_service_url');
         $urlExt = $sourceResourceLink->getSetting('ext_ims_lis_basic_outcome_url');
@@ -808,6 +808,7 @@ EOF;
                             } else {
                                 $ltiOutcome->setValue($this->extNodes['imsx_POXBody']["{$do}Response"]['result']['resultScore']['textString']);
                             }
+                            // no break
                         case self::EXT_WRITE:
                         case self::EXT_DELETE:
                             $ok = true;
@@ -854,6 +855,7 @@ EOF;
                             if (isset($this->extNodes['result']['resultscore']['textstring'])) {
                                 $ltiOutcome->setValue($this->extNodes['result']['resultscore']['textstring']);
                             }
+                            // no break
                         case self::EXT_WRITE:
                         case self::EXT_DELETE:
                             $ok = true;
@@ -914,7 +916,6 @@ EOF;
                 break;
         }
         if (isset($do)) {
-
             $url = $this->getSetting('ext_ims_lti_tool_setting_url');
             $params = array();
             $params['id'] = $this->getSetting('ext_ims_lti_tool_setting_id');
@@ -1021,8 +1022,10 @@ EOF;
      */
     public function hasMembershipService() : bool
     {
-        Util::logDebug('Method ceLTIc\LTI\ResourceLink::hasMembershipService() has been deprecated; please use ceLTIc\LTI\ResourceLink::hasMembershipsService() instead.',
-            true);
+        Util::logDebug(
+            'Method ceLTIc\LTI\ResourceLink::hasMembershipService() has been deprecated; please use ceLTIc\LTI\ResourceLink::hasMembershipsService() instead.',
+            true
+        );
         return $this->hasMembershipsService();
     }
 
@@ -1036,8 +1039,10 @@ EOF;
      */
     public function getMembership()
     {
-        Util::logDebug('Method ceLTIc\LTI\ResourceLink::getMembership() has been deprecated; please use ceLTIc\LTI\ResourceLink::getMemberships() instead.',
-            true);
+        Util::logDebug(
+            'Method ceLTIc\LTI\ResourceLink::getMembership() has been deprecated; please use ceLTIc\LTI\ResourceLink::getMemberships() instead.',
+            true
+        );
         return $this->getMemberships();
     }
 
@@ -1093,12 +1098,20 @@ EOF;
             $params = array();
             $params['id'] = $this->getSetting('ext_ims_lis_memberships_id');
             if ($withGroups) {
-                $ok = $this->doService('basic-lis-readmembershipsforcontextwithgroups', $url, $params,
-                    'https://purl.imsglobal.org/spec/lti-ext/scope/memberships');
+                $ok = $this->doService(
+                    'basic-lis-readmembershipsforcontextwithgroups',
+                    $url,
+                    $params,
+                    'https://purl.imsglobal.org/spec/lti-ext/scope/memberships'
+                );
             }
             if (!$ok) {
-                $ok = $this->doService('basic-lis-readmembershipsforcontext', $url, $params,
-                    'https://purl.imsglobal.org/spec/lti-ext/scope/memberships');
+                $ok = $this->doService(
+                    'basic-lis-readmembershipsforcontext',
+                    $url,
+                    $params,
+                    'https://purl.imsglobal.org/spec/lti-ext/scope/memberships'
+                );
             }
             if ($ok) {
                 $this->groupSets = array();
@@ -1122,30 +1135,29 @@ EOF;
                 }
 
                 for ($i = 0; $i < count($members); $i++) {
-
                     $userresult = UserResult::fromResourceLink($this, $members[$i]['user_id']);
 
-// Set the user name
+                    // Set the user name
                     $firstname = (isset($members[$i]['person_name_given'])) ? $members[$i]['person_name_given'] : '';
                     $lastname = (isset($members[$i]['person_name_family'])) ? $members[$i]['person_name_family'] : '';
                     $fullname = (isset($members[$i]['person_name_full'])) ? $members[$i]['person_name_full'] : '';
                     $userresult->setNames($firstname, $lastname, $fullname);
 
-// Set the sourcedId
+                    // Set the sourcedId
                     if (isset($members[$i]['person_sourcedid'])) {
                         $userresult->sourcedId = $members[$i]['person_sourcedid'];
                     }
 
-// Set the user email
+                    // Set the user email
                     $email = (isset($members[$i]['person_contact_email_primary'])) ? $members[$i]['person_contact_email_primary'] : '';
                     $userresult->setEmail($email, $this->getPlatform()->defaultEmail);
 
-// Set the user roles
+                    // Set the user roles
                     if (isset($members[$i]['roles'])) {
                         $userresult->roles = Tool::parseRoles($members[$i]['roles']);
                     }
 
-// Set the user groups
+                    // Set the user groups
                     if (!isset($members[$i]['groups']['group'])) {
                         $groups = array();
                     } elseif (!isset($members[$i]['groups']['group'][0])) {
@@ -1197,14 +1209,14 @@ EOF;
         if ($ok) {
             $oldUsers = $this->getUserResultSourcedIDs(true, Tool::ID_SCOPE_RESOURCE);
             foreach ($userResults as $userresult) {
-// If a result sourcedid is provided save the user
+                // If a result sourcedid is provided save the user
                 if (!empty($userresult->ltiResultSourcedId)) {
                     $userresult->save();
                 }
-// Remove old user (if it exists)
+                // Remove old user (if it exists)
                 unset($oldUsers[$userresult->getId(Tool::ID_SCOPE_RESOURCE)]);
             }
-// Delete any old users which were not in the latest list from the platform
+            // Delete any old users which were not in the latest list from the platform
             foreach ($oldUsers as $id => $userresult) {
                 $userresult->delete();
             }
@@ -1425,9 +1437,9 @@ EOF;
         return $resourceLink;
     }
 
-###
-###  PRIVATE METHODS
-###
+    ###
+    ###  PRIVATE METHODS
+    ###
 
     /**
      * Load the resource link from the database.
@@ -1451,15 +1463,17 @@ EOF;
     private function checkValueType(Outcome $ltiOutcome, array $supportedTypes = null) : bool
     {
         if (empty($supportedTypes)) {
-            $supportedTypes = explode(',',
-                str_replace(' ', '', strtolower($this->getSetting('ext_ims_lis_resultvalue_sourcedids', self::EXT_TYPE_DECIMAL))));
+            $supportedTypes = explode(
+                ',',
+                str_replace(' ', '', strtolower($this->getSetting('ext_ims_lis_resultvalue_sourcedids', self::EXT_TYPE_DECIMAL)))
+            );
         }
         $type = $ltiOutcome->type;
         $value = $ltiOutcome->getValue();
-// Check whether the type is supported or there is no value
+        // Check whether the type is supported or there is no value
         $ok = in_array($type, $supportedTypes) || empty($value);
         if (!$ok) {
-// Convert numeric values to decimal
+            // Convert numeric values to decimal
             if ($type === self::EXT_TYPE_PERCENTAGE) {
                 if (substr($value, -1) === '%') {
                     $value = substr($value, 0, -1);
@@ -1476,7 +1490,7 @@ EOF;
                     $ltiOutcome->setValue($parts[0] / $parts[1]);
                     $ltiOutcome->type = self::EXT_TYPE_DECIMAL;
                 }
-// Convert letter_af to letter_af_plus or text
+                // Convert letter_af to letter_af_plus or text
             } elseif ($type === self::EXT_TYPE_LETTER_AF) {
                 if (in_array(self::EXT_TYPE_LETTER_AF_PLUS, $supportedTypes)) {
                     $ok = true;
@@ -1485,7 +1499,7 @@ EOF;
                     $ok = true;
                     $ltiOutcome->type = self::EXT_TYPE_TEXT;
                 }
-// Convert letter_af_plus to letter_af or text
+                // Convert letter_af_plus to letter_af or text
             } elseif ($type === self::EXT_TYPE_LETTER_AF_PLUS) {
                 if (in_array(self::EXT_TYPE_LETTER_AF, $supportedTypes) && (strlen($value) === 1)) {
                     $ok = true;
@@ -1494,7 +1508,7 @@ EOF;
                     $ok = true;
                     $ltiOutcome->type = self::EXT_TYPE_TEXT;
                 }
-// Convert text to decimal
+                // Convert text to decimal
             } elseif ($type === self::EXT_TYPE_TEXT) {
                 $ok = is_numeric($value) && ($value >= 0) && ($value <= 1);
                 if ($ok) {
@@ -1545,8 +1559,10 @@ EOF;
                     $accessToken = new AccessToken($this->platform);
                     $this->platform->setAccessToken($accessToken);
                 }
-                if (!$accessToken->hasScope($scope) && (empty(Tool::$defaultTool) || !in_array($scope,
-                            Tool::$defaultTool->requiredScopes))) {
+                if (!$accessToken->hasScope($scope) && (empty(Tool::$defaultTool) || !in_array(
+                    $scope,
+                    Tool::$defaultTool->requiredScopes
+                ))) {
                     $accessToken->expires = time();
                     $accessToken->get($scope, true);
                     $this->platform->setAccessToken($accessToken);
@@ -1554,16 +1570,16 @@ EOF;
                 }
             }
             do {
-// Add message signature
+                // Add message signature
                 $signed = $this->getPlatform()->addSignature($url, $params, 'POST', 'application/x-www-form-urlencoded');
-// Connect to platform
+                // Connect to platform
                 if (is_array($signed)) {
                     $http = new HttpMessage($url, 'POST', $signed);
                 } else {
                     $http = new HttpMessage($url, 'POST', $params, $signed);
                 }
                 if ($http->send()) {
-// Parse XML response
+                    // Parse XML response
                     $this->extResponse = $http->response;
                     $this->extResponseHeaders = $http->responseHeaders;
                     try {
@@ -1574,7 +1590,6 @@ EOF;
                             $ok = true;
                         }
                     } catch (\Exception $e) {
-
                     }
                 }
                 $retry = $retry && !$newToken && !$ok;
@@ -1695,8 +1710,10 @@ EOD;
                     $accessToken = new AccessToken($this->platform);
                     $this->platform->setAccessToken($accessToken);
                 }
-                if (!$accessToken->hasScope($scope) && (empty(Tool::$defaultTool) || !in_array($scope,
-                            Tool::$defaultTool->requiredScopes))) {
+                if (!$accessToken->hasScope($scope) && (empty(Tool::$defaultTool) || !in_array(
+                    $scope,
+                    Tool::$defaultTool->requiredScopes
+                ))) {
                     $accessToken->expires = time();
                     $accessToken->get($scope, true);
                     $this->platform->setAccessToken($accessToken);
@@ -1704,12 +1721,12 @@ EOD;
                 }
             }
             do {
-// Add message signature
+                // Add message signature
                 $header = $this->getPlatform()->addSignature($url, $xmlRequest, 'POST', 'application/xml');
-// Connect to platform
+                // Connect to platform
                 $http = new HttpMessage($url, 'POST', $xmlRequest, $header);
                 if ($http->send()) {
-// Parse XML response
+                    // Parse XML response
                     $this->extResponse = $http->response;
                     $this->extResponseHeaders = $http->responseHeaders;
                     try {
@@ -1721,7 +1738,6 @@ EOD;
                             $ok = true;
                         }
                     } catch (\Exception $e) {
-
                     }
                 }
                 $retry = $retry && !$newToken && !$ok;
@@ -1801,5 +1817,4 @@ EOD;
 
         return $output;
     }
-
 }

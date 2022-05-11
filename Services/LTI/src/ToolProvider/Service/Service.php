@@ -172,7 +172,7 @@ class Service
                 }
                 $header = $this->platform->signServiceRequest($url, $method, $this->mediaType, $body);
             }
-// Connect to platform and parse JSON response
+            // Connect to platform and parse JSON response
             $this->http = new HttpMessage($url, $method, $body, $header);
             if ($this->http->send() && !empty($this->http->response)) {
                 $this->http->responseJson = json_decode($this->http->response);
@@ -206,9 +206,9 @@ class Service
         return $this->http;
     }
 
-###
-###  PROTECTED METHODS
-###
+    ###
+    ###  PROTECTED METHODS
+    ###
 
     /**
      * Parse the JSON for context references.
@@ -242,5 +242,4 @@ class Service
 
         return $parsed;
     }
-
 }

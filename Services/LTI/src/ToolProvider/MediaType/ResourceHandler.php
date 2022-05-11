@@ -34,7 +34,7 @@ class ResourceHandler
      * @param Tool                    $tool            Tool object
      * @param Profile\ResourceHandler $resourceHandler Profile resource handler object
      */
-    function __construct(Tool $tool, Profile\ResourceHandler $resourceHandler)
+    public function __construct(Tool $tool, Profile\ResourceHandler $resourceHandler)
     {
         $this->resource_type = new \stdClass;
         $this->resource_type->code = $resourceHandler->item->id;
@@ -60,5 +60,4 @@ class ResourceHandler
             }
         }
     }
-
 }

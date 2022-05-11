@@ -39,7 +39,7 @@ class ToolProfile
      * Class constructor.
      * @param Tool $tool Tool object
      */
-    function __construct(Tool $tool)
+    public function __construct(Tool $tool)
     {
         $this->lti_version = 'LTI-2p0';
 
@@ -90,8 +90,10 @@ class ToolProfile
             $this->product_instance->product_info->product_family->vendor->website = $tool->vendor->url;
         }
         if (!empty($tool->vendor->timestamp)) {
-            $this->product_instance->product_info->product_family->vendor->timestamp = date('Y-m-d\TH:i:sP',
-                $tool->vendor->timestamp);
+            $this->product_instance->product_info->product_family->vendor->timestamp = date(
+                'Y-m-d\TH:i:sP',
+                $tool->vendor->timestamp
+            );
         }
 
         $this->resource_handler = array();
@@ -104,5 +106,4 @@ class ToolProfile
             $this->base_url_choice[0]->default_base_url = $tool->baseUrl;
         }
     }
-
 }

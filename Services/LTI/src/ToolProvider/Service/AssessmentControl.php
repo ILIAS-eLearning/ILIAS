@@ -2,6 +2,7 @@
 namespace ILIAS\LTI\ToolProvider\Service;
 
 use ILIAS\LTI\ToolProvider;
+
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -68,7 +69,7 @@ class AssessmentControl extends Service
             'attempt_number' => $attemptNumber,
             'action' => $assessmentControlAction->getAction(),
 //            'incident_time' => $assessmentControlAction->getDate()->format('Y-m-d\TH:i:s\Z'), //UK:changed
-            'incident_time' => date(('Y-m-d\TH:i:s\Z'),$assessmentControlAction->getDate()),
+            'incident_time' => date(('Y-m-d\TH:i:s\Z'), $assessmentControlAction->getDate()),
             'incident_severity' => $assessmentControlAction->getSeverity()
         );
         if (!empty($assessmentControlAction->extraTime)) {
@@ -91,5 +92,4 @@ class AssessmentControl extends Service
 
         return $status;
     }
-
 }

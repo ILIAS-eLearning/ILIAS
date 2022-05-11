@@ -152,7 +152,7 @@ class Item
      * @param Placement[]|Placement $placementAdvices Array of Placement objects (or single placement object) for item (optional)
      * @param string|null           $id               URL of content-item (optional)
      */
-    function __construct(string $type, $placementAdvices = null, string $id = null)
+    public function __construct(string $type, $placementAdvices = null, string $id = null)
     {
         $this->type = $type;
         if (!empty($placementAdvices)) {
@@ -535,5 +535,4 @@ class Item
             }
         }
     }
-
 }

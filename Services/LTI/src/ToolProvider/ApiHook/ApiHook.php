@@ -123,7 +123,4 @@ trait ApiHook
 
         return $ok;
     }
-
 }
-
-?>

@@ -481,8 +481,10 @@ class Context
      */
     public function hasMembershipService() : bool
     {
-        Util::logDebug('Method ceLTIc\LTI\Context::hasMembershipService() has been deprecated; please use ceLTIc\LTI\Context::hasMembershipsService() instead.',
-            true);
+        Util::logDebug(
+            'Method ceLTIc\LTI\Context::hasMembershipService() has been deprecated; please use ceLTIc\LTI\Context::hasMembershipsService() instead.',
+            true
+        );
         return $this->hasMembershipsService();
     }
 
@@ -510,8 +512,10 @@ class Context
      */
     public function getMembership()
     {
-        Util::logDebug('Method ceLTIc\LTI\Context::getMembership() has been deprecated; please use ceLTIc\LTI\Context::getMemberships() instead.',
-            true);
+        Util::logDebug(
+            'Method ceLTIc\LTI\Context::getMembership() has been deprecated; please use ceLTIc\LTI\Context::getMemberships() instead.',
+            true
+        );
         return $this->getMemberships();
     }
 
@@ -698,9 +702,9 @@ class Context
         return $context;
     }
 
-###
-###  PRIVATE METHODS
-###
+    ###
+    ###  PRIVATE METHODS
+    ###
 
     /**
      * Load the context from the database.
@@ -730,5 +734,4 @@ class Context
 
         return $lineItemService;
     }
-
 }

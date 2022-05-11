@@ -76,5 +76,4 @@ class CurlClient implements ClientInterface
 
         return $message->ok;
     }
-
 }

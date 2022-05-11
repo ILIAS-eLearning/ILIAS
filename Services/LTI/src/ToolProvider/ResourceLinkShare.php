@@ -59,7 +59,5 @@ class ResourceLinkShare
      */
     public function __construct()
     {
-
     }
-
 }

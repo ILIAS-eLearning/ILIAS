@@ -1,6 +1,12 @@
 <?php declare(strict_types=1);
 
-use ILIAS\LTI\ToolProvider\Platform;
+use ILIAS\LTI\ToolProvider;
+//use ILIAS\LTI\ToolProvider\Platform;
+//use ILIAS\LTI\ToolProvider\DataConnector\DataConnector;
+use ILIAS\LTI\ToolProvider\Service;
+use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
+//use ILIAS\LTIOAuth;
+use ILIAS\LTI\ToolProvider\ApiHook\ApiHook;
 
 /******************************************************************************
  *
@@ -21,13 +27,12 @@ use ILIAS\LTI\ToolProvider\Platform;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilLTIPlatform extends Platform
+class ilLTIPlatform extends ToolProvider\Platform
 {
     /**
      * @var int ref_id
      */
     protected int $ref_id;
-
 
     /**
      * @var int ext consumer id
@@ -63,7 +68,82 @@ class ilLTIPlatform extends Platform
      * @var bool
      */
     protected bool $active = false;
-    
+
+    /**
+     * Setting values (LTI parameters, custom parameters and local parameters).
+     *
+     * @var array $settings
+     */
+    private ?array $settings = null;
+
+    /**
+     * System ID value.
+     *
+     * @var int|null $id
+     */
+    private ?int $id = null;
+
+    /**
+     * Consumer key/client ID value.
+     *
+     * @var string|null $key
+     */
+    private ?string $key = null;
+
+    /**
+     * Class constructor.
+     * @param ilLTIDataConnector|null $dataConnector A data connector object
+     */
+    public function __construct(ilLTIDataConnector $dataConnector = null)
+    {
+        $this->initialize();
+        if (empty($dataConnector)) {
+            $dataConnector = ilLTIDataConnector::getDataConnector();
+        }
+        $this->dataConnector = $dataConnector;
+    }
+
+    /**
+     * Initialise the platform.
+     */
+    public function initialize()
+    {
+        $this->id = null;
+        $this->key = null;
+        $this->name = null;
+        $this->secret = null;
+        $this->signatureMethod = 'HMAC-SHA1';
+        $this->encryptionMethod = '';
+        $this->rsaKey = null;
+        $this->kid = null;
+        $this->jku = '';
+        $this->platformId = null;
+        $this->clientId = null;
+        $this->deploymentId = null;
+        $this->ltiVersion = null;
+        $this->consumerName = null;
+        $this->consumerVersion = null;
+        $this->consumerGuid = null;
+        $this->profile = null;
+        $this->toolProxy = null;
+        $this->settings = array();
+        $this->protected = false;
+        $this->enabled = false;
+        $this->enableFrom = null;
+        $this->enableUntil = null;
+        $this->lastAccess = null;
+        $this->idScope = ILIAS\LTI\ToolProvider\Tool::ID_SCOPE_ID_ONLY;
+        $this->defaultEmail = '';
+        $this->created = null;
+        $this->updated = null;
+        //added
+        $this->authorizationServerId = '';
+        $this->authenticationUrl = '';
+        $this->accessTokenUrl = '';
+        $this->debugMode = false;
+    }
+
+
     public function setExtConsumerId(int $a_id) : void
     {
         $this->ext_consumer_id = $a_id;
@@ -136,11 +216,11 @@ class ilLTIPlatform extends Platform
      */
     public function createSecret() : void
     {
-        $this->setSecret(\ILIAS\LTI\ToolProvider\DataConnector\DataConnector::getRandomString(12));
+        $this->setSecret(\ILIAS\LTI\ToolProvider\Util::getRandomString(12));
     }
 
     /**
-     * @param string $lang  (int?)
+     * @param string $lang
      */
     public function setLanguage(string $lang) : void
     {
@@ -186,25 +266,19 @@ class ilLTIPlatform extends Platform
     // local_role_always_member, default_skin
 
     /**
-     * Load the tool consumer from the database by its record ID.
-     * @param string        $id            The consumer key record ID
-     * @param DataConnector $dataConnector Database connection object
-     * @return object Platform       The tool consumer object
+     * Load the platform from the database by its record ID.
+     * @param int        $id            The platform record ID
+     * @param ilLTIDataConnector $dataConnector Database connection object
+     * @return \ilLTIPlatform Platform       The platform object
      */
-    public static function fromRecordId(string $id, \ILIAS\LTI\ToolProvider\DataConnector\DataConnector $dataConnector) : \ilLTIPlatform
+    public static function fromRecordId(int $id, ilLTIDataConnector $dataConnector) : \ilLTIPlatform
     {
-        $toolConsumer = new ilLTIPlatform(null, $dataConnector);
-
-        $toolConsumer->initialize();
-        $toolConsumer->setRecordId($id);
-        if (!$dataConnector->loadToolConsumerILIAS($toolConsumer)) {
-            $toolConsumer->initialize();
-        }
-        $toolConsumer->setRecordId($id);
-
-        ilLoggerFactory::getLogger('ltis')->info('Loading with record id: ' . $toolConsumer->getRecordId());
-
-        return $toolConsumer;
+//        $platform = new static($dataConnector);
+        $platform = new ilLTIPlatform($dataConnector);
+        $platform->setRecordId((int) $id);
+        ilLoggerFactory::getLogger('ltis')->info('Loading with record id: ' . $platform->getRecordId());
+        $dataConnector->loadPlatform($platform);
+        return $platform;
     }
 
     /**
@@ -214,13 +288,15 @@ class ilLTIPlatform extends Platform
      */
     public static function fromExternalConsumerId(int $id, ilLTIDataConnector $dataConnector) : \ilLTIPlatform
     {
-        $toolConsumer = new ilLTIPlatform(null, $dataConnector);
-        $toolConsumer->initialize();
-        $toolConsumer->setExtConsumerId($id);
-        if (!$dataConnector->loadGlobalToolConsumerSettings($toolConsumer)) {
-            $toolConsumer->initialize();
+        $platform = new ilLTIPlatform($dataConnector);
+        $platform->setRecordId((int) $id);
+        $dataConnector->loadPlatform($platform);
+//        $platform->initialize();
+        $platform->setExtConsumerId($id);
+        if (!$dataConnector->loadGlobalToolConsumerSettings($platform)) {
+            $platform->initialize();
         }
-        return $toolConsumer;
+        return $platform;
     }
 
     /**

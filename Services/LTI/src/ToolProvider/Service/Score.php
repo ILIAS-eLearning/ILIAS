@@ -76,5 +76,4 @@ class Score extends AssignmentGrade
 
         return $http->ok;
     }
-
 }

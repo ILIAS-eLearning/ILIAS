@@ -51,7 +51,7 @@ class Image
      * @param int|null $width  Width of image in pixels (optional)
      * @param int|null $height Height of image in pixels (optional)
      */
-    function __construct(string $url, int $width = null, int $height = null)
+    public function __construct(string $url, int $width = null, int $height = null)
     {
         $this->url = $url;
         $this->height = $height;
@@ -131,5 +131,4 @@ class Image
 
         return $obj;
     }
-
 }

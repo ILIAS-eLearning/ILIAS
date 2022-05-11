@@ -126,9 +126,9 @@ class DataConnector
         $this->dbTableNamePrefix = $dbTableNamePrefix;
     }
 
-###
-###  Platform methods
-###
+    ###
+    ###  Platform methods
+    ###
 
 //    /**
 //     * Load tool consumer object.
@@ -246,9 +246,9 @@ class DataConnector
         return array();
     }
 
-###
-###  Context methods
-###
+    ###
+    ###  Context methods
+    ###
 
     /**
      * Load context object.
@@ -288,9 +288,9 @@ class DataConnector
         return true;
     }
 
-###
-###  ResourceLink methods
-###
+    ###
+    ###  ResourceLink methods
+    ###
 
     /**
      * Load resource link object.
@@ -354,9 +354,9 @@ class DataConnector
         return array();
     }
 
-###
-###  PlatformNonce methods
-###
+    ###
+    ###  PlatformNonce methods
+    ###
 
 //    /**
 //     * Load nonce object.
@@ -439,9 +439,9 @@ class DataConnector
         return true;
     }
 
-###
-###  AccessToken methods
-###
+    ###
+    ###  AccessToken methods
+    ###
 
     /**
      * Load access token object.
@@ -463,9 +463,9 @@ class DataConnector
         return true;
     }
 
-###
-###  ResourceLinkShareKey methods
-###
+    ###
+    ###  ResourceLinkShareKey methods
+    ###
 
     /**
      * Load resource link share key object.
@@ -497,9 +497,9 @@ class DataConnector
         return true;
     }
 
-###
-###  UserResult methods
-###
+    ###
+    ###  UserResult methods
+    ###
 
     /**
      * Load user object.
@@ -539,9 +539,9 @@ class DataConnector
         return true;
     }
 
-###
-###  Tool methods
-###
+    ###
+    ###  Tool methods
+    ###
 
     /**
      * Load tool object.
@@ -593,9 +593,9 @@ class DataConnector
         return array();
     }
 
-###
-###  Other methods
-###
+    ###
+    ###  Other methods
+    ###
 
     /**
      * Create data connector object.
@@ -718,10 +718,14 @@ class DataConnector
                 Util::$logLevel = Util::LOGLEVEL_DEBUG;
             }
         } else {
-            $platform->setSetting('_authorization_server_id',
-                !empty($platform->authorizationServerId) ? $platform->authorizationServerId : null);
-            $platform->setSetting('_authentication_request_url',
-                !empty($platform->authenticationUrl) ? $platform->authenticationUrl : null);
+            $platform->setSetting(
+                '_authorization_server_id',
+                !empty($platform->authorizationServerId) ? $platform->authorizationServerId : null
+            );
+            $platform->setSetting(
+                '_authentication_request_url',
+                !empty($platform->authenticationUrl) ? $platform->authenticationUrl : null
+            );
             $platform->setSetting('_oauth2_access_token_url', !empty($platform->accessTokenUrl) ? $platform->accessTokenUrl : null);
             $platform->setSetting('_jku', !empty($platform->jku) ? $platform->jku : null);
             $platform->setSetting('_encryption_method', !empty($platform->encryptionMethod) ? $platform->encryptionMethod : null);
@@ -749,5 +753,4 @@ class DataConnector
             $tool->setSetting('_debug', $tool->debugMode ? 'true' : null);
         }
     }
-
 }

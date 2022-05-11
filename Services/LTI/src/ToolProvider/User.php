@@ -231,9 +231,9 @@ class User
         return $this->hasRole('Learner');
     }
 
-###
-###  PRIVATE METHODS
-###
+    ###
+    ###  PRIVATE METHODS
+    ###
 
     /**
      * Check whether the user has a specified role name.
@@ -284,5 +284,4 @@ class User
 
         return $ok;
     }
-
 }

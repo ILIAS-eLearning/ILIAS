@@ -406,8 +406,10 @@ trait System
                 }
             }
             if (!empty($messageParameters['accept_presentation_document_targets'])) {
-                $documentTargets = array_filter(explode(',',
-                    str_replace(' ', '', $messageParameters['accept_presentation_document_targets'])), 'strlen');
+                $documentTargets = array_filter(explode(
+                    ',',
+                    str_replace(' ', '', $messageParameters['accept_presentation_document_targets'])
+                ), 'strlen');
                 $targets = array();
                 foreach ($documentTargets as $documentTarget) {
                     switch ($documentTarget) {
@@ -565,10 +567,10 @@ trait System
     public function signParameters(string $url, string $type, string $version, array $params)
     {
         if (!empty($url)) {
-// Add standard parameters
+            // Add standard parameters
             $params['lti_version'] = $version;
             $params['lti_message_type'] = $type;
-// Add signature
+            // Add signature
             $params = $this->addSignature($url, $params, 'POST', 'application/x-www-form-urlencoded');
         }
 
@@ -597,7 +599,7 @@ trait System
                     $loginHint = 'Anonymous';
                 }
             }
-// Add standard parameters
+            // Add standard parameters
             $params['lti_version'] = $version;
             $params['lti_message_type'] = $type;
             $this->onInitiateLogin($url, $loginHint, $ltiMessageHint, $params);
@@ -674,9 +676,9 @@ trait System
     {
         $header = $this->addSignature($service->endpoint, $data, $method, $format);
 
-// Connect to platform
+        // Connect to platform
         $http = new HttpMessage($service->endpoint, $method, $data, $header);
-// Parse JSON response
+        // Parse JSON response
         if ($http->send() && !empty($http->response)) {
             $http->responseJson = json_decode($http->response);
             $http->ok = !is_null($http->responseJson);
@@ -741,14 +743,14 @@ trait System
                 $this->ok = true;
             }
         }
-// Set signature method from request
+        // Set signature method from request
         if (isset($this->messageParameters['oauth_signature_method'])) {
             $this->signatureMethod = $this->messageParameters['oauth_signature_method'];
             if (($this instanceof Tool) && !empty($this->platform)) {
                 $this->platform->signatureMethod = $this->signatureMethod;
             }
         }
-// Check all required launch parameters
+        // Check all required launch parameters
         if ($this->ok) {
             $this->ok = isset($this->messageParameters['lti_message_type']);
             if (!$this->ok) {
@@ -756,8 +758,10 @@ trait System
             }
         }
         if ($this->ok) {
-            $this->ok = isset($this->messageParameters['lti_version']) && in_array($this->messageParameters['lti_version'],
-                    Util::$LTI_VERSIONS);
+            $this->ok = isset($this->messageParameters['lti_version']) && in_array(
+                $this->messageParameters['lti_version'],
+                Util::$LTI_VERSIONS
+            );
             if (!$this->ok) {
                 $this->reason = 'Invalid or missing lti_version parameter.';
             }
@@ -859,9 +863,9 @@ trait System
         return $ok;
     }
 
-###
-###    PRIVATE METHODS
-###
+    ###
+    ###    PRIVATE METHODS
+    ###
 
     /**
      * Parse the message
@@ -1030,15 +1034,19 @@ trait System
         }
         if (!empty($this->messageParameters['lti_message_type']) &&
             in_array($this->messageParameters['lti_message_type'], array_values(Util::MESSAGE_TYPE_MAPPING))) {
-            $this->messageParameters['lti_message_type'] = array_search($this->messageParameters['lti_message_type'],
-                Util::MESSAGE_TYPE_MAPPING);
+            $this->messageParameters['lti_message_type'] = array_search(
+                $this->messageParameters['lti_message_type'],
+                Util::MESSAGE_TYPE_MAPPING
+            );
         }
         if (!empty($this->messageParameters['accept_types'])) {
             $types = array_filter(explode(',', str_replace(' ', '', $this->messageParameters['accept_types'])), 'strlen');
             $mediaTypes = array();
             if (!empty($this->messageParameters['accept_media_types'])) {
-                $mediaTypes = array_filter(explode(',', str_replace(' ', '', $this->messageParameters['accept_media_types'])),
-                    'strlen');
+                $mediaTypes = array_filter(
+                    explode(',', str_replace(' ', '', $this->messageParameters['accept_media_types'])),
+                    'strlen'
+                );
             }
             if (in_array(Item::TYPE_LTI_LINK, $types)) {
                 $mediaTypes[] = Item::LTI_LINK_MEDIA_TYPE;
@@ -1148,7 +1156,7 @@ trait System
             $params = $data;
             $params['oauth_callback'] = 'about:blank';
         }
-// Check for query parameters which need to be included in the signature
+        // Check for query parameters which need to be included in the signature
         $queryString = parse_url($endpoint, PHP_URL_QUERY);
 //        $queryParams = OAuth\OAuthUtil::parse_parameters($queryString);
         $queryParams = LTIOAuth\OAuthUtil::parse_parameters($queryString);
@@ -1180,7 +1188,7 @@ trait System
             $params['oauth_timestamp'] = $timestamp;
         }
 
-// Add OAuth signature
+        // Add OAuth signature
         switch ($this->signatureMethod) {
             //UK: ToDo
 //            case 'HMAC-SHA224':
@@ -1228,7 +1236,7 @@ trait System
             }
             return $header;
         } else {
-// Remove parameters from query string
+            // Remove parameters from query string
             $params = $oauthReq->get_parameters();
             foreach ($queryParams as $key => $value) {
                 if (!is_array($value)) {
@@ -1245,7 +1253,7 @@ trait System
                     }
                 }
             }
-// Remove any parameters comprising an empty array of values
+            // Remove any parameters comprising an empty array of values
             foreach ($params as $key => $value) {
                 if (is_array($value)) {
                     if (count($value) <= 0) {
@@ -1345,8 +1353,15 @@ trait System
             $payload['exp'] = $timestamp + Jwt::$life;
             try {
                 $jwt = Jwt::getJwtClient();
-                $params[$paramName] = $jwt::sign($payload, $this->signatureMethod, $privateKey, $kid, $jku, $this->encryptionMethod,
-                    $publicKey);
+                $params[$paramName] = $jwt::sign(
+                    $payload,
+                    $this->signatureMethod,
+                    $privateKey,
+                    $kid,
+                    $jku,
+                    $this->encryptionMethod,
+                    $publicKey
+                );
             } catch (\Exception $e) {
                 $params = array();
             }

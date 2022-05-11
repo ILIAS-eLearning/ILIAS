@@ -2,6 +2,7 @@
 namespace ILIAS\LTI\ToolProvider;
 
 use ILIAS\LTIOAuth;
+
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -481,7 +482,7 @@ EOD;
         foreach ($objVars as $attrName => $attrValue) {
             if (is_object($clone->$attrName)) {
                 $clone->$attrName = self::cloneObject($clone->$attrName);
-            } else if (is_array($clone->$attrName)) {
+            } elseif (is_array($clone->$attrName)) {
                 foreach ($clone->$attrName as &$attrArrayValue) {
                     if (is_object($attrArrayValue)) {
                         $attrArrayValue = self::cloneObject($attrArrayValue);
@@ -493,5 +494,4 @@ EOD;
 
         return $clone;
     }
-
 }

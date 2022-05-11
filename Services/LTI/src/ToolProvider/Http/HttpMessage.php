@@ -115,7 +115,7 @@ class HttpMessage
      * @param mixed       $params Associative array of parameter values to be passed or message body (optional, default is none)
      * @param string|null $header Values to include in the request header (optional, default is none)
      */
-    function __construct(string $url, string $method = 'GET', $params = null, string $header = null)
+    public function __construct(string $url, string $method = 'GET', $params = null, string $header = null)
     {
         $this->url = $url;
         $this->method = strtoupper($method);
@@ -267,9 +267,9 @@ class HttpMessage
         return $this->relativeLinks;
     }
 
-###
-###  PRIVATE METHOD
-###
+    ###
+    ###  PRIVATE METHOD
+    ###
 
     /**
      * Parse the response headers for relative links.
@@ -295,5 +295,4 @@ class HttpMessage
             }
         }
     }
-
 }

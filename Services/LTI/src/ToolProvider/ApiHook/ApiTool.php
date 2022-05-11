@@ -69,5 +69,4 @@ class ApiTool
     {
         return '';
     }
-
 }

@@ -262,5 +262,4 @@ class Groups extends Service
 
         return $ok;
     }
-
 }

@@ -187,5 +187,4 @@ class LineItem
     {
         return Service\LineItem::getLineItem($platform, $endpoint);
     }
-
 }

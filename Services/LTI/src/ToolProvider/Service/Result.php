@@ -136,9 +136,9 @@ class Result extends AssignmentGrade
         }
     }
 
-###
-###  PRIVATE METHOD
-###
+    ###
+    ###  PRIVATE METHOD
+    ###
 
     private static function getOutcome(object $json) : Outcome
     {
@@ -156,5 +156,4 @@ class Result extends AssignmentGrade
 
         return $outcome;
     }
-
 }

@@ -34,7 +34,7 @@ class SecurityContract
      * @param Tool   $tool   Tool instance
      * @param string $secret Shared secret
      */
-    function __construct(Tool $tool, string $secret)
+    public function __construct(Tool $tool, string $secret)
     {
         $tcContexts = array();
         foreach ($tool->platform->profile->{'@context'} as $context) {
@@ -85,5 +85,4 @@ class SecurityContract
         }
         $this->tool_service = array_values($toolServices);
     }
-
 }

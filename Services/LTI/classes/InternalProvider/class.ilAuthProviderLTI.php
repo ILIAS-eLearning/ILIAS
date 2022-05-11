@@ -42,7 +42,6 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param string $a_auth_mode
      * @return int|string auth_mode
      */
-    // TODO PHP8 Review: Union Types are not supported by PHP 7.4! int|string
     public static function getKeyByAuthMode(string $a_auth_mode)
     {
         $auth_arr = explode('_', $a_auth_mode);
@@ -139,7 +138,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         global $ilDB;
 
-        $query = 'SELECT consumer_pk from lti2_consumer where consumer_key256 = ' . $ilDB->quote(
+        $query = 'SELECT consumer_pk from lti2_consumer where consumer_key = ' . $ilDB->quote(
             $a_oauth_consumer_key,
             'text'
         );
@@ -222,7 +221,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $lti_provider = new ilLTITool($this->dataConnector);
         // $lti_provider = new Tool\Tool($this->dataConnector);
         $ok = true;
-        $lti_provider->handleRequest();
+//        $lti_provider->handleRequest();
 
         if (!$ok) {
             $this->getLogger()->info('LTI authentication failed with message: ' . $lti_provider->reason);

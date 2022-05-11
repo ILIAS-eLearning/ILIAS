@@ -1,5 +1,6 @@
 <?php
 namespace ILIAS\LTI\ToolProvider\Jwt;
+
 use Firebase\JWT\JWT;
 use Firebase\JWT\JWK;
 use Firebase\JWT\Key;
@@ -220,7 +221,6 @@ class FirebaseClient implements ClientInterface
                         $jwks = array('keys' => array($json));
                         $publicKey = static::parseKeySet($jwks);
                     } catch (\Exception $e) {
-
                     }
                 } else {
                     $publicKey = new Key($publicKey, $this->getHeader('alg'));
@@ -244,7 +244,6 @@ class FirebaseClient implements ClientInterface
                         $publicKey = $this->fetchPublicKey($jku);
                         $retry = true;
                     } catch (\Exception $e) {
-
                     }
                 }
             }
@@ -264,10 +263,15 @@ class FirebaseClient implements ClientInterface
      * @param string|null $publicKey        Public key of recipient for content encryption (optional)
      * @return string Signed JWT
      */
-    public static function sign(array $payload,
-        string $signatureMethod, string $privateKey, string $kid = null, string $jku = null, string $encryptionMethod = null,
-        string $publicKey = null) : string
-    {
+    public static function sign(
+        array $payload,
+        string $signatureMethod,
+        string $privateKey,
+        string $kid = null,
+        string $jku = null,
+        string $encryptionMethod = null,
+        string $publicKey = null
+    ) : string {
         if (!empty($encryptionMethod)) {
             $errorMessage = 'Encrypted tokens not supported by the Firebase JWT client';
             Util::logError($errorMessage);
@@ -362,9 +366,9 @@ class FirebaseClient implements ClientInterface
         return $keys;
     }
 
-###
-###  PRIVATE METHODS
-###
+    ###
+    ###  PRIVATE METHODS
+    ###
 
     /**
      * Fetch the public keys from a URL.
@@ -419,5 +423,4 @@ class FirebaseClient implements ClientInterface
 
         return $keys;
     }
-
 }

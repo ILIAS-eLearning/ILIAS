@@ -57,9 +57,8 @@ class Jwt
     /**
      * Class constructor.
      */
-    function __construct()
+    public function __construct()
     {
-
     }
 
     /**
@@ -89,5 +88,4 @@ class Jwt
 
         return self::$jwtClient;
     }
-
 }

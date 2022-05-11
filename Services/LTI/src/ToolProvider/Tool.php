@@ -11,6 +11,7 @@ use ILIAS\LTI\ToolProvider\Http\HTTPMessage;
 use ILIAS\LTIOAuth;
 use ILIAS\LTI\ToolProvider\ApiHook\ApiHook;
 use ILIAS\LTI\ToolProvider\Util;
+
 //added
 //use ILIAS\LTI\ToolProvider\Profile\ServiceDefinition;
 /******************************************************************************
@@ -435,7 +436,7 @@ class Tool
     {
         if (is_null($this->messageParameters)) {
             $this->parseMessage();
-// Set debug mode
+            // Set debug mode
             if (Util::$logLevel < Util::LOGLEVEL_DEBUG) {
                 $this->debugMode = (isset($this->messageParameters['custom_debug']) &&
                     (strtolower($this->messageParameters['custom_debug']) === 'true'));
@@ -443,7 +444,7 @@ class Tool
                     Util::$logLevel = Util::LOGLEVEL_DEBUG;
                 }
             }
-// Set return URL if available
+            // Set return URL if available
             if (!empty($this->messageParameters['lti_message_type']) &&
                 (($this->messageParameters['lti_message_type'] === 'ContentItemSelectionRequest') || ($this->messageParameters['lti_message_type'] === 'ContentItemUpdateRequest')) &&
                 !empty($this->messageParameters['content_item_return_url'])) {
@@ -533,8 +534,10 @@ class Tool
      */
     public function getConsumers() : array
     {
-        Util::logDebug('Method ceLTIc\LTI\Tool::getConsumers() has been deprecated; please use ceLTIc\LTI\Tool::getPlatforms() instead.',
-            true);
+        Util::logDebug(
+            'Method ceLTIc\LTI\Tool::getConsumers() has been deprecated; please use ceLTIc\LTI\Tool::getPlatforms() instead.',
+            true
+        );
         return $this->getPlatforms();
     }
 
@@ -589,7 +592,7 @@ class Tool
      */
     public function doToolProxyService() : bool
     {
-// Create tool proxy
+        // Create tool proxy
         //UK: Check Bugs
 //        $toolProxyService = $this->findService('application/vnd.ims.lti.v2.toolproxy+json', array('POST'));
 //        $secret = Util::getRandomString(12);
@@ -624,9 +627,9 @@ class Tool
 //        Util::sendForm($url, $params, $target);
 //    }
 
-###
-###    PROTECTED METHODS
-###
+    ###
+    ###    PROTECTED METHODS
+    ###
 
     /**
      * Process a valid launch request
@@ -724,7 +727,6 @@ class Tool
      */
     protected function onInitiateLogin(array $requestParameters, array &$authParameters)
     {
-
     }
 
     /**
@@ -772,8 +774,10 @@ class Tool
             }
             if ($this->ok) {
                 $jwtClient = Jwt::getJwtClient();
-                $algorithms = \array_intersect($jwtClient::getSupportedAlgorithms(),
-                    $platformConfig['id_token_signing_alg_values_supported']);
+                $algorithms = \array_intersect(
+                    $jwtClient::getSupportedAlgorithms(),
+                    $platformConfig['id_token_signing_alg_values_supported']
+                );
                 $this->ok = !empty($algorithms);
                 if ($this->ok) {
                     rsort($platformConfig['id_token_signing_alg_values_supported']);
@@ -836,7 +840,7 @@ class Tool
                     $capabilities = $message->capabilities;
                     $variables = array_merge($variables, $message->variables);
                     $constants = array_merge($constants, $message->constants);
-                } else if (in_array($type, $messagesSupported)) {
+                } elseif (in_array($type, $messagesSupported)) {
                     $redirectUris[] = "{$this->baseUrl}{$message->path}";
                     $capabilities = $message->capabilities;
                     $variables = array_merge($message->variables, $variables);
@@ -978,12 +982,12 @@ class Tool
             $now = time();
             if (!$this->platform->enabled) {
                 $enabled = ', but it will need to be enabled by the tool provider before it can be used';
-            } else if (!empty($this->platform->enableFrom) && ($this->platform->enableFrom > $now)) {
+            } elseif (!empty($this->platform->enableFrom) && ($this->platform->enableFrom > $now)) {
                 $enabled = ', but you will only have access from ' . date('j F Y H:i T', $this->platform->enableFrom);
                 if (!empty($this->platform->enableUntil)) {
                     $enabled .= ' until ' . date('j F Y H:i T', $this->platform->enableUntil);
                 }
-            } else if (!empty($this->platform->enableUntil)) {
+            } elseif (!empty($this->platform->enableUntil)) {
                 if ($this->platform->enableUntil > $now) {
                     $enabled = ', but you will only have access until ' . date('j F Y H:i T', $this->platform->enableUntil);
                 } else {
@@ -1128,9 +1132,9 @@ EOD;
         return $tool;
     }
 
-###
-###    PRIVATE METHODS
-###
+    ###
+    ###    PRIVATE METHODS
+    ###
 
     /**
      * Perform the result of an action.
@@ -1146,7 +1150,7 @@ EOD;
             $this->onError();
         }
         if (!$this->ok) {
-// If not valid, return an error message to the platform if a return URL is provided
+            // If not valid, return an error message to the platform if a return URL is provided
             if (!empty($this->returnUrl)) {
                 $errorUrl = $this->returnUrl;
                 if (!is_null($this->platform) && isset($this->messageParameters['lti_message_type']) &&
@@ -1243,22 +1247,32 @@ EOD;
                 $contentTypes = array();
                 $fileTypes = array();
                 if (isset($this->messageParameters['accept_media_types']) && (strlen(trim($this->messageParameters['accept_media_types'])) > 0)) {
-                    $mediaTypes = array_filter(explode(',', str_replace(' ', '', $this->messageParameters['accept_media_types'])),
-                        'strlen');
+                    $mediaTypes = array_filter(
+                        explode(',', str_replace(' ', '', $this->messageParameters['accept_media_types'])),
+                        'strlen'
+                    );
                 }
                 $this->ok = (count($mediaTypes) > 0) || ($this->messageParameters['lti_version'] === Util::LTI_VERSION1P3);
                 if (!$this->ok) {
                     $this->reason = 'No content types specified.';
                 } elseif ($isUpdate) {
                     if ($this->messageParameters['lti_version'] !== Util::LTI_VERSION1P3) {
-                        if (!$this->checkValue($this->messageParameters['accept_media_types'],
+                        if (!$this->checkValue(
+                            $this->messageParameters['accept_media_types'],
                             array(Item::LTI_LINK_MEDIA_TYPE, Item::LTI_ASSIGNMENT_MEDIA_TYPE),
-                            'Invalid value in accept_media_types parameter: \'%s\'.', $strictMode, true)) {
+                            'Invalid value in accept_media_types parameter: \'%s\'.',
+                            $strictMode,
+                            true
+                        )) {
                             $this->ok = false;
                         }
-                    } elseif (!$this->checkValue($this->messageParameters['accept_types'],
+                    } elseif (!$this->checkValue(
+                        $this->messageParameters['accept_types'],
                         array(Item::TYPE_LTI_LINK, Item::TYPE_LTI_ASSIGNMENT),
-                        'Invalid value in accept_types parameter: \'%s\'.', $strictMode, true)) {
+                        'Invalid value in accept_types parameter: \'%s\'.',
+                        $strictMode,
+                        true
+                    )) {
                         $this->ok = false;
                     }
                 }
@@ -1287,8 +1301,10 @@ EOD;
                 if ($this->ok) {
                     if (isset($this->messageParameters['accept_presentation_document_targets']) &&
                         (strlen(trim($this->messageParameters['accept_presentation_document_targets'])) > 0)) {
-                        $documentTargets = array_filter(explode(',',
-                            str_replace(' ', '', $this->messageParameters['accept_presentation_document_targets'])), 'strlen');
+                        $documentTargets = array_filter(explode(
+                            ',',
+                            str_replace(' ', '', $this->messageParameters['accept_presentation_document_targets'])
+                        ), 'strlen');
                         $documentTargets = array_unique($documentTargets);
                         $this->ok = count($documentTargets) > 0;
                         if (!$this->ok) {
@@ -1300,9 +1316,13 @@ EOD;
                                 $permittedTargets = array('embed', 'iframe', 'window');
                             }
                             foreach ($documentTargets as $documentTarget) {
-                                if (!$this->checkValue($documentTarget, $permittedTargets,
-                                    'Invalid value in accept_presentation_document_targets parameter: \'%s\'.', $strictMode,
-                                    true)) {
+                                if (!$this->checkValue(
+                                    $documentTarget,
+                                    $permittedTargets,
+                                    'Invalid value in accept_presentation_document_targets parameter: \'%s\'.',
+                                    $strictMode,
+                                    true
+                                )) {
                                     $this->ok = false;
                                     break;
                                 }
@@ -1353,7 +1373,7 @@ EOD;
             }
         }
         $now = time();
-// Check consumer key
+        // Check consumer key
         if ($this->ok && ($this->messageParameters['lti_message_type'] !== 'ToolProxyRegistrationRequest')) {
             $this->ok = isset($this->messageParameters['oauth_consumer_key']);
             if (!$this->ok) {
@@ -1416,46 +1436,78 @@ EOD;
                     }
                 }
             }
-// Validate other message parameter values
+            // Validate other message parameter values
             if ($this->ok) {
                 if (($this->messageParameters['lti_message_type'] === 'ContentItemSelectionRequest') ||
                     ($this->messageParameters['lti_message_type'] === 'ContentItemUpdateRequest')) {
                     $isUpdate = ($this->messageParameters['lti_message_type'] === 'ContentItemUpdateRequest');
                     if (isset($this->messageParameters['accept_unsigned'])) {
-                        $this->ok = $this->checkValue($this->messageParameters['accept_unsigned'], array('true', 'false'),
-                            'Invalid value for accept_unsigned parameter: \'%s\'.', $strictMode);
+                        $this->ok = $this->checkValue(
+                            $this->messageParameters['accept_unsigned'],
+                            array('true', 'false'),
+                            'Invalid value for accept_unsigned parameter: \'%s\'.',
+                            $strictMode
+                        );
                     }
                     if ($this->ok && isset($this->messageParameters['accept_multiple'])) {
                         if (!$isUpdate) {
-                            $this->ok = $this->checkValue($this->messageParameters['accept_multiple'], array('true', 'false'),
-                                'Invalid value for accept_multiple parameter: \'%s\'.', $strictMode);
+                            $this->ok = $this->checkValue(
+                                $this->messageParameters['accept_multiple'],
+                                array('true', 'false'),
+                                'Invalid value for accept_multiple parameter: \'%s\'.',
+                                $strictMode
+                            );
                         } else {
-                            $this->ok = $this->checkValue($this->messageParameters['accept_multiple'], array('false'),
-                                'Invalid value for accept_multiple parameter: \'%s\'.', $strictMode);
+                            $this->ok = $this->checkValue(
+                                $this->messageParameters['accept_multiple'],
+                                array('false'),
+                                'Invalid value for accept_multiple parameter: \'%s\'.',
+                                $strictMode
+                            );
                         }
                     }
                     if ($this->ok && isset($this->messageParameters['accept_copy_advice'])) {
                         if (!$isUpdate) {
-                            $this->ok = $this->checkValue($this->messageParameters['accept_copy_advice'], array('true', 'false'),
-                                'Invalid value for accept_copy_advice parameter: \'%s\'.', $strictMode);
+                            $this->ok = $this->checkValue(
+                                $this->messageParameters['accept_copy_advice'],
+                                array('true', 'false'),
+                                'Invalid value for accept_copy_advice parameter: \'%s\'.',
+                                $strictMode
+                            );
                         } else {
-                            $this->ok = $this->checkValue($this->messageParameters['accept_copy_advice'], array('false'),
-                                'Invalid value for accept_copy_advice parameter: \'%s\'.', $strictMode);
+                            $this->ok = $this->checkValue(
+                                $this->messageParameters['accept_copy_advice'],
+                                array('false'),
+                                'Invalid value for accept_copy_advice parameter: \'%s\'.',
+                                $strictMode
+                            );
                         }
                     }
                     if ($this->ok && isset($this->messageParameters['auto_create'])) {
-                        $this->ok = $this->checkValue($this->messageParameters['auto_create'], array('true', 'false'),
-                            'Invalid value for auto_create parameter: \'%s\'.', $strictMode);
+                        $this->ok = $this->checkValue(
+                            $this->messageParameters['auto_create'],
+                            array('true', 'false'),
+                            'Invalid value for auto_create parameter: \'%s\'.',
+                            $strictMode
+                        );
                     }
                     if ($this->ok && isset($this->messageParameters['can_confirm'])) {
-                        $this->ok = $this->checkValue($this->messageParameters['can_confirm'], array('true', 'false'),
-                            'Invalid value for can_confirm parameter: \'%s\'.', $strictMode);
+                        $this->ok = $this->checkValue(
+                            $this->messageParameters['can_confirm'],
+                            array('true', 'false'),
+                            'Invalid value for can_confirm parameter: \'%s\'.',
+                            $strictMode
+                        );
                     }
                 }
                 if ($this->ok && isset($this->messageParameters['launch_presentation_document_target'])) {
-                    $this->ok = $this->checkValue($this->messageParameters['launch_presentation_document_target'],
+                    $this->ok = $this->checkValue(
+                        $this->messageParameters['launch_presentation_document_target'],
                         array('embed', 'frame', 'iframe', 'window', 'popup', 'overlay'),
-                        'Invalid value for launch_presentation_document_target parameter: \'%s\'.', $strictMode, true);
+                        'Invalid value for launch_presentation_document_target parameter: \'%s\'.',
+                        $strictMode,
+                        true
+                    );
                     if ($this->ok && ($this->messageParameters['lti_message_type'] === 'LtiStartProctoring') &&
                         ($this->messageParameters['launch_presentation_document_target'] !== 'window')) {
                         $this->ok = !isset($this->messageParameters['launch_presentation_height']) &&
@@ -1493,7 +1545,7 @@ EOD;
                     }
                 }
             }
-// Check for required capabilities
+            // Check for required capabilities
             if ($this->ok) {
                 $this->platform = Platform::fromConsumerKey($this->messageParameters['reg_key'], $this->dataConnector);
                 $this->platform->profile = $tcProfile;
@@ -1508,8 +1560,10 @@ EOD;
                 }
                 foreach ($this->constraints as $name => $constraint) {
                     if ($constraint['required']) {
-                        if (empty(array_intersect($capabilities,
-                            array_keys(array_intersect(self::$CUSTOM_SUBSTITUTION_VARIABLES, array($name)))))) {
+                        if (empty(array_intersect(
+                            $capabilities,
+                            array_keys(array_intersect(self::$CUSTOM_SUBSTITUTION_VARIABLES, array($name)))
+                        ))) {
                             $missing[$name] = true;
                         }
                     }
@@ -1520,7 +1574,7 @@ EOD;
                     $this->ok = false;
                 }
             }
-// Check for required services
+            // Check for required services
             if ($this->ok) {
                 foreach ($this->requiredServices as $service) {
                     foreach ($service->formats as $format) {
@@ -1583,8 +1637,10 @@ EOD;
 // Validate message parameter constraints
                 $invalidParameters = array();
                 foreach ($this->constraints as $name => $constraint) {
-                    if (empty($constraint['messages']) || in_array($this->messageParameters['lti_message_type'],
-                            $constraint['messages'])) {
+                    if (empty($constraint['messages']) || in_array(
+                        $this->messageParameters['lti_message_type'],
+                        $constraint['messages']
+                    )) {
                         $ok = true;
                         if ($constraint['required']) {
                             if (!isset($this->messageParameters[$name]) || (strlen(trim($this->messageParameters[$name])) <= 0)) {
@@ -1637,18 +1693,24 @@ EOD;
                         }
                     }
 
-// Set the request resource link
+                    // Set the request resource link
                     if (isset($this->messageParameters['resource_link_id'])) {
                         $contentItemId = '';
                         if (isset($this->messageParameters['custom_content_item_id'])) {
                             $contentItemId = $this->messageParameters['custom_content_item_id'];
                         }
                         if (empty($this->context)) {
-                            $this->resourceLink = ResourceLink::fromPlatform($this->platform,
-                                trim($this->messageParameters['resource_link_id']), $contentItemId);
+                            $this->resourceLink = ResourceLink::fromPlatform(
+                                $this->platform,
+                                trim($this->messageParameters['resource_link_id']),
+                                $contentItemId
+                            );
                         } else {
-                            $this->resourceLink = ResourceLink::fromContext($this->context,
-                                trim($this->messageParameters['resource_link_id']), $contentItemId);
+                            $this->resourceLink = ResourceLink::fromContext(
+                                $this->context,
+                                trim($this->messageParameters['resource_link_id']),
+                                $contentItemId
+                            );
                         }
                         $title = '';
                         if (isset($this->messageParameters['resource_link_title'])) {
@@ -1659,7 +1721,7 @@ EOD;
                         }
                         $this->resourceLink->title = $title;
                     }
-// Delete any existing custom parameters
+                    // Delete any existing custom parameters
                     foreach ($this->platform->getSettings() as $name => $value) {
                         if ((strpos($name, 'custom_') === 0) && (!in_array($name, self::$LTI_RETAIN_SETTING_NAMES))) {
                             $this->platform->setSetting($name);
@@ -1680,11 +1742,11 @@ EOD;
                             }
                         }
                     }
-// Save LTI parameters
+                    // Save LTI parameters
                     foreach (self::$LTI_CONSUMER_SETTING_NAMES as $name) {
                         if (isset($this->messageParameters[$name])) {
                             $this->platform->setSetting($name, $this->messageParameters[$name]);
-                        } else if (!in_array($name, self::$LTI_RETAIN_SETTING_NAMES)) {
+                        } elseif (!in_array($name, self::$LTI_RETAIN_SETTING_NAMES)) {
                             $this->platform->setSetting($name);
                         }
                     }
@@ -1692,7 +1754,7 @@ EOD;
                         foreach (self::$LTI_CONTEXT_SETTING_NAMES as $name) {
                             if (isset($this->messageParameters[$name])) {
                                 $this->context->setSetting($name, $this->messageParameters[$name]);
-                            } else if (!in_array($name, self::$LTI_RETAIN_SETTING_NAMES)) {
+                            } elseif (!in_array($name, self::$LTI_RETAIN_SETTING_NAMES)) {
                                 $this->context->setSetting($name);
                             }
                         }
@@ -1701,16 +1763,21 @@ EOD;
                         foreach (self::$LTI_RESOURCE_LINK_SETTING_NAMES as $name) {
                             if (isset($this->messageParameters[$name])) {
                                 $this->resourceLink->setSetting($name, $this->messageParameters[$name]);
-                            } else if (!in_array($name, self::$LTI_RETAIN_SETTING_NAMES)) {
+                            } elseif (!in_array($name, self::$LTI_RETAIN_SETTING_NAMES)) {
                                 $this->resourceLink->setSetting($name);
                             }
                         }
                     }
-// Save other custom parameters at all levels
+                    // Save other custom parameters at all levels
                     foreach ($this->messageParameters as $name => $value) {
-                        if ((strpos($name, 'custom_') === 0) && !in_array($name,
-                                array_merge(self::$LTI_CONSUMER_SETTING_NAMES, self::$LTI_CONTEXT_SETTING_NAMES,
-                                    self::$LTI_RESOURCE_LINK_SETTING_NAMES))) {
+                        if ((strpos($name, 'custom_') === 0) && !in_array(
+                            $name,
+                            array_merge(
+                                self::$LTI_CONSUMER_SETTING_NAMES,
+                                self::$LTI_CONTEXT_SETTING_NAMES,
+                                self::$LTI_RESOURCE_LINK_SETTING_NAMES
+                            )
+                        )) {
                             $this->platform->setSetting($name, $value);
                             if (!empty($this->context)) {
                                 $this->context->setSetting($name, $value);
@@ -1721,7 +1788,7 @@ EOD;
                         }
                     }
 
-// Set the user instance
+                    // Set the user instance
                     $userId = '';
                     if ($this->hasConfiguredApiHook(self::$USER_ID_HOOK, $this->platform->getFamilyCode(), $this)) {
                         $className = $this->getApiHook(self::$USER_ID_HOOK, $this->platform->getFamilyCode());
@@ -1734,18 +1801,18 @@ EOD;
 
                     $this->userResult = UserResult::fromResourceLink($this->resourceLink, $userId);
 
-// Set the user name
+                    // Set the user name
                     $firstname = (isset($this->messageParameters['lis_person_name_given'])) ? $this->messageParameters['lis_person_name_given'] : '';
                     $lastname = (isset($this->messageParameters['lis_person_name_family'])) ? $this->messageParameters['lis_person_name_family'] : '';
                     $fullname = (isset($this->messageParameters['lis_person_name_full'])) ? $this->messageParameters['lis_person_name_full'] : '';
                     $this->userResult->setNames($firstname, $lastname, $fullname);
 
-// Set the sourcedId
+                    // Set the sourcedId
                     if (isset($this->messageParameters['lis_person_sourcedid'])) {
                         $this->userResult->sourcedId = $this->messageParameters['lis_person_sourcedid'];
                     }
 
-// Set the username
+                    // Set the username
                     if (isset($this->messageParameters['ext_username'])) {
                         $this->userResult->username = $this->messageParameters['ext_username'];
                     } elseif (isset($this->messageParameters['ext_user_username'])) {
@@ -1756,22 +1823,24 @@ EOD;
                         $this->userResult->username = $this->messageParameters['custom_user_username'];
                     }
 
-// Set the user email
+                    // Set the user email
                     $email = (isset($this->messageParameters['lis_person_contact_email_primary'])) ? $this->messageParameters['lis_person_contact_email_primary'] : '';
                     $this->userResult->setEmail($email, $this->defaultEmail);
 
-// Set the user image URI
+                    // Set the user image URI
                     if (isset($this->messageParameters['user_image'])) {
                         $this->userResult->image = $this->messageParameters['user_image'];
                     }
 
-// Set the user roles
+                    // Set the user roles
                     if (isset($this->messageParameters['roles'])) {
-                        $this->userResult->roles = self::parseRoles($this->messageParameters['roles'],
-                            $this->messageParameters['lti_version']);
+                        $this->userResult->roles = self::parseRoles(
+                            $this->messageParameters['roles'],
+                            $this->messageParameters['lti_version']
+                        );
                     }
 
-// Initialise the platform and check for changes
+                    // Initialise the platform and check for changes
                     $this->platform->defaultEmail = $this->defaultEmail;
                     if ($this->platform->ltiVersion !== $this->messageParameters['lti_version']) {
                         $this->platform->ltiVersion = $this->messageParameters['lti_version'];
@@ -1791,7 +1860,7 @@ EOD;
                         if (isset($this->messageParameters['tool_consumer_info_version'])) {
                             $version .= "-{$this->messageParameters['tool_consumer_info_version']}";
                         }
-// do not delete any existing consumer version if none is passed
+                        // do not delete any existing consumer version if none is passed
                         if ($this->platform->consumerVersion !== $version) {
                             $this->platform->consumerVersion = $version;
                             $doSavePlatform = true;
@@ -1823,7 +1892,7 @@ EOD;
                     }
                 }
 
-// Persist changes to platform
+                // Persist changes to platform
                 if ($doSavePlatform) {
                     $this->platform->save();
                 }
@@ -1836,10 +1905,10 @@ EOD;
                     }
 
                     if (isset($this->resourceLink)) {
-// Persist changes to resource link
+                        // Persist changes to resource link
                         $this->resourceLink->save();
 
-// Persist changes to user instnce
+                        // Persist changes to user instnce
                         $this->userResult->setResourceLinkId($this->resourceLink->getRecordId());
                         if (isset($this->messageParameters['lis_result_sourcedid'])) {
                             if ($this->userResult->ltiResultSourcedId !== $this->messageParameters['lis_result_sourcedid']) {
@@ -1851,7 +1920,7 @@ EOD;
                             $this->userResult->save();
                         }
 
-// Check if a share arrangement is in place for this resource link
+                        // Check if a share arrangement is in place for this resource link
                         $this->ok = $this->checkForShare();
                     }
                 }
@@ -1879,10 +1948,10 @@ EOD;
                 $ok = false;
                 $this->reason = 'Your sharing request has been refused because sharing is not being permitted.';
             } else {
-// Check if this is a new share key
+                // Check if this is a new share key
                 $shareKey = new ResourceLinkShareKey($this->resourceLink, $this->messageParameters['custom_share_key']);
                 if (!is_null($shareKey->resourceLinkId)) {
-// Update resource link with sharing primary resource link details
+                    // Update resource link with sharing primary resource link details
                     $id = $shareKey->resourceLinkId;
                     $ok = ($id !== $this->resourceLink->getRecordId());
                     if ($ok) {
@@ -1894,7 +1963,7 @@ EOD;
                             $this->userResult->getResourceLink()->primaryResourceLinkId = $id;
                             $this->userResult->getResourceLink()->shareApproved = $shareKey->autoApprove;
                             $this->userResult->getResourceLink()->updated = time();
-// Remove share key
+                            // Remove share key
                             $shareKey->delete();
                         } else {
                             $this->reason = 'An error occurred initialising your share arrangement.';
@@ -1916,14 +1985,14 @@ EOD;
                 }
             }
         } else {
-// Check no share is in place
+            // Check no share is in place
             $ok = is_null($id);
             if (!$ok) {
                 $this->reason = 'You have not requested to share a resource link but an arrangement is currently in place.';
             }
         }
 
-// Look up primary resource link
+        // Look up primary resource link
         if ($ok && !is_null($id)) {
             $resourceLink = ResourceLink::fromRecordId($id, $this->dataConnector);
             $ok = !is_null($resourceLink->created);
@@ -1984,8 +2053,10 @@ EOD;
                         $ignore = false;  // Only include those query parameters which come before any of the standard OpenID Connect ones
                         foreach ($params as $param) {
                             $parts = explode('=', $param, 2);
-                            if (in_array($parts[0],
-                                array('iss', 'target_link_uri', 'login_hint', 'lti_message_hint', 'client_id', 'lti_deployment_id'))) {
+                            if (in_array(
+                                $parts[0],
+                                array('iss', 'target_link_uri', 'login_hint', 'lti_message_hint', 'client_id', 'lti_deployment_id')
+                            )) {
                                 $ignore = true;
                             } elseif (!$ignore) {
                                 if ((count($parts) <= 1) || empty($parts[1])) {  // Drop equals sign for empty parameters to workaround Canvas bug
@@ -2079,5 +2150,4 @@ EOD;
 
         return $ok;
     }
-
 }

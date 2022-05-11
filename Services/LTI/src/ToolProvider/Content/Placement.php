@@ -114,9 +114,15 @@ class Placement
      * @param string|null $url            URL for iframe src (optional)
      * @param string|null $html           HTML to be embedded (optional)
      */
-    function __construct(string $documentTarget, ?int $displayWidth = null, ?int $displayHeight = null, ?string $windowTarget = null, ?string $windowFeatures = null,
-        string $url = null, ?string $html = null)
-    {
+    public function __construct(
+        string $documentTarget,
+        ?int $displayWidth = null,
+        ?int $displayHeight = null,
+        ?string $windowTarget = null,
+        ?string $windowFeatures = null,
+        string $url = null,
+        ?string $html = null
+    ) {
         $this->documentTarget = $documentTarget;
         $this->displayWidth = $displayWidth;
         $this->displayHeight = $displayHeight;
@@ -274,5 +280,4 @@ class Placement
 
         return $obj;
     }
-
 }

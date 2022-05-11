@@ -43,7 +43,7 @@ class TimePeriod
      * @param int $startDateTime Start date/time
      * @param int $endDateTime   End date/time
      */
-    function __construct(int $startDateTime, int $endDateTime)
+    public function __construct(int $startDateTime, int $endDateTime)
     {
         $this->startDateTime = $startDateTime;
         $this->endDateTime = $endDateTime;
@@ -108,5 +108,4 @@ class TimePeriod
 
         return $obj;
     }
-
 }

@@ -529,24 +529,24 @@ class Platform
         return $platform;
     }
 
-    /**
-     * Load the platform from the database by its record ID.
-     * @param string        $id            The platform record ID
-     * @param DataConnector $dataConnector A data connector object
-     * @return Platform       The platform object
-     */
-    public static function fromRecordId(string $id, DataConnector $dataConnector) : Platform
-    {
-        $platform = new static($dataConnector);
-        $platform->setRecordId($id);
-        $dataConnector->loadPlatform($platform);
+//    /**
+//     * Load the platform from the database by its record ID.
+//     * @param int        $id            The platform record ID //UK: changed to int
+//     * @param DataConnector $dataConnector A data connector object
+//     * @return Platform       The platform object
+//     */
+//    public static function fromRecordId(int $id, DataConnector $dataConnector) : Platform
+//    {
+//        $platform = new static($dataConnector);
+//        $platform->setRecordId($id);
+//        $dataConnector->loadPlatform($platform);
+//
+//        return $platform;
+//    }
 
-        return $platform;
-    }
-
-###
-###    PROTECTED METHODS
-###
+    ###
+    ###    PROTECTED METHODS
+    ###
 
     /**
      * Save the hint and message parameters when sending an initiate login request.
@@ -628,9 +628,9 @@ class Platform
         $this->ok = false;
     }
 
-###
-###  PRIVATE METHODS
-###
+    ###
+    ###  PRIVATE METHODS
+    ###
 
     /**
      * Check the authenticity of the LTI message.
@@ -707,8 +707,13 @@ class Platform
             $this->onAuthenticate();
         }
         if ($this->ok) {
-            $this->messageParameters = $this->addSignature(Tool::$defaultTool->messageUrl, $this->messageParameters, 'POST', null,
-                $parameters['nonce']);
+            $this->messageParameters = $this->addSignature(
+                Tool::$defaultTool->messageUrl,
+                $this->messageParameters,
+                'POST',
+                null,
+                $parameters['nonce']
+            );
         }
         if (isset($parameters['state'])) {
             $this->messageParameters['state'] = $parameters['state'];
@@ -717,5 +722,4 @@ class Platform
         echo $html;
         exit;
     }
-
 }

@@ -131,5 +131,4 @@ class AssessmentControlAction
     {
         return $this->severity;
     }
-
 }

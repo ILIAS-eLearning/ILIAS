@@ -180,9 +180,9 @@ class ResourceLinkShareKey
         return $this->id;
     }
 
-###
-###  PRIVATE METHOD
-###
+    ###
+    ###  PRIVATE METHOD
+    ###
 
     /**
      * Load the resource link share key from the database.
@@ -198,5 +198,4 @@ class ResourceLinkShareKey
             $this->life = ($this->expires - time()) / 60 / 60;
         }
     }
-
 }

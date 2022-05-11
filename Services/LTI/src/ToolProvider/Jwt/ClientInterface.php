@@ -137,9 +137,15 @@ interface ClientInterface
      * @param string|null $publicKey        Public key of recipient for content encryption (optional)
      * @return string Signed JWT
      */
-    public static function sign(array $payload,
-        string $signatureMethod, string $privateKey, string $kid = null, string $jku = null, string $encryptionMethod = null,
-        string $publicKey = null) : string;
+    public static function sign(
+        array $payload,
+        string $signatureMethod,
+        string $privateKey,
+        string $kid = null,
+        string $jku = null,
+        string $encryptionMethod = null,
+        string $publicKey = null
+    ) : string;
 
     /**
      * Generate a new private key in PEM format.

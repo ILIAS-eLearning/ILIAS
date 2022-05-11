@@ -52,7 +52,7 @@ class OAuthDataStore extends LTIOAuth\OAuthDataStore
      * @param string $consumerKey Consumer key value
      * @return OAuthConsumer OAuthConsumer object
      */
-    function lookup_consumer(string $consumerKey) : OAuthConsumer
+    public function lookup_consumer(string $consumerKey) : OAuthConsumer
     {
         $key = $this->system->getKey();
         $secret = '';
@@ -79,7 +79,7 @@ class OAuthDataStore extends LTIOAuth\OAuthDataStore
      * @param string $token     Token value
      * @return OAuthToken OAuthToken object
      */
-    function lookup_token(OAuthConsumer $consumer, string $tokenType, string $token) : OAuthToken
+    public function lookup_token(OAuthConsumer $consumer, string $tokenType, string $token) : OAuthToken
     {
         return new OAuthToken($consumer, '');
     }
@@ -92,7 +92,7 @@ class OAuthDataStore extends LTIOAuth\OAuthDataStore
      * @param int             $timestamp Date/time of request //UK: removed string
      * @return bool    True if the nonce value already exists
      */
-    function lookup_nonce(OAuthConsumer $consumer, ?OAuthToken $token, string $value, int $timestamp) : bool
+    public function lookup_nonce(OAuthConsumer $consumer, ?OAuthToken $token, string $value, int $timestamp) : bool
     {
         if ($this->system instanceof Platform) {
             $platform = $this->system;
@@ -117,7 +117,7 @@ class OAuthDataStore extends LTIOAuth\OAuthDataStore
      * @param mixed        $callback Callback URL //UK: removed string CHECK
      * @return string Null value
      */
-    function new_request_token(OAuthConsumer $consumer, $callback = null) : ?string
+    public function new_request_token(OAuthConsumer $consumer, $callback = null) : ?string
     {
         return null;
     }
@@ -129,9 +129,8 @@ class OAuthDataStore extends LTIOAuth\OAuthDataStore
      * @param string        $verifier Verification code
      * @return string Null value
      */
-    function new_access_token(OAuthToken $token, OAuthConsumer $consumer, $verifier = null) : ?string
+    public function new_access_token(OAuthToken $token, OAuthConsumer $consumer, $verifier = null) : ?string
     {
         return null;
     }
-
 }

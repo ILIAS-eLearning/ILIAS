@@ -121,5 +121,4 @@ class PlatformNonce
     {
         return $this->value;
     }
-
 }

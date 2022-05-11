@@ -74,8 +74,7 @@ class ilLTIViewGUI
      * for compatiblity with ilLTIRouterGUI
      * @return mixed
      */
-    // TODO PHP8 Review: Wrong Return type Declaration (mixed is not compatible with PHP 7.4)
-    public static function getInstance() : mixed
+    public static function getInstance()
     {
         global $DIC;
         return $DIC["lti"];

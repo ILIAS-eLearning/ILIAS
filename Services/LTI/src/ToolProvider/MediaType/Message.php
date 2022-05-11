@@ -31,7 +31,7 @@ class Message
      * @param \ILIAS\LTI\ToolProvider\Profile\Message $message             Message object  //UK: changed from Message to \ILIAS\LTI\ToolProvider\Profile\Message
      * @param array   $capabilitiesOffered Capabilities offered
      */
-    function __construct(\ILIAS\LTI\ToolProvider\Profile\Message $message, array $capabilitiesOffered)
+    public function __construct(\ILIAS\LTI\ToolProvider\Profile\Message $message, array $capabilitiesOffered)
     {
         $this->message_type = $message->type;
         $this->path = $message->path;
@@ -57,5 +57,4 @@ class Message
             }
         }
     }
-
 }

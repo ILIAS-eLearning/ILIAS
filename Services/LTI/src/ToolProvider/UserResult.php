@@ -277,9 +277,9 @@ class UserResult extends User
         return $userresult;
     }
 
-###
-###  PRIVATE METHODS
-###
+    ###
+    ###  PRIVATE METHODS
+    ###
 
     /**
      * Load the user from the database.
@@ -297,5 +297,4 @@ class UserResult extends User
 
         return false;
     }
-
 }

@@ -202,18 +202,18 @@ class Membership extends Service
                         $userresult->ltiUserId = $member->userId;
                     }
 
-// Set the user name
+                    // Set the user name
                     $firstname = (isset($member->givenName)) ? $member->givenName : '';
                     $lastname = (isset($member->familyName)) ? $member->familyName : '';
                     $fullname = (isset($member->name)) ? $member->name : '';
                     $userresult->setNames($firstname, $lastname, $fullname);
 
-// Set the sourcedId
+                    // Set the sourcedId
                     if (isset($member->sourcedId)) {
                         $userresult->sourcedId = $member->sourcedId;
                     }
 
-// Set the username
+                    // Set the username
                     if (isset($member->ext_username)) {
                         $userresult->username = $member->ext_username;
                     } elseif (isset($member->ext_user_username)) {
@@ -224,18 +224,18 @@ class Membership extends Service
                         $userresult->username = $member->custom_user_username;
                     }
 
-// Set the user email
+                    // Set the user email
                     $email = (isset($member->email)) ? $member->email : '';
                     $userresult->setEmail($email, $this->source->getPlatform()->defaultEmail);
 
-// Set the user roles
+                    // Set the user roles
                     if (isset($membership->role)) {
                         $roles = $this->parseContextsInArray($http->responseJson->{'@context'}, $membership->role);
 //                        $userresult->roles = LTI\Tool::parseRoles($roles, LTI\Util::LTI_VERSION2);
                         $userresult->roles = \ILIAS\LTI\ToolProvider\Tool::parseRoles($roles, \ILIAS\LTI\ToolProvider\Util::LTI_VERSION2);
                     }
 
-// If a result sourcedid is provided save the user
+                    // If a result sourcedid is provided save the user
                     if ($isLink) {
                         $doSave = false;
                         if (isset($membership->message)) {
@@ -278,7 +278,7 @@ class Membership extends Service
                     }
                     $userResults[] = $userresult;
 
-// Remove old user (if it exists)
+                    // Remove old user (if it exists)
                     if ($isLink) {
 //                        unset($oldUsers[$userresult->getId(LTI\Tool::ID_SCOPE_RESOURCE)]);
                         unset($oldUsers[$userresult->getId(\ILIAS\LTI\ToolProvider\Tool::ID_SCOPE_RESOURCE)]);
@@ -294,28 +294,28 @@ class Membership extends Service
                         $userresult->ltiUserId = $member->user_id;
                     }
 
-// Set the user name
+                    // Set the user name
                     $firstname = (isset($member->given_name)) ? $member->given_name : '';
                     $lastname = (isset($member->family_name)) ? $member->family_name : '';
                     $fullname = (isset($member->name)) ? $member->name : '';
                     $userresult->setNames($firstname, $lastname, $fullname);
 
-// Set the sourcedId
+                    // Set the sourcedId
                     if (isset($member->lis_person_sourcedid)) {
                         $userresult->sourcedId = $member->lis_person_sourcedid;
                     }
 
-// Set the user email
+                    // Set the user email
                     $email = (isset($member->email)) ? $member->email : '';
                     $userresult->setEmail($email, $this->source->getPlatform()->defaultEmail);
 
-// Set the user roles
+                    // Set the user roles
                     if (isset($member->roles)) {
 //                        $userresult->roles = LTI\Tool::parseRoles($member->roles, LTI\Util::LTI_VERSION2);
                         $userresult->roles = \ILIAS\LTI\ToolProvider\Tool::parseRoles($member->roles, \ILIAS\LTI\ToolProvider\Util::LTI_VERSION2);
                     }
 
-// If a result sourcedid is provided save the user
+                    // If a result sourcedid is provided save the user
                     if ($isLink) {
                         $doSave = false;
                         if (isset($member->message)) {
@@ -373,7 +373,7 @@ class Membership extends Service
                         }
                     }
 
-// Remove old user (if it exists)
+                    // Remove old user (if it exists)
                     if ($isLink) {
 //                        unset($oldUsers[$userresult->getId(LTI\Tool::ID_SCOPE_RESOURCE)]);
                         unset($oldUsers[$userresult->getId(\ILIAS\LTI\ToolProvider\Tool::ID_SCOPE_RESOURCE)]);
@@ -381,7 +381,7 @@ class Membership extends Service
                 }
             }
 
-/// Delete any old users which were not in the latest list from the platform if request is not paged
+            /// Delete any old users which were not in the latest list from the platform if request is not paged
             if ($isLink && !$this->pagingMode) {
                 foreach ($oldUsers as $id => $userresult) {
                     $userresult->delete();
@@ -391,5 +391,4 @@ class Membership extends Service
 
         return $userResults;
     }
-
 }

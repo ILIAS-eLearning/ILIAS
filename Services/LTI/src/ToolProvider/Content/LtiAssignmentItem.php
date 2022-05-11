@@ -30,10 +30,9 @@ class LtiAssignmentItem extends LtiLinkItem
      * @param Placement[]|Placement $placementAdvices  Array of Placement objects (or single placement object) for item (optional)
      * @param string $id   URL of content-item (optional)
      */
-    function __construct($placementAdvices = null, ?string $id = null)
+    public function __construct($placementAdvices = null, ?string $id = null)
     {
         Item::__construct(Item::TYPE_LTI_ASSIGNMENT, $placementAdvices, $id);
         $this->setMediaType(Item::LTI_ASSIGNMENT_MEDIA_TYPE);
     }
-
 }

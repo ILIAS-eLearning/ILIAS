@@ -59,7 +59,7 @@ class LineItem
      * @param string|null $resourceId   Resource ID (optional)
      * @param string|null $tag          Tag (optional)
      */
-    function __construct(string $label, int $scoreMaximum, string $resourceId = null, string $tag = null)
+    public function __construct(string $label, int $scoreMaximum, string $resourceId = null, string $tag = null)
     {
         $this->label = $label;
         $this->scoreMaximum = $scoreMaximum;
@@ -168,5 +168,4 @@ class LineItem
 
         return $obj;
     }
-
 }

@@ -216,5 +216,4 @@ class AccessToken
 
         return $this;
     }
-
 }

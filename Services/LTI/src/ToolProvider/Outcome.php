@@ -124,9 +124,12 @@ class Outcome
      * @param string $activityProgress Activity progress (optional, default is 'Completed')
      * @param string $gradingProgress  Grading progress (optional, default is 'FullyGraded')
      */
-    public function __construct($value = null, int $pointsPossible = 1, string $activityProgress = 'Completed',
-        string $gradingProgress = 'FullyGraded')
-    {
+    public function __construct(
+        $value = null,
+        int $pointsPossible = 1,
+        string $activityProgress = 'Completed',
+        string $gradingProgress = 'FullyGraded'
+    ) {
         $this->value = $value;
         $this->pointsPossible = $pointsPossible;
         $this->language = 'en-US';
@@ -182,5 +185,4 @@ class Outcome
     {
         $this->pointsPossible = $pointsPossible;
     }
-
 }

@@ -82,5 +82,4 @@ class StreamClient implements ClientInterface
         $message->ok = false;
         return false;
     }
-
 }

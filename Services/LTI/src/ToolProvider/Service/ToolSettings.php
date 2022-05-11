@@ -159,5 +159,4 @@ class ToolSettings extends Service
 
         return $response->ok;
     }
-
 }
