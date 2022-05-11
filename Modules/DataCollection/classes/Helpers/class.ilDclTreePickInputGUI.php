@@ -13,21 +13,10 @@
  */
 class ilDclTreePickInputGUI extends ilCustomInputGUI
 {
+    protected ilTextInputGUI $title_input;
+    protected ilTextInputGUI $search_input;
 
-    /**
-     * @var ilTextInputGUI
-     */
-    protected $title_input;
-    /**
-     * @var ilTextInputGUI
-     */
-    protected $search_input;
-
-    /**
-     * @param string $title
-     * @param string $post_var
-     */
-    public function __construct($title, $post_var)
+    public function __construct(string $title, string $post_var)
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -49,9 +38,6 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI
         $this->lng = $lng;
     }
 
-    /**
-     * @return string
-     */
     public function getHtml() : string
     {
         global $DIC;
@@ -70,9 +56,6 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI
         return $out;
     }
 
-    /**
-     * @param $value
-     */
     public function setValueByArray(array $value) : void
     {
         parent::setValueByArray($value);

@@ -13,57 +13,39 @@
  */
 class ilDclTableEditGUI
 {
-
-    /**
-     * @var int
-     */
-    private $table_id;
-    /**
-     * @var ilDclTable
-     */
-    private $table;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilPropertyFormGUI
-     */
-    protected $form;
+    private ?int $table_id;
+    private ilDclTable $table;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilToolbarGUI $toolbar;
+    protected ilPropertyFormGUI $form;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * Constructor
-     * @param ilDclTableListGUI $a_parent_obj
      */
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
         global $DIC;
-        $main_tpl = $DIC->ui()->mainTemplate();
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        $toolbar = $DIC['ilToolbar'];
+
+
         $locator = $DIC['ilLocator'];
 
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
-        $this->tpl = $tpl;
-        $this->toolbar = $toolbar;
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->toolbar = $DIC->toolbar();
         $this->parent_object = $a_parent_obj;
         $this->obj_id = $a_parent_obj->obj_id;
-        $this->table_id = $_GET['table_id'];
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
+
+        $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+
+        $this->table_id = $table_id;
         $this->table = ilDclCache::getTableCache($this->table_id);
 
         $this->ctrl->saveParameter($this, 'table_id');
@@ -73,15 +55,12 @@ class ilDclTableEditGUI
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {
-            $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }
 
-    /**
-     * execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -93,24 +72,16 @@ class ilDclTableEditGUI
                 $this->$cmd();
                 break;
         }
-
-        return true;
     }
 
-    /**
-     * create table add form
-     */
-    public function create()
+    public function create() : void
     {
         $this->initForm();
         $this->getStandardValues();
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    /**
-     * create field edit form
-     */
-    public function edit()
+    public function edit() : void
     {
         if (!$this->table_id) {
             $this->ctrl->redirectByClass("ildclfieldeditgui", "listFields");
@@ -124,10 +95,7 @@ class ilDclTableEditGUI
         $this->tpl->setContent($this->form->getHTML());
     }
 
-    /**
-     * getFieldValues
-     */
-    public function getValues()
+    public function getValues() : void
     {
         $values = array(
             'title' => $this->table->getTitle(),
@@ -157,10 +125,7 @@ class ilDclTableEditGUI
         $this->form->setValuesByArray($values);
     }
 
-    /**
-     * getStandardValues
-     */
-    public function getStandardValues()
+    public function getStandardValues() : void
     {
         $values = array(
             'title' => "",
@@ -179,19 +144,15 @@ class ilDclTableEditGUI
         $this->form->setValuesByArray($values);
     }
 
-    /*
-     * cancel
-     */
-    public function cancel()
+    public function cancel() : void
     {
         $this->ctrl->redirectByClass("ilDclTableListGUI", "listTables");
     }
 
     /**
      * initEditCustomForm
-     * @param string $a_mode
      */
-    public function initForm($a_mode = "create")
+    public function initForm(string $a_mode = "create") : void
     {
         $this->form = new ilPropertyFormGUI();
 
@@ -205,7 +166,7 @@ class ilDclTableEditGUI
 
             $item = new ilSelectInputGUI($this->lng->txt('dcl_default_sort_field'), 'default_sort_field');
             $item->setInfo($this->lng->txt('dcl_default_sort_field_desc'));
-            $fields = array_filter($this->table->getFields(), function(ilDclBaseFieldModel $field) {
+            $fields = array_filter($this->table->getFields(), function (ilDclBaseFieldModel $field) {
                 return !is_null($field->getRecordQuerySortObject());
             });
             $options = array(0 => $this->lng->txt('dcl_please_select'));
@@ -303,20 +264,13 @@ class ilDclTableEditGUI
         }
     }
 
-    /**
-     *
-     */
-    public function doTableSwitch()
+    public function doTableSwitch() : void
     {
         $this->ctrl->setParameter($this, "table_id", $_POST['table_id']);
         $this->ctrl->redirect($this, "edit");
     }
 
-    /**
-     * save
-     * @param string $a_mode values: create | edit
-     */
-    public function save($a_mode = "create")
+    public function save(string $a_mode = "create") : void
     {
         global $DIC;
         $ilTabs = $DIC['ilTabs'];
@@ -383,9 +337,8 @@ class ilDclTableEditGUI
     /**
      * Custom checks for the form input
      * @param $a_mode 'create' | 'update'
-     * @return bool
      */
-    protected function checkInput($a_mode)
+    protected function checkInput(string $a_mode) : bool
     {
         $return = $this->form->checkInput();
 
@@ -407,18 +360,12 @@ class ilDclTableEditGUI
         return $return;
     }
 
-    /*
-     * accessDenied
-     */
-    public function accessDenied()
+    public function accessDenied() : void
     {
         $this->tpl->setContent("Access denied.");
     }
 
-    /**
-     * confirmDelete
-     */
-    public function confirmDelete()
+    public function confirmDelete() : void
     {
         $conf = new ilConfirmationGUI();
         $conf->setFormAction($this->ctrl->getFormAction($this));
@@ -432,21 +379,16 @@ class ilDclTableEditGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-    /**
-     * cancelDelete
-     */
-    public function cancelDelete()
+    public function cancelDelete() : void
     {
         $this->ctrl->redirectByClass("ilDclTableListGUI", "listTables");
     }
 
-    /*
-      * delete
-      */
-    public function delete()
+    public function delete() : void
     {
         if (count($this->table->getCollectionObject()->getTables()) < 2) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("dcl_cant_delete_last_table"), true); //TODO change lng var
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("dcl_cant_delete_last_table"),
+                true); //TODO change lng var
             $this->table->doDelete(true);
         } else {
             $this->table->doDelete(false);
@@ -455,10 +397,7 @@ class ilDclTableEditGUI
         $this->ctrl->redirectByClass("ildcltablelistgui", "listtables");
     }
 
-    /**
-     * @return bool
-     */
-    protected function checkAccess()
+    protected function checkAccess() : bool
     {
         $ref_id = $this->parent_object->getDataCollectionObject()->getRefId();
 
@@ -467,10 +406,9 @@ class ilDclTableEditGUI
     }
 
     /**
-     * @param $options
-     * @return mixed
+     * @return string[]
      */
-    protected function createTableSwitcher()
+    protected function createTableSwitcher() : array
     {
         // Show tables
         $tables = $this->parent_object->getDataCollectionObject()->getTables();

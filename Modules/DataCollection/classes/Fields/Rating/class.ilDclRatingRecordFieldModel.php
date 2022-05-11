@@ -13,15 +13,8 @@
  */
 class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-
-    /**
-     * @var bool
-     */
-    protected $rated;
-    /**
-     * @var int
-     */
-    protected $dcl_obj_id;
+    protected bool $rated;
+    protected int $dcl_obj_id;
 
     public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
     {
@@ -31,7 +24,7 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
     }
 
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation)
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) : void
     {
         return;
     }
@@ -39,7 +32,7 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * override the loadValue.
      */
-    protected function loadValue()
+    protected function loadValue() : void
     {
         // explicitly do nothing. we don't have to load the value as it is saved somewhere else.
     }
@@ -49,17 +42,17 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
      * @param mixed $value
      * @param bool  $omit_parsing If true, does not parse the value and stores it in the given format
      */
-    public function setValue($value, $omit_parsing = false)
+    public function setValue($value, bool $omit_parsing = false) : void
     {
         // explicitly do nothing. the value is handled via the model and gui of ilRating.
     }
 
-    public function doUpdate()
+    public function doUpdate() : void
     {
         // explicitly do nothing. the value is handled via the model and gui of ilRating.
     }
 
-    public function doRead()
+    public function doRead() : void
     {
         // explicitly do nothing. the value is handled via the model and gui of ilRating.
     }
@@ -68,7 +61,7 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
      * return Export values
      * @return string
      */
-    public function getExportValue()
+    public function getExportValue() : string
     {
         $val = ilRating::getOverallRatingForObject($this->getRecord()->getId(), "dcl_record",
             $this->getField()->getId(), "dcl_field");
@@ -79,7 +72,7 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * @return array
      */
-    public function getValue()
+    public function getValue() : array
     {
         return ilRating::getOverallRatingForObject($this->getRecord()->getId(), "dcl_record",
             $this->getField()->getId(), "dcl_field");
@@ -88,7 +81,7 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * delete
      */
-    public function delete()
+    public function delete() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

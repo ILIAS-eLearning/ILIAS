@@ -13,11 +13,7 @@
  */
 class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-
-    /**
-     * @var int
-     */
-    protected $dcl_obj_id;
+    protected int $dcl_obj_id;
 
     public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
     {
@@ -27,6 +23,9 @@ class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
     }
 
+    /**
+     * @return false|object
+     */
     public function getStatus()
     {
         global $DIC;
@@ -44,20 +43,14 @@ class ilDclIliasReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         return ($result->numRows() == 0) ? false : $result->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getValueForRepresentation()
+    public function getValueForRepresentation() : string
     {
         $ref_id = $this->getValue();
 
         return ilObject2::_lookupTitle(ilObject2::_lookupObjectId($ref_id)) . ' [' . $ref_id . ']';
     }
 
-    /**
-     * @return int|string
-     */
-    public function getExportValue()
+    public function getExportValue() : string
     {
         $link = ilLink::_getStaticLink($this->getValue());
 

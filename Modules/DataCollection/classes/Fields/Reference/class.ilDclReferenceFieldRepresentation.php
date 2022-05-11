@@ -9,7 +9,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     const REFERENCE_SEPARATOR = " -> ";
 
-    public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilSelectInputGUI
     {
         if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
             $input = new ilSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
@@ -77,7 +77,9 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 
         $input->setOptions($options);
 
-        if (ilObjDataCollectionAccess::hasPermissionToAddRecord($_GET['ref_id'], $reftable->getId())) {
+        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
+        if (ilObjDataCollectionAccess::hasPermissionToAddRecord($ref_id, $reftable->getId())) {
             $input->addCustomAttribute('data-ref="1"');
             $input->addCustomAttribute('data-ref-table-id="' . $reftable->getId() . '"');
             $input->addCustomAttribute('data-ref-field-id="' . $reffield->getId() . '"');
@@ -86,6 +88,9 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
+    /**
+     * @return string|array|null
+     */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
         $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT,
@@ -109,7 +114,10 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
+    /**
+     * @param int $filter
+     */
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
 
@@ -125,10 +133,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         return $pass;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create')
+    public function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 

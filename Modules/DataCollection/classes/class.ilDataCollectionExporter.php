@@ -7,15 +7,8 @@
  */
 class ilDataCollectionExporter extends ilXmlExporter
 {
-
-    /**
-     * @var ilDataCollectionDataSet
-     */
-    protected $ds;
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilDataCollectionDataSet $ds;
+    protected ilDBInterface $db;
 
     public function init() : void
     {

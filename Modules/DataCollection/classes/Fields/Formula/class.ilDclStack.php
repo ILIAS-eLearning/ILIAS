@@ -7,14 +7,10 @@
  */
 class ilDclStack
 {
+    protected array $stack = array();
 
     /**
-     * @var array
-     */
-    protected $stack = array();
-
-    /**
-     * @param $elem
+     * @param float|int|string $elem
      */
     public function push($elem)
     {
@@ -22,7 +18,7 @@ class ilDclStack
     }
 
     /**
-     * @return null
+     * @return ?float|int|string
      */
     public function pop()
     {
@@ -39,7 +35,7 @@ class ilDclStack
     }
 
     /**
-     * @return null
+     * @return ?float|int|string
      */
     public function top()
     {
@@ -50,28 +46,22 @@ class ilDclStack
         return null;
     }
 
-    /**
-     * @return bool
-     */
-    public function isEmpty()
+    public function isEmpty() : bool
     {
         return !(bool) count($this->stack);
     }
 
-    public function reset()
+    public function reset() : void
     {
         $this->stack = array();
     }
 
-    /**
-     * @return int
-     */
-    public function count()
+    public function count() : int
     {
         return count($this->stack);
     }
 
-    public function debug()
+    public function debug() : void
     {
         echo "<pre>" . print_r($this->stack, 1) . "</pre>";
     }

@@ -6,35 +6,14 @@
  */
 class ilDclTableHelper
 {
-
-    /**
-     * @var int
-     */
-    protected $obj_id = 0;
-    /**
-     * @var int
-     */
-    protected $ref_id = 0;
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbac_review;
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-    /**
-     * @var ilDBInterface
-     */
-    protected $database;
+    protected int $obj_id = 0;
+    protected int $ref_id = 0;
+    protected ilRbacReview $rbac_review;
+    protected ilObjUser $user;
+    protected ilDBInterface $database;
 
     /**
      * ilDclTableHelper constructor.
-     * @param int           $obj_id
-     * @param int           $ref_id
-     * @param ilRbacReview  $rbac_review
-     * @param ilObjUser     $user
-     * @param ilDBInterface $database
      */
     public function __construct(
         int $obj_id,
@@ -50,10 +29,7 @@ class ilDclTableHelper
         $this->database = $database;
     }
 
-    /**
-     * @return array
-     */
-    public function getRoleTitlesWithoutReadRightOnAnyStandardView()
+    public function getRoleTitlesWithoutReadRightOnAnyStandardView() : array
     {
         $visible_tables_for_data_collection = $this->getAllVisibleTablesForDataColleciton();
         $standard_views_for_data_collection = $this->getStandardViewsByVisibleTables($visible_tables_for_data_collection);
@@ -76,10 +52,7 @@ class ilDclTableHelper
         return $role_titles;
     }
 
-    /**
-     * @return array $roles_with_read_acces_ids
-     */
-    protected function getRolesIdsWithReadAccessOnDataCollection()
+    protected function getRolesIdsWithReadAccessOnDataCollection() : array
     {
         $rbac_roles = $this->rbac_review->getParentRoleIds($this->ref_id);
         $roles_with_read_acces_ids = [];
@@ -95,11 +68,7 @@ class ilDclTableHelper
         return $roles_with_read_acces_ids;
     }
 
-    /**
-     * @param array $views_for_data_collection
-     * @return array $roles
-     */
-    protected function getRolesIdsByViews($views_for_data_collection)
+    protected function getRolesIdsByViews(array $views_for_data_collection) : array
     {
         $roles_ids = [];
         /**
@@ -117,11 +86,7 @@ class ilDclTableHelper
         return $roles_ids;
     }
 
-    /**
-     * @param array $visible_tables_for_data_collection
-     * @return array
-     */
-    protected function getStandardViewsByVisibleTables($visible_tables_for_data_collection)
+    protected function getStandardViewsByVisibleTables(array $visible_tables_for_data_collection) : array
     {
         $standard_views_for_data_collection = [];
         foreach ($visible_tables_for_data_collection as $visible_table) {
@@ -135,10 +100,7 @@ class ilDclTableHelper
         return $standard_views_for_data_collection;
     }
 
-    /**
-     * @return array
-     */
-    protected function getAllVisibleTablesForDataColleciton()
+    protected function getAllVisibleTablesForDataColleciton() : array
     {
         $visible_tables_for_data_collection = [];
         $res = $this->database->queryF(
@@ -153,7 +115,7 @@ class ilDclTableHelper
         return $visible_tables_for_data_collection;
     }
 
-    protected function hasUserReadAccessOnAnyVisibleTableView()
+    protected function hasUserReadAccessOnAnyVisibleTableView() : bool
     {
         // admin user has always access to the views of a data collection
         if ($this->user->getId() == 6) {
@@ -182,13 +144,7 @@ class ilDclTableHelper
         }
     }
 
-    /**
-     * @param      $needle
-     * @param      $haystack
-     * @param bool $strict
-     * @return bool
-     */
-    protected function in_array_r($needle, $haystack, $strict = false)
+    protected function in_array_r(string $needle, array $haystack, bool $strict = false) : bool
     {
         foreach ($haystack as $item) {
             if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && $this->in_array_r($needle,

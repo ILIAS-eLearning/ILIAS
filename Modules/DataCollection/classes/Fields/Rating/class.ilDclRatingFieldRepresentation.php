@@ -7,7 +7,7 @@
  */
 class ilDclRatingFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilTextInputGUI
     {
         $input = new ilTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         $input->setValue($this->lng->txt("dcl_editable_in_table_gui"));
@@ -17,6 +17,9 @@ class ilDclRatingFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
+    /**
+     * @return string|array|null
+     */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
         $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT,
@@ -29,7 +32,10 @@ class ilDclRatingFieldRepresentation extends ilDclBaseFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
+    /**
+     * @param int $filter
+     */
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
         if (!$filter || $filter <= $value['avg']) {

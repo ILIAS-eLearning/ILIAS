@@ -7,15 +7,18 @@
  */
 class ilDclIliasReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilRepositorySelector2InputGUI
     {
         $input = new ilRepositorySelector2InputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId(),
-            false, get_class($form));
+            false, $form);
         $this->setupInputField($input, $this->getField());
 
         return $input;
     }
 
+    /**
+     * @return string|array|null
+     */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
         $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_TEXT,
@@ -27,7 +30,10 @@ class ilDclIliasReferenceFieldRepresentation extends ilDclBaseFieldRepresentatio
         return $this->getFilterInputFieldValue($input);
     }
 
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
+    /**
+     * @param string|null          $filter
+     */
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter) : bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
         $obj_id = ilObject::_lookupObjId($value);
@@ -38,10 +44,7 @@ class ilDclIliasReferenceFieldRepresentation extends ilDclBaseFieldRepresentatio
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create')
+    public function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 

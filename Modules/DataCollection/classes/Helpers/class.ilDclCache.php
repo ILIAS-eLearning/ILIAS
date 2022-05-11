@@ -15,36 +15,36 @@ class ilDclCache
     /**
      * @var ilDclTable[]
      */
-    protected static $tables_cache;
+    protected static array $tables_cache = [];
     /**
      * @var ilDclBaseFieldModel[]
      */
-    protected static $fields_cache;
+    protected static array $fields_cache = [];
     /**
      * @var ilDclBaseRecordModel[]
      */
-    protected static $records_cache;
+    protected static array $records_cache = [];
     /**
      * record_field_cache[record_id][field_id]
      * @var ilDclBaseRecordFieldModel[][]
      */
-    protected static $record_field_cache;
+    protected static array $record_field_cache = [];
     /**
-     * @var ilDclFieldRepresentation[]
+     * @var ilDclBaseFieldRepresentation[]
      */
-    protected static $field_representation_cache;
+    protected static array $field_representation_cache = [];
     /**
-     * @var ilDclRecordRepresentation[]
+     * @var ilDclBaseRecordRepresentation[]
      */
-    protected static $record_representation_cache;
+    protected static array $record_representation_cache = [];
     /**
      * @var ilDclFieldProperty[]
      */
-    protected static $field_properties_cache;
+    protected static array $field_properties_cache = [];
     /**
-     * @var ilDclDatatype
+     * @var ilDclDatatype[]
      */
-    protected static $datatype_cache;
+    protected static array $datatype_cache = [];
     /**
      * used when cloning datacollections, contains mappings of all components
      * form:
@@ -57,9 +57,9 @@ class ilDclCache
      * )
      * @var array[]
      */
-    protected static $clone_mapping;
+    protected static array $clone_mapping = [];
 
-    public static function setCloneOf($old, $new, $type)
+    public static function setCloneOf(int $old, int $new, string $type) : void
     {
         if (!self::$clone_mapping) {
             self::initCloneMapping();
@@ -67,7 +67,7 @@ class ilDclCache
         self::$clone_mapping[$type][$old] = $new;
     }
 
-    protected static function initCloneMapping()
+    protected static function initCloneMapping() : void
     {
         self::$clone_mapping = array(
             self::TYPE_DATACOLLECTION => array(),
@@ -78,11 +78,11 @@ class ilDclCache
         );
     }
 
-    public static function getCloneOf($id, $type)
+    public static function getCloneOf(int $id, string $type) : ?object
     {
         $type_cache = self::$clone_mapping[$type];
         if (!is_array($type_cache)) {
-            return false;
+            return null;
         }
 
         if (isset($type_cache[$id])) {
@@ -96,7 +96,7 @@ class ilDclCache
         }
 
         if (!$clone_id) {
-            return false;
+            return null;
         }
 
         switch ($type) {
@@ -111,13 +111,9 @@ class ilDclCache
         }
     }
 
-    /**
-     * @param int $table_id
-     * @return ilDclTable
-     */
-    public static function getTableCache($table_id = 0)
+    public static function getTableCache(int $table_id = null) : ilDclTable
     {
-        if ($table_id == 0) {
+        if (is_null($table_id) === true || $table_id === 0) {
             return new ilDclTable();
         }
         $tables_cache = &self::$tables_cache;
@@ -128,11 +124,7 @@ class ilDclCache
         return $tables_cache[$table_id];
     }
 
-    /**
-     * @param int $field_id
-     * @return ilDclBaseFieldModel
-     */
-    public static function getFieldCache($field_id = 0)
+    public static function getFieldCache(int $field_id = 0) : ilDclBaseFieldModel
     {
         $fields_cache = &self::$fields_cache;
         if (!isset($fields_cache[$field_id])) {
@@ -142,11 +134,7 @@ class ilDclCache
         return $fields_cache[$field_id];
     }
 
-    /**
-     * @param int $record_id
-     * @return ilDclBaseRecordModel
-     */
-    public static function getRecordCache($record_id = 0)
+    public static function getRecordCache(int $record_id = 0) : ilDclBaseRecordModel
     {
         $records_cache = &self::$records_cache;
         if (!isset($records_cache[$record_id])) {
@@ -156,13 +144,10 @@ class ilDclCache
         return $records_cache[$record_id];
     }
 
-    /**
-     * @param $field  ilDclBaseFieldModel
-     * @param $record ilDclBaseRecordModel
-     * @return ilDclBaseRecordFieldModel
-     */
-    public static function getRecordFieldCache($record, $field)
-    {
+    public static function getRecordFieldCache(
+        ilDclBaseRecordModel $record,
+        ilDclBaseFieldModel $field
+    ) : ilDclBaseRecordFieldModel {
         $fid = $field->getId();
         $rid = $record->getId();
         if (!isset(self::$record_field_cache[$rid])) {
@@ -176,11 +161,9 @@ class ilDclCache
     }
 
     /**
-     * @param ilDclBaseFieldModel $field
-     * @return ilDclBaseFieldRepresentation
      * @throws ilDclException
      */
-    public static function getFieldRepresentation(ilDclBaseFieldModel $field)
+    public static function getFieldRepresentation(ilDclBaseFieldModel $field) : ilDclBaseFieldRepresentation
     {
         if (!isset(self::$field_representation_cache[$field->getId()])) {
             self::$field_representation_cache[$field->getId()] = ilDclFieldFactory::getFieldRepresentationInstance($field);
@@ -191,12 +174,10 @@ class ilDclCache
 
     /**
      * Returns a record representation
-     * @param ilDclBaseRecordFieldModel $record_field
-     * @return ilDclBaseRecordRepresentation
      * @throws ilDclException
      */
-    public static function getRecordRepresentation(ilDclBaseRecordFieldModel $record_field)
-    {
+    public static function getRecordRepresentation(ilDclBaseRecordFieldModel $record_field
+    ) : ilDclBaseRecordRepresentation {
         if ($record_field == null) {
             throw new ilDclException("Cannot get Representation of null object!");
         }
@@ -210,10 +191,10 @@ class ilDclCache
 
     /**
      * Cache Field properties
-     * @param $field_id
-     * @return ilDclFieldProperty
+     * @param int|string $field_id
+     * @return ilDclFieldProperty[]
      */
-    public static function getFieldProperties($field_id)
+    public static function getFieldProperties($field_id) : array
     {
         if (!isset(self::$field_properties_cache[$field_id])) {
             self::$field_properties_cache[$field_id] = array();
@@ -230,7 +211,7 @@ class ilDclCache
      * Preloads field properties
      * @param ilDclBaseFieldModel[] $fields
      */
-    public static function preloadFieldProperties(array $fields)
+    public static function preloadFieldProperties(array $fields) : void
     {
         foreach ($fields as $field_key => $field) {
             if (isset(self::$field_properties_cache[$field->getId()])) {
@@ -255,11 +236,9 @@ class ilDclCache
 
     /**
      * Get cached datatypes
-     * @param $datatyp_id
-     * @return mixed
      * @throws ilDclException
      */
-    public static function getDatatype($datatyp_id)
+    public static function getDatatype(int $datatyp_id) : ilDclDatatype
     {
         if (self::$datatype_cache == null) {
             self::$datatype_cache = ilDclDatatype::getAllDatatype();
@@ -272,11 +251,7 @@ class ilDclCache
         return self::$datatype_cache[$datatyp_id];
     }
 
-    /**
-     * @param $rec
-     * @return ilDclBaseFieldModel
-     */
-    public static function buildFieldFromRecord($rec)
+    public static function buildFieldFromRecord(array $rec) : ilDclBaseFieldModel
     {
         $fields_cache = &self::$fields_cache;
         if (isset($fields_cache[$rec["id"]])) {
@@ -297,7 +272,7 @@ class ilDclCache
     /**
      * Resets all the cache fields
      */
-    public static function resetCache()
+    public static function resetCache() : void
     {
         self::$fields_cache = array();
         self::$record_field_cache = array();

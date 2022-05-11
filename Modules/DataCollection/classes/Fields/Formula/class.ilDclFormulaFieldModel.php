@@ -10,28 +10,23 @@ class ilDclFormulaFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     * @return null|ilDclRecordQueryObject
      */
-    public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false)
-    {
+    public function getRecordQuerySortObject(
+        string $direction = "asc",
+        bool $sort_by_status = false
+    ) : ilDclFormulaRecordQueryObject {
         // use custom record query object for adding custom sorting
         $sql_obj = new ilDclFormulaRecordQueryObject();
 
         return $sql_obj;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getValidFieldProperties()
+    public function getValidFieldProperties() : array
     {
         return array(ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
     }
 
-    /**
-     * @return bool
-     */
-    public function allowFilterInListView()
+    public function allowFilterInListView() : bool
     {
         return false;
     }

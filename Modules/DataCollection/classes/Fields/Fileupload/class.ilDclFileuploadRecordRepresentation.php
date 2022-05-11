@@ -10,11 +10,8 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
 
     /**
      * Outputs html of a certain field
-     * @param mixed     $value
-     * @param bool|true $link
-     * @return string
      */
-    public function getHTML($link = true)
+    public function getHTML(bool $link = true) : string
     {
         $value = $this->getRecordField()->getValue();
 
@@ -42,7 +39,10 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
                 "sendFile") . '">' . $file_obj->getFileName() . '</a>';
         if (ilPreview::hasPreview($file_obj->getId())) {
             ilPreview::createPreview($file_obj); // Create preview if not already existing
-            $preview = new ilPreviewGUI((int) $_GET['ref_id'], ilPreviewGUI::CONTEXT_REPOSITORY, $file_obj->getId(),
+
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
+            $preview = new ilPreviewGUI($ref_id, ilPreviewGUI::CONTEXT_REPOSITORY, $file_obj->getId(),
                 $this->access);
             $preview_status = ilPreview::lookupRenderStatus($file_obj->getId());
             $preview_status_class = "";
@@ -66,8 +66,8 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
 
     /**
      * function parses stored value to the variable needed to fill into the form for editing.
-     * @param $value
-     * @return mixed
+     * @param array|string $value
+     * @return array|string
      */
     public function parseFormInput($value)
     {

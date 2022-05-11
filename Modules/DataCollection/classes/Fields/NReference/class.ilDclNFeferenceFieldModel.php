@@ -7,6 +7,5 @@
  */
 class ilDclNReferenceFieldModel extends ilDclReferenceRecordFieldModel
 {
-
     // handled in ilDclReferenceFieldModel
 }

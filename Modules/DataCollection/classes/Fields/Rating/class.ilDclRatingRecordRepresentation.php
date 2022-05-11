@@ -12,7 +12,7 @@ class ilDclRatingRecordRepresentation extends ilDclBaseRecordRepresentation
      * Return rating html
      * @return string
      */
-    public function getHTML($link = true)
+    public function getHTML(bool $link = true): string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -29,7 +29,7 @@ class ilDclRatingRecordRepresentation extends ilDclBaseRecordRepresentation
     /**
      * @inheritDoc
      */
-    public function fillFormInput($form)
+    public function fillFormInput(ilPropertyFormGUI $form): void
     {
         // explicitly do nothing. the value is handled via the model and gui of ilRating.
     }

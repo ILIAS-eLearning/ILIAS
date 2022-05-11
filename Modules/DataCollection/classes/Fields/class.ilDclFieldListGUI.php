@@ -12,54 +12,32 @@
  */
 class ilDclFieldListGUI
 {
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilToolbarGUI $toolbar;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilTabsGUI $tabs;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * Constructor
-     * @param ilDclTableListGUI $a_parent_obj
-     * @param int               $table_id
      */
     public function __construct(ilDclTableListGUI $a_parent_obj)
     {
         global $DIC;
-        $main_tpl = $DIC->ui()->mainTemplate();
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $tpl = $DIC['tpl'];
-        $ilTabs = $DIC['ilTabs'];
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+        $this->table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
         $locator = $DIC['ilLocator'];
-
-        $table_id = $_GET['table_id'];
-
-        $this->table_id = $table_id;
         $this->parent_obj = $a_parent_obj;
         $this->obj_id = $a_parent_obj->obj_id;
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
-        $this->tpl = $tpl;
-        $this->tabs = $ilTabs;
-        $this->toolbar = $ilToolbar;
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->tabs = $DIC->tabs();
+        $this->toolbar = $DIC->toolbar();
 
         $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
         $locator->addItem(ilDclCache::getTableCache($this->table_id)->getTitle(),
@@ -67,7 +45,7 @@ class ilDclFieldListGUI
         $this->tpl->setLocator();
 
         if (!$this->checkAccess()) {
-            $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }
@@ -75,7 +53,7 @@ class ilDclFieldListGUI
     /**
      * execute command
      */
-    public function executeCommand()
+    public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd('listFields');
         switch ($cmd) {
@@ -88,7 +66,7 @@ class ilDclFieldListGUI
     /**
      * Delete multiple fields
      */
-    public function deleteFields()
+    public function deleteFields(): void
     {
         $field_ids = isset($_POST['dcl_field_ids']) ? $_POST['dcl_field_ids'] : array();
         $table = ilDclCache::getTableCache($this->table_id);
@@ -102,7 +80,7 @@ class ilDclFieldListGUI
     /**
      * Confirm deletion of multiple fields
      */
-    public function confirmDeleteFields()
+    public function confirmDeleteFields(): void
     {
         $this->tabs->clearSubTabs();
         $conf = new ilConfirmationGUI();
@@ -122,9 +100,11 @@ class ilDclFieldListGUI
     /*
      * save
      */
-    public function save()
+    public function save(): void
     {
-        $table = ilDclCache::getTableCache($_GET['table_id']);
+        $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+
+        $table = ilDclCache::getTableCache($table_id);
         $fields = $table->getFields();
         $order = $_POST['order'];
         asort($order);
@@ -150,7 +130,7 @@ class ilDclFieldListGUI
     /**
      * list fields
      */
-    public function listFields()
+    public function listFields(): void
     {
         //add button
         $add_new = ilLinkButton::getInstance();
@@ -184,26 +164,20 @@ class ilDclFieldListGUI
     /*
      * doTableSwitch
      */
-    public function doTableSwitch()
+    public function doTableSwitch(): void
     {
         $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
         $this->ctrl->redirectByClass("ilDclFieldListGUI", "listFields");
     }
 
-    /**
-     * @return bool
-     */
-    protected function checkAccess()
+    protected function checkAccess(): bool
     {
         $ref_id = $this->getDataCollectionObject()->getRefId();
 
         return ilObjDataCollectionAccess::hasAccessToEditTable($ref_id, $this->table_id);
     }
 
-    /**
-     * @return ilObjDataCollection
-     */
-    public function getDataCollectionObject()
+    public function getDataCollectionObject(): ilObjDataCollection
     {
         return $this->parent_obj->getDataCollectionObject();
     }

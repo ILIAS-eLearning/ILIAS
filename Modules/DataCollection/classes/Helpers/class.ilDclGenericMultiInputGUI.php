@@ -10,90 +10,46 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     const HOOK_IS_LINE_REMOVABLE = "hook_is_line_removable";
     const HOOK_IS_INPUT_DISABLED = "hook_is_disabled";
     const HOOK_BEFORE_INPUT_RENDER = "hook_before_render";
-    /**
-     * @var array
-     */
-    protected $cust_attr = array();
-    /**
-     * @var
-     */
-    protected $value;
-    /**
-     * @var array
-     */
-    protected $inputs = array();
-    /**
-     * @var array
-     */
-    protected $input_options = array();
-    /**
-     * @var array
-     */
-    protected $hooks = array();
-    /**
-     * @var array
-     */
-    protected $line_values = array();
-    /**
-     * @var string
-     */
-    protected $template_dir = '';
-    /**
-     * @var array
-     */
-    protected $post_var_cache = array();
-    /**
-     * @var bool
-     */
-    protected $show_label = false;
-    /**
-     * @var
-     */
-    protected $limit = 0;
-    /**
-     * @var bool
-     */
-    protected $allow_empty_fields = false;
 
-    /**
-     * @return mixed
-     */
-    public function getLimit()
+    protected array $cust_attr = [];
+    protected array $value = [];
+    protected array $inputs = [];
+    protected array $input_options = [];
+    protected array $hooks = [];
+    protected ?array $line_values = [];
+    protected string $template_dir = '';
+    protected array $post_var_cache = [];
+    protected bool $show_label = false;
+    protected int $limit = 0;
+    protected bool $allow_empty_fields = false;
+
+    public function getLimit() : int
     {
         return $this->limit;
     }
 
     /**
      * set a limit of possible lines, 0 = no limit
-     * @param mixed $limit
      */
-    public function setLimit($limit)
+    public function setLimit(int $limit) : void
     {
         $this->limit = $limit;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isAllowEmptyFields()
+    public function isAllowEmptyFields() : bool
     {
         return $this->allow_empty_fields;
     }
 
-    /**
-     * @param boolean $allow_empty_fields
-     */
-    public function setAllowEmptyFields($allow_empty_fields)
+    public function setAllowEmptyFields(bool $allow_empty_fields)
     {
         $this->allow_empty_fields = $allow_empty_fields;
     }
 
     /**
      * Constructor
-     * @param string $a_title   Title
-     * @param string $a_postvar Post Variable
      */
-    public function __construct($a_title = "", $a_postvar = "")
+    public function __construct(string $a_title = "", string $a_postvar = "")
     {
         parent::__construct($a_title, $a_postvar);
         $this->setType("line_select");
@@ -101,7 +57,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     }
 
     /**
-     * @return string
+     * @return string|bool
      */
     public function getHook($key)
     {
@@ -112,19 +68,12 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return false;
     }
 
-    /**
-     * @param array $options
-     */
-    public function addHook($key, $options)
+    public function addHook(string $key, array $options)
     {
         $this->hooks[$key] = $options;
     }
 
-    /**
-     * @param $key
-     * @return bool
-     */
-    public function removeHook($key)
+    public function removeHook(string $key) : bool
     {
         if (isset($this->hooks[$key])) {
             unset($this->hooks[$key]);
@@ -135,29 +84,19 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return false;
     }
 
-    /**
-     * @param       $input
-     * @param array $options
-     */
-    public function addInput(ilFormPropertyGUI $input, $options = array())
+    public function addInput(ilFormPropertyGUI $input, array $options = array())
     {
         $input->setRequired(!$this->allow_empty_fields);
         $this->inputs[$input->getPostVar()] = $input;
         $this->input_options[$input->getPostVar()] = $options;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isShowLabel()
+    public function isShowLabel() : bool
     {
         return $this->show_label;
     }
 
-    /**
-     * @param boolean $show_label
-     */
-    public function setShowLabel($show_label)
+    public function setShowLabel(bool $show_label)
     {
         $this->show_label = $show_label;
     }
@@ -166,14 +105,11 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
      * Get Options.
      * @return    array    Options. Array ("value" => "option_text")
      */
-    public function getInputs()
+    public function getInputs() : array
     {
         return $this->inputs;
     }
 
-    /**
-     * @param bool $a_multi
-     */
     public function setMulti(
         bool $a_multi,
         bool $a_sortable = false,
@@ -185,9 +121,8 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
     /**
      * Set Value.
-     * @param string $a_value Value
      */
-    public function setValue($a_value)
+    public function setValue(array $a_value) : void
     {
         foreach ($this->inputs as $key => $item) {
             if ($item instanceof ilCheckboxInputGUI) {
@@ -207,9 +142,8 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
     /**
      * Get Value.
-     * @return    string    Value
      */
-    public function getValue()
+    public function getValue() : array
     {
         $out = array();
         foreach ($this->inputs as $key => $item) {
@@ -221,9 +155,8 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
     /**
      * Set value by array
-     * @param array $a_values value array
      */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
         $data = $a_values[$this->getPostVar() ?? null];
         if ($this->getMulti()) {
@@ -243,25 +176,27 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
         $valid = true;
 
+        $value = $this->getValue();
+
         // escape data
         $out_array = array();
-        foreach ($_POST[$this->getPostVar()] as $item_num => $item) {
+        foreach ($value as $item_num => $item) {
             foreach ($this->inputs as $input_key => $input) {
                 if (isset($item[$input_key])) {
                     $out_array[$item_num][$input_key] = (is_string($item[$input_key])) ? ilUtil::stripSlashes($item[$input_key]) : $item[$input_key];
                 }
             }
         }
-        $_POST[$this->getPostVar()] = $out_array;
+        $this->setValue($out_array);
 
-        if ($this->getRequired() && !trim(implode("", $_POST[$this->getPostVar()]))) {
+        if ($this->getRequired() && !trim(implode("", $this->getValue()))) {
             $valid = false;
         }
 
         // validate
         foreach ($this->inputs as $input_key => $inputs) {
             foreach ($out_array as $subitem) {
-                $_POST[$inputs->getPostVar()] = $subitem[$inputs->getPostVar()];
+                $this->setValue($subitem[$inputs->getPostVar()]);
                 if (!$inputs->checkInput()) {
                     $valid = false;
                 }
@@ -277,12 +212,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return $valid;
     }
 
-    /**
-     * @param            $key
-     * @param            $value
-     * @param bool|false $override
-     */
-    public function addCustomAttribute($key, $value, $override = false)
+    public function addCustomAttribute(string $key, string $value, bool $override = false)
     {
         if (isset($this->cust_attr[$key]) && !$override) {
             $this->cust_attr[$key] .= ' ' . $value;
@@ -291,20 +221,12 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         }
     }
 
-    /**
-     * @return array
-     */
-    public function getCustomAttributes()
+    public function getCustomAttributes() : array
     {
         return (array) $this->cust_attr;
     }
 
-    /**
-     * @param                   $iterator_id
-     * @param ilFormPropertyGUI $input
-     * @return string
-     */
-    protected function createInputPostVar($iterator_id, ilFormPropertyGUI $input)
+    protected function createInputPostVar(int $iterator_id, ilFormPropertyGUI $input) : string
     {
         if ($this->getMulti()) {
             return $this->getPostVar() . '[' . $iterator_id . '][' . $input->getPostVar() . ']';
@@ -315,11 +237,8 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
     /**
      * Render item
-     * @param int $iterator_id
-     * @return string
-     * @throws ilException
      */
-    public function render($iterator_id = 0, $clean_render = false)
+    public function render(int $iterator_id = 0, bool $clean_render = false) : string
     {
         $tpl = new ilTemplate("tpl.prop_generic_multi_line.html", true, true, 'Modules/DataCollection');
 
@@ -407,9 +326,8 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
     /**
      * Insert property html
-     * @return    int    Size
      */
-    public function insert(&$a_tpl)
+    public function insert(ilTemplate &$a_tpl) : void
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -451,7 +369,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     /**
      * Get HTML for table filter
      */
-    public function getTableFilterHTML()
+    public function getTableFilterHTML() : string
     {
         $html = $this->render();
 
@@ -461,7 +379,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     /**
      * Get HTML for toolbar
      */
-    public function getToolbarHTML()
+    public function getToolbarHTML() : string
     {
         $html = $this->render("toolbar");
 
@@ -500,7 +418,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     //		return $html;
     //	}
 
-    public function getSubItems()
+    public function getSubItems() : array
     {
         return array();
     }

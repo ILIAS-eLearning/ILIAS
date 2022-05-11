@@ -7,7 +7,7 @@
  */
 class ilDclDatetimeFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilDateTimeInputGUI
     {
         $input = new ilDateTimeInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         $input->setStartYear(date("Y") - 100);
@@ -16,7 +16,7 @@ class ilDclDatetimeFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-    public function addFilterInputFieldToTable(ilTable2GUI $table)
+    public function addFilterInputFieldToTable(ilTable2GUI $table) : ?array
     {
         $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_DATE_RANGE,
             false, $this->getField()->getId());
@@ -28,7 +28,10 @@ class ilDclDatetimeFieldRepresentation extends ilDclBaseFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
+    /**
+     * @param array $filter
+     */
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter) : bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
         if ((!$filter['from'] || $value >= $filter['from']) && (!$filter['to'] || $value <= $filter['to'])) {

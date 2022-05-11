@@ -10,16 +10,19 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     * @param string $filter_value
-     * @return null|ilDclRecordQueryObject
+     * @param array|string $filter_value
      */
-    public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null)
-    {
+    public function getRecordQueryFilterObject(
+        $filter_value = "",
+        ?ilDclBaseFieldModel $sort_field = null
+    ) : ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $from = (isset($filter_value['from'])) ? (int) $filter_value['from'] : null;
-        $to = (isset($filter_value['to'])) ? (int) $filter_value['to'] : null;
+        if (is_array($filter_value)) {
+            $from = (isset($filter_value['from'])) ? (int) $filter_value['from'] : null;
+            $to = (isset($filter_value['to'])) ? (int) $filter_value['to'] : null;
+        }
 
         $join_str
             = "INNER JOIN il_dcl_record_field AS filter_record_field_{$this->getId()} ON (filter_record_field_{$this->getId()}.record_id = record.id AND filter_record_field_{$this->getId()}.field_id = "
@@ -39,12 +42,15 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-    public function hasNumericSorting()
+    public function hasNumericSorting(): bool
     {
         return true;
     }
 
-    public function checkValidity($value, $record_id = null)
+    /**
+     * @param float    $value
+     */
+    public function checkValidity($value, ?int $record_id = null): bool
     {
         $valid = parent::checkValidity($value, $record_id);
 
