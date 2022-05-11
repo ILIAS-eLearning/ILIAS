@@ -21,20 +21,19 @@ class ilDidacticTemplateFilterPatternFactory
 
         $patterns = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-
-
             switch ($row->pattern_type) {
                 case ilDidacticTemplateFilterPattern::PATTERN_INCLUDE:
 
-                    $patterns[] = new ilDidacticTemplateIncludeFilterPattern($row->pattern_id);
+                    $patterns[] = new ilDidacticTemplateIncludeFilterPattern((int) $row->pattern_id);
                     break;
 
                 case ilDidacticTemplateFilterPattern::PATTERN_EXCLUDE:
 
-                    $patterns[] = new ilDidacticTemplateExcludeFilterPattern($row->pattern_id);
+                    $patterns[] = new ilDidacticTemplateExcludeFilterPattern((int) $row->pattern_id);
                     break;
             }
         }
+
         return $patterns;
     }
 }

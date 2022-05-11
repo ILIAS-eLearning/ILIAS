@@ -12,9 +12,6 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 
     private ilAccessHandler $access;
 
-    /**
-     * Constructor
-     */
     public function __construct(object $a_parent_obj, string $a_parent_cmd, int $ref_id)
     {
         global $DIC;
@@ -90,10 +87,6 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    /**
-     * Fill row
-     * @param array $a_set
-     */
     protected function fillRow(array $a_set) : void
     {
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
@@ -103,7 +96,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
         $this->tpl->setVariable('VAL_DESC', $a_set['description']);
 
-        if (strlen($a_set['icon'])) {
+        if (($a_set['icon'] ?? '') !== '') {
             $this->tpl->setVariable('ICON_SRC', $a_set['icon']);
             foreach ((array) $a_set['assignments'] as $obj_type) {
                 $this->tpl->setVariable('ICON_ALT', $this->lng->txt('objs_' . $obj_type));
@@ -163,7 +156,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('scope_txt');
             $this->tpl->setVariable(
                 'LOCAL_OR_GLOBAL',
-                $a_set['local'] ? $this->lng->txt('meta_local') : $this->lng->txt('meta_global')
+                isset($a_set['local']) ? $this->lng->txt('meta_local') : $this->lng->txt('meta_global')
             );
             $this->tpl->parseCurrentBlock();
         }
