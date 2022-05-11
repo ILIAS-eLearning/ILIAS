@@ -27,16 +27,34 @@ class ilWorkspaceTree extends ilTree
         global $DIC;
 
         parent::__construct($a_tree_id, $a_root_id);
-        
         $this->setTableNames('tree_workspace', 'object_data', 'object_reference_ws');
         $this->setTreeTablePK('tree');
         $this->setObjectTablePK('obj_id');
         $this->setReferenceTablePK('wsp_id');
 
+        if (!$this->exists()) {
+            $this->createTreeForUser($a_tree_id);
+        }
+
         // ilTree sets it to ROOT_FOLDER_ID if not given...
         if (!$a_root_id) {
             $this->readRootId();
         }
+    }
+
+    protected function exists() : bool
+    {
+        $db = $this->db;
+        $set = $db->queryF(
+            "SELECT * FROM tree_workspace " .
+            " WHERE tree = %s ",
+            ["integer"],
+            [$this->getTreeId()]
+        );
+        if ($rec = $db->fetchAssoc($set)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -192,7 +210,7 @@ class ilWorkspaceTree extends ilTree
     public function createTreeForUser(int $a_user_id) : void
     {
         $root = ilObjectFactory::getClassByType("wsrt");
-        $root = new $root(null);
+        $root = new $root(0);
         $root->create();
 
         $root_id = $this->createReference($root->getId());

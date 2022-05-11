@@ -2865,6 +2865,7 @@ class ilPageObjectGUI
             $a_enable_private_notes = true;
             $a_enable_public_notes = true;
             $a_enable_notes_deletion = false;
+            $notes_gui->setUseObjectTitleHeader(false);
         }
         // wiki page gui, blog posting gui
         else {
@@ -2873,6 +2874,7 @@ class ilPageObjectGUI
                 $a_content_object->getId(),
                 $a_content_object->getParentType()
             );
+            $notes_gui->setUseObjectTitleHeader(false);
         }
 
         if ($a_enable_private_notes) {
@@ -2896,7 +2898,7 @@ class ilPageObjectGUI
         if ($next_class == "ilnotegui") {
             $html = $this->ctrl->forwardCommand($notes_gui);
         } else {
-            $html = $notes_gui->getNotesHTML();
+            $html = $notes_gui->getCommentsHTML();
         }
         return $html;
     }

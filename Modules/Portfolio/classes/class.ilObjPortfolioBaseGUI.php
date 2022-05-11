@@ -748,7 +748,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             if ($next_class === "ilnotegui") {
                 $notes = $this->ctrl->forwardCommand($note_gui);
             } else {
-                $notes = $note_gui->getNotesHTML();
+                $notes = $note_gui->getCommentsHTML();
             }
         }
             

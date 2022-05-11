@@ -15201,7 +15201,7 @@ td > img[src$="icon_custom.svg"] {
 }
 /* Services/Notes */
 #notes_embedded_outer {
-  background-color: white;
+  /* background-color: @il-main-bg; */
 }
 #notes_embedded_outer .il_ContainerItemCommands {
   padding-top: 15px;
@@ -15273,6 +15273,19 @@ div.ilNoteInput {
 }
 .ilNotesCheckboxes .ilNoteList input[type="checkbox"] {
   position: absolute;
+}
+[data-note-el='edit-form-area'] > button {
+  margin-bottom: 9px;
+}
+.il-notes-section .panel h2 {
+  display: none;
+}
+.il-notes-section .panel .dropdown-menu {
+  right: 0;
+  left: inherit;
+}
+.il-notes-section .il-standard-form-header .il-standard-form-cmd {
+  visibility: hidden;
 }
 /* Modules/Blog */
 div.ilBlogList {

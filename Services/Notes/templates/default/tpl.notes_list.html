@@ -1,144 +1,28 @@
-<!-- BEGIN print_style -->
 <style type="text/css">
-<!--
-body
-{
-	margin: 10px;
-}
-table.fullwidth
-{
-	width: 100%;
-	border-width:0px;
-	border-spacing:0px;
-	border-collapse:collapse;
-}
-td
-{	
-	border-style:solid;
-	border-width:1px;
-	padding: 3px;
-}
-th
-{
-	font-size: 130%;
-	padding: 14px 0px 4px 0px;
-}
-div.subtitle
-{
-	font-size: 90%;
-}
-a.il_PrintBack
-{
-	font-size: 80%;
-}
--->
+    @media print {
+        div.il-filter {
+            display:none;
+        }
+        div.il-filter form.il-standard-form {
+            display:none;
+        }
+        main.il-layout-page-content {
+            overflow:hidden;
+        }
+    }
 </style>
-<!-- END print_style -->
-<!-- BEGIN print_back -->
-<a class="il_PrintBack" href="{LINK_BACK}">{TXT_BACK}</a>
-<!-- END print_back -->
-<div class="ilNotesHeader">
-	<!-- BEGIN close_img -->
-	<!-- <a id="ilRightPanelClose" class="btn btn-link" onclick="il.UICore.hideRightPanel(event); return false;" href="#">
-		{CLOSE_IMG}
-	</a>-->
-	<!-- END close_img -->
-	<!-- BEGIN notes_img -->
-<!-- <img alt="{ALT_NOTES}" title="{ALT_NOTES}" src="{IMG_NOTES}" style="vertical-align:text-bottom;" /> -->
-<!-- END notes_img -->
-<!-- BEGIN title --><h3 class="ilHeader"><span class="small">{TITLE}</span></h3><!-- END title -->
+<!-- <div class="ilNotesHeader"> -->
+<!-- BEGIN title --><!-- <h3 class="ilHeader"><span class="small">{TITLE}</span></h3>--><!-- END title -->
+<!-- </div> -->
+<div id="ilNotes">
+    {MESS}
+    {WIDGET_HEADER}
+    <!-- BEGIN edit_note_form -->
+    <a id="note_edit"></a>
+    <div data-note-el="edit-form-area">
+        {EDIT_FORM_BUTTON}
+        <div data-note-form-cancel-text="{TXT_CANCEL}" data-note-form-cancel-action="{CANCEL_FORM_ACTION}" data-note-form-action="{EDIT_FORM_ACTION}" data-note-el="edit-form" style="{EDIT_STYLE}">{EDIT_FORM}</div>
+    </div>
+    <!-- END edit_note_form -->
+    {NOTES_LIST}
 </div>
-<div class="ilNotes" id="ilNotes">
-<form {ON_SUBMIT_FORM} {FORM_ID} action="{FORMACTION}" name="cmd" method="post">
-{MESS}
-{WIDGET_HEADER}
-<!-- BEGIN no_notes -->
-<div class="small">{NO_NOTES}</div>
-<!-- END no_notes -->
-<table class="fullwidth_invisible {CHECKBOX_CLASS}" style="clear:both;">
-<!-- BEGIN note_row -->
-<!-- BEGIN edit_note_form -->
-<tr>
-	<td>
-	<a id="note_edit"></a>
-	{EDIT_FORM}
-	</td>
-</tr>
-<!-- END edit_note_form -->
-<!-- BEGIN sort_list -->
-<tr>
-	<td>
-		<div class="il_ContainerItemCommands2">
-			<a {ON_CLICK_SORT_LIST} href="{LINK_SORT_LIST}" class="il_ContainerItemCommand2">{TXT_SORT_LIST}</a>
-		</div>
-	</td>
-</tr>
-<!-- END sort_list -->
-<!-- BEGIN note -->
-<tr>
-	<td class="ilNoteList">
-	<!-- BEGIN checkbox_col -->
-	<input type="checkbox" name="{CHK_NOTE}" value="{CHK_NOTE_ID}"/>
-	<!-- END checkbox_col -->
-
-	<!-- BEGIN delete_ids --><input type="hidden" name="{HID_NOTE}" value="{HID_NOTE_ID}"/><!-- END delete_ids -->
-
-	<div class="ilComment">
-		<!-- BEGIN user_img --><div class="ilNotesUImage"><img alt="{USR_ALT}" title="{USR_ALT}" src="{USR_IMG}" /></div><!-- END user_img -->
-		<a id="note_{NOTE_ID}">{EXP_ICON}</a>
-		<span class="small light">{TXT_USR} {TXT_CREATED} {VAL_DATE} {TXT_LAST_EDIT} {DATE_LAST_EDIT}</span>
-		<!-- BEGIN author --><!-- END author -->  
-		<div class="ilNoteText">{VAL_SUBJECT} {NOTE_TEXT}</div>
-		{TARGET_OBJECTS}
-	</div>
-
-	<div class="il_ContainerItemCommands2" style="text-align:right; margin: 3px 0px;">
-		<!-- BEGIN delete_note -->
-		<a class="il_ContainerItemCommand2" {ON_CLICK_DELETE_NOTE} href="{LINK_DELETE_NOTE}">{TXT_DELETE_NOTE}</a>
-		<!-- END delete_note -->
-		<!-- BEGIN edit_note -->
-		<a class="il_ContainerItemCommand2" {ON_CLICK_EDIT_NOTE} href="{LINK_EDIT_NOTE}">{TXT_EDIT_NOTE}</a>
-		<!-- END edit_note -->
-	</div>
-	</td>
-</tr>
-<!-- END note -->
-<!-- END note_row -->
-<!-- BEGIN multiple_commands -->
-<tr>
-	<td>
-	<input type="checkbox" name="all" value="check_all" onClick="il.Util.setChecked('ilNotes', '', this.checked)" />
-	{TXT_SELECT_ALL}
-	</td>
-</tr>
-<tr>
-	<td>
-		<img src="{IMG_ARROW}" alt="{ALT_ARROW}" />
-		<!-- BEGIN delete_cmd --><input type="submit" class="btn btn-default" name="cmd[deleteNotes]" value="{TXT_DELETE_NOTES}" /><!-- END delete_cmd -->
-		<input type="submit" class="btn btn-default" name="cmd[exportNotesHTML]" value="{TXT_EXPORT_NOTES}" />
-		<input type="submit" class="btn btn-default" name="cmd[printNotes]" value="{TXT_PRINT_NOTES}" />
-	</td>
-</tr>
-<!-- END multiple_commands -->
-<!-- BEGIN delete_cancel -->
-<tr>
-	<td>
-		<input type="submit" class="btn btn-default" name="cmd[confirmDelete]" value="{TXT_DEL_NOTES}" />
-		<input type="submit" class="btn btn-default" name="cmd[cancelDelete]" value="{TXT_CANCEL_DEL_NOTES}" />
-	</td>
-</tr>
-<!-- END delete_cancel -->
-</table>
-</form>
-</div>
-<!-- BEGIN print_js -->
-<script type="text/javascript" language="javascript1.2">
-<!--
-	// Do print the page
-	if (typeof(window.print) != 'undefined')
-	{
-		window.print();
-	}
-//-->
-</script>
-<!-- END print_js -->

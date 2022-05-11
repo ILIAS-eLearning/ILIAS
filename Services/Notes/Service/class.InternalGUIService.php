@@ -17,6 +17,7 @@ namespace ILIAS\Notes;
 
 use ILIAS\DI\Container;
 use ILIAS\Repository\GlobalDICGUIServices;
+use ILIAS\Export\PrintProcessGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -54,9 +55,32 @@ class InternalGUIService
         $lng = $this->domain_service->lng();
         $ctrl = $this->ctrl();
 
+        // temporary patch to make this work...
+        global $DIC;
+        $ref_id = $DIC->repository()->internal()->gui()->standardRequest()->getRefId();
+        $type = \ilObject::_lookupType($ref_id, true);
+        switch ($type) {
+            case "cat":
+                $path = ["ilrepositorygui", "ilobjcategorygui", "ilcommonactiondispatchergui", "ilnotegui"];
+                break;
+            case "root":
+                $path = ["ilrepositorygui", "ilobjrootfoldergui", "ilcommonactiondispatchergui", "ilnotegui"];
+                break;
+            case "lm":
+                $path = ["illmpresentationgui", "ilcommonactiondispatchergui", "ilnotegui"];
+                break;
+            case "wiki":
+                $path = ["ilwikihandlergui", "ilobjwikigui", "ilcommonactiondispatchergui", "ilnotegui"];
+                break;
+            default:    // not working
+                $path = ["ilcommonactiondispatchergui", "ilnotegui"];
+                break;
+        }
+        // ...end patch
+
         if ($ajax_url === "") {
-            $ajax_url = $this->ctrl->getLinkTargetByClass(
-                array("ilcommonactiondispatchergui", "ilnotegui"),
+            $ajax_url = $this->ctrl()->getLinkTargetByClass(
+                $path,
                 "",
                 "",
                 true,
@@ -66,11 +90,53 @@ class InternalGUIService
         $lng->loadLanguageModule("notes");
         \ilModalGUI::initJS($tpl);
 
-        $lng->toJS(array("private_notes", "notes_public_comments"), $tpl);
-
+        $lng->toJS(array("private_notes", "notes_public_comments", "cancel"), $tpl);
         \iljQueryUtil::initjQuery($tpl);
         \ilYuiUtil::initConnection($tpl);
         $tpl->addJavaScript("./Services/Notes/js/ilNotes.js");
         $tpl->addOnLoadCode("ilNotes.setAjaxUrl('" . $ajax_url . "');");
+    }
+
+    /**
+     * @param array|string $class_path
+     */
+    public function filter(
+        string $filter_id,
+        $class_path,
+        string $cmd,
+        bool $activated = true,
+        bool $expanded = true
+    ) : FilterAdapterGUI {
+        return new FilterAdapterGUI(
+            $filter_id,
+            $class_path,
+            $cmd,
+            $activated,
+            $expanded
+        );
+    }
+
+    /**
+     * @param array|string $class_path
+     */
+    public function form(
+        $class_path,
+        string $cmd
+    ) : FormAdapterGUI {
+        return new FormAdapterGUI(
+            $class_path,
+            $cmd
+        );
+    }
+
+    public function print() : PrintProcessGUI
+    {
+        $provider = new PrintViewProvider();
+        return new PrintProcessGUI(
+            $provider,
+            $this->http(),
+            $this->ui(),
+            $this->domain_service->lng()
+        );
     }
 }

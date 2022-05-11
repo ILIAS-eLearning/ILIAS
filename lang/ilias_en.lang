@@ -16794,3 +16794,11 @@ orgu#:#org_op_edit_employee_talk#:#Edit Talk appointments
 etal#:#etal_open#:#Open Employee Talk
 etal#:#lock_edititng_for_others#:#Lock editing for others
 etal#:#talk_serial#:#Talk Serial
+notes#:#notes_origin#:#Origin
+notes#:#notes_text#:#Text
+notes#:#notes_delete_note#:#Do you really want to delete this note?
+notes#:#notes_delete_comment#:#Do you really want to delete this comment?
+notes#:#notes_no_notes#:#No notes have been attached yet.
+notes#:#notes_html_export#:#HTML Export
+notes#:#notes_no_notes_found#:#No notes found that match your seach criteria.
+notes#:#notes_no_comments_found#:#No comments found that match your seach criteria.

@@ -98,7 +98,8 @@ class NotesManager
         bool $incl_sub = false,
         int $author = 0,
         bool $ascending = false,
-        string $since = ""
+        string $since = "",
+        string $search_text = ""
     ) : array {
         return $this->db_repo->getNotesForContext(
             $context,
@@ -106,7 +107,8 @@ class NotesManager
             $incl_sub,
             $author,
             $ascending,
-            $since
+            $since,
+            $search_text
         );
     }
 
@@ -134,6 +136,31 @@ class NotesManager
             $author,
             $ascending,
             $since
+        );
+    }
+
+    /**
+     * Get all notes related to a specific repository object
+     * @param array  $obj_ids
+     * @return Note[]
+     */
+    public function getNotesForRepositoryObjIds(
+        array $obj_ids,
+        int $type = Note::PRIVATE,
+        bool $incl_sub = false,
+        int $author = 0,
+        bool $ascending = false,
+        string $since = "",
+        string $search_text = ""
+    ) : array {
+        return $this->db_repo->getNotesForObjIds(
+            $obj_ids,
+            $type,
+            $incl_sub,
+            $author,
+            $ascending,
+            $since,
+            $search_text
         );
     }
 
@@ -232,7 +259,8 @@ class NotesManager
         $this->db_settings_repo->activateComments(
             $obj_id,
             0,
-            \ilObject::_lookupType($obj_id)
+            \ilObject::_lookupType($obj_id),
+            $a_activate
         );
     }
 

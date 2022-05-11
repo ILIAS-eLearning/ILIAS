@@ -46,6 +46,11 @@ class UserImageExporter
         while ($rec = $db->fetchAssoc($set)) {
             $user_ids[] = (int) $rec["author"];
         }
+        $this->exportUserImages($export_dir, $user_ids);
+    }
+
+    public function exportUserImages(string $export_dir, array $user_ids) : void
+    {
         $user_export = new \ILIAS\User\Export\UserHtmlExport();
         $user_export->exportUserImages($export_dir, $user_ids);
     }

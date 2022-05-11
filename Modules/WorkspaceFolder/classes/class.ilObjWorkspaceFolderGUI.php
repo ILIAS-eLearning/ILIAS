@@ -221,7 +221,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
     
         ilObjectListGUI::prepareJsLinks(
             "",
-            $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
+            "",
             $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
         );
         

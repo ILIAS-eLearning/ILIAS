@@ -95,7 +95,7 @@ class ilNestedListInputGUI extends ilFormPropertyGUI
             $item_html = ilLegacyFormElementsUtil::formCheckbox(
                 $n["checked"],
                 $post_var,
-                $value,
+                (string) $value,
                 $n["disabled"]
             );
             if ($n["img_src"] != "") {
@@ -103,7 +103,7 @@ class ilNestedListInputGUI extends ilFormPropertyGUI
             }
             $item_html .= $n["text"];
 
-            $this->list->addListNode($item_html, $id, $n["parent"]);
+            $this->list->addListNode($item_html, (string) $id, $n["parent"]);
         }
 
         return $this->list->getHTML();

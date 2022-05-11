@@ -264,7 +264,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         ilObjectListGUI::prepareJsLinks(
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
-            $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
+            "",
             $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
         );
 

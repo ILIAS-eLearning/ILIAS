@@ -16824,3 +16824,11 @@ orgu#:#org_op_edit_employee_talk#:#Gespräche bearbeiten
 etal#:#etal_open#:#Gespräch öffnen
 etal#:#lock_edititng_for_others#:#Bearbeitung für andere sperren
 etal#:#talk_serial#:#Talk Serial
+notes#:#notes_origin#:#Herkunft
+notes#:#notes_text#:#Text
+notes#:#notes_delete_note#:#Soll die folgende Notiz wirklich gelöscht werden?
+notes#:#notes_delete_comment#:#Soll der folgende Kommentar wirklich gelöscht werden?
+notes#:#notes_no_notes#:#Bisher wurde noch kein Notiz hinzugefügt.
+notes#:#notes_html_export#:#HTML Export
+notes#:#notes_no_notes_found#:#Es wurden keine Notizen gefunden, die den Suchkriterien entsprechen.
+notes#:#notes_no_comments_found#:#Es wurden keine Kommentare gefunden, die den Suchkriterien entsprechen.

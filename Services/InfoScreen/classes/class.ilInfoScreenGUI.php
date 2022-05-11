@@ -942,15 +942,19 @@ class ilInfoScreenGUI
      */
     public function showNotesSection() : string
     {
+        global $DIC;
+
         $ilAccess = $this->access;
         $ilSetting = $this->settings;
-        
+        $DIC->notes()->gui()->initJavascript();
+
         $next_class = $this->ctrl->getNextClass($this);
         $notes_gui = new ilNoteGUI(
             $this->gui_object->getObject()->getId(),
             0,
             $this->gui_object->getObject()->getType()
         );
+        $notes_gui->setUseObjectTitleHeader(false);
         
         // global switch
         if ($ilSetting->get("disable_comments")) {
@@ -980,7 +984,7 @@ class ilInfoScreenGUI
         if ($next_class == "ilnotegui") {
             $html = $this->ctrl->forwardCommand($notes_gui);
         } else {
-            $html = $notes_gui->getNotesHTML();
+            $html = $notes_gui->getCommentsHTML();
         }
 
         return $html;

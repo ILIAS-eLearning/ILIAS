@@ -356,7 +356,7 @@ class ilObjectGUI
             
             ilObjectListGUI::prepareJsLinks(
                 $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
-                $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "ilnotegui"], "", "", true),
+                "",
                 $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "", "", true)
             );
             

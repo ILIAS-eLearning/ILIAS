@@ -2309,9 +2309,9 @@ class ilObjectListGUI
             $tpl = $DIC["tpl"];
         }
         
-        if ($notes_url) {
-            $DIC->notes()->gui()->initJavascript($notes_url);
-        }
+        //if ($notes_url) {
+        $DIC->notes()->gui()->initJavascript($notes_url);
+        //}
         
         if ($tags_url) {
             ilTaggingGUI::initJavascript($tags_url, $tpl);

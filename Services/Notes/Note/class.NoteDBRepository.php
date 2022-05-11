@@ -124,13 +124,15 @@ class NoteDBRepository
      * @return string
      */
     protected function getQuery(
-        Context $context,
+        ?Context $context,
         int $type = Note::PRIVATE,
         bool $incl_sub = false,
         int $author = 0,
         bool $ascending = false,
         bool $count = false,
-        string $since = ""
+        string $since = "",
+        array $obj_ids = [],
+        string $search_text = ""
     ) : string {
         $db = $this->db;
 
@@ -138,30 +140,47 @@ class NoteDBRepository
             ? " AND author = " . $db->quote($author, "integer")
             : "";
 
-        $sub_where = (!$incl_sub)
-            ? " AND obj_id = " . $db->quote($context->getSubObjId(), "integer") .
-            " AND obj_type = " . $db->quote($context->getType(), "text")
+        $sub_where = ($context)
+            ? " rep_obj_id = " . $db->quote($context->getObjId(), "integer")
+            : " " . $db->in("rep_obj_id", $obj_ids, false, "integer");
+
+        $sub_where .= ($context && !$incl_sub)
+            ? " AND note.obj_id = " . $db->quote($context->getSubObjId(), "integer") .
+            " AND note.obj_type = " . $db->quote($context->getType(), "text")
             : "";
 
         if ($since !== "") {
             $sub_where .= " AND creation_date > " . $db->quote($since, "timestamp");
         }
 
-        $news_where =
-            " AND news_id = " . $db->quote($context->getNewsId(), "integer");
+        if ($context) {
+            $news_where =
+                " AND news_id = " . $db->quote($context->getNewsId(), "integer");
 
-        $sub_where .= " AND no_repository = " . $db->quote(!$context->getInRepository(), "integer");
+            $sub_where .= " AND no_repository = " . $db->quote(!$context->getInRepository(), "integer");
+        }
 
-        $fields = $count ? "count(*) cnt" : "*";
-        $query = "SELECT $fields FROM note WHERE " .
-            " rep_obj_id = " . $db->quote($context->getObjId(), "integer") .
+        // search text
+        $join = "";
+        if ($search_text !== "") {
+            $sub_where .= " AND (" . $db->like("note_text", "text", "%" . $search_text . "%");
+            $join = " JOIN usr_data ud ON (author = ud.usr_id)";
+            $join .= " LEFT JOIN object_data od ON (rep_obj_id = od.obj_id)";
+            $sub_where .= " OR " . $db->like("ud.lastname", "text", "%" . $search_text . "%");
+            $sub_where .= " OR " . $db->like("ud.firstname", "text", "%" . $search_text . "%");
+            $sub_where .= " OR " . $db->like("ud.login", "text", "%" . $search_text . "%");
+            $sub_where .= " OR " . $db->like("od.title", "text", "%" . $search_text . "%");
+            $sub_where .= ")";
+        }
+
+        $fields = $count ? "count(*) cnt" : "note.*";
+        $query = "SELECT $fields FROM note $join WHERE " .
             $sub_where .
-            " AND type = " . $db->quote($type, "integer") .
+            " AND note.type = " . $db->quote($type, "integer") .
             $author_where .
             $news_where .
             " ORDER BY creation_date ";
         $query .= ($ascending) ? "ASC" : "DESC";
-
         return $query;
     }
 
@@ -175,7 +194,8 @@ class NoteDBRepository
         bool $incl_sub = false,
         int $author = 0,
         bool $ascending = false,
-        string $since = ""
+        string $since = "",
+        string $search_text = ""
     ) : array {
         $db = $this->db;
 
@@ -186,7 +206,44 @@ class NoteDBRepository
             $author,
             $ascending,
             false,
-            $since
+            $since,
+            [],
+            $search_text
+        );
+
+        $set = $db->query($query);
+        $notes = [];
+        while ($note_rec = $db->fetchAssoc($set)) {
+            $notes[] = $this->getNoteFromRecord($note_rec);
+        }
+        return $notes;
+    }
+
+    /**
+     * Get all notes related to a specific object
+     * @return Note[]
+     */
+    public function getNotesForObjIds(
+        array $obj_ids,
+        int $type = Note::PRIVATE,
+        bool $incl_sub = false,
+        int $author = 0,
+        bool $ascending = false,
+        string $since = "",
+        string $search_text = ""
+    ) : array {
+        $db = $this->db;
+
+        $query = $this->getQuery(
+            null,
+            $type,
+            $incl_sub,
+            $author,
+            $ascending,
+            false,
+            $since,
+            $obj_ids,
+            $search_text
         );
 
         $set = $db->query($query);

@@ -1,7 +1,7 @@
 /* Services/Notes */
 
 #notes_embedded_outer {
-    background-color: @il-main-bg;
+    /* background-color: @il-main-bg; */
 }
 #notes_embedded_outer .il_ContainerItemCommands {
     padding-top: 15px;
@@ -92,5 +92,25 @@ div.ilNoteInput {
 	}
 	.ilNoteList input[type="checkbox"] {
 		position: absolute;
+	}
+}
+
+[data-note-el='edit-form-area'] > button {
+	margin-bottom: @il-padding-xlarge-vertical;
+}
+
+.il-notes-section .panel {
+	h2 {
+		display:none;
+	}
+	.dropdown-menu {
+		right: 0;
+		left: inherit;
+	}
+}
+
+.il-notes-section .il-standard-form-header {
+	.il-standard-form-cmd {
+		visibility: hidden;
 	}
 }

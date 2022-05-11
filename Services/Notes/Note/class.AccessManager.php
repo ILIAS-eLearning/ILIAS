@@ -20,6 +20,7 @@ namespace ILIAS\Notes;
  */
 class AccessManager
 {
+    protected \ilAccessHandler $access;
     protected \ilSetting $settings;
     protected int $user_id;
     protected InternalDomainService $domain;
@@ -36,6 +37,7 @@ class AccessManager
         $this->domain = $domain;
         $this->user_id = $domain->user()->getId();
         $this->settings = $domain->settings();
+        $this->access = $domain->access();
     }
 
     public function canEdit(
@@ -53,8 +55,13 @@ class AccessManager
         int $user_id = 0,
         $public_deletion_enabled = false
     ) : bool {
+        if ($user_id === 0) {
+            $user_id = $this->user_id;
+        }
         $settings = $this->settings;
+        $access = $this->access;
         $user_can_delete_their_comments = (bool) $settings->get("comments_del_user", '0');
+        $tutor_can_delete_comments = (bool) $settings->get("comments_del_tutor", '1');
 
         if ($user_id === ANONYMOUS_USER_ID) {
             return false;
@@ -74,6 +81,14 @@ class AccessManager
             return true;
         }
 
+        // this logic has been set from pdnotes
+        if ($tutor_can_delete_comments) {
+            foreach (\ilObject::_getAllReferences($note->getContext()->getObjId()) as $ref_id) {
+                if ($access->checkAccess("write", "", $ref_id)) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 }

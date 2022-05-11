@@ -33,20 +33,20 @@ class ilCommonActionDispatcherGUI implements ilCtrlBaseClassInterface
     protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
 
-    protected int $node_type;
+    protected int $node_type = 0;
     /**
      * @var ilDummyAccessHandler|ilPortfolioAccessHandler|ilWorkspaceAccessHandler|mixed
      */
     protected $access_handler;
-    protected string $obj_type;
-    protected int $node_id;
-    protected int $obj_id;
-    protected int $news_id;
+    protected string $obj_type = "";
+    protected int $node_id = 0;
+    protected int $obj_id = 0;
+    protected int $news_id = 0;
 
-    protected ?string $sub_type;
-    protected ?int $sub_id;
-    protected bool $enable_comments_settings;
-    protected array $rating_callback;
+    protected ?string $sub_type = null;
+    protected ?int $sub_id = null;
+    protected bool $enable_comments_settings = false;
+    protected array $rating_callback = [];
     private ilObjectRequestRetriever $retriever;
     
     public function __construct(
@@ -184,7 +184,7 @@ class ilCommonActionDispatcherGUI implements ilCtrlBaseClassInterface
                     $obj_type = $this->sub_type;
                 }
                 
-                $note_gui = new ilNoteGUI($this->obj_id, $this->sub_id, $obj_type, false, $this->news_id);
+                $note_gui = new ilNoteGUI($this->obj_id, (int) $this->sub_id, $obj_type, false, $this->news_id);
                 $note_gui->enablePrivateNotes();
                 
                 $has_write = $this->access_handler->checkAccess("write", "", $this->node_id);

@@ -24,11 +24,14 @@ use ILIAS\Notes\Note;
  */
 class ilPDNotesGUI
 {
-    public const PUBLIC_COMMENTS = "publiccomments";
-    public const PRIVATE_NOTES = "privatenotes";
+    protected int $note_type;
+    protected string $search_text = "";
+    protected ?\ILIAS\Notes\FilterAdapterGUI $filter = null;
+    protected \ILIAS\Notes\InternalGUIService $gui;
+    protected \ILIAS\DI\UIServices $ui;
     protected NotesManager $notes_manager;
 
-    protected int $current_rel_obj;
+    protected ?int $current_rel_obj = null;
     protected StandardGUIRequest $request;
 
     protected ilCtrl $ctrl;
@@ -40,6 +43,7 @@ class ilPDNotesGUI
     protected ilToolbarGUI $toolbar;
     public ilGlobalTemplateInterface $tpl;
     public ilLanguage $lng;
+    protected ?array $related_objects = null;
 
     public function __construct()
     {
@@ -56,6 +60,7 @@ class ilPDNotesGUI
         $ilCtrl = $DIC->ctrl();
         $ilUser = $DIC->user();
         $ilHelp = $DIC["ilHelp"];
+        $this->ui = $DIC->ui();
 
         $this->request = $DIC->notes()
             ->internal()
@@ -72,24 +77,43 @@ class ilPDNotesGUI
         $this->ctrl = $ilCtrl;
 
         $this->notes_manager = $DIC->notes()->internal()->domain()->notes();
+        $this->gui = $DIC->notes()->internal()->gui();
 
         // link from ilPDNotesBlockGUI
         $rel_obj = $this->request->getRelatedObjId();
+        $this->note_type = ($this->request->getNoteType() === Note::PRIVATE || $ilCtrl->getCmd() === "getNotesHTML")
+            ? Note::PRIVATE
+            : Note::PUBLIC;
+        $this->ctrl->setParameter($this, "note_type", $this->note_type);
         if ($rel_obj > 0) {
-            $mode = ($this->request->getNoteType() === Note::PRIVATE)
-                ? self::PRIVATE_NOTES
-                : self::PUBLIC_COMMENTS;
-            $ilUser->writePref("pd_notes_mode", $mode);
-            $ilUser->writePref("pd_notes_rel_obj" . $mode, (string) $rel_obj);
+            $ilUser->writePref("pd_notes_rel_obj" . $this->note_type, (string) $rel_obj);
         }
         // edit link
         elseif ($this->request->getNoteId() > 0) {
             $note = $this->notes_manager->getById($this->request->getNoteId());
-            $mode = ($note->getType() === Note::PRIVATE) ? self::PRIVATE_NOTES : self::PUBLIC_COMMENTS;
             $context = $note->getContext();
-            $ilUser->writePref("pd_notes_mode", $mode);
-            $ilUser->writePref("pd_notes_rel_obj" . $mode, $context->getObjId());
+            $ilUser->writePref("pd_notes_rel_obj" . $this->note_type, $context->getObjId());
         }
+        $this->readFilter();
+        $ajax_url = $this->ctrl->getLinkTargetByClass(
+            ["ildashboardgui", "ilpdnotesgui", "ilnotegui"],
+            "",
+            "",
+            true,
+            false
+        );
+        $this->gui->initJavascript($ajax_url);
+    }
+
+    protected function readFilter() : void
+    {
+        $data = $this->getFilter()->getData();
+        if (!isset($data["object"]) || $data["object"] === "") {
+            $this->current_rel_obj = null;
+        } else {
+            $this->current_rel_obj = (int) $data["object"];
+        }
+        $this->search_text = $data["text"] ?? "";
     }
 
     public function executeCommand() : void
@@ -122,7 +146,7 @@ class ilPDNotesGUI
             $t = $this->lng->txt("notes_comments");
         }
 
-        if ($this->getMode() === self::PRIVATE_NOTES) {
+        if ($this->note_type === Note::PRIVATE) {
             $t = $this->lng->txt("private_notes");
             $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_nots.svg"));
         } else {
@@ -133,6 +157,16 @@ class ilPDNotesGUI
         $this->tpl->setTitle($t);
     }
 
+    protected function getRelatedObjects() : array
+    {
+        if (is_null($this->related_objects)) {
+            $this->related_objects = $this->notes_manager->getRelatedObjectsOfUser(
+                $this->note_type
+            );
+        }
+        return $this->related_objects;
+    }
+
     public function view() : void
     {
         $ilUser = $this->user;
@@ -141,11 +175,10 @@ class ilPDNotesGUI
         $ilAccess = $this->access;
         $ilToolbar = $this->toolbar;
 
-        $rel_objs = $this->notes_manager->getRelatedObjectsOfUser(
-            $this->getMode() === self::PRIVATE_NOTES ? Note::PRIVATE : Note::PUBLIC
-        );
+        $rel_objs = $this->getRelatedObjects();
+        $this->setToolbar();
 
-        if ($this->getMode() === self::PRIVATE_NOTES) {
+        if ($this->note_type === Note::PRIVATE) {
             $rel_objs = array_merge(
                 [0],
                 $rel_objs
@@ -153,35 +186,45 @@ class ilPDNotesGUI
         }
 
         // #9410
-        if (count($rel_objs) === 0 && $this->getMode() === self::PUBLIC_COMMENTS) {
+        if (count($rel_objs) === 0 && $this->note_type === Note::PUBLIC) {
             $lng->loadLanguageModule("notes");
             $this->tpl->setOnScreenMessage('info', $lng->txt("msg_no_search_result"));
             return;
         }
-        $first = true;
-        foreach ($rel_objs as $id) {
-            if ($first) {	// take first one as default
-                $this->current_rel_obj = $id;
-            }
-            if ($id == $ilUser->getPref("pd_notes_rel_obj" . $this->getMode())) {
-                $this->current_rel_obj = $id;
-            }
-            $first = false;
-        }
-        if ($this->current_rel_obj > 0) {
+        if ($this->current_rel_obj === null) {
+            $notes_gui = new ilNoteGUI(
+                $rel_objs,
+                0,
+                "",
+                true,
+                0,
+                false,
+                $this->search_text
+            );
+        } elseif ($this->current_rel_obj > 0) {
             $notes_gui = new ilNoteGUI(
                 $this->current_rel_obj,
                 0,
-                ilObject::_lookupType($this->current_rel_obj),
+                \ilObject::_lookupType($this->current_rel_obj),
                 true,
                 0,
-                false
+                false,
+                $this->search_text
             );
         } else {
-            $notes_gui = new ilNoteGUI(0, $ilUser->getId(), "pd", false, 0, false);
+            $notes_gui = new ilNoteGUI(
+                0,
+                $ilUser->getId(),
+                "pd",
+                false,
+                0,
+                false,
+                $this->search_text
+            );
         }
+        //$notes_gui->setHideNewForm(true);
         
-        if ($this->getMode() === self::PRIVATE_NOTES) {
+        if ($this->note_type === Note::PRIVATE) {
             $notes_gui->enablePrivateNotes(true);
             $notes_gui->enablePublicNotes(false);
         } else {
@@ -198,49 +241,21 @@ class ilPDNotesGUI
                 }
             }
         }
-        $notes_gui->enableHiding(false);
         $notes_gui->enableTargets(true);
-        $notes_gui->enableMultiSelection(true);
-        $notes_gui->enableAnchorJump(false);
 
         $next_class = $this->ctrl->getNextClass($this);
 
         if ($next_class === "ilnotegui") {
             $html = $this->ctrl->forwardCommand($notes_gui);
-        } elseif ($this->getMode() === self::PRIVATE_NOTES) {
-            $html = $notes_gui->getOnlyNotesHTML();
+        } elseif ($this->note_type === Note::PRIVATE) {
+            $html = $notes_gui->getNotesHTML();
         } else {
-            $html = $notes_gui->getOnlyCommentsHTML();
+            $html = $notes_gui->getCommentsHTML();
         }
-        
-        if (count($rel_objs) > 1 ||
-            ($rel_objs[0] > 0)) {
-            $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
 
-            $options = [];
-            foreach ($rel_objs as $obj_id) {
-                if ($obj_id > 0) {
-                    $type = ilObject::_lookupType($obj_id);
-                    $type_str = $lng->txt("obj_" . $type);
-                    $caption = $type_str . ": " . ilObject::_lookupTitle($obj_id);
-                } else {
-                    $caption = $lng->txt("note_without_object");
-                }
-                $options[$obj_id] = $caption;
-            }
-            
-            $rel = new ilSelectInputGUI($lng->txt("related_to"), "rel_obj");
-            $rel->setOptions($options);
-            $rel->setValue($this->current_rel_obj);
-            $ilToolbar->addStickyItem($rel);
+        $filter_html = $this->getFilter()->render();
 
-            $btn = ilSubmitButton::getInstance();
-            $btn->setCaption('change');
-            $btn->setCommand('changeRelatedObject');
-            $ilToolbar->addStickyItem($btn);
-        }
-        
-        $this->tpl->setContent($html);
+        $this->tpl->setContent($filter_html . $html);
     }
     
     public function changeRelatedObject() : void
@@ -248,7 +263,7 @@ class ilPDNotesGUI
         $ilUser = $this->user;
 
         $ilUser->writePref(
-            "pd_notes_rel_obj" . $this->getMode(),
+            "pd_notes_rel_obj" . $this->note_type,
             (string) $this->request->getRelatedObjId()
         );
         $this->ctrl->redirect($this);
@@ -259,8 +274,7 @@ class ilPDNotesGUI
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
         
-        $ilUser->writePref("pd_notes_mode", self::PRIVATE_NOTES);
-        $ilCtrl->redirect($this, "");
+        $ilCtrl->redirectByClass(ilNoteGUI::class, "getNotesHTML");
     }
     
     public function showPublicComments() : void
@@ -273,20 +287,82 @@ class ilPDNotesGUI
             $ilCtrl->redirect($this, "showPrivateNotes");
         }
         
-        $ilUser->writePref("pd_notes_mode", self::PUBLIC_COMMENTS);
-        $ilCtrl->redirect($this, "");
+        $ilCtrl->redirectByClass(ilNoteGUI::class, "getCommentsHTML");
     }
 
-    public function getMode() : string
+    protected function setSortation() : void
     {
-        $ilUser = $this->user;
-        $ilSetting = $this->settings;
-        
-        if ($ilUser->getPref("pd_notes_mode") === self::PUBLIC_COMMENTS &&
-            !$ilSetting->get("disable_comments")) {
-            return self::PUBLIC_COMMENTS;
-        }
+        $this->notes_manager->setSortAscending($this->gui->standardRequest()->getSortation() === "asc");
+        $this->view();
+    }
 
-        return self::PRIVATE_NOTES;
+    protected function getFilter() : \ILIAS\Notes\FilterAdapterGUI
+    {
+        $gui = $this->gui;
+        $lng = $this->lng;
+        if (is_null($this->filter)) {
+            $options = [];
+
+            if ($this->note_type === Note::PRIVATE) {
+                $options[-1] = $this->lng->txt("note_without_object");
+            }
+
+            foreach ($this->getRelatedObjects() as $k) {
+                $options[$k] = ilObject::_lookupTitle($k);
+            }
+            $this->filter = $gui->filter(
+                "notes_filter_" . $this->note_type,
+                self::class,
+                "view",
+                false,
+                false
+            )
+                ->text("text", $lng->txt("notes_text"))
+                ->select("object", $lng->txt("notes_origin"), $options);
+        }
+        return $this->filter;
+    }
+
+    protected function setToolbar() : void
+    {
+        $ctrl = $this->ctrl;
+
+        // sortation
+        $c = $this->lng->txt("create_date") . ", ";
+        $options = [
+            'desc' => $c . $this->lng->txt("sorting_desc"),
+            'asc' => $c . $this->lng->txt("sorting_asc")
+        ];
+        $select_option = ($this->notes_manager->getSortAscending())
+            ? 'asc'
+            : 'desc';
+        $s = $this->ui->factory()->viewControl()->sortation($options)
+               ->withTargetURL($ctrl->getLinkTarget($this, "setSortation"), 'sortation')
+               ->withLabel($options[$select_option]);
+        $this->toolbar->addComponent($s);
+
+        // print selection
+        $pv = $this->gui->print();
+        $modal_elements = $pv->getModalElements(
+            $ctrl->getLinkTarget($this, "printSelection")
+        );
+        $this->toolbar->addComponent($modal_elements->button);
+        $this->toolbar->addComponent($modal_elements->modal);
+
+        // export html
+        $b = $this->ui->factory()->button()->standard(
+            $this->lng->txt("notes_html_export"),
+            $ctrl->getLinkTargetByClass("ilNoteGUI", "exportNotesHTML")
+        );
+        $this->toolbar->addComponent($b);
+    }
+
+    /**
+     * @throws \ILIAS\HTTP\Response\Sender\ResponseSendingException
+     */
+    public function printSelection() : void
+    {
+        $pv = $this->gui->print();
+        $pv->sendForm();
     }
 }

@@ -1195,7 +1195,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $notes_gui->enablePublicNotes(true);
         $notes_gui->setRepositoryMode(false);
         $notes_gui->setExportMode();
-        return  $notes_gui->getNotesHTML();
+        return  $notes_gui->getCommentsHTML();
     }
 
     public function finishEditing() : void

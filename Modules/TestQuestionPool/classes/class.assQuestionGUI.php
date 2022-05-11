@@ -206,7 +206,7 @@ abstract class assQuestionGUI
         $notesGUI->enablePublicNotes(true);
         $notesGUI->enablePublicNotesDeletion(true);
         
-        return $notesGUI->getNotesHTML();
+        return $notesGUI->getCommentsHTML();
     }
 
     public function executeCommand()
