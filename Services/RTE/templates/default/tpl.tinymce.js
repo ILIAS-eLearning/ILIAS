@@ -85,9 +85,9 @@ _ilTinyMceInitCallbackRegistry.prototype = {
         this.callbacks.push(callback);
     },
 
-    callCallbacks: function() {
+    callCallbacks: function(ed) {
         for (var i = 0; i < this.callbacks.length; i++) {
-            this.callbacks[i]();
+            this.callbacks[i](ed);
         }
     }
 };
@@ -227,7 +227,7 @@ tinymce.init({
         });
     },
     init_instance_callback: function(ed) {
-        ilTinyMceInitCallbackRegistry.callCallbacks();
+        ilTinyMceInitCallbackRegistry.callCallbacks(ed);
     }
 });
 <!-- END tinymce -->
