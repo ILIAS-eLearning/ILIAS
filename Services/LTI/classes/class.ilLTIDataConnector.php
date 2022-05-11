@@ -499,7 +499,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
 
     /**
      * Save extended tool consumer object with ILIAS extensions.
-     * @param Platform $platform Consumer object
+     * @param ilLTIPlatform $platform Consumer object
      * @return boolean True if the tool consumer object was successfully saved
      */
     public function saveToolConsumerILIAS(ilLTIPlatform $platform) : bool
@@ -511,9 +511,10 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $protected = ($platform->protected) ? 1 : 0;
         $enabled = ($platform->enabled) ? 1 : 0;
         $profile = (!empty($platform->profile)) ? json_encode($platform->profile) : null;
-        $this->fixPlatformSettings($platform, true);
-        $settingsValue = json_encode($platform->getSettings());
-        $this->fixPlatformSettings($platform, false);
+        $settingsValue = '{}';
+//        $this->fixPlatformSettings($platform, true);
+//        $settingsValue = json_encode($platform->getSettings());
+//        $this->fixPlatformSettings($platform, false);
         $time = time();
         $now = date("{$this->dateFormat} {$this->timeFormat}", $time);
         $from = null;
@@ -535,7 +536,8 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
             $id = $platform->getRecordId();
             $platform->created = $time;
             $platform->updated = $time;
-            if ($key == null) {
+//            if ($key == null) {
+            if ($key == '') {
                 $key = $id . ToolProvider\Util::getRandomString(10);
             }
 
@@ -1770,4 +1772,13 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         }
         return $results;
     }
+
+    public static function getDataConnector(object $db = null, string $dbTableNamePrefix = '', string $type = '') : ilLTIDataConnector
+    {
+        $dataConnector = new ilLTIDataConnector();
+        return $dataConnector;
+    }
+
+
+
 }
