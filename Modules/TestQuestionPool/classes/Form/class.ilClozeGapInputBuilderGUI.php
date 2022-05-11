@@ -206,7 +206,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $modal->setBody('');
 
         $DIC->ui()->mainTemplate()->addOnLoadCode('
-            ClozeGapBuilder.Init();
+            ClozeQuestionGapBuilder.Init();
         ');
 
         $custom_template = new ilTemplate('tpl.il_as_cloze_gap_builder.html', true, true, 'Modules/TestQuestionPool');
