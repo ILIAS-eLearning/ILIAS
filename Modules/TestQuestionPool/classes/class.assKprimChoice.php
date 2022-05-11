@@ -363,8 +363,11 @@ class assKprimChoice extends assQuestion implements ilObjQuestionScoringAdjustab
             if (is_null($answer->getCorrectness())) {
                 return false;
             }
-            
-            if (!strlen($answer->getAnswertext()) && !strlen($answer->getImageFile())) {
+
+            if (
+                (!is_string($answer->getAnswertext()) || $answer->getAnswertext() === '') &&
+                (!is_string($answer->getImageFile()) || $answer->getImageFile() === '')
+            ) {
                 return false;
             }
         }
