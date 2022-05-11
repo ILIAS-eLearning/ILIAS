@@ -31,7 +31,7 @@ class ilWorkspaceContentGUI
     protected ilObjUser $user;
     protected ilObjectDefinition $obj_definition;
     protected ilCtrl $ctrl;
-    protected $folder_sorting;
+    protected ?ilWorkspaceFolderSorting $folder_sorting = null;
 
     public function __construct(
         object $object_gui,
@@ -82,12 +82,12 @@ class ilWorkspaceContentGUI
 
         // output sortation
         $tree = new ilWorkspaceTree($this->user->getId());
-        $parent_id = $tree->getParentId($this->object_gui->ref_id);
+        $parent_id = $tree->getParentId($this->object_gui->getRefId());
         $parent_effective = ($parent_id > 0)
             ? $this->user_folder_settings->getEffectiveSortation($parent_id)
             : 0;
-        $selected = $this->user_folder_settings->getSortation($this->object_gui->object->getId());
-        $sort_options = $this->folder_sorting->getOptionsByType($this->object_gui->object->getType(), $selected, $parent_effective);
+        $selected = $this->user_folder_settings->getSortation($this->object_gui->getObject()->getId());
+        $sort_options = $this->folder_sorting->getOptionsByType($this->object_gui->getObject()->getType(), $selected, $parent_effective);
         $sortation = $this->ui->factory()->viewControl()->sortation($sort_options)
             ->withTargetURL($this->ctrl->getLinkTarget($this->object_gui, "setSortation"), 'sortation')
             ->withLabel($this->lng->txt("wfld_sortation"));
@@ -128,7 +128,7 @@ class ilWorkspaceContentGUI
 
         $this->shared_objects = $this->access_handler->getObjectsIShare();
 
-        $nodes = $this->folder_sorting->sortNodes($nodes, $this->user_folder_settings->getEffectiveSortation($this->object_gui->ref_id));
+        $nodes = $this->folder_sorting->sortNodes($nodes, $this->user_folder_settings->getEffectiveSortation($this->object_gui->getRefId()));
 
         return $nodes;
     }

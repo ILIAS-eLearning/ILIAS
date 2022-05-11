@@ -233,7 +233,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             $this->ui,
             $this->lng,
             $this->user,
-            $this->objDefinition,
+            $this->obj_definition,
             $this->ctrl,
             $this->user_folder_settings
         );
