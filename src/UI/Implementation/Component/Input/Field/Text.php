@@ -27,7 +27,7 @@ class Text extends Input implements C\Input\Field\Text
         ?string $byline
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
-        $this->setAdditionalTransformation($refinery->custom()->transformation(fn($v) => strip_tags($v)));
+        $this->setAdditionalTransformation($refinery->custom()->transformation(fn ($v) => strip_tags($v)));
     }
 
     /**
@@ -81,7 +81,7 @@ class Text extends Input implements C\Input\Field\Text
      */
     public function getUpdateOnLoadCode() : Closure
     {
-        return fn($id) => "$('#$id').on('input', function(event) {
+        return fn ($id) => "$('#$id').on('input', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";

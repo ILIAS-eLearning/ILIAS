@@ -84,7 +84,7 @@ class Renderer extends AbstractComponentRenderer
             }
 
             if ($component instanceof Component\Button\LoadingAnimationOnClick && $component->hasLoadingAnimationOnClick()) {
-                $component = $component->withAdditionalOnLoadCode(fn($id) => "$('#$id').click(function(e) { il.UI.button.activateLoadingAnimation('$id')});");
+                $component = $component->withAdditionalOnLoadCode(fn ($id) => "$('#$id').click(function(e) { il.UI.button.activateLoadingAnimation('$id')});");
             }
         } else {
             $tpl->touchBlock("disabled");
@@ -190,7 +190,7 @@ class Renderer extends AbstractComponentRenderer
         }
 
         if ($component->isActive()) {
-            $component = $component->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
+            $component = $component->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
 						il.UI.button.handleToggleClick(event, '$id', '$on_url', '$off_url', $signals);
 						return false; // stop event propagation
 				});");

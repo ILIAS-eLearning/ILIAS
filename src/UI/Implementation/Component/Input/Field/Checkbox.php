@@ -118,7 +118,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
      */
     public function getUpdateOnLoadCode() : Closure
     {
-        return fn($id) => "$('#$id').on('input', function(event) {
+        return fn ($id) => "$('#$id').on('input', function(event) {
 			    il.UI.input.onFieldUpdate(event, '$id', $('#$id').prop('checked').toString());
 		    });
 		    il.UI.input.onFieldUpdate(event, '$id', $('#$id').prop('checked').toString());";
