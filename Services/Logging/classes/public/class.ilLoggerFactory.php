@@ -48,7 +48,7 @@ class ilLoggerFactory
 
     public static function getInstance() : ilLoggerFactory
     {
-        if (!static::$instance) {
+        if (!static::$instance instanceof ilLoggerFactory) {
             $settings = ilLoggingDBSettings::getInstance();
             static::$instance = new ilLoggerFactory($settings);
         }
@@ -58,6 +58,11 @@ class ilLoggerFactory
     public static function newInstance(ilLoggingSettings $settings) : ilLoggerFactory
     {
         return static::$instance = new self($settings);
+    }
+
+    private function isLoggingEnabled() : bool
+    {
+        return $this->enabled;
     }
             
     
@@ -107,7 +112,7 @@ class ilLoggerFactory
         if (ilContext::getType() != ilContext::CONTEXT_WEB) {
             return false;
         }
-        if (isset($_GET["cmdMode"]) && $_GET["cmdMode"] == "asynch") {
+        if ($this->dic->isDependencyAvailable('ctrl') && $this->dic->ctrl()->isAsynch()) {
             return false;
         }
         return true;
@@ -148,7 +153,7 @@ class ilLoggerFactory
                 
         }
         
-        if (!$this->getSettings()->isEnabled()) {
+        if (!$this->isLoggingEnabled()) {
             $null_handler = new NullHandler();
             $logger->pushHandler($null_handler);
             
