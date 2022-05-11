@@ -53,7 +53,8 @@ class ilFileVersionFormGUI
     public function __construct(ilFileVersionsGUI $file_version_gui, $mode = self::MODE_ADD)
     {
         global $DIC;
-        $this->file = $file_version_gui->getFile();;
+        $this->file = $file_version_gui->getFile();
+        ;
         $this->lng = $DIC->language();
         $this->save_mode = $mode;
         $this->ui_factory = $DIC->ui()->factory();

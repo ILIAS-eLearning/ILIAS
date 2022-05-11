@@ -34,5 +34,4 @@ class ilTemporaryStakeholder extends AbstractResourceStakeholder
     {
         return $this->owner_id;
     }
-    
 }

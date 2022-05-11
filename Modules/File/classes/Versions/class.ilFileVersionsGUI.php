@@ -167,7 +167,6 @@ class ilFileVersionsGUI
                 $this->performCommand();
                 break;
         }
-        
     }
     
     private function unzipCurrentRevision() : void

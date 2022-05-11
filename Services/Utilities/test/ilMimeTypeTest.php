@@ -19,7 +19,6 @@ use ILIAS\FileUpload\MimeType;
 
 class ilMimeTypeTest extends TestCase
 {
-
     public function testMimeTypeForYoutubeUrlCouldBeCorrectlyDetected() : void
     {
         $expected = 'video/youtube';

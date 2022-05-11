@@ -41,5 +41,4 @@ class ilObjFileUploadHandler extends ilCtrlAwareStorageUploadHandler
         $DIC->upload()->register(new ilCountPDFPagesPreProcessors());
         parent::__construct(new ilObjFileStakeholder($DIC->user()->getId()));
     }
-    
 }

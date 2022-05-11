@@ -65,8 +65,8 @@ class ilResourceStorageMigrationHelper
             new StorageHandlerFactory([
                 new MaxNestingFileSystemStorageHandler(
                     $file_system_factory->getLocal(
-                    new LocalConfig($this->client_data_dir)
-                ),
+                        new LocalConfig($this->client_data_dir)
+                    ),
                     Location::STORAGE
                 )
             ]),
