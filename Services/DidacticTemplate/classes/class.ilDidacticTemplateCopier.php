@@ -11,9 +11,6 @@ class ilDidacticTemplateCopier
     private int $tpl_id = 0;
     private int $new_tpl_id = 0;
 
-    /**
-     * Constructor
-     */
     public function __construct(int $a_tpl_id)
     {
         $this->tpl_id = $a_tpl_id;
@@ -36,7 +33,7 @@ class ilDidacticTemplateCopier
         if (!$num) {
             return $a_orig_title;
         }
-        if ($num == 1) {
+        if ($num === 1) {
             return $a_orig_title . ' ' . $lng->txt('copy_of_suffix');
         }
         return $a_orig_title . ' ' . sprintf($lng->txt('copy_n_of_suffix'), $num);

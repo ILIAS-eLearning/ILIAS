@@ -8,11 +8,6 @@
  */
 class ilDidacticTemplateExcludeFilterPattern extends ilDidacticTemplateFilterPattern
 {
-
-    /**
-     * Constructor
-     * @param int $a_pattern_id
-     */
     public function __construct(int $a_pattern_id = 0)
     {
         parent::__construct($a_pattern_id);
@@ -33,10 +28,6 @@ class ilDidacticTemplateExcludeFilterPattern extends ilDidacticTemplateFilterPat
         return true;
     }
 
-    /**
-     * Write xml
-     * @param ilXmlWriter $writer
-     */
     public function toXml(ilXmlWriter $writer) : void
     {
         switch ($this->getPatternSubType()) {

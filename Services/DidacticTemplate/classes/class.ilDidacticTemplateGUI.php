@@ -10,17 +10,15 @@
 class ilDidacticTemplateGUI
 {
     private object $parent_object;
-    protected ilLanguage $lng;
-    protected ilCtrl $ctrl;
-    protected ilTabsGUI $tabs;
-    protected ilGlobalTemplateInterface $tpl;
-    protected ilLogger $logger;
+    private ilLanguage $lng;
+    private ilCtrl $ctrl;
+    private ilTabsGUI $tabs;
+    private ilGlobalTemplateInterface $tpl;
+    private int $requested_template_id;
+    private \ILIAS\HTTP\GlobalHttpState $http;
+    private \ILIAS\Refinery\Factory $refinery;
+    private ilLogger $logger;
 
-    protected int $requested_template_id = 0;
-
-    /**
-     * Constructor
-     */
     public function __construct(object $a_parent_obj, int $requested_template_id = 0)
     {
         global $DIC;
@@ -30,10 +28,19 @@ class ilDidacticTemplateGUI
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('didactic');
         $this->tpl = $DIC->ui()->mainTemplate();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->logger = $DIC->logger()->otpl();
 
         $this->parent_object = $a_parent_obj;
-        $this->requested_template_id = (int) ($_REQUEST['tplid'] ?? 0);
+        $this->requested_template_id = 0;
+        if ($this->http->wrapper()->query()->has('tplid')) {
+            $this->requested_template_id = $this->http->wrapper()->query()->retrieve(
+                'tplid',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+
         if ($requested_template_id > 0) {
             $this->requested_template_id = $requested_template_id;
         }
@@ -44,10 +51,7 @@ class ilDidacticTemplateGUI
         return $this->parent_object;
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -68,7 +72,7 @@ class ilDidacticTemplateGUI
         $tpls = ilDidacticTemplateSettings::getInstanceByObjectType($a_obj_type)->getTemplates();
         $value = ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->getObject()->getRefId());
 
-        if (!count($tpls) && !$value) {
+        if (0 === $value && 0 === count($tpls)) {
             return false;
         }
 
@@ -90,12 +94,12 @@ class ilDidacticTemplateGUI
             }
         }
 
-        if ($excl_tpl && $value != 0) {
+        if ($excl_tpl && $value !== 0) {
             //remove default entry if an exclusive template exists but only if the actual entry isn't the default
             unset($options[0]);
         }
 
-        if (!in_array($value, array_keys($options)) || ($excl_tpl && $value == 0)) {
+        if (($excl_tpl && $value === 0) || !array_key_exists($value, $options)) {
             $options[$value] = $this->lng->txt('not_available');
         }
 
@@ -108,7 +112,7 @@ class ilDidacticTemplateGUI
             'tplid'
         );
         $tpl_selection->setOptions($options);
-        $tpl_selection->setValue($value);
+        $tpl_selection->setValue((string) $value);
         $toolbar->addInputItem($tpl_selection);
 
         // Apply templates switch
@@ -116,14 +120,14 @@ class ilDidacticTemplateGUI
         return true;
     }
 
-    /*
+    /**
      * Show didactic template switch confirmation screen
      */
     protected function confirmTemplateSwitch() : void
     {
         // Check if template is changed
         $new_tpl_id = $this->requested_template_id;
-        if ($new_tpl_id == ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->getObject()->getRefId())) {
+        if ($new_tpl_id === ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->getObject()->getRefId())) {
             $this->logger->debug('Template id: ' . $new_tpl_id);
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('didactic_not_changed'), true);
             $this->ctrl->returnToParent($this);
@@ -173,9 +177,6 @@ class ilDidacticTemplateGUI
         $this->ctrl->returnToParent($this);
     }
 
-    /**
-     * Switch Template
-     */
     protected function switchTemplate() : void
     {
         $new_tpl_id = $this->requested_template_id;
