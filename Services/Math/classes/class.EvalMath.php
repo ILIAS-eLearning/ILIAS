@@ -238,7 +238,7 @@ class EvalMath
                         $output[] = $o2;
                     }
                 }
-                if (preg_match("/^([a-z]\w*)\($/", $stack->last(2), $matches)) { // did we just close a function?
+                if (preg_match("/^([a-z]\w*)\($/", (string) $stack->last(2), $matches)) { // did we just close a function?
                     $fnn = $matches[1]; // get the function name
                     $arg_count = $stack->pop(); // see how many arguments there were (cleverly stored on the stack, thank you)
                     $output[] = $stack->pop(); // pop the function and push onto the output
