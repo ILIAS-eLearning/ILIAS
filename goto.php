@@ -20,9 +20,14 @@
 require_once("libs/composer/vendor/autoload.php");
 
 ilInitialisation::initILIAS();
+global $DIC, $ilPluginAdmin;
 
-$query_params = $DIC->http()->request()->getQueryParams();
-$requested_target = $query_params["target"] ?? "";
+$requested_target = $DIC->http()->wrapper()->query()->has("target")
+    ? $DIC->http()->wrapper()->query()->retrieve(
+        "target",
+        $DIC->refinery()->to()->string()
+    )
+    : '';
 
 // special handling for direct navigation request
 $nav_hist = new ilNavigationHistoryGUI();
@@ -49,32 +54,35 @@ $additional = $target_arr[2] ?? '';		// optional for pages
 
 // imprint has no ref id...
 if ($target_type === "impr") {
-    ilUtil::redirect('ilias.php?baseClass=ilImprintGUI');
+    $DIC->ctrl()->redirectToURL('ilias.php?baseClass=ilImprintGUI');
 }
 
 // goto is not granted?
 if (!ilStartUpGUI::_checkGoto($requested_target)) {
     // if anonymous: go to login page
-    if (!$ilUser->getId() || $ilUser->isAnonymous()) {
-        ilUtil::redirect("login.php?target=" . $orig_target . "&cmd=force_login&lang=" . $ilUser->getCurrentLanguage());
+    if ($DIC->user()->getId() === 0 || $DIC->user()->isAnonymous()) {
+        $DIC->ctrl()->redirectToURL(
+            "login.php?target="
+            . $orig_target . "&cmd=force_login&lang="
+            . $DIC->user()->getCurrentLanguage()
+        );
     } else {
         // message if target given but not accessible
         $tarr = explode("_", $requested_target);
         if ($tarr[0] != "pg" && $tarr[0] != "st" && $tarr[1] > 0) {
-            global $DIC;
             $DIC->ui()->mainTemplate()->setOnScreenMessage(
                 'failure',
                 sprintf(
-                    $lng->txt("msg_no_perm_read_item"),
+                    $DIC->language()->txt("msg_no_perm_read_item"),
                     ilObject::_lookupTitle(ilObject::_lookupObjId($tarr[1]))
                 ),
                 true
             );
         } else {
             global $DIC;
-            $DIC->ui()->mainTemplate()->setOnScreenMessage($lng->txt('permission_denied'), true);
+            $DIC->ui()->mainTemplate()->setOnScreenMessage($DIC->language()->txt('permission_denied'), true);
         }
-        ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
+        $DIC->ctrl()->redirectToURL(ilUserUtil::getStartingPointAsUrl());
     }
 }
 
@@ -107,7 +115,7 @@ switch ($target_type) {
     case "glo":
         ilObjGlossaryGUI::_goto($target_id);
         break;
-                
+        
     // please migrate to default branch implementation
     case "lm":
         ilObjContentObjectGUI::_goto($target_id);
@@ -179,6 +187,7 @@ switch ($target_type) {
     // default implementation (should be used by all new object types)
     //
     default:
+        global $objDefinition;
         if (!$objDefinition->isPlugin($target_type)) {
             $class_name = "ilObj" . $objDefinition->getClassName($target_type) . "GUI";
             $location = $objDefinition->getLocation($target_type);
