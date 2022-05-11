@@ -55,10 +55,7 @@ class ilAccessibilityCriterionConfig extends ArrayObject implements ilAccessibil
         $this->exchangeArray($data);
     }
 
-    /**
-     * @return array
-     */
-    public function jsonSerialize()
+    public function jsonSerialize() : array
     {
         return $this->getArrayCopy();
     }
