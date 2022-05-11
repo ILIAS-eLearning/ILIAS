@@ -271,7 +271,7 @@ class ilObjLearningSequence extends ilContainer
         return $this->ls_activation;
     }
 
-    public function updateActivation(ilLearningSequenceActivation $settings): void
+    public function updateActivation(ilLearningSequenceActivation $settings) : void
     {
         $this->getActivationDB()->store($settings);
         $this->ls_activation = $settings;
@@ -286,7 +286,7 @@ class ilObjLearningSequence extends ilContainer
         return $this->ls_settings;
     }
 
-    public function updateSettings(ilLearningSequenceSettings $settings): void
+    public function updateSettings(ilLearningSequenceSettings $settings) : void
     {
         $this->getSettingsDB()->store($settings);
         $this->ls_settings = $settings;
@@ -316,7 +316,7 @@ class ilObjLearningSequence extends ilContainer
 
         return $this->ls_participants;
     }
-    public function getMembersObject(): \ilLearningSequenceParticipants //used by Services/Membership/classes/class.ilMembershipGUI.php
+    public function getMembersObject() : \ilLearningSequenceParticipants //used by Services/Membership/classes/class.ilMembershipGUI.php
     {
         return $this->getLSParticipants();
     }
