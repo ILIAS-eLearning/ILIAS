@@ -46,13 +46,12 @@ class ilECSMappingUtils
     
     /**
      * Get mapping status as string
-     * @param int $a_status
      */
-    public static function mappingStatusToString($a_status)//TODO PHP8-REVIEW Missing type hints
+    public static function mappingStatusToString(int $a_status) : string
     {
         global $DIC;
 
-        return $DIC['lng']->txt('ecs_node_mapping_status_' . $a_status);
+        return $DIC->language()->txt('ecs_node_mapping_status_' . $a_status);
     }
     
     

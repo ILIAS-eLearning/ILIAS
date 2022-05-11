@@ -125,13 +125,8 @@ class ilECSUtils
     
     /**
      * Convert ECS content to rule matchable values
-     *
-     * @param string $a_resource_id
-     * @param int $a_server_id
-     * @param object $a_ecs_content
-     * @param int $a_owner
      */
-    public static function getMatchableContent($a_resource_id, $a_server_id, $a_ecs_content, $a_owner) : array//TODO PHP8-REVIEW Missing type hints
+    public static function getMatchableContent(string $a_resource_id, int $a_server_id, object $a_ecs_content, int $a_owner) : array
     {
         // see ilECSCategoryMapping::getPossibleFields();
         $res = array();

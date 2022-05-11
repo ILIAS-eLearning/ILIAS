@@ -27,11 +27,8 @@ class ilECSDataMappingSettings
     private ilDbInterface $db;
     /**
      * Singleton Constructor
-     *
-     * @access private
-     *
      */
-    private function __construct($a_server_id)
+    private function __construct(int $a_server_id)
     {
         global $DIC;
         $this->db = $DIC->database();
@@ -42,10 +39,8 @@ class ilECSDataMappingSettings
 
     /**
      * Get singleton instance
-     * @param int $a_server_id
-     * @return ilECSDataMappingSettings
      */
-    public static function getInstanceByServerId($a_server_id) : ilECSDataMappingSettings//TODO PHP8-REVIEW Missing type hints
+    public static function getInstanceByServerId(int $a_server_id) : ilECSDataMappingSettings
     {
         return self::$instances[$a_server_id] ?? (self::$instances[$a_server_id] = new ilECSDataMappingSettings($a_server_id));
     }

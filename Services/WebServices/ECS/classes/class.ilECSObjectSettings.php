@@ -407,7 +407,6 @@ abstract class ilECSObjectSettings
      * Objects that are moved to the trash call ECS-Remove
      *
      * @see ilRepUtil
-     * @param array $a_subbtree_nodes
      */
     public static function _handleDelete(array $a_subbtree_nodes) : void
     {
@@ -531,7 +530,6 @@ abstract class ilECSObjectSettings
     
     /**
      * Handle permission update
-     * @param ilECSSetting $server
      */
     protected function handlePermissionUpdate(ilECSSetting $server) : void
     {
@@ -550,11 +548,8 @@ abstract class ilECSObjectSettings
     
     /**
      * Build core json structure
-     *
-     * @param string $a_etype
-     * @return object
      */
-    protected function getJsonCore($a_etype)//TODO PHP8-REVIEW Missing type hints
+    protected function getJsonCore(string $a_etype) : object
     {
         $json = new stdClass();
         $json->lang = 'en_EN'; // :TODO: obsolet?
@@ -570,12 +565,8 @@ abstract class ilECSObjectSettings
     
     /**
      * Add advanced metadata to json (export)
-     *
-     * @param object $a_json
-     * @param ilECSSetting $a_server
-     * @param array $a_definition
      */
-    protected function addMetadataToJson($a_json, ilECSSetting $a_server, array $a_definition) : void//TODO PHP8-REVIEW Missing type hints
+    protected function addMetadataToJson(object $a_json, ilECSSetting $a_server, array $a_definition) : void
     {
         $mappings = ilECSDataMappingSettings::getInstanceByServerId($a_server->getServerId());
         
@@ -618,7 +609,6 @@ abstract class ilECSObjectSettings
     /**
      * Build resource-specific json
      *
-     * @param ilECSSetting $a_server
      * @return mixed
      */
     abstract protected function buildJson(ilECSSetting $a_server);

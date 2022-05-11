@@ -1181,9 +1181,8 @@ class ilECSMappingSettingsGUI
 
     /**
      * Set Sub tabs
-     * @param string $a_tab
      */
-    protected function setSubTabs($a_tab) : void//TODO PHP8-REVIEW Missing type hints
+    protected function setSubTabs(int $a_tab) : void
     {
         if ($a_tab === self::TAB_DIRECTORY) {
             $this->tabs->addSubTab(

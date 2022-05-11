@@ -60,7 +60,7 @@ class ilECSParticipantSettings
         
         $mids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $mids[] = $row->mid;
+            $mids[] = (int) $row->mid;
         }
         return $mids;
     }

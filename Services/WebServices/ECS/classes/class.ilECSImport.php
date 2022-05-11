@@ -55,11 +55,8 @@ class ilECSImport
     
     /**
      * Set imported
-     *
-     * @param bool $a_status import status
-     *
      */
-    public function setImported($a_status) : void//TODO PHP8-REVIEW Missing type hints
+    public function setImported(bool $a_status) : void
     {
         $this->imported = $a_status;
     }

@@ -185,9 +185,9 @@ abstract class ilRemoteObjectBase extends ilObject2
     {
         $server_id = ilECSImportManager::getInstance()->lookupServerId($this->getId());
         $server = ilECSSetting::getInstanceByServerId($server_id);
-        
+        $setting = ilECSParticipantSetting::getInstance($server_id, $this->mid);
         $user = new ilECSUser($this->user);
-        $ecs_user_data = $user->toGET();
+        $ecs_user_data = $user->toGET($setting);
         $this->logger->info(__METHOD__ . ': Using ecs user data ' . $ecs_user_data);
         
         // check token mechanism enabled
@@ -354,11 +354,9 @@ abstract class ilRemoteObjectBase extends ilObject2
     /**
      * update remote object settings from ecs content
      *
-     * @param ilECSSetting $a_server
      * @param object $a_ecs_content object with object settings
-     * @param int $a_owner
      */
-    public function updateFromECSContent(ilECSSetting $a_server, $a_ecs_content, $a_owner) : void//TODO PHP8-REVIEW Missing type hints
+    public function updateFromECSContent(ilECSSetting $a_server, object $a_ecs_content, int $a_owner) : void
     {
         $this->logger->info('updateFromECSContent: ' . print_r($a_ecs_content, true));
         
@@ -402,12 +400,8 @@ abstract class ilRemoteObjectBase extends ilObject2
     /**
      * Add advanced metadata to json (export)
      *
-     * @param object $a_json
-     * @param ilECSSetting $a_server
-     * @param array $a_definition
-     * @param int $a_mapping_mode
      */
-    protected function importMetadataFromJson($a_json, ilECSSetting $a_server, array $a_definition, $a_mapping_mode) : void//TODO PHP8-REVIEW Missing type hints
+    protected function importMetadataFromJson(object $a_json, ilECSSetting $a_server, array $a_definition, int $a_mapping_mode) : void
     {
         $this->logger->info("importing metadata from json: " . print_r($a_json, true));
         

@@ -27,10 +27,10 @@ class ilECSDataMappingSetting
 
     private int $server_id = 0;
     private int $mapping_type = 0;
-    private $ecs_field = 0;// TODO PHP8-REVIEW Missing type
-    private $advmd_id = 0;// TODO PHP8-REVIEW Missing type
+    private string $ecs_field = '';
+    private int $advmd_id = 0;
 
-    public function __construct($a_server_id = 0, $mapping_type = 0, $ecs_field = '')
+    public function __construct(int $a_server_id = 0, int $mapping_type = 0, string $ecs_field = '')
     {
         global $DIC;
 
@@ -43,9 +43,8 @@ class ilECSDataMappingSetting
 
     /**
      * set server id
-     * @param int $a_server_id
      */
-    public function setServerId($a_server_id) : void//TODO PHP8-REVIEW Missing type hints
+    public function setServerId(int $a_server_id) : void
     {
         $this->server_id = $a_server_id;
     }
@@ -58,11 +57,7 @@ class ilECSDataMappingSetting
         return $this->server_id;
     }
 
-    /**
-     *
-     * @param string $ecs_field
-     */
-    public function setECSField($ecs_field) : void//TODO PHP8-REVIEW Missing type hints
+    public function setECSField(string $ecs_field) : void
     {
         $this->ecs_field = $ecs_field;
     }
@@ -70,7 +65,7 @@ class ilECSDataMappingSetting
     /**
      * Get ecs field
      */
-    public function getECSField() : int
+    public function getECSField() : string
     {
         return $this->ecs_field;
     }
@@ -96,7 +91,7 @@ class ilECSDataMappingSetting
         return $this->advmd_id;
     }
 
-    public function setAdvMDId($a_id) : void
+    public function setAdvMDId(int $a_id) : void
     {
         $this->advmd_id = $a_id;
     }

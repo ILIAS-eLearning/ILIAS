@@ -15,14 +15,11 @@
  *****************************************************************************/
 
 /**
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
-*
-*
-* @ilCtrl_Calls ilECSSettingsGUI: ilECSMappingSettingsGUI, ilECSParticipantSettingsGUI
-* @ingroup ServicesWebServicesECS
-*/
+ *
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ *
+ * @ilCtrl_Calls ilECSSettingsGUI: ilECSMappingSettingsGUI, ilECSParticipantSettingsGUI
+ */
 class ilECSSettingsGUI
 {
     public const MAPPING_EXPORT = 1;
@@ -44,12 +41,7 @@ class ilECSSettingsGUI
     
     private ?ilPropertyFormGUI $form = null;
     private ilECSCategoryMappingRule $rule;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     */
+
     public function __construct()
     {
         global $DIC;
@@ -634,33 +626,32 @@ class ilECSSettingsGUI
      * Validate import types
      * @param array $import_types
      */
-    protected function validateImportTypes(&$import_types) : bool//TODO PHP8-REVIEW Missing type hints
+    protected function validateImportTypes(array $import_types) : array
     {
         $num_cms = 0;
         foreach ((array) $import_types as $sid => $server) {
             foreach ((array) $server as $mid => $import_type) {
-                if ($import_type === ilECSParticipantSetting::IMPORT_CMS) {
+                if ((int) $import_type === ilECSParticipantSetting::IMPORT_CMS) {
                     ++$num_cms;
                 }
             }
         }
         
         if ($num_cms <= 1) {
-            return true;
+            return [];
         }
         // Change to import type "UNCHANGED"
-        $new_types = array();
+        $new_types = [];
         foreach ((array) $import_types as $sid => $server) {
             foreach ((array) $server as $mid => $import_type) {
-                if ($import_type === ilECSParticipantSetting::IMPORT_CMS) {
+                if ((int) $import_type === ilECSParticipantSetting::IMPORT_CMS) {
                     $new_types[$sid][$mid] = ilECSParticipantSetting::IMPORT_UNCHANGED;
                 } else {
                     $new_types[$sid][$mid] = $import_type;
                 }
             }
         }
-        $import_types = $new_types;
-        return false;
+        return $new_types;
     }
     
     /**
@@ -669,10 +660,7 @@ class ilECSSettingsGUI
     protected function updateCommunities() : void
     {
         // @TODO: Delete deprecated communities
-        $invalidImportTypes = false;
-        if (!$this->validateImportTypes($_POST['import_type'])) {
-            $invalidImportTypes = true;
-        }
+        $validatedImportTypes = $this->validateImportTypes($_POST['import_type']);
 
         $servers = ilECSServerSettings::getInstance();
         foreach ($servers->getServers(ilECSServerSettings::ACTIVE_SERVER) as $server) {
@@ -692,13 +680,17 @@ class ilECSSettingsGUI
                 $this->log->error('Cannot read ecs communities: ' . $e->getMessage());
             }
         }
-
-        foreach ((array) $_POST['sci_mid'] as $sid) {
-            foreach ((array) $_POST['sci_mid'][$sid] as $mid) {
+        foreach ((array) $_POST['sci_mid'] as $sid => $mids) {
+            $this->log->info("server id is " . print_r($sid, true));
+            foreach ((array) $mids as $mid => $value) {
                 $set = new ilECSParticipantSetting($sid, $mid);
                 #$set->enableExport(array_key_exists($mid, (array) $_POST['export'][$sid]) ? true : false);
                 #$set->enableImport(array_key_exists($mid, (array) $_POST['import'][$sid]) ? true : false);
-                $set->setImportType((int) $_POST['import_type'][$sid][$mid]);
+                if ($validatedImportTypes) {
+                    $set->setImportType((int) $validatedImportTypes[$sid][$mid]);
+                } else {
+                    $set->setImportType((int) $_POST['import_type'][$sid][$mid]);
+                }
 
                 // update title/cname
                 try {
@@ -717,7 +709,7 @@ class ilECSSettingsGUI
                 $set->update();
             }
         }
-        if ($invalidImportTypes) {
+        if ($validatedImportTypes) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('ecs_invalid_import_type_cms'), true);
         } else {
             $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
@@ -729,9 +721,8 @@ class ilECSSettingsGUI
 
     /**
      * Handle tabs for ECS data mapping
-     * @param int $a_active
      */
-    protected function setMappingTabs($a_active) : void//TODO PHP8-REVIEW Missing type hints
+    protected function setMappingTabs(int $a_active) : void
     {
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->clearSubTabs();
@@ -903,11 +894,8 @@ class ilECSSettingsGUI
 
     /**
      * init mapping form
-     *
-     * @param int $a_server_id
-     * @param int $mapping_type
      */
-    protected function initMappingsForm($a_server_id, $mapping_type) : ilPropertyFormGUI//TODO PHP8-REVIEW Missing type hints
+    protected function initMappingsForm(int $a_server_id, int $mapping_type) : ilPropertyFormGUI
     {
         $mapping_settings = ilECSDataMappingSettings::getInstanceByServerId($a_server_id);
             

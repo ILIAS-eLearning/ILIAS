@@ -84,9 +84,8 @@ class ilECSCourseCreationHandler
     
     /**
      * Set object created status
-     * @param bool $a_status
      */
-    public function setObjectCreated($a_status) : void//TODO PHP8-REVIEW Missing type hints
+    public function setObjectCreated(bool $a_status) : void
     {
         $this->object_created = $a_status;
     }
@@ -568,7 +567,7 @@ class ilECSCourseCreationHandler
      * Return 0 if object isn't imported.
      * Searches for the (hopefully) unique content id of an imported object
      */
-    protected function getImportId($a_content_id, $a_sub_id = null) : int// TODO PHP8-REVIEW Missing type hints
+    protected function getImportId(int $a_content_id, string $a_sub_id = null) : int
     {
         return ilECSImportManager::getInstance()->lookupObjIdByContentId(
             $this->getServer()->getServerId(),

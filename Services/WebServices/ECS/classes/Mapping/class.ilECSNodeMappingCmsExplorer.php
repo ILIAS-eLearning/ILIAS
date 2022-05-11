@@ -24,16 +24,16 @@ class ilECSNodeMappingCmsExplorer extends ilExplorer
     public const SEL_TYPE_CHECK = 1;
     public const SEL_TYPE_RADIO = 2;
 
-    private $server_id;// TODO PHP8-REVIEW Missing type
-    private $mid;// TODO PHP8-REVIEW Missing type
-    private $tree_id;// TODO PHP8-REVIEW Missing type
+    private int $server_id;
+    private int $mid;
+    private int $tree_id;
 
     private array $checked_items = array();
     private string $post_var = '';
     private array $form_items = array();
     private int $type;
 
-    public function __construct($a_target, $a_server_id, $a_mid, $a_tree_id)
+    public function __construct(string $a_target, int $a_server_id, int $a_mid, int $a_tree_id)
     {
         parent::__construct($a_target);
 

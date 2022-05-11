@@ -36,25 +36,23 @@ class ilECSSetting
     public const PROTOCOL_HTTPS = 1;
     
     protected static ?array $instances = null;
-    protected static $configured;// TODO PHP8-REVIEW Missing type
 
-    private $server_id;// TODO PHP8-REVIEW Missing type
+    private int $server_id;
     private bool $active = false;
     private string $title = '';
     private int $auth_type = self::AUTH_CERTIFICATE;
-    private $server;// TODO PHP8-REVIEW Missing type
-    private $protocol;// TODO PHP8-REVIEW Missing type
-    private $port;// TODO PHP8-REVIEW Missing type
-    private $client_cert_path;// TODO PHP8-REVIEW Missing type
-    private $ca_cert_path;// TODO PHP8-REVIEW Missing type
-    private $cert_serial_number;// TODO PHP8-REVIEW Missing type
-    private $key_path;// TODO PHP8-REVIEW Missing type
-    private $key_password;// TODO PHP8-REVIEW Missing type
-    private $polling;// TODO PHP8-REVIEW Missing type
+    private string $server = '';
+    private int $protocol = self::PROTOCOL_HTTPS;
+    private int $port = 0;
+    private string $client_cert_path = '';
+    private string $ca_cert_path = '';
+    private ?string $cert_serial_number = '';
+    private string $key_path = '';
+    private string $key_password = '';
+    private int $polling = 0;
     private int $import_id = 0;
-    private $cert_serial;// TODO PHP8-REVIEW Missing type
-    private $global_role;// TODO PHP8-REVIEW Missing type
-    private int $duration;
+    private int $global_role = 0;
+    private int $duration = 0;
 
     private string $auth_user = '';
     private string $auth_pass = '';
@@ -105,7 +103,6 @@ class ilECSSetting
     /**
      * Checks if an ecs server is configured
      * @deprecated use ilECSServerSettings::getInstance()->serverExists()
-     * @return boolean
      */
     public static function ecsConfigured() : bool
     {
@@ -114,9 +111,8 @@ class ilECSSetting
 
     /**
      * Set title
-     * @param string $a_title
      */
-    public function setTitle($a_title) : void//TODO PHP8-REVIEW Missing type hints
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
@@ -197,7 +193,6 @@ class ilECSSetting
     
     /**
      * is enabled
-     *
      */
     public function isEnabled() : bool
     {
@@ -207,7 +202,7 @@ class ilECSSetting
     /**
      * set server
      */
-    public function setServer($a_server) : void
+    public function setServer(string $a_server) : void
     {
         $this->server = $a_server;
     }
@@ -215,7 +210,7 @@ class ilECSSetting
     /**
      * get server
      */
-    public function getServer()
+    public function getServer() : string
     {
         return $this->server;
     }
@@ -258,42 +253,31 @@ class ilECSSetting
     /**
      * set protocol
      */
-    public function setProtocol($a_prot) : void
+    public function setProtocol(int $a_prot) : void
     {
         $this->protocol = $a_prot;
     }
 
     /**
      * get protocol
-     *
-     * @access public
-     *
      */
-    public function getProtocol()
+    public function getProtocol() : int
     {
         return $this->protocol;
     }
     
     /**
      * set port
-     *
-     * @access public
-     * @param int port
-     *
      */
-    public function setPort($a_port) : void
+    public function setPort(int $a_port) : void
     {
         $this->port = $a_port;
     }
     
     /**
      * get port
-     *
-     * @access public
-     * @param
-     *
      */
-    public function getPort()
+    public function getPort() : int
     {
         return $this->port;
     }
@@ -305,10 +289,8 @@ class ilECSSetting
 
     /**
      * get certificate path
-     *
-     * @access public
      */
-    public function getClientCertPath()
+    public function getClientCertPath() : string
     {
         return $this->client_cert_path;
     }
@@ -316,33 +298,25 @@ class ilECSSetting
     /**
      * set ca cert path
      *
-     * @access public
      * @param string ca cert path
-     *
      */
-    public function setCACertPath($a_ca) : void
+    public function setCACertPath(string $a_ca) : void
     {
         $this->ca_cert_path = $a_ca;
     }
     
     /**
      * get ca cert path
-     *
-     * @access public
-     *
      */
-    public function getCACertPath()
+    public function getCACertPath() : string
     {
         return $this->ca_cert_path;
     }
     
     /**
      * get key path
-     *
-     * @access public
-     *
      */
-    public function getKeyPath()
+    public function getKeyPath() : string
     {
         return $this->key_path;
     }
@@ -350,22 +324,17 @@ class ilECSSetting
     /**
      * set key path
      *
-     * @access public
      * @param string key path
-     *
      */
-    public function setKeyPath($a_path) : void
+    public function setKeyPath(string $a_path) : void
     {
         $this->key_path = $a_path;
     }
     
     /**
      * get key password
-     *
-     * @access public
-     *
      */
-    public function getKeyPassword()
+    public function getKeyPassword() : string
     {
         return $this->key_password;
     }
@@ -373,11 +342,9 @@ class ilECSSetting
     /**
      * set key password
      *
-     * @access public
      * @param string key password
-     *
      */
-    public function setKeyPassword($a_pass) : void
+    public function setKeyPassword(string $a_pass) : void
     {
         $this->key_password = $a_pass;
     }
@@ -401,55 +368,38 @@ class ilECSSetting
     
     /**
      * set cert serial number
-     *
-     * @access public
-     * @param
-     *
      */
-    public function setCertSerialNumber($a_cert_serial) : void
+    public function setCertSerialNumber(string $a_cert_serial) : void
     {
         $this->cert_serial_number = $a_cert_serial;
     }
     
     /**
      * get cert serial number
-     *
-     * @access public
-     *
      */
-    public function getCertSerialNumber()
+    public function getCertSerialNumber() : ?string
     {
         return $this->cert_serial_number;
     }
     
     /**
      * get global role
-     *
-     * @access public
-     *
      */
-    public function getGlobalRole()
+    public function getGlobalRole() : int
     {
         return $this->global_role;
     }
     
     /**
      * set default global role
-     *
-     * @access public
-     *
-     * @param int role_id
      */
-    public function setGlobalRole($a_role_id) : void
+    public function setGlobalRole(int $a_role_id) : void
     {
         $this->global_role = $a_role_id;
     }
     
     /**
      * set Duration
-     *
-     * @param int duration
-     *
      */
     public function setDuration(int $a_duration) : void
     {
@@ -458,9 +408,6 @@ class ilECSSetting
     
     /**
      * get duration
-     *
-     * @access public
-     *
      */
     public function getDuration() : int
     {
@@ -469,9 +416,6 @@ class ilECSSetting
     
     /**
      * Get new user recipients
-     *
-     * @access public
-     *
      */
     public function getUserRecipients() : array
     {
@@ -516,9 +460,7 @@ class ilECSSetting
     /**
      * set EContent recipients
      *
-     * @access public
      * @param array of user obj_ids
-     *
      */
     public function setEContentRecipients(array $a_logins) : void
     {
@@ -622,7 +564,7 @@ class ilECSSetting
             $this->db->quote($this->getServerId(), 'integer') . ', ' .
             $this->db->quote((int) $this->isEnabled(), 'integer') . ', ' .
             $this->db->quote($this->getTitle(), 'text') . ', ' .
-            $this->db->quote((int) $this->getProtocol(), 'integer') . ', ' .
+            $this->db->quote($this->getProtocol(), 'integer') . ', ' .
             $this->db->quote($this->getServer(), 'text') . ', ' .
             $this->db->quote($this->getPort(), 'integer') . ', ' .
             $this->db->quote($this->getAuthType(), 'integer') . ', ' .
@@ -653,7 +595,7 @@ class ilECSSetting
             'server_id = ' . $this->db->quote($this->getServerId(), 'integer') . ', ' .
             'active = ' . $this->db->quote((int) $this->isEnabled(), 'integer') . ', ' .
             'title = ' . $this->db->quote($this->getTitle(), 'text') . ', ' .
-            'protocol = ' . $this->db->quote((int) $this->getProtocol(), 'integer') . ', ' .
+            'protocol = ' . $this->db->quote($this->getProtocol(), 'integer') . ', ' .
             'server = ' . $this->db->quote($this->getServer(), 'text') . ', ' .
             'port = ' . $this->db->quote($this->getPort(), 'integer') . ', ' .
             'auth_type = ' . $this->db->quote($this->getAuthType(), 'integer') . ', ' .
@@ -709,7 +651,7 @@ class ilECSSetting
             'WHERE server_id = ' . $this->db->quote($this->getServerId(), 'integer')
         );
         
-        $this->server_id = null;
+        $this->server_id = 0;
         return true;
     }
 
@@ -754,7 +696,7 @@ class ilECSSetting
             if (strpos($line, 'Serial Number:') !== false) {
                 $found = true;
                 $serial_line = explode(':', $line);
-                $serial = (int) trim($serial_line[1]);
+                $serial = trim($serial_line[1]);
                 break;
             }
         }
@@ -780,16 +722,18 @@ class ilECSSetting
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             $this->setServer($row['server']);
             $this->setTitle($row['title']);
-            $this->setProtocol($row['protocol']);
-            $this->setPort($row['port']);
+            $this->setProtocol((int) $row['protocol']);
+            $this->setPort((int) $row['port']);
             $this->setClientCertPath($row['client_cert_path']);
             $this->setCACertPath($row['ca_cert_path']);
             $this->setKeyPath($row['key_path']);
             $this->setKeyPassword($row['key_password']);
             $this->setImportId((int) $row['import_id']);
             $this->setEnabledStatus((bool) $row['active']);
-            $this->setCertSerialNumber($row['cert_serial']);
-            $this->setGlobalRole($row['global_role']);
+            if ($row['cert_serial']) {
+                $this->setCertSerialNumber($row['cert_serial']);
+            }
+            $this->setGlobalRole((int) $row['global_role']);
             $this->econtent_recipients = explode(',', $row['econtent_rcp']);
             $this->approval_recipients = explode(',', $row['approval_rcp']);
             $this->user_recipients = explode(',', $row['user_rcp']);

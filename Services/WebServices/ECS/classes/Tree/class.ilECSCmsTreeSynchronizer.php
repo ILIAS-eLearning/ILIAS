@@ -26,8 +26,8 @@ class ilECSCmsTreeSynchronizer
     private ilTree $tree;
     
     private ?\ilECSSetting $server = null;
-    private $mid;// TODO PHP8-REVIEW Missing type
-    private $tree_id;// TODO PHP8-REVIEW Missing type
+    private int $mid;
+    private int $tree_id;
     private ?\ilECSCmsTree $ecs_tree = null;
     
     private array $default_settings = array();
@@ -142,7 +142,8 @@ class ilECSCmsTreeSynchronizer
         $import_obj_id = ilECSImportManager::getInstance()->lookupObjIdByContentId(
             $this->server->getServerId(),
             $this->mid,
-            $cms_data->getCmsId()
+            //TODO fix this cast
+            (int) $cms_data->getCmsId()
         );
         if (!$import_obj_id) {
             $this->logger->error('cms tree node not imported. tnode_id: ' . $a_tnode_id);
@@ -219,7 +220,8 @@ class ilECSCmsTreeSynchronizer
         $obj_id = ilECSImportManager::getInstance()->lookupObjIdByContentId(
             $this->server->getServerId(),
             $this->mid,
-            $data->getCmsId()
+            //TODO fix this cast
+            (int) $data->getCmsId()
         );
         if ($obj_id) {
             $refs = ilObject::_getAllReferences($obj_id);

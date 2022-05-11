@@ -39,13 +39,8 @@ class ilECSEContentDetails
     
     /**
      * Get data from server
-     *
-     * @param int $a_server_id
-     * @param int $a_econtent_id
-     * @param string $a_resource_type
-     * @return ilECSEContentDetails
      */
-    public static function getInstanceFromServer($a_server_id, $a_econtent_id, $a_resource_type) : ilECSEContentDetails//TODO PHP8-REVIEW Missing type hints
+    public static function getInstanceFromServer(int $a_server_id, int $a_econtent_id, string $a_resource_type) : ilECSEContentDetails
     {
         $instance = new self();
         $instance->loadFromJson($instance->loadFromServer($a_server_id, $a_econtent_id, $a_resource_type));
@@ -53,7 +48,7 @@ class ilECSEContentDetails
     }
 
 
-    private function loadFromServer($a_server_id, $a_econtent_id, $a_resource_type) : ?object
+    private function loadFromServer(int $a_server_id, int $a_econtent_id, string $a_resource_type) : ?object
     {
         try {
             $connector = new ilECSConnector(ilECSSetting::getInstanceByServerId($a_server_id));

@@ -82,11 +82,11 @@ class ilECSEventQueueReader
      * Get all resource ids by resource type
      *
      * @param ilECSSetting $server
-     * @param array $a_types
+     * @param int[] $a_types
      * @param bool $a_sender_only
-     * @return array type => ids
+     * @return array<int,int[]> type => ids
      */
-    protected static function getAllResourceIds(ilECSSetting $server, array $a_types, bool $a_sender_only = false) : array//TODO PHP8-REVIEW Missing type hints
+    protected static function getAllResourceIds(ilECSSetting $server, array $a_types, bool $a_sender_only = false) : array
     {
         $list = array();
         foreach ($a_types as $type) {

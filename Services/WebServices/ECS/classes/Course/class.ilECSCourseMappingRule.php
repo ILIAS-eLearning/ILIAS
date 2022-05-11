@@ -30,10 +30,10 @@ class ilECSCourseMappingRule
     private int $rid;
     private int $sid;
     private int $mid;
-    private $attribute;// TODO PHP8-REVIEW Missing type
+    private string $attribute;
     private int $ref_id;
     private bool $is_filter = false;
-    private $filter;// TODO PHP8-REVIEW Missing type
+    private string $filter;
     private array $filter_elements = [];
     private bool $create_subdir = true;
     private string $directory = '';
@@ -349,7 +349,7 @@ class ilECSCourseMappingRule
         $this->attribute = $a_att;
     }
     
-    public function getAttribute()
+    public function getAttribute() : string
     {
         return $this->attribute;
     }
@@ -374,12 +374,12 @@ class ilECSCourseMappingRule
         return $this->is_filter;
     }
     
-    public function setFilter($a_filter) : void
+    public function setFilter(string $a_filter) : void
     {
         $this->filter = $a_filter;
     }
     
-    public function getFilter()
+    public function getFilter() : string
     {
         return $this->filter;
     }
@@ -389,7 +389,7 @@ class ilECSCourseMappingRule
         return $this->filter_elements;
     }
     
-    public function enableSubdirCreation($a_stat) : void
+    public function enableSubdirCreation(bool $a_stat) : void
     {
         $this->create_subdir = $a_stat;
     }

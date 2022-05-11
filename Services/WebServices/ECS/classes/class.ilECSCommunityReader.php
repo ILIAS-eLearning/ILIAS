@@ -116,10 +116,9 @@ class ilECSCommunityReader
     }
 
     /**
-     * @param int $a_pid
      * @return \ilECSParticipant[]
      */
-    public function getParticipantsByPid($a_pid) : array//TODO PHP8-REVIEW Missing type hints
+    public function getParticipantsByPid(int $a_pid) : array
     {
         $participants = [];
         foreach ($this->getCommunities() as $community) {
