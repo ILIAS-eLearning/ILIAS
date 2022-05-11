@@ -449,7 +449,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->object->setNavModeListMonthsWithPostings($form->getInput("nav_list_mon_with_post"));
         $this->object->setNavModeListMonths($form->getInput("nav_list_mon"));
         $this->object->setOverviewPostings($form->getInput("ov_list_post_num"));
-        $this->reading_time_gui->saveSettingFromForm($a_form);
+        $this->reading_time_gui->saveSettingFromForm($form);
 
         $order = (array) $form->getInput("order");
 
@@ -2743,7 +2743,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
      */
     public function addContributor(
         array $a_user_ids = array(),
-        ?string $a_user_type = null
+        ?int $a_user_type = null
     ) : void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;

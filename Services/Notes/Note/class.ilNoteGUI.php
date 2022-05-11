@@ -259,6 +259,7 @@ class ilNoteGUI
         $ilCtrl = $this->ctrl;
         $ilSetting = $this->settings;
 
+        $content = "";
         if ($this->requested_note_type === Note::PRIVATE && $ilUser->getId() !== ANONYMOUS_USER_ID) {
             $content = $this->getNoteListHTML(Note::PRIVATE, $a_init_form);
         }

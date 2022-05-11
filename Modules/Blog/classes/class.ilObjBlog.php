@@ -56,6 +56,7 @@ class ilObjBlog extends ilObject2
     ) {
         global $DIC;
 
+        $this->notes_service = $DIC->notes();
         parent::__construct($a_id, $a_reference);
         $this->rbac_review = $DIC->rbac()->review();
 
@@ -63,7 +64,6 @@ class ilObjBlog extends ilObject2
             ->contentStyle()
             ->domain()
             ->styleForObjId($this->getId());
-        $this->notes_service = $DIC->notes();
     }
 
     protected function initType() : void

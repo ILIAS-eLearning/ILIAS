@@ -1728,13 +1728,14 @@ class ilNewsItem
 
         $ilDB->setLimit(1, 0);
         $set = $ilDB->query($query);
-        $rec = $ilDB->fetchAssoc($set);
-
-        $id = (int) $rec["id"];
-        if ($a_only_today) {
-            $now = ilUtil::now();
-            if (strpos($rec["update_date"], substr($now, 0, 10)) !== 0) {
-                $id = 0;
+        $id = 0;
+        if ($rec = $ilDB->fetchAssoc($set)) {
+            $id = (int) $rec["id"];
+            if ($a_only_today) {
+                $now = ilUtil::now();
+                if (strpos($rec["update_date"], substr($now, 0, 10)) !== 0) {
+                    $id = 0;
+                }
             }
         }
 
