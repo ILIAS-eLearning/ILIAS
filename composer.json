@@ -61,7 +61,7 @@
 		"sabre/dav": "^4.1",
 		"symfony/console" : "^5.0",
 		"slim/slim": "^3.11",
-		"ramsey/uuid": "^3.8",
+		"ramsey/uuid": "^4.3",
 		"enshrined/svg-sanitize": "^0.15.0",
 		"guzzlehttp/guzzle": "^6.3",
 		"simplesamlphp/simplesamlphp": "^1.19.4",
