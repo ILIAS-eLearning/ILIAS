@@ -338,7 +338,7 @@ class ilBookingReservation
         while ($a_from < $a_to &&
             ++$loop < 1000) {
             // any slots for current weekday?
-            $day_slots = $schedule_slots[date("w", $a_from)];
+            $day_slots = $schedule_slots[date("w", $a_from)] ?? false;
             if ($day_slots) {
                 foreach ($day_slots as $slot) {
                     // convert slot to current datetime
