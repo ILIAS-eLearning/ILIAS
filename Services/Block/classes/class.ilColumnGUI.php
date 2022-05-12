@@ -394,7 +394,7 @@ class ilColumnGUI
 
         foreach ($this->blocks[$this->getSide()] as $block) {
             $gui_class = $block["class"] ?? null;
-            if(!is_string($gui_class)) {
+            if (!is_string($gui_class)) {
                 continue;
             }
             $block_class = substr($gui_class, 0, strlen($gui_class) - 3);
@@ -549,7 +549,7 @@ class ilColumnGUI
             : 0;
 
         $def_nr = 1000;
-        if (is_array($this->default_blocks[$this->getColType()])) {
+        if (isset($this->default_blocks[$this->getColType()])) {
             foreach ($this->default_blocks[$this->getColType()] as $class => $def_side) {
                 $type = self::$block_types[$class];
                 if ($this->isGloballyActivated($type)) {

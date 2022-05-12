@@ -356,7 +356,7 @@ class ilNewsItem
         $this->setUpdateDate($rec["update_date"]);
         $this->setUserId((int) $rec["user_id"]);
         $this->setUpdateUserId((int) $rec["update_user_id"]);
-        $this->setVisibility($rec["visibility"]);
+        $this->setVisibility((string) $rec["visibility"]);
         $this->setContentLong((string) $rec["content_long"]);
         $this->setPriority((int) $rec["priority"]);
         $this->setContentIsLangVar((bool) $rec["content_is_lang_var"]);

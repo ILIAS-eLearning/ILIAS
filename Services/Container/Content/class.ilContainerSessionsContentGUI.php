@@ -234,8 +234,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         if (
             !$admin_panel_enabled &&
             !$include_side_block &&
-            $items['sess'] &&
-            is_array($items['sess']) &&
+            isset($items['sess']) &&
             $container->isSessionLimitEnabled() &&
             ($container->getViewMode() === ilContainer::VIEW_SESSIONS || $container->getViewMode() === ilContainer::VIEW_INHERIT)
         ) {
