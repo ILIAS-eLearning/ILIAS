@@ -375,21 +375,13 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                         $this->tpl->setVariable("VAL_TEAM_MEMBER", "&nbsp;");
                     }
                     break;
-                    
+
+                case "calc_deadline":
                 case "idl":
 
                     $this->tpl->setVariable(
                         "VAL_" . strtoupper($col),
                         isset($a_row[$col])
-                            ? ilDatePresentation::formatDate(new ilDateTime($a_row[$col], IL_CAL_UNIX))
-                            : "&nbsp;"
-                    );
-                    break;
-
-                case "calc_deadline":
-                    $this->tpl->setVariable(
-                        "VAL_" . strtoupper($col),
-                        $a_row[$col]
                             ? ilDatePresentation::formatDate(new ilDateTime($a_row[$col], IL_CAL_UNIX))
                             : "&nbsp;"
                     );

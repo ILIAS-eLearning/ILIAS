@@ -137,7 +137,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
                 }
 
                 // check suffixes
-                if ($pictures["tmp_name"][$index] != "" && is_array($this->getSuffixes())) {
+                if ($pictures["tmp_name"][$index] != "" && is_array($this->getSuffixes()) && count($this->getSuffixes()) > 0) {
                     if (!in_array(strtolower($suffix), $this->getSuffixes())) {
                         $this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
                         $uploadcheck = false;
@@ -172,7 +172,9 @@ class ilFileWizardInputGUI extends ilFileInputGUI
         foreach ($this->filenames as $value) {
             if (strlen($value)) {
                 $tpl->setCurrentBlock("image");
-                $tpl->setVariable("SRC_IMAGE", $this->getImagePathWeb() . ilLegacyFormElementsUtil::prepareFormOutput(
+                $tpl->setVariable(
+                    "SRC_IMAGE",
+                    $this->getImagePathWeb() . ilLegacyFormElementsUtil::prepareFormOutput(
                         $value
                     )
                 );

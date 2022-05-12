@@ -54,7 +54,7 @@ class ilExerciseManagementGUI
     protected ilGlobalPageTemplate $tpl;
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;
-    protected array $filter;
+    protected array $filter = [];
     protected ilToolbarGUI $toolbar;
     protected ?ilObjExercise $exercise;
     protected ?ilExAssignment $assignment = null;
@@ -63,12 +63,12 @@ class ilExerciseManagementGUI
     protected ilObjUser $user;
     protected InternalService $service;
     protected ?ilDBInterface $db = null;
-    protected int $ass_id;
-    protected int $requested_member_id;
-    protected int $requested_part_id;
-    protected int $requested_ass_id;
+    protected int $ass_id = 0;
+    protected int $requested_member_id = 0;
+    protected int $requested_part_id = 0;
+    protected int $requested_ass_id = 0;
     protected string $requested_idl_id;
-    protected bool $done;
+    protected bool $done = false;
     protected array $requested_learning_comments;
     protected string $requested_comment;
     protected string $requested_user_login;
@@ -564,7 +564,7 @@ class ilExerciseManagementGUI
         foreach (ilExSubmission::getAssignmentFilesByUsers($this->exercise->getId(), $this->assignment->getId(), $members) as $file) {
             if (trim($file["atext"]) && ilObjUser::_exists($file["user_id"])) {
                 $feedback_data = $this->collectFeedbackDataFromPeer($file);
-                $submission_data = $this->assignment->getExerciseMemberAssignmentData($file["user_id"], $this->filter["status"]);
+                $submission_data = $this->assignment->getExerciseMemberAssignmentData((int) $file["user_id"], $this->filter["status"] ?? "");
 
                 if (is_array($submission_data)) {
                     $data = array_merge($feedback_data, $submission_data);
@@ -619,7 +619,7 @@ class ilExerciseManagementGUI
 
             $feedback_data = $this->collectFeedbackDataFromPeer($file);
 
-            $submission_data = $this->assignment->getExerciseMemberAssignmentData($file["user_id"], $this->filter["status"]);
+            $submission_data = $this->assignment->getExerciseMemberAssignmentData((int) $file["user_id"], $this->filter["status"] ?? "");
 
             if (is_array($submission_data)) {
                 $data = array_merge($feedback_data, $submission_data);
@@ -704,7 +704,8 @@ class ilExerciseManagementGUI
 
         $feedback_tpl = new ilTemplate("tpl.exc_report_feedback.html", true, true, "Modules/Exercise");
         //if no feedback filter the feedback is displayed. Can be list submissions or compare submissions.
-        if (array_key_exists("peer", $a_data) && ($this->filter["feedback"] == self::FEEDBACK_FULL_SUBMISSION) || $this->filter["feedback"] == "") {
+        $filter_feedback = $this->filter["feedback"] ?? "";
+        if (array_key_exists("peer", $a_data) && (($filter_feedback == self::FEEDBACK_FULL_SUBMISSION) || $filter_feedback == "")) {
             $feedback_tpl->setCurrentBlock("feedback");
             foreach ($a_data["peer"] as $peer_id) {
                 if (ilObject::_lookupType($peer_id) == "usr") {
@@ -2086,7 +2087,7 @@ class ilExerciseManagementGUI
             self::GRADE_FAILED => $this->lng->txt("exc_failed")
         );
         $si_status->setOptions($options);
-        $si_status->setValue($this->filter["status"]);
+        $si_status->setValue($this->filter["status"] ?? "");
 
         $si_feedback = new ilSelectInputGUI($this->lng->txt("feedback"), "filter_feedback");
         $options = array(
@@ -2094,7 +2095,7 @@ class ilExerciseManagementGUI
             self::FEEDBACK_ONLY_SUBMISSION => $this->lng->txt("submissions_only")
         );
         $si_feedback->setOptions($options);
-        $si_feedback->setValue($this->filter["feedback"]);
+        $si_feedback->setValue($this->filter["feedback"] ?? "");
 
         $this->toolbar->addInputItem($si_status, true);
 
@@ -2113,7 +2114,7 @@ class ilExerciseManagementGUI
                 "submission_only" => $this->lng->txt("submissions_only")
             );
             $si_feedback->setOptions($options);
-            $si_feedback->setValue($this->filter["feedback"]);
+            $si_feedback->setValue($this->filter["feedback"] ?? "");
 
             $this->toolbar->addInputItem($si_feedback, true);
         }

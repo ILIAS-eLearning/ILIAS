@@ -636,7 +636,7 @@ class ilExPeerReviewGUI
                 $peer["peer_id"],
                 $form
             );
-            $item->addToPeerReviewForm($values[$crit_id]);
+            $item->addToPeerReviewForm($values[$crit_id] ?? null);
         }
         
         $form->addCommandButton("updatePeerReview", $lng->txt("save"));
