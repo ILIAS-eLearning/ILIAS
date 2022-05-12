@@ -19,12 +19,12 @@
  */
 class ilMediaPoolItem
 {
-    protected string $title;
-    protected int $foreign_id;
-    protected string $type;
-    protected int $id;
+    protected string $title = "";
+    protected int $foreign_id = 0;
+    protected string $type = "";
+    protected int $id = 0;
     protected ilDBInterface $db;
-    protected string $import_id;
+    protected string $import_id = "";
 
     /**
      * @param int $a_id media pool item id

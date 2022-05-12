@@ -122,6 +122,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
 
+        $tree = null;
         if ($this->object) {
             $tree = $this->object->getTree();
         }
@@ -129,7 +130,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         $new_type = $this->mep_request->getNewType();
-        $tree = null;
+
 
         if ($new_type !== "" && ($cmd !== "confirmRemove" && $cmd !== "copyToClipboard"
             && $cmd !== "pasteFromClipboard")) {
@@ -190,8 +191,8 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 if ($cmd === "create" || $cmd === "save" || $cmd === "cancel") {
                     $ret_obj = $this->mep_item_id;
                     $ilObjMediaObjectGUI = new ilObjMediaObjectGUI("", 0, false, false);
-                    $ilObjMediaObjectGUI->setWidthPreset($this->getMediaPool()->getDefaultWidth());
-                    $ilObjMediaObjectGUI->setHeightPreset($this->getMediaPool()->getDefaultHeight());
+                    $ilObjMediaObjectGUI->setWidthPreset((int) $this->getMediaPool()->getDefaultWidth());
+                    $ilObjMediaObjectGUI->setHeightPreset((int) $this->getMediaPool()->getDefaultHeight());
                 } else {
                     $ret_obj = $tree->getParentId($this->mep_item_id);
                     $ilObjMediaObjectGUI = new ilObjMediaObjectGUI("", ilMediaPoolItem::lookupForeignId($this->mep_item_id), false, false);
@@ -222,12 +223,12 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $ilObjMediaObjectGUI->setAdvMdRecordObject($this->object->getRefId(), "mep", "mob");
 
                 $ret = $this->ctrl->forwardCommand($ilObjMediaObjectGUI);
-
-                if ($cmd === "save" && $ret != false) {
+                if ($cmd === "save") {
+                    $object = $ilObjMediaObjectGUI->getObject();
                     $mep_item = new ilMediaPoolItem();
-                    $mep_item->setTitle($ret->getTitle());
+                    $mep_item->setTitle($object->getTitle());
                     $mep_item->setType("mob");
-                    $mep_item->setForeignId($ret->getId());
+                    $mep_item->setForeignId($object->getId());
                     $mep_item->create();
 
                     $parent = $this->mep_item_id;
@@ -911,7 +912,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 }
             }
             
-            $caption = ilUtil::getImageTagByType($type, $this->tpl->tplPath) .
+            $caption =
                 " " . $title . $add;
             
             $cgui->addItem("id[]", $obj_id, $caption);

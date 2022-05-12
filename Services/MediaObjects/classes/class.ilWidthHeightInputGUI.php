@@ -21,8 +21,8 @@
 class ilWidthHeightInputGUI extends ilFormPropertyGUI
 {
     protected bool $constrainproportions;
-    protected ?int $height;
-    protected ?int $width;
+    protected ?int $height = null;
+    protected ?int $width = null;
     protected array $dirs;
     protected ilObjUser $user;
     protected \ilGlobalTemplateInterface $main_tpl;
