@@ -161,7 +161,7 @@ class ilObjFileListGUI extends ilObjectListGUI
             );
         }
     
-        if (isset($file_data["page_count"])) {
+        if (isset($file_data["page_count"]) && (int) $file_data["page_count"] > 0) {
             $props[] = array(
                 "alert" => false,
                 "property" => $DIC->language()->txt("page_count"),
