@@ -2291,6 +2291,7 @@ rbac#:#cert_read#:#User has read access to Certificates Administration
 rbac#:#cert_visible#:#Certificates Administration is visible
 rbac#:#cert_write#:#User can edit settings in Certificates Administration
 common#:#certificate#:#Certificate
+common#:#certificates#:#Certificates
 common#:#change_assignment#:#Change assignment
 rbac#:#change_existing_object_type_desc#:#This will also change the permissions of already existing objects of that type
 rbac#:#change_existing_objects_desc#:#The permission settings of this role will be adopted to ALL existing objects. If you want to change permissions only for specific object types please click the checkboxes to the right of the appropriate object type.

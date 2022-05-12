@@ -2705,6 +2705,7 @@ rbac#:#cert_read#:#Lesezugriff auf die Zertifikatsverwaltung
 rbac#:#cert_visible#:#Zertifikatsverwaltung ist sichtbar
 rbac#:#cert_write#:#Einstellungen der Zertifikatsverwaltung bearbeiten
 common#:#certificate#:#Zertifikat
+common#:#certificates#:#Zertifikate
 common#:#change#:#Ändern
 common#:#change_assignment#:#Zuweisung ändern
 rbac#:#change_existing_object_type_desc#:#Wenn aktiviert, werden auch die Rechte von bereits vorhandenen Objekten dieses Typs geändert. Ansonsten gilt die Rechteänderung nur für künftig erstellte Objekte.
