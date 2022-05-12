@@ -1027,30 +1027,7 @@ class ilObjectListGUI
 
             if ($access) {
                 $access_granted = true;
-                if (ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION === $cmd) {
-                    global $DIC;
-                    $file_obj = new ilObjFile($this->ref_id);
-                    $file_rid = $DIC->resourceStorage()->manage()->find($file_obj->getResourceId());
-                    if (null !== $file_rid &&
-                        'application/zip' === $DIC->resourceStorage()
-                                                  ->manage()
-                                                  ->getCurrentRevision($file_rid)
-                                                  ->getInformation()
-                                                  ->getMimeType()
-                    ) {
-                        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
-                        $cmd_link = $DIC->ctrl()->getLinkTargetByClass(
-                            ilRepositoryGUI::class,
-                            ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION
-                        );
-                        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->requested_ref_id);
-                    } else {
-                        $access_granted = false;
-                    }
-                } else {
-                    $cmd_link = $this->getCommandLink($command["cmd"]);
-                }
-
+                $cmd_link = $this->getCommandLink($command["cmd"]);
                 $cmd_frame = $this->getCommandFrame($command["cmd"]);
                 $cmd_image = $this->getCommandImage($command["cmd"]);
             } else {

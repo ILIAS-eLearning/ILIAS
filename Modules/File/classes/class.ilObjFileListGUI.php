@@ -15,7 +15,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+use ILIAS\FileUpload\MimeType;
+
 /**
  * Class ilObjFileListGUI
  * @author        Alex Killing <alex.killing@gmx.de>
@@ -42,7 +44,6 @@ class ilObjFileListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
         $this->type = ilObjFile::OBJECT_TYPE;
         $this->gui_class_name = ilObjFileGUI::class;
-
         $this->commands = ilObjFileAccess::_getCommands();
     }
 
@@ -67,6 +68,8 @@ class ilObjFileListGUI extends ilObjectListGUI
 
         return $frame;
     }
+    
+    
 
     /**
      * Returns the icon image type.
@@ -101,14 +104,11 @@ class ilObjFileListGUI extends ilObjectListGUI
         global $DIC;
         
         $props = parent::getProperties();
-        
-        // to do: implement extra smaller file info object
 
-        global $DIC;
-        $file_obj = new ilObjFile($this->ref_id);
-        $file_rid = $DIC->resourceStorage()->manage()->find($file_obj->getResourceId());
-        $revision = (null !== $file_rid) ? $DIC->resourceStorage()->manage()->getCurrentRevision($file_rid) : null;
-
+        ilObjFileAccess::_preloadData([$this->obj_id], [$this->ref_id]);
+        $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
+        $revision = $file_data['version'] ?? null;
+    
         // Display a warning if a file is not a hidden Unix file, and
         // the filename extension is missing
         if (null === $revision && !preg_match('/^\\.|\\.[a-zA-Z0-9]+$/', $this->title)) {
@@ -125,14 +125,12 @@ class ilObjFileListGUI extends ilObjectListGUI
             "property" => $DIC->language()->txt("type"),
             "value" => ilObjFileAccess::_getFileExtension(
                 (null !== $revision) ?
-                    $revision->getInformation()->getTitle() :
+                    $file_data['title'] :
                     $this->title
             ),
             'propertyNameVisible' => false,
         );
-
-        ilObjFileAccess::_preloadData([$this->obj_id], [$this->ref_id]);
-        $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
+        
         
         $props[] = array(
             "alert" => false,
@@ -185,21 +183,29 @@ class ilObjFileListGUI extends ilObjectListGUI
     {
         return "";
     }
-
-    /**
-     * Get command link url.
-     * @param string $a_cmd The command to get the link for.
-     * @return string The command link.
-     */
+    
     public function getCommandLink(string $cmd) : string
     {
-        // overwritten to always return the permanent download link
-
         // only create permalink for repository
-        if ($cmd == "sendfile" && $this->context == self::CONTEXT_REPOSITORY) {
+        if ($cmd == "sendfile" && $this->context === self::CONTEXT_REPOSITORY) {
             // return the perma link for downloads
             return ilObjFileAccess::_getPermanentDownloadLink($this->ref_id);
         }
+    
+        if (ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION === $cmd) {
+            $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
+            if (MimeType::APPLICATION__ZIP === ($file_data['mime'] ?? null)) {
+                $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
+                $cmd_link = $this->ctrl->getLinkTargetByClass(
+                    ilRepositoryGUI::class,
+                    ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION
+                );
+                $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->requested_ref_id);
+            } else {
+                $access_granted = false;
+            }
+        }
+        
 
         return parent::getCommandLink($cmd);
     }
