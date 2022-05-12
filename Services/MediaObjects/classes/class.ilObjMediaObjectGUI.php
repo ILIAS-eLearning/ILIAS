@@ -25,9 +25,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 {
     protected SubtitlesGUIRequest $sub_title_request;
     protected ilPropertyFormGUI $form_gui;
-    protected int $height_preset;
-    protected int $width_preset;
-    protected string $back_title;
+    protected int $height_preset = 0;
+    protected int $width_preset = 0;
+    protected string $back_title = "";
     protected ilErrorHandling $error;
     protected ilHelpGUI $help;
     protected ilTabsGUI $tabs;

@@ -84,8 +84,8 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
     {
         $val = $this->strArray($this->getPostVar());
         return [
-            "width" => (string) $val["width"],
-            "height" => (string) $val["height"],
+            "width" => (string) ($val["width"] ?? ""),
+            "height" => (string) ($val["height"] ?? ""),
             "constr_prop" => (bool) ($val["constr_prop"] ?? false)
         ];
     }

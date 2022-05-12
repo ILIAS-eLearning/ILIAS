@@ -39,7 +39,7 @@ class ilPCMediaObjectEditorGUI implements PageComponentEditor
         $acc->setBehaviour(ilAccordionGUI::FIRST_OPEN);
 
         return [
-            "creation_form" => $acc->getHTML(),
+            "creation_form" => $acc->getHTML(true),
             "icon" => $ui_wrapper->getRenderedIcon("pemed")
         ];
     }

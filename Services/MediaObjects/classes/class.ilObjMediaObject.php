@@ -1306,6 +1306,13 @@ class ilObjMediaObject extends ilObject
             }
         }
 
+        if (!isset($size[0])) {
+            $size[0] = 0;
+        }
+        if (!isset($size[1])) {
+            $size[1] = 0;
+        }
+
         if ($a_use_original) {
             if ($size[0] > 0 && $size[1] > 0) {
                 //$width = $size[0];

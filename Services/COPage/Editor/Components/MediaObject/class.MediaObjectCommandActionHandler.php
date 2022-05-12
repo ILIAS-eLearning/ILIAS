@@ -72,7 +72,12 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
         $pc_media = new \ilPCMediaObject($page);
         $pc_media->createMediaObject();
         $mob = $pc_media->getMediaObject();
-        \ilObjMediaObjectGUI::setObjectPerCreationForm($mob);
+
+        $mob_gui = new \ilObjMediaObjectGUI("");
+        $mob_gui->initForm("create");
+        if ($mob_gui->checkFormInput()) {
+            $mob_gui->setObjectPerCreationForm($mob);
+        }
         $pc_media->createAlias($page, $hier_id, $pc_id);
         $updated = $page->update();
 
