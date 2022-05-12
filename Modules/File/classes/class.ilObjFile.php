@@ -108,7 +108,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $filename_info = new SplFileInfo($filename);
     
         $filename = str_replace('.' . $title_info->getExtension(), '', $title_info->getFilename());
-        $extension = $title_info->getExtension();
+        $extension = $filename_info->getExtension();
         
         return $filename . '.' . $extension;
     }
