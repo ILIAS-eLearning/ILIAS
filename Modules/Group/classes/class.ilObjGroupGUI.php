@@ -1265,7 +1265,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 if ($this->object->getMinMembers()) {
                     $info->addProperty(
                         $this->lng->txt("mem_min_users"),
-                        $this->object->getMinMembers()
+                        (string) $this->object->getMinMembers()
                     );
                 }
                 if ($this->object->getMaxMembers()) {
@@ -1273,7 +1273,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
                     $info->addProperty(
                         $this->lng->txt('mem_free_places'),
-                        $reg_info['reg_info_free_places']
+                        (string) $reg_info['reg_info_free_places']
                     );
                 }
             }

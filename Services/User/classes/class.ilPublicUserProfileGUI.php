@@ -97,10 +97,10 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         
         // we only allow relative links
         $parts = parse_url($a_backurl);
-        if ($parts["host"]) {
+        $host = $parts['host'] ?? '';
+        if ($host !== '') {
             $a_backurl = "#";
         }
-        
         $this->backurl = $a_backurl;
         $ilCtrl->setParameter($this, "back_url", rawurlencode($a_backurl));
     }
