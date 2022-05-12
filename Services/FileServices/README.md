@@ -11,7 +11,7 @@ General Information for the Inputs you find in [src/UI/Component/Input/README.md
 global $DIC;
 $f = $DIC->ui()->factory();
 
-$handler = new ilMyOwnUploadHandler();
+$handler = new ilMyOwnUploadHandlerGUI();
 
 $f->input()->field()->file(
     $handler,
@@ -32,6 +32,16 @@ abstract protected function getRemoveResult(string $identifier) : HandlerResult;
 abstract public function getInfoResult(string $identifier) : ?FileInfoResult;
 abstract public function getInfoForExistingFiles(array $file_ids) : array;
 ```
+Of course, your UploadHandler must then be accessible via ilCtrl, so it needs corresponding statements in the class (this is only example, you must define a ilCtrl-way which fits your location, see [Services/UICore/ilctrl.md](../../Services/UICore/ilctrl.md)):
+
+```php
+/**
+ * @ilCtrl_isCalledBy ilMyOwnUploadHandlerGUI: ilRepositoryGUI, ilDashboardGUI
+ */
+class ilMyOwnUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
+{ 
+```
+
 #### getUploadResult
 This is the main method in which the files uploaded by the File-Input or Dropzone must be processed. The method is called for each file individually. The uploads are stored in the storage service, for example, or processed in some other way. 
 
@@ -141,7 +151,7 @@ The second variant of how to upload files is via Dropzones. This works analogous
 global $DIC;
 $f = $DIC->ui()->factory();
 
-$handler = new ilMyOwnUploadHandler();
+$handler = new ilMyOwnUploadHandlerGUI();
 
 $f->dropzone()->file()->standard(
     $handler,
