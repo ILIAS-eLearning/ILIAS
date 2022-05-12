@@ -669,9 +669,9 @@ assessment#:#detailed_evaluation_missing_active_id#:#You must call the ‘Detail
 assessment#:#detailed_evaluation_show#:#Show Detailed Evaluation
 assessment#:#detailed_output_printview#:#Detailed Output with Question Print Views
 assessment#:#detailed_output_solutions#:#Detailed Output with Question Solutions
-assessment#:#detail_ending_time_reached#:#The time allotted for this test is now over. The test had not been available since %s
+assessment#:#detail_ending_time_reached#:#The time allotted for this test is now over. The test had not been available since %s hours.
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
-assessment#:#detail_starting_time_not_reached#:#You have not reached the start time of the test. The test will be available on %s
+assessment#:#detail_starting_time_not_reached#:#You have not reached the start time of the test. The test will be available on %s hours.
 assessment#:#direct_feedback#:#Verify Your Solution
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
 assessment#:#discard_answer#:#Delete Answer###fau: testNav
