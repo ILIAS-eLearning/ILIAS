@@ -11,6 +11,10 @@ class ilServicesWebServicesSuite extends TestSuite
         $suite = new ilServicesWebServicesSuite();
         include_once("./Services/WebServices/test/ilRPCServerSettingsTest.php");
         $suite->addTestSuite(ilRPCServerSettingsTest::class);
+
+        include_once './webservice/soap/test/ilSoapFunctionsTest.php';
+        $suite->addTestSuite(ilSoapFunctionsTest::class);
+
         return $suite;
     }
 }
