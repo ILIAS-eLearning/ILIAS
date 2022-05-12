@@ -9,7 +9,7 @@
  */
 class ilXMLResultSetWriter extends ilXmlWriter
 {
-    protected $xmlResultSet;
+    protected ilXMLResultSet $xmlResultSet;
 
     public function __construct(ilXMLResultSet $xmlResultSet)
     {

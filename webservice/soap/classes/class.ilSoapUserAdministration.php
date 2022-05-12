@@ -31,11 +31,11 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapUserAdministration extends ilSoapAdministration
 {
-    private ?php4DOMDocument $dom = null;
-
     public const USER_FOLDER_ID = 7;
 
-
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function login(string $client, string $username, string $password)
     {
         unset($_COOKIE[session_name()]);
@@ -87,7 +87,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
     }
 
     /**
-     * Logout user destroy session
+     * @return bool|soap_fault|SoapFault|null
      */
     public function logout(string $sid)
     {
@@ -104,6 +104,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
         return true;
     }
 
+    /**
+     * @return int|soap_fault|SoapFault|null
+     */
     public function lookupUser(string $sid, string $user_name)
     {
         $this->initAuth($sid);
@@ -141,9 +144,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
     }
 
     /**
-     * define ("IL_FAIL_ON_CONFLICT", 1);
-     * define ("IL_UPDATE_ON_CONFLICT", 2);
-     * define ("IL_IGNORE_ON_CONFLICT", 3);
+     * @return soap_fault|SoapFault|string|null
      */
     public function importUsers(string $sid, int $folder_id, string $usr_xml, int $conflict_rule, bool $send_account_mail)
     {
@@ -171,7 +172,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         $error = false;
 
         // validate to prevent wrong XMLs
-        $this->dom = @domxml_open_mem($usr_xml, DOMXML_LOAD_PARSING, $error);
+        @domxml_open_mem($usr_xml, DOMXML_LOAD_PARSING, $error);
         if ($error) {
             $msg = array();
             if (is_array($error)) {
@@ -427,7 +428,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
     }
 
     /**
-     * return list of users following dtd users_3_7
+     * @return ilObject|mixed|soap_fault|SoapFault|string|null
      */
     public function getUsersForContainer(string $sid, int $ref_id, bool $attachRoles, int $active)
     {
@@ -512,6 +513,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
         return '';
     }
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function getUserForRole(string $sid, int $role_id, bool $attachRoles, int $active)
     {
         $this->initAuth($sid);
@@ -663,6 +667,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
      * @param array $a_keyValues  values separated by space, at least 3 chars per search term
      * @param bool
      * @param int
+     * @return soap_fault|SoapFault|null|string
      */
     public function searchUser(
         string $sid,
@@ -740,9 +745,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
     /**
      * create search term according to parameters
-     * @param array of string $a_keyfields
-     * @param string $queryOperator
-     * @param array of string $a_keyValues
      */
     private function buildSearchQuery(array $a_keyfields, string $queryOperator, array $a_keyvalues) : string
     {
@@ -784,10 +786,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
     }
 
     /**
-     *    return user xmls for given user ids (csv separated ids) as xml based on usr dtd.
-     * @param string sid    session id
-     * @param array a_userids array of user ids, may be numeric or ilias ids
-     * @param bool attachRoles    if true, role assignments will be attached, nothing will be done otherwise
+     * @return soap_fault|SoapFault|string|null
      */
     public function getUserXML(string $sid, array $a_user_ids, bool $attach_roles)
     {
@@ -848,6 +847,9 @@ class ilSoapUserAdministration extends ilSoapAdministration
         return ilMailGlobalServices::getNewMailsData($ilUser)['count'] > 0;
     }
 
+    /**
+     * @return int|soap_fault|SoapFault|null
+     */
     public function getUserIdBySid(string $sid)
     {
         $this->initAuth($sid);
@@ -870,7 +872,6 @@ class ilSoapUserAdministration extends ilSoapAdministration
         if (!(int) $data['usr_id']) {
             $this->raiseError('User does not exist', 'Client');
         }
-
         return (int) $data['usr_id'];
     }
 }
