@@ -49,9 +49,19 @@ class ilObjectXMLWriter extends ilXmlWriter
         $this->mode = $a_mode;
     }
 
+    public function getMode() : int
+    {
+        return $this->mode;
+    }
+
     public function setHighlighter(ilLuceneHighlighterResultParser $a_highlighter) : void
     {
         $this->highlighter = $a_highlighter;
+    }
+
+    public function getHighlighter() : ?ilLuceneHighlighterResultParser
+    {
+        return $this->highlighter;
     }
 
     public function enablePermissionCheck(bool $a_status) : void
@@ -250,7 +260,7 @@ class ilObjectXMLWriter extends ilXmlWriter
     {
         switch ($obj->getType()) {
             case 'file':
-                if(!$obj instanceof ilObjFile) {
+                if (!$obj instanceof ilObjFile) {
                     break;
                 }
                 $size = $obj->getFileSize();

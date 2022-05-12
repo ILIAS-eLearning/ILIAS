@@ -13,7 +13,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
     }
 
     /**
-     * Get Weblink xml
+     * @return soap_fault|SoapFault|string|null
      */
     public function readWebLink(string $sid, int $request_ref_id)
     {
@@ -82,7 +82,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
     }
 
     /**
-     * add an exercise with id.
+     * @return int|soap_fault|SoapFault|null
      */
     public function createWebLink(string $sid, int $target_id, string $weblink_xml)
     {
@@ -144,7 +144,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
     }
 
     /**
-     * update a weblink with id.
+     * @return bool|soap_fault|SoapFault|null
      */
     public function updateWebLink(string $sid, int $request_ref_id, string $weblink_xml)
     {
@@ -191,7 +191,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
         }
 
         $webl = ilObjectFactory::getInstanceByObjId($obj_id, false);
-        if (!is_object($webl) || $webl->getType() !== "webr") {
+        if (!$webl instanceof ilObjLinkResource) {
             return $this->raiseError(
                 'Wrong obj id or type for weblink with id ' . $request_ref_id,
                 'Client'
@@ -200,6 +200,7 @@ class ilSoapWebLinkAdministration extends ilSoapAdministration
 
         try {
             include_once './Modules/WebResource/classes/class.ilWebLinkXmlParser.php';
+            /** @noinspection PhpParamsInspection */
             $parser = new ilWebLinkXmlParser($webl, $weblink_xml);
             $parser->setMode(ilWebLinkXmlParser::MODE_UPDATE);
             $parser->start();
