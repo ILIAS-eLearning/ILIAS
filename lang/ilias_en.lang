@@ -11324,6 +11324,7 @@ ecs#:#ecs_cmap_att_module#:#Module
 ecs#:#ecs_cmap_att_venue#:#Venue
 assessment#:#tst_man_scoring_by_part#:#Scoring by Participant
 assessment#:#tst_man_scoring_by_qst#:#Scoring by Question
+assessment#:#tst_man_scoring_only_answered#:#Only answered
 assessment#:#tst_no_scorable_qst_available#:#No question to score available
 assessment#:#part_received_a_of_b_points#:#The participant received %s of %s possible points
 assessment#:#answers_of#:#Answers of:
