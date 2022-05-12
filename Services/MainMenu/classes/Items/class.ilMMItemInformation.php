@@ -46,11 +46,18 @@ class ilMMItemInformation implements ItemInformation
         global $DIC;
         static $usr_language_key;
         static $default_language;
-
-        if (!$usr_language_key) {
+    
+        // see https://mantis.ilias.de/view.php?id=32276
+        if (!isset($usr_language_key) && $DIC->user()->getId() === 0 || $DIC->user()->isAnonymous()) {
+            $usr_language_key = $DIC->http()->wrapper()->query()->has('lang')
+                ? $DIC->http()->wrapper()->query()->retrieve('lang', $DIC->refinery()->to()->string())
+                : null;
+        }
+        
+        if (!isset($usr_language_key)) {
             $usr_language_key = $DIC->language()->getUserLanguage() ? $DIC->language()->getUserLanguage() : $DIC->language()->getDefaultLanguage();
         }
-        if (!$default_language) {
+        if (!isset($default_language)) {
             $default_language = ilMMItemTranslationStorage::getDefaultLanguage();
         }
         if ($item instanceof RepositoryLink && empty($item->getTitle())) {

@@ -282,6 +282,7 @@ class PageContentGUI
             $this->fillRightContent();
             $this->fillAdminPanel();
             $this->fillToolbar();
+            $this->fillFilter();
             $this->setCenterColumnClass();
 
             // these fill just plain placeholder variables in tpl.adm_content.html

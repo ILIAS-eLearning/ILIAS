@@ -68,7 +68,7 @@ class ilObjectGUI
     protected bool $creation_mode = false;
     protected $data;
     protected int $id;
-    protected bool $call_by_reference;
+    protected bool $call_by_reference = false;
     protected bool $prepare_output;
     protected int $ref_id;
     protected int $obj_id;
@@ -1421,7 +1421,10 @@ class ilObjectGUI
     {
         $cp = new ilObjectCopyGUI($this);
         $cp->setType($type);
-        $cp->setTarget($this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int()));
+        $target = $this->request_wrapper->has("ref_id")
+            ? $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int())
+            : 0;
+        $cp->setTarget($target);
         if ($tpl_name) {
             $cp->showSourceSearch($tpl_name);
         }

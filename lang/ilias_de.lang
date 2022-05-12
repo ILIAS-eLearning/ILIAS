@@ -3583,6 +3583,7 @@ common#:#certificate_persistent_option#:#Zertifikate aus den Lernerfolgen
 common#:#certificate_selection#:#Ursprung der Zertifikate
 common#:#certificate_workspace_option#:#Zertifikate aus persönlichen Ressourcen
 common#:#certificate#:#Zertifikat
+common#:#certificates#:#Zertifikate
 common#:#changeable#:#Kann durch Benutzer selbst im Profil geändert werden
 common#:#change#:#Ändern
 common#:#change_assignment#:#Zuweisung ändern

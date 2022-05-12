@@ -27,14 +27,14 @@ class ilBookingReservation
     public const STATUS_CANCELLED = 5;
 
     protected ilDBInterface $db;
-    protected int $id;
-    protected int $object_id;
-    protected int $user_id;
-    protected int $from;
-    protected int $to;
-    protected ?int $status;
-    protected int $group_id;
-    protected int $assigner_id;
+    protected int $id = 0;
+    protected int $object_id = 0;
+    protected int $user_id = 0;
+    protected int $from = 0;
+    protected int $to = 0;
+    protected int $status = 0;
+    protected int $group_id = 0;
+    protected int $assigner_id = 0;
     protected int $context_obj_id = 0;
     protected ilBookingReservationDBRepository $repo;
 
@@ -338,7 +338,7 @@ class ilBookingReservation
         while ($a_from < $a_to &&
             ++$loop < 1000) {
             // any slots for current weekday?
-            $day_slots = $schedule_slots[date("w", $a_from)];
+            $day_slots = $schedule_slots[date("w", $a_from)] ?? false;
             if ($day_slots) {
                 foreach ($day_slots as $slot) {
                     // convert slot to current datetime

@@ -3575,6 +3575,7 @@ common#:#catr_new#:#Create Category Link
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)
 common#:#cc#:#CC
 common#:#certificate#:#Certificate
+common#:#certificates#:#Certificates
 common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.
 common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.
 common#:#certificate_file_not_found_error#:#The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
