@@ -24,14 +24,14 @@
 class ilBookingSchedule
 {
     protected ilDBInterface $db;
-    protected int $id;
-    protected string $title;
-    protected int $pool_id;
-    protected int $raster;
-    protected int $rent_min;
-    protected int $rent_max;
-    protected int $auto_break;
-    protected int $deadline;
+    protected int $id = 0;
+    protected string $title = "";
+    protected int $pool_id = 0;
+    protected int $raster = 0;
+    protected int $rent_min = 0;
+    protected int $rent_max = 0;
+    protected int $auto_break = 0;
+    protected int $deadline = 0;
     protected array $definition;
     protected ?ilDateTime $av_from;
     protected ?ilDateTime $av_to;

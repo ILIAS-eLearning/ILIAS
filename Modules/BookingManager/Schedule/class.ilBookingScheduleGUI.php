@@ -366,7 +366,7 @@ class ilBookingScheduleGUI
         */
 
         $days = $form->getInput("days");
-        $schedule->setDefinitionBySlots($days->getPostData("days"));
+        $schedule->setDefinitionBySlots($days);
     }
 
     /**

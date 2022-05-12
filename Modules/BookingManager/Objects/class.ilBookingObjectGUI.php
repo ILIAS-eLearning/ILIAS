@@ -349,7 +349,7 @@ class ilBookingObjectGUI
             "book",
             $this->getPoolObjId(),
             "bobj",
-            $id
+            (int) $id
         );
         $this->record_gui->setPropertyForm($form_gui);
         $this->record_gui->parse();

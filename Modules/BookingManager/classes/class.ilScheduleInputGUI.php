@@ -24,7 +24,7 @@
  */
 class ilScheduleInputGUI extends ilFormPropertyGUI
 {
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected array $value = [];
     protected string $validationFailureMessage;
     
@@ -117,7 +117,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    protected function getInput() : array
+    public function getInput() : array
     {
         return $this->getPostData($this->getPostVar());
     }
@@ -156,7 +156,6 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
                 }
             }
         }
-        
         return $res;
     }
     
