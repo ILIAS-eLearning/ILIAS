@@ -1694,13 +1694,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $ilAccess = $DIC['ilAccess'];
         $ilErr = $DIC['ilErr'];
         $lng = $DIC['lng'];
+        $ctrl = $DIC['ilCtrl'];
 
-        if ($ilAccess->checkAccess("write", "", $a_target) || $ilAccess->checkAccess('read', '', $a_target)) {
-            $_GET['cmdClass'] = 'ilObjQuestionPoolGUI';
-            $_GET['cmd'] = 'questions';
-            $_GET['baseClass'] = 'ilRepositoryGUI';
-            $_GET["ref_id"] = $a_target;
-            include_once("ilias.php");
+        if ($ilAccess->checkAccess("write", "", (int) $a_target)
+            || $ilAccess->checkAccess('read', '', (int) $a_target)
+        ) {
+            $target_class = ilObjQuestionPoolGUI::class;
+            $target_cmd = 'questions';
+            $ctrl->setParameterByClass($target_class, 'ref_id', $a_target);
+            $ctrl->redirectByClass([ilRepositoryGUI::class, $target_class], $target_cmd);
             exit;
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('info', sprintf(
