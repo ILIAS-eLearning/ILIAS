@@ -59,10 +59,12 @@ class ilLPStatusManual extends ilLPStatus
                     $set = $this->db->query(
                         $q = "SELECT usr_id FROM ut_lp_marks " .
                             "WHERE obj_id = " . $this->db->quote(
-                                $a_obj_id, 'integer'
+                                $a_obj_id,
+                                'integer'
                             ) . " " .
                             "AND usr_id = " . $this->db->quote(
-                                $a_usr_id, 'integer'
+                                $a_usr_id,
+                                'integer'
                             ) . " " .
                             "AND completed = '1' "
                     );

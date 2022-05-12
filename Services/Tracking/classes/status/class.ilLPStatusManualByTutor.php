@@ -40,10 +40,12 @@ class ilLPStatusManualByTutor extends ilLPStatus
         if ($members) {
             // diff in progress and completed (use stored result in LPStatusWrapper)
             $users = array_diff(
-                $members, ilLPStatusWrapper::_getInProgress($a_obj_id)
+                $members,
+                ilLPStatusWrapper::_getInProgress($a_obj_id)
             );
             $users = array_diff(
-                $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+                $users,
+                ilLPStatusWrapper::_getCompleted($a_obj_id)
             );
         }
 
@@ -62,7 +64,8 @@ class ilLPStatusManualByTutor extends ilLPStatus
 
         // Exclude all users with status completed.
         $users = array_diff(
-            $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+            $users,
+            ilLPStatusWrapper::_getCompleted($a_obj_id)
         );
 
         if ($users) {
@@ -117,10 +120,12 @@ class ilLPStatusManualByTutor extends ilLPStatus
                 $set = $this->db->query(
                     $q = "SELECT usr_id FROM ut_lp_marks " .
                         "WHERE obj_id = " . $this->db->quote(
-                            $a_obj_id, 'integer'
+                            $a_obj_id,
+                            'integer'
                         ) . " " .
                         "AND usr_id = " . $this->db->quote(
-                            $a_usr_id, 'integer'
+                            $a_usr_id,
+                            'integer'
                         ) . " " .
                         "AND completed = '1' "
                 );
@@ -170,7 +175,9 @@ class ilLPStatusManualByTutor extends ilLPStatus
             }
         }
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_COMPLETED_NUM,
+            $a_user_ids
         );
     }
 
@@ -198,7 +205,9 @@ class ilLPStatusManualByTutor extends ilLPStatus
             }
         }
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_IN_PROGRESS_NUM,
+            $a_user_ids
         );
     }
 }

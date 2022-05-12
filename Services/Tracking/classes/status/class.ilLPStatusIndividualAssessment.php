@@ -60,7 +60,8 @@ class ilLPStatusIndividualAssessment extends ilLPStatus
         object $a_obj = null
     ) : int {
         switch ((string) ilIndividualAssessmentLPInterface::determineStatusOfMember(
-            $a_obj_id, $a_usr_id
+            $a_obj_id,
+            $a_usr_id
         )) {
             case (string) ilIndividualAssessmentMembers::LP_NOT_ATTEMPTED:
                 return self::LP_STATUS_NOT_ATTEMPTED_NUM;

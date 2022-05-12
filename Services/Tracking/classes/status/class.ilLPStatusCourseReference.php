@@ -126,7 +126,8 @@ class ilLPStatusCourseReference extends ilLPStatus
         $database = $DIC->database();
         $query = 'select status,usr_id from ut_lp_marks ' .
             'where obj_id = ' . $database->quote(
-                $this->target_obj_id, \ilDBConstants::T_INTEGER
+                $this->target_obj_id,
+                \ilDBConstants::T_INTEGER
             );
         $res = $database->query($query);
 
@@ -153,7 +154,9 @@ class ilLPStatusCourseReference extends ilLPStatus
         object $a_obj = null
     ) : int {
         $status = \ilLPStatus::_lookupStatus(
-            $this->target_obj_id, $a_usr_id, false
+            $this->target_obj_id,
+            $a_usr_id,
+            false
         );
         if ($status) {
             return $status;
@@ -161,7 +164,8 @@ class ilLPStatusCourseReference extends ilLPStatus
         return \ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
     }
 
-    private static function getInstanceByObjId(int $a_reference_obj_id
+    private static function getInstanceByObjId(
+        int $a_reference_obj_id
     ) : ilLPStatusCourseReference {
         if (!isset(self::$instances[$a_reference_obj_id])) {
             self::$instances[$a_reference_obj_id] = new self(

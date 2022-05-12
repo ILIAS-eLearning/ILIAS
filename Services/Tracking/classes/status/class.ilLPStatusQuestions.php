@@ -14,7 +14,8 @@ class ilLPStatusQuestions extends ilLPStatus
 
         // Exclude all users with status completed.
         $users = array_diff(
-            $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+            $users,
+            ilLPStatusWrapper::_getCompleted($a_obj_id)
         );
 
         return $users;

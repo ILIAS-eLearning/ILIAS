@@ -121,13 +121,16 @@ class ilLPMarks
         $query = "UPDATE ut_lp_marks " .
             "SET mark = " . $this->db->quote($this->getMark(), 'text') . ", " .
             "u_comment = " . $this->db->quote(
-                $this->getComment(), 'text'
+                $this->getComment(),
+                'text'
             ) . ", " .
             "completed = " . $this->db->quote(
-                $this->getCompleted(), 'integer'
+                $this->getCompleted(),
+                'integer'
             ) . " " .
             "WHERE obj_id = " . $this->db->quote(
-                $this->getObjId(), 'integer'
+                $this->getObjId(),
+                'integer'
             ) . " " .
             "AND usr_id = " . $this->db->quote($this->getUserId(), 'integer');
         $res = $this->db->manipulate($query);
@@ -163,7 +166,8 @@ class ilLPMarks
         $query = "SELECT * FROM ut_lp_marks " .
             "WHERE usr_id = " . $ilDB->quote($user_id, 'integer') .
             " AND status = " . $ilDB->quote(
-                ilLPStatus::LP_STATUS_COMPLETED_NUM, 'integer'
+                ilLPStatus::LP_STATUS_COMPLETED_NUM,
+                'integer'
             ) .
             " AND status_changed >= " . $ilDB->quote($from, "timestamp") .
             " AND status_changed <= " . $ilDB->quote($to, "timestamp");
@@ -227,7 +231,8 @@ class ilLPMarks
         $res = $this->db->query(
             "SELECT * FROM ut_lp_marks " .
             "WHERE obj_id = " . $this->db->quote(
-                $this->obj_id, 'integer'
+                $this->obj_id,
+                'integer'
             ) . " " .
             "AND usr_id = " . $this->db->quote($this->usr_id, 'integer')
         );

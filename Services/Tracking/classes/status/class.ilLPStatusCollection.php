@@ -35,13 +35,16 @@ class ilLPStatusCollection extends ilLPStatus
         if ($members) {
             // diff in progress and completed (use stored result in LPStatusWrapper)
             $users = array_diff(
-                (array) $members, ilLPStatusWrapper::_getInProgress($a_obj_id)
+                (array) $members,
+                ilLPStatusWrapper::_getInProgress($a_obj_id)
             );
             $users = array_diff(
-                $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+                $users,
+                ilLPStatusWrapper::_getCompleted($a_obj_id)
             );
             $users = array_diff(
-                $users, ilLPStatusWrapper::_getFailed($a_obj_id)
+                $users,
+                ilLPStatusWrapper::_getFailed($a_obj_id)
             );
         }
 
@@ -61,12 +64,14 @@ class ilLPStatusCollection extends ilLPStatus
                 // merge arrays of users with status 'in progress'
                 $users = array_unique(
                     array_merge(
-                        $users, ilLPStatusWrapper::_getInProgress($item_id)
+                        $users,
+                        ilLPStatusWrapper::_getInProgress($item_id)
                     )
                 );
                 $users = array_unique(
                     array_merge(
-                        $users, ilLPStatusWrapper::_getCompleted($item_id)
+                        $users,
+                        ilLPStatusWrapper::_getCompleted($item_id)
                     )
                 );
             }
@@ -74,7 +79,8 @@ class ilLPStatusCollection extends ilLPStatus
 
         // Exclude all users with status completed.
         $users = array_diff(
-            $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+            $users,
+            ilLPStatusWrapper::_getCompleted($a_obj_id)
         );
         // Exclude all users with status failed.
         $users = array_diff($users, ilLPStatusWrapper::_getFailed($a_obj_id));
@@ -191,8 +197,8 @@ class ilLPStatusCollection extends ilLPStatus
                 }
                 if ($isGrouping) {
                     $allowed_failed = count(
-                            $grouping['items']
-                        ) - $grouping['num_obligatory'];
+                        $grouping['items']
+                    ) - $grouping['num_obligatory'];
                     // Itereate over all failed users and check whether the allowd_failed value exceeded
                     foreach ($gr_failed_users_num as $tmp_user_id => $num_failed) {
                         if ($num_failed > $allowed_failed) {
@@ -283,7 +289,10 @@ class ilLPStatusCollection extends ilLPStatus
                     foreach ($grouped_items as $grouping_id => $grouping) {
                         $isGrouping = $grouping_id ? true : false;
                         $status = self::determineGroupingStatus(
-                            $status, $grouping, $a_usr_id, $isGrouping
+                            $status,
+                            $grouping,
+                            $a_usr_id,
+                            $isGrouping
                         );
                     }
                 }
@@ -331,7 +340,8 @@ class ilLPStatusCollection extends ilLPStatus
         foreach ($items as $item_id) {
             $item_id = $ilObjDataCache->lookupObjId((int) $item_id);
             $gr_status = ilLPStatusWrapper::_determineStatus(
-                $item_id, $user_id
+                $item_id,
+                $user_id
             );
 
             if ($gr_status == self::LP_STATUS_FAILED_NUM) {
@@ -381,7 +391,8 @@ class ilLPStatusCollection extends ilLPStatus
                 $folder_ref_ids = ilObject::_getAllReferences($a_obj_id);
                 $folder_ref_id = current($folder_ref_ids);
                 if ($crs_id = $tree->checkForParentType(
-                    $folder_ref_id, 'crs'
+                    $folder_ref_id,
+                    'crs'
                 )) {
                     $member_obj = ilCourseParticipants::_getInstanceByObjId(
                         ilObject::_lookupObjId($crs_id)
@@ -415,7 +426,9 @@ class ilLPStatusCollection extends ilLPStatus
             }
         }
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_COMPLETED_NUM,
+            $a_user_ids
         );
     }
 
@@ -433,7 +446,9 @@ class ilLPStatusCollection extends ilLPStatus
             }
         }
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_FAILED_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_FAILED_NUM,
+            $a_user_ids
         );
     }
 
@@ -451,7 +466,9 @@ class ilLPStatusCollection extends ilLPStatus
             }
         }
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_IN_PROGRESS_NUM,
+            $a_user_ids
         );
     }
 }

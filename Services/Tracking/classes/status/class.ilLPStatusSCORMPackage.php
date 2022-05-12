@@ -76,7 +76,8 @@ class ilLPStatusSCORMPackage extends ilLPStatus
         $ilLog = $DIC['ilLog'];
 
         $scorm_status = ilSCORM2004Tracking::_getProgressInfoOfUser(
-            $a_obj_id, $a_usr_id
+            $a_obj_id,
+            $a_usr_id
         );
         $status = self::LP_STATUS_NOT_ATTEMPTED_NUM;
         switch ($scorm_status) {
@@ -109,7 +110,8 @@ class ilLPStatusSCORMPackage extends ilLPStatus
         $all_tracked_users = ilSCORM2004Tracking::_getTrackedUsers($a_obj_id);
 
         $not_attempted_users = array_diff(
-            $all_tracked_users, $all_active_users
+            $all_tracked_users,
+            $all_active_users
         );
         unset($all_tracked_users);
         unset($all_active_users);
@@ -119,7 +121,10 @@ class ilLPStatusSCORMPackage extends ilLPStatus
             foreach ($not_attempted_users as $usr_id) {
                 // this will update any (parent) collections if necessary
                 ilLPStatus::writeStatus(
-                    $a_obj_id, $usr_id, self::LP_STATUS_NOT_ATTEMPTED_NUM, 0
+                    $a_obj_id,
+                    $usr_id,
+                    self::LP_STATUS_NOT_ATTEMPTED_NUM,
+                    0
                 );
             }
         }

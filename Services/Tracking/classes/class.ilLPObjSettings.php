@@ -343,10 +343,12 @@ class ilLPObjSettings
             return $this->insert();
         }
         $query = "UPDATE ut_lp_settings SET u_mode = " . $this->db->quote(
-                $this->getMode(), 'integer'
-            ) . ", " .
+            $this->getMode(),
+            'integer'
+        ) . ", " .
             "visits = " . $this->db->quote(
-                $this->getVisits(), 'integer'
+                $this->getVisits(),
+                'integer'
             ) . " " .
             "WHERE obj_id = " . $this->db->quote($this->getObjId(), 'integer');
         $res = $this->db->manipulate($query);
@@ -385,8 +387,9 @@ class ilLPObjSettings
 
         $ilDB = $DIC['ilDB'];
         $query = "DELETE FROM ut_lp_settings WHERE obj_id = " . $ilDB->quote(
-                $a_obj_id, 'integer'
-            );
+            $a_obj_id,
+            'integer'
+        );
         $res = $ilDB->manipulate($query);
         return true;
     }

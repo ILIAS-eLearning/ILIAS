@@ -154,7 +154,8 @@ class ilLearningProgressBaseGUI
                     $this->tabs_gui->addTarget(
                         'trac_progress',
                         $this->ctrl->getLinkTargetByClass(
-                            'illplistofprogressgui', ''
+                            'illplistofprogressgui',
+                            ''
                         ),
                         "",
                         "",
@@ -167,7 +168,8 @@ class ilLearningProgressBaseGUI
                     $this->tabs_gui->addTarget(
                         'trac_objects',
                         $this->ctrl->getLinkTargetByClass(
-                            "illplistofobjectsgui", ''
+                            "illplistofobjectsgui",
+                            ''
                         ),
                         "",
                         "",
@@ -182,18 +184,21 @@ class ilLearningProgressBaseGUI
                 $olp = ilObjectLP::getInstance($this->obj_id);
                 if ($olp->isActive()) {
                     $has_read = ilLearningProgressAccess::checkPermission(
-                        'read_learning_progress', $this->getRefId()
+                        'read_learning_progress',
+                        $this->getRefId()
                     );
 
                     if ($this->isAnonymized() || !$has_read) {
                         $this->ctrl->setParameterByClass(
-                            'illplistofprogressgui', 'user_id',
+                            'illplistofprogressgui',
+                            'user_id',
                             $this->getUserId()
                         );
                         $this->tabs_gui->addSubTabTarget(
                             'trac_progress',
                             $this->ctrl->getLinkTargetByClass(
-                                'illplistofprogressgui', ''
+                                'illplistofprogressgui',
+                                ''
                             ),
                             "",
                             "",
@@ -203,17 +208,18 @@ class ilLearningProgressBaseGUI
                     } else {
                         // Check if it is a course
                         $sub_tab = ($this->ilObjectDataCache->lookupType(
-                                $this->ilObjectDataCache->lookupObjId(
-                                    $this->getRefId()
-                                )
-                            ) == 'crs') ?
+                            $this->ilObjectDataCache->lookupObjId(
+                                $this->getRefId()
+                            )
+                        ) == 'crs') ?
                             'trac_crs_objects' :
                             'trac_objects';
 
                         $this->tabs_gui->addSubTabTarget(
                             $sub_tab,
                             $this->ctrl->getLinkTargetByClass(
-                                "illplistofobjectsgui", ''
+                                "illplistofobjectsgui",
+                                ''
                             ),
                             "",
                             "",
@@ -242,7 +248,8 @@ class ilLearningProgressBaseGUI
                         $this->tabs_gui->addSubTabTarget(
                             "trac_summary",
                             $this->ctrl->getLinkTargetByClass(
-                                "illplistofobjectsgui", 'showObjectSummary'
+                                "illplistofobjectsgui",
+                                'showObjectSummary'
                             ),
                             "",
                             "",
@@ -253,12 +260,14 @@ class ilLearningProgressBaseGUI
                 }
                 if (!($olp instanceof ilPluginLP) &&
                     ilLearningProgressAccess::checkPermission(
-                        'edit_learning_progress', $this->getRefId()
+                        'edit_learning_progress',
+                        $this->getRefId()
                     )) {
                     $this->tabs_gui->addSubTabTarget(
                         'trac_settings',
                         $this->ctrl->getLinkTargetByClass(
-                            'illplistofsettingsgui', ''
+                            'illplistofsettingsgui',
+                            ''
                         ),
                         "",
                         "",
@@ -277,7 +286,8 @@ class ilLearningProgressBaseGUI
                 $this->tabs_gui->addSubTabTarget(
                     'trac_objects',
                     $this->ctrl->getLinkTargetByClass(
-                        "illplistofobjectsgui", ''
+                        "illplistofobjectsgui",
+                        ''
                     ),
                     "",
                     "",
@@ -449,11 +459,14 @@ class ilLearningProgressBaseGUI
 
             // status
             $i_tpl = new ilTemplate(
-                "tpl.lp_edit_manual_info_page.html", true, true,
+                "tpl.lp_edit_manual_info_page.html",
+                true,
+                true,
                 "Services/Tracking"
             );
             $i_tpl->setVariable(
-                "INFO_EDITED", $this->lng->txt("trac_info_edited")
+                "INFO_EDITED",
+                $this->lng->txt("trac_info_edited")
             );
             $i_tpl->setVariable(
                 "SELECT_STATUS",
@@ -476,7 +489,8 @@ class ilLearningProgressBaseGUI
             // #15334 - see ilLPTableBaseGUI::isPercentageAvailable()
             $mode = $olp->getCurrentMode();
             if (in_array(
-                $mode, array(ilLPObjSettings::LP_MODE_TLT,
+                $mode,
+                array(ilLPObjSettings::LP_MODE_TLT,
                              ilLPObjSettings::LP_MODE_VISITS,
                              // ilLPObjSettings::LP_MODE_OBJECTIVES,
                              ilLPObjSettings::LP_MODE_LTI_OUTCOME,
@@ -492,7 +506,8 @@ class ilLearningProgressBaseGUI
             )) {
                 $perc = ilLPStatus::_lookupPercentage($item_id, $user_id);
                 $info->addProperty(
-                    $this->lng->txt('trac_percentage'), (int) $perc . "%"
+                    $this->lng->txt('trac_percentage'),
+                    (int) $perc . "%"
                 );
             }
         }
@@ -564,7 +579,10 @@ class ilLearningProgressBaseGUI
     public function __getLegendHTML() : string
     {
         $tpl = new ilTemplate(
-            "tpl.lp_legend.html", true, true, "Services/Tracking"
+            "tpl.lp_legend.html",
+            true,
+            true,
+            "Services/Tracking"
         );
         $tpl->setVariable(
             "IMG_NOT_ATTEMPTED",
@@ -647,7 +665,8 @@ class ilLearningProgressBaseGUI
             $completed = ilLPStatus::_lookupStatus($a_obj_id, $a_user_id);
 
             $status = new ilCheckboxInputGUI(
-                $this->lng->txt('trac_completed'), "completed"
+                $this->lng->txt('trac_completed'),
+                "completed"
             );
             $status->setChecked(
                 ($completed == ilLPStatus::LP_STATUS_COMPLETED_NUM)
