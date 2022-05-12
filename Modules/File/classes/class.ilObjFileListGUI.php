@@ -26,9 +26,6 @@ use ILIAS\FileUpload\MimeType;
  */
 class ilObjFileListGUI extends ilObjectListGUI
 {
-    /**
-     * @var string (not yet defined in parent class)
-     */
     protected string $title;
     
     /**
@@ -182,6 +179,29 @@ class ilObjFileListGUI extends ilObjectListGUI
     public function getCommandImage($a_cmd) : string
     {
         return "";
+    }
+    
+    public function checkCommandAccess(
+        string $permission,
+        string $cmd,
+        int $ref_id,
+        string $type,
+        ?int $obj_id = null
+    ) : bool {
+        if (ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION === $cmd) {
+            $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
+            if (MimeType::APPLICATION__ZIP !== ($file_data['mime'] ?? null)) {
+                return false;
+            }
+        }
+        
+        return parent::checkCommandAccess(
+            $permission,
+            $cmd,
+            $ref_id,
+            $type,
+            $obj_id
+        );
     }
     
     public function getCommandLink(string $cmd) : string
