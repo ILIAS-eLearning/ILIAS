@@ -80,7 +80,7 @@ if (!ilStartUpGUI::_checkGoto($requested_target)) {
             );
         } else {
             global $DIC;
-            $DIC->ui()->mainTemplate()->setOnScreenMessage($DIC->language()->txt('permission_denied'), true);
+            $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', $DIC->language()->txt('permission_denied'), true);
         }
         $DIC->ctrl()->redirectToURL(ilUserUtil::getStartingPointAsUrl());
     }
