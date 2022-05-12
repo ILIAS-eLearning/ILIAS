@@ -24,15 +24,15 @@
 class ilBookingObject
 {
     protected ilDBInterface $db;
-    protected int $id;
-    protected int $pool_id;
-    protected string $title;
-    protected string $description;
-    protected int $nr_of_items;
-    protected ?int $schedule_id;
-    protected string $info_file;
-    protected string $post_text;
-    protected string $post_file;
+    protected int $id = 0;
+    protected int $pool_id = 0;
+    protected string $title = "";
+    protected string $description = "";
+    protected int $nr_of_items = 0;
+    protected ?int $schedule_id = null;
+    protected string $info_file = "";
+    protected string $post_text = "";
+    protected string $post_file = "";
 
     public function __construct(
         int $a_id = null

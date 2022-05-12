@@ -400,7 +400,6 @@ class ilBookingObjectGUI
                 !$this->record_gui->importEditFormPostValues()) {
                 $valid = false;
             }
-            
             if ($valid) {
                 $obj = new ilBookingObject();
                 $obj->setPoolId($this->getPoolObjId());

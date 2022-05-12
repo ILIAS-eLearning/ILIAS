@@ -40,7 +40,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
     protected ilTree $tree;
     /** @var int[] ids of context objects (e.g. course ids) */
     protected ?array $context_obj_ids;
-    protected ilAdvancedMDRecordGUI $record_gui;
+    protected ?ilAdvancedMDRecordGUI $record_gui = null;
 
     public function __construct(
         object $a_parent_obj,
@@ -568,7 +568,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    public function getAdvMDRecordGUI() : ilAdvancedMDRecordGUI
+    public function getAdvMDRecordGUI() : ?ilAdvancedMDRecordGUI
     {
         return $this->record_gui;
     }

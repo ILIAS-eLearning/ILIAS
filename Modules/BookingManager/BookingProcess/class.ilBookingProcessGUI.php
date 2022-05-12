@@ -844,7 +844,7 @@ class ilBookingProcessGUI
         // checkInput() has not been called yet, so we have to improvise
         $rece = $this->book_request->getRece();
         $recm = $this->book_request->getRecm();
-        $end = ilCalendarUtil::parseIncomingDate($rece, null);
+        $end = ilCalendarUtil::parseIncomingDate($rece, false);
 
         if ((int) $recm > 0 && $end && $current_first) {
             ksort($counter);

@@ -37,7 +37,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
     protected int $current_bookings;
     protected array $advmd;
     protected array $filter;
-    protected ilAdvancedMDRecordGUI $record_gui;
+    protected ?ilAdvancedMDRecordGUI $record_gui = null;
     protected bool $active_management;
     protected \ilGlobalTemplateInterface $main_tpl;
 
@@ -107,7 +107,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
     /**
      * needed for advmd filter handling
      */
-    protected function getAdvMDRecordGUI() : ilAdvancedMDRecordGUI
+    protected function getAdvMDRecordGUI() : ?ilAdvancedMDRecordGUI
     {
         // #16827
         return $this->record_gui;
