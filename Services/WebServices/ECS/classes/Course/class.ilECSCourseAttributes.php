@@ -200,7 +200,7 @@ class ilECSCourseAttributes
                 'ORDER BY id';
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->attributes[] = new ilECSCourseAttribute($row->id);
+            $this->attributes[] = new ilECSCourseAttribute((int) $row->id);
         }
     }
 }

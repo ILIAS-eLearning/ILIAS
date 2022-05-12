@@ -221,7 +221,7 @@ class ilECSMappingUtils
             ) {
                 continue;
             }
-            $options[$auth_string] = ilAuthUtils::getAuthModeTranslation($auth_int);
+            $options[$auth_string] = ilAuthUtils::getAuthModeTranslation((string) $auth_int);
         }
         return $options;
     }

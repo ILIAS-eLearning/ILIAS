@@ -137,9 +137,9 @@ class ilECSUser
         $this->email = ilUtil::stripSlashes(urldecode($this->source['ecs_email']));
         $this->institution = ilUtil::stripSlashes(urldecode($this->source['ecs_institution']));
         
-        if ($_GET['ecs_uid_hash']) {
+        if ($this->source['ecs_uid_hash']) {
             $this->uid_hash = ilUtil::stripSlashes(urldecode($this->source['ecs_uid_hash']));
-        } elseif ($_GET['ecs_uid']) {
+        } elseif ($this->source['ecs_uid']) {
             $this->uid_hash = ilUtil::stripSlashes(urldecode($this->source['ecs_uid']));
         }
     }

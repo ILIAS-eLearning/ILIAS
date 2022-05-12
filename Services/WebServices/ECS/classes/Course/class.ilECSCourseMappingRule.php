@@ -33,7 +33,7 @@ class ilECSCourseMappingRule
     private string $attribute;
     private int $ref_id;
     private bool $is_filter = false;
-    private string $filter;
+    private string $filter = "";
     private array $filter_elements = [];
     private bool $create_subdir = true;
     private string $directory = '';
@@ -54,7 +54,7 @@ class ilECSCourseMappingRule
     /**
      * Lookup existing attributes
      */
-    public static function lookupLastExistingAttribute(int $a_sid, int $a_mid, int $a_ref_id) : array
+    public static function lookupLastExistingAttribute(int $a_sid, int $a_mid, int $a_ref_id) : string
     {
         global $DIC;
 
@@ -67,13 +67,16 @@ class ilECSCourseMappingRule
                 'ORDER BY rid ';
         $res = $ilDB->query($query);
         
-        $attributes = array();
+        $attributes = '';
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $attributes = $row->attribute;
         }
         return $attributes;
     }
-    
+
+    /**
+     * @return int[]
+     */
     public static function getRuleRefIds(int $a_sid, int $a_mid) : array
     {
         global $DIC;
@@ -89,7 +92,7 @@ class ilECSCourseMappingRule
         $res = $ilDB->query($query);
         $ref_ids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ref_ids[] = $row->ref_id;
+            $ref_ids[] = (int) $row->ref_id;
         }
         // check if ref_ids are in tree
         $checked_ref_ids = [];
@@ -309,7 +312,7 @@ class ilECSCourseMappingRule
 
         $res = $ilDB->query($query);
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return new ilECSCourseMappingRule($row->rid);
+            return new ilECSCourseMappingRule((int) $row->rid);
         }
         return new ilECSCourseMappingRule();
     }
@@ -344,7 +347,7 @@ class ilECSCourseMappingRule
         return $this->mid;
     }
     
-    public function setAttribute($a_att) : void
+    public function setAttribute(string $a_att) : void
     {
         $this->attribute = $a_att;
     }
@@ -354,7 +357,7 @@ class ilECSCourseMappingRule
         return $this->attribute;
     }
     
-    public function setRefId($a_ref_id) : void
+    public function setRefId(int $a_ref_id) : void
     {
         $this->ref_id = $a_ref_id;
     }
@@ -364,7 +367,7 @@ class ilECSCourseMappingRule
         return $this->ref_id;
     }
     
-    public function enableFilter($a_status) : void
+    public function enableFilter(bool $a_status) : void
     {
         $this->is_filter = $a_status;
     }
@@ -404,7 +407,7 @@ class ilECSCourseMappingRule
         return self::SUBDIR_VALUE;
     }
     
-    public function setDirectory($a_dir) : void
+    public function setDirectory(string $a_dir) : void
     {
         $this->directory = $a_dir;
     }
@@ -476,13 +479,13 @@ class ilECSCourseMappingRule
             'WHERE rid = ' . $this->db->quote($this->getRuleId(), 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setServerId($row->sid);
-            $this->setMid($row->mid);
-            $this->setRefId($row->ref_id);
+            $this->setServerId((int) $row->sid);
+            $this->setMid((int) $row->mid);
+            $this->setRefId((int) $row->ref_id);
             $this->setAttribute($row->attribute);
-            $this->enableFilter($row->is_filter);
+            $this->enableFilter((bool) $row->is_filter);
             $this->setFilter($row->filter);
-            $this->enableSubdirCreation($row->create_subdir);
+            $this->enableSubdirCreation((bool) $row->create_subdir);
             //TODO create database update step to remove unneed variable
             $this->setDirectory($row->directory);
         }

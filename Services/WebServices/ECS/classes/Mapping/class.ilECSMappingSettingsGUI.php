@@ -149,7 +149,8 @@ class ilECSMappingSettingsGUI
     protected function cInitOverview($form = null, $current_attribute = null) : void
     {
         $current_node = (array) (($_REQUEST['lnodes']) ?: ROOT_FOLDER_ID);
-        $current_node = end($current_node);
+        //TODO fix proper handling of input
+        $current_node = (int) end($current_node);
         
         $this->ctrl->setParameter($this, 'lnodes', $current_node);
         
@@ -242,7 +243,7 @@ class ilECSMappingSettingsGUI
     /**
      * Init the mapping form
      */
-    protected function cInitMappingForm($current_node, $current_attribute) : \ilPropertyFormGUI
+    protected function cInitMappingForm(int $current_node, $current_attribute) : \ilPropertyFormGUI
     {
         $attributes_obj = ilECSCourseAttributes::getInstance($this->getServer()->getServerId(), $this->getMid());
         
@@ -384,9 +385,9 @@ class ilECSMappingSettingsGUI
                 $rule->setMid($this->getMid());
                 $rule->setRefId($current_node);
                 $rule->setAttribute($att_name);
-                $rule->enableFilter($form->getInput($att_name . '_is_filter'));
+                $rule->enableFilter((bool) $form->getInput($att_name . '_is_filter'));
                 $rule->setFilter($form->getInput($att_name . '_filter'));
-                $rule->enableSubdirCreation($form->getInput($att_name . '_subdirs'));
+                $rule->enableSubdirCreation((bool) $form->getInput($att_name . '_subdirs'));
                 //$rule->setSubDirectoryType($form->getInput($att_name.'_subdir_type'));
                 //$rule->setDirectory($form->getInput($att_name.'_dir_relation'));
                 
@@ -593,9 +594,9 @@ class ilECSMappingSettingsGUI
             $settings->enableAttributeMapping((bool) $form->getInput('multiple'));
             $settings->setAuthMode($form->getInput('auth_mode'));
 
-            $role_mappings = array();
-            foreach (ilECSMappingUtils::getRoleMappingInfo() as $name) {
-                $role_mappings[$name] = $form->getInput((string) $name);
+            $role_mappings = [];
+            foreach (ilECSMappingUtils::getRoleMappingInfo() as $role => $name) {
+                $role_mappings[$role] = $form->getInput((string) $role);
             }
             $settings->setRoleMappings($role_mappings);
             $settings->update();
@@ -628,34 +629,6 @@ class ilECSMappingSettingsGUI
         $form->setValuesByPost();
         $this->cSettings($form);
     }
-
-    /**
-     * Show active attributes
-     */
-    protected function cAttributes() : void
-    {
-        $this->setSubTabs(self::TAB_COURSE);
-        $this->tabs->setTabActive('ecs_crs_allocation');
-        $this->tabs->setSubTabActive('cAttributes');
-
-        $table = new ilECSCourseAttributesTableGUI(// TODO PHP8-REVIEW Undefined class
-            $this,
-            'attributes',
-            $this->getServer()->getServerId(),
-            $this->getMid()
-        );
-        $table->init();
-        $table->parse(
-            ilECSCourseAttributes::getInstance(
-                $this->getServer()->getServerId(),
-                $this->getMid()
-            )->getAttributes()
-        );
-
-        $this->tpl->setContent($table->getHTML());
-    }
-
-
 
     /**
      * Update node mapping settings
@@ -956,7 +929,7 @@ class ilECSMappingSettingsGUI
 
             $this->log->dump($res, ilLogLevel::DEBUG);
 
-            foreach ((array) $res->getLinkIds() as $cms_id) {// TODO PHP8-REVIEW Undefined method
+            foreach ($res->getLinkIds() as $cms_id) {
                 $event = new ilECSEventQueueReader($this->getServer());
                 $event->add(
                     ilECSEventQueueReader::TYPE_DIRECTORY_TREES,
