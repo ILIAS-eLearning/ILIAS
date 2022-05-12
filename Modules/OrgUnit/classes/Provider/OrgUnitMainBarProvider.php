@@ -98,7 +98,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
                                   ->withParent($top)
                                   ->withTitle($title)
                                   ->withSymbol($icon)
-                                  ->withPosition(7)
+                                  ->withPosition(70)
                                   ->withLinks([$linkOrgUnit, $linkEmployeeTalkTemplates])
                                   ->withVisibilityCallable(
                                       $access_helper->hasAdministrationAccess(function () : bool {
