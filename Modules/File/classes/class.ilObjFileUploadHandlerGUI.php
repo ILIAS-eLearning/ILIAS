@@ -12,7 +12,7 @@ use ILIAS\ResourceStorage\Services;
 
 /**
  * @author            Thibeau Fuhrer <thf@studer-raimann.ch>
- * @ilCtrl_isCalledBy ilObjFileUploadHandlerGUI: ilObjFileGUI, ilRepositoryGUI
+ * @ilCtrl_isCalledBy ilObjFileUploadHandlerGUI: ilObjFileGUI, ilRepositoryGUI, ilDashboardGUI
  */
 class ilObjFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
 {
