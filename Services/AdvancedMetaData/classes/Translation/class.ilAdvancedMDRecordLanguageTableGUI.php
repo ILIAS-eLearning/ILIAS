@@ -34,7 +34,8 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
         $this->record = $record;
         $this->record_translation = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record->getRecordId());
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->setId(self::RECORD_LANGUAGE_TABLE_ID_PREFIX . $this->record->getRecordId()
+        $this->setId(
+            self::RECORD_LANGUAGE_TABLE_ID_PREFIX . $this->record->getRecordId()
         );
     }
 

@@ -57,8 +57,8 @@ class ilAccessRBACOperationOrderUpdatedObjective implements Setup\Objective
 
         $sql =
             "SELECT ops_id" . PHP_EOL
-            ."FROM rbac_operations" . PHP_EOL
-            ."WHERE operation = " . $db->quote($this->operation, "text") . PHP_EOL
+            . "FROM rbac_operations" . PHP_EOL
+            . "WHERE operation = " . $db->quote($this->operation, "text") . PHP_EOL
         ;
 
         return $db->numRows($db->query($sql)) == 1;

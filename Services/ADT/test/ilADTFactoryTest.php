@@ -3,7 +3,6 @@
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 
-
 /**
  * Unit tests for class ilADTFactory
  * @author  Stefan Meyer <meyer@leifos.com>

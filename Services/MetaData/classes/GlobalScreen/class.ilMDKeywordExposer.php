@@ -80,5 +80,4 @@ class ilMDKeywordExposer extends AbstractModificationProvider
         }
         return null;
     }
-    
 }

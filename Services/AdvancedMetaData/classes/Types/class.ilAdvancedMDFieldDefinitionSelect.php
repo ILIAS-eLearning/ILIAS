@@ -161,7 +161,9 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             if ($first) {
                 $title = $this->lng->txt("meta_advmd_select_options");
             }
-            $text = new ilTextInputGUI($title, 'opts__' . $language . '__' . $index
+            $text = new ilTextInputGUI(
+                $title,
+                'opts__' . $language . '__' . $index
             );
             if (isset($translation[$index])) {
                 $text->setValue($translation[$index]);

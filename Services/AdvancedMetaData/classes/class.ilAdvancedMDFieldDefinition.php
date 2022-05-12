@@ -894,11 +894,15 @@ abstract class ilAdvancedMDFieldDefinition
         $a_writer->xmlStartTag('FieldTranslations');
         foreach ($translations->getTranslations($this->getFieldId()) as $translation) {
             $a_writer->xmlStartTag('FieldTranslation', ['language' => $translation->getLangKey()]);
-            $a_writer->xmlElement('FieldTranslationTitle', [],
-                                  $translation->getTitle()
+            $a_writer->xmlElement(
+                'FieldTranslationTitle',
+                [],
+                $translation->getTitle()
             );
-            $a_writer->xmlElement('FieldTranslationDescription', [],
-                                  $translation->getDescription()
+            $a_writer->xmlElement(
+                'FieldTranslationDescription',
+                [],
+                $translation->getDescription()
             );
             $a_writer->xmlEndTag('FieldTranslation');
         }

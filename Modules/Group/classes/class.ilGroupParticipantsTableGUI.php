@@ -175,8 +175,10 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                     
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST',
-                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable(
+                        'VAL_CUST',
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                    );
                     $this->tpl->parseCurrentBlock();
                     break;
                     
