@@ -1758,7 +1758,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
-        
+        $this->form->setFormAction($this->ctrl->getFormAction($this, 'saveJavaServer'));
+
         // pdf fonts
         $pdf = new ilFormSectionHeaderGUI();
         $pdf->setTitle($this->lng->txt('rpc_pdf_generation'));
