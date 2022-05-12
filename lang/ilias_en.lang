@@ -822,9 +822,9 @@ assessment#:#delete_image_question#:#Do you really want to remove the image?
 assessment#:#delete_user_data#:#Remove Test Data of Selected Users
 assessment#:#deleteSuggestedSolution#:#Remove this content for recapitulation
 assessment#:#description_maxchars#:#If nothing entered the maximum number of characters for this text answer is unlimited.
-assessment#:#detail_ending_time_reached#:#The time allotted for this test is now over. The test had not been available since %s
+assessment#:#detail_ending_time_reached#:#The time allotted for this test is now over. The test had not been available since %s hours.
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
-assessment#:#detail_starting_time_not_reached#:#You have not reached the start time of the test. The test will be available on %s
+assessment#:#detail_starting_time_not_reached#:#You have not reached the start time of the test. The test will be available on %s hours.
 assessment#:#detailed_evaluation_for#:#Detailed Evaluation for %s
 assessment#:#detailed_evaluation_missing_active_id#:#You must call the ‘Detailed Evaluation’ for a selected participant!
 assessment#:#detailed_evaluation_show#:#Show Detailed Evaluation
