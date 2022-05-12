@@ -134,7 +134,7 @@ abstract class ilDBPdoMySQL extends ilDBPdo
     public function nextId(string $table_name) : int
     {
         $sequence_name = $this->quoteIdentifier($this->getSequenceName($table_name), true);
-        $seqcol_name = 'sequence';
+        $seqcol_name = $this->quoteIdentifier('sequence');
         $query = "INSERT INTO $sequence_name ($seqcol_name) VALUES (NULL)";
         try {
             $this->pdo->exec($query);

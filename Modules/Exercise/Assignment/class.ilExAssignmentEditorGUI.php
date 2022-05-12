@@ -716,7 +716,6 @@ class ilExAssignmentEditorGUI
                     }
                 }
             }
-
             if ($valid) {
                 $res = array(
                     // core
@@ -735,10 +734,9 @@ class ilExAssignmentEditorGUI
                     $res["mandatory"] = $a_form->getInput("mandatory");
                 }
 
+                $res['team_creator'] = $a_form->getInput("team_creator");
+                $res["team_creation"] = $a_form->getInput("team_creation");
                 if ($a_form->getInput("team_creator") == ilExAssignment::TEAMS_FORMED_BY_TUTOR) {
-                    $res['team_creator'] = $a_form->getInput("team_creator");
-                    $res["team_creation"] = $a_form->getInput("team_creation");
-
                     if ($a_form->getInput("team_creation") == ilExAssignment::TEAMS_FORMED_BY_RANDOM) {
                         $res["number_teams"] = $a_form->getInput("number_teams");
                         $res["min_participants_team"] = $a_form->getInput("min_participants_team");
@@ -1011,7 +1009,7 @@ class ilExAssignmentEditorGUI
         }
                     
         if ($this->assignment->getAssignmentType()->usesTeams()) {
-            $values["team_creator"] = $this->assignment->getTeamTutor();
+            $values["team_creator"] = (string) (int) $this->assignment->getTeamTutor();
         }
 
         if ($this->assignment->getFeedbackDateCustom()) {
@@ -1642,21 +1640,21 @@ class ilExAssignmentEditorGUI
         ilExAssignment $a_ass,
         array $a_input
     ) : void {
-        $a_ass->setPeerReviewMin($a_input["peer_min"]);
-        $a_ass->setPeerReviewDeadline($a_input["peer_dl"]);
-        $a_ass->setPeerReviewSimpleUnlock($a_input["peer_unlock"]);
-        $a_ass->setPeerReviewPersonalized($a_input["peer_prsl"]);
+        $a_ass->setPeerReviewMin((int) $a_input["peer_min"]);
+        $a_ass->setPeerReviewDeadline((int) $a_input["peer_dl"]);
+        $a_ass->setPeerReviewSimpleUnlock((bool) $a_input["peer_unlock"]);
+        $a_ass->setPeerReviewPersonalized((bool) $a_input["peer_prsl"]);
         
         // #18964
         $a_ass->setPeerReviewValid($a_input["peer_valid"]
             ?: ilExAssignment::PEER_REVIEW_VALID_NONE);
 
-        $a_ass->setPeerReviewFileUpload($a_input["peer_file"]);
-        $a_ass->setPeerReviewChars($a_input["peer_char"]);
-        $a_ass->setPeerReviewText($a_input["peer_text"]);
-        $a_ass->setPeerReviewRating($a_input["peer_rating"]);
+        $a_ass->setPeerReviewFileUpload((bool) $a_input["peer_file"]);
+        $a_ass->setPeerReviewChars((int) $a_input["peer_char"]);
+        $a_ass->setPeerReviewText((bool) $a_input["peer_text"]);
+        $a_ass->setPeerReviewRating((bool) $a_input["peer_rating"]);
         $a_ass->setPeerReviewCriteriaCatalogue($a_input["crit_cat"] > 0
-            ? $a_input["crit_cat"]
+            ? (int) $a_input["crit_cat"]
             : null);
     
         $a_ass->update();

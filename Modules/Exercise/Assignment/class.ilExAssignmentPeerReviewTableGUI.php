@@ -119,10 +119,10 @@ class ilExAssignmentPeerReviewTableGUI extends ilTable2GUI
                     $item["giver_id"],
                     $item["peer_id"]
                 );
-                if (!$crit->validate($values[$crit_id])) {
+                if (!$crit->validate($values[$crit_id] ?? null)) {
                     $row["valid"] = false;
                 }
-                if ($crit->hasValue($values[$crit_id])) {
+                if ($crit->hasValue($values[$crit_id] ?? null)) {
                     $all_empty = false;
                 }
             }
