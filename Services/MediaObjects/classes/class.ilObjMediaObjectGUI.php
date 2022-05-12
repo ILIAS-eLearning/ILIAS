@@ -625,7 +625,6 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
-
         $this->initForm();
         if ($this->form_gui->checkInput()) {
             $this->object = new ilObjMediaObject();
@@ -737,8 +736,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             $media_item->getLocation(),
             $wh_input["constr_prop"],
             ($form->getInput("standard_size") == "original"),
-            $wh_input["width"],
-            $wh_input["height"]
+            ($wh_input["width"] == "") ? null : (int) $wh_input["width"],
+            ($wh_input["height"] == "") ? null : (int) $wh_input["height"]
         );
         $media_item->setWidth($wh["width"]);
         $media_item->setHeight($wh["height"]);
@@ -815,7 +814,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
             }
 
             // determine width and height of known image types
-            $full_wh_input = $form->getInput("full_width_height");
+            $wh_input = $form->getInput("full_width_height");
             $wh = ilObjMediaObject::_determineWidthHeight(
                 $format,
                 $type,
@@ -823,8 +822,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $media_item2->getLocation(),
                 $full_wh_input["constr_prop"],
                 ($form->getInput("full_size") == "original"),
-                $full_wh_input["width"],
-                $full_wh_input["height"]
+                ($wh_input["width"] == "") ? null : (int) $wh_input["width"],
+                ($wh_input["height"] == "") ? null : (int) $wh_input["height"]
             );
 
             $media_item2->setWidth($wh["width"]);
@@ -1018,8 +1017,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 $std_item->getLocation(),
                 $wh_input["constr_prop"],
                 ($form->getInput("standard_size") == "original"),
-                $wh_input["width"],
-                $wh_input["height"]
+                ($wh_input["width"] == "") ? null : (int) $wh_input["width"],
+                ($wh_input["height"] == "") ? null : (int) $wh_input["height"]
             );
             if ($wh["info"] != "") {
                 $this->tpl->setOnScreenMessage('info', $wh["info"], true);
@@ -1147,8 +1146,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                     $full_item->getLocation(),
                     $wh_input["constr_prop"],
                     ($form->getInput("full_size") == "original"),
-                    $wh_input["width"],
-                    $wh_input["height"]
+                    ($wh_input["width"] == "") ? null : (int) $wh_input["width"],
+                    ($wh_input["height"] == "") ? null : (int) $wh_input["height"]
                 );
                 if ($wh["info"] != "") {
                     $this->tpl->setOnScreenMessage('info', $wh["info"], true);
