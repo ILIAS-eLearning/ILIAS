@@ -108,7 +108,6 @@ class ilExAssignmentEditorGUI
                 
                 $fstorage = new ilFSWebStorageExercise($this->exercise_id, $this->assignment->getId());
                 $fstorage->create();
-
                 $fs_gui = new ilExAssignmentFileSystemGUI($fstorage->getPath());
                 $fs_gui->setTitle($lng->txt("exc_instruction_files"));
                 $fs_gui->setTableId("excassfil" . $this->assignment->getId());
@@ -840,7 +839,7 @@ class ilExAssignmentEditorGUI
         //$a_ass->setMaxCharLimit($a_input['max_char_limit']);
 
         if (!$this->random_manager->isActivated()) {
-            $a_ass->setPeerReview((bool) $a_input["peer"]);
+            $a_ass->setPeerReview((bool) ($a_input["peer"] ?? false));
         }
         
         // peer review default values (on separate form)
@@ -1043,7 +1042,8 @@ class ilExAssignmentEditorGUI
 
         $values["deadline_mode"] = $this->assignment->getDeadlineMode();
         $values["relative_deadline"] = $this->assignment->getRelativeDeadline();
-        $values["rel_deadline_last_subm"] = new ilDateTime($this->assignment->getRelDeadlineLastSubmission(), IL_CAL_UNIX);
+        $dt = new ilDateTime($this->assignment->getRelDeadlineLastSubmission(), IL_CAL_UNIX);
+        $values["rel_deadline_last_subm"] = $dt->get(IL_CAL_DATETIME);
 
 
         $a_form->setValuesByArray($values);

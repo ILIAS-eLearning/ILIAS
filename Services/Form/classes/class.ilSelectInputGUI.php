@@ -187,7 +187,7 @@ class ilSelectInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFil
                     }
                 }
             } else {
-                $hidden = $this->getHiddenTag($postvar, $this->getValue());
+                $hidden = $this->getHiddenTag($postvar, (string) $this->getValue());
             }
             if ($hidden) {
                 $tpl->setVariable("DISABLED", " disabled=\"disabled\"");
