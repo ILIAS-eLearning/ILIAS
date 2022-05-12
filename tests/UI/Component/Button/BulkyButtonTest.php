@@ -221,4 +221,23 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
             $r->render($b)
         );
     }
+
+    public function testRenderWithLabelAndAltImageSame() : void
+    {
+        $r = $this->getDefaultRenderer();
+        $b = $this->button_factory->bulky($this->icon, "Example", "http://www.ilias.de")
+                                  ->withEngagedState(false)
+                                  ->withAriaRole(I\Component\Button\Bulky::MENUITEM);
+
+        $expected = ''
+            . '<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" role="menuitem" aria-haspopup="true">'
+            . ' <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>'
+            . '	<span class="bulky-label">Example</span>'
+            . '</button>';
+
+        $this->assertHTMLEquals(
+            $expected,
+            $r->render($b)
+        );
+    }
 }

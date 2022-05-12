@@ -33,7 +33,8 @@ interface Factory
      *        In their outlined version, Standard Icons MUST only use white as color for the stroke, to make filter easily
      *        applicable.
      *   accessibility:
-     *     1: Icons MUST have alt-tags.
+     *     1: Icons MUST have alt-tags. The only exception is, if the Icon is purely decorative and accompanied by some
+     *        text functioning as description of the icon. This is e.g. sometimes the case in Bulky Buttons or Bulky Links.
      * ---
      * @param   string $name
      * @param   string $label

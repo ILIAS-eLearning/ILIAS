@@ -287,7 +287,11 @@ class Renderer extends AbstractComponentRenderer
         Template $tpl
     ) : void {
         $renderer = $default_renderer->withAdditionalContext($component);
-        $tpl->setVariable("ICON_OR_GLYPH", $renderer->render($component->getIconOrGlyph()));
+        $symbol = $component->getIconOrGlyph();
+        if ($symbol instanceof Component\Symbol\Icon\Icon && $symbol->getLabel() == $component->getLabel()) {
+            $symbol = $symbol->withLabel('');
+        }
+        $tpl->setVariable("ICON_OR_GLYPH", $renderer->render($symbol));
         $label = $component->getLabel();
         if ($label !== null) {
             $tpl->setVariable("LABEL", $label);

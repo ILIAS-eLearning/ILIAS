@@ -69,6 +69,11 @@ interface Factory
      *        On screens larger than small size, Bulky Links MUST contain a symbol plus text.
      *     2: >
      *        On small-sized screens, Bulky Links SHOULD contain only a symbol.
+     *   accessibility:
+     *     1: >
+     *        If a Bulky Link contains a Icon Symbol with the same label as the Bulky Link, then the Label of the
+     *        Icon MUST be set to "" to avoid redundant alt tags which would render the Bulky Button cumbersome to be
+     *        processed by screenreaders.
      *
      * ---
      * @param	\ILIAS\UI\Component\Symbol\Symbol	$symbol

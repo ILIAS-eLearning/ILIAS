@@ -29,6 +29,13 @@ interface Icon extends Symbol
     public function getLabel() : string;
 
     /**
+     * Set the label of this icon. Note that this is normally achieved throught constructor and should only be used
+     * if there are specific reasons to change the label for a specific context. An example might be to set the label
+     * to an empty string in case the symbol is used only decorativly (a11y requirement).
+     */
+    public function withLabel(string $label) : Icon;
+
+    /**
      * Set the abbreviation for this icon.
      */
     public function withAbbreviation(string $abbreviation) : Icon;
