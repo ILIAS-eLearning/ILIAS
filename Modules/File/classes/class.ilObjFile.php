@@ -148,11 +148,14 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
 
     private function appendSuffixToTitle(string $title, string $filename) : string
     {
-        // bugfix mantis 0026160 && 0030391
-        $uploaded_suffix = pathinfo($filename, PATHINFO_EXTENSION);
-        $input_title = pathinfo($title, PATHINFO_FILENAME) . '.' . $uploaded_suffix;
-
-        return $input_title;
+        // bugfix mantis 0026160 && 0030391 and 0032340
+        $title_info = new SplFileInfo($title);
+        $filename_info = new SplFileInfo($filename);
+    
+        $filename = str_replace('.' . $title_info->getExtension(), '', $title_info->getFilename());
+        $extension = $filename_info->getExtension();
+    
+        return $filename . '.' . $extension;
     }
 
     /**
@@ -160,7 +163,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     public function appendStream(FileStream $stream, string $title) : int
     {
-        // $title = $this->appendSuffixToTitle($title, $stream->getMetadata(['uri']));
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
             $revision = $this->manager->appendNewRevisionFromStream($i, $stream, $this->stakeholder, $title);
         } else {
