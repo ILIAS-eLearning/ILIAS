@@ -123,7 +123,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->search_result->addEntry($row->obj_id, $row->type, $this->__prepareFound($row));
+            $this->search_result->addEntry((int) $row->obj_id, $row->type, $this->__prepareFound($row));
         }
 
         return $this->search_result;

@@ -2649,7 +2649,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (!$this->object || !ilContainer::_lookupContainerSetting($this->object->getId(), "filter", '0')) {
             return;
         }
-
         $filter_service = $this->container_filter_service;
         $request = $DIC->http()->request();
 
@@ -2668,13 +2667,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected function showContainerFilter() : void
     {
         global $DIC;
-
         if (!is_null($this->ui_filter)) {
             $renderer = $DIC->ui()->renderer();
 
             $main_tpl = $this->tpl;
             $main_tpl->setFilter($renderer->render($this->ui_filter));
-
             if ($this->container_user_filter->isEmpty() && !ilContainer::_lookupContainerSetting(
                 $this->object->getId(),
                 "filter_show_empty",
