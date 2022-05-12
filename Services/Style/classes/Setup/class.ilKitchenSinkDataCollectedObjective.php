@@ -15,6 +15,7 @@ class ilKitchenSinkDataCollectedObjective extends Setup\Artifact\BuildArtifactOb
         $crawler = new Crawler\FactoriesCrawler();
         return new Setup\Artifact\ArrayArtifact(
             $crawler->crawlFactory(ilSystemStyleDocumentationGUI::ROOT_FACTORY_PATH)
-                    ->jsonSerialize());
+                    ->jsonSerialize()
+        );
     }
 }
