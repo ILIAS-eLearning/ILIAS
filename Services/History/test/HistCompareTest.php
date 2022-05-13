@@ -26,7 +26,7 @@ class HistCompareTest extends TestCase
     public function testCompare() : void
     {
         $this->assertEquals(
-            1,
+            -1,
             ilHistory::_compareHistArray(
                 ["date" => "2021-12-01"],
                 ["date" => "2021-12-03"],
@@ -40,7 +40,7 @@ class HistCompareTest extends TestCase
     public function testCompare2() : void
     {
         $this->assertEquals(
-            -1,
+            1,
             ilHistory::_compareHistArray(
                 ["date" => "2021-12-01"],
                 ["date" => "2021-11-03"],
