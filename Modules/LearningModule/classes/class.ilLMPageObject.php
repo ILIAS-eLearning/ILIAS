@@ -31,7 +31,7 @@ class ilLMPageObject extends ilLMObject
     protected array $files_contained;
     protected array $mobs_contained;
     protected bool $contains_int_link;
-    public ilLMPage $page_object;
+    public ?ilLMPage $page_object = null;
 
     public function __construct(
         ilObjLearningModule $a_content_obj,
@@ -311,7 +311,7 @@ class ilLMPageObject extends ilLMObject
         $linked_pages = ilLMPage::getPagesWithLinks($a_par_type, $a_lm_id);
         $result = array();
         foreach ($pages as $page) {
-            if (is_array($linked_pages[$page["obj_id"]])) {
+            if (isset($linked_pages[$page["obj_id"]])) {
                 $result[] = $page;
             }
         }

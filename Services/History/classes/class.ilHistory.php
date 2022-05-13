@@ -162,7 +162,7 @@ class ilHistory
         return $hist_items;
     }
 
-    public static function _compareHistArray(array $a, array $b) : bool
+    public static function _compareHistArray(array $a, array $b) : int
     {
         if ($a["date"] == $b["date"]) {
             return 0;

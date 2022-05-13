@@ -94,7 +94,7 @@ class ilLMMenuRendererGUI
 
         $getcmd = "getHTML";
 
-        $active[$this->active_tab] = true;
+        $content_active = ($this->active_tab === "content");
 
         if (!$this->lm->isActiveLMMenu()) {
             return "";
@@ -110,7 +110,7 @@ class ilLMMenuRendererGUI
         // content
         if (!$this->offline && $ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
             $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
-            if (!$active["content"]) {
+            if (!$content_active) {
                 $this->toolbar->addComponent(
                     $this->ui_factory->button()->standard($this->lng->txt("content"), $ilCtrl->getLinkTargetByClass("illmpresentationgui", "layout"))
                 );
@@ -119,7 +119,7 @@ class ilLMMenuRendererGUI
             $tabs_gui->setForcePresentationOfSingleTab(true);
         }
     
-        if (!$active["content"]) {
+        if (!$content_active) {
             return "";
         }
 

@@ -232,7 +232,7 @@ class ilObjContentObject extends ilObject
 
     public function createLMTree() : void
     {
-        $this->lm_tree = new ilLMTree($this->getId());
+        $this->lm_tree = new ilLMTree($this->getId(), false);
         $this->lm_tree->addTree($this->getId(), 1);
     }
     

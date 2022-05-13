@@ -96,7 +96,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     ) : void {
         $current_node = $this->complete_tree["nodes"][$node_id];
 
-        if (is_array($this->complete_tree["childs"][$node_id])) {
+        if (isset($this->complete_tree["childs"][$node_id])) {
             foreach ($this->complete_tree["childs"][$node_id] as $node) {
                 $this->initVisibilityData($node["child"]);
             }

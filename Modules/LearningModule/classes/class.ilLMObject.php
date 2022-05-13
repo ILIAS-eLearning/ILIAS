@@ -29,14 +29,14 @@ class ilLMObject
     protected string $import_id = "";
 
     protected ilObjUser $user;
-    public int $lm_id;
-    public string $type;
-    public int $id;
+    public int $lm_id = 0;
+    public string $type = "";
+    public int $id = 0;
     public ?array $data_record;		// assoc array of lm_data record
     public ilObjLearningModule $content_object;
-    public string $title;
-    public string $short_title;
-    public string $description;
+    public string $title = "";
+    public string $short_title = "";
+    public string $description = "";
     public bool $active = true;
     protected static $data_records = array();
     protected ilDBInterface $db;

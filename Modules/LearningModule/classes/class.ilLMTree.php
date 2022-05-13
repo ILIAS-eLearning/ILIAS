@@ -22,13 +22,16 @@ class ilLMTree extends ilTree
     protected ?array $complete_tree = null;
 
     public function __construct(
-        int $a_tree_id
+        int $a_tree_id,
+        bool $read_root_id = true
     ) {
         parent::__construct($a_tree_id);
         $this->setTableNames('lm_tree', 'lm_data');
         $this->setTreeTablePK("lm_id");
         $this->useCache(true);
-        $this->readRootId();
+        if ($read_root_id) {
+            $this->readRootId();
+        }
     }
 
     public static function getInstance(
