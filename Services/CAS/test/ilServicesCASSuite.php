@@ -14,10 +14,16 @@
  *
  *****************************************************************************/
 
-/**
- * Auth frontend credentials for CAS auth
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- */
-class ilAuthFrontendCredentialsCAS extends ilAuthFrontendCredentials
+use PHPUnit\Framework\TestSuite;
+
+class ilServicesCASSuite extends TestSuite
 {
+    public static function suite() : self
+    {
+        $suite = new ilServicesCASSuite();
+        require_once __DIR__ . '/ilCASSettingsTest.php';
+        $suite->addTestSuite(ilCASSettingsTest::class);
+
+        return $suite;
+    }
 }
