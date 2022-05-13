@@ -371,7 +371,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             );
             $ilSetting->set(
                 "rep_export_limit_number",
-                $form->getInput("rep_export_limit_number")
+                (string) $form->getInput("rep_export_limit_number")
             );
             $ilSetting->set(
                 "enable_trash",
