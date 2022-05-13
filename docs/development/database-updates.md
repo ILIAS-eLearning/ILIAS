@@ -18,10 +18,13 @@ Previous versions of ILIAS supported the so called `db-update-files`. These file
 will keep on working for some time technically, but are deprecated as decided by
 the [Jour Fixe on 2021-06-08](https://docu.ilias.de/goto_docu_wiki_wpage_5889_1357.html).
 
+General directions on how to use the database in ILIAS are to be found [in the according
+readme of Services/Database](Services/Database/README.md).
+
 ## Schema Updates
 
 To create a schema update, you first need an integration with the setup. Create
-a class that implements from `ILIAS\Setup\Agent`, you MUST put it in the subfolder
+a class that implements `ILIAS\Setup\Agent`, you MUST put it in the subfolder
 `classes/Setup` in your component. If you only want to introduce some update steps
 you could just extend from the `NullAgent`.
 
