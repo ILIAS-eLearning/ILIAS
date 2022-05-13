@@ -2518,6 +2518,7 @@ book#:#book_post_booking_text#:#Text
 book#:#book_pref_book_cron#:#Buchung mit Präferenzen
 book#:#book_pref_book_cron_info#:#Automatische Buchung von Buchungen mit Präferenzen nach der Frist.
 book#:#book_pref_deadline#:#Frist
+book#:#book_pref_deadline_info#:#Zeitpunkt, bis zu dem Präferenzen abgegeben werden können.
 book#:#book_preference_info#:#Bitte wählen Sie %1 Präferenz(en) bis %2. Nach der Frist werden die Zuordnungen auf der Basis der Präferenzen aller Teilnehmer automatisch durchgeführt.
 book#:#book_preferences#:#Präferenzen
 book#:#book_preferences_saved#:#Die Präferenzen wurden gespeichert.
