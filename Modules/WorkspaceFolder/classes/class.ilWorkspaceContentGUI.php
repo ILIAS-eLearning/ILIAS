@@ -184,8 +184,8 @@ class ilWorkspaceContentGUI
         $html = $item_list_gui->getListItemHTML(
             $node["wsp_id"],
             $node["obj_id"],
-            $node["title"],
-            $node["description"]
+            (string) $node["title"],
+            (string) $node["description"]
         );
 
         return $html;
