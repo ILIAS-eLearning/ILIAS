@@ -408,12 +408,6 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $resultsAccessSetting = new ilRadioGroupInputGUI($this->lng->txt('tst_results_access_setting'), 'results_access_setting');
         $resultsAccessSetting->setRequired(true);
 
-        $passDeletion = new ilRadioGroupInputGUI($this->lng->txt('tst_pass_deletion'), 'pass_deletion_allowed');
-        $passDeletion->addOption(new ilRadioOption($this->lng->txt('tst_pass_deletion_not_allowed'), 0, ''));
-        $passDeletion->addOption(new ilRadioOption($this->lng->txt('tst_pass_deletion_allowed'), 1, ''));
-        $passDeletion->setValue($this->testOBJ->isPassDeletionAllowed());
-        $resultsAccessEnabled->addSubItem($passDeletion);
-
         $optAlways = new ilRadioOption($this->lng->txt('tst_results_access_always'));
         $optAlways->setInfo($this->lng->txt('tst_results_access_always_desc'));
         $optAlways->setValue(ilObjTest::SCORE_REPORTING_IMMIDIATLY);
@@ -461,6 +455,12 @@ class ilObjTestSettingsScoringResultsGUI extends ilTestSettingsGUI
         $chb_resulting_mark_only->setValue(1);
         $chb_resulting_mark_only->setChecked($this->testOBJ->isShowGradingMarkEnabled());
         $resultsAccessEnabled->addSubItem($chb_resulting_mark_only);
+
+        $passDeletion = new ilRadioGroupInputGUI($this->lng->txt('tst_pass_deletion'), 'pass_deletion_allowed');
+        $passDeletion->addOption(new ilRadioOption($this->lng->txt('tst_pass_deletion_not_allowed'), 0, ''));
+        $passDeletion->addOption(new ilRadioOption($this->lng->txt('tst_pass_deletion_allowed'), 1, ''));
+        $passDeletion->setValue($this->testOBJ->isPassDeletionAllowed());
+        $resultsAccessEnabled->addSubItem($passDeletion);
 
         $form->addItem($resultsAccessEnabled);
     }
