@@ -128,8 +128,8 @@ class ilVirtualSkillTree
     public function getChildsOfNode(string $a_parent_id) : array
     {
         $a_parent_id_parts = explode(":", $a_parent_id);
-        $a_parent_skl_tree_id = $a_parent_id_parts[0];
-        $a_parent_skl_template_tree_id = $a_parent_id_parts[1];
+        $a_parent_skl_tree_id = (int) $a_parent_id_parts[0];
+        $a_parent_skl_template_tree_id = isset($a_parent_id_parts[1]) ? (int) $a_parent_id_parts[1] : 0;
 
         if ($a_parent_skl_template_tree_id == 0) {
             $childs = $this->tree->getChildsByTypeFilter($a_parent_skl_tree_id, array("scat", "skll", "sktr"), "order_nr");
