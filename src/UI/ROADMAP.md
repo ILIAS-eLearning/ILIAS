@@ -75,21 +75,6 @@ To show how a UI-Component looks like in the page context (esp. for
 Components from the MainControls) a simple "framework" to use a Demo-Page
 in the examples would be helpful.
 
-### Improving FileInput and Dropzones (advanced, variable)
-General Dropzone functionality:
-ILIAS 6 introduced a new library for drag & drop together with FileInput. This library was not used for all D&D users. This MUST be done and standardized with ILIAS 7.
-
-With ILIAS 7, FileInput (or specific variants thereof) should have at least the following functions and properties:
-- Upload several files at once
-- Displaying existing files
-- Restriction to file extensions
-- Restriction to MimeTypes
-- use `Data\DataSize` for file size info
-
-With ILIAS 7 or later versions, FileInput (or specific variants thereof) can have the following functions and properties:
-- Preview of uploaded images
-- Crop functionality for images
-
 ### Examples on Main Page (beginner, ~4h)
 
 We want to have examples on the main pages of some components family of the 
