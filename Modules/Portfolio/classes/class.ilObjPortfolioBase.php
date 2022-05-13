@@ -36,6 +36,9 @@ abstract class ilObjPortfolioBase extends ilObject2
         bool $a_reference = true
     ) {
         global $DIC;
+
+        $this->notes = $DIC->notes();
+        
         parent::__construct($a_id, $a_reference);
 
         $this->setting = $DIC->settings();
@@ -45,7 +48,6 @@ abstract class ilObjPortfolioBase extends ilObject2
             ->contentStyle()
             ->domain()
             ->styleForObjId($this->getId());
-        $this->notes = $DIC->notes();
     }
 
 
