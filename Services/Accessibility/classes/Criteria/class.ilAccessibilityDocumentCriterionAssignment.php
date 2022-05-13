@@ -21,14 +21,14 @@ class ilAccessibilityDocumentCriterionAssignment extends ActiveRecord implements
     public const TABLE_NAME = 'acc_criterion_to_doc';
 
     /**
-     * @var string
+     * @var int
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           4
      * @db_is_primary       true
      * @con_sequence        true
      */
-    protected string $id;
+    protected ?int $id = null;
 
     /**
      * @var int
