@@ -184,7 +184,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function setCmdClass(string $cmd_class) : ilCtrlContextInterface
+    public function setCmdClass(?string $cmd_class) : ilCtrlContextInterface
     {
         $path = $this->path_factory->find($this, $cmd_class);
 
@@ -210,7 +210,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function setCmd(string $cmd) : ilCtrlContextInterface
+    public function setCmd(?string $cmd) : ilCtrlContextInterface
     {
         $this->cmd = $cmd;
 

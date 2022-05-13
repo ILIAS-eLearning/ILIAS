@@ -251,9 +251,13 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function setCmd(string $a_cmd) : void
+    public function setCmd(?string $a_cmd) : void
     {
-        $this->context->setCmd($a_cmd);
+        if (!empty($a_cmd)) {
+            $this->context->setCmd($a_cmd);
+        } else {
+            $this->context->setCmd(null);
+        }
     }
 
     /**
@@ -271,6 +275,8 @@ class ilCtrl implements ilCtrlInterface
     {
         if (!empty($a_cmd_class)) {
             $this->context->setCmdClass($a_cmd_class);
+        } else {
+            $this->context->setCmdClass(null);
         }
     }
 
@@ -1106,7 +1112,7 @@ class ilCtrl implements ilCtrlInterface
     ) : string {
         // only append value if it exists and can be cast
         // to string.
-        if (null !== $value && !is_array($value) && !is_object($value)) {
+        if (!empty($value) && !is_array($value) && !is_object($value)) {
             // declare ampersand escaped or not, according to
             // the given argument.
             $ampersand = ($is_escaped) ? '&amp;' : '&';
