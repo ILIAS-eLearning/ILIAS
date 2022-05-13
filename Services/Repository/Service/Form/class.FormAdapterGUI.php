@@ -38,6 +38,7 @@ class FormAdapterGUI
     protected $class_path;
     protected string $cmd = self::DEFAULT_SECTION;
     protected ?Form\Standard $form = null;
+    protected array $upload_handler = [];
 
     /**
      * @param string|array $class_path
@@ -112,6 +113,24 @@ class FormAdapterGUI
         );
         return $this;
     }
+
+    protected function file(
+        string $key,
+        string $title,
+        \Closure $result_handler,
+        string $id_parameter
+    ) {
+        $this->upload_handler[$key] = new \ilRepoStandardUploadHandlerGUI(
+            $result_handler,
+            $id_parameter
+        );
+
+        $field = $this->ui->factory()->input()->field()->file(
+            $this->upload_handler[$key],
+            $title
+        );
+    }
+
 
     protected function addField(string $key, FormInput $field) : void
     {
