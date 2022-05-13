@@ -8,9 +8,9 @@
  */
 class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
 {
-    protected ?int $min;
-    protected ?int $max;
-    protected ?string $suffix;
+    protected ?int $min = null;
+    protected ?int $max = null;
+    protected ?string $suffix = null;
 
     protected $suffix_translations = [];
 
@@ -49,9 +49,9 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     protected function initADTDefinition() : ilADTDefinition
     {
         $def = ilADTFactory::getInstance()->getDefinitionInstanceByType('Integer');
-        $def->setMin($this->getMin());
-        $def->setMax($this->getMax());
-        $def->setSuffix($this->getSuffixTranslations()[$this->language] ?? $this->getSuffix());
+        $def->setMin((int) $this->getMin());
+        $def->setMax((int) $this->getMax());
+        $def->setSuffix((string) ($this->getSuffixTranslations()[$this->language] ?? $this->getSuffix()));
         return $def;
     }
 
