@@ -5294,7 +5294,8 @@ common#:#replace_file#:#Datei ersetzen
 common#:#reply#:#Antworten
 common#:#rep_main_page#:#Einstiegsseite
 common#:#report_accessibility_issue#:#Barriere melden
-common#:#report_accessibility_link#:#Gemeldeter%20Link:
+common#:#report_accessibility_link#:#Gemeldeter Link:
+common#:#report_accessibility_link_mailto#:#Gemeldeter%20Link:
 common#:#repository_admin_desc#:#Rechteeinstellungen für Magazinobjekte festlegen, Entfernen oder Wiederherstellen von Objekten im Papierkorb
 common#:#repository_admin#:#Magazin, Papierkorb und Rechte
 common#:#repository#:#Magazin
