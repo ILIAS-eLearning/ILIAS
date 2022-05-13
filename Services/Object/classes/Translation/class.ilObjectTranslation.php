@@ -244,7 +244,7 @@ class ilObjectTranslation
         ;
         $result = $this->db->query($sql);
         while ($row = $this->db->fetchAssoc($result)) {
-            $this->addLanguage($row["lang_code"], $row["title"], $row["description"], (bool) $row["lang_default"]);
+            $this->addLanguage($row["lang_code"], (string) $row["title"], (string) $row["description"], (bool) $row["lang_default"]);
         }
     }
 
