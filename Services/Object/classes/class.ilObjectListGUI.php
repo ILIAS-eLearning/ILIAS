@@ -1508,12 +1508,12 @@ class ilObjectListGUI
             $missing_cond_exist = true;
 
             $full_class = "ilObj" . $class . "ListGUI";
-            $item_list_gui = new $full_class($this);
+            $item_list_gui = new $full_class($this->context);
             $item_list_gui->setMode(self::IL_LIST_AS_TRIGGER);
             $item_list_gui->enablePath(false);
             $item_list_gui->enableIcon(true);
             $item_list_gui->setConditionDepth($this->condition_depth + 1);
-            $item_list_gui->setParentRefId($this->getUniqueItemId());
+            $item_list_gui->setParentRefId($this->ref_id);
             $item_list_gui->addCustomProperty($this->lng->txt("precondition_required_itemlist"), $cond_txt, false, true);
             $item_list_gui->enableCommands($this->commands_enabled, $this->std_cmd_only);
             $item_list_gui->enableProperties($this->properties_enabled);
@@ -1575,7 +1575,7 @@ class ilObjectListGUI
         } else {
             $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget($this->ref_id, $this->obj_id);
         }
-        
+
         if (sizeof($conditions)) {
             for ($i = 0; $i < count($conditions); $i++) {
                 $conditions[$i]['title'] = ilObject::_lookupTitle($conditions[$i]['trigger_obj_id']);
@@ -1583,7 +1583,6 @@ class ilObjectListGUI
             $conditions = ilArrayUtil::sortArray($conditions, 'title', 'DESC');
         
             ++self::$js_unique_id;
-
             // Show obligatory and optional preconditions seperated
             $all_done_obl = $this->parseConditions(self::$js_unique_id, $conditions);
             $all_done_opt = $this->parseConditions(self::$js_unique_id, $conditions, false);
