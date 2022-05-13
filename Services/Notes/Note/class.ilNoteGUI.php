@@ -486,6 +486,7 @@ class ilNoteGUI
                 "CANCEL_FORM_ACTION",
                 $ilCtrl->getFormActionByClass("ilnotegui", "cancelUpdateNote", "", true)
             );
+            $tpl->setVariable("NOTE_FOCUS", "1");
             $tpl->setVariable(
                 "TXT_CANCEL",
                 $this->lng->txt("cancel")
@@ -544,7 +545,8 @@ class ilNoteGUI
                     : $lng->txt("notes_no_comments_found");
             }
             $mess = $f->messageBox()->info($mess_txt);
-            $html = $this->renderComponents([$panel, $mess]);
+            //$html = $this->renderComponents([$panel, $mess]);
+            $html = $this->renderComponents([$mess]);
             $tpl->setVariable("NOTES_LIST", $html);
         } elseif ($this->search_text !== "") {
             $mess_txt = ($this->requested_note_type === Note::PRIVATE)
@@ -757,12 +759,16 @@ class ilNoteGUI
         string $mode,
         int $type,
         Note $note = null
-    ) : \ILIAS\Notes\FormAdapterGUI {
+    ) : \ILIAS\Repository\Form\FormAdapterGUI {
         global $DIC;
 
-        $label = ($type === Note::PUBLIC)
-            ? $this->lng->txt("comment")
-            : $this->lng->txt("note");
+        $label_key = "note";
+        $label_key .= ($mode === "create")
+            ? "_add"
+            : "_update";
+        $label_key .= ($type === Note::PUBLIC)
+            ? "_comment"
+            : "_note";
         $cmd = ($mode === "create")
             ? "addNote"
             : "updateNote";
@@ -775,7 +781,8 @@ class ilNoteGUI
         }
         $action = $this->ctrl->getFormAction($this, $cmd, "");
         $form = $this->gui->form(self::class, $action)
-            ->textarea("note", $label, "", $value);
+            ->section("props", $this->lng->txt($label_key))
+            ->textarea("note", $this->lng->txt("note_text"), "", $value);
         return $form;
     }
 
@@ -904,8 +911,10 @@ class ilNoteGUI
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
 
-        $data = $this->getNoteForm("create", $this->requested_note_type)->getData();
-        $text = $data["note"] ?? "";
+        $text = $this->getNoteForm(
+            "create",
+            $this->requested_note_type
+        )->getData("note") ?? "";
 
         //if ($this->form->checkInput())
         if ($text !== "" && !is_array($this->rep_obj_id)) {
@@ -938,8 +947,10 @@ class ilNoteGUI
         $ilCtrl = $this->ctrl;
 
         $note = $this->manager->getById($this->requested_note_id);
-        $data = $this->getNoteForm("edit", $this->requested_note_type)->getData();
-        $text = $data["note"] ?? "";
+        $text = $this->getNoteForm(
+            "edit",
+            $this->requested_note_type
+        )->getData("note") ?? "";
 
         if ($this->notes_access->canEdit($note)) {
             $this->manager->updateNoteText(

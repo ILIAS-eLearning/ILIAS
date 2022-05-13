@@ -173,11 +173,11 @@ class NotificationsManager
     ) : void {
         foreach ($observer as $item) {
             $context = $note->getContext();
-            $param["rep_obj_id"] = $context->getObjId();
-            $param["obj_id"] = $context->getSubObjId();
-            $param["obj_type"] = $context->getType();
-            $param["action"] = $action;
-            $param["note_id"] = $note->getId();
+            $param[] = $context->getObjId();
+            $param[] = $context->getSubObjId();
+            $param[] = $context->getType();
+            $param[] = $action;
+            $param[] = $note->getId();
             call_user_func_array($item, $param);
         }
     }

@@ -11951,8 +11951,8 @@ notes#:#notes_public_comments#:#Öffentliche Kommentare
 notes#:#notes_show_comments#:#Kommentare anzeigen
 notes#:#notes_sort_asc#:#Aufsteigend sortieren
 notes#:#notes_sort_desc#:#Absteigend sortieren
-notes#:#note_update_comment#:#Kommentar aktualisieren
-notes#:#note_update_note#:#Notiz aktualisieren
+notes#:#note_update_comment#:#Kommentar bearbeiten
+notes#:#note_update_note#:#Notiz bearbeiten
 notes#:#note_without_object#:#Ohne Objektbezug
 notification_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Popup über neue Benachrichtigungen informiert.
 notification_adm#:#enable_osd#:#Popup-Screen Benachrichtigungen aktivieren
@@ -16835,3 +16835,4 @@ notes#:#notes_no_notes#:#Bisher wurde noch kein Notiz hinzugefügt.
 notes#:#notes_html_export#:#HTML Export
 notes#:#notes_no_notes_found#:#Es wurden keine Notizen gefunden, die den Suchkriterien entsprechen.
 notes#:#notes_no_comments_found#:#Es wurden keine Kommentare gefunden, die den Suchkriterien entsprechen.
+notes#:#note_text#:#Text

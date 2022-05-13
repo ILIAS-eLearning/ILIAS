@@ -19,6 +19,7 @@ use ILIAS\DI\UIServices;
 use ILIAS\HTTP;
 use ILIAS\FileUpload\FileUpload;
 use ILIAS\GlobalScreen;
+use ILIAS\Repository\Form\FormAdapterGUI;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -85,5 +86,18 @@ trait GlobalDICGUIServices
     public function locator() : \ilLocatorGUI
     {
         return $this->DIC["ilLocator"];
+    }
+
+    /**
+     * @param array|string $class_path
+     */
+    public function form(
+        $class_path,
+        string $cmd
+    ) : FormAdapterGUI {
+        return new FormAdapterGUI(
+            $class_path,
+            $cmd
+        );
     }
 }

@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  *********************************************************************/
 
-namespace ILIAS\Notes;
+namespace ILIAS\Repository\Form;
 
 use ILIAS\UI\Component\Input\Container\Form;
 use ILIAS\UI\Component\Input\Field\FormInput;
@@ -23,12 +23,20 @@ use ILIAS\UI\Component\Input\Field\FormInput;
  */
 class FormAdapterGUI
 {
+    protected const DEFAULT_SECTION = "@internal_default_section";
+    /**
+     * @var mixed|null
+     */
+    protected $raw_data = null;
     protected \ILIAS\HTTP\Services $http;
     protected \ilCtrlInterface $ctrl;
     protected \ILIAS\DI\UIServices $ui;
     protected array $fields = [];
+    protected array $sections = [self::DEFAULT_SECTION => ["title" => "", "description" => ""]];
+    protected string $current_section = self::DEFAULT_SECTION;
+    protected array $section_of_field = [];
     protected $class_path;
-    protected string $cmd = "";
+    protected string $cmd = self::DEFAULT_SECTION;
     protected ?Form\Standard $form = null;
 
     /**
@@ -44,6 +52,19 @@ class FormAdapterGUI
         $this->ui = $DIC->ui();
         $this->ctrl = $DIC->ctrl();
         $this->http = $DIC->http();
+    }
+
+    public function section(
+        string $key,
+        string $title,
+        string $description = ""
+    ) : self {
+        $this->sections[$key] = [
+            "title" => $title,
+            "description" => $description
+        ];
+        $this->current_section = $key;
+        return $this;
     }
 
     public function text(
@@ -94,7 +115,14 @@ class FormAdapterGUI
 
     protected function addField(string $key, FormInput $field) : void
     {
-        $this->fields[$key] = $field;
+        if (isset($this->section_of_field[$key])) {
+            throw new \ilException("Duplicate Input Key: " . $key);
+        }
+        if ($key === "") {
+            throw new \ilException("Missing Input Key: " . $key);
+        }
+        $this->section_of_field[$key] = $this->current_section;
+        $this->fields[$this->current_section][$key] = $field;
         $this->form = null;
     }
 
@@ -104,18 +132,54 @@ class FormAdapterGUI
 
         if (is_null($this->form)) {
             $action = $ctrl->getLinkTargetByClass($this->class_path, $this->cmd);
+            $inputs = [];
+            foreach ($this->sections as $sec_key => $section) {
+                if ($sec_key === self::DEFAULT_SECTION) {
+                    if (isset($this->fields[$sec_key])) {
+                        foreach ($this->fields[$sec_key] as $f_key => $field) {
+                            $inputs[$f_key] = $field;
+                        }
+                    }
+                } else {
+                    if (isset($this->fields[$sec_key]) && count($this->fields[$sec_key]) > 0) {
+                        $inputs[$sec_key] = $this->ui->factory()->input()->field()->section(
+                            $this->fields[$sec_key],
+                            $section["title"],
+                            $section["description"]
+                        );
+                    }
+                }
+            }
             $this->form = $this->ui->factory()->input()->container()->form()->standard(
                 $action,
-                $this->fields
+                $inputs
             );
         }
         return $this->form;
     }
 
-    public function getData() : ?array
+    /**
+     * @return mixed
+     */
+    public function getData(string $key)
     {
-        $request = $this->http->request();
-        return $this->getForm()->withRequest($request)->getData();
+        if (is_null($this->raw_data)) {
+            $request = $this->http->request();
+            $this->raw_data = $this->getForm()->withRequest($request)->getData();
+        }
+
+        if (!isset($this->section_of_field[$key])) {
+            throw new \ilException("Unknown Key: " . $key);
+        }
+
+        $section_data = ($this->section_of_field[$key] === self::DEFAULT_SECTION)
+            ? $this->raw_data
+            : $this->raw_data[$this->section_of_field[$key]] ?? null;
+
+        if (!isset($section_data[$key])) {
+            return null;
+        }
+        return $section_data[$key];
     }
 
     public function render() : string

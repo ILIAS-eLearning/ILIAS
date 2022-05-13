@@ -207,6 +207,12 @@ const ilNotes = {
       node = document;
     }
 
+    // focus textarea if requested
+    const focus_element = node.querySelector("[data-note-focus='1'] form textarea");
+    if (focus_element) {
+      focus_element.focus();
+    }
+
     // edit form button
     node.querySelectorAll("[data-note-el='edit-form-area']").forEach(area => {
       const b = area.querySelector("button");
@@ -228,9 +234,15 @@ const ilNotes = {
         }
       });
 
-      // add listener to "add" comment/note button
+      // add listener to "add" comment/note button -> show form
       b.addEventListener("click", (event) => {
+        const mess = document.querySelector(".il-notes-section .alert-success");
+        if (mess) {
+          mess.style.display = 'none';
+        }
+
         fArea.style.display = "";
+        fArea.querySelector("form textarea").focus();
         event.target.style.display = 'none';
       });
       f.addEventListener("submit", (event) => {

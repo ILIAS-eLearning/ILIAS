@@ -116,19 +116,6 @@ class InternalGUIService
         );
     }
 
-    /**
-     * @param array|string $class_path
-     */
-    public function form(
-        $class_path,
-        string $cmd
-    ) : FormAdapterGUI {
-        return new FormAdapterGUI(
-            $class_path,
-            $cmd
-        );
-    }
-
     public function print() : PrintProcessGUI
     {
         $provider = new PrintViewProvider();
