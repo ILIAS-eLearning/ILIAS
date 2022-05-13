@@ -19,9 +19,9 @@
  */
 class ilCASSettingsGUI
 {
-    const SYNC_DISABLED = 0;
-    const SYNC_CAS = 1;
-    const SYNC_LDAP = 2;
+    public const SYNC_DISABLED = 0;
+    public const SYNC_CAS = 1;
+    public const SYNC_LDAP = 2;
 
     private ilCASSettings $settings;
 
@@ -41,6 +41,7 @@ class ilCASSettingsGUI
 
         $this->ctrl = $DIC->ctrl();
         $this->rbacSystem = $DIC->rbac()->system();
+        $this->rbacReview = $DIC->rbac()->review();
         $this->ilErr = $DIC['ilErr'];
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('registration');
@@ -224,7 +225,7 @@ class ilCASSettingsGUI
             $this->getSettings()->setDefaultRole((int) $form->getInput('role'));
             $this->getSettings()->enableLocalAuthentication((bool) $form->getInput('local'));
             $this->getSettings()->setLoginInstruction($form->getInput('instruction'));
-            $this->getSettings()->enableUserCreation((int) $form->getInput('sync') == ilCASSettings::SYNC_CAS);
+            $this->getSettings()->enableUserCreation((int) $form->getInput('sync') === ilCASSettings::SYNC_CAS);
             $this->getSettings()->save();
 
             switch ((int) $form->getInput('sync')) {
@@ -234,14 +235,14 @@ class ilCASSettingsGUI
                     break;
 
                 case ilCASSettings::SYNC_LDAP:
-                    if (!(int) $_REQUEST['ldap_sid']) {
+                    if (!(int) $form->getInput('ldap_sid')) {
                         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('err_check_input'));
                         $this->settings();
                         //TODO do we need return false?
                         return;
                     }
 
-                    ilLDAPServer::toggleDataSource((int) $_REQUEST['ldap_sid'], ilAuthUtils::AUTH_CAS, 1);
+                    ilLDAPServer::toggleDataSource((int) $form->getInput('ldap_sid'), ilAuthUtils::AUTH_CAS, 1);
                     break;
             }
 

@@ -43,7 +43,7 @@ class ilAuthProviderCAS extends ilAuthProvider
             phpCAS::client(
                 CAS_VERSION_2_0,
                 $this->getSettings()->getServer(),
-                (int) $this->getSettings()->getPort(),
+                $this->getSettings()->getPort(),
                 $this->getSettings()->getUri()
             );
 

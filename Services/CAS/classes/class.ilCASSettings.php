@@ -15,9 +15,7 @@
  *****************************************************************************/
 
 /**
- *
  * @author Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesCAS
  */
 class ilCASSettings
 {

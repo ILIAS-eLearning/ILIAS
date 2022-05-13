@@ -18,7 +18,6 @@
  * CAS user creation helper
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilCASAttributeToUser
 {
