@@ -123,7 +123,7 @@ class ilMediaPoolItem
             $this->setType($rec["type"]);
             $this->setForeignId($rec["foreign_id"]);
             $this->setTitle($rec["title"]);
-            $this->setImportId($rec["import_id"]);
+            $this->setImportId((string) $rec["import_id"]);
         }
     }
     

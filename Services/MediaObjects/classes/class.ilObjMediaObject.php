@@ -101,8 +101,8 @@ class ilObjMediaObject extends ilObject
             foreach ($usages as $u) {
                 $mob_logger->debug("ilObjMediaObject: ... usage type:" . $u["type"] .
                     ", id:" . $u["id"] .
-                    ", lang:" . $u["lang"] .
-                    ", hist_nr:" . $u["hist_nr"] . ".");
+                    ", lang:" . ($u["lang"] ?? "") .
+                    ", hist_nr:" . ($u["hist_nr"] ?? "") . ".");
             }
             $mob_logger->debug("ilObjMediaObject: ... not deleted.");
         }

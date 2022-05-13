@@ -114,12 +114,13 @@ class FormAdapterGUI
         return $this;
     }
 
-    protected function file(
+    public function file(
         string $key,
         string $title,
         \Closure $result_handler,
-        string $id_parameter
-    ) {
+        string $id_parameter,
+        int $max_files = 1
+    ) : self {
         $this->upload_handler[$key] = new \ilRepoStandardUploadHandlerGUI(
             $result_handler,
             $id_parameter
@@ -128,7 +129,23 @@ class FormAdapterGUI
         $field = $this->ui->factory()->input()->field()->file(
             $this->upload_handler[$key],
             $title
+        )
+            ->withMaxFileSize((int) \ilFileUtils::getUploadSizeLimitBytes())
+            ->withMaxFiles($max_files);
+
+        $this->addField(
+            $key,
+            $field
         );
+        return $this;
+    }
+
+    public function getRepoStandardUploadHandlerGUI(string $key) : \ilRepoStandardUploadHandlerGUI
+    {
+        if (!isset($this->upload_handler[$key])) {
+            throw new \ilException("Unknown file upload field: " . $key);
+        }
+        return $this->upload_handler[$key];
     }
 
 
