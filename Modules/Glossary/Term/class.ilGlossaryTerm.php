@@ -22,13 +22,13 @@ class ilGlossaryTerm
     protected string $type;
     protected ilDBInterface $db;
     public ilLanguage $lng;
-    public ilTemplate $tpl;
-    public int $id;
+    public ilGlobalTemplateInterface $tpl;
+    public int $id = 0;
     public ilObjGlossary $glossary;
-    public string $term;
-    public string $language;
-    public int $glo_id;
-    public string $import_id;
+    public string $term = "";
+    public string $language = "";
+    public int $glo_id = 0;
+    public string $import_id = "";
 
     public function __construct(int $a_id = 0)
     {

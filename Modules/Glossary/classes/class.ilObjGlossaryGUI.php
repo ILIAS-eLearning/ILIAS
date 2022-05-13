@@ -25,14 +25,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 {
     protected ilRbacSystem $rbacsystem;
     protected ilPropertyFormGUI $form;
-    protected int $tax_node;
+    protected int $tax_node = 0;
     protected ilObjTaxonomy $tax;
     protected $tax_id;
-    protected bool $in_administration;
+    protected bool $in_administration = false;
     protected \ILIAS\Glossary\Editing\EditingGUIRequest $edit_request;
     protected ?\ILIAS\Glossary\Term\TermManager $term_manager;
     public ?ilGlossaryTerm $term = null;
-    protected int $term_id;
+    protected int $term_id = 0;
     protected ilTabsGUI $tabs;
     protected ilSetting $setting;
     protected ilHelpGUI $help;
