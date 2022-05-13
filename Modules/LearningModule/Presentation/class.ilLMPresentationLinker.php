@@ -200,9 +200,9 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     );
 //					$link = str_replace("&", "&amp;", $link);
 
-                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "frame", "");
-                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", "");
-                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "mob_id", "");
+                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "frame", null);
+                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", null);
+                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "mob_id", null);
                     break;
             }
         } else {	// handle offline links

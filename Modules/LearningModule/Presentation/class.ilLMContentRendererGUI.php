@@ -334,7 +334,7 @@ class ilLMContentRendererGUI
                     $mtpl->setVariable("LINK_BACK_TO_BEGINNING", ilLink::_getLink($this->requested_focus_return));
                 }
 
-                $this->ctrl->setParameter($this->parent_gui, "focus_id", "");
+                $this->ctrl->setParameter($this->parent_gui, "focus_id", null);
                 $mtpl->setVariable("LINK_SHOW_CONTENT", $this->ctrl->getLinkTarget($this->parent_gui, "layout"));
                 $this->ctrl->setParameter($this->parent_gui, "focus_id", $this->requested_obj_id);
 
@@ -365,7 +365,7 @@ class ilLMContentRendererGUI
                         $mtpl->setVariable("LINK_BACK_TO_BEGINNING", ilLink::_getLink($this->requested_focus_return));
                     }
 
-                    $this->ctrl->setParameter($this->parent_gui, "focus_id", "");
+                    $this->ctrl->setParameter($this->parent_gui, "focus_id", null);
                     $mtpl->setVariable("LINK_SHOW_CONTENT", $this->ctrl->getLinkTarget($this->parent_gui, "layout"));
                     $this->ctrl->setParameter($this->parent_gui, "focus_id", $this->requested_obj_id);
 

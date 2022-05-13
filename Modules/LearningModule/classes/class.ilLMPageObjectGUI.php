@@ -280,7 +280,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                             false,
                             true
                         );
-                        $this->ctrl->setParameter($this, "file_id", "");
+                        $this->ctrl->setParameter($this, "file_id", null);
                         break;
 
                     case "User":
@@ -310,7 +310,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                                     true
                                 );
                             }
-                            $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
+                            $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", null);
                             $lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
                         }
                         break;

@@ -216,7 +216,7 @@ class ilLMTracker
             "usr_id = " . $ilDB->quote($this->user_id, "integer") . " AND " .
             "lm_id = " . $ilDB->quote($this->lm_ref_id, "integer"));
         $res = $ilDB->fetchAssoc($set);
-        if ($res["obj_id"]) {
+        if (isset($res["obj_id"])) {
             $valid_timespan = ilObjUserTracking::_getValidTimeSpan();
 
             $pg_ts = new ilDateTime($res["timestamp"], IL_CAL_DATETIME);

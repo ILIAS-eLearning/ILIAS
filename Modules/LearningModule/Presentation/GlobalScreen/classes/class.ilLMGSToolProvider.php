@@ -61,7 +61,6 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
             if (!$access->checkAccess("read", "", $ref_id)) {
                 return $tools;
             }
-            
 
             $tools[] = $this->getTocTool($additional_data);
         }
@@ -187,6 +186,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
     private function getToc(Collection $additional_data) : string
     {
         global $DIC;
+
         // get params via additional_data, set query params
         $params = null;
         if ($additional_data->exists(self::LM_QUERY_PARAMS)) {

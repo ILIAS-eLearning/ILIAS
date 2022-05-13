@@ -153,6 +153,7 @@ class NoteDBRepository
             $sub_where .= " AND creation_date > " . $db->quote($since, "timestamp");
         }
 
+        $news_where = "";
         if ($context) {
             $news_where =
                 " AND news_id = " . $db->quote($context->getNewsId(), "integer");

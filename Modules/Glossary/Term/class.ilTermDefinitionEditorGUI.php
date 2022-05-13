@@ -105,10 +105,6 @@ class ilTermDefinitionEditorGUI
         switch ($next_class) {
 
             case "ilglossarydefpagegui":
-                // this part contained "broken" code, so most probable it
-                // will never be called. Abandon, if no issues occur in ILIAS 8.
-                throw new ilGlossaryException("ilGlossaryDefPageGUI error in ilTermDefinitionEditorGUI.");
-                /*
                 // output number of usages
                 if ($ilCtrl->getCmd() == "edit" &&
                     $ilCtrl->getCmdClass() == "ilglossarydefpagegui") {
@@ -157,7 +153,6 @@ class ilTermDefinitionEditorGUI
 
                 $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
 
-                $page_gui->setLocator($gloss_loc);
                 $page_gui->setIntLinkReturn($this->ctrl->getLinkTargetByClass(
                     "ilobjglossarygui",
                     "quickList",
@@ -175,7 +170,6 @@ class ilTermDefinitionEditorGUI
                     $tpl->setContent($ret);
                 }
                 break;
-                */
 
             default:
                 $this->setTabs();
@@ -196,7 +190,7 @@ class ilTermDefinitionEditorGUI
         // back to glossary
         $this->tabs_gui->setBack2Target(
             $this->lng->txt("glossary"),
-            $this->ctrl->getParentReturn($this)
+            $this->ctrl->getLinkTargetByClass("ilobjglossarygui", "")
         );
 
         // back to upper context

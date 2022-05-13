@@ -21,9 +21,9 @@
 class ilChartDataBars extends ilChartData
 {
     protected ?int $line_width = null;
-    protected float $bar_width;
-    protected string $bar_align;
-    protected bool $bar_horizontal;
+    protected float $bar_width = 0;
+    protected string $bar_align = "";
+    protected bool $bar_horizontal = false;
     
     protected function getTypeString() : string
     {

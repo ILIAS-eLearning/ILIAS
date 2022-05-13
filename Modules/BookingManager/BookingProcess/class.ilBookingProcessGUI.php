@@ -674,9 +674,9 @@ class ilBookingProcessGUI
         $reservation->setObjectId($a_object_id);
         $reservation->setUserId($this->user_id_to_book);
         $reservation->setAssignerId($this->user_id_assigner);
-        $reservation->setFrom($a_from);
-        $reservation->setTo($a_to);
-        $reservation->setGroupId($a_group_id);
+        $reservation->setFrom((int) $a_from);
+        $reservation->setTo((int) $a_to);
+        $reservation->setGroupId((int) $a_group_id);
         $reservation->setContextObjId($this->context_obj_id);
         $reservation->save();
 

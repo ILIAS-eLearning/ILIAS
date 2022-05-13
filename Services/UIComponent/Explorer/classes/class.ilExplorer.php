@@ -30,27 +30,27 @@ class ilExplorer
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     public string $id = "";
-    public string $output;
-    public array $format_options;
+    public string $output = "";
+    public array $format_options = [];
     public ilTree $tree;
-    public string $target;
-    public string $target_get;
-    public string $params_get;
-    public array $expanded;
-    public string $order_column;
+    public string $target = "";
+    public string $target_get = "";
+    public string $params_get = "";
+    public array $expanded = [];
+    public string $order_column = "";
     public string $order_direction = "asc";
-    public ?string $expand_target;
-    public bool $rbac_check;
-    public bool $output_icons;
-    public string $expand_variable;
+    public ?string $expand_target = null;
+    public bool $rbac_check = false;
+    public bool $output_icons = false;
+    public string $expand_variable = "";
     // array ($type => clickable (empty means true, "n" means false)
-    public array $is_clickable;
-    public bool $post_sort;
+    public array $is_clickable = [];
+    public bool $post_sort = false;
     public bool $filtered = false;
     protected $filter = [];
     public bool $filter_mode;
     // expand entire tree regardless of values in $expanded
-    public bool$expand_all = false;
+    public bool $expand_all = false;
     public $root_id = null;
     public bool $use_standard_frame = false;
     protected string $highlighted = "";
@@ -59,9 +59,9 @@ class ilExplorer
     protected bool $asnch_expanding = false;
     protected int $textwidth = 0;
     protected string $title = "";
-    protected string $up_frame;
-    protected string $a_up_script;
-    protected string $up_params;
+    protected string $up_frame = "";
+    protected string $a_up_script = "";
+    protected string $up_params = "";
     protected string $frame_target = "";
     protected string $up_script = "";
     protected string $tree_lead = "";
@@ -784,7 +784,7 @@ class ilExplorer
             $tpl->setVariable(
                 "DESC",
                 ilStr::shortenTextExtended(
-                    $this->buildDescription($a_option["description"], $a_node_id, $a_option["type"]),
+                    $this->buildDescription($a_option["description"] ?? "", $a_node_id, $a_option["type"]),
                     $this->textwidth,
                     true
                 )

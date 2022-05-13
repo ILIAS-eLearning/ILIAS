@@ -22,14 +22,14 @@ use ILIAS\UI\Factory;
  */
 class ilUserAvatarResolver
 {
-    private int $user_id;
-    private string $login;
-    private string $firstname;
-    private string $lastname;
+    private int $user_id = 0;
+    private string $login = "";
+    private string $firstname = "";
+    private string $lastname = "";
     private bool $has_public_profile = false;
     private bool $has_public_upload = false;
-    private string $uploaded_file;
-    private string $abbreviation;
+    private string $uploaded_file = "";
+    private string $abbreviation = "";
     private bool $force_image = false;
     private string $size = 'small';
     protected ilObjUser $user;

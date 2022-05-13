@@ -522,7 +522,7 @@ class ilObjGlossary extends ilObject implements ilAdvancedMetaDataSubItems
      */
     public function getPublicExportFile(string $a_type) : string
     {
-        return $this->public_export_file[$a_type];
+        return $this->public_export_file[$a_type] ?? "";
     }
 
     public function exportXML(

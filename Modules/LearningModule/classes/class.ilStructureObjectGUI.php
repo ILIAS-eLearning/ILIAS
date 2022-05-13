@@ -143,7 +143,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $form_gui->addHelpItem($lng->txt("cont_chapters_after_pages"));
         $up_gui = "ilobjlearningmodulegui";
         $ilCtrl->setParameterByClass($up_gui, "active_node", $this->obj->getId());
-        $ilCtrl->setParameterByClass($up_gui, "active_node", "");
+        $ilCtrl->setParameterByClass($up_gui, "active_node", null);
 
         $ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "Modules/LearningModule");
         $ctpl->setVariable("HIERARCHY_FORM", $form_gui->getHTML());
@@ -886,7 +886,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $ilCtrl->setParameter($this, "transl", "");
+        $ilCtrl->setParameter($this, "transl", null);
         $ilCtrl->redirect($this, "showHierarchy");
     }
 

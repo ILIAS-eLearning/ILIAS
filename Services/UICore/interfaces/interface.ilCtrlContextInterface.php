@@ -79,10 +79,10 @@ interface ilCtrlContextInterface
     /**
      * Sets the current contexts command class.
      *
-     * @param string $cmd_class
+     * @param string|null $cmd_class
      * @return ilCtrlContextInterface
      */
-    public function setCmdClass(string $cmd_class) : ilCtrlContextInterface;
+    public function setCmdClass(?string $cmd_class) : ilCtrlContextInterface;
 
     /**
      * Returns the command class of this context.
@@ -95,10 +95,10 @@ interface ilCtrlContextInterface
      * Sets the command which the current command- or baseclass
      * should perform.
      *
-     * @param string $cmd
+     * @param string|null $cmd
      * @return self
      */
-    public function setCmd(string $cmd) : self;
+    public function setCmd(?string $cmd) : self;
 
     /**
      * Returns the command which the current command- or baseclass

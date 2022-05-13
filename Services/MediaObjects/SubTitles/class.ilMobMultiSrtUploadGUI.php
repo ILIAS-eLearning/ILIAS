@@ -23,7 +23,7 @@ class ilMobMultiSrtUploadGUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     public ilMobMultiSrtUpload $multi_srt;
 
     public function __construct(ilMobMultiSrtInt $a_multi_srt)

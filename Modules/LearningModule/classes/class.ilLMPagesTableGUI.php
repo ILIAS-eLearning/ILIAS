@@ -114,7 +114,7 @@ class ilLMPagesTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ICON", ilUtil::img(ilUtil::getImagePath($img), $alt));
 
         // title/link
-        $ilCtrl->setParameter($this, "backcmd", "");
+        $ilCtrl->setParameter($this, "backcmd", null);
         $ilCtrl->setParameterByClass("ilLMPageObjectGUI", "obj_id", $a_set["obj_id"]);
         $this->tpl->setVariable(
             "HREF_TITLE",

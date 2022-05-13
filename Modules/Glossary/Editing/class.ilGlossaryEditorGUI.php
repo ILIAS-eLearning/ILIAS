@@ -70,8 +70,8 @@ class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface
     {
         $next_class = $this->ctrl->getNextClass($this);
         if ($next_class == "") {
-            $this->ctrl->setCmdClass("ilobjglossarygui");
-            $this->ctrl->setCmd("");
+            $this->ctrl->saveParameterByClass(ilObjGlossaryGUI::class, "ref_id");
+            $this->ctrl->redirectByClass(ilObjGlossaryGUI::class);
         }
 
         switch ($next_class) {

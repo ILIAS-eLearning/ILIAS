@@ -80,9 +80,9 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
         $this->ctrl->saveParameter($this, array("ref_id", "letter", "tax_node"));
         $this->service = $DIC->glossary()
                        ->internal();
-        $this->initByRequest();
         $this->content_style_service =
             $DIC->contentStyle();
+        $this->initByRequest();
     }
 
     /**

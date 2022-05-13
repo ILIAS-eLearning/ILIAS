@@ -61,10 +61,11 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
 
         $this->tags = ilTagging::getTagsForUser($this->user->getId(), 1000000);
 
+        $params = $this->http->request()->getQueryParams();
         $this->requested_tag = str_replace(
             "-->",
             "",
-            $this->http->request()->getQueryParams()["tag"]
+            $params["tag"] ?? ""
         );
         if ($this->requested_tag == "") {
             $this->requested_tag = $this->getCurrentTag();
@@ -133,7 +134,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
                 $tpl->setVariable("HREF_TAG", "#");
                 $tpl->setVariable(
                     "REL_CLASS",
-                    ilTagging::getRelevanceClass($tag["cnt"], $max)
+                    ilTagging::getRelevanceClass((int) $tag["cnt"], (int) $max)
                 );
                 $tpl->parseCurrentBlock();
             }
@@ -169,7 +170,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
         $item_groups = [];
         $items = [];
         foreach ($objs as $key => $obj) {
-            $ref_ids = ilObject::_getAllReferences($obj["obj_id"]);
+            $ref_ids = ilObject::_getAllReferences((int) $obj["obj_id"]);
             foreach ($ref_ids as $ref_id) {
                 $type = $obj["obj_type"];
 
@@ -178,7 +179,7 @@ class ilTaggingSlateContentGUI implements ilCtrlBaseClassInterface
                     continue;
                 }
 
-                $title = ilObject::_lookupTitle($obj["obj_id"]);
+                $title = ilObject::_lookupTitle((int) $obj["obj_id"]);
                 $items[] = $f->item()->standard(
                     $f->link()->standard($title, ilLink::_getLink($ref_id))
                 )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon((int) $obj["obj_id"]), $title));
