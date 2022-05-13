@@ -162,11 +162,12 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
     {
         if (!$this->access->checkAccess("visible", "", $this->object->getRefId())) {
             $this->error->raiseError(
-                $this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE
+                $this->lng->txt('msg_no_perm_read'),
+                $this->error->MESSAGE
             );
         }
 
-        $this->ctrl->setReturn($this,'call');
+        $this->ctrl->setReturn($this, 'call');
         $consent_gui = new ilECSUserConsentModalGUI(
             $this->user->getId(),
             $this->ref_id,
@@ -303,8 +304,8 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
                 $this->getType(),
                 $this->object->getId()
             );
-            $record_gui->loadFromPost();
-            $record_gui->saveValues();
+            $record_gui->loadFromPost();// TODO PHP8-REVIEW Undefined method
+            $record_gui->saveValues();// TODO PHP8-REVIEW Undefined method
             
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"));
             $this->editObject();
@@ -322,13 +323,8 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
     protected function updateCustomValues(ilPropertyFormGUI $a_form) : void
     {
     }
-    
-    /**
-    * redirect script
-    *
-    * @param string $a_target
-    */
-    public static function _goto($a_target) : void
+
+    public static function _goto(string $a_target) : void
     {
         global $DIC;
 

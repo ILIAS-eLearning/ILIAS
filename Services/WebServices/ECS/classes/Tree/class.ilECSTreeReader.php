@@ -18,14 +18,13 @@
  * Reads and store cms tree in database
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * $Id$
  */
 class ilECSTreeReader
 {
     private ilLogger $logger;
     
-    private $server_id;
-    private $mid;
+    private int $server_id;
+    private int $mid;
 
     /**
      * Constructor

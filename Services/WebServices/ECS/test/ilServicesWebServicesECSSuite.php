@@ -14,29 +14,16 @@
  *
  *****************************************************************************/
 
-/**
- * Represents a ecs course lms url
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
- */
-class ilECSCourseLmsUrl
+use PHPUnit\Framework\TestSuite;
+
+class ilServicesWebServicesECSSuite extends TestSuite
 {
-    public string $title = '';
-    public string $url = '';
-    
-    /**
-     * Set title
-     */
-    public function setTitle(string $a_title) : void
+    public static function suite() : self
     {
-        $this->title = $a_title;
-    }
-    
-    /**
-     * Set url
-     */
-    public function setUrl(string $a_url) : void
-    {
-        $this->url = $a_url;
+        $suite = new ilServicesWebServicesECSSuite();
+        require_once __DIR__ . '/ilECSUserTest.php';
+        $suite->addTestSuite(ilECSUserTest::class);
+
+        return $suite;
     }
 }

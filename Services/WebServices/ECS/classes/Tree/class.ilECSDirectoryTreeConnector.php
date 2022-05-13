@@ -24,10 +24,9 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
 {
     /**
      * Get directory tree
-     * @return ilECSResult
      * @throws ilECSConnectorException
      */
-    public function getDirectoryTrees($a_mid = 0) : ?\ilECSResult
+    public function getDirectoryTrees(int $a_mid = 0) : ?\ilECSUriList
     {
         $this->path_postfix = '/campusconnect/directory_trees';
 
@@ -37,7 +36,7 @@ class ilECSDirectoryTreeConnector extends ilECSConnector
             $this->addHeader('Accept', 'text/uri-list');
             $this->addHeader('X-EcsQueryStrings', 'all=true');
             if ($a_mid) {
-                $this->addHeader('X-EcsReceiverMemberships', $a_mid);
+                $this->addHeader('X-EcsReceiverMemberships', (string) $a_mid);
             }
 
             $this->curl->setOpt(CURLOPT_HTTPHEADER, $this->getHeader());

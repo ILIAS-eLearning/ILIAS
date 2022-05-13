@@ -46,13 +46,12 @@ class ilECSMappingUtils
     
     /**
      * Get mapping status as string
-     * @param int $a_status
      */
-    public static function mappingStatusToString($a_status)
+    public static function mappingStatusToString(int $a_status) : string
     {
         global $DIC;
 
-        return $DIC['lng']->txt('ecs_node_mapping_status_' . $a_status);
+        return $DIC->language()->txt('ecs_node_mapping_status_' . $a_status);
     }
     
     
@@ -222,7 +221,7 @@ class ilECSMappingUtils
             ) {
                 continue;
             }
-            $options[$auth_string] = ilAuthUtils::getAuthModeTranslation($auth_int);
+            $options[$auth_string] = ilAuthUtils::getAuthModeTranslation((string) $auth_int);
         }
         return $options;
     }
