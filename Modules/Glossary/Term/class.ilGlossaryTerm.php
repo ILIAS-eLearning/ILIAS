@@ -57,10 +57,10 @@ class ilGlossaryTerm
         $term_set = $ilDB->query($q);
         $term_rec = $ilDB->fetchAssoc($term_set);
 
-        $this->setTerm($term_rec["term"]);
-        $this->setImportId($term_rec["import_id"]);
-        $this->setLanguage($term_rec["language"]);
-        $this->setGlossaryId($term_rec["glo_id"]);
+        $this->setTerm((string) $term_rec["term"]);
+        $this->setImportId((string) $term_rec["import_id"]);
+        $this->setLanguage((string) $term_rec["language"]);
+        $this->setGlossaryId((int) $term_rec["glo_id"]);
     }
 
     public static function _getIdForImportId(
