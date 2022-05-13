@@ -2515,6 +2515,7 @@ book#:#book_post_booking_text#:#Text
 book#:#book_pref_book_cron#:#Booking with Preferences
 book#:#book_pref_book_cron_info#:#Automatically book pools using preferences after the deadline
 book#:#book_pref_deadline#:#Deadline
+book#:#book_pref_deadline_info#:#Preferences can be given up to this point.
 book#:#book_preference_info#:#Please select %1 preference(s) until %2. After the deadline bookings will be done automatically based on the preferences of all users.
 book#:#book_preferences#:#Preferences
 book#:#book_preferences_saved#:#The preferences have been saved.
