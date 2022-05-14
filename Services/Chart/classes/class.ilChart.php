@@ -86,7 +86,7 @@ abstract class ilChart
     /**
      * Set chart size
      */
-    public function setSize(int $a_x, int $a_y) : void
+    public function setSize(string $a_x, int $a_y) : void
     {
         $this->width = $a_x;
         $this->height = $a_y;

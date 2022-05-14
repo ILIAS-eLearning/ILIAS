@@ -72,7 +72,7 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
             ilDatePresentation::formatDate(new ilDateTime($a_set["date"], IL_CAL_DATETIME))
         );
         $ilCtrl->setParameterByClass("ilwikipagegui", "page", rawurlencode($title));
-        $ilCtrl->setParameterByClass("ilwikipagegui", "old_nr", $a_set["nr"]);
+        $ilCtrl->setParameterByClass("ilwikipagegui", "old_nr", $a_set["nr"] ?? "");
         $this->tpl->setVariable(
             "HREF_PAGE",
             $ilCtrl->getLinkTargetByClass("ilwikipagegui", "preview")

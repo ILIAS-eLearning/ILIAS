@@ -469,7 +469,7 @@ class ilWikiPage extends ilPageObject
                 " GROUP BY wiki_id";
             $set = $ilDB->query($query);
             $rec = $ilDB->fetchAssoc($set);
-            if ((int) $rec["cnt"] === 0 &&
+            if ($rec && (int) $rec["cnt"] === 0 &&
                 ilObjWiki::_lookupStartPage($a_wiki_id) !== $page["title"]) {
                 $orphaned[] = $page;
             }
