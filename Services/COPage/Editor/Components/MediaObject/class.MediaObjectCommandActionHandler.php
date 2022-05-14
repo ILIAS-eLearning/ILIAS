@@ -92,13 +92,13 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
         $pc_media = $page->getContentObjectForPcId($body["pcid"]);
         $quick_edit = new \ilPCMediaObjectQuickEdit($pc_media);
 
-        $quick_edit->setTitle(\ilUtil::stripSlashes($body["standard_title"]));
-        $quick_edit->setClass(\ilUtil::stripSlashes($body["characteristic"]));
-        $quick_edit->setHorizontalAlign(\ilUtil::stripSlashes($body["horizontal_align"]));
+        $quick_edit->setTitle(\ilUtil::stripSlashes($body["standard_title"] ?? ""));
+        $quick_edit->setClass(\ilUtil::stripSlashes($body["characteristic"] ?? ""));
+        $quick_edit->setHorizontalAlign(\ilUtil::stripSlashes($body["horizontal_align"] ?? ""));
 
         $quick_edit->setUseFullscreen((bool) ($body["fullscreen"]));
-        $quick_edit->setCaption(\ilUtil::stripSlashes($body["standard_caption"]));
-        $quick_edit->setTextRepresentation(\ilUtil::stripSlashes($body["text_representation"]));
+        $quick_edit->setCaption(\ilUtil::stripSlashes($body["standard_caption"] ?? ""));
+        $quick_edit->setTextRepresentation(\ilUtil::stripSlashes($body["text_representation"] ?? ""));
 
         $pc_media->getMediaObject()->update();
         $updated = $page->update();

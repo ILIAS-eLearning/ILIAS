@@ -792,10 +792,8 @@ class ilPageObjectGUI
     {
         $ret = "";
         $this->ctrl->setReturn($this, "edit");
-
         $next_class = $this->ctrl->getNextClass($this);
         $this->log->debug("next_class: " . $next_class);
-
         if ($next_class == "" && $this->ctrl->getCmd() == "edit") {
             $this->tabs_gui->clearTargets();
         } else {
@@ -2104,7 +2102,7 @@ class ilPageObjectGUI
         //$tpl->fillJavaScriptFiles();
         //$tpl->fillCssFiles();
 
-        $this->tpl->printToStdout();
+        $tpl->printToStdout();
         exit;
     }
 
