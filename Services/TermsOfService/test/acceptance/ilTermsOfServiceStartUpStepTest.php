@@ -22,24 +22,20 @@ use ILIAS\HTTP\Services;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Class ilTermsOfServiceRequestTargetAdjustmentCaseTest
+ * Class ilTermsOfServiceStartUpStepTest
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBaseTest
+class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
 {
     public function testUserShouldBeForcedToAcceptTermsOfServiceWhenNotDoingItYetInCurrentRequest() : void
     {
         $dic = new Container();
 
-        $ctrl = $this
-            ->getMockBuilder(ilCtrl::class)
-            ->disableOriginalConstructor()
-            ->onlyMethods(['redirectToURL', 'getCmdClass', 'getCmd'])
-            ->getMock();
+        $ctrl = $this->createMock(ilCtrlInterface::class);
 
         $ctrl
             ->method('getCmdClass')
-            ->willReturn('ilDashboardGUI');
+            ->willReturn(ilDashboardGUI::class);
 
         $ctrl
             ->method('getCmd')
@@ -123,7 +119,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
         $ctrl
             ->expects($this->atLeast(1))
             ->method('getCmdClass')
-            ->willReturn('ilstartupgui');
+            ->willReturn(ilStartUpGUI::class);
 
         $ctrl
             ->expects($this->atLeast(1))
@@ -296,7 +292,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
 
         $ctrl
             ->method('getCmdClass')
-            ->willReturn('ilDashboardGUI');
+            ->willReturn(ilDashboardGUI::class);
 
         $ctrl
             ->method('getCmd')
@@ -398,7 +394,7 @@ class ilTermsOfServiceRequestTargetAdjustmentCaseTest extends ilTermsOfServiceBa
 
         $ctrl
             ->method('getCmdClass')
-            ->willReturn('ilDashboardGUI');
+            ->willReturn(ilDashboardGUI::class);
 
         $ctrl
             ->method('getCmd')

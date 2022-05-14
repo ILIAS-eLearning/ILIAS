@@ -18,17 +18,46 @@
 
 class ilTermsOfServiceHistorizedCriterionTest extends ilTermsOfServiceCriterionBaseTest
 {
-    public function testHistorizedCriterion() : void
+    public function testHistorizedCriteriaCanBeBuildFromJsonStrings() : ilTermsOfServiceAcceptanceHistoryCriteriaBag
     {
-        $config = '[{"id":"usr_language","value":{"lng":"de"}}]';
+        $criteria = [
+            '{"id":"usr_language","value":{"lng":"de"}}',
+            '{"id":"usr_global_role","value":{"role_id":4711}}'
+        ];
 
-        $criterion = new ilTermsOfServiceHistorizedCriterion(
-            'usr_language',
-            json_decode($config, false, 512, JSON_THROW_ON_ERROR)
+        $config = '[' . implode(',', $criteria) . ']';
+
+        $bag = new ilTermsOfServiceAcceptanceHistoryCriteriaBag($config);
+
+        self::assertSame($config, $bag->toJson());
+        self::assertCount(count($criteria), $bag);
+
+        for ($i = 0, $iMax = count($criteria); $i < $iMax; $i++) {
+            $criterion = new ilTermsOfServiceHistorizedCriterion(
+                $bag[$i]['id'],
+                $bag[$i]['value']
+            );
+
+            self::assertStringContainsString($criterion->getCriterionId(), $criteria[$i]);
+            self::assertStringContainsString($criterion->getCriterionValue()->toJson(), $criteria[$i]);
+        }
+
+        return $bag;
+    }
+
+    /**
+     * @depends testHistorizedCriteriaCanBeBuildFromJsonStrings
+     * @param ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria_bag
+     * @return void
+     */
+    public function testHistorizedDocumentCanBeCreated(
+        ilTermsOfServiceAcceptanceHistoryCriteriaBag $criteria_bag
+    ) : void {
+        $historizedDocument = new ilTermsOfServiceHistorizedDocument(
+            $this->getMockBuilder(ilTermsOfServiceAcceptanceEntity::class)->disableOriginalConstructor()->getMock(),
+            $criteria_bag
         );
 
-        $this->assertSame('usr_language', $criterion->getCriterionId());
-        $this->assertSame($config, $criterion->getCriterionValue()->toJson());
-        $this->assertSame($config, $criterion->getCriterionValue()->toJson());
+        self::assertCount(count($criteria_bag), $historizedDocument->criteria());
     }
 }
