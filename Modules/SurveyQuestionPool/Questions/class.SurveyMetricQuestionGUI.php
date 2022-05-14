@@ -118,10 +118,16 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
     protected function importEditFormValues(ilPropertyFormGUI $a_form) : void
     {
         $type = (int) $a_form->getInput("type");
-        $this->object->setOrientation($a_form->getInput("orientation"));
-        $this->object->setSubtype($type);
-        $this->object->setMinimum($a_form->getInput("minimum" . $type));
-        $this->object->setMaximum($a_form->getInput("maximum" . $type));
+        $this->object->setOrientation((int) $a_form->getInput("orientation"));
+        $this->object->setSubtype((int) $type);
+        $min = ($a_form->getInput("minimum" . $type) != "")
+            ? (float) $a_form->getInput("minimum" . $type)
+            : null;
+        $max = ($a_form->getInput("maximum" . $type) != "")
+            ? (float) $a_form->getInput("maximum" . $type)
+            : null;
+        $this->object->setMinimum($min);
+        $this->object->setMaximum($max);
     }
     
     public function getParsedAnswers(

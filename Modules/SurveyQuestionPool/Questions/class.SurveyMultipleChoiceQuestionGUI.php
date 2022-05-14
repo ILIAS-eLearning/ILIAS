@@ -132,10 +132,10 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
     {
         $this->object->setOrientation($a_form->getInput("orientation"));
         $this->object->use_other_answer = ($a_form->getInput('use_other_answer')) ? 1 : 0;
-        $this->object->other_answer_label = $this->object->use_other_answer ? $a_form->getInput('other_answer_label') : null;
+        $this->object->other_answer_label = $this->object->use_other_answer ? $a_form->getInput('other_answer_label') : "";
         $this->object->use_min_answers = (bool) $a_form->getInput('use_min_answers');
-        $this->object->nr_min_answers = ($a_form->getInput('nr_min_answers') > 0) ? $a_form->getInput('nr_min_answers') : null;
-        $this->object->nr_max_answers = ($a_form->getInput('nr_max_answers') > 0) ? $a_form->getInput('nr_max_answers') : null;
+        $this->object->nr_min_answers = ($a_form->getInput('nr_min_answers') > 0) ? $a_form->getInput('nr_min_answers') : "";
+        $this->object->nr_max_answers = ($a_form->getInput('nr_max_answers') > 0) ? $a_form->getInput('nr_max_answers') : "";
         $this->object->label = $a_form->getInput('label');
 
         $this->object->categories->flushCategories();
@@ -143,7 +143,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
         $answers = $this->request->getAnswers();
         foreach ($answers['answer'] as $key => $value) {
             if (strlen($value)) {
-                $this->object->getCategories()->addCategory($value, $answers['other'][$key], 0, null, $answers['scale'][$key]);
+                $this->object->getCategories()->addCategory($value, $answers['other'][$key] ?? 0, 0, null, $answers['scale'][$key]);
             }
         }
         if ($this->request->getNeutral() !== "") {

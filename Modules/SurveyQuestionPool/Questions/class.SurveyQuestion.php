@@ -409,13 +409,13 @@ class SurveyQuestion
         if ($result->numRows()) {
             while ($row = $ilDB->fetchAssoc($result)) {
                 $mat = new ilSurveyMaterial();
-                $mat->type = $row['material_type'];
-                $mat->internal_link = $row['internal_link'];
-                $mat->title = $row['material_title'];
-                $mat->import_id = $row['import_id'];
-                $mat->text_material = $row['text_material'];
-                $mat->external_link = $row['external_link'];
-                $mat->file_material = $row['file_material'];
+                $mat->type = (string) $row['material_type'];
+                $mat->internal_link = (string) $row['internal_link'];
+                $mat->title = (string) $row['material_title'];
+                $mat->import_id = (string) $row['import_id'];
+                $mat->text_material = (string) $row['text_material'];
+                $mat->external_link = (string) $row['external_link'];
+                $mat->file_material = (string) $row['file_material'];
                 $this->material[] = $mat;
             }
         }
@@ -552,7 +552,7 @@ class SurveyQuestion
                     $material->file_material, $material->type)
             );
             if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $material->internal_link, $matches)) {
-                ilInternalLink::_saveLink("sqst", $this->getId(), $matches[2], $matches[3], $matches[1]);
+                ilInternalLink::_saveLink("sqst", $this->getId(), $matches[2], (int) $matches[3], (int) $matches[1]);
             }
         }
     }

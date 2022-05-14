@@ -44,8 +44,8 @@ class SurveyMetricQuestion extends SurveyQuestion
         parent::__construct($title, $description, $author, $questiontext, $owner);
         
         $this->subtype = $subtype;
-        $this->minimum = "";
-        $this->maximum = "";
+        $this->minimum = null;
+        $this->maximum = null;
     }
     
     public function setSubtype(int $a_subtype = self::SUBTYPE_NON_RATIO) : void
@@ -108,18 +108,18 @@ class SurveyMetricQuestion extends SurveyQuestion
         );
         if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
-            $this->setId($data["question_id"]);
-            $this->setTitle($data["title"]);
-            $this->setDescription($data["description"]);
-            $this->setObjId($data["obj_fi"]);
-            $this->setAuthor($data["author"]);
-            $this->setOwner($data["owner_fi"]);
-            $this->label = $data['label'];
-            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc($data["questiontext"], 1));
-            $this->setObligatory($data["obligatory"]);
-            $this->setComplete($data["complete"]);
-            $this->setOriginalId($data["original_id"]);
-            $this->setSubtype($data["subtype"]);
+            $this->setId((int) $data["question_id"]);
+            $this->setTitle((string) $data["title"]);
+            $this->setDescription((string) $data["description"]);
+            $this->setObjId((int) $data["obj_fi"]);
+            $this->setAuthor((string) $data["author"]);
+            $this->setOwner((int) $data["owner_fi"]);
+            $this->label = (string) $data['label'];
+            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc((string) $data["questiontext"], 1));
+            $this->setObligatory((bool) $data["obligatory"]);
+            $this->setComplete((bool) $data["complete"]);
+            $this->setOriginalId((int) $data["original_id"]);
+            $this->setSubtype((int) $data["subtype"]);
 
             $result = $ilDB->queryF(
                 "SELECT svy_variable.* FROM svy_variable WHERE svy_variable.question_fi = %s",

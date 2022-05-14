@@ -68,7 +68,7 @@ class EditSessionRepository
 
     public function getSearchLinkType() : string
     {
-        return \ilSession::get(self::KEY_SLTYPE);
+        return (string) \ilSession::get(self::KEY_SLTYPE);
     }
 
     public function clearSearchLinkType() : void
@@ -85,7 +85,7 @@ class EditSessionRepository
 
     public function getNewLinkType() : string
     {
-        return \ilSession::get(self::KEY_NLTYPE);
+        return (string) \ilSession::get(self::KEY_NLTYPE);
     }
 
     public function clearNewLinkType() : void
@@ -102,6 +102,6 @@ class EditSessionRepository
 
     public function getPhraseData() : array
     {
-        return \ilSession::get(self::KEY_PHRASE_DATA);
+        return (\ilSession::get(self::KEY_PHRASE_DATA) ?? []);
     }
 }

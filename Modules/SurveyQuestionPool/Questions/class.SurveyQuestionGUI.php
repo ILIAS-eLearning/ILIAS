@@ -915,7 +915,7 @@ abstract class SurveyQuestionGUI
             $opt->setInfo(implode(",", $categories));
             $group->addOption($opt);
             
-            if ($phrase_array["org_title"] === "dp_standard_numbers") {
+            if (($phrase_array["org_title"] ?? "") === "dp_standard_numbers") {
                 $min = new ilNumberInputGUI($this->lng->txt("lower_limit"), "lower_limit");
                 $min->setRequired(true);
                 $min->setSize(5);

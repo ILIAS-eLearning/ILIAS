@@ -170,10 +170,10 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
             for ($i = 0; $i < $this->values->getCategoryCount(); $i++) {
                 $cat = $this->values->getCategory($i);
                 $tpl->setCurrentBlock("prop_text_propval");
-                $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($cat->title));
+                $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput((string) $cat->title));
                 $tpl->parseCurrentBlock();
                 $tpl->setCurrentBlock("prop_label_propval");
-                $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput($cat->label));
+                $tpl->setVariable("PROPERTY_VALUE", ilLegacyFormElementsUtil::prepareFormOutput((string) $cat->label));
                 $tpl->parseCurrentBlock();
 
                 if ($this->getUseOtherAnswer()) {
