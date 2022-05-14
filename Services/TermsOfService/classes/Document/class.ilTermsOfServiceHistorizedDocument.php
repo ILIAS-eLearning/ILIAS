@@ -50,14 +50,11 @@ class ilTermsOfServiceHistorizedDocument implements ilTermsOfServiceSignableDocu
 
     public function criteria() : array
     {
-        $criteria = [];
-        foreach ($this->criteria as $criterion) {
-            $criteria[] = new ilTermsOfServiceHistorizedCriterion(
+        return array_map(static function (array $criterion) : ilTermsOfServiceHistorizedCriterion {
+            return new ilTermsOfServiceHistorizedCriterion(
                 $criterion['id'],
                 $criterion['value']
             );
-        }
-
-        return $criteria;
+        }, $this->criteria->getArrayCopy());
     }
 }
