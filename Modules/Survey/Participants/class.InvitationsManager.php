@@ -95,7 +95,7 @@ class InvitationsManager
         // filter all surveys that have ended
         $has_ended = $this->set_repo->hasEnded($open_surveys);
         $open_surveys = array_filter($open_surveys, static function (int $i) use ($has_ended) : bool {
-            return !$has_ended[$i];
+            return !($has_ended[$i] ?? false);
         });
 
         return $open_surveys;

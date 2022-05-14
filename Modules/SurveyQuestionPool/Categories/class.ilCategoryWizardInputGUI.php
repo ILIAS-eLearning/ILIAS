@@ -114,7 +114,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
-                    $this->values->addCategory($value, $a_value['other'][$index], null, null, $a_value['scale'][$index]);
+                    $this->values->addCategory($value, $a_value['other'][$index] ?? 0, 0, null, $a_value['scale'][$index] ?? null);
                 }
             }
         }
@@ -204,7 +204,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $idx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && ($this->getRequired() && (!$foundvalues['other'][$idx]))) {
+                    if (((strlen($answervalue)) == 0) && ($this->getRequired() && (!isset($foundvalues['other'][$idx])))) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
@@ -218,7 +218,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
                 }
             }
             // check scales
-            if (is_array($foundvalues['scale'])) {
+            if (isset($foundvalues['scale'])) {
                 foreach ($foundvalues['scale'] as $scale) {
                     //scales required
                     if ((strlen($scale)) == 0) {

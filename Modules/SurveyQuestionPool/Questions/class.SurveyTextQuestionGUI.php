@@ -73,7 +73,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
     protected function importEditFormValues(ilPropertyFormGUI $a_form) : void
     {
         $max = $a_form->getInput("maxchars");
-        $this->object->setMaxChars(strlen($max) ? $max : null);
+        $this->object->setMaxChars((int) $max);
         $this->object->setTextWidth($a_form->getInput("textwidth"));
         $this->object->setTextHeight($a_form->getInput("textheight"));
     }

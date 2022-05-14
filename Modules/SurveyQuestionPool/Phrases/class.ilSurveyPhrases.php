@@ -195,8 +195,11 @@ class ilSurveyPhrases
             $counter++;
         }
     }
-    
-    public function __get(string $value) : ?string
+
+    /**
+     * @return mixed|null
+     */
+    public function __get(string $value)
     {
         switch ($value) {
             default:
@@ -204,7 +207,10 @@ class ilSurveyPhrases
         }
     }
 
-    public function __set(string $key, string $value) : void
+    /**
+     * @param mixed|null $value
+     */
+    public function __set(string $key, $value) : void
     {
         switch ($key) {
             default:

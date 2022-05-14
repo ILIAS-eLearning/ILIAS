@@ -128,11 +128,11 @@ class SurveyMetricQuestion extends SurveyQuestion
             );
             if ($result->numRows() > 0) {
                 if ($data = $ilDB->fetchAssoc($result)) {
-                    $this->minimum = $data["value1"];
+                    $this->minimum = is_null($data["value1"]) ? null : (float) $data["value1"];
                     if (($data["value2"] < 0) or (strcmp($data["value2"], "") == 0)) {
-                        $this->maximum = "";
+                        $this->maximum = null;
                     } else {
-                        $this->maximum = $data["value2"];
+                        $this->maximum = is_null($data["value2"]) ? null : (float) $data["value2"];
                     }
                 }
             }
