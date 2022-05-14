@@ -142,7 +142,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
                 }
 
                 // parse collection items
-                if (is_array($info["items"])) {
+                if (isset($info["items"])) {
                     foreach ($info["items"] as $item_id) {
                         $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
                         if (is_array($info["in_progress"][$item_id]) &&

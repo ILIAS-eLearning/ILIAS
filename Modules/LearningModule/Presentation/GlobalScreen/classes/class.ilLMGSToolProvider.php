@@ -197,14 +197,14 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         if (!is_array($params)) {
             $params = null;
         }
-        try {
-            $service = new ilLMPresentationService($DIC->user(), $params, $offline);
-            $renderer = new ilLMSlateTocRendererGUI($service);
+        //try {
+        $service = new ilLMPresentationService($DIC->user(), $params, $offline);
+        $renderer = new ilLMSlateTocRendererGUI($service);
 
-            return $renderer->render();
-        } catch (Exception $e) {
-            return "";
-        }
+        return $renderer->render();
+        //} catch (Exception $e) {
+        //    return $e->getMessage();
+        //}
     }
 
     protected function getLinkSlateContent(string $type) : string

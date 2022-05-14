@@ -100,7 +100,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
             $acc_rec = $ilDB->fetchAssoc($acc_set);
         }
         
-        if ($acc_rec["obj_id"] > 0) {
+        if (($acc_rec["obj_id"] ?? 0) > 0) {
             $lm_id = ilObject::_lookupObjId($a_ref_id);
             $mtree = new ilTree($lm_id);
             $mtree->setTableNames('lm_tree', 'lm_data');
