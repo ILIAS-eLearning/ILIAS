@@ -1605,8 +1605,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 //$mpl->setDisplayHeight("480");
                 //$mpl->setDisplayWidth("320px");
                 $mpl->setVideoPreviewPic(ilWACSignedPath::signFile($mob->getVideoPreviewPic()));
-                $mpl->setTitle($item["title"]);
-                $mpl->setDescription($item["content"]);
+                $mpl->setTitle((string) $item["title"]);
+                $mpl->setDescription((string) $item["content"]);
                 $mpl->setForceAudioPreview(true);
                 if ($this->object->getDownloadable()) {
                     $ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", $item["id"]);
