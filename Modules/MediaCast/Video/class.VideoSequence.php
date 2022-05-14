@@ -41,7 +41,7 @@ class VideoSequence
             $mob = new \ilObjMediaObject($item["mob_id"]);
             $med = $mob->getMediaItem("Standard");
             $title = $item["title"];
-            $time = $item["playtime"];
+            $time = (int) $item["playtime"];
             $preview_pic = "";
             if ($mob->getVideoPreviewPic() != "") {
                 $preview_pic = $mob->getVideoPreviewPic();

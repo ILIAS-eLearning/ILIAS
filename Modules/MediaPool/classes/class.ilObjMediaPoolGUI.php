@@ -1681,8 +1681,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
 
         $form = $this->getBulkUploadForm();
         $main_tpl->setContent($form->render());
-        //$form = $this->initBulkUploadForm();
-        //$main_tpl->setContent($form->getHTML());
     }
 
     protected function getBulkUploadForm() : FormAdapterGUI

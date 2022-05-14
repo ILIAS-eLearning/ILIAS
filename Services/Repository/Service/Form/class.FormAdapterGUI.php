@@ -24,6 +24,7 @@ use ILIAS\UI\Component\Input\Field\FormInput;
 class FormAdapterGUI
 {
     protected const DEFAULT_SECTION = "@internal_default_section";
+    protected string $title = "";
     /**
      * @var mixed|null
      */
@@ -55,11 +56,20 @@ class FormAdapterGUI
         $this->http = $DIC->http();
     }
 
+    public function getTitle() : string
+    {
+        return $this->title;
+    }
+
     public function section(
         string $key,
         string $title,
         string $description = ""
     ) : self {
+        if ($this->title == "") {
+            $this->title = $title;
+        }
+
         $this->sections[$key] = [
             "title" => $title,
             "description" => $description
@@ -119,7 +129,8 @@ class FormAdapterGUI
         string $title,
         \Closure $result_handler,
         string $id_parameter,
-        int $max_files = 1
+        int $max_files = 1,
+        array $mime_types = []
     ) : self {
         $this->upload_handler[$key] = new \ilRepoStandardUploadHandlerGUI(
             $result_handler,
@@ -132,6 +143,9 @@ class FormAdapterGUI
         )
             ->withMaxFileSize((int) \ilFileUtils::getUploadSizeLimitBytes())
             ->withMaxFiles($max_files);
+        if (count($mime_types) > 0) {
+            $field = $field->withAcceptedMimeTypes($mime_types);
+        }
 
         $this->addField(
             $key,
