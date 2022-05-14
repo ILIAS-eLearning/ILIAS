@@ -243,7 +243,7 @@ class ilLMObject
         $ilDB = $DIC->database();
 
         if (isset(self::$data_records[$a_obj_id])) {
-            return self::$data_records[$a_obj_id][$a_field];
+            return self::$data_records[$a_obj_id][$a_field] ?? "";
         }
 
         $query = "SELECT " . $a_field . " FROM lm_data WHERE obj_id = " .
