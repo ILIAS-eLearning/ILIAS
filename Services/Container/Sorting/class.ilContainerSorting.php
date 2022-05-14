@@ -471,8 +471,10 @@ class ilContainerSorting
         foreach ($items as $key => $item) {
             if ($item["position"] == self::ORDER_DEFAULT) {
                 $no_position[] = [
-                    "key" => $key, "title" => $item["title"], "create_date" => $item["create_date"],
-                    "start" => $item["start"]
+                    "key" => $key,
+                    "title" => $item["title"] ?? "",
+                    "create_date" => $item["create_date"] ?? "",
+                    "start" => $item["start"] ?? ""
                 ];
             }
         }

@@ -305,7 +305,7 @@ class ilObjectDefinition
     */
     public function getDevMode(string $obj_name) : bool
     {
-        return (bool) $this->obj_data[$obj_name]["devmode"];
+        return (bool) ($this->obj_data[$obj_name]["devmode"] ?? false);
     }
 
     /**

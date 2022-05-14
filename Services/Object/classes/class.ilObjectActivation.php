@@ -303,7 +303,7 @@ class ilObjectActivation
             ? $item['type']
             : ilObject::_lookupType((int) $item['obj_id']);
 
-        $item['timing_type'] = $item_array['timing_type'];
+        $item['timing_type'] = $item_array['timing_type'] ?? 0;
 
         if ($item_array['changeable'] &&
             $item_array['timing_type'] == self::TIMINGS_PRESETTING) {
