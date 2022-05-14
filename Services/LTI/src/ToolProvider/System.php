@@ -970,7 +970,9 @@ trait System
                 }
             } else {  // OAuth
                 if (isset($this->rawParameters['oauth_consumer_key']) && ($this instanceof Tool)) {
-                    $this->platform = Platform::fromConsumerKey($this->rawParameters['oauth_consumer_key'], $this->dataConnector);
+                    //changed UK temporary
+//                    $this->platform = Platform::fromConsumerKey($this->rawParameters['oauth_consumer_key'], $this->dataConnector);
+                    $this->platform = \ilLTIPlatform::fromConsumerKey($this->rawParameters['oauth_consumer_key'], $this->dataConnector);
                 }
                 $this->messageParameters = $this->rawParameters;
             }

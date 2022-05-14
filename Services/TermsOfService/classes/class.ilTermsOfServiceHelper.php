@@ -142,9 +142,17 @@ class ilTermsOfServiceHelper
 
     public function isIncludedUser(ilObjUser $user) : bool
     {
+        $excluded_roles = [];
+        if (defined('ANONYMOUS_USER_ID')) {
+            $excluded_roles[] = ANONYMOUS_USER_ID;
+        }
+        if (defined('SYSTEM_USER_ID')) {
+            $excluded_roles[] = SYSTEM_USER_ID;
+        }
+
         return (
             'root' !== $user->getLogin() &&
-            !in_array($user->getId(), [ANONYMOUS_USER_ID, SYSTEM_USER_ID], true) &&
+            !in_array($user->getId(), $excluded_roles, true) &&
             !$user->isAnonymous() &&
             $user->getId() > 0
         );

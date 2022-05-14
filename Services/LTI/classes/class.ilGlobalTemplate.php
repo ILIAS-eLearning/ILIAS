@@ -21,7 +21,7 @@ namespace LTI;
  * @author     Stefan Schneider <schneider@hrz.uni-marburg.de>
  * @version    $Id$
  */
-// TODO PHP8 Review: is this class still needed? Please remove if not
+// ToDo Stefan: Can be removed?
 class ilGlobalTemplate extends \ilGlobalTemplate
 {
     public function __construct(

@@ -18,7 +18,7 @@
 
 use ILIAS\DI\Container;
 use ILIAS\DI\LoggingServices;
-use ILIAS\HTTP\Services;
+use ILIAS\HTTP\GlobalHttpState;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -71,32 +71,22 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
             return $user;
         };
 
-        $request = $this
-            ->getMockBuilder(ServerRequestInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $http = $this
-            ->getMockBuilder(Services::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $request = $this->createMock(ServerRequestInterface::class);
+        $http = $this->createMock(GlobalHttpState::class);
 
         $http
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = static function () use ($http) : Services {
+        $dic['http'] = static function () use ($http) : GlobalHttpState {
             return $http;
         };
 
-        $evaluator = $this
-            ->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)
-            ->getMock();
+        $evaluator = $this->createMock(ilTermsOfServiceDocumentEvaluation::class);
         $dic['tos.document.evaluator'] = static function () use ($evaluator) : ilTermsOfServiceDocumentEvaluation {
             return $evaluator;
         };
 
-        $criterionFactory = $this
-            ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
-            ->getMock();
+        $criterionFactory = $this->createMock(ilTermsOfServiceCriterionTypeFactoryInterface::class);
         $dic['tos.criteria.type.factory'] = static function () use (
             $criterionFactory
         ) : ilTermsOfServiceCriterionTypeFactoryInterface {
@@ -150,32 +140,22 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
             return $user;
         };
 
-        $request = $this
-            ->getMockBuilder(ServerRequestInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $http = $this
-            ->getMockBuilder(Services::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $request = $this->createMock(ServerRequestInterface::class);
+        $http = $this->createMock(GlobalHttpState::class);
 
         $http
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = static function () use ($http) : Services {
+        $dic['http'] = static function () use ($http) : GlobalHttpState {
             return $http;
         };
 
-        $evaluator = $this
-            ->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)
-            ->getMock();
+        $evaluator = $this->createMock(ilTermsOfServiceDocumentEvaluation::class);
         $dic['tos.document.evaluator'] = static function () use ($evaluator) : ilTermsOfServiceDocumentEvaluation {
             return $evaluator;
         };
 
-        $criterionFactory = $this
-            ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
-            ->getMock();
+        $criterionFactory = $this->createMock(ilTermsOfServiceCriterionTypeFactoryInterface::class);
         $dic['tos.criteria.type.factory'] = static function () use (
             $criterionFactory
         ) : ilTermsOfServiceCriterionTypeFactoryInterface {
@@ -301,32 +281,22 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
             return $ctrl;
         };
 
-        $request = $this
-            ->getMockBuilder(ServerRequestInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $http = $this
-            ->getMockBuilder(Services::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $request = $this->createMock(ServerRequestInterface::class);
+        $http = $this->createMock(GlobalHttpState::class);
 
         $http
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = static function () use ($http) : Services {
+        $dic['http'] = static function () use ($http) : GlobalHttpState {
             return $http;
         };
 
-        $evaluator = $this
-            ->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)
-            ->getMock();
+        $evaluator = $this->createMock(ilTermsOfServiceDocumentEvaluation::class);
         $dic['tos.document.evaluator'] = static function () use ($evaluator) : ilTermsOfServiceDocumentEvaluation {
             return $evaluator;
         };
 
-        $criterionFactory = $this
-            ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
-            ->getMock();
+        $criterionFactory = $this->createMock(ilTermsOfServiceCriterionTypeFactoryInterface::class);
         $dic['tos.criteria.type.factory'] = static function () use (
             $criterionFactory
         ) : ilTermsOfServiceCriterionTypeFactoryInterface {
@@ -403,32 +373,22 @@ class ilTermsOfServiceStartUpStepTest extends ilTermsOfServiceBaseTest
             return $ctrl;
         };
 
-        $request = $this
-            ->getMockBuilder(ServerRequestInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-        $http = $this
-            ->getMockBuilder(Services::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $request = $this->createMock(ServerRequestInterface::class);
+        $http = $this->createMock(GlobalHttpState::class);
 
         $http
             ->method('request')
             ->willReturn($request);
-        $dic['http'] = static function () use ($http) : Services {
+        $dic['http'] = static function () use ($http) : GlobalHttpState {
             return $http;
         };
 
-        $evaluator = $this
-            ->getMockBuilder(ilTermsOfServiceDocumentEvaluation::class)
-            ->getMock();
+        $evaluator = $this->createMock(ilTermsOfServiceDocumentEvaluation::class);
         $dic['tos.document.evaluator'] = static function () use ($evaluator) : ilTermsOfServiceDocumentEvaluation {
             return $evaluator;
         };
 
-        $criterionFactory = $this
-            ->getMockBuilder(ilTermsOfServiceCriterionTypeFactoryInterface::class)
-            ->getMock();
+        $criterionFactory = $this->createMock(ilTermsOfServiceCriterionTypeFactoryInterface::class);
         $dic['tos.criteria.type.factory'] = static function () use (
             $criterionFactory
         ) : ilTermsOfServiceCriterionTypeFactoryInterface {

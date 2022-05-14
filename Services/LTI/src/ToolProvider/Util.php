@@ -192,13 +192,24 @@ final class Util
      */
     public static function isLtiMessage() : bool
     {
-        $isLti = ($_SERVER['REQUEST_METHOD'] === 'POST') &&
-            (!empty($_POST['lti_message_type']) || !empty($_POST['id_token']) || !empty($_POST['JWT']) ||
-                !empty($_POST['iss']));
+//        $isLti = ($_SERVER['REQUEST_METHOD'] === 'POST') &&
+//            (!empty($_POST['lti_message_type']) || !empty($_POST['id_token']) || !empty($_POST['JWT']) ||
+//                !empty($_POST['iss']));
+//        if (!$isLti) {
+//            $isLti = ($_SERVER['REQUEST_METHOD'] === 'GET') && (!empty($_GET['iss']) || !empty($_GET['openid_configuration']));
+//        }
+        global $DIC;
+        $wrapper = $DIC->http()->wrapper()->post();
+        $refString = $DIC->refinery()->kindlyTo()->string();
+        $isLti = ($wrapper->has('lti_message_type') && $wrapper->retrieve('lti_message_type', $refString) != '') ||
+            ($wrapper->has('id_token') && $wrapper->retrieve('id_token', $refString) != '') ||
+            ($wrapper->has('JWT') && $wrapper->retrieve('JWT', $refString) != '') ||
+            ($wrapper->has('iss') && $wrapper->retrieve('iss', $refString) != '');
         if (!$isLti) {
-            $isLti = ($_SERVER['REQUEST_METHOD'] === 'GET') && (!empty($_GET['iss']) || !empty($_GET['openid_configuration']));
+            $wrapper = $DIC->http()->wrapper()->query();
+            $isLti = ($wrapper->has('iss') && $wrapper->retrieve('iss', $refString) != '') ||
+                ($wrapper->has('openid_configuration') && $wrapper->retrieve('openid_configuration', $refString) != '');
         }
-
         return $isLti;
     }
 
@@ -210,7 +221,14 @@ final class Util
     public static function getRequestParameters() : ?array
     {
         if (is_null(self::$requestParameters)) {
-            self::$requestParameters = array_merge($_GET, $_POST);
+//            special for ILIAS instead of
+//            self::$requestParameters = array_merge($_GET, $_POST);
+            self::$requestParameters = array_merge(
+                //Argument 1 passed to Symfony\Component\HttpFoundation\Request::createRequestFromFactory() must be of the type array, object given
+                (array) \Symfony\Component\HttpFoundation\Request::createFromGlobals()->query->all(),
+                (array) \Symfony\Component\HttpFoundation\Request::createFromGlobals()->request->all()
+//                (array) $_GET, (array) $_POST
+            );
         }
 
         return self::$requestParameters;
