@@ -68,27 +68,43 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
     /**
      * Names of LTI parameters to be retained in the consumer settings property.
      */
-    private static array $LTI_CONSUMER_SETTING_NAMES = array('custom_tc_profile_url', 'custom_system_setting_url', 'custom_oauth2_access_token_url');
+    private static array $LTI_CONSUMER_SETTING_NAMES = array('custom_tc_profile_url',
+                                                             'custom_system_setting_url',
+                                                             'custom_oauth2_access_token_url'
+    );
 
     /**
      * Names of LTI parameters to be retained in the context settings property.
      */
     private static array $LTI_CONTEXT_SETTING_NAMES = array('custom_context_setting_url',
-                                                            'ext_ims_lis_memberships_id', 'ext_ims_lis_memberships_url',
-                                                            'custom_context_memberships_url', 'custom_context_memberships_v2_url',
-                                                            'custom_context_group_sets_url', 'custom_context_groups_url',
-                                                            'custom_lineitems_url', 'custom_ags_scopes'
+                                                            'ext_ims_lis_memberships_id',
+                                                            'ext_ims_lis_memberships_url',
+                                                            'custom_context_memberships_url',
+                                                            'custom_context_memberships_v2_url',
+                                                            'custom_context_group_sets_url',
+                                                            'custom_context_groups_url',
+                                                            'custom_lineitems_url',
+                                                            'custom_ags_scopes'
     );
 
     /**
      * Names of LTI parameters to be retained in the resource link settings property.
      */
-    private static array $LTI_RESOURCE_LINK_SETTING_NAMES = array('lis_result_sourcedid', 'lis_outcome_service_url',
-                                                                  'ext_ims_lis_basic_outcome_url', 'ext_ims_lis_resultvalue_sourcedids', 'ext_outcome_data_values_accepted',
-                                                                  'ext_ims_lis_memberships_id', 'ext_ims_lis_memberships_url',
-                                                                  'ext_ims_lti_tool_setting', 'ext_ims_lti_tool_setting_id', 'ext_ims_lti_tool_setting_url',
-                                                                  'custom_link_setting_url', 'custom_link_memberships_url',
-                                                                  'custom_lineitems_url', 'custom_lineitem_url', 'custom_ags_scopes',
+    private static array $LTI_RESOURCE_LINK_SETTING_NAMES = array('lis_result_sourcedid',
+                                                                  'lis_outcome_service_url',
+                                                                  'ext_ims_lis_basic_outcome_url',
+                                                                  'ext_ims_lis_resultvalue_sourcedids',
+                                                                  'ext_outcome_data_values_accepted',
+                                                                  'ext_ims_lis_memberships_id',
+                                                                  'ext_ims_lis_memberships_url',
+                                                                  'ext_ims_lti_tool_setting',
+                                                                  'ext_ims_lti_tool_setting_id',
+                                                                  'ext_ims_lti_tool_setting_url',
+                                                                  'custom_link_setting_url',
+                                                                  'custom_link_memberships_url',
+                                                                  'custom_lineitems_url',
+                                                                  'custom_lineitem_url',
+                                                                  'custom_ags_scopes',
                                                                   'custom_ap_acs_url'
     );
 
@@ -131,7 +147,6 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //    );
     /**
      * LTI parameter constraints for auto validation checks.
-     *
      * @var array|null $constraints
      */
     private ?array $constraints = null;
@@ -148,6 +163,10 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 
     private \ILIAS\DI\Container $dic;
 
+    private \ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper $postwrapper;
+
+    private \ILIAS\Refinery\KindlyTo\Group $kindlyTo;
+
     /**
      * ilLTITool constructor.
      * @param ilLTIDataConnector $dataConnector
@@ -156,8 +175,15 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
     {
         global $DIC;
         $this->dic = $DIC;
+        $this->postwrapper = $DIC->http()->wrapper()->post();
+        $this->kindlyTo = $DIC->refinery()->kindlyTo();
         $this->logger = ilLoggerFactory::getLogger('ltis');
-        parent::__construct($dataConnector);
+//        $this->initialize();
+        if (empty($dataConnector)) {
+            $dataConnector = ilLTIDataConnector::getDataConnector();
+        }
+        $this->dataConnector = $dataConnector;
+//        parent::__construct($dataConnector);
     }
 
     /**
@@ -166,22 +192,26 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
      */
     private function checkForShare() : bool
     {
-        global $DIC;
-        // TODO PHP8 Review: Move Global Access to Constructor
         $ok = true;
         $doSaveResourceLink = true;
 
         $id = $this->resourceLink->primaryResourceLinkId;
 
         $id = $this->resourceLink->primaryResourceLinkId;
-        $shareRequest = $DIC->http()->wrapper()->post()->has('custom_share_key') && !empty($DIC->http()->wrapper()->post()->retrieve('custom_share_key', $DIC->refinery()->kindlyTo()->string()));
+        $shareRequest = $this->postwrapper->has('custom_share_key') && !empty($this->postwrapper->retrieve(
+            'custom_share_key',
+            $this->kindlyTo->string()
+        ));
         if ($shareRequest) {
             if (!$this->allowSharing) {
                 $ok = false;
                 $this->reason = 'Your sharing request has been refused because sharing is not being permitted.';
             } else {
                 // Check if this is a new share key
-                $shareKey = new ResourceLinkShareKey($this->resourceLink, $DIC->http()->wrapper()->post()->retrieve('custom_share_key', $DIC->refinery()->kindlyTo()->string()));
+                $shareKey = new ResourceLinkShareKey(
+                    $this->resourceLink,
+                    $this->postwrapper->retrieve('custom_share_key', $this->kindlyTo->string())
+                );
                 if (!is_null($shareKey->resourceLinkId)) {
                     // Update resource link with sharing primary resource link details
                     $id = $shareKey->resourceLinkId;
@@ -299,7 +329,7 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
     ###
     ###    PRIVATE METHODS
     ###
-
+    // ToDo erase
 //    /**
 //     * Check the authenticity of the LTI launch request.
 //     * The consumer, resource link and user objects will be initialised if the request is valid.
@@ -307,40 +337,40 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //     */
 //    private function authenticate() : bool
 //    {
-//        // TODO PHP8 Review: Move Global Access to Constructor
+//
 //        global $DIC;
 //        // Get the consumer
 //        $doSaveConsumer = false;
 //        // Check all required launch parameters
-//        $this->ok = $DIC->http()->wrapper()->post()->has('lti_message_type') && array_key_exists(
-//            $DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()),
+//        $this->ok = $this->postwrapper->has('lti_message_type') && array_key_exists(
+//            $this->postwrapper->retrieve('lti_message_type', $this->kindlyTo->string()),
 //            self::$MESSAGE_TYPES
 //        );
 //        if (!$this->ok) {
 //            $this->reason = 'Invalid or missing lti_message_type parameter.';
 //        }
 //        if ($this->ok) {
-//            $this->ok = $DIC->http()->wrapper()->post()->has('lti_version') && in_array($DIC->http()->wrapper()->post()->retrieve('lti_version', $DIC->refinery()->kindlyTo()->string()), self::$LTI_VERSIONS);
+//            $this->ok = $this->postwrapper->has('lti_version') && in_array($this->postwrapper->retrieve('lti_version', $this->kindlyTo->string()), self::$LTI_VERSIONS);
 //            if (!$this->ok) {
 //                $this->reason = 'Invalid or missing lti_version parameter.';
 //            }
 //        }
 //        if ($this->ok) {
-//            if ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) === 'basic-lti-launch-request') {
-//                $this->ok = $DIC->http()->wrapper()->post()->has('resource_link_id')
-//                    && (strlen(trim($DIC->http()->wrapper()->post()->retrieve('resource_link_id', $DIC->refinery()->kindlyTo()->string()))) > 0);
+//            if ($this->postwrapper->retrieve('lti_message_type', $this->kindlyTo->string()) === 'basic-lti-launch-request') {
+//                $this->ok = $this->postwrapper->has('resource_link_id')
+//                    && (strlen(trim($this->postwrapper->retrieve('resource_link_id', $this->kindlyTo->string()))) > 0);
 //                if (!$this->ok) {
 //                    $this->reason = 'Missing resource link ID.';
 //                }
-//            } elseif ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) === 'ContentItemSelectionRequest') {
-//                if ($DIC->http()->wrapper()->post()->has('accept_media_types') && (strlen(trim(
-//                    $DIC->http()->wrapper()->post()->retrieve('accept_media_types', $DIC->refinery()->kindlyTo()->string())
+//            } elseif ($this->postwrapper->retrieve('lti_message_type', $this->kindlyTo->string()) === 'ContentItemSelectionRequest') {
+//                if ($this->postwrapper->has('accept_media_types') && (strlen(trim(
+//                    $this->postwrapper->retrieve('accept_media_types', $this->kindlyTo->string())
 //                )) > 0)) {
 //                    $mediaTypes = array_filter(
 //                        explode(',', str_replace(
 //                            ' ',
 //                            '',
-//                            $DIC->http()->wrapper()->post()->retrieve('accept_media_types', $DIC->refinery()->kindlyTo()->string())
+//                            $this->postwrapper->retrieve('accept_media_types', $this->kindlyTo->string())
 //                        )),
 //                        'strlen'
 //                    );
@@ -354,11 +384,11 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //                } else {
 //                    $this->ok = false;
 //                }
-//                if ($this->ok && $DIC->http()->wrapper()->post()->has('accept_presentation_document_targets')
-//                    && (strlen(trim($DIC->http()->wrapper()->post()->retrieve('accept_presentation_document_targets', $DIC->refinery()->kindlyTo()->string()))) > 0)) {
+//                if ($this->ok && $this->postwrapper->has('accept_presentation_document_targets')
+//                    && (strlen(trim($this->postwrapper->retrieve('accept_presentation_document_targets', $this->kindlyTo->string()))) > 0)) {
 //                    $documentTargets = array_filter(explode(
 //                        ',',
-//                        str_replace(' ', '', $DIC->http()->wrapper()->post()->retrieve('accept_presentation_document_targets', $DIC->refinery()->kindlyTo()->string()))
+//                        str_replace(' ', '', $this->postwrapper->retrieve('accept_presentation_document_targets', $this->kindlyTo->string()))
 //                    ), 'strlen');
 //                    $documentTargets = array_unique($documentTargets);
 //                    $this->ok = count($documentTargets) > 0;
@@ -383,16 +413,16 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //                    $this->ok = false;
 //                }
 //                if ($this->ok) {
-//                    $this->ok = $DIC->http()->wrapper()->post()->has('content_item_return_url') && (strlen(trim($DIC->http()->wrapper()->post()->retrieve('content_item_return_url', $DIC->refinery()->kindlyTo()->string()))) > 0);
+//                    $this->ok = $this->postwrapper->has('content_item_return_url') && (strlen(trim($this->postwrapper->retrieve('content_item_return_url', $this->kindlyTo->string()))) > 0);
 //                    if (!$this->ok) {
 //                        $this->reason = 'Missing content_item_return_url parameter.';
 //                    }
 //                }
-//            } elseif ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) == 'ToolProxyRegistrationRequest') {
-//                $this->ok = (($DIC->http()->wrapper()->post()->has('reg_key') && (strlen(trim($DIC->http()->wrapper()->post()->retrieve('reg_key', $DIC->refinery()->kindlyTo()->string()))) > 0)) &&
-//                    ($DIC->http()->wrapper()->post()->has('reg_password') && (strlen(trim($DIC->http()->wrapper()->post()->retrieve('reg_password', $DIC->refinery()->kindlyTo()->string()))) > 0)) &&
-//                    ($DIC->http()->wrapper()->post()->has('tc_profile_url') && (strlen(trim($DIC->http()->wrapper()->post()->retrieve('tc_profile_url', $DIC->refinery()->kindlyTo()->string()))) > 0)) &&
-//                    ($DIC->http()->wrapper()->post()->has('launch_presentation_return_url') && (strlen(trim($DIC->http()->wrapper()->post()->retrieve('launch_presentation_return_url', $DIC->refinery()->kindlyTo()->string()))) > 0)));
+//            } elseif ($this->postwrapper->retrieve('lti_message_type', $this->kindlyTo->string()) == 'ToolProxyRegistrationRequest') {
+//                $this->ok = (($this->postwrapper->has('reg_key') && (strlen(trim($this->postwrapper->retrieve('reg_key', $this->kindlyTo->string()))) > 0)) &&
+//                    ($this->postwrapper->has('reg_password') && (strlen(trim($this->postwrapper->retrieve('reg_password', $this->kindlyTo->string()))) > 0)) &&
+//                    ($this->postwrapper->has('tc_profile_url') && (strlen(trim($this->postwrapper->retrieve('tc_profile_url', $this->kindlyTo->string()))) > 0)) &&
+//                    ($this->postwrapper->has('launch_presentation_return_url') && (strlen(trim($this->postwrapper->retrieve('launch_presentation_return_url', $this->kindlyTo->string()))) > 0)));
 //                if ($this->debugMode && !$this->ok) {
 //                    $this->reason = 'Missing message parameters.';
 //                }
@@ -403,13 +433,13 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //        $this->logger->debug('Checking consumer key...');
 //
 //        // Check consumer key
-//        if ($this->ok && ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) != 'ToolProxyRegistrationRequest')) {
-//            $this->ok = $DIC->http()->wrapper()->post()->has('oauth_consumer_key');
+//        if ($this->ok && ($this->postwrapper->retrieve('lti_message_type', $this->kindlyTo->string()) != 'ToolProxyRegistrationRequest')) {
+//            $this->ok = $this->postwrapper->has('oauth_consumer_key');
 //            if (!$this->ok) {
 //                $this->reason = 'Missing consumer key.';
 //            }
 //            if ($this->ok) {
-//                $this->consumer = new ilLTIPlatform($DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()), $this->dataConnector);
+//                $this->consumer = new ilLTIPlatform($this->postwrapper->retrieve('oauth_consumer_key', $this->kindlyTo->string()), $this->dataConnector);
 //                $this->ok = !is_null($this->consumer->created);
 //                if (!$this->ok) {
 //                    $this->reason = 'Invalid consumer key.';
@@ -462,13 +492,13 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //                $this->consumer->lastAccess = $now;
 //                if ($this->consumer->protected) {
 //                    if (!is_null($this->consumer->consumerGuid)) {
-//                        $this->ok = empty($DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_guid', $DIC->refinery()->kindlyTo()->string())) ||
-//                            ($this->consumer->consumerGuid === $DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_guid', $DIC->refinery()->kindlyTo()->string()));
+//                        $this->ok = empty($this->postwrapper->retrieve('tool_consumer_instance_guid', $this->kindlyTo->string())) ||
+//                            ($this->consumer->consumerGuid === $this->postwrapper->retrieve('tool_consumer_instance_guid', $this->kindlyTo->string()));
 //                        if (!$this->ok) {
 //                            $this->reason = 'Request is from an invalid tool consumer.';
 //                        }
 //                    } else {
-//                        $this->ok = $DIC->http()->wrapper()->post()->has('tool_consumer_instance_guid');
+//                        $this->ok = $this->postwrapper->has('tool_consumer_instance_guid');
 //                        if (!$this->ok) {
 //                            $this->reason = 'A tool consumer GUID must be included in the launch request.';
 //                        }
@@ -494,45 +524,45 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //            }
 //            // Validate other message parameter values
 //            if ($this->ok) {
-//                if ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) === 'ContentItemSelectionRequest') {
-//                    if ($DIC->http()->wrapper()->post()->has('accept_unsigned')) {
+//                if ($this->postwrapper->retrieve('lti_message_type', $this->kindlyTo->string()) === 'ContentItemSelectionRequest') {
+//                    if ($this->postwrapper->has('accept_unsigned')) {
 //                        $this->ok = $this->checkValue(
-//                            $DIC->http()->wrapper()->post()->retrieve('accept_unsigned', $DIC->refinery()->kindlyTo()->string()),
+//                            $this->postwrapper->retrieve('accept_unsigned', $this->kindlyTo->string()),
 //                            array('true', 'false'),
 //                            'Invalid value for accept_unsigned parameter: %s.'
 //                        );
 //                    }
-//                    if ($this->ok && $DIC->http()->wrapper()->post()->has('accept_multiple')) {
+//                    if ($this->ok && $this->postwrapper->has('accept_multiple')) {
 //                        $this->ok = $this->checkValue(
-//                            $DIC->http()->wrapper()->post()->retrieve('accept_multiple', $DIC->refinery()->kindlyTo()->string()),
+//                            $this->postwrapper->retrieve('accept_multiple', $this->kindlyTo->string()),
 //                            array('true', 'false'),
 //                            'Invalid value for accept_multiple parameter: %s.'
 //                        );
 //                    }
-//                    if ($this->ok && $DIC->http()->wrapper()->post()->has('accept_copy_advice')) {
+//                    if ($this->ok && $this->postwrapper->has('accept_copy_advice')) {
 //                        $this->ok = $this->checkValue(
-//                            $DIC->http()->wrapper()->post()->retrieve('accept_copy_advice', $DIC->refinery()->kindlyTo()->string()),
+//                            $this->postwrapper->retrieve('accept_copy_advice', $this->kindlyTo->string()),
 //                            array('true', 'false'),
 //                            'Invalid value for accept_copy_advice parameter: %s.'
 //                        );
 //                    }
-//                    if ($this->ok && $DIC->http()->wrapper()->post()->has('auto_create')) {
+//                    if ($this->ok && $this->postwrapper->has('auto_create')) {
 //                        $this->ok = $this->checkValue(
-//                            $DIC->http()->wrapper()->post()->retrieve('auto_create', $DIC->refinery()->kindlyTo()->string()),
+//                            $this->postwrapper->retrieve('auto_create', $this->kindlyTo->string()),
 //                            array('true', 'false'),
 //                            'Invalid value for auto_create parameter: %s.'
 //                        );
 //                    }
-//                    if ($this->ok && $DIC->http()->wrapper()->post()->has('can_confirm')) {
+//                    if ($this->ok && $this->postwrapper->has('can_confirm')) {
 //                        $this->ok = $this->checkValue(
-//                            $DIC->http()->wrapper()->post()->retrieve('can_confirm', $DIC->refinery()->kindlyTo()->string()),
+//                            $this->postwrapper->retrieve('can_confirm', $this->kindlyTo->string()),
 //                            array('true', 'false'),
 //                            'Invalid value for can_confirm parameter: %s.'
 //                        );
 //                    }
-//                } elseif ($DIC->http()->wrapper()->post()->has('launch_presentation_document_target')) {
+//                } elseif ($this->postwrapper->has('launch_presentation_document_target')) {
 //                    $this->ok = $this->checkValue(
-//                        $DIC->http()->wrapper()->post()->retrieve('launch_presentation_document_target', $DIC->refinery()->kindlyTo()->string()),
+//                        $this->postwrapper->retrieve('launch_presentation_document_target', $this->kindlyTo->string()),
 //                        array('embed', 'frame', 'iframe', 'window', 'popup', 'overlay'),
 //                        'Invalid value for launch_presentation_document_target parameter: %s.'
 //                    );
@@ -540,14 +570,14 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //            }
 //        }
 //
-//        if ($this->ok && ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) === 'ToolProxyRegistrationRequest')) {
-//            $this->ok = $DIC->http()->wrapper()->post()->retrieve('lti_version', $DIC->refinery()->kindlyTo()->string()) == ILIAS\LTI\ToolProvider\Util::LTI_VERSION2;
+//        if ($this->ok && ($this->postwrapper->retrieve('lti_message_type', $this->kindlyTo->string()) === 'ToolProxyRegistrationRequest')) {
+//            $this->ok = $this->postwrapper->retrieve('lti_version', $this->kindlyTo->string()) == ILIAS\LTI\ToolProvider\Util::LTI_VERSION2;
 //            if (!$this->ok) {
 //                $this->reason = 'Invalid lti_version parameter';
 //            }
 //            if ($this->ok) {
 //                $http = new HTTPMessage(
-//                    $DIC->http()->wrapper()->post()->retrieve('tc_profile_url', $DIC->refinery()->kindlyTo()->string()),
+//                    $this->postwrapper->retrieve('tc_profile_url', $this->kindlyTo->string()),
 //                    'GET',
 //                    null,
 //                    'Accept: application/vnd.ims.lti.v2.toolconsumerprofile+json'
@@ -566,7 +596,7 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //            // Check for required capabilities
 //            if ($this->ok) {
 //                // $this->consumer = new Platform($_POST['reg_key'], $this->dataConnector);
-//                $this->consumer = new ilLTIPlatform($DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()), $this->dataConnector);
+//                $this->consumer = new ilLTIPlatform($this->postwrapper->retrieve('oauth_consumer_key', $this->kindlyTo->string()), $this->dataConnector);
 //                // TODO PHP8 Review: Variable $tcProfile is probably undefined
 //                $this->consumer->profile = $tcProfile; // TODO PHP8 Review: Undefined Property
 //                $capabilities = $this->consumer->profile->capability_offered;
@@ -611,11 +641,11 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //                }
 //            }
 //            if ($this->ok) {
-//                if ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) === 'ToolProxyRegistrationRequest') {
+//                if ($this->postwrapper->retrieve('lti_message_type', $this->kindlyTo->string()) === 'ToolProxyRegistrationRequest') {
 //                    // TODO PHP8 Review: Variable $tcProfile is probably undefined
 //                    $this->consumer->profile = $tcProfile; // TODO PHP8 Review: Undefined Property
-//                    $this->consumer->secret = $DIC->http()->wrapper()->post()->retrieve('reg_password', $DIC->refinery()->kindlyTo()->string());
-//                    $this->consumer->ltiVersion = $DIC->http()->wrapper()->post()->retrieve('lti_version', $DIC->refinery()->kindlyTo()->string());
+//                    $this->consumer->secret = $this->postwrapper->retrieve('reg_password', $this->kindlyTo->string());
+//                    $this->consumer->ltiVersion = $this->postwrapper->retrieve('lti_version', $this->kindlyTo->string());
 //                    $this->consumer->name = $tcProfile->product_instance->service_owner->service_owner_name->default_value;
 //                    $this->consumer->consumerName = $this->consumer->name;
 //                    $this->consumer->consumerVersion = "{$tcProfile->product_instance->product_info->product_family->code}-{$tcProfile->product_instance->product_info->product_version}";
@@ -626,11 +656,11 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //                }
 //            }
 //        } elseif ($this->ok &&
-//            $DIC->http()->wrapper()->post()->has('custom_tc_profile_url') &&
-//            $DIC->http()->wrapper()->post()->retrieve('custom_tc_profile_url', $DIC->refinery()->kindlyTo()->string()) != "" &&
+//            $this->postwrapper->has('custom_tc_profile_url') &&
+//            $this->postwrapper->retrieve('custom_tc_profile_url', $this->kindlyTo->string()) != "" &&
 //            empty($this->consumer->profile)) {
 //            $http = new HTTPMessage(
-//                $DIC->http()->wrapper()->post()->retrieve('custom_tc_profile_url', $DIC->refinery()->kindlyTo()->string()),
+//                $this->postwrapper->retrieve('custom_tc_profile_url', $this->kindlyTo->string()),
 //                'GET',
 //                null,
 //                'Accept: application/vnd.ims.lti.v2.toolconsumerprofile+json'
@@ -652,11 +682,11 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //        if ($this->ok) {
 //
     //// Set the request context
-//            if ($DIC->http()->wrapper()->post()->has('context_id')) {
-//                $this->context = Context::fromConsumer($this->consumer, trim($DIC->http()->wrapper()->post()->retrieve('context_id', $DIC->refinery()->kindlyTo()->string())));
+//            if ($this->postwrapper->has('context_id')) {
+//                $this->context = Context::fromConsumer($this->consumer, trim($this->postwrapper->retrieve('context_id', $this->kindlyTo->string())));
 //                $title = '';
-//                if ($DIC->http()->wrapper()->post()->has('context_title')) {
-//                    $title = trim($DIC->http()->wrapper()->post()->retrieve('context_title', $DIC->refinery()->kindlyTo()->string()));
+//                if ($this->postwrapper->has('context_title')) {
+//                    $title = trim($this->postwrapper->retrieve('context_title', $this->kindlyTo->string()));
 //                }
 //                if (empty($title)) {
 //                    $title = "Course {$this->context->getId()}";
@@ -665,22 +695,22 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //            }
 //
 //            // Set the request resource link
-//            if ($DIC->http()->wrapper()->post()->has('resource_link_id')) {
+//            if ($this->postwrapper->has('resource_link_id')) {
 //                $contentItemId = '';
-//                if ($DIC->http()->wrapper()->post()->has('custom_content_item_id')) {
-//                    $contentItemId = $DIC->http()->wrapper()->post()->retrieve('custom_content_item_id', $DIC->refinery()->kindlyTo()->string());
+//                if ($this->postwrapper->has('custom_content_item_id')) {
+//                    $contentItemId = $this->postwrapper->retrieve('custom_content_item_id', $this->kindlyTo->string());
 //                }
 //                $this->resourceLink = ResourceLink::fromConsumer(
 //                    $this->consumer,
-//                    trim($DIC->http()->wrapper()->post()->retrieve('resource_link_id', $DIC->refinery()->kindlyTo()->string())),
+//                    trim($this->postwrapper->retrieve('resource_link_id', $this->kindlyTo->string())),
 //                    $contentItemId
 //                );
 //                if (!empty($this->context)) {
 //                    $this->resourceLink->setContextId($this->context->getRecordId());
 //                }
 //                $title = '';
-//                if ($DIC->http()->wrapper()->post()->has('resource_link_title')) {
-//                    $title = trim($DIC->http()->wrapper()->post()->retrieve('resource_link_title', $DIC->refinery()->kindlyTo()->string()));
+//                if ($this->postwrapper->has('resource_link_title')) {
+//                    $title = trim($this->postwrapper->retrieve('resource_link_title', $this->kindlyTo->string()));
 //                }
 //                if (empty($title)) {
 //                    $title = "Resource {$this->resourceLink->getId()}";
@@ -707,24 +737,24 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //                }
 //                // Save LTI parameters
 //                foreach (self::$LTI_CONSUMER_SETTING_NAMES as $name) {
-//                    if ($DIC->http()->wrapper()->post()->has($name)) {
-//                        $this->consumer->setSetting($name, $DIC->http()->wrapper()->post()->retrieve($name, $DIC->refinery()->kindlyTo()->string()));
+//                    if ($this->postwrapper->has($name)) {
+//                        $this->consumer->setSetting($name, $this->postwrapper->retrieve($name, $this->kindlyTo->string()));
 //                    } else {
 //                        $this->consumer->setSetting($name);
 //                    }
 //                }
 //                if (!empty($this->context)) {
 //                    foreach (self::$LTI_CONTEXT_SETTING_NAMES as $name) {
-//                        if ($DIC->http()->wrapper()->post()->has($name)) {
-//                            $this->context->setSetting($name, $DIC->http()->wrapper()->post()->retrieve($name, $DIC->refinery()->kindlyTo()->string()));
+//                        if ($this->postwrapper->has($name)) {
+//                            $this->context->setSetting($name, $this->postwrapper->retrieve($name, $this->kindlyTo->string()));
 //                        } else {
 //                            $this->context->setSetting($name);
 //                        }
 //                    }
 //                }
 //                foreach (self::$LTI_RESOURCE_LINK_SETTING_NAMES as $name) {
-//                    if ($DIC->http()->wrapper()->post()->has($name)) {
-//                        $this->resourceLink->setSetting($name, $DIC->http()->wrapper()->post()->retrieve($name, $DIC->refinery()->kindlyTo()->string()));
+//                    if ($this->postwrapper->has($name)) {
+//                        $this->resourceLink->setSetting($name, $this->postwrapper->retrieve($name, $this->kindlyTo->string()));
 //                    } else {
 //                        $this->resourceLink->setSetting($name);
 //                    }
@@ -749,77 +779,77 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //
 //            // Set the user instance
 //            $userId = '';
-//            if ($DIC->http()->wrapper()->post()->has('user_id')) {
-//                $userId = trim($DIC->http()->wrapper()->post()->retrieve('user_id', $DIC->refinery()->kindlyTo()->string()));
+//            if ($this->postwrapper->has('user_id')) {
+//                $userId = trim($this->postwrapper->retrieve('user_id', $this->kindlyTo->string()));
 //            }
 //
 //            $this->user = User::fromResourceLink($this->resourceLink, $userId);
 //
 //            // Set the user name
-//            $firstname = ($DIC->http()->wrapper()->post()->has('lis_person_name_given')) ? $DIC->http()->wrapper()->post()->retrieve('lis_person_name_given', $DIC->refinery()->kindlyTo()->string()) : '';
-//            $lastname = ($DIC->http()->wrapper()->post()->has('lis_person_name_family')) ? $DIC->http()->wrapper()->post()->retrieve('lis_person_name_family', $DIC->refinery()->kindlyTo()->string()) : '';
-//            $fullname = ($DIC->http()->wrapper()->post()->has('lis_person_name_full')) ? $DIC->http()->wrapper()->post()->retrieve('lis_person_name_full', $DIC->refinery()->kindlyTo()->string()) : '';
+//            $firstname = ($this->postwrapper->has('lis_person_name_given')) ? $this->postwrapper->retrieve('lis_person_name_given', $this->kindlyTo->string()) : '';
+//            $lastname = ($this->postwrapper->has('lis_person_name_family')) ? $this->postwrapper->retrieve('lis_person_name_family', $this->kindlyTo->string()) : '';
+//            $fullname = ($this->postwrapper->has('lis_person_name_full')) ? $this->postwrapper->retrieve('lis_person_name_full', $this->kindlyTo->string()) : '';
 //            $this->user->setNames($firstname, $lastname, $fullname);
 //
 //            // Set the user email
-//            $email = ($DIC->http()->wrapper()->post()->has('lis_person_contact_email_primary')) ? $DIC->http()->wrapper()->post()->retrieve('lis_person_contact_email_primary', $DIC->refinery()->kindlyTo()->string()) : '';
+//            $email = ($this->postwrapper->has('lis_person_contact_email_primary')) ? $this->postwrapper->retrieve('lis_person_contact_email_primary', $this->kindlyTo->string()) : '';
 //            $this->user->setEmail($email, $this->defaultEmail);
 //
 //            // Set the user image URI
-//            if ($DIC->http()->wrapper()->post()->has('user_image')) {
-//                $this->user->image = $DIC->http()->wrapper()->post()->retrieve('user_image', $DIC->refinery()->kindlyTo()->string());
+//            if ($this->postwrapper->has('user_image')) {
+//                $this->user->image = $this->postwrapper->retrieve('user_image', $this->kindlyTo->string());
 //            }
 //
 //            // Set the user roles
-//            if ($DIC->http()->wrapper()->post()->has('roles')) {
-//                $this->user->roles = self::parseRoles($this->user->roles = self::parseRoles($DIC->http()->wrapper()->post()->retrieve('roles', $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->string()))));
+//            if ($this->postwrapper->has('roles')) {
+//                $this->user->roles = self::parseRoles($this->user->roles = self::parseRoles($this->postwrapper->retrieve('roles', $this->kindlyTo->listOf($this->kindlyTo->string()))));
 //            }
 //
 //            // Initialise the consumer and check for changes
 //            $this->consumer->defaultEmail = $this->defaultEmail;
-//            if ($this->consumer->ltiVersion !== $DIC->http()->wrapper()->post()->retrieve('lti_version', $DIC->refinery()->kindlyTo()->string())) {
-//                $this->consumer->ltiVersion = $DIC->http()->wrapper()->post()->retrieve('lti_version', $DIC->refinery()->kindlyTo()->string());
+//            if ($this->consumer->ltiVersion !== $this->postwrapper->retrieve('lti_version', $this->kindlyTo->string())) {
+//                $this->consumer->ltiVersion = $this->postwrapper->retrieve('lti_version', $this->kindlyTo->string());
 //                $doSaveConsumer = true;
 //            }
-//            if ($DIC->http()->wrapper()->post()->has('tool_consumer_instance_name')) {
-//                if ($this->consumer->consumerName !== $DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_name', $DIC->refinery()->kindlyTo()->string())) {
-//                    $this->consumer->consumerName = $DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_name', $DIC->refinery()->kindlyTo()->string());
+//            if ($this->postwrapper->has('tool_consumer_instance_name')) {
+//                if ($this->consumer->consumerName !== $this->postwrapper->retrieve('tool_consumer_instance_name', $this->kindlyTo->string())) {
+//                    $this->consumer->consumerName = $this->postwrapper->retrieve('tool_consumer_instance_name', $this->kindlyTo->string());
 //                    $doSaveConsumer = true;
 //                }
 //            }
-//            if ($DIC->http()->wrapper()->post()->has('tool_consumer_info_product_family_code')) {
-//                $version = $DIC->http()->wrapper()->post()->retrieve('tool_consumer_info_product_family_code', $DIC->refinery()->kindlyTo()->string());
-//                if ($DIC->http()->wrapper()->post()->has('tool_consumer_info_version')) {
-//                    $version .= "-{$DIC->http()->wrapper()->post()->retrieve('tool_consumer_info_version', $DIC->refinery()->kindlyTo()->string())}";
+//            if ($this->postwrapper->has('tool_consumer_info_product_family_code')) {
+//                $version = $this->postwrapper->retrieve('tool_consumer_info_product_family_code', $this->kindlyTo->string());
+//                if ($this->postwrapper->has('tool_consumer_info_version')) {
+//                    $version .= "-{$this->postwrapper->retrieve('tool_consumer_info_version', $this->kindlyTo->string())}";
 //                }
 //                // do not delete any existing consumer version if none is passed
 //                if ($this->consumer->consumerVersion !== $version) {
 //                    $this->consumer->consumerVersion = $version;
 //                    $doSaveConsumer = true;
 //                }
-//            } elseif ($DIC->http()->wrapper()->post()->has('ext_lms') && ($this->consumer->consumerName !== $DIC->http()->wrapper()->post()->retrieve('ext_lms', $DIC->refinery()->kindlyTo()->string()))) {
-//                $this->consumer->consumerVersion = $DIC->http()->wrapper()->post()->retrieve('ext_lms', $DIC->refinery()->kindlyTo()->string());
+//            } elseif ($this->postwrapper->has('ext_lms') && ($this->consumer->consumerName !== $this->postwrapper->retrieve('ext_lms', $this->kindlyTo->string()))) {
+//                $this->consumer->consumerVersion = $this->postwrapper->retrieve('ext_lms', $this->kindlyTo->string());
 //                $doSaveConsumer = true;
 //            }
-//            if ($DIC->http()->wrapper()->post()->has('tool_consumer_instance_guid')) {
+//            if ($this->postwrapper->has('tool_consumer_instance_guid')) {
 //                if (is_null($this->consumer->consumerGuid)) {
-//                    $this->consumer->consumerGuid = $DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_guid', $DIC->refinery()->kindlyTo()->string());
+//                    $this->consumer->consumerGuid = $this->postwrapper->retrieve('tool_consumer_instance_guid', $this->kindlyTo->string());
 //                    $doSaveConsumer = true;
 //                } elseif (!$this->consumer->protected) {
-//                    $doSaveConsumer = ($this->consumer->consumerGuid !== $DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_guid', $DIC->refinery()->kindlyTo()->string()));
+//                    $doSaveConsumer = ($this->consumer->consumerGuid !== $this->postwrapper->retrieve('tool_consumer_instance_guid', $this->kindlyTo->string()));
 //                    if ($doSaveConsumer) {
-//                        $this->consumer->consumerGuid = $DIC->http()->wrapper()->post()->retrieve('tool_consumer_instance_guid', $DIC->refinery()->kindlyTo()->string());
+//                        $this->consumer->consumerGuid = $this->postwrapper->retrieve('tool_consumer_instance_guid', $this->kindlyTo->string());
 //                    }
 //                }
 //            }
-//            if ($DIC->http()->wrapper()->post()->has('launch_presentation_css_url')) {
-//                if ($this->consumer->cssPath !== $DIC->http()->wrapper()->post()->retrieve('launch_presentation_css_url', $DIC->refinery()->kindlyTo()->string())) {
-//                    $this->consumer->cssPath = $DIC->http()->wrapper()->post()->retrieve('launch_presentation_css_url', $DIC->refinery()->kindlyTo()->string());
+//            if ($this->postwrapper->has('launch_presentation_css_url')) {
+//                if ($this->consumer->cssPath !== $this->postwrapper->retrieve('launch_presentation_css_url', $this->kindlyTo->string())) {
+//                    $this->consumer->cssPath = $this->postwrapper->retrieve('launch_presentation_css_url', $this->kindlyTo->string());
 //                    $doSaveConsumer = true;
 //                }
-//            } elseif ($DIC->http()->wrapper()->post()->has('ext_launch_presentation_css_url') &&
-//                ($this->consumer->cssPath !== $DIC->http()->wrapper()->post()->retrieve('ext_launch_presentation_css_url', $DIC->refinery()->kindlyTo()->string()))) {
-//                $this->consumer->cssPath = $DIC->http()->wrapper()->post()->retrieve('ext_launch_presentation_css_url', $DIC->refinery()->kindlyTo()->string());
+//            } elseif ($this->postwrapper->has('ext_launch_presentation_css_url') &&
+//                ($this->consumer->cssPath !== $this->postwrapper->retrieve('ext_launch_presentation_css_url', $this->kindlyTo->string()))) {
+//                $this->consumer->cssPath = $this->postwrapper->retrieve('ext_launch_presentation_css_url', $this->kindlyTo->string());
 //                $doSaveConsumer = true;
 //            } elseif (!empty($this->consumer->cssPath)) {
 //                $this->consumer->cssPath = null;
@@ -845,10 +875,10 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //            $this->resourceLink->save();
 //
 //            // Save the user instance
-//            if ($DIC->http()->wrapper()->post()->has('lis_result_sourcedid')) {
-//                if ($this->user->ltiResultSourcedId !== $DIC->http()->wrapper()->post()->retrieve('lis_result_sourcedid', $DIC->refinery()->kindlyTo()->string())
+//            if ($this->postwrapper->has('lis_result_sourcedid')) {
+//                if ($this->user->ltiResultSourcedId !== $this->postwrapper->retrieve('lis_result_sourcedid', $this->kindlyTo->string())
 //                ) {
-//                    $this->user->ltiResultSourcedId = $DIC->http()->wrapper()->post()->retrieve('lis_result_sourcedid', $DIC->refinery()->kindlyTo()->string());
+//                    $this->user->ltiResultSourcedId = $this->postwrapper->retrieve('lis_result_sourcedid', $this->kindlyTo->string());
 //                    $this->user->save();
 //                }
 //            } elseif (!empty($this->user->ltiResultSourcedId)) {
@@ -901,17 +931,17 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
 //        global $DIC;
 //        $callback = $method;
 //        if (is_null($callback)) {
-//            $callback = self::$METHOD_NAMES[$DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string())
+//            $callback = self::$METHOD_NAMES[$this->postwrapper->retrieve('lti_message_type', $this->kindlyTo->string())
     //];
 //        }
 //        if (method_exists($this, $callback)) {
 //            $result = $this->$callback(); // ACHTUNG HIER PROBLEM UK
 //        } elseif (is_null($method) && $this->ok) {
 //            $this->ok = false;
-//            $this->reason = "Message type not supported: {$DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string())
+//            $this->reason = "Message type not supported: {$this->postwrapper->retrieve('lti_message_type', $this->kindlyTo->string())
     //}";
 //        }
-//        if ($this->ok && ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string())
+//        if ($this->ok && ($this->postwrapper->retrieve('lti_message_type', $this->kindlyTo->string())
     // == 'ToolProxyRegistrationRequest')) {
 //            $this->consumer->save();
 //        }
@@ -924,7 +954,6 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
      */
     private function result() : void
     {
-        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor
         $ok = false;
         if (!$this->ok) {
             $this->onError();
@@ -947,12 +976,12 @@ class ilLTITool extends ILIAS\LTI\ToolProvider\Tool
                             $errorUrl .= '&lti_errorlog=' . urlencode("Debug error: $this->reason");
                         }
                     }
-                    if (!is_null($this->platform) && $DIC->http()->wrapper()->post()->has('lti_message_type') && ($DIC->http()->wrapper()->post()->retrieve('lti_message_type', $DIC->refinery()->kindlyTo()->string()) === 'ContentItemSelectionRequest')) {
+                    if (!is_null($this->platform) && $this->postwrapper->has('lti_message_type') && ($this->postwrapper->retrieve('lti_message_type', $this->kindlyTo->string()) === 'ContentItemSelectionRequest')) {
                         $formParams = array();
-                        if ($DIC->http()->wrapper()->post()->has('data')) {
-                            $formParams['data'] = $DIC->http()->wrapper()->post()->retrieve('data', $DIC->refinery()->kindlyTo()->string());
+                        if ($this->postwrapper->has('data')) {
+                            $formParams['data'] = $this->postwrapper->retrieve('data', $this->kindlyTo->string());
                         }
-                        $version = ($DIC->http()->wrapper()->post()->has('lti_version')) ? $DIC->http()->wrapper()->post()->retrieve('lti_version', $DIC->refinery()->kindlyTo()->string()) : ILIAS\LTI\ToolProvider\Util::LTI_VERSION1;
+                        $version = ($this->postwrapper->has('lti_version')) ? $this->postwrapper->retrieve('lti_version', $this->kindlyTo->string()) : ILIAS\LTI\ToolProvider\Util::LTI_VERSION1;
                         $formParams = $this->platform->signParameters(
                             $errorUrl,
                             'ContentItemSelection',

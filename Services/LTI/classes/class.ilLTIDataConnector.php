@@ -624,7 +624,7 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
                             $platform->consumerVersion,
                             $platform->consumerGuid,
                             $profile,
-                            $platform->toolProxy, // TODO PHP8 Review: Undefined Property
+                            $platform->toolProxy,
                             $settingsValue,
                             $protected,
                             $enabled,
@@ -1778,7 +1778,4 @@ class ilLTIDataConnector extends ToolProvider\DataConnector\DataConnector
         $dataConnector = new ilLTIDataConnector();
         return $dataConnector;
     }
-
-
-
 }

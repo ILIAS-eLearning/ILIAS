@@ -39,6 +39,9 @@ class ilLTIViewGUI
     private string $link_dir = "";
 
     private ?int $effectiveRefId = null;
+    private \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
+    private \ILIAS\Refinery\KindlyTo\Group $kindlyTo;
+    private ilLocatorGUI $locator;
 
     /**
      * public variables
@@ -55,6 +58,9 @@ class ilLTIViewGUI
         $this->log = ilLoggerFactory::getLogger('ltis');
         $this->lng = $this->dic->language();
         $this->lng->loadLanguageModule('lti');
+        $this->wrapper = $DIC->http()->wrapper();
+        $this->kindlyTo = $DIC->refinery()->kindlyTo();
+        $this->locator = $DIC['ilLocator'];
     }
 
     /**
@@ -119,10 +125,9 @@ class ilLTIViewGUI
      */
     public function initGUI() : void
     {
-        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor, additionally this doesnt seem to be used.
         $this->log->debug("initGUI");
-        $baseclass = strtolower($DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string()));
-        $cmdclass = strtolower($DIC->http()->wrapper()->query()->retrieve('cmdClass', $DIC->refinery()->kindlyTo()->string()));
+        $baseclass = strtolower($this->wrapper->query()->retrieve('baseClass', $this->kindlyTo->string()));
+        $cmdclass = strtolower($this->wrapper->query()->retrieve('cmdClass', $this->kindlyTo->string()));
         if ($baseclass == 'illtiroutergui') {
             return;
         }
@@ -133,12 +138,11 @@ class ilLTIViewGUI
     */
     protected function getContextId() : ?int
     {
-        global $ilLocator, $DIC; // TODO PHP8 Review: Move Global Access to Constructor
-
+        global $DIC;
         // forced lti_context_id for example request command in exitLTI
-        if ($DIC->http()->wrapper()->query()->has('lti_context_id') &&
-            $DIC->http()->wrapper()->query()->retrieve('lti_context_id', $DIC->refinery()->kindlyTo()->string()) !== '') {
-            $contextId = (int) $DIC->http()->wrapper()->query()->retrieve('lti_context_id', $DIC->refinery()->kindlyTo()->int());
+        if ($this->wrapper->query()->has('lti_context_id') &&
+            $this->wrapper->query()->retrieve('lti_context_id', $this->kindlyTo->string()) !== '') {
+            $contextId = (int) $this->wrapper->query()->retrieve('lti_context_id', $this->kindlyTo->int());
             $this->log->debug("find context_id by GET param: " . (string) $contextId);
             return $contextId;
         }
@@ -154,7 +158,7 @@ class ilLTIViewGUI
         }
         // sub item request
         $this->log->debug("ref_id not exists as context_id, walking tree backwards to find a valid context_id");
-        $locator_items = $ilLocator->getItems();
+        $locator_items = $this->locator->getItems();
         if (is_array($locator_items) && count($locator_items) > 0) {
             for ($i = count($locator_items) - 1;$i >= 0;$i--) {
                 if (ilSession::has('lti_' . $locator_items[$i]['ref_id'] . '_post_data')) {
@@ -175,10 +179,8 @@ class ilLTIViewGUI
             if (isset($_SERVER['HTTP_REFERER'])) {
                 $this->findEffectiveRefId($_SERVER['HTTP_REFERER']);
             } else { // only fallback and not reliable on multiple browser LTi contexts
-                // TODO PHP8 Review: Remove/Replace SuperGlobals
-                if (isset($_SESSION['referer_ref_id'])) {
-                    // TODO PHP8 Review: Remove/Replace SuperGlobals
-                    $this->effectiveRefId = $_SESSION['referer_ref_id'];
+                if (ilSession::has('referer_ref_id')) {
+                    $this->effectiveRefId = ilSession::get('referer_ref_id');
                 }
             }
 
@@ -209,13 +211,13 @@ class ilLTIViewGUI
             if ($ref_id > 0 && $obj_type != '') {
                 if (
                     (
-                        $DIC->http()->wrapper()->query()->has('baseClass') &&
-                        $DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string()) === 'ilDashboardGUI'
+                        $this->wrapper->query()->has('baseClass') &&
+                        $this->wrapper->query()->retrieve('baseClass', $this->kindlyTo->string()) === 'ilDashboardGUI'
                     )
                     &&
                     (
-                        $DIC->http()->wrapper()->query()->has('cmdClass') &&
-                        $DIC->http()->wrapper()->query()->retrieve('cmdClass', $DIC->refinery()->kindlyTo()->string()) === 'ilpersonalprofilegui'
+                        $this->wrapper->query()->has('cmdClass') &&
+                        $this->wrapper->query()->retrieve('cmdClass', $this->kindlyTo->string()) === 'ilpersonalprofilegui'
                     )
                 ) {
                     return $context_id;
@@ -342,7 +344,6 @@ class ilLTIViewGUI
      */
     public function logout(bool $force_ilias_logout = false) : void
     {
-        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor
         if ($force_ilias_logout) {
             $this->log->warning("forcing logout ilias session, maybe a broken LTI context");
         } else {
@@ -352,9 +353,9 @@ class ilLTIViewGUI
             }
         }
         $this->log->info("logout");
-        $DIC->user()->setAuthMode((string) ilAuthUtils::AUTH_LOCAL);
+        $this->dic->user()->setAuthMode((string) ilAuthUtils::AUTH_LOCAL);
         //ilSession::setClosingContext(ilSession::SESSION_CLOSE_USER); // needed?
-        $auth = $GLOBALS['DIC']['ilAuthSession'];
+        $auth = $this->dic['ilAuthSession'];
         //$auth->logout(); // needed?
 //        $auth->setExpired($auth::SESSION_AUTH_EXPIRED, ilAuthStatus::STATUS_UNDEFINED);
         $auth->setExpired(true);
@@ -386,12 +387,10 @@ class ilLTIViewGUI
         }
     }
 
-    private function getCookieValue(String $cookie_key) : String
+    private function getCookieValue(string $cookie_key) : string
     {
-        // TODO PHP8 Review: Remove/Replace SuperGlobals
-        if (isset($_COOKIE[$cookie_key]) && $_COOKIE[$cookie_key] != '') {
-            // TODO PHP8 Review: Remove/Replace SuperGlobals
-            return $_COOKIE[$cookie_key];
+        if ($this->dic->wrapper->cookie()->has($cookie_key) && $this->dic->wrapper->cookie()->retrieve($cookie_key, $this->dic->refinery()->kindlyTo()->string() != '')) {
+            return $this->dic->wrapper->cookie()->retrieve($cookie_key, $this->dic->refinery()->kindlyTo()->string());
         } else {
             return '';
         }
@@ -412,10 +411,14 @@ class ilLTIViewGUI
      */
     private function findEffectiveRefId(?string $url = null) : void
     {
-        global $DIC; // TODO PHP8 Review: Move Global Access to Constructor
+        $query = [];
         if ($url === null) {
-            // TODO PHP8 Review: Remove/Replace SuperGlobals
-            $query = $_GET;//$DIC->http()->wrapper()->query();
+            if ($this->wrapper->query()->has('ref_id')) {
+                $query['ref_id'] = $this->wrapper->query()->retrieve('ref_id', $this->kindlyTo->string());
+            }
+            if ($this->wrapper->query()->has('target')) {
+                $query['target'] = $this->wrapper->query()->retrieve('target', $this->kindlyTo->string());
+            }
         } else {
             parse_str((string) parse_url($url, PHP_URL_QUERY), $query);
         }
@@ -423,7 +426,7 @@ class ilLTIViewGUI
             $this->effectiveRefId = (int) $query['ref_id'];
             return;
         }
-        if (ilSession::get('lti_init_target') != "") {
+        if (ilSession::has('lti_init_target') && ilSession::get('lti_init_target') != "") {
             $target_arr = explode('_', ilSession::get('lti_init_target'));
             ilSession::set('lti_init_target', "");
         } else {
@@ -431,7 +434,6 @@ class ilLTIViewGUI
         }
         if (isset($target_arr[1]) and (int) $target_arr[1]) {
             $this->effectiveRefId = (int) $target_arr[1];
-            return;
         }
     }
 }

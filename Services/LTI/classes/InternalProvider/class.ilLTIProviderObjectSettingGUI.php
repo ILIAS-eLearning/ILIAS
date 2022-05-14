@@ -24,8 +24,7 @@ class ilLTIProviderObjectSettingGUI
     const ROLE_ADMIN = 'admin';
     const ROLE_TUTOR = 'tutor';
     const ROLE_MEMBER = 'member';
-    
-    
+
     /**
      * @var ilCtrl
      */
@@ -58,7 +57,11 @@ class ilLTIProviderObjectSettingGUI
      * @var bool
      */
     protected bool $use_lti_roles = true;
-    
+
+    private ilRbacSystem $rbacSystem;
+    private ilRbacReview $rbacReview;
+    private ilRbacAdmin $rbacAdmin;
+
     /**
      * @param int ref_id
      */
@@ -69,6 +72,9 @@ class ilLTIProviderObjectSettingGUI
         $this->logger = ilLoggerFactory::getLogger('ltis');
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC['tpl'];
+        $this->rbacSystem = $DIC->rbac()->system();
+        $this->rbacReview = $DIC->rbac()->review();
+        $this->rbacAdmin = $DIC->rbac()->admin();
 
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('lti');
@@ -80,13 +86,11 @@ class ilLTIProviderObjectSettingGUI
      */
     public function hasSettingsAccess() : bool
     {
-        global $DIC;
         if (!ilObjLTIAdministration::isEnabledForType(ilObject::_lookupType($this->ref_id, true))) {
             $this->logger->debug('No LTI consumers activated for object type: ' . ilObject::_lookupType($this->ref_id, true));
             return false;
         }
-        $access = $DIC->rbac()->system();
-        return $access->checkAccess(
+        return $this->rbacSystem->checkAccess(
             'release_objects',
             ilObjLTIAdministration::lookupLTISettingsRefId()
         );
@@ -98,10 +102,9 @@ class ilLTIProviderObjectSettingGUI
      */
     public function setCustomRolesForSelection(array $a_roles) : void
     {
-        global $DIC;
         if (empty($a_roles)) {
             $this->checkLocalRole();
-            $a_roles = $DIC->rbac()->review()->getLocalRoles($this->ref_id);
+            $a_roles = $this->rbacReview->getLocalRoles($this->ref_id);
         }
         $this->custom_roles = $a_roles;
     }
@@ -177,7 +180,7 @@ class ilLTIProviderObjectSettingGUI
             $active->setValue("1");
             $form->addItem($active);
 
-            $version = new ilRadioGroupInputGUI($this->lng->txt('lti_obj_version'),'version');
+            $version = new ilRadioGroupInputGUI($this->lng->txt('lti_obj_version'), 'version');
             $version->setRequired(true);
             $op0 = new ilRadioOption($this->lng->txt("lti_obj_version_11"), ILIAS\LTI\ToolProvider\Util::LTI_VERSION1);
             $version->addOption($op0);
@@ -198,42 +201,45 @@ class ilLTIProviderObjectSettingGUI
             $op0->addSubItem($url);
 
 //                if ($active_consumer->ltiVersion == ILIAS\LTI\ToolProvider\Util::LTI_VERSION1) {
-                    $key = new ilNonEditableValueGUI($this->lng->txt('lti_consumer_key'), 'key');
-                    if (is_null($active_consumer->getKey())) {
-                        $active_consumer->setKey(\ILIAS\LTI\ToolProvider\Util::getRandomString(10));//create $id .
-                    }
-                    $key->setValue($active_consumer->getKey());
-                    $op0->addSubItem($key);
+            $key = new ilNonEditableValueGUI($this->lng->txt('lti_consumer_key'), 'key');
+            if (is_null($active_consumer->getKey())) {
+                $active_consumer->setKey(\ILIAS\LTI\ToolProvider\Util::getRandomString(10));//create $id .
+            }
+            $key->setValue($active_consumer->getKey());
+            $op0->addSubItem($key);
 
-                    $secret = new ilNonEditableValueGUI($this->lng->txt('lti_consumer_secret'), 'secret');
-//                    $secret->setValue($active_consumer->getSecret());
-                    $op0->addSubItem($secret);
+            $secret = new ilNonEditableValueGUI($this->lng->txt('lti_consumer_secret'), 'secret');
+            if (is_null($active_consumer->getSecret())) {
+                $active_consumer->createSecret();
+            }
+            $secret->setValue($active_consumer->getSecret());
+            $op0->addSubItem($secret);
 //                }
 //                } else {
-                    $sh = new ilNonEditableValueGUI($this->lng->txt('lti_13_step1'), '');
-                    $sh->setValue($this->lng->txt("lti_13_step1_info"));
-                    $op1->addSubItem($sh);
-                    $url = new ilNonEditableValueGUI($this->lng->txt('lti_launch_url'), 'url');
-                    $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
-                    $op1->addSubItem($url);
+            $sh = new ilNonEditableValueGUI($this->lng->txt('lti_13_step1'), '');
+            $sh->setValue($this->lng->txt("lti_13_step1_info"));
+            $op1->addSubItem($sh);
+            $url = new ilNonEditableValueGUI($this->lng->txt('lti_launch_url'), 'url');
+            $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
+            $op1->addSubItem($url);
 //                    $url = new ilNonEditableValueGUI($this->lng->txt('lti_13_initiate_url'), 'url');
 //                    $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
 //                    $version->addSubItem($url);
 //                    $url = new ilNonEditableValueGUI($this->lng->txt('lti_13_redirection_url'), 'url');
 //                    $url->setValue(ILIAS_HTTP_PATH . '/lti.php?client_id=' . CLIENT_ID);
 //                    $active->addSubItem($url);
-                    $sh = new ilNonEditableValueGUI($this->lng->txt('lti_13_step2'), '');
-                    $sh->setValue($this->lng->txt("lti_13_step2_info"));
-                    $op1->addSubItem($sh);
-                    $tf = new ilTextInputGUI($this->lng->txt('lti_13_platform_id'), 'platform_id');
-                    $tf->setValue($active_consumer->platformId);
-                    $op1->addSubItem($tf);
-                    $tf = new ilTextInputGUI($this->lng->txt('lti_13_client_id'), 'client_id');
-                    $tf->setValue($active_consumer->platformId);
-                    $op1->addSubItem($tf);
-                    $tf = new ilTextInputGUI($this->lng->txt('lti_13_deployment_id'), 'deployment_id');
-                    $tf->setValue($active_consumer->platformId);
-                    $op1->addSubItem($tf);
+            $sh = new ilNonEditableValueGUI($this->lng->txt('lti_13_step2'), '');
+            $sh->setValue($this->lng->txt("lti_13_step2_info"));
+            $op1->addSubItem($sh);
+            $tf = new ilTextInputGUI($this->lng->txt('lti_13_platform_id'), 'platform_id');
+            $tf->setValue($active_consumer->platformId);
+            $op1->addSubItem($tf);
+            $tf = new ilTextInputGUI($this->lng->txt('lti_13_client_id'), 'client_id');
+            $tf->setValue($active_consumer->platformId);
+            $op1->addSubItem($tf);
+            $tf = new ilTextInputGUI($this->lng->txt('lti_13_deployment_id'), 'deployment_id');
+            $tf->setValue($active_consumer->platformId);
+            $op1->addSubItem($tf);
 
 //            }
             
@@ -359,12 +365,10 @@ class ilLTIProviderObjectSettingGUI
      */
     protected function checkLocalRole() : void
     {
-        global $DIC;
         $a_global_role = ilObject::_getIdsForTitle("il_lti_global_role", "role", false);
         if (is_array($a_global_role) && !empty($a_global_role)) {
-            $rbacreview = $DIC->rbac()->review();
-            if (count($rbacreview->getRolesOfObject($this->ref_id, false)) == 0) {
-                $rbacadmin = $DIC->rbac()->admin();
+            if (count($this->rbacReview->getRolesOfObject($this->ref_id, false)) == 0) {
+                $rbacadmin = $this->rbacAdmin;
                 $type = ilObject::_lookupType($this->ref_id, true);
                 $role = new ilObjRole();
                 $role->setTitle("il_lti_learner");

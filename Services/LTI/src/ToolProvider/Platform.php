@@ -529,6 +529,7 @@ class Platform
         return $platform;
     }
 
+    //changed; to be erased because of php strict standards
 //    /**
 //     * Load the platform from the database by its record ID.
 //     * @param int        $id            The platform record ID //UK: changed to int

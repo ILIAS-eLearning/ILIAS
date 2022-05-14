@@ -27,18 +27,17 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
     private ?ilLTIDataConnector $dataConnector = null;
 
     private ?int $consumer_id = null;
-    
+
     public function __construct(?array $a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
+        global $DIC;
+        $DIC->language()->loadLanguageModule('lti'); //&ltis
         $this->type = "ltis";
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->dataConnector = new ilLTIDataConnector();
-        
-        $GLOBALS['DIC']->language()->loadLanguageModule('lti');
-        // TODO PHP8 Review: Remove/Replace SuperGlobals
-        if (isset($_REQUEST["cid"])) {
-            // TODO PHP8 Review: Remove/Replace SuperGlobals
-            $this->consumer_id = (int) $_REQUEST["cid"];
+
+        if ($DIC->http()->wrapper()->query()->has("cid")) {
+            $this->consumer_id = (int) $DIC->http()->wrapper()->query()->retrieve("cid", $DIC->refinery()->kindlyTo()->int());
         }
     }
 
@@ -276,7 +275,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
 
         $valid_obj_types = $this->object->getLTIObjectTypes();
         foreach ($valid_obj_types as $obj_type) {
-            $object_name = $GLOBALS['DIC']->language()->txt('objs_' . $obj_type);
+            $object_name = $this->lng->txt('objs_' . $obj_type);
             $cb_obj_types->addOption(new ilCheckboxOption($object_name, $obj_type));
         }
         $form->addItem($cb_obj_types);
@@ -356,7 +355,7 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
                 $form->getInput('types')
             );
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("lti_consumer_created"), true);
-            $GLOBALS['DIC']->ctrl()->redirect($this, 'listConsumers');
+            $this->ctrl->redirect($this, 'listConsumers');
         }
 
         $form->setValuesByPost();
@@ -369,16 +368,13 @@ class ilObjLTIAdministrationGUI extends ilObjectGUI
      */
     protected function updateLTIConsumer() : void
     {
-        global $DIC;
-        $ilCtrl = $DIC->ctrl();
-
         $this->checkPermission("write");
 
         if (!$this->consumer_id) {
-            $ilCtrl->redirect($this, "listConsumers");
+            $this->ctrl->redirect($this, "listConsumers");
         }
 
-        $ilCtrl->setParameter($this, "cid", $this->consumer_id);
+        $this->ctrl->setParameter($this, "cid", $this->consumer_id);
 
         $consumer = ilLTIPlatform::fromExternalConsumerId($this->consumer_id, $this->dataConnector);
         $form = $this->getConsumerForm('edit');

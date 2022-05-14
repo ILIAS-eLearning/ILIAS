@@ -212,8 +212,8 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
                 'launch_presentation_document_target',
                 $DIC->refinery()->kindlyTo()->string()
             )) {
-            // TODO PHP8 Review: Remove/Replace SuperGlobals
-            $_POST['launch_presentation_document_target'] = 'window';
+            // TODO move to session-variable
+//            $_POST['launch_presentation_document_target'] = 'window';
         }
 
         $this->dataConnector = new ilLTIDataConnector();
@@ -221,7 +221,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         $lti_provider = new ilLTITool($this->dataConnector);
         // $lti_provider = new Tool\Tool($this->dataConnector);
         $ok = true;
-//        $lti_provider->handleRequest();
+        $lti_provider->handleRequest();
 
         if (!$ok) {
             $this->getLogger()->info('LTI authentication failed with message: ' . $lti_provider->reason);
@@ -235,7 +235,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
 
         // sm: this does only load the standard lti date connector, not the ilLTIPlatform with extended data, like prefix.
         $consumer = new ilLTIPlatform(
-            $DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()),
+//            $DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()),
             $this->dataConnector
         );
 

@@ -12,8 +12,6 @@ use ILIAS\LTIOAuth;
 use ILIAS\LTI\ToolProvider\ApiHook\ApiHook;
 use ILIAS\LTI\ToolProvider\Util;
 
-//added
-//use ILIAS\LTI\ToolProvider\Profile\ServiceDefinition;
 /******************************************************************************
  *
  * This file is part of ILIAS, a powerful learning management system.
@@ -398,7 +396,7 @@ class Tool
         $this->created = null;
         $this->updated = null;
         $this->constraints = array();
-//        $this->vendor = new Profile\Item(); //Changed
+//        $this->vendor = new Profile\Item(); //Changed UK
         $this->vendor = new \ILIAS\LTI\ToolProvider\Content\Item(null);
 //        $this->product = new Profile\Item();
         $this->product = new \ILIAS\LTI\ToolProvider\Content\Item(null);
@@ -524,22 +522,22 @@ class Tool
         }
     }
 
-    /**
-     * Get an array of defined tool consumers
-     *
-     * @deprecated Use getPlatforms() instead
-     * @see Tool::getPlatforms()
-     *
-     * @return array Array of ToolConsumer objects
-     */
-    public function getConsumers() : array
-    {
-        Util::logDebug(
-            'Method ceLTIc\LTI\Tool::getConsumers() has been deprecated; please use ceLTIc\LTI\Tool::getPlatforms() instead.',
-            true
-        );
-        return $this->getPlatforms();
-    }
+//    /**
+//     * Get an array of defined tool consumers
+//     *
+//     * @deprecated Use getPlatforms() instead
+//     * @see Tool::getPlatforms()
+//     *
+//     * @return array Array of ToolConsumer objects
+//     */
+//    public function getConsumers() : array
+//    {
+//        Util::logDebug(
+//            'Method ceLTIc\LTI\Tool::getConsumers() has been deprecated; please use ceLTIc\LTI\Tool::getPlatforms() instead.',
+//            true
+//        );
+//        return $this->getPlatforms();
+//    }
 
     /**
      * Get an array of defined platforms
@@ -585,15 +583,15 @@ class Tool
         return $found;
     }
 
-    /**
-     * Send the tool proxy to the platform
-     *
-     * @return bool    True if the tool proxy was accepted
-     */
-    public function doToolProxyService() : bool
-    {
-        // Create tool proxy
-        //UK: Check Bugs
+    //not necessary because LTI V 2
+//    /**
+//     * Send the tool proxy to the platform
+//     *
+//     * @return bool    True if the tool proxy was accepted
+//     */
+//    public function doToolProxyService() : bool
+//    {
+//        // Create tool proxy
 //        $toolProxyService = $this->findService('application/vnd.ims.lti.v2.toolproxy+json', array('POST'));
 //        $secret = Util::getRandomString(12);
 //        $toolProxy = new MediaType\ToolProxy($this, $toolProxyService, $secret);
@@ -608,8 +606,7 @@ class Tool
 //        }
 //
 //        return $ok;
-        return true;
-    }
+//    }
 
 //    /**
 //     * Generate a web page containing an auto-submitted form of parameters.

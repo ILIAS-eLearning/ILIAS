@@ -205,7 +205,7 @@ class ilLTIPlatform extends ToolProvider\Platform
         $this->secret = $secret;
     }
 
-    public function getSecret() : string
+    public function getSecret() : ?string
     {
         return $this->secret;
     }
