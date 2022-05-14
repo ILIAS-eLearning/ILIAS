@@ -257,7 +257,7 @@ abstract class ilObjPortfolioBase extends ilObject2
             $storage = new ilFSStoragePortfolio($this->id);
             $storage->delete();
             
-            $this->setImage(null);
+            $this->setImage("");
         }
     }
         

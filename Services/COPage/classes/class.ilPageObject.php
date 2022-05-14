@@ -283,7 +283,6 @@ abstract class ilPageObject
             throw new ilCOPageNotFoundException("Error: Page " . $this->id . " is not in database" .
                 " (parent type " . $this->getParentType() . ", lang: " . $this->getLanguage() . ").");
         }
-
         $this->xml = $this->page_record["content"];
         $this->setParentId((int) $this->page_record["parent_id"]);
         $this->last_change_user = (int) $this->page_record["last_change_user"];
@@ -348,7 +347,6 @@ abstract class ilPageObject
         if ($this->dom_builded && !$a_force) {
             return true;
         }
-
         $options = 0;
         //$options = DOMXML_LOAD_VALIDATING;
         //$options = LIBXML_DTDLOAD;

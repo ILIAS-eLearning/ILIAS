@@ -21,7 +21,10 @@
 class ilWorkspaceAccessTableGUI extends ilTable2GUI
 {
     protected int $node_id;
-    protected ilWorkspaceAccessHandler $handler;
+    /**
+     * @var ilPortfolioAccessHandler|ilWorkspaceAccessHandler
+     */
+    protected $handler;
 
     /**
      * Constructor
@@ -29,13 +32,13 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
      * @param object $a_parent_obj parent gui object
      * @param string $a_parent_cmd parent default command
      * @param int $a_node_id current workspace object
-     * @param ilWorkspaceAccessHandler $a_handler workspace access handler
+     * @param ilWorkspaceAccessHandler|ilPortfolioAccessHandler $a_handler workspace access handler
      */
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
         int $a_node_id,
-        ilWorkspaceAccessHandler $a_handler
+        $a_handler
     ) {
         global $DIC;
 

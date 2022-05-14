@@ -799,7 +799,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 } else {
                     $settings_gui = $this->content_style_gui
                         ->objectSettingsGUIForObjId(
-                            null,
+                            0,
                             $this->object->getId()
                         );
                 }

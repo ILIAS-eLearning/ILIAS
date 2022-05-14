@@ -122,7 +122,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 $blog_gui = new ilObjBlogGUI($blog_node_id, ilObject2GUI::WORKSPACE_NODE_ID);
                 $blog_gui->disableNotes(!$this->enable_comments);
                 $blog_gui->prtf_embed = true; // disables prepareOutput()/getStandardTemplate() in blog
-                return $ilCtrl->forwardCommand($blog_gui);
+                return (string) $ilCtrl->forwardCommand($blog_gui);
                 
             case "ilcalendarmonthgui":
                 // booking action
@@ -144,15 +144,15 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                     }
 
                     $month_gui = new ilCalendarMonthGUI($seed);
-                    return $ilCtrl->forwardCommand($month_gui);
+                    return (string) $ilCtrl->forwardCommand($month_gui);
                 }
 
                 // calendar month navigation
                 $ilCtrl->setParameter($this, "cmd", "preview");
-                return self::EMBEDDED_NO_OUTPUT;
+                return (string) self::EMBEDDED_NO_OUTPUT;
             default:
                 $this->setPresentationTitle($this->getPageObject()->getTitle());
-                return parent::executeCommand();
+                return (string) parent::executeCommand();
         }
     }
 

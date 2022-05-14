@@ -1321,8 +1321,9 @@ class ilObjectListGUI
             ) && ($this->user->getId() !== ANONYMOUS_USER_ID)
         ) {
             $nl = true;
+            $cnt_comments = self::$cnt_notes[$note_obj_id][Note::PUBLIC] ?? 0;
             if ($this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, false, false)
-                && self::$cnt_notes[$note_obj_id][Note::PUBLIC] > 0) {
+                && $cnt_comments > 0) {
                 $props[] = [
                     "alert" => false,
                     "property" => $this->lng->txt("notes_comments"),
@@ -1335,7 +1336,8 @@ class ilObjectListGUI
                 $nl = false;
             }
 
-            if ($this->notes_enabled && self::$cnt_notes[$note_obj_id][Note::PRIVATE] > 0) {
+            $cnt_notes = self::$cnt_notes[$note_obj_id][Note::PRIVATE] ?? 0;
+            if ($this->notes_enabled && $cnt_notes > 0) {
                 $props[] = [
                     "alert" => false,
                     "property" => $this->lng->txt("notes"),
@@ -1347,7 +1349,8 @@ class ilObjectListGUI
                 ];
                 $nl = false;
             }
-            if ($this->tags_enabled && (self::$cnt_tags[$note_obj_id] > 0 || is_array(self::$tags[$note_obj_id]))) {
+            $cnt_tags = self::$cnt_tags[$note_obj_id] ?? 0;
+            if ($this->tags_enabled && ($cnt_tags > 0 || is_array(self::$tags[$note_obj_id]))) {
                 $tags_set = new ilSetting("tags");
                 if ($tags_set->get("enable")) {
                     $tags_url = ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js);
@@ -1382,7 +1385,7 @@ class ilObjectListGUI
             }
         }
 
-        if (!is_array($props)) {
+        if (!isset($props)) {
             return [];
         }
 

@@ -759,7 +759,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $this->tpl->setPermanentLink($this->getType(), $this->object->getRefId());
             }
         } else {
-            $this->tpl->setPermanentLink($this->perma_link["type"], $this->perma_link["obj_id"]);
+            $this->tpl->setPermanentLink($this->perma_link["type"] ?? "", $this->perma_link["obj_id"] ?? 0);
         }
         
         // #18208 - see ilPortfolioTemplatePageGUI::getPageContentUserId()
@@ -883,7 +883,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         // $a_tpl->setBackgroundColor($a_portfolio->getBackgroundColor());
         // @todo fix this
         $a_tpl->setBanner($banner);
-        $a_tpl->setTitleIcon($ppic);
+        $a_tpl->setTitleIcon((string) $ppic);
         $a_tpl->setTitle($a_portfolio->getTitle());
         // $a_tpl->setTitleColor($a_portfolio->getFontColor());
         $a_tpl->setDescription($name);

@@ -101,13 +101,13 @@ class ilCOPageHTMLExport
         ilFileUtils::makeDir($this->content_style_img_dir);
         ilFileUtils::makeDir($this->services_dir);
         ilFileUtils::makeDir($this->media_service_dir);
-        ilFileUtils::makeDir($this->flv_dir);
-        ilFileUtils::makeDir($this->mp3_dir);
+        ilFileUtils::makeDirParents($this->flv_dir);
+        ilFileUtils::makeDirParents($this->mp3_dir);
 
-        ilFileUtils::makeDir($this->js_dir);
-        ilFileUtils::makeDir($this->js_yahoo_dir);
-        ilFileUtils::makeDir($this->css_dir);
-        ilFileUtils::makeDir($this->css_dir . "/yahoo");
+        ilFileUtils::makeDirParents($this->js_dir);
+        ilFileUtils::makeDirParents($this->js_yahoo_dir);
+        ilFileUtils::makeDirParents($this->css_dir);
+        ilFileUtils::makeDirParents($this->css_dir . "/yahoo");
     }
     
     /**

@@ -36,15 +36,21 @@ class ilWorkspaceAccessGUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected int $node_id;
-    protected ilWorkspaceAccessHandler $access_handler;
+    /**
+     * @var ilPortfolioAccessHandler|ilWorkspaceAccessHandler
+     */
+    protected $access_handler;
     protected string $footer = "";
     
     protected string $blocking_message = "";
     protected StandardGUIRequest $std_request;
 
+    /**
+     * @param ilPortfolioAccessHandler|ilWorkspaceAccessHandler $a_access_handler
+     */
     public function __construct(
         int $a_node_id,
-        ilWorkspaceAccessHandler $a_access_handler,
+        $a_access_handler,
         bool $a_is_portfolio = false,
         string $a_footer = ""
     ) {
@@ -174,8 +180,11 @@ class ilWorkspaceAccessGUI
         }
         $tpl->setTitle(ilObject::_lookupTitle($obj_id));
     }
-    
-    protected function getAccessHandler() : ilWorkspaceAccessHandler
+
+    /**
+     * @return ilPortfolioAccessHandler|ilWorkspaceAccessHandler
+     */
+    protected function getAccessHandler()
     {
         return $this->access_handler;
     }

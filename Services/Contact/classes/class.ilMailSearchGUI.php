@@ -33,12 +33,18 @@ class ilMailSearchGUI
     private ilLanguage $lng;
     private ilFormatMail $umail;
     private bool $errorDelete = false;
-    private ?ilWorkspaceAccessHandler $wsp_access_handler = null;
+    /**
+     * @var ilWorkspaceAccessHandler|null|ilPortfolioAccessHandler
+     */
+    private $wsp_access_handler = null;
     private ?int $wsp_node_id = null;
     private GlobalHttpState $http;
     private Refinery $refinery;
 
-    public function __construct(?ilWorkspaceAccessHandler $wsp_access_handler = null, ?int $wsp_node_id = null)
+    /**
+     * @param ilWorkspaceAccessHandler|null|ilPortfolioAccessHandler $wsp_access_handler
+     */
+    public function __construct($wsp_access_handler = null, ?int $wsp_node_id = null)
     {
         /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
