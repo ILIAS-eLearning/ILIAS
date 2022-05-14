@@ -77,7 +77,7 @@ class ilCharSelectorGUI
         // with correct case for checking parent classes
         $class = false;
         foreach ($ilCtrl->getCallHistory() as $call) {
-            if ($call['mode'] === 'execComm') {
+            if (($call['mode'] ?? "") === 'execComm') {
                 $class = $call['class'];
             }
         }
