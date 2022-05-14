@@ -35,10 +35,10 @@ class ClipboardGUIRequest
         );
     }
 
-    /** @return int[] */
+    /** @return string[] */
     public function getItemIds() : array
     {
-        return $this->intArray("id");
+        return $this->strArray("id");
     }
 
     public function getPCId() : string

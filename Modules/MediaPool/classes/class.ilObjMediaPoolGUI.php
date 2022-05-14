@@ -187,6 +187,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                     $this->mep_item_id,
                     $this->mep_request->getOldNr()
                 );
+                $mep_page_gui->setPoolGUI($this);
                 $mep_page_gui->setAdvMdRecordObject($this->object->getRefId(), "mep", "mpg");
 
                 if (!$ilAccess->checkAccess("write", "", $this->object->getRefId())) {
@@ -196,7 +197,6 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 if ($ret != "") {
                     $tpl->setContent($ret);
                 }
-                $this->setMediaPoolPageTabs();
                 $this->tpl->printToStdout();
                 break;
 

@@ -42,7 +42,6 @@ class ilMediaPoolPresentationGUI implements ilCtrlBaseClassInterface
         $lng->loadLanguageModule("content");
 
         $this->ctrl = $ilCtrl;
-
         // initiate variables
         $this->tpl = $tpl;
         $this->lng = $lng;

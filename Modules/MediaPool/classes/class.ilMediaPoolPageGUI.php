@@ -45,7 +45,11 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         $this->tabs = $DIC->tabs();
         $this->access = $DIC->access();
         $this->lng = $DIC->language();
-        
+
+        if (in_array($this->ctrl->getCmd(), ["createMediaPoolPage", "saveMediaPoolPage"])) {
+            $a_id = 0;
+        }
+
         parent::__construct("mep", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
 
         $cs = $DIC->contentStyle()

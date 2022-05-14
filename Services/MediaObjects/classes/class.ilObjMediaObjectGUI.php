@@ -1440,7 +1440,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * set admin tabs
      */
-    protected function setTabs() : void
+    public function setTabs() : void
     {
         // catch feedback message
         $this->getTabs();
