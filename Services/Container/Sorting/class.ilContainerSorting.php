@@ -258,7 +258,7 @@ class ilContainerSorting
             $items = [];
             foreach ((array) $data as $key => $item) {
                 $items[$key] = $item;
-                if (is_array($this->sorting['all']) && isset($this->sorting['all'][$item['child']])) {
+                if (isset($item['child'], $this->sorting['all'][$item['child']])) {
                     $items[$key]['position'] = $this->sorting['all'][$item['child']];
                 } else {
                     $items[$key]['position'] = self::ORDER_DEFAULT;
