@@ -3124,7 +3124,7 @@ class ilObjectListGUI
             ->withSize('medium');
 
 
-        if ($def_command['link']) {
+        if ($def_command['link'] ?? false) {
             $list_item = $ui->factory()->item()->standard(
                 $this->ui->factory()->link()->standard($this->getTitle(), $def_command['link'])
             );

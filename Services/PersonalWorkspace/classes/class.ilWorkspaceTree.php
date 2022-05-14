@@ -90,7 +90,7 @@ class ilWorkspaceTree extends ilTree
             " WHERE " . $this->ref_pk . " = " . $ilDB->quote($a_node_id, "integer"));
         $res = $ilDB->fetchAssoc($set);
 
-        return (int) $res[$this->obj_pk];
+        return (int) ($res[$this->obj_pk] ?? 0);
     }
     
     
@@ -109,7 +109,7 @@ class ilWorkspaceTree extends ilTree
             " WHERE " . $this->obj_pk . " = " . $ilDB->quote($a_obj_id, "integer"));
         $res = $ilDB->fetchAssoc($set);
 
-        return (int) $res[$this->ref_pk];
+        return (int) ($res[$this->ref_pk] ?? 0);
     }
     
     /**
@@ -127,7 +127,7 @@ class ilWorkspaceTree extends ilTree
             " WHERE " . $this->ref_pk . " = " . $ilDB->quote($a_node_id, "integer"));
         $res = $ilDB->fetchAssoc($set);
 
-        return (int) $res["tree"];
+        return (int) ($res["tree"] ?? 0);
     }
 
     /**

@@ -38,7 +38,7 @@ class WorkspaceSessionRepository
 
     public function isClipboardEmpty() : bool
     {
-        return ($this->getClipboardCmd() != "" && count($this->getClipboardSourceIds()) > 0);
+        return !($this->getClipboardCmd() !== "" && count($this->getClipboardSourceIds()) > 0);
     }
 
     public function setClipboardWsp2Repo(bool $wsp2repo) : void
