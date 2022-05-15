@@ -27,7 +27,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
     public function render(array &$a_html, object $a_parent_gui) : void
     {
         foreach (self::$valid_tax_map[$this->parent_ref_id] as $tax_id) {
-            $tax_exp = new ilTaxonomyExplorerGUI($a_parent_gui, "", (int) $tax_id, null, null);
+            $tax_exp = new ilTaxonomyExplorerGUI($a_parent_gui, "", (int) $tax_id, "", "");
             $tax_exp->setSkipRootNode(true);
             $tax_exp->setOnClick("il.Classification.toggle({tax_node: '{NODE_CHILD}'});");
 
