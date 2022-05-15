@@ -26,7 +26,7 @@
 class ilSCORMPresentationGUI
 {
     public ilObjSCORMLearningModule $slm;
-    public $tpl;//PHP8Review: Missing Typehint (probably ilTemplate)
+    public ilGlobalTemplate $tpl;
     public ilLanguage $lng;
     protected int $refId;
     protected ilCtrlInterface $ctrl;
@@ -35,7 +35,7 @@ class ilSCORMPresentationGUI
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
-        $this->tpl = $DIC['tpl'];
+//        $this->tpl = $DIC['tpl'];
         $this->lng = $DIC->language();
         $this->ctrl = $ilCtrl;
 
@@ -423,7 +423,7 @@ class ilSCORMPresentationGUI
         }
 
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-        $this->tpl->printToStdout(false);
+        $this->tpl->printToStdout('DEFAULT', false);
     }
 
     public function contentSelect() : void
