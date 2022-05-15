@@ -72,8 +72,8 @@ class VideoSequence
                     $mime,
                     $resource,
                     $preview_pic,
-                    $item["content"],
-                    $item["playtime"],
+                    (string) $item["content"],
+                    (string) $item["playtime"],
                     $med->getDuration()
                 );
             }
