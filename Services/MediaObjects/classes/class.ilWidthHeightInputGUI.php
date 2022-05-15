@@ -73,9 +73,9 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
     public function checkInput() : bool
     {
         $i = $this->getInput();
-        $this->setWidth($i["width"]);
-        $this->setHeight($i["height"]);
-        $this->setConstrainProportions($i["constr_prop"]);
+        $this->setWidth($i["width"] ? (int) $i["width"] : null);
+        $this->setHeight($i["height"] ? (int) $i["height"] : null);
+        $this->setConstrainProportions((bool) $i["constr_prop"]);
 
         return true;
     }

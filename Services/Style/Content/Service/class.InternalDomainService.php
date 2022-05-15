@@ -67,7 +67,7 @@ class InternalDomainService
             $this->repo_service->characteristic(),
             $this->repo_service->characteristicCopyPaste(),
             $this->repo_service->color(),
-            $this->user
+            $this->user()
         );
     }
 
