@@ -16,6 +16,7 @@ use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\Render;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\IconRendererFactory;
 use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Factory;
 use PHPUnit\Framework\TestCase;
@@ -337,6 +338,14 @@ abstract class ILIAS_UI_TestBase extends TestCase
                         $image_path_resolver
                     ),
                     new GlyphRendererFactory(
+                        $ui_factory,
+                        $tpl_factory,
+                        $lng,
+                        $js_binding,
+                        $refinery,
+                        $image_path_resolver
+                    ),
+                    new IconRendererFactory(
                         $ui_factory,
                         $tpl_factory,
                         $lng,

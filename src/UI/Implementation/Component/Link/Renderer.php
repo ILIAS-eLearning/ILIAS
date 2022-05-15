@@ -58,12 +58,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl_name = "tpl.bulky.html";
         $tpl = $this->setStandardVars($tpl_name, $component);
         $renderer = $default_renderer->withAdditionalContext($component);
-        $symbol = $component->getSymbol();
-        if ($symbol instanceof Component\Symbol\Icon\Icon && $symbol->getLabel() == $component->getLabel()) {
-            $symbol = $symbol->withLabel('');
-        }
-        $tpl->setVariable("SYMBOL", $renderer->render($symbol));
-
+        $tpl->setVariable("SYMBOL", $renderer->render($component->getSymbol()));
         $id = $this->bindJavaScript($component);
         $tpl->setVariable("ID", $id);
 

@@ -48,16 +48,6 @@ abstract class Icon implements C\Symbol\Icon\Icon
     /**
      * @inheritdoc
      */
-    public function withLabel(string $label) : C\Symbol\Icon\Icon
-    {
-        $clone = clone $this;
-        $clone->label = $label;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function withAbbreviation(string $abbreviation) : C\Symbol\Icon\Icon
     {
         $clone = clone $this;

@@ -161,7 +161,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
         }
         return ''
             . '<button class="btn btn-bulky' . $engaged_class . '" data-action="http://www.ilias.de" id="id_1" ' . $aria_pressed . '>'
-            . '	<span class="glyph" aria-label="briefcase" role="img">'
+            . '	<span class="glyph" role="img">'
             . '		<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>'
             . '	</span>'
             . '	<span class="bulky-label">label</span>'
@@ -175,7 +175,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1">'
-            . '	<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="Example"/>'
+            . '	<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>'
             . '	<span class="bulky-label">label</span>'
             . '</button>';
 
@@ -193,7 +193,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" role="menuitem">'
-            . ' <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="Example"/>'
+            . ' <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>'
             . '	<span class="bulky-label">label</span>'
             . '</button>';
 
@@ -212,7 +212,7 @@ class BulkyButtonTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<button class="btn btn-bulky" data-action="http://www.ilias.de" id="id_1" role="menuitem" aria-haspopup="true">'
-            . ' <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="Example"/>'
+            . ' <img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>'
             . '	<span class="bulky-label">label</span>'
             . '</button>';
 

@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Render;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\Glyph;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Implementation\Component\Input\Field\Input;
 
 /**
@@ -25,15 +26,18 @@ class FSLoader implements Loader
 
     private RendererFactory $default_renderer_factory;
     private RendererFactory $glyph_renderer_factory;
+    private RendererFactory $icon_renderer_factory;
     private RendererFactory $field_renderer_factory;
 
     public function __construct(
         RendererFactory $default_renderer_factory,
         RendererFactory $glyph_renderer_factory,
+        RendererFactory $icon_renderer_factory,
         RendererFactory $field_renderer_factory
     ) {
         $this->default_renderer_factory = $default_renderer_factory;
         $this->glyph_renderer_factory = $glyph_renderer_factory;
+        $this->icon_renderer_factory = $icon_renderer_factory;
         $this->field_renderer_factory = $field_renderer_factory;
     }
 
@@ -54,6 +58,9 @@ class FSLoader implements Loader
     {
         if ($component instanceof Glyph) {
             return $this->glyph_renderer_factory;
+        }
+        if ($component instanceof Icon) {
+            return $this->icon_renderer_factory;
         }
         if ($component instanceof Input) {
             return $this->field_renderer_factory;

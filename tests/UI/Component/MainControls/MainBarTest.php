@@ -242,7 +242,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 							<li role="none"><button class="btn btn-bulky" data-action="#" id="id_1" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button></li>
 							<li role="none"><button class="btn btn-bulky" data-action="#" id="id_2" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button></li>
 							<li role="none"><button class="btn btn-bulky" id="id_3" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">1</span></button></li>
-							<li role="none"><button class="btn btn-bulky" id="id_9" role="menuitem" ><span class="glyph" aria-label="show_more" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">mainbar_more_label</span></button></li>
+							<li role="none"><button class="btn btn-bulky" id="id_9" role="menuitem" ><span class="glyph" role="img"><span class="glyphicon glyphicon-option-horizontal" aria-hidden="true"></span></span><span class="bulky-label">mainbar_more_label</span></button></li>
 						</ul>
 					</div>
 				</nav>
@@ -283,7 +283,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 
 					<div class="il-mainbar-close-slates">
 						<button class="btn btn-bulky" id="id_15" >
-							<span class="glyph" aria-label="collapse/back" role="img"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></span>
+							<span class="glyph" role="img"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></span>
 							<span class="bulky-label">close</span></button>
 					</div>
 				</div>

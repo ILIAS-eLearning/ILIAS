@@ -13,9 +13,9 @@ class Renderer extends AbstractComponentRenderer
         $this->checkComponent($component);
         $tpl = null;
 
-        $alternative_text = $component->getAlternativeText();
-        if ($alternative_text == "") {
-            $alternative_text = $this->txt("user_avatar");
+        $label = $component->getLabel();
+        if ($label == "") {
+            $label = $this->txt("user_avatar");
         }
 
         /**
@@ -23,13 +23,13 @@ class Renderer extends AbstractComponentRenderer
          */
         if ($component instanceof Component\Symbol\Avatar\Letter) {
             $tpl = $this->getTemplate('tpl.avatar_letter.html', true, true);
-            $tpl->setVariable('ARIA_LABEL', $alternative_text);
+            $tpl->setVariable('ARIA_LABEL', $label);
             $tpl->setVariable('MODE', 'letter');
             $tpl->setVariable('TEXT', $component->getAbbreviation());
             $tpl->setVariable('COLOR', (string) $component->getBackgroundColorVariant());
         } elseif ($component instanceof Component\Symbol\Avatar\Picture) {
             $tpl = $this->getTemplate('tpl.avatar_picture.html', true, true);
-            $tpl->setVariable('ARIA_LABEL', $alternative_text);
+            $tpl->setVariable('ARIA_LABEL', $label);
             $tpl->setVariable('MODE', 'picture');
             $tpl->setVariable('CUSTOMIMAGE', $component->getPicturePath());
         }
