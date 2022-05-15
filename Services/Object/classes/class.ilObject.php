@@ -1813,7 +1813,7 @@ class ilObject
             
             // get deletion dependency of children
             foreach ($tree->getChilds($ref_id) as $c) {
-                ilObject::collectDeletionDependencies($deps, $c["child"], $c["obj_id"], $c["type"], $depth + 1);
+                ilObject::collectDeletionDependencies($deps, (int) $c["child"], (int) $c["obj_id"], (string) $c["type"], $depth + 1);
             }
         }
 

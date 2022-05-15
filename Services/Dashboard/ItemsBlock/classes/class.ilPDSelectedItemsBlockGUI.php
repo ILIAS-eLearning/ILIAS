@@ -583,7 +583,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
                 $this->addBlockCommand(
                     (string) $command['url'],
                     (string) $command['txt'],
-                    (string) $command['asyncUrl']
+                    (string) ($command['asyncUrl'] ?? "")
                 );
             }
         }

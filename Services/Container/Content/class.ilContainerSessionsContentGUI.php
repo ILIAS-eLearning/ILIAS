@@ -85,7 +85,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
             $output_html = $this->insertPageEmbeddedBlocks($output_html);
         }
         
-        if (is_array($this->items["sess"]) ||
+        if (isset($this->items["sess"]) ||
             isset($this->items['sess_link']['prev']['value']) ||
             isset($this->items['sess_link']['next']['value'])) {
             $this->items['sess'] = ilArrayUtil::sortArray($this->items['sess'], 'start', 'asc', true, false);
