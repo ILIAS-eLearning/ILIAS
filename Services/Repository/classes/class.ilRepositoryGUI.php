@@ -177,7 +177,8 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
 
             $this->ctrl->setCmdClass($next_class);
             if ($this->ctrl->getCmd() === "return") {
-                $this->ctrl->setCmd("");
+                //$this->ctrl->setCmd(null);    // this does not work anymore
+                $this->ctrl->redirectByClass($next_class, "");
             }
         }
 
