@@ -549,10 +549,10 @@ class ilInfoScreenGUI
                     }
                 }
                 if ($count_anonymous_reads > 0) {
-                    $this->addProperty($this->lng->txt("readcount_anonymous_users"), $count_anonymous_reads);
+                    $this->addProperty($this->lng->txt("readcount_anonymous_users"), (string) $count_anonymous_reads);
                 }
                 if ($count_user_reads > 0) {
-                    $this->addProperty($this->lng->txt("readcount_users"), $count_user_reads);
+                    $this->addProperty($this->lng->txt("readcount_users"), (string) $count_user_reads);
                 }
                 if ($count_users > 0) {
                     $this->addProperty($this->lng->txt("accesscount_registered_users"), (string) $count_users);
