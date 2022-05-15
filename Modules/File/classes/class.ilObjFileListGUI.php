@@ -122,7 +122,7 @@ class ilObjFileListGUI extends ilObjectListGUI
             "property" => $DIC->language()->txt("type"),
             "value" => ilObjFileAccess::_getFileExtension(
                 (null !== $revision) ?
-                    $file_data['title'] :
+                    ($file_data['title'] ?? "") :
                     $this->title
             ),
             'propertyNameVisible' => false,
