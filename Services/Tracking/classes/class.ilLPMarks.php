@@ -180,7 +180,7 @@ class ilLPMarks
                 'usr_id' => (int) $rec['usr_id'],
                 'completed' => (bool) $rec['completed'],
                 'mark' => (string) $rec['mark'],
-                'comment' => (string) $rec['comment'],
+                'comment' => (string) $rec['u_comment'],
                 'status' => (int) $rec['status'],
                 'status_changed' => (string) $rec['status_changed'],
                 'status_dirty' => (int) $rec['status_changed'],
