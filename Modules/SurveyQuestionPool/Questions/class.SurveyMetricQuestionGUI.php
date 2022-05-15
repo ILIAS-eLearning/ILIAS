@@ -211,7 +211,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
         $template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
         $template->setVariable("QUESTION_ID", $this->object->getId());
         if (is_array($working_data)) {
-            $template->setVariable("VALUE_METRIC", $working_data[0]["value"]);
+            $template->setVariable("VALUE_METRIC", $working_data[0]["value"] ?? "");
         }
 
         $template->setVariable("INPUT_SIZE", 10);

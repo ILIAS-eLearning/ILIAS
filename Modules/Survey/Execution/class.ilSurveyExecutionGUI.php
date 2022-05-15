@@ -474,6 +474,7 @@ class ilSurveyExecutionGUI
 
             $stpl->setVariable("PAGE", $page_renderer->render());
 
+            $this->ctrl->setParameter($this, "qid", $first_question);
             $stpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "redirectQuestion"));
             $this->tpl->setContent($stpl->get());
         }
