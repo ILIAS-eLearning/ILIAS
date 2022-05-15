@@ -26,6 +26,8 @@
 */
 class ilSAHSEditGUI implements ilCtrlBaseClassInterface
 {
+    private \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
+    private \ILIAS\Refinery\Factory $refinery;
     protected ilGlobalPageTemplate $tpl;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
@@ -45,6 +47,8 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
         $this->tpl = $DIC['tpl'];
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
+        $this->wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
         $this->refId = $DIC->http()->wrapper()->query()->retrieve('ref_id', $DIC->refinery()->kindlyTo()->int());
         
         $this->ctrl->saveParameter($this, "ref_id");
@@ -125,16 +129,15 @@ class ilSAHSEditGUI implements ilCtrlBaseClassInterface
                 $exporter = new ilScormAiccExporter();
                 $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", (string) $obj_id);
             } elseif ($cmd === "download") {
-                $file = $_GET["file"];//PHP8Review: Use of $_ global. Pls use the DIC instead
+                $file = $this->wrapper->query()->retrieve('file', $this->refinery->kindlyTo()->string());
                 $ftmp = explode(":", $file);
                 $fileName = (string) $ftmp[1];
                 $exportDir = ilExport::_getExportDirectory($obj_id);
                 ilFileDelivery::deliverFileLegacy($exportDir . "/" . $fileName, $fileName, "zip");
             } elseif ($cmd === "confirmDeletion") {
                 $exportDir = ilExport::_getExportDirectory($obj_id);
-                //not possible - no array
-//                $files = $report = $DIC->http()->wrapper()->post()->retrieve('file',$DIC->refinery()->kindlyTo()->string());
-                $files = $_POST['file'];//PHP8Review: Use of $_ global. Pls use the DIC instead
+//                $files = $_POST['file'];
+                $files = $this->wrapper->post()->retrieve('file', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string()));
                 foreach ($files as $file) {
                     $file = explode(":", $file);
                     $file[1] = basename($file[1]);
