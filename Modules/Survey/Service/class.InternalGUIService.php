@@ -43,6 +43,7 @@ class InternalGUIService
     ) {
         global $DIC;
 
+        $this->initGUIServices($DIC);
         $this->object_service = $object_service;
         $this->mode_factory = $mode_factory;
         $this->domain_service = $domain_service;

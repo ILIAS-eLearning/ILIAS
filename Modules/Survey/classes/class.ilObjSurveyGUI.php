@@ -102,11 +102,11 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $this->access_manager = $this->survey_service
                 ->domain()
                 ->access($this->requested_ref_id, $this->user->getId());
-            $this->edit_request = $this->survey_service
-                ->gui()
-                ->editing()
-                ->request();
         }
+        $this->edit_request = $this->survey_service
+            ->gui()
+            ->editing()
+            ->request();
     }
     
     public function executeCommand() : void

@@ -68,7 +68,7 @@ class ilObjSurvey extends ilObject
      * A unique positive numerical ID which identifies the survey.
      * This is the primary key from a database table.
      */
-    public int $survey_id;
+    public int $survey_id = 0;
     /**
      * A text representation of the authors name. The name of the author must
      * not necessary be the name of the owner.
@@ -79,33 +79,33 @@ class ilObjSurvey extends ilObject
     // Indicates the evaluation access for learners
     public string $evaluation_access = self::EVALUATION_ACCESS_OFF;
     // The start date of the survey
-    public string $start_date;
+    public string $start_date = "";
     // The end date of the survey
-    public string $end_date;
+    public string $end_date = "";
     // The questions contained in this survey
-    public array $questions;
+    public array $questions = [];
     // Indicates the anonymization of the survey
-    public int $anonymize;
+    public int $anonymize = 0;
     // Indicates if the question titles are shown during a query
-    public int $display_question_titles;
+    public int $display_question_titles = 0;
     // Indicates if a survey code may be exported with the survey statistics
-    public bool $surveyCodeSecurity;
+    public bool $surveyCodeSecurity = false;
     
-    public bool $mailnotification;
-    public string $mailaddresses;
-    public string $mailparticipantdata;
-    public bool $pool_usage;
+    public bool $mailnotification = false;
+    public string $mailaddresses = "";
+    public string $mailparticipantdata = "";
+    public bool $pool_usage = false;
 
     protected bool $activation_visibility = false;
     protected ?string $activation_starting_time = null;
     protected ?string $activation_ending_time = null;
     
     // 360°
-    protected bool $mode_360_self_eval;
-    protected bool $mode_360_self_appr;
-    protected bool $mode_360_self_rate;
-    protected int $mode_360_results;
-    protected bool $mode_skill_service;
+    protected bool $mode_360_self_eval = false;
+    protected bool $mode_360_self_appr = false;
+    protected bool $mode_360_self_rate = false;
+    protected int $mode_360_results = 0;
+    protected bool $mode_skill_service = false;
 
     // reminder/notification
     protected bool $reminder_status = false;
@@ -117,7 +117,7 @@ class ilObjSurvey extends ilObject
     protected int $reminder_tmpl = 0;
     protected bool $tutor_ntf_status = false;
     protected array $tutor_ntf_recipients = [];
-    protected int $tutor_ntf_target;
+    protected int $tutor_ntf_target = 0;
     protected bool $tutor_res_status = false;
     protected array $tutor_res_recipients = [];
 
@@ -515,7 +515,7 @@ class ilObjSurvey extends ilObject
             return $question_id;
         }
 
-        $duplicate_id = $question_gui->object->duplicate(true, "", "", "", $this->getId());
+        $duplicate_id = $question_gui->object->duplicate(true, "", "", 0, $this->getId());
         return $duplicate_id;
     }
 

@@ -191,7 +191,10 @@ class EditingGUIRequest
 
     public function getQuestionId() : int
     {
-        return $this->int("q_id");
+        if (!$this->isArray("q_id")) {
+            return $this->int("q_id");
+        }
+        return 0;
     }
 
     public function getBlockId() : int

@@ -806,7 +806,7 @@ class ilObjSurveyQuestionPool extends ilObject
         }
         foreach ($qpls as $ref_id) {
             $obj_id = ilObject::_lookupObjectId($ref_id);
-            if ($could_be_offline || $allqpls[$obj_id] == 1) {
+            if ($could_be_offline || ($allqpls[$obj_id] ?? 0) == 1) {
                 if ($use_object_id) {
                     $result_array[$obj_id] = $titles[$ref_id];
                 } else {

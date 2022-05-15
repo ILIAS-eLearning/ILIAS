@@ -36,7 +36,6 @@ class InternalService
 
         $object_service = $DIC->object();
         $this->db = $DIC->database();
-
         $this->mode_factory = new ModeFactory();
         $this->data = new InternalDataService();
         $this->repo = new InternalRepoService(
