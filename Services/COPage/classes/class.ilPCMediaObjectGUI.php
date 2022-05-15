@@ -1419,7 +1419,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             $chars = $style->getCharacteristics("media_cont");
             $new_chars = array();
             foreach ($chars as $char) {
-                if ($chars[$char] != "") {	// keep lang vars for standard chars
+                if (($chars[$char] ?? "") != "") {	// keep lang vars for standard chars
                     $new_chars[$char] = $chars[$char];
                 } else {
                     $new_chars[$char] = $char;
