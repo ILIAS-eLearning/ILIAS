@@ -1088,10 +1088,10 @@ class ilPCParagraph extends ilPageContent
         }
 
         // remove trailing <br />, if text ends with list
-        if ($segments[count($segments) - 1] == "</SimpleBulletList>" ||
-            $segments[count($segments) - 1] == "</SimpleNumberedList>" &&
-            substr($text, strlen($text) - 6) == "<br />") {
-            $text = substr($text, 0, strlen($text) - 6);
+        if ((($segments[count($segments) - 1] ?? "") === "</SimpleBulletList>" ||
+            ($segments[count($segments) - 1] ?? "") === "</SimpleNumberedList>") &&
+            substr($text, strlen($text) - 6) === "<br />") {
+            $text = substr($text, 0, -6);
         }
 
         return $text;
