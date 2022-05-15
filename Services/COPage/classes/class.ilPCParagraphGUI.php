@@ -104,7 +104,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
             );
             $new_chars = array();
             foreach ($chars as $char) {
-                if ($st_chars[$char->getCharacteristic()] != "") {	// keep lang vars for standard chars
+                if (($st_chars[$char->getCharacteristic()] ?? "") != "") {	// keep lang vars for standard chars
                     $title = $char_manager->getPresentationTitle(
                         $char->getType(),
                         $char->getCharacteristic()

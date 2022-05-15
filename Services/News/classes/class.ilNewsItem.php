@@ -345,15 +345,15 @@ class ilNewsItem
         $set = $ilDB->query($query);
         $rec = $ilDB->fetchAssoc($set);
 
-        $this->setTitle($rec["title"]);
-        $this->setContent($rec["content"]);
+        $this->setTitle((string) $rec["title"]);
+        $this->setContent((string) $rec["content"]);
         $this->setContextObjId((int) $rec["context_obj_id"]);
         $this->setContextObjType($rec["context_obj_type"]);
         $this->setContextSubObjId((int) $rec["context_sub_obj_id"]);
-        $this->setContextSubObjType($rec["context_sub_obj_type"]);
-        $this->setContentType($rec["content_type"]);
-        $this->setCreationDate($rec["creation_date"]);
-        $this->setUpdateDate($rec["update_date"]);
+        $this->setContextSubObjType((string) $rec["context_sub_obj_type"]);
+        $this->setContentType((string) $rec["content_type"]);
+        $this->setCreationDate((string) $rec["creation_date"]);
+        $this->setUpdateDate((string) $rec["update_date"]);
         $this->setUserId((int) $rec["user_id"]);
         $this->setUpdateUserId((int) $rec["update_user_id"]);
         $this->setVisibility((string) $rec["visibility"]);
