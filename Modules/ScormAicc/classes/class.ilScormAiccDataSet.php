@@ -187,7 +187,7 @@ class ilScormAiccDataSet extends ilDataSet
         $xmlFilePath = $exportDir . "/" . $baseExportName . ".xml";
 
         if (!file_exists($xmlFilePath)) {
-            $xmlFile = fopen($xmlFilePath, "w");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
+            $xmlFile = fopen($xmlFilePath, "wb");//changed from w to wb
             fwrite($xmlFile, $xml);
             fclose($xmlFile);
         }
@@ -197,7 +197,7 @@ class ilScormAiccDataSet extends ilDataSet
 
         $metaDataFilePath = $exportDir . "/" . $baseExportName . "_metadata.xml";
         if (!file_exists($metaDataFilePath)) {
-            $metaDataFile = fopen($metaDataFilePath, "w");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
+            $metaDataFile = fopen($metaDataFilePath, "wb");//changed from w to wb
             fwrite($metaDataFile, $metaData);
             fclose($metaDataFile);
         }
@@ -222,7 +222,7 @@ class ilScormAiccDataSet extends ilDataSet
 
         $manifestFilePath = $exportDir . "/" . $baseExportName . "_manifest.xml";
         if (!file_exists($manifestFilePath)) {
-            $manifestFile = fopen($manifestFilePath, "w");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
+            $manifestFile = fopen($manifestFilePath, "wb");//changed from w to wb
             fwrite($manifestFile, $manifest);
             fclose($manifestFile);
         }

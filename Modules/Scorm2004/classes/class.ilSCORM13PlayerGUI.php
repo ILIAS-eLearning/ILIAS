@@ -1354,7 +1354,7 @@ class ilSCORM13PlayerGUI
         $filename = $this->logDirectory() . "/" . $this->packageId . ".tmp";
         if (!file_exists($filename)) {
             umask(0000);
-            $fHandle = fopen($filename, 'a') or die("can't open file");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
+            $fHandle = fopen($filename, 'a') or die("can't open file");
             fwrite($fHandle, "");
             fclose($fHandle);
         }
@@ -1375,7 +1375,7 @@ class ilSCORM13PlayerGUI
 
         if (!file_exists($retname)) {
             umask(0000);
-            $fHandle = fopen($retname, 'a') or die("can't open file");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
+            $fHandle = fopen($retname, 'a') or die("can't open file");
             fwrite($fHandle, "");
             fclose($fHandle);
         }
@@ -1393,7 +1393,7 @@ class ilSCORM13PlayerGUI
         $path_txt = $filename . ".html";
         if (!file_exists($path_csv)) {
             umask(0000);
-            $fHandle = fopen($path_csv, 'a') or die("can't open file");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
+            $fHandle = fopen($path_csv, 'a') or die("can't open file");
             $string = '"CourseId";"ScoId";"ScoTitle";"Timestamp";"Action";"Key";"Value";"Return Value";"Errorcode";"Timespan";"ErrorDescription"' . "\n";
             fwrite($fHandle, $string);
             fclose($fHandle);
@@ -1403,7 +1403,7 @@ class ilSCORM13PlayerGUI
                 unlink($this->logTmpName());
             }
             umask(0000);
-            $fHandle2 = fopen($path_txt, 'a') or die("can't open file");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
+            $fHandle2 = fopen($path_txt, 'a') or die("can't open file");
             $logtpl = $this->getLogTemplate();
             $logtpl->setCurrentBlock('NewLog');
             $logtpl->setVariable("COURSETITLE", $this->slm->getTitle());
@@ -1719,13 +1719,13 @@ class ilSCORM13PlayerGUI
         $filename = $this->logFileName();
         $tmp_name = $this->logTmpName();
 
-        $fh_txt = fopen($filename . ".html", 'a') or die("can't open txt file");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
-        $fh_csv = fopen($filename . ".csv", 'a') or die("can't open csv file");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
-        $fh_tmp = fopen($tmp_name, 'r') or die("can't open tmp file");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
+        $fh_txt = fopen($filename . ".html", 'a') or die("can't open txt file");
+        $fh_csv = fopen($filename . ".csv", 'a') or die("can't open csv file");
+        $fh_tmp = fopen($tmp_name, 'r') or die("can't open tmp file");
 
         //init tmp file
         if (filesize($tmp_name) > 0) {
-            $tmp_content = unserialize(fread($fh_tmp, filesize($tmp_name)));//PHP8Review: This may causes security issues if the serialized classess arent specified.
+            $tmp_content = unserialize(fread($fh_tmp, filesize($tmp_name)));//Check Options - This may causes security issues if the serialized classess arent specified.
         } else {
             $tmp_content = null;
         }
@@ -1733,7 +1733,7 @@ class ilSCORM13PlayerGUI
         fclose($fh_tmp);
 
         //reopen for writing
-        $fh_tmp2 = fopen($tmp_name, 'w') or die("can't open tmp file");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
+        $fh_tmp2 = fopen($tmp_name, 'w') or die("can't open tmp file");
 
 
         //write tmp
@@ -2105,7 +2105,7 @@ class ilSCORM13PlayerGUI
             $csv_data = $csv_data . "\n";
         }
 
-        $fh = fopen($this->summaryFileName(), "w");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
+        $fh = fopen($this->summaryFileName(), "wb"); //changed from w to wb
         fwrite($fh, $csv_header . "\n" . $csv_data);
         fclose($fh);
         unlink($this->logTmpName());
