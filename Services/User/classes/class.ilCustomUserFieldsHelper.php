@@ -98,7 +98,7 @@ class ilCustomUserFieldsHelper
                     'udf_' . $definition['field_id']
                 );
                 $fprop->setDisabled(!$a_changeable);
-                $fprop->setValue($a_default_value);
+                $fprop->setValue((string) $a_default_value);
                 $fprop->setSize(40);
                 $fprop->setMaxLength(255);
                 $fprop->setRequired((bool) $definition['required']);
@@ -110,7 +110,7 @@ class ilCustomUserFieldsHelper
                     'udf_' . $definition['field_id']
                 );
                 $fprop->setDisabled(!$a_changeable);
-                $fprop->setValue($a_default_value);
+                $fprop->setValue((string) $a_default_value);
                 $fprop->setUseRte(true);
                 $fprop->setRequired((bool) $definition['required']);
                 break;
