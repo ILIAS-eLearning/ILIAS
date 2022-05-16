@@ -8,9 +8,9 @@
  */
 class ilTaxonomyClassificationProvider extends ilClassificationProvider
 {
-    protected array $selection;
+    protected array $selection = [];
     protected static array $valid_tax_map = [];
-    protected int $incoming_id;
+    protected int $incoming_id = 0;
 
     public static function isActive(int $a_parent_ref_id, int $a_parent_obj_id, string $a_parent_obj_type) : bool
     {
