@@ -178,7 +178,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
                         );
                     }
                     
-                    $data[$idx]->addPoint($var->abs, $row_idx);
+                    $data[$idx]->addPoint((float) $var->abs, $row_idx);
                 }
             }
         }

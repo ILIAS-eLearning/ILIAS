@@ -460,7 +460,7 @@ abstract class AbstractUIModifier implements UIModifier
                         $list[] = "<li>" . nl2br(htmlentities($item)) . "</li>";
                     }
                     $list[] = "</ul>";
-                    $acc->addItem($var, implode("\n", $list));
+                    $acc->addItem((string) $var, implode("\n", $list));
                 }
 
                 $a_tpl->setVariable("TEXT_ACC", $acc->getHTML());
