@@ -23,7 +23,7 @@ class ilLPStatusCollectionMobs extends ilLPStatus
         $users = array();
 
         $status_info = ilLPStatusWrapper::_getStatusInfo($a_obj_id);
-        if (is_array($status_info["user_status"]["completed"])) {
+        if (isset($status_info["user_status"]["completed"])) {
             $users = $status_info["user_status"]["completed"];
         }
 
