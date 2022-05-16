@@ -639,7 +639,7 @@ class ilAccess implements ilAccessHandler
                             ilObject::_lookupTitle($condition["trigger_obj_id"]) . " " .
                             $this->language->txt("condition_" . $condition["operator"]) . " " .
                             $condition["value"],
-                            $condition
+                            serialize($condition)
                         );
                     }
                     return false;
@@ -658,7 +658,7 @@ class ilAccess implements ilAccessHandler
                         ilObject::_lookupTitle($condition["trigger_obj_id"]) . " " .
                         $this->language->txt("condition_" . $condition["operator"]) . " " .
                         $condition["value"],
-                        $condition
+                        serialize($condition)
                     );
                 }
                 return false;

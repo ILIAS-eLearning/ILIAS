@@ -496,7 +496,8 @@ class ilPersonalSettingsGUI
             1 => $this->lng->txt("user_lv_keep_only_for_session"),
             2 => $this->lng->txt("user_lv_do_not_store"));
         $lv->setOptions($options);
-        $lv->setValue((int) $ilUser->prefs["store_last_visited"]);
+        $last_visited = (int) ($ilUser->prefs["store_last_visited"] ?? 0);
+        $lv->setValue($last_visited);
         $this->form->addItem($lv);
 
 
