@@ -6,7 +6,7 @@ or contribute a fix via [Pull Request](../../../docs/development/contributing.md
 
 ## Integrated Services
 
-- The Mediacast Module component employs the following services, please consult the respective privacy.mds
+- The Content Style component employs the following services, please consult the respective privacy.mds
     - The **Object** service stores the account which created the
       object as it's owner and creation and update timestamps for the
       object.
