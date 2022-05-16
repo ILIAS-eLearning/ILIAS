@@ -1843,7 +1843,7 @@ class ilObjMediaObject extends ilObject
                 $par = ilExternalMediaAnalyzer::extractVimeoParameters($st_item->getLocation());
                 $meta = ilExternalMediaAnalyzer::getVimeoMetadata($par["id"]);
                 $this->setTitle($meta["title"] ?? "");
-                $description = str_replace("\n", "", $meta["description"]) ?? "";
+                $description = str_replace("\n", "", $meta["description"] ?? "");
                 $description = str_replace(["<br>", "<br />"], ["\n", "\n"], $description);
                 $description = strip_tags($description);
                 $this->setDescription($description);
@@ -1865,7 +1865,7 @@ class ilObjMediaObject extends ilObject
                 $par = ilExternalMediaAnalyzer::extractYoutubeParameters($st_item->getLocation());
                 $meta = ilExternalMediaAnalyzer::getYoutubeMetadata($par["v"]);
                 $this->setTitle($meta["title"] ?? "");
-                $description = str_replace("\n", "", $meta["description"]) ?? "";
+                $description = str_replace("\n", "", $meta["description"] ?? "");
                 $description = str_replace(["<br>", "<br />"], ["\n", "\n"], $description);
                 $description = strip_tags($description);
                 $this->setDescription($description);
