@@ -45,14 +45,12 @@ class SearchMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
             $html = "";
 
             // user interface plugin slot + default rendering
+            $html = $main_search->getHTML();
             $uip = new ilUIHookProcessor(
                 "Services/MainMenu",
                 "main_menu_search",
-                array("main_menu_gui" => $this, "main_menu_search_gui" => $main_search)
+                array("main_menu_gui" => $this, "main_menu_search_gui" => $main_search, "html" => $html)
             );
-            if (!$uip->replaced()) {
-                $html = $main_search->getHTML();
-            }
 
             return $this->dic->ui()->factory()->legacy($uip->getHTML($html));
         };
