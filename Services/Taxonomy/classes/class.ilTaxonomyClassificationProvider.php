@@ -31,7 +31,7 @@ class ilTaxonomyClassificationProvider extends ilClassificationProvider
             $tax_exp->setSkipRootNode(true);
             $tax_exp->setOnClick("il.Classification.toggle({tax_node: '{NODE_CHILD}'});");
 
-            if (is_array($this->selection)) {
+            if (isset($this->selection) && is_array($this->selection)) {
                 foreach ($this->selection as $node_id) {
                     $tax_exp->setPathOpen($node_id);
                     $tax_exp->setNodeSelected($node_id);

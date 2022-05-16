@@ -143,7 +143,7 @@ class ilMapArea
         //echo $area_rec["Shape"];
         $this->setNr((int) $area_rec["nr"]);
         $this->setCoords($area_rec["coords"]);
-        $this->setLinkType($area_rec["link_type"]);
+        $this->setLinkType($area_rec["link_type"] ?? '');
         $this->setTitle($area_rec["title"]);
         $this->setHref($area_rec["href"]);
         $this->setTarget($area_rec["target"]);

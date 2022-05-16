@@ -62,7 +62,7 @@ class ilTaxMDGUI
      * @return mixed|string
      * @throws ilCtrlException
      */
-    public function executeCommand() : mixed
+    public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("show");

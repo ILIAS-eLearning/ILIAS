@@ -18,7 +18,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
     protected string $assigned_item_comp_id;
     protected int $assigned_item_obj_id;
     protected string $assigned_item_type;
-    protected string $list_info;
+    protected string $list_info = '';
     protected int $current_tax_node;
     protected int $requested_tax_id;
     protected string $requested_move_ids;

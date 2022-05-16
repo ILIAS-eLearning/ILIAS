@@ -67,6 +67,6 @@ class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
      */
     public function getTitleForNodeId($a_id) : string
     {
-        return ilTaxonomyNode::_lookupTitle($a_id);
+        return ilTaxonomyNode::_lookupTitle((int) $a_id);
     }
 }
