@@ -229,7 +229,11 @@ class ilMDRights extends ilMDBase
             "AND obj_id = " . $ilDB->quote($a_obj_id, 'integer') . " ";
         $res = $ilDB->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        return $row->description ?: '';
+        
+        if (isset($row) && isset($row->description)) {
+            return $row->description;
+        }
+        return '';
     }
 
     // STATIC

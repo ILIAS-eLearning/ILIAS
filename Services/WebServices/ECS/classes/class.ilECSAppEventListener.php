@@ -69,7 +69,7 @@ class ilECSAppEventListener implements ilAppEventListener
                 if ($a_event === 'afterCreate') {
                     $user = $a_parameter['user_obj'];
                     $this->handleMembership($user);
-                    $this->handleNewAccountCreation((string) $a_parameter['username']);
+                    $this->handleNewAccountCreation((string) $user->getLogin());
                 }
                 break;
             

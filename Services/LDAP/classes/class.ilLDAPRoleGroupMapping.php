@@ -165,6 +165,10 @@ class ilLDAPRoleGroupMapping
      */
     public function deleteUser($a_usr_id) : bool
     {
+        if (!$this->active_servers) {
+            return false;
+        }
+        
         foreach ($this->mappings as $role_id) {
             $this->deassign($role_id, $a_usr_id);
         }
