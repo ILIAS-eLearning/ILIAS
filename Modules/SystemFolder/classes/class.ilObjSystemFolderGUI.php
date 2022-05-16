@@ -1706,6 +1706,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilSetting = $this->settings;
         
         $this->form = new ilPropertyFormGUI();
+        $this->form->setFormAction($this->ctrl->getFormAction($this, 'saveJavaServer'));
         
         // pdf fonts
         $pdf = new ilFormSectionHeaderGUI();
