@@ -39,7 +39,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
     private Renderer $uiRenderer;
     private Storage $settingsStorage;
 
-    public function __construct(array $a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
+    public function __construct($a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         global $DIC;
 
