@@ -32,7 +32,7 @@ class ilObjForum extends ilObject
     private static array $ref_id_to_forum_id_cache = [];
     /** @var array<int, array{num_posts: int, num_unread_posts: int, num_new_posts: int}>  */
     private static array $forum_statistics_cache = [];
-    /** @var array<int, array>  */
+    /** @var array<int, array|null>  */
     private static array $forum_last_post_cache = [];
     private \ILIAS\DI\RBACServices $rbac;
     private ilLogger $logger;
@@ -939,7 +939,7 @@ class ilObjForum extends ilObject
         return self::$forum_statistics_cache[$ref_id];
     }
 
-    public static function lookupLastPostByRefId(int $ref_id) : array
+    public static function lookupLastPostByRefId(int $ref_id) : ?array
     {
         global $DIC;
 
@@ -947,7 +947,7 @@ class ilObjForum extends ilObject
         $ilUser = $DIC->user();
         $ilDB = $DIC->database();
 
-        if (isset(self::$forum_last_post_cache[$ref_id])) {
+        if (array_key_exists($ref_id, self::$forum_last_post_cache)) {
             return self::$forum_last_post_cache[$ref_id];
         }
 
@@ -982,6 +982,10 @@ class ilObjForum extends ilObject
         );
 
         $data = $ilDB->fetchAssoc($res);
+        if (!is_array($data) || empty($data)) {
+            self::$forum_last_post_cache[$ref_id] = null;
+            return self::$forum_last_post_cache[$ref_id];
+        }
 
         $casted_data = [];
         $casted_data['pos_pk'] = (int) $data['pos_pk'];
