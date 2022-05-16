@@ -183,6 +183,7 @@ class LoggingJavaScriptBinding implements JavaScriptBinding
 
     public function getOnLoadCodeAsync() : string
     {
+        return "";
     }
 }
 
