@@ -183,7 +183,7 @@ class ilNotificationDatabaseHandler
         $result = [];
 
         while ($row = $ilDB->fetchAssoc($res)) {
-            if (!$result[$row['module']]) {
+            if (!isset($result[$row['module']])) {
                 $result[$row['module']] = [];
             }
 
