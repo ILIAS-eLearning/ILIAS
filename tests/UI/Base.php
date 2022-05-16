@@ -23,7 +23,6 @@ use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use PHPUnit\Framework\TestCase;
-use ILIAS\UI\Renderer;
 
 class ilIndependentTemplateFactory implements TemplateFactory
 {
