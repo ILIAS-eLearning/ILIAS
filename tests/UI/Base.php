@@ -9,6 +9,7 @@ require_once(__DIR__ . "/../../Services/Language/classes/class.ilLanguage.php");
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Component as IComponent;
+use ILIAS\UI\Implementation\Render\DecoratedRenderer;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
@@ -181,6 +182,7 @@ class LoggingJavaScriptBinding implements JavaScriptBinding
 
     public function getOnLoadCodeAsync() : string
     {
+        return '';
     }
 }
 
@@ -212,6 +214,25 @@ class TestDefaultRenderer extends DefaultRenderer
     public function _getContexts() : array
     {
         return $this->getContexts();
+    }
+}
+
+class TestDecoratedRenderer extends DecoratedRenderer
+{
+    private bool $manipulate = false;
+
+    public function manipulate() : void
+    {
+        $this->manipulate = true;
+    }
+
+    protected function manipulateRendering($component, Renderer $root) : ?string
+    {
+        if ($this->manipulate) {
+            return "This content was manipulated";
+        } else {
+            return null;
+        }
     }
 }
 
@@ -356,6 +377,11 @@ abstract class ILIAS_UI_TestBase extends TestCase
             )
         );
         return new TestDefaultRenderer($component_renderer_loader, $with_stub_renderings);
+    }
+
+    public function getDecoratedRenderer(Renderer $default) : TestDecoratedRenderer
+    {
+        return new TestDecoratedRenderer($default);
     }
 
     public function normalizeHTML(string $html) : string
