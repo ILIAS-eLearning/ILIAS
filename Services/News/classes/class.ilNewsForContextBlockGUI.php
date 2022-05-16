@@ -739,7 +739,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $tpl->setCurrentBlock("context");
                     $context_opened = true;
                     $cont_loc = new ilLocatorGUI();
-                    $cont_loc->addContextItems($item["loc_context"], true, $loc_stop);
+                    $cont_loc->addContextItems($item["loc_context"], true, (int) $loc_stop);
                     $tpl->setVariable("CONTEXT_LOCATOR", $cont_loc->getHTML());
                 }
                 
