@@ -21,11 +21,11 @@
 class ilBadgeImageTemplate
 {
     protected ilDBInterface $db;
-    protected int $id;
-    protected string $title;
-    protected string $image;
+    protected int $id = 0;
+    protected string $title = "";
+    protected string $image = "";
     /** @var string[] */
-    protected array $types;
+    protected ?array $types = null;
     
     public function __construct(int $a_id = null)
     {

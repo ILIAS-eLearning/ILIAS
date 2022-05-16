@@ -734,7 +734,7 @@ class ilTable2GUI extends ilTableGUI
                     $item->writeToSession();
                 }
             } elseif ($stored) {	// take stored values
-                $this->selected_filter[$k] = $sel_filters[$k];
+                $this->selected_filter[$k] = $sel_filters[$k] ?? "";
             }
         }
 
