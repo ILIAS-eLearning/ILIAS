@@ -939,14 +939,12 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
         $html = "";
         if (is_object($ilPluginAdmin)) {
             include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
+            $html = $ilLocator->getHTML();
             $uip = new ilUIHookProcessor(
                 "Services/Locator",
                 "main_locator",
-                array("locator_gui" => $ilLocator)
+                array("locator_gui" => $ilLocator, "html" => $html)
             );
-            if (!$uip->replaced()) {
-                $html = $ilLocator->getHTML();
-            }
             $html = $uip->getHTML($html);
         } else {
             $html = $ilLocator->getHTML();
