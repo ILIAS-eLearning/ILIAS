@@ -248,14 +248,15 @@ abstract class ilContainerContentGUI
                 
                 // user interface plugin slot + default rendering
                 include_once("./Services/UIComponent/classes/class.ilUIHookProcessor.php");
+                $html = $ilCtrl->getHTML($column_gui);
                 $uip = new ilUIHookProcessor(
                     "Services/Container",
                     "right_column",
-                    array("container_content_gui" => $this)
+                    array(
+                        "container_content_gui" => $this,
+                        "html" => $html
+                    )
                 );
-                if (!$uip->replaced()) {
-                    $html = $ilCtrl->getHTML($column_gui);
-                }
                 $html = $uip->getHTML($html);
             }
         }
