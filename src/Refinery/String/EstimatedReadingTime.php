@@ -27,14 +27,20 @@ use DOMDocument;
 use DOMText;
 use DOMCdataSection;
 use DOMXPath;
+use LibXMLError;
 
 class EstimatedReadingTime implements Transformation
 {
+    private const LIBXML_CODE_HTML_UNKNOWN_TAG = 801;
+
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
 
     private int $wordsPerMinute = 275;
     private bool $withImages;
+    private bool $xmlErrorState = false;
+    /** @var LibXMLError[] */
+    private array $xmlErrors = [];
 
     public function __construct(bool $withImages)
     {
@@ -63,20 +69,30 @@ class EstimatedReadingTime implements Transformation
 
         $document = new DOMDocument();
 
-        set_error_handler(static function (int $severity, string $message, string $file, int $line, array $errcontext) : void {
-            throw new ErrorException($message, $severity, $severity, $file, $line);
-        });
-
         try {
+            set_error_handler(static function (int $severity, string $message, string $file, int $line) : void {
+                throw new ErrorException($message, $severity, $severity, $file, $line);
+            });
+
+            $this->beginXmlLogging();
+
             if (!$document->loadHTML($text)) {
-                throw new InvalidArgumentException(__METHOD__ . " the argument is not a XHTML string.");
+                throw new InvalidArgumentException(__METHOD__ . " the argument is not a parsable XHTML string.");
             }
         } catch (ErrorException $e) {
-            throw new InvalidArgumentException(__METHOD__ . " the argument is not a XHTML string: " . $e->getMessage());
+            throw new InvalidArgumentException(__METHOD__ . " the argument is not a parsable XHTML string: " . $e->getMessage());
         } finally {
             restore_error_handler();
+            $this->addErrors();
+            $this->endXmlLogging();
         }
-        
+
+        if ($this->xmlErrorsOccured()) {
+            throw new InvalidArgumentException(
+                __METHOD__ . " the argument is not a parsable XHTML string: " . $this->xmlErrorsToString()
+            );
+        }
+
         $numberOfWords = 0;
 
         $xpath = new DOMXPath($document);
@@ -93,18 +109,18 @@ class EstimatedReadingTime implements Transformation
                 $wordsInContent = array_filter($wordsInContent, static function (string $word) : bool {
                     return preg_replace('/^\pP$/u', '', $word) !== '';
                 });
-                
+
                 $numberOfWords += count($wordsInContent);
             }
         }
-        
+
         if ($this->withImages) {
             $imageNodes = $document->getElementsByTagName('img');
             $numberOfWords += $this->calculateWordsForImages($imageNodes->length);
         }
 
         $readingTime = ceil($numberOfWords / $this->wordsPerMinute);
-        
+
         return (int) $readingTime;
     }
 
@@ -126,5 +142,55 @@ class EstimatedReadingTime implements Transformation
         }
 
         return $time;
+    }
+
+    private function beginXmlLogging() : void
+    {
+        $this->xmlErrorState = libxml_use_internal_errors(true);
+        libxml_clear_errors();
+    }
+
+    private function addErrors() : void
+    {
+        $currentErrors = libxml_get_errors();
+        libxml_clear_errors();
+
+        $this->xmlErrors = $currentErrors;
+    }
+
+    private function endXmlLogging() : void
+    {
+        libxml_use_internal_errors($this->xmlErrorState);
+    }
+
+    /**
+     * @return LibXMLError[]
+     */
+    private function relevantXmlErrors() : array
+    {
+        return array_filter($this->xmlErrors, static function (LibXMLError $error) : bool {
+            return $error->code !== self::LIBXML_CODE_HTML_UNKNOWN_TAG;
+        });
+    }
+
+    private function xmlErrorsOccured() : bool
+    {
+        return $this->relevantXmlErrors() !== [];
+    }
+
+    private function xmlErrorsToString() : string
+    {
+        $text = '';
+        foreach ($this->relevantXmlErrors() as $error) {
+            $text .= implode(',', [
+                'level=' . $error->level,
+                'code=' . $error->code,
+                'line=' . $error->line,
+                'col=' . $error->column,
+                'msg=' . trim($error->message)
+            ]) . "\n";
+        }
+
+        return $text;
     }
 }
