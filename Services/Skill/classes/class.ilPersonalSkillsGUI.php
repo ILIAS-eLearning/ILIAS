@@ -512,15 +512,13 @@ class ilPersonalSkillsGUI
     public function getSkillHTML($a_top_skill_id, $a_user_id = 0, $a_edit = false, $a_tref_id = 0)
     {
         // user interface plugin slot + default rendering
+        $skill_html = $this->renderSkillHTML($a_top_skill_id, $a_user_id, $a_edit, $a_tref_id);
         $uip = new ilUIHookProcessor(
             "Services/Skill",
             "personal_skill_html",
             array("personal_skills_gui" => $this, "top_skill_id" => $a_top_skill_id, "user_id" => $a_user_id,
-                "edit" => $a_edit, "tref_id" => $a_tref_id)
+                "edit" => $a_edit, "tref_id" => $a_tref_id, "html" => $skill_html)
         );
-        if (!$uip->replaced()) {
-            $skill_html = $this->renderSkillHTML($a_top_skill_id, $a_user_id, $a_edit, $a_tref_id);
-        }
         $skill_html = $uip->getHTML($skill_html);
 
         return $skill_html;
