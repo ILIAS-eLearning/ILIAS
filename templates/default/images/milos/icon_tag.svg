@@ -1,18 +1,1 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
-<polygon fill="#52658A" points="5.8,0.7 0.7,5.8 2.5,15.2 18.8,31.6 18.8,31.6 31.6,18.8 31.6,18.8 15.2,2.5 "/>
-<g>
-	<defs>
-		<rect id="SVGID_1_" x="0.7" y="0.7" width="30.8" height="30.8"/>
-	</defs>
-	<clipPath id="SVGID_2_">
-		<use xlink:href="#SVGID_1_"  overflow="visible"/>
-	</clipPath>
-	<path clip-path="url(#SVGID_2_)" fill="#FFFFFF" d="M8.1,8.1c0.6-0.6,0.6-1.5,0-2.1c-0.6-0.6-1.5-0.6-2.1,0c-0.6,0.6-0.6,1.5,0,2.1
-		C6.5,8.6,7.5,8.6,8.1,8.1"/>
-</g>
-<rect x="9" y="11.5" transform="matrix(-0.7071 -0.7071 0.7071 -0.7071 16.9541 40.9332)" fill="#FFFFFF" width="16" height="11"/>
-</svg>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 294.02 294.02"><defs><style>.cls-1{fill:none;}.cls-2{clip-path:url(#clip-path);}.cls-3{fill:#52668c;}</style><clipPath id="clip-path" transform="translate(-12.99 -12.99)"><rect class="cls-1" x="12.99" y="12.99" width="294.02" height="294.02"/></clipPath></defs><g class="cls-2"><path class="cls-3" d="M271.66,196.7l-75,75L61.18,136.13l74.95-74.95ZM82.74,82.74a17.5,17.5,0,1,1,0-24.75,17.51,17.51,0,0,1,0,24.75M307,196.7,143.19,32.88,66.46,13,13,66.46l19.89,76.73L196.7,307Z" transform="translate(-12.99 -12.99)"/></g></svg>
