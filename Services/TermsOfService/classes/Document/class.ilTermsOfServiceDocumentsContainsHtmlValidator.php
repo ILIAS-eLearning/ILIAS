@@ -47,7 +47,7 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
         }
 
         try {
-            set_error_handler(static function (int $severity, string $message, string $file, int $line, array $errcontext) : void {
+            set_error_handler(static function (int $severity, string $message, string $file, int $line) : void {
                 throw new ErrorException($message, $severity, $severity, $file, $line);
             });
 
