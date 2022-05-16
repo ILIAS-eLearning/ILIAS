@@ -88,7 +88,7 @@ class ilCustomUserFieldsHelper
         array $definition,
         bool $a_changeable = true,
         string $a_default_value = null
-    ) : ilFormPropertyGUI {
+    ) : ?ilFormPropertyGUI {
         $fprop = null;
         
         switch ($definition['field_type']) {
