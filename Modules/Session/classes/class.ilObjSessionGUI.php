@@ -168,9 +168,6 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
                     $form = $this->initCreateForm("sess");
                 } else {
                     $form = $this->initForm("edit");
-                    if ($form === true) {
-                        $form = $this->form;
-                    }
                 }
                 $ilCtrl->forwardCommand($form);
                 break;
@@ -770,8 +767,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (!is_object($this->object)) {
             $this->object = new ilObjSession();
         }
-        $this->initForm('create');
-        return $this->form;
+        return $this->initForm('create');
     }
 
     /**
@@ -806,10 +802,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         
         $this->ctrl->saveParameter($this, "new_type");
         
-        $this->initForm('create');
+        $form = $this->initForm('create');
         $ilErr->setMessage('');
-        if (!$this->form->checkInput()) {
+        if (!$form->checkInput()) {
+            $form->setValuesByPost();
             $ilErr->setMessage($this->lng->txt('err_check_input'));
+            $this->createObject($form);
+            return false;
         }
 
         if (
@@ -1057,10 +1056,13 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         
         $old_autofill = $this->object->hasWaitingListAutoFill();
                 
-        $this->initForm('edit');
+        $form = $this->initForm('edit');
         $ilErr->setMessage('');
         if (!$this->form->checkInput()) {
             $ilErr->setMessage($this->lng->txt('err_check_input'));
+            $form->setValuesByPost();
+            $this->editObject();
+            return false;
         }
 
         if (
@@ -1580,7 +1582,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ilUser = $DIC['ilUser'];
         
         if (is_object($this->form)) {
-            return true;
+            return $this->form;
         }
         
         $this->lng->loadLanguageModule('dateplaner');
@@ -1640,6 +1642,7 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // title
         $title = new ilTextInputGUI($this->lng->txt('event_title'), 'title');
+        $title->setRequired(true);
         $title->setValue($this->object->getTitle());
         $title->setSize(50);
         $title->setMaxLength(70);
@@ -1786,22 +1789,18 @@ class ilObjSessionGUI extends ilObjectGUI implements ilDesktopItemHandling
         switch ($a_mode) {
             case 'create':
                 $this->form->setTitle($this->lng->txt('event_table_create'));
-
                 $this->form->addCommandButton('save', $this->lng->txt('event_btn_add'));
                 $this->form->addCommandButton('saveAndAssignMaterials', $this->lng->txt('event_btn_add_edit'));
                 $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
-        
-                return true;
+                return $this->form;
             
             case 'edit':
                 $this->form->setTitle($this->lng->txt('event_table_update'));
-
                 $this->form->addCommandButton('update', $this->lng->txt('save'));
                 $this->form->addCommandButton('cancelEdit', $this->lng->txt('cancel'));
-                
-                return true;
+                return $this->form;
         }
-        return true;
+        return $this->form;
     }
     
     /**
