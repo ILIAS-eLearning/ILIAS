@@ -236,7 +236,7 @@ class ilObjectCopyGUI
         $_SESSION['paste_copy_repexpand'] = array();
         
         // copy opened nodes from repository explorer
-        $_SESSION['paste_copy_repexpand'] = is_array($_SESSION['repexpand']) ? $_SESSION['repexpand'] : array();
+        $_SESSION['paste_copy_repexpand'] = $_SESSION['repexpand'] ?? [];
 
         // begin-patch mc
         $this->setTargets(array());
