@@ -787,8 +787,9 @@ abstract class ilAdvancedMDFieldDefinition
         $this->setPosition((int) $a_data["position"]);
         $this->setSearchable((bool) $a_data["searchable"]);
         $this->setRequired((bool) $a_data["required"]);
-        if ($a_data["field_values"] && is_array($a_data['field_values'])) {
-            $this->importFieldDefinition(unserialize($a_data["field_values"]));
+        $field_values = unserialize($a_data['field_values']);
+        if (is_array($field_values)) {
+            $this->importFieldDefinition($field_values);
         }
     }
 
