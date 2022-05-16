@@ -9,6 +9,8 @@ require_once(__DIR__ . "/../../Services/Language/classes/class.ilLanguage.php");
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Component as IComponent;
+use ILIAS\UI\Implementaiton\Component as I;
+use ILIAS\UI\Implementation\Render\DecoratedRenderer;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
@@ -18,10 +20,10 @@ use ILIAS\UI\Implementation\Render;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
 use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 use PHPUnit\Framework\TestCase;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use PHPUnit\Framework\MockObject\MockObject;
-use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\Component;
 
 class ilIndependentTemplateFactory implements TemplateFactory
@@ -232,6 +234,25 @@ class TestDummyRenderer implements Render\ComponentRenderer
     }
 }
 
+class TestDecoratedRenderer extends DecoratedRenderer
+{
+    private $manipulate = false;
+
+    public function manipulate() : void
+    {
+        $this->manipulate = true;
+    }
+
+    protected function manipulateRendering($component, Renderer $root) : ?string
+    {
+        if ($this->manipulate) {
+            return "This content was manipulated";
+        } else {
+            return null;
+        }
+    }
+}
+
 class IncrementalSignalGenerator extends SignalGenerator
 {
     protected int $id = 0;
@@ -356,6 +377,11 @@ abstract class ILIAS_UI_TestBase extends TestCase
             )
         );
         return new TestDefaultRenderer($component_renderer_loader, $with_stub_renderings);
+    }
+    
+    public function getDecoratedRenderer(Renderer $default)
+    {
+        return new TestDecoratedRenderer($default);
     }
 
     public function normalizeHTML(string $html) : string
