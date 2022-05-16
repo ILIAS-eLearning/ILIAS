@@ -1842,13 +1842,13 @@ class ilObjMediaObject extends ilObject
                 $st_item->setFormat("video/vimeo");
                 $par = ilExternalMediaAnalyzer::extractVimeoParameters($st_item->getLocation());
                 $meta = ilExternalMediaAnalyzer::getVimeoMetadata($par["id"]);
-                $this->setTitle($meta["title"]);
-                $description = str_replace("\n", "", $meta["description"]);
+                $this->setTitle($meta["title"] ?? "");
+                $description = str_replace("\n", "", $meta["description"]) ?? "";
                 $description = str_replace(["<br>", "<br />"], ["\n", "\n"], $description);
                 $description = strip_tags($description);
                 $this->setDescription($description);
-                $st_item->setDuration((int) $meta["duration"]);
-                $url = parse_url($meta["thumbnail_url"]);
+                $st_item->setDuration((int) ($meta["duration"] ?? 0));
+                $url = parse_url($meta["thumbnail_url"] ?? "");
                 $file = basename($url["path"]);
                 $ext = pathinfo($file, PATHINFO_EXTENSION);
                 if ($ext == "") {
@@ -1864,13 +1864,13 @@ class ilObjMediaObject extends ilObject
                 $st_item->setFormat("video/youtube");
                 $par = ilExternalMediaAnalyzer::extractYoutubeParameters($st_item->getLocation());
                 $meta = ilExternalMediaAnalyzer::getYoutubeMetadata($par["v"]);
-                $this->setTitle($meta["title"]);
-                $description = str_replace("\n", "", $meta["description"]);
+                $this->setTitle($meta["title"] ?? "");
+                $description = str_replace("\n", "", $meta["description"]) ?? "";
                 $description = str_replace(["<br>", "<br />"], ["\n", "\n"], $description);
                 $description = strip_tags($description);
                 $this->setDescription($description);
-                $st_item->setDuration((int) $meta["duration"]);
-                $url = parse_url($meta["thumbnail_url"]);
+                $st_item->setDuration((int) ($meta["duration"] ?? 0));
+                $url = parse_url($meta["thumbnail_url"] ?? "");
                 $file = basename($url["path"]);
                 copy(
                     $meta["thumbnail_url"],
