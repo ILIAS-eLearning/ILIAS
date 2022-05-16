@@ -139,9 +139,9 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
             ilLegacyFormElementsUtil::makeTimeSelect(
                 $this->getPostVar(),
                 !$val[4],
-                $val[2],
-                $val[3],
-                $val[4],
+                (int) $val[2],
+                (int) $val[3],
+                (int) $val[4],
                 false
             )
         );

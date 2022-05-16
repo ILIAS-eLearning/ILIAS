@@ -688,13 +688,15 @@ class ilMDEditorGUI
 
     public function updateQuickEdit() : bool
     {
+        $this->md_section = $this->md_obj->getGeneral();
+
         $form = $this->initQuickEditForm(null);
         if (!$form->checkInput()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('title_required'));
+            $form->setValuesByPost();
             $this->listQuickEdit($form);
             return false;
         }
-        $this->md_section = $this->md_obj->getGeneral();
         $this->md_section->setTitle($form->getInput('gen_title'));
         $this->md_section->update();
 
