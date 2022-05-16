@@ -125,12 +125,12 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
             $title = ilWikiPage::lookupTitle($p["page_id"]);
             if (!$this->export) {
                 $list->addListNode("<p class='small'><a href='" .
-                    ilObjWikiGUI::getGotoLink($this->requested_ref_id, $title)
-                    . "'>" . $title . "</a></p>", $cnt, (int) $cpar[$p["indent"] - 1]);
+                    ilObjWikiGUI::getGotoLink($this->requested_ref_id, (string) $title)
+                    . "'>" . $title . "</a></p>", $cnt, (int) ($cpar[$p["indent"] - 1] ?? 0));
             } else {
                 $list->addListNode("<p class='small'><a href='" .
                     "wpg_" . $p["page_id"] . ".html" .
-                    "'>" . $title . "</a></p>", $cnt, (int) $cpar[$p["indent"] - 1]);
+                    "'>" . $title . "</a></p>", $cnt, (int) ($cpar[$p["indent"] - 1] ?? 0));
             }
             $cpar[$p["indent"]] = $cnt;
         }

@@ -326,9 +326,9 @@ class ilMDGeneral extends ilMDBase
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $this->setRBACId((int) $row->rbac_id);
                 $this->setObjId((int) $row->obj_id);
-                $this->setObjType($row->obj_type);
-                $this->setStructure($row->general_structure);
-                $this->setTitle($row->title);
+                $this->setObjType((string) $row->obj_type);
+                $this->setStructure((string) $row->general_structure);
+                $this->setTitle((string) $row->title);
                 $this->setTitleLanguage(new ilMDLanguageItem($row->title_language));
                 $this->setCoverage((string) $row->coverage);
                 $this->setCoverageLanguage(new ilMDLanguageItem($row->coverage_language));

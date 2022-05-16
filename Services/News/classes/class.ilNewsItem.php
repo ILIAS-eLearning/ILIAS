@@ -833,7 +833,7 @@ class ilNewsItem
             }
 
             if ($v["context_obj_type"] === "frm") {
-                if ($forums[$v["context_obj_id"]] == "") {
+                if (!isset($forums[$v["context_obj_id"]])) {
                     // $forums[forum_id] = news_id;
                     $forums[$v["context_obj_id"]] = $k;
                     $last_aggregation_forum = $v["context_obj_id"];

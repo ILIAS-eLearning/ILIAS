@@ -258,7 +258,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                         case "MyCourses":
                         case "MyCoursesTeaser":
                             $subs = null;
-                            if (trim($blocks[3][$idx])) {
+                            if (trim(($blocks[3][$idx] ?? ""))) {
                                 foreach (explode(";", $blocks[3][$idx]) as $sub) {
                                     if (trim($sub)) {
                                         $subs[] = trim($sub);

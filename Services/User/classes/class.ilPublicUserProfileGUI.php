@@ -23,12 +23,12 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     private bool $offline = false;
     protected ilUserDefinedFields $user_defined_fields;
     protected \ILIAS\User\ProfileGUIRequest $profile_request;
-    protected int $userid;
-    protected int $portfolioid;
-    protected string $backurl;
-    protected array $additional; // Missing array type.
-    protected bool $embedded;
-    protected array $custom_prefs; // Missing array type.
+    protected int $userid = 0;
+    protected int $portfolioid = 0;
+    protected string $backurl = "";
+    protected array $additional = []; // Missing array type.
+    protected bool $embedded = false;
+    protected array $custom_prefs = []; // Missing array type.
     protected ilObjUser $current_user;
     protected \ilSetting $setting;
 

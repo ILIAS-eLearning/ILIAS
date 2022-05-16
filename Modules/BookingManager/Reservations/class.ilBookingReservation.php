@@ -312,7 +312,7 @@ class ilBookingReservation
         $f = new ilBookingReservationDBRepositoryFactory();
         $repo = $f->getRepo();
         $res = $repo->getNumberOfReservations([$a_obj_id], $a_from, $a_to, true);
-        $booked_in_period = (int) $res[$a_obj_id]["cnt"];
+        $booked_in_period = (int) ($res[$a_obj_id]["cnt"] ?? 0);
 
         $per_slot = ilBookingObject::getNrOfItemsForObjects(array($a_obj_id));
         $per_slot = $per_slot[$a_obj_id];

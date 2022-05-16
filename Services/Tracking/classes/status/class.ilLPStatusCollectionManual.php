@@ -92,7 +92,7 @@ class ilLPStatusCollectionManual extends ilLPStatus
     ) : int {
         $info = self::_getStatusInfo($a_obj_id);
 
-        if (is_array($info["completed"])) {
+        if (isset($info["completed"])) {
             $completed = true;
             $in_progress = false;
             foreach ($info["completed"] as $user_ids) {

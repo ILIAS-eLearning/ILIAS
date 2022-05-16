@@ -21,8 +21,8 @@
  */
 class ilImageLinkButton extends ilLinkButton
 {
-    protected string $src;
-    protected bool $force_title;
+    protected string $src = "";
+    protected bool $force_title = false;
     
     public static function getInstance() : self
     {

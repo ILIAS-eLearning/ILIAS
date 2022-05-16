@@ -340,7 +340,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
             // if period starts in the past we have to include past reservations
             // :TODO: to be discussed
-            if (is_object($this->filter["fromto"]["from"]) &&
+            if (isset($this->filter["fromto"]["from"]) &&
                 $this->filter["fromto"]["from"]->get(IL_CAL_DATE) < date("Y-m-d")) {
                 $item->setChecked(true);
             }

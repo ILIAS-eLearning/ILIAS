@@ -788,6 +788,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 $mob_item = $mob_obj->getMediaItem("Standard");
                 if (stripos($mob_item->getFormat(), "image") !== false) {
                     $mob_size = $mob_item->getOriginalSize();
+                    if (is_null($mob_size)) {
+                        continue;
+                    }
                     if ($mob_size["width"] >= $a_width ||
                         $mob_size["height"] >= $a_height) {
                         if (!$a_export_directory) {
