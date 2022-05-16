@@ -575,7 +575,7 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
         $a_graph_items = array(array_pop($a_graph_items));
 
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstlp");
-        $chart->setSize(700, 500);
+        $chart->setSize("700", "500");
 
         $legend = new ilChartLegend();
         $chart->setLegend($legend);

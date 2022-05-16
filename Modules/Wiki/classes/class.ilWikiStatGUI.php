@@ -291,7 +291,7 @@ class ilWikiStatGUI
         $scope = ceil(count($a_data) / 31);
 
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "wikistat");
-        $chart->setSize("100%", 400);
+        $chart->setSize("100%", "400");
         $chart->setColors(array("#C0E0FF"));
 
         $legend = new ilChartLegend();

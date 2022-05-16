@@ -189,7 +189,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
         if ($text_shortened) {
             $this->chart_width = 500;
         }
-        $chart->setSize($this->chart_width, $this->chart_height);
+        $chart->setSize((string) $this->chart_width, (string) $this->chart_height);
 
         foreach ($data as $var) {
             $chart->addData($var);

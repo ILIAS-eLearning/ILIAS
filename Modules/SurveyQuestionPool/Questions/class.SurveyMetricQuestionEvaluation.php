@@ -127,7 +127,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         $chart->setColors($colors);
 
         // :TODO:
-        $chart->setSize($this->chart_width, $this->chart_height);
+        $chart->setSize((string) $this->chart_width, (string) $this->chart_height);
                         
         $data = $chart->getDataInstance(ilChartGrid::DATA_BARS);
         $data->setLabel($lng->txt("category_nr_selected"));
