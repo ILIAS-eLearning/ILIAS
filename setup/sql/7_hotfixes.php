@@ -1470,3 +1470,37 @@ if ($ilDB->tableColumnExists('adv_mdf_definition', 'field_values')) {
     $ilDB->modifyTableColumn('adv_mdf_definition', 'field_values', $field_infos);
 }
 ?>
+<#85>
+<?php
+// fixes https://mantis.ilias.de/view.php?id=32226: due to moving the favourites item
+// to a new provider, the GS will create a new entry once the main-menu administration
+// is entered. Therefore, if the hotfix can only be applied if the new entry wasn't
+// already created, otherwise we cannot tell if the user adapted the new item to work
+// around the bug. In this case we can just delete the old favourites' entry.
+
+if ($ilDB->tableExists('il_mm_items')) {
+    $result = $ilDB->fetchAll(
+        $ilDB->queryF(
+            "SELECT COUNT(identification) AS amount FROM il_mm_items WHERE identification = %s;",
+            ['text'],
+            ['ILIAS\\Repository\\Provider\\RepositoryMainBarProvider|mm_pd_sel_items']
+        )
+    );
+
+    if (0 === (int) $result[0]['amount']) {
+        $new_values = [
+            'identification' => ['text', 'ILIAS\\Repository\\Provider\\RepositoryMainBarProvider|mm_pd_sel_items'],
+        ];
+
+        $ilDB->update('il_mm_items', $new_values, [
+            'identification' => ['text', 'ILIAS\\PersonalDesktop\\PDMainBarProvider|mm_pd_sel_items'],
+        ]);
+    } else {
+        $ilDB->manipulateF(
+            "DELETE FROM il_mm_items WHERE identification = %s",
+            ['text'],
+            ['ILIAS\\PersonalDesktop\\PDMainBarProvider|mm_pd_sel_items']
+        );
+    }
+}
+?>
