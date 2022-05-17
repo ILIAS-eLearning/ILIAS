@@ -28,7 +28,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
     protected ilMyStaffAccess $access;
     protected Container $dic;
 
-    public function __construct(\ilObjectGUI $parent_obj, string $parent_cmd, Container $dic)
+    public function __construct(\ilMStListCompetencesSkillsGUI $parent_obj, string $parent_cmd, Container $dic)
     {
         $this->dic = $dic;
         $this->access = ilMyStaffAccess::getInstance();
@@ -105,9 +105,14 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $this->filter['skill_level'] = $item->getValue();
 
         //user
-        $item = new ilTextInputGUI($this->dic->language()->txt("login") . "/" . $this->dic->language()->txt("email") . "/" . $this->dic->language()
-                                                                                                                                       ->txt("name"),
-            "user");
+        $item = new ilTextInputGUI(
+            $this->dic->language()->txt("login") .
+            "/" .
+            $this->dic->language()->txt("email") .
+            "/" .
+            $this->dic->language()->txt("name")
+            , "user"
+        );
 
         $this->addFilterItem($item);
         $item->readFromSession();

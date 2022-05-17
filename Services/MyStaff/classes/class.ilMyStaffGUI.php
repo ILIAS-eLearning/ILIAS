@@ -10,6 +10,8 @@ use ILIAS\MyStaff\ListCourses\ilMStListCourse;
 class ilMyStaffGUI
 {
     public const CMD_INDEX = 'index';
+
+    // TODO: php8_review: remove unused constants
     public const TAB_LIST_USERS = 'list_users';
     public const TAB_LIST_COURSES = 'list_courses';
     public const TAB_LIST_CERTIFICATES = 'list_certificates';

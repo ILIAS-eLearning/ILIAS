@@ -47,7 +47,7 @@ class ilMStListCertificates
 
         $data = [];
         $users_per_position = ilMyStaffAccess::getInstance()->getUsersForUserPerPosition($this->dic->user()->getId());
-        foreach ($users_per_position as $position_id => $users) {
+        foreach ($users_per_position as $users) {
             $usr_data_filter = new UserDataFilter();
             $usr_data_filter = $usr_data_filter->withUserIds($users);
             $usr_data_filter = $usr_data_filter->withObjIds(ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(),
@@ -65,6 +65,7 @@ class ilMStListCertificates
         }
 
         $unique_cert_data = [];
+        // TODO: php8_review: $data is always empty at this point
         foreach ($data as $cert_data) {
             assert($cert_data instanceof UserCertificateDto);
             $unique_cert_data[$cert_data->getCertificateId()] = $cert_data;

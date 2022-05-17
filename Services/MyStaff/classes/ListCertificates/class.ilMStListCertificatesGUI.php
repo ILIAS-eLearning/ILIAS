@@ -18,7 +18,7 @@ class ilMStListCertificatesGUI
     const CMD_RESET_FILTER = 'resetFilter';
     protected ilTable2GUI $table;
     protected ilMyStaffAccess $access;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {

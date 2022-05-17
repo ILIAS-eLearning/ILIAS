@@ -79,6 +79,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         $certificates_fetcher = new ilMStListCertificates($DIC);
         $data = $certificates_fetcher->getData($options);
+        // TODO: php8_review: $options['limit'] is never used; typecasts potentially redundant
         $options['limit'] = array(
             'start' => intval($this->getOffset()),
             'end' => intval($this->getLimit()),
@@ -206,6 +207,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
     final public function fillRow(array $a_set) : void
     {
+        // TODO: php8_review: $a_set is used as an object but declared as array
         global $DIC;
 
         $propGetter = Closure::bind(function ($prop) {
@@ -256,6 +258,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
     protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $col = 0;
+        // TODO: php8_review: Expected parameter of type '\Certificate\API\Data\UserCertificateDto', 'array' $a_set provided
         foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
             $a_excel->setCell($a_row, $col, $v);
             $col++;
@@ -264,6 +267,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
+        // TODO: php8_review: $a_set should be an object but declared as array
         foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
             $a_csv->addColumn($v);
         }

@@ -26,6 +26,7 @@ class ilMStListCompetencesSkills
      */
     final public function getData(array $options)
     {
+        // TODO: php8_review: the function return int and ilMStListCompetencesSkill[]
         //Permission Filter
         $operation_access = ilOrgUnitOperation::OP_VIEW_COMPETENCES;
 
