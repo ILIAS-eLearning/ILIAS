@@ -17,6 +17,8 @@
  *********************************************************************/
 
 use ILIAS\Refinery\Transformation;
+use ILIAS\TA\Questions\assQuestionSuggestedSolution;
+use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 
@@ -660,19 +662,6 @@ abstract class assQuestion
         return array();
     }
 
-    public static function _getSuggestedSolutionCount(int $question_id) : int
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $result = $ilDB->queryF(
-            "SELECT suggested_solution_id FROM qpl_sol_sug WHERE question_fi = %s",
-            array('integer'),
-            array($question_id)
-        );
-        return $ilDB->numRows($result);
-    }
-
     /**
      * @return string HTML
      * @throws ilWACException
@@ -694,24 +683,44 @@ abstract class assQuestion
     {
         $output = array();
         foreach ($this->suggested_solutions as $solution) {
-            switch ($solution["type"]) {
-                case "lm":
-                case "st":
-                case "pg":
-                case "git":
-                    $output[] = '<a href="' . assQuestion::_getInternalLinkHref($solution["internal_link"]) . '">' . $this->lng->txt("solution_hint") . '</a>';
+            switch ($solution->getType()) {
+
+                case assQuestionSuggestedSolution::TYPE_LM:
+                case assQuestionSuggestedSolution::TYPE_LM_CHAPTER:
+                case assQuestionSuggestedSolution::TYPE_LM_PAGE:
+                case assQuestionSuggestedSolution::TYPE_GLOSARY_TERM:
+                    $output[] = '<a href="'
+                        . assQuestion::_getInternalLinkHref($solution->getInternalLink())
+                        . '">'
+                        . $this->lng->txt("solution_hint")
+                        . '</a>';
                     break;
-                case "file":
-                    $possible_texts = array_values(array_filter(array(
-                        ilLegacyFormElementsUtil::prepareFormOutput($solution['value']['filename']),
-                        ilLegacyFormElementsUtil::prepareFormOutput($solution['value']['name']),
-                        $this->lng->txt('tst_show_solution_suggested')
-                    )));
+
+                case assQuestionSuggestedSolution::TYPE_FILE:
+                    $file_value = $solution->getValue();
+                    $possible_texts = array_values(
+                        array_filter(
+                            [
+                                ilLegacyFormElementsUtil::prepareFormOutput($file_value->getTitle()),
+                                ilLegacyFormElementsUtil::prepareFormOutput($file_value->getFilename()),
+                                $this->lng->txt('tst_show_solution_suggested')
+                            ]
+                        )
+                    );
+
+                    require_once 'Services/WebAccessChecker/classes/class.ilWACSignedPath.php';
                     ilWACSignedPath::setTokenMaxLifetimeInSeconds(60);
-                    $output[] = '<a href="' . ilWACSignedPath::signFile($this->getSuggestedSolutionPathWeb() . $solution["value"]["name"]) . '">' . $possible_texts[0] . '</a>';
+                    $output[] = '<a href="'
+                        . ilWACSignedPath::signFile(
+                            $this->getSuggestedSolutionPathWeb() . $file_value->getFilename()
+                        )
+                        . '">'
+                        . $possible_texts[0]
+                        . '</a>';
                     break;
-                case "text":
-                    $solutionValue = $solution["value"];
+
+                case assQuestionSuggestedSolution::TYPE_TEXT:
+                    $solutionValue = $solution->getValue();
                     $solutionValue = $this->fixSvgToPng($solutionValue);
                     $solutionValue = $this->fixUnavailableSkinImageSources($solutionValue);
                     $output[] = $this->prepareTextareaOutput($solutionValue, true);
@@ -721,40 +730,6 @@ abstract class assQuestion
         return implode("<br />", $output);
     }
 
-    /**
-     * @deprecated Use loadSuggestedSolution instead
-     * @removal ILIAS 9
-     */
-    public function _getSuggestedSolution(int $question_id, int $subquestion_index = 0) : array
-    {
-        return $this->loadSuggestedSolution($question_id, $subquestion_index);
-    }
-
-    /**
-     * Returns a suggested solution for a given subquestion index
-     *
-     * @return array array("internal_link" => $row["internal_link"],"import_id" => $row["import_id"]);
-     */
-    public function loadSuggestedSolution(int $question_id, int $subquestion_index = 0) : array
-    {
-        $result = $this->db->queryF(
-            "SELECT * FROM qpl_sol_sug WHERE question_fi = %s AND subquestion_index = %s",
-            array('integer','integer'),
-            array($question_id, $subquestion_index)
-        );
-        if ($this->db->numRows($result) == 1) {
-            $row = $this->db->fetchAssoc($result);
-            return array(
-                "internal_link" => $row["internal_link"],
-                "import_id" => $row["import_id"]
-            );
-        }
-        return array();
-    }
-
-    /**
-     * @return string[] HTML
-     */
     public function getSuggestedSolutions() : array
     {
         return $this->suggested_solutions;
@@ -1552,12 +1527,7 @@ abstract class assQuestion
         }
 
         try {
-            // delete suggested solutions contained in the question
-            $affectedRows = $this->db->manipulateF(
-                "DELETE FROM qpl_sol_sug WHERE question_fi = %s",
-                array('integer'),
-                array($question_id)
-            );
+            $this->getSuggestedSolutionsRepo()->deleteForQuestion($question_id);
         } catch (Exception $e) {
             $this->ilLog->root()->error("EXCEPTION: Could not delete suggested solutions of question $question_id: $e");
             return;
@@ -1907,21 +1877,11 @@ abstract class assQuestion
             $this->external_id = $data['external_id'];
         }
 
-        $result = $this->db->queryF(
-            "SELECT * FROM qpl_sol_sug WHERE question_fi = %s",
-            array('integer'),
-            array($this->getId())
-        );
+        $suggested_solutions = $this->loadSuggestedSolutions();
         $this->suggested_solutions = array();
-        if ($this->db->numRows($result) > 0) {
-            while ($row = $this->db->fetchAssoc($result)) {
-                $value = (is_array(unserialize($row["value"], ['allowed_classes' => false]))) ? unserialize($row["value"], ['allowed_classes' => false]) : ilRTE::_replaceMediaObjectImageSrc($row["value"], 1);
-                $this->suggested_solutions[$row["subquestion_index"]] = array(
-                    "type" => $row["type"],
-                    "value" => $value,
-                    "internal_link" => $row["internal_link"],
-                    "import_id" => $row["import_id"]
-                );
+        if ($suggested_solutions) {
+            foreach ($suggested_solutions as $solution) {
+                $this->suggested_solutions[$solution->getSubquestionIndex()] = $solution;
             }
         }
     }
@@ -2029,8 +1989,6 @@ abstract class assQuestion
 
     public function saveToDb() : void
     {
-        $this->updateSuggestedSolutions();
-
         // remove unused media objects from ILIAS
         $this->cleanupMediaObjectUsage();
 
@@ -2118,68 +2076,25 @@ abstract class assQuestion
 
     public function deleteSuggestedSolutions() : void
     {
-        // delete the links in the qpl_sol_sug table
-        $this->db->manipulateF(
-            "DELETE FROM qpl_sol_sug WHERE question_fi = %s",
-            array('integer'),
-            array($this->getId())
-        );
+        $this->getSuggestedSolutionsRepo()->deleteForQuestion($this->getId());
         ilInternalLink::_deleteAllLinksOfSource("qst", $this->getId());
-        $this->suggested_solutions = array();
         ilFileUtils::delDir($this->getSuggestedSolutionPath());
+        $this->suggested_solutions = array();
     }
 
-    /**
-     * Returns a suggested solution for a given subquestion index
-     */
-    public function getSuggestedSolution(int $subquestion_index = 0) : array
+    
+    public function getSuggestedSolution(int $subquestion_index = 0) : ?assQuestionSuggestedSolution
     {
         if (array_key_exists($subquestion_index, $this->suggested_solutions)) {
             return $this->suggested_solutions[$subquestion_index];
         }
-        return array();
+        return null;
     }
 
-    /**
-    * Returns the title of a suggested solution at a given subquestion_index.
-    * This can be usable for displaying suggested solutions
-    *
-    * @param integer $subquestion_index The index of a subquestion (i.e. a close test gap). Usually 0
-    * @return string A string containing the type and title of the internal link
-    */
-    public function getSuggestedSolutionTitle(int $subquestion_index = 0) : string
+    protected function syncSuggestedSolutions(int $source_question_id, int $target_question_id) : void
     {
-        if (array_key_exists($subquestion_index, $this->suggested_solutions)) {
-            $title = $this->suggested_solutions[$subquestion_index]["internal_link"];
-        // TO DO: resolve internal link an get link type and title
-        } else {
-            $title = "";
-        }
-        return $title;
-    }
-
-    /**
-    * Sets a suggested solution for the question.
-    * If there is more than one subquestion (i.e. close questions) may enter a subquestion index.
-    *
-    * @param string $solution_id An internal link pointing to the suggested solution
-    * @param int $subquestion_index The index of a subquestion (i.e. a close test gap). Usually 0
-    * @param bool $is_import A boolean indication that the internal link was imported from another ILIAS installation
-    * @access public
-    */
-    public function setSuggestedSolution(string $solution_id = "", int $subquestion_index = 0, bool $is_import = false) : void
-    {
-        if (strcmp($solution_id, "") != 0) {
-            $import_id = "";
-            if ($is_import) {
-                $import_id = $solution_id;
-                $solution_id = $this->_resolveInternalLink($import_id);
-            }
-            $this->suggested_solutions[$subquestion_index] = array(
-                "internal_link" => $solution_id,
-                "import_id" => $import_id
-            );
-        }
+        $this->getSuggestedSolutionsRepo()->syncForQuestion($source_question_id, $target_question_id);
+        $this->syncSuggestedSolutionFiles($source_question_id);
     }
 
     /**
@@ -2188,7 +2103,7 @@ abstract class assQuestion
     protected function duplicateSuggestedSolutionFiles(int $parent_id, int $question_id) : void
     {
         foreach ($this->suggested_solutions as $index => $solution) {
-            if (strcmp($solution["type"], "file") == 0) {
+            if ($solution->isOfTypeFile()) {
                 $filepath = $this->getSuggestedSolutionPath();
                 $filepath_original = str_replace(
                     "/{$this->obj_id}/{$this->id}/solution",
@@ -2198,7 +2113,7 @@ abstract class assQuestion
                 if (!file_exists($filepath)) {
                     ilFileUtils::makeDirParents($filepath);
                 }
-                $filename = $solution["value"]["name"];
+                $filename = $solution->getFilename();
                 if (strlen($filename)) {
                     if (!copy($filepath_original . $filename, $filepath . $filename)) {
                         $this->ilLog->root()->error("File could not be duplicated!!!!");
@@ -2215,11 +2130,11 @@ abstract class assQuestion
         $filepath_original = str_replace("/$this->id/solution", "/$original_id/solution", $filepath);
         ilFileUtils::delDir($filepath_original);
         foreach ($this->suggested_solutions as $index => $solution) {
-            if (strcmp($solution["type"], "file") == 0) {
+            if ($solution->isOfTypeFile()) {
                 if (!file_exists($filepath_original)) {
                     ilFileUtils::makeDirParents($filepath_original);
                 }
-                $filename = $solution["value"]["name"];
+                $filename = $solution->getFilename();
                 if (strlen($filename)) {
                     if (!@copy($filepath . $filename, $filepath_original . $filename)) {
                         $this->ilLog->root()->error("File could not be duplicated!!!!");
@@ -2233,7 +2148,7 @@ abstract class assQuestion
     protected function copySuggestedSolutionFiles(int $source_questionpool_id, int $source_question_id) : void
     {
         foreach ($this->suggested_solutions as $index => $solution) {
-            if (strcmp($solution["type"], "file") == 0) {
+            if ($solution->isOfTypeFile()) {
                 $filepath = $this->getSuggestedSolutionPath();
                 $filepath_original = str_replace("/$this->obj_id/$this->id/solution", "/$source_questionpool_id/$source_question_id/solution", $filepath);
                 if (!file_exists($filepath)) {
@@ -2250,86 +2165,6 @@ abstract class assQuestion
         }
     }
 
-    public function updateSuggestedSolutions(int $original_id = -1) : void
-    {
-        $id = (strlen($original_id) && is_numeric($original_id)) ? $original_id : $this->getId();
-        $this->db->manipulateF(
-            "DELETE FROM qpl_sol_sug WHERE question_fi = %s",
-            array('integer'),
-            array($id)
-        );
-        ilInternalLink::_deleteAllLinksOfSource("qst", $id);
-        foreach ($this->suggested_solutions as $index => $solution) {
-            $next_id = $this->db->nextId('qpl_sol_sug');
-            /** @var ilDBInterface $ilDB */
-            $this->db->insert(
-                'qpl_sol_sug',
-                array(
-                   'suggested_solution_id' => array( 'integer', 	$next_id ),
-                   'question_fi' => array( 'integer', 	$id ),
-                   'type' => array( 'text', 		$solution['type'] ),
-                   'value' => array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc((is_array($solution['value'])) ? serialize($solution[ 'value' ]) : $solution['value'], 0) ),
-                   'internal_link' => array( 'text', 		$solution['internal_link'] ),
-                   'import_id' => array( 'text',		null ),
-                   'subquestion_index' => array( 'integer', 	$index ),
-                   'tstamp' => array( 'integer',	time() ),
-                )
-            );
-            if (preg_match("/il_(\d*?)_(\w+)_(\d+)/", $solution["internal_link"], $matches)) {
-                ilInternalLink::_saveLink("qst", $id, $matches[2], $matches[3], $matches[1]);
-            }
-        }
-        if ($original_id !== -1) {
-            $this->syncSuggestedSolutionFiles($id);
-        }
-        $this->cleanupMediaObjectUsage();
-    }
-
-    /**
-    * Saves a suggested solution for the question.
-    * If there is more than one subquestion (i.e. close questions) may enter a subquestion index.
-    *
-    * @param string $solution_id An internal link pointing to the suggested solution
-    * @param integer $subquestion_index The index of a subquestion (i.e. a close test gap). Usually 0
-    * @param boolean $is_import A boolean indication that the internal link was imported from another ILIAS installation
-    * @access public
-    */
-    public function saveSuggestedSolution(string $type, $solution_id = "", int $subquestion_index = 0, $value = "") : void
-    {
-        $this->db->manipulateF(
-            "DELETE FROM qpl_sol_sug WHERE question_fi = %s AND subquestion_index = %s",
-            array("integer", "integer"),
-            array(
-                $this->getId(),
-                $subquestion_index
-            )
-        );
-
-        $next_id = $this->db->nextId('qpl_sol_sug');
-        /** @var ilDBInterface $ilDB */
-        $affectedRows = $this->db->insert(
-            'qpl_sol_sug',
-            array(
-                                                       'suggested_solution_id' => array( 'integer', 	$next_id ),
-                                                       'question_fi' => array( 'integer', 	$this->getId() ),
-                                                       'type' => array( 'text', 		$type ),
-                                                       'value' => array( 'clob', 		ilRTE::_replaceMediaObjectImageSrc((is_array($value)) ? serialize($value) : $value, 0) ),
-                                                       'internal_link' => array( 'text', 		$solution_id ),
-                                                       'import_id' => array( 'text',		null ),
-                                                       'subquestion_index' => array( 'integer', 	$subquestion_index ),
-                                                       'tstamp' => array( 'integer',	time() ),
-                                                   )
-        );
-        if ($affectedRows == 1) {
-            $this->suggested_solutions[$subquestion_index] = array(
-                "type" => $type,
-                "value" => $value,
-                "internal_link" => $solution_id,
-                "import_id" => ""
-            );
-        }
-        $this->cleanupMediaObjectUsage();
-    }
 
     public function _resolveInternalLink(string $internal_link) : string
     {
@@ -2360,6 +2195,9 @@ abstract class assQuestion
         return $resolved_link;
     }
 
+    
+    //TODO: move this to import or suggested solutions repo.
+    //use in LearningModule and Survey as well ;(
     public function _resolveIntLinks(int $question_id) : void
     {
         $resolvedlinks = 0;
@@ -2384,6 +2222,9 @@ abstract class assQuestion
             }
         }
         if ($resolvedlinks) {
+
+            // there are resolved links -> reenter theses links to the database
+            // delete all internal links from the database
             ilInternalLink::_deleteAllLinksOfSource("qst", $question_id);
 
             $result = $this->db->queryF(
@@ -2478,9 +2319,7 @@ abstract class assQuestion
         if (!$this->getOriginalId()) {
             return; // No original -> no sync
         }
-        $currentID = $this->getId();
-        $currentObjId = $this->getObjId();
-        $originalID = $this->getOriginalId();
+
         $originalObjId = self::lookupParentObjId($this->getOriginalId());
 
         if (!$originalObjId) {
@@ -2493,21 +2332,19 @@ abstract class assQuestion
         $this->setId($this->getOriginalId());
         $this->setOriginalId(null);
         $this->setObjId($originalObjId);
-        // And save ourselves as the original
+
         $this->saveToDb();
 
-        // Now we delete the originals page content
-        $this->deletePageOfQuestion($originalID);
+        $this->deletePageOfQuestion($this->getOriginalId());
         $this->createPageObject();
-        $this->copyPageOfQuestion($currentID);
-
-        $this->setId($currentID);
-        $this->setOriginalId($originalID);
-        $this->setObjId($currentObjId);
-
-        $this->updateSuggestedSolutions($this->getOriginalId());
+        $this->copyPageOfQuestion($this->getId());
+        
+        $this->setId($this->getId());
+        $this->setOriginalId($this->getOriginalId());
+        $this->setObjId($this->getObjId());
+        
+        $this->syncSuggestedSolutions($this->getOriginalId(), $this->getId());
         $this->syncXHTMLMediaObjectsOfQuestion();
-
         $this->afterSyncWithOriginal($this->getOriginalId(), $this->getId(), $originalObjId, $this->getObjId());
         $this->syncHints();
     }
@@ -3030,9 +2867,12 @@ abstract class assQuestion
         $collected .= $this->feedbackOBJ->getGenericFeedbackContent($this->getId(), true);
         $collected .= $this->feedbackOBJ->getAllSpecificAnswerFeedbackContents($this->getId());
 
-        foreach ($this->suggested_solutions as $solution_array) {
-            $collected .= $solution_array["value"];
-        }
+        /*
+                foreach ($this->suggested_solutions as $solution_array) {
+                    $collected .= $solution_array["value"];
+                }
+        */
+        require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintList.php';
         $questionHintList = ilAssQuestionHintList::getListByQuestionId($this->getId());
         foreach ($questionHintList as $questionHint) {
             /* @var $questionHint ilAssQuestionHint */
@@ -4165,8 +4005,6 @@ abstract class assQuestion
     {
         return new ilTestQuestionConfig();
     }
-    // hey.
-    // fau.
 
     public function savePartial() : bool
     {
@@ -4183,5 +4021,21 @@ abstract class assQuestion
 
         $res = $this->db->query($query);
         return $res->numRows() > 0;
+    }
+ 
+    protected ?assQuestionSuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;
+    protected function getSuggestedSolutionsRepo() : assQuestionSuggestedSolutionsDatabaseRepository
+    {
+        if (is_null($this->suggestedsolution_repo)) {
+            $dic = ilQuestionPoolDIC::dic();
+            $this->suggestedsolution_repo = $dic['question.repo.suggestedsolutions'];
+        }
+        return $this->suggestedsolution_repo;
+    }
+
+    protected function loadSuggestedSolutions() : array
+    {
+        $question_id = $this->getId();
+        return $this->getSuggestedSolutionsRepo()->selectFor($question_id);
     }
 }

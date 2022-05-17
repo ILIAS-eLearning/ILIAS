@@ -160,9 +160,12 @@ class assTextQuestionImport extends assQuestionImport
         $this->object->saveToDb();
         if (count($item->suggested_solutions)) {
             foreach ($item->suggested_solutions as $suggested_solution) {
-                $this->object->setSuggestedSolution($suggested_solution["solution"]->getContent(), $suggested_solution["gap_index"], true);
+                $this->importSuggestedSolution(
+                    $this->object->getId(),
+                    $suggested_solution["solution"]->getContent(),
+                    $suggested_solution["gap_index"]
+                );
             }
-            $this->object->saveToDb();
         }
         foreach ($feedbacksgeneric as $correctness => $material) {
             $m = $this->object->QTIMaterialToString($material);

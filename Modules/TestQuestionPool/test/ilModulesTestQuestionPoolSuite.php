@@ -188,6 +188,9 @@ class ilModulesTestQuestionPoolSuite extends TestSuite
         require_once("./Modules/TestQuestionPool/test/ilAssQuestionSkillAssignmentRegistryTest.php");
         $suite->addTestSuite("ilAssQuestionSkillAssignmentRegistryTest");
 
+        require_once("./Modules/TestQuestionPool/test/assQuestionSuggestedSolutionTest.php");
+        $suite->addTestSuite("assQuestionSuggestedSolutionTest");
+
         return $suite;
     }
 }

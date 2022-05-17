@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -15,6 +14,11 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+use ILIAS\Notes\Note;
+use ILIAS\TA\Questions\assQuestionSuggestedSolution;
+use ILIAS\TA\Questions\assQuestionSuggestedSolutionFileRepresentation;
+use ILIAS\TA\Questions\assQuestionSuggestedSolutionsDatabaseRepository;
 
 /**
 * Basic GUI class for assessment questions
@@ -200,15 +204,26 @@ abstract class assQuestionGUI
                 return $this->ctrl->forwardCommand($form_prop_dispatch);
 
             default:
-                $ret = $this->$cmd();
-                break;
+                switch ($cmd) {
+                    case 'suggestedsolution':
+                    case 'showSuggestedSolution':
+                    case 'saveSuggestedSolution':
+                    case 'saveContentsSuggestedSolution':
+                    case 'deleteSuggestedSolution':
+                    case 'linkChilds':
+                    case 'cancelExplorer':
+                    case 'outSolutionExplorer':
+                    case 'addST':
+                    case 'addPG':
+                    case 'addGIT':
+                        $ret = $this->$cmd();
+                        break;
+
+                    default:
+                        $ret = $this->$cmd();
+                }
         }
         return $ret;
-    }
-
-    public function getCommand($cmd)
-    {
-        return $cmd;
     }
 
     /** needed for page editor compliance */
@@ -1173,6 +1188,14 @@ abstract class assQuestionGUI
         return assQuestion::_getQuestionTypeName($this->object->getQuestionType());
     }
 
+    protected function getTypeOptions() : array
+    {
+        foreach (assQuestionSuggestedSolution::TYPES as $k => $v) {
+            $options[$k] = $this->lng->txt($v);
+        }
+        return $options;
+    }
+    
     public function suggestedsolution() : void
     {
         $ilUser = $this->ilUser;
@@ -1187,37 +1210,41 @@ abstract class assQuestionGUI
         }
 
         $output = "";
-        $solution_array = $this->object->getSuggestedSolution(0);
-        $options = array(
-            "lm" => $this->lng->txt("obj_lm"),
-            "st" => $this->lng->txt("obj_st"),
-            "pg" => $this->lng->txt("obj_pg"),
-            "git" => $this->lng->txt("glossary_term"),
-            "file" => $this->lng->txt("fileDownload"),
-            "text" => $this->lng->txt("solutionText")
-        );
+        
+        $solution = $this->object->getSuggestedSolution(0);
+        $options = $this->getTypeOptions();
 
-        if ((strcmp($_POST["solutiontype"], "file") == 0) && (strcmp($solution_array["type"], "file") != 0)) {
-            $solution_array = array(
-                "type" => "file"
+        if (strcmp($_POST["solutiontype"], "file") == 0
+            && (!$solution || $solution->getType() !== assQuestionSuggestedSolution::TYPE_FILE)
+        ) {
+            $solution = $this->getSuggestedSolutionsRepo()->create(
+                $this->object->getId(),
+                assQuestionSuggestedSolution::TYPE_FILE
             );
-        } elseif ((strcmp($_POST["solutiontype"], "text") == 0) && (strcmp($solution_array["type"], "text") != 0)) {
+        } elseif (strcmp($_POST["solutiontype"], "text") == 0
+            && (!$solution || $solution->getType() !== assQuestionSuggestedSolution::TYPE_TEXT)
+        ) {
             $oldsaveSuggestedSolutionOutputMode = $this->getRenderPurpose();
             $this->setRenderPurpose(self::RENDER_PURPOSE_INPUT_VALUE);
-            
-            $solution_array = array(
-                "type" => "text",
-                "value" => $this->getSolutionOutput(0, null, false, false, true, false, true)
+            $solution = $this->getSuggestedSolutionsRepo()->create(
+                $this->object->getId(),
+                assQuestionSuggestedSolution::TYPE_TEXT
+            )->withValue(
+                $this->getSolutionOutput(0, null, false, false, true, false, true)
             );
+
             $this->setRenderPurpose($oldsaveSuggestedSolutionOutputMode);
         }
+
         if ($save && strlen($_POST["filename"])) {
-            $solution_array["value"]["filename"] = $_POST["filename"];
+            $solution = $solution->withTitle($_POST["filename"]);
         }
+
         if ($save && strlen($_POST["solutiontext"])) {
-            $solution_array["value"] = $_POST["solutiontext"];
+            $solution = $solution->withValue($_POST["solutiontext"]);
         }
-        if (count($solution_array)) {
+
+        if ($solution) {
             $form = new ilPropertyFormGUI();
             $form->setFormAction($this->ctrl->getFormAction($this));
             $form->setTitle($this->lng->txt("solution_hint"));
@@ -1225,41 +1252,45 @@ abstract class assQuestionGUI
             $form->setTableWidth("100%");
             $form->setId("suggestedsolutiondisplay");
 
-            // suggested solution output
             $title = new ilSolutionTitleInputGUI($this->lng->txt("showSuggestedSolution"), "solutiontype");
             $template = new ilTemplate("tpl.il_as_qpl_suggested_solution_input_presentation.html", true, true, "Modules/TestQuestionPool");
-            if (strlen($solution_array["internal_link"])) {
-                $href = assQuestion::_getInternalLinkHref($solution_array["internal_link"]);
+
+            if ($solution->isOfTypeLink()) {
+                $href = assQuestion::_getInternalLinkHref($solution->getInternalLink());
                 $template->setCurrentBlock("preview");
                 $template->setVariable("TEXT_SOLUTION", $this->lng->txt("suggested_solution"));
                 $template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . $this->lng->txt("view") . "</a> ");
                 $template->parseCurrentBlock();
-            } elseif ((strcmp($solution_array["type"], "file") == 0) && (is_array($solution_array["value"]))) {
-                $href = $this->object->getSuggestedSolutionPathWeb() . $solution_array["value"]["name"];
+            } elseif (
+                $solution->isOfTypeFile()
+                && $solution->getFilename()
+            ) {
+                $href = $this->object->getSuggestedSolutionPathWeb() . $solution->getFilename();
+                $link = " <a href=\"$href\" target=\"content\">"
+                    . ilLegacyFormElementsUtil::prepareFormOutput($solution->getTitle())
+                    . "</a> ";
                 $template->setCurrentBlock("preview");
                 $template->setVariable("TEXT_SOLUTION", $this->lng->txt("suggested_solution"));
-                $template->setVariable("VALUE_SOLUTION", " <a href=\"$href\" target=\"content\">" . ilLegacyFormElementsUtil::prepareFormOutput(
-                    (strlen(
-                        $solution_array["value"]["filename"]
-                    )) ? $solution_array["value"]["filename"] : $solution_array["value"]["name"]
-                ) . "</a> ");
+                $template->setVariable("VALUE_SOLUTION", $link);
                 $template->parseCurrentBlock();
             }
+
             $template->setVariable("TEXT_TYPE", $this->lng->txt("type"));
-            $template->setVariable("VALUE_TYPE", $options[$solution_array["type"]]);
+            $template->setVariable("VALUE_TYPE", $options[$solution->getType()]);
+
             $title->setHtml($template->get());
             $deletesolution = new ilCheckboxInputGUI("", "deleteSuggestedSolution");
             $deletesolution->setOptionTitle($this->lng->txt("deleteSuggestedSolution"));
             $title->addSubItem($deletesolution);
             $form->addItem($title);
 
-            if (strcmp($solution_array["type"], "file") == 0) {
-                // file
+            if ($solution->isOfTypeFile()) {
                 $file = new ilFileInputGUI($this->lng->txt("fileDownload"), "file");
                 $file->setRequired(true);
                 $file->enableFileNameSelection("filename");
+
                 //$file->setSuffixes(array("doc","xls","png","jpg","gif","pdf"));
-                if ($_FILES["file"]["tmp_name"] && $file->checkInput()) {
+                if ($_FILES && $_FILES["file"]["tmp_name"] && $file->checkInput()) {
                     if (!file_exists($this->object->getSuggestedSolutionPath())) {
                         ilFileUtils::makeDirParents($this->object->getSuggestedSolutionPath());
                     }
@@ -1273,12 +1304,20 @@ abstract class assQuestionGUI
                         ilFileUtils::renameExecutables($this->object->getSuggestedSolutionPath());
                         
                         // remove an old file download
-                        if (is_array($solution_array["value"])) {
-                            @unlink($this->object->getSuggestedSolutionPath() . $solution_array["value"]["name"]);
+                        if ($solution->getFilename()) {
+                            @unlink($this->object->getSuggestedSolutionPath() . $solution->getFilename());
                         }
+                        
                         $file->setValue($_FILES["file"]["name"]);
-                        $this->object->saveSuggestedSolution("file", "", 0, array("name" => $_FILES["file"]["name"], "type" => $_FILES["file"]["type"], "size" => $_FILES["file"]["size"], "filename" => $_POST["filename"]));
-                        $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
+                        $solution = $solution
+                            ->withFilename($_FILES["file"]["name"])
+                            ->withMime($_FILES["file"]["type"])
+                            ->withSize($_FILES["file"]["size"])
+                            ->withTitle($_POST["filename"]);
+                        
+                        $this->getSuggestedSolutionsRepo()->update([$solution]);
+
+                        $originalexists = $this->object->getOriginalId() && $this->object->_questionExistsInPool($this->object->getOriginalId());
                         if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                     && (int) $this->request->raw('calling_consumer'))) && $originalexists
                             && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
@@ -1293,17 +1332,17 @@ abstract class assQuestionGUI
                         $this->tpl->setOnScreenMessage('info', $res);
                     }
                 } else {
-                    if (is_array($solution_array["value"])) {
-                        $file->setValue($solution_array["value"]["name"]);
-                        $file->setFilename((strlen($solution_array["value"]["filename"])) ? $solution_array["value"]["filename"] : $solution_array["value"]["name"]);
+                    if ($solution->getFilename()) {
+                        $file->setValue($solution->getFilename());
+                        $file->setFilename($solution->getTitle());
                     }
                 }
                 $form->addItem($file);
                 $hidden = new ilHiddenInputGUI("solutiontype");
                 $hidden->setValue("file");
                 $form->addItem($hidden);
-            } elseif (strcmp($solution_array["type"], "text") == 0) {
-                $solutionContent = $solution_array['value'];
+            } elseif ($solution->isOfTypeText()) {
+                $solutionContent = $solution->getValue();
                 $solutionContent = $this->object->fixSvgToPng($solutionContent);
                 $solutionContent = $this->object->fixUnavailableSkinImageSources($solutionContent);
                 $question = new ilTextAreaInputGUI($this->lng->txt("solutionText"), "solutiontext");
@@ -1327,20 +1366,16 @@ abstract class assQuestionGUI
             
             if ($save) {
                 if ($form->checkInput()) {
-                    switch ($solution_array["type"]) {
-                        case "file":
-                            $this->object->saveSuggestedSolution("file", "", 0, array(
-                                "name" => $solution_array["value"]["name"],
-                                "type" => $solution_array["value"]["type"],
-                                "size" => $solution_array["value"]["size"],
-                                "filename" => $_POST["filename"]
-                            ));
-                            break;
-                        case "text":
-                            $this->object->saveSuggestedSolution("text", "", 0, $solution_array["value"]);
-                            break;
+                    if ($solution->isOfTypeFile()) {
+                        $solution = $solution->withTitle($_POST["filename"]);
                     }
-                    $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
+                    if (!$solution->isOfTypeLink()) {
+                        $this->getSuggestedSolutionsRepo()->update([$solution]);
+                    }
+
+                    //$originalexists = $this->object->_questionExistsInPool($this->object->original_id);
+                    $originalexists = false; //TODO: re-enable check?
+
                     if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                                 && (int) $this->request->raw('calling_consumer'))) && $originalexists
                         && assQuestion::_isWriteable($this->object->getOriginalId(), $ilUser->getId())) {
@@ -1356,13 +1391,15 @@ abstract class assQuestionGUI
             $output = $form->getHTML();
         }
         
-        $savechange = (strcmp($this->ctrl->getCmd(), "saveSuggestedSolution") == 0) ? true : false;
+        $savechange = $this->ctrl->getCmd() === "saveSuggestedSolution";
 
         $changeoutput = "";
         if ($ilAccess->checkAccess("write", "", $this->request->getRefId())) {
             $formchange = new ilPropertyFormGUI();
             $formchange->setFormAction($this->ctrl->getFormAction($this));
-            $formchange->setTitle((count($solution_array)) ? $this->lng->txt("changeSuggestedSolution") : $this->lng->txt("addSuggestedSolution"));
+
+            $title = $solution ? $this->lng->txt("changeSuggestedSolution") : $this->lng->txt("addSuggestedSolution");
+            $formchange->setTitle($title);
             $formchange->setMultipart(false);
             $formchange->setTableWidth("100%");
             $formchange->setId("suggestedsolution");
@@ -1371,8 +1408,8 @@ abstract class assQuestionGUI
             foreach ($options as $opt_value => $opt_caption) {
                 $solutiontype->addOption(new ilRadioOption($opt_caption, $opt_value));
             }
-            if (count($solution_array)) {
-                $solutiontype->setValue($solution_array["type"]);
+            if ($solution) {
+                $solutiontype->setValue($solution->getType());
             }
             $solutiontype->setRequired(true);
             $formchange->addItem($solutiontype);
@@ -1573,6 +1610,19 @@ abstract class assQuestionGUI
 
         $this->tpl->setContent($table->getHTML());
     }
+
+    protected function createSuggestedSolutionLinkingTo(string $type, string $target)
+    {
+        $repo = $this->getSuggestedSolutionsRepo();
+        $question_id = $this->object->getId();
+        $subquestion_index = ($this->request->raw("subquestion_index") > 0) ? $this->request->raw("subquestion_index") : 0;
+
+        $solution = $repo->create($question_id, $type)
+            ->withSubquestionIndex($subquestion_index)
+            ->withInternalLink($target);
+
+        $repo->update([$solution]);
+    }
     
     public function linkChilds() : void
     {
@@ -1588,8 +1638,8 @@ abstract class assQuestionGUI
                 $this->outGlossarySelector();
                 break;
             case "lm":
-                $subquestion_index = ($this->request->raw("subquestion_index") > 0) ? $this->request->raw("subquestion_index") : 0;
-                $this->object->saveSuggestedSolution("lm", "il__lm_" . $this->request->raw("source_id"), $subquestion_index);
+                $target = "il__lm_" . $this->request->raw("source_id");
+                $this->createSuggestedSolutionLinkingTo('lm', $target);
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("suggested_solution_added_successfully"), true);
                 $this->ctrl->redirect($this, "suggestedsolution");
                 break;
@@ -1598,33 +1648,24 @@ abstract class assQuestionGUI
 
     public function addPG() : void
     {
-        $subquestion_index = 0;
-        if (strlen($this->request->raw("subquestion_index")) && $this->request->raw("subquestion_index") >= 0) {
-            $subquestion_index = $this->request->raw("subquestion_index");
-        }
-        $this->object->saveSuggestedSolution("pg", "il__pg_" . $this->request->raw("pg"), $subquestion_index);
+        $target = "il__pg_" . $this->request->raw("pg");
+        $this->createSuggestedSolutionLinkingTo('pg', $target);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("suggested_solution_added_successfully"), true);
         $this->ctrl->redirect($this, "suggestedsolution");
     }
 
     public function addST() : void
     {
-        $subquestion_index = 0;
-        if (strlen($this->request->raw("subquestion_index")) && $this->request->raw("subquestion_index") >= 0) {
-            $subquestion_index = $this->request->raw("subquestion_index");
-        }
-        $this->object->saveSuggestedSolution("st", "il__st_" . $this->request->raw("st"), $subquestion_index);
+        $target = "il__st_" . $this->request->raw("st");
+        $this->createSuggestedSolutionLinkingTo('st', $target);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("suggested_solution_added_successfully"), true);
         $this->ctrl->redirect($this, "suggestedsolution");
     }
 
     public function addGIT() : void
     {
-        $subquestion_index = 0;
-        if (strlen($this->request->raw("subquestion_index")) && $this->request->raw("subquestion_index") >= 0) {
-            $subquestion_index = $this->request->raw("subquestion_index");
-        }
-        $this->object->saveSuggestedSolution("git", "il__git_" . $this->request->raw("git"), $subquestion_index);
+        $target = "il__git_" . $this->request->raw("git");
+        $this->createSuggestedSolutionLinkingTo('git', $target);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("suggested_solution_added_successfully"), true);
         $this->ctrl->redirect($this, "suggestedsolution");
     }
@@ -2021,5 +2062,16 @@ abstract class assQuestionGUI
         }
 
         return $result;
+    }
+
+ 
+    protected ?assQuestionSuggestedSolutionsDatabaseRepository $suggestedsolution_repo = null;
+    protected function getSuggestedSolutionsRepo() : assQuestionSuggestedSolutionsDatabaseRepository
+    {
+        if (is_null($this->suggestedsolution_repo)) {
+            $dic = ilQuestionPoolDIC::dic();
+            $this->suggestedsolution_repo = $dic['question.repo.suggestedsolutions'];
+        }
+        return $this->suggestedsolution_repo;
     }
 }

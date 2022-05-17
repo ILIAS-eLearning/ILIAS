@@ -165,7 +165,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
             $this->setNrOfTries($data['nr_of_tries']);
             $this->setTitle((string) $data["title"]);
             $this->setComment((string) $data["description"]);
-            $this->setSuggestedSolution($data["solution_hint"]);
+            //$this->setSuggestedSolution($data["solution_hint"]);
             $this->setOriginalId($data["original_id"]);
             $this->setObjId($data["obj_fi"]);
             $this->setAuthor($data["author"]);
