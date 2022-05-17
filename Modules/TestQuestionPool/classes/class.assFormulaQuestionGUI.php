@@ -172,8 +172,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $found_vars = array();
             $found_results = array();
 
-            
-            foreach ($_POST as $key => $value) {
+            foreach ($this->request->getParsedBody() as $key => $value) {
                 if (preg_match("/^unit_(\\\$v\d+)$/", $key, $matches)) {
                     array_push($found_vars, $matches[1]);
                 }
@@ -655,7 +654,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         if ($save) {
             $found_vars = array();
             $found_results = array();
-            foreach ($_POST as $key => $value) {
+            foreach ($this->request->getParsedBody() as $key => $value) {
                 if (preg_match("/^unit_(\\\$v\d+)$/", $key, $matches)) {
                     array_push($found_vars, $matches[1]);
                 }
