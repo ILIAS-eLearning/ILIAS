@@ -12,7 +12,7 @@ interface Text extends FilterInput
     /**
      * Defines the Max Length of text that can be entered in the text input
      */
-    public function withMaxLength(int $max_length);
+    public function withMaxLength(int $max_length) : Text;
 
     /**
      * Gets the max length of the text input

@@ -33,7 +33,7 @@ class Text extends Input implements C\Input\Field\Text
     /**
      * @inheritDoc
      */
-    public function withMaxLength(int $max_length) : C\Input\Field\Input
+    public function withMaxLength(int $max_length) : C\Input\Field\Text
     {
         $clone = $this->withAdditionalTransformation(
             $this->refinery->string()->hasMaxLength($max_length)
