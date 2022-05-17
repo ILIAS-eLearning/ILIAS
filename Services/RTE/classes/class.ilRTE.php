@@ -175,7 +175,7 @@ class ilRTE
     public static function _replaceMediaObjectImageSrc(
         string $a_text,
         int $a_direction = 0,
-        string $nic = IL_INST_ID
+        string $nic = ''
     ) : string {
         if ($a_text === '') {
             return '';

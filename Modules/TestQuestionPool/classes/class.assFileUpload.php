@@ -24,7 +24,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     const DELETE_FILES_TBL_POSTVAR = 'deletefiles';
     // hey.
 
-    protected $maxsize;
+    protected ?float $maxsize = null;
 
     protected $allowedextensions;
 
@@ -1025,7 +1025,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     *
     * @return double Max file size
     */
-    public function getMaxSize()
+    public function getMaxSize() : ?float
     {
         return $this->maxsize;
     }

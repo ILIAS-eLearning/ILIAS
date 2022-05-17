@@ -80,25 +80,16 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
         $this->postVar = $postVar;
     }
     
-    /**
-     * @return null
-     */
     public function getImageRemovalCommand() : ?string
     {
         return $this->imageRemovalCommand;
     }
     
-    /**
-     * @param null $imageRemovalCommand
-     */
     public function setImageRemovalCommand($imageRemovalCommand)
     {
         $this->imageRemovalCommand = $imageRemovalCommand;
     }
     
-    /**
-     * @return string
-     */
     public function getImageUrlPath() : string
     {
         return $this->imageUrlPath;

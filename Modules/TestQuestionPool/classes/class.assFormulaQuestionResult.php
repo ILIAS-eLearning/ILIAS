@@ -708,7 +708,7 @@ class assFormulaQuestionResult
         $this->formula = $formula;
     }
 
-    public function getFormula()
+    public function getFormula() : ?string
     {
         return $this->formula;
     }

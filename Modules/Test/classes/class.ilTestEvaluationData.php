@@ -87,10 +87,7 @@ class ilTestEvaluationData
         }
     }
 
-    /**
-     * @return ilTestParticipantList
-     */
-    public function getAccessFilteredParticipantList()
+    public function getAccessFilteredParticipantList() : ?ilTestParticipantList
     {
         return $this->accessFilteredParticipantList;
     }

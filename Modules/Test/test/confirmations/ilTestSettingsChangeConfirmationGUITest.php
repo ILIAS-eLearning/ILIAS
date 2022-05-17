@@ -40,7 +40,6 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable('lng', $this->lng_mock);
     
         $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI(
-            $this->lng_mock,
             $this->testObj_mock
         );
     }

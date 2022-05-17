@@ -46,7 +46,7 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
     {
         //$this->ensurePageObjectExists($_GET['feedback_type'], $_GET['feedback_id']);
         
-        $pageObjectGUI = $this->getPageObjectGUI($$this->request->raw('feedback_type'), $this->request->raw('feedback_id'));
+        $pageObjectGUI = $this->getPageObjectGUI($this->request->raw('feedback_type'), $this->request->raw('feedback_id'));
         $pageObjectGUI->setEnabledTabs(true);
         
         $this->tabs->setBackTarget(

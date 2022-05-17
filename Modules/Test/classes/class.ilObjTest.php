@@ -23,91 +23,26 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     #region Properties
     
-    /**
-     * type setting value for fixed question set
-     */
     public const QUESTION_SET_TYPE_FIXED = 'FIXED_QUEST_SET';
-    
-    /**
-     * type setting value for random question set
-     */
     public const QUESTION_SET_TYPE_RANDOM = 'RANDOM_QUEST_SET';
-    
-    /**
-     * type setting value for dynamic question set (continues testing mode)
-     */
     private const QUESTION_SET_TYPE_DYNAMIC = 'DYNAMIC_QUEST_SET';
 
-    /**
-     *
-     */
-    const HIGHSCORE_SHOW_OWN_TABLE = 1;
-
-    /**
-     *
-     */
-    const HIGHSCORE_SHOW_TOP_TABLE = 2;
-
-    /**
-     *
-     */
-    const HIGHSCORE_SHOW_ALL_TABLES = 3;
+    public const HIGHSCORE_SHOW_OWN_TABLE = 1;
+    public const HIGHSCORE_SHOW_TOP_TABLE = 2;
+    public const HIGHSCORE_SHOW_ALL_TABLES = 3;
     
-    /**
-     * question set type setting
-     *
-     * @var string
-     */
-    private $questionSetType = self::QUESTION_SET_TYPE_FIXED;
-
-    /**
-     * @var bool
-     */
-    private $skillServiceEnabled = false;
-
-    /**
-     * @var array
-     */
-    private $resultFilterTaxIds = array();
-
-
-    private $specific_answer_feedback;
-    private $activation_limited;
-
+    private string $questionSetType = self::QUESTION_SET_TYPE_FIXED;
+    private bool $skillServiceEnabled = false;
+    private array $resultFilterTaxIds = array();
+    private ?int $specific_answer_feedback = null;
+    private ?bool $activation_limited = null;
     private array $mob_ids;
     private array $file_ids;
     private bool $online;
-
-    /**
-    * Kiosk mode
-    *
-    * Tells wheather the test runs in a kiosk mode or not
-    *
-    * @var integer
-    */
-    protected $_kiosk;
-    
-    /**
-* The database id of the additional test data dataset
-*
-* @var integer
-*/
-    public $test_id;
-
-    /**
-* Defines if the test will be placed on users personal desktops
-*
-* @var integer
-*/
-    public $invitation = INVITATION_OFF;
-
-    /**
-* A text representation of the authors name. The name of the author must
-* not necessary be the name of the owner.
-*
-* @var string
-*/
-    public $author;
+    protected int $_kiosk;
+    public int $test_id;
+    public int $invitation = INVITATION_OFF;
+    public string $author;
 
     /**
 * A reference to an IMS compatible matadata set
@@ -115,26 +50,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 * @var object
 */
     public $metadata;
-
-    /**
-* An array which contains all the test questions
-*
-* @var array
-*/
-    public $questions;
-
-    /**
-     * @var bool
-     */
-    protected $introductionEnabled;
-
-    /**
-     * An introduction text to give users more information
-     * on the test.
-     *
-     * @var string
-     */
-    protected $introduction;
+    public array $questions;
+    protected bool $introductionEnabled;
+    protected ?string $introduction;
 
     /**
 * Defines the mark schema
@@ -142,52 +60,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 * @var ASS_MarkSchema
 */
     public $mark_schema;
-
-    /**
-* Defines the sequence settings for the test user. There are two values:
-* TEST_FIXED_SEQUENCE (=0) and TEST_POSTPONE (=1). The default value is
-* TEST_FIXED_SEQUENCE.
-*
-* @var integer
-*/
-    public $sequence_settings;
-
-    /**
-* Defines the score reporting for the test. There are two values:
-* REPORT_AFTER_TEST (=1), REPORT_ALWAYS (=2) AND REPORT_AFTER_DATE (=3). The default
-* value is REPORT_AFTER_TEST. If the score reporting is set to
-* REPORT_AFTER_TEST, it is also possible to use the $reporting_date
-* attribute to set a time/date for the earliest reporting time.
-*
-* @var integer
-*/
-    public $score_reporting;
-
-    /**
-* Defines the question verification type for the test. When set to 1
-* a instant verification button will be offered during the test to verify
-* the question solution
-*
-* @var integer
-*/
-    public $instant_verification;
-
-    /**
-* Defines wheather or not the reached points are shown as answer feedback
-*
-* @var integer
-*/
-    public $answer_feedback_points;
-
-    /**
-* A time/date value to set the earliest reporting time for the test score.
-* If you set this attribute, the sequence settings will be set to REPORT_AFTER_TEST
-* automatically. If $reporting_date is not set, the user will get a direct feedback.
-* The reporting date is given in database TIMESTAMP notation (yyyymmddhhmmss).
-*
-* @var string
-*/
-    public $reporting_date;
+    public int $sequence_settings;
+    public int $score_reporting;
+    public int $instant_verification;
+    public int $answer_feedback_points;
+    public string $reporting_date;
 
     /**
 * Contains the evaluation data settings the tutor defines for the user
@@ -195,47 +72,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 * @var object
 */
     public $evaluation_data;
-
-    /**
-* Number of tries the user is allowed to do. If set to 0, the user has
-* infinite tries.
-*
-* @var integer
-*/
-    public $nr_of_tries;
-
-    protected $blockPassesAfterPassedEnabled = false;
-    
-    /**
-* Tells ILIAS to use the previous answers of a learner in a later test pass
-* The default is 1 which shows the previous answers in the next pass.
-*
-* @var integer
-*/
-    public $use_previous_answers;
-
-    /**
-* Tells ILIAS how to deal with the test titles. The test title will be shown with
-* the full title and the points when title_output is 0. When title_output is 1,
-* the available points will be hidden and when title_output is 2, the full title
-* will be hidden.
-*
-* @var integer
-*/
-    public $title_output;
-
-    /**
-* The maximum processing time as hh:mm:ss string the user is allowed to do.
-*
-* @var integer
-*/
+    public int $nr_of_tries;
+    protected bool $blockPassesAfterPassedEnabled = false;
+    public int $use_previous_answers;
+    public int $title_output;
     public $processing_time;
-
-    /**
-* Contains 0 if the processing time is disabled, 1 if the processing time is enabled
-*
-* @var integer
-*/
     public $enable_processing_time;
 
     /**
@@ -2042,11 +1883,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     /**
      * Gets the introduction text of the ilObjTest object
-     *
-     * @return string|null The introduction text of the test, NULL if empty
-     * @see $introduction
      */
-    public function getIntroduction()
+    public function getIntroduction() : ?string
     {
         return (strlen($this->introduction)) ? $this->introduction : null;
     }
@@ -2113,13 +1951,10 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
     
     /**
-    * Get the custom style
-    *
     * @return string|null The custom style, NULL if empty
-    * @access public
     * @see $_customStyle
     */
-    public function getCustomStyle()
+    public function getCustomStyle() : ?string
     {
         return (strlen($this->_customStyle)) ? $this->_customStyle : null;
     }
@@ -2137,12 +1972,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-    * Gets the final statement
-    *
-    * @return string|null The final statement, NULL if empty
     * @see $_finalstatement
     */
-    public function getFinalStatement()
+    public function getFinalStatement() : ?string
     {
         return (strlen($this->_finalstatement)) ? $this->_finalstatement : null;
     }
@@ -2874,11 +2706,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-    * Returns the processing time for the test
-    *
     * @see $processing_time
     */
-    public function getProcessingTimeAsArray()
+    public function getProcessingTimeAsArray() : array
     {
         if (strlen($this->processing_time)) {
             if (preg_match("/(\d{2}):(\d{2}):(\d{2})/is", $this->processing_time, $matches)) {
@@ -2966,10 +2796,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return ($this->reset_processing_time) ? $this->reset_processing_time : 0;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isStartingTimeEnabled()
+    public function isStartingTimeEnabled() : ?bool
     {
         return $this->starting_time_enabled;
     }
@@ -3006,10 +2833,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->starting_time = $starting_time;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isEndingTimeEnabled()
+    public function isEndingTimeEnabled() : ?bool
     {
         return $this->ending_time_enabled;
     }
@@ -3177,7 +3001,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
      * @return boolean
      */
-    public function isPasswordEnabled()
+    public function isPasswordEnabled() : ?bool
     {
         return $this->passwordEnabled;
     }
@@ -3190,7 +3014,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->passwordEnabled = $passwordEnabled;
     }
 
-    public function getPassword()
+    public function getPassword() : ?string
     {
         return (strlen($this->password)) ? $this->password : null;
     }
@@ -3550,9 +3374,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     *
     * @param integer $question_id The database id of the question
     * @result integer The database id of the copied question
-    * @access public
     */
-    public function duplicateQuestionForTest($question_id)
+    public function duplicateQuestionForTest($question_id) : int
     {
         $question = ilObjTest::_instanciateQuestion($question_id);
         $duplicate_id = $question->duplicate(true, '', '', '', $this->getId());
@@ -4399,10 +4222,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     /**
     * Returns the statistical evaluation of the test for a specified user
-    *
-    * @return array The statistical evaluation array of the test
     */
-    public function &evalStatistical($active_id)
+    public function evalStatistical($active_id) : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -4513,7 +4334,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function &getTotalPointsPassedArray() : array
     {
         $totalpoints_array = array();
-        $all_users = &$this->evalTotalParticipantsArray();
+        $all_users = $this->evalTotalParticipantsArray();
         foreach ($all_users as $active_id => $user_name) {
             $test_result = &$this->getTestResult($active_id);
             $reached = $test_result["test"]["total_reached_points"];
@@ -4618,9 +4439,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * Returns all participants who started the test
     *
     * @return array The active user id's and names of the persons who started the test
-    * @access public
     */
-    public function &evalTotalParticipantsArray($name_sort_order = "asc")
+    public function evalTotalParticipantsArray($name_sort_order = "asc") : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -4736,10 +4556,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     protected $accessFilteredParticipantList;
     
-    /**
-     * @return ilTestParticipantList
-     */
-    public function getAccessFilteredParticipantList()
+
+    public function getAccessFilteredParticipantList() : ?ilTestParticipantList
     {
         return $this->accessFilteredParticipantList;
     }
@@ -4747,7 +4565,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
      * @param ilTestParticipantList $accessFilteredParticipantList
      */
-    public function setAccessFilteredParticipantList($accessFilteredParticipantList)
+    public function setAccessFilteredParticipantList($accessFilteredParticipantList) : void
     {
         $this->accessFilteredParticipantList = $accessFilteredParticipantList;
     }
@@ -9043,18 +8861,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         }
     }
 
-    /**
-     * @return boolean
-     */
-    public function isLimitUsersEnabled()
+    public function isLimitUsersEnabled() : ?bool
     {
         return $this->limitUsersEnabled;
     }
 
-    /**
-     * @param boolean $limitUsersEnabled
-     */
-    public function setLimitUsersEnabled($limitUsersEnabled)
+    public function setLimitUsersEnabled(bool $limitUsersEnabled) : void
     {
         $this->limitUsersEnabled = $limitUsersEnabled;
     }
@@ -10995,12 +10807,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->_highscore_enabled = (bool) $a_enabled;
     }
     
-    /**
-     * Gets the setting which determines if the highscore feature is enabled.
-     *
-     * @return bool True, if highscore is enabled.
-     */
-    public function getHighscoreEnabled()
+    public function getHighscoreEnabled() : ?bool
     {
         return $this->_highscore_enabled;
     }
@@ -11026,7 +10833,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      *
      * @return bool True, if setting is to anonymize highscores.
      */
-    public function getHighscoreAnon()
+    public function getHighscoreAnon() : ?bool
     {
         return $this->_highscore_anon;
     }
@@ -11039,7 +10846,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      *
      * @return boolean True, if output is anonymized.
      */
-    public function isHighscoreAnon() : bool
+    public function isHighscoreAnon() : ?bool
     {
         if ($this->getAnonymity() == 1) {
             return true;
@@ -11050,20 +10857,16 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     
     /**
      * Sets if the date and time of the scores achievement should be displayed.
-     *
-     * @param bool $a_achieved_ts
      */
-    public function setHighscoreAchievedTS($a_achieved_ts)
+    public function setHighscoreAchievedTS($a_achieved_ts) : void
     {
         $this->_highscore_achieved_ts = (bool) $a_achieved_ts;
     }
     
     /**
      * Returns if date and time of the scores achievement should be displayed.
-     *
-     * @return bool True, if column should be shown.
      */
-    public function getHighscoreAchievedTS()
+    public function getHighscoreAchievedTS() : ?bool
     {
         return $this->_highscore_achieved_ts;
     }
@@ -11073,117 +10876,95 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      *
      * @param bool $a_score
      */
-    public function setHighscoreScore($a_score)
+    public function setHighscoreScore($a_score) : void
     {
         $this->_highscore_score = (bool) $a_score;
     }
     
     /**
      * Gets if the score column should be shown.
-     *
-     * @return bool True, if score column should be shown.
      */
-    public function getHighscoreScore()
+    public function getHighscoreScore() : ?bool
     {
         return $this->_highscore_score;
     }
 
     /**
      * Sets if the percentages of the scores pass should be shown.
-     *
-     * @param bool $a_percentage
      */
-    public function setHighscorePercentage($a_percentage)
+    public function setHighscorePercentage($a_percentage) : void
     {
         $this->_highscore_percentage = (bool) $a_percentage;
     }
     
     /**
      * Gets if the percentage column should be shown.
-     *
-     * @return bool True, if percentage column should be shown.
      */
-    public function getHighscorePercentage()
+    public function getHighscorePercentage() : ?bool
     {
         return $this->_highscore_percentage;
     }
 
     /**
      * Sets if the number of requested hints should be shown.
-     *
-     * @param bool $a_hints
      */
-    public function setHighscoreHints($a_hints)
+    public function setHighscoreHints($a_hints) : void
     {
         $this->_highscore_hints = (bool) $a_hints;
     }
     
     /**
      * Gets, if the column with the number of requested hints should be shown.
-     *
-     * @return bool True, if the hints-column should be shown.
      */
-    public function getHighscoreHints()
+    public function getHighscoreHints() : ?bool
     {
         return $this->_highscore_hints;
     }
     
     /**
      * Sets if the workingtime of the scores should be shown.
-     *
-     * @param bool $a_wtime
      */
-    public function setHighscoreWTime($a_wtime)
+    public function setHighscoreWTime($a_wtime) : void
     {
         $this->_highscore_wtime = (bool) $a_wtime;
     }
     
     /**
      * Gets if the column with the workingtime should be shown.
-     *
-     * @return bool True, if the workingtime column should be shown.
      */
-    public function getHighscoreWTime()
+    public function getHighscoreWTime() : ?bool
     {
         return $this->_highscore_wtime;
     }
     
     /**
      * Sets if the table with the own ranking should be shown.
-     *
-     * @param bool $a_own_table True, if table with own ranking should be shown.
      */
-    public function setHighscoreOwnTable($a_own_table)
+    public function setHighscoreOwnTable($a_own_table) : void
     {
         $this->_highscore_own_table = (bool) $a_own_table;
     }
     
     /**
      * Gets if the own rankings table should be shown.
-     *
-     * @return bool True, if the own rankings table should be shown.
      */
-    public function getHighscoreOwnTable()
+    public function getHighscoreOwnTable() : ?bool
     {
         return $this->_highscore_own_table;
     }
     
     /**
      * Sets if the top-rankings table should be shown.
-     *
-     * @param bool $a_top_table
      */
-    public function setHighscoreTopTable($a_top_table)
+    public function setHighscoreTopTable($a_top_table) : void
     {
         $this->_highscore_top_table = (bool) $a_top_table;
     }
     
     /**
      * Gets, if the top-rankings table should be shown.
-     *
-     * @return bool True, if top-rankings table should be shown.
      */
-    public function getHighscoreTopTable()
+    public function getHighscoreTopTable() : ?bool
     {
         return $this->_highscore_top_table;
     }
@@ -11191,10 +10972,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
      * Sets the number of entries which are to be shown in the top-rankings
      * table.
-     *
-     * @param integer $a_top_num Number of entries in the top-rankings table.
      */
-    public function setHighscoreTopNum($a_top_num)
+    public function setHighscoreTopNum($a_top_num) : void
     {
         $this->_highscore_top_num = (int) $a_top_num;
     }
@@ -11217,9 +10996,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $retval;
     }
 
-    /**
-     * @return int
-     */
     public function getHighscoreMode() : int
     {
         switch (true) {
@@ -11424,12 +11200,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      * getter for the test setting passDeletionAllowed
      * @return bool|null
      */
-    public function isPassDeletionAllowed()
+    public function isPassDeletionAllowed() : ?bool
     {
         return $this->passDeletionAllowed;
     }
 
-    public function setPassDeletionAllowed($passDeletionAllowed)
+    public function setPassDeletionAllowed($passDeletionAllowed) : void
     {
         $this->passDeletionAllowed = (bool) $passDeletionAllowed;
     }
@@ -11674,7 +11450,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return null;
     }
 
-    public static function buildExamId($active_id, $pass, $test_obj_id = null)
+    public static function buildExamId($active_id, $pass, $test_obj_id = null) : string
     {
         global $DIC;
         $ilSetting = $DIC['ilSetting'];
@@ -11995,10 +11771,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $this->instantFeedbackAnswerFixationEnabled;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isForceInstantFeedbackEnabled()
+    public function isForceInstantFeedbackEnabled() : ?bool
     {
         return $this->forceInstantFeedbackEnabled;
     }
@@ -12006,12 +11779,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
      * @param boolean $forceInstantFeedbackEnabled
      */
-    public function setForceInstantFeedbackEnabled($forceInstantFeedbackEnabled)
+    public function setForceInstantFeedbackEnabled($forceInstantFeedbackEnabled) : void
     {
         $this->forceInstantFeedbackEnabled = $forceInstantFeedbackEnabled;
     }
 
-    public static function ensureParticipantsLastActivePassFinished($testObjId, $userId, $a_force_new_run = false)
+    public static function ensureParticipantsLastActivePassFinished($testObjId, $userId, $a_force_new_run = false) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

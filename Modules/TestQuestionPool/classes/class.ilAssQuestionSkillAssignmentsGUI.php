@@ -24,31 +24,12 @@ class ilAssQuestionSkillAssignmentsGUI
     const CMD_SYNC_ORIGINAL = 'syncOriginal';
     
     const PARAM_SKILL_SELECTION = 'skill_ids';
-    
-    /**
-     * @var ilCtrl
-     */
-    private $ctrl;
-    
-    /**
-     * @var ilAccessHandler
-     */
-    private $access;
 
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    private $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    private $lng;
-
-    /**
-     * @var ilDBInterface
-     */
-    private $db;
+    private ilCtrl $ctrl;
+    private ilAccessHandler $access;
+    private ilGlobalTemplateInterface $tpl;
+    private ilLanguage $lng;
+    private ilDBInterface $db;
 
     /**
      * @var ilAssQuestionList
@@ -95,18 +76,12 @@ class ilAssQuestionSkillAssignmentsGUI
         $this->request = $DIC->testQuestionPool()->internal()->request();
     }
 
-    /**
-     * @return array
-     */
-    public function getQuestionOrderSequence() : array
+    public function getQuestionOrderSequence() : ?array
     {
         return $this->questionOrderSequence;
     }
 
-    /**
-     * @return string
-     */
-    public function getAssignmentConfigurationHintMessage() : string
+    public function getAssignmentConfigurationHintMessage() : ?string
     {
         return $this->assignmentConfigurationHintMessage;
     }

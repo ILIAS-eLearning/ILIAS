@@ -192,7 +192,7 @@ class assClozeGapCombination
         return $gaps;
     }
     
-    public function getMaxPointsForCombination($question_id, $combination_id = -1)
+    public function getMaxPointsForCombination(int $question_id, int $combination_id = -1) : float
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

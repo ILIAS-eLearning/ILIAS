@@ -44,7 +44,7 @@ class ilTestSkillLevelThresholdsGUI
      */
     private $questionContainerId;
 
-    private $questionAssignmentColumnsEnabled;
+    private bool $questionAssignmentColumnsEnabled;
 
     public function __construct(ilCtrl $ctrl, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, $testId)
     {

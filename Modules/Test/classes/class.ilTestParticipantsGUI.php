@@ -172,7 +172,7 @@ class ilTestParticipantsGUI
         }
     }
     
-    public function addParticipants($a_user_ids = array())
+    public function addParticipants($a_user_ids = array()) : ?bool
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         

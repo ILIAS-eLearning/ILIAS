@@ -2202,7 +2202,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $this->ctrl->redirectByClass("ilTestParticipantsGUI");
     }
 
-    public function getObject()
+    public function getObject() : ?ilObjTest
     {
         return $this->object;
     }

@@ -3010,7 +3010,7 @@ abstract class assQuestion
         return $this->question;
     }
 
-    public function setQuestion($question = "") : void
+    public function setQuestion(string $question = "") : void
     {
         $this->question = $question;
     }
