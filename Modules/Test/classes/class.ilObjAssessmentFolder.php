@@ -356,7 +356,7 @@ class ilObjAssessmentFolder extends ilObject
             }
             $type_href = "";
             if (array_key_exists("ref_id", $row) && $row["ref_id"] > 0) {
-                $type = ilObject::_lookupType($row['ref_id'], true);
+                $type = ilObject::_lookupType((int) $row['ref_id'], true);
                 switch ($type) {
                     case "tst":
                         $type_href = sprintf("goto.php?target=tst_%s&amp;client_id=" . CLIENT_ID, $row["ref_id"]);

@@ -1528,7 +1528,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         }
 
         // moved activation to ilObjectActivation
-        if ($this->ref_id) {
+        if (isset($this->ref_id)) {
             include_once "./Services/Object/classes/class.ilObjectActivation.php";
             $activation = ilObjectActivation::getItem($this->ref_id);
             switch ($activation["timing_type"]) {
@@ -1806,7 +1806,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return (bool) $this->getSequenceSettings();
     }
 
-    public function setPostponingEnabled(bool $postponingEnabled) : void
+    public function setPostponingEnabled($postponingEnabled) : void
     {
         $this->setSequenceSettings((int) $postponingEnabled);
     }
