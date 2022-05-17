@@ -66,8 +66,8 @@ class ilExtractedParams
         return $this->context_id;
     }
 
-    public function setContextId(int $context_id) : void
+    public function setContextId($context_id) : void
     {
-        $this->context_id = $context_id;
+        $this->context_id = (int) $context_id;
     }
 }
