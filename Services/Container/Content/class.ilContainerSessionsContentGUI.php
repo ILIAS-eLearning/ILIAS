@@ -115,7 +115,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 
         $pos = $this->getItemGroupsHTML(1);
         
-        if (is_array($this->items["_all"])) {
+        if (isset($this->items["_all"])) {
             $this->renderer->addCustomBlock("_all", $lng->txt("content"));
             $this->renderer->setBlockPosition("_all", ++$pos);
                         

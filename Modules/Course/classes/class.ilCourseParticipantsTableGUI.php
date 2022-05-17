@@ -396,7 +396,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
                     continue;
                 }
             }
-            if ($this->current_filter['org_units']) {
+            if ($this->current_filter['org_units'] ?? false) {
                 $org_unit = $this->current_filter['org_units'];
 
                 $assigned = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user['usr_id']);

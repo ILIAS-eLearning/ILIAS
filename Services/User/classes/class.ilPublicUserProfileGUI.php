@@ -154,9 +154,9 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     protected function getPublicPref(ilObjUser $a_user, string $a_id) : string
     {
         if (!$this->custom_prefs) {
-            return $a_user->getPref($a_id);
+            return (string) $a_user->getPref($a_id);
         } else {
-            return $this->custom_prefs[$a_id];
+            return (string) $this->custom_prefs[$a_id];
         }
     }
     

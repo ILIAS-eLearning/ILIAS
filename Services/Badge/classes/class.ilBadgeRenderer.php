@@ -21,8 +21,8 @@ class ilBadgeRenderer
     protected ilLanguage $lng;
     protected \ILIAS\UI\Factory $factory;
     protected \ILIAS\UI\Renderer $renderer;
-    protected ilBadgeAssignment $assignment;
-    protected ilBadge $badge;
+    protected ?ilBadgeAssignment $assignment = null;
+    protected ?ilBadge $badge = null;
     
     public function __construct(
         ilBadgeAssignment $a_assignment = null,

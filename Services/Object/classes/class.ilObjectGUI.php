@@ -1213,7 +1213,7 @@ class ilObjectGUI
      */
     protected function getReturnLocation(string $cmd, string $default_location = "") : string
     {
-        if ($this->return_location[$cmd] != "") {
+        if (($this->return_location[$cmd] ?? "") !== "") {
             return $this->return_location[$cmd];
         } else {
             return $default_location;
