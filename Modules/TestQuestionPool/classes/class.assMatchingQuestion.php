@@ -1010,7 +1010,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param string $filename Image file filename
     * @return boolean Success
     */
-    public function deleteImagefile($filename)
+    public function deleteImagefile(string $filename) : bool
     {
         $deletename = $filename;
         $result = @unlink($this->getImagePath() . $deletename);

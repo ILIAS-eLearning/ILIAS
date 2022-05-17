@@ -76,39 +76,23 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     protected bool $blockPassesAfterPassedEnabled = false;
     public int $use_previous_answers;
     public int $title_output;
-    public $processing_time;
-    public $enable_processing_time;
-
-    /**
-* Contains 0 if the processing time should not be reset, 1 if the processing time should be reset
-*
-* @var integer
-*/
-    public $reset_processing_time;
+    public $processing_time; // Initialized as string, but cannot be declared
+    public $enable_processing_time; // Initialized as int, but cannot be declared
+    public int $reset_processing_time;
 
     /**
      * @var bool
      */
     protected $starting_time_enabled;
 
-    /**
-     * The starting time in database timestamp format which defines the earliest starting time for the test
-     *
-     * @var string
-     */
-    protected $starting_time;
+    protected string $starting_time;
 
     /**
      * @var bool
      */
     protected $ending_time_enabled;
 
-    /**
-     * The ending time in database timestamp format which defines the latest ending time for the test
-     *
-     * @var string
-     */
-    protected $ending_time;
+    protected string $ending_time;
 
     /**
      * Indicates if ECTS grades will be used
@@ -121,13 +105,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      * @var float|null
      */
     protected $ects_fx = null;
-
-    /**
-     * The percentiles of the ECTS grades for this test
-     * @var array
-     */
-    protected $ects_grades = array();
-
+    protected array $ects_grades = array();
 
     protected $enabled_view_mode;
     protected $_highscore_enabled;
@@ -141,68 +119,37 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     protected $_highscore_top_table;
     protected $_highscore_top_num;
 
-    /**
-* Indicates if the points for answers are counted for partial solutions
-* or only for correct solutions
-*
-* @var integer
-*/
-    public $count_system;
+    public int $count_system;
+    public int $mc_scoring;
+    public int $pass_scoring;
+    public bool $shuffle_questions;
 
     /**
-* Indicates if the points unchecked multiple choice questions are given or not
-*
-* @var integer
-*/
-    public $mc_scoring;
-
-    /**
-* Defines which pass should be used for scoring
-*
-* @var integer
-*/
-    public $pass_scoring;
-
-    /**
-* Indicates if the questions in a test are shuffled before
-* a user accesses the test
-*
-* @var boolean
-*/
-    public $shuffle_questions;
-
-    /**
-* Contains the presentation settings for the test results
-*
-* @var integer
-*/
+     * Contains the presentation settings for the test results
+     *
+     * @var bool|int|null
+     */
     public $results_presentation;
 
     /**
-* Determines wheather or not a question summary is shown to the users
-*
-* @var boolean
-*/
+     * Determines wheather or not a question summary is shown to the users
+     *
+     * @var bool|int
+     */
     public $show_summary;
 
     /**
-* Determines if the score of every question should be cut at 0 points or the score of the complete test
-*
-* @var boolean
-*/
+     * Determines if the score of every question should be cut at 0 points or the score of the complete test
+     *
+     * @var bool|int
+     */
     public $score_cutting;
 
     /**
      * @var bool
      */
     protected $passwordEnabled;
-
-    /**
-     * Password access to enter the test
-     *
-     * @var string
-     */
-    protected $password;
+    protected string $password;
 
     /**
      * @var bool
@@ -212,56 +159,31 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
      * number of allowed users for the test
      *
-     * @var int
+     * @var int|string
      */
     protected $allowedUsers;
 
     /**
      * inactivity time gap of the allowed users to let new users into the test
      *
-     * @var int
+     * @var int|string
      */
     protected $allowedUsersTimeGap;
 
-    /**
-* Anonymity of the test users
-*
-* @var int
-*/
-    public $anonymity;
+    public int $anonymity;
 
-    /**
-* determines wheather a cancel test button is shown or not
-*
-* @var int
-*/
-    public $show_cancel;
+    public int $show_cancel;
 
-    /**
-* determines wheather a marker button is shown or not
-*
-* @var int
-*/
-    public $show_marker;
+    public int $show_marker;
 
-    /**
-* determines wheather a test may have fixed participants or not
-*
-* @var int
-*/
-    public $fixed_participants;
+    public int $fixed_participants;
 
-    /**
-* determines wheather an answer specific feedback is shown or not
-*
-* @var int
-*/
-    public $answer_feedback;
+    public int $answer_feedback;
     
     /**
     * contains the test session data
     *
-    * @var object
+    * @var object|false
     */
     public $testSession;
 
@@ -275,30 +197,14 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
     * Determines whether or not a final statement should be shown on test completion
     *
-    * @var integer
+    * @var integer|bool
     */
     private $_showfinalstatement;
+    private string $_finalstatement;
 
-    /**
-    * A final statement for test completion
-    *
-    * @var string
-    */
-    private $_finalstatement;
+    private bool $_showinfo;
 
-    /**
-    * Show the complete data on the test information page
-    *
-    * @var boolean
-    */
-    private $_showinfo;
-
-    /**
-    * Force JavaScript for test questions
-    *
-    * @var boolean
-    */
-    private $_forcejs = true;
+    private bool $_forcejs = true;
     
     /**
     * Name of a custom style sheet for the test
@@ -309,32 +215,19 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     
     protected $mailnotification;
     
-    protected $mailnottype;
+    protected int $mailnottype;
 
-    protected $exportsettings;
+    protected int $exportsettings;
 
     private $template_id;
 
     protected $oldOnlineStatus = null;
     
-    /**
-     * @var bool
-     */
-    protected $print_best_solution_with_result = true;
+    protected bool $print_best_solution_with_result = true;
 
-    /**
-     * defines wether question specific hints are offered or not
-     *
-     * @var boolean
-     */
-    private $offeringQuestionHintsEnabled = null;
+    private ?bool $offeringQuestionHintsEnabled = null;
 
-    /**
-     * defines wether it is possible to define obligatory questions
-     *
-     * @var boolean
-     */
-    private $obligationsEnabled = null;
+    private ?bool $obligationsEnabled = null;
     
     protected $activation_visibility;
 
@@ -342,9 +235,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     protected $activation_ending_time;
     
-    protected $autosave;
-
-    protected $autosave_ival;
+    protected bool $autosave;
+    protected int $autosave_ival;
     
     /**
      * defines wether it is possible for users
@@ -360,78 +252,38 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      * ALWAYS USE ilObjTest::paricipantDataExist() since this method initialises this property
      */
     private $participantDataExist = null;
-    
-    /** @var $enable_examview bool */
-    protected $enable_examview;
-    
-    /** @var $show_examview_html bool */
-    protected $show_examview_html;
-    
-    /** @var $show_examview_pdf bool */
-    protected $show_examview_pdf;
 
-    /** @var $enbale_archiving bool */
-    protected $enable_archiving;
+    protected bool $enable_examview;
+    protected bool $show_examview_html;
+    protected bool $show_examview_pdf;
+    protected bool $enable_archiving;
 
-    /**
-     * @var int
-     */
-    private $redirection_mode = 0;
+    private int $redirection_mode = 0;
+    private ?string $redirection_url = null;
     
-    /**
-     * @var string null
-     */
-    private $redirection_url = null;
+    protected bool $show_exam_id_in_test_pass_enabled;
+    protected bool $show_exam_id_in_test_results_enabled;
     
-    /** @var bool $show_exam_id_in_test_pass_enabled */
-    protected $show_exam_id_in_test_pass_enabled;
-
-    /** @var bool $show_exam_id_in_test_results_enabled */
-    protected $show_exam_id_in_test_results_enabled;
-    
-    /** @var bool $sign_submission */
-    protected $sign_submission;
+    protected bool $sign_submission;
     
     /** @var mixed availability of selector for special characters  */
     protected $char_selector_availability;
-    
-    /** @var string definition of selector for special characters  */
-    protected $char_selector_definition;
+    protected ?string $char_selector_definition;
 
-    /**
-     * @var bool
-     */
-    protected $showGradingStatusEnabled;
-
-    /**
-     * @var bool
-     */
-    protected $showGradingMarkEnabled;
+    protected bool $showGradingStatusEnabled;
+    protected bool $showGradingMarkEnabled;
     
-    /**
-     * @var bool
-     */
-    protected $followupQuestionAnswerFixationEnabled;
-    
-    /**
-     * @var bool
-     */
-    protected $instantFeedbackAnswerFixationEnabled;
+    protected bool $followupQuestionAnswerFixationEnabled;
+    protected bool $instantFeedbackAnswerFixationEnabled;
 
     /**
      * @var bool
      */
     protected $forceInstantFeedbackEnabled;
 
-    /**
-     * @var bool
-     */
-    protected $testFinalBroken;
+    protected bool $testFinalBroken;
 
-    /**
-     * @var integer
-     */
-    private $tmpCopyWizardCopyId;
+    private ?int $tmpCopyWizardCopyId;
     
     /**
      * @var string mm:ddd:hh:ii:ss
