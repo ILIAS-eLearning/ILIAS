@@ -1592,12 +1592,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 );
                 
                 if (strcasecmp("Reference", $med->getLocationType()) == 0) {
-                    ilWACSignedPath::signFolderOfStartFile($med->getLocation());
-                    $mpl->setFile($med->getLocation());
+                    $mpl->setFile(ilWACSignedPath::signFile($med->getLocation()));
                 } else {
                     $path_to_file = ilObjMediaObject::_getURL($mob->getId()) . "/" . $med->getLocation();
-                    ilWACSignedPath::signFolderOfStartFile($path_to_file);
-                    $mpl->setFile($path_to_file);
+                    $mpl->setFile(ilWACSignedPath::signFile($path_to_file));
                 }
                 $mpl->setMimeType($med->getFormat());
                 //$mpl->setDisplayHeight($med->getHeight());
