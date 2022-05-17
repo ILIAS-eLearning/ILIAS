@@ -152,6 +152,7 @@ class ilDclDetailedViewGUI
                         $this->renderRecord(false);
                         break;
                     case 'deleteNote':
+                        // TODO: php8_review -> deleteNote() has protected visibility
                         $this->notesGUI->deleteNote();
                         $this->renderRecord();
                         break;
