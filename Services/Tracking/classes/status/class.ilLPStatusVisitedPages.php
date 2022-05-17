@@ -134,7 +134,7 @@ class ilLPStatusVisitedPages extends ilLPStatus
         }
 
         if ($a_user_id) {
-            $res = (array) $res[$a_user_id];
+            $res = $res[$a_user_id] ?? [];
         }
 
         return $res;
