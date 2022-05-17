@@ -496,7 +496,7 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
             $this->bymonthday = (string) $row->bymonthday;
             $this->byyearday = (string) $row->byyearday;
             $this->bysetpos = (string) $row->bysetpos;
-            $this->weekstart = (string) $row->week_start;
+            $this->weekstart = (string) $row->weekstart;
         }
 
         $this->exclusion_dates = ilCalendarRecurrenceExclusions::getExclusionDates($this->cal_id);
