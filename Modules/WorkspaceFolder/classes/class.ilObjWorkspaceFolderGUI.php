@@ -443,7 +443,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
                 foreach ($this->std_request->getItemIds() as $id) {
                     $this->tpl->setCurrentBlock("hidden");
-                    $this->tpl->setVariable('VALUE', $id);
+                    $this->tpl->setVariable('VALUE', (string) $id);
                     $this->tpl->parseCurrentBlock();
                 }
             }
@@ -480,7 +480,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
                 foreach ($this->std_request->getItemIds() as $id) {
                     $this->tpl->setCurrentBlock("hidden");
-                    $this->tpl->setVariable('VALUE', $id);
+                    $this->tpl->setVariable('VALUE', (string) $id);
                     $this->tpl->parseCurrentBlock();
                 }
             }
