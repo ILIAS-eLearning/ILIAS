@@ -21,8 +21,8 @@
 class ilBadgeUserTableGUI extends ilTable2GUI
 {
     protected ilTree $tree;
-    protected ilBadge $award_badge;
-    protected bool $do_parent;
+    protected ?ilBadge $award_badge = null;
+    protected bool $do_parent = false;
     protected array $filter = [];
     
     public function __construct(

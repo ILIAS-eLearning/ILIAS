@@ -165,12 +165,12 @@ class ilBadgeGUIRequest
 
     public function getType() : string
     {
-        return $this->int("type");
+        return $this->str("type");
     }
 
     public function getTgt() : string
     {
-        return $this->int("tgt");
+        return $this->str("tgt");
     }
 
     public function getTemplateId() : int

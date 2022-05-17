@@ -192,7 +192,7 @@ class ilBadgeHandler
         }
         $this->settings->set("inactive_types", $a_types !== null
             ? serialize(array_unique($a_types))
-            : null);
+            : "");
     }
     
     /**
@@ -519,8 +519,8 @@ class ilBadgeHandler
                 $mail = new ilMail(ANONYMOUS_USER_ID);
                 $mail->enqueue(
                     ilObjUser::_lookupEmail($user_id),
-                    null,
-                    null,
+                    "",
+                    "",
                     $lng->txt("badge_notification_subject"),
                     $ntf->composeAndGetMessage($user_id, null, "read", true),
                     []
