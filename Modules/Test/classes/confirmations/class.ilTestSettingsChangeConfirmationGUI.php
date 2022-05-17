@@ -175,7 +175,7 @@ class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
 
                 default:
 
-                    $this->addHiddenItem($item->getPostVar(), (string)$item->getValue());
+                    $this->addHiddenItem($item->getPostVar(), (string) $item->getValue());
             }
         }
     }

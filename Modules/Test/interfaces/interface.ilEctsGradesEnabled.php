@@ -8,49 +8,28 @@
  */
 interface ilEctsGradesEnabled
 {
-    /**
-     * @param array $grades
-     */
-    public function setECTSGrades(array $grades);
+    public function setECTSGrades(array $grades) : void;
 
-    /**
-     * @return array
-     */
     public function getECTSGrades() : array;
 
     /**
      * @param float|null $ects_fx
      */
-    public function setECTSFX($ects_fx);
+    public function setECTSFX($ects_fx) : void;
 
-    /**
-     * @return float|null
-     */
     public function getECTSFX() : ?float;
 
     /**
      * @param int|bool $status
      */
-    public function setECTSOutput($status);
+    public function setECTSOutput($status) : void;
 
-    /**
-     * @return int|bool
-     */
-    public function getECTSOutput();
+    public function getECTSOutput() : int;
 
-    /**
-     *
-     */
-    public function saveECTSStatus();
+    public function saveECTSStatus() : void;
 
-    /**
-     * @return boolean
-     */
     public function canEditEctsGrades() : bool;
 
-    /**
-     * @return boolean
-     */
     public function canShowEctsGrades() : bool;
 
     /**
