@@ -85,7 +85,7 @@ class ilBadgeHandler
      */
     public function setComponents(array $a_components = null) : void
     {
-        if (is_array($a_components) && !count($a_components)) {
+        if (isset($a_components) && count($a_components) === 0) {
             $a_components = null;
         }
         $this->settings->set("components", $a_components !== null

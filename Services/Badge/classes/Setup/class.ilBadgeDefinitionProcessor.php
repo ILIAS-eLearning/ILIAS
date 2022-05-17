@@ -26,6 +26,8 @@ class ilBadgeDefinitionProcessor implements ilComponentDefinitionProcessor
 
     public function purge() : void
     {
+        $bh = ilBadgeHandler::getInstance();
+        $bh->setComponents(null);
     }
 
     public function beginComponent(string $component, string $type) : void
@@ -65,15 +67,6 @@ class ilBadgeDefinitionProcessor implements ilComponentDefinitionProcessor
     {
         if ($name === "module" || $name === "service") {
             $this->component_id = null;
-            return;
-        }
-
-        if ($name !== 'badges') {
-            return;
-        }
-
-        if ($this->has_badges) {
-            ilBadgeHandler::clearFromXML($this->component_id);
         }
     }
 }
