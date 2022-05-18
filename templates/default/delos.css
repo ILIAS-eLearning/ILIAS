@@ -17331,6 +17331,12 @@ div.ilAttendanceListPrint th {
   border: 1px solid #dddddd;
   padding: 2px;
 }
+th.ilMembershipRowActionsHeader {
+  text-align: right;
+}
+th.ilMembershipRowActionsHeader span {
+  padding-right: 6px;
+}
 body.ilBodyPrint {
   height: auto;
   background-color: white;
