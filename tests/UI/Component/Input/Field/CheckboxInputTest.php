@@ -259,4 +259,12 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $this->assertIsString($checkbox->getContent()->value());
         $this->assertEquals($new_value, $checkbox->getContent()->value());
     }
+
+    public function testNullValue() : void
+    {
+        $f = $this->buildFactory();
+        $checkbox = $f->checkbox("label");
+        $checkbox->withValue(null);
+        $this->assertEquals(false, $checkbox->getValue());
+    }
 }

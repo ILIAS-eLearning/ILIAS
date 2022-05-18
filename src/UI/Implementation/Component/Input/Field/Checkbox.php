@@ -47,6 +47,8 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
      */
     public function withValue($value)
     {
+        $value = $value ?? false;
+
         if (!is_bool($value)) {
             throw new \InvalidArgumentException(
                 "Unknown value type for checkbox: " . gettype($value)
