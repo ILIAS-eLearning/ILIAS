@@ -244,7 +244,7 @@ class ilInfoScreenGUI
             $checkbox .= "&nbsp;<label for=\"$a_checkbox_name$a_checkbox_value\">$a_checkbox_label</label>";
         }
         $this->section[$this->sec_nr]["properties"][] =
-            array("name" => $a_name, "value" => $checkbox);
+            array("name" => $a_name, "value" => $checkbox, "link" => "");
     }
 
     /**

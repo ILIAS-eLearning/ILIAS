@@ -35,7 +35,7 @@ class ilAssLacAnswerOfCurrentQuestionExpression extends ilAssLacAbstractExpressi
      *
      * @param array $matches
      */
-    protected function setMatches($matches)
+    protected function setMatches($matches) : void
     {
     }
 

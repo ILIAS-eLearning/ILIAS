@@ -49,7 +49,7 @@ class ilAssQuestionHintRequestStatisticData
      * @access public
      * @param integer $requestsPoints
      */
-    public function setRequestsPoints($requestsPoints)
+    public function setRequestsPoints($requestsPoints) : void
     {
         $this->requestsPoints = $requestsPoints;
     }
@@ -71,7 +71,7 @@ class ilAssQuestionHintRequestStatisticData
      * @access public
      * @param integer $requestsCount
      */
-    public function setRequestsCount($requestsCount)
+    public function setRequestsCount($requestsCount) : void
     {
         $this->requestsCount = $requestsCount;
     }

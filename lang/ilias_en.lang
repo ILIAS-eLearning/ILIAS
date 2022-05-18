@@ -596,6 +596,7 @@ assessment#:#autosave_ival#:#Interval
 assessment#:#autosave_success#:#Autosave successful...
 assessment#:#average_reached_points#:#Average Points
 assessment#:#backtocallingtest#:#Back to the calling test
+assessment#:#backtocallingpage#:#Back to the calling page
 assessment#:#back_to_objective_container#:#Go to Course
 assessment#:#baseunit#:#Base Unit
 assessment#:#button_request_next_question_hint#:#Request Next Hint

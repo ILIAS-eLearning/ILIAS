@@ -56,7 +56,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * @param boolean $clearAnswersOnWritingPostDataEnabled
      */
-    public function setClearAnswersOnWritingPostDataEnabled($clearAnswersOnWritingPostDataEnabled)
+    public function setClearAnswersOnWritingPostDataEnabled($clearAnswersOnWritingPostDataEnabled) : void
     {
         $this->clearAnswersOnWritingPostDataEnabled = $clearAnswersOnWritingPostDataEnabled;
     }
@@ -69,7 +69,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $this->clearAnswersOnWritingPostDataEnabled;
     }
 
-    public function changeToPictures()
+    public function changeToPictures() : void
     {
         if ($this->object->getOrderingType() != OQ_NESTED_PICTURES && $this->object->getOrderingType() != OQ_PICTURES) {
             $this->setClearAnswersOnWritingPostDataEnabled(true);
@@ -86,7 +86,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->renderEditForm($form);
     }
 
-    public function changeToText()
+    public function changeToText() : void
     {
         if ($this->object->getOrderingType() != OQ_NESTED_TERMS && $this->object->getOrderingType() != OQ_TERMS) {
             $this->setClearAnswersOnWritingPostDataEnabled(true);
@@ -103,7 +103,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->renderEditForm($form);
     }
 
-    public function orderNestedTerms()
+    public function orderNestedTerms() : void
     {
         $this->writePostData(true);
         $this->object->setOrderingType(OQ_NESTED_TERMS);
@@ -112,7 +112,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->renderEditForm($this->buildEditForm());
     }
 
-    public function orderNestedPictures()
+    public function orderNestedPictures() : void
     {
         $this->writePostData(true);
         $this->object->setOrderingType(OQ_NESTED_PICTURES);
@@ -121,7 +121,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->renderEditForm($this->buildEditForm());
     }
     
-    public function removeElementImage()
+    public function removeElementImage() : void
     {
         $orderingInput = $this->object->buildOrderingImagesInputGui();
         $this->object->initOrderingElementAuthoringProperties($orderingInput);
@@ -164,7 +164,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->renderEditForm($form);
     }
 
-    public function uploadElementImage()
+    public function uploadElementImage() : void
     {
         $orderingInput = $this->object->buildOrderingImagesInputGui();
         $this->object->initOrderingElementAuthoringProperties($orderingInput);
@@ -367,7 +367,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * Creates an output of the edit form for the question
      */
-    public function editQuestion($checkonly = false)
+    public function editQuestion($checkonly = false) : void
     {
         $this->renderEditForm($this->buildEditForm());
     }
@@ -607,45 +607,8 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
-        if ($this->request->isset('q_id')) {
-            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-                // edit page
-                $ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    false
-                );
-            }
-
-            $this->addTab_QuestionPreview($ilTabs);
-        }
-
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-            $url = "";
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            $commands = $_POST["cmd"];
-            if (is_array($commands)) {
-                foreach ($commands as $key => $value) {
-                    if (preg_match("/^delete_.*/", $key, $matches)) {
-                        $force_active = true;
-                    }
-                }
-            }
-            // edit question properties
-            $ilTabs->addTarget(
-                "edit_question",
-                $url,
-                array("orderNestedTerms","orderNestedPictures","editQuestion", "save", "saveEdit", "addanswers", "removeanswers", "changeToPictures", "uploadElementImage", "changeToText", "upanswers", "downanswers", "originalSyncForm"),
-                $classname,
-                "",
-                $force_active
-            );
+        if ($_GET["q_id"]) {
+            $this->addTab_Question($ilTabs);
         }
 
         // add tab for question feedback within common class assQuestionGUI
@@ -708,7 +671,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      * @param $form
      * @throws ilTestQuestionPoolException
      */
-    protected function persistAuthoringForm($form)
+    protected function persistAuthoringForm($form) : void
     {
         $this->writeQuestionGenericPostData();
         $this->writeQuestionSpecificPostData($form);

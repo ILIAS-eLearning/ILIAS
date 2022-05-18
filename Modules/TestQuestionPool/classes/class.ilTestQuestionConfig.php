@@ -126,7 +126,7 @@ class ilTestQuestionConfig
     /**
      * @param bool $previousPassSolutionReuseAllowed
      */
-    public function setPreviousPassSolutionReuseAllowed($previousPassSolutionReuseAllowed)
+    public function setPreviousPassSolutionReuseAllowed($previousPassSolutionReuseAllowed) : void
     {
         $this->previousPassSolutionReuseAllowed = $previousPassSolutionReuseAllowed;
     }
@@ -166,7 +166,7 @@ class ilTestQuestionConfig
     /**
      * @param bool $scoreEmptyMcSolutionsEnabled
      */
-    public function setScoreEmptyMcSolutionsEnabled($scoreEmptyMcSolutionsEnabled)
+    public function setScoreEmptyMcSolutionsEnabled($scoreEmptyMcSolutionsEnabled) : void
     {
         $this->scoreEmptyMcSolutionsEnabled = $scoreEmptyMcSolutionsEnabled;
     }

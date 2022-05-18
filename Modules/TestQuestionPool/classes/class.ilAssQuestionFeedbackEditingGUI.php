@@ -116,7 +116,7 @@ class ilAssQuestionFeedbackEditingGUI
      *
      * @access public
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilHelp = $DIC['ilHelp']; /* @var ilHelpGUI $ilHelp */
@@ -148,7 +148,7 @@ class ilAssQuestionFeedbackEditingGUI
     /**
      * Set content style
      */
-    protected function setContentStyle()
+    protected function setContentStyle() : void
     {
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
     }
@@ -158,7 +158,7 @@ class ilAssQuestionFeedbackEditingGUI
      *
      * @access private
      */
-    private function showFeedbackFormCmd()
+    private function showFeedbackFormCmd() : void
     {
         require_once "./Services/Style/Content/classes/class.ilObjStyleSheet.php";
         $this->tpl->setCurrentBlock("ContentStyle");
@@ -182,7 +182,7 @@ class ilAssQuestionFeedbackEditingGUI
      *
      * @access private
      */
-    private function saveFeedbackFormCmd()
+    private function saveFeedbackFormCmd() : void
     {
         $form = $this->buildForm();
         
@@ -287,7 +287,7 @@ class ilAssQuestionFeedbackEditingGUI
         return true;
     }
     
-    public function showSyncCmd()
+    public function showSyncCmd() : void
     {
         $this->questionGUI->originalSyncForm('', 'true');
     }

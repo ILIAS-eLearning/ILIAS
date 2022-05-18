@@ -12,7 +12,7 @@ abstract class ilAssQuestionProcessLocker
     /**
      * @param callable $operation
      */
-    protected function executeOperation(callable $operation)
+    protected function executeOperation(callable $operation) : void
     {
         $operation();
     }
@@ -20,7 +20,7 @@ abstract class ilAssQuestionProcessLocker
     /**
      * @param callable $operation
      */
-    final public function executePersistWorkingStateLockOperation(callable $operation)
+    final public function executePersistWorkingStateLockOperation(callable $operation) : void
     {
         $this->onBeforeExecutingPersistWorkingStateOperation();
         $this->executeOperation($operation);
@@ -30,21 +30,21 @@ abstract class ilAssQuestionProcessLocker
     /**
      *
      */
-    protected function onBeforeExecutingPersistWorkingStateOperation()
+    protected function onBeforeExecutingPersistWorkingStateOperation() : void
     {
     }
 
     /**
      *
      */
-    protected function onAfterExecutingPersistWorkingStateOperation()
+    protected function onAfterExecutingPersistWorkingStateOperation() : void
     {
     }
 
     /**
      * @param callable $operation
      */
-    final public function executeUserSolutionUpdateLockOperation(callable $operation)
+    final public function executeUserSolutionUpdateLockOperation(callable $operation) : void
     {
         $this->onBeforeExecutingUserSolutionUpdateOperation();
         $this->executeOperation($operation);
@@ -54,21 +54,21 @@ abstract class ilAssQuestionProcessLocker
     /**
      *
      */
-    protected function onBeforeExecutingUserSolutionUpdateOperation()
+    protected function onBeforeExecutingUserSolutionUpdateOperation() : void
     {
     }
 
     /**
      *
      */
-    protected function onAfterExecutingUserSolutionUpdateOperation()
+    protected function onAfterExecutingUserSolutionUpdateOperation() : void
     {
     }
 
     /**
      * @param callable $operation
      */
-    final public function executeUserQuestionResultUpdateOperation(callable $operation)
+    final public function executeUserQuestionResultUpdateOperation(callable $operation) : void
     {
         $this->onBeforeExecutingUserQuestionResultUpdateOperation();
         $this->executeOperation($operation);
@@ -78,21 +78,21 @@ abstract class ilAssQuestionProcessLocker
     /**
      *
      */
-    protected function onBeforeExecutingUserQuestionResultUpdateOperation()
+    protected function onBeforeExecutingUserQuestionResultUpdateOperation() : void
     {
     }
 
     /**
      *
      */
-    protected function onAfterExecutingUserQuestionResultUpdateOperation()
+    protected function onAfterExecutingUserQuestionResultUpdateOperation() : void
     {
     }
 
     /**
      * @param callable $operation
      */
-    final public function executeUserPassResultUpdateLockOperation(callable $operation)
+    final public function executeUserPassResultUpdateLockOperation(callable $operation) : void
     {
         $this->onBeforeExecutingUserPassResultUpdateOperation();
         $this->executeOperation($operation);
@@ -102,21 +102,21 @@ abstract class ilAssQuestionProcessLocker
     /**
      *
      */
-    protected function onBeforeExecutingUserPassResultUpdateOperation()
+    protected function onBeforeExecutingUserPassResultUpdateOperation() : void
     {
     }
 
     /**
      *
      */
-    protected function onAfterExecutingUserPassResultUpdateOperation()
+    protected function onAfterExecutingUserPassResultUpdateOperation() : void
     {
     }
 
     /**
      * @param callable $operation
      */
-    final public function executeUserTestResultUpdateLockOperation(callable $operation)
+    final public function executeUserTestResultUpdateLockOperation(callable $operation) : void
     {
         $this->onBeforeExecutingUserTestResultUpdateOperation();
         $this->executeOperation($operation);
@@ -126,21 +126,21 @@ abstract class ilAssQuestionProcessLocker
     /**
      *
      */
-    protected function onBeforeExecutingUserTestResultUpdateOperation()
+    protected function onBeforeExecutingUserTestResultUpdateOperation() : void
     {
     }
 
     /**
      *
      */
-    protected function onAfterExecutingUserTestResultUpdateOperation()
+    protected function onAfterExecutingUserTestResultUpdateOperation() : void
     {
     }
 
     /**
      * @param callable $operation
      */
-    final public function executeUserSolutionAdoptLockOperation(callable $operation)
+    final public function executeUserSolutionAdoptLockOperation(callable $operation) : void
     {
         $this->onBeforeExecutingUserSolutionAdoptOperation();
         $this->executeOperation($operation);
@@ -150,14 +150,14 @@ abstract class ilAssQuestionProcessLocker
     /**
      *
      */
-    protected function onBeforeExecutingUserSolutionAdoptOperation()
+    protected function onBeforeExecutingUserSolutionAdoptOperation() : void
     {
     }
 
     /**
      *
      */
-    protected function onAfterExecutingUserSolutionAdoptOperation()
+    protected function onAfterExecutingUserSolutionAdoptOperation() : void
     {
     }
 }

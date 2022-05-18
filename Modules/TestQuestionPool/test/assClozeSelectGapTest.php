@@ -23,7 +23,7 @@ class assClozeSelectGapTest extends assBaseTestCase
         chdir('../../../');
     }
 
-    public function test_instantiateObject_shouldReturnInstance()
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
@@ -34,7 +34,7 @@ class assClozeSelectGapTest extends assBaseTestCase
         $this->assertInstanceOf('assClozeSelectGap', $instance);
     }
 
-    public function test_newlyInstatiatedObject_shouldReturnTrueOnGetShuffle()
+    public function test_newlyInstatiatedObject_shouldReturnTrueOnGetShuffle() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
@@ -46,7 +46,7 @@ class assClozeSelectGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_arrayShuffle_shouldShuffleArray()
+    public function test_arrayShuffle_shouldShuffleArray() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
@@ -59,7 +59,7 @@ class assClozeSelectGapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getItemswithShuffle_shouldReturnShuffledItems()
+    public function test_getItemswithShuffle_shouldReturnShuffledItems() : void
     {
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
         $instance = new assClozeSelectGap(1); // 1 - select gap
@@ -98,7 +98,7 @@ class assClozeSelectGapTest extends assBaseTestCase
         $this->assertEquals($actual, $expectedSequence);
     }
 
-    public function test_getItemswithoutShuffle_shouldReturnItemsInOrder()
+    public function test_getItemswithoutShuffle_shouldReturnItemsInOrder() : void
     {
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
         $instance = new assClozeSelectGap(1); // 1 - select gap

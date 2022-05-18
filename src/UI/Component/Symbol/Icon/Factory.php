@@ -32,8 +32,6 @@ interface Factory
      *     2: >
      *        In their outlined version, Standard Icons MUST only use white as color for the stroke, to make filter easily
      *        applicable.
-     *   accessibility:
-     *     1: Icons MUST have alt-tags.
      * ---
      * @param   string $name
      * @param   string $label

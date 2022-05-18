@@ -100,7 +100,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @param ilAssOrderingElementList $elementList
      */
-    public function setElementList(ilAssOrderingElementList $elementList)
+    public function setElementList(ilAssOrderingElementList $elementList) : void
     {
         $this->setIdentifiedMultiValues($elementList->getRandomIdentifierIndexedElements());
     }
@@ -118,7 +118,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @param assOrderingQuestion $question
      */
-    public function prepareReprintable(assQuestion $question)
+    public function prepareReprintable(assQuestion $question) : void
     {
         $elementList = $this->getElementList($question->getId());
         
@@ -149,7 +149,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @param string $context
      */
-    public function setContext($context)
+    public function setContext($context) : void
     {
         $this->context = $context;
     }
@@ -165,7 +165,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @param string $uniquePrefix
      */
-    public function setUniquePrefix($uniquePrefix)
+    public function setUniquePrefix($uniquePrefix) : void
     {
         $this->uniquePrefix = $uniquePrefix;
     }
@@ -173,7 +173,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @param mixed $orderingType
      */
-    public function setOrderingType($orderingType)
+    public function setOrderingType($orderingType) : void
     {
         $this->orderingType = $orderingType;
     }
@@ -189,7 +189,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @param string $elementImagePath
      */
-    public function setElementImagePath($elementImagePath)
+    public function setElementImagePath($elementImagePath) : void
     {
         $this->elementImagePath = $elementImagePath;
     }
@@ -205,7 +205,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @param string $thumbnailFilenamePrefix
      */
-    public function setThumbPrefix($thumbnailFilenamePrefix)
+    public function setThumbPrefix($thumbnailFilenamePrefix) : void
     {
         $this->thumbnailFilenamePrefix = $thumbnailFilenamePrefix;
     }
@@ -221,7 +221,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @param $showCorrectnessIconsEnabled
      */
-    public function setShowCorrectnessIconsEnabled($showCorrectnessIconsEnabled)
+    public function setShowCorrectnessIconsEnabled($showCorrectnessIconsEnabled) : void
     {
         $this->showCorrectnessIconsEnabled = $showCorrectnessIconsEnabled;
     }
@@ -247,7 +247,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      * @param bool $correctness
      * @param string $iconFilename
      */
-    public function setCorrectnessIconFilename($correctness, $iconFilename)
+    public function setCorrectnessIconFilename($correctness, $iconFilename) : void
     {
         $this->correctnessIcons[(bool) $correctness] = $iconFilename;
     }
@@ -265,7 +265,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
      * @param bool $correctness
      * @param string $langVar
      */
-    public function setCorrectnessLangVar($correctness, $langVar)
+    public function setCorrectnessLangVar($correctness, $langVar) : void
     {
         $this->correctnessLngVars[(bool) $correctness] = $langVar;
     }
@@ -292,7 +292,7 @@ class ilAssNestedOrderingElementsInputGUI extends ilMultipleNestedOrderingElemen
     /**
      * @param ilAssOrderingElementList $correctnessTrueElementList
      */
-    public function setCorrectnessTrueElementList(ilAssOrderingElementList $correctnessTrueElementList)
+    public function setCorrectnessTrueElementList(ilAssOrderingElementList $correctnessTrueElementList) : void
     {
         $this->correctnessTrueElementList = $correctnessTrueElementList;
     }

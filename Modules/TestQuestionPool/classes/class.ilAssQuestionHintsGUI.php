@@ -73,12 +73,12 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
     /**
      * @param bool $editingEnabled
      */
-    public function setEditingEnabled(bool $editingEnabled)
+    public function setEditingEnabled(bool $editingEnabled) : void
     {
         $this->editingEnabled = $editingEnabled;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -136,7 +136,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @access	private
      * @global	ilTemplate	$tpl
      */
-    private function showListCmd()
+    private function showListCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -192,7 +192,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilTemplate	$tpl
      * @global	ilLanguage	$lng
      */
-    private function confirmDeleteCmd()
+    private function confirmDeleteCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -237,7 +237,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilLanguage	$lng
      */
-    private function performDeleteCmd()
+    private function performDeleteCmd() : void
     {
         if (!$this->isEditingEnabled()) {
             return;
@@ -292,7 +292,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilLanguage	$lng
      */
-    private function saveListOrderCmd()
+    private function saveListOrderCmd() : void
     {
         if (!$this->isEditingEnabled()) {
             return;
@@ -347,7 +347,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @access	private
      * @global	ilCtrl	$ilCtrl
      */
-    private function cutToOrderingClipboardCmd()
+    private function cutToOrderingClipboardCmd() : void
     {
         if (!$this->isEditingEnabled()) {
             return;
@@ -375,7 +375,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilLanguage	$lng
      */
-    private function pasteFromOrderingClipboardBeforeCmd()
+    private function pasteFromOrderingClipboardBeforeCmd() : void
     {
         if (!$this->isEditingEnabled()) {
             return;
@@ -435,7 +435,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilLanguage	$lng
      */
-    private function pasteFromOrderingClipboardAfterCmd()
+    private function pasteFromOrderingClipboardAfterCmd() : void
     {
         if (!$this->isEditingEnabled()) {
             return;
@@ -495,7 +495,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilLanguage	$lng
      */
-    private function resetOrderingClipboardCmd()
+    private function resetOrderingClipboardCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -514,7 +514,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @access	private
      * @global	ilLanguage	$lng
      */
-    private function initHintOrderingClipboardNotification()
+    private function initHintOrderingClipboardNotification() : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -538,7 +538,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @access	private
      * @param	integer	$hintId
      */
-    private function checkForExistingHintRelatingToCurrentQuestionAndRedirectOnFailure($hintId)
+    private function checkForExistingHintRelatingToCurrentQuestionAndRedirectOnFailure($hintId) : void
     {
         $questionHintList = ilAssQuestionHintList::getListByQuestionId($this->questionOBJ->getId());
         
@@ -580,7 +580,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilLanguage	$lng
      * @param	array		$hintIds
      */
-    private function checkForSingleHintIdAndRedirectOnFailure($hintIds)
+    private function checkForSingleHintIdAndRedirectOnFailure($hintIds) : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -659,7 +659,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         return $hintIndexes;
     }
     
-    public function confirmSyncCmd()
+    public function confirmSyncCmd() : void
     {
         $this->questionGUI->originalSyncForm('showHints');
     }
@@ -695,7 +695,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilTemplate $tpl
      * @global	ilLanguage $lng
      */
-    private function showHintCmd()
+    private function showHintCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

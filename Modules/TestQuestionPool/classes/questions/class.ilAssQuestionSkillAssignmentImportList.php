@@ -27,7 +27,7 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
     /**
      * @param ilAssQuestionSkillAssignmentImport $assignment
      */
-    public function addAssignment(ilAssQuestionSkillAssignmentImport $assignment)
+    public function addAssignment(ilAssQuestionSkillAssignmentImport $assignment) : void
     {
         $this->assignments[] = $assignment;
     }
@@ -79,12 +79,12 @@ class ilAssQuestionSkillAssignmentImportList implements Iterator
         return reset($this->assignments);
     }
     
-    public function sleep()
+    public function sleep() : void
     {
         // TODO: Implement __sleep() method.
     }
     
-    public function wakeup()
+    public function wakeup() : void
     {
         // TODO: Implement __wakeup() method.
     }

@@ -199,7 +199,64 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));
         }
-        
+        $actions = new ilAdvancedSelectionListGUI();
+        $actions->setId('qst' . $a_set["question_id"]);
+        $actions->setListTitle($this->lng->txt('actions'));
+
+        $actions->addItem($this->lng->txt('preview'), '', $this->ctrl->getLinkTargetByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW));
+        if (true || $this->getEditable()) {
+            $editHref = $this->ctrl->getLinkTargetByClass($a_set['type_tag'] . 'GUI', 'editQuestion');
+            $actions->addItem($this->lng->txt('edit_question'), '', $editHref);
+
+            $editPageHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionPageGUI', 'edit');
+            $actions->addItem($this->lng->txt('edit_page'), '', $editPageHref);
+        }
+
+        if (true || $this->getWriteAccess()) {
+            $this->ctrl->setParameter($this->parent_obj, 'q_id', $a_set['question_id']);
+            $moveHref = $this->ctrl->getLinkTarget($this->parent_obj, 'move');
+            $this->ctrl->setParameter($this->parent_obj, 'q_id', null);
+            $actions->addItem($this->lng->txt('move'), '', $moveHref);
+
+            $this->ctrl->setParameter($this->parent_obj, 'q_id', $a_set['question_id']);
+            $copyHref = $this->ctrl->getLinkTarget($this->parent_obj, 'copy');
+            $this->ctrl->setParameter($this->parent_obj, 'q_id', null);
+            $actions->addItem($this->lng->txt('copy'), '', $copyHref);
+
+            $this->ctrl->setParameter($this->parent_obj, 'q_id', $a_set['question_id']);
+            $deleteHref = $this->ctrl->getLinkTarget($this->parent_obj, 'deleteQuestions');
+            $this->ctrl->setParameter($this->parent_obj, 'q_id', null);
+            $actions->addItem($this->lng->txt('delete'), '', $deleteHref);
+        }
+
+        if (true || $this->getEditable()) {
+            require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
+            $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', $a_set['question_id']);
+            $feedbackHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionFeedbackEditingGUI', ilAssQuestionFeedbackEditingGUI::CMD_SHOW);
+            $this->ctrl->setParameterByClass('ilAssQuestionFeedbackEditingGUI', 'q_id', null);
+            $actions->addItem($this->lng->txt('tst_feedback'), '', $feedbackHref);
+
+            $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', $a_set['question_id']);
+            $hintsHref = $this->ctrl->getLinkTargetByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+            $this->ctrl->setParameterByClass('ilAssQuestionHintsGUI', 'q_id', null);
+            $actions->addItem($this->lng->txt('tst_question_hints_tab'), '', $hintsHref);
+        }
+        /*
+                if (false || $this->isQuestionCommentingEnabled()) {
+                    $actions->addItem(
+                        $this->lng->txt('ass_comments'),
+                        'comments',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        '',
+                        $this->getCommentsAjaxLink($data['question_id'])
+                    );
+                }
+        */
+        $this->tpl->setVariable('ROW_ACTIONS', $actions->getHTML());
         if ($this->isQuestionRemoveRowButtonEnabled()) {
             $this->tpl->setVariable('ROW_ACTIONS', $this->buildQuestionRemoveButton($a_set));
         }

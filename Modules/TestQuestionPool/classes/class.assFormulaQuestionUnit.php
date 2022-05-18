@@ -28,7 +28,7 @@ class assFormulaQuestionUnit
     /**
      * @param array $data
      */
-    public function initFormArray(array $data)
+    public function initFormArray(array $data) : void
     {
         $this->id = $data['unit_id'];
         $this->unit = $data['unit'];
@@ -42,7 +42,7 @@ class assFormulaQuestionUnit
     /**
      * @param string $baseunit_title
      */
-    public function setBaseunitTitle($baseunit_title)
+    public function setBaseunitTitle($baseunit_title) : void
     {
         $this->baseunit_title = $baseunit_title;
     }
@@ -55,7 +55,7 @@ class assFormulaQuestionUnit
         return $this->baseunit_title;
     }
     
-    public function setId($id)
+    public function setId($id) : void
     {
         $this->id = $id;
     }
@@ -65,7 +65,7 @@ class assFormulaQuestionUnit
         return $this->id;
     }
 
-    public function setUnit($unit)
+    public function setUnit($unit) : void
     {
         $this->unit = $unit;
     }
@@ -75,7 +75,7 @@ class assFormulaQuestionUnit
         return $this->unit;
     }
 
-    public function setSequence($sequence)
+    public function setSequence($sequence) : void
     {
         $this->sequence = $sequence;
     }
@@ -85,7 +85,7 @@ class assFormulaQuestionUnit
         return $this->sequence;
     }
 
-    public function setFactor($factor)
+    public function setFactor($factor) : void
     {
         $this->factor = $factor;
     }
@@ -95,7 +95,7 @@ class assFormulaQuestionUnit
         return $this->factor;
     }
 
-    public function setBaseUnit($baseunit)
+    public function setBaseUnit($baseunit) : void
     {
         if (is_numeric($baseunit) && $baseunit > 0) {
             $this->baseunit = $baseunit;
@@ -113,7 +113,7 @@ class assFormulaQuestionUnit
         }
     }
     
-    public function setCategory($category)
+    public function setCategory($category) : void
     {
         $this->category = $category;
     }

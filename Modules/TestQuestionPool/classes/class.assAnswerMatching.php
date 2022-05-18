@@ -152,7 +152,7 @@ class ASS_AnswerMatching
     * @access public
     * @see $term_id
     */
-    public function setTermId($term_id = 0)
+    public function setTermId($term_id = 0) : void
     {
         if ($term_id >= 0) {
             $this->term_id = $term_id;
@@ -166,7 +166,7 @@ class ASS_AnswerMatching
     * @access public
     * @see $picture_or_definition_id
     */
-    public function setPictureId(int $picture_id = 0)
+    public function setPictureId(int $picture_id = 0) : void
     {
         if ($picture_id >= 0) {
             $this->picture_or_definition_id = $picture_id;
@@ -180,7 +180,7 @@ class ASS_AnswerMatching
     * @access public
     * @see $picture_or_definition_id
     */
-    public function setDefinitionId(int $definition_id = 0)
+    public function setDefinitionId(int $definition_id = 0) : void
     {
         if ($definition_id >= 0) {
             $this->picture_or_definition_id = $definition_id;
@@ -194,7 +194,7 @@ class ASS_AnswerMatching
     * @access public
     * @see $picture_or_definition
     */
-    public function setPicture(string $picture = "")
+    public function setPicture(string $picture = "") : void
     {
         $this->picture_or_definition = $picture;
     }
@@ -206,7 +206,7 @@ class ASS_AnswerMatching
     * @access public
     * @see $picture_or_definition
     */
-    public function setDefinition(string $definition = "")
+    public function setDefinition(string $definition = "") : void
     {
         $this->picture_or_definition = $definition;
     }
@@ -219,7 +219,7 @@ class ASS_AnswerMatching
     * @access public
     * @see $points
     */
-    public function setPoints(float $points = 0.0)
+    public function setPoints(float $points = 0.0) : void
     {
         $this->points = $points;
     }

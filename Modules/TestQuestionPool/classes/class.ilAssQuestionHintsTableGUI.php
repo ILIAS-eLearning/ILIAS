@@ -123,7 +123,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
      * @global	ilLanguage	$lng
      * @param	integer		$rowCount
      */
-    private function initAdministrationCommands($rowCount)
+    private function initAdministrationCommands($rowCount) : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -169,7 +169,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilLanguage	$lng
      */
-    private function initTestoutputCommands()
+    private function initTestoutputCommands() : void
     {
         if ($this->parent_obj instanceof ilAssQuestionHintsGUI) {
             return;
@@ -195,7 +195,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
      * @global	ilLanguage	$lng
      * @param	integer		$rowCount
      */
-    private function initAdministrationColumns($rowCount)
+    private function initAdministrationColumns($rowCount) : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -223,7 +223,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
      * @access	private
      * @global	ilLanguage	$lng
      */
-    private function initTestoutputColumns()
+    private function initTestoutputColumns() : void
     {
         global $DIC;
         $lng = $DIC['lng'];

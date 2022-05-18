@@ -327,7 +327,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $maxNumOfChars
     */
-    public function setMaxNumOfChars($maxchars = 0)
+    public function setMaxNumOfChars($maxchars = 0) : void
     {
         $this->maxNumOfChars = $maxchars;
     }
@@ -343,7 +343,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     /**
      * @param bool $wordCounterEnabled
      */
-    public function setWordCounterEnabled($wordCounterEnabled)
+    public function setWordCounterEnabled($wordCounterEnabled) : void
     {
         $this->wordCounterEnabled = $wordCounterEnabled;
     }
@@ -758,7 +758,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
     * @see $textgap_rating
     * @access public
     */
-    public function setTextRating($a_text_rating)
+    public function setTextRating($a_text_rating) : void
     {
         switch ($a_text_rating) {
             case TEXTGAP_RATING_CASEINSENSITIVE:
@@ -867,7 +867,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $points_unchecked = 0.0,
         $order = 0,
         $answerimage = ""
-    ) {
+    ) : void {
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
 
         // add answer
@@ -912,7 +912,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @access public
      * @see $answers
      */
-    public function deleteAnswer($index = 0)
+    public function deleteAnswer($index = 0) : void
     {
         if ($index < 0) {
             return;
@@ -947,12 +947,12 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * @access public
      * @see $answers
      */
-    public function flushAnswers()
+    public function flushAnswers() : void
     {
         $this->answers = array();
     }
 
-    public function setAnswers($answers)
+    public function setAnswers($answers) : void
     {
         if (isset($answers['answer'])) {
             $count = count($answers['answer']);
@@ -973,7 +973,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
-    public function duplicateAnswers($original_id)
+    public function duplicateAnswers($original_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1005,7 +1005,7 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
      * This method implements a default behaviour. During the creation of a text question, the record which holds
      * the keyword relation is not existing, so keyword_relation defaults to 'one'.
      */
-    public function setKeywordRelation($a_relation)
+    public function setKeywordRelation($a_relation) : void
     {
         $this->keyword_relation = $a_relation;
     }

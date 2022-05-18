@@ -14,7 +14,7 @@ include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assQuestionI
 */
 class assMatchingQuestionImport extends assQuestionImport
 {
-    public function saveImage($data, $filename)
+    public function saveImage($data, $filename) : void
     {
         $image = base64_decode($data);
         $imagepath = $this->object->getImagePath();
@@ -44,7 +44,7 @@ class assMatchingQuestionImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];

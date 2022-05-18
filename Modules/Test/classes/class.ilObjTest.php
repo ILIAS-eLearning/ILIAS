@@ -474,13 +474,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $participantData->load($this->getTestId());
         $this->removeTestResults($participantData);
         
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "DELETE FROM tst_mark WHERE test_fi = %s",
             array('integer'),
             array($this->getTestId())
         );
 
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "DELETE FROM tst_tests WHERE test_id = %s",
             array('integer'),
             array($this->getTestId())
@@ -556,7 +556,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getExportFiles(string $dir = '') : array
     {
         // quit if import dir not available
-        if (!@is_dir($dir) || !is_writeable($dir)) {
+        if (!@is_dir($dir) || !is_writable($dir)) {
             return array();
         }
 
@@ -2718,7 +2718,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      * @access public
      * @see $password
      */
-    public function setPassword($a_password = null)
+    public function setPassword($a_password = null) : void
     {
         $this->password = $a_password;
     }
@@ -2730,7 +2730,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @access public
     * @see $score_cutting
     */
-    public function setScoreCutting($a_score_cutting = SCORE_CUT_QUESTION)
+    public function setScoreCutting($a_score_cutting = SCORE_CUT_QUESTION) : void
     {
         $this->score_cutting = $a_score_cutting;
     }
@@ -2995,13 +2995,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             );
             $data_previous = $ilDB->fetchObject($result);
             // change previous dataset
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
                 array('integer','integer'),
                 array($data->sequence, $data_previous->test_question_id)
             );
             // move actual dataset up
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
                 array('integer','integer'),
                 array($data->sequence - 1, $data->test_question_id)
@@ -3042,13 +3042,13 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             // OK, it's not the last question, so move it down
             $data_next = $ilDB->fetchObject($result);
             // change next dataset
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
                 array('integer','integer'),
                 array($data->sequence, $data_next->test_question_id)
             );
             // move actual dataset down
-            $affectedRows = $ilDB->manipulateF(
+            $ilDB->manipulateF(
                 "UPDATE tst_test_question SET sequence=%s WHERE test_question_id=%s",
                 array('integer','integer'),
                 array($data->sequence + 1, $data->test_question_id)
@@ -4095,7 +4095,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     * @return array The user id's and names of the persons who started the test
     * @access public
     */
-    public function &evalTotalPersonsArray($name_sort_order = "asc")
+    public function evalTotalPersonsArray($name_sort_order = "asc") : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -7268,12 +7268,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "DELETE FROM tst_invited_user WHERE test_fi = %s AND user_fi = %s",
             array('integer', 'integer'),
             array($this->getTestId(), $user_id)
         );
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "INSERT INTO tst_invited_user (test_fi, user_fi, clientip, tstamp) VALUES (%s, %s, %s, %s)",
             array('integer', 'integer', 'text', 'integer'),
             array($this->getTestId(), $user_id, (strlen($client_ip)) ? $client_ip : null, time())
@@ -7332,12 +7332,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $ilDB = $DIC['ilDB'];
 
         $active_id = $this->getActiveIdOfUser($user_id);
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "DELETE FROM tst_qst_solved WHERE active_fi = %s AND question_fi = %s",
             array('integer', 'integer'),
             array($active_id, $question_id)
         );
-        $affectedRows = $ilDB->manipulateF(
+        $ilDB->manipulateF(
             "INSERT INTO tst_qst_solved (solved, question_fi, active_fi) VALUES (%s, %s, %s)",
             array('integer', 'integer', 'integer'),
             array($value, $question_id, $active_id)
@@ -10010,7 +10010,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                             $testSequence->createNewSequence($this->getQuestionCount(), false);
                             $testSequence->saveToDb();
                         }
-                        for ($seq = 1; $seq <= count($this->questions); $seq++) {
+                        for ($seq = 1, $seqMax = count($this->questions); $seq <= $seqMax; $seq++) {
                             $question_id = $testSequence->getQuestionForSequence($seq);
                             $objQuestion = ilObjTest::_instanciateQuestion($question_id);
                             $assSettings = new ilSetting('assessment');
@@ -10472,7 +10472,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $this->activation_visibility;
     }
     
-    public function isActivationLimited()
+    public function isActivationLimited() : ?bool
     {
         return $this->activation_limited;
     }
@@ -10901,7 +10901,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
      * @param boolean $show_examview_html
      */
-    public function setShowExamviewHtml($show_examview_html)
+    public function setShowExamviewHtml($show_examview_html) : void
     {
         $this->show_examview_html = $show_examview_html;
     }
@@ -10917,7 +10917,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
      * @param boolean $show_examview_pdf
      */
-    public function setShowExamviewPdf($show_examview_pdf)
+    public function setShowExamviewPdf($show_examview_pdf) : void
     {
         $this->show_examview_pdf = $show_examview_pdf;
     }
@@ -10933,7 +10933,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     /**
      * @param boolean $enable_examview
      */
-    public function setEnableExamview($enable_examview)
+    public function setEnableExamview($enable_examview) : void
     {
         $this->enable_examview = $enable_examview;
     }
@@ -11042,31 +11042,31 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         
         $participantData->load($this->getTestId());
         
-        foreach ($participantData->getActiveIds() as $active_id) {
+        foreach ($participantData->getActiveIds() as $active_fi) {
             $result = $DIC->database()->queryF(
                 "SELECT active_fi FROM tst_addtime WHERE active_fi = %s",
                 array('integer'),
-                array($active_id)
+                array($active_fi)
             );
             
             if ($result->numRows() > 0) {
                 $DIC->database()->manipulateF(
                     "DELETE FROM tst_addtime WHERE active_fi = %s",
                     array('integer'),
-                    array($active_id)
+                    array($active_fi)
                 );
             }
             
             $DIC->database()->manipulateF(
                 "UPDATE tst_active SET tries = %s, submitted = %s, submittimestamp = %s WHERE active_id = %s",
                 array('integer','integer','timestamp','integer'),
-                array(0, 0, null, $active_id)
+                array(0, 0, null, $active_fi)
             );
             
             $DIC->database()->manipulateF(
                 "INSERT INTO tst_addtime (active_fi, additionaltime, tstamp) VALUES (%s, %s, %s)",
                 array('integer','integer','integer'),
-                array($active_id, $minutes, time())
+                array($active_fi, $minutes, time())
             );
 
             require_once 'Modules/Test/classes/class.ilObjAssessmentFolder.php';
@@ -11114,12 +11114,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return (int) $data['max_res'];
     }
 
-    /**
-     * @param $active_id
-     * @param $pass
-     * @return array
-     */
-    public static function lookupExamId($active_id, $pass) : ?array
+    public static function lookupExamId($active_id, $pass)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -11197,9 +11192,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $this->sign_submission;
     }
     
-    /**
-     * @param int availability of the special character selector
-     */
     public function setCharSelectorAvailability($availability)
     {
         $this->char_selector_availability = (int) $availability;

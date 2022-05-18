@@ -26,7 +26,7 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
      */
     private $manipulationsEnabled;
 
-    public function setSkillQuestionAssignmentList(ilAssQuestionSkillAssignmentList $assignmentList)
+    public function setSkillQuestionAssignmentList(ilAssQuestionSkillAssignmentList $assignmentList) : void
     {
         $this->skillQuestionAssignmentList = $assignmentList;
     }
@@ -42,7 +42,7 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
     /**
      * @param boolean $manipulationsEnabled
      */
-    public function setManipulationsEnabled($manipulationsEnabled)
+    public function setManipulationsEnabled($manipulationsEnabled) : void
     {
         $this->manipulationsEnabled = $manipulationsEnabled;
     }
@@ -66,7 +66,7 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
         $this->disable('select_all');
     }
     
-    public function init()
+    public function init() : void
     {
         $this->initColumns();
         
@@ -83,12 +83,12 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
     /**
      * @param bool $loadSkillPointsFromRequest
      */
-    public function loadSkillPointsFromRequest($loadSkillPointsFromRequest)
+    public function loadSkillPointsFromRequest($loadSkillPointsFromRequest) : void
     {
         $this->loadSkillPointsFromRequest = $loadSkillPointsFromRequest;
     }
 
-    private function initColumns()
+    private function initColumns() : void
     {
         $this->addColumn($this->lng->txt('tst_question'), 'question', '25%');
         $this->addColumn($this->lng->txt('tst_competence'), 'competence', '');

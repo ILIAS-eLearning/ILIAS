@@ -43,7 +43,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         return array('uploadImage', 'removeImage');
     }
     
-    protected function editQuestion(ilPropertyFormGUI $form = null)
+    protected function editQuestion(ilPropertyFormGUI $form = null) : void
     {
         if ($form === null) {
             $form = $this->buildEditForm();
@@ -54,7 +54,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $this->tpl->setVariable("QUESTION_DATA", $this->ctrl->getHTML($form));
     }
 
-    protected function uploadImage()
+    protected function uploadImage() : void
     {
         $result = $this->writePostData(true);
         
@@ -64,7 +64,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         }
     }
     
-    public function removeImage()
+    public function removeImage() : void
     {
         $position = key($_POST['cmd']['removeImage']);
         $this->object->removeAnswerImage($position);
@@ -73,7 +73,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $this->editQuestion();
     }
 
-    public function downkprim_answers()
+    public function downkprim_answers() : void
     {
         if (isset($_POST['cmd'][__FUNCTION__]) && count($_POST['cmd'][__FUNCTION__])) {
             $this->object->moveAnswerDown(key($_POST['cmd'][__FUNCTION__]));
@@ -83,7 +83,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         $this->editQuestion();
     }
 
-    public function upkprim_answers()
+    public function upkprim_answers() : void
     {
         if (isset($_POST['cmd'][__FUNCTION__]) && count($_POST['cmd'][__FUNCTION__])) {
             $this->object->moveAnswerUp(key($_POST['cmd'][__FUNCTION__]));
@@ -722,7 +722,7 @@ class assKprimChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringAd
         return $choiceKeys;
     }
     
-    private function populateSpecificFeedbackInline($user_solution, $answer_id, $template)
+    private function populateSpecificFeedbackInline($user_solution, $answer_id, $template) : void
     {
         require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssConfigurableMultiOptionQuestionFeedback.php';
         

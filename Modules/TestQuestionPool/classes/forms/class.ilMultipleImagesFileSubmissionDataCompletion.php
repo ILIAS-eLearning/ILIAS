@@ -14,7 +14,7 @@ class ilMultipleImagesFileSubmissionDataCompletion implements ilFormValuesManipu
         return $this->postVar;
     }
     
-    public function setPostVar($postVar)
+    public function setPostVar($postVar) : void
     {
         $this->postVar = $postVar;
     }

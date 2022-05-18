@@ -169,7 +169,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
     * Upload an image
     */
-    public function uploadchoice()
+    public function uploadchoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['uploadchoice']);
@@ -179,7 +179,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
     * Remove an image
     */
-    public function removeimagechoice()
+    public function removeimagechoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removeimagechoice']);
@@ -191,7 +191,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
     * Add a new answer
     */
-    public function addchoice()
+    public function addchoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['addchoice']);
@@ -202,7 +202,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
     * Remove an answer
     */
-    public function removechoice()
+    public function removechoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removechoice']);
@@ -571,37 +571,8 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
-        if ($this->request->isset('q_id')) {
-            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-                // edit page
-                $ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    false
-                );
-            }
-
-            $this->addTab_QuestionPreview($ilTabs);
-        }
-
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-            $url = "";
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            // edit question properties
-            $ilTabs->addTarget(
-                "edit_question",
-                $url,
-                array("editQuestion", "save", "saveEdit", "addchoice", "removechoice", "removeimagechoice", "uploadchoice", "originalSyncForm"),
-                $classname,
-                "",
-                $force_active
-            );
+        if ($_GET["q_id"]) {
+            $this->addTab_Question($ilTabs);
         }
 
         // add tab for question feedback within common class assQuestionGUI
@@ -857,7 +828,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return $tpl;
     }
 
-    private function populateInlineFeedback($template, $answer_id, $user_solution)
+    private function populateInlineFeedback($template, $answer_id, $user_solution) : void
     {
         $feedbackOutputRequired = false;
 

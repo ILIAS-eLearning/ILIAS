@@ -446,7 +446,7 @@ abstract class assQuestion
         $this->id = $id;
     }
 
-    public function setTestId(int $id = -1)
+    public function setTestId(int $id = -1) : void
     {
         $this->test_id = $id;
     }
@@ -963,7 +963,7 @@ abstract class assQuestion
     }
     
     /** @TODO Move this to a proper place. */
-    public static function _updateTestResultCache(int $active_id, ilAssQuestionProcessLocker $processLocker = null)
+    public static function _updateTestResultCache(int $active_id, ilAssQuestionProcessLocker $processLocker = null) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1945,7 +1945,7 @@ abstract class assQuestion
         if ($this->db->numRows($result) > 0) {
             include_once("./Services/RTE/classes/class.ilRTE.php");
             while ($row = $this->db->fetchAssoc($result)) {
-                $value = (is_array(unserialize($row["value"], false))) ? unserialize($row["value"], false) : ilRTE::_replaceMediaObjectImageSrc($row["value"], 1);
+                $value = (is_array(unserialize($row["value"], ['allowed_classes' => false]))) ? unserialize($row["value"], ['allowed_classes' => false]) : ilRTE::_replaceMediaObjectImageSrc($row["value"], 1);
                 $this->suggested_solutions[$row["subquestion_index"]] = array(
                     "type" => $row["type"],
                     "value" => $value,
@@ -3036,7 +3036,7 @@ abstract class assQuestion
         return 0;
     }
 
-    public function syncHints()
+    public function syncHints() : void
     {
         // delete hints of the original
         $this->db->manipulateF(
@@ -3189,7 +3189,7 @@ abstract class assQuestion
         return file_exists("Modules/TestQuestionPool/classes/class.{$questionType}GUI.php");
     }
 
-    public static function includeCoreClass($questionType, $withGuiClass)
+    public static function includeCoreClass($questionType, $withGuiClass) : void
     {
         if ($withGuiClass) {
             require_once "Modules/TestQuestionPool/classes/class.{$questionType}GUI.php";
@@ -3468,7 +3468,7 @@ abstract class assQuestion
         }
     }
 
-    public function syncSkillAssignments(int $srcParentId, int $srcQuestionId, int $trgParentId, int $trgQuestionId)
+    public function syncSkillAssignments(int $srcParentId, int $srcQuestionId, int $trgParentId, int $trgQuestionId) : void
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
@@ -4193,12 +4193,12 @@ abstract class assQuestion
         return $this->obligationsToBeConsidered;
     }
 
-    public function setObligationsToBeConsidered(bool $obligationsToBeConsidered)
+    public function setObligationsToBeConsidered(bool $obligationsToBeConsidered) : void
     {
         $this->obligationsToBeConsidered = $obligationsToBeConsidered;
     }
 
-    public function updateTimestamp()
+    public function updateTimestamp() : void
     {
         $this->db->manipulateF(
             "UPDATE qpl_questions SET tstamp = %s  WHERE question_id = %s",

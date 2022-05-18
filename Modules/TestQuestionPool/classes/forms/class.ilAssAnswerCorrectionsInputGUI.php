@@ -28,7 +28,7 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
     /**
      * @param bool $hidePointsEnabled
      */
-    public function setHidePointsEnabled(bool $hidePointsEnabled)
+    public function setHidePointsEnabled(bool $hidePointsEnabled) : void
     {
         $this->hidePointsEnabled = $hidePointsEnabled;
     }

@@ -120,14 +120,14 @@ class AvatarTest extends ILIAS_UI_TestBase
     public function testAlternativeText() : void
     {
         $f = $this->getAvatarFactory();
-        $this->assertEquals("", $f->picture('', 'ro')->getAlternativeText());
-        $this->assertEquals("", $f->letter('', 'ro')->getAlternativeText());
+        $this->assertEquals("", $f->picture('', 'ro')->getLabel());
+        $this->assertEquals("", $f->letter('', 'ro')->getLabel());
         $this->assertEquals("alternative", $f->picture('', 'ro')
-                                             ->withAlternativeText("alternative")
-                                             ->getAlternativeText());
+                                             ->withLabel("alternative")
+                                             ->getLabel());
         $this->assertEquals("alternative", $f->letter('', 'ro')
-                                             ->withAlternativeText("alternative")
-                                             ->getAlternativeText());
+                                             ->withLabel("alternative")
+                                             ->getLabel());
     }
 
     public function testRenderingLetter() : void
@@ -165,7 +165,7 @@ class AvatarTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
 
         $str = '/path/to/picture.jpg';
-        $letter = $f->picture($str, 'ro')->withAlternativeText("alternative");
+        $letter = $f->picture($str, 'ro')->withLabel("alternative");
         $html = $this->brutallyTrimHTML($r->render($letter));
         $expected = $this->brutallyTrimHTML('
 <span class="il-avatar il-avatar-picture il-avatar-size-large">	

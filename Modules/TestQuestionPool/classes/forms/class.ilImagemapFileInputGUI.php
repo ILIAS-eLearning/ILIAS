@@ -35,7 +35,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         parent::__construct($a_title, $a_postvar);
     }
     
-    public function setPointsUncheckedFieldEnabled($pointsUncheckedFieldEnabled)
+    public function setPointsUncheckedFieldEnabled($pointsUncheckedFieldEnabled) : void
     {
         $this->pointsUncheckedFieldEnabled = (bool) $pointsUncheckedFieldEnabled;
     }
@@ -45,7 +45,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         return $this->pointsUncheckedFieldEnabled;
     }
     
-    public function setAreas($a_areas)
+    public function setAreas($a_areas) : void
     {
         $this->areas = $a_areas;
     }
@@ -55,7 +55,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         return $this->line_color;
     }
     
-    public function setLineColor($a_color)
+    public function setLineColor($a_color) : void
     {
         $this->line_color = $a_color;
     }
@@ -65,7 +65,7 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         return $this->image_path;
     }
     
-    public function setImagePath($a_path)
+    public function setImagePath($a_path) : void
     {
         $this->image_path = $a_path;
     }
@@ -75,12 +75,12 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         return $this->image_path_web;
     }
     
-    public function setImagePathWeb($a_path_web)
+    public function setImagePathWeb($a_path_web) : void
     {
         $this->image_path_web = $a_path_web;
     }
     
-    public function setAreasByArray($a_areas)
+    public function setAreasByArray($a_areas) : void
     {
         if (is_array($a_areas['name'])) {
             $this->areas = array();

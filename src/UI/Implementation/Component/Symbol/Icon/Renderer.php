@@ -7,6 +7,7 @@ namespace ILIAS\UI\Implementation\Component\Symbol\Icon;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -36,7 +37,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("NAME", $component->getName());
         $tpl->setVariable("SIZE", $component->getSize());
 
-        $tpl->setVariable("ALT", $component->getLabel());
+        $tpl = $this->renderLabel($component, $tpl);
 
         if ($component instanceof Component\Symbol\Icon\Standard) {
             $imagepath = $this->getStandardIconPath($component);
@@ -69,6 +70,12 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $tpl->get();
+    }
+
+    protected function renderLabel(Component\Component $component, Template $tpl) : Template
+    {
+        $tpl->setVariable('LABEL', $component->getLabel());
+        return $tpl;
     }
 
     protected function getStandardIconPath(Component\Symbol\Icon\Icon $icon) : string

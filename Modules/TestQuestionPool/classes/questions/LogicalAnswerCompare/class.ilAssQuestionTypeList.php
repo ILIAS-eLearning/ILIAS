@@ -33,7 +33,7 @@ class ilAssQuestionTypeList implements Iterator
         $this->db = $DIC['ilDB'];
     }
     
-    public function load()
+    public function load() : void
     {
         $res = $this->db->query("SELECT * FROM qpl_qst_type");
         

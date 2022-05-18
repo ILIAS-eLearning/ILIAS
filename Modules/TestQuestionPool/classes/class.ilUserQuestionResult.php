@@ -49,7 +49,7 @@ class ilUserQuestionResult
      * @param mixed $key
      * @param mixed $value
      */
-    public function addKeyValue($key, $value)
+    public function addKeyValue($key, $value) : void
     {
         $this->solutions[] = array(
             self::$USER_SOLUTION_IDENTIFIER_KEY => $key,
@@ -60,7 +60,7 @@ class ilUserQuestionResult
     /**
      * @param string $key
      */
-    public function removeByKey($key)
+    public function removeByKey($key) : void
     {
         foreach ($this->solutions as $array_key => $solution) {
             if ($solution[self::$USER_SOLUTION_IDENTIFIER_KEY] == $key) {
@@ -118,7 +118,7 @@ class ilUserQuestionResult
     /**
      * @param int $reached_percentage
      */
-    public function setReachedPercentage($reached_percentage)
+    public function setReachedPercentage($reached_percentage) : void
     {
         $this->reached_percentage = $reached_percentage;
     }
