@@ -107,7 +107,12 @@ class ilNotificationSettingsTable extends ilTable2GUI
 
             $this->tpl->setCurrentBlock('notification_cell');
 
-            if ($this->adminMode && $channel['config_type'] === 'set_by_user' && $a_set['config_type'] === 'set_by_user') {
+            if (
+                $this->adminMode &&
+                isset($channel['config_type'], $a_set['config_type']) &&
+                $channel['config_type'] === 'set_by_user' &&
+                $a_set['config_type'] === 'set_by_user'
+            ) {
                 $this->tpl->setVariable('NOTIFICATION_SET_BY_USER_CELL', 'optionSetByUser');
             }
 

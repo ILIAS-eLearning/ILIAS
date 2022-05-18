@@ -214,38 +214,48 @@ class ilNotificationConfig
     {
         $notificationObject = new ilNotificationObject($this, $user);
 
-        if ($languageVars[$this->title->getName()]->lang[$user->getLanguage()]) {
-            $title = $languageVars[$this->title->getName()]->lang[$user->getLanguage()];
-        } elseif ($languageVars[$this->title->getName()]->lang[$defaultLanguage]) {
-            $title = $languageVars[$this->title->getName()]->lang[$defaultLanguage];
-        } else {
-            $title = $this->title->getName();
+        $title = $this->title->getName();
+        if (isset($languageVars[$this->title->getName()])) {
+            $var = $languageVars[$this->title->getName()]->lang;
+            if (isset($var[$user->getLanguage()])) {
+                $title = $var[$user->getLanguage()];
+            } elseif (isset($var[$defaultLanguage])) {
+                $title = $var[$defaultLanguage];
+            }
         }
 
-        if ($languageVars[$this->short_description->getName()]->lang[$user->getLanguage()]) {
-            $short = $languageVars[$this->short_description->getName()]->lang[$user->getLanguage()];
-        } elseif ($languageVars[$this->short_description->getName()]->lang[$defaultLanguage]) {
-            $short = $languageVars[$this->short_description->getName()]->lang[$defaultLanguage];
-        } else {
-            $short = $this->short_description->getName();
+        $short = $this->short_description->getName();
+        if (isset($languageVars[$this->short_description->getName()])) {
+            $var = $languageVars[$this->short_description->getName()]->lang;
+            if (isset($var[$user->getLanguage()])) {
+                $short = $var[$user->getLanguage()];
+            } elseif (isset($var[$defaultLanguage])) {
+                $short = $var[$defaultLanguage];
+            }
         }
 
-        if ($languageVars[$this->long_description->getName()]->lang[$user->getLanguage()]) {
-            $long = $languageVars[$this->long_description->getName()]->lang[$user->getLanguage()];
-        } elseif ($languageVars[$this->long_description->getName()]->lang[$defaultLanguage]) {
-            $long = $languageVars[$this->long_description->getName()]->lang[$defaultLanguage];
-        } else {
-            $long = $this->long_description->getName();
+        $long = $this->long_description->getName();
+        if (isset($languageVars[$this->long_description->getName()])) {
+            $var = $languageVars[$this->long_description->getName()]->lang;
+            if (isset($var[$user->getLanguage()])) {
+                $long = $var[$user->getLanguage()];
+            } elseif (isset($var[$defaultLanguage])) {
+                $long = $var[$defaultLanguage];
+            }
         }
 
         foreach ($this->links as $link) {
-            if ($languageVars[$link->getTitle()->getName()]->lang[$user->getLanguage()]) {
-                $link->setTitle($languageVars[$link->getTitle()->getName()]->lang[$user->getLanguage()]);
-            } elseif ($languageVars[$link->getTitle()->getName()]->lang[$defaultLanguage]) {
-                $link->setTitle($languageVars[$link->getTitle()->getName()]->lang[$defaultLanguage]);
-            } else {
-                $link->setTitle($link->getTitle()->getName());
+            $title = $link->getTitle()->getName();
+            if (isset($languageVars[$link->getTitle()->getName()])) {
+                $var = $languageVars[$link->getTitle()->getName()]->lang;
+                if (isset($var[$user->getLanguage()])) {
+                    $title = $var[$user->getLanguage()];
+                } elseif (isset($var[$defaultLanguage])) {
+                    $title = $var[$defaultLanguage];
+                }
             }
+            $link->setTitle($title);
+
         }
 
         $notificationObject->title = $title;
