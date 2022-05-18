@@ -68,17 +68,17 @@ class Glyph implements C\Symbol\Glyph\Glyph
 
     private string $type;
     private ?string $action;
-    private string $aria_label;
+    private string $label;
     private array $counters;
     private bool $highlighted;
     private bool $active = true;
 
-    public function __construct(string $type, string $aria_label, string $action = null)
+    public function __construct(string $type, string $label, string $action = null)
     {
         $this->checkArgIsElement("type", $type, self::$types, "glyph type");
 
         $this->type = $type;
-        $this->aria_label = $aria_label;
+        $this->label = $label;
         $this->action = $action;
         $this->counters = array();
         $this->highlighted = false;
@@ -95,9 +95,9 @@ class Glyph implements C\Symbol\Glyph\Glyph
     /**
      * @inheritdoc
      */
-    public function getAriaLabel() : string
+    public function getLabel() : string
     {
-        return $this->aria_label;
+        return $this->label;
     }
 
     /**

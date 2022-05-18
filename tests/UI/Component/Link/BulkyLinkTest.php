@@ -105,7 +105,7 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<a class="il-link link-bulky" href="http://www.ilias.de">'
-            . '	<span class="glyph" aria-label="briefcase" role="img">'
+            . '	<span class="glyph" role="img">'
             . '		<span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>'
             . '	</span>'
             . '	<span class="bulky-label">label</span>'
@@ -124,7 +124,7 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<a class="il-link link-bulky" href="http://www.ilias.de">'
-            . '	<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="Example"/>'
+            . '	<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>'
             . '	<span class="bulky-label">label</span>'
             . '</a>';
 
@@ -143,7 +143,7 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
 
         $expected = ''
             . '<a class="il-link link-bulky" href="http://www.ilias.de" id="id_1">'
-            . '<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="Example"/>'
+            . '<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>'
             . ' <span class="bulky-label">label</span>'
             . '</a>';
 
@@ -161,10 +161,28 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
         
         $expected = ''
         . '<a class="il-link link-bulky" href="http://www.ilias.de" role="menuitem">'
-        . '<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="Example"/>'
+        . '<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt=""/>'
         . ' <span class="bulky-label">label</span>'
         . '</a>';
                         
+        $this->assertHTMLEquals(
+            $expected,
+            $r->render($b)
+        );
+    }
+
+    public function testRenderWithLabelAndAltImageSame() : void
+    {
+        $r = $this->getDefaultRenderer();
+        $b = $this->factory->bulky($this->icon, "Example", $this->target)
+                           ->withAriaRole(I\Button\Bulky::MENUITEM);
+
+        $expected = ''
+            . '<a class="il-link link-bulky" href="http://www.ilias.de" role="menuitem">'
+            . '<img class="icon someExample small" src="./templates/default/images/icon_default.svg"  alt=""/>'
+            . ' <span class="bulky-label">Example</span>'
+            . '</a>';
+
         $this->assertHTMLEquals(
             $expected,
             $r->render($b)

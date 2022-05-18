@@ -300,6 +300,9 @@ interface Factory
      *        If the Button is not stateful (which is the default), the
      *        aria-attribute SHOULD be omitted. Further if the Button carries the aria-role "menuitem",
      *        the "aria-pressed" and "aria-checked"-attributes MUST be ommitted as well.
+     *     3: >
+     *        If a Bulky Button contains a Symbol, then the Label of the Icon MUST be set to "" or be omitted completely
+     *        to avoid redundant alt tags which would render the Bulky Button cumbersome to be processed by screenreaders.
      * ---
      * @param	\ILIAS\UI\Component\Symbol\Symbol		$icon_or_glyph
      * @param	string		$label

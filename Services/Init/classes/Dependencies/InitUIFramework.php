@@ -220,6 +220,14 @@ class InitUIFramework
                             $c["refinery"],
                             $c["ui.pathresolver"]
                         ),
+                        new ILIAS\UI\Implementation\Component\Symbol\Icon\IconRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["refinery"],
+                            $c["ui.pathresolver"]
+                        ),
                         new ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory(
                             $c["ui.factory"],
                             $c["ui.template_factory"],

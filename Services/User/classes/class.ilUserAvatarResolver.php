@@ -120,7 +120,7 @@ class ilUserAvatarResolver
 
         if ($this->useUploadedFile()) {
             return $this->ui->symbol()->avatar()->picture($this->uploaded_file, $this->login)
-                            ->withAlternativeText($alternative_text);
+                            ->withLabel($alternative_text);
         }
     
         if ($this->letter_avatars_activated === false) {
@@ -130,7 +130,7 @@ class ilUserAvatarResolver
             );
         }
 
-        return $this->ui->symbol()->avatar()->letter($this->login)->withAlternativeText($alternative_text);
+        return $this->ui->symbol()->avatar()->letter($this->login)->withLabel($alternative_text);
     }
 
     public function getLegacyPictureURL() : string
