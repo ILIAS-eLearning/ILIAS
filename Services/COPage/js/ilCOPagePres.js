@@ -396,16 +396,27 @@ il.COPagePres =
 		var base, pos, mark, mx, my;
 
 		this.iim_marker[m.m_id] = m;
+		const p = this.fixMarkerPosition;
+		p(m);
+		window.setTimeout(function() {
+			p(m);
+		}, 500);
+
+	},
+
+	fixMarkerPosition: function(m) {
+		var base, pos, mark, mx, my;
 		base = $("img#base_img_" + m.iim_id);
-		pos = base.position();
+		pos = base.offset();
 		mark = $("a#" + m.m_id);
 		// display the marker at the correct position
 		mark.css('position', 'absolute');
-		mx = parseInt(m.markx, 10);
-		my = parseInt(m.marky, 10);
-		mark.css('left', pos.left + mx + $("#fixed_content").scrollLeft());
-		mark.css('top', pos.top + my + $("#fixed_content").scrollTop());
+		mx = pos.left + parseInt(m.markx, 10);
+		my = pos.top + parseInt(m.marky, 10);
 		mark.css('display', '');
+		il.Overlay.setX(m.m_id, mx);
+		il.Overlay.setY(m.m_id, my);
+
 	},
 	
 	fixMarkerPositions: function () {
@@ -413,15 +424,7 @@ il.COPagePres =
 
 		for (k in il.COPagePres.iim_marker) {
 			m = il.COPagePres.iim_marker[k];
-			
-			base = $("img#base_img_" + m.iim_id);
-			pos = base.position();
-			mark = $("a#" + m.m_id);
-			mark.css('position', 'absolute');
-			mx = parseInt(m.markx, 10);
-			my = parseInt(m.marky, 10);
-			mark.css('left', pos.left + mx + $("#fixed_content").scrollLeft());
-			mark.css('top', pos.top + my + $("#fixed_content").scrollTop());
+			this.fixMarkerPosition(m);
 		}
 	},
 	
@@ -445,8 +448,11 @@ il.COPagePres =
 						bpos = base.position();
 						marker = $("a#" + mark.m_id);
 						mpos = marker.position();
-						position = (Math.round(mpos.left) - Math.round(bpos.left)) + "," +
-							(Math.round(mpos.top) - Math.round(bpos.top));
+						//position = (Math.round(mpos.left) - Math.round(bpos.left)) + "," +
+						//	(Math.round(mpos.top) - Math.round(bpos.top));
+						position = (Math.round(marker.offset().left) - Math.round(base.offset().left)) + "," +
+							(Math.round(marker.offset().top) - Math.round(base.offset().top));
+
 						$("input#markpos_" + mark.tr_nr).attr("value", position);
 					}
 				});
@@ -485,13 +491,13 @@ il.COPagePres =
 				il.COPagePres.initDragToolbar();
 				
 				base = $("img#base_img_" + dtr.iim_id);
-				bpos = base.position();
-				ovx = parseInt(dtr.ovx, 10);
-				ovy = parseInt(dtr.ovy, 10);
-				ov.css('left', bpos.left + ovx + $("#fixed_content").scrollLeft());
-				ov.css('top', bpos.top + ovy + $("#fixed_content").scrollTop());
+				bpos = base.offset();
+				ovx = bpos.left + parseInt(dtr.ovx, 10);
+				ovy = bpos.top + parseInt(dtr.ovy, 10);
 				ov.css('display', '');
 				ov.css("position", "absolute");
+				il.Overlay.setX("iim_ov_" + dtr.tr_id, ovx);
+				il.Overlay.setY("iim_ov_" + dtr.tr_id, ovy);
 
 				dtr = trigger;
 				ov.draggable({
@@ -539,17 +545,18 @@ il.COPagePres =
 						il.COPagePres.initDragToolbar();
 						
 						base = $("img#base_img_" + cpop.iim_id);
-						bpos = base.position();
+						bpos = base.offset();
 //console.log(dtr);
-						popx = parseInt(dtr.popx, 10);
-						popy = parseInt(dtr.popy, 10);
+						popx = bpos.left + parseInt(dtr.popx, 10);
+						popy = bpos.top + parseInt(dtr.popy, 10);
 						pdummy.css("position", "absolute");
-						pdummy.css('left', bpos.left + popx + $("#fixed_content").scrollLeft());
-						pdummy.css('top', bpos.top + popy + $("#fixed_content").scrollTop());
 						pdummy.css('width', dtr.popwidth);
 						pdummy.css('height', dtr.popheight);
 						pdummy.css('display', '');
-						
+						il.Overlay.setX("popupdummy", popx);
+						il.Overlay.setY("popupdummy", popy);
+
+
 						pdummy.draggable({
 							stop: function(event, ui) {
 								var pdpos, position;
