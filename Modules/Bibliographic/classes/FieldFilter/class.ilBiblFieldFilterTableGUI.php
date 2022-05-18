@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Class ilBiblFieldFilterTableGUI
  *
@@ -24,11 +24,12 @@
  */
 class ilBiblFieldFilterTableGUI extends ilTable2GUI
 {
-    public \ILIAS\UI\Component\Modal\RoundTrip $modal;
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     const TBL_ID = 'tbl_bibl_filters';
+    protected \ILIAS\UI\Component\Modal\RoundTrip $modal;
     protected \ilBiblFactoryFacade $facade;
     protected array $interruptive_modals = [];
+    protected array $filter = [];
 
 
     /**
