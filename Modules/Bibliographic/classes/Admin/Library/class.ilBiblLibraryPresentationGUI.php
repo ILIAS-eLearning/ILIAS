@@ -129,7 +129,7 @@ class ilBiblLibraryPresentationGUI
 
     /**
      * @param String $a
-     * @param String $type
+     * @param ilBiblTypeInterface $type
      * @param array  $attributes
      * @param String $prefix
      *
@@ -140,7 +140,7 @@ class ilBiblLibraryPresentationGUI
      */
     public function formatAttribute($a, $type, $attributes, $prefix)
     {
-        if ($type == 'ris') {
+        if ($type->getStringRepresentation() === 'ris') {
             switch ($a) {
                 case 'ti':
                     $a = "title";
@@ -168,7 +168,7 @@ class ilBiblLibraryPresentationGUI
                     $a = "volume";
                     break;
             }
-        } elseif ($type = 'bib') {
+        } elseif ($type->getStringRepresentation() === 'bib') {
             switch ($a) {
                 case 'number':
                     $a = "issue";
