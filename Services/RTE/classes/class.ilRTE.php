@@ -191,7 +191,7 @@ class ilRTE
             $resulttext = $a_text;
             if (preg_match_all('/src="il_([0-9]+)_mob_([0-9]+)"/', $a_text, $matches)) {
                 foreach ($matches[2] as $idx => $mob) {
-                    if (ilObject::_lookupType($mob) === 'mob') {
+                    if (ilObject::_lookupType((int) $mob) === 'mob') {
                         $mob_obj = new ilObjMediaObject((int) $mob);
                         $replace = 'il_' . $matches[1][$idx] . '_mob_' . $mob;
                         $path_to_file = ilWACSignedPath::signFile(
