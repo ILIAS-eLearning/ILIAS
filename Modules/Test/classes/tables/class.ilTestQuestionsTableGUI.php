@@ -194,7 +194,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("QUESTION_WORKING_TIME", $a_set["working_time"]);
         }
 
-        if (ilObject::_lookupType((int)$a_set["orig_obj_fi"]) == 'qpl') {
+        if (ilObject::_lookupType((int) $a_set["orig_obj_fi"]) == 'qpl') {
             $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($a_set["orig_obj_fi"]));
         } else {
             $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));

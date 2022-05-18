@@ -32,13 +32,9 @@ class assAnswerCloze extends ASS_AnswerSimple
      *
      * @var string
      */
-    protected $upperBound;
+    protected ?string $upperBound;
 
-    /**
-     * Individual text length of text/numeric-gap
-     * @var integer
-     */
-    protected $gap_size;
+    protected int $gap_size;
     
 
     /**

@@ -20,13 +20,13 @@ class ilTestSession
     private int $pass;
     public int $active_id;
     public int $user_id;
-    public int $anonymous_id;
+    public ?int $anonymous_id;
     public int $test_id;
     public int $lastsequence;
     protected ?string $lastPresentationMode;
     public bool $submitted;
     public int $tstamp;
-    public string $submittedTimestamp;
+    public ?string $submittedTimestamp;
     private int $objectiveOrientedContainerId;
 
     private $lastFinishedPass;
@@ -121,14 +121,14 @@ class ilTestSession
         if (!isset($active['tst_last_increase_pass']) || $active['tst_last_increase_pass'] !== null) {
 
             $active['tst_last_increase_pass'] = 0;
-            ilSession::set($this->active_id, $active);
+            //ilSession::set($this->active_id, $active);
             //$_SESSION[$this->active_id]['tst_last_increase_pass'] = 0;
         }
         
         // there has to be at least 10 seconds between new test passes (to ensure that noone double clicks the finish button and increases the test pass by more than 1)
         if (time() - $active['tst_last_increase_pass'] > 10) {
             $active['tst_last_increase_pass'] = time();
-            ilSession::set($this->active_id, $active);
+            //ilSession::set($this->active_id, $active);
             $this->tstamp = time();
             $ilDB->update(
                 'tst_active',
@@ -357,7 +357,7 @@ class ilTestSession
         $this->submitted = true;
     }
     
-    public function getSubmittedTimestamp() : string
+    public function getSubmittedTimestamp() : ?string
     {
         return $this->submittedTimestamp;
     }

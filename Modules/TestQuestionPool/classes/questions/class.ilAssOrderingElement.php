@@ -308,17 +308,11 @@ class ilAssOrderingElement
         $this->imagePathFs = $imagePathFs;
     }
     
-    /**
-     * @return null
-     */
     public function getImageThumbnailPrefix()
     {
         return $this->imageThumbnailPrefix;
     }
     
-    /**
-     * @param null $imageThumbnailPrefix
-     */
     public function setImageThumbnailPrefix($imageThumbnailPrefix)
     {
         $this->imageThumbnailPrefix = $imageThumbnailPrefix;

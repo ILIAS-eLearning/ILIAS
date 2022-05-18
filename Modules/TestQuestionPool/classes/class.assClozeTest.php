@@ -1808,11 +1808,11 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $points = 0;
 
         $assClozeGapCombinationObj = new assClozeGapCombination();
-
+        $gap_used_in_combination = array();
         if ($assClozeGapCombinationObj->combinationExistsForQid($this->getId())) {
             $combinations_for_question = $assClozeGapCombinationObj->getCleanCombinationArray($this->getId());
             $gap_answers = array();
-            $gap_used_in_combination = array();
+
             foreach ($user_result as $user_result_build_list) {
                 if (is_array($user_result_build_list)) {
                     $gap_answers[$user_result_build_list['gap_id']] = $user_result_build_list['value'];

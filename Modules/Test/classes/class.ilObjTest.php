@@ -1292,8 +1292,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         int $questionpool,
         $use_obj_id = 0,
         $qpls = "",
-        $pass = null) : array
-    {
+        $pass = null
+    ) : array {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
         $ilDB = $DIC['ilDB'];
@@ -1427,9 +1427,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->setAuthor($data->author);
             include_once("./Services/RTE/classes/class.ilRTE.php");
             $this->setIntroductionEnabled($data->intro_enabled);
-            $this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc($data->introduction, 1));
+            $this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc((string) $data->introduction, 1));
             $this->setShowInfo($data->showinfo);
-            $this->setFinalStatement(ilRTE::_replaceMediaObjectImageSrc($data->finalstatement, 1));
+            $this->setFinalStatement(ilRTE::_replaceMediaObjectImageSrc((string) $data->finalstatement, 1));
             $this->setForceJS($data->forcejs);
             $this->setCustomStyle($data->customstyle);
             $this->setShowFinalStatement($data->showfinalstatement);
