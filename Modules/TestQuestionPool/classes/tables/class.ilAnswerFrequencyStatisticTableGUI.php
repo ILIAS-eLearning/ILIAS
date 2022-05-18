@@ -74,7 +74,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
     /**
      * @param bool $actionsColumnEnabled
      */
-    public function setActionsColumnEnabled(bool $actionsColumnEnabled)
+    public function setActionsColumnEnabled(bool $actionsColumnEnabled) : void
     {
         $this->actionsColumnEnabled = $actionsColumnEnabled;
     }
@@ -90,7 +90,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
     /**
      * @param string $additionalHtml
      */
-    public function setAdditionalHtml(string $additionalHtml)
+    public function setAdditionalHtml(string $additionalHtml) : void
     {
         $this->additionalHtml = $additionalHtml;
     }
@@ -98,7 +98,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
     /**
      * @param string $additionalHtml
      */
-    public function addAdditionalHtml(string $additionalHtml)
+    public function addAdditionalHtml(string $additionalHtml) : void
     {
         $this->additionalHtml .= $additionalHtml;
     }
@@ -114,12 +114,12 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
     /**
      * @param int $questionIndex
      */
-    public function setQuestionIndex(int $questionIndex)
+    public function setQuestionIndex(int $questionIndex) : void
     {
         $this->questionIndex = $questionIndex;
     }
     
-    public function initColumns()
+    public function initColumns() : void
     {
         $this->addColumn($this->DIC->language()->txt('tst_corr_answ_stat_tbl_header_answer'), '');
         $this->addColumn($this->DIC->language()->txt('tst_corr_answ_stat_tbl_header_frequency'), '');

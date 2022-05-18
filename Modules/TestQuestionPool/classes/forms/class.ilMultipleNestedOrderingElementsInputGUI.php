@@ -46,7 +46,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         $this->addFormValuesManipulator($manipulator);
     }
 
-    public function setInstanceId($instanceId)
+    public function setInstanceId($instanceId) : void
     {
         $this->instanceId = $instanceId;
     }
@@ -56,7 +56,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         return $this->instanceId;
     }
     
-    public function setInteractionEnabled($interactionEnabled)
+    public function setInteractionEnabled($interactionEnabled) : void
     {
         $this->interactionEnabled = $interactionEnabled;
     }
@@ -71,7 +71,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         return $this->nestingEnabled;
     }
     
-    public function setNestingEnabled($nestingEnabled)
+    public function setNestingEnabled($nestingEnabled) : void
     {
         $this->nestingEnabled = $nestingEnabled;
     }
@@ -81,7 +81,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         return $this->stylingDisabled;
     }
     
-    public function setStylingDisabled($stylingDisabled)
+    public function setStylingDisabled($stylingDisabled) : void
     {
         $this->stylingDisabled = $stylingDisabled;
     }
@@ -102,7 +102,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
     /**
      * @param string $cssListClass
      */
-    public function setCssListClass($cssListClass)
+    public function setCssListClass($cssListClass) : void
     {
         $this->cssListClass = $cssListClass;
     }
@@ -126,7 +126,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
     /**
      * @param string $cssHandleClass
      */
-    public function setCssHandleClass($cssHandleClass)
+    public function setCssHandleClass($cssHandleClass) : void
     {
         $this->cssHandleClass = $cssHandleClass;
     }
@@ -134,7 +134,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
     /**
      * @param string $cssItemClass
      */
-    public function setCssItemClass($cssItemClass)
+    public function setCssItemClass($cssItemClass) : void
     {
         $this->cssItemClass = $cssItemClass;
     }
@@ -150,7 +150,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
     /**
      * @param string $htmlListTag
      */
-    public function setHtmlListTag($htmlListTag)
+    public function setHtmlListTag($htmlListTag) : void
     {
         $this->htmlListTag = $htmlListTag;
     }
@@ -165,12 +165,12 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         return $this->listTpl;
     }
     
-    public function setListTpl($listTpl)
+    public function setListTpl($listTpl) : void
     {
         $this->listTpl = $listTpl;
     }
     
-    protected function initListTemplate()
+    protected function initListTemplate() : void
     {
         $this->setListTpl(
             new ilTemplate('tpl.prop_nested_ordering_list.html', true, true, 'Services/Form')
@@ -182,20 +182,20 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         return $this->getListTpl()->get();
     }
     
-    protected function renderListContainer()
+    protected function renderListContainer() : void
     {
         $this->getListTpl()->setCurrentBlock('list_container');
         $this->getListTpl()->setVariable('INSTANCE_ID', $this->getInstanceId());
         $this->getListTpl()->parseCurrentBlock();
     }
     
-    protected function renderListSnippet()
+    protected function renderListSnippet() : void
     {
         $this->getListTpl()->setCurrentBlock('list_snippet');
         $this->getListTpl()->parseCurrentBlock();
     }
 
-    protected function renderListItem($value, $identifier, $position)
+    protected function renderListItem($value, $identifier, $position) : void
     {
         $subPostVar = $this->getMultiValuePostVarSubField($identifier, self::POSTVAR_SUBFIELD_NEST_ELEM);
         $subFieldId = $this->getMultiValueSubFieldId($identifier, self::POSTVAR_SUBFIELD_NEST_ELEM);
@@ -227,7 +227,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
      */
     abstract protected function getItemHtml($value, $identifier, $position, $itemSubFieldPostVar, $itemSubFieldId);
     
-    protected function renderBeginListItem($identifier)
+    protected function renderBeginListItem($identifier) : void
     {
         $this->getListTpl()->setCurrentBlock('begin_list_item');
         $this->getListTpl()->setVariable('LIST_ITEM_ID', $identifier);
@@ -236,7 +236,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         $this->renderListSnippet();
     }
     
-    protected function renderEndListItem()
+    protected function renderEndListItem() : void
     {
         $this->getListTpl()->setCurrentBlock('end_list_item');
         $this->getListTpl()->touchBlock('end_list_item');
@@ -244,7 +244,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         $this->renderListSnippet();
     }
     
-    protected function renderBeginSubList()
+    protected function renderBeginSubList() : void
     {
         $this->getListTpl()->setCurrentBlock('begin_sublist');
         $this->getListTpl()->setVariable('BEGIN_HTML_LIST_TAG', $this->getHtmlListTag());
@@ -253,7 +253,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         $this->renderListSnippet();
     }
     
-    protected function renderEndSubList()
+    protected function renderEndSubList() : void
     {
         $this->getListTpl()->setCurrentBlock('end_sublist');
         $this->getListTpl()->setVariable('END_HTML_LIST_TAG', $this->getHtmlListTag());

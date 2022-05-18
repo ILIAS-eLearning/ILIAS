@@ -45,7 +45,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         $this->ignoreMissingUploadsEnabled = false;
     }
 
-    public function setFiles($files)
+    public function setFiles($files) : void
     {
         $this->files = $files;
     }
@@ -55,7 +55,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         return $this->files;
     }
 
-    public function setIgnoreMissingUploadsEnabled($ignoreMissingUploadsEnabled)
+    public function setIgnoreMissingUploadsEnabled($ignoreMissingUploadsEnabled) : void
     {
         $this->ignoreMissingUploadsEnabled = $ignoreMissingUploadsEnabled;
     }
@@ -424,7 +424,7 @@ class ilKprimChoiceWizardInputGUI extends ilSingleChoiceWizardInputGUI
         return true;
     }
     
-    public function collectValidFiles()
+    public function collectValidFiles() : void
     {
         foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $err) {
             if ($err > 0) {

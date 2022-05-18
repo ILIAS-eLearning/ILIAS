@@ -44,7 +44,7 @@ class ilAssLacCompositeValidator
         $this->randomGroup = $DIC->refinery()->random();
     }
 
-    public function validate(ilAssLacAbstractComposite $composite)
+    public function validate(ilAssLacAbstractComposite $composite) : void
     {
         if (count($composite->nodes) > 0) {
             $this->validate($composite->nodes[0]);
@@ -55,7 +55,7 @@ class ilAssLacCompositeValidator
         return;
     }
 
-    private function validateSubTree(ilAssLacAbstractComposite $composite)
+    private function validateSubTree(ilAssLacAbstractComposite $composite) : void
     {
         if ($composite->nodes[0] instanceof ilAssLacQuestionExpressionInterface &&
             $composite->nodes[1] instanceof ilAssLacSolutionExpressionInterface
@@ -131,7 +131,7 @@ class ilAssLacCompositeValidator
      *
      * @throws ilAssLacAnswerValueNotExist
      */
-    private function validateClozeTest($answer_index, $question, $answer_expression, $question_index)
+    private function validateClozeTest($answer_index, $question, $answer_expression, $question_index) : void
     {
         if ($answer_index !== null) {
             $options = $question->getAvailableAnswerOptions($answer_index);
@@ -184,7 +184,7 @@ class ilAssLacCompositeValidator
      *
      * @throws ilAssLacAnswerIndexNotExist
      */
-    private function checkIfAnswerIndexOfQuestionExists($question, $question_index, $answer_index)
+    private function checkIfAnswerIndexOfQuestionExists($question, $question_index, $answer_index) : void
     {
         $answer_options = $question->getAvailableAnswerOptions($answer_index);
         if ($answer_options == null) {
@@ -198,7 +198,7 @@ class ilAssLacCompositeValidator
      *
      * @throws ilAssLacQuestionNotExist
      */
-    private function checkQuestionExists($question, $index)
+    private function checkQuestionExists($question, $index) : void
     {
         if ($question == null) {
             throw new ilAssLacQuestionNotExist($index);
@@ -232,7 +232,7 @@ class ilAssLacCompositeValidator
      *
      * @throws ilAssLacExpressionNotSupportedByQuestion
      */
-    private function checkAnswerExpressionExist($expressions, $answer_expression, $question_index)
+    private function checkAnswerExpressionExist($expressions, $answer_expression, $question_index) : void
     {
         if (!in_array($answer_expression::$identifier, $expressions)) {
             throw new ilAssLacExpressionNotSupportedByQuestion($answer_expression->getValue(), $question_index);
@@ -246,7 +246,7 @@ class ilAssLacCompositeValidator
      *
      * @throws ilAssLacOperatorNotSupportedByExpression
      */
-    private function checkOperatorExistForExpression($operators, $answer_expression, $pattern)
+    private function checkOperatorExistForExpression($operators, $answer_expression, $pattern) : void
     {
         if (!in_array($pattern, $operators)) {
             throw new ilAssLacOperatorNotSupportedByExpression($answer_expression->getValue(), $pattern);

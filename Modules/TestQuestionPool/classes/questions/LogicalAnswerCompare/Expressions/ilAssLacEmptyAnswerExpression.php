@@ -86,7 +86,7 @@ class ilAssLacEmptyAnswerExpression extends ilAssLacAbstractExpression implement
      *
      * @param array $matches
      */
-    protected function setMatches($matches)
+    protected function setMatches($matches) : void
     {
         $this->matched = true;
     }

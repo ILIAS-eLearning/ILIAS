@@ -73,7 +73,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
      *
      * @param	array	$a_suffixes	Accepted Suffixes
      */
-    public function setSuffixes($a_suffixes)
+    public function setSuffixes($a_suffixes) : void
     {
         $this->suffixes = $a_suffixes;
     }
@@ -99,7 +99,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
     /**
      * @param string $imageRemovalCommand
      */
-    public function setImageRemovalCommand($imageRemovalCommand)
+    public function setImageRemovalCommand($imageRemovalCommand) : void
     {
         $this->imageRemovalCommand = $imageRemovalCommand;
     }
@@ -115,7 +115,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
     /**
      * @param string $imageUploadCommand
      */
-    public function setImageUploadCommand($imageUploadCommand)
+    public function setImageUploadCommand($imageUploadCommand) : void
     {
         $this->imageUploadCommand = $imageUploadCommand;
     }
@@ -131,7 +131,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
     /**
      * @param	boolean	$editElementOccuranceEnabled
      */
-    public function setEditElementOccuranceEnabled($editElementOccuranceEnabled)
+    public function setEditElementOccuranceEnabled($editElementOccuranceEnabled) : void
     {
         $this->editElementOccuranceEnabled = $editElementOccuranceEnabled;
     }
@@ -147,7 +147,7 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
     /**
      * @param boolean $editElementOrderEnabled
      */
-    public function setEditElementOrderEnabled($editElementOrderEnabled)
+    public function setEditElementOrderEnabled($editElementOrderEnabled) : void
     {
         $this->editElementOrderEnabled = $editElementOrderEnabled;
     }

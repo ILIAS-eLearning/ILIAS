@@ -55,7 +55,7 @@ class ilAssQuestionSkillAssignmentList
     /**
      * @param int $parentObjId
      */
-    public function setParentObjId($parentObjId)
+    public function setParentObjId($parentObjId) : void
     {
         $this->parentObjId = $parentObjId;
     }
@@ -79,19 +79,19 @@ class ilAssQuestionSkillAssignmentList
     /**
      * @param int $questionIdFilter
      */
-    public function setQuestionIdFilter($questionIdFilter)
+    public function setQuestionIdFilter($questionIdFilter) : void
     {
         $this->questionIdFilter = $questionIdFilter;
     }
 
-    public function reset()
+    public function reset() : void
     {
         $this->assignments = array();
         $this->numAssignsBySkill = array();
         $this->maxPointsBySkill = array();
     }
 
-    public function addAssignment(ilAssQuestionSkillAssignment $assignment)
+    public function addAssignment(ilAssQuestionSkillAssignment $assignment) : void
     {
         if (!isset($this->assignments[$assignment->getQuestionId()])) {
             $this->assignments[$assignment->getQuestionId()] = array();
@@ -100,7 +100,7 @@ class ilAssQuestionSkillAssignmentList
         $this->assignments[$assignment->getQuestionId()][] = $assignment;
     }
 
-    private function incrementNumAssignsBySkill(ilAssQuestionSkillAssignment $assignment)
+    private function incrementNumAssignsBySkill(ilAssQuestionSkillAssignment $assignment) : void
     {
         $key = $this->buildSkillKey($assignment->getSkillBaseId(), $assignment->getSkillTrefId());
 
@@ -111,7 +111,7 @@ class ilAssQuestionSkillAssignmentList
         $this->numAssignsBySkill[$key]++;
     }
 
-    private function incrementMaxPointsBySkill(ilAssQuestionSkillAssignment $assignment)
+    private function incrementMaxPointsBySkill(ilAssQuestionSkillAssignment $assignment) : void
     {
         $key = $this->buildSkillKey($assignment->getSkillBaseId(), $assignment->getSkillTrefId());
 
@@ -122,7 +122,7 @@ class ilAssQuestionSkillAssignmentList
         $this->maxPointsBySkill[$key] += $assignment->getMaxSkillPoints();
     }
 
-    public function loadFromDb()
+    public function loadFromDb() : void
     {
         $this->reset();
 
@@ -181,7 +181,7 @@ class ilAssQuestionSkillAssignmentList
         return $skillBaseId . ':' . $skillTrefId;
     }
 
-    public function loadAdditionalSkillData()
+    public function loadAdditionalSkillData() : void
     {
         foreach ($this->assignments as $assignmentsByQuestion) {
             foreach ($assignmentsByQuestion as $assignment) {

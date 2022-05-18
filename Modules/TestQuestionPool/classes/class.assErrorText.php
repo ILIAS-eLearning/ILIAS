@@ -578,7 +578,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
         return array();
     }
 
-    public function setErrorData($a_data)
+    public function setErrorData($a_data) : void
     {
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
         $temp = $this->errordata;
@@ -981,12 +981,12 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
     * Flush error data
     */
-    public function flushErrorData()
+    public function flushErrorData() : void
     {
         $this->errordata = array();
     }
 
-    public function addErrorData($text_wrong, $text_correct, $points)
+    public function addErrorData($text_wrong, $text_correct, $points) : void
     {
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
         array_push($this->errordata, new assAnswerErrorText($text_wrong, $text_correct, $points));
@@ -1017,7 +1017,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @param string $a_value Error text
     */
-    public function setErrorText($a_value)
+    public function setErrorText($a_value) : void
     {
         $this->errortext = $a_value;
     }
@@ -1037,7 +1037,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @param double $a_value text size in percent
     */
-    public function setTextSize($a_value)
+    public function setTextSize($a_value) : void
     {
         // in self-assesment-mode value should always be set (and must not be null)
         if ($a_value === null) {
@@ -1061,7 +1061,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @param double $a_value Points for wrong selection
     */
-    public function setPointsWrong($a_value)
+    public function setPointsWrong($a_value) : void
     {
         $this->points_wrong = $a_value;
     }

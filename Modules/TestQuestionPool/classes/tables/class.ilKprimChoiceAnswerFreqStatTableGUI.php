@@ -40,7 +40,7 @@ class ilKprimChoiceAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisticTabl
     }
     
 
-    public function initColumns()
+    public function initColumns() : void
     {
         $lng = $this->DIC->language();
         $this->addColumn($lng->txt('tst_corr_answ_stat_tbl_header_answer'), '');

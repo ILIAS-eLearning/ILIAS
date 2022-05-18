@@ -42,7 +42,7 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
     /**
      * forward method
      */
-    public function forward()
+    public function forward() : void
     {
         //$this->ensurePageObjectExists($_GET['feedback_type'], $_GET['feedback_id']);
         
@@ -65,7 +65,7 @@ class ilAssQuestionFeedbackPageObjectCommandForwarder extends ilAssQuestionAbstr
      *
      * @access protected
      */
-    public function ensurePageObjectExists($pageObjectType, $pageObjectId)
+    public function ensurePageObjectExists($pageObjectType, $pageObjectId) : void
     {
         include_once("./Modules/TestQuestionPool/classes/feedback/class.ilAssQuestionFeedback.php");
         if ($pageObjectType == ilAssQuestionFeedback::PAGE_OBJECT_TYPE_GENERIC_FEEDBACK) {

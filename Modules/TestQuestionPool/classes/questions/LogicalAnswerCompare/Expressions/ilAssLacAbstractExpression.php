@@ -28,7 +28,7 @@ abstract class ilAssLacAbstractExpression extends ilAssLacAbstractComposite impl
      *
      * @param string $value
      */
-    public function parseValue($value)
+    public function parseValue($value) : void
     {
         $result = array();
         preg_match_all($this->getPattern(), $value, $result);

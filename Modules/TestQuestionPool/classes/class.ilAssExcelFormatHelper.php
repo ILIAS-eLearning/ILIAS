@@ -25,7 +25,7 @@ class ilAssExcelFormatHelper extends ilExcel
      * @param string $coordinates
      * @param string $value
      */
-    public function setFormattedExcelTitle($coordinates, $value)
+    public function setFormattedExcelTitle($coordinates, $value) : void
     {
         $this->setCellByCoordinates($coordinates, $value);
         $this->setColors($coordinates, EXCEL_BACKGROUND_COLOR);
@@ -91,7 +91,7 @@ class ilAssExcelFormatHelper extends ilExcel
     /**
      * @param int $stringEscaping
      */
-    public function setStringEscaping($stringEscaping)
+    public function setStringEscaping($stringEscaping) : void
     {
         $this->stringEscaping = $stringEscaping;
     }

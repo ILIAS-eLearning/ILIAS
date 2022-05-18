@@ -560,7 +560,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return $tpl->get();
     }
 
-    public function addSuggestedSolution()
+    public function addSuggestedSolution() : void
     {
         ilSession::set("subquestion_index", 0);
         if ($_POST["cmd"]["addSuggestedSolution"]) {

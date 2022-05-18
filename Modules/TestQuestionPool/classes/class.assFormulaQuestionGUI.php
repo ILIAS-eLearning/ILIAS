@@ -140,7 +140,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
      * Suggest a range for a result
      * @access public
      */
-    public function suggestRange()
+    public function suggestRange() : void
     {
         if ($this->writePostData()) {
             $this->tpl->setOnScreenMessage('info', $this->getErrorMessage());
@@ -273,7 +273,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
     }
 
-    public function resetSavedPreviewSession()
+    public function resetSavedPreviewSession() : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -816,13 +816,13 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
     }
 
-    public function parseQuestion()
+    public function parseQuestion() : void
     {
         $this->writePostData();
         $this->editQuestion();
     }
     
-    public function saveReturnFQ()
+    public function saveReturnFQ() : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -900,7 +900,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
     }
 
-    public function saveFQ()
+    public function saveFQ() : void
     {
         $result = $this->writePostData();
 

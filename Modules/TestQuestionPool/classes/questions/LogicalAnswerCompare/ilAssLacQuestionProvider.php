@@ -24,7 +24,7 @@ class ilAssLacQuestionProvider
     /**
      * @param integer $questionId
      */
-    public function setQuestionId($questionId)
+    public function setQuestionId($questionId) : void
     {
         $this->questionId = $questionId;
     }
@@ -32,7 +32,7 @@ class ilAssLacQuestionProvider
     /**
      * @param iQuestionCondition $question
      */
-    public function setQuestion(iQuestionCondition $question)
+    public function setQuestion(iQuestionCondition $question) : void
     {
         $this->question = $question;
     }

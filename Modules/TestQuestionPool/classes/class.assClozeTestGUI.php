@@ -774,7 +774,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     /**
     * Create gaps from cloze text
     */
-    public function createGaps()
+    public function createGaps() : void
     {
         $this->writePostData(true);
         $this->object->saveToDb();
@@ -784,7 +784,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     /**
     * Remove a gap answer
     */
-    public function removegap()
+    public function removegap() : void
     {
         $this->writePostData(true);
         $this->object->deleteAnswerText($this->gapIndex, key($_POST['cmd']['removegap_' . $this->gapIndex]));
@@ -794,7 +794,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     /**
     * Add a gap answer
     */
-    public function addgap()
+    public function addgap() : void
     {
         $this->writePostData(true);
         $this->object->addGapAnswer($this->gapIndex, key($_POST['cmd']['addgap_' . $this->gapIndex]) + 1, "");
@@ -1533,7 +1533,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
      * @param $gaptemplate
      * @param $solutiontext
      */
-    private function populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext)
+    private function populateSolutiontextToGapTpl($gaptemplate, $gap, $solutiontext) : void
     {
         if ($this->renderPurposeSupportsFormHtml() || $this->isRenderPurposePrintPdf()) {
             $gaptemplate->setCurrentBlock('gap_span');
@@ -1724,7 +1724,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         }
     }
 
-    protected function populateGapCombinationCorrectionFormProperty(ilPropertyFormGUI $form, $gapCombi, $combiIndex)
+    protected function populateGapCombinationCorrectionFormProperty(ilPropertyFormGUI $form, $gapCombi, $combiIndex) : void
     {
         $header = new ilFormSectionHeaderGUI();
         $header->setTitle("Gap Combination " . ($combiIndex + 1));
@@ -1741,7 +1741,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
      * @param assClozeGap $gap
      * @param integer $gapIndex
      */
-    protected function populateGapCorrectionFormProperties($form, $gap, $gapIndex, $hidePoints)
+    protected function populateGapCorrectionFormProperties($form, $gap, $gapIndex, $hidePoints) : void
     {
         $header = new ilFormSectionHeaderGUI();
         $header->setTitle($this->lng->txt("gap") . " " . ($gapIndex + 1));
@@ -1756,7 +1756,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         }
     }
 
-    protected function populateTextOrSelectGapCorrectionFormProperty($form, $gap, $gapIndex, $hidePoints)
+    protected function populateTextOrSelectGapCorrectionFormProperty($form, $gap, $gapIndex, $hidePoints) : void
     {
         require_once "Modules/TestQuestionPool/classes/forms/class.ilAssAnswerCorrectionsInputGUI.php";
         $values = new ilAssAnswerCorrectionsInputGUI($this->lng->txt("values"), "gap_" . $gapIndex);
@@ -1767,7 +1767,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $form->addItem($values);
     }
 
-    protected function populateNumericGapCorrectionFormProperty($form, $item, $gapIndex, $hidePoints)
+    protected function populateNumericGapCorrectionFormProperty($form, $item, $gapIndex, $hidePoints) : void
     {
         $value = new ilNumberInputGUI($this->lng->txt('value'), "gap_" . $gapIndex . "_numeric");
         $value->allowDecimals(true);
@@ -1818,7 +1818,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         }
     }
 
-    protected function saveGapCorrectionFormProperty(ilPropertyFormGUI $form, assClozeGap $gap, $gapIndex)
+    protected function saveGapCorrectionFormProperty(ilPropertyFormGUI $form, assClozeGap $gap, $gapIndex) : void
     {
         if ($gap->getType() == CLOZE_TEXT || $gap->getType() == CLOZE_SELECT) {
             $this->saveTextOrSelectGapCorrectionFormProperty($form, $gap, $gapIndex);
@@ -1829,7 +1829,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         }
     }
 
-    protected function saveTextOrSelectGapCorrectionFormProperty(ilPropertyFormGUI $form, assClozeGap $gap, $gapIndex)
+    protected function saveTextOrSelectGapCorrectionFormProperty(ilPropertyFormGUI $form, assClozeGap $gap, $gapIndex) : void
     {
         $answers = $form->getItemByPostVar('gap_' . $gapIndex)->getValues();
 
@@ -1838,7 +1838,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         }
     }
 
-    protected function saveNumericGapCorrectionFormProperty(ilPropertyFormGUI $form, assAnswerCloze $item, $gapIndex)
+    protected function saveNumericGapCorrectionFormProperty(ilPropertyFormGUI $form, assAnswerCloze $item, $gapIndex) : void
     {
         $item->setAnswertext($form->getInput('gap_' . $gapIndex . '_numeric'));
         $item->setLowerBound($form->getInput('gap_' . $gapIndex . '_numeric_lower'));
@@ -1846,7 +1846,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $item->setPoints((float) $form->getInput('gap_' . $gapIndex . '_numeric_points'));
     }
 
-    protected function saveGapCombinationCorrectionFormProperties(ilPropertyFormGUI $form)
+    protected function saveGapCombinationCorrectionFormProperties(ilPropertyFormGUI $form) : void
     {
         // please dont ask (!) -.-
 

@@ -142,7 +142,7 @@ class assFormulaQuestionResult
         return $result;
     }
 
-    public function findValidRandomVariables($variables, $results)
+    public function findValidRandomVariables($variables, $results) : void
     {
         include_once "./Services/Math/classes/class.EvalMath.php";
         $i = 0;
@@ -179,7 +179,7 @@ class assFormulaQuestionResult
         }
     }
 
-    public function suggestRange($variables, $results)
+    public function suggestRange($variables, $results) : void
     {
         
 //		@todo Check this
@@ -609,7 +609,7 @@ class assFormulaQuestionResult
      * Getter and Setter
      ************************************/
 
-    public function setResult($result)
+    public function setResult($result) : void
     {
         $this->result = $result;
     }
@@ -619,7 +619,7 @@ class assFormulaQuestionResult
         return $this->result;
     }
 
-    public function setRangeMin($range_min)
+    public function setRangeMin($range_min) : void
     {
         //		include_once "./Services/Math/classes/class.EvalMath.php";
         //		$math = new EvalMath();
@@ -651,7 +651,7 @@ class assFormulaQuestionResult
         return $this->getRangeMin();
     }
 
-    public function setRangeMax($range_max)
+    public function setRangeMax($range_max) : void
     {
         //		include_once "./Services/Math/classes/class.EvalMath.php";
         //		$math = new EvalMath();
@@ -683,7 +683,7 @@ class assFormulaQuestionResult
         return $this->getRangeMax();
     }
 
-    public function setTolerance($tolerance)
+    public function setTolerance($tolerance) : void
     {
         $this->tolerance = $tolerance;
     }
@@ -693,7 +693,7 @@ class assFormulaQuestionResult
         return $this->tolerance;
     }
 
-    public function setUnit($unit)
+    public function setUnit($unit) : void
     {
         $this->unit = $unit;
     }
@@ -703,7 +703,7 @@ class assFormulaQuestionResult
         return $this->unit;
     }
 
-    public function setFormula($formula)
+    public function setFormula($formula) : void
     {
         $this->formula = $formula;
     }
@@ -713,7 +713,7 @@ class assFormulaQuestionResult
         return $this->formula;
     }
 
-    public function setPoints($points)
+    public function setPoints($points) : void
     {
         $this->points = $points;
     }
@@ -723,7 +723,7 @@ class assFormulaQuestionResult
         return $this->points;
     }
 
-    public function setRatingSimple($rating_simple)
+    public function setRatingSimple($rating_simple) : void
     {
         $this->rating_simple = $rating_simple;
     }
@@ -733,7 +733,7 @@ class assFormulaQuestionResult
         return $this->rating_simple;
     }
 
-    public function setRatingSign($rating_sign)
+    public function setRatingSign($rating_sign) : void
     {
         $this->rating_sign = $rating_sign;
     }
@@ -743,7 +743,7 @@ class assFormulaQuestionResult
         return $this->rating_sign;
     }
 
-    public function setRatingValue($rating_value)
+    public function setRatingValue($rating_value) : void
     {
         $this->rating_value = $rating_value;
     }
@@ -753,7 +753,7 @@ class assFormulaQuestionResult
         return $this->rating_value;
     }
 
-    public function setRatingUnit($rating_unit)
+    public function setRatingUnit($rating_unit) : void
     {
         $this->rating_unit = $rating_unit;
     }
@@ -763,7 +763,7 @@ class assFormulaQuestionResult
         return $this->rating_unit;
     }
 
-    public function setPrecision($precision)
+    public function setPrecision($precision) : void
     {
         $this->precision = $precision;
     }
@@ -773,7 +773,7 @@ class assFormulaQuestionResult
         return $this->precision;
     }
 
-    public function setResultType($a_result_type)
+    public function setResultType($a_result_type) : void
     {
         $this->result_type = $a_result_type;
     }
@@ -783,7 +783,7 @@ class assFormulaQuestionResult
         return (int) $this->result_type;
     }
 
-    public function setRangeMaxTxt($range_max_txt)
+    public function setRangeMaxTxt($range_max_txt) : void
     {
         $this->range_max_txt = $range_max_txt;
     }
@@ -793,7 +793,7 @@ class assFormulaQuestionResult
         return $this->range_max_txt;
     }
 
-    public function setRangeMinTxt($range_min_txt)
+    public function setRangeMinTxt($range_min_txt) : void
     {
         $this->range_min_txt = $range_min_txt;
     }

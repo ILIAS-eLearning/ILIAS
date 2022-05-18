@@ -18,7 +18,7 @@ class assAnswerMatchingDefinitionTest extends assBaseTestCase
         chdir('../../../');
     }
 
-    public function test_instantiateObjectSimple()
+    public function test_instantiateObjectSimple() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php';

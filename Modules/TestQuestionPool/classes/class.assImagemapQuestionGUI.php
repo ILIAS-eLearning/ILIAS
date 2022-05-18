@@ -56,7 +56,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $cmd;
     }
     
-    protected function deleteImage()
+    protected function deleteImage() : void
     {
         $this->object->deleteImage();
         $this->object->saveToDb();
@@ -213,17 +213,17 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $form;
     }
 
-    public function addRect()
+    public function addRect() : void
     {
         $this->areaEditor('rect');
     }
     
-    public function addCircle()
+    public function addCircle() : void
     {
         $this->areaEditor('circle');
     }
     
-    public function addPoly()
+    public function addPoly() : void
     {
         $this->areaEditor('poly');
     }
@@ -231,7 +231,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
     * Saves a shape of the area editor
     */
-    public function saveShape()
+    public function saveShape() : void
     {
         $coords = "";
         switch ($_POST["shape"]) {
@@ -255,7 +255,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->ctrl->redirect($this, 'editQuestion');
     }
 
-    public function areaEditor($shape = '')
+    public function areaEditor($shape = '') : void
     {
         $shape = (strlen($shape)) ? $shape : $_POST['shape'];
 
@@ -376,7 +376,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->tpl->setVariable('QUESTION_DATA', $editorTpl->get());
     }
 
-    public function back()
+    public function back() : void
     {
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('msg_cancel'), true);
         $this->ctrl->redirect($this, 'editQuestion');

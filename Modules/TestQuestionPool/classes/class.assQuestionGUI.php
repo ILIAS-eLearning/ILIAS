@@ -412,7 +412,7 @@ abstract class assQuestionGUI
         return 0;
     }
 
-    public function assessment()
+    public function assessment() : void
     {
         $stats_table = new ilQuestionCumulatedStatisticsTableGUI($this, 'assessment', '', $this->object);
 
@@ -672,7 +672,7 @@ abstract class assQuestionGUI
         }
     }
     
-    public function saveEdit()
+    public function saveEdit() : void
     {
         $ilUser = $this->ilUser;
         $result = $this->writePostData();
@@ -952,7 +952,7 @@ abstract class assQuestionGUI
     }
 
     /** Why are you here? Some magic for plugins? */
-    public function outAdditionalOutput()
+    public function outAdditionalOutput() : void
     {
     }
 

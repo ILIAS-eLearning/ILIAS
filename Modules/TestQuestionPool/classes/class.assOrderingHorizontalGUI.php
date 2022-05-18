@@ -334,7 +334,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
     *
     * @access public
     */
-    public function saveFeedback()
+    public function saveFeedback() : void
     {
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
         // @PHP8-CR: This appears as if the feedback feature was not implmented completely for the question type.

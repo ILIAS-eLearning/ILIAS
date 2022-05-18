@@ -66,7 +66,7 @@ class ASS_AnswerBinaryStateImage extends ASS_AnswerBinaryState
      *
      * @see $image
      */
-    public function setImage($a_image = 0)
+    public function setImage($a_image = 0) : void
     {
         $this->image = $a_image;
     }

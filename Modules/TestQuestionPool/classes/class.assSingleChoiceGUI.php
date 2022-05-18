@@ -169,7 +169,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
     * Upload an image
     */
-    public function uploadchoice()
+    public function uploadchoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['uploadchoice']);
@@ -179,7 +179,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
     * Remove an image
     */
-    public function removeimagechoice()
+    public function removeimagechoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removeimagechoice']);
@@ -191,7 +191,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
     * Add a new answer
     */
-    public function addchoice()
+    public function addchoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['addchoice']);
@@ -202,7 +202,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
     * Remove an answer
     */
-    public function removechoice()
+    public function removechoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removechoice']);
@@ -857,7 +857,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return $tpl;
     }
 
-    private function populateInlineFeedback($template, $answer_id, $user_solution)
+    private function populateInlineFeedback($template, $answer_id, $user_solution) : void
     {
         $feedbackOutputRequired = false;
 

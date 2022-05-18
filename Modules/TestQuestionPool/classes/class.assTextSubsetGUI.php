@@ -102,7 +102,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     /**
     * Add a new answer
     */
-    public function addanswers()
+    public function addanswers() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['addanswers']);
@@ -113,7 +113,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     /**
     * Remove an answer
     */
-    public function removeanswers()
+    public function removeanswers() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removeanswers']);

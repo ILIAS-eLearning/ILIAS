@@ -47,10 +47,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.unit_category_row.html', 'Modules/TestQuestionPool');
     }
 
-    /**
-     *
-     */
-    abstract protected function populateTitle();
+    abstract protected function populateTitle() : void;
 
     /**
      * @param array $row

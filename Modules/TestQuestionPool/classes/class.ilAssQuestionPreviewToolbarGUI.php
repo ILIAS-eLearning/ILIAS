@@ -20,7 +20,7 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
         parent::__construct();
     }
     
-    public function build()
+    public function build() : void
     {
         $button = \ilSubmitButton::getInstance();
         $button->setCaption("qpl_reset_preview");
@@ -30,7 +30,7 @@ class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
         //$this->addFormButton($this->lng->txt('qpl_reset_preview'), $this->getResetPreviewCmd(), '', true);
     }
 
-    public function setResetPreviewCmd($resetPreviewCmd)
+    public function setResetPreviewCmd($resetPreviewCmd) : void
     {
         $this->resetPreviewCmd = $resetPreviewCmd;
     }

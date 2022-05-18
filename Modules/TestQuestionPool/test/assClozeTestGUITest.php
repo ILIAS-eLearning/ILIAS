@@ -39,7 +39,7 @@ class assClozeTestGUITest extends assBaseTestCase
         $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
     }
 
-    public function test_instantiateObject_shouldReturnInstance()
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         /**
          * @runInSeparateProcess
