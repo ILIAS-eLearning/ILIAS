@@ -104,21 +104,19 @@ class ilBiblLibraryPresentationGUI
     {
         if ($this->library->getImg()) {
             $button = ilImageLinkButton::getInstance();
-            $button->setUrl($this->generateLibraryLink($entry, $bibl_factory_facade->type()->getStringRepresentation()));
             $button->setImage($this->library->getImg(), false);
-            $button->setTarget('_blank');
-            
-            return $button->render();
+            $button->addCSSClass("btn");
+            $button->addCSSClass("btn-default");
         } else {
             $button = ilLinkButton::getInstance();
-            $button->setUrl($this->generateLibraryLink($entry, $bibl_factory_facade->type()->getStringRepresentation()));
-            $button->setTarget('_blank');
-            $button->setCaption('bibl_link_online');
-            
-            return $button->render();
         }
+        $button->setUrl($this->generateLibraryLink($entry, $bibl_factory_facade->type()->getStringRepresentation()));
+        $button->setTarget('_blank');
+        $button->setCaption('bibl_link_online');
+
+        return $button->render();
     }
-    
+
     /**
      * @deprecated REFACTOR type via type factory verwenden
      */

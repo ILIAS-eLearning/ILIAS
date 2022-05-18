@@ -100,7 +100,7 @@ class ilObjForumAccess extends ilObjectAccess
         ilObjForum::preloadForumIdsByRefIds($ref_ids);
     }
 
-    public static function getLastPostByRefId(int $ref_id) : array
+    public static function getLastPostByRefId(int $ref_id) : ?array
     {
         return ilObjForum::lookupLastPostByRefId($ref_id);
     }

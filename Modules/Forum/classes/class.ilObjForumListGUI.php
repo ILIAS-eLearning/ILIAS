@@ -91,8 +91,6 @@ class ilObjForumListGUI extends ilObjectListGUI
             $num_new_total = $properties['num_new_posts'];
         }
 
-        $last_post = ilObjForumAccess::getLastPostByRefId($this->ref_id);
-
         if (!$this->user->isAnonymous()) {
             if ($this->getDetailsLevel() === ilObjectListGUI::DETAILS_ALL) {
                 $props[] = [
@@ -136,7 +134,8 @@ class ilObjForumListGUI extends ilObjectListGUI
             ];
         }
 
-        if (isset($last_post['pos_pk']) && $last_post['pos_pk'] > 0) {
+        $last_post = ilObjForumAccess::getLastPostByRefId($this->ref_id);
+        if (is_array($last_post) && $last_post['pos_pk'] > 0) {
             $lpCont = "<a class=\"il_ItemProperty\" target=\"" . ilFrameTargetInfo::_getFrame('MainContent') .
                 "\" href=\"ilias.php?baseClass=" . ilRepositoryGUI::class . "&amp;cmd=viewThread&amp;cmdClass=" .
                 ilObjForumGUI::class . "&amp;target=true&amp;pos_pk=" .

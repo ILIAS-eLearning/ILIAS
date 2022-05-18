@@ -301,8 +301,7 @@ class ilFileVersionsGUI
 
             if (count($remaining_versions) < 1) {
                 // Ask
-                $this->tpl->setOnScreenMessage('question', $this->lng->txt("file_confirm_delete_all_versions"));
-
+                $conf_gui->setHeaderText($this->lng->txt('file_confirm_delete_all_versions'));
                 $conf_gui->setConfirm($this->lng->txt("confirm"), self::CMD_CONFIRMED_DELETE_FILE);
                 $conf_gui->addItem(
                     "id[]",
@@ -313,8 +312,7 @@ class ilFileVersionsGUI
                 );
             } else {
                 // Ask
-                $this->tpl->setOnScreenMessage('question', $this->lng->txt("file_confirm_delete_versions"));
-
+                $conf_gui->setHeaderText($this->lng->txt('file_confirm_delete_versions'));
                 $conf_gui->setConfirm($this->lng->txt("confirm"), self::CMD_CONFIRMED_DELETE_VERSIONS);
 
                 foreach ($this->file->getVersions($version_ids) as $version) {

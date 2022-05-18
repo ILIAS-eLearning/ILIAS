@@ -190,7 +190,7 @@ class ilBiblLibraryGUI
                                 ->findById(
                                     $this->wrapper->query()->retrieve(
                                         self::F_LIB_ID,
-                                        $this->refinery->to()->int()
+                                        $this->refinery->kindlyTo()->int()
                                     )
                                 );
         }
@@ -200,7 +200,7 @@ class ilBiblLibraryGUI
                                 ->findById(
                                     $this->wrapper->post()->retrieve(
                                         self::F_LIB_ID,
-                                        $this->refinery->to()->int()
+                                        $this->refinery->kindlyTo()->int()
                                     )
                                 );
         }

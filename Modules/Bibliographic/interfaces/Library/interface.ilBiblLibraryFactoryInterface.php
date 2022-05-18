@@ -15,13 +15,16 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 /**
  * Interface ilBiblLibraryFactoryInterface
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 interface ilBiblLibraryFactoryInterface
 {
+    /**
+     * @return \ilBiblLibraryInterface[]
+     */
     public function getAll() : array;
 
     public function findById(int $id) : \ilBiblLibraryInterface;
