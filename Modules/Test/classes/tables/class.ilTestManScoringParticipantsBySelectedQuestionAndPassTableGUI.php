@@ -18,7 +18,6 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
     const PARENT_SAVE_SCORING_CMD = 'saveManScoringByQuestion';
     
     private ?float $curQuestionMaxPoints = null;
-    private ?array $manPointsPostData;
 
     protected bool $first_row_rendered = false;
 
@@ -197,11 +196,6 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->tpl->setVariable('ANSWER_TITLE', $this->lng->txt('answer_of') . ': ' . $a_set['name']);
     }
     
-    public function setManualScoringPointsPostData(array $manPointsPostData) : void
-    {
-        $this->manPointsPostData = $manPointsPostData;
-    }
-
     public function getCurQuestionMaxPoints() : ?float
     {
         return $this->curQuestionMaxPoints;

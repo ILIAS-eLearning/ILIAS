@@ -1,7 +1,6 @@
 <?php
 
 use ILIAS\Setup\Agent\NullAgent;
-use ILIAS\Setup\Config;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\Metrics;
 

@@ -77,7 +77,6 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $this->lng->toJSMap(['answer' => $this->lng->txt('answer')]);
 
         $table = new ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI($this);
-        $table->setManualScoringPointsPostData($manPointsPost);
 
         $qst_id = (int) $table->getFilterItemByPostVar('question')->getValue();
         $passNr = $table->getFilterItemByPostVar('pass')->getValue();

@@ -9415,7 +9415,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     
     /**
     * Delivers a PDF file from a XSL-FO string
-    *
     * @param string $fo The XSL-FO string
     * @access public
     */
@@ -9434,8 +9433,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         try {
             $pdf_base64 = ilRpcClientFactory::factory('RPCTransformationHandler')->ilFO2PDF($fo);
             $filename = (strlen($title)) ? $title : $this->getTitle();
-            // @PHP8-CR This $pdf_base64->scalar is here since (at least) ILIAS 5.4. This is another candidate for a
-            // more thorough analysis than it's scope of the PHP8 refactoring, so I leave this error "intact" for now.
+            /** @noinspection PhpUndefinedFieldInspection */
             ilUtil::deliverData(
                 $pdf_base64->scalar,
                 ilFileUtils::getASCIIFilename($filename) . ".pdf",

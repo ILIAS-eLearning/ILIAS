@@ -60,6 +60,8 @@ class ilQuestionPoolSkillAdministrationGUI
      */
     private $poolOBJ;
     
+    /** @var string|int|null  */
+    private $refId;
     
     public function __construct(ILIAS $ilias, ilCtrl $ctrl, ilAccessHandler $access, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilPluginAdmin $pluginAdmin, ilObjQuestionPool $poolOBJ, $refId)
     {

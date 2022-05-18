@@ -1,8 +1,6 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\Notes\Note;
-
 require_once './Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
 require_once './Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
 require_once './Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php';

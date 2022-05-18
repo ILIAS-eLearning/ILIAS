@@ -164,13 +164,13 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->object->setMatchingMode($_POST['matching_mode']);
     }
 
-    public function uploadterms()
+    public function uploadterms() : void
     {
         $this->writePostData(true);
         $this->editQuestion();
     }
 
-    public function removeimageterms()
+    public function removeimageterms() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removeimageterms']);
@@ -178,13 +178,13 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function uploaddefinitions()
+    public function uploaddefinitions() : void
     {
         $this->writePostData(true);
         $this->editQuestion();
     }
 
-    public function removeimagedefinitions()
+    public function removeimagedefinitions() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removeimagedefinitions']);
@@ -192,7 +192,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function addterms()
+    public function addterms() : void
     {
         $this->writePostData();
         $position = key($_POST["cmd"]["addterms"]);
@@ -200,7 +200,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function removeterms()
+    public function removeterms() : void
     {
         $this->writePostData();
         $position = key($_POST["cmd"]["removeterms"]);
@@ -208,7 +208,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function adddefinitions()
+    public function adddefinitions() : void
     {
         $this->writePostData();
         $position = key($_POST["cmd"]["adddefinitions"]);
@@ -216,7 +216,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function removedefinitions()
+    public function removedefinitions() : void
     {
         $this->writePostData();
         $position = key($_POST["cmd"]["removedefinitions"]);
@@ -224,7 +224,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function addpairs()
+    public function addpairs() : void
     {
         $this->writePostData();
         $position = key($_POST["cmd"]["addpairs"]);
@@ -232,7 +232,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function removepairs()
+    public function removepairs() : void
     {
         $this->writePostData();
         $position = key($_POST["cmd"]["removepairs"]);
@@ -355,7 +355,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $terms->setTextName($this->lng->txt('term_text'));
         $terms->setImageName($this->lng->txt('term_image'));
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
-        if (!count($this->object->getTerms())) {
+        if (0 === count($this->object->getTerms())) {
             // @PHP8-CR: If you look above, how $this->object->addDefinition does in fact take an object, I take this
             // issue as an indicator for a bigger issue and won't suppress / "quickfix" this but postpone further
             // analysis, eventually involving T&A TechSquad
