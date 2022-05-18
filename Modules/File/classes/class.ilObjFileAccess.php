@@ -135,10 +135,10 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
      * @param int $a_id
      * @deprecated
      */
-    public static function _lookupFileSize(int $a_id) : int
+    public static function _lookupFileSize(int $a_id, bool $by_reference = true) : int
     {
         try {
-            $obj = new ilObjFile($a_id);
+            $obj = new ilObjFile($a_id, $by_reference);
             return $obj->getFileSize();
         } catch (Throwable $t) {
             return 0;

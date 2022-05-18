@@ -137,7 +137,7 @@ class ilCheckSumOfFileSizesJob extends AbstractJob
                     break;
 
                 case "file":
-                    $a_file_size += ilObjFileAccess::_lookupFileSize(ilObject::_lookupObjId($ref_id));
+                    $a_file_size += ilObjFileAccess::_lookupFileSize($ref_id);
                     break;
             }
         }
