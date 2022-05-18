@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use PHPUnit\Framework\MockObject\MockObject;
-
 /**
  * Class ilTestTabsManagerTest
  * @author Marvin Beym <mbeym@databay.de>

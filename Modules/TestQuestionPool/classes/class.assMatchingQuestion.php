@@ -47,9 +47,9 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
     * The terms of the matching question
     *
-    * @var array
+    * @var assAnswerMatchingTerm[]
     */
-    protected $terms;
+    protected array $terms = [];
 
     protected $definitions;
     /**
@@ -300,7 +300,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         if ($result->numRows() > 0) {
             while ($data = $ilDB->fetchAssoc($result)) {
                 $term = new assAnswerMatchingTerm($data['term'], $data['picture'], $data['ident']);
-                array_push($this->terms, $term);
+                $this->terms[] = $term;
                 $termids[$data['term_id']] = $term;
             }
         }
@@ -451,7 +451,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $clone->id;
     }
 
-    public function duplicateImages($question_id, $objectId = null)
+    public function duplicateImages($question_id, $objectId = null) : void
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
@@ -496,7 +496,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
     }
 
-    public function copyImages($question_id, $source_questionpool)
+    public function copyImages($question_id, $source_questionpool) : void
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
@@ -550,7 +550,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param double $points The points for selecting the matching pair (even negative points can be used)
     * @see $matchingpairs
     */
-    public function insertMatchingPair($position, $term = null, $definition = null, $points = 0.0)
+    public function insertMatchingPair($position, $term = null, $definition = null, $points = 0.0) : void
     {
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php";
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
@@ -582,7 +582,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      *
      * @see $matchingpairs
      */
-    public function addMatchingPair($term = null, $definition = null, $points = 0.0)
+    public function addMatchingPair($term = null, $definition = null, $points = 0.0) : void
     {
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
@@ -652,7 +652,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param integer $index A nonnegative index of the n-th matching pair
     * @see $matchingpairs
     */
-    public function deleteMatchingPair($index = 0)
+    public function deleteMatchingPair($index = 0) : void
     {
         if ($index < 0) {
             return;
@@ -671,7 +671,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * Deletes all matching pairs
     * @see $matchingpairs
     */
-    public function flushMatchingPairs()
+    public function flushMatchingPairs() : void
     {
         $this->matchingpairs = array();
     }
@@ -688,11 +688,11 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     }
 
     /**
-    * Returns the terms of the matching question
-    *
-    * @return array An array containing the terms
-    * @see $terms
-    */
+     * Returns the terms of the matching question
+     *
+     * @return assAnswerMatchingTerm[] An array containing the terms
+     * @see $terms
+     */
     public function getTerms() : array
     {
         return $this->terms;
@@ -731,15 +731,9 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return count($this->definitions);
     }
     
-    /**
-    * Adds a term
-    *
-    * @param string $term The text of the term
-    * @see $terms
-    */
-    public function addTerm($term)
+    public function addTerm(assAnswerMatchingTerm $term) : void
     {
-        array_push($this->terms, $term);
+        $this->terms[] = $term;
     }
     
     /**
@@ -748,7 +742,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param object $definition The definition
     * @see $definitions
     */
-    public function addDefinition($definition)
+    public function addDefinition($definition) : void
     {
         array_push($this->definitions, $definition);
     }
@@ -759,7 +753,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param string $term The text of the term
     * @see $terms
     */
-    public function insertTerm($position, $term = null)
+    public function insertTerm($position, $term = null) : void
     {
         if (is_null($term)) {
             include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
@@ -780,7 +774,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param object $definition The definition
     * @see $definitions
     */
-    public function insertDefinition($position, $definition = null)
+    public function insertDefinition($position, $definition = null) : void
     {
         if (is_null($definition)) {
             include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingDefinition.php";
@@ -799,7 +793,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * Deletes all terms
     * @see $terms
     */
-    public function flushTerms()
+    public function flushTerms() : void
     {
         $this->terms = array();
     }
@@ -808,7 +802,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * Deletes all definitions
     * @see $definitions
     */
-    public function flushDefinitions()
+    public function flushDefinitions() : void
     {
         $this->definitions = array();
     }
@@ -819,7 +813,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param string $term_id The id of the term to delete
     * @see $terms
     */
-    public function deleteTerm($position)
+    public function deleteTerm($position) : void
     {
         unset($this->terms[$position]);
         $this->terms = array_values($this->terms);
@@ -831,7 +825,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param integer $position The position of the definition in the definition array
     * @see $definitions
     */
-    public function deleteDefinition($position)
+    public function deleteDefinition($position) : void
     {
         unset($this->definitions[$position]);
         $this->definitions = array_values($this->definitions);
@@ -844,7 +838,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @param string $index The index of the term
     * @see $terms
     */
-    public function setTerm($term, $index)
+    public function setTerm($term, $index) : void
     {
         $this->terms[$index] = $term;
     }
@@ -985,7 +979,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return md5($filename) . "." . $extension;
     }
 
-    public function removeTermImage($index)
+    public function removeTermImage($index) : void
     {
         $term = $this->terms[$index];
         if (is_object($term)) {
@@ -994,7 +988,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         }
     }
     
-    public function removeDefinitionImage($index)
+    public function removeDefinitionImage($index) : void
     {
         $definition = $this->definitions[$index];
         if (is_object($definition)) {
@@ -1308,7 +1302,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @param integer $a_geometry Geometry
     */
-    public function setThumbGeometry($a_geometry)
+    public function setThumbGeometry($a_geometry) : void
     {
         $this->thumb_geometry = ($a_geometry < 1) ? 100 : $a_geometry;
     }
@@ -1316,7 +1310,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
     * Rebuild the thumbnail images with a new thumbnail size
     */
-    public function rebuildThumbnails()
+    public function rebuildThumbnails() : void
     {
         foreach ($this->terms as $term) {
             if (strlen($term->picture)) {
@@ -1335,7 +1329,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return "thumb.";
     }
     
-    protected function generateThumbForFile($path, $file)
+    protected function generateThumbForFile($path, $file) : void
     {
         $filename = $path . $file;
         if (@file_exists($filename)) {
@@ -1449,7 +1443,7 @@ class assMatchingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return false;
     }
 
-    public function setMatchingMode($matchingMode)
+    public function setMatchingMode($matchingMode) : void
     {
         $this->matchingMode = $matchingMode;
     }

@@ -143,14 +143,14 @@ class ilTestScoring
     }
 
     /**
-     * @param $question_gui
+     * @param $question_gui $question_gui
      * @param $active_id
      * @param $pass
      * @param $questiondata
      */
     public function recalculateQuestionScore($question_gui, $active_id, $pass, $questiondata)
     {
-        /** @var assQuestion $question_gui */
+        /** @var assQuestionGUI $question_gui */
         if (is_object($question_gui)) {
             $reached = $question_gui->object->calculateReachedPoints($active_id, $pass);
             $actual_reached = $question_gui->object->adjustReachedPointsByScoringOptions($reached, $active_id, $pass);
