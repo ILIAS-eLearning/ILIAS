@@ -117,8 +117,7 @@ class ilCourseParticipantsTableGUI extends ilParticipantTableGUI
         $this->addColumn($this->lng->txt('crs_mem_contact'), 'contact');
         $this->addColumn($this->lng->txt('crs_blocked'), 'blocked');
         $this->addColumn($this->lng->txt('crs_notification_list_title'), 'notification');
-        
-        $this->addColumn($this->lng->txt(''), 'optional');
+        $this->addColumn($this->lng->txt('actions'), 'optional', '', false, 'ilMembershipRowActionsHeader');
 
         $this->setRowTemplate("tpl.show_participants_row.html", "Modules/Course");
 
