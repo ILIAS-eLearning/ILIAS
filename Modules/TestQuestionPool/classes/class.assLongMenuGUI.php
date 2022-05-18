@@ -14,7 +14,7 @@ include_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
-    private $rbacsystem;
+
     private $ilTabs;
 
     public function __construct($id = -1)
@@ -26,10 +26,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $this->object->loadFromDb($id);
         }
         global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
         $ilTabs = $DIC['ilTabs'];
         $lng = $DIC['lng'];
-        $this->rbacsystem = $rbacsystem;
         $this->ilTabs = $ilTabs;
         $this->lng = $lng;
     }

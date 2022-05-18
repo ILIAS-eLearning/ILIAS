@@ -1356,7 +1356,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     {
         global $DIC;
         include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $p_gui = new ilAssQuestionPreviewGUI($this->ctrl,$this->tabs_gui,$this->tpl,$this->lng,$DIC->database(),$DIC->user());
+        $p_gui = new ilAssQuestionPreviewGUI($this->ctrl,$this->tabs_gui,$this->tpl,$this->lng,$DIC->database(),$DIC->user(), new ILIAS\Refinery\Random\Group());
         $this->ctrl->redirectByClass(get_class($p_gui), "show");
     }
 

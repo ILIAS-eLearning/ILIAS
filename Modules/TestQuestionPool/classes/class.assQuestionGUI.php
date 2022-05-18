@@ -66,7 +66,6 @@ abstract class assQuestionGUI
     private ilAccessHandler $access;
     private ilObjUser $ilUser;
     private ilTabsGUI $ilTabs;
-    private ilRbacSystem $rbacsystem;
     protected \ILIAS\Notes\GUIService $notes_gui;
 
     protected ilCtrl $ctrl;
@@ -1695,8 +1694,8 @@ abstract class assQuestionGUI
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
-        if ($_GET["q_id"]) {
-            $this->addTab_Question($ilTabs);
+        if ($this->request->isset("q_id")) {
+            $this->addTab_Question($this->ilTabs);
         }
 
         // add tab for question feedback within common class assQuestionGUI
