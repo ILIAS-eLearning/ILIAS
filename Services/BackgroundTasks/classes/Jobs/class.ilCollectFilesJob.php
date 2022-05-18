@@ -13,8 +13,14 @@ use ILIAS\BackgroundTasks\Types\SingleType;
  */
 class ilCollectFilesJob extends AbstractJob
 {
-    private $logger = null;
+    /**
+     * Holds the target mapped to the number of duplicates.
+     * @see ilCollectFilesJob::getFileDirs()
+     * @var array<string, int>
+     */
+    private static $targets = [];
 
+    private $logger = null;
 
     /**
      * Construct
@@ -80,8 +86,8 @@ class ilCollectFilesJob extends AbstractJob
                 $files_from_folder = self::recurseFolder($object_ref_id, $object_name, $object_temp_dir, $num_recursions, $initiated_by_folder_action);
                 $files = array_merge($files, $files_from_folder);
             } else {
-                if (($object_type == "file") and (self::getFileDirs($object_ref_id, $object_name, $object_temp_dir) != false)) {
-                    $files[] = self::getFileDirs($object_ref_id, $object_name, $object_temp_dir);
+                if (($object_type == "file") and (($file_dirs = self::getFileDirs($object_ref_id, $object_name, $object_temp_dir)) != false)) {
+                    $files[] = $file_dirs;
                 }
             }
         }
@@ -105,7 +111,11 @@ class ilCollectFilesJob extends AbstractJob
         return $definition;
     }
 
-
+    /**
+     * Please note that this method must only be called ONCE in order to detect
+     * duplicate entries. DO NOT call this method e.g. in an if condition and
+     * then again in its body.
+     */
     private static function getFileDirs($a_ref_id, $a_file_name, $a_temp_dir)
     {
         global $DIC;
@@ -120,7 +130,17 @@ class ilCollectFilesJob extends AbstractJob
             }
             $target_dir = $a_temp_dir . '/' . ilUtil::getASCIIFilename($a_file_name);
 
-            return $file_dirs = [
+            // #25025: allow duplicate filenames by appending an incrementing
+            // number per duplicate in brackets to the name.
+            // Example: test.txt, test (1).txt, test (2).txt, ...
+            if (isset(self::$targets[$target_dir])) {
+                $target_info = pathinfo($target_dir);
+                $target_dir = $a_temp_dir . $target_info["filename"] . " (" . ++self::$targets[$target_dir] . ")." . $target_info["extension"];
+            } else {
+                self::$targets[$target_dir] = 0;
+            }
+
+            return [
                 "source_dir" => $source_dir,
                 "target_dir" => $target_dir,
             ];
@@ -167,8 +187,8 @@ class ilCollectFilesJob extends AbstractJob
                 $files_from_folder = self::recurseFolder($child["ref_id"], $child['title'], $temp_dir, $num_recursions, $a_initiated_by_folder_action);
                 $files = array_merge($files, $files_from_folder);
             } else {
-                if (($child["type"] == "file") and (self::getFileDirs($child["ref_id"], $child['title'], $temp_dir) != false)) {
-                    $files[] = self::getFileDirs($child["ref_id"], $child['title'], $temp_dir);
+                if (($child["type"] == "file") and (($dirs = self::getFileDirs($child["ref_id"], $child['title'], $temp_dir)) != false)) {
+                    $files[] = $dirs;
                 }
             }
         }
