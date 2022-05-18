@@ -65,7 +65,7 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
     * @access public
     * @see $state
     */
-    public function setPointsUnchecked($points_unchecked = 0.0)
+    public function setPointsUnchecked($points_unchecked = 0.0) : void
     {
         $new_points = str_replace(",", ".", $points_unchecked);
         
@@ -76,7 +76,7 @@ class ASS_AnswerMultipleResponse extends ASS_AnswerSimple
         }
     }
 
-    public function setPointsChecked($points_checked)
+    public function setPointsChecked($points_checked) : void
     {
         $this->setPoints($points_checked);
     }

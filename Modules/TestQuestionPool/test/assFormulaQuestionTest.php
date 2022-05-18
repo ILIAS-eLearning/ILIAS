@@ -49,7 +49,7 @@ class assFormulaQuestionTest extends assBaseTestCase
         $userResult,
         $userResultUnit,
         $expectedResult
-    ) {
+    ) : void {
         $isCorrect = $result->isCorrect($variables, $results, $userResult, $userResultUnit);
         $this->assertEquals($expectedResult, $isCorrect);
     }

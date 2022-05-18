@@ -56,7 +56,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * @param boolean $clearAnswersOnWritingPostDataEnabled
      */
-    public function setClearAnswersOnWritingPostDataEnabled($clearAnswersOnWritingPostDataEnabled)
+    public function setClearAnswersOnWritingPostDataEnabled($clearAnswersOnWritingPostDataEnabled) : void
     {
         $this->clearAnswersOnWritingPostDataEnabled = $clearAnswersOnWritingPostDataEnabled;
     }
@@ -69,7 +69,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $this->clearAnswersOnWritingPostDataEnabled;
     }
 
-    public function changeToPictures()
+    public function changeToPictures() : void
     {
         if ($this->object->getOrderingType() != OQ_NESTED_PICTURES && $this->object->getOrderingType() != OQ_PICTURES) {
             $this->setClearAnswersOnWritingPostDataEnabled(true);
@@ -86,7 +86,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->renderEditForm($form);
     }
 
-    public function changeToText()
+    public function changeToText() : void
     {
         if ($this->object->getOrderingType() != OQ_NESTED_TERMS && $this->object->getOrderingType() != OQ_TERMS) {
             $this->setClearAnswersOnWritingPostDataEnabled(true);
@@ -103,7 +103,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->renderEditForm($form);
     }
 
-    public function orderNestedTerms()
+    public function orderNestedTerms() : void
     {
         $this->writePostData(true);
         $this->object->setOrderingType(OQ_NESTED_TERMS);
@@ -112,7 +112,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->renderEditForm($this->buildEditForm());
     }
 
-    public function orderNestedPictures()
+    public function orderNestedPictures() : void
     {
         $this->writePostData(true);
         $this->object->setOrderingType(OQ_NESTED_PICTURES);
@@ -121,7 +121,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->renderEditForm($this->buildEditForm());
     }
     
-    public function removeElementImage()
+    public function removeElementImage() : void
     {
         $orderingInput = $this->object->buildOrderingImagesInputGui();
         $this->object->initOrderingElementAuthoringProperties($orderingInput);
@@ -164,7 +164,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->renderEditForm($form);
     }
 
-    public function uploadElementImage()
+    public function uploadElementImage() : void
     {
         $orderingInput = $this->object->buildOrderingImagesInputGui();
         $this->object->initOrderingElementAuthoringProperties($orderingInput);
@@ -367,7 +367,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * Creates an output of the edit form for the question
      */
-    public function editQuestion($checkonly = false)
+    public function editQuestion($checkonly = false) : void
     {
         $this->renderEditForm($this->buildEditForm());
     }
@@ -708,7 +708,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      * @param $form
      * @throws ilTestQuestionPoolException
      */
-    protected function persistAuthoringForm($form)
+    protected function persistAuthoringForm($form) : void
     {
         $this->writeQuestionGenericPostData();
         $this->writeQuestionSpecificPostData($form);

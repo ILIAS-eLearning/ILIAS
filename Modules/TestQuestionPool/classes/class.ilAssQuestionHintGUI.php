@@ -75,7 +75,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilTemplate	$tpl
      */
-    private function showFormCmd(ilPropertyFormGUI $form = null)
+    private function showFormCmd(ilPropertyFormGUI $form = null) : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -109,7 +109,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilLanguage	$lng
      */
-    private function saveFormCmd()
+    private function saveFormCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -170,7 +170,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
      * @access	private
      * @global	ilCtrl	$ilCtrl
      */
-    private function cancelFormCmd()
+    private function cancelFormCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

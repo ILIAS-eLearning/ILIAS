@@ -91,7 +91,7 @@ class ilAssQuestionHintList implements Iterator
      * @access	public
      * @param	ilAssQuestionHint	$questionHint
      */
-    public function addHint(ilAssQuestionHint $questionHint)
+    public function addHint(ilAssQuestionHint $questionHint) : void
     {
         $this->questionHints[] = $questionHint;
     }
@@ -147,7 +147,7 @@ class ilAssQuestionHintList implements Iterator
      *
      * @access	public
      */
-    public function reIndex()
+    public function reIndex() : void
     {
         $counter = 0;
         

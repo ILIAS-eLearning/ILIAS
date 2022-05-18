@@ -63,7 +63,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @param int $importQuestionId
      */
-    public function setImportQuestionId($importQuestionId)
+    public function setImportQuestionId($importQuestionId) : void
     {
         $this->importQuestionId = $importQuestionId;
     }
@@ -79,7 +79,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @param int $importSkillBaseId
      */
-    public function setImportSkillBaseId($importSkillBaseId)
+    public function setImportSkillBaseId($importSkillBaseId) : void
     {
         $this->importSkillBaseId = $importSkillBaseId;
     }
@@ -95,7 +95,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @param int $importSkillTrefId
      */
-    public function setImportSkillTrefId($importSkillTrefId)
+    public function setImportSkillTrefId($importSkillTrefId) : void
     {
         $this->importSkillTrefId = $importSkillTrefId;
     }
@@ -111,7 +111,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @param int $orderIndex
      */
-    public function setOrderIndex($orderIndex)
+    public function setOrderIndex($orderIndex) : void
     {
         $this->orderIndex = $orderIndex;
     }
@@ -127,7 +127,7 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @param string $expression
      */
-    public function setExpression($expression)
+    public function setExpression($expression) : void
     {
         $this->expression = $expression;
     }
@@ -143,17 +143,17 @@ class ilAssQuestionSolutionComparisonExpressionImport
     /**
      * @param int $points
      */
-    public function setPoints($points)
+    public function setPoints($points) : void
     {
         $this->points = $points;
     }
     
-    public function sleep()
+    public function sleep() : void
     {
         // TODO: Implement __sleep() method.
     }
     
-    public function wakeup()
+    public function wakeup() : void
     {
         // TODO: Implement __wakeup() method.
     }

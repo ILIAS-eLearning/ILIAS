@@ -204,7 +204,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     /**
     * Parse the error text
     */
-    public function analyze()
+    public function analyze() : void
     {
         $this->writePostData(true);
         $this->object->setErrorData($this->object->getErrorsFromText($_POST['errortext']));

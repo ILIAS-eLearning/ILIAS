@@ -83,7 +83,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @param int $refId
      */
-    public function setRefId($refId)
+    public function setRefId($refId) : void
     {
         $this->refId = $refId;
     }
@@ -99,7 +99,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @param int $testId
      */
-    public function setTestId($testId)
+    public function setTestId($testId) : void
     {
         $this->testId = $testId;
     }
@@ -115,7 +115,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @param string $testTitle
      */
-    public function setTestTitle($testTitle)
+    public function setTestTitle($testTitle) : void
     {
         $this->testTitle = $testTitle;
     }
@@ -131,7 +131,7 @@ class ilAssFileUploadUploadsExporter
     /**
      * @param ilObjFileHandlingQuestionType $question
      */
-    public function setQuestion($question)
+    public function setQuestion($question) : void
     {
         $this->question = $question;
     }
@@ -217,7 +217,7 @@ class ilAssFileUploadUploadsExporter
         return $participantData;
     }
     
-    private function collectUploadedFiles($solutionData, ilTestParticipantData $participantData)
+    private function collectUploadedFiles($solutionData, ilTestParticipantData $participantData) : void
     {
         foreach ($solutionData as $activeId => $passes) {
             if (!in_array($activeId, $participantData->getActiveIds())) {
@@ -254,7 +254,7 @@ class ilAssFileUploadUploadsExporter
         return $this->lng->txt('pass') . '_' . ($pass + 1);
     }
     
-    private function createFileUploadCollectionZipFile()
+    private function createFileUploadCollectionZipFile() : void
     {
         ilFileUtils::zip($this->tempDirPath . '/' . $this->mainFolderName, $this->tempZipFilePath);
         
@@ -268,7 +268,7 @@ class ilAssFileUploadUploadsExporter
         }
     }
 
-    private function removeFileUploadCollection()
+    private function removeFileUploadCollection() : void
     {
         ilFileUtils::delDir($this->tempDirPath);
     }

@@ -109,7 +109,7 @@ class ilAssSelfAssessmentQuestionFormatter implements ilAssSelfAssessmentMigrato
     /**
      * @param assQuestion $question
      */
-    public static function prepareQuestionForLearningModule(assQuestion $question)
+    public static function prepareQuestionForLearningModule(assQuestion $question) : void
     {
         $question->migrateContentForLearningModule(new self());
     }

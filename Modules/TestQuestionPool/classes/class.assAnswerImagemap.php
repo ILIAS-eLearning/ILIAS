@@ -76,7 +76,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     * @access public
     * @see $coords
     */
-    public function setCoords(string $coords = "")
+    public function setCoords(string $coords = "") : void
     {
         $coords = preg_replace("/\s/", "", $coords);
         $this->coords = $coords;
@@ -95,7 +95,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     }
 
 
-    public function setArea(string $area = "")
+    public function setArea(string $area = "") : void
     {
         $this->area = $area;
     }

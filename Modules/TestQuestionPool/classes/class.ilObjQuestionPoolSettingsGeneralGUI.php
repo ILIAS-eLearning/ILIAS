@@ -87,7 +87,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
     /**
      * Command Execution
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         // allow only write access
         
@@ -111,7 +111,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         }
     }
 
-    private function showFormCmd(ilPropertyFormGUI $form = null)
+    private function showFormCmd(ilPropertyFormGUI $form = null) : void
     {
         if ($form === null) {
             $form = $this->buildForm();
@@ -120,7 +120,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $this->tpl->setContent($this->ctrl->getHTML($form));
     }
     
-    private function saveFormCmd()
+    private function saveFormCmd() : void
     {
         $form = $this->buildForm();
         
@@ -146,7 +146,7 @@ class ilObjQuestionPoolSettingsGeneralGUI
         $this->ctrl->redirect($this, self::CMD_SHOW_FORM);
     }
 
-    private function performSaveForm(ilPropertyFormGUI $form)
+    private function performSaveForm(ilPropertyFormGUI $form) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         

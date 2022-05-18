@@ -131,7 +131,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         return false;
     }
 
-    public function parseQuestionText()
+    public function parseQuestionText() : void
     {
         $this->clearResults();
         $this->clearVariables();
@@ -1310,7 +1310,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     /**
      * @param \ilUnitConfigurationRepository $unitrepository
      */
-    public function setUnitrepository($unitrepository)
+    public function setUnitrepository($unitrepository) : void
     {
         $this->unitrepository = $unitrepository;
     }

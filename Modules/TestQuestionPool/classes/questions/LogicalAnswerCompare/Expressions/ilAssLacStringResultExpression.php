@@ -54,7 +54,7 @@ class ilAssLacStringResultExpression extends ilAssLacAbstractExpression implemen
      *
      * @param array $matches
      */
-    protected function setMatches($matches)
+    protected function setMatches($matches) : void
     {
         $this->text = $matches[1][0];
     }

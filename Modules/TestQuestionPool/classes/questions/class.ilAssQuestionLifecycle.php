@@ -43,7 +43,7 @@ class ilAssQuestionLifecycle
     /**
      * @param string $identifier
      */
-    public function setIdentifier($identifier)
+    public function setIdentifier($identifier) : void
     {
         $this->identifier = $identifier;
     }
@@ -143,7 +143,7 @@ class ilAssQuestionLifecycle
      * @param string $identifier
      * @throws ilTestQuestionPoolInvalidArgumentException
      */
-    public function validateIdentifier($identifier)
+    public function validateIdentifier($identifier) : void
     {
         if (!in_array($identifier, $this->getValidIdentifiers())) {
             throw new ilTestQuestionPoolInvalidArgumentException(

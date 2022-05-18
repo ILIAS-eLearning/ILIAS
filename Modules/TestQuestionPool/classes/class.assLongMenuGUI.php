@@ -101,7 +101,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $this->saveTaxonomyAssignments();
     }
 
-    protected function editQuestion(ilPropertyFormGUI $form = null)
+    protected function editQuestion(ilPropertyFormGUI $form = null) : void
     {
         if ($form === null) {
             $form = $this->buildEditForm();

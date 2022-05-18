@@ -60,7 +60,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     /**
      * @param mixed $isSingleline
      */
-    public function setIsSingleline($isSingleline)
+    public function setIsSingleline($isSingleline) : void
     {
         $this->isSingleline = $isSingleline;
     }
@@ -115,7 +115,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     /**
      * @param int $selectionLimit
      */
-    public function setSelectionLimit($selectionLimit)
+    public function setSelectionLimit($selectionLimit) : void
     {
         $this->selectionLimit = $selectionLimit;
     }
@@ -157,7 +157,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     /**
      * Rebuild the thumbnail images with a new thumbnail size
      */
-    protected function rebuildThumbnails()
+    protected function rebuildThumbnails() : void
     {
         if ($this->isSingleline && ($this->getThumbSize())) {
             foreach ($this->getAnswers() as $answer) {
@@ -180,7 +180,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      * @param $path string
      * @param $file string
      */
-    protected function generateThumbForFile($path, $file)
+    protected function generateThumbForFile($path, $file) : void
     {
         $filename = $path . $file;
         if (@file_exists($filename)) {
@@ -436,7 +436,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         $points_unchecked = 0.0,
         $order = 0,
         $answerimage = ""
-    ) {
+    ) : void {
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerMultipleResponseImage.php";
         if (array_key_exists($order, $this->answers)) {
             // insert answer
@@ -504,7 +504,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      * @param integer $index A nonnegative index of the n-th answer
      * @see $answers
      */
-    public function deleteAnswer($index = 0)
+    public function deleteAnswer($index = 0) : void
     {
         if ($index < 0) {
             return;
@@ -533,7 +533,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @see $answers
      */
-    public function flushAnswers()
+    public function flushAnswers() : void
     {
         $this->answers = array();
     }
@@ -836,7 +836,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @param string $image_filename Name of the image file to delete
      */
-    protected function deleteImage($image_filename)
+    protected function deleteImage($image_filename) : void
     {
         $imagepath = $this->getImagePath();
         @unlink($imagepath . $image_filename);
@@ -844,7 +844,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         @unlink($thumbpath);
     }
 
-    public function duplicateImages($question_id, $objectId = null)
+    public function duplicateImages($question_id, $objectId = null) : void
     {
         /** @var $ilLog ilLogger */
         global $DIC;
@@ -895,7 +895,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         }
     }
 
-    public function copyImages($question_id, $source_questionpool)
+    public function copyImages($question_id, $source_questionpool) : void
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
@@ -925,7 +925,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
     /**
      * Sync images of a MC question on synchronisation with the original question
      */
-    protected function syncImages()
+    protected function syncImages() : void
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
@@ -1019,7 +1019,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         return $this->thumb_size;
     }
     
-    public function setThumbSize(?int $a_size)
+    public function setThumbSize(?int $a_size) : void
     {
         $this->thumb_size = $a_size;
     }
@@ -1084,7 +1084,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         return json_encode($result);
     }
 
-    public function removeAnswerImage($index)
+    public function removeAnswerImage($index) : void
     {
         $answer = $this->answers[$index];
         if (is_object($answer)) {
@@ -1105,7 +1105,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
         return $multilineAnswerSetting;
     }
     
-    public function setMultilineAnswerSetting($a_setting = 0)
+    public function setMultilineAnswerSetting($a_setting = 0) : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -1121,7 +1121,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @param integer $a_feedback_setting
      */
-    public function setSpecificFeedbackSetting($a_feedback_setting)
+    public function setSpecificFeedbackSetting($a_feedback_setting) : void
     {
         $this->feedback_setting = $a_feedback_setting;
     }
@@ -1205,7 +1205,7 @@ class assMultipleChoice extends assQuestion implements ilObjQuestionScoringAdjus
      *
      * @param integer $questionId
      */
-    public function ensureNoInvalidObligation($questionId)
+    public function ensureNoInvalidObligation($questionId) : void
     {
         /** @var $ilDB ilDBInterface */
         global $DIC;

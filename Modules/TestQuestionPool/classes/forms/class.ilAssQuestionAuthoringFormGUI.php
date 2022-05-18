@@ -25,7 +25,7 @@ class ilAssQuestionAuthoringFormGUI extends ilPropertyFormGUI
     /**
      * @param assQuestion $questionOBJ
      */
-    public function addGenericAssessmentQuestionCommandButtons(assQuestion $questionOBJ)
+    public function addGenericAssessmentQuestionCommandButtons(assQuestion $questionOBJ) : void
     {
         //if( !$this->object->getSelfAssessmentEditingMode() && !$_GET["calling_test"] )
         //	$this->addCommandButton("saveEdit", $this->lng->txt("save_edit"));

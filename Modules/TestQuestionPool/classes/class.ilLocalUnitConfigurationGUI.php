@@ -61,7 +61,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      *
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         /**
          * @var $ilHelp ilHelpGUI
@@ -78,7 +78,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      *
      */
-    protected function handleSubtabs()
+    protected function handleSubtabs() : void
     {
         /**
          * @var $ilTabs ilTabsGUI
@@ -102,7 +102,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      *
      */
-    protected function showLocalUnitCategories()
+    protected function showLocalUnitCategories() : void
     {
         /**
          * @var $ilToolbar ilToolbarGUI
@@ -136,7 +136,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @param array $categories
      */
-    protected function showUnitCategories(array $categories)
+    protected function showUnitCategories(array $categories) : void
     {
         require_once 'Modules/TestQuestionPool/classes/tables/class.ilLocalUnitCategoryTableGUI.php';
         $table = new ilLocalUnitCategoryTableGUI($this, $this->getUnitCategoryOverviewCommand());
@@ -145,10 +145,7 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    /**
-     *
-     */
-    protected function confirmImportGlobalCategory()
+    protected function confirmImportGlobalCategory() : void
     {
         if (!$this->request->isset('category_id')) {
             $this->showGlobalUnitCategories();
@@ -157,19 +154,13 @@ class ilLocalUnitConfigurationGUI extends ilUnitConfigurationGUI
         $this->confirmImportGlobalCategories(array($this->request->raw('category_id')));
     }
 
-    /**
-     *
-     */
-    protected function confirmImportGlobalCategories($category_ids)
+    protected function confirmImportGlobalCategories(array $category_ids) : void
     {
         // @todo: Confirmation Currently not implemented, so forward to import
         $this->importGlobalCategories($category_ids);
     }
 
-    /**
-     *
-     */
-    protected function importGlobalCategories($category_ids)
+    protected function importGlobalCategories(array $category_ids) : void
     {
         if ($this->isCRUDContext()) {
             $this->{$this->getDefaultCommand()}();

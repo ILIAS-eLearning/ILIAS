@@ -50,7 +50,7 @@ class ilAssFileUploadFileTableCommandButton extends ilSubmitButton
     /**
      * @param string $action
      */
-    public function setAction($action)
+    public function setAction($action) : void
     {
         $this->action = $action;
     }

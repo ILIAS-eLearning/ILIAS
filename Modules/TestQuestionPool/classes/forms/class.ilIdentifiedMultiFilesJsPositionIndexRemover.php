@@ -14,7 +14,7 @@ class ilIdentifiedMultiFilesJsPositionIndexRemover extends ilIdentifiedMultiValu
         return $this->postVar;
     }
     
-    public function setPostVar($postVar)
+    public function setPostVar($postVar) : void
     {
         $this->postVar = $postVar;
     }
@@ -51,7 +51,7 @@ class ilIdentifiedMultiFilesJsPositionIndexRemover extends ilIdentifiedMultiValu
         return true;
     }
     
-    protected function prepareFileSubmit()
+    protected function prepareFileSubmit() : void
     {
         $_FILES[$this->getPostVar()] = $this->prepareMultiFilesSubmitValues(
             $_FILES[$this->getPostVar()]

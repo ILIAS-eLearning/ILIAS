@@ -116,7 +116,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setState(bool $state = false)
+    public function setState(bool $state = false) : void
     {
         $this->checked = $state;
     }
@@ -128,7 +128,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setChecked()
+    public function setChecked() : void
     {
         $this->checked = true;
     }
@@ -140,7 +140,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setSet()
+    public function setSet() : void
     {
         $this->checked = true;
     }
@@ -152,7 +152,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setUnset()
+    public function setUnset() : void
     {
         $this->checked = false;
     }
@@ -164,7 +164,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setUnchecked()
+    public function setUnchecked() : void
     {
         $this->checked = false;
     }

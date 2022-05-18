@@ -48,7 +48,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         $this->disable('select_all');
     }
     
-    public function initColumns()
+    public function initColumns() : void
     {
         $this->addColumn($this->lng->txt("title"), 'title', '');
         
@@ -194,7 +194,7 @@ class ilQuestionPoolPrintViewTableGUI extends ilTable2GUI
         return $this->totalPoints;
     }
 
-    public function setTotalPoints($totalPoints)
+    public function setTotalPoints($totalPoints) : void
     {
         $this->totalPoints = $totalPoints;
     }

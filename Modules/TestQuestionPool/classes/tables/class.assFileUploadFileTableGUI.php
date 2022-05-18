@@ -71,14 +71,14 @@ class assFileUploadFileTableGUI extends ilTable2GUI
     /**
      * @param string $postVar
      */
-    public function setPostVar($postVar)
+    public function setPostVar($postVar) : void
     {
         $this->postVar = $postVar;
     }
     // hey.
 
     // hey: prevPassSolutions - support file reuse with table
-    public function initCommand(ilAssFileUploadFileTableCommandButton $commandButton, $postVar)
+    public function initCommand(ilAssFileUploadFileTableCommandButton $commandButton, $postVar) : void
     {
         if (count($this->getData())) {
             $this->enable('select_all');

@@ -153,7 +153,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     /*
     * Rebuild the thumbnail images with a new thumbnail size
     */
-    protected function rebuildThumbnails()
+    protected function rebuildThumbnails() : void
     {
         if ($this->isSingleline && ($this->getThumbSize())) {
             foreach ($this->getAnswers() as $answer) {
@@ -169,7 +169,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return "thumb.";
     }
     
-    protected function generateThumbForFile($path, $file)
+    protected function generateThumbForFile($path, $file) : void
     {
         $filename = $path . $file;
         if (@file_exists($filename)) {
@@ -428,7 +428,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         $points = 0.0,
         $order = 0,
         $answerimage = ""
-    ) {
+    ) : void {
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
         if (array_key_exists($order, $this->answers)) {
             // insert answer
@@ -497,7 +497,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $answers
     */
-    public function deleteAnswer($index = 0)
+    public function deleteAnswer($index = 0) : void
     {
         if ($index < 0) {
             return;
@@ -527,7 +527,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     * @access public
     * @see $answers
     */
-    public function flushAnswers()
+    public function flushAnswers() : void
     {
         $this->answers = array();
     }
@@ -821,7 +821,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     * @param string $image_filename Name of the image file to delete
     * @access private
     */
-    public function deleteImage($image_filename)
+    public function deleteImage($image_filename) : void
     {
         $imagepath = $this->getImagePath();
         @unlink($imagepath . $image_filename);
@@ -829,7 +829,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         @unlink($thumbpath);
     }
 
-    public function duplicateImages($question_id, $objectId = null)
+    public function duplicateImages($question_id, $objectId = null) : void
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
@@ -860,7 +860,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         }
     }
 
-    public function copyImages($question_id, $source_questionpool)
+    public function copyImages($question_id, $source_questionpool) : void
     {
         /** @var $ilLog ilLogger */
         global $DIC;
@@ -910,7 +910,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
     /**
     * Sync images of a MC question on synchronisation with the original question
     **/
-    protected function syncImages()
+    protected function syncImages() : void
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
@@ -999,7 +999,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return $this->thumb_size;
     }
     
-    public function setThumbSize($a_size)
+    public function setThumbSize($a_size) : void
     {
         $this->thumb_size = $a_size;
     }
@@ -1063,7 +1063,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return json_encode($result);
     }
     
-    public function removeAnswerImage($index)
+    public function removeAnswerImage($index) : void
     {
         $answer = $this->answers[$index];
         if (is_object($answer)) {
@@ -1092,7 +1092,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         return $multilineAnswerSetting;
     }
     
-    public function setMultilineAnswerSetting($a_setting = 0)
+    public function setMultilineAnswerSetting($a_setting = 0) : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -1108,7 +1108,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
      *
      * @param integer $a_feedback_setting
      */
-    public function setSpecificFeedbackSetting($a_feedback_setting)
+    public function setSpecificFeedbackSetting($a_feedback_setting) : void
     {
         $this->feedback_setting = $a_feedback_setting;
     }

@@ -17,31 +17,31 @@ class assKprimChoiceTest extends assBaseTestCase
         $this->setGlobalVariable('tpl', $this->getGlobalTemplateMock());
     }
 
-    public function test_instantiateObject_shouldReturnInstance()
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         $instance = new assKprimChoice();
         $this->assertInstanceOf('assKprimChoice', $instance);
     }
     
-    public function test_getQuestionType_shouldReturnQuestionType()
+    public function test_getQuestionType_shouldReturnQuestionType() : void
     {
         $obj = new assKprimChoice();
         $this->assertEquals('assKprimChoice', $obj->getQuestionType());
     }
 
-    public function test_getAdditionalTableName_shouldReturnAdditionalTableName()
+    public function test_getAdditionalTableName_shouldReturnAdditionalTableName() : void
     {
         $obj = new assKprimChoice();
         $this->assertEquals('qpl_qst_kprim', $obj->getAdditionalTableName());
     }
 
-    public function test_getAnswerTableName_shouldReturnAnswerTableName()
+    public function test_getAnswerTableName_shouldReturnAnswerTableName() : void
     {
         $obj = new assKprimChoice();
         $this->assertEquals('qpl_a_kprim', $obj->getAnswerTableName());
     }
 
-    public function test_isCompleteWithoutAnswer_shouldReturnTrue()
+    public function test_isCompleteWithoutAnswer_shouldReturnTrue() : void
     {
         $obj = new assKprimChoice();
         $this->assertEquals(false, $obj->isComplete());
@@ -53,7 +53,7 @@ class assKprimChoiceTest extends assBaseTestCase
         $this->assertEquals(true, $obj->isComplete());
     }
 
-    public function test_isCompleteWithAnswer_shouldReturnTrue()
+    public function test_isCompleteWithAnswer_shouldReturnTrue() : void
     {
         $obj = new assKprimChoice();
         $this->assertEquals(false, $obj->isComplete());
@@ -72,20 +72,20 @@ class assKprimChoiceTest extends assBaseTestCase
         $this->assertEquals(true, $obj->isComplete());
     }
     
-    public function test_isValidOptionLabel_shouldReturnTrue()
+    public function test_isValidOptionLabel_shouldReturnTrue() : void
     {
         $obj = new assKprimChoice();
         $this->assertEquals(false, $obj->isValidOptionLabel('not valid'));
         $this->assertEquals(true, $obj->isValidOptionLabel($obj::OPTION_LABEL_RIGHT_WRONG));
     }
 
-    public function test_isObligationPossible_shouldReturnTrue()
+    public function test_isObligationPossible_shouldReturnTrue() : void
     {
         $obj = new assKprimChoice();
         $this->assertEquals(true, $obj->isObligationPossible(1));
     }
 
-    public function test_getAnswer_shouldReturnAnswer()
+    public function test_getAnswer_shouldReturnAnswer() : void
     {
         $obj = new assKprimChoice();
         $ans = new ilAssKprimChoiceAnswer();
@@ -96,7 +96,7 @@ class assKprimChoiceTest extends assBaseTestCase
         $this->assertEquals(null, $obj->getAnswer(1));
     }
     
-    public function test_isValidAnswerType_shouldReturnTrue()
+    public function test_isValidAnswerType_shouldReturnTrue() : void
     {
         $obj = new assKprimChoice();
         $this->assertEquals(false, $obj->isValidAnswerType('not valid'));

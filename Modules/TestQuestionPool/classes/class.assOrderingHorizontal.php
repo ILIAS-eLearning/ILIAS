@@ -546,7 +546,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @param string $a_value Order text
     */
-    public function setOrderText($a_value)
+    public function setOrderText($a_value) : void
     {
         $this->ordertext = $a_value;
     }
@@ -566,7 +566,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @param double $a_value Text size in percent
     */
-    public function setTextSize($a_value)
+    public function setTextSize($a_value) : void
     {
         if ($a_value >= 10) {
             $this->textsize = $a_value;
@@ -588,7 +588,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     *
     * @param string $a_value Separator
     */
-    public function setSeparator($a_value)
+    public function setSeparator($a_value) : void
     {
         $this->separator = $a_value;
     }

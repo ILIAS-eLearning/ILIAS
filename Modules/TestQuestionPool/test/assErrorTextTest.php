@@ -35,7 +35,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
     }
 
-    public function test_instantiateObjectSimple()
+    public function test_instantiateObjectSimple() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
@@ -47,7 +47,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertInstanceOf('assErrorText', $instance);
     }
 
-    public function test_getErrorsFromText()
+    public function test_getErrorsFromText() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
@@ -71,7 +71,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getErrorsFromText_noMatch()
+    public function test_getErrorsFromText_noMatch() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
@@ -92,7 +92,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getErrorsFromText_emptyArgShouldPullInternal()
+    public function test_getErrorsFromText_emptyArgShouldPullInternal() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
@@ -117,7 +117,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setErrordata_newError()
+    public function test_setErrordata_newError() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';
@@ -137,7 +137,7 @@ class assErrorTextTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setErrordata_oldErrordataPresent()
+    public function test_setErrordata_oldErrordataPresent() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assErrorText.php';

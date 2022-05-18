@@ -143,7 +143,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     /**
      * Upload an image
      */
-    public function uploadchoice()
+    public function uploadchoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['uploadchoice']);
@@ -153,7 +153,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     /**
      * Remove an image
      */
-    public function removeimagechoice()
+    public function removeimagechoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removeimagechoice']);
@@ -165,7 +165,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     /**
      * Add a new answer
      */
-    public function addchoice()
+    public function addchoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['addchoice']);
@@ -176,7 +176,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
     /**
      * Remove an answer
      */
-    public function removechoice()
+    public function removechoice() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removechoice']);
@@ -613,7 +613,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         return $this->useEmptySolutionInputChecked;
     }
     
-    public function setUseEmptySolutionInputChecked($useEmptySolutionInputChecked)
+    public function setUseEmptySolutionInputChecked($useEmptySolutionInputChecked) : void
     {
         $this->useEmptySolutionInputChecked = $useEmptySolutionInputChecked;
     }
@@ -984,7 +984,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         return $tpl;
     }
 
-    private function populateSpecificFeedbackInline($user_solution, $answer_id, $template)
+    private function populateSpecificFeedbackInline($user_solution, $answer_id, $template) : void
     {
         if ($this->object->getSpecificFeedbackSetting() == 2) {
             foreach ($user_solution as $mc_solution) {

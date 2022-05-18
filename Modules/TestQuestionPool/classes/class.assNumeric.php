@@ -287,13 +287,13 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return $this->upper_limit;
     }
 
-    public function setLowerLimit($a_limit)
+    public function setLowerLimit($a_limit) : void
     {
         $a_limit = str_replace(',', '.', $a_limit);
         $this->lower_limit = $a_limit;
     }
 
-    public function setUpperLimit($a_limit)
+    public function setUpperLimit($a_limit) : void
     {
         $a_limit = str_replace(',', '.', $a_limit);
         $this->upper_limit = $a_limit;
@@ -584,7 +584,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @param integer $maxchars The maximum number of characters
      */
-    public function setMaxChars($maxchars)
+    public function setMaxChars($maxchars) : void
     {
         $this->maxchars = $maxchars;
     }

@@ -79,7 +79,7 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
         return false;
     }
     
-    private function showCmd()
+    private function showCmd() : void
     {
         $this->initColumns();
         
@@ -91,7 +91,7 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
         $this->myTpl->setContent($this->myCtrl->getHTML($this));
     }
     
-    protected function initColumns()
+    protected function initColumns() : void
     {
         $this->addColumn($this->myLng->txt('qpl_qst_skl_usg_skill_col'), 'skill_title', '50%');
         $this->addColumn($this->myLng->txt('qpl_qst_skl_usg_numq_col'), 'num_questions', '');

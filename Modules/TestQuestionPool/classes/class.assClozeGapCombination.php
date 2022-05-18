@@ -60,7 +60,7 @@ class assClozeGapCombination
         return $clean_array;
     }
     
-    public function saveGapCombinationToDb($question_id, $gap_combinations, $gap_values)
+    public function saveGapCombinationToDb($question_id, $gap_combinations, $gap_values) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -108,7 +108,7 @@ class assClozeGapCombination
             }
         }
     }
-    public static function importGapCombinationToDb($question_id, $gap_combinations)
+    public static function importGapCombinationToDb($question_id, $gap_combinations) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -144,7 +144,7 @@ class assClozeGapCombination
         }
     }
 
-    public static function clearGapCombinationsFromDb($question_id)
+    public static function clearGapCombinationsFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

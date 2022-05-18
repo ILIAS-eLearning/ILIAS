@@ -158,7 +158,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
     /**
      * @param bool $questionCommentingEnabled
      */
-    public function setQuestionCommentingEnabled(bool $questionCommentingEnabled)
+    public function setQuestionCommentingEnabled(bool $questionCommentingEnabled) : void
     {
         $this->questionCommentingEnabled = $questionCommentingEnabled;
     }
@@ -168,7 +168,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         return in_array('comments', $this->getSelectedColumns());
     }
     
-    public function setQuestionData($questionData)
+    public function setQuestionData($questionData) : void
     {
         if ($this->isQuestionCommentingEnabled() && ($this->isCommentsColumnSelected() || $this->filter['commented'])) {
             foreach ($questionData as $key => $data) {
@@ -520,7 +520,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         }
     }
     
-    public function setEditable($value)
+    public function setEditable($value) : void
     {
         $this->editable = $value;
     }
@@ -530,7 +530,7 @@ class ilQuestionBrowserTableGUI extends ilTable2GUI
         return $this->editable;
     }
 
-    public function setWriteAccess($value)
+    public function setWriteAccess($value) : void
     {
         $this->writeAccess = $value;
     }

@@ -55,7 +55,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_value	Value
     */
-    public function setValues($a_values)
+    public function setValues($a_values) : void
     {
         $this->values = $a_values;
     }
@@ -75,7 +75,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_value	Value
     */
-    public function setSingleline($a_value)
+    public function setSingleline($a_value) : void
     {
         $this->singleline = $a_value;
     }
@@ -95,7 +95,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     *
     * @param	object	$a_value	test object
     */
-    public function setQuestionObject($a_value)
+    public function setQuestionObject($a_value) : void
     {
         $this->qstObject = &$a_value;
     }
@@ -115,7 +115,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_allow_move Allow move
     */
-    public function setAllowMove($a_allow_move)
+    public function setAllowMove($a_allow_move) : void
     {
         $this->allowMove = $a_allow_move;
     }
@@ -141,7 +141,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
     /**
      * @param bool $allowAddRemove
      */
-    public function setAllowAddRemove($allowAddRemove)
+    public function setAllowAddRemove($allowAddRemove) : void
     {
         $this->allowAddRemove = $allowAddRemove;
     }
@@ -151,7 +151,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
      *
      * @param	boolean	$a_bool	true if the minimum value should be greater than minvalue
      */
-    public function setMinvalueShouldBeGreater($a_bool)
+    public function setMinvalueShouldBeGreater($a_bool) : void
     {
         $this->minvalueShouldBeGreater = $a_bool;
     }
@@ -170,7 +170,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
      *
      * @param	float	$a_minvalue	Minimum Value
      */
-    public function setMinValue($a_minvalue)
+    public function setMinValue($a_minvalue) : void
     {
         $this->minvalue = $a_minvalue;
     }
@@ -368,7 +368,7 @@ class ilAnswerWizardInputGUI extends ilTextInputGUI
         return "tpl.prop_answerwizardinput.html";
     }
     
-    protected function sanitizeSuperGlobalSubmitValue()
+    protected function sanitizeSuperGlobalSubmitValue() : void
     {
         if (isset($_POST[$this->getPostVar()]) && is_array($_POST[$this->getPostVar()])) {
             $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);

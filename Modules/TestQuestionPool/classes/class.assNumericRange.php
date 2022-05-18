@@ -138,7 +138,7 @@ class assNumericRange
      *
      * @see $lowerlimit
     */
-    public function setLowerLimit($limit)
+    public function setLowerLimit($limit) : void
     {
         $this->lowerlimit = $limit;
     }
@@ -152,7 +152,7 @@ class assNumericRange
      *
      * @see $upperlimit
      */
-    public function setUpperLimit($limit)
+    public function setUpperLimit($limit) : void
     {
         $this->upperlimit = $limit;
     }
@@ -166,7 +166,7 @@ class assNumericRange
      *
      * @see $points
      */
-    public function setPoints($points)
+    public function setPoints($points) : void
     {
         $this->points = $points;
     }
@@ -180,7 +180,7 @@ class assNumericRange
      *
      * @see $order
      */
-    public function setOrder($order)
+    public function setOrder($order) : void
     {
         $this->order = $order;
     }

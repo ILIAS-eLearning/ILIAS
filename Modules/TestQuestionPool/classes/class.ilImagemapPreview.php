@@ -75,7 +75,7 @@ class ilImagemapPreview
         $linecolor = "red",
         $bordercolor = "white",
         $fillcolor = "#FFFFFFA0"
-    ) {
+    ) : void {
         if (ini_get("safe_mode")) {
             if ((strpos($fillcolor, "#") !== false) || (strpos($fillcolor, "rgb") !== false)) {
                 $fillcolor = str_replace("\"", "", $fillcolor);
@@ -101,7 +101,7 @@ class ilImagemapPreview
         $linecolor = "red",
         $bordercolor = "white",
         $fillcolor = "#FFFFFFA0"
-    ) {
+    ) : void {
         $this->points[$index] = array(
             "coords" => "$coords",
             "linecolor" => '"' . $linecolor . '"',
@@ -127,7 +127,7 @@ class ilImagemapPreview
         }
     }
 
-    public function createPreview()
+    public function createPreview() : void
     {
         if (count($this->areas) + count($this->points) == 0) {
             return;

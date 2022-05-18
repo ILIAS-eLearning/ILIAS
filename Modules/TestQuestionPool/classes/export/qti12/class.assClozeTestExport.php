@@ -517,7 +517,7 @@ class assClozeTestExport extends assQuestionExport
     /**
      * @param ilXmlWriter $xmlWriter
      */
-    protected function exportAnswerSpecificFeedbacks(ilXmlWriter $xmlWriter)
+    protected function exportAnswerSpecificFeedbacks(ilXmlWriter $xmlWriter) : void
     {
         require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifierList.php';
         $feedbackIdentifierList = new ilAssSpecificFeedbackIdentifierList();

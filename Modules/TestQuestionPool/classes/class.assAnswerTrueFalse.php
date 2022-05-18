@@ -108,7 +108,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple
      *
      * @param boolean $correctness A boolean value indicating the correctness of the answer
      */
-    public function setCorrectness($correctness = false)
+    public function setCorrectness($correctness = false) : void
     {
         // force $this->correctness to be a string
         // ilDB->quote makes 1 from true and saving it to ENUM('1','0') makes that '0'!!!
@@ -121,7 +121,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple
      *
      * @deprecated Use setCorrectness instead.
      */
-    public function setTrue()
+    public function setTrue() : void
     {
         $this->correctness = "1";
     }
@@ -131,7 +131,7 @@ class ASS_AnswerTrueFalse extends ASS_AnswerSimple
      *
      *@deprecated Use setCorrectness instead.
      */
-    public function setFalse()
+    public function setFalse() : void
     {
         $this->correctness = "0";
     }
