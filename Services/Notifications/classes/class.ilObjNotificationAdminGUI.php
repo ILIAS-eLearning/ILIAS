@@ -96,8 +96,8 @@ class ilObjNotificationAdminGUI extends ilObjectGUI
 
         $form = $this->getForm()->withRequest($this->dic->http()->request());
         $data = $form->getData();
-        if ($data && is_array($data['osd'])) {
-            if ($data['osd']['enable_osd'] === null) {
+        if (isset($data['osd']) && is_array($data['osd'])) {
+            if (!isset($data['osd']['enable_osd'])) {
                 $settings->deleteAll();
                 $settings->set('enable_osd', '0');
             } else {
