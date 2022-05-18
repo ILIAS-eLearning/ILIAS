@@ -425,13 +425,17 @@ il.UI.item = il.UI.item || {};
 			 * @param $close_button
 			 */
 			var removeNotificationItem = function () {
-				if(!hasSibblings()){
-					getParentSlateOfItem().hide();
-					if(isAggregate()) {
-                        getParentSlateOfItem().show().siblings().show();
-					}
-				}
-				$item.children().remove();
+				console.log("item: ", $item);
+				console.log("parents children: ", getParentSlateOfItem().children());
+				console.log("aggregates: ", getAggregatesOfItem());
+
+				// if(!hasSibblings()){
+				// 	getParentSlateOfItem().hide();
+				// 	if(isAggregate()) {
+                //         getParentSlateOfItem().show().siblings().show();
+				// 	}
+				// }
+				// $item.children().remove();
 			};
 
 			/**
@@ -439,7 +443,7 @@ il.UI.item = il.UI.item || {};
 			 * @returns jQuery Object of the Aggregates of the Item
 			 */
 			var getAggregatesOfItem = function(){
-				$parent = getParentSlateOfItem().parent();
+				let $parent = getParentSlateOfItem().parent();
 				if(!$parent.length){
 					$parent = $('body');
 				}
@@ -503,7 +507,7 @@ il.UI.item = il.UI.item || {};
 			var getNotificationsTriggererIfAny = function(){
 				var $meta_bar = getMetaBarOfItemIfIsInOne();
 				if($meta_bar.length){
-					var $notification_glyph = $meta_bar.find('.il-maincontrols-metabar > .btn-bulky .glyphicon-bell');
+					var $notification_glyph = $meta_bar.find('.btn-bulky .glyphicon-bell');
 					return $notification_glyph.parents('.btn-bulky');
 				}
 			}
