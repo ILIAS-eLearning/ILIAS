@@ -158,7 +158,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
         if ($pending) {
             $i_tpl->setCurrentBlock("pending");
             $i_tpl->setVariable("TXT_PENDING", $lng->txt("file_upload_pending") .
-                ": " . $pending);
+                ": " . htmlentities($pending));
             $i_tpl->parseCurrentBlock();
         }
         
