@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 namespace ILIAS\CI\Rector;
 
 use PhpParser\Node;
@@ -42,23 +42,22 @@ final class ChangeLicenseHeader extends AbstractRector
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- *
- *********************************************************************/
+ */
  ";
-    
+
     private Comment $standard_comment;
     private array $previous_search = [
         Node\Expr\Include_::class,
         Node\Stmt\Use_::class,
-        Node\Expr\Include_::class,
-        Node\Stmt\Namespace_::class
+        Node\Stmt\Namespace_::class,
+        Node\Name::class
     ];
-    
+
     public function __construct()
     {
         $this->standard_comment = new Comment($this->license_header_default);
     }
-    
+
     /**
      * @return class-string[]
      */
@@ -70,7 +69,7 @@ final class ChangeLicenseHeader extends AbstractRector
             Node\Stmt\Trait_::class
         ];
     }
-    
+
     /**
      * @param Node\Stmt\Global_ $node
      */
@@ -81,22 +80,24 @@ final class ChangeLicenseHeader extends AbstractRector
         }
         $node->setAttribute('comments', $this->filterComments($node));
         $current = $node;
-        $previous = $node->getAttribute(AttributeKeys::PREVIOUS_STATEMENT);
+        $previous = $node->getAttribute(AttributeKeys::PREVIOUS_NODE);
         while (is_object($previous) && in_array(get_class($previous), $this->previous_search)) {
+            if (get_class($previous) === Node\Name::class) {
+                $previous = $previous->getAttribute(AttributeKeys::PARENT_NODE);
+            }
             $current = $previous;
             $current->setAttribute(
                 AttributeKeys::COMMENTS,
                 $this->filterComments($current)
             );
-            $previous = $current->getAttribute(AttributeKeys::PREVIOUS_STATEMENT);
+            $previous = $current->getAttribute(AttributeKeys::PREVIOUS_NODE);
         }
-        
+
         $current->setAttribute(AttributeKeys::COMMENTS, $this->filterComments($current, [$this->standard_comment]));
-        
-        
+
         return $node;
     }
-    
+
     /**
      * @param Node $node
      * @return Comment[]
@@ -111,7 +112,7 @@ final class ChangeLicenseHeader extends AbstractRector
         }
         return $default;
     }
-    
+
     public function getRuleDefinition() : RuleDefinition
     {
         return new RuleDefinition(
