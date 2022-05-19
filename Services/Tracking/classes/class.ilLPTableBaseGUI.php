@@ -972,6 +972,20 @@ class ilLPTableBaseGUI extends ilTable2GUI
                     }
                 }
             }
+
+            // additional defined course data fields
+            include_once('./Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
+            if($a_in_course) {
+                $cdfs = ilCourseDefinedFieldDefinition::_getFields($a_in_course);
+                foreach ($cdfs as $definition) {
+                    $f = "cdf_" . $definition->getId();
+                    $cols[$f] = array(
+                        "txt" => $definition->getName(),
+                        "default" => false);
+
+                    $privacy_fields[] = $f;
+                }
+            }
         }
 
         return array($cols, $privacy_fields);
