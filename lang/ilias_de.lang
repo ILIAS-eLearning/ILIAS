@@ -9657,7 +9657,9 @@ forum#:#sel_threads_already_unsticky#:#Mindestens eins der gewählten Themen ist
 forum#:#sel_threads_make_sticky#:#Die gewählten Themen wurden als Top-Thema markiert
 forum#:#sel_threads_make_unsticky#:#Die gewählten Themen werden nicht mehr als Top-Thema markiert
 forum#:#sort_by_date#:#Sortieren nach Datum
+forum#:#sort_by_date_desc#:#Das Thema wird in flacher Ansicht präsentiert. Die Beiträge werden in zeitlichen Reihenfolge der Erstellung gezeigt.
 forum#:#sort_by_posts#:#Nach Beiträgen sortieren
+forum#:#sort_by_posts_desc#:#Das Thema wird in Baumansicht präsentiert. Antworten auf Beiträge werden in der Reihenfolge gezeigt, in der sie sich aufeinander beziehen.
 forum#:#sorting_manual_sticky#:#Manuelle Sortierung der Top-Themen
 forum#:#sorting#:#Sortierung
 forum#:#sticky_threads_sorting#:#Top-Thema-Sortierung
