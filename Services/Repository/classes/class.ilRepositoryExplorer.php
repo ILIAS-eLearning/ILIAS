@@ -1,7 +1,5 @@
 <?php
 
-use ILIAS\Repository\StandardGUIRequest;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ use ILIAS\Repository\StandardGUIRequest;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+use ILIAS\Repository\StandardGUIRequest;
 
 /*
  * Repository Explorer
