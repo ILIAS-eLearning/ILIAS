@@ -9,10 +9,9 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     protected \ilSetupLanguage $il_setup_language;
 
     public function __construct(
-        ?\ilLanguageSetupConfig $config,
         \ilSetupLanguage $il_setup_language
     ) {
-        parent::__construct($config);
+        parent::__construct();
         $this->il_setup_language = $il_setup_language;
     }
 
@@ -61,14 +60,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        if (is_null($this->config)) {
-            return [];
-        }
-
-        $db_config = $environment->getConfigFor("database");
-        return [
-            new ilDatabasePopulatedObjective($db_config)
-        ];
+        return [];
     }
 
     /**

@@ -13,8 +13,7 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
     {
         return hash(
             "sha256",
-            self::class . "::" .
-            $this->config->getDefaultLanguage()
+            self::class . "::en"
         );
     }
 
@@ -23,7 +22,7 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
      */
     public function getLabel() : string
     {
-        return "Set default language to " . $this->config->getDefaultLanguage();
+        return "Set default language to en";
     }
 
     /**
@@ -53,10 +52,10 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
 
         $settings = $factory->settingsFor("common");
-        $settings->set("language", $this->config->getDefaultLanguage());
+        $settings->set("language", "en");
 
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
-        $client_ini->setVariable("language", "default", $this->config->getDefaultLanguage());
+        $client_ini->setVariable("language", "default", "en");
 
         if (!$client_ini->write()) {
             throw new Setup\UnachievableException("Could not write client.ini.php");
@@ -75,7 +74,7 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
         $settings = $factory->settingsFor("common");
 
         return
-            $settings->get("language") !== $this->config->getDefaultLanguage() ||
-            $client_ini->readVariable("language", "default") !== $this->config->getDefaultLanguage();
+            $settings->get("language") !== "en" ||
+            $client_ini->readVariable("language", "default") !== "en";
     }
 }

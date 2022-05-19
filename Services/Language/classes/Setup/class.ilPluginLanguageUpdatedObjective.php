@@ -46,7 +46,7 @@ class ilPluginLanguageUpdatedObjective implements Setup\Objective
         return [
             new \ilIniFilesLoadedObjective(),
             new \ilDatabaseInitializedObjective(),
-            new ilLanguagesInstalledAndUpdatedObjective(null, new ilSetupLanguage('en')),
+            new ilLanguagesInstalledAndUpdatedObjective(new ilSetupLanguage('en')),
             new ilComponentRepositoryExistsObjective()
         ];
     }

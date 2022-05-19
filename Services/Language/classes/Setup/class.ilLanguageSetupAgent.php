@@ -27,7 +27,7 @@ class ilLanguageSetupAgent implements Setup\Agent
      */
     public function hasConfig() : bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -35,16 +35,7 @@ class ilLanguageSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(function ($data) {
-            if (!isset($data["default_language"])) {
-                $data["default_language"] = "en";
-            }
-            return new \ilLanguageSetupConfig(
-                $data["default_language"],
-                $data["install_languages"] ?? [$data["default_language"]],
-                $data["install_local_languages"] ?? []
-            );
-        });
+        throw new LogicException(self::class . " has no Config.");
     }
 
     /**
@@ -55,9 +46,8 @@ class ilLanguageSetupAgent implements Setup\Agent
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services/Language",
             false,
-            new ilLanguageConfigStoredObjective($config),
-            new ilLanguagesInstalledAndUpdatedObjective($config, $this->il_setup_language),
-            new ilDefaultLanguageSetObjective($config)
+            new ilLanguagesInstalledAndUpdatedObjective($this->il_setup_language),
+            new ilDefaultLanguageSetObjective()
         );
     }
 
@@ -66,20 +56,10 @@ class ilLanguageSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        if ($config !== null) {
-            return new Setup\ObjectiveCollection(
-                "Complete objectives from Services/Language",
-                false,
-                new ilLanguageConfigStoredObjective($config),
-                new ilLanguagesInstalledAndUpdatedObjective($config, $this->il_setup_language),
-                new ilDefaultLanguageSetObjective($config)
-            );
-        }
-
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services/Language",
             false,
-            new ilLanguagesInstalledAndUpdatedObjective(null, $this->il_setup_language),
+            new ilLanguagesInstalledAndUpdatedObjective($this->il_setup_language),
         );
     }
 
