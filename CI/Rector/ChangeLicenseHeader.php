@@ -42,7 +42,8 @@ final class ChangeLicenseHeader extends AbstractRector
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
  ";
 
     private Comment $standard_comment;

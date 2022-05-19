@@ -25,7 +25,9 @@ STRINGTOCHECK="/**
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */"
+ *
+ *********************************************************************/"
+
 STRINGTOCHECK="$(echo -e "${STRINGTOCHECK}" | tr -d '[:space:]')"
 STRINGTOCHECK="$(echo -e "${STRINGTOCHECK}" | tr -d '*')"
 STRINGTOCHECK="$(echo -e "${STRINGTOCHECK}" | tr -d '/')"
