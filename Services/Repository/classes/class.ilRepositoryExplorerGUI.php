@@ -115,7 +115,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
             !trim($title)) {
             // #14367 - see ilObjSessionListGUI
             $app_info = ilSessionAppointment::_lookupAppointment($a_node["obj_id"]);
-            $title = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
+            $title = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], (bool) $app_info['fullday']);
         }
         
         return $title;

@@ -3292,7 +3292,7 @@ class ilObjectListGUI
             $title = ilSessionAppointment::_appointmentToString(
                 $app_info['start'],
                 $app_info['end'],
-                $app_info['fullday']
+                (bool) $app_info['fullday']
             ) . $title;
         }
 
