@@ -115,14 +115,17 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->getObject())->addTileImage();
 
         $rg_pro = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'default_view');
-        $rg_pro->addOption(new ilRadioOption($this->lng->txt('sort_by_posts'), (string) ilForumProperties::VIEW_TREE));
-        $view_by_date = new ilRadioOption($this->lng->txt('sort_by_date'), (string) ilForumProperties::VIEW_DATE);
+        $option_view_by_posts = new ilRadioOption($this->lng->txt('sort_by_posts'), (string) ilForumProperties::VIEW_TREE);
+        $option_view_by_posts->setInfo($this->lng->txt('sort_by_posts_desc'));
+        $rg_pro->addOption($option_view_by_posts);
+        $option_view_by_date = new ilRadioOption($this->lng->txt('sort_by_date'), (string) ilForumProperties::VIEW_DATE);
+        $option_view_by_date->setInfo($this->lng->txt('sort_by_date_desc'));
         $sub_group = new ilRadioGroupInputGUI('', 'default_view_by_date');
         $sub_group->addOption(new ilRadioOption($this->lng->txt('ascending_order'), (string) ilForumProperties::VIEW_DATE_ASC));
         $sub_group->addOption(new ilRadioOption($this->lng->txt('descending_order'), (string) ilForumProperties::VIEW_DATE_DESC));
 
-        $view_by_date->addSubItem($sub_group);
-        $rg_pro->addOption($view_by_date);
+        $option_view_by_date->addSubItem($sub_group);
+        $rg_pro->addOption($option_view_by_date);
         $a_form->addItem($rg_pro);
 
         $userFunctionsHeader = new ilFormSectionHeaderGUI();
