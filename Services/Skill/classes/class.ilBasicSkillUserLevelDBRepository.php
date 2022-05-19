@@ -174,7 +174,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             $rec['trigger_obj_id'] = (int) $rec['trigger_obj_id'];
             $rec['tref_id'] = (int) $rec['tref_id'];
             $rec['self_eval'] = (int) $rec['self_eval'];
-            $rec['next_level_fullfilment'] = (float) $rec['next_level_fullfilment'];
+            $rec['next_level_fulfilment'] = (float) $rec['next_level_fulfilment'];
             $achievements[$rec["user_id"]][] = $rec;
         }
 
@@ -428,7 +428,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             $rec['trigger_obj_id'] = (int) $rec['trigger_obj_id'];
             $rec['tref_id'] = (int) $rec['tref_id'];
             $rec['self_eval'] = (int) $rec['self_eval'];
-            $rec['next_level_fullfilment'] = (float) $rec['next_level_fullfilment'];
+            $rec['next_level_fulfilment'] = (float) $rec['next_level_fulfilment'];
             $levels[] = $rec;
         }
         return $levels;
@@ -465,7 +465,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
             $rec['trigger_obj_id'] = (int) $rec['trigger_obj_id'];
             $rec['tref_id'] = (int) $rec['tref_id'];
             $rec['self_eval'] = (int) $rec['self_eval'];
-            $rec['next_level_fullfilment'] = (float) $rec['next_level_fullfilment'];
+            $rec['next_level_fulfilment'] = (float) $rec['next_level_fulfilment'];
             $levels[] = $rec;
         }
         return $levels;
