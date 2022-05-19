@@ -429,7 +429,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->addHeaderAction();
         }
 
-        $tpl->printToStdOut();
+        // This is the base class for the call, so we ought to print.
+        // TODO: This is super fishy and most probably hints on the fact, that
+        // something regarding that base class usage needs to change.
+        if ($this->request_wrapper->retrieve("baseClass", $this->refinery->kindlyTo()->string()) === self::class) {
+            $tpl->printToStdOut();
+        }
     }
 
     public function addToNavigationHistory() : void
