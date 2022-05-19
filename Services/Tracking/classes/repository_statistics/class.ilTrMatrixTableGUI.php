@@ -110,7 +110,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                 $sort_id = $labels[$c]["id"];
             } else {
                 // list cannot be sorted by udf fields (separate query)
-                $sort_id = (substr($c, 0, 4) == "udf_") ? "" : $c;
+                $sort_id = (substr($c, 0, 4) == "udf_" || substr($c, 0, 4) == "cdf_") ? "" : $c;
             }
             
             $this->addColumn($title, $sort_id, "", false, "", implode(" - ", $tooltip));
