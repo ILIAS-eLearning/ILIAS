@@ -127,6 +127,13 @@ class ilTestEvaluationUserData
     */
     public $passes;
 
+
+    /**
+     * Number of the last finished pass
+     * @var int|null
+     */
+    public $lastFinishedPass;
+
     /**
     * Questions
     *
@@ -376,7 +383,12 @@ class ilTestEvaluationUserData
             return $this->getLastPass();
         }
     }
-    
+
+    /**
+     * todo: this is used in the export and the scored pass differs from the result cache if the best pass is scored
+     * here: the last one of equal passes wins. In tst_result_cache the first one of equal passes wins
+     * @see \DBUpdateTestResultCalculator::_getBestPass
+    */
     public function getBestPass()
     {
         $bestpoints = 0;
@@ -386,7 +398,8 @@ class ilTestEvaluationUserData
         
         foreach ($this->passes as $pass) {
             $reached = $this->getReachedPointsInPercentForPass($pass->getPass());
-            
+
+            // todo: use > instead of >=
             if ($reached >= $bestpoints && ($pass->areObligationsAnswered() || !$obligationsAnsweredPassExists)) {
                 $bestpoints = $reached;
                 $bestpass = $pass->getPass();
@@ -406,7 +419,31 @@ class ilTestEvaluationUserData
         }
         return $lastpass;
     }
-    
+
+    /**
+     * @return int
+     */
+    public function getFinishedPasses()
+    {
+        return $this->getLastFinishedPass() === null ? 0 : $this->getLastFinishedPass() + 1;
+    }
+
+    /**
+     * @return ?int
+     */
+    public function getLastFinishedPass()
+    {
+        return $this->lastFinishedPass;
+    }
+
+    /**
+     * @param ?int $pass
+     */
+    public function setLastFinishedPass($pass = null)
+    {
+        $this->lastFinishedPass = $pass;
+    }
+
     public function addQuestionTitle($question_id, $question_title)
     {
         $this->questionTitles[$question_id] = $question_title;
