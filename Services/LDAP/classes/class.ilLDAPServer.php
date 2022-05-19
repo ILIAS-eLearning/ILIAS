@@ -254,7 +254,7 @@ class ilLDAPServer
 
         $server = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $server[] = $row->server_id;
+            $server[] = (int) $row->server_id;
         }
         return $server;
     }

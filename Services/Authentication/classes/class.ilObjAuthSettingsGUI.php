@@ -26,6 +26,8 @@
 class ilObjAuthSettingsGUI extends ilObjectGUI
 {
     private ilLogger $logger;
+    private ILIAS\UI\Factory $ui;
+    private ILIAS\UI\Renderer $renderer;
 
     private ?ilPropertyFormGUI $form;
 
@@ -36,6 +38,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
         global $DIC;
         $this->logger = $DIC->logger()->auth();
+        $this->ui = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
 
         $this->lng->loadLanguageModule('registration');
         $this->lng->loadLanguageModule('auth');
@@ -116,7 +120,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             }
 
             $auth_cnt_mode = $auth_cnt[$mode_name] ?? 0;
-            if ($this->settings->get('auth_mode') == $mode) {
+            if ($this->settings->get('auth_mode') === (string) $mode) {
                 $generalSettingsTpl->setVariable("AUTH_CHECKED", "checked=\"checked\"");
                 $auth_cnt_default = $auth_cnt["default"] ?? 0;
                 $generalSettingsTpl->setVariable(
@@ -199,7 +203,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
                 $generalSettingsTpl->setVariable("AUTH_MODE", $auth_name);
 
-                if ($role['auth_mode'] == $auth_name) {
+                if ($role['auth_mode'] === $auth_name) {
                     $generalSettingsTpl->setVariable("SELECTED_AUTH_MODE", "selected=\"selected\"");
                 }
 
@@ -219,7 +223,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     /**
      * displays login information of all installed languages
      *
-     * @access public
      * @author Michael Jansen
      */
     public function loginInfoObject() : void
@@ -316,6 +319,94 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("auth_default_mode_changed_to") . " " . $this->getAuthModeTitle(), true);
         $this->ctrl->redirect($this, 'authSettings');
     }
+
+    private function buildSOAPForm(
+        string $submit_action
+    ) : \ILIAS\UI\Component\Input\Container\Form\Form {
+        // compose role list
+        $role_list = $this->rbac_review->getRolesByFilter(2, $this->object->getId());
+        $roles = [];
+
+        foreach ($role_list as $role) {
+            $roles[$role['obj_id']] = $role['title'];
+        }
+
+        $active = $this->ui->input()->field()
+                                    ->checkbox($this->lng->txt("active"))
+                                    ->withValue((bool) $this->settings->get("soap_auth_active", ""));
+
+        $server = $this->ui->input()->field()->text(
+            $this->lng->txt("server"),
+            $this->lng->txt("auth_soap_server_desc")
+        )->withRequired(true)
+         ->withMaxLength(256)
+         ->withValue($this->settings->get("soap_auth_server", ""));
+
+        $port = $this->ui->input()->field()->numeric(
+            $this->lng->txt("port"),
+            $this->lng->txt("auth_soap_port_desc")
+        )->withAdditionalTransformation($this->refinery->int()->isGreaterThan(0))
+        ->withAdditionalTransformation(
+            $this->refinery->int()->isLessThan(65536)
+        )->withValue((int) $this->settings->get("soap_auth_port", "0"));
+
+        $use_https = $this->ui->input()->field()->checkbox($this->lng->txt("auth_soap_use_https"))
+        ->withValue((bool) $this->settings->get("soap_auth_use_https", ""));
+
+        $uri = $this->ui->input()->field()->text(
+            $this->lng->txt("uri"),
+            $this->lng->txt("auth_soap_uri_desc")
+        )->withMaxLength(256)
+        ->withValue($this->settings->get("soap_auth_uri", ""));
+
+        $namespace = $this->ui->input()->field()->text(
+            $this->lng->txt("auth_soap_namespace"),
+            $this->lng->txt("auth_soap_namespace_desc")
+        )->withMaxLength(256)
+        ->withValue($this->settings->get("soap_auth_namespace", ""));
+
+        $dotnet = $this->ui->input()->field()->checkbox($this->lng->txt("auth_soap_use_dotnet"))
+        ->withValue((bool) $this->settings->get("soap_auth_use_dotnet", ""));
+
+        $createuser = $this->ui->input()->field()->checkbox(
+            $this->lng->txt("auth_create_users"),
+            $this->lng->txt("auth_soap_create_users_desc")
+        )->withValue((bool) $this->settings->get("soap_auth_create_users", ""));
+
+        $sendmail = $this->ui->input()->field()->checkbox(
+            $this->lng->txt("user_send_new_account_mail"),
+            $this->lng->txt("auth_new_account_mail_desc")
+        )->withValue((bool) $this->settings->get("soap_auth_account_mail", ""));
+
+        $defaultrole = $this->ui->input()->field()->select(
+            $this->lng->txt("auth_user_default_role"),
+            $roles,
+            $this->lng->txt("auth_soap_user_default_role_desc")
+        )->withValue($this->settings->get("soap_auth_user_default_role", "4"))
+        ->withAdditionalTransformation($this->refinery->int()->isGreaterThan(0));
+
+        $allowlocal = $this->ui->input()->field()->checkbox(
+            $this->lng->txt("auth_allow_local"),
+            $this->lng->txt("auth_soap_allow_local_desc")
+        )->withValue((bool) $this->settings->get("soap_auth_user_default_role", ""));
+
+        $form = $this->ui->input()->container()->form()->standard(
+            $submit_action,
+            [ $active,
+              $server,
+              $port,
+              $use_https,
+              $uri,
+              $namespace,
+              $dotnet,
+              $createuser,
+              $sendmail,
+              $defaultrole,
+              $allowlocal
+            ]
+        );
+        return $form;
+    }
     
     /**
     * Configure soap settings
@@ -330,143 +421,9 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         
         //set Template
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.auth_soap.html', 'Services/Authentication');
-        
-        // compose role list
-        $role_list = $this->rbac_review->getRolesByFilter(2, $this->object->getId());
-        $roles = array();
-        
-        foreach ($role_list as $role) {
-            $roles[$role['obj_id']] = $role['title'];
-        }
-        
-        //set property form gui
-        
-        $soap_config = new ilPropertyFormGUI();
-        $soap_config->setTitle($this->lng->txt("auth_soap_auth"));
-        $soap_config->setDescription($this->lng->txt("auth_soap_auth_desc"));
-        $soap_config->setFormAction($this->ctrl->getFormAction($this, "editSOAP"));
-        if ($this->rbac_system->checkAccess("write", $this->object->getRefId())) {
-            $soap_config->addCommandButton("saveSOAP", $this->lng->txt("save"));
-            $soap_config->addCommandButton("editSOAP", $this->lng->txt("cancel"));
-        }
-        //set activ
-        $active = new ilCheckboxInputGUI();
-        $active->setTitle($this->lng->txt("active"));
-        $active->setPostVar("soap[active]");
-        
-        //set server
-        $server = new ilTextInputGUI();
-        $server->setTitle($this->lng->txt("server"));
-        $server->setInfo($this->lng->txt("auth_soap_server_desc"));
-        $server->setPostVar("soap[server]");
-        $server->setSize(50);
-        $server->setMaxLength(256);
-        $server->setRequired(true);
-        
-        //set port
-        $port = new ilTextInputGUI();
-        $port->setTitle($this->lng->txt("port"));
-        $port->setInfo($this->lng->txt("auth_soap_port_desc"));
-        $port->setPostVar("soap[port]");
-        $port->setSize(7);
-        $port->setMaxLength(5);
-        
-        //set https
-        $https = new ilCheckboxInputGUI();
-        $https->setTitle($this->lng->txt("auth_soap_use_https"));
-        $https->setPostVar("soap[use_https]");
-        
-        //set uri
-        $uri = new ilTextInputGUI();
-        $uri->setTitle($this->lng->txt("uri"));
-        $uri->setInfo($this->lng->txt("auth_soap_uri_desc"));
-        $uri->setPostVar("soap[uri]");
-        $uri->setSize(50);
-        $uri->setMaxLength(256);
-        
-        //set namespace
-        $namespace = new ilTextInputGUI();
-        $namespace->setTitle($this->lng->txt("auth_soap_namespace"));
-        $namespace->setInfo($this->lng->txt("auth_soap_namespace_desc"));
-        $namespace->setPostVar("soap[namespace]");
-        $namespace->setSize(50);
-        $namespace->setMaxLength(256);
-        
-        //set dotnet
-        $dotnet = new ilCheckboxInputGUI();
-        $dotnet->setTitle($this->lng->txt("auth_soap_use_dotnet"));
-        $dotnet->setPostVar("soap[use_dotnet]");
-        
-        //set create users
-        $createuser = new ilCheckboxInputGUI();
-        $createuser->setTitle($this->lng->txt("auth_create_users"));
-        $createuser->setInfo($this->lng->txt("auth_soap_create_users_desc"));
-        $createuser->setPostVar("soap[create_users]");
-        
-        //set account mail
-        $sendmail = new ilCheckboxInputGUI();
-        $sendmail->setTitle($this->lng->txt("user_send_new_account_mail"));
-        $sendmail->setInfo($this->lng->txt("auth_new_account_mail_desc"));
-        $sendmail->setPostVar("soap[account_mail]");
-        
-        //set user default role
-        $defaultrole = new ilSelectInputGUI();
-        $defaultrole->setTitle($this->lng->txt("auth_user_default_role"));
-        $defaultrole->setInfo($this->lng->txt("auth_soap_user_default_role_desc"));
-        $defaultrole->setPostVar("soap[user_default_role]");
-        $defaultrole->setOptions($roles);
-        
-        //set allow local authentication
-        $allowlocal = new ilCheckboxInputGUI();
-        $allowlocal->setTitle($this->lng->txt("auth_allow_local"));
-        $allowlocal->setInfo($this->lng->txt("auth_soap_allow_local_desc"));
-        $allowlocal->setPostVar("soap[allow_local]");
-        
-        // get values in error case
-        if (isset($_SESSION["error_post_vars"])) {
-            $active		->setChecked($_SESSION["error_post_vars"]["soap"]["active"]);
-            $server		->setValue($_SESSION["error_post_vars"]["soap"]["server"]);
-            $port		->setValue($_SESSION["error_post_vars"]["soap"]["port"]);
-            $https		->setChecked($_SESSION["error_post_vars"]["soap"]["use_https"]);
-            $uri		->setValue($_SESSION["error_post_vars"]["soap"]["uri"]);
-            $namespace	->setValue($_SESSION["error_post_vars"]["soap"]["namespace"]);
-            $dotnet		->setChecked($_SESSION["error_post_vars"]["soap"]["use_dotnet"]);
-            $createuser	->setChecked($_SESSION["error_post_vars"]["soap"]["create_users"]);
-            $allowlocal	->setChecked($_SESSION["error_post_vars"]["soap"]["allow_local"]);
-            $defaultrole->setValue($_SESSION["error_post_vars"]["soap"]["user_default_role"]);
-            $sendmail	->setChecked($_SESSION["error_post_vars"]["soap"]["account_mail"]);
-        } else {
-            $active		->setChecked((bool) $this->settings->get("soap_auth_active", ""));
-            $server		->setValue($this->settings->get("soap_auth_server", ""));
-            $port		->setValue((int) $this->settings->get("soap_auth_port", "0"));
-            $https		->setChecked((bool) $this->settings->get("soap_auth_use_https", ""));
-            $uri		->setValue($this->settings->get("soap_auth_uri", ""));
-            $namespace	->setValue($this->settings->get("soap_auth_namespace", ""));
-            $dotnet		->setChecked((bool) $this->settings->get("soap_auth_use_dotnet", ""));
-            $createuser	->setChecked((bool) $this->settings->get("soap_auth_create_users", ""));
-            $allowlocal	->setChecked((bool) $this->settings->get("soap_auth_allow_local", ""));
-            $defaultrole->setValue($this->settings->get("soap_auth_user_default_role", ""));
-            $sendmail	->setChecked((bool) $this->settings->get("soap_auth_account_mail", ""));
-        }
-        
-        if (!$defaultrole->getValue()) {
-            $defaultrole->setValue(4);
-        }
-        
-        //add Items to property gui
-        $soap_config->addItem($active);
-        $soap_config->addItem($server);
-        $soap_config->addItem($port);
-        $soap_config->addItem($https);
-        $soap_config->addItem($uri);
-        $soap_config->addItem($namespace);
-        $soap_config->addItem($dotnet);
-        $soap_config->addItem($createuser);
-        $soap_config->addItem($sendmail);
-        $soap_config->addItem($defaultrole);
-        $soap_config->addItem($allowlocal);
-        
-        $this->tpl->setVariable("CONFIG_FORM", $soap_config->getHTML());
+
+        $soap_form = $this->buildSOAPForm($this->ctrl->getFormAction($this, "saveSOAP"));
+        $this->tpl->setVariable("CONFIG_FORM", $this->renderer->render($soap_form));
         
         // test form
         $form = new ilPropertyFormGUI();
@@ -502,8 +459,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     
     /**
     * validates all input data, save them to database if correct and active chosen auth mode
-    *
-    * @access	public
     */
     public function saveSOAPObject() : void
     {
@@ -511,40 +466,33 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
 
-        // validate required data
-        if (!$_POST["soap"]["server"]) {
-            $this->ilias->raiseError($this->lng->txt("fill_out_all_required_fields"), $this->ilias->error_obj->MESSAGE);
-        }
-        
-        // validate port
-        if ($_POST["soap"]["server"] != "" && (preg_match("/^[0-9]{0,5}$/", $_POST["soap"]["port"])) == false) {
-            $this->ilias->raiseError($this->lng->txt("err_invalid_port"), $this->ilias->error_obj->MESSAGE);
+        $form = $this->buildSOAPForm($this->ctrl->getFormAction($this, "saveSOAP"));
+        if ($this->request->getMethod() == "POST") {
+            $form = $form->withRequest($this->request);
+            $result = $form->getData();
+            if (!is_null($result)) {
+                $this->settings->set("soap_auth_active", (string) $result[0]);
+                $this->settings->set("soap_auth_server", $result[1]);
+                $this->settings->set("soap_auth_port", (string) $result[2]);
+                $this->settings->set("soap_auth_use_https", (string) $result[3]);
+                $this->settings->set("soap_auth_uri", $result[4]);
+                $this->settings->set("soap_auth_namespace", $result[5]);
+                $this->settings->set("soap_auth_use_dotnet", (string) $result[6]);
+                $this->settings->set("soap_auth_create_users", (string) $result[7]);
+                $this->settings->set("soap_auth_account_mail", (string) $result[8]);
+                $this->settings->set("soap_auth_user_default_role", (string) $result[9]);
+                $this->settings->set("soap_auth_allow_local", (string) $result[10]);
+
+                $this->tpl->setOnScreenMessage('success', $this->lng->txt("auth_soap_settings_saved"), true);
+                $this->logger->info("data" . print_r($result, true));
+                $this->ctrl->redirect($this, 'editSOAP');
+            }
         }
 
-        $this->settings->set("soap_auth_server", $_POST["soap"]["server"]);
-        $this->settings->set("soap_auth_port", $_POST["soap"]["port"]);
-        if (isset($_POST["soap"]["active"])) {
-            $this->settings->set("soap_auth_active", $_POST["soap"]["active"]);
-        }
-        $this->settings->set("soap_auth_uri", $_POST["soap"]["uri"]);
-        $this->settings->set("soap_auth_namespace", $_POST["soap"]["namespace"]);
-        $this->settings->set("soap_auth_create_users", $_POST["soap"]["create_users"]);
-        if (isset($_POST["soap"]["allow_local"])) {
-            $this->settings->set("soap_auth_allow_local", $_POST["soap"]["allow_local"]);
-        }
-        if (isset($_POST["soap"]["account_mail"])) {
-            $this->settings->set("soap_auth_account_mail", $_POST["soap"]["account_mail"]);
-        }
-        if (isset($_POST["soap"]["use_https"])) {
-            $this->settings->set("soap_auth_use_https", $_POST["soap"]["use_https"]);
-        }
-        if (isset($_POST["soap"]["use_dotnet"])) {
-            $this->settings->set("soap_auth_use_dotnet", $_POST["soap"]["use_dotnet"]);
-        }
-        $this->settings->set("soap_auth_user_default_role", $_POST["soap"]["user_default_role"]);
-        $this->tpl->setOnScreenMessage('success', $this->lng->txt("auth_soap_settings_saved"), true);
-        
-        $this->ctrl->redirect($this, 'editSOAP');
+        $this->tabs_gui->setTabActive('auth_soap');
+        //set Template
+        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.auth_soap.html', 'Services/Authentication');
+        $this->tpl->setVariable("CONFIG_FORM", $this->renderer->render($form));
     }
 
     /**
