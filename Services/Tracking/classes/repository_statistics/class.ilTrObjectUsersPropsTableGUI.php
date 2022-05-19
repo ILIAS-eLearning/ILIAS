@@ -87,7 +87,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
             
             // list cannot be sorted by udf fields (separate query)
             // because of pagination only core fields can be sorted
-            $sort_id = (substr($c, 0, 4) == "udf_") ? "" : $c;
+            $sort_id = (substr($c, 0, 4) == "udf_" || substr($c, 0, 4) == "cdf_") ? "" : $c;
             
             $this->addColumn($labels[$c]["txt"], $sort_id);
         }
