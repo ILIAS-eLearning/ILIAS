@@ -47,8 +47,8 @@ class ilSkillUsageTableGUI extends ilTable2GUI
         $this->tree_manager = $DIC->skills()->internal()->manager()->getTreeManager();
 
         $id_parts = explode(":", $a_cskill_id);
-        $this->skill_id = $id_parts[0];
-        $this->tref_id = $id_parts[1];
+        $this->skill_id = (int) $id_parts[0];
+        $this->tref_id = (int) $id_parts[1];
 
         $data = [];
         foreach ($a_usage as $k => $v) {

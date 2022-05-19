@@ -1393,8 +1393,8 @@ class ilPersonalSkillsGUI
                         $points[$target_dim] = [$cnt - 0.01, $cnt + 0.01];
                         $tooltips[$target_dim] = $lv["title"];
                     } else {
-                        $points[$target_dim] = $points[$target_dim] ?: null;
-                        $tooltips[$target_dim] = $tooltips[$target_dim] ?: null;
+                        $points[$target_dim] = $points[$target_dim] ?? null;
+                        $tooltips[$target_dim] = $tooltips[$target_dim] ?? null;
                     }
                 }
                 if ($this->actual_levels[$l["base_skill_id"]][$l["tref_id"]] == $lv["id"]) {
@@ -1405,16 +1405,16 @@ class ilPersonalSkillsGUI
                         $tooltips[$eval_dim] = $lv["title"] . " + " . $perc * 100 . "%";
                     }
                 } else {
-                    $points[$eval_dim] = $points[$eval_dim] ?: null;
-                    $tooltips[$eval_dim] = $tooltips[$eval_dim] ?: null;
+                    $points[$eval_dim] = $points[$eval_dim] ?? null;
+                    $tooltips[$eval_dim] = $tooltips[$eval_dim] ?? null;
                 }
                 if ($incl_self_eval) {
                     if ($self_vals[$l["base_skill_id"]][$l["tref_id"]] == $lv["id"]) {
                         $points[$self_eval_dim] = $cnt;
                         $tooltips[$self_eval_dim] = null;
                     } else {
-                        $points[$self_eval_dim] = $points[$self_eval_dim] ?: null;
-                        $tooltips[$self_eval_dim] = $tooltips[$self_eval_dim] ?: null;
+                        $points[$self_eval_dim] = $points[$self_eval_dim] ?? null;
+                        $tooltips[$self_eval_dim] = $tooltips[$self_eval_dim] ?? null;
                     }
                 }
             }

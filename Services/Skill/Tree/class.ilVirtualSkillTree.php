@@ -92,11 +92,11 @@ class ilVirtualSkillTree
     public function getNode(string $a_vtree_id) : array
     {
         $id_parts = explode(":", $a_vtree_id);
-        $skl_tree_id = $id_parts[0];
-        $skl_template_tree_id = $id_parts[1];
+        $skl_tree_id = (int) $id_parts[0];
+        $skl_template_tree_id = isset($id_parts[1]) ? (int) $id_parts[1] : 0;
     
-        if ($skl_template_tree_id == 0 || (ilSkillTemplateReference::_lookupTemplateId($skl_tree_id)
-                    == $skl_template_tree_id)) {
+        if ($skl_template_tree_id == 0
+            || (ilSkillTemplateReference::_lookupTemplateId($skl_tree_id) == $skl_template_tree_id)) {
             $node_data = $this->tree->getNodeData($skl_tree_id);
             if (isset($node_data["parent"])) {
                 $node_data["parent"] = $node_data["parent"] . ":0";
@@ -231,8 +231,8 @@ class ilVirtualSkillTree
         $lng = $this->lng;
 
         $a_parent_id_parts = explode(":", $a_node["id"]);
-        $a_parent_skl_tree_id = $a_parent_id_parts[0];
-        $a_parent_skl_template_tree_id = $a_parent_id_parts[1];
+        $a_parent_skl_tree_id = (int) $a_parent_id_parts[0];
+        $a_parent_skl_template_tree_id = isset($a_parent_id_parts[1]) ? (int) $a_parent_id_parts[1] : 0;
         
         // title
         $title = $a_node["title"];
