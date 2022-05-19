@@ -1,7 +1,5 @@
 <?php declare(strict_types = 1);
 
-namespace ILIAS\Survey\Evaluation;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ namespace ILIAS\Survey\Evaluation;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+namespace ILIAS\Survey\Evaluation;
 
 use ILIAS\Survey\InternalDomainService;
 use ILIAS\Survey\InternalRepoService;
