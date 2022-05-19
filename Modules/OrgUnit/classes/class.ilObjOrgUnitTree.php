@@ -10,7 +10,7 @@
 class ilObjOrgUnitTree
 {
     protected static ?string $temporary_table_name_getOrgUnitOfUser = null;
-    protected static string $temporary_table_name;
+    protected static ?string $temporary_table_name = null;
     protected static ?ilObjOrgUnitTree $instance = null;
     /** @var int[][] "employee" | "superior" => orgu_ref_id => role_id */
     private array $roles;
