@@ -220,10 +220,10 @@ il.UI.item = il.UI.item || {};
 					$close_button.click(function(){
 						//Do not decrement if we deal with an aggregate that still has sibblings.
 						if(!isAggregate() || ! hasSibblings()){
-                            var $counter = self.getCounterObjectIfAny();
-                            if($counter){
-                                $counter.decrementNoveltyCount(amount);
-                            }
+							var $counter = self.getCounterObjectIfAny();
+							if($counter){
+								$counter.decrementNoveltyCount(amount);
+							}
 						}
 
 						performAsyncCall(url,{},function(data) {
@@ -239,7 +239,7 @@ il.UI.item = il.UI.item || {};
 			 * Used to remove a notification item.
 			 * In contrast to registerCloseAction this could be used by a consuming
 			 * service to remove a known item from the UI.
-			 * 
+			 *
 			 * @public
 			 * @param decrementCounterValue
 			 * @returns {generateNotificationItemObject}
@@ -266,8 +266,8 @@ il.UI.item = il.UI.item || {};
 				let $meta_bar = getMetaBarOfItemIfIsInOne();
 				if ($meta_bar.length) {
 					getNotificationsTriggererIfAny()
-						.filter(".engaged")
-						.trigger("click");
+					.filter(".engaged")
+					.trigger("click");
 				}
 			};
 
@@ -278,7 +278,7 @@ il.UI.item = il.UI.item || {};
 			 */
 			this.setItemDescription = function(text) {
 				$item.find(".il-item-description").text(text);
-				
+
 				return this;
 			};
 
@@ -428,7 +428,7 @@ il.UI.item = il.UI.item || {};
 				if(!hasSibblings()){
 					getParentSlateOfItem().hide();
 					if(isAggregate()) {
-                        getParentSlateOfItem().show().siblings().show();
+						getParentSlateOfItem().show().siblings().show();
 					}
 				}
 				$item.children().remove();
@@ -446,18 +446,18 @@ il.UI.item = il.UI.item || {};
 				return $parent.find(".il-aggregate-notifications[data-aggregatedby="+getId()+"]");
 			};
 
-            /**
+			/**
 			 * Checks if an item has any siblings
-             * @returns {boolean}
-             */
+			 * @returns {boolean}
+			 */
 			var hasSibblings = function () {
-                return $item.siblings().children(".il-notification-item").length > 0;
-            }
+				return $item.siblings().children(".il-notification-item").length > 0;
+			}
 
-            /**
+			/**
 			 * Checks if an item is an aggregate, aggregated by some other item
-             * @returns {boolean}
-             */
+			 * @returns {boolean}
+			 */
 			var isAggregate = function(){
 				return $item.parents(".il-aggregate-notifications").length > 0;
 			};
