@@ -1,5 +1,16 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
@@ -296,7 +307,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      *
      * @return array
      */
-    public function splitAndTrimOrderElementText($in_string, $separator) : array
+    public function splitAndTrimOrderElementText(string $in_string, string $separator) : array
     {
         $result = array();
         include_once "./Services/Utilities/classes/class.ilStr.php";
@@ -516,7 +527,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
     */
     public function getOrderingElements() : array
     {
-        return $this->splitAndTrimOrderElementText($this->getOrderText(), $this->separator);
+        return $this->splitAndTrimOrderElementText($this->getOrderText() ?? "", $this->separator);
     }
 
     /**
@@ -734,7 +745,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
         }
         $row = $ilDB->fetchAssoc($data);
 
-        $answer_elements = $this->splitAndTrimOrderElementText($row["value1"], $this->answer_separator);
+        $answer_elements = $this->splitAndTrimOrderElementText($row["value1"] ?? "", $this->answer_separator);
         $elements = $this->getOrderingElements();
         $solutions = array();
 
@@ -787,7 +798,7 @@ class assOrderingHorizontal extends assQuestion implements ilObjQuestionScoringA
      */
     protected function calculateReachedPointsForSolution($value) : int
     {
-        $value = $this->splitAndTrimOrderElementText($value, $this->answer_separator);
+        $value = $this->splitAndTrimOrderElementText($value ?? "", $this->answer_separator);
         $value = join($this->answer_separator, $value);
         if (strcmp($value, join($this->answer_separator, $this->getOrderingElements())) == 0) {
             $points = $this->getPoints();
