@@ -139,12 +139,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     
     protected function handlePageCall(string $a_cmd) : void
     {
-        $this->tabs_gui->clearTargets();
-        $this->tabs_gui->setBackTarget(
-            $this->lng->txt("back"),
-            $this->ctrl->getLinkTarget($this, "view")
-        );
-        
         if (!$this->page_id) {
             $this->ctrl->redirect($this, "view");
         }
@@ -154,7 +148,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->setBackTarget(
             $this->lng->txt("back"),
-            $this->ctrl->getLinkTarget($page_gui, "edit")
+            $this->ctrl->getLinkTarget($this, "view")
         );
 
         // needed for editor
