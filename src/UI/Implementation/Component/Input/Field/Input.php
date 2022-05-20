@@ -173,7 +173,7 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
      * Get an input like this with another value displayed on the
      * client side.
      *
-     * @param   mixed
+     * @param   mixed $value
      * @throws  InvalidArgumentException    if value does not fit client side input
      */
     public function withValue($value)
