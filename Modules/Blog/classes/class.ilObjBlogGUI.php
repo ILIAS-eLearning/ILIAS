@@ -2079,12 +2079,22 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $toolbar->addComponent($vc);
             if ($this->mayContribute() && $this->mayEditPosting($this->blpg)) {
                 $ctrl->setParameter($this, "prvm", "");
+
+
+                $ctrl->setParameter($this, "bmn", "");
+                $ctrl->setParameter($this, "blpg", "");
+                $link = $ctrl->getLinkTarget($this, "");
+                $ctrl->setParameter($this, "blpg", $this->blpg);
+                $ctrl->setParameter($this, "bmn", $this->month);
+                $toolbar->addSeparator();
+                $toolbar->addComponent($f->button()->standard($lng->txt("blog_edit"), $link));
+
+
                 $ctrl->setParameterByClass("ilblogpostinggui", "blpg", $this->blpg);
                 if ($this->prtf_embed) {
                     $this->ctrl->setParameterByClass("ilobjportfoliogui", "ppage", $this->user_page);
                 }
                 $link = $ctrl->getLinkTargetByClass("ilblogpostinggui", "edit");
-                $toolbar->addSeparator();
                 $toolbar->addComponent($f->button()->standard($lng->txt("blog_edit_posting"), $link));
             }
         } else {		// month view
