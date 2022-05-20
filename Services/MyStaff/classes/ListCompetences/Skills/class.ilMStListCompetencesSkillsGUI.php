@@ -110,9 +110,12 @@ class ilMStListCompetencesSkillsGUI
         if ($mst_co_usr_id > 0) {
             $selection = new ilAdvancedSelectionListGUI();
 
-            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id,
+            $selection = ilMyStaffGUI::extendActionMenuWithUserActions(
+                $selection,
+                $mst_co_usr_id,
                 rawurlencode($DIC->ctrl()
-                                 ->getLinkTarget($this, self::CMD_INDEX)));
+                                 ->getLinkTarget($this, self::CMD_INDEX))
+            );
 
             echo $selection->getHTML(true);
         }

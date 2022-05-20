@@ -15,7 +15,6 @@ use ilOrgUnitUserAssignmentQueries;
  */
 class ilMyStaffAccess extends ilObjectAccess
 {
-
     public const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_SPEC_PERMISSIONS = 'tmp_obj_spec_perm';
     public const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_DEFAULT_PERMISSIONS = 'tmp_obj_def_perm';
     public const TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS = 'tmp_orgu_def_perm';
@@ -50,7 +49,7 @@ class ilMyStaffAccess extends ilObjectAccess
         return self::$instance;
     }
 
-    private function __construct()
+    protected function __construct()
     {
     }
 
@@ -70,8 +69,11 @@ class ilMyStaffAccess extends ilObjectAccess
             return true;
         }
 
-        if ($this->countOrgusOfUserWithOperationAndContext($DIC->user()->getId(),
-                ilOrgUnitOperation::OP_ACCESS_ENROLMENTS, self::DEFAULT_CONTEXT)
+        if ($this->countOrgusOfUserWithOperationAndContext(
+            $DIC->user()->getId(),
+            ilOrgUnitOperation::OP_ACCESS_ENROLMENTS,
+            self::DEFAULT_CONTEXT
+        )
             > 0
         ) {
             return true;
@@ -100,8 +102,11 @@ class ilMyStaffAccess extends ilObjectAccess
             return false;
         }
 
-        if ($this->countOrgusOfUserWithOperationAndContext($DIC->user()->getId(),
-                ilOrgUnitOperation::OP_VIEW_CERTIFICATES, self::DEFAULT_CONTEXT)
+        if ($this->countOrgusOfUserWithOperationAndContext(
+            $DIC->user()->getId(),
+            ilOrgUnitOperation::OP_VIEW_CERTIFICATES,
+            self::DEFAULT_CONTEXT
+        )
             > 0
         ) {
             return true;
@@ -118,8 +123,11 @@ class ilMyStaffAccess extends ilObjectAccess
             return false;
         }
 
-        if ($this->countOrgusOfUserWithOperationAndContext($DIC->user()->getId(),
-                ilOrgUnitOperation::OP_VIEW_COMPETENCES, self::DEFAULT_CONTEXT)
+        if ($this->countOrgusOfUserWithOperationAndContext(
+            $DIC->user()->getId(),
+            ilOrgUnitOperation::OP_VIEW_COMPETENCES,
+            self::DEFAULT_CONTEXT
+        )
             > 0
         ) {
             return true;
@@ -151,9 +159,12 @@ class ilMyStaffAccess extends ilObjectAccess
     {
         global $DIC;
 
-        $arr_usr_id = $this->getUsersForUserOperationAndContext($DIC->user()
+        $arr_usr_id = $this->getUsersForUserOperationAndContext(
+            $DIC->user()
                                                                     ->getId(),
-            ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS, self::DEFAULT_CONTEXT);
+            ilOrgUnitOperation::OP_READ_LEARNING_PROGRESS,
+            self::DEFAULT_CONTEXT
+        );
         if (count($arr_usr_id) > 0) {
             return true;
         }
@@ -168,8 +179,10 @@ class ilMyStaffAccess extends ilObjectAccess
         $q = "SELECT COUNT(orgu_ua.orgu_id) AS 'cnt' FROM il_orgu_permissions AS perm
 				INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id
 				INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context is not NULL
-				WHERE orgu_ua.user_id = " . $DIC->database()->quote($user_id,
-                'integer') . " AND perm.operations is not NULL AND perm.parent_id = -1";
+				WHERE orgu_ua.user_id = " . $DIC->database()->quote(
+            $user_id,
+            'integer'
+        ) . " AND perm.operations is not NULL AND perm.parent_id = -1";
 
         $set = $DIC->database()->query($q);
         $rec = $DIC->database()->fetchAssoc($set);
@@ -192,8 +205,10 @@ class ilMyStaffAccess extends ilObjectAccess
         $q = "SELECT COUNT(orgu_ua.orgu_id) AS cnt FROM il_orgu_permissions AS perm
 				INNER JOIN il_orgu_ua AS orgu_ua ON orgu_ua.position_id = perm.position_id
 				INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context = '" . $context . "'
-				and orgu_ua.user_id = " . $DIC->database()->quote($user_id,
-                'integer') . " AND perm.operations LIKE  '%\""
+				and orgu_ua.user_id = " . $DIC->database()->quote(
+            $user_id,
+            'integer'
+        ) . " AND perm.operations LIKE  '%\""
             . $operation->getOperationId() . "\"%'
 				WHERE perm.parent_id = -1";
 
@@ -211,8 +226,12 @@ class ilMyStaffAccess extends ilObjectAccess
     ) : array {
         global $DIC;
 
-        $tmp_table_name = $this->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($user_id,
-            $org_unit_operation_string, $context, $tmp_table_name_prefix);
+        $tmp_table_name = $this->buildTempTableIlobjectsUserMatrixForUserOperationAndContext(
+            $user_id,
+            $org_unit_operation_string,
+            $context,
+            $tmp_table_name_prefix
+        );
 
         $q = 'SELECT usr_id FROM ' . $tmp_table_name;
 
@@ -232,8 +251,10 @@ class ilMyStaffAccess extends ilObjectAccess
         $users = [];
         $user_assignments = ilOrgUnitUserAssignmentQueries::getInstance()->getAssignmentsOfUserId($user_id);
         foreach ($user_assignments as $user_assignment) {
-            $users[$user_assignment->getPositionId()] = $this->getUsersForUser($user_id,
-                $user_assignment->getPositionId());
+            $users[$user_assignment->getPositionId()] = $this->getUsersForUser(
+                $user_id,
+                $user_assignment->getPositionId()
+            );
         }
 
         return $users;
@@ -246,8 +267,10 @@ class ilMyStaffAccess extends ilObjectAccess
     {
         global $DIC;
 
-        $tmp_orgu_members = $this->buildTempTableOrguMemberships(self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS,
-            array());
+        $tmp_orgu_members = $this->buildTempTableOrguMemberships(
+            self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS,
+            array()
+        );
 
         $position_limitation = '';
         if (!is_null($position_id)) {
@@ -257,8 +280,10 @@ class ilMyStaffAccess extends ilObjectAccess
         $q = "SELECT  " . $tmp_orgu_members . ".user_id AS usr_id
         		FROM 
 				" . $tmp_orgu_members . "
-				INNER JOIN il_orgu_ua AS orgu_ua_current_user on orgu_ua_current_user.user_id = " . $DIC->database()->quote($user_id,
-                'integer') . "
+				INNER JOIN il_orgu_ua AS orgu_ua_current_user on orgu_ua_current_user.user_id = " . $DIC->database()->quote(
+            $user_id,
+            'integer'
+        ) . "
 				INNER JOIN il_orgu_authority AS auth ON auth.position_id = orgu_ua_current_user.position_id " . $position_limitation . "
 				WHERE
 				(
@@ -312,10 +337,13 @@ class ilMyStaffAccess extends ilObjectAccess
         $user_assignments = ilOrgUnitUserAssignmentQueries::getInstance()->getAssignmentsOfUserId($user_id);
         $ids = [];
         foreach ($user_assignments as $user_assignment) {
-            $ref_ids = $this->getIdsForPositionAndOperation($user_assignment->getPositionId(), $operation,
-                $return_ref_id);
+            $ref_ids = $this->getIdsForPositionAndOperation(
+                $user_assignment->getPositionId(),
+                $operation,
+                $return_ref_id
+            );
             if (count($ref_ids) > 0) {
-                array_merge($ids, $ref_ids);
+                $ids = array_merge($ids, $ref_ids);
             }
         }
 
@@ -326,10 +354,14 @@ class ilMyStaffAccess extends ilObjectAccess
     {
         $ids = [];
         foreach (ilOrgUnitOperationContext::$available_contexts as $context) {
-            $ref_ids = $this->getIdsForPositionAndOperationAndContext($position_id, $operation, $context,
-                $return_ref_id);
+            $ref_ids = $this->getIdsForPositionAndOperationAndContext(
+                $position_id,
+                $operation,
+                $context,
+                $return_ref_id
+            );
             if (count($ref_ids) > 0) {
-                array_merge($ids, $ref_ids);
+                $ids = array_merge($ids, $ref_ids);
             }
         }
 
@@ -349,6 +381,9 @@ class ilMyStaffAccess extends ilObjectAccess
     ) : array {
         global $DIC;
         $context_id = ilOrgUnitOperationContextQueries::findByName($context)->getId();
+        /**
+         * @var ilOrgUnitOperation|null $operation_object
+         */
         $operation_object = ilOrgUnitOperationQueries::findByOperationString($operation, $context);
         if (is_null($operation_object)) {
             // operation doesn't exist in this context
@@ -405,8 +440,12 @@ class ilMyStaffAccess extends ilObjectAccess
 
         $tmp_table_name = 'tmp_ilobj_user_matrix_' . $operation->getOperationId();
 
-        $this->buildTempTableIlobjectsUserMatrixForUserOperationAndContext($user_id, $org_unit_operation_string,
-            $context, $tmp_table_name);
+        $this->buildTempTableIlobjectsUserMatrixForUserOperationAndContext(
+            $user_id,
+            $org_unit_operation_string,
+            $context,
+            $tmp_table_name
+        );
 
         $q = 'SELECT * FROM ' . $tmp_table_name;
 
@@ -454,14 +493,20 @@ class ilMyStaffAccess extends ilObjectAccess
             self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_ORGU_DEFAULT_PERMISSIONS
         );
 
-        $tmp_table_course_members = $this->buildTempTableCourseMemberships(self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS,
-            $all_users_for_user);
+        $tmp_table_course_members = $this->buildTempTableCourseMemberships(
+            self::TMP_DEFAULT_TABLE_NAME_PREFIX_CRS_MEMBERS,
+            $all_users_for_user
+        );
 
-        $tmp_table_orgu_members = $this->buildTempTableOrguMemberships(self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS,
-            $all_users_for_user);
+        $tmp_table_orgu_members = $this->buildTempTableOrguMemberships(
+            self::TMP_DEFAULT_TABLE_NAME_PREFIX_ORGU_MEMBERS,
+            $all_users_for_user
+        );
 
-        $tmp_table_orgu_member_path = $this->buildTempTableOrguMemberships('tmp_orgu_members_path',
-            $all_users_for_user);
+        $tmp_table_orgu_member_path = $this->buildTempTableOrguMemberships(
+            'tmp_orgu_members_path',
+            $all_users_for_user
+        );
 
         if ($temporary_table_name != self::TMP_DEFAULT_TABLE_NAME_PREFIX_IL_OBJ_USER_MATRIX . "_" . self::DEFAULT_ORG_UNIT_OPERATION . "_"
             . self::DEFAULT_CONTEXT
@@ -501,8 +546,10 @@ class ilMyStaffAccess extends ilObjectAccess
 				) AS user_perm_matrix  
 				INNER JOIN " . $tmp_table_orgu_member_path . " AS path on path.user_id = user_perm_matrix.usr_id
 				
-				INNER JOIN il_orgu_ua AS orgu_ua_current_user on orgu_ua_current_user.user_id = " . $DIC->database()->quote($user_id,
-                'integer') . "
+				INNER JOIN il_orgu_ua AS orgu_ua_current_user on orgu_ua_current_user.user_id = " . $DIC->database()->quote(
+                $user_id,
+                'integer'
+            ) . "
 				INNER JOIN il_orgu_permissions AS perm on perm.position_id = orgu_ua_current_user.position_id AND perm.parent_id = -1
 				INNER JOIN il_orgu_op_contexts AS contexts on contexts.id = perm.context_id AND contexts.context =  '$context'
 				and perm.operations  LIKE '%\"" . $operation->getOperationId() . "\"%'
@@ -720,16 +767,28 @@ class ilMyStaffAccess extends ilObjectAccess
 					SELECT crs_members_crs_ref.ref_id, crs_members.usr_id, orgu_ua.position_id, orgu_ua.orgu_id
 						FROM (
 							SELECT obj_id, usr_id FROM obj_members WHERE member = 1
-							AND " . $DIC->database()->in('obj_members.usr_id', $only_courses_of_user_ids, false,
-                'integer') . " 
+							AND " . $DIC->database()->in(
+            'obj_members.usr_id',
+            $only_courses_of_user_ids,
+            false,
+            'integer'
+        ) . " 
 						UNION
 							SELECT obj_id, usr_id FROM crs_waiting_list
-							WHERE " . $DIC->database()->in('crs_waiting_list.usr_id', $only_courses_of_user_ids, false,
-                'integer') . " 
+							WHERE " . $DIC->database()->in(
+            'crs_waiting_list.usr_id',
+            $only_courses_of_user_ids,
+            false,
+            'integer'
+        ) . " 
 						UNION
 							SELECT obj_id, usr_id FROM il_subscribers
-							WHERE " . $DIC->database()->in('il_subscribers.usr_id', $only_courses_of_user_ids, false,
-                'integer') . " 
+							WHERE " . $DIC->database()->in(
+                    'il_subscribers.usr_id',
+                    $only_courses_of_user_ids,
+                    false,
+                    'integer'
+                ) . " 
 						) AS crs_members
 						INNER JOIN object_reference AS crs_members_crs_ref on crs_members_crs_ref.obj_id = crs_members.obj_id
 						INNER JOIN il_orgu_ua AS orgu_ua on orgu_ua.user_id = crs_members.usr_id

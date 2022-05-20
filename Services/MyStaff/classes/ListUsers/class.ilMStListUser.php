@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\MyStaff\ListUsers;
 
@@ -8,231 +9,230 @@ use ilObjUser;
  * Class ilMStListUser
  * @author Martin Studer <ms@studer-raimann.ch>
  */
-class ilMStListUser
+final class ilMStListUser
 {
-    protected int $usr_id;
-    protected int $gender;
-    protected int $time_limit_owner;
-    protected int $active;
-    protected string $login;
-    protected string $title;
-    protected string $hobby;
-    protected string $institution;
-    protected string $department;
-    protected string $street;
-    protected string $zipcode;
-    protected string $city;
-    protected string $country;
-    protected string $sel_country;
-    protected string $matriculation;
-    protected string $firstname;
-    protected string $lastname;
-    protected string $email;
-    protected string $phone;
-    protected string $mobile_phone;
-    protected ilObjUser $il_user_obj;
+    private int $usr_id;
+    private int $gender;
+    private int $time_limit_owner;
+    private int $active;
+    private string $login;
+    private string $title;
+    private string $hobby;
+    private string $institution;
+    private string $department;
+    private string $street;
+    private string $zipcode;
+    private string $city;
+    private string $country;
+    private string $sel_country;
+    private string $matriculation;
+    private string $firstname;
+    private string $lastname;
+    private string $email;
+    private string $phone;
+    private string $mobile_phone;
 
-    final public function getUsrId() : int
+    public function getUsrId() : int
     {
         return $this->usr_id;
     }
 
-    final public function setUsrId(int $usr_id)
+    public function setUsrId(int $usr_id) : void
     {
         $this->usr_id = $usr_id;
     }
 
-    final public function getTimeLimitOwner() : int
+    public function getTimeLimitOwner() : int
     {
         return $this->time_limit_owner;
     }
 
-    final public function setTimeLimitOwner(int $time_limit_owner)
+    public function setTimeLimitOwner(int $time_limit_owner) : void
     {
         $this->time_limit_owner = $time_limit_owner;
     }
 
-    final  public function getActive() : int
+    public function getActive() : int
     {
         return $this->active;
     }
 
-    final public function setActive(int $active)
+    public function setActive(int $active) : void
     {
         $this->active = $active;
     }
 
-    final  public function getLogin() : string
+    public function getLogin() : string
     {
         return $this->login;
     }
 
-    final  public function setLogin(string $login)
+    public function setLogin(string $login) : void
     {
         $this->login = $login;
     }
 
-    final public function getFirstname() : string
+    public function getFirstname() : string
     {
         return $this->firstname;
     }
 
-    final public function setFirstname(string $firstname)
+    public function setFirstname(string $firstname) : void
     {
         $this->firstname = $firstname;
     }
 
-    final public function getLastname() : string
+    public function getLastname() : string
     {
         return $this->lastname;
     }
 
-    final public function setLastname(string $lastname)
+    public function setLastname(string $lastname) : void
     {
         $this->lastname = $lastname;
     }
 
-    final public function getEmail() : string
+    public function getEmail() : string
     {
         return $this->email;
     }
 
-    final public function setEmail(string $email)
+    public function setEmail(string $email) : void
     {
         $this->email = $email;
     }
 
-    final public function getPhone() : string
+    public function getPhone() : string
     {
         return $this->phone;
     }
 
-    final public function setPhone(string $phone)
+    public function setPhone(string $phone) : void
     {
         $this->phone = $phone;
     }
 
-    final public function getMobilePhone() : string
+    public function getMobilePhone() : string
     {
         return $this->mobile_phone;
     }
 
-    final public function setMobilePhone(string $mobile_phone)
+    public function setMobilePhone(string $mobile_phone) : void
     {
         $this->mobile_phone = $mobile_phone;
     }
 
-    final  public function getGender() : int
+    public function getGender() : int
     {
         return $this->gender;
     }
 
-    final  public function setGender(int $gender)
+    public function setGender(int $gender) : void
     {
         $this->gender = $gender;
     }
 
-    final  public function getTitle() : string
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    final  public function setTitle(string $title)
+    public function setTitle(string $title) : void
     {
         $this->title = $title;
     }
 
-    final public function getHobby() : string
+    public function getHobby() : string
     {
         return $this->hobby;
     }
 
-    final public function setHobby(string $hobby)
+    public function setHobby(string $hobby) : void
     {
         $this->hobby = $hobby;
     }
 
-    final public function getInstitution() : string
+    public function getInstitution() : string
     {
         return $this->institution;
     }
 
-    final public function setInstitution(string $institution)
+    public function setInstitution(string $institution) : void
     {
         $this->institution = $institution;
     }
 
-    final public function getDepartment() : string
+    public function getDepartment() : string
     {
         return $this->department;
     }
 
-    final public function setDepartment(string $department)
+    public function setDepartment(string $department) : void
     {
         $this->department = $department;
     }
 
-    final public function getStreet() : string
+    public function getStreet() : string
     {
         return $this->street;
     }
 
-    final public function setStreet(string $street)
+    public function setStreet(string $street) : void
     {
         $this->street = $street;
     }
 
-    final public function getZipcode() : string
+    public function getZipcode() : string
     {
         return $this->zipcode;
     }
 
-    final public function setZipcode(string $zipcode)
+    public function setZipcode(string $zipcode) : void
     {
         $this->zipcode = $zipcode;
     }
 
-    final public function getCity() : string
+    public function getCity() : string
     {
         return $this->city;
     }
 
-    final  public function setCity(string $city)
+    public function setCity(string $city) : void
     {
         $this->city = $city;
     }
 
-    final  public function getCountry() : string
+    public function getCountry() : string
     {
         return $this->country;
     }
 
-    final public function setCountry(string $country)
+    public function setCountry(string $country) : void
     {
         $this->country = $country;
     }
 
-    final public function getSelCountry() : string
+    public function getSelCountry() : string
     {
         return $this->sel_country;
     }
 
-    final public function setSelCountry(string $sel_country)
+    public function setSelCountry(string $sel_country) : void
     {
         $this->sel_country = $sel_country;
     }
 
-    final public function getMatriculation() : string
+    public function getMatriculation() : string
     {
         return $this->matriculation;
     }
 
-    final public function setMatriculation(string $matriculation)
+    public function setMatriculation(string $matriculation) : void
     {
         $this->matriculation = $matriculation;
     }
 
-    final public function returnIlUserObj() : ilObjUser
+    public function returnIlUserObj() : ilObjUser
     {
         return new ilObjUser($this->usr_id);
     }

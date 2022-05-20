@@ -139,8 +139,11 @@ class ilMStShowUserCoursesGUI
 
             if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
                 $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::DEFAULT_CONTEXT);
-                $selection->addItem(ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '',
-                    $link);
+                $selection->addItem(
+                    ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)),
+                    '',
+                    $link
+                );
             };
 
             $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
@@ -156,9 +159,12 @@ class ilMStShowUserCoursesGUI
                 }
             }
 
-            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id,
+            $selection = ilMyStaffGUI::extendActionMenuWithUserActions(
+                $selection,
+                $mst_co_usr_id,
                 rawurlencode($DIC->ctrl()
-                                 ->getLinkTarget($this, self::CMD_INDEX)));
+                                 ->getLinkTarget($this, self::CMD_INDEX))
+            );
 
             echo $selection->getHTML(true);
         }

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace ILIAS\MyStaff\ListCertificates;
 
@@ -50,8 +51,10 @@ class ilMStListCertificates
         foreach ($users_per_position as $position_id => $users) {
             $usr_data_filter = new UserDataFilter();
             $usr_data_filter = $usr_data_filter->withUserIds($users);
-            $usr_data_filter = $usr_data_filter->withObjIds(ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(),
-                $operation_access));
+            $usr_data_filter = $usr_data_filter->withObjIds(ilMyStaffAccess::getInstance()->getIdsForUserAndOperation(
+                $this->dic->user()->getId(),
+                $operation_access
+            ));
 
             if (!empty($options['filters']['user'])) {
                 $usr_data_filter = $usr_data_filter->withUserLogin($options['filters']['user']);
@@ -60,8 +63,10 @@ class ilMStListCertificates
                 $usr_data_filter = $usr_data_filter->withObjectTitle($options['filters']['obj_title']);
             }
 
-            array_merge($data, $cert_api->getUserCertificateData($usr_data_filter,
-                [ilMyStaffGUI::class, ilMStListCertificatesGUI::class]));
+            $data = array_merge($data, $cert_api->getUserCertificateData(
+                $usr_data_filter,
+                [ilMyStaffGUI::class, ilMStListCertificatesGUI::class]
+            ));
         }
 
         $unique_cert_data = [];

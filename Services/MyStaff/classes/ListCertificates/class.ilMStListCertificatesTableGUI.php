@@ -84,6 +84,11 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
             'end' => intval($this->getLimit()),
         );
         $this->setMaxCount(count($data));
+
+        // Workaround because the fillRow Method only accepts arrays
+        $data = array_map(function (UserCertificateDto $it) : array {
+            return [$it];
+        }, $data);
         $this->setData($data);
     }
 
@@ -97,9 +102,11 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $this->filter['obj_title'] = $item->getValue();
 
         //user
-        $item = new ilTextInputGUI($DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()
+        $item = new ilTextInputGUI(
+            $DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()
                                                                                                                      ->txt("name"),
-            "user");
+            "user"
+        );
 
         $this->addFilterItem($item);
         $item->readFromSession();
@@ -204,21 +211,32 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         }
     }
 
+    /**
+     * @param array<UserCertificateDto> $a_set
+     * @return void
+     * @throws \JsonException
+     * @throws \ilDateTimeException
+     * @throws \ilTemplateException
+     */
     final public function fillRow(array $a_set) : void
     {
         global $DIC;
+        
+        $set = array_pop($a_set);
 
         $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
-        }, $a_set, $a_set);
+        }, $set, $set);
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
                 switch ($k) {
                     case 'usr_assinged_orgus':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE',
-                            strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set->getUserId())));
+                        $this->tpl->setVariable(
+                            'VALUE',
+                            strval(ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($set->getUserId()))
+                        );
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'issuedOnTimestamp':
@@ -230,8 +248,10 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
                     default:
                         if ($propGetter($k) !== null) {
                             $this->tpl->setCurrentBlock('td');
-                            $this->tpl->setVariable('VALUE',
-                                (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
+                            $this->tpl->setVariable(
+                                'VALUE',
+                                (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k))
+                            );
                             $this->tpl->parseCurrentBlock();
                         } else {
                             $this->tpl->setCurrentBlock('td');
@@ -246,8 +266,8 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($DIC->language()->txt("actions"));
         $actions->setAsynch(false);
-        $actions->setId($a_set->getCertificateId());
-        $actions->addItem($DIC->language()->txt("mst_download_certificate"), '', $a_set->getDownloadLink());
+        $actions->setId($set->getCertificateId());
+        $actions->addItem($DIC->language()->txt("mst_download_certificate"), '', $set->getDownloadLink());
 
         $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
@@ -255,8 +275,10 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
     protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
+        $set = array_pop($a_set);
+        
         $col = 0;
-        foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
             $a_excel->setCell($a_row, $col, $v);
             $col++;
         }
@@ -264,7 +286,9 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
-        foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
+        $set = array_pop($a_set);
+        
+        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
             $a_csv->addColumn($v);
         }
         $a_csv->addRow();

@@ -14,7 +14,7 @@ class ilMStShowUserCourses extends ilMStListCourses
      * @param array  $arr_filter
      * @return string
      */
-    protected  function createWhereStatement(array $arr_filter): string
+    protected function createWhereStatement(array $arr_filter) : string
     {
         global $DIC;
 
