@@ -59,7 +59,7 @@ class ilLog
         $this->MESSAGE = ilLogLevel::INFO;
 
         $this->default_log_level = $this->WARNING;
-        $this->current_log_level = $this->setLogLevel($a_log_level);
+        $this->current_log_level = $this->setLogLevel($a_log_level ?? $this->WARNING);
 
         $this->path = ($a_log_path) ?: ILIAS_ABSOLUTE_PATH;
         $this->filename = ($a_log_file) ?: "ilias.log";

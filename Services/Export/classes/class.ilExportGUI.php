@@ -81,8 +81,8 @@ class ilExportGUI
 
     protected function initFormatFromPost() : string
     {
-        if ($this->http->wrapper()->query()->has('format')) {
-            return $this->http->wrapper()->query()->retrieve(
+        if ($this->http->wrapper()->post()->has('format')) {
+            return $this->http->wrapper()->post()->retrieve(
                 'format',
                 $this->refinery->kindlyTo()->string()
             );
