@@ -1425,6 +1425,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             } else {
                 $preview = $this->buildExportLink($a_link_template, "posting", $item["id"]);
             }
+            $more_link = $preview;
 
             // actions
             $posting_edit = $this->mayEditPosting($item["id"], $item["author"]);
@@ -1453,6 +1454,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                         "edit",
                         $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit")
                     );
+                    $more_link = $ilCtrl->getLinkTargetByClass("ilblogpostinggui", "edit");
                     
                     // #11858
                     if ($is_active) {
@@ -1566,7 +1568,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             
             if ($snippet) {
                 $wtpl->setCurrentBlock("more");
-                $wtpl->setVariable("URL_MORE", $preview);
+                $wtpl->setVariable("URL_MORE", $more_link);
                 $wtpl->setVariable("TEXT_MORE", $lng->txt("blog_list_more"));
                 $wtpl->parseCurrentBlock();
             }
