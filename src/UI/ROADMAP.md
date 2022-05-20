@@ -261,6 +261,14 @@ ILIAS 8 introduces an Audio Player component presenting an optional transcript t
 - Introduce a KS component for transcript presentation following the structure of the WebVTT format.
 - Add support for WebVTT files to the Audio Player component.
 
+### DateTime Input Field: use DateTimeImmutable for internal value (beginner, 2h)
+
+Currently the value of the DateTime Input Field is stored as a string internally.
+This will lead to problems when formatting or timezones are changed on the input
+field. Also, we already have a DateTimeImmutable on many occasions, why cast it
+down to string to later cast it up again? The change should be covered by a lot
+of tests, so little risk there only.
+
 ## Long Term
 
 ### Make Constraint in Tag Input Field work again
