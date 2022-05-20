@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -61,6 +75,24 @@ class DateTime extends Input implements C\Input\Field\DateTime
                 return $or_trafo->transform($v);
             }
         );
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * Allows to pass a \DateTimeImmutable for consistencies sake.
+     */
+    public function withValue($value)
+    {
+        // TODO: It would be a lot nicer if the value would be held as DateTimeImmutable
+        // internally, but currently this is just to much. Added to the roadmap.
+        if ($value instanceof \DateTimeImmutable) {
+            $value = $this->format->applyTo($value);
+        }
+
+        $clone = clone $this;
+        $clone->value = $value;
+        return $clone;
     }
 
     /**
