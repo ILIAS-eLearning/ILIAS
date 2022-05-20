@@ -16659,3 +16659,5 @@ rating#:#rating_open_dialog#:#Open rating dialog
 tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.
 rep#:#rep_favourites#:#Favourites
 rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.
+prtf#:#prtf_copy_pg#:#Copy Page
+prtf#:#prtf_copy_blog_pg#:#Copy Blog Page

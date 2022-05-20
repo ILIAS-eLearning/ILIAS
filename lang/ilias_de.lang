@@ -16660,3 +16660,5 @@ rating#:#rating_open_dialog#:#Bewertungsskala aufklappen
 tagging#:#tagging_no_obj_for_tag#:#Es sind keine Inhalte mit '%s' verschlagwortet.
 rep#:#rep_favourites#:#Favoriten
 rep#:#rep_favourites_info#:#Benutzer können einzelne Magazinobjekte als Favorit markieren. Favoritenlisten können in der Dashboard- und Hauptmenükonfiguration aktiviert werden.
+prtf#:#prtf_copy_pg#:#Seite kopieren
+prtf#:#prtf_copy_blog_pg#:#Blogseite kopieren
