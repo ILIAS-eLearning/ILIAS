@@ -3,7 +3,8 @@
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
-use ILIAS\UI\Implementation\Component\Button\Bulky;
+use ILIAS\UI\Implementation\Component\Button\Bulky as BulkyButton;
+use ILIAS\UI\Implementation\Component\Link\Bulky as BulkyLink;
 
 /**
  * Help meta bar provider
@@ -38,14 +39,16 @@ class ilHelpMetaBarProvider extends AbstractStaticMetaBarProvider implements Sta
             // position should be 0, see bug #26794
             $item = $mb->topLinkItem($this->getId())
                        ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) : ILIAS\UI\Component\Component {
-                           if ($c instanceof Bulky) {
+                           if ($c instanceof BulkyButton || $c instanceof BulkyLink) {
                                return $c->withAdditionalOnLoadCode(static function (string $id) : string {
                                    return "$('#$id').on('click', function() {
                                     console.log('trigger help slate');
                                     $('body').trigger('il-help-toggle-slate');
+                                    return false;
                                 })";
                                });
                            }
+                           return $c;
                        })
 //                       ->withAction($this->dic->ctrl()->getLinkTargetByClass(ilDashboardGUI::class, "toggleHelp"))
                        ->withSymbol($f->symbol()->glyph()->help())

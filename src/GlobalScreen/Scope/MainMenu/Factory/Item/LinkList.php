@@ -40,7 +40,7 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
      */
     public function withTitle(string $title) : hasTitle
     {
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->title = $title;
 
         return $clone;
@@ -81,7 +81,7 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
                 throw new InvalidArgumentException("withLinks only accepts arrays of Links or a callable providing them");
             }
         }
-        $clone        = clone($this);
+        $clone = clone($this);
         $clone->links = $links;
 
         return $clone;
@@ -100,7 +100,7 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
      */
     public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading
     {
-        $clone                         = clone($this);
+        $clone = clone($this);
         $clone->supports_async_loading = $supported;
 
         return $clone;
@@ -113,5 +113,16 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
     {
         return $this->supports_async_loading;
     }
-
+    
+    public function isVisible() : bool
+    {
+        $visible_links = 0;
+        foreach ($this->getLinks() as $link) {
+            if ($link->isVisible()) {
+                $visible_links++;
+            }
+        }
+        return $visible_links > 0 && parent::isVisible();
+    }
+    
 }

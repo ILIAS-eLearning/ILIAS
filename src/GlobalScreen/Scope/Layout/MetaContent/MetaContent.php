@@ -8,7 +8,9 @@ use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\Js;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\JsCollection;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCode;
 use ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media\OnLoadCodeCollection;
-use ILIAS\UI\Implementation\Component\Layout\Page\Standard;
+use ILIAS\UI\Component\Layout\Page\Standard;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaData\MetaDataCollection;
+use ILIAS\GlobalScreen\Scope\Layout\MetaContent\MetaData\MetaDatum;
 
 /**
  * Class MetaContent
@@ -18,6 +20,7 @@ use ILIAS\UI\Implementation\Component\Layout\Page\Standard;
 class MetaContent
 {
     const MEDIA_SCREEN = "screen";
+    
     /**
      * @var InlineCssCollection
      */
@@ -42,28 +45,37 @@ class MetaContent
      * @var string
      */
     private $text_direction;
-
-
+    /**
+     * @var string
+     */
+    protected $resource_version;
+    /**
+     * @var MetaDataCollection
+     */
+    protected $meta_data;
     /**
      * MetaContent constructor.
      */
-    public function __construct()
+    public function __construct(string $resource_version)
     {
-        $this->css = new CssCollection();
-        $this->js = new JsCollection();
-        $this->on_load_code = new OnLoadCodeCollection();
-        $this->inline_css = new InlineCssCollection();
+        $this->resource_version = $resource_version;
+        $this->css = new CssCollection($resource_version);
+        $this->js = new JsCollection($resource_version);
+        $this->on_load_code = new OnLoadCodeCollection($resource_version);
+        $this->inline_css = new InlineCssCollection($resource_version);
+        $this->meta_data = new MetaDataCollection();
     }
-
+    
     /**
      * Reset
      */
     public function reset()
     {
-        $this->css = new CssCollection();
-        $this->js = new JsCollection();
-        $this->on_load_code = new OnLoadCodeCollection();
-        $this->inline_css = new InlineCssCollection();
+        $this->css = new CssCollection($this->resource_version);
+        $this->js = new JsCollection($this->resource_version);
+        $this->on_load_code = new OnLoadCodeCollection($this->resource_version);
+        $this->inline_css = new InlineCssCollection($this->resource_version);
+        $this->meta_data = new MetaDataCollection();
     }
 
     /**
@@ -72,7 +84,7 @@ class MetaContent
      */
     public function addCss(string $path, string $media = self::MEDIA_SCREEN)
     {
-        $this->css->addItem(new Css($path, $media));
+        $this->css->addItem(new Css($path, $this->resource_version, $media));
     }
 
 
@@ -83,7 +95,7 @@ class MetaContent
      */
     public function addJs(string $path, bool $add_version_number = false, int $batch = 2)
     {
-        $this->js->addItem(new Js($path, $add_version_number, $batch));
+        $this->js->addItem(new Js($path, $this->resource_version, $add_version_number, $batch));
     }
 
 
@@ -93,7 +105,7 @@ class MetaContent
      */
     public function addInlineCss(string $content, string $media = self::MEDIA_SCREEN)
     {
-        $this->inline_css->addItem(new InlineCss($content, $media));
+        $this->inline_css->addItem(new InlineCss($content, $this->resource_version, $media));
     }
 
 
@@ -103,7 +115,7 @@ class MetaContent
      */
     public function addOnloadCode(string $content, int $batch = 2)
     {
-        $this->on_load_code->addItem(new OnLoadCode($content, $batch));
+        $this->on_load_code->addItem(new OnLoadCode($content, $this->resource_version, $batch));
     }
 
 
@@ -167,15 +179,22 @@ class MetaContent
     {
         return $this->text_direction;
     }
-
-    /**
-     * @param string $text_direction
-     */
+    
     public function setTextDirection(string $text_direction) : void
     {
         if (!in_array($text_direction, [Standard::LTR, Standard::RTL], true)) {
             throw new \InvalidArgumentException('$text_direction MUST be Standard::LTR, or Standard::RTL');
         }
         $this->text_direction = $text_direction;
+    }
+    
+    public function addMetaDatum(string $key, string $value) : void
+    {
+        $this->meta_data->add(new MetaDatum($key, $value));
+    }
+    
+    public function getMetaData() : MetaDataCollection
+    {
+        return $this->meta_data;
     }
 }

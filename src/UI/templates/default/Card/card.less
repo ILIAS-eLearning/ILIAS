@@ -4,10 +4,28 @@
 	position:relative;
 	background-color: @il-card-background;
 	border: none;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 15%), 0 0px 0px rgba(0, 0, 0, 15%);
+	box-shadow: @il-card-box-shadow;
 
-	img{
+	.il-card-image-container {
 		width: 100%;
+		padding-top: 100%;
+		position: relative;
+
+		a:focus-visible {
+			position: static;
+		}
+	}
+
+	img.img-responsive, img.img-standard {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		width: 100%;
+		max-height: 100%;
+		margin: auto;
+		z-index: 100;
 	}
 
 	/* see bug #24947 */
@@ -15,8 +33,23 @@
 		overflow: hidden;
 	}
 
-	.thumbnail{
+	.card-title {
+		.btn, a{
+			font-size: @il-font-size-base;
+		}
+	}
+
+	&.thumbnail{
 		margin-bottom: 0px;
+		font-size: @il-font-size-small;
+		
+		&:focus-within .il-card-repository-head {
+			z-index: 400;
+		}
+		
+		a:focus-visible {
+			overflow: visible;
+		}
 	}
 	.card-highlight {
 		background: @il-card-highlight-bg;
@@ -25,18 +58,18 @@
 	}
 	.card-no-highlight {
 		background-color: transparent;
-		height: 3px;
+		height: @il-card-highlight-height;
 		width: 100%;
 	}
 
 	.caption{
-		padding-top: @padding-large-vertical;
+		padding-top: @il-padding-large-vertical;
 		//See #28508
 		overflow-wrap: break-word;
 		word-break: break-word;
 
 		h5{
-			margin:@padding-large-vertical 0 0 0;
+			margin:@il-padding-large-vertical 0 0 0;
 		}
 
 
@@ -44,7 +77,7 @@
 			dt{
 				font-weight: normal;
 				color: @il-text-light-color;
-				padding-top: @padding-large-vertical;
+				padding-top: @il-padding-large-vertical;
 			}
 		}
 	}
@@ -55,8 +88,9 @@
 		top:0;
 		left:0;
 		right:0;
-		height: @il-icon-size-medium + @padding-large-horizontal;
-		padding: 0 @padding-small-horizontal;
+		height: @il-icon-size-medium + @il-padding-large-horizontal;
+		padding: 0 @il-padding-small-horizontal;
+		z-index: 300;
 
 		.icon.outlined{
 			filter: @il-card-repository-outlined-icon-filter;
@@ -67,13 +101,13 @@
 		}
 
 		> div {
-			padding: @padding-large-vertical @padding-small-horizontal;
+			padding: @il-padding-large-vertical @il-padding-small-horizontal;
 			float: left;
 		}
 
 		.il-chart-progressmeter-box {
-			width: @il-icon-size-medium + @padding-small-horizontal;
-			height: @il-icon-size-medium + @padding-small-vertical;
+			width: @il-icon-size-medium + @il-padding-small-horizontal;
+			height: @il-icon-size-medium + @il-padding-small-vertical;
 
 			> .il-chart-progressmeter-container .il-chart-progressmeter-viewbox {
 				max-width: 100%;
@@ -84,19 +118,24 @@
 
 		> div.il-card-repository-dropdown {
 			float:right;
-			padding: (@padding-large-vertical + @padding-base-vertical) @padding-small-horizontal;
+			padding: (@il-padding-large-vertical + @il-padding-base-vertical) @il-padding-small-horizontal;
 
 			> .dropdown {
 				> button {
 					background-color: inherit;
 					border: @il-card-repository-dropdown-border;
-					width: @il-icon-size-medium - @padding-large-vertical;
-					height: @il-icon-size-medium - @padding-large-vertical;
+					width: @il-icon-size-medium - @il-padding-large-vertical;
+					height: @il-icon-size-medium - @il-padding-large-vertical;
 
 					span.caret {
 						display: block;
 						margin-left: auto;
 						margin-right: auto;
+					}
+					
+					&:focus-visible {
+						overflow: visible;
+						outline-offset: @il-focus-outline-inner-width + @il-focus-outline-outer-width - 1;
 					}
 				}
 			}
@@ -114,7 +153,7 @@
 			display: flex;
 			flex-direction: column;
 
-			:last-child {
+			.card-title {
 				flex-grow: 2;
 			}
 		}

@@ -71,7 +71,7 @@ class ilAssQuestionPageCommandForwarder
         $DIC->ctrl()->saveParameter($this, "q_id");
         $DIC->language()->loadLanguageModule("content");
         $DIC->ctrl()->setReturnByClass("ilAssQuestionPageGUI", "view");
-        $DIC->ctrl()->setReturn($this, "questions");
+        $DIC->ctrl()->setReturnByClass("ilObjTestGUI", "questions");
         $page_gui = new ilAssQuestionPageGUI($_GET["q_id"]);
         $page_gui->setEditPreview(true);
         if (strlen($DIC->ctrl()->getCmd()) == 0) {

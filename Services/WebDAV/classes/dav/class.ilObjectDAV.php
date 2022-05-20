@@ -1,8 +1,6 @@
 <?php
 
-use Sabre\DAV\Exception\BadRequest;
 use Sabre\DAV\Exception\Forbidden;
-use Sabre\DAV\Exception\NotImplemented;
 
 /**
  * Class ilObjectDAV
@@ -16,11 +14,14 @@ use Sabre\DAV\Exception\NotImplemented;
  */
 abstract class ilObjectDAV extends Sabre\DAV\Node
 {
-    /** @var $ref_id integer */
+    /** @var integer $ref_id */
     protected $ref_id;
     
-    /** @var $obj ilObject */
+    /** @var ilObject $obj */
     protected $obj;
+    
+    /** @var Psr\Http\Message\RequestInterface $request */
+    protected $request;
     
     /** @var ilWebDAVRepositoryHelper $repo_helper */
     protected $repo_helper;
@@ -42,6 +43,9 @@ abstract class ilObjectDAV extends Sabre\DAV\Node
     {
         $this->obj = &$a_obj;
         $this->ref_id = $a_obj->getRefId();
+        
+        global $DIC;
+        $this->request = $DIC->http()->request();
 
         $this->dav_helper = $dav_helper;
         $this->repo_helper = $repo_helper;

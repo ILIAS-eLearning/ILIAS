@@ -74,7 +74,7 @@ class ilPCTable extends ilPageContent
      */
     public function getCellText($i, $j)
     {
-        $cell_par = $this->getCellNode($i, $j);
+        $cell_par = $this->getCellNode($i, $j, false);
 
         if (is_object($cell_par)) {
             $content = "";
@@ -91,7 +91,7 @@ class ilPCTable extends ilPageContent
     /**
      * Get cell paragraph node of row $i and cell $j
      */
-    public function getCellNode($i, $j)
+    public function getCellNode($i, $j, $create_if_not_exists = false)
     {
         $xpc = xpath_new_context($this->dom);
         $path = "//PageContent[@HierId='" . $this->getHierId() . "']" .
@@ -103,6 +103,9 @@ class ilPCTable extends ilPageContent
         if (is_object($res->nodeset[0])) {
             return $res->nodeset[0];
         } else {		// no node -> delete all childs and create paragraph
+            if (!$create_if_not_exists) {
+                return null;
+            }
             $xpc2 = xpath_new_context($this->dom);
             $path2 = "//PageContent[@HierId='" . $this->getHierId() . "']" .
                 "/Table/TableRow[" . ($i + 1) . "]/TableData[" . ($j + 1) . "]";

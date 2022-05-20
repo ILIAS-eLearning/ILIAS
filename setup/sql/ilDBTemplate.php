@@ -2366,6 +2366,9 @@ $ilDB->addPrimaryKey("booking_object", $pk_fields);
 $in_fields = array("pool_id");
 $ilDB->addIndex("booking_object", $in_fields, "i1", false);
 
+$in_fields = array("schedule_id");
+$ilDB->addIndex("booking_object", $in_fields, "i2", false);
+
 $ilDB->createSequence("booking_object", 1);
 
 
@@ -2484,6 +2487,9 @@ $ilDB->addIndex("booking_reservation", $in_fields, "i3", false);
 $in_fields = array("date_to");
 $ilDB->addIndex("booking_reservation", $in_fields, "i4", false);
 
+$in_fields = array("context_obj_id");
+$ilDB->addIndex("booking_reservation", $in_fields, "i5", false);
+
 $ilDB->createSequence("booking_reservation", 1);
 
 
@@ -2559,6 +2565,9 @@ $ilDB->createTable("booking_schedule", $fields);
 
 $pk_fields = array("booking_schedule_id");
 $ilDB->addPrimaryKey("booking_schedule", $pk_fields);
+
+$in_fields = array("pool_id");
+$ilDB->addIndex("booking_schedule", $in_fields, "i1", false);
 
 $ilDB->createSequence("booking_schedule", 1);
 
@@ -11491,6 +11500,9 @@ $ilDB->createTable("exc_ass_file_order", $fields);
 $pk_fields = array("id");
 $ilDB->addPrimaryKey("exc_ass_file_order", $pk_fields);
 
+$in_fields = array("assignment_id");
+$ilDB->addIndex("exc_ass_file_order", $in_fields, "i1", false);
+
 $ilDB->createSequence("exc_ass_file_order", 1);
 
 
@@ -11902,6 +11914,12 @@ $ilDB->createTable("exc_assignment", $fields);
 
 $pk_fields = array("id");
 $ilDB->addPrimaryKey("exc_assignment", $pk_fields);
+
+$in_fields = array("exc_id");
+$ilDB->addIndex("exc_assignment", $in_fields, "i1", false);
+
+$in_fields = array("deadline_mode","exc_id");
+$ilDB->addIndex("exc_assignment", $in_fields, "i2", false);
 
 $ilDB->createSequence("exc_assignment", 1);
 
@@ -12377,6 +12395,9 @@ $ilDB->addPrimaryKey("exc_members", $pk_fields);
 
 $in_fields = array("obj_id");
 $ilDB->addIndex("exc_members", $in_fields, "ob", false);
+
+$in_fields = array("usr_id");
+$ilDB->addIndex("exc_members", $in_fields, "i1", false);
 
 
 //
@@ -15483,6 +15504,9 @@ $ilDB->createTable("il_bt_bucket", $fields);
 $pk_fields = array("id");
 $ilDB->addPrimaryKey("il_bt_bucket", $pk_fields);
 
+$in_fields = array("user_id");
+$ilDB->addIndex("il_bt_bucket", $in_fields, "i1", false);
+
 $ilDB->createSequence("il_bt_bucket", 1);
 
 
@@ -18157,6 +18181,9 @@ $ilDB->createTable("il_exc_team", $fields);
 
 $pk_fields = array("ass_id","user_id");
 $ilDB->addPrimaryKey("il_exc_team", $pk_fields);
+
+$in_fields = array("id");
+$ilDB->addIndex("il_exc_team", $in_fields, "i1", false);
 
 $ilDB->createSequence("il_exc_team", 1);
 
@@ -48739,10 +48766,13 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'inst_id'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '71')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '81')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'adve'), 'keyword' => array('text', 'autosave'), 'value' => array('clob', '30')));
+
+$ilDB->insert("settings", array(
+'module' => array('text', 'common'), 'keyword' => array('text', 'rep_favourites'), 'value' => array('clob', '1')));
 
 
 //

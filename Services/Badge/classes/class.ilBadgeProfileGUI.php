@@ -241,7 +241,7 @@ class ilBadgeProfileGUI
             $badge_components[] = $modal;
         }
 
-        $deck = $this->factory->deck($cards)->withNormalCardsSize();
+        $deck = $this->factory->deck($cards)->withSmallCardsSize();
         $badge_components[] = $deck;
 
         $tmpl->setVariable("DECK", $this->renderer->render($badge_components));

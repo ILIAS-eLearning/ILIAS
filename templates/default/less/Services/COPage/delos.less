@@ -67,7 +67,7 @@ button.copg-add.dropdown-toggle.btn:focus,
 button.copg-add.dropdown-toggle.btn:hover,
 #copg-editor-help {
 
-	.glyphicon-plus-sign {
+	.glyphicon-plus-sign, .il-copg-add-text {
 		color: @il-btn-standard-bg;
 		font-size: @il-font-size-large;
 	}
@@ -315,6 +315,7 @@ div.il-copg-button-group-wide {
 }
 
 #iltinymenu {
+	padding: 0 @il-padding-xlarge-horizontal;
 	.bd {
 		div {
 			&.last {
@@ -545,6 +546,7 @@ a.nostyle:hover {
 }
 
 #ilPageEditLegend {
+	margin: 10px 0;
 	> div {
 		margin: 5px 0;
 	}
@@ -558,7 +560,7 @@ a.nostyle:hover {
 	}
 
 	tr > td {
-		padding: 9px;
+		padding: @il-padding-base-vertical @il-padding-xlarge-horizontal;
 	}
 
 	tr > td:first-child {
@@ -703,7 +705,7 @@ div.ilCOPGMediaPrint {
 }
 
 #copg-editor-slate-content {
-	padding: 15px;
+	padding: @il-padding-xlarge-vertical 0px;
 
 	p {
 		padding: 0;
@@ -721,10 +723,10 @@ div.ilCOPGMediaPrint {
 	div.alert {
 		margin: 10px 0;
 	}
-	form {
+	form.form-horizontal {
+		margin-bottom: @il-padding-xlarge-vertical;
 		.ilFormHeader {
-			padding: 10px;
-
+			padding: @il-padding-xlarge-vertical @il-padding-xlarge-horizontal;
 			h3.ilHeader {
 				font-size: @font-size-base;
 			}
@@ -735,10 +737,27 @@ div.ilCOPGMediaPrint {
 		.control-label {
 			text-align: left;
 			font-weight: bold;
+			min-height: auto;
+			padding-bottom: 0;
+			margin-bottom: 0;
 		}
 		.ilFormFooter {
+			padding: @il-padding-base-vertical @il-padding-xlarge-horizontal;
+			background-color: @il-main-bg;
 		}
 	}
+
+	> .btn-link {
+		padding: 0px @il-padding-xlarge-horizontal;
+	}
+}
+
+#copg-top-actions {
+	padding: 0 @il-padding-xlarge-horizontal;
+}
+
+.copg-edit-button-group {
+	padding: @il-padding-base-vertical @il-padding-xlarge-horizontal;
 }
 
 p#copg-auto-save {
@@ -790,6 +809,10 @@ p#copg-auto-save {
 
 	th, td {
 		border: 1px solid #CCCCCC;
+	}
+
+	th {
+		vertical-align: middle;
 	}
 }
 

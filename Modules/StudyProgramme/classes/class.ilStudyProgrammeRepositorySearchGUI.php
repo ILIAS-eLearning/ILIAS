@@ -20,8 +20,8 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
         
         // call callback if that function does give a return value => show error message
         // listener redirects if everything is ok.
-        $class->$method($_POST['user']);
-        
+        $post = $_POST['user'] ?: [];
+        $class->$method($post);
         // Removed this from overwritten class, as we do not want to show the
         // results again...
         //$this->showSearchResults();

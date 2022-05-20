@@ -444,16 +444,24 @@ class ilTemplate extends HTML_Template_ITX
             }
         } elseif (strpos($a_tplname, "src/UI") === 0) {
             if (class_exists("ilStyleDefinition") // for testing
-            && ilStyleDefinition::getCurrentSkin() != "default") {
-                $fname = "./Customizing/global/skin/" . ilStyleDefinition::getCurrentSkin() . "/" . str_replace("src/UI/templates/default", "UI", $a_tplname);
+                && ilStyleDefinition::getCurrentSkin() != "default") {
+                $style = ilStyleDefinition::getCurrentStyle();
+                $skin = ilStyleDefinition::getCurrentSkin();
+                $base_path = "./Customizing/global/skin/";
+                $ui_path = "/" . str_replace("src/UI/templates/default", "UI", $a_tplname);
+                $fname = $base_path . ilStyleDefinition::getCurrentSkin() . "/" . $style . "/" . $ui_path;
+
+                if (!file_exists($fname)) {
+                    $fname = $base_path . $skin . "/" . $ui_path;
+                }
             }
+
             if ($fname == "" || !file_exists($fname)) {
                 $fname = $a_tplname;
             }
         } else {
             $fname = $a_tplname;
         }
-        
         return $fname;
     }
     

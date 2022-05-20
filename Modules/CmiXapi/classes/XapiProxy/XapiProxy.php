@@ -10,7 +10,7 @@
 
         public function __construct($client, $token, $plugin=false) {
             parent::__construct($client, $token, $plugin);
-            $this->log()->debug($this->msg('proxy initialized '. (($plugin) ? 'in Plugin ' : '') . (($this->statementReducer) ? 'with StatementReducer' : '')));
+            $this->log()->debug($this->msg('proxy initialized'));
         }
 
         public function setRequestParams($request) {
@@ -150,6 +150,7 @@
                     return NULL;
                 }
             }
+            return NULL;
         }
 
         public function modifyBody($body)
@@ -194,7 +195,7 @@
                 $this->setStatus($xapiStatement);
             }
             else {
-                /* @var ilObjCmiXapi $object */
+                /* @var $object */
                 $object = \ilObjectFactory::getInstanceByObjId($this->authToken->getObjId());
                 if( (string)$object->getLaunchMode() === (string)\ilObjCmiXapi::LAUNCH_MODE_NORMAL ) {
                     // ToDo: check function hasContextActivitiesParentNotEqualToObject!
@@ -241,17 +242,17 @@
                         $score = $obj->result->score->scaled;
                     }
                     $this->log()->debug($this->msg("handleLPStatus: " . $this->sniffVerbs[$verb] . " : " . $score));
-                    \ilObjXapiCmi5::handleLPStatusFromProxy($this->client, $this->token, $this->sniffVerbs[$verb], $score);
+                    \ilObjXapiCmi5::handleLPStatusFromProxy($this->client, $this->token, $this->sniffVerbs[$verb], $score);//UK check
                 }
             }
         }
-
-        private function isSubStatementCheck($obj) {
-            if (
-                isset($obj->context) &&
-                isset($obj->context->contextActivities) &&
-                is_array($obj->context->contextActivities->parent)
-            ) {
+	
+	private function isSubStatementCheck($obj) {
+            $object = \ilObjectFactory::getInstanceByObjId($this->authToken->getObjId()); // get ActivityId in Constructor for better performance, is also used in handleEvaluationStatement
+            $objActivityId = $object->getActivityId();
+            $statementActivityId = $obj->object->id;
+            if ($statementActivityId != $objActivityId) {
+                $this->log()->debug($this->msg("statement object id " . $statementActivityId . " != activityId " . $objActivityId));
                 $this->log()->debug($this->msg("is Substatement"));
                 return true;
             }

@@ -61,10 +61,10 @@ var renderer = function($) {
         triggerer: Object.assign({}, dom_element, {
             remove: function() {},
             additional_engage: function(){
-                this.getElement().attr('aria-pressed', true);
+                this.getElement().attr('aria-expanded', true);
             },
             additional_disengage: function(){
-                this.getElement().attr('aria-pressed', false);
+                this.getElement().attr('aria-expanded', false);
             }
         }),
         slate: Object.assign({}, dom_element, {
@@ -76,8 +76,7 @@ var renderer = function($) {
                     entry_id = dom_ref_to_element[this.html_id],
                     isInView = il.UI.maincontrols.mainbar.model.isInView(entry_id),
                     thrown = thrown_for[entry_id];
-                
-                element.attr('aria-expanded', true);
+
                 element.attr('aria-hidden', false);
                 //https://www.w3.org/TR/wai-aria-practices-1.1/examples/accordion/accordion.html
                 element.attr('role', 'region');
@@ -93,7 +92,6 @@ var renderer = function($) {
             additional_disengage: function(){
                 var entry_id = dom_ref_to_element[this.html_id];
                 thrown_for[entry_id] = false;
-                this.getElement().attr('aria-expanded', false);
                 this.getElement().attr('aria-hidden', true);
                 this.getElement().removeAttr('role', 'region');
             }
@@ -135,10 +133,10 @@ var renderer = function($) {
             },
             remove: null,
             additional_engage: function(){
-                this.getElement().attr('aria-pressed', true);
+                this.getElement().attr('aria-expanded', true);
             },
             additional_disengage: function(){
-                this.getElement().attr('aria-pressed', false);
+                this.getElement().attr('aria-expanded', false);
             }
         }),
         mainbar: {
@@ -245,7 +243,10 @@ var renderer = function($) {
                 }
 
             if(model_state.more_available) {
+                more_button.getElement().parent().show();
                 actions.moveToplevelTriggerersToMore(model_state);
+            } else {
+                more_button.getElement().parent().hide();
             }
 
             parts.page.slatesEngaged(model_state.any_entry_engaged || model_state.tools_engaged);
@@ -288,6 +289,14 @@ var renderer = function($) {
         focusTopentry: function(top_entry_id) {
             var  triggerer = dom_references[top_entry_id];
             document.getElementById(triggerer.triggerer).focus();
+        },
+
+        dispatchResizeNotification: function(top_entry_id) {
+            var event = new CustomEvent(
+                'resize',
+                {detail : {mainbar_induced : true}}
+            );
+            window.dispatchEvent(event);
         }
     },
     public_interface = {
@@ -295,7 +304,8 @@ var renderer = function($) {
         calcAmountOfButtons: more.calcAmountOfButtons,
         render: actions.render,
         focusSubentry: actions.focusSubentry,
-        focusTopentry: actions.focusTopentry
+        focusTopentry: actions.focusTopentry,
+        dispatchResizeNotification: actions.dispatchResizeNotification
     };
 
     return public_interface;

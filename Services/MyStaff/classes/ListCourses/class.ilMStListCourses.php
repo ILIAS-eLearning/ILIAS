@@ -60,7 +60,7 @@ class ilMStListCourses
 	                    SELECT reg.obj_id, reg.usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_REGISTERED . ' AS reg_status, lp.status AS lp_status FROM obj_members 
 		          AS reg
                         LEFT JOIN ut_lp_marks AS lp on lp.obj_id = reg.obj_id AND lp.usr_id = reg.usr_id
-                         WHERE ' . $this->dic->database()->in('reg.usr_id', $arr_usr_ids, false, 'integer') . '
+                         WHERE ' . $this->dic->database()->in('reg.usr_id', $arr_usr_ids, false, 'integer') . ' AND (reg.admin = 1 OR reg.tutor = 1 OR reg.member = 1)
 		            UNION
 	                    SELECT obj_id, usr_id, ' . ilMStListCourse::MEMBERSHIP_STATUS_WAITINGLIST . ' AS reg_status, 0 AS lp_status FROM crs_waiting_list AS waiting
 	                    WHERE ' . $this->dic->database()->in('waiting.usr_id', $arr_usr_ids, false, 'integer') . '
@@ -71,7 +71,7 @@ class ilMStListCourses
 	           
                     INNER JOIN object_data AS crs on crs.obj_id = memb.obj_id AND crs.type = ' . $this->dic->database()
                 ->quote(ilMyStaffAccess::DEFAULT_CONTEXT, 'text') . '
-                    INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id
+                    INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id AND crs_ref.deleted IS NULL
 	                INNER JOIN usr_data on usr_data.usr_id = memb.usr_id AND usr_data.active = 1';
 
 
@@ -179,6 +179,10 @@ class ilMStListCourses
         if (!empty($arr_filter['org_unit'])) {
             $where[] = 'usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' . $this->dic->database()
                     ->quote($arr_filter['org_unit'], 'integer') . ')';
+        }
+
+        if (isset($arr_filter['usr_id']) && is_numeric($arr_filter['usr_id'])) {
+            $where[] = 'usr_id = ' . $this->dic->database()->quote($arr_filter['usr_id'], \ilDBConstants::T_INTEGER); 
         }
 
         if (!empty($where)) {

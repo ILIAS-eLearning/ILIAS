@@ -247,7 +247,7 @@ class ilMediaPlayerGUI
         include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         ilYuiUtil::initConnection();
 
-        $a_tpl->addJavascript("./Services/MediaObjects/js/MediaObjects.js");
+        $a_tpl->addJavascript("./Services/MediaObjects/js/MediaObjects.js?1");
 
         include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
         ilPlayerUtil::initMediaElementJs($a_tpl);
@@ -391,7 +391,7 @@ class ilMediaPlayerGUI
             $height = $this->getDisplayHeight();
             $width = $this->getDisplayWidth();
             if (is_int(strpos($mimeType, "audio/mpeg"))) {
-                $height = "30px";
+                //$height = "30px";
             }
 
             if ($height != "") {
@@ -449,12 +449,12 @@ class ilMediaPlayerGUI
             }
             $mp_tpl->setCurrentBlock("audio");
             if ($preview_output) {
-                $mp_tpl->setVariable("ASTYLE", "margin-top:-30px");
+                $mp_tpl->setVariable("ASTYLE", "margin-top:-40px");
             }
             $mp_tpl->setVariable("AFILE", $this->getFile());
             $mp_tpl->setVariable("APLAYER_NR", $this->id . "_" . $this->current_nr);
             $mp_tpl->setVariable("AEVENT_URL", $this->event_callback_url);
-            $mp_tpl->setVariable("AHEIGHT", "30");
+            $mp_tpl->setVariable("AHEIGHT", "40");
             $mp_tpl->setVariable("AWIDTH", "320");
             $mp_tpl->parseCurrentBlock();
             return $mp_tpl->get();

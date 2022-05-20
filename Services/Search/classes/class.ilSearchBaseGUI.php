@@ -317,11 +317,11 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $admin->showLinkIntoMultipleObjectsTree();
     }
 
-    public function showMoveIntoObjectTree()
+    public function showPasteTree()
     {
         include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
         $admin = new ilAdministrationCommandGUI($this);
-        $admin->showMoveIntoObjectTree();
+        $admin->showPasteTree();
     }
     
     public function performPasteIntoMultipleObjects()

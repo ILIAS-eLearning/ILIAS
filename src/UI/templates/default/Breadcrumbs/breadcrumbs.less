@@ -15,10 +15,17 @@
 		padding: @il-padding-small-vertical;
 		padding-left: @il-mainbar-btn-width + @il-standard-page-content-padding;
 
-		span.crumb {
+		span.crumb a {
 			color: @il-standard-page-breadcrumbs-color;
 			&:hover {
 				color: @il-standard-page-breadcrumbs-active-color;
+			}
+			&:focus {
+				border: @il-focus-outline-inner;
+				
+				&::after {
+					content: none;
+				}
 			}
 		}
 

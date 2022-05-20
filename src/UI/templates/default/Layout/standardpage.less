@@ -183,6 +183,7 @@ div.il-system-infos {
 	font-size: @font-size-base * 1.142;
 	align-items: flex-end;
 	padding-left: 35px; // dynamic value desirable
+	color: @il-standard-page-header-page-title-color;
 }
 
 .il-header-locator{
@@ -327,26 +328,22 @@ footer {
 	// main grid without slates
 	.il-layout-page {
 		background: @body-bg;
-		display: -ms-grid;
-		display: grid;
-		grid-gap: 0px;
-		-ms-grid-columns: 1fr;
-	    grid-template-columns: 1fr;
-		-ms-grid-rows: @il-standard-page-small-header-height auto 1fr;
-	    grid-template-rows: @il-standard-page-small-header-height auto 1fr;
-	    height: 100%;
-		overflow: hidden;
+		display: block;
+		overflow: initial;
 		width: 100%;
 		.nav.il-maincontrols {
-			grid-row: 4;
-			grid-column: 1;
+			position: fixed;
+			bottom: 0;
+			z-index: @il-standard-page-zindex-maincontrols;
+			width: 100%;
 			.il-maincontrols-mainbar {
 				display: grid;
 				display: -ms-grid;
 				-ms-grid-columns: 1fr;
 				grid-template-columns: 1fr;
 				-ms-grid-rows: 0 @il-standard-page-small-mainbar-height;
-				grid-template-rows: 0 @il-standard-page-small-mainbar-height;
+				grid-template-rows: 0 @il-standard-page-small-mainbar-height; // for browsers not supporting env()
+				grid-template-rows: 0 @il-standard-page-small-mainbar-height-w-bottom-safe-area;
 
 				.il-mainbar-close-slates {
 					display: none;
@@ -374,12 +371,13 @@ footer {
 				-ms-grid-row: 3;
 				grid-column: 1;
 				grid-row: 3;
-				height: 100%; // calc(100% - (@il-standard-page-small-header-height + @il-standard-page-breadcrumbs-height);
+				height: calc(100% - @il-standard-page-small-header-height);
 				.il-maincontrols-mainbar {
 					-ms-grid-columns: 1fr;
 				    grid-template-columns: 1fr;
 					-ms-grid-rows: 1fr @il-standard-page-small-mainbar-height;
-				    grid-template-rows: 1fr @il-standard-page-small-mainbar-height;
+					grid-template-rows: 1fr @il-standard-page-small-mainbar-height; // for browsers not supporting env()
+					grid-template-rows: 1fr @il-standard-page-small-mainbar-height-w-bottom-safe-area;
 					width: 100%;
 					.il-mainbar {
 						.shadow-top();
@@ -412,15 +410,15 @@ footer {
 
 	// metabar
 	header {
-		-ms-grid-column: 1;
-		-ms-grid-row: 1;
-		grid-column: 1;
-		grid-row: 1;
-		z-index: @il-standard-page-zindex-header;
+		position: -webkit-sticky;
+		position: sticky;
+		width: 100%;
+		top: 0;
 	}
 
 	// head-container with logo and metabar
 	.header-inner {
+		position: relative;
 	    height: @il-standard-page-small-header-height;
 	    padding: 0;
 	    width: 100%;
@@ -503,7 +501,8 @@ footer {
 		box-shadow: none;
 		display: -ms-flexbox;
 		display: flex;
-		max-height: @il-mainbar-small-btn-height;
+		max-height: @il-standard-page-small-mainbar-height; // for browsers not supporting env()
+		max-height: @il-standard-page-small-mainbar-height-w-bottom-safe-area;
 		overflow: hidden;
 		z-index: @il-standard-page-zindex-mainbar;
 	}
@@ -570,16 +569,13 @@ footer {
 	}
 
 	.il-layout-page-content {
-		-ms-grid-column: 1;
-		-ms-grid-row: 3;
-		grid-column: 1;
-		grid-row: 3;
-		overflow: auto;
-	}
-
-	div.il-system-infos {
-		grid-column: 1;
-		-ms-grid-column: 1;
+		display: flex;
+		flex-direction: column;
+		min-height: calc(100vh -  @il-standard-page-small-header-height);
+		padding-bottom: @il-standard-page-small-mainbar-height;
+		> div {
+			flex-grow: 1;
+		}
 	}
 }
 

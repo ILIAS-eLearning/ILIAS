@@ -140,7 +140,7 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
         $dir = $this->target_directory . "/" . $a_directory;
 
         if (!is_dir($dir)) {
-            ilUtil::createDirectory($dir);
+            ilUtil::makeDirParents($dir);
         }
 
         copy($a_file, $dir . "/" . basename($a_file));
@@ -347,14 +347,26 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                             $this->title_columns[] = $crit_title . "_" . $extra_crit_column;
                         }
                         $extra_crit_column++;
-                        $this->copyFileToSubDirectory(self::FBK_DIRECTORY, $file);
-                        $this->excel->setCell($row, $col, "./" . self::FBK_DIRECTORY . DIRECTORY_SEPARATOR . basename($file));
-                        $this->excel->addLink($row, $col, './' . self::FBK_DIRECTORY . DIRECTORY_SEPARATOR . basename($file));
+                        $dir = $this->getFeedbackDirectory($participant_id, $feedback_giver);
+                        $this->copyFileToSubDirectory($dir, $file);
+                        $this->excel->setCell($row, $col, "./" . $dir . DIRECTORY_SEPARATOR . basename($file));
+                        $this->excel->addLink($row, $col, './' . $dir . DIRECTORY_SEPARATOR . basename($file));
                         $this->excel->setColors($this->excel->getCoordByColumnAndRow($col, $row), self::BG_COLOR, self::LINK_COLOR);
                     }
                     break;
             }
         }
+    }
+
+    /**
+     * see also bug https://mantis.ilias.de/view.php?id=30999
+     */
+    protected function getFeedbackDirectory(int $participant_id, int $feedback_giver) : string
+    {
+        $dir = self::FBK_DIRECTORY . DIRECTORY_SEPARATOR .
+            "to_" . ilExSubmission::getDirectoryNameFromUserData($participant_id) . DIRECTORY_SEPARATOR .
+            "from_" . ilExSubmission::getDirectoryNameFromUserData($feedback_giver);
+        return $dir;
     }
 
     /**

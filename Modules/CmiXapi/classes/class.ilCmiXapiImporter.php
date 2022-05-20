@@ -67,21 +67,21 @@ class ilCmiXapiImporter extends ilXmlImporter
 
     /**
      * Init the object creation from import
-     * @param $a_entity
-     * @param $a_id
-     * @param $a_import_dirname
-     * @param $a_mapping
-     * @return string|void
+     * @param string          $a_entity
+     * @param string          $a_id
+     * @param string          $a_xml
+     * @param ilImportMapping $a_mapping
+     * @return void
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_import_dirname, $a_mapping)
+    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping) : void
     {
         global $DIC;
         /** @var \ILIAS\DI\Container $DIC */
         $this->_entity = $a_entity;
         $this->_import_objId = $a_id;
-        $this->_import_dirname = $a_import_dirname;
+        $this->_import_dirname = $a_xml;
         $this->_mapping = $a_mapping;
 
         if (false === ($this->_newId = $a_mapping->getMapping('Services/Container', 'objs', $this->_import_objId))) {
@@ -126,9 +126,8 @@ class ilCmiXapiImporter extends ilXmlImporter
 
     /**
      * Builds the CmiXapi Object
-     * @return $this
      */
-    private function prepareContainerObject()
+    private function prepareContainerObject() : void
     {
         global $DIC;
         /** @var \ILIAS\DI\Container $DIC */
@@ -186,13 +185,12 @@ class ilCmiXapiImporter extends ilXmlImporter
 
         $xmlRoot = null;
         $xml = $DIC->filesystem()->temp()->readStream($this->_relImportDir . '/properties.xml');
-        if ($xml !== false) {
+        if ($xml != false) {
             $xmlRoot = simplexml_load_string($xml);
         }
         foreach ($this->_dataset->_cmixSettingsProperties as $key => $property) {
             $this->_moduleProperties[$key] = trim($xmlRoot->$key->__toString());
         }
-        $this->_moduleProperties['Title'] = $this->_moduleProperties['Title'];
         return $this;
     }
 
@@ -202,7 +200,8 @@ class ilCmiXapiImporter extends ilXmlImporter
      */
     private function updateNewObj()
     {
-        $this->_cmixObj->setTitle($this->_moduleProperties['Title']);
+        global $DIC; /** @var \ILIAS\DI\Container $DIC */
+        $this->_cmixObj->setTitle($this->_moduleProperties['Title']." ".$DIC->language()->txt("copy_of_suffix"));
         $this->_cmixObj->setDescription($this->_moduleProperties['Description']);
         $this->_cmixObj->update();
 
@@ -214,7 +213,7 @@ class ilCmiXapiImporter extends ilXmlImporter
         $this->_cmixObj->setSourceType($this->_moduleProperties['SourceType']);
         $this->_cmixObj->setActivityId($this->_moduleProperties['ActivityId']);
         $this->_cmixObj->setInstructions($this->_moduleProperties['Instructions']);
-        $this->_cmixObj->setOfflineStatus($this->_moduleProperties['OfflineStatus']);
+        // $this->_cmixObj->setOfflineStatus($this->_moduleProperties['OfflineStatus']);
         $this->_cmixObj->setLaunchUrl($this->_moduleProperties['LaunchUrl']);
         $this->_cmixObj->setAuthFetchUrlEnabled($this->_moduleProperties['AuthFetchUrl']);
         $this->_cmixObj->setLaunchMethod($this->_moduleProperties['LaunchMethod']);
@@ -235,6 +234,26 @@ class ilCmiXapiImporter extends ilXmlImporter
         $this->_cmixObj->setHighscoreTopTable($this->_moduleProperties['HighscoreTopTable']);
         $this->_cmixObj->setHighscoreTopNum($this->_moduleProperties['HighscoreTopNum']);
         $this->_cmixObj->setBypassProxyEnabled($this->_moduleProperties['BypassProxy']);
+        $this->_cmixObj->setOnlyMoveon($this->_moduleProperties['OnlyMoveon']);
+        $this->_cmixObj->setAchieved($this->_moduleProperties['Achieved']);
+        $this->_cmixObj->setAnswered($this->_moduleProperties['Answered']);
+        $this->_cmixObj->setCompleted($this->_moduleProperties['Completed']);
+        $this->_cmixObj->setFailed($this->_moduleProperties['Failed']);
+        $this->_cmixObj->setInitialized($this->_moduleProperties['Initialized']);
+        $this->_cmixObj->setPassed($this->_moduleProperties['Passed']);
+        $this->_cmixObj->setProgressed($this->_moduleProperties['Progressed']);
+        $this->_cmixObj->setSatisfied($this->_moduleProperties['Satisfied']);
+        $this->_cmixObj->setTerminated($this->_moduleProperties['Terminated']);
+        $this->_cmixObj->setHideData($this->_moduleProperties['HideData']);
+        $this->_cmixObj->setTimestamp($this->_moduleProperties['Timestamp']);
+        $this->_cmixObj->setDuration($this->_moduleProperties['Duration']);
+        $this->_cmixObj->setNoSubstatements($this->_moduleProperties['NoSubstatements']);
+        $this->_cmixObj->setPublisherId((string)$this->_moduleProperties['PublisherId']);
+//        $this->_cmixObj->setAnonymousHomepage($this->_moduleProperties['AnonymousHomepage']);
+        $this->_cmixObj->setMoveOn((string)$this->_moduleProperties['MoveOn']);
+        $this->_cmixObj->setLaunchParameters((string)$this->_moduleProperties['LaunchParameters']);
+        $this->_cmixObj->setEntitlementKey((string)$this->_moduleProperties['EntitlementKey']);
+        $this->_cmixObj->setSwitchToReviewEnabled($this->_moduleProperties['SwitchToReview']);
         $this->_cmixObj->save();
         $this->_cmixObj->updateMetaData();
 
@@ -284,7 +303,7 @@ class ilCmiXapiImporter extends ilXmlImporter
     }
 
     /**  */
-    public function init()
+    public function init() : void
     {
     }
 

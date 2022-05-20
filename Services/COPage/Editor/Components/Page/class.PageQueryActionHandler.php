@@ -606,6 +606,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         foreach (\ilCOPagePCDef::getPCDefinitions() as $def) {
             $pcdef["types"][$def["name"]] = $def["pc_type"];
             $pcdef["names"][$def["pc_type"]] = $def["name"];
+            $pcdef["txt"][$def["pc_type"]] = $this->lng->txt("cont_" . "pc_" . $def["pc_type"]);
         }
         return $pcdef;
     }

@@ -373,12 +373,6 @@ class ilCourseContentGUI
             $column_gui->setEnableEdit(true);
         }
         
-        // Allow movement of blocks for tutors
-        if ($this->is_tutor &&
-            $this->container_gui->isActiveAdministrationPanel()) {
-            $column_gui->setEnableMovement(true);
-        }
-        
         // Configure Settings, if administration panel is on
         if ($this->is_tutor) {
             $column_gui->setBlockProperty("news", "settings", true);

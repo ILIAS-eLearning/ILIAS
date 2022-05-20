@@ -37,7 +37,24 @@ form.form-inline {
 
 .form-control:focus-visible {
 	.box-shadow(none);
-	outline: @il-focus-outline;
+	outline: @il-focus-outline-inner;
+}
+
+input[type="file"]:focus:focus-visible::after,
+input[type="radio"]:focus:focus-visible::after,
+input[type="checkbox"]:focus:focus-visible::after {
+	content: none;
+}
+
+input.btn.btn-default:focus-visible {
+	outline: @il-focus-outline-inner;
+	outline-offset: @il-focus-outline-inner-width;
+}
+
+.btn-file:focus-within, .btn-file:hover:focus-within {
+    z-index: 3;
+    outline: @il-focus-outline-inner;
+    outline-offset: @il-focus-outline-inner-width;
 }
 
 textarea.form-control {
@@ -98,10 +115,13 @@ select.form-control {
 	margin-left: -20px;
 	margin-top: 7px;
 	min-width: 13px;
-	vertical-align: top;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		min-width: 16px;
 	}
+}
+.radio input[type="radio"],
+.radio-inline input[type="radio"] {
+	vertical-align: top;
 }
 
 [dir="rtl"] .form-horizontal .control-label {
@@ -115,6 +135,12 @@ label {
 td.form-inline > div.form-group {
 	display: block;
 	padding: 4px 0;
+}
+
+input[type="radio"]:focus:focus-visible,
+input[type="checkbox"]:focus:focus-visible {
+	outline: @il-focus-outline-inner;
+	outline-offset: @il-focus-outline-outer-width;
 }
 
 input[type="file"].form-control {
@@ -295,7 +321,7 @@ div.ilFormInfo {
 
 input:invalid {
 	background-color: #ffebeb;
-	border-color: #d08080;
+	border-color: @il-danger-color;
 }
 
 .bootstrap-datetimepicker-widget {
@@ -305,4 +331,10 @@ input:invalid {
 /* provisory fix for #0021322  */
 div[id$="color-picker-menu"] {
 	z-index: 3;
+}
+
+/* This is a memento that we should get rid of the legacy UI */
+.wzdrow input[type=file]:focus-visible {
+	outline: @il-focus-outline-inner;
+	outline-offset: 0;
 }

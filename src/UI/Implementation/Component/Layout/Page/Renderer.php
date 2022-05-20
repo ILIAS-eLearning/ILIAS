@@ -52,10 +52,12 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('HEADER_BREADCRUMBS', $default_renderer->render($dropdown));
         }
         if ($component->hasLogo()) {
-            $logo = $component->getLogo();
-            if ($logo) {
-                $tpl->setVariable("LOGO", $default_renderer->render($logo));
-            }
+            $tpl->setVariable('LOGO', $default_renderer->render($component->getLogo()));
+        }
+        if ($component->hasResponsiveLogo()) {
+            $tpl->setVariable('RESPONSIVE_LOGO', $default_renderer->render($component->getResponsiveLogo()));
+        } elseif ($component->hasLogo()) {
+            $tpl->setVariable('RESPONSIVE_LOGO', $default_renderer->render($component->getLogo()));
         }
 
         $slates_cookie = $_COOKIE[self::COOKIE_NAME_SLATES_ENGAGED] ?? '';
@@ -76,6 +78,13 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component->getWithHeaders()) {
             $tpl = $this->setHeaderVars($tpl, $component->getIsUIDemo());
+        }
+    
+        foreach ($component->getMetaData() as $meta_key => $meta_value) {
+            $tpl->setCurrentBlock('meta_datum');
+            $tpl->setVariable('META_KEY', $meta_key);
+            $tpl->setVariable('META_VALUE', $meta_value);
+            $tpl->parseCurrentBlock();
         }
 
         return $tpl->get();

@@ -20,18 +20,18 @@
 		display: flex;
 		margin-bottom: @il-slate-content-spacing;
 		position: relative;
-		&.engaged:after,
-		&.disengaged:after {
+		&.engaged::before,
+		&.disengaged::before {
 				font-family: "il-icons";
 				font-size: @il-slate-bulky-glyph-size * 0.85;
 				position: absolute;
 				right: 10px;
 				top: 20px;
 		}
-		&.engaged:after {
+		&.engaged::before {
 				content: " \e604";
 		}
-		&.disengaged:after {
+		&.disengaged::before {
 				content: " \e606";
 		}
 		&:focus{
@@ -217,7 +217,7 @@
 		.il-avatar{
 			margin-right: 45px - @il-avatar-inner-mobile-size;
 		}
-		.link-bulky .icon.small{
+		.link-bulky .icon.small, .btn-bulky .icon.small {
 			margin-right: 45px - @il-icon-size-small;
 		}
 	}

@@ -206,8 +206,28 @@ class TagInputTest extends ILIAS_UI_TestBase
 
         $tag2 = $tag->withInput(new DefInputData([$name => '']));
         $result = $tag2->getContent();
+        $this->assertFalse($result->isOk());
+        try {
+            $result->value();
+            $this->fail();
+        } catch (Exception $e) {
+            $this->assertInstanceOf('ILIAS\Data\NotOKException', $e);
+        }
+    }
+
+    public function testStringAsInputAsRequired() : void
+    {
+        $f = $this->buildFactory();
+        $label = "label";
+        $name = "name_0";
+        $tags = ["lorem", "ipsum", "dolor",];
+        /** @var I\Input\Field\Tag $tag */
+        $tag = $f->tag($label, $tags)->withNameFrom($this->name_source)->withRequired(true);
+
+        $tag2 = $tag->withInput(new DefInputData([$name => 'test']));
+        $result = $tag2->getContent();
         $this->assertTrue($result->isOk());
-        $this->assertEquals([], $result->value());
+        $this->assertEquals(['test'], $result->value());
     }
 
     public function testNullValueLeadsToException() : void

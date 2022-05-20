@@ -41,7 +41,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
     /**
      * create new instance and save it
      */
-    public function save()
+    public function save() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -65,7 +65,8 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (\Exception $exception) {
                 ilUtil::sendFailure($this->lng->txt('error_creating_certificate_pdf'));
-                return $this->create();
+                $this->create();
+                return;
             }
             
             if ($newObj) {
@@ -95,9 +96,8 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
     
     /**
      * Render content
-     *
      * @param bool $a_return
-     * @param string $a_url
+     * @param bool $a_url
      */
     public function render($a_return = false, $a_url = false)
     {

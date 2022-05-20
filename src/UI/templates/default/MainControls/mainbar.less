@@ -1,4 +1,19 @@
 // mainbar
+//Mixin for hovered, engaged or visible focus for triggers for slates, neede due to: #31811
+.focus_hovered_engaged_slate_trigger_mixin{
+	background-color: @il-mainbar-btn-bg-color-engaged;
+	color: @il-mainbar-btn-bg-color;
+	.glyph{
+		color: @il-mainbar-btn-bg-color;
+	}
+	.icon {
+		filter: invert(50%);
+	}
+	.bulky-label {
+		color: @il-mainbar-btn-bg-color;
+	}
+}
+
 .il-maincontrols-mainbar,
 .il-maincontrols-metabar {
 	.btn-bulky,
@@ -7,11 +22,16 @@
 		line-height: @il-mainbar-btn-label-size * @line-height-large;
 		&:focus,
 		&:active {
-			box-shadow: none; 
+			box-shadow: none;
 		}
-		&:focus-visible {
-			border: 3px solid @il-focus-color;
+		&:focus-visible,
+		&:active:focus-visible {
+			border: @il-focus-outline-inner;
 			outline: none;
+			
+			&::after {
+				content: none;
+			}
 		}
 	}
 	.bulky-label {
@@ -60,23 +80,16 @@
 		.icon {
 			filter: invert(100%);
 		}
-		&:hover,
-		&.engaged,
+		//Note, for some reason, safari needs this in a seperate section, see:
+		&.engaged{
+			.focus_hovered_engaged_slate_trigger_mixin;
+		}
 		&:focus-visible{
-			background-color: @il-mainbar-btn-bg-color-engaged;
-			color: @il-mainbar-btn-bg-color;
-			.glyph{
-				color: @il-mainbar-btn-bg-color;
-			}
-			.icon {
-				filter: invert(50%);
-			}
-			.bulky-label {
-				color: @il-mainbar-btn-bg-color;
-			}
+			.focus_hovered_engaged_slate_trigger_mixin;
 		}
 		&:hover {
 			transition: all .15s ease-in;
+			.focus_hovered_engaged_slate_trigger_mixin;
 		}
 		.glyph{
 			color: @il-mainbar-btn-color;
@@ -243,7 +256,7 @@
 		justify-content: center;
 		align-items: center;
 		.bulky-label {
-			display: none;
+			.sr-only();
 		}
 		.glyph {
 			&:before {

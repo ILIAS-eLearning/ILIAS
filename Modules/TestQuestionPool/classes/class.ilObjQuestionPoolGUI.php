@@ -125,8 +125,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         $this->ctrl->setReturn($this, "questions");
         
         $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "test_print.css", "Modules/Test"), "print");
-        $this->tpl->addCss(ilUtil::getStyleSheetLocation("output", "ta.css", "Modules/Test"), "screen");
-        
+
         if ($_GET["q_id"] < 1) {
             $q_type = ($_POST["sel_question_types"] != "")
                 ? $_POST["sel_question_types"]
@@ -886,9 +885,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     */
     public function deleteQuestionsObject()
     {
-        global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
-
         $questionIdsToDelete = isset($_POST['q_id']) ? (array) $_POST['q_id'] : array();
         if (0 === count($questionIdsToDelete) && isset($_GET['q_id'])) {
             $questionIdsToDelete = array($_GET['q_id']);
@@ -903,10 +899,11 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         ilUtil::sendQuestion($this->lng->txt("qpl_confirm_delete_questions"));
         $deleteable_questions = &$this->object->getDeleteableQuestionDetails($questionIdsToDelete);
         include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-        $table_gui = new ilQuestionBrowserTableGUI($this, 'questions', (($rbacsystem->checkAccess('write', (int) $_GET['ref_id']) ? true : false)), true);
+
+        $table_gui = new ilQuestionBrowserTableGUI($this, 'questions', $this->checkWriteAccess(), true);
         $table_gui->setShowRowsSelector(false);
         $table_gui->setLimit(PHP_INT_MAX);
-        $table_gui->setEditable($rbacsystem->checkAccess('write', (int) $_GET['ref_id']));
+        $table_gui->setEditable($this->checkWriteAccess());
         $table_gui->setData($deleteable_questions);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
     }
@@ -962,8 +959,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     
     public function filterQuestionBrowserObject()
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
-        $enableComments = $DIC->rbac()->system()->checkAccess('write', $_GET['ref_id']);
+        $enableComments = $this->isCommentingEnabled();
         
         require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
         $taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());
@@ -975,13 +971,24 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         $this->questionsObject();
     }
 
+    protected function isCommentingEnabled() : bool
+    {
+        return $this->checkWriteAccess();
+    }
+
+    protected function checkWriteAccess() : bool
+    {
+        return $this->rbacsystem->checkAccess('write', $this->id);
+    }
+
     public function resetQuestionBrowserObject()
     {
         require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
         $taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());
 
         include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-        $table_gui = new ilQuestionBrowserTableGUI($this, 'questions', false, false, $taxIds);
+        $table_gui = new ilQuestionBrowserTableGUI($this, 'questions', false, false,
+            $taxIds, $this->isCommentingEnabled());
         $table_gui->resetOffset();
         $table_gui->resetFilter();
         $this->questionsObject();
@@ -1693,16 +1700,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     private function buildQuestionBrowserTableGUI($taxIds)
     {
         global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
         $ilDB = $DIC['ilDB'];
         $lng = $DIC['lng'];
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        
-        $writeAccess = (bool) $rbacsystem->checkAccess('write', $_GET['ref_id']);
-        $enableCommenting = $writeAccess;
 
+        $writeAccess = $this->checkWriteAccess();
         include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-        $table_gui = new ilQuestionBrowserTableGUI($this, 'questions', $writeAccess, false, $taxIds, $enableCommenting);
+        $table_gui = new ilQuestionBrowserTableGUI($this, 'questions', $writeAccess,
+            false, $taxIds, $this->isCommentingEnabled());
         $table_gui->setEditable($writeAccess);
 
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';

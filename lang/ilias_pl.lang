@@ -3567,7 +3567,6 @@ common#:#filter_users_without_disk_usage#:#Tylko użytkownicy, którzy nie zajmu
 common#:#first#:#Do początku
 common#:#firstname#:#Imię
 common#:#flatview#:#Widok płaski
-common#:#fm_start#:#Otwórz menadżerem plików
 common#:#fold#:#Folder
 common#:#fold_add#:#Dodaj folder
 common#:#fold_added#:#Folder dodany
@@ -4991,7 +4990,6 @@ common#:#time_limit_from#:#Od (limit czasu)
 common#:#time_limit_message#:#Wiadomość (limit czasu)
 common#:#time_limit_no_users_selected#:#Wybierz użytkownika.
 common#:#time_limit_not_valid#:#Okres jest nieodpowiedni.
-common#:#time_limit_owner#:#Właściciel (limit czasu)
 common#:#time_limit_reached#:#Twoje konto nie jest aktywne.
 common#:#time_limit_unlimited#:#Nielimitowany (limit czasu)
 common#:#time_limit_until#:#Do (limit czasu)
@@ -8398,13 +8396,6 @@ file#:#file_suffix_overall_white_info#:#To jest ostateczna lista zatwierdzonych 
 file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 file#:#file_uploaded_by#:#Wysłane przez
 file#:#replace_file_info#:#Wszystkie wersje plików zostaną usunięte.
-fm#:#fm_settings_active#:#Aktywuj menedżera plików
-fm#:#fm_settings_active_info#:#Użytkownicy mogą otwierać kategorie, kursy, grupy oraz foldery, jeśli w dostępnych zasobach wykonają polecenie "Otwórz menadżerem plików".
-fm#:#fm_settings_filesize#:#Maksymalny rozmiar wysyłanych plików
-fm#:#fm_settings_filesize_info#:#Podaj maksymalny rozmiar wysyłanych plików w megabajtach.
-fm#:#fm_settings_local#:#Pokaż lokalny system plików
-fm#:#fm_settings_local_info#:#Jeśli ta opcja jest aktywna, menedżer plików zostanie uruchomiony w widoku dwuokiennym (lokalny system plików oraz dostępne zasoby ILIAS). Jeśli ta opcja jest wyłączona, pokazane zostaną tylko dostępne zasoby ILIAS.
-fm#:#fm_settings_tab#:#Menedżer plików
 fold#:#fold_copy#:#Kopiuj folder
 fold#:#fold_import#:#Importuj folder
 fold#:#fold_presentation#:#Folder Presentation
@@ -15836,8 +15827,6 @@ prg#:#modal_categories_title#:#Category to be monitored###07 02 2020 new variabl
 prg#:#category#:#Category###07 02 2020 new variable
 common#:#obj_prgr#:#Link to Study Programme###07 02 2020 new variable
 common#:#obj_prgrs#:#Links to Study Programmes###07 02 2020 new variable
-prg#:#prgr_new#:#Create Study Programme Link###07 02 2020 new variable
-prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###07 02 2020 new variable
 prg#:#prgr_may_not_create_circular_reference#:#This Study Programme may not be linked here since the parent object is alredy linked within the target.###07 02 2020 new variable
 prg#:#prg_validity_of_qualification_limit#:#Qualification Expiry###07 02 2020 new variable
 prg#:#prg_validity_of_qualification_restart#:#Restart###07 02 2020 new variable
@@ -16622,6 +16611,34 @@ cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress shou
 cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###03 11 2021 new variable
 cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###03 11 2021 new variable
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable
+assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).###09 03 2022 new variable
+assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###09 03 2022 new variable
+common#:#refuse_tos_acceptance#:#Refuse to Accept Terms of Service###09 03 2022 new variable
+content#:#cont_pc_media#:#Image/Media###09 03 2022 new variable
+dateplaner#:#cal_change_calendar_view#:#Change Calendar View###09 03 2022 new variable
+common#:#obj_chtr_duplicate#:#Copy Chat Room###09 03 2022 new variable
+assessment#:#err_division#:#This value has to be smaller than the maximum range.###09 03 2022 new variable
+assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###09 03 2022 new variable
+common#:#prgr_new#:#Create Study Programme Link###09 03 2022 new variable
+common#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###09 03 2022 new variable
+file#:#migrated#:#Status###09 03 2022 new variable
+exc#:#exc_fullscreen#:#Fullscreen###09 03 2022 new variable
+rating#:#rating_avg_rating#:#Average Rating###09 03 2022 new variable
+rating#:#rating_personal_rating#:#Your Rating###09 03 2022 new variable
+rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars###09 03 2022 new variable
+rating#:#rating_open_dialog#:#Open rating dialog###09 03 2022 new variable
+tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###09 03 2022 new variable
+rep#:#rep_favourites#:#Favourites###09 03 2022 new variable
+rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.###09 03 2022 new variable
+mail#:#mail_no_subject#:#No Subject available###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_linked_p#:#Linked###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required###27 04 2022 new variable
+ui#:#ui_tag_required#:#Please insert at least one tag.###27 04 2022 new variable

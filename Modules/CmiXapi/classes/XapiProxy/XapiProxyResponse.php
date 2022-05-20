@@ -35,13 +35,12 @@
                 {
                     $this->xapiproxy->log()->error("Connection error {$endpoint}: " . $response['reason']->getMessage());
                 }
-                catch(Exception $e)
+                catch(\Exception $e)
                 {
                     $this->xapiproxy->log()->error("error {$endpoint}:" . $e->getMessage());
                 }
                 return false;
             }
-            return false;
         }
         
         public function handleResponse($request, $response, $fakePostBody = NULL) {

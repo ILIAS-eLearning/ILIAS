@@ -384,11 +384,13 @@ class LMHtmlExport
     protected function addSupplyingExportFiles()
     {
         foreach ($this->getSupplyingExportFiles() as $f) {
-            if ($f["type"] == "js") {
-                $this->global_screen->layout()->meta()->addJs($f["source"]);
-            }
-            if ($f["type"] == "css") {
-                $this->global_screen->layout()->meta()->addCss($f["source"]);
+            if ($f["source"] != "") {
+                if ($f["type"] == "js") {
+                    $this->global_screen->layout()->meta()->addJs($f["source"]);
+                }
+                if ($f["type"] == "css") {
+                    $this->global_screen->layout()->meta()->addCss($f["source"]);
+                }
             }
         }
     }

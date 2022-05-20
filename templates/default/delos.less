@@ -369,6 +369,13 @@ html {
 		-webkit-text-size-adjust: none;
 	}
 }
+html, body {
+	@media only screen and (max-width: @grid-float-breakpoint-max) {
+		overflow: initial;
+		height: auto;
+		min-height: 100vh;
+	}
+}
 /* see bug ILIAS bug #17589 and http://stackoverflow.com/questions/17045132/scrollbar-overlay-in-ie10-how-do-you-stop-that */
 body{
 	-ms-overflow-style: scrollbar;
@@ -527,6 +534,8 @@ a {
 		color: @link-hover-color;
 		text-decoration: underline;
 	}
+	
+	.il-focus();
 }
 
 hr {
@@ -1141,6 +1150,11 @@ div.il_TreeIcons {
 #current_perma_link {
 	color: @il-text-color;
 	font-size: 90%;
+	
+	&:focus-visible {
+		outline: @il-focus-outline-inner-width solid @il-focus-protection-color;
+		outline-offset: @il-focus-outline-outer-width;
+	}
 }
 a.permalink_label {
 	> span.glyphicon {
@@ -1677,6 +1691,10 @@ div.ilSideBarContent{
 	overflow-y: auto;
 	/* prevent horizontal scrollbar */
 	overflow-x: hidden;
+
+	li.ui-menu-item {
+		cursor: pointer;
+	}
 }
 
 /* Icon Default */
@@ -1701,9 +1719,6 @@ img.ilSmallIcon {
 	-moz-hyphens: auto;
 	-webkit-hyphens: auto;
 	hyphens: auto;
-}
-span.ilIcalIcon {
-	text-align: initial;
 }
 
 /* Component Imports */
@@ -1774,6 +1789,8 @@ span.ilIcalIcon {
 @import "less/Modules/LearningSequence/delos.less";
 @import "less/Services/LearningHistory/delos.less";
 @import "less/Services/Preview/delos.less";
+@import "less/Services/WebDAV/delos.less";
+@import "less/Modules/Test/delos.less";
 
 .noMargin {
 	margin: 0;
@@ -1802,40 +1819,6 @@ img[src$="icon_checked.svg"] {
 .glyphicon-ok {
     font-size: 11px;
 	text-align: center;
-}
-
-div.ilNewObjectSelector {
-	display: block;
-	text-align: right;
-	margin-bottom: 8px;
-    padding: 0;
-    width: 100%;
-	> .btn-group.open {
-		display: inline-block;
-        width: 100%;
-        #ilAdvSelListAnchorText_asl {
-            float: right;
-        }
-		#ilAdvSelListAnchorText_asl + .dropdown-menu {
-            top: 30px;
-			right: 0;
-			left: auto;
-			.dropdown-header{
-				margin-right:1px;
-			}
-
-
-
-		}
-    }
-}
-
-[dir="rtl"] div.ilNewObjectSelector {
-    > .btn-group {
-        #ilAdvSelListAnchorText_asl {
-            float: left;
-        }
-    }
 }
 
 .pdMailRow {
@@ -1918,43 +1901,6 @@ table.mceToolbar {
 .alert {
 	> a.btn {
 		text-decoration: none;
-	}
-}
-
-//mantis #0017724, 17884, #17943
-#ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row,
-#ilAdvSelListAnchorText_asl + .dropdown-backdrop + ul.dropdown-menu > li > div.row,
-#mm_adm_tr + span + ul.dropdown-menu > li > div.row,
-#mm_adm_tr + ul.dropdown-menu > li > div.row {
-	@media only screen and (min-width: @screen-lg-min) {
-		.row{
-			width: auto;
-		}
-		ul{
-			min-width: 250px;
-		}
-	}
-    @media only screen and (max-width: @grid-float-breakpoint-max) {
-        width: 100% !important;
-        margin: 0;
-    }
-}
-#ilAdvSelListAnchorText_asl + ul.dropdown-menu > li > div.row
-{
-	@media only screen and (max-width: @screen-md-min){
-		min-width: 250px;
-	}
-	@media only screen and (min-width: @screen-md-min) and (max-width: @screen-lg-min){
-		min-width: 500px;
-	}
-	@media only screen and (min-width: @screen-lg-min) {
-		min-width: 750px;
-	}
-}
-#ilAdvSelListAnchorText_asl + ul.dropdown-menu {
-	@media only screen and (max-width: @screen-sm-min) {
-		position: absolute;
-		background-color: @il-main-bg;
 	}
 }
 

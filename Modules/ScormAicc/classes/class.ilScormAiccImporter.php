@@ -34,24 +34,30 @@ class ilScormAiccImporter extends ilXmlImporter
         if ($a_id != null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
             $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
 
-            require_once("./Services/Export/classes/class.ilExport.php");
-            $exportDir = ilExport::_getExportDirectory($a_id);
-            $tempFile = dirname($exportDir) . '/export/' . basename($this->getImportDirectory()) . '.zip';
-            $timeStamp = time();
-            $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/";
-            $lmTempDir = $lmDir . $timeStamp;
-            if (!file_exists($lmTempDir)) {
-                mkdir($lmTempDir, 0755, true);
-            }
-            $zar = new ZipArchive();
-            $zar->open($tempFile);
-            $zar->extractTo($lmTempDir);
-            $zar->close();
-            $a_import_dirname = $lmTempDir . '/' . basename($this->getImportDirectory());
+            // require_once("./Services/Export/classes/class.ilExport.php");
+            // $exportDir = ilExport::_getExportDirectory($a_id,"xml","sahs");
+            // $tempFile = dirname($exportDir) . '/export/' . basename($this->getImportDirectory()) . '.zip';
+            
+            // $timeStamp = time();
+            // $lmDir = ilUtil::getWebspaceDir("filesystem") . "/lm_data/";
+            // $lmTempDir = $lmDir . $timeStamp;
+            // $importDir = $this->getImportDirectory();
+            // $a_import_dirname = $lmTempDir . '/' . basename($importDir);
+            // if (!file_exists($tempFile)) {
+                // $tempFile = $importDir . '/content.zip';
+                // $a_import_dirname = $importDir;
+            // }
+            // if (!file_exists($lmTempDir)) {
+                // mkdir($lmTempDir, 0755, true);
+            // }
+            // $zar = new ZipArchive();
+            // $zar->open($tempFile);
+            // $zar->extractTo($lmTempDir);
+            // $zar->close();
+            $a_import_dirname = $this->getImportDirectory();
         }
 
-
-
+        // $ilLog->write($a_import_dirname);
         $result = false;
         if (file_exists($a_import_dirname)) {
             $manifestFile = $a_import_dirname . "/manifest.xml";
@@ -60,14 +66,22 @@ class ilScormAiccImporter extends ilXmlImporter
                 if (isset($manifest)) {
                     $propertiesFile = $a_import_dirname . "/properties.xml";
                     $xml = file_get_contents($propertiesFile);
+
                     if (isset($xml)) {
                         $xmlRoot = simplexml_load_string($xml);
+
                         foreach ($this->dataset->properties as $key => $value) {
                             $this->moduleProperties[$key] = $xmlRoot->$key;
                         }
                         $this->moduleProperties["Title"] = $xmlRoot->Title;
                         $this->moduleProperties["Description"] = $xmlRoot->Description;
-                        
+
+                        foreach ($this->moduleProperties as $key => $xmlRoot) {
+                            $xmlRootValue = $xmlRoot->__toString();
+                            $filteredValue = preg_replace('%\s%', '', $xmlRootValue);
+                            $this->moduleProperties[$key] = $filteredValue;
+                        }
+
                         if ($a_id != null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
                             $this->dataset->writeData("sahs", "5.1.0", $newObj->getId(), $this->moduleProperties);
 
@@ -81,13 +95,14 @@ class ilScormAiccImporter extends ilXmlImporter
                             ilFileUtils::rename($scormFilePath, $targetPath);
                             ilUtil::unzip($file_path);
                             unlink($file_path);
-                            ilUtil::delDir($lmTempDir, false);
+                            // ilUtil::delDir($lmTempDir, false);
+                            // $ilLog->write($scormFilePath.'----'. $targetPath);
                             ilUtil::renameExecutables($newObj->getDataDirectory());
 
                             $newId = $newObj->getRefId();
                             // $newObj->putInTree($newId);
                             // $newObj->setPermissions($newId);
-                            $subType = $this->moduleProperties["SubType"][0];
+                            $subType = $this->moduleProperties["SubType"];
                             if ($subType == "scorm") {
                                 include_once("./Modules/ScormAicc/classes/class.ilObjSCORMLearningModule.php");
                                 $newObj = new ilObjSCORMLearningModule($newId);

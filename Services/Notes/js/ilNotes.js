@@ -58,6 +58,7 @@ const ilNotes = {
       buttons: {}
     });
     $("#il_notes_modal .modal-body").html("");
+    $("#il_notes_modal").data("status", "loading");
 
     if (comments) {
       this.sendAjaxGetRequest({ cmd: "getOnlyCommentsHTML", cadh: this.hash },
@@ -124,8 +125,9 @@ const ilNotes = {
   },
 
   inModal: function () {
+    const status = $("#il_notes_modal").data("status");
     const cs = $("#il_notes_modal").css("display");
-    return ($("#il_notes_modal").length && cs !== "none");
+    return ($("#il_notes_modal").length &&  (status === "loading" || cs !== "none"));
   },
 
   handleAjaxSuccess: function (o) {

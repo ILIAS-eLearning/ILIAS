@@ -29,7 +29,7 @@ with the il- variable set here.
 //** Base Border Color, e.g. applied to Meta Bar and Breadcrumbs in Default.
 @il-main-border-color: #dddddd;
 //** Darker version of Base Border Color. Used as e.g. Text Inputs.
-@il-main-border-dark-color: #A8A8A8;
+@il-main-border-dark-color: #757575;
 
 //** Base Background Color, e.g. applied to Meta Bar and Breadcrumbs in Default, but also to panels in main content area.
 @il-main-bg: white;
@@ -46,7 +46,7 @@ with the il- variable set here.
 //** Used if text is hovered in components such a Dropdowns
 @il-text-hover-color: darken(@il-text-color, 10%);
 //** Used e.g. for Bylines in Forms. Used to be @il-light-text-color. For accessibility reasons, the @il-text-color should only be used on the @il-main-bg.
-@il-text-light-color: lighten(@il-text-color, 40%);
+@il-text-light-color: lighten(@il-text-color, 35%);
 
 //** Used to be @link-color
 @il-link-color: @il-main-color;
@@ -55,6 +55,7 @@ with the il- variable set here.
 
 //** Used to set focus on interactive elements for keyboard navigation.
 @il-focus-color: #0078D7;
+@il-focus-protection-color: #FFFFFF;
 
 //== Extended Colors
 //
@@ -123,10 +124,13 @@ with the il- variable set here.
 @il-padding-base-vertical: 3px;
 @il-padding-base-horizontal: 8px;
 
+@il-padding-xlarge-vertical: 9px;
+@il-padding-xlarge-horizontal: 15px;
+
 @il-padding-large-vertical: 6px;
 @il-padding-large-horizontal: 12px;
 
-@il-padding-small-vertical: 3px;
+@il-padding-small-vertical: 4px;
 @il-padding-small-horizontal: 6px;
 
 @il-padding-xs-vertical: 1px;
@@ -136,9 +140,11 @@ with the il- variable set here.
 @il-border-radius-large: 0px;
 @il-border-radius-small: 0px;
 
-@il-focus-outline: 3px solid @il-focus-color;
+@il-focus-outline-inner: @il-focus-outline-inner-width solid @il-focus-color;
+@il-focus-outline-outer: @il-focus-outline-outer-width solid @il-focus-protection-color;
 // The offset should only be used if the contrast between the focus outline and the component is insufficient.
-@il-focus-outline-offset: 2px;
+@il-focus-outline-inner-width: 3px;
+@il-focus-outline-outer-width: 2px;
 
 //== Layout (UI Layout Page)
 //
@@ -150,6 +156,7 @@ with the il- variable set here.
 @il-standard-page-logo-width: 45px;
 @il-standard-page-header-height: 60px;
 @il-standard-page-header-bg-color: @il-main-bg;
+@il-standard-page-header-page-title-color: @il-text-color;
 @il-standard-page-border-light-color: @il-main-border-color;
 @il-standard-page-content-padding: 20px;
 
@@ -223,6 +230,7 @@ with the il- variable set here.
 //** for mobile (small devices)
 @il-standard-page-small-header-height: 45px;
 @il-standard-page-small-mainbar-height: 50px;
+@il-standard-page-small-mainbar-height-w-bottom-safe-area: calc(@il-standard-page-small-mainbar-height + 1.2 * env(safe-area-inset-bottom));
 @il-mainbar-small-btn-height: @il-standard-page-small-mainbar-height;
 @il-mainbar-small-btn-width: 75px;
 @il-metabar-small-entry-height: @il-standard-page-small-header-height;
@@ -230,27 +238,9 @@ with the il- variable set here.
 @il-metabar-small-glyph-size: 2rem;
 
 
-//== Header
+//== Header (Deprecated, use UI Layout Page Variables instead)
 //
-//## Variables to control the header (Top Navigation and Main menu) section of ILIAS.
-//** controls background color of the "topbar" (that gray thingy on top of the page in the standard).
-@il-top-bar-bg: @il-neutral-color;
-//** controls text color of the "topbar" (the title of the ILIAS Installation)
-@il-top-bar-color: white;
-//** controls height of the "topbar"
-@il-top-bar-height: 40px;
-//** controls colors and bg colors of the "topbar" buttons
-@il-top-bar-link-bg: lighten(@il-neutral-color, 20%);
-@il-top-bar-link-color: lighten(@il-neutral-color, 70%);
-@il-top-bar-link-hover-bg: lighten(@il-neutral-color, 42%);
-@il-top-bar-link-hover-color: white;
-//** controls colors and bg colors of the "topbar" dropdowns
-@il-top-bar-dropdown-bg: lighten(@il-neutral-color, 42%);
-@il-top-bar-dropdown-color: lighten(@il-neutral-color, 70%);
-@il-top-bar-dropdown-link-bg: transparent;
-@il-top-bar-dropdown-link-color: lighten(@il-neutral-color, 70%);
-@il-top-bar-dropdown-link-hover-bg: @il-highlight-bg;
-@il-top-bar-dropdown-link-hover-color: lighten(@il-neutral-color, 42%);
+//## Variables that used to control the header. Note: Note the variables here are mostly deprecated and removed with ILIAS 8. Use the Variables listed in Layout (UI Layout Page).
 //** controls the height of the "logo" (that [ILIAS] thingy on top the page in the standard).
 @il-logo-height: 50px;
 //** controls the width of the "logo" (that [ILIAS] thingy on top the page in the standard).
@@ -277,7 +267,26 @@ with the il- variable set here.
 //** controls the position of the left side of the main menu.
 @il-main-menu-left: 15px + @il-logo-width;
 @il-main-menu-margin: @il-main-menu-top 0 0 @il-main-menu-left;
-//** controls colors of the main menu.
+//** controls background color of the former "topbar". Still used in some places. For the Background of the Header, use il-main-header-bg Will be removed in ILIAS 8
+@il-top-bar-bg: @il-neutral-color;
+//** Formarly controled the text color in ILIAS 8. Will be removed with ILIAS 8.
+@il-top-bar-color: white;
+//** Formarly controled the text color in ILIAS 8. Will be removed with ILIAS 8.
+@il-top-bar-height: 40px;
+//** controls colors and bg colors of the "topbar" buttons
+@il-top-bar-link-bg: lighten(@il-neutral-color, 20%);
+@il-top-bar-link-color: lighten(@il-neutral-color, 70%);
+@il-top-bar-link-hover-bg: lighten(@il-neutral-color, 42%);
+@il-top-bar-link-hover-color: white;
+//** controls colors and bg colors of the "topbar" dropdowns
+@il-top-bar-dropdown-bg: lighten(@il-neutral-color, 42%);
+@il-top-bar-dropdown-color: lighten(@il-neutral-color, 70%);
+@il-top-bar-dropdown-link-bg: transparent;
+@il-top-bar-dropdown-link-color: lighten(@il-neutral-color, 70%);
+@il-top-bar-dropdown-link-hover-bg: @il-highlight-bg;
+@il-top-bar-dropdown-link-hover-color: lighten(@il-neutral-color, 42%);
+
+//** Variables that used to control the header. Note: Note the variables here are mostly deprecated and removed with ILIAS 8. Use the Variables listed in Layout (UI Layout Page).
 @il-main-menu-bg: @il-main-header-bg;
 @il-main-menu-link-color: #808080;
 @il-main-menu-link-hover-color: #808080;
@@ -714,7 +723,7 @@ with the il- variable set here.
 @il-background-images-path: "images/";
 
 //** Size for icons: xsmall is used in the tree. e.g.
-@il-icon-size-xsmall: 17px;
+@il-icon-size-xsmall: 15px;
 //** Size for icons: Small is used in the tree. e.g.
 @il-icon-size-small: 20px;
 //** Size for icons: Medium is used in the content-listing. e.g.
@@ -786,7 +795,7 @@ with the il- variable set here.
 @il-vc-glyph-padding-horizontal: @padding-base-horizontal;
 @il-vc-glyph-hover-bg: lighten(@il-main-color, 5%);
 @il-vc-mode-btn-active: @il-vc-glyph-hover-bg;
-
+@il-vc-pagination-btn-active-bg: @il-main-bg;
 
 //== Card
 //
@@ -794,7 +803,7 @@ with the il- variable set here.
 @il-card-border: 1px solid @il-main-border-color;
 @il-card-background: @il-main-bg;
 @il-card-highlight-bg: @il-warning-color;
-@il-card-highlight-height: @padding-large-vertical;
+@il-card-highlight-height: @il-padding-large-vertical;
 @il-card-list-key-color: @il-text-light-color;
 @il-card-repository-head-color: rgba(0, 0, 0, 0.5);
 @il-card-repository-dropdown-border: @il-main-border-color 1px solid;
@@ -802,6 +811,7 @@ with the il- variable set here.
 @il-card-repository-outlined-disabled-icon-filter: @il-card-repository-outlined-icon-filter;
 //** Sets the maximum width of cards in small screens
 @il-card-max-width-xs: 350px;
+@il-card-box-shadow: 0 1px 2px rgba(0, 0, 0, 15%), 0 0px 0px rgba(0, 0, 0, 15%);
 
 
 //== Workflow

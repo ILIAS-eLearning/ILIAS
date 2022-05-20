@@ -412,7 +412,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         if ($pending) {
             $f_tpl->setCurrentBlock("pending");
             $f_tpl->setVariable("TXT_PENDING", $lng->txt("file_upload_pending") .
-                ": " . $pending);
+                ": " . htmlentities($pending));
             $f_tpl->parseCurrentBlock();
         }
         

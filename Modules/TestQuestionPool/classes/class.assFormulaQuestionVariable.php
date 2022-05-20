@@ -47,6 +47,13 @@ class assFormulaQuestionVariable
     {
         
 //		@todo check this
+        if ($this->getPrecision() == 0) {
+            if ($this->getIntprecision() > $this->getRangeMax()) {
+                global $DIC;
+                $lng = $DIC['lng'];
+                ilUtil::sendFailure($lng->txt('err_divider_too_big'));
+            }
+        }
         
         include_once "./Services/Math/classes/class.ilMath.php";
         $mul = ilMath::_pow(10, $this->getPrecision());

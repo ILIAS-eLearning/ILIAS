@@ -258,7 +258,7 @@ class ilBuddySystemGUI
             }
 
             $response->state = get_class($relation->getState());
-            $response->state_html = $this->stateFactory->getRendererByOwnerAndRelation(
+            $response->state_html = $this->stateFactory->getStateButtonRendererByOwnerAndRelation(
                 $this->buddyList->getOwnerId(),
                 $relation
             )->getHtml();
@@ -287,7 +287,10 @@ class ilBuddySystemGUI
                     }
                 }
             }
-            $this->ctrl->redirectToURL($redirectUrl);
+
+            if ($redirectUrl !== '') {
+                $this->ctrl->redirectToURL($redirectUrl);
+            }
         }
 
         $this->ctrl->returnToParent($this);

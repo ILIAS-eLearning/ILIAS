@@ -337,7 +337,7 @@ class ilDashboardGUI
         ilUtil::infoPanel();
         
         $this->tpl->setTitle($this->lng->txt("dash_dashboard"));
-        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_dshs.svg"));
+        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_dshs.svg"), $this->lng->txt("dash_dashboard"));
         $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
         
         $this->tpl->setContent($this->getCenterColumnHTML());
@@ -705,14 +705,6 @@ class ilDashboardGUI
     }
 
     /**
-     * Jump to contacts
-     */
-    public function jumpToContacts()
-    {
-        $this->ctrl->redirectByClass(array('ildashboardgui', 'ilcontactgui'));
-    }
-
-    /**
      * Jump to personal workspace
      */
     public function jumpToWorkspace()
@@ -785,10 +777,6 @@ class ilDashboardGUI
      */
     public function initColumn($a_column_gui)
     {
-        $pd_set = new ilSetting("pd");
-        if ($pd_set->get("enable_block_moving")) {
-            $a_column_gui->setEnableMovement(true);
-        }
         $a_column_gui->setActionMenu($this->action_menu);
     }
     

@@ -1758,7 +1758,8 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
-        
+        $this->form->setFormAction($this->ctrl->getFormAction($this, 'saveJavaServer'));
+
         // pdf fonts
         $pdf = new ilFormSectionHeaderGUI();
         $pdf->setTitle($this->lng->txt('rpc_pdf_generation'));
@@ -1808,23 +1809,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $tpl->setContent($this->form->getHtml());
         }
     }
-
-    public function addToExternalSettingsForm($a_form_id)
-    {
-        switch ($a_form_id) {
-            case ilAdministrationSettingsFormHandler::FORM_SECURITY:
-
-                include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
-                $security = ilSecuritySettings::_getInstance();
-
-                $subitems = null;
-
-                $fields['activate_https'] =
-                    array($security->isHTTPSEnabled(), ilAdministrationSettingsFormHandler::VALUE_BOOL);
-
-                return array("general_settings" => array("showHTTPS", $fields));
-        }
-    }
+    
     
     /**
      * goto target group

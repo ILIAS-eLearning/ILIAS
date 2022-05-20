@@ -7,7 +7,7 @@ use ILIAS\DI;
 
 class ilComponentPluginLanguageUpdatedObjective implements Setup\Objective
 {
-    protected string $plugin_name;
+    protected $plugin_name;
 
     public function __construct(string $plugin_name)
     {

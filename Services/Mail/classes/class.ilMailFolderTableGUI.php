@@ -571,10 +571,12 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     $mail['msr_subject_mailclass'] = $css_class;
                     $mail['msr_subject'] = htmlspecialchars($mail['m_subject']);
                 }
+                $mail['msr_subject_read_unread'] = $mail['m_status'] === 'read' ? $this->lng->txt('mail_is_read') : $this->lng->txt('mail_is_unread');
             } else {
                 $mail['mail_link_read'] = $link_mark_as_read;
                 $mail['mailclass'] = $css_class;
                 $mail['mail_subject'] = htmlspecialchars($mail['m_subject']);
+                $mail['mail_subject_read_unread'] = $mail['m_status'] === 'read' ? $this->lng->txt('mail_is_read') : $this->lng->txt('mail_is_unread');
             }
 
             $mail['mail_date'] = ilDatePresentation::formatDate(new ilDateTime($mail['send_time'], IL_CAL_DATETIME));

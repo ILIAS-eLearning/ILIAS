@@ -1,6 +1,8 @@
 <?php namespace ILIAS\Contact\Provider;
 
 use ilBuddySystem;
+use ilContactGUI;
+use ilDashboardGUI;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
@@ -33,11 +35,12 @@ class ContactMainBarProvider extends AbstractStaticMainMenuProvider
             ->symbol()
             ->icon()
             ->standard(Standard::CADM, 'contacts')->withIsOutlined(true);
+        
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_contacts'))
                 ->withTitle($title)
-                ->withAction("ilias.php?baseClass=ilDashboardGUI&cmd=jumpToContacts")
+                ->withAction($this->dic->ctrl()->getLinkTargetByClass([ilDashboardGUI::class, ilContactGUI::class]))
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(20)
                 ->withSymbol($icon)

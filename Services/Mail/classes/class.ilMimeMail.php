@@ -264,8 +264,16 @@ class ilMimeMail
             $this->buildBodyMultiParts($skin);
             $this->buildHtmlInlineImages($skin);
         } else {
-            $this->finalBody = str_ireplace(["<br />", "<br>", "<br/>"], "\n", $this->body);
+            $this->finalBody = $this->removeHTMLTags($this->body);
         }
+    }
+
+    private function removeHTMLTags(string $maybeHTML) : string
+    {
+        $maybeHTML = str_ireplace(['<br />', '<br>', '<br/>'], "\n", $maybeHTML);
+        $maybeHTML = strip_tags($maybeHTML);
+
+        return $maybeHTML;
     }
 
     protected function buildBodyMultiParts(string $skin) : void

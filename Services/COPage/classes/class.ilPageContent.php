@@ -139,7 +139,7 @@ abstract class ilPageContent
      */
     public function getCssFiles($a_mode)
     {
-        return array();
+        return [];
     }
 
     /**

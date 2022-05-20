@@ -58,8 +58,7 @@ div.ilListItemSection {
 }
 
 div.ilContainerListItemOuterHighlight {
-	padding: 15px;
-	background-color: #ffffd9;
+	background-color: @il-highlight-bg;
 	zoom: 1;
 }
 
@@ -158,6 +157,11 @@ div.il_ContainerListItem {
 	h3{
 		margin: 0;
 		color: @panel-heading-color;
+	}
+	//See headings overlays input field in sorting view 32364
+	.form-control {
+		width: auto;
+		display: inline-block;
 	}
 }
 

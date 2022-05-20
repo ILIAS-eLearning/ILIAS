@@ -13,29 +13,22 @@ class ilBuddySystemRelationStateFactory
     /** @var array|null */
     protected static $validStates;
 
-    /** @var array|null */
-    protected static $stateOptions;
-
     /** @var ilLanguage */
     protected $lng;
 
-    /**
-     * ilBuddySystemRelationStateFactory constructor.
-     */
-    protected function __construct()
+    public function __construct(ilLanguage $lng)
+    {
+        $this->lng = $lng;
+    }
+
+    public static function getInstance(?ilLanguage $lng = null) : self
     {
         global $DIC;
 
-        $this->lng = $DIC['lng'];
-    }
-
-    /**
-     * @return self
-     */
-    public static function getInstance() : self
-    {
         if (null === self::$instance) {
-            self::$instance = new self;
+            $lng = $lng ?? $DIC['lng'];
+
+            self::$instance = new self($lng);
         }
 
         return self::$instance;
@@ -74,25 +67,12 @@ class ilBuddySystemRelationStateFactory
         throw new ilBuddySystemException("Could not find an initial state class");
     }
 
-    /**
-     * @param bool $withInitialState
-     * @return array<string, string>
-     */
-    public function getStatesAsOptionArray($withInitialState = false) : array
+    public function getTableFilterStateMapper(ilBuddySystemRelationState $state) : ilBuddySystemRelationStateTableFilterMapper
     {
-        if (isset(self::$stateOptions[$withInitialState]) && is_array(self::$stateOptions[$withInitialState])) {
-            return self::$stateOptions[$withInitialState];
-        }
+        $stateClass = get_class($state);
+        $class = $stateClass . 'TableFilterMapper';
 
-        $options = [];
-
-        foreach ($this->getValidStates() as $state) {
-            if ($withInitialState || !$state->isInitial()) {
-                $options[get_class($state)] = $this->lng->txt('buddy_bs_state_' . strtolower($state->getName()));
-            }
-        }
-
-        return (self::$stateOptions[$withInitialState] = $options);
+        return new $class($this->lng, $state);
     }
 
     /**
@@ -100,13 +80,13 @@ class ilBuddySystemRelationStateFactory
      * @param ilBuddySystemRelation $relation
      * @return ilBuddySystemRelationStateButtonRenderer
      */
-    public function getRendererByOwnerAndRelation(
+    public function getStateButtonRendererByOwnerAndRelation(
         int $ownerId,
         ilBuddySystemRelation $relation
     ) : ilBuddySystemRelationStateButtonRenderer {
         $stateClass = get_class($relation->getState());
-        $rendererClass = $stateClass . 'ButtonRenderer';
+        $class = $stateClass . 'ButtonRenderer';
 
-        return new $rendererClass($ownerId, $relation);
+        return new $class($ownerId, $relation);
     }
 }

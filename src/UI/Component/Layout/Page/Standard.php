@@ -21,66 +21,33 @@ interface Standard extends Page, JavaScriptBindable
     public const LTR = 'ltr';
     public const RTL = 'rtl';
 
-    /**
-     * @param MetaBar $meta_bar
-     *
-     * @return Standard
-     */
     public function withMetabar(MetaBar $meta_bar) : Standard;
 
-    /**
-     * @param Mainbar $main_bar
-     *
-     * @return Standard
-     */
     public function withMainbar(MainBar $main_bar) : Standard;
 
-    /**
-     * @param Image $logo
-     *
-     * @return Standard
-     */
     public function withLogo(Image $logo) : Standard;
 
-    /**
-     * @return bool
-     */
+    public function withResponsiveLogo(Image $logo) : Standard;
+
     public function hasMetabar() : bool;
 
-    /**
-     * @return bool
-     */
     public function hasMainbar() : bool;
 
-    /**
-     * @return bool
-     */
     public function hasLogo() : bool;
 
-    /**
-     * @return Metabar|null
-     */
-    public function getMetabar();
+    public function hasResponsiveLogo() : bool;
 
-    /**
-     * @return Mainbar|null
-     */
-    public function getMainbar();
+    public function getMetabar() : ?Metabar;
 
-    /**
-     * @return Breadcrumbs|null
-     */
-    public function getBreadcrumbs();
+    public function getMainbar() : ?Mainbar;
 
-    /**
-     * @return Image|null
-     */
-    public function getLogo();
+    public function getBreadcrumbs() : ?Breadcrumbs;
 
-    /**
-     * @return Footer|null
-     */
-    public function getFooter();
+    public function getLogo() : ?Image;
+
+    public function getResponsiveLogo() : ?Image;
+
+    public function getFooter() : ?Footer;
 
     public function withTitle(string $title) : Standard;
 
@@ -102,6 +69,10 @@ interface Standard extends Page, JavaScriptBindable
 
 
     public function hasModeInfo() : bool;
+    
+    public function withAdditionalMetaDatum(string $key, string $value) : Standard;
+    
+    public function getMetaData() : array;
 
     /**
      * @param SystemInfo[] $system_infos

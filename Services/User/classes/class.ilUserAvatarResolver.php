@@ -78,9 +78,6 @@ class ilUserAvatarResolver
 
     private function init() : void
     {
-        if ($this->letter_avatars_activated === false) {
-            return;
-        }
         $in = $this->db->in('usr_pref.keyword', array('public_upload', 'public_profile'), false, 'text');
         $res = $this->db->queryF(
             "

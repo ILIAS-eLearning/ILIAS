@@ -7,6 +7,7 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Collector\MetaBarMainCollector;
 use ILIAS\GlobalScreen\Scope\Notification\Collector\MainNotificationCollector;
 use ILIAS\GlobalScreen\Scope\Tool\Collector\MainToolCollector;
 use ILIAS\GlobalScreen\SingletonTrait;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\MainMenuItemFactory;
 
 /**
  * Class CollectorFactory
@@ -46,8 +47,15 @@ class CollectorFactory
         if (!$this->has(MainMenuMainCollector::class)) {
             $providers = $this->provider_factory->getMainBarProvider();
             $information = $this->provider_factory->getMainBarItemInformation();
-
-            return $this->getWithMultipleArguments(MainMenuMainCollector::class, [$providers, $information]);
+    
+            return $this->getWithMultipleArguments(
+                MainMenuMainCollector::class,
+                [
+                    $providers,
+                    new MainMenuItemFactory(),
+                    $information
+                ]
+            );
         }
 
         return $this->get(MainMenuMainCollector::class);

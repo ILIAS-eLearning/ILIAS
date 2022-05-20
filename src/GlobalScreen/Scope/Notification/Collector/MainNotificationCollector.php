@@ -59,7 +59,7 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
 
     public function collectStructure() : void
     {
-        $this->notifications                = array_merge([], ...iterator_to_array($this->returnNotificationsFromProviders()));
+        $this->notifications = array_merge([], ...iterator_to_array($this->returnNotificationsFromProviders()));
         $this->administrative_notifications = array_merge([], ...iterator_to_array($this->returnAdministrativeNotificationsFromProviders()));
     }
 
@@ -100,7 +100,13 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
     {
         return (is_array($this->notifications) && count($this->notifications) > 0);
     }
-
+    
+    public function hasVisibleItems() : bool
+    {
+        return $this->hasItems();
+    }
+    
+    
     /**
      * Returns the sum of all old notifications values in the
      * Standard Notifications

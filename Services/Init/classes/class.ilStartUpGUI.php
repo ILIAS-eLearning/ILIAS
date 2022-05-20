@@ -843,14 +843,24 @@ class ilStartUpGUI
             $tpl = new ilTemplate('tpl.login_form_shibboleth.html', true, true, 'Services/Init');
 
             $tpl->setVariable('SHIB_FORMACTION', './shib_login.php'); // Bugfix http://ilias.de/mantis/view.php?id=10662 {$tpl->setVariable('SHIB_FORMACTION', $this->ctrl->getFormAction($this));}
-
+            $federation_name = $ilSetting->get("shib_federation_name");
+            $admin_mail = ' <a href="mailto:' . $ilSetting->get("admin_email") . '">ILIAS ' . $lng->txt(
+                    "administrator"
+                ) . '</a>.';
             if ($ilSetting->get("shib_hos_type") == 'external_wayf') {
                 $tpl->setCurrentBlock("shibboleth_login");
                 $tpl->setVariable("TXT_SHIB_LOGIN", $lng->txt("login_to_ilias_via_shibboleth"));
                 $tpl->setVariable("IL_TARGET", $_GET["target"]);
                 $tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $ilSetting->get("shib_federation_name"));
                 $tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $ilSetting->get("shib_login_button"));
-                $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", sprintf($lng->txt("shib_general_login_instructions"), $ilSetting->get("shib_federation_name")) . ' <a href="mailto:' . $ilSetting->get("admin_email") . '">ILIAS ' . $lng->txt("administrator") . '</a>.');
+                $tpl->setVariable(
+                    "TXT_SHIB_LOGIN_INSTRUCTIONS",
+                    sprintf(
+                        $lng->txt("shib_general_login_instructions"),
+                        $federation_name,
+                        $admin_mail
+                    )
+                );
                 $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $ilSetting->get("shib_login_instructions"));
                 $tpl->parseCurrentBlock();
             } elseif ($ilSetting->get("shib_hos_type") == 'embedded_wayf') {
@@ -865,7 +875,13 @@ class ilStartUpGUI
                 $tpl->setVariable("TXT_SELECT_HOME_ORGANIZATION", sprintf($lng->txt("shib_select_home_organization"), $ilSetting->get("shib_federation_name")));
                 $tpl->setVariable("TXT_CONTINUE", $lng->txt("btn_next"));
                 $tpl->setVariable("TXT_SHIB_HOME_ORGANIZATION", $lng->txt("shib_home_organization"));
-                $tpl->setVariable("TXT_SHIB_LOGIN_INSTRUCTIONS", $lng->txt("shib_general_wayf_login_instructions") . ' <a href="mailto:' . $ilSetting->get("admin_email") . '">ILIAS ' . $lng->txt("administrator") . '</a>.');
+                $tpl->setVariable(
+                    "TXT_SHIB_LOGIN_INSTRUCTIONS",
+                    sprintf(
+                        $lng->txt("shib_general_wayf_login_instructions"),
+                        $admin_mail
+                    )
+                );
                 $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $ilSetting->get("shib_login_instructions"));
 
                 require_once "./Services/AuthShibboleth/classes/class.ilShibbolethWAYF.php";

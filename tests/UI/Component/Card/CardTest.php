@@ -118,19 +118,17 @@ class CardTest extends ILIAS_UI_TestBase
 
         $c = $c->withSections(array($content));
 
-        $html = $r->render($c);
+        $html = $this->brutallyTrimHTML($r->render($c));
 
         $expected_html =
                 "<div class=\"il-card thumbnail\">" .
-                "   <img src=\"src\" class=\"img-standard\" alt=\"alt\" />" .
+                "   <div class=\"il-card-image-container\"><img src=\"src\" class=\"img-standard\" alt=\"alt\" /></div>" .
                 "   <div class=\"card-no-highlight\"></div>" .
-                "   <div class=\"caption\">" .
-                "       <div class=\"card-title\">Card Title</div>" .
-                "   </div>" .
+                "   <div class=\"caption card-title\">Card Title</div>" .
                 "   <div class=\"caption\">Random Content</div>" .
                 "</div>";
 
-        $this->assertHTMLEquals($expected_html, $html);
+        $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $html);
     }
 
     public function test_render_content_with_highlight()
@@ -139,17 +137,15 @@ class CardTest extends ILIAS_UI_TestBase
         $c = $this->getBaseCard();
         $c = $c->withHighlight(true);
 
-        $html = $r->render($c);
+        $html = $this->brutallyTrimHTML($r->render($c));
 
         $expected_html =
             "<div class=\"il-card thumbnail\">" .
-            "   <img src=\"src\" class=\"img-standard\" alt=\"alt\" />" .
+            "   <div class=\"il-card-image-container\"><img src=\"src\" class=\"img-standard\" alt=\"alt\" /></div>" .
             "   <div class=\"card-highlight\"></div>" .
-            "   <div class=\"caption\">" .
-            "       <div class=\"card-title\">Card Title</div>" .
-            "   </div>" .
+            "   <div class=\"caption card-title\">Card Title</div>" .
             "</div>";
 
-        $this->assertHTMLEquals($expected_html, $html);
+        $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $html);
     }
 }

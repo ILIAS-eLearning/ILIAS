@@ -1056,11 +1056,6 @@ class ilSurveyEvaluationGUI
         $panel_qst_card = $ui_factory->panel()->sub($title, $ui_factory->legacy($svy_text))
             ->withCard($ui_factory->card()->standard($svy_type_title)->withSections(array($ui_factory->legacy($card_table_tpl->get()))));
 
-        //commit 715c28815 from phantom patch
-        //$anchor = "<a name='".$anchor_id."'></a>";
-        //$panel_qst_card = $ui_factory->panel()->sub($anchor.$qst_title, $ui_factory->legacy($svy_text))
-        //->withCard($ui_factory->card($svy_type_title)->withSections(array($ui_factory->legacy($card_table_tpl->get()))));
-        
         array_push($this->array_panels, $panel_qst_card);
 
         // grid
@@ -1798,57 +1793,6 @@ class ilSurveyEvaluationGUI
         }
         $pdf_factory = new ilHtmlToPdfTransformerFactory();
         $pdf_factory->deliverPDFFromHTMLString($html, $filename, ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, "Survey", "Results");
-    }
-
-    public function callPdfGeneration($a_url, $a_suffix, $a_filename, $a_return = false)
-    {
-        $script = ILIAS_ABSOLUTE_PATH . "/Modules/Survey/js/phantom.js";
-
-        $bin = ilUtil::isWindows()
-            ? ILIAS_ABSOLUTE_PATH . "/libs/composer/vendor/jakoch/phantomjs/bin/phantomjs.exe"
-            : ILIAS_ABSOLUTE_PATH . "/libs/composer/vendor/jakoch/phantomjs/bin/phantomjs";
-
-        $parts = parse_url(ILIAS_HTTP_PATH);
-
-        $target = ilUtil::ilTempnam() . "." . $a_suffix;
-        $path = $parts["path"];
-        if (empty($path)) {
-            $path = "''";
-        }
-
-        $args = array(
-            session_id(),
-            $parts["host"],
-            $parts["path"] ? $parts["path"] : '/',
-            CLIENT_ID,
-            "\"" . ILIAS_HTTP_PATH . "/" . $a_url . "\"",
-            $target
-        );
-
-        ilSession::_writeData(session_id(), session_encode());
-
-        $output = $return = "";
-
-        exec($executable_string = $bin . " " . $script . " " . implode(" ", $args), $output, $return);
-
-        $log = ilLoggerFactory::getLogger("svy");
-        $log->debug($executable_string);
-        $log->dump($output, ilLogLevel::DEBUG);
-        $log->dump($return, ilLogLevel::DEBUG);
-        
-        $mime_type = '';
-        if (substr($a_filename, -3) == 'pdf') {
-            $mime_type = 'application/pdf';
-        } elseif (substr($a_filename, -3) == 'png') {
-            $mime_type = 'image/png';
-        }
-
-        if (!$a_return) {
-            ilUtil::deliverFile($target, $a_filename, $mime_type);
-        } else {
-            ilLoggerFactory::getRootLogger()->debug("**** Return a target = " . $target);
-            return $target;
-        }
     }
 
     /**

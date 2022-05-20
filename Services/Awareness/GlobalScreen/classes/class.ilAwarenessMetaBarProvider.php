@@ -5,6 +5,8 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\AbstractStaticMetaBarProvider;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use ILIAS\UI\Implementation\Component\Button\Bulky;
+use ILIAS\UI\Implementation\Component\Button\Bulky as BulkyButton;
+use ILIAS\UI\Implementation\Component\Link\Bulky as BulkyLink;
 
 /**
  * Who-Is-Online meta bar provider
@@ -42,7 +44,7 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
         $ilUser = $DIC->user();
 
         $awrn_set = new ilSetting("awrn");
-        if (!$awrn_set->get("awrn_enabled", false) || ANONYMOUS_USER_ID == $ilUser->getId()) {
+        if (!$awrn_set->get("awrn_enabled", false) || ANONYMOUS_USER_ID == $ilUser->getId() || $ilUser->getId() == 0) {
             return [];
         }
 
@@ -70,6 +72,7 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
         $result = $gui->getAwarenessList(true);
 
         $content = function () use ($result) {
+            //return $this->dic->ui()->factory()->legacy("<div id='awareness-content'></div>");
             return $this->dic->ui()->factory()->legacy($result["html"]);
         };
 
@@ -83,12 +86,10 @@ class ilAwarenessMetaBarProvider extends AbstractStaticMetaBarProvider implement
         $item = $mb
             ->topLegacyItem($this->getId())
             ->addComponentDecorator(static function (ILIAS\UI\Component\Component $c) : ILIAS\UI\Component\Component {
-                if ($c instanceof Bulky) {
+                if ($c instanceof BulkyButton || $c instanceof BulkyLink) {
                     return $c->withAdditionalOnLoadCode(static function (string $id) : string {
-
-                        // ...we never get the bulky button of the legacy slate item here
                         return "$('#$id').on('click', function() {
-                                    console.log('click slate button');
+                                    console.log('trigger awareness slate');
                                 })";
                     });
                 }

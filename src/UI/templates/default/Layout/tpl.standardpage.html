@@ -25,6 +25,10 @@
 	<!-- BEGIN js_file -->
 	<script src="{JS_FILE}"></script>
 	<!-- END js_file -->
+
+    <!-- BEGIN meta_datum -->
+    <meta name="{META_KEY}" content="{META_VALUE}" />
+    <!-- END meta_datum -->
 </head>
 
 <body>
@@ -34,7 +38,8 @@
 		<header>
 			<div class="header-inner">
 				<div class="il-logo">
-					{LOGO}
+					<span class="hidden-xs">{LOGO}</span>
+					<span class="visible-xs">{RESPONSIVE_LOGO}</span>
 					<div class="il-pagetitle">
 						{TITLE}
 					</div>

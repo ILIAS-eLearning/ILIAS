@@ -11,7 +11,7 @@ use ILIAS\Refinery\ConstraintViolationException;
 
 class FloatTransformation implements Transformation
 {
-    const REG_STRING = '/^\s*(0|(-?[1-9]\d*([.,]\d+)?))\s*$/';
+    const REG_STRING = '/^\s*(-?(0|([1-9]\d*)))([.,]\d*)?\s*$/';
     const REG_STRING_FLOATING = '/^\s*-?\d+[eE]-?\d+\s*$/';
 
     use DeriveApplyToFromTransform;

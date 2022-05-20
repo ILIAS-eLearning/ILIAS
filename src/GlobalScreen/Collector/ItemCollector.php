@@ -32,4 +32,6 @@ interface ItemCollector extends Collector
      * @throws LogicException if collectOnce() has not been run first
      */
     public function hasItems() : bool;
+    
+    public function hasVisibleItems() : bool;
 }

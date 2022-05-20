@@ -1369,3 +1369,138 @@ $ilDB->modifyTableColumn(
 
 
 ?>
+<#72>
+<?php
+if(!$ilDB->indexExistsByFields('il_bt_bucket', ['user_id'])) {
+    $ilDB->addIndex('il_bt_bucket', ['user_id'], 'i1');
+}
+?>
+<#73>
+<?php
+$ilDB->replace("settings", [        // pk
+                           "module" => ["text", "common"],
+                           "keyword" => ["text", "rep_favourites"],
+], [
+        "value" => ["text", "1"]
+    ]
+);
+
+?>
+<#74>
+<?php
+if(!$ilDB->indexExistsByFields('booking_reservation', ['context_obj_id'])) {
+    $ilDB->addIndex('booking_reservation', ['context_obj_id'], 'i5');
+}
+?>
+<#75>
+<?php
+if(!$ilDB->indexExistsByFields('booking_schedule', ['pool_id'])) {
+    $ilDB->addIndex('booking_schedule', ['pool_id'], 'i1');
+}
+?>
+<#76>
+<?php
+if(!$ilDB->indexExistsByFields('booking_object', ['schedule_id'])) {
+    $ilDB->addIndex('booking_object', ['schedule_id'], 'i2');
+}
+?>
+<#77>
+<?php
+if(!$ilDB->indexExistsByFields('exc_assignment', ['exc_id'])) {
+    $ilDB->addIndex('exc_assignment', ['exc_id'], 'i1');
+}
+?>
+<#78>
+<?php
+if(!$ilDB->indexExistsByFields('exc_members', ['usr_id'])) {
+    $ilDB->addIndex('exc_members', ['usr_id'], 'i1');
+}
+?>
+<#79>
+<?php
+if(!$ilDB->indexExistsByFields('exc_assignment', ['deadline_mode', 'exc_id'])) {
+    $ilDB->addIndex('exc_assignment', ['deadline_mode', 'exc_id'], 'i2');
+}
+?>
+<#80>
+<?php
+if(!$ilDB->indexExistsByFields('exc_ass_file_order', ['assignment_id'])) {
+    $ilDB->addIndex('exc_ass_file_order', ['assignment_id'], 'i1');
+}
+?>
+<#81>
+<?php
+if(!$ilDB->indexExistsByFields('il_exc_team', ['id'])) {
+    $ilDB->addIndex('il_exc_team', ['id'], 'i1');
+}
+?>
+<#82>
+<?php
+$fields = ['gap_id'];
+if (!$ilDB->indexExistsByFields('qpl_a_cloze', $fields)) {
+    $ilDB->addIndex(
+        'qpl_a_cloze',
+        $fields,
+        'i2'
+    );
+}
+
+$fields = ['gap_fi', 'question_fi'];
+if (!$ilDB->indexExistsByFields('qpl_a_cloze_combi_res', $fields)) {
+    $ilDB->addIndex(
+        'qpl_a_cloze_combi_res',
+        $fields,
+        'i1'
+    );
+}
+?>
+<#83>
+<?php
+$ilDB->manipulateF('DELETE FROM settings WHERE keyword = %s', ['text'], ['enable_block_moving']);
+$ilDB->manipulate('DELETE FROM il_block_setting WHERE ' . $ilDB->like('type', 'text', 'pd%'));
+?>
+<#84>
+<?php
+if ($ilDB->tableColumnExists('adv_mdf_definition', 'field_values')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => null
+    ];
+    $ilDB->modifyTableColumn('adv_mdf_definition', 'field_values', $field_infos);
+}
+?>
+<#85>
+<?php
+// fixes https://mantis.ilias.de/view.php?id=32226: due to moving the favourites item
+// to a new provider, the GS will create a new entry once the main-menu administration
+// is entered. Therefore, if the hotfix can only be applied if the new entry wasn't
+// already created, otherwise we cannot tell if the user adapted the new item to work
+// around the bug. In this case we can just delete the old favourites' entry.
+
+if ($ilDB->tableExists('il_mm_items')) {
+    $result = $ilDB->fetchAll(
+        $ilDB->queryF(
+            "SELECT COUNT(identification) AS amount FROM il_mm_items WHERE identification = %s;",
+            ['text'],
+            ['ILIAS\\Repository\\Provider\\RepositoryMainBarProvider|mm_pd_sel_items']
+        )
+    );
+
+    if (0 === (int) $result[0]['amount']) {
+        $new_values = [
+            'identification' => ['text', 'ILIAS\\Repository\\Provider\\RepositoryMainBarProvider|mm_pd_sel_items'],
+        ];
+
+        $ilDB->update('il_mm_items', $new_values, [
+            'identification' => ['text', 'ILIAS\\PersonalDesktop\\PDMainBarProvider|mm_pd_sel_items'],
+        ]);
+    } else {
+        $ilDB->manipulateF(
+            "DELETE FROM il_mm_items WHERE identification = %s",
+            ['text'],
+            ['ILIAS\\PersonalDesktop\\PDMainBarProvider|mm_pd_sel_items']
+        );
+    }
+}
+?>

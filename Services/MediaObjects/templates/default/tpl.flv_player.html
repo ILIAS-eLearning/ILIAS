@@ -72,14 +72,15 @@
 	</div>
 	<!-- END apreview -->
 	<div style="{ASTYLE}">
-	<audio id="player_{APLAYER_NR}" src="{AFILE}" width="{AWIDTH}" height="{AHEIGHT}" preload="none"></audio>
+	<audio id="player_{APLAYER_NR}" src="{AFILE}" width="{AWIDTH}" height="{AHEIGHT}" preload="meta"></audio>
 	<script>
 	$(function() {
 		$('#player_{APLAYER_NR}').mediaelementplayer({
 			success: function (mediaElement, domObject) {
 				// add event listener
 				mediaElement.addEventListener('play', function(e) {
-					il.MediaObjects.playerStarted('player_{APLAYER_NR}');
+					il.MediaObjects.current_player_id = 'player_{APLAYER_NR}';
+					il.MediaObjects.playerStarted('');
 					}, false);		
 				}
 		});

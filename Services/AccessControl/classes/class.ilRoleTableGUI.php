@@ -330,7 +330,7 @@ class ilRoleTableGUI extends ilTable2GUI
         $role_list = $rbacreview->getRolesByFilter(
             $type,
             0,
-            $filter
+            ''
         );
         
         $counter = 0;
@@ -345,16 +345,12 @@ class ilRoleTableGUI extends ilTable2GUI
             ) {
                 continue;
             }
-            
             $title = ilObjRole::_getTranslation($role['title']);
-            if ($type == ilRbacReview::FILTER_INTERNAL or $type == ilRbacReview::FILTER_ALL) {
-                if (strlen($filter_orig)) {
-                    if (stristr($title, $filter_orig) == false) {
-                        continue;
-                    }
+            if (strlen($filter_orig)) {
+                if (stristr($title, $filter_orig) == false) {
+                    continue;
                 }
             }
-            
             
             $rows[$counter]['title_orig'] = $role['title'];
             $rows[$counter]['title'] = $title;

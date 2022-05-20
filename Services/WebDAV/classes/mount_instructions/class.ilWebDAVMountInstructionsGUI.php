@@ -119,7 +119,7 @@ class ilWebDAVMountInstructionsGUI
 
         // Add view control and legacy add the beginning of the array (so they will be rendered first)
         $header_comps = array(
-            $f->legacy("<div style='text-align: center'>"),
+            $f->legacy("<div class='webdav-view-control'>"),
             $view_control,
             $f->legacy("</div>"),
             $js_function_legacy);

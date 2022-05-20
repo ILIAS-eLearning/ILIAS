@@ -74,7 +74,7 @@ class ilStyleTableGUI extends ilTable2GUI
 //		{
             $this->addColumn("", "", "1");	// checkbox
 //		}
-        $this->addColumn($this->lng->txt("sty_name"), "", "1");
+        $this->addColumn($this->lng->txt("sty_name"), "", "");
         $this->addColumn($this->lng->txt("sty_type"), "", "");
         $this->addColumn($this->lng->txt("sty_example"), "", "");
         if ($this->hideable) {

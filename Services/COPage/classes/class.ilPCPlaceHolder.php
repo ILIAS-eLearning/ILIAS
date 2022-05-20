@@ -203,4 +203,12 @@ class ilPCPlaceHolder extends ilPageContent
         return $model;
     }
 
+    /**
+     * Get css files
+     */
+    public function getCssFiles($a_mode)
+    {
+        return [ilObjStyleSheet::getPlaceHolderStylePath()];
+    }
+
 }

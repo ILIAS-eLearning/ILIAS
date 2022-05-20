@@ -54,8 +54,10 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
     public function importFromPost(array $a_post = null)
     {
         $post = $this->extractPostValues($a_post);
-                
-        if ($post && $this->shouldBeImportedFromPost($post)) {
+        if (
+            is_numeric($post) &&
+            $this->shouldBeImportedFromPost($post)
+        ) {
             if ($this->getForm() instanceof ilPropertyFormGUI) {
                 $item = $this->getForm()->getItemByPostVar($this->getElementId());
                 $item->setValue($post);

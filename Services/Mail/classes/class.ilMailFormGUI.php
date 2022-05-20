@@ -198,7 +198,7 @@ class ilMailFormGUI
     public function saveDraft()
     {
         if (!$_POST['m_subject']) {
-            $_POST['m_subject'] = 'No title';
+            $_POST['m_subject'] = $this->lng->txt('mail_no_subject');
         }
 
         $draftFolderId = $this->mbox->getDraftsFolder();
@@ -503,6 +503,9 @@ class ilMailFormGUI
             case 'draft':
                 $_SESSION["draft"] = $_GET["mail_id"];
                 $mailData = $this->umail->getMail($_GET["mail_id"]);
+                if (isset($mailData['m_subject']) && $mailData['m_subject'] === $this->lng->txt('mail_no_subject')) {
+                    $mailData['m_subject'] = '';
+                }
                 ilMailFormCall::setContextId($mailData['tpl_ctx_id']);
                 ilMailFormCall::setContextParameters($mailData['tpl_ctx_params']);
                 break;

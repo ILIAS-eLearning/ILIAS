@@ -220,7 +220,7 @@ class ilPathGUI
 
                 if (!$this->tree->isDeleted($ref_id)) {
                     $tpl->setCurrentBlock('locator_item');
-                    $tpl->setVariable('LINK_ITEM', ilLink::_getLink($ref_id, $type));
+                    $tpl->setVariable('LINK_ITEM', ilUtil::secureLink(ilLink::_getLink($ref_id, $type)));
                     $tpl->setVariable('ITEM', $title);
                     $tpl->parseCurrentBlock();
                 } else {
@@ -231,6 +231,7 @@ class ilPathGUI
 
                 $first = false;
             }
+            $tpl->setVariable("TXT_BREADCRUMBS", $this->lng->txt("breadcrumb_navigation"));
             return $tpl->get();
         }
     }

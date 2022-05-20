@@ -399,6 +399,12 @@ class ilLMPresentationGUI
                 $ret = $ilCtrl->forwardCommand($page_gui);
                 break;
                 
+            case "ilassgenfeedbackpagegui":
+                $page_gui = new ilAssGenFeedbackPageGUI($_GET["pg_id"]);
+                //$this->basicPageGuiInit($page_gui);
+                $ret = $ilCtrl->forwardCommand($page_gui);
+                break;
+
             case "ilglossarydefpagegui":
                 $page_gui = new ilGlossaryDefPageGUI($this->requested_obj_id);
                 $this->basicPageGuiInit($page_gui);

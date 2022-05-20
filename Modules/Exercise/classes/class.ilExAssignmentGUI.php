@@ -270,6 +270,8 @@ class ilExAssignmentGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+
+        $lng->loadLanguageModule("exc");
         
         $files = $a_ass->getFiles();
 
@@ -310,6 +312,7 @@ class ilExAssignmentGUI
                     $img_tpl->setVariable("ITEM_ID", $item_id);
                     $img_tpl->setVariable("IMAGE", $image);
                     $img_tpl->setvariable("IMAGE_LENS", $image_lens);
+                    $img_tpl->setvariable("ALT_LENS", $lng->txt("exc_fullscreen"));
                     $img_tpl->parseCurrentBlock();
 
                     $a_info->addProperty($file["name"], $img_tpl->get());

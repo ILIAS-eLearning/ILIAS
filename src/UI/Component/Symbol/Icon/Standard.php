@@ -156,6 +156,7 @@ interface Standard extends Icon
     public const PETMP = 'petmp';   //Page Editor Template
     public const PEUSR = 'peusr';   //Page Editor User
     public const LSO = 'lso';       //Learning Sequence
+    public const LSOS = 'lsos';     //Learning Sequence Admin
     public const ADN = 'adn';       //Administrative Notification
 
     /**

@@ -3945,7 +3945,6 @@ common#:#filter_users_without_disk_usage#:#ディスクスペースを使用し�
 common#:#first#:#最初
 common#:#firstname#:#名
 common#:#flatview#:#サイドバーを非表示
-common#:#fm_start#:#ファイルマネージャで開く
 common#:#fold#:#フォルダ
 common#:#fold_add#:#フォルダを追加
 common#:#fold_added#:#フォルダの追加
@@ -5470,7 +5469,6 @@ common#:#time_limit_from#:#From (期限)
 common#:#time_limit_message#:#Message (期限)
 common#:#time_limit_no_users_selected#:#ユーザを選択してください。
 common#:#time_limit_not_valid#:#期間が有効ではありません。
-common#:#time_limit_owner#:#Owner (期限)
 common#:#time_limit_reached#:#アカウントが無効です。
 common#:#time_limit_unlimited#:#Unlimited (期限)
 common#:#time_limit_until#:#Until(期限)
@@ -9085,13 +9083,6 @@ file#:#generate_sanitize_report#:#アクセス不可なファイルに関する�
 file#:#replace_file_info#:#全ての旧バージョンファイルは削除されます。
 file#:#upload_info#:#Upload
 file#:#upload_info_desc#:#アップロードと"Versions"タブの版数を管理
-fm#:#fm_settings_active#:#ファイルマネージャを有効化
-fm#:#fm_settings_active_info#:#ユーザは"ファイルマネージャで開く"を使用してカテゴリ、コース、グループ、フォルダを開くことができます。
-fm#:#fm_settings_filesize#:#最大アップロードファイルサイズ
-fm#:#fm_settings_filesize_info#:#アップロード用最大許容ファイルサイズをメガバイト単位で入力
-fm#:#fm_settings_local#:#ローカルファイルシステムを表示
-fm#:#fm_settings_local_info#:#有効にすると、ファイルマネージャはひとつはローカルファイルシステムをもう一方はILIASリポジトリビューを含む表示を2レームで開始します。
-fm#:#fm_settings_tab#:#ファイルマネージャ
 fold#:#fold_copy#:#フォルダを表示コピー
 fold#:#fold_import#:#インポートフォルダ
 fold#:#fold_presentation#:#フォルダープレゼンテ－ション
@@ -12096,9 +12087,7 @@ prg#:#prg_validity_of_qualification#:#達成した資格の有効性
 prg#:#prg_validity_of_qualification_limit#:#資格満了
 prg#:#prg_validity_of_qualification_restart#:#再起動
 prg#:#prg_view#:#ビュー
-prg#:#prgr_edit_info#:#新しいリンク作成用に学習プログラムを一つ選んでください。
 prg#:#prgr_may_not_create_circular_reference#:#親のオブジェクトがターゲット内に既にリンクされていますのでこの学習プログラムはここへリンクできない可能性があります。
-prg#:#prgr_new#:#学習プログラムリンクを作成
 prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>受講者として学習プログラム '%s' が再割り当てされました。
 prg#:#re_assigned_mail_subject#:#学習プログラム内のパーティションを更新しました
 prg#:#restart_information#:#保留中の認定満了に対する自動再開に関する情報
@@ -16622,6 +16611,34 @@ ui#:#datetime_required#:#Time/Date required###26 11 2021 new variable
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.###26 11 2021 new variable
 forum#:#sticky_threads_sorting#:#Sticky Threads Sorting###26 11 2021 new variable
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
-common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
 common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
 common#:#actions_for#:#Actions for %s###15 12 2021 new variable
+content#:#cont_lpe_saml_login#:#SAML Login###26 01 2022 new variable
+forum#:#file_upload_option_allow_info#:#Files can be attached to posts in all forums.###26 01 2022 new variable
+assessment#:#finish_pass_for_user_in_processing_time#:#WARNING: the processing time for this user is not over yet! You should only end the test run if there is a compelling reason (e.g. exclusion from the test).###09 03 2022 new variable
+assessment#:#finish_pass_for_all_users_in_processing_time#:#You cannot finish the passes of all users together, because for at least one user the processing time is not over yet.###09 03 2022 new variable
+common#:#refuse_tos_acceptance#:#Refuse to Accept Terms of Service###09 03 2022 new variable
+content#:#cont_pc_media#:#Image/Media###09 03 2022 new variable
+dateplaner#:#cal_change_calendar_view#:#Change Calendar View###09 03 2022 new variable
+common#:#obj_chtr_duplicate#:#Copy Chat Room###09 03 2022 new variable
+assessment#:#err_division#:#This value has to be smaller than the maximum range.###09 03 2022 new variable
+assessment#:#err_divider_too_big#:#The divider of one of the variables in this question is too big.###09 03 2022 new variable
+common#:#prgr_new#:#Create Study Programme Link###09 03 2022 new variable
+common#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###09 03 2022 new variable
+file#:#migrated#:#Status###09 03 2022 new variable
+exc#:#exc_fullscreen#:#Fullscreen###09 03 2022 new variable
+rating#:#rating_avg_rating#:#Average Rating###09 03 2022 new variable
+rating#:#rating_personal_rating#:#Your Rating###09 03 2022 new variable
+rating#:#rating_rate_x_of_5#:#Rate with %s of 5 stars###09 03 2022 new variable
+rating#:#rating_open_dialog#:#Open rating dialog###09 03 2022 new variable
+tagging#:#tagging_no_obj_for_tag#:#No Resources tagged with %s.###09 03 2022 new variable
+rep#:#rep_favourites#:#Favourites###09 03 2022 new variable
+rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.###09 03 2022 new variable
+mail#:#mail_no_subject#:#No Subject available###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_linked_p#:#Linked###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction###27 04 2022 new variable
+buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required###27 04 2022 new variable
+ui#:#ui_tag_required#:#Please insert at least one tag.###27 04 2022 new variable

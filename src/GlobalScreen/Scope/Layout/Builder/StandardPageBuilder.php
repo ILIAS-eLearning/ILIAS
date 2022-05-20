@@ -37,15 +37,16 @@ class StandardPageBuilder implements PageBuilder
     public function build(PagePartProvider $parts) : Page
     {
         $header_image = $parts->getLogo();
-        $main_bar     = $parts->getMainBar();
-        $meta_bar     = $parts->getMetaBar();
+        $responsive_header_image = $parts->getResponsiveLogo();
+        $main_bar = $parts->getMainBar();
+        $meta_bar = $parts->getMetaBar();
         $bread_crumbs = $parts->getBreadCrumbs();
-        $footer       = $parts->getFooter();
-        $title        = $parts->getTitle();
-        $short_title  = $parts->getShortTitle();
-        $view_title   = $parts->getViewTitle();
+        $footer = $parts->getFooter();
+        $title = $parts->getTitle();
+        $short_title = $parts->getShortTitle();
+        $view_title = $parts->getViewTitle();
 
-        $standard = $this->ui->factory()->layout()->page()->standard(
+        $page = $this->ui->factory()->layout()->page()->standard(
             [$parts->getContent()],
             $meta_bar,
             $main_bar,
@@ -56,8 +57,18 @@ class StandardPageBuilder implements PageBuilder
             $short_title,
             $view_title
         );
+        
+        foreach ($this->meta->getMetaData()->getItems() as $meta_datum) {
+            $page = $page->withAdditionalMetaDatum($meta_datum->getKey(), $meta_datum->getValue());
+        }
 
-        return $standard->withSystemInfos($parts->getSystemInfos())
+        $page = $page->withSystemInfos($parts->getSystemInfos())
                         ->withTextDirection($this->meta->getTextDirection() ?? Standard::LTR);
+
+        if (null !== $responsive_header_image) {
+            $page = $page->withResponsiveLogo($responsive_header_image);
+        }
+
+        return $page;
     }
 }

@@ -312,7 +312,7 @@ class ilUserCertificateGUI
                 $cards[] = $card;
             }
 
-            $deck = $this->uiFactory->deck($cards)->withNormalCardsSize();
+            $deck = $this->uiFactory->deck($cards)->withSmallCardsSize();
 
             $uiComponents[] = $this->uiFactory->divider()->horizontal();
 

@@ -20,6 +20,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
 {
     protected $resource_manager;
     protected $resource_consumer;
+    protected $request;
 
     /**
      * We need to keep track of versioning.
@@ -104,7 +105,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
             
             if (($r_id = $this->obj->getResourceId()) &&
                 ($identification = $this->resource_manager->find($r_id))) {
-                return $this->resource_consumer->stream($identification)->getStream()->getContents();
+                return $this->resource_consumer->stream($identification)->getStream();
             }
             
             /*
@@ -227,27 +228,21 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
             $migration->migrate(new ilFileObjectToStorageDirectory($this->obj->getId(), $this->obj->getDirectory()));
         }
         
-        $path = ilUtil::ilTempnam();
-        $path_with_file = $path . '/' . $this->obj->getFileName();
-        
-        mkdir($path);
-        file_put_contents($path_with_file, $a_data);
-
-        $upload = fopen($path_with_file, 'read');
+        $size = (int) $this->request->getHeader("Content-Length")[0];
+        if ($size > ilUtil::getUploadSizeLimitBytes()) {
+            throw new Exception\Forbidden('File is too big');
+        }
         
         /**
          * Sadly we need this to avoid creating multiple versions on a single
          * upload, because of the behaviour of some clients.
          */
-        if (fstat($upload)['size'] === 0) {
-            fclose($upload);
-            unlink($path_with_file);
-            rmdir($path);
+        if ($size === 0) {
             return null;
         }
         
-        $stream = Streams::ofResource($upload);
-
+        $stream = Streams::ofResource($a_data);
+        
         if ($a_file_action === 'replace') {
             $this->obj->replaceWithStream($stream, $this->obj->getTitle());
         } else {
@@ -255,8 +250,6 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         }
         
         $stream->close();
-        unlink($path_with_file);
-        rmdir($path);
 
         // TODO filename is "input" and metadata etc.
 
@@ -298,7 +291,6 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         // If vrs[0] == false -> virus found
         if ($vrs[0] == false) {
             ilLoggerFactory::getLogger('WebDAV')->error(get_class($this) . ' ' . $this->obj->getTitle() . " -> virus found on '$file_dest_path'!");
-            $this->deleteObjOrVersion();
             throw new Exception\Forbidden('Virus found!');
         }
     }

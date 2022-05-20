@@ -74,12 +74,14 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
         $this->addFilter('grp');
         $this->addFilter('cat');
         $this->addFilter('fold');
+        $this->addFilter('lso');
         
         $this->addFormItemForType('root');
         $this->addFormItemForType('crs');
         $this->addFormItemForType('grp');
         $this->addFormItemForType('cat');
         $this->addFormItemForType('fold');
+        $this->addFormItemForType('lso');
         
         $this->setFiltered(true);
         $this->setFilterMode(IL_FM_POSITIVE);

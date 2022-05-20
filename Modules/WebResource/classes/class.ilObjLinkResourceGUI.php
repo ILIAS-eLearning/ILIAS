@@ -1117,32 +1117,36 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
     {
         global $DIC;
 
-        if (!$this->checkPermissionBool('write')) {
-            return;
-        }
-        
         include_once './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
         $tool = new ilToolbarGUI();
         $tool->setFormAction($this->ctrl->getFormAction($this));
-        if (ilLinkResourceList::checkListStatus($this->object->getId())) {
+
+        $f = $DIC->ui()->factory();
+        $r = $DIC->ui()->renderer();
+
+        if (
+            ilLinkResourceList::checkListStatus($this->object->getId()) &&
+            $this->checkPermissionBool('write')
+        ) {
             $tool->addButton(
                 $this->lng->txt('webr_add'),
                 $this->ctrl->getLinkTarget($this, 'addLink')
             );
         }
-        else {
-            $f = $DIC->ui()->factory();
-            $r = $DIC->ui()->renderer();
-
+        elseif ($this->checkPermissionBool('write')) {
             $modal = $this->getLinkToListModal();
             $button = $f->button()->standard($this->lng->txt('webr_set_to_list'), '#')
                 ->withOnClick($modal->getShowSignal());
 
             $this->tpl->setVariable("MODAL", $r->render([$modal]));
-
             $tool->addComponent($button);
         }
-        
+
+        $download_button = $f->button()->standard(
+            $this->lng->txt('export_html'),
+            $this->ctrl->getLinkTarget($this, 'exportHTML')
+        );
+        $tool->addComponent($download_button);
         $this->tpl->setVariable($a_tpl_var, $tool->getHTML());
         return;
     }

@@ -104,20 +104,20 @@ class DeckTest extends ILIAS_UI_TestBase
 
         $d = $d->withCards(array($c,$c,$c,$c,$c,$c,$c))->withLargeCardsSize();
 
-        $html = $r->render($d);
+        $html = $this->brutallyTrimHTML($r->render($d));
 
         $expected_html =
                 '<div class="il-deck"><div class="row row-eq-height">
-						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><div class="card-title">Card Title</div></div></div></div>
-						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><div class="card-title">Card Title</div></div></div></div>
-						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><div class="card-title">Card Title</div></div></div></div>
-						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><div class="card-title">Card Title</div></div></div></div>
-						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><div class="card-title">Card Title</div></div></div></div>
-						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><div class="card-title">Card Title</div></div></div></div>
-						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption"><div class="card-title">Card Title</div></div></div></div>
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption card-title">Card Title</div></div></div>
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption card-title">Card Title</div></div></div>
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption card-title">Card Title</div></div></div>
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption card-title">Card Title</div></div></div>
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption card-title">Card Title</div></div></div>
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption card-title">Card Title</div></div></div>
+						<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4"><div class="il-card thumbnail"><div class="card-no-highlight"></div><div class="caption card-title">Card Title</div></div></div>
 					</div>
 				</div>';
 
-        $this->assertHTMLEquals($expected_html, $html);
+        $this->assertHTMLEquals($this->brutallyTrimHTML($expected_html), $html);
     }
 }

@@ -1,13 +1,13 @@
-.il-maincontrols-metabar {
+ .il-maincontrols-metabar {
 	display: flex;
     justify-content: space-between;
     align-items: center;
 
 	list-style-type: none; /* Remove bullets */
 
-	// no display labels in metabar level 1
-	>li >.btn-bulky > .bulky-label {
-		display: none;
+	// no display labels in metabar level 1, but make them readable by screenreaders
+	> li > .btn-bulky > .bulky-label, > li > .link-bulky > .bulky-label {
+		.sr-only();
 	}
 
 	.glyphicon {
@@ -34,7 +34,7 @@
 		position: absolute;
 	}
 
-	.btn {
+	.btn, .il-link {
 		position: relative;
 	}
 
@@ -48,7 +48,15 @@
 		top: 32px;
 	}
 
-	.btn-bulky {
+	 > li > .il-link.link-bulky {
+		 display: block;
+		 text-align: center;
+		 padding: @padding-base-vertical @padding-base-horizontal;
+		 line-height: @il-metabar-entry-height;
+		 border: 1px solid transparent;
+	 }
+
+	 > li > .btn-bulky, > li > .link-bulky {
 		background-color: transparent;
 		height: @il-metabar-entry-height;
 		min-width: @il-metabar-entry-width;

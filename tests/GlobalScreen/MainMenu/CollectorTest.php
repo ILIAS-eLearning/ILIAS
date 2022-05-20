@@ -30,7 +30,6 @@ class CollectorTest extends TestCase
     protected function setUp() : void
     {
         parent::setUp();
-
     }
 
     public function testBasic() : void
@@ -70,7 +69,6 @@ class CollectorTest extends TestCase
             {
                 return $item;
             }
-
         };
     }
 
@@ -88,11 +86,11 @@ class CollectorTest extends TestCase
 
             public function __construct()
             {
-                $if                      = new IdentificationFactory(new NullProviderFactory());
-                $iff                     = function (string $id) use ($if) {
+                $if = new IdentificationFactory(new NullProviderFactory());
+                $iff = function (string $id) use ($if) {
                     return $if->core($this)->identifier($id);
                 };
-                $this->factory           = new MainMenuItemFactory();
+                $this->factory = new MainMenuItemFactory();
                 $this->p_identifications = [];
                 $this->c_identifications = [];
                 $this->type_information = new TypeInformationCollection();
@@ -135,7 +133,7 @@ class CollectorTest extends TestCase
                 $items = [];
                 foreach ($this->c_identifications as $if) {
                     $identifier = $if->getInternalIdentifier();
-                    $items[]    = $this->factory->link($if)->withTitle($identifier)->withParent($this->p_identifications[strstr($identifier, '/', true)]);
+                    $items[] = $this->factory->link($if)->withTitle($identifier)->withParent($this->p_identifications[strstr($identifier, '/', true)]);
                 }
                 return $items;
             }
@@ -146,5 +144,4 @@ class CollectorTest extends TestCase
             }
         };
     }
-
 }

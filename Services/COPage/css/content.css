@@ -234,7 +234,7 @@ div.ilc_iim_ContentPopup {
   border-style: solid;
   border-width: 2px;
   background-color: #FFFFFF;
-  border-color: #A8A8A8;
+  border-color: #757575;
 }
 div.ilc_qover_Correct {
   background-repeat: no-repeat;
@@ -372,7 +372,7 @@ div.ilc_ha_ihead_HAccordIHead {
   height: auto !important;
   height: 300px;
   background-position: center 10px;
-  color: #434343;
+  color: #161616;
   cursor: pointer;
   background-color: #f9f9f9;
   padding-top: 13px;
@@ -382,7 +382,7 @@ div.ilc_ha_ihead_HAccordIHead {
   background-repeat: no-repeat;
 }
 div.ilc_ha_ihead_HAccordIHead:hover {
-  color: #2a2a2a;
+  color: #000000;
   background-color: #FFFFD0;
 }
 div.ilc_ha_ihcap_HAccordIHeadCap {
@@ -684,7 +684,7 @@ div.ilc_va_ihead_VAccordIHead {
   padding-bottom: 3px;
   padding-top: 3px;
   padding-left: 54px;
-  color: #434343;
+  color: #161616;
 }
 div.ilc_va_ihead_VAccordIHead:hover {
   background-color: #FFFFD0;
@@ -778,12 +778,6 @@ img.ilc_page_rnavimage_RightNavigationImage {
   width: 20px;
   background-position: 0px center;
 }
-input.ilc_qsubmit_Submit {
-  background-color: #708BAE;
-  padding: 0.5em;
-  margin-top: 20px;
-  color: #FFFFFF;
-}
 input.ilc_qinput_TextInput {
   padding-left: 4px;
 }
@@ -825,7 +819,7 @@ span.ilc_text_inline_Emph {
 }
 span.ilc_qetcorr_ErrorTextCorrected {
   text-decoration: line-through;
-  color: #757575;
+  color: #6f6f6f;
 }
 span.ilc_text_inline_Important {
   text-decoration: underline;
@@ -1066,7 +1060,7 @@ ul.ilc_qordul_OrderListHorizontal {
   list-style: none;
 }
 div.ilc_ha_iheada_HAccordIHeadActive {
-  color: #434343;
+  color: #161616;
   padding-right: 15px;
   padding-top: 13px;
   background-color: #f9f9f9;
@@ -1075,7 +1069,7 @@ div.ilc_ha_iheada_HAccordIHeadActive {
   background-image: url("../../../libs/ilias/Style/basic_style/images/tree_col.svg");
 }
 div.ilc_ha_iheada_HAccordIHeadActive:hover {
-  color: #2a2a2a;
+  color: #000000;
 }
 div.ilc_va_iheada_VAccordIHeadActive {
   background-image: url("../../../libs/ilias/Style/basic_style/images/tree_exp.svg");
@@ -1083,11 +1077,11 @@ div.ilc_va_iheada_VAccordIHeadActive {
   padding-top: 3px;
   font-size: 20px;
   padding-bottom: 3px;
-  color: #434343;
+  color: #161616;
   background-color: #f9f9f9;
   text-transform: uppercase;
   padding-right: 3px;
 }
 div.ilc_va_iheada_VAccordIHeadActive:hover {
-  color: #2a2a2a;
+  color: #000000;
 }

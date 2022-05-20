@@ -194,8 +194,10 @@ class ilImagemapPreview
 
         $source = ilUtil::escapeShellCmd($this->imagemap_filename);
         $target = ilUtil::escapeShellCmd($this->preview_filename);
+        $convert_cmd = ilUtil::escapeShellCmd($convert_cmd);
+        $convert_cmd = preg_replace('/\\\\(#([a-fA-F0-9]{3}|[a-fA-F0-9]{6}|[a-fA-F0-9]{8}))/', '${1}', $convert_cmd);
         $convert_cmd = $source . "[0] " . $convert_cmd . " " . $target;
-        ilUtil::execConvert($convert_cmd);
+        ilUtil::execQuoted(PATH_TO_CONVERT, $convert_cmd);
     }
 
     public function getPreviewFilename($imagePath, $baseFileName)

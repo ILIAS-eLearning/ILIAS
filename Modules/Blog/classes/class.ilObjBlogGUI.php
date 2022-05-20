@@ -114,6 +114,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     protected $prt_id;
 
     /**
+     * @var \ILIAS\DI\UIServices
+     */
+    protected $ui;
+
+    /**
      * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
      */
     protected $tool_context;
@@ -151,6 +156,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->keyword = ilUtil::stripSlashes($_REQUEST["kwd"]);
         $this->author = (int) $_REQUEST["ath"];
         $this->prt_id = (int) $_REQUEST["prt_id"];
+        $this->ui = $DIC->ui();
 
         $this->tool_context = $DIC->globalScreen()->tool()->context();
 
@@ -628,10 +634,6 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 } else {
                     //ilFileInputGUI::setPersonalWorkspaceQuotaCheck(true);
                 }
-                $ilTabs->setBackTarget(
-                    $lng->txt("back"),
-                    $ilCtrl->getLinkTarget($this, "")
-                );
 
                 $style_sheet_id = ilObjStyleSheet::getEffectiveContentStyleId(
                     $this->object->getStyleSheetId(),
@@ -693,6 +695,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $this->renderToolbarNavigation($this->items, true);
                 }
                 $ret = $ilCtrl->forwardCommand($bpost_gui);
+                if (!$ilTabs->back_target) {
+                    $ilCtrl->setParameter($this, "bmn", "");
+                    $ilTabs->setBackTarget(
+                        $lng->txt("back"),
+                        $ilCtrl->getLinkTarget($this, "")
+                    );
+                }
+
                 if ($ret != "") {
 
                     // $is_owner = $this->object->getOwner() == $ilUser->getId();
@@ -732,7 +742,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                                     $info[] = $lng->txt("blog_draft_info_contributors");
                                 }
                             }
-                            if ($cmd != "history" && $is_active && empty($info)) {
+                            if ($cmd != "history" && $cmd != "edit" && $is_active && empty($info)) {
                                 $info[] = $lng->txt("blog_new_posting_info");
                                 $public_action = true;
                             }
@@ -750,10 +760,14 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                                 }
                             //}
                             // revert to edit cmd to avoid confusion
-                            $this->addHeaderActionForCommand("render");
                             $tpl->setContent($ret);
-                            $nav = $this->renderNavigation("render", $cmd, null, $is_owner);
-                            $tpl->setRightContent($nav);
+                            if ($cmd != "edit") {
+                                $this->addHeaderActionForCommand("render");
+                                $nav = $this->renderNavigation("render", $cmd, null, $is_owner);
+                                $tpl->setRightContent($nav);
+                            } else {
+                                $this->tabs->setBackTarget("", "");
+                            }
                             break;
                     }
                 }
@@ -1418,8 +1432,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 );
                 
                 $wtpl->setCurrentBlock("prtf_edit_bl");
-                $wtpl->setVariable("PRTF_BLOG_EDIT", $list->getHTML());
+                //$wtpl->setVariable("PRTF_BLOG_EDIT", $list->getHTML());
                 $wtpl->parseCurrentBlock();
+                $b = $this->ui->factory()->button()->standard(
+                    $this->lng->txt("blog_edit"),
+                    $link
+                );
+                $this->toolbar->addComponent($b);
             }
         }
                                         
@@ -2108,7 +2127,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $ctrl->setParameter($this, "blpg", $this->blpg);
                 $ctrl->setParameter($this, "bmn", $this->month);
                 $toolbar->addSeparator();
-                $toolbar->addComponent($f->button()->standard($lng->txt("edit"), $link));
+                $toolbar->addComponent($f->button()->standard($lng->txt("blog_edit"), $link));
             }
         }
     }

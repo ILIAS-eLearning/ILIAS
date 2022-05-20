@@ -1,5 +1,7 @@
-// This file is deprecated in 1.12.0 to be removed in 1.13
+// This file is deprecated in 1.12.0 to be removed in 1.14
 ( function() {
+"use strict";
+
 define( [
 	"jquery",
 	"./data",
@@ -9,7 +11,7 @@ define( [
 	"./ie",
 	"./keycode",
 	"./labels",
-	"./jquery-1-7",
+	"./jquery-patch.js",
 	"./plugin",
 	"./safe-active-element",
 	"./safe-blur",
