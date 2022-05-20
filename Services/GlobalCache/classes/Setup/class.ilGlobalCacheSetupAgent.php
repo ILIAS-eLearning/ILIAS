@@ -62,6 +62,7 @@ class ilGlobalCacheSetupAgent implements Setup\Agent
             } else {
                 $settings->setActive(true);
                 switch ($data["service"]) {
+                    case "xcache": // xcache has been removed in ILIAS 8, we switch to static cache then
                     case "static":
                         $settings->setService(\ilGlobalCache::TYPE_STATIC);
                         break;

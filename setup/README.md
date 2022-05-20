@@ -264,7 +264,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
         ]
     },
     ```
-  * *service* (type: string) to be used for caching. Either `none`, `static`, `xcache`, `memcached`
+  * *service* (type: string) to be used for caching. Either `none`, `static`, `memcached`
     or `apc`, defaults to  `static`.
   * *components* (type: string or object) that should use caching. Can be `all` or any list of components that
     support caching,  (must be set too, if *service* is set)
