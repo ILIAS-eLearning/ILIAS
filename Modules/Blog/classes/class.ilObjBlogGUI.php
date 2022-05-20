@@ -1064,12 +1064,10 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $link = $ilCtrl->getLinkTargetByClass(array("ilportfoliopagegui", "ilobjbloggui"), "render");
                 $ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", "");
                 
-                $btn = ilLinkButton::getInstance();
-                $btn->setCaption(sprintf($lng->txt("prtf_edit_embedded_blog"), $this->object->getTitle()), false);
-                $btn->setUrl($link);
-                $btn->setPrimary(true);
-                
-                $list = $btn->render();
+                $this->toolbar->addComponent($this->ui->factory()->button()->standard(
+                    $this->lng->txt("blog_edit"),
+                    $link
+                ));
             }
         }
         
