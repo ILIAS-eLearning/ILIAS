@@ -636,11 +636,11 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
 
     public function getSpecificFeedbackOutput(array $userSolution) : string
     {
-        $firstValue1 = current($userSolution);
-        
+        $user_solution = array_keys($userSolution);
+        $user_answer = array_shift($user_solution);
+  
         $feedback = '<table><tbody>';
-        $user_answer = '  ' . $firstValue1;
-        
+      
         foreach ($this->object->getAnswers() as $idx => $ans) {
             if ($this->object->isKeywordMatching($user_answer, $ans->getAnswertext())) {
                 $fb = $this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation(

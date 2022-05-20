@@ -746,8 +746,10 @@ abstract class assQuestionGUI
                     $tree = $DIC['tree'];
                     $ilDB = $DIC['ilDB'];
                     $ilPluginAdmin = $DIC['ilPluginAdmin'];
+                    
                     // TODO: Courier Antipattern!
-                    $_GET["ref_id"] = $this->request->raw("calling_test");
+                    //$_GET["ref_id"] = $this->request->raw("calling_test");
+
                     $test = new ilObjTest($this->request->raw("calling_test"), true);
                     $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
 
@@ -825,7 +827,6 @@ abstract class assQuestionGUI
                 $originalexists = false;
             } else {
                 $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
-
             }
             if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                         && (int) $this->request->raw('calling_consumer')))
@@ -1792,9 +1793,14 @@ abstract class assQuestionGUI
             'edit_question',
             $this->ctrl->getLinkTargetByClass(
                 array('ilrepositorygui','ilobjquestionpoolgui', get_class($this)),
-                'editQuestion'),'editQuestion','','',false
+                'editQuestion'
+            ),
+            'editQuestion',
+            '',
+            '',
+            false
         );
-   }
+    }
 
     // TODO: OWN "PASS" IN THE REFACTORING getSolutionOutput
     abstract public function getSolutionOutput(

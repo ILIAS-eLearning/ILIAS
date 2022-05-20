@@ -276,7 +276,7 @@ class ilAssQuestionFeedbackEditingGUI
             return false;
         }
         
-        if (!$this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id)) {
+        if (!$this->questionOBJ->_questionExistsInPool($this->questionOBJ->getOriginalId())) {
             return false;
         }
         
