@@ -1374,18 +1374,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", $this->user_page);
             $link = $ilCtrl->getLinkTargetByClass(array("ilportfoliopagegui", "ilobjbloggui"), "render");
             $ilCtrl->setParameterByClass("ilportfoliopagegui", "ppage", "");
-
-            $list = new ilAdvancedSelectionListGUI();
-            $list->setListTitle($lng->txt("action"));
-            $list->addItem(
-                sprintf($lng->txt("prtf_edit_embedded_blog"), $this->object->getTitle()),
-                "",
+            $b = $this->ui->factory()->button()->standard(
+                $this->lng->txt("blog_edit"),
                 $link
             );
-
-            $wtpl->setCurrentBlock("prtf_edit_bl");
-            $wtpl->setVariable("PRTF_BLOG_EDIT", $list->getHTML());
-            $wtpl->parseCurrentBlock();
+            $this->toolbar->addComponent($b);
         }
                                         
         $is_admin = $this->isAdmin();
@@ -2101,7 +2094,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $ctrl->setParameter($this, "blpg", $this->blpg);
                 $ctrl->setParameter($this, "bmn", $this->month);
                 $toolbar->addSeparator();
-                $toolbar->addComponent($f->button()->standard($lng->txt("edit"), $link));
+                $toolbar->addComponent($f->button()->standard($lng->txt("blog_edit"), $link));
             }
         }
     }

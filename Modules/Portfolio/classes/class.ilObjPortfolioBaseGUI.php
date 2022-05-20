@@ -804,30 +804,31 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             ? "ilPortfolioTemplatePageGUI"
             : "ilportfoliopagegui";
         $button = null;
+        if ($this->checkPermissionBool("write")) {
+            if ($this->getType() === "prtt") {
+                $button = $this->ui->factory()->button()->standard(
+                    $this->lng->txt("prtt_edit"),
+                    $this->ctrl->getLinkTargetByClass(["ilobjportfoliotemplategui"], "view")
+                );
+            } else {
+                $button = $this->ui->factory()->button()->standard(
+                    $this->lng->txt("prtf_edit_portfolio"),
+                    $this->ctrl->getLinkTargetByClass(["ilobjportfoliogui"], "view")
+                );
+            }
+            $this->toolbar->addComponent($button);
+            $button = null;
+        }
         if (ilPortfolioPage::lookupType($page_id) === ilPortfolioPage::TYPE_PAGE) {
             $this->ctrl->setParameterByClass($page_class, "ppage", $page_id);
             $button = $this->ui->factory()->button()->standard(
-                $this->lng->txt("edit"),
+                $this->lng->txt("edit_page"),
                 $this->ctrl->getLinkTargetByClass($page_class, "edit")
             );
-        } elseif ($this->getType() !== "prtt") {
-            if ($page_id > 0) {
-                $this->ctrl->setParameterByClass("ilobjbloggui", "ppage", $page_id);
-                $this->ctrl->setParameterByClass(
-                    "ilobjbloggui",
-                    "prt_id",
-                    $this->port_request->getPortfolioId()
-                );
-                $button = $this->ui->factory()->button()->standard(
-                    $this->lng->txt("edit"),
-                    $this->ctrl->getLinkTargetByClass([$page_class, "ilobjbloggui"], "render")
-                );
+            if ($this->checkPermissionBool("write")) {
+                $this->toolbar->addComponent($button);
             }
-        } else {    // portfolio template, blog page cannot be edited -> link to overview
-            $button = $this->ui->factory()->button()->standard(
-                $this->lng->txt("edit"),
-                $this->ctrl->getLinkTargetByClass(["ilobjportfoliotemplategui"], "view")
-            );
+            $button = null;
         }
         if ($button && $this->checkPermissionBool("write")) {
             $this->tpl->setHeaderActionMenu($this->ui->renderer()->render($button));
