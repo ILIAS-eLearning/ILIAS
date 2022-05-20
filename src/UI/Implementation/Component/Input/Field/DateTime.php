@@ -95,9 +95,6 @@ class DateTime extends Input implements C\Input\Field\DateTime
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function withFormat(DateFormat $format) : C\Input\Field\DateTime
     {
         $clone = clone $this;
@@ -105,9 +102,6 @@ class DateTime extends Input implements C\Input\Field\DateTime
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getFormat() : DateFormat
     {
         return $this->format;
@@ -128,17 +122,11 @@ class DateTime extends Input implements C\Input\Field\DateTime
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getTimezone() : ?string
     {
         return $this->timezone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function withMinValue(DateTimeImmutable $datetime) : C\Input\Field\DateTime
     {
         $clone = clone $this;
@@ -146,17 +134,11 @@ class DateTime extends Input implements C\Input\Field\DateTime
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getMinValue() : ?DateTimeImmutable
     {
         return $this->min_date;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function withMaxValue(DateTimeImmutable $datetime) : C\Input\Field\DateTime
     {
         $clone = clone $this;
@@ -164,17 +146,11 @@ class DateTime extends Input implements C\Input\Field\DateTime
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getMaxValue() : ?DateTimeImmutable
     {
         return $this->max_date;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function withUseTime(bool $with_time) : C\Input\Field\DateTime
     {
         $clone = clone $this;
@@ -182,17 +158,11 @@ class DateTime extends Input implements C\Input\Field\DateTime
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getUseTime() : bool
     {
         return $this->with_time;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function withTimeOnly(bool $time_only) : C\Input\Field\DateTime
     {
         $clone = clone $this;
@@ -200,25 +170,16 @@ class DateTime extends Input implements C\Input\Field\DateTime
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getTimeOnly() : bool
     {
         return $this->with_time_only;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isClientSideValueOk($value) : bool
     {
         return is_string($value);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getConstraintForRequirement() : ?Constraint
     {
         return $this->refinery->string()->hasMinLength(1)
@@ -245,9 +206,6 @@ class DateTime extends Input implements C\Input\Field\DateTime
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getUpdateOnLoadCode() : Closure
     {
         return fn ($id) => "$('#$id').on('input dp.change', function(event) {
