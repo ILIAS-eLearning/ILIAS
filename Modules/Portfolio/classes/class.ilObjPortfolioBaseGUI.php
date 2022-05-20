@@ -802,7 +802,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             ? "ilPortfolioTemplatePageGUI"
             : "ilportfoliopagegui";
         $button = null;
-        if ($this->checkPermissionBool("write")) {
+        if ($this->checkPermissionBool("write") &&
+            ilPortfolioPage::lookupType($page_id) == ilPortfolioPage::TYPE_PAGE) {
             if ($this->getType() === "prtt") {
                 $button = $this->ui->factory()->button()->standard(
                     $this->lng->txt("prtt_edit"),
