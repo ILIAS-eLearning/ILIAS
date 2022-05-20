@@ -76,13 +76,20 @@ class ilBTPopOverGUI
         $icon = $f->symbol()->icon()->standard("bgtk", $this->txt("bg_task"));
         $title = $observer->getTitle() . ($state === State::SCHEDULED ? " ({$this->txt('scheduled')})" : "");
 
+        $item = $f->item()->notification($title, $icon);
+
+        $description_text = $this->txt('background_tasks');
+        $item = $item->withAdditionalOnLoadCode(function ($id) use ($description_text) {
+            return "il.BGTask.updateDescriptionOnClose('#$id','$description_text');";
+        });
+
         if ($state === State::USER_INTERACTION) {
             $actions = $this->getUserInteractionContent($observer, $redirect_uri);
             $primary_action = array_pop($actions);
             if ($primary_action instanceof Button) {
                 $title = $primary_action->withLabel($title);
             }
-            $item = $f->item()->notification($title, $icon);
+
 
 //            $item = $item->withProperties([
 //                $this->dic->language()->txt('nc_mail_prop_time') => \ilDatePresentation::formatDate(
@@ -104,8 +111,6 @@ class ilBTPopOverGUI
                 $this->getCloseButtonAction($current_task->getRemoveOption(), $redirect_uri, $observer)
             );
         }
-
-        $item = $f->item()->notification($title, $icon);
 
         if ($state === State::RUNNING) {
             $url = $this->getRefreshUrl($observer);
