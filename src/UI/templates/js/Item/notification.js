@@ -219,7 +219,7 @@ il.UI.item = il.UI.item || {};
 				if($close_button.length && url !== '#'){
 					$close_button.click(function(){
 						//Do not decrement if we deal with an aggregate that still has sibblings.
-						if(!isAggregate() || ! hasSibblings()){
+						if(!self.isAggregate() || ! self.hasSibblings()){
 							var $counter = self.getCounterObjectIfAny();
 							if($counter){
 								$counter.decrementNoveltyCount(amount);
@@ -229,7 +229,7 @@ il.UI.item = il.UI.item || {};
 						performAsyncCall(url,{},function(data) {
 							$item.append(data);
 						});
-						removeNotificationItem();
+						removeNotificationItem(self);
 					});
 				}
 				return this;
@@ -252,7 +252,7 @@ il.UI.item = il.UI.item || {};
 					$counter.decrementNoveltyCount(decrementCounterValue);
 				}
 
-				removeNotificationItem();
+				removeNotificationItem(self);
 				return this;
 			};
 
@@ -317,6 +317,42 @@ il.UI.item = il.UI.item || {};
 			}
 
 			/**
+			 * Checks if an item has any siblings
+			 * @returns {boolean}
+			 */
+			this.hasSibblings = function () {
+				return this.getNrOfSibblings() > 0;
+			}
+
+			/**
+			 * Get Number of Sibblings
+			 * @returns {boolean}
+			 */
+			this.getNrOfSibblings = function () {
+				return $item.siblings().children(".il-notification-item").length;
+			}
+
+			/**
+			 * return the parent item or false, if the item is not an aggregate
+			 * @returns {this}
+			 */
+			this.getParentItem = function(){
+				if(!this.isAggregate()) {
+					return false;
+				}
+
+				return getNotificationItemObject($item.parents("."+_cls_item_container));
+			};
+
+			/**
+			 * Checks if an item is an aggregate, aggregated by some other item
+			 * @returns {boolean}
+			 */
+			this.isAggregate = function(){
+				return $item.parents(".il-aggregate-notifications").length > 0;
+			};
+
+			/**
 			 * Interface returned by this function for public use
 			 * The contained functions are implemented below
 			 */
@@ -332,7 +368,11 @@ il.UI.item = il.UI.item || {};
 				replaceContentByAsyncItemContent: this.replaceContentByAsyncItemContent,
 				addAsyncAggregate: this.addAsyncAggregate,
 				getCloseButtonOfItem: this.getCloseButtonOfItem,
-				getCounterObjectIfAny: this.getCounterObjectIfAny
+				getCounterObjectIfAny: this.getCounterObjectIfAny,
+				hasSibblings: this.hasSibblings,
+				getNrOfSibblings: this.getNrOfSibblings,
+				getParentItem: this.getParentItem,
+				isAggregate: this.isAggregate
 			};
 
 
@@ -422,12 +462,12 @@ il.UI.item = il.UI.item || {};
 			 * additional cleaning up needs to be done.
 			 *
 			 * @private
-			 * @param $close_button
+			 * @param self
 			 */
-			var removeNotificationItem = function () {
-				if(!hasSibblings()){
+			var removeNotificationItem = function (self) {
+				if(!self.hasSibblings()){
 					getParentSlateOfItem().hide();
-					if(isAggregate()) {
+					if(self.isAggregate()) {
 						getParentSlateOfItem().show().siblings().show();
 					}
 				}
@@ -444,22 +484,6 @@ il.UI.item = il.UI.item || {};
 					$parent = $('body');
 				}
 				return $parent.find(".il-aggregate-notifications[data-aggregatedby="+getId()+"]");
-			};
-
-			/**
-			 * Checks if an item has any siblings
-			 * @returns {boolean}
-			 */
-			var hasSibblings = function () {
-				return $item.siblings().children(".il-notification-item").length > 0;
-			}
-
-			/**
-			 * Checks if an item is an aggregate, aggregated by some other item
-			 * @returns {boolean}
-			 */
-			var isAggregate = function(){
-				return $item.parents(".il-aggregate-notifications").length > 0;
 			};
 
 			/**
