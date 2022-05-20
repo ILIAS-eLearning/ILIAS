@@ -9484,7 +9484,7 @@ forum#:#forums_edit_post#:#Edit Article
 forum#:#forums_enable_notification#:#Enable Notification for this Thread
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new messages in this forum.
 forum#:#forums_info_censor2_post#:#Revoke Censorship?
-forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?
+forum#:#forums_info_censor_post#:#Please provide a reason for hiding this article.
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
 forum#:#forums_mark_read#:#Mark All as Read
