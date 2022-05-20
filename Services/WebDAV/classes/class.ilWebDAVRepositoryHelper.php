@@ -1,7 +1,5 @@
 <?php declare(strict_types = 1);
 
-use Sabre\DAV\Exception\Forbidden;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ use Sabre\DAV\Exception\Forbidden;
  *
  *********************************************************************/
  
+use Sabre\DAV\Exception\Forbidden;
+
 class ilWebDAVRepositoryHelper
 {
     protected ilAccessHandler $access;

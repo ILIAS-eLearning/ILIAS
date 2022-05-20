@@ -1,8 +1,5 @@
 <?php declare(strict_types = 1);
 
-use Psr\Http\Message\UriInterface;
-use Sabre\DAV\Browser\Plugin;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +16,9 @@ use Sabre\DAV\Browser\Plugin;
  *
  *********************************************************************/
  
+use Psr\Http\Message\UriInterface;
+use Sabre\DAV\Browser\Plugin;
+
 /**
  * The only purpose for this class is to redirect a browsers WebDAV-Request to the mount-instructions page
  */

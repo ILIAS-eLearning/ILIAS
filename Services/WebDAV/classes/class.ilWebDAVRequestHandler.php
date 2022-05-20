@@ -1,7 +1,5 @@
 <?php declare(strict_types = 1);
 
-use Sabre\DAV\Server;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ use Sabre\DAV\Server;
  *
  *********************************************************************/
  
+use Sabre\DAV\Server;
+
 /**
  * @author Raphael Heer <raphael.heer@hslu.ch>
  * $Id$

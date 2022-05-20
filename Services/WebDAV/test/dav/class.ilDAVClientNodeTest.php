@@ -1,8 +1,5 @@
 <?php declare(strict_types = 1);
 
-use PHPUnit\Framework\TestCase;
-use Sabre\DAV\Exception\Forbidden;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +15,9 @@ use Sabre\DAV\Exception\Forbidden;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+use PHPUnit\Framework\TestCase;
+use Sabre\DAV\Exception\Forbidden;
 
 require_once "./Services/WebDAV/test/ilWebDAVTestHelper.php";
  

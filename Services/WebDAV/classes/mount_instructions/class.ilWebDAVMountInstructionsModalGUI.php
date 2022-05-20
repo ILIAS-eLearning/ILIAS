@@ -1,9 +1,5 @@
 <?php declare(strict_types = 1);
 
-use ILIAS\UI\Factory;
-use ILIAS\UI\Renderer;
-use ILIAS\UI\Component\Modal\Lightbox;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -20,6 +16,10 @@ use ILIAS\UI\Component\Modal\Lightbox;
  *
  *********************************************************************/
  
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Modal\Lightbox;
+
 class ilWebDAVMountInstructionsModalGUI
 {
     private const MOUNT_INSTRUCTIONS_CONTENT_ID = 'webdav_mount_instructions_content';

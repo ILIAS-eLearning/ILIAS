@@ -1,8 +1,5 @@
 <?php declare(strict_types = 1);
 
-use \Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\UriInterface;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +16,9 @@ use Psr\Http\Message\UriInterface;
  *
  *********************************************************************/
  
+use \Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\UriInterface;
+
 class ilWebDAVUriBuilder
 {
     /**

@@ -1,13 +1,5 @@
 <?php declare(strict_types = 1);
 
-use ILIAS\Filesystem\Filesystems;
-use ILIAS\FileUpload\FileUpload;
-use ILIAS\HTTP\Services;
-use ILIAS\Refinery\Factory as RefineryFactory;
-use ILIAS\UI\Factory as UIFactory;
-use ILIAS\UI\Renderer;
-use ILIAS\DI\UIServices;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -24,6 +16,14 @@ use ILIAS\DI\UIServices;
  *
  *********************************************************************/
  
+use ILIAS\Filesystem\Filesystems;
+use ILIAS\FileUpload\FileUpload;
+use ILIAS\HTTP\Services;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer;
+use ILIAS\DI\UIServices;
+
 /**
  * @author
  * @ilCtrl_isCalledBy ilWebDAVMountInstructionsUploadGUI:  ilObjWebDAVGUI

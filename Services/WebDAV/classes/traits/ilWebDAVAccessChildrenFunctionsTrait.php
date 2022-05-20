@@ -1,9 +1,5 @@
 <?php declare(strict_types = 1);
 
-use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\Exception\Forbidden;
-use Sabre\DAV\INode;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -20,6 +16,10 @@ use Sabre\DAV\INode;
  *
  *********************************************************************/
  
+use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\INode;
+
 trait ilWebDAVAccessChildrenFunctionsTrait
 {
     protected function getChildByParentRefId(

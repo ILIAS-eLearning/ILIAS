@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ use PHPUnit\Framework\TestCase;
  *
  *********************************************************************/
  
+use PHPUnit\Framework\TestCase;
+
 class ilWebDAVCheckValidTitleTraitTest extends TestCase
 {
     use ilWebDAVCheckValidTitleTrait;

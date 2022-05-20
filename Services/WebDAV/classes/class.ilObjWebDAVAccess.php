@@ -1,9 +1,5 @@
 <?php declare(strict_types = 1);
 
-use ILIAS\HTTP\Services;
-use ILIAS\HTTP\Wrapper\RequestWrapper;
-use ILIAS\Refinery\Transformation;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -20,6 +16,10 @@ use ILIAS\Refinery\Transformation;
  *
  *********************************************************************/
  
+use ILIAS\HTTP\Services;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\Refinery\Transformation;
+
 /**
  * @author Lukas Zehnder <lz@studer-raimann.ch>
  */

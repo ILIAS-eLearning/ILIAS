@@ -1,10 +1,5 @@
 <?php declare(strict_types = 1);
 
-use Sabre\DAV\Exception\Forbidden;
-use Sabre\DAV\INode;
-use Sabre\DAV\ICollection;
-use Psr\Http\Message\RequestInterface;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,6 +16,11 @@ use Psr\Http\Message\RequestInterface;
  *
  *********************************************************************/
  
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\INode;
+use Sabre\DAV\ICollection;
+use Psr\Http\Message\RequestInterface;
+
 /**
  * @author Raphael Heer <raphael.heer@hslu.ch>
  */

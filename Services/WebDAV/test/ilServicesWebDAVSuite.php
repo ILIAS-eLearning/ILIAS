@@ -1,7 +1,5 @@
 <?php declare(strict_types = 1);
 
-use PHPUnit\Framework\TestSuite;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ use PHPUnit\Framework\TestSuite;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+use PHPUnit\Framework\TestSuite;
 
 require_once __DIR__ . "/../../../libs/composer/vendor/autoload.php";
 

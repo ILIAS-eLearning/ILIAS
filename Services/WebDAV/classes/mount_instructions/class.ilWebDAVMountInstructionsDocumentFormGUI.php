@@ -1,10 +1,5 @@
 <?php declare(strict_types = 1);
 
-use ILIAS\Filesystem\Filesystem;
-use ILIAS\FileUpload\DTO\UploadResult;
-use ILIAS\FileUpload\FileUpload;
-use ILIAS\FileUpload\Location;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,6 +16,11 @@ use ILIAS\FileUpload\Location;
  *
  *********************************************************************/
  
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\FileUpload\DTO\UploadResult;
+use ILIAS\FileUpload\FileUpload;
+use ILIAS\FileUpload\Location;
+
 class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
 {
     protected ilWebDAVMountInstructionsDocument $document;

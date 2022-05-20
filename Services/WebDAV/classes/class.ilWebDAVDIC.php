@@ -1,11 +1,5 @@
 <?php declare(strict_types = 1);
 
-use Pimple\Container;
-use ILIAS\DI\Container as ILIASContainer;
-use Sabre\DAV\Auth\Plugin as AuthPlugin;
-use Sabre\DAV\Locks\Plugin as LocksPlugin;
-use Sabre\DAV\Auth\Backend\BasicCallBack;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -22,6 +16,12 @@ use Sabre\DAV\Auth\Backend\BasicCallBack;
  *
  *********************************************************************/
  
+use Pimple\Container;
+use ILIAS\DI\Container as ILIASContainer;
+use Sabre\DAV\Auth\Plugin as AuthPlugin;
+use Sabre\DAV\Locks\Plugin as LocksPlugin;
+use Sabre\DAV\Auth\Backend\BasicCallBack;
+
 class ilWebDAVDIC extends Container
 {
     public function initWithoutDIC() : void

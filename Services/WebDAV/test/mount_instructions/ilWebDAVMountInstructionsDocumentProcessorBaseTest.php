@@ -1,8 +1,5 @@
 <?php
 
-use \PHPUnit\Framework\TestCase;
-use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +16,9 @@ use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
  *
  *********************************************************************/
  
+use \PHPUnit\Framework\TestCase;
+use \Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
 class ilWebDAVMountInstructionsDocumentProcessorBaseTest extends TestCase
 {
     private function createDocumentProcessorBaseObject() : ilWebDAVMountInstructionsDocumentProcessorBase

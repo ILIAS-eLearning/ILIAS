@@ -1,8 +1,5 @@
 <?php declare(strict_types = 1);
 
-use Sabre\DAV\Exception\Forbidden;
-use Sabre\DAV\ICollection;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +16,9 @@ use Sabre\DAV\ICollection;
  *
  *********************************************************************/
  
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\ICollection;
+
 /**
  * This class represents the absolut Root-Node on a WebDAV request. If for example following URL is called:
  * https://ilias.de/webdav.php/client/ref_1234/folder

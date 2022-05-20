@@ -1,8 +1,5 @@
 <?php declare(strict_types = 1);
 
-use Sabre\DAV\Exception\Forbidden;
-use Sabre\DAV\Exception\NotFound;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +16,9 @@ use Sabre\DAV\Exception\NotFound;
  *
  *********************************************************************/
  
+use Sabre\DAV\Exception\Forbidden;
+use Sabre\DAV\Exception\NotFound;
+
 class ilDAVProblemInfoFile implements Sabre\DAV\IFile
 {
     const PROBLEM_INFO_FILE_NAME = '#!_WEBDAV_INFORMATION.txt';

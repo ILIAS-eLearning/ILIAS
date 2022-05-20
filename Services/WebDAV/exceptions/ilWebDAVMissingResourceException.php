@@ -1,7 +1,5 @@
 <?php declare(strict_types = 1);
 
-use Sabre\DAV\Exception\NotFound;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -18,6 +16,8 @@ use Sabre\DAV\Exception\NotFound;
  *
  *********************************************************************/
  
+use Sabre\DAV\Exception\NotFound;
+
 class ilWebDAVMissingResourceException extends NotFound
 {
     public const MISSING_RESSOURCE = 'This object points to a file without resource';

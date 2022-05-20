@@ -1,10 +1,5 @@
 <?php declare(strict_types = 1);
 
-use Sabre\DAV\Exception\NotFound;
-use Sabre\DAV\Locks\Backend\AbstractBackend;
-use Sabre\DAV\Exception;
-use Sabre\DAV\Locks\LockInfo;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,6 +16,11 @@ use Sabre\DAV\Locks\LockInfo;
  *
  *********************************************************************/
  
+use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\Locks\Backend\AbstractBackend;
+use Sabre\DAV\Exception;
+use Sabre\DAV\Locks\LockInfo;
+
 /**
  * @author Raphael Heer <raphael.heer@hslu.ch>
  */

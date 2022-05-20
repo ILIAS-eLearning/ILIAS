@@ -1,8 +1,5 @@
 <?php declare(strict_types = 1);
 
-use ILIAS\DI\UIServices;
-use ILIAS\HTTP\Services;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -19,6 +16,9 @@ use ILIAS\HTTP\Services;
  *
  *********************************************************************/
  
+use ILIAS\DI\UIServices;
+use ILIAS\HTTP\Services;
+
 /**
  * @author Raphael Heer <raphael.heer@hslu.ch>
  * $Id$

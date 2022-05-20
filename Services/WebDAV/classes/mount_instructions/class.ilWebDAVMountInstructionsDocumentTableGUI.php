@@ -1,9 +1,5 @@
 <?php declare(strict_types = 1);
 
-use ILIAS\UI\Factory;
-use ILIAS\UI\Renderer;
-use Psr\Http\Message\RequestInterface;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -20,6 +16,10 @@ use Psr\Http\Message\RequestInterface;
  *
  *********************************************************************/
  
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use Psr\Http\Message\RequestInterface;
+
 class ilWebDAVMountInstructionsDocumentTableGUI extends ilTable2GUI
 {
     protected ilWebDAVUriBuilder $webdav_uri_builder;
