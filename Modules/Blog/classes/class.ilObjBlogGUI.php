@@ -114,6 +114,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     protected $prt_id;
 
     /**
+     * @var \ILIAS\DI\UIServices
+     */
+    protected $ui;
+
+    /**
      * @var \ILIAS\GlobalScreen\ScreenContext\ContextServices
      */
     protected $tool_context;
@@ -151,6 +156,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->keyword = ilUtil::stripSlashes($_REQUEST["kwd"]);
         $this->author = (int) $_REQUEST["ath"];
         $this->prt_id = (int) $_REQUEST["prt_id"];
+        $this->ui = $DIC->ui();
 
         $this->tool_context = $DIC->globalScreen()->tool()->context();
 
@@ -1426,8 +1432,13 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 );
                 
                 $wtpl->setCurrentBlock("prtf_edit_bl");
-                $wtpl->setVariable("PRTF_BLOG_EDIT", $list->getHTML());
+                //$wtpl->setVariable("PRTF_BLOG_EDIT", $list->getHTML());
                 $wtpl->parseCurrentBlock();
+                $b = $this->ui->factory()->button()->standard(
+                    $this->lng->txt("blog_edit"),
+                    $link
+                );
+                $this->toolbar->addComponent($b);
             }
         }
                                         
@@ -2116,7 +2127,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $ctrl->setParameter($this, "blpg", $this->blpg);
                 $ctrl->setParameter($this, "bmn", $this->month);
                 $toolbar->addSeparator();
-                $toolbar->addComponent($f->button()->standard($lng->txt("edit"), $link));
+                $toolbar->addComponent($f->button()->standard($lng->txt("blog_edit"), $link));
             }
         }
     }
