@@ -1,45 +1,19 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once './Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
-require_once './Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
-require_once './Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php';
-
-require_once './Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php';
-
-require_once './Services/Link/classes/class.ilLink.php';
-
-require_once './Services/Form/classes/class.ilFormPropertyDispatchGUI.php';
-require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-
-require_once './Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php';
-
-require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once './Modules/Test/classes/class.ilTestExpressPage.php';
-require_once './Modules/Test/classes/class.ilTestExpressPage.php';
-require_once './Modules/Test/classes/class.ilObjAssessmentFolder.php';
-require_once './Modules/Test/classes/class.ilObjTest.php';
-require_once './Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
-
-require_once './Modules/LearningModule/classes/class.ilLMPageObject.php';
-require_once './Modules/LearningModule/classes/class.ilObjContentObjectGUI.php';
-
-require_once './Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';
-
-require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
-require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php';
-require_once './Modules/TestQuestionPool/classes/class.ilSolutionTitleInputGUI.php';
-require_once './Modules/TestQuestionPool/classes/class.ilSolutionExplorer.php';
-require_once './Modules/TestQuestionPool/classes/tables/class.ilQuestionInternalLinkSelectionTableGUI.php';
-require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
-require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionHintGUI.php';
-require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
-require_once './Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
-require_once './Modules/TestQuestionPool/classes/tables/class.ilAnswerFrequencyStatisticTableGUI.php';
-require_once './Modules/TestQuestionPool/classes/tables/class.ilQuestionCumulatedStatisticsTableGUI.php';
-require_once './Modules/TestQuestionPool/classes/tables/class.ilQuestionUsagesTableGUI.php';
-require_once './Modules/TestQuestionPool/classes/questions/class.ilAssSelfAssessmentQuestionFormatter.php';
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
 * Basic GUI class for assessment questions
@@ -825,7 +799,6 @@ abstract class assQuestionGUI
                 $originalexists = false;
             } else {
                 $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
-
             }
             if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                         && (int) $this->request->raw('calling_consumer')))
@@ -1792,9 +1765,14 @@ abstract class assQuestionGUI
             'edit_question',
             $this->ctrl->getLinkTargetByClass(
                 array('ilrepositorygui','ilobjquestionpoolgui', get_class($this)),
-                'editQuestion'),'editQuestion','','',false
+                'editQuestion'
+            ),
+            'editQuestion',
+            '',
+            '',
+            false
         );
-   }
+    }
 
     // TODO: OWN "PASS" IN THE REFACTORING getSolutionOutput
     abstract public function getSolutionOutput(

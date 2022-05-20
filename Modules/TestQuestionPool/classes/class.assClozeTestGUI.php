@@ -1,12 +1,22 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 use ILIAS\Refinery\Random\Group as RandomGroup;
 use ILIAS\Refinery\Random\Seed;
-
-require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
-require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoringAdjustable.php';
 
 /**
  * Cloze test question GUI representation
@@ -27,6 +37,47 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 {
     const OLD_CLOZE_TEST_UI = false;
 
+    const JS_INSERT_GAP_CODE_AT_CARET = <<<JS
+    jQuery.fn.extend({
+        insertGapCodeAtCaret: function() {
+            return this.each(function(i) {
+                var code_start = "[gap]"
+                var code_end = "[/gap]"
+                if (typeof tinyMCE != "undefined" && typeof tinyMCE.get('cloze_text') != "undefined") {
+                    var ed =  tinyMCE.get('cloze_text');
+                    il.ClozeHelper.internetExplorerTinyMCECursorFix(ed);
+                    ed.selection.setContent(code_start + ed.selection.getContent() + code_end);
+                    ed.focus();
+                    return;
+                }
+                if (document.selection) {
+                    //For browsers like Internet Explorer
+                    this.focus();
+                    sel = document.selection.createRange();
+                    sel.text = code_start + sel.text + code_end;
+                    this.focus();
+                }
+                else if (this.selectionStart || this.selectionStart == '0') {
+                    //For browsers like Firefox and Webkit based
+                    var startPos = this.selectionStart;
+                    var endPos = this.selectionEnd;
+                    var scrollTop = this.scrollTop;
+                    this.value = this.value.substring(0, startPos)
+                            + code_start
+                            + this.value.substring(startPos, endPos)
+                            + code_end
+                            + this.value.substring(endPos, this.value.length);
+                    this.focus();
+                    this.scrollTop = scrollTop;
+                } else {
+                    this.value += code_start + code_end;
+                    this.focus();
+                }
+            });
+        }
+    });
+JS;
+
     /**
     * A temporary variable to store gap indexes of ilCtrl commands in the getCommand method
     */
@@ -44,7 +95,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         global $DIC;
 
         parent::__construct();
-        include_once "./Modules/TestQuestionPool/classes/class.assClozeTest.php";
+        
         $this->object = new assClozeTest();
         if ($id >= 0) {
             $this->object->loadFromDb($id);
@@ -128,10 +179,11 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
                             }
                         }
 
-                        if (array_key_exists('gap_' . $idx . '_gapsize', $_POST)) {
-                            $this->object->setGapSize($idx, $order, $_POST['gap_' . $idx . '_gapsize']);
-                        }
 
+                        $k_gapsize = 'gap_' . $idx . '_gapsize';
+                        if ($this->request->isset($k_gapsize)) {
+                            $this->object->setGapSize($idx, $order, $_POST[$k_gapsize]);
+                        }
                         break;
 
                     case CLOZE_SELECT:
@@ -338,14 +390,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         }
         $form->addItem($question);
 
-        //		$tpl = new ilTemplate("tpl.il_as_qpl_cloze_gap_button_code.html", TRUE, TRUE, "Modules/TestQuestionPool");
-        //		$tpl->setVariable('INSERT_GAP', $this->lng->txt('insert_gap'));
-        //		$tpl->setVariable('CREATE_GAPS', $this->lng->txt('create_gaps'));
-        //		$tpl->parseCurrentBlock();
-        //		$button = new ilCustomInputGUI('&nbsp;','');
-        //		$button->setHtml($tpl->get());
-        //		$form->addItem($button);
-
         $nr_tries = 0;
         if (!$this->object->getSelfAssessmentEditingMode()) {
             // duration
@@ -416,8 +460,6 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $tpl = new ilTemplate("tpl.il_as_qpl_cloze_gap_button_code.html", true, true, "Modules/TestQuestionPool");
 
         $button = new ilCustomInputGUI('&nbsp;', '');
-        require_once 'Services/UIComponent/SplitButton/classes/class.ilSplitButtonGUI.php';
-        require_once 'Services/UIComponent/Button/classes/class.ilJsLinkButton.php';
         $action_button = ilSplitButtonGUI::getInstance();
 
         $sb_text_gap = ilJsLinkButton::getInstance();
@@ -445,6 +487,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $tpl->parseCurrentBlock();
 
         $button->setHtml($tpl->get());
+        $this->tpl->addOnloadCode(self::JS_INSERT_GAP_CODE_AT_CARET);
         $form->addItem($button);
 
         // text rating
