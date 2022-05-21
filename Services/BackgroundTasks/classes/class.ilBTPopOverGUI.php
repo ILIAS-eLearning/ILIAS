@@ -87,7 +87,7 @@ class ilBTPopOverGUI
             $actions = $this->getUserInteractionContent($observer, $redirect_uri);
             $primary_action = array_pop($actions);
             if ($primary_action instanceof Button) {
-                $title = $primary_action->withLabel($title);
+                $item = $item->withTitle($primary_action->withLabel($title));
             }
 
 
