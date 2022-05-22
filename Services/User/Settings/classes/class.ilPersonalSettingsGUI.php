@@ -689,7 +689,7 @@ class ilPersonalSettingsGUI
             // starting point
             if (ilUserUtil::hasPersonalStartingPoint()) {
                 $s_ref_id = $this->form->getInput('usr_start_ref_id');
-                $s_ref_id = $s_ref_id == ""
+                $s_ref_id = ($s_ref_id == "")
                     ? null
                     : (int) $s_ref_id;
                 ilUserUtil::setPersonalStartingPoint(
