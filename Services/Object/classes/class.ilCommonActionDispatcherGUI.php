@@ -23,7 +23,7 @@
  * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilNoteGUI, ilTaggingGUI, ilObjectActivationGUI
  * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilRatingGUI, ilObjRootFolderGUI
  */
-class ilCommonActionDispatcherGUI implements ilCtrlBaseClassInterface
+class ilCommonActionDispatcherGUI
 {
     const TYPE_REPOSITORY = 1;
     const TYPE_WORKSPACE = 2;

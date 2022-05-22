@@ -57,12 +57,12 @@ class InternalGUIService
         $tpl = $main_tpl ?? $this->mainTemplate();
         $lng = $this->domain_service->lng();
         $ctrl = $this->ctrl();
-
         // temporary patch to make this work...
         global $DIC;
         $ref_id = $DIC->repository()->internal()->gui()->standardRequest()->getRefId();
         $type = \ilObject::_lookupType($ref_id, true);
         switch ($type) {
+            /*
             case "cat":
                 $path = ["ilrepositorygui", "ilobjcategorygui", "ilcommonactiondispatchergui", "ilnotegui"];
                 break;
@@ -74,12 +74,11 @@ class InternalGUIService
                 break;
             case "wiki":
                 $path = ["ilwikihandlergui", "ilobjwikigui", "ilcommonactiondispatchergui", "ilnotegui"];
-                break;
+                break;*/
             default:    // not working
                 $path = ["ilcommonactiondispatchergui", "ilnotegui"];
                 break;
         }
-        // ...end patch
 
         if ($ajax_url === "") {
             $ajax_url = $this->ctrl()->getLinkTargetByClass(
