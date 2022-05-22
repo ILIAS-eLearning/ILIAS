@@ -1459,7 +1459,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
     }
 
-    protected function getTabs() : void
+    public function getTabs() : void
     {
         $ilHelp = $this->help;
 
