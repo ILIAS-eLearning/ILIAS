@@ -800,7 +800,8 @@ class ilLMPresentationGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInt
 
     public function addHeaderAction() : void
     {
-        $this->tpl->setVariable("HEAD_ACTION", $this->getHeaderAction());
+        //$this->tpl->setVariable("HEAD_ACTION", $this->getHeaderAction());
+        $this->tpl->setHeaderActionMenu($this->getHeaderAction());
     }
 
     public function getHeaderAction(
