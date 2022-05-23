@@ -805,7 +805,7 @@ class ilObjStyleSheet extends ilObject
                     $obj_ids = self::lookupObjectForStyle((int) $style_rec["id"]);
                 }
                 foreach ($obj_ids as $id) {
-                    $ref = ilObject::_getAllReferences($id);
+                    $ref = ilObject::_getAllReferences((int) $id);
                     foreach ($ref as $ref_id) {
                         if ($ilAccess->checkAccess("write", "", $ref_id)) {
                             $clonable = true;

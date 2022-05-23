@@ -597,7 +597,7 @@ class ilObjContentObject extends ilObject
         $res = $ilDB->query($q);
         $obj_ids = array();
         while ($cont = $ilDB->fetchAssoc($res)) {
-            $obj_ids[] = $cont["id"];
+            $obj_ids[] = (int) $cont["id"];
         }
         return $obj_ids;
     }
