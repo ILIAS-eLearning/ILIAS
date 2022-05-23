@@ -678,7 +678,7 @@ class SettingsFormGUI
                 $rmdt->setRequired(true);
                 $rmdt->addOption(new \ilRadioOption($lng->txt("svy_reminder_mail_template_none"), "-1"));
                 foreach ($mtmpl as $mtmpl_id => $mtmpl_caption) {
-                    $option = new \ilRadioOption($mtmpl_caption, $mtmpl_id);
+                    $option = new \ilRadioOption($mtmpl_caption, (string) $mtmpl_id);
                     $rmdt->addOption($option);
                 }
 

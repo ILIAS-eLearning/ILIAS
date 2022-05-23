@@ -1013,7 +1013,7 @@ class ilObjSurvey extends ilObject
         }
         
         // moved activation to ilObjectActivation
-        if ($this->ref_id) {
+        if (isset($this->ref_id) && $this->ref_id !== 0) {
             $activation = ilObjectActivation::getItem($this->ref_id);
             switch ($activation["timing_type"]) {
                 case ilObjectActivation::TIMINGS_ACTIVATION:

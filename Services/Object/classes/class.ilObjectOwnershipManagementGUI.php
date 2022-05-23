@@ -105,6 +105,10 @@ class ilObjectOwnershipManagementGUI
             }
             $this->ctrl->setParameter($this, "type", $sel_type);
         }
+        
+        if ($sel_type === '') {
+            return;
+        }
 
         if (is_array($objects[$sel_type]) && sizeof($objects[$sel_type])) {
             ilObject::fixMissingTitles($sel_type, $objects[$sel_type]);
