@@ -413,7 +413,7 @@ class ilObjectServiceSettingsGUI
             if ($position_settings->isActive() && $position_settings->isChangeableForObject()) {
                 $orgu_object_settings = new ilOrgUnitObjectPositionSetting($obj_id);
                 $orgu_object_settings->setActive(
-                    (int) $form->getInput(self::ORGU_POSITION_ACCESS)
+                    (bool) $form->getInput(self::ORGU_POSITION_ACCESS)
                 );
                 $orgu_object_settings->update();
             }
