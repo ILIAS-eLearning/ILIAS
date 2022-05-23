@@ -2067,18 +2067,18 @@ auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchron
 auth#:#auth_page_type_auth#:#Login-Seite
 auth#:#auth_saml_add_idp_btn#:#Identity - hinzufügen
 auth#:#auth_saml_add_idp_md_error#:#Der eingegeben Wert entsprach leider nicht einem wohlgeformten XML-Dokument. Bitte stellen Sie sicher, dass das XML einen gültigen Identity-Provider enthält.
-auth#:#auth_saml_add_idp_md_info#:#Bitte fügen Sie hier die Metadaten des Identity-Provider als XML-formatierte Zeichenkette ein.
+auth#:#auth_saml_add_idp_md_info#:#Bitte fügen Sie hier die Metadaten des Identity-Providers als XML-formatierte Zeichenkette ein.
 auth#:#auth_saml_add_idp_md_label#:#Identity-Provider-SAML-Metadaten
 auth#:#auth_saml_configure_idp#:#SAML-IDP konfigurieren: %s
 auth#:#auth_saml_configure#:#SAML-Unterstützung konfigurieren
-auth#:#auth_saml_deleted_idp#:#Der Identity -rovider wurde gelöscht.
+auth#:#auth_saml_deleted_idp#:#Der Identity-Provider wurde gelöscht.
 auth#:#auth_saml_enable#:#SAML-Unterstützung aktivieren
 auth#:#auth_saml_err_sqlite_driver#:#Die SAML-Authentifizierung benötigt die SQLite-Treiber für PHP. Bitte installieren Sie diese und versuchen Sie es erneut.
 auth#:#auth_saml_idp#:#IDP
 auth#:#auth_saml_idp_selection_table_desc#:#Bitte wählen Sie den Identity-Provider aus, mit dem Sie sich einloggen möchten.
 auth#:#auth_saml_idp_selection_table_title#:#Identity-Provider
 auth#:#auth_saml_idp_settings#:#IDP Einstellungen
-auth#:#auth_saml_idps_info#:#Bitte kontrollieren Sie vor dem Hinzufügen eines Identity-Provider die SimpleSAMLphp Konfiguration in den Dateien '<strong>%s</strong>' und '<strong>%s</strong>' (externes Datenverzeichnis) und passen Sie diese an. Bitte denken Sie vor allem daran, die Serverpfade für Ihren privaten Schlüssel und das Zertifikat in der Datei authsources.php zu konfigurieren. Lesen Sie dazu auch die folgende Dokumentation: %s.<br />Federation Metadata URL: %s
+auth#:#auth_saml_idps_info#:#Bitte kontrollieren Sie vor dem Hinzufügen eines Identity-Providers die SimpleSAMLphp Konfiguration in den Dateien '<strong>%s</strong>' und '<strong>%s</strong>' (externes Datenverzeichnis) und passen Sie diese an. Bitte denken Sie vor allem daran, die Serverpfade für Ihren privaten Schlüssel und das Zertifikat in der Datei authsources.php zu konfigurieren. Lesen Sie dazu auch die folgende Dokumentation: %s.<br />Federation Metadata URL: %s
 auth#:#auth_saml_idps#:#SAML IDP Liste
 auth#:#auth_saml_login_form#:#Anzeige im Anmeldeformular
 auth#:#auth_saml_login_form_info#:#Falls aktiviert und es mindestens einen aktiven IDP gibt, wird auf der Anmeldeseite von ILIAS ein Button angezeigt, der bei Klick einen SAML-Request initiert.
@@ -8638,11 +8638,11 @@ ecs#:#ecs_active#:#ECS-Funktionalitäten aktivieren
 ecs#:#ecs_active_header#:#Export/Import erlaubt
 ecs#:#ecs_add_new_ecs#:#Neuen ECS hinzufügen
 ecs#:#ecs_apache_pass#:#Passwort
-ecs#:#ecs_apache_user#:#Benutzername
+ecs#:#ecs_apache_user#:#Anmeldename###Modified as part of gender mainstreaming activities for ILIAS 8
 ecs#:#ecs_approval_rcp#:#Benachrichtigungen über Kursfreigaben
-ecs#:#ecs_approval_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue Kursfreigaben per E-Mail benachrichtigt werden sollen.
+ecs#:#ecs_approval_rcp_info#:#Geben Sie hier kommagetrennt einen oder mehrere Anmeldenamen ein, die über neue Kursfreigaben per Mail benachrichtigt werden sollen.###Modified as part of gender mainstreaming activities for ILIAS 8
 ecs#:#ecs_attribute_name#:#Attributname
-ecs#:#ecs_auth_type_apache#:#Benutzername/Passwort
+ecs#:#ecs_auth_type_apache#:#Anmeldename/Passwort###Modified as part of gender mainstreaming activities for ILIAS 8
 ecs#:#ecs_auth_type#:#Authentifizierungsart
 ecs#:#ecs_auth_type_cert#:#Zertifikatbasiert
 ecs#:#ecs_availability#:#Verfügbarkeit
@@ -8727,7 +8727,7 @@ ecs#:#ecs_dir_alloc#:#Verzeichniszuordnungen
 ecs#:#ecs_dns#:#Domänenname
 ecs#:#ecs_duration#:#Dauer
 ecs#:#ecs_econ_rcp#:#Benachrichtigungen über externe Kurse
-ecs#:#ecs_econ_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue externe Kurse per E-Mail benachrichtigt werden sollen.
+ecs#:#ecs_econ_rcp_info#:#Geben Sie hier kommagetrennt einen oder mehrere Anmeldenamen ein, die über neue externe Kurse per Mail benachrichtigt werden sollen.###Modified as part of gender mainstreaming activities for ILIAS 8
 ecs#:#ecs_edit_category_mapping#:#Zuordnung bearbeiten
 ecs#:#ecs_email#:#E-Mail
 ecs#:#ecs_enable_participant#:#Kursimport und Export zulassen
@@ -8867,7 +8867,7 @@ ecs#:#ecs_tst_export_obj_settings#:#Einstellungen für Testfreigaben
 ecs#:#ecs_tst_export#:#Testfreigaben
 ecs#:#ecs_unique_id#:#Teilnehmer-ID
 ecs#:#ecs_user_rcp#:#Benachrichtigungen über ECS-Benutzer
-ecs#:#ecs_user_rcp_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die über neue ECS-Benutzer per E-Mail benachrichtigt werden sollen.
+ecs#:#ecs_user_rcp_info#:#Geben Sie hier kommagetrennt einen oder mehrere Anmeldenamen ein, die über neue ECS-Konten per Mail benachrichtigt werden sollen.###Modified as part of gender mainstreaming activities for ILIAS 8
 ecs#:#ecs_wiki_export_disabled#:#Nicht freigeben
 ecs#:#ecs_wiki_export_enabled#:#Freigeben
 ecs#:#ecs_wiki_export_obj_settings#:#Einstellungen für Wikifreigaben
@@ -9955,8 +9955,8 @@ iass#:#iass_sort_changetime_asc#:#Letzte Änderung → aufsteigend
 iass#:#iass_sort_changetime_desc#:#Letzte Änderung → absteigend
 iass#:#iass_sort_examiner_login_asc#:#Prüfer → aufsteigend
 iass#:#iass_sort_examiner_login_desc#:#Prüfer → absteigend
-iass#:#iass_sort_name_asc#:#Benutzername → aufsteigend
-iass#:#iass_sort_name_desc#:#Benutzername → absteigend
+iass#:#iass_sort_name_asc#:#Anmeldename → aufsteigend###Modified as part of gender mainstreaming activities for ILIAS 8
+iass#:#iass_sort_name_desc#:#Anmeldename → absteigend###Modified as part of gender mainstreaming activities for ILIAS 8
 iass#:#iass_sort#:#Sortierung
 iass#:#iass_status_completed#:#Bestanden
 iass#:#iass_status_failed#:#Nicht bestanden
@@ -10458,7 +10458,7 @@ lti#:#lti_con_prov_remarks#:#Interne Bemerkungen
 lti#:#lti_con_prov_secret#:#Secret
 lti#:#lti_con_prov_title#:#Titel
 lti#:#lti_con_prov_url#:#URL des Providers
-lti#:#lti_con_prov_use_provider_id_info#:#In der Regel wird die Ref-Id des LTI-Konsumenten an den Provider übertragen. Einige Provider verknüpfen diese Ref-Id mit der Ressource des Providers. Um immer die gleiche Ressource von diesen Providern zu erhalten, sollte diese Option aktiviert sein.
+lti#:#lti_con_prov_use_provider_id_info#:#In der Regel wird die Ref-Id des LTI-Konsumenten an den Provider übertragen. Einige Provider verknüpfen diese Ref-ID mit der Ressource des Providers. Um immer die gleiche Ressource von diesen Providern zu erhalten, sollte diese Option aktiviert sein.
 lti#:#lti_con_prov_use_provider_id#:#Provider-ID verwenden
 lti#:#lti_con_prov_use_xapi_info#:#Provider unterstützt xAPI-Statements
 lti#:#lti_con_prov_use_xapi#:#Provider unterstützt die Abfrage von xAPI-Statements
@@ -13860,7 +13860,7 @@ registration#:#reg_mail_new_user_confirmation#:#Anfrage zur Überprüfung der An
 registration#:#reg_missing_domain#:#Bitte füllen Sie alle notwendigen Felder aus.
 registration#:#reg_missing_role#:#Bitte füllen Sie alle notwendigen Felder aus.
 registration#:#reg_notification#:#Benachrichtigungen
-registration#:#reg_notification_info#:#Geben Sie hier einen oder mehrere Benutzernamen (durch Komma getrennt) ein, die bei Neuanmeldungen per E-Mail benachrichtigt werden sollen.
+registration#:#reg_notification_info#:#Geben Sie hier einen oder mehrere Anmeldenamen (durch Komma getrennt) ein, die bei Neuanmeldungen per E-Mail benachrichtigt werden sollen.###Modified as part of gender mainstreaming activities for ILIAS 8
 registration#:#reg_role_access_limitations#:#Zugangsfristen für Rollen festlegen
 registration#:#reg_role_assignment#:#Rollenzuordnung
 registration#:#reg_role_info#:#Rollen
@@ -15614,8 +15614,8 @@ survey#:#survey_notification_target_group_parent_course_inactive#:#Kein übergeo
 survey#:#survey_notification_target_group#:#Zielgruppe
 survey#:#survey_notification_tutor_body#:#die folgende Umfrage ist von allen Teilnehmern beendet worden
 survey#:#survey_notification_tutor_link#:#Link zur Umfrage
-survey#:#survey_notification_tutor_recipients_invalid#:#Bitte geben Sie Benutzer mit Schreibrecht an.
-survey#:#survey_notification_tutor_recipients#:#Tutoren (Benutzername[n])
+survey#:#survey_notification_tutor_recipients_invalid#:#Bitte geben Sie den Anmeldenamen einer Person mit Schreibrechten an.###Modified as part of gender mainstreaming activities for ILIAS 8
+survey#:#survey_notification_tutor_recipients#:#Mail senden an (Anmeldename)
 survey#:#survey_notification_tutor_salutation#:#Hallo %s,
 survey#:#survey_notification_tutor_setting#:#Eine E-Mail nachdem alle Teilnehmer beendet haben
 survey#:#survey_notification_tutor_subject#:#Alle Teilnehmer haben die Umfrage "%s" beendet
@@ -15817,7 +15817,7 @@ survey#:#text_question_not_filled_out#:#Sie müssen alle Antwortfelder ausfülle
 survey#:#unfold#:#Fragenblock auflösen
 survey#:#upper_limit_must_be_greater#:#Die obere Schranke muss größer als die untere Schranke sein!
 survey#:#upper_limit#:#Obere Schranke
-survey#:#use_anonymous_id_desc#:#Zeigt bei anonymisierten Umfragen statt des Benutzernamens den Zugangsschlüssel an. Wenn die Option nicht ausgewählt ist, wird stattdessen die Zeichenkette "Unbekannt" angezeigt.
+survey#:#use_anonymous_id_desc#:#Zeigt bei anonymisierten Umfragen statt des Anmeldenamens den Zugangsschlüssel an. Wenn die Option nicht ausgewählt ist, wird stattdessen die Zeichenkette „Unbekannt“ angezeigt.
 survey#:#use_anonymous_id#:#Zugangsschlüssel anzeigen
 survey#:#use_browser_print_function#:#Bitte verwenden Sie die Druckfunktion Ihres Webbrowsers
 survey#:#used#:#benutzt
@@ -16039,7 +16039,7 @@ tos#:#tos_tbl_hist_head_criteria#:#Vorlagekriterien
 tos#:#tos_tbl_hist_head_document#:#Dokument
 tos#:#tos_tbl_hist_head_firstname#:#Vorname
 tos#:#tos_tbl_hist_head_lastname#:#Nachname
-tos#:#tos_tbl_hist_head_login#:#Benutzername
+tos#:#tos_tbl_hist_head_login#:#Anmeldename
 tos#:#tos_tos_settings#:#Einstellungen
 tos#:#tos_withdrawal_usr_deletion_info#:#Falls aktiviert, resultiert der bestätigte Widerruf der Nutzungsvereinbarung in der Löschung des Benutzerkontos.
 tos#:#tos_withdrawal_usr_deletion#:#Löschung des Benutzerkontos beim Widerruf
@@ -16443,7 +16443,7 @@ user#:#user_store_last_visited#:#Zuletzt besucht
 user#:#user_visibility_settings#:#Sichtbarkeit
 user#:#user_visible_in_profile#:#Sichtbar in den persönlichen Daten
 user#:#usr_id#:#Systeminterne ID
-user#:#usr_letter_avatars_info#:#Zeigt die Initialen des Benutzernamens oder Logins an, wenn kein öffentliches Profilbild vorliegt.
+user#:#usr_letter_avatars_info#:#Wenn kein öffentliches Profilbild vorliegt, zeigt ILIAS als Avatar die Initialen des Vor- und Nachnamens bzw. Anmeldenamens an.
 user#:#usr_letter_avatars#:#Letter-Avatare
 user#:#usr_public_profile_disabled_info#:#Ihre Angaben sind nur für Systemadministratoren einsehbar.
 user#:#usr_public_profile_disabled#:#Profil deaktiviert
