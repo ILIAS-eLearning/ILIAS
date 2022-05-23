@@ -800,7 +800,7 @@ abstract class ilObject2GUI extends ilObjectGUI
             }
         }
 
-        return parent::initHeaderAction();
+        return parent::initHeaderAction($sub_type, $sub_id);
     }
     
     /**
