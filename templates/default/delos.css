@@ -8393,9 +8393,6 @@ select.form-control {
 .radio-inline input[type="radio"] {
   vertical-align: top;
 }
-[dir="rtl"] .form-horizontal .control-label {
-  text-align: left;
-}
 label {
   font-weight: normal;
 }
