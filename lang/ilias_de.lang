@@ -16717,12 +16717,12 @@ wiki#:#wiki_whole_wiki#:#Gesamtes Wiki
 wiki#:#wiki_wiki_page#:#Wiki-Seite
 wiki#:#wiki_wiki_search#:#Suche im Wiki
 wiki#:#wiki_wpg#:#Wiki-Seite
-wsp#:#element_already_shared#:#Die Ressource ist für diesen Benutzer bereits freigegeben.
+wsp#:#element_already_shared#:#Die Ressource ist für diese Person bereits freigegeben.###Modified as part of gender mainstreaming activities for ILIAS 8
 wsp#:#element_shared#:#Die Ressource wurde freigegeben.
 wsp#:#error_creating_certificate_pdf#:#Das Zertifikat konnte nicht erstellt werden. Bitte lassen Sie den Zertifikatsserver durch einen Administrator prüfen.
 wsp#:#share_content#:#Ressource freigeben
 wsp#:#share#:#Freigeben
-wsp#:#share_with#:#Benutzername
+wsp#:#share_with#:#Anmeldename###Modified as part of gender mainstreaming activities for ILIAS 8
 wsp#:#wsp_copy_to_repository#:#Ins Magazin kopieren
 wsp#:#wsp_invalid_password#:#Das Passwort ist ungültig.
 wsp#:#wsp_list_cmxv#:#Zertifikat des xAPI/cmi5 Objekts
@@ -16758,7 +16758,7 @@ wsp#:#wsp_shared_resources#:#Freigegebene Ressourcen
 wsp#:#wsp_shared_table_title#:#Freigaben
 wsp#:#wsp_shared_title#:#Titel der Ressource
 wsp#:#wsp_shared_type#:#Freigegeben für
-wsp#:#wsp_shared_user_filter#:#Benutzername/Name
+wsp#:#wsp_shared_user_filter#:Name/Anmeldename###Modified as part of gender mainstreaming activities for ILIAS 8
 wsp#:#wsp_shared_with#:#Freigegeben für
 wsp#:#wsp_share_search_users#:#Benutzer suchen
 wsp#:#wsp_share_success#:#Ein neuer Eintrag wurde hinzugefügt.
