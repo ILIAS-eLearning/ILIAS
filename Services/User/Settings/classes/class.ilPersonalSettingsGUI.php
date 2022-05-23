@@ -449,7 +449,7 @@ class ilPersonalSettingsGUI
             $ilSetting->get("help_mode") != "1") {
             $this->lng->loadLanguageModule("help");
             $cb = new ilCheckboxInputGUI($this->lng->txt("help_toggle_tooltips"), "help_tooltips");
-            $cb->setChecked(!$ilUser->prefs["hide_help_tt"]);
+            $cb->setChecked(!($ilUser->prefs["hide_help_tt"] ?? false));
             $cb->setInfo($this->lng->txt("help_toggle_tooltips_info"));
             $this->form->addItem($cb);
         }
