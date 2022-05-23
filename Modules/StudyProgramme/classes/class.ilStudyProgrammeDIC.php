@@ -38,7 +38,7 @@ class ilStudyProgrammeDIC
         $dic['permissionhelper'] = static function ($dic) use ($prg, $DIC) {
             return new ilPRGPermissionsHelper(
                 $DIC['ilAccess'],
-                new ilOrgUnitPositionAccess(),
+                new ilOrgUnitPositionAccess($DIC['ilAccess']),
                 $prg
             );
         };
