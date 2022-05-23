@@ -775,6 +775,7 @@ class ilObjLanguage extends ilObject
      */
     public function check(string $scope = "") : bool
     {
+        include_once "./Services/Utilities/classes/class.ilStr.php";
         $scopeExtension = "";
         if (!empty($scope)) {
             if ($scope === "global") {

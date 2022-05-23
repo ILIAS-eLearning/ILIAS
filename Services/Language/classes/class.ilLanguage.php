@@ -101,6 +101,8 @@ class ilLanguage
         if (!in_array($this->lang_key, $langs, true)) {
             $this->lang_key = $this->lang_default;
         }
+    
+        require_once("./Services/Language/classes/class.ilCachedLanguage.php");
         $this->global_cache = ilCachedLanguage::getInstance($this->lang_key);
         if ($this->global_cache->isActive()) {
             $this->cached_modules = $this->global_cache->getTranslations();
@@ -287,6 +289,7 @@ class ilLanguage
      */
     public static function _getInstalledLanguages() : array
     {
+        include_once "./Services/Object/classes/class.ilObject.php";
         $langlist = ilObject::_getObjectsByType("lng");
 
         $languages = [];

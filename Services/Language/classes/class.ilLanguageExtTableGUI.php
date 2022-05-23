@@ -120,6 +120,8 @@ class ilLanguageExtTableGUI extends ilTable2GUI
 
         // most filters are only
         if (!ilObjLanguageAccess::_isPageTranslation()) {
+            // pattern
+            include_once "./Services/Form/classes/class.ilTextInputGUI.php";
             $ti = new ilTextInputGUI($lng->txt("search"), "pattern");
             //$ti->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
             $ti->setMaxLength(64);
@@ -134,6 +136,8 @@ class ilLanguageExtTableGUI extends ilTable2GUI
             foreach ($modules as $mod) {
                 $options[$mod] = $mod;
             }
+
+            include_once "./Services/Form/classes/class.ilSelectInputGUI.php";
             $si = new ilSelectInputGUI(ucfirst($lng->txt("module")), "module");
             //$si->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
             $si->setOptions($options);
@@ -142,6 +146,9 @@ class ilLanguageExtTableGUI extends ilTable2GUI
             if (!$si->getValue()) {
                 $si->setValue("administration");
             }
+
+            // identifier
+            include_once "./Services/Form/classes/class.ilTextInputGUI.php";
             $ti = new ilTextInputGUI(ucfirst($lng->txt("identifier")), "identifier");
             //$ti->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
             $ti->setMaxLength(200);
@@ -164,6 +171,8 @@ class ilLanguageExtTableGUI extends ilTable2GUI
                 $options["dbremarks"] = $lng->txt("language_scope_dbremarks");
             }
             $options["conflicts"] = $lng->txt("language_scope_conflicts");
+
+            include_once "./Services/Form/classes/class.ilSelectInputGUI.php";
             $si = new ilSelectInputGUI($lng->txt("filter"), "mode");
             //$si->setParent($this->parent_obj);//Todo-PHP8-Review Begin: The wrong type is passed here, maybe you could just remove this method call
             $si->setOptions($options);
@@ -180,6 +189,8 @@ class ilLanguageExtTableGUI extends ilTable2GUI
         foreach ($langlist as $lang_key) {
             $options[$lang_key] = $lng->txt("meta_l_" . $lang_key);
         }
+    
+        include_once "./Services/Form/classes/class.ilSelectInputGUI.php";
         $si = new ilSelectInputGUI($lng->txt("language_compare"), "compare");
         //$si->setParent($this->parent_obj);
         $si->setOptions($options);

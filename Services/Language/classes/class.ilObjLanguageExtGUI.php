@@ -102,6 +102,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     protected function assignObject() : void
     {
+        require_once("Services/Language/classes/class.ilObjLanguageExt.php");
         $this->object = new ilObjLanguageExt($this->id);
     }
 
@@ -146,6 +147,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
      */
     protected function getViewTable() : \ilLanguageExtTableGUI
     {
+        // create and configure the table object
+        include_once "./Services/Language/classes/class.ilLanguageExtTableGUI.php";
         $table_gui = new ilLanguageExtTableGUI($this, "view", array(
             "langmode" => $this->langmode,
             "lang_key" => $this->object->key,
@@ -440,6 +443,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     public function importObject() : void
     {
+        require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_import_file"));
@@ -516,6 +520,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     public function exportObject() : void
     {
+        require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_export_file"));
@@ -608,6 +613,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     public function maintainObject() : void
     {
+        require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_maintenance"));
@@ -747,6 +753,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"));
         }
         $translate = (bool) $ilSetting->get($translate_key, '0');
+    
+        require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_settings"));
@@ -786,6 +794,9 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $total["changed"] = "<b>" . $total["changed"] . "</b>";
         $total["unchanged"] = "<b>" . $total["unchanged"] . "</b>";
         $data[] = $total;
+    
+        // create and configure the table object
+        include_once "Services/Table/classes/class.ilTable2GUI.php";
         $table_gui = new ilTable2GUI($this, "statistics");
         $table_gui->setRowTemplate("tpl.lang_statistics_row.html", "Services/Language");
         $table_gui->setEnableTitle(false);
@@ -964,6 +975,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             !in_array($a_id, ilObjLanguageAccess::_getSavedTopics())) {
             $ilCtrl->redirect($this, "view");
         }
+    
+        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "saveNewEntry"));
         $form->setTitle($this->lng->txt("adm_missing_entry_add"));

@@ -65,11 +65,15 @@ class ilLanguageDetectorFactory
     {
         switch ($type) {
             case self::HTTP_REQUEST_DETECTOR:
+                require_once "Services/Language/classes/class.ilHttpRequestsLanguageDetector.php";
                 return new ilHttpRequestsLanguageDetector($this->request_information["HTTP_ACCEPT_LANGUAGE"]);
 
             case self::DEFAULT_DETECTOR:
+                require_once "Services/Language/classes/class.ilDefaultLanguageDetector.php";
                 return new ilDefaultLanguageDetector($this->client_ini);
         }
+
+        require_once "Services/Language/exceptions/class.ilLanguageException.php";
         throw new ilLanguageException(__METHOD__ . sprintf("Cannot create language detector instance for type %s!", $type));
     }
 }

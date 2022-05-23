@@ -58,6 +58,8 @@ class ilHttpRequestsLanguageDetector implements ilLanguageDetector
                 }
             }
         }
+
+        require_once "Services/Language/exceptions/class.ilLanguageException.php";
         throw new ilLanguageException("Could not extract any language information from request.");
     }
 }
