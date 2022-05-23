@@ -276,7 +276,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
 		},
 		"proxy" : {
 			"host" : "webproxy.ilias.de",
-			"port" : 8088
+			"port" : "8088"
 		}
     },
     ```
