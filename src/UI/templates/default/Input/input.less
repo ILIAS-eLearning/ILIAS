@@ -92,6 +92,145 @@
   }
 }
 
+label, input[type=checkbox], input[type=radio], select {
+  cursor: pointer;
+}
+
+.form-control {
+  font-size: @il-standard-form-font-size;
+  color: @il-text-color;
+  border: 1px solid @il-main-border-dark-color;
+}
+
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+  background-color: @il-main-dark-bg;
+}
+
+.form-horizontal {
+  margin-bottom: 20px;
+  background: @il-standard-form-bg;
+}
+
+form.form-inline {
+  margin-bottom: 20px;
+}
+
+.form-horizontal .form-group {
+  margin: 0px;
+  padding: @il-padding-base-vertical 0;
+  background-color: @il-main-dark-bg;
+}
+
+.form-control, .form-control:focus {
+  .box-shadow(none);
+}
+
+.form-control:focus-visible {
+  .box-shadow(none);
+  outline: @il-focus-outline-inner;
+}
+
+input[type="file"]:focus:focus-visible::after,
+input[type="radio"]:focus:focus-visible::after,
+input[type="checkbox"]:focus:focus-visible::after {
+  content: none;
+}
+
+input.btn.btn-default:focus-visible {
+  outline: @il-focus-outline-inner;
+  outline-offset: @il-focus-outline-inner-width;
+}
+
+.btn-file:focus-within, .btn-file:hover:focus-within {
+  z-index: 3;
+  outline: @il-focus-outline-inner;
+  outline-offset: @il-focus-outline-inner-width;
+}
+
+textarea.form-control {
+  max-width: 100%;
+}
+
+select.form-control {
+  width: auto;
+  max-width:100%;
+}
+
+.form-horizontal label {
+  color: @il-standard-form-label-color;
+  font-size: 100%;
+}
+
+
+.form-horizontal {
+  .control-label {
+    //padding-top: 0;
+    //line-height: 24px;
+    padding-bottom: (@il-padding-base-vertical + 1);
+    min-height: (@line-height-computed + @font-size-base);
+    @media only screen and (max-width: @grid-float-breakpoint-max) {
+      min-height: auto;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+    &.col-sm-3.il_textarea {
+      text-align: left;
+      width: 100%;
+    }
+  }
+
+  .radio,
+  .checkbox,
+  .radio-inline,
+  .checkbox-inline {
+    padding-top: 0;
+    line-height: normal;
+  }
+  div.radio label.radio-inline {
+    line-height: @input-height-base;
+  }
+}
+
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+  position: static;
+  display: inline-block;
+  margin-left: -20px;
+  margin-top: 7px;
+  min-width: 13px;
+  @media only screen and (max-width: @grid-float-breakpoint-max) {
+    min-width: 16px;
+  }
+}
+.radio input[type="radio"],
+.radio-inline input[type="radio"] {
+  vertical-align: top;
+}
+
+[dir="rtl"] .form-horizontal .control-label {
+  text-align: left;
+}
+
+label {
+  font-weight: normal;
+}
+
+td.form-inline > div.form-group {
+  display: block;
+  padding: 4px 0;
+}
+
+input[type="radio"]:focus:focus-visible,
+input[type="checkbox"]:focus:focus-visible {
+  outline: @il-focus-outline-inner;
+  outline-offset: @il-focus-outline-outer-width;
+}
+
+
 //== Specific Inputs
 //
 //

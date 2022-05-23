@@ -8282,6 +8282,132 @@ ul.dropdown-menu > li > .btn:focus {
   background-color: #f2dede;
   border-color: #ebccd1;
 }
+label,
+input[type=checkbox],
+input[type=radio],
+select {
+  cursor: pointer;
+}
+.form-control {
+  font-size: 12px;
+  color: #161616;
+  border: 1px solid #757575;
+}
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+  background-color: #f9f9f9;
+}
+.form-horizontal {
+  margin-bottom: 20px;
+  background: white;
+}
+form.form-inline {
+  margin-bottom: 20px;
+}
+.form-horizontal .form-group {
+  margin: 0px;
+  padding: 3px 0;
+  background-color: #f9f9f9;
+}
+.form-control,
+.form-control:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.form-control:focus-visible {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  outline: 3px solid #0078D7;
+}
+input[type="file"]:focus:focus-visible::after,
+input[type="radio"]:focus:focus-visible::after,
+input[type="checkbox"]:focus:focus-visible::after {
+  content: none;
+}
+input.btn.btn-default:focus-visible {
+  outline: 3px solid #0078D7;
+  outline-offset: 3px;
+}
+.btn-file:focus-within,
+.btn-file:hover:focus-within {
+  z-index: 3;
+  outline: 3px solid #0078D7;
+  outline-offset: 3px;
+}
+textarea.form-control {
+  max-width: 100%;
+}
+select.form-control {
+  width: auto;
+  max-width: 100%;
+}
+.form-horizontal label {
+  color: #161616;
+  font-size: 100%;
+}
+.form-horizontal .control-label {
+  padding-bottom: 4px;
+  min-height: 34px;
+}
+@media only screen and (max-width: 768px) {
+  .form-horizontal .control-label {
+    min-height: auto;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+}
+.form-horizontal .control-label.col-sm-3.il_textarea {
+  text-align: left;
+  width: 100%;
+}
+.form-horizontal .radio,
+.form-horizontal .checkbox,
+.form-horizontal .radio-inline,
+.form-horizontal .checkbox-inline {
+  padding-top: 0;
+  line-height: normal;
+}
+.form-horizontal div.radio label.radio-inline {
+  line-height: 25px;
+}
+.radio input[type="radio"],
+.radio-inline input[type="radio"],
+.checkbox input[type="checkbox"],
+.checkbox-inline input[type="checkbox"] {
+  position: static;
+  display: inline-block;
+  margin-left: -20px;
+  margin-top: 7px;
+  min-width: 13px;
+}
+@media only screen and (max-width: 768px) {
+  .radio input[type="radio"],
+  .radio-inline input[type="radio"],
+  .checkbox input[type="checkbox"],
+  .checkbox-inline input[type="checkbox"] {
+    min-width: 16px;
+  }
+}
+.radio input[type="radio"],
+.radio-inline input[type="radio"] {
+  vertical-align: top;
+}
+[dir="rtl"] .form-horizontal .control-label {
+  text-align: left;
+}
+label {
+  font-weight: normal;
+}
+td.form-inline > div.form-group {
+  display: block;
+  padding: 4px 0;
+}
+input[type="radio"]:focus:focus-visible,
+input[type="checkbox"]:focus:focus-visible {
+  outline: 3px solid #0078D7;
+  outline-offset: 2px;
+}
 .il-input-tag {
   --tags-focus-border-color: #4c6586;
   --tag-bg: #4c6586;
@@ -13144,139 +13270,8 @@ td.il_ScormTableValue {
   text-align: left;
 }
 /* Services/Form */
-/* forms */
-label,
-input[type=checkbox],
-input[type=radio],
-select {
-  cursor: pointer;
-}
-.form-control {
-  font-size: 12px;
-  color: #161616;
-  border: 1px solid #757575;
-}
-.form-control[disabled],
-.form-control[readonly],
-fieldset[disabled] .form-control {
-  background-color: #f9f9f9;
-}
-.form-horizontal {
-  margin-bottom: 20px;
-  background: white;
-}
-form.form-inline {
-  margin-bottom: 20px;
-}
-.form-horizontal .form-group {
-  margin: 0px;
-  padding: 3px 0;
-  background-color: #f9f9f9;
-}
-.form-control,
-.form-control:focus {
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-.form-control:focus-visible {
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  outline: 3px solid #0078D7;
-}
-input[type="file"]:focus:focus-visible::after,
-input[type="radio"]:focus:focus-visible::after,
-input[type="checkbox"]:focus:focus-visible::after {
-  content: none;
-}
-input.btn.btn-default:focus-visible {
-  outline: 3px solid #0078D7;
-  outline-offset: 3px;
-}
-.btn-file:focus-within,
-.btn-file:hover:focus-within {
-  z-index: 3;
-  outline: 3px solid #0078D7;
-  outline-offset: 3px;
-}
-textarea.form-control {
-  max-width: 100%;
-}
-select.form-control {
-  width: auto;
-  max-width: 100%;
-}
-.form-horizontal label {
-  color: #161616;
-  font-size: 100%;
-}
 .form-control-static {
   display: block;
-}
-.form-horizontal .control-label {
-  padding-bottom: 4px;
-  min-height: 34px;
-}
-@media only screen and (max-width: 768px) {
-  .form-horizontal .control-label {
-    min-height: auto;
-    padding-bottom: 0;
-    margin-bottom: 0;
-  }
-}
-.form-horizontal .control-label.col-sm-3.il_textarea {
-  text-align: left;
-  width: 100%;
-}
-.form-horizontal .radio,
-.form-horizontal .checkbox,
-.form-horizontal .radio-inline,
-.form-horizontal .checkbox-inline {
-  padding-top: 0;
-  line-height: normal;
-}
-.form-horizontal div.radio label.radio-inline {
-  line-height: 25px;
-}
-.radio input[type="radio"],
-.radio-inline input[type="radio"],
-.checkbox input[type="checkbox"],
-.checkbox-inline input[type="checkbox"] {
-  position: static;
-  display: inline-block;
-  margin-left: -20px;
-  margin-top: 7px;
-  min-width: 13px;
-}
-@media only screen and (max-width: 768px) {
-  .radio input[type="radio"],
-  .radio-inline input[type="radio"],
-  .checkbox input[type="checkbox"],
-  .checkbox-inline input[type="checkbox"] {
-    min-width: 16px;
-  }
-}
-.radio input[type="radio"],
-.radio-inline input[type="radio"] {
-  vertical-align: top;
-}
-[dir="rtl"] .form-horizontal .control-label {
-  text-align: left;
-}
-label {
-  font-weight: normal;
-}
-td.form-inline > div.form-group {
-  display: block;
-  padding: 4px 0;
-}
-input[type="radio"]:focus:focus-visible,
-input[type="checkbox"]:focus:focus-visible {
-  outline: 3px solid #0078D7;
-  outline-offset: 2px;
-}
-input[type="file"].form-control {
-  border: none;
-  height: auto;
 }
 .ilFormHeader {
   padding: 15px 0 5px;
@@ -13397,7 +13392,6 @@ div.ilHFormFooter .ilFormCmds {
   margin: 6px 0;
   width: auto;
 }
-/* deprecated */
 /* experimental: bootstrap'ed file upload */
 .btn-file {
   position: relative;
@@ -13434,11 +13428,6 @@ input:invalid {
 /* provisory fix for #0021322  */
 div[id$="color-picker-menu"] {
   z-index: 3;
-}
-/* This is a memento that we should get rid of the legacy UI */
-.wzdrow input[type=file]:focus-visible {
-  outline: 3px solid #0078D7;
-  outline-offset: 0;
 }
 /* Services/UI/Explorer2 */
 table.ilExplorer {
