@@ -401,7 +401,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             ) {
                 if ($ilSetting->get("enable_cat_page_edit")) {
                     if (!$this->isActiveAdministrationPanel() &&
-                        !$this->isActiveOrdering()) {
+                        !$this->isActiveOrdering() &&
+                        $this->supportsPageEditor()) {
                         $toolbar->addButton(
                             $lng->txt("cntr_text_media_editor"),
                             $ilCtrl->getLinkTarget($this, "editPageFrame")
@@ -419,6 +420,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($this->requested_ref_id > 1 && $ilSetting->get("rep_tree_synchronize")) {
             $ilCtrl->setParameter($this, "active_node", $this->requested_ref_id);
         }
+    }
+
+    protected function supportsPageEditor() : bool
+    {
+        return true;
     }
 
     /**
