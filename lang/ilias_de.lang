@@ -4768,7 +4768,6 @@ common#:#obj_chap#:#Kapitel
 common#:#obj_chta#:#Chat
 common#:#obj_chtr#:#Chatraum
 common#:#obj_chtr_duplicate#:#Chatraum kopieren
-common#:#obj_cld#:#Cloud-Objekt
 common#:#obj_cmis_desc#:#Konfiguration Learning Record Store Typen
 common#:#obj_cmis#:#xAPI/cmi5
 common#:#obj_cmix#:#xAPI/cmi5
@@ -4956,7 +4955,6 @@ common#:#objs_book#:#Buchungspools
 common#:#objs_cat#:#Kategorien
 common#:#objs_catr#:#Kategorielinks
 common#:#objs_chtr#:#Chaträume
-common#:#objs_cld#:#Cloud-Objekte
 common#:#objs_cmix#:#Objekte xAPI/cmi5
 common#:#objs_copa#:#Inhaltsseiten
 common#:#obj_sco#:#SCO
@@ -9989,7 +9987,7 @@ itgr#:#itgr_assignment#:#Eingebunden
 itgr#:#itgr_behaviour_info#:#Das System merkt sich den Zustand (geöffnet/geschlossen) je Benutzer bis zur Abmeldung (Logout).
 itgr#:#itgr_behaviour#:#Verhalten
 itgr#:#itgr_desc_info#:#Die Beschreibung wird bei der Anzeige des Objekteblocks nicht mit ausgegeben.
-itgr#:#itgr_edit#:#Objekteblock bearbeiten
+itgr#:#itgr_edit#:#Einstellungen des Objekteblocks
 itgr#:#itgr_expandable_closed#:#Ausklappbar (zunächst geschlossen)
 itgr#:#itgr_expandable_open#:#Ausklappbar (zunächst geöffnet)
 itgr#:#itgr_hide_title#:#Titel verbergen
@@ -12035,7 +12033,7 @@ obj#:#obj_tool_setting_use_news#:#Neuigkeiten
 obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen öffnen
 obj#:#obj_user_decides_notification#:#Mitglieder müssen Benachrichtigungen selbst aktivieren
 obj#:#obj_user_not_disable_not#:#Mitglieder können die Benachrichtigung nicht deaktiveren
-objref#:#objref_custom_title#:#Eigenen Titel verwenden
+objref#:#objref_custom_title#:#Eigenen Titel eingeben
 objref#:#objref_edit_ref#:#Ziel des Links
 objref#:#objref_edit_title#:#Titel
 objref#:#objref_failure_target_type#:#Das Ziel des Links muss vom folgendem Typ sein:
@@ -12980,20 +12978,6 @@ rbac#:#chtr_moderate#:#Diskussion im Chatraum moderieren
 rbac#:#chtr_read#:#An Diskussion im Chatraum teilnehmen
 rbac#:#chtr_visible#:#Chatraum ist sichtbar
 rbac#:#chtr_write#:#Einstellungen des Chatraums bearbeiten und Benutzer sperren
-rbac#:#cld_delete#:#Benutzer können Cloud-Objekte löschen
-rbac#:#cld_delete_files#:#Benutzer können Dateien im Cloud-Objekt löschen
-rbac#:#cld_delete_folders#:#Benutzer können Ordner im Cloud-Objekt löschen
-rbac#:#cld_download#:#Benutzer können Dateien aus dem Cloud-Objekt herunterladen
-rbac#:#cld_edit_in_online_editor#:#Benutzer kann Dateien im Online-Editor öffnen und bearbeiten
-rbac#:#cld_edit_permission#:#Rechteeinstellungen ändern
-rbac#:#cld_files_visible#:#Dateien im Cloud-Objekt sind für die Benutzer sichtbar
-rbac#:#cld_folders_create#:#Ordner können im Cloud-Objekt erstellt werden
-rbac#:#cld_folders_visible#:#Ordner im Cloud-Objekt sind für die Benutzer sichtbar
-rbac#:#cld_permission#:#Benutzer können Rechteeinstellungen bearbeiten
-rbac#:#cld_read#:#Benutzer können Cloud-Objekt öffnen
-rbac#:#cld_upload#:#Benutzer können Dateien in das Cloud-Objekt laden
-rbac#:#cld_visible#:#Cloud-Objekt sichtbar
-rbac#:#cld_write#:#Benutzer können Cloud-Objekt Einstellungen bearbeiten
 rbac#:#cmis_edit_permissions#:#Rechteeinstellungen der Administration für xAPI/cmi5 ändern
 rbac#:#cmis_read#:#Lesezugriff auf Administration für xAPI/cmi5
 rbac#:#cmis_visible#:#Administration für xAPI/cmi5 ist sichtbar.
@@ -13448,8 +13432,7 @@ rbac#:#rbac_create_book#:#Buchungspool anlegen
 rbac#:#rbac_create_cat#:#Kategorien anlegen
 rbac#:#rbac_create_catr#:#Kategorienlink anlegen
 rbac#:#rbac_create_chtr#:#Chatraum anlegen
-rbac#:#rbac_create_cld#:#Cloud-Objekt erstellen
-rbac#:#rbac_create_cmix#:#xAPI/cmi5-Objekt erstellen
+rbac#:#rbac_create_cmix#:#xAPI/cmi5-Objekt anlegen
 rbac#:#rbac_create_copa#:#Inhaltsseite anlegen
 rbac#:#rbac_create_crs#:#Kurs anlegen
 rbac#:#rbac_create_crsr#:#Kurslink anlegen
@@ -13466,7 +13449,7 @@ rbac#:#rbac_create_htlm#:#HTML-Lernmodul anlegen
 rbac#:#rbac_create_iass#:#Individuelle Bewertung anlegen
 rbac#:#rbac_create_itgr#:#Objekteblock anlegen
 rbac#:#rbac_create_lm#:#ILIAS-Lernmodul anlegen
-rbac#:#rbac_create_lso#:#Lernsequenz erstellen
+rbac#:#rbac_create_lso#:#Lernsequenz anlegen
 rbac#:#rbac_create_lti#:#LTI-Konsumenten anlegen
 rbac#:#rbac_create_mcst#:#Mediacast anlegen
 rbac#:#rbac_create_mep#:#Medienpool anlegen
@@ -13484,7 +13467,7 @@ rbac#:#rbac_create_sess#:#Sitzung anlegen
 rbac#:#rbac_create_spl#:#Fragenpool für Umfragen anlegen
 rbac#:#rbac_create_svy#:#Umfrage anlegen
 rbac#:#rbac_create_tst#:#Test anlegen
-rbac#:#rbac_create_usr#:#Benutzer anlegen können
+rbac#:#rbac_create_usr#:#Benutzer anlegen
 rbac#:#rbac_create_webr#:#Weblink anlegen
 rbac#:#rbac_create_wiki#:#Wiki anlegen
 rbac#:#rbac_delete_local_policies_info#:#Wählen Sie diese Einstellung, um alle vorhandenen lokalen Zugriffsregelungen (z.B. in Kursen und Gruppen) zu entfernen. Alle Rechte werden neu geschrieben, anschließend wird der Rechteschutz aktiviert.
