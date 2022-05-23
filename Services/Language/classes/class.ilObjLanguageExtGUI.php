@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-20014 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\Location;
@@ -86,7 +102,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     protected function assignObject() : void
     {
-        require_once("Services/Language/classes/class.ilObjLanguageExt.php");
         $this->object = new ilObjLanguageExt($this->id);
     }
 
@@ -131,8 +146,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
      */
     protected function getViewTable() : \ilLanguageExtTableGUI
     {
-        // create and configure the table object
-        include_once "./Services/Language/classes/class.ilLanguageExtTableGUI.php";
         $table_gui = new ilLanguageExtTableGUI($this, "view", array(
             "langmode" => $this->langmode,
             "lang_key" => $this->object->key,
@@ -173,7 +186,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             // get the selection of modules and topics from request or session
             $modules = ilObjLanguageAccess::_getSavedModules();
             $topics = ilObjLanguageAccess::_getSavedTopics();
-    
+
             $reset_offset_get = false;
             if ($this->http->wrapper()->query()->has("reset_offset")) {
                 $reset_offset_get = $this->http->wrapper()->query()->retrieve(
@@ -181,7 +194,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                     $this->refinery->kindlyTo()->bool()
                 );
             }
-    
+
             // first call for translation
             if ($reset_offset_get) {
                 $table_gui->resetOffset();
@@ -427,7 +440,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     public function importObject() : void
     {
-        require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_import_file"));
@@ -504,7 +516,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     public function exportObject() : void
     {
-        require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_export_file"));
@@ -597,7 +608,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     */
     public function maintainObject() : void
     {
-        require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_maintenance"));
@@ -737,8 +747,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"));
         }
         $translate = (bool) $ilSetting->get($translate_key, '0');
-
-        require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("language_settings"));
@@ -778,9 +786,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $total["changed"] = "<b>" . $total["changed"] . "</b>";
         $total["unchanged"] = "<b>" . $total["unchanged"] . "</b>";
         $data[] = $total;
-
-        // create and configure the table object
-        include_once "Services/Table/classes/class.ilTable2GUI.php";
         $table_gui = new ilTable2GUI($this, "statistics");
         $table_gui->setRowTemplate("tpl.lang_statistics_row.html", "Services/Language");
         $table_gui->setEnableTitle(false);
@@ -959,8 +964,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             !in_array($a_id, ilObjLanguageAccess::_getSavedTopics())) {
             $ilCtrl->redirect($this, "view");
         }
-
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "saveNewEntry"));
         $form->setTitle($this->lng->txt("adm_missing_entry_add"));
@@ -1050,7 +1053,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         return $renderer->render($f->messageBox()->success($this->lng->txt("language_variables_saved")));
     }
-    
+
     private function getSession() : array
     {
         return ilSession::get("lang_ext_maintenance") ?? [];

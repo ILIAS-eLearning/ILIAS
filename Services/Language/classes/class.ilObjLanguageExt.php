@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-20014 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 require_once "./Services/Language/classes/class.ilObjLanguage.php";
 
@@ -19,7 +35,6 @@ class ilObjLanguageExt extends ilObjLanguage
     */
     public function getGlobalLanguageFile() : object
     {
-        require_once "./Services/Language/classes/class.ilLanguageFile.php";
         return ilLanguageFile::_getGlobalLanguageFile($this->key);
     }
 
@@ -226,9 +241,6 @@ class ilObjLanguageExt extends ilObjLanguage
         $ilDB = $DIC->database();
         /** @var ilErrorHandling $ilErr */
         $ilErr = $DIC["ilErr"];
-
-        // read the new language file
-        require_once "./Services/Language/classes/class.ilLanguageFile.php";
         $import_file_obj = new ilLanguageFile($a_file);
         if (!$import_file_obj->read()) {
             $ilErr->raiseError($import_file_obj->getErrorMessage(), $ilErr->MESSAGE);
@@ -396,9 +408,6 @@ class ilObjLanguageExt extends ilObjLanguage
         }
         $save_array = array();
         $save_date = date("Y-m-d H:i:s", time());
-
-        // read and get the global values
-        require_once "./Services/Language/classes/class.ilLanguageFile.php";
         $global_file_obj = ilLanguageFile::_getGlobalLanguageFile($a_lang_key);
         $global_values = $global_file_obj->getAllValues();
         $global_comments = $global_file_obj->getAllComments();
@@ -444,9 +453,6 @@ class ilObjLanguageExt extends ilObjLanguage
             }
             ilObjLanguage::replaceLangModule($a_lang_key, $module, $entries);
         }
-
-
-        require_once("class.ilCachedLanguage.php");
         ilCachedLanguage::getInstance($a_lang_key)->flush();
     }
 
