@@ -198,7 +198,7 @@ other files in src/GlobalScreen/Scope, an exception is being thrown for icons/gl
 configured with an empty (Aria-)Label.
 The components themselves should take care of this.
 
-### Get rid of < div > under < body > element in Standard Page template (beginner)
+### Get rid of `<div>` under `<body>` element in Standard Page template (beginner)
 In the template of the Standard Page, one level under the < body > element,
 a < div > element is used. This level seems redundant and not giving any advantages
 over just starting with < body >. We should remove the < div > element, but must
@@ -212,9 +212,9 @@ Add, where missing, and refine existing.
 Date/Time pickers are currently implemented using a third party library. The solution suffers from accessibility issues. Even native pickers seem not always to be easy accessible. See https://mantis.ilias.de/view.php?id=29816#bugnotes. We should evaluate different solutions to tackle this.
 
 ### Remove wrapping DIVs in Mainbar
-Top items in the mainbar are wrapped in a <div class="il-mainbar-triggers">;
-We should get rid of this wrapper and have <ol>/<li> only for "menu-items",
-directly under the <nav>-tag.
+Top items in the mainbar are wrapped in a `<div class="il-mainbar-triggers">`;
+We should get rid of this wrapper and have `<ol\>/<li>` only for "menu-items",
+directly under the `<nav>`-tag.
 
 ### Renovate Lightbox Modal (advanced, ~8h)
 The Lightbox Modal is a rather old component that does not follow current standards of
@@ -229,7 +229,7 @@ with modern CSS transformations.
 * The sizes of the various lightboxes do not align, which looks odd when clicking
 through the various pages.
 * The template file of the lightbox contains a script tag, which is not allowed as
-of Dicto Rule `IliasTemplateFiles cannot contain text: "<script"`.
+of Dicto Rule `IliasTemplateFiles cannot contain text: "\<script"`.
 
 ### Adjust FactoriesCrawler (beginner, 2h)
 
