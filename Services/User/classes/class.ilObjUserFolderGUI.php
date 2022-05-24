@@ -810,12 +810,11 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 $this->ilias->error_obj->WARNING
             );
         }
-
-        $obj_factory = new ilObjectFactory();
+        
         // FOR ALL SELECTED OBJECTS
         foreach ($ids as $id) {
             // instatiate correct object class (usr)
-            $obj = $obj_factory->getInstanceByObjId($id);
+            $obj = ilObjectFactory::getInstanceByObjId($id);
             $obj->delete();
         }
 
