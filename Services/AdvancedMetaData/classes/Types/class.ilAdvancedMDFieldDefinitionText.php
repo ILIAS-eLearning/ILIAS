@@ -11,14 +11,8 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     public const XML_SEPARATOR_TRANSLATIONS = "~|~";
     public const XML_SEPARATOR_TRANSLATION = '~+~';
 
-    /**
-     * @var int
-     */
-    protected $max_length;
-    /**
-     * @var bool
-     */
-    protected $multi;
+    protected int $max_length = 0;
+    protected $multi = false;
 
     //
     // generic types
