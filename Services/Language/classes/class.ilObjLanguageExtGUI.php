@@ -958,7 +958,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         $id = "";
         if ($this->http->wrapper()->query()->has("eid")) {
-            $id = $this->http->wrapper()->query()->retrieve("eid", $this->refinery->kindlyTo()->string());
+            $id = trim($this->http->wrapper()->query()->retrieve("eid", $this->refinery->kindlyTo()->string()));
         }
         if (!$a_form) {
             $a_form = $this->initAddNewEntryForm($id);
