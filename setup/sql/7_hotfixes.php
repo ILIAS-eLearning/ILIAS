@@ -1504,3 +1504,85 @@ if ($ilDB->tableExists('il_mm_items')) {
     }
 }
 ?>
+<#86>
+<?php
+if (!$ilDB->tableColumnExists('pg_amd_page_list', 'sdata')) {
+    $field_infos = [
+        'type' => 'clob',
+        'notnull' => false,
+        'default' => null
+    ];
+    $ilDB->addTableColumn('pg_amd_page_list', 'sdata', $field_infos);
+}
+?>
+<#87>
+<?php
+
+function migrate($id, $field_id, $data) : void
+{
+    global $ilDB;
+
+    $query = 'UPDATE pg_amd_page_list ' .
+        'SET sdata = ' . $ilDB->quote(serialize(serialize($data)), ilDBConstants::T_TEXT) . ' ' .
+        'WHERE id = ' . $ilDB->quote($id, ilDBConstants::T_INTEGER) . ' ' .
+        'AND field_id = ' . $ilDB->quote($field_id, ilDBConstants::T_INTEGER);
+    $ilDB->manipulate($query);
+}
+
+function migrateData($field_id, $data) : array
+{
+    global $ilDB;
+
+    if (!is_array($data)) {
+        return [];
+    }
+    $indexes  = [];
+    foreach ($data as $idx => $value) {
+        $query = 'SELECT idx from adv_mdf_enum ' .
+            'WHERE value = ' . $ilDB->quote($value, ilDBConstants::T_TEXT) . ' ' .
+            'AND field_id = ' . $ilDB->quote($field_id, ilDBConstants::T_INTEGER);
+        $res = $ilDB->query($query);
+
+        $found_index = false;
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $indexes[] = (int) $row->idx;
+            $found_index = true;
+        }
+        if ($found_index) {
+            continue;
+        }
+        $query = 'SELECT idx from adv_mdf_enum ' .
+            'WHERE idx = ' . $ilDB->quote($value, ilDBConstants::T_TEXT) . ' ' .
+            'AND field_id = ' . $ilDB->quote($field_id, ilDBConstants::T_INTEGER);
+        $res = $ilDB->query($query);
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $indexes[] = (int) $row->idx;
+        }
+    }
+    return $indexes;
+}
+
+$query = 'SELECT id, pg.field_id, data, field_type FROM pg_amd_page_list pg ' .
+    'JOIN adv_mdf_definition adv ' .
+    'ON pg.field_id = adv.field_id ' .
+    'WHERE sdata IS null ';
+$res = $ilDB->query($query);
+while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+    if ($row->field_type == 1 || $row->field_type == 8) {
+        migrate(
+                $row->id,
+                $row->field_id,
+                migrateData(
+                        $row->field_id,
+                        unserialize(unserialize($row->data))
+                )
+        );
+    } else {
+        migrate(
+                $row->id,
+                $row->field_id,
+                unserialize(unserialize($row->data))
+        );
+    }
+}
+?>
