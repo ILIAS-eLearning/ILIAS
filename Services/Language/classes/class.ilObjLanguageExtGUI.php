@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-20014 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\Location;
@@ -59,7 +75,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         // type and id of get the bound object
         $this->type = "lng";
-        $obj_id_get = $this->http->wrapper()->query()->retrieve("obj_id", $this->refinery->kindlyTo()->int());
+        $obj_id_get = 0;
+        if ($this->http->wrapper()->query()->has("obj_id")) {
+            $obj_id_get = $this->http->wrapper()->query()->retrieve("obj_id", $this->refinery->kindlyTo()->int());
+        }
         if (!$this->id = $obj_id_get) {
             $this->id = ilObjLanguageAccess::_lookupId($lng->getUserLanguage());
         }
@@ -937,8 +956,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         global $DIC;
         $tpl = $DIC["tpl"];
 
-        $id = trim($DIC->http()->wrapper()->query()->retrieve("eid", $DIC->refinery()->kindlyTo()->string()));
-
+        $id = "";
+        if ($this->http->wrapper()->query()->has("eid")) {
+            $id = $this->http->wrapper()->query()->retrieve("eid", $this->refinery->kindlyTo()->string());
+        }
         if (!$a_form) {
             $a_form = $this->initAddNewEntryForm($id);
         }
