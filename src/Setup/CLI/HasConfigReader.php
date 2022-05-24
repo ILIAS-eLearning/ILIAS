@@ -44,6 +44,10 @@ trait HasConfigReader
         }
 
         $config_file = $input->getArgument("config");
+        if ($this->isConfigInRoot($config_file)) {
+            throw new \LogicException("Thou shall not put your config file in the webroot!!");
+        }
+
         $config_overwrites_raw = $input->getOption("config");
         $config_overwrites = [];
         foreach ($config_overwrites_raw as $o) {
@@ -72,5 +76,14 @@ trait HasConfigReader
         }
 
         return $environment;
+    }
+
+    protected function isConfigInRoot(string $config_file) : bool
+    {
+        $webroot = realpath(__DIR__ . "/../../../");
+        $config_file = realpath($config_file);
+
+        $common_prefix = substr($config_file, 0, strlen($webroot));
+        return $webroot === $common_prefix;
     }
 }
