@@ -257,7 +257,7 @@ class ilADTActiveRecordByType
                     } else {
                         $tmp[$table][$element_id] = [];
                         foreach ($fields as $key => $value) {
-                            $key = substr($key, strlen($element_id) + 1);
+                            $key = substr((string) $key, strlen((string) $element_id) + 1);
                             // @todo other implementation required
                             if (substr($table, -8) == "location") {
                                 // long is reserved word

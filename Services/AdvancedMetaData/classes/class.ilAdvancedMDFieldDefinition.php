@@ -582,7 +582,7 @@ abstract class ilAdvancedMDFieldDefinition
 
         $perm = $a_permissions->hasPermissions(
             ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-            $this->getFieldId(),
+            (int) $this->getFieldId(),
             array(
                 array(ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
                       ilAdvancedMDPermissionHelper::SUBACTION_FIELD_TITLE
@@ -689,12 +689,12 @@ abstract class ilAdvancedMDFieldDefinition
             $this->setDescription($a_form->getInput("description"));
         }
         if (!$a_form->getItemByPostVar("searchable")->getDisabled()) {
-            $this->setSearchable($a_form->getInput("searchable"));
+            $this->setSearchable((bool) $a_form->getInput("searchable"));
         }
 
         if ($a_permissions->hasPermission(
             ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-            $this->getFieldId(),
+            (int) $this->getFieldId(),
             ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
             ilAdvancedMDPermissionHelper::SUBACTION_FIELD_PROPERTIES
         )) {

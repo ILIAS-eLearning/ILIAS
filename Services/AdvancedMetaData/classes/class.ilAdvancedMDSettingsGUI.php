@@ -169,6 +169,17 @@ class ilAdvancedMDSettingsGUI
         return null;
     }
 
+    protected function getFieldTypeFromPost() : ?int
+    {
+        if ($this->http->wrapper()->post()->has('ftype')) {
+            return $this->http->wrapper()->post()->retrieve(
+                'ftype',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return null;
+    }
+
     protected function getOidFromQuery() : ?int
     {
         if ($this->http->wrapper()->query()->has('oid')) {
@@ -1279,12 +1290,13 @@ class ilAdvancedMDSettingsGUI
      */
     public function createField(ilPropertyFormGUI $a_form = null) : void
     {
+        $record_id = $this->getRecordIdFromQuery();
+        $field_type = $this->getFieldTypeFromPost();
+
         $this->initRecordObject();
-        $this->ctrl->saveParameter($this, 'ftype');
+        $this->ctrl->setParameter($this, 'ftype', $field_type);
         $this->setRecordSubTabs(2);
 
-        $record_id = $this->getRecordIdFromQuery();
-        $field_type = $this->getFieldTypeFromQuery();
         if (!$record_id || !$field_type) {
             $this->editFields();
             return;
