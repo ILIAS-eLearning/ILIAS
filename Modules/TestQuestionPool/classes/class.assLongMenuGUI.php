@@ -16,6 +16,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 {
 
     private $ilTabs;
+    private $dic;
 
     public function __construct($id = -1)
     {
@@ -30,6 +31,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $lng = $DIC['lng'];
         $this->ilTabs = $ilTabs;
         $this->lng = $lng;
+        $this->dic = $DIC;
     }
 
     /**
@@ -156,7 +158,10 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
         $long_menu_text->setValue($this->object->prepareTextareaOutput($this->object->getLongMenuTextValue()));
         $form->addItem($long_menu_text);
-        
+
+        $this->dic->ui()->mainTemplate()->addJavaScript("./Modules/TestQuestionPool/templates/default/gapInsertingWizard.js");
+        $this->dic->ui()->mainTemplate()->addJavaScript("./Modules/TestQuestionPool/templates/default/longMenuQuestion.js");
+        $this->dic->ui()->mainTemplate()->addOnLoadCode('longMenuQuestion.Init()');
         $tpl = new ilTemplate("tpl.il_as_qpl_long_menu_gap_button_code.html", true, true, "Modules/TestQuestionPool");
         $tpl->setVariable('INSERT_GAP', $this->lng->txt('insert_gap'));
         $tpl->parseCurrentBlock();

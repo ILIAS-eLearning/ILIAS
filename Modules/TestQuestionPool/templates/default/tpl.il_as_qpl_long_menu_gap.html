@@ -21,8 +21,7 @@
 	}
 </style>
 
-<script src="./Modules/TestQuestionPool/templates/default/gapInsertingWizard.js"></script>
-<script src="./Modules/TestQuestionPool/templates/default/longMenuQuestion.js"></script>
+
 
 <script>
 	function debugPrinter(message)
@@ -42,19 +41,16 @@
 		'info_text_gap'	 	: '{INFO_TEXT_GAP}',
 		'manual_editing' 	: '{MANUAL_EDITING}'
 	};
-	
-	$( document ).ready(function() {
-		longMenuQuestion.questionParts = {
-			list 					: {CORRECT_ANSWERS},
-			gap_placeholder			: "{GAP_PLACEHOLDER}",
-			last_updated_element 	: 0,
-			replacement_word 		: '',
-			filereader_usable		: false,
-			max_input_fields		: {MAX_INPUT_FIELDS}
+		var longMenuQuestionData = {};
+	longMenuQuestionData.questionParts = {
+			list: {CORRECT_ANSWERS},
+			gap_placeholder: "{GAP_PLACEHOLDER}",
+			last_updated_element: 0,
+			replacement_word: '',
+			filereader_usable: false,
+			max_input_fields: {MAX_INPUT_FIELDS}
 		};
-		longMenuQuestion.answers = {ALL_ANSWERS};
-		longMenuQuestion.Init();
-	});
+	longMenuQuestionData.answers = {ALL_ANSWERS};
 
 </script>
 <div class="prototype_long_menu">
