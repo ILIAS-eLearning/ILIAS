@@ -5,8 +5,18 @@
 	display: block;
 }
 
+
 .ilFormHeader {
-	padding: 15px 0 5px;
+	padding: @il-standard-form-header-padding;
+	&:not(:first-child){
+		margin: @il-standard-form-header-margin;
+		border-top: @il-standard-form-header-border;
+	}
+
+	.ilHeader{
+		vertical-align: middle;
+	}
+
 	.ilFormCmds {
 		margin: 0;
 		float: right;
@@ -42,7 +52,7 @@
 }
 
 .ilFormFooter {
-	padding: 3px 0;
+	padding: @il-padding-small-vertical @il-padding-xlarge-horizontal @il-padding-small-vertical 0;
 }
 
 .ilFormFooter .ilFormCmds {

@@ -8308,7 +8308,7 @@ form.form-inline {
 .form-horizontal .form-group {
   margin: 0px;
   padding: 3px 0;
-  background-color: #f9f9f9;
+  background-color: white;
 }
 .form-control,
 .form-control:focus {
@@ -8347,6 +8347,7 @@ select.form-control {
   font-size: 100%;
 }
 .form-horizontal .control-label {
+  text-align: left;
   padding-bottom: 4px;
   min-height: 34px;
 }
@@ -8358,7 +8359,6 @@ select.form-control {
   }
 }
 .form-horizontal .control-label.col-sm-3.il_textarea {
-  text-align: left;
   width: 100%;
 }
 .form-horizontal .radio,
@@ -13271,7 +13271,14 @@ td.il_ScormTableValue {
   display: block;
 }
 .ilFormHeader {
-  padding: 15px 0 5px;
+  padding: 30px 15px 12px 15px;
+}
+.ilFormHeader:not(:first-child) {
+  margin: 15px 0 0 0;
+  border-top: 1px solid #dddddd;
+}
+.ilFormHeader .ilHeader {
+  vertical-align: middle;
 }
 .ilFormHeader .ilFormCmds {
   margin: 0;
@@ -13306,7 +13313,7 @@ td.il_ScormTableValue {
   width: 100%;
 }
 .ilFormFooter {
-  padding: 3px 0;
+  padding: 4px 15px 4px 0;
 }
 .ilFormFooter .ilFormCmds {
   text-align: right;
@@ -14584,6 +14591,7 @@ table.calmini {
   border-collapse: collapse;
   background-color: #f9f9f9;
   border: none;
+  margin-bottom: 12px;
 }
 table.calmini tr,
 table.calmini td,
@@ -14602,10 +14610,7 @@ table.calmini th {
     padding: 5px 1px;
   }
 }
-table.calmini tr:nth-child(odd) {
-  background-color: #f9f9f9;
-}
-table.calmini tr:nth-child(even) {
+table.calmini tr {
   background-color: white;
 }
 table.calmini th.calmini,
@@ -14946,7 +14951,7 @@ li.ilWikiBlockItem {
 .nav-tabs > li > a {
   border-radius: 0;
   border: 0 none;
-  padding: 6px 12px 3px;
+  padding: 6px 15px 3px;
   font-size: 13px;
   margin: 0;
 }
@@ -14978,12 +14983,12 @@ li.ilWikiBlockItem {
 }
 /* Sub Tabs */
 #ilSubTab {
-  padding: 5px 20px;
-  margin: -23px 0 10px;
+  padding: 6px 0;
+  margin: -23px 15px;
 }
 #ilSubTab > li > a {
   border-radius: 0;
-  padding: 3px 7px;
+  padding: 3px 15px;
   font-size: 11.64px;
   /* font-weight: 600; */
 }
@@ -16820,36 +16825,9 @@ body.ilBodyPrint {
 .ilTextinfo {
   margin-bottom: 10px;
 }
-/* Services/InfoScreen */
-div.ilInfoScreenSec {
-  padding: 0;
-  margin-bottom: 20px;
-}
-div.ilInfoScreenSec h2.ilHeader {
-  margin-bottom: 5px;
-  display: block;
-}
-.il_InfoScreenProperty {
-  padding: 15px;
-  vertical-align: top;
-  color: #737373;
-  font-style: italic;
-}
-.il_InfoScreenPropertyValue {
-  padding: 15px;
-  vertical-align: top;
-  background-color: #f9f9f9;
-}
-.ilInfoScreenSec.form-horizontal .form-group {
-  margin: 0;
-  background-color: #f9f9f9;
-}
-.ilInfoScreenSec.form-horizontal {
-  background-color: transparent;
-}
-.ilInfoScreenSec.form-horizontal .control-label {
-  padding: 15px;
-  line-height: normal;
+.ilInfoScreenSec:not(:first-child) .ilFormHeader {
+  margin: 15px 0 0 0;
+  border-top: 1px solid #dddddd;
 }
 /* Services/Init */
 @media only screen and (max-width: 768px) {

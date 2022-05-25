@@ -131,6 +131,8 @@ with the il- variable set here.
 @il-padding-xlarge-vertical: 9px;
 @il-padding-xlarge-horizontal: 15px;
 
+@il-padding-xxlarge-vertical: 12px;
+
 @il-padding-small-vertical: 4px;
 @il-padding-small-horizontal: 6px;
 
@@ -146,6 +148,8 @@ with the il- variable set here.
 
 @il-margin-xlarge-vertical: @il-padding-xlarge-vertical;
 @il-margin-xlarge-horizontal: @il-padding-xlarge-horizontal;
+
+@il-margin-xxlarge-vertical: @il-padding-xxlarge-vertical;
 
 @il-margin-small-vertical: @il-padding-small-vertical;
 @il-margin-small-horizontal: @il-padding-small-horizontal;
@@ -396,6 +400,15 @@ with the il- variable set here.
 @il-standard-form-header-byline-font-size: @il-font-size-small;
 //** Background color used for dependant groups (sub forms) in standard forms
 @il-standard-form-dependant-group-bg: @il-main-darker-bg;
+//** Padding above headings of individual groups in forms
+@il-standard-form-header-padding:      (@il-padding-xlarge-vertical * 3 + @il-padding-base-vertical) @il-padding-xlarge-horizontal @il-padding-xxlarge-vertical @il-padding-xlarge-horizontal;
+//** Margin above headings of individual groups in forms
+@il-standard-form-header-margin: @il-margin-xlarge-horizontal 0 0 0;
+//** Border seperating individual groups in forms
+@il-standard-form-header-border:    1px solid @il-main-border-color;
+
+//** Alignment of labels in Forms
+@il-form-label-text-align: left;
 
 //** Minimal size of non-empty buttons inside forms
 @il-button-min-width-forms: 60px;

@@ -7,7 +7,7 @@
 		> a {
 			border-radius: 0;
 			border: 0 none;
-			padding: 6px 12px 3px;
+			padding: 6px @il-padding-xlarge-horizontal 3px;
 			font-size: ceil((@font-size-base * 0.9));
 			margin: 0;
 			&:hover {
@@ -41,7 +41,7 @@
 
 #ilTab {
 	padding: 0;
-	margin:  7px 15px 23px;
+	margin:  7px @il-margin-xlarge-horizontal 23px;
 	border: 0 none;
 	border-bottom: 2px solid @il-neutral-color;
 }
@@ -60,12 +60,12 @@
 
 /* Sub Tabs */
 #ilSubTab {
-	padding: 5px 20px;
-	margin: -23px 0 10px;
+	padding: @il-padding-large-vertical 0;
+	margin: -23px @il-margin-xlarge-horizontal;
 	> li {
 		> a {
 			border-radius: 0;
-			padding: 3px 7px;
+			padding: @il-padding-base-vertical @il-padding-xlarge-horizontal;
 			font-size: (@font-size-small * 0.97);
 			/* font-weight: 600; */
 			&:hover {

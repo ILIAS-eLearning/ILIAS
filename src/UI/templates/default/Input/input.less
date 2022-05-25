@@ -120,7 +120,7 @@ form.form-inline {
 .form-horizontal .form-group {
   margin: 0px;
   padding: @il-padding-base-vertical 0;
-  background-color: @il-main-dark-bg;
+  background-color: @il-main-bg;
 }
 
 .form-control, .form-control:focus {
@@ -166,6 +166,7 @@ select.form-control {
 
 .form-horizontal {
   .control-label {
+    text-align: @il-form-label-text-align;
     //padding-top: 0;
     //line-height: 24px;
     padding-bottom: (@il-padding-base-vertical + 1);
@@ -176,7 +177,6 @@ select.form-control {
       margin-bottom: 0;
     }
     &.col-sm-3.il_textarea {
-      text-align: left;
       width: 100%;
     }
   }
