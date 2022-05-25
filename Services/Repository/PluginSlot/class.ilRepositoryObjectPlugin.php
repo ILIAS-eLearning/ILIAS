@@ -47,11 +47,6 @@ abstract class ilRepositoryObjectPlugin extends ilPlugin
     {
         global $DIC;
 
-        $img = ilUtil::getImagePath($a_img);
-        if (is_int(strpos($img, "Customizing"))) {
-            return $img;
-        }
-
         $component_repository = $DIC["component.repository"];
 
         $plugin = $component_repository->getPluginByName($a_pname);
