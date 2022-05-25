@@ -200,7 +200,7 @@ var ClozeGapBuilder = (function () {
 	};
 
 	pro.bindTextareaHandlerTiny = function () {
-		var tinymce_iframe_selector = $('.mceIframeContainer iframe').eq(1).contents().find('body');
+		var tinymce_iframe_selector = $('#cloze_text_ifr').eq(0).contents().find('body');
 
 		tinymce_iframe_selector.off([
 			"keydown",
