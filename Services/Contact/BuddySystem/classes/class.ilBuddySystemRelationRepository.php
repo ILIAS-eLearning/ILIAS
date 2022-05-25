@@ -29,11 +29,11 @@ class ilBuddySystemRelationRepository
     protected ilDBInterface $db;
     protected int $usrId;
 
-    public function __construct(int $usrId)
+    public function __construct(int $usrId, ilDBInterface $db = null)
     {
         global $DIC;
 
-        $this->db = $DIC['ilDB'];
+        $this->db = $db ?? $DIC->database();
         $this->usrId = $usrId;
     }
 
@@ -121,13 +121,13 @@ class ilBuddySystemRelationRepository
 
     public function destroy() : void
     {
-        $this->db->queryF(
+        $this->db->manipulateF(
             'DELETE FROM buddylist WHERE usr_id = %s OR buddy_usr_id = %s',
             ['integer', 'integer'],
             [$this->usrId, $this->usrId]
         );
 
-        $this->db->queryF(
+        $this->db->manipulateF(
             'DELETE FROM buddylist_requests WHERE usr_id = %s OR buddy_usr_id = %s',
             ['integer', 'integer'],
             [$this->usrId, $this->usrId]
