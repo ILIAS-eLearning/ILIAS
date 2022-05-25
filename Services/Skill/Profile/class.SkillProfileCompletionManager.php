@@ -17,6 +17,8 @@
  ********************************************************************
  */
 
+namespace ILIAS\Skill\Profile;
+
 /**
  * Manages skill profile completion
  *
@@ -24,14 +26,14 @@
  *
  * @author Thomas Famula <famula@leifos.de>
  */
-class ilSkillProfileCompletionManager
+class SkillProfileCompletionManager
 {
-    protected ilSkillProfileManager $profile_manager;
-    protected ilSkillProfileCompletionRepository $profile_completion_repo;
+    protected SkillProfileManager $profile_manager;
+    protected SkillProfileCompletionDBRepository $profile_completion_repo;
 
     public function __construct(
-        ilSkillProfileManager $profile_manager,
-        ?ilSkillProfileCompletionRepository $profile_completion_repo = null
+        SkillProfileManager $profile_manager,
+        ?SkillProfileCompletionDBRepository $profile_completion_repo = null
     ) {
         global $DIC;
 
@@ -54,7 +56,7 @@ class ilSkillProfileCompletionManager
         // get actual levels for gap analysis
         $actual_levels = [];
         foreach ($skills as $sk) {
-            $bs = new ilBasicSkill($sk["base_skill_id"]);
+            $bs = new \ilBasicSkill($sk["base_skill_id"]);
             if ($gap_mode == "max_per_type") {
                 $max = $bs->getMaxLevelPerType($sk["tref_id"], $gap_mode_type, $user_id);
             } elseif ($gap_mode == "max_per_object") {
@@ -93,7 +95,7 @@ class ilSkillProfileCompletionManager
         // get actual next level fulfilments for gap analysis
         $fuls = [];
         foreach ($skills as $sk) {
-            $bs = new ilBasicSkill($sk["base_skill_id"]);
+            $bs = new \ilBasicSkill($sk["base_skill_id"]);
             if ($gap_mode == "max_per_type") {
                 $perc = $bs->getNextLevelFulfilmentPerType($sk["tref_id"], $gap_mode_type, $user_id);
             } elseif ($gap_mode == "max_per_object") {

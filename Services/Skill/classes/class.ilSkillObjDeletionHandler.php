@@ -17,6 +17,9 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Profile\SkillProfileCompletionManager;
+use ILIAS\Skill\Profile\SkillProfileManager;
+
 /**
  * Handles deletion of (user) objects
  *
@@ -27,8 +30,8 @@ class ilSkillObjDeletionHandler
 {
     protected int $obj_id = 0;
     protected string $obj_type = "";
-    protected ilSkillProfileManager $profile_manager;
-    protected ilSkillProfileCompletionManager $profile_completion_manager;
+    protected SkillProfileManager $profile_manager;
+    protected SkillProfileCompletionManager $profile_completion_manager;
 
     public function __construct(int $obj_id, string $obj_type)
     {

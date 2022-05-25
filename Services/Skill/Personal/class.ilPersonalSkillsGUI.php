@@ -26,6 +26,8 @@ use ILIAS\ResourceStorage\Services as ResourceStorage;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component\Chart\Bar\BarConfig;
 use ILIAS\UI\Component\Chart\Bar\XAxis;
+use ILIAS\Skill\Profile\SkillProfileCompletionManager;
+use ILIAS\Skill\Profile\SkillProfileManager;
 
 /**
  * Personal skills GUI class
@@ -114,8 +116,8 @@ class ilPersonalSkillsGUI
     protected ilPersonalSkillsFilterGUI $filter;
     protected ilSkillTreeRepository $tree_repo;
     protected SkillTreeService $tree_service;
-    protected ilSkillProfileManager $profile_manager;
-    protected ilSkillProfileCompletionManager $profile_completion_manager;
+    protected SkillProfileManager $profile_manager;
+    protected SkillProfileCompletionManager $profile_completion_manager;
     protected SkillPersonalGUIRequest $personal_gui_request;
     protected string $requested_list_mode = self::LIST_PROFILES;
     protected int $requested_node_id = 0;

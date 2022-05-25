@@ -26,6 +26,9 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\FileUpload\MimeType;
+use ILIAS\Skill\Profile\SkillProfile;
+use ILIAS\Skill\Profile\SkillProfileCompletionManager;
+use ILIAS\Skill\Profile\SkillProfileManager;
 
 /**
  * Skill profile GUI class
@@ -45,7 +48,7 @@ class ilSkillProfileGUI
     protected Renderer $ui_ren;
     protected ServerRequestInterface $request;
     protected int $id = 0;
-    protected ?ilSkillProfile $profile = null;
+    protected ?SkillProfile $profile = null;
     protected SkillTreeService $tree_service;
     protected SkillTreeAccess $skill_tree_access_manager;
     protected int $skill_tree_id = 0;
@@ -53,8 +56,8 @@ class ilSkillProfileGUI
     protected int $requested_ref_id = 0;
     protected int $requested_sprof_id = 0;
     protected SkillInternalFactoryService $skill_factory;
-    protected ilSkillProfileManager $profile_manager;
-    protected ilSkillProfileCompletionManager $profile_completion_manager;
+    protected SkillProfileManager $profile_manager;
+    protected SkillProfileCompletionManager $profile_completion_manager;
 
     /**
      * @var int[]

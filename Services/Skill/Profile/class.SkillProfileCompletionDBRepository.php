@@ -17,16 +17,18 @@
  ********************************************************************
  */
 
+namespace ILIAS\Skill\Profile;
+
 /**
  * Repository for skill profile completion
  *
  * @author Thomas Famula <famula@leifos.de>
  */
-class ilSkillProfileCompletionRepository
+class SkillProfileCompletionDBRepository
 {
-    protected ilDBInterface $db;
+    protected \ilDBInterface $db;
 
-    public function __construct(ilDBInterface $db = null)
+    public function __construct(\ilDBInterface $db = null)
     {
         global $DIC;
 
@@ -79,7 +81,7 @@ class ilSkillProfileCompletionRepository
         }
 
         if ($entry == 0) {
-            $now = ilUtil::now();
+            $now = \ilUtil::now();
             $ilDB->manipulate("INSERT INTO skl_profile_completion " .
                 "(profile_id, user_id, date, fulfilled) VALUES (" .
                 $ilDB->quote($profile_id, "integer") . "," .
@@ -111,7 +113,7 @@ class ilSkillProfileCompletionRepository
         }
 
         if (is_null($entry) || $entry == 1) {
-            $now = ilUtil::now();
+            $now = \ilUtil::now();
             $ilDB->manipulate("INSERT INTO skl_profile_completion " .
                 "(profile_id, user_id, date, fulfilled) VALUES (" .
                 $ilDB->quote($profile_id, "integer") . "," .

@@ -20,6 +20,7 @@
 namespace ILIAS\Skill\Service;
 
 use ILIAS\Skill\Tree;
+use ILIAS\Skill\Profile;
 
 /**
  * Skill internal factory service
@@ -40,8 +41,8 @@ class SkillInternalFactoryService
         int $skill_tree_id,
         string $image_id = "",
         int $ref_id = 0
-    ) : \ilSkillProfile {
-        return new \ilSkillProfile(
+    ) : Profile\SkillProfile {
+        return new Profile\SkillProfile(
             $id,
             $title,
             $description,

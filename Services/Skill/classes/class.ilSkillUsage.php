@@ -18,6 +18,8 @@
  */
 
 use ILIAS\Skill\Service\SkillInternalFactoryService;
+use ILIAS\Skill\Profile\SkillProfile;
+use ILIAS\Skill\Profile\SkillProfileManager;
 
 /**
  * Skill usage
@@ -49,12 +51,12 @@ class ilSkillUsage implements ilSkillUsageInfo
     /**
      * @var ilSkillUsageInfo[]
      */
-    protected array $classes = [ilBasicSkill::class, ilPersonalSkill::class, ilSkillProfile::class,
-                          ilSkillResources::class, ilSkillUsage::class];
+    protected array $classes = [ilBasicSkill::class, ilPersonalSkill::class, SkillProfile::class,
+                                ilSkillResources::class, ilSkillUsage::class];
 
     protected ilSkillTreeRepository $tree_repo;
     protected SkillInternalFactoryService $tree_factory;
-    protected ilSkillProfileManager $profile_manager;
+    protected SkillProfileManager $profile_manager;
 
     public function __construct()
     {

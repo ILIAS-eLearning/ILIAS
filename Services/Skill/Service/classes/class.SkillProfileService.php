@@ -19,13 +19,16 @@
 
 namespace ILIAS\Skill\Service;
 
+use ILIAS\Skill\Profile;
+
 /**
  * Skill profile service
  * @author famula@leifos.de
  */
 class SkillProfileService
 {
-    protected \ilSkillProfileManager $profile_manager;
+    protected Profile\SkillProfileManager $profile_manager;
+    protected Profile\SkillProfileCompletionManager $profile_completion_manager;
 
     public function __construct(SkillInternalService $internal_service)
     {
@@ -36,7 +39,7 @@ class SkillProfileService
     /**
      * @throws \ilSkillProfileNotFoundException
      */
-    public function getById(int $profile_id) : \ilSkillProfile
+    public function getById(int $profile_id) : Profile\SkillProfile
     {
         return $this->profile_manager->getById($profile_id);
     }

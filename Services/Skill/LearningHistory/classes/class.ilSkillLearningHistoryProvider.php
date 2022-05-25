@@ -19,6 +19,8 @@
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use ILIAS\Skill\Profile\SkillProfileCompletionManager;
+use ILIAS\Skill\Profile\SkillProfileManager;
 
 /**
  * Learning history provider: Skills
@@ -31,8 +33,8 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
     protected ilCtrl $ctrl;
     protected Factory $ui_fac;
     protected Renderer $ui_ren;
-    protected ilSkillProfileManager $profile_manager;
-    protected ilSkillProfileCompletionManager $profile_completion_manager;
+    protected SkillProfileManager $profile_manager;
+    protected SkillProfileCompletionManager $profile_completion_manager;
 
     public function __construct(
         int $user_id,

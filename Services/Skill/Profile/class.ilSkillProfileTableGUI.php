@@ -19,6 +19,7 @@
 
 use ILIAS\Skill\Access\SkillTreeAccess;
 use ILIAS\Skill\Service\SkillAdminGUIRequest;
+use ILIAS\Skill\Profile\SkillProfileManager;
 
 /**
  * TableGUI class for skill profiles
@@ -29,7 +30,7 @@ class ilSkillProfileTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
     protected SkillTreeAccess $tree_access_manager;
-    protected ilSkillProfileManager $profile_manager;
+    protected SkillProfileManager $profile_manager;
     protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_ref_id = 0;
     protected int $requested_sprof_id = 0;

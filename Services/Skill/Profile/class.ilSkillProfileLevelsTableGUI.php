@@ -20,6 +20,7 @@
 use ILIAS\Skill\Tree;
 use ILIAS\Skill\Service\SkillAdminGUIRequest;
 use ILIAS\Skill\Service\SkillInternalManagerService;
+use ILIAS\Skill\Profile\SkillProfile;
 
 /**
  * TableGUI class for skill profile levels
@@ -29,7 +30,7 @@ use ILIAS\Skill\Service\SkillInternalManagerService;
 class ilSkillProfileLevelsTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
-    protected ilSkillProfile $profile;
+    protected SkillProfile $profile;
     protected ilSkillTreeRepository $tree_repo;
     protected SkillInternalManagerService $skill_manager;
     protected SkillAdminGUIRequest $admin_gui_request;
@@ -38,7 +39,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
     public function __construct(
         $a_parent_obj,
         string $a_parent_cmd,
-        ilSkillProfile $a_profile
+        SkillProfile $a_profile
     ) {
         global $DIC;
 

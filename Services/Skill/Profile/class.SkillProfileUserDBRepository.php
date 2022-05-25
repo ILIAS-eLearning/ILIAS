@@ -17,12 +17,14 @@
  ********************************************************************
  */
 
-class ilSkillProfileUserDBRepository
-{
-    protected ilDBInterface $db;
-    protected ilLanguage $lng;
+namespace ILIAS\Skill\Profile;
 
-    public function __construct(ilDBInterface $db = null)
+class SkillProfileUserDBRepository
+{
+    protected \ilDBInterface $db;
+    protected \ilLanguage $lng;
+
+    public function __construct(\ilDBInterface $db = null)
     {
         global $DIC;
 
@@ -42,7 +44,7 @@ class ilSkillProfileUserDBRepository
         $users = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $rec["user_id"] = (int) $rec["user_id"];
-            $name = ilUserUtil::getNamePresentation($rec["user_id"]);
+            $name = \ilUserUtil::getNamePresentation($rec["user_id"]);
             $type = $lng->txt("user");
             $users[] = [
                 "type" => $type,

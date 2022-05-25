@@ -17,14 +17,16 @@
  ********************************************************************
  */
 
+namespace ILIAS\Skill\Profile;
+
 use ILIAS\Skill\Service;
 
-class ilSkillProfileDBRepository
+class SkillProfileDBRepository
 {
-    protected ilDBInterface $db;
+    protected \ilDBInterface $db;
     protected Service\SkillInternalFactoryService $factory_service;
 
-    public function __construct(ilDBInterface $db = null, Service\SkillInternalFactoryService $factory_service = null)
+    public function __construct(\ilDBInterface $db = null, Service\SkillInternalFactoryService $factory_service = null)
     {
         global $DIC;
 
@@ -32,7 +34,7 @@ class ilSkillProfileDBRepository
         $this->factory_service = ($factory_service) ?: $DIC->skills()->internal()->factory();
     }
 
-    public function getById(int $profile_id) : ilSkillProfile
+    public function getById(int $profile_id) : SkillProfile
     {
         $ilDB = $this->db;
 
@@ -44,10 +46,10 @@ class ilSkillProfileDBRepository
         if ($rec = $ilDB->fetchAssoc($set)) {
             return $this->getProfileFromRecord($rec);
         }
-        throw new ilSkillProfileNotFoundException("Profile with ID $profile_id not found.");
+        throw new \ilSkillProfileNotFoundException("Profile with ID $profile_id not found.");
     }
 
-    protected function getProfileFromRecord(array $rec) : ilSkillProfile
+    protected function getProfileFromRecord(array $rec) : SkillProfile
     {
         $rec["id"] = (int) $rec["id"];
         $rec["ref_id"] = (int) $rec["ref_id"];
@@ -72,8 +74,8 @@ class ilSkillProfileDBRepository
     }
 
     public function createProfile(
-        ilSkillProfile $profile
-    ) : ilSkillProfile {
+        SkillProfile $profile
+    ) : SkillProfile {
         $ilDB = $this->db;
 
         $new_profile_id = $this->getNextId();
@@ -91,8 +93,8 @@ class ilSkillProfileDBRepository
     }
 
     public function updateProfile(
-        ilSkillProfile $profile
-    ) : ilSkillProfile {
+        SkillProfile $profile
+    ) : SkillProfile {
         $ilDB = $this->db;
 
         // profile
@@ -215,9 +217,11 @@ class ilSkillProfileDBRepository
         $ilDB->update(
             "skl_profile",
             array(
-                "ref_id" => array("integer", $new_ref_id)),
+                "ref_id" => array("integer", $new_ref_id)
+            ),
             array(
-                "id" => array("integer", $profile_id))
+                "id" => array("integer", $profile_id)
+            )
         );
     }
 

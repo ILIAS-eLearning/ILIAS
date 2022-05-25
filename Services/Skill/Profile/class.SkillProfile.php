@@ -17,12 +17,14 @@
  ********************************************************************
  */
 
+namespace ILIAS\Skill\Profile;
+
 /**
  * Skill profile
  *
  * @author Alex Killing <alex.killing@gmx.de>
  */
-class ilSkillProfile implements ilSkillUsageInfo
+class SkillProfile implements \ilSkillUsageInfo
 {
     protected int $id = 0;
     protected string $title = "";
@@ -35,7 +37,7 @@ class ilSkillProfile implements ilSkillUsageInfo
      */
     protected array $skill_level = [];
 
-    protected ilSkillProfileLevelsDBRepository $profile_levels_repo;
+    protected SkillProfileLevelsDBRepository $profile_levels_repo;
 
     public function __construct(
         int $id,
@@ -99,23 +101,23 @@ class ilSkillProfile implements ilSkillUsageInfo
         return $this->skill_tree_id;
     }
 
-    public function addSkillLevel(int $a_base_skill_id, int $a_tref_id, int $a_level_id, int $a_order_nr) : void
+    public function addSkillLevel(int $base_skill_id, int $tref_id, int $level_id, int $order_nr) : void
     {
         $this->skill_level[] = array(
-            "base_skill_id" => $a_base_skill_id,
-            "tref_id" => $a_tref_id,
-            "level_id" => $a_level_id,
-            "order_nr" => $a_order_nr
-            );
+            "base_skill_id" => $base_skill_id,
+            "tref_id" => $tref_id,
+            "level_id" => $level_id,
+            "order_nr" => $order_nr
+        );
     }
 
-    public function removeSkillLevel(int $a_base_skill_id, int $a_tref_id, int $a_level_id, int $a_order_nr) : void
+    public function removeSkillLevel(int $base_skill_id, int $tref_id, int $level_id, int $order_nr) : void
     {
         foreach ($this->skill_level as $k => $sl) {
-            if ((int) $sl["base_skill_id"] == $a_base_skill_id &&
-                (int) $sl["tref_id"] == $a_tref_id &&
-                (int) $sl["level_id"] == $a_level_id &&
-                (int) $sl["order_nr"] == $a_order_nr) {
+            if ((int) $sl["base_skill_id"] == $base_skill_id &&
+                (int) $sl["tref_id"] == $tref_id &&
+                (int) $sl["level_id"] == $level_id &&
+                (int) $sl["order_nr"] == $order_nr) {
                 unset($this->skill_level[$k]);
             }
         }
@@ -140,9 +142,9 @@ class ilSkillProfile implements ilSkillUsageInfo
      */
     public static function getUsageInfo(array $a_cskill_ids) : array
     {
-        return ilSkillUsage::getUsageInfoGeneric(
+        return \ilSkillUsage::getUsageInfoGeneric(
             $a_cskill_ids,
-            ilSkillUsage::PROFILE,
+            \ilSkillUsage::PROFILE,
             "skl_profile_level",
             "profile_id",
             "base_skill_id"

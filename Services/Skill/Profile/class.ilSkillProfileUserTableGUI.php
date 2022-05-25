@@ -19,6 +19,8 @@
 
 use ILIAS\Skill\Access\SkillTreeAccess;
 use ILIAS\Skill\Service\SkillAdminGUIRequest;
+use ILIAS\Skill\Profile\SkillProfile;
+use ILIAS\Skill\Profile\SkillProfileManager;
 
 /**
  * TableGUI class for skill profile user assignment
@@ -28,16 +30,16 @@ use ILIAS\Skill\Service\SkillAdminGUIRequest;
 class ilSkillProfileUserTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
-    protected ilSkillProfile $profile;
+    protected SkillProfile $profile;
     protected SkillTreeAccess $tree_access_manager;
-    protected ilSkillProfileManager $profile_manager;
+    protected SkillProfileManager $profile_manager;
     protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_ref_id = 0;
 
     public function __construct(
         $a_parent_obj,
         string $a_parent_cmd,
-        ilSkillProfile $a_profile
+        SkillProfile $a_profile
     ) {
         global $DIC;
 

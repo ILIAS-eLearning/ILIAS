@@ -3,32 +3,38 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
  */
+
+namespace ILIAS\Skill\Profile;
 
 /**
  * @author Thomas Famula <famula@leifos.de>
  */
-class ilSkillProfileManager
+class SkillProfileManager
 {
-    protected ilSkillProfileDBRepository $profile_repo;
-    protected ilSkillProfileLevelsDBRepository $profile_levels_repo;
-    protected ilSkillProfileUserDBRepository $profile_user_repo;
-    protected ilSkillProfileRoleDBRepository $profile_role_repo;
-    protected ilRbacReview $rbac_review;
+    protected SkillProfileDBRepository $profile_repo;
+    protected SkillProfileLevelsDBRepository $profile_levels_repo;
+    protected SkillProfileUserDBRepository $profile_user_repo;
+    protected SkillProfileRoleDBRepository $profile_role_repo;
+    protected \ilRbacReview $rbac_review;
 
     public function __construct(
-        ?\ilSkillProfileDBRepository $profile_repo = null,
-        ?\ilSkillProfileLevelsDBRepository $profile_levels_repo = null,
-        ?\ilSkillProfileUserDBRepository $profile_user_repo = null,
-        ?\ilSkillProfileRoleDBRepository $profile_role_repo = null
+        ?\ILIAS\Skill\Profile\SkillProfileDBRepository $profile_repo = null,
+        ?\ILIAS\Skill\Profile\SkillProfileLevelsDBRepository $profile_levels_repo = null,
+        ?\ILIAS\Skill\Profile\SkillProfileUserDBRepository $profile_user_repo = null,
+        ?\ILIAS\Skill\Profile\SkillProfileRoleDBRepository $profile_role_repo = null
     ) {
         global $DIC;
 
@@ -40,14 +46,14 @@ class ilSkillProfileManager
     }
 
     /**
-     * @throws ilSkillProfileNotFoundException
+     * @throws \ilSkillProfileNotFoundException
      */
-    public function getById(int $profile_id) : ilSkillProfile
+    public function getById(int $profile_id) : SkillProfile
     {
         return $this->profile_repo->getById($profile_id);
     }
 
-    public function createProfile(ilSkillProfile $profile) : ilSkillProfile
+    public function createProfile(SkillProfile $profile) : SkillProfile
     {
         // profile
         $new_profile = $this->profile_repo->createProfile($profile);
@@ -58,7 +64,7 @@ class ilSkillProfileManager
         return $new_profile;
     }
 
-    public function updateProfile(ilSkillProfile $profile) : ilSkillProfile
+    public function updateProfile(SkillProfile $profile) : SkillProfile
     {
         // profile
         $updated_profile = $this->profile_repo->updateProfile($profile);

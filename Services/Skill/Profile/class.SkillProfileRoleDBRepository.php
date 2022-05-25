@@ -17,13 +17,15 @@
  ********************************************************************
  */
 
-class ilSkillProfileRoleDBRepository
-{
-    protected ilDBInterface $db;
-    protected ilLanguage $lng;
-    protected ilRbacReview $review;
+namespace ILIAS\Skill\Profile;
 
-    public function __construct(ilDBInterface $db = null)
+class SkillProfileRoleDBRepository
+{
+    protected \ilDBInterface $db;
+    protected \ilLanguage $lng;
+    protected \ilRbacReview $review;
+
+    public function __construct(\ilDBInterface $db = null)
     {
         global $DIC;
 
@@ -55,16 +57,16 @@ class ilSkillProfileRoleDBRepository
         $roles = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $rec["role_id"] = (int) $rec["role_id"];
-            $name = ilObjRole::_getTranslation(ilObjRole::_lookupTitle($rec["role_id"]));
+            $name = \ilObjRole::_getTranslation(\ilObjRole::_lookupTitle($rec["role_id"]));
             $type = $lng->txt("role");
             // get object of role
-            $obj_id = ilObject::_lookupObjectId($review->getObjectReferenceOfRole($rec["role_id"]));
+            $obj_id = \ilObject::_lookupObjectId($review->getObjectReferenceOfRole($rec["role_id"]));
             // get title of object if course or group
             $obj_title = "";
             $obj_type = "";
-            if (ilObject::_lookupType($obj_id) == "crs" || ilObject::_lookupType($obj_id) == "grp") {
-                $obj_title = ilObject::_lookupTitle($obj_id);
-                $obj_type = ilObject::_lookupType($obj_id);
+            if (\ilObject::_lookupType($obj_id) == "crs" || \ilObject::_lookupType($obj_id) == "grp") {
+                $obj_title = \ilObject::_lookupTitle($obj_id);
+                $obj_type = \ilObject::_lookupType($obj_id);
             }
 
             $roles[] = [

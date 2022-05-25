@@ -17,11 +17,13 @@
  ********************************************************************
  */
 
-class ilSkillProfileLevelsDBRepository
-{
-    protected ilDBInterface $db;
+namespace ILIAS\Skill\Profile;
 
-    public function __construct(ilDBInterface $db = null)
+class SkillProfileLevelsDBRepository
+{
+    protected \ilDBInterface $db;
+
+    public function __construct(\ilDBInterface $db = null)
     {
         global $DIC;
 
