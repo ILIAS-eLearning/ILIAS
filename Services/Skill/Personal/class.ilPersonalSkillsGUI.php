@@ -112,8 +112,10 @@ class ilPersonalSkillsGUI
     protected bool $use_materials = false;
     protected ilSkillManagementSettings $skmg_settings;
     protected ilPersonalSkillsFilterGUI $filter;
-    protected ilBasicSkillTreeRepository $tree_repo;
+    protected ilSkillTreeRepository $tree_repo;
     protected SkillTreeService $tree_service;
+    protected ilSkillProfileManager $profile_manager;
+    protected ilSkillProfileCompletionManager $profile_completion_manager;
     protected SkillPersonalGUIRequest $personal_gui_request;
     protected string $requested_list_mode = self::LIST_PROFILES;
     protected int $requested_node_id = 0;
@@ -159,6 +161,10 @@ class ilPersonalSkillsGUI
         $this->storage = $DIC->resourceStorage();
         $this->data_fac = new \ILIAS\Data\Factory();
         $this->personal_gui_request = $DIC->skills()->internal()->gui()->personal_request();
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $this->tree_service = $DIC->skills()->tree();
+        $this->profile_manager = $DIC->skills()->internal()->manager()->getProfileManager();
+        $this->profile_completion_manager = $DIC->skills()->internal()->manager()->getProfileCompletionManager();
 
         $ilCtrl = $this->ctrl;
         $ilHelp = $this->help;
@@ -186,7 +192,7 @@ class ilPersonalSkillsGUI
         $this->requested_wsp_id = $this->personal_gui_request->getWorkspaceId();
         $this->requested_wsp_ids = $this->personal_gui_request->getWorkspaceIds();
 
-        $this->user_profiles = ilSkillProfile::getProfilesOfUser($this->user->getId());
+        $this->user_profiles = $this->profile_manager->getProfilesOfUser($this->user->getId());
         $this->cont_profiles = [];
         
         $this->use_materials = !$ilSetting->get("disable_personal_workspace");
@@ -194,9 +200,6 @@ class ilPersonalSkillsGUI
         $this->skmg_settings = new ilSkillManagementSettings();
 
         $this->filter = new ilPersonalSkillsFilterGUI();
-
-        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
-        $this->tree_service = $DIC->skills()->tree();
     }
 
     public function getFilter() : ilPersonalSkillsFilterGUI
@@ -1275,7 +1278,7 @@ class ilPersonalSkillsGUI
 
         $skills = [];
         if ($this->getProfileId() > 0) {
-            $profile = new ilSkillProfile($this->getProfileId());
+            $profile = $this->profile_manager->getById($this->getProfileId());
             $this->profile_levels = $profile->getSkillLevels();
 
             foreach ($this->profile_levels as $l) {
@@ -1290,14 +1293,15 @@ class ilPersonalSkillsGUI
         }
 
         // get actual levels for gap analysis
-        $prof_manager = new ilSkillProfileCompletionManager($user_id);
-        $this->actual_levels = $prof_manager->getActualMaxLevels(
+        $this->actual_levels = $this->profile_completion_manager->getActualMaxLevels(
+            $user_id,
             $skills,
             $this->gap_mode,
             $this->gap_mode_type,
             $this->gap_mode_obj_id
         );
-        $this->next_level_fuls = $prof_manager->getActualNextLevelFulfilments(
+        $this->next_level_fuls = $this->profile_completion_manager->getActualNextLevelFulfilments(
+            $user_id,
             $skills,
             $this->gap_mode,
             $this->gap_mode_type,
@@ -1575,7 +1579,7 @@ class ilPersonalSkillsGUI
     {
         $lng = $this->lng;
 
-        $profile = new ilSkillProfile($a_profile_id);
+        $profile = $this->profile_manager->getById($a_profile_id);
         $profile_levels = $profile->getSkillLevels();
 
         $a_activated_levels = [];
@@ -2130,8 +2134,7 @@ class ilPersonalSkillsGUI
             );
             $this->ctrl->setParameter($this, "profile_id", "");
 
-            $prof_manager = new ilSkillProfileCompletionManager($this->user->getId());
-            $chart_value = $prof_manager->getProfileProgress($p["id"]);
+            $chart_value = $this->profile_completion_manager->getProfileProgress($this->user->getId(), $p["id"]);
             $prof_item = $this->ui_fac->item()->standard($link)
                 ->withDescription($p["description"])
                 ->withLeadImage($image)
@@ -2163,7 +2166,7 @@ class ilPersonalSkillsGUI
         );
         $this->setProfileId($this->requested_profile_id);
 
-        $main_tpl->setTitle(ilSkillProfile::lookupTitle($this->getProfileId()));
+        $main_tpl->setTitle($this->profile_manager->lookupTitle($this->getProfileId()));
 
         $filter_toolbar = new ilToolbarGUI();
         $filter_toolbar->setFormAction($ilCtrl->getFormAction($this));
@@ -2171,7 +2174,7 @@ class ilPersonalSkillsGUI
 
         $skills = [];
         if ($this->getProfileId() > 0) {
-            $profile = new ilSkillProfile($this->getProfileId());
+            $profile = $this->profile_manager->getById($this->getProfileId());
             $this->profile_levels = $profile->getSkillLevels();
 
             foreach ($this->profile_levels as $l) {
@@ -2183,8 +2186,8 @@ class ilPersonalSkillsGUI
             }
         }
 
-        $prof_manager = new ilSkillProfileCompletionManager($this->user->getId());
-        $this->actual_levels = $prof_manager->getActualMaxLevels(
+        $this->actual_levels = $this->profile_completion_manager->getActualMaxLevels(
+            $this->user->getId(),
             $skills,
             $this->gap_mode,
             $this->gap_mode_type,

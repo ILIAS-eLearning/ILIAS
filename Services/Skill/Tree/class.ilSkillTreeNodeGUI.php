@@ -43,7 +43,7 @@ class ilSkillTreeNodeGUI
     public ilAccessHandler $access;
     protected Tree\SkillTreeNodeManager $skill_tree_node_manager;
     protected SkillTreeAccess $tree_access_manager;
-    protected ilBasicSkillTreeRepository $tree_repo;
+    protected ilSkillTreeRepository $tree_repo;
     protected int $skill_tree_id = 0;
     protected ilTabsGUI $tabs;
     protected SkillAdminGUIRequest $admin_gui_request;

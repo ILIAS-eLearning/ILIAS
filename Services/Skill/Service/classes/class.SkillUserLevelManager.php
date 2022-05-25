@@ -25,13 +25,13 @@ namespace ILIAS\Skill\Service;
  */
 class SkillUserLevelManager
 {
-    protected \ilBasicSkillLevelRepository $level_repo;
-    protected \ilBasicSkillUserLevelRepository $user_level_repo;
+    protected \ilSkillLevelRepository $level_repo;
+    protected \ilSkillUserLevelRepository $user_level_repo;
     protected \ilSkillObjectAdapterInterface $obj_adapter;
 
     public function __construct(
-        ?\ilBasicSkillLevelRepository $a_level_repo = null,
-        ?\ilBasicSkillUserLevelRepository $a_user_level_repo = null,
+        ?\ilSkillLevelRepository $a_level_repo = null,
+        ?\ilSkillUserLevelRepository $a_user_level_repo = null,
         ?\ilSkillObjectAdapterInterface $a_obj_adapter = null
     ) {
         global $DIC;

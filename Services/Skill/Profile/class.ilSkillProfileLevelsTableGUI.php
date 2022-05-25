@@ -30,7 +30,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
     protected ilSkillProfile $profile;
-    protected ilBasicSkillTreeRepository $tree_repo;
+    protected ilSkillTreeRepository $tree_repo;
     protected SkillInternalManagerService $skill_manager;
     protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_ref_id = 0;

@@ -52,8 +52,8 @@ class SkillTreeTableGUI extends \ilTable2GUI
         $this->requested_ref_id = $this->admin_gui_request->getRefId();
 
         $this->internal_manager = $manager;
-        $this->tree_manager = $manager->getTreeManager();
-        $this->management_access_manager = $manager->getManagementAccessManager($this->requested_ref_id);
+        $this->tree_manager = $this->internal_manager->getTreeManager();
+        $this->management_access_manager = $this->internal_manager->getManagementAccessManager($this->requested_ref_id);
         $this->tree_factory = $DIC->skills()->internal()->factory()->tree();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);

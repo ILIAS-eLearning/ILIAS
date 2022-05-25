@@ -19,7 +19,7 @@
 
 use ILIAS\Skill\Tree;
 
-class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
+class ilSkillTreeDBRepository implements ilSkillTreeRepository
 {
     protected ilDBInterface $db;
     protected Tree\SkillTreeFactory $tree_factory;

@@ -18,6 +18,7 @@
  */
 
 use ILIAS\Skill\Service\SkillTreeService;
+use ILIAS\Skill\Service\SkillProfileService;
 
 /**
  * Skills of a container
@@ -28,6 +29,7 @@ class ilContainerMemberSkills
 {
     protected ilDBInterface $db;
     protected SkillTreeService $tree_service;
+    protected SkillProfileService $profile_service;
     protected array $skills = [];
     protected int $obj_id = 0;
     protected int $user_id = 0;
@@ -40,6 +42,7 @@ class ilContainerMemberSkills
 
         $this->db = $DIC->database();
         $this->tree_service = $DIC->skills()->tree();
+        $this->profile_service = $DIC->skills()->profile();
 
         $this->setObjId($a_obj_id);
         $this->setUserId($a_user_id);
@@ -180,8 +183,7 @@ class ilContainerMemberSkills
         }
 
         //write profile completion entries if fulfilment status has changed
-        $prof_manager = new ilSkillProfileCompletionManager($this->getUserId());
-        $prof_manager->writeCompletionEntryForAllProfiles();
+        $this->profile_service->writeCompletionEntryForAllProfiles($this->getUserId());
 
         $db->manipulate("UPDATE cont_member_skills SET " .
             " published = " . $db->quote(1, "integer") .

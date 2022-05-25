@@ -28,7 +28,7 @@ class ilGlobalSkillTree extends ilSkillTree
 {
     protected SkillTreeManager $skill_tree_manager;
     protected SkillTreeFactory $skill_tree_factory;
-    protected ilBasicSkillTreeRepository $tree_repo;
+    protected ilSkillTreeRepository $tree_repo;
 
     public function __construct()
     {

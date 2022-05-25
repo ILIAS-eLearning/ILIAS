@@ -52,8 +52,9 @@ class ilSkillUsage implements ilSkillUsageInfo
     protected array $classes = [ilBasicSkill::class, ilPersonalSkill::class, ilSkillProfile::class,
                           ilSkillResources::class, ilSkillUsage::class];
 
-    protected ilBasicSkillTreeRepository $tree_repo;
+    protected ilSkillTreeRepository $tree_repo;
     protected SkillInternalFactoryService $tree_factory;
+    protected ilSkillProfileManager $profile_manager;
 
     public function __construct()
     {
@@ -61,6 +62,7 @@ class ilSkillUsage implements ilSkillUsageInfo
 
         $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
         $this->tree_factory = $DIC->skills()->internal()->factory();
+        $this->profile_manager = $DIC->skills()->internal()->manager()->getProfileManager();
     }
 
     public static function setUsage(int $a_obj_id, int $a_skill_id, int $a_tref_id, bool $a_use = true) : void
@@ -318,7 +320,7 @@ class ilSkillUsage implements ilSkillUsageInfo
      */
     public function getAssignedObjectsForSkillProfile(int $a_profile_id) : array
     {
-        $profile = new ilSkillProfile($a_profile_id);
+        $profile = $this->profile_manager->getById($a_profile_id);
         $skills = $profile->getSkillLevels();
         $objects = [];
 
@@ -333,7 +335,7 @@ class ilSkillUsage implements ilSkillUsageInfo
         }
 
         // courses and groups which are using skill profile
-        $roles = $profile->getAssignedRoles();
+        $roles = $this->profile_manager->getAssignedRoles($profile->getId());
         foreach ($roles as $role) {
             if (($role["object_type"] == "crs" || $role["object_type"] == "grp")
                 && !in_array($role["object_id"], $objects)) {

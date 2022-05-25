@@ -26,43 +26,41 @@
  */
 class ilSkillProfileCompletionManager
 {
-    protected int $user_id = 0;
+    protected ilSkillProfileManager $profile_manager;
+    protected ilSkillProfileCompletionRepository $profile_completion_repo;
 
-    public function __construct(int $a_user_id)
-    {
-        $this->setUserId($a_user_id);
-    }
+    public function __construct(
+        ilSkillProfileManager $profile_manager,
+        ?ilSkillProfileCompletionRepository $profile_completion_repo = null
+    ) {
+        global $DIC;
 
-    public function setUserId(int $a_val) : void
-    {
-        $this->user_id = $a_val;
-    }
-
-    public function getUserId() : int
-    {
-        return $this->user_id;
+        $this->profile_manager = $profile_manager;
+        $this->profile_completion_repo = ($profile_completion_repo)
+            ?: $DIC->skills()->internal()->repo()->getProfileCompletionRepo();
     }
 
     /**
-     * @param array{base_skill_id: int, tref_id: int, level_id: int} $a_skills
+     * @param array{base_skill_id: int, tref_id: int, level_id: int} $skills
      * @return array<int, array<int, int>>
      */
     public function getActualMaxLevels(
-        array $a_skills,
-        string $a_gap_mode = "",
-        string $a_gap_mode_type = "",
-        int $a_gap_mode_obj_id = 0
+        int $user_id,
+        array $skills,
+        string $gap_mode = "",
+        string $gap_mode_type = "",
+        int $gap_mode_obj_id = 0
     ) : array {
         // get actual levels for gap analysis
         $actual_levels = [];
-        foreach ($a_skills as $sk) {
+        foreach ($skills as $sk) {
             $bs = new ilBasicSkill($sk["base_skill_id"]);
-            if ($a_gap_mode == "max_per_type") {
-                $max = $bs->getMaxLevelPerType($sk["tref_id"], $a_gap_mode_type, $this->getUserId());
-            } elseif ($a_gap_mode == "max_per_object") {
-                $max = $bs->getMaxLevelPerObject($sk["tref_id"], $a_gap_mode_obj_id, $this->getUserId());
+            if ($gap_mode == "max_per_type") {
+                $max = $bs->getMaxLevelPerType($sk["tref_id"], $gap_mode_type, $user_id);
+            } elseif ($gap_mode == "max_per_object") {
+                $max = $bs->getMaxLevelPerObject($sk["tref_id"], $gap_mode_obj_id, $user_id);
             } else {
-                $max = $bs->getMaxLevel($sk["tref_id"], $this->getUserId());
+                $max = $bs->getMaxLevel($sk["tref_id"], $user_id);
             }
             $actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
         }
@@ -71,35 +69,37 @@ class ilSkillProfileCompletionManager
     }
 
     public function getActualLastLevels(
-        array $a_skills,
-        string $a_gap_mode = "",
-        string $a_gap_mode_type = "",
-        int $a_gap_mode_obj_id = 0
+        int $user_id,
+        array $skills,
+        string $gap_mode = "",
+        string $gap_mode_type = "",
+        int $gap_mode_obj_id = 0
     ) : array {
         // todo for coming feature
         return [];
     }
 
     /**
-     * @param array{base_skill_id: int, tref_id: int, level_id: int} $a_skills
+     * @param array{base_skill_id: int, tref_id: int, level_id: int} $skills
      * @return array<int, array<int, float>>
      */
     public function getActualNextLevelFulfilments(
-        array $a_skills,
-        string $a_gap_mode = "",
-        string $a_gap_mode_type = "",
-        int $a_gap_mode_obj_id = 0
+        int $user_id,
+        array $skills,
+        string $gap_mode = "",
+        string $gap_mode_type = "",
+        int $gap_mode_obj_id = 0
     ) : array {
         // get actual next level fulfilments for gap analysis
         $fuls = [];
-        foreach ($a_skills as $sk) {
+        foreach ($skills as $sk) {
             $bs = new ilBasicSkill($sk["base_skill_id"]);
-            if ($a_gap_mode == "max_per_type") {
-                $perc = $bs->getNextLevelFulfilmentPerType($sk["tref_id"], $a_gap_mode_type, $this->getUserId());
-            } elseif ($a_gap_mode == "max_per_object") {
-                $perc = $bs->getNextLevelFulfilmentPerObject($sk["tref_id"], $a_gap_mode_obj_id, $this->getUserId());
+            if ($gap_mode == "max_per_type") {
+                $perc = $bs->getNextLevelFulfilmentPerType($sk["tref_id"], $gap_mode_type, $user_id);
+            } elseif ($gap_mode == "max_per_object") {
+                $perc = $bs->getNextLevelFulfilmentPerObject($sk["tref_id"], $gap_mode_obj_id, $user_id);
             } else {
-                $perc = $bs->getNextLevelFulfilment($sk["tref_id"], $this->getUserId());
+                $perc = $bs->getNextLevelFulfilment($sk["tref_id"], $user_id);
             }
             $fuls[$sk["base_skill_id"]][$sk["tref_id"]] = $perc;
         }
@@ -110,9 +110,9 @@ class ilSkillProfileCompletionManager
     /**
      * Get progress in percent for a profile
      */
-    public function getProfileProgress(int $a_profile_id) : int
+    public function getProfileProgress(int $user_id, int $profile_id) : int
     {
-        $profile = new ilSkillProfile($a_profile_id);
+        $profile = $this->profile_manager->getById($profile_id);
         $profile_levels = $profile->getSkillLevels();
         $skills = [];
         foreach ($profile_levels as $l) {
@@ -122,7 +122,7 @@ class ilSkillProfileCompletionManager
                 "level_id" => $l["level_id"]
             );
         }
-        $actual_levels = $this->getActualMaxLevels($skills);
+        $actual_levels = $this->getActualMaxLevels($user_id, $skills);
 
         $profile_count = 0;
         $achieved_count = 0;
@@ -143,9 +143,9 @@ class ilSkillProfileCompletionManager
     /**
      * Check if a profile is fulfilled (progress = 100%)
      */
-    public function isProfileFulfilled(int $a_profile_id) : bool
+    public function isProfileFulfilled(int $user_id, int $profile_id) : bool
     {
-        if ($this->getProfileProgress($a_profile_id) == 100) {
+        if ($this->getProfileProgress($user_id, $profile_id) == 100) {
             return true;
         }
         return false;
@@ -155,12 +155,12 @@ class ilSkillProfileCompletionManager
      * Get all profiles of user which are fulfilled or non-fulfilled
      * @return array<int, bool>
      */
-    public function getAllProfileCompletionsForUser() : array
+    public function getAllProfileCompletionsForUser(int $user_id) : array
     {
-        $user_profiles = ilSkillProfile::getProfilesOfUser($this->getUserId());
+        $user_profiles = $this->profile_manager->getProfilesOfUser($user_id);
         $profile_comps = [];
         foreach ($user_profiles as $p) {
-            if ($this->isProfileFulfilled($p["id"])) {
+            if ($this->isProfileFulfilled($user_id, $p["id"])) {
                 $profile_comps[$p["id"]] = true;
             } else {
                 $profile_comps[$p["id"]] = false;
@@ -171,17 +171,49 @@ class ilSkillProfileCompletionManager
     }
 
     /**
+     * Get profile completion entries for given user-profile-combination
+     */
+    public function getEntries(int $user_id, int $profile_id) : array
+    {
+        return $this->profile_completion_repo->getEntries($user_id, $profile_id);
+    }
+
+    /**
+     * Get all profile completion entries for a user
+     * @return array{profile_id: int, user_id: int, date: string, fulfilled: int}[]
+     */
+    public function getFulfilledEntriesForUser(int $user_id) : array
+    {
+        return $this->profile_completion_repo->getFulfilledEntriesForUser($user_id);
+    }
+
+    /**
+     * Get all profile completion entries for a user
+     */
+    public function getAllEntriesForUser(int $user_id) : array
+    {
+        return $this->profile_completion_repo->getAllEntriesForUser($user_id);
+    }
+
+    /**
+     * Get all completion entries for a single profile
+     */
+    public function getAllEntriesForProfile(int $profile_id) : array
+    {
+        return $this->profile_completion_repo->getAllEntriesForProfile($profile_id);
+    }
+
+    /**
      * Write profile completion entries (fulfilled or non-fulfilled) of user for all profiles
      */
-    public function writeCompletionEntryForAllProfiles() : void
+    public function writeCompletionEntryForAllProfiles(int $user_id) : void
     {
-        $completions = $this->getAllProfileCompletionsForUser();
+        $completions = $this->getAllProfileCompletionsForUser($user_id);
         foreach ($completions as $profile_id => $fulfilled) {
-            $prof_comp_repo = new ilSkillProfileCompletionRepository($profile_id, $this->getUserId());
             if ($fulfilled) {
-                $prof_comp_repo->addFulfilmentEntry();
+                $this->profile_completion_repo->addFulfilmentEntry($user_id, $profile_id);
             } else {
-                $prof_comp_repo->addNonFulfilmentEntry();
+                $this->profile_completion_repo->addNonFulfilmentEntry($user_id, $profile_id);
             }
         }
     }
@@ -189,14 +221,28 @@ class ilSkillProfileCompletionManager
     /**
      * Write profile completion entry (fulfilled or non-fulfilled) of user for given profile
      */
-    public function writeCompletionEntryForSingleProfile(int $a_profile_id) : void
+    public function writeCompletionEntryForSingleProfile(int $user_id, int $profile_id) : void
     {
-        $prof_comp_repo = new ilSkillProfileCompletionRepository($a_profile_id, $this->getUserId());
-
-        if ($this->isProfileFulfilled($a_profile_id)) {
-            $prof_comp_repo->addFulfilmentEntry();
+        if ($this->isProfileFulfilled($user_id, $profile_id)) {
+            $this->profile_completion_repo->addFulfilmentEntry($user_id, $profile_id);
         } else {
-            $prof_comp_repo->addNonFulfilmentEntry();
+            $this->profile_completion_repo->addNonFulfilmentEntry($user_id, $profile_id);
         }
+    }
+
+    /**
+     * Delete all profile completion entries for a profile
+     */
+    public function deleteEntriesForProfile(int $profile_id) : void
+    {
+        $this->profile_completion_repo->deleteEntriesForProfile($profile_id);
+    }
+
+    /**
+     * Delete all profile completion entries for a user
+     */
+    public function deleteEntriesForUser(int $user_id) : void
+    {
+        $this->profile_completion_repo->deleteEntriesForUser($user_id);
     }
 }

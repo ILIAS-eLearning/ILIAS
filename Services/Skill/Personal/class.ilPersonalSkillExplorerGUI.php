@@ -63,7 +63,7 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
     protected bool $has_selectable_nodes = false;
 
     protected SkillTreeFactory $skill_tree_factory;
-    protected ilBasicSkillTreeRepository $tree_repo;
+    protected ilSkillTreeRepository $tree_repo;
     protected SkillTreeManager $skill_tree_manager;
 
     public function __construct(

@@ -17,7 +17,7 @@
  ********************************************************************
  */
 
-class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelRepository
+class ilSkillUserLevelDBRepository implements ilSkillUserLevelRepository
 {
     protected ilDBInterface $db;
 

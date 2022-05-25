@@ -25,49 +25,25 @@
 class ilSkillProfileCompletionRepository
 {
     protected ilDBInterface $db;
-    protected int $profile_id = 0;
-    protected int $user_id = 0;
 
-    public function __construct(int $a_profile_id, int $a_user_id)
+    public function __construct(ilDBInterface $db = null)
     {
         global $DIC;
 
-        $this->db = $DIC->database();
-        $this->setProfileId($a_profile_id);
-        $this->setUserId($a_user_id);
-    }
-
-    public function setProfileId(int $a_val) : void
-    {
-        $this->profile_id = $a_val;
-    }
-
-    public function getProfileId() : int
-    {
-        return $this->profile_id;
-    }
-
-    public function setUserId(int $a_val) : void
-    {
-        $this->user_id = $a_val;
-    }
-
-    public function getUserId() : int
-    {
-        return $this->user_id;
+        $this->db = ($db) ?: $DIC->database();
     }
 
     /**
      * Get profile completion entries for given user-profile-combination
      */
-    public function getEntries() : array
+    public function getEntries(int $user_id, int $profile_id) : array
     {
         $ilDB = $this->db;
 
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_completion " .
-            " WHERE profile_id = " . $ilDB->quote($this->getProfileId(), "integer") .
-            " AND user_id = " . $ilDB->quote($this->getUserId(), "integer")
+            " WHERE profile_id = " . $ilDB->quote($profile_id, "integer") .
+            " AND user_id = " . $ilDB->quote($user_id, "integer")
         );
         $entries = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
@@ -85,14 +61,14 @@ class ilSkillProfileCompletionRepository
     /**
      * Add profile fulfilment entry to given user-profile-combination
      */
-    public function addFulfilmentEntry() : void
+    public function addFulfilmentEntry(int $user_id, int $profile_id) : void
     {
         $ilDB = $this->db;
 
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_completion " .
-            " WHERE profile_id = " . $ilDB->quote($this->getProfileId(), "integer") .
-            " AND user_id = " . $ilDB->quote($this->getUserId(), "integer") .
+            " WHERE profile_id = " . $ilDB->quote($profile_id, "integer") .
+            " AND user_id = " . $ilDB->quote($user_id, "integer") .
             " ORDER BY date DESC" .
             " LIMIT 1"
         );
@@ -106,8 +82,8 @@ class ilSkillProfileCompletionRepository
             $now = ilUtil::now();
             $ilDB->manipulate("INSERT INTO skl_profile_completion " .
                 "(profile_id, user_id, date, fulfilled) VALUES (" .
-                $ilDB->quote($this->getProfileId(), "integer") . "," .
-                $ilDB->quote($this->getUserId(), "integer") . "," .
+                $ilDB->quote($profile_id, "integer") . "," .
+                $ilDB->quote($user_id, "integer") . "," .
                 $ilDB->quote($now, "timestamp") . "," .
                 $ilDB->quote(1, "integer") .
                 ")");
@@ -117,14 +93,14 @@ class ilSkillProfileCompletionRepository
     /**
      * Add profile non-fulfilment entry to given user-profile-combination
      */
-    public function addNonFulfilmentEntry() : void
+    public function addNonFulfilmentEntry(int $user_id, int $profile_id) : void
     {
         $ilDB = $this->db;
 
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_completion " .
-            " WHERE profile_id = " . $ilDB->quote($this->getProfileId(), "integer") .
-            " AND user_id = " . $ilDB->quote($this->getUserId(), "integer") .
+            " WHERE profile_id = " . $ilDB->quote($profile_id, "integer") .
+            " AND user_id = " . $ilDB->quote($user_id, "integer") .
             " ORDER BY date DESC" .
             " LIMIT 1"
         );
@@ -138,8 +114,8 @@ class ilSkillProfileCompletionRepository
             $now = ilUtil::now();
             $ilDB->manipulate("INSERT INTO skl_profile_completion " .
                 "(profile_id, user_id, date, fulfilled) VALUES (" .
-                $ilDB->quote($this->getProfileId(), "integer") . "," .
-                $ilDB->quote($this->getUserId(), "integer") . "," .
+                $ilDB->quote($profile_id, "integer") . "," .
+                $ilDB->quote($user_id, "integer") . "," .
                 $ilDB->quote($now, "timestamp") . "," .
                 $ilDB->quote(0, "integer") .
                 ")");
@@ -147,34 +123,10 @@ class ilSkillProfileCompletionRepository
     }
 
     /**
-     * Remove all profile completion entries for given user-profile-combination
-     */
-    public function removeEntries() : void
-    {
-        $ilDB = $this->db;
-
-        $ilDB->manipulate(
-            "DELETE FROM skl_profile_completion WHERE "
-            . " profile_id = " . $ilDB->quote($this->getProfileId(), "integer")
-            . " AND user_id = " . $ilDB->quote($this->getUserId(), "integer")
-        );
-    }
-
-    /**
-     * Remove all profile completion entries
-     */
-    public function removeAllEntries() : void
-    {
-        $ilDB = $this->db;
-
-        $ilDB->manipulate("DELETE FROM skl_profile_completion");
-    }
-
-    /**
      * Get all profile completion entries for a user
      * @return array{profile_id: int, user_id: int, date: string, fulfilled: int}[]
      */
-    public static function getFulfilledEntriesForUser(int $a_user_id) : array
+    public function getFulfilledEntriesForUser(int $user_id) : array
     {
         global $DIC;
 
@@ -182,7 +134,7 @@ class ilSkillProfileCompletionRepository
 
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_completion " .
-            " WHERE user_id = " . $ilDB->quote($a_user_id, "integer") .
+            " WHERE user_id = " . $ilDB->quote($user_id, "integer") .
             " AND fulfilled = 1"
         );
         $entries = [];
@@ -201,7 +153,7 @@ class ilSkillProfileCompletionRepository
     /**
      * Get all profile completion entries for a user
      */
-    public static function getAllEntriesForUser(int $a_user_id) : array
+    public function getAllEntriesForUser(int $user_id) : array
     {
         global $DIC;
 
@@ -209,7 +161,7 @@ class ilSkillProfileCompletionRepository
 
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_completion " .
-            " WHERE user_id = " . $ilDB->quote($a_user_id, "integer")
+            " WHERE user_id = " . $ilDB->quote($user_id, "integer")
         );
         $entries = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
@@ -227,7 +179,7 @@ class ilSkillProfileCompletionRepository
     /**
      * Get all completion entries for a single profile
      */
-    public static function getAllEntriesForProfile(int $a_profile_id) : array
+    public function getAllEntriesForProfile(int $profile_id) : array
     {
         global $DIC;
 
@@ -235,7 +187,7 @@ class ilSkillProfileCompletionRepository
 
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_completion " .
-            " WHERE profile_id = " . $ilDB->quote($a_profile_id, "integer")
+            " WHERE profile_id = " . $ilDB->quote($profile_id, "integer")
         );
         $entries = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
@@ -248,5 +200,31 @@ class ilSkillProfileCompletionRepository
         }
 
         return $entries;
+    }
+
+    /**
+     * Delete all profile completion entries for a profile
+     */
+    public function deleteEntriesForProfile(int $profile_id) : void
+    {
+        $ilDB = $this->db;
+
+        $ilDB->manipulate(
+            "DELETE FROM skl_profile_completion WHERE "
+            . " profile_id = " . $ilDB->quote($profile_id, "integer")
+        );
+    }
+
+    /**
+     * Delete all profile completion entries for a user
+     */
+    public function deleteEntriesForUser(int $user_id) : void
+    {
+        $ilDB = $this->db;
+
+        $ilDB->manipulate(
+            "DELETE FROM skl_profile_completion WHERE "
+            . " user_id = " . $ilDB->quote($user_id, "integer")
+        );
     }
 }

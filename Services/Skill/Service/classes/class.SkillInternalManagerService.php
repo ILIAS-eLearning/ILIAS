@@ -91,4 +91,14 @@ class SkillInternalManagerService
     {
         return new SkillManagementAccess($this->rbac_system, $skmg_ref_id, $this->usr_id);
     }
+
+    public function getProfileManager() : \ilSkillProfileManager
+    {
+        return new \ilSkillProfileManager();
+    }
+
+    public function getProfileCompletionManager() : \ilSkillProfileCompletionManager
+    {
+        return new \ilSkillProfileCompletionManager($this->getProfileManager());
+    }
 }
