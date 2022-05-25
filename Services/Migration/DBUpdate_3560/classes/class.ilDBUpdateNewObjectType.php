@@ -515,7 +515,8 @@ class ilDBUpdateNewObjectType
             . "OR ops_id = " . $db->quote($target_op_id, "integer") . ")" . PHP_EOL
         ;
 
-        while ($row = $db->fetchAssoc($db->query($sql))) {
+        $res = $db->query($sql);
+        while ($row = $db->fetchAssoc($res)) {
             $tmp[$row["rol_id"]][$row["parent"]][] = $row["ops_id"];
         }
 
