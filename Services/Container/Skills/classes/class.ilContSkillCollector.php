@@ -18,6 +18,7 @@
  */
 
 use ILIAS\Skill\Service\SkillTreeService;
+use ILIAS\Skill\Service\SkillProfileService;
 
 /**
  * Collector of skills for a container
@@ -33,6 +34,7 @@ class ilContSkillCollector
     protected ilContainerLocalProfiles $container_local_profiles;
     protected ilSkillManagementSettings $skmg_settings;
     protected SkillTreeService $tree_service;
+    protected SkillProfileService $profile_service;
 
     public function __construct(
         ilContainerSkills $a_cont_skills,
@@ -46,6 +48,7 @@ class ilContSkillCollector
         $this->container_local_profiles = $a_cont_lcl_profiles;
         $this->skmg_settings = new ilSkillManagementSettings();
         $this->tree_service = $DIC->skills()->tree();
+        $this->profile_service = $DIC->skills()->profile();
     }
 
     public function getSkillsForTableGUI() : array
@@ -104,7 +107,7 @@ class ilContSkillCollector
         // Global skills
         if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {
             foreach ($this->container_global_profiles->getProfiles() as $gp) {
-                $profile = new ilSkillProfile($gp["profile_id"]);
+                $profile = $this->profile_service->getById($gp["profile_id"]);
                 $sklvs = $profile->getSkillLevels();
                 foreach ($sklvs as $s) {
                     $p_skills[] = [
@@ -120,7 +123,7 @@ class ilContSkillCollector
         // Local skills
         if ($this->skmg_settings->getAllowLocalProfiles()) {
             foreach ($this->container_local_profiles->getProfiles() as $lp) {
-                $profile = new ilSkillProfile($lp["profile_id"]);
+                $profile = $this->profile_service->getById($lp["profile_id"]);
                 $sklvs = $profile->getSkillLevels();
                 foreach ($sklvs as $s) {
                     $p_skills[] = [

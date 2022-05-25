@@ -18,14 +18,14 @@
  */
 
 /**
- * Class ilBasicSkillLevelDBRepository
+ * Class ilSkillLevelDBRepository
  */
-class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
+class ilSkillLevelDBRepository implements ilSkillLevelRepository
 {
     protected ilDBInterface $db;
-    protected ilBasicSkillTreeRepository $tree_repo;
+    protected ilSkillTreeRepository $tree_repo;
 
-    public function __construct(ilBasicSkillTreeRepository $tree_repo, ilDBInterface $db = null)
+    public function __construct(ilSkillTreeRepository $tree_repo, ilDBInterface $db = null)
     {
         global $DIC;
 

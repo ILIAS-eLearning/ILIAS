@@ -19,6 +19,8 @@
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use ILIAS\Skill\Profile\SkillProfileCompletionManager;
+use ILIAS\Skill\Profile\SkillProfileManager;
 
 /**
  * Learning history provider: Skills
@@ -31,6 +33,8 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
     protected ilCtrl $ctrl;
     protected Factory $ui_fac;
     protected Renderer $ui_ren;
+    protected SkillProfileManager $profile_manager;
+    protected SkillProfileCompletionManager $profile_completion_manager;
 
     public function __construct(
         int $user_id,
@@ -44,6 +48,8 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         $this->ctrl = $DIC->ctrl();
         $this->ui_fac = $DIC->ui()->factory();
         $this->ui_ren = $DIC->ui()->renderer();
+        $this->profile_manager = $DIC->skills()->internal()->manager()->getProfileManager();
+        $this->profile_completion_manager = $DIC->skills()->internal()->manager()->getProfileCompletionManager();
     }
 
     /**
@@ -109,12 +115,12 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         }
 
         // profiles
-        $completions = ilSkillProfileCompletionRepository::getFulfilledEntriesForUser($this->getUserId());
+        $completions = $this->profile_completion_manager->getFulfilledEntriesForUser($this->getUserId());
 
         foreach ($completions as $c) {
             $this->ctrl->setParameterByClass("ilpersonalskillsgui", "profile_id", $c["profile_id"]);
             $p_link = $this->ui_fac->link()->standard(
-                ilSkillProfile::lookupTitle($c["profile_id"]),
+                $this->profile_manager->lookupTitle($c["profile_id"]),
                 $this->ctrl->getLinkTargetByClass("ilpersonalskillsgui", "listassignedprofile")
             );
             $ts = new ilDateTime($c["date"], IL_CAL_DATETIME);

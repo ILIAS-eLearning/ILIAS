@@ -18,9 +18,9 @@
  */
 
 /**
- * Interface ilBasicSkillLevelRepository
+ * Interface ilSkillLevelRepository
  */
-interface ilBasicSkillLevelRepository
+interface ilSkillLevelRepository
 {
     public function deleteLevelsOfSkill(int $skill_id) : void;
 

@@ -42,7 +42,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
     protected Tree\SkillTreeNodeManager $skill_tree_node_manager;
     protected Access\SkillTreeAccess $skill_tree_access_manager;
     protected Access\SkillManagementAccess $skill_management_access_manager;
-    protected ilBasicSkillTreeRepository $skill_tree_repo;
+    protected ilSkillTreeRepository $skill_tree_repo;
     protected Tree\SkillTreeFactory $skill_tree_factory;
     protected UIServices $ui;
     protected ilGlobalTemplateInterface $main_tpl;

@@ -20,9 +20,9 @@
 use ILIAS\Skill\Tree;
 
 /**
- * Interface ilBasicSkillTreeRepository
+ * Interface ilSkillTreeRepository
  */
-interface ilBasicSkillTreeRepository
+interface ilSkillTreeRepository
 {
 
     /**

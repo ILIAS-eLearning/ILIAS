@@ -19,7 +19,7 @@
 
 namespace ILIAS\Skill\Service;
 
-use ilBasicSkillTreeRepository;
+use ilSkillTreeRepository;
 use ILIAS\Skill\Tree\SkillTreeFactory;
 use ILIAS\Skill\Tree\SkillTreeManager;
 
@@ -29,7 +29,7 @@ use ILIAS\Skill\Tree\SkillTreeManager;
  */
 class SkillTreeService
 {
-    protected ilBasicSkillTreeRepository $tree_repo;
+    protected ilSkillTreeRepository $tree_repo;
     protected SkillTreeFactory $tree_factory;
     protected SkillTreeManager $tree_manager;
 

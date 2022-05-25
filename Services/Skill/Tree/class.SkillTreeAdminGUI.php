@@ -65,8 +65,8 @@ class SkillTreeAdminGUI
         $this->requested_ref_id = $this->admin_gui_request->getRefId();
 
         $this->skill_manager = $skill_manager;
-        $this->skill_tree_manager = $skill_manager->getTreeManager();
-        $this->skill_management_access_manager = $skill_manager->getManagementAccessManager($this->requested_ref_id);
+        $this->skill_tree_manager = $this->skill_manager->getTreeManager();
+        $this->skill_management_access_manager = $this->skill_manager->getManagementAccessManager($this->requested_ref_id);
     }
 
     public function executeCommand() : void

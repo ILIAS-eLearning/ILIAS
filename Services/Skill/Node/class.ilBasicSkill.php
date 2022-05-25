@@ -24,9 +24,9 @@
 class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 {
     protected ilObjUser $user;
-    protected ilBasicSkillLevelRepository $bsc_skl_lvl_db_rep;
-    protected ilBasicSkillUserLevelRepository $bsc_skl_usr_lvl_db_rep;
-    protected ilBasicSkillTreeRepository $bsc_skl_tre_rep;
+    protected ilSkillLevelRepository $bsc_skl_lvl_db_rep;
+    protected ilSkillUserLevelRepository $bsc_skl_usr_lvl_db_rep;
+    protected ilSkillTreeRepository $bsc_skl_tre_rep;
 
     //TODO: What to do with these constants?
     public const ACHIEVED = 1;
@@ -38,13 +38,12 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 
     public function __construct(
         int $a_id = 0,
-        ilBasicSkillLevelRepository $bsc_skl_lvl_db_rep = null,
-        ilBasicSkillUserLevelRepository $bsc_skl_usr_lvl_db_rep = null,
-        ilBasicSkillTreeRepository $bsc_skl_tre_rep = null
+        ilSkillLevelRepository $bsc_skl_lvl_db_rep = null,
+        ilSkillUserLevelRepository $bsc_skl_usr_lvl_db_rep = null,
+        ilSkillTreeRepository $bsc_skl_tre_rep = null
     ) {
         global $DIC;
 
-        $this->db = $DIC->database();
         $this->user = $DIC->user();
 
         if (is_null($bsc_skl_lvl_db_rep)) {
@@ -232,7 +231,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
             : 0;
 
         $update = false;
-        $repository = new ilBasicSkillUserLevelDBRepository($ilDB);
+        $repository = new ilSkillUserLevelDBRepository($ilDB);
         $status_date = $repository->hasRecentSelfEvaluation($a_user_id, $a_skill_id, $a_tref_id, $a_trigger_ref_id);
         if ($status_date != "") {
             $update = true;
@@ -264,7 +263,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         $trigger_obj_id = ($a_trigger_ref_id > 0)
             ? $obj_adapter->getObjIdForRefId($a_trigger_ref_id)
             : 0;
-        $repository = new ilBasicSkillUserLevelDBRepository($ilDB);
+        $repository = new ilSkillUserLevelDBRepository($ilDB);
 
         return $repository->hasRecentSelfEvaluation(
             $trigger_obj_id,
@@ -285,7 +284,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 
         $ilDB = $DIC->database();
 
-        $repository = new ilBasicSkillUserLevelDBRepository($ilDB);
+        $repository = new ilSkillUserLevelDBRepository($ilDB);
 
         return $repository->getNewAchievementsPerUser($a_timestamp, $a_timestamp_to, $a_user_id, $a_self_eval);
     }
@@ -332,7 +331,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
             );
         }
 
-        $repository = new ilBasicSkillUserLevelDBRepository($ilDB);
+        $repository = new ilSkillUserLevelDBRepository($ilDB);
         $repository->writeUserSkillLevelStatus(
             $skill_id,
             $trigger_ref_id,
@@ -364,7 +363,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         if ($a_trigger_obj_id == 0) {
             return false;
         }
-        $repository = new ilBasicSkillUserLevelDBRepository($ilDB);
+        $repository = new ilSkillUserLevelDBRepository($ilDB);
 
         return $repository->removeAllUserSkillLevelStatusOfObject(
             $a_user_id,
@@ -380,7 +379,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 
         $ilDB = $DIC->database();
 
-        $repository = new ilBasicSkillUserLevelDBRepository($ilDB);
+        $repository = new ilSkillUserLevelDBRepository($ilDB);
         $repository->removeAllUserData($a_user_id);
     }
 
@@ -535,7 +534,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 
         $ilDB = $DIC->database();
 
-        $repository = new ilBasicSkillUserLevelDBRepository($ilDB);
+        $repository = new ilSkillUserLevelDBRepository($ilDB);
 
         return $repository->hasSelfEvaluated($a_user_id, $a_skill_id, $a_tref_id);
     }

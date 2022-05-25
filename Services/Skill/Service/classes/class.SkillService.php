@@ -44,19 +44,36 @@ class SkillService implements SkillServiceInterface
         $this->usr_id = $DIC->user()->getId();
     }
 
+    /**
+     * External user service facade
+     */
     public function user(int $id) : SkillUserService
     {
         return new SkillUserService($id);
     }
 
+    /**
+     * External ui service facade
+     */
     public function ui() : SkillUIService
     {
         return new SkillUIService();
     }
 
+    /**
+     * External tree service facade
+     */
     public function tree() : SkillTreeService
     {
         return new SkillTreeService($this->internal());
+    }
+
+    /**
+     * External profile service facade
+     */
+    public function profile() : SkillProfileService
+    {
+        return new SkillProfileService($this->internal());
     }
 
     /**

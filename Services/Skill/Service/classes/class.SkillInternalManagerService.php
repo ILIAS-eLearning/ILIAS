@@ -22,6 +22,7 @@ namespace ILIAS\Skill\Service;
 use ILIAS\Skill\Access\SkillManagementAccess;
 use ILIAS\Skill\Access\SkillTreeAccess;
 use ILIAS\Skill\Tree;
+use ILIAS\Skill\Profile;
 
 /**
  * Skill internal manager service
@@ -90,5 +91,15 @@ class SkillInternalManagerService
     public function getManagementAccessManager(int $skmg_ref_id) : SkillManagementAccess
     {
         return new SkillManagementAccess($this->rbac_system, $skmg_ref_id, $this->usr_id);
+    }
+
+    public function getProfileManager() : Profile\SkillProfileManager
+    {
+        return new Profile\SkillProfileManager();
+    }
+
+    public function getProfileCompletionManager() : Profile\SkillProfileCompletionManager
+    {
+        return new Profile\SkillProfileCompletionManager($this->getProfileManager());
     }
 }

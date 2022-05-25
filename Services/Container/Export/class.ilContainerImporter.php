@@ -25,10 +25,14 @@ class ilContainerImporter extends ilXmlImporter
 {
     private string $structure_xml;
     protected ilLogger $cont_log;
+    protected \ILIAS\Skill\Service\SkillProfileService $skill_profile_service;
 
     public function init() : void
     {
+        global $DIC;
+
         $this->cont_log = ilLoggerFactory::getLogger('cont');
+        $this->skill_profile_service = $DIC->skills()->profile();
     }
     
     /**
@@ -86,9 +90,11 @@ class ilContainerImporter extends ilXmlImporter
 
         $skl_local_prof_map = $a_mapping->getMappingsOfEntity('Services/Skill', 'skl_local_prof');
         foreach ($skl_local_prof_map as $old_prof_id => $new_prof_id) {
-            $prof = new ilSkillProfile((int) $new_prof_id);
-            $prof->updateRefIdAfterImport((int) $new_crs_ref_id);
-            $prof->addRoleToProfile(ilParticipants::getDefaultMemberRole((int) $new_crs_ref_id));
+            $this->skill_profile_service->updateRefIdAfterImport((int) $new_prof_id, (int) $new_crs_ref_id);
+            $this->skill_profile_service->addRoleToProfile(
+                (int) $new_prof_id,
+                ilParticipants::getDefaultMemberRole((int) $new_crs_ref_id)
+            );
         }
     }
 

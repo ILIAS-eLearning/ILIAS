@@ -81,8 +81,12 @@ class ilTestSkillEvaluation
      */
     private $numRequiredBookingsForSkillTriggering;
 
+    private \ILIAS\Skill\Service\SkillProfileService $skill_profile_service;
+
     public function __construct(ilDBInterface $db, $testId, $refId)
     {
+        global $DIC;
+
         $this->db = $db;
         $this->refId = $refId;
 
@@ -90,6 +94,8 @@ class ilTestSkillEvaluation
 
         $this->skillLevelThresholdList = new ilTestSkillLevelThresholdList($this->db);
         $this->skillLevelThresholdList->setTestId($testId);
+
+        $this->skill_profile_service = $DIC->skills()->profile();
 
         $this->questions = array();
         $this->maxPointsByQuestion = array();
@@ -344,8 +350,7 @@ class ilTestSkillEvaluation
             }
         }
         //write profile completion entries if fulfilment status has changed
-        $prof_manager = new ilSkillProfileCompletionManager($this->getUserId());
-        $prof_manager->writeCompletionEntryForAllProfiles();
+        $this->skill_profile_service->writeCompletionEntryForAllProfiles($this->getUserId());
     }
 
     private function invokeSkillLevelTrigger($skillLevelId, $skillTrefId)
@@ -413,10 +418,10 @@ class ilTestSkillEvaluation
     {
         $matchingSkillProfiles = array();
 
-        $usersProfiles = ilSkillProfile::getProfilesOfUser($this->getUserId());
+        $usersProfiles = $this->skill_profile_service->getProfilesOfUser($this->getUserId());
 
         foreach ($usersProfiles as $profileData) {
-            $profile = new ilSkillProfile($profileData['id']);
+            $profile = $this->skill_profile_service->getById($profileData['id']);
             $assignedSkillLevels = $profile->getSkillLevels();
 
             foreach ($assignedSkillLevels as $assignedSkillLevel) {
@@ -437,7 +442,7 @@ class ilTestSkillEvaluation
         $noProfileMatchingSkills = $this->skillQuestionAssignmentList->getUniqueAssignedSkills();
 
         foreach ($availableSkillProfiles as $skillProfileId => $skillProfileTitle) {
-            $profile = new ilSkillProfile($skillProfileId);
+            $profile = $this->skill_profile_service->getById($skillProfileId);
             $assignedSkillLevels = $profile->getSkillLevels();
 
             foreach ($assignedSkillLevels as $assignedSkillLevel) {

@@ -27,7 +27,7 @@ use ILIAS\Skill\Tree;
 class ilSkillUsageTableGUI extends ilTable2GUI
 {
     protected ilAccessHandler $access;
-    protected ilBasicSkillTreeRepository $tree_repo;
+    protected ilSkillTreeRepository $tree_repo;
     protected Tree\SkillTreeFactory $tree_factory;
     protected Tree\SkillTreeManager $tree_manager;
     protected int $skill_id = 0;
