@@ -334,8 +334,14 @@ class ilTestServiceGUI
         $counter = 1;
         // output of questions with solutions
         foreach ($result_array as $question_data) {
-            if ((array_key_exists('workedthrough', $question_data) && $question_data["workedthrough"] == 1) ||
-                ($only_answered_questions == false)) {
+            if (!array_key_exists('workedthrough', $question_data)) {
+                $question_data['workedthrough'] = 0;
+            }
+            if (!array_key_exists('qid', $question_data)) {
+                $question_data['qid'] = -1;
+            }
+
+            if (($question_data["workedthrough"] == 1) || ($only_answered_questions == false)) {
                 $template = new ilTemplate("tpl.il_as_qpl_question_printview.html", true, true, "Modules/TestQuestionPool");
                 $question_id = $question_data["qid"] ?? null;
                 if (is_numeric($question_id)) {
@@ -760,6 +766,10 @@ class ilTestServiceGUI
             $uname = $this->object->userLookupFullName($user_id, true);
         }
 
+        if ($this->object->getAnonymity()) {
+            $uname = $this->lng->txt('anonymous');
+        }
+
         if ((($this->testrequest->isset('pass')) && (strlen($this->testrequest->raw("pass")) > 0)) || (!is_null($pass))) {
             if (is_null($pass)) {
                 $pass = $this->testrequest->raw("pass");
@@ -768,7 +778,6 @@ class ilTestServiceGUI
 
         if (!is_null($pass)) {
             $testResultHeaderLabelBuilder = new ilTestResultHeaderLabelBuilder($this->lng, $ilObjDataCache);
-
             $objectivesList = null;
 
             if ($this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {

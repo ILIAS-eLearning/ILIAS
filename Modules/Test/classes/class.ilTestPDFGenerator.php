@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -115,7 +114,17 @@ class ilTestPDFGenerator
             $filename .= '.pdf';
         }
         $pdf_factory = new ilHtmlToPdfTransformerFactory();
-        return $pdf_factory->deliverPDFFromHTMLString($pdf_output, $filename, $output_mode, self::service, $purpose);
+
+        if (!$pdf_factory->deliverPDFFromHTMLString(
+            array($pdf_output),
+            $filename,
+            $output_mode,
+            self::service,
+            $purpose
+        )) {
+            throw new \Exception('could not write PDF');
+        }
+        return true;
     }
 
     public static function preprocessHTML($html): string

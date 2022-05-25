@@ -260,10 +260,11 @@ class ilExportGUI
     public function createExportFile(): void
     {
         if ($this->ctrl->getCmd() == "createExportFile") {
-            $format = $this->initFormatFromPost();
+            $format = ilUtil::stripSlashes($_POST["format"]);
         } else {
             $format = substr($this->ctrl->getCmd(), 7);
         }
+
         foreach ($this->getFormats() as $f) {
             if ($f["key"] == $format) {
                 if (is_object($f["call_obj"])) {

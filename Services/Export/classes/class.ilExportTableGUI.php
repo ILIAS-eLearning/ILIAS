@@ -26,7 +26,7 @@ class ilExportTableGUI extends ilTable2GUI
 {
     protected ilObject $obj;
     protected array $custom_columns = array();
-    protected array $formats = array();
+    public array $formats = array();
 
     /**
      * Constructor
@@ -101,6 +101,7 @@ class ilExportTableGUI extends ilTable2GUI
             $types[] = $f['key'];
             $this->formats[$f['key']] = $f['txt'];
         }
+
         return ilExport::_getExportFiles(
             $this->obj->getId(),
             $types,
@@ -119,7 +120,6 @@ class ilExportTableGUI extends ilTable2GUI
 
         $file_id = $this->getRowId($a_set);
         $this->tpl->setVariable('VAL_ID', $file_id);
-
         $type = (isset($this->formats[$a_set['type']]) && $this->formats[$a_set['type']] != "")
             ? $this->formats[$a_set['type']]
             : $a_set['type'];

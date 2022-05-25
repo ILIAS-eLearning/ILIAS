@@ -62,7 +62,7 @@ class ilHtmlToPdfTransformerFactory
 
         $job = new ilPDFGenerationJob();
         $job->setFilename($output);
-        $job->addPage($src);
+        $job->setPages($src);
         $job->setOutputMode($delivery_type);
 
         $renderer->generatePDF($service, $purpose, $config, $job);
