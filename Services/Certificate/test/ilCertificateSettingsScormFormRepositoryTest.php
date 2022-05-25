@@ -31,7 +31,7 @@ class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTest
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -90,7 +90,7 @@ class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTest
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 

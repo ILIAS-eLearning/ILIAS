@@ -10,10 +10,7 @@ class ilDclDateSelectionFieldRepresentation extends ilDclSelectionFieldRepresent
     const PROP_SELECTION_TYPE = 'date_selection_type';
     const PROP_SELECTION_OPTIONS = 'date_selection_options';
 
-    /**
-     * @return ilDclGenericMultiInputGUI
-     */
-    protected function buildOptionsInput()
+    protected function buildOptionsInput() : ilDclGenericMultiInputGUI
     {
         $selection_options = new ilDclGenericMultiInputGUI($this->lng->txt('dcl_selection_options'),
             'prop_' . static::PROP_SELECTION_OPTIONS);

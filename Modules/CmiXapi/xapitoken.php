@@ -34,6 +34,7 @@ try {
     ), true);
 
     $_COOKIE[session_name()] = $param[session_name()];
+
     $_COOKIE['ilClientId'] = $param['ilClientId'];
     $objId = $param['obj_id'];
     $refId = $param['ref_id'];

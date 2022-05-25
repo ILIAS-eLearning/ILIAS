@@ -161,7 +161,7 @@ class ilUtil
         }
         $vers = "";
         if ($mode != "filesystem") {
-            $vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
+            $vers = str_replace(" ", "-", ILIAS_VERSION);
             $vers = "?vers=" . str_replace(".", "-", $vers);
             // use version from template xml to force reload on changes
             $skin = ilStyleDefinition::getSkins()[ilStyleDefinition::getCurrentSkin()];
@@ -183,7 +183,7 @@ class ilUtil
         
         // add version as parameter to force reload for new releases
         if ($mode != "filesystem") {
-            $vers = str_replace(" ", "-", $ilSetting->get("ilias_version"));
+            $vers = str_replace(" ", "-", ILIAS_VERSION);
             $vers = "?vers=" . str_replace(".", "-", $vers);
         }
         

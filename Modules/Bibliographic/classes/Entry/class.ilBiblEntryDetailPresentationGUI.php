@@ -15,7 +15,11 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+use ILIAS\UI\Component\Deck\Deck;
+use ILIAS\UI\Component\Panel\Standard;
+use ILIAS\UI\Component\Panel\Sub;
+
 /**
  * Class ilBiblEntryDetailPresentationGUI
  *
@@ -24,8 +28,14 @@
  */
 class ilBiblEntryDetailPresentationGUI
 {
-    use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
     public \ilBiblEntry $entry;
+    protected \ILIAS\UI\Renderer $ui_renderer;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected ilCtrlInterface $ctrl;
+    protected ilLanguage $lng;
+    protected ilTabsGUI $tabs;
+    protected ilHelpGUI $help;
     protected \ilBiblFactoryFacade $facade;
 
 
@@ -34,100 +44,94 @@ class ilBiblEntryDetailPresentationGUI
      */
     public function __construct(\ilBiblEntry $entry, ilBiblFactoryFacade $facade)
     {
+        global $DIC;
+        $this->help = $DIC['ilHelp'];
         $this->facade = $facade;
         $this->entry = $entry;
+        $this->tabs = $DIC->tabs();
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->main_tpl = $DIC->ui()->mainTemplate();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->ui_renderer = $DIC->ui()->renderer();
+        $this->initHelp();
+        $this->initTabs();
+        $this->initPermanentLink();
     }
 
 
     private function initHelp() : void
     {
-        global $DIC;
-
-        $ilHelp = $DIC['ilHelp'];
-        /**
-         * @var $ilHelp ilHelpGUI
-         */
-        $ilHelp->setScreenIdComponent('bibl');
+        $this->help->setScreenIdComponent('bibl');
     }
 
 
     private function initTabs() : void
     {
-        $this->tabs()->clearTargets();
-        $this->tabs()->setBackTarget(
-            $this->lng()->txt("back"),
-            $this->ctrl()->getLinkTargetByClass(ilObjBibliographicGUI::class, ilObjBibliographicGUI::CMD_SHOW_CONTENT)
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget(
+            $this->lng->txt("back"),
+            $this->ctrl->getLinkTargetByClass(ilObjBibliographicGUI::class, ilObjBibliographicGUI::CMD_SHOW_CONTENT)
+        );
+    }
+
+    private function initPermanentLink() : void
+    {
+        $this->main_tpl->setPermanentLink(
+            "bibl",
+            $this->facade->iliasRefId(),
+            "_" . $this->entry->getId()
         );
     }
 
 
     public function getHTML() : string
     {
-        $this->initHelp();
-        $this->initTabs();
+        $sub_panels = [
+            $this->getOverviewPanel()
+        ];
 
-        $form = new ilPropertyFormGUI();
-        $form->setTitle($this->lng()->txt('detail_view'));
+        if (($libraries = $this->getLibrariesDeck()) !== null) {
+            $sub_panels[] = $libraries;
+        }
 
-        $this->renderAttributes($form);
-        $this->renderLibraries($form);
-
-        $this->tpl()->setPermanentLink(
-            "bibl",
-            $this->facade->iliasRefId(),
-            "_" . $this->entry->getId()
+        return $this->ui_renderer->render(
+            $this->ui_factory->panel()->report($this->lng->txt('detail_view'), $sub_panels)
         );
-
-        return $form->getHTML();
     }
 
+    private function getLibrariesDeck() : ?Sub
+    {
+        $settings = $this->facade->libraryFactory()->getAll();
+        if (count($settings) === 0) {
+            return null;
+        }
 
-    protected function renderAttributes(ilPropertyFormGUI $form) : void
+        $data = [];
+
+        foreach ($settings as $set) {
+            $presentation = new ilBiblLibraryPresentationGUI($set, $this->facade);
+            $data[$set->getName()] = $presentation->getButton($this->facade, $this->entry);
+        }
+
+        return $this->ui_factory->panel()->sub(
+            $this->lng->txt('bibl_settings_libraries'),
+            $this->ui_factory->listing()->characteristicValue()->text($data)
+        );
+    }
+
+    private function getOverviewPanel() : Sub
     {
         $attributes = $this->facade->attributeFactory()->getAttributesForEntry($this->entry);
         $sorted = $this->facade->attributeFactory()->sortAttributes($attributes);
-
+        $data = [];
         foreach ($sorted as $attribute) {
             $translated = $this->facade->translationFactory()->translateAttribute($attribute);
-            $ci = new ilNonEditableValueGUI($translated);
-            $ci->setValue(self::prepareLatex($attribute->getValue()));
-            $form->addItem($ci);
-        }
-    }
-
-
-    protected function renderLibraries(ilPropertyFormGUI $form) : void
-    {
-        // generate/render links to libraries
-        // TODO REFACTOR
-        $settings = $this->facade->libraryFactory()->getAll();
-        foreach ($settings as $set) {
-            $ci = new ilCustomInputGUI($set->getName());
-            $presentation = new ilBiblLibraryPresentationGUI($set, $this->facade);
-            $ci->setHtml($presentation->getButton($this->facade, $this->entry));
-            $form->addItem($ci);
-        }
-    }
-
-
-    /**
-     * This feature has to be discussed by JF first
-     *
-     * string @param $string
-     */
-    public static function prepareLatex($string) : string
-    {
-        return $string;
-        static $init;
-        $ilMathJax = ilMathJax::getInstance();
-        if (!$init) {
-            $ilMathJax->init();
-            $init = true;
+            $data[$translated] = $attribute->getValue();
         }
 
-        //		$string = preg_replace('/\\$\\\\(.*)\\$/u', '[tex]$1[/tex]', $string);
-        $string = preg_replace('/\\$(.*)\\$/u', '[tex]$1[/tex]', $string);
+        $content = $this->ui_factory->listing()->characteristicValue()->text($data);
 
-        return $ilMathJax->insertLatexImages($string);
+        return $this->ui_factory->panel()->sub('', $content);
     }
 }

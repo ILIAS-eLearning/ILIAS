@@ -47,7 +47,7 @@ class Text implements C\Listing\CharacteristicValue\Text
 
                 return true;
             },
-            fn($k, $v) => "expected keys of type string and values of type string, got ($k => $v)"
+            fn ($k, $v) => "expected keys of type string and values of type string, got ($k => $v)"
         );
     }
 

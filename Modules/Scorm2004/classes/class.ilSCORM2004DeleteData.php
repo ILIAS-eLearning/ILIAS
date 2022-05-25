@@ -151,10 +151,7 @@ class ilSCORM2004DeleteData
             );
         }
     }
-    
-    /**
-     * @param array $cmi_node_values
-     */
+
     public static function removeCMIDataForNodes(array $cmi_node_values) : void
     {
         global $DIC;
@@ -202,7 +199,7 @@ class ilSCORM2004DeleteData
         $ilDB->manipulate($query);
     }
     
-    public static function getGlobalToSystemObjectiveIdStringForPackage(int $packageId)
+    public static function getGlobalToSystemObjectiveIdStringForPackage(int $packageId) : string
     {
         global $DIC;
 
@@ -237,7 +234,7 @@ class ilSCORM2004DeleteData
             $existing_key_template .= "'" . $data['targetobjectiveid'] . "',";
         }
         //remove trailing ','
-        $existing_key_template = substr($existing_key_template, 0, strlen($existing_key_template) - 1);
+        $existing_key_template = substr($existing_key_template, 0, -1);
 
         return $existing_key_template;
     }

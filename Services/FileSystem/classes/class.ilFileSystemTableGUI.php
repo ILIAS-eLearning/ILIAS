@@ -62,7 +62,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         $this->has_multi = false;
 
         foreach ($a_commands as $i => $command) {
-            if (!$command["single"]) {
+            if (!($command["single"] ?? false)) {
                 // does also handle internal commands
                 $this->addMultiCommand("extCommand_" . $i, $command["name"]);
                 $this->has_multi = true;
@@ -70,7 +70,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
                 $this->row_commands[] = array(
                     "cmd" => "extCommand_" . $i,
                     "caption" => $command["name"],
-                    "allow_dir" => $command["allow_dir"]
+                    "allow_dir" => $command["allow_dir"] ?? ""
                 );
             }
         }
@@ -124,7 +124,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
                 : $e["entry"];
 
             if ($this->label_enable) {
-                $label = (is_array($this->file_labels[$cfile]))
+                $label = (isset($this->file_labels[$cfile]) && is_array($this->file_labels[$cfile]))
                     ? implode(", ", $this->file_labels[$cfile])
                     : "";
             }
@@ -136,7 +136,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
                              "entry" => $e["entry"],
                              "type" => $e["type"],
                              "label" => $label ?? '',
-                             "size" => $e["size"],
+                             "size" => $e["size"] ?? '',
                              "name" => $pref . $e["entry"]
             );
         }

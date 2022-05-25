@@ -144,7 +144,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         if (DEVMODE) {
             $php = ", PHP " . PHP_VERSION;
         }
-        $ftpl->setVariable("ILIAS_VERSION", $ilSetting->get("ilias_version") . $php);
+        $ftpl->setVariable("ILIAS_VERSION", ILIAS_VERSION . $php);
 
         $link_items = [];
 
@@ -392,7 +392,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
 
         $vers = '';
         if (is_object($ilSetting)) {        // maybe this one can be removed
-            $vers = "vers=" . str_replace([".", " "], "-", $ilSetting->get("ilias_version"));
+            $vers = "vers=" . str_replace([".", " "], "-", ILIAS_VERSION);
 
             if (DEVMODE) {
                 $vers .= '-' . time();
@@ -733,63 +733,71 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         $lng = $DIC->language();
         $header = $this->getHeaderActionMenu();
 
+        $header_tpl = new ilTemplate('tpl.il_header.html', true, true);
+
         if ($this->icon_path !== "") {
-            $this->setCurrentBlock("header_image");
+            $header_tpl->setCurrentBlock("header_image");
             if ($this->icon_desc !== "") {
-                $this->setVariable("IMAGE_DESC", $lng->txt("icon") . " " . $this->icon_desc);
-                $this->setVariable("IMAGE_ALT", $lng->txt("icon") . " " . $this->icon_desc);
+                $header_tpl->setVariable("IMAGE_DESC", $lng->txt("icon") . " " . $this->icon_desc);
+                $header_tpl->setVariable("IMAGE_ALT", $lng->txt("icon") . " " . $this->icon_desc);
             }
 
-            $this->setVariable("IMG_HEADER", $this->icon_path);
-            $this->parseCurrentBlock();
+            $header_tpl->setVariable("IMG_HEADER", $this->icon_path);
+            $header_tpl->parseCurrentBlock();
             $header = true;
         }
 
         if ($this->title !== "") {
             $title = ilUtil::stripScriptHTML($this->title);
-            $this->setVariable("HEADER", $title);
+            $header_tpl->setVariable("HEADER", $title);
 
             $header = true;
         }
 
         if ($header !== '') {
-            $this->setCurrentBlock("header_image");
-            $this->parseCurrentBlock();
+            $header_tpl->setCurrentBlock("header_image");
+            $header_tpl->parseCurrentBlock();
+        }
+
+        // edge-case of tabindex and tag name.
+        if ($this->template_name === 'tpl.page_content.html') {
+            $header_tpl->touchBlock('header_link_additions');
         }
 
         if ($this->title_desc !== "") {
-            $this->setCurrentBlock("header_desc");
-            $this->setVariable("H_DESCRIPTION", $this->title_desc);
-            $this->parseCurrentBlock();
+            $header_tpl->setCurrentBlock("header_desc");
+            $header_tpl->setVariable("H_DESCRIPTION", $this->title_desc);
+            $header_tpl->parseCurrentBlock();
         }
 
         if ($header !== '') {
-            $this->setCurrentBlock("head_action_inner");
-            $this->setVariable("HEAD_ACTION", $header);
-            $this->parseCurrentBlock();
+            $header_tpl->setCurrentBlock("head_action_inner");
+            $header_tpl->setVariable("HEAD_ACTION", $header);
+            $header_tpl->parseCurrentBlock();
         }
 
         foreach ($this->title_alerts as $alert) {
-            $this->setCurrentBlock('header_alert');
+            $header_tpl->setCurrentBlock('header_alert');
             if (!($alert['propertyNameVisible'] === false)) {
-                $this->setVariable('H_PROP', $alert['property'] . ':');
+                $header_tpl->setVariable('H_PROP', $alert['property'] . ':');
             }
-            $this->setVariable('H_VALUE', $alert['value']);
-            $this->parseCurrentBlock();
+            $header_tpl->setVariable('H_VALUE', $alert['value']);
+            $header_tpl->parseCurrentBlock();
         }
 
         // add file upload drop zone in header
         if ($this->enable_fileupload !== null) {
-            $ref_id = $this->enable_fileupload;
-            $upload_id = "dropzone_" . $ref_id;
+            $file_upload = new ilObjFileUploadDropzone(
+                $this->enable_fileupload,
+                $header_tpl->get()
+            );
 
-            $upload = new ilFileUploadGUI($upload_id, $ref_id, true);
-
-            $this->setVariable("FILEUPLOAD_DROPZONE_ID", " id=\"$upload_id\"");
-
-            $this->setCurrentBlock("header_fileupload");
-            $this->setVariable("HEADER_FILEUPLOAD_SCRIPT", $upload->getHTML());
-            $this->parseCurrentBlock();
+            $this->setVariable(
+                "IL_DROPZONE_HEADER",
+                $file_upload->getDropzoneHtml()
+            );
+        } else {
+            $this->setVariable("IL_HEADER", $header_tpl->get());
         }
     }
 

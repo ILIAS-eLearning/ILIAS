@@ -14,9 +14,9 @@
      *****************************************************************************/
     class ADLAuxiliaryResource
     {
-        public $mType = null;
+        public ?string $mType = null;
         
-        public $mResourceID = null;
+        public ?string $mResourceID = null;
 
-        public $mParameter = null;
+        public ?string $mParameter = null;
     }

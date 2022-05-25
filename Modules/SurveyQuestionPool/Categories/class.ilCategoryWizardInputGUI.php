@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a survey question category wizard property
@@ -114,7 +117,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         if (is_array($a_value)) {
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
-                    $this->values->addCategory($value, $a_value['other'][$index], null, null, $a_value['scale'][$index]);
+                    $this->values->addCategory($value, $a_value['other'][$index] ?? 0, 0, null, $a_value['scale'][$index] ?? null);
                 }
             }
         }
@@ -204,7 +207,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $idx => $answervalue) {
-                    if (((strlen($answervalue)) == 0) && ($this->getRequired() && (!$foundvalues['other'][$idx]))) {
+                    if (((strlen($answervalue)) == 0) && ($this->getRequired() && (!isset($foundvalues['other'][$idx])))) {
                         $this->setAlert($lng->txt("msg_input_is_required"));
                         return false;
                     }
@@ -218,7 +221,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
                 }
             }
             // check scales
-            if (is_array($foundvalues['scale'])) {
+            if (isset($foundvalues['scale'])) {
                 foreach ($foundvalues['scale'] as $scale) {
                     //scales required
                     if ((strlen($scale)) == 0) {

@@ -57,11 +57,11 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
         $ilAccess = $DIC['ilAccess'];
         $tree = $DIC['tree'];
 
-        if (!$ilAccess->checkAccess('read', '', $a_node["child"])) {
+        if (!$ilAccess->checkAccess('read', '', (int) $a_node["child"])) {
             return false;
         }
         //remove childs of target object
-        if ($tree->getParentId($a_node["child"]) === $this->getRefId()) {
+        if ($tree->getParentId((int) $a_node["child"]) === $this->getRefId()) {
             return false;
         }
 

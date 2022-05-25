@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesRegistrationSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : self
     {
         $suite = new self();
         include_once("./Services/Registration/test/ilRegistrationSettingsTest.php");

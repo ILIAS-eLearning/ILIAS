@@ -35,7 +35,7 @@ class ilObjRemoteCourse extends ilRemoteObjectBase
     protected $end;
     protected $start;
     
-    public function initType()
+    public function initType() : void
     {
         $this->type = "rcrs";
     }

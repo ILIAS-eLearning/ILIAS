@@ -11,7 +11,5 @@ interface Avatar extends Symbol
 {
     public function getUsername() : string;
 
-    public function withAlternativeText(string $text) : Avatar;
-
-    public function getAlternativeText() : string;
+    public function withLabel(string $text) : Avatar;
 }

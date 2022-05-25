@@ -74,7 +74,7 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
         switch ($next_class) {
             case 'ilobjectcopygui':
                 $this->ctrl->setReturn($this);
-                $cp = new ilObjectCopyGUI($this);// @TODO: PHP8 Review: Invalid argument.
+                $cp = new ilObjectCopyGUI($this);
                 $this->ctrl->forwardCommand($cp);
                 break;
             

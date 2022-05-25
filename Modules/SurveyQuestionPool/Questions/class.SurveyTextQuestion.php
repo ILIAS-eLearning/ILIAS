@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Text survey question
@@ -70,21 +73,21 @@ class SurveyTextQuestion extends SurveyQuestion
         );
         if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
-            $this->setId($data["question_id"]);
-            $this->setTitle($data["title"]);
-            $this->label = $data['label'];
-            $this->setDescription($data["description"]);
-            $this->setObjId($data["obj_fi"]);
-            $this->setAuthor($data["author"]);
-            $this->setOwner($data["owner_fi"]);
-            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc($data["questiontext"], 1));
-            $this->setObligatory($data["obligatory"]);
-            $this->setComplete($data["complete"]);
+            $this->setId((int) $data["question_id"]);
+            $this->setTitle((string) $data["title"]);
+            $this->label = (string) $data['label'];
+            $this->setDescription((string) $data["description"]);
+            $this->setObjId((int) $data["obj_fi"]);
+            $this->setAuthor((string) $data["author"]);
+            $this->setOwner((int) $data["owner_fi"]);
+            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc((string) $data["questiontext"], 1));
+            $this->setObligatory((bool) $data["obligatory"]);
+            $this->setComplete((bool) $data["complete"]);
             $this->setOriginalId((int) $data["original_id"]);
 
-            $this->setMaxChars($data["maxchars"]);
-            $this->setTextWidth($data["width"]);
-            $this->setTextHeight($data["height"]);
+            $this->setMaxChars((int) $data["maxchars"]);
+            $this->setTextWidth($data["width"] ? (int) $data["width"] : null);
+            $this->setTextHeight($data["height"] ? (int) $data["height"] : null);
         }
         parent::loadFromDb($question_id);
     }

@@ -14,7 +14,6 @@ include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 */
 class ilQuestionpoolExport
 {
-    private $inst;
     public $err;			// error object
     public $db;			// database object
     public $ilias;			// ilias object
@@ -26,6 +25,12 @@ class ilQuestionpoolExport
     public $inst_id;		// installation id
     public $mode;
     public $lng;
+
+    private string $export_dir = '';
+    private string $subdir = '';
+    private string $filename = '';
+    private string $zipfilename = '';
+    private ilXmlWriter $xml;
 
     /**
     * Constructor
@@ -49,7 +54,6 @@ class ilQuestionpoolExport
         $this->db = &$ilDB;
         $this->mode = $a_mode;
         $this->lng = &$lng;
-        
         $settings = $this->ilias->getAllSettings();
         $this->inst_id = IL_INST_ID;
         $this->questions = $array_questions;
@@ -91,7 +95,7 @@ class ilQuestionpoolExport
     /**
     *   build export file (complete zip file)
     */
-    public function buildExportFile()
+    public function buildExportFile() : void
     {
         switch ($this->mode) {
             case "xls":
@@ -122,7 +126,7 @@ class ilQuestionpoolExport
 
         // set generated comment
         $this->xml->xmlSetGenCmt("Export of ILIAS Test Questionpool " .
-            $this->qpl_obj->getId() . " of installation " . $this->inst . ".");
+            $this->qpl_obj->getId() . " of installation " . $this->inst_id);
 
         // set xml header
         $this->xml->xmlHeader();
@@ -194,7 +198,7 @@ class ilQuestionpoolExport
         return $this->export_dir . "/" . $this->subdir . ".zip";
     }
 
-    public function exportXHTMLMediaObjects($a_export_dir)
+    public function exportXHTMLMediaObjects($a_export_dir) : void
     {
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         
@@ -213,7 +217,7 @@ class ilQuestionpoolExport
     /**
     * build xml export file
     */
-    protected function buildExportFileXLS()
+    protected function buildExportFileXLS() : void
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
         require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';

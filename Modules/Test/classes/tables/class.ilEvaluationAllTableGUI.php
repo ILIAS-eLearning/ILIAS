@@ -15,7 +15,6 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 */
 class ilEvaluationAllTableGUI extends ilTable2GUI
 {
-    private array $filter;
     protected $anonymity;
     
     /**
@@ -230,8 +229,7 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         $ti->setSize(20);
         $this->addFilterItem($ti);
         $ti->readFromSession();
-        $this->filter["name"] = $ti->getValue();
-        
+
         // group
         $ti = new ilTextInputGUI($lng->txt("grp"), "group");
         $ti->setMaxLength(64);
@@ -239,7 +237,6 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         $ti->setSize(20);
         $this->addFilterItem($ti);
         $ti->readFromSession();
-        $this->filter["group"] = $ti->getValue();
         
         // course
         $ti = new ilTextInputGUI($lng->txt("course"), "course");
@@ -248,7 +245,6 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         $ti->setValidationRegexp('/^[^%]*$/is');
         $this->addFilterItem($ti);
         $ti->readFromSession();
-        $this->filter["course"] = $ti->getValue();
         
         // passed tests
         include_once("./Services/Form/classes/class.ilCheckboxInputGUI.php");
@@ -256,7 +252,6 @@ class ilEvaluationAllTableGUI extends ilTable2GUI
         //		$si->setOptionTitle();
         $this->addFilterItem($si);
         $si->readFromSession();
-        $this->filter["passedonly"] = $si->getValue();
     }
 
     /**

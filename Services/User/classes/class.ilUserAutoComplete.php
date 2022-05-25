@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Auto completion class for user lists
@@ -340,7 +343,7 @@ class ilUserAutoComplete
             $this->getUser() instanceof ilObjUser &&
             $this->getUser()->isAnonymous()
         ) {
-            if (!$ilSetting->get('enable_global_profiles', 0)) {
+            if (!$ilSetting->get('enable_global_profiles', '0')) {
                 // If 'Enable User Content Publishing' is not set in the administration, no user should be found for 'anonymous' context.
                 return '1 = 2';
             } else {

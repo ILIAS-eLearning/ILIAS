@@ -23,7 +23,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         foreach ($this->getADT()->getElements() as $name => $element) {
             $this->elements[$name] = $factory->getFormBridgeForInstance($element);
             $this->elements[$name]->setForm($this->getForm());
-            $this->elements[$name]->setElementId($name);
+            $this->elements[$name]->setElementId((string) $name);
         }
     }
 

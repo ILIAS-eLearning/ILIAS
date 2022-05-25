@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Field\Radio;
 
@@ -54,7 +57,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         $tpl->setCurrentBlock("ContentStyle");
         $tpl->setVariable(
             "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath($this->layout_object->getStyleId())
+            ilObjStyleSheet::getContentStylePath(0)
         );
         $tpl->parseCurrentBlock();
         
@@ -97,7 +100,6 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         if (!$a_form) {
             $a_form = $this->initForm($a_mode);
         }
-        
         $this->tpl->setContent($a_form->getHTML());
     }
     
@@ -140,25 +142,6 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         $form_gui->addItem($desc_input);
         $form_gui->addItem($mods);
 
-        // style
-        $fixed_style = $ilSetting->get("fixed_content_style_id");
-        $style_id = $this->layout_object->getStyleId();
-
-        if ($fixed_style > 0) {
-            $st = new ilNonEditableValueGUI($lng->txt("cont_current_style"));
-            $st->setValue(ilObject::_lookupTitle($fixed_style) . " (" .
-                $this->lng->txt("global_fixed") . ")");
-            $form_gui->addItem($st);
-        } else {
-            $st_styles = ilObjStyleSheet::_getStandardStyles(true, false);
-            $st_styles[0] = $this->lng->txt("default");
-            ksort($st_styles);
-            $style_sel = new ilSelectInputGUI($lng->txt("obj_sty"), "style_id");
-            $style_sel->setOptions($st_styles);
-            $style_sel->setValue($style_id);
-            $form_gui->addItem($style_sel);
-        }
-                        
         $form_gui->addCommandButton("updateProperties", $lng->txt($a_mode));
         
         return $form_gui;
@@ -177,7 +160,6 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         
         $this->layout_object->setTitle($form->getInput('pgl_title'));
         $this->layout_object->setDescription($form->getInput('pgl_desc'));
-        $this->layout_object->setStyleId($form->getInput('style_id'));
         $this->layout_object->setModules($form->getInput('module'));
         $this->layout_object->update();
         
@@ -195,12 +177,10 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         $tpl = $this->tpl;
 
         $ilCtrl->setParameterByClass("ilpagelayoutgui", "obj_id", $this->obj->getId());
-        $ilTabs->addTarget(
+        $ilTabs->addTab(
             "properties",
-            $ilCtrl->getLinkTarget($this, "properties"),
-            array("properties","", ""),
-            "",
-            ""
+            $this->lng->txt("settings"),
+            $ilCtrl->getLinkTarget($this, "properties")
         );
         $tpl->setTitleIcon(ilUtil::getImagePath("icon_pg.svg"));
         $tpl->setTitle($this->layout_object->getTitle());
@@ -216,7 +196,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         $ui = $DIC->ui();
         $f = $ui->factory();
         $lng = $DIC->language();
-        $arr_templates = ilPageLayout::activeLayouts(false, $module);
+        $arr_templates = ilPageLayout::activeLayouts($module);
         if (count($arr_templates) == 0) {
             return null;
         }
@@ -232,5 +212,10 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         }
         $radio = $radio->withValue($first);
         return $radio;
+    }
+
+    public function finishEditing() : void
+    {
+        $this->ctrl->redirectByClass("ilpagelayoutadministrationgui", "listLayouts");
     }
 }

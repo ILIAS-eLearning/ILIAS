@@ -9,6 +9,7 @@ use LogicException;/************************************************************
  *      https://www.ilias.de
  *      https://github.com/ILIAS-eLearning
  *****************************************************************************/
+
 /**
  * Class CoreIdentificationProvider
  * @see    IdentificationProviderInterface

@@ -18,7 +18,7 @@ class assAnswerBinaryStateImageTest extends assBaseTestCase
         chdir('../../../');
     }
 
-    public function test_instantiateObject_shouldReturnInstance()
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php';
@@ -29,7 +29,7 @@ class assAnswerBinaryStateImageTest extends assBaseTestCase
         $this->assertInstanceOf('ASS_AnswerBinaryStateImage', $instance);
     }
 
-    public function test_setGetImage()
+    public function test_setGetImage() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php';

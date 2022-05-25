@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 use ILIAS\Repository\StandardGUIRequest;
@@ -177,7 +180,8 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
 
             $this->ctrl->setCmdClass($next_class);
             if ($this->ctrl->getCmd() === "return") {
-                $this->ctrl->setCmd("");
+                //$this->ctrl->setCmd(null);    // this does not work anymore
+                $this->ctrl->redirectByClass($next_class, "");
             }
         }
 
@@ -188,6 +192,13 @@ class ilRepositoryGUI implements ilCtrlBaseClassInterface
         }
 
         switch ($next_class) {
+            // forward asynchronous file uploads to the upload handler.
+            // possible via dropzones in list guis or global template
+            // sections like title.
+            case strtolower(ilObjFileUploadHandlerGUI::class):
+                $this->ctrl->forwardCommand(new ilObjFileUploadHandlerGUI());
+                break;
+
             default:
                 // forward all other classes to gui commands
                 if ($next_class !== null && $next_class !== "" && $next_class !== "ilrepositorygui") {

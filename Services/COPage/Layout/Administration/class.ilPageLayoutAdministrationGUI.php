@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\COPage\Layout\AdministrationGUIRequest;
 
@@ -96,7 +99,7 @@ class ilPageLayoutAdministrationGUI
 
             default:
                 if (in_array($cmd, array("listLayouts", "editPg", "addPageLayout", "cancelCreate", "createPg", "exportLayout",
-                    "savePageLayoutTypes", "activate", "deactivate", "importPageLayoutForm", "deletePgl", "cancelDeletePg",
+                    "activate", "deactivate", "importPageLayoutForm", "deletePgl", "cancelDeletePg",
                     "confirmedDeletePg", "importPageLayout"))) {
                     $this->$cmd();
                 } else {
@@ -352,33 +355,6 @@ class ilPageLayoutAdministrationGUI
         $this->executeCommand();
     }
 
-    /**
-     * Save page layout types
-     */
-    public function savePageLayoutTypes() : void
-    {
-        $types = $this->admin_request->getLayoutTypes();
-        $modules = $this->admin_request->getLayoutModules();
-        if (count($types) > 0) {
-            foreach ($types as $id => $t) {
-                if ($id > 0) {
-                    $l = new ilPageLayout($id);
-                    $l->readObject();
-                    $l->setSpecialPage($t);
-                    if (isset($modules[$id])) {
-                        $l->setModules(array_keys($modules[$id]));
-                    } else {
-                        $l->setModules();
-                    }
-                    $l->update();
-                }
-            }
-            $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"));
-        }
-
-        $this->ctrl->redirect($this, "listLayouts");
-    }
-
 
     /**
      * Export page layout template object
@@ -399,7 +375,7 @@ class ilPageLayoutAdministrationGUI
             $tmpdir
         );
 
-        if ($succ["success"]) {
+        if (is_file($succ["directory"] . "/" . $succ["file"])) {
             ilFileDelivery::deliverFileLegacy(
                 $succ["directory"] . "/" . $succ["file"],
                 $succ["file"],
@@ -413,7 +389,7 @@ class ilPageLayoutAdministrationGUI
             unlink($succ["directory"] . "/" . $succ["file"]);
         }
         if (is_dir($succ["directory"])) {
-            unlink($succ["directory"]);
+            //unlink($succ["directory"]);
         }
     }
 

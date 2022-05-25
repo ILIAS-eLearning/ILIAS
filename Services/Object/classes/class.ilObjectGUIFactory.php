@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * See bug discussion 24472
  *
@@ -47,9 +61,9 @@ class ilObjectGUIFactory
 
         $sql =
             "SELECT object_data.type" . PHP_EOL
-            ."FROM object_data,object_reference" . PHP_EOL
-            ."WHERE object_reference.obj_id = object_data.obj_id" . PHP_EOL
-            ."AND object_reference.ref_id = %s" . PHP_EOL
+            . "FROM object_data,object_reference" . PHP_EOL
+            . "WHERE object_reference.obj_id = object_data.obj_id" . PHP_EOL
+            . "AND object_reference.ref_id = %s" . PHP_EOL
         ;
         // check if object exists
         $result = $this->db->queryF($sql, ["integer"], [$ref_id]);

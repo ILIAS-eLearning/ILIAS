@@ -23,7 +23,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     /**
      * @todo fix in base class
      */
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
     protected ilTree $tree;
     protected RefineryFactory $refinery;
@@ -75,16 +75,22 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
         $this->setTitle($this->lng->txt('cal_table_categories'));
 
         $sel_type = ilCalendarUserSettings::_getInstance()->getCalendarSelectionType();
-        $this->ctrl->setParameterByClass("ilcalendarcategorygui", 'calendar_mode',
-            ilCalendarUserSettings::CAL_SELECTION_ITEMS);
+        $this->ctrl->setParameterByClass(
+            "ilcalendarcategorygui",
+            'calendar_mode',
+            ilCalendarUserSettings::CAL_SELECTION_ITEMS
+        );
         $this->ctrl->setParameterByClass("ilcalendarcategorygui", 'seed', $this->seed->get(IL_CAL_DATE));
         // @todo: set checked if ($sel_type == ilCalendarUserSettings::CAL_SELECTION_ITEMS)
         $this->addBlockCommand(
             $this->ctrl->getLinkTargetByClass("ilcalendarcategorygui", 'switchCalendarMode'),
             $this->lng->txt('dash_favourites')
         );
-        $this->ctrl->setParameterByClass("ilcalendarcategorygui", 'calendar_mode',
-            ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP);
+        $this->ctrl->setParameterByClass(
+            "ilcalendarcategorygui",
+            'calendar_mode',
+            ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP
+        );
         $this->ctrl->setParameterByClass("ilcalendarcategorygui", 'seed', $this->seed->get(IL_CAL_DATE));
 
         // @todo: set checked if ($sel_type == ilCalendarUserSettings::CAL_SELECTION_MEMBERSHIP)
@@ -177,7 +183,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
             $tmp_arr['visible'] = in_array($category['cat_id'], $visible);
             $tmp_arr['title'] = $category['title'];
             $tmp_arr['type'] = $category['type'];
-            $tmp_arr['source_ref_id'] = $category['source_ref_id'];
+            $tmp_arr['source_ref_id'] = $category['source_ref_id'] ?? 0;
 
             $tmp_arr['default_selected'] = true;
             if ($this->category_id) {

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * GUI class for personal profile
@@ -446,7 +449,7 @@ class ilPersonalSettingsGUI
             $ilSetting->get("help_mode") != "1") {
             $this->lng->loadLanguageModule("help");
             $cb = new ilCheckboxInputGUI($this->lng->txt("help_toggle_tooltips"), "help_tooltips");
-            $cb->setChecked(!$ilUser->prefs["hide_help_tt"]);
+            $cb->setChecked(!($ilUser->prefs["hide_help_tt"] ?? false));
             $cb->setInfo($this->lng->txt("help_toggle_tooltips_info"));
             $this->form->addItem($cb);
         }
@@ -685,9 +688,13 @@ class ilPersonalSettingsGUI
 
             // starting point
             if (ilUserUtil::hasPersonalStartingPoint()) {
+                $s_ref_id = $this->form->getInput('usr_start_ref_id');
+                $s_ref_id = ($s_ref_id == "")
+                    ? null
+                    : (int) $s_ref_id;
                 ilUserUtil::setPersonalStartingPoint(
-                    $this->form->getInput('usr_start'),
-                    $this->form->getInput('usr_start_ref_id')
+                    (int) $this->form->getInput('usr_start'),
+                    $s_ref_id
                 );
             }
 

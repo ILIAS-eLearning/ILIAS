@@ -46,7 +46,7 @@ class ilAssQuestionHintsOrderingClipboard
      *
      * @access	public
      */
-    public function resetStored()
+    public function resetStored() : void
     {
         $class = ilSession::get(__CLASS__);
         unset($class[$this->questionId]);
@@ -61,7 +61,7 @@ class ilAssQuestionHintsOrderingClipboard
      * @access	public
      * @param	integer	$hintId
      */
-    public function setStored($hintId)
+    public function setStored($hintId) : void
     {
         $class = ilSession::get(__CLASS__);
         $class[$this->questionId] = $hintId;

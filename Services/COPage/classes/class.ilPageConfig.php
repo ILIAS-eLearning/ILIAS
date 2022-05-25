@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Config class for page editing
@@ -63,7 +66,7 @@ abstract class ilPageConfig
     protected bool $link_filter_white_list = false;
     protected string $localization_lang = "";
     protected int $section_protection = self::SEC_PROTECT_NONE;
-    protected string $section_protection_info;
+    protected string $section_protection_info = "";
 
     final public function __construct()
     {
@@ -314,12 +317,7 @@ abstract class ilPageConfig
 
     public function getPreventHTMLUnmasking() : bool
     {
-        $safe = true;
-        if ($this->adve_set->get("act_html_" . $this->page_obj_key)) {
-            $safe = false;
-        }
-        return $safe;
-        //return $this->preventhtmlunmasking;
+        return true;
     }
 
     public function setEnableSelfAssessment(

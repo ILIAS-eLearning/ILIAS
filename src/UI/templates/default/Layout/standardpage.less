@@ -154,9 +154,10 @@ div.il-system-infos {
 .il-pagetitle {
 	font-weight: 600;
 	display: flex;
-	font-size: @font-size-base * 1.142;
+	font-size: @il-font-size-large;
 	align-items: flex-end;
 	padding-left: 35px; // dynamic value desirable
+	color: @il-standard-page-header-page-title-color;
 }
 
 .il-header-locator{
@@ -306,7 +307,8 @@ footer {
 				-ms-grid-columns: 1fr;
 				grid-template-columns: 1fr;
 				-ms-grid-rows: 0 @il-standard-page-small-mainbar-height;
-				grid-template-rows: 0 @il-standard-page-small-mainbar-height;
+				grid-template-rows: 0 @il-standard-page-small-mainbar-height; // for browsers not supporting env()
+				grid-template-rows: 0 @il-standard-page-small-mainbar-height-w-bottom-safe-area;
 
 				.il-mainbar-close-slates {
 					display: none;
@@ -339,7 +341,8 @@ footer {
 					-ms-grid-columns: 1fr;
 				    grid-template-columns: 1fr;
 					-ms-grid-rows: 1fr @il-standard-page-small-mainbar-height;
-				    grid-template-rows: 1fr @il-standard-page-small-mainbar-height;
+					grid-template-rows: 1fr @il-standard-page-small-mainbar-height; // for browsers not supporting env()
+					grid-template-rows: 1fr @il-standard-page-small-mainbar-height-w-bottom-safe-area;
 					width: 100%;
 					.il-mainbar {
 						.shadow-top();
@@ -417,7 +420,7 @@ footer {
 			background-color: transparent;
 			border: none;
 			color: @il-neutral-color;
-			font-size: 1.5rem;
+			font-size: @il-font-size-xxlarge;
 			max-width: 220px;
 			white-space: nowrap;
 			overflow: hidden;
@@ -463,7 +466,8 @@ footer {
 		box-shadow: none;
 		display: -ms-flexbox;
 		display: flex;
-		max-height: @il-mainbar-small-btn-height;
+		max-height: @il-standard-page-small-mainbar-height; // for browsers not supporting env()
+		max-height: @il-standard-page-small-mainbar-height-w-bottom-safe-area;
 		overflow: hidden;
 		z-index: @il-standard-page-zindex-mainbar;
 	}

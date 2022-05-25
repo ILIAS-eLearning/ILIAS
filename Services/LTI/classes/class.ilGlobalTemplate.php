@@ -21,6 +21,7 @@ namespace LTI;
  * @author     Stefan Schneider <schneider@hrz.uni-marburg.de>
  * @version    $Id$
  */
+// ToDo Stefan: Can be removed?
 class ilGlobalTemplate extends \ilGlobalTemplate
 {
     public function __construct(

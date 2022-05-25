@@ -1,8 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 {
     protected ilObjLearningSequenceContentGUI $parent_gui;
@@ -55,6 +68,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         /** @var LSItem $a_set */
+        $a_set = $a_set[0];
 
         $ni = new ilNumberInputGUI(
             "",
@@ -165,12 +179,10 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 
         $props = array_filter(
             $action_items,
-            function ($action_item) use ($prop_for_type) {
-                return $action_item['cmd'] === $prop_for_type;
-            }
+            fn ($action_item) => $action_item['cmd'] === $prop_for_type
         );
 
-        if (count($props) > 0) {
+        if ($props !== []) {
             return array_shift($props)['link'];
         }
         return null;

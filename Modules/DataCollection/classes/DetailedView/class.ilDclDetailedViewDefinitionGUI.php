@@ -12,17 +12,11 @@
  */
 class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 {
+    protected int $tableview_id;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * @var int
-     */
-    protected $tableview_id;
-
-    /**
-     * @param     $tableview_id
-     * @param int $a_definition_id
-     */
-    public function __construct($tableview_id, $a_definition_id = 0)
+    public function __construct(int $tableview_id, int $a_definition_id = 0)
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -32,12 +26,16 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
          */
         $this->ctrl = $ilCtrl;
         $this->tableview_id = $tableview_id;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         // we always need a page object - create on demand
         if (!ilPageObject::_exists('dclf', $tableview_id)) {
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
             $viewdef = new ilDclDetailedViewDefinition();
             $viewdef->setId($tableview_id);
-            $viewdef->setParentId(ilObject2::_lookupObjectId($_GET['ref_id']));
+            $viewdef->setParentId(ilObject2::_lookupObjectId($ref_id));
             $viewdef->setActive(false);
             $viewdef->create(false);
         }
@@ -126,10 +124,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         return parent::showPage();
     }
 
-    /**
-     *
-     */
-    protected function activate()
+    protected function activate(): void
     {
         $page = $this->getPageObject();
         $page->setActive(true);
@@ -137,10 +132,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    /**
-     *
-     */
-    protected function deactivate()
+    protected function deactivate(): void
     {
         $page = $this->getPageObject();
         $page->setActive(false);
@@ -148,10 +140,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    /**
-     * confirmDelete
-     */
-    public function confirmDelete()
+    public function confirmDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -170,10 +159,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $tpl->setContent($conf->getHTML());
     }
 
-    /**
-     * cancelDelete
-     */
-    public function cancelDelete()
+    public function cancelDelete(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -181,10 +167,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $ilCtrl->redirect($this, "edit");
     }
 
-    /**
-     *
-     */
-    public function deleteView()
+    public function deleteView(): void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

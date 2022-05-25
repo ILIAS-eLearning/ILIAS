@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
@@ -23,6 +37,7 @@ class ilObjectGUI
     const CFORM_NEW = 1;
     const CFORM_IMPORT = 2;
     const CFORM_CLONE = 3;
+    private \ILIAS\Notes\Service $notes_service;
 
     protected ServerRequestInterface $request;
     protected ilLocatorGUI $locator;
@@ -47,12 +62,13 @@ class ilObjectGUI
     protected Factory $refinery;
     protected ilFavouritesManager $favourites;
     protected ilObjectCustomIconFactory $custom_icon_factory;
+    private ilObjectRequestRetriever $retriever;
 
     protected ?ilObject $object = null;
     protected bool $creation_mode = false;
     protected $data;
     protected int $id;
-    protected bool $call_by_reference;
+    protected bool $call_by_reference = false;
     protected bool $prepare_output;
     protected int $ref_id;
     protected int $obj_id;
@@ -104,6 +120,7 @@ class ilObjectGUI
         $this->post_wrapper = $DIC->http()->wrapper()->post();
         $this->request_wrapper = $DIC->http()->wrapper()->query();
         $this->refinery = $DIC->refinery();
+        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $this->refinery);
         $this->favourites = new ilFavouritesManager();
         $this->custom_icon_factory = $DIC['object.customicons.factory'];
 
@@ -135,9 +152,9 @@ class ilObjectGUI
 
         // TODO: refactor this with post_wrapper or request_wrapper
         // callback after creation
-        $this->requested_crtptrefid = (int) ($_REQUEST["crtptrefid"] ?? 0);
-        $this->requested_crtcb = (int) ($_REQUEST["crtcb"] ?? 0);
-        $this->requested_new_type = $_REQUEST["new_type"] ?? "";
+        $this->requested_crtptrefid = $this->retriever->getMaybeInt('crtptrefid', 0);
+        $this->requested_crtcb = $this->retriever->getMaybeInt("crtcb", 0);
+        $this->requested_new_type = $this->retriever->getMaybeString("new_type", "");
 
 
         if ($this->id != 0) {
@@ -158,6 +175,8 @@ class ilObjectGUI
         if ($prepare_output) {
             $this->prepareOutput();
         }
+
+        $this->notes_service = $DIC->notes();
     }
 
     public function getRefId() : int
@@ -214,7 +233,7 @@ class ilObjectGUI
     
     /**
     * if true, a creation screen is displayed
-    * the current $_GET[ref_id] don't belong
+    * the current [ref_id] don't belong
     * to the current class!
     * The mode is determined in ilRepositoryGUI
     */
@@ -276,13 +295,14 @@ class ilObjectGUI
             }
         } else {
             $this->setTitleAndDescription();
+
+            // set tabs
             $this->setTabs();
 
-            // currently disabled due to refactoring
-            // file upload support
-//            if (ilFileUploadUtil::isUploadAllowed($this->ref_id, $this->object->getType())) {
-//                $this->enableDragDropFileUpload();
-//            }
+            $file_upload_dropzone = new ilObjFileUploadDropzone($this->ref_id);
+            if ($file_upload_dropzone->isUploadAllowed($this->object->getType())) {
+                $this->enableDragDropFileUpload();
+            }
         }
         
         return true;
@@ -336,7 +356,7 @@ class ilObjectGUI
             
             ilObjectListGUI::prepareJsLinks(
                 $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
-                $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "ilnotegui"], "", "", true),
+                "",
                 $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "", "", true)
             );
             
@@ -356,7 +376,7 @@ class ilObjectGUI
                 if (
                     $this->access->checkAccess("write", "", $this->ref_id) ||
                     $this->access->checkAccess("edit_permissions", "", $this->ref_id) ||
-                    ilNote::commentsActivated($this->object->getId(), 0, $this->object->getType())
+                    $this->notes_service->domain()->commentsActive($this->object->getId())
                 ) {
                     $lg->enableComments(true);
                 }
@@ -441,7 +461,7 @@ class ilObjectGUI
         if ($this->checkPermissionBool("edit_permission")) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
-                $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilpermissiongui'), "perm"),
+                $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), "perm"),
                 "",
                 "ilpermissiongui"
             );
@@ -619,7 +639,7 @@ class ilObjectGUI
      * Get HTML for creation forms (accordion)
      * @param array<int, ilPropertyFormGUI> $forms
      */
-    final protected function getCreationFormsHTML(array $forms) : string
+    protected function getCreationFormsHTML(array $forms) : string
     {
         // #13168- sanity check
         foreach ($forms as $id => $form) {
@@ -714,7 +734,7 @@ class ilObjectGUI
         $templates = ilDidacticTemplateSettings::getInstanceByObjectType($this->type)->getTemplates();
         if ($templates) {
             foreach ($templates as $template) {
-                if ($template->isEffective($this->requested_ref_id)) {
+                if ($template->isEffective((int) $this->requested_ref_id)) {
                     $options["dtpl_" . $template->getId()] = array(
                         $template->getPresentationTitle(),
                         $template->getPresentationDescription()
@@ -766,7 +786,7 @@ class ilObjectGUI
                 $type->addOption($option);
             }
         }
-                            
+        
         return $form;
     }
     
@@ -1193,7 +1213,7 @@ class ilObjectGUI
      */
     protected function getReturnLocation(string $cmd, string $default_location = "") : string
     {
-        if ($this->return_location[$cmd] != "") {
+        if (($this->return_location[$cmd] ?? "") !== "") {
             return $this->return_location[$cmd];
         } else {
             return $default_location;
@@ -1369,14 +1389,16 @@ class ilObjectGUI
     /**
     * @abstract	overwrite in derived GUI class of your object type
     */
-    protected function getTabs() : void {}
+    protected function getTabs() : void
+    {
+    }
 
     /**
     * redirects to (repository) view per ref id
     * usually to a container and usually used at
     * the end of a save/import method where the object gui
     * type (of the new object) doesn't match with the type
-    * of the current $_GET["ref_id"] value
+    * of the current ["ref_id"] value of the request
     */
     protected function redirectToRefId(int $ref_id, string $cmd = "") : void
     {
@@ -1399,7 +1421,10 @@ class ilObjectGUI
     {
         $cp = new ilObjectCopyGUI($this);
         $cp->setType($type);
-        $cp->setTarget($this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int()));
+        $target = $this->request_wrapper->has("ref_id")
+            ? $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int())
+            : 0;
+        $cp->setTarget($target);
         if ($tpl_name) {
             $cp->showSourceSearch($tpl_name);
         }
@@ -1514,7 +1539,6 @@ class ilObjectGUI
         }
 
         return $this->access->checkAccess($perm, $cmd, $ref_id);
-
     }
     
     /**
@@ -1556,8 +1580,7 @@ class ilObjectGUI
      */
     protected function enableDragDropFileUpload() : void
     {
-        ilFileUploadGUI::initFileUpload();
-        $this->tpl->enableDragDropFileUpload($this->ref_id);
+        $this->tpl->setFileUploadRefId($this->ref_id);
     }
     
     /**

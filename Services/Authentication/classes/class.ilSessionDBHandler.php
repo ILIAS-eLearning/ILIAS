@@ -41,7 +41,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * @param string $path
      * @param string $name session name [PHPSESSID]
      */
-    public function open($path, $name)
+    public function open($path, $name) : bool
     {
         return true;
     }
@@ -72,7 +72,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * @param string $id session id
      * @param string $data session data
      */
-    public function write($id, $data)
+    public function write($id, $data) : bool
     {
         chdir(IL_INITIAL_WD);
 
@@ -83,7 +83,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
      * Destroys session
      * @param string $id session id
      */
-    public function destroy($id)
+    public function destroy($id) : bool
     {
         return ilSession::_destroy($id);
     }

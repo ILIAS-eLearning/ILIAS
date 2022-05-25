@@ -30,7 +30,6 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      * @var string
      */
     public static $identifier = ";n:m;";
-    private $numeric_value;
 
     /**
      * A numeric value which should be the left index of an element
@@ -58,7 +57,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      *
      * @param array $matches
      */
-    protected function setMatches($matches)
+    protected function setMatches($matches) : void
     {
         $this->left_numeric_value = $matches[1][0];
         $this->right_numeric_value = $matches[2][0];
@@ -95,7 +94,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      */
     public function getDescription() : string
     {
-        return $this->numeric_value . " beantwortet ";
+        return "0 beantwortet ";
     }
 
     /**

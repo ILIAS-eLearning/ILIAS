@@ -1,8 +1,20 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilWorkflowArmerGUI
@@ -10,32 +22,21 @@ require_once './Services/Form/classes/class.ilPropertyFormGUI.php';
  * GUI showed when 'arming' a workflow definition, preparing it to listen for incoming events.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- *
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilWorkflowArmerGUI
 {
     private \ILIAS\WorkflowEngine\Service $service;
-    /** @var string $form_action */
-    protected string $form_action;
+    private string $form_action;
+    private ilLanguage $lng;
+    private ilTree $tree;
 
-    /** @var \ilLanguage $lng */
-    protected $lng;
-
-    /** @var \ilTree $tree */
-    protected $tree;
-
-    /**
-     * ilWorkflowLauncherGUI constructor.
-     * @param string $form_action
-     */
     public function __construct(string $form_action)
     {
         global $DIC;
-        $this->lng = $DIC['lng'];
-        $this->tree = $DIC['tree'];
+
+        $this->lng = $DIC->language();
+        $this->tree = $DIC->repositoryTree();
         $this->service = $DIC->workflowEngine();
         $this->form_action = $form_action;
     }
@@ -43,13 +44,14 @@ class ilWorkflowArmerGUI
     /**
      * @param array $input_vars
      * @param array $event_definition
-     * @return \ilPropertyFormGUI
+     * @return ilPropertyFormGUI
      */
     public function getForm(array $input_vars, array $event_definition) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt('input_variables_required'));
         $form->setDescription($this->lng->txt('input_static_variables_desc'));
+        $form->setFormAction($this->form_action);
 
         $process_id_input = new ilHiddenInputGUI('process_id');
         $process_id_input->setValue(stripslashes(current($this->service->internal()->request()->getProcessId())));
@@ -71,16 +73,16 @@ class ilWorkflowArmerGUI
 
         $children = $this->tree->getFilteredSubTree($this->tree->getRootId());
 
-        $options = array();
+        $options = [];
         foreach ($children as $child) {
-            if (strtolower($config['allowedtype']) != $child['type']) {
+            if (strtolower($config['allowedtype']) !== $child['type']) {
                 continue;
             }
 
             $path = $this->tree->getPathFull($child['child']);
-            $option_elements = array();
+            $option_elements = [];
             foreach ($path as $node) {
-                if ($node['type'] == 'root') {
+                if ($node['type'] === 'root') {
                     continue;
                 }
                 $option_elements[] = $node['title'];
@@ -122,7 +124,7 @@ class ilWorkflowArmerGUI
 
             }
 
-            $item->setRequired($input_var['requirement'] == 'required' ? true : false);
+            $item->setRequired($input_var['requirement'] === 'required');
             $item->setInfo($input_var['description']);
             $form->addItem($item);
         }

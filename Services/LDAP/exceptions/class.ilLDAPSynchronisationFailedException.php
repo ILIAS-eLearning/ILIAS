@@ -17,7 +17,6 @@
  * Thrown in case of failed synchronisation settings
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesLDAP
  */
 class ilLDAPSynchronisationFailedException extends ilException
 {

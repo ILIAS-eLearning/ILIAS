@@ -25,23 +25,22 @@
 */
 class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 {
+    private ilPropertyFormGUI $form;
+
     /**
     * Constructor
-    *
-    * @access	public
     */
-    public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
+    public function __construct($data, int $id, bool $call_by_reference, bool $prepare_output = true)//missing typehint because mixed
     {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("content");
         $this->type = "sahs";
-        parent::__construct($a_data, $a_id, $a_call_by_reference, false);
+        parent::__construct($data, $id, $call_by_reference, false);
     }
 
     /**
      * execute command
-     * @return void
      * @throws ilCtrlException
      * @throws ilException
      */
@@ -55,8 +54,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $baseClass = $refId = $DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string());
         $ilLog = ilLoggerFactory::getLogger('sahs');
         $ilLog->debug("bc:" . $baseClass . "; nc:" . $this->ctrl->getNextClass($this) . "; cmd:" . $this->ctrl->getCmd());
-        if (strtolower($baseClass) == "iladministrationgui" ||
-            strtolower($baseClass) == "ilsahspresentationgui" ||
+        if (strtolower($baseClass) === "iladministrationgui" ||
+            strtolower($baseClass) === "ilsahspresentationgui" ||
             $this->getCreationMode() == true) {
             $this->prepareOutput();
         } else {
@@ -154,7 +153,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
             case "ilcommonactiondispatchergui":
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
-                $this->ctrl->forwardCommand($gui);
+                if ($gui !== null) {
+                    $this->ctrl->forwardCommand($gui);
+                }
                 break;
 
 //            case "ilobjstylesheetgui":
@@ -195,14 +196,14 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 //                } else {
 //                    $cmd = $this->ctrl->getCmd("frameset");
 //                }
-                if ((strtolower($baseClass) == "iladministrationgui" ||
+                if ((strtolower($baseClass) === "iladministrationgui" ||
                     $this->getCreationMode() == true) &&
-                    $cmd != "frameset") {
+                    $cmd !== "frameset") {
                     $cmd .= "Object";
                 }
 
                 // #9225
-                if ($cmd == "redrawHeaderAction") {
+                if ($cmd === "redrawHeaderAction") {
                     $cmd .= "Object";
                 }
 
@@ -230,9 +231,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     {
     }
 
-    /**
-    * save properties
-    */
     public function saveProperties() : void
     {
     }
@@ -243,11 +241,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
     /**
      * no manual SCORM creation, only import at the time
-     * @param $a_new_type
      * @return array|ilPropertyFormGUI[]
      * @throws ilCtrlException
      */
-    protected function initCreationForms($a_new_type) : array
+    protected function initCreationForms(string $a_new_type) : array
     {
         $forms = array();
 
@@ -260,7 +257,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     public function initUploadForm() : void
@@ -324,7 +320,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     /**
      * display status information or report errors messages
      * in case of error
-     * @return void
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilFileUtilsException
@@ -343,7 +338,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         } elseif ($_FILES["scormfile"]["name"]) {
             // check if file was uploaded
             $source = $_FILES["scormfile"]["tmp_name"];
-            if (($source == 'none') || (!$source)) {
+            if (($source === 'none') || (!$source)) {
                 $ilErr->raiseError($this->lng->txt("msg_no_file"), $ilErr->MESSAGE);
             }
             // get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini
@@ -413,21 +408,22 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
                 $lmDir = ilFileUtils::getWebspaceDir("filesystem") . "/lm_data/";
                 $lmTempDir = $lmDir . $timeStamp;
                 if (!file_exists($lmTempDir)) {
-                    mkdir($lmTempDir, 0755, true);
+                    if (!mkdir($lmTempDir, 0755, true) && !is_dir($lmTempDir)) {
+                        throw new \RuntimeException(sprintf('Directory "%s" was not created', $lmTempDir));
+                    }
                 }
                 $zar = new ZipArchive();
                 $zar->open($tempFile);
                 $zar->extractTo($lmTempDir);
                 $zar->close();
                 $importer = new ilScormAiccImporter();
-                $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, strlen($_FILES["scormfile"]["name"]) - 4);
+                $import_dirname = $lmTempDir . '/' . substr($_FILES["scormfile"]["name"], 0, -4);
                 if ($importer->importXmlRepresentation("sahs", "", $import_dirname, null) == true) {
                     $importFromXml = true;
                 }
-                $mprops = [];
                 $mprops = $importer->moduleProperties;
                 $subType = $mprops["SubType"][0];
-                if ($subType == "scorm") {
+                if ($subType === "scorm") {
                     $newObj = new ilObjSCORMLearningModule();
                 } else {
                     $newObj = new ilObjSCORM2004LearningModule();
@@ -496,7 +492,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     }
 
     /**
-     * @return void
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilFileUtilsException
@@ -557,7 +552,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
     /**
      * output main header (title and locator)
-     * @return void
      */
     public function getTemplate() : void
     {
@@ -568,8 +562,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
     }
 
     /**
-     * @param string|null $baseClass
-     * @return void
      * @throws ilCtrlException
      */
     protected function setTabs() : void
@@ -578,7 +570,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $baseClass = $refId = $DIC->http()->wrapper()->query()->retrieve('baseClass', $DIC->refinery()->kindlyTo()->string());
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
         $this->tpl->setTitle($this->object->getTitle());
-        if (strtolower($baseClass) == "ilsahseditgui") {
+        if (strtolower($baseClass) === "ilsahseditgui") {
             $this->getTabs($this->tabs_gui);
         }
         //if(strtolower($_GET["baseClass"]) == "ilsahseditgui") $this->getTabs();
@@ -586,7 +578,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
     /**
      * Shows the certificate editor
-     * @return void
      */
     public function certificate() : void
     {
@@ -598,7 +589,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
     /**
      * adds tabs to tab gui object
-     * @return void
      * @throws ilCtrlException
      */
     protected function getTabs() : void
@@ -608,7 +598,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $ilCtrl = $DIC->ctrl();
         $ilHelp = $DIC->help();
 
-        if ($this->ctrl->getCmd() == "delete") {
+        if ($this->ctrl->getCmd() === "delete") {
             return;
         }
 
@@ -634,7 +624,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $ilCtrl->setParameterByClass("ilfilesystemgui", "resetoffset", "");
 
         // info screen
-        $force_active = ($this->ctrl->getNextClass() == "ilinfoscreengui")
+        $force_active = ($this->ctrl->getNextClass() === "ilinfoscreengui")
             ? true
             : false;
         $this->tabs_gui->addTarget(
@@ -677,7 +667,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
         // tracking data
         if ($rbacsystem->checkAccess("read_learning_progress", "", $this->object->getRefId()) || $rbacsystem->checkAccess("edit_learning_progress", "", $this->object->getRefId())) {
-            if ($this->object->getSubType() == "scorm2004" || $this->object->getSubType() == "scorm") {
+            if ($this->object->getSubType() === "scorm2004" || $this->object->getSubType() === "scorm") {
                 $privacy = ilPrivacySettings::getInstance();
                 if ($privacy->enabledSahsProtocolData()) {
                     $this->tabs_gui->addTarget(
@@ -724,10 +714,8 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
     /**
      * goto target course
-     * @param $a_target
-     * @return void
      */
-    public static function _goto($a_target) : void
+    public static function _goto(string $a_target) : void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -737,33 +725,37 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
         $parts = explode("_", $a_target);
 
-        if ($ilAccess->checkAccess("write", "", (int) $parts[0])) {
-            $_GET["cmd"] = "";
-            $_GET["baseClass"] = "ilSAHSEditGUI";
-            $_GET["ref_id"] = $parts[0];
-            $_GET["obj_id"] = $parts[1];
-            exit;
-        }
+//        if ($ilAccess->checkAccess("write", "", (int) $parts[0])) {
+//            $DIC->ctrl()->setParameterByClass(
+//                "ilSAHSEditGUI",
+//                "ref_id",
+//                $parts[0]
+//            );
+//            $DIC->ctrl()->redirectByClass(ilSAHSEditGUI::class);
+//        }
         if ($ilAccess->checkAccess("visible", "", (int) $parts[0]) || $ilAccess->checkAccess("read", "", (int) $parts[0])) {
-            $_GET["cmd"] = "infoScreen";
-            $_GET["baseClass"] = "ilSAHSPresentationGUI";
-            $_GET["ref_id"] = $parts[0];
-            exit;
-        } else {
-            if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
-                $main_tpl->setOnScreenMessage('info', sprintf(
-                    $lng->txt("msg_no_perm_read_item"),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId((int) $parts[0]))
-                ), true);
-                ilObjectGUI::_gotoRepositoryRoot();
-            }
+//            //was cmd = "infoScreen"
+            ilObjectGUI::_gotoRepositoryNode((int) $parts[0], 'infoScreen');
+            $DIC->ctrl()->setParameterByClass(
+                "ilSAHSPresentationGUI",
+                "ref_id",
+                $parts[0]
+            );
+//            $DIC->ctrl()->redirectByClass($DIC->ctrl()->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
+            $DIC->ctrl()->redirectByClass($DIC->ctrl()->getLinkTargetByClass("ilSAHSPresentationGUI", "infoScreen"));
+        }
+        if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
+            $main_tpl->setOnScreenMessage('info', sprintf(
+                $lng->txt("msg_no_perm_read_item"),
+                ilObject::_lookupTitle(ilObject::_lookupObjId((int) $parts[0]))
+            ), true);
+            ilObjectGUI::_gotoRepositoryRoot();
         }
 
         $ilErr->raiseError($lng->txt("msg_no_perm_read"), $ilErr->FATAL);
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     public function addLocatorItems() : void
@@ -800,7 +792,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 //    }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     public function setSettingsSubTabs() : void
@@ -864,9 +855,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         return $this->ctrl->forwardCommand($exp_gui);
     }
 
-    /**
-     * @return void
-     */
     public function exportModule() : void
     {
         global $DIC;
@@ -877,9 +865,6 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 //        $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", $moduleId);
     }
 
-    /**
-     * @return string
-     */
     public function getType() : string
     {
         return "sahs";

@@ -53,12 +53,6 @@ class ilTestInviteUsersTableGUI extends ilTable2GUI
         $this->enable('select_all');
     }
 
-    /**
-     * fill row
-     * @access public
-     * @param
-     * @return void
-     */
     public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("USER_ID", $a_set['usr_id']);

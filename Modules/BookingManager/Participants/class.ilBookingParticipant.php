@@ -153,11 +153,11 @@ class ilBookingParticipant
         if ($a_object_id) {
             $where[] = 'br.object_id = ' . $ilDB->quote($a_object_id, 'integer');
         }
-        if ($a_filter['title']) {
+        if ($a_filter['title'] ?? false) {
             $where[] = '(' . $ilDB->like('title', 'text', '%' . $a_filter['title'] . '%') .
                 ' OR ' . $ilDB->like('description', 'text', '%' . $a_filter['title'] . '%') . ')';
         }
-        if ($a_filter['user_id']) {
+        if ($a_filter['user_id'] ?? false) {
             $where[] = 'bm.user_id = ' . $ilDB->quote($a_filter['user_id'], 'integer');
         }
 
@@ -190,6 +190,9 @@ class ilBookingParticipant
                 }
             } elseif ($row['title'] !== "" && (!in_array($row['title'], $res[$index]['object_title'], true) && $status != ilBookingReservation::STATUS_CANCELLED)) {
                 $res[$index]['object_title'][] = $row['title'];
+                if (!isset($res[$index]['obj_count'])) {
+                    $res[$index]['obj_count'] = 0;
+                }
                 $res[$index]['obj_count'] += 1;
                 $res[$index]['object_ids'][] = $row['object_id'];
             }
@@ -197,7 +200,9 @@ class ilBookingParticipant
         }
 
         foreach ($res as $index => $val) {
-            $res[$index]['object_ids'][] = $row['object_id'];
+            if (isset($row['object_id'])) {
+                $res[$index]['object_ids'][] = $row['object_id'];
+            }
         }
         return $res;
     }

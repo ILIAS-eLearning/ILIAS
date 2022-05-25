@@ -23,7 +23,7 @@
  */
 class ilObjForumAccess extends ilObjectAccess
 {
-    /** @var array<int, ilObjUser> */
+    /** @var array<int, ilObjUser|null> */
     protected static array $userInstanceCache = [];
 
     public static function _getCommands() : array
@@ -100,7 +100,7 @@ class ilObjForumAccess extends ilObjectAccess
         ilObjForum::preloadForumIdsByRefIds($ref_ids);
     }
 
-    public static function getLastPostByRefId(int $ref_id) : array
+    public static function getLastPostByRefId(int $ref_id) : ?array
     {
         return ilObjForum::lookupLastPostByRefId($ref_id);
     }
@@ -114,7 +114,7 @@ class ilObjForumAccess extends ilObjectAccess
         return ilObjForum::lookupStatisticsByRefId($ref_id);
     }
 
-    public static function getCachedUserInstance(int $usr_id) : ilObjUser
+    public static function getCachedUserInstance(int $usr_id) : ?ilObjUser
     {
         if (!isset(self::$userInstanceCache[$usr_id]) && ilObjUser::userExists([$usr_id])) {
             $user = ilObjectFactory::getInstanceByObjId($usr_id, false);
@@ -123,6 +123,6 @@ class ilObjForumAccess extends ilObjectAccess
             }
         }
 
-        return self::$userInstanceCache[$usr_id];
+        return self::$userInstanceCache[$usr_id] ?? null;
     }
 }

@@ -24,7 +24,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     const DELETE_FILES_TBL_POSTVAR = 'deletefiles';
     // hey.
 
-    protected $maxsize;
+    protected ?float $maxsize = null;
 
     protected $allowedextensions;
 
@@ -525,7 +525,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     *
   * @param array Array with ID's of the file datasets
     */
-    protected function deleteUploadedFiles($files, $test_id, $active_id, $authorized)
+    protected function deleteUploadedFiles($files, $test_id, $active_id, $authorized) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -561,7 +561,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param int	$active_id
      * @param int	$pass
      */
-    protected function deleteUnusedFiles($test_id, $active_id, $pass)
+    protected function deleteUnusedFiles($test_id, $active_id, $pass) : void
     {
         // read all solutions (authorized and intermediate) from all steps
         $step = $this->getStep();
@@ -877,7 +877,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
      * @param	integer
      * @access	protected
      */
-    protected function handleSubmission($active_id, $pass, $obligationsAnswered, $authorized)
+    protected function handleSubmission($active_id, $pass, $obligationsAnswered, $authorized) : void
     {
         if (!$authorized) {
             return;
@@ -1035,7 +1035,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     *
     * @param double $a_value Max file size
     */
-    public function setMaxSize($a_value)
+    public function setMaxSize($a_value) : void
     {
         $this->maxsize = $a_value;
     }
@@ -1068,7 +1068,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     *
     * @param string $a_value Allowed file extensions
     */
-    public function setAllowedExtensions($a_value)
+    public function setAllowedExtensions($a_value) : void
     {
         $this->allowedextensions = strtolower(trim($a_value));
     }
@@ -1142,7 +1142,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
      *
      * @param int $test_id
      */
-    public function deliverFileUploadZIPFile($ref_id, $test_id, $test_title)
+    public function deliverFileUploadZIPFile($ref_id, $test_id, $test_title) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

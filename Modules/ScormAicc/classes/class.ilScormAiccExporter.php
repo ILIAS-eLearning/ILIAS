@@ -21,19 +21,10 @@ class ilScormAiccExporter extends ilXmlExporter
         $this->dataset = new ilScormAiccDataSet();
     }
 
-    /**
-     * @return void
-     */
     public function init() : void
     {
     }
 
-    /**
-     * @param string $a_entity
-     * @param string $a_schema_version
-     * @param string $a_id
-     * @return string
-     */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
 //            include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
@@ -55,7 +46,6 @@ class ilScormAiccExporter extends ilXmlExporter
     //todo:check if xsd files must be provided
 
     /**
-     * @param string $a_entity
      * @return array<string, array<string, string|bool>>
      */
     public function getValidSchemaVersions(string $a_entity) : array

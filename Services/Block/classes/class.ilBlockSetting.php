@@ -167,21 +167,6 @@ class ilBlockSetting
         ilBlockSetting::_write($a_type, "detail", $a_value, $a_user, $a_block_id);
     }
 
-    /**
-     * Lookup number.
-     */
-    public static function _lookupNr(
-        string $a_type,
-        int $a_user = 0,
-        int $a_block_id = 0
-    ) : ?int {
-        $nr = ilBlockSetting::_lookup($a_type, "nr", $a_user, $a_block_id);
-        if (is_null($nr)) {
-            return null;
-        }
-        return (int) $nr;
-    }
-
     public static function _writeNumber(
         string $a_type,
         string $a_value,

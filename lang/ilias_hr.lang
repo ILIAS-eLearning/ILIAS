@@ -1989,6 +1989,8 @@ auth#:#auth_account_migration_new#:#Create New User Account
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.
 auth#:#auth_auth_settings#:#Settings
+auth#:#auth_cas_ldap#:#Synchronization using LDAP
+auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).
@@ -2041,14 +2043,6 @@ auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 auth#:#auth_oidconnect#:#OpenID Connect
 auth#:#auth_page_type_auth#:#Login Page###04 06 2021 new variable
-auth#:#auth_rad_migration#:#Account Migration:
-auth#:#auth_rad_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to Radius authentication.
-auth#:#auth_radius_charset#:#Character Encoding
-auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.
-auth#:#auth_radius_ldap#:#Synchronization using LDAP
-auth#:#auth_radius_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.
-auth#:#auth_radius_sync_rad#:#Automatic generation of user accounts
-auth#:#auth_radius_sync_rad_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against Radius, without having an ILIAS account yet.
 auth#:#auth_saml#:#SAML
 auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider
 auth#:#auth_saml_add_idp_md_error#:#The given value was not a valid XML document. Ensure the XML contains a valid Identity Provider.
@@ -3483,14 +3477,6 @@ common#:#auth_mode_not_changed#:#(Ništa se nije promijenilo)
 common#:#auth_mode_roles_changed#:#Promijenjen način provjere autentičnosti za ovu ulogu
 common#:#auth_new_account_mail_desc#:#Pošalji e-poštu novog računa korisniku ako se korisnik automatski generira. Lozinka će se generirati samo ako je aktivirana i opcija 'Dopusti lokalnu provjeru autentičnosti'.
 common#:#auth_per_default#:#Prema zadanoj vrijednosti  
-common#:#auth_radius#:#RADIUS
-common#:#auth_radius_configure#:#Konfiguriraj RADIUS-autentifikaciju
-common#:#auth_radius_enable#:#Omogući RADIUS podršku
-common#:#auth_radius_not_configured#:#RADIUS još nije konfiguriran
-common#:#auth_radius_port#:#Ulaz
-common#:#auth_radius_server#:#Poslužitelji
-common#:#auth_radius_server_desc#:#Možete dodati više poslužitelja s odvojenim zarezima. Upit za poslužitelje postavlja se prema postupku Round-Robin.
-common#:#auth_radius_shared_secret#:#Podijeljena tajna
 common#:#auth_remark_non_local_auth#:#Kada odabirete drugi način provjere autentičnosti osim baze podataka ILIAS, više nećete moći mijenjati korisničko ime i lozinku.
 common#:#auth_role_auth_mode#:#Način provjere autentičnosti
 common#:#auth_saml#:#SAML
@@ -3912,7 +3898,6 @@ common#:#err_auth_apache_failed#:#Autentifikacija nije uspjela. Možda nemate va
 common#:#err_auth_cas_no_ilias_user#:#Prijava nije uspjela. CAS provjera autentičnosti uspješna, ali ne postoji odgovarajući ILIAS korisnik. Molimo kontaktirajte svog administratora sustava.
 common#:#err_auth_ldap_no_ilias_user#:#Prijava nije uspjela. LDAP provjera autentičnosti uspješna, ali ne postoji odgovarajući ILIAS korisnik. Molimo kontaktirajte svog administratora sustava.
 common#:#err_auth_mode_inactive#:#Vaš način autentifikacije je deaktiviran.
-common#:#err_auth_radius_no_ilias_user#:#Prijava nije uspjela. Radius provjera uspješna, ali ne postoji odgovarajući ILIAS korisnik.
 common#:#err_auth_soap_no_ilias_user#:#Prijava nije uspjela. SOAP provjera autentičnosti uspješna, ali ne postoji odgovarajući ILIAS korisnik. Molimo kontaktirajte svog administratora sustava.
 common#:#err_check_input#:#Postavke se nisu mogle spremiti. Molimo provjerite svoj unos.
 common#:#err_count_param#:#Razlog: pogrešan broj parametara
@@ -10001,7 +9986,7 @@ ldap#:#ldap_add_missing#:#Dodijeli nedostajuće uloge
 ldap#:#ldap_add_remove#:#Dodaj/ukloni uloge
 ldap#:#ldap_add_role_ass_rule#:#Novo pravilo za dodjelu uloga
 ldap#:#ldap_as_ds#:#Koristite kao izvor podataka
-ldap#:#ldap_as_ds_info#:#Ako se aktivira, ova konfiguracija LDAP-a koristi se samo za sinkronizaciju korisničkih računa u kombinaciji s drugim metodama provjere autentičnosti (npr. CAS ili Radius).
+ldap#:#ldap_as_ds_info#:#Ako se aktivira, ova konfiguracija LDAP-a koristi se samo za sinkronizaciju korisničkih računa u kombinaciji s drugim metodama provjere autentičnosti (npr. CAS).
 ldap#:#ldap_assignment_type#:#Vrsta dodjele
 ldap#:#ldap_authentication_settings#:#Postavke provjere autentičnosti
 ldap#:#ldap_bind_anonymous#:#Poveži anonimno
@@ -13610,10 +13595,6 @@ rbac#:#wiks_write#:#Uredi postavke u administraciji Wiki-ja
 rbac#:#write#:#Uredi postavke
 rcat#:#rcat_call#:#Call ECS Category
 rcrs#:#rcrs_call#:#Call ECS Course
-registration#:#auth_radius_name#:#Naziv konfiguracije RADIUS
-registration#:#auth_radius_name_desc#:#Molimo odaberite ime za ovu konfiguraciju servera
-registration#:#auth_radius_role_select#:#Uloga:
-registration#:#auth_radius_sync#:#Sinkronizacija korisnika
 registration#:#reg_access_limitation_limited_time#:#Nakon registracije pristup za
 registration#:#reg_access_limitation_limited_until#:#Pristup je ograničen do
 registration#:#reg_access_limitation_missing_mode#:#Molimo odaberite za sve uloge način ograničenja pristupa
@@ -16552,3 +16533,53 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM###04 06 2021 new variable
 wsp#:#wsp_type_tstv#:#Certificate: Test###04 06 2021 new variable
 wsp#:#wsp_type_webr#:#Weblink###04 06 2021 new variable
 wsp#:#wsp_type_wfld#:#Folder###04 06 2021 new variable
+common#:#objs_tala#:#Talk Templates
+common#:#objs_talt#:#Talk Templates
+common#:#obj_talt#:#Talk Template
+common#:#obj_tala#:#Talk Templates
+common#:#obj_tala_desc#:#Talk Templates
+etal#:#mm_talk_template#:#Talk Templates
+orgu#:#mm_organisation#:#Organisation
+etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.
+etal#:#meta_adv_records#:#Metadata
+etal#:#talt_edit#:#General
+etal#:#talt_add#:#Add Template
+etal#:#talt_new#:#New Talk Template
+etal#:#mm_org_etal#:#Talks
+common#:#objs_etal#:#Employee Talks
+common#:#obj_tals#:#Employee Talk Series
+common#:#tals_etal#:#Talk
+common#:#talt_etal#:#Talk
+common#:#obj_etal#:#Employee Talk
+etal#:#etal_edit#:#General
+etal#:#etal_add#:#Add Talk
+etal#:#etal_new#:#New Talk
+etal#:#talt_etal#:#Employee Talk
+etal#:#date_of_talk#:#Start Date
+etal#:#etal_add_new_item#:#Add new Talk
+etal#:#change_date_of_talk#:#Change date of talk
+etal#:#change_date_of_series#:#Change date of talk series
+etal#:#etal_status_pending#:#Pending
+etal#:#etal_status_completed#:#Completed
+etal#:#etal_status_all#:#All
+etal#:#tals_add#:#Add Talks
+etal#:#tals_new#:#New Talks
+etal#:#cal_type_tals#:#Talks
+etal#:#etal_date_appointment_edit#:#Date of Talk
+etal#:#etal_date_series_edit#:#Date of Talk Series
+etal#:#etal_unknown_username#:#Unknown User
+common#:#etal_talks#:#Talks
+etal#:#appointments#:#Appointments
+etal#:#notification_talks_created#:#You have been invited by %s to the following employee talks.
+etal#:#notification_talks_updated#:#The following talk appointments have been changed by %s.
+etal#:#notification_talks_removed#:#The following appointments have been canceled by %s.
+etal#:#notification_talks_subject#:#Invitation
+etal#:#notification_talks_date_details#:#Appointment details
+etal#:#notification_talks_talk_title#:#Titel: %s
+etal#:#notification_talks_date_list_header#:#Dates
+orgu#:#org_op_read_employee_talk#:#Read access talk appointments
+orgu#:#org_op_create_employee_talk#:#Create talk appointments / edit talk appointments that you have created yourself
+orgu#:#org_op_edit_employee_talk#:#Edit Talk appointments
+etal#:#etal_open#:#Open Employee Talk
+etal#:#lock_edititng_for_others#:#Lock editing for others
+etal#:#talk_serial#:#Talk Serial

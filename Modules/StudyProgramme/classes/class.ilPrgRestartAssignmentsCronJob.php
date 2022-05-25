@@ -1,7 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Denis Klöpfer <denis.kloepfer@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-/* Copyright (c) 2019 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use Pimple\Container;
 
@@ -11,8 +24,8 @@ use Pimple\Container;
  */
 class ilPrgRestartAssignmentsCronJob extends ilCronJob
 {
-    const ID = 'prg_restart_assignments_temporal_progress';
-    const ACTING_USR_ID = -1;
+    private const ID = 'prg_restart_assignments_temporal_progress';
+    private const ACTING_USR_ID = -1;
 
     protected ilStudyProgrammeAssignmentDBRepository $user_assignments_db;
     protected ilLogger $log;
@@ -72,7 +85,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         $programmes_to_reassign = $this->getSettingsRepository()
             ->getProgrammeIdsWithReassignmentForExpiringValidity();
 
-        if (count($programmes_to_reassign) == 0) {
+        if (count($programmes_to_reassign) === 0) {
             return $result;
         }
 
@@ -89,7 +102,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         $progresses = $this->getProgressRepository()
             ->getAboutToExpire($programmes_and_due, false);
 
-        if (count($progresses) == 0) {
+        if (count($progresses) === 0) {
             return $result;
         }
     
@@ -98,7 +111,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         foreach ($progresses as $progress) {
             $ass = $assignment_repo->get($progress->getAssignmentId());
             if ($ass->getRestartedAssignmentId() < 0) {
-                if ($ass->getRootId() != $progress->getNodeId()) {
+                if ($ass->getRootId() !== $progress->getNodeId()) {
                     $this->log(
                         sprintf(
                             'PRG, RestartAssignments: progress %s is not root of assignment %s. skipping.',

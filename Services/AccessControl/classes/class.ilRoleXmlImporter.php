@@ -78,9 +78,9 @@ class ilRoleXmlImporter
      */
     public function import() : void
     {
-        libxml_use_internal_errors(true);
-
+        $use_internal_errors = libxml_use_internal_errors(true);
         $root = simplexml_load_string($this->getXml());
+        libxml_use_internal_errors($use_internal_errors);
 
         if (!$root instanceof SimpleXMLElement) {
             throw new ilRoleImporterException($this->parseXmlErrors());

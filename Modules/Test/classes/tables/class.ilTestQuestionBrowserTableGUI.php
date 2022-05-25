@@ -33,55 +33,22 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
     const CMD_INSERT_QUESTIONS = 'insertQuestions';
     private \ILIAS\Test\InternalRequestService $testrequest;
 
-    protected $writeAccess = false;
+    protected bool $writeAccess = false;
 
-    /**
-     * @var \ilGlobalTemplateInterface
-     */
-    protected $mainTpl;
+    protected ilGlobalTemplateInterface $mainTpl;
 
-    /**
-     * @var \ilTabsGUI
-     */
-    protected $tabs;
+    protected ilTabsGUI $tabs;
     
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    protected ilTree $tree;
 
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
+    protected ilDBInterface $db;
 
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $pluginAdmin;
+    protected ilPluginAdmin $pluginAdmin;
 
-    /**
-     * @var ilObjTest
-     */
-    protected $testOBJ;
+    protected ilObjTest $testOBJ;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilAccessHandler $access;
 
-    /**
-     * ilTestQuestionBrowserTableGUI constructor.
-     * @param ilCtrl           $ctrl
-     * @param ilGlobalTemplateInterface $mainTpl
-     * @param ilTabsGUI        $tabs
-     * @param ilLanguage       $lng
-     * @param ilTree           $tree
-     * @param ilDBInterface    $db
-     * @param ilPluginAdmin    $pluginAdmin
-     * @param ilObjTest        $testOBJ
-     * @param ilAccessHandler  $access
-     */
     public function __construct(
         ilCtrl $ctrl,
         ilGlobalTemplateInterface $mainTpl,
@@ -136,7 +103,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $this->setDisableFilterHiding(true);
     }
 
-    public function setWriteAccess($value)
+    public function setWriteAccess(bool $value) : void
     {
         $this->writeAccess = $value;
     }
@@ -146,7 +113,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         return $this->writeAccess;
     }
     
-    public function init()
+    public function init() : void
     {
         if ($this->hasWriteAccess()) {
             $this->addMultiCommand(self::CMD_INSERT_QUESTIONS, $this->lng->txt('insert'));
@@ -172,26 +139,27 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         }
     }
     
-    private function browseQuestionsCmd()
+    private function browseQuestionsCmd() : bool
     {
         $this->setData($this->getQuestionsData());
         
         $this->mainTpl->setContent($this->ctrl->getHTML($this));
+        return true;
     }
     
-    private function applyFilterCmd()
+    private function applyFilterCmd() : void
     {
         $this->writeFilterToSession();
         $this->ctrl->redirect($this, self::CMD_BROWSE_QUESTIONS);
     }
     
-    private function resetFilterCmd()
+    private function resetFilterCmd() : void
     {
         $this->resetFilter();
         $this->ctrl->redirect($this, self::CMD_BROWSE_QUESTIONS);
     }
     
-    private function insertQuestionsCmd()
+    private function insertQuestionsCmd() : void
     {
         $selected_array = (is_array($_POST['q_id'])) ? $_POST['q_id'] : array();
         if (!count($selected_array)) {
@@ -226,31 +194,24 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $this->ctrl->redirectByClass($this->getBackTargetCmdClass(), $this->getBackTargetCommand());
     }
     
-    private function handleParameters()
+    private function handleParameters() : void
     {
         $this->ctrl->saveParameter($this, self::CONTEXT_PARAMETER);
-        if (isset($_GET[self::CONTEXT_PARAMETER])) {
-            $this->addHiddenInput(self::CONTEXT_PARAMETER, $_GET[self::CONTEXT_PARAMETER]);
-        } elseif (isset($_POST[self::CONTEXT_PARAMETER])) {
-            $this->addHiddenInput(self::CONTEXT_PARAMETER, $_POST[self::CONTEXT_PARAMETER]);
+
+        if ($this->testrequest->isset(self::CONTEXT_PARAMETER)) {
+            $this->addHiddenInput(self::CONTEXT_PARAMETER, $this->testrequest->raw(self::CONTEXT_PARAMETER));
         }
         
         $this->ctrl->saveParameter($this, self::MODE_PARAMETER);
-        if (isset($_GET[self::MODE_PARAMETER])) {
-            $this->addHiddenInput(self::MODE_PARAMETER, $_GET[self::MODE_PARAMETER]);
-        } elseif (isset($_POST[self::MODE_PARAMETER])) {
-            $this->addHiddenInput(self::MODE_PARAMETER, $_POST[self::MODE_PARAMETER]);
+        if ($this->testrequest->isset(self::MODE_PARAMETER)) {
+            $this->addHiddenInput(self::MODE_PARAMETER, $this->testrequest->raw(self::MODE_PARAMETER));
         }
     }
 
     private function fetchContextParameter()
     {
-        if (isset($_POST[self::CONTEXT_PARAMETER])) {
-            return $_POST[self::CONTEXT_PARAMETER];
-        }
-
-        if (isset($_GET[self::CONTEXT_PARAMETER])) {
-            return $_GET[self::CONTEXT_PARAMETER];
+        if ($this->testrequest->isset(self::CONTEXT_PARAMETER)) {
+            return $this->testrequest->raw(self::CONTEXT_PARAMETER);
         }
 
         return null;
@@ -258,18 +219,14 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
 
     private function fetchModeParameter()
     {
-        if (isset($_POST[self::MODE_PARAMETER])) {
-            return $_POST[self::MODE_PARAMETER];
+        if ($this->testrequest->isset(self::MODE_PARAMETER)) {
+            return $this->testrequest->raw(self::MODE_PARAMETER);
         }
 
-        if (isset($_GET[self::MODE_PARAMETER])) {
-            return $_GET[self::MODE_PARAMETER];
-        }
-        
         return null;
     }
     
-    private function handleTabs()
+    private function handleTabs() : void
     {
         $this->tabs->clearTargets();
         $this->tabs->clearSubTabs();
@@ -305,7 +262,6 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
             case self::CONTEXT_LIST_VIEW:
 
                 return 'ilObjTestGUI';
-
             case self::CONTEXT_PAGE_VIEW:
 
                 return 'ilTestExpressPageObjectGUI';
@@ -419,7 +375,11 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         require_once 'Services/Form/classes/class.ilRepositorySelectorInputGUI.php';
         $ri = new ilRepositorySelectorInputGUI($this->lng->txt('repository'), 'repository_root_node');
         $ri->setHeaderMessage($this->lng->txt('question_browse_area_info'));
-        $ri->setClickableTypes(array('qpl'));
+        if ($this->fetchModeParameter() == self::MODE_BROWSE_TESTS) {
+            $ri->setClickableTypes(array('tst'));
+        } else {
+            $ri->setClickableTypes(array('qpl'));
+        }
         $this->addFilterItem($ri);
         $ri->readFromSession();
         $this->filter['repository_root_node'] = $ri->getValue();
@@ -464,9 +424,6 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $this->tpl->setVariable("WORKING_TIME", $a_set['working_time']);
     }
 
-    /**
-     * @return ilTestQuestionSetConfig
-     */
     private function buildTestQuestionSetConfig() : ilTestQuestionSetConfig
     {
         require_once 'Modules/Test/classes/class.ilTestQuestionSetConfigFactory.php';
@@ -481,9 +438,6 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         return $testQuestionSetConfigFactory->getQuestionSetConfig();
     }
 
-    /**
-     * @return array
-     */
     private function getQuestionsData() : array
     {
         $questionList = new ilAssQuestionList($this->db, $this->lng, $this->pluginAdmin);
@@ -512,7 +466,10 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
                 }
             }
         }
-        
+        if ($repositoryRootNode < 1) {
+            $repositoryRootNode = self::REPOSITORY_ROOT_NODE_ID;
+        }
+
         $parentObjectIds = $this->getQuestionParentObjIds($repositoryRootNode);
         
         if (!count($parentObjectIds)) {

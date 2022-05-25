@@ -3,17 +3,23 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage;
+
+use ILIAS\COPage\History\HistoryDBRepository;
+use ILIAS\COPage\Usage\UsageDBRepository;
 
 /**
  * Repository internal repo service
@@ -46,5 +52,15 @@ class InternalRepoService
             $this->data,
             $this->db
         );
+    }
+
+    public function history() : HistoryDBRepository
+    {
+        return new HistoryDBRepository($this->db);
+    }
+
+    public function usage() : UsageDBRepository
+    {
+        return new UsageDBRepository($this->db);
     }
 }

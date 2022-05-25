@@ -129,5 +129,4 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
         }
         return $visible_links > 0 && parent::isVisible();
     }
-    
 }

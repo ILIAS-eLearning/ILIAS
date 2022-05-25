@@ -53,13 +53,6 @@ class ComponentMock
     {
         $this->checkArgList($which, $value, $check, $message);
     }
-
-    public int $called_gcnbfqn = 0;
-    protected function getCanonicalNameByFullyQualifiedName() : string
-    {
-        $this->called_gcnbfqn++;
-        return "Foo";
-    }
 }
 
 class Class1
@@ -90,14 +83,6 @@ class ComponentHelperTest extends TestCase
     {
         $c = new TestComponent("foo");
         $this->assertEquals("Test Component Test", $c->getCanonicalName());
-    }
-
-    public function test_cachesCanonicalName() : void
-    {
-        $name1 = $this->mock->getCanonicalName();
-        $name2 = $this->mock->getCanonicalName();
-        $this->assertEquals($name1, $name2);
-        $this->assertEquals(1, $this->mock->called_gcnbfqn);
     }
 
     /**

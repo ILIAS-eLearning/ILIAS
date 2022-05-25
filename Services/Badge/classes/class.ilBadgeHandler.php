@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Notifications\Model\ilNotificationConfig;
 
@@ -85,7 +88,7 @@ class ilBadgeHandler
      */
     public function setComponents(array $a_components = null) : void
     {
-        if (is_array($a_components) && !count($a_components)) {
+        if (isset($a_components) && count($a_components) === 0) {
             $a_components = null;
         }
         $this->settings->set("components", $a_components !== null
@@ -192,7 +195,7 @@ class ilBadgeHandler
         }
         $this->settings->set("inactive_types", $a_types !== null
             ? serialize(array_unique($a_types))
-            : null);
+            : "");
     }
     
     /**
@@ -519,8 +522,8 @@ class ilBadgeHandler
                 $mail = new ilMail(ANONYMOUS_USER_ID);
                 $mail->enqueue(
                     ilObjUser::_lookupEmail($user_id),
-                    null,
-                    null,
+                    "",
+                    "",
                     $lng->txt("badge_notification_subject"),
                     $ntf->composeAndGetMessage($user_id, null, "read", true),
                     []

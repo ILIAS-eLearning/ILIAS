@@ -42,7 +42,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
      * @param string $a_auth_mode
      * @return int|string auth_mode
      */
-    public static function getKeyByAuthMode(string $a_auth_mode) : int|string
+    public static function getKeyByAuthMode(string $a_auth_mode)
     {
         $auth_arr = explode('_', $a_auth_mode);
         if (count($auth_arr) > 1) {
@@ -96,7 +96,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     public static function lookupConsumer(int $a_sid) : string
     {
         $connector = new ilLTIDataConnector();
-        $consumer = ilLTIToolConsumer::fromRecordId($a_sid, $connector);
+        $consumer = ilLTIPlatform::fromRecordId($a_sid, $connector);
         return $consumer->getTitle();
     }
 
@@ -138,7 +138,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     {
         global $ilDB;
 
-        $query = 'SELECT consumer_pk from lti2_consumer where consumer_key256 = ' . $ilDB->quote(
+        $query = 'SELECT consumer_pk from lti2_consumer where consumer_key = ' . $ilDB->quote(
             $a_oauth_consumer_key,
             'text'
         );
@@ -212,13 +212,14 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
                 'launch_presentation_document_target',
                 $DIC->refinery()->kindlyTo()->string()
             )) {
-            $_POST['launch_presentation_document_target'] = 'window';
+            // TODO move to session-variable
+//            $_POST['launch_presentation_document_target'] = 'window';
         }
 
         $this->dataConnector = new ilLTIDataConnector();
 
-        $lti_provider = new ilLTIToolProvider($this->dataConnector);
-        // $lti_provider = new ToolProvider\ToolProvider($this->dataConnector);
+        $lti_provider = new ilLTITool($this->dataConnector);
+        // $lti_provider = new Tool\Tool($this->dataConnector);
         $ok = true;
         $lti_provider->handleRequest();
 
@@ -232,16 +233,16 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         }
         // if ($lti_provider->reason != "") die($lti_provider->reason);//ACHTUNG später Rückgabe prüfen
 
-        // sm: this does only load the standard lti date connector, not the ilLTIToolConsumer with extended data, like prefix.
-        $consumer = new ilLTIToolConsumer(
-            $DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()),
+        // sm: this does only load the standard lti date connector, not the ilLTIPlatform with extended data, like prefix.
+        $consumer = new ilLTIPlatform(
+//            $DIC->http()->wrapper()->post()->retrieve('oauth_consumer_key', $DIC->refinery()->kindlyTo()->string()),
             $this->dataConnector
         );
 
         /**
-         * @var ilLTIToolConsumer
+         * @var ilLTIPlatform
          */
-        $consumer = ilLTIToolConsumer::fromRecordId(
+        $consumer = ilLTIPlatform::fromRecordId(
             $consumer->getRecordId(),
             $this->dataConnector
         );
@@ -264,13 +265,10 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         }
 
         // for testing external css
-        // $_POST['launch_presentation_css_url'] = "https://ltiprovider6.example.com/Services/LTI/templates/default/lti_extern.css";
 
         // store POST into Consumer Session
-//        $_SESSION['lti_' . $this->ref_id . '_post_data'] = $_POST;
         $post = (array) $DIC->http()->wrapper()->post();
         ilSession::set('lti_' . $this->ref_id . '_post_data', $post);
-//        $_GET['target'] = ilObject::_lookupType($this->ref_id, true) . '_' . $this->ref_id;//Todo
         ilSession::set('lti_init_target', ilObject::_lookupType($this->ref_id, true) . '_' . $this->ref_id);
 
         // lti service activation
@@ -341,11 +339,11 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     /**
      * update existing user
      * @access protected
-     * @param int               $a_local_user_id
-     * @param ilLTIToolConsumer $consumer
+     * @param int           $a_local_user_id
+     * @param ilLTIPlatform $consumer
      * @return int
      */
-    protected function updateUser(int $a_local_user_id, ilLTIToolConsumer $consumer) : int
+    protected function updateUser(int $a_local_user_id, ilLTIPlatform $consumer) : int
     {
         global $ilClientIniFile, $DIC;
 
@@ -383,12 +381,12 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
     /**
      * create new user
      * @access protected
-     * @param ilLTIToolConsumer $consumer
+     * @param ilLTIPlatform $consumer
      * @return int
      * @throws ilPasswordException
      * @throws ilUserException
      */
-    protected function createUser(ilLTIToolConsumer $consumer) : int
+    protected function createUser(ilLTIPlatform $consumer) : int
     {
         global $ilClientIniFile, $DIC;
 
@@ -456,7 +454,7 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
         return $userObj->getId();
     }
 
-    protected function handleLocalRoleAssignments(int $user_id, ilLTIToolConsumer $consumer) : bool
+    protected function handleLocalRoleAssignments(int $user_id, ilLTIPlatform $consumer) : bool
     {
         global $DIC;
         //$target_ref_id = $_SESSION['lti_current_context_id'];

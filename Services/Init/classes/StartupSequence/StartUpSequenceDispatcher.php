@@ -19,14 +19,10 @@ use SplQueue;
  */
 class StartUpSequenceDispatcher
 {
-    /** @var Container */
-    private $dic;
+    private Container $dic;
     /** @var SplQueue|\ILIAS\Init\StartupSequence\StartUpSequenceStep[] */
     private $sequence = [];
 
-    /**
-     * @param Container $dic
-     */
     public function __construct(Container $dic)
     {
         $this->dic = $dic;

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * container xml importer
@@ -91,8 +94,9 @@ class ilContainerImporter extends ilXmlImporter
 
     protected function handleOfflineStatus(string $xml, ilImportMapping $mapping) : void
     {
-        libxml_use_internal_errors(true);
+        $use_internal_errors = libxml_use_internal_errors(true);
         $root = simplexml_load_string($xml);
+        libxml_use_internal_errors($use_internal_errors);
         if ($root === false) {
             $errors = '';
             foreach (libxml_get_errors() as $err) {

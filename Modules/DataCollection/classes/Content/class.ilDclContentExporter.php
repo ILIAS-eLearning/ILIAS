@@ -14,32 +14,26 @@ class ilDclContentExporter
     const EXPORT_EXCEL = 'xlsx';
     const IN_PROGRESS_POSTFIX = '.prog';
     /**
-     * @var int $ref_id Ref-ID of DataCollection
+     * Ref-ID of DataCollection
      */
-    protected $ref_id;
+    protected int $ref_id;
     /**
-     * @var int $table_id Table-Id for export
+     * Table-Id for export
      */
-    protected $table_id;
+    protected ?int $table_id;
     /**
-     * @var array $filter Array with filters
+     * Array with filters
      */
-    protected $filter;
-    /**
-     * @var ilObjDataCollection
-     */
-    protected $dcl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilDclTable
-     */
-    protected $table;
+    protected array $filter;
+
+    protected ilObjDataCollection $dcl;
+
+    protected ilLanguage $lng;
+
+    protected ilDclTable $table;
     private \ilGlobalTemplateInterface $main_tpl;
 
-    public function __construct($ref_id, $table_id = null, $filter = array())
+    public function __construct(int $ref_id, ?int $table_id, array $filter = array())
     {
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
@@ -59,10 +53,8 @@ class ilDclContentExporter
     /**
      * Sanitize the given filename
      * The ilUtil::_sanitizeFilemame() does not clean enough
-     * @param $filename
-     * @return string
      */
-    public function sanitizeFilename($filename)
+    public function sanitizeFilename(string $filename): string
     {
         $dangerous_filename_characters = array(" ", '"', "'", "&", "/", "\\", "?", "#", "`");
 
@@ -71,22 +63,16 @@ class ilDclContentExporter
 
     /**
      * Return export path
-     * @param $format
-     * @return string
      */
-    public function getExportContentPath($format)
+    public function getExportContentPath(string $format): string
     {
         return ilExport::_getExportDirectory($this->dcl->getId(), $format, 'dcl') . '/';
     }
 
     /**
      * Fill a excel row
-     * @param ilDclTable           $table
-     * @param ilExcel              $worksheet
-     * @param ilDclBaseRecordModel $record
-     * @param                      $row
      */
-    protected function fillRowExcel(ilDclTable $table, ilExcel $worksheet, ilDclBaseRecordModel $record, $row)
+    protected function fillRowExcel(ilDclTable $table, ilExcel $worksheet, ilDclBaseRecordModel $record, int $row): void
     {
         $col = 0;
         foreach ($table->getFields() as $field) {
@@ -98,11 +84,8 @@ class ilDclContentExporter
 
     /**
      * Fill Excel header
-     * @param ilDclTable $table
-     * @param ilExcel    $worksheet
-     * @param            $row
      */
-    protected function fillHeaderExcel(ilDclTable $table, ilExcel $worksheet, $row)
+    protected function fillHeaderExcel(ilDclTable $table, ilExcel $worksheet, int $row): void
     {
         $col = 0;
 
@@ -115,22 +98,16 @@ class ilDclContentExporter
 
     /**
      * Fill Excel meta-data
-     * @param $table
-     * @param $worksheet
-     * @param $row
      */
-    protected function fillMetaExcel($table, $worksheet, $row)
+    protected function fillMetaExcel(string $table, ilExcel $worksheet, int $row): void
     {
     }
 
     /**
      * Creates an export of a specific datacollection table
-     * @param string     $format
-     * @param null       $filepath
-     * @param bool|false $send
      * @return null|string|void
      */
-    public function export($format = self::EXPORT_EXCEL, $filepath = null, $send = false)
+    public function export(string $format = self::EXPORT_EXCEL, string $filepath = null, bool $send = false)
     {
         if (count($this->tables) == 0) {
             return;
@@ -209,20 +186,19 @@ class ilDclContentExporter
 
         if ($send) {
             $adapter->sendToClient($filename);
-            exit;
+           return true;
         } else {
             $adapter->writeToFile($filepath);
+            return true;
         }
     }
 
     /**
      * Start Export async
-     * @param string $format
-     * @param null   $filepath
      * @return mixed
      * @throws ilDclException
      */
-    public function exportAsync($format = self::EXPORT_EXCEL, $filepath = null)
+    public function exportAsync(string $format = self::EXPORT_EXCEL, string $filepath = null)
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];

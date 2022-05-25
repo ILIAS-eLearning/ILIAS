@@ -25,20 +25,17 @@
 */
 class ilSCORMPresentationGUI
 {
-    public $slm;
-    public $tpl;
-    public $lng;
+    public ilObjSCORMLearningModule $slm;
+    public ilGlobalTemplate $tpl;
+    public ilLanguage $lng;
     protected int $refId;
-    protected $ctrl;
+    protected ilCtrlInterface $ctrl;
 
-    /**
-     *
-     */
     public function __construct()
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
-        $this->tpl = $DIC['tpl'];
+//        $this->tpl = $DIC['tpl'];
         $this->lng = $DIC->language();
         $this->ctrl = $ilCtrl;
 
@@ -51,7 +48,6 @@ class ilSCORMPresentationGUI
 
     /**
      * execute command
-     * @return void
      * @throws ilCtrlException
      */
     public function executeCommand() : void
@@ -77,10 +73,6 @@ class ilSCORMPresentationGUI
 //        }
     }
 
-    /**
-     * @param array|null $a_attributes
-     * @return array
-     */
     public function attrib2arr(?array $a_attributes) : array
     {
         $attr = array();
@@ -98,7 +90,6 @@ class ilSCORMPresentationGUI
     /**
      * Output main frameset. If only one SCO/Asset is given, it is displayed
      * without the table of contents explorer frame on the left.
-     * @return void
      * @throws ilCtrlException
      */
     public function frameset() : void
@@ -163,7 +154,6 @@ class ilSCORMPresentationGUI
 
     /**
      * Get number of actual attempts for the user
-     * @return int
      */
     public function get_actual_attempts() : int
     {
@@ -267,7 +257,6 @@ class ilSCORMPresentationGUI
 
     /**
      * Increases attempts by one and saves module_version for this package
-     * @return void
      */
     public function increase_attemptAndsave_module_version() : void
     {
@@ -355,8 +344,6 @@ class ilSCORMPresentationGUI
 
     /**
      * output table of content
-     * @param string $a_target
-     * @return void
      * @throws ilCtrlException
      * @throws ilTemplateException
      */
@@ -424,7 +411,6 @@ class ilSCORMPresentationGUI
 
     /**
     * SCORM content screen
-     * @return void
     */
     public function view() : void
     {
@@ -437,12 +423,9 @@ class ilSCORMPresentationGUI
         }
 
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
-        $this->tpl->printToStdout(false);
+        $this->tpl->printToStdout('DEFAULT', false);
     }
 
-    /**
-     * @return void
-     */
     public function contentSelect() : void
     {
         global $DIC;
@@ -455,7 +438,6 @@ class ilSCORMPresentationGUI
     
     /**
      * SCORM Data for Javascript-API
-     * @return void
      */
     public function apiInitData() : void
     {
@@ -486,16 +468,13 @@ class ilSCORMPresentationGUI
         print("IliasScormData=" . ilObjSCORMInitData::getIliasScormData($this->slm->getId()) . ";\r\n");
 
         // set alternative API name - not necessary for scorm
-        if ($this->slm->getAPIAdapterName() != "API") {
+        if ($this->slm->getAPIAdapterName() !== "API") {
             print('var ' . $this->slm->getAPIAdapterName() . '=new iliasApi();');
         } else {
             print('var API=new iliasApi();');
         }
     }
 
-    /**
-     * @return bool
-     */
     public function pingSession() : bool
     {
         ilWACSignedPath::signFolderOfStartFile($this->slm->getDataDirectory() . '/imsmanifest.xml');
@@ -504,7 +483,6 @@ class ilSCORMPresentationGUI
 
     /**
      * Download the certificate for the active user
-     * @return void
      * @throws ilCtrlException
      */
     public function downloadCertificate() : void

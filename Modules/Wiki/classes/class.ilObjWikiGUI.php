@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Wiki\Export;
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
@@ -28,6 +31,7 @@ use ILIAS\Wiki\Editing\EditingGUIRequest;
  * @ilCtrl_Calls ilObjWikiGUI: ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilSettingsPermissionGUI
  * @ilCtrl_Calls ilObjWikiGUI: ilRepositoryObjectSearchGUI, ilObjectCopyGUI, ilObjNotificationSettingsGUI
+ * @ilCtrl_Calls ilObjWikiGUI: ilLTIProviderObjectSettingGUI
  */
 class ilObjWikiGUI extends ilObjectGUI
 {
@@ -272,6 +276,16 @@ class ilObjWikiGUI extends ilObjectGUI
                 $this->setSettingsSubTabs("notifications");
                 $gui = new ilObjNotificationSettingsGUI($this->object->getRefId());
                 $this->ctrl->forwardCommand($gui);
+                break;
+
+            case 'illtiproviderobjectsettinggui':
+                $this->addHeaderAction();
+                $ilTabs->activateTab("settings");
+                $this->setSettingsSubTabs("lti_provider");
+                $lti_gui = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+                $lti_gui->setCustomRolesForSelection($GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->object->getRefId()));
+                $lti_gui->offerLTIRolesForSelection(false);
+                $this->ctrl->forwardCommand($lti_gui);
                 break;
 
             default:
@@ -630,7 +644,7 @@ class ilObjWikiGUI extends ilObjectGUI
         if (in_array(
             $a_active,
             array("general_settings", "style", "imp_pages", "rating_categories",
-            "page_templates", "advmd", "permission_settings", "notifications")
+            "page_templates", "advmd", "permission_settings", "notifications", "lti_provider")
         )) {
             if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
                 // general properties
@@ -688,7 +702,16 @@ class ilObjWikiGUI extends ilObjectGUI
                     $ilCtrl->getLinkTargetByClass("ilobjnotificationsettingsgui", '')
                 );
             }
-            
+
+            // LTI Provider
+            $lti_settings = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
+            if ($lti_settings->hasSettingsAccess()) {
+                $ilTabs->addSubTabTarget(
+                    'lti_provider',
+                    $this->ctrl->getLinkTargetByClass(ilLTIProviderObjectSettingGUI::class)
+                );
+            }
+
             $ilTabs->activateSubTab($a_active);
         }
     }

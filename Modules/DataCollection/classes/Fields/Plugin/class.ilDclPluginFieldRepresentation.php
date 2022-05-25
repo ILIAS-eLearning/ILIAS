@@ -7,11 +7,7 @@
  */
 class ilDclPluginFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-
-    /**
-     * @inheritDoc
-     */
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create')
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 

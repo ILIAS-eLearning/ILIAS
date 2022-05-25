@@ -13,7 +13,7 @@ class ilLoggingSetupSettings implements ilLoggingSettings
     private string $log_file = '';
     
     
-    public function init()
+    public function init() : void
     {
         $ilIliasIniFile = new ilIniFile("./ilias.ini.php");
         $ilIliasIniFile->read();

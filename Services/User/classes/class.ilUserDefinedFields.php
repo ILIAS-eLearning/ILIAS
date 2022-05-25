@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 const UDF_TYPE_TEXT = 1;
 const UDF_TYPE_SELECT = 2;
@@ -77,7 +80,7 @@ class ilUserDefinedFields
         if ($parts[0] != 'il') {
             return 0;
         }
-        if ($parts[1] != $ilSetting->get('inst_id', 0)) {
+        if ($parts[1] != $ilSetting->get('inst_id', '0')) {
             return 0;
         }
         if ($parts[2] != 'udf') {
@@ -528,7 +531,7 @@ class ilUserDefinedFields
             $this->definitions[$row->field_id]['field_id'] = $row->field_id;
             $this->definitions[$row->field_id]['field_name'] = $row->field_name;
             $this->definitions[$row->field_id]['field_type'] = $row->field_type;
-            $this->definitions[$row->field_id]['il_id'] = 'il_' . $ilSetting->get('inst_id', 0) . '_udf_' . $row->field_id;
+            $this->definitions[$row->field_id]['il_id'] = 'il_' . $ilSetting->get('inst_id', '0') . '_udf_' . $row->field_id;
 
             // #16953
             $tmp = $sort = array();

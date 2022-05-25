@@ -21,10 +21,6 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
      */
     protected ilLanguage $lng;
 
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -33,10 +29,6 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         $this->lng = $DIC->language();
     }
 
-    /**
-     * @param int $obj_id
-     * @return array
-     */
     public function scoTitlesForExportSelected(int $obj_id) : array
     {
         $ilDB = $this->db;
@@ -59,9 +51,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
     }
 
     /**
-     * @param bool $b_orderBySCO
-     * @param bool $b_allowExportPrivacy
-     * @return array|mixed[][]
+     * @return array[]
      */
     public static function exportSelectedCoreColumns(bool $b_orderBySCO, bool $b_allowExportPrivacy) : array
     {
@@ -89,15 +79,6 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $cols;
     }
 
-    /**
-     * @param array  $a_user
-     * @param array  $a_sco
-     * @param bool   $b_orderBySCO
-     * @param bool   $allowExportPrivacy
-     * @param int    $obj_id
-     * @param string $lmTitle
-     * @return array
-     */
     public function exportSelectedCore(
         array $a_user,
         array $a_sco,
@@ -112,9 +93,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 
         $returnData = array();
 
-        $scoTitles = self::scoTitlesForExportSelected($obj_id);
+        $scoTitles = $this->scoTitlesForExportSelected($obj_id);
 
-        $scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
+        $scoProgress = $this->markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
 
         $dbdata = array();
@@ -138,7 +119,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["audio_captioning"] = "" . $data["audio_captioning"];
@@ -188,7 +169,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
     }
 
     /**
-     * @return array|array[]
+     * @return array[]
      */
     public static function exportSelectedInteractionsColumns() : array
     {
@@ -217,13 +198,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
     }
 
     /**
-     * @param array  $a_user
-     * @param array  $a_sco
-     * @param bool   $b_orderBySCO
-     * @param bool   $allowExportPrivacy
-     * @param int    $obj_id
-     * @param string $lmTitle
-     * @return array|array[]
+     * @return array[]
      */
     public function exportSelectedInteractions(
         array $a_user,
@@ -239,9 +214,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 
         $returnData = array();
 
-        $scoTitles = self::scoTitlesForExportSelected($obj_id);
+        $scoTitles = $this->scoTitlesForExportSelected($obj_id);
 
-        $scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
+        $scoProgress = $this->markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
         $dbdata = array();
         $query = 'SELECT cmi_node.user_id, cmi_node.cp_node_id,
@@ -274,7 +249,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["description"] = "" . $data["description"];
@@ -295,7 +270,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
     }
 
     /**
-     * @return array|array[]
+     * @return array[]
      */
     public static function exportSelectedObjectivesColumns() : array
     {
@@ -321,13 +296,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
     }
 
     /**
-     * @param array  $a_user
-     * @param array  $a_sco
-     * @param bool   $b_orderBySCO
-     * @param bool   $allowExportPrivacy
-     * @param int    $obj_id
-     * @param string $lmTitle
-     * @return array|array[]
+     * @return array[]
      */
     public function exportSelectedObjectives(
         array $a_user,
@@ -343,9 +312,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 
         $returnData = array();
 
-        $scoTitles = self::scoTitlesForExportSelected($obj_id);
+        $scoTitles = $this->scoTitlesForExportSelected($obj_id);
 
-        $scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
+        $scoProgress = $this->markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
         $dbdata = array();
         $query = 'SELECT cmi_node.user_id, cmi_node.cp_node_id,
@@ -379,7 +348,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["description"] = "" . $data["description"];
@@ -397,9 +366,6 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $returnData;
     }
 
-    /**
-     * @return array
-     */
     public static function exportObjGlobalToSystemColumns() : array
     {
         global $DIC;
@@ -423,13 +389,6 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $cols;
     }
 
-    /**
-     * @param array  $a_user
-     * @param bool   $allowExportPrivacy
-     * @param int    $obj_id
-     * @param string $lmTitle
-     * @return array
-     */
     public function exportObjGlobalToSystem(array $a_user, bool $allowExportPrivacy, int $obj_id, string $lmTitle) : array
     {
         $ilDB = $this->db;
@@ -457,7 +416,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         foreach ($dbdata as $data) {
             $data["lm_id"] = $data["scope_id"];
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport((integer) $data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport((integer) $data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["Status"] = "" . $data["status"];
             $data["satisfied"] = "" . $data["satisfied"];
             $data["measure"] = "" . $data["measure"];
@@ -472,11 +431,6 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $returnData;
     }
 
-    /**
-     * @param bool $b_orderBySCO
-     * @param bool $b_allowExportPrivacy
-     * @return array
-     */
     public static function tracInteractionItemColumns(bool $b_orderBySCO, bool $b_allowExportPrivacy) : array
     {
         global $DIC;
@@ -502,15 +456,6 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $cols;
     }
 
-    /**
-     * @param array  $a_user
-     * @param array  $a_sco
-     * @param bool   $b_orderBySCO
-     * @param bool   $allowExportPrivacy
-     * @param int    $obj_id
-     * @param string $lmTitle
-     * @return array
-     */
     public function tracInteractionItem(
         array $a_user,
         array $a_sco,
@@ -525,9 +470,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 
         $returnData = array();
 
-        $scoTitles = self::scoTitlesForExportSelected($obj_id);
+        $scoTitles = $this->scoTitlesForExportSelected($obj_id);
 
-        $scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
+        $scoProgress = $this->markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
         $a_correct = array();
         $a_incorrect = array();
@@ -590,11 +535,6 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $returnData;
     }
 
-    /**
-     * @param bool $b_orderBySCO
-     * @param bool $b_allowExportPrivacy
-     * @return array
-     */
     public static function tracInteractionUserColumns(bool $b_orderBySCO, bool $b_allowExportPrivacy) : array
     {
         global $DIC;
@@ -628,15 +568,6 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $cols;
     }
 
-    /**
-     * @param array  $a_user
-     * @param array  $a_sco
-     * @param bool   $b_orderBySCO
-     * @param bool   $allowExportPrivacy
-     * @param int    $obj_id
-     * @param string $lmTitle
-     * @return array
-     */
     public function tracInteractionUser(
         array $a_user,
         array $a_sco,
@@ -651,9 +582,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 
         $returnData = array();
 
-        $scoTitles = self::scoTitlesForExportSelected($obj_id);
+        $scoTitles = $this->scoTitlesForExportSelected($obj_id);
 
-        $scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
+        $scoProgress = $this->markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
         $a_correct = array();
         $a_incorrect = array();
@@ -723,7 +654,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             $all = $correct + $incorrect + $other;
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $data["counter_i_correct"] = $correct;
@@ -789,13 +720,6 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $returnData;
     }
 
-    /**
-     * @param array $a_user
-     * @param array $a_sco
-     * @param bool  $b_orderBySCO
-     * @param bool  $b_allowExportPrivacy
-     * @return array
-     */
     public static function tracInteractionUserAnswersColumns(
         array $a_user,
         array $a_sco,
@@ -873,15 +797,6 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         return $cols;
     }
 
-    /**
-     * @param array  $a_user
-     * @param array  $a_sco
-     * @param bool   $b_orderBySCO
-     * @param bool   $allowExportPrivacy
-     * @param int    $obj_id
-     * @param string $lmTitle
-     * @return array
-     */
     public function tracInteractionUserAnswers(
         array $a_user,
         array $a_sco,
@@ -896,9 +811,9 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
 
         $returnData = array();
 
-        $scoTitles = self::scoTitlesForExportSelected($obj_id);
+        $scoTitles = $this->scoTitlesForExportSelected($obj_id);
 
-        $scoProgress = self::markedLearningStatusForExportSelected($scoTitles, $obj_id);
+        $scoProgress = $this->markedLearningStatusForExportSelected($scoTitles, $obj_id);
 
         $a_interaction = array();
         $a_interactionId = array();
@@ -978,7 +893,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             }
             $data["lm_id"] = $obj_id;
             $data["lm_title"] = $lmTitle;
-            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));
+            $data = array_merge($data, self::userDataArrayForExport($data["user_id"], $allowExportPrivacy));//PHP8Review: Just a notice that this may cause huge perfomance issues. But im not sure hiw this is refactorable.
             $data["sco_marked_for_learning_progress"] = $scoProgress[$data["cp_node_id"]];
             $data["sco_title"] = $scoTitles[$data["cp_node_id"]];
             $returnData[] = $data;
@@ -988,11 +903,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
     }
 
     /**
-     * @param array  $a_user
-     * @param bool   $allowExportPrivacy
-     * @param int    $obj_id
-     * @param string $lmTitle
-     * @return array|array[]
+     * @return array[]
      */
     public function exportSelectedSuccess(array $a_user, bool $allowExportPrivacy, int $obj_id, string $lmTitle) : array
     {
@@ -1016,10 +927,10 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
         $u_startedSCO = array();
         $u_completedSCO = array();
         $u_passedSCO = array();
-        for ($i = 0, $iMax = count($a_user); $i < $iMax; $i++) {
-            $u_startedSCO[$a_user[$i]] = 0;
-            $u_completedSCO[$a_user[$i]] = 0;
-            $u_passedSCO[$a_user[$i]] = 0;
+        foreach ($a_user as $value) {
+            $u_startedSCO[$value] = 0;
+            $u_completedSCO[$value] = 0;
+            $u_passedSCO[$value] = 0;
         }
 
         $query = 'SELECT user_id, count(*) counter '
@@ -1079,7 +990,7 @@ class ilSCORM2004TrackingItems extends ilSCORMTrackingItems
             $dbdata[] = $row;
         }
 
-        return self::exportSelectedSuccessRows(
+        return $this->exportSelectedSuccessRows(
             $a_user,
             $allowExportPrivacy,
             $dbdata,

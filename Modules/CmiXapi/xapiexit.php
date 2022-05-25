@@ -5,6 +5,7 @@
 $messages = array();
 
 $defaultLanguage = "en";
+
 $lang = (isset($_GET['lang'])) ? $_GET['lang'] : $defaultLanguage;
 
 $messages['de'] = "Sie können nun das Fenster schließen.";

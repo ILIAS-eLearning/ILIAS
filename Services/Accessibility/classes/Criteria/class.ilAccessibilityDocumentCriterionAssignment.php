@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilAccessibilityDocumentCriterionAssignment
@@ -21,14 +24,14 @@ class ilAccessibilityDocumentCriterionAssignment extends ActiveRecord implements
     public const TABLE_NAME = 'acc_criterion_to_doc';
 
     /**
-     * @var string
+     * @var int
      * @db_has_field        true
      * @db_fieldtype        integer
      * @db_length           4
      * @db_is_primary       true
      * @con_sequence        true
      */
-    protected string $id;
+    protected ?int $id = null;
 
     /**
      * @var int

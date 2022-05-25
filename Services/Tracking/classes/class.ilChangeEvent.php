@@ -127,8 +127,9 @@ class ilChangeEvent
         // read counter
         if ($a_ext_rc !== null) {
             $read_count = 'read_count = ' . $ilDB->quote(
-                    $a_ext_rc, "integer"
-                ) . ", ";
+                $a_ext_rc,
+                "integer"
+            ) . ", ";
             $read_count_init = max(1, (int) $a_ext_rc);
             $read_count_diff = max(1, (int) $a_ext_rc) - $row->read_count;
         } else {
@@ -144,7 +145,8 @@ class ilChangeEvent
                 $time = $ilDB->quote(
                     (time() - $row->last_access) <= $validTimeSpan
                         ? $row->spent_seconds + time() - $row->last_access
-                        : $row->spent_seconds, 'integer'
+                        : $row->spent_seconds,
+                    'integer'
                 );
 
                 // if we are in the valid interval, we do not
@@ -218,12 +220,13 @@ class ilChangeEvent
                     $obj2_type = ilObject::_lookupType($obj2_id);
                     //echo "<br>1-$obj2_type-$p-$obj2_id-";
                     if (($p != $a_ref_id) && (in_array(
-                            $obj2_type, array("crs",
+                        $obj2_type,
+                        array("crs",
                                               "fold",
                                               "grp",
                                               "lso"
                         )
-                        ))) {
+                    ))) {
                         $query = sprintf(
                             'SELECT * FROM read_event ' .
                             'WHERE obj_id = %s ' .
@@ -249,7 +252,10 @@ class ilChangeEvent
                             $aff = $ilDB->manipulate($query);
 
                             self::_recordObjStats(
-                                $obj2_id, null, null, (int) $time_diff,
+                                $obj2_id,
+                                null,
+                                null,
+                                (int) $time_diff,
                                 (int) $read_count_diff
                             );
                         } else {
@@ -280,7 +286,10 @@ class ilChangeEvent
                             self::$has_accessed[$obj2_id][$usr_id] = true;
 
                             self::_recordObjStats(
-                                $obj2_id, $time, 1, (int) $time_diff,
+                                $obj2_id,
+                                $time,
+                                1,
+                                (int) $time_diff,
                                 (int) $read_count_diff
                             );
                         }
@@ -383,7 +392,8 @@ class ilChangeEvent
                             "INSERT INTO obj_stat_tmp" .
                             " SELECT * FROM obj_stat_log" .
                             " WHERE tstamp < " . $ilDB->quote(
-                                $a_now, "timestamp"
+                                $a_now,
+                                "timestamp"
                             )
                         );
 
@@ -391,7 +401,8 @@ class ilChangeEvent
                         $ilDB->query(
                             "DELETE FROM obj_stat_log" .
                             " WHERE tstamp < " . $ilDB->quote(
-                                $a_now, "timestamp"
+                                $a_now,
+                                "timestamp"
                             )
                         );
 
@@ -439,8 +450,9 @@ class ilChangeEvent
                             $where_sql = array();
                             foreach ($where as $field => $def) {
                                 $where_sql[] = $field . " = " . $ilDB->quote(
-                                        $def[1], $def[0]
-                                    );
+                                    $def[1],
+                                    $def[0]
+                                );
                             }
                             $where_sql = implode(" AND ", $where_sql);
 

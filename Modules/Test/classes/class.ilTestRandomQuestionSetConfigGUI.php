@@ -328,15 +328,15 @@ class ilTestRandomQuestionSetConfigGUI
     
     private function fetchAfterRebuildQuestionStageCmdParameter()
     {
-        if (!isset($_GET[self::HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD])) {
+        if (!$this->testrequest->isset(self::HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD)) {
             return self::CMD_SHOW_GENERAL_CONFIG_FORM;
         }
         
-        if (!strlen($_GET[self::HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD])) {
+        if (!strlen($this->testrequest->raw(self::HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD))) {
             return self::CMD_SHOW_GENERAL_CONFIG_FORM;
         }
 
-        return $_GET[self::HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD];
+        return $this->testrequest->raw(self::HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD);
     }
 
     private function showGeneralConfigFormCmd(ilTestRandomQuestionSetGeneralConfigFormGUI $form = null)
@@ -362,7 +362,7 @@ class ilTestRandomQuestionSetConfigGUI
             }
         }
         
-        if (isset($_GET['modified']) && (int) $_GET['modified']) {
+        if ($this->testrequest->isset('modified') && (int) $this->testrequest->raw('modified')) {
             $this->tpl->setOnScreenMessage('success', $this->getGeneralModificationSuccessMessage());
         }
     }
@@ -447,8 +447,8 @@ class ilTestRandomQuestionSetConfigGUI
                 $this->tpl->setOnScreenMessage('info', $this->configStateMessageHandler->getValidationReportHtml());
             }
         }
-        
-        if (isset($_GET['modified']) && (int) $_GET['modified']) {
+
+        if ($this->testrequest->isset('modified') && (int) $this->testrequest->raw('modified')) {
             $this->tpl->setOnScreenMessage('success', $this->getGeneralModificationSuccessMessage());
         }
     }
@@ -758,20 +758,16 @@ class ilTestRandomQuestionSetConfigGUI
 
     private function fetchQuestionPoolIdParameter() : int
     {
-        if (isset($_POST['quest_pool_id']) && (int) $_POST['quest_pool_id']) {
-            return (int) $_POST['quest_pool_id'];
+        if ($this->testrequest->isset('quest_pool_id') && (int) $this->testrequest->raw('quest_pool_id')) {
+            return (int) $this->testrequest->raw('quest_pool_id');
         }
 
-        if (isset($_GET['quest_pool_id']) && (int) $_GET['quest_pool_id']) {
-            return (int) $_GET['quest_pool_id'];
-        }
-
-        if (isset($_GET['quest_pool_ref']) && (int) $_GET['quest_pool_ref']) {
+        if ($this->testrequest->isset('quest_pool_ref') && (int) $this->testrequest->raw('quest_pool_ref')) {
             global $DIC; /* @var ILIAS\DI\Container $DIC */
             /* @var ilObjectDataCache $objCache */
             $objCache = $DIC['ilObjDataCache'];
             
-            return $objCache->lookupObjId((int) $_GET['quest_pool_ref']);
+            return $objCache->lookupObjId((int) $this->testrequest->raw('quest_pool_ref'));
         }
 
         require_once 'Modules/Test/exceptions/class.ilTestMissingQuestionPoolIdParameterException.php';
@@ -780,12 +776,8 @@ class ilTestRandomQuestionSetConfigGUI
 
     private function fetchSingleSourcePoolDefinitionIdParameter() : int
     {
-        if (isset($_POST['src_pool_def_id']) && (int) $_POST['src_pool_def_id']) {
-            return (int) $_POST['src_pool_def_id'];
-        }
-
-        if (isset($_GET['src_pool_def_id']) && (int) $_GET['src_pool_def_id']) {
-            return (int) $_GET['src_pool_def_id'];
+        if ($this->testrequest->isset('src_pool_def_id') && (int) $this->testrequest->raw('src_pool_def_id')) {
+            $this->testrequest->raw('src_pool_def_id');
         }
 
         require_once 'Modules/Test/exceptions/class.ilTestMissingSourcePoolDefinitionParameterException.php';
@@ -794,14 +786,14 @@ class ilTestRandomQuestionSetConfigGUI
 
     private function fetchMultiSourcePoolDefinitionIdsParameter() : array
     {
-        if (!isset($_POST['src_pool_def_ids']) || !is_array($_POST['src_pool_def_ids'])) {
+        if (!$this->testrequest->isset('src_pool_def_ids') || !is_array($this->testrequest->raw('src_pool_def_ids'))) {
             require_once 'Modules/Test/exceptions/class.ilTestMissingSourcePoolDefinitionParameterException.php';
             throw new ilTestMissingSourcePoolDefinitionParameterException();
         }
 
         $definitionIds = array();
 
-        foreach ($_POST['src_pool_def_ids'] as $definitionId) {
+        foreach ($this->testrequest->raw('src_pool_def_ids') as $definitionId) {
             $definitionId = (int) $definitionId;
 
             if (!$definitionId) {
@@ -840,16 +832,16 @@ class ilTestRandomQuestionSetConfigGUI
     
     protected function fetchPoolIdsParameter()
     {
-        if (isset($_POST['derive_pool_ids']) && is_array($_POST['derive_pool_ids'])) {
+        if ($this->testrequest->isset('derive_pool_ids') && is_array($this->testrequest->raw('derive_pool_ids'))) {
             $poolIds = array();
-            
-            foreach ($_POST['derive_pool_ids'] as $poolId) {
+
+            foreach ($this->testrequest->raw('derive_pool_ids') as $poolId) {
                 $poolIds[] = (int) $poolId;
             }
-        } elseif (isset($_GET['derive_pool_ids']) && preg_match('/^\d+(\:\d+)*$/', $_GET['derive_pool_ids'])) {
-            $poolIds = explode(':', $_GET['derive_pool_ids']);
-        } elseif (isset($_GET['derive_pool_id']) && (int) $_GET['derive_pool_id']) {
-            $poolIds = array( (int) $_GET['derive_pool_id'] );
+        } elseif ($this->testrequest->isset('derive_pool_ids') && preg_match('/^\d+(\:\d+)*$/', $this->testrequest->raw('derive_pool_ids'))) {
+            $poolIds = explode(':', $this->testrequest->raw('derive_pool_ids'));
+        } elseif ($this->testrequest->isset('derive_pool_id') && (int) $this->testrequest->raw('derive_pool_id')) {
+            $poolIds = array( (int) $this->testrequest->raw('derive_pool_id') );
         }
         
         return $poolIds;
@@ -857,8 +849,8 @@ class ilTestRandomQuestionSetConfigGUI
     
     protected function fetchTargetRefParameter() : ?int
     {
-        if (isset($_GET['target_ref']) && (int) $_GET['target_ref']) {
-            return (int) $_GET['target_ref'];
+        if ($this->testrequest->isset('target_ref') && (int) $this->testrequest->raw('target_ref')) {
+            return (int) $this->testrequest->raw('target_ref');
         }
         
         return null;

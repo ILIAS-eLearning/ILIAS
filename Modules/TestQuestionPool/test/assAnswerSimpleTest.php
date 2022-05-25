@@ -18,7 +18,7 @@ class assAnswerSimpleTest extends assBaseTestCase
         chdir('../../../');
     }
 
-    public function test_instantiateObject_shouldReturnInstance()
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerSimple.php';
@@ -29,7 +29,7 @@ class assAnswerSimpleTest extends assBaseTestCase
         $this->assertInstanceOf('ASS_AnswerSimple', $instance);
     }
 
-    public function test_setGetId_shouldReturnUnchangedId()
+    public function test_setGetId_shouldReturnUnchangedId() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerSimple.php';
@@ -44,7 +44,7 @@ class assAnswerSimpleTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetAnswertext_shouldReturnUnchangedAnswertext()
+    public function test_setGetAnswertext_shouldReturnUnchangedAnswertext() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerSimple.php';
@@ -59,7 +59,7 @@ class assAnswerSimpleTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPoints_shouldReturnUnchangedPoints()
+    public function test_setGetPoints_shouldReturnUnchangedPoints() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerSimple.php';
@@ -74,7 +74,7 @@ class assAnswerSimpleTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPoints_shouldReturnUnchangedZeroOnNonNumericInput()
+    public function test_setGetPoints_shouldReturnUnchangedZeroOnNonNumericInput() : void
     {
         // Note: We want to get rid of this functionality in the class.
 
@@ -91,7 +91,7 @@ class assAnswerSimpleTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetOrder_shouldReturnUnchangedOrder()
+    public function test_setGetOrder_shouldReturnUnchangedOrder() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerSimple.php';

@@ -14,7 +14,6 @@ require_once __DIR__ . '/bootstrap.php';
 class ilModulesScorm2004Suite extends TestSuite
 {
     /**
-     * @return self
      * @throws ReflectionException
      */
     public static function suite() : self
@@ -51,10 +50,10 @@ class ilModulesScorm2004Suite extends TestSuite
         }
 
         if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
+//            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
+//            ilUnitUtil::performInitialisation();
         } else {
-            chdir(dirname(__FILE__));
+            chdir(__DIR__);
             chdir('../../../');
         }
 

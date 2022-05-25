@@ -34,7 +34,7 @@
 
   //Move the first section header up, to be displayed next to the forms top button
   .il-standard-form-header + .il-section-input{
-    margin-top: -(@il-button-font-size*@il-line-height-base+@il-margin-small-vertical+1vw);
+    margin-top: -(@il-button-font-size*@il-line-height-base+(@il-margin-small-vertical+1vw)*@il-pixel-to-rem);
     padding: 0;
 
     .il-section-input-header h2{
@@ -60,7 +60,7 @@
 
 .input-group-addon {
 	padding: 3px 8px;
-	font-size: 14px;
+	font-size: @il-font-size-base;
 	font-weight: 400;
 	line-height: 1;
 	color: @il-text-color;

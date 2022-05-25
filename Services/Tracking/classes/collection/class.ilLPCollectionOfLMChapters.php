@@ -28,7 +28,8 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
             foreach ($tree->getChilds($tree->readRootId()) as $child) {
                 if ($child["type"] == "st") {
                     $child["tlt"] = ilMDEducational::_getTypicalLearningTimeSeconds(
-                        $obj_id, $child["obj_id"]
+                        $obj_id,
+                        $child["obj_id"]
                     );
                     $items[$child["obj_id"]] = $child;
                 }
@@ -59,7 +60,10 @@ class ilLPCollectionOfLMChapters extends ilLPCollection
 
             // #12158
             $tmp['url'] = ilLink::_getLink(
-                $a_parent_ref_id, $parent_type, null, "_" . $tmp['id']
+                $a_parent_ref_id,
+                $parent_type,
+                null,
+                "_" . $tmp['id']
             );
 
             if ($this->mode == ilLPObjSettings::LP_MODE_COLLECTION_TLT) {

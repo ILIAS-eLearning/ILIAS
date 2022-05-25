@@ -17,7 +17,9 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+use ILIAS\Notes\Service;
+
 /**
  * Manage data for ilMembershipCronNotifications cron job
  * @author  Alex Killing <killing@leifos.de>
@@ -25,6 +27,7 @@
  */
 class ilMembershipCronNotificationsData
 {
+    protected Service $notes;
     /**
      * @todo convert to DateTime
      */
@@ -62,6 +65,7 @@ class ilMembershipCronNotificationsData
         $this->cron_id = $cron_id;
         $this->log = ilLoggerFactory::getLogger("mmbr");
         $this->load();
+        $this->notes = $DIC->notes();
     }
 
     /**
@@ -171,15 +175,15 @@ class ilMembershipCronNotificationsData
 
                 // gather comments
                 foreach (array_keys($objs["obj_id"]) as $obj_id) {
-                    $coms = ilNote::_getAllNotesOfSingleRepObject(
-                        $obj_id,
-                        ilNote::PUBLIC,
-                        false,
-                        false,
-                        $this->last_run_date
-                    );
+                    $coms = $this->notes
+                        ->domain()
+                        ->getAllCommentsForObjId(
+                            $obj_id,
+                            $this->last_run_date
+                        );
                     foreach ($coms as $c) {
-                        if ($c->getNewsId() == 0) {
+                        $comment_context = $c->getContext();
+                        if ($comment_context->getNewsId() === 0) {
                             continue;
                         }
                         reset($user_ids);
@@ -192,10 +196,10 @@ class ilMembershipCronNotificationsData
                                 }
                             }
                             if ($has_perm) {
-                                $this->comments[$user_id][$c->getNewsId()][] = $c;
+                                $this->comments[$user_id][$comment_context->getNewsId()][] = $c;
 
                                 // get news data for news that are not included above
-                                $this->checkMissingNews($user_id, $ref_id, $c->getNewsId());
+                                $this->checkMissingNews($user_id, $ref_id, $comment_context->getNewsId());
                                 $this->ping();
                             }
                         }

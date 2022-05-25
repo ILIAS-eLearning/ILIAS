@@ -48,12 +48,7 @@ class ilCalendarRegistration
         return $this->appointment_id;
     }
 
-    /**
-     * @param ilDateTime $start
-     * @param ilDateTime $end
-     * @return int[]
-     */
-    public function getRegisteredUsers(\ilDateTime $start, \ilDateTime $end)
+    public function getRegisteredUsers(\ilDateTime $start, \ilDateTime $end) : array
     {
         $users = [];
         foreach ($this->registered as $reg_data) {
@@ -120,8 +115,10 @@ class ilCalendarRegistration
             return;
         }
 
-        $query = "SELECT * FROM cal_registrations WHERE cal_id = " . $this->db->quote($this->getAppointmentId(),
-                'integer');
+        $query = "SELECT * FROM cal_registrations WHERE cal_id = " . $this->db->quote(
+            $this->getAppointmentId(),
+            'integer'
+        );
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->registered[] = array(

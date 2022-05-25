@@ -20,8 +20,12 @@ class ilLDAPRoleMappingTableGUI extends ilTable2GUI
 {
     private ilObjectDataCache $ilObjDataCache;
     private ilRbacReview $rbacreview;
+    private int $server_id;
 
-    public function __construct($a_parent_obj, $a_server_id, $a_parent_cmd = '')
+    /**
+     * @throws ilCtrlException
+     */
+    public function __construct(object $a_parent_obj, int $a_server_id, string $a_parent_cmd = '')
     {
         $this->server_id = $a_server_id;
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -39,7 +43,6 @@ class ilLDAPRoleMappingTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('ldap_group_member'), "member_attribute");
         $this->addColumn($this->lng->txt('ldap_info_text'), "info");
         $this->addColumn($this->lng->txt('action'));
-    
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setRowTemplate("tpl.ldap_role_mapping_row.html", "Services/LDAP");
         $this->setDefaultOrderField('title');
@@ -48,12 +51,11 @@ class ilLDAPRoleMappingTableGUI extends ilTable2GUI
         
         $this->getItems();
     }
-    
+
     /**
-     * fill row
-     * @param array $a_set
+     * @throws ilCtrlException
      */
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $title = $this->ilObjDataCache->lookupTitle($this->rbacreview->getObjectOfRole($a_set["role"]));
         $this->tpl->setVariable("VAL_ID", $a_set['mapping_id']);

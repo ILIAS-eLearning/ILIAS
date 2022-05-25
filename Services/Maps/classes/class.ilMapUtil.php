@@ -61,7 +61,7 @@ class ilMapUtil
         return self::settings()->get("std_longitude");
     }
 
-    public static function setStdZoom(string $zoom)
+    public static function setStdZoom(string $zoom) : void
     {
         self::settings()->set("std_zoom", $zoom);
     }
@@ -98,7 +98,7 @@ class ilMapUtil
     }
     
 
-    public static function setStdGeolocationServer($geolocation)
+    public static function setStdGeolocationServer($geolocation) : void
     {
         self::settings()->set("std_geolocation", $geolocation);
     }
@@ -114,6 +114,7 @@ class ilMapUtil
 
     /**
     * Get default longitude, latitude and zoom.
+    * @returns array<string, string>
     */
     public static function getDefaultSettings() : array
     {
@@ -143,6 +144,8 @@ class ilMapUtil
     
     /**
     * Get a dict { $id => $name } for available maps services.
+    *
+    * @returns array<string, string>
     */
     public static function getAvailableMapTypes() : array
     {

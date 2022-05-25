@@ -26,7 +26,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTest
 {
-    /** @var MockObject|ilLanguage */
+    /** @var MockObject&ilLanguage */
     protected ilLanguage $lng;
 
     protected function setUp() : void
@@ -57,7 +57,7 @@ class ilTermsOfServiceNullCriterionTest extends ilTermsOfServiceCriterionBaseTes
 
     /**
      * @param ilTermsOfServiceCriterionTypeGUI $gui
-     * @return MockObject|ilPropertyFormGUI
+     * @return MockObject&ilPropertyFormGUI
      */
     protected function buildForm(
         ilTermsOfServiceCriterionTypeGUI $gui

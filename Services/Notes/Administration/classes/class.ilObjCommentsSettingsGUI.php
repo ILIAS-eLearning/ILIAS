@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Comments Settings.
@@ -138,12 +141,12 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         $subfields["comm_del_user"] = $f->input()->field()->checkbox(
             $lng->txt("note_enable_comments_del_user")
         )
-            ->withValue((bool) $setting->get("comments_del_user", 0));
+            ->withValue((bool) $setting->get("comments_del_user", '0'));
         $subfields["comm_del_tutor"] = $f->input()->field()->checkbox(
             $lng->txt("note_enable_comments_del_tutor"),
             $lng->txt("note_enable_comments_del_tutor_info")
         )
-            ->withValue((bool) $setting->get("comments_del_tutor", 1));
+            ->withValue((bool) $setting->get("comments_del_tutor", '1'));
         $subfields["comments_noti_recip"] = $f->input()->field()->text(
             $lng->txt("note_comments_notification"),
             $lng->txt("note_comments_notification_info")

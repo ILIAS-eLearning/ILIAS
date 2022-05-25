@@ -35,7 +35,7 @@ class ilCertificateSettingsTestFormRepositoryTest extends ilCertificateBaseTestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -99,7 +99,7 @@ class ilCertificateSettingsTestFormRepositoryTest extends ilCertificateBaseTestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -149,7 +149,7 @@ class ilCertificateSettingsTestFormRepositoryTest extends ilCertificateBaseTestC
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -20,7 +20,8 @@ class ilLPStatusCollectionTLT extends ilLPStatus
         }
 
         $users = array_diff(
-            $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+            $users,
+            ilLPStatusWrapper::_getCompleted($a_obj_id)
         );
 
         return $users;
@@ -63,7 +64,8 @@ class ilLPStatusCollectionTLT extends ilLPStatus
                 $status_info["completed"][$item_id] = array();
 
                 $status_info["tlt"][$item_id] = ilMDEducational::_getTypicalLearningTimeSeconds(
-                    $a_obj_id, $item_id
+                    $a_obj_id,
+                    $item_id
                 );
             }
 

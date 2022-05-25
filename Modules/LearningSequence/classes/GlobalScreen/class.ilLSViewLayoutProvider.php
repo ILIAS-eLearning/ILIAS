@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\GlobalScreen\Scope\Layout\Provider\AbstractModificationProvider;
 use ILIAS\GlobalScreen\Scope\Layout\Provider\ModificationProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
@@ -29,7 +43,7 @@ use ILIAS\Data\URI;
  */
 class ilLSViewLayoutProvider extends AbstractModificationProvider implements ModificationProvider
 {
-    protected ?Collection $data_collection;
+    protected ?Collection $data_collection = null;
 
     /**
      * @inheritDoc
@@ -76,9 +90,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
         }
         return $this->globalScreen()->layout()->factory()->metabar()
             ->withModification(
-                function (MetaBar $metabar) : ?Metabar {
-                    return $metabar->withClearedEntries();
-                }
+                fn (MetaBar $metabar) : ?Metabar => $metabar->withClearedEntries()
             )
             ->withHighPriority();
     }
@@ -91,9 +103,7 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
 
         return $this->globalScreen()->layout()->factory()->breadcrumbs()
             ->withModification(
-                function (Breadcrumbs $current) : ?Breadcrumbs {
-                    return null;
-                }
+                fn (Breadcrumbs $current) : ?Breadcrumbs => null
             )
             ->withHighPriority();
     }
@@ -128,16 +138,15 @@ class ilLSViewLayoutProvider extends AbstractModificationProvider implements Mod
 
         $lnk = new URI($exit->getAction());
 
-        return $this->factory->page()
-            ->withModification(
-                function (PagePartProvider $parts) use ($label, $lnk) : Page {
-                    $p = new StandardPageBuilder();
-                    $f = $this->dic['ui.factory'];
-                    $page = $p->build($parts);
-                    $modeinfo = $f->mainControls()->modeInfo($label, $lnk);
-                    return $page->withModeInfo($modeinfo);
-                }
-            )
-            ->withHighPriority();
+        /** @noinspection PhpIncompatibleReturnTypeInspection */
+        return $this->factory->page()->withModification(
+            function (PagePartProvider $parts) use ($label, $lnk) : Page {
+                $p = new StandardPageBuilder();
+                $f = $this->dic['ui.factory'];
+                $page = $p->build($parts);
+                $modeinfo = $f->mainControls()->modeInfo($label, $lnk);
+                return $page->withModeInfo($modeinfo);
+            }
+        )->withHighPriority();
     }
 }

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\PersonalWorkspace\StandardGUIRequest;
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
@@ -127,7 +130,7 @@ class ilPersonalWorkspaceGUI
         include_once($class_path);
         $class_name = $ilCtrl->getClassForClasspath($class_path);
         if ($this->std_request->getNewType()) {
-            $gui = new $class_name(null, ilObject2GUI::WORKSPACE_NODE_ID, $this->node_id);
+            $gui = new $class_name(0, ilObject2GUI::WORKSPACE_NODE_ID, $this->node_id);
             $gui->setCreationMode();
         } else {
             $gui = new $class_name($this->node_id, ilObject2GUI::WORKSPACE_NODE_ID, false);

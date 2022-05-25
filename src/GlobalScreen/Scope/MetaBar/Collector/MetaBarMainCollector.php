@@ -82,19 +82,18 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
     {
         yield from $this->items;
     }
-    
-    /**
-     * @inheritDoc
-     */
+
     public function hasItems() : bool
     {
         return count($this->items) > 0;
     }
     
-    /**
-     * @param $items
-     */
-    private function sortItems(&$items) : void
+    public function hasVisibleItems() : bool
+    {
+        return $this->hasItems();
+    }
+    
+    private function sortItems(&$items)
     {
         usort($items, $this->getItemSorter());
     }

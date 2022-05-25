@@ -35,7 +35,7 @@ class ilLucenePathFilter implements ilLuceneResultFilter
     protected array $subnodes = [];
     protected ilTree $tree;
     
-    public function __construct($a_root)// @TODO: PHP8 Review: Missing parameter type.
+    public function __construct(int $a_root)
     {
         global $DIC;
 

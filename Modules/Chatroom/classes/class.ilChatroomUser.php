@@ -101,7 +101,7 @@ class ilChatroomUser
 
     /**
      * Returns an array of chat-name suggestions
-     * @return array<string, mixed>
+     * @return array<string, string>
      */
     public function getChatNameSuggestions() : array
     {

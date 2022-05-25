@@ -10,43 +10,15 @@
  */
 class ilDclTableViewEditGUI
 {
-
-    /**
-     * @var ilDclTableViewGUI
-     */
-    protected $parent_obj;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilDclTableView
-     */
-    public $tableview;
-    /**
-     * @var ilPropertyFormGUI
-     */
-    protected $form;
-    /**
-     * @var ilDclTableViewEditFieldsTableGUI
-     */
-    protected $table_gui;
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-    /**
-     * @var ilDclTable
-     */
-    public $table;
+    protected ilDclTableViewGUI $parent_obj;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalPageTemplate $tpl;
+    public ilDclTableView $tableview;
+    protected ilPropertyFormGUI $form;
+    protected ilDclTableViewEditFieldsTableGUI $table_gui;
+    protected ilTabsGUI $tabs_gui;
+    public ilDclTable $table;
 
     /**
      * ilDclTableViewEditGUI constructor.
@@ -77,10 +49,7 @@ class ilDclTableViewEditGUI
         $this->tpl->setLocator();
     }
 
-    /**
-     * execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd('show');
         $next_class = $this->ctrl->getNextClass($this);
@@ -198,7 +167,7 @@ class ilDclTableViewEditGUI
         }
     }
 
-    protected function setTabs($active)
+    protected function setTabs(string $active) : void
     {
         $this->tabs_gui->addTab('general_settings', $this->lng->txt('dcl_view_settings'),
             $this->ctrl->getLinkTarget($this, 'editGeneralSettings'));
@@ -213,10 +182,7 @@ class ilDclTableViewEditGUI
         $this->tabs_gui->setTabActive($active);
     }
 
-    /**
-     *
-     */
-    public function update()
+    public function update() : void
     {
         $ilDclTableViewEditFormGUI = new ilDclTableViewEditFormGUI($this, $this->tableview);
         $ilDclTableViewEditFormGUI->setValuesByPost();
@@ -229,10 +195,7 @@ class ilDclTableViewEditGUI
         }
     }
 
-    /**
-     *
-     */
-    public function create()
+    public function create() : void
     {
         $ilDclTableViewEditFormGUI = new ilDclTableViewEditFormGUI($this, $this->tableview, $this->table);
         $ilDclTableViewEditFormGUI->setValuesByPost();
@@ -244,10 +207,7 @@ class ilDclTableViewEditGUI
         }
     }
 
-    /**
-     *
-     */
-    public function saveTable()
+    public function saveTable() : void
     {
         /**
          * @var ilDclTableViewFieldSetting $setting
@@ -284,28 +244,19 @@ class ilDclTableViewEditGUI
         $this->ctrl->redirect($this, 'editFieldSettings');
     }
 
-    /**
-     * @return ilDclTableViewEditFieldsTableGUI
-     */
-    protected function initTableGUI()
+    protected function initTableGUI() : void
     {
         $table = new ilDclTableViewEditFieldsTableGUI($this);
         $this->table_gui = $table;
     }
 
-    /**
-     * return to overview
-     */
-    protected function cancel()
+    protected function cancel() : void
     {
         $this->ctrl->setParameter($this->parent_obj, 'table_id', $this->table->getId());
         $this->ctrl->redirect($this->parent_obj);
     }
 
-    /**
-     *
-     */
-    public function confirmDelete()
+    public function confirmDelete() : void
     {
         //at least one view must exist
         $this->parent_obj->checkViewsLeft(1);
@@ -322,7 +273,7 @@ class ilDclTableViewEditGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-    protected function delete()
+    protected function delete() : void
     {
         $this->tableview->delete();
         $this->table->sortTableViews();
@@ -330,20 +281,14 @@ class ilDclTableViewEditGUI
         $this->cancel();
     }
 
-    /**
-     *
-     */
-    public function permissionDenied()
+    public function permissionDenied() : void
     {
         $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
-        $this->ctrl->redirectByClass([ilObjDataCollectionGUI::class, ilDclRecordListGUI::class], ilDclRecordListGUI::CMD_LIST_RECORDS);
+        $this->ctrl->redirectByClass([ilObjDataCollectionGUI::class, ilDclRecordListGUI::class],
+            ilDclRecordListGUI::CMD_LIST_RECORDS);
     }
 
-    /**
-     * @param $cmd
-     * @return bool
-     */
-    protected function checkAccess($cmd)
+    protected function checkAccess(string $cmd) : bool
     {
         if (in_array($cmd, ['add', 'create'])) {
             return ilObjDataCollectionAccess::hasAccessToEditTable(
@@ -359,7 +304,7 @@ class ilDclTableViewEditGUI
         }
     }
 
-    public function copy()
+    public function copy() : void
     {
         $new_tableview = new ilDclTableView();
         $new_tableview->setTableId($this->table->getId());

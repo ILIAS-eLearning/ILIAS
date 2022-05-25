@@ -8,15 +8,16 @@
  */
 class ilObjOrgUnitListGUI extends ilObjectListGUI
 {
-    protected $tpl;
+    protected ilLanguage $lng;
+    protected ilSetting $settings;
+
 
     public function __construct()
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
         parent::__construct();
-        $this->tpl = $tpl;
-        //$this->enableComments(false, false);
+        $this->lng = $DIC->language();
+        $this->settings = $DIC->settings();
     }
 
     /**
@@ -44,15 +45,15 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
      */
     public function insertTimingsCommand() : void
     {
-        return;
+
     }
 
     /**
      * no social commands needed in orgunits.
      */
-    public function insertCommonSocialCommands(bool $header_actions = false) : void
+    public function insertCommonSocialCommands(bool $a_header_actions = false) : void
     {
-        return;
+
     }
 
     /**
@@ -70,20 +71,18 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
             ilUtil::getImagePath("icon_info.svg"));
     }
 
-    public function getCommandLink(string $cmd) : string
+    public function getCommandLink(string $a_cmd) : string
     {
         $this->ctrl->setParameterByClass("ilobjorgunitgui", "ref_id", $this->ref_id);
 
-        return $this->ctrl->getLinkTargetByClass("ilobjorgunitgui", $cmd);
+        return $this->ctrl->getLinkTargetByClass("ilobjorgunitgui", $a_cmd);
     }
 
     public function insertIconsAndCheckboxes() : void
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilias = $DIC['ilias'];
+
         // FSX removed $this->getCheckboxStatus() in if-Statement: 0014726
-        if (!$ilias->getSetting('custom_icons')) {
+        if (!$this->settings->get('custom_icons')) {
             parent::insertIconsAndCheckboxes();
 
             return;
@@ -115,7 +114,7 @@ class ilObjOrgUnitListGUI extends ilObjectListGUI
             parent::insertIconsAndCheckboxes();
             $this->tpl->setCurrentBlock("icon");
             $this->tpl->setVariable("ALT_ICON",
-                $lng->txt("icon") . " " . $lng->txt("obj_" . $this->getIconImageType()));
+                $this->lng->txt("icon") . " " . $this->lng->txt("obj_" . $this->getIconImageType()));
             $this->tpl->setVariable("SRC_ICON", $icon_file);
             $this->tpl->parseCurrentBlock();
             $this->enableIcon(true);

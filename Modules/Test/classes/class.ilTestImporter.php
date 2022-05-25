@@ -16,11 +16,17 @@ class ilTestImporter extends ilXmlImporter
      * @var array
      */
     public static $finallyProcessedTestsRegistry = array();
-    
+
     /**
      * Import XML
-     * @param
+     * @param string          $a_entity
+     * @param string          $a_id
+     * @param string          $a_xml
+     * @param ilImportMapping $a_mapping
      * @return void
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
+     * @throws ilSaxParserException
      */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
@@ -69,7 +75,7 @@ class ilTestImporter extends ilXmlImporter
 
         // start parsing of QTI files
         include_once "./Services/QTI/classes/class.ilQTIParser.php";
-        $qtiParser = new ilQTIParser($qti_file, IL_MO_PARSE_QTI, $questionParentObjId, $idents);
+        $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_PARSE_QTI, $questionParentObjId, $idents);
         $qtiParser->setTestObject($newObj);
         $qtiParser->startParsing();
 

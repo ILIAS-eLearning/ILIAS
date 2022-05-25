@@ -77,12 +77,9 @@ class ilSearchRootSelector extends ilExplorer
         $this->clickable_types = $a_types;
     }
     
-    public function isClickable(string $a_type, $a_ref_id = 0) : bool
+    public function isClickable(string $type, int $ref_id = 0) : bool
     {
-        if (in_array($a_type, $this->clickable_types)) {
-            return true;
-        }
-        return false;
+        return (in_array($type, $this->clickable_types));
     }
 
     public function setTargetClass(string $a_class) : void
@@ -138,7 +135,7 @@ class ilSearchRootSelector extends ilExplorer
             return true;
         }
 
-        if ($this->system->checkAccess("read", $a_parent_id)) {
+        if ($this->system->checkAccess("read", (int) $a_parent_id)) {
             return true;
         } else {
             return false;

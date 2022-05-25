@@ -27,13 +27,12 @@ class ilModulesCourseTasks
       </bpmn2:extensionElements>
 
          */
-        require_once './Modules/Course/classes/class.ilCourseParticipants.php';
         $input_params = $params[0];
         $output_params = $params[1];
 
         $participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
         $learners = $participants->getMembers();
-        $retval = array($output_params[0] => $learners);
+        $retval = [$output_params[0] => $learners];
 
         return $retval;
     }
@@ -56,13 +55,12 @@ class ilModulesCourseTasks
 
          */
 
-        require_once './Modules/Course/classes/class.ilCourseParticipants.php';
         $input_params = $params[0];
         $output_params = $params[1];
 
         $participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
         $tutors = $participants->getTutors();
-        $retval = array($output_params[0] => $tutors);
+        $retval = [$output_params[0] => $tutors];
 
         return $retval;
     }
@@ -85,13 +83,12 @@ class ilModulesCourseTasks
 
          */
 
-        require_once './Modules/Course/classes/class.ilCourseParticipants.php';
         $input_params = $params[0];
         $output_params = $params[1];
 
         $participants = ilCourseParticipants::_getInstanceByObjId(ilObject::_lookupObjectId($input_params['crsRefId']));
         $admins = $participants->getAdmins();
-        $retval = array($output_params[0] => $admins);
+        $retval = [$output_params[0] => $admins];
 
         return $retval;
     }
@@ -118,8 +115,6 @@ class ilModulesCourseTasks
         $input_params = $params[0];
         $output_params = $params[1];
 
-        require_once './Modules/Course/classes/class.ilObjCourse.php';
-
         $course_object = new ilObjCourse();
         $course_object->setType('crs');
         $course_object->setTitle($input_params['crsTitle']);
@@ -129,7 +124,7 @@ class ilModulesCourseTasks
         $course_object->putInTree($input_params['destRefId']);
         $course_object->setPermissions($input_params['destRefId']);
 
-        $retval = array($output_params[0] => $course_object->getRefId());
+        $retval = [$output_params[0] => $course_object->getRefId()];
 
         return $retval;
     }
@@ -151,7 +146,6 @@ class ilModulesCourseTasks
 
          */
 
-        require_once './Modules/Course/classes/class.ilCourseParticipants.php';
         $input_params = $params[0];
         $output_params = $params[1];
 
@@ -165,7 +159,7 @@ class ilModulesCourseTasks
      * @param ilNode $context
      * @param array  $params
      */
-    public static function assignTutorsToCourse(ilNode $context, array $params)
+    public static function assignTutorsToCourse(ilNode $context, array $params) : void
     {
         /*
          * Modelling:
@@ -178,7 +172,6 @@ class ilModulesCourseTasks
 
          */
 
-        require_once './Modules/Course/classes/class.ilCourseParticipants.php';
         $input_params = $params[0];
         $output_params = $params[1];
 
@@ -186,14 +179,13 @@ class ilModulesCourseTasks
         foreach ($input_params['usrIdList'] as $user_id) {
             $participants->add($user_id, ilParticipants::IL_CRS_TUTOR);
         }
-        return;
     }
 
     /**
      * @param ilNode $context
      * @param array  $params
      */
-    public static function assignAdminsToCourse(ilNode $context, array $params)
+    public static function assignAdminsToCourse(ilNode $context, array $params) : void
     {
         /*
          * Modelling:
@@ -206,7 +198,6 @@ class ilModulesCourseTasks
 
          */
 
-        require_once './Modules/Course/classes/class.ilCourseParticipants.php';
         $input_params = $params[0];
         $output_params = $params[1];
 
@@ -214,6 +205,5 @@ class ilModulesCourseTasks
         foreach ($input_params['usrIdList'] as $user_id) {
             $participants->add($user_id, ilParticipants::IL_CRS_ADMIN);
         }
-        return;
     }
 }

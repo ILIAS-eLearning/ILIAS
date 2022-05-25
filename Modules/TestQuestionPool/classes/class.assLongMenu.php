@@ -57,7 +57,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * @param mixed $answerType
      */
-    public function setAnswerType($answerType)
+    public function setAnswerType($answerType) : void
     {
         $this->answerType = $answerType;
     }
@@ -71,7 +71,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     }
 
 
-    public function setCorrectAnswers($correct_answers)
+    public function setCorrectAnswers($correct_answers) : void
     {
         $this->correct_answers = $correct_answers;
     }
@@ -86,7 +86,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return "qpl_a_lome";
     }
     
-    private function buildFileName($gap_id)
+    private function buildFileName($gap_id) : ?string
     {
         try {
             $this->assertDirExists();
@@ -96,7 +96,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return null;
     }
 
-    public function setLongMenuTextValue($long_menu_text = "")
+    public function setLongMenuTextValue($long_menu_text = "") : void
     {
         $this->long_menu_text = $long_menu_text;
     }
@@ -106,7 +106,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return $this->long_menu_text;
     }
         
-    public function setAnswers($answers)
+    public function setAnswers($answers) : void
     {
         $this->answers = $answers;
     }
@@ -127,12 +127,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * @param mixed $json_structure
      */
-    public function setJsonStructure($json_structure)
+    public function setJsonStructure($json_structure) : void
     {
         $this->json_structure = $json_structure;
     }
     
-    public function setSpecificFeedbackSetting($specificFeedbackSetting)
+    public function setSpecificFeedbackSetting($specificFeedbackSetting) : void
     {
         $this->specificFeedbackSetting = $specificFeedbackSetting;
     }
@@ -142,7 +142,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return $this->specificFeedbackSetting;
     }
 
-    public function setMinAutoComplete($minAutoComplete)
+    public function setMinAutoComplete($minAutoComplete) : void
     {
         $this->minAutoComplete = $minAutoComplete;
     }
@@ -270,7 +270,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->createFileFromArray();
     }
 
-    public function saveAnswerSpecificDataToDb()
+    public function saveAnswerSpecificDataToDb() : void
     {
         $this->clearAnswerSpecificDataFromDb($this->getId());
         $type_array = $this->getAnswerType();
@@ -301,7 +301,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->setPoints($points);
     }
     
-    private function createFileFromArray()
+    private function createFileFromArray() : void
     {
         $array = $this->getAnswers();
         $this->clearFolder();
@@ -342,12 +342,12 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return $answers;
     }
     
-    private function clearFolder($let_folder_exists = true)
+    private function clearFolder($let_folder_exists = true) : void
     {
         ilFileUtils::delDir($this->buildFolderName(), $let_folder_exists);
     }
     
-    private function assertDirExists()
+    private function assertDirExists() : void
     {
         $folder_name = $this->buildFolderName();
         if (!ilFileUtils::makeDirParents($folder_name)) {
@@ -409,7 +409,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         parent::loadFromDb($question_id);
     }
 
-    private function loadCorrectAnswerData($question_id)
+    private function loadCorrectAnswerData($question_id) : void
     {
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getAnswerTableName()} WHERE question_fi = %s ORDER BY gap_number, position ASC",
@@ -845,7 +845,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
         return false;
     }
 
-    public function clearAnswerSpecificDataFromDb($question_id)
+    public function clearAnswerSpecificDataFromDb($question_id) : void
     {
         $this->ilDB->manipulateF(
             'DELETE FROM ' . $this->getAnswerTableName() . ' WHERE question_fi = %s',
@@ -903,7 +903,7 @@ class assLongMenu extends assQuestion implements ilObjQuestionScoringAdjustable
     /**
      * @param $a_identical_scoring
      */
-    public function setIdenticalScoring($a_identical_scoring)
+    public function setIdenticalScoring($a_identical_scoring) : void
     {
         $this->identical_scoring = ($a_identical_scoring) ? 1 : 0;
     }

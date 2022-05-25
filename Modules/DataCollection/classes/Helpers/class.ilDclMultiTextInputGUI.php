@@ -7,14 +7,14 @@
  */
 class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
 {
-    public function setValues($values)
+    public function setValues($values) : void
     {
         $this->setIdentifiedMultiValues($values);
     }
 
-    public function getValues()
+    public function getValues() : array
     {
-        $this->getIdentifiedMultiValues();
+        return $this->getIdentifiedMultiValues();
     }
 
     public function setValue($a_value) : void
@@ -22,9 +22,9 @@ class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
         $this->setIdentifiedMultiValues($a_value);
     }
 
-    public function getValue()
+    public function getValue() : array
     {
-        $this->getIdentifiedMultiValues();
+        return $this->getIdentifiedMultiValues();
     }
 
     public function setMultiValues(array $a_values) : void
@@ -34,7 +34,7 @@ class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
 
     public function getMultiValues() : array
     {
-        $this->getIdentifiedMultiValues();
+        return $this->getIdentifiedMultiValues();
     }
 
     //	protected function getMultiValuePostVar($identifier)

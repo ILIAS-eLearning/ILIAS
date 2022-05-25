@@ -40,7 +40,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function add($left_operand, $right_operand, int $scale = null)
     {
@@ -50,7 +50,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function sub($left_operand, $right_operand, int $scale = null)
     {
@@ -60,7 +60,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function mul($left_operand, $right_operand, int $scale = null)
     {
@@ -86,7 +86,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function div($left_operand, $right_operand, int $scale = null)
     {
@@ -117,7 +117,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function mod($left_operand, $right_operand) : int
     {
@@ -125,13 +125,11 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
             throw new ilMathDivisionByZeroException(sprintf("Division of %s by %s not possible!", $left_operand, $right_operand));
         }
 
-        $res = $this->normalize($left_operand) % $this->normalize($right_operand);
-
-        return $res;
+        return $this->normalize($left_operand) % $this->normalize($right_operand);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function pow($left_operand, $right_operand, int $scale = null)
     {
@@ -141,7 +139,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function sqrt($operand, int $scale = null)
     {
@@ -151,7 +149,7 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function comp($left_operand, $right_operand, int $scale = null)
     {
@@ -166,10 +164,12 @@ class ilMathPhpAdapter extends ilMathBaseAdapter
 
         if ($left_operand == $right_operand) {
             return 0;
-        } elseif ($left_operand > $right_operand) {
-            return 1;
-        } else {
-            return -1;
         }
+
+        if ($left_operand > $right_operand) {
+            return 1;
+        }
+
+        return -1;
     }
 }

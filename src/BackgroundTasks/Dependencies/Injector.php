@@ -76,7 +76,7 @@ class Injector
     protected function createConstructorArguments(
         string $fullyQualifiedClassName,
         array $parameters,
-        callable $with
+        ?callable $with
     ) : array {
         $constructorArguments = [];
         
@@ -94,7 +94,7 @@ class Injector
     protected function getDependency(
         string $fullyQualifiedClassName,
         ReflectionParameter $parameter,
-        callable $with = null
+        ?callable $with = null
     ) {
         // These Lines are currently commented while we cant use $parameter->getType() which will be part of PHP7
         //		if (!$parameter->getType()) {

@@ -29,9 +29,9 @@ class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
         parent::__construct($use_nusoap);
         $this->persistence = $DIC->backgroundTasks()->persistence();
     }
-    
+
     /**
-     * @return bool|soap_fault|SoapFault|void
+     * @return bool|soap_fault|SoapFault|null
      */
     public function runAsync(string $sid)
     {
@@ -41,10 +41,8 @@ class ilSoapBackgroundTasksAdministration extends ilSoapAdministration
         if (!$this->checkSession($sid)) {
             return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-        
         $tm = new AsyncTaskManager($this->persistence);
         $tm->runAsync();
-        
         return true;
     }
 }

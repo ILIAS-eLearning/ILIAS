@@ -27,8 +27,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
     public function saveGeneral() : void
     {
         $formFactory = new ilChatroomFormFactory();
-        $settingsForm = $formFactory->getSettingsForm();
-        $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->getObject())->addTileImage();
+        $settingsForm = $formFactory->getSettingsForm($this->obj_service, $this->gui->getObject());
 
         if (!$settingsForm->checkInput()) {
             $settingsForm->setValuesByPost();
@@ -90,7 +89,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         $room = ilChatroom::byObjectId($this->gui->getObject()->getId());
 
         if (!$settingsForm) {
-            $settingsForm = $formFactory->getSettingsForm();
+            $settingsForm = $formFactory->getSettingsForm($this->obj_service, $this->gui->getObject());
 
             $settings = [
                 'title' => $this->gui->getObject()->getTitle(),
@@ -107,11 +106,6 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
                 ],
                 'access_visibility' => (bool) $this->gui->getObject()->getAccessVisibility()
             ];
-
-            $presentationHeader = new ilFormSectionHeaderGUI();
-            $presentationHeader->setTitle($this->ilLng->txt('settings_presentation_header'));
-            $settingsForm->addItem($presentationHeader);
-            $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->getObject())->addTileImage();
 
             if ($room) {
                 ilChatroomFormFactory::applyValues(

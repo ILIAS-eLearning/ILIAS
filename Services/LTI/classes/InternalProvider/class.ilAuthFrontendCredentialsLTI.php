@@ -38,7 +38,8 @@ class ilAuthFrontendCredentialsLTI extends ilAuthFrontendCredentials implements 
         global $DIC;
         $logger = ilLoggerFactory::getLogger('ltis');
         $logger->debug('New lti authentication request...');
-        $logger->dump($_REQUEST, ilLogLevel::DEBUG);
+        // ToDo better entry for log!
+//        $logger->dump($_REQUEST, ilLogLevel::DEBUG);
         
         $this->setUsername($DIC->http()->wrapper()->post()->retrieve('user_id', $DIC->refinery()->kindlyTo()->string()));
     }

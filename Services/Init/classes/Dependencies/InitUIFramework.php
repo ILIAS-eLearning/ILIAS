@@ -81,8 +81,7 @@ class InitUIFramework
         };
         $c["ui.factory.viewcontrol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\ViewControl\Factory(
-                $c["ui.signal_generator"],
-                $c["ui.factory.input"]
+                $c["ui.signal_generator"]
             );
         };
         $c["ui.factory.chart"] = function ($c) {
@@ -151,9 +150,6 @@ class InitUIFramework
         $c["ui.factory.bar"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Chart\Bar\Factory();
         };
-        $c["ui.factory.dropzone.file"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory();
-        };
         $c["ui.factory.input.field"] = function ($c) {
             $data_factory = new ILIAS\Data\Factory();
             $refinery = new ILIAS\Refinery\Factory($data_factory, $c["lng"]);
@@ -189,6 +185,12 @@ class InitUIFramework
         $c["ui.factory.input.viewcontrol"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\ViewControl\Factory();
         };
+        $c["ui.factory.dropzone.file"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory(
+                $c["ui.factory.input"],
+                $c["lng"]
+            );
+        };
         $c["ui.factory.panel.listing"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Panel\Listing\Factory();
         };
@@ -211,6 +213,14 @@ class InitUIFramework
                             $c["ui.pathresolver"]
                         ),
                         new ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory(
+                            $c["ui.factory"],
+                            $c["ui.template_factory"],
+                            $c["lng"],
+                            $c["ui.javascript_binding"],
+                            $c["refinery"],
+                            $c["ui.pathresolver"]
+                        ),
+                        new ILIAS\UI\Implementation\Component\Symbol\Icon\IconRendererFactory(
                             $c["ui.factory"],
                             $c["ui.template_factory"],
                             $c["lng"],
@@ -241,7 +251,7 @@ class InitUIFramework
         };
 
         $c["ui.factory.tree"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Tree\Factory($c["ui.signal_generator"]);
+            return new ILIAS\UI\Implementation\Component\Tree\Factory();
         };
 
         $c["ui.factory.legacy"] = function ($c) {

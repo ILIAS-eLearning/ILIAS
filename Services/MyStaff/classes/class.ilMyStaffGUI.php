@@ -56,6 +56,10 @@ class ilMyStaffGUI
                 $user_gui = new ilMStShowUserGUI();
                 $DIC->ctrl()->forwardCommand($user_gui);
                 break;
+            case strtolower(ilEmployeeTalkMyStaffListGUI::class):
+                $user_gui = new ilEmployeeTalkMyStaffListGUI();
+                $DIC->ctrl()->forwardCommand($user_gui);
+                break;
             default:
                 $list_gui = new ilMStListUsersGUI();
                 $DIC->ctrl()->forwardCommand($list_gui);

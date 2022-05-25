@@ -110,12 +110,26 @@ with the il- variable set here.
 @il-web-font-path: "fonts/";
 @il-font-family-sans-serif: 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
 
-//** Base font size used to calculate others
-@il-font-size-base: 14px;
-@il-font-size-large: ceil((@il-font-size-base * 1.25));
-@il-font-size-small: ceil((@il-font-size-base * 0.85));
+//** Used to calculate pixel to rem
+@il-pixel-to-rem: 1/16;
+//** Should only be used to indicate mainbar entries. Equivalent to 10px => 10*1/16=0.625rem.
+@il-font-size-xsmall:		0.625rem;
+//** Used to indicate subordinate text, such as bylines in forms, subtabs, etc. Equivalent to 12px.
+@il-font-size-small:		0.75rem;
+//** Default font size. Also used for h5. Equivalent to 14px.
+@il-font-size-base:		  0.875rem;
+//** Used to indicate h4. Equivalent to 16px.
+@il-font-size-large:		1rem;
+//** Used to indicate h3. Equivalent to 18px.
+@il-font-size-xlarge:    1.2rem;
+//** Used to indicate h2. Equivalent to 24px.
+@il-font-size-xxlarge:    1.4rem;
+//** Used to indicate h1. Should only used one time per screen. Equivalent to 28px.
+@il-font-size-h1:    1.75rem;
+
 //** Unit-less `line-height` for use in components like buttons.
-@il-line-height-base: 1.428571429; // 20/14
+@il-line-height-base:		1.428571429;
+@il-line-height-computed:    floor((@il-font-size-base * @il-line-height-base)); // ~20px
 
 
 //== Base Padding and Border
@@ -177,13 +191,14 @@ with the il- variable set here.
 @il-standard-page-logo-width: 45px;
 @il-standard-page-header-height: 60px;
 @il-standard-page-header-bg-color: @il-main-bg;
+@il-standard-page-header-page-title-color: @il-text-color;
 @il-standard-page-border-light-color: @il-main-border-color;
 @il-standard-page-content-padding: 20px;
 
 //** metabar
 @il-metabar-entry-height: 60px;
 @il-metabar-entry-width: 60px;
-@il-metabar-glyph-size: 2.3rem;
+@il-metabar-glyph-size: 1.4375rem;
 @il-metabar-glyph-color: @il-neutral-light-color;
 @il-metabar-slates-width: 500px;
 
@@ -205,7 +220,7 @@ with the il- variable set here.
 @il-mainbar-btn-color-engaged: @il-neutral-color;
 @il-mainbar-btn-bg-color-engaged: @il-main-bg;
 @il-mainbar-btn-border: 1px solid @il-standard-page-border-light-color;
-@il-mainbar-btn-label-size: .9rem;
+@il-mainbar-btn-label-size: @il-font-size-xsmall;
 @il-mainbar-bulky-label-margin-top: 5px;
 @il-mainbar-tools-btn-bg: @il-warning-color;
 @il-mainbar-tools-bg: @il-main-dark-bg;
@@ -229,11 +244,12 @@ with the il- variable set here.
 @il-slate-bulky-bg-color-engaged: fade(@il-main-color, 30%);
 @il-slate-content-padding: 10px;
 @il-slate-tree-padding: 4px 0;
-@il-slate-bulky-padding: 15px 40px 15px 10px;
-@il-slate-bulky-link-padding: 15px 10px 15px 10px;
-@il-slate-bulky-glyph-size: 2rem;
+@il-slate-bulky-padding: 10px 40px 15px 10px;
+@il-slate-bulky-link-padding: 10px 10px 15px 10px;
+@il-slate-bulky-glyph-size: 1.0625rem;
 @il-slate-bulky-glyph-margin-right: 5px;
-@il-slate-bulky-label-size: 1.5rem;
+@il-slate-bulky-label-size: 0.9375rem;
+@il-slate-bulky-icon-size: 1.0625rem;
 @il-slate-content-spacing: 2px;
 @il-standard-page-slate-width: 329px;
 @il-mainbar-slates-bg-color: @il-main-bg;
@@ -251,11 +267,13 @@ with the il- variable set here.
 @il-standard-page-small-header-height: 45px;
 @il-standard-page-small-mainbar-height: 50px;
 @il-standard-page-small-logo-width: 40px;
+
+@il-standard-page-small-mainbar-height-w-bottom-safe-area: calc(@il-standard-page-small-mainbar-height + 1.2 * env(safe-area-inset-bottom));
 @il-mainbar-small-btn-height: @il-standard-page-small-mainbar-height;
 @il-mainbar-small-btn-width: 75px;
 @il-metabar-small-entry-height: @il-standard-page-small-header-height;
 @il-metabar-small-entry-width: @il-standard-page-small-header-height;
-@il-metabar-small-glyph-size: 2rem;
+@il-metabar-small-glyph-size: 1.25rem;
 
 //== Footer
 //
@@ -352,7 +370,7 @@ with the il- variable set here.
 @il-btn-toggle-label-on-position-left: 5px;
 @il-btn-toggle-label-off-position-left: 23px;
 @il-btn-toggle-label-font-weight: 600;
-@il-btn-toggle-label-font-size: 0.9em;
+@il-btn-toggle-label-font-size: @il-font-size-small;
 @il-btn-toggle-label-on-color: @il-main-bg;
 
 //** on
@@ -386,16 +404,16 @@ with the il- variable set here.
 //** Background color used in the
 @il-standard-form-bg: @il-main-bg;
 //** Textsize used in the forms body
-@il-standard-form-font-size: @il-font-size-small;
+@il-standard-form-font-size: @il-font-size-base;
 //** Textsize used in the bylines (descriptions) of the input fields of a form
-@il-standard-form-byline-font-size: 85%;
+@il-standard-form-byline-font-size: @il-font-size-small;
 
 //** Textcolor used in the forms header, the sections header and the footer
 @il-standard-form-header-color: @il-text-color;
 //** Background color used in the forms header, the sections header and the footer
 @il-standard-form-header-bg: @il-main-bg;
 //** Textsize color used in the forms header and the sections header
-@il-standard-form-header-font-size: ceil((@il-font-size-base * 1.3));
+@il-standard-form-header-font-size: @il-font-size-xlarge;
 //** Textsize color used in the form headers the section headers byline (description)
 @il-standard-form-header-byline-font-size: @il-font-size-small;
 //** Background color used for dependant groups (sub forms) in standard forms
@@ -418,7 +436,7 @@ with the il- variable set here.
 //## Variables used to style the ILIAS Standard Filter
 
 //** Filter Bar
-@il-standard-filter-bar-btn-font-size: 1.2em;
+@il-standard-filter-bar-btn-font-size: @il-font-size-large;
 @il-standard-filter-bar-glyph-padding-right: 0.3em;
 @il-standard-filter-bar-toggle-padding-left: 10px;
 
@@ -440,7 +458,7 @@ with the il- variable set here.
 //** Division with active inputs under Filter Bar
 @il-standard-filter-active-inputs-margin-left: 0;
 @il-standard-filter-active-inputs-padding-vertical: 0;
-@il-standard-filter-active-inputs-font-size: 0.8em;
+@il-standard-filter-active-inputs-font-size: @il-font-size-small;
 
 //** Popovers
 @il-standard-filter-screen-sm-input-popover-padding: 4px;
@@ -452,11 +470,14 @@ with the il- variable set here.
 
 //== Input Fields
 //
+//## Variables used to style the ILIAS input fields (e.g. Dorpdowns etc.)
+@il-input-height-base: (floor(@il-standard-form-font-size * @il-line-height-base)) + 0.56;
+
 //## Variables used to style the ILIAS input fields (e.g. Text Inputs etc.)
 @il-FormColor: @il-text-light-color;
 @il-FormBgColor: @il-main-bg;
 @il-FormInputFontSize: @il-font-size-small;
-@il-textarea-height: (floor(4 * (@il-standard-form-font-size * @il-line-height-base)) + (@padding-base-vertical * 2) + 2);
+@il-textarea-height: (floor(4 * (@il-standard-form-font-size * @il-line-height-base))) + 0.56;
 
 //** Tag Input
 @il-input-tag-color-bg: @il-btn-standard-bg;
@@ -512,7 +533,7 @@ with the il- variable set here.
 //
 //##
 @il-counter-padding: 2px 4px;
-@il-counter-font-size: 9px;
+@il-counter-font-size: @il-font-size-xsmall;
 @il-counter-margin-left: -4px;
 
 //== Status Counter
@@ -822,7 +843,7 @@ with the il- variable set here.
 //== DropDowns
 //
 //##
-@il-font-size-dropdown: @font-size-base;
+@il-font-size-dropdown: @il-font-size-base;
 
 //== Drilldown Menu
 //

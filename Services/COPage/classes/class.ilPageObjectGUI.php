@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\COPage\Editor\EditSessionRepository;
 use ILIAS\COPage\Page\EditGUIRequest;
@@ -232,8 +235,8 @@ class ilPageObjectGUI
     public function setAdvMdRecordObject(
         int $a_adv_ref_id,
         string $a_adv_type,
-        string $a_adv_subtype = "-") : void
-    {
+        string $a_adv_subtype = "-"
+    ) : void {
         $this->adv_ref_id = $a_adv_ref_id;
         $this->adv_type = $a_adv_type;
         $this->adv_subtype = $a_adv_subtype;
@@ -792,10 +795,8 @@ class ilPageObjectGUI
     {
         $ret = "";
         $this->ctrl->setReturn($this, "edit");
-
         $next_class = $this->ctrl->getNextClass($this);
         $this->log->debug("next_class: " . $next_class);
-
         if ($next_class == "" && $this->ctrl->getCmd() == "edit") {
             $this->tabs_gui->clearTargets();
         } else {
@@ -2104,7 +2105,7 @@ class ilPageObjectGUI
         //$tpl->fillJavaScriptFiles();
         //$tpl->fillCssFiles();
 
-        $this->tpl->printToStdout();
+        $tpl->printToStdout();
         exit;
     }
 
@@ -2298,6 +2299,7 @@ class ilPageObjectGUI
     public function preview() : string
     {
         $this->setOutputMode(self::PREVIEW);
+        $this->tabs_gui->activateTab("cont_preview");
         return $this->showPage();
     }
 
@@ -2864,6 +2866,7 @@ class ilPageObjectGUI
             $a_enable_private_notes = true;
             $a_enable_public_notes = true;
             $a_enable_notes_deletion = false;
+            $notes_gui->setUseObjectTitleHeader(false);
         }
         // wiki page gui, blog posting gui
         else {
@@ -2872,6 +2875,7 @@ class ilPageObjectGUI
                 $a_content_object->getId(),
                 $a_content_object->getParentType()
             );
+            $notes_gui->setUseObjectTitleHeader(false);
         }
 
         if ($a_enable_private_notes) {
@@ -2895,7 +2899,7 @@ class ilPageObjectGUI
         if ($next_class == "ilnotegui") {
             $html = $this->ctrl->forwardCommand($notes_gui);
         } else {
-            $html = $notes_gui->getNotesHTML();
+            $html = $notes_gui->getCommentsHTML();
         }
         return $html;
     }

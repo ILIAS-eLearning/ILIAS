@@ -27,10 +27,10 @@ class ilTestExportGUI extends ilExportGUI
         parent::__construct($a_parent_gui, $a_main_obj);
 
         #$this->addFormat('xml', $a_parent_gui->lng->txt('ass_create_export_file'), $this, 'createTestExport');
-        $this->addFormat('xml', $a_parent_gui->lng->txt('ass_create_export_file'));
-        $this->addFormat('xmlres', $a_parent_gui->lng->txt('ass_create_export_file_with_results'), $this, 'createTestExportWithResults');
-        $this->addFormat('csv', $a_parent_gui->lng->txt('ass_create_export_test_results'), $this, 'createTestResultsExport');
-        $this->addFormat('arc', $a_parent_gui->lng->txt('ass_create_export_test_archive'), $this, 'createTestArchiveExport');
+        $this->addFormat('xml', $DIC->language()->txt('ass_create_export_file'));
+        $this->addFormat('xmlres', $DIC->language()->txt('ass_create_export_file_with_results'), $this, 'createTestExportWithResults');
+        $this->addFormat('csv', $DIC->language()->txt('ass_create_export_test_results'), $this, 'createTestResultsExport');
+        $this->addFormat('arc', $DIC->language()->txt('ass_create_export_test_archive'), $this, 'createTestArchiveExport');
         foreach ($component_factory->getActivePluginsInSlot("texp") as $plugin) {
             $plugin->setTest($this->obj);
             $this->addFormat(
@@ -177,7 +177,7 @@ class ilTestExportGUI extends ilExportGUI
         }
 
         require_once 'class.ilTestArchiver.php';
-        $archiver = new ilTestArchiver($this->getParentGUI()->object->getId());
+        $archiver = new ilTestArchiver($this->getParentGUI()->getTestObject()->getId());
         $archive_dir = $archiver->getZipExportDirectory();
         $archive_files = array();
         if (file_exists($archive_dir) && is_dir($archive_dir)) {
@@ -239,17 +239,17 @@ class ilTestExportGUI extends ilExportGUI
         global $DIC;
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
-
-        if (isset($_GET['file']) && $_GET['file']) {
-            $_POST['file'] = array($_GET['file']);
+        $file = array();
+        if ($this->testrequest->isset('file') && $this->testrequest->raw('file')) {
+            $file = array($this->testrequest->raw('file'));
         }
 
-        if (!isset($_POST['file'])) {
+        if ($file === array()) {
             $this->tpl->setOnScreenMessage('info', $lng->txt('no_checkbox'), true);
             $ilCtrl->redirect($this, 'listExportFiles');
         }
 
-        if (count($_POST['file']) > 1) {
+        if (count($file) > 1) {
             $this->tpl->setOnScreenMessage('info', $lng->txt('select_max_one_item'), true);
             $ilCtrl->redirect($this, 'listExportFiles');
         }
@@ -257,7 +257,7 @@ class ilTestExportGUI extends ilExportGUI
         require_once 'class.ilTestArchiver.php';
         $archiver = new ilTestArchiver($this->getParentGUI()->object->getId());
 
-        $filename = basename($_POST["file"][0]);
+        $filename = basename($file[0]);
         $exportFile = $this->obj->getExportDirectory() . '/' . $filename;
         $archiveFile = $archiver->getZipExportDirectory() . '/' . $filename;
 

@@ -27,6 +27,7 @@ use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\IconRendererFactory;
 use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
 use ILIAS\UI\Implementation\Render\FSLoader;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
@@ -365,6 +366,14 @@ class FileInputTest extends ILIAS_UI_TestBase
                             $img_resolver
                         ),
                         new GlyphRendererFactory(
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding,
+                            $refinery,
+                            $img_resolver
+                        ),
+                        new IconRendererFactory(
                             $ui_factory,
                             $tpl_factory,
                             $lng,

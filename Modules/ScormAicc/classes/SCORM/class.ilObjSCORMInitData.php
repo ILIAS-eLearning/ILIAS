@@ -25,21 +25,13 @@
 */
 class ilObjSCORMInitData
 {
-    /**
-     * @param $str
-     * @return string
-     */
-    public static function encodeURIComponent($str) : string
+    public static function encodeURIComponent(string $str) : string
     {
         $revert = array('%21' => '!', '%2A' => '*', '%27' => "'", '%28' => '(', '%29' => ')', '%7E' => '~');
         return strtr(rawurlencode($str), $revert);
     }
 
-    /**
-     * @param $slm_obj
-     * @return string
-     */
-    public static function getIliasScormVars($slm_obj) : string
+    public static function getIliasScormVars(ilObjSCORMLearningModule $slm_obj) : string
     {
         global $DIC;
         $ilLog = ilLoggerFactory::getLogger('sahs');
@@ -217,10 +209,6 @@ class ilObjSCORMInitData
         return $s_out;
     }
 
-    /**
-     * @param int $a_packageId
-     * @return string
-     */
     public static function getIliasScormData(int $a_packageId) : string
     {
         global $DIC;
@@ -231,7 +219,7 @@ class ilObjSCORMInitData
         $tquery = 'SELECT sco_id,lvalue,rvalue FROM scorm_tracking '
                 . 'WHERE user_id = %s AND obj_id = %s '
                 . "AND sco_id > 0 AND lvalue != 'cmi.core.entry' AND lvalue != 'cmi.core.session_time'";
-        if ($b_readInteractions == 'false') {
+        if ($b_readInteractions === 'false') {
             $tquery .= " AND SUBSTR(lvalue, 1, 16) != 'cmi.interactions'";
         }
         $val_set = $ilDB->queryF(
@@ -247,10 +235,6 @@ class ilObjSCORMInitData
         return json_encode($a_out);
     }
 
-    /**
-     * @param int $a_packageId
-     * @return string
-     */
     public static function getIliasScormResources(int $a_packageId) : string
     {
         global $DIC;
@@ -295,10 +279,6 @@ class ilObjSCORMInitData
         return json_encode($a_out);
     }
 
-    /**
-     * @param int $a_packageId
-     * @return string
-     */
     public static function getIliasScormTree(int $a_packageId) : string
     {
         global $DIC;
@@ -322,10 +302,6 @@ class ilObjSCORMInitData
     }
 
     /**
-     * @param int    $a_packageId
-     * @param int    $a_user_id
-     * @param bool   $auto_last_visited
-     * @param string $scormType
      * @return array<string, mixed>
      */
     public static function getStatus(int $a_packageId, int $a_user_id, bool $auto_last_visited, string $scormType = "1.2") : array
@@ -374,15 +350,12 @@ class ilObjSCORMInitData
 
     /**
      * hash for storing data without session
-     * @param int $a_packageId
-     * @param int $a_user_id
-     * @return int
      */
     private static function setHash(int $a_packageId, int $a_user_id) : int
     {
         global $DIC;
         $ilDB = $DIC->database();
-        $hash = mt_rand(1_000_000_000, 2_147_483_647);
+        $hash = random_int(1_000_000_000, 2_147_483_647);
         $endDate = date('Y-m-d H:i:s', mktime((int) date("H"), (int) date("i"), (int) date("s"), (int) date("m"), (int) date("d") + 1, (int) date("Y")));
 
         $res = $ilDB->queryF(

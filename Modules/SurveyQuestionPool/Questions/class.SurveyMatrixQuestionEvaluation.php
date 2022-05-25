@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Survey matrix evaluation
@@ -178,7 +181,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
                         );
                     }
                     
-                    $data[$idx]->addPoint($var->abs, $row_idx);
+                    $data[$idx]->addPoint((float) $var->abs, $row_idx);
                 }
             }
         }
@@ -189,7 +192,7 @@ class SurveyMatrixQuestionEvaluation extends SurveyQuestionEvaluation
         if ($text_shortened) {
             $this->chart_width = 500;
         }
-        $chart->setSize($this->chart_width, $this->chart_height);
+        $chart->setSize((string) $this->chart_width, (string) $this->chart_height);
 
         foreach ($data as $var) {
             $chart->addData($var);

@@ -413,8 +413,12 @@ class ilSearchResultPresentation
     protected function initReferences() : void
     {
         $session_references = ilSession::get('vis_references') ?? [];
-        if (isset($_REQUEST['refs'])) {// @TODO: PHP8 Review: Direct access to $_REQUEST.
-            $session_references[(int) $_REQUEST['refs']] = (int) $_REQUEST['refs'];
+        if ($this->http->wrapper()->post()->has('refs')) {
+            $refs = $this->http->wrapper()->post()->retrieve(
+                'refs',
+                $this->refinery->kindlyTo()->int()
+            );
+            $session_references[$refs] = $refs;
             ilSession::set('vis_references', $session_references);
         }
     }

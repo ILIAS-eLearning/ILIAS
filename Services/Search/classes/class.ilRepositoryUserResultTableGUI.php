@@ -202,7 +202,10 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
                 
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable(
+                        'VAL_CUST',
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                    );
                     $this->tpl->parseCurrentBlock();
                     break;
                 

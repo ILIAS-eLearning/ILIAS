@@ -76,9 +76,9 @@ class PCParagraphTest extends TestCase
 
         foreach ($cases as $case) {
             $text = ilPCParagraph::_input2xml($case, "en", true, false);
-            libxml_use_internal_errors(true);
+            $use_internal_errors = libxml_use_internal_errors(true);
             $sxe = simplexml_load_string("<?xml version='1.0'?><dummy>" . $text . "</dummy>");
-            libxml_use_internal_errors(false);
+            libxml_use_internal_errors($use_internal_errors);
             $res = true;
             if ($sxe === false) {
                 $res = $text;

@@ -25,30 +25,15 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilMailTest extends ilMailBaseTest
 {
-
-    /**
-     * @var MockObject|ilDBInterface
-     */
+    /** @var MockObject&ilDBInterface */
     private ilDBInterface $mockDatabase;
-
-    /**
-     * @var MockObject|ilMailAddressType
-     */
+    /** @var MockObject&ilMailAddressTypeFactory */
     private $mockAddressTypeFactory;
-
-    /**
-     * @var MockObject|ilLogger
-     */
+    /** @var MockObject&ilLogger */
     private $mockLog;
-
-    /**
-     * @var MockObject|ilMailRfc822AddressParserFactory
-     */
+    /** @var MockObject&ilMailRfc822AddressParserFactory */
     private $mockParserFactory;
-
-    /**
-     * @var MockObject|ilLanguage
-     */
+    /** @var MockObject&ilLanguage */
     private $mockLanguage;
 
     /**

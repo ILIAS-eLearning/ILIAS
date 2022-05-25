@@ -39,7 +39,7 @@ class ilRegistrationRoleAccessLimitations
         $query = "SELECT * FROM reg_access_limit ";
         $res = $this->db->query($query);
 
-        $this->access_limitations = array();
+        $this->access_limitations = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->access_limitations[$row->role_id]['id'] = (int) $row->role_id;
             $this->access_limitations[$row->role_id]['absolute'] = (int) $row->limit_absolute;
@@ -76,15 +76,15 @@ class ilRegistrationRoleAccessLimitations
     public function validate() : int
     {
         foreach ($this->access_limitations as $data) {
-            if ($data['mode'] == "null") {
+            if ($data['mode'] === "null") {
                 return self::IL_REG_ACCESS_LIMITATION_MISSING_MODE;
             }
 
-            if ($data['mode'] == 'absolute' && $data['absolute'] < time()) {
+            if ($data['mode'] === 'absolute' && $data['absolute'] < time()) {
                 return self::IL_REG_ACCESS_LIMITATION_OUT_OF_DATE;
             }
 
-            if ($data['mode'] == 'relative' && ($data['relative_d'] < 1 && $data['relative_m'] < 1)) {
+            if ($data['mode'] === 'relative' && ($data['relative_d'] < 1 && $data['relative_m'] < 1)) {
                 return self::IL_REG_ACCESS_LIMITATION_OUT_OF_DATE;
             }
         }
@@ -124,6 +124,6 @@ class ilRegistrationRoleAccessLimitations
 
     public function resetAccessLimitations() : void
     {
-        $this->access_limitations = array();
+        $this->access_limitations = [];
     }
 }

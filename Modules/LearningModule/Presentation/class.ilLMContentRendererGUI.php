@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -334,7 +337,7 @@ class ilLMContentRendererGUI
                     $mtpl->setVariable("LINK_BACK_TO_BEGINNING", ilLink::_getLink($this->requested_focus_return));
                 }
 
-                $this->ctrl->setParameter($this->parent_gui, "focus_id", "");
+                $this->ctrl->setParameter($this->parent_gui, "focus_id", null);
                 $mtpl->setVariable("LINK_SHOW_CONTENT", $this->ctrl->getLinkTarget($this->parent_gui, "layout"));
                 $this->ctrl->setParameter($this->parent_gui, "focus_id", $this->requested_obj_id);
 
@@ -365,7 +368,7 @@ class ilLMContentRendererGUI
                         $mtpl->setVariable("LINK_BACK_TO_BEGINNING", ilLink::_getLink($this->requested_focus_return));
                     }
 
-                    $this->ctrl->setParameter($this->parent_gui, "focus_id", "");
+                    $this->ctrl->setParameter($this->parent_gui, "focus_id", null);
                     $mtpl->setVariable("LINK_SHOW_CONTENT", $this->ctrl->getLinkTarget($this->parent_gui, "layout"));
                     $this->ctrl->setParameter($this->parent_gui, "focus_id", $this->requested_obj_id);
 

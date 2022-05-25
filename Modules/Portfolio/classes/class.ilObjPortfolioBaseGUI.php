@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Portfolio\StandardGUIRequest;
 use ILIAS\Portfolio\PortfolioPrintViewProviderGUI;
@@ -136,12 +139,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
     
     protected function handlePageCall(string $a_cmd) : void
     {
-        $this->tabs_gui->clearTargets();
-        $this->tabs_gui->setBackTarget(
-            $this->lng->txt("back"),
-            $this->ctrl->getLinkTarget($this, "view")
-        );
-        
         if (!$this->page_id) {
             $this->ctrl->redirect($this, "view");
         }
@@ -151,7 +148,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->tabs_gui->clearTargets();
         $this->tabs_gui->setBackTarget(
             $this->lng->txt("back"),
-            $this->ctrl->getLinkTarget($page_gui, "edit")
+            $this->ctrl->getLinkTarget($this, "view")
         );
 
         // needed for editor
@@ -443,7 +440,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
         // save and cancel commands
         if ($a_mode === "create") {
-            $templates = ilPageLayout::activeLayouts(false, ilPageLayout::MODULE_PORTFOLIO);
+            $templates = ilPageLayout::activeLayouts(ilPageLayout::MODULE_PORTFOLIO);
             if ($templates) {
                 $use_template = new ilRadioGroupInputGUI($this->lng->txt("prtf_use_page_layout"), "tmpl");
                 $use_template->setRequired(true);
@@ -748,7 +745,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             if ($next_class === "ilnotegui") {
                 $notes = $this->ctrl->forwardCommand($note_gui);
             } else {
-                $notes = $note_gui->getNotesHTML();
+                $notes = $note_gui->getCommentsHTML();
             }
         }
             
@@ -759,7 +756,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $this->tpl->setPermanentLink($this->getType(), $this->object->getRefId());
             }
         } else {
-            $this->tpl->setPermanentLink($this->perma_link["type"], $this->perma_link["obj_id"]);
+            $this->tpl->setPermanentLink($this->perma_link["type"] ?? "", $this->perma_link["obj_id"] ?? 0);
         }
         
         // #18208 - see ilPortfolioTemplatePageGUI::getPageContentUserId()
@@ -801,30 +798,32 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             ? "ilPortfolioTemplatePageGUI"
             : "ilportfoliopagegui";
         $button = null;
+        if ($this->checkPermissionBool("write") &&
+            ilPortfolioPage::lookupType($page_id) == ilPortfolioPage::TYPE_PAGE) {
+            if ($this->getType() === "prtt") {
+                $button = $this->ui->factory()->button()->standard(
+                    $this->lng->txt("prtt_edit"),
+                    $this->ctrl->getLinkTargetByClass(["ilobjportfoliotemplategui"], "view")
+                );
+            } else {
+                $button = $this->ui->factory()->button()->standard(
+                    $this->lng->txt("prtf_edit_portfolio"),
+                    $this->ctrl->getLinkTargetByClass(["ilobjportfoliogui"], "view")
+                );
+            }
+            $this->toolbar->addComponent($button);
+            $button = null;
+        }
         if (ilPortfolioPage::lookupType($page_id) === ilPortfolioPage::TYPE_PAGE) {
             $this->ctrl->setParameterByClass($page_class, "ppage", $page_id);
             $button = $this->ui->factory()->button()->standard(
-                $this->lng->txt("edit"),
+                $this->lng->txt("edit_page"),
                 $this->ctrl->getLinkTargetByClass($page_class, "edit")
             );
-        } elseif ($this->getType() !== "prtt") {
-            if ($page_id > 0) {
-                $this->ctrl->setParameterByClass("ilobjbloggui", "ppage", $page_id);
-                $this->ctrl->setParameterByClass(
-                    "ilobjbloggui",
-                    "prt_id",
-                    $this->port_request->getPortfolioId()
-                );
-                $button = $this->ui->factory()->button()->standard(
-                    $this->lng->txt("edit"),
-                    $this->ctrl->getLinkTargetByClass([$page_class, "ilobjbloggui"], "render")
-                );
+            if ($this->checkPermissionBool("write")) {
+                $this->toolbar->addComponent($button);
             }
-        } else {    // portfolio template, blog page cannot be edited -> link to overview
-            $button = $this->ui->factory()->button()->standard(
-                $this->lng->txt("edit"),
-                $this->ctrl->getLinkTargetByClass(["ilobjportfoliotemplategui"], "view")
-            );
+            $button = null;
         }
         if ($button && $this->checkPermissionBool("write")) {
             $this->tpl->setHeaderActionMenu($this->ui->renderer()->render($button));
@@ -883,7 +882,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         // $a_tpl->setBackgroundColor($a_portfolio->getBackgroundColor());
         // @todo fix this
         $a_tpl->setBanner($banner);
-        $a_tpl->setTitleIcon($ppic);
+        $a_tpl->setTitleIcon((string) $ppic);
         $a_tpl->setTitle($a_portfolio->getTitle());
         // $a_tpl->setTitleColor($a_portfolio->getFontColor());
         $a_tpl->setDescription($name);

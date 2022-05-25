@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 namespace ILIAS\CI\Rector;
 
 use PhpParser\Node;
@@ -12,7 +28,7 @@ use Rector\NodeTypeResolver\Node\AttributeKey as AttributeKeys;
 final class ChangeLicenseHeader extends AbstractRector
 {
     const EXISTING_LICENSE_PATTERN = '(copyright|Copyright|GPL-3\.0|GPLv3|LICENSE)';
-    const IGNORE_SUBPATHS = '(lib|vendor|CI|data|Customizing)';
+    const IGNORE_SUBPATHS = '(lib|vendor|data|Customizing)';
     private string $license_header_default = "/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -29,20 +45,20 @@ final class ChangeLicenseHeader extends AbstractRector
  *
  *********************************************************************/
  ";
-    
+
     private Comment $standard_comment;
     private array $previous_search = [
         Node\Expr\Include_::class,
         Node\Stmt\Use_::class,
-        Node\Expr\Include_::class,
-        Node\Stmt\Namespace_::class
+        Node\Stmt\Namespace_::class,
+        Node\Name::class
     ];
-    
+
     public function __construct()
     {
         $this->standard_comment = new Comment($this->license_header_default);
     }
-    
+
     /**
      * @return class-string[]
      */
@@ -54,7 +70,7 @@ final class ChangeLicenseHeader extends AbstractRector
             Node\Stmt\Trait_::class
         ];
     }
-    
+
     /**
      * @param Node\Stmt\Global_ $node
      */
@@ -65,22 +81,24 @@ final class ChangeLicenseHeader extends AbstractRector
         }
         $node->setAttribute('comments', $this->filterComments($node));
         $current = $node;
-        $previous = $node->getAttribute(AttributeKeys::PREVIOUS_STATEMENT);
+        $previous = $node->getAttribute(AttributeKeys::PREVIOUS_NODE);
         while (is_object($previous) && in_array(get_class($previous), $this->previous_search)) {
+            if (get_class($previous) === Node\Name::class) {
+                $previous = $previous->getAttribute(AttributeKeys::PARENT_NODE);
+            }
             $current = $previous;
             $current->setAttribute(
                 AttributeKeys::COMMENTS,
                 $this->filterComments($current)
             );
-            $previous = $current->getAttribute(AttributeKeys::PREVIOUS_STATEMENT);
+            $previous = $current->getAttribute(AttributeKeys::PREVIOUS_NODE);
         }
-        
+
         $current->setAttribute(AttributeKeys::COMMENTS, $this->filterComments($current, [$this->standard_comment]));
-        
-        
+
         return $node;
     }
-    
+
     /**
      * @param Node $node
      * @return Comment[]
@@ -95,7 +113,7 @@ final class ChangeLicenseHeader extends AbstractRector
         }
         return $default;
     }
-    
+
     public function getRuleDefinition() : RuleDefinition
     {
         return new RuleDefinition(

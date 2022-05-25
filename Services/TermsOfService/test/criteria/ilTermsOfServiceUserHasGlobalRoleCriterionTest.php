@@ -26,9 +26,9 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCriterionBaseTest
 {
-    /** @var MockObject|ilRbacReview */
+    /** @var MockObject&ilRbacReview */
     protected ilRbacReview $rbacReview;
-    /** @var MockObject|ilLanguage */
+    /** @var MockObject&ilLanguage */
     protected ilLanguage $lng;
     protected int $expectedInitialValue = 2;
     protected int $expectedAfterFormSubmitValue = 4;
@@ -77,7 +77,7 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionTest extends ilTermsOfServiceCri
     /**
      * @param ilTermsOfServiceCriterionTypeGUI $gui
      * @param string                           $httpCriterionSelectionBodyParameter
-     * @return MockObject|ilPropertyFormGUI
+     * @return MockObject&ilPropertyFormGUI
      */
     protected function buildForm(
         ilTermsOfServiceCriterionTypeGUI $gui,

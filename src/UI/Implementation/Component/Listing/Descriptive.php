@@ -22,8 +22,8 @@ class Descriptive implements C\Listing\Descriptive
         $this->checkArgList(
             "Descriptive List items",
             $items,
-            fn($k, $v) => is_string($k) && (is_string($v) || $v instanceof C\Component),
-            fn($k, $v) => "expected keys of type string and values of type string|Component, got ($k => $v)"
+            fn ($k, $v) => is_string($k) && (is_string($v) || $v instanceof C\Component),
+            fn ($k, $v) => "expected keys of type string and values of type string|Component, got ($k => $v)"
         );
 
         $this->items = $items;
@@ -37,8 +37,8 @@ class Descriptive implements C\Listing\Descriptive
         $this->checkArgList(
             "Descriptive List items",
             $items,
-            fn($k, $v) => is_string($k) && (is_string($v) || $v instanceof C\Component),
-            fn($k, $v) => "expected keys of type string and values of type string|Component, got ($k => $v)"
+            fn ($k, $v) => is_string($k) && (is_string($v) || $v instanceof C\Component),
+            fn ($k, $v) => "expected keys of type string and values of type string|Component, got ($k => $v)"
         );
 
         $clone = clone $this;

@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\Random\Seed\RandomSeed;
 use ILIAS\Refinery\Random\Seed\GivenSeed;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 
@@ -76,7 +75,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
     public function __construct($a_object)
     {
         parent::__construct($a_object);
-        $this->ref_id = $_GET["ref_id"];
+        $this->ref_id = $this->testrequest->getRefId();
         
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -180,9 +179,9 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         ilSession::set(
             "active_time_id",
             $this->object->startWorkingTime(
-            $this->testSession->getActiveId(),
-            $this->testSession->getPass()
-        )
+                $this->testSession->getActiveId(),
+                $this->testSession->getPass()
+            )
         );
     }
 
@@ -369,7 +368,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function populateGenericFeedbackBlock(assQuestionGUI $question_gui, $solutionCorrect)
     {
-        $feedback = $question_gui->getGenericFeedbackOutput($this->testSession->getActiveId(), null);
+        // fix #031263: add pass
+        $feedback = $question_gui->getGenericFeedbackOutput($this->testSession->getActiveId(), $this->testSession->getPass());
         
         if (strlen($feedback)) {
             $cssClass = (
@@ -471,10 +471,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     public function getLockParameter()
     {
-        if (isset($_POST['lock']) && strlen($_POST['lock'])) {
-            return $_POST['lock'];
-        } elseif (isset($_GET['lock']) && strlen($_GET['lock'])) {
-            return $_GET['lock'];
+        if ($this->testrequest->isset('lock') && strlen($this->testrequest->raw('lock'))) {
+            return $this->testrequest->raw('lock');
         }
 
         return null;
@@ -609,6 +607,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
                 }
                 // answer is not changed from authorized solution, so delete an intermediate solution
                 else {
+                    // @PHP8-CR: This looks like (yet) another issue in the dreaded autosaving.
+                    // Any advice how to deal with it?
                     $db_res = $this->removeIntermediateSolution();
                     $res = is_int($db_res);
                 }
@@ -786,7 +786,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
 
         // Examview enabled & !reviewed & requires_confirmation? test_submission_overview (review gui)
-        if ($this->object->getEnableExamview() && !isset($_GET['reviewed']) && $requires_confirmation) {
+        if ($this->object->getEnableExamview() && !$this->testrequest->isset('reviewed') && $requires_confirmation) {
             $this->ctrl->redirectByClass('ilTestSubmissionReviewGUI', "show");
             return;
         }
@@ -854,7 +854,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
 
         // show final statement
-        if (!$_GET['skipfinalstatement']) {
+        if (!$this->testrequest->isset('skipfinalstatement')) {
             if ($this->object->getShowFinalStatement()) {
                 $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_FINAL_STATMENT);
             }
@@ -1237,7 +1237,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             $instantResponse && $this->object->getSpecificAnswerFeedback()
         );
 
-        if (isset($_GET['save_error']) && $_GET['save_error'] == 1 && ilSession::get('previouspost') != null) {
+        if ($this->testrequest->isset('save_error') && $this->testrequest->raw('save_error') == 1 && ilSession::get('previouspost') != null) {
             $userPostSolution = ilSession::get('previouspost');
             ilSession::clear('previouspost');
         } else {
@@ -1595,7 +1595,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         $active_id = $this->testSession->getActiveId();
         $questionSummaryData = $this->service->getQuestionSummaryData($this->testSequence, $obligationsFilter);
         
-        $this->ctrl->setParameter($this, "sequence", $_GET["sequence"]);
+        $this->ctrl->setParameter($this, "sequence", $this->testrequest->raw("sequence"));
         
         if ($fullpage) {
             include_once "./Modules/Test/classes/tables/class.ilListOfQuestionsTableGUI.php";
@@ -1682,7 +1682,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
         }
 
         $this->tpl->setCurrentBlock("adm_content");
-        $solution = $this->getCorrectSolutionOutput($_GET["evaluation"], $_GET["active_id"], $_GET["pass"]);
+        $solution = $this->getCorrectSolutionOutput($this->testrequest->raw("evaluation"), $this->testrequest->raw("active_id"), $this->testrequest->raw("pass"));
         $this->tpl->setVariable("OUTPUT_SOLUTION", $solution);
         $this->tpl->setVariable("TEXT_BACK", $this->lng->txt("back"));
         $this->ctrl->saveParameter($this, "pass");
@@ -2341,8 +2341,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function getSequenceElementParameter()
     {
-        if (isset($_GET['sequence'])) {
-            return $_GET['sequence'];
+        if ($this->testrequest->isset('sequence')) {
+            return $this->testrequest->raw('sequence');
         }
 
         return null;
@@ -2350,8 +2350,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function getPresentationModeParameter()
     {
-        if (isset($_GET['pmode'])) {
-            return $_GET['pmode'];
+        if ($this->testrequest->isset('pmode')) {
+            return $this->testrequest->raw('pmode');
         }
 
         return null;
@@ -2359,8 +2359,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function getInstantResponseParameter()
     {
-        if (isset($_GET['instresp'])) {
-            return $_GET['instresp'];
+        if ($this->testrequest->isset('instresp')) {
+            return $this->testrequest->raw('instresp');
         }
 
         return null;
@@ -2402,7 +2402,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
      */
     protected function getAnswerChangedParameter() : bool
     {
-        return !empty($_GET['test_answer_changed']);
+        return !empty($this->testrequest->raw('test_answer_changed'));
     }
 
     /**
@@ -2811,7 +2811,7 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
             return false;
         }
         
-        return ilSession::set(self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM);
+        return ilSession::get(self::FOLLOWUP_QST_LOCKS_PREVENT_CONFIRMATION_PARAM);
     }
         
     // fau: testNav - new function populateQuestionEditControl

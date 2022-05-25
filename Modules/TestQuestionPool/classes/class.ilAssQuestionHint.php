@@ -83,7 +83,7 @@ class ilAssQuestionHint
      * @access	public
      * @param	integer	$id
      */
-    public function setId($id)
+    public function setId($id) : void
     {
         $this->id = (int) $id;
     }
@@ -105,7 +105,7 @@ class ilAssQuestionHint
      * @access	public
      * @param	integer	$questionId
      */
-    public function setQuestionId($questionId)
+    public function setQuestionId($questionId) : void
     {
         $this->questionId = (int) $questionId;
     }
@@ -127,7 +127,7 @@ class ilAssQuestionHint
      * @access	public
      * @param	integer	$index
      */
-    public function setIndex($index)
+    public function setIndex($index) : void
     {
         $this->index = (int) $index;
     }
@@ -149,7 +149,7 @@ class ilAssQuestionHint
      * @access	public
      * @param	integer	$points
      */
-    public function setPoints($points)
+    public function setPoints($points) : void
     {
         $this->points = (float) $points;
     }
@@ -171,7 +171,7 @@ class ilAssQuestionHint
      * @access	public
      * @param	string	$text
      */
-    public function setText($text)
+    public function setText($text) : void
     {
         $this->text = $text;
     }
@@ -306,7 +306,7 @@ class ilAssQuestionHint
      * @param	self	$questionHint
      * @param	array	$hintDbRow
      */
-    public static function assignDbRow(self $questionHint, $hintDbRow)
+    public static function assignDbRow(self $questionHint, $hintDbRow) : void
     {
         foreach ($hintDbRow as $field => $value) {
             switch ($field) {

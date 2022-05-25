@@ -24,6 +24,7 @@
 */
 class ilObjPoll extends ilObject2
 {
+    protected \ILIAS\Notes\Service $notes;
     protected int $access_type = 0;
     protected int $access_begin = 0;
     protected int $access_end = 0;
@@ -59,6 +60,7 @@ class ilObjPoll extends ilObject2
         $this->setViewResults(self::VIEW_RESULTS_AFTER_VOTE);
         $this->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
         $this->setVotingPeriod(false);
+        $this->notes = $DIC->notes();
         
         parent::__construct($a_id, $a_reference);
     }
@@ -237,7 +239,7 @@ class ilObjPoll extends ilObject2
         $this->setShowResultsAs((int) ($row["show_results_as"] ?? self::SHOW_RESULTS_AS_BARCHART));
         
         // #14661
-        $this->setShowComments(ilNote::commentsActivated($this->getId(), 0, $this->getType()));
+        $this->setShowComments($this->notes->domain()->commentsActive($this->getId()));
         
         if ($this->ref_id) {
             $activation = ilObjectActivation::getItem($this->ref_id);
@@ -267,7 +269,7 @@ class ilObjPoll extends ilObject2
         );
     }
 
-    protected function doCreate() : void
+    protected function doCreate(bool $clone_mode = false) : void
     {
         $ilDB = $this->db;
         
@@ -304,7 +306,7 @@ class ilObjPoll extends ilObject2
             );
             
             // #14661
-            ilNote::activateComments($this->getId(), 0, $this->getType(), $this->getShowComments());
+            $this->notes->domain()->activateComments($this->getId(), $this->getShowComments());
             
             if ($this->ref_id) {
                 $activation = new ilObjectActivation();
@@ -334,15 +336,9 @@ class ilObjPoll extends ilObject2
         }
     }
     
-    /**
-     * @param ilObjPoll new object
-     * @param int target ref_id
-     * @param int copy id
-     * @return ilObjPoll
-     */
-    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = 0) : ilObjPoll
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = 0) : void
     {
-        assert($new_obj instanceof self);
+        assert($new_obj instanceof ilObjPoll);
         
         // question/image
         $new_obj->setQuestion($this->getQuestion());
@@ -372,8 +368,6 @@ class ilObjPoll extends ilObject2
                 $new_obj->saveAnswer($item["answer"]);
             }
         }
-        
-        return $new_obj;
     }
         
     

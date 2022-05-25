@@ -187,7 +187,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $act_no_of_chars = $this->object->countLetters($solution);
             $template->setVariable("CHARACTER_INFO", '<b>' . $max_no_of_chars . '</b>' .
                 $this->lng->txt('answer_characters') . ' <b>' . $act_no_of_chars . '</b>');
-            
+
             if ($this->object->isWordCounterEnabled()) {
                 $template->setCurrentBlock('word_count');
                 $template->setVariable(
@@ -224,18 +224,18 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         }
         $questionoutput = $template->get();
-        
+
         $feedback = '';
         if ($show_feedback) {
             if (!$this->isTestPresentationContext()) {
                 $fb = $this->getGenericFeedbackOutput($active_id, $pass);
                 $feedback .= strlen($fb) ? $fb : '';
             }
-            
+
             $fb = $this->getSpecificFeedbackOutput(
                 array($user_solution => '')
             );
-            
+
             $feedback .= strlen($fb) ? $fb : '';
         }
         if (strlen($feedback)) {
@@ -243,11 +243,11 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $this->hasCorrectSolution($active_id, $pass) ?
                 ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_CORRECT : ilAssQuestionFeedback::CSS_CLASS_FEEDBACK_WRONG
             );
-            
+
             $solutiontemplate->setVariable("ILC_FB_CSS_CLASS", $cssClass);
             $solutiontemplate->setVariable("FEEDBACK", $this->object->prepareTextareaOutput($feedback, true));
         }
-        
+
         $solutiontemplate->setVariable("SOLUTION_OUTPUT", $questionoutput);
 
         $solutionoutput = $solutiontemplate->get();
@@ -443,7 +443,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $template->setVariable("CHARACTERS", $this->lng->txt("qst_essay_chars_remaining"));
             $template->parseCurrentBlock();
         }
-        
+
         if ($this->object->isWordCounterEnabled()) {
             $template->setCurrentBlock("word_counter");
             $template->setVariable("QID", $this->object->getId());
@@ -511,14 +511,14 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $template->setVariable("CHARACTERS", $this->lng->txt("qst_essay_chars_remaining"));
             $template->parseCurrentBlock();
         }
-        
+
         if ($this->object->isWordCounterEnabled()) {
             $template->setCurrentBlock("word_counter");
             $template->setVariable("QID", $this->object->getId());
             $template->setVariable("WORDCOUNTER", $this->lng->txt("qst_essay_allready_written_words"));
             $template->parseCurrentBlock();
         }
-        
+
         $template->setVariable("QID", $this->object->getId());
         $template->setVariable("ESSAY", ilLegacyFormElementsUtil::prepareFormOutput($user_solution));
         $questiontext = $this->object->getQuestion();
@@ -546,13 +546,13 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
             $tpl->setVariable("MAXCHARS", $this->object->getMaxNumOfChars());
             $tpl->parseCurrentBlock();
         }
-        
+
         if ($this->object->isWordCounterEnabled()) {
             $tpl->setCurrentBlock('word_counter_js');
             $tpl->touchBlock('word_counter_js');
             $tpl->parseCurrentBlock();
         }
-        
+
         $tpl->setCurrentBlock('counter_js');
         $tpl->setVariable("QID", $this->object->getId());
         $tpl->parseCurrentBlock();
@@ -560,7 +560,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return $tpl->get();
     }
 
-    public function addSuggestedSolution()
+    public function addSuggestedSolution() : void
     {
         ilSession::set("subquestion_index", 0);
         if ($_POST["cmd"]["addSuggestedSolution"]) {
@@ -569,6 +569,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $this->editQuestion();
                 return;
             }
+            // @MBECKER: Check this in running test
             if (!$this->checkInput()) {
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt("fill_out_all_required_fields_add_answer"));
                 $this->editQuestion();
@@ -579,7 +580,6 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $this->ctrl->setParameter($this, "q_id", $this->object->getId());
         $this->tpl->setVariable("HEADER", $this->object->getTitle());
         $this->getQuestionTemplate();
-        parent::addSuggestedSolution();
     }
 
     /**
@@ -608,36 +608,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-                // edit page
-                $ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    false
-                );
-            }
-
-            $this->addTab_QuestionPreview($ilTabs);
-        }
-
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-            $url = "";
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            // edit question properties
-            $ilTabs->addTarget(
-                "edit_question",
-                $url,
-                array("editQuestion", "save", "saveEdit", "originalSyncForm"),
-                $classname,
-                "",
-                $force_active
-            );
+            $this->addTab_Question($ilTabs);
         }
 
         // add tab for question feedback within common class assQuestionGUI
@@ -650,7 +621,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $this->addTab_SuggestedSolution($ilTabs, $classname);
 
         // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             $ilTabs->addTarget(
                 "statistics",
                 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
@@ -686,7 +657,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return $this->object->prepareTextareaOutput($feedback, true);
     }
 
-    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
+    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form) : void
     {
         $this->object->setWordCounterEnabled(isset($_POST['wordcounter']) && $_POST['wordcounter']);
         $this->object->setMaxNumOfChars($_POST["maxchars"]);
@@ -694,7 +665,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $this->object->setKeywordRelation($_POST['scoring_mode']);
     }
 
-    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
+    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form) : void
     {
         switch ($this->object->getKeywordRelation()) {
             case 'non':
@@ -723,7 +694,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $wordcounter->setInfo($this->lng->txt('qst_essay_wordcounter_enabled_info'));
         $wordcounter->setChecked($this->object->isWordCounterEnabled());
         $form->addItem($wordcounter);
-        
+
         // maxchars
         $maxchars = new ilNumberInputGUI($this->lng->txt("maxchars"), "maxchars");
         $maxchars->setSize(5);
@@ -751,7 +722,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         return $form;
     }
 
-    public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
+    public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         $scoringMode = new ilRadioGroupInputGUI(
             $this->lng->txt('essay_scoring_mode'),
@@ -853,6 +824,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $scoringOptionOneKeyword->addSubItem($oneKeywordPoints);
 
         $form->addItem($scoringMode);
+        return $form;
     }
 
     /**
@@ -886,12 +858,10 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
     /**
      * Returns an html string containing a question specific representation of the answers so far
      * given in the test for use in the right column in the scoring adjustment user interface.
-     *
      * @param array $relevant_answers
-     *
      * @return string
      */
-    public function getAggregatedAnswersView($relevant_answers) : string
+    public function getAggregatedAnswersView(array $relevant_answers) : string
     {
         return ''; //print_r($relevant_answers,true);
     }

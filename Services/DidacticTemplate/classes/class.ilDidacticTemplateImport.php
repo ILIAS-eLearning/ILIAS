@@ -48,12 +48,13 @@ class ilDidacticTemplateImport
     public function import(int $a_dtpl_id = 0) : ilDidacticTemplateSetting
     {
         $root = null;
-        libxml_use_internal_errors(true);
+        $use_internal_errors = libxml_use_internal_errors(true);
         switch ($this->getInputType()) {
             case self::IMPORT_FILE:
-                $root = simplexml_load_file($this->getInputFile());
+                $root = simplexml_load_string(file_get_contents($this->getInputFile()));
                 break;
         }
+        libxml_use_internal_errors($use_internal_errors);
         if (!$root instanceof SimpleXMLElement) {
             throw new ilDidacticTemplateImportException(
                 $this->parseXmlErrors()
@@ -85,7 +86,7 @@ class ilDidacticTemplateImport
 
             $info = '';
             foreach ((array) $tpl->info->p as $paragraph) {
-                if (strlen($info)) {
+                if ($info !== '') {
                     $info .= "\n";
                 }
                 $info .= trim((string) $paragraph);
@@ -111,7 +112,7 @@ class ilDidacticTemplateImport
         }
         $setting->save();
 
-        if (strlen($icon) && $this->canUseIcons($setting)) {
+        if ($icon !== '' && $this->canUseIcons($setting)) {
             $setting->getIconHandler()->writeSvg($icon);
         }
         $trans = ilMultilingualism::getInstance($setting->getId(), "dtpl");
@@ -119,6 +120,7 @@ class ilDidacticTemplateImport
             $trans->fromXML($root->didacticTemplate->translations);
         }
         $trans->save();
+
         return $setting;
     }
 
@@ -129,6 +131,7 @@ class ilDidacticTemplateImport
                 return false;
             }
         }
+
         return true;
     }
 
@@ -144,16 +147,12 @@ class ilDidacticTemplateImport
         // Local role action
         ///////////////////////////////////////////////
         foreach ($actions->localRoleAction as $ele) {
-
-
             $act = new ilDidacticTemplateLocalRoleAction();
             $act->setTemplateId($set->getId());
 
             foreach ($ele->roleTemplate as $tpl) {
                 // extract role
                 foreach ($tpl->role as $roleDef) {
-
-
                     $rimporter = new ilRoleXmlImporter(ROLE_FOLDER_ID);
                     $role_id = $rimporter->importSimpleXml($roleDef);
                     $act->setRoleTemplateId($role_id);
@@ -166,14 +165,11 @@ class ilDidacticTemplateImport
         // Block role action
         //////////////////////////////////////////////
         foreach ($actions->blockRoleAction as $ele) {
-
-
             $act = new ilDidacticTemplateBlockRoleAction();
             $act->setTemplateId($set->getId());
 
             // Role filter
             foreach ($ele->roleFilter as $rfi) {
-
                 switch ((string) $rfi->attributes()->source) {
                     case 'title':
                         $act->setFilterType(\ilDidacticTemplateAction::FILTER_SOURCE_TITLE);
@@ -212,16 +208,14 @@ class ilDidacticTemplateImport
         // Local policy action
         /////////////////////////////////////////////
         foreach ($actions->localPolicyAction as $ele) {
-
-
             $act = new ilDidacticTemplateLocalPolicyAction();
             $act->setTemplateId($set->getId());
 
             // Role filter
             foreach ($ele->roleFilter as $rfi) {
-
                 $this->logger->dump($rfi->attributes(), \ilLogLevel::DEBUG);
-                $this->logger->debug('Current filter source: ' . $rfi->attributes()->source
+                $this->logger->debug(
+                    'Current filter source: ' . $rfi->attributes()->source
                 );
 
                 switch ((string) $rfi->attributes()->source) {
@@ -277,8 +271,6 @@ class ilDidacticTemplateImport
 
                 // extract role
                 foreach ($lpo->role as $roleDef) {
-
-
                     $rimporter = new ilRoleXmlImporter(ROLE_FOLDER_ID);
                     $role_id = $rimporter->importSimpleXml($roleDef);
                     $act->setRoleTemplateId($role_id);

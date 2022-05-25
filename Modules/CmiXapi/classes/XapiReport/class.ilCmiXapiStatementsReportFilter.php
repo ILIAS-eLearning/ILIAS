@@ -24,49 +24,22 @@
  */
 class ilCmiXapiStatementsReportFilter
 {
-    /**
-     * @var string
-     */
     protected string $activityId;
     
-    /**
-     * @var int
-     */
     protected int $limit;
-    
-    /**
-     * @var int
-     */
+
     protected int $offset;
-    
-    /**
-     * @var string
-     */
+
     protected string $orderField;
     
-    /**
-     * @var string
-     */
     protected string $orderDirection;
-
-    /**
-     * @var ilCmiXapiUser|null
-     */
+    
     protected ?ilCmiXapiUser $actor = null;
-
-    /**
-     * @var string|null
-     */
+    
     protected ?string $verb = null;
-
-    /**
-     * @var ilCmiXapiDateTime|null
-     */
+    
     protected ?ilCmiXapiDateTime $startDate = null;
-
-    /**
-     * @var ilCmiXapiDateTime|null
-     */
+    
     protected ?ilCmiXapiDateTime $endDate = null;
     
     public function getActivityId() : string

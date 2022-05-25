@@ -27,19 +27,38 @@ use ILIAS\Skill\Tree\SkillTreeManager;
  */
 class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 {
-
-    /**
-     * @var object|string
-     */
-    protected $select_gui = "";
+    protected string $select_gui = "";
     protected string $select_cmd = "";
     protected string $select_par = "";
+
+    /**
+     * @var array{child: int, parent: int}[]
+     */
     protected array $all_nodes = [];
+
+    /**
+     * @var array<int, array{child: int, parent: int}>
+     */
     protected array $node = [];
+
+    /**
+     * @var array<int, array{child: int, parent: int}[]>
+     */
     protected array $child_nodes = [];
+
+    /**
+     * @var array<int, int>
+     */
     protected array $parent = [];
 
+    /**
+     * @var array<int, bool>
+     */
     protected array $selectable = [];
+
+    /**
+     * @var array<int, array{child: int, parent: int}[]>
+     */
     protected array $selectable_child_nodes = [];
     protected bool $has_selectable_nodes = false;
 

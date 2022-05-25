@@ -28,7 +28,6 @@
  */
 class ilMDAnnotation extends ilMDBase
 {
-
     private string $entity = '';
     private string $date = '';
     private string $description = '';
@@ -67,9 +66,7 @@ class ilMDAnnotation extends ilMDBase
 
     public function setDescriptionLanguage(ilMDLanguageItem $lng_obj) : void
     {
-        if (is_object($lng_obj)) {
-            $this->description_language = $lng_obj;
-        }
+        $this->description_language = $lng_obj;
     }
 
     public function getDescriptionLanguage() : ilMDLanguageItem
@@ -87,8 +84,7 @@ class ilMDAnnotation extends ilMDBase
 
     public function save() : int
     {
-
-        $fields                       = $this->__getFields();
+        $fields = $this->__getFields();
         $fields['meta_annotation_id'] = array('integer', $next_id = $this->db->nextId('il_meta_annotation'));
 
         if ($this->db->insert('il_meta_annotation', $fields)) {
@@ -100,26 +96,19 @@ class ilMDAnnotation extends ilMDBase
 
     public function update() : bool
     {
-
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_annotation',
-                $this->__getFields(),
-                array("meta_annotation_id" => array('integer', $this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_annotation',
+            $this->__getFields(),
+            array("meta_annotation_id" => array('integer', $this->getMetaId()))
+        );
     }
 
     public function delete() : bool
     {
-
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_annotation " .
                 "WHERE meta_annotation_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res   = $this->db->manipulate($query);
+            $res = $this->db->manipulate($query);
 
             return true;
         }
@@ -132,20 +121,18 @@ class ilMDAnnotation extends ilMDBase
     public function __getFields() : array
     {
         return array(
-            'rbac_id'              => array('integer', $this->getRBACId()),
-            'obj_id'               => array('integer', $this->getObjId()),
-            'obj_type'             => array('text', $this->getObjType()),
-            'entity'               => array('clob', $this->getEntity()),
-            'a_date'               => array('clob', $this->getDate()),
-            'description'          => array('clob', $this->getDescription()),
+            'rbac_id' => array('integer', $this->getRBACId()),
+            'obj_id' => array('integer', $this->getObjId()),
+            'obj_type' => array('text', $this->getObjType()),
+            'entity' => array('clob', $this->getEntity()),
+            'a_date' => array('clob', $this->getDate()),
+            'description' => array('clob', $this->getDescription()),
             'description_language' => array('text', $this->getDescriptionLanguageCode())
         );
     }
 
     public function read() : bool
     {
-
-
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_annotation " .
                 "WHERE meta_annotation_id = " . $this->db->quote($this->getMetaId(), 'integer');
@@ -172,16 +159,12 @@ class ilMDAnnotation extends ilMDBase
         $writer->xmlElement(
             'Description',
             array(
-                'Language' => $this->getDescriptionLanguageCode()
-                    ? $this->getDescriptionLanguageCode()
-                    : 'en'
+                'Language' => $this->getDescriptionLanguageCode() ?: 'en'
             ),
             $this->getDescription()
         );
         $writer->xmlEndTag('Annotation');
     }
-
-
 
     // STATIC
 

@@ -24,6 +24,8 @@ use ILIAS\DI\Container;
 use ILIAS\Notifications\Model\ilNotificationConfig;
 use ILIAS\Notifications\Model\ilNotificationLink;
 use ILIAS\Notifications\Model\ilNotificationObject;
+use ILIAS\Notifications\Model\OSD\ilOSDNotificationObject;
+use ILIAS\Notifications\Repository\ilNotificationOSDRepository;
 use ilLanguage;
 
 /**
@@ -36,24 +38,27 @@ class ilNotificationOSDHandler extends ilNotificationHandler
     public function __construct(?ilNotificationOSDRepository $repo = null)
     {
         if ($repo === null) {
-            $repo = ilNotificationOSDRepository::getInstance();
+            $repo = new ilNotificationOSDRepository();
         }
         $this->repo = $repo;
     }
 
     public function notify(ilNotificationObject $notification) : void
     {
-        $this->repo->addNotification($notification);
+        $this->repo->createOSDNotification($notification->user->getId(), $notification);
     }
 
+    /**
+     * @return ilOSDNotificationObject[]
+     */
     public function getNotificationsForUser(int $user_id, bool $append_osd_id_to_link = true, int $max_age_seconds = 0, string $type = '') : array
     {
-        $notifications = $this->repo->getNotifications($user_id, $max_age_seconds, $type);
+        $notifications = $this->repo->getOSDNotificationsByUser($user_id, $max_age_seconds, $type);
 
         foreach ($notifications as $notification) {
             if ($append_osd_id_to_link) {
-                foreach ($notification['data']->links as $link) {
-                    $link->setUrl($this->appendParamToLink($link->getUrl(), 'osd_id', $notification['notification_osd_id']));
+                foreach ($notification->getObject()->links as $link) {
+                    $link->setUrl($this->appendParamToLink($link->getUrl(), 'osd_id', $notification->getId()));
                 }
             }
         }
@@ -63,7 +68,7 @@ class ilNotificationOSDHandler extends ilNotificationHandler
 
     public function removeNotification(int $notification_osd_id) : bool
     {
-        return $this->repo->removeNotification($notification_osd_id);
+        return $this->repo->deleteNotificationById($notification_osd_id);
     }
 
     private function appendParamToLink(string $link, string $param, int $value) : string

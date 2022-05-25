@@ -29,6 +29,9 @@ include_once './webservice/soap/classes/class.ilSoapAdministration.php';
 
 class ilSoapExerciseAdministration extends ilSoapAdministration
 {
+    /**
+     * @return int|soap_fault|SoapFault|null
+     */
     public function addExercise(string $sid, int $target_id, string $exercise_xml)
     {
         $this->initAuth($sid);
@@ -94,7 +97,7 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
     }
 
     /**
-     * update a exercise with id.
+     * @return bool|soap_fault|SoapFault|null
      */
     public function updateExercise(string $sid, int $requested_ref_id, string $exercise_xml)
     {
@@ -168,9 +171,8 @@ class ilSoapExerciseAdministration extends ilSoapAdministration
     }
 
     /**
-     * get exercise xml
+     * @return soap_fault|SoapFault|string|null
      */
-
     public function getExerciseXML(string $sid, int $requested_ref_id, int $attachFileContentsMode)
     {
         $this->initAuth($sid);

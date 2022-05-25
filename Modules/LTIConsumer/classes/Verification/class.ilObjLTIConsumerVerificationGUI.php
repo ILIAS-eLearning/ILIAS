@@ -78,7 +78,7 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
                 return;
             }
 
-            if ($newObj) {
+            if ($newObj !== null) {
                 $parent_id = $this->node_id;
                 $this->node_id = null;
                 $this->putObjectInTree($newObj, $parent_id);
@@ -105,9 +105,6 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
 
     /**
      * Render content
-     * @param bool $a_return
-     * @param bool $a_url
-     * @return string
      */
     public function render(bool $a_return = false, bool $a_url = false) : string
     {
@@ -170,21 +167,14 @@ class ilObjLTIConsumerVerificationGUI extends ilObject2GUI
         $ctrl->redirectByClass(ilSharedResourceGUI::class);
     }
 
-    /**
-     * @param string $key
-     * @param mixed  $default
-     * @return mixed|null
-     */
-    protected function getRequestValue(string $key, $default = null)
+    protected function getRequestValue(string $key) : ?string
     {
-        if (isset($this->request->getQueryParams()[$key])) {
-            return $this->request->getQueryParams()[$key];
+        if ($this->request_wrapper->has($key)) {
+            return $this->request_wrapper->retrieve($key, $this->refinery->kindlyTo()->string());
         }
-
-        if (isset($this->request->getParsedBody()[$key])) {
-            return $this->request->getParsedBody()[$key];
+        if ($this->post_wrapper->has($key)) {
+            return $this->post_wrapper->retrieve($key, $this->refinery->kindlyTo()->string());
         }
-
-        return $default ?? null;
+        return null;
     }
 }

@@ -3,15 +3,20 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
+
+use ILIAS\Notes\Service;
 
 /**
  * Blog Data set class
@@ -24,6 +29,7 @@
  */
 class ilBlogDataSet extends ilDataSet
 {
+    protected Service $notes;
     protected ilObjBlog $current_blog;
     public static array $style_map = array();
     protected \ILIAS\Style\Content\DomainService $content_style_domain;
@@ -35,6 +41,7 @@ class ilBlogDataSet extends ilDataSet
         $this->content_style_domain = $DIC
             ->contentStyle()
             ->domain();
+        $this->notes = $DIC->notes();
     }
 
     public function getSupportedVersions() : array
@@ -248,7 +255,7 @@ class ilBlogDataSet extends ilDataSet
             $a_set["Style"] = $style->getStyleId();
             
             // #14734
-            $a_set["Notes"] = ilNote::commentsActivated($a_set["Id"], 0, "blog");
+            $a_set["Notes"] = $this->notes->domain()->commentsActive((int) $a_set["Id"]);
         }
 
         return $a_set;

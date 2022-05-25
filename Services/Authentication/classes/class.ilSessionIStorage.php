@@ -37,7 +37,7 @@
 class ilSessionIStorage
 {
     private string $session_id = "";
-    private string $component_id = "";
+    private string $component_id;
     private static array $values = [];
     
     /**
@@ -49,7 +49,7 @@ class ilSessionIStorage
     public function __construct(string $a_component_id, string $a_sess_id = "")
     {
         $this->component_id = $a_component_id;
-        if ($a_sess_id != "") {
+        if ($a_sess_id !== "") {
             $this->session_id = $a_sess_id;
         } else {
             $this->session_id = session_id();
@@ -68,7 +68,7 @@ class ilSessionIStorage
      *
      * @param string $a_val value
      */
-    public function set(string $a_key, string $a_val)
+    public function set(string $a_key, string $a_val) : void
     {
         global $DIC;
 
@@ -98,10 +98,7 @@ class ilSessionIStorage
 
         $ilDB = $DIC['ilDB'];
         
-        if (
-            isset(self::$values[$this->component_id]) && is_array(self::$values[$this->component_id]) &&
-            isset(self::$values[$this->component_id][$a_key])
-        ) {
+        if (isset(self::$values[$this->component_id][$a_key]) && is_array(self::$values[$this->component_id])) {
             return self::$values[$this->component_id][$a_key];
         }
         

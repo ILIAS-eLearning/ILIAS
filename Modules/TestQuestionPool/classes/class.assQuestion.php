@@ -138,11 +138,6 @@ abstract class assQuestion
     public bool $selfassessmenteditingmode = false;
 
     public int $defaultnroftries = 0;
-    
-    /**
-     * @var array[ilQuestionChangeListener]
-     */
-    protected array $questionChangeListeners = array();
 
     protected \ilAssQuestionProcessLocker $processLocker;
 
@@ -169,6 +164,8 @@ abstract class assQuestion
         'image/gif' => array('gif')
     );
 
+    protected ilObjUser $current_user;
+
     /**
      * assQuestion constructor
      */
@@ -186,7 +183,7 @@ abstract class assQuestion
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC->logger();
 
-        $this->ilias = $ilias;
+        $this->current_user = $DIC['ilUser'];
         $this->lng = $lng;
         $this->tpl = $tpl;
         $this->db = $ilDB;
@@ -194,15 +191,10 @@ abstract class assQuestion
 
         $this->title = $title;
         $this->comment = $comment;
-        $this->author = $author;
+        $this->setAuthor($author);
+        $this->setOwner($owner);
+    
         $this->setQuestion($question);
-        if (!$this->author) {
-            $this->author = $DIC->user()->getFullname();
-        }
-        $this->owner = $owner;
-        if ($this->owner <= 0) {
-            $this->owner = $DIC->user()->getId();
-        }
 
         $this->id = -1;
         $this->test_id = -1;
@@ -454,7 +446,7 @@ abstract class assQuestion
         $this->id = $id;
     }
 
-    public function setTestId(int $id = -1)
+    public function setTestId(int $id = -1) : void
     {
         $this->test_id = $id;
     }
@@ -494,7 +486,7 @@ abstract class assQuestion
     public function setAuthor(string $author = "") : void
     {
         if (!$author) {
-            $author = $this->ilias->account->fullname;
+            $author = $this->current_user->getFullname();
         }
         $this->author = $author;
     }
@@ -971,7 +963,7 @@ abstract class assQuestion
     }
     
     /** @TODO Move this to a proper place. */
-    public static function _updateTestResultCache(int $active_id, ilAssQuestionProcessLocker $processLocker = null)
+    public static function _updateTestResultCache(int $active_id, ilAssQuestionProcessLocker $processLocker = null) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1648,8 +1640,6 @@ abstract class assQuestion
             $this->ilLog->root()->error("EXCEPTION: Error updating the question pool question count of question pool " . $this->getObjId() . " when deleting question $question_id: $e");
             return;
         }
-        
-        $this->notifyQuestionDeleted($this);
     }
     
     private function deleteTaxonomyAssignments() : void
@@ -1955,7 +1945,7 @@ abstract class assQuestion
         if ($this->db->numRows($result) > 0) {
             include_once("./Services/RTE/classes/class.ilRTE.php");
             while ($row = $this->db->fetchAssoc($result)) {
-                $value = (is_array(unserialize($row["value"], false))) ? unserialize($row["value"], false) : ilRTE::_replaceMediaObjectImageSrc($row["value"], 1);
+                $value = (is_array(unserialize($row["value"], ['allowed_classes' => false]))) ? unserialize($row["value"], ['allowed_classes' => false]) : ilRTE::_replaceMediaObjectImageSrc($row["value"], 1);
                 $this->suggested_solutions[$row["subquestion_index"]] = array(
                     "type" => $row["type"],
                     "value" => $value,
@@ -1980,7 +1970,7 @@ abstract class assQuestion
         $complete = "0";
         $estw_time = $this->getEstimatedWorkingTime();
         $estw_time = sprintf("%02d:%02d:%02d", $estw_time['h'], $estw_time['m'], $estw_time['s']);
-        $obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($_GET["ref_id"])) ? $_GET["ref_id"] : $_POST["sel_qpl"])) : $this->getObjId();
+        $obj_id = ($this->getObjId() <= 0) ? (ilObject::_lookupObjId((strlen($DIC->testQuestionPool()->internal()->request()->getRefId())) ? $DIC->testQuestionPool()->internal()->request()->getRefId() : $_POST["sel_qpl"])) : $this->getObjId();
         if ($obj_id > 0) {
             if ($a_create_page) {
                 $tstamp = 0;
@@ -2016,8 +2006,6 @@ abstract class assQuestion
                 $this->createPageObject();
             }
         }
-        
-        $this->notifyQuestionCreated();
         
         return $this->getId();
     }
@@ -2086,7 +2074,7 @@ abstract class assQuestion
 
         $this->db->update('qpl_questions', array(
             'tstamp' => array('integer', time()),
-            'owner' => array('integer', ($this->getOwner() <= 0 ? $this->ilias->account->id : $this->getOwner())),
+            'owner' => array('integer', $this->getOwner()),
             'complete' => array('integer', $complete),
             'lifecycle' => array('text', $this->getLifecycle()->getIdentifier()),
         ), array(
@@ -2096,8 +2084,6 @@ abstract class assQuestion
         // update question count of question pool
         include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
         ilObjQuestionPool::_updateQuestionCount($this->obj_id);
-        
-        $this->notifyQuestionEdited();
     }
     
     /**
@@ -2463,6 +2449,7 @@ abstract class assQuestion
     
     public static function _getInternalLinkHref(string $target = "") : string
     {
+        global $DIC;
         $linktypes = array(
             "lm" => "LearningModule",
             "pg" => "PageObject",
@@ -2477,7 +2464,9 @@ abstract class assQuestion
             include_once "./Services/Utilities/classes/class.ilUtil.php";
             switch ($linktypes[$matches[1]]) {
                 case "MediaObject":
-                    $href = "./ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type] . "&cmd=media&ref_id=" . $_GET["ref_id"] . "&mob_id=" . $target_id;
+                    $href = "./ilias.php?baseClass=ilLMPresentationGUI&obj_type=" . $linktypes[$type]
+                        . "&cmd=media&ref_id=" . $DIC->testQuestionPool()->internal()->request()->getRefId()
+                        . "&mob_id=" . $target_id;
                     break;
                 case "StructureObject":
                 case "GlossaryItem":
@@ -3021,7 +3010,7 @@ abstract class assQuestion
         return $this->question;
     }
 
-    public function setQuestion($question = "") : void
+    public function setQuestion(string $question = "") : void
     {
         $this->question = $question;
     }
@@ -3047,7 +3036,7 @@ abstract class assQuestion
         return 0;
     }
 
-    public function syncHints()
+    public function syncHints() : void
     {
         // delete hints of the original
         $this->db->manipulateF(
@@ -3200,7 +3189,7 @@ abstract class assQuestion
         return file_exists("Modules/TestQuestionPool/classes/class.{$questionType}GUI.php");
     }
 
-    public static function includeCoreClass($questionType, $withGuiClass)
+    public static function includeCoreClass($questionType, $withGuiClass) : void
     {
         if ($withGuiClass) {
             require_once "Modules/TestQuestionPool/classes/class.{$questionType}GUI.php";
@@ -3479,7 +3468,7 @@ abstract class assQuestion
         }
     }
 
-    public function syncSkillAssignments(int $srcParentId, int $srcQuestionId, int $trgParentId, int $trgQuestionId)
+    public function syncSkillAssignments(int $srcParentId, int $srcQuestionId, int $trgParentId, int $trgQuestionId) : void
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
         $assignmentList = new ilAssQuestionSkillAssignmentList($this->db);
@@ -3598,40 +3587,6 @@ abstract class assQuestion
             self::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT,
             self::ADDITIONAL_CONTENT_EDITING_MODE_PAGE_OBJECT
         );
-    }
-    
-    public function addQuestionChangeListener(ilQuestionChangeListener $listener) : void
-    {
-        $this->questionChangeListeners[] = $listener;
-    }
-    
-    /**
-     * @return array[ilQuestionChangeListener]
-     */
-    public function getQuestionChangeListeners() : array
-    {
-        return $this->questionChangeListeners;
-    }
-    
-    private function notifyQuestionCreated() : void
-    {
-        foreach ($this->getQuestionChangeListeners() as $listener) {
-            $listener->notifyQuestionCreated($this);
-        }
-    }
-    
-    private function notifyQuestionEdited() : void
-    {
-        foreach ($this->getQuestionChangeListeners() as $listener) {
-            $listener->notifyQuestionEdited($this);
-        }
-    }
-    
-    private function notifyQuestionDeleted() : void
-    {
-        foreach ($this->getQuestionChangeListeners() as $listener) {
-            $listener->notifyQuestionDeleted($this);
-        }
     }
 
     /**
@@ -4238,12 +4193,12 @@ abstract class assQuestion
         return $this->obligationsToBeConsidered;
     }
 
-    public function setObligationsToBeConsidered(bool $obligationsToBeConsidered)
+    public function setObligationsToBeConsidered(bool $obligationsToBeConsidered) : void
     {
         $this->obligationsToBeConsidered = $obligationsToBeConsidered;
     }
 
-    public function updateTimestamp()
+    public function updateTimestamp() : void
     {
         $this->db->manipulateF(
             "UPDATE qpl_questions SET tstamp = %s  WHERE question_id = %s",

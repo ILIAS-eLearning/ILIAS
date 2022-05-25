@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
 * parses the objects.xml
 * it handles the xml-description of all ilias objects
@@ -103,9 +117,9 @@ class ilObjectDefinition
 
         $sql =
             "SELECT id, class_name, component, location, checkbox, inherit, translate, devmode, allow_link," . PHP_EOL
-            ."allow_copy, rbac, system, sideblock, default_pos, grp, default_pres_pos, export, repository," . PHP_EOL
-            ."workspace, administration, amet, orgunit_permissions, lti_provider, offline_handling" . PHP_EOL
-            ."FROM il_object_def" . PHP_EOL
+            . "allow_copy, rbac, system, sideblock, default_pos, grp, default_pres_pos, export, repository," . PHP_EOL
+            . "workspace, administration, amet, orgunit_permissions, lti_provider, offline_handling" . PHP_EOL
+            . "FROM il_object_def" . PHP_EOL
         ;
         $result = $ilDB->query($sql);
         while ($rec = $ilDB->fetchAssoc($result)) {
@@ -142,8 +156,8 @@ class ilObjectDefinition
         // get all sub object definitions in a single query
         $sql =
             "SELECT parent, subobj, mmax" . PHP_EOL
-            ."FROM il_object_subobj" . PHP_EOL
-            ."WHERE " . $ilDB->in('parent', $defIds, false, 'text') . PHP_EOL
+            . "FROM il_object_subobj" . PHP_EOL
+            . "WHERE " . $ilDB->in('parent', $defIds, false, 'text') . PHP_EOL
         ;
         $result = $ilDB->query($sql);
         while ($rec2 = $ilDB->fetchAssoc($result)) {
@@ -160,7 +174,7 @@ class ilObjectDefinition
 
         $sql =
             "SELECT id, name, default_pres_pos" . PHP_EOL
-            ."FROM il_object_group" . PHP_EOL
+            . "FROM il_object_group" . PHP_EOL
         ;
         $result = $ilDB->query($sql);
         $this->obj_group = array();
@@ -172,7 +186,7 @@ class ilObjectDefinition
 
         $sql =
             "SELECT obj_type, sub_type, amet" . PHP_EOL
-            ."FROM il_object_sub_type" . PHP_EOL
+            . "FROM il_object_sub_type" . PHP_EOL
         ;
         $result = $ilDB->query($sql);
         $this->sub_types = array();
@@ -257,8 +271,8 @@ class ilObjectDefinition
             if (!isset($this->root_trans_type)) {
                 $sql =
                     "SELECT count(obj_id) cnt" . PHP_EOL
-                    ."FROM object_translation". PHP_EOL
-                    ."WHERE obj_id = " . $ilDB->quote(ROOT_FOLDER_ID, 'integer') . PHP_EOL
+                    . "FROM object_translation" . PHP_EOL
+                    . "WHERE obj_id = " . $ilDB->quote(ROOT_FOLDER_ID, 'integer') . PHP_EOL
                 ;
                 $set = $ilDB->query($sql);
                 $rec = $set->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
@@ -291,7 +305,7 @@ class ilObjectDefinition
     */
     public function getDevMode(string $obj_name) : bool
     {
-        return (bool) $this->obj_data[$obj_name]["devmode"];
+        return (bool) ($this->obj_data[$obj_name]["devmode"] ?? false);
     }
 
     /**
@@ -689,10 +703,10 @@ class ilObjectDefinition
 
         $sql =
             "SELECT id, class_name, component, location, checkbox, inherit, translate, devmode, allow_link," . PHP_EOL
-            ."allow_copy, rbac, system, sideblock, default_pos, grp, default_pres_pos, export, repository," . PHP_EOL
-            ."workspace, administration, amet, orgunit_permissions, lti_provider, offline_handling" . PHP_EOL
-            ."FROM il_object_def" . PHP_EOL
-            ."WHERE component = %s" . PHP_EOL
+            . "allow_copy, rbac, system, sideblock, default_pos, grp, default_pres_pos, export, repository," . PHP_EOL
+            . "workspace, administration, amet, orgunit_permissions, lti_provider, offline_handling" . PHP_EOL
+            . "FROM il_object_def" . PHP_EOL
+            . "WHERE component = %s" . PHP_EOL
         ;
         $result = $ilDB->queryF($sql, ["text"], [$component_type . "/" . $component_name]);
             
@@ -931,7 +945,8 @@ class ilObjectDefinition
         // add complete groups (cat => rcat, catr; crs => rcrs, crsr; ...)
         foreach ($cnt_grp as $grp) {
             $res = array_merge($res, $grp_map[$grp]);
-        }	$res[] = "itgr";
+        }
+        $res[] = "itgr";
         
         return array_unique($res);
     }

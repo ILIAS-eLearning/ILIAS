@@ -34,6 +34,10 @@ class ilSkillProfile implements ilSkillUsageInfo
     protected int $ref_id = 0;
     protected string $image_id = "";
     protected int $skill_tree_id = 0;
+
+    /**
+     * @var array{base_skill_id: int, tref_id: int, level_id: int, order_nr: int}[]
+     */
     protected array $skill_level = [];
 
     public function __construct(int $a_id = 0)
@@ -89,7 +93,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         return $this->ref_id;
     }
 
-    public function setImageId(string $a_val)
+    public function setImageId(string $a_val) : void
     {
         $this->image_id = $a_val;
     }
@@ -99,7 +103,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         return $this->image_id;
     }
 
-    public function setSkillTreeId(int $a_val)
+    public function setSkillTreeId(int $a_val) : void
     {
         $this->skill_tree_id = $a_val;
     }
@@ -131,9 +135,12 @@ class ilSkillProfile implements ilSkillUsageInfo
         }
     }
 
+    /**
+     * @return array{base_skill_id: int, tref_id: int, level_id: int, order_nr: int}[]
+     */
     public function getSkillLevels() : array
     {
-        usort($this->skill_level, function ($level_a, $level_b) {
+        usort($this->skill_level, static function (array $level_a, array $level_b) : int {
             return $level_a['order_nr'] <=> $level_b['order_nr'];
         });
 
@@ -149,6 +156,8 @@ class ilSkillProfile implements ilSkillUsageInfo
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
         );
         $rec = $ilDB->fetchAssoc($set);
+        $rec["ref_id"] = (int) $rec["ref_id"];
+        $rec["skill_tree_id"] = (int) $rec["skill_tree_id"];
         $this->setTitle($rec["title"]);
         $this->setDescription($rec["description"]);
         $this->setRefId($rec["ref_id"]);
@@ -415,11 +424,8 @@ class ilSkillProfile implements ilSkillUsageInfo
 
         return $profiles;
     }
-    
-    /**
-     * @return mixed
-     */
-    protected static function lookup(int $a_id, string $a_field)
+
+    protected static function lookup(int $a_id, string $a_field) : ?string
     {
         global $DIC;
 
@@ -430,7 +436,8 @@ class ilSkillProfile implements ilSkillUsageInfo
             " WHERE id = " . $ilDB->quote($a_id, "integer")
         );
         $rec = $ilDB->fetchAssoc($set);
-        return $rec[$a_field];
+
+        return isset($rec[$a_field]) ? (string) $rec[$a_field] : null;
     }
 
     public static function lookupTitle(int $a_id) : string
@@ -440,7 +447,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 
     public static function lookupRefId(int $a_id) : int
     {
-        return self::lookup($a_id, "ref_id");
+        return (int) self::lookup($a_id, "ref_id");
     }
 
     /**
@@ -489,6 +496,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         );
         $users = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec["user_id"] = (int) $rec["user_id"];
             $name = ilUserUtil::getNamePresentation($rec["user_id"]);
             $type = $lng->txt("user");
             $users[$rec["user_id"]] = array(
@@ -536,6 +544,9 @@ class ilSkillProfile implements ilSkillUsageInfo
         );
     }
 
+    /**
+     * @return array{id: int, title: string, description: string, image_id: string}[]
+     */
     public static function getProfilesOfUser(int $a_user_id) : array
     {
         global $DIC;
@@ -554,6 +565,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             " ORDER BY p.title ASC"
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec['id'] = (int) $rec['id'];
             $user_profiles[] = $rec;
         }
 
@@ -570,9 +582,9 @@ class ilSkillProfile implements ilSkillUsageInfo
         // merge competence profiles and remove multiple occurrences
         $all_profiles = array_merge($user_profiles, $role_profiles);
         $temp_profiles = [];
-        foreach ($all_profiles as &$v) {
+        foreach ($all_profiles as $v) {
             if (!isset($temp_profiles[$v["id"]])) {
-                $temp_profiles[$v["id"]] = &$v;
+                $temp_profiles[$v["id"]] = $v;
             }
         }
         $all_profiles = array_values($temp_profiles);
@@ -605,6 +617,8 @@ class ilSkillProfile implements ilSkillUsageInfo
         );
         $roles = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec["profile_id"] = (int) $rec["profile_id"];
+            $rec["role_id"] = (int) $rec["role_id"];
             $name = ilObjRole::_getTranslation(ilObjRole::_lookupTitle($rec["role_id"]));
             $type = $lng->txt("role");
             // get object of role
@@ -667,6 +681,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 
     /**
      * Get global and local profiles of a role
+     * @return array{id: int, title: string, description: string, image_id: string}[]
      */
     public static function getAllProfilesOfRole(int $a_role_id) : array
     {
@@ -682,11 +697,15 @@ class ilSkillProfile implements ilSkillUsageInfo
             " ORDER BY p.title ASC"
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec['id'] = (int) $rec['id'];
             $profiles[] = $rec;
         }
         return $profiles;
     }
 
+    /**
+     * @return array{id: int, title: string, description: string, image_id: string}[]
+     */
     public static function getGlobalProfilesOfRole(int $a_role_id) : array
     {
         global $DIC;
@@ -702,8 +721,10 @@ class ilSkillProfile implements ilSkillUsageInfo
             " ORDER BY p.title ASC"
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec['id'] = (int) $rec['id'];
             $profiles[] = $rec;
         }
+
         return $profiles;
     }
 
@@ -722,6 +743,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             " ORDER BY p.title ASC"
         );
         while ($rec = $ilDB->fetchAssoc($set)) {
+            $rec['id'] = (int) $rec['id'];
             $profiles[] = $rec;
         }
         return $profiles;
@@ -741,11 +763,15 @@ class ilSkillProfile implements ilSkillUsageInfo
         return (int) $rec["rcnt"];
     }
 
-    public static function getUsageInfo(array $a_cskill_ids, array &$a_usages) : void
+    /**
+     * @param array{skill_id: int, tref_id: int}[] $a_cskill_ids
+     *
+     * @return array<string, array<string, array{key: string}[]>>
+     */
+    public static function getUsageInfo(array $a_cskill_ids) : array
     {
-        ilSkillUsage::getUsageInfoGeneric(
+        return ilSkillUsage::getUsageInfoGeneric(
             $a_cskill_ids,
-            $a_usages,
             ilSkillUsage::PROFILE,
             "skl_profile_level",
             "profile_id",
@@ -764,6 +790,6 @@ class ilSkillProfile implements ilSkillUsageInfo
             [$a_profile_id]
         );
         $rec = $db->fetchAssoc($set);
-        return $rec["skill_tree_id"] ?? 0;
+        return (int) $rec["skill_tree_id"] ?? 0;
     }
 }

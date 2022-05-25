@@ -18,8 +18,6 @@ class ilOerHarvesterObjectStatus
 
     protected ilDBInterface $db;
 
-
-
     public function __construct(int $obj_id = 0)
     {
         global $DIC;
@@ -50,7 +48,6 @@ class ilOerHarvesterObjectStatus
         }
         return $hids;
     }
-
 
     public static function lookupObjIdByHarvestingId(int $a_href_id) : int
     {
@@ -101,7 +98,6 @@ class ilOerHarvesterObjectStatus
         return (bool) $this->harvest_ref_id;
     }
 
-
     public function save() : bool
     {
         $this->delete();
@@ -116,7 +112,6 @@ class ilOerHarvesterObjectStatus
         return true;
     }
 
-
     public function delete() : bool
     {
         $query = 'DELETE FROM il_meta_oer_stat ' .
@@ -124,8 +119,6 @@ class ilOerHarvesterObjectStatus
         $this->db->manipulate($query);
         return true;
     }
-
-
 
     public function read() : void
     {

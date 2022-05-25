@@ -523,6 +523,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                     $mail['msr_subject_mailclass'] = $css_class;
                     $mail['msr_subject'] = htmlspecialchars($mail['m_subject']);
                 }
+                $mail['msr_subject_read_unread'] = $mail['m_status'] === 'read' ? $this->lng->txt('mail_is_read') : $this->lng->txt('mail_is_unread');
             } else {
                 $mail['mail_link_read'] = $link_mark_as_read;
                 $mail['mailclass'] = $css_class;
@@ -531,6 +532,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 } else {
                     $mail['mail_subject'] = $this->lng->txt('mail_no_subject');
                 }
+                $mail['mail_subject_read_unread'] = $mail['m_status'] === 'read' ? $this->lng->txt('mail_is_read') : $this->lng->txt('mail_is_unread');
             }
 
             $mail['mail_date'] = ilDatePresentation::formatDate(

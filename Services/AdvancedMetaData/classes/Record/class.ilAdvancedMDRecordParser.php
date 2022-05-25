@@ -295,7 +295,8 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 return true;
 
             default:
-                throw new InvalidArgumentException('Current parsing mode is not supported. Mode: ' . $this->getMode()
+                throw new InvalidArgumentException(
+                    'Current parsing mode is not supported. Mode: ' . $this->getMode()
                 );
         }
     }

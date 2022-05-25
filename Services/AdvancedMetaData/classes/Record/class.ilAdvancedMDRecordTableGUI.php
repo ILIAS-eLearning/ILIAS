@@ -82,7 +82,6 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
             foreach ($a_set['obj_types'] as $t) {
                 if ($obj_type["obj_type"] == $t["obj_type"] &&
                     $obj_type["sub_type"] == $t["sub_type"]) {
-
                     $value = $t["optional"]
                         ? 2
                         : 1;

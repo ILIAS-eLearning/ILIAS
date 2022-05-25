@@ -32,7 +32,7 @@ class assClozeTestExport extends assQuestionExport
     * Returns a QTI xml representation of the question and sets the internal
     * domxml variable with the DOM XML representation of the QTI xml representation
     */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
     {
         global $DIC;
         $ilias = $DIC['ilias'];
@@ -517,7 +517,7 @@ class assClozeTestExport extends assQuestionExport
     /**
      * @param ilXmlWriter $xmlWriter
      */
-    protected function exportAnswerSpecificFeedbacks(ilXmlWriter $xmlWriter)
+    protected function exportAnswerSpecificFeedbacks(ilXmlWriter $xmlWriter) : void
     {
         require_once 'Modules/TestQuestionPool/classes/feedback/class.ilAssSpecificFeedbackIdentifierList.php';
         $feedbackIdentifierList = new ilAssSpecificFeedbackIdentifierList();

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Form;
 
@@ -143,7 +146,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $form_gui->addHelpItem($lng->txt("cont_chapters_after_pages"));
         $up_gui = "ilobjlearningmodulegui";
         $ilCtrl->setParameterByClass($up_gui, "active_node", $this->obj->getId());
-        $ilCtrl->setParameterByClass($up_gui, "active_node", "");
+        $ilCtrl->setParameterByClass($up_gui, "active_node", null);
 
         $ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "Modules/LearningModule");
         $ctpl->setVariable("HIERARCHY_FORM", $form_gui->getHTML());
@@ -886,7 +889,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $ilCtrl->setParameter($this, "transl", "");
+        $ilCtrl->setParameter($this, "transl", null);
         $ilCtrl->redirect($this, "showHierarchy");
     }
 

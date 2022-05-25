@@ -31,6 +31,19 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         }
     }
 
+    protected function initItemIdFromPost() : array
+    {
+        if ($this->http->wrapper()->post()->has('item_id')) {
+            return $this->http->wrapper()->post()->retrieve(
+                'item_id',
+                $this->refinery->kindlyTo()->dictOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
+        }
+        return [];
+    }
+
     protected function setTabs() : void
     {
         $this->tabs_gui->addSubTab(
@@ -66,7 +79,6 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function executeCommand() : void
     {
         $this->ctrl->setReturn($this, "");
-
         $this->setTabs();
 
         switch ($this->ctrl->getNextClass()) {
@@ -79,8 +91,11 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function applyAccessFilter() : void
     {
         $lp_table = new ilLPObjectStatisticsTableGUI(
-            $this, "access", null, false
+            $this,
+            "access",
+            null
         );
+        $lp_table->init();
         $lp_table->resetOffset();
         $lp_table->writeFilterToSession();
         $this->access();
@@ -89,8 +104,11 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function resetAccessFilter() : void
     {
         $lp_table = new ilLPObjectStatisticsTableGUI(
-            $this, "access", null, false
+            $this,
+            "access",
+            null
         );
+        $lp_table->init();
         $lp_table->resetOffset();
         $lp_table->resetFilter();
         $this->access();
@@ -106,10 +124,14 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->tabs_gui->activateSubTab('trac_object_stat_access');
         $this->showAggregationInfo();
         $lp_table = new ilLPObjectStatisticsTableGUI(
-            $this, "access", null, $a_load_data
+            $this,
+            "access",
+            null
         );
-
-        if (!$a_load_data) {
+        $lp_table->init();
+        if ($a_load_data) {
+            $lp_table->getItems();
+        } else {
             $lp_table->disable("content");
             $lp_table->disable("header");
         }
@@ -120,16 +142,20 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     {
         if (!$this->initItemIdFromPost()) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt("no_checkbox")
+                'failure',
+                $this->lng->txt("no_checkbox")
             );
             $this->access();
         }
 
         $this->tabs_gui->activateSubTab('trac_object_stat_access');
         $lp_table = new ilLPObjectStatisticsTableGUI(
-            $this, "access", $this->initItemIdFromPost()
+            $this,
+            "access",
+            $this->initItemIdFromPost()
         );
-
+        $lp_table->init();
+        $lp_table->getItems();
         $this->tpl->setContent(
             $lp_table->getGraph(
                 $this->initItemIdFromPost()
@@ -140,7 +166,10 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function applyTypesFilter() : void
     {
         $lp_table = new ilLPObjectStatisticsTypesTableGUI(
-            $this, "types", null, false
+            $this,
+            "types",
+            null,
+            false
         );
         $lp_table->resetOffset();
         $lp_table->writeFilterToSession();
@@ -150,7 +179,10 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function resetTypesFilter() : void
     {
         $lp_table = new ilLPObjectStatisticsTypesTableGUI(
-            $this, "types", null, false
+            $this,
+            "types",
+            null,
+            false
         );
         $lp_table->resetOffset();
         $lp_table->resetFilter();
@@ -168,7 +200,10 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->showCronJobInfo();
 
         $lp_table = new ilLPObjectStatisticsTypesTableGUI(
-            $this, "types", null, $a_load_data
+            $this,
+            "types",
+            null,
+            $a_load_data
         );
 
         if (!$a_load_data) {
@@ -183,7 +218,8 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     {
         if (!$this->initItemIdFromPost()) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt("no_checkbox")
+                'failure',
+                $this->lng->txt("no_checkbox")
             );
             $this->types();
             return;
@@ -192,7 +228,9 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->tabs_gui->activateSubTab('trac_object_stat_types');
 
         $lp_table = new ilLPObjectStatisticsTypesTableGUI(
-            $this, "types", $this->initItemIdFromPost()
+            $this,
+            "types",
+            $this->initItemIdFromPost()
         );
 
         $this->tpl->setContent(
@@ -205,8 +243,11 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function applyDailyFilter() : void
     {
         $lp_table = new ilLPObjectStatisticsDailyTableGUI(
-            $this, "daily", null, false
+            $this,
+            "daily",
+            null
         );
+        $lp_table->init();
         $lp_table->resetOffset();
         $lp_table->writeFilterToSession();
         $this->daily();
@@ -215,8 +256,11 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function resetDailyFilter() : void
     {
         $lp_table = new ilLPObjectStatisticsDailyTableGUI(
-            $this, "daily", null, false
+            $this,
+            "daily",
+            null
         );
+        $lp_table->init();
         $lp_table->resetOffset();
         $lp_table->resetFilter();
         $this->daily();
@@ -234,14 +278,18 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->showAggregationInfo();
 
         $lp_table = new ilLPObjectStatisticsDailyTableGUI(
-            $this, "daily", null, $a_load_data
+            $this,
+            "daily",
+            null
         );
+        $lp_table->init();
 
-        if (!$a_load_data) {
+        if ($a_load_data) {
+            $lp_table->getItems();
+        } else {
             $lp_table->disable("content");
             $lp_table->disable("header");
         }
-
         $this->tpl->setContent($lp_table->getHTML());
     }
 
@@ -249,7 +297,8 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     {
         if (!$this->initItemIdFromPost()) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt("no_checkbox")
+                'failure',
+                $this->lng->txt("no_checkbox")
             );
             $this->daily();
             return;
@@ -258,9 +307,12 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->tabs_gui->activateSubTab('trac_object_stat_daily');
 
         $lp_table = new ilLPObjectStatisticsDailyTableGUI(
-            $this, "daily", $this->initItemIdFromPost()
+            $this,
+            "daily",
+            $this->initItemIdFromPost()
         );
-
+        $lp_table->init();
+        $lp_table->getItems();
         $this->tpl->setContent(
             $lp_table->getGraph(
                 $this->initItemIdFromPost()
@@ -292,9 +344,11 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         ilChangeEvent::_syncObjectStats(time(), 1);
 
         $this->tpl->setOnScreenMessage(
-            'success', $this->lng->txt(
-            "trac_sync_obj_stats_success"
-        ), true
+            'success',
+            $this->lng->txt(
+                "trac_sync_obj_stats_success"
+            ),
+            true
         );
         $this->ctrl->redirect($this, "admin");
     }
@@ -303,7 +357,8 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     {
         if (!$this->initItemIdFromPost()) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt("no_checkbox")
+                'failure',
+                $this->lng->txt("no_checkbox")
             );
             $this->admin();
             return;
@@ -325,10 +380,13 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         // list objects that should be deleted
         foreach ($this->initItemIdFromPost() as $i) {
             $caption = $this->lng->txt(
-                    "month_" . str_pad(
-                        substr($i, 5), 2, "0", STR_PAD_LEFT
-                    ) . "_long"
-                ) .
+                "month_" . str_pad(
+                    substr($i, 5),
+                    2,
+                    "0",
+                    STR_PAD_LEFT
+                ) . "_long"
+            ) .
                 " " . substr($i, 0, 4);
 
             $cgui->addItem("item_id[]", $i, $caption);
@@ -341,7 +399,8 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     {
         if (!$this->initItemIdFromPost()) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt("no_checkbox")
+                'failure',
+                $this->lng->txt("no_checkbox")
             );
             $this->admin();
             return;
@@ -349,7 +408,8 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
         ilTrQuery::deleteObjectStatistics($this->initItemIdFromPost());
         $this->tpl->setOnScreenMessage(
-            'success', $this->lng->txt("trac_data_deleted")
+            'success',
+            $this->lng->txt("trac_data_deleted")
         );
         $this->admin();
     }
@@ -357,8 +417,11 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function applyLearningProgressFilter() : void
     {
         $lp_table = new ilLPObjectStatisticsLPTableGUI(
-            $this, "learningProgress", null, false
+            $this,
+            "learningProgress",
+            null
         );
+        $lp_table->init();
         $lp_table->resetOffset();
         $lp_table->writeFilterToSession();
         $this->learningProgress();
@@ -367,8 +430,11 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     public function resetLearningProgressFilter() : void
     {
         $lp_table = new ilLPObjectStatisticsLPTableGUI(
-            $this, "learningProgress", null, false
+            $this,
+            "learningProgress",
+            null
         );
+        $lp_table->init();
         $lp_table->resetOffset();
         $lp_table->resetFilter();
         $this->learningProgress();
@@ -386,14 +452,17 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
         $this->showCronJobInfo();
 
         $lp_table = new ilLPObjectStatisticsLPTableGUI(
-            $this, "learningProgress", null, $a_load_data
+            $this,
+            "learningProgress",
+            null
         );
-
-        if (!$a_load_data) {
+        $lp_table->init();
+        if ($a_load_data) {
+            $lp_table->loadItems();
+        } else {
             $lp_table->disable("content");
             $lp_table->disable("header");
         }
-
         $this->tpl->setContent($lp_table->getHTML());
     }
 
@@ -401,22 +470,22 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     {
         if (!$this->initItemIdFromPost()) {
             $this->tpl->setOnScreenMessage(
-                'failure', $this->lng->txt("no_checkbox")
+                'failure',
+                $this->lng->txt("no_checkbox")
             );
             $this->learningProgress();
             return;
         }
 
         $this->tabs_gui->activateSubTab('trac_object_stat_lp');
-
         $lp_table = new ilLPObjectStatisticsLPTableGUI(
             $this,
             "learningProgress",
             $this->initItemIdFromPost(),
-            true,
             true
         );
-
+        $lp_table->init();
+        $lp_table->loadItems();
         $this->tpl->setContent(
             $lp_table->getGraph(
                 $this->initItemIdFromPost()
@@ -437,13 +506,15 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
             $this,
             "showLearningProgressDetails",
             array($item_id),
-            true,
             false,
             true
         );
-
+        $lp_table->init();
+        $lp_table->loadItems();
         $a_tpl = new ilTemplate(
-            "tpl.lp_object_statistics_lp_details.html", true, true,
+            "tpl.lp_object_statistics_lp_details.html",
+            true,
+            true,
             "Services/Tracking"
         );
         $a_tpl->setVariable("CONTENT", $lp_table->getHTML());
@@ -461,20 +532,26 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
 
         $link = "";
         if ($a_show_link && $this->access->checkAccess(
-                "write", "", $this->ref_id
-            )) {
+            "write",
+            "",
+            $this->ref_id
+        )) {
             $link = " <a href=\"" . $this->ctrl->getLinkTarget(
-                    $this, "admin"
-                ) . "\">&raquo;" .
+                $this,
+                "admin"
+            ) . "\">&raquo;" .
                 $this->lng->txt("trac_log_info_link") . "</a>";
         }
 
         $this->tpl->setOnScreenMessage(
-            'info', sprintf(
-                      $this->lng->txt(
-                          "trac_log_info"
-                      ), $info_date, $info["counter"]
-                  ) . $link
+            'info',
+            sprintf(
+                $this->lng->txt(
+                    "trac_log_info"
+                ),
+                $info_date,
+                $info["counter"]
+            ) . $link
         );
     }
 
@@ -482,7 +559,8 @@ class ilLPObjectStatisticsGUI extends ilLearningProgressBaseGUI
     {
         if (!$this->cronManager->isJobActive("lp_object_statistics")) {
             $this->tpl->setOnScreenMessage(
-                'info', $this->lng->txt("trac_cron_info")
+                'info',
+                $this->lng->txt("trac_cron_info")
             );
         }
     }

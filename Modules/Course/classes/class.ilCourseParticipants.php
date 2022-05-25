@@ -171,7 +171,7 @@ class ilCourseParticipants extends ilParticipants
             " AND usr_id = " . $this->ilDB->quote($a_usr_id, "integer");
         $set = $this->ilDB->query($sql);
         $row = $this->ilDB->fetchAssoc($set);
-        if ($row["origin"]) {
+        if ($row && $row["origin"]) {
             return [
                 "user_id" => (int) $row["origin"],
                 "timestamp" => new ilDateTime((int) $row["origin_ts"], IL_CAL_UNIX)

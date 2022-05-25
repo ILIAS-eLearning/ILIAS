@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * GUI class for ilGlossary
@@ -25,14 +28,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
 {
     protected ilRbacSystem $rbacsystem;
     protected ilPropertyFormGUI $form;
-    protected int $tax_node;
+    protected int $tax_node = 0;
     protected ilObjTaxonomy $tax;
     protected $tax_id;
-    protected bool $in_administration;
+    protected bool $in_administration = false;
     protected \ILIAS\Glossary\Editing\EditingGUIRequest $edit_request;
     protected ?\ILIAS\Glossary\Term\TermManager $term_manager;
     public ?ilGlossaryTerm $term = null;
-    protected int $term_id;
+    protected int $term_id = 0;
     protected ilTabsGUI $tabs;
     protected ilSetting $setting;
     protected ilHelpGUI $help;

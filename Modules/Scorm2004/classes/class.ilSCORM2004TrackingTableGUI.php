@@ -20,10 +20,7 @@
  */
 class ilSCORM2004TrackingTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilAccessHandler $access;
 
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd = "")

@@ -123,7 +123,8 @@ class ilLPCronObjectStatistics extends ilCronJob
                         "DELETE FROM obj_lp_stat WHERE" .
                         " obj_id = " . $this->db->quote($crs_id, "integer") .
                         " AND fulldate = " . $this->db->quote(
-                            date("Ymd", $this->date), "integer"
+                            date("Ymd", $this->date),
+                            "integer"
                         )
                     );
 
@@ -132,24 +133,27 @@ class ilLPCronObjectStatistics extends ilCronJob
 
                     $in_progress = count(
                         ilLPStatusWrapper::_lookupInProgressForObject(
-                            $crs_id, $members
+                            $crs_id,
+                            $members
                         )
                     );
                     $completed = count(
                         ilLPStatusWrapper::_lookupCompletedForObject(
-                            $crs_id, $members
+                            $crs_id,
+                            $members
                         )
                     );
                     $failed = count(
                         ilLPStatusWrapper::_lookupFailedForObject(
-                            $crs_id, $members
+                            $crs_id,
+                            $members
                         )
                     );
 
                     // calculate with other values - there is not direct method
                     $not_attempted = count(
-                            $members
-                        ) - $in_progress - $completed - $failed;
+                        $members
+                    ) - $in_progress - $completed - $failed;
 
                     $set = array(
                         "type" => array("text", "crs"),
@@ -186,7 +190,8 @@ class ilLPCronObjectStatistics extends ilCronJob
                 "DELETE FROM obj_type_stat WHERE" .
                 " type = " . $this->db->quote($type, "text") .
                 " AND fulldate = " . $this->db->quote(
-                    date("Ymd", $this->date), "integer"
+                    date("Ymd", $this->date),
+                    "integer"
                 )
             );
 
@@ -213,13 +218,18 @@ class ilLPCronObjectStatistics extends ilCronJob
     {
         $count = 0;
         $to = mktime(
-            23, 59, 59, date("m", $this->date), date("d", $this->date),
+            23,
+            59,
+            59,
+            date("m", $this->date),
+            date("d", $this->date),
             date("Y", $this->date)
         );
 
         $sql = "SELECT COUNT(DISTINCT(usr_id)) counter,obj_id FROM read_event" .
             " WHERE last_access >= " . $this->db->quote(
-                $this->date, "integer"
+                $this->date,
+                "integer"
             ) .
             " AND last_access <= " . $this->db->quote($to, "integer") .
             " GROUP BY obj_id";
@@ -229,7 +239,8 @@ class ilLPCronObjectStatistics extends ilCronJob
             $this->db->manipulate(
                 "DELETE FROM obj_user_stat" .
                 " WHERE fulldate = " . $this->db->quote(
-                    date("Ymd", $this->date), "integer"
+                    date("Ymd", $this->date),
+                    "integer"
                 ) .
                 " AND obj_id = " . $this->db->quote($row["obj_id"], "integer")
             );

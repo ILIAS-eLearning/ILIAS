@@ -21,6 +21,17 @@
  */
 class ilLTICronOutcomeService extends ilCronJob
 {
+    private ilLanguage $lng;
+    private ilCronJobRepository $cronRepo;
+
+    public function __construct()
+    {
+        global $DIC;
+        $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule("lti");
+        $this->cronRepo = $DIC->cron()->repository();
+    }
+
     public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
@@ -48,25 +59,19 @@ class ilLTICronOutcomeService extends ilCronJob
 
     public function getTitle() : string
     {
-        global $DIC;
-        $DIC->language()->loadLanguageModule('lti');
-        return $DIC->language()->txt('lti_cron_title');
+        return $this->lng->txt('lti_cron_title');
     }
 
     public function getDescription() : string
     {
-        global $DIC;
-        $DIC->language()->loadLanguageModule('lti');
-        return $DIC->language()->txt('lti_cron_title_desc');
+        return $this->lng->txt('lti_cron_title_desc');
     }
 
     public function run() : ilCronJobResult
     {
-        global $DIC;
-
         $status = \ilCronJobResult::STATUS_NO_ACTION;
 
-        $info = $DIC->cron()->repository()->getCronJobData($this->getId());
+        $info = $this->cronRepo->getCronJobData($this->getId());
         $last_ts = $info['job_status_ts'];
         if (!$last_ts) {
             $last_ts = time() - 24 * 3600;

@@ -1,4 +1,5 @@
-<?php declare(strict_types=1);
+<?php /** @noinspection ForgottenDebugOutputInspection */
+declare(strict_types=1);
 
 /******************************************************************************
  *
@@ -27,6 +28,9 @@ class ilSCORM13PlayerGUI
     const WRITEONLY = 2;
     const READWRITE = 3;
 
+    /**
+     * @var array<string, array<string, array<string, mixed>>>
+     */
     private static array $schema = array // order of entries matters!
     (
         'package' => array(
@@ -218,7 +222,7 @@ class ilSCORM13PlayerGUI
 
             case 'cmi':
 
-                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     ilSCORM2004StoreData::persistCMIData(
                         $this->packageId,
                         $this->ref_id,
@@ -423,7 +427,7 @@ class ilSCORM13PlayerGUI
         $langstrings['linkexpandTree'] = $lng->txt('scplayer_expandtree');
         $langstrings['linkcollapseTree'] = $lng->txt('scplayer_collapsetree');
         $langstrings['contCreditOff'] = $lng->txt('cont_credit_off');
-        if ($this->slm->getAutoReviewChar() == "s") {
+        if ($this->slm->getAutoReviewChar() === "s") {
             $langstrings['contCreditOff'] = $lng->txt('cont_sc_score_was_higher_message');
         }
         $config['langstrings'] = $langstrings;
@@ -478,7 +482,7 @@ class ilSCORM13PlayerGUI
         }
 
         //disable top menu
-        if ($this->slm->getNoMenu() == "y") {
+        if ($this->slm->getNoMenu() === "y") {
             $this->tpl->setVariable("VAL_DISPLAY", "style=\"display:none;\"");
         } else {
             $this->tpl->setVariable("VAL_DISPLAY", "");
@@ -501,9 +505,6 @@ class ilSCORM13PlayerGUI
         $this->tpl->printToStdout("DEFAULT", false);
     }
 
-    /**
-     * Get inline css
-     */
     public static function getInlineCSS() : string
     {
         $is_tpl = new ilTemplate("tpl.scorm2004.inlinecss.html", true, true, "Modules/Scorm2004");
@@ -530,7 +531,8 @@ class ilSCORM13PlayerGUI
             print_r($jsdata);
         }
     }
-    public function getCPDataInit()
+
+    public function getCPDataInit() : string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -551,7 +553,7 @@ class ilSCORM13PlayerGUI
     }
 
 
-    public function getADLActDataInit()
+    public function getADLActDataInit() : string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -824,7 +826,9 @@ class ilSCORM13PlayerGUI
             //If there are no datastores, then return nothing
             echo "";
             exit();
-        } elseif ($dataStores["readPermissions"] != null && array_sum($dataStores["readPermissions"]) != 0) {
+        }
+
+        if ($dataStores["readPermissions"] != null && array_sum($dataStores["readPermissions"]) != 0) {
 
             //If there exists at least one readSharedData permission, then
             //fill in the existing values (if any) already in the store.
@@ -839,7 +843,7 @@ class ilSCORM13PlayerGUI
             //If set to true, then add it to the search query
             foreach ($dataStores["data"] as $key => $val) {
                 if ($dataStores["readPermissions"][$key] == 1
-                    && $dataStores["data"][$key]["store"] != 'notWritten') {
+                    && $dataStores["data"][$key]["store"] !== 'notWritten') {
                     $params["types"][] = "text";
                     $params["values"][] = $key;
                     $paramTemplate .= '%s, ';
@@ -847,7 +851,7 @@ class ilSCORM13PlayerGUI
             }
 
             //Get rid of the trailing ', '
-            $paramTemplate = substr($paramTemplate, 0, strlen($paramTemplate) - 2);
+            $paramTemplate = substr($paramTemplate, 0, -2);
 
             //Pass 2: Query for values previously saved by the user
             $query = 'SELECT target_id, store '
@@ -910,7 +914,7 @@ class ilSCORM13PlayerGUI
             //If it's already created in adl_shared_data, we
             //need to update it.
             if (array_key_exists($key, $dataStores)) {
-                if ($obj == 'notWritten') {
+                if ($obj === 'notWritten') {
                     continue;
                 }
 
@@ -951,7 +955,7 @@ class ilSCORM13PlayerGUI
             }
         }
         echo "1";
-        exit();
+        exit;
     }
 
     public function specialPage() : void
@@ -975,7 +979,7 @@ class ilSCORM13PlayerGUI
         $this->tpl = new ilGlobalTemplate("tpl.scorm2004.specialpages.html", false, false, "Modules/Scorm2004");
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setVariable('TXT_SPECIALPAGE', $lng->txt($specialpages[$this->page]));
-        if ($this->page != "_TOC_" && $this->page != "_SEQABANDON_" && $this->page != "_SEQABANDONALL_") {
+        if ($this->page !== "_TOC_" && $this->page !== "_SEQABANDON_" && $this->page !== "_SEQABANDONALL_") {
             $this->tpl->setVariable('CLOSE_WINDOW', $lng->txt('seq_close'));
         } else {
             $this->tpl->setVariable('CLOSE_WINDOW', "");
@@ -1013,8 +1017,6 @@ class ilSCORM13PlayerGUI
 //    }
 
     /**
-     * @param int $userId
-     * @param int $packageId
      * @return array<string, array<int|string, array<array|int|string>>>
      */
     public function getCMIData(int $userId, int $packageId) : array
@@ -1154,11 +1156,11 @@ class ilSCORM13PlayerGUI
                 while ($row = $ilDB->fetchAssoc($res)) {
                     $tmp_result = array();
                     foreach ($row as $key => $value) {
-                        if ($k == "comment" && $key == "c_timestamp" && strpos($value, ' ') == 10) {
+                        if ($k === "comment" && $key === "c_timestamp" && strpos($value, ' ') == 10) {
                             $value = str_replace(' ', 'T', $value);
                         }
                         $tmp_result[] = $value;
-                        if ($k == "node" && $key == "additional_tables" && $i_check < $value) {
+                        if ($k === "node" && $key === "additional_tables" && $i_check < $value) {
                             $i_check = $value;
                             //							$GLOBALS['DIC']['ilLog']->write($i_check);
                         }
@@ -1170,10 +1172,6 @@ class ilSCORM13PlayerGUI
         return $result;
     }
 
-    /**
-     * @param array|null $a_array
-     * @return array
-     */
     public function quoteJSONArray(?array $a_array) : array
     {
         global $DIC;
@@ -1208,9 +1206,9 @@ class ilSCORM13PlayerGUI
 //    }
 
 
-    /**
-    * Get max. number of attempts allowed for this package
-    */
+//    /**
+//    * Get max. number of attempts allowed for this package
+//    */
 //    public function get_max_attempts()
 //    {
 //        include_once "./Modules/ScormAicc/classes/SCORM/class.ilObjSCORMInitData.php";
@@ -1347,9 +1345,8 @@ class ilSCORM13PlayerGUI
             array('integer','text','integer'),
             array($this->packageId, $sco_id, $this->userId)
         );
-        $row = $ilDB->fetchAssoc($res);
-//        $ilLog->write("DEBUG SQL" . $row);
-        return $row;
+        //        $ilLog->write("DEBUG SQL" . $row);
+        return $ilDB->fetchAssoc($res);
     }
 
     private function logTmpName() : string
@@ -1613,13 +1610,13 @@ class ilSCORM13PlayerGUI
             $urlDownload = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=downloadLog&ref_id=' . $this->ref_id . '&logFile=' . $fileInfo->getFilename();
             $urlOpen = 'ilias.php?baseClass=ilSAHSPresentationGUI' . '&cmd=openLog&ref_id=' . $this->ref_id . '&logFile=' . $fileInfo->getFilename();
             $item['date'] = date('Y/m/d H:i:s', $fileInfo->getCTime());
-            if ($parts['extension'] == "html") {
+            if ($parts['extension'] === "html") {
                 $item['action'] = $deleteUrl . "&nbsp;<a href=" . $urlDownload . ">" . $s_download . "</a>&nbsp;<a target=_new href=" . $urlOpen . ">" . $s_open . "</a>";
             } else {
                 $item['action'] = $deleteUrl . "&nbsp;<a href=" . $urlDownload . ">" . $s_download . "</a>";
             }
-            if ($parts['extension'] == "html" || $parts['extension'] == "csv") {
-                array_push($data, $item);
+            if ($parts['extension'] === "html" || $parts['extension'] === "csv") {
+                $data[] = $item;
             }
         }
         usort($data, "datecmp");
@@ -1678,10 +1675,6 @@ class ilSCORM13PlayerGUI
         return new ilTemplate("tpl.scorm2004.debugtxt.txt", true, true, "Modules/Scorm2004");
     }
 
-    /**
-     * @param bool|null $test_sco
-     * @return mixed[]
-     */
     private function getDebugValues(?bool $test_sco = false) : array
     {
         global $DIC;
@@ -1709,7 +1702,7 @@ class ilSCORM13PlayerGUI
         }
         foreach ($ini_array as $key => $value) {
             if ($value == 1) {
-                array_push($dvalues, $key);
+                $dvalues[] = $key;
             }
         }
         return $dvalues;
@@ -1732,7 +1725,7 @@ class ilSCORM13PlayerGUI
 
         //init tmp file
         if (filesize($tmp_name) > 0) {
-            $tmp_content = unserialize(fread($fh_tmp, filesize($tmp_name)));
+            $tmp_content = unserialize(fread($fh_tmp, filesize($tmp_name)));//Check Options - This may causes security issues if the serialized classess arent specified.
         } else {
             $tmp_content = null;
         }
@@ -1810,7 +1803,7 @@ class ilSCORM13PlayerGUI
         }
 
         $sqlwrite = false;
-        if ($logdata->action == "Commit" || $logdata->action == "Terminate") {
+        if ($logdata->action === "Commit" || $logdata->action === "Terminate") {
             $sqlwrite = true;
             $sql_data = $this->getNodeData($logdata->scoid);
             if (count($sql_data) != 0) {
@@ -1827,7 +1820,7 @@ class ilSCORM13PlayerGUI
         }
 
         //delete files
-        if ($logdata->action == "DELETE") {
+        if ($logdata->action === "DELETE") {
             $filename = $logdata->value;
             $path = $this->logDirectory() . "/" . $filename;
             unlink($path);
@@ -1842,10 +1835,10 @@ class ilSCORM13PlayerGUI
 
         switch ($logdata->action) {
             case 'SetValue':
-                if ($logdata->result == "true" && $errorcode == 0) {
+                if ($logdata->result === "true" && $errorcode == 0) {
                     $color = "green";
                 }
-                if ($color == "green" && $logdata->key == "cmi.exit" && $logdata->value != "suspend") {
+                if ($color === "green" && $logdata->key === "cmi.exit" && $logdata->value !== "suspend") {
                     $color = "orange";
                 }
                 if ($fixedFailure == false && $errorcode != 406) {
@@ -1935,8 +1928,8 @@ class ilSCORM13PlayerGUI
                     $logtpl->setVariable("VALUE", "");
                 } else {
                     $tmpvalue = "SetValue(\"" . implode("\", ... ),<br/>SetValue(\"", $logdata->value) . "\", ... )";
-                    for ($i = 0; $i < count($ArGetValues); $i++) {
-                        $tmpvalue = str_replace("SetValue(\"cmi." . $ArGetValues[$i] . "\", ... )", "GetValue(\"cmi." . $ArGetValues[$i] . "\")", $tmpvalue);
+                    foreach ($ArGetValues as $value) {
+                        $tmpvalue = str_replace("SetValue(\"cmi." . $value . "\", ... )", "GetValue(\"cmi." . $value . "\")", $tmpvalue);
                     }
                     $logtpl->setVariable("ANALYZE_SUMMARY", $lng->txt("missing_API-calls"));
                     $logtpl->setVariable("VALUE", $tmpvalue);
@@ -1955,8 +1948,8 @@ class ilSCORM13PlayerGUI
                     $logtpl->setVariable("VALUE", "");
                 } else {
                     $tmpvalue = "SetValue(\"" . implode("\", ... ),<br/>SetValue(\"", $logdata->value) . "\", ... )";
-                    for ($i = 0; $i < count($ArGetValues); $i++) {
-                        $tmpvalue = str_replace("SetValue(\"cmi." . $ArGetValues[$i] . "\", ... )", "GetValue(\"cmi." . $ArGetValues[$i] . "\")", $tmpvalue);
+                    foreach ($ArGetValues as $value) {
+                        $tmpvalue = str_replace("SetValue(\"cmi." . $value . "\", ... )", "GetValue(\"cmi." . $value . "\")", $tmpvalue);
                     }
                     $logtpl->setVariable("ANALYZE_SUMMARY", $lng->txt("missing_API-calls"));
                     $logtpl->setVariable("VALUE", $tmpvalue);
@@ -1979,7 +1972,7 @@ class ilSCORM13PlayerGUI
                 $color = "orange";
                 break;
         }
-        if ($logdata->action == 'SetValue' || $logdata->action == 'GetValue') {
+        if ($logdata->action === 'SetValue' || $logdata->action === 'GetValue') {
             $logtpl->setCurrentBlock($logdata->action);
             $logtpl->setVariable("ACTION", $logdata->action);
             $logtpl->setVariable("TIMESPAN", $logdata->timespan);
@@ -1989,15 +1982,15 @@ class ilSCORM13PlayerGUI
             $logtpl->setVariable("ERRORCODE", $errorcode);
             $debugfields = $this->getDebugValues(true);
             $importantkey = 0;
-            for ($i = 0; $i < count($debugfields) ; $i++) {
-                if ($logdata->key == $debugfields[$i]) {
+            foreach ($debugfields as $value) {
+                if ($logdata->key == $value) {
                     $importantkey = 1;
                 }
             }
             $logtpl->setVariable("IMPORTANTKEY", "" . $importantkey);
             $logtpl->setVariable("COLOR", $color);
             $logtpl->parseCurrentBlock();
-        } elseif ($logdata->action != 'INFO' && $logdata->action != 'ANALYZE' && $logdata->action != 'ANALYZETEST' && $logdata->action != 'SUMMARY' && $logdata->action != 'COMMENT' && $logdata->action != 'GetDiagnostic' && $logdata->action != 'GetLastError') {
+        } elseif ($logdata->action !== 'INFO' && $logdata->action !== 'ANALYZE' && $logdata->action !== 'ANALYZETEST' && $logdata->action !== 'SUMMARY' && $logdata->action !== 'COMMENT' && $logdata->action !== 'GetDiagnostic' && $logdata->action !== 'GetLastError') {
             $logtpl->setCurrentBlock("defaultCall");
             $logtpl->setVariable("ACTION", $logdata->action);
             $logtpl->setVariable("TIMESPAN", $logdata->timespan);
@@ -2020,7 +2013,7 @@ class ilSCORM13PlayerGUI
         */
 
         //create summary
-        if ($logdata->action == "SUMMARY") {
+        if ($logdata->action === "SUMMARY") {
             $this->createSummary($tmp_content);
         }
 
@@ -2031,20 +2024,20 @@ class ilSCORM13PlayerGUI
 
     private function getStructureFlat(array $data) : void
     {
-        for ($i = 0; $i < count($data) ; $i++) {
+        foreach ($data as $i => $value) {
             $element = array();
-            $element['title'] = $data[$i]['title'];
-            $element['id'] = $data[$i]['id'];
-            if ($data[$i]['sco'] == 1) {
+            $element['title'] = $value['title'];
+            $element['id'] = $value['id'];
+            if ($value['sco'] == 1) {
                 $element['sco'] = "sco";
             } else {
                 $element['sco'] = "assset";
             }
-            if ($data[$i]['href'] != null) {
-                array_push($this->flat_structure, $element);
+            if ($value['href'] != null) {
+                $this->flat_structure[] = $element;
             }
-            if ($data[$i]['item'] != null) {
-                $this->getStructureFlat($data[$i]['item']);
+            if ($value['item'] != null) {
+                $this->getStructureFlat($value['item']);
             }
         }
     }
@@ -2065,9 +2058,9 @@ class ilSCORM13PlayerGUI
 
         foreach ($ini_array as $key => $value) {
             if ($value == 1) {
-                array_push($colums_variable, $key);
-                array_push($api_keys, $key);
-                array_push($colums_variable, "Status");
+                $colums_variable[] = $key;
+                $api_keys[] = $key;
+                $colums_variable[] = "Status";
             }
         }
 
@@ -2112,7 +2105,7 @@ class ilSCORM13PlayerGUI
             $csv_data = $csv_data . "\n";
         }
 
-        $fh = fopen($this->summaryFileName(), "w");
+        $fh = fopen($this->summaryFileName(), "wb"); //changed from w to wb
         fwrite($fh, $csv_header . "\n" . $csv_data);
         fclose($fh);
         unlink($this->logTmpName());

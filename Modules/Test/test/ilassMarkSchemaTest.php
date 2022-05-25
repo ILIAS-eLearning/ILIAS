@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
  */
 class ilassMarkSchemaTest extends TestCase
 {
+    private ASS_MarkSchema $ass_mark_schema;
     protected $backupGlobals = false;
 
     protected function setUp() : void
@@ -193,7 +194,7 @@ class ilassMarkSchemaTest extends TestCase
         // Arrange
         $expected = is_array(array());
         $this->ass_mark_schema->mark_steps = array("a string");
-        $this->assertEquals($this->ass_mark_schema->mark_steps, array("a string"));
+        $this->assertEquals(array("a string"), $this->ass_mark_schema->mark_steps);
         $this->ass_mark_schema->flush();
 
         // Act

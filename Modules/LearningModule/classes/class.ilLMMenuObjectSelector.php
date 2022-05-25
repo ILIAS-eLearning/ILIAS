@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * LM Menu Object Selector
@@ -76,13 +79,10 @@ class ilLMMenuObjectSelector extends ilExplorer
         }
         return "";
     }
-
-    /**
-     * @param int $a_ref_id
-     */
-    public function isClickable(string $a_type, $a_ref_id = 0) : bool
+    
+    public function isClickable(string $type, int $ref_id = 0) : bool
     {
-        return in_array($a_type, $this->selectable_types) and $a_ref_id != $this->ref_id;
+        return in_array($type, $this->selectable_types) && $ref_id !== $this->ref_id;
     }
     
     /**

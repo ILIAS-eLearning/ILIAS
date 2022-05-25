@@ -20,22 +20,18 @@
  */
 class ilSCORMTrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
 {
+    private object $parent_obj;
+    private string $parent_cmd;
+    public ilPropertyFormGUI $form;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
         $this->parent_obj = $a_parent_obj;
         $this->parent_cmd = $a_parent_cmd;
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        parent::__construct();
     }
 
     /**
-     * @param string $scoSelected
-     * @param string $report
-     * @param array  $reports
-     * @return void
      * @throws ilCtrlException
      */
     public function parse(string $scoSelected, string $report, array $reports) : void
@@ -59,8 +55,8 @@ class ilSCORMTrackingItemsPerScoFilterGUI extends ilPropertyFormGUI
         $this->form->addItem($si);
 
         $options = array("choose" => $lng->txt("please_choose"));
-        for ($i = 0;$i < count($reports);$i++) {
-            $options[$reports[$i]] = $lng->txt(strtolower($reports[$i]));
+        foreach ($reports as $value) {
+            $options[$value] = $lng->txt(strtolower($value));
         }
         $si = new ilSelectInputGUI($lng->txt("report"), "report");
         $si->setOptions($options);

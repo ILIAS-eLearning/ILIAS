@@ -13,79 +13,25 @@
 class ilTestSession
 {
     const ACCESS_CODE_SESSION_INDEX = "tst_access_code";
-    
     const ACCESS_CODE_CHAR_DOMAIN = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    
     const ACCESS_CODE_LENGTH = 5;
+
     private int $ref_id;
     private int $pass;
-
-    /**
-    * The unique identifier of the test session
-    *
-    * @var integer
-    */
-    public $active_id;
-
-    /**
-    * The user id of the participant
-    *
-    * @var integer
-    */
-    public $user_id;
-
-    /**
-    * The anonymous id of the participant
-    *
-    * @var integer
-    */
-    public $anonymous_id;
-
-    /**
-    * The database id of the test
-    *
-    * @var integer
-    */
-    public $test_id;
-
-    /**
-    * The last sequence of the participant
-    *
-    * @var integer
-    */
-    public $lastsequence;
-
-    /**
-     * @var string
-     */
-    protected $lastPresentationMode;
-
-    /**
-    * Indicates if the test was submitted already
-    *
-    * @var boolean
-    */
-    public $submitted;
-
-    /**
-    * The timestamp of the last session
-    *
-    * @var boolean
-    */
-    public $tstamp;
-
-    /**
-    * The timestamp of the test submission
-    *
-    * @var string
-    */
-    public $submittedTimestamp;
+    public int $active_id;
+    public int $user_id;
+    public ?int $anonymous_id;
+    public int $test_id;
+    public int $lastsequence;
+    protected ?string $lastPresentationMode;
+    public bool $submitted;
+    public int $tstamp;
+    public ?string $submittedTimestamp;
+    private int $objectiveOrientedContainerId;
 
     private $lastFinishedPass;
-
     private $lastStartedPass;
-    
-    private $objectiveOrientedContainerId;
+
 
     /**
     * ilTestSession constructor
@@ -114,21 +60,11 @@ class ilTestSession
         $this->objectiveOrientedContainerId = 0;
     }
 
-    /**
-     * Set Ref id
-     *
-     * @param	integer	Ref id
-     */
-    public function setRefId($a_val)
+    public function setRefId(int $a_val) : void
     {
         $this->ref_id = $a_val;
     }
 
-    /**
-     * Get Ref id
-     *
-     * @return	integer	Ref id
-     */
     public function getRefId() : int
     {
         return $this->ref_id;
@@ -147,15 +83,15 @@ class ilTestSession
             );
             if ($result->numRows()) {
                 $row = $ilDB->fetchAssoc($result);
-                $this->active_id = $row["active_id"];
-                $this->user_id = $row["user_fi"];
-                $this->anonymous_id = $row["anonymous_id"];
-                $this->test_id = $row["test_fi"];
-                $this->lastsequence = $row["lastindex"];
-                $this->pass = $row["tries"];
+                $this->active_id = (int) $row["active_id"];
+                $this->user_id = (int) $row["user_fi"];
+                $this->anonymous_id = (int) $row["anonymous_id"];
+                $this->test_id = (int) $row["test_fi"];
+                $this->lastsequence = (int) $row["lastindex"];
+                $this->pass = (int) $row["tries"];
                 $this->submitted = ($row["submitted"]) ? true : false;
-                $this->submittedTimestamp = $row["submittimestamp"];
-                $this->tstamp = $row["tstamp"];
+                $this->submittedTimestamp = (string) $row["submittimestamp"];
+                $this->tstamp = (int) $row["tstamp"];
 
                 $this->setLastStartedPass($row['last_started_pass']);
                 $this->setLastFinishedPass($row['last_finished_pass']);
@@ -167,7 +103,7 @@ class ilTestSession
         return false;
     }
     
-    public function increaseTestPass()
+    public function increaseTestPass() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -182,17 +118,17 @@ class ilTestSession
         $this->setLastSequence(0);
         $submitted = ($this->isSubmitted()) ? 1 : 0;
         $active = ilSession::get($this->active_id);
-        if ($active['tst_last_increase_pass'] !== null) {
+        if (!isset($active['tst_last_increase_pass']) || $active['tst_last_increase_pass'] !== null) {
 
             $active['tst_last_increase_pass'] = 0;
-            ilSession::set($this->active_id, $active);
+            //ilSession::set($this->active_id, $active);
             //$_SESSION[$this->active_id]['tst_last_increase_pass'] = 0;
         }
         
         // there has to be at least 10 seconds between new test passes (to ensure that noone double clicks the finish button and increases the test pass by more than 1)
         if (time() - $active['tst_last_increase_pass'] > 10) {
             $active['tst_last_increase_pass'] = time();
-            ilSession::set($this->active_id, $active);
+            //ilSession::set($this->active_id, $active);
             $this->tstamp = time();
             $ilDB->update(
                 'tst_active',
@@ -213,7 +149,7 @@ class ilTestSession
         }
     }
     
-    public function saveToDb()
+    public function saveToDb() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -264,7 +200,7 @@ class ilTestSession
         }
     }
     
-    public function loadTestSession($test_id, $user_id = "", $anonymous_id = "")
+    public function loadTestSession($test_id, $user_id = "", $anonymous_id = "") : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -287,7 +223,7 @@ class ilTestSession
             );
         } else {
             if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) {
-                return null;
+                return;
             }
             $result = $ilDB->queryF(
                 "SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
@@ -356,7 +292,7 @@ class ilTestSession
         return $this->active_id;
     }
     
-    public function setUserId($user_id)
+    public function setUserId($user_id) : void
     {
         $this->user_id = $user_id;
     }
@@ -366,7 +302,7 @@ class ilTestSession
         return $this->user_id;
     }
     
-    public function setTestId($test_id)
+    public function setTestId($test_id) : void
     {
         $this->test_id = $test_id;
     }
@@ -421,14 +357,14 @@ class ilTestSession
         $this->submitted = true;
     }
     
-    public function getSubmittedTimestamp()
+    public function getSubmittedTimestamp() : ?string
     {
         return $this->submittedTimestamp;
     }
     
     public function setSubmittedTimestamp()
     {
-        $this->submittedTimestamp = strftime("%Y-%m-%d %H:%M:%S");
+        $this->submittedTimestamp = date('Y-m-d H:i:s');
     }
 
     public function setLastFinishedPass($lastFinishedPass)

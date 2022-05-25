@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP;
 use ILIAS\Refinery;
@@ -111,9 +114,7 @@ class ilBadgeGUIRequest
      */
     protected function isArray(string $key) : bool
     {
-        $no_transform = $this->refinery->custom()->transformation(function ($v) {
-            return $v;
-        });
+        $no_transform = $this->refinery->identity();
         $w = $this->http->wrapper();
         if ($w->post()->has($key)) {
             return is_array($w->post()->retrieve($key, $no_transform));
@@ -167,12 +168,12 @@ class ilBadgeGUIRequest
 
     public function getType() : string
     {
-        return $this->int("type");
+        return $this->str("type");
     }
 
     public function getTgt() : string
     {
-        return $this->int("tgt");
+        return $this->str("tgt");
     }
 
     public function getTemplateId() : int

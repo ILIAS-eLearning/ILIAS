@@ -75,7 +75,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilTemplate	$tpl
      */
-    private function showFormCmd(ilPropertyFormGUI $form = null)
+    private function showFormCmd(ilPropertyFormGUI $form = null) : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -86,11 +86,11 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
         
         if ($form instanceof ilPropertyFormGUI) {
             $form->setValuesByPost();
-        } elseif (isset($_GET['hint_id']) && (int) $_GET['hint_id']) {
+        } elseif ($this->request->isset('hint_id') && (int) $this->request->raw('hint_id')) {
             $questionHint = new ilAssQuestionHint();
 
-            if (!$questionHint->load((int) $_GET['hint_id'])) {
-                $this->main_tpl->setOnScreenMessage('failure', 'invalid hint id given: ' . (int) $_GET['hint_id'], true);
+            if (!$questionHint->load((int) $this->request->raw('hint_id'))) {
+                $this->main_tpl->setOnScreenMessage('failure', 'invalid hint id given: ' . (int) $this->request->raw('hint_id'), true);
                 $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
             }
 
@@ -109,7 +109,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilLanguage	$lng
      */
-    private function saveFormCmd()
+    private function saveFormCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -147,7 +147,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
 
             $originalexists = $this->questionOBJ->_questionExistsInPool($this->questionOBJ->original_id);
             include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
-            if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId())) {
+            if ($this->request->raw('calling_test') && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId())) {
                 $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
             }
         
@@ -170,7 +170,7 @@ class ilAssQuestionHintGUI extends ilAssQuestionHintAbstractGUI
      * @access	private
      * @global	ilCtrl	$ilCtrl
      */
-    private function cancelFormCmd()
+    private function cancelFormCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

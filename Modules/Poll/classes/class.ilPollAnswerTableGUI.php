@@ -44,7 +44,7 @@ class ilPollAnswerTableGUI extends ilTable2GUI
         
         $this->setTitle(
             $this->lng->txt("poll_question") . ": \"" .
-                $a_parent_obj->object->getQuestion() . "\""
+                $a_parent_obj->getObject()->getQuestion() . "\""
         );
         $this->setDescription(sprintf($this->lng->txt("poll_population"), $total));
 
@@ -67,8 +67,8 @@ class ilPollAnswerTableGUI extends ilTable2GUI
 
     public function getItems() : int
     {
-        $data = $this->parent_obj->object->getAnswers();
-        $perc = $this->parent_obj->object->getVotePercentages();
+        $data = $this->parent_obj->getObject()->getAnswers();
+        $perc = $this->parent_obj->getObject()->getVotePercentages();
         $total = (int) ($perc["total"] ?? 0);
         $perc = (array) ($perc["perc"] ?? []);
         

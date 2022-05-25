@@ -135,7 +135,6 @@ class ilObjTestGUITest extends ilTestBaseTestCase
 
     public function testCancelRemoveQuestionsObject() : void
     {
-        $_REQUEST["test_express_mode"] = false;
         $ctrl_mock = $this->createMock(ilCtrl::class);
         $ctrl_mock
             ->expects($this->once())

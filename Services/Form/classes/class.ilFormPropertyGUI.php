@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use Psr\Http\Message\RequestInterface;
 use ILIAS\HTTP;
@@ -309,8 +312,8 @@ class ilFormPropertyGUI
         string $a_value
     ) : string {
         return '<input type="hidden" name="' . $a_post_var . '" value="' . ilLegacyFormElementsUtil::prepareFormOutput(
-                $a_value
-            ) . '" />';
+            $a_value
+        ) . '" />';
     }
     
     public function setMulti(
@@ -535,9 +538,7 @@ class ilFormPropertyGUI
 
     protected function isRequestParamArray(string $key) : bool
     {
-        $no_transform = $this->refinery->custom()->transformation(function ($v) {
-            return $v;
-        });
+        $no_transform = $this->refinery->identity();
         $w = $this->http->wrapper();
         if ($w->post()->has($key)) {
             return is_array($w->post()->retrieve($key, $no_transform));

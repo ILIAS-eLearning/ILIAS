@@ -58,14 +58,12 @@ class ilMDCreator
 
     public function __construct(int $a_rbac_id, int $a_obj_id, string $a_type)
     {
-
-
-        if ($a_obj_id == 0) {
+        if ($a_obj_id === 0) {
             $a_obj_id = $a_rbac_id;
         }
 
-        $this->rbac_id  = $a_rbac_id;
-        $this->obj_id   = $a_obj_id;
+        $this->rbac_id = $a_rbac_id;
+        $this->obj_id = $a_obj_id;
         $this->obj_type = $a_type;
 
         $this->md_obj = new ilMD($a_rbac_id, $a_obj_id, $a_type);
@@ -99,8 +97,6 @@ class ilMDCreator
 
     public function getTitleLanguage() : ilMDLanguageItem
     {
-
-
         return new ilMDLanguageItem($this->title_lng);
     }
 
@@ -111,8 +107,6 @@ class ilMDCreator
 
     public function getDescriptionLanguage() : ilMDLanguageItem
     {
-
-
         return new ilMDLanguageItem($this->title_lng);
     }
 
@@ -123,8 +117,6 @@ class ilMDCreator
 
     public function getLanguage() : ilMDLanguageItem
     {
-
-
         return new ilMDLanguageItem($this->title_lng);
     }
 
@@ -160,8 +152,6 @@ class ilMDCreator
 
     public function getKeywordLanguage() : ilMDLanguageItem
     {
-
-
         return new ilMDLanguageItem($this->title_lng);
     }
 
@@ -172,7 +162,7 @@ class ilMDCreator
 
     public function getCatalog() : string
     {
-        return $this->catalog ? $this->catalog : 'ILIAS';
+        return $this->catalog ?: 'ILIAS';
     }
 
     public function setEntry(string $a_entry) : void
@@ -182,17 +172,17 @@ class ilMDCreator
 
     public function getEntry() : string
     {
-        return $this->entry ? $this->entry : 'il__' . $this->getObjType() . '_' . $this->getObjId();
+        return $this->entry ?: 'il__' . $this->getObjType() . '_' . $this->getObjId();
     }
 
-    public function setStructure($a_structure)
+    public function setStructure(string $a_structure) : void
     {
         $this->structure = $a_structure;
     }
 
-    public function getStructure()
+    public function getStructure() : string
     {
-        return $this->structure ? $this->structure : 'Hierarchical';
+        return $this->structure ?: 'Hierarchical';
     }
 
     public function create() : void

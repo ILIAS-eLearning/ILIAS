@@ -46,6 +46,8 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
      */
     public function withValue($value) : C\Input\Field\Input
     {
+        $value = $value ?? false;
+
         if (!is_bool($value)) {
             throw new InvalidArgumentException(
                 "Unknown value type for checkbox: " . gettype($value)
@@ -118,7 +120,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
      */
     public function getUpdateOnLoadCode() : Closure
     {
-        return fn($id) => "$('#$id').on('input', function(event) {
+        return fn ($id) => "$('#$id').on('input', function(event) {
 			    il.UI.input.onFieldUpdate(event, '$id', $('#$id').prop('checked').toString());
 		    });
 		    il.UI.input.onFieldUpdate(event, '$id', $('#$id').prop('checked').toString());";

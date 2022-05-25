@@ -28,29 +28,29 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class ilTermsOfServiceAcceptanceHistoryGUITest extends ilTermsOfServiceBaseTest
 {
-    /** @var MockObject|ilTermsOfServiceTableDataProviderFactory */
+    /** @var MockObject&ilTermsOfServiceTableDataProviderFactory */
     protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
-    /** @var MockObject|ilObjTermsOfService */
+    /** @var MockObject&ilObjTermsOfService */
     protected ilObjTermsOfService $tos;
-    /** @var MockObject|ilGlobalTemplateInterface */
+    /** @var MockObject&ilGlobalTemplateInterface */
     protected ilGlobalTemplateInterface $tpl;
-    /** @var MockObject|ilCtrlInterface */
+    /** @var MockObject&ilCtrlInterface */
     protected ilCtrlInterface $ctrl;
-    /** @var MockObject|ilLanguage */
+    /** @var MockObject&ilLanguage */
     protected ilLanguage $lng;
-    /** @var MockObject|ilRbacSystem */
+    /** @var MockObject&ilRbacSystem */
     protected ilRbacSystem $rbacsystem;
-    /** @var MockObject|ilErrorHandling */
+    /** @var MockObject&ilErrorHandling */
     protected ilErrorHandling $error;
-    /** @var MockObject|Factory */
+    /** @var MockObject&Factory */
     protected Factory $uiFactory;
-    /** @var MockObject|Renderer */
+    /** @var MockObject&Renderer */
     protected Renderer $uiRenderer;
-    /** @var MockObject|GlobalHttpState */
+    /** @var MockObject&GlobalHttpState */
     protected GlobalHttpState $http;
-    /** @var MockObject|Refinery */
+    /** @var MockObject&Refinery */
     protected Refinery $refinery;
-    /** @var MockObject|ilTermsOfServiceCriterionTypeFactoryInterface */
+    /** @var MockObject&ilTermsOfServiceCriterionTypeFactoryInterface */
     protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
 
     protected function setUp() : void

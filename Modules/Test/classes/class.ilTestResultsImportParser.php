@@ -21,13 +21,8 @@ class ilTestResultsImportParser extends ilSaxParser
     private $user_criteria_field;
     private $user_criteria_type;
     private bool $user_criteria_checked = false;
-    /**
-     * @var false
-     */
-    private bool $sametag;
-    private string $characterbuffer;
+
     private $depth;
-    private $qti_element;
 
     protected $src_pool_def_id_mapping;
 
@@ -97,11 +92,8 @@ class ilTestResultsImportParser extends ilSaxParser
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $this->sametag = false;
-        $this->characterbuffer = "";
         $this->depth[$a_xml_parser]++;
         $this->path[$this->depth[$a_xml_parser]] = strtolower($a_name);
-        $this->qti_element = $a_name;
 
         switch (strtolower($a_name)) {
             case "results":

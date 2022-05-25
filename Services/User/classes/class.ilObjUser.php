@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 
@@ -301,7 +304,7 @@ class ilObjUser extends ilObject
         $this->setTimeLimitUnlimited($a_data["time_limit_unlimited"]);
         $this->setTimeLimitFrom($a_data["time_limit_from"]);
         $this->setTimeLimitUntil($a_data["time_limit_until"]);
-        $this->setTimeLimitMessage($a_data['time_limit_message']);
+        $this->setTimeLimitMessage((string) $a_data['time_limit_message']);
 
         // user profile incomplete?
         $this->setProfileIncomplete((bool) $a_data["profile_incomplete"]);
@@ -659,7 +662,7 @@ class ilObjUser extends ilObject
 
     public static function _lookupExternalAccount(int $a_user_id) : string
     {
-        return self::_lookup($a_user_id, "ext_account");
+        return (string) self::_lookup($a_user_id, "ext_account");
     }
 
     /**

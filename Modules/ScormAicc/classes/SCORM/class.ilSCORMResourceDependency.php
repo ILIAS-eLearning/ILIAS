@@ -22,14 +22,14 @@
 */
 class ilSCORMResourceDependency
 {
-    public $identifierref;
+    public string $identifierref;
 
-    public function getIdentifierRef()
+    public function getIdentifierRef() : string
     {
         return $this->identifierref;
     }
 
-    public function setIdentifierRef($a_id_ref) : void
+    public function setIdentifierRef(string $a_id_ref) : void
     {
         $this->identifierref = $a_id_ref;
     }

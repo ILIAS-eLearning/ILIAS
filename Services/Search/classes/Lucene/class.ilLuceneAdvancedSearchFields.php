@@ -144,8 +144,6 @@ class ilLuceneAdvancedSearchFields
 
     /**
      * @param string | array    $a_query
-     * @param string            $a_field_name
-     * @param ilPropertyFormGUI $a_form
      */
     public function getFormElement($a_query, string $a_field_name, ilPropertyFormGUI $a_form) : ?ilFormPropertyGUI
     {

@@ -7,8 +7,11 @@
  */
 class ilDclFormulaRecordQueryObject extends ilDclRecordQueryObject
 {
-    public function applyCustomSorting(ilDclBaseFieldModel $field, array $all_records_ids, $direction = 'asc')
-    {
+    public function applyCustomSorting(
+        ilDclBaseFieldModel $field,
+        array $all_records_ids,
+        string $direction = 'asc'
+    ) : array {
         $sort_array = array();
         foreach ($all_records_ids as $id) {
             $formula_field = ilDclCache::getRecordFieldCache(new ilDclBaseRecordModel($id), $field);

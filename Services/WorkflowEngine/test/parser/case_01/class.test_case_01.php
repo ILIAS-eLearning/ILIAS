@@ -30,15 +30,15 @@ class test_case_01 extends TestCase
         return $this->base_path . $this->suite_path . $test_name . '_goldsample.php';
     }
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        chdir(dirname(__FILE__));
+        chdir(__DIR__);
         chdir('../../../../../');
 
         require_once './Services/WorkflowEngine/classes/parser/class.ilBPMN2Parser.php';
     }
 
-    public function test_WorkflowWithSimpleEndEventShouldOutputAccordingly()
+    public function test_WorkflowWithSimpleEndEventShouldOutputAccordingly() : void
     {
         $test_name = 'Booking_System_FullDiagram';
         $xml = file_get_contents($this->getTestInputFilename($test_name));
@@ -48,7 +48,7 @@ class test_case_01 extends TestCase
         file_put_contents($this->getTestOutputFilename($test_name), $parse_result);
         $return = exec('php -l ' . $this->getTestOutputFilename($test_name));
 
-        $this->assertTrue(substr($return, 0, 25) == 'No syntax errors detected', 'Lint of output code failed.');
+        $this->assertEquals('No syntax errors detected', substr($return, 0, 25), 'Lint of output code failed.');
 
         $goldsample = file_get_contents($this->getTestGoldsampleFilename($test_name));
         //$this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');

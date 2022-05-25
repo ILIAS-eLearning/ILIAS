@@ -29,12 +29,11 @@ use ilRbacReview;
  */
 class ilNotificationSystem
 {
-    private static self $instance;
     private array $handler = [];
     private string $defaultLanguage = 'en';
     private ilRbacReview $rbacReview;
 
-    private function __construct(ilRbacReview $rbacReview = null)
+    public function __construct(ilRbacReview $rbacReview = null)
     {
         $this->addHandler('echo', new ilNotificationEchoHandler());
         $this->addHandler('osd', new ilNotificationOSDHandler());
@@ -46,13 +45,6 @@ class ilNotificationSystem
         $this->rbacReview = $rbacReview;
     }
 
-    private static function getInstance() : self
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self();
-        }
-        return self::$instance;
-    }
 
     private function addHandler(string $channel, ilNotificationHandler $handler) : void
     {
@@ -76,37 +68,38 @@ class ilNotificationSystem
             $lang = ilNotificationDatabaseHandler::getTranslatedLanguageVariablesOfNotificationParameters($notification->getLanguageParameters());
 
             $user_by_handler = [];
-            if ($types[$notification->getType()]['config_type'] === 'set_by_user') {
-                $it = new ilNotificationUserIterator($notification->getType(), $users);
-                $channelsByAdmin = false;
-                foreach ($it as $usr_id => $data) {
-                    if (!$channels[$data['channel']]) {
-                        continue;
-                    }
-                    if (!$user_by_handler[$data['channel']]) {
-                        $user_by_handler[$data['channel']] = [];
-                    }
-                    $user_by_handler[$data['channel']][] = $usr_id;
-                }
-            } elseif ($types[$notification->getType()]['config_type'] !== 'disabled') {
-                $channelsByAdmin = true;
-                if (isset($adminConfig[$notification->getType()])) {
-                    foreach ($adminConfig[$notification->getType()] as $channel) {
-                        if (!$channels[$channel]) {
+            if (isset($types[$notification->getType()]['config_type'])) {
+                if ($types[$notification->getType()]['config_type'] === 'set_by_user') {
+                    $it = new ilNotificationUserIterator($notification->getType(), $users);
+                    $channelsByAdmin = false;
+                    foreach ($it as $usr_id => $data) {
+                        if (!isset($channels['channel']) || !$channels[$data['channel']]) {
                             continue;
                         }
-                        $user_by_handler[$channel] = $users;
+                        if (!isset($user_by_handler[$data['channel']]) || !$user_by_handler[$data['channel']]) {
+                            $user_by_handler[$data['channel']] = [];
+                        }
+                        $user_by_handler[$data['channel']][] = $usr_id;
+                    }
+                } elseif ($types[$notification->getType()]['config_type'] !== 'disabled') {
+                    $channelsByAdmin = true;
+                    if (isset($adminConfig[$notification->getType()])) {
+                        foreach ($adminConfig[$notification->getType()] as $channel) {
+                            if (!isset($channels[$channel]) || !$channels[$channel]) {
+                                continue;
+                            }
+                            $user_by_handler[$channel] = $users;
+                        }
                     }
                 }
             }
-
 
             $userCache = [];
 
             foreach ($user_by_handler as $handler => $h_users) {
                 $handler = $this->handler[$handler];
                 foreach ($h_users as $userId) {
-                    if (!$userCache[$userId]) {
+                    if (!isset($userCache[$userId]) || !$userCache[$userId]) {
                         $user = ilObjectFactory::getInstanceByObjId($userId, false);
                         if (!($user instanceof ilObjUser)) {
                             continue;
@@ -157,12 +150,14 @@ class ilNotificationSystem
      */
     public static function sendNotificationToUsers(ilNotificationConfig $notification, array $users, bool $processAsync = false) : void
     {
-        self::getInstance()->toUsers($notification, $users, $processAsync);
+        global $DIC;
+        $DIC->notifications()->system()->toUsers($notification, $users, $processAsync);
     }
 
     public static function sendNotificationToListeners(ilNotificationConfig $notification, int $ref_id, bool $processAsync = false) : void
     {
-        self::getInstance()->toListeners($notification, $ref_id, $processAsync);
+        global $DIC;
+        $DIC->notifications()->system()->toListeners($notification, $ref_id, $processAsync);
     }
     
     /**
@@ -170,7 +165,8 @@ class ilNotificationSystem
      */
     public static function sendNotificationToRoles(ilNotificationConfig $notification, array $roles, bool $processAsync = false) : void
     {
-        self::getInstance()->toRoles($notification, $roles, $processAsync);
+        global $DIC;
+        $DIC->notifications()->system()->toRoles($notification, $roles, $processAsync);
     }
 
     public static function enableListeners(string $module, int $ref_id) : void

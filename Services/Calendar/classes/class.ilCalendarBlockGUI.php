@@ -23,7 +23,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
     protected int $mode = ilCalendarCategories::MODE_UNDEFINED;
     protected string $display_mode = '';
 
-    public static $block_type = "cal";
+    public static string $block_type = "cal";
 
     protected ilTabsGUI $tabs;
     protected ilObjectDataCache $obj_data_cache;
@@ -743,7 +743,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
      * @param array $item item
      * @return array
      */
-    public function getDatesForItem($item)
+    public function getDatesForItem(array $item) : array
     {
         $start = $item["dstart"];
         $end = $item["dend"];
@@ -793,7 +793,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
     /**
      * @inheritdoc

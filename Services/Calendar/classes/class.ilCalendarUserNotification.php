@@ -79,7 +79,7 @@ class ilCalendarUserNotification
         return true;
     }
 
-    public function save()
+    public function save() : bool
     {
         $this->deleteRecipients();
         foreach ($this->getRecipients() as $rcp) {

@@ -89,7 +89,7 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
         return $result;
     }
 
-    protected function readLogDir($path) : array
+    protected function readLogDir(string $path) : array
     {
         $ret = array();
 
@@ -104,7 +104,7 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
         return $ret;
     }
 
-    protected function deleteFile($path) : void
+    protected function deleteFile(string $path) : void
     {
         unlink($path);
     }

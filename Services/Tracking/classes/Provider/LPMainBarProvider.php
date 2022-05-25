@@ -30,7 +30,8 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
 
         $title = $this->dic->language()->txt("mm_learning_progress");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(
-            "trac", $title
+            "trac",
+            $title
         )->withIsOutlined(true);
         $ctrl = $DIC->ctrl();
         return [

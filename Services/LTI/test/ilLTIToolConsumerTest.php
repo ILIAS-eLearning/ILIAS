@@ -23,7 +23,7 @@ class ilLTIToolConsumerTest extends TestCase
 {
     public function testTitle() : void
     {
-        $ltiToolConsumer = new ilLTIToolConsumer();
+        $ltiToolConsumer = new ilLTIPlatform();
         $testString = str_shuffle(uniqid('abcdefgh'));
         $ltiToolConsumer->setTitle($testString);
 

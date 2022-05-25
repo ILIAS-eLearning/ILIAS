@@ -17,7 +17,7 @@ class ilObjQuestionPool extends ilObject
 {
     private array $mob_ids;
     private array $file_ids;
-    private array $import_mapping;
+
     /**
     * Online status of questionpool
     *
@@ -166,7 +166,7 @@ class ilObjQuestionPool extends ilObject
         return true;
     }
 
-    public function deleteQuestionpool()
+    public function deleteQuestionpool() : void
     {
         $questions = &$this->getAllQuestions();
 
@@ -192,27 +192,13 @@ class ilObjQuestionPool extends ilObject
     * @param integer $question_id The database id of the question
     * @access private
     */
-    public function deleteQuestion($question_id)
+    public function deleteQuestion($question_id) : void
     {
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
 
         $question = assQuestion::instantiateQuestion($question_id);
-        $this->addQuestionChangeListeners($question);
         $question->delete($question_id);
-    }
-
-    /**
-     * @param assQuestion $question
-     */
-    public function addQuestionChangeListeners(assQuestion $question)
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        foreach (ilObjTest::getPoolQuestionChangeListeners($ilDB, $this->getId()) as $listener) {
-            $question->addQuestionChangeListener($listener);
-        }
     }
 
     /**
@@ -220,7 +206,7 @@ class ilObjQuestionPool extends ilObject
     *
     * @access public
     */
-    public function loadFromDb()
+    public function loadFromDb() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -244,7 +230,7 @@ class ilObjQuestionPool extends ilObject
     *
     * @access public
     */
-    public function saveToDb()
+    public function saveToDb() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -424,7 +410,7 @@ class ilObjQuestionPool extends ilObject
     /**
      * @param ilXmlWriter $xmlWriter
      */
-    private function exportXMLSettings($xmlWriter)
+    private function exportXMLSettings($xmlWriter) : void
     {
         $xmlWriter->xmlStartTag('Settings');
 
@@ -441,7 +427,7 @@ class ilObjQuestionPool extends ilObject
     * @param	object		$a_xml_writer	ilXmlWriter object that receives the
     *										xml data
     */
-    public function objectToXmlWriter(ilXmlWriter &$a_xml_writer, $a_inst, $a_target_dir, &$expLog, $questions)
+    public function objectToXmlWriter(ilXmlWriter &$a_xml_writer, $a_inst, $a_target_dir, &$expLog, $questions) : void
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
@@ -490,7 +476,7 @@ class ilObjQuestionPool extends ilObject
      * @param ilXmlWriter $a_xml_writer
      * @param $questions
      */
-    protected function populateQuestionSkillAssignmentsXml(ilXmlWriter &$a_xml_writer, $questions)
+    protected function populateQuestionSkillAssignmentsXml(ilXmlWriter &$a_xml_writer, $questions) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -515,7 +501,7 @@ class ilObjQuestionPool extends ilObject
     * @param	object		$a_xml_writer	ilXmlWriter object that receives the
     *										xml data
     */
-    public function exportXMLMetaData(&$a_xml_writer)
+    public function exportXMLMetaData(&$a_xml_writer) : void
     {
         include_once("Services/MetaData/classes/class.ilMD2XML.php");
         $md2xml = new ilMD2XML($this->getId(), 0, $this->getType());
@@ -541,7 +527,7 @@ class ilObjQuestionPool extends ilObject
     * @param	object		$a_xml_writer	ilXmlWriter object that receives the
     *										xml data
     */
-    public function exportXMLPageObjects(&$a_xml_writer, $a_inst, &$expLog, $questions)
+    public function exportXMLPageObjects(&$a_xml_writer, $a_inst, &$expLog, $questions) : void
     {
         global $DIC;
         $ilBench = $DIC['ilBench'];
@@ -596,7 +582,7 @@ class ilObjQuestionPool extends ilObject
         }
     }
 
-    public function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog)
+    public function exportXMLMediaObjects(&$a_xml_writer, $a_inst, $a_target_dir, &$expLog) : void
     {
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
 
@@ -615,7 +601,7 @@ class ilObjQuestionPool extends ilObject
     * export files of file itmes
     *
     */
-    public function exportFileItems($a_target_dir, &$expLog)
+    public function exportFileItems($a_target_dir, &$expLog) : void
     {
         include_once("./Modules/File/classes/class.ilObjFile.php");
 
@@ -632,7 +618,7 @@ class ilObjQuestionPool extends ilObject
     * (data_dir/qpl_data/qpl_<id>/export, depending on data
     * directory that is set in ILIAS setup/ini)
     */
-    public function createExportDirectory()
+    public function createExportDirectory() : void
     {
         include_once "./Services/Utilities/classes/class.ilUtil.php";
         $qpl_data_dir = ilFileUtils::getDataDir() . "/qpl_data";
@@ -712,7 +698,7 @@ class ilObjQuestionPool extends ilObject
     /**
     * set import directory
     */
-    public static function _setImportDirectory($a_import_dir = null)
+    public static function _setImportDirectory($a_import_dir = null) : void
     {
         if (strlen($a_import_dir)) {
             ilSession::set("qpl_import_dir", $a_import_dir);
@@ -800,11 +786,7 @@ class ilObjQuestionPool extends ilObject
     */
     public function getImportMapping() : array
     {
-        if (!is_array($this->import_mapping)) {
-            return array();
-        } else {
-            return $this->import_mapping;
-        }
+        return array();
     }
 
     /**
@@ -867,7 +849,7 @@ class ilObjQuestionPool extends ilObject
     * @see online
     * @access public
     */
-    public function setOnline($a_online_status)
+    public function setOnline($a_online_status) : void
     {
         switch ($a_online_status) {
             case 0:
@@ -888,7 +870,7 @@ class ilObjQuestionPool extends ilObject
         return $this->online;
     }
 
-    public function setShowTaxonomies($showTaxonomies)
+    public function setShowTaxonomies($showTaxonomies) : void
     {
         $this->showTaxonomies = $showTaxonomies;
     }
@@ -898,7 +880,7 @@ class ilObjQuestionPool extends ilObject
         return $this->showTaxonomies;
     }
 
-    public function setNavTaxonomyId($navTaxonomyId)
+    public function setNavTaxonomyId($navTaxonomyId) : void
     {
         $this->navTaxonomyId = $navTaxonomyId;
     }
@@ -1040,7 +1022,7 @@ class ilObjQuestionPool extends ilObject
     * @param integer $question_id Object id of the question
     * @access private
     */
-    public function copyToClipboard($question_id)
+    public function copyToClipboard($question_id) : void
     {
         if (ilSession::get("qpl_clipboard") == null) {
             ilSession::set("qpl_clipboard", array());
@@ -1057,7 +1039,7 @@ class ilObjQuestionPool extends ilObject
     * @param integer $question_id Object id of the question
     * @access private
     */
-    public function moveToClipboard($question_id)
+    public function moveToClipboard($question_id) : void
     {
         if (ilSession::get("qpl_clipboard") == null) {
             ilSession::set("qpl_clipboard", array());
@@ -1068,7 +1050,7 @@ class ilObjQuestionPool extends ilObject
         //$_SESSION["qpl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "move");
     }
 
-    public function cleanupClipboard($deletedQuestionId)
+    public function cleanupClipboard($deletedQuestionId) : void
     {
         if (ilSession::get('qpl_clipboard') == null) {
             return;
@@ -1517,7 +1499,7 @@ class ilObjQuestionPool extends ilObject
     * @param integer $object_id Object id of the questionpool to examine
     * @access public
     */
-    public static function _updateQuestionCount($object_id)
+    public static function _updateQuestionCount($object_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1557,7 +1539,7 @@ class ilObjQuestionPool extends ilObject
     /*
     * Remove all questions with owner = 0
     */
-    public function purgeQuestions()
+    public function purgeQuestions() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1591,7 +1573,7 @@ class ilObjQuestionPool extends ilObject
     /**
      * @param boolean $skillServiceEnabled
      */
-    public function setSkillServiceEnabled($skillServiceEnabled)
+    public function setSkillServiceEnabled($skillServiceEnabled) : void
     {
         $this->skillServiceEnabled = $skillServiceEnabled;
     }
@@ -1609,7 +1591,7 @@ class ilObjQuestionPool extends ilObject
         return self::$isSkillManagementGloballyActivated;
     }
 
-    public function fromXML($xmlFile)
+    public function fromXML($xmlFile) : void
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilObjQuestionPoolXMLParser.php';
         $parser = new ilObjQuestionPoolXMLParser($this, $xmlFile);

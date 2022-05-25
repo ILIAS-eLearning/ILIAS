@@ -19,8 +19,11 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
      * @var ilLanguage|MockObject
      */
     private $lng_mock;
+    /**
+     * @var \ILIAS\DI\Container|mixed
+     */
+    private $backup_dic;
 
-    
     protected function setUp() : void
     {
         parent::setUp();
@@ -37,7 +40,6 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable('lng', $this->lng_mock);
     
         $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI(
-            $this->lng_mock,
             $this->testObj_mock
         );
     }

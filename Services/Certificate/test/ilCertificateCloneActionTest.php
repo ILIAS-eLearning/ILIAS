@@ -23,7 +23,7 @@ class ilCertificateCloneActionTest extends ilCertificateBaseTestCase
 {
     public function testCloneCertificate() : void
     {
-        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
+        $database = $this->createMock(ilDBInterface::class);
 
         $database
             ->expects($this->once())

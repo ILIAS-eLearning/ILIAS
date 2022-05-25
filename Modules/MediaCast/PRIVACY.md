@@ -11,8 +11,7 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
     - The **Object** service stores the account which created the
       object as it's owner and creation and update timestamps for the
       object.
-    - The **Permission** service stores which users / user roles have what kind
-      of access to the object.
+    - [AccessControl](../../Services/AccessControl/PRIVACY.md)
     - [Info Screen Service](../../Services/InfoScreen/PRIVACY.md)
     - [News Service](../../Services/News/Privacy.md)
 

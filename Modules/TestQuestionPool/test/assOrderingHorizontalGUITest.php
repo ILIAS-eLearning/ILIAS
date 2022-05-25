@@ -14,9 +14,6 @@ class assOrderingHorizontalGUITest extends assBaseTestCase
 
     protected function setUp() : void
     {
-        chdir(dirname(__FILE__));
-        chdir('../../../');
-
         parent::setUp();
 
         require_once './Services/UICore/classes/class.ilCtrl.php';
@@ -35,7 +32,7 @@ class assOrderingHorizontalGUITest extends assBaseTestCase
         $this->setGlobalVariable('ilDB', $this->getDatabaseMock());
     }
 
-    public function test_instantiateObject_shouldReturnInstance()
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assOrderingHorizontalGUI.php';

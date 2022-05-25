@@ -19,7 +19,7 @@
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *
  */
-class ilAuthProviderDatabase extends ilAuthProvider implements ilAuthProviderInterface
+class ilAuthProviderDatabase extends ilAuthProvider
 {
 
     
@@ -35,7 +35,7 @@ class ilAuthProviderDatabase extends ilAuthProvider implements ilAuthProviderInt
 
         $this->getLogger()->debug('Trying to authenticate user: ' . $this->getCredentials()->getUsername());
         if ($user instanceof ilObjUser) {
-            if ($user->getId() == ANONYMOUS_USER_ID) {
+            if ($user->getId() === ANONYMOUS_USER_ID) {
                 $this->getLogger()->notice('Failed authentication for anonymous user id. ');
                 $this->handleAuthenticationFail($status, 'err_wrong_login');
                 return false;

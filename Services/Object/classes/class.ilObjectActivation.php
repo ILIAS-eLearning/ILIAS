@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilObjectActivation
  *
@@ -235,9 +249,9 @@ class ilObjectActivation
 
         $sql =
             "SELECT parent_id, obj_id, timing_type, timing_start, timing_end, suggestion_start," . PHP_EOL
-            ."suggestion_end, changeable, visible, position, suggestion_start_rel, suggestion_end_rel" . PHP_EOL
-            ."FROM crs_items" . PHP_EOL
-            ."WHERE " . $db->in("obj_id", $ref_ids, false, "integer") . PHP_EOL
+            . "suggestion_end, changeable, visible, position, suggestion_start_rel, suggestion_end_rel" . PHP_EOL
+            . "FROM crs_items" . PHP_EOL
+            . "WHERE " . $db->in("obj_id", $ref_ids, false, "integer") . PHP_EOL
         ;
         $set = $db->query($sql);
         while ($row = $db->fetchAssoc($set)) {
@@ -257,9 +271,9 @@ class ilObjectActivation
 
         $sql =
             "SELECT parent_id, obj_id, timing_type, timing_start, timing_end, suggestion_start," . PHP_EOL
-            ."suggestion_end, changeable, visible, position, suggestion_start_rel, suggestion_end_rel" . PHP_EOL
-            ."FROM crs_items" . PHP_EOL
-            ."WHERE obj_id = " . $db->quote($ref_id, "integer") . PHP_EOL
+            . "suggestion_end, changeable, visible, position, suggestion_start_rel, suggestion_end_rel" . PHP_EOL
+            . "FROM crs_items" . PHP_EOL
+            . "WHERE obj_id = " . $db->quote($ref_id, "integer") . PHP_EOL
         ;
         $set = $db->query($sql);
         $row = $db->fetchAssoc($set);
@@ -289,9 +303,9 @@ class ilObjectActivation
             ? $item['type']
             : ilObject::_lookupType((int) $item['obj_id']);
 
-        $item['timing_type'] = $item_array['timing_type'];
+        $item['timing_type'] = $item_array['timing_type'] ?? 0;
 
-        if ($item_array['changeable'] &&
+        if (($item_array['changeable'] ?? false) &&
             $item_array['timing_type'] == self::TIMINGS_PRESETTING) {
             // cognos-blu-patch: begin
             $user_data = new ilTimingUser((int) $item['ref_id'], $ilUser->getId());
@@ -300,18 +314,18 @@ class ilObjectActivation
                 $item['end'] = $user_data->getEnd()->get(IL_CAL_UNIX);
                 $item['activation_info'] = 'crs_timings_planed_info';
             } else {
-                $item['start'] = $item_array['suggestion_start'];
-                $item['end'] = $item_array['suggestion_end'];
+                $item['start'] = $item_array['suggestion_start'] ?? "";
+                $item['end'] = $item_array['suggestion_end'] ?? "";
                 $item['activation_info'] = 'crs_timings_suggested_info';
             }
             // cognos-blu-patch: end
-        } elseif ($item_array['timing_type'] == self::TIMINGS_PRESETTING) {
-            $item['start'] = $item_array['suggestion_start'];
-            $item['end'] = $item_array['suggestion_end'];
+        } elseif (($item_array['timing_type'] ?? 0) == self::TIMINGS_PRESETTING) {
+            $item['start'] = $item_array['suggestion_start'] ?? "";
+            $item['end'] = $item_array['suggestion_end'] ?? "";
             $item['activation_info'] = 'crs_timings_suggested_info';
-        } elseif ($item_array['timing_type'] == self::TIMINGS_ACTIVATION) {
-            $item['start'] = $item_array['timing_start'];
-            $item['end'] = $item_array['timing_end'];
+        } elseif (($item_array['timing_type'] ?? 0) == self::TIMINGS_ACTIVATION) {
+            $item['start'] = $item_array['timing_start'] ?? "";
+            $item['end'] = $item_array['timing_end'] ?? "";
             $item['activation_info'] = 'obj_activation_list_gui';
         } else {
             $item['start'] = 'abc';
@@ -392,12 +406,12 @@ class ilObjectActivation
         $ilAtomQuery = $db->buildAtomQuery();
         $ilAtomQuery->addTableLock("crs_items");
 
-        $ilAtomQuery->addQueryCallable(function (ilDBInterface $db) use ($ref_id, $parent_id, &$item) {
+        $ilAtomQuery->addQueryCallable(function (ilDBInterface $db) use ($ref_id, $parent_id, &$item) : void {
             $sql =
                 "SELECT parent_id, obj_id, timing_type, timing_start, timing_end, suggestion_start," . PHP_EOL
-                ."suggestion_end, changeable, visible, position, suggestion_start_rel, suggestion_end_rel" . PHP_EOL
-                ."FROM crs_items" . PHP_EOL
-                ."WHERE obj_id = " . $db->quote($ref_id, "integer") . PHP_EOL
+                . "suggestion_end, changeable, visible, position, suggestion_start_rel, suggestion_end_rel" . PHP_EOL
+                . "FROM crs_items" . PHP_EOL
+                . "WHERE obj_id = " . $db->quote($ref_id, "integer") . PHP_EOL
             ;
             $set = $db->query($sql);
             if (!$db->numRows($set)) {
@@ -454,13 +468,13 @@ class ilObjectActivation
 
         $sql =
             "DELETE FROM crs_items " . PHP_EOL
-            ."WHERE obj_id = " . $db->quote($ref_id, 'integer') . PHP_EOL
+            . "WHERE obj_id = " . $db->quote($ref_id, 'integer') . PHP_EOL
         ;
         $db->manipulate($sql);
 
         $sql =
             "DELETE FROM crs_items " . PHP_EOL
-            ."WHERE parent_id = " . $db->quote($ref_id, 'integer') . PHP_EOL
+            . "WHERE parent_id = " . $db->quote($ref_id, 'integer') . PHP_EOL
         ;
         $db->manipulate($sql);
 
@@ -541,9 +555,9 @@ class ilObjectActivation
 
         $sql =
             "SELECT parent_id" . PHP_EOL
-            ."FROM crs_items" . PHP_EOL
-            ."WHERE timing_type = " . $db->quote(self::TIMINGS_PRESETTING, 'integer') . PHP_EOL
-            ."AND " . $db->in('obj_id', $ref_ids, false, 'integer') . PHP_EOL
+            . "FROM crs_items" . PHP_EOL
+            . "WHERE timing_type = " . $db->quote(self::TIMINGS_PRESETTING, 'integer') . PHP_EOL
+            . "AND " . $db->in('obj_id', $ref_ids, false, 'integer') . PHP_EOL
         ;
         $res = $db->query($sql);
         return (bool) $res->numRows();
@@ -567,10 +581,10 @@ class ilObjectActivation
 
         $sql =
             "SELECT parent_id" . PHP_EOL
-            ."FROM crs_items" . PHP_EOL
-            ."WHERE timing_type = " . $db->quote(self::TIMINGS_PRESETTING, 'integer') . PHP_EOL
-            ."AND changeable = " . $db->quote(1, 'integer') . PHP_EOL
-            ."AND " . $db->in('obj_id', $ref_ids, false, 'integer') . PHP_EOL
+            . "FROM crs_items" . PHP_EOL
+            . "WHERE timing_type = " . $db->quote(self::TIMINGS_PRESETTING, 'integer') . PHP_EOL
+            . "AND changeable = " . $db->quote(1, 'integer') . PHP_EOL
+            . "AND " . $db->in('obj_id', $ref_ids, false, 'integer') . PHP_EOL
         ;
         $res = $db->query($sql);
         return (bool) $res->numRows();
@@ -725,9 +739,9 @@ class ilObjectActivation
 
         $sql =
             "SELECT parent_id, obj_id, timing_type, timing_start, timing_end, suggestion_start," . PHP_EOL
-            ."suggestion_end, changeable, visible, position, suggestion_start_rel, suggestion_end_rel" . PHP_EOL
-            ."FROM crs_items" . PHP_EOL
-            ."WHERE obj_id = " . $db->quote($ref_id, 'integer') . PHP_EOL
+            . "suggestion_end, changeable, visible, position, suggestion_start_rel, suggestion_end_rel" . PHP_EOL
+            . "FROM crs_items" . PHP_EOL
+            . "WHERE obj_id = " . $db->quote($ref_id, 'integer') . PHP_EOL
         ;
 
         if ($parent_id) {

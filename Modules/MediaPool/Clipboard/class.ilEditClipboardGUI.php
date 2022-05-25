@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Clipboard for editing
@@ -93,7 +96,6 @@ class ilEditClipboardGUI
         
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
-
         switch ($next_class) {
             case "ilobjmediaobjectgui":
                 $ilCtrl->setReturn($this, "view");
@@ -104,10 +106,14 @@ class ilEditClipboardGUI
                 );
                 $mob_gui = new ilObjMediaObjectGUI("", $this->requested_clip_item_id, false, false);
                 $mob_gui->setTabs();
-                $ret = $ilCtrl->forwardCommand($mob_gui);
+                $ilCtrl->forwardCommand($mob_gui);
                 switch ($cmd) {
                     case "save":
-                        $ilUser->addObjectToClipboard($ret->getId(), "mob", $ret->getTitle());
+                        $ilUser->addObjectToClipboard(
+                            $mob_gui->getObject()->getId(),
+                            "mob",
+                            $mob_gui->getObject()->getTitle()
+                        );
                         $ilCtrl->redirect($this, "view");
                         break;
                 }
@@ -179,6 +185,7 @@ class ilEditClipboardGUI
         
         // check number of objects
         $ids = $this->request->getItemIds();
+
         if (count($ids) === 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "view");

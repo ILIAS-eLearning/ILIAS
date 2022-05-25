@@ -63,10 +63,12 @@ class ilResourceStorageMigrationHelper
         $file_system_factory = new FlySystemFilesystemFactory();
         $this->resource_builder = new ResourceBuilder(
             new StorageHandlerFactory([
-                new MaxNestingFileSystemStorageHandler($file_system_factory->getLocal(
-                    new LocalConfig($this->client_data_dir)
-                ),
-                    Location::STORAGE)
+                new MaxNestingFileSystemStorageHandler(
+                    $file_system_factory->getLocal(
+                        new LocalConfig($this->client_data_dir)
+                    ),
+                    Location::STORAGE
+                )
             ]),
             new RevisionDBRepository($db),
             new ResourceDBRepository($db),
@@ -129,5 +131,4 @@ class ilResourceStorageMigrationHelper
 
         return $resource->getIdentification();
     }
-
 }

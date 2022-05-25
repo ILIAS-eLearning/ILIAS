@@ -544,30 +544,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
             $form->addCommandButton("saveGeneralPageSettings", $this->lng->txt("save"));
         }
 
-        // enable html/js
-        $this->lng->loadLanguageModule("copg");
-        $sh = new ilFormSectionHeaderGUI();
-        $sh->setTitle($this->lng->txt("copg_allow_html"));
-        $sh->setInfo($this->lng->txt("copg_allow_html_info"));
-        $form->addItem($sh);
-
-        $comps = iterator_to_array($this->component_repository->getComponents());
-        $comps_per_dir = array_column(array_map(static function ($k, ilComponentInfo $c) : array {
-            return [$c->getType() . "/" . $c->getName(), $c];
-        }, array_keys($comps), $comps), 1, 0);
-
-        $cdef = new ilCOPageObjDef();
-        foreach ($cdef->getDefinitions() as $key => $def) {
-            if (in_array($key, $this->getPageObjectKeysWithOptionalHTML(), true)) {
-                $comp_id = $comps_per_dir[$def["component"]]->getId();
-                $this->lng->loadLanguageModule($comp_id);
-                $cb = new ilCheckboxInputGUI($def["component"] . ": " . $this->lng->txt($comp_id . "_page_type_" . $key), "act_html_" . $key);
-                $cb->setChecked((bool) $aset->get("act_html_" . $key));
-                $form->addItem($cb);
-            }
-        }
-
-        // workaround for glossaries to force rewriting of shot texts
+        // workaround for glossaries to force rewriting of short texts
         ilGlossaryDefinition::setShortTextsDirtyGlobally();
 
                     
@@ -615,13 +592,6 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
                 $aset->set("auto_url_linking", $form->getInput("auto_url_linking"));
 
                 $aset->set("autosave", $form->getInput("autosave"));
-
-                $def = new ilCOPageObjDef();
-                foreach ($def->getDefinitions() as $key => $def) {
-                    if (in_array($key, $this->getPageObjectKeysWithOptionalHTML(), true)) {
-                        $aset->set("act_html_" . $key, (string) (int) $form->getInput("act_html_" . $key));
-                    }
-                }
 
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
                 $this->ctrl->redirect($this, "showGeneralPageEditorSettings");

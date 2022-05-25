@@ -19,9 +19,9 @@
  */
 class ilAuthSession
 {
-    const SESSION_AUTH_AUTHENTICATED = '_authsession_authenticated';
-    const SESSION_AUTH_USER_ID = '_authsession_user_id';
-    const SESSION_AUTH_EXPIRED = '_authsession_expired';
+    private const SESSION_AUTH_AUTHENTICATED = '_authsession_authenticated';
+    private const SESSION_AUTH_USER_ID = '_authsession_user_id';
+    private const SESSION_AUTH_EXPIRED = '_authsession_expired';
     
     private static ?ilAuthSession $instance = null;
     
@@ -128,7 +128,7 @@ class ilAuthSession
     /**
      * Set authenticated
      */
-    public function setAuthenticated(bool $a_status, int $a_user_id)
+    public function setAuthenticated(bool $a_status, int $a_user_id) : void
     {
         $this->authenticated = $a_status;
         $this->user_id = $a_user_id;

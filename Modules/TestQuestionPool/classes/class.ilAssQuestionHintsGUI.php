@@ -73,12 +73,12 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
     /**
      * @param bool $editingEnabled
      */
-    public function setEditingEnabled(bool $editingEnabled)
+    public function setEditingEnabled(bool $editingEnabled) : void
     {
         $this->editingEnabled = $editingEnabled;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -136,7 +136,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @access	private
      * @global	ilTemplate	$tpl
      */
-    private function showListCmd()
+    private function showListCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -192,7 +192,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilTemplate	$tpl
      * @global	ilLanguage	$lng
      */
-    private function confirmDeleteCmd()
+    private function confirmDeleteCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -237,7 +237,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilLanguage	$lng
      */
-    private function performDeleteCmd()
+    private function performDeleteCmd() : void
     {
         if (!$this->isEditingEnabled()) {
             return;
@@ -277,7 +277,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId())) {
+        if ($this->request->raw("calling_test") && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId())) {
             $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
         }
         
@@ -292,7 +292,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilLanguage	$lng
      */
-    private function saveListOrderCmd()
+    private function saveListOrderCmd() : void
     {
         if (!$this->isEditingEnabled()) {
             return;
@@ -334,7 +334,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         global $DIC;
         $ilUser = $DIC['ilUser'];
-        if ($_GET["calling_test"] && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId())) {
+        if ($this->request->raw("calling_test") && $originalexists && assQuestion::_isWriteable($this->questionOBJ->original_id, $ilUser->getId())) {
             $ilCtrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_CONFIRM_SYNC);
         }
         
@@ -347,7 +347,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @access	private
      * @global	ilCtrl	$ilCtrl
      */
-    private function cutToOrderingClipboardCmd()
+    private function cutToOrderingClipboardCmd() : void
     {
         if (!$this->isEditingEnabled()) {
             return;
@@ -375,7 +375,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilLanguage	$lng
      */
-    private function pasteFromOrderingClipboardBeforeCmd()
+    private function pasteFromOrderingClipboardBeforeCmd() : void
     {
         if (!$this->isEditingEnabled()) {
             return;
@@ -435,7 +435,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilLanguage	$lng
      */
-    private function pasteFromOrderingClipboardAfterCmd()
+    private function pasteFromOrderingClipboardAfterCmd() : void
     {
         if (!$this->isEditingEnabled()) {
             return;
@@ -495,7 +495,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilCtrl		$ilCtrl
      * @global	ilLanguage	$lng
      */
-    private function resetOrderingClipboardCmd()
+    private function resetOrderingClipboardCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -514,7 +514,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @access	private
      * @global	ilLanguage	$lng
      */
-    private function initHintOrderingClipboardNotification()
+    private function initHintOrderingClipboardNotification() : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -538,7 +538,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @access	private
      * @param	integer	$hintId
      */
-    private function checkForExistingHintRelatingToCurrentQuestionAndRedirectOnFailure($hintId)
+    private function checkForExistingHintRelatingToCurrentQuestionAndRedirectOnFailure($hintId) : void
     {
         $questionHintList = ilAssQuestionHintList::getListByQuestionId($this->questionOBJ->getId());
         
@@ -580,7 +580,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilLanguage	$lng
      * @param	array		$hintIds
      */
-    private function checkForSingleHintIdAndRedirectOnFailure($hintIds)
+    private function checkForSingleHintIdAndRedirectOnFailure($hintIds) : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -605,6 +605,8 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      */
     private static function fetchHintIdsParameter() : array
     {
+        global $DIC;
+        $request = $DIC->testQuestionPool()->internal()->request();
         $hintIds = array();
         
         if (isset($_POST['hint_ids']) && is_array($_POST['hint_ids'])) {
@@ -613,8 +615,8 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
                     $hintIds[] = (int) $hintId;
                 }
             }
-        } elseif (isset($_GET['hint_id']) && (int) $_GET['hint_id']) {
-            $hintIds[] = (int) $_GET['hint_id'];
+        } elseif ($request->isset('hint_id') && (int) $request->raw('hint_id')) {
+            $hintIds[] = (int) $request->raw('hint_id');
         }
         
         return $hintIds;
@@ -657,7 +659,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
         return $hintIndexes;
     }
     
-    public function confirmSyncCmd()
+    public function confirmSyncCmd() : void
     {
         $this->questionGUI->originalSyncForm('showHints');
     }
@@ -693,14 +695,14 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilTemplate $tpl
      * @global	ilLanguage $lng
      */
-    private function showHintCmd()
+    private function showHintCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
         
-        if (!isset($_GET['hintId']) || !(int) $_GET['hintId']) {
+        if (!$this->request->isset('hintId') || !(int) $this->request->raw('hintId')) {
             throw new ilTestException('no hint id given');
         }
         
@@ -712,7 +714,7 @@ class ilAssQuestionHintsGUI extends ilAssQuestionHintAbstractGUI
             $DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_LIST)
         );
         
-        $questionHint = ilAssQuestionHint::getInstanceById((int) $_GET['hintId']);
+        $questionHint = ilAssQuestionHint::getInstanceById((int) $this->request->raw('hintId'));
         
         // build form
         

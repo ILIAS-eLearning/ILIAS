@@ -32,7 +32,7 @@ class ilObjRemoteWiki extends ilRemoteObjectBase
     
     protected $availability_type;
 
-    public function initType()
+    public function initType() : void
     {
         $this->type = "rwik";
     }

@@ -21,14 +21,14 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
         $this->lng = $lng;
     }
     
-    private function setTableIdentifiers()
+    private function setTableIdentifiers() : void
     {
         $this->setId(self::IDENTIFIER);
         $this->setPrefix(self::IDENTIFIER);
         $this->setFormName(self::IDENTIFIER);
     }
     
-    public function build()
+    public function build() : void
     {
         $this->setTableIdentifiers();
         
@@ -47,7 +47,7 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
         $this->addColumns();
     }
     
-    protected function addColumns()
+    protected function addColumns() : void
     {
         $this->addColumn($this->lng->txt('title'), '', '30%');
         $this->addColumn($this->lng->txt('path'), '', '30%');
@@ -55,7 +55,7 @@ class ilTestRandomQuestionSetNonAvailablePoolsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('actions'), '', '');
     }
     
-    public function init(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+    public function init(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList) : void
     {
         $rows = array();
         

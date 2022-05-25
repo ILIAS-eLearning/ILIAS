@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCAMDPageList
@@ -78,7 +81,7 @@ class ilPCAMDPageList extends ilPageContent
             $fields = array(
                 "id" => array("integer", $data_id)
                 ,"field_id" => array("integer", $field_id)
-                ,"data" => array("text", serialize($field_data))
+                ,"sdata" => array("text", serialize($field_data))
             );
             $ilDB->insert("pg_amd_page_list", $fields);
         }
@@ -112,7 +115,7 @@ class ilPCAMDPageList extends ilPageContent
             $set = $ilDB->query("SELECT * FROM pg_amd_page_list" .
                 " WHERE id = " . $ilDB->quote($a_data_id, "integer"));
             while ($row = $ilDB->fetchAssoc($set)) {
-                $res[$row["field_id"]] = unserialize($row["data"], ["allowed_classes" => false]);
+                $res[$row["field_id"]] = unserialize($row["sdata"], ["allowed_classes" => false]);
             }
         }
         return $res;
@@ -148,7 +151,7 @@ class ilPCAMDPageList extends ilPageContent
                 $fields = array(
                     "id" => array("integer", $new_id)
                     ,"field_id" => array("integer", $row["field_id"])
-                    ,"data" => array("text", $row["data"])
+                    ,"sdata" => array("text", $row["sdata"])
                 );
                 $ilDB->insert("pg_amd_page_list", $fields);
             }
@@ -283,7 +286,7 @@ class ilPCAMDPageList extends ilPageContent
         $set = $ilDB->query("SELECT * FROM pg_amd_page_list" .
             " WHERE field_id = " . $ilDB->quote($a_field_id, "integer"));
         while ($row = $ilDB->fetchAssoc($set)) {
-            $data = unserialize(unserialize($row["data"], ["allowed_classes" => false]), ["allowed_classes" => false]);
+            $data = unserialize(unserialize($row["sdata"], ["allowed_classes" => false]), ["allowed_classes" => false]);
             if (is_array($data) &&
                 in_array($old_option, $data)) {
                 $idx = array_search($old_option, $data);
@@ -294,7 +297,7 @@ class ilPCAMDPageList extends ilPageContent
                 }
                 
                 $fields = array(
-                    "data" => array("text", serialize(serialize($data)))
+                    "sdata" => array("text", serialize(serialize($data)))
                 );
                 $primary = array(
                     "id" => array("integer", $row["id"]),

@@ -12,6 +12,7 @@ use ilTemplate;
 use ilSession;
 use ilSystemStyleException;
 use ILIAS\UI\Component\MessageBox\MessageBox;
+use ilObjFileUploadDropzone;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -55,7 +56,7 @@ class PageContentGUI
     protected bool $should_display_admin_panel_arrow = false;
     protected bool $is_admin_panel_for_bottom = false;
     private \ILIAS\DI\UIServices $ui_service;
-    
+
     /**
      * @throws ilTemplateException|ilSystemStyleException
      */
@@ -281,6 +282,7 @@ class PageContentGUI
             $this->fillRightContent();
             $this->fillAdminPanel();
             $this->fillToolbar();
+            $this->fillFilter();
             $this->setCenterColumnClass();
 
             // these fill just plain placeholder variables in tpl.adm_content.html
@@ -342,7 +344,7 @@ class PageContentGUI
             $this->template->setVariable("MESSAGE", $this->ui_service->renderer()->render($messages));
         }
     }
-    
+
     private function getMessageBox(string $type, string $message) : MessageBox
     {
         $box_factory = $this->ui_service->factory()->messageBox();
@@ -362,7 +364,7 @@ class PageContentGUI
             default:
                 throw new InvalidArgumentException();
         }
-    
+
         return $box;
     }
 
@@ -398,73 +400,80 @@ class PageContentGUI
 
         $lng = $DIC->language();
 
+        $header_tpl = new ilTemplate('tpl.il_header.html', true, true);
+
         $header = false;
         if (null !== $this->banner_image_src && $this->template->blockExists("banner_bl")) {
-            $this->template->setCurrentBlock("banner_bl");
-            $this->template->setVariable("BANNER_URL", $this->banner_image_src);
+            $header_tpl->setCurrentBlock("banner_bl");
+            $header_tpl->setVariable("BANNER_URL", $this->banner_image_src);
             $header = true;
-            $this->template->parseCurrentBlock();
+            $header_tpl->parseCurrentBlock();
         }
 
         if (null !== $this->icon_path) {
-            $this->template->setCurrentBlock("header_image");
+            $header_tpl->setCurrentBlock("header_image");
             if (null !== $this->icon_desc) {
-                $this->template->setVariable("IMAGE_DESC", $lng->txt("icon") . " " . $this->icon_desc);
-                $this->template->setVariable("IMAGE_ALT", $lng->txt("icon") . " " . $this->icon_desc);
+                $header_tpl->setVariable("IMAGE_DESC", $lng->txt("icon") . " " . $this->icon_desc);
+                $header_tpl->setVariable("IMAGE_ALT", $lng->txt("icon") . " " . $this->icon_desc);
             }
 
-            $this->template->setVariable("IMG_HEADER", $this->icon_path);
-            $this->template->parseCurrentBlock();
+            $header_tpl->setVariable("IMG_HEADER", $this->icon_path);
+            $header_tpl->parseCurrentBlock();
             $header = true;
         }
 
         if (null !== $this->title) {
             $title = \ilUtil::stripScriptHTML($this->title);
-            $this->template->setVariable("HEADER", $title);
+            $header_tpl->setVariable("HEADER", $title);
             if ($this->is_title_hidden) {
-                $this->template->touchBlock("hidden_title");
+                $header_tpl->touchBlock("hidden_title");
             }
 
             $header = true;
         }
 
         if ($header && !$this->is_title_hidden) {
-            $this->template->setCurrentBlock("header_image");
-            $this->template->parseCurrentBlock();
+            $header_tpl->setCurrentBlock("header_image");
+            $header_tpl->parseCurrentBlock();
         }
 
         if (null !== $this->title_desc) {
-            $this->template->setCurrentBlock("header_desc");
-            $this->template->setVariable("H_DESCRIPTION", $this->title_desc);
-            $this->template->parseCurrentBlock();
+            $header_tpl->setCurrentBlock("header_desc");
+            $header_tpl->setVariable("H_DESCRIPTION", $this->title_desc);
+            $header_tpl->parseCurrentBlock();
         }
 
         if (null !== $this->header_action) {
-            $this->template->setCurrentBlock("head_action_inner");
-            $this->template->setVariable("HEAD_ACTION", $this->header_action);
-            $this->template->parseCurrentBlock();
+            $header_tpl->setCurrentBlock("head_action_inner");
+            $header_tpl->setVariable("HEAD_ACTION", $this->header_action);
+            $header_tpl->parseCurrentBlock();
         }
 
         foreach ($this->title_alerts as $alert) {
-            $this->template->setCurrentBlock('header_alert');
+            $header_tpl->setCurrentBlock('header_alert');
             if (!(bool) ($alert['propertyNameVisible'] ?? false)) {
                 $this->template->setVariable('H_PROP', $alert['property'] . ':');
             }
-            $this->template->setVariable('H_VALUE', $alert['value']);
-            $this->template->parseCurrentBlock();
+            $header_tpl->setVariable('H_VALUE', $alert['value']);
+            $header_tpl->parseCurrentBlock();
         }
 
         // add file upload drop zone in header
-        if (null !== $this->file_upload_ref_id) {
-            $upload_id = "dropzone_" . $this->file_upload_ref_id;
-            $upload = new \ilFileUploadGUI($upload_id, $this->file_upload_ref_id, true);
+        if ($this->file_upload_ref_id !== null) {
+            $file_upload = new ilObjFileUploadDropzone(
+                $this->file_upload_ref_id,
+                $header_tpl->get()
+            );
 
-            $this->template->setVariable("FILEUPLOAD_DROPZONE_ID", " id=\"$upload_id\"");
-            $this->template->setCurrentBlock("header_fileupload");
-            $this->template->setVariable("HEADER_FILEUPLOAD_SCRIPT", $upload->getHTML());
-            $this->template->parseCurrentBlock();
+            $this->template->setVariable(
+                "IL_DROPZONE_HEADER",
+                $file_upload->getDropzoneHtml()
+            );
+        } else {
+            $this->template->setVariable("IL_HEADER", $header_tpl->get());
         }
     }
+
 
     protected function setCenterColumnClass() : void
     {

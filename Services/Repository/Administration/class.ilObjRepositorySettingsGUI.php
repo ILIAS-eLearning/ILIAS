@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Repository\Administration\AdministrationGUIRequest;
 
@@ -160,7 +163,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
 
         // repository tree
         $radg = new ilRadioGroupInputGUI($this->lng->txt("adm_rep_tree_presentation"), "tree_pres");
-        $radg->setValue($ilSetting->get("repository_tree_pres"));
+        $radg->setValue($ilSetting->get("repository_tree_pres") ?? "");
         $op1 = new ilRadioOption(
             $this->lng->txt("adm_rep_tree_only_cntr"),
             "",
@@ -371,7 +374,7 @@ class ilObjRepositorySettingsGUI extends ilObjectGUI
             );
             $ilSetting->set(
                 "rep_export_limit_number",
-                $form->getInput("rep_export_limit_number")
+                (string) $form->getInput("rep_export_limit_number")
             );
             $ilSetting->set(
                 "enable_trash",

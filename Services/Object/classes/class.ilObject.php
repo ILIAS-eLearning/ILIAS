@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObject
@@ -56,11 +70,11 @@ class ilObject
     // BEGIN WebDAV: WebDAV needs to access the untranslated title of an object
     public string $untranslatedTitle;
     // END WebDAV: WebDAV needs to access the untranslated title of an object
-
+    
     /**
-    * @param $id int reference_id or object_id
-    * @param $reference bool treat the id as reference_id (true) or object_id (false)
-    */
+     * @param int  $id        reference_id or object_id
+     * @param bool $reference bool treat the id as reference_id (true) or object_id (false)
+     */
     public function __construct(int $id = 0, bool $reference = true)
     {
         global $DIC;
@@ -75,10 +89,6 @@ class ilObject
 
         $this->referenced = $reference;
         $this->call_by_reference = $reference;
-
-        if (DEBUG) {
-            echo "<br/><font color=\"red\">type(" . $this->type . ") id(" . $id . ") referenced(" . $reference . ")</font>";
-        }
 
         if (isset($DIC["lng"])) {
             $this->lng = $DIC["lng"];
@@ -454,19 +464,7 @@ class ilObject
     {
         return $this->last_update;
     }
-
-    /**
-    * Gets the disk usage of the object in bytes.
-    * Returns null, if the object does not use disk space at all.
-    *
-    * The implementation of class ilObject always returns null.
-    * Subclasses which use disk space can override this method to return a
-    * non-null value.
-    */
-    public function getDiskUsage() : ?int
-    {
-        return null;
-    }
+    
 
     /**
      * note: title, description and type should be set when this function is called
@@ -1432,14 +1430,14 @@ class ilObject
         
         if ($reference) {
             $sql =
-                "SELECT obj_id" . PHP_EOL
+                "SELECT object_data.obj_id" . PHP_EOL
                 . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
                 . "LEFT JOIN object_reference ON object_reference.obj_id = object_data.obj_id " . PHP_EOL
                 . "WHERE object_reference.ref_id= " . $db->quote($id, "integer") . PHP_EOL
             ;
         } else {
             $sql =
-                "SELECT obj_id" . PHP_EOL
+                "SELECT object_data.obj_id" . PHP_EOL
                 . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
                 . "WHERE obj_id = " . $db->quote($id, "integer") . PHP_EOL
             ;
@@ -1815,7 +1813,7 @@ class ilObject
             
             // get deletion dependency of children
             foreach ($tree->getChilds($ref_id) as $c) {
-                ilObject::collectDeletionDependencies($deps, $c["child"], $c["obj_id"], $c["type"], $depth + 1);
+                ilObject::collectDeletionDependencies($deps, (int) $c["child"], (int) $c["obj_id"], (string) $c["type"], $depth + 1);
             }
         }
 

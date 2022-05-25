@@ -10,11 +10,8 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
 
     /**
      * Outputs html of a certain field
-     * @param mixed     $value
-     * @param bool|true $link
-     * @return string
      */
-    public function getHTML($link = true)
+    public function getHTML(bool $link = true): string
     {
         $value = $this->getRecordField()->getValue();
 
@@ -38,7 +35,8 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
         $field = $this->getRecordField()->getField();
 
         $is_linked_field = $field->getProperty(ilDclBaseFieldModel::PROP_LINK_DETAIL_PAGE_TEXT);
-        $has_view = ilDclDetailedViewDefinition::isActive($_GET['tableview_id']);
+        $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
+        $has_view = ilDclDetailedViewDefinition::isActive($tableview_id);
 
         if (in_array($med->getSuffix(), array('jpg', 'jpeg', 'png', 'gif'))) {
             // Image
@@ -77,8 +75,8 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
 
     /**
      * function parses stored value to the variable needed to fill into the form for editing.
-     * @param $value
-     * @return mixed
+     * @param array|int $value
+     * @return array|int|string
      */
     public function parseFormInput($value)
     {

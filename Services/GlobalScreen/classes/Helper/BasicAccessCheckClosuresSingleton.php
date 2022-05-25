@@ -29,7 +29,6 @@ use ILIAS\DI\Container;
  */
 class BasicAccessCheckClosuresSingleton
 {
-    
     protected static ?BasicAccessCheckClosures $instance = null;
     
     /**
@@ -37,7 +36,6 @@ class BasicAccessCheckClosuresSingleton
      */
     private function __construct()
     {
-    
     }
     
     public static function getInstance() : BasicAccessCheckClosures
@@ -48,5 +46,4 @@ class BasicAccessCheckClosuresSingleton
         
         return self::$instance;
     }
-    
 }

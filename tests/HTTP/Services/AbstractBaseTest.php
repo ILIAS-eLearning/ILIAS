@@ -1,6 +1,7 @@
 <?php
 
 namespace ILIAS\HTTP;
+
 /** @noRector */
 
 use PHPUnit\Framework\TestCase;
@@ -34,10 +35,9 @@ abstract class AbstractBaseTest extends TestCase
     /**
      * @inheritDoc
      */
-    protected function setUp(): void
+    protected function setUp() : void
     {
         parent::setUp();
         $this->request_interface = $this->createMock(ServerRequestInterface::class);
     }
 }
-

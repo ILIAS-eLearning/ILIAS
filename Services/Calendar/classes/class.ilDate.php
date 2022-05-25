@@ -30,7 +30,6 @@
  */
 class ilDate extends ilDateTime
 {
-
     public function __construct($a_date = '', $a_format = 0)
     {
         parent::__construct($a_date, $a_format, ilTimeZone::UTC);

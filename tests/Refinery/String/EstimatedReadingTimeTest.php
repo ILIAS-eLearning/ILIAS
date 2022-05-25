@@ -24,6 +24,7 @@ use ilLanguage;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 use InvalidArgumentException;
+use ILIAS\Refinery\String\EstimatedReadingTime;
 
 class EstimatedReadingTimeTest extends TestCase
 {
@@ -32,6 +33,10 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 EOT;
     private const HTML = <<<EOT
 <div>Lorem ipsum dolor <span style="color: red;">sit amet</span>, <img src="#" /> consetetur sadipscing elitr, sed diam nonumy eirmod <img src="#" />  tempor invidunt <img src="#" />  ut labore et dolore <img src="#" />  magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor <img src="#" />  sit amet. <img src="#" />  Lorem ipsum dolor <img src="#" />  sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, <img src="#" />  sed diam voluptua. <img src="#" />  At vero eos et accusam et justo duo dolores et ea rebum. Stet <img src="#" />  clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
+EOT;
+
+    private const INVALID_XHTML = <<<EOT
+<div>Lorem ipsum dolor <span style="color: red;">sit amet</span>, <div<img src="#" /> consetetur sadipscing elitr, sed diam nonumy eirmod <img src="#" />  tempor invidunt <img src="#" />  ut labore et dolore <img src="#" />  magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor <img src="#" />  sit amet. <img src="#" />  Lorem ipsum dolor <img src="#" />  sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, <img src="#" />  sed diam voluptua. <img src="#" />  At vero eos et accusam et justo duo dolores et ea rebum. Stet <img src="#" />  clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
 EOT;
 
     private Refinery $refinery;
@@ -49,7 +54,7 @@ EOT;
     /**
      * @return array[]
      */
-    public function subjectProvider() : array
+    public function inputProvider() : array
     {
         return [
             [5],
@@ -64,18 +69,40 @@ EOT;
     }
 
     /**
-     * @dataProvider subjectProvider
+     * @return array[]
+     */
+    public function unsupportedButKnownEntitiesProvider() : array
+    {
+        return array_map(static function (string $entity) : array {
+            return [
+                '<div>Lorem ipsum dolor <' . $entity . '></' . $entity . '></div>'
+            ];
+        }, [
+            'figure',
+            'figcaption',
+            'nav',
+            'section',
+            'header',
+            'article',
+            'footer',
+            'aside',
+            'noindex',
+        ]);
+    }
+
+    /**
+     * @dataProvider inputProvider
      * @param mixed $from
      */
-    public function testExceptionIsRaisedIfSubjectIsNotAString($from) : void
+    public function testExceptionIsRaisedIfInputIsNotAString($from) : void
     {
-        $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
-        
         $this->expectException(InvalidArgumentException::class);
+        $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
+
         $readingTimeTrafo->transform($from);
     }
 
-    public function testReadingTimeForPlainText() : void
+    public function testReadingTimeForPlainTextCanBeDetermined() : void
     {
         $readingTimeTrafo = $this->refinery->string()->estimatedReadingTime(true);
         $this->assertEquals(
@@ -84,7 +111,7 @@ EOT;
         );
     }
 
-    public function testReadingTimeForHtmlFragment() : void
+    public function testReadingTimeForHtmlFragmentCanBeDetermined() : void
     {
         $text = self::HTML;
 
@@ -133,5 +160,27 @@ EOT;
             1,
             $onlyTextReadingTimeInfo->transform($text)
         );
+    }
+
+    /**
+     * @dataProvider unsupportedButKnownEntitiesProvider
+     * @param string $text
+     */
+    public function testNoExceptionIsRaisedIfHtmlContainsUnsupportedEntities(string $text) : void
+    {
+        $reading_time_trafo = $this->refinery->string()->estimatedReadingTime(true);
+
+        $reading_time = $reading_time_trafo->transform($text);
+
+        $this->assertIsInt($reading_time);
+        $this->assertGreaterThan(0, $reading_time);
+    }
+    
+    public function testInvalidArgumentExceptionIsRaisedIfInputCannotBeParsed() : void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $reading_time_trafo = $this->refinery->string()->estimatedReadingTime(true);
+
+        $reading_time = $reading_time_trafo->transform(self::INVALID_XHTML);
     }
 }

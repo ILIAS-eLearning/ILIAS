@@ -34,13 +34,6 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
         );
     }
 
-    /**
-     * @param int    $a_trigger_obj_id
-     * @param string $a_operator
-     * @param string $a_value
-     * @param int    $a_usr_id
-     * @return bool
-     */
     public static function checkCondition(
         int $a_trigger_obj_id,
         string $a_operator,
@@ -71,7 +64,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
      *    );
      * @return array<int, array>
      */
-    public static function _getCommands($a_obj_id = null) : array
+    public static function _getCommands(int $a_obj_id = null) : array
     {
         $commands = array(
             array("permission" => "read", "cmd" => "view", "lang_var" => "show", "default" => true),
@@ -83,17 +76,15 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
 
     /**
      * check whether goto script will succeed
-     * @param $a_target
-     * @return bool
      */
-    public static function _checkGoto($a_target) : bool
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
         $ilAccess = $DIC->access();
 
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
-        if ($t_arr[0] != "sahs" || ((int) $t_arr[1]) <= 0) {
+        if ($t_arr[0] !== "sahs" || ((int) $t_arr[1]) <= 0) {
             return false;
         }
 
@@ -129,9 +120,8 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
      * Returns the number of bytes used on the harddisk by the learning module
      * with the specified object id.
      * @param int object id of a file object.
-     * @return int
      */
-    public static function _lookupDiskUsage($a_id) : int
+    public static function _lookupDiskUsage(int $a_id) : int
     {
         $lm_data_dir = ilFileUtils::getWebspaceDir('filesystem') . "/lm_data";
         $lm_dir = $lm_data_dir . DIRECTORY_SEPARATOR . "lm_" . $a_id;

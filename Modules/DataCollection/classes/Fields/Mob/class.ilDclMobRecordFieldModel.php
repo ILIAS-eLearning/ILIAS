@@ -11,12 +11,21 @@
 class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
 {
     private \ilGlobalTemplateInterface $main_tpl;
+
     public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
     {
         parent::__construct($record, $field);
         global $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
     }
+
+    /**
+     * @param array|int $value
+     * @return array|string
+     * @throws ilException
+     * @throws ilFileUtilsException
+     * @throws ilMediaObjectsException
+     */
     public function parseValue($value)
     {
         if ($value == -1) { //marked for deletion.
@@ -24,7 +33,10 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
         }
 
         $media = $value;
-        $has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && !isset($_GET['record_id']));
+
+        $hasRecordId = $this->http->wrapper()->query()->has('record_id');
+
+        $has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && $hasRecordId);
         $is_confirmed = (bool) (isset($_POST['save_confirmed']));
 
         if (is_array($media) && $media['tmp_name'] != "" && (!$has_save_confirmation || $is_confirmed)) {
@@ -120,9 +132,9 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
     }
 
     /**
-     * Function to parse incoming data from form input value $value. returns the strin/number/etc. to store in the database.
-     * @param mixed $value
-     * @return mixed
+     * Function to parse incoming data from form input value $value. returns the int|string to store in the database.
+     * @param int|string $value
+     * @return int|string
      */
     public function parseExportValue($value)
     {
@@ -137,10 +149,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
         return $file;
     }
 
-    /**
-     * @param ilConfirmationGUI $confirmation
-     */
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation)
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) : void
     {
         if (is_array($this->getValue())) {
             foreach ($this->getValue() as $key => $value) {
@@ -151,22 +160,16 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
 
     /**
      * Returns sortable value for the specific field-types
-     * @param                           $value
-     * @param ilDclBaseRecordFieldModel $record_field
-     * @param bool|true                 $link
-     * @return int|string
+     * @param int $value
      */
-    public function parseSortingValue($value, $link = true)
+    public function parseSortingValue($value, bool $link = true) : string
     {
         $mob = new ilObjMediaObject($value, false);
 
         return $mob->getTitle();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function setValueFromForm($form)
+    public function setValueFromForm(ilPropertyFormGUI $form) : void
     {
         $value = $form->getInput("field_" . $this->getField()->getId());
         if ($form->getItemByPostVar("field_" . $this->getField()->getId())->getDeletionFlag()) {
@@ -175,7 +178,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->setValue($value);
     }
 
-    public function afterClone()
+    public function afterClone(): void
     {
         $field = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
         $record = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);

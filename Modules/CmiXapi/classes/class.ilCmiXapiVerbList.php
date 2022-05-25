@@ -30,11 +30,8 @@ class ilCmiXapiVerbList
     const SATISFIED = 'http://adlnet.gov/expapi/verbs/satisfied';
     const PROGRESSED = 'http://adlnet.gov/expapi/verbs/progressed';
     const EXPERIENCED = 'http://adlnet.gov/expapi/verbs/experienced';
-
-    /**
-     * @var array
-     */
-    protected $verbs = array(
+    
+    protected array $verbs = [
         'http://adlnet.gov/expapi/verbs/abandoned',
         'http://adlnet.gov/expapi/verbs/answered',
         'http://adlnet.gov/expapi/verbs/asked',
@@ -62,49 +59,18 @@ class ilCmiXapiVerbList
         'http://adlnet.gov/expapi/verbs/suspended',
         'http://adlnet.gov/expapi/verbs/terminated',
         'http://adlnet.gov/expapi/verbs/voided'
-    );
+    ];
 
-    /**
-     * @param string $verb
-     * @return bool
-     */
     public function isValidVerb(string $verb) : bool
     {
         return in_array($verb, $this->verbs);
     }
 
-    /**
-     * @param string $verb
-     * @return string
-     */
     public function getVerbUri(string $verb) : string
     {
         return 'http://adlnet.gov/expapi/verbs/' . $verb;
     }
-
-//    /**
-//     * @param string[] $verbs
-//     * @return array<string, mixed>
-//     */
-//    public function getDynamicSelectOptions(array $verbs) : array
-//    {
-//        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-//
-//        $options = array(
-//            '' => $DIC->language()->txt('cmix_all_verbs')
-//        );
-//
-//        foreach ($verbs as $verb) {
-//            $verb = $verb['_id'];
-//            $options[urlencode($verb)] = self::getVerbTranslation(
-//                $DIC->language(),
-//                $verb
-//            );
-//        }
-//
-//        return $options;
-//    }
-
+    
     /**
      * @return array<string, mixed>
      */
@@ -126,11 +92,6 @@ class ilCmiXapiVerbList
         return $options;
     }
 
-    /**
-     * @param ilLanguage $lng
-     * @param string     $verb
-     * @return string
-     */
     public static function getVerbTranslation(ilLanguage $lng, string $verb) : string
     {
         $verbMatch = preg_match('/\/([^\/]+)$/', $verb, $matches);

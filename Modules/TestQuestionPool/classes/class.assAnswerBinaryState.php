@@ -36,7 +36,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      * @param integer $state      A integer value indicating the state of the answer
      * @param integer $id         The database id of the answer
      */
-    public function __construct($answertext = "", $points = 0.0, $order = 0, $checked = false, $id = -1)
+    public function __construct(string $answertext = "", float $points = 0.0, int $order = 0, bool $checked = false, int $id = -1)
     {
         parent::__construct($answertext, $points, $order, $id);
         $this->checked = $checked;
@@ -116,7 +116,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setState(bool $state = false)
+    public function setState(bool $state = false) : void
     {
         $this->checked = $state;
     }
@@ -128,7 +128,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setChecked()
+    public function setChecked() : void
     {
         $this->checked = true;
     }
@@ -140,7 +140,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setSet()
+    public function setSet() : void
     {
         $this->checked = true;
     }
@@ -152,7 +152,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setUnset()
+    public function setUnset() : void
     {
         $this->checked = false;
     }
@@ -164,7 +164,7 @@ class ASS_AnswerBinaryState extends ASS_AnswerSimple
      *
      * @see $state
      */
-    public function setUnchecked()
+    public function setUnchecked() : void
     {
         $this->checked = false;
     }

@@ -10,12 +10,12 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     * @param string  $direction
-     * @param boolean $sort_by_status The specific sort object is a status field
-     * @return null|ilDclRecordQueryObject
+     * @param string $direction
      */
-    public function getRecordQuerySortObject($direction = "asc", $sort_by_status = false)
-    {
+    public function getRecordQuerySortObject(
+        string $direction = "asc",
+        bool $sort_by_status = false
+    ) : ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         $join_str
@@ -35,11 +35,11 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     * @param string $filter_value
-     * @return null|ilDclRecordQueryObject
      */
-    public function getRecordQueryFilterObject($filter_value = "", ilDclBaseFieldModel $sort_field = null)
-    {
+    public function getRecordQueryFilterObject(
+        $filter_value = "",
+        ?ilDclBaseFieldModel $sort_field = null
+    ) : ?ilDclRecordQueryObject {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -71,15 +71,11 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
         return $this->parseSupportedExtensions($file_types);
     }
 
-    /**
-     * @param $input_value
-     * @return array
-     */
-    protected function parseSupportedExtensions($input_value)
+    protected function parseSupportedExtensions(string $input_value) : array
     {
         $supported_extensions = explode(",", $input_value);
 
-        $trim_function = function($value) {
+        $trim_function = function ($value) {
             return trim(trim(strtolower($value)), ".");
         };
 
@@ -87,12 +83,10 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
     }
 
     /**
-     * @param      $value
-     * @param null $record_id
-     * @return bool
-     * @throws ilDclInputException
+     * @param array|null $value
+     * @throws ilDclInputException$
      */
-    public function checkValidity($value, $record_id = null)
+    public function checkValidity($value, ?int $record_id = null) : bool
     {
         //Don't check empty values
         if ($value == null || $value['size'] == 0) {
@@ -112,18 +106,12 @@ class ilDclFileuploadFieldModel extends ilDclBaseFieldModel
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getValidFieldProperties()
+    public function getValidFieldProperties() : array
     {
         return array(ilDclBaseFieldModel::PROP_SUPPORTED_FILE_TYPES);
     }
 
-    /**
-     * @return bool
-     */
-    public function allowFilterInListView()
+    public function allowFilterInListView() : bool
     {
         return false;
     }

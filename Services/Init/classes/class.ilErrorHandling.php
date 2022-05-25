@@ -54,7 +54,7 @@ class ilErrorHandling extends PEAR
     protected static bool $whoops_handlers_registered = false;
 
     /**
-     * PEAR error obj
+     * @var ?PEAR_Error error obj
      */
     protected $error_obj = null;
 
@@ -72,7 +72,7 @@ class ilErrorHandling extends PEAR
         $this->WARNING = 2;
         $this->MESSAGE = 3;
 
-        $this->error_obj = false;
+        $this->error_obj = null;
 
         $this->initWhoopsHandlers();
 
@@ -85,9 +85,8 @@ class ilErrorHandling extends PEAR
      * Initialize Error and Exception Handlers.
      * Initializes Whoops, a logging handler and a delegate handler for the late initialisation
      * of an appropriate error handler.
-     * @return void
      */
-    protected function initWhoopsHandlers()
+    protected function initWhoopsHandlers() : void
     {
         if (self::$whoops_handlers_registered) {
             // Only register whoops error handlers once.
@@ -120,16 +119,11 @@ class ilErrorHandling extends PEAR
         return $this->defaultHandler();
     }
 
-    public function getLastError()
-    {
-        return $this->error_obj;
-    }
-
     /**
      * defines what has to happen in case of error
-     * @param object    Error
+     * @param PEAR_Error $a_error_obj PEAR Error object
      */
-    public function errorHandler($a_error_obj)
+    public function errorHandler($a_error_obj) : void
     {
         global $log;
 
@@ -432,7 +426,11 @@ class ilErrorHandling extends PEAR
         });
     }
 
-    public function handlePreWhoops($level, $message, $file, $line)
+    /**
+     * parameter types according to PHP doc: set_error_handler
+     * @throws \Whoops\Exception\ErrorException
+     */
+    public function handlePreWhoops(int $level, string $message, string $file, int $line) : bool
     {
         global $ilLog;
 

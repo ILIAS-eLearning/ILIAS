@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Class ilObjectMetaDataGUI
  *
@@ -27,8 +41,8 @@ class ilObjectMetaDataGUI
      */
     protected bool $in_repository = true;
     protected ilObject $object;
-    protected int $obj_id;
-    protected string $obj_type;
+    protected int $obj_id = 0;
+    protected string $obj_type = "";
     protected int $ref_id = 0;
     protected ?array $md_observers = null;
     protected ?ilTaxMDGUI $tax_md_gui = null;
@@ -51,10 +65,8 @@ class ilObjectMetaDataGUI
      * @var ?int[] id filter for adv records
      */
     protected ?array $record_filter = null;
-
-    /**
-     * @param string|string[]|null   $sub_type string array only for settings, in this case no sub id must be passed
-     */
+    private ilObjectRequestRetriever $retriever;
+    
     public function __construct(
         ilObject $object = null,
         $sub_type = null,
@@ -68,8 +80,9 @@ class ilObjectMetaDataGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
         $this->logger = $GLOBALS['DIC']->logger()->obj();
-
-        $this->in_workspace = (bool) ($_REQUEST["wsp_id"] ?? false);
+        $this->retriever = new ilObjectRequestRetriever($DIC->http()->wrapper(), $DIC->refinery());
+    
+        $this->in_workspace = $this->retriever->getBool("wsp_id");
 
         $this->sub_type = $sub_type;
         $this->sub_id = $sub_id;
@@ -232,7 +245,7 @@ class ilObjectMetaDataGUI
      * Set object, that defines the adv md records being used. Default is $this->object, but the
      * context may set another object (e.g. media pool for media objects)
      */
-    public function setAdvMdRecordObject(int $adv_id, string $adv_type, string $adv_subtype = "-")
+    public function setAdvMdRecordObject(int $adv_id, string $adv_type, string $adv_subtype = "-") : void
     {
         $this->adv_id = $adv_id;
         $this->adv_type = $adv_type;

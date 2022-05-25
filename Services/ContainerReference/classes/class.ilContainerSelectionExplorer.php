@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
@@ -61,15 +64,9 @@ class ilContainerSelectionExplorer extends ilExplorer
         return $this->target_type;
     }
     
-    public function isClickable(string $a_type, $a_ref_id = 0) : bool
+    public function isClickable(string $type, int $ref_id = 0) : bool
     {
-        $ilAccess = $this->access;
-
-        if ($this->getTargetType() === $a_type && $ilAccess->checkAccess('visible', '', $a_ref_id)) {
-            return true;
-        }
-
-        return false;
+        return ($this->getTargetType() === $type && $this->access->checkAccess('visible', '', $ref_id));
     }
 
     public function isVisible($a_ref_id, string $a_type) : bool

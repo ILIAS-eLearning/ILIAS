@@ -14,33 +14,30 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
  */
 class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
 {
-    private $singleAnswerScreenCmd = null;
+    private ?string $singleAnswerScreenCmd = null;
 
-    private $answerListAnchorEnabled = false;
+    private bool $answerListAnchorEnabled = false;
 
-    private $showHintCount = false;
+    private bool $showHintCount = false;
 
-    private $showSuggestedSolution = false;
+    private bool $showSuggestedSolution = false;
 
     private $activeId = null;
     
-    private $is_pdf_generation_request = false;
+    private bool $is_pdf_generation_request = false;
     
-    private $objectiveOrientedPresentationEnabled = false;
+    private bool $objectiveOrientedPresentationEnabled = false;
     
-    private $multipleObjectivesInvolved = true;
+    private bool $multipleObjectivesInvolved = true;
     
-    private $passColumnEnabled = false;
+    private bool $passColumnEnabled = false;
     
-    private $tableIdsByParentClasses = array(
+    private array $tableIdsByParentClasses = array(
         'ilTestEvaluationGUI' => 1,
         'ilTestServiceGUI' => 2
     );
 
-    /**
-     * @var ilTestQuestionRelatedObjectivesList
-     */
-    private $questionRelatedObjectivesList = null;
+    private ?ilTestQuestionRelatedObjectivesList $questionRelatedObjectivesList = null;
 
     public function __construct(ilCtrl $ctrl, $parent, $cmd)
     {
@@ -77,10 +74,7 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.il_as_tst_pass_details_overview_qst_row.html', 'Modules/Test');
     }
 
-    /**
-     * @return ilTestPassDetailsOverviewTableGUI $this
-     */
-    public function initColumns() : ilTestPassDetailsOverviewTableGUI
+    public function initColumns() : void
     {
         if ($this->isPassColumnEnabled()) {
             if ($this->isObjectiveOrientedPresentationEnabled()) {
@@ -117,13 +111,8 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         if ($this->areActionListsRequired()) {
             $this->addColumn('', '', '1');
         }
-
-        return $this;
     }
 
-    /**
-     * @return void $this
-     */
     public function initFilter() : void
     {
         if (count($this->parent_obj->object->getResultFilterTaxIds())) {
@@ -140,25 +129,16 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @return boolean
-     */
     public function isPdfGenerationRequest() : bool
     {
         return $this->is_pdf_generation_request;
     }
 
-    /**
-     * @param boolean $is_print_request
-     */
-    public function setIsPdfGenerationRequest($is_print_request)
+    public function setIsPdfGenerationRequest(bool $is_print_request) : void
     {
         $this->is_pdf_generation_request = $is_print_request;
     }
 
-    /**
-     * @param array $a_set
-     */
     public function fillRow(array $a_set) : void
     {
         $this->ctrl->setParameter($this->parent_obj, 'evaluation', $a_set['qid']);
@@ -285,17 +265,17 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         return $aslGUI->getHTML();
     }
 
-    public function setSingleAnswerScreenCmd($singleAnswerScreenCmd)
+    public function setSingleAnswerScreenCmd($singleAnswerScreenCmd) : void
     {
         $this->singleAnswerScreenCmd = $singleAnswerScreenCmd;
     }
 
-    public function getSingleAnswerScreenCmd()
+    public function getSingleAnswerScreenCmd() : ?string
     {
         return $this->singleAnswerScreenCmd;
     }
 
-    public function setAnswerListAnchorEnabled($answerListAnchorEnabled)
+    public function setAnswerListAnchorEnabled($answerListAnchorEnabled) : void
     {
         $this->answerListAnchorEnabled = $answerListAnchorEnabled;
     }
@@ -310,10 +290,10 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         return "#detailed_answer_block_act_{$this->getActiveId()}_qst_{$questionId}";
     }
 
-    public function setShowHintCount($showHintCount)
+    public function setShowHintCount($showHintCount) : void
     {
         // Has to be called before column initialization
-        $this->showHintCount = $showHintCount;
+        $this->showHintCount = (bool) $showHintCount;
     }
 
     public function getShowHintCount() : bool
@@ -321,7 +301,7 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         return $this->showHintCount;
     }
 
-    public function setShowSuggestedSolution($showSuggestedSolution)
+    public function setShowSuggestedSolution(bool $showSuggestedSolution) : void
     {
         $this->showSuggestedSolution = $showSuggestedSolution;
     }
@@ -331,7 +311,7 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         return $this->showSuggestedSolution;
     }
 
-    public function setActiveId($activeId)
+    public function setActiveId($activeId) : void
     {
         $this->activeId = $activeId;
     }
@@ -341,25 +321,16 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         return $this->activeId;
     }
 
-    /**
-     * @return boolean
-     */
     public function isObjectiveOrientedPresentationEnabled() : bool
     {
         return $this->objectiveOrientedPresentationEnabled;
     }
 
-    /**
-     * @param boolean $objectiveOrientedPresentationEnabled
-     */
-    public function setObjectiveOrientedPresentationEnabled($objectiveOrientedPresentationEnabled)
+    public function setObjectiveOrientedPresentationEnabled(bool $objectiveOrientedPresentationEnabled) : void
     {
         $this->objectiveOrientedPresentationEnabled = $objectiveOrientedPresentationEnabled;
     }
 
-    /**
-     * @return boolean
-     */
     public function areMultipleObjectivesInvolved() : bool
     {
         return $this->multipleObjectivesInvolved;
@@ -373,34 +344,22 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         $this->multipleObjectivesInvolved = $multipleObjectivesInvolved;
     }
 
-    /**
-     * @return ilTestQuestionRelatedObjectivesList
-     */
     public function getQuestionRelatedObjectivesList() : ?ilTestQuestionRelatedObjectivesList
     {
         return $this->questionRelatedObjectivesList;
     }
 
-    /**
-     * @param ilTestQuestionRelatedObjectivesList $questionRelatedObjectivesList
-     */
-    public function setQuestionRelatedObjectivesList($questionRelatedObjectivesList)
+    public function setQuestionRelatedObjectivesList(ilTestQuestionRelatedObjectivesList $questionRelatedObjectivesList) : void
     {
         $this->questionRelatedObjectivesList = $questionRelatedObjectivesList;
     }
 
-    /**
-     * @return boolean
-     */
     public function isPassColumnEnabled() : bool
     {
         return $this->passColumnEnabled;
     }
 
-    /**
-     * @param boolean $passColumnEnabled
-     */
-    public function setPassColumnEnabled($passColumnEnabled)
+    public function setPassColumnEnabled(bool $passColumnEnabled)
     {
         $this->passColumnEnabled = $passColumnEnabled;
     }

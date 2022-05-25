@@ -10,18 +10,16 @@
  */
 class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    public function parseValue($value)
+    /**
+     * @param int|string $value
+     */
+    public function parseValue($value) : string
     {
         return $value;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getValueFromExcel($excel, $row, $col)
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col) : ?string
     {
-        assert($excel instanceof ilExcel);
-
         $value = parent::getValueFromExcel($excel, $row, $col);
 
         return date('Y-m-d', strtotime($value));
@@ -29,22 +27,18 @@ class ilDclDatetimeRecordFieldModel extends ilDclBaseRecordFieldModel
 
     /**
      * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
-     * @param mixed $value
-     * @return mixed
+     * @param string $value
      */
-    public function parseExportValue($value)
+    public function parseExportValue($value) : ?string
     {
         return substr($value, 0, 10);
     }
 
     /**
      * Returns sortable value for the specific field-types
-     * @param                           $value
-     * @param ilDclBaseRecordFieldModel $record_field
-     * @param bool|true                 $link
-     * @return int|string
+     * @param string $value
      */
-    public function parseSortingValue($value, $link = true)
+    public function parseSortingValue($value, bool $link = true) : ?int
     {
         return strtotime($value);
     }

@@ -89,14 +89,14 @@ class ilMailFormCall
         $referer = '';
 
         foreach ($mail_params as $key => $value) {
-            $mparams .= $argument_separator . $key . '=' . urlencode($value);
+            $mparams .= $argument_separator . $key . '=' . urlencode((string) $value);
         }
 
         foreach ($context_params as $key => $value) {
             if ($key === self::CONTEXT_KEY) {
-                $mparams .= $argument_separator . $key . '=' . urlencode($value);
+                $mparams .= $argument_separator . $key . '=' . urlencode((string) $value);
             } else {
-                $mparams .= $argument_separator . self::CONTEXT_PREFIX . '_' . $key . '=' . urlencode($value);
+                $mparams .= $argument_separator . self::CONTEXT_PREFIX . '_' . $key . '=' . urlencode((string) $value);
             }
         }
 

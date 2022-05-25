@@ -30,11 +30,6 @@ class ilLTIConsumerProviderSelectionFormTableGUI extends ilPropertyFormGUI
 
     /**
      * ilLTIConsumerProviderSelectionFormGUI constructor.
-     * @param string              $newType
-     * @param ilObjLTIConsumerGUI $parentGui
-     * @param string              $parentCmd
-     * @param string              $applyFilterCmd
-     * @param string              $resetFilterCmd
      */
     public function __construct(string $newType, ilObjLTIConsumerGUI $parentGui, string $parentCmd, string $applyFilterCmd, string $resetFilterCmd)
     {
@@ -84,7 +79,6 @@ class ilLTIConsumerProviderSelectionFormTableGUI extends ilPropertyFormGUI
     }
 
     /**
-     * @param string $a_field
      * @return string|bool
      */
     public function getFilter(string $a_field)
@@ -92,7 +86,7 @@ class ilLTIConsumerProviderSelectionFormTableGUI extends ilPropertyFormGUI
         $field = $this->table->getFilterItemByPostVar($a_field);
         
         if ($field instanceof ilCheckboxInputGUI) {
-            return (bool) $field->getChecked();
+            return $field->getChecked();
         }
         
         return $field->getValue();

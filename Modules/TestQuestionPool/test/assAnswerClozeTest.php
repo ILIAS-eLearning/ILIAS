@@ -18,7 +18,7 @@ class assAnswerClozeTest extends assBaseTestCase
         chdir('../../../');
     }
 
-    public function test_constructorShouldReturnInstance()
+    public function test_constructorShouldReturnInstance() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
@@ -30,7 +30,7 @@ class assAnswerClozeTest extends assBaseTestCase
         $this->assertNotNull($instance);
     }
     
-    public function test_setGetLowerBound()
+    public function test_setGetLowerBound() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
@@ -45,7 +45,7 @@ class assAnswerClozeTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
     
-    public function test_setGetLowerBond_GreaterThanAnswerShouldSetAnswertext()
+    public function test_setGetLowerBond_GreaterThanAnswerShouldSetAnswertext() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
@@ -60,7 +60,7 @@ class assAnswerClozeTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
     
-    public function test_setGetLowerBound_nonNumericShouldSetAnswertext()
+    public function test_setGetLowerBound_nonNumericShouldSetAnswertext() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
@@ -75,7 +75,7 @@ class assAnswerClozeTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
     
-    public function test_setGetUpperBound()
+    public function test_setGetUpperBound() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
@@ -90,7 +90,7 @@ class assAnswerClozeTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
     
-    public function test_setGetUpperBound_smallerThanAnswerShouldSetAnswertext()
+    public function test_setGetUpperBound_smallerThanAnswerShouldSetAnswertext() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
@@ -105,7 +105,7 @@ class assAnswerClozeTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetUpperBound_nonNumericShouldSetAnswertext()
+    public function test_setGetUpperBound_nonNumericShouldSetAnswertext() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';

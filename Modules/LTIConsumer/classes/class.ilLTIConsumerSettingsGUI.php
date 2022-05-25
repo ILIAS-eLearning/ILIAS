@@ -47,8 +47,6 @@ class ilLTIConsumerSettingsGUI
 
     /**
      * ilLTIConsumerAccess constructor.
-     * @param ilObjLTIConsumer    $object
-     * @param ilLTIConsumerAccess $access
      */
     public function __construct(ilObjLTIConsumer $object, ilLTIConsumerAccess $access)
     {
@@ -171,7 +169,7 @@ class ilLTIConsumerSettingsGUI
             $form->initObject($this->object);
             $this->object->update();
             
-            if ($oldMasteryScore != $this->object->getMasteryScore()) {
+            if ($oldMasteryScore !== $this->object->getMasteryScore()) {
                 ilLPStatusWrapper::_refreshStatus($this->object->getId());
             }
             

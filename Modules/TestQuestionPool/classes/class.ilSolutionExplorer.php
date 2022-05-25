@@ -62,7 +62,7 @@ class ilSolutionExplorer extends ilExplorer
     /**
      * @param int $ref_id
      */
-    public function expandPathByRefId($ref_id)
+    public function expandPathByRefId($ref_id) : void
     {
         /**
          * @var $tree ilTree
@@ -86,11 +86,11 @@ class ilSolutionExplorer extends ilExplorer
         $this->expanded = ilSession::get($this->expand_variable);
     }
 
-    public function setSelectableType($a_type)
+    public function setSelectableType($a_type) : void
     {
         $this->selectable_type = $a_type;
     }
-    public function setRefId($a_ref_id)
+    public function setRefId($a_ref_id) : void
     {
         $this->ref_id = $a_ref_id;
     }
@@ -112,9 +112,9 @@ class ilSolutionExplorer extends ilExplorer
         return '';
     }
 
-    public function isClickable(string $a_type, $a_ref_id = 0) : bool
+    public function isClickable(string $type, int $ref_id = 0) : bool
     {
-        return $a_type == $this->selectable_type and $a_ref_id != $this->ref_id;
+        return $type == $this->selectable_type && $ref_id !== $this->ref_id;
     }
 
     public function showChilds($a_parent_id) : bool

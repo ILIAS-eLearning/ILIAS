@@ -40,7 +40,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -160,7 +160,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
                 ]
             );
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -283,7 +283,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder(ilCtrl::class)
+        $controller = $this->getMockBuilder(ilCtrlInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 

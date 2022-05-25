@@ -1937,6 +1937,8 @@ auth#:#auth_account_migration_new#:#新規ユーザアカウントを作成し�
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###07 02 2017 new variable
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.###31 08 2017 new variable
 auth#:#auth_auth_settings#:#設定
+auth#:#auth_cas_ldap#:#LDAPを使用して同期する
+auth#:#auth_cas_ldap_info#:#有効にするとユーザアカウントと役割の割当ての同期が既存のLDAP構成を使って実行されます。
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.###25 10 2016 new variable
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.###25 10 2016 new variable
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).###25 10 2016 new variable
@@ -1985,14 +1987,6 @@ auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, d
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren###10 11 2018 new variable
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden###10 11 2018 new variable
 auth#:#auth_oidconnect#:#OpenID Connect###10 11 2018 new variable
-auth#:#auth_rad_migration#:#アカウント移行
-auth#:#auth_rad_migration_info#:#Radius認証用として現在のILIASアカウントを移動するための可能性を新規ユーザへ与えるオプションをアクティブにします。
-auth#:#auth_radius_charset#:#エンコード文字
-auth#:#auth_radius_charset_info#:#Radiusサーバーとの通信に使用する文字コードを選択してください。不明な場合はUTF-8を選択します。
-auth#:#auth_radius_ldap#:#LDAPを使用して同期する
-auth#:#auth_radius_ldap_info#:#有効にするとユーザアカウントと役割の割当ての同期が既存のLDAP構成を使って実行されます。
-auth#:#auth_radius_sync_rad#:#ユーザアカウントの自動生成
-auth#:#auth_radius_sync_rad_info#:#まだILIASアカウントがない状態の場合でもRadius認証成功のユーザ用のILIASユーザアカウントを自動作成します。
 auth#:#auth_saml#:#SAML###31 08 2017 new variable
 auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider###31 08 2017 new variable
 auth#:#auth_saml_add_idp_md_error#:#The given value was not a valid XML document. Ensure the XML contains a valid Identity Provider.###31 08 2017 new variable
@@ -3381,14 +3375,6 @@ common#:#auth_mode_not_changed#:#(変更なし)
 common#:#auth_mode_roles_changed#:#この役割の認証モードを変更しました
 common#:#auth_new_account_mail_desc#:#ユーザを自動作成すると新規アカウントをユーザへemailします。"ローカル認証を許可"がオンの場合のみパスワードを生成します。
 common#:#auth_per_default#:#初期設定
-common#:#auth_radius#:#RADIUS
-common#:#auth_radius_configure#:#RADIUS認証の設定
-common#:#auth_radius_enable#:#RADIUSサポートを有効にする
-common#:#auth_radius_not_configured#:#RADIUSが未設定
-common#:#auth_radius_port#:#ポート
-common#:#auth_radius_server#:#サーバー
-common#:#auth_radius_server_desc#:#カンマ区切りで複数のサーバーを追加できます。 サーバーは問い合わせに対してラウンドロビン様式で再帰します。
-common#:#auth_radius_shared_secret#:#共有秘密
 common#:#auth_remark_non_local_auth#:#ILIASデータベース以外の認証モードを選択すると以降のユーザのログイン名とパスワードを変更できなくなります。
 common#:#auth_role_auth_mode#:#認証モード
 common#:#auth_saml#:#SAML###31 08 2017 new variable
@@ -3820,7 +3806,6 @@ common#:#err_auth_apache_failed#:#認証に失敗しました。有効なユー�
 common#:#err_auth_cas_no_ilias_user#:#ログイン失敗しました。CAS認証はできましたが対応するILIASユーザが誰もいません。システム管理者へ連絡してください。
 common#:#err_auth_ldap_no_ilias_user#:#ログインに失敗しました。LDAP認証はできましたが対応するILIASユーザが誰もいません。システム管理者へ連絡してください。
 common#:#err_auth_mode_inactive#:#認証方式は使用可能になっていません。
-common#:#err_auth_radius_no_ilias_user#:#ログイン失敗しました。Radius認証はできましたが対応するILIASユーザが誰もいません。システム管理者へ連絡してください。
 common#:#err_auth_soap_no_ilias_user#:#ログイン失敗しました。SOAP認証はできましたが対応するILIASユーザが誰もいません。システム管理者へ連絡してください。
 common#:#err_check_input#:#設定は保存されませんでした。入力を確認してください。
 common#:#err_count_param#:#理由：パラメーターカウントの間違い
@@ -13154,10 +13139,6 @@ rbac#:#wiks_write#:#Wiki管理の設定を編集
 rbac#:#write#:#設定変更
 rcat#:#rcat_call#:#ECSカテゴリをコール
 rcrs#:#rcrs_call#:#リモートコースをコール
-registration#:#auth_radius_name#:#RADIUS構成の名称
-registration#:#auth_radius_name_desc#:#このサーバー構成用の名前を選んでください
-registration#:#auth_radius_role_select#:#役割
-registration#:#auth_radius_sync#:#ユーザ同期
 registration#:#reg_access_limitation_limited_time#:#登録後のアクセス
 registration#:#reg_access_limitation_limited_until#:#までアクセス制限
 registration#:#reg_access_limitation_missing_mode#:#すべての役割に対してアクセス限定モードを選択してください
@@ -16050,3 +16031,53 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
+common#:#objs_tala#:#Talk Templates
+common#:#objs_talt#:#Talk Templates
+common#:#obj_talt#:#Talk Template
+common#:#obj_tala#:#Talk Templates
+common#:#obj_tala_desc#:#Talk Templates
+etal#:#mm_talk_template#:#Talk Templates
+orgu#:#mm_organisation#:#Organisation
+etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.
+etal#:#meta_adv_records#:#Metadata
+etal#:#talt_edit#:#General
+etal#:#talt_add#:#Add Template
+etal#:#talt_new#:#New Talk Template
+etal#:#mm_org_etal#:#Talks
+common#:#objs_etal#:#Employee Talks
+common#:#obj_tals#:#Employee Talk Series
+common#:#tals_etal#:#Talk
+common#:#talt_etal#:#Talk
+common#:#obj_etal#:#Employee Talk
+etal#:#etal_edit#:#General
+etal#:#etal_add#:#Add Talk
+etal#:#etal_new#:#New Talk
+etal#:#talt_etal#:#Employee Talk
+etal#:#date_of_talk#:#Start Date
+etal#:#etal_add_new_item#:#Add new Talk
+etal#:#change_date_of_talk#:#Change date of talk
+etal#:#change_date_of_series#:#Change date of talk series
+etal#:#etal_status_pending#:#Pending
+etal#:#etal_status_completed#:#Completed
+etal#:#etal_status_all#:#All
+etal#:#tals_add#:#Add Talks
+etal#:#tals_new#:#New Talks
+etal#:#cal_type_tals#:#Talks
+etal#:#etal_date_appointment_edit#:#Date of Talk
+etal#:#etal_date_series_edit#:#Date of Talk Series
+etal#:#etal_unknown_username#:#Unknown User
+common#:#etal_talks#:#Talks
+etal#:#appointments#:#Appointments
+etal#:#notification_talks_created#:#You have been invited by %s to the following employee talks.
+etal#:#notification_talks_updated#:#The following talk appointments have been changed by %s.
+etal#:#notification_talks_removed#:#The following appointments have been canceled by %s.
+etal#:#notification_talks_subject#:#Invitation
+etal#:#notification_talks_date_details#:#Appointment details
+etal#:#notification_talks_talk_title#:#Titel: %s
+etal#:#notification_talks_date_list_header#:#Dates
+orgu#:#org_op_read_employee_talk#:#Read access talk appointments
+orgu#:#org_op_create_employee_talk#:#Create talk appointments / edit talk appointments that you have created yourself
+orgu#:#org_op_edit_employee_talk#:#Edit Talk appointments
+etal#:#etal_open#:#Open Employee Talk
+etal#:#lock_edititng_for_others#:#Lock editing for others
+etal#:#talk_serial#:#Talk Serial

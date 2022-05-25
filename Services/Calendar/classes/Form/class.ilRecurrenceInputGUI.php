@@ -38,7 +38,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
 
     protected bool $allow_unlimited_recurrences = true;
 
-    protected $enabled_subforms = array(
+    protected array $enabled_subforms = array(
         ilCalendarRecurrence::FREQ_DAILY,
         ilCalendarRecurrence::FREQ_WEEKLY,
         ilCalendarRecurrence::FREQ_MONTHLY,
@@ -285,7 +285,8 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
             $options[ilCalendarRecurrence::FREQ_YEARLY] = $this->lng->txt('cal_yearly');
         }
 
-        $tpl->setVariable('FREQUENCE',
+        $tpl->setVariable(
+            'FREQUENCE',
             ilLegacyFormElementsUtil::formSelect(
                 $this->recurrence->getFrequenceType(),
                 'frequence',

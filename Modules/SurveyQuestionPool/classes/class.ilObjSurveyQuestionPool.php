@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjSurveyQuestionPool
@@ -806,7 +809,7 @@ class ilObjSurveyQuestionPool extends ilObject
         }
         foreach ($qpls as $ref_id) {
             $obj_id = ilObject::_lookupObjectId($ref_id);
-            if ($could_be_offline || $allqpls[$obj_id] == 1) {
+            if ($could_be_offline || ($allqpls[$obj_id] ?? 0) == 1) {
                 if ($use_object_id) {
                     $result_array[$obj_id] = $titles[$ref_id];
                 } else {

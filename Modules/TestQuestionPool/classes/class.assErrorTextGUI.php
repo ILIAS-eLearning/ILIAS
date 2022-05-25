@@ -59,21 +59,22 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         return 1;
     }
 
-    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
+    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form) : void
     {
-        if (is_array($_POST['errordata']['key'])) {
+        $errordata = $this->request->raw('errordata');
+        if ($errordata != null && is_array($errordata['key'])) {
             $this->object->flushErrorData();
-            foreach ($_POST['errordata']['key'] as $idx => $val) {
+            foreach ($errordata['key'] as $idx => $val) {
                 $this->object->addErrorData(
                     $val,
-                    $_POST['errordata']['value'][$idx],
-                    $_POST['errordata']['points'][$idx]
+                    $errordata['value'][$idx],
+                    $errordata['points'][$idx]
                 );
             }
         }
     }
 
-    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
+    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form) : void
     {
         $questiontext = $_POST["question"];
         $this->object->setQuestion($questiontext);
@@ -143,9 +144,9 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
     /**
      * @param ilPropertyFormGUI $form
-     * @return \ilPropertyFormGUI|void
+     * @return ilPropertyFormGUI
      */
-    public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form)
+    public function populateAnswerSpecificFormPart(ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         $header = new ilFormSectionHeaderGUI();
         $header->setTitle($this->lng->txt("errors_section"));
@@ -173,9 +174,9 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
     /**
      * @param $form ilPropertyFormGUI
-     * @return \ilPropertyFormGUI|void
+     * @return ilPropertyFormGUI
      */
-    public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form)
+    public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         // errortext
         $errortext = new ilTextAreaInputGUI($this->lng->txt("errortext"), "errortext");
@@ -197,12 +198,13 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             $textsize->setRequired(true);
             $form->addItem($textsize);
         }
+        return $form;
     }
 
     /**
     * Parse the error text
     */
-    public function analyze()
+    public function analyze() : void
     {
         $this->writePostData(true);
         $this->object->setErrorData($this->object->getErrorsFromText($_POST['errortext']));
@@ -402,37 +404,8 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
-        if ($this->request->hasQuestionId()) {
-            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-                // edit page
-                $ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    false
-                );
-            }
-
-            $this->addTab_QuestionPreview($ilTabs);
-        }
-
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-            $url = "";
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            // edit question properties
-            $ilTabs->addTarget(
-                "edit_question",
-                $url,
-                array("editQuestion", "save", "saveEdit", "analyze", "originalSyncForm"),
-                $classname,
-                "",
-                $force_active
-            );
+        if ($_GET["q_id"]) {
+            $this->addTab_Question($ilTabs);
         }
 
         // add tab for question feedback within common class assQuestionGUI
@@ -551,12 +524,10 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     /**
      * Returns an html string containing a question specific representation of the answers so far
      * given in the test for use in the right column in the scoring adjustment user interface.
-     *
      * @param array $relevant_answers
-     *
      * @return string
      */
-    public function getAggregatedAnswersView($relevant_answers) : string
+    public function getAggregatedAnswersView(array $relevant_answers) : string
     {
         $errortext = $this->object->getErrorText();
         

@@ -178,8 +178,11 @@ class ilCalendarEntry implements ilDatePeriod
                         /*
                          * if($entry->hasBooked($this->getEntryId()))
                          */
-                        $apps = ilConsultationHourAppointments::getAppointmentIds($entry->getObjId(),
-                            $this->getContextId(), $this->getStart());
+                        $apps = ilConsultationHourAppointments::getAppointmentIds(
+                            $entry->getObjId(),
+                            $this->getContextId(),
+                            $this->getStart()
+                        );
                         $orig_event = $apps[0];
                         if ($entry->hasBooked($orig_event)) {
                             $style = ';border-left-width: 5px; border-left-style: solid; border-left-color: green';

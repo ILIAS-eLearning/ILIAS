@@ -14,9 +14,6 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 
 class ilTestExportTableGUI extends ilExportTableGUI
 {
-    protected $counter;
-    protected $confirmdelete;
-
     public function __construct($a_parent_obj, $a_parent_cmd, $a_exp_obj)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_exp_obj);
@@ -26,11 +23,7 @@ class ilTestExportTableGUI extends ilExportTableGUI
         //$this->addCustomColumn($this->lng->txt('actions'), $this, 'formatActionsList');
     }
 
-    /**
-     * @param string $type
-     * @param string $filename
-     */
-    protected function formatActionsList($type, $filename) : string
+    protected function formatActionsList(string $type, string $filename) : string
     {
         /**
          * @var $ilCtrl ilCtrl
@@ -46,9 +39,6 @@ class ilTestExportTableGUI extends ilExportTableGUI
         return $list->getHTML();
     }
 
-    /***
-     *
-     */
     protected function initMultiCommands() : void
     {
         $this->addMultiCommand('confirmDeletion', $this->lng->txt('delete'));
@@ -70,10 +60,6 @@ class ilTestExportTableGUI extends ilExportTableGUI
         $this->addColumn($this->lng->txt('date'), 'timestamp');
     }
 
-    /**
-     * @param string $a_field
-     * @return bool
-     */
     public function numericOrdering(string $a_field) : bool
     {
         if (in_array($a_field, array('size', 'date'))) {
@@ -83,10 +69,6 @@ class ilTestExportTableGUI extends ilExportTableGUI
         return false;
     }
 
-    /**
-     * @param array $row
-     * @return string
-     */
     protected function getRowId(array $row) : string
     {
         return $row['file'];

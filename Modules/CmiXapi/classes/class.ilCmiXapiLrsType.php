@@ -71,123 +71,86 @@ class ilCmiXapiLrsType
     
     protected string $remarks = "";
     
-    /**
-     * @var bool
-     */
     protected bool $bypassProxyEnabled = false;
 
-    /** @var bool $only_moveon */
     protected bool $only_moveon = false;
 
-    /** @var bool $achieved */
     protected bool $achieved = true;
 
-    /** @var bool $answered */
     protected bool $answered = true;
 
-    /** @var bool $completed */
     protected bool $completed = true;
 
-    /** @var bool $failed */
     protected bool $failed = true;
 
-    /** @var bool $initialized */
     protected bool $initialized = true;
 
-    /** @var bool $passed */
     protected bool $passed = true;
 
-    /** @var bool $progressed */
     protected bool $progressed = true;
 
-    /** @var bool $satisfied */
     protected bool $satisfied = true;
 
-    /** @var bool $terminated */
     protected bool $terminated = true;
 
-    /** @var bool $hide_data */
     protected bool $hide_data = false;
 
-    /** @var bool $timestamp */
     protected bool $timestamp = false;
 
-    /** @var bool $duration */
     protected bool $duration = true;
 
-    /** @var bool $no_substatements */
     protected bool $no_substatements = false;
+
+    private ilDBInterface $database;
 
     /**
      * Constructor
      */
-    public function __construct($a_type_id = 0)
+    public function __construct(int $a_type_id = 0)
     {
+        global $DIC;
+        $this->database = $DIC->database();
         if ($a_type_id) {
             $this->type_id = $a_type_id;
             $this->read();
         }
     }
     
-    /**
-     * @param int id
-     */
     public function setTypeId(int $a_type_id) : void
     {
         $this->type_id = $a_type_id;
     }
     
-    /**
-     * @return int id
-     */
     public function getTypeId() : int
     {
         return $this->type_id;
     }
     
-    /**
-     * @param string title
-     */
     public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
     
-    /**
-     * @return string title
-     */
     public function getTitle() : string
     {
         return $this->title;
     }
     
-    /**
-     * @param string description
-     */
     public function setDescription(string $a_description) : void
     {
         $this->description = $a_description;
     }
     
-    /**
-     * @return string description
-     */
     public function getDescription() : string
     {
         return $this->description;
     }
     
-    /**
-     * @param integer availability
-     */
     public function setAvailability(int $a_availability) : void
     {
         $this->availability = $a_availability;
     }
     
-    /**
-     * @return integer availability
-     */
     public function getAvailability() : int
     {
         return $this->availability;
@@ -206,18 +169,11 @@ class ilCmiXapiLrsType
         return false;
     }
 
-    /**
-     * @param int|null $a_time_to_delete
-     * @return void
-     */
     public function setTimeToDelete(?int $a_time_to_delete) : void
     {
         $this->time_to_delete = $a_time_to_delete;
     }
 
-    /**
-     * @return int|null
-     */
     public function getTimeToDelete() : ?int
     {
         return $this->time_to_delete;
@@ -273,225 +229,141 @@ class ilCmiXapiLrsType
         return $this->privacy_name;
     }
 
-    /**
-     * @return bool
-     */
     public function getOnlyMoveon() : bool
     {
         return $this->only_moveon;
     }
 
-    /**
-     * @param bool $only_moveon
-     */
     public function setOnlyMoveon(bool $only_moveon) : void
     {
         $this->only_moveon = $only_moveon;
     }
 
-    /**
-     * @return bool
-     */
     public function getAchieved() : bool
     {
         return $this->achieved;
     }
 
-    /**
-     * @param bool $achieved
-     */
     public function setAchieved(bool $achieved) : void
     {
         $this->achieved = $achieved;
     }
 
-    /**
-     * @return bool
-     */
     public function getAnswered() : bool
     {
         return $this->answered;
     }
 
-    /**
-     * @param bool $answered
-     */
     public function setAnswered(bool $answered) : void
     {
         $this->answered = $answered;
     }
 
-    /**
-     * @return bool
-     */
     public function getCompleted() : bool
     {
         return $this->completed;
     }
 
-    /**
-     * @param bool $completed
-     */
     public function setCompleted(bool $completed) : void
     {
         $this->completed = $completed;
     }
 
-    /**
-     * @return bool
-     */
     public function getFailed() : bool
     {
         return $this->failed;
     }
 
-    /**
-     * @param bool $failed
-     */
     public function setFailed(bool $failed) : void
     {
         $this->failed = $failed;
     }
 
-    /**
-     * @return bool
-     */
     public function getInitialized() : bool
     {
         return $this->initialized;
     }
 
-    /**
-     * @param bool $initialized
-     */
     public function setInitialized(bool $initialized) : void
     {
         $this->initialized = $initialized;
     }
 
-    /**
-     * @return bool
-     */
     public function getPassed() : bool
     {
         return $this->passed;
     }
 
-    /**
-     * @param bool $passed
-     */
     public function setPassed(bool $passed) : void
     {
         $this->passed = $passed;
     }
 
-    /**
-     * @return bool
-     */
     public function getProgressed() : bool
     {
         return $this->progressed;
     }
 
-    /**
-     * @param bool $progressed
-     */
     public function setProgressed(bool $progressed) : void
     {
         $this->progressed = $progressed;
     }
 
-    /**
-     * @return bool
-     */
     public function getSatisfied() : bool
     {
         return $this->satisfied;
     }
 
-    /**
-     * @param bool $satisfied
-     */
     public function setSatisfied(bool $satisfied) : void
     {
         $this->satisfied = $satisfied;
     }
 
-    /**
-     * @return bool
-     */
     public function getTerminated() : bool
     {
         return $this->terminated;
     }
 
-    /**
-     * @param bool $terminated
-     */
     public function setTerminated(bool $terminated) : void
     {
         $this->terminated = $terminated;
     }
 
-    /**
-     * @return bool
-     */
     public function getHideData() : bool
     {
         return $this->hide_data;
     }
 
-    /**
-     * @param bool $hide_data
-     */
     public function setHideData(bool $hide_data) : void
     {
         $this->hide_data = $hide_data;
     }
 
-    /**
-     * @return bool
-     */
     public function getTimestamp() : bool
     {
         return $this->timestamp;
     }
 
-    /**
-     * @param bool $timestamp
-     */
     public function setTimestamp(bool $timestamp) : void
     {
         $this->timestamp = $timestamp;
     }
 
-    /**
-     * @return bool
-     */
     public function getDuration() : bool
     {
         return $this->duration;
     }
 
-    /**
-     * @param bool $duration
-     */
     public function setDuration(bool $duration) : void
     {
         $this->duration = $duration;
     }
 
-    /**
-     * @return bool
-     */
     public function getNoSubstatements() : bool
     {
         return $this->no_substatements;
     }
 
-    /**
-     * @param bool $no_substatements
-     */
     public function setNoSubstatements(bool $no_substatements) : void
     {
         $this->no_substatements = $no_substatements;
@@ -527,57 +399,37 @@ class ilCmiXapiLrsType
         return $this->external_lrs;
     }
     
-    /**
-     * @return string launch_type
-     */
     public function getLaunchType() : string
     {
         return $this->launch_type;
     }
     
-    /**
-     * @param string remarks
-     */
     public function setRemarks(string $a_remarks) : void
     {
         $this->remarks = $a_remarks;
     }
     
-    /**
-     * @return string remarks
-     */
     public function getRemarks() : string
     {
         return $this->remarks;
     }
     
-    /**
-     * @return bool
-     */
     public function isBypassProxyEnabled() : bool
     {
         return $this->bypassProxyEnabled;
     }
     
-    /**
-     * @param bool $bypassProxyEnabled
-     */
     public function setBypassProxyEnabled(bool $bypassProxyEnabled) : void
     {
         $this->bypassProxyEnabled = $bypassProxyEnabled;
     }
-
-    /**
-     * @access public
-     */
-    public function read() : bool
+    
+    protected function read() : bool
     {
-        global $ilDB, $ilErr;
-        
         $query = "SELECT * FROM " . self::DB_TABLE_NAME . " WHERE type_id = %s";
         
-        $res = $ilDB->queryF($query, ['integer'], [$this->getTypeId()]);
-        $row = $ilDB->fetchObject($res);
+        $res = $this->database->queryF($query, ['integer'], [$this->getTypeId()]);
+        $row = $this->database->fetchObject($res);
         if ($row) {
             $this->setTypeId((int) $row->type_id);
             $this->setTitle($row->title);
@@ -624,24 +476,16 @@ class ilCmiXapiLrsType
         }
     }
     
-    /**
-     * @access public
-     */
-    public function create() : void
+
+    protected function create() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        $this->setTypeId($DIC->database()->nextId(self::DB_TABLE_NAME));
+        $this->setTypeId($this->database->nextId(self::DB_TABLE_NAME));
         $this->update();
     }
-
-    /**
-     * @access public
-     */
-    public function update() : bool
+    
+    protected function update() : bool
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $DIC->database()->replace(
+        $this->database->replace(
             self::DB_TABLE_NAME,
             array(
                 'type_id' => array('integer', $this->getTypeId())
@@ -680,16 +524,11 @@ class ilCmiXapiLrsType
         
         return true;
     }
-
-    /**
-     * @access public
-     */
-    public function delete() : bool
+    
+    protected function delete() : bool
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
         $query = "DELETE FROM " . self::DB_TABLE_NAME . " WHERE type_id = %s";
-        $DIC->database()->manipulateF($query, ['integer'], [$this->getTypeId()]);
+        $this->database->manipulateF($query, ['integer'], [$this->getTypeId()]);
         
         return true;
     }

@@ -59,7 +59,7 @@ class ilNotificationDatabaseHandler
         $results = [];
 
         while ($row = $ilDB->fetchAssoc($res)) {
-            if (!$results[$row['identifier']]) {
+            if (!isset($results[$row['identifier']]) || !$results[$row['identifier']]) {
                 $results[$row['identifier']] = new stdClass();
                 $results[$row['identifier']]->lang_untouched = [];
                 $results[$row['identifier']]->params = [];
@@ -114,15 +114,16 @@ class ilNotificationDatabaseHandler
      */
     private static function replaceFields(string $string, array $foundPlaceholders, array $params, string $startTag, string $endTage) : string
     {
+        $result = $string;
         foreach ($foundPlaceholders as $placeholder) {
             if (array_key_exists(strtoupper($placeholder), $params)) {
-                $string = str_ireplace($startTag . $placeholder . $endTage, $params[strtoupper($placeholder)], $string);
+                $result = str_ireplace($startTag . $placeholder . $endTage, $params[strtoupper($placeholder)], $result);
             }
             if (array_key_exists(strtolower($placeholder), $params)) {
-                $string = str_ireplace($startTag . $placeholder . $endTage, $params[strtolower($placeholder)], $string);
+                $result = str_ireplace($startTag . $placeholder . $endTage, $params[strtolower($placeholder)], $result);
             }
         }
-        return $string;
+        return $result;
     }
 
     public static function setUserConfig(int $userid, array $configArray) : void
@@ -182,7 +183,7 @@ class ilNotificationDatabaseHandler
         $result = [];
 
         while ($row = $ilDB->fetchAssoc($res)) {
-            if (!$result[$row['module']]) {
+            if (!isset($result[$row['module']])) {
                 $result[$row['module']] = [];
             }
 

@@ -162,14 +162,14 @@ class assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
     {
     }
 
     /**
      * @param ilQTIItem $item
      */
-    protected function addGeneralMetadata(ilQTIItem $item)
+    protected function addGeneralMetadata(ilQTIItem $item) : void
     {
         if ($item->getMetadataEntry('externalID')) {
             $this->object->setExternalId($item->getMetadataEntry('externalID'));

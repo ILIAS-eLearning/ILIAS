@@ -13,6 +13,7 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class ilXapiStatementEvaluation
  *
@@ -25,36 +26,30 @@
 class ilXapiStatementEvaluation
 {
     /**
-     * @var array
      * http://adlnet.gov/expapi/verbs/satisfied: should never be sent by AU
      * https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#939-satisfied
      */
-    protected array $resultStatusByXapiVerbMap = array(
+    protected array $resultStatusByXapiVerbMap = [
         ilCmiXapiVerbList::COMPLETED => "completed",
         ilCmiXapiVerbList::PASSED => "passed",
         ilCmiXapiVerbList::FAILED => "failed",
         ilCmiXapiVerbList::SATISFIED => "passed"
-    );
+    ];
 
-    protected array $resultProgressByXapiVerbMap = array(
+    protected array $resultProgressByXapiVerbMap = [
         ilCmiXapiVerbList::PROGRESSED => "progressed",
         ilCmiXapiVerbList::EXPERIENCED => "experienced"
-    );
+    ];
     
     protected ilObject $object;
     
     //todo
-    /**
-     * @var ilLogger
-     */
     protected ilLogger $log;
 
     protected ?int $lpMode;
 
     /**
      * ilXapiStatementEvaluation constructor.
-     * @param ilLogger $log
-     * @param ilObject $object
      */
     public function __construct(ilLogger $log, ilObject $object)
     {
@@ -144,7 +139,7 @@ class ilXapiStatementEvaluation
             if ($this->hasResultProgressRelevantXapiVerb($xapiVerb)) {
                 $userResult = $this->getUserResult($usrId);
                 $progressedScore = $this->getProgressedScore($xapiStatement);
-                if ($progressedScore !== false && (float) $progressedScore > 0) {
+                if ($progressedScore !== null && $progressedScore > 0) {
                     $userResult->setScore((float) ($progressedScore / 100));
                     $userResult->save();
                 }
@@ -229,20 +224,20 @@ class ilXapiStatementEvaluation
         return $xapiStatement->result->score->scaled;
     }
     
-    protected function getProgressedScore(object $xapiStatement)
+    protected function getProgressedScore(object $xapiStatement) : ?float
     {
         if (!isset($xapiStatement->result)) {
-            return false;
+            return null;
         }
         
         if (!isset($xapiStatement->result->extensions)) {
-            return false;
+            return null;
         }
         
         if (!isset($xapiStatement->result->extensions->{'https://w3id.org/xapi/cmi5/result/extensions/progress'})) {
-            return false;
+            return null;
         }
-        return $xapiStatement->result->extensions->{'https://w3id.org/xapi/cmi5/result/extensions/progress'};
+        return (float) $xapiStatement->result->extensions->{'https://w3id.org/xapi/cmi5/result/extensions/progress'};
     }
 
     protected function getUserResult(int $usrId) : \ilCmiXapiResult
@@ -277,8 +272,8 @@ class ilXapiStatementEvaluation
         
         return true;
     }
-    
-    protected function isLpModeInterestedInResultStatus(string $resultStatus, ?bool $deactivated = true)
+
+    protected function isLpModeInterestedInResultStatus(string $resultStatus, ?bool $deactivated = true) : bool
     {
         if ($this->lpMode == ilLPObjSettings::LP_MODE_DEACTIVATED) {
             return $deactivated;

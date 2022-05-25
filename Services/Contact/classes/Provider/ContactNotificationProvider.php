@@ -18,6 +18,8 @@
 
 namespace ILIAS\Contact\Provider;
 
+use ilContactGUI;
+use ilDashboardGUI;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
@@ -85,7 +87,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider
             ->link()
             ->standard(
                 $this->dic->language()->txt('nc_contact_requests_headline'),
-                'ilias.php?baseClass=ilDashboardGUI&cmd=jumpToContacts'
+                $this->dic->ctrl()->getLinkTargetByClass([ilDashboardGUI::class, ilContactGUI::class], 'showContactRequests')
             );
         $description = sprintf(
             $this->dic->language()->txt(

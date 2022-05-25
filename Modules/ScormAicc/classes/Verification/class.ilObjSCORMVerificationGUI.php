@@ -20,16 +20,12 @@
  */
 class ilObjSCORMVerificationGUI extends ilObject2GUI
 {
-    /**
-     * @return string
-     */
     public function getType() : string
     {
         return "scov";
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     public function create() : void
@@ -49,7 +45,6 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
     }
 
     /**
-     * @return void
      * @throws JsonException
      * @throws ilCtrlException
      * @throws ilException
@@ -99,9 +94,6 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $this->create();
     }
 
-    /**
-     * @return void
-     */
     public function deliver() : void
     {
         $file = $this->object->getFilePath();
@@ -110,11 +102,6 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         }
     }
 
-    /**
-     * @param bool   $a_return
-     * @param string $a_url
-     * @return string
-     */
     public function render(bool $a_return = false, string $a_url = '') : string
     {
         global $DIC;
@@ -155,10 +142,6 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         return "";
     }
 
-    /**
-     * @param ilPortfolioPage $a_page
-     * @return void
-     */
     public function downloadFromPortfolioPage(ilPortfolioPage $a_page) : void
     {
         global $DIC;
@@ -171,23 +154,22 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
         $ilErr->raiseError($this->lng->txt('permission_denied'), $ilErr->MESSAGE);
     }
 
-    /**
-     * @param string $a_target
-     * @return void
-     */
     public static function _goto(string $a_target) : void
     {
+        global $DIC;
         $id = explode("_", $a_target);
 
-        $_GET["baseClass"] = "ilsharedresourceGUI";
-        $_GET["wsp_id"] = $id[0];
-        exit;
+        $DIC->ctrl->setParameterByClass(
+            "ilsharedresourceGUI",
+            "wsp_id",
+            $id[0]
+        );
+        $DIC->ctrl->redirectByClass(ilSharedResourceGUI::class);
     }
 
     /**
-     * @param string $key
-     * @param mixed   $default
-     * @return mixed|null
+     * @param mixed $default
+     * @return mixed
      */
     protected function getRequestValue(string $key, $default = null)
     {
@@ -195,10 +177,6 @@ class ilObjSCORMVerificationGUI extends ilObject2GUI
             return $this->request->getQueryParams()[$key];
         }
 
-        if (isset($this->request->getParsedBody()[$key])) {
-            return $this->request->getParsedBody()[$key];
-        }
-
-        return $default ?? null;
+        return $this->request->getParsedBody()[$key] ?? $default ?? null;
     }
 }

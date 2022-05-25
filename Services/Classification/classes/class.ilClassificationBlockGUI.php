@@ -160,7 +160,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
         $ajax_content_url = $ilCtrl->getLinkTarget($this, "filterContainer", "", true, false);
 
         $tabs = new ilTabsGUI();
-        $tabs->setBackTarget($this->lng->txt("clsfct_back_to_cat"), $ilCtrl->getParentReturn($this));
+        $tabs->setBackTarget($this->lng->txt("clsfct_back_to_cat"), (string) $ilCtrl->getParentReturn($this));
         $tabs->addTab("sel_objects", $this->lng->txt("clsfct_selected_objects"), "#");
         $tabs_html = $tabs->getHTML();
 
@@ -387,7 +387,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
     // New rendering
     //
 
-    protected $new_rendering = true;
+    protected bool $new_rendering = true;
 
     /**
      * Get sub item ids depending on container type that match the preselected

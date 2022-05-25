@@ -25,7 +25,7 @@ abstract class ilRemoteObjectBase extends ilObject2
     protected ?string $remote_link = null;
     protected ?string $organization = null;
     protected ?int $mid = null;
-    protected $auth_hash = '';
+    protected string $auth_hash = '';
     
     protected string $realm_plain = '';
     
@@ -80,7 +80,7 @@ abstract class ilRemoteObjectBase extends ilObject2
         }
     }
     
-    public function beforeCreate() : bool
+    protected function beforeCreate() : bool
     {
         $this->setOwner(self::OBJECT_OWNER);
         return parent::beforeCreate();
@@ -185,9 +185,9 @@ abstract class ilRemoteObjectBase extends ilObject2
     {
         $server_id = ilECSImportManager::getInstance()->lookupServerId($this->getId());
         $server = ilECSSetting::getInstanceByServerId($server_id);
-        
+        $setting = ilECSParticipantSetting::getInstance($server_id, $this->mid);
         $user = new ilECSUser($this->user);
-        $ecs_user_data = $user->toGET();
+        $ecs_user_data = $user->toGET($setting);
         $this->logger->info(__METHOD__ . ': Using ecs user data ' . $ecs_user_data);
         
         // check token mechanism enabled
@@ -234,11 +234,8 @@ abstract class ilRemoteObjectBase extends ilObject2
             return false;
         }
     }
-    
-    /**
-     * Create remote object
-     */
-    public function doCreate(bool $a_clone_mode = false) : void
+
+    protected function doCreate(bool $clone_mode = false) : void
     {
         $fields = array(
             "obj_id" => array("integer", $this->getId()),
@@ -263,7 +260,7 @@ abstract class ilRemoteObjectBase extends ilObject2
     /**
      * Update remote object
      */
-    public function doUpdate() : void
+    protected function doUpdate() : void
     {
         $fields = array(
             "local_information" => array("text", $this->getLocalInformation()),
@@ -289,7 +286,7 @@ abstract class ilRemoteObjectBase extends ilObject2
     /**
      * Delete remote object
      */
-    public function doDelete() : void
+    protected function doDelete() : void
     {
         //put here your module specific stuff
         ilECSImportManager::getInstance()->_deleteByObjId($this->getId());
@@ -298,11 +295,8 @@ abstract class ilRemoteObjectBase extends ilObject2
             " WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . " ";
         $this->db->manipulate($query);
     }
-    
-    /**
-     * read settings
-     */
-    public function doRead() : void
+
+    protected function doRead() : void
     {
         $query = "SELECT * FROM " . $this->getTableName() .
             " WHERE obj_id = " . $this->db->quote($this->getId(), 'integer') . " ";
@@ -360,11 +354,9 @@ abstract class ilRemoteObjectBase extends ilObject2
     /**
      * update remote object settings from ecs content
      *
-     * @param ilECSSetting $a_server
      * @param object $a_ecs_content object with object settings
-     * @param int $a_owner
      */
-    public function updateFromECSContent(ilECSSetting $a_server, $a_ecs_content, $a_owner) : void
+    public function updateFromECSContent(ilECSSetting $a_server, object $a_ecs_content, int $a_owner) : void
     {
         $this->logger->info('updateFromECSContent: ' . print_r($a_ecs_content, true));
         
@@ -408,12 +400,8 @@ abstract class ilRemoteObjectBase extends ilObject2
     /**
      * Add advanced metadata to json (export)
      *
-     * @param object $a_json
-     * @param ilECSSetting $a_server
-     * @param array $a_definition
-     * @param int $a_mapping_mode
      */
-    protected function importMetadataFromJson($a_json, ilECSSetting $a_server, array $a_definition, $a_mapping_mode) : void
+    protected function importMetadataFromJson(object $a_json, ilECSSetting $a_server, array $a_definition, int $a_mapping_mode) : void
     {
         $this->logger->info("importing metadata from json: " . print_r($a_json, true));
         

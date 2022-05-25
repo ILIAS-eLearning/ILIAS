@@ -48,7 +48,7 @@ class ilAssQuestionLomLifecycle
      * @param string $identifier
      * @throws ilTestQuestionPoolInvalidArgumentException
      */
-    public function setIdentifier($identifier)
+    public function setIdentifier($identifier) : void
     {
         $this->validateIdentifier($identifier);
         $this->identifier = $identifier;
@@ -66,7 +66,7 @@ class ilAssQuestionLomLifecycle
      * @param string $identifier
      * @throws ilTestQuestionPoolInvalidArgumentException
      */
-    public function validateIdentifier($identifier)
+    public function validateIdentifier($identifier) : void
     {
         if (!in_array($identifier, $this->getValidIdentifiers())) {
             throw new ilTestQuestionPoolInvalidArgumentException(

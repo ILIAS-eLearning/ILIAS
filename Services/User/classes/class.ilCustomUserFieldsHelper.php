@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 // still needed, since constants are defined in ilUserDefinedFields
 include_once("./Services/User/classes/class.ilUserDefinedFields.php");
@@ -88,7 +91,7 @@ class ilCustomUserFieldsHelper
         array $definition,
         bool $a_changeable = true,
         string $a_default_value = null
-    ) : ilFormPropertyGUI {
+    ) : ?ilFormPropertyGUI {
         $fprop = null;
         
         switch ($definition['field_type']) {
@@ -98,7 +101,7 @@ class ilCustomUserFieldsHelper
                     'udf_' . $definition['field_id']
                 );
                 $fprop->setDisabled(!$a_changeable);
-                $fprop->setValue($a_default_value);
+                $fprop->setValue((string) $a_default_value);
                 $fprop->setSize(40);
                 $fprop->setMaxLength(255);
                 $fprop->setRequired((bool) $definition['required']);
@@ -110,7 +113,7 @@ class ilCustomUserFieldsHelper
                     'udf_' . $definition['field_id']
                 );
                 $fprop->setDisabled(!$a_changeable);
-                $fprop->setValue($a_default_value);
+                $fprop->setValue((string) $a_default_value);
                 $fprop->setUseRte(true);
                 $fprop->setRequired((bool) $definition['required']);
                 break;

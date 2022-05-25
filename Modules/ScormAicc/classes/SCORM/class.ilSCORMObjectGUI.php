@@ -22,20 +22,21 @@
 */
 class ilSCORMObjectGUI
 {
-    public $sc_object;
-    public $tpl;
-    public $lng;
 
     /**
-     * @param $a_id
+     * @var ilSCORMManifest|ilSCORMItem|ilSCORMOrganization|ilSCORMOrganizations
      */
-    public function __construct($a_id = 0)
+    public $sc_object;
+    public ilGlobalTemplate $tpl;
+    public ilLanguage $lng;
+
+    public function __construct(int $a_id = 0)
     {
         global $DIC;
         $tpl = $DIC['tpl'];
         $lng = $DIC->language();
 
-        if ($a_id != 0) {
+        if ($a_id !== 0) {
             $this->sc_object = new ilSCORMItem($a_id);
         }
         $this->tpl = $tpl;
@@ -43,7 +44,6 @@ class ilSCORMObjectGUI
     }
 
     /**
-     * @param int $a_id
      * @return ilSCORMItemGUI|ilSCORMManifestGUI|ilSCORMOrganizationGUI|ilSCORMOrganizationsGUI|ilSCORMResourceGUI|ilSCORMResourcesGUI
      */
     public function &getInstance(int $a_id)
@@ -77,11 +77,6 @@ class ilSCORMObjectGUI
         }
     }
 
-    /**
-     * @param string $a_name
-     * @param string $a_value
-     * @return void
-     */
     public function displayParameter(string $a_name, string $a_value) : void
     {
         $this->tpl->setCurrentBlock("parameter");

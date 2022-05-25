@@ -49,8 +49,6 @@ class assClozeGap
      */
     public $shuffle;
 
-    private $shuffler;
-    
     private $gap_size = 0;
 
     /**
@@ -81,7 +79,7 @@ class assClozeGap
      *
      * @see $type for mapping.
      */
-    public function setType($a_type = 0)
+    public function setType($a_type = 0) : void
     {
         $this->type = $a_type;
     }
@@ -138,7 +136,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function addItem($a_item)
+    public function addItem($a_item) : void
     {
         $order = $a_item->getOrder();
         if (array_key_exists($order, $this->items)) {
@@ -171,7 +169,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function setItemPoints($order, $points)
+    public function setItemPoints($order, $points) : void
     {
         foreach ($this->items as $key => $item) {
             if ($item->getOrder() == $order) {
@@ -189,7 +187,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function deleteItem($order)
+    public function deleteItem($order) : void
     {
         if (array_key_exists($order, $this->items)) {
             unset($this->items[$order]);
@@ -211,7 +209,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function setItemLowerBound($order, $bound)
+    public function setItemLowerBound($order, $bound) : void
     {
         foreach ($this->items as $key => $item) {
             if ($item->getOrder() == $order) {
@@ -230,7 +228,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function setItemUpperBound($order, $bound)
+    public function setItemUpperBound($order, $bound) : void
     {
         foreach ($this->items as $key => $item) {
             if ($item->getOrder() == $order) {
@@ -266,7 +264,7 @@ class assClozeGap
     * @access public
     * @see $items
     */
-    public function clearItems()
+    public function clearItems() : void
     {
         $this->items = array();
     }
@@ -278,7 +276,7 @@ class assClozeGap
      *
      * @param boolean $a_shuffle Shuffle state
      */
-    public function setShuffle($a_shuffle = true)
+    public function setShuffle($a_shuffle = true) : void
     {
         $this->shuffle = (bool) $a_shuffle;
     }
@@ -292,33 +290,6 @@ class assClozeGap
     {
         return $this->shuffle;
     }
-
-    /**
-     * @param ilArrayElementShuffler $shuffler
-     */
-    public function setShuffler(ilArrayElementShuffler $shuffler = null)
-    {
-        if ($shuffler == null) {
-            require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
-            $shuffler = new ilArrayElementShuffler();
-            $seed = $shuffler->buildRandomSeed();
-            $shuffler->setSeed($seed);
-        }
-        $this->shuffler = $shuffler;
-    }
-
-    /**
-     * @return ilArrayElementShuffler
-     */
-    public function getShuffler() : ilArrayElementShuffler
-    {
-        if ($this->shuffler == null) {
-            $this->setShuffler();
-        }
-        return $this->shuffler;
-    }
-
-
 
     /**
     * Returns the maximum width of the gap
@@ -415,7 +386,7 @@ class assClozeGap
     /**
      * @param integer $gap_size
      */
-    public function setGapSize($gap_size)
+    public function setGapSize($gap_size) : void
     {
         $this->gap_size = $gap_size;
     }

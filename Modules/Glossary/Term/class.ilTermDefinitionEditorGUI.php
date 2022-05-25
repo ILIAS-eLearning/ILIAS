@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * GUI class for glossary term definition editor
@@ -105,10 +108,6 @@ class ilTermDefinitionEditorGUI
         switch ($next_class) {
 
             case "ilglossarydefpagegui":
-                // this part contained "broken" code, so most probable it
-                // will never be called. Abandon, if no issues occur in ILIAS 8.
-                throw new ilGlossaryException("ilGlossaryDefPageGUI error in ilTermDefinitionEditorGUI.");
-                /*
                 // output number of usages
                 if ($ilCtrl->getCmd() == "edit" &&
                     $ilCtrl->getCmdClass() == "ilglossarydefpagegui") {
@@ -157,7 +156,6 @@ class ilTermDefinitionEditorGUI
 
                 $page_gui->setStyleId($this->content_style_domain->getEffectiveStyleId());
 
-                $page_gui->setLocator($gloss_loc);
                 $page_gui->setIntLinkReturn($this->ctrl->getLinkTargetByClass(
                     "ilobjglossarygui",
                     "quickList",
@@ -175,7 +173,6 @@ class ilTermDefinitionEditorGUI
                     $tpl->setContent($ret);
                 }
                 break;
-                */
 
             default:
                 $this->setTabs();
@@ -196,7 +193,7 @@ class ilTermDefinitionEditorGUI
         // back to glossary
         $this->tabs_gui->setBack2Target(
             $this->lng->txt("glossary"),
-            $this->ctrl->getParentReturn($this)
+            $this->ctrl->getLinkTargetByClass("ilobjglossarygui", "")
         );
 
         // back to upper context

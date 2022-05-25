@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -67,7 +81,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
         $this->prg->method('getAllPrgChildren')
             ->willReturn([]);
 
-        list($minimum_percents, $current_percents)
+        [$minimum_percents, $current_percents]
             = $this->gui->mockCalculatePercent($this->prg, $current_user_points);
 
         $this->assertEquals(0, $minimum_percents);
@@ -82,7 +96,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
         $this->prg->method('hasLPChildren')
             ->willReturn(true);
 
-        list($minimum_percents, $current_percents)
+        [$minimum_percents, $current_percents]
             = $this->gui->mockCalculatePercent($this->prg, $current_user_points);
 
         $this->assertEquals(100, $minimum_percents);
@@ -120,7 +134,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
 
         $this->prg->method('getPoints')->willReturn(60);
 
-        list($minimum_percents, $current_percents)
+        [$minimum_percents, $current_percents]
             = $this->gui->mockCalculatePercent($this->prg, $current_user_points);
 
         $this->assertEquals(37.5, $minimum_percents); //37.5 = (160 max points /  60 root-prg points) * 100

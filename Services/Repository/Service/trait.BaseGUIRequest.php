@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Repository;
 
@@ -55,7 +58,7 @@ trait BaseGUIRequest
     // get integer parameter kindly
     protected function int(string $key) : int
     {
-        if ($this->str($key) === "") {
+        if ($this->str($key) === "" || $this->isArray($key)) {
             return 0;
         }
         $t = $this->refinery->kindlyTo()->int();
@@ -153,9 +156,7 @@ trait BaseGUIRequest
     protected function isArray(string $key) : bool
     {
         if ($this->passed_query_params === null && $this->passed_post_data === null) {
-            $no_transform = $this->refinery->custom()->transformation(function ($v) {
-                return $v;
-            });
+            $no_transform = $this->refinery->identity();
             $w = $this->http->wrapper();
             if ($w->post()->has($key)) {
                 return is_array($w->post()->retrieve($key, $no_transform));
@@ -178,9 +179,7 @@ trait BaseGUIRequest
      */
     protected function raw(string $key)
     {
-        $no_transform = $this->refinery->custom()->transformation(function ($v) {
-            return $v;
-        });
+        $no_transform = $this->refinery->identity();
         return $this->get($key, $no_transform);
     }
 

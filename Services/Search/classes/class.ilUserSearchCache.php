@@ -88,7 +88,7 @@ class ilUserSearchCache
         $this->read();
     }
     
-    public static function _getInstance($a_usr_id) : ilUserSearchCache// @TODO: PHP8 Review: Missing parameter type.
+    public static function _getInstance(int $a_usr_id) : ilUserSearchCache
     {
         if (self::$instance instanceof ilUserSearchCache) {
             return self::$instance;
@@ -237,7 +237,7 @@ class ilUserSearchCache
     }
     
     /**
-     * @return mixed query string or array (for advanced search)
+     * @return string|array query string or array (for advanced search)
      */
     public function getQuery()
     {

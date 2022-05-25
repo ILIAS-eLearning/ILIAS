@@ -58,7 +58,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_terms	Terms
     */
-    public function setTerms($a_terms)
+    public function setTerms($a_terms) : void
     {
         $this->terms = $a_terms;
     }
@@ -68,7 +68,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_definitions	Definitions
     */
-    public function setDefinitions($a_definitions)
+    public function setDefinitions($a_definitions) : void
     {
         $this->definitions = $a_definitions;
     }
@@ -78,7 +78,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_pairs	Pairs
     */
-    public function setPairs($a_pairs)
+    public function setPairs($a_pairs) : void
     {
         $this->pairs = $a_pairs;
     }
@@ -88,7 +88,7 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_allow_move Allow move
     */
-    public function setAllowMove($a_allow_move)
+    public function setAllowMove($a_allow_move) : void
     {
         $this->allowMove = $a_allow_move;
     }
@@ -113,9 +113,10 @@ class ilMatchingPairWizardInputGUI extends ilTextInputGUI
         $lng = $DIC['lng'];
         
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+            $foundvalues = ilArrayUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
+        } else {
+            $foundvalues = $_POST[$this->getPostVar()];
         }
-        $foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
             // check answers
             if (is_array($foundvalues['term'])) {

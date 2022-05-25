@@ -1,7 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 /**
  * Selection of sub items
  *
@@ -16,7 +30,7 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
 
     protected string $type;
     
-    public function __construct(?object $parent_class, string $parent_cmd, string  $type, string $back_cmd)
+    public function __construct(?object $parent_class, string $parent_cmd, string $type, string $back_cmd)
     {
         global $DIC;
 
@@ -81,7 +95,7 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
             if (!trim($r['title']) && $r['type'] == 'sess') {
                 // use session date as title if no object title
                 $app_info = ilSessionAppointment::_lookupAppointment($node["obj_id"]);
-                $r['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
+                $r['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], (bool) $app_info['fullday']);
             }
             
             $rows[] = $r;

@@ -473,6 +473,7 @@ adve#:#char_selector_test#:#Selector Special Characters (Unicode)
 adve#:#char_selector_unicode_all#:#All Unicode Blocks
 adve#:#char_selector_user#:#Menu for Selecting Special Characters (Unicode) in Tests
 assessment#:#action#:#Action
+assessment#:#tst_man_scoring_only_answered#:#Only answered
 assessment#:#add_answers#:#Add answers
 assessment#:#add_circle#:#Add circle area
 assessment#:#add_gap#:#Add Gap Text
@@ -595,6 +596,7 @@ assessment#:#autosave_ival#:#Interval
 assessment#:#autosave_success#:#Autosave successful...
 assessment#:#average_reached_points#:#Average Points
 assessment#:#backtocallingtest#:#Back to the calling test
+assessment#:#backtocallingpage#:#Back to the calling page
 assessment#:#back_to_objective_container#:#Go to Course
 assessment#:#baseunit#:#Base Unit
 assessment#:#button_request_next_question_hint#:#Request Next Hint
@@ -648,6 +650,8 @@ assessment#:#counter#:#Counter
 assessment#:#create_date#:#Created
 assessment#:#create_gaps#:#Create and Refresh Gaps
 assessment#:#create_new#:#Create New
+assessment#:#ctm_cannot_be_changed#:#This is a test in CTM-Mode. Settings cannot be changed anymore as CTM has been abandoned.
+assessment#:#ctm_cannot_be_started#:#This is a test in CTM-Mode. The test cannot be started anymore as CTM has been abandoned.
 assessment#:#customstyle#:#Custom Style
 assessment#:#dashboard_tab#:#Dashboard
 assessment#:#definition#:#Definition
@@ -667,9 +671,9 @@ assessment#:#detailed_evaluation_missing_active_id#:#You must call the ‘Detail
 assessment#:#detailed_evaluation_show#:#Show Detailed Evaluation
 assessment#:#detailed_output_printview#:#Detailed Output with Question Print Views
 assessment#:#detailed_output_solutions#:#Detailed Output with Question Solutions
-assessment#:#detail_ending_time_reached#:#The time allotted for this test is now over. The test had not been available since %s
+assessment#:#detail_ending_time_reached#:#The time allotted for this test is now over. The test had not been available since %s hours.
 assessment#:#detail_max_processing_time_reached#:#You have reached the maximum allowed processing time of the test!
-assessment#:#detail_starting_time_not_reached#:#You have not reached the start time of the test. The test will be available on %s
+assessment#:#detail_starting_time_not_reached#:#You have not reached the start time of the test. The test will be available on %s hours.
 assessment#:#direct_feedback#:#Verify Your Solution
 assessment#:#discard_answer_confirmation#:#Your answer will be finally and completely deleted. You can provide a new answer at any time. But this one will be purged.<br /><br />Do you want to delete your answer?
 assessment#:#discard_answer#:#Delete Answer###fau: testNav
@@ -1247,11 +1251,11 @@ assessment#:#test_jump_to#:#Jump to Question
 assessment#:#test_move_page#:#Move Question
 assessment#:#test_next_question#:#Next Question
 assessment#:#test_prev_question#:#Previous Question
-assessment#:#test_question_pool_usage_optional_info#:#The questions can be re-used in other tests.
-assessment#:#test_question_pool_usage_optional#:#Questions can be added optionally to a question pool
-assessment#:#test_question_pool_usage_tst_directly_info#:#The questions cannot be re-used in other tests.
-assessment#:#test_question_pool_usage_tst_directly#:#Questions are created directly in the test
-assessment#:#test_question_pool_usage#:#Use of Question Pools
+assessment#:#test_question_set_type_fixed_info#:#All testees see the same questions.<br>You can create questions directly in the test as well as reuse questions from a Question Pool. If you create new questions you can decide to save them in a Question Pool.
+assessment#:#test_question_set_type_fixed#:#Use of a fixed set of questions
+assessment#:#test_question_set_type_random_info#:#Every testee will see an individually generated set of questions. The questions are drawn from one or more Question Pools. 
+assessment#:#test_question_set_type_random#:#Use of a random set of questions
+assessment#:#test_question_set_type#:#Selection of Test Questions
 assessment#:#test_results#:#Summary Test Results
 assessment#:#test_scoring#:#Scoring Options
 assessment#:#test_template_reset#:#The template has been removed.
@@ -2004,6 +2008,8 @@ auth#:#auth_account_migration#:#New ILIAS Account
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.
 auth#:#auth_auth_settings#:#Settings
+auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.
+auth#:#auth_cas_ldap#:#Synchronization using LDAP
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).
@@ -2056,14 +2062,6 @@ auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, d
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 auth#:#auth_page_type_auth#:#Login Page
-auth#:#auth_radius_charset#:#Character Encoding
-auth#:#auth_radius_charset_info#:#Please choose the character encoding for the communication with the radius server. If unsure, choose UTF-8.
-auth#:#auth_radius_ldap_info#:#If enabled, the synchronization of user accounts and role assignments is done using an existing LDAP configuration.
-auth#:#auth_radius_ldap#:#Synchronization using LDAP
-auth#:#auth_radius_sync_rad#:#Automatic generation of user accounts
-auth#:#auth_radius_sync_rad_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against Radius, without having an ILIAS account yet.
-auth#:#auth_rad_migration#:#Account Migration:
-auth#:#auth_rad_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to Radius authentication.
 auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider
 auth#:#auth_saml_add_idp_md_error#:#The given value was not a valid XML document. Ensure the XML contains a valid Identity Provider.
 auth#:#auth_saml_add_idp_md_info#:#Please enter the XML formatted metadata for the Identity Provider.
@@ -2182,12 +2180,12 @@ badge#:#badge_notification_reason#:#You are receiving this message to be able to
 badge#:#badge_notification_subject#:#Badges received
 badge#:#badge_no_valid_types_for_obj#:#There are currently no active badge types. You cannot create new badges. Please contact your administrator.
 badge#:#badge_obi_activate#:#Activate Mozilla Open Badges Infrastructure
-badge#:#badge_obi_activate_info#:#Users can export Badges from ILIAS. They can use their Badges to prove their qualification in other web applications.
+badge#:#badge_obi_activate_info#:#Users can export badges from ILIAS. They can use their badges to prove their qualification in other web applications.
 badge#:#badge_obi_contact#:#Contact E-Mail
-badge#:#badge_obi_contact_info#:#This E-Mail adress will not be shown but baked into the Badge.
-badge#:#badge_obi_organisation_info#:#This entry will be displayed as the Issuer of the Badge.
+badge#:#badge_obi_contact_info#:#This e-mail address is not displayed, but it is baked into the badge.
+badge#:#badge_obi_organisation_info#:#This entry will be displayed as the issuer of the badge.
 badge#:#badge_obi_organisation#:#Organisation
-badge#:#badge_obi_salt_info#:#Enter a combination of characters and numbers to allow third parties to validate the authenticity of a Badge. Please do not change the entry afterwards.
+badge#:#badge_obi_salt_info#:#Enter a combination of characters and numbers to allow third parties to validate the authenticity of a badge. Please do not change the entry afterwards.
 badge#:#badge_obi_salt#:#Salt
 badge#:#badge_object_badges#:#Object Badges
 badge#:#badge_personal_badges#:#My Badges
@@ -2198,7 +2196,7 @@ badge#:#badge_profile_view#:#View
 badge#:#badge_remove_badge#:#Revoke Badge
 badge#:#badge_remove_from_profile#:#Remove from Profile
 badge#:#badge_service_activate#:#Activate Service
-badge#:#badge_service_activate_info#:#Activate the service to make badges available
+badge#:#badge_service_activate_info#:#Activate the service to make badges available.
 badge#:#badge_settings#:#Badge Settings
 badge#:#badge_subtype_auto#:#automatic
 badge#:#badge_subtype_manual#:#manual
@@ -2350,7 +2348,7 @@ blog#:#blog_change_notification_reason#:#You are receiving this e-mail because y
 blog#:#blog_change_notification_subject#:#Blog "%s" has been updated
 blog#:#blog_comments#:#Comments
 blog#:#blog_confirm_delete_contributors#:#Are you sure you want to delete the following contributors?
-blog#:#blog_contribute_other_roles#:#In addition to the list of ‘Contributors’, users with one of the following roles can also add postings: %s
+blog#:#blog_contribute_other_roles#:#Additionally to Blog-Contributors users with the role %s can write postings. They are not listed in the table below, because they get the respective permission from an encompassing object.
 blog#:#blog_contributors#:#Blog-Contributors
 blog#:#blog_copy#:#Copy Blog
 blog#:#blog_download_submission#:#Download Submission
@@ -2372,6 +2370,8 @@ blog#:#blog_enable_nav_authors_info#:#List of blog authors is displayed. Clickin
 blog#:#blog_enable_notes#:#Public Comments
 blog#:#blog_enable_rss#:#Activate RSS
 blog#:#blog_enable_rss_info#:#The RSS feed is public and independent of blog sharing or user permissions.
+blog#:#blog_est_reading_time#:#Estimated Reading Time
+blog#:#blog_est_reading_time_info#:#For Blogs in the repository reading time can be determined and displayed.
 blog#:#blog_exercise_info#:#This blog is part of the assignment "%s" of exercise "%s".
 blog#:#blog_exercise_submitted_info#:#Your last submission was on %s. Please check the export file: %s
 blog#:#blog_finalize_blog#:#Finalize and Submit Blog
@@ -2384,6 +2384,7 @@ blog#:#blog_keywords#:#Keywords
 blog#:#blog_keywords_other_info#:#These keywords were set for other blog postings.
 blog#:#blog_keywords_other#:#Other Keywords
 blog#:#blog_latest_posting#:#Latest Posting
+blog#:#blog_link#:#Link
 blog#:#blog_list_more#:#more
 blog#:#blog_list_num_postings_info#:#This setting is only used if no specific month is selected.
 blog#:#blog_list_num_postings#:#Number of postings
@@ -2515,6 +2516,7 @@ book#:#book_post_booking_text#:#Text
 book#:#book_pref_book_cron#:#Booking with Preferences
 book#:#book_pref_book_cron_info#:#Automatically book pools using preferences after the deadline
 book#:#book_pref_deadline#:#Deadline
+book#:#book_pref_deadline_info#:#Preferences can be given up to this point.
 book#:#book_preference_info#:#Please select %1 preference(s) until %2. After the deadline bookings will be done automatically based on the preferences of all users.
 book#:#book_preferences#:#Preferences
 book#:#book_preferences_saved#:#The preferences have been saved.
@@ -2593,10 +2595,15 @@ buddysystem#:#buddy_bs_state_ignoredrequest#:#Ignored
 buddysystem#:#buddy_bs_state_ignored_request_p#:#Ignored
 buddysystem#:#buddy_bs_state_linked_a#:#Linked
 buddysystem#:#buddy_bs_state_linked#:#Linked
+buddysystem#:#buddy_bs_state_linked_p#:#Linked
 buddysystem#:#buddy_bs_state_requested_a#:#Requested
+buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction
+buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required
 buddysystem#:#buddy_bs_state_requested_p#:#Requested
 buddysystem#:#buddy_bs_state_requested#:#Requested
 buddysystem#:#buddy_bs_state_unlinked_a#:#Unlinked
+buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked
+buddysystem#:#buddy_bs_state_unlinked#:#Unlinked
 buddysystem#:#buddy_enable#:#Activate ‘Contacts’
 buddysystem#:#buddy_enable_info#:#If enabled, users are allowed to contact each other by initiating contact requests. Additionally, there is a personal user setting to allow or prevent being contacted.
 buddysystem#:#buddy_handle_contact_request#:#Contact Request
@@ -2820,6 +2827,8 @@ chatroom#:#chat_deletion_interval_unit#:#Unit
 chatroom#:#chat_deletion_interval_value#:#Value
 chatroom#:#chat_deletion_ival_max_val#:#The maximum value for the chose unit '%s' is: %s
 chatroom#:#chat_deletion_section_head#:#Deletion of old Messages
+chatroom#:#chat_enable_history#:#Enable History
+chatroom#:#chat_enable_history_info#:#Everybody can read and export past public chat messages in the tab „History“. Messages from within private rooms are only accessible by invited users.
 chatroom#:#chat_error_log_info#:#Please define an absolute server path to the chat server's error log file (e.g.: /var/www/ilias/data/chat_error.log). If you do not specify a path, the chat server will automatically create a file located in the chat server directory.
 chatroom#:#chat_https_cert_info#:#Please define an absolute server path to the SSL certificate file (e.g.: /etc/ssl/certs/server.pem).
 chatroom#:#chat_https_dhparam_info#:#Please define an absolute server path to a file (e.g.: /etc/ssl/private/dhparam.pem), used for the negotiation of Diffie Hellman parameters (e.g. generated via: openssl dhparam -out /etc/ssl/private/dhparam.pem 2048 ).
@@ -2887,6 +2896,7 @@ chatroom#:#chat_select_room#:#Select Chat Room
 chatroom#:#chatserver_address#:#IP-Address/FQN of Chat Server
 chatroom#:#chatserver_port#:#Port of Chat Server
 chatroom#:#chat_settings#:#Chat Settings
+chatroom#:#chat_settings_functions_header#:#Chat Room Functions
 chatroom#:#chat_show_auto_messages#:#Show Status Messages
 chatroom#:#chat_to_mainroom#:#To Main Room
 chatroom#:#chat_use_osc#:#Using On-Screen-Chat
@@ -2914,9 +2924,9 @@ chatroom#:#delete_private_room#:#Delete Private Room
 chatroom#:#delete_private_room_question#:#Confirm delete private room?
 chatroom#:#dhparam#:#Diffie-Hellman Parameter
 chatroom#:#display_past_msgs#:#Number of Past Messages
+chatroom#:#display_past_msgs_suffix#:#Messages
 chatroom#:#duration_from#:#From
 chatroom#:#duration_to#:#To
-chatroom#:#enable_history#:#Enable History
 chatroom#:#enable_smilies#:#Enable Smileys
 chatroom#:#end_whisper#:#Cancel
 chatroom#:#enter#:#Enter Chat Room
@@ -2985,56 +2995,6 @@ classification#:#clsfct_block_title#:#Selection by Topics
 classification#:#clsfct_content_no_match#:#No objects match your selected criteria.
 classification#:#clsfct_content_title#:#Objects matching your selection
 classification#:#clsfct_selected_objects#:#Selected Objects
-cld#:#cld_add#:#Add Cloud Object
-cld#:#cld_add_download_failed#:#Download Failed
-cld#:#cld_add_file#:#File
-cld#:#cld_add_folder#:#Folder
-cld#:#cld_add_items_from_service_failed#:#Add Items from Service Failed
-cld#:#cld_add_new_item#:#Add New Item
-cld#:#cld_authentication_failed#:#:#Authentication Failed
-cld#:#cld_auth_failed#:#Authentication Failed
-cld#:#cld_auth_failed_no_object_created#:#Authentication failed, no Cloud Object has been created.
-cld#:#cld_config_entry_does_not_exist#:#Config entry does not exist
-cld#:#cld_config_no_valid_get_or_set_function#:#No valid get or set function for config value
-cld#:#cld_config_table_does_not_exist#:#Config table does not exist
-cld#:#cld_config_unknown_exception#:#Unknown Exception
-cld#:#cld_confirm_delete_file#:#Are you sure, that the following file is to be deleted:
-cld#:#cld_confirm_delete_folder#:#Are you sure, that the following folder is to be deleted:
-cld#:#cld_create_folder#:#Create Folder
-cld#:#cld_delete_failed#:#Delete Failed
-cld#:#cld_edit_Settings#:#Cloud Settings
-cld#:#cld_file_deleted#:#Object deleted
-cld#:#cld_file_not_existing_on_service#:#File not existing on service:
-cld#:#cld_folder_already_existing_on_service#:#Folder already existing on service:
-cld#:#cld_folder_created#:#Folder created
-cld#:#cld_folder_creation_failed#:#Folder Creation Failed
-cld#:#cld_folder_name#:#Folder Name
-cld#:#cld_folder_not_existing_on_service#:#Folder not existing on service:
-cld#:#cld_id_already_exists_in_file_tree_in_session#:#ID already exists in file tree in session:
-cld#:#cld_id_does_not_exist_in_file_tree_in_session#:#ID does not exist in file tree in session:
-cld#:#cld_info_add_file_to_current_directory#:#Add File to current directory
-cld#:#cld_info_add_folder_to_current_directory#:#Add Folder to current directory
-cld#:#cld_invalid_input#:#Invalid Input
-cld#:#cld_new#:#New Cloud Object
-cld#:#cld_no_service_active#:#No cloud-plugin active
-cld#:#cld_no_service_selected#:#No service selected
-cld#:#cld_not_authenticated_offline#:#Not Authenticated - Offline
-cld#:#cld_object_added#:#A new Cloud object has been added
-cld#:#cld_only_owner_has_permission_to_change_root_path#:#Due to privacy concerns only the creator of a cloud object has the permission to change it's root path.
-cld#:#cld_path_does_not_exist_in_file_tree_in_session#:#Path does not exist in file tree in Session:
-cld#:#cld_permission_denied#:#Permission Denied
-cld#:#cld_permission_to_change_root_folder_denied#:#Permission to change root folder denied
-cld#:#cld_plugin_hook_could_not_be_instantiated#:#Plugin hook cloud not be instantiated
-cld#:#cld_plugin_not_active#:#Plugin is not active
-cld#:#cld_root_folder#:#Root Folder
-cld#:#cld_service_class_file_not_found#:#Service class file not found
-cld#:#cld_service_not_active#:#Service not active
-cld#:#cld_service#:#Service
-cld#:#cld_service_specific_settings#:#Specific Settings
-cld#:#cld_unknown_exception#:#Unknown Exception
-cld#:#cld_upload_failed_max_filesize#:#Upload Failed (Max. File Size exceeded)
-cld#:#cld_upload_failed#:#Upload Failed
-cld#:#cld_upload_files#:#Upload Files
 cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.
 cmix#:#achieved_label#:#Statements with the verb 'achieved'
 cmix#:#activity_id#:#Activity-ID
@@ -3518,14 +3478,6 @@ common#:#author#:#Author
 common#:#authoring_mode#:#Authoring Mode
 common#:#authors#:#Authors
 common#:#auth_per_default#:#Per Default
-common#:#auth_radius_configure#:#Configure RADIUS-Authentication
-common#:#auth_radius_enable#:#Enable RADIUS support
-common#:#auth_radius_not_configured#:#RADIUS is not configured yet
-common#:#auth_radius_port#:#Port
-common#:#auth_radius#:#RADIUS
-common#:#auth_radius_server_desc#:#You may add multiple servers with commas separated. Servers are rotated in Round robin fashion when queried.
-common#:#auth_radius_server#:#Servers
-common#:#auth_radius_shared_secret#:#Shared secret
 common#:#auth_remark_non_local_auth#:#When selecting another authentication mode than ILIAS database, you may not change user's login name and password anymore.
 common#:#auth_role_auth_mode#:#Authentication mode
 common#:#auth_saml#:#SAML
@@ -3625,6 +3577,7 @@ common#:#catr_new#:#Create Category Link
 common#:#cat_wizard_page#:#Copy Category (Step 2/2)
 common#:#cc#:#CC
 common#:#certificate#:#Certificate
+common#:#certificates#:#Certificates
 common#:#certificate_file_already_exists_error#:#The certificate file already exists in the file system.
 common#:#certificate_file_input_output_error#:#The certificate file was found but couldn't be deleted because of internal errors. Please contact your administrator.
 common#:#certificate_file_not_found_error#:#The certificate file doesn't exist in the file system anymore. Die Zertikatsdatei wurde im Dateisystem nicht mehr gefunden.
@@ -3671,6 +3624,7 @@ common#:#chta_write#:#Edit Chat Room Administration
 common#:#chtr_copy#:#Copy Chat Room
 common#:#chtr_import#:#Import Chat Room
 common#:#city#:#City, State
+common#:#cld_abandoned#:#The Cloud Object has been abandoned as of ILIAS 8. No data has been lost. Contact your System Administration for more information.
 common#:#cleaned_file#:#File has been cleaned.
 common#:#cleaning_failed#:#Cleaning failed.
 common#:#clear#:#Clear
@@ -3759,8 +3713,8 @@ common#:#cron_jobs#:#Cron Jobs
 common#:#cron_lucene_index_info#:#If enabled, the lucene search index will be updated. Please configure the lucene server at ’Administration -> Search’.
 common#:#cron_lucene_index#:#Update Lucene search index
 common#:#cron_mail_notification_cron#:#regularly per cron job
-common#:#cron_mail_notification_desc#:#If enabled, all users, who want to be informed about new mail, will get notifications by external mail. Please enable the option ‘%s’ first to use this function.
-common#:#cron_mail_notification_message_info#:#If enabled, all users will get notifications with complete mail message by external mail.
+common#:#cron_mail_notification_desc#:#On request, ILIAS sends e-mail notifications about new mails. In contrast to the immediate forwarding of all mails, this cronjob collects the mails of one day and delivers them as a package. Please enable the option '%s' to use this feature. Additionally, the e-mail notifications for each ILIAS account have to be activated in the personal mail settings.
+common#:#cron_mail_notification_message_info#:#E-mail notifications contain the complete content of the mails received in ILIAS. This means that they can be read without having to log in again.
 common#:#cron_mail_notification_message#:#Send Mail Notifications with Mail-Message
 common#:#cron_mail_notification_never#:#never
 common#:#cron_mail_notification#:#New Mail Notifications
@@ -3907,8 +3861,8 @@ common#:#enable_anonymous_fora#:#Allow posting with pseudonym
 common#:#enable_anonymous_fora_desc#:#If this option is disabled, the feature ‘Posting with pseudonym’ is not available in forums anymore.
 common#:#enable_calendar#:#Enable Calendar
 common#:#enable_comments_export#:#Enable Comments Export
-common#:#enable_course_group_notifications#:#Daily Mail for Groups and Course News
-common#:#enable_course_group_notifications_desc#:#If enabled, Participants can subscribe to a daily summary of news.
+common#:#enable_course_group_notifications#:#Daily mail for group and course news
+common#:#enable_course_group_notifications_desc#:#If enabled, participants can subscribe to a daily summary of news.
 common#:#enable_custom_icons#:#Enable custom icons
 common#:#enable_custom_icons_info#:#This allows you to define custom icons for single container objects and the content page object. The properties section of these objects will provide an image upload dialog.
 common#:#enabled#:#Enabled
@@ -3947,7 +3901,6 @@ common#:#err_auth_apache_failed#:#The authentication has failed. Maybe you have 
 common#:#err_auth_cas_no_ilias_user#:#Login failed. CAS authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_auth_ldap_no_ilias_user#:#Login failed. LDAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_auth_mode_inactive#:#Your authentication method is deactivated.
-common#:#err_auth_radius_no_ilias_user#:#Login failed. Radius authentication successful, but no corresponding ILIAS user exists.
 common#:#err_auth_soap_no_ilias_user#:#Login failed. SOAP authentication successful, but no corresponding ILIAS user exists. Please contact your system administrator.
 common#:#err_check_input#:#The settings could not be saved. Please check your input.
 common#:#err_count_param#:#Reason: Wrong parameter count
@@ -4194,7 +4147,7 @@ common#:#grp_list_reg_start#:#Registration Begin
 common#:#grp_list_users#:#List users
 common#:#grp_members_gallery#:#Group Members Gallery
 common#:#grp_mem_change_status#:#Change Participant Status
-common#:#grp_mem_send_mail#:#Send Participants a Message
+common#:#grp_mem_send_mail#:#Send member a mail
 common#:#grp_msg_applicants_assigned#:#Applicant(s) assigned as group member(s)
 common#:#grp_msg_member_assigned#:#User(s) assigned as group member(s)
 common#:#grp_msg_membership_annulled#:#Cancelled membership.
@@ -4417,8 +4370,8 @@ common#:#like#:#Like
 common#:#link_all#:#Link all
 common#:#link_checker_refreshed#:#Refreshed view
 common#:#link_check_message_b#:#If enabled, you will be informed about invalid links by mail.
-common#:#link_check_message_disabled#:#Messages disabled
-common#:#link_check_message_enabled#:#Messages enabled
+common#:#link_check_message_disabled#:#The sending of mails is deactivated.
+common#:#link_check_message_enabled#:#The sending of mails is activated.
 common#:#link_check_subject#:#[ILIAS] Weblink check
 common#:#link_check#:#Weblink Check
 common#:#link#:#Link
@@ -4507,8 +4460,8 @@ common#:#mail_mails_of#:#Mail
 common#:#mail_maxsize_attach#:#Max. attachment size
 common#:#mail_member#:#Mail to Member
 common#:#mail_members#:#Mail to Members
-common#:#mail_multiple_recipients_found#:#Enter a more specific mail address. ILIAS found multiple possible recipients for this address: %s
-common#:#mail_no_recipient_found#:#Enter a different mail address. ILIAS couldn't find a recipient with this mail address.
+common#:#mail_multiple_recipients_found#:#Please enter a more precise e-mail address, as ILIAS has found several possible recipients for this address: %s
+common#:#mail_no_recipient_found#:#Please enter a different e-mail address. ILIAS could not find a corresponding recipient.
 common#:#mail_not_sent#:#Mail not sent!
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s
 common#:#mail_search_no#:#No entries found.
@@ -4911,7 +4864,7 @@ common#:#obj_mob#:#Media Object
 common#:#obj_mobs_desc#:#Settings for media objects and media pools.
 common#:#obj_mobs#:#Media Objects and Pools
 common#:#obj_nota_desc#:#Notification Administration
-common#:#obj_nota#:#Notifcations
+common#:#obj_nota#:#Notifications
 common#:#obj_not_found#:#Object Not Found
 common#:#obj_nots_desc#:#Notes settings
 common#:#obj_nots#:#Notes
@@ -5339,7 +5292,8 @@ common#:#replace_file#:#Replace File
 common#:#reply#:#Reply
 common#:#rep_main_page#:#Home
 common#:#report_accessibility_issue#:#Report Accessibility Issue
-common#:#report_accessibility_link#:#Reported%20Link:
+common#:#report_accessibility_link#:#Reported Link:
+common#:#report_accessibility_link_mailto#:#Reported%20Link:
 common#:#repository_admin_desc#:#Set permissions for repository items, restore or remove objects from system trash
 common#:#repository_admin#:#Repository Trash and Permissions
 common#:#repository#:#Repository
@@ -5464,7 +5418,7 @@ common#:#select_question_pool_info#:#As long as the import file contains questio
 common#:#select_questionpool#:#Insert questions into
 common#:#select#:#Select
 common#:#sender#:#Sender
-common#:#send_mail#:#Send Message
+common#:#send_mail#:#Send mail
 common#:#send#:#Send
 common#:#sent#:#Sent
 common#:#sequence#:#Sequence
@@ -5689,7 +5643,7 @@ common#:#tst#:#Test
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
 common#:#tst_warning_test_not_complete#:#The test is not complete!
 common#:#tutors#:#Tutors
-common#:#txt_registered_passw_gen#:#You successfully registered to ILIAS. You should receive an e-Mail including your generated password shortly.
+common#:#txt_registered_passw_gen#:#You have successfully registered with ILIAS. You will receive an e-mail with your password shortly.
 common#:#txt_registered#:#You successfully registered to ILIAS. Please click on the button below to login to ILIAS with your user account.
 common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.
 common#:#type#:#Type
@@ -5757,7 +5711,7 @@ common#:#user_defined_fields#:#Custom Fields
 common#:#user_defined_list#:#Custom User Data Fields
 common#:#user_deleted#:#User deleted
 common#:#user_detail#:#Detail Data
-common#:#user_ext_account_desc#:#Account used for external authentication. (CAS, SOAP, LDAP or Radius authentication)
+common#:#user_ext_account_desc#:#Account used for external authentication. (CAS, SOAP or LDAP authentication)
 common#:#user_ext_account#:#External Account
 common#:#userfolder_export_csv#:#Comma Separated Values
 common#:#userfolder_export_excel_x86#:#Microsoft Excel
@@ -5774,7 +5728,7 @@ common#:#username#:#Username
 common#:#user_never_logged_in#:#Delete user accounts without login
 common#:#user_never_logged_in_info#:#All user accounts without login at all be deleted.
 common#:#user_never_logged_in_info_threshold_err_num#:#Only positive non decimal numbers are accepted.
-common#:#user_new_account_mail_desc#:#This mail is sent automatically to users that have self-registered or to those who have been registered by an administrator with enabled setting ‘Send mail to inform user about changes’.
+common#:#user_new_account_mail_desc#:#This e-mail is sent after an ILIAS account has been created. If the account was created by an administrator, ILIAS will only send an e-mail if the option "Send mail to inform user about changes" was activated when creating the account.
 common#:#user_new_account_mail#:#New Account Mail
 common#:#user_not_found_to_delete#:#A user could not be found to delete.
 common#:#user_not_found#:#User not found
@@ -7193,13 +7147,23 @@ copg#:#copg_allow_html#:#Enable HTML/Javascript
 copg#:#copg_allow_html_info#:#User may use HTML or Javascript page content. This may lead to security issues. Do not activate, if features can be used by users which you consider not being trustworthy. The support to add HTML content this way may be discontinued in a future version.
 copg#:#copg_an_error_occured#:#An error occured.
 copg#:#copg_confirm_el_deletion#:#Do you really want to delete the selected elements?
+copg#:#copg_cron_days#:#Delete pages older than
+copg#:#copg_cron_days_info#:#Page history entries older than this period will be deleted.
+copg#:#copg_cron_keep_entries_info#:#This number is the minimum of entries that will be kept, even if they are older than the deletion period.
+copg#:#copg_cron_keep_entries#:#Keep Minimum
+copg#:#copg_days#:#Days
 copg#:#copg_details#:#Details
+copg#:#copg_entries#:#Entries
 copg#:#copg_error#:#Error
+copg#:#copg_est_reading_time#:#Estimated Reading Time
+copg#:#copg_history_cleanup_cron_info#:#Removes older entries from the page history.
+copg#:#copg_history_cleanup_cron#:#Page Editor History Cleanup
 copg#:#copg_page_element_not_found#:#Page element not found.
 copg#:#copg_page_type_stys#:#Layout Page
 copg#:#copg_questions_not_supported_here#:#Questions are not supported in this context.
 copg#:#copg_sec_link_info#:#Select a target for linking the block. Attention: In this case, the content of the block must not contain any further links itself!
 copg#:#copg_snippet_cannot_be_edited#:#This is a predefined content snippet and cannot be edited here.
+copg#:#copg_x_minutes#:#%s minute(s)
 cpad#:#cpad_reading_time_status_desc#:#If enabled, the estimated reading time for content page objects will be determined and displayed.
 cpad#:#cpad_reading_time_status#:#Reading Time
 cptch#:#cptch_freetype_support_needed#:#To use this feature you need to enable freetype support in your PHP.
@@ -9389,6 +9353,7 @@ file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contain
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.
 file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#migrated#:#Status
+file#:#msg_unzip_success#:#Archive has been successfully unziped.
 file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 file#:#replace_file_info#:#All previous file versions will be deleted.
 file#:#resource_id#:#Resource ID
@@ -9520,7 +9485,7 @@ forum#:#forums_edit_post#:#Edit Article
 forum#:#forums_enable_notification#:#Enable Notification for this Thread
 forum#:#forums_forum_notification_disabled#:#You will no longer be notified about new messages in this forum.
 forum#:#forums_info_censor2_post#:#Revoke Censorship?
-forum#:#forums_info_censor_post#:#Are you sure you want to hide this article?
+forum#:#forums_info_censor_post#:#Please provide a reason for hiding this article.
 forum#:#forums_info_delete_draft#:#Are you sure, you want to delete this draft?
 forum#:#forums_info_delete_post#:#Are you sure you want to delete this article including any responses?
 forum#:#forums_mark_read#:#Mark All as Read
@@ -9603,7 +9568,6 @@ forum#:#frm_search#:#Search
 forum#:#frm_selected_merge_src#:#Selected Thread to Merge: %s
 forum#:#frm_settings_form_header#:#Forum Settings
 forum#:#frm_settings_mod_functions_header#:#Moderator Functions
-forum#:#frm_settings_presentation_header#:#Presentation
 forum#:#frm_settings_privacy_header#:#Privacy
 forum#:#frm_settings_user_functions_header#:#User Functions
 forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.
@@ -10072,7 +10036,7 @@ ldap#:#add_ldap_server#:#Add Server
 ldap#:#ldap_add_missing#:#Assign Missing Roles
 ldap#:#ldap_add_remove#:#Add/Remove Roles
 ldap#:#ldap_add_role_ass_rule#:#New Rule for Role Assignments
-ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS or Radius).
+ldap#:#ldap_as_ds_info#:#If activated, this LDAP configuration is used only for the synchronization of user accounts in combination with other authentication methods (e.g. CAS).
 ldap#:#ldap_as_ds#:#Use as Data Source
 ldap#:#ldap_assignment_type#:#Assignment Type
 ldap#:#ldap_authentication_settings#:#Authentication Settings
@@ -10216,6 +10180,8 @@ link#:#link_wpages#:#Wiki Pages
 lm#:#lm_btn_lp_toggle_state_completed#:#Set Not Completed
 lm#:#lm_btn_lp_toggle_state_not_completed#:#Set Completed
 lm#:#lm_copy#:#Copy Learning Module
+lm#:#lm_est_reading_time#:#Estimated Reading Time
+lm#:#lm_est_reading_time_info#:#In Learning Modules in the repository the estimated reading time can be determined and displayed.
 lm#:#lm_page_type_lm#:#LM Page
 lm#:#lm_save_titles#:#Titles saved.
 lng#:#language_detection#:#Language Detection
@@ -10675,6 +10641,8 @@ mail#:#mail_incoming_smtp#:#forward to e-mail address
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
+mail#:#mail_is_read#:#gelesen
+mail#:#mail_is_unread#:#ungelesen
 mail#:#mail_list_members#:#List members
 mail#:#mail_mailing_list#:#Mailing List
 mail#:#mail_mailing_lists_all_contact_entries_assigned#:#You have already assigned all of your contacts to this mailing list.
@@ -10846,7 +10814,7 @@ maps#:#maps_std_location_desc#:#Click map to set location.
 maps#:#maps_tile_server#:#Server for Tiles
 maps#:#maps_zoom_level#:#Zoom Level
 mathjax#:#mathjax_enable_client#:#Enable MathJax in the Browser
-mathjax#:#mathjax_enable_client_info#:#Activates a client-side rendering of TeX in the browser by including the MathJax script.
+mathjax#:#mathjax_enable_client_info#:#Activates a client-side rendering of TeX in the browser by including the MathJax script. Mathjax 3 is supported, but MathJax 2 is recommended.
 mathjax#:#mathjax_enable_server#:#Enable MathJax on the Server
 mathjax#:#mathjax_enable_server_info#:#Activates a server-side rendering of TeX to graphics.
 mathjax#:#mathjax_home_link#:# » MathJax
@@ -10879,10 +10847,14 @@ mathjax#:#mathjax_test_expression_info_client#:#This expression will be rendered
 mathjax#:#mathjax_test_expression_info_server#:#This expression will be rendered on the server.
 mathjax#:#mathjax_test_expression#:#Test Expression
 mcst#:#mcst_add_new_item#:#Add New Mediacast Item
+mcst#:#mcst_audio_files#:#Audio Files
 mcst#:#mcst_audioportable_settings_info#:#Comma separated list of file suffixes
 mcst#:#mcst_audioportable_settings_title#:#File Extensions for Audio Format
 mcst#:#mcst_audioportable_title#:#Additional Audio File for Portable Devices
 mcst#:#mcst_automatic_detection#:#Automatic Detection
+mcst#:#mcst_autoplay_active#:#Autoplay (Default on)
+mcst#:#mcst_autoplay#:#Autoplay
+mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)
 mcst#:#mcst_clear_purpose_title#:#Delete
 mcst#:#mcst_converted_file#:#File has been converted.
 mcst#:#mcst_copy#:#Copy Mediacast
@@ -10891,9 +10863,11 @@ mcst#:#mcst_default_visibility#:#Default Access
 mcst#:#mcst_det_playtime#:#Determine Play Time
 mcst#:#mcst_downloadable#:#Download Links
 mcst#:#mcst_downloadable_info#:#If this option is enabled, links for downloading mediacast items are provided.
+mcst#:#mcst_download_all#:#Download All
 mcst#:#mcst_download_audioportable#:#Download Audio Portable
 mcst#:#mcst_download_cnt#:#Downloaded
 mcst#:#mcst_download_standard#:#Download
+mcst#:#mcst_download_started_bg#:#Download of files has started. Please check your background tasks in the top right corner.
 mcst#:#mcst_download_videoalternative#:#Download Alternative File
 mcst#:#mcst_download_videoportable#:#Download Video Portable
 mcst#:#mcst_duration_info#:#If no value is entered, ILIAS tries do determine the play time automatically.
@@ -10903,6 +10877,7 @@ mcst#:#mcst_edit_settings#:#MediaCast Settings
 mcst#:#mcst_extract_preview_image#:#Extract Preview Image
 mcst#:#mcst_gallery#:#Tiles
 mcst#:#mcst_image_extracted#:#Image has been extracted.
+mcst#:#mcst_img_gallery#:#Image Gallery
 mcst#:#mcst_import#:#Import Mediacast
 mcst#:#mcst_incl_files_in_rss#:#Include Media Files as Attachment
 mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as attachments in the RSS feed. Otherwise the feed just notifies subscribers about new items.
@@ -10917,9 +10892,14 @@ mcst#:#mcst_mimetype_info#:#Select mime type to control plugin used for playback
 mcst#:#mcst_mimetype#:#Mime Type
 mcst#:#mcst_mimetypes_info#:#Comma separated list of mime types
 mcst#:#mcst_mimetypes#:#Mime Types
+mcst#:#mcst_new_items_det_lp#:#Add new items to learning progress
+mcst#:#mcst_new_items_det_lp_info#:#New items are automatically added to determine the overall learning progress.
 mcst#:#mcst_news_item_visibility_info#:#Public news can be accessed without authentication outside of ILIAS via RSS. Please do not include any confidential information.
+mcst#:#mcst_next_items#:#Next Items
+mcst#:#mcst_no_autoplay#:#No Autoplay
 mcst#:#mcst_no_extraction_possible#:#Sorry, it was not able to extract an image from the file.
 mcst#:#mcst_nr_items#:#Number of Items
+mcst#:#mcst_nr_videos#:#Number of Initial Videos
 mcst#:#mcst_ordering_creation_date_asc#:#By Creation Date, Oldest Item on Top
 mcst#:#mcst_ordering_creation_date_desc#:#By Creation Date Newest Item on Top
 mcst#:#mcst_ordering_manual#:#Manual
@@ -10928,18 +10908,24 @@ mcst#:#mcst_ordering_title#:#Titles in Alphabetical Order
 mcst#:#mcst_play_cnt#:#Played
 mcst#:#mcst_play#:#Play
 mcst#:#mcst_play_time#:#Play Time
+mcst#:#mcst_podcast#:#Podcast
 mcst#:#mcst_preview_picture_info#:#Only supported by the following main media types:
 mcst#:#mcst_preview_picture#:#Preview Picture
+mcst#:#mcst_prev_items#:#Previous Items
 mcst#:#mcst_reference_info#:#Provide URL pointing to resource
 mcst#:#mcst_save_order#:#Save Order
 mcst#:#mcst_second#:#Second
 mcst#:#mcst_set_playtime#:#Playtime has been set.
 mcst#:#mcst_settings#:#Mediacast Settings
+mcst#:#mcst_show_description#:#Show Description
 mcst#:#mcst_standard_settings_info#:#Comma separated list of file suffixes
 mcst#:#mcst_standard_settings_title#:#File Extensions for Standard Format
 mcst#:#mcst_standard_title#:#Standard Media File
 mcst#:#mcst_unable_to_determin_playtime#:#Unable to determine playtime. Please set it manually be clicking on Edit.
 mcst#:#mcst_videoalternative_title#:#Alternative Video File (Use in Browser)
+mcst#:#mcst_video_cast#:#Videocast
+mcst#:#mcst_video_completion_threshold_info#:#Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point.
+mcst#:#mcst_video_completion_threshold#:#Video Completion Threshold
 mcst#:#mcst_videoportable_settings_info#:#Comma separated list of file suffixes
 mcst#:#mcst_videoportable_settings_title#:#File Extensions for Video Format
 mcst#:#mcst_videoportable_title#:#Additional Video File for Portable Devices
@@ -10947,6 +10933,7 @@ mcst#:#mcst_viewmode#:#Presentation Mode
 mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.
 mcst#:#mcst_visibility_public#:#Public
 mcst#:#mcst_visibility_users#:#Logged in Users
+mcst#:#mcst_watched#:#watched
 mcst#:#mcst_webfeed#:#RSS Web Feed
 membership#:#mem_error_preconditions#:#A registration is not possible, since minimum one setting prevents this.
 membership#:#mem_force_notification_mode_all#:#Notification activated for all members (changeable)
@@ -11778,6 +11765,7 @@ mob#:#mob_file_could_not_be_uploaded#:#File could not be uploaded.
 mob#:#mob_file#:#File
 mob#:#mob_general#:#General
 mob#:#mob_language#:#Language
+mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.
 mob#:#mob_multi_srt_files#:#SRT Files
 mob#:#mob_no_fixed_size_map_editing#:#Please define a fixed size for your image before using map areas. If your image is scaled by content style or other CSS rules, your map areas will not fit anymore.
 mob#:#mob_object#:#Object
@@ -13754,10 +13742,6 @@ rbac#:#wiks_write#:#Edit settings in Wiki administration
 rbac#:#write#:#Edit Settings
 rcat#:#rcat_call#:#Call ECS Category
 rcrs#:#rcrs_call#:#Call ECS Course
-registration#:#auth_radius_name_desc#:#Please choose a name for this server configuration
-registration#:#auth_radius_name#:#Name of RADIUS Configuration
-registration#:#auth_radius_role_select#:#Role:
-registration#:#auth_radius_sync#:#User Synchronization
 registration#:#reg_access_limitation_limited_time#:#After registration access for
 registration#:#reg_access_limitation_limited_until#:#Access is limited until
 registration#:#reg_access_limitation_missing_mode#:#Please choose for all roles an Access Limitation Mode
@@ -14563,6 +14547,9 @@ skmg#:#skmg_enable_skmg#:#Activate Competence Management
 skmg#:#skmg_eval_type_1#:#Appraisal
 skmg#:#skmg_eval_type_2#:#Measurement
 skmg#:#skmg_eval_type_3#:#Self-Evaluation
+skmg#:#skmg_eval_type_latest_1#:#Latest Appraisal
+skmg#:#skmg_eval_type_latest_2#:#Latest Measurement
+skmg#:#skmg_eval_type_latest_3#:#Latest Self-Evaluation
 skmg#:#skmg_execute_self_evaluation#:#Start
 skmg#:#skmg_form_presentation#:#Presentation
 skmg#:#skmg_from_lower_to_higher_levels#:#Please order the competence levels from lower ones on top to higher ones at the bottom.
@@ -14623,9 +14610,12 @@ skmg#:#skmg_selected_skills#:#Selected Competences
 skmg#:#skmg_select_skill#:#Click on a competence to add it to your personal competences.
 skmg#:#skmg_select_skill_level_assign#:#Please select a competence.
 skmg#:#skmg_select_trigger#:#Select Trigger
+skmg#:#skmg_self_evaluation_byline#:#The self-evaluation will be excluded from target achievement. It is used for your guidance.
 skmg#:#skmg_self_evaluation#:#Self-Evaluation
 skmg#:#skmg_self_evaluations#:#Self-Evaluations
 skmg#:#skmg_settings#:#Competence Management Settings
+skmg#:#skmg_show_all#:#Show All
+skmg#:#skmg_show_latest_entries#:#Show Latest Entries
 skmg#:#skmg_skill#:#Competence
 skmg#:#skmg_skill_in_use#:#This competence is used by users or content. Not all commands are available. Please keep in mind that any changes that are made will affect the existing usages.
 skmg#:#skmg_skill_level#:#Competence Level
@@ -14638,6 +14628,7 @@ skmg#:#skmg_skill_needs_self_eval_box#:#Please note that you have not conducted 
 skmg#:#skmg_skill_needs_self_eval#:#Please conduct a self-evaluation first to see your competence target. Please click on "Actions" for that.
 skmg#:#skmg_skill_no_needs_impr#:#Competence target achieved!
 skmg#:#skmg_skill_no_needs_impr_info#:#You achieved the target for this competence.
+skmg#:#skmg_skill_profile_comparison#:#Profile Comparison
 skmg#:#skmg_skill_profiles#:#Competence Profiles
 skmg#:#skmg_skills#:#Competences
 skmg#:#skmg_skill_template#:#Competence Template
@@ -16203,11 +16194,13 @@ trac#:#trac_objects#:#Users
 trac#:#trac_others#:#Others
 trac#:#trac_participants#:#Show Participants
 trac#:#trac_participated#:#Participated
+trac#:#trac_paths#:#Paths
 trac#:#trac_percentage#:#Percentage
 trac#:#trac_periodic_system_load#:#Periodic
 trac#:#trac_progress#:#Personal Learning Progress
 trac#:#trac_read_count#:#Access Number
 trac#:#trac_read_count_spent_seconds#:#Time Spent / Access
+trac#:#trac_reference_ids_column#:#Reference-Ids
 trac#:#trac_reference#:#References
 trac#:#trac_refresh#:#Refresh
 trac#:#trac_registered#:#Registered
@@ -16631,6 +16624,7 @@ wiki#:#wiki_rename#:#Rename
 wiki#:#wiki_save_ordering_and_indent#:#Save Ordering and Indentation
 wiki#:#wiki_search_results#:#Search Results
 wiki#:#wiki_search#:#Search
+wiki#:#wiki_sec_protect_info#:#Protected sections can only be edited by users having "Edit Settings" permission.
 wiki#:#wiki_selected_pages#:#Selected Pages
 wiki#:#wiki_select_one_item#:#Please select one item.
 wiki#:#wiki_set_as_start_page#:#Set as Start Page
@@ -16755,23 +16749,65 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM
 wsp#:#wsp_type_tstv#:#Certificate: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Folder
-mcst#:#mcst_download_started_bg#:#Download of files has started. Please check your background tasks in the top right corner.
-mcst#:#mcst_download_all#:#Download All
-mcst#:#mcst_img_gallery#:#Image Gallery
-mcst#:#mcst_podcast#:#Podcast
-mcst#:#mcst_watched#:#watched
-mcst#:#mcst_video_completion_threshold#:#Video Completion Threshold
-mcst#:#mcst_video_completion_threshold_info#:#Amount of video that triggers the completion status. Please note that the user may skip forward to reach this point.
-mcst#:#mcst_prev_items#:#Previous Items
-mcst#:#mcst_next_items#:#Next Items
-mcst#:#mcst_autoplay#:#Autoplay
-mcst#:#mcst_video_cast#:#Videocast
-mcst#:#mcst_no_autoplay#:#No Autoplay
-mcst#:#mcst_autoplay_active#:#Autoplay (Default on)
-mcst#:#mcst_autoplay_inactive#:#Autoplay (Default off)
-mcst#:#mcst_nr_videos#:#Number of Initial Videos
-mcst#:#mcst_show_description#:#Show Description
-mob#:#mob_mime_type_not_allowed#:#The following mime types are not allowed at the destination.
-mcst#:#mcst_new_items_det_lp#:#Add new items to learning progress
-mcst#:#mcst_new_items_det_lp_info#:#New items are automatically added to determine the overall learning progress.
-mcst#:#mcst_audio_files#:#Audio Files
+common#:#objs_tala#:#Talk Templates
+common#:#objs_talt#:#Talk Templates
+common#:#obj_talt#:#Talk Template
+common#:#obj_tala#:#Talk Templates
+common#:#obj_tala_desc#:#Talk Templates
+etal#:#mm_talk_template#:#Talk Templates
+orgu#:#mm_organisation#:#Organisation
+etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.
+etal#:#meta_adv_records#:#Metadata
+etal#:#talt_edit#:#General
+etal#:#talt_add#:#Add Template
+etal#:#talt_new#:#New Talk Template
+etal#:#mm_org_etal#:#Talks
+common#:#objs_etal#:#Employee Talks
+common#:#obj_tals#:#Employee Talk Series
+common#:#tals_etal#:#Talk
+common#:#talt_etal#:#Talk
+common#:#obj_etal#:#Employee Talk
+etal#:#etal_edit#:#General
+etal#:#etal_add#:#Add Talk
+etal#:#etal_new#:#New Talk
+etal#:#talt_etal#:#Employee Talk
+etal#:#date_of_talk#:#Start Date
+etal#:#etal_add_new_item#:#Add new Talk
+etal#:#change_date_of_talk#:#Change date of talk
+etal#:#change_date_of_series#:#Change date of talk series
+etal#:#etal_status_pending#:#Pending
+etal#:#etal_status_completed#:#Completed
+etal#:#etal_status_all#:#All
+etal#:#tals_add#:#Add Talks
+etal#:#tals_new#:#New Talks
+etal#:#cal_type_tals#:#Talks
+etal#:#etal_date_appointment_edit#:#Date of Talk
+etal#:#etal_date_series_edit#:#Date of Talk Series
+etal#:#etal_unknown_username#:#Unknown User
+common#:#etal_talks#:#Talks
+etal#:#appointments#:#Appointments
+etal#:#notification_talks_created#:#You have been invited by %s to the following employee talks.
+etal#:#notification_talks_updated#:#The following talk appointments have been changed by %s.
+etal#:#notification_talks_removed#:#The following appointments have been canceled by %s.
+etal#:#notification_talks_subject#:#Invitation
+etal#:#notification_talks_date_details#:#Appointment details
+etal#:#notification_talks_talk_title#:#Titel: %s
+etal#:#notification_talks_date_list_header#:#Dates
+orgu#:#org_op_read_employee_talk#:#Read access talk appointments
+orgu#:#org_op_create_employee_talk#:#Create talk appointments / edit talk appointments that you have created yourself
+orgu#:#org_op_edit_employee_talk#:#Edit Talk appointments
+etal#:#etal_open#:#Open Employee Talk
+etal#:#lock_edititng_for_others#:#Lock editing for others
+etal#:#talk_serial#:#Talk Serial
+notes#:#notes_origin#:#Origin
+notes#:#notes_text#:#Text
+notes#:#notes_delete_note#:#Do you really want to delete this note?
+notes#:#notes_delete_comment#:#Do you really want to delete this comment?
+notes#:#notes_no_notes#:#No notes have been attached yet.
+notes#:#notes_html_export#:#HTML Export
+notes#:#notes_no_notes_found#:#No notes found that match your seach criteria.
+notes#:#notes_no_comments_found#:#No comments found that match your seach criteria.
+notes#:#note_text#:#Text
+mcst#:#mcst_view_abandoned#:#The current presentation mode has been abandoned. Please open the settings and switch to another mode.
+prtf#:#prtf_copy_pg#:#Copy Page
+prtf#:#prtf_copy_blog_pg#:#Copy Blog Page

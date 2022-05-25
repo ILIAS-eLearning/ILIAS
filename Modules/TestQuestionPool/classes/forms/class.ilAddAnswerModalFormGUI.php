@@ -57,7 +57,7 @@ class ilAddAnswerModalFormGUI extends ilPropertyFormGUI
     /**
      * @param int $questionId
      */
-    public function setQuestionId(int $questionId)
+    public function setQuestionId(int $questionId) : void
     {
         $this->questionId = $questionId;
     }
@@ -73,7 +73,7 @@ class ilAddAnswerModalFormGUI extends ilPropertyFormGUI
     /**
      * @param int $questionIndex
      */
-    public function setQuestionIndex(int $questionIndex)
+    public function setQuestionIndex(int $questionIndex) : void
     {
         $this->questionIndex = $questionIndex;
     }
@@ -89,12 +89,12 @@ class ilAddAnswerModalFormGUI extends ilPropertyFormGUI
     /**
      * @param string $answerValue
      */
-    public function setAnswerValue(string $answerValue)
+    public function setAnswerValue(string $answerValue) : void
     {
         $this->answerValue = $answerValue;
     }
 
-    public function build()
+    public function build() : void
     {
         $answer = new ilNonEditableValueGUI($this->DIC->language()->txt('answer'));
         $answer->setPostVar('answer_presentation');

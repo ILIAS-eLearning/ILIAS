@@ -26,7 +26,7 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
         parent::__construct();
     }
     
-    protected function setAvailableCommandButtonIds($availableCommandButtonIds)
+    protected function setAvailableCommandButtonIds($availableCommandButtonIds) : void
     {
         $this->availableCommandButtonIds = $availableCommandButtonIds;
     }
@@ -36,7 +36,7 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
         return $this->availableCommandButtonIds;
     }
     
-    public function addSpecificOrderingQuestionCommandButtons(assOrderingQuestion $questionOBJ)
+    public function addSpecificOrderingQuestionCommandButtons(assOrderingQuestion $questionOBJ) : void
     {
         switch ($questionOBJ->getOrderingType()) {
             case OQ_TERMS:
@@ -104,12 +104,12 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
         );
     }
     
-    public function prepareValuesReprintable(assOrderingQuestion $questionOBJ)
+    public function prepareValuesReprintable(assOrderingQuestion $questionOBJ) : void
     {
         $this->getOrderingElementInputField()->prepareReprintable($questionOBJ);
     }
     
-    public function ensureReprintableFormStructure(assOrderingQuestion $questionOBJ)
+    public function ensureReprintableFormStructure(assOrderingQuestion $questionOBJ) : void
     {
         $this->renewOrderingElementInput($questionOBJ);
         $this->renewOrderingCommandButtons($questionOBJ);
@@ -119,7 +119,7 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
      * @param assOrderingQuestion $questionOBJ
      * @throws ilTestQuestionPoolException
      */
-    protected function renewOrderingElementInput(assOrderingQuestion $questionOBJ)
+    protected function renewOrderingElementInput(assOrderingQuestion $questionOBJ) : void
     {
         $replacingInput = $questionOBJ->buildOrderingElementInputGui();
         $questionOBJ->initOrderingElementAuthoringProperties($replacingInput);
@@ -133,7 +133,7 @@ class ilAssOrderingQuestionAuthoringFormGUI extends ilAssQuestionAuthoringFormGU
         return self::COMMAND_BUTTON_PREFIX . $orderingType;
     }
     
-    protected function renewOrderingCommandButtons(assOrderingQuestion $questionOBJ)
+    protected function renewOrderingCommandButtons(assOrderingQuestion $questionOBJ) : void
     {
         $this->clearCommandButtons();
         $this->addSpecificOrderingQuestionCommandButtons($questionOBJ);

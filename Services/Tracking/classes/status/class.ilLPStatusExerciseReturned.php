@@ -34,13 +34,16 @@ class ilLPStatusExerciseReturned extends ilLPStatus
         $members = self::getMembers($a_obj_id);
         if ($members) {
             $users = array_diff(
-                $members, ilLPStatusWrapper::_getInProgress($a_obj_id)
+                $members,
+                ilLPStatusWrapper::_getInProgress($a_obj_id)
             );
             $users = array_diff(
-                $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+                $users,
+                ilLPStatusWrapper::_getCompleted($a_obj_id)
             );
             $users = array_diff(
-                $users, ilLPStatusWrapper::_getFailed($a_obj_id)
+                $users,
+                ilLPStatusWrapper::_getFailed($a_obj_id)
             );
         }
         return $users;
@@ -53,7 +56,8 @@ class ilLPStatusExerciseReturned extends ilLPStatus
         $users = $users + $all;
 
         $users = array_diff(
-            $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+            $users,
+            ilLPStatusWrapper::_getCompleted($a_obj_id)
         );
         $users = array_diff($users, ilLPStatusWrapper::_getFailed($a_obj_id));
 
@@ -95,7 +99,8 @@ class ilLPStatusExerciseReturned extends ilLPStatus
                     $status = self::LP_STATUS_IN_PROGRESS_NUM;
                 }
                 $ex_stat = ilExerciseMembers::_lookupStatus(
-                    $a_obj_id, $a_usr_id
+                    $a_obj_id,
+                    $a_usr_id
                 );
                 if ($ex_stat == "passed") {
                     $status = self::LP_STATUS_COMPLETED_NUM;
@@ -130,7 +135,9 @@ class ilLPStatusExerciseReturned extends ilLPStatus
             }
         }
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_COMPLETED_NUM,
+            $a_user_ids
         );
     }
 
@@ -148,7 +155,9 @@ class ilLPStatusExerciseReturned extends ilLPStatus
             }
         }
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_FAILED_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_FAILED_NUM,
+            $a_user_ids
         );
     }
 
@@ -166,7 +175,9 @@ class ilLPStatusExerciseReturned extends ilLPStatus
             }
         }
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_IN_PROGRESS_NUM,
+            $a_user_ids
         );
     }
 }

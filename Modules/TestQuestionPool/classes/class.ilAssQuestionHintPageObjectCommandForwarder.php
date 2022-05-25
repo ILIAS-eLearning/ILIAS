@@ -61,8 +61,8 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
         
         $this->questionHint = new ilAssQuestionHint();
 
-        if (!isset($_GET['hint_id']) || !(int) $_GET['hint_id'] || !$this->questionHint->load((int) $_GET['hint_id'])) {
-            $main_tpl->setOnScreenMessage('failure', 'invalid hint id given: ' . (int) $_GET['hint_id'], true);
+        if (!$this->request->isset('hint_id') || !(int) $this->request->raw('hint_id') || !$this->questionHint->load((int) $this->request->raw('hint_id'))) {
+            $main_tpl->setOnScreenMessage('failure', 'invalid hint id given: ' . (int) $this->request->raw('hint_id'), true);
             $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
         }
     }
@@ -72,7 +72,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
      *
      * @throws ilTestQuestionPoolException
      */
-    public function forward()
+    public function forward() : void
     {
         switch ($this->getPresentationMode()) {
             case self::PRESENTATION_MODE_AUTHOR:
@@ -99,7 +99,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
     /**
      * forwards the command to page object gui for author presentation
      */
-    private function buildPreviewPresentationPageObjectGUI()
+    private function buildPreviewPresentationPageObjectGUI() : ilAssHintPageGUI
     {
         $this->tabs->setBackTarget(
             $this->lng->txt('tst_question_hints_back_to_hint_list'),
@@ -123,7 +123,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
     /**
      * forwards the command to page object gui for author presentation
      */
-    private function buildRequestPresentationPageObjectGUI()
+    private function buildRequestPresentationPageObjectGUI() : ilAssHintPageGUI
     {
         $this->tabs->setBackTarget(
             $this->lng->txt('tst_question_hints_back_to_hint_list'),
@@ -147,7 +147,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
     /**
      * forwards the command to page object gui for author presentation
      */
-    private function buildAuthorPresentationPageObjectGUI()
+    private function buildAuthorPresentationPageObjectGUI() : ilAssHintPageGUI
     {
         $this->tabs->setBackTarget(
             $this->lng->txt('tst_question_hints_back_to_hint_list'),
@@ -185,7 +185,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
      * @param string $presentationMode
      * @throws ilTestQuestionPoolException
      */
-    public function setPresentationMode($presentationMode)
+    public function setPresentationMode($presentationMode) : void
     {
         switch ($presentationMode) {
             case self::PRESENTATION_MODE_AUTHOR:
@@ -202,7 +202,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
     /**
      * instantiates, initialises and returns a page object gui object
      */
-    protected function getPageObjectGUI($pageObjectType, $pageObjectId)
+    protected function getPageObjectGUI($pageObjectType, $pageObjectId) : ilAssHintPageGUI
     {
         include_once("./Modules/TestQuestionPool/classes/class.ilAssHintPageGUI.php");
         $pageObjectGUI = new ilAssHintPageGUI($pageObjectId);
@@ -218,7 +218,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
      *
      * @access protected
      */
-    protected function ensurePageObjectExists($pageObjectType, $pageObjectId)
+    protected function ensurePageObjectExists($pageObjectType, $pageObjectId) : void
     {
         include_once("./Modules/TestQuestionPool/classes/class.ilAssHintPage.php");
         if (!ilAssHintPage::_exists($pageObjectType, $pageObjectId)) {

@@ -14,15 +14,8 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
 {
     private ?ilMarkSchemaAware $object;
 
-    /**
-     * @var bool
-     */
-    protected $is_editable = true;
+    protected bool $is_editable = true;
 
-    /**
-     * @param        $parent
-     * @param string $cmd
-     */
     public function __construct($parent, $cmd, $template_context = '', ilMarkSchemaAware $object = null)
     {
         /**
@@ -61,10 +54,7 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
         $this->initData();
     }
 
-    /**
-     *
-     */
-    protected function initColumns()
+    protected function initColumns() : void
     {
         $this->addColumn('', '', '1', true);
         $this->addColumn($this->lng->txt('tst_mark_short_form'), '');
@@ -73,10 +63,7 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('tst_mark_passed'), '', '1');
     }
 
-    /**
-     *
-     */
-    protected function initData()
+    protected function initData() : void
     {
         $this->object->getMarkSchema()->sort();
 
@@ -96,9 +83,6 @@ class ilMarkSchemaTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    /**
-     * @param array $a_set
-     */
     public function fillRow(array $a_set) : void
     {
         $short_name = new ilTextInputGUI('', 'mark_short_' . $a_set['mark_id']);

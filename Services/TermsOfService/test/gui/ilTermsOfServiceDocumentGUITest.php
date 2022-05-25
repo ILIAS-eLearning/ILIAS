@@ -32,39 +32,39 @@ use ILIAS\HTTP\GlobalHttpState;
  */
 class ilTermsOfServiceDocumentGUITest extends ilTermsOfServiceBaseTest
 {
-    /** @var MockObject|ilTermsOfServiceTableDataProviderFactory */
+    /** @var MockObject&ilTermsOfServiceTableDataProviderFactory */
     protected ilTermsOfServiceTableDataProviderFactory $tableDataProviderFactory;
-    /** @var MockObject|ilObjTermsOfService */
+    /** @var MockObject&ilObjTermsOfService */
     protected ilObjTermsOfService $tos;
-    /** @var MockObject|ilGlobalTemplateInterface */
+    /** @var MockObject&ilGlobalTemplateInterface */
     protected ilGlobalTemplateInterface $tpl;
-    /** @var MockObject|ilCtrlInterface */
+    /** @var MockObject&ilCtrlInterface */
     protected ilCtrlInterface $ctrl;
-    /** @var MockObject|ilLanguage */
+    /** @var MockObject&ilLanguage */
     protected ilLanguage $lng;
-    /** @var MockObject|ilRbacSystem */
+    /** @var MockObject&ilRbacSystem */
     protected ilRbacSystem $rbacsystem;
-    /** @var MockObject|ilErrorHandling */
+    /** @var MockObject&ilErrorHandling */
     protected ilErrorHandling $error;
-    /** @var MockObject|ilObjUser */
+    /** @var MockObject&ilObjUser */
     protected ilObjUser $user;
-    /** @var MockObject|ilLogger */
+    /** @var MockObject&ilLogger */
     protected ilLogger $log;
-    /** @var MockObject|Factory */
+    /** @var MockObject&Factory */
     protected Factory $uiFactory;
-    /** @var MockObject|Renderer */
+    /** @var MockObject&Renderer */
     protected Renderer $uiRenderer;
-    /** @var MockObject|GlobalHttpState */
+    /** @var MockObject&GlobalHttpState */
     protected GlobalHttpState $httpState;
-    /** @var MockObject|ilToolbarGUI */
+    /** @var MockObject&ilToolbarGUI */
     protected ilToolbarGUI $toolbar;
-    /** @var MockObject|FileUpload */
+    /** @var MockObject&FileUpload */
     protected FileUpload $fileUpload;
-    /** @var MockObject|Filesystems */
+    /** @var MockObject&Filesystems */
     protected Filesystems $fileSystems;
-    /** @var MockObject|ilTermsOfServiceCriterionTypeFactoryInterface */
+    /** @var MockObject&ilTermsOfServiceCriterionTypeFactoryInterface */
     protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
-    /** @var MockObject|ilHtmlPurifierInterface */
+    /** @var MockObject&ilHtmlPurifierInterface */
     protected ilHtmlPurifierInterface $documentPurifier;
     protected Refinery $refinery;
 

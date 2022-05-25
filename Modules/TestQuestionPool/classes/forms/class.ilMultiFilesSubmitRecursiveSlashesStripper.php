@@ -23,7 +23,7 @@ class ilMultiFilesSubmitRecursiveSlashesStripper implements ilFormValuesManipula
     /**
      * @param string $postVar
      */
-    public function setPostVar($postVar)
+    public function setPostVar($postVar) : void
     {
         $this->postVar = $postVar;
     }
@@ -50,7 +50,7 @@ class ilMultiFilesSubmitRecursiveSlashesStripper implements ilFormValuesManipula
     /**
      * perform the strip slashing on files submit
      */
-    protected function manipulateFileSubmitValues()
+    protected function manipulateFileSubmitValues() : void
     {
         if ($_FILES) {
             $_FILES[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(

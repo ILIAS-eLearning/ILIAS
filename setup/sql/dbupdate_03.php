@@ -7169,7 +7169,7 @@ $ilDB->manipulateF(
     ilChatroomInstaller::install();
 
     require_once 'Services/Notifications/classes/class.ilNotificationSetupHelper.php';
-    ilNotificationSetupHelper::setupTables();
+    \ILIAS\Notifications\ilNotificationSetupHelper::setupTables();
 
     $settings = new ilSetting('notifications');
     $settings->set('enable_mail', 1);

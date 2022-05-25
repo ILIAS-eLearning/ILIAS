@@ -156,7 +156,8 @@ class ilSystemCheckTrash
         if ($age_limit > 0) {
             $and_age = 'AND r.deleted < ' . $this->db->quote(
                 $this->getAgeLimit()->get(IL_CAL_DATETIME),
-                ilDBConstants::T_TEXT) . ' ';
+                ilDBConstants::T_TEXT
+            ) . ' ';
         }
         $limit = '';
         if ($this->getNumberLimit()) {

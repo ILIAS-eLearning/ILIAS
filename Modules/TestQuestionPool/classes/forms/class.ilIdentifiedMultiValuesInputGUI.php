@@ -37,7 +37,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
     /**
      * @param string $elementAddCmd
      */
-    public function setElementAddCmd($elementAddCmd)
+    public function setElementAddCmd($elementAddCmd) : void
     {
         $this->elementAddCmd = $elementAddCmd;
     }
@@ -47,7 +47,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
         return $this->elementRemoveCmd;
     }
     
-    public function setElementRemoveCmd($elementRemoveCmd)
+    public function setElementRemoveCmd($elementRemoveCmd) : void
     {
         $this->elementRemoveCmd = $elementRemoveCmd;
     }
@@ -57,7 +57,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
         return $this->elementMoveUpCommand;
     }
     
-    public function setElementMoveUpCommand($elementMoveUpCommand)
+    public function setElementMoveUpCommand($elementMoveUpCommand) : void
     {
         $this->elementMoveUpCommand = $elementMoveUpCommand;
     }
@@ -67,16 +67,20 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
         return $this->elementMoveDownCommand;
     }
     
-    public function setElementMoveDownCommand($elementMoveDownCommand)
+    public function setElementMoveDownCommand($elementMoveDownCommand) : void
     {
         $this->elementMoveDownCommand = $elementMoveDownCommand;
     }
     
-    public function setValues($values)
+    public function setValues($values) : void
     {
         throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
     }
-    
+
+    /**
+     * @return mixed
+     * @throws ilFormException
+     */
     public function getValues()
     {
         throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
@@ -102,7 +106,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
         throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
     }
     
-    final public function setIdentifiedMultiValues($values)
+    final public function setIdentifiedMultiValues($values) : void
     {
         $this->identified_multi_values = $this->prepareMultiValuesInput($values);
     }
@@ -206,21 +210,22 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
         $this->setIdentifiedMultiValuesByArray($a_values);
     }
     
-    protected function setIdentifiedMultiValuesByArray($a_values)
+    protected function setIdentifiedMultiValuesByArray($a_values) : void
     {
         $this->identified_multi_values = $a_values[$this->getPostVar()];
     }
     
     final public function checkInput() : bool
     {
+        /*
         if (!is_array($_POST[$this->getPostVar()])) {
             $_POST[$this->getPostVar()] = array();
         }
-        
+
         $_POST[$this->getPostVar()] = $this->prepareMultiValuesSubmit(
             $_POST[$this->getPostVar()]
         );
-        
+        */
         return $this->onCheckInput();
     }
     
@@ -251,7 +256,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
         return $this->formValuesManipulationChain;
     }
     
-    protected function addFormValuesManipulator(ilFormValuesManipulator $manipulator)
+    protected function addFormValuesManipulator(ilFormValuesManipulator $manipulator) : void
     {
         $this->formValuesManipulationChain[] = $manipulator;
     }
@@ -268,7 +273,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
         return $elemPostVar;
     }
     
-    public function prepareReprintable(assQuestion $question)
+    public function prepareReprintable(assQuestion $question) : void
     {
         $this->setIdentifiedMultiValues($this->getIdentifiedMultiValues());
     }

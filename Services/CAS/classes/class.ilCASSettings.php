@@ -15,15 +15,13 @@
  *****************************************************************************/
 
 /**
- *
  * @author Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesCAS
  */
 class ilCASSettings
 {
-    const SYNC_DISABLED = 0;
-    const SYNC_CAS = 1;
-    const SYNC_LDAP = 2;
+    public const SYNC_DISABLED = 0;
+    public const SYNC_CAS = 1;
+    public const SYNC_LDAP = 2;
 
     private static ?ilCASSettings $instance = null;
 
@@ -36,6 +34,7 @@ class ilCASSettings
     private bool $create_users = false;
     private bool $allow_local = false;
     private int $user_default_role = 0;
+    private int $default_role = 0;
     
     /**
      * Singleton constructor
@@ -139,9 +138,6 @@ class ilCASSettings
         return $this->default_role;
     }
 
-    /**
-     * Save settings
-     */
     public function save() : void
     {
         $this->getStorage()->set('cas_server', $this->getServer());
@@ -154,9 +150,6 @@ class ilCASSettings
         $this->getStorage()->set('cas_user_default_role', (string) $this->getDefaultRole());
     }
 
-    /**
-     * Read settings
-     */
     private function read() : void
     {
         $this->setServer($this->getStorage()->get('cas_server', $this->server));
@@ -169,12 +162,6 @@ class ilCASSettings
         $this->enableUserCreation((bool) $this->getStorage()->get('cas_create_users', (string) $this->create_users));
     }
 
-
-
-
-    /**
-     * Get storage object
-     */
     private function getStorage() : ilSetting
     {
         return $this->storage;

@@ -245,7 +245,7 @@ class ilBookingReservationDBRepository
             }
             $idx .= "_" . $row["context_obj_id"];
 
-            if ($a_has_schedule && $filter["slot"]) {
+            if ($a_has_schedule && ($filter["slot"] ?? false)) {
                 $slot_idx = date("w", $row["date_from"]) . "_" . date("H:i", $row["date_from"]) .
                     "-" . date("H:i", $row["date_to"] + 1);
                 if ($filter["slot"] != $slot_idx) {

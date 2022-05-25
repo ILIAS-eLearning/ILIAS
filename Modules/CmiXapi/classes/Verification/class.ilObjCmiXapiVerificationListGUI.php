@@ -13,6 +13,7 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
  * Class ilObjCmiXapiVerficationListGUI
  *
@@ -46,9 +47,12 @@ class ilObjCmiXapiVerificationListGUI extends ilObjectListGUI
     {
         global $lng;
         
-        return array(
-            array("alert" => false, "property" => $lng->txt("type"),
-                "value" => $lng->txt("wsp_list_cmxv"))
-        );
+        return [
+            [
+                "alert" => false,
+                "property" => $lng->txt("type"),
+                "value" => $lng->txt("wsp_list_cmxv")
+            ]
+        ];
     }
 }

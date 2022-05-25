@@ -34,13 +34,12 @@ class ilLTIConsumerXapiStatementsGUI
      */
     protected ilLTIConsumerAccess $access;
     private \ilGlobalTemplateInterface $main_tpl;
+    private \ILIAS\DI\Container $dic;
     
-    /**
-     * @param ilObjLTIConsumer $object
-     */
     public function __construct(ilObjLTIConsumer $object)
     {
         global $DIC;
+        $this->dic = $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
         
@@ -172,17 +171,19 @@ class ilLTIConsumerXapiStatementsGUI
         $auto->setMoreLinkAvailable(true);
         
         //$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
-        
-        $result = json_decode($auto->getList(ilUtil::stripSlashes($_REQUEST['term'])), true);
-        
-        echo json_encode($result);
+        $term = '';
+        if ($this->dic->http()->wrapper()->query()->has('term')) {
+            $term = $this->dic->http()->wrapper()->query()->retrieve('term', $this->dic->refinery()->kindlyTo()->string());
+        } elseif ($this->dic->http()->wrapper()->post()->has('term')) {
+            $term = $this->dic->http()->wrapper()->post()->retrieve('term', $this->dic->refinery()->kindlyTo()->string());
+        }
+        if ($term != '') {
+            $result = json_decode($auto->getList(ilUtil::stripSlashes($term)), true);
+            echo json_encode($result);
+        }
         exit();
     }
     
-    /**
-     * @param ilCmiXapiStatementsTableGUI $table
-     * @param ilCmiXapiStatementsReportFilter $filter
-     */
     protected function initTableData(ilCmiXapiStatementsTableGUI $table, ilCmiXapiStatementsReportFilter $filter) : void
     {
         $aggregateEndPointUrl = str_replace(
@@ -212,9 +213,6 @@ class ilLTIConsumerXapiStatementsGUI
         $table->setMaxCount($statementsReport->getMaxCount());
     }
     
-    /**
-     * @return ilCmiXapiStatementsTableGUI
-     */
     protected function buildTableGUI() : ilCmiXapiStatementsTableGUI
     {
         $isMultiActorReport = $this->access->hasOutcomesAccess();

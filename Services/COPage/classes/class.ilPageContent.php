@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Content object of ilPageObject (see ILIAS DTD). Every concrete object
@@ -46,17 +49,17 @@ abstract class ilPageContent
             die("Error: ilPageContent::init() did not set type");
         }
     }
-    
+
     public function setPage(ilPageObject $a_val) : void
     {
         $this->pg_obj = $a_val;
     }
-    
+
     public function getPage() : ilPageObject
     {
         return $this->pg_obj;
     }
-    
+
     /**
      * Init object. This function must be overwritten and at least set
      * the content type.
@@ -79,7 +82,7 @@ abstract class ilPageContent
 
     /**
      * Set xml node of page content.
-     * @param	php4DOMElement $a_node node object
+     * @param php4DOMElement $a_node node object
      */
     public function setNode(php4DOMElement $a_node) : void
     {
@@ -116,7 +119,7 @@ abstract class ilPageContent
     {
         return $this->hier_id;
     }
-    
+
     // Get hierarchical id from dom
     public function lookupHierId() : string
     {
@@ -218,7 +221,7 @@ abstract class ilPageContent
         uasort($a_array, array("ilPageContent", "isGreaterHierId"));
         return $a_array;
     }
-    
+
     /**
      * Check whether Hier ID $a is greater than Hier ID $b
      */
@@ -235,23 +238,23 @@ abstract class ilPageContent
         }
         return false;
     }
-    
+
     /**
-    * Set Enabled value for page content component.
-    * @param string $value "True" | "False"
-    */
+     * Set Enabled value for page content component.
+     * @param string $value "True" | "False"
+     */
     public function setEnabled(string $value) : void
     {
         if (is_object($this->node)) {
             $this->node->set_attribute("Enabled", $value);
         }
     }
-     
+
     public function enable() : void
     {
         $this->setEnabled("True");
     }
-      
+
     public function disable() : void
     {
         $this->setEnabled("False");
@@ -264,10 +267,10 @@ abstract class ilPageContent
         } else {
             $compare = "True";
         }
-        
+
         return strcasecmp($compare, "true") == 0;
     }
-    
+
     /**
      * Create page content node (always use this method first when adding a new element)
      */
@@ -279,7 +282,7 @@ abstract class ilPageContent
         }
         return $node;
     }
-    
+
     /**
      * Get lang vars needed for editing
      * @return string[] array of lang var keys
@@ -306,7 +309,7 @@ abstract class ilPageContent
         int $obj_copy_id = 0
     ) : void {
     }
-    
+
     /**
      * Modify page content after xsl
      */
@@ -328,7 +331,7 @@ abstract class ilPageContent
         bool $a_creation
     ) : void {
     }
-    
+
     /**
      * Before page is being deleted
      * @param ilPageObject $a_page page object
@@ -362,5 +365,16 @@ abstract class ilPageContent
     public function getModel() : ?stdClass
     {
         return null;
+    }
+
+    /**
+     * Overwrite in derived classes, if old history entries are being deleted
+     */
+    public static function deleteHistoryLowerEqualThan(
+        string $parent_type,
+        int $page_id,
+        string $lang,
+        int $delete_lower_than_nr
+    ) : void {
     }
 }

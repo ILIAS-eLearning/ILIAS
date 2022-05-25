@@ -102,7 +102,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     /**
     * Add a new answer
     */
-    public function addanswers()
+    public function addanswers() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['addanswers']);
@@ -113,7 +113,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     /**
     * Remove an answer
     */
-    public function removeanswers()
+    public function removeanswers() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removeanswers']);
@@ -152,7 +152,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             $rank = array();
             foreach ($this->object->answers as $answer) {
                 if ($answer->getPoints() > 0) {
-                    if (!is_array($rank[$answer->getPoints()])) {
+                    if (!array_key_exists($answer->getPoints(), $rank)) {
                         $rank[$answer->getPoints()] = array();
                     }
                     array_push($rank[$answer->getPoints()], $answer->getAnswertext());
@@ -170,7 +170,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
         $available_answers = &$this->object->getAvailableAnswers();
         for ($i = 0; $i < $this->object->getCorrectAnswers(); $i++) {
-            if ((strcmp($solutions[$i]["value1"], "") == 0)) {
+            if (!array_key_exists($i, $solutions) || (strcmp($solutions[$i]["value1"], "") == 0)) {
             } else {
                 if (($active_id > 0) && (!$show_correct_solution)) {
                     if ($graphicalOutput) {
@@ -326,36 +326,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-                // edit page
-                $ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    false
-                );
-            }
-
-            $this->addTab_QuestionPreview($ilTabs);
-        }
-
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-            $url = "";
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            // edit question properties
-            $ilTabs->addTarget(
-                "edit_question",
-                $url,
-                array("editQuestion", "save", "saveEdit", "addanswers", "removeanswers", "originalSyncForm"),
-                $classname,
-                "",
-                $force_active
-            );
+            $this->addTab_Question($ilTabs);
         }
 
         // add tab for question feedback within common class assQuestionGUI
@@ -368,7 +339,7 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         $this->addTab_SuggestedSolution($ilTabs, $classname);
 
         // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             $ilTabs->addTarget(
                 "statistics",
                 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
@@ -387,13 +358,13 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         return $this->object->prepareTextareaOutput($output, true);
     }
 
-    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
+    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form) : void
     {
         $this->object->setCorrectAnswers($_POST["correctanswers"]);
         $this->object->setTextRating($_POST["text_rating"]);
     }
 
-    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
+    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form) : void
     {
         // Delete all existing answers and create new answers from the form data
         $this->object->flushAnswers();
@@ -494,12 +465,10 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     /**
      * Returns an html string containing a question specific representation of the answers so far
      * given in the test for use in the right column in the scoring adjustment user interface.
-     *
      * @param array $relevant_answers
-     *
      * @return string
      */
-    public function getAggregatedAnswersView($relevant_answers) : string
+    public function getAggregatedAnswersView(array $relevant_answers) : string
     {
         return  $this->renderAggregateView(
             $this->aggregateAnswers($relevant_answers)

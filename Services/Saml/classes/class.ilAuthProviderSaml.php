@@ -29,7 +29,7 @@ class ilAuthProviderSaml extends ilAuthProvider implements ilAuthProviderAccount
     protected bool $force_new_account = false;
     protected string $migration_account = '';
 
-    public function __construct(ilAuthFrontendCredentials $credentials, ?int $a_idp_id = null)
+    public function __construct(ilAuthCredentials $credentials, ?int $a_idp_id = null)
     {
         parent::__construct($credentials);
 

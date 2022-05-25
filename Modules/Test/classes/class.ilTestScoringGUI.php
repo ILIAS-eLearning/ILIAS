@@ -80,12 +80,12 @@ class ilTestScoringGUI extends ilTestServiceGUI
         
         // fetch active_id
         
-        if (!isset($_GET['active_id']) || !(int) $_GET['active_id']) {
+        if (!$this->testrequest->isset('active_id') || !(int) $this->testrequest->raw('active_id')) {
             // allow only write access
             $this->tpl->setOnScreenMessage('failure', 'no active id given!', true);
             $ilCtrl->redirectByClass("ilobjtestgui", "infoScreen");
         } else {
-            $activeId = (int) $_GET['active_id'];
+            $activeId = (int) $this->testrequest->raw('active_id');
         }
         
         return $activeId;
@@ -96,8 +96,8 @@ class ilTestScoringGUI extends ilTestServiceGUI
         // fetch pass nr
         
         $maxPass = $this->object->_getMaxPass($activeId);
-        if (isset($_GET["pass"]) && 0 <= (int) $_GET["pass"] && $maxPass >= (int) $_GET["pass"]) {
-            $pass = $_GET["pass"];
+        if ($this->testrequest->isset("pass") && 0 <= (int) $this->testrequest->raw("pass") && $maxPass >= (int) $this->testrequest->raw("pass")) {
+            $pass = $this->testrequest->raw("pass");
         } elseif ($this->object->getPassScoring() == SCORE_LAST_PASS) {
             $pass = $maxPass;
         } else {
@@ -370,7 +370,7 @@ class ilTestScoringGUI extends ilTestServiceGUI
 
             $nextIndex = null;
             foreach ($participantData as $index => $participant) {
-                if ($participant['active_id'] == $_GET['active_id']) {
+                if ($participant['active_id'] == $this->testrequest->raw('active_id')) {
                     $nextIndex = $index + 1;
                     break;
                 }

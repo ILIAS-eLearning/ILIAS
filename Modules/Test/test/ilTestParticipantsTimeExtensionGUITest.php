@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\DI\Container;
-
 /**
  * Class ilTestParticipantsTimeExtensionGUITest
  * @author Marvin Beym <mbeym@databay.de>

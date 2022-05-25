@@ -310,11 +310,11 @@ class ilTestServiceGUI
      */
     protected function isPdfDeliveryRequest() : bool
     {
-        if (!isset($_GET['pdf'])) {
+        if (!$this->testrequest->isset('pdf')) {
             return false;
         }
 
-        if (!(bool) $_GET['pdf']) {
+        if (!(bool) $this->testrequest->raw('pdf')) {
             return false;
         }
 
@@ -331,7 +331,7 @@ class ilTestServiceGUI
         $table = new ilTestPassOverviewTableGUI($targetGUI, '');
         
         $table->setPdfPresentationEnabled(
-            isset($_GET['pdf']) && $_GET['pdf'] == 1
+            $this->testrequest->isset('pdf') && $this->testrequest->raw('pdf') == 1
         );
         
         $table->setObjectiveOrientedPresentationEnabled(
@@ -573,7 +573,8 @@ class ilTestServiceGUI
             $usersQuestionSolutions[$key] = $val;
         }
 
-        $tableGUI->initColumns()->initFilter();
+        $tableGUI->initColumns();
+        $tableGUI->initFilter();
 
         $tableGUI->setFilterCommand($targetCMD . 'SetTableFilter');
         $tableGUI->setResetCommand($targetCMD . 'ResetTableFilter');
@@ -618,7 +619,7 @@ class ilTestServiceGUI
     public function getAdditionalUsrDataHtmlAndPopulateWindowTitle($testSession, $active_id, $overwrite_anonymity = false) : string
     {
         if (!is_object($testSession)) {
-            throw new TestException();
+            throw new InvalidArgumentException('Not an object, expected ilTestSession|ilTestSessionDynamicQuestionSet');
         }
         $template = new ilTemplate("tpl.il_as_tst_results_userdata.html", true, true, "Modules/Test");
         include_once './Services/User/classes/class.ilObjUser.php';
@@ -696,7 +697,7 @@ class ilTestServiceGUI
         $show_question_only = ($this->object->getShowSolutionAnswersOnly()) ? true : false;
         $result_output = $question_gui->getSolutionOutput($active_id, $pass, true, false, $show_question_only, $this->object->getShowSolutionFeedback(), false, false, true);
         $best_output = $question_gui->getSolutionOutput($active_id, $pass, false, false, $show_question_only, false, true, false, false);
-        if ($this->object->getShowSolutionFeedback() && $_GET['cmd'] != 'outCorrectSolution') {
+        if ($this->object->getShowSolutionFeedback() && $this->testrequest->raw('cmd') != 'outCorrectSolution') {
             $specificAnswerFeedback = $question_gui->getSpecificFeedbackOutput(
                 $question_gui->object->fetchIndexedValuesFromValuePairs(
                     $question_gui->object->getSolutionValues($active_id, $pass)
@@ -763,9 +764,9 @@ class ilTestServiceGUI
             $uname = $this->object->userLookupFullName($user_id, true);
         }
         
-        if (((array_key_exists("pass", $_GET)) && (strlen($_GET["pass"]) > 0)) || (!is_null($pass))) {
+        if ((($this->testrequest->isset('pass')) && (strlen($this->testrequest->raw("pass")) > 0)) || (!is_null($pass))) {
             if (is_null($pass)) {
-                $pass = $_GET["pass"];
+                $pass = $this->testrequest->raw("pass");
             }
         }
 
@@ -1132,9 +1133,9 @@ class ilTestServiceGUI
         }
 
         $this->ctrl->saveParameter($this, "pass");
-        $pass = (int) $_GET['pass'];
+        $pass = (int) $this->testrequest->raw("pass");
 
-        $questionId = (int) $_GET['evaluation'];
+        $questionId = (int) $this->testrequest->raw('evaluation');
         
         $testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
         $testSequence->loadFromDb();
@@ -1221,22 +1222,9 @@ class ilTestServiceGUI
             ));
         }
     }
-}
 
-// internal sort function to sort the result array
-function sortResults($a, $b) : int
-{
-    $sort = ($_GET["sort"]) ? ($_GET["sort"]) : "nr";
-    $sortorder = ($_GET["sortorder"]) ? ($_GET["sortorder"]) : "asc";
-    if (strcmp($sortorder, "asc")) {
-        $smaller = 1;
-        $greater = -1;
-    } else {
-        $smaller = -1;
-        $greater = 1;
+    public function getObject()
+    {
+        return $this->object;
     }
-    if ($a[$sort] == $b[$sort]) {
-        return 0;
-    }
-    return ($a[$sort] < $b[$sort]) ? $smaller : $greater;
 }

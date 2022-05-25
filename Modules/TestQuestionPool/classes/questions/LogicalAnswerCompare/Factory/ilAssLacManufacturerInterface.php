@@ -19,12 +19,8 @@ interface ilAssLacManufacturerInterface
 
     /**
      * Create a new specific Composite object which is representing the delivered Attribute
-     *
-     * @param string $attribute
-     *
-     * @return ilAssLacAbstractComposite
      */
-    public function manufacture($attribute);
+    public function manufacture(string $attribute) : ilAssLacAbstractComposite;
 
     /**
      * @return string
@@ -33,11 +29,9 @@ interface ilAssLacManufacturerInterface
 
     /**
      * Matches a delivered string with a the pattern returned by getPattern implemented in the explicit Manufacturer
-     *
      * @param string $subject
-     *
-     * @see ManufacturerInterface::getPattern()
      * @return array
+     *@see ManufacturerInterface::getPattern()
      */
-    public function match($subject) : array;
+    public function match(string $subject) : array;
 }

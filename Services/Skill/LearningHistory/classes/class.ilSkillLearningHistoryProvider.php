@@ -72,7 +72,7 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         $completions = ilBasicSkill::getNewAchievementsPerUser($from->get(IL_CAL_DATETIME), $to->get(IL_CAL_DATETIME), $this->getUserId());
 
         $entries = [];
-        if (is_array($completions[$this->getUserId()])) {
+        if (isset($completions[$this->getUserId()])) {
             foreach ($completions[$this->getUserId()] as $c) {
                 $ts = new ilDateTime($c["status_date"], IL_CAL_DATETIME);
                 $text = str_replace("$3$", $this->getEmphasizedTitle(ilBasicSkill::_lookupTitle($c["skill_id"], $c["tref_id"])), $lng->txt("skll_lhist_skill_achieved"));
@@ -90,7 +90,7 @@ class ilSkillLearningHistoryProvider extends ilAbstractLearningHistoryProvider i
         // self evaluations
         $completions = ilBasicSkill::getNewAchievementsPerUser($from->get(IL_CAL_DATETIME), $to->get(IL_CAL_DATETIME), $this->getUserId(), 1);
 
-        if (is_array($completions[$this->getUserId()])) {
+        if (isset($completions[$this->getUserId()])) {
             foreach ($completions[$this->getUserId()] as $c) {
                 $txt = ($c["trigger_obj_id"] > 0)
                     ? $lng->txt("skll_lhist_skill_self_eval_in")

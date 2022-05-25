@@ -58,7 +58,7 @@ class ilAssQuestionSolutionComparisonExpression
         $this->points = null;
     }
 
-    public function save()
+    public function save() : void
     {
         $this->db->replace(
             'qpl_qst_skl_sol_expr',
@@ -86,7 +86,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param ilDBInterface $db
      */
-    public function setDb($db)
+    public function setDb($db) : void
     {
         $this->db = $db;
     }
@@ -102,7 +102,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param int $questionId
      */
-    public function setQuestionId($questionId)
+    public function setQuestionId($questionId) : void
     {
         $this->questionId = $questionId;
     }
@@ -118,7 +118,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param int $skillBaseId
      */
-    public function setSkillBaseId($skillBaseId)
+    public function setSkillBaseId($skillBaseId) : void
     {
         $this->skillBaseId = $skillBaseId;
     }
@@ -134,7 +134,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param int $skillTrefId
      */
-    public function setSkillTrefId($skillTrefId)
+    public function setSkillTrefId($skillTrefId) : void
     {
         $this->skillTrefId = $skillTrefId;
     }
@@ -150,7 +150,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param int $orderIndex
      */
-    public function setOrderIndex($orderIndex)
+    public function setOrderIndex($orderIndex) : void
     {
         $this->orderIndex = $orderIndex;
     }
@@ -166,7 +166,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param string $expression
      */
-    public function setExpression($expression)
+    public function setExpression($expression) : void
     {
         $this->expression = $expression;
     }
@@ -182,7 +182,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param int $points
      */
-    public function setPoints($points)
+    public function setPoints($points) : void
     {
         $this->points = $points;
     }
@@ -190,7 +190,7 @@ class ilAssQuestionSolutionComparisonExpression
     /**
      * @param array $data
      */
-    public function initInstanceFromArray($data)
+    public function initInstanceFromArray($data) : void
     {
         $this->setQuestionId($data['question_fi']);
         $this->setSkillBaseId($data['skill_base_fi']);

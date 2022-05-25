@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\COPage\Editor\Components\MediaObject;
 
@@ -72,7 +75,12 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
         $pc_media = new \ilPCMediaObject($page);
         $pc_media->createMediaObject();
         $mob = $pc_media->getMediaObject();
-        \ilObjMediaObjectGUI::setObjectPerCreationForm($mob);
+
+        $mob_gui = new \ilObjMediaObjectGUI("");
+        $mob_gui->initForm("create");
+        if ($mob_gui->checkFormInput()) {
+            $mob_gui->setObjectPerCreationForm($mob);
+        }
         $pc_media->createAlias($page, $hier_id, $pc_id);
         $updated = $page->update();
 
@@ -87,13 +95,13 @@ class MediaObjectCommandActionHandler implements Server\CommandActionHandler
         $pc_media = $page->getContentObjectForPcId($body["pcid"]);
         $quick_edit = new \ilPCMediaObjectQuickEdit($pc_media);
 
-        $quick_edit->setTitle(\ilUtil::stripSlashes($body["standard_title"]));
-        $quick_edit->setClass(\ilUtil::stripSlashes($body["characteristic"]));
-        $quick_edit->setHorizontalAlign(\ilUtil::stripSlashes($body["horizontal_align"]));
+        $quick_edit->setTitle(\ilUtil::stripSlashes($body["standard_title"] ?? ""));
+        $quick_edit->setClass(\ilUtil::stripSlashes($body["characteristic"] ?? ""));
+        $quick_edit->setHorizontalAlign(\ilUtil::stripSlashes($body["horizontal_align"] ?? ""));
 
         $quick_edit->setUseFullscreen((bool) ($body["fullscreen"]));
-        $quick_edit->setCaption(\ilUtil::stripSlashes($body["standard_caption"]));
-        $quick_edit->setTextRepresentation(\ilUtil::stripSlashes($body["text_representation"]));
+        $quick_edit->setCaption(\ilUtil::stripSlashes($body["standard_caption"] ?? ""));
+        $quick_edit->setTextRepresentation(\ilUtil::stripSlashes($body["text_representation"] ?? ""));
 
         $pc_media->getMediaObject()->update();
         $updated = $page->update();

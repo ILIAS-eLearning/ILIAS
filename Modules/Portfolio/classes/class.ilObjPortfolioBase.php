@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Portfolio base
@@ -20,6 +23,7 @@
  */
 abstract class ilObjPortfolioBase extends ilObject2
 {
+    protected \ILIAS\Notes\Service $notes;
     protected ilSetting $setting;
     protected bool $online;
     protected bool $comments;
@@ -35,6 +39,9 @@ abstract class ilObjPortfolioBase extends ilObject2
         bool $a_reference = true
     ) {
         global $DIC;
+
+        $this->notes = $DIC->notes();
+        
         parent::__construct($a_id, $a_reference);
 
         $this->setting = $DIC->settings();
@@ -158,7 +165,7 @@ abstract class ilObjPortfolioBase extends ilObject2
         $this->setImage((string) $row["img"]);
         
         // #14661
-        $this->setPublicComments(ilNote::commentsActivated($this->id, 0, $this->getType()));
+        $this->setPublicComments($this->notes->domain()->commentsActive($this->id));
         
         $this->doReadCustom($row);
     }
@@ -170,7 +177,7 @@ abstract class ilObjPortfolioBase extends ilObject2
     {
     }
 
-    protected function doCreate()
+    protected function doCreate(bool $clone_mode = false) : void
     {
         $ilDB = $this->db;
         
@@ -179,7 +186,7 @@ abstract class ilObjPortfolioBase extends ilObject2
             $ilDB->quote(0, "integer") . ")");
     }
     
-    protected function doUpdate()
+    protected function doUpdate() : void
     {
         $ilDB = $this->db;
         
@@ -193,7 +200,7 @@ abstract class ilObjPortfolioBase extends ilObject2
         $this->doUpdateCustom($fields);
         
         // #14661
-        ilNote::activateComments($this->id, 0, $this->getType(), $this->hasPublicComments());
+        $this->notes->domain()->activateComments($this->id, $this->hasPublicComments());
         
         $ilDB->update(
             "usr_portfolio",
@@ -209,7 +216,7 @@ abstract class ilObjPortfolioBase extends ilObject2
     {
     }
 
-    protected function doDelete()
+    protected function doDelete() : void
     {
         $ilDB = $this->db;
         
@@ -253,7 +260,7 @@ abstract class ilObjPortfolioBase extends ilObject2
             $storage = new ilFSStoragePortfolio($this->id);
             $storage->delete();
             
-            $this->setImage(null);
+            $this->setImage("");
         }
     }
         

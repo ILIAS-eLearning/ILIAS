@@ -86,7 +86,7 @@ abstract class ilChart
     /**
      * Set chart size
      */
-    public function setSize(int $a_x, int $a_y) : void
+    public function setSize(string $a_x, string $a_y) : void
     {
         $this->width = $a_x;
         $this->height = $a_y;
@@ -260,7 +260,7 @@ abstract class ilChart
         foreach ($this->data as $series) {
             $series->parseData($json_series);
         }
-        $chart->setVariable("SERIES", json_encode($json_series));
+        $series_str = json_encode($json_series);
         
         
         // global options
@@ -294,8 +294,10 @@ abstract class ilChart
             $this->legend->parseOptions($json_options->legend);
         }
     
-        $chart->setVariable("OPTIONS", json_encode($json_options));
-        
+        $options = json_encode($json_options);
+
+        $this->tpl->addOnLoadCode('$.plot($("#ilChart' . $this->id . '"), ' . $series_str . ', ' . $options . ');');
+
         $ret = $chart->get();
         return $ret;
     }

@@ -536,7 +536,7 @@ class ilObjGroupGUI extends ilContainerGUI
         $this->checkPermission('write');
 
         $form = $this->initForm();
-        $new_type = '';
+        $new_type = 0;
         if ($form->checkInput()) {
             // handle group type settings
             $old_type = ilDidacticTemplateObjSettings::lookupTemplateId($this->object->getRefId());
@@ -545,9 +545,9 @@ class ilObjGroupGUI extends ilContainerGUI
             $new_type_info = $form->getInput('didactic_type');
             if ($new_type_info) {
                 $new_type = explode('_', $form->getInput('didactic_type'));
-                $new_type = $new_type[1];
+                $new_type = (int) $new_type[1];
 
-                $modified = ($new_type != $old_type);
+                $modified = ($new_type !== $old_type);
                 ilLoggerFactory::getLogger('grp')->info('Switched group type from ' . $old_type . ' to ' . $new_type);
             }
 
@@ -703,15 +703,15 @@ class ilObjGroupGUI extends ilContainerGUI
             }
 
 
-            $this->tpl->setOnScreenMessage('question', $this->lng->txt('grp_warn_grp_type_changed'));
             $confirm = new ilConfirmationGUI();
+            $confirm->setHeaderText($this->lng->txt('grp_warn_grp_type_changed'));
             $confirm->setFormAction($this->ctrl->getFormAction($this));
             $confirm->addItem(
                 'grp_type',
-                $new_type,
+                (string) $new_type,
                 $this->lng->txt('grp_info_new_grp_type') . ': ' . $new_type_txt
             );
-            $confirm->addButton($this->lng->txt('grp_change_type'), 'updateGroupType');
+            $confirm->setConfirm($this->lng->txt('grp_change_type'), 'updateGroupType');
             $confirm->setCancel($this->lng->txt('cancel'), 'edit');
 
             $this->tpl->setContent($confirm->getHTML());
@@ -1265,7 +1265,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 if ($this->object->getMinMembers()) {
                     $info->addProperty(
                         $this->lng->txt("mem_min_users"),
-                        $this->object->getMinMembers()
+                        (string) $this->object->getMinMembers()
                     );
                 }
                 if ($this->object->getMaxMembers()) {
@@ -1273,7 +1273,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
                     $info->addProperty(
                         $this->lng->txt('mem_free_places'),
-                        $reg_info['reg_info_free_places']
+                        (string) $reg_info['reg_info_free_places']
                     );
                 }
             }
@@ -1457,11 +1457,15 @@ class ilObjGroupGUI extends ilContainerGUI
             $reg_type = new ilRadioGroupInputGUI($this->lng->txt('group_registration_mode'), 'registration_type');
             $reg_type->setValue((string) $this->object->getRegistrationType());
 
-            $opt_dir = new ilRadioOption($this->lng->txt('grp_reg_direct'), (string) ilGroupConstants::GRP_REGISTRATION_DIRECT
+            $opt_dir = new ilRadioOption(
+                $this->lng->txt('grp_reg_direct'),
+                (string) ilGroupConstants::GRP_REGISTRATION_DIRECT
             );#$this->lng->txt('grp_reg_direct_info'));
             $reg_type->addOption($opt_dir);
 
-            $opt_pass = new ilRadioOption($this->lng->txt('grp_pass_request'), (string) ilGroupConstants::GRP_REGISTRATION_PASSWORD
+            $opt_pass = new ilRadioOption(
+                $this->lng->txt('grp_pass_request'),
+                (string) ilGroupConstants::GRP_REGISTRATION_PASSWORD
             );
             $pass = new ilTextInputGUI($this->lng->txt("password"), 'password');
             $pass->setRequired(true);

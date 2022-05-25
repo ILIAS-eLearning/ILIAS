@@ -1,5 +1,21 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 use ILIAS\Refinery\Factory;
 
 /**
@@ -18,9 +34,11 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
     protected array $js_conf;
 
     /**
-     * @var array stored js onload codes
+     * @var array<int, string> stored js onload codes
      */
-    protected static array $js_on_load_added = array();
+    protected static array $js_on_load_added = [];
+    
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
 
     /**
      * @param $target string url for the onclick event of a node
@@ -79,7 +97,7 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
      */
     public function getOutput() : string
     {
-        self::initJs();
+        $this->initJs();
 
         return parent::getOutput();
     }
@@ -90,9 +108,12 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
      */
     public function initJs() : void
     {
-        self::addOnLoadCode(
+        $this->addOnLoadCode(
             'explorer',
-            '$("#' . $this->getId() . '").study_programme_async_explorer(' . json_encode($this->js_conf) . ');'
+            '$("#' . $this->getId() . '").study_programme_async_explorer(' . json_encode(
+                $this->js_conf,
+                JSON_THROW_ON_ERROR
+            ) . ');'
         );
     }
 

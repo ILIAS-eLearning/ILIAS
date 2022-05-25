@@ -41,11 +41,6 @@ class ilLTIConsumerScoringTableGUI extends ilTable2GUI
 
     /**
      * ilLTIConsumerScoringTableGUI constructor.
-     * @param ilLTIConsumerScoringGUI $a_parent_obj
-     * @param string                  $a_parent_cmd
-     * @param bool                    $isMultiActorReport
-     * @param string                  $tableId
-     * @param bool                    $hasOutcomeAccess
      */
     public function __construct(ilLTIConsumerScoringGUI $a_parent_obj, string $a_parent_cmd, bool $isMultiActorReport, string $tableId, bool $hasOutcomeAccess)
     {

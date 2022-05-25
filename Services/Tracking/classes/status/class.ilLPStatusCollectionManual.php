@@ -92,7 +92,7 @@ class ilLPStatusCollectionManual extends ilLPStatus
     ) : int {
         $info = self::_getStatusInfo($a_obj_id);
 
-        if (is_array($info["completed"])) {
+        if (isset($info["completed"])) {
             $completed = true;
             $in_progress = false;
             foreach ($info["completed"] as $user_ids) {
@@ -168,27 +168,34 @@ class ilLPStatusCollectionManual extends ilLPStatus
                 if (isset($existing[$item_id])) {
                     // value changed
                     if ((!$existing[$item_id][0] && in_array(
-                                $item_id, $a_completed
-                            )) ||
+                        $item_id,
+                        $a_completed
+                    )) ||
                         ($existing[$item_id][0] && !in_array(
-                                $item_id, $a_completed
-                            ))) {
+                            $item_id,
+                            $a_completed
+                        ))) {
                         $ilDB->manipulate(
                             "UPDATE ut_lp_coll_manual SET " .
                             " completed = " . $ilDB->quote(
-                                in_array($item_id, $a_completed), "integer"
+                                in_array($item_id, $a_completed),
+                                "integer"
                             ) .
                             " , last_change = " . $ilDB->quote(
-                                $now, "integer"
+                                $now,
+                                "integer"
                             ) .
                             " WHERE obj_id = " . $ilDB->quote(
-                                $a_obj_id, "integer"
+                                $a_obj_id,
+                                "integer"
                             ) .
                             " AND usr_id = " . $ilDB->quote(
-                                $a_user_id, "integer"
+                                $a_user_id,
+                                "integer"
                             ) .
                             " AND subitem_id = " . $ilDB->quote(
-                                $item_id, "integer"
+                                $item_id,
+                                "integer"
                             )
                         );
                     }

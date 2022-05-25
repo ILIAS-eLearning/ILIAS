@@ -34,7 +34,7 @@ class ilGlobalScreenBuildProviderMapObjective extends Setup\Artifact\BuildArtifa
     public function build() : Setup\Artifact
     {
         $class_names = [];
-        $i           = [
+        $i = [
             StaticMainMenuProvider::class,
             StaticMetaBarProvider::class,
             DynamicToolProvider::class,

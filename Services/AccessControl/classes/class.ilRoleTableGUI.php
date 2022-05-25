@@ -155,7 +155,7 @@ class ilRoleTableGUI extends ilTable2GUI
 
                 if ($GLOBALS['DIC']['rbacsystem']->checkAccess(
                     'delete',
-                    $this->getParentObject()->object->getRefId()
+                    $this->getParentObject()->getObject()->getRefId()
                 )) {
                     $this->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
                 }

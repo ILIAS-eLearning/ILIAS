@@ -78,7 +78,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $form->checkInput();
     }
 
-    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
+    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form) : void
     {
         // Delete all existing answers and create new answers from the form data
         $this->object->flushMatchingPairs();
@@ -106,6 +106,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             } else {
                 $filename = '';
             }
+            // @PHP8-CR: There seems to be a bigger issue lingering here and won't suppress / "quickfix" this but
+            // postpone further analysis, eventually involving T&A TechSquad (see also remark in assMatchingQuestionGUI
             $this->object->addTerm(
                 new assAnswerMatchingTerm($answer, $filename, $_POST['terms']['identifier'][$index])
             );
@@ -151,7 +153,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
     }
 
-    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
+    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form) : void
     {
         if (!$this->object->getSelfAssessmentEditingMode()) {
             $this->object->setShuffle($_POST["shuffle"]);
@@ -162,13 +164,13 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->object->setMatchingMode($_POST['matching_mode']);
     }
 
-    public function uploadterms()
+    public function uploadterms() : void
     {
         $this->writePostData(true);
         $this->editQuestion();
     }
 
-    public function removeimageterms()
+    public function removeimageterms() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removeimageterms']);
@@ -176,13 +178,13 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function uploaddefinitions()
+    public function uploaddefinitions() : void
     {
         $this->writePostData(true);
         $this->editQuestion();
     }
 
-    public function removeimagedefinitions()
+    public function removeimagedefinitions() : void
     {
         $this->writePostData(true);
         $position = key($_POST['cmd']['removeimagedefinitions']);
@@ -190,7 +192,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function addterms()
+    public function addterms() : void
     {
         $this->writePostData();
         $position = key($_POST["cmd"]["addterms"]);
@@ -198,7 +200,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function removeterms()
+    public function removeterms() : void
     {
         $this->writePostData();
         $position = key($_POST["cmd"]["removeterms"]);
@@ -206,7 +208,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function adddefinitions()
+    public function adddefinitions() : void
     {
         $this->writePostData();
         $position = key($_POST["cmd"]["adddefinitions"]);
@@ -214,7 +216,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function removedefinitions()
+    public function removedefinitions() : void
     {
         $this->writePostData();
         $position = key($_POST["cmd"]["removedefinitions"]);
@@ -222,7 +224,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function addpairs()
+    public function addpairs() : void
     {
         $this->writePostData();
         $position = key($_POST["cmd"]["addpairs"]);
@@ -230,7 +232,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->editQuestion();
     }
 
-    public function removepairs()
+    public function removepairs() : void
     {
         $this->writePostData();
         $position = key($_POST["cmd"]["removepairs"]);
@@ -353,7 +355,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $terms->setTextName($this->lng->txt('term_text'));
         $terms->setImageName($this->lng->txt('term_image'));
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php";
-        if (!count($this->object->getTerms())) {
+        if (0 === count($this->object->getTerms())) {
+            // @PHP8-CR: If you look above, how $this->object->addDefinition does in fact take an object, I take this
+            // issue as an indicator for a bigger issue and won't suppress / "quickfix" this but postpone further
+            // analysis, eventually involving T&A TechSquad
             $this->object->addTerm(new assAnswerMatchingTerm());
         }
         $termvalues = $this->object->getTerms();
@@ -380,7 +385,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $form;
     }
 
-    public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
+    public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         // Edit mode
         $hidden = new ilHiddenInputGUI("matching_type");
@@ -430,6 +435,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $mode->setValue($this->object->getMatchingMode());
 
         $form->addItem($mode);
+        return $form;
     }
 
     /**
@@ -986,37 +992,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-                // edit page
-                $ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    false
-                );
-            }
-
-            $this->addTab_QuestionPreview($ilTabs);
-        }
-
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-            $url = "";
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            // edit question properties
-            $ilTabs->addTarget(
-                "edit_question",
-                $url,
-                array("editQuestion", "save", "saveEdit", "removeimageterms", "uploadterms", "removeimagedefinitions", "uploaddefinitions",
-                    "addpairs", "removepairs", "addterms", "removeterms", "adddefinitions", "removedefinitions", "originalSyncForm"),
-                $classname,
-                "",
-                $force_active
-            );
+            $this->addTab_Question($ilTabs);
         }
 
         // add tab for question feedback within common class assQuestionGUI
@@ -1029,7 +1005,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->addTab_SuggestedSolution($ilTabs, $classname);
 
         // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             $ilTabs->addTarget(
                 "statistics",
                 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
@@ -1110,12 +1086,10 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * Returns an html string containing a question specific representation of the answers so far
      * given in the test for use in the right column in the scoring adjustment user interface.
-     *
      * @param array $relevant_answers
-     *
      * @return string
      */
-    public function getAggregatedAnswersView($relevant_answers) : string
+    public function getAggregatedAnswersView(array $relevant_answers) : string
     {
         return ''; //print_r($relevant_answers,true);
     }

@@ -26,13 +26,11 @@ use PHPUnit\Framework\MockObject\Rule\InvocationOrder;
  */
 abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
 {
-    /** @var MockObject|ilChatroomObjectGUI */
+    /** @var MockObject&ilChatroomObjectGUI */
     protected $gui;
-
-    /** @var MockObject|ilChatroomServerConnector */
+    /** @var MockObject&ilChatroomServerConnector */
     protected $ilChatroomServerConnectorMock;
-
-    /** @var MockObject|ilObjChatroom */
+    /** @var MockObject&ilObjChatroom */
     protected $object;
 
     protected function setUp() : void

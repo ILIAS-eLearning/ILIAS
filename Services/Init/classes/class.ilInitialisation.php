@@ -55,7 +55,7 @@ class ilInitialisation
     /**
      * Remove unsafe characters from GET
      */
-    protected static function removeUnsafeCharacters()
+    protected static function removeUnsafeCharacters() : void
     {
         // Remove unsafe characters from GET parameters.
         // We do not need this characters in any case, so it is
@@ -134,7 +134,6 @@ class ilInitialisation
         define("ILIAS_LOG_FILE", $ilIliasIniFile->readVariable("log", "file"));
         define("ILIAS_LOG_ENABLED", $ilIliasIniFile->readVariable("log", "enabled"));
         define("ILIAS_LOG_LEVEL", $ilIliasIniFile->readVariable("log", "level"));
-        define("SLOW_REQUEST_TIME", $ilIliasIniFile->readVariable("log", "slow_request_time"));
 
         // read path + command for third party tools from ilias.ini
         define("PATH_TO_CONVERT", $ilIliasIniFile->readVariable("tools", "convert"));
@@ -187,13 +186,14 @@ class ilInitialisation
                 define("IL_ICAP_PORT", $ilIliasIniFile->readVariable("tools", "i_cap_port"));
                 define("IL_ICAP_AV_COMMAND", $ilIliasIniFile->readVariable("tools", "i_cap_av_command"));
                 define("IL_ICAP_CLIENT", $ilIliasIniFile->readVariable("tools", "i_cap_client"));
+                define("IL_VIRUS_CLEAN_COMMAND", '');
                 break;
 
             default:
                 define("IL_VIRUS_SCANNER", "None");
+                define("IL_VIRUS_CLEAN_COMMAND", '');
                 break;
         }
-        define("IL_VIRUS_CLEAN_COMMAND", '');
 
         $tz = ilTimeZone::initDefaultTimeZone($ilIliasIniFile);
         define("IL_TIMEZONE", $tz);
@@ -432,7 +432,7 @@ class ilInitialisation
             self::abortAndDie('Fatal Error: ilInitialisation::determineClient called without initialisation of ILIAS ini file object.');
         }
         $in_unit_tests = defined('IL_PHPUNIT_TEST');
-        $context_supports_persitent_session = (bool) ilContext::supportsPersistentSessions();
+        $context_supports_persitent_session = ilContext::supportsPersistentSessions();
         $can_set_cookie = !$in_unit_tests && $context_supports_persitent_session;
         $has_request_client_id = $DIC->http()->wrapper()->query()->has('client_id');
         $has_cookie_client_id = $DIC->http()->cookieJar()->has('ilClientId');
@@ -508,23 +508,19 @@ class ilInitialisation
 
         self::initGlobal("ilClientIniFile", $ilClientIniFile);
         // set constants
-        define("SESSION_REMINDER_LEADTIME", 30);
-        define("DEBUG", $ilClientIniFile->readVariable("system", "DEBUG"));
-        define("DEVMODE", $ilClientIniFile->readVariable("system", "DEVMODE"));
-        define("SHOWNOTICES", $ilClientIniFile->readVariable("system", "SHOWNOTICES"));
+        define("DEBUG", (int) $ilClientIniFile->readVariable("system", "DEBUG"));
+        define("DEVMODE", (int) $ilClientIniFile->readVariable("system", "DEVMODE"));
+        define("SHOWNOTICES", (int) $ilClientIniFile->readVariable("system", "SHOWNOTICES"));
         define("ROOT_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
         define("SYSTEM_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
         define("ROLE_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
         define("MAIL_SETTINGS_ID", (int) $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
         $error_handler = $ilClientIniFile->readVariable('system', 'ERROR_HANDLER');
-        define("ERROR_HANDLER", $error_handler ? $error_handler : "PRETTY_PAGE");
+        define("ERROR_HANDLER", $error_handler ?: "PRETTY_PAGE");
 
         // this is for the online help installation, which sets OH_REF_ID to the
         // ref id of the online module
-        define("OH_REF_ID", $ilClientIniFile->readVariable("system", "OH_REF_ID"));
-
-        define("SYSTEM_MAIL_ADDRESS", $ilClientIniFile->readVariable('system', 'MAIL_SENT_ADDRESS')); // Change SS
-        define("MAIL_REPLY_WARNING", $ilClientIniFile->readVariable('system', 'MAIL_REPLY_WARNING')); // Change SS
+        define("OH_REF_ID", (int) $ilClientIniFile->readVariable("system", "OH_REF_ID"));
 
         // see ilObject::TITLE_LENGTH, ilObject::DESC_LENGTH
         // define ("MAXLENGTH_OBJ_TITLE",125);#$ilClientIniFile->readVariable('system','MAXLENGTH_OBJ_TITLE'));
@@ -707,20 +703,14 @@ class ilInitialisation
             );
         };
     }
-
-    /**
-     * @param \ILIAS\DI\Container $c
-     */
+    
     protected static function initAvatar(\ILIAS\DI\Container $c) : void
     {
         $c["user.avatar.factory"] = function ($c) {
             return new \ilUserAvatarFactory($c);
         };
     }
-
-    /**
-     * @param \ILIAS\DI\Container $c
-     */
+    
     protected static function initTermsOfService(\ILIAS\DI\Container $c) : void
     {
         $c['tos.criteria.type.factory'] = function (
@@ -812,7 +802,7 @@ class ilInitialisation
 
         // define default suffix replacements
         define("SUFFIX_REPL_DEFAULT", "php,php3,php4,inc,lang,phtml,htaccess");
-        define("SUFFIX_REPL_ADDITIONAL", $ilSetting->get("suffix_repl_additional"));
+        define("SUFFIX_REPL_ADDITIONAL", $ilSetting->get("suffix_repl_additional", ""));
 
         if (ilContext::usesHTTP()) {
             self::buildHTTPPath();
@@ -880,7 +870,7 @@ class ilInitialisation
     {
         global $ilSetting;
 
-        if (trim($ilSetting->get("locale") != "")) {
+        if (trim($ilSetting->get("locale")) != "") {
             $larr = explode(",", trim($ilSetting->get("locale")));
             $ls = array();
             $first = $larr[0];
@@ -945,11 +935,10 @@ class ilInitialisation
         }
 
         // we do not know if ref_id of request is accesible, so redirecting to root
-        $_GET["ref_id"] = ROOT_FOLDER_ID;
-        $_GET["cmd"] = "";
         self::redirect(
-            "ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=" .
-            $_GET["cmd"] . "&ref_id=" . $_GET["ref_id"]
+            "ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=&ref_id=" . (defined(
+                'ROOT_FOLDER_ID'
+            ) ? (string) ROOT_FOLDER_ID : '0')
         );
     }
 
@@ -1064,10 +1053,9 @@ class ilInitialisation
 
     /**
      * Initialize global instance
-     * @param string
-     * @param string|object
-     * @param ?string
-     * @return void
+     * @param string $a_name
+     * @param string|object $a_class
+     * @param ?string $a_source_file
      */
     protected static function initGlobal($a_name, $a_class, $a_source_file = null) : void
     {
@@ -1099,7 +1087,7 @@ class ilInitialisation
         }
     }
 
-    protected static $already_initialized;
+    protected static bool $already_initialized = false;
 
     public static function reinitILIAS() : void
     {
@@ -1163,7 +1151,7 @@ class ilInitialisation
     /**
      * Init auth session.
      */
-    protected static function initSession()
+    protected static function initSession() : void
     {
         $GLOBALS["DIC"]["ilAuthSession"] = function ($c) {
             $auth_session = ilAuthSession::getInstance(
@@ -1208,7 +1196,12 @@ class ilInitialisation
             "ilErrorHandling",
             "./Services/Init/classes/class.ilErrorHandling.php"
         );
-        $ilErr->setErrorHandling(PEAR_ERROR_CALLBACK, array($ilErr, 'errorHandler'));
+        PEAR::setErrorHandling(
+            PEAR_ERROR_CALLBACK,
+            [
+                $ilErr, 'errorHandler'
+            ]
+        );
 
         self::removeUnsafeCharacters();
 
@@ -1595,14 +1588,18 @@ class ilInitialisation
      */
     protected static function getCurrentCmd() : string
     {
+        if (!isset($_REQUEST["cmd"])) {
+            return '';
+        }
+        
         $cmd = $_REQUEST["cmd"];
         if (is_array($cmd)) {
             $keys = array_keys($cmd);
 
             return array_shift($keys);
-        } else {
-            return $cmd;
         }
+        
+        return $cmd;
     }
 
     /**
@@ -1836,8 +1833,8 @@ class ilInitialisation
         $n_of_tasks = $ilIliasIniFile->readVariable("background_tasks", "number_of_concurrent_tasks");
         $sync = $ilIliasIniFile->readVariable("background_tasks", "concurrency");
 
-        $n_of_tasks = $n_of_tasks ? $n_of_tasks : 5;
-        $sync = $sync ? $sync : 'sync'; // The default value is sync.
+        $n_of_tasks = $n_of_tasks ?: 5;
+        $sync = $sync ?: 'sync'; // The default value is sync.
 
         $c["bt.task_factory"] = function ($c) {
             return new \ILIAS\BackgroundTasks\Implementation\Tasks\BasicTaskFactory($c["di.injector"]);

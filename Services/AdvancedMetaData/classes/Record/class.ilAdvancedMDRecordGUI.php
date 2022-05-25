@@ -84,6 +84,7 @@ class ilAdvancedMDRecordGUI
         global $DIC;
 
         $this->user = $DIC->user();
+        $this->lng = $DIC->language();
         $this->mode = $a_mode;
         $this->obj_type = $a_obj_type;
         $this->obj_id = $a_obj_id;
@@ -97,7 +98,6 @@ class ilAdvancedMDRecordGUI
         $this->in_repository = $in_repository;
         $this->refinery = $DIC->refinery();
         $this->http = $DIC->http();
-
     }
 
     /**
@@ -279,10 +279,6 @@ class ilAdvancedMDRecordGUI
      */
     public function importEditFormPostValues() : bool
     {
-        // #13774
-        if (!count($this->editor_form)) {
-            return false;
-        }
         $valid = true;
         foreach ($this->editor_form as $item) {
             $item["form"]->importFromPost();
@@ -300,7 +296,7 @@ class ilAdvancedMDRecordGUI
      */
     public function writeEditForm(?int $a_obj_id = null, ?int $a_sub_id = null) : bool
     {
-        if (!sizeof($this->editor_form)) {
+        if (!count($this->editor_form)) {
             return false;
         }
 

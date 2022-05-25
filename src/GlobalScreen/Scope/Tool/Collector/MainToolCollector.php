@@ -122,13 +122,16 @@ class MainToolCollector extends AbstractBaseCollector implements ItemCollector
     {
         yield from $this->tools;
     }
-    
-    /**
-     * @return bool
-     */
+
     public function hasItems() : bool
     {
         return count($this->tools) > 0;
+    }
+    
+
+    public function hasVisibleItems() : bool
+    {
+        return $this->hasItems();
     }
     
     /**

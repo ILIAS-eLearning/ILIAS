@@ -84,4 +84,13 @@ class InternalRequestService
     {
         return $this->int('pass_id');
     }
+
+    /**
+     * @return mixed|null
+     */
+    public function raw(string $key)
+    {
+        $no_transform = $this->refinery->identity();
+        return $this->get($key, $no_transform);
+    }
 }

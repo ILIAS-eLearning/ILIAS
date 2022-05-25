@@ -236,7 +236,7 @@ class ilRegistrationSettingsGUI
         }
 
         /** @noinspection PhpUndefinedMethodInspection */
-        $values = array(
+        $values = [
             'reg_type' => $this->registration_settings->getRegistrationType(),
             'reg_hash_life_time' => $this->registration_settings->getRegistrationHashLifetime(),
             'reg_pwd' => $this->registration_settings->passwordGenerationEnabled(),
@@ -244,14 +244,15 @@ class ilRegistrationSettingsGUI
             'reg_role_type' => $role_type,
             'reg_access_limitation' => $this->registration_settings->getAccessLimitation(),
             'reg_allowed_domains' => implode(';', $this->registration_settings->getAllowedDomains())
-        );
+        ];
 
         $allow_codes = $this->registration_settings->getAllowCodes();
         $reg_type = $this->registration_settings->getRegistrationType();
-        if ($allow_codes && in_array($reg_type, array(ilRegistrationSettings::IL_REG_DIRECT,
-                                                      ilRegistrationSettings::IL_REG_APPROVE,
-                                                      ilRegistrationSettings::IL_REG_ACTIVATION
-            ))) {
+        if ($allow_codes && in_array($reg_type, [
+                ilRegistrationSettings::IL_REG_DIRECT,
+                ilRegistrationSettings::IL_REG_APPROVE,
+                ilRegistrationSettings::IL_REG_ACTIVATION
+            ], true)) {
             $values['reg_codes_' . $reg_type] = true;
         }
 
@@ -303,7 +304,7 @@ class ilRegistrationSettingsGUI
             ilRegistrationSettings::IL_REG_DIRECT,
             ilRegistrationSettings::IL_REG_APPROVE,
             ilRegistrationSettings::IL_REG_ACTIVATION
-        ])) {
+        ], true)) {
             $allow_codes = (bool) $form->getInput('reg_codes_' . $reg_type);
         }
         $this->registration_settings->setAllowCodes($allow_codes);
@@ -345,13 +346,13 @@ class ilRegistrationSettingsGUI
         $role_form->setFormAction($this->ctrl->getFormAction($this, 'save'));
         $role_form->setTitle($this->lng->txt('reg_selectable_roles'));
 
-        $roles = new \ilCheckboxGroupInputGUI($this->lng->txt('reg_available_roles'), 'roles');
-        $allowed_roles = array();
+        $roles = new ilCheckboxGroupInputGUI($this->lng->txt('reg_available_roles'), 'roles');
+        $allowed_roles = [];
         foreach ($this->rbacreview->getGlobalRoles() as $role) {
-            if ($role == SYSTEM_ROLE_ID || $role == ANONYMOUS_ROLE_ID) {
+            if ($role === SYSTEM_ROLE_ID || $role === ANONYMOUS_ROLE_ID) {
                 continue;
             }
-            $role_option = new \ilCheckboxOption(ilObjRole::_lookupTitle($role));
+            $role_option = new ilCheckboxOption(ilObjRole::_lookupTitle($role));
             $role_option->setValue((string) $role);
             $roles->addOption($role_option);
             $allowed_roles[$role] = ilObjRole::_lookupAllowRegister($role);
@@ -396,7 +397,7 @@ class ilRegistrationSettingsGUI
             foreach ($this->rbacreview->getGlobalRoles() as $role) {
                 if ($role_obj = ilObjectFactory::getInstanceByObjId($role, false)) {
                     $role_obj->setAllowRegister(
-                        $roles[$role] == 1 ? true : false
+                        (int) $roles[$role] === 1
                     );
                     $role_obj->update();
                 }
@@ -429,7 +430,7 @@ class ilRegistrationSettingsGUI
 
         $global_roles = ["" => $this->lng->txt("links_select_one")];
         foreach ($this->rbacreview->getGlobalRoles() as $role_id) {
-            if ($role_id == ANONYMOUS_ROLE_ID) {
+            if ($role_id === ANONYMOUS_ROLE_ID) {
                 continue;
             }
 
@@ -475,7 +476,9 @@ class ilRegistrationSettingsGUI
             $this->ctrl->getLinkTarget($this, "view")
         );
         $this->initRoleAccessLimitations();
-        $form = $this->initRoleAccessForm(); //TODO-PHP8-REVIEW this variable gets overwritten in any case.
+        if (null === $form) {
+            $form = $this->initRoleAccessForm();
+        }
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -535,7 +538,7 @@ class ilRegistrationSettingsGUI
 
         $counter = 0;
         foreach ($this->rbacreview->getGlobalRoles() as $role_id) {
-            if ($role_id == ANONYMOUS_ROLE_ID) {
+            if ($role_id === ANONYMOUS_ROLE_ID) {
                 continue;
             }
             $domain_input = $form->getInput("domain_$role_id");
@@ -597,7 +600,12 @@ class ilRegistrationSettingsGUI
         return true;
     }
 
-    public function parseRoleList($roles, $url) : string //TODO-PHP8-REVIEW add type
+    /**
+     * @param string[] $roles
+     * @param string $url
+     * @return string
+     */
+    private function parseRoleList(array $roles, string $url) : string
     {
         $tpl = new ilTemplate('tpl.registration_roles.html', true, true, 'Services/Registration');
 
@@ -616,19 +624,26 @@ class ilRegistrationSettingsGUI
         return $tpl->get();
     }
 
-    public function prepareRoleList() : array
+    /***
+     * @return string[]
+     */
+    private function prepareRoleList() : array
     {
-        $all = array();
+        $all = [];
         foreach (ilObjRole::_lookupRegisterAllowed() as $role) {
             $all[] = $role['title'];
         }
+
         return $all;
     }
 
-    public function prepareAutomaticRoleList() : array
+    /**
+     * @return string[]
+     */
+    private function prepareAutomaticRoleList() : array
     {
         $this->initRoleAssignments();
-        $all = array();
+        $all = [];
         foreach ($this->assignments_obj->getAssignments() as $assignment) {
             if ($assignment['domain'] !== '' && $assignment['role']) {
                 $all[] = $assignment['domain'] . ' -> ' . ilObjRole::_lookupTitle($assignment['role']);
@@ -638,13 +653,14 @@ class ilRegistrationSettingsGUI
         if ((string) $this->assignments_obj->getDefaultRole() !== '') {
             $all[] = $this->lng->txt('reg_default') . ' -> ' . ilObjRole::_lookupTitle($this->assignments_obj->getDefaultRole());
         }
+
         return $all;
     }
 
-    public function prepareAccessLimitationRoleList() : array
+    private function prepareAccessLimitationRoleList() : array
     {
         $this->initRoleAccessLimitations();
-        $all = array();
+        $all = [];
         foreach (ilObjRole::_lookupRegisterAllowed() as $role) {
             switch ($this->access_limitations_obj->getMode((int) $role['id'])) {
                 case 'absolute':
@@ -696,14 +712,14 @@ class ilRegistrationSettingsGUI
         return $all;
     }
 
-    public function initRoleAssignments() : void
+    private function initRoleAssignments() : void
     {
         if (!$this->assignments_obj instanceof ilRegistrationRoleAssignments) {
             $this->assignments_obj = new ilRegistrationRoleAssignments();
         }
     }
 
-    public function initRoleAccessLimitations() : void
+    private function initRoleAccessLimitations() : void
     {
         if (!$this->access_limitations_obj instanceof ilRegistrationRoleAccessLimitations) {
             $this->access_limitations_obj = new ilRegistrationRoleAccessLimitations();
@@ -762,9 +778,9 @@ class ilRegistrationSettingsGUI
         $sec->setTitle($this->lng->txt('registration_codes_roles_title'));
         $this->form_gui->addItem($sec);
 
-        $options = array("" => $this->lng->txt('registration_codes_no_assigned_role'));
+        $options = ["" => $this->lng->txt('registration_codes_no_assigned_role')];
         foreach ($this->rbacreview->getGlobalRoles() as $role_id) {
-            if (!in_array($role_id, array(SYSTEM_ROLE_ID, ANONYMOUS_ROLE_ID))) {
+            if (!in_array($role_id, [SYSTEM_ROLE_ID, ANONYMOUS_ROLE_ID], true)) {
                 $options[$role_id] = ilObject::_lookupTitle($role_id);
             }
         }
@@ -849,7 +865,7 @@ class ilRegistrationSettingsGUI
             $local = $this->form_gui->getInput("reg_codes_local");
 
             if (is_array($local)) {
-                $role_ids = array();
+                $role_ids = [];
                 foreach (array_unique($local) as $item) {
                     if (trim($item)) {
                         $role_id = $this->rbacreview->roleExists($item);
@@ -880,11 +896,11 @@ class ilRegistrationSettingsGUI
                     if (!array_sum($date)) {
                         $valid = false;
                     } else {
-                        $date = array(
+                        $date = [
                             "d" => $date["dd"],
                             "m" => $date["MM"] % 12,
                             "y" => floor($date["MM"] / 12)
-                        );
+                        ];
                     }
                     break;
 

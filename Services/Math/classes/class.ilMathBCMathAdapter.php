@@ -32,7 +32,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function add($left_operand, $right_operand, int $scale = null)
     {
@@ -40,7 +40,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function sub($left_operand, $right_operand, int $scale = null)
     {
@@ -48,7 +48,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function mul($left_operand, $right_operand, int $scale = null)
     {
@@ -56,7 +56,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function div($left_operand, $right_operand, int $scale = null)
     {
@@ -68,7 +68,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function mod($left_operand, $right_operand)
     {
@@ -80,7 +80,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function pow($left_operand, $right_operand, int $scale = null)
     {
@@ -99,11 +99,11 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
             return bcpow($left_operand_dec, $right_operand_dec, $scale);
         }
 
-        return $this->applyScale(pow($left_operand, $right_operand), $scale);
+        return $this->applyScale($left_operand ** $right_operand, $scale);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function sqrt($operand, int $scale = null)
     {
@@ -111,7 +111,7 @@ class ilMathBCMathAdapter extends ilMathBaseAdapter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritDoc
      */
     public function comp($left_operand, $right_operand, int $scale = null) : int
     {

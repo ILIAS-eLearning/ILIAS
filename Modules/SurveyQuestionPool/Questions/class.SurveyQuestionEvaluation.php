@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Survey question evaluation
@@ -146,7 +149,7 @@ abstract class SurveyQuestionEvaluation
                 }
                 $parsed = new ilSurveyEvaluationResultsAnswer(
                     $active_id,
-                    $answer["value"],
+                    (float) $answer["value"],
                     (string) $answer["text"],
                     $answer["tstamp"]
                 );
@@ -374,7 +377,7 @@ abstract class SurveyQuestionEvaluation
         $chart->setColors($colors);
             
         // :TODO:
-        $chart->setSize($this->chart_width, $this->chart_height);
+        $chart->setSize((string) $this->chart_width, (string) $this->chart_height);
                     
         $vars = $a_results->getVariables();
         

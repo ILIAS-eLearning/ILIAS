@@ -75,21 +75,6 @@ To show how a UI-Component looks like in the page context (esp. for
 Components from the MainControls) a simple "framework" to use a Demo-Page
 in the examples would be helpful.
 
-### Improving FileInput and Dropzones (advanced, variable)
-General Dropzone functionality:
-ILIAS 6 introduced a new library for drag & drop together with FileInput. This library was not used for all D&D users. This MUST be done and standardized with ILIAS 7.
-
-With ILIAS 7, FileInput (or specific variants thereof) should have at least the following functions and properties:
-- Upload several files at once
-- Displaying existing files
-- Restriction to file extensions
-- Restriction to MimeTypes
-- use `Data\DataSize` for file size info
-
-With ILIAS 7 or later versions, FileInput (or specific variants thereof) can have the following functions and properties:
-- Preview of uploaded images
-- Crop functionality for images
-
 ### Examples on Main Page (beginner, ~4h)
 
 We want to have examples on the main pages of some components family of the 
@@ -213,7 +198,7 @@ other files in src/GlobalScreen/Scope, an exception is being thrown for icons/gl
 configured with an empty (Aria-)Label.
 The components themselves should take care of this.
 
-### Get rid of < div > under < body > element in Standard Page template (beginner)
+### Get rid of `<div>` under `<body>` element in Standard Page template (beginner)
 In the template of the Standard Page, one level under the < body > element,
 a < div > element is used. This level seems redundant and not giving any advantages
 over just starting with < body >. We should remove the < div > element, but must
@@ -227,9 +212,9 @@ Add, where missing, and refine existing.
 Date/Time pickers are currently implemented using a third party library. The solution suffers from accessibility issues. Even native pickers seem not always to be easy accessible. See https://mantis.ilias.de/view.php?id=29816#bugnotes. We should evaluate different solutions to tackle this.
 
 ### Remove wrapping DIVs in Mainbar
-Top items in the mainbar are wrapped in a <div class="il-mainbar-triggers">;
-We should get rid of this wrapper and have <ol>/<li> only for "menu-items",
-directly under the <nav>-tag.
+Top items in the mainbar are wrapped in a `<div class="il-mainbar-triggers">`;
+We should get rid of this wrapper and have `<ol\>/<li>` only for "menu-items",
+directly under the `<nav>`-tag.
 
 ### Renovate Lightbox Modal (advanced, ~8h)
 The Lightbox Modal is a rather old component that does not follow current standards of
@@ -244,7 +229,7 @@ with modern CSS transformations.
 * The sizes of the various lightboxes do not align, which looks odd when clicking
 through the various pages.
 * The template file of the lightbox contains a script tag, which is not allowed as
-of Dicto Rule `IliasTemplateFiles cannot contain text: "<script"`.
+of Dicto Rule `IliasTemplateFiles cannot contain text: "\<script"`.
 
 ### Adjust FactoriesCrawler (beginner, 2h)
 
@@ -275,6 +260,14 @@ ILIAS 8 introduces an Audio Player component presenting an optional transcript t
 - Add a player instance within the Modal enabling to control the audio while reading the transcript.
 - Introduce a KS component for transcript presentation following the structure of the WebVTT format.
 - Add support for WebVTT files to the Audio Player component.
+
+### DateTime Input Field: use DateTimeImmutable for internal value (beginner, 2h)
+
+Currently the value of the DateTime Input Field is stored as a string internally.
+This will lead to problems when formatting or timezones are changed on the input
+field. Also, we already have a DateTimeImmutable on many occasions, why cast it
+down to string to later cast it up again? The change should be covered by a lot
+of tests, so little risk there only.
 
 ## Long Term
 

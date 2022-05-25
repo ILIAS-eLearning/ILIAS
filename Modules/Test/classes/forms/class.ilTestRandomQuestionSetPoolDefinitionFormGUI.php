@@ -15,34 +15,15 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  */
 class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 {
-
-    /**
-     * object instance for current test
-     *
-     * @var ilObjTest
-     */
-    public $testOBJ = null;
+    public ilObjTest $testOBJ ;
     
-    /**
-     * global $lng object
-     *
-     * @var ilTestRandomQuestionSetConfigGUI
-     */
-    public $questionSetConfigGUI = null;
+    public ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI;
     
-    /**
-     * global $lng object
-     *
-     * @var ilTestRandomQuestionSetConfig
-     */
-    public $questionSetConfig = null;
+    public ilTestRandomQuestionSetConfig $questionSetConfig;
 
-    private $saveCommand = null;
+    private ?string $saveCommand = null;
 
-    /**
-     * @var null|string
-     */
-    private $saveAndNewCommand = null;
+    private ?string $saveAndNewCommand = null;
     
     public function __construct(ilCtrl $ctrl, ilLanguage $lng, ilObjTest $testOBJ, ilTestRandomQuestionSetConfigGUI $questionSetConfigGUI, ilTestRandomQuestionSetConfig $questionSetConfig)
     {
@@ -55,33 +36,27 @@ class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
         $this->questionSetConfig = $questionSetConfig;
     }
 
-    public function setSaveCommand($saveCommand)
+    public function setSaveCommand(string $saveCommand) : void
     {
         $this->saveCommand = $saveCommand;
     }
 
-    public function getSaveCommand()
+    public function getSaveCommand() : ?string
     {
         return $this->saveCommand;
     }
 
-    /**
-     * @param null|string $saveAndNewCommand
-     */
-    public function setSaveAndNewCommand($saveAndNewCommand)
+    public function setSaveAndNewCommand(string $saveAndNewCommand) : void
     {
         $this->saveAndNewCommand = $saveAndNewCommand;
     }
 
-    /**
-     * @return null|string
-     */
     public function getSaveAndNewCommand() : ?string
     {
         return $this->saveAndNewCommand;
     }
     
-    public function build(ilTestRandomQuestionSetSourcePoolDefinition $sourcePool, $availableTaxonomyIds)
+    public function build(ilTestRandomQuestionSetSourcePoolDefinition $sourcePool, $availableTaxonomyIds) : void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->questionSetConfigGUI));
         

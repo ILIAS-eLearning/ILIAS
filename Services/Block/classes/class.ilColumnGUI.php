@@ -61,8 +61,6 @@ class ilColumnGUI
     /** @var array<string,array<string,string>> */
     protected array $block_property = array();
     protected bool $admincommands = false;
-    protected bool $movementmode = false;
-    protected bool $enablemovement = false;
     protected ?ilAdvancedSelectionListGUI $action_menu = null;
     
     //
@@ -274,26 +272,6 @@ class ilColumnGUI
         return $this->admincommands;
     }
 
-    public function setMovementMode(bool $a_movementmode) : void
-    {
-        $this->movementmode = $a_movementmode;
-    }
-
-    public function getMovementMode() : bool
-    {
-        return $this->movementmode;
-    }
-
-    public function setEnableMovement(bool $a_enablemovement) : void
-    {
-        $this->enablemovement = $a_enablemovement;
-    }
-
-    public function getEnableMovement() : bool
-    {
-        return $this->enablemovement;
-    }
-
     public static function getScreenMode() : string
     {
         global $DIC;
@@ -415,8 +393,11 @@ class ilColumnGUI
         $sum_moveable = count($this->blocks[$this->getSide()]);
 
         foreach ($this->blocks[$this->getSide()] as $block) {
-            $gui_class = $block["class"];
-            $block_class = substr($block["class"], 0, strlen($block["class"]) - 3);
+            $gui_class = $block["class"] ?? null;
+            if (!is_string($gui_class)) {
+                continue;
+            }
+            $block_class = substr($gui_class, 0, strlen($gui_class) - 3);
 
             // get block gui class
             $block_gui = new $gui_class();
@@ -432,14 +413,14 @@ class ilColumnGUI
                 $path = "./" . self::$locations[$gui_class] . "classes/" .
                     "class." . $block_class . ".php";
                 if (file_exists($path)) {
-                    $app_block = new $block_class($block["id"]);
+                    $app_block = new $block_class((int) $block["id"]);
                 } else {
                     // we only need generic block
-                    $app_block = new ilCustomBlock($block["id"]);
+                    $app_block = new ilCustomBlock((int) $block["id"]);
                 }
                 $block_gui->setBlock($app_block);
                 if (isset($block["ref_id"])) {
-                    $block_gui->setRefId($block["ref_id"]);
+                    $block_gui->setRefId((int) $block["ref_id"]);
                 }
             }
 
@@ -563,20 +544,16 @@ class ilColumnGUI
         $this->blocks[IL_COL_RIGHT] = array();
         $this->blocks[IL_COL_CENTER] = array();
         
-        $user_id = ($this->getColType() == "pd")
+        $user_id = ($this->getColType() === "pd")
             ? $ilUser->getId()
             : 0;
 
         $def_nr = 1000;
-        if (is_array($this->default_blocks[$this->getColType()])) {
+        if (isset($this->default_blocks[$this->getColType()])) {
             foreach ($this->default_blocks[$this->getColType()] as $class => $def_side) {
                 $type = self::$block_types[$class];
                 if ($this->isGloballyActivated($type)) {
-                    $nr = ilBlockSetting::_lookupNr($type, $user_id);
-                    if ($nr === null) {
-                        $nr = $def_nr++;
-                    }
-                    
+                    $nr = $def_nr++;
                     
                     // extra handling for system messages, feedback block and news
                     if ($type == "news") {		// always show news first
@@ -620,10 +597,7 @@ class ilColumnGUI
                 
                 if ($this->isGloballyActivated($type)) {
                     $class = array_search($type, self::$block_types);
-                    $nr = ilBlockSetting::_lookupNr($type, $user_id, $c_block["id"]);
-                    if ($nr === null) {
-                        $nr = $def_nr++;
-                    }
+                    $nr = $def_nr++;
                     $side = ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
                     if (is_null($side)) {
                         $side = IL_COL_RIGHT;
@@ -646,18 +620,15 @@ class ilColumnGUI
                     }
                     foreach ($rep_items[$block_type] as $item) {
                         $costum_block = new ilCustomBlock();
-                        $costum_block->setContextObjId($item["obj_id"]);
+                        $costum_block->setContextObjId((int) $item["obj_id"]);
                         $costum_block->setContextObjType($block_type);
                         $c_blocks = $costum_block->queryBlocksForContext();
                         $c_block = $c_blocks[0];
                         
                         $type = $block_type;
                         $class = array_search($type, self::$block_types);
-                        $nr = ilBlockSetting::_lookupNr($type, $user_id, $c_block["id"]);
-                        if ($nr === null) {
-                            $nr = $def_nr++;
-                        }
-                        $side = ilBlockSetting::_lookupSide($type, $user_id, $c_block["id"]);
+                        $nr = $def_nr++;
+                        $side = ilBlockSetting::_lookupSide($type, $user_id, (int) $c_block["id"]);
                         if ($side == false) {
                             $side = IL_COL_RIGHT;
                         }

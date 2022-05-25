@@ -49,9 +49,19 @@ class ilObjectXMLWriter extends ilXmlWriter
         $this->mode = $a_mode;
     }
 
+    public function getMode() : int
+    {
+        return $this->mode;
+    }
+
     public function setHighlighter(ilLuceneHighlighterResultParser $a_highlighter) : void
     {
         $this->highlighter = $a_highlighter;
+    }
+
+    public function getHighlighter() : ?ilLuceneHighlighterResultParser
+    {
+        return $this->highlighter;
     }
 
     public function enablePermissionCheck(bool $a_status) : void
@@ -250,16 +260,18 @@ class ilObjectXMLWriter extends ilXmlWriter
     {
         switch ($obj->getType()) {
             case 'file':
-                include_once './Modules/File/classes/class.ilObjFileAccess.php';
-                $size = ilObjFileAccess::_lookupFileSize($obj->getId());
-                $extension = ilObjFileAccess::_lookupSuffix($obj->getId());
+                if (!$obj instanceof ilObjFile) {
+                    break;
+                }
+                $size = $obj->getFileSize();
+                $extension = $obj->getFileExtension();
                 $this->xmlStartTag('Properties');
                 $this->xmlElement("Property", array('name' => 'fileSize'), (string) $size);
                 $this->xmlElement("Property", array('name' => 'fileExtension'), (string) $extension);
                 $this->xmlElement(
                     'Property',
                     array('name' => 'fileVersion'),
-                    (string) ilObjFileAccess::_lookupVersion($obj->getId())
+                    (string) $obj->getVersion()
                 );
                 $this->xmlEndTag('Properties');
                 break;

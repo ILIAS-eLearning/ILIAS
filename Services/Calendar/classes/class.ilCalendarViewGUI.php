@@ -25,6 +25,7 @@ class ilCalendarViewGUI
     protected bool $view_with_appointments = false;
     protected ilDate $seed;
     protected int $ch_user_id = 0;
+    protected ?string $period_end_day = null;
 
     protected Factory $ui_factory;
     protected Renderer $ui_renderer;

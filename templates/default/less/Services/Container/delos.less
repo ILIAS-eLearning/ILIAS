@@ -6,7 +6,7 @@ div.il_Preconditions {
 div.il_PreconditionsTitel {
 	margin-top: 3px;
 	text-align: left;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 }
 
 [dir="rtl"] div.il_PreconditionsTitel {
@@ -27,7 +27,7 @@ div.ilContainerListItemOuter {
 }
 div.tblfooter {
 	&.ilContainerListFooter {
-		font-size: 100%;
+		font-size: @il-font-size-base;
 		padding: 3px 0 0 10px;
 		text-align: left;
 		> input {
@@ -261,4 +261,23 @@ div#ilContRepIntro img {
 	background-color: @il-main-dark-bg;
 	text-align: center;
 	margin: 0 -15px;
+}
+
+.il_ContainerListItem .navbar-form .modal .radio {
+       display: block;
+}
+
+.il_ContainerListItem .navbar-form .modal .form-group {
+       display: block;
+}
+
+.il_ContainerItemTitle .modal .form-horizontal .radio {
+	display: block;
+}
+
+.il_ContainerItemTitle .modal .form-horizontal .form-group {
+	display: block;
+}
+.il_ContainerItemTitle .btn {
+	font-size: 1em;
 }

@@ -3,7 +3,6 @@
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @author  Maximilian Becker <mbecker@databay.de>

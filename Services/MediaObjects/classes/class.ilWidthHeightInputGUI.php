@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a width/height item in a property form.
@@ -21,9 +24,9 @@
 class ilWidthHeightInputGUI extends ilFormPropertyGUI
 {
     protected bool $constrainproportions;
-    protected ?int $height;
-    protected ?int $width;
-    protected array $dirs;
+    protected ?int $height = null;
+    protected ?int $width = null;
+    protected array $dirs = [];
     protected ilObjUser $user;
     protected \ilGlobalTemplateInterface $main_tpl;
 
@@ -73,9 +76,9 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
     public function checkInput() : bool
     {
         $i = $this->getInput();
-        $this->setWidth($i["width"]);
-        $this->setHeight($i["height"]);
-        $this->setConstrainProportions($i["constr_prop"]);
+        $this->setWidth($i["width"] ? (int) $i["width"] : null);
+        $this->setHeight($i["height"] ? (int) $i["height"] : null);
+        $this->setConstrainProportions((bool) $i["constr_prop"]);
 
         return true;
     }
@@ -84,8 +87,8 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
     {
         $val = $this->strArray($this->getPostVar());
         return [
-            "width" => (string) $val["width"],
-            "height" => (string) $val["height"],
+            "width" => (string) ($val["width"] ?? ""),
+            "height" => (string) ($val["height"] ?? ""),
             "constr_prop" => (bool) ($val["constr_prop"] ?? false)
         ];
     }

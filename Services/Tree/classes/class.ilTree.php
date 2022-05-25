@@ -756,7 +756,7 @@ class ilTree
                 ));
             }
         }
-        $this->getTreeImplementation()->deleteTree($a_node['child']);
+        $this->getTreeImplementation()->deleteTree((int) $a_node['child']);
         $this->resetInTreeCache();
     }
 
@@ -1150,7 +1150,7 @@ class ilTree
 
                 if ($row) {
                     $data["title"] = $row->title;
-                    $data["description"] = ilStr::shortenTextExtended($row->description, ilObject::DESC_LENGTH, true);
+                    $data["description"] = ilStr::shortenTextExtended((string) $row->description, ilObject::DESC_LENGTH, true);
                     $data["desc"] = $row->description;
                 }
 
@@ -1387,9 +1387,7 @@ class ilTree
      */
     public function isSaved(int $a_node_id) : bool
     {
-        // is saved cache
         if ($this->isCacheUsed() && isset($this->is_saved_cache[$a_node_id])) {
-            //echo "<br>issavedhit";
             return $this->is_saved_cache[$a_node_id];
         }
 
@@ -1398,7 +1396,8 @@ class ilTree
         $res = $this->db->queryF($query, array('integer'), array($a_node_id));
         $row = $this->db->fetchAssoc($res);
 
-        if ($row[$this->tree_pk] < 0) {
+        $tree_id = $row[$this->tree_pk] ?? 0;
+        if ($tree_id < 0) {
             if ($this->__isMainTree()) {
                 $this->is_saved_cache[$a_node_id] = true;
             }

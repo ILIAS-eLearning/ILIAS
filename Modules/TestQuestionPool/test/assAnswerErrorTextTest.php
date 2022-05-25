@@ -18,7 +18,7 @@ class assAnswerErrorTextTest extends assBaseTestCase
         chdir('../../../');
     }
 
-    public function test_instantiateObjectSimple()
+    public function test_instantiateObjectSimple() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
@@ -31,7 +31,7 @@ class assAnswerErrorTextTest extends assBaseTestCase
     }
 
     
-    public function test_instantiateObjectFull()
+    public function test_instantiateObjectFull() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
@@ -47,7 +47,7 @@ class assAnswerErrorTextTest extends assBaseTestCase
         $this->assertTrue(true);
     }
     
-    public function test_setGetPoints_valid()
+    public function test_setGetPoints_valid() : void
     {
         //$this->markTestIncomplete('Testing an uncommitted feature.');
         // Arrange
@@ -63,7 +63,7 @@ class assAnswerErrorTextTest extends assBaseTestCase
         $this->assertEquals($actual, $expected);
     }
 
-    public function test_setGetTextCorrect()
+    public function test_setGetTextCorrect() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
@@ -78,7 +78,7 @@ class assAnswerErrorTextTest extends assBaseTestCase
         $this->assertEquals($actual, $expected);
     }
 
-    public function test_setGetTextWrong_valid()
+    public function test_setGetTextWrong_valid() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';
@@ -93,7 +93,7 @@ class assAnswerErrorTextTest extends assBaseTestCase
         $this->assertEquals($actual, $expected);
     }
 
-    public function test_setTextWrong_invalid()
+    public function test_setTextWrong_invalid() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerErrorText.php';

@@ -334,9 +334,12 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
     *
     * @access public
     */
-    public function saveFeedback()
+    public function saveFeedback() : void
     {
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
+        // @PHP8-CR: This appears as if the feedback feature was not implmented completely for the question type.
+        // Fixing this situation would require these calls to be intact and since it's always been here like this,
+        // I like to leave it and put the work-item on the to-do list.
         $errors = $this->feedback(true);
         $this->object->saveFeedbackGeneric(0, $_POST["feedback_incomplete"]);
         $this->object->saveFeedbackGeneric(1, $_POST["feedback_complete"]);
@@ -383,44 +386,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-                // edit page
-                $ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    false
-                );
-            }
-
-            $this->addTab_QuestionPreview($ilTabs);
-        }
-
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-            $url = "";
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            $commands = $_POST["cmd"];
-            if (is_array($commands)) {
-                foreach ($commands as $key => $value) {
-                    if (preg_match("/^suggestrange_.*/", $key, $matches)) {
-                        $force_active = true;
-                    }
-                }
-            }
-            // edit question properties
-            $ilTabs->addTarget(
-                "edit_question",
-                $url,
-                array("editQuestion", "save", "saveEdit", "originalSyncForm"),
-                $classname,
-                "",
-                $force_active
-            );
+            $this->addTab_Question($ilTabs);
         }
 
         // add tab for question feedback within common class assQuestionGUI
@@ -433,7 +399,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         $this->addTab_SuggestedSolution($ilTabs, $classname);
 
         // Assessment of questions sub menu entry
-        if ($_GET["q_id"]) {
+        if ($this->request->isset('q_id')) {
             $ilTabs->addTarget(
                 "statistics",
                 $this->ctrl->getLinkTargetByClass($classname, "assessment"),
@@ -475,7 +441,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         return $this->object->prepareTextareaOutput($output, true);
     }
 
-    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
+    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form) : void
     {
         $this->object->setTextSize($_POST["textsize"]);
         $this->object->setOrderText($_POST["ordertext"]);
@@ -496,11 +462,11 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         return array();
     }
 
-    public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
+    public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         // ordertext
         $ordertext = new ilTextAreaInputGUI($this->lng->txt("ordertext"), "ordertext");
-        $ordertext->setValue(ilUtil::prepareTextareaOutput($this->object->getOrderText()));
+        $ordertext->setValue(self::prepareTextareaOutput($this->object->getOrderText()));
         $ordertext->setRequired(true);
         $ordertext->setInfo(sprintf($this->lng->txt("ordertext_info"), $this->object->separator));
         $ordertext->setRows(10);
@@ -530,17 +496,16 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         $points->setMinValue(0.0);
         $points->setMinvalueShouldBeGreater(true);
         $form->addItem($points);
+        return $form;
     }
 
     /**
      * Returns an html string containing a question specific representation of the answers so far
      * given in the test for use in the right column in the scoring adjustment user interface.
-     *
      * @param array $relevant_answers
-     *
      * @return string
      */
-    public function getAggregatedAnswersView($relevant_answers) : string
+    public function getAggregatedAnswersView(array $relevant_answers) : string
     {
         return  $this->renderAggregateView(
             $this->aggregateAnswers($relevant_answers, $this->object->getOrderText())

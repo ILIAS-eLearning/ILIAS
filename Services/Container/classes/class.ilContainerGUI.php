@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\GlobalScreen\Services;
 use ILIAS\UI\Component\Input\Container\Filter\Standard;
@@ -1844,12 +1847,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ilAccess = $this->access;
         parent::setColumnSettings($column_gui);
 
-        if ($this->isActiveAdministrationPanel() &&
-            $this->allowBlocksMoving() &&
-            $ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-            $column_gui->setEnableMovement(true);
-        }
-
         $column_gui->setRepositoryItems(
             $this->object->getSubItems($this->isActiveAdministrationPanel(), true)
         );
@@ -2655,7 +2652,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (!$this->object || !ilContainer::_lookupContainerSetting($this->object->getId(), "filter", '0')) {
             return;
         }
-
         $filter_service = $this->container_filter_service;
         $request = $DIC->http()->request();
 
@@ -2674,13 +2670,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected function showContainerFilter() : void
     {
         global $DIC;
-
         if (!is_null($this->ui_filter)) {
             $renderer = $DIC->ui()->renderer();
 
             $main_tpl = $this->tpl;
             $main_tpl->setFilter($renderer->render($this->ui_filter));
-
             if ($this->container_user_filter->isEmpty() && !ilContainer::_lookupContainerSetting(
                 $this->object->getId(),
                 "filter_show_empty",

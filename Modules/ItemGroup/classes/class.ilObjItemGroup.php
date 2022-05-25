@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjItemGroup
@@ -105,7 +108,7 @@ class ilObjItemGroup extends ilObject2
         $this->item_data_ar = new ilItemGroupAR($this->getId());
     }
 
-    protected function doCreate() : void
+    protected function doCreate(bool $clone_mode = false) : void
     {
         if ($this->getId()) {
             $this->item_data_ar->setId($this->getId());
@@ -127,8 +130,9 @@ class ilObjItemGroup extends ilObject2
         }
     }
     
-    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null, bool $a_omit_tree = false) : void
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
     {
+        assert($new_obj instanceof ilObjItemGroup);
         $new_obj->setHideTitle($this->getHideTitle());
         $new_obj->setBehaviour($this->getBehaviour());
         $new_obj->setListPresentation($this->getListPresentation());

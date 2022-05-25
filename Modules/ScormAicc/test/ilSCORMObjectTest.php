@@ -13,7 +13,7 @@ class ilSCORMObjectTest extends TestCase
     public function testManifestImportId() : void
     {
         $manifest = new ilSCORMManifest();
-        $testImportId = str_shuffle(uniqid('abcdefgh'));
+        $testImportId = str_shuffle(uniqid('abcdefgh', true));
         $manifest->setImportId($testImportId);
 
         $this->assertEquals($manifest->getTitle(), $manifest->getImportId());

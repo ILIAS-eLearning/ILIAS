@@ -1,9 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
-
-/* Copyright (c) 2021 - Nils Haagen <nils.haagen@concepts-and-training.de> - Extended GPL, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
 use ILIAS\Data;
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
 
@@ -33,6 +45,7 @@ use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
  * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilIndividualAssessmentSettingsGUI
  * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjTestGUI
  * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjSurveyGUI
+ * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceEditIntroGUI, ilObjLearningSequenceEditExtroGUI
  */
 class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClassInterface
 {
@@ -70,7 +83,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     const CMD_SHOW_TRASH = 'trash';
     const CMD_UNDELETE = 'undelete';
 
-    const TAB_VIEW_CONTENT = "view_content";
+    const TAB_VIEW_CONTENT = "view";
     const TAB_MANAGE = "manage";
     const TAB_CONTENT_MAIN = "manage_content_maintab";
     const TAB_INFO = "show_summary";
@@ -79,6 +92,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     const TAB_MEMBERS = "members";
     const TAB_LP = "learning_progress";
     const TAB_EXPORT = "export";
+    
+    const TAB_EDIT_INTRO = "edit_intropage";
+    const TAB_EDIT_EXTRO = "edit_extropage";
+
 
     const MAIL_ALLOWED_ALL = 1;
     const MAIL_ALLOWED_TUTORS = 2;
@@ -99,7 +116,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected ArrayBasedRequestWrapper $post_wrapper;
     protected ILIAS\Refinery\Factory $refinery;
 
-    public static function _goto(string $target)
+    public static function _goto(string $target) : void
     {
         global $DIC;
         $main_tpl = $DIC->ui()->mainTemplate();
@@ -159,7 +176,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         return $DIC->access()->checkAccess($mode, '', $id);
     }
 
-    protected static function forwardByClass(string $base_class, array $classes, array $params, string $cmd = '')
+    protected static function forwardByClass(string $base_class, array $classes, array $params, string $cmd = '') : void
     {
         global $DIC;
         $ctrl = $DIC->ctrl();
@@ -292,6 +309,42 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 $this->ctrl->forwardCommand($gui);
                 break;
 
+
+            case "ilobjlearningsequenceeditintrogui":
+                $which_page = $this->object::CP_INTRO;
+                $which_tab = self::TAB_EDIT_INTRO;
+                $gui_class = 'ilObjLearningSequenceEditIntroGUI';
+                // no break
+            case "ilobjlearningsequenceeditextrogui":
+
+                if (!isset($which_page)) {
+                    $which_page = $this->object::CP_EXTRO;
+                    $which_tab = self::TAB_EDIT_EXTRO;
+
+                    $gui_class = 'ilObjLearningSequenceEditExtroGUI';
+                }
+
+                $this->addSubTabsForContent($which_tab);
+                
+                $page_id = $this->object->getContentPageId($which_page);
+                if (!$this->object->hasContentPage($which_page)) {
+                    $this->object->createContentPage($which_page);
+                }
+
+                $gui = new $gui_class(
+                    $this->object::CP_TYPE,
+                    $page_id
+                );
+                $this->ctrl->setCmd($cmd);
+                $out = $this->ctrl->forwardCommand($gui);
+                
+                //editor's guis will write to template, but not return
+                //e.g. see ilPCTabsGUI::insert
+                if (!is_null($out)) {
+                    $tpl->setContent($out);
+                }
+                break;
+
             case false:
                 if ($cmd === '') {
                     $cmd = self::CMD_VIEW;
@@ -376,7 +429,12 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->addHeaderAction();
         }
 
-        $tpl->printToStdOut();
+        // This is the base class for the call, so we ought to print.
+        // TODO: This is super fishy and most probably hints on the fact, that
+        // something regarding that base class usage needs to change.
+        if ($this->request_wrapper->retrieve("baseClass", $this->refinery->kindlyTo()->string()) === self::class) {
+            $tpl->printToStdOut();
+        }
     }
 
     public function addToNavigationHistory() : void
@@ -417,7 +475,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
             $this->tpl,
             $this->obj_service,
             $this->post_wrapper,
-            $this->refinery
+            $this->refinery,
+            $this->toolbar
         );
         $this->ctrl->setCmd($cmd);
         $this->ctrl->forwardCommand($gui);
@@ -425,25 +484,23 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     protected function view() : void
     {
-        $this->tabs->clearSubTabs();
-        if ($this->checkAccess("write")) {
-            $this->manageContent();
-            return;
-        }
-        if ($this->checkAccess("read")) {
-            $this->learnerView();
-            $this->recordLearningSequenceRead();
-            return;
-        }
-        $this->info();
         $this->recordLearningSequenceRead();
+        $this->tabs->clearSubTabs();
+        if (
+            $this->checkAccess("read") ||
+            $this->checkAccess("write")
+        ) {
+            $this->learnerView(self::CMD_LEARNER_VIEW);
+            return;
+        } else {
+            $this->info(self::CMD_INFO);
+        }
     }
 
     protected function manageContent(string $cmd = self::CMD_CONTENT) : void
     {
         $this->tabs->activateTab(self::TAB_CONTENT_MAIN);
-        $this->addSubTabsForContent();
-        $this->tabs->activateSubTab(self::TAB_MANAGE);
+        $this->addSubTabsForContent(self::TAB_MANAGE);
 
         $gui = new ilObjLearningSequenceContentGUI(
             $this,
@@ -463,8 +520,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     protected function learnerView(string $cmd = self::CMD_LEARNER_VIEW) : void
     {
         $this->tabs->activateTab(self::TAB_CONTENT_MAIN);
-        $this->addSubTabsForContent();
-        $this->tabs->activateSubTab(self::TAB_VIEW_CONTENT);
+        $this->addSubTabsForContent(self::TAB_VIEW_CONTENT);
 
         $gui = $this->object->getLocalDI()["gui.learner"];
 
@@ -587,7 +643,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
     public function unparticipate() : void
     {
         if ($this->checkAccess('unparticipate')) {
-            $usr_id = (int) $this->user->getId();
+            $usr_id = $this->user->getId();
             $this->getObject()->getLSRoles()->leave($usr_id);
             $this->learnerView();
         }
@@ -624,7 +680,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 || (
                     $this->getObject()->getLSSettings()->getMembersGallery()
                     &&
-                    $this->getObject()->getLSRoles()->isMember((int) $this->user->getId())
+                    $this->getObject()->getLSRoles()->isMember($this->user->getId())
                 )
             ) {
                 $this->tabs->addTab(
@@ -665,7 +721,8 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         // disables this method in ilContainerGUI
     }
 
-    protected function addSubTabsForContent() : void
+
+    protected function addSubTabsForContent(string $active) : void
     {
         $this->tabs->addSubTab(
             self::TAB_VIEW_CONTENT,
@@ -679,7 +736,25 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
                 $this->lng->txt(self::TAB_MANAGE),
                 $this->getLinkTarget(self::CMD_CONTENT)
             );
+
+            $this->tabs->addSubTab(
+                self::TAB_EDIT_INTRO,
+                $this->lng->txt("lso_settings_intro"),
+                $this->ctrl->getLinkTargetByClass(
+                    strtolower('ilObjLearningSequenceEditIntroGUI'),
+                    'preview'
+                )
+            );
+            $this->tabs->addSubTab(
+                self::TAB_EDIT_EXTRO,
+                $this->lng->txt("lso_settings_extro"),
+                $this->ctrl->getLinkTargetByClass(
+                    strtolower('ilObjLearningSequenceEditExtroGUI'),
+                    'preview'
+                )
+            );
         }
+        $this->tabs->activateSubTab($active);
     }
 
     protected function checkAccess(string $which) : bool
@@ -777,14 +852,13 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     /**
      * append additional types to ilRepositoryExplorerGUI's whitelist
+     * @return int[]|string[]
      */
     protected function getAdditionalWhitelistTypes() : array
     {
         return array_filter(
             array_keys($this->obj_definition->getSubObjects('lso', false)),
-            function ($type) {
-                return $type !== 'rolf';
-            }
+            fn ($type) => $type !== 'rolf'
         );
     }
 

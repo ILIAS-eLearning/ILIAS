@@ -136,9 +136,8 @@ class ilObjLTIConsumerListGUI extends ilObjectListGUI
     }
 
     /**
-     * @return array
-     * @throws ilCtrlException
-     */
+                 * @throws ilCtrlException
+                 */
     public function getProperties() : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */

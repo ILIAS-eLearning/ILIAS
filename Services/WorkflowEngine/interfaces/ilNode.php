@@ -1,14 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilDetector.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilEmitter.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilActivity.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
 
 /**
  * ilNode of the petri net based workflow engine.
@@ -18,8 +9,6 @@ require_once './Services/WorkflowEngine/interfaces/ilWorkflowEngineElement.php';
  * @see class.ilConditionalNode.php
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 interface ilNode extends ilWorkflowEngineElement
@@ -41,22 +30,21 @@ interface ilNode extends ilWorkflowEngineElement
 
 
     /**
-     * @param \ilDetector $detector
-     *
+     * @param ilDetector $detector
      * @return mixed
      */
     public function addDetector(ilDetector $detector);
 
     /**
-     * @param \ilEmitter $emitter
-     *
+     * @param ilEmitter $emitter
+     * @param bool      $else
      * @return mixed
      */
     public function addEmitter(ilEmitter $emitter, bool $else = false);
 
     /**
-     * @param \ilActivity $activity
-     *
+     * @param ilActivity $activity
+     * @param bool $else
      * @return mixed
      */
     public function addActivity(ilActivity $activity, bool $else = false);
@@ -84,8 +72,7 @@ interface ilNode extends ilWorkflowEngineElement
 
 
     /**
-     * @param \ilDetector $detector
-     *
+     * @param ilDetector $detector
      * @return mixed
      */
     public function notifyDetectorSatisfaction(ilDetector $detector);

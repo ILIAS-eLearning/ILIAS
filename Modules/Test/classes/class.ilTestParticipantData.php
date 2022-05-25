@@ -20,45 +20,24 @@ class ilTestParticipantData
      */
     protected $lng;
 
-    /**
-     * @var array
-     */
-    private $activeIdsFilter;
+    private array $activeIdsFilter;
 
-    /**
-     * @var array
-     */
-    private $userIdsFilter;
+    private array $userIdsFilter;
 
-    /**
-     * @var array
-     */
-    private $anonymousIdsFilter;
+    private array $anonymousIdsFilter;
 
-    /**
-     * @var array
-     */
-    private $byActiveId;
+    private array $byActiveId;
 
-    /**
-     * @var array
-     */
-    private $byUserId;
+    private array $byUserId;
 
-    /**
-     * @var array
-     */
-    private $byAnonymousId;
+    private array $byAnonymousId;
     
     /**
      * @var callable
      */
     protected $participantAccessFilter;
     
-    /**
-     * @var bool
-     */
-    protected $scoredParticipantsFilterEnabled;
+    protected bool $scoredParticipantsFilterEnabled;
     
     public function __construct(ilDBInterface $db, ilLanguage $lng)
     {
@@ -79,7 +58,7 @@ class ilTestParticipantData
     /**
      * @return callable
      */
-    public function getParticipantAccessFilter()
+    public function getParticipantAccessFilter() : ?callable
     {
         return $this->participantAccessFilter;
     }
@@ -87,7 +66,7 @@ class ilTestParticipantData
     /**
      * @param callable $participantAccessFilter
      */
-    public function setParticipantAccessFilter($participantAccessFilter)
+    public function setParticipantAccessFilter($participantAccessFilter) : void
     {
         $this->participantAccessFilter = $participantAccessFilter;
     }
@@ -103,12 +82,12 @@ class ilTestParticipantData
     /**
      * @param bool $scoredParticipantsFilterEnabled
      */
-    public function setScoredParticipantsFilterEnabled($scoredParticipantsFilterEnabled)
+    public function setScoredParticipantsFilterEnabled($scoredParticipantsFilterEnabled) : void
     {
         $this->scoredParticipantsFilterEnabled = $scoredParticipantsFilterEnabled;
     }
     
-    public function load($testId)
+    public function load($testId) : void
     {
         $this->byActiveId = array();
         $this->byUserId = array();
@@ -190,7 +169,7 @@ class ilTestParticipantData
         return '1 = 1';
     }
 
-    public function setActiveIdsFilter($activeIdsFilter)
+    public function setActiveIdsFilter($activeIdsFilter) : void
     {
         $this->activeIdsFilter = $activeIdsFilter;
     }
@@ -200,7 +179,7 @@ class ilTestParticipantData
         return $this->activeIdsFilter;
     }
     
-    public function setUserIdsFilter($userIdsFilter)
+    public function setUserIdsFilter($userIdsFilter) : void
     {
         $this->userIdsFilter = $userIdsFilter;
     }
@@ -210,7 +189,7 @@ class ilTestParticipantData
         return $this->userIdsFilter;
     }
     
-    public function setAnonymousIdsFilter($anonymousIdsFilter)
+    public function setAnonymousIdsFilter($anonymousIdsFilter) : void
     {
         $this->anonymousIdsFilter = $anonymousIdsFilter;
     }

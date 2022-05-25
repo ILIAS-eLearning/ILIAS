@@ -32,7 +32,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
      * @param callable $preCallback
      * @param callable $postCallback
      */
-    public function testSkillAssignmentsCanBetStoredAndFetchedBySerializationStrategy($value, $chunkSize, callable $preCallback, callable $postCallback)
+    public function testSkillAssignmentsCanBetStoredAndFetchedBySerializationStrategy($value, $chunkSize, callable $preCallback, callable $postCallback) : void
     {
         require_once 'Services/Administration/classes/class.ilSetting.php';
         $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->onlyMethods(array('set', 'get', 'delete'))->getMock();
@@ -71,7 +71,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testInvalidChunkSizeWillRaiseException()
+    public function testInvalidChunkSizeWillRaiseException() : void
     {
         require_once 'Services/Administration/classes/class.ilSetting.php';
         $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->onlyMethods(array('set', 'get', 'delete'))->getMock();

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Portfolio page table
@@ -48,7 +51,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
         $this->page_gui = $this->parent_obj->getPageGUIClassName();
         $this->is_template = ($this->portfolio->getType() === "prtt");
         
-        $this->setTitle($lng->txt("tabs"));
+        $this->setTitle($lng->txt("content"));
 
         //$this->addColumn($this->lng->txt(""), "", "1");
         $this->addColumn($this->lng->txt("user_order"));
@@ -168,7 +171,11 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 
         // copy
         $action_item = ilLinkButton::getInstance();
-        $action_item->setCaption('prtf_copy_tab');
+        if ((int) $a_set["type"] === ilPortfolioPage::TYPE_PAGE) {
+            $action_item->setCaption('prtf_copy_pg');
+        } else {
+            $action_item->setCaption('prtf_copy_blog_pg');
+        }
         $action_item->setUrl($ilCtrl->getLinkTarget($this->parent_obj, "copyPageForm"));
         $action_items[] = $action_item;
 

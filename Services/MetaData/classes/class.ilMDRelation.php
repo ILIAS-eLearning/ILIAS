@@ -28,7 +28,6 @@
  */
 class ilMDRelation extends ilMDBase
 {
-
     private string $kind = '';
 
     // METHODS OF CHILD OBJECTS (Taxon)
@@ -38,15 +37,11 @@ class ilMDRelation extends ilMDBase
      */
     public function getIdentifier_Ids() : array
     {
-
-
         return ilMDIdentifier_::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_relation');
     }
 
     public function getIdentifier_(int $a_identifier__id) : ?ilMDIdentifier_
     {
-
-
         if (!$a_identifier__id) {
             return null;
         }
@@ -58,8 +53,6 @@ class ilMDRelation extends ilMDBase
 
     public function addIdentifier_() : ilMDIdentifier_
     {
-
-
         $ide = new ilMDIdentifier_($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $ide->setParentId($this->getMetaId());
         $ide->setParentType('meta_relation');
@@ -72,15 +65,11 @@ class ilMDRelation extends ilMDBase
      */
     public function getDescriptionIds() : array
     {
-
-
         return ilMDDescription::_getIds($this->getRBACId(), $this->getObjId(), $this->getMetaId(), 'meta_relation');
     }
 
     public function getDescription(int $a_description_id) : ?ilMDDescription
     {
-
-
         if (!$a_description_id) {
             return null;
         }
@@ -92,8 +81,6 @@ class ilMDRelation extends ilMDBase
 
     public function addDescription() : ilMDDescription
     {
-
-
         $des = new ilMDDescription($this->getRBACId(), $this->getObjId(), $this->getObjType());
         $des->setParentId($this->getMetaId());
         $des->setParentType('meta_relation');
@@ -132,8 +119,7 @@ class ilMDRelation extends ilMDBase
 
     public function save() : int
     {
-
-        $fields                     = $this->__getFields();
+        $fields = $this->__getFields();
         $fields['meta_relation_id'] = array('integer', $next_id = $this->db->nextId('il_meta_relation'));
 
         if ($this->db->insert('il_meta_relation', $fields)) {
@@ -145,26 +131,19 @@ class ilMDRelation extends ilMDBase
 
     public function update() : bool
     {
-
-        if ($this->getMetaId()) {
-            if ($this->db->update(
-                'il_meta_relation',
-                $this->__getFields(),
-                array("meta_relation_id" => array('integer', $this->getMetaId()))
-            )) {
-                return true;
-            }
-        }
-        return false;
+        return $this->getMetaId() && $this->db->update(
+            'il_meta_relation',
+            $this->__getFields(),
+            array("meta_relation_id" => array('integer', $this->getMetaId()))
+        );
     }
 
     public function delete() : bool
     {
-
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_relation " .
                 "WHERE meta_relation_id = " . $this->db->quote($this->getMetaId(), 'integer');
-            $res   = $this->db->manipulate($query);
+            $res = $this->db->manipulate($query);
 
             foreach ($this->getIdentifier_Ids() as $id) {
                 $ide = $this->getIdentifier_($id);
@@ -186,16 +165,15 @@ class ilMDRelation extends ilMDBase
     public function __getFields() : array
     {
         return array(
-            'rbac_id'  => array('integer', $this->getRBACId()),
-            'obj_id'   => array('integer', $this->getObjId()),
+            'rbac_id' => array('integer', $this->getRBACId()),
+            'obj_id' => array('integer', $this->getObjId()),
             'obj_type' => array('text', $this->getObjType()),
-            'kind'     => array('text', $this->getKind())
+            'kind' => array('text', $this->getKind())
         );
     }
 
     public function read() : bool
     {
-
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_relation " .
                 "WHERE meta_relation_id = " . $this->db->quote($this->getMetaId(), 'integer');
@@ -214,9 +192,7 @@ class ilMDRelation extends ilMDBase
     public function toXML(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('Relation', array(
-            'Kind' => $this->getKind()
-                ? $this->getKind()
-                : 'IsPartOf'
+            'Kind' => $this->getKind() ?: 'IsPartOf'
         ));
         $writer->xmlStartTag('Resource');
 
@@ -227,7 +203,6 @@ class ilMDRelation extends ilMDBase
             $ide->toXML($writer);
         }
         if (!count($ides)) {
-
             $ide = new ilMDIdentifier_($this->getRBACId(), $this->getObjId());
             $ide->toXML($writer);
         }
@@ -239,7 +214,6 @@ class ilMDRelation extends ilMDBase
             $des->toXML($writer);
         }
         if (!count($dess)) {
-
             $des = new ilMDDescription($this->getRBACId(), $this->getObjId());
             $des->toXML($writer);
         }
@@ -247,8 +221,6 @@ class ilMDRelation extends ilMDBase
         $writer->xmlEndTag('Resource');
         $writer->xmlEndTag('Relation');
     }
-
-
 
     // STATIC
 

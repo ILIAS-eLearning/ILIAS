@@ -33,7 +33,7 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     protected ilGlobalPageTemplate $tpl;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
-    protected $slm_gui;
+    protected ilObjSCORMLearningModuleGUI $slm_gui;
     protected int $refId;
 
     /**
@@ -50,7 +50,6 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     public function executeCommand() : void
@@ -80,18 +79,18 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         
         $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
 
-        if ($cmd == "downloadCertificate") {
+        if ($cmd === "downloadCertificate") {
             $scorm_gui = new ilSCORMPresentationGUI();
             $ret = $this->ctrl->forwardCommand($scorm_gui);
         }
         
         $this->slm_gui = new ilObjSCORMLearningModuleGUI("", $this->refId, true, false);
 
-        if ($next_class != "ilinfoscreengui" &&
-            $cmd != "infoScreen" &&
-            $next_class != "ilobjscorm2004learningmodulegui" &&
-            $next_class != "ilobjscormlearningmodulegui" &&
-            $next_class != "illearningprogressgui") {
+        if ($next_class !== "ilinfoscreengui" &&
+            $cmd !== "infoScreen" &&
+            $next_class !== "ilobjscorm2004learningmodulegui" &&
+            $next_class !== "ilobjscormlearningmodulegui" &&
+            $next_class !== "illearningprogressgui") {
             switch ($type) {
                 case "scorm2004":
                     $this->ctrl->setCmdClass("ilscorm13playergui");
@@ -199,9 +198,6 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 //        $this->tpl->printToStdout();
 //    }
 
-    /**
-     * @return void
-     */
     public function view() : void
     {
         $sc_gui_object = ilSCORMObjectGUI::getInstance($this->refId);
@@ -218,7 +214,6 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
      * this one is called from the info button in the repository
      * not very nice to set cmdClass/Cmd manually, if everything
      * works through ilCtrl in the future this may be changed
-     * @return void
      * @throws ilCtrlException
      */
     public function infoScreen() : void
@@ -229,8 +224,6 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
     }
 
     /**
-     * @param string $a_active
-     * @return void
      * @throws ilCtrlException
      */
     public function setInfoTabs(string $a_active) : void
@@ -263,13 +256,13 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
             if ($privacy->enabledSahsProtocolData()) {
                 $obj_id = ilObject::_lookupObjectId($refId);
                 $type = ilObjSAHSLearningModule::_lookupSubType($obj_id);
-                if ($type == "scorm2004") {
+                if ($type === "scorm2004") {
                     $DIC->tabs()->addTab(
                         "cont_tracking_data",
                         $this->lng->txt("cont_tracking_data"),
                         $this->ctrl->getLinkTargetByClass('ilobjscorm2004learningmodulegui', 'showTrackingItems')
                     );
-                } elseif ($type == "scorm") {
+                } elseif ($type === "scorm") {
                     $DIC->tabs()->addTab(
                         "cont_tracking_data",
                         $this->lng->txt("cont_tracking_data"),
@@ -280,11 +273,11 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         }
         $DIC->tabs()->activateTab($a_active);
         $this->tpl->loadStandardTemplate();
-        $this->tpl->setTitle($this->slm_gui->object->getTitle());
+        $this->tpl->setTitle($this->slm_gui->getObject()->getTitle());
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
         $DIC['ilLocator']->addRepositoryItems();
         $DIC['ilLocator']->addItem(
-            $this->slm_gui->object->getTitle(),
+            $this->slm_gui->getObject()->getTitle(),
             $this->ctrl->getLinkTarget($this, "infoScreen"),
             "",
             $refId
@@ -294,7 +287,6 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 
     /**
      * info screen
-     * @return void
      * @throws ilCtrlException
      */
     public function outputInfoScreen() : void
@@ -329,14 +321,14 @@ class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
         // add read / back button
         if ($ilAccess->checkAccess("read", "", $refId)) {
             $ilToolbar = $GLOBALS['DIC']->toolbar();
-            $ilToolbar->addButtonInstance($this->slm_gui->object->getViewButton());
+            $ilToolbar->addButtonInstance($this->slm_gui->getObject()->getViewButton());
         }
 
         // show standard meta data section
         $info->addMetaDataSections(
-            $this->slm_gui->object->getId(),
+            $this->slm_gui->getObject()->getId(),
             0,
-            $this->slm_gui->object->getType()
+            $this->slm_gui->getObject()->getType()
         );
 
         // forward the command

@@ -297,9 +297,9 @@ class ilRbacReview
             'where ' . $this->db->in('rol_id', $a_roles, false, 'integer');
 
         $res = $this->db->query($query);
-        if ($res->numRows()) {
+        if ($res->numRows() > 0) {
             $row = $res->fetchRow(\ilDBConstants::FETCHMODE_OBJECT);
-            return $row->num;
+            return isset($row->num) && is_numeric($row->num) ? (int) $row->num : 0;
         }
         return 0;
     }
@@ -1328,8 +1328,8 @@ class ilRbacReview
 
         $sql =
             "SELECT ops_id" . PHP_EOL
-            ."FROM rbac_operations" . PHP_EOL
-            ."WHERE operation = " . $ilDB->quote($operation, "text") . PHP_EOL
+            . "FROM rbac_operations" . PHP_EOL
+            . "WHERE operation = " . $ilDB->quote($operation, "text") . PHP_EOL
         ;
 
         $res = $ilDB->query($sql);
@@ -1348,9 +1348,9 @@ class ilRbacReview
 
         $sql =
             "SELECT typ_id" . PHP_EOL
-            ."FROM rbac_ta" . PHP_EOL
-            ."WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
-            ."AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
+            . "FROM rbac_ta" . PHP_EOL
+            . "WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
+            . "AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
         ;
 
         return (bool) $ilDB->numRows($ilDB->query($sql));

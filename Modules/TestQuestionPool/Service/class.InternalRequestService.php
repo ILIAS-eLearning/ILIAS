@@ -63,4 +63,18 @@ class InternalRequestService
     {
         return $this->strArray("id");
     }
+
+    /**
+     * @return mixed|null
+     */
+    public function raw(string $key)
+    {
+        $no_transform = $this->refinery->identity();
+        return $this->get($key, $no_transform);
+    }
+
+    public function getParsedBody()
+    {
+        return $this->http->request()->getParsedBody();
+    }
 }

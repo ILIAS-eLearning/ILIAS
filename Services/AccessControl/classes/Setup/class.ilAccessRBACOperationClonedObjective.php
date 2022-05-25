@@ -46,11 +46,11 @@ class ilAccessRBACOperationClonedObjective implements Setup\Objective
 
         $sql =
             "SELECT rpa.rol_id, rpa.ops_id, rpa.ref_id" . PHP_EOL
-            ."FROM rbac_pa rpa" . PHP_EOL
-            ."JOIN object_reference ref ON (ref.ref_id = rpa.ref_id)" . PHP_EOL
-            ."JOIN object_data od ON (od.obj_id = ref.obj_id AND od.type = " . $db->quote($this->type, "text") . ")" . PHP_EOL
-            ."WHERE (" . $db->like("ops_id", "text", "%i:" . $this->src_id . "%") . PHP_EOL
-            ."OR " . $db->like("ops_id", "text", "%:\"" . $this->src_id . "\";%") . ")" . PHP_EOL
+            . "FROM rbac_pa rpa" . PHP_EOL
+            . "JOIN object_reference ref ON (ref.ref_id = rpa.ref_id)" . PHP_EOL
+            . "JOIN object_data od ON (od.obj_id = ref.obj_id AND od.type = " . $db->quote($this->type, "text") . ")" . PHP_EOL
+            . "WHERE (" . $db->like("ops_id", "text", "%i:" . $this->src_id . "%") . PHP_EOL
+            . "OR " . $db->like("ops_id", "text", "%:\"" . $this->src_id . "\";%") . ")" . PHP_EOL
         ;
 
         while ($row = $db->fetchAssoc($db->query($sql))) {
@@ -61,9 +61,9 @@ class ilAccessRBACOperationClonedObjective implements Setup\Objective
 
                 $sql =
                     "UPDATE rbac_pa" . PHP_EOL
-                    ."SET ops_id = " . $db->quote(serialize($ops), "text") . PHP_EOL
-                    ."WHERE rol_id = " . $db->quote($row["rol_id"], "integer") . PHP_EOL
-                    ."AND ref_id = " . $db->quote($row["ref_id"], "integer") . PHP_EOL
+                    . "SET ops_id = " . $db->quote(serialize($ops), "text") . PHP_EOL
+                    . "WHERE rol_id = " . $db->quote($row["rol_id"], "integer") . PHP_EOL
+                    . "AND ref_id = " . $db->quote($row["ref_id"], "integer") . PHP_EOL
                 ;
 
                 $db->manipulate($sql);
@@ -74,10 +74,10 @@ class ilAccessRBACOperationClonedObjective implements Setup\Objective
         $tmp = array();
         $sql =
             "SELECT rol_id, parent, ops_id" . PHP_EOL
-            ."FROM rbac_templates" . PHP_EOL
-            ."WHERE type = " . $db->quote($this->type, "text") . PHP_EOL
-            ."AND (ops_id = " . $db->quote($this->src_id, "integer") . PHP_EOL
-            ."OR ops_id = " . $db->quote($this->dest_id, "integer") . ")" . PHP_EOL
+            . "FROM rbac_templates" . PHP_EOL
+            . "WHERE type = " . $db->quote($this->type, "text") . PHP_EOL
+            . "AND (ops_id = " . $db->quote($this->src_id, "integer") . PHP_EOL
+            . "OR ops_id = " . $db->quote($this->dest_id, "integer") . ")" . PHP_EOL
         ;
 
         while ($row = $db->fetchAssoc($db->query($sql))) {

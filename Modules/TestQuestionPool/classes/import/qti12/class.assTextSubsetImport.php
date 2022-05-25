@@ -27,7 +27,7 @@ class assTextSubsetImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -46,7 +46,7 @@ class assTextSubsetImport extends assQuestionImport
             switch ($entry["type"]) {
                 case "response":
                     $response = $presentation->response[$entry["index"]];
-                    if ($response->getResponseType() == RT_RESPONSE_STR) {
+                    if ($response->getResponseType() == ilQTIResponse::RT_RESPONSE_STR) {
                         array_push($idents, $response->getIdent());
                     }
                     break;
@@ -75,7 +75,7 @@ class assTextSubsetImport extends assQuestionImport
                     }
                 }
                 foreach ($respcondition->setvar as $setvar) {
-                    if ((strcmp($setvar->getVarname(), "matches") == 0) && ($setvar->getAction() == ACTION_ADD)) {
+                    if ((strcmp($setvar->getVarname(), "matches") == 0) && ($setvar->getAction() == ilQTISetvar::ACTION_ADD)) {
                         foreach ($responses[$respident] as $idx => $solutionarray) {
                             if (strlen($solutionarray["points"] == 0)) {
                                 $responses[$respident][$idx]["points"] = $setvar->getContent();

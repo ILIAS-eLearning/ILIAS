@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\LearningModule\Editing\EditingGUIRequest;
 
@@ -28,6 +31,7 @@ use ILIAS\LearningModule\Editing\EditingGUIRequest;
  */
 class ilObjContentObjectGUI extends ilObjectGUI
 {
+    protected \ILIAS\LearningModule\ReadingTime\SettingsGUI $reading_time_gui;
     protected ilLMMenuEditor $lmme_obj;
     protected ilObjLearningModule $lm_obj;
     protected string $lang_switch_mode;
@@ -130,6 +134,11 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->requested_lmmovecopy = $req->getLMMoveCopy();
         $this->content_style_service = $DIC
             ->contentStyle();
+
+        $id = (isset($this->object))
+            ? $this->object->getId()
+            : 0;
+        $this->reading_time_gui = new \ILIAS\LearningModule\ReadingTime\SettingsGUI($id);
     }
 
     /**
@@ -515,6 +524,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $progr_icons->setInfo($this->lng->txt("cont_progress_icons_info"));
         $this->form->addItem($progr_icons);
 
+        $this->reading_time_gui->addSettingToForm($this->form);
+
         // self assessment
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('cont_self_assessment'));
@@ -636,7 +647,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $values["cont_show_info_tab"] = $this->object->isInfoEnabled();
 
-        $this->form->setValuesByArray($values);
+        $this->form->setValuesByArray($values, true);
     }
     
     /**
@@ -677,6 +688,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $this->lm->setRatingPages((bool) $form->getInput("rating_pages"));
             $this->lm->setDisableDefaultFeedback((int) $form->getInput("disable_def_feedback"));
             $this->lm->setProgressIcons((int) $form->getInput("progr_icons"));
+            $this->reading_time_gui->saveSettingFromForm($this->form);
 
             $add_info = "";
             $store_tries = $form->getInput("store_tries");
@@ -872,8 +884,8 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         // always send a message
         $this->tpl->setOnScreenMessage('success', $this->lng->txt($this->type . "_added"), true);
-        ilUtil::redirect("ilias.php?ref_id=" . $new_object->getRefId() .
-            "&baseClass=ilLMEditorGUI");
+        $this->ctrl->setParameterByClass(ilObjLearningModuleGUI::class, "ref_id", $new_object->getRefId());
+        $this->ctrl->redirectByClass([ilLMEditorGUI::class, ilObjLearningModuleGUI::class], "");
     }
     
     protected function initImportForm(string $new_type) : ilPropertyFormGUI
@@ -948,7 +960,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         $ctpl = new ilTemplate("tpl.chap_and_pages.html", true, true, "Modules/LearningModule");
         $ctpl->setVariable("HIERARCHY_FORM", $form_gui->getHTML());
-        $ilCtrl->setParameter($this, "obj_id", "");
+        $ilCtrl->setParameter($this, "obj_id", null);
 
         $ml_head = self::getMultiLangHeader($this->lm->getId(), $this);
         
@@ -1553,7 +1565,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
 
         foreach ($path as $key => $row) {
             if ($row["child"] == 1) {
-                $this->ctrl->setParameter($this, "obj_id", "");
+                $this->ctrl->setParameter($this, "obj_id", null);
                 $locator->addItem($this->lm->getTitle(), $this->ctrl->getLinkTarget($this, "chapters"));
             } else {
                 $title = $row["title"];
@@ -2167,7 +2179,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
             $this->__initLMMenuEditor();
             $this->lmme_obj->setTitle($form->getInput("title"));
             $this->lmme_obj->setTarget($form->getInput("target"));
-            $this->lmme_obj->setLinkRefId($form->getInput("link_ref_id"));
+            $this->lmme_obj->setLinkRefId((int) $form->getInput("link_ref_id"));
 
             if ($form->getInput("link_ref_id")) {
                 $this->lmme_obj->setLinkType("intern");

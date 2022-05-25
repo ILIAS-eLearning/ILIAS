@@ -21,19 +21,13 @@
  */
 class ilScormMailTemplateLPContext extends ilMailTemplateContext
 {
-    const ID = 'sahs_context_lp';
+    public const ID = 'sahs_context_lp';
 
-    /**
-     * @return string
-     */
     public function getId() : string
     {
         return self::ID;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle() : string
     {
         global $DIC;
@@ -44,9 +38,6 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
         return $lng->txt('sahs_mail_context_lp');
     }
 
-    /**
-     * @return string
-     */
     public function getDescription() : string
     {
         global $DIC;
@@ -59,7 +50,6 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
 
     /**
      * Return an array of placeholders
-     * @return array
      */
     public function getSpecificPlaceholders() : array
     {
@@ -127,17 +117,12 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
     }
 
     /**
-     * @param string         $placeholder_id
-     * @param array          $context_parameters
-     * @param ilObjUser|null $recipient
-     * @param bool           $html_markup
-     * @return string
      * @throws ilDateTimeException
      */
     public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
-        ilObjUser $recipient = null,
+        ?ilObjUser $recipient = null,
         bool $html_markup = false
     ) : string {
         /**
@@ -185,10 +170,10 @@ class ilScormMailTemplateLPContext extends ilMailTemplateContext
                 $scores = array();
                 $obj_id = ilObject::_lookupObjId($context_parameters['ref_id']);
                 $coll = ilScormLP::getInstance($obj_id)->getCollectionInstance();
-                if ($coll->getItems()) {
+                if ($coll !== null && $coll->getItems()) {
                     //changed static call into dynamic one//ukohnle
                     //foreach(ilTrQuery::getSCOsStatusForUser($recipient->getId(), $obj_id, $coll->getItems()) as $item)
-                    $SCOStatusForUser = (new ilTrQuery)->getSCOsStatusForUser(
+                    $SCOStatusForUser = ilTrQuery::getSCOsStatusForUser(
                         $recipient->getId(),
                         $obj_id,
                         $coll->getItems()

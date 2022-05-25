@@ -11,43 +11,15 @@
  */
 class ilOrgUnitStaffGUI
 {
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs_gui;
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var ilObjOrgUnitGUI
-     */
-    protected $parent_gui;
-    /**
-     * @var ilObjOrgUnit
-     */
-    protected $parent_obj;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilAccessHandler
-     */
-    protected $ilAccess;
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacreview;
+    protected ilTabsGUI $tabs_gui;
+    protected ilToolbarGUI $toolbar;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected object $parent_gui;
+    protected object $parent_object;
+    protected ilLanguage $lng;
+    protected ilAccessHandler $ilAccess;
+    protected ilRbacReview $rbacreview;
 
     /**
      * @param ilObjOrgUnitGUI $parent_gui
@@ -55,24 +27,16 @@ class ilOrgUnitStaffGUI
     public function __construct(ilObjOrgUnitGUI $parent_gui)
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilToolbar = $DIC['ilToolbar'];
-        $rbacreview = $DIC['rbacreview'];
-
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl =  $DIC->ctrl();
         $this->parent_gui = $parent_gui;
         $this->parent_object = $parent_gui->object;
         $this->tabs_gui = $this->parent_gui->tabs_gui;
-        $this->toolbar = $ilToolbar;
-        $this->lng = $lng;
-        $this->ilAccess = $ilAccess;
-        $this->toolbar = $ilToolbar;
-        $this->rbacreview = $rbacreview;
+        $this->toolbar = $DIC->toolbar();
+        $this->lng = $DIC->language();
+        $this->ilAccess = $DIC->access();
+        $this->toolbar = $DIC->toolbar();
+        $this->rbacreview = $DIC->rbac()->review();
 
         $this->tabs_gui->setTabActive("orgu_staff");
         $this->setTabs();
@@ -84,7 +48,7 @@ class ilOrgUnitStaffGUI
      * @throws ilCtrlException
      * @throws ilException
      */
-    public function executeCommand()
+    public function executeCommand(): bool
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
@@ -132,7 +96,10 @@ class ilOrgUnitStaffGUI
         return true;
     }
 
-    public function showStaff()
+    /**
+     * @throws ilCtrlException
+     */
+    public function showStaff(): void
     {
         if (!ilObjOrgUnitAccess::_checkAccessStaff($this->parent_object->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
@@ -145,7 +112,7 @@ class ilOrgUnitStaffGUI
         $this->tpl->setContent($this->getStaffTableHTML(false, "showStaff"));
     }
 
-    public function showOtherRoles()
+    public function showOtherRoles(): void
     {
         if (!$this->ilAccess->checkAccess("write", "", $this->parent_object->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
@@ -157,7 +124,7 @@ class ilOrgUnitStaffGUI
         $this->tpl->setContent($this->getOtherRolesTableHTML());
     }
 
-    public function showStaffRec()
+    public function showStaffRec(): void
     {
         if (!ilObjOrgUnitAccess::_checkAccessStaffRec($this->parent_object->getRefId())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("permission_denied"), true);
@@ -167,7 +134,7 @@ class ilOrgUnitStaffGUI
         $this->tpl->setContent($this->getStaffTableHTML(true, "showStaffRec"));
     }
 
-    protected function addStaffToolbar()
+    private function addStaffToolbar(): void
     {
         $types = array(
             "employee" => $this->lng->txt("employee"),
@@ -181,7 +148,7 @@ class ilOrgUnitStaffGUI
         ));
     }
 
-    protected function addOtherRolesToolbar()
+    private function addOtherRolesToolbar(): void
     {
         $arrLocalRoles = $this->rbacreview->getLocalRoles($this->parent_object->getRefId());
         $types = array();

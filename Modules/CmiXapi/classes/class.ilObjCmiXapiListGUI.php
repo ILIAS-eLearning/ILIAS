@@ -65,7 +65,7 @@ class ilObjCmiXapiListGUI extends ilObjectListGUI
         );
 
         $validator = new ilCertificateDownloadValidator();
-        if ($validator->isCertificateDownloadable((int) $DIC->user()->getId(), (int) $this->obj_id)) {
+        if ($validator->isCertificateDownloadable((int) $DIC->user()->getId(), $this->obj_id)) {
             $DIC->ctrl()->setParameterByClass(ilCmiXapiSettingsGUI::class, 'ref_id', $this->ref_id);
             
             $certLink = $DIC->ui()->factory()->link()->standard(

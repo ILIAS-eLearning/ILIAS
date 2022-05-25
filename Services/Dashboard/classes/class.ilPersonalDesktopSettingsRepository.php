@@ -53,7 +53,7 @@ class ilPersonalDesktopSettingsRepository
     // Can authors delete their comments
     public function ifAuthorsCanDelete() : bool
     {
-        return (bool) $this->settings->get("comments_del_user", 0);
+        return (bool) $this->settings->get("comments_del_user", '0');
     }
 
     public function enableAuthorsCanDelete(bool $active = true) : void
@@ -64,7 +64,7 @@ class ilPersonalDesktopSettingsRepository
     // Can tutors delete comments of others
     public function ifTutorsCanDelete() : bool
     {
-        return (bool) $this->settings->get("comments_del_tutor", 1);
+        return (bool) $this->settings->get("comments_del_tutor", '1');
     }
 
     public function enableTutorsCanDelete(bool $active = true) : void
@@ -119,22 +119,11 @@ class ilPersonalDesktopSettingsRepository
     // forum draft block enabled?
     public function ifForumDrafts() : bool
     {
-        return (bool) $this->settings->get('block_activated_pdfrmpostdraft', 0);
+        return (bool) $this->settings->get('block_activated_pdfrmpostdraft', '0');
     }
 
     public function enableForumDrafts(bool $active = true) : void
     {
         $this->settings->set("block_activated_pdfrmpostdraft", (int) $active);
-    }
-
-    // block moving enabled?
-    public function ifMoveBlocks() : bool
-    {
-        return (bool) $this->settings->get('enable_block_moving', 0);
-    }
-
-    public function enableMoveBlocks(bool $active = true) : void
-    {
-        $this->settings->set("enable_block_moving", (int) $active);
     }
 }

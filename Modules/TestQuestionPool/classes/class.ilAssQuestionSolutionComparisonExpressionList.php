@@ -50,7 +50,7 @@ class ilAssQuestionSolutionComparisonExpressionList
         $this->expressions = array();
     }
     
-    public function load()
+    public function load() : void
     {
         $query = "
 			SELECT *
@@ -73,7 +73,7 @@ class ilAssQuestionSolutionComparisonExpressionList
         }
     }
     
-    public function save()
+    public function save() : void
     {
         $this->delete();
         
@@ -85,7 +85,7 @@ class ilAssQuestionSolutionComparisonExpressionList
         }
     }
     
-    public function delete()
+    public function delete() : void
     {
         $query = "
 			DELETE FROM qpl_qst_skl_sol_expr
@@ -99,7 +99,7 @@ class ilAssQuestionSolutionComparisonExpressionList
         );
     }
     
-    public function add(ilAssQuestionSolutionComparisonExpression $expression)
+    public function add(ilAssQuestionSolutionComparisonExpression $expression) : void
     {
         $expression->setDb($this->db);
         $expression->setQuestionId($this->getQuestionId());
@@ -114,7 +114,7 @@ class ilAssQuestionSolutionComparisonExpressionList
         return $this->expressions;
     }
     
-    public function reset()
+    public function reset() : void
     {
         $this->expressions = array();
     }
@@ -130,7 +130,7 @@ class ilAssQuestionSolutionComparisonExpressionList
     /**
      * @param int $questionId
      */
-    public function setQuestionId($questionId)
+    public function setQuestionId($questionId) : void
     {
         $this->questionId = $questionId;
     }
@@ -146,7 +146,7 @@ class ilAssQuestionSolutionComparisonExpressionList
     /**
      * @param int $skillBaseId
      */
-    public function setSkillBaseId($skillBaseId)
+    public function setSkillBaseId($skillBaseId) : void
     {
         $this->skillBaseId = $skillBaseId;
     }
@@ -162,7 +162,7 @@ class ilAssQuestionSolutionComparisonExpressionList
     /**
      * @param int $skillTrefId
      */
-    public function setSkillTrefId($skillTrefId)
+    public function setSkillTrefId($skillTrefId) : void
     {
         $this->skillTrefId = $skillTrefId;
     }

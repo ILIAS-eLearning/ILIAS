@@ -52,21 +52,21 @@ class Group extends Input implements C\Input\Field\Group
     public function withDisabled(bool $is_disabled) : C\Input\Field\Input
     {
         $clone = parent::withDisabled($is_disabled);
-        $clone->inputs = array_map(fn($i) => $i->withDisabled($is_disabled), $this->inputs);
+        $clone->inputs = array_map(fn ($i) => $i->withDisabled($is_disabled), $this->inputs);
         return $clone;
     }
 
     public function withRequired(bool $is_required) : C\Input\Field\Input
     {
         $clone = parent::withRequired($is_required);
-        $clone->inputs = array_map(fn($i) => $i->withRequired($is_required), $this->inputs);
+        $clone->inputs = array_map(fn ($i) => $i->withRequired($is_required), $this->inputs);
         return $clone;
     }
 
     public function withOnUpdate(Signal $signal) : C\OnUpdateable
     {
         $clone = parent::withOnUpdate($signal);
-        $clone->inputs = array_map(fn($i) => $i->withOnUpdate($signal), $this->inputs);
+        $clone->inputs = array_map(fn ($i) => $i->withOnUpdate($signal), $this->inputs);
         return $clone;
     }
 
@@ -99,7 +99,7 @@ class Group extends Input implements C\Input\Field\Group
      */
     public function getValue()
     {
-        return array_map(fn($i) => $i->getValue(), $this->inputs);
+        return array_map(fn ($i) => $i->getValue(), $this->inputs);
     }
 
 

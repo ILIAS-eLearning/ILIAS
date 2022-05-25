@@ -14,10 +14,7 @@
  *
  *****************************************************************************/
 /**
- * Description of ilLDAPAccountMigrationRequiredException
- *
  * @author Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesLDAP
  */
 class ilLDAPAccountMigrationRequiredException extends ilException
 {

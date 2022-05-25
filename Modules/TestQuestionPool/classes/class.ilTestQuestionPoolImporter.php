@@ -89,7 +89,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         
         // start parsing of QTI files
         include_once "./Services/QTI/classes/class.ilQTIParser.php";
-        $qtiParser = new ilQTIParser($qti_file, IL_MO_PARSE_QTI, $newObj->getId(), $idents);
+        $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_PARSE_QTI, $newObj->getId(), $idents);
         $qtiParser->startParsing();
 
         // import page data
@@ -200,7 +200,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         return $name;
     }
     
-    protected function importQuestionSkillAssignments($xmlFile, ilImportMapping $mappingRegistry, $targetParentObjId)
+    protected function importQuestionSkillAssignments($xmlFile, ilImportMapping $mappingRegistry, $targetParentObjId) : void
     {
         require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionSkillAssignmentXmlParser.php';
         $parser = new ilAssQuestionSkillAssignmentXmlParser($xmlFile);

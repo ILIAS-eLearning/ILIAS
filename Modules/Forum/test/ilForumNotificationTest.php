@@ -22,20 +22,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 
 class ilForumNotificationTest extends TestCase
 {
-    /**
-     * @var MockObject|ilDBInterface
-     */
+    /** @var MockObject&ilDBInterface */
     private $database;
-
-    /**
-     * @var MockObject|ilObjUser
-     */
+    /** @var MockObject&ilObjUser */
     private $user;
-
-    /**
-     * @var MockObject|ilTree
-     */
+    /** @var MockObject&ilTree */
     private $tree;
+    private ?Container $dic = null;
 
     public function testConstruct() : void
     {
@@ -70,7 +63,7 @@ class ilForumNotificationTest extends TestCase
         $forumId = 745;
         $userId = 271;
 
-        $mockStatement = $this->mock(ilDBStatement::class);
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::once())->method('queryF')->with(
             '
 			SELECT admin_force_noti FROM frm_notification
@@ -94,7 +87,7 @@ class ilForumNotificationTest extends TestCase
         $forumId = 745;
         $userId = 271;
 
-        $mockStatement = $this->mock(ilDBStatement::class);
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::once())->method('queryF')->with(
             '
 			SELECT admin_force_noti FROM frm_notification
@@ -118,7 +111,7 @@ class ilForumNotificationTest extends TestCase
         $forumId = 745;
         $userId = 271;
 
-        $mockStatement = $this->mock(ilDBStatement::class);
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::once())->method('queryF')->with(
             '
 			SELECT user_toggle_noti FROM frm_notification
@@ -142,7 +135,7 @@ class ilForumNotificationTest extends TestCase
         $forumId = 745;
         $userId = 271;
 
-        $mockStatement = $this->mock(ilDBStatement::class);
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::once())->method('queryF')->with(
             '
 			SELECT user_toggle_noti FROM frm_notification
@@ -339,7 +332,7 @@ class ilForumNotificationTest extends TestCase
             'user_toggle_noti' => 90,
             'interested_events' => 8,
         ];
-        $mockStatement = $this->mock(ilDBStatement::class);
+        $mockStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::exactly(2))->method('fetchAssoc')->willReturn(
             $row,
             null
@@ -365,8 +358,8 @@ class ilForumNotificationTest extends TestCase
         $matchUserIdRow = ['user_id' => $srcRow['user_id'], 'notification_id' => 380];
         $targetId = 840;
         $srcId = 5749;
-        $srcStatement = $this->mock(ilDBStatement::class);
-        $targetStatement = $this->mock(ilDBStatement::class);
+        $srcStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
+        $targetStatement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::exactly(2))->method('queryF')->withConsecutive(
             [
                 'SELECT notification_id, user_id FROM frm_notification WHERE frm_id = %s AND  thread_id = %s ORDER BY user_id ASC',
@@ -406,7 +399,7 @@ class ilForumNotificationTest extends TestCase
         $forumId = 7332;
         $userId = 5758;
 
-        $statement = $this->mock(ilDBStatement::class);
+        $statement = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
         $this->database->expects(self::once())->method('queryF')->with(
             'SELECT user_id FROM frm_notification WHERE user_id = %s AND frm_id = %s AND admin_force_noti = %s',
             ['integer', 'integer', 'integer'],
@@ -426,16 +419,22 @@ class ilForumNotificationTest extends TestCase
     {
         global $DIC;
 
+        $this->dic = is_object($DIC) ? clone $DIC : $DIC;
+
         $DIC = new Container();
 
-        $DIC['ilDB'] = ($this->database = $this->mock(ilDBInterface::class));
-        $DIC['ilUser'] = ($this->user = $this->mock(ilObjUser::class));
-        $DIC['ilObjDataCache'] = $this->mock(ilObjectDataCache::class);
-        $DIC['tree'] = ($this->tree = $this->mock(ilTree::class));
+        $DIC['ilDB'] = ($this->database = $this->createMock(ilDBInterface::class));
+        $DIC['ilUser'] = ($this->user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock());
+        $DIC['ilObjDataCache'] = $this->getMockBuilder(ilObjectDataCache::class)->disableOriginalConstructor()->getMock();
+        $DIC['tree'] = ($this->tree = $this->getMockBuilder(ilTree::class)->disableOriginalConstructor()->getMock());
     }
 
-    private function mock(string $className) : MockObject
+    protected function tearDown() : void
     {
-        return $this->getMockBuilder($className)->disableOriginalConstructor()->getMock();
+        global $DIC;
+
+        $DIC = $this->dic;
+
+        parent::tearDown();
     }
 }

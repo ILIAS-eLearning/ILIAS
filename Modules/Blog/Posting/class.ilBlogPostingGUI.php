@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Blog\StandardGUIRequest;
 
@@ -23,6 +26,8 @@ use ILIAS\Blog\StandardGUIRequest;
  */
 class ilBlogPostingGUI extends ilPageObjectGUI
 {
+    protected \ILIAS\Notes\Service $notes;
+    protected \ILIAS\Blog\ReadingTime\ReadingTimeManager $reading_time_manager;
     protected StandardGUIRequest $blog_request;
     protected ilTabsGUI$tabs;
     protected ilLocatorGUI $locator;
@@ -97,6 +102,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $this->blpg = $this->blog_request->getBlogPage();
         $this->fetchall = $this->blog_request->getFetchAll();
         $this->term = $this->blog_request->getTerm();
+
+        $this->reading_time_manager = new \ILIAS\Blog\ReadingTime\ReadingTimeManager();
+        $this->notes = $DIC->notes();
     }
 
     public function executeCommand() : string
@@ -247,7 +255,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     ) : string {
         $this->setTemplateOutput(false);
 
-        if (!$this->getAbstractOnly()) {
+        if (!$this->getAbstractOnly() && !$this->showPageHeading()) {
             if ($a_title !== "") {
                 $this->setPresentationTitle($a_title);
             } else {
@@ -279,39 +287,74 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         string $a_output
     ) : string {
         // #8626/#9370
-        if (($this->getOutputMode() === "preview" || $this->getOutputMode() === "offline")
-            && !$this->getAbstractOnly() && $this->add_date) {
-            $author = "";
-            if (!$this->isInWorkspace()) {
-                $authors = array();
-                $author_id = $this->getBlogPosting()->getAuthor();
-                if ($author_id) {
-                    $authors[] = ilUserUtil::getNamePresentation($author_id);
-                }
-                                
-                foreach (ilBlogPosting::getPageContributors("blp", $this->getBlogPosting()->getId()) as $editor) {
-                    if ($editor["user_id"] != $author_id) {
-                        $authors[] = ilUserUtil::getNamePresentation($editor["user_id"]);
-                    }
-                }
-                
-                if ($authors) {
-                    $author = implode(", ", $authors) . " - ";
+        if ($this->showPageHeading()) {
+            $a_output = $this->getPageHeading() . $a_output;
+        }
+
+        return $a_output;
+    }
+
+    protected function showPageHeading() : bool
+    {
+        if (!$this->getAbstractOnly() && $this->add_date) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get page heading
+     * see also https://docu.ilias.de/goto_docu_wiki_wpage_5793_1357.html
+     * the presentation heading has a defined layout, title is not from page content
+     */
+    protected function getPageHeading() : string
+    {
+        $author = "";
+        if (!$this->isInWorkspace()) {
+            $authors = array();
+            $author_id = $this->getBlogPosting()->getAuthor();
+            if ($author_id) {
+                $authors[] = ilUserUtil::getNamePresentation($author_id);
+            }
+
+            foreach (ilBlogPosting::getPageContributors("blp", $this->getBlogPosting()->getId()) as $editor) {
+                if ($editor["user_id"] != $author_id) {
+                    $authors[] = ilUserUtil::getNamePresentation($editor["user_id"]);
                 }
             }
-            
-            // prepend creation date
-            $rel = ilDatePresentation::useRelativeDates();
-            ilDatePresentation::setUseRelativeDates(false);
-            $prefix = "<div class=\"il_BlockInfo\" style=\"text-align:right\">" .
-                $author . ilDatePresentation::formatDate($this->getBlogPosting()->getCreated()) .
-                "</div>";
-            ilDatePresentation::setUseRelativeDates($rel);
-            
-            $a_output = $prefix . $a_output;
+
+            if ($authors) {
+                $author = implode(", ", $authors) . " - ";
+            }
         }
-        
-        return $a_output;
+        $rel = ilDatePresentation::useRelativeDates();
+        ilDatePresentation::setUseRelativeDates(true);
+        $tpl = new ilTemplate("tpl.posting_head.html", true, true, "Modules/Blog");
+
+        // reading time
+        $reading_time = $this->reading_time_manager->getReadingTime(
+            $this->getBlogPosting()->getParentId(),
+            $this->getBlogPosting()->getId()
+        );
+        if (!is_null($reading_time)) {
+            $this->lng->loadLanguageModule("copg");
+            $tpl->setCurrentBlock("reading_time");
+            $tpl->setVariable(
+                "READING_TIME",
+                $this->lng->txt("copg_est_reading_time") . ": " .
+                sprintf($this->lng->txt("copg_x_minutes"), $reading_time)
+            );
+            $tpl->parseCurrentBlock();
+        }
+
+        $tpl->setVariable("TITLE", $this->getBlogPosting()->getTitle());
+        $tpl->setVariable(
+            "DATETIME",
+            $author . ilDatePresentation::formatDate($this->getBlogPosting()->getCreated())
+        );
+        ilDatePresentation::setUseRelativeDates($rel);
+        return $tpl->get();
     }
 
     public function getTabs(string $a_activate = "") : void
@@ -346,7 +389,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
             $dtpl->setVariable("PAGE_TITLE", $this->getBlogPosting()->getTitle());
             
             // notes/comments
-            $cnt_note_users = ilNote::getUserCount(
+            $cnt_note_users = $this->notes->domain()->getUserCount(
                 $this->getBlogPosting()->getParentId(),
                 $this->getBlogPosting()->getId(),
                 "wpg"
@@ -529,9 +572,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         int $a_note_id
     ) : void {
         // #10040 - get note text
-        $note = new ilNote($a_note_id);
-        $note = $note->getText();
-        ilObjBlog::sendNotification("comment", $this->isInWorkspace(), $this->node_id, $a_posting_id, $note);
+        $note = $this->notes->domain()->getById($a_note_id);
+        $text = $note->getText();
+        ilObjBlog::sendNotification("comment", $this->isInWorkspace(), $this->node_id, $a_posting_id, $text);
     }
     
     public function getActivationCaptions() : array
@@ -748,6 +791,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 $mob_item = $mob_obj->getMediaItem("Standard");
                 if (stripos($mob_item->getFormat(), "image") !== false) {
                     $mob_size = $mob_item->getOriginalSize();
+                    if (is_null($mob_size)) {
+                        continue;
+                    }
                     if ($mob_size["width"] >= $a_width ||
                         $mob_size["height"] >= $a_height) {
                         if (!$a_export_directory) {

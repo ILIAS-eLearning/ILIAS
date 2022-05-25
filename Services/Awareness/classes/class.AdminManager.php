@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Awareness;
 
@@ -56,14 +59,14 @@ class AdminManager
     /**
      * Activate provider
      */
-    public function setActivationMode(string $provider_id, bool $a_val) : void
+    public function setActivationMode(string $provider_id, int $a_val) : void
     {
         $this->settings->set("up_act_" . $provider_id, (string) $a_val);
     }
 
-    public function getActivationMode(string $provider_id) : bool
+    public function getActivationMode(string $provider_id) : int
     {
-        return (bool) $this->settings->get("up_act_" . $provider_id);
+        return (int) $this->settings->get("up_act_" . $provider_id);
     }
 
     public function isProviderActivated(string $provider_id) : bool

@@ -10,46 +10,13 @@ require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetNonAvailablePool
  */
 class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
 {
-    /**
-     * global $ilDB object instance
-     *
-     * @var ilDBInterface
-     */
-    protected $db = null;
+    protected ilDBInterface $db;
+    protected ilObjTest $testOBJ;
+    private array $sourcePoolDefinitions = array();
+    private ilTestRandomQuestionSetSourcePoolDefinitionFactory $sourcePoolDefinitionFactory;
+    protected array $lostPools = array();
+    protected array $trashedPools = array();
     
-    /**
-     * object instance of current test
-     *
-     * @var ilObjTest
-     */
-    protected $testOBJ = null;
-    
-    /**
-     * @var ilTestRandomQuestionSetSourcePoolDefinition[]
-     */
-    private $sourcePoolDefinitions = array();
-
-    /**
-     * @var ilTestRandomQuestionSetSourcePoolDefinitionFactory
-     */
-    private $sourcePoolDefinitionFactory = null;
-
-    /**
-     * @var array
-     */
-    protected $lostPools = array();
-    
-    /**
-     * @var array
-     */
-    protected $trashedPools = array();
-    
-    /**
-     * Constructor
-     *
-     * @param ilDBInterface $db
-     * @param ilObjTest $testOBJ
-     */
     public function __construct(ilDBInterface $db, ilObjTest $testOBJ, ilTestRandomQuestionSetSourcePoolDefinitionFactory $sourcePoolDefinitionFactory)
     {
         $this->db = $db;
@@ -100,10 +67,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
     {
         return (bool) count($this->trashedPools);
     }
-    
-    /**
-     * @return array
-     */
+
     public function getTrashedPools() : array
     {
         return $this->trashedPools;
@@ -360,33 +324,33 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
     }
 
     /**
-     * @return ilTestRandomQuestionSetSourcePoolDefinition
+     * @return false|ilTestRandomQuestionSetSourcePoolDefinition
      */
-    public function rewind() : ilTestRandomQuestionSetSourcePoolDefinition
+    public function rewind()
     {
         return reset($this->sourcePoolDefinitions);
     }
 
     /**
-     * @return ilTestRandomQuestionSetSourcePoolDefinition
+     * @return false|ilTestRandomQuestionSetSourcePoolDefinition
      */
-    public function current() : ilTestRandomQuestionSetSourcePoolDefinition
+    public function current()
     {
         return current($this->sourcePoolDefinitions);
     }
 
     /**
-     * @return integer
+     * @return int|null|string
      */
-    public function key() : int
+    public function key()
     {
         return key($this->sourcePoolDefinitions);
     }
 
     /**
-     * @return ilTestRandomQuestionSetSourcePoolDefinition
+     * @return false|ilTestRandomQuestionSetSourcePoolDefinition
      */
-    public function next() : ilTestRandomQuestionSetSourcePoolDefinition
+    public function next()
     {
         return next($this->sourcePoolDefinitions);
     }
@@ -401,7 +365,6 @@ class ilTestRandomQuestionSetSourcePoolDefinitionList implements Iterator
     
     public function getNonAvailablePools() : array
     {
-        //echo get_class($this->getTrashedPools()[0]);
         return array_merge($this->getTrashedPools(), $this->getLostPools());
     }
 }

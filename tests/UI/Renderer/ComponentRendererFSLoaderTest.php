@@ -18,6 +18,10 @@ class ComponentRendererFSLoaderTest extends TestCase
      * @var I\Render\RendererFactory|mixed|MockObject
      */
     private $glyph_renderer;
+    /**
+     * @var I\Render\RendererFactory|mixed|MockObject
+     */
+    private $icon_renderer;
 
     protected function getComponentRendererFSLoader() : FSLoader
     {
@@ -40,8 +44,10 @@ class ComponentRendererFSLoaderTest extends TestCase
             $image_path_resolver
         );
         $this->glyph_renderer = $this->createMock(I\Render\RendererFactory::class);
+        $this->icon_renderer = $this->createMock(I\Render\RendererFactory::class);
+
         $field_renderer = $this->createMock(I\Render\RendererFactory::class);
-        return new FSLoader($default_renderer_factory, $this->glyph_renderer, $field_renderer);
+        return new FSLoader($default_renderer_factory, $this->glyph_renderer, $this->icon_renderer, $field_renderer);
     }
 
     public function test_getRenderer_successfully() : void

@@ -30,10 +30,6 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
     
     /**
      * ilLTIConsumerSettingsFormGUI constructor.
-     * @param ilObjLTIConsumer $object
-     * @param string $formaction
-     * @param string $saveCommand
-     * @param string $cancelCommand
      */
     public function __construct(ilObjLTIConsumer $object, string $formaction, string $saveCommand, string $cancelCommand)
     {
@@ -44,12 +40,6 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         $this->initForm($formaction, $saveCommand, $cancelCommand);
     }
 
-    /**
-     * @param string $formaction
-     * @param string $saveCommand
-     * @param string $cancelCommand
-     * @return void
-     */
     protected function initForm(string $formaction, string $saveCommand, string $cancelCommand) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -87,7 +77,7 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         }
         $this->addItem($item);
         
-        if ($this->object->getProvider()->isProviderKeyCustomizable()) {
+        if ($this->object->getProvider()->getLtiVersion() == 'LTI-1p0' && $this->object->getProvider()->isProviderKeyCustomizable()) {
             $sectionHeader = new ilFormSectionHeaderGUI();
             $sectionHeader->setTitle($DIC->language()->txt('lti_con_prov_authentication'));
             $this->addItem($sectionHeader);
@@ -221,16 +211,13 @@ class ilLTIConsumerSettingsFormGUI extends ilPropertyFormGUI
         }
     }
     
-    /**
-     * @param ilObjLTIConsumer $object
-     */
     public function initObject(ilObjLTIConsumer $object) : void
     {
         $object->setTitle($this->getInput('title'));
         $object->setDescription($this->getInput('description'));
         $object->setOfflineStatus(!(bool) $this->getInput('online'));
         
-        if ($object->getProvider()->isProviderKeyCustomizable()) {
+        if ($object->getProvider()->getLtiVersion() == 'LTI-1p0' && $object->getProvider()->isProviderKeyCustomizable()) {
             $object->setCustomLaunchKey($this->getInput('provider_key'));
             $object->setCustomLaunchSecret($this->getInput('provider_secret'));
         }

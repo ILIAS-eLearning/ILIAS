@@ -1,5 +1,22 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
 use PHPUnit\Framework\TestCase;
 
 class ilQTIResponseTest extends TestCase
@@ -41,10 +58,10 @@ class ilQTIResponseTest extends TestCase
         class_exists(ilQTIResponse::class); // Force autoload to define the constants.
 
         return [
-            ['no', RTIMING_NO],
-            ['1', RTIMING_NO],
-            ['yes', RTIMING_YES],
-            ['2', RTIMING_YES],
+            ['no', ilQTIResponse::RTIMING_NO],
+            ['1', ilQTIResponse::RTIMING_NO],
+            ['yes', ilQTIResponse::RTIMING_YES],
+            ['2', ilQTIResponse::RTIMING_YES],
             ['Random input.', null],
         ];
     }
@@ -53,12 +70,12 @@ class ilQTIResponseTest extends TestCase
     {
         class_exists(ilQTIResponse::class); // Force autoload to define the constants.
         return [
-            ['integer', NUMTYPE_INTEGER],
-            ['1', NUMTYPE_INTEGER],
-            ['decimal', NUMTYPE_DECIMAL],
-            ['2', NUMTYPE_DECIMAL],
-            ['scientific', NUMTYPE_SCIENTIFIC],
-            ['3', NUMTYPE_SCIENTIFIC],
+            ['integer', ilQTIResponse::NUMTYPE_INTEGER],
+            ['1', ilQTIResponse::NUMTYPE_INTEGER],
+            ['decimal', ilQTIResponse::NUMTYPE_DECIMAL],
+            ['2', ilQTIResponse::NUMTYPE_DECIMAL],
+            ['scientific', ilQTIResponse::NUMTYPE_SCIENTIFIC],
+            ['3', ilQTIResponse::NUMTYPE_SCIENTIFIC],
             ['Random input.', null],
         ];
     }

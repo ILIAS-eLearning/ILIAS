@@ -24,34 +24,23 @@
  */
 class ilCmiXapiUserAutocomplete extends ilUserAutoComplete
 {
-    /**
-     * @var int
-     */
     protected int $objId;
     
-    /**
-     * @param int $objId
-     */
     public function __construct(int $objId)
     {
         parent::__construct();
         $this->objId = $objId;
     }
     
-    /**
-     * {@inheritdoc}
-     */
     protected function getFromPart() : string
     {
         global $DIC;
         
         $fromPart = parent::getFromPart();
-        
-        $fromPart .= "
+        return $fromPart . "
 			INNER JOIN (SELECT DISTINCT usr_id, obj_id FROM cmix_users) c
 			ON c.obj_id = {$DIC->database()->quote($this->objId, 'integer')}
 			AND c.usr_id = ud.usr_id
 		";
-        return $fromPart;
     }
 }

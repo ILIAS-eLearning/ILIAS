@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -100,7 +103,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
             $acc_rec = $ilDB->fetchAssoc($acc_set);
         }
         
-        if ($acc_rec["obj_id"] > 0) {
+        if (($acc_rec["obj_id"] ?? 0) > 0) {
             $lm_id = ilObject::_lookupObjId($a_ref_id);
             $mtree = new ilTree($lm_id);
             $mtree->setTableNames('lm_tree', 'lm_data');
@@ -154,6 +157,9 @@ class ilObjContentObjectAccess extends ilObjectAccess
     public static function _preloadData(array $obj_ids, array $ref_ids) : void
     {
         global $DIC;
+
+        $reading_time_manager = new \ILIAS\LearningModule\ReadingTime\ReadingTimeManager();
+        $reading_time_manager->loadData($obj_ids);
 
         $ilDB = $DIC->database();
         $ilUser = $DIC->user();

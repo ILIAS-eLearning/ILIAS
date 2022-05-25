@@ -19,14 +19,14 @@
  */
 class ilChartLegend
 {
-    protected string $position;
-    protected int $columns;
-    protected int $margin_x;
-    protected int $margin_y;
-    protected string $background;
-    protected float $opacity;
-    protected string $border;
-    protected string $container;
+    protected string $position = "";
+    protected int $columns = 0;
+    protected int $margin_x = 0;
+    protected int $margin_y = 0;
+    protected string $background = "";
+    protected float $opacity = 0;
+    protected string $border = "";
+    protected string $container = "";
 
     public function __construct()
     {

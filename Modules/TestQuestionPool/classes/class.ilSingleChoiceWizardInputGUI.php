@@ -1,7 +1,7 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php';
+use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as ArrayBasedRequestWrapper;
 
 /**
 * This class represents a single choice wizard property in a property form.
@@ -19,7 +19,8 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     protected $suffixes = array();
     protected $showPoints = true;
     protected $hideImages = false;
-    
+    protected ArrayBasedRequestWrapper $post_wrapper;
+
     /**
     * Constructor
     *
@@ -32,6 +33,8 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         $this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
         $this->setSize('25');
         $this->validationRegexp = "";
+        global $DIC;
+        $this->post_wrapper = $DIC->http()->wrapper()->post();
     }
 
     public function setValue($a_value) : void
@@ -66,7 +69,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_suffixes	Accepted Suffixes
     */
-    public function setSuffixes($a_suffixes)
+    public function setSuffixes($a_suffixes) : void
     {
         $this->suffixes = $a_suffixes;
     }
@@ -76,7 +79,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_hide	Hide images
     */
-    public function setHideImages($a_hide)
+    public function setHideImages($a_hide) : void
     {
         $this->hideImages = $a_hide;
     }
@@ -91,7 +94,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         return $this->suffixes;
     }
     
-    public function setShowPoints($a_value)
+    public function setShowPoints($a_value) : void
     {
         $this->showPoints = $a_value;
     }
@@ -106,7 +109,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_value	Value
     */
-    public function setValues($a_values)
+    public function setValues($a_values) : void
     {
         $this->values = $a_values;
     }
@@ -126,7 +129,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_value	Value
     */
-    public function setSingleline($a_value)
+    public function setSingleline($a_value) : void
     {
         $this->singleline = $a_value;
     }
@@ -146,7 +149,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @param	object	$a_value	test object
     */
-    public function setQuestionObject($a_value)
+    public function setQuestionObject($a_value) : void
     {
         $this->qstObject = &$a_value;
     }
@@ -166,7 +169,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_allow_move Allow move
     */
-    public function setAllowMove($a_allow_move)
+    public function setAllowMove($a_allow_move) : void
     {
         $this->allowMove = $a_allow_move;
     }
@@ -193,13 +196,13 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
         include_once "./Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php";
 
         if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilArrayUtil::stripSlashesRecursive(
+            $foundvalues = ilArrayUtil::stripSlashesRecursive(
                 $_POST[$this->getPostVar()],
                 true,
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString("assessment")
             );
         }
-        $foundvalues = $_POST[$this->getPostVar()];
+        //$foundvalues = $_POST[$this->getPostVar()];
         if (is_array($foundvalues)) {
             // check answers
             if (is_array($foundvalues['answer'])) {

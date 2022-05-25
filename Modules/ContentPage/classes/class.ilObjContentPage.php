@@ -64,9 +64,9 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         $this->type = self::OBJ_TYPE;
     }
 
-    protected function doCloneObject($new_obj, $a_target_id, $a_copy_id = null) : void
+    protected function doCloneObject(ilObject2 $new_obj, int $a_target_id, ?int $a_copy_id = null) : void
     {
-        /** @var self $new_obj */
+        assert($new_obj instanceof ilObjContentPage);
         parent::doCloneObject($new_obj, $a_target_id, $a_copy_id);
 
         $ot = ilObjectTranslation::getInstance($this->getId());
@@ -127,9 +127,9 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         $this->initTranslationService();
     }
 
-    protected function doCreate() : void
+    protected function doCreate(bool $clone_mode = false) : void
     {
-        parent::doCreate();
+        parent::doCreate($clone_mode);
 
         $this->initTranslationService();
 

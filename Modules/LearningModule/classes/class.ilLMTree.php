@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -22,13 +25,16 @@ class ilLMTree extends ilTree
     protected ?array $complete_tree = null;
 
     public function __construct(
-        int $a_tree_id
+        int $a_tree_id,
+        bool $read_root_id = true
     ) {
         parent::__construct($a_tree_id);
         $this->setTableNames('lm_tree', 'lm_data');
         $this->setTreeTablePK("lm_id");
         $this->useCache(true);
-        $this->readRootId();
+        if ($read_root_id) {
+            $this->readRootId();
+        }
     }
 
     public static function getInstance(

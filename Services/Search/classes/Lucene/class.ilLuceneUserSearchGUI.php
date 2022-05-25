@@ -42,7 +42,15 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
         $this->prepareOutput();
         switch ($next_class) {
             case "ilpublicuserprofilegui":
-                $profile = new ilPublicUserProfileGUI((int) $_REQUEST['user']);// @TODO: PHP8 Review: Direct access to $_REQUEST.
+
+                $user_id = 0;
+                if ($this->http->wrapper()->query()->has('user_id')) {
+                    $user_id = $this->http->wrapper()->query()->retrieve(
+                        'user_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                }
+                $profile = new ilPublicUserProfileGUI($user_id);
                 $profile->setBackUrl($this->ctrl->getLinkTarget($this, 'showSavedResults'));
                 $ret = $this->ctrl->forwardCommand($profile);
                 $this->tpl->setContent($ret);

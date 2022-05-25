@@ -20,7 +20,7 @@ class assNumericExport extends assQuestionExport
     * domxml variable with the DOM XML representation of the QTI xml representation
     * @access public
     */
-    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false)
+    public function toXML($a_include_header = true, $a_include_binary = true, $a_shuffle = false, $test_output = false, $force_image_references = false) : string
     {
         global $DIC;
         $ilias = $DIC['ilias'];

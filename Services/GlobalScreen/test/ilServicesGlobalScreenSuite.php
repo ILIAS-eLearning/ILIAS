@@ -16,7 +16,6 @@
 
 use PHPUnit\Framework\TestSuite;
 
-
 class ilServicesGlobalScreenSuite extends TestSuite
 {
     public static function suite() : self

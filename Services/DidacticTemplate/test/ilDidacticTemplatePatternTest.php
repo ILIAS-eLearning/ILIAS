@@ -3,7 +3,6 @@
 use PHPUnit\Framework\TestCase;
 use ILIAS\DI\Container;
 
-
 /**
  * Unit tests for class ilDidacticTemplate
  * @author  Stefan Meyer <meyer@leifos.com>
@@ -11,8 +10,6 @@ use ILIAS\DI\Container;
  */
 class ilDidacticTemplatePatternTest extends TestCase
 {
-    protected $backupGlobals = false;
-
     protected Container $dic;
 
     protected function setUp() : void
@@ -24,21 +21,21 @@ class ilDidacticTemplatePatternTest extends TestCase
     public function testConstruct() : void
     {
         $include_pattern = new ilDidacticTemplateIncludeFilterPattern();
-        $this->assertTrue($include_pattern instanceof ilDidacticTemplateIncludeFilterPattern);
-
+        $this->assertInstanceOf(ilDidacticTemplateIncludeFilterPattern::class, $include_pattern);
+        
         $exclude_pattern = new ilDidacticTemplateExcludeFilterPattern();
-        $this->assertTrue($exclude_pattern instanceof ilDidacticTemplateExcludeFilterPattern);
+        $this->assertInstanceOf(ilDidacticTemplateExcludeFilterPattern::class, $exclude_pattern);
     }
 
     public function testMatches() : void
     {
         $include_pattern = new ilDidacticTemplateIncludeFilterPattern();
-        $include_pattern->setPatternSubType(ilDidacticTemplateIncludeFilterPattern::PATTERN_SUBTYPE_REGEX);
+        $include_pattern->setPatternSubType(ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX);
         $include_pattern->setPattern('^il_crs_admin_[0-9]+$');
         $this->assertTrue($include_pattern->valid('il_crs_admin_123'));
 
         $exclude_pattern = new ilDidacticTemplateExcludeFilterPattern();
-        $exclude_pattern->setPatternSubType(ilDidacticTemplateIncludeFilterPattern::PATTERN_SUBTYPE_REGEX);
+        $exclude_pattern->setPatternSubType(ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX);
         $exclude_pattern->setPattern('il_crs_admin_[0-9]+');
         $this->assertTrue($exclude_pattern->valid('il_grp_admin'));
     }

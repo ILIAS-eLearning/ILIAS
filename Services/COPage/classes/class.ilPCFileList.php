@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCFileList
@@ -351,6 +354,53 @@ class ilPCFileList extends ilPageContent
                 $file_id = $id_arr[count($id_arr) - 1];
                 $file_ids[$file_id] = $file_id;
             }
+        }
+        return $file_ids;
+    }
+
+    public static function deleteHistoryLowerEqualThan(
+        string $parent_type,
+        int $page_id,
+        string $lang,
+        int $delete_lower_than_nr
+    ) : void {
+        $file_ids = self::_deleteHistoryUsagesLowerEqualThan(
+            $parent_type,
+            $page_id,
+            $delete_lower_than_nr,
+            $lang
+        );
+
+        foreach ($file_ids as $file_id) {
+            $file = new ilObjFile($file_id, false);
+            $usages = $file->getUsages();
+            if (count($usages) == 0) {
+                $file->delete();
+            }
+        }
+    }
+
+    protected static function _deleteHistoryUsagesLowerEqualThan(
+        string $parent_type,
+        int $a_id,
+        int $a_usage_hist_nr,
+        string $a_lang = "-"
+    ) : array {
+        global $DIC;
+
+        $hist_repo = $DIC->copage()->internal()->repo()->history();
+
+        $file_ids = [];
+        foreach ($hist_repo->getHistoryNumbersOlderEqualThanNr(
+            $a_usage_hist_nr,
+            $parent_type,
+            $a_id,
+            $a_lang
+        ) as $old_nr) {
+            foreach (ilObjFile::_getFilesOfObject($parent_type . ":pg", $a_id, $old_nr, $a_lang) as $file_id) {
+                $file_ids[$file_id] = $file_id;
+            }
+            ilObjFile::_deleteAllUsages($parent_type . ":pg", $a_id, $old_nr, $a_lang);
         }
         return $file_ids;
     }
