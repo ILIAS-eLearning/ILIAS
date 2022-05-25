@@ -67,7 +67,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
         if ($a_value !== null) {
             $a_value = (int) $a_value;
         }
-        $this->max_length = $a_value;
+        $this->max_length = (int) $a_value;
     }
 
     /**
