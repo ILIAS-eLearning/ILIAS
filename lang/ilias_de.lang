@@ -775,7 +775,9 @@ assessment#:#assTextSubset#:#Begriffe benennen
 assessment#:#autosave_failed#:#Automatisches Speichern fehlgeschlagen!
 assessment#:#autosave_success#:#Automatisches Speichern erfolgreich durchgeführt...
 assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
-assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
+assessment#:#backtocallingtest#:#Zurück zum Test
+assessment#:#backtocallingpage#:#Zurück zur Fragenseite
+assessment#:#backtocallingpool#:#Zurück zum Fragenpool
 assessment#:#assLongMenu#:#‘Long Menu’-Frage
 assessment#:#answers_text_box#:#Textfeld
 assessment#:#min_auto_complete#:#Autovervollständigung

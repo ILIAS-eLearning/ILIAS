@@ -741,7 +741,9 @@ assessment#:#assTextSubset#:#Text Subset Question
 assessment#:#autosave_failed#:#Autosave failed!
 assessment#:#autosave_success#:#Autosave successful...
 assessment#:#average_reached_points#:#Average Points
-assessment#:#backtocallingtest#:#Back to the calling test
+assessment#:#backtocallingtest#:#Back to the test
+assessment#:#backtocallingpage#:#Back to the question page
+assessment#:#backtocallingpool#:#Back to the question pool
 assessment#:#assLongMenu#:#Long Menu
 assessment#:#answers_text_box#:#Text
 assessment#:#min_auto_complete#:#Autocomplete

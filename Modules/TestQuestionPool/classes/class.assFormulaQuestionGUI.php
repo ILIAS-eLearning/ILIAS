@@ -61,49 +61,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
 
         if ($_GET["q_id"]) {
-            if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
-                // edit page
-                $ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    $force_active
-                );
-            }
-
-            $this->addTab_QuestionPreview($ilTabs);
-        }
-
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $_GET["ref_id"])) {
-            $url = "";
-
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            $commands = $_POST["cmd"];
-            if (is_array($commands)) {
-                foreach ($commands as $key => $value) {
-                    if (preg_match("/^suggestrange_.*/", $key, $matches)) {
-                        $force_active = true;
-                    }
-                }
-            }
-            // edit question properties
-            $ilTabs->addTarget(
-                "edit_question",
-                $url,
-                array(
-                    "editQuestion", "save", "cancel", "addSuggestedSolution",
-                    "cancelExplorer", "linkChilds", "removeSuggestedSolution",
-                    "parseQuestion", "saveEdit", "suggestRange"
-                ),
-                $classname,
-                "",
-                $force_active
-            );
+            $this->addTab_Question($ilTabs);
         }
 
         if ($_GET["q_id"]) {
