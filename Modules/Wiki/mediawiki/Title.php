@@ -1,11 +1,4 @@
 <?php
-
-/** */
-if (!class_exists('UtfNormal')) {
-    require_once('include/Unicode/UtfNormal.php');
-}
-
-
 // patched: alex, 30.4.2019: Added missing defines
 
 define('NS_MAIN', "nsmain");
