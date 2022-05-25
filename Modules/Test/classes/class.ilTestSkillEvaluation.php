@@ -8,6 +8,8 @@ require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/il
 require_once 'Modules/Test/classes/class.ilTestSkillPointAccount.php';
 require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
 
+use ILIAS\Skill\Service\SkillProfileService;
+
 /**
  * @author		Björn Heyser <bheyser@databay.de>
  * @version		$Id$
@@ -81,9 +83,9 @@ class ilTestSkillEvaluation
      */
     private $numRequiredBookingsForSkillTriggering;
 
-    private \ILIAS\Skill\Service\SkillProfileService $skill_profile_service;
+    private SkillProfileService $skill_profile_service;
 
-    public function __construct(ilDBInterface $db, $testId, $refId)
+    public function __construct(ilDBInterface $db, $testId, $refId, SkillProfileService $skill_profile_service = null)
     {
         global $DIC;
 
@@ -95,7 +97,9 @@ class ilTestSkillEvaluation
         $this->skillLevelThresholdList = new ilTestSkillLevelThresholdList($this->db);
         $this->skillLevelThresholdList->setTestId($testId);
 
-        $this->skill_profile_service = $DIC->skills()->profile();
+        $this->skill_profile_service = ($skill_profile_service == null)
+            ? $DIC->skills()->profile()
+            : $skill_profile_service;
 
         $this->questions = array();
         $this->maxPointsByQuestion = array();
