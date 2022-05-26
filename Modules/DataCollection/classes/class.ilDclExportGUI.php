@@ -30,7 +30,7 @@ class ilDclExportGUI extends ilExportGUI
     /**
      * send failure and redirect if no exportable fields
      */
-    protected function checkForExportableFields(): bool
+    protected function checkForExportableFields() : bool
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

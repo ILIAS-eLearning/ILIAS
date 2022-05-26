@@ -15,7 +15,6 @@ class ilDclEditViewTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
 
-
         parent::__construct($a_parent_obj);
 
         $this->setId('dcl_tableviews');
@@ -24,7 +23,7 @@ class ilDclEditViewTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('dcl_tableview_field_access'), "", 'auto');
 
         $this->ctrl->saveParameter($this, 'tableview_id');
-        $this->setFormAction( $this->ctrl->getFormActionByClass('ildcleditviewdefinitiongui'));
+        $this->setFormAction($this->ctrl->getFormActionByClass('ildcleditviewdefinitiongui'));
         $this->addCommandButton('saveTable', $this->lng->txt('dcl_save'));
 
         $this->setExternalSegmentation(true);

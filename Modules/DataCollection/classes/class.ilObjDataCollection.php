@@ -18,7 +18,6 @@ class ilObjDataCollection extends ilObject2
     private string $public_notes = "";
     private string $notification = "";
 
-
     protected function initType() : void
     {
         $this->type = "dcl";
@@ -183,9 +182,7 @@ class ilObjDataCollection extends ilObject2
                     //					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id.":\n";
                     $t = "";
 
-
                     $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
-
 
                     if ($tableview_id = $record->getTable()->getFirstTableViewId($ref_id, $user_id)) {
                         $visible_fields = ilDclTableView::find($tableview_id)->getVisibleFields();
@@ -440,7 +437,7 @@ class ilObjDataCollection extends ilObject2
     /**
      * Checks if a DataCollection has a table with a given title
      * @param string $title  Title of table
-     * @param int $obj_id Obj-ID of the table
+     * @param int    $obj_id Obj-ID of the table
      * @return bool
      */
     public static function _hasTableByTitle(string $title, int $obj_id) : bool

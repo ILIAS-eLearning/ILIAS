@@ -91,7 +91,6 @@ class ilDclFieldListTableGUI extends ilTable2GUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-
         if ($this->getExportMode()) {
             $this->exportData($this->getExportMode(), true);
         }
@@ -196,7 +195,6 @@ class ilDclFieldListTableGUI extends ilTable2GUI
             $this->tpl->setVariable('TBL_NO_ENTRY_TEXT', trim($no_items_text));
             $this->tpl->parseCurrentBlock();
         }
-
 
         if (!$this->getPrintMode()) {
             $this->fillFooter();

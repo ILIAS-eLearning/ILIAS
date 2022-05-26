@@ -27,7 +27,8 @@ class ilDclFieldFactory
     public static function getRecordFieldInstance(
         object $field,  //object|ilDclBaseFieldModel
         object $record //object|ilDclBaseRecordModel
-    ) : ?ilDclBaseRecordFieldModel {
+    ) : ?ilDclBaseRecordFieldModel
+    {
         if (!empty(self::$record_field_cache[$field->getId()][$record->getId()])) {
             return self::$record_field_cache[$field->getId()][$record->getId()];
         }
@@ -50,7 +51,7 @@ class ilDclFieldFactory
             }
         }
 
-        throw new RuntimeException("file not found ".$path);
+        throw new RuntimeException("file not found " . $path);
         return null;
     }
 

@@ -582,7 +582,8 @@ class ilDclTable
         $editableFields = array();
 
         foreach ($fields as $field) {
-            $tableview_id = $this->http->wrapper()->post()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
+            $tableview_id = $this->http->wrapper()->post()->retrieve('tableview_id',
+                $this->refinery->kindlyTo()->int());
             if (!$field->getViewSetting($tableview_id)->isLocked($creation_mode)) {
                 $editableFields[] = $field;
             }
@@ -1170,7 +1171,7 @@ class ilDclTable
     /**
      * Checks if a table has a field with the given title
      * @param string $title  Title of field
-     * @param int $obj_id of the table
+     * @param int    $obj_id of the table
      */
     public static function _hasFieldByTitle(string $title, int $obj_id) : bool
     {

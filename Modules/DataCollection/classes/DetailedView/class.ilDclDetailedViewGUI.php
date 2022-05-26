@@ -30,7 +30,6 @@ class ilDclDetailedViewGUI
     private ilDataCollectionUiPort $dclUi;
     private ilDataCollectionEndpointPort $dclEndPoint;
 
-
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
     protected int $record_id;
@@ -62,11 +61,13 @@ class ilDclDetailedViewGUI
         $this->refinery = $DIC->refinery();
         $this->main_tpl = $DIC->ui()->mainTemplate();
 
-        if($this->http->wrapper()->query()->has('record_id')) {
-            $this->record_id = $this->http->wrapper()->query()->retrieve('record_id', $this->refinery->kindlyTo()->int());
+        if ($this->http->wrapper()->query()->has('record_id')) {
+            $this->record_id = $this->http->wrapper()->query()->retrieve('record_id',
+                $this->refinery->kindlyTo()->int());
         }
-        if($this->http->wrapper()->post()->has('record_id')) {
-            $this->record_id = $this->http->wrapper()->post()->retrieve('record_id', $this->refinery->kindlyTo()->int());
+        if ($this->http->wrapper()->post()->has('record_id')) {
+            $this->record_id = $this->http->wrapper()->post()->retrieve('record_id',
+                $this->refinery->kindlyTo()->int());
         }
         $this->record_obj = ilDclCache::getRecordCache($this->record_id);
 
@@ -97,8 +98,6 @@ class ilDclDetailedViewGUI
         $ilCtrl->setParameterByClass("ilnotegui", "record_id", $this->record_id);
         $ilCtrl->setParameterByClass("ilnotegui", "rep_id", $repId);
 
-
-
         if ($this->http->wrapper()->query()->has('disable_paging')
             && $this->http->wrapper()->query()->retrieve('disable_paging', $this->refinery->kindlyTo()->bool())) {
             $this->is_enabled_paging = false;
@@ -120,7 +119,8 @@ class ilDclDetailedViewGUI
         $ilCtrl = $DIC['ilCtrl'];
 
         if ($this->http->wrapper()->query()->has('tableview_id')) {
-            $this->tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
+            $this->tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id',
+                $this->refinery->kindlyTo()->int());
         } else {
             $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
             $this->tableview_id = $this->table->getFirstTableViewId($ref_id);
@@ -462,10 +462,10 @@ class ilDclDetailedViewGUI
     protected function checkAccess() : bool
     {
         return ilObjDataCollectionAccess::hasAccessTo(
-            filter_input(INPUT_GET, 'ref_id'),
-            $this->table->getId(),
-            $this->tableview_id
-        )
+                filter_input(INPUT_GET, 'ref_id'),
+                $this->table->getId(),
+                $this->tableview_id
+            )
             && ilDclDetailedViewDefinition::isActive($this->tableview_id);
     }
 }

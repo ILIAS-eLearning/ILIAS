@@ -69,7 +69,7 @@ class ilDclTableView extends ActiveRecord
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected bool $step_c  = false;
+    protected bool $step_c = false;
     /**
      * @var bool
      * @db_has_field        true

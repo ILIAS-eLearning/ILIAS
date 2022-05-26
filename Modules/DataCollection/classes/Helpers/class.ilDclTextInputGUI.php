@@ -19,7 +19,8 @@ class ilDclTextInputGUI extends ilTextInputGUI
         // validate regex
         $has_postvar = $this->http->wrapper()->post()->has($this->getPostVar());
         if ($this->getPostVar() == 'prop_' . ilDclBaseFieldModel::PROP_REGEX && $has_postvar) {
-            $regex =  $this->http->wrapper()->post()->retrieve($this->getPostVar(), $this->refinery->kindlyTo()->string());
+            $regex = $this->http->wrapper()->post()->retrieve($this->getPostVar(),
+                $this->refinery->kindlyTo()->string());
             if (substr($regex, 0, 1) != "/") {
                 $regex = "/" . $regex;
             }

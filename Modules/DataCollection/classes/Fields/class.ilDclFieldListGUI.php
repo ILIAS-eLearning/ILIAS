@@ -53,14 +53,15 @@ class ilDclFieldListGUI
         }
     }
 
-    public function getTableId(): int {
+    public function getTableId() : int
+    {
         return $this->table_id;
     }
 
     /**
      * execute command
      */
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd('listFields');
         $this->$cmd();
@@ -69,16 +70,16 @@ class ilDclFieldListGUI
     /**
      * Delete multiple fields
      */
-    public function deleteFields(): void
+    public function deleteFields() : void
     {
-        if($this->http->wrapper()->post()->has('dcl_field_ids')) {
-            $field_ids = $this->http->wrapper()->post()->retrieve('dcl_field_ids', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
+        if ($this->http->wrapper()->post()->has('dcl_field_ids')) {
+            $field_ids = $this->http->wrapper()->post()->retrieve('dcl_field_ids',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
             $table = ilDclCache::getTableCache($this->table_id);
             foreach ($field_ids as $field_id) {
                 $table->deleteField($field_id);
             }
         }
-
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_fields_deleted'), true);
         $this->ctrl->redirect($this, 'listFields');
@@ -87,14 +88,14 @@ class ilDclFieldListGUI
     /**
      * Confirm deletion of multiple fields
      */
-    public function confirmDeleteFields(): void
+    public function confirmDeleteFields() : void
     {
         $this->tabs->clearSubTabs();
         $conf = new ilConfirmationGUI();
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('dcl_confirm_delete_fields'));
 
-        if($this->http->wrapper()->post()->has('dcl_field_ids')) {
+        if ($this->http->wrapper()->post()->has('dcl_field_ids')) {
             $field_ids = $this->http->wrapper()->post()->retrieve('dcl_field_ids',
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
             foreach ($field_ids as $field_id) {
@@ -112,7 +113,7 @@ class ilDclFieldListGUI
     /*
      * save
      */
-    public function save(): void
+    public function save() : void
     {
         $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
 
@@ -129,8 +130,9 @@ class ilDclFieldListGUI
 
         foreach ($fields as $field) {
             $exportable = false;
-            if($this->http->wrapper()->post()->has('exportable')) {
-                $exportable = $this->http->wrapper()->post()->retrieve('exportable', $this->refinery->kindlyTo()->bool());
+            if ($this->http->wrapper()->post()->has('exportable')) {
+                $exportable = $this->http->wrapper()->post()->retrieve('exportable',
+                    $this->refinery->kindlyTo()->bool());
             }
 
             $field->setExportable($exportable && $exportable[$field->getId()] === "on");
@@ -146,7 +148,7 @@ class ilDclFieldListGUI
     /**
      * list fields
      */
-    public function listFields(): void
+    public function listFields() : void
     {
         //add button
         $add_new = ilLinkButton::getInstance();
@@ -180,21 +182,21 @@ class ilDclFieldListGUI
     /*
      * doTableSwitch
      */
-    public function doTableSwitch(): void
+    public function doTableSwitch() : void
     {
         $table_id = $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int());
         $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $table_id);
         $this->ctrl->redirectByClass("ilDclFieldListGUI", "listFields");
     }
 
-    protected function checkAccess(): bool
+    protected function checkAccess() : bool
     {
         $ref_id = $this->getDataCollectionObject()->getRefId();
 
         return ilObjDataCollectionAccess::hasAccessToEditTable($ref_id, $this->table_id);
     }
 
-    public function getDataCollectionObject(): ilObjDataCollection
+    public function getDataCollectionObject() : ilObjDataCollection
     {
         return $this->parent_obj->getDataCollectionObject();
     }

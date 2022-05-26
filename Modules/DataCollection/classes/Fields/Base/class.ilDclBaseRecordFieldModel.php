@@ -38,7 +38,7 @@ class ilDclBaseRecordFieldModel
         $this->record = $record;
         $this->field = $field;
         $this->ctrl = $DIC->ctrl();
-        $this->user =  $DIC->user();
+        $this->user = $DIC->user();
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
         $this->http = $DIC->http();

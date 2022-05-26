@@ -31,7 +31,7 @@ class ilDclIliasReferenceFieldRepresentation extends ilDclBaseFieldRepresentatio
     }
 
     /**
-     * @param string|null          $filter
+     * @param string|null $filter
      */
     public function passThroughFilter(ilDclBaseRecordModel $record, $filter) : bool
     {

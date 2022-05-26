@@ -42,15 +42,15 @@ class ilDclNumberFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-    public function hasNumericSorting(): bool
+    public function hasNumericSorting() : bool
     {
         return true;
     }
 
     /**
-     * @param float    $value
+     * @param float $value
      */
-    public function checkValidity($value, ?int $record_id = null): bool
+    public function checkValidity($value, ?int $record_id = null) : bool
     {
         $valid = parent::checkValidity($value, $record_id);
 

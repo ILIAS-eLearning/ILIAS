@@ -37,7 +37,7 @@ class ilObjDataCollectionListGUI extends ilObjectListGUI
      *                    "property" (string) => property name
      *                    "value" (string) => property value
      */
-    public function getProperties(): array
+    public function getProperties() : array
     {
         global $DIC;
         $lng = $DIC['lng'];

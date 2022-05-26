@@ -12,7 +12,7 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
     const PROP_SELECTION_TYPE = '';
     const PROP_SELECTION_OPTIONS = '';
 
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 
@@ -49,7 +49,7 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
     /**
      * @return ilMultiSelectInputGUI|ilRadioGroupInputGUI|ilSelectInputGUI
      */
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilFormPropertyGUI
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilFormPropertyGUI
     {
         /** @var ilDclSelectionOption[] $options */
         $options = ilDclSelectionOption::getAllForField($this->getField()->getId());
@@ -119,5 +119,5 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
     /**
      * @return mixed
      */
-    abstract protected function buildOptionsInput(): ilDclGenericMultiInputGUI;
+    abstract protected function buildOptionsInput() : ilDclGenericMultiInputGUI;
 }

@@ -44,7 +44,7 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
         $this->parseData($a_parent_obj->tableview->getFieldSettings());
     }
 
-    public function parseData(array $data): void
+    public function parseData(array $data) : void
     {
         $this->setData($data);
     }

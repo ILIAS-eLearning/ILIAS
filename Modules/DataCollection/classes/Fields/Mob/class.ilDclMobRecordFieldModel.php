@@ -59,7 +59,8 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
             $location = $file_name;
             if ($has_save_confirmation) {
 
-                $ilfilehash = $this->http->wrapper()->post()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string());
+                $ilfilehash = $this->http->wrapper()->post()->retrieve('ilfilehash',
+                    $this->refinery->kindlyTo()->string());
 
                 $move_file = ilDclPropertyFormGUI::getTempFilename($ilfilehash,
                     'field_' . $this->getField()->getId(), $media["name"], $media["type"]);
@@ -183,7 +184,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->setValue($value);
     }
 
-    public function afterClone(): void
+    public function afterClone() : void
     {
         $field = ilDclCache::getCloneOf($this->getField()->getId(), ilDclCache::TYPE_FIELD);
         $record = ilDclCache::getCloneOf($this->getRecord()->getId(), ilDclCache::TYPE_RECORD);

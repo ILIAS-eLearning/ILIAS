@@ -9,7 +9,7 @@ use PhpOffice\PhpSpreadsheet\Cell\DataType;
 class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
 {
 
-    public function setValueFromForm(ilPropertyFormGUI $form): void
+    public function setValueFromForm(ilPropertyFormGUI $form) : void
     {
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             $value = array(
@@ -22,7 +22,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->setValue($value);
     }
 
-    public function fillExcelExport(ilExcel $worksheet, int &$row, int &$col): void
+    public function fillExcelExport(ilExcel $worksheet, int &$row, int &$col) : void
     {
         $value = $this->getExportValue();
 
@@ -42,7 +42,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation): void
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation) : void
     {
         if ($this->field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             $value = $this->getValue();
@@ -56,7 +56,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         parent::addHiddenItemsToConfirmation($confirmation);
     }
 
-    public function getPlainText(): string
+    public function getPlainText() : string
     {
         $value = $this->getValue();
 
@@ -71,7 +71,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    public function getExportValue(): string
+    public function getExportValue() : string
     {
         $value = $this->getValue();
 
@@ -83,7 +83,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    public function getValueFromExcel(ilExcel $excel, int $row, int $col): string
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col) : string
     {
         $value = parent::getValueFromExcel($excel, $row, $col);
         if ($this->getField()->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
@@ -100,7 +100,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
     /**
      * @param int|string $value
      */
-    public function parseValue($value): string
+    public function parseValue($value) : string
     {
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_TEXTAREA)
             && !$this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)
@@ -115,7 +115,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
      * Returns sortable value for the specific field-types
      * @param int|string $value
      */
-    public function parseSortingValue($value, bool $link = true): string
+    public function parseSortingValue($value, bool $link = true) : string
     {
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
             if (is_array($value)) {

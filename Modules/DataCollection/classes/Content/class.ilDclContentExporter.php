@@ -55,7 +55,7 @@ class ilDclContentExporter
      * Sanitize the given filename
      * The ilUtil::_sanitizeFilemame() does not clean enough
      */
-    public function sanitizeFilename(string $filename): string
+    public function sanitizeFilename(string $filename) : string
     {
         $dangerous_filename_characters = array(" ", '"', "'", "&", "/", "\\", "?", "#", "`");
 
@@ -65,7 +65,7 @@ class ilDclContentExporter
     /**
      * Return export path
      */
-    public function getExportContentPath(string $format): string
+    public function getExportContentPath(string $format) : string
     {
         return ilExport::_getExportDirectory($this->dcl->getId(), $format, 'dcl') . '/';
     }
@@ -73,8 +73,12 @@ class ilDclContentExporter
     /**
      * Fill a excel row
      */
-    protected function fillRowExcel(ilDclTable $table, ilExcel $worksheet, ilDclBaseRecordModel $record, int $row): void
-    {
+    protected function fillRowExcel(
+        ilDclTable $table,
+        ilExcel $worksheet,
+        ilDclBaseRecordModel $record,
+        int $row
+    ) : void {
         $col = 0;
         foreach ($table->getFields() as $field) {
             if ($field->getExportable()) {
@@ -86,7 +90,7 @@ class ilDclContentExporter
     /**
      * Fill Excel header
      */
-    protected function fillHeaderExcel(ilDclTable $table, ilExcel $worksheet, int $row): void
+    protected function fillHeaderExcel(ilDclTable $table, ilExcel $worksheet, int $row) : void
     {
         $col = 0;
 
@@ -100,7 +104,7 @@ class ilDclContentExporter
     /**
      * Fill Excel meta-data
      */
-    protected function fillMetaExcel(string $table, ilExcel $worksheet, int $row): void
+    protected function fillMetaExcel(string $table, ilExcel $worksheet, int $row) : void
     {
     }
 
@@ -179,7 +183,8 @@ class ilDclContentExporter
             global $ilCtrl;
             $this->main_tpl->setOnScreenMessage('info', sprintf(
                 $this->lng->txt('dcl_no_export_fields_available'),
-                $ilCtrl->getLinkTargetByClass(array('ilDclTableListGUI', 'ilDclTableEditGUI', 'ilDclFieldListGUI'), 'listFields')
+                $ilCtrl->getLinkTargetByClass(array('ilDclTableListGUI', 'ilDclTableEditGUI', 'ilDclFieldListGUI'),
+                    'listFields')
             ));
             return false;
         }

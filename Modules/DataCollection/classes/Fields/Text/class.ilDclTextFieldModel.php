@@ -93,7 +93,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
 
     /**
      * @param null|string|array $value
-     * @param int $record_id
+     * @param int               $record_id
      * @return bool
      * @throws ilDclInputException
      */
@@ -153,7 +153,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
     /**
      * @inheritDoc
      */
-    public function getValidFieldProperties(): array
+    public function getValidFieldProperties() : array
     {
         return array(
             ilDclBaseFieldModel::PROP_LENGTH,
@@ -164,7 +164,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         );
     }
 
-    protected function checkRegexAndLength(string $value): void
+    protected function checkRegexAndLength(string $value) : void
     {
         $regex = $this->getProperty(ilDclBaseFieldModel::PROP_REGEX);
         if (substr($regex, 0, 1) != "/") {
@@ -193,7 +193,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
     }
 
-    public function strlen(string $value, string $encoding = 'UTF-8'): int
+    public function strlen(string $value, string $encoding = 'UTF-8') : int
     {
         switch (true) {
             case function_exists('mb_strlen'):
@@ -205,7 +205,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
     }
 
-    public function fillHeaderExcel(ilExcel $worksheet, int &$row, int &$col): void
+    public function fillHeaderExcel(ilExcel $worksheet, int &$row, int &$col) : void
     {
         parent::fillHeaderExcel($worksheet, $row, $col);
         if ($this->getProperty(ilDclBaseFieldModel::PROP_URL)) {
@@ -214,7 +214,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
     }
 
-    public function checkTitlesForImport(array &$titles, array &$import_fields): void
+    public function checkTitlesForImport(array &$titles, array &$import_fields) : void
     {
         foreach ($titles as $k => $title) {
             if (!ilStr::isUtf8($title)) {

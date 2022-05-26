@@ -75,7 +75,6 @@ class ilDclTableListTableGUI extends ilTable2GUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-
         if ($this->getExportMode()) {
             $this->exportData($this->getExportMode(), true);
         }
@@ -181,7 +180,6 @@ class ilDclTableListTableGUI extends ilTable2GUI
             $this->tpl->parseCurrentBlock();
         }
 
-
         if (!$this->getPrintMode()) {
             $this->fillFooter();
 
@@ -216,7 +214,7 @@ class ilDclTableListTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ACTIONS', $this->buildActions($a_set->getId()));
     }
 
-    protected function buildActions(int $id): string
+    protected function buildActions(int $id) : string
     {
         $alist = new ilAdvancedSelectionListGUI();
         $alist->setId($id);

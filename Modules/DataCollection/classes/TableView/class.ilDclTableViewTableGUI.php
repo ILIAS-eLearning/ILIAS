@@ -11,9 +11,9 @@ class ilDclTableViewTableGUI extends ilTable2GUI
 
     /**
      * ilDclTableViewTableGUI constructor.
-     * @param object $a_parent_obj //object|ilDclTableViewGUI
-     * @param string            $a_parent_cmd
-     * @param ilDclTable        $table
+     * @param object     $a_parent_obj //object|ilDclTableViewGUI
+     * @param string     $a_parent_cmd
+     * @param ilDclTable $table
      */
     public function __construct(object $a_parent_obj, $a_parent_cmd, ilDclTable $table)
     {

@@ -7,7 +7,6 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
 {
     protected static ?self $instance = null;
 
-
     private ilGlobalTemplateInterface $tpl;
     private \ILIAS\DI\UIServices $ui;
     private \ilTabsGUI $tabs;
@@ -93,7 +92,7 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
         $this->tabs->clearSubTabs();
     }
 
-    public function setBackTab(string $label, string $link): void
+    public function setBackTab(string $label, string $link) : void
     {
         $this->tabs->setBackTarget($label, $link);
     }

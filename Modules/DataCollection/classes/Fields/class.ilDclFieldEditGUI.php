@@ -38,16 +38,14 @@ class ilDclFieldEditGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-        $this->table_id =  $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+        $this->table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
 
-        $hasFieldId =  $this->http->wrapper()->query()->has('field_id');
-        if($hasFieldId) {
+        $hasFieldId = $this->http->wrapper()->query()->has('field_id');
+        if ($hasFieldId) {
             $this->field_id = $this->http->wrapper()->query()->retrieve('field_id', $this->refinery->kindlyTo()->int());
         } else {
             $this->field_id = 0;
         }
-
-
 
         if ($this->field_id) {
             $this->field_obj = ilDclCache::getFieldCache($this->field_id);
@@ -56,10 +54,10 @@ class ilDclFieldEditGUI
 
             $has_datatype = $this->http->wrapper()->post()->has('datatype');
 
-
             if ($has_datatype) {
-                $datatype_value = $this->http->wrapper()->post()->retrieve('datatype', $this->refinery->kindlyTo()->string());
-                if(in_array($datatype_value,
+                $datatype_value = $this->http->wrapper()->post()->retrieve('datatype',
+                    $this->refinery->kindlyTo()->string());
+                if (in_array($datatype_value,
                     array_keys(ilDclDatatype::getAllDatatype()))) {
                     $datatype = $datatype_value;
                 }

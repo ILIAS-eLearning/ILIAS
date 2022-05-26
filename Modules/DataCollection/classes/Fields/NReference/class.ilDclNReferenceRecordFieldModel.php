@@ -8,17 +8,17 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
 {
     protected int $max_reference_length = 20;
 
-    public function getMaxReferenceLength(): int
+    public function getMaxReferenceLength() : int
     {
         return $this->max_reference_length;
     }
 
-    public function setMaxReferenceLength(int $max_reference_length): void
+    public function setMaxReferenceLength(int $max_reference_length) : void
     {
         $this->max_reference_length = $max_reference_length;
     }
 
-    public function doUpdate(): void
+    public function doUpdate() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -48,13 +48,13 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
         $ilDB->manipulate($query);
     }
 
-    public function getValue(): array
+    public function getValue() : array
     {
         $this->loadValue();
         return $this->value;
     }
 
-    protected function loadValueSorted(): void
+    protected function loadValueSorted() : void
     {
         if ($this->value === null) {
             global $DIC;
@@ -118,7 +118,7 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
         }
     }
 
-    protected function loadValue(): void
+    protected function loadValue() : void
     {
         if ($this->value === null) {
             global $DIC;
@@ -137,14 +137,14 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
     /**
      * @description this funciton is used to in the viewdefinition of a single record.
      */
-    public function getSingleHTML($options = null): string
+    public function getSingleHTML($options = null) : string
     {
         $ilDataCollectionNReferenceFieldGUI = new ilDclNReferenceFieldGUI($this);
 
         return $ilDataCollectionNReferenceFieldGUI->getSingleHTML($options);
     }
 
-    public function getLinkHTML(string $link, int $value): string
+    public function getLinkHTML(string $link, int $value) : string
     {
         if ($link === "[" . $this->getField()->getTitle() . "]") {
             //$link = null;
@@ -154,14 +154,14 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
         return "<a href=\"$link\">$value</a>";
     }
 
-    public function getHTML(): string
+    public function getHTML() : string
     {
         $ilDataCollectionNReferenceFieldGUI = new ilDclNReferenceFieldGUI($this);
 
         return $ilDataCollectionNReferenceFieldGUI->getHTML();
     }
 
-    public function getValueFromExcel(ilExcel $excel, int $row, int $col): array
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col) : array
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -178,7 +178,7 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
         return $referenceIds;
     }
 
-    public function getExportValue(): string
+    public function getExportValue() : string
     {
         $values = $this->getValue();
         $names = array();
@@ -206,7 +206,7 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
      * Will mess with it.
      * @return int[]
      */
-    protected function getReferencesFromString(string $stringValues): array
+    protected function getReferencesFromString(string $stringValues) : array
     {
         $slicedStrings = explode(", ", $stringValues);
         $slicedReferences = array();

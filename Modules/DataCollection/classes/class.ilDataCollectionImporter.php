@@ -43,7 +43,7 @@ class ilDataCollectionImporter extends ilXmlImporter
         $this->ds->beforeFinishImport($a_mapping);
     }
 
-    public static function getExcelCharForInteger(int $int): string
+    public static function getExcelCharForInteger(int $int) : string
     {
         $char = "";
         $rng = range("A", "Z");

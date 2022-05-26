@@ -15,7 +15,7 @@ class ilDclTextSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel
     /**
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      */
-    public function fillExcelExport(ilExcel $worksheet, int &$row, int &$col): void
+    public function fillExcelExport(ilExcel $worksheet, int &$row, int &$col) : void
     {
         $worksheet->setCell($row, $col, $this->getExportValue(), DataType::TYPE_STRING);
         $col++;

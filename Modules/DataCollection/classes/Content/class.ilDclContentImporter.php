@@ -63,7 +63,7 @@ class ilDclContentImporter
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws ilDateTimeException
      */
-    public function import(string $file, bool $simulate = false): array
+    public function import(string $file, bool $simulate = false) : array
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -164,7 +164,7 @@ class ilDclContentImporter
         return array('line' => ($i - 2 < 0 ? 0 : $i - 2), 'warnings' => $this->warnings);
     }
 
-    protected function checkImportType(ilDclBaseFieldModel $field): bool
+    protected function checkImportType(ilDclBaseFieldModel $field) : bool
     {
         if (in_array($field->getDatatypeId(), $this->supported_import_datatypes)) {
             return true;
@@ -176,10 +176,10 @@ class ilDclContentImporter
     }
 
     /**
-     * @param  string[] $titles
+     * @param string[] $titles
      * @return ilDclBaseFieldModel[]
      */
-    protected function getImportFieldsFromTitles(ilDclTable $table, array $titles): array
+    protected function getImportFieldsFromTitles(ilDclTable $table, array $titles) : array
     {
         $fields = $table->getRecordFields();
         $import_fields = array();

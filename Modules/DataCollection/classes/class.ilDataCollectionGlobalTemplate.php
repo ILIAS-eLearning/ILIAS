@@ -27,8 +27,8 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     protected string $right_content = "";
     protected string $main_content = "";
     protected string $login_target_par = "";
-    protected string $tplIdentifier  = "";
-    protected string $tree_flat_mode  = "";
+    protected string $tplIdentifier = "";
+    protected string $tree_flat_mode = "";
     protected string $icon_desc = "";
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
@@ -88,7 +88,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill the footer area.
      */
-    private function fillFooter(): void
+    private function fillFooter() : void
     {
         global $DIC;
 
@@ -118,10 +118,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
         // imprint
         include_once "Services/Imprint/classes/class.ilImprint.php";
-        if($this->http->wrapper()->query()->has('record_id')) {
+        if ($this->http->wrapper()->query()->has('record_id')) {
             $baseClass = $this->http->wrapper()->query()->retrieve('baseClass', $this->refinery->kindlyTo()->string());
         }
-        if($this->http->wrapper()->post()->has('record_id')) {
+        if ($this->http->wrapper()->post()->has('record_id')) {
             $baseClass = $this->http->wrapper()->post()->retrieve('baseClass', $this->refinery->kindlyTo()->string());
         }
         if ($baseClass != "ilImprintGUI" && ilImprint::isActive()) {
@@ -183,15 +183,15 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     protected string $main_menu;
     protected string $main_menu_spacer;
 
-    private function getMainMenu(): void
+    private function getMainMenu() : void
     {
     }
 
-    private function fillMainMenu(): void
+    private function fillMainMenu() : void
     {
     }
 
-    private function initHelp(): void
+    private function initHelp() : void
     {
     }
 
@@ -231,7 +231,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill message area.
      */
-    private function fillMessage(): void
+    private function fillMessage() : void
     {
         global $DIC;
 
@@ -256,7 +256,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-    private function getMessageTextForType(string $m): string
+    private function getMessageTextForType(string $m) : string
     {
         $txt = "";
         if (isset($_SESSION[$m]) && $_SESSION[$m] != "") {
@@ -429,7 +429,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-    protected function fillJavascriptFile(string $file, string $vers): void
+    protected function fillJavascriptFile(string $file, string $vers) : void
     {
         $this->setCurrentBlock("js_file");
         if ($this->js_files_vp[$file]) {
@@ -489,7 +489,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      * Fill in the css file tags
      * @param bool $a_force
      */
-    public function fillCssFiles(bool $a_force = false): void
+    public function fillCssFiles(bool $a_force = false) : void
     {
         if (!$this->blockExists("css_file")) {
             return;
@@ -523,7 +523,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $this->body_class = $a_class;
     }
 
-    private function fillBodyClass(): void
+    private function fillBodyClass() : void
     {
         if ($this->body_class != "" && $this->blockExists("body_class")) {
             $this->setCurrentBlock("body_class");
@@ -535,7 +535,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Reset css files
      */
-    private function resetCss(): void
+    private function resetCss() : void
     {
         $this->css_files = array();
     }
@@ -543,7 +543,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill in the inline css
      */
-    private function fillInlineCss(): void
+    private function fillInlineCss() : void
     {
         if (!$this->blockExists("css_inline")) {
             return;
@@ -558,7 +558,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill Content Style
      */
-    private function fillNewContentStyle(): void
+    private function fillNewContentStyle() : void
     {
         $this->setVariable(
             "LOCATION_NEWCONTENT_STYLESHEET_TAG",
@@ -749,7 +749,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Get header action menu
      */
-    private function getHeaderActionMenu(): string
+    private function getHeaderActionMenu() : string
     {
         return $this->header_action;
     }
@@ -874,7 +874,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill left navigation frame
      */
-    private function fillLeftNav(): void
+    private function fillLeftNav() : void
     {
         if (trim($this->left_nav_content) != "") {
             $this->setCurrentBlock("left_nav");
@@ -892,7 +892,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $this->right_content = $a_html;
     }
 
-    private function setCenterColumnClass(): void
+    private function setCenterColumnClass() : void
     {
         if (!$this->blockExists("center_col_width")) {
             return;
@@ -926,14 +926,14 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $this->parseCurrentBlock();
     }
 
-    private function fillMainContent(): void
+    private function fillMainContent() : void
     {
         if (trim($this->main_content) != "") {
             $this->setVariable("ADM_CONTENT", $this->main_content);
         }
     }
 
-    private function fillLeftContent(): void
+    private function fillLeftContent() : void
     {
         if (trim($this->left_content) != "") {
             $this->setCurrentBlock("left_column");
@@ -946,7 +946,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-    private function fillRightContent(): void
+    private function fillRightContent() : void
     {
         if (trim($this->right_content) != "") {
             $this->setCurrentBlock("right_column");
@@ -962,7 +962,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     //
     //***********************************
 
-    private function fillToolbar(): void
+    private function fillToolbar() : void
     {
         global $DIC;
 
@@ -983,7 +983,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Add current user language to meta tags
      */
-    private function fillContentLanguage(): void
+    private function fillContentLanguage() : void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -994,7 +994,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-    private function fillWindowTitle(): void
+    private function fillWindowTitle() : void
     {
         global $DIC;
 
@@ -1028,7 +1028,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $this->page_form_action = $a_action;
     }
 
-    private function fillPageFormAction(): void
+    private function fillPageFormAction() : void
     {
         if ($this->page_form_action != "") {
             $this->setCurrentBlock("page_form_start");
@@ -1056,7 +1056,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Get target parameter for login
      */
-    private function getLoginTargetPar(): string
+    private function getLoginTargetPar() : string
     {
         return $this->login_target_par;
     }
@@ -1289,7 +1289,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      * TODO: this is nice, but shouldn't be done here
      * (-> maybe at the end of ilias.php!?, alex)
      */
-    private function handleReferer(): void
+    private function handleReferer() : void
     {
         /*
         if (((substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "error.php")
@@ -1357,7 +1357,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Accessibility focus for screen readers
      */
-    private function fillScreenReaderFocus(): void
+    private function fillScreenReaderFocus() : void
     {
         global $DIC;
 
@@ -1372,7 +1372,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill side icons (upper icon, tree icon, webfolder icon)
      */
-    private function fillSideIcons(): void
+    private function fillSideIcons() : void
     {
         global $DIC;
 
@@ -1428,7 +1428,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      * @param
      * @return
      */
-    private function fillLightbox(): void
+    private function fillLightbox() : void
     {
 
         $html = implode('', $this->lightbox);
@@ -1446,8 +1446,11 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     protected ?bool $admin_panel_arrow = null;
     protected ?bool $admin_panel_bottom = null;
 
-    public function addAdminPanelToolbar(ilToolbarGUI $toolbar, bool $is_bottom_panel = true, bool $has_arrow = false) : void
-    {
+    public function addAdminPanelToolbar(
+        ilToolbarGUI $toolbar,
+        bool $is_bottom_panel = true,
+        bool $has_arrow = false
+    ) : void {
         $this->admin_panel_commands_toolbar = $toolbar;
         $this->admin_panel_arrow = $has_arrow;
         $this->admin_panel_bottom = $is_bottom_panel;
@@ -1458,7 +1461,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      * - creation selector
      * - admin view on/off button
      */
-    private function fillAdminPanel(): void
+    private function fillAdminPanel() : void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -1514,7 +1517,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill in permanent link
      */
-    private function fillPermanentLink(): void
+    private function fillPermanentLink() : void
     {
         if (is_array($this->permanent_link)) {
             include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");

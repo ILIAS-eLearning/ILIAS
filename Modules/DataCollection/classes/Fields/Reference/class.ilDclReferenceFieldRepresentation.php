@@ -9,7 +9,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     const REFERENCE_SEPARATOR = " -> ";
 
-    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0): ilSelectInputGUI
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilSelectInputGUI
     {
         if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
             $input = new ilSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
@@ -117,7 +117,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
     /**
      * @param int $filter
      */
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter): bool
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter) : bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
 
@@ -133,7 +133,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         return $pass;
     }
 
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 

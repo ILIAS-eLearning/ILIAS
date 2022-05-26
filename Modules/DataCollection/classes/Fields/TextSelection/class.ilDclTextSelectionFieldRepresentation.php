@@ -10,7 +10,7 @@ class ilDclTextSelectionFieldRepresentation extends ilDclSelectionFieldRepresent
     const PROP_SELECTION_TYPE = 'text_selection_type';
     const PROP_SELECTION_OPTIONS = 'text_selection_options';
 
-    protected function buildOptionsInput(): ilDclGenericMultiInputGUI
+    protected function buildOptionsInput() : ilDclGenericMultiInputGUI
     {
         $selection_options = new ilDclGenericMultiInputGUI($this->lng->txt('dcl_selection_options'),
             'prop_' . static::PROP_SELECTION_OPTIONS);

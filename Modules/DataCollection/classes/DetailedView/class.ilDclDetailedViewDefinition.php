@@ -31,7 +31,7 @@ class ilDclDetailedViewDefinition extends ilPageObject
     /**
      * Get all placeholders for table id
      */
-    public function getAvailablePlaceholders(): array
+    public function getAvailablePlaceholders() : array
     {
         $all = array();
 
@@ -60,12 +60,12 @@ class ilDclDetailedViewDefinition extends ilPageObject
         return $all;
     }
 
-    public static function exists(int $id): bool
+    public static function exists(int $id) : bool
     {
         return parent::_exists(self::PARENT_TYPE, $id);
     }
 
-    public static function isActive(int $id): bool
+    public static function isActive(int $id) : bool
     {
         return parent::_lookupActive($id, self::PARENT_TYPE);
     }

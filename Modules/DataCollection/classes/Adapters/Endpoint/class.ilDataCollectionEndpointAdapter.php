@@ -38,7 +38,7 @@ class ilDataCollectionEndpointAdapter implements ilDataCollectionEndpointPort
      */
     public function getListRecordsLink(?string $viewId = null) : string
     {
-        if($viewId !== null) {
+        if ($viewId !== null) {
             $this->ctrl->setParameterByClass("ildclrecordlistgui", "tableview_id", $viewId);
         }
         return $this->ctrl->getLinkTargetByClass("ildclrecordlistgui", "show");

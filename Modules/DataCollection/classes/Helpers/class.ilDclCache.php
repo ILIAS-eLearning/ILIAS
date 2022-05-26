@@ -146,11 +146,11 @@ class ilDclCache
         return $records_cache[$record_id];
     }
 
-
     public static function getRecordFieldCache(
         object $record, //object|ilDclBaseRecordModel
         object $field //object|ilDclBaseFieldModel
-    ) : ilDclBaseRecordFieldModel {
+    ) : ilDclBaseRecordFieldModel
+    {
         $fid = $field->getId();
         $rid = $record->getId();
         if (!isset(self::$record_field_cache[$rid])) {

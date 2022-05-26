@@ -32,7 +32,6 @@ class ilDclTableEditGUI
     {
         global $DIC;
 
-
         $locator = $DIC['ilLocator'];
 
         $this->ctrl = $DIC->ctrl();
@@ -43,7 +42,6 @@ class ilDclTableEditGUI
         $this->obj_id = $a_parent_obj->getObjId();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-
 
         $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
 

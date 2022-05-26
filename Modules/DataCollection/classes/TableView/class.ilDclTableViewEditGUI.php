@@ -22,7 +22,6 @@ class ilDclTableViewEditGUI
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
 
-
     public function __construct(ilDclTableViewGUI $parent_obj, ilDclTable $table, ilDclTableView $tableview)
     {
         global $DIC;
@@ -216,8 +215,9 @@ class ilDclTableViewEditGUI
             //Checkboxes
             foreach (array("Visible", "InFilter", "FilterChangeable") as $attribute) {
                 $key = $attribute . '_' . $setting->getField();
-                if($this->http->wrapper()->post()->has($key)) {
-                    $checkbox_value = $this->http->wrapper()->post()->retrieve($key, $this->refinery->kindlyTo()->string());
+                if ($this->http->wrapper()->post()->has($key)) {
+                    $checkbox_value = $this->http->wrapper()->post()->retrieve($key,
+                        $this->refinery->kindlyTo()->string());
                     $setting->{'set' . $attribute}($checkbox_value === 'on');
                 } else {
                     $setting->{'set' . $attribute}(false);
@@ -227,9 +227,14 @@ class ilDclTableViewEditGUI
             //Filter Value
             $key = 'filter_' . $setting->getField();
             if ($this->http->wrapper()->post()->has($key)) {
-                $setting->setFilterValue($this->http->wrapper()->post()->retrieve($key, $this->refinery->kindlyTo()->string()));
+                $setting->setFilterValue($this->http->wrapper()->post()->retrieve($key,
+                    $this->refinery->kindlyTo()->string()));
             } elseif ($this->http->wrapper()->post()->has($key . '_from') && $this->http->wrapper()->post()->has($key . '_to')) {
-                $setting->setFilterValue(array("from" => $this->http->wrapper()->post()->retrieve($key . '_from', $this->refinery->kindlyTo()->string()), "to" => $this->http->wrapper()->post()->retrieve($key . '_to', $this->refinery->kindlyTo()->string())));
+                $setting->setFilterValue(array("from" => $this->http->wrapper()->post()->retrieve($key . '_from',
+                    $this->refinery->kindlyTo()->string()),
+                                               "to" => $this->http->wrapper()->post()->retrieve($key . '_to',
+                                                   $this->refinery->kindlyTo()->string())
+                ));
             } else {
                 $setting->setFilterValue(null);
             }

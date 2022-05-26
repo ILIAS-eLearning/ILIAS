@@ -29,7 +29,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
 
-
     public function __construct(
         ilDclRecordListGUI $a_parent_obj,
         string $a_parent_cmd,
@@ -185,7 +184,8 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             }
 
             if ($record->hasPermissionToEdit($this->parent_obj->getRefId())) {
-                $alist->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass("ildclrecordeditgui", 'edit'));
+                $alist->addItem($this->lng->txt('edit'), 'edit',
+                    $this->ctrl->getLinkTargetByClass("ildclrecordeditgui", 'edit'));
             }
 
             if ($record->hasPermissionToDelete($this->parent_obj->getRefId())) {

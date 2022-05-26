@@ -9,7 +9,10 @@ abstract class ilDclTableViewBaseDefaultValue extends ActiveRecord
     /**
      * @throws ilDclException
      */
-    public static function findSingle(int $data_type_id, int $tview_id) : ?ActiveRecord //?|ActiveRecord|ilDclTableViewBaseDefaultValue
+    public static function findSingle(
+        int $data_type_id,
+        int $tview_id
+    ) : ?ActiveRecord //?|ActiveRecord|ilDclTableViewBaseDefaultValue
     {
         $storage_location = ilDclCache::getDatatype($data_type_id)->getStorageLocation();
         if (is_null($storage_location) || $storage_location == 0) {

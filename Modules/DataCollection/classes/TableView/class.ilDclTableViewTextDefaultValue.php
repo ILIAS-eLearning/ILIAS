@@ -42,7 +42,7 @@ class ilDclTableViewTextDefaultValue extends ilDclTableViewBaseDefaultValue
         return "il_dcl_stloc1_default";
     }
 
-    public function getId(): int
+    public function getId() : int
     {
         return $this->id;
     }
@@ -52,7 +52,7 @@ class ilDclTableViewTextDefaultValue extends ilDclTableViewBaseDefaultValue
         $this->id = $id;
     }
 
-    public function getTviewSetId(): int
+    public function getTviewSetId() : int
     {
         return $this->tview_set_id;
     }
@@ -62,7 +62,7 @@ class ilDclTableViewTextDefaultValue extends ilDclTableViewBaseDefaultValue
         $this->tview_set_id = $tview_set_id;
     }
 
-    public function getValue(): string
+    public function getValue() : string
     {
         return $this->value;
     }

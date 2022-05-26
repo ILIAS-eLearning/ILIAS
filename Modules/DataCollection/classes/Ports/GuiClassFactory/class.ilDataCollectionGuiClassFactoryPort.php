@@ -15,7 +15,10 @@ interface ilDataCollectionGuiClassFactoryPort
 
     public function getIlDclTableListGUI(object $dclGuiObject) : ilDataCollectionGuiClassPort;
 
-    public function getIlDclRecordListGUI(ilObjDataCollectionGUI $dclGuiObject, int $tableId) : ilDataCollectionGuiClassPort;
+    public function getIlDclRecordListGUI(
+        ilObjDataCollectionGUI $dclGuiObject,
+        int $tableId
+    ) : ilDataCollectionGuiClassPort;
 
     public function getIlDclRecordEditGUI(ilObjDataCollectionGUI $dclGuiObject) : ilDataCollectionGuiClassPort;
 

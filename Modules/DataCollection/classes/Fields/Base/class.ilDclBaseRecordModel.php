@@ -264,8 +264,12 @@ class ilDclBaseRecordModel
         return $this->recordfields[$field->getId()]->getValueFromExcel($excel, $row, $col);
     }
 
-    public function setStandardFieldValueFromExcel(ilExcel $excel, int $row, int $col, ilDclBaseFieldModel $field) : void
-    {
+    public function setStandardFieldValueFromExcel(
+        ilExcel $excel,
+        int $row,
+        int $col,
+        ilDclBaseFieldModel $field
+    ) : void {
         $value = $field->getValueFromExcel($excel, $row, $col);
         if ($value) {
             $this->{$field->getId()} = $value;

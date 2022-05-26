@@ -87,9 +87,9 @@ class ilDclRecordListGUI
 
         $this->mode = self::MODE_VIEW;
 
-        if($this->http->wrapper()->query()->has(self::GET_MODE)) {
+        if ($this->http->wrapper()->query()->has(self::GET_MODE)) {
             $mode = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
-            if(in_array($mode , self::$available_modes)) {
+            if (in_array($mode, self::$available_modes)) {
                 $this->mode = $mode;
             }
         }
@@ -348,8 +348,9 @@ class ilDclRecordListGUI
         if ($this->dclAccess->hasReadPermission($this->parent_obj->getRefId())) {
             // deliver temp-files
             if ($hasIlFileHash) {
-                $filehash = $this->http->wrapper()->query()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string());
-                $field_id =  $this->http->wrapper()->query()->retrieve('field_id', $this->refinery->kindlyTo()->int());
+                $filehash = $this->http->wrapper()->query()->retrieve('ilfilehash',
+                    $this->refinery->kindlyTo()->string());
+                $field_id = $this->http->wrapper()->query()->retrieve('field_id', $this->refinery->kindlyTo()->int());
                 ilDclPropertyFormGUI::rebuildTempFileByHash($filehash);
 
                 $filepath = $_FILES["field_" . $field_id]['tmp_name'];
@@ -383,8 +384,9 @@ class ilDclRecordListGUI
 
         $has_record_ids = $this->http->wrapper()->post()->has('record_ids');
         $record_ids = [];
-        if($has_record_ids) {
-            $record_ids = $this->http->wrapper()->post()->retrieve('record_ids', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
+        if ($has_record_ids) {
+            $record_ids = $this->http->wrapper()->post()->retrieve('record_ids',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
         }
         $all_fields = $this->table_obj->getRecordFields();
         foreach ($record_ids as $record_id) {
@@ -416,8 +418,9 @@ class ilDclRecordListGUI
     {
         $has_record_ids = $this->http->wrapper()->post()->has('record_ids');
         $record_ids = [];
-        if($has_record_ids) {
-            $record_ids = $this->http->wrapper()->post()->retrieve('record_ids', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
+        if ($has_record_ids) {
+            $record_ids = $this->http->wrapper()->post()->retrieve('record_ids',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
         }
 
         // Invoke deletion

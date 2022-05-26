@@ -58,7 +58,7 @@ class ilDclSelectionOption extends ActiveRecord
      */
     protected string $value;
 
-    public function getId(): int
+    public function getId() : int
     {
         return $this->id;
     }
@@ -68,7 +68,7 @@ class ilDclSelectionOption extends ActiveRecord
         $this->id = $id;
     }
 
-    public function getFieldId(): int
+    public function getFieldId() : int
     {
         return $this->field_id;
     }
@@ -78,7 +78,7 @@ class ilDclSelectionOption extends ActiveRecord
         $this->field_id = $field_id;
     }
 
-    public function getOptId(): int
+    public function getOptId() : int
     {
         return $this->opt_id;
     }
@@ -88,7 +88,7 @@ class ilDclSelectionOption extends ActiveRecord
         $this->opt_id = $opt_id;
     }
 
-    public function getValue(): string
+    public function getValue() : string
     {
         return $this->value;
     }
@@ -98,7 +98,7 @@ class ilDclSelectionOption extends ActiveRecord
         $this->value = $value;
     }
 
-    public function getSorting(): int
+    public function getSorting() : int
     {
         return $this->sorting;
     }
@@ -108,7 +108,7 @@ class ilDclSelectionOption extends ActiveRecord
         $this->sorting = $sorting;
     }
 
-    public static function storeOption(int $field_id, int $opt_id, int $sorting, string $value): void
+    public static function storeOption(int $field_id, int $opt_id, int $sorting, string $value) : void
     {
         /** @var ilDclSelectionOption $option */
         $option = self::where(array("field_id" => $field_id, "opt_id" => $opt_id))->first();
@@ -122,7 +122,7 @@ class ilDclSelectionOption extends ActiveRecord
         $option->store();
     }
 
-    public static function flushOptions(int $field_id): void
+    public static function flushOptions(int $field_id) : void
     {
         foreach (self::getAllForField($field_id) as $option) {
             $option->delete();
@@ -132,7 +132,7 @@ class ilDclSelectionOption extends ActiveRecord
     /**
      * @return self[]
      */
-    public static function getAllForField(int $field_id): array
+    public static function getAllForField(int $field_id) : array
     {
         return self::where(array("field_id" => $field_id))->orderBy('sorting')->get();
     }
@@ -141,7 +141,7 @@ class ilDclSelectionOption extends ActiveRecord
      * @param array|string|int $opt_ids
      * @throws arException
      */
-    public static function getValues(int $field_id, $opt_ids): array
+    public static function getValues(int $field_id, $opt_ids) : array
     {
         $operators = array('field_id' => '=');
         if (is_array($opt_ids)) {
@@ -164,7 +164,7 @@ class ilDclSelectionOption extends ActiveRecord
     /**
      * @param ilDclSelectionOption $original_option
      */
-    public function cloneOption(ilDclSelectionOption $original_option): void
+    public function cloneOption(ilDclSelectionOption $original_option) : void
     {
         $this->setValue($original_option->getValue());
         $this->setSorting($original_option->getSorting());

@@ -102,7 +102,7 @@ class ilDclFieldProperty extends ActiveRecord
     /**
      * @param string|array|int $value
      */
-    public function setValue($value): void
+    public function setValue($value) : void
     {
         $this->value = $value;
     }

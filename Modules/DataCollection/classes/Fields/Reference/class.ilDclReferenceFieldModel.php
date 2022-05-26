@@ -12,7 +12,7 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
 
     /**
      * Returns a query-object for building the record-loader-sql-query
-     * @param string $direction
+     * @param string  $direction
      * @param boolean $sort_by_status The specific sort object is a status field
      * @return null|ilDclRecordQueryObject
      */
