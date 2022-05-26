@@ -1,5 +1,17 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ ********************************************************************
+ */
 
 require_once './Services/Exceptions/classes/class.ilException.php';
 
@@ -47,7 +59,7 @@ class ilDclInputException extends ilException
     /**
      * @return string
      */
-    public function getExceptionType()
+    public function getExceptionType() : string
     {
         return $this->exception_type;
     }
@@ -55,7 +67,7 @@ class ilDclInputException extends ilException
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString() : string
     {
         global $DIC;
         $lng = $DIC['lng'];
