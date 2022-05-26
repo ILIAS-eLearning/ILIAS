@@ -91,7 +91,7 @@ class ilOrgUnitOperationQueries
     public static function findByOperationString(
         string $operation_string,
         string $context_name
-    ) : ActiveRecord /*ilOrgUnitOperation|ActiveRecord*/ {
+    ) : ?ActiveRecord /*ilOrgUnitOperation|ActiveRecord*/ {
         $context = ilOrgUnitOperationContextQueries::findByName($context_name);
 
         return ilOrgUnitOperation::where(['operation_string' => $operation_string,
