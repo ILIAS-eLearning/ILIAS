@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 /**
  * Export User Interface Class
  * @author       Michael Herren <mh@studer-raimann.ch>
@@ -19,7 +33,8 @@ class ilDclExportGUI extends ilExportGUI
      */
     public function createExportFile() : void
     {
-        if ($_POST['format'] == 'xlsx') {
+        $format = $this->http->wrapper()->post()->retrieve('format', $this->refinery->kindlyTo()->string());
+        if ($format === 'xlsx') {
             $this->checkForExportableFields();
         }
 
@@ -29,7 +44,7 @@ class ilDclExportGUI extends ilExportGUI
     /**
      * send failure and redirect if no exportable fields
      */
-    protected function checkForExportableFields(): bool
+    protected function checkForExportableFields() : bool
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -45,5 +60,7 @@ class ilDclExportGUI extends ilExportGUI
 
         $this->tpl->setOnScreenMessage('failure', $lng->txt('dcl_no_export_data_available'), true);
         $ilCtrl->redirect($this, "listExportFiles");
+
+        return false;
     }
 }

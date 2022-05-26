@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclTextFieldModel
@@ -87,12 +103,17 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
                 }
             }
         }
+
+        return false;
     }
 
     /**
+     * @param null|string|array $value
+     * @param int               $record_id
+     * @return bool
      * @throws ilDclInputException
      */
-    protected function checkValidityOfURLField(string $value, int $record_id) : bool
+    protected function checkValidityOfURLField($value, int $record_id) : bool
     {
         // TODO: value should always be an array with url fields, can we remove the check & json_decode?
         if (!is_array($value)) {
@@ -107,7 +128,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         $this->checkRegexAndLength($value['link']);
 
         //check url/email
-        $link = (substr($value['link'], 0, 3) === 'www') ? 'http://' . $value['link'] : $value['link'];
+        $link = (substr($value['link'], 0, 3) === 'www') ? 'https://' . $value['link'] : $value['link'];
         if (!filter_var($link, FILTER_VALIDATE_URL) && !filter_var($link, FILTER_VALIDATE_EMAIL) && $link != '') {
             throw new ilDclInputException(ilDclInputException::NOT_URL);
         }
@@ -125,6 +146,8 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
                 }
             }
         }
+
+        return true;
     }
 
     public function checkFieldCreationInput(ilPropertyFormGUI $form) : bool
@@ -146,7 +169,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
     /**
      * @inheritDoc
      */
-    public function getValidFieldProperties(): array
+    public function getValidFieldProperties() : array
     {
         return array(
             ilDclBaseFieldModel::PROP_LENGTH,
@@ -157,7 +180,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         );
     }
 
-    protected function checkRegexAndLength(string $value): void
+    protected function checkRegexAndLength(string $value) : void
     {
         $regex = $this->getProperty(ilDclBaseFieldModel::PROP_REGEX);
         if (substr($regex, 0, 1) != "/") {
@@ -186,7 +209,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
     }
 
-    public function strlen(string $value, string $encoding = 'UTF-8'): int
+    public function strlen(string $value, string $encoding = 'UTF-8') : int
     {
         switch (true) {
             case function_exists('mb_strlen'):
@@ -198,7 +221,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
     }
 
-    public function fillHeaderExcel(ilExcel $worksheet, int &$row, int &$col): void
+    public function fillHeaderExcel(ilExcel $worksheet, int &$row, int &$col) : void
     {
         parent::fillHeaderExcel($worksheet, $row, $col);
         if ($this->getProperty(ilDclBaseFieldModel::PROP_URL)) {
@@ -207,7 +230,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         }
     }
 
-    public function checkTitlesForImport(array &$titles, array &$import_fields): void
+    public function checkTitlesForImport(array &$titles, array &$import_fields) : void
     {
         foreach ($titles as $k => $title) {
             if (!ilStr::isUtf8($title)) {

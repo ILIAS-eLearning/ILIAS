@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclDatatype
@@ -56,7 +71,7 @@ class ilDclDatatype
         return $this->id;
     }
 
-    public function setTitle(string $a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
@@ -69,7 +84,7 @@ class ilDclDatatype
     /**
      * Set Storage Location
      */
-    public function setStorageLocation(int $a_id)
+    public function setStorageLocation(int $a_id) : void
     {
         $this->storageLocation = $a_id;
     }

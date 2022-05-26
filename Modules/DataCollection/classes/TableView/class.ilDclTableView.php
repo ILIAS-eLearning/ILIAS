@@ -69,7 +69,7 @@ class ilDclTableView extends ActiveRecord
      * @db_fieldtype        integer
      * @db_length           1
      */
-    protected bool $step_c  = false;
+    protected bool $step_c = false;
     /**
      * @var bool
      * @db_has_field        true
@@ -120,7 +120,7 @@ class ilDclTableView extends ActiveRecord
         return $this->table_id;
     }
 
-    public function setTableId(int $table_id)
+    public function setTableId(int $table_id) : void
     {
         $this->table_id = $table_id;
     }
@@ -130,7 +130,7 @@ class ilDclTableView extends ActiveRecord
         return $this->title;
     }
 
-    public function setTitle(string $title)
+    public function setTitle(string $title) : void
     {
         $this->title = $title;
     }
@@ -140,7 +140,7 @@ class ilDclTableView extends ActiveRecord
         return $this->tableview_order;
     }
 
-    public function setOrder(int $order)
+    public function setOrder(int $order) : void
     {
         $this->tableview_order = $order;
     }
@@ -150,7 +150,7 @@ class ilDclTableView extends ActiveRecord
         return $this->description;
     }
 
-    public function setDescription(string $description)
+    public function setDescription(string $description) : void
     {
         $this->description = $description;
     }
@@ -160,7 +160,7 @@ class ilDclTableView extends ActiveRecord
         return $this->tableview_order;
     }
 
-    public function setTableviewOrder(int $tableview_order)
+    public function setTableviewOrder(int $tableview_order) : void
     {
         $this->tableview_order = $tableview_order;
     }
@@ -190,7 +190,7 @@ class ilDclTableView extends ActiveRecord
         return $this->step_e;
     }
 
-    public function setStepE(bool $step_e)
+    public function setStepE(bool $step_e) : void
     {
         $this->step_e = $step_e;
     }
@@ -200,7 +200,7 @@ class ilDclTableView extends ActiveRecord
         return $this->step_o;
     }
 
-    public function setStepO(bool $step_o)
+    public function setStepO(bool $step_o) : void
     {
         $this->step_o = $step_o;
     }
@@ -210,17 +210,17 @@ class ilDclTableView extends ActiveRecord
         return $this->step_s;
     }
 
-    public function setStepS(bool $step_s)
+    public function setStepS(bool $step_s) : void
     {
         $this->step_s = $step_s;
     }
 
     public function getRoles() : array
     {
-        return (array) $this->roles;
+        return $this->roles;
     }
 
-    public function setRoles(array $roles)
+    public function setRoles(array $roles) : void
     {
         $this->roles = $roles;
     }

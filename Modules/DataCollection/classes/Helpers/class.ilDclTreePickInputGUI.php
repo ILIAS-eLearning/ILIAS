@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclDatatype
@@ -15,12 +30,14 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI
 {
     protected ilTextInputGUI $title_input;
     protected ilTextInputGUI $search_input;
+    protected ilHiddenInputGUI $hidden_input;
 
     public function __construct(string $title, string $post_var)
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
+        /** @var \ilGlobalTemplateInterface $tpl */
+        $tpl = $DIC->ui()->mainTemplate();
         /**
          * @var $tpl iltemplate
          */
@@ -56,11 +73,11 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI
         return $out;
     }
 
-    public function setValueByArray(array $value) : void
+    public function setValueByArray(array $values) : void
     {
-        parent::setValueByArray($value);
+        parent::setValueByArray($values);
         $path = new ilPathGUI();
-        $reference = $value[$this->getPostVar()];
+        $reference = $values[$this->getPostVar()];
         if ($reference) {
             $pathString = $path->getPath(ROOT_FOLDER_ID, (int) $reference);
             $id = ilObject::_lookupObjId($reference);

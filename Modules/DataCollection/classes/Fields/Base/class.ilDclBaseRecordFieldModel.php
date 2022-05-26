@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclBaseFieldModel
@@ -13,11 +28,11 @@
  */
 class ilDclBaseRecordFieldModel
 {
-    protected int $id;
+    protected int $id = 0;
     protected ilDclBaseFieldModel $field;
     protected ilDclBaseRecordModel $record;
-    protected ilDclBaseRecordRepresentation $record_representation;
-    protected ilDclBaseFieldRepresentation $field_representation;
+    protected ?ilDclBaseRecordRepresentation $record_representation = null;
+    protected ?ilDclBaseFieldRepresentation $field_representation = null;
     /** @var int|float|array|null */
     protected $value;
     protected ilObjUser $user;
@@ -38,7 +53,7 @@ class ilDclBaseRecordFieldModel
         $this->record = $record;
         $this->field = $field;
         $this->ctrl = $DIC->ctrl();
-        $this->user =  $DIC->user();
+        $this->user = $DIC->user();
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
         $this->http = $DIC->http();
@@ -190,7 +205,7 @@ class ilDclBaseRecordFieldModel
     {
         $this->loadValue();
         if (!$omit_parsing) {
-            $tmp = $this->parseValue($value, $this);
+            $tmp = $this->parseValue($value);
             $old = $this->value;
             //if parse value fails keep the old value
             if ($tmp !== false) {
@@ -276,7 +291,7 @@ class ilDclBaseRecordFieldModel
     /**
      * @param ilConfirmationGUI $confirmation
      */
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation)
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation)
     {
         ;
         if (!is_array($this->getValue())) {
@@ -350,7 +365,7 @@ class ilDclBaseRecordFieldModel
         return $this->record;
     }
 
-    public function getRecordRepresentation() : ilDclBaseRecordRepresentation
+    public function getRecordRepresentation() : ?ilDclBaseRecordRepresentation
     {
         return $this->record_representation;
     }
@@ -360,12 +375,12 @@ class ilDclBaseRecordFieldModel
         $this->record_representation = $record_representation;
     }
 
-    public function getFieldRepresentation() : ilDclBaseFieldRepresentation
+    public function getFieldRepresentation() : ?ilDclBaseFieldRepresentation
     {
         return $this->field_representation;
     }
 
-    public function setFieldRepresentation(ilDclBaseFieldRepresentation $field_representation)
+    public function setFieldRepresentation(ilDclBaseFieldRepresentation $field_representation) : void
     {
         $this->field_representation = $field_representation;
     }

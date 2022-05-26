@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclRatingFieldModel
@@ -7,12 +23,6 @@
  */
 class ilDclRatingFieldModel extends ilDclBaseFieldModel
 {
-
-    /**
-     * Returns a query-object for building the record-loader-sql-query
-     * @param string $direction
-     * @param boolean $sort_by_status The specific sort object is a status field
-     */
     public function getRecordQuerySortObject(
         string $direction = "asc",
         bool $sort_by_status = false
@@ -29,11 +39,6 @@ class ilDclRatingFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-    /**
-     * Returns a query-object for building the record-loader-sql-query
-     * @param int $filter_value
-     * @return null|ilDclRecordQueryObject
-     */
     public function getRecordQueryFilterObject(
         $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null

@@ -1,6 +1,20 @@
 <?php
-
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclBaseFieldModel
@@ -28,7 +42,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     protected int $userId;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
-
 
     public function __construct(
         ilDclRecordListGUI $a_parent_obj,
@@ -128,7 +141,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     public function setRecordData(array $data) : void
     {
         $this->object_data = $data;
-        $this->buildData($data);
+        $this->buildData();
     }
 
     public function numericOrdering(string $a_field) : bool
@@ -185,7 +198,8 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             }
 
             if ($record->hasPermissionToEdit($this->parent_obj->getRefId())) {
-                $alist->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass("ildclrecordeditgui", 'edit'));
+                $alist->addItem($this->lng->txt('edit'), 'edit',
+                    $this->ctrl->getLinkTargetByClass("ildclrecordeditgui", 'edit'));
             }
 
             if ($record->hasPermissionToDelete($this->parent_obj->getRefId())) {
@@ -217,7 +231,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $record_obj = $a_set['_record'];
 

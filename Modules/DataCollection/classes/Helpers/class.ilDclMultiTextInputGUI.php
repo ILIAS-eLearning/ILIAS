@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclMultiTextInputGUI
@@ -17,9 +32,9 @@ class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
         return $this->getIdentifiedMultiValues();
     }
 
-    public function setValue($a_value) : void
+    public function setValue($value) : void
     {
-        $this->setIdentifiedMultiValues($a_value);
+        $this->setIdentifiedMultiValues($value);
     }
 
     public function getValue() : array
@@ -27,9 +42,9 @@ class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
         return $this->getIdentifiedMultiValues();
     }
 
-    public function setMultiValues(array $a_values) : void
+    public function setMultiValues(array $values) : void
     {
-        $this->setIdentifiedMultiValues($a_values);
+        $this->setIdentifiedMultiValues($values);
     }
 
     public function getMultiValues() : array

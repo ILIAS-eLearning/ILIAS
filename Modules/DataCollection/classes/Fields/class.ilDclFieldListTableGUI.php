@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclFieldListTableGUI
@@ -48,8 +63,8 @@ class ilDclFieldListTableGUI extends ilTable2GUI
             $this->addMultiCommand('confirmDeleteFields', $lng->txt('dcl_delete_fields'));
         }
 
-        $ilCtrl->setParameterByClass('ildclfieldeditgui', 'table_id', $this->parent_obj->table_id);
-        $ilCtrl->setParameterByClass('ildclfieldlistgui', 'table_id', $this->parent_obj->table_id);
+        $ilCtrl->setParameterByClass('ildclfieldeditgui', 'table_id', $this->parent_obj->getTableId());
+        $ilCtrl->setParameterByClass('ildclfieldlistgui', 'table_id', $this->parent_obj->getTableId());
 
         $this->setFormAction($ilCtrl->getFormActionByClass('ildclfieldlistgui'));
         $this->addCommandButton('save', $lng->txt('dcl_save'));
@@ -90,7 +105,6 @@ class ilDclFieldListTableGUI extends ilTable2GUI
 
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-
 
         if ($this->getExportMode()) {
             $this->exportData($this->getExportMode(), true);
@@ -196,7 +210,6 @@ class ilDclFieldListTableGUI extends ilTable2GUI
             $this->tpl->setVariable('TBL_NO_ENTRY_TEXT', trim($no_items_text));
             $this->tpl->parseCurrentBlock();
         }
-
 
         if (!$this->getPrintMode()) {
             $this->fillFooter();

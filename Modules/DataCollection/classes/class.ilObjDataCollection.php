@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilObjDataCollection
@@ -18,8 +33,7 @@ class ilObjDataCollection extends ilObject2
     private string $public_notes = "";
     private string $notification = "";
 
-
-    public function initType() : void
+    protected function initType() : void
     {
         $this->type = "dcl";
     }
@@ -124,12 +138,14 @@ class ilObjDataCollection extends ilObject2
         $http = $DIC->http();
         $refinery = $DIC->refinery();
 
+        $ref_id = $http->wrapper()->query()->retrieve('table_id', $refinery->kindlyTo()->int());
+
         // If coming from trash, never send notifications and don't load dcl Object
-        if ($_GET['ref_id'] == SYSTEM_FOLDER_ID) {
+        if ($ref_id === SYSTEM_FOLDER_ID) {
             return;
         }
 
-        $dclObj = new ilObjDataCollection($_GET['ref_id']);
+        $dclObj = new ilObjDataCollection($ref_id);
 
         if ($dclObj->getNotification() != 1) {
             return;
@@ -146,7 +162,6 @@ class ilObjDataCollection extends ilObject2
 
         ilNotification::updateNotificationTime(ilNotification::TYPE_DATA_COLLECTION, $obj_dcl->getId(), $users);
 
-        //FIXME  $_GET['ref_id]
         $http = $DIC->http();
         $refinery = $DIC->refinery();
         $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
@@ -159,7 +174,6 @@ class ilObjDataCollection extends ilObject2
         // send mails
         foreach (array_unique($users) as $idx => $user_id) {
             // the user responsible for the action should not be notified
-            // FIXME  $_GET['ref_id]
             $record = ilDclCache::getRecordCache($a_record_id);
             $ilDclTable = new ilDclTable($record->getTableId());
             if ($user_id != $ilUser->getId() && $ilDclTable->hasPermissionToViewRecord(filter_input(INPUT_GET,
@@ -183,9 +197,7 @@ class ilObjDataCollection extends ilObject2
                     //					$message .= $ulng->txt('dcl_record_id').": ".$a_record_id.":\n";
                     $t = "";
 
-
                     $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->kindlyTo()->int());
-
 
                     if ($tableview_id = $record->getTable()->getFirstTableViewId($ref_id, $user_id)) {
                         $visible_fields = ilDclTableView::find($tableview_id)->getVisibleFields();
@@ -230,7 +242,7 @@ class ilObjDataCollection extends ilObject2
     public function getFirstVisibleTableId() : int
     {
         global $DIC;
-        /** @var ilDB $ilDB */
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC['ilDB'];
         $ilDB->setLimit(1);
         $only_visible = ilObjDataCollectionAccess::hasWriteAccess($this->ref_id) ? '' : ' AND is_visible = 1 ';
@@ -297,7 +309,7 @@ class ilObjDataCollection extends ilObject2
      */
     public function cloneStructure(int $original_id) : void
     {
-        $original = new ilObjDataCollection((int) $original_id);
+        $original = new ilObjDataCollection($original_id);
 
         $this->setApproval($original->getApproval());
         $this->setNotification($original->getNotification());
@@ -439,8 +451,8 @@ class ilObjDataCollection extends ilObject2
 
     /**
      * Checks if a DataCollection has a table with a given title
-     * @param $title  Title of table
-     * @param $obj_id Obj-ID of the table
+     * @param string $title  Title of table
+     * @param int    $obj_id Obj-ID of the table
      * @return bool
      */
     public static function _hasTableByTitle(string $title, int $obj_id) : bool
@@ -457,5 +469,6 @@ class ilObjDataCollection extends ilObject2
 
     public function getStyleSheetId() : int
     {
+        return 0;
     }
 }

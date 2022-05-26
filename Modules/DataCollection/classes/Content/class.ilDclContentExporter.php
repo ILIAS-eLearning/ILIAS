@@ -1,6 +1,20 @@
 <?php
-
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Hook-Class for exporting data-collections (used in SOAP-Class)
@@ -32,6 +46,7 @@ class ilDclContentExporter
 
     protected ilDclTable $table;
     private \ilGlobalTemplateInterface $main_tpl;
+    protected array $tables;
 
     public function __construct(int $ref_id, ?int $table_id, array $filter = array())
     {
@@ -54,7 +69,7 @@ class ilDclContentExporter
      * Sanitize the given filename
      * The ilUtil::_sanitizeFilemame() does not clean enough
      */
-    public function sanitizeFilename(string $filename): string
+    public function sanitizeFilename(string $filename) : string
     {
         $dangerous_filename_characters = array(" ", '"', "'", "&", "/", "\\", "?", "#", "`");
 
@@ -64,7 +79,7 @@ class ilDclContentExporter
     /**
      * Return export path
      */
-    public function getExportContentPath(string $format): string
+    public function getExportContentPath(string $format) : string
     {
         return ilExport::_getExportDirectory($this->dcl->getId(), $format, 'dcl') . '/';
     }
@@ -72,8 +87,12 @@ class ilDclContentExporter
     /**
      * Fill a excel row
      */
-    protected function fillRowExcel(ilDclTable $table, ilExcel $worksheet, ilDclBaseRecordModel $record, int $row): void
-    {
+    protected function fillRowExcel(
+        ilDclTable $table,
+        ilExcel $worksheet,
+        ilDclBaseRecordModel $record,
+        int $row
+    ) : void {
         $col = 0;
         foreach ($table->getFields() as $field) {
             if ($field->getExportable()) {
@@ -85,7 +104,7 @@ class ilDclContentExporter
     /**
      * Fill Excel header
      */
-    protected function fillHeaderExcel(ilDclTable $table, ilExcel $worksheet, int $row): void
+    protected function fillHeaderExcel(ilDclTable $table, ilExcel $worksheet, int $row) : void
     {
         $col = 0;
 
@@ -99,13 +118,14 @@ class ilDclContentExporter
     /**
      * Fill Excel meta-data
      */
-    protected function fillMetaExcel(string $table, ilExcel $worksheet, int $row): void
+    protected function fillMetaExcel(string $table, ilExcel $worksheet, int $row) : void
     {
     }
 
     /**
      * Creates an export of a specific datacollection table
-     * @return null|string|void
+     * @return bool|void
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception|\PhpOffice\PhpSpreadsheet\Exception
      */
     public function export(string $format = self::EXPORT_EXCEL, string $filepath = null, bool $send = false)
     {
@@ -130,39 +150,37 @@ class ilDclContentExporter
 
         $data_available = false;
         $fields_available = false;
-        switch ($format) {
-            case self::EXPORT_EXCEL:
-                $adapter = new ilExcel();
-                foreach ($this->tables as $table) {
-                    ilDclCache::resetCache();
+        if ($format == self::EXPORT_EXCEL) {
+            $adapter = new ilExcel();
+            foreach ($this->tables as $table) {
+                ilDclCache::resetCache();
 
-                    $list = $table->getPartialRecords(null, null, null, 0, $this->filter);
-                    $data_available = $data_available || ($list['total'] > 0);
-                    $fields_available = $fields_available || (count($table->getExportableFields()) > 0);
-                    if ($list['total'] > 0 && count($table->getExportableFields()) > 0) {
-                        // only 31 character-long table-titles are allowed
-                        $title = substr($table->getTitle(), 0, 31);
-                        $adapter->addSheet($title);
-                        $row = 1;
+                $list = $table->getPartialRecords(null, null, null, 0, $this->filter);
+                $data_available = $data_available || ($list['total'] > 0);
+                $fields_available = $fields_available || (count($table->getExportableFields()) > 0);
+                if ($list['total'] > 0 && count($table->getExportableFields()) > 0) {
+                    // only 31 character-long table-titles are allowed
+                    $title = substr($table->getTitle(), 0, 31);
+                    $adapter->addSheet($title);
+                    $row = 1;
 
-                        $this->fillMetaExcel($table, $adapter, $row);
+                    $this->fillMetaExcel($table, $adapter, $row);
 
-                        // #14813
-                        $pre = $row;
-                        $this->fillHeaderExcel($table, $adapter, $row);
-                        if ($pre == $row) {
-                            $row++;
-                        }
-
-                        foreach ($list['records'] as $set) {
-                            $this->fillRowExcel($table, $adapter, $set, $row);
-                            $row++; // #14760
-                        }
-
-                        $data_available = true;
+                    // #14813
+                    $pre = $row;
+                    $this->fillHeaderExcel($table, $adapter, $row);
+                    if ($pre == $row) {
+                        $row++;
                     }
+
+                    foreach ($list['records'] as $set) {
+                        $this->fillRowExcel($table, $adapter, $set, $row);
+                        $row++; // #14760
+                    }
+
+                    $data_available = true;
                 }
-                break;
+            }
         }
 
         if (file_exists($in_progress_file)) {
@@ -179,18 +197,18 @@ class ilDclContentExporter
             global $ilCtrl;
             $this->main_tpl->setOnScreenMessage('info', sprintf(
                 $this->lng->txt('dcl_no_export_fields_available'),
-                $ilCtrl->getLinkTargetByClass(array('ilDclTableListGUI', 'ilDclTableEditGUI', 'ilDclFieldListGUI'), 'listFields')
+                $ilCtrl->getLinkTargetByClass(array('ilDclTableListGUI', 'ilDclTableEditGUI', 'ilDclFieldListGUI'),
+                    'listFields')
             ));
             return false;
         }
 
         if ($send) {
             $adapter->sendToClient($filename);
-           return true;
         } else {
             $adapter->writeToFile($filepath);
-            return true;
         }
+        return true;
     }
 
     /**

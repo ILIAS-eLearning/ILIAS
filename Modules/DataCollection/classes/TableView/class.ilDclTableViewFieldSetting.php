@@ -183,7 +183,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return $this->filter_changeable;
     }
 
-    public function setFilterChangeable(bool $filter_changeable)
+    public function setFilterChangeable(bool $filter_changeable) : void
     {
         $this->filter_changeable = $filter_changeable;
     }
@@ -193,7 +193,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return $this->id;
     }
 
-    public function setId(int $id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
@@ -213,7 +213,7 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return $this->locked_create;
     }
 
-    public function setLockedCreate(bool $locked_create)
+    public function setLockedCreate(bool $locked_create) : void
     {
         $this->locked_create = $locked_create;
     }
@@ -316,10 +316,6 @@ class ilDclTableViewFieldSetting extends ActiveRecord
         return null;
     }
 
-    /**
-     * @param $field_name
-     * @param $field_value
-     */
     public function wakeUp($field_name, $field_value) : ?array
     {
         if ($field_name == 'filter_value') {
@@ -390,15 +386,13 @@ class ilDclTableViewFieldSetting extends ActiveRecord
      */
     public static function getInstance(int $tableview_id, int $field_id) : ActiveRecord
     {
-        if ($setting = self::where(array('field' => $field_id, 'tableview_id' => $tableview_id))->first()) {
-            return $setting;
-        } else {
+        if (!($setting = self::where(array('field' => $field_id, 'tableview_id' => $tableview_id))->first())) {
             $setting = new self();
             $setting->setField($field_id);
             $setting->setTableviewId($tableview_id);
 
-            return $setting;
         }
+        return $setting;
     }
 
 }

@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclDetailedViewDefinitionGUI
@@ -124,7 +139,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         return parent::showPage();
     }
 
-    protected function activate(): void
+    protected function activate() : void
     {
         $page = $this->getPageObject();
         $page->setActive(true);
@@ -132,7 +147,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    protected function deactivate(): void
+    protected function deactivate() : void
     {
         $page = $this->getPageObject();
         $page->setActive(false);
@@ -140,7 +155,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $this->ctrl->redirect($this, 'edit');
     }
 
-    public function confirmDelete(): void
+    public function confirmDelete() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -151,7 +166,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $conf->setFormAction($ilCtrl->getFormAction($this));
         $conf->setHeaderText($lng->txt('dcl_confirm_delete_detailed_view_title'));
 
-        $conf->addItem('tableview', (int) $this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
+        $conf->addItem('tableview', $this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
 
         $conf->setConfirm($lng->txt('delete'), 'deleteView');
         $conf->setCancel($lng->txt('cancel'), 'cancelDelete');
@@ -159,7 +174,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $tpl->setContent($conf->getHTML());
     }
 
-    public function cancelDelete(): void
+    public function cancelDelete() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -167,7 +182,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         $ilCtrl->redirect($this, "edit");
     }
 
-    public function deleteView(): void
+    public function deleteView() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

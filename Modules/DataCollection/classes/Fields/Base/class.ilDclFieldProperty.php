@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclFieldProperty
@@ -66,7 +81,7 @@ class ilDclFieldProperty extends ActiveRecord
         return $this->id;
     }
 
-    public function setId(int $id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
@@ -76,7 +91,7 @@ class ilDclFieldProperty extends ActiveRecord
         return $this->field_id;
     }
 
-    public function setFieldId(int $field_id)
+    public function setFieldId(int $field_id) : void
     {
         $this->field_id = $field_id;
     }
@@ -86,7 +101,7 @@ class ilDclFieldProperty extends ActiveRecord
         return $this->name;
     }
 
-    public function setName(string $name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }
@@ -102,7 +117,7 @@ class ilDclFieldProperty extends ActiveRecord
     /**
      * @param string|array|int $value
      */
-    public function setValue($value): void
+    public function setValue($value) : void
     {
         $this->value = $value;
     }

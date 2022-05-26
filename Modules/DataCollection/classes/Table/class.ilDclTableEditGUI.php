@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclBaseFieldModel
@@ -22,6 +37,8 @@ class ilDclTableEditGUI
     protected ilPropertyFormGUI $form;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
+    protected ilDclTableListGUI $parent_object;
+    protected int $obj_id;
 
     /**
      * Constructor
@@ -30,7 +47,6 @@ class ilDclTableEditGUI
     {
         global $DIC;
 
-
         $locator = $DIC['ilLocator'];
 
         $this->ctrl = $DIC->ctrl();
@@ -38,10 +54,9 @@ class ilDclTableEditGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->toolbar = $DIC->toolbar();
         $this->parent_object = $a_parent_obj;
-        $this->obj_id = $a_parent_obj->obj_id;
+        $this->obj_id = $a_parent_obj->getObjId();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-
 
         $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
 
@@ -266,7 +281,8 @@ class ilDclTableEditGUI
 
     public function doTableSwitch() : void
     {
-        $this->ctrl->setParameter($this, "table_id", $_POST['table_id']);
+        $table_id = $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+        $this->ctrl->setParameter($this, "table_id", $table_id);
         $this->ctrl->redirect($this, "edit");
     }
 
@@ -371,7 +387,7 @@ class ilDclTableEditGUI
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('dcl_confirm_delete_table'));
 
-        $conf->addItem('table', (int) $this->table->getId(), $this->table->getTitle());
+        $conf->addItem('table', $this->table->getId(), $this->table->getTitle());
 
         $conf->setConfirm($this->lng->txt('delete'), 'delete');
         $conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');

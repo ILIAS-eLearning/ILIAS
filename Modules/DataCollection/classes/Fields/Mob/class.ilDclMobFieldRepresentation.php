@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclFileuploadFieldRepresentaion
@@ -40,7 +56,7 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
 
-        $m_obj = new ilObjMediaObject($value, false);
+        $m_obj = new ilObjMediaObject($value);
         $file_name = $m_obj->getTitle();
         if (!$filter || strpos(strtolower($file_name), strtolower($filter)) !== false) {
             return true;
@@ -49,7 +65,7 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
         return false;
     }
 
-    public function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
     {
         $opt = new ilRadioOption($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
             $this->getField()->getDatatypeId());

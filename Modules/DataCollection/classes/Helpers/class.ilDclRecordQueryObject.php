@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclRecordQueryObject
@@ -18,7 +34,7 @@ class ilDclRecordQueryObject
         return $this->selectStatement;
     }
 
-    public function setSelectStatement(string $selectStatement)
+    public function setSelectStatement(string $selectStatement) : void
     {
         $this->selectStatement = " " . $selectStatement;
     }
@@ -28,7 +44,7 @@ class ilDclRecordQueryObject
         return $this->joinStatement;
     }
 
-    public function setJoinStatement(string $joinStatement)
+    public function setJoinStatement(string $joinStatement) : void
     {
         $this->joinStatement = " " . $joinStatement;
     }
@@ -38,7 +54,7 @@ class ilDclRecordQueryObject
         return $this->whereStatement;
     }
 
-    public function setWhereStatement(string $whereStatement)
+    public function setWhereStatement(string $whereStatement) : void
     {
         $this->whereStatement = " " . $whereStatement;
     }
@@ -48,7 +64,7 @@ class ilDclRecordQueryObject
         return $this->groupStatement;
     }
 
-    public function setGroupStatement(string $groupStatement)
+    public function setGroupStatement(string $groupStatement) : void
     {
         $this->groupStatement = " " . $groupStatement;
     }
@@ -58,7 +74,7 @@ class ilDclRecordQueryObject
         return $this->orderStatement;
     }
 
-    public function setOrderStatement(string $orderStatement)
+    public function setOrderStatement(string $orderStatement) : void
     {
         $this->orderStatement = " " . $orderStatement;
     }

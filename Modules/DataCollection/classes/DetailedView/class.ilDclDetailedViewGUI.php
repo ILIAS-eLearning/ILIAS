@@ -1,6 +1,22 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+use ILIAS\Notes\NoteDBRepository;
 
 /**
  * @author       Martin Studer <ms@studer-raimann.ch>
@@ -27,11 +43,12 @@ class ilDclDetailedViewGUI
 
     private ilDataCollectionUiPort $dclUi;
     private ilDataCollectionEndpointPort $dclEndPoint;
-    private ilDataCollectionAccessPort $dclAccess;
 
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
-
+    protected int $record_id;
+    protected ilNoteGUI $notesGUI;
+    protected ilDclBaseFieldModel $currentField;
 
     private function init(
         ilDataCollectionOutboundsAdapter $adapter
@@ -56,8 +73,16 @@ class ilDclDetailedViewGUI
         $this->lng = $DIC->language();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
-        $this->record_id = (int) $_REQUEST['record_id'];
+        if ($this->http->wrapper()->query()->has('record_id')) {
+            $this->record_id = $this->http->wrapper()->query()->retrieve('record_id',
+                $this->refinery->kindlyTo()->int());
+        }
+        if ($this->http->wrapper()->post()->has('record_id')) {
+            $this->record_id = $this->http->wrapper()->post()->retrieve('record_id',
+                $this->refinery->kindlyTo()->int());
+        }
         $this->record_obj = ilDclCache::getRecordCache($this->record_id);
 
         $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
@@ -80,14 +105,12 @@ class ilDclDetailedViewGUI
 
         // Comments
         $repId = $this->dcl_gui_object->getDataCollectionObject()->getId();
-        $objId = (int) $this->record_id;
+        $objId = $this->record_id;
         $this->notesGUI = new ilNoteGUI($repId, $objId);
         $this->notesGUI->enablePublicNotes(true);
         $this->notesGUI->enablePublicNotesDeletion(true);
         $ilCtrl->setParameterByClass("ilnotegui", "record_id", $this->record_id);
         $ilCtrl->setParameterByClass("ilnotegui", "rep_id", $repId);
-
-
 
         if ($this->http->wrapper()->query()->has('disable_paging')
             && $this->http->wrapper()->query()->retrieve('disable_paging', $this->refinery->kindlyTo()->bool())) {
@@ -110,7 +133,8 @@ class ilDclDetailedViewGUI
         $ilCtrl = $DIC['ilCtrl'];
 
         if ($this->http->wrapper()->query()->has('tableview_id')) {
-            $this->tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
+            $this->tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id',
+                $this->refinery->kindlyTo()->int());
         } else {
             $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
             $this->tableview_id = $this->table->getFirstTableViewId($ref_id);
@@ -152,8 +176,8 @@ class ilDclDetailedViewGUI
                         $this->renderRecord(false);
                         break;
                     case 'deleteNote':
-                        $this->notesGUI->deleteNote();
-                        $this->renderRecord();
+                        $this->notesGUI->confirmDelete();
+                        //$this->renderRecord();
                         break;
                     case 'cancelDelete':
                         $this->notesGUI->cancelDelete();
@@ -452,10 +476,10 @@ class ilDclDetailedViewGUI
     protected function checkAccess() : bool
     {
         return ilObjDataCollectionAccess::hasAccessTo(
-            filter_input(INPUT_GET, 'ref_id'),
-            $this->table->getId(),
-            $this->tableview_id
-        )
+                filter_input(INPUT_GET, 'ref_id'),
+                $this->table->getId(),
+                $this->tableview_id
+            )
             && ilDclDetailedViewDefinition::isActive($this->tableview_id);
     }
 }

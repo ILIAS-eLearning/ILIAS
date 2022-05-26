@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclBaseFieldModel
@@ -20,9 +35,9 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->expression = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
     }
 
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) : void
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation) : void
     {
-        return;
+
     }
 
     /**
@@ -30,7 +45,7 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     protected function loadValue() : void
     {
-        return;
+
     }
 
     /**
@@ -48,15 +63,15 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function doUpdate() : void
     {
-        return;
+
     }
 
     /**
      * Do nothing, value is runtime only and not stored in DB
      */
-    public function doRead() : void
+    protected function doRead() : void
     {
-        return;
+
     }
 
     /**
@@ -64,7 +79,7 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function delete() : void
     {
-        return;
+
     }
 
     public function getFormInput() : string

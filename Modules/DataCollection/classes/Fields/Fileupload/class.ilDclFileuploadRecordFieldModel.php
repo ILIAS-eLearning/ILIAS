@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\FileUpload\MimeType;
 
@@ -25,7 +40,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         $file = $value;
 
         $hasRecordId = $this->http->wrapper()->query()->has('record_id');
-        $is_confirmed =  $this->http->wrapper()->query()->has('save_confirmed');
+        $is_confirmed = $this->http->wrapper()->query()->has('save_confirmed');
         $has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && $hasRecordId);
 
         if (is_array($file) && $file['tmp_name'] != "" && (!$has_save_confirmation || $is_confirmed)) {
@@ -38,7 +53,8 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
             $file_obj->create();
 
             if ($has_save_confirmation) {
-                $ilfilehash = $this->http->wrapper()->query()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string());
+                $ilfilehash = $this->http->wrapper()->query()->retrieve('ilfilehash',
+                    $this->refinery->kindlyTo()->string());
 
                 $move_file = ilDclPropertyFormGUI::getTempFilename($ilfilehash,
                     'field_' . $this->getField()->getId(), $file["name"], $file["type"]);
@@ -82,7 +98,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         return $return;
     }
 
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) : void
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation) : void
     {
         if (is_array($this->getValue())) {
             foreach ($this->getValue() as $key => $value) {
@@ -101,7 +117,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->loadValue();
 
         if (!$omit_parsing) {
-            $tmp = $this->parseValue($value, $this);
+            $tmp = $this->parseValue($value);
             $old = $this->value;
             //if parse value fails keep the old value
             if ($tmp !== false) {

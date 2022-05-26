@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * DataCollection dataset class
@@ -86,9 +101,9 @@ class ilDataCollectionDataSet extends ilDataSet
         return $this->caches[$a_entity];
     }
 
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return 'http://www.ilias.de/xml/Modules/DataCollection/' . $a_entity;
+        return 'https://www.ilias.de/xml/Modules/DataCollection/' . $a_entity;
     }
 
     public function importRecord(
@@ -189,7 +204,7 @@ class ilDataCollectionDataSet extends ilDataSet
                 $new_field_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_field', $a_rec['field']);
                 if ($new_table_id) {
                     $setting = ilDclTableFieldSetting::getInstance($new_table_id,
-                        $new_field_id ? $new_field_id : $a_rec['field']);
+                        $new_field_id ?: $a_rec['field']);
                     $setting->setFieldOrder($a_rec['field_order']);
                     $setting->setExportable($a_rec['exportable']);
                     $setting->store();
@@ -203,9 +218,9 @@ class ilDataCollectionDataSet extends ilDataSet
                     $setting = new ilDclTableViewFieldSetting();
                     $setting->setTableviewId($new_tableview_id);
                     $setting->setVisible($a_rec['visible']);
-                    $setting->setField($new_field_id ? $new_field_id : $a_rec['field']);
+                    $setting->setField($new_field_id ?: $a_rec['field']);
                     $setting->setInFilter($a_rec['in_filter']);
-                    $setting->setFilterValue($a_rec['filter_value'] ? $a_rec['filter_value'] : null);
+                    $setting->setFilterValue($a_rec['filter_value'] ?: null);
                     $setting->setFilterChangeable($a_rec['filter_changeable']);
                     is_null($a_rec['required_create']) ? $setting->setRequiredCreate(0) : $setting->setRequiredCreate($a_rec['required_create']);
                     is_null($a_rec['locked_create']) ? $setting->setLockedCreate(0) : $setting->setLockedCreate($a_rec['locked_create']);
@@ -259,7 +274,7 @@ class ilDataCollectionDataSet extends ilDataSet
             case 'il_dcl_viewdefinition':
                 $map = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_view', $a_rec['view_id']);
                 $new_field_id = $a_mapping->getMapping('Modules/DataCollection', 'il_dcl_field', $a_rec['field']);
-                $field = ($new_field_id) ? $new_field_id : $a_rec['field'];
+                $field = ($new_field_id) ?: $a_rec['field'];
                 switch ($map['type']) {
                     case 1: //visible
                         $viewfield_setting = ilDclTableViewFieldSetting::getInstance($map['tableview_id'], $field);

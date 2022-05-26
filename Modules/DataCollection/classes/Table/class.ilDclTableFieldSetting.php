@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclTableFieldSetting
@@ -74,7 +90,7 @@ class ilDclTableFieldSetting extends ActiveRecord
         return $this->table_id;
     }
 
-    public function setTableId(int $table_id)
+    public function setTableId(int $table_id) : void
     {
         $this->table_id = $table_id;
     }
@@ -84,7 +100,7 @@ class ilDclTableFieldSetting extends ActiveRecord
         return $this->field;
     }
 
-    public function setField(string $field)
+    public function setField(string $field) : void
     {
         $this->field = $field;
     }
@@ -94,7 +110,7 @@ class ilDclTableFieldSetting extends ActiveRecord
         return $this->field_order;
     }
 
-    public function setFieldOrder(int $field_order)
+    public function setFieldOrder(int $field_order) : void
     {
         $this->field_order = $field_order;
     }
@@ -104,7 +120,7 @@ class ilDclTableFieldSetting extends ActiveRecord
         return $this->exportable;
     }
 
-    public function setExportable(bool $exportable)
+    public function setExportable(bool $exportable) : void
     {
         $this->exportable = $exportable;
     }

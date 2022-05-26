@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclTableListGUI
@@ -15,7 +30,8 @@ class ilDclTableListGUI
     protected ilToolbarGUI $toolbar;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
-
+    protected ilObjDataCollectionGUI $parent_obj;
+    protected int $obj_id;
 
     /**
      * ilDclTableListGUI constructor.
@@ -33,7 +49,7 @@ class ilDclTableListGUI
 
         $this->parent_obj = $a_parent_obj;
         $this->obj_id = 0;
-        if($a_parent_obj->getRefId() >= 0) {
+        if ($a_parent_obj->getRefId() >= 0) {
             $this->obj_id = ilObject::_lookupObjectId($a_parent_obj->getRefId());
         }
 
@@ -45,17 +61,21 @@ class ilDclTableListGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-
         if (!$this->checkAccess()) {
             $main_tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
             $this->ctrl->redirectByClass('ildclrecordlistgui', 'listRecords');
         }
     }
 
+    public function getObjId() : int
+    {
+        return $this->parent_obj->getObjectId();
+    }
+
     /**
      * execute command
      */
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         global $DIC;
         $cmd = $this->ctrl->getCmd('listTables');
@@ -67,13 +87,15 @@ class ilDclTableListGUI
          */
         $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
 
-        $tableHelper = new ilDclTableHelper((int) $this->obj_id, $ref_id, $DIC->rbac()->review(),
+        $tableHelper = new ilDclTableHelper($this->obj_id, $ref_id, $DIC->rbac()->review(),
             $DIC->user(), $DIC->database());
         // send a warning if there are roles with rbac read access on the data collection but without read access on any standard view
         $role_titles = $tableHelper->getRoleTitlesWithoutReadRightOnAnyStandardView();
 
         if (count($role_titles) > 0) {
-            $this->tpl->setOnScreenMessage('info', $DIC->language()->txt('dcl_rbac_roles_without_read_access_on_any_standard_view') . " " . implode(", ", $role_titles));
+            $this->tpl->setOnScreenMessage('info',
+                $DIC->language()->txt('dcl_rbac_roles_without_read_access_on_any_standard_view') . " " . implode(", ",
+                    $role_titles));
         }
 
         switch ($next_class) {
@@ -111,15 +133,11 @@ class ilDclTableListGUI
                 break;
 
             default:
-                switch ($cmd) {
-                    default:
-                        $this->$cmd();
-                        break;
-                }
+                $this->$cmd();
         }
     }
 
-    public function listTables(): void
+    public function listTables() : void
     {
         $add_new = ilLinkButton::getInstance();
         $add_new->setPrimary(true);
@@ -131,7 +149,7 @@ class ilDclTableListGUI
         $this->tpl->setContent($table_gui->getHTML());
     }
 
-    protected function setTabs(string $active): void
+    protected function setTabs(string $active) : void
     {
         $this->tabs->setBackTarget($this->lng->txt('dcl_tables'), $this->ctrl->getLinkTarget($this, 'listTables'));
         $this->tabs->addTab('settings', $this->lng->txt('settings'),
@@ -143,10 +161,10 @@ class ilDclTableListGUI
         $this->tabs->activateTab($active);
     }
 
-    protected function save(): void
+    protected function save() : void
     {
-        $comments = $_POST['comments'];
-        $visible = $_POST['visible'];
+        $comments = $this->http->wrapper()->post()->retrieve('comments', $this->refinery->kindlyTo()->string());
+        $visible = $this->http->wrapper()->post()->retrieve('visible', $this->refinery->kindlyTo()->bool());
         $orders = $_POST['order'];
         asort($orders);
         $order = 10;
@@ -161,10 +179,15 @@ class ilDclTableListGUI
         $this->ctrl->redirect($this);
     }
 
-    public function confirmDeleteTables(): void
+    public function confirmDeleteTables() : void
     {
         //at least one table must exist
-        $tables = isset($_POST['dcl_table_ids']) ? $_POST['dcl_table_ids'] : array();
+        $tables = [];
+        $has_dcl_table_ids = $this->http->wrapper()->post()->has('dcl_table_ids');
+        if ($has_dcl_table_ids) {
+            $tables = $this->http->wrapper()->post()->retrieve('dcl_table_ids',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
+        }
         $this->checkTablesLeft(count($tables));
 
         $this->tabs->clearSubTabs();
@@ -180,12 +203,17 @@ class ilDclTableListGUI
         $this->tpl->setContent($conf->getHTML());
     }
 
-    protected function deleteTables(): void
+    protected function deleteTables() : void
     {
-        $tables = isset($_POST['dcl_table_ids']) ? $_POST['dcl_table_ids'] : array();
-        foreach ($tables as $table_id) {
-            ilDclCache::getTableCache($table_id)->doDelete();
+        $has_dcl_table_ids = $this->http->wrapper()->post()->has('dcl_table_ids');
+        if ($has_dcl_table_ids) {
+            $tables = $this->http->wrapper()->post()->retrieve('dcl_table_ids',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
+            foreach ($tables as $table_id) {
+                ilDclCache::getTableCache($table_id)->doDelete();
+            }
         }
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tables_deleted'), true);
         $this->ctrl->redirect($this, 'listTables');
     }
@@ -194,7 +222,7 @@ class ilDclTableListGUI
      * redirects if there are no tableviews left after deletion of {$delete_count} tableviews
      * @param $delete_count number of tableviews to delete
      */
-    public function checkTablesLeft(int $delete_count): void
+    public function checkTablesLeft(int $delete_count) : void
     {
         if ($delete_count >= count($this->getDataCollectionObject()->getTables())) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('dcl_msg_tables_delete_all'), true);
@@ -202,14 +230,14 @@ class ilDclTableListGUI
         }
     }
 
-    protected function checkAccess(): bool
+    protected function checkAccess() : bool
     {
         $ref_id = $this->parent_obj->getRefId();
 
         return ilObjDataCollectionAccess::hasWriteAccess($ref_id);
     }
 
-    public function getDataCollectionObject(): ilObjDataCollection
+    public function getDataCollectionObject() : ilObjDataCollection
     {
         return $this->parent_obj->getDataCollectionObject();
     }

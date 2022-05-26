@@ -1,6 +1,20 @@
 <?php
-
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Hook-Class for exporting data-collections (used in SOAP-Class)
@@ -63,7 +77,7 @@ class ilDclContentImporter
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws ilDateTimeException
      */
-    public function import(string $file, bool $simulate = false): array
+    public function import(string $file, bool $simulate = false) : array
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -111,7 +125,7 @@ class ilDclContentImporter
                 $record = new ilDclBaseRecordModel();
                 $record->setOwner($ilUser->getId());
                 $date_obj = new ilDateTime(time(), IL_CAL_UNIX);
-                $record->setCreateDate($date_obj->get(IL_CAL_DATETIME));
+                $record->setCreateDate($date_obj);
                 $record->setTableId($table->getId());
                 if (!$simulate) {
                     $record->doCreate();
@@ -164,7 +178,7 @@ class ilDclContentImporter
         return array('line' => ($i - 2 < 0 ? 0 : $i - 2), 'warnings' => $this->warnings);
     }
 
-    protected function checkImportType(ilDclBaseFieldModel $field): bool
+    protected function checkImportType(ilDclBaseFieldModel $field) : bool
     {
         if (in_array($field->getDatatypeId(), $this->supported_import_datatypes)) {
             return true;
@@ -176,10 +190,10 @@ class ilDclContentImporter
     }
 
     /**
-     * @param  string[] $titles
+     * @param string[] $titles
      * @return ilDclBaseFieldModel[]
      */
-    protected function getImportFieldsFromTitles(ilDclTable $table, array $titles): array
+    protected function getImportFieldsFromTitles(ilDclTable $table, array $titles) : array
     {
         $fields = $table->getRecordFields();
         $import_fields = array();

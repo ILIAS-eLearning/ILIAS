@@ -1,6 +1,20 @@
 <?php
-
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclCreateViewDefinition
@@ -29,7 +43,7 @@ class ilDclCreateViewDefinition extends ilPageObject
      * Get all placeholders for table id
      * @return array
      */
-    public function getAvailablePlaceholders(): array
+    public function getAvailablePlaceholders() : array
     {
         $all = array();
 
@@ -58,12 +72,12 @@ class ilDclCreateViewDefinition extends ilPageObject
         return $all;
     }
 
-    public static function exists(int $id): bool
+    public static function exists(int $id) : bool
     {
         return parent::_exists(self::PARENT_TYPE, $id);
     }
 
-    public static function isActive(int $id): bool
+    public static function isActive(int $id) : bool
     {
         return parent::_lookupActive($id, self::PARENT_TYPE);
     }

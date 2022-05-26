@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclFieldTypePlugin
@@ -25,7 +40,7 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
     /**
      * Singleton for abstract class
      */
-    public static function getInstance(): ilDclFieldTypePlugin
+    public static function getInstance() : ilDclFieldTypePlugin
     {
         $class = get_called_class();
         if (!isset(self::$instances[$class])) {
@@ -35,22 +50,22 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
         return self::$instances[$class];
     }
 
-    public function getPluginTablePrefix(): string
+    public function getPluginTablePrefix() : string
     {
         return $this->getLanguageHandler()->getPrefix();
     }
 
-    public function getPluginTableName(): string
+    public function getPluginTableName() : string
     {
         return $this->getPluginTablePrefix() . "_props";
     }
 
-    public function getPluginConfigTableName(): string
+    public function getPluginConfigTableName() : string
     {
         return $this->getPluginTablePrefix() . "_config";
     }
 
-    public function getPluginClassPrefix(): string
+    public function getPluginClassPrefix() : string
     {
         return 'il';
     }
