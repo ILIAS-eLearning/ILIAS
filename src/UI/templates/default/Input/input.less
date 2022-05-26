@@ -16,9 +16,27 @@
     }
 
   }
-  .il-standard-form-header, .il-standard-form-footer, .il-section-input-header{
+  .il-standard-form-header {
+    padding-left: @il-padding-large-horizontal;
+    padding-right: @il-padding-large-horizontal;
+
     background-color: @il-standard-form-header-bg;
     color: @il-standard-form-header-color;
+  }
+
+  .il-standard-form-footer, .il-section-input-header{
+    padding: @il-standard-form-header-padding;
+
+    background-color: @il-standard-form-header-bg;
+    color: @il-standard-form-header-color;
+  }
+
+  .il-standard-form-header + .il-section-input > .il-section-input-header {
+    border-top: none;
+  }
+  .il-section-input-header {
+    margin: @il-standard-form-header-margin;
+    border-top: @il-standard-form-header-border;
   }
 
   .il-standard-form-header h2, .il-section-input-header h2{

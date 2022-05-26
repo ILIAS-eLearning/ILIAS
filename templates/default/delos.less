@@ -73,6 +73,16 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{bsbase}utilities.less";
 @import "@{bsbase}responsive-utilities.less";
 
+// Bootstrap overrides
+@boostrap_delos: "less/bootstrap/";
+@import "@{boostrap_delos}focus-mixin.less";
+@import "@{boostrap_delos}code.less";
+@import "@{boostrap_delos}bootstrap-variables.less"; //Boostrap Variales, overwritten by ILIAS
+@import "@{boostrap_delos}screenreader-only-mixins.less";
+@import "@{boostrap_delos}grid.less";
+@import "@{boostrap_delos}forms.less";
+@import "@{boostrap_delos}navbar.less";
+
 // UI framework
 @uibase: "../../src/UI/templates/default/";
 @import "@{uibase}Counter/counter.less";
@@ -105,16 +115,6 @@ All parts that aren't checked yet are actually marked with "rtl-review"
 @import "@{uibase}Player/player.less";
 
 @import "less/variables.less"; //ILIAS Less variables
-
-// Bootstrap overrides
-@boostrap_delos: "less/bootstrap/";
-@import "@{boostrap_delos}focus-mixin.less";
-@import "@{boostrap_delos}code.less";
-@import "@{boostrap_delos}bootstrap-variables.less"; //Boostrap Variales, overwritten by ILIAS
-@import "@{boostrap_delos}screenreader-only-mixins.less";
-@import "@{boostrap_delos}grid.less";
-@import "@{boostrap_delos}forms.less";
-@import "@{boostrap_delos}navbar.less";
 
 // UI framework components which make use of variables from less/variables.less
 // Note: These files need to be imported after less/variables.less
@@ -1001,7 +1001,7 @@ a#il_mhead_t_focus {
 	color: darken(@il-secondary-color, 20%);
 	vertical-align: middle;
 	font-size: @il-font-size-h1;
-	font-weight: 600;
+	font-weight: 400;
     cursor: default;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
         font-size: @il-font-size-xxlarge;

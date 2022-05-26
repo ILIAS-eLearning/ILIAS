@@ -2,13 +2,13 @@
 
 .nav-tabs {
 	> li {
-		margin: 0 4px 0 0;
+		margin: 0 @il-padding-xs-horizontal 0 0;
 		//border-top: 4px solid transparent;
 		> a {
 			border-radius: 0;
 			border: 0 none;
-			padding: 6px @il-padding-xlarge-horizontal 3px;
-			font-size: ceil((@font-size-base * 0.9));
+			padding: @il-padding-large-vertical @il-padding-xlarge-horizontal @il-padding-base-vertical;
+			font-size: @il-font-size-base;
 			margin: 0;
 			&:hover {
 				//background-color: transparent;
@@ -34,24 +34,20 @@
 
 [dir="rtl"] .nav-tabs {
 	> li {
-		margin: 0 0 0 4px;
+		margin: 0 0 0 @il-margin-xs-horizontal;
 		float: right;
 	}
 }
 
 #ilTab {
 	padding: 0;
-	margin:  7px @il-margin-xlarge-horizontal 23px;
+	margin:  @il-padding-base-vertical @il-margin-xlarge-horizontal @il-padding-base-vertical;
 	border: 0 none;
 	border-bottom: 2px solid @il-neutral-color;
 }
 
 #ilTab a:focus-visible {
 	z-index: 3;
-}
-
-.ilSetupContent #ilTab {
-	margin:  7px 0 23px;
 }
 
 .ilTabsContentOuter {
@@ -61,12 +57,12 @@
 /* Sub Tabs */
 #ilSubTab {
 	padding: @il-padding-large-vertical 0;
-	margin: -23px @il-margin-xlarge-horizontal;
+	margin: 0 @il-margin-xlarge-horizontal;
 	> li {
 		> a {
 			border-radius: 0;
 			padding: @il-padding-base-vertical @il-padding-xlarge-horizontal;
-			font-size: (@font-size-small * 0.97);
+			font-size: (@il-font-size-small);
 			/* font-weight: 600; */
 			&:hover {
 				color: @il-link-hover-color;
@@ -82,4 +78,8 @@
 			}
 		}
 	}
+}
+
+.il_after_tabs_spacing {
+	margin-bottom: @il-margin-xxlarge-vertical;
 }

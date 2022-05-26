@@ -3,9 +3,10 @@
 
 //Valid for all panels (if not overridden)
 .panel{
-	border: none;
+	border: @il-panel-border;
+	border-radius: @il-panel-border-radius;
 	-webkit-box-shadow: @il-panel-shadow;
-    box-shadow: @il-panel-shadow;
+	box-shadow: @il-panel-shadow;
 
 	.panel-heading.ilHeader, .panel-heading.ilBlockHeader {
 		background-color: @il-main-dark-bg;
@@ -19,9 +20,9 @@
 		h2, h2.ilHeader {
 			margin: 0;
 			color: @il-panel-heading-color;
-			font-size: @font-size-h2;
+			font-size: @il-font-size-xxlarge;
 			line-height: @line-height-large;
-			font-weight: 600;
+			font-weight: 400;
 		}
 
 		h3, h3.ilHeader {
@@ -159,6 +160,10 @@
 
 //Sub Panel
 .panel-sub{
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+
 	margin: -@il-margin-large-vertical -@il-margin-large-horizontal;
 
 	.panel-body{
@@ -193,8 +198,8 @@
 
 	> h2 {
 		color: @il-panel-heading-color;
-		font-size: @font-size-h3;
-		font-weight: 600;
+		font-size: @font-size-h2;
+		font-weight: 500;
 		float: left;
 		padding: @panel-heading-padding;
 		padding-bottom: @il-padding-small-vertical;
