@@ -42,7 +42,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation): void
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation): void
     {
         if ($this->field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             $value = $this->getValue();
@@ -65,7 +65,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
                 return $value['title'];
             }
 
-            return isset($value['link']) ? $value['link'] : '';
+            return $value['link'] ?? '';
         } else {
             return $value;
         }
@@ -119,7 +119,7 @@ class ilDclTextRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         if ($this->getField()->getProperty(ilDclBaseFieldModel::PROP_URL)) {
             if (is_array($value)) {
-                return isset($value['title']) ? $value['title'] : $value['link'];
+                return $value['title'] ?? $value['link'];
             } else {
                 return $value;
             }

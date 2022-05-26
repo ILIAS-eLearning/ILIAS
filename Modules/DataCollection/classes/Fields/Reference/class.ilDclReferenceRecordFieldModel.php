@@ -121,7 +121,6 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
             if ($ref = $this->getReferenceFromValue($searchString)) {
                 $slicedReferences[] = $ref;
                 $resolved = $i;
-                continue;
             }
         }
 

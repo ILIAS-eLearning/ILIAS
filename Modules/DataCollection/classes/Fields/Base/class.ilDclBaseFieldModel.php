@@ -78,9 +78,6 @@ class ilDclBaseFieldModel
         }
     }
 
-    /**
-     * @return int
-     */
     public static function _getFieldIdByTitle(string $title, int $table_id) : int
     {
         global $DIC;
@@ -101,14 +98,14 @@ class ilDclBaseFieldModel
      * Set field id
      * @param int|string
      */
-    public function setId($a_id)
+    public function setId($a_id) : void
     {
         $this->id = $a_id;
     }
 
     /**
      * Get field id
-     * @param int|string
+     * @return int|string
      */
     public function getId()
     {
@@ -118,7 +115,7 @@ class ilDclBaseFieldModel
     /**
      * Set table id
      */
-    public function setTableId(int $a_id)
+    public function setTableId(int $a_id) : void
     {
         $this->table_id = $a_id;
     }
@@ -134,7 +131,7 @@ class ilDclBaseFieldModel
     /**
      * Set title
      */
-    public function setTitle(string $a_title)
+    public function setTitle(string $a_title) : void
     {
         //title cannot begin with _ as this is saved for other purposes. make __ instead.
         if (substr($a_title, 0, 1) == "_" && substr($a_title, 0, 2) != "__") {
@@ -154,7 +151,7 @@ class ilDclBaseFieldModel
     /**
      * Set description
      */
-    public function setDescription(string $a_desc)
+    public function setDescription(string $a_desc) : void
     {
         $this->description = $a_desc;
     }
@@ -170,7 +167,7 @@ class ilDclBaseFieldModel
     /**
      * Set datatype id
      */
-    public function setDatatypeId(int $a_id)
+    public function setDatatypeId(int $a_id) : void
     {
         //unset the cached datatype.
         $this->datatype = null;
@@ -194,7 +191,7 @@ class ilDclBaseFieldModel
         return $this->unique;
     }
 
-    public function setUnique(?bool $unique)
+    public function setUnique(?bool $unique) : void
     {
         $this->unique = $unique ? 1 : 0;
     }
@@ -435,9 +432,6 @@ class ilDclBaseFieldModel
         return ilDclTableViewFieldSetting::where(array('field' => $this->getId()))->get();
     }
 
-    /**
-     * @param int $tableview_id
-     */
     public function getViewSetting(int $tableview_id) : ilDclTableViewFieldSetting
     {
         return ilDclTableViewFieldSetting::getTableViewFieldSetting($this->getId(), $tableview_id);
@@ -452,7 +446,7 @@ class ilDclBaseFieldModel
         return !$this->order ? 0 : $this->order;
     }
 
-    public function setOrder(string $order)
+    public function setOrder(string $order) : void
     {
         $this->order = $order;
     }
@@ -488,7 +482,7 @@ class ilDclBaseFieldModel
 
     /**
      * Return ActiveRecord of property
-     * @return ?mixed
+     * @return ?ilDclFieldProperty
      */
     public function getPropertyInstance(string $key)
     {
@@ -540,7 +534,6 @@ class ilDclBaseFieldModel
     /**
      * Check if input is valid
      * @param float|int|string|array|null $value
-     * @return bool
      * @throws ilDclInputException
      */
     public function checkValidity($value, ?int $record_id = null) : bool
@@ -662,7 +655,6 @@ class ilDclBaseFieldModel
     /**
      * Returns a query-object for building the record-loader-sql-query
      * @param string|int $filter_value
-     * @param ilDclBaseFieldModel|null $sort_field
      */
     public function getRecordQueryFilterObject(
         $filter_value = "",
@@ -748,7 +740,6 @@ class ilDclBaseFieldModel
 
     /**
      * called to fill the 'edit field' form
-     * @param ilPropertyFormGUI $form
      */
     public function fillPropertiesForm(ilPropertyFormGUI &$form) : bool
     {
@@ -774,7 +765,6 @@ class ilDclBaseFieldModel
     /**
      * called by ilDclFieldEditGUI when updating field properties
      * if you overwrite this method, remember to also overwrite getConfirmationGUI
-     * @param ilPropertyFormGUI $form
      */
     public function isConfirmationRequired(ilPropertyFormGUI $form) : bool
     {
@@ -783,7 +773,6 @@ class ilDclBaseFieldModel
 
     /**
      * called by ilDclFieldEditGUI if isConfirmationRequired returns true
-     * @param ilPropertyFormGUI $form
      */
     public function getConfirmationGUI(ilPropertyFormGUI $form) : ilConfirmationGUI
     {

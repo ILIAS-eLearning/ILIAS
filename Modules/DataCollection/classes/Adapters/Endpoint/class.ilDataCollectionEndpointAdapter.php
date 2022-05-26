@@ -26,7 +26,7 @@ class ilDataCollectionEndpointAdapter implements ilDataCollectionEndpointPort
         return $this->ctrl->getLinkTargetByClass("ilDclTableListGUI", "listTables");
     }
 
-    public function getEditRecordLink(string $viewId, int $recordId) : string
+    public function getEditRecordLink(int $viewId, int $recordId) : string
     {
         $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'tableview_id', $viewId);
         $this->ctrl->setParameterByClass(ilDclDetailedViewGUI::class, 'record_id', $recordId);

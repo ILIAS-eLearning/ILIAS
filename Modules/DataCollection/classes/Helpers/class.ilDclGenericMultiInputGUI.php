@@ -41,7 +41,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return $this->allow_empty_fields;
     }
 
-    public function setAllowEmptyFields(bool $allow_empty_fields)
+    public function setAllowEmptyFields(bool $allow_empty_fields) : void
     {
         $this->allow_empty_fields = $allow_empty_fields;
     }
@@ -96,7 +96,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return $this->show_label;
     }
 
-    public function setShowLabel(bool $show_label)
+    public function setShowLabel(bool $show_label) : void
     {
         $this->show_label = $show_label;
     }
@@ -223,7 +223,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
     public function getCustomAttributes() : array
     {
-        return (array) $this->cust_attr;
+        return $this->cust_attr;
     }
 
     protected function createInputPostVar(int $iterator_id, ilFormPropertyGUI $input) : string
@@ -237,6 +237,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
     /**
      * Render item
+     * @throws ilTemplateException
      */
     public function render(int $iterator_id = 0, bool $clean_render = false) : string
     {
@@ -292,13 +293,11 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
             if ($this->isShowLabel()) {
                 $tpl->setCurrentBlock('input_label');
                 $tpl->setVariable('LABEL', $input->getTitle());
-                $tpl->setVariable('CONTENT', $input->render());
-                $tpl->parseCurrentBlock();
             } else {
                 $tpl->setCurrentBlock('input');
-                $tpl->setVariable('CONTENT', $input->render());
-                $tpl->parseCurrentBlock();
             }
+            $tpl->setVariable('CONTENT', $input->render());
+            $tpl->parseCurrentBlock();
         }
 
         if ($this->getMulti() && !$this->getDisabled()) {
@@ -327,7 +326,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     /**
      * Insert property html
      */
-    public function insert(ilTemplate &$a_tpl) : void
+    public function insert(ilTemplate $a_tpl) : void
     {
         global $DIC;
         $tpl = $DIC['tpl'];

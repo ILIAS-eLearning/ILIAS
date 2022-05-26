@@ -37,7 +37,9 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
         $hasRecordId = $this->http->wrapper()->query()->has('record_id');
 
         $has_save_confirmation = ($this->getRecord()->getTable()->getSaveConfirmation() && $hasRecordId);
-        $is_confirmed = (bool) (isset($_POST['save_confirmed']));
+
+        $has_save_confirmed = $this->http->wrapper()->post()->has('save_confirmed');
+        $is_confirmed = $has_save_confirmed;
 
         if (is_array($media) && $media['tmp_name'] != "" && (!$has_save_confirmation || $is_confirmed)) {
             $mob = new ilObjMediaObject();
@@ -56,7 +58,10 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
             $title = $file_name;
             $location = $file_name;
             if ($has_save_confirmation) {
-                $move_file = ilDclPropertyFormGUI::getTempFilename($_POST['ilfilehash'],
+
+                $ilfilehash = $this->http->wrapper()->post()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string());
+
+                $move_file = ilDclPropertyFormGUI::getTempFilename($ilfilehash,
                     'field_' . $this->getField()->getId(), $media["name"], $media["type"]);
                 ilFileUtils::rename($move_file, $file);
             } else {
@@ -140,7 +145,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
     {
         $file = $value;
         if (is_numeric($file)) {
-            $mob = new ilObjMediaObject($file, false);
+            $mob = new ilObjMediaObject($file);
             $mob_name = $mob->getTitle();
 
             return $mob_name;
@@ -149,7 +154,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
         return $file;
     }
 
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) : void
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation) : void
     {
         if (is_array($this->getValue())) {
             foreach ($this->getValue() as $key => $value) {
@@ -164,7 +169,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseSortingValue($value, bool $link = true) : string
     {
-        $mob = new ilObjMediaObject($value, false);
+        $mob = new ilObjMediaObject($value);
 
         return $mob->getTitle();
     }

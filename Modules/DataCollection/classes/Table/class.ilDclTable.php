@@ -68,9 +68,16 @@ class ilDclTable
      * table fields and std fields combined
      */
     protected ?array $all_fields = null;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     public function __construct(int $a_id = 0)
     {
+        global $DIC;
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
         if ($a_id != 0) {
             $this->id = $a_id;
             $this->doRead();
@@ -122,7 +129,7 @@ class ilDclTable
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        /** @var $ilDB ilDB */
+        /** @var $ilDB ilDBInterface */
         foreach ($this->getRecords() as $record) {
             $record->doDelete($omit_notification);
         }
@@ -229,7 +236,7 @@ class ilDclTable
     /**
      * Set table id
      */
-    public function setId(int $a_id)
+    public function setId(int $a_id) : void
     {
         $this->id = $a_id;
     }
@@ -242,7 +249,7 @@ class ilDclTable
         return $this->id;
     }
 
-    public function setObjId(int $a_id)
+    public function setObjId(int $a_id) : void
     {
         $this->objId = $a_id;
     }
@@ -252,7 +259,7 @@ class ilDclTable
         return $this->objId;
     }
 
-    public function setTitle(string $a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
@@ -366,7 +373,7 @@ class ilDclTable
 						   WHERE il_dcl_field.table_id = %s
 						ORDER BY il_dcl_tfield_set.field_order ASC";
 
-            $set = $ilDB->queryF($query, array('integer'), array((int) $this->getId()));
+            $set = $ilDB->queryF($query, array('integer'), array($this->getId()));
             $fields = array();
             while ($rec = $ilDB->fetchAssoc($set)) {
                 $field = ilDclCache::buildFieldFromRecord($rec);
@@ -575,7 +582,8 @@ class ilDclTable
         $editableFields = array();
 
         foreach ($fields as $field) {
-            if (!$field->getViewSetting($_POST["tableview_id"])->isLocked($creation_mode)) {
+            $tableview_id = $this->http->wrapper()->post()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
+            if (!$field->getViewSetting($tableview_id)->isLocked($creation_mode)) {
                 $editableFields[] = $field;
             }
         }
@@ -684,7 +692,7 @@ class ilDclTable
         }
         if (ilObjDataCollectionAccess::hasReadAccess($ref_id)) {
             // Check for view only own entries setting
-            if ($this->getViewOwnRecordsPerm() && ($user_id ? $user_id : $ilUser->getId()) != $record->getOwner()) {
+            if ($this->getViewOwnRecordsPerm() && ($user_id ?: $ilUser->getId()) != $record->getOwner()) {
                 return false;
             }
 
@@ -755,7 +763,7 @@ class ilDclTable
     {
         // php-bug: https://bugs.php.net/bug.php?id=50688
         // fixed in php 7 but for now we need the @ a workaround
-        @usort($array, array($this, "compareOrder"));
+        usort($array, array($this, "compareOrder"));
     }
 
     /**
@@ -800,7 +808,7 @@ class ilDclTable
 
     public function getAddPerm() : bool
     {
-        return (bool) $this->add_perm;
+        return $this->add_perm;
     }
 
     public function setDeletePerm(bool $delete_perm) : void
@@ -813,7 +821,7 @@ class ilDclTable
 
     public function getDeletePerm() : bool
     {
-        return (bool) $this->delete_perm;
+        return $this->delete_perm;
     }
 
     public function setEditByOwner(bool $edit_by_owner) : void
@@ -826,12 +834,12 @@ class ilDclTable
 
     public function getEditByOwner() : bool
     {
-        return (bool) $this->edit_by_owner;
+        return $this->edit_by_owner;
     }
 
     public function getDeleteByOwner() : bool
     {
-        return (bool) $this->delete_by_owner;
+        return $this->delete_by_owner;
     }
 
     public function setDeleteByOwner(bool $delete_by_owner) : void
@@ -852,10 +860,10 @@ class ilDclTable
 
     public function getEditPerm() : bool
     {
-        return (bool) $this->edit_perm;
+        return $this->edit_perm;
     }
 
-    public function setLimited(bool $limited)
+    public function setLimited(bool $limited) : void
     {
         $this->limited = $limited;
     }
@@ -878,7 +886,7 @@ class ilDclTable
         return $this->limit_end;
     }
 
-    public function setLimitStart(?string $limit_start)
+    public function setLimitStart(?string $limit_start) : void
     {
         $this->limit_start = $limit_start;
     }
@@ -888,7 +896,7 @@ class ilDclTable
         return $this->limit_start;
     }
 
-    public function setIsVisible(bool $is_visible)
+    public function setIsVisible(bool $is_visible) : void
     {
         $this->is_visible = $is_visible;
     }
@@ -898,7 +906,7 @@ class ilDclTable
         return $this->is_visible;
     }
 
-    public function setDescription(string $description)
+    public function setDescription(string $description) : void
     {
         $this->description = $description;
     }
@@ -910,7 +918,7 @@ class ilDclTable
 
     public function setDefaultSortField(string $default_sort_field) : void
     {
-        $default_sort_field = ($default_sort_field) ? $default_sort_field : 0; // Change null or empty strings to zero
+        $default_sort_field = ($default_sort_field) ?: 0; // Change null or empty strings to zero
         $this->default_sort_field = $default_sort_field;
     }
 
@@ -957,7 +965,7 @@ class ilDclTable
         return $this->save_confirmation;
     }
 
-    public function setSaveConfirmation(bool $save_confirmation)
+    public function setSaveConfirmation(bool $save_confirmation) : void
     {
         $this->save_confirmation = $save_confirmation;
     }
@@ -1114,7 +1122,7 @@ class ilDclTable
         return $id;
     }
 
-    public function setExportEnabled(bool $export_enabled)
+    public function setExportEnabled(bool $export_enabled) : void
     {
         $this->export_enabled = $export_enabled;
     }
@@ -1144,12 +1152,12 @@ class ilDclTable
                 'integer') . ' WHERE id = ' . $ilDB->quote($this->getId(), 'integer'));
     }
 
-    public function setOrder(int $table_order)
+    public function setOrder(int $table_order) : void
     {
         $this->table_order = $table_order;
     }
 
-    public function setImportEnabled(bool $import_enabled)
+    public function setImportEnabled(bool $import_enabled) : void
     {
         $this->import_enabled = $import_enabled;
     }
@@ -1161,8 +1169,8 @@ class ilDclTable
 
     /**
      * Checks if a table has a field with the given title
-     * @param $title  Title of field
-     * @param $obj_id Obj-ID of the table
+     * @param string $title  Title of field
+     * @param int $obj_id of the table
      */
     public static function _hasFieldByTitle(string $title, int $obj_id) : bool
     {

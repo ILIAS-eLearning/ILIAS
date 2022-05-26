@@ -111,7 +111,7 @@ class ilDclContentImporter
                 $record = new ilDclBaseRecordModel();
                 $record->setOwner($ilUser->getId());
                 $date_obj = new ilDateTime(time(), IL_CAL_UNIX);
-                $record->setCreateDate($date_obj->get(IL_CAL_DATETIME));
+                $record->setCreateDate($date_obj);
                 $record->setTableId($table->getId());
                 if (!$simulate) {
                     $record->doCreate();

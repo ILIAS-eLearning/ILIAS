@@ -98,7 +98,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $conf->setFormAction($ilCtrl->getFormAction($this));
         $conf->setHeaderText($lng->txt('dcl_confirm_delete_detailed_view_title'));
 
-        $conf->addItem('tableview', (int) $this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
+        $conf->addItem('tableview', $this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
 
         $conf->setConfirm($lng->txt('delete'), 'deleteView');
         $conf->setCancel($lng->txt('cancel'), 'cancelDelete');
@@ -188,6 +188,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
     public function saveTable(): void
     {
         $f = new ilDclDefaultValueFactory();
+
         foreach ($_POST as $key => $value) {
             if (strpos($key, "default_") === 0) {
                 $parts = explode("_", $key);
@@ -230,7 +231,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
                 // Radio Inputs
                 foreach (array("RadioGroup") as $attribute) {
                     $selection_key = $attribute . '_' . $setting->getField();
-                    $selection = $_POST[$selection_key];
+                    $selection = $this->http->wrapper()->post()->retrieve($selection_key, $this->refinery->kindlyTo()->string());
                     $selected_radio_attribute = explode("_", $selection)[0];
 
                     foreach (array("LockedCreate",
@@ -251,7 +252,13 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
                 // Text Inputs
                 foreach (array("DefaultValue") as $attribute) {
                     $key = $attribute . '_' . $setting->getField();
-                    $setting->{'set' . $attribute}($_POST[$key]);
+                    if($this->http->wrapper()->post()->has($key)) {
+                        $attribute_value = $this->http->wrapper()->post()->retrieve($key, $this->refinery->kindlyTo()->string());
+                    } else {
+                        $attribute_value = "";
+                    }
+
+                    $setting->{'set' . $attribute}($attribute_value);
                 }
 
                 $setting->update();

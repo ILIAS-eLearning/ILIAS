@@ -20,12 +20,12 @@ class ilDclBaseRecordModel
     /**
      * @var ilDclBaseRecordFieldModel[]
      */
-    protected array $recordfields;
-    protected int $id;
+    protected ?array $recordfields = null;
+    protected int $id = 0;
     protected int $table_id;
-    protected ilDclTable $table;
+    protected ?ilDclTable $table = null;
     protected int $last_edit_by;
-    protected int $owner;
+    protected int $owner = 0;
     protected ilDateTime $last_update;
     protected ilDateTime $create_date;
     protected ?int $nr_of_comments = null;
@@ -173,7 +173,7 @@ class ilDclBaseRecordModel
         return $this->id;
     }
 
-    public function setTableId(int $a_id)
+    public function setTableId(int $a_id) : void
     {
         $this->table_id = $a_id;
     }
@@ -243,7 +243,7 @@ class ilDclBaseRecordModel
      * Set a field value
      * @param int|string $field_id
      */
-    public function setRecordFieldValueFromForm(int $field_id, ilPropertyFormGUI &$form)
+    public function setRecordFieldValueFromForm(int $field_id, ilPropertyFormGUI $form) : void
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
@@ -264,7 +264,7 @@ class ilDclBaseRecordModel
         return $this->recordfields[$field->getId()]->getValueFromExcel($excel, $row, $col);
     }
 
-    public function setStandardFieldValueFromExcel(ilExcel $excel, int $row, int $col, ilDclStandardField $field) : void
+    public function setStandardFieldValueFromExcel(ilExcel $excel, int $row, int $col, ilDclBaseFieldModel $field) : void
     {
         $value = $field->getValueFromExcel($excel, $row, $col);
         if ($value) {
@@ -321,7 +321,7 @@ class ilDclBaseRecordModel
     /**
      * Get Field Export Value
      * @param ?int|string $field_id
-     * @return array|int|null|string
+     * @return int|string
      */
     public function getRecordFieldExportValue($field_id)
     {
@@ -336,7 +336,7 @@ class ilDclBaseRecordModel
     /**
      * Get Field Export Value
      * @param int|string $field_id
-     * @return array|int|null|string
+     * @return int|string
      */
     public function getRecordFieldPlainText($field_id)
     {
@@ -360,11 +360,10 @@ class ilDclBaseRecordModel
                 $col++;
                 $name_array = ilObjUser::_lookupName($this->getOwner());
                 $worksheet->setCell($row, $col, $name_array['lastname'] . ', ' . $name_array['firstname']);
-                $col++;
             } else {
                 $worksheet->setCell($row, $col, $this->getStandardFieldHTML($field_id));
-                $col++;
             }
+            $col++;
         } else {
             $this->recordfields[$field_id]->fillExcelExport($worksheet, $row, $col);
         }
@@ -372,7 +371,7 @@ class ilDclBaseRecordModel
 
     /**
      * @param int|string $field_id
-     * @return array|int|string|null
+     * @return string
      */
     public function getRecordFieldFormulaValue($field_id)
     {
@@ -440,7 +439,6 @@ class ilDclBaseRecordModel
 
     /**
      * @param int|string $field_id
-     * @param array      $options
      */
     public function getRecordFieldSingleHTML($field_id, array $options = array()) : string
     {
@@ -467,7 +465,7 @@ class ilDclBaseRecordModel
     /**
      * @param int|string $field_id
      */
-    public function fillRecordFieldFormInput($field_id, ilPropertyFormGUI &$form) : void
+    public function fillRecordFieldFormInput($field_id, ilPropertyFormGUI $form) : void
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
@@ -480,7 +478,7 @@ class ilDclBaseRecordModel
     /**
      * @param int|string $field_id
      */
-    protected function setStandardFieldFromForm($field_id, ilPropertyFormGUI &$form) : void
+    protected function setStandardFieldFromForm($field_id, ilPropertyFormGUI $form) : void
     {
         if ($item = $form->getItemByPostVar("field_" . $field_id)) {
             $this->setStandardField($field_id, $item->getValue());
@@ -493,19 +491,17 @@ class ilDclBaseRecordModel
      */
     protected function setStandardField($field_id, $value)
     {
-        switch ($field_id) {
-            case "last_edit_by":
-                $this->setLastEditBy($value);
-
-                return;
+        if ($field_id == "last_edit_by") {
+            $this->setLastEditBy($value);
+            return;
         }
-        $this->$field_id = $value;
+        $this->{$field_id} = $value;
     }
 
     /**
      * @param int|string $field_id
      */
-    protected function fillStandardFieldFormInput($field_id, ilPropertyFormGUI &$form) : void
+    protected function fillStandardFieldFormInput($field_id, ilPropertyFormGUI $form) : void
     {
         if ($item = $form->getItemByPostVar('field_' . $field_id)) {
             $item->setValue($this->getStandardField($field_id));
@@ -528,7 +524,7 @@ class ilDclBaseRecordModel
                 break;
         }
 
-        return $this->$field_id;
+        return $this->{$field_id};
     }
 
     /**
@@ -572,6 +568,8 @@ class ilDclBaseRecordModel
                         <img src='" . ilUtil::getImagePath("comment_unlabeled.svg")
                     . "' alt='{$nComments} Comments'><span class='ilHActProp'>{$nComments}</span></a>";
         }
+
+        return "";
     }
 
     /**
@@ -693,6 +691,7 @@ class ilDclBaseRecordModel
         }
     }
 
+    /*
     public function passThroughFilter(array $filter) : bool
     {
         $this->loadTable();
@@ -710,7 +709,7 @@ class ilDclBaseRecordModel
         }
 
         return true;
-    }
+    }*/
 
     public function hasPermissionToEdit(int $ref_id) : bool
     {

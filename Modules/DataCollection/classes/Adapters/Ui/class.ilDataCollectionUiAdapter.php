@@ -93,7 +93,7 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
         $this->tabs->clearSubTabs();
     }
 
-    public function setBackTab(string $label, string $link)
+    public function setBackTab(string $label, string $link): void
     {
         $this->tabs->setBackTarget($label, $link);
     }

@@ -342,7 +342,7 @@ class ilDclStandardField extends ilDclBaseFieldModel
     /**
      * @return string|int
      */
-    public function getValueFromExcel(ilExcel $excel, int &$row, int &$col)
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
         $value = $excel->getCell($row, $col);
         switch ($this->id) {

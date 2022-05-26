@@ -45,11 +45,6 @@ class ilDclReferenceFieldModel extends ilDclBaseFieldModel
         return $sql_obj;
     }
 
-    /**
-     * Returns a query-object for building the record-loader-sql-query
-     * @param string $filter_value
-     * @return null|ilDclRecordQueryObject
-     */
     public function getRecordQueryFilterObject(
         $filter_value = "",
         ?ilDclBaseFieldModel $sort_field = null

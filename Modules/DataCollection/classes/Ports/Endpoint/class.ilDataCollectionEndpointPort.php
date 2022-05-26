@@ -9,7 +9,7 @@ interface ilDataCollectionEndpointPort
 
     public function getListRecordsLink(string $viewId) : string;
 
-    public function getEditRecordLink(string $viewId, int $recordId) : string;
+    public function getEditRecordLink(int $viewId, int $recordId) : string;
 
     public function getListPermissionsLink() : string;
 

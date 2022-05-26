@@ -24,10 +24,6 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
         $this->keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index, $a_sub_index);
     }
 
-    /**
-     * return temp-filename
-     * @return string
-     */
     public static function getTempFilename(
         string $a_hash,
         string $a_field,

@@ -60,7 +60,7 @@ class ilDclTextFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-    public function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 

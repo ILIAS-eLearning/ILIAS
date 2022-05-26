@@ -56,7 +56,7 @@ class ilDclDatatype
         return $this->id;
     }
 
-    public function setTitle(string $a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
@@ -69,7 +69,7 @@ class ilDclDatatype
     /**
      * Set Storage Location
      */
-    public function setStorageLocation(int $a_id)
+    public function setStorageLocation(int $a_id) : void
     {
         $this->storageLocation = $a_id;
     }

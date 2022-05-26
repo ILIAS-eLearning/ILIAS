@@ -48,8 +48,8 @@ class ilDclFieldListTableGUI extends ilTable2GUI
             $this->addMultiCommand('confirmDeleteFields', $lng->txt('dcl_delete_fields'));
         }
 
-        $ilCtrl->setParameterByClass('ildclfieldeditgui', 'table_id', $this->parent_obj->table_id);
-        $ilCtrl->setParameterByClass('ildclfieldlistgui', 'table_id', $this->parent_obj->table_id);
+        $ilCtrl->setParameterByClass('ildclfieldeditgui', 'table_id', $this->parent_obj->getTableId());
+        $ilCtrl->setParameterByClass('ildclfieldlistgui', 'table_id', $this->parent_obj->getTableId());
 
         $this->setFormAction($ilCtrl->getFormActionByClass('ildclfieldlistgui'));
         $this->addCommandButton('save', $lng->txt('dcl_save'));

@@ -8,7 +8,8 @@ class ilDclCheckboxInputGUI extends ilCheckboxInputGUI
 {
     public function checkInput() : bool
     {
-        if ($this->getRequired() && !isset($_POST[$this->getPostVar()])) {
+        $has_postvar = $this->http->wrapper()->post()->has($this->getPostVar());
+        if ($this->getRequired() && !$has_postvar) {
             global $DIC;
             $lng = $DIC['lng'];
             $this->setAlert($lng->txt("msg_input_is_required"));

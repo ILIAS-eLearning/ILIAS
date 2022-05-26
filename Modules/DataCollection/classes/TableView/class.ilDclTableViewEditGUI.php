@@ -19,12 +19,10 @@ class ilDclTableViewEditGUI
     protected ilDclTableViewEditFieldsTableGUI $table_gui;
     protected ilTabsGUI $tabs_gui;
     public ilDclTable $table;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * ilDclTableViewEditGUI constructor.
-     * @param ilDclTableViewGUI $parent_obj
-     * @param ilDclTable        $table
-     */
+
     public function __construct(ilDclTableViewGUI $parent_obj, ilDclTable $table, ilDclTableView $tableview)
     {
         global $DIC;
@@ -40,6 +38,8 @@ class ilDclTableViewEditGUI
         $this->parent_obj = $parent_obj;
         $this->tableview = $tableview;
         $this->tabs_gui = $ilTabs;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->ctrl->saveParameterByClass('ilDclTableEditGUI', 'table_id');
         $this->ctrl->saveParameter($this, 'tableview_id');
@@ -63,7 +63,7 @@ class ilDclTableViewEditGUI
         $this->tabs_gui->setBackTarget($this->lng->txt('dcl_tableviews'),
             $this->ctrl->getLinkTarget($this->parent_obj));
         $this->tabs_gui->setBack2Target($this->lng->txt('dcl_tables'),
-            $this->ctrl->getLinkTarget($this->parent_obj->parent_obj));
+            $this->ctrl->getLinkTarget($this->parent_obj->getParentObj()));
 
         switch ($next_class) {
             case 'ildcldetailedviewdefinitiongui':
@@ -134,15 +134,15 @@ class ilDclTableViewEditGUI
                             $step = $f->step('', '');
                             $steps = [
                                 $f->step($this->lng->txt('dcl_view_settings'))
-                                  ->withAvailability($step::AVAILABLE)->withStatus($view->getStepVs() ? 3 : 4),
+                                  ->withAvailability($step::AVAILABLE)->withStatus(4), //$view->getStepVs() ? 3 : 4
                                 $f->step($this->lng->txt('dcl_create_entry_rules'))
-                                  ->withAvailability($step::AVAILABLE)->withStatus($view->getStepC() ? 3 : 4),
+                                  ->withAvailability($step::AVAILABLE)->withStatus(4), //$view->getStepC() ? 3 : 4
                                 $f->step($this->lng->txt('dcl_edit_entry_rules'))
-                                  ->withAvailability($step::AVAILABLE)->withStatus($view->getStepE() ? 3 : 4),
+                                  ->withAvailability($step::AVAILABLE)->withStatus(4), //$view->getStepE() ? 3 : 4
                                 $f->step($this->lng->txt('dcl_list_visibility_and_filter'))
-                                  ->withAvailability($step::AVAILABLE)->withStatus($view->getStepO() ? 3 : 4),
+                                  ->withAvailability($step::AVAILABLE)->withStatus(4), //$view->getStepO() ? 3 : 4
                                 $f->step($this->lng->txt('dcl_detailed_view'))
-                                  ->withAvailability($step::AVAILABLE)->withStatus($view->getStepS() ? 3 : 1),
+                                  ->withAvailability($step::AVAILABLE)->withStatus(1), //$view->getStepS() ? 3 : 1
                             ];
 
                             //setup linear workflow
@@ -216,15 +216,20 @@ class ilDclTableViewEditGUI
             //Checkboxes
             foreach (array("Visible", "InFilter", "FilterChangeable") as $attribute) {
                 $key = $attribute . '_' . $setting->getField();
-                $setting->{'set' . $attribute}($_POST[$key] == 'on');
+                if($this->http->wrapper()->post()->has($key)) {
+                    $checkbox_value = $this->http->wrapper()->post()->retrieve($key, $this->refinery->kindlyTo()->string());
+                    $setting->{'set' . $attribute}($checkbox_value === 'on');
+                } else {
+                    $setting->{'set' . $attribute}(false);
+                }
             }
 
             //Filter Value
             $key = 'filter_' . $setting->getField();
-            if ($_POST[$key] != null) {
-                $setting->setFilterValue($_POST[$key]);
-            } elseif ($_POST[$key . '_from'] != null && $_POST[$key . '_to'] != null) {
-                $setting->setFilterValue(array("from" => $_POST[$key . '_from'], "to" => $_POST[$key . '_to']));
+            if ($this->http->wrapper()->post()->has($key)) {
+                $setting->setFilterValue($this->http->wrapper()->post()->retrieve($key, $this->refinery->kindlyTo()->string()));
+            } elseif ($this->http->wrapper()->post()->has($key . '_from') && $this->http->wrapper()->post()->has($key . '_to')) {
+                $setting->setFilterValue(array("from" => $this->http->wrapper()->post()->retrieve($key . '_from', $this->refinery->kindlyTo()->string()), "to" => $this->http->wrapper()->post()->retrieve($key . '_to', $this->refinery->kindlyTo()->string())));
             } else {
                 $setting->setFilterValue(null);
             }
@@ -292,12 +297,12 @@ class ilDclTableViewEditGUI
     {
         if (in_array($cmd, ['add', 'create'])) {
             return ilObjDataCollectionAccess::hasAccessToEditTable(
-                $this->parent_obj->parent_obj->getDataCollectionObject()->getRefId(),
+                $this->parent_obj->getParentObj()->getDataCollectionObject()->getRefId(),
                 $this->table->getId()
             );
         } else {
             return ilObjDataCollectionAccess::hasAccessTo(
-                $this->parent_obj->parent_obj->getDataCollectionObject()->getRefId(),
+                $this->parent_obj->getParentObj()->getDataCollectionObject()->getRefId(),
                 $this->table->getId(),
                 $this->tableview->getId()
             );

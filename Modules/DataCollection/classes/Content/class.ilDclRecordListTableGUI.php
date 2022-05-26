@@ -128,7 +128,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     public function setRecordData(array $data) : void
     {
         $this->object_data = $data;
-        $this->buildData($data);
+        $this->buildData();
     }
 
     public function numericOrdering(string $a_field) : bool
@@ -217,7 +217,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    public function fillRow(array $a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $record_obj = $a_set['_record'];
 

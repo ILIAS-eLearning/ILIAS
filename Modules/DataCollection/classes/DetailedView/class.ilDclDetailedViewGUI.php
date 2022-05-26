@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Notes\NoteDBRepository;
+
 /**
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Marcel Raimann <mr@studer-raimann.ch>
@@ -27,11 +29,13 @@ class ilDclDetailedViewGUI
 
     private ilDataCollectionUiPort $dclUi;
     private ilDataCollectionEndpointPort $dclEndPoint;
-    private ilDataCollectionAccessPort $dclAccess;
+
 
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
-
+    protected int $record_id;
+    protected ilNoteGUI $notesGUI;
+    protected ilDclBaseFieldModel $currentField;
 
     private function init(
         ilDataCollectionOutboundsAdapter $adapter
@@ -56,8 +60,14 @@ class ilDclDetailedViewGUI
         $this->lng = $DIC->language();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
-        $this->record_id = (int) $_REQUEST['record_id'];
+        if($this->http->wrapper()->query()->has('record_id')) {
+            $this->record_id = $this->http->wrapper()->query()->retrieve('record_id', $this->refinery->kindlyTo()->int());
+        }
+        if($this->http->wrapper()->post()->has('record_id')) {
+            $this->record_id = $this->http->wrapper()->post()->retrieve('record_id', $this->refinery->kindlyTo()->int());
+        }
         $this->record_obj = ilDclCache::getRecordCache($this->record_id);
 
         $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
@@ -80,7 +90,7 @@ class ilDclDetailedViewGUI
 
         // Comments
         $repId = $this->dcl_gui_object->getDataCollectionObject()->getId();
-        $objId = (int) $this->record_id;
+        $objId = $this->record_id;
         $this->notesGUI = new ilNoteGUI($repId, $objId);
         $this->notesGUI->enablePublicNotes(true);
         $this->notesGUI->enablePublicNotesDeletion(true);
@@ -152,8 +162,8 @@ class ilDclDetailedViewGUI
                         $this->renderRecord(false);
                         break;
                     case 'deleteNote':
-                        $this->notesGUI->deleteNote();
-                        $this->renderRecord();
+                        $this->notesGUI->confirmDelete();
+                        //$this->renderRecord();
                         break;
                     case 'cancelDelete':
                         $this->notesGUI->cancelDelete();

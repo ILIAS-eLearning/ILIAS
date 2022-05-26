@@ -96,11 +96,8 @@ class ilDclExpressionParser
         if (abs($value) <= self::SCIENTIFIC_NOTATION_LOWER && $value != 0) {
             return sprintf("%e", $value);
         }
-        if (is_float($value)) {
-            return $value;
-        }
-
         return $value;
+
     }
 
     public static function getOperators() : array

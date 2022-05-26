@@ -18,7 +18,7 @@ class ilDclRecordQueryObject
         return $this->selectStatement;
     }
 
-    public function setSelectStatement(string $selectStatement)
+    public function setSelectStatement(string $selectStatement) : void
     {
         $this->selectStatement = " " . $selectStatement;
     }
@@ -28,7 +28,7 @@ class ilDclRecordQueryObject
         return $this->joinStatement;
     }
 
-    public function setJoinStatement(string $joinStatement)
+    public function setJoinStatement(string $joinStatement) : void
     {
         $this->joinStatement = " " . $joinStatement;
     }
@@ -38,7 +38,7 @@ class ilDclRecordQueryObject
         return $this->whereStatement;
     }
 
-    public function setWhereStatement(string $whereStatement)
+    public function setWhereStatement(string $whereStatement) : void
     {
         $this->whereStatement = " " . $whereStatement;
     }
@@ -48,7 +48,7 @@ class ilDclRecordQueryObject
         return $this->groupStatement;
     }
 
-    public function setGroupStatement(string $groupStatement)
+    public function setGroupStatement(string $groupStatement) : void
     {
         $this->groupStatement = " " . $groupStatement;
     }
@@ -58,7 +58,7 @@ class ilDclRecordQueryObject
         return $this->orderStatement;
     }
 
-    public function setOrderStatement(string $orderStatement)
+    public function setOrderStatement(string $orderStatement) : void
     {
         $this->orderStatement = " " . $orderStatement;
     }

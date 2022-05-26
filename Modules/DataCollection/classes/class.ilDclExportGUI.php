@@ -19,7 +19,8 @@ class ilDclExportGUI extends ilExportGUI
      */
     public function createExportFile() : void
     {
-        if ($_POST['format'] == 'xlsx') {
+        $format = $this->http->wrapper()->post()->retrieve('format', $this->refinery->kindlyTo()->string());
+        if ($format === 'xlsx') {
             $this->checkForExportableFields();
         }
 
@@ -45,5 +46,7 @@ class ilDclExportGUI extends ilExportGUI
 
         $this->tpl->setOnScreenMessage('failure', $lng->txt('dcl_no_export_data_available'), true);
         $ilCtrl->redirect($this, "listExportFiles");
+
+        return false;
     }
 }

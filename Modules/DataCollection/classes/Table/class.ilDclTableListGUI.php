@@ -15,7 +15,8 @@ class ilDclTableListGUI
     protected ilToolbarGUI $toolbar;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
-
+    protected ilObjDataCollectionGUI $parent_obj;
+    protected int $obj_id;
 
     /**
      * ilDclTableListGUI constructor.
@@ -52,6 +53,10 @@ class ilDclTableListGUI
         }
     }
 
+    public function getObjId(): int {
+        return $this->parent_obj->getObjectId();
+    }
+
     /**
      * execute command
      */
@@ -67,7 +72,7 @@ class ilDclTableListGUI
          */
         $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
 
-        $tableHelper = new ilDclTableHelper((int) $this->obj_id, $ref_id, $DIC->rbac()->review(),
+        $tableHelper = new ilDclTableHelper($this->obj_id, $ref_id, $DIC->rbac()->review(),
             $DIC->user(), $DIC->database());
         // send a warning if there are roles with rbac read access on the data collection but without read access on any standard view
         $role_titles = $tableHelper->getRoleTitlesWithoutReadRightOnAnyStandardView();
@@ -111,11 +116,7 @@ class ilDclTableListGUI
                 break;
 
             default:
-                switch ($cmd) {
-                    default:
-                        $this->$cmd();
-                        break;
-                }
+                $this->$cmd();
         }
     }
 
@@ -145,8 +146,8 @@ class ilDclTableListGUI
 
     protected function save(): void
     {
-        $comments = $_POST['comments'];
-        $visible = $_POST['visible'];
+        $comments = $this->http->wrapper()->post()->retrieve('comments', $this->refinery->kindlyTo()->string());
+        $visible = $this->http->wrapper()->post()->retrieve('visible', $this->refinery->kindlyTo()->bool());
         $orders = $_POST['order'];
         asort($orders);
         $order = 10;
@@ -164,7 +165,11 @@ class ilDclTableListGUI
     public function confirmDeleteTables(): void
     {
         //at least one table must exist
-        $tables = isset($_POST['dcl_table_ids']) ? $_POST['dcl_table_ids'] : array();
+        $tables = [];
+        $has_dcl_table_ids = $this->http->wrapper()->post()->has('dcl_table_ids');
+        if($has_dcl_table_ids) {
+            $tables = $this->http->wrapper()->post()->retrieve('dcl_table_ids', $this->refinery->kindlyTo()->listOf( $this->refinery->kindlyTo()->int()));
+        }
         $this->checkTablesLeft(count($tables));
 
         $this->tabs->clearSubTabs();
@@ -182,10 +187,14 @@ class ilDclTableListGUI
 
     protected function deleteTables(): void
     {
-        $tables = isset($_POST['dcl_table_ids']) ? $_POST['dcl_table_ids'] : array();
-        foreach ($tables as $table_id) {
-            ilDclCache::getTableCache($table_id)->doDelete();
+        $has_dcl_table_ids = $this->http->wrapper()->post()->has('dcl_table_ids');
+        if($has_dcl_table_ids) {
+            $tables = $this->http->wrapper()->post()->retrieve('dcl_table_ids', $this->refinery->kindlyTo()->listOf( $this->refinery->kindlyTo()->int()));
+            foreach ($tables as $table_id) {
+                ilDclCache::getTableCache($table_id)->doDelete();
+            }
         }
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tables_deleted'), true);
         $this->ctrl->redirect($this, 'listTables');
     }

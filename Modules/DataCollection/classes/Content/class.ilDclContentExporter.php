@@ -32,6 +32,7 @@ class ilDclContentExporter
 
     protected ilDclTable $table;
     private \ilGlobalTemplateInterface $main_tpl;
+    protected array $tables;
 
     public function __construct(int $ref_id, ?int $table_id, array $filter = array())
     {
@@ -105,7 +106,8 @@ class ilDclContentExporter
 
     /**
      * Creates an export of a specific datacollection table
-     * @return null|string|void
+     * @return bool|void
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception|\PhpOffice\PhpSpreadsheet\Exception
      */
     public function export(string $format = self::EXPORT_EXCEL, string $filepath = null, bool $send = false)
     {
@@ -130,39 +132,37 @@ class ilDclContentExporter
 
         $data_available = false;
         $fields_available = false;
-        switch ($format) {
-            case self::EXPORT_EXCEL:
-                $adapter = new ilExcel();
-                foreach ($this->tables as $table) {
-                    ilDclCache::resetCache();
+        if ($format == self::EXPORT_EXCEL) {
+            $adapter = new ilExcel();
+            foreach ($this->tables as $table) {
+                ilDclCache::resetCache();
 
-                    $list = $table->getPartialRecords(null, null, null, 0, $this->filter);
-                    $data_available = $data_available || ($list['total'] > 0);
-                    $fields_available = $fields_available || (count($table->getExportableFields()) > 0);
-                    if ($list['total'] > 0 && count($table->getExportableFields()) > 0) {
-                        // only 31 character-long table-titles are allowed
-                        $title = substr($table->getTitle(), 0, 31);
-                        $adapter->addSheet($title);
-                        $row = 1;
+                $list = $table->getPartialRecords(null, null, null, 0, $this->filter);
+                $data_available = $data_available || ($list['total'] > 0);
+                $fields_available = $fields_available || (count($table->getExportableFields()) > 0);
+                if ($list['total'] > 0 && count($table->getExportableFields()) > 0) {
+                    // only 31 character-long table-titles are allowed
+                    $title = substr($table->getTitle(), 0, 31);
+                    $adapter->addSheet($title);
+                    $row = 1;
 
-                        $this->fillMetaExcel($table, $adapter, $row);
+                    $this->fillMetaExcel($table, $adapter, $row);
 
-                        // #14813
-                        $pre = $row;
-                        $this->fillHeaderExcel($table, $adapter, $row);
-                        if ($pre == $row) {
-                            $row++;
-                        }
-
-                        foreach ($list['records'] as $set) {
-                            $this->fillRowExcel($table, $adapter, $set, $row);
-                            $row++; // #14760
-                        }
-
-                        $data_available = true;
+                    // #14813
+                    $pre = $row;
+                    $this->fillHeaderExcel($table, $adapter, $row);
+                    if ($pre == $row) {
+                        $row++;
                     }
+
+                    foreach ($list['records'] as $set) {
+                        $this->fillRowExcel($table, $adapter, $set, $row);
+                        $row++; // #14760
+                    }
+
+                    $data_available = true;
                 }
-                break;
+            }
         }
 
         if (file_exists($in_progress_file)) {
@@ -186,11 +186,10 @@ class ilDclContentExporter
 
         if ($send) {
             $adapter->sendToClient($filename);
-           return true;
         } else {
             $adapter->writeToFile($filepath);
-            return true;
         }
+        return true;
     }
 
     /**

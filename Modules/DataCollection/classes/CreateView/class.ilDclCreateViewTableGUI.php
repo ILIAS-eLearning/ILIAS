@@ -168,7 +168,7 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
         global $DIC;
         $lng = $DIC['lng'];
         $field = $a_set->getFieldObject();
-        $match = ilDclTableViewBaseDefaultValue::findSingle(intval($field->getDataTypeId()), $a_set->getId());
+        $match = ilDclTableViewBaseDefaultValue::findSingle($field->getDataTypeId(), $a_set->getId());
 
         /** @var ilDclTextInputGUI $item */
         $item = ilDclCache::getFieldRepresentation($field)->getInputField(new ilPropertyFormGUI());

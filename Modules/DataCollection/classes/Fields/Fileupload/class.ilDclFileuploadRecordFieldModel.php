@@ -82,7 +82,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         return $return;
     }
 
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) : void
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation) : void
     {
         if (is_array($this->getValue())) {
             foreach ($this->getValue() as $key => $value) {
@@ -101,7 +101,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->loadValue();
 
         if (!$omit_parsing) {
-            $tmp = $this->parseValue($value, $this);
+            $tmp = $this->parseValue($value);
             $old = $this->value;
             //if parse value fails keep the old value
             if ($tmp !== false) {

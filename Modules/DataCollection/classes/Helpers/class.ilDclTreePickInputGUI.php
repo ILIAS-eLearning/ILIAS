@@ -15,12 +15,14 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI
 {
     protected ilTextInputGUI $title_input;
     protected ilTextInputGUI $search_input;
+    protected ilHiddenInputGUI $hidden_input;
 
     public function __construct(string $title, string $post_var)
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
+        /** @var \ilGlobalTemplateInterface $tpl */
+        $tpl = $DIC->ui()->mainTemplate();
         /**
          * @var $tpl iltemplate
          */
@@ -56,11 +58,11 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI
         return $out;
     }
 
-    public function setValueByArray(array $value) : void
+    public function setValueByArray(array $values) : void
     {
-        parent::setValueByArray($value);
+        parent::setValueByArray($values);
         $path = new ilPathGUI();
-        $reference = $value[$this->getPostVar()];
+        $reference = $values[$this->getPostVar()];
         if ($reference) {
             $pathString = $path->getPath(ROOT_FOLDER_ID, (int) $reference);
             $id = ilObject::_lookupObjId($reference);

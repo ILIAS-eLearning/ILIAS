@@ -109,6 +109,8 @@ class ilDclCache
             case self::TYPE_RECORD:
                 return self::getRecordCache($clone_id);
         }
+
+        return null;
     }
 
     public static function getTableCache(int $table_id = null) : ilDclTable
@@ -144,9 +146,10 @@ class ilDclCache
         return $records_cache[$record_id];
     }
 
+
     public static function getRecordFieldCache(
-        ilDclBaseRecordModel $record,
-        ilDclBaseFieldModel $field
+        object $record, //object|ilDclBaseRecordModel
+        object $field //object|ilDclBaseFieldModel
     ) : ilDclBaseRecordFieldModel {
         $fid = $field->getId();
         $rid = $record->getId();

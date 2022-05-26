@@ -47,7 +47,7 @@ class ilDclTableViewTextDefaultValue extends ilDclTableViewBaseDefaultValue
         return $this->id;
     }
 
-    public function setId(int $id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
@@ -57,7 +57,7 @@ class ilDclTableViewTextDefaultValue extends ilDclTableViewBaseDefaultValue
         return $this->tview_set_id;
     }
 
-    public function setTviewSetId(int $tview_set_id)
+    public function setTviewSetId(int $tview_set_id) : void
     {
         $this->tview_set_id = $tview_set_id;
     }
@@ -67,7 +67,7 @@ class ilDclTableViewTextDefaultValue extends ilDclTableViewBaseDefaultValue
         return $this->value;
     }
 
-    public function setValue(string $value)
+    public function setValue(string $value) : void
     {
         $this->value = $value;
     }

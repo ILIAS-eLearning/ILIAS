@@ -37,12 +37,12 @@ class ilObjDataCollectionAccess extends ilObjectAccess
     /**
      * check whether goto script will succeed
      */
-    public static function _checkGoto(string $a_target) : bool
+    public static function _checkGoto(string $target) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
 
-        $t_arr = explode("_", $a_target);
+        $t_arr = explode("_", $target);
 
         if ($t_arr[0] != "dcl" || ((int) $t_arr[1]) <= 0) {
             return false;
@@ -69,17 +69,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return false;
     }
 
-    /**
-     * checks wether a user may invoke a command or not
-     * (this method is called by ilAccessHandler::checkAccess)
-     * @param string $a_cmd        command (not permission!)
-     * @param string $a_permission permission
-     * @param int    $a_ref_id     reference id
-     * @param int    $a_obj_id     object id
-     * @param ?int    $a_user_id    user id (if not provided, current user is taken)
-     * @return    bool        true, if everything is ok
-     */
-    public function _checkAccess(string $a_cmd, string $a_permission, int $a_ref_id, int $a_obj_id,  ?int $a_user_id = null) : bool
+
+    public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id,  ?int $user_id = null) : bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -87,14 +78,15 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         $rbacsystem = $DIC['rbacsystem'];
         $ilAccess = $DIC['ilAccess'];
 
-        if (is_null($a_user_id) === true) {
-            $a_user_id = $ilUser->getId();
+        if (is_null($user_id) === true) {
+            $user_id = $ilUser->getId();
         }
-        switch ($a_cmd) {
+
+        switch ($cmd) {
             case "view":
 
-                if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
-                    && !$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id)
+                if (!ilObjDataCollectionAccess::_lookupOnline($obj_id)
+                    && !$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id)
                 ) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
@@ -104,18 +96,18 @@ class ilObjDataCollectionAccess extends ilObjectAccess
 
             // for permission query feature
             case "infoScreen":
-                if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)) {
+                if (!ilObjDataCollectionAccess::_lookupOnline($obj_id)) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
                 } else {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_STATUS_MESSAGE, $lng->txt("online"));
                 }
                 break;
         }
-        switch ($a_permission) {
+        switch ($permission) {
             case "read":
             case "visible":
-                if (!ilObjDataCollectionAccess::_lookupOnline($a_obj_id)
-                    && (!$rbacsystem->checkAccessOfUser($a_user_id, 'write', $a_ref_id))
+                if (!ilObjDataCollectionAccess::_lookupOnline($obj_id)
+                    && (!$rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id))
                 ) {
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("offline"));
 
@@ -206,11 +198,6 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return $ilAccess->checkAccess("write", "", $ref);
     }
 
-    /**
-     * Has permission to view and edit all entries event when he is not the owner
-     * @param     $ref
-     * @param int $user_id
-     */
     public static function hasEditAccess(int $ref, ?int $user_id = 0): bool
     {
         global $DIC;
@@ -258,7 +245,6 @@ class ilObjDataCollectionAccess extends ilObjectAccess
     /**
      * This only checks access to the tableview - if the full access check is required, use hasAccessTo($ref_id, $table_id, $tableview_id)
      * @param integer|ilDclTableView $tableview can be object or id
-     * @return bool
      */
     public static function hasAccessToTableView($tableview, ?int $user_id = 0): bool
     {
@@ -273,7 +259,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
             $tableview = ilDclTableView::find($tableview);
         }
 
-        $assigned_roles = $rbacreview->assignedRoles($user_id ? $user_id : $ilUser->getId());
+        $assigned_roles = $rbacreview->assignedRoles($user_id ?: $ilUser->getId());
         $allowed_roles = $tableview->getRoles();
 
         return !empty(array_intersect($assigned_roles, $allowed_roles));

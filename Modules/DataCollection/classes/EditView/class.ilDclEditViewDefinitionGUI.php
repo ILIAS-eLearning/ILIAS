@@ -13,6 +13,8 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
     protected ilDclEditViewTableGUI $table_gui;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
+    protected int $table_view_id;
+    protected int $tableview_id;
 
     public function __construct(int $tableview_id, int $a_definition_id = 0)
     {
@@ -23,6 +25,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
          * @var $ilCtrl ilCtrl
          */
         $this->ctrl = $ilCtrl;
+        $this->tableview_id = $tableview_id;
         $this->tableview = ilDclTableView::findOrGetInstance($tableview_id);
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -99,7 +102,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
         $conf->setFormAction($ilCtrl->getFormAction($this));
         $conf->setHeaderText($lng->txt('dcl_confirm_delete_detailed_view_title'));
 
-        $conf->addItem('tableview', (int) $this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
+        $conf->addItem('tableview', $this->tableview_id, $lng->txt('dcl_confirm_delete_detailed_view_text'));
 
         $conf->setConfirm($lng->txt('delete'), 'deleteView');
         $conf->setCancel($lng->txt('cancel'), 'cancelDelete');
@@ -188,7 +191,6 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
      */
     public function saveTable(): void
     {
-        // die(var_dump($_POST));
         /**
          * @var ilDclTableViewFieldSetting $setting
          */
@@ -198,7 +200,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
                 // Radio Inputs
                 foreach (array("RadioGroup") as $attribute) {
                     $selection_key = $attribute . '_' . $setting->getField();
-                    $selection = $_POST[$selection_key];
+                    $selection = $this->http->wrapper()->post()->retrieve($selection_key, $this->refinery->kindlyTo()->string());
                     $selected_radio_attribute = explode("_", $selection)[0];
 
                     foreach (array("LockedEdit", "RequiredEdit", "VisibleEdit", "NotVisibleEdit") as $radio_attribute) {
@@ -215,7 +217,13 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
                 // Text Inputs
                 foreach (array("DefaultValue") as $attribute) {
                     $key = $attribute . '_' . $setting->getField();
-                    $setting->{'set' . $attribute}($_POST[$key]);
+                    if($this->http->wrapper()->post()->has($key)) {
+                        $attribute_value = $this->http->wrapper()->post()->retrieve($key, $this->refinery->kindlyTo()->string());
+                    } else {
+                        $attribute_value = "";
+                    }
+
+                    $setting->{'set' . $attribute}($attribute_value);
                 }
 
                 $setting->update();

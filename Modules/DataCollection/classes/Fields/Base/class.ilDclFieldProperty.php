@@ -66,7 +66,7 @@ class ilDclFieldProperty extends ActiveRecord
         return $this->id;
     }
 
-    public function setId(int $id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
@@ -76,7 +76,7 @@ class ilDclFieldProperty extends ActiveRecord
         return $this->field_id;
     }
 
-    public function setFieldId(int $field_id)
+    public function setFieldId(int $field_id) : void
     {
         $this->field_id = $field_id;
     }
@@ -86,7 +86,7 @@ class ilDclFieldProperty extends ActiveRecord
         return $this->name;
     }
 
-    public function setName(string $name)
+    public function setName(string $name) : void
     {
         $this->name = $name;
     }

@@ -40,7 +40,7 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
 
-        $m_obj = new ilObjMediaObject($value, false);
+        $m_obj = new ilObjMediaObject($value);
         $file_name = $m_obj->getTitle();
         if (!$filter || strpos(strtolower($file_name), strtolower($filter)) !== false) {
             return true;
@@ -49,7 +49,7 @@ class ilDclMobFieldRepresentation extends ilDclFileuploadFieldRepresentation
         return false;
     }
 
-    public function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
     {
         $opt = new ilRadioOption($this->lng->txt('dcl_' . $this->getField()->getDatatype()->getTitle()),
             $this->getField()->getDatatypeId());

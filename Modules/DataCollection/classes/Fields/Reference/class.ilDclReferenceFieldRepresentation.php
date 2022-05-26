@@ -37,7 +37,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
                     $options[$record->getId()] = $file_obj->getFileName();
                     break;
                 case ilDclDatatype::INPUTFORMAT_MOB:
-                    $media_obj = new ilObjMediaObject($record->getRecordFieldValue($fieldref), false);
+                    $media_obj = new ilObjMediaObject($record->getRecordFieldValue($fieldref));
                     $options[$record->getId()] = $media_obj->getTitle();
                     break;
                 case ilDclDatatype::INPUTFORMAT_DATETIME:
@@ -51,7 +51,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
                         if (!is_array($value)) {
                             $value = array('title' => '', 'link' => $value);
                         }
-                        $value = $value['title'] ? $value['title'] : $value['link'];
+                        $value = $value['title'] ?: $value['link'];
                     }
                     $options[$record->getId()] = $value;
                     break;
@@ -133,7 +133,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         return $pass;
     }
 
-    public function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create'): ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 

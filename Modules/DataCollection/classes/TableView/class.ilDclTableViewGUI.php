@@ -17,6 +17,7 @@ class ilDclTableViewGUI
     protected ilDclTable $table;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
+    protected ilDclTableListGUI $parent_obj;
 
     /**
      * Constructor
@@ -75,13 +76,13 @@ class ilDclTableViewGUI
                 $this->ctrl->forwardCommand($edit_gui);
                 break;
             default:
-                switch ($cmd) {
-                    default:
-                        $this->$cmd();
-                        break;
-                }
+                $this->$cmd();
                 break;
         }
+    }
+
+    public function getParentObj(): ilDclTableListGUI {
+        return $this->parent_obj;
     }
 
     protected function checkAccess(): bool
@@ -124,7 +125,7 @@ class ilDclTableViewGUI
 
     public function doTableSwitch(): void
     {
-        $this->ctrl->setParameterByClass("ilDclTableViewGUI", "table_id", $_POST['table_id']);
+        $this->ctrl->setParameterByClass("ilDclTableViewGUI", "table_id", $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int()));
         $this->ctrl->redirectByClass("ilDclTableViewGUI", "show");
     }
 
@@ -134,7 +135,12 @@ class ilDclTableViewGUI
     public function confirmDeleteTableviews(): void
     {
         //at least one view must exist
-        $tableviews = isset($_POST['dcl_tableview_ids']) ? $_POST['dcl_tableview_ids'] : array();
+
+        $tableviews = [];
+        $has_dcl_tableview_ids = $this->http->wrapper()->post()->has('dcl_tableview_ids');
+        if($has_dcl_tableview_ids) {
+            $tableviews = $this->http->wrapper()->post()->retrieve('dcl_tableview_ids', $this->refinery->kindlyTo()->listOf( $this->refinery->kindlyTo()->int()));
+        }
         $this->checkViewsLeft(count($tableviews));
 
         $this->tabs->clearSubTabs();
@@ -152,10 +158,15 @@ class ilDclTableViewGUI
 
     protected function deleteTableviews(): void
     {
-        $tableviews = isset($_POST['dcl_tableview_ids']) ? $_POST['dcl_tableview_ids'] : array();
-        foreach ($tableviews as $tableview_id) {
-            ilDclTableView::find($tableview_id)->delete();
+        $tableviews = [];
+        $has_dcl_tableview_ids = $this->http->wrapper()->post()->has('dcl_tableview_ids');
+        if($has_dcl_tableview_ids) {
+            $tableviews = $this->http->wrapper()->post()->retrieve('dcl_tableview_ids', $this->refinery->kindlyTo()->listOf( $this->refinery->kindlyTo()->int()));
+            foreach ($tableviews as $tableview_id) {
+                ilDclTableView::find($tableview_id)->delete();
+            }
         }
+
         $this->table->sortTableViews();
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_tableviews_deleted'), true);
         $this->ctrl->redirect($this, 'show');

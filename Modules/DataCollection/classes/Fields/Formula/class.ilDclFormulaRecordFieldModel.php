@@ -20,9 +20,9 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->expression = $this->getField()->getProperty(ilDclBaseFieldModel::PROP_FORMULA_EXPRESSION);
     }
 
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) : void
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation) : void
     {
-        return;
+
     }
 
     /**
@@ -30,7 +30,7 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     protected function loadValue() : void
     {
-        return;
+
     }
 
     /**
@@ -48,15 +48,15 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function doUpdate() : void
     {
-        return;
+
     }
 
     /**
      * Do nothing, value is runtime only and not stored in DB
      */
-    public function doRead() : void
+    protected function doRead() : void
     {
-        return;
+
     }
 
     /**
@@ -64,7 +64,7 @@ class ilDclFormulaRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function delete() : void
     {
-        return;
+
     }
 
     public function getFormInput() : string

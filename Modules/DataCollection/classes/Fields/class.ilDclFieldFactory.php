@@ -22,11 +22,12 @@ class ilDclFieldFactory
      * @param ilDclBaseFieldModel  $field
      * @param ilDclBaseRecordModel $record
      * @throws ilDclException
+     * @throws Exception
      */
     public static function getRecordFieldInstance(
-        ilDclBaseFieldModel $field,
-        ilDclBaseRecordModel $record
-    ) : ilDclBaseRecordFieldModel {
+        object $field,  //object|ilDclBaseFieldModel
+        object $record //object|ilDclBaseRecordModel
+    ) : ?ilDclBaseRecordFieldModel {
         if (!empty(self::$record_field_cache[$field->getId()][$record->getId()])) {
             return self::$record_field_cache[$field->getId()][$record->getId()];
         }
@@ -48,6 +49,9 @@ class ilDclFieldFactory
                 return $instance;
             }
         }
+
+        throw new RuntimeException("file not found ".$path);
+        return null;
     }
 
     protected static array $field_class_cache = array();
@@ -76,11 +80,6 @@ class ilDclFieldFactory
 
     protected static array $field_representation_cache = array();
 
-    /**
-     * Returns FieldRepresentation from BaseFieldModel
-     * @param ilDclBaseFieldModel $field
-     * @throws ilDclException
-     */
     public static function getFieldRepresentationInstance(ilDclBaseFieldModel $field) : ilDclBaseFieldRepresentation
     {
         // when the datatype overview is generated no field-models are available, so an empty instance is used => no caching there
@@ -224,7 +223,7 @@ class ilDclFieldFactory
         if ($datatype->getId() == ilDclDatatype::INPUTFORMAT_PLUGIN) {
             if ($field->hasProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME)) {
                 $pd = $component_repository->getPluginByName($field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME));
-                $plugin_data = $component_factory->getPlugin($plugin_data->getId());
+                $plugin_data = $component_factory->getPlugin($pd->getId());
                 $fieldtype = $plugin_data->getPluginClassPrefix() . ucfirst($plugin_data->getPluginName());
             } else {
                 $fieldtype = self::$default_prefix . ucfirst(self::parseDatatypeTitle($datatype->getTitle()));
@@ -272,7 +271,7 @@ class ilDclFieldFactory
                     );
                 }
                 $pd = $component_repository->getPluginByName($field->getProperty(ilDclBaseFieldModel::PROP_PLUGIN_HOOK_NAME));
-                $plugin_data = $component_factory->getPlugin($plugin_data->getId());
+                $plugin_data = $component_factory->getPlugin($pd->getId());
 
                 $class_path = $plugin_data->getDirectory() . "/classes/";
             } else {

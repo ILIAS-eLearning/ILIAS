@@ -63,7 +63,7 @@ class ilDclSelectionOption extends ActiveRecord
         return $this->id;
     }
 
-    public function setId(int $id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
@@ -73,17 +73,17 @@ class ilDclSelectionOption extends ActiveRecord
         return $this->field_id;
     }
 
-    public function setFieldId(int $field_id)
+    public function setFieldId(int $field_id) : void
     {
         $this->field_id = $field_id;
     }
 
     public function getOptId(): int
     {
-        return (int) $this->opt_id;
+        return $this->opt_id;
     }
 
-    public function setOptId(int $opt_id)
+    public function setOptId(int $opt_id) : void
     {
         $this->opt_id = $opt_id;
     }
@@ -93,7 +93,7 @@ class ilDclSelectionOption extends ActiveRecord
         return $this->value;
     }
 
-    public function setValue(string $value)
+    public function setValue(string $value) : void
     {
         $this->value = $value;
     }
@@ -103,7 +103,7 @@ class ilDclSelectionOption extends ActiveRecord
         return $this->sorting;
     }
 
-    public function setSorting(int $sorting)
+    public function setSorting(int $sorting) : void
     {
         $this->sorting = $sorting;
     }

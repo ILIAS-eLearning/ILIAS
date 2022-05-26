@@ -8,10 +8,6 @@
 class ilDclRatingRecordRepresentation extends ilDclBaseRecordRepresentation
 {
 
-    /**
-     * Return rating html
-     * @return string
-     */
     public function getHTML(bool $link = true): string
     {
         global $DIC;

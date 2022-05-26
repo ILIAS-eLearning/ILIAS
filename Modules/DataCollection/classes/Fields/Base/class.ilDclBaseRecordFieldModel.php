@@ -13,11 +13,11 @@
  */
 class ilDclBaseRecordFieldModel
 {
-    protected int $id;
+    protected int $id = 0;
     protected ilDclBaseFieldModel $field;
     protected ilDclBaseRecordModel $record;
-    protected ilDclBaseRecordRepresentation $record_representation;
-    protected ilDclBaseFieldRepresentation $field_representation;
+    protected ?ilDclBaseRecordRepresentation $record_representation = null;
+    protected ?ilDclBaseFieldRepresentation $field_representation = null;
     /** @var int|float|array|null */
     protected $value;
     protected ilObjUser $user;
@@ -190,7 +190,7 @@ class ilDclBaseRecordFieldModel
     {
         $this->loadValue();
         if (!$omit_parsing) {
-            $tmp = $this->parseValue($value, $this);
+            $tmp = $this->parseValue($value);
             $old = $this->value;
             //if parse value fails keep the old value
             if ($tmp !== false) {
@@ -276,7 +276,7 @@ class ilDclBaseRecordFieldModel
     /**
      * @param ilConfirmationGUI $confirmation
      */
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation)
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation)
     {
         ;
         if (!is_array($this->getValue())) {
@@ -350,7 +350,7 @@ class ilDclBaseRecordFieldModel
         return $this->record;
     }
 
-    public function getRecordRepresentation() : ilDclBaseRecordRepresentation
+    public function getRecordRepresentation() : ?ilDclBaseRecordRepresentation
     {
         return $this->record_representation;
     }
@@ -360,12 +360,12 @@ class ilDclBaseRecordFieldModel
         $this->record_representation = $record_representation;
     }
 
-    public function getFieldRepresentation() : ilDclBaseFieldRepresentation
+    public function getFieldRepresentation() : ?ilDclBaseFieldRepresentation
     {
         return $this->field_representation;
     }
 
-    public function setFieldRepresentation(ilDclBaseFieldRepresentation $field_representation)
+    public function setFieldRepresentation(ilDclBaseFieldRepresentation $field_representation) : void
     {
         $this->field_representation = $field_representation;
     }

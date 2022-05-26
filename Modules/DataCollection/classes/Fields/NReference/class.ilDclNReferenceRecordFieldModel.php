@@ -146,11 +146,12 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
 
     public function getLinkHTML(string $link, int $value): string
     {
-        if ($link == "[" . $this->getField()->getTitle() . "]") {
-            $link = null;
+        if ($link === "[" . $this->getField()->getTitle() . "]") {
+            //$link = null;
+            return "";
         }
 
-        return parent::getLinkHTML($link, $value);
+        return "<a href=\"$link\">$value</a>";
     }
 
     public function getHTML(): string
@@ -226,7 +227,6 @@ class ilDclNReferenceRecordFieldModel extends ilDclReferenceRecordFieldModel
             if ($ref = $this->getReferenceFromValue($searchString)) {
                 $slicedReferences[] = $ref;
                 $resolved = $i;
-                continue;
             }
         }
 

@@ -11,11 +11,11 @@ class ilDclTableViewTableGUI extends ilTable2GUI
 
     /**
      * ilDclTableViewTableGUI constructor.
-     * @param ilDclTableViewGUI $a_parent_obj
+     * @param object $a_parent_obj //object|ilDclTableViewGUI
      * @param string            $a_parent_cmd
      * @param ilDclTable        $table
      */
-    public function __construct(ilDclTableViewGUI $a_parent_obj, $a_parent_cmd, ilDclTable $table)
+    public function __construct(object $a_parent_obj, $a_parent_cmd, ilDclTable $table)
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -252,5 +252,6 @@ class ilDclTableViewTableGUI extends ilTable2GUI
 
             return $button->getToolbarHTML();
         }
+        return "";
     }
 }

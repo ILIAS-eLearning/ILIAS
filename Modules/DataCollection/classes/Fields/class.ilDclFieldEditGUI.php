@@ -22,6 +22,7 @@ class ilDclFieldEditGUI
     private \ilGlobalTemplateInterface $main_tpl;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
+    protected int $field_id;
 
     /**
      * Constructor
@@ -32,7 +33,7 @@ class ilDclFieldEditGUI
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC['ilCtrl'];
 
-        $this->obj_id = $a_parent_obj->obj_id;
+        $this->obj_id = $a_parent_obj->getObjId();
         $this->parent_obj = $a_parent_obj;
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -52,9 +53,16 @@ class ilDclFieldEditGUI
             $this->field_obj = ilDclCache::getFieldCache($this->field_id);
         } else {
             $datatype = null;
-            if (isset($_POST['datatype']) && in_array($_POST['datatype'],
+
+            $has_datatype = $this->http->wrapper()->post()->has('datatype');
+
+
+            if ($has_datatype) {
+                $datatype_value = $this->http->wrapper()->post()->retrieve('datatype', $this->refinery->kindlyTo()->string());
+                if(in_array($datatype_value,
                     array_keys(ilDclDatatype::getAllDatatype()))) {
-                $datatype = $_POST['datatype'];
+                    $datatype = $datatype_value;
+                }
             }
             $this->field_obj = ilDclFieldFactory::getFieldModelInstance($this->field_id, $datatype);
             if (!$this->table_id) {
@@ -202,7 +210,7 @@ class ilDclFieldEditGUI
             $hidden_prop = new ilHiddenInputGUI("field_id");
             $this->form->addItem($hidden_prop);
 
-            $this->form->setFormAction($ilCtrl->getFormAction($this), "update");
+            $this->form->setFormAction($ilCtrl->getFormAction($this));
 
             $this->form->addCommandButton('update', $lng->txt('dcl_update_field'));
         } else {
@@ -211,7 +219,7 @@ class ilDclFieldEditGUI
             $hidden_prop->setValue($this->field_obj->getTableId());
             $this->form->addItem($hidden_prop);
 
-            $this->form->setFormAction($ilCtrl->getFormAction($this), "save");
+            $this->form->setFormAction($ilCtrl->getFormAction($this));
 
             $this->form->addCommandButton('save', $lng->txt('dcl_create_field'));
         }

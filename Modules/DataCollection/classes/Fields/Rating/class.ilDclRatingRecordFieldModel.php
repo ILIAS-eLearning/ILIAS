@@ -24,9 +24,9 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
         $this->dcl_obj_id = $dclTable->getCollectionObject()->getId();
     }
 
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation) : void
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation) : void
     {
-        return;
+
     }
 
     /**
@@ -52,7 +52,7 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
         // explicitly do nothing. the value is handled via the model and gui of ilRating.
     }
 
-    public function doRead() : void
+    protected function doRead() : void
     {
         // explicitly do nothing. the value is handled via the model and gui of ilRating.
     }
@@ -88,7 +88,7 @@ class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
 
         $ilDB->manipulate(
             "DELETE FROM il_rating WHERE " .
-            "obj_id = " . $ilDB->quote((int) $this->getRecord()->getId(), "integer") . " AND " .
+            "obj_id = " . $ilDB->quote($this->getRecord()->getId(), "integer") . " AND " .
             "obj_type = " . $ilDB->quote("dcl_record", "text") . " AND " .
             "sub_obj_id = " . $ilDB->quote((int) $this->getField()->getId(), "integer") . " AND " .
             $ilDB->equals("sub_obj_type", "dcl_field", "text", true)

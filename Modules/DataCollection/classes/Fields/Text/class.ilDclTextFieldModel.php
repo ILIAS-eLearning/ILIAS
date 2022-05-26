@@ -87,12 +87,17 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
                 }
             }
         }
+
+        return false;
     }
 
     /**
+     * @param null|string|array $value
+     * @param int $record_id
+     * @return bool
      * @throws ilDclInputException
      */
-    protected function checkValidityOfURLField(string $value, int $record_id) : bool
+    protected function checkValidityOfURLField($value, int $record_id) : bool
     {
         // TODO: value should always be an array with url fields, can we remove the check & json_decode?
         if (!is_array($value)) {
@@ -107,7 +112,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
         $this->checkRegexAndLength($value['link']);
 
         //check url/email
-        $link = (substr($value['link'], 0, 3) === 'www') ? 'http://' . $value['link'] : $value['link'];
+        $link = (substr($value['link'], 0, 3) === 'www') ? 'https://' . $value['link'] : $value['link'];
         if (!filter_var($link, FILTER_VALIDATE_URL) && !filter_var($link, FILTER_VALIDATE_EMAIL) && $link != '') {
             throw new ilDclInputException(ilDclInputException::NOT_URL);
         }
@@ -125,6 +130,8 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
                 }
             }
         }
+
+        return true;
     }
 
     public function checkFieldCreationInput(ilPropertyFormGUI $form) : bool

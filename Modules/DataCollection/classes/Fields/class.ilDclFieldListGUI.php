@@ -19,6 +19,9 @@ class ilDclFieldListGUI
     protected ilTabsGUI $tabs;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
+    protected int $table_id;
+    protected ilDclTableListGUI $parent_obj;
+    protected int $obj_id;
 
     /**
      * Constructor
@@ -32,7 +35,7 @@ class ilDclFieldListGUI
         $this->table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
         $locator = $DIC['ilLocator'];
         $this->parent_obj = $a_parent_obj;
-        $this->obj_id = $a_parent_obj->obj_id;
+        $this->obj_id = $a_parent_obj->getObjId();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->tpl = $DIC->ui()->mainTemplate();
@@ -50,17 +53,17 @@ class ilDclFieldListGUI
         }
     }
 
+    public function getTableId(): int {
+        return $this->table_id;
+    }
+
     /**
      * execute command
      */
     public function executeCommand(): void
     {
         $cmd = $this->ctrl->getCmd('listFields');
-        switch ($cmd) {
-            default:
-                $this->$cmd();
-                break;
-        }
+        $this->$cmd();
     }
 
     /**
@@ -68,11 +71,15 @@ class ilDclFieldListGUI
      */
     public function deleteFields(): void
     {
-        $field_ids = isset($_POST['dcl_field_ids']) ? $_POST['dcl_field_ids'] : array();
-        $table = ilDclCache::getTableCache($this->table_id);
-        foreach ($field_ids as $field_id) {
-            $table->deleteField($field_id);
+        if($this->http->wrapper()->post()->has('dcl_field_ids')) {
+            $field_ids = $this->http->wrapper()->post()->retrieve('dcl_field_ids', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
+            $table = ilDclCache::getTableCache($this->table_id);
+            foreach ($field_ids as $field_id) {
+                $table->deleteField($field_id);
+            }
         }
+
+
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('dcl_msg_fields_deleted'), true);
         $this->ctrl->redirect($this, 'listFields');
     }
@@ -86,12 +93,17 @@ class ilDclFieldListGUI
         $conf = new ilConfirmationGUI();
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('dcl_confirm_delete_fields'));
-        $field_ids = isset($_POST['dcl_field_ids']) ? $_POST['dcl_field_ids'] : array();
-        foreach ($field_ids as $field_id) {
-            /** @var ilDclBaseFieldModel $field */
-            $field = ilDclCache::getFieldCache($field_id);
-            $conf->addItem('dcl_field_ids[]', $field_id, $field->getTitle());
+
+        if($this->http->wrapper()->post()->has('dcl_field_ids')) {
+            $field_ids = $this->http->wrapper()->post()->retrieve('dcl_field_ids',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
+            foreach ($field_ids as $field_id) {
+                /** @var ilDclBaseFieldModel $field */
+                $field = ilDclCache::getFieldCache($field_id);
+                $conf->addItem('dcl_field_ids[]', $field_id, $field->getTitle());
+            }
         }
+
         $conf->setConfirm($this->lng->txt('delete'), 'deleteFields');
         $conf->setCancel($this->lng->txt('cancel'), 'listFields');
         $this->tpl->setContent($conf->getHTML());
@@ -106,6 +118,7 @@ class ilDclFieldListGUI
 
         $table = ilDclCache::getTableCache($table_id);
         $fields = $table->getFields();
+
         $order = $_POST['order'];
         asort($order);
         $val = 10;
@@ -115,7 +128,10 @@ class ilDclFieldListGUI
         }
 
         foreach ($fields as $field) {
-            $exportable = $_POST['exportable'];
+            $exportable = false;
+            if($this->http->wrapper()->post()->has('exportable')) {
+                $exportable = $this->http->wrapper()->post()->retrieve('exportable', $this->refinery->kindlyTo()->bool());
+            }
 
             $field->setExportable($exportable && $exportable[$field->getId()] === "on");
             $field->setOrder($order[$field->getId()]);
@@ -166,7 +182,8 @@ class ilDclFieldListGUI
      */
     public function doTableSwitch(): void
     {
-        $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $_POST['table_id']);
+        $table_id = $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+        $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "table_id", $table_id);
         $this->ctrl->redirectByClass("ilDclFieldListGUI", "listFields");
     }
 

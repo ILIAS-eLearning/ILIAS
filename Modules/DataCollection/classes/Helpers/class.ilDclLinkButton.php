@@ -14,7 +14,7 @@ class ilDclLinkButton extends ilLinkButton
         return $this->useWrapper;
     }
 
-    public function setUseWrapper(bool $useWrapper)
+    public function setUseWrapper(bool $useWrapper) : void
     {
         $this->useWrapper = $useWrapper;
     }
@@ -24,11 +24,11 @@ class ilDclLinkButton extends ilLinkButton
         return new self(self::TYPE_DATACOLLECTION_LINK);
     }
 
-    public function prepareRender() : void
+    protected function prepareRender() : void
     {
         parent::prepareRender();
 
-        $this->addAttribute('href', ($this->getUrl() ? $this->getUrl() : "#"));
+        $this->addAttribute('href', ($this->getUrl() ?: "#"));
         $this->addAttribute('target', $this->getTarget());
     }
 

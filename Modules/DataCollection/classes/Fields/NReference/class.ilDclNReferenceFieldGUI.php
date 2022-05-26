@@ -13,9 +13,6 @@ class ilDclNReferenceFieldGUI
         $this->field = $field;
     }
 
-    /**
-     * @param ilDclNReferenceRecordFieldModel $field
-     */
     public function getSingleHTML(?array $options = null) : string
     {
         $values = $this->field->getValue();

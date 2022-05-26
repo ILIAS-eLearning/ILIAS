@@ -22,6 +22,8 @@ class ilDclTableEditGUI
     protected ilPropertyFormGUI $form;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
+    protected ilDclTableListGUI $parent_object;
+    protected int $obj_id;
 
     /**
      * Constructor
@@ -38,7 +40,7 @@ class ilDclTableEditGUI
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->toolbar = $DIC->toolbar();
         $this->parent_object = $a_parent_obj;
-        $this->obj_id = $a_parent_obj->obj_id;
+        $this->obj_id = $a_parent_obj->getObjId();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
@@ -266,7 +268,8 @@ class ilDclTableEditGUI
 
     public function doTableSwitch() : void
     {
-        $this->ctrl->setParameter($this, "table_id", $_POST['table_id']);
+        $table_id = $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+        $this->ctrl->setParameter($this, "table_id", $table_id);
         $this->ctrl->redirect($this, "edit");
     }
 
@@ -371,7 +374,7 @@ class ilDclTableEditGUI
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('dcl_confirm_delete_table'));
 
-        $conf->addItem('table', (int) $this->table->getId(), $this->table->getTitle());
+        $conf->addItem('table', $this->table->getId(), $this->table->getTitle());
 
         $conf->setConfirm($this->lng->txt('delete'), 'delete');
         $conf->setCancel($this->lng->txt('cancel'), 'cancelDelete');

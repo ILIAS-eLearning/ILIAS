@@ -193,7 +193,7 @@ class ilDclRecordListGUI
 
         if ($desc = $this->table_obj->getDescription()) {
             $ilSetting = new ilSetting('advanced_editing');
-            if ((bool) $ilSetting->get('advanced_editing_javascript_editor')) {
+            if ($ilSetting->get('advanced_editing_javascript_editor')) {
                 $desc = "<div class='ilDclTableDescription'>" . $desc . "</div>";
             } else {
                 $desc = "<div class='ilDclTableDescription'>" . nl2br(ilUtil::stripSlashes($desc)) . "</div>";
@@ -296,9 +296,10 @@ class ilDclRecordListGUI
     public function doTableSwitch() : void
     {
         $this->ctrl->clearParameters($this);
-        $this->ctrl->setParameterByClass(ilObjDataCollectionGUI::class, "table_id", $_POST['table_id']);
-        $this->ctrl->setParameter($this, "table_id", $_POST['table_id']);
-        $this->ctrl->clearParametersByClass(ilObjDataCollectionGUI::class, 'tableview_id');
+        $table_id = $this->http->wrapper()->post()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+        $this->ctrl->setParameterByClass(ilObjDataCollectionGUI::class, "table_id", $table_id);
+        $this->ctrl->setParameter($this, "table_id", $table_id);
+        $this->ctrl->clearParametersByClass(ilObjDataCollectionGUI::class);
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
 
@@ -308,7 +309,8 @@ class ilDclRecordListGUI
      */
     public function doTableViewSwitch() : void
     {
-        $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "tableview_id", $_POST['tableview_id']);
+        $tableview_id = $this->http->wrapper()->post()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
+        $this->ctrl->setParameterByClass("ilObjDataCollectionGUI", "tableview_id", $tableview_id);
         $this->ctrl->redirect($this, self::CMD_SHOW);
     }
 
@@ -357,7 +359,7 @@ class ilDclRecordListGUI
                 $record = ilDclCache::getRecordCache($rec_id);
                 $field_id = $this->http->wrapper()->query()->retrieve('field_id', $this->refinery->kindlyTo()->int());
                 $file_obj = new ilObjFile($record->getRecordFieldValue($field_id), false);
-                if (!$this->recordBelongsToCollection($record, $this->parent_obj->getRefId())) {
+                if (!$this->recordBelongsToCollection($record)) {
                     return;
                 }
                 $filepath = $file_obj->getFile();
@@ -378,7 +380,12 @@ class ilDclRecordListGUI
         $conf = new ilConfirmationGUI();
         $conf->setFormAction($this->ctrl->getFormAction($this));
         $conf->setHeaderText($this->lng->txt('dcl_confirm_delete_records'));
-        $record_ids = isset($_POST['record_ids']) ? $_POST['record_ids'] : array();
+
+        $has_record_ids = $this->http->wrapper()->post()->has('record_ids');
+        $record_ids = [];
+        if($has_record_ids) {
+            $record_ids = $this->http->wrapper()->post()->retrieve('record_ids', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
+        }
         $all_fields = $this->table_obj->getRecordFields();
         foreach ($record_ids as $record_id) {
             /** @var ilDclBaseRecordModel $record */
@@ -407,8 +414,11 @@ class ilDclRecordListGUI
      */
     public function deleteRecords(array $record_ids = array()) : void
     {
-        $record_ids = count($record_ids) ? $record_ids : $_POST['record_ids'];
-        $record_ids = (is_null($record_ids)) ? array() : $record_ids;
+        $has_record_ids = $this->http->wrapper()->post()->has('record_ids');
+        $record_ids = [];
+        if($has_record_ids) {
+            $record_ids = $this->http->wrapper()->post()->retrieve('record_ids', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int()));
+        }
 
         // Invoke deletion
         $n_skipped = 0;
@@ -429,11 +439,11 @@ class ilDclRecordListGUI
         $n_deleted = (count($record_ids) - $n_skipped);
         if ($n_deleted) {
             $this->dclUi->displaySuccessMessage(sprintf($this->lng->txt('dcl_deleted_records'),
-                $n_deleted), true);
+                $n_deleted));
         }
         if ($n_skipped) {
             $this->dclUi->displayInfoMessage(sprintf($this->lng->txt('dcl_skipped_delete_records'),
-                $n_skipped), true);
+                $n_skipped));
         }
         $this->ctrl->redirect($this, self::CMD_LIST_RECORDS);
     }
@@ -490,12 +500,10 @@ class ilDclRecordListGUI
         $table_obj = $this->table_obj;
 
         $list = new ilDclRecordListTableGUI($this, "listRecords", $table_obj, $this->tableview_id, $this->mode);
+        $list->initFilter();
         if ($use_tableview_filter) {
-            $list->initFilter();
             $list->resetFilter();
             $list->initFilterFromTableView();
-        } else {
-            $list->initFilter();
         }
 
         $list->setExternalSegmentation(true);

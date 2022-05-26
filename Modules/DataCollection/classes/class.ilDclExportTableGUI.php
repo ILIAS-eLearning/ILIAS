@@ -56,7 +56,6 @@ class ilDclExportTableGUI extends ilExportTableGUI
 
         // sort files
         ksort($file);
-        reset($file);
 
         return $file;
     }

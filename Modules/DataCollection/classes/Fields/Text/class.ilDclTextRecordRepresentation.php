@@ -20,14 +20,14 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
         if ($field->hasProperty(ilDclBaseFieldModel::PROP_URL)) {
             if (is_array($value)) {
                 $link = $value['link'];
-                $link_value = $value['title'] ? $value['title'] : $this->shortenLink($link);
+                $link_value = $value['title'] ?: $this->shortenLink($link);
             } else {
                 $link = $value;
                 $link_value = $this->shortenLink($value);
             }
 
             if (substr($link, 0, 3) === 'www') {
-                $link = 'http://' . $link;
+                $link = 'https://' . $link;
             }
 
             if (preg_match("/^[a-z0-9!#$%&'*+=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i",
@@ -56,13 +56,13 @@ class ilDclTextRecordRepresentation extends ilDclBaseRecordRepresentation
     /**
      * This method shortens a link. The http(s):// and the www part are taken away. The rest will be shortened to sth similar to:
      * "somelink.de/lange...gugus.html".
-     * @param $value The link in it's original form.
+     * @param string $value The link in it's original form.
      * @return string The shortened link
      */
     protected function shortenLink(string $value) : string
     {
         if (strlen($value) > self::LINK_MAX_LENGTH) {
-            if (substr($value, 0, 7) == "http://") {
+            if (substr($value, 0, 7) == "https://") {
                 $value = substr($value, 7);
             }
             if (substr($value, 0, 8) == "https://") {

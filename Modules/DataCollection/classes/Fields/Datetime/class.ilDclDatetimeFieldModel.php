@@ -59,5 +59,7 @@ class ilDclDatetimeFieldModel extends ilDclBaseFieldModel
                 }
             }
         }
+
+        return true;
     }
 }
