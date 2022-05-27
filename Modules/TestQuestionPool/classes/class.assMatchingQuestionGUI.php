@@ -818,6 +818,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
             $this->tpl->addJavaScript('./node_modules/@andxor/jquery-ui-touch-punch-fix/jquery.ui.touch-punch.js');
         }
         $this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilMatchingQuestion.js');
+        $this->tpl->addOnLoadCode('ilMatchingQuestionInit();');
         $this->tpl->addCss(ilUtil::getStyleSheetLocation('output', 'test_javascript.css', 'Modules/TestQuestionPool'));
 
         $template = new ilTemplate("tpl.il_as_qpl_matching_output.html", true, true, "Modules/TestQuestionPool");
