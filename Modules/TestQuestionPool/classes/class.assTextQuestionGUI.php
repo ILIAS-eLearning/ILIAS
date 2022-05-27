@@ -556,7 +556,8 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $tpl->setCurrentBlock('counter_js');
         $tpl->setVariable("QID", $this->object->getId());
         $tpl->parseCurrentBlock();
-        
+
+        $this->tpl->addOnLoadCode('testQuestionInit();');
         return $tpl->get();
     }
 
