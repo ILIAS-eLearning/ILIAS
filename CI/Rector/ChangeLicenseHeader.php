@@ -51,7 +51,9 @@ final class ChangeLicenseHeader extends AbstractRector
         Node\Expr\Include_::class,
         Node\Stmt\Use_::class,
         Node\Stmt\Namespace_::class,
-        Node\Name::class
+        Node\Name::class,
+        Node\Stmt\Class_::class,
+        Node\Stmt\Expression::class
     ];
 
     public function __construct()
