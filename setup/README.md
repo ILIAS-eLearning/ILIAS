@@ -204,7 +204,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
         "create_database" : true
     },
     ```
-  * *type* (type: string) of the database, one of `innodb`, `mysql`, `postgres`, `galera`, defaults
+  * *type* (type: string) of the database, `innodb`, defaults
     to `innodb`
   * *host* (type: string) the database server runs on, defaults to `localhost`
   * *port* (type: string or number) the database server uses, defaults to `3306`

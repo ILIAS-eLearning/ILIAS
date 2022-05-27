@@ -532,7 +532,7 @@ class ilInitialisation
 
         $db_type = $ilClientIniFile->readVariable("db", "type");
         if ($db_type === "") {
-            define("IL_DB_TYPE", ilDBConstants::TYPE_PDO_MYSQL_INNODB);
+            define("IL_DB_TYPE", ilDBConstants::TYPE_INNODB);
         } else {
             define("IL_DB_TYPE", $db_type);
         }

@@ -24,11 +24,7 @@ class ilDBWrapperFactory
     public static function getWrapper(string $a_type) : \ilDBPdoInterface
     {
         switch ($a_type) {
-            case ilDBConstants::TYPE_POSTGRES:
-            case ilDBConstants::TYPE_PDO_POSTGRE:
-                $ilDB = new ilDBPdoPostgreSQL();
-                break;
-            case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
+            case 'pdo-mysql-innodb':
             case ilDBConstants::TYPE_INNODB:
                 $ilDB = new ilDBPdoMySQLInnoDB();
                 break;

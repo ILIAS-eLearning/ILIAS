@@ -69,7 +69,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
         return $environment;
     }
-    
+
     /**
      * @description Method is currently not used, needed for non-mysql databases
      */
@@ -91,7 +91,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
         }
         $GLOBALS['ilDB'] = $db_backup;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -139,7 +139,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
     private function setDefaultEngine(ilDBInterface $db) : void
     {
         switch ($db->getDBType()) {
-            case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
+            case 'pdo-mysql-innodb':
             case ilDBConstants::TYPE_INNODB:
             case ilDBConstants::TYPE_GALERA:
             case ilDBConstants::TYPE_MYSQL:

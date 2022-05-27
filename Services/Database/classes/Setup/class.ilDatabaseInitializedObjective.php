@@ -51,7 +51,7 @@ class ilDatabaseInitializedObjective implements Setup\Objective
 
         $type = $client_ini->readVariable("db", "type");
         if ($type === "") {
-            $type = ilDBConstants::TYPE_PDO_MYSQL_INNODB;
+            $type = ilDBConstants::TYPE_INNODB;
         }
 
         $db = \ilDBWrapperFactory::getWrapper($type);

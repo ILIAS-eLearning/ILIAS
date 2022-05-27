@@ -1,5 +1,5 @@
 # Data Retrieval and Manipulation
-With release 5.2 ILIAS uses ```ilDBInterface``` to provide a database abstraction layer that gives full portability to run ILIAS on MySQL or PostgreSQL.
+With release 5.2 ILIAS uses ```ilDBInterface``` to provide a database abstraction layer that gives full portability to run ILIAS on MySQL or PostgreSQL (removed with ILIAS 8).
 
 ## Portability and Future Conventions
 ILIAS requires that all **table** and **field** names use lower case characters a-z, underscore "\_" and numbers 0-9. Multiple words should be separated by "\_", e.g. "user\_id".
@@ -346,7 +346,7 @@ WHERE
 Currently there are 212 columns and 1 table in ILIAS, which are named with a reserved word.
 
 ## Conclusion
-The list of reserved words in ilDBInterface resp. the respective database classes (ilDBPdoMySQL, ilDBPdoPostgreSQL, ...) do not need to be maintained, in particular a list of reserved words per database system makes no sense, as a global list would be necessary.
+The list of reserved words in ilDBInterface resp. the respective database classes (ilDBPdoMySQL, ...) do not need to be maintained, in particular a list of reserved words per database system makes no sense, as a global list would be necessary.
 
 As the MySQL documentation describes, references to objects with reserved names only need to be quoted:
 

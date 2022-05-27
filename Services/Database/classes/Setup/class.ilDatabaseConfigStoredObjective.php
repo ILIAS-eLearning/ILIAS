@@ -37,7 +37,13 @@ class ilDatabaseConfigStoredObjective extends ilDatabaseObjective
     {
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
 
-        $client_ini->setVariable("db", "type", $this->config->getType());
+        $type = $this->config->getType();
+
+        if ($type === 'postgres' || $type === 'pdo-postgre') {
+            throw new Setup\NotExecutableException('ILIAS 8 no longer Supports POSTGRES');
+        }
+
+        $client_ini->setVariable("db", "type", $type);
         $client_ini->setVariable("db", "host", $this->config->getHost());
         $client_ini->setVariable("db", "name", $this->config->getDatabase());
         $client_ini->setVariable("db", "user", $this->config->getUser());

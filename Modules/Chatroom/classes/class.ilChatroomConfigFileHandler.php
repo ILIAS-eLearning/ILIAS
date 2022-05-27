@@ -56,7 +56,6 @@ class ilChatroomConfigFileHandler
         if (in_array($type, [
             ilDBConstants::TYPE_MYSQL,
             ilDBConstants::TYPE_INNODB,
-            ilDBConstants::TYPE_PDO_MYSQL_INNODB,
             ''
         ], true)) {
             $type = 'mysql';

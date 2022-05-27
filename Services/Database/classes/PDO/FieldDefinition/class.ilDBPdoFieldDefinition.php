@@ -867,7 +867,7 @@ abstract class ilDBPdoFieldDefinition
      */
     public function getAllReserved() : array
     {
-        return array_merge($this->getReservedMysql(), $this->getReservedPostgres());
+        return $this->getReservedMysql();
     }
 
     /**
@@ -886,21 +886,6 @@ abstract class ilDBPdoFieldDefinition
         $this->reserved_mysql = $reserved_mysql;
     }
 
-    /**
-     * @return string[]
-     */
-    public function getReservedPostgres() : array
-    {
-        return $this->reserved_postgres;
-    }
-
-    /**
-     * @param string[] $reserved_postgres
-     */
-    public function setReservedPostgres(array $reserved_postgres) : void
-    {
-        $this->reserved_postgres = $reserved_postgres;
-    }
 
     /**
      * @throws \ilDatabaseException
@@ -1439,7 +1424,7 @@ abstract class ilDBPdoFieldDefinition
 
         return "'" . $value . "'";
     }
-    
+
     /**
      * @param string|resource $value
      */
@@ -1470,7 +1455,7 @@ abstract class ilDBPdoFieldDefinition
 
         return $value;
     }
-    
+
     /**
      * @param string|resource $value
      */
@@ -1626,7 +1611,7 @@ abstract class ilDBPdoFieldDefinition
 
         return true;
     }
-    
+
 
     /**
      * @throws \ilDatabaseException
