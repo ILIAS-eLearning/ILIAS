@@ -119,7 +119,7 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setCurrentBlock("lead_start");
                 $tpl->parseCurrentBlock();
             }
-            if ($progress != null && $lead instanceof Icon) {
+            if ($progress != null && ($lead instanceof Icon || $lead instanceof Avatar)) {
                 $tpl->setCurrentBlock("progress_end_with_lead_icon");
                 $tpl->setVariable("PROGRESS", $default_renderer->render($progress));
                 $tpl->parseCurrentBlock();
