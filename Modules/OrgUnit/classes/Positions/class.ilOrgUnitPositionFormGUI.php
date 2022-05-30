@@ -8,24 +8,24 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseForm;
  */
 class ilOrgUnitPositionFormGUI extends BaseForm
 {
-    const F_AUTHORITIES = "authorities";
-    /**
-     * @var \ilOrgUnitPosition
-     */
-    protected $object;
-    const F_TITLE = 'title';
-    const F_DESCRIPTION = 'description';
+    public const F_AUTHORITIES = "authorities";
+    protected ActiveRecord $object;
+    public const F_TITLE = 'title';
+    public const F_DESCRIPTION = 'description';
 
-    protected function initFormElements()
+    protected function initFormElements(): void
     {
-        $te = new ilTextInputGUI($this->txt(self::F_TITLE), self::F_TITLE);
+        global $DIC;
+        $lng = $DIC->language();
+
+        $te = new ilTextInputGUI($lng->txt(self::F_TITLE), self::F_TITLE);
         $te->setRequired(true);
         $this->addItem($te);
 
-        $te = new ilTextAreaInputGUI($this->txt(self::F_DESCRIPTION), self::F_DESCRIPTION);
+        $te = new ilTextAreaInputGUI($lng->txt(self::F_DESCRIPTION), self::F_DESCRIPTION);
         $this->addItem($te);
 
-        $m = new ilOrgUnitGenericMultiInputGUI($this->txt(self::F_AUTHORITIES), self::F_AUTHORITIES);
+        $m = new ilOrgUnitGenericMultiInputGUI($lng->txt(self::F_AUTHORITIES), self::F_AUTHORITIES);
         $m->setShowLabel(true);
         $m->setRenderOneForEmptyValue(false);
         $m->setMulti(true);
@@ -33,28 +33,28 @@ class ilOrgUnitPositionFormGUI extends BaseForm
         $id = new ilHiddenInputGUI('id');
         $m->addInput($id);
 
-        $over = new ilSelectInputGUI($this->txt('over'), 'over');
+        $over = new ilSelectInputGUI($lng->txt('over'), 'over');
         $over_options = array();
-        $over_options[ilOrgUnitAuthority::OVER_EVERYONE] = $this->txt('over_'
+        $over_options[ilOrgUnitAuthority::OVER_EVERYONE] = $lng->txt('over_'
             . ilOrgUnitAuthority::OVER_EVERYONE);
-        $over_options = $over_options + ilOrgUnitPosition::getArray('id', 'title');
+        $over_options += ilOrgUnitPosition::getArray('id', 'title');
         $over->setOptions($over_options);
         $m->addInput($over);
 
         $available_scopes = array();
         foreach (ilOrgUnitAuthority::getScopes() as $scope) {
-            $txt = $this->txt('scope_' . $scope);
+            $txt = $lng->txt('scope_' . $scope);
             $available_scopes[$scope] = $txt;
         }
 
-        $scopes = new ilSelectInputGUI($this->txt('scope'), 'scope');
+        $scopes = new ilSelectInputGUI($lng->txt('scope'), 'scope');
         $scopes->setOptions($available_scopes);
         $m->addInput($scopes);
 
         $this->addItem($m);
     }
 
-    public function fillForm()
+    public function fillForm(): void
     {
         $array = array(
             self::F_TITLE => $this->object->getTitle(),
@@ -65,11 +65,7 @@ class ilOrgUnitPositionFormGUI extends BaseForm
         $this->setValuesByArray($array);
     }
 
-    /**
-     * returns whether checkinput was successful or not.
-     * @return bool
-     */
-    public function fillObject()
+    public function fillObject(): bool
     {
         if (!$this->checkInput()) {
             return false;

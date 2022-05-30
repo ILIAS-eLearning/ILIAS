@@ -88,6 +88,8 @@ class ilObjLearningSequenceContentGUI
         $this->parent_gui->showPossibleSubObjects();
 
         $data = $this->parent_gui->getObject()->getLSItems();
+        // Sadly, ilTable2 only wants an array for fillRow, so we need to wrap this...
+        array_map(fn ($s) => [$s], $data);
         $this->renderTable($data);
     }
 

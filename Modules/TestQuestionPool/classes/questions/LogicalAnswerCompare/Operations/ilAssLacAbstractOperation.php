@@ -25,7 +25,7 @@ abstract class ilAssLacAbstractOperation extends ilAssLacAbstractComposite
     /**
      * @param boolean $negated
      */
-    public function setNegated($negated)
+    public function setNegated($negated) : void
     {
         $this->negated = $negated;
     }

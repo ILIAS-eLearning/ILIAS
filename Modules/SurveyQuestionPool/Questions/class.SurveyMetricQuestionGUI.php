@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Metric survey question GUI representation
@@ -118,10 +121,16 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
     protected function importEditFormValues(ilPropertyFormGUI $a_form) : void
     {
         $type = (int) $a_form->getInput("type");
-        $this->object->setOrientation($a_form->getInput("orientation"));
-        $this->object->setSubtype($type);
-        $this->object->setMinimum($a_form->getInput("minimum" . $type));
-        $this->object->setMaximum($a_form->getInput("maximum" . $type));
+        $this->object->setOrientation((int) $a_form->getInput("orientation"));
+        $this->object->setSubtype((int) $type);
+        $min = ($a_form->getInput("minimum" . $type) != "")
+            ? (float) $a_form->getInput("minimum" . $type)
+            : null;
+        $max = ($a_form->getInput("maximum" . $type) != "")
+            ? (float) $a_form->getInput("maximum" . $type)
+            : null;
+        $this->object->setMinimum($min);
+        $this->object->setMaximum($max);
     }
     
     public function getParsedAnswers(
@@ -205,7 +214,7 @@ class SurveyMetricQuestionGUI extends SurveyQuestionGUI
         $template->setVariable("TEXT_ANSWER", $this->lng->txt("answer"));
         $template->setVariable("QUESTION_ID", $this->object->getId());
         if (is_array($working_data)) {
-            $template->setVariable("VALUE_METRIC", $working_data[0]["value"]);
+            $template->setVariable("VALUE_METRIC", $working_data[0]["value"] ?? "");
         }
 
         $template->setVariable("INPUT_SIZE", 10);

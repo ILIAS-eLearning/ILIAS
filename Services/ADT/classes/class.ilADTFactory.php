@@ -136,7 +136,9 @@ class ilADTFactory
         if ($a_range) {
             try {
                 $class = $this->initTypeClass($a_adt_def->getType(), "SearchBridgeRange");
-                return new $class($a_adt_def);
+                if (class_exists($class)) {
+                    return new $class($a_adt_def);
+                }
             } catch (Exception $e) {
             }
         }

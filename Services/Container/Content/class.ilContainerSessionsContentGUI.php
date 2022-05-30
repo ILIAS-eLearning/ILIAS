@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Shows all items in one block.
@@ -85,7 +88,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
             $output_html = $this->insertPageEmbeddedBlocks($output_html);
         }
         
-        if (is_array($this->items["sess"]) ||
+        if (isset($this->items["sess"]) ||
             isset($this->items['sess_link']['prev']['value']) ||
             isset($this->items['sess_link']['next']['value'])) {
             $this->items['sess'] = ilArrayUtil::sortArray($this->items['sess'], 'start', 'asc', true, false);
@@ -115,7 +118,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 
         $pos = $this->getItemGroupsHTML(1);
         
-        if (is_array($this->items["_all"])) {
+        if (isset($this->items["_all"])) {
             $this->renderer->addCustomBlock("_all", $lng->txt("content"));
             $this->renderer->setBlockPosition("_all", ++$pos);
                         
@@ -234,8 +237,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         if (
             !$admin_panel_enabled &&
             !$include_side_block &&
-            $items['sess'] &&
-            is_array($items['sess']) &&
+            isset($items['sess']) &&
             $container->isSessionLimitEnabled() &&
             ($container->getViewMode() === ilContainer::VIEW_SESSIONS || $container->getViewMode() === ilContainer::VIEW_INHERIT)
         ) {

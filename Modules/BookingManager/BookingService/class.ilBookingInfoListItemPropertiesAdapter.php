@@ -39,8 +39,8 @@ class ilBookingInfoListItemPropertiesAdapter
         $info = [];
         foreach ($repo->getCachedContextObjBookingInfo($obj_id) as $item) {
             $info[$item["pool_id"]]["title"] = ilObject::_lookupTitle($item["pool_id"]);
-            $info[$item["pool_id"]]["object"][$item["obj_id"]]["title"] = $item["title"];
-            $info[$item["pool_id"]]["object"][$item["obj_id"]]["bookings"][] =
+            $info[$item["pool_id"]]["object"][$item["object_id"]]["title"] = $item["title"];
+            $info[$item["pool_id"]]["object"][$item["object_id"]]["bookings"][] =
                 ilDatePresentation::formatDate(new ilDate($item["date"], IL_CAL_DATE)) . ", " . $item["slot"] . " (" . $item["counter"] . ")";
         }
         foreach ($info as $pool) {

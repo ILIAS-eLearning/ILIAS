@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Notes;
 
@@ -20,6 +23,7 @@ namespace ILIAS\Notes;
  */
 class AccessManager
 {
+    protected \ilAccessHandler $access;
     protected \ilSetting $settings;
     protected int $user_id;
     protected InternalDomainService $domain;
@@ -36,6 +40,7 @@ class AccessManager
         $this->domain = $domain;
         $this->user_id = $domain->user()->getId();
         $this->settings = $domain->settings();
+        $this->access = $domain->access();
     }
 
     public function canEdit(
@@ -53,8 +58,13 @@ class AccessManager
         int $user_id = 0,
         $public_deletion_enabled = false
     ) : bool {
+        if ($user_id === 0) {
+            $user_id = $this->user_id;
+        }
         $settings = $this->settings;
+        $access = $this->access;
         $user_can_delete_their_comments = (bool) $settings->get("comments_del_user", '0');
+        $tutor_can_delete_comments = (bool) $settings->get("comments_del_tutor", '1');
 
         if ($user_id === ANONYMOUS_USER_ID) {
             return false;
@@ -74,6 +84,14 @@ class AccessManager
             return true;
         }
 
+        // this logic has been set from pdnotes
+        if ($tutor_can_delete_comments) {
+            foreach (\ilObject::_getAllReferences($note->getContext()->getObjId()) as $ref_id) {
+                if ($access->checkAccess("write", "", $ref_id)) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 }

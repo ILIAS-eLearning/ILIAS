@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclBaseFieldModel
@@ -13,47 +28,19 @@
  */
 class ilDclBaseRecordFieldModel
 {
-
-    /**
-     * @var int
-     */
-    protected $id;
-    /**
-     * @var ilDclBaseFieldModel
-     */
-    protected $field;
-    /**
-     * @var ilDclBaseRecordModel
-     */
-    protected $record;
-    /**
-     * @var ilDclBaseRecordRepresentation
-     */
-    protected $record_representation;
-    /**
-     * @var ilDclBaseFieldRepresentation
-     */
-    protected $field_representation;
-    /**
-     * @var string
-     */
+    protected int $id = 0;
+    protected ilDclBaseFieldModel $field;
+    protected ilDclBaseRecordModel $record;
+    protected ?ilDclBaseRecordRepresentation $record_representation = null;
+    protected ?ilDclBaseFieldRepresentation $field_representation = null;
+    /** @var int|float|array|null */
     protected $value;
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilDB
-     */
-    protected $db;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilObjUser $user;
+    protected ilCtrl $ctrl;
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
     /**
      * @param ilDclBaseRecordModel $record
@@ -62,23 +49,22 @@ class ilDclBaseRecordFieldModel
     public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilUser = $DIC['ilUser'];
-        $ilDB = $DIC['ilDB'];
-        $lng = $DIC['lng'];
+
         $this->record = $record;
         $this->field = $field;
-        $this->ctrl = $ilCtrl;
-        $this->user = $ilUser;
-        $this->db = $ilDB;
-        $this->lng = $lng;
+        $this->ctrl = $DIC->ctrl();
+        $this->user = $DIC->user();
+        $this->db = $DIC->database();
+        $this->lng = $DIC->language();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->doRead();
     }
 
     /**
      * Read object data from database
      */
-    protected function doRead()
+    protected function doRead() : void
     {
         if (!$this->getRecord()->getId()) {
             return;
@@ -97,7 +83,7 @@ class ilDclBaseRecordFieldModel
     /**
      * Creates an Id and a database entry.
      */
-    public function doCreate()
+    public function doCreate() : void
     {
         $id = $this->db->nextId("il_dcl_record_field");
         $query = "INSERT INTO il_dcl_record_field (id, record_id, field_id) VALUES (" . $this->db->quote($id,
@@ -111,7 +97,7 @@ class ilDclBaseRecordFieldModel
     /**
      * Update object in database
      */
-    public function doUpdate()
+    public function doUpdate() : void
     {
         //$this->loadValue(); //Removed Mantis #0011799
         $datatype = $this->getField()->getDatatype();
@@ -148,7 +134,7 @@ class ilDclBaseRecordFieldModel
     /**
      * Delete record field in database
      */
-    public function delete()
+    public function delete() : void
     {
         $datatype = $this->getField()->getDatatype();
         $storage_location = ($this->getField()->getStorageLocationOverride() !== null) ? $this->getField()->getStorageLocationOverride() : $datatype->getStorageLocation();
@@ -183,7 +169,7 @@ class ilDclBaseRecordFieldModel
 
     /**
      * Serialize data before storing to db
-     * @param $value mixed
+     * @param mixed $value
      * @return mixed
      */
     public function serializeData($value)
@@ -197,7 +183,7 @@ class ilDclBaseRecordFieldModel
 
     /**
      * Deserialize data before applying to field
-     * @param $value mixed
+     * @param mixed $value
      * @return mixed
      */
     public function deserializeData($value)
@@ -215,11 +201,11 @@ class ilDclBaseRecordFieldModel
      * @param mixed $value
      * @param bool  $omit_parsing If true, does not parse the value and stores it in the given format
      */
-    public function setValue($value, $omit_parsing = false)
+    public function setValue($value, bool $omit_parsing = false) : void
     {
         $this->loadValue();
         if (!$omit_parsing) {
-            $tmp = $this->parseValue($value, $this);
+            $tmp = $this->parseValue($value);
             $old = $this->value;
             //if parse value fails keep the old value
             if ($tmp !== false) {
@@ -230,20 +216,14 @@ class ilDclBaseRecordFieldModel
         }
     }
 
-    /**
-     * @param $form ilPropertyFormGUI
-     */
-    public function setValueFromForm($form)
+    public function setValueFromForm(ilPropertyFormGUI $form) : void
     {
         $value = $form->getInput("field_" . $this->getField()->getId());
 
         $this->setValue($value);
     }
 
-    /**
-     * @return string
-     */
-    public function getFormulaValue()
+    public function getFormulaValue() : string
     {
         return $this->getExportValue();
     }
@@ -259,21 +239,17 @@ class ilDclBaseRecordFieldModel
     }
 
     /**
-     * @param $excel
-     * @param $row
-     * @param $col
-     * @return array|string
+     * @return int|string
      */
-    public function getValueFromExcel($excel, $row, $col)
+    public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
         $value = $excel->getCell($row, $col);
-
         return $value;
     }
 
     /**
      * Function to parse incoming data from form input value $value. returns the string/number/etc. to store in the database.
-     * @param $value
+     * @param int|string $value
      * @return int|string
      */
     public function parseValue($value)
@@ -289,34 +265,33 @@ class ilDclBaseRecordFieldModel
         return $this->parseExportValue($this->getValue());
     }
 
-    /**
-     * @param $worksheet
-     * @param $row
-     * @param $col
-     */
-    public function fillExcelExport(ilExcel $worksheet, &$row, &$col)
+    public function fillExcelExport(ilExcel $worksheet, int &$row, int &$col) : void
     {
         $worksheet->setCell($row, $col, $this->getExportValue());
         $col++;
     }
 
     /**
-     * @return mixed used for the sorting.
+     * @return int|string
      */
     public function getPlainText()
     {
         return $this->getExportValue();
     }
 
-    public function getSortingValue($link = true)
+    /**
+     * @param bool $link
+     * @return int|string
+     */
+    public function getSortingValue(bool $link = true)
     {
-        return $this->parseSortingValue($this->getValue(), $this, $link);
+        return $this->parseSortingValue($this->getValue(), $link);
     }
 
     /**
      * @param ilConfirmationGUI $confirmation
      */
-    public function addHiddenItemsToConfirmation(ilConfirmationGUI &$confirmation)
+    public function addHiddenItemsToConfirmation(ilConfirmationGUI $confirmation)
     {
         ;
         if (!is_array($this->getValue())) {
@@ -330,12 +305,10 @@ class ilDclBaseRecordFieldModel
 
     /**
      * Returns sortable value for the specific field-types
-     * @param                           $value
-     * @param ilDclBaseRecordFieldModel $record_field
-     * @param bool|true                 $link
+     * @param int|string $value
      * @return int|string
      */
-    public function parseSortingValue($value, $link = true)
+    public function parseSortingValue($value, bool $link = true)
     {
         return $value;
     }
@@ -343,7 +316,7 @@ class ilDclBaseRecordFieldModel
     /**
      * Load the value
      */
-    protected function loadValue()
+    protected function loadValue() : void
     {
         if ($this->value === null) {
             $datatype = $this->getField()->getDatatype();
@@ -364,7 +337,7 @@ class ilDclBaseRecordFieldModel
     /**
      * @param ilDclBaseRecordFieldModel $old_record_field
      */
-    public function cloneStructure(ilDclBaseRecordFieldModel $old_record_field)
+    public function cloneStructure(ilDclBaseRecordFieldModel $old_record_field) : void
     {
         $this->setValue($old_record_field->getValue());
         $this->doUpdate();
@@ -373,62 +346,41 @@ class ilDclBaseRecordFieldModel
     /**
      *
      */
-    public function afterClone()
+    public function afterClone() : void
     {
     }
 
-    /**
-     * @return ilDclBaseFieldModel
-     */
-    public function getField()
+    public function getField() : ilDclBaseFieldModel
     {
         return $this->field;
     }
 
-    /**
-     * @return int
-     */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
-    /**
-     * @return ilDclBaseRecordModel
-     */
-    public function getRecord()
+    public function getRecord() : ilDclBaseRecordModel
     {
         return $this->record;
     }
 
-    /**
-     * @return ilDclBaseRecordRepresentation
-     */
-    public function getRecordRepresentation()
+    public function getRecordRepresentation() : ?ilDclBaseRecordRepresentation
     {
         return $this->record_representation;
     }
 
-    /**
-     * @param ilDclBaseRecordRepresentation $record_representation
-     */
-    public function setRecordRepresentation($record_representation)
+    public function setRecordRepresentation(ilDclBaseRecordRepresentation $record_representation) : void
     {
         $this->record_representation = $record_representation;
     }
 
-    /**
-     * @return ilDclBaseFieldRepresentation
-     */
-    public function getFieldRepresentation()
+    public function getFieldRepresentation() : ?ilDclBaseFieldRepresentation
     {
         return $this->field_representation;
     }
 
-    /**
-     * @param ilDclBaseFieldRepresentation $field_representation
-     */
-    public function setFieldRepresentation($field_representation)
+    public function setFieldRepresentation(ilDclBaseFieldRepresentation $field_representation) : void
     {
         $this->field_representation = $field_representation;
     }

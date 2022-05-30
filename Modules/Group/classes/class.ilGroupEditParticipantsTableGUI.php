@@ -92,7 +92,7 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
         
         $this->tpl->setVariable('NUM_ROLES', count($this->participants->getRoles()));
         
-        $assigned = $this->participants->getAssignedRoles($a_set['usr_id']);
+        $assigned = $this->participants->getAssignedRoles((int) $a_set['usr_id']);
         foreach ($this->rep_object->getLocalGroupRoles(true) as $name => $role_id) {
             $this->tpl->setCurrentBlock('roles');
             $this->tpl->setVariable('ROLE_ID', $role_id);

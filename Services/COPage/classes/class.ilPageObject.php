@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 define("IL_INSERT_BEFORE", 0);
 define("IL_INSERT_AFTER", 1);
@@ -283,7 +286,6 @@ abstract class ilPageObject
             throw new ilCOPageNotFoundException("Error: Page " . $this->id . " is not in database" .
                 " (parent type " . $this->getParentType() . ", lang: " . $this->getLanguage() . ").");
         }
-
         $this->xml = $this->page_record["content"];
         $this->setParentId((int) $this->page_record["parent_id"]);
         $this->last_change_user = (int) $this->page_record["last_change_user"];
@@ -348,7 +350,6 @@ abstract class ilPageObject
         if ($this->dom_builded && !$a_force) {
             return true;
         }
-
         $options = 0;
         //$options = DOMXML_LOAD_VALIDATING;
         //$options = LIBXML_DTDLOAD;
@@ -4457,12 +4458,12 @@ s     */
             array($a_page_id, $a_parent_type, 0)
         );
         while ($hpage = $db->fetchAssoc($set)) {
-            if ($a_lang == "") {
+            if ($a_lang === "") {
                 $contributors[$hpage["user_id"]][$page["lang"]] =
-                    $contributors[$hpage["user_id"]][$page["lang"]] + $hpage["cnt"];
+                    ($contributors[$hpage["user_id"]][$page["lang"]] ?? 0) + $hpage["cnt"];
             } else {
                 $contributors[$hpage["user_id"]] =
-                    $contributors[$hpage["user_id"]] + $hpage["cnt"];
+                    ($contributors[$hpage["user_id"]] ?? 0) + $hpage["cnt"];
             }
         }
 

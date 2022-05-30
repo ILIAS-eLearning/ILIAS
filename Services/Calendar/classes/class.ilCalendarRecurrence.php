@@ -490,13 +490,13 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
             }
             $this->freq_until_count = (int) $row->freq_until_count;
             $this->interval = (int) $row->intervall;
-            $this->byday = $row->byday;
-            $this->byweekno = $row->byweekno;
-            $this->bymonth = $row->bymonth;
-            $this->bymonthday = $row->bymonthday;
-            $this->byyearday = $row->byyearday;
-            $this->bysetpos = $row->bysetpos;
-            $this->weekstart = $row->week_start;
+            $this->byday = (string) $row->byday;
+            $this->byweekno = (string) $row->byweekno;
+            $this->bymonth = (string) $row->bymonth;
+            $this->bymonthday = (string) $row->bymonthday;
+            $this->byyearday = (string) $row->byyearday;
+            $this->bysetpos = (string) $row->bysetpos;
+            $this->weekstart = (string) $row->weekstart;
         }
 
         $this->exclusion_dates = ilCalendarRecurrenceExclusions::getExclusionDates($this->cal_id);

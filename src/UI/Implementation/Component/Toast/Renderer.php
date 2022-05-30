@@ -64,7 +64,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("ICON", $default_renderer->render($component->getIcon()));
         $tpl->setVariable("CLOSE", $default_renderer->render($this->getUIFactory()->button()->close()));
 
-        $component = $component->withAdditionalOnLoadCode(fn($id) => "
+        $component = $component->withAdditionalOnLoadCode(fn ($id) => "
                 il.UI.toast.setToastSettings($id);
                 il.UI.toast.showToast($id);
             ");

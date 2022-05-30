@@ -972,9 +972,9 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
      * Revokes permissions of all parent non-protected roles
      * and initiates these roles with the according il_grp_(open|closed) template.
      */
-    public function updateGroupType(int $a_group_type = ilGroupConstants::GRP_TYPE_OPEN
-    ) : void
-    {
+    public function updateGroupType(
+        int $a_group_type = ilGroupConstants::GRP_TYPE_OPEN
+    ) : void {
         if ($a_group_type == ilGroupConstants::GRP_TYPE_OPEN) {
             $this->applyDidacticTemplate(0);
             return;
@@ -1588,7 +1588,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         \ilContainerUserFilter $container_user_filter = null
     ) : array {
         // Caching
-        if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block])) {
+        if (
+            isset($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]) &&
+            is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block])
+        ) {
             return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
         }
         // Results are stored in $this->items

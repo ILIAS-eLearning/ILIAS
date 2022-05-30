@@ -269,10 +269,6 @@ class ilLearningSequenceMembershipGUI extends ilMembershipGUI
         return $this->getParentObject()->readMemberData($usr_ids, $columns);
     }
 
-    protected function updateLPFromStatus()
-    {
-        return null;
-    }
 
     protected function initWaitingList() : ilLearningSequenceWaitingList
     {

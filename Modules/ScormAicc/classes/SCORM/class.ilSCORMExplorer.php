@@ -18,9 +18,9 @@ class ilSCORMExplorer extends ilExplorer
     /**
      * id of root folder
      */
-    public $slm_obj;//PHP8Review: Missing Typehint (probably ilObjScormModule)
+    public ilObjSCORMLearningModule $slm_obj;
 
-    public function __construct(string $a_target, &$a_slm_obj)//PHP8Review: Missing Typehint
+    public function __construct(string $a_target, ilObjSCORMLearningModule &$a_slm_obj)
     {
         parent::__construct($a_target);
         $this->slm_obj = $a_slm_obj;
@@ -50,7 +50,7 @@ class ilSCORMExplorer extends ilExplorer
      * overwritten method from base class
      * @throws ilTemplateException
      */
-    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void//PHP8Review: Missing Typehint
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void //Missing typehint because ilExplorer
     {
         global $DIC;
         $lng = $DIC->language();
@@ -69,7 +69,7 @@ class ilSCORMExplorer extends ilExplorer
     /**
      * Creates Get Parameter
      */
-    public function createTarget(string $a_type, $a_node_id, bool $a_highlighted_subtree = false, bool $a_append_anch = true) : string//PHP8Review: Missing Typehint
+    public function createTarget(string $a_type, $a_node_id, bool $a_highlighted_subtree = false, bool $a_append_anch = true) : string //Missing typehint because ilExplorer
     {
         // SET expand parameter:
         //     positive if object is expanded
@@ -78,10 +78,10 @@ class ilSCORMExplorer extends ilExplorer
             ? $a_node_id
             : -(int) $a_node_id;
 
-        return $_SERVER["PATH_INFO"] . "?cmd=explorer&ref_id=" . $this->slm_obj->getRefId() . "&scexpand=" . $a_node_id;//PHP8Review: Use of $_ global. Pls use the DIC instead
+        return $_SERVER["PATH_INFO"] . "?cmd=explorer&ref_id=" . $this->slm_obj->getRefId() . "&scexpand=" . $a_node_id; //ToDo $_SERVER?
     }
 
-    public function setOutput($a_parent_id, int $a_depth = 1, int $a_obj_id = 0, $a_highlighted_subtree = false) : void //PHP8Review: This parent should be typestrict, but exceeds the scorm scope, so i just leave a recommendation here
+    public function setOutput($a_parent_id, int $a_depth = 1, int $a_obj_id = 0, $a_highlighted_subtree = false) : void
 //    public function setOutput(int $a_parent_id, int $a_depth = 1, int $a_obj_id = 0, bool $a_highlighted_subtree = false) : void
     {
         $this->format_options = $this->createOutputArray($a_parent_id);
@@ -129,7 +129,7 @@ class ilSCORMExplorer extends ilExplorer
         return $options;
     }
 
-    public function isVisible($a_ref_id, string $a_type) : bool//PHP8Review: Missing Typehint
+    public function isVisible($a_ref_id, string $a_type) : bool //Typehint not possible now - see ilExplorer
     {
         return $a_type !== "sre";
     }
@@ -179,7 +179,7 @@ class ilSCORMExplorer extends ilExplorer
             return false;
         }
 
-        $sc_object = new ilSCORMItem($a_ref_id);
+        $sc_object = new ilSCORMItem($ref_id);
         return $sc_object->getIdentifierRef() != "";
     }
 

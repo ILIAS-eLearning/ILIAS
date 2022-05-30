@@ -15,15 +15,15 @@ require_once 'Modules/Test/classes/class.ilTestPlayerCommands.php';
 
 class ilListOfQuestionsTableGUI extends ilTable2GUI
 {
-    protected $showPointsEnabled = false;
-    protected $showMarkerEnabled = false;
+    protected ?bool $showPointsEnabled = false;
+    protected ?bool $showMarkerEnabled = false;
 
-    protected $showObligationsEnabled = false;
-    protected $obligationsFilterEnabled = false;
+    protected ?bool $showObligationsEnabled = false;
+    protected ?bool $obligationsFilterEnabled = false;
     
-    protected $obligationsNotAnswered = false;
+    protected ?bool $obligationsNotAnswered = false;
     
-    protected $finishTestButtonEnabled = false;
+    protected ?bool $finishTestButtonEnabled = false;
     
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
@@ -50,7 +50,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         $this->disable('select_all');
     }
     
-    public function init()
+    public function init() : void
     {
         // table title
         
@@ -90,7 +90,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         
         $this->addCommandButton(
             ilTestPlayerCommands::SHOW_QUESTION,
-            $this->lng->txt('back')
+            $this->lng->txt('tst_resume_test')
         );
 
         if (!$this->areObligationsNotAnswered() && $this->isFinishTestButtonEnabled()) {
@@ -101,12 +101,6 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * fill row
-     * @access public
-     * @param
-     * @return void
-     */
     public function fillRow(array $a_set) : void
     {
         if ($this->isShowPointsEnabled()) {
@@ -191,7 +185,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         return $this->showPointsEnabled;
     }
 
-    public function setShowPointsEnabled($showPointsEnabled)
+    public function setShowPointsEnabled($showPointsEnabled) : void
     {
         $this->showPointsEnabled = $showPointsEnabled;
     }
@@ -201,7 +195,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         return $this->showMarkerEnabled;
     }
 
-    public function setShowMarkerEnabled($showMarkerEnabled)
+    public function setShowMarkerEnabled($showMarkerEnabled) : void
     {
         $this->showMarkerEnabled = $showMarkerEnabled;
     }
@@ -211,7 +205,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         return $this->showObligationsEnabled;
     }
 
-    public function setShowObligationsEnabled($showObligationsEnabled)
+    public function setShowObligationsEnabled($showObligationsEnabled) : void
     {
         $this->showObligationsEnabled = $showObligationsEnabled;
     }
@@ -221,7 +215,7 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         return $this->obligationsFilterEnabled;
     }
 
-    public function setObligationsFilterEnabled($obligationsFilterEnabled)
+    public function setObligationsFilterEnabled($obligationsFilterEnabled) : void
     {
         $this->obligationsFilterEnabled = $obligationsFilterEnabled;
     }
@@ -231,23 +225,17 @@ class ilListOfQuestionsTableGUI extends ilTable2GUI
         return $this->obligationsNotAnswered;
     }
 
-    public function setObligationsNotAnswered($obligationsNotAnswered)
+    public function setObligationsNotAnswered($obligationsNotAnswered) : void
     {
         $this->obligationsNotAnswered = $obligationsNotAnswered;
     }
 
-    /**
-     * @return boolean
-     */
     public function isFinishTestButtonEnabled() : bool
     {
         return $this->finishTestButtonEnabled;
     }
 
-    /**
-     * @param boolean $finishTestButtonEnabled
-     */
-    public function setFinishTestButtonEnabled($finishTestButtonEnabled)
+    public function setFinishTestButtonEnabled(bool $finishTestButtonEnabled) : void
     {
         $this->finishTestButtonEnabled = $finishTestButtonEnabled;
     }

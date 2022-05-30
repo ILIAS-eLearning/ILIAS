@@ -26,24 +26,16 @@ class ilCmiXapiLaunchGUI
 {
     const XAPI_PROXY_ENDPOINT = 'Modules/CmiXapi/xapiproxy.php';
     
-    /**
-     * @var ilObjCmiXapi
-     */
     protected ilObjCmiXapi $object;
     
-    /**
-     * @var ilCmiXapiUser
-     */
     protected ilCmiXapiUser $cmixUser;
 
-    /**
-     * @var bool
-     */
     protected bool $plugin = false;
+
+    private ilObjUser $user;
+
+    private ilCtrlInterface $ctrl;
     
-    /**
-     * @param ilObjCmiXapi $object
-     */
     public function __construct(ilObjCmiXapi $object)
     {
         $this->object = $object;
@@ -51,13 +43,14 @@ class ilCmiXapiLaunchGUI
     
     public function executeCommand() : void
     {
+        global $DIC;
+        $this->user = $DIC->user();
+        $this->ctrl = $DIC->ctrl();
         $this->launchCmd();
     }
     
     protected function launchCmd() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         $this->initCmixUser();
         $token = $this->getValidToken();
         if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
@@ -65,10 +58,10 @@ class ilCmiXapiLaunchGUI
             $token = $ret['token'];
         }
         $launchLink = $this->buildLaunchLink($token);
-        $DIC->ctrl()->redirectToURL($launchLink);
+        $this->ctrl->redirectToURL($launchLink);
     }
     
-    protected function buildLaunchLink($token)
+    protected function buildLaunchLink(string $token) : string
     {
         $launchLink = "";
 
@@ -96,13 +89,10 @@ class ilCmiXapiLaunchGUI
     }
 
     /**
-     * @param string $token
      * @return array<string, mixed>
      */
     protected function getLaunchParameters(string $token) : array
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
         $params = [];
         
         if ($this->object->isBypassProxyEnabled()) {
@@ -130,17 +120,16 @@ class ilCmiXapiLaunchGUI
             $registration = $this->cmixUser->getRegistration();
             // for old CMI5 Content after switch commit but before cmi5 bugfix
             if ($registration == '') {
-                $registration = ilCmiXapiUser::generateRegistration($this->object, $DIC->user());
+                $registration = ilCmiXapiUser::generateRegistration($this->object, $this->user);
             }
             $params['registration'] = $registration;
         } else {
-            $params['registration'] = urlencode((string) ilCmiXapiUser::generateRegistration($this->object, $DIC->user()));
+            $params['registration'] = urlencode((string) ilCmiXapiUser::generateRegistration($this->object, $this->user));
         }
         return $params;
     }
 
     /**
-     * @return string
      * @throws ilCmiXapiException
      */
     protected function getAuthTokenFetchLink() : string
@@ -150,13 +139,11 @@ class ilCmiXapiLaunchGUI
         ]);
         
         $param = $this->buildAuthTokenFetchParam();
-        $link = iLUtil::appendUrlParameterString($link, "param={$param}");
         
-        return $link;
+        return iLUtil::appendUrlParameterString($link, "param={$param}");
     }
 
     /**
-     * @return string
      * @throws ilCmiXapiException
      */
     protected function buildAuthTokenFetchParam() : string
@@ -169,26 +156,19 @@ class ilCmiXapiLaunchGUI
         ];
         
         $encryptionKey = ilCmiXapiAuthToken::getWacSalt();
-        
-        $param = urlencode(base64_encode(openssl_encrypt(
+        return urlencode(base64_encode(openssl_encrypt(
             json_encode($params),
             ilCmiXapiAuthToken::OPENSSL_ENCRYPTION_METHOD,
             $encryptionKey,
             0,
             ilCmiXapiAuthToken::OPENSSL_IV
         )));
-        return $param;
     }
 
-    /**
-     * @return string
-     */
     protected function getValidToken() : string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         $token = ilCmiXapiAuthToken::fillToken(
-            $DIC->user()->getId(),
+            $this->user->getId(),
             $this->object->getRefId(),
             $this->object->getId(),
             $this->object->getLrsType()->getTypeId()
@@ -196,34 +176,20 @@ class ilCmiXapiLaunchGUI
         return $token;
     }
 
-    /**
-     * @return void
-     */
     protected function initCmixUser() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
-        $doLpUpdate = false;
-
-        // if (!ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId())) {
-        // $doLpUpdate = true;
-        // }
-
-        $this->cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(), $this->object->getPrivacyIdent());
+        $this->cmixUser = new ilCmiXapiUser($this->object->getId(), $this->user->getId(), $this->object->getPrivacyIdent());
         $user_ident = $this->cmixUser->getUsrIdent();
         if ($user_ident == '' || $user_ident == null) {
-            $user_ident = ilCmiXapiUser::getIdent($this->object->getPrivacyIdent(), $DIC->user());
+            $user_ident = ilCmiXapiUser::getIdent($this->object->getPrivacyIdent(), $this->user);
             $this->cmixUser->setUsrIdent($user_ident);
 
             if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
-                $this->cmixUser->setRegistration((string) ilCmiXapiUser::generateCMI5Registration($this->object->getId(), $DIC->user()->getId()));
+                $this->cmixUser->setRegistration((string) ilCmiXapiUser::generateCMI5Registration($this->object->getId(), $this->user->getId()));
             }
             $this->cmixUser->save();
-            ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
+            ilLPStatusWrapper::_updateStatus($this->object->getId(), $this->user->getId());
         }
-        // if ($doLpUpdate) {
-            // ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
-        // }
     }
 
     /**
@@ -231,29 +197,25 @@ class ilCmiXapiLaunchGUI
      */
     protected function getCmi5LearnerPreferences() : array
     {
-        global $DIC;
-        $language = $DIC->user()->getLanguage();
+        $language = $this->user->getLanguage();
         $audio = "on";
-        $prefs = [
+        return [
             "languagePreference" => "{$language}",
             "audioPreference" => "{$audio}"
         ];
-        return $prefs;
     }
 
     /**
      * Prelaunch
      * post cmi5LearnerPreference (agent profile)
      * post LMS.LaunchData
-     * @param string $token
      * @return array<string, mixed>
      * @throws ilCmiXapiException
      * @throws ilDateTimeException
      */
     protected function CMI5preLaunch(string $token) : array
     {
-        global $DIC;
-        
+        $duration = '';
         $lrsType = $this->object->getLrsType();
         $defaultLrs = $lrsType->getLrsEndpoint();
         //$fallbackLrs = $lrsType->getLrsFallbackEndpoint();
@@ -269,7 +231,7 @@ class ilCmiXapiLaunchGUI
         $registration = $this->cmixUser->getRegistration();
         // for old CMI5 Content after switch commit but before cmi5 bugfix
         if ($registration == '') {
-            $registration = ilCmiXapiUser::generateRegistration($this->object, $DIC->user());
+            $registration = ilCmiXapiUser::generateRegistration($this->object, $this->user);
         }
         
         $activityId = $this->object->getActivityId();
@@ -423,12 +385,12 @@ class ilCmiXapiLaunchGUI
     }
 
     /**
-     * @return CliLog|ilLogger
+     * @return ilLogger
      */
-    private function log()
+    private function log() : ilLogger
     {
-        global $log;
         if ($this->plugin) {
+            global $log;
             return $log;
         } else {
             return \ilLoggerFactory::getLogger('cmix');

@@ -60,11 +60,11 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             }
         }
 
-        // has to be before constructor to work
-        $this->initFilter();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
+        // @todo check this: has to be before constructor to work
+        $this->initFilter();
         $this->parseTitle($this->obj_id, "trac_matrix");
         $this->setEnableHeader(true);
         $this->setFormAction(
@@ -327,7 +327,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             $data = ilTrQuery::getUserObjectMatrix(
                 $this->ref_id,
                 $collection["object_ids"],
-                $this->filter["name"],
+                $this->filter["name"] ?? '',
                 $a_user_fields,
                 $a_privary_fields,
                 $check_agreement
@@ -464,7 +464,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
 
                     // object without read-lp-permission
                     if (in_array($obj_id, $this->privacy_cols) ||
-                        $a_set["privacy_conflict"]) {
+                        ($a_set["privacy_conflict"] ?? false)) {
                         $this->tpl->setCurrentBlock("objects");
                         $this->tpl->setVariable("VAL_STATUS", "&nbsp;");
                         $this->tpl->parseCurrentBlock();
@@ -571,7 +571,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         }
 
         // #7694
-        if (!$a_set["active"] || $a_set["privacy_conflict"]) {
+        if (!$a_set["active"] || ($a_set["privacy_conflict"] ?? false)) {
             $mess = array();
             if ($a_set["privacy_conflict"]) {
                 $mess[] = $this->lng->txt("status_no_permission");
@@ -583,7 +583,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $login = !$a_set["privacy_conflict"]
+        $login = !($a_set["privacy_conflict"] ?? false)
             ? $a_set["login"]
             : "&nbsp;";
         $this->tpl->setVariable("VAL_LOGIN", $login);

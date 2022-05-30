@@ -22,14 +22,15 @@
 */
 class ilSCORMPackageParser extends ilSaxParser
 {
-    public $cnt;				// counts open elements//PHP8Review: Missing Typehint
+    private ilSCORMTree $sc_tree;
+    public int $cnt;				// counts open elements
     public array $current_element;	// store current element type
-    public $slm_object;//PHP8Review: Missing Typehint (probably ilObjSCORMModule)
+    public object $slm_object;      //better ilObjSCORMModule
     public array $parent_stack;		// stack of current parent nodes
     public bool $tree_created;		// flag that determines wether the scorm tree has been created
-    public $scorm_tree;		// manifest tree//PHP8Review: Missing Typehint
-    public $current_organization;	// current organization object//PHP8Review: Missing Typehint
-    public $current_resource;	// current resource object//PHP8Review: Missing Typehint
+    public object $scorm_tree;		// manifest tree
+    public object $current_organization;	// current organization object
+    public object $current_resource;	// current resource object
     public array $item_stack;		// current open item objects
     public string $package_title = "";	// title for the package (title from organisation)
 
@@ -54,7 +55,7 @@ class ilSCORMPackageParser extends ilSaxParser
      * set event handler
      * should be overwritten by inherited class
      *
-     * @param resource $a_xml_parser
+     * @param resource|XMLParser $a_xml_parser
      * @return void
      */
     public function setHandlers($a_xml_parser) : void
@@ -155,8 +156,12 @@ class ilSCORMPackageParser extends ilSaxParser
 
     /**
      * handler for begin of element
+     * @param resource|XMLParser $a_xml_parser
+     * @param string $a_name
+     * @param array  $a_attribs
+     * @return void
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void//PHP8Review: Missing Typehint
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         //echo "<br>handlerBeginTag:".$a_name;
         switch ($a_name) {
@@ -168,7 +173,7 @@ class ilSCORMPackageParser extends ilSaxParser
                 $manifest->setXmlBase($a_attribs["xml:base"]);
                 $manifest->create();
                 if (!$this->tree_created) {
-                    $this->sc_tree = new ilSCORMTree($this->slm_object->getId());//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+                    $this->sc_tree = new ilSCORMTree($this->slm_object->getId());
                     $this->sc_tree->addTree($this->slm_object->getId(), $manifest->getId());
                 } else {
                     $this->sc_tree->insertNode($manifest->getId(), $this->getCurrentParent());
@@ -258,8 +263,11 @@ class ilSCORMPackageParser extends ilSaxParser
 
     /**
      * handler for end of element
+     * @param resource|XMLParser $a_xml_parser
+     * @param string             $a_name
+     * @return void
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void//PHP8Review: Missing Typehint
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         //echo "<br>handlerEndTag:".$a_name;
 
@@ -292,8 +300,11 @@ class ilSCORMPackageParser extends ilSaxParser
 
     /**
      * handler for character data
+     * @param resource|XMLParser $a_xml_parser
+     * @param string|null        $a_data
+     * @return void
      */
-    public function handlerCharacterData($a_xml_parser, ?string $a_data) : void//PHP8Review: Missing Typehint
+    public function handlerCharacterData($a_xml_parser, ?string $a_data) : void
     {
         //echo "<br>handlerCharacterData:".$this->getCurrentElement().":".$a_data;
         // DELETE WHITESPACES AND NEWLINES OF CHARACTER DATA

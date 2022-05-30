@@ -18,7 +18,7 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
         return $this->postVar;
     }
     
-    public function setPostVar($postVar)
+    public function setPostVar($postVar) : void
     {
         $this->postVar = $postVar;
     }

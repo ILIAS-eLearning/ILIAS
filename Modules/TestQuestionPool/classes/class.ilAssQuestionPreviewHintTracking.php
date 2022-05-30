@@ -85,7 +85,7 @@ class ilAssQuestionPreviewHintTracking
         );
     }
 
-    public function storeRequest(ilAssQuestionHint $questionHint)
+    public function storeRequest(ilAssQuestionHint $questionHint) : void
     {
         $this->previewSession->addRequestedHint($questionHint->getId());
     }

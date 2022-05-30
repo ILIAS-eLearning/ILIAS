@@ -145,7 +145,7 @@ class ASS_AnswerSimple
      *
      * @TODO Find usage and see if we can get rid of "magic ignorance" of the input value.
      */
-    public function setOrder($order = 0)
+    public function setOrder($order = 0) : void
     {
         if ($order >= 0) {
             $this->order = $order;
@@ -159,7 +159,7 @@ class ASS_AnswerSimple
      *
      * @see $id
      */
-    public function setId($id = -1)
+    public function setId($id = -1) : void
     {
         $this->id = $id;
     }
@@ -173,7 +173,7 @@ class ASS_AnswerSimple
      *
      * @see $answertext
      */
-    public function setAnswertext($answertext = "")
+    public function setAnswertext($answertext = "") : void
     {
         $this->answertext = $answertext;
     }
@@ -189,7 +189,7 @@ class ASS_AnswerSimple
      *
      * @TODO Find usages and see if we can get rid of "magic nullification" here.
      */
-    public function setPoints($points = 0.0)
+    public function setPoints($points = 0.0) : void
     {
         $new_points = str_replace(",", ".", $points);
         if ($this->checkPoints($new_points)) {

@@ -150,7 +150,7 @@ class Renderer extends AbstractComponentRenderer
         $show = $component->getShowSignal();
         $close = $component->getCloseSignal();
         $toggle = $component->getToggleSignal();
-        return $component->withAdditionalOnLoadCode(fn($id) => "$(document).on('$show', function() { il.UI.table.presentation.expandRow('$id'); return false; });" .
+        return $component->withAdditionalOnLoadCode(fn ($id) => "$(document).on('$show', function() { il.UI.table.presentation.expandRow('$id'); return false; });" .
         "$(document).on('$close', function() { il.UI.table.presentation.collapseRow('$id'); return false; });" .
         "$(document).on('$toggle', function() { il.UI.table.presentation.toggleRow('$id'); return false; });");
     }

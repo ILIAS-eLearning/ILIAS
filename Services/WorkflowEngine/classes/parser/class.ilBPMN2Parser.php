@@ -1,12 +1,25 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBPMN2Parser
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilBPMN2Parser
@@ -32,11 +45,11 @@ class ilBPMN2Parser
 
         $hasChildren = (isset($process['children']) && is_array($process['children']) && count($process['children']) > 0);
         if ($hasChildren) {
-            $stashed_sequence_flows = array(); // There can be no assumption, that the workflow is modeled in sequence,
+            $stashed_sequence_flows = []; // There can be no assumption, that the workflow is modeled in sequence,
                                                // so we need to stash the connectors to add them after the nodes.
-            $stashed_associations = array(); // There can be no assumption, that the workflow is modeled in sequence,
+            $stashed_associations = []; // There can be no assumption, that the workflow is modeled in sequence,
                                                // so we need to stash the connectors to add them after the nodes.
-            $stashed_process_extensions = array(); // It was found that modelers add extensions at process level,
+            $stashed_process_extensions = []; // It was found that modelers add extensions at process level,
                                                // they are stored for possible future use.
             $loader = new ilBPMN2ElementLoader($bpmn2_array);
 
@@ -74,7 +87,7 @@ class ilBPMN2Parser
         }
 
         if (count($messages)) {
-            $message_definitions = array();
+            $message_definitions = [];
             foreach ($messages as $message) {
                 /** @noinspection PhpUndefinedVariableInspection */
                 $element_object = $loader->load('messageDefinition');
@@ -119,7 +132,7 @@ class ilBPMN2Parser
      */
     public function getProcessNodeFromArray(array $bpmn2) : array
     {
-        $process = array();
+        $process = [];
 
         if (isset($bpmn2['children']) && is_iterable($bpmn2['children'])) {
             foreach ($bpmn2['children'] as $bpmn2_part) {
@@ -139,7 +152,7 @@ class ilBPMN2Parser
      */
     public function getMessageNodesFromArray(array $bpmn2) : array
     {
-        $messages = array();
+        $messages = [];
 
         if (isset($bpmn2['children']) && is_iterable($bpmn2['children'])) {
             foreach ($bpmn2['children'] as $bpmn2_part) {

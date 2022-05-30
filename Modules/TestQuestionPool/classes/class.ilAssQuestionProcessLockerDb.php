@@ -39,7 +39,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
         return $this->assessmentLogEnabled;
     }
 
-    public function setAssessmentLogEnabled($assessmentLogEnabled)
+    public function setAssessmentLogEnabled($assessmentLogEnabled) : void
     {
         $this->assessmentLogEnabled = $assessmentLogEnabled;
     }
@@ -80,7 +80,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingUserSolutionUpdateOperation()
+    protected function onBeforeExecutingUserSolutionUpdateOperation() : void
     {
         $tables = $this->getTablesUsedDuringSolutionUpdate();
 
@@ -97,7 +97,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingUserQuestionResultUpdateOperation()
+    protected function onBeforeExecutingUserQuestionResultUpdateOperation() : void
     {
         $this->atom_query = $this->db->buildAtomQuery();
         foreach ($this->getTablesUsedDuringResultUpdate() as $table) {
@@ -108,7 +108,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingUserSolutionAdoptOperation()
+    protected function onBeforeExecutingUserSolutionAdoptOperation() : void
     {
         $this->atom_query = $this->db->buildAtomQuery();
         foreach (array_merge(
@@ -122,7 +122,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function onBeforeExecutingUserTestResultUpdateOperation()
+    protected function onBeforeExecutingUserTestResultUpdateOperation() : void
     {
         $this->atom_query = $this->db->buildAtomQuery();
         $this->atom_query->addTableLock('tst_result_cache');
@@ -133,7 +133,7 @@ class ilAssQuestionProcessLockerDb extends ilAssQuestionProcessLocker
     /**
      * {@inheritdoc}
      */
-    protected function executeOperation(callable $operation)
+    protected function executeOperation(callable $operation) : void
     {
         if ($this->atom_query) {
             $this->atom_query->addQueryCallable(function (ilDBInterface $ilDB) use ($operation) {

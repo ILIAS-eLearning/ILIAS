@@ -81,17 +81,20 @@ class ilLPCollectionOfSCOs extends ilLPCollection
             case 'hacp':
             case 'aicc':
                 return ilObjAICCLearningModule::_getScoresForUser(
-                    $item_id, $user_id
+                    $item_id,
+                    $user_id
                 );
 
             case 'scorm':
                 return ilObjSCORMLearningModule::_getScoresForUser(
-                    $item_id, $user_id
+                    $item_id,
+                    $user_id
                 );
 
             case 'scorm2004':
                 return ilObjSCORM2004LearningModule::_getScores2004ForUser(
-                    $item_id, $user_id
+                    $item_id,
+                    $user_id
                 );
         }
 

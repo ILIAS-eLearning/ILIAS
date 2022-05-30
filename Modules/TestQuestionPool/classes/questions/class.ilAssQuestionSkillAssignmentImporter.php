@@ -67,7 +67,7 @@ class ilAssQuestionSkillAssignmentImporter
     /**
      * @param int $targetParentObjId
      */
-    public function setTargetParentObjId($targetParentObjId)
+    public function setTargetParentObjId($targetParentObjId) : void
     {
         $this->targetParentObjId = $targetParentObjId;
     }
@@ -91,7 +91,7 @@ class ilAssQuestionSkillAssignmentImporter
     /**
      * @param int $installationId
      */
-    public function setImportInstallationId($importInstallationId)
+    public function setImportInstallationId($importInstallationId) : void
     {
         $this->importInstallationId = $importInstallationId;
     }
@@ -107,7 +107,7 @@ class ilAssQuestionSkillAssignmentImporter
     /**
      * @param ilImportMapping $importMappingRegistry
      */
-    public function setImportMappingRegistry($importMappingRegistry)
+    public function setImportMappingRegistry($importMappingRegistry) : void
     {
         $this->importMappingRegistry = $importMappingRegistry;
     }
@@ -123,7 +123,7 @@ class ilAssQuestionSkillAssignmentImporter
     /**
      * @param string $importMappingComponent
      */
-    public function setImportMappingComponent($importMappingComponent)
+    public function setImportMappingComponent($importMappingComponent) : void
     {
         $this->importMappingComponent = $importMappingComponent;
     }
@@ -139,7 +139,7 @@ class ilAssQuestionSkillAssignmentImporter
     /**
      * @param ilAssQuestionSkillAssignmentImportList $importAssignmentList
      */
-    public function setImportAssignmentList($importAssignmentList)
+    public function setImportAssignmentList($importAssignmentList) : void
     {
         $this->importAssignmentList = $importAssignmentList;
     }
@@ -163,7 +163,7 @@ class ilAssQuestionSkillAssignmentImporter
     /**
      * @param ilAssQuestionSkillAssignmentList $successImportAssignmentList
      */
-    public function setSuccessImportAssignmentList($successImportAssignmentList)
+    public function setSuccessImportAssignmentList($successImportAssignmentList) : void
     {
         $this->successImportAssignmentList = $successImportAssignmentList;
     }
@@ -176,7 +176,7 @@ class ilAssQuestionSkillAssignmentImporter
         "creation_date" => $rec["creation_date"]);
     */
 
-    public function import()
+    public function import() : void
     {
         foreach ($this->getImportAssignmentList() as $assignment) {
             $foundSkillId = $this->getSkillIdMapping(

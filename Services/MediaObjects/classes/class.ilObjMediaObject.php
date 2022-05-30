@@ -101,8 +101,8 @@ class ilObjMediaObject extends ilObject
             foreach ($usages as $u) {
                 $mob_logger->debug("ilObjMediaObject: ... usage type:" . $u["type"] .
                     ", id:" . $u["id"] .
-                    ", lang:" . $u["lang"] .
-                    ", hist_nr:" . $u["hist_nr"] . ".");
+                    ", lang:" . ($u["lang"] ?? "") .
+                    ", hist_nr:" . ($u["hist_nr"] ?? "") . ".");
             }
             $mob_logger->debug("ilObjMediaObject: ... not deleted.");
         }
@@ -1306,6 +1306,13 @@ class ilObjMediaObject extends ilObject
             }
         }
 
+        if (!isset($size[0])) {
+            $size[0] = 0;
+        }
+        if (!isset($size[1])) {
+            $size[1] = 0;
+        }
+
         if ($a_use_original) {
             if ($size[0] > 0 && $size[1] > 0) {
                 //$width = $size[0];
@@ -1835,13 +1842,13 @@ class ilObjMediaObject extends ilObject
                 $st_item->setFormat("video/vimeo");
                 $par = ilExternalMediaAnalyzer::extractVimeoParameters($st_item->getLocation());
                 $meta = ilExternalMediaAnalyzer::getVimeoMetadata($par["id"]);
-                $this->setTitle($meta["title"]);
-                $description = str_replace("\n", "", $meta["description"]);
+                $this->setTitle($meta["title"] ?? "");
+                $description = str_replace("\n", "", $meta["description"] ?? "");
                 $description = str_replace(["<br>", "<br />"], ["\n", "\n"], $description);
                 $description = strip_tags($description);
                 $this->setDescription($description);
-                $st_item->setDuration((int) $meta["duration"]);
-                $url = parse_url($meta["thumbnail_url"]);
+                $st_item->setDuration((int) ($meta["duration"] ?? 0));
+                $url = parse_url($meta["thumbnail_url"] ?? "");
                 $file = basename($url["path"]);
                 $ext = pathinfo($file, PATHINFO_EXTENSION);
                 if ($ext == "") {
@@ -1857,13 +1864,13 @@ class ilObjMediaObject extends ilObject
                 $st_item->setFormat("video/youtube");
                 $par = ilExternalMediaAnalyzer::extractYoutubeParameters($st_item->getLocation());
                 $meta = ilExternalMediaAnalyzer::getYoutubeMetadata($par["v"]);
-                $this->setTitle($meta["title"]);
-                $description = str_replace("\n", "", $meta["description"]);
+                $this->setTitle($meta["title"] ?? "");
+                $description = str_replace("\n", "", $meta["description"] ?? "");
                 $description = str_replace(["<br>", "<br />"], ["\n", "\n"], $description);
                 $description = strip_tags($description);
                 $this->setDescription($description);
-                $st_item->setDuration((int) $meta["duration"]);
-                $url = parse_url($meta["thumbnail_url"]);
+                $st_item->setDuration((int) ($meta["duration"] ?? 0));
+                $url = parse_url($meta["thumbnail_url"] ?? "");
                 $file = basename($url["path"]);
                 copy(
                     $meta["thumbnail_url"],

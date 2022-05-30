@@ -12,4 +12,8 @@ use ILIAS\UI\Component\JavaScriptBindable;
  */
 interface Symbol extends Component, JavaScriptBindable
 {
+    /**
+     * Get the label of this icon.
+     */
+    public function getLabel() : string;
 }

@@ -131,8 +131,10 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
             return $form;
         }
 
-        $path_info = \ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(),
-            $this->object->getTargetRefId());
+        $path_info = \ilCourseReferencePathInfo::getInstanceByRefId(
+            $this->object->getRefId(),
+            $this->object->getTargetRefId()
+        );
 
         // nothing todo if no parent course is in path
         if (!$path_info->hasParentCourse()) {
@@ -159,8 +161,10 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlB
         $ok = true;
         $ok = parent::loadPropertiesFromSettingsForm($form);
 
-        $path_info = ilCourseReferencePathInfo::getInstanceByRefId($this->object->getRefId(),
-            $this->object->getTargetRefId());
+        $path_info = ilCourseReferencePathInfo::getInstanceByRefId(
+            $this->object->getRefId(),
+            $this->object->getTargetRefId()
+        );
 
         $auto_update = $form->getInput('member_update');
         if ($auto_update && !$path_info->hasParentCourse()) {

@@ -81,6 +81,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $this->mainTpl->addJavaScript('./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js');
 
         $this->mainTpl->addCss('Modules/Chatroom/templates/default/style.css');
+
+        $this->mainTpl->setPermanentLink($this->gui->getObject()->getType(), $this->gui->getObject()->getRefId());
     }
 
     /**

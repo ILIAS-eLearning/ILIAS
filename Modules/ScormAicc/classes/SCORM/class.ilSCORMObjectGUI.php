@@ -22,9 +22,13 @@
 */
 class ilSCORMObjectGUI
 {
-    public $sc_object;//PHP8Review: Missing Typehint
-    public $tpl;//PHP8Review: Missing Typehint (probably ilTemplate)
-    public $lng;//PHP8Review: Missing Typehint (probably ilLanguage)
+
+    /**
+     * @var ilSCORMManifest|ilSCORMItem|ilSCORMOrganization|ilSCORMOrganizations
+     */
+    public $sc_object;
+    public ilGlobalTemplate $tpl;
+    public ilLanguage $lng;
 
     public function __construct(int $a_id = 0)
     {

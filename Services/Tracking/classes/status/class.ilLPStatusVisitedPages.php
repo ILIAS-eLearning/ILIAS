@@ -13,7 +13,8 @@ class ilLPStatusVisitedPages extends ilLPStatus
     {
         $users = ilChangeEvent::lookupUsersInProgress($a_obj_id);
         $users = array_diff(
-            $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+            $users,
+            ilLPStatusWrapper::_getCompleted($a_obj_id)
         );
         return $users;
     }
@@ -133,7 +134,7 @@ class ilLPStatusVisitedPages extends ilLPStatus
         }
 
         if ($a_user_id) {
-            $res = (array) $res[$a_user_id];
+            $res = $res[$a_user_id] ?? [];
         }
 
         return $res;

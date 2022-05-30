@@ -44,7 +44,7 @@ class ilObjExercise extends ilObject
 
     protected ilObjUser $user;
     protected ilFileDataMail $file_obj;
-    public ilExerciseMembers $members_obj;
+    public ?ilExerciseMembers $members_obj = null;
     protected int $timestamp = 0;
     protected int  $hour = 0;
     protected int  $minutes = 0;
@@ -584,7 +584,7 @@ class ilObjExercise extends ilObject
      */
     public function updateAllUsersStatus() : void
     {
-        if (!is_object($this->members_obj)) {
+        if (!isset($this->members_obj)) {
             $this->members_obj = new ilExerciseMembers($this);
         }
         

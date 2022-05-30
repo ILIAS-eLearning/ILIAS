@@ -61,11 +61,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
             $data[$grouping_id]['assigned'] = [];
             $data[$grouping_id]['title'] = $tmp_obj->getTitle();
             $data[$grouping_id]['unique'] = $this->lng->txt($tmp_obj->getUniqueField());
-
-            // Description
-            if (strlen($tmp_obj->getDescription())) {
-                $data[$grouping_id]['description'] = $tmp_obj->getDescription();
-            }
+            $data[$grouping_id]['description'] = $tmp_obj->getDescription();
 
             // Assigned items
             $assigned_items = $tmp_obj->getAssignedItems();

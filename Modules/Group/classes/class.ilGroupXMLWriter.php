@@ -53,7 +53,7 @@ class ilGroupXMLWriter extends ilXmlWriter
 
         $this->logger = $DIC->logger()->grp();
         $this->settings = $DIC->settings();
-        $this->access  =$DIC->access();
+        $this->access = $DIC->access();
         parent::__construct();
         $this->group_obj = $group_obj;
         $this->participants = ilGroupParticipants::_getInstanceByObjId($this->group_obj->getId());

@@ -75,9 +75,9 @@ class ilSystemStyleHTMLExport
         );
         foreach ($iterator as $item) {
             if ($item->isDir()) {
-                mkdir($this->style_dir . DIRECTORY_SEPARATOR . $item->getSubPathName());
+                mkdir($this->style_dir . DIRECTORY_SEPARATOR . $iterator->getSubPathname());
             } else {
-                copy($item, $this->style_dir . DIRECTORY_SEPARATOR . $item->getSubPathName());
+                copy($item->getPathname(), $this->style_dir . DIRECTORY_SEPARATOR . $iterator->getSubPathname());
             }
         }
 

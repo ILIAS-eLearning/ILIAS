@@ -40,7 +40,7 @@ class ilSoapUtils extends ilSoapAdministration
     }
 
     /**
-     * mail via soap
+     * @return bool|soap_fault|SoapFault|null
      */
     public function distributeMails(string $sid, string $a_mail_xml)
     {
@@ -115,6 +115,9 @@ class ilSoapUtils extends ilSoapAdministration
         return true;
     }
 
+    /**
+     * @return ilObjMediaObject|soap_fault|SoapFault|null
+     */
     public function saveTempFileAsMediaObject(string $sid, string $name, string $tmp_name)
     {
         $this->initAuth($sid);
@@ -128,6 +131,9 @@ class ilSoapUtils extends ilSoapAdministration
         return ilObjMediaObject::_saveTempFileAsMediaObject($name, $tmp_name);
     }
 
+    /**
+     * @return int[]|soap_fault|SoapFault|null
+     */
     public function getMobsOfObject(string $sid, string $a_type, int $a_id)
     {
         $this->initAuth($sid);
@@ -142,7 +148,7 @@ class ilSoapUtils extends ilSoapAdministration
     }
 
     /**
-     * clone object dependencies (e.g. course start objects, preconditions ...)
+     * @return bool|soap_fault|SoapFault|null
      */
     public function ilCloneDependencies(string $sid, int $copy_identifier, bool $is_initialized = false)
     {
@@ -206,7 +212,7 @@ class ilSoapUtils extends ilSoapAdministration
     }
 
     /**
-     * Clone object
+     * @return bool|int|soap_fault|SoapFault|null
      */
     public function ilClone(string $sid, int $copy_identifier)
     {
@@ -534,9 +540,6 @@ class ilSoapUtils extends ilSoapAdministration
     /**
      * Method for soap webservice: deleteExpiredDualOptInUserObjects
      * This service will run in background. The client has not to wait for response.
-     * @param string $sid    Session id + client id, separated by ::
-     * @param int    $usr_id User id of the actuator
-     * @return    bool
      */
     public function deleteExpiredDualOptInUserObjects(string $sid, int $usr_id) : bool
     {

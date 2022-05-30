@@ -8,19 +8,12 @@ use ILIAS\Modules\OrgUnit\ARHelper\BaseCommands;
  */
 class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
 {
-    const F_OPERATIONS = 'operations';
-    /**
-     * @var \ILIAS\Modules\OrgUnit\ARHelper\BaseCommands
-     */
-    protected $parent_gui;
-    /**
-     * @var \ilOrgUnitPermission[]
-     */
-    protected $ilOrgUnitPermissions = [];
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $objectDefinition;
+    public const F_OPERATIONS = 'operations';
+    protected BaseCommands $parent_gui;
+    /** @var ilOrgUnitPermission[] */
+    protected array $ilOrgUnitPermissions = [];
+    protected ilObjectDefinition $objectDefinition;
+    protected \ilLanguage $language;
 
     /**
      * ilOrgUnitDefaultPermissionFormGUI constructor.
@@ -33,7 +26,9 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         array $ilOrgUnitPermissionsFilter,
         ilObjectDefinition $objectDefinition
     ) {
+        global $DIC;
         $this->parent_gui = $parent_gui;
+        $this->language = $DIC->language();
         $this->ilOrgUnitPermissions = $ilOrgUnitPermissionsFilter;
         $this->dic()->ctrl()->saveParameter($parent_gui, 'arid');
         $this->setFormAction($this->dic()->ctrl()->getFormAction($this->parent_gui));
@@ -44,12 +39,9 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         parent::__construct();
     }
 
-    /**
-     * @return int ID of the object
-     */
-    public function saveObject()
+    public function saveObject() : bool
     {
-        if (!$this->fillObject()) {
+        if ($this->fillObject() === false) {
             return false;
         }
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
@@ -59,7 +51,7 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    protected function initButtons()
+    private function initButtons() : void
     {
         $this->setTitle($this->txt("form_title_org_default_permissions_"
             . BaseCommands::CMD_UPDATE));
@@ -67,13 +59,18 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         $this->addCommandButton(BaseCommands::CMD_CANCEL, $this->txt(BaseCommands::CMD_CANCEL));
     }
 
-    protected function initFormElements()
+    private function initFormElements() : void
     {
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
-            $header = new ilFormSectionHeaderGUI();
-            $context = $ilOrgUnitPermission->getContext()->getContext();
-            $header->setTitle($this->getTitleForFormHeaderByContext($context));
-            $this->addItem($header);
+
+            if($ilOrgUnitPermission->getContext() !== null) {
+                $header = new ilFormSectionHeaderGUI();
+                $context = $ilOrgUnitPermission->getContext()->getContext();
+                $header->setTitle($this->getTitleForFormHeaderByContext($context));
+                $this->addItem($header);
+            }
+
+
 
             // Checkboxes
             foreach ($ilOrgUnitPermission->getPossibleOperations() as $operation) {
@@ -85,20 +82,23 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
         }
     }
 
-    public function fillForm()
+    public function fillForm() : void
     {
         $operations = array();
         foreach ($this->ilOrgUnitPermissions as $ilOrgUnitPermission) {
-            $context = $ilOrgUnitPermission->getContext()->getContext();
-            foreach ($ilOrgUnitPermission->getPossibleOperations() as $operation) {
-                $id = $operation->getOperationId();
-                $operations["operations[{$context}][{$id}]"] = $ilOrgUnitPermission->isOperationIdSelected($operation->getOperationId());
+
+            if($ilOrgUnitPermission->getContext() !== null) {
+                $context = $ilOrgUnitPermission->getContext()->getContext();
+                foreach ($ilOrgUnitPermission->getPossibleOperations() as $operation) {
+                    $id = $operation->getOperationId();
+                    $operations["operations[{$context}][{$id}]"] = $ilOrgUnitPermission->isOperationIdSelected($operation->getOperationId());
+                }
             }
         }
         $this->setValuesByArray($operations);
     }
 
-    protected function fillObject()
+    private function fillObject() : bool
     {
         if (!$this->checkInput()) {
             return false;
@@ -120,36 +120,29 @@ class ilOrgUnitDefaultPermissionFormGUI extends ilPropertyFormGUI
     }
 
     /**
-     * @return \ilOrgUnitPermission[]
+     * @return ilOrgUnitPermission[]
      */
-    public function getIlOrgUnitPermissions()
+    public function getIlOrgUnitPermissions() : array
     {
         return $this->ilOrgUnitPermissions;
     }
 
     /**
-     * @param \ilOrgUnitPermission[] $ilOrgUnitPermissions
+     * @param ilOrgUnitPermission[] $ilOrgUnitPermissions
      */
-    public function setIlOrgUnitPermissions($ilOrgUnitPermissions)
+    public function setIlOrgUnitPermissions(array $ilOrgUnitPermissions) : void
     {
         $this->ilOrgUnitPermissions = $ilOrgUnitPermissions;
     }
 
-    /**
-     * @return \ILIAS\DI\Container
-     */
-    protected function dic()
+    private function dic() : \ILIAS\DI\Container
     {
         return $GLOBALS["DIC"];
     }
 
-    /**
-     * @param $key
-     * @return mixed
-     */
-    protected function txt($key)
+    private function txt(string $key) : string
     {
-        return $this->parent_gui->txt($key);
+        return $this->language->txt($key);
     }
 
     protected function getTitleForFormHeaderByContext(string $context)

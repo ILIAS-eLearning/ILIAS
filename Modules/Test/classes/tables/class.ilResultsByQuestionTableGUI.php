@@ -47,10 +47,6 @@ class ilResultsByQuestionTableGUI extends ilTable2GUI
         $this->tpl->setVariable("FILE_UPLOADS", $a_set['file_uploads']);
     }
 
-    /**
-     * @param string $a_field
-     * @return bool
-     */
     public function numericOrdering(string $a_field) : bool
     {
         switch ($a_field) {

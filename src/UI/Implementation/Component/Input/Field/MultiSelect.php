@@ -67,7 +67,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
     protected function getConstraintForRequirement() : ?Constraint
     {
         return $this->refinery->custom()->constraint(
-            fn($value) => is_array($value) && count($value) > 0,
+            fn ($value) => is_array($value) && count($value) > 0,
             "Empty"
         );
     }
@@ -77,7 +77,7 @@ class MultiSelect extends Input implements C\Input\Field\MultiSelect
      */
     public function getUpdateOnLoadCode() : Closure
     {
-        return fn($id) => "var checkedBoxes = function() {
+        return fn ($id) => "var checkedBoxes = function() {
 				var options = [];
 				$('#$id').find('li').each(function() {
 				    if ($(this).find('input').prop('checked')) {

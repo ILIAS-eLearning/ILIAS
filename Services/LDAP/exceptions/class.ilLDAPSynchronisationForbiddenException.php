@@ -14,10 +14,7 @@
  *
  *****************************************************************************/
 /**
- * Description of ilLDAPSyncronisationException
- *
  * @author Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesLDAP
  */
 class ilLDAPSynchronisationForbiddenException extends ilException
 {

@@ -5,15 +5,8 @@
  */
 class ilTestRandomQuestionSelectionTableGUI extends \ilTable2GUI
 {
-    /** @var \ilObjTest */
-    private $test;
+    private ilObjTest $test;
 
-    /**
-     * ilTestRandomQuestionSelectionTableGUI constructor.
-     * @param $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param ilObjTest $test
-     */
     public function __construct($a_parent_obj, string $a_parent_cmd, ilObjTest $test)
     {
         $this->test = $test;
@@ -25,11 +18,6 @@ class ilTestRandomQuestionSelectionTableGUI extends \ilTable2GUI
         $this->setRowTemplate('tpl.il_as_tst_random_question_offer.html', 'Modules/Test');
     }
 
-    /**
-     * @param int $numberOfQuestions
-     * @param int $selectedPool
-     * @return $this
-     */
     public function build(int $numberOfQuestions, int $selectedPool) : self
     {
         $this->setTitle($this->lng->txt('tst_question_offer'));

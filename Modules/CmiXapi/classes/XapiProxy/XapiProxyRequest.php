@@ -7,6 +7,7 @@ use GuzzleHttp\Promise;
 use GuzzleHttp\RequestOptions;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Uri;
+use ILIAS\DI\Container;
 
 //use GuzzleHttp\Exception\ConnectException;
 //use GuzzleHttp\Exception\RequestException;
@@ -22,12 +23,13 @@ use GuzzleHttp\Psr7\Uri;
  *****************************************************************************/
 class XapiProxyRequest
 {
-    private $dic;
-    private $xapiproxy;
-//    private $request;
-    private $xapiProxyResponse;
+    private Container $dic;
 
-    public function __construct($xapiproxy)
+    private XapiProxy $xapiproxy;
+
+    private XapiProxyResponse $xapiProxyResponse;
+    
+    public function __construct(XapiProxy $xapiproxy)
     {
         $this->dic = $GLOBALS['DIC'];
         $this->xapiproxy = $xapiproxy;
@@ -53,12 +55,12 @@ class XapiProxyRequest
         }
     }
 
-    private function msg($msg)
+    private function msg(string $msg) : string
     {
         return $this->xapiproxy->msg($msg);
     }
 
-    private function handleStatementsRequest($request) : void
+    private function handleStatementsRequest(\Psr\Http\Message\RequestInterface $request) : void
     {
         $method = $this->xapiproxy->method();
         if ($method === "post" || $method === "put") {
@@ -68,8 +70,8 @@ class XapiProxyRequest
             $this->handleProxy($request);
         }
     }
-
-    private function handlePostPutStatementsRequest($request) : void
+    
+    private function handlePostPutStatementsRequest(\Psr\Http\Message\RequestInterface $request) : void
     {
         $body = $request->getBody()->getContents();
         if (empty($body)) {
@@ -99,8 +101,8 @@ class XapiProxyRequest
     }
 
     // Cookies?, ServerRequestParams required?
-
-    private function handleProxy($request, $fakePostBody = null) : void
+    
+    private function handleProxy(\Psr\Http\Message\RequestInterface $request, $fakePostBody = null) : void
     {
         $endpointDefault = $this->xapiproxy->getDefaultLrsEndpoint();
         $endpointFallback = $this->xapiproxy->getFallbackLrsEndpoint();
@@ -163,7 +165,7 @@ class XapiProxyRequest
                         $fakePostBody
                     );
                 } catch (\Exception $e) {
-                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
+//                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
                     $this->xapiProxyResponse->exitProxyError();
                 }
             } elseif ($fallbackOk) {
@@ -174,7 +176,7 @@ class XapiProxyRequest
                         $fakePostBody
                     );
                 } catch (\Exception $e) {
-                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
+//                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
                     $this->xapiProxyResponse->exitProxyError();
                 }
             } else {
@@ -199,7 +201,7 @@ class XapiProxyRequest
                         $fakePostBody
                     );
                 } catch (\Exception $e) {
-                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
+//                    $this->xapiproxy->error($this->msg("XAPI exception from Default LRS: " . $endpointDefault . " (sent HTTP 500 to client): " . $e->getMessage()));
                     $this->xapiProxyResponse->exitProxyError();
                 }
             } else {
@@ -207,8 +209,8 @@ class XapiProxyRequest
             }
         }
     }
-
-    private function createProxyRequest($request, $uri, $auth, $body) : \GuzzleHttp\Psr7\Request
+    
+    private function createProxyRequest(\Psr\Http\Message\RequestInterface $request, \GuzzleHttp\Psr7\Uri $uri, string $auth, string $body) : \GuzzleHttp\Psr7\Request
     {
         $headers = array(
             'Cache-Control' => 'no-cache, no-store, must-revalidate',

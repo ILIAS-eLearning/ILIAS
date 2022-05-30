@@ -9,5 +9,4 @@ use ILIAS\UI\Implementation\Component\Input\Field\InputInternal;
  */
 interface File extends FileUpload, HasDynamicInputs, InputInternal
 {
-
 }

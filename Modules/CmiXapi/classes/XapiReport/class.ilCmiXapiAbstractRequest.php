@@ -25,24 +25,16 @@
 abstract class ilCmiXapiAbstractRequest
 {
     private string $basicAuth;
-    
-    /**
-     * @var boolean
-     */
     public static bool $plugin = false;
 
     /**
      * ilCmiXapiAbstractRequest constructor.
-     * @param string $basicAuth
      */
     public function __construct(string $basicAuth)
     {
         $this->basicAuth = $basicAuth;
     }
     
-    /**
-     * @return string
-     */
     protected function sendRequest(string $url) : string
     {
         $client = new GuzzleHttp\Client();
@@ -65,7 +57,7 @@ abstract class ilCmiXapiAbstractRequest
             return $body;
         } catch (Exception $e) {
             ilObjCmiXapi::log()->error($e->getMessage());
-            throw new Exception("LRS Connection Problems");
+            throw new Exception("LRS Connection Problems", $e->getCode(), $e);
         }
     }
 
@@ -94,7 +86,7 @@ abstract class ilCmiXapiAbstractRequest
     //todo
     public static function buildQuery(array $params, $encoding = PHP_QUERY_RFC3986) : string
     {
-        if (!$params) {
+        if ($params === []) {
             return '';
         }
 

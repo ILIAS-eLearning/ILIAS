@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * MultipleChoice survey question
@@ -69,20 +72,20 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
         if ($result->numRows() === 1) {
             $data = $ilDB->fetchAssoc($result);
             $this->setId($data["question_id"]);
-            $this->setTitle($data["title"]);
-            $this->label = $data['label'];
-            $this->setDescription($data["description"]);
-            $this->setObjId($data["obj_fi"]);
-            $this->setAuthor($data["author"]);
-            $this->setOwner($data["owner_fi"]);
-            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc($data["questiontext"], 1));
-            $this->setObligatory($data["obligatory"]);
-            $this->setComplete($data["complete"]);
-            $this->setOriginalId($data["original_id"]);
-            $this->setOrientation($data["orientation"]);
+            $this->setTitle((string) $data["title"]);
+            $this->label = (string) $data['label'];
+            $this->setDescription((string) $data["description"]);
+            $this->setObjId((int) $data["obj_fi"]);
+            $this->setAuthor((string) $data["author"]);
+            $this->setOwner((int) $data["owner_fi"]);
+            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc((string) $data["questiontext"], 1));
+            $this->setObligatory((bool) $data["obligatory"]);
+            $this->setComplete((bool) $data["complete"]);
+            $this->setOriginalId((int) $data["original_id"]);
+            $this->setOrientation((int) $data["orientation"]);
             $this->use_min_answers = (bool) $data['use_min_answers'];
-            $this->nr_min_answers = $data['nr_min_answers'];
-            $this->nr_max_answers = $data['nr_max_answers'];
+            $this->nr_min_answers = (string) $data['nr_min_answers'];
+            $this->nr_max_answers = (string) $data['nr_max_answers'];
 
             $this->categories->flushCategories();
             $result = $ilDB->queryF(
@@ -366,7 +369,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
                         $fields['question_fi'] = array("integer", $this->getId());
                         $fields['active_fi'] = array("integer", $active_id);
                         $fields['value'] = array("float", (strlen($entered_value)) ? $entered_value : null);
-                        $fields['textanswer'] = array("clob", ($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_" . $entered_value . "_other"]) : null);
+                        $fields['textanswer'] = array("clob", isset($post_data[$this->getId() . "_" . $entered_value . "_other"]) ? $this->stripSlashesAddSpaceFallback($post_data[$this->getId() . "_" . $entered_value . "_other"]) : null);
                         $fields['tstamp'] = array("integer", time());
 
                         $affectedRows = $ilDB->insert("svy_answer", $fields);

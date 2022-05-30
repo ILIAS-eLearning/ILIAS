@@ -321,7 +321,7 @@ class ilLPObjectStatisticsDailyTableGUI extends ilLPTableBaseGUI
         $lng = $DIC['lng'];
 
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstdly");
-        $chart->setSize(700, 500);
+        $chart->setSize("700", "500");
 
         $legend = new ilChartLegend();
         $chart->setLegend($legend);

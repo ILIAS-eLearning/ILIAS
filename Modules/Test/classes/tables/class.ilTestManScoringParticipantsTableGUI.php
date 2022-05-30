@@ -48,7 +48,7 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
         $this->initFilter();
     }
     
-    private function initColumns()
+    private function initColumns() : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -64,7 +64,7 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
         $this->addColumn('', '', '1%');
     }
     
-    private function initOrdering()
+    private function initOrdering() : void
     {
         $this->enable('sort');
 
@@ -97,19 +97,12 @@ class ilTestManScoringParticipantsTableGUI extends ilTable2GUI
         $participantStatus->readFromSession();
         
         if (!$participantStatus->getValue()) {
-            $participantStatus->setValue(ilTestScoringGUI::PART_FILTER_MANSCORING_NONE);
+            $participantStatus->setValue((string) ilTestScoringGUI::PART_FILTER_MANSCORING_NONE);
         }
     }
 
-    /**
-     * @param	array      $a_set
-     *@global	ilLanguage $lng
-     * @global	ilCtrl    $ilCtrl
-     */
     public function fillRow(array $a_set) : void
     {
-        //vd($row);
-        
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];

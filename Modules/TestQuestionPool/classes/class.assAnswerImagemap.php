@@ -76,7 +76,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     * @access public
     * @see $coords
     */
-    public function setCoords(string $coords = "")
+    public function setCoords(string $coords = "") : void
     {
         $coords = preg_replace("/\s/", "", $coords);
         $this->coords = $coords;
@@ -95,14 +95,7 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     }
 
 
-    /**
-    * Sets the area of an image map
-    *
-    * @param string $area
-    * @access public
-    * @see $area
-    */
-    public function setArea($area = "")
+    public function setArea(string $area = "") : void
     {
         $this->area = $area;
     }
@@ -122,12 +115,12 @@ class ASS_AnswerImagemap extends ASS_AnswerBinaryState
     /**
      * Sets the points for an unchecked answer
      *
-     * @param double $points_unchecked The points for an unchecked answer
+     * @param int|string|null $points_unchecked The points for an unchecked answer
      * @see $points_unchecked
      *
      * @TODO Analyze usage and see if we can get rid of "magic nullification" here.
      */
-    public function setPointsUnchecked($points_unchecked)
+    public function setPointsUnchecked($points_unchecked) : void
     {
         $new_points = str_replace(",", ".", $points_unchecked);
 

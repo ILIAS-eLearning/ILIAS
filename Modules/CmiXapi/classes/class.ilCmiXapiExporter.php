@@ -51,10 +51,6 @@ class ilCmiXapiExporter extends ilXmlExporter
 
     /**
      * Get xml representation
-     * @param	string		entity
-     * @param	string		target release
-     * @param	string		id
-     * @return	string		xml string
      */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
@@ -62,7 +58,6 @@ class ilCmiXapiExporter extends ilXmlExporter
     }
 
     /**
-     * @param string $a_entity
      * @return array<string, array<string, string|bool>>
      */
     public function getValidSchemaVersions(string $a_entity) : array

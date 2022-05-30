@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilObjDataCollectionAccess
@@ -56,26 +71,19 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return false;
     }
 
-    /**
-     * @param ilDclTable $table
-     * @param            $ref_id
-     * @return bool
-     */
-    protected static function isTableInDataCollection($table, $ref_id)
+    protected static function isTableInDataCollection(ilDclTable $table, int $ref_id) : bool
     {
-        foreach (ilObjDataCollection::_getAllReferences($table->getObjId()) as $reference) {
-            if ($reference == $ref_id) {
-                return true;
+        if ($table->getObjId() !== null) {
+            foreach (ilObjDataCollection::_getAllReferences($table->getObjId()) as $reference) {
+                if ($reference == $ref_id) {
+                    return true;
+                }
             }
         }
 
         return false;
     }
 
-    /**
-     * checks whether a user may invoke a command or not
-     * (this method is called by ilAccessHandler::checkAccess)
-     */
     public function _checkAccess(string $cmd, string $permission, int $ref_id, int $obj_id, ?int $user_id = null) : bool
     {
         global $DIC;
@@ -84,9 +92,10 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         $rbacsystem = $DIC['rbacsystem'];
         $ilAccess = $DIC['ilAccess'];
 
-        if ($user_id == "") {
+        if (is_null($user_id) === true) {
             $user_id = $ilUser->getId();
         }
+
         switch ($cmd) {
             case "view":
 
@@ -128,7 +137,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
      * Check wether datacollection is online
      * @param int $a_id wiki id
      */
-    public static function _lookupOnline($a_id)
+    public static function _lookupOnline(int $a_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -149,7 +158,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
      * @depracated use checkActionForId instead
      * @return bool
      */
-    public static function checkAccessForDataCollectionId($data_collection_id)
+    public static function checkAccessForDataCollectionId(int $data_collection_id) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -164,12 +173,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return $perm;
     }
 
-    /**
-     * @param $action
-     * @param $obj_id
-     * @return bool
-     */
-    public static function checkActionForObjId($action, $obj_id)
+    public static function checkActionForObjId(string $action, int $obj_id) : bool
     {
         foreach (ilObject2::_getAllReferences($obj_id) as $ref_id) {
             if (self::checkActionForRefId($action, $ref_id)) {
@@ -180,12 +184,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return false;
     }
 
-    /**
-     * @param $action
-     * @param $ref_id
-     * @return bool
-     */
-    public static function checkActionForRefId($action, $ref_id)
+    public static function checkActionForRefId(string $action, int $ref_id) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -199,10 +198,9 @@ class ilObjDataCollectionAccess extends ilObjectAccess
 
     /**
      * @param     $ref int the reference id of the datacollection object to check.
-     * @param int $user_id
      * @return bool whether or not the current user has admin/write access to the referenced datacollection
      */
-    public static function hasWriteAccess($ref, $user_id = 0)
+    public static function hasWriteAccess(int $ref, ?int $user_id = 0) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -214,13 +212,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
         return $ilAccess->checkAccess("write", "", $ref);
     }
 
-    /**
-     * Has permission to view and edit all entries event when he is not the owner
-     * @param     $ref
-     * @param int $user_id
-     * @return mixed
-     */
-    public static function hasEditAccess($ref, $user_id = 0)
+    public static function hasEditAccess(int $ref, ?int $user_id = 0) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -233,11 +225,10 @@ class ilObjDataCollectionAccess extends ilObjectAccess
     }
 
     /**
-     * @param     $ref int the reference id of the datacollection object to check.
-     * @param int $user_id
+     * @param  $ref int the reference id of the datacollection object to check.
      * @return bool whether or not the current user has admin/write access to the referenced datacollection
      */
-    public static function hasAddRecordAccess($ref, $user_id = 0)
+    public static function hasAddRecordAccess(int $ref, ?int $user_id = 0) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -250,11 +241,10 @@ class ilObjDataCollectionAccess extends ilObjectAccess
     }
 
     /**
-     * @param     $ref int the reference id of the datacollection object to check.
-     * @param int $user_id
+     * @param  $ref int the reference id of the datacollection object to check.
      * @return bool whether or not the current user has read access to the referenced datacollection
      */
-    public static function hasReadAccess($ref, $user_id = 0)
+    public static function hasReadAccess(int $ref, ?int $user_id = 0) : bool
     {
         global $DIC;
         $ilAccess = $DIC['ilAccess'];
@@ -269,10 +259,8 @@ class ilObjDataCollectionAccess extends ilObjectAccess
     /**
      * This only checks access to the tableview - if the full access check is required, use hasAccessTo($ref_id, $table_id, $tableview_id)
      * @param integer|ilDclTableView $tableview can be object or id
-     * @param int                    $user_id
-     * @return bool
      */
-    public static function hasAccessToTableView($tableview, $user_id = 0)
+    public static function hasAccessToTableView($tableview, ?int $user_id = 0) : bool
     {
         global $DIC;
         $rbacreview = $DIC['rbacreview'];
@@ -285,7 +273,7 @@ class ilObjDataCollectionAccess extends ilObjectAccess
             $tableview = ilDclTableView::find($tableview);
         }
 
-        $assigned_roles = $rbacreview->assignedRoles($user_id ? $user_id : $ilUser->getId());
+        $assigned_roles = $rbacreview->assignedRoles($user_id ?: $ilUser->getId());
         $allowed_roles = $tableview->getRoles();
 
         return !empty(array_intersect($assigned_roles, $allowed_roles));
@@ -297,20 +285,14 @@ class ilObjDataCollectionAccess extends ilObjectAccess
      * @param $table_id
      * @return bool
      */
-    protected static function hasAccessToTable($table_id)
+    protected static function hasAccessToTable(int $table_id) : bool
     {
         $table = ilDclCache::getTableCache($table_id);
 
         return $table->getIsVisible() || ($table_id == $table->getCollectionObject()->getFirstVisibleTableId());
     }
 
-    /**
-     * @param $ref_id
-     * @param $table_id
-     * @param $tableview_id
-     * @return bool
-     */
-    public static function hasAccessTo($ref_id, $table_id, $tableview_id)
+    public static function hasAccessTo(int $ref_id, int $table_id, int $tableview_id) : bool
     {
         /** @var ilDclTableView $tableview */
         $tableview = ilDclTableView::find($tableview_id);
@@ -330,45 +312,25 @@ class ilObjDataCollectionAccess extends ilObjectAccess
             );
     }
 
-    /**
-     * @param $ref_id
-     * @param $table_id
-     * @return bool
-     */
-    public static function hasAccessToFields($ref_id, $table_id)
+    public static function hasAccessToFields(int $ref_id, int $table_id) : bool
     {
         return self::isTableInDataCollection(ilDclCache::getTableCache($table_id), $ref_id)
             && (self::hasWriteAccess($ref_id));
     }
 
-    /**
-     * @param $ref_id
-     * @param $table_id
-     * @return bool
-     */
-    public static function hasAccessToEditTable($ref_id, $table_id)
+    public static function hasAccessToEditTable(int $ref_id, int $table_id) : bool
     {
         return self::hasAccessToFields($ref_id, $table_id);
     }
 
-    /**
-     * @param $ref_id
-     * @param $table_id
-     * @param $field_id
-     * @return bool
-     */
-    public static function hasAccessToField($ref_id, $table_id, $field_id)
+    public static function hasAccessToField(int $ref_id, int $table_id, int $field_id) : bool
     {
         $table = ilDclCache::getTableCache($table_id);
 
         return in_array($field_id, $table->getFieldIds()) && self::hasAccessToFields($ref_id, $table_id);
     }
 
-    /**
-     * @param int $ref_id
-     * @return bool
-     */
-    public static function hasPermissionToAddRecord($ref_id, $table_id)
+    public static function hasPermissionToAddRecord(int $ref_id, int $table_id) : bool
     {
         $table = ilDclCache::getTableCache($table_id);
         if (!self::isTableInDataCollection($table, $ref_id)) {

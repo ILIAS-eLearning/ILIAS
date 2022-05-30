@@ -59,7 +59,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
     /**
      * @param $context
      */
-    public function setContext($context)
+    public function setContext($context) : void
     {
         $this->context = $context;
     }
@@ -75,30 +75,21 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
     /**
      * @param $postVar
      */
-    public function setPostVar($postVar)
+    public function setPostVar($postVar) : void
     {
         $this->postVar = $postVar;
     }
     
-    /**
-     * @return null
-     */
     public function getImageRemovalCommand() : ?string
     {
         return $this->imageRemovalCommand;
     }
     
-    /**
-     * @param null $imageRemovalCommand
-     */
-    public function setImageRemovalCommand($imageRemovalCommand)
+    public function setImageRemovalCommand($imageRemovalCommand) : void
     {
         $this->imageRemovalCommand = $imageRemovalCommand;
     }
     
-    /**
-     * @return string
-     */
     public function getImageUrlPath() : string
     {
         return $this->imageUrlPath;
@@ -107,7 +98,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
     /**
      * @param string $imageUrlPath
      */
-    public function setImageUrlPath($imageUrlPath)
+    public function setImageUrlPath($imageUrlPath) : void
     {
         $this->imageUrlPath = $imageUrlPath;
     }
@@ -123,7 +114,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
     /**
      * @param string $imageFsPath
      */
-    public function setImageFsPath($imageFsPath)
+    public function setImageFsPath($imageFsPath) : void
     {
         $this->imageFsPath = $imageFsPath;
     }
@@ -139,7 +130,7 @@ class ilAssOrderingFormValuesObjectsConverter implements ilFormValuesManipulator
     /**
      * @param string $thumbnailPrefix
      */
-    public function setThumbnailPrefix($thumbnailPrefix)
+    public function setThumbnailPrefix($thumbnailPrefix) : void
     {
         $this->thumbnailPrefix = $thumbnailPrefix;
     }

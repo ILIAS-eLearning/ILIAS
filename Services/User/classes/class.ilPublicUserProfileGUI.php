@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * GUI class for public user profile presentation.
@@ -23,12 +26,12 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     private bool $offline = false;
     protected ilUserDefinedFields $user_defined_fields;
     protected \ILIAS\User\ProfileGUIRequest $profile_request;
-    protected int $userid;
-    protected int $portfolioid;
-    protected string $backurl;
-    protected array $additional; // Missing array type.
-    protected bool $embedded;
-    protected array $custom_prefs; // Missing array type.
+    protected int $userid = 0;
+    protected int $portfolioid = 0;
+    protected string $backurl = "";
+    protected array $additional = []; // Missing array type.
+    protected bool $embedded = false;
+    protected array $custom_prefs = []; // Missing array type.
     protected ilObjUser $current_user;
     protected \ilSetting $setting;
 
@@ -97,10 +100,10 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         
         // we only allow relative links
         $parts = parse_url($a_backurl);
-        if ($parts["host"]) {
+        $host = $parts['host'] ?? '';
+        if ($host !== '') {
             $a_backurl = "#";
         }
-        
         $this->backurl = $a_backurl;
         $ilCtrl->setParameter($this, "back_url", rawurlencode($a_backurl));
     }
@@ -154,9 +157,9 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     protected function getPublicPref(ilObjUser $a_user, string $a_id) : string
     {
         if (!$this->custom_prefs) {
-            return $a_user->getPref($a_id);
+            return (string) $a_user->getPref($a_id);
         } else {
-            return $this->custom_prefs[$a_id];
+            return (string) $this->custom_prefs[$a_id];
         }
     }
     

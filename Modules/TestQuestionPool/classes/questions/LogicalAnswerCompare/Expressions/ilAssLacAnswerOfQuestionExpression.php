@@ -48,7 +48,7 @@ class ilAssLacAnswerOfQuestionExpression extends ilAssLacAbstractExpression impl
      *
      * @param array $matches
      */
-    protected function setMatches($matches)
+    protected function setMatches($matches) : void
     {
         $this->question_index = $matches[0][0];
     }

@@ -13,28 +13,11 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
 class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GUI
 {
     const IDENTIFIER = 'tstRndPools';
-
-    /**
-     * @var boolean
-     */
-    private $definitionEditModeEnabled = null;
-
-    /**
-     * @var boolean
-     */
-    private $questionAmountColumnEnabled = null;
-    
-    // fau: taxFilter/typeFilter - flag to show the mapped taxonomy filter instead of the original
-    /**
-     * @var boolean
-     */
-    private $showMappedTaxonomyFilter = false;
-    // fau.
-
-    /**
-     * @var ilTestTaxonomyFilterLabelTranslater
-     */
-    private $taxonomyLabelTranslater = null;
+    private bool $definitionEditModeEnabled;
+    private bool $questionAmountColumnEnabled;
+    private bool $showMappedTaxonomyFilter = false;
+    private ?ilTestTaxonomyFilterLabelTranslater $taxonomyLabelTranslater = null;
+    private \ILIAS\Test\InternalRequestService $testrequest;
 
     public function __construct(ilCtrl $ctrl, ilLanguage $lng, $parentGUI, $parentCMD)
     {
@@ -42,17 +25,18 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 
         $this->ctrl = $ctrl;
         $this->lng = $lng;
-
+        global $DIC;
+        $this->testrequest = $DIC->test()->internal()->request();
         $this->definitionEditModeEnabled = false;
         $this->questionAmountColumnEnabled = false;
     }
 
-    public function setTaxonomyFilterLabelTranslater(ilTestTaxonomyFilterLabelTranslater $translater)
+    public function setTaxonomyFilterLabelTranslater(ilTestTaxonomyFilterLabelTranslater $translater) : void
     {
         $this->taxonomyLabelTranslater = $translater;
     }
 
-    public function setDefinitionEditModeEnabled($definitionEditModeEnabled)
+    public function setDefinitionEditModeEnabled($definitionEditModeEnabled) : void
     {
         $this->definitionEditModeEnabled = $definitionEditModeEnabled;
     }
@@ -62,7 +46,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         return $this->definitionEditModeEnabled;
     }
 
-    public function setQuestionAmountColumnEnabled($questionAmountColumnEnabled)
+    public function setQuestionAmountColumnEnabled(bool $questionAmountColumnEnabled) : void
     {
         $this->questionAmountColumnEnabled = $questionAmountColumnEnabled;
     }
@@ -72,12 +56,10 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         return $this->questionAmountColumnEnabled;
     }
     
-    // fau: taxFilter - set flag to show the mapped tayonomy filter instead of original
-    public function setShowMappedTaxonomyFilter($showMappedTaxonomyFilter)
+    public function setShowMappedTaxonomyFilter(bool $showMappedTaxonomyFilter) : void
     {
         $this->showMappedTaxonomyFilter = $showMappedTaxonomyFilter;
     }
-    // fau.
 
     public function fillRow(array $a_set) : void
     {
@@ -207,7 +189,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         return $this->taxonomyLabelTranslater->getTaxonomyNodeLabel($taxonomyNodeId);
     }
 
-    public function build()
+    public function build() : void
     {
         $this->setTableIdentifiers();
 
@@ -230,14 +212,14 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         $this->addColumns();
     }
 
-    private function setTableIdentifiers()
+    private function setTableIdentifiers() : void
     {
         $this->setId(self::IDENTIFIER);
         $this->setPrefix(self::IDENTIFIER);
         $this->setFormName(self::IDENTIFIER);
     }
 
-    private function addCommands()
+    private function addCommands() : void
     {
         if ($this->isDefinitionEditModeEnabled()) {
             $this->addMultiCommand(ilTestRandomQuestionSetConfigGUI::CMD_DELETE_MULTI_SRC_POOL_DEFS, $this->lng->txt('delete'));
@@ -245,26 +227,21 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         }
     }
 
-    private function addColumns()
+    private function addColumns() : void
     {
         if ($this->isDefinitionEditModeEnabled()) {
             $this->addColumn('', 'select', '1%', true);
             $this->addColumn('', 'order', '1%', true);
-        }
-        // fau: taxFilter/typeFilter - show order position to easily identify the filter in the database
-        else {
+        } else {
             $this->addColumn($this->lng->txt("position"));
         }
-        // fau.
 
         $this->addColumn($this->lng->txt("tst_source_question_pool"), 'source_question_pool', '');
-        // fau: taxFilter/typeFilter - add one column for taxonomy and nodes and one for type filter
         $this->addColumn($this->lng->txt("tst_filter_taxonomy") . ' / ' . $this->lng->txt("tst_filter_tax_node"), 'tst_filter_taxonomy', '');
         #$this->addColumn($this->lng->txt("tst_filter_taxonomy"),'tst_filter_taxonomy', '');
         #$this->addColumn($this->lng->txt("tst_filter_tax_node"),'tst_filter_tax_node', '');
         $this->addColumn($this->lng->txt("qst_lifecycle"), 'tst_filter_lifecycle', '');
         $this->addColumn($this->lng->txt("tst_filter_question_type"), 'tst_filter_question_type', '');
-        // fau.
 
         if ($this->isQuestionAmountColumnEnabled()) {
             $this->addColumn($this->lng->txt("tst_question_amount"), 'tst_question_amount', '');
@@ -275,7 +252,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         }
     }
 
-    public function init(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+    public function init(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList) : void
     {
         $rows = array();
 
@@ -308,7 +285,7 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
         $this->setData($rows);
     }
 
-    public function applySubmit(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList)
+    public function applySubmit(ilTestRandomQuestionSetSourcePoolDefinitionList $sourcePoolDefinitionList) : void
     {
         foreach ($sourcePoolDefinitionList as $sourcePoolDefinition) {
             /** @var ilTestRandomQuestionSetSourcePoolDefinition $sourcePoolDefinition */
@@ -327,11 +304,13 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI extends ilTable2GU
 
     private function fetchOrderNumberParameter(ilTestRandomQuestionSetSourcePoolDefinition $definition) : int
     {
-        return (int) $_POST['def_order'][$definition->getId()];
+        $def_order = $this->testrequest->raw('def_order');
+        return array_key_exists($definition->getId(), $def_order) ? (int) $def_order[$definition->getId()] : 0;
     }
 
     private function fetchQuestionAmountParameter(ilTestRandomQuestionSetSourcePoolDefinition $definition) : int
     {
-        return (int) $_POST['quest_amount'][$definition->getId()];
+        $quest_amount = $this->testrequest->raw('quest_amount');
+        return array_key_exists($definition->getId(), $quest_amount) ? (int) $quest_amount[$definition->getId()] : 0;
     }
 }

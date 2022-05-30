@@ -44,7 +44,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
     /**
      * @param	boolean	$editElementOccuranceEnabled
      */
-    public function setEditElementOccuranceEnabled($editElementOccuranceEnabled)
+    public function setEditElementOccuranceEnabled($editElementOccuranceEnabled) : void
     {
         $this->editElementOccuranceEnabled = $editElementOccuranceEnabled;
     }
@@ -60,7 +60,7 @@ abstract class ilMultipleTextsInputGUI extends ilIdentifiedMultiValuesInputGUI
     /**
      * @param boolean $editElementOrderEnabled
      */
-    public function setEditElementOrderEnabled($editElementOrderEnabled)
+    public function setEditElementOrderEnabled($editElementOrderEnabled) : void
     {
         $this->editElementOrderEnabled = $editElementOrderEnabled;
     }

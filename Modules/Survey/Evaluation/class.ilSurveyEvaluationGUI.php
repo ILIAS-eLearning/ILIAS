@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Survey evaluation graphical output
@@ -50,6 +53,7 @@ class ilSurveyEvaluationGUI
     protected ?int $appr_id = null;
     protected ?\ILIAS\Survey\Mode\UIModifier $ui_modifier = null;
     protected \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request;
+    protected \ILIAS\Skill\Service\SkillProfileService $skill_profile_service;
     
     public function __construct(
         ilObjSurvey $a_object
@@ -107,6 +111,7 @@ class ilSurveyEvaluationGUI
                 $this->object->getRefId(),
                 $DIC->user()->getId()
             );
+        $this->skill_profile_service = $DIC->skills()->profile();
     }
     
     public function executeCommand() : string
@@ -1145,9 +1150,9 @@ class ilSurveyEvaluationGUI
 
         // get matching user competence profiles
         // -> add gap analysis to profile
-        $profiles = ilSkillProfile::getProfilesOfUser($appr_id);
+        $profiles = $this->skill_profile_service->getProfilesOfUser($appr_id);
         foreach ($profiles as $p) {
-            $prof = new ilSkillProfile($p["id"]);
+            $prof = $this->skill_profile_service->getById($p["id"]);
             $prof_levels = $prof->getSkillLevels();
             foreach ($prof_levels as $pl) {
                 if (isset($skills[$pl["base_skill_id"] . ":" . $pl["tref_id"]])) {

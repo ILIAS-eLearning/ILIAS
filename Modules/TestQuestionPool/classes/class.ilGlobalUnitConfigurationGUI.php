@@ -42,10 +42,7 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
         return $this->repository->getConsumerId() . '_global';
     }
 
-    /**
-     *
-     */
-    protected function showGlobalUnitCategories()
+    protected function showGlobalUnitCategories() : void
     {
         /**
          * @var $ilToolbar ilToolbarGUI
@@ -64,7 +61,7 @@ class ilGlobalUnitConfigurationGUI extends ilUnitConfigurationGUI
     /**
      * @param array $categories
      */
-    protected function showUnitCategories(array $categories)
+    protected function showUnitCategories(array $categories) : void
     {
         require_once 'Modules/TestQuestionPool/classes/tables/class.ilGlobalUnitCategoryTableGUI.php';
         $table = new ilGlobalUnitCategoryTableGUI($this, $this->getUnitCategoryOverviewCommand());

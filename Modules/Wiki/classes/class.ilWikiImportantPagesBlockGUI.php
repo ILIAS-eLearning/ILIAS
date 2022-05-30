@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Important pages wiki block
@@ -125,12 +128,12 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
             $title = ilWikiPage::lookupTitle($p["page_id"]);
             if (!$this->export) {
                 $list->addListNode("<p class='small'><a href='" .
-                    ilObjWikiGUI::getGotoLink($this->requested_ref_id, $title)
-                    . "'>" . $title . "</a></p>", $cnt, (int) $cpar[$p["indent"] - 1]);
+                    ilObjWikiGUI::getGotoLink($this->requested_ref_id, (string) $title)
+                    . "'>" . $title . "</a></p>", $cnt, (int) ($cpar[$p["indent"] - 1] ?? 0));
             } else {
                 $list->addListNode("<p class='small'><a href='" .
                     "wpg_" . $p["page_id"] . ".html" .
-                    "'>" . $title . "</a></p>", $cnt, (int) $cpar[$p["indent"] - 1]);
+                    "'>" . $title . "</a></p>", $cnt, (int) ($cpar[$p["indent"] - 1] ?? 0));
             }
             $cpar[$p["indent"]] = $cnt;
         }

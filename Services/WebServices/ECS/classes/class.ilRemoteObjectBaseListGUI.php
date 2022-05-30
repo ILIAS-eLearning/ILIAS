@@ -34,8 +34,8 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
     public function _lookupOrganization(string $table, int $a_obj_id) : string
     {
         $query = "SELECT organization FROM " . $this->db->quoteIdentifier(
-                $table
-            ) .
+            $table
+        ) .
             " WHERE obj_id = " . $this->db->quote($a_obj_id, 'integer') . " ";
         $res = $this->db->query($query);
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -52,7 +52,8 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
         );
         $consent_gui = new ilECSUserConsentModalGUI(
             $this->user->getId(),
-            $this->ref_id);
+            $this->ref_id
+        );
 
         $shy_modal = $consent_gui->getTitleLink();
         if (!strlen($shy_modal)) {
@@ -72,10 +73,10 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
         string $title,
         string $description
     ) : ?RepositoryObject {
-
         $consent_gui = new ilECSUserConsentModalGUI(
             $this->user->getId(),
-            $ref_id);
+            $ref_id
+        );
         if ($consent_gui->hasConsented()) {
             return parent::getAsCard($ref_id, $obj_id, $type, $title, $description);
         }
@@ -95,7 +96,8 @@ class ilRemoteObjectBaseListGUI extends ilObjectListGUI
     {
         $consent_gui = new ilECSUserConsentModalGUI(
             $this->user->getId(),
-            $this->ref_id);
+            $this->ref_id
+        );
         $command = parent::createDefaultCommand($command);
         if ($consent_gui->hasConsented()) {
             return $command;

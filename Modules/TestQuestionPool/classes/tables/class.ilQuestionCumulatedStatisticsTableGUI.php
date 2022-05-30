@@ -47,7 +47,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initColumns()
+    protected function initColumns() : void
     {
         $this->addColumn($this->lng->txt('result'), 'result');
         $this->addColumn($this->lng->txt('value'), 'value');
@@ -56,7 +56,7 @@ class ilQuestionCumulatedStatisticsTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initData()
+    protected function initData() : void
     {
         $rows = array();
 

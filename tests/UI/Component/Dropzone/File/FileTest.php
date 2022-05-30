@@ -15,12 +15,7 @@ class FileTest extends FileTestBase
 
     public function setUp() : void
     {
-        $this->dropzone = new class(
-            $this->getInputFactory(),
-            $this->getLanguage(),
-            $this->getUploadHandlerMock(),
-            self::FILE_DROPZONE_POST_URL
-        ) extends File {
+        $this->dropzone = new class($this->getInputFactory(), $this->getLanguage(), $this->getUploadHandlerMock(), self::FILE_DROPZONE_POST_URL) extends File {
         };
 
         parent::setUp();

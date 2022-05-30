@@ -234,7 +234,7 @@ class ilPollBlockGUI extends ilBlockGUI
                         // pie chart
                         if ($this->poll_block->showResultsAs() === ilObjPoll::SHOW_RESULTS_AS_PIECHART) {
                             $chart = ilChart::getInstanceByType(ilChart::TYPE_PIE, "poll_results_pie_" . $this->getRefId());
-                            $chart->setSize(400, 200);
+                            $chart->setSize("400", "200");
                             $chart->setAutoResize(true);
 
                             $chart_data = $chart->getDataInstance();

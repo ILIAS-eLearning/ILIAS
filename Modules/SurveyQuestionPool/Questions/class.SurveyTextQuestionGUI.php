@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Text survey question GUI representation
@@ -73,7 +76,7 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
     protected function importEditFormValues(ilPropertyFormGUI $a_form) : void
     {
         $max = $a_form->getInput("maxchars");
-        $this->object->setMaxChars(strlen($max) ? $max : null);
+        $this->object->setMaxChars((int) $max);
         $this->object->setTextWidth($a_form->getInput("textwidth"));
         $this->object->setTextHeight($a_form->getInput("textheight"));
     }

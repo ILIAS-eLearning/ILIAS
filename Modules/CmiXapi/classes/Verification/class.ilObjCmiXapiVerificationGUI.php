@@ -69,14 +69,15 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
                 (int) $objId
             );
 
+            $newObj = null;
             try {
                 $newObj = $certificateVerificationFileService->createFile($userCertificatePresentation);
             } catch (\Exception $exception) {
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('error_creating_certificate_pdf'));
-//                return $this->create();
+//                $this->create();
             }
-            
-            if ($newObj) {
+
+            if ($newObj !== null) {
                 $parent_id = $this->node_id;
                 $this->node_id = null;
                 $this->putObjectInTree($newObj, $parent_id);
@@ -118,6 +119,7 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
             $caption = $lng->txt("wsp_type_cmxv") . ' "' . $this->object->getTitle() . '"';
             
             $valid = true;
+            $message = '';
             if (!file_exists($this->object->getFilePath())) {
                 $valid = false;
                 $message = $lng->txt("url_not_found");
@@ -165,7 +167,6 @@ class ilObjCmiXapiVerificationGUI extends ilObject2GUI
     }
 
     /**
-     * @param string $key
      * @param mixed  $default
      * @return mixed|null
      */

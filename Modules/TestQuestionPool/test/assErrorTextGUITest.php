@@ -40,7 +40,7 @@ class assErrorTextGUITest extends assBaseTestCase
         $GLOBALS['ilUser'] = $user_mock;
     }
 
-    public function test_instantiateObject_shouldReturnInstance()
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         //$this->markTestIncomplete('Needs mock.');
         // Arrange

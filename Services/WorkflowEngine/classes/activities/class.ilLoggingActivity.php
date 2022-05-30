@@ -1,5 +1,20 @@
-<?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilLoggingActivity
@@ -9,8 +24,6 @@
  * time, since it is triggered on known conditions.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
@@ -18,28 +31,22 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
     /** @var ilWorkflowEngineElement $context Holds a reference to the parent object */
     private $context;
 
-    /** @var string $log_file Path and filename, e.g. 'c:\wfe.log' */
+    /** Path and filename, e.g. 'c:\wfe.log' */
     private string $log_file = 'none.log';
 
-    /** @var string $log_message Messagetext, please be descriptive. */
+    /** Messagetext, please be descriptive. */
     private string $log_message = 'no message set';
 
     /**
      * Log-Level of the message to be logged.
      * Valid levels are: FATAL, WARNING, MESSAGE
      *
-     * @var string One of FATAL, WARNING, MESSAGE
+     * One of FATAL, WARNING, MESSAGE
      */
     private string $log_level = 'MESSAGE';
 
-    /** @var string $name */
-    protected string $name;
+    protected string $name = '';
 
-    /**
-     * Default constructor.
-     *
-     * @param ilNode $a_context
-     */
     public function __construct(ilNode $a_context)
     {
         $this->context = $a_context;
@@ -60,14 +67,9 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
 
     /**
      * Checks if the file is "really really" writeable.
-     *
-     * @param $a_log_file
-     *
-     * @return void
-     *
      * @throws ilWorkflowFilesystemException
      */
-    private function checkFileWriteability($a_log_file) : void
+    private function checkFileWriteability(string $a_log_file) : void
     {
         if (!is_writable(dirname($a_log_file))) {
             throw new ilWorkflowFilesystemException('Could not write to filesystem - no pointer returned.', 1002);
@@ -83,13 +85,9 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * Checks if the given extension is a listed one.
      * (One of .log or .txt)
-     *
-     * @param $extension
-     *
-     * @return void
      * @throws ilWorkflowObjectStateException
      */
-    private function checkExtensionValidity($extension) : void
+    private function checkExtensionValidity(string $extension) : void
     {
         if ($extension !== '.log' && $extension !== '.txt') {
             throw new ilWorkflowObjectStateException('Illegal extension. Log file must be either .txt or .log.', 1002);
@@ -119,16 +117,11 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
 
     /**
      * Checks if an actual log message is set for the instance.
-     *
-     * @param $a_log_message
-     *
-     * @return void
-     *
      * @throws ilWorkflowObjectStateException
      */
-    private function checkForExistingLogMessageContent($a_log_message) : void
+    private function checkForExistingLogMessageContent(?string $a_log_message) : void
     {
-        if ($a_log_message == null || $a_log_message == '') {
+        if ($a_log_message === null || $a_log_message === '') {
             throw new ilWorkflowObjectStateException('Log message must not be null or empty.', 1002);
         }
     }
@@ -146,9 +139,9 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * Sets the log level of the message to be logged.
      * @param string $a_log_level A valid log level.
-          * @return void
+     * @return void
      * @throws ilWorkflowObjectStateException on illegal log level.
-     *@see $log_level
+     * @see $log_level
      */
     public function setLogLevel(string $a_log_level) : void
     {
@@ -162,12 +155,8 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * Determines, if the given log level is a valid one.
      * Log levels are similar to Apache log4j levels.
-     *
-     * @param $a_log_level
-     *
-     * @return bool
      */
-    private function determineValidityOfLogLevel($a_log_level) : bool
+    private function determineValidityOfLogLevel(string $a_log_level) : bool
     {
         switch (strtolower($a_log_level)) {
             case 'trace':
@@ -219,10 +208,8 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * Closes the file pointer.
      *
-     * @param $file_pointer
-     *
+     * @param resource$file_pointer
      * @return void
-     *
      * @throws ilWorkflowFilesystemException
      */
     private function closeFilePointer($file_pointer) : void
@@ -235,8 +222,7 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
     /**
      * Writes the instances log message to the logfile.
      *
-     * @param $file_pointer
-     *
+     * @param resource $file_pointer
      * @return void
      */
     private function writeLogMessage($file_pointer) : void
@@ -250,15 +236,15 @@ class ilLoggingActivity implements ilActivity, ilWorkflowEngineElement
      * Acquires and returns a file pointer to the instances log file.
      *
      * @return resource File pointer
-     *
      * @throws ilWorkflowFilesystemException
      */
     private function acquireFilePointer()
     {
         $file_pointer = fopen($this->log_file, 'ab');
-        if ($file_pointer == null) {
+        if (!is_resource($file_pointer)) {
             throw new ilWorkflowFilesystemException('Cannot write to filesystem - no pointer returned.', 1000);
         }
+
         return $file_pointer;
     }
 

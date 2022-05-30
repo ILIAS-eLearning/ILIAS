@@ -20,10 +20,14 @@
  */
 class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
 {
-    public function __construct($a_parent_obj, $a_parent_cmd)//PHP8Review: Missing Typehint
+    private object $parent_obj;
+    private string $parent_cmd;
+    public ilPropertyFormGUI $form;
+
+    public function __construct(object $a_parent_obj, string $a_parent_cmd)
     {
-        $this->parent_obj = $a_parent_obj;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
-        $this->parent_cmd = $a_parent_cmd;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        $this->parent_obj = $a_parent_obj;
+        $this->parent_cmd = $a_parent_cmd;
         parent::__construct();
     }
 
@@ -36,7 +40,7 @@ class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         $lng->loadLanguageModule("scormtrac");
-        $this->form = new ilPropertyFormGUI();//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($ilCtrl->getFormAction($this->parent_obj));
 
         $options = array("all" => $lng->txt("all"));

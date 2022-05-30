@@ -287,7 +287,11 @@ class ilLPStatusWrapper
         $trac_obj = ilLPStatusFactory::_getInstance($a_obj_id);
         if (strtolower(get_class($trac_obj)) != "illpstatus") {
             $trac_obj->_updateStatus(
-                $a_obj_id, $a_usr_id, $a_obj, $a_percentage, $a_force_raise
+                $a_obj_id,
+                $a_usr_id,
+                $a_obj,
+                $a_percentage,
+                $a_force_raise
             );
         }
     }

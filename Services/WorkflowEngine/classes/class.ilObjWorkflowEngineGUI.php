@@ -1,6 +1,20 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\DI\Container;
 
@@ -43,7 +57,7 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
 
     public function getType() : string
     {
-        return "";
+        return "wfe";
     }
 
     /**
@@ -109,10 +123,6 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * @param string $cmd
-     * @return string
-     */
     public function dispatchCommand(string $cmd) : string
     {
         $cmd_parts = explode('.', $cmd);
@@ -135,9 +145,6 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * @return void
-     */
     public function prepareAdminOutput() : void
     {
         $this->tpl->loadStandardTemplate();
@@ -149,22 +156,11 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         $this->initLocator();
     }
 
-    /**
-     * @param string $section
-     */
     public function initTabs(string $section) : void
     {
         global $DIC;
-        /** @var $rbacsystem ilRbacSystem */
-        $rbacsystem = $DIC['rbacsystem'];
+        $rbacsystem = $DIC->rbac()->system();
 
-        /*
-        $this->ilTabs->addTab(
-                'dashboard',
-                $this->lng->txt('dashboard'),
-                $this->ilCtrl->getLinkTarget($this, 'dashboard.view')
-        );
-        */
         if ($rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
             $this->ilTabs->addTab(
                 'definitions',
@@ -181,23 +177,13 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
             $this->ilTabs->addTab(
                 'perm_settings',
                 $this->lng->txt('perm_settings'),
-                $this->ilCtrl->getLinkTargetByClass(array('ilobjworkflowenginegui','ilpermissiongui'), 'perm')
+                $this->ilCtrl->getLinkTargetByClass(['ilobjworkflowenginegui', 'ilpermissiongui'], 'perm')
             );
         }
-        /*
-        $this->ilTabs->addTab(
-                'instances',
-                $this->lng->txt('instances'),
-                $this->ilCtrl->getLinkTarget($this, 'instances.view')
-        );
-        */
 
         $this->ilTabs->setTabActive($section);
     }
 
-    /**
-     * @return void
-     */
     public function initLocator() : void
     {
         $path = $this->tree->getPathFull($this->service->internal()->request()->getRefId());
@@ -221,10 +207,6 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         $this->tpl->setLocator();
     }
 
-    /**
-     * @param string $command
-     * @return string
-     */
     public function dispatchToDashboard(string $command) : string
     {
         $this->initTabs('dashboard');
@@ -232,10 +214,6 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         return $target_handler->handle($command);
     }
 
-    /**
-     * @param string $command
-     * @return string
-     */
     public function dispatchToDefinitions(string $command) : string
     {
         $this->initTabs('definitions');
@@ -243,10 +221,6 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         return $target_handler->handle($command);
     }
 
-    /**
-     * @param string $command
-     * @return string
-     */
     public function dispatchToInstances(string $command) : string
     {
         $this->initTabs('instances');
@@ -254,10 +228,6 @@ class ilObjWorkflowEngineGUI extends ilObjectGUI
         return $target_handler->handle($command);
     }
 
-    /**
-     * @param string $command
-     * @return string
-     */
     public function dispatchToSettings(string $command) : string
     {
         $this->initTabs('settings');

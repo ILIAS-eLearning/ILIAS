@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  *
@@ -258,7 +261,7 @@ class ilContainerSorting
             $items = [];
             foreach ((array) $data as $key => $item) {
                 $items[$key] = $item;
-                if (is_array($this->sorting['all']) && isset($this->sorting['all'][$item['child']])) {
+                if (isset($item['child'], $this->sorting['all'][$item['child']])) {
                     $items[$key]['position'] = $this->sorting['all'][$item['child']];
                 } else {
                     $items[$key]['position'] = self::ORDER_DEFAULT;
@@ -471,8 +474,10 @@ class ilContainerSorting
         foreach ($items as $key => $item) {
             if ($item["position"] == self::ORDER_DEFAULT) {
                 $no_position[] = [
-                    "key" => $key, "title" => $item["title"], "create_date" => $item["create_date"],
-                    "start" => $item["start"]
+                    "key" => $key,
+                    "title" => $item["title"] ?? "",
+                    "create_date" => $item["create_date"] ?? "",
+                    "start" => $item["start"] ?? ""
                 ];
             }
         }

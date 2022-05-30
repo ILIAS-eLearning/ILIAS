@@ -136,8 +136,6 @@ class ilTestEvaluationUserData
 
     /**
     * Pass Scoring (Last pass = 0, Best pass = 1)
-    *
-    * @var array
     */
     private $passScoring;
 
@@ -166,7 +164,7 @@ class ilTestEvaluationUserData
         return $this->passScoring;
     }
 
-    public function setPassScoring($passScoring)
+    public function setPassScoring($passScoring) : void
     {
         $this->passScoring = $passScoring;
     }
@@ -176,7 +174,7 @@ class ilTestEvaluationUserData
         return $this->passed;
     }
 
-    public function setPassed($a_passed)
+    public function setPassed($a_passed) : void
     {
         $this->passed = ($a_passed ? true : false);
     }
@@ -186,7 +184,7 @@ class ilTestEvaluationUserData
         return $this->name;
     }
 
-    public function setName($a_name)
+    public function setName($a_name) : void
     {
         $this->name = $a_name;
     }
@@ -196,7 +194,7 @@ class ilTestEvaluationUserData
         return $this->login;
     }
 
-    public function setLogin($a_login)
+    public function setLogin($a_login) : void
     {
         $this->login = $a_login;
     }
@@ -212,7 +210,7 @@ class ilTestEvaluationUserData
     /**
      * @param bool $submitted
      */
-    public function setSubmitted($submitted)
+    public function setSubmitted($submitted) : void
     {
         $this->submitted = $submitted;
     }
@@ -232,7 +230,7 @@ class ilTestEvaluationUserData
         return $this->getAvailablePoints($this->getScoredPass());
     }
 
-    public function setMaxpoints($a_max_points)
+    public function setMaxpoints($a_max_points) : void
     {
         $this->maxpoints = $a_max_points;
     }
@@ -247,17 +245,17 @@ class ilTestEvaluationUserData
         return $this->mark;
     }
 
-    public function setMark($a_mark)
+    public function setMark($a_mark) : void
     {
         $this->mark = $a_mark;
     }
 
-    public function getECTSMark()
+    public function getECTSMark() : ?string
     {
         return $this->markECTS;
     }
 
-    public function setECTSMark($a_mark_ects)
+    public function setECTSMark($a_mark_ects) : void
     {
         $this->markECTS = $a_mark_ects;
     }

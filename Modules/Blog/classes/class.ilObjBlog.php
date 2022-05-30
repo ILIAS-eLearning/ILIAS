@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjBlog
@@ -56,6 +59,7 @@ class ilObjBlog extends ilObject2
     ) {
         global $DIC;
 
+        $this->notes_service = $DIC->notes();
         parent::__construct($a_id, $a_reference);
         $this->rbac_review = $DIC->rbac()->review();
 
@@ -63,7 +67,6 @@ class ilObjBlog extends ilObject2
             ->contentStyle()
             ->domain()
             ->styleForObjId($this->getId());
-        $this->notes_service = $DIC->notes();
     }
 
     protected function initType() : void

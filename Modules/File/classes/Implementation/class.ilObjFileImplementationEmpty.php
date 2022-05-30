@@ -64,7 +64,6 @@ class ilObjFileImplementationEmpty implements ilObjFileImplementationInterface
     
     public function sendFile(?int $a_hist_entry_id = null) : void
     {
-    
     }
     
     public function getFileExtension() : string
@@ -76,5 +75,4 @@ class ilObjFileImplementationEmpty implements ilObjFileImplementationInterface
     {
         return [];
     }
-    
 }

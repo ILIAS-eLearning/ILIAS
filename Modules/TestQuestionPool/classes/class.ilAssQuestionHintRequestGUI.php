@@ -86,7 +86,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      *
      * @access	private
      */
-    private function showListCmd()
+    private function showListCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -114,7 +114,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilTemplate $tpl
      * @global	ilLanguage $lng
      */
-    private function showHintCmd()
+    private function showHintCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -182,7 +182,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      * @global	ilTemplate $tpl
      * @global	ilLanguage $lng
      */
-    private function confirmRequestCmd()
+    private function confirmRequestCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -224,7 +224,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      * @access	private
      * @global	ilCtrl $ilCtrl
      */
-    private function performRequestCmd()
+    private function performRequestCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -256,7 +256,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      * @access	private
      * @global	ilCtrl $ilCtrl
      */
-    private function backToQuestionCmd()
+    private function backToQuestionCmd() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -271,7 +271,7 @@ class ilAssQuestionHintRequestGUI extends ilAssQuestionHintAbstractGUI
      * @global ilTemplate $tpl
      * @param string $content
      */
-    private function populateContent($content)
+    private function populateContent($content) : void
     {
         global $DIC;
         $tpl = $DIC['tpl'];

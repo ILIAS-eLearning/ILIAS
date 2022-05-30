@@ -334,37 +334,8 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
-        if ($this->request->isset('q_id')) {
-            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-                // edit page
-                $ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    false
-                );
-            }
-
-            $this->addTab_QuestionPreview($ilTabs);
-        }
-
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-            $url = "";
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            // edit question properties
-            $ilTabs->addTarget(
-                "edit_question",
-                $url,
-                array("editQuestion", "save", "cancel", "saveEdit", "originalSyncForm"),
-                $classname,
-                "",
-                $force_active
-            );
+        if ($_GET["q_id"]) {
+            $this->addTab_Question($ilTabs);
         }
 
         // add tab for question feedback within common class assQuestionGUI
@@ -401,19 +372,19 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         return $this->object->prepareTextareaOutput($output, true);
     }
 
-    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
+    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form) : void
     {
         $this->object->setMaxChars($_POST["maxchars"]);
     }
 
-    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form)
+    public function writeAnswerSpecificPostData(ilPropertyFormGUI $form) : void
     {
         $this->object->setLowerLimit($_POST['lowerlimit']);
         $this->object->setUpperLimit($_POST['upperlimit']);
         $this->object->setPoints($_POST['points']);
     }
 
-    public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form)
+    public function populateQuestionSpecificFormPart(\ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         // maxchars
         $maxchars = new ilNumberInputGUI($this->lng->txt("maxchars"), "maxchars");
@@ -426,9 +397,10 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
             $maxchars->setValue($this->object->getMaxChars());
         }
         $form->addItem($maxchars);
+        return $form;
     }
 
-    public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form)
+    public function populateAnswerSpecificFormPart(\ilPropertyFormGUI $form) : ilPropertyFormGUI
     {
         // points
         $points = new ilNumberInputGUI($this->lng->txt("points"), "points");
@@ -467,6 +439,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
             $upper_limit->setSize($this->object->getMaxChars());
             $upper_limit->setMaxLength($this->object->getMaxChars());
         }
+        return $form;
     }
 
     /**
@@ -500,12 +473,10 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
     /**
      * Returns an html string containing a question specific representation of the answers so far
      * given in the test for use in the right column in the scoring adjustment user interface.
-     *
      * @param array $relevant_answers
-     *
      * @return string
      */
-    public function getAggregatedAnswersView($relevant_answers) : string
+    public function getAggregatedAnswersView(array $relevant_answers) : string
     {
         return  $this->renderAggregateView(
             $this->aggregateAnswers($relevant_answers)

@@ -37,7 +37,7 @@ class ilTestDynamicQuestionSetFilterSelection
     /**
      * @param int $answerStatusActiveId
      */
-    public function setAnswerStatusActiveId($answerStatusActiveId)
+    public function setAnswerStatusActiveId($answerStatusActiveId) : void
     {
         $this->answerStatusActiveId = $answerStatusActiveId;
     }
@@ -50,10 +50,7 @@ class ilTestDynamicQuestionSetFilterSelection
         return $this->answerStatusActiveId;
     }
 
-    /**
-     * @param null $answerStatusSelection
-     */
-    public function setAnswerStatusSelection($answerStatusSelection)
+    public function setAnswerStatusSelection($answerStatusSelection) : void
     {
         $this->answerStatusSelection = $answerStatusSelection;
     }
@@ -90,7 +87,7 @@ class ilTestDynamicQuestionSetFilterSelection
     /**
      * @param array $taxonomySelection
      */
-    public function setTaxonomySelection($taxonomySelection)
+    public function setTaxonomySelection($taxonomySelection) : void
     {
         $this->taxonomySelection = $taxonomySelection;
     }
@@ -124,7 +121,7 @@ class ilTestDynamicQuestionSetFilterSelection
     /**
      * @param array $forcedQuestionIds
      */
-    public function setForcedQuestionIds($forcedQuestionIds)
+    public function setForcedQuestionIds($forcedQuestionIds) : void
     {
         $this->forcedQuestionIds = $forcedQuestionIds;
     }

@@ -104,9 +104,13 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     private function appendSuffixToTitle(string $title, string $filename) : string
     {
         // bugfix mantis 0026160 && 0030391
-        $uploaded_suffix = pathinfo($filename, PATHINFO_EXTENSION);
+        $title_info = new SplFileInfo($title);
+        $filename_info = new SplFileInfo($filename);
+    
+        $filename = str_replace('.' . $title_info->getExtension(), '', $title_info->getFilename());
+        $extension = $filename_info->getExtension();
         
-        return pathinfo($title, PATHINFO_FILENAME) . '.' . $uploaded_suffix;
+        return $filename . '.' . $extension;
     }
     
     /**
@@ -114,7 +118,6 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     public function appendStream(FileStream $stream, string $title) : int
     {
-        // $title = $this->appendSuffixToTitle($title, $stream->getMetadata(['uri']));
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
             $revision = $this->manager->appendNewRevisionFromStream($i, $stream, $this->stakeholder, $title);
         } else {
@@ -389,7 +392,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         // update metadata with the current file version
         $meta_version_column = ['meta_version' => ['integer', $this->getVersion()]];
         $DIC->database()->update('il_meta_lifecycle', $meta_version_column, [
-            'obj_id' => [
+            'rbac_id' => [
                 'integer',
                 $this->getId(),
             ],

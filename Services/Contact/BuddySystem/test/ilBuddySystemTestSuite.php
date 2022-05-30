@@ -22,8 +22,7 @@ use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/bootstrap.php';
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilBuddySystemTestSuite extends TestSuite
 {

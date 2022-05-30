@@ -12,51 +12,23 @@ require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
  */
 class ilTestResultsToolbarGUI extends ilToolbarGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl = null;
+    public ilCtrl $ctrl;
+    public ilGlobalTemplateInterface $tpl;
 
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    public $tpl = null;
-
-    /**
-     * @var string
-     */
-    private $pdfExportLinkTarget = null;
-
-    /**
-     * @var string
-     */
-    private $certificateLinkTarget = null;
-
-    /**
-     * @var string
-     */
-    private $showBestSolutionsLinkTarget = null;
-
-    /**
-     * @var string
-     */
-    private $hideBestSolutionsLinkTarget = null;
-
-    /**
-     * @var array
-     */
-    private $participantSelectorOptions = array();
+    private ?string $pdfExportLinkTarget = null;
+    private ?string $certificateLinkTarget = null;
+    private ?string $showBestSolutionsLinkTarget = null;
+    private ?string $hideBestSolutionsLinkTarget = null;
+    private array $participantSelectorOptions = array();
 
     public function __construct(ilCtrl $ctrl, ilGlobalTemplateInterface $tpl, ilLanguage $lng)
     {
         $this->ctrl = $ctrl;
         $this->tpl = $tpl;
-        $this->lng = $lng;
-
         parent::__construct();
     }
     
-    public function build()
+    public function build() : void
     {
         $this->setId('tst_results_toolbar');
         
@@ -106,7 +78,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         return $this->lng->txt('pdf_export');
     }
 
-    public function setPdfExportLinkTarget($pdfExportLinkTarget)
+    public function setPdfExportLinkTarget(string $pdfExportLinkTarget) : void
     {
         $this->pdfExportLinkTarget = $pdfExportLinkTarget;
     }
@@ -116,7 +88,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         return $this->pdfExportLinkTarget;
     }
 
-    public function setCertificateLinkTarget($certificateLinkTarget)
+    public function setCertificateLinkTarget(string $certificateLinkTarget) : void
     {
         $this->certificateLinkTarget = $certificateLinkTarget;
     }
@@ -126,7 +98,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         return $this->certificateLinkTarget;
     }
 
-    public function setShowBestSolutionsLinkTarget($showBestSolutionsLinkTarget)
+    public function setShowBestSolutionsLinkTarget(string $showBestSolutionsLinkTarget) : void
     {
         $this->showBestSolutionsLinkTarget = $showBestSolutionsLinkTarget;
     }
@@ -136,7 +108,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         return $this->showBestSolutionsLinkTarget;
     }
 
-    public function setHideBestSolutionsLinkTarget($hideBestSolutionsLinkTarget)
+    public function setHideBestSolutionsLinkTarget(string $hideBestSolutionsLinkTarget) : void
     {
         $this->hideBestSolutionsLinkTarget = $hideBestSolutionsLinkTarget;
     }
@@ -146,7 +118,7 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
         return $this->hideBestSolutionsLinkTarget;
     }
 
-    public function setParticipantSelectorOptions($participantSelectorOptions)
+    public function setParticipantSelectorOptions(array $participantSelectorOptions) : void
     {
         $this->participantSelectorOptions = $participantSelectorOptions;
     }

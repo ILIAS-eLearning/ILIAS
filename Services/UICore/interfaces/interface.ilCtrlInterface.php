@@ -92,9 +92,9 @@ interface ilCtrlInterface
      * @deprecated this method should not be used anymore, as all commands
      *             should be passed as $_GET or $_POST parameters.
      *
-     * @param string $a_cmd
+     * @param string|null $a_cmd
      */
-    public function setCmd(string $a_cmd) : void;
+    public function setCmd(?string $a_cmd) : void;
 
     /**
      * Returns the command class which should be executed next.
@@ -109,7 +109,7 @@ interface ilCtrlInterface
      * @deprecated this method should not be used anymore, as all command
      *             classes should be passed by $_GET or $_POST parameters.
      *
-     * @param object|string $a_cmd_class
+     * @param object|string|null $a_cmd_class
      */
     public function setCmdClass($a_cmd_class) : void;
 

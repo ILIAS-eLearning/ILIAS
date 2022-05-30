@@ -18,7 +18,7 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         chdir('../../../');
     }
 
-    public function test_instantiateObjectSimple()
+    public function test_instantiateObjectSimple() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
@@ -30,7 +30,7 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $this->assertInstanceOf('assAnswerMatchingTerm', $instance);
     }
 
-    public function test_setGetText()
+    public function test_setGetText() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
@@ -45,7 +45,7 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPicture()
+    public function test_setGetPicture() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
@@ -60,7 +60,7 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_getUnsetPicture()
+    public function test_getUnsetPicture() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';
@@ -74,7 +74,7 @@ class assAnswerMatchingTermTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetIdentifier()
+    public function test_setGetIdentifier() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingTerm.php';

@@ -42,8 +42,8 @@ class ilDBUpdate3136
 
         $sql =
             "SELECT obj_id" . PHP_EOL
-            ."FROM object_data" . PHP_EOL
-            ."WHERE type = 'sty'" . PHP_EOL
+            . "FROM object_data" . PHP_EOL
+            . "WHERE type = 'sty'" . PHP_EOL
         ;
         $set = $db->query($sql);
 

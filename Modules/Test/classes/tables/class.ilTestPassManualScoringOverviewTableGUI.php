@@ -35,7 +35,7 @@ class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
         $this->initOrdering();
     }
     
-    private function initColumns()
+    private function initColumns() : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -49,7 +49,7 @@ class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
         $this->addColumn('', '', '1%');
     }
     
-    private function initOrdering()
+    private function initOrdering() : void
     {
         $this->disable('sort');
 
@@ -57,15 +57,8 @@ class ilTestPassManualScoringOverviewTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
     }
 
-    /**
-     * @param	array      $a_set
-     *@global	ilLanguage $lng
-     * @global	ilCtrl    $ilCtrl
-     */
     public function fillRow(array $a_set) : void
     {
-        //vd($row);
-        
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];

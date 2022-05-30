@@ -37,45 +37,40 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     
     public function getAdminTabs() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         // lrs types tab
         
-        $DIC->tabs()->addTab(
+        $this->tabs_gui->addTab(
             self::TAB_ID_LRS_TYPES,
-            $DIC->language()->txt(self::TAB_ID_LRS_TYPES),
-            $DIC->ctrl()->getLinkTargetByClass(self::class)
+            $this->lng->txt(self::TAB_ID_LRS_TYPES),
+            $this->ctrl->getLinkTargetByClass(self::class)
         );
         
         // permissions tab
-        
-        $DIC->tabs()->addTab(
+
+        $this->tabs_gui->addTab(
             self::TAB_ID_PERMISSIONS,
-            $DIC->language()->txt(self::TAB_ID_PERMISSIONS),
-            $DIC->ctrl()->getLinkTargetByClass(ilPermissionGUI::class, 'perm')
+            $this->lng->txt(self::TAB_ID_PERMISSIONS),
+            $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, 'perm')
         );
     }
     
     public function executeCommand() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $DIC->language()->loadLanguageModule('cmix');
+        $this->lng->loadLanguageModule('cmix');
         
         $this->prepareOutput();
         
-        switch ($DIC->ctrl()->getNextClass()) {
+        switch ($this->ctrl->getNextClass()) {
             case 'ilpermissiongui':
                 
-                $DIC->tabs()->activateTab(self::TAB_ID_PERMISSIONS);
-                
+                $this->tabs_gui->activateTab(self::TAB_ID_PERMISSIONS);
                 $gui = new ilPermissionGUI($this);
-                $DIC->ctrl()->forwardCommand($gui);
+                $this->ctrl->forwardCommand($gui);
                 break;
             
             default:
                 
-                $command = $DIC->ctrl()->getCmd(self::DEFAULT_CMD) . 'Cmd';
+                $command = $this->ctrl->getCmd(self::DEFAULT_CMD) . 'Cmd';
                 $this->{$command}();
         }
     }
@@ -87,32 +82,27 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     
     protected function showLrsTypesListCmd() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $DIC->tabs()->activateTab(self::TAB_ID_LRS_TYPES);
+        $this->tabs_gui->activateTab(self::TAB_ID_LRS_TYPES);
         
         $toolbar = $this->buildLrsTypesToolbarGUI();
         
         $table = $this->buildLrsTypesTableGUI();
         
         $table->setData(ilCmiXapiLrsTypeList::getTypesData(true));
-        
-        $DIC->ui()->mainTemplate()->setContent($toolbar->getHTML() . $table->getHTML());
+        $this->tpl->setContent($toolbar->getHTML() . $table->getHTML());
     }
     
     protected function buildLrsTypesTableGUI() : \ilCmiXapiLrsTypesTableGUI
     {
-        $table = new ilCmiXapiLrsTypesTableGUI($this, self::CMD_SHOW_LRS_TYPES_LIST);
-        return $table;
+        return new ilCmiXapiLrsTypesTableGUI($this, self::CMD_SHOW_LRS_TYPES_LIST);
     }
     
     protected function buildLrsTypesToolbarGUI() : \ilToolbarGUI
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
         //todo
         $createTypeButton = ilLinkButton::getInstance();
         $createTypeButton->setCaption('btn_create_lrs_type');
-        $createTypeButton->setUrl($DIC->ctrl()->getLinkTarget($this, self::CMD_SHOW_LRS_TYPE_FORM));
+        $createTypeButton->setUrl($this->ctrl->getLinkTarget($this, self::CMD_SHOW_LRS_TYPE_FORM));
         
         $toolbar = new ilToolbarGUI();
         $toolbar->addButtonInstance($createTypeButton);
@@ -122,29 +112,31 @@ class ilObjCmiXapiAdministrationGUI extends ilObjectGUI
     
     protected function showLrsTypeFormCmd(ilPropertyFormGUI $form = null) : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $DIC->tabs()->activateTab(self::TAB_ID_LRS_TYPES);
+        $this->tabs_gui->activateTab(self::TAB_ID_LRS_TYPES);
         
         if ($form === null) {
             $lrsType = $this->initLrsType();
             
             $form = $this->buildLrsTypeForm($lrsType);
         }
-        
-        $DIC->ui()->mainTemplate()->setContent($form->getHTML());
+
+        $this->tpl->setContent($form->getHTML());
     }
     
     protected function initLrsType() : \ilCmiXapiLrsType
     {
-        if (isset($_POST['lrs_type_id']) && (int) $_POST['lrs_type_id']) {
-            return new ilCmiXapiLrsType((int) $_POST['lrs_type_id']);
+        if ($this->post_wrapper->has('lrs_type_id')) {
+            if (is_int($this->post_wrapper->retrieve('lrs_type_id', $this->refinery->kindlyTo()->int()))) {
+                return new ilCmiXapiLrsType($this->post_wrapper->retrieve('lrs_type_id', $this->refinery->kindlyTo()->int()));
+            }
         }
-        
-        if (isset($_GET['lrs_type_id']) && (int) $_GET['lrs_type_id']) {
-            return new ilCmiXapiLrsType((int) $_GET['lrs_type_id']);
+
+        if ($this->request_wrapper->has('lrs_type_id')) {
+            if (is_int($this->request_wrapper->retrieve('lrs_type_id', $this->refinery->kindlyTo()->int()))) {
+                return new ilCmiXapiLrsType($this->request_wrapper->retrieve('lrs_type_id', $this->refinery->kindlyTo()->int()));
+            }
         }
-        
+
         return new ilCmiXapiLrsType();
     }
     

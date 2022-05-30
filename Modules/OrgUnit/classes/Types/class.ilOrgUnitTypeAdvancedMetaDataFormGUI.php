@@ -6,36 +6,28 @@
  */
 class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
 {
+    protected ilOrgUnitType $type;
+    protected ilObjectGUI $parent_gui;
 
-    /**
-     * @var ilOrgUnitType
-     */
-    protected $type;
-    /**
-     * @var
-     */
-    protected $parent_gui;
-
-    public function __construct($parent_gui, ilOrgUnitType $type)
+    public function __construct(ilObjectGUI $parent_gui, ilOrgUnitType $type)
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
+
+        parent::__construct();
+
         $this->parent_gui = $parent_gui;
         $this->type = $type;
-        $this->tpl = $tpl;
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('meta');
         $this->initForm();
     }
 
     /**
      * Save object (create or update)
-     * @return bool
      */
-    public function saveObject()
+    public function saveObject(): bool
     {
         if (!$this->fillObject()) {
             return false;
@@ -47,7 +39,7 @@ class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
     /**
      * Add all fields to the form
      */
-    protected function initForm()
+    private function initForm(): void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->parent_gui));
         $this->setTitle($this->lng->txt('orgu_type_assign_amd_sets'));
@@ -73,7 +65,7 @@ class ilOrgUnitTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
      * Check validity of form and pass values from form to object
      * @return bool
      */
-    protected function fillObject()
+    private function fillObject(): bool
     {
         $this->setValuesByPost();
         if (!$this->checkInput()) {

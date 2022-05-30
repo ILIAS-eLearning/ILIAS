@@ -57,7 +57,7 @@
 		"league/flysystem": "^1.0",
 		"james-heinrich/getid3": "^1.9",
 		"phpoffice/phpspreadsheet": "^1.18.0",
-		"jumbojett/openid-connect-php": "^0.9.2",
+		"jumbojett/openid-connect-php": "^0.9.5",
 		"sabre/dav": "^4.1",
 		"symfony/console" : "^5.0",
 		"slim/slim": "^3.11",
@@ -187,10 +187,10 @@
 		},
 		"monolog/monolog" : {
 			"source" : "https://github.com/Seldaek/monolog",
-			"used_version" : "v2.3.5",
+			"used_version" : "v2.6.0",
 			"wrapped_by" : "Services/Logging",
 			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
-			"last_update" : "2021-11-05",
+			"last_update" : "2022-05-11",
 			"last_update_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2015-09-07"

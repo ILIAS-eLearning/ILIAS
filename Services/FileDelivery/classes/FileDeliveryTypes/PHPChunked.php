@@ -138,7 +138,7 @@ final class PHPChunked implements ilFileDeliveryType
             $start = $c_start;
             $end = $c_end;
             $length = $end - $start + 1; // Calculate new content length
-            fseek($fp, $start);
+            fseek($fp, (int) $start);
 
             $response = $this->httpService->response()->withStatus(206);
 

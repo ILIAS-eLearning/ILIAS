@@ -62,7 +62,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
         }
     }
     
-    public function loadTestSession($test_id, $user_id = "", $anonymous_id = "")
+    public function loadTestSession($test_id, $user_id = "", $anonymous_id = "") : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -85,7 +85,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
             );
         } else {
             if ($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) {
-                return null;
+                return;
             }
             $result = $ilDB->queryF(
                 "SELECT * FROM tst_active WHERE user_fi = %s AND test_fi = %s",
@@ -116,7 +116,7 @@ class ilTestSessionDynamicQuestionSet extends ilTestSession
         }
     }
     
-    public function saveToDb()
+    public function saveToDb() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

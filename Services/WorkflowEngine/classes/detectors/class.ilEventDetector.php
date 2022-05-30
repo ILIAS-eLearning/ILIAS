@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ilEventDetector is part of the petri net based workflow engine.
@@ -10,8 +25,6 @@
  * differing handling of the params at the trigger method.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
@@ -28,8 +41,6 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * workflow controller to quickly find the workflow/s, which has/have event
      * detectors wired up to listen to the event just raised. This is performance
      * critical and so already taken of early in the development.
-     *
-     * @var string Name of type of the event to be listened for.
      */
     private string $event_type = '';
 
@@ -41,8 +52,6 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * like 'course_even', then this second qualifier allows to further precise
      * the needed event. This is necessary to minimize workload for the workflow
      * controllers event handler. Premature optimization you yell? Damn right!
-     *
-     * @var string Content of the event, nature, second qualifier.
      */
     private string $event_content = '';
 
@@ -51,8 +60,6 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * After knowing the 'what', we want to know the 'who'. Using a subject type,
      * 'who' is not limited to actual people but can be anything.
-     *
-     * @var string Name of the subject type.
      */
     private string $event_subject_type = '';
 
@@ -60,7 +67,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * This is the actual identifier of the 'who'. If subject_type is a usr, this
      * is a usr_id. If subject_type is a grp, this is a group_id. (or  group ref id)
      *
-     * @var integer|string Identifier of the events subject.
+     * @var int|string Identifier of the events subject.
      *
      */
     private $event_subject_identifier = 0;
@@ -72,8 +79,6 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      * of the event to listen for. The event context type _may_ be implicit part
      * of the definition (e.g. due to a 'crs_member_joined' event type), but it
      * doesn't have to. Example here is a crs as type.
-     *
-     * @var string Type if the events context type.
      */
     private string $event_context_type = '';
 
@@ -88,25 +93,27 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
 
     /**
      * Holds the start of the listening period.
-     * @var integer Unix timestamp, start of listening period.
+     * @var int Unix timestamp, start of listening period.
      */
     private int $listening_start = 0;
 
     /**
      * Holds the end of the listening period.
-     * @var integer Unix timestamp, end of listening period.
+     * @var int Unix timestamp, end of listening period.
      */
     private int $listening_end = 0;
 
     /**
      * This holds the database id of the detector, if set, or null.
      *
-     * @var integer Database Id of the detector
+     * @var int|null Database Id of the detector
      */
     private ?int $db_id = null;
 
+    public bool $was_activated = false;
+
     /**
-     *Sets the event type and content (/qualifier) for the detector. 'WHAT'
+     * Sets the event type and content (/qualifier) for the detector. 'WHAT'
      * @param string $event_type
      * @param string $event_content
      */
@@ -119,17 +126,17 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Returns the event type and content currently set to the detector.
      *
-     * @return  array array('type' => $this->event_type, 'content' => $this->event_content)
+     * @return array{type: string, content: string}
      */
     public function getEvent() : array
     {
-        return array('type' => $this->event_type, 'content' => $this->event_content);
+        return ['type' => $this->event_type, 'content' => $this->event_content];
     }
 
     /**
      * Set the event subject type to the detector. 'WHO'
      * @param string  $event_subject_type
-     * @param integer|string $event_subject_identifier
+     * @param int|string $event_subject_identifier
      */
     public function setEventSubject(string $event_subject_type, $event_subject_identifier) : void
     {
@@ -140,11 +147,11 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Get the event subject set to the detector.
      *
-     * @return array array('type' => $this->event_subject_type, 'identifier' => $this->event_subject_identifier)
+     * @return array{type: string, identifier: string|int}
      */
     public function getEventSubject() : array
     {
-        return array('type' => $this->event_subject_type, 'identifier' => $this->event_subject_identifier);
+        return ['type' => $this->event_subject_type, 'identifier' => $this->event_subject_identifier];
     }
 
     /**
@@ -161,11 +168,11 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Get the event context set to the detector.
      *
-     * @return array array('type' => $this->event_context_type, 'identifier' => $this->event_context_identifier)
+     * @return array{type: string, identifier: string|int}
      */
     public function getEventContext() : array
     {
-        return array('type' => $this->event_context_type, 'identifier' => $this->event_context_identifier);
+        return ['type' => $this->event_context_type, 'identifier' => $this->event_context_identifier];
     }
 
     /**
@@ -186,7 +193,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
      *
      * @param array $params Associative array with params, see docs for details.
      *
-     * @return bool|void
+     * @return bool|null
      */
     public function trigger($params) : ?bool
     {
@@ -242,7 +249,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Returns if the detector is currently listening.
      *
-     * @return boolean
+     * @return bool
      */
     public function isListening() : bool
     {
@@ -264,9 +271,9 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
 
     /**
      * Sets the timeframe, in which the detector is listening.
-     * @param integer $listening_start Unix timestamp start of listening period.
-     * @param integer $listening_end   Unix timestamp end of listening period.
-     * @throws \ilWorkflowInvalidArgumentException
+     * @param int $listening_start Unix timestamp start of listening period.
+     * @param int $listening_end   Unix timestamp end of listening period.
+     * @throws ilWorkflowInvalidArgumentException
      */
     public function setListeningTimeframe(int $listening_start, int $listening_end) : void
     {
@@ -300,7 +307,7 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Sets the database id of the detector.
      *
-     * @param integer $a_id
+     * @param int $a_id
      */
     public function setDbId($a_id) : void
     {
@@ -309,13 +316,12 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
 
     /**
      * Returns the database id of the detector if set.
-     *
      * @return int
-     * @throws \ilWorkflowObjectStateException
+     * @throws ilWorkflowObjectStateException
      */
     public function getDbId() : int
     {
-        if ($this->db_id != null) {
+        if ($this->db_id !== null) {
             return $this->db_id;
         }
 
@@ -324,15 +330,11 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
 
     /**
      * Returns, if the detector has a database id.
-     * @return boolean If a database id is set.
+     * @return bool If a database id is set.
      */
     public function hasDbId() : bool
     {
-        if ($this->db_id == null) {
-            return false;
-        }
-
-        return true;
+        return $this->db_id !== null;
     }
 
     /**
@@ -356,19 +358,13 @@ class ilEventDetector extends ilSimpleDetector implements ilExternalDetector
     /**
      * Returns the listening timefrage of the detector.
      *
-     * @return array array ('listening_start' => $this->listening_start, 'listening_end' => $this->listening_end)
+     * @return array{listening_start: int, listening_end: int}
      */
     public function getListeningTimeframe() : array
     {
-        return array('listening_start' => $this->listening_start, 'listening_end' => $this->listening_end);
+        return ['listening_start' => $this->listening_start, 'listening_end' => $this->listening_end];
     }
 
-    /** @var bool $was_activated */
-    public bool $was_activated = false;
-
-    /**
-     * @return bool
-     */
     public function getActivated() : bool
     {
         return $this->was_activated;

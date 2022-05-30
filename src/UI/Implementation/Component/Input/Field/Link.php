@@ -36,7 +36,7 @@ class Link extends Group implements C\Input\Field\Link
     protected function addValidation() : void
     {
         $txt_id = 'label_cannot_be_empty_if_url_is_set';
-        $error = fn(callable $txt, $value) => $txt($txt_id, $value);
+        $error = fn (callable $txt, $value) => $txt($txt_id, $value);
         $is_ok = function ($v) {
             list($label, $url) = $v;
             return (

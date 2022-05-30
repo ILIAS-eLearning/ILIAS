@@ -73,7 +73,8 @@ class ilLPStatusVisits extends ilLPStatus
                     $required_visits = $status_info['visits'];
 
                     $re = ilChangeEvent::_lookupReadEvents(
-                        $a_obj_id, $a_usr_id
+                        $a_obj_id,
+                        $a_usr_id
                     );
                     if ($re[0]['read_count'] >= $required_visits) {
                         $status = self::LP_STATUS_COMPLETED_NUM;

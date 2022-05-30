@@ -127,7 +127,7 @@ class ilSCORM2004StoreData
             return;
         }
 
-        $jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript') !== false;//PHP8Review: Use of $_ Global. Pls use the DIC instead
+        $jsMode = strpos($_SERVER['HTTP_ACCEPT'], 'text/javascript') !== false;//ToDo: Avoid $_SERVER
 
         $data = json_decode(is_string($data) ? $data : file_get_contents('php://input'));
         $ilLog->debug("dataTo_setCMIData: " . file_get_contents('php://input'));

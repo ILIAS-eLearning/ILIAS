@@ -54,9 +54,9 @@ class MakeClickable implements Transformation
         $matches = [];
         [$matcher, $pattern] = $this->determineParameters();
     
-        $checker = function ()  use($matcher, $pattern, &$from, &$endOfMatch, &$matches) : bool {
-           $r = call_user_func_array($matcher, [$pattern, substr($from, $endOfMatch), &$matches]);
-           return $r === true || $r >>= 1; // since the return value differs in PHP7.4/8 and in preg_match/mb_ereg
+        $checker = function () use ($matcher, $pattern, &$from, &$endOfMatch, &$matches) : bool {
+            $r = call_user_func_array($matcher, [$pattern, substr($from, $endOfMatch), &$matches]);
+            return $r === true || $r >>= 1; // since the return value differs in PHP7.4/8 and in preg_match/mb_ereg
         };
         
         while ($checker()) {

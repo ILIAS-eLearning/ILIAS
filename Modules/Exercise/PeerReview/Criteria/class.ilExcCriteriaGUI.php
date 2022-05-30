@@ -205,7 +205,7 @@ class ilExcCriteriaGUI
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         
-        $new_type = $this->request->getType();
+        $new_type = $this->request->getCriteriaType();
         if (!$new_type) {
             $ilCtrl->redirect($this, "view");
         }
@@ -266,7 +266,7 @@ class ilExcCriteriaGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $new_type = $this->request->getType();
+        $new_type = $this->request->getCriteriaType();
         if (!$new_type) {
             $ilCtrl->redirect($this, "view");
         }

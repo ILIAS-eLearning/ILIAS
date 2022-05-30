@@ -41,8 +41,8 @@ class ilObjectMetaDataGUI
      */
     protected bool $in_repository = true;
     protected ilObject $object;
-    protected int $obj_id;
-    protected string $obj_type;
+    protected int $obj_id = 0;
+    protected string $obj_type = "";
     protected int $ref_id = 0;
     protected ?array $md_observers = null;
     protected ?ilTaxMDGUI $tax_md_gui = null;

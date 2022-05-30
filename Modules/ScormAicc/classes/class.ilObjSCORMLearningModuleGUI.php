@@ -29,6 +29,7 @@
 */
 class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
 {
+    private ilPropertyFormGUI $form;
     protected \ILIAS\DI\Container $dic;
 
     protected int $refId;
@@ -37,7 +38,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
     /**
     * Constructor
     */
-    public function __construct($data, int $id, bool $call_by_reference, bool $prepare_output = true)//PHP8Review: Missing Typehint
+    public function __construct($data, int $id, bool $call_by_reference, bool $prepare_output = true) //missing typehint because mixed
     {
         global $DIC;
         $this->dic = $DIC;
@@ -819,8 +820,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $cgui->setHeaderText($this->lng->txt("info_delete_sure"));
         $cgui->setCancel($this->lng->txt("cancel"), "cancelDeleteTracking");
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDeleteTracking");
-
-        foreach ($_POST["user"] as $id) {//PHP8Review: Use of $_ global. Pls use the DIC instead
+        foreach ($DIC->http()->wrapper()->post()->retrieve('user', $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->int())) as $id) {
             if (ilObject::_exists((int) $id) && ilObject::_lookUpType((int) $id) === "usr") {
                 $user = new ilObjUser((int) $id);
 
@@ -851,7 +851,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      */
     public function confirmedDeleteTracking() : void
     {
-        $this->object->deleteTrackingDataOfUsers($_POST["user"]);//PHP8Review: Use of $_ global. Pls use the DIC instead
+        $this->object->deleteTrackingDataOfUsers($this->post_wrapper->retrieve('user', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())));
         $this->ctrl->redirect($this, "modifyTrackingItems");
     }
 
@@ -941,12 +941,13 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
      */
     protected function exportSelectionUsers() : void
     {
-        if (!count((array) $_POST['user'])) {//PHP8Review: Use of $_ global. Pls use the DIC instead
+        if (!$this->post_wrapper->has('user')) {
+            //was if (!count((array) $_POST['user'])) {
             //ilUtil::sendFailure($this->lng->txt('select_one'),true);
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, 'modifyTrackingItems');
         } else {
-            $this->object->exportSelected(false, $_POST["user"]);//PHP8Review: Use of $_ global. Pls use the DIC instead
+            $this->object->exportSelected(false, $this->post_wrapper->retrieve('user', $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())));
         }
     }
 

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Survey metric  evaluation
@@ -86,7 +89,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         if ($total > 0) {
             $cumulated = array();
             foreach ($a_results->getAnswers() as $answer) {
-                $cumulated[$answer->value]++;
+                $cumulated[$answer->value] = ($cumulated[$answer->value] ?? 0) + 1;
             }
             foreach ($cumulated as $value => $count) {
                 $perc = sprintf("%.2f", $count / $total * 100) . "%";
@@ -127,7 +130,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         $chart->setColors($colors);
 
         // :TODO:
-        $chart->setSize($this->chart_width, $this->chart_height);
+        $chart->setSize((string) $this->chart_width, (string) $this->chart_height);
                         
         $data = $chart->getDataInstance(ilChartGrid::DATA_BARS);
         $data->setLabel($lng->txt("category_nr_selected"));
@@ -138,7 +141,7 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         if ($total > 0) {
             $cumulated = array();
             foreach ($a_results->getAnswers() as $answer) {
-                $cumulated[$answer->value]++;
+                $cumulated[$answer->value] = ($cumulated[$answer->value] ?? 0) + 1;
             }
             
             $labels = array();

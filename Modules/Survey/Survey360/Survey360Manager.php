@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\Survey360;
 
@@ -74,7 +77,7 @@ class Survey360Manager
         // filter all surveys that have ended
         $has_ended = $this->set_repo->hasEnded($open_surveys);
         $open_surveys = array_filter($open_surveys, static function (int $i) use ($has_ended) : bool {
-            return !$has_ended[$i];
+            return !($has_ended[$i] ?? false);
         });
 
         return $open_surveys;
@@ -93,7 +96,7 @@ class Survey360Manager
         // filter all surveys that have ended
         $has_ended = $this->set_repo->hasEnded($open_surveys);
         $open_surveys = array_filter($open_surveys, static function (int $i) use ($has_ended) : bool {
-            return !$has_ended[$i];
+            return !($has_ended[$i] ?? false);
         });
 
         return $open_surveys;

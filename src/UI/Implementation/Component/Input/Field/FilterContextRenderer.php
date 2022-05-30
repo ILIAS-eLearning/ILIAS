@@ -78,7 +78,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
 
         $links = array();
         foreach ($input_labels as $label) {
-            $links[] = $f->button()->shy($label, "")->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
+            $links[] = $f->button()->shy($label, "")->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
 						il.UI.filter.onAddClick(event, '$id');
 						return false; // stop event propagation
 				});");
@@ -108,7 +108,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
         /**
          * @var $remove_glyph Component\Symbol\Glyph\Glyph
          */
-        $remove_glyph = $f->symbol()->glyph()->remove("")->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
+        $remove_glyph = $f->symbol()->glyph()->remove("")->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
 							il.UI.filter.onRemoveClick(event, '$id');
 							return false; // stop event propagation
 					});");
@@ -186,7 +186,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
 
     protected function escapeSpecialChars() : Closure
     {
-        return fn($v) => htmlspecialchars((string) $v, ENT_QUOTES);
+        return fn ($v) => htmlspecialchars((string) $v, ENT_QUOTES);
     }
 
     protected function renderTextField(F\Text $component, RendererInterface $default_renderer) : string
@@ -303,7 +303,7 @@ class FilterContextRenderer extends AbstractComponentRenderer
             /**
              * @var $input FilterInput
              */
-            $input = $input->withAdditionalOnLoadCode(fn($id) => "il.UI.input.setSignalsForId('$id', $signals);");
+            $input = $input->withAdditionalOnLoadCode(fn ($id) => "il.UI.input.setSignalsForId('$id', $signals);");
 
             $input = $input->withAdditionalOnLoadCode($input->getUpdateOnLoadCode());
         }

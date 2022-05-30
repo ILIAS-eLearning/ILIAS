@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\Survey\Participants;
 
@@ -102,11 +105,11 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $this->access_manager = $this->survey_service
                 ->domain()
                 ->access($this->requested_ref_id, $this->user->getId());
-            $this->edit_request = $this->survey_service
-                ->gui()
-                ->editing()
-                ->request();
         }
+        $this->edit_request = $this->survey_service
+            ->gui()
+            ->editing()
+            ->request();
     }
     
     public function executeCommand() : void

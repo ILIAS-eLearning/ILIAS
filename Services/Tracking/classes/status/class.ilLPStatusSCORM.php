@@ -17,7 +17,8 @@ class ilLPStatusSCORM extends ilLPStatus
         }
         $users = array_unique($users);
         $users = array_diff(
-            $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+            $users,
+            ilLPStatusWrapper::_getCompleted($a_obj_id)
         );
         $users = array_diff($users, ilLPStatusWrapper::_getFailed($a_obj_id));
 
@@ -58,7 +59,8 @@ class ilLPStatusSCORM extends ilLPStatus
         $users = array();
         foreach ($status_info['scos'] as $sco_id) {
             $users = array_merge(
-                $users, (array) $status_info['failed'][$sco_id]
+                $users,
+                (array) $status_info['failed'][$sco_id]
             );
         }
         return array_unique($users);
@@ -72,13 +74,16 @@ class ilLPStatusSCORM extends ilLPStatus
         if ($members) {
             // diff in progress and completed (use stored result in LPStatusWrapper)
             $users = array_diff(
-                (array) $members, ilLPStatusWrapper::_getInProgress($a_obj_id)
+                (array) $members,
+                ilLPStatusWrapper::_getInProgress($a_obj_id)
             );
             $users = array_diff(
-                $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+                $users,
+                ilLPStatusWrapper::_getCompleted($a_obj_id)
             );
             $users = array_diff(
-                $users, ilLPStatusWrapper::_getFailed($a_obj_id)
+                $users,
+                ilLPStatusWrapper::_getFailed($a_obj_id)
             );
         }
 
@@ -118,7 +123,8 @@ class ilLPStatusSCORM extends ilLPStatus
                     }
                 }
                 $info = ilObjSCORMTracking::_getProgressInfo(
-                    $status_info['scos'], $a_obj_id
+                    $status_info['scos'],
+                    $a_obj_id
                 );
                 break;
 
@@ -134,7 +140,8 @@ class ilLPStatusSCORM extends ilLPStatus
                     );
                 }
                 $info = ilObjSCORMTracking::_getProgressInfo(
-                    $status_info['scos'], $a_obj_id
+                    $status_info['scos'],
+                    $a_obj_id
                 );
                 break;
 
@@ -151,7 +158,9 @@ class ilLPStatusSCORM extends ilLPStatus
                 }
 
                 $info = ilSCORM2004Tracking::_getItemProgressInfo(
-                    $status_info['scos'], $a_obj_id, true
+                    $status_info['scos'],
+                    $a_obj_id,
+                    true
                 );
                 break;
         }
@@ -197,13 +206,17 @@ class ilLPStatusSCORM extends ilLPStatus
                     case 'aicc':
                     case 'scorm':
                         $scorm_status = ilObjSCORMTracking::_getCollectionStatus(
-                            $scos, $a_obj_id, $a_usr_id
+                            $scos,
+                            $a_obj_id,
+                            $a_usr_id
                         );
                         break;
 
                     case 'scorm2004':
                         $scorm_status = ilSCORM2004Tracking::_getCollectionStatus(
-                            $scos, $a_obj_id, $a_usr_id
+                            $scos,
+                            $a_obj_id,
+                            $a_usr_id
                         );
                         break;
                 }
@@ -243,11 +256,16 @@ class ilLPStatusSCORM extends ilLPStatus
             $subtype = ilObjSAHSLearningModule::_lookupSubType($a_obj_id);
             if ($subtype != "scorm2004") {
                 $compl = ilObjSCORMTracking::_countCompleted(
-                    $scos, $a_obj_id, $a_usr_id
+                    $scos,
+                    $a_obj_id,
+                    $a_usr_id
                 );
             } else {
                 $compl = ilSCORM2004Tracking::_countCompleted(
-                    $scos, $a_obj_id, $a_usr_id, true
+                    $scos,
+                    $a_obj_id,
+                    $a_usr_id,
+                    true
                 );
             }
         }
@@ -286,7 +304,8 @@ class ilLPStatusSCORM extends ilLPStatus
         }
 
         $not_attempted_users = array_diff(
-            $all_tracked_users, $all_active_users
+            $all_tracked_users,
+            $all_active_users
         );
         unset($all_tracked_users);
         unset($all_active_users);
@@ -296,7 +315,9 @@ class ilLPStatusSCORM extends ilLPStatus
             foreach ($not_attempted_users as $usr_id) {
                 // this will update any (parent) collections if necessary
                 ilLPStatus::writeStatus(
-                    $a_obj_id, $usr_id, self::LP_STATUS_NOT_ATTEMPTED_NUM
+                    $a_obj_id,
+                    $usr_id,
+                    self::LP_STATUS_NOT_ATTEMPTED_NUM
                 );
             }
         }

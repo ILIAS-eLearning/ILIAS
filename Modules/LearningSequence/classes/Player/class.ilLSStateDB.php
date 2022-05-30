@@ -204,7 +204,7 @@ class ilLSStateDB
         $ilAtomQuery = $this->db->buildAtomQuery();
         $ilAtomQuery->addTableLock(static::TABLE_NAME);
         $ilAtomQuery->addQueryCallable(
-            function (ilDBInterface $db) use ($lso_ref_id, $all_states, $item_ref_id): void {
+            function (ilDBInterface $db) use ($lso_ref_id, $all_states, $item_ref_id) : void {
                 foreach ($all_states as $usr_id => $state_entry) {
                     $current_item = $state_entry['current_item'];
                     $states = $state_entry['states'];

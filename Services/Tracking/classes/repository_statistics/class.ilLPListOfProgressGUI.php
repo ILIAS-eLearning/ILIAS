@@ -46,7 +46,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         switch ($this->ctrl->getNextClass()) {
             case 'illpprogresstablegui':
                 $table_gui = new ilLPProgressTableGUI(
-                    $this, "", $this->tracked_user
+                    $this,
+                    "",
+                    $this->tracked_user
                 );
                 $this->ctrl->setReturn($this, 'show');
                 $this->ctrl->forwardCommand($table_gui);
@@ -117,7 +119,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         }
 
         $this->tpl->addBlockFile(
-            'ADM_CONTENT', 'adm_content', 'tpl.lp_progress_container.html',
+            'ADM_CONTENT',
+            'adm_content',
+            'tpl.lp_progress_container.html',
             'Services/Tracking'
         );
 
@@ -128,7 +132,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         $info->enableLearningProgress(true);
         $info->setFormAction($this->ctrl->getFormAction($this));
         $this->__appendLPDetails(
-            $info, $this->details_obj_id, $this->tracked_user->getId()
+            $info,
+            $this->details_obj_id,
+            $this->tracked_user->getId()
         );
         $this->__showObjectDetails($info, $this->details_obj_id, false);
 
@@ -143,7 +149,10 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
                 if ($collection instanceof ilLPCollectionOfRepositoryObjects) {
                     $obj_id = ilObject::_lookupObjectId($item_id);
                     if ($this->access->checkAccessOfUser(
-                        $this->tracked_user->getId(), 'visible', '', $item_id
+                        $this->tracked_user->getId(),
+                        'visible',
+                        '',
+                        $item_id
                     )) {
                         $obj_ids[$obj_id] = array($item_id);
                     }
@@ -157,7 +166,8 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
         if (count($obj_ids) > 0) {
             // seems obsolete
             $personal_only = !ilLearningProgressAccess::checkPermission(
-                'read_learning_progress', $this->getRefId()
+                'read_learning_progress',
+                $this->getRefId()
             );
             $lp_table = new ilLPProgressTableGUI(
                 $this,
@@ -179,7 +189,9 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
     public function __showProgressList() : void
     {
         $this->tpl->addBlockFile(
-            'ADM_CONTENT', 'adm_content', 'tpl.lp_list_progress.html',
+            'ADM_CONTENT',
+            'adm_content',
+            'tpl.lp_list_progress.html',
             'Services/Tracking'
         );
 
@@ -235,14 +247,16 @@ class ilLPListOfProgressGUI extends ilLearningProgressBaseGUI
 
         if ($this->mode == self::LP_CONTEXT_ORG_UNIT &&
             ilObjOrgUnitAccess::_checkAccessToUserLearningProgress(
-                $this->ref_id, $a_usr_id
+                $this->ref_id,
+                $a_usr_id
             )) {
             return false;
         }
 
         // Check access
         if (!$this->rbacreview->isAssigned(
-            $this->user->getId(), SYSTEM_ROLE_ID
+            $this->user->getId(),
+            SYSTEM_ROLE_ID
         )) {
             $this->tracked_user = $this->user;
             return false;

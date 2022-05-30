@@ -24,11 +24,6 @@ interface Icon extends Symbol
     public function getName() : string;
 
     /**
-     * Get the label of this icon.
-     */
-    public function getLabel() : string;
-
-    /**
      * Set the abbreviation for this icon.
      */
     public function withAbbreviation(string $abbreviation) : Icon;

@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDataCollectionExporter
@@ -7,15 +23,8 @@
  */
 class ilDataCollectionExporter extends ilXmlExporter
 {
-
-    /**
-     * @var ilDataCollectionDataSet
-     */
-    protected $ds;
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilDataCollectionDataSet $ds;
+    protected ilDBInterface $db;
 
     public function init() : void
     {
@@ -34,7 +43,7 @@ class ilDataCollectionExporter extends ilXmlExporter
     {
         return array(
             '4.5.0' => array(
-                'namespace' => 'http://www.ilias.de/Modules/DataCollection/dcl/4_5',
+                'namespace' => 'https://www.ilias.de/Modules/DataCollection/dcl/4_5',
                 'xsd_file" => "ilias_dcl_4_5.xsd',
                 'uses_dataset' => true,
                 'min' => '4.5.0',

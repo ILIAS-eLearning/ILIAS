@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Notes;
 
@@ -173,11 +176,11 @@ class NotificationsManager
     ) : void {
         foreach ($observer as $item) {
             $context = $note->getContext();
-            $param["rep_obj_id"] = $context->getObjId();
-            $param["obj_id"] = $context->getSubObjId();
-            $param["obj_type"] = $context->getType();
-            $param["action"] = $action;
-            $param["note_id"] = $note->getId();
+            $param[] = $context->getObjId();
+            $param[] = $context->getSubObjId();
+            $param[] = $context->getType();
+            $param[] = $action;
+            $param[] = $note->getId();
             call_user_func_array($item, $param);
         }
     }

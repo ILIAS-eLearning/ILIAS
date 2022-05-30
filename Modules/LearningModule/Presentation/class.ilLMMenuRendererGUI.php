@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Menu / Tabs renderer
@@ -94,7 +97,7 @@ class ilLMMenuRendererGUI
 
         $getcmd = "getHTML";
 
-        $active[$this->active_tab] = true;
+        $content_active = ($this->active_tab === "content");
 
         if (!$this->lm->isActiveLMMenu()) {
             return "";
@@ -110,7 +113,7 @@ class ilLMMenuRendererGUI
         // content
         if (!$this->offline && $ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
             $ilCtrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
-            if (!$active["content"]) {
+            if (!$content_active) {
                 $this->toolbar->addComponent(
                     $this->ui_factory->button()->standard($this->lng->txt("content"), $ilCtrl->getLinkTargetByClass("illmpresentationgui", "layout"))
                 );
@@ -119,7 +122,7 @@ class ilLMMenuRendererGUI
             $tabs_gui->setForcePresentationOfSingleTab(true);
         }
     
-        if (!$active["content"]) {
+        if (!$content_active) {
             return "";
         }
 

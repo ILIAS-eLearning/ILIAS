@@ -32,6 +32,7 @@ class Standard implements Page\Standard
     private ?Breadcrumbs $breadcrumbs;
     private ?Image $logo;
     private ?Image $responsive_logo;
+    private string $favicon_path;
     private ?Container $overlay;
     private ?Footer $footer;
     private string $short_title;
@@ -50,6 +51,7 @@ class Standard implements Page\Standard
         ?Breadcrumbs $locator = null,
         ?Image $logo = null,
         ?Image $responsive_logo = null,
+        string $favicon_path = '',
         ?Container $overlay = null,
         ?Footer $footer = null,
         string $title = '',
@@ -65,6 +67,7 @@ class Standard implements Page\Standard
         $this->breadcrumbs = $locator;
         $this->logo = $logo;
         $this->responsive_logo = $responsive_logo;
+        $this->favicon_path = $favicon_path;
         $this->overlay = $overlay;
         $this->footer = $footer;
         $this->title = $title;
@@ -103,6 +106,13 @@ class Standard implements Page\Standard
     {
         $clone = clone $this;
         $clone->responsive_logo = $logo;
+        return $clone;
+    }
+
+    public function withFaviconPath(string $path) : Standard
+    {
+        $clone = clone $this;
+        $clone->favicon_path = $path;
         return $clone;
     }
 
@@ -193,6 +203,11 @@ class Standard implements Page\Standard
     public function getResponsiveLogo() : ?Image
     {
         return $this->responsive_logo;
+    }
+
+    public function getFaviconPath() : string
+    {
+        return $this->favicon_path;
     }
 
     public function getFooter() : ?Footer

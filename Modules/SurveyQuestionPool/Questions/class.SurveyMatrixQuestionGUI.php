@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Matrix question GUI representation
@@ -169,10 +172,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         $columns = $this->request->getColumns();
         foreach ($columns['answer'] as $key => $value) {
             if (strlen($value)) {
-                $this->object->getColumns()->addCategory($value, $columns['other'][$key], 0, null, $columns['scale'][$key]);
+                $this->object->getColumns()->addCategory($value, $columns['other'][$key] ?? 0, 0, null, $columns['scale'][$key]);
             }
         }
-        if (strlen($columns["neutral"])) {
+        if (isset($columns["neutral"]) && is_string($columns["neutral"])) {
             $this->object->getColumns()->addCategory(
                 $columns['neutral'],
                 0,
@@ -187,7 +190,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         $rows = $this->request->getRows();
         foreach ($rows['answer'] as $key => $value) {
             if (strlen($value)) {
-                $this->object->getRows()->addCategory($value, $rows['other'][$key], 0, $rows['label'][$key]);
+                $this->object->getRows()->addCategory($value, $rows['other'][$key] ?? 0, 0, $rows['label'][$key] ?? null);
             }
         }
     }

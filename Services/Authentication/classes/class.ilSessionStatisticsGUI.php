@@ -546,7 +546,7 @@ class ilSessionStatisticsGUI
     protected function getChart(array $a_data, string $a_title, int $a_scale = self::SCALE_DAY, string $a_measure = null) : string
     {
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstacc");
-        $chart->setSize(700, 500);
+        $chart->setSize("700", "500");
         $chart->setYAxisToInteger(true);
         
         $legend = new ilChartLegend();

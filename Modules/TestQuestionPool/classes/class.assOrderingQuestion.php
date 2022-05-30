@@ -243,7 +243,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $clone->id;
     }
     
-    protected function duplicateOrderlingElementList()
+    protected function duplicateOrderlingElementList() : void
     {
         $this->getOrderingElementList()->setQuestionId($this->getId());
         $this->getOrderingElementList()->distributeNewRandomIdentifiers();
@@ -319,7 +319,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $clone->id;
     }
 
-    public function duplicateImages($src_question_id, $src_object_id, $dest_question_id, $dest_object_id)
+    public function duplicateImages($src_question_id, $src_object_id, $dest_question_id, $dest_object_id) : void
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
@@ -349,7 +349,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * simply use the working method duplicateImages(), we do not search the difference here
      * and we will delete this soon (!) currently no usage found, remove for il5.3
      */
-    public function copyImages($question_id, $source_questionpool)
+    public function copyImages($question_id, $source_questionpool) : void
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
@@ -381,7 +381,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @access public
     * @see $ordering_type
     */
-    public function setOrderingType($ordering_type = OQ_TERMS)
+    public function setOrderingType($ordering_type = OQ_TERMS) : void
     {
         $this->ordering_type = $ordering_type;
     }
@@ -566,7 +566,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * @param ilAssOrderingElementList $orderingElementList
      */
-    public function setOrderingElementList($orderingElementList)
+    public function setOrderingElementList($orderingElementList) : void
     {
         $this->orderingElementList = $orderingElementList;
     }
@@ -633,7 +633,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     * @access public
     * @see $answers
     */
-    public function deleteAnswer($randomIdentifier)
+    public function deleteAnswer($randomIdentifier) : void
     {
         $this->getOrderingElementList()->removeElement(
             $this->getOrderingElementList()->getElementByRandomIdentifier($randomIdentifier)
@@ -729,7 +729,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return md5($filename) . "." . $extension;
     }
     
-    protected function cleanImagefiles()
+    protected function cleanImagefiles() : void
     {
         if ($this->getOrderingType() == OQ_PICTURES) {
             if (@file_exists($this->getImagePath())) {
@@ -829,14 +829,14 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return true;
     }
     
-    public function handleThumbnailCreation(ilAssOrderingElementList $elementList)
+    public function handleThumbnailCreation(ilAssOrderingElementList $elementList) : void
     {
         foreach ($elementList as $element) {
             $this->createImageThumbnail($element);
         }
     }
     
-    public function createImageThumbnail(ilAssOrderingElement $element)
+    public function createImageThumbnail(ilAssOrderingElement $element) : void
     {
         if ($this->getThumbGeometry()) {
             $imageFile = $this->getImagePath() . $element->getContent();
@@ -1072,7 +1072,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @param integer $a_geometry Geometry
     */
-    public function setThumbGeometry($a_geometry)
+    public function setThumbGeometry($a_geometry) : void
     {
         $this->thumb_geometry = ($a_geometry < 1) ? 100 : $a_geometry;
     }
@@ -1092,7 +1092,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     *
     * @param integer $a_height Height
     */
-    public function setElementHeight($a_height)
+    public function setElementHeight($a_height) : void
     {
         $this->element_height = ($a_height < 20) ? "" : $a_height;
     }
@@ -1100,7 +1100,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /*
     * Rebuild the thumbnail images with a new thumbnail size
     */
-    public function rebuildThumbnails()
+    public function rebuildThumbnails() : void
     {
         if ($this->getOrderingType() == OQ_PICTURES || $this->getOrderingType() == OQ_NESTED_PICTURES) {
             foreach ($this->getOrderElements() as $orderingElement) {
@@ -1114,7 +1114,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return "thumb.";
     }
     
-    protected function generateThumbForFile($path, $file)
+    protected function generateThumbForFile($path, $file) : void
     {
         $filename = $path . $file;
         if (@file_exists($filename)) {
@@ -1208,7 +1208,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * @param ilAssOrderingTextsInputGUI|ilAssOrderingImagesInputGUI|ilAssNestedOrderingElementsInputGUI $formField
      */
-    public function initOrderingElementAuthoringProperties(ilFormPropertyGUI $formField)
+    public function initOrderingElementAuthoringProperties(ilFormPropertyGUI $formField) : void
     {
         switch (true) {
             case $formField instanceof ilAssNestedOrderingElementsInputGUI:
@@ -1231,7 +1231,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     /**
      * @param ilFormPropertyGUI $formField
      */
-    public function initOrderingElementFormFieldLabels(ilFormPropertyGUI $formField)
+    public function initOrderingElementFormFieldLabels(ilFormPropertyGUI $formField) : void
     {
         $formField->setInfo($this->lng->txt('ordering_answer_sequence_info'));
         $formField->setTitle($this->lng->txt('answers'));
@@ -1592,7 +1592,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
     }
     // fau.
     
-    protected function ensureImagePathExists()
+    protected function ensureImagePathExists() : void
     {
         if (!file_exists($this->getImagePath())) {
             ilFileUtils::makeDirParents($this->getImagePath());

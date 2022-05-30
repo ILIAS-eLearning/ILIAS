@@ -36,8 +36,6 @@ class ilCmiXapiHighscoreReportRequest extends ilCmiXapiAbstractRequest
 
     /**
      * ilCmiXapiHighscoreReportRequest constructor.
-     * @param string                               $basicAuth
-     * @param ilCmiXapiStatementsReportLinkBuilder $linkBuilder
      */
     public function __construct(string $basicAuth, ilCmiXapiHighscoreReportLinkBuilder $linkBuilder)
     {
@@ -47,10 +45,8 @@ class ilCmiXapiHighscoreReportRequest extends ilCmiXapiAbstractRequest
     
     public function queryReport(int $objId) : \ilCmiXapiHighscoreReport
     {
-        $reportResponse = (string) $this->sendRequest($this->linkBuilder->getUrl());
+        $reportResponse = $this->sendRequest($this->linkBuilder->getUrl());
         
-        $report = new ilCmiXapiHighscoreReport($reportResponse, $objId);
-        
-        return $report;
+        return new ilCmiXapiHighscoreReport($reportResponse, $objId);
     }
 }

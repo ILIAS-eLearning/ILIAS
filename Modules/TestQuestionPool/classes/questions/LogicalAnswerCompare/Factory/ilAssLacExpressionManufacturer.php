@@ -38,13 +38,11 @@ class ilAssLacExpressionManufacturer extends ilAssLacAbstractManufacturer
     /**
      * /**
      * Create a new specific Composite object which is representing the delivered Attribute
-     *
      * @param string $attribute
-     *
-     * @return ilAssLacAbstractComposite|ilAssLacAnswerOfQuestionExpression|ilAssLacAnswerOfCurrentQuestionExpression|ilAssLacNumberOfResultExpression|ilAssLacNumericResultExpression|ilAssLacPercentageResultExpression|ilAssLacResultOfAnswerOfQuestionExpression|ilAssLacResultOfAnswerOfCurrentQuestionExpression|ilAssLacStringResultExpression
+     * @return ilAssLacAbstractComposite
      * @throws ilAssLacUnsupportedExpression
      */
-    public function manufacture($attribute)
+    public function manufacture(string $attribute) : ilAssLacAbstractComposite
     {
         $expression = null;
 

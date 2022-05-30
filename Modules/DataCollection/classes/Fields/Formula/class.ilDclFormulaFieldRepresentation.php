@@ -1,5 +1,20 @@
 <?php
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 /**
  * Class ilDclDateTimeREpresentation
  * @author  Michael Herren <mh@studer-raimann.ch>
@@ -7,7 +22,7 @@
  */
 class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation
 {
-    public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilTextInputGUI
     {
         $input = new ilTextInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
         $input->setDisabled(true);
@@ -17,14 +32,12 @@ class ilDclFormulaFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create')
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 
-        $table = ilDclCache::getTableCache((int) $_GET['table_id']);
+        $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+        $table = ilDclCache::getTableCache($table_id);
         $fields = array();
         foreach ($table->getFieldsForFormula() as $f) {
             $placeholder = ($f->isStandardField()) ? $f->getId() : $f->getTitle();

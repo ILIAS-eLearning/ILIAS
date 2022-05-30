@@ -1,12 +1,25 @@
-<?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilScriptActivity
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
@@ -17,20 +30,14 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
     /** @var string|Closure|null */
     private $method = null;
 
-    /** @var string $name */
     protected string $name;
 
-    /**
-     * Default constructor.
-     *
-     * @param ilNode $context
-     */
     public function __construct(ilNode $context)
     {
         $this->context = $context;
     }
 
-    public function setMethod($value) : void
+    public function setMethod($value) : void// TODO PHP8-REVIEW Missing type hint or PHPDoc comment
     {
         $this->method = $value;
     }
@@ -75,9 +82,6 @@ class ilScriptActivity implements ilActivity, ilWorkflowEngineElement
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
     public function getName() : string
     {
         return $this->name;

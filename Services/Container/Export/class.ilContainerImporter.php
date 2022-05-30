@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * container xml importer
@@ -22,10 +25,14 @@ class ilContainerImporter extends ilXmlImporter
 {
     private string $structure_xml;
     protected ilLogger $cont_log;
+    protected \ILIAS\Skill\Service\SkillProfileService $skill_profile_service;
 
     public function init() : void
     {
+        global $DIC;
+
         $this->cont_log = ilLoggerFactory::getLogger('cont');
+        $this->skill_profile_service = $DIC->skills()->profile();
     }
     
     /**
@@ -83,9 +90,11 @@ class ilContainerImporter extends ilXmlImporter
 
         $skl_local_prof_map = $a_mapping->getMappingsOfEntity('Services/Skill', 'skl_local_prof');
         foreach ($skl_local_prof_map as $old_prof_id => $new_prof_id) {
-            $prof = new ilSkillProfile((int) $new_prof_id);
-            $prof->updateRefIdAfterImport((int) $new_crs_ref_id);
-            $prof->addRoleToProfile(ilParticipants::getDefaultMemberRole((int) $new_crs_ref_id));
+            $this->skill_profile_service->updateRefIdAfterImport((int) $new_prof_id, (int) $new_crs_ref_id);
+            $this->skill_profile_service->addRoleToProfile(
+                (int) $new_prof_id,
+                ilParticipants::getDefaultMemberRole((int) $new_crs_ref_id)
+            );
         }
     }
 

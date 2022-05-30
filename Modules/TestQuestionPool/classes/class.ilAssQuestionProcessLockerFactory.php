@@ -57,7 +57,7 @@ class ilAssQuestionProcessLockerFactory
     /**
      * @param int $questionId
      */
-    public function setQuestionId($questionId)
+    public function setQuestionId($questionId) : void
     {
         $this->questionId = $questionId;
     }
@@ -73,7 +73,7 @@ class ilAssQuestionProcessLockerFactory
     /**
      * @param int $userId
      */
-    public function setUserId($userId)
+    public function setUserId($userId) : void
     {
         $this->userId = $userId;
     }
@@ -89,7 +89,7 @@ class ilAssQuestionProcessLockerFactory
     /**
      * @param bool $assessmentLogEnabled
      */
-    public function setAssessmentLogEnabled($assessmentLogEnabled)
+    public function setAssessmentLogEnabled($assessmentLogEnabled) : void
     {
         $this->assessmentLogEnabled = $assessmentLogEnabled;
     }

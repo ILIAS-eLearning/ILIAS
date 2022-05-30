@@ -109,7 +109,7 @@ class ilChatroomServerConnector
             $ctx = array_merge_recursive($ctx, $stream_context_params);
         }
 
-        set_error_handler(static function (int $severity, string $message, string $file, int $line, array $errcontext) : void {
+        set_error_handler(static function (int $severity, string $message, string $file, int $line) : void {
             throw new ErrorException($message, $severity, $severity, $file, $line);
         });
 

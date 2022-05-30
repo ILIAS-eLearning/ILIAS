@@ -1,23 +1,26 @@
 <?php declare(strict_types=1);
 
-namespace ILIAS\ResourceStorage\Resource\InfoResolver;
-
-use ILIAS\Filesystem\Stream\FileStream;
-use DateTimeImmutable;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
+ 
+namespace ILIAS\ResourceStorage\Resource\InfoResolver;
+
+use ILIAS\FileUpload\MimeType;
+use ILIAS\Filesystem\Stream\FileStream;
+use DateTimeImmutable;
+
 /**
  * Class StreamInfoResolver
  * @package ILIAS\ResourceStorage\Resource\InfoResolver
@@ -63,6 +66,10 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
             $this->mime_type = finfo_buffer($finfo, $this->file_stream->read(100));
             if ($this->file_stream->isSeekable()) {
                 $this->file_stream->rewind();
+            }
+            //All MS-Types are 'application/zip' we need to look at the extension to determine the type.
+            if ($this->mime_type === 'application/zip' && $this->suffix !== 'zip') {
+                $this->mime_type = $this->getMSFileTypeFromSuffix();
             }
         }
     }
@@ -126,5 +133,15 @@ class StreamInfoResolver extends AbstractInfoResolver implements InfoResolver
     public function getSize() : int
     {
         return $this->size;
+    }
+    
+    protected function getMSFileTypeFromSuffix() : string
+    {
+        $mime_types_array = MimeType::getExt2MimeMap();
+        $suffix_with_dot = '.' . $this->getSuffix();
+        if (array_key_exists($suffix_with_dot, $mime_types_array)) {
+            return $mime_types_array[$suffix_with_dot];
+        }
+        return 'application/zip';
     }
 }

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a (nested) list of checkboxes (could be extended for radio items, too)
@@ -95,7 +98,7 @@ class ilNestedListInputGUI extends ilFormPropertyGUI
             $item_html = ilLegacyFormElementsUtil::formCheckbox(
                 $n["checked"],
                 $post_var,
-                $value,
+                (string) $value,
                 $n["disabled"]
             );
             if ($n["img_src"] != "") {
@@ -103,7 +106,7 @@ class ilNestedListInputGUI extends ilFormPropertyGUI
             }
             $item_html .= $n["text"];
 
-            $this->list->addListNode($item_html, $id, $n["parent"]);
+            $this->list->addListNode($item_html, (string) $id, $n["parent"]);
         }
 
         return $this->list->getHTML();

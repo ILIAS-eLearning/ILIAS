@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * MultipleChoice survey question GUI representation
@@ -132,10 +135,10 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
     {
         $this->object->setOrientation($a_form->getInput("orientation"));
         $this->object->use_other_answer = ($a_form->getInput('use_other_answer')) ? 1 : 0;
-        $this->object->other_answer_label = $this->object->use_other_answer ? $a_form->getInput('other_answer_label') : null;
+        $this->object->other_answer_label = $this->object->use_other_answer ? $a_form->getInput('other_answer_label') : "";
         $this->object->use_min_answers = (bool) $a_form->getInput('use_min_answers');
-        $this->object->nr_min_answers = ($a_form->getInput('nr_min_answers') > 0) ? $a_form->getInput('nr_min_answers') : null;
-        $this->object->nr_max_answers = ($a_form->getInput('nr_max_answers') > 0) ? $a_form->getInput('nr_max_answers') : null;
+        $this->object->nr_min_answers = ($a_form->getInput('nr_min_answers') > 0) ? $a_form->getInput('nr_min_answers') : "";
+        $this->object->nr_max_answers = ($a_form->getInput('nr_max_answers') > 0) ? $a_form->getInput('nr_max_answers') : "";
         $this->object->label = $a_form->getInput('label');
 
         $this->object->categories->flushCategories();
@@ -143,7 +146,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
         $answers = $this->request->getAnswers();
         foreach ($answers['answer'] as $key => $value) {
             if (strlen($value)) {
-                $this->object->getCategories()->addCategory($value, $answers['other'][$key], 0, null, $answers['scale'][$key]);
+                $this->object->getCategories()->addCategory($value, $answers['other'][$key] ?? 0, 0, null, $answers['scale'][$key]);
             }
         }
         if ($this->request->getNeutral() !== "") {
@@ -320,7 +323,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                                         $template->setVariable("OTHER_VALUE", ' value="' . ilLegacyFormElementsUtil::prepareFormOutput(
                                             $value['textanswer']
                                         ) . '"');
-                                        if (!$value['uncheck']) {
+                                        if (!($value['uncheck'] ?? false)) {
                                             $template->setVariable("CHECKED_MC", " checked=\"checked\"");
                                         }
                                     }
@@ -339,7 +342,7 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
                             foreach ($working_data as $value) {
                                 if (strlen($value["value"])) {
                                     if ($value["value"] == $cat->scale - 1) {
-                                        if (!$value['uncheck']) {
+                                        if (!($value['uncheck'] ?? false)) {
                                             $template->setVariable("CHECKED_MC", " checked=\"checked\"");
                                         }
                                     }

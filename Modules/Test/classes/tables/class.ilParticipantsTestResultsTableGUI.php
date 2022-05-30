@@ -15,8 +15,8 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 
 class ilParticipantsTestResultsTableGUI extends ilTable2GUI
 {
-    protected $accessResultsCommandsEnabled = false;
-    protected $manageResultsCommandsEnabled = false;
+    protected bool $accessResultsCommandsEnabled = false;
+    protected bool $manageResultsCommandsEnabled = false;
     
     protected $anonymity;
     
@@ -45,58 +45,36 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection('asc');
     }
     
-    /**
-     * @return bool
-     */
     public function isAccessResultsCommandsEnabled() : bool
     {
         return $this->accessResultsCommandsEnabled;
     }
-    
-    /**
-     * @param bool $accessResultsCommandsEnabled
-     */
-    public function setAccessResultsCommandsEnabled($accessResultsCommandsEnabled)
+
+    public function setAccessResultsCommandsEnabled(bool $accessResultsCommandsEnabled) : void
     {
         $this->accessResultsCommandsEnabled = $accessResultsCommandsEnabled;
     }
     
-    /**
-     * @return bool
-     */
     public function isManageResultsCommandsEnabled() : bool
     {
         return $this->manageResultsCommandsEnabled;
     }
     
-    /**
-     * @param bool $manageResultsCommandsEnabled
-     */
-    public function setManageResultsCommandsEnabled($manageResultsCommandsEnabled)
+    public function setManageResultsCommandsEnabled(bool $manageResultsCommandsEnabled) : void
     {
         $this->manageResultsCommandsEnabled = $manageResultsCommandsEnabled;
     }
     
-    /**
-     * @return mixed
-     */
     public function getAnonymity()
     {
         return $this->anonymity;
     }
     
-    /**
-     * @param mixed $anonymity
-     */
     public function setAnonymity($anonymity)
     {
         $this->anonymity = $anonymity;
     }
     
-    /**
-     * @param string $a_field
-     * @return bool
-     */
     public function numericOrdering(string $a_field) : bool
     {
         return in_array($a_field, array(
@@ -104,7 +82,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         ));
     }
     
-    public function init()
+    public function init() : void
     {
         if ($this->isMultiRowSelectionRequired()) {
             $this->setShowRowsSelector(true);
@@ -115,7 +93,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         $this->initFilter();
     }
     
-    public function initColumns()
+    public function initColumns() : void
     {
         if ($this->isMultiRowSelectionRequired()) {
             $this->addColumn('', '', '1%');
@@ -139,7 +117,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         }
     }
     
-    public function initCommands()
+    public function initCommands() : void
     {
         if ($this->isAccessResultsCommandsEnabled() && !$this->getAnonymity()) {
             $this->addMultiCommand('showPassOverview', $this->lng->txt('show_pass_overview'));
@@ -151,17 +129,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
             $this->addMultiCommand('deleteSingleUserResults', $this->lng->txt('delete_user_data'));
         }
     }
-    
-    public function initFilter() : void
-    {
-        global $DIC;
 
-        // no filter at all
-    }
-    
-    /**
-     * @param array $a_set
-     */
     public function fillRow(array $a_set) : void
     {
         if ($this->isMultiRowSelectionRequired()) {
@@ -191,11 +159,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("FINAL_MARK", $a_set['final_mark']);
     }
     
-    /**
-     * @param array $data
-     * @return ilAdvancedSelectionListGUI
-     */
-    protected function buildActionsMenu($data) : ilAdvancedSelectionListGUI
+    protected function buildActionsMenu(array $data) : ilAdvancedSelectionListGUI
     {
         $asl = new ilAdvancedSelectionListGUI();
         
@@ -209,9 +173,6 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         return $asl;
     }
     
-    /**
-     * @return bool
-     */
     protected function isActionsColumnRequired() : bool
     {
         if ($this->isAccessResultsCommandsEnabled()) {
@@ -234,11 +195,7 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         return false;
     }
     
-    /**
-     * @param array $data
-     * @return string
-     */
-    protected function buildPassedStatusString($data) : string
+    protected function buildPassedStatusString(array $data) : string
     {
         if ($data['passed_status']) {
             return $this->buildPassedIcon() . ' ' . $this->lng->txt('tst_passed');
@@ -247,64 +204,37 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
         return $this->buildFailedIcon() . ' ' . $this->lng->txt('tst_failed');
     }
     
-    /**
-     * @return string
-     */
     protected function buildPassedIcon() : string
     {
         return $this->buildImageIcon(ilUtil::getImagePath("icon_ok.svg"), $this->lng->txt("passed"));
     }
     
-    /**
-     * @return string
-     */
     protected function buildFailedIcon() : string
     {
         return $this->buildImageIcon(ilUtil::getImagePath("icon_not_ok.svg"), $this->lng->txt("failed"));
     }
     
-    /**
-     * @param $src
-     * @param $alt
-     * @return string
-     */
-    protected function buildImageIcon($src, $alt) : string
+    protected function buildImageIcon(string $src, string $alt) : string
     {
         return "<img border=\"0\" align=\"middle\" src=\"" . $src . "\" alt=\"" . $alt . "\" />";
     }
     
-    /**
-     * @param array $data
-     * @return string
-     */
-    protected function buildFormattedAccessDate($data) : string
+    protected function buildFormattedAccessDate(array $data) : string
     {
         return ilDatePresentation::formatDate(new ilDateTime($data['access'], IL_CAL_DATETIME));
     }
     
-    /**
-     * @param array $data
-     * @return int
-     */
-    protected function buildScoredPassString($data)
+    protected function buildScoredPassString(array $data) : string
     {
         return $this->lng->txt('pass') . ' ' . ($data['scored_pass'] + 1);
     }
 
-    /**
-     * @param array $data
-     * @return string
-     */
-    protected function buildPassFinishedString($data) : string
+    protected function buildPassFinishedString(array $data) : string
     {
         return ilDatePresentation::formatDate(new ilDateTime($data['pass_finished'], IL_CAL_UNIX));
     }
 
-    /**
-     * @param array $data
-     * @return string
-     */
-    protected function buildAnsweredQuestionsString($data) : string
+    protected function buildAnsweredQuestionsString(array $data) : string
     {
         return sprintf(
             $this->lng->txt('tst_answered_questions_of_total'),
@@ -312,12 +242,8 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
             $data['total_questions']
         );
     }
-    
-    /**
-     * @param array $data
-     * @return string
-     */
-    protected function buildReachedPointsString($data) : string
+
+    protected function buildReachedPointsString(array $data) : string
     {
         return sprintf(
             $this->lng->txt('tst_reached_points_of_max'),
@@ -325,12 +251,8 @@ class ilParticipantsTestResultsTableGUI extends ilTable2GUI
             $data['max_points']
         );
     }
-    
-    /**
-     * @param array $data
-     * @return string
-     */
-    protected function buildPercentResultString($data) : string
+
+    protected function buildPercentResultString(array $data) : string
     {
         return sprintf('%0.2f %%', $data['percent_result'] * 100);
     }

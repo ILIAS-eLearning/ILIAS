@@ -68,37 +68,38 @@ class ilNotificationSystem
             $lang = ilNotificationDatabaseHandler::getTranslatedLanguageVariablesOfNotificationParameters($notification->getLanguageParameters());
 
             $user_by_handler = [];
-            if ($types[$notification->getType()]['config_type'] === 'set_by_user') {
-                $it = new ilNotificationUserIterator($notification->getType(), $users);
-                $channelsByAdmin = false;
-                foreach ($it as $usr_id => $data) {
-                    if (!$channels[$data['channel']]) {
-                        continue;
-                    }
-                    if (!$user_by_handler[$data['channel']]) {
-                        $user_by_handler[$data['channel']] = [];
-                    }
-                    $user_by_handler[$data['channel']][] = $usr_id;
-                }
-            } elseif ($types[$notification->getType()]['config_type'] !== 'disabled') {
-                $channelsByAdmin = true;
-                if (isset($adminConfig[$notification->getType()])) {
-                    foreach ($adminConfig[$notification->getType()] as $channel) {
-                        if (!$channels[$channel]) {
+            if (isset($types[$notification->getType()]['config_type'])) {
+                if ($types[$notification->getType()]['config_type'] === 'set_by_user') {
+                    $it = new ilNotificationUserIterator($notification->getType(), $users);
+                    $channelsByAdmin = false;
+                    foreach ($it as $usr_id => $data) {
+                        if (!isset($channels['channel']) || !$channels[$data['channel']]) {
                             continue;
                         }
-                        $user_by_handler[$channel] = $users;
+                        if (!isset($user_by_handler[$data['channel']]) || !$user_by_handler[$data['channel']]) {
+                            $user_by_handler[$data['channel']] = [];
+                        }
+                        $user_by_handler[$data['channel']][] = $usr_id;
+                    }
+                } elseif ($types[$notification->getType()]['config_type'] !== 'disabled') {
+                    $channelsByAdmin = true;
+                    if (isset($adminConfig[$notification->getType()])) {
+                        foreach ($adminConfig[$notification->getType()] as $channel) {
+                            if (!isset($channels[$channel]) || !$channels[$channel]) {
+                                continue;
+                            }
+                            $user_by_handler[$channel] = $users;
+                        }
                     }
                 }
             }
-
 
             $userCache = [];
 
             foreach ($user_by_handler as $handler => $h_users) {
                 $handler = $this->handler[$handler];
                 foreach ($h_users as $userId) {
-                    if (!$userCache[$userId]) {
+                    if (!isset($userCache[$userId]) || !$userCache[$userId]) {
                         $user = ilObjectFactory::getInstanceByObjId($userId, false);
                         if (!($user instanceof ilObjUser)) {
                             continue;

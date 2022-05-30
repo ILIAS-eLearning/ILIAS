@@ -24,29 +24,17 @@
  */
 class ilCmiXapiHighscoreReport
 {
-    /**
-     * @var array
-     */
-    protected $response;
-
+    protected array $response = [];
     private array $tableData = [];
-
     private ?int $userRank = null;
-
+    protected int $objId;
     /**
      * @var ilCmiXapiUser[]
      */
-    protected array $cmixUsersByIdent;
-    
-    /**
-     * @var int
-     */
-    protected int $objId;
+    protected array $cmixUsersByIdent = [];
 
     /**
      * ilCmiXapiHighscoreReport constructor.
-     * @param string $responseBody
-     * @param int    $objId
      */
     public function __construct(string $responseBody, int $objId)
     {
@@ -66,7 +54,7 @@ class ilCmiXapiHighscoreReport
 
     public function initTableData() : bool
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        global $DIC;
         
         $rows = [];
         $obj = ilObjCmiXapi::getInstance($this->objId, false);
@@ -173,9 +161,8 @@ class ilCmiXapiHighscoreReport
 
         $hours = (string) floor($totalDuration / 3600);
         $hours = strlen($hours) < 2 ? "0" . $hours : $hours;
-        $totalDuration = $hours . ":" . date('i:s', $totalDuration);
 
-        return $totalDuration;
+        return $hours . ":" . date('i:s', $totalDuration);
     }
 
     private function formatRawTimestamp(string $rawTimestamp) : string

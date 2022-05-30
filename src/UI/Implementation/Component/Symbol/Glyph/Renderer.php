@@ -43,7 +43,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->parseCurrentBlock();
         }
 
-        $tpl->setVariable("LABEL", $this->txt($component->getAriaLabel()));
+        $tpl = $this->renderLabel($component, $tpl);
 
         $id = $this->bindJavaScript($component);
 
@@ -55,6 +55,12 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl->setVariable("GLYPH", $this->getInnerGlyphHTML($component, $default_renderer));
         return $tpl->get();
+    }
+
+    protected function renderLabel(Component\Component $component, Template $tpl) : Template
+    {
+        $tpl->setVariable("LABEL", $this->txt($component->getLabel()));
+        return $tpl;
     }
 
     protected function renderAction(Component\Component $component, Template $tpl) : Template

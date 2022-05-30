@@ -42,8 +42,9 @@ class ilCmiXapiDateDurationInputGUI extends ilDateDurationInputGUI
     /**
      * @return ilCmiXapiDateTime|null
      */
-    public function getStartXapiDateTime()
+    public function getStartXapiDateTime() : ?ilCmiXapiDateTime
     {
+        $xapiDateTime = null;
         if ($this->getStart() instanceof ilDateTime) {
             try {
                 $xapiDateTime = ilCmiXapiDateTime::fromIliasDateTime($this->getStart());
@@ -51,15 +52,15 @@ class ilCmiXapiDateDurationInputGUI extends ilDateDurationInputGUI
                 return null;
             }
         }
-        
         return $xapiDateTime;
     }
     
     /**
      * @return ilCmiXapiDateTime|null
      */
-    public function getEndXapiDateTime()
+    public function getEndXapiDateTime() : ?ilCmiXapiDateTime
     {
+        $xapiDateTime = null;
         if ($this->getEnd() instanceof ilDateTime) {
             try {
                 $xapiDateTime = ilCmiXapiDateTime::fromIliasDateTime($this->getEnd());
@@ -67,7 +68,6 @@ class ilCmiXapiDateDurationInputGUI extends ilDateDurationInputGUI
                 return null;
             }
         }
-        
         return $xapiDateTime;
     }
 }

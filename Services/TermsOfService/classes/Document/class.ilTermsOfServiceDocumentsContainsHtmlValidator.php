@@ -22,22 +22,16 @@
  */
 class ilTermsOfServiceDocumentsContainsHtmlValidator
 {
+    private const LIBXML_CODE_HTML_UNKNOWN_TAG = 801;
+
     private string $text;
     private bool $xmlErrorState = false;
+    /** @var LibXMLError[] */
+    private array $xmlErrors = [];
 
     public function __construct(string $text)
     {
         $this->text = $text;
-    }
-
-    private function beginXmlLogging() : void
-    {
-        $this->xmlErrorState = libxml_use_internal_errors(false);
-    }
-
-    private function endXmlLogging() : void
-    {
-        libxml_use_internal_errors($this->xmlErrorState);
     }
 
     public function isValid() : bool
@@ -47,10 +41,18 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
         }
 
         try {
+            set_error_handler(static function (int $severity, string $message, string $file, int $line) : void {
+                throw new ErrorException($message, $severity, $severity, $file, $line);
+            });
+
             $this->beginXmlLogging();
 
             $dom = new DOMDocument();
-            if (!$dom->loadHTML($this->text)) {
+            $import_succeeded = $dom->loadHTML($this->text);
+
+            $this->endXmlLogging();
+
+            if (!$import_succeeded || $this->xmlErrorsOccured()) {
                 return false;
             }
 
@@ -71,9 +73,46 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
 
             return false;
         } catch (Throwable $e) {
+            $this->endXmlLogging();
             return false;
         } finally {
-            $this->endXmlLogging();
+            restore_error_handler();
         }
+    }
+
+    private function beginXmlLogging() : void
+    {
+        $this->xmlErrorState = libxml_use_internal_errors(true);
+        libxml_clear_errors();
+    }
+
+    private function addErrors() : void
+    {
+        $currentErrors = libxml_get_errors();
+        libxml_clear_errors();
+
+        $this->xmlErrors = $currentErrors;
+    }
+
+    private function endXmlLogging() : void
+    {
+        $this->addErrors();
+
+        libxml_use_internal_errors($this->xmlErrorState);
+    }
+
+    /**
+     * @return LibXMLError[]
+     */
+    private function relevantXmlErrors() : array
+    {
+        return array_filter($this->xmlErrors, static function (LibXMLError $error) : bool {
+            return $error->code !== self::LIBXML_CODE_HTML_UNKNOWN_TAG;
+        });
+    }
+
+    private function xmlErrorsOccured() : bool
+    {
+        return $this->relevantXmlErrors() !== [];
     }
 }

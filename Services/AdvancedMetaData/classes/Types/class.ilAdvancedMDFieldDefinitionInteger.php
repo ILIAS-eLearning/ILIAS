@@ -8,9 +8,9 @@
  */
 class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
 {
-    protected ?int $min;
-    protected ?int $max;
-    protected ?string $suffix;
+    protected ?int $min = null;
+    protected ?int $max = null;
+    protected ?string $suffix = null;
 
     protected $suffix_translations = [];
 
@@ -49,9 +49,9 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     protected function initADTDefinition() : ilADTDefinition
     {
         $def = ilADTFactory::getInstance()->getDefinitionInstanceByType('Integer');
-        $def->setMin($this->getMin());
-        $def->setMax($this->getMax());
-        $def->setSuffix($this->getSuffixTranslations()[$this->language] ?? $this->getSuffix());
+        $def->setMin((int) $this->getMin());
+        $def->setMax((int) $this->getMax());
+        $def->setSuffix((string) ($this->getSuffixTranslations()[$this->language] ?? $this->getSuffix()));
         return $def;
     }
 
@@ -171,10 +171,10 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '') : void
     {
         $min = $a_form->getInput("min");
-        $this->setMin(($min !== "") ? $min : null);
+        $this->setMin(($min !== "") ? (int) $min : null);
 
         $max = $a_form->getInput("max");
-        $this->setMax(($max !== "") ? $max : null);
+        $this->setMax(($max !== "") ? (int) $max : null);
 
         if ($this->useDefaultLanguageMode($language)) {
             $suffix = $a_form->getInput("suffix");
@@ -199,11 +199,11 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
     public function importXMLProperty(string $a_key, string $a_value) : void
     {
         if ($a_key == "min") {
-            $this->setMin($a_value != "" ? $a_value : null);
+            $this->setMin($a_value != "" ? (int) $a_value : null);
             return;
         }
         if ($a_key == "max") {
-            $this->setMax($a_value != "" ? $a_value : null);
+            $this->setMax($a_value != "" ? (int) $a_value : null);
             return;
         }
         if ($a_key == "suffix") {

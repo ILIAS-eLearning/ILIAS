@@ -19,6 +19,7 @@
 
 use ILIAS\Skill\Service\SkillTreeService;
 use ILIAS\Skill\Access\SkillTreeAccess;
+use ILIAS\Skill\Service\SkillProfileService;
 
 /**
  * Container skills administration
@@ -41,8 +42,9 @@ class ilContSkillAdminGUI
     protected ilToolbarGUI $toolbar;
     protected ilAccessHandler $access;
     protected int $ref_id = 0;
-    protected SkillTreeService $skill_tree_service;
-    protected SkillTreeAccess $skill_tree_access_manager;
+    protected SkillTreeService $tree_service;
+    protected SkillTreeAccess $tree_access_manager;
+    protected SkillProfileService $profile_service;
     protected array $params = [];
     protected ilSkillContainerGUIRequest $container_gui_request;
     protected int $requested_usr_id = 0;
@@ -69,8 +71,9 @@ class ilContSkillAdminGUI
         $this->container = $obj;
         $this->ref_id = $this->container->getRefId();
 
-        $this->skill_tree_service = $DIC->skills()->tree();
-        $this->skill_tree_access_manager = $DIC->skills()->internal()->manager()->getTreeAccessManager($this->ref_id);
+        $this->tree_service = $DIC->skills()->tree();
+        $this->tree_access_manager = $DIC->skills()->internal()->manager()->getTreeAccessManager($this->ref_id);
+        $this->profile_service = $DIC->skills()->profile();
 
         $this->container_skills = new ilContainerSkills($this->container->getId());
         $this->container_global_profiles = new ilContainerGlobalProfiles($this->container->getId());
@@ -99,7 +102,7 @@ class ilContSkillAdminGUI
     
         switch ($next_class) {
             case "ilskillprofilegui":
-                $profile_gui = new ilSkillProfileGUI($this->skill_tree_access_manager);
+                $profile_gui = new ilSkillProfileGUI($this->tree_access_manager);
                 $this->ctrl->setReturn($this, "listProfiles");
                 $ret = $this->ctrl->forwardCommand($profile_gui);
                 break;
@@ -198,7 +201,7 @@ class ilContSkillAdminGUI
 
     public function getPathString(int $a_skill_id, int $a_tref_id = 0) : string
     {
-        $path = $this->skill_tree_service->getSkillTreePath($a_skill_id, $a_tref_id);
+        $path = $this->tree_service->getSkillTreePath($a_skill_id, $a_tref_id);
         $titles = [];
         foreach ($path as $v) {
             if ($v["type"] !== "skrt" && !($v["skill_id"] == $a_skill_id && $v["tref_id"] == $a_tref_id)) {
@@ -435,7 +438,7 @@ class ilContSkillAdminGUI
         $options[0] = $lng->txt("please_select");
 
         $selectable_profiles = [];
-        $all_profiles = ilSkillProfile::getAllGlobalProfiles();
+        $all_profiles = $this->profile_service->getAllGlobalProfiles();
         $selected_profiles = $this->container_global_profiles->getProfiles();
         foreach ($all_profiles as $id => $profile) {
             if (!array_key_exists($id, $selected_profiles)) {
@@ -524,11 +527,11 @@ class ilContSkillAdminGUI
             $cgui->setConfirm($lng->txt("remove"), "removeSelectedGlobalProfiles");
 
             foreach ($this->requested_profile_ids as $i) {
-                if (ilSkillProfile::lookupRefId($i) > 0) {
+                if ($this->profile_service->lookupRefId($i) > 0) {
                     $this->tpl->setOnScreenMessage('info', $lng->txt("cont_skill_removal_not_possible"), true);
                     $ctrl->redirect($this, "listProfiles");
                 }
-                $cgui->addItem("id[]", $i, ilSkillProfile::lookupTitle($i));
+                $cgui->addItem("id[]", $i, $this->profile_service->lookupTitle($i));
             }
 
             $tpl->setContent($cgui->getHTML());
@@ -571,7 +574,7 @@ class ilContSkillAdminGUI
             $cgui->setHeaderText($lng->txt("cont_skill_really_remove_profile_from_list"));
             $cgui->setCancel($lng->txt("cancel"), "listProfiles");
             $cgui->setConfirm($lng->txt("remove"), "removeSingleGlobalProfile");
-            $cgui->addItem("", (string) $profile_id, ilSkillProfile::lookupTitle($profile_id));
+            $cgui->addItem("", (string) $profile_id, $this->profile_service->lookupTitle($profile_id));
 
             $tpl->setContent($cgui->getHTML());
         }
@@ -613,11 +616,11 @@ class ilContSkillAdminGUI
             $cgui->setConfirm($lng->txt("delete"), "deleteSelectedLocalProfiles");
 
             foreach ($this->requested_profile_ids as $i) {
-                if (!(ilSkillProfile::lookupRefId($i) > 0)) {
+                if (!($this->profile_service->lookupRefId($i) > 0)) {
                     $this->tpl->setOnScreenMessage('info', $lng->txt("cont_skill_deletion_not_possible"), true);
                     $ctrl->redirect($this, "listProfiles");
                 }
-                $cgui->addItem("id[]", $i, ilSkillProfile::lookupTitle($i));
+                $cgui->addItem("id[]", $i, $this->profile_service->lookupTitle($i));
             }
 
             $tpl->setContent($cgui->getHTML());
@@ -631,9 +634,8 @@ class ilContSkillAdminGUI
 
         if (!empty($this->requested_profile_ids)) {
             foreach ($this->requested_profile_ids as $id) {
-                if (ilSkillProfile::lookupRefId($id) > 0) {
-                    $prof = new ilSkillProfile($id);
-                    $prof->delete();
+                if ($this->profile_service->lookupRefId($id) > 0) {
+                    $this->profile_service->delete($id);
                 }
             }
         }
@@ -662,7 +664,7 @@ class ilContSkillAdminGUI
             $cgui->setHeaderText($lng->txt("cont_skill_really_delete_profile_from_list"));
             $cgui->setCancel($lng->txt("cancel"), "listProfiles");
             $cgui->setConfirm($lng->txt("delete"), "deleteSingleLocalProfile");
-            $cgui->addItem("", (string) $profile_id, ilSkillProfile::lookupTitle($profile_id));
+            $cgui->addItem("", (string) $profile_id, $this->profile_service->lookupTitle($profile_id));
 
             $tpl->setContent($cgui->getHTML());
         }
@@ -676,8 +678,7 @@ class ilContSkillAdminGUI
         $profile_id = (int) $this->params["profile_id"];
 
         if ($profile_id > 0) {
-            $prof = new ilSkillProfile($profile_id);
-            $prof->delete();
+            $this->profile_service->delete($profile_id);
         }
         $this->tpl->setOnScreenMessage('success', $lng->txt("msg_obj_modified"), true);
 

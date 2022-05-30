@@ -176,7 +176,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     *
     * @access public
     */
-    public function addAnswer($answertext, $points, $order)
+    public function addAnswer($answertext, $points, $order) : void
     {
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
         if (array_key_exists($order, $this->answers)) {
@@ -357,7 +357,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @access public
     * @see $answers
     */
-    public function deleteAnswer($index = 0)
+    public function deleteAnswer($index = 0) : void
     {
         if ($index < 0) {
             return;
@@ -383,7 +383,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @access public
     * @see $answers
     */
-    public function flushAnswers()
+    public function flushAnswers() : void
     {
         $this->answers = array();
     }
@@ -501,7 +501,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @see $textgap_rating
     * @access public
     */
-    public function setTextRating($a_text_rating)
+    public function setTextRating($a_text_rating) : void
     {
         switch ($a_text_rating) {
             case TEXTGAP_RATING_CASEINSENSITIVE:
@@ -560,7 +560,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @param integer $a_correct_anwers The number of correct answers
     * @access public
     */
-    public function setCorrectAnswers(int $a_correct_answers)
+    public function setCorrectAnswers(int $a_correct_answers) : void
     {
         $this->correctanswers = $a_correct_answers;
     }
@@ -701,7 +701,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * Returns the answers of the question as a comma separated string
     *
     */
-    public function &joinAnswers()
+    public function &joinAnswers() : array
     {
         $join = array();
         foreach ($this->answers as $answer) {

@@ -89,7 +89,7 @@ class ilContSkillTableGUI extends ilTable2GUI
         $path = $this->getParentObject()->getPathString($a_set["base_skill_id"], $a_set["tref_id"]);
         $tpl->setVariable("PATH", $path);
 
-        if ($a_set["profile"] != null) {
+        if (isset($a_set["profile"])) {
             $tpl->setVariable("PROFILE", $a_set["profile"]);
         } else {
             $tpl->setCurrentBlock("checkbox");

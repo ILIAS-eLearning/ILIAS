@@ -111,4 +111,15 @@ class ilECSUpdateSteps8 implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_6() : void
+    {
+        if ($this->db->tableColumnExists('ecs_part_settings', 'outgoing_auth_mode')) {
+            $this->db->renameTableColumn(
+                'ecs_part_settings',
+                'outgoing_auth_mode',
+                'outgoing_auth_modes'
+            );
+        }
+    }
 }

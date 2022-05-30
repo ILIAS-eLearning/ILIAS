@@ -1,5 +1,16 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *********************************************************************/
 
 /**
  * Formula Question Variable
@@ -45,12 +56,14 @@ class assFormulaQuestionVariable
 
     public function getRandomValue()
     {
-        
         if ($this->getPrecision() == 0) {
             if ($this->getIntprecision() > $this->getRangeMax()) {
                 global $DIC;
                 $lng = $DIC['lng'];
-                ilUtil::sendFailure($lng->txt('err_divider_too_big'));
+                $DIC->ui()->mainTemplate()->setOnScreenMessage(
+                    "failure",
+                    $lng->txt('err_divider_too_big')
+                );
             }
         }
         
@@ -85,7 +98,7 @@ class assFormulaQuestionVariable
         return $calcval;
     }
 
-    public function setRandomValue()
+    public function setRandomValue() : void
     {
         $this->setValue($this->getRandomValue());
     }
@@ -94,7 +107,7 @@ class assFormulaQuestionVariable
      * Getter and Setter
      ************************************/
 
-    public function setValue($value)
+    public function setValue($value) : void
     {
         $this->value = $value;
     }
@@ -114,7 +127,7 @@ class assFormulaQuestionVariable
         }
     }
 
-    public function setPrecision($precision)
+    public function setPrecision($precision) : void
     {
         $this->precision = $precision;
     }
@@ -126,7 +139,7 @@ class assFormulaQuestionVariable
         return $this->precision;
     }
 
-    public function setVariable($variable)
+    public function setVariable($variable) : void
     {
         $this->variable = $variable;
     }
@@ -136,7 +149,7 @@ class assFormulaQuestionVariable
         return $this->variable;
     }
 
-    public function setRangeMin($range_min)
+    public function setRangeMin($range_min) : void
     {
         include_once "./Services/Math/classes/class.EvalMath.php";
         $math = new EvalMath();
@@ -151,7 +164,7 @@ class assFormulaQuestionVariable
         return (double) $this->range_min;
     }
 
-    public function setRangeMax($range_max)
+    public function setRangeMax($range_max) : void
     {
         include_once "./Services/Math/classes/class.EvalMath.php";
         $math = new EvalMath();
@@ -165,7 +178,7 @@ class assFormulaQuestionVariable
         return (double) $this->range_max;
     }
 
-    public function setUnit($unit)
+    public function setUnit($unit) : void
     {
         $this->unit = $unit;
     }
@@ -175,7 +188,7 @@ class assFormulaQuestionVariable
         return $this->unit;
     }
 
-    public function setIntprecision($intprecision)
+    public function setIntprecision($intprecision) : void
     {
         $this->intprecision = $intprecision;
     }
@@ -185,7 +198,7 @@ class assFormulaQuestionVariable
         return $this->intprecision;
     }
 
-    public function setRangeMaxTxt($range_max_txt)
+    public function setRangeMaxTxt($range_max_txt) : void
     {
         $this->range_max_txt = $range_max_txt;
     }
@@ -195,7 +208,7 @@ class assFormulaQuestionVariable
         return $this->range_max_txt;
     }
 
-    public function setRangeMinTxt($range_min_txt)
+    public function setRangeMinTxt($range_min_txt) : void
     {
         $this->range_min_txt = $range_min_txt;
     }

@@ -1027,30 +1027,7 @@ class ilObjectListGUI
 
             if ($access) {
                 $access_granted = true;
-                if (ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION === $cmd) {
-                    global $DIC;
-                    $file_obj = new ilObjFile($this->ref_id);
-                    $file_rid = $DIC->resourceStorage()->manage()->find($file_obj->getResourceId());
-                    if (null !== $file_rid &&
-                        'application/zip' === $DIC->resourceStorage()
-                                                  ->manage()
-                                                  ->getCurrentRevision($file_rid)
-                                                  ->getInformation()
-                                                  ->getMimeType()
-                    ) {
-                        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->ref_id);
-                        $cmd_link = $DIC->ctrl()->getLinkTargetByClass(
-                            ilRepositoryGUI::class,
-                            ilFileVersionsGUI::CMD_UNZIP_CURRENT_REVISION
-                        );
-                        $this->ctrl->setParameterByClass(ilRepositoryGUI::class, 'ref_id', $this->requested_ref_id);
-                    } else {
-                        $access_granted = false;
-                    }
-                } else {
-                    $cmd_link = $this->getCommandLink($command["cmd"]);
-                }
-
+                $cmd_link = $this->getCommandLink($command["cmd"]);
                 $cmd_frame = $this->getCommandFrame($command["cmd"]);
                 $cmd_image = $this->getCommandImage($command["cmd"]);
             } else {
@@ -1344,8 +1321,9 @@ class ilObjectListGUI
             ) && ($this->user->getId() !== ANONYMOUS_USER_ID)
         ) {
             $nl = true;
+            $cnt_comments = self::$cnt_notes[$note_obj_id][Note::PUBLIC] ?? 0;
             if ($this->isCommentsActivated($this->type, $this->ref_id, $this->obj_id, false, false)
-                && self::$cnt_notes[$note_obj_id][Note::PUBLIC] > 0) {
+                && $cnt_comments > 0) {
                 $props[] = [
                     "alert" => false,
                     "property" => $this->lng->txt("notes_comments"),
@@ -1358,7 +1336,8 @@ class ilObjectListGUI
                 $nl = false;
             }
 
-            if ($this->notes_enabled && self::$cnt_notes[$note_obj_id][Note::PRIVATE] > 0) {
+            $cnt_notes = self::$cnt_notes[$note_obj_id][Note::PRIVATE] ?? 0;
+            if ($this->notes_enabled && $cnt_notes > 0) {
                 $props[] = [
                     "alert" => false,
                     "property" => $this->lng->txt("notes"),
@@ -1370,7 +1349,8 @@ class ilObjectListGUI
                 ];
                 $nl = false;
             }
-            if ($this->tags_enabled && (self::$cnt_tags[$note_obj_id] > 0 || is_array(self::$tags[$note_obj_id]))) {
+            $cnt_tags = self::$cnt_tags[$note_obj_id] ?? 0;
+            if ($this->tags_enabled && ($cnt_tags > 0 || isset(self::$tags[$note_obj_id]))) {
                 $tags_set = new ilSetting("tags");
                 if ($tags_set->get("enable")) {
                     $tags_url = ilTaggingGUI::getListTagsJSCall($this->ajax_hash, $redraw_js);
@@ -1405,7 +1385,7 @@ class ilObjectListGUI
             }
         }
 
-        if (!is_array($props)) {
+        if (!isset($props)) {
             return [];
         }
 
@@ -1531,12 +1511,12 @@ class ilObjectListGUI
             $missing_cond_exist = true;
 
             $full_class = "ilObj" . $class . "ListGUI";
-            $item_list_gui = new $full_class($this);
+            $item_list_gui = new $full_class($this->context);
             $item_list_gui->setMode(self::IL_LIST_AS_TRIGGER);
             $item_list_gui->enablePath(false);
             $item_list_gui->enableIcon(true);
             $item_list_gui->setConditionDepth($this->condition_depth + 1);
-            $item_list_gui->setParentRefId($this->getUniqueItemId());
+            $item_list_gui->setParentRefId($this->ref_id);
             $item_list_gui->addCustomProperty($this->lng->txt("precondition_required_itemlist"), $cond_txt, false, true);
             $item_list_gui->enableCommands($this->commands_enabled, $this->std_cmd_only);
             $item_list_gui->enableProperties($this->properties_enabled);
@@ -1598,7 +1578,7 @@ class ilObjectListGUI
         } else {
             $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget($this->ref_id, $this->obj_id);
         }
-        
+
         if (sizeof($conditions)) {
             for ($i = 0; $i < count($conditions); $i++) {
                 $conditions[$i]['title'] = ilObject::_lookupTitle($conditions[$i]['trigger_obj_id']);
@@ -1606,7 +1586,6 @@ class ilObjectListGUI
             $conditions = ilArrayUtil::sortArray($conditions, 'title', 'DESC');
         
             ++self::$js_unique_id;
-
             // Show obligatory and optional preconditions seperated
             $all_done_obl = $this->parseConditions(self::$js_unique_id, $conditions);
             $all_done_opt = $this->parseConditions(self::$js_unique_id, $conditions, false);
@@ -2309,9 +2288,9 @@ class ilObjectListGUI
             $tpl = $DIC["tpl"];
         }
         
-        if ($notes_url) {
-            $DIC->notes()->gui()->initJavascript($notes_url);
-        }
+        //if ($notes_url) {
+        $DIC->notes()->gui()->initJavascript($notes_url);
+        //}
         
         if ($tags_url) {
             ilTaggingGUI::initJavascript($tags_url, $tpl);
@@ -3145,7 +3124,7 @@ class ilObjectListGUI
             ->withSize('medium');
 
 
-        if ($def_command['link']) {
+        if ($def_command['link'] ?? false) {
             $list_item = $ui->factory()->item()->standard(
                 $this->ui->factory()->link()->standard($this->getTitle(), $def_command['link'])
             );
@@ -3313,7 +3292,7 @@ class ilObjectListGUI
             $title = ilSessionAppointment::_appointmentToString(
                 $app_info['start'],
                 $app_info['end'],
-                $app_info['fullday']
+                (bool) $app_info['fullday']
             ) . $title;
         }
 

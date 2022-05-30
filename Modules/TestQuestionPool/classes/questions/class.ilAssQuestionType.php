@@ -54,7 +54,7 @@ class ilAssQuestionType
     /**
      * @param int $id
      */
-    public function setId($id)
+    public function setId($id) : void
     {
         $this->id = $id;
     }
@@ -70,7 +70,7 @@ class ilAssQuestionType
     /**
      * @param string $tag
      */
-    public function setTag($tag)
+    public function setTag($tag) : void
     {
         $this->tag = $tag;
     }
@@ -86,7 +86,7 @@ class ilAssQuestionType
     /**
      * @param bool $plugin
      */
-    public function setPlugin($plugin)
+    public function setPlugin($plugin) : void
     {
         $this->plugin = $plugin;
     }
@@ -102,7 +102,7 @@ class ilAssQuestionType
     /**
      * @param string $pluginName
      */
-    public function setPluginName($pluginName)
+    public function setPluginName($pluginName) : void
     {
         $this->pluginName = $pluginName;
     }

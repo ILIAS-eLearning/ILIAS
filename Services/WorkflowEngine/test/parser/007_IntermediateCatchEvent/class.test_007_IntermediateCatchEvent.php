@@ -56,7 +56,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         $ildb_mock = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $ildb_mock->method('quote')->willReturnCallback('');
+        $ildb_mock->method('quote')->willReturn('');
         $i = 0;
         $ildb_mock->method('nextId')->willReturn($i++);
         $ildb_mock->method('insert')->willReturn(1);
@@ -135,7 +135,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         $ildb_mock = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $ildb_mock->method('quote')->willReturnCallback('');
+        $ildb_mock->method('quote')->willReturn('');
         $i = 0;
         $ildb_mock->method('nextId')->willReturn($i++);
         $ildb_mock->method('insert')->willReturn(1);
@@ -214,7 +214,7 @@ class test_007_IntermediateCatchEvent extends ilWorkflowEngineBaseTest
         $this->assertEquals($goldsample, $parse_result, 'Output does not match goldsample.');
 
         $ildb_mock = $this->getMockBuilder(ilDBInterface::class)->getMock();
-        $ildb_mock->method('quote')->willReturnCallback('');
+        $ildb_mock->method('quote')->willReturn('');
         $i = 0;
         $ildb_mock->method('nextId')->willReturn($i++);
         $ildb_mock->method('insert')->willReturn(1);

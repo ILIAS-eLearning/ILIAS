@@ -99,9 +99,6 @@ class ilSetting implements \ILIAS\Administration\Setting
         string $a_keyword,
         ?string $a_default_value = null
     ) : ?string {
-        if ($a_keyword === "ilias_version") {
-            return ILIAS_VERSION;
-        }
         return $this->setting[$a_keyword] ?? $a_default_value;
     }
     

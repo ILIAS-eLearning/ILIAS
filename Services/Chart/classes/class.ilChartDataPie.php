@@ -19,8 +19,8 @@
  */
 class ilChartDataPie extends ilChartData
 {
-    protected int $line_width;
-    protected float $label_radius;
+    protected int $line_width = 0;
+    protected float $label_radius = 0;
     
     protected function getTypeString() : string
     {

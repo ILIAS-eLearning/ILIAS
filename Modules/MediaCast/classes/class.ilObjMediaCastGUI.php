@@ -220,7 +220,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $ilToolbar = $this->toolbar;
         
         $this->checkPermission("read");
-        
+
+        if ($a_presentation_mode) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt("mcst_view_abandoned"));
+            return;
+        }
+
         if ($a_presentation_mode) {
             $this->addContentSubTabs("content");
         } else {
@@ -1187,14 +1192,14 @@ class ilObjMediaCastGUI extends ilObjectGUI
         
         // view mode
         $si = new ilRadioGroupInputGUI($this->lng->txt("mcst_viewmode"), "viewmode");
-        $si->addOption(new ilRadioOption(
+        /*$si->addOption(new ilRadioOption(
             $lng->txt("mcst_list"),
             ilObjMediaCast::VIEW_LIST
         ));
         $si->addOption(new ilRadioOption(
             $lng->txt("mcst_gallery"),
             ilObjMediaCast::VIEW_GALLERY
-        ));
+        ));*/
         $si->addOption(new ilRadioOption(
             $lng->txt("mcst_img_gallery"),
             ilObjMediaCast::VIEW_IMG_GALLERY
@@ -1553,9 +1558,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
-        
+
+        $this->tpl->setOnScreenMessage('info', $this->lng->txt("mcst_view_abandoned"));
+        return;
+
+
         $tpl->addJavascript("./Modules/MediaCast/js/MediaCast.js");
-        
         $ilTabs->activateTab("content");
         
         $this->addContentSubTabs("content");
@@ -1582,7 +1590,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                     ilUtil::img(ilUtil::getImagePath("mcst_preview.svg"), $item["title"], 320, 240)
                 );
             }
-            
+
             // player
             if (is_object($med)) {
 
@@ -1591,7 +1599,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
                     $item["id"],
                     $ilCtrl->getLinkTarget($this, "handlePlayerEvent", "", true, false)
                 );
-                
+
                 if (strcasecmp("Reference", $med->getLocationType()) == 0) {
                     ilWACSignedPath::signFolderOfStartFile($med->getLocation());
                     $mpl->setFile($med->getLocation());
@@ -1605,8 +1613,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
                 //$mpl->setDisplayHeight("480");
                 //$mpl->setDisplayWidth("320px");
                 $mpl->setVideoPreviewPic(ilWACSignedPath::signFile($mob->getVideoPreviewPic()));
-                $mpl->setTitle($item["title"]);
-                $mpl->setDescription($item["content"]);
+                $mpl->setTitle((string) $item["title"]);
+                $mpl->setDescription((string) $item["content"]);
                 $mpl->setForceAudioPreview(true);
                 if ($this->object->getDownloadable()) {
                     $ilCtrl->setParameterByClass("ilobjmediacastgui", "item_id", $item["id"]);

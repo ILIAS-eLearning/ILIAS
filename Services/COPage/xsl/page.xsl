@@ -4218,7 +4218,39 @@
 	[[[[[AMDForm;<xsl:value-of select="@RecordIds"/>]]]]]
 </xsl:template>
 
-	<!-- helper functions -->
+<!-- (LSO) Curriculum -->
+<xsl:template match="Curriculum">
+	<xsl:if test="$mode = 'edit'">
+		<div class="copg-content-placeholder-lso-curriculum">
+			<img class="icon pewl medium" src="./templates/default/images/icon_pewl.svg" alt="curriculum" />
+			<div>Curriculum</div>
+		</div>
+	</xsl:if>
+	<xsl:if test="$mode != 'edit'">
+		<Curriculum>
+			[[[CURRICULUM]]]
+		</Curriculum>
+	</xsl:if>
+</xsl:template>
+
+<!-- (LSO) Launcher -->
+<xsl:template match="Launcher">
+	<xsl:if test="$mode = 'edit'">
+		<div class="copg-content-placeholder-lso-startbutton il-lso-startbutton-container">
+			<button class="btn btn-default">Start Learning Sequence</button>
+		</div>
+	</xsl:if>
+	<xsl:if test="$mode != 'edit'">
+		<div class="il-lso-startbutton-container">
+			<Launcher>
+				[[[LAUNCHER]]]
+			</Launcher>
+		</div>
+	</xsl:if>
+</xsl:template>
+
+
+<!-- helper functions -->
 
 <xsl:template name="substring-before-last">
 	<xsl:param name="originalString" select="''" />

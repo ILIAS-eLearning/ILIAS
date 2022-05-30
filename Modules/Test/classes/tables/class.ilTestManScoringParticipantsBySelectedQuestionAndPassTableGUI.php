@@ -17,17 +17,11 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
     const PARENT_RESET_FILTER_CMD = 'resetManScoringByQuestionFilter';
     const PARENT_SAVE_SCORING_CMD = 'saveManScoringByQuestion';
     
-    private $curQuestionMaxPoints = null;
-    
-    /**
-     * @var bool
-     */
-    protected $first_row_rendered = false;
+    private ?float $curQuestionMaxPoints = null;
 
-    /**
-     * @var bool
-     */
-    protected $first_row = true;
+    protected bool $first_row_rendered = false;
+
+    protected bool $first_row = true;
 
     public function __construct($parentObj)
     {
@@ -51,7 +45,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->initFilter();
     }
 
-    private function initColumns()
+    private function initColumns() : void
     {
         $this->addColumn($this->lng->txt('name'), 'name');
         $this->addColumn($this->lng->txt('tst_reached_points'), 'reached_points');
@@ -63,7 +57,7 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->addColumn('', '');
     }
 
-    private function initOrdering()
+    private function initOrdering() : void
     {
         $this->enable('sort');
 
@@ -117,6 +111,13 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->addFilterItem($pass);
         $pass->readFromSession();
         $this->filter['pass'] = $pass->getValue();
+
+        $only_answered = new ilCheckboxInputGUI($this->lng->txt('tst_man_scoring_only_answered'), 'only_answered');
+        $this->addFilterItem($only_answered);
+        $only_answered->readFromSession();
+        ;
+        $this->filter['only_answered'] = $only_answered->getChecked();
+
         $correction = new ilSelectInputGUI(
             $this->lng->txt('finalized_evaluation'),
             'finalize_evaluation'
@@ -132,9 +133,6 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->filter['finalize_evaluation'] = $correction->getValue();
     }
 
-    /**
-     * @param array $a_set
-     */
     public function fillRow(array $a_set) : void
     {
         global $DIC;
@@ -198,17 +196,12 @@ class ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI extends ilTa
         $this->tpl->setVariable('ANSWER_TITLE', $this->lng->txt('answer_of') . ': ' . $a_set['name']);
     }
     
-    public function setManualScoringPointsPostData($manPointsPostData)
-    {
-        $this->manPointsPostData = $manPointsPostData;
-    }
-
-    public function getCurQuestionMaxPoints()
+    public function getCurQuestionMaxPoints() : ?float
     {
         return $this->curQuestionMaxPoints;
     }
 
-    public function setCurQuestionMaxPoints($curQuestionMaxPoints)
+    public function setCurQuestionMaxPoints(float $curQuestionMaxPoints) : void
     {
         $this->curQuestionMaxPoints = $curQuestionMaxPoints;
     }

@@ -259,8 +259,7 @@ class ilSoapAdministration
     }
 
     /**
-     * @param string $clientid
-     * @return string|soap_fault|SoapFault|null
+     * @return soap_fault|SoapFault|string|null
      */
     public function getClientInfoXML(string $clientid)
     {
@@ -276,7 +275,8 @@ class ilSoapAdministration
         $writer->start();
         if (!$writer->addClient($clientdir)) {
             return $this->raiseError(
-                'Client ID ' . $clientid . 'does not exist!', 'Client'
+                'Client ID ' . $clientid . 'does not exist!',
+                'Client'
             );
         }
         $writer->end();

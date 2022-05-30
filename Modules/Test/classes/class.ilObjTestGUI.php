@@ -92,6 +92,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
      */
     protected $testAccess;
 
+    /** @var ilErrorHandling */
+    private $error;
     protected \ILIAS\Test\InternalRequestService $testrequest;
 
     /**
@@ -109,6 +111,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $tree = $DIC['tree'];
         $lng->loadLanguageModule("assessment");
         $this->type = "tst";
+        $this->error = $DIC['ilErr'];
         $this->ctrl = $ilCtrl;
         $this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id"));
         $this->testrequest = $DIC->test()->internal()->request();
@@ -2584,7 +2587,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             default:
 
                 require_once 'Modules/Test/classes/confirmations/class.ilTestSettingsChangeConfirmationGUI.php';
-                $confirmation = new ilTestSettingsChangeConfirmationGUI($this->lng, $this->getTestObject());
+                $confirmation = new ilTestSettingsChangeConfirmationGUI($this->getTestObject());
 
                 $confirmation->setFormAction($this->ctrl->getFormAction($this));
                 $confirmation->setCancel($this->lng->txt('cancel'), 'defaults');

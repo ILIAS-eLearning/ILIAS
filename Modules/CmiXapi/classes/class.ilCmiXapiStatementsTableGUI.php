@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-use \ILIAS\UI\Component\Modal\RoundTrip;
+use ILIAS\UI\Component\Modal\RoundTrip;
 
 /******************************************************************************
  *
@@ -28,23 +28,24 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
 {
     const TABLE_ID = 'cmix_statements_table';
     
-    /**
-     * @var bool
-     */
     protected bool $isMultiActorReport;
-
+    protected array $filter = [];
+    private \ILIAS\DI\Container $dic;
+    private ilLanguage $language;
+    
     /**
-     * @param object|null $a_parent_obj
-     * @param string      $a_parent_cmd
-     * @param bool        $isMultiActorReport
+     * @param ilCmiXapiStatementsGUI|ilLTIConsumerXapiStatementsGUI $a_parent_obj
+     * @param string                                                $a_parent_cmd
+     * @param bool                                                  $isMultiActorReport
      * @throws ilCtrlException
      */
     public function __construct(?object $a_parent_obj, string $a_parent_cmd, bool $isMultiActorReport)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+        $this->dic = $DIC;
         $DIC->language()->loadLanguageModule('cmix');
-        
+        $this->language = $DIC->language();
+
         $this->isMultiActorReport = $isMultiActorReport;
         
         $this->setId(self::TABLE_ID);
@@ -70,27 +71,23 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     
     protected function initColumns() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $this->addColumn($DIC->language()->txt('tbl_statements_date'), 'date');
+        $this->addColumn($this->language->txt('tbl_statements_date'), 'date');
         
         if ($this->isMultiActorReport) {
-            $this->addColumn($DIC->language()->txt('tbl_statements_actor'), 'actor');
+            $this->addColumn($this->language->txt('tbl_statements_actor'), 'actor');
         }
 
-        $this->addColumn($DIC->language()->txt('tbl_statements_verb'), 'verb');
-        $this->addColumn($DIC->language()->txt('tbl_statements_object'), 'object');
+        $this->addColumn($this->language->txt('tbl_statements_verb'), 'verb');
+        $this->addColumn($this->language->txt('tbl_statements_object'), 'object');
 
         $this->addColumn('', '', '1%');
     }
     
     public function initFilter() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         if ($this->isMultiActorReport) {
             $ti = new ilTextInputGUI('User', "actor");
-            $ti->setDataSource($DIC->ctrl()->getLinkTarget($this->parent_obj, 'asyncUserAutocomplete', '', true));
+            $ti->setDataSource($this->dic->ctrl()->getLinkTarget($this->parent_obj, 'asyncUserAutocomplete', '', true));
             $ti->setMaxLength(64);
             $ti->setSize(20);
             $this->addFilterItem($ti);
@@ -125,9 +122,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     
     protected function fillRow(array $a_set) : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $r = $DIC->ui()->renderer();
+        $r = $this->dic->ui()->renderer();
 
         $a_set['rowkey'] = md5(serialize($a_set));
         
@@ -150,7 +145,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         }
         
         $this->tpl->setVariable('STMT_VERB', ilCmiXapiVerbList::getVerbTranslation(
-            $DIC->language(),
+            $this->language,
             $a_set['verb_id']
         ));
         
@@ -160,56 +155,36 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('RAW_DATA_MODAL', $r->render($rawDataModal));
     }
 
-    /**
-     * @param RoundTrip $rawDataModal
-     * @param array     $data
-     * @return \ILIAS\UI\Component\Dropdown\Dropdown
-     */
-    protected function getActionsList(RoundTrip $rawDataModal, array $data)
+    protected function getActionsList(RoundTrip $rawDataModal, array $data) : \ILIAS\UI\Component\Dropdown\Dropdown
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        $f = $DIC->ui()->factory();
+        $f = $this->dic->ui()->factory();
         
-        $actions = $f->dropdown()->standard([
+        return $f->dropdown()->standard([
             $f->button()->shy(
-                $DIC->language()->txt('tbl_action_raw_data'),
+                $this->language->txt('tbl_action_raw_data'),
                 '#'
             )->withOnClick($rawDataModal->getShowSignal())
-        ])->withLabel($DIC->language()->txt('actions'));
-        
-        return $actions;
+        ])->withLabel($this->language->txt('actions'));
     }
 
-    /**
-     * @param $data
-     * @return RoundTrip
-     */
-    protected function getRawDataModal($data) : RoundTrip
+    protected function getRawDataModal(array $data) : RoundTrip
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        $f = $DIC->ui()->factory();
+        $f = $this->dic->ui()->factory();
         
-        $modal = $f->modal()->roundtrip(
+        return $f->modal()->roundtrip(
             'Raw Statement',
             $f->legacy('<pre>' . $data['statement'] . '</pre>')
         )->withCancelButtonLabel('close');
-        
-        return $modal;
     }
 
-    /**
-     * @param ilCmiXapiUser $cmixUser
-     * @return string
-     */
     protected function getUsername(ilCmiXapiUser $cmixUser) : string
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ret = 'not found';
         try {
             $userObj = ilObjectFactory::getInstanceByObjId($cmixUser->getUsrId());
             $ret = $userObj->getFullname();
         } catch (Exception $e) {
-            $ret = $DIC->language()->txt('deleted_user');
+            $ret = $this->language->txt('deleted_user');
         }
         return $ret;
     }

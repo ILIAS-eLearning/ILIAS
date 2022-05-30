@@ -27,14 +27,16 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
 
         // $this->setSelectAllCheckbox("item_id");
         $this->addMultiCommand(
-            "confirmDeleteData", $this->lng->txt("trac_delete_data")
+            "confirmDeleteData",
+            $this->lng->txt("trac_delete_data")
         );
 
         $this->setFormAction(
             $this->ctrl->getFormAction($a_parent_obj, $a_parent_cmd)
         );
         $this->setRowTemplate(
-            "tpl.lp_object_statistics_admin_row.html", "Services/Tracking"
+            "tpl.lp_object_statistics_admin_row.html",
+            "Services/Tracking"
         );
         $this->setEnableHeader(true);
         $this->setEnableNumInfo(true);
@@ -70,8 +72,8 @@ class ilLPObjectStatisticsAdminTableGUI extends ilLPTableBaseGUI
         $lng = $DIC['lng'];
 
         $caption = $this->lng->txt(
-                "month_" . substr($a_set["month"], 5, 2) . "_long"
-            ) .
+            "month_" . substr($a_set["month"], 5, 2) . "_long"
+        ) .
             " " . substr($a_set["month"], 0, 4);
 
         $this->tpl->setVariable("ID", $a_set["id"]);

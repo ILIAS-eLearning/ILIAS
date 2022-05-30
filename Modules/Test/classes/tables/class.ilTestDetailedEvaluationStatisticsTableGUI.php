@@ -27,9 +27,6 @@ class ilTestDetailedEvaluationStatisticsTableGUI extends ilTable2GUI
         $this->setLimit(PHP_INT_MAX);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_COUNTER', $a_set['counter']);

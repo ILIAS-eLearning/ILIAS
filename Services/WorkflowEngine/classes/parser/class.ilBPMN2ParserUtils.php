@@ -1,12 +1,25 @@
 <?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilBPMN2ParserUtils
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilBPMN2ParserUtils
@@ -17,7 +30,7 @@ class ilBPMN2ParserUtils
     /**
      * @param string $xml_string
      */
-    public function load_string(string $xml_string)
+    public function load_string(string $xml_string)// TODO PHP8-REVIEW Return type or corresponding PHPDoc missing
     {
         $node = new SimpleXMLElement($xml_string);
         return $this->add_node($node);
@@ -28,9 +41,8 @@ class ilBPMN2ParserUtils
      * @param null   $parent
      * @param string $namespace
      * @param bool   $recursive
-
      */
-    private function add_node($node, &$parent = null, string $namespace = '', bool $recursive = false)
+    private function add_node($node, &$parent = null, string $namespace = '', bool $recursive = false)// TODO PHP8-REVIEW Return type or corresponding PHPDoc missing
     {
         $namespaces = $node->getNameSpaces(true);
         $content = (string) $node;
@@ -104,10 +116,10 @@ class ilBPMN2ParserUtils
      */
     public static function extractILIASEventDefinitionFromProcess(string $start_event_ref, string $type, array $bpmn2_array) : array
     {
-        $descriptor_extension = array();
-        $subject_extension = array();
-        $context_extension = array();
-        $timeframe_extension = array();
+        $descriptor_extension = [];
+        $subject_extension = [];
+        $context_extension = [];
+        $timeframe_extension = [];
 
         foreach ($bpmn2_array['children'] as $element) {
             if ($element['name'] === $type && $element['attributes']['id'] === $start_event_ref) {
@@ -137,7 +149,7 @@ class ilBPMN2ParserUtils
             }
         }
 
-        $event_definition = array(
+        $event_definition = [
             'type' => $descriptor_extension['attributes']['type'] ?? '',
             'content' => $descriptor_extension['attributes']['name'] ?? '',
             'subject_type' => $subject_extension['attributes']['type'] ?? '',
@@ -146,7 +158,7 @@ class ilBPMN2ParserUtils
             'context_id' => $context_extension['attributes']['id'] ?? '',
             'listening_start' => $timeframe_extension['attributes']['start'] ?? null,
             'listening_end' => $timeframe_extension['attributes']['end'] ?? null
-        );
+        ];
         
         return $event_definition;
     }
@@ -173,7 +185,7 @@ class ilBPMN2ParserUtils
                                 $start = date('U', strtotime($content));
                                 $end = 0;
 
-                                return array(
+                                return [
                                     'type' => 'time_passed',
                                     'content' => 'time_passed',
                                     'subject_type' => 'none',
@@ -182,7 +194,7 @@ class ilBPMN2ParserUtils
                                     'context_id' => 0,
                                     'listening_start' => $start,
                                     'listening_end' => $end
-                                );
+                                ];
                             }
 
                             if (
@@ -190,11 +202,11 @@ class ilBPMN2ParserUtils
                                 $event_child['children'][0]['name'] === 'timeDuration'
                             ) {
                                 $content = $event_child['children'][0]['content'];
-                                $interval = new \DateInterval(strtotime($content));
+                                $interval = new DateInterval(strtotime($content));
                                 $duration = ($interval->d * 24 * 60 * 60) + ($interval->h * 60 * 60) +
                                             ($interval->i * 60) + $interval->s;
 
-                                return array(
+                                return [
                                     'type' => 'time_passed',
                                     'content' => 'time_passed',
                                     'subject_type' => 'none',
@@ -203,7 +215,7 @@ class ilBPMN2ParserUtils
                                     'context_id' => 0,
                                     'listening_relative' => 1,
                                     'listening_interval' => $duration
-                                );
+                                ];
                             }
                         }
                     }
@@ -219,7 +231,7 @@ class ilBPMN2ParserUtils
      */
     public static function extractILIASLibraryCallDefinitionFromElement(array $element) : array
     {
-        $library_call = array();
+        $library_call = [];
         foreach ($element['children'] as $child) {
             if ($child['name'] === 'extensionElements') {
                 foreach ($child['children'] as $extension) {
@@ -239,10 +251,10 @@ class ilBPMN2ParserUtils
 
         // TODO: This must consult Service Disco for details!
 
-        return array(
+        return [
             'include_filename' => $library_call['location'],
             'class_and_method' => $library_call['api'] . '::' . $library_call['method']
-        );
+        ];
     }
 
     /**

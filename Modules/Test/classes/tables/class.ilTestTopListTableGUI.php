@@ -5,14 +5,8 @@
  */
 class ilTestTopListTableGUI extends ilTable2GUI
 {
-    /** @var \ilObjTest */
-    private $test;
+    private ilObjTest $test;
 
-    /**
-     * ilTestTopListTableGUI constructor.
-     * @param ilTestToplistGUI $a_parent_obj
-     * @param ilObjTest $test
-     */
     public function __construct(ilTestToplistGUI $a_parent_obj, ilObjTest $test)
     {
         $this->test = $test;
@@ -55,9 +49,6 @@ class ilTestTopListTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function fillRow(array $a_set) : void
     {
         $rowHighlightClass = '';

@@ -297,8 +297,9 @@ class ilAdvancedMDValues
         }
         if ($copy_id > 0) {
             $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
-            $cp_options->appendMapping($a_target_id . '_adv_rec',
-                                       $record_mapping
+            $cp_options->appendMapping(
+                $a_target_id . '_adv_rec',
+                $record_mapping
             );
             $cp_options->read();        // otherwise mapping will not be available for getMappings
         }

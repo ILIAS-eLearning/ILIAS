@@ -73,8 +73,9 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
 
     /**
      * handler for begin of element
+     * @param XMLParser|resource $a_xml_parser reference to the xml parser
      */
-    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void//PHP8Review: Missing Typehint
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         $this->path[] = $a_name;
 
@@ -382,8 +383,9 @@ class ilSCORM13MDImporter extends ilMDXMLCopier
 
     /**
      * handler for end of element
+     * @param XMLParser|resource $a_xml_parser reference to the xml parser
      */
-    public function handlerEndTag($a_xml_parser, string $a_name) : void//PHP8Review: Missing Typehint
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         //echo "<br>End TAG: ".$a_name;
         unset($this->path[count($this->path) - 1]);

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * LM editor explorer GUI class
@@ -121,7 +124,14 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
     public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
-        
+
+        if ($a_node["child"] == "") {
+            $a_node["child"] = null;
+        }
+        $obj_id = ($this->obj_id == "")
+            ? null
+            : $this->obj_id;
+
         switch ($a_node["type"]) {
             case "du":
                 $ret = $ilCtrl->getLinkTargetByClass("ilobjlearningmodulegui", "chapters");
@@ -130,13 +140,13 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
             case "pg":
                 $ilCtrl->setParameterByClass("illmpageobjectgui", "obj_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(array("ilobjlearningmodulegui", "illmpageobjectgui"), "edit");
-                $ilCtrl->setParameterByClass("illmpageobjectgui", "obj_id", $this->obj_id);
+                $ilCtrl->setParameterByClass("illmpageobjectgui", "obj_id", $obj_id);
                 return $ret;
 
             case "st":
                 $ilCtrl->setParameterByClass("ilstructureobjectgui", "obj_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(array("ilobjlearningmodulegui", "ilstructureobjectgui"), "view");
-                $ilCtrl->setParameterByClass("ilstructureobjectgui", "obj_id", $this->obj_id);
+                $ilCtrl->setParameterByClass("ilstructureobjectgui", "obj_id", $obj_id);
                 return $ret;
         }
         return "";

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
@@ -61,7 +64,6 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
             if (!$access->checkAccess("read", "", $ref_id)) {
                 return $tools;
             }
-            
 
             $tools[] = $this->getTocTool($additional_data);
         }
@@ -187,6 +189,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
     private function getToc(Collection $additional_data) : string
     {
         global $DIC;
+
         // get params via additional_data, set query params
         $params = null;
         if ($additional_data->exists(self::LM_QUERY_PARAMS)) {
@@ -197,14 +200,14 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         if (!is_array($params)) {
             $params = null;
         }
-        try {
-            $service = new ilLMPresentationService($DIC->user(), $params, $offline);
-            $renderer = new ilLMSlateTocRendererGUI($service);
+        //try {
+        $service = new ilLMPresentationService($DIC->user(), $params, $offline);
+        $renderer = new ilLMSlateTocRendererGUI($service);
 
-            return $renderer->render();
-        } catch (Exception $e) {
-            return "";
-        }
+        return $renderer->render();
+        //} catch (Exception $e) {
+        //    return $e->getMessage();
+        //}
     }
 
     protected function getLinkSlateContent(string $type) : string

@@ -485,10 +485,6 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     
     public function initColumn(ilColumnGUI $a_column_gui) : void
     {
-        $pd_set = new ilSetting("pd");
-        if ($pd_set->get("enable_block_moving")) {
-            $a_column_gui->setEnableMovement(true);
-        }
         $a_column_gui->setActionMenu($this->action_menu);
     }
     

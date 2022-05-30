@@ -34,10 +34,12 @@ class ilLTIConsumerXapiStatementsGUI
      */
     protected ilLTIConsumerAccess $access;
     private \ilGlobalTemplateInterface $main_tpl;
+    private \ILIAS\DI\Container $dic;
     
     public function __construct(ilObjLTIConsumer $object)
     {
         global $DIC;
+        $this->dic = $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
         
@@ -169,10 +171,16 @@ class ilLTIConsumerXapiStatementsGUI
         $auto->setMoreLinkAvailable(true);
         
         //$auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
-        // TODO PHP8 Review: Remove/Replace SuperGlobals
-        $result = json_decode($auto->getList(ilUtil::stripSlashes($_REQUEST['term'])), true);
-        
-        echo json_encode($result);
+        $term = '';
+        if ($this->dic->http()->wrapper()->query()->has('term')) {
+            $term = $this->dic->http()->wrapper()->query()->retrieve('term', $this->dic->refinery()->kindlyTo()->string());
+        } elseif ($this->dic->http()->wrapper()->post()->has('term')) {
+            $term = $this->dic->http()->wrapper()->post()->retrieve('term', $this->dic->refinery()->kindlyTo()->string());
+        }
+        if ($term != '') {
+            $result = json_decode($auto->getList(ilUtil::stripSlashes($term)), true);
+            echo json_encode($result);
+        }
         exit();
     }
     

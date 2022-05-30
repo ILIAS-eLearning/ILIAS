@@ -45,7 +45,7 @@ class ilQuestionInternalLinkSelectionTableGUI extends ilTable2GUI
     /**
      *
      */
-    protected function initColumns()
+    protected function initColumns() : void
     {
         $this->addColumn($this->lng->txt('title'), 'title');
         $this->addColumn($this->lng->txt('description'), 'description');

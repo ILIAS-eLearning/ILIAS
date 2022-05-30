@@ -18,7 +18,7 @@ class assAnswerImagemapTest extends assBaseTestCase
         chdir('../../../');
     }
 
-    public function test_instantiateObjectSimple()
+    public function test_instantiateObjectSimple() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerImagemap.php';
@@ -30,7 +30,7 @@ class assAnswerImagemapTest extends assBaseTestCase
         $this->assertInstanceOf('ASS_AnswerImagemap', $instance);
     }
     
-    public function test_setGetCoords()
+    public function test_setGetCoords() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerImagemap.php';
@@ -45,7 +45,7 @@ class assAnswerImagemapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetArea()
+    public function test_setGetArea() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerImagemap.php';
@@ -60,7 +60,7 @@ class assAnswerImagemapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPointsUnchecked()
+    public function test_setGetPointsUnchecked() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerImagemap.php';
@@ -75,7 +75,7 @@ class assAnswerImagemapTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPointsUnchecked_shouldNullifyOnNonNumericPoints()
+    public function test_setGetPointsUnchecked_shouldNullifyOnNonNumericPoints() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerImagemap.php';

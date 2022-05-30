@@ -74,7 +74,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass();
-        
+
         switch (strtolower($next_class)) {
             default:
                 switch (true) {
@@ -115,17 +115,17 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->getObject())->addTileImage();
 
         $rg_pro = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'default_view');
-        $rg_pro->addOption(new ilRadioOption($this->lng->txt('sort_by_posts'), (string) ilForumProperties::VIEW_TREE));
-        $view_desc = new ilRadioOption(
-            $this->lng->txt('sort_by_date') . ' (' . $this->lng->txt('descending_order') . ')',
-            (string) ilForumProperties::VIEW_DATE_DESC
-        );
-        $view_asc = new ilRadioOption(
-            $this->lng->txt('sort_by_date') . ' (' . $this->lng->txt('ascending_order') . ')',
-            (string) ilForumProperties::VIEW_DATE_ASC
-        );
-        $rg_pro->addOption($view_desc);
-        $rg_pro->addOption($view_asc);
+        $option_view_by_posts = new ilRadioOption($this->lng->txt('sort_by_posts'), (string) ilForumProperties::VIEW_TREE);
+        $option_view_by_posts->setInfo($this->lng->txt('sort_by_posts_desc'));
+        $rg_pro->addOption($option_view_by_posts);
+        $option_view_by_date = new ilRadioOption($this->lng->txt('sort_by_date'), (string) ilForumProperties::VIEW_DATE);
+        $option_view_by_date->setInfo($this->lng->txt('sort_by_date_desc'));
+        $sub_group = new ilRadioGroupInputGUI('', 'default_view_by_date');
+        $sub_group->addOption(new ilRadioOption($this->lng->txt('ascending_order'), (string) ilForumProperties::VIEW_DATE_ASC));
+        $sub_group->addOption(new ilRadioOption($this->lng->txt('descending_order'), (string) ilForumProperties::VIEW_DATE_DESC));
+
+        $option_view_by_date->addSubItem($sub_group);
+        $rg_pro->addOption($option_view_by_date);
         $a_form->addItem($rg_pro);
 
         $userFunctionsHeader = new ilFormSectionHeaderGUI();
@@ -267,17 +267,30 @@ class ilForumSettingsGUI implements ilForumObjectConstants
         $a_values['thread_sorting'] = $this->parent_obj->objProperties->getThreadSorting();
         $a_values['thread_rating'] = $this->parent_obj->objProperties->isIsThreadRatingEnabled();
 
-        if (in_array($this->parent_obj->objProperties->getDefaultView(), [
+        $default_view_value = $this->parent_obj->objProperties->getDefaultView();
+        if (in_array($default_view_value, [
             ilForumProperties::VIEW_TREE,
+            ilForumProperties::VIEW_DATE,
             ilForumProperties::VIEW_DATE_ASC,
             ilForumProperties::VIEW_DATE_DESC
         ], true)) {
-            $default_view = $this->parent_obj->objProperties->getDefaultView();
+            if (in_array($default_view_value, [
+                ilForumProperties::VIEW_DATE_ASC,
+                ilForumProperties::VIEW_DATE_DESC
+            ], true)) {
+                $default_view_by_date = $default_view_value;
+                $default_view = ilForumProperties::VIEW_DATE;
+            } else {
+                $default_view = $default_view_value;
+            }
         } else {
             $default_view = ilForumProperties::VIEW_TREE;
         }
 
         $a_values['default_view'] = $default_view;
+        if (isset($default_view_by_date)) {
+            $a_values['default_view_by_date'] = $default_view_by_date;
+        }
         $a_values['file_upload_allowed'] = $this->parent_obj->objProperties->getFileUploadAllowed();
 
         $object = $this->parent_obj->getObject();
@@ -286,12 +299,23 @@ class ilForumSettingsGUI implements ilForumObjectConstants
 
     public function updateCustomValues(ilPropertyFormGUI $a_form) : void
     {
-        if (in_array((int) $a_form->getInput('default_view'), [
+        $default_view_input_value = (int) $a_form->getInput('default_view');
+        if (in_array($default_view_input_value, [
             ilForumProperties::VIEW_TREE,
+            ilForumProperties::VIEW_DATE,
             ilForumProperties::VIEW_DATE_ASC,
             ilForumProperties::VIEW_DATE_DESC
         ], true)) {
-            $default_view = (int) $a_form->getInput('default_view');
+            if ($default_view_input_value === ilForumProperties::VIEW_DATE) {
+                $default_view_order_by_date_value = (int) $a_form->getInput('default_view_by_date');
+                if (in_array($default_view_order_by_date_value, [
+                    ilForumProperties::VIEW_DATE_ASC,
+                    ilForumProperties::VIEW_DATE_DESC
+                ], true)) {
+                    $default_view_input_value = $default_view_order_by_date_value;
+                }
+            }
+            $default_view = $default_view_input_value;
         } else {
             $default_view = ilForumProperties::VIEW_TREE;
         }

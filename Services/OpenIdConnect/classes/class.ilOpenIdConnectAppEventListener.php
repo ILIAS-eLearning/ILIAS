@@ -19,46 +19,24 @@
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
-class ilOpenIdConnectAppEventListener
+class ilOpenIdConnectAppEventListener implements ilAppEventListener
 {
-    private ilLogger $logger;
-    
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        global $DIC;
-        $this->logger = $DIC->logger()->auth();
-    }
-
-    /**
-     * @param int $user_id
-     */
-    protected function handleLogoutFor(int $user_id)
+    protected function handleLogoutFor(int $user_id) : void
     {
         $provider = new ilAuthProviderOpenIdConnect(new ilAuthFrontendCredentials());
         $provider->handleLogout();
     }
-    
 
     /**
-    * Handle an event in a listener.
-    *
-    * @param	string	$a_component	component, e.g. "Modules/Forum" or "Services/User"
-    * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
-    * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
-    */
-    public static function handleEvent($a_component, $a_event, $a_parameter)
+     * @inheritDoc
+     */
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
-        ilLoggerFactory::getLogger('root')->info($a_component . ' : ' . $a_event);
-        if ($a_component == 'Services/Authentication') {
-            ilLoggerFactory::getLogger('root')->info($a_component . ' : ' . $a_event);
-            if ($a_event == 'beforeLogout') {
-                ilLoggerFactory::getLogger('root')->info($a_component . ' : ' . $a_event);
-                $listener = new self();
-                $listener->handleLogoutFor($a_parameter['user_id']);
-            }
+        global $DIC;
+        $DIC->logger()->auth()->debug($a_component . ' : ' . $a_event);
+        if (($a_component === 'Services/Authentication') && $a_event === 'beforeLogout') {
+            $listener = new self();
+            $listener->handleLogoutFor($a_parameter['user_id']);
         }
     }
 }

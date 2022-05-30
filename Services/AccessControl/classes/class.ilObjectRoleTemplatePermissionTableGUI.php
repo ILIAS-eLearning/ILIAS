@@ -105,7 +105,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
      */
     protected function getPermissions(string $a_type) : array
     {
-        return !self::$template_permissions[$a_type] ? [] : self::$template_permissions[$a_type];
+        return !isset(self::$template_permissions[$a_type]) ? [] : self::$template_permissions[$a_type];
     }
 
     public function getTemplateType() : string
@@ -182,7 +182,8 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
             $this->tpl->setVariable('DESC_TYPE', $this->getTemplateType());
             $this->tpl->setVariable('DESC_PERM_ID', $a_set['ops_id']);
 
-            if ($a_set["create_type"] != "" && $this->objDefinition->isPlugin($a_set['create_type'])) {
+            $create_type = $a_set["create_type"] ?? "";
+            if ($create_type != "" && $this->objDefinition->isPlugin($a_set['create_type'])) {
                 $this->tpl->setVariable(
                     'TXT_PERMISSION',
                     ilObjectPlugin::lookupTxtById(
@@ -190,7 +191,7 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
                         $this->getTemplateType() . "_" . $a_set['name']
                     )
                 );
-            } elseif ($a_set["create_type"] == "" && $this->objDefinition->isPlugin($this->getTemplateType())) {
+            } elseif ($create_type == "" && $this->objDefinition->isPlugin($this->getTemplateType())) {
                 $this->tpl->setVariable(
                     'TXT_PERMISSION',
                     ilObjectPlugin::lookupTxtById(

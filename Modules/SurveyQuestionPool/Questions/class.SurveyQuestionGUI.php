@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
 use ILIAS\SurveyQuestionPool\Editing\EditManager;
@@ -915,7 +918,7 @@ abstract class SurveyQuestionGUI
             $opt->setInfo(implode(",", $categories));
             $group->addOption($opt);
             
-            if ($phrase_array["org_title"] === "dp_standard_numbers") {
+            if (($phrase_array["org_title"] ?? "") === "dp_standard_numbers") {
                 $min = new ilNumberInputGUI($this->lng->txt("lower_limit"), "lower_limit");
                 $min->setRequired(true);
                 $min->setSize(5);

@@ -27,11 +27,12 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
     private array $userSelected;
     private bool $allowExportPrivacy;
     private string $lmTitle = "";
+    private string $report;
 
     /**
      * @throws ilCtrlException
      */
-    public function __construct(int $a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, array $a_userSelected, array $a_scosSelected, $a_report)//PHP8Review: Missing Typehint
+    public function __construct(int $a_obj_id, ?object $a_parent_obj, string $a_parent_cmd, array $a_userSelected, array $a_scosSelected, string $a_report)
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -42,7 +43,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         $lng->loadLanguageModule("scormtrac");
     
         $this->obj_id = $a_obj_id;
-        $this->report = $a_report;//PHP8Review: Missing Typehint. Also schouldnt be declared dynamicly
+        $this->report = $a_report;
         $this->scosSelected = $a_scosSelected;
         $this->userSelected = $a_userSelected;
         if ($a_parent_cmd === "showTrackingItemsBySco") {

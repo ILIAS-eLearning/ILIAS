@@ -110,7 +110,9 @@ with the il- variable set here.
 @il-web-font-path: "fonts/";
 @il-font-family-sans-serif: 'Open Sans', Verdana, Arial, Helvetica, sans-serif;
 
-//** Should only be used to indicate mainbar entries. Equivalent to 10px.
+//** Used to calculate pixel to rem
+@il-pixel-to-rem: 1/16;
+//** Should only be used to indicate mainbar entries. Equivalent to 10px => 10*1/16=0.625rem.
 @il-font-size-xsmall:		0.625rem;
 //** Used to indicate subordinate text, such as bylines in forms, subtabs, etc. Equivalent to 12px.
 @il-font-size-small:		0.75rem;
@@ -261,6 +263,8 @@ with the il- variable set here.
 @il-standard-page-small-header-height: 45px;
 @il-standard-page-small-mainbar-height: 50px;
 @il-standard-page-small-logo-width: 40px;
+
+@il-standard-page-small-mainbar-height-w-bottom-safe-area: calc(@il-standard-page-small-mainbar-height + 1.2 * env(safe-area-inset-bottom));
 @il-mainbar-small-btn-height: @il-standard-page-small-mainbar-height;
 @il-mainbar-small-btn-width: 75px;
 @il-metabar-small-entry-height: @il-standard-page-small-header-height;

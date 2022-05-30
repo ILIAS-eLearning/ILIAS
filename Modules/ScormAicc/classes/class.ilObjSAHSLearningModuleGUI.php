@@ -25,10 +25,12 @@
 */
 class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 {
+    private ilPropertyFormGUI $form;
+
     /**
     * Constructor
     */
-    public function __construct($data, int $id, bool $call_by_reference, $prepare_output = true)//PHP8Review: Missing Typehint
+    public function __construct($data, int $id, bool $call_by_reference, bool $prepare_output = true)//missing typehint because mixed
     {
         global $DIC;
         $lng = $DIC->language();
@@ -247,7 +249,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         $forms = array();
 
         $this->initUploadForm();
-        $forms[self::CFORM_IMPORT] = $this->form;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        $forms[self::CFORM_IMPORT] = $this->form;
 
         $forms[self::CFORM_CLONE] = $this->fillCloneTemplate(null, $a_new_type);
 
@@ -723,20 +725,25 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
 
         $parts = explode("_", $a_target);
 
-        if ($ilAccess->checkAccess("write", "", (int) $parts[0])) {
-            $_GET["cmd"] = "";//PHP8Review: Use of $_ global. Pls use the DIC instead
-            $_GET["baseClass"] = "ilSAHSEditGUI";//PHP8Review: Use of $_ global. Pls use the DIC instead
-            $_GET["ref_id"] = $parts[0];//PHP8Review: Use of $_ global. Pls use the DIC instead
-            $_GET["obj_id"] = $parts[1];//PHP8Review: Use of $_ global. Pls use the DIC instead
-            exit;
-        }
+//        if ($ilAccess->checkAccess("write", "", (int) $parts[0])) {
+//            $DIC->ctrl()->setParameterByClass(
+//                "ilSAHSEditGUI",
+//                "ref_id",
+//                $parts[0]
+//            );
+//            $DIC->ctrl()->redirectByClass(ilSAHSEditGUI::class);
+//        }
         if ($ilAccess->checkAccess("visible", "", (int) $parts[0]) || $ilAccess->checkAccess("read", "", (int) $parts[0])) {
-            $_GET["cmd"] = "infoScreen";//PHP8Review: Use of $_ global. Pls use the DIC instead
-            $_GET["baseClass"] = "ilSAHSPresentationGUI";//PHP8Review: Use of $_ global. Pls use the DIC instead
-            $_GET["ref_id"] = $parts[0];//PHP8Review: Use of $_ global. Pls use the DIC instead
-            exit;
+//            //was cmd = "infoScreen"
+            ilObjectGUI::_gotoRepositoryNode((int) $parts[0], 'infoScreen');
+            $DIC->ctrl()->setParameterByClass(
+                "ilSAHSPresentationGUI",
+                "ref_id",
+                $parts[0]
+            );
+//            $DIC->ctrl()->redirectByClass($DIC->ctrl()->getLinkTargetByClass("ilinfoscreengui", "showSummary"));
+            $DIC->ctrl()->redirectByClass($DIC->ctrl()->getLinkTargetByClass("ilSAHSPresentationGUI", "infoScreen"));
         }
-
         if ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             $main_tpl->setOnScreenMessage('info', sprintf(
                 $lng->txt("msg_no_perm_read_item"),

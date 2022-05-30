@@ -57,7 +57,7 @@ class ilAssLacMatchingResultExpression extends ilAssLacAbstractExpression implem
      *
      * @param array $matches
      */
-    protected function setMatches($matches)
+    protected function setMatches($matches) : void
     {
         $this->left_numeric_value = $matches[1][0];
         $this->right_numeric_value = $matches[2][0];

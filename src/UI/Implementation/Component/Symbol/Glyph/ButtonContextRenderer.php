@@ -18,4 +18,9 @@ class ButtonContextRenderer extends Renderer
     {
         return $tpl;
     }
+
+    protected function renderLabel(Component\Component $component, Template $tpl) : Template
+    {
+        return $tpl;
+    }
 }

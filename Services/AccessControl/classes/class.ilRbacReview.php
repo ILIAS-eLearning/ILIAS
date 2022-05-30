@@ -1328,8 +1328,8 @@ class ilRbacReview
 
         $sql =
             "SELECT ops_id" . PHP_EOL
-            ."FROM rbac_operations" . PHP_EOL
-            ."WHERE operation = " . $ilDB->quote($operation, "text") . PHP_EOL
+            . "FROM rbac_operations" . PHP_EOL
+            . "WHERE operation = " . $ilDB->quote($operation, "text") . PHP_EOL
         ;
 
         $res = $ilDB->query($sql);
@@ -1348,9 +1348,9 @@ class ilRbacReview
 
         $sql =
             "SELECT typ_id" . PHP_EOL
-            ."FROM rbac_ta" . PHP_EOL
-            ."WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
-            ."AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
+            . "FROM rbac_ta" . PHP_EOL
+            . "WHERE typ_id = " . $ilDB->quote($type_id, "integer") . PHP_EOL
+            . "AND ops_id = " . $ilDB->quote($ops_id, "integer") . PHP_EOL
         ;
 
         return (bool) $ilDB->numRows($ilDB->query($sql));

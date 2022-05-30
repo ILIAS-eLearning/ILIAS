@@ -47,7 +47,7 @@ class ilUnitConfigurationRepository
     /**
      * @param int $context_id
      */
-    public function setConsumerId($consumer_id)
+    public function setConsumerId($consumer_id) : void
     {
         $this->consumer_id = $consumer_id;
     }
@@ -124,7 +124,7 @@ class ilUnitConfigurationRepository
      * @param int $a_to_category_id
      * @param int $a_question_fi
      */
-    public function copyUnitsByCategories($a_from_category_id, $a_to_category_id, $a_question_fi)
+    public function copyUnitsByCategories($a_from_category_id, $a_to_category_id, $a_question_fi) : void
     {
         /**
          * @var $ilDB ilDBInterface
@@ -297,7 +297,7 @@ class ilUnitConfigurationRepository
         return null;
     }
 
-    protected function loadUnits()
+    protected function loadUnits() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -361,12 +361,12 @@ class ilUnitConfigurationRepository
         return $this->categorizedUnits;
     }
 
-    protected function clearUnits()
+    protected function clearUnits() : void
     {
         $this->units = array();
     }
 
-    protected function addUnit($unit)
+    protected function addUnit($unit) : void
     {
         $this->units[$unit->getId()] = $unit;
     }
@@ -491,7 +491,7 @@ class ilUnitConfigurationRepository
      * @param integer $unit_id
      * @param integer $sequence
      */
-    public function saveUnitOrder($unit_id, $sequence)
+    public function saveUnitOrder($unit_id, $sequence) : void
     {
         /**
          * @var $ilDB ilDBInterface
@@ -579,7 +579,7 @@ class ilUnitConfigurationRepository
      * @param assFormulaQuestionUnitCategory $category
      * @throws ilException
      */
-    public function saveCategory(assFormulaQuestionUnitCategory $category)
+    public function saveCategory(assFormulaQuestionUnitCategory $category) : void
     {
         /**
          * @var $ilDB ilDBInterface
@@ -607,7 +607,7 @@ class ilUnitConfigurationRepository
      * @param assFormulaQuestionUnitCategory $category
      * @throws ilException
      */
-    public function saveNewUnitCategory(assFormulaQuestionUnitCategory $category)
+    public function saveNewUnitCategory(assFormulaQuestionUnitCategory $category) : void
     {
         /**
          * @var $ilDB ilDBInterface
@@ -703,7 +703,7 @@ class ilUnitConfigurationRepository
     /**
      * @param assFormulaQuestionUnit $unit
      */
-    public function createNewUnit(assFormulaQuestionUnit $unit)
+    public function createNewUnit(assFormulaQuestionUnit $unit) : void
     {
         /**
          * @var $ilDB ilDBInterface
@@ -736,7 +736,7 @@ class ilUnitConfigurationRepository
     /**
      * @param assFormulaQuestionUnit $unit
      */
-    public function saveUnit(assFormulaQuestionUnit $unit)
+    public function saveUnit(assFormulaQuestionUnit $unit) : void
     {
         /**
          * @var $ilDB ilDBInterface
@@ -775,7 +775,7 @@ class ilUnitConfigurationRepository
      * @param int $a_from_consumer_id
      * @param int $a_to_consumer_id
      */
-    public function cloneUnits($a_from_consumer_id, $a_to_consumer_id)
+    public function cloneUnits($a_from_consumer_id, $a_to_consumer_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

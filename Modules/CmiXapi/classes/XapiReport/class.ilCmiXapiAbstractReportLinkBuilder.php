@@ -24,26 +24,12 @@
  */
 abstract class ilCmiXapiAbstractReportLinkBuilder
 {
-    /**
-     * @var int
-     */
     protected int $objId;
-    
-    /**
-     * @var string
-     */
     protected string $aggregateEndPoint;
-
-    /**
-     * @var ilCmiXapiStatementsReportFilter
-     */
     protected ilCmiXapiStatementsReportFilter $filter;
 
     /**
      * ilCmiXapiAbstractReportLinkBuilder constructor.
-     * @param int                             $objId
-     * @param string                          $aggregateEndPoint
-     * @param ilCmiXapiStatementsReportFilter $filter
      */
     public function __construct(
         int $objId,
@@ -57,21 +43,13 @@ abstract class ilCmiXapiAbstractReportLinkBuilder
     
     public function getUrl() : string
     {
-        $url = $this->aggregateEndPoint;
-        $url = $this->appendRequestParameters($url);
-        return $url;
+        return $this->appendRequestParameters($this->aggregateEndPoint);
     }
 
     //todo ilUtil
-    /**
-     * @param $url
-     * @return string
-     */
-    protected function appendRequestParameters($url) : string
+    protected function appendRequestParameters(string $url) : string
     {
-        $url = ilUtil::appendUrlParameterString($url, $this->buildPipelineParameter());
-        
-        return $url;
+        return ilUtil::appendUrlParameterString($url, $this->buildPipelineParameter());
     }
     
     protected function buildPipelineParameter() : string
@@ -80,9 +58,6 @@ abstract class ilCmiXapiAbstractReportLinkBuilder
         return "pipeline={$pipeline}";
     }
     
-    /**
-     * @return array
-     */
     abstract protected function buildPipeline() : array;
     
     public function getObjId() : int

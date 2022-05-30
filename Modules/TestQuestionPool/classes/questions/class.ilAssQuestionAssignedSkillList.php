@@ -18,7 +18,7 @@ class ilAssQuestionAssignedSkillList implements Iterator
      * @param integer $skillBaseId
      * @param integer $skillTrefId
      */
-    public function addSkill($skillBaseId, $skillTrefId)
+    public function addSkill($skillBaseId, $skillTrefId) : void
     {
         $this->skills[] = "{$skillBaseId}:{$skillTrefId}";
     }
@@ -81,7 +81,7 @@ class ilAssQuestionAssignedSkillList implements Iterator
         return array('skills');
     }
     
-    public function wakeup()
+    public function wakeup() : void
     {
         // TODO: Implement __wakeup() method.
     }

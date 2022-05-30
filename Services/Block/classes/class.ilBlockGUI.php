@@ -76,6 +76,7 @@ abstract class ilBlockGUI
         global $DIC;
 
 
+        $this->http = $DIC->http();
         $block_service = new ILIAS\Block\Service($DIC);
         $this->block_manager = $block_service->internal()
             ->domain()

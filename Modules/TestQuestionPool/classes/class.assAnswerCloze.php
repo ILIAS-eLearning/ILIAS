@@ -32,13 +32,9 @@ class assAnswerCloze extends ASS_AnswerSimple
      *
      * @var string
      */
-    protected $upperBound;
+    protected ?string $upperBound;
 
-    /**
-     * Individual text length of text/numeric-gap
-     * @var integer
-     */
-    protected $gap_size;
+    protected int $gap_size;
     
 
     /**
@@ -65,7 +61,7 @@ class assAnswerCloze extends ASS_AnswerSimple
      * @param $bound string A string defining the lower bound of an answer for numeric gaps.
      * @TODO: Refactor method to get rid of "locale magic".
      */
-    public function setLowerBound(string $bound)
+    public function setLowerBound(string $bound) : void
     {
         $boundvalue = $this->getNumericValueFromText($bound);
         $value = $this->getNumericValueFromAnswerText();
@@ -82,7 +78,7 @@ class assAnswerCloze extends ASS_AnswerSimple
      * @param $bound string A string defining the upper bound of an answer for numeric gaps.
      * @TODO: Refactor method to get rid of "locale magic".
      */
-    public function setUpperBound(string $bound)
+    public function setUpperBound(string $bound) : void
     {
         $boundvalue = $this->getNumericValueFromText($bound);
         $value = $this->getNumericValueFromAnswerText();
@@ -131,7 +127,7 @@ class assAnswerCloze extends ASS_AnswerSimple
     /**
      * @param int $gap_size
      */
-    public function setGapSize(int $gap_size)
+    public function setGapSize(int $gap_size) : void
     {
         $this->gap_size = $gap_size;
     }

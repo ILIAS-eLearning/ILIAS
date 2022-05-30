@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * This class represents a file wizard property in a property form.
@@ -137,7 +140,7 @@ class ilFileWizardInputGUI extends ilFileInputGUI
                 }
 
                 // check suffixes
-                if ($pictures["tmp_name"][$index] != "" && is_array($this->getSuffixes())) {
+                if ($pictures["tmp_name"][$index] != "" && is_array($this->getSuffixes()) && count($this->getSuffixes()) > 0) {
                     if (!in_array(strtolower($suffix), $this->getSuffixes())) {
                         $this->setAlert($lng->txt("form_msg_file_wrong_file_type"));
                         $uploadcheck = false;
@@ -172,7 +175,9 @@ class ilFileWizardInputGUI extends ilFileInputGUI
         foreach ($this->filenames as $value) {
             if (strlen($value)) {
                 $tpl->setCurrentBlock("image");
-                $tpl->setVariable("SRC_IMAGE", $this->getImagePathWeb() . ilLegacyFormElementsUtil::prepareFormOutput(
+                $tpl->setVariable(
+                    "SRC_IMAGE",
+                    $this->getImagePathWeb() . ilLegacyFormElementsUtil::prepareFormOutput(
                         $value
                     )
                 );

@@ -29,26 +29,21 @@ class ilCmiXapiRegistrationGUI
     const CMD_CANCEL = 'cancel';
     
     const DEFAULT_CMD = self::CMD_SHOW_FORM;
-    
-    /**
-     * @var ilObjCmiXapi
-     */
+
     protected ilObjCmiXapi $object;
     
-    /**
-     * @var ilCmiXapiUser
-     */
     protected ilCmiXapiUser $cmixUser;
     private \ilGlobalTemplateInterface $main_tpl;
+    private \ILIAS\DI\Container $dic;
     
     /**
      * ilCmiXapiRegistrationGUI constructor.
-     * @param ilObjCmiXapi $object
      */
     public function __construct(ilObjCmiXapi $object)
     {
         global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate(); /* @var \ILIAS\DI\Container $DIC */
+        $this->dic = $DIC;
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         
         $this->object = $object;
         
@@ -56,7 +51,6 @@ class ilCmiXapiRegistrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     public function executeCommand() : void
@@ -71,39 +65,30 @@ class ilCmiXapiRegistrationGUI
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function cancelCmd() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
+        $this->dic->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
     }
 
     /**
      * @param ilPropertyFormGUI|null $form
-     * @return void
      */
     protected function showFormCmd(ilPropertyFormGUI $form = null) : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         if ($form === null) {
             $form = $this->buildForm();
         }
         
-        $DIC->ui()->mainTemplate()->setContent($form->getHTML());
+        $this->main_tpl->setContent($form->getHTML());
     }
 
     /**
-     * @return void
      * @throws ilCtrlException
      */
     protected function saveFormCmd() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         $form = $this->buildForm();
     
         if (!$form->checkInput()) {
@@ -114,34 +99,31 @@ class ilCmiXapiRegistrationGUI
         
         $this->saveRegistration($form);
         
-        $this->main_tpl->setOnScreenMessage('success', $DIC->language()->txt('registration_saved_successfully'), true);
-        $DIC->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
+        $this->main_tpl->setOnScreenMessage('success', $this->dic->language()->txt('registration_saved_successfully'), true);
+        $this->dic->ctrl()->redirectByClass(ilObjCmiXapiGUI::class, ilObjCmiXapiGUI::CMD_INFO_SCREEN);
     }
 
     /**
-     * @return ilPropertyFormGUI
      * @throws ilCtrlException
      */
     protected function buildForm() : \ilPropertyFormGUI
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         $form = new ilPropertyFormGUI();
         
-        $form->setFormAction($DIC->ctrl()->getFormAction($this, self::CMD_SHOW_FORM));
+        $form->setFormAction($this->dic->ctrl()->getFormAction($this, self::CMD_SHOW_FORM));
         
         if (!$this->hasRegistration()) {
-            $form->setTitle($DIC->language()->txt('form_create_registration'));
-            $form->addCommandButton(self::CMD_SAVE_FORM, $DIC->language()->txt('btn_create_registration'));
+            $form->setTitle($this->dic->language()->txt('form_create_registration'));
+            $form->addCommandButton(self::CMD_SAVE_FORM, $this->dic->language()->txt('btn_create_registration'));
         } else {
-            $form->setTitle($DIC->language()->txt('form_change_registration'));
-            $form->addCommandButton(self::CMD_SAVE_FORM, $DIC->language()->txt('btn_change_registration'));
+            $form->setTitle($this->dic->language()->txt('form_change_registration'));
+            $form->addCommandButton(self::CMD_SAVE_FORM, $this->dic->language()->txt('btn_change_registration'));
         }
         
-        $form->addCommandButton(self::CMD_CANCEL, $DIC->language()->txt('cancel'));
+        $form->addCommandButton(self::CMD_CANCEL, $this->dic->language()->txt('cancel'));
         
-        $userIdent = new ilEMailInputGUI($DIC->language()->txt('field_user_ident'), 'user_ident');
-        $userIdent->setInfo($DIC->language()->txt('field_user_ident_info'));
+        $userIdent = new ilEMailInputGUI($this->dic->language()->txt('field_user_ident'), 'user_ident');
+        $userIdent->setInfo($this->dic->language()->txt('field_user_ident_info'));
         $userIdent->setRequired(true);
         $userIdent->setValue($this->cmixUser->getUsrIdent());
         $form->addItem($userIdent);
@@ -149,18 +131,11 @@ class ilCmiXapiRegistrationGUI
         return $form;
     }
 
-    /**
-     * @return int
-     */
     protected function hasRegistration() : int
     {
         return strlen($this->cmixUser->getUsrIdent());
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     * @return void
-     */
     protected function saveRegistration(ilPropertyFormGUI $form) : void
     {
         $this->cmixUser->setUsrIdent($form->getInput('user_ident'));

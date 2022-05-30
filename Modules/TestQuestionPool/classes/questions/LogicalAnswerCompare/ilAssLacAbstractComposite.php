@@ -22,7 +22,7 @@ abstract class ilAssLacAbstractComposite implements ilAssLacCompositeInterface
      *
      * @param ilAssLacCompositeInterface $node
      */
-    public function addNode(ilAssLacCompositeInterface $node)
+    public function addNode(ilAssLacCompositeInterface $node) : void
     {
         $this->nodes[] = $node;
     }

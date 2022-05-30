@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclSelectionFieldRepresentation
@@ -12,12 +27,7 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
     const PROP_SELECTION_TYPE = '';
     const PROP_SELECTION_OPTIONS = '';
 
-    /**
-     * @param ilObjDataCollection $dcl
-     * @param string              $mode
-     * @return ilPropertyFormGUI
-     */
-    protected function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create')
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 
@@ -52,11 +62,9 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
     }
 
     /**
-     * @param ilPropertyFormGUI $form
-     * @param int               $record_id
      * @return ilMultiSelectInputGUI|ilRadioGroupInputGUI|ilSelectInputGUI
      */
-    public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilFormPropertyGUI
     {
         /** @var ilDclSelectionOption[] $options */
         $options = ilDclSelectionOption::getAllForField($this->getField()->getId());
@@ -101,7 +109,7 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
 
     /**
      * @param ilTable2GUI $table
-     * @return null
+     * @return string|array|null
      */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
@@ -126,5 +134,5 @@ abstract class ilDclSelectionFieldRepresentation extends ilDclBaseFieldRepresent
     /**
      * @return mixed
      */
-    abstract protected function buildOptionsInput();
+    abstract protected function buildOptionsInput() : ilDclGenericMultiInputGUI;
 }

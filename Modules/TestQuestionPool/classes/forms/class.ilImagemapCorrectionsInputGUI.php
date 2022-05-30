@@ -17,7 +17,7 @@ class ilImagemapCorrectionsInputGUI extends ilImagemapFileInputGUI
         $this->setAreasByArray($a_values[$this->getPostVar()]['coords']);
     }
     
-    public function setAreasByArray($a_areas)
+    public function setAreasByArray($a_areas) : void
     {
         if (is_array($a_areas['points'])) {
             foreach ($this->areas as $idx => $name) {

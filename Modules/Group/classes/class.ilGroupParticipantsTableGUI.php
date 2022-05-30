@@ -65,7 +65,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
         $this->addColumn($this->lng->txt('grp_mem_contacts'), 'contact');
         $this->addColumn($this->lng->txt('grp_notification'), 'notification');
 
-        $this->addColumn($this->lng->txt(''), 'optional');
+        $this->addColumn($this->lng->txt('actions'), 'optional', '', false, 'ilMembershipRowActionsHeader');
         $this->setDefaultOrderField('roles');
 
         $this->setRowTemplate("tpl.show_participants_row.html", "Modules/Group");
@@ -175,8 +175,10 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                     
                 case 'org_units':
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST',
-                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id']));
+                    $this->tpl->setVariable(
+                        'VAL_CUST',
+                        ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($a_set['usr_id'])
+                    );
                     $this->tpl->parseCurrentBlock();
                     break;
                     

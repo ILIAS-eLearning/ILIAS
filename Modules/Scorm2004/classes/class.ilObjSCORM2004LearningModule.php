@@ -126,8 +126,8 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
 
                 // read backupfile, convert each line to utf8, write line to new file
                 // php < 4.3 style
-                $f_write_handler = fopen($manifest_file . ".new", "w");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
-                $f_read_handler = fopen($manifest_file . ".old", "r");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
+                $f_write_handler = fopen($manifest_file . ".new", "w");
+                $f_read_handler = fopen($manifest_file . ".old", "r");
                 while (!feof($f_read_handler)) {
                     $zeile = fgets($f_read_handler);
                     //echo mb_detect_encoding($zeile);
@@ -154,10 +154,10 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             }
         } else {
             // check whether file starts with BOM (that confuses some sax parsers, see bug #1795)
-            $hmani = fopen($manifest_file, "r");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
+            $hmani = fopen($manifest_file, "r");
             $start = fread($hmani, 3);
             if (strtolower(bin2hex($start)) === "efbbbf") {
-                $f_write_handler = fopen($manifest_file . ".new", "w");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
+                $f_write_handler = fopen($manifest_file . ".new", "w");
                 while (!feof($hmani)) {
                     $n = fread($hmani, 900);
                     fwrite($f_write_handler, $n);
@@ -472,7 +472,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             $scos = $collection->getItems();
         }
 
-        $fhandle = fopen($a_file, "r");//PHP8Review: This is not binary safe. As long as this isnt explicitly intentional this should add an "b" in mode
+        $fhandle = fopen($a_file, "rb");//changed from r to rb
 
         $obj_id = $this->getID();
         $users = array();

@@ -10,7 +10,7 @@ abstract class ilADTPresentationBridge
 {
     protected ilADT $adt;
     /**
-     * @var callable
+     * @var ?callable
      */
     protected $decorator;
     protected ilLanguage $lng;
@@ -56,7 +56,7 @@ abstract class ilADTPresentationBridge
      * Set decorator callback
      * @param callable $a_callback
      */
-    public function setDecoratorCallBack(callable $a_callback) : void
+    public function setDecoratorCallBack(?callable $a_callback) : void
     {
         $this->decorator = $a_callback;
     }

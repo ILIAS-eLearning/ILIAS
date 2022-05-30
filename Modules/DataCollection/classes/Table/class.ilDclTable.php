@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclBaseFieldModel
@@ -14,123 +29,70 @@
  */
 class ilDclTable
 {
-
+    protected int $id = 0;
+    protected ?int $objId = null;
+    protected ?ilObjDataCollection $obj = null;
+    protected string $title = "";
     /**
-     * @var int
+     * @var ilDclBaseFieldModel[]
      */
-    protected $id = 0;
+    protected array $fields = [];
     /**
-     * @var int
+     * @var ilDclStandardField[]
      */
-    protected $objId;
+    protected array $stdFields = [];
     /**
-     * @var ilObjDataCollection
+     * @var ilDclBaseRecordModel[]
      */
-    protected $obj;
-    /**
-     * @var string
-     */
-    protected $title;
-    /**
-     * @var array ilDclBaseFieldModel[]
-     */
-    protected $fields;
-    /**
-     * @var array ilDclStandardField[]
-     */
-    protected $stdFields;
-    /**
-     * @var array ilDclBaseRecordModel[]
-     */
-    protected $records;
-    /**
-     * @var bool
-     */
-    protected $is_visible;
-    /**
-     * @var bool
-     */
-    protected $add_perm;
-    /**
-     * @var bool
-     */
-    protected $edit_perm;
-    /**
-     * @var bool
-     */
-    protected $delete_perm;
-    /**
-     * @var bool
-     */
-    protected $edit_by_owner;
-    /**
-     * @var bool
-     */
-    protected $delete_by_owner;
-    /**
-     * @var bool
-     */
-    protected $save_confirmation;
-    /**
-     * @var bool
-     */
-    protected $limited;
-    /**
-     * @var string
-     */
-    protected $limit_start;
-    /**
-     * @var string
-     */
-    protected $limit_end;
-    /**
-     * @var bool
-     */
-    protected $export_enabled;
-    /**
-     * @var integer
-     */
-    protected $table_order;
-    /**
-     * @var bool
-     */
-    protected $import_enabled;
+    protected array $records = [];
+    protected bool $is_visible = false;
+    protected bool $add_perm = false;
+    protected bool $edit_perm = false;
+    protected bool $delete_perm = false;
+    protected bool $edit_by_owner = false;
+    protected bool $delete_by_owner = false;
+    protected bool $save_confirmation = false;
+    protected bool $limited = false;
+    protected ?string $limit_start = null;
+    protected ?string $limit_end = null;
+    protected bool $export_enabled = false;
+    protected int $table_order = 0;
+    protected bool $import_enabled = false;
     /**
      * ID of the default sorting field. Can be a DB field (int) or a standard field (string)
-     * @var string
+     * @var int|string $default_sort_field
      */
     protected $default_sort_field = 0;
     /**
      * Default sort-order (asc|desc)
-     * @var string
      */
-    protected $default_sort_field_order = 'asc';
+    protected string $default_sort_field_order = 'asc';
     /**
      * Description for this table displayed above records
-     * @var string
      */
-    protected $description = '';
+    protected string $description = '';
     /**
      * True if users can add comments on each record of this table
-     * @var bool
      */
-    protected $public_comments = 0;
+    protected int $public_comments = 0;
     /**
      * True if user can only view his/her own entries in the table
-     * @var bool
      */
-    protected $view_own_records_perm = 0;
+    protected int $view_own_records_perm = 0;
     /**
      * table fields and std fields combined
-     * @var null|array
      */
-    protected $all_fields = null;
+    protected ?array $all_fields = null;
+    protected ILIAS\HTTP\Services $http;
+    protected ILIAS\Refinery\Factory $refinery;
 
-    /**
-     * @param int $a_id
-     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
+        global $DIC;
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
         if ($a_id != 0) {
             $this->id = $a_id;
             $this->doRead();
@@ -140,7 +102,7 @@ class ilDclTable
     /**
      * Read table
      */
-    public function doRead()
+    public function doRead() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -177,12 +139,12 @@ class ilDclTable
      * unlink the the maintable in the collections object to make this work.
      * @param boolean $delete_main_table true to delete table anyway
      */
-    public function doDelete($delete_only_content = false, $omit_notification = false)
+    public function doDelete(bool $delete_only_content = false, bool $omit_notification = false)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        /** @var $ilDB ilDB */
+        /** @var $ilDB ilDBInterface */
         foreach ($this->getRecords() as $record) {
             $record->doDelete($omit_notification);
         }
@@ -207,10 +169,7 @@ class ilDclTable
         }
     }
 
-    /**
-     * @param bool $create_views
-     */
-    public function doCreate($create_tablefield_setting = true, $create_standardview = true)
+    public function doCreate(bool $create_tablefield_setting = true, bool $create_standardview = true) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -254,10 +213,7 @@ class ilDclTable
         }
     }
 
-    /*
-     * doUpdate
-     */
-    public function doUpdate()
+    public function doUpdate() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -294,65 +250,48 @@ class ilDclTable
 
     /**
      * Set table id
-     * @param int $a_id
      */
-    public function setId($a_id)
+    public function setId(int $a_id) : void
     {
         $this->id = $a_id;
     }
 
     /**
      * Get table id
-     * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
-    /**
-     * @param $a_id
-     */
-    public function setObjId($a_id)
+    public function setObjId(int $a_id) : void
     {
         $this->objId = $a_id;
     }
 
-    /**
-     * @return int
-     */
-    public function getObjId()
+    public function getObjId() : ?int
     {
         return $this->objId;
     }
 
-    /**
-     * @param $a_title
-     */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-     * @return ilObjDataCollection
-     */
-    public function getCollectionObject()
+    public function getCollectionObject() : ilObjDataCollection
     {
         $this->loadObj();
 
         return $this->obj;
     }
 
-    protected function loadObj()
+    protected function loadObj() : void
     {
         if ($this->obj == null) {
             $this->obj = new ilObjDataCollection($this->objId, false);
@@ -362,7 +301,7 @@ class ilDclTable
     /**
      * @return ilDclBaseRecordModel[]
      */
-    public function getRecords()
+    public function getRecords() : array
     {
         if ($this->records == null) {
             $this->loadRecords();
@@ -371,7 +310,7 @@ class ilDclTable
         return $this->records;
     }
 
-    public function loadRecords()
+    public function loadRecords() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -387,10 +326,7 @@ class ilDclTable
         $this->records = $records;
     }
 
-    /**
-     * @param $field_id
-     */
-    public function deleteField($field_id)
+    public function deleteField(int $field_id)
     {
         $field = ilDclCache::getFieldCache($field_id);
         $records = $this->getRecords();
@@ -402,11 +338,7 @@ class ilDclTable
         $field->doDelete();
     }
 
-    /**
-     * @param $field_id
-     * @return ilDclBaseFieldModel|null
-     */
-    public function getField($field_id)
+    public function getField(string $field_id) : ?ilDclBaseFieldModel
     {
         $fields = $this->getFields();
         $field = null;
@@ -420,10 +352,9 @@ class ilDclTable
     }
 
     /**
-     * @param bool $force_include_comments
-     * @return array
+     * @return int[]
      */
-    public function getFieldIds()
+    public function getFieldIds() : array
     {
         $field_ids = array();
         foreach ($this->getFields() as $field) {
@@ -435,7 +366,7 @@ class ilDclTable
         return $field_ids;
     }
 
-    protected function loadCustomFields()
+    protected function loadCustomFields() : void
     {
         if (!$this->fields) {
             global $DIC;
@@ -457,7 +388,7 @@ class ilDclTable
 						   WHERE il_dcl_field.table_id = %s
 						ORDER BY il_dcl_tfield_set.field_order ASC";
 
-            $set = $ilDB->queryF($query, array('integer'), array((int) $this->getId()));
+            $set = $ilDB->queryF($query, array('integer'), array($this->getId()));
             $fields = array();
             while ($rec = $ilDB->fetchAssoc($set)) {
                 $field = ilDclCache::buildFieldFromRecord($rec);
@@ -469,7 +400,10 @@ class ilDclTable
         }
     }
 
-    public function getCustomFields()
+    /**
+     * @return ilDclBaseFieldModel[]
+     */
+    public function getCustomFields() : array
     {
         if (!$this->fields) {
             $this->loadCustomFields();
@@ -482,7 +416,7 @@ class ilDclTable
      * getNewOrder
      * @return int returns the place where a new field should be placed.
      */
-    public function getNewFieldOrder()
+    public function getNewFieldOrder() : int
     {
         $fields = $this->getFields();
         $place = 0;
@@ -498,7 +432,7 @@ class ilDclTable
     /**
      * @return int
      */
-    public function getNewTableviewOrder()
+    public function getNewTableviewOrder() : int
     {
         return (ilDclTableView::getCountForTableId($this->getId()) + 1) * 10;
     }
@@ -506,7 +440,7 @@ class ilDclTable
     /**
      * @param ilDclTableView[] $tableviews
      */
-    public function sortTableViews(array $tableviews = null)
+    public function sortTableViews(array $tableviews = null) : void
     {
         if ($tableviews == null) {
             $tableviews = $this->getTableViews();
@@ -525,7 +459,7 @@ class ilDclTable
      * @param bool $force_include_comments by default false, so comments will only load when enabled in tablesettings
      * @return ilDclBaseFieldModel[]
      */
-    public function getFields()
+    public function getFields() : array
     {
         if ($this->all_fields == null) {
             $this->reloadFields();
@@ -534,7 +468,7 @@ class ilDclTable
         return $this->all_fields;
     }
 
-    public function reloadFields()
+    public function reloadFields() : void
     {
         $this->loadCustomFields();
         $this->stdFields = $this->getStandardFields();
@@ -548,18 +482,16 @@ class ilDclTable
     /**
      * @return ilDclTableView[] all tableviews ordered by tableview_order
      */
-    public function getTableViews()
+    public function getTableViews() : array
     {
         return ilDclTableView::getAllForTableId($this->getId());
     }
 
     /**
      * For current user
-     * @param int $ref_id DataCollections reference
-     * @param int $user_id
      * @return ilDclTableView[]
      */
-    public function getVisibleTableViews($ref_id, $with_active_detailedview = false, $user_id = 0)
+    public function getVisibleTableViews(int $ref_id, bool $with_active_detailedview = false, int $user_id = 0) : array
     {
         if (ilObjDataCollectionAccess::hasWriteAccess($ref_id, $user_id) && !$with_active_detailedview) {
             return $this->getTableViews();
@@ -579,8 +511,9 @@ class ilDclTable
 
     /**
      * get id of first (for current user) available view
+     * @return bool|int|null
      */
-    public function getFirstTableViewId(int $ref_id, int $user_id = 0) : bool
+    public function getFirstTableViewId(int $ref_id, int $user_id = 0)
     {
         $uid = $user_id;
         $array = $this->getVisibleTableViews($ref_id, false, $uid);
@@ -593,7 +526,7 @@ class ilDclTable
      * Returns all fields of this table including the standard fields, wich are supported for formulas
      * @return ilDclBaseFieldModel[]
      */
-    public function getFieldsForFormula()
+    public function getFieldsForFormula() : array
     {
         $unsupported = array(
             ilDclDatatype::INPUTFORMAT_ILIAS_REF,
@@ -624,7 +557,7 @@ class ilDclTable
      * Comments are only included if active in this table
      * @return ilDclStandardField[]
      */
-    public function getStandardFields()
+    public function getStandardFields() : array
     {
         if ($this->stdFields == null) {
             $this->stdFields = ilDclStandardField::_getStandardFields($this->id);
@@ -647,7 +580,7 @@ class ilDclTable
      * Returns all fields of this table which are NOT standard fields.
      * @return ilDclBaseFieldModel[]
      */
-    public function getRecordFields()
+    public function getRecordFields() : array
     {
         $this->loadCustomFields();
 
@@ -658,13 +591,15 @@ class ilDclTable
      * @param bool $creation_mode
      * @return array
      */
-    public function getEditableFields(bool $creation_mode)
+    public function getEditableFields(bool $creation_mode) : array
     {
         $fields = $this->getRecordFields();
         $editableFields = array();
 
         foreach ($fields as $field) {
-            if (!$field->getViewSetting($_POST["tableview_id"])->isLocked($creation_mode)) {
+            $tableview_id = $this->http->wrapper()->post()->retrieve('tableview_id',
+                $this->refinery->kindlyTo()->int());
+            if (!$field->getViewSetting($tableview_id)->isLocked($creation_mode)) {
                 $editableFields[] = $field;
             }
         }
@@ -674,9 +609,9 @@ class ilDclTable
 
     /**
      * Return all the fields that are marked as exportable
-     * @return array ilDclBaseFieldModel
+     * @return ilDclBaseFieldModel[]
      */
-    public function getExportableFields()
+    public function getExportableFields() : array
     {
         $fields = $this->getFields();
         $exportableFields = array();
@@ -694,7 +629,7 @@ class ilDclTable
      * @param $record ilDclBaseRecordModel the record which will be edited
      * @return bool
      */
-    public function hasPermissionToEditRecord($ref_id, ilDclBaseRecordModel $record)
+    public function hasPermissionToEditRecord(int $ref_id, ilDclBaseRecordModel $record) : bool
     {
         if ($this->getObjId() != ilObjDataCollection::_lookupObjectId($ref_id)) {
             return false;
@@ -719,11 +654,10 @@ class ilDclTable
     }
 
     /**
-     * @param $ref_id int the reference id of the current datacollection object
-     * @param $record ilDclBaseRecordModel the record which will be deleted
-     * @return bool
+     * @param int                  $ref_id the reference id of the current datacollection object
+     * @param ilDclBaseRecordModel $record the record which will be deleted
      */
-    public function hasPermissionToDeleteRecord($ref_id, ilDclBaseRecordModel $record)
+    public function hasPermissionToDeleteRecord(int $ref_id, ilDclBaseRecordModel $record) : bool
     {
         if ($this->getObjId() != ilObjDataCollection::_lookupObjectId($ref_id)) {
             return false;
@@ -751,7 +685,7 @@ class ilDclTable
      * @param $ref_id
      * @return bool
      */
-    public function hasPermissionToDeleteRecords($ref_id)
+    public function hasPermissionToDeleteRecords(int $ref_id) : bool
     {
         if ($this->getObjId() != ilObjDataCollection::_lookupObjectId($ref_id)) {
             return false;
@@ -761,13 +695,7 @@ class ilDclTable
             || ilObjDataCollectionAccess::hasWriteAccess($ref_id));
     }
 
-    /**
-     * @param int $ref_id
-     * @param     $record ilDclBaseRecordModel
-     * @param int $user_id
-     * @return bool
-     */
-    public function hasPermissionToViewRecord($ref_id, $record, $user_id = 0)
+    public function hasPermissionToViewRecord(int $ref_id, ilDclBaseRecordModel $record, int $user_id = 0) : bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -780,7 +708,7 @@ class ilDclTable
         }
         if (ilObjDataCollectionAccess::hasReadAccess($ref_id)) {
             // Check for view only own entries setting
-            if ($this->getViewOwnRecordsPerm() && ($user_id ? $user_id : $ilUser->getId()) != $record->getOwner()) {
+            if ($this->getViewOwnRecordsPerm() && ($user_id ?: $ilUser->getId()) != $record->getOwner()) {
                 return false;
             }
 
@@ -794,7 +722,7 @@ class ilDclTable
      * @param ilDclBaseRecordModel $record
      * @return bool
      */
-    protected function doesRecordBelongToUser(ilDclBaseRecordModel $record)
+    protected function doesRecordBelongToUser(ilDclBaseRecordModel $record) : bool
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -805,7 +733,7 @@ class ilDclTable
     /**
      * @return bool
      */
-    public function checkLimit()
+    public function checkLimit() : bool
     {
         if ($this->getLimited()) {
             $now = new ilDateTime(date("Y-m-d H:i:s"), IL_CAL_DATE);
@@ -821,7 +749,7 @@ class ilDclTable
     /**
      * Update fields
      */
-    public function updateFields()
+    public function updateFields() : void
     {
         foreach ($this->getFields() as $field) {
             $field->doUpdate();
@@ -830,9 +758,9 @@ class ilDclTable
 
     /**
      * sortFields
-     * @param $fields ilDclBaseFieldModel[]
+     * @param ilDclBaseFieldModel[] $fields
      */
-    public function sortFields(&$fields)
+    public function sortFields(array &$fields) : void
     {
         $this->sortByOrder($fields);
         //After sorting the array loses it's keys respectivly their keys are set form $field->id to 1,2,3... so we reset the keys.
@@ -845,20 +773,20 @@ class ilDclTable
     }
 
     /**
-     * @param $array ilDclBaseFieldModel[] the array to sort
+     * @param ilDclBaseFieldModel[] $array the array to sort
      */
-    protected function sortByOrder(&$array)
+    protected function sortByOrder(array &$array) : void
     {
         // php-bug: https://bugs.php.net/bug.php?id=50688
         // fixed in php 7 but for now we need the @ a workaround
-        @usort($array, array($this, "compareOrder"));
+        usort($array, array($this, "compareOrder"));
     }
 
     /**
      * buildOrderFields
      * orders the fields.
      */
-    public function buildOrderFields()
+    public function buildOrderFields() : void
     {
         $fields = $this->getFields();
         $this->sortByOrder($fields);
@@ -875,10 +803,8 @@ class ilDclTable
 
     /**
      * Get a field by title
-     * @param $title
-     * @return ilDclBaseFieldModel
      */
-    public function getFieldByTitle($title)
+    public function getFieldByTitle(string $title) : ilDclBaseFieldModel
     {
         $return = null;
         foreach ($this->getFields() as $field) {
@@ -891,26 +817,17 @@ class ilDclTable
         return $return;
     }
 
-    /**
-     * @param boolean $add_perm
-     */
-    public function setAddPerm($add_perm)
+    public function setAddPerm(bool $add_perm) : void
     {
         $this->add_perm = $add_perm;
     }
 
-    /**
-     * @return boolean
-     */
-    public function getAddPerm()
+    public function getAddPerm() : bool
     {
-        return (bool) $this->add_perm;
+        return $this->add_perm;
     }
 
-    /**
-     * @param boolean $delete_perm
-     */
-    public function setDeletePerm($delete_perm)
+    public function setDeletePerm(bool $delete_perm) : void
     {
         $this->delete_perm = $delete_perm;
         if (!$delete_perm) {
@@ -918,18 +835,12 @@ class ilDclTable
         }
     }
 
-    /**
-     * @return boolean
-     */
-    public function getDeletePerm()
+    public function getDeletePerm() : bool
     {
-        return (bool) $this->delete_perm;
+        return $this->delete_perm;
     }
 
-    /**
-     * @param boolean $edit_by_owner
-     */
-    public function setEditByOwner($edit_by_owner)
+    public function setEditByOwner(bool $edit_by_owner) : void
     {
         $this->edit_by_owner = $edit_by_owner;
         if ($edit_by_owner) {
@@ -937,26 +848,17 @@ class ilDclTable
         }
     }
 
-    /**
-     * @return boolean
-     */
-    public function getEditByOwner()
+    public function getEditByOwner() : bool
     {
-        return (bool) $this->edit_by_owner;
+        return $this->edit_by_owner;
     }
 
-    /**
-     * @return boolean
-     */
-    public function getDeleteByOwner()
+    public function getDeleteByOwner() : bool
     {
-        return (bool) $this->delete_by_owner;
+        return $this->delete_by_owner;
     }
 
-    /**
-     * @param boolean $delete_by_owner
-     */
-    public function setDeleteByOwner($delete_by_owner)
+    public function setDeleteByOwner(bool $delete_by_owner) : void
     {
         $this->delete_by_owner = $delete_by_owner;
         if ($delete_by_owner) {
@@ -964,10 +866,7 @@ class ilDclTable
         }
     }
 
-    /**
-     * @param boolean $edit_perm
-     */
-    public function setEditPerm($edit_perm)
+    public function setEditPerm(bool $edit_perm) : void
     {
         $this->edit_perm = $edit_perm;
         if (!$edit_perm) {
@@ -975,34 +874,22 @@ class ilDclTable
         }
     }
 
-    /**
-     * @return boolean
-     */
-    public function getEditPerm()
+    public function getEditPerm() : bool
     {
-        return (bool) $this->edit_perm;
+        return $this->edit_perm;
     }
 
-    /**
-     * @param boolean $limited
-     */
-    public function setLimited($limited)
+    public function setLimited(bool $limited) : void
     {
         $this->limited = $limited;
     }
 
-    /**
-     * @return boolean
-     */
-    public function getLimited()
+    public function getLimited() : bool
     {
         return $this->limited;
     }
 
-    /**
-     * @param string $limit_end
-     */
-    public function setLimitEnd($limit_end)
+    public function setLimitEnd(?string $limit_end) : void
     {
         $this->limit_end = $limit_end;
     }
@@ -1010,81 +897,53 @@ class ilDclTable
     /**
      * @return string
      */
-    public function getLimitEnd()
+    public function getLimitEnd() : ?string
     {
         return $this->limit_end;
     }
 
-    /**
-     * @param string $limit_start
-     */
-    public function setLimitStart($limit_start)
+    public function setLimitStart(?string $limit_start) : void
     {
         $this->limit_start = $limit_start;
     }
 
-    /**
-     * @return string
-     */
-    public function getLimitStart()
+    public function getLimitStart() : ?string
     {
         return $this->limit_start;
     }
 
-    /**
-     * @param boolean $is_visible
-     */
-    public function setIsVisible($is_visible)
+    public function setIsVisible(bool $is_visible) : void
     {
         $this->is_visible = $is_visible;
     }
 
-    /**
-     * @return boolean
-     */
-    public function getIsVisible()
+    public function getIsVisible() : bool
     {
         return $this->is_visible;
     }
 
-    /**
-     * @param string $description
-     */
-    public function setDescription($description)
+    public function setDescription(string $description) : void
     {
         $this->description = $description;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
 
-    /**
-     * /**
-     * @param string $default_sort_field
-     */
-    public function setDefaultSortField($default_sort_field)
+    public function setDefaultSortField(string $default_sort_field) : void
     {
-        $default_sort_field = ($default_sort_field) ? $default_sort_field : 0; // Change null or empty strings to zero
+        $default_sort_field = ($default_sort_field) ?: 0; // Change null or empty strings to zero
         $this->default_sort_field = $default_sort_field;
     }
 
-    /**
-     * @return string
-     */
-    public function getDefaultSortField()
+    public function getDefaultSortField() : string
     {
         return $this->default_sort_field;
     }
 
-    /**
-     * @param string $default_sort_field_order
-     */
-    public function setDefaultSortFieldOrder($default_sort_field_order)
+    public function setDefaultSortFieldOrder(string $default_sort_field_order) : void
     {
         if (!in_array($default_sort_field_order, array('asc', 'desc'))) {
             $default_sort_field_order = 'asc';
@@ -1092,58 +951,37 @@ class ilDclTable
         $this->default_sort_field_order = $default_sort_field_order;
     }
 
-    /**
-     * @return string
-     */
-    public function getDefaultSortFieldOrder()
+    public function getDefaultSortFieldOrder() : string
     {
         return $this->default_sort_field_order;
     }
 
-    /**
-     * @param boolean $public_comments
-     */
-    public function setPublicCommentsEnabled($public_comments)
+    public function setPublicCommentsEnabled(bool $public_comments) : void
     {
         $this->public_comments = $public_comments;
     }
 
-    /**
-     * @return boolean
-     */
-    public function getPublicCommentsEnabled()
+    public function getPublicCommentsEnabled() : bool
     {
         return $this->public_comments;
     }
 
-    /**
-     * @param boolean $view_own_perm
-     */
-    public function setViewOwnRecordsPerm($view_own_perm)
+    public function setViewOwnRecordsPerm(bool $view_own_perm) : void
     {
         $this->view_own_records_perm = (int) $view_own_perm;
     }
 
-    /**
-     * @return boolean
-     */
-    public function getViewOwnRecordsPerm()
+    public function getViewOwnRecordsPerm() : bool
     {
         return (bool) $this->view_own_records_perm;
     }
 
-    /**
-     * @return boolean
-     */
-    public function getSaveConfirmation()
+    public function getSaveConfirmation() : bool
     {
         return $this->save_confirmation;
     }
 
-    /**
-     * @param boolean $save_confirmation
-     */
-    public function setSaveConfirmation($save_confirmation)
+    public function setSaveConfirmation(bool $save_confirmation) : void
     {
         $this->save_confirmation = $save_confirmation;
     }
@@ -1152,19 +990,14 @@ class ilDclTable
      * hasCustomFields
      * @return boolean
      */
-    public function hasCustomFields()
+    public function hasCustomFields() : bool
     {
         $this->loadCustomFields();
 
         return (count($this->fields) > 0) ? true : false;
     }
 
-    /**
-     * @param $a
-     * @param $b
-     * @return int
-     */
-    public function compareOrder($a, $b)
+    public function compareOrder(ilDclBaseFieldModel $a, ilDclBaseFieldModel $b) : int
     {
         if (is_null($a->getOrder() == null) && is_null($b->getOrder() == null)) {
             return 0;
@@ -1179,10 +1012,7 @@ class ilDclTable
         return $a->getOrder() < $b->getOrder() ? -1 : 1;
     }
 
-    /**
-     * @param ilDclTable $original
-     */
-    public function cloneStructure(ilDclTable $original)
+    public function cloneStructure(ilDclTable $original) : void
     {
         $this->setTitle($original->getTitle());
         $this->setDescription($original->getDescription());
@@ -1210,7 +1040,7 @@ class ilDclTable
         // Clone standard-fields
         $org_std_fields = $original->getStandardFields();
         foreach ($this->getStandardFields() as $element_key => $std_field) {
-            $std_field->cloneStructure($org_std_fields[$element_key]);
+            $std_field->clone($org_std_fields[$element_key]);
             if ($std_field->getId() === $original->getDefaultSortField()) {
                 $default_sort_field = $std_field->getId();
             }
@@ -1253,10 +1083,7 @@ class ilDclTable
         ilDclCache::setCloneOf($original->getId(), $this->getId(), ilDclCache::TYPE_TABLE);
     }
 
-    /**
-     *
-     */
-    public function afterClone()
+    public function afterClone() : void
     {
         foreach ($this->getFields() as $field) {
             $field->afterClone($this->getRecords());
@@ -1265,26 +1092,24 @@ class ilDclTable
 
     /**
      * _hasRecords
-     * @return boolean
      */
-    public function _hasRecords()
+    public function _hasRecords() : bool
     {
         return (count($this->getRecords()) > 0) ? true : false;
     }
 
     /**
-     * @param $field ilDclBaseFieldModel add an already created field for eg. ordering.
+     * @param ilDclBaseFieldModel $field add an already created field for eg. ordering.
      */
-    public function addField($field)
+    public function addField(ilDclBaseFieldModel $field) : void
     {
         $this->all_fields[$field->getId()] = $field;
     }
 
     /**
-     * @param $table_id int
-     * @return bool returns true iff there exists a table with id $table_id
+     * @return bool returns true if there exists a table with id $table_id
      */
-    public static function _tableExists($table_id)
+    public static function _tableExists(int $table_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1295,11 +1120,9 @@ class ilDclTable
     }
 
     /**
-     * @param $title  Title of table
-     * @param $obj_id DataCollection object ID where the table belongs to
-     * @return int
+     * @param int $obj_id Datacollection object ID where the table belongs to
      */
-    public static function _getTableIdByTitle($title, $obj_id)
+    public static function _getTableIdByTitle(string $title, int $obj_id) : int
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1315,26 +1138,17 @@ class ilDclTable
         return $id;
     }
 
-    /**
-     * @param boolean $export_enabled
-     */
-    public function setExportEnabled($export_enabled)
+    public function setExportEnabled(bool $export_enabled) : void
     {
         $this->export_enabled = $export_enabled;
     }
 
-    /**
-     * @return boolean
-     */
-    public function getExportEnabled()
+    public function getExportEnabled() : bool
     {
         return $this->export_enabled;
     }
 
-    /**
-     * @return int
-     */
-    public function getOrder()
+    public function getOrder() : int
     {
         if (!$this->table_order) {
             $this->updateOrder();
@@ -1343,10 +1157,7 @@ class ilDclTable
         return $this->table_order;
     }
 
-    /**
-     *
-     */
-    public function updateOrder()
+    public function updateOrder() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1357,37 +1168,27 @@ class ilDclTable
                 'integer') . ' WHERE id = ' . $ilDB->quote($this->getId(), 'integer'));
     }
 
-    /**
-     * @param int $table_order
-     */
-    public function setOrder($table_order)
+    public function setOrder(int $table_order) : void
     {
         $this->table_order = $table_order;
     }
 
-    /**
-     * @param boolean $import_enabled
-     */
-    public function setImportEnabled($import_enabled)
+    public function setImportEnabled(bool $import_enabled) : void
     {
         $this->import_enabled = $import_enabled;
     }
 
-    /**
-     * @return boolean
-     */
-    public function getImportEnabled()
+    public function getImportEnabled() : bool
     {
         return $this->import_enabled;
     }
 
     /**
      * Checks if a table has a field with the given title
-     * @param $title  Title of field
-     * @param $obj_id Obj-ID of the table
-     * @return bool
+     * @param string $title  Title of field
+     * @param int    $obj_id of the table
      */
-    public static function _hasFieldByTitle($title, $obj_id)
+    public static function _hasFieldByTitle(string $title, int $obj_id) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1408,8 +1209,13 @@ class ilDclTable
      * @param array  $filter    Containing the filter values
      * @return array Array with two keys: 'record' => Contains the record objects, 'total' => Number of total records (without slicing)
      */
-    public function getPartialRecords($sort, $direction, $limit, $offset, array $filter = array())
-    {
+    public function getPartialRecords(
+        string $sort,
+        string $direction,
+        int $limit,
+        int $offset,
+        array $filter = array()
+    ) : array {
         global $DIC;
         $ilDB = $DIC['ilDB'];
         /**

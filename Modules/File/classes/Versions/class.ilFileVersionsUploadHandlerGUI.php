@@ -80,5 +80,4 @@ class ilFileVersionsUploadHandlerGUI extends ilCtrlAwareStorageUploadHandler
             $message
         );
     }
-    
 }

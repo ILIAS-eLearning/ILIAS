@@ -84,6 +84,7 @@ interface Factory
         Breadcrumbs $locator = null,
         Image $logo = null,
         Image $responsive_logo = null,
+        string $favicon_path = '',
         Container $overlay = null,
         Footer $footer = null,
         string $title = '',

@@ -1430,14 +1430,14 @@ class ilObject
         
         if ($reference) {
             $sql =
-                "SELECT obj_id" . PHP_EOL
+                "SELECT object_data.obj_id" . PHP_EOL
                 . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
                 . "LEFT JOIN object_reference ON object_reference.obj_id = object_data.obj_id " . PHP_EOL
                 . "WHERE object_reference.ref_id= " . $db->quote($id, "integer") . PHP_EOL
             ;
         } else {
             $sql =
-                "SELECT obj_id" . PHP_EOL
+                "SELECT object_data.obj_id" . PHP_EOL
                 . "FROM " . self::TABLE_OBJECT_DATA . PHP_EOL
                 . "WHERE obj_id = " . $db->quote($id, "integer") . PHP_EOL
             ;
@@ -1813,7 +1813,7 @@ class ilObject
             
             // get deletion dependency of children
             foreach ($tree->getChilds($ref_id) as $c) {
-                ilObject::collectDeletionDependencies($deps, $c["child"], $c["obj_id"], $c["type"], $depth + 1);
+                ilObject::collectDeletionDependencies($deps, (int) $c["child"], (int) $c["obj_id"], (string) $c["type"], $depth + 1);
             }
         }
 

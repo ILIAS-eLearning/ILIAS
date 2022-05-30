@@ -142,8 +142,6 @@ class ilCmiXapiPlaceholderValues implements ilCertificatePlaceholderValues
             $cmixResult = ilCmiXapiResult::getEmptyInstance();
         }
 
-        $reachedScore = sprintf('%0.2f %%', $cmixResult->getScore() * 100);
-
-        return $reachedScore;
+        return sprintf('%0.2f %%', $cmixResult->getScore() * 100);
     }
 }

@@ -75,14 +75,14 @@ class ilAssQuestionSkillAssignmentImportFails
     /**
      * @param ilAssQuestionSkillAssignmentImportList $assignmentList
      */
-    public function registerFailedImports(ilAssQuestionSkillAssignmentImportList $assignmentList)
+    public function registerFailedImports(ilAssQuestionSkillAssignmentImportList $assignmentList) : void
     {
         $this->getSettings()->setStringifiedImports($this->buildSettingsKey(), serialize($assignmentList));
     }
     
     /**
      */
-    public function deleteRegisteredImportFails()
+    public function deleteRegisteredImportFails() : void
     {
         $this->getSettings()->deleteStringifiedImports($this->buildSettingsKey());
     }

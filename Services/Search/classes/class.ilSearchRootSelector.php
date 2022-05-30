@@ -135,7 +135,7 @@ class ilSearchRootSelector extends ilExplorer
             return true;
         }
 
-        if ($this->system->checkAccess("read", $a_parent_id)) {
+        if ($this->system->checkAccess("read", (int) $a_parent_id)) {
             return true;
         } else {
             return false;

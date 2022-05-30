@@ -48,7 +48,6 @@ class ilCtrlAwareStorageUploadHandler extends AbstractCtrlAwareUploadHandler
         } else {
             $this->stakeholder = $stakeholder;
         }
-        
     }
     
     protected function getUploadResult() : HandlerResult
@@ -110,5 +109,4 @@ class ilCtrlAwareStorageUploadHandler extends AbstractCtrlAwareUploadHandler
         
         return $info_results;
     }
-    
 }

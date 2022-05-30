@@ -49,8 +49,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
     /**
      * Handle update status
      */
-    // TODO PHP8 Review: Missing Parameter Type Declaration
-    protected function handleUpdateStatus(int $a_obj_id, int $a_usr_id, $a_status, $a_percentage) : void
+    protected function handleUpdateStatus(int $a_obj_id, int $a_usr_id, int $a_status, int $a_percentage) : void
     {
         $this->logger->debug('Handle update status');
         $auth_mode = ilObjUser::_lookupAuthMode($a_usr_id);
@@ -125,8 +124,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
     /**
      * try outcome service
      */
-    // TODO PHP8 Review: Missing Parameter Type Declaration
-    protected function tryOutcomeService($resource, string $ext_account, $a_status, $a_percentage) : void
+    protected function tryOutcomeService($resource, string $ext_account, int $a_status, int $a_percentage) : void
     {
         $resource_link = \ILIAS\LTI\ToolProvider\ResourceLink::fromRecordId($resource, $this->connector);
         if (!$resource_link->hasOutcomesService()) {
@@ -134,7 +132,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
             return;
         }
         $this->logger->debug('Trying outcome service with status ' . $a_status . ' and percentage ' . $a_percentage);
-        $user = \ILIAS\LTI\ToolProvider\User::fromResourceLink($resource_link, $ext_account);
+        $user = \ILIAS\LTI\ToolProvider\UserResult::fromResourceLink($resource_link, $ext_account);
 
         if ($a_status == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
             $score = 1;
@@ -146,7 +144,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
         } elseif (!$a_percentage) {
             $score = 0;
         } else {
-            $score = (int) $a_percentage / 100;
+            $score = (int) round($a_percentage / 100);
         }
 
         $this->logger->debug('Sending score: ' . (string) $score);
@@ -236,7 +234,7 @@ class ilLTIAppEventListener implements \ilAppEventListener
                 // $this->tryOutcomeService($resource, $ext_account, $a_status, $a_percentage);
                 $resource_link = \ILIAS\LTI\ToolProvider\ResourceLink::fromRecordId($resource, $connector);
                 if ($resource_link->hasOutcomesService()) {
-                    $user = \ILIAS\LTI\ToolProvider\User::fromResourceLink($resource_link, $ext_account);
+                    $user = \ILIAS\LTI\ToolProvider\UserResult::fromResourceLink($resource_link, $ext_account);
                     $logger->debug('Sending score: ' . (string) $score);
                     $outcome = new \ILIAS\LTI\ToolProvider\Outcome((string) $score);
 

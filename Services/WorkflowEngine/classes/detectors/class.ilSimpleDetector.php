@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * ilSimpleDetector of the petri net based workflow engine.
@@ -11,8 +26,6 @@
  * nodes the do not transit because of later nodes not accepting ther impulse.
  *
  * @author Maximilian Becker <mbecker@databay.de>
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
@@ -26,22 +39,14 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
 
     /**
      * Holds the current detection state.
-     *
-     * @var boolean
      */
     private bool $detection_state = false;
 
-    /** @var string $name */
     protected string $name;
 
-    /** @var ilNode $source_node */
+    /** @var null|ilNode $source_node */
     protected ?ilNode $source_node = null;
 
-    /**
-     * Default constructor.
-     *
-     * @param ilNode $context
-     */
     public function __construct(ilNode $context)
     {
         $this->context = $context;
@@ -64,7 +69,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      *
      * @param array $params
      *
-     * @return boolean False, if detector was already satisfied before.
+     * @return bool False, if detector was already satisfied before.
      */
     public function trigger($params) : ?bool
     {
@@ -79,7 +84,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
     /**
      * Returns if the current detector state is satisfied or not.
      *
-     * @return boolean
+     * @return bool
      */
     public function getDetectorState() : bool
     {
@@ -93,7 +98,7 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
      * Reason this method exists, is to allow the workflow controller to
      * "fast forward" workflows to set a non-default state. I.e. a workflow
      * has to be set into a state in the middle of running. Use with care.
-     * @param boolean $new_state
+     * @param bool $new_state
      */
     public function setDetectorState(bool $new_state) : void
     {
@@ -120,9 +125,6 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
     {
     }
 
-    /**
-     * @return bool
-     */
     public function getActivated() : bool
     {
         return $this->detection_state;
@@ -133,25 +135,16 @@ class ilSimpleDetector implements ilDetector, ilWorkflowEngineElement
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
     public function getName() : string
     {
         return $this->name;
     }
 
-    /**
-     * @return \ilNode
-     */
-    public function getSourceNode() : ?\ilNode
+    public function getSourceNode() : ?ilNode
     {
         return $this->source_node;
     }
 
-    /**
-     * @param ilNode $source_node
-     */
     public function setSourceNode(ilNode $source_node) : void
     {
         $this->source_node = $source_node;

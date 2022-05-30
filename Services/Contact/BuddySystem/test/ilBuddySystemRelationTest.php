@@ -16,12 +16,9 @@
  *
  *********************************************************************/
 
-require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
-
 /**
  * Class ilBuddySystemRelationTest
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilBuddySystemRelationTest extends ilBuddySystemBaseTest
 {

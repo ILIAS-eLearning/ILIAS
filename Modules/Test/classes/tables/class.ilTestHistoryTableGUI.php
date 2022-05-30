@@ -14,7 +14,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilTestHistoryTableGUI extends ilTable2GUI
 {
-    protected $tstObject;
+    protected ?object $tstObject;
     
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
@@ -42,17 +42,11 @@ class ilTestHistoryTableGUI extends ilTable2GUI
         $this->enable('header');
     }
 
-    public function setTestObject($obj)
+    public function setTestObject($obj) : void
     {
         $this->tstObject = $obj;
     }
 
-    /**
-     * fill row
-     * @access public
-     * @param
-     * @return void
-     */
     public function fillRow(array $a_set) : void
     {
         global $DIC;

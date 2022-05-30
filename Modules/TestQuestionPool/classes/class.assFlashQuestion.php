@@ -115,7 +115,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
      * Moves an applet file (maybe stored in the PHP session) to its final filesystem destination
      * @throws \ilFileUtilsException
      */
-    protected function moveAppletIfExists()
+    protected function moveAppletIfExists() : void
     {
         if (ilSession::get('flash_upload_filename') != null &&
             file_exists(ilSession::get('flash_upload_filename')) && is_file(ilSession::get('flash_upload_filename'))
@@ -345,7 +345,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @access public
     * @see $points
     */
-    protected function copyApplet($question_id, $source_questionpool)
+    protected function copyApplet($question_id, $source_questionpool) : void
     {
         $flashpath = $this->getFlashPath();
         $flashpath_original = preg_replace("/([^\d])$this->id([^\d])/", "\${1}$question_id\${2}", $flashpath);
@@ -463,7 +463,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         return $result;
     }
 
-    public function deleteApplet()
+    public function deleteApplet() : void
     {
         @unlink($this->getFlashPath() . $this->getApplet());
         $this->applet = "";
@@ -607,7 +607,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         return $user_solution;
     }
 
-    public function setHeight($a_height)
+    public function setHeight($a_height) : void
     {
         if (!$a_height) {
             $a_height = 400;
@@ -620,7 +620,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         return $this->height;
     }
 
-    public function setWidth($a_width)
+    public function setWidth($a_width) : void
     {
         if (!$a_width) {
             $a_width = 550;
@@ -633,7 +633,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         return $this->width;
     }
 
-    public function setApplet($a_applet)
+    public function setApplet($a_applet) : void
     {
         $this->applet = $a_applet;
     }
@@ -643,12 +643,12 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         return $this->applet;
     }
 
-    public function addParameter($name, $value)
+    public function addParameter($name, $value) : void
     {
         $this->parameters[$name] = $value;
     }
 
-    public function setParameters($params)
+    public function setParameters($params) : void
     {
         if (is_array($params)) {
             $this->parameters = $params;
@@ -657,12 +657,12 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         }
     }
 
-    public function removeParameter($name)
+    public function removeParameter($name) : void
     {
         unset($this->parameters[$name]);
     }
 
-    public function clearParameters()
+    public function clearParameters() : void
     {
         $this->parameters = array();
     }

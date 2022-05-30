@@ -1,30 +1,37 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilWorkflowEngineDefinitionsTableGUI
  *
  * @author Maximilian Becker <mbecker@databay.de>
- *
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 {
-    /** @var ilCtrl $ilCtrl */
     protected ilCtrl $ilCtrl;
-
     protected array $filter;
 
-    /**
-     * ilWorkflowEngineDefinitionsTableGUI constructor.
-     * @param        $parent_obj
-     * @param string $parent_cmd
-     * @param string $template_context
-     */
-    public function __construct($parent_obj, $parent_cmd, string $template_context = "")
-    {
+    public function __construct(
+        ilObjWorkflowEngineGUI $parent_obj,
+        string $parent_cmd,
+        string $template_context = ""
+    ) {
         $this->setId('wfedef');
         parent::__construct($parent_obj, $parent_cmd, $template_context);
 
@@ -47,9 +54,6 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt("definitions"));
     }
 
-    /**
-     * @return void
-     */
     public function initFilter() : void
     {
         $title_filter_input = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -65,9 +69,6 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
         $this->filter['instances'] = $instances_filter_input->getChecked();
     }
 
-    /**
-     * @return void
-     */
     public function initColumns() : void
     {
         $this->addColumn($this->lng->txt("title"), "title", "20%");
@@ -98,24 +99,25 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
      */
     public function getSelectableColumns() : array
     {
-        $cols["file"] = array(
+        $cols["file"] = [
             "txt" => $this->lng->txt("file"),
-            "default" => true);
-        $cols["version"] = array(
+            "default" => true
+        ];
+        $cols["version"] = [
             "txt" => $this->lng->txt("version"),
-            "default" => true);
-        $cols["status"] = array(
+            "default" => true
+        ];
+        $cols["status"] = [
             "txt" => $this->lng->txt("status"),
-            "default" => true);
-        $cols["instances"] = array(
+            "default" => true
+        ];
+        $cols["instances"] = [
             "txt" => $this->lng->txt("instances"),
-            "default" => true);
+            "default" => true
+        ];
         return $cols;
     }
 
-    /**
-     * @return void
-     */
     private function populateTable() : void
     {
         global $DIC;
@@ -152,13 +154,11 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
      */
     public function isFiltered(array $row) : bool
     {
-        // Title filter
         $title_filter = $this->getFilterItemByPostVar('title');
         if ($title_filter->getValue() != null && stripos($row['title'], $title_filter->getValue()) === false) {
             return true;
         }
 
-        // Instances filter
         $instances_filter = $this->getFilterItemByPostVar('instances');
         if ($row['instances']['active'] == 0 && $instances_filter->getChecked()) {
             return true;
@@ -218,9 +218,10 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
         }
 
         require_once ilObjWorkflowEngine::getRepositoryDir() . '/' . $a_set['id'] . '.php';
+        /** @var class-string $class */
         $class = substr($a_set['id'], 4);
         /** @noinspection PhpUndefinedFieldInspection (defined in ilWorkflowScaffold.php / generated code */
-        if ($class::$startEventRequired == true) {
+        if ($class::$startEventRequired) {
             $action->addItem(
                 $this->lng->txt('start_listening'),
                 'startlistening',

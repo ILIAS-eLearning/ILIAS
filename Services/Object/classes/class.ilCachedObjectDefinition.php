@@ -152,7 +152,7 @@ class ilCachedObjectDefinition
 
             $return = array();
             foreach ($parent as $p) {
-                if (is_array($this->subobj_for_parent[$p])) {
+                if (isset($this->subobj_for_parent[$p]) && is_array($this->subobj_for_parent[$p])) {
                     foreach ($this->subobj_for_parent[$p] as $rec) {
                         $return[] = $rec;
                     }
