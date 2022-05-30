@@ -36,7 +36,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 {
     public ?ilObject $object;
 
-    protected ILIAS\TestQuestionPool\InternalRequestService $qplrequest;
+    /** @var ilErrorHandling */
+    private $error;
 
     /**
     * Constructor
@@ -50,6 +51,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $rbacsystem = $DIC['rbacsystem'];
         $lng->loadLanguageModule("assessment");
         $this->type = "qpl";
+        $this->error = $DIC['ilErr'];
         $this->ctrl = &$ilCtrl;
 
         $this->ctrl->saveParameter($this, array(
