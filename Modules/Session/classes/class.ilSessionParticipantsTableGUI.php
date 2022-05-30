@@ -211,7 +211,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
 
         $part = [];
         foreach ($all_participants as $counter => $participant) {
-            $usr_data = $this->getParticipants()->getEventParticipants()->getUser($participant['usr_id']);
+            $usr_data = $this->getParticipants()->getEventParticipants()->getUser((int) $participant['usr_id']);
 
             $tmp_data = [];
             $tmp_data['id'] = $participant['usr_id'];
@@ -222,10 +222,10 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             $tmp_data['login'] = $participant['login'];
             $tmp_data['mark'] = $usr_data['mark'];
             $tmp_data['comment'] = $usr_data['comment'];
-            $tmp_data['participated'] = $this->getParticipants()->getEventParticipants()->hasParticipated($participant['usr_id']);
-            $tmp_data['registered'] = $this->getParticipants()->getEventParticipants()->isRegistered($participant['usr_id']);
+            $tmp_data['participated'] = $this->getParticipants()->getEventParticipants()->hasParticipated((int) $participant['usr_id']);
+            $tmp_data['registered'] = $this->getParticipants()->getEventParticipants()->isRegistered((int) $participant['usr_id']);
             $tmp_data['excused'] = $this->getParticipants()->getEventParticipants()->isExcused((int) $participant['usr_id']);
-            $tmp_data['contact'] = $this->getParticipants()->isContact($participant['usr_id']);
+            $tmp_data['contact'] = $this->getParticipants()->isContact((int) $participant['usr_id']);
 
             $notificationShown = false;
             if (true === $this->getRepositoryObject()->isRegistrationNotificationEnabled()) {
@@ -244,7 +244,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             $local_roles = $this->getParentLocalRoles();
             foreach ($local_roles as $role_id => $role_name) {
                 // @todo fix performance
-                if ($this->rbac->review()->isAssigned($participant['usr_id'], $role_id)) {
+                if ($this->rbac->review()->isAssigned((int) $participant['usr_id'], $role_id)) {
                     $tmp_data['role_ids'][] = $role_id;
                     $roles[] = $role_name;
                 }

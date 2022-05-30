@@ -142,7 +142,13 @@ class ilObjRoleGUI extends ilObjectGUI
     protected function initParentRefId() : void
     {
         $this->obj_ref_id = 0;
-        if ($this->http->wrapper()->query()->has('ref_id')) {
+
+        if ($this->http->wrapper()->query()->has('rolf_ref_id')) {
+            $this->obj_ref_id = $this->http->wrapper()->query()->retrieve(
+                'rolf_ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        } elseif ($this->http->wrapper()->query()->has('ref_id')) {
             $this->obj_ref_id = $this->http->wrapper()->query()->retrieve(
                 'ref_id',
                 $this->refinery->kindlyTo()->int()
@@ -1295,7 +1301,6 @@ class ilObjRoleGUI extends ilObjectGUI
             );
         } catch (\InvalidArgumentException $e) {
             $this->logger->warning('Role access check failed: ' . $e);
-
             throw new \ilObjectException($this->lng->txt('permission_denied'));
         }
 
