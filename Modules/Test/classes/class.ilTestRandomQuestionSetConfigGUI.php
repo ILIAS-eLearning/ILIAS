@@ -153,8 +153,7 @@ class ilTestRandomQuestionSetConfigGUI
         $this->tree = $tree;
         $this->pluginAdmin = $pluginAdmin;
         $this->testOBJ = $testOBJ;
-        
-        global $DIC;
+
         $this->dic = $DIC;
         $this->objDefinition = $this->dic['objDefinition'];
 
