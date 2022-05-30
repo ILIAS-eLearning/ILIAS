@@ -27,6 +27,8 @@ Migration needed
     - keeping only short_text and short_text_dirty field
   - update all code using definition ids to term ids
 
+We will not duplicate referenced terms, taxonomy relations and advanced metadata (-> needs to be stated in feature wiki).
+
 
 ## Mid Term
 
