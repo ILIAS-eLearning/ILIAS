@@ -85,6 +85,9 @@ class ilObjTestGUI extends ilObjectGUI
      */
     protected $testAccess;
 
+    /** @var ilErrorHandling */
+    private $error;
+
     /**
      * Constructor
      * @access public
@@ -100,6 +103,7 @@ class ilObjTestGUI extends ilObjectGUI
         $tree = $DIC['tree'];
         $lng->loadLanguageModule("assessment");
         $this->type = "tst";
+        $this->error = $DIC['ilErr'];
         $this->ctrl = $ilCtrl;
         $this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id"));
         if (isset($_GET['ref_id']) && is_numeric($_GET['ref_id'])) {
@@ -1044,6 +1048,10 @@ class ilObjTestGUI extends ilObjectGUI
     */
     protected function importFileObject($parent_id = null, $a_catch_errors = true)
     {
+        if (!$this->checkPermissionBool("create", "", $_REQUEST["new_type"])) {
+            $this->error->raiseError($this->lng->txt("no_create_permission"));
+        }
+
         $form = $this->initImportForm($_REQUEST["new_type"]);
         if ($form->checkInput()) {
             $this->ctrl->setParameter($this, "new_type", $this->type);
