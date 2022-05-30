@@ -52,8 +52,6 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
 {
     public ?ilObject $object;
 
-    /** @var ilErrorHandling */
-    private $error;
 
     /**
     * Constructor

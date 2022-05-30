@@ -92,8 +92,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
      */
     protected $testAccess;
 
-    /** @var ilErrorHandling */
-    private $error;
     protected \ILIAS\Test\InternalRequestService $testrequest;
 
     /**
