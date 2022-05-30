@@ -273,7 +273,6 @@ class ilAssQuestionPreviewGUI
         $this->handleInstantResponseRendering($tpl);
         
         if ($this->isCommentingRequired()) {
-            $this->questionGUI->addHeaderAction();
             $this->populateNotesPanel($tpl, $notesPanelHTML);
         }
         

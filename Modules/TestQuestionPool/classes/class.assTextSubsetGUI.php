@@ -531,10 +531,32 @@ class assTextSubsetGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
             
             $answers[$ans['value1']]['frequency']++;
         }
-        
+        $answers = $this->completeAddAnswerAction($answers, $questionIndex);
         return $answers;
     }
-    
+
+    protected function completeAddAnswerAction($answers, $questionIndex)
+    {
+          foreach ($answers as $key => $ans) {
+            $found = false;
+
+            foreach ($this->object->getAnswers() as $item) {
+                if ($ans['answer'] !== $item->getAnswerText()) {
+                    continue;
+                }
+
+                $found = true;
+                break;
+            }
+
+            if (!$found) {
+                $answers[$key]['addable'] = true;
+            }
+        }
+
+        return $answers;
+    }
+
     public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
     {
         // Choices

@@ -160,7 +160,7 @@ abstract class assQuestionGUI
     public function addHeaderAction()
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
-
+/*
         $DIC->ui()->mainTemplate()->setVariable(
             "HEAD_ACTION",
             $this->getHeaderAction()
@@ -178,6 +178,7 @@ abstract class assQuestionGUI
         
         $redrawActionsUrl = $DIC->ctrl()->getLinkTarget($this, 'redrawHeaderAction', '', true);
         $DIC->ui()->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");
+*/
     }
     
     public function redrawHeaderAction()

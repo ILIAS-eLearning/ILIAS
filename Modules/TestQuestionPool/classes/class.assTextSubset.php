@@ -952,4 +952,25 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             return $this->getAnswers();
         }
     }
+
+    public function isAddableAnswerOptionValue($qIndex, $answerOptionValue)
+    {
+            $found = false;
+
+            foreach ($this->getAnswers() as $item) {
+                if ($answerOptionValue !== $item->getAnswerText()) {
+                    continue;
+                }
+
+                $found = true;
+                break;
+            }
+
+        return !$found;
+    }
+
+    public function addAnswerOptionValue($qIndex, $answerOptionValue, $points)
+    {
+        $this->addAnswer($answerOptionValue, $points, $qIndex);
+    }
 }
