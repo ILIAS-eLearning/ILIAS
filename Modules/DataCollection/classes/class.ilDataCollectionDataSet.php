@@ -63,7 +63,7 @@ class ilDataCollectionDataSet extends ilDataSet
         );
 
     protected ilObjDataCollection $import_dc_object;
-    protected int $count_imported_tables = 0;
+
     /**
      * Caches ilDclBaseRecordFieldModel objects. Key = id, value = object
      */
@@ -134,7 +134,7 @@ class ilDataCollectionDataSet extends ilDataSet
                 $a_mapping->addMapping('Modules/DataCollection', 'dcl', $a_rec['id'], $new_obj->getId());
                 break;
             case 'il_dcl_table':
-                $table = new ilDclTable();//($this->count_imported_tables > 0) ? new ilDclTable() : ilDclCache::getTableCache($this->import_dc_object->getMainTableId());
+                $table = new ilDclTable();
                 $table->setTitle($a_rec['title']);
                 $table->setObjId($this->import_dc_object->getId());
                 $table->setDescription($a_rec['description']);

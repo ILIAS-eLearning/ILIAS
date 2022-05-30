@@ -31,7 +31,7 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
 
-    public function __construct(int $tableview_id, int $a_definition_id = 0)
+    public function __construct(int $tableview_id)
     {
         global $DIC;
         $tpl = $DIC['tpl'];
@@ -100,9 +100,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
         }
     }
 
-    /**
-     * @return string
-     */
     public function showPage() : string
     {
         global $DIC;
@@ -216,8 +213,6 @@ class ilDclDetailedViewDefinitionGUI extends ilPageObjectGUI
 
     /**
      * Finalizing output processing
-     * @param string $a_output
-     * @return string
      */
     public function postOutputProcessing(string $a_output) : string
     {

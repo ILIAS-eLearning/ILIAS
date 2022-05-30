@@ -27,11 +27,7 @@ abstract class ilDclFieldTypePlugin extends ilPlugin
     const COMPONENT_NAME = "DataCollection";
     const SLOT_NAME = "FieldTypeHook";
     const SLOT_ID = "dclfth";
-    const CONFIG_FIELD_MODEL = "field_model";
-    const CONFIG_RECORD_MODEL = "record_model";
-    const CONFIG_RECORD_FIELD_MODEL = "record_field_model";
-    const CONFIG_FIELD_REPRESENTATION = "field_representation";
-    const CONFIG_RECORD_REPRESENTATION = "record_representation";
+
     /**
      * @var ilDclFieldTypePlugin[] singleton-instance
      */

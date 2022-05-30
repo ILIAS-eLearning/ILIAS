@@ -27,10 +27,6 @@ class ilDclEditViewTableGUI extends ilTable2GUI
 
     public function __construct(ilDclEditViewDefinitionGUI $a_parent_obj)
     {
-        global $DIC;
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
-
         parent::__construct($a_parent_obj);
 
         $this->setId('dcl_tableviews');
@@ -67,13 +63,6 @@ class ilDclEditViewTableGUI extends ilTable2GUI
      */
     public function getHTML() : string
     {
-        global $DIC;
-
-        $ilUser = null;
-        if (isset($DIC["ilUser"])) {
-            $ilUser = $DIC["ilUser"];
-        }
-
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 

@@ -13,8 +13,6 @@
  ********************************************************************
  */
 
-require_once './Services/Exceptions/classes/class.ilException.php';
-
 /**
  * Class ilDclBaseFieldModel
  * @author  Martin Studer <ms@studer-raimann.ch>
@@ -36,15 +34,8 @@ class ilDclInputException extends ilException
     const CUSTOM_MESSAGE = 7;
     const REGEX_CONFIG_EXCEPTION = 8;
 
-    /**
-     * @var int
-     */
-    protected $exception_type;
-
-    /**
-     * @var string
-     */
-    protected $additional_text;
+    protected string $exception_type;
+    protected string $additional_text;
 
     /**
      * @param string $exception_type
@@ -56,17 +47,11 @@ class ilDclInputException extends ilException
         $this->additional_text = $additional_text;
     }
 
-    /**
-     * @return string
-     */
     public function getExceptionType() : string
     {
         return $this->exception_type;
     }
 
-    /**
-     * @return string
-     */
     public function __toString() : string
     {
         global $DIC;

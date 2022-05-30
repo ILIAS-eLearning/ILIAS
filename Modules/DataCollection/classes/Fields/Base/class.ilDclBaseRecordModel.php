@@ -61,12 +61,12 @@ class ilDclBaseRecordModel
         $this->refinery = $DIC->refinery();
     }
 
-    private function fixDate(string $value)
+    private function fixDate(string $value) : string
     {
         return $value;
     }
 
-    public function doUpdate($omit_notification = false) : void
+    public function doUpdate(bool $omit_notification = false) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -169,7 +169,7 @@ class ilDclBaseRecordModel
         $this->getTable()->loadRecords();
     }
 
-    public function deleteField(int $field_id)
+    public function deleteField(int $field_id) : void
     {
         $this->loadRecordFields();
         $this->recordfields[$field_id]->delete();
@@ -370,7 +370,7 @@ class ilDclBaseRecordModel
     /**
      * @param int|string $field_id
      */
-    public function fillRecordFieldExcelExport(ilExcel $worksheet, int &$row, int &$col, $field_id)
+    public function fillRecordFieldExcelExport(ilExcel $worksheet, int &$row, int &$col, $field_id) : void
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
@@ -390,9 +390,8 @@ class ilDclBaseRecordModel
 
     /**
      * @param int|string $field_id
-     * @return string
      */
-    public function getRecordFieldFormulaValue($field_id)
+    public function getRecordFieldFormulaValue($field_id) : string
     {
         $this->loadRecordFields();
         if (ilDclStandardField::_isStandardField($field_id)) {
@@ -424,11 +423,6 @@ class ilDclBaseRecordModel
             }
         }
 
-        // This is a workaround as templating in ILIAS currently has some issues with curly brackets.see: http://www.ilias.de/mantis/view.php?id=12681#bugnotes
-        // SW 16.07.2014 Uncommented again, as some fields are outputting javascript that was broken due to entity encode the curly brackets
-        //		$html = str_ireplace("{", "&#123;", $html);
-        //		$html = str_ireplace("}", "&#125;", $html);
-
         return $html;
     }
 
@@ -447,11 +441,6 @@ class ilDclBaseRecordModel
                 $html = '';
             }
         }
-
-        // This is a workaround as templating in ILIAS currently has some issues with curly brackets.see: http://www.ilias.de/mantis/view.php?id=12681#bugnotes
-        // SW 16.07.2014 Uncommented again, as some fields are outputting javascript that was broken due to entity encode the curly brackets
-        //		$html = str_ireplace("{", "&#123;", $html);
-        //		$html = str_ireplace("}", "&#125;", $html);
 
         return $html;
     }
@@ -473,10 +462,6 @@ class ilDclBaseRecordModel
 
             $html = $field->getRecordRepresentation()->getSingleHTML($options, false);
         }
-        // This is a workaround as templating in ILIAS currently has some issues with curly brackets.see: http://www.ilias.de/mantis/view.php?id=12681#bugnotes
-        // SW 14.10.2015 Uncommented again, as some fields are outputting javascript that was broken due to entity encode the curly brackets
-        //		$html = str_ireplace("{", "&#123;", $html);
-        //		$html = str_ireplace("}", "&#125;", $html);
 
         return $html;
     }
@@ -709,26 +694,6 @@ class ilDclBaseRecordModel
             $mob->delete();
         }
     }
-
-    /*
-    public function passThroughFilter(array $filter) : bool
-    {
-        $this->loadTable();
-        // If one field returns false, the whole record does not pass the filter #performance-improvements
-        foreach ($this->table->getFilterableFields() as $field) {
-            if (!isset($filter["filter_" . $field->getId()]) || !$filter["filter_" . $field->getId()]) {
-                continue;
-            }
-            if (!ilDclCache::getFieldRepresentation($field)->passThroughFilter(
-                $this,
-                $filter["filter_" . $field->getId()]
-            )) {
-                return false;
-            }
-        }
-
-        return true;
-    }*/
 
     public function hasPermissionToEdit(int $ref_id) : bool
     {

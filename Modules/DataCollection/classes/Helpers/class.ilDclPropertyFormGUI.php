@@ -36,7 +36,7 @@ class ilDclPropertyFormGUI extends ilPropertyFormGUI
         string $a_type,
         ?string $a_index = null,
         ?string $a_sub_index = null
-    ) {
+    ) : void {
         $this->keepFileUpload($a_hash, $a_field, $a_tmp_name, $a_name, $a_type, $a_index, $a_sub_index);
     }
 

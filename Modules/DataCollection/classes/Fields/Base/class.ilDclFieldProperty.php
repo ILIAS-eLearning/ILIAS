@@ -25,7 +25,7 @@ class ilDclFieldProperty extends ActiveRecord
 {
 
     /**
-     * @var int
+     * @var ?int
      * @db_has_field        true
      * @db_is_unique        true
      * @db_is_primary       true
@@ -50,7 +50,7 @@ class ilDclFieldProperty extends ActiveRecord
      * @db_fieldtype        text
      * @db_length           128
      */
-    protected $name;
+    protected string $name;
     /**
      * @var string
      * @db_has_field        true
@@ -68,7 +68,6 @@ class ilDclFieldProperty extends ActiveRecord
     }
 
     /**
-     * @return string
      * @description Return the Name of your Database Table
      */
     public static function returnDbTableName() : string
@@ -128,7 +127,7 @@ class ilDclFieldProperty extends ActiveRecord
         parent::create();
     }
 
-    public function update()
+    public function update() : void
     {
         $this->value = $this->serializeData($this->value);
         parent::update();
@@ -154,7 +153,6 @@ class ilDclFieldProperty extends ActiveRecord
 
     /**
      * Deserialize data before applying to field
-     * @param $value mixed
      * @return string|array
      */
     public function deserializeData(string $value)
