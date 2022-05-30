@@ -2,6 +2,8 @@
 
 ## Short Term
 
+- Use central Online/Offline code
+
 ## Mid Term
 
 ### Improve Architecture
