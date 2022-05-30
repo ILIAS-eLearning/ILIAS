@@ -965,8 +965,8 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
             return $this->getAnswers();
         }
     }
-
-    public function isAddableAnswerOptionValue($qIndex, $answerOptionValue)
+    
+    public function isAddableAnswerOptionValue(int $qIndex, string $answerOptionValue) : bool
     {
             $found = false;
 
@@ -982,7 +982,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         return !$found;
     }
 
-    public function addAnswerOptionValue($qIndex, $answerOptionValue, $points)
+    public function addAnswerOptionValue(int $qIndex, string $answerOptionValue, float $points) : void
     {
         $this->addAnswer($answerOptionValue, $points, $qIndex);
     }
