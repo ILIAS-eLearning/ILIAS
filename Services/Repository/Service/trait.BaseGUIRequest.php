@@ -58,7 +58,7 @@ trait BaseGUIRequest
     // get integer parameter kindly
     protected function int(string $key) : int
     {
-        if ($this->str($key) === "" || $this->isArray($key)) {
+        if ($this->isArray($key) || $this->str($key) === "") {
             return 0;
         }
         $t = $this->refinery->kindlyTo()->int();

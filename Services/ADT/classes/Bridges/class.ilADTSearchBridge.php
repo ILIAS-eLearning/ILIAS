@@ -31,7 +31,7 @@ abstract class ilADTSearchBridge
     public const SQL_LIKE_START = 4;
     public const DEFAULT_SEARCH_COLUMN = 'value';
 
-    protected ilPropertyFormGUI $form;
+    protected ?ilPropertyFormGUI $form = null;
     protected ilTable2GUI $table_gui;
     protected array $table_filter_fields = [];
     protected string $id = '';

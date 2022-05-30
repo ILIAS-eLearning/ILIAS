@@ -116,7 +116,7 @@ class ilTermDefinitionEditorGUI
                         $link = "[<a href='" .
                             $ilCtrl->getLinkTargetByClass("ilglossarytermgui", "listUsages") .
                             "'>" . $lng->txt("glo_list_usages") . "</a>]";
-                        ilUtil::sendInfo(sprintf(
+                        $this->tpl->setOnScreenMessage("info", sprintf(
                             $lng->txt("glo_term_is_used_n_times"),
                             $nr
                         ) . " " . $link);

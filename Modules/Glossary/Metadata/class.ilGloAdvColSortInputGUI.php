@@ -57,7 +57,7 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
         return true;
     }
 
-    protected function getInput() : array
+    public function getInput() : array
     {
         $val = $this->arrayArray($this->getPostVar());
         $val = ilArrayUtil::stripSlashesRecursive($val);
