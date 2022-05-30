@@ -7951,7 +7951,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             "max_points" => $this->lng->txt("tst_maximum_points"),
             "percent_value" => $this->lng->txt("tst_percent_solved"),
             "mark" => $this->lng->txt("tst_mark"),
-            "ects" => $this->lng->txt("ects_grade")
+            "ects" => $this->lng->txt("ects_grade"),
+            "passed" => $this->lng->txt("tst_mark_passed"),
         );
         $results[] = $row;
         if (count($participants)) {
@@ -8000,7 +8001,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     "max_points" => $max_points,
                     "percent_value" => $percentvalue,
                     "mark" => $mark,
-                    "ects" => $ects_mark
+                    "ects" => $ects_mark,
+                    "passed" => $user_rec['passed'] ? '1' : '0',
                 );
                 $results[] = $prepareForCSV ? $this->processCSVRow($row, true) : $row;
             }
@@ -10281,7 +10283,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                             "question_id" => $question->getId(),
                             "question_title" => $question->getTitle(),
                             "reached_points" => $reached_points,
-                            "max_points" => $max_points
+                            "max_points" => $max_points,
+                            "passed" => $user_rec['passed'] ? '1' : '0',
                         );
                         $results[] = $row;
                     }
