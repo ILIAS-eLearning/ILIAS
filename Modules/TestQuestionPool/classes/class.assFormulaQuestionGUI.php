@@ -650,7 +650,11 @@ class assFormulaQuestionGUI extends assQuestionGUI
                     $intPrecision = $form->getItemByPostVar('intprecision_' . $variable->getVariable());
                     $decimal_spots = $form->getItemByPostVar('precision_' . $variable->getVariable());
                     if ($decimal_spots->getValue() == 0) {
-                        if ($intPrecision->getValue() > $max_range->getValue()) {
+                        if (!$variable->isIntPrecisionValid(
+                            $intPrecision->getValue(),
+                            $min_range->getValue(),
+                            $max_range->getValue()
+                        )) {
                             $intPrecision->setAlert($this->lng->txt('err_division'));
                             $custom_errors = true;
                         }
