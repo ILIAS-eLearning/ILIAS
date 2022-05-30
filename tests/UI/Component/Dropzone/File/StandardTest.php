@@ -22,8 +22,8 @@ class StandardTest extends FileTestBase
                                     <div class="il-standard-form-header clearfix">
                                         <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
                                     </div>
-                                    <div class="form-group row"><label for="id_4" class="control-label col-sm-3"></label>
-                                        <div class="col-sm-9">
+                                    <div class="form-group row"><label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2"></label>
+                                        <div class="col-sm-8 col-md-9 col-lg-10">
                                             <div id="id_4" class="ui-input-file">
                                                 <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                                                 <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button><span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
@@ -64,8 +64,8 @@ class StandardTest extends FileTestBase
                                     <div class="il-standard-form-header clearfix">
                                         <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
                                     </div>
-                                    <div class="form-group row"><label for="id_4" class="control-label col-sm-3"></label>
-                                        <div class="col-sm-9">
+                                    <div class="form-group row"><label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2"></label>
+                                        <div class="col-sm-8 col-md-9 col-lg-10">
                                             <div id="id_4" class="ui-input-file">
                                                 <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                                                 <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button><span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
@@ -108,8 +108,8 @@ class StandardTest extends FileTestBase
                                     <div class="il-standard-form-header clearfix">
                                         <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
                                     </div>
-                                    <div class="form-group row"><label for="id_5" class="control-label col-sm-3"></label>
-                                        <div class="col-sm-9">
+                                    <div class="form-group row"><label for="id_5" class="control-label col-sm-4 col-md-3 col-lg-2"></label>
+                                        <div class="col-sm-8 col-md-9 col-lg-10">
                                             <div id="id_5" class="ui-input-file">
                                                 <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                                                 <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#" id="id_4">select_files_from_computer</button><span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
@@ -151,8 +151,8 @@ class StandardTest extends FileTestBase
                                     <div class="il-standard-form-header clearfix">
                                         <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
                                     </div>
-                                    <div class="form-group row"><label for="id_4" class="control-label col-sm-3"></label>
-                                        <div class="col-sm-9">
+                                    <div class="form-group row"><label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2"></label>
+                                        <div class="col-sm-8 col-md-9 col-lg-10">
                                             <div id="id_4" class="ui-input-file">
                                                 <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                                                 <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button><span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>
@@ -193,8 +193,8 @@ class StandardTest extends FileTestBase
                                     <div class="il-standard-form-header clearfix">
                                         <div class="il-standard-form-cmd"><button class="btn btn-default" data-action="">save</button></div>
                                     </div>
-                                    <div class="form-group row"><label for="id_4" class="control-label col-sm-3"></label>
-                                        <div class="col-sm-9">
+                                    <div class="form-group row"><label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2"></label>
+                                        <div class="col-sm-8 col-md-9 col-lg-10">
                                             <div id="id_4" class="ui-input-file">
                                                 <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                                                 <div class="ui-input-file-input-dropzone"><button class="btn btn-link" data-action="#" id="id_3">select_files_from_computer</button><span class="ui-input-file-input-error-msg" data-dz-error-msg></span></div>

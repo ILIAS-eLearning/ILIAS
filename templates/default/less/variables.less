@@ -121,15 +121,15 @@ with the il- variable set here.
 //** Used to indicate h4. Equivalent to 16px.
 @il-font-size-large:		1rem;
 //** Used to indicate h3. Equivalent to 18px.
-@il-font-size-xlarge:    1.2rem;
+@il-font-size-xlarge:    1.115rem;
 //** Used to indicate h2. Equivalent to 24px.
-@il-font-size-xxlarge:    1.4rem;
+@il-font-size-xxlarge:    1.5em;
 //** Used to indicate h1. Should only used one time per screen. Equivalent to 28px.
 @il-font-size-h1:    1.75rem;
 
 //** Unit-less `line-height` for use in components like buttons.
 @il-line-height-base:		1.428571429;
-@il-line-height-computed:    floor((@il-font-size-base * @il-line-height-base)); // ~20px
+@il-line-height-computed:    unit(floor(((unit(@il-font-size-base)/@il-pixel-to-rem) * @il-line-height-base)),px); // ~20px
 
 
 //== Base Padding and Border
@@ -628,8 +628,8 @@ with the il- variable set here.
 @il-item-divider-margin: 0 0 10px 0;
 @il-item-divider-border-bottom: dashed 0.5px @il-main-border-color;
 @il-item-description-padding: 10px 0 0 0;
-@il-item-audio-padding: @padding-large-vertical 0;
-@il-item-padding: @padding-large-horizontal;
+@il-item-audio-padding: @il-padding-large-vertical 0;
+@il-item-padding: @il-padding-xlarge-horizontal;
 @il-item-marker-border-left: 5px solid;
 @il-item-h5-margin: 4px 0px 2px 0px;
 @il-item-border-bottom: 1px solid @il-main-border-color;
@@ -787,7 +787,7 @@ with the il- variable set here.
 //== Panel
 //
 //##
-@il-panel-heading-padding: 1.5*@il-padding-large-vertical @il-padding-large-horizontal;
+@il-panel-heading-padding: @il-padding-xlarge-vertical @il-padding-xlarge-horizontal;
 @il-panel-heading-color: @il-text-color;
 @il-panel-shadow: none;
 @il-panel-border: 1px solid @il-main-border-color;
@@ -847,7 +847,8 @@ with the il- variable set here.
 //== DropDowns
 //
 //##
-@il-font-size-dropdown: @il-font-size-base;
+@il-font-size-dropdown: @il-font-size-small;
+@il-dropdown-shodow: 3px 9px 9px 0 rgba(0,0,0,0.3);
 
 //== Drilldown Menu
 //

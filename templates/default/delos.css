@@ -1175,8 +1175,8 @@ img {
   border-radius: 50%;
 }
 hr {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
   border: 0;
   border-top: 1px solid #eeeeee;
 }
@@ -1253,8 +1253,8 @@ h2,
 .h2,
 h3,
 .h3 {
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 h1 small,
 .h1 small,
@@ -1276,8 +1276,8 @@ h5,
 .h5,
 h6,
 .h6 {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 h4 small,
 .h4 small,
@@ -1299,11 +1299,11 @@ h1,
 }
 h2,
 .h2 {
-  font-size: 1.4rem;
+  font-size: 1.5em;
 }
 h3,
 .h3 {
-  font-size: 1.2rem;
+  font-size: 1.115rem;
 }
 h4,
 .h4 {
@@ -1318,10 +1318,10 @@ h6,
   font-size: 0.875rem;
 }
 p {
-  margin: 0 0 0.5rem;
+  margin: 0 0 10px;
 }
 .lead {
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
   font-size: 1rem;
   font-weight: 300;
   line-height: 1.4;
@@ -1439,14 +1439,14 @@ a.bg-danger:focus {
   background-color: #e4b9b9;
 }
 .page-header {
-  padding-bottom: -0.5rem;
-  margin: 2rem 0 1rem;
+  padding-bottom: 9px;
+  margin: 40px 0 20px;
   border-bottom: 1px solid #eeeeee;
 }
 ul,
 ol {
   margin-top: 0;
-  margin-bottom: 0.5rem;
+  margin-bottom: 10px;
 }
 ul ul,
 ol ul,
@@ -1470,7 +1470,7 @@ ol ol {
 }
 dl {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
 }
 dt,
 dd {
@@ -1505,8 +1505,8 @@ abbr[data-original-title] {
   text-transform: uppercase;
 }
 blockquote {
-  padding: 0.5rem 1rem;
-  margin: 0 0 1rem;
+  padding: 10px 20px;
+  margin: 0 0 20px;
   font-size: 1.09375rem;
   border-left: 5px solid #eeeeee;
 }
@@ -1553,7 +1553,7 @@ blockquote.pull-right .small:after {
   content: "\00A0 \2014";
 }
 address {
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
   font-style: normal;
   line-height: 1.42857143;
 }
@@ -1583,7 +1583,7 @@ th {
 .table {
   width: 100%;
   max-width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
 }
 .table > thead > tr > th,
 .table > tbody > tr > th,
@@ -1755,7 +1755,7 @@ th {
 @media screen and (max-width: 767px) {
   .table-responsive {
     width: 100%;
-    margin-bottom: 0.75rem;
+    margin-bottom: 15px;
     overflow-y: hidden;
     -ms-overflow-style: -ms-autohiding-scrollbar;
     border: 1px solid #ddd;
@@ -2340,7 +2340,7 @@ tbody.collapse.in {
 }
 .dropdown-menu .divider {
   height: 1px;
-  margin: -0.5rem 0;
+  margin: 9px 0;
   overflow: hidden;
   background-color: #e5e5e5;
 }
@@ -2803,7 +2803,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .nav .nav-divider {
   height: 1px;
-  margin: -0.5rem 0;
+  margin: 9px 0;
   overflow: hidden;
   background-color: #e5e5e5;
 }
@@ -2961,7 +2961,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .pagination {
   display: inline-block;
   padding-left: 0;
-  margin: 1rem 0;
+  margin: 20px 0;
   border-radius: 0px;
 }
 .pagination > li {
@@ -3056,7 +3056,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .pager {
   padding-left: 0;
-  margin: 1rem 0;
+  margin: 20px 0;
   text-align: center;
   list-style: none;
 }
@@ -3251,7 +3251,7 @@ a.badge:focus {
 .thumbnail {
   display: block;
   padding: 4px;
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
   line-height: 1.42857143;
   background-color: white;
   border: 1px solid #ddd;
@@ -3276,7 +3276,7 @@ a.thumbnail.active {
 }
 .alert {
   padding: 15px;
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
   border: 1px solid transparent;
   border-radius: 0px;
 }
@@ -3366,8 +3366,8 @@ a.thumbnail.active {
   }
 }
 .progress {
-  height: 1rem;
-  margin-bottom: 1rem;
+  height: 20px;
+  margin-bottom: 20px;
   overflow: hidden;
   background-color: #bbb;
   border-radius: 0px;
@@ -3379,7 +3379,7 @@ a.thumbnail.active {
   width: 0%;
   height: 100%;
   font-size: 0.75rem;
-  line-height: 1rem;
+  line-height: 20px;
   color: #fff;
   text-align: center;
   background-color: #4c6586;
@@ -3689,7 +3689,7 @@ button.list-group-item-danger.active:focus {
   line-height: 1.3;
 }
 .panel {
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
   background-color: white;
   border: 1px solid transparent;
   border-radius: 0px;
@@ -3901,7 +3901,7 @@ button.list-group-item-danger.active:focus {
   border: 0;
 }
 .panel-group {
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
 }
 .panel-group .panel {
   margin-bottom: 0;
@@ -4081,7 +4081,7 @@ button.list-group-item-danger.active:focus {
 }
 .breadcrumb {
   padding: 0 15px;
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
   list-style: none;
   background-color: transparent;
   border-radius: 0px;
@@ -5016,8 +5016,8 @@ kbd kbd {
 }
 pre {
   display: block;
-  padding: 0rem;
-  margin: 0 0 0.5rem;
+  padding: 9.5px;
+  margin: 0 0 10px;
   font-size: -0.125rem;
   line-height: 1.42857143;
   word-break: break-all;
@@ -5867,7 +5867,7 @@ legend {
   display: block;
   width: 100%;
   padding: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
   font-size: 1.3125rem;
   line-height: inherit;
   color: #333333;
@@ -6029,7 +6029,7 @@ input[type="search"] {
 }
 .radio label,
 .checkbox label {
-  min-height: 1rem;
+  min-height: 20px;
   padding-left: 20px;
   margin-bottom: 0;
   font-weight: normal;
@@ -6086,7 +6086,7 @@ fieldset[disabled] .checkbox label {
   padding-top: 4px;
   padding-bottom: 4px;
   margin-bottom: 0;
-  min-height: 1.875rem;
+  min-height: 20.875px;
 }
 .form-control-static.input-lg,
 .form-control-static.input-sm {
@@ -6125,7 +6125,7 @@ select[multiple].input-sm {
 }
 .form-group-sm .form-control-static {
   height: 9rem;
-  min-height: 1.75rem;
+  min-height: 20.75px;
   padding: 4px 6px;
   font-size: 0.75rem;
   line-height: 1.5;
@@ -6162,7 +6162,7 @@ select[multiple].input-lg {
 }
 .form-group-lg .form-control-static {
   height: 16rem;
-  min-height: 2rem;
+  min-height: 21px;
   padding: 7px 12px;
   font-size: 1rem;
   line-height: 1.33;
@@ -6290,7 +6290,7 @@ select[multiple].input-lg {
   color: #a94442;
 }
 .has-feedback label ~ .form-control-feedback {
-  top: 6rem;
+  top: 25px;
 }
 .has-feedback label.sr-only ~ .form-control-feedback {
   top: 0;
@@ -6361,7 +6361,7 @@ select[multiple].input-lg {
 }
 .form-horizontal .radio,
 .form-horizontal .checkbox {
-  min-height: 1.25rem;
+  min-height: 20.25px;
 }
 .form-horizontal .form-group {
   margin-right: -15px;
@@ -6392,7 +6392,7 @@ select[multiple].input-lg {
 .navbar {
   position: relative;
   min-height: 40px;
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
   border: 1px solid transparent;
 }
 @media (min-width: 768px) {
@@ -6497,9 +6497,9 @@ select[multiple].input-lg {
 }
 .navbar-brand {
   float: left;
-  padding: 19.5px 15px;
+  padding: 10px 15px;
   font-size: 1rem;
-  line-height: 1rem;
+  line-height: 20px;
   height: 40px;
 }
 .navbar-brand:hover,
@@ -6545,12 +6545,12 @@ select[multiple].input-lg {
   }
 }
 .navbar-nav {
-  margin: 9.75px -15px;
+  margin: 5px -15px;
 }
 .navbar-nav > li > a {
   padding-top: 10px;
   padding-bottom: 10px;
-  line-height: 1rem;
+  line-height: 20px;
 }
 @media (max-width: 768px) {
   .navbar-nav .open .dropdown-menu {
@@ -6567,7 +6567,7 @@ select[multiple].input-lg {
     padding: 5px 15px 5px 25px;
   }
   .navbar-nav .open .dropdown-menu > li > a {
-    line-height: 1rem;
+    line-height: 20px;
   }
   .navbar-nav .open .dropdown-menu > li > a:hover,
   .navbar-nav .open .dropdown-menu > li > a:focus {
@@ -6583,8 +6583,8 @@ select[multiple].input-lg {
     float: left;
   }
   .navbar-nav > li > a {
-    padding-top: 19.5px;
-    padding-bottom: 19.5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 }
 .navbar-form {
@@ -6693,8 +6693,8 @@ select[multiple].input-lg {
   margin-bottom: 9px;
 }
 .navbar-text {
-  margin-top: 19.5px;
-  margin-bottom: 19.5px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 @media (min-width: 768px) {
   .navbar-text {
@@ -6938,8 +6938,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .panel .panel-heading.ilBlockHeader {
   background-color: #f9f9f9;
   margin: 0;
-  padding: 9px 12px;
-  padding-bottom: 3px;
+  padding: 9px 15px;
   border: none;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -6950,17 +6949,9 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .panel .panel-heading.ilBlockHeader h2.ilHeader {
   margin: 0;
   color: #161616;
-  font-size: 1.4rem;
+  font-size: 1.115rem;
   line-height: 1.33;
   font-weight: 400;
-}
-.panel .panel-heading.ilHeader h3,
-.panel .panel-heading.ilBlockHeader h3,
-.panel .panel-heading.ilHeader h3.ilHeader,
-.panel .panel-heading.ilBlockHeader h3.ilHeader {
-  margin: 0;
-  color: #161616;
-  font-size: 1rem;
 }
 .panel .panel-heading.ilHeader h4,
 .panel .panel-heading.ilBlockHeader h4,
@@ -6975,7 +6966,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: white;
 }
 .panel .panel-body {
-  padding: 6px 12px;
+  padding: 6px 15px;
   background-color: white;
 }
 .panel-flex .panel-heading {
@@ -6986,10 +6977,10 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .panel-flex .ilHeader {
   display: flex;
 }
-.panel-flex h3.ilHeader {
+.panel-flex h2.ilHeader {
   flex-grow: 99;
   flex-shrink: 1;
-  line-height: 2rem;
+  line-height: 20;
   order: 1;
 }
 .panel-flex .ilBlockHeader h4,
@@ -7018,40 +7009,33 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   text-align: center;
   padding-top: 9px;
 }
-.panel-primary h3.ilHeader {
+.panel-primary h2.ilHeader {
   font-weight: 600;
 }
 .panel-secondary {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-.panel-secondary .panel-heading.ilHeader {
-  padding: 6px 12px;
-}
-.panel-secondary .panel-heading.ilHeader h4 {
-  padding-top: 3px;
-  padding-bottom: 3px;
-}
 .panel-secondary .panel-heading.ilHeader h2.ilHeader {
   font-size: 1rem;
 }
-.panel-secondary .panel-heading.ilHeader h3.ilHeader {
+.panel-secondary .panel-heading.ilHeader h2.ilHeader {
   font-size: 1rem;
 }
 .panel-secondary .panel-body .il-item-group {
   margin: 0 -12px;
 }
-.panel-secondary .panel-body .il-item-group h3 {
-  padding: 6px 12px;
+.panel-secondary .panel-body .il-item-group h2 {
+  padding: 6px 15px;
 }
-.panel-secondary .panel-body .il-item-group h4 {
-  padding: 6px 12px;
+.panel-secondary .panel-body .il-item-group h3 {
+  padding: 6px 15px;
 }
 .panel-secondary .panel-body .il-item-group:first-child {
-  margin: -6px -12px 0 -12px;
+  margin: -6px -15px 0 -15px;
 }
 .panel-secondary .panel-body .il-item-group .il-item {
-  padding-left: 12px;
+  padding-left: 15px;
 }
 .panel-secondary .panel-body .il-item-group .il-item .media-right {
   vertical-align: middle;
@@ -7071,13 +7055,13 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   border: none;
   -webkit-box-shadow: none;
   box-shadow: none;
-  margin: -6px -12px;
+  margin: -6px -15px;
 }
 .panel-sub .panel-body {
   margin: 0;
 }
 .panel-sub:first-child .panel-heading {
-  padding: 9px 12px;
+  padding: 9px 15px;
 }
 .il-panel-report .thumbnail {
   margin-bottom: 0;
@@ -7094,11 +7078,10 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 }
 .il-panel-listing-std-container > h2 {
   color: #161616;
-  font-size: 1.4rem;
+  font-size: 1.115rem;
   font-weight: 500;
   float: left;
-  padding: 9px 12px;
-  padding-bottom: 3px;
+  padding: 9px 15px;
   margin: 0;
   line-height: 1.33;
 }
@@ -7106,7 +7089,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   float: right;
 }
 .il-panel-listing-std-container > .dropdown {
-  padding: 9px 12px;
+  padding: 9px 15px;
 }
 .il-panel-listing-std-container > .dropdown:not(:last-child) {
   padding-bottom: 3px;
@@ -7251,6 +7234,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .il-deck .row {
   margin-left: -3px;
   margin-right: 0;
+  margin-bottom: 12px;
 }
 .il-deck .row > div {
   padding-left: 3px;
@@ -7278,7 +7262,6 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   background: white;
   display: inline-block;
   margin-bottom: 3px;
-  padding: 3px;
   width: 100%;
 }
 .ui-dropzone-wrapper {
@@ -7300,9 +7283,6 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   font-size: 0.875rem;
   margin-bottom: 3px;
   float: right;
-}
-.ui-dropzone-container button {
-  font-size: 0.875rem;
 }
 .ui-dropzone .form-group {
   width: 100%;
@@ -7716,9 +7696,9 @@ ul.dropdown-menu > li > .btn {
   display: block;
   width: 100%;
   clear: both;
-  padding: 3px 10px;
+  padding: 3px 15px;
   font-weight: normal;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   line-height: 1.42857143;
   background-color: transparent;
   color: #161616;
@@ -7740,7 +7720,7 @@ ul.dropdown-menu > li > .btn:focus {
 .il-item {
   background-color: white;
   position: relative;
-  padding: 12px;
+  padding: 15px;
 }
 .il-item .il-item-title {
   font-size: 0.875rem;
@@ -7811,7 +7791,7 @@ ul.dropdown-menu > li > .btn:focus {
   color: #161616;
   font-size: 1rem;
   font-weight: normal;
-  padding: 9px 12px;
+  padding: 9px 15px;
   margin: 0;
 }
 .il-item-group .dropdown {
@@ -7824,7 +7804,7 @@ ul.dropdown-menu > li > .btn:focus {
   margin-top: 6px;
 }
 .il-notification-item {
-  padding-right: 15px;
+  padding-right: 18px;
 }
 .il-notification-item .il-item-notification-title {
   display: inline-block;
@@ -7869,7 +7849,7 @@ ul.dropdown-menu > li > .btn:focus {
 }
 @media only screen and (min-width: 769px) {
   .panel-secondary .il-item {
-    padding: 6px 6px;
+    padding: 6px 15px;
     width: 100%;
   }
   .panel-secondary .il-item .il-item-title {
@@ -7909,7 +7889,7 @@ ul.dropdown-menu > li > .btn:focus {
     border-bottom: 0;
   }
   .il-panel-listing-std-container .il-item .media-left {
-    min-width: 44px;
+    min-width: 50px;
   }
   .panel-secondary .il-item .media-body {
     width: auto;
@@ -8001,7 +7981,7 @@ ul.dropdown-menu > li > .btn:focus {
 }
 /* Breadcrumb */
 .breadcrumb {
-  margin: 0.8em 0 1rem 0;
+  margin: 0.8em 0 20px 0;
   font-size: 0.75rem;
 }
 .breadcrumb > li + li:before {
@@ -8209,7 +8189,7 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .il-standard-form .il-standard-form-header h2,
 .il-standard-form .il-section-input-header h2 {
-  font-size: 1.2rem;
+  font-size: 1.115rem;
   padding-top: 12px;
   padding-bottom: 3px;
 }
@@ -8332,7 +8312,7 @@ select.form-control {
 .form-horizontal .control-label {
   text-align: left;
   padding-bottom: 4px;
-  min-height: 1.875rem;
+  min-height: 20.875px;
 }
 @media only screen and (max-width: 768px) {
   .form-horizontal .control-label {
@@ -9472,7 +9452,7 @@ footer {
     background-color: transparent;
     border: none;
     color: #2c2c2c;
-    font-size: 1.4rem;
+    font-size: 1.5em;
     max-width: 220px;
     white-space: nowrap;
     overflow: hidden;
@@ -10476,10 +10456,10 @@ footer {
 **************************************************************
 */
 .il-system-info {
-  line-height: 1rem;
+  line-height: 20px;
   padding-top: 6px;
   padding-bottom: 6px;
-  height: calc(6px + 6px + 1rem);
+  height: calc(6px + 6px + 20px);
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -12052,7 +12032,7 @@ span.ilAlert {
   clear: both;
   padding: 3px 10px;
   font-weight: normal;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   line-height: 1.42857143;
   background-color: transparent;
   color: #161616;
@@ -12668,7 +12648,7 @@ a#il_mhead_t_focus {
 }
 @media only screen and (max-width: 768px) {
   a#il_mhead_t_focus {
-    font-size: 1.4rem;
+    font-size: 1.5em;
   }
 }
 a#il_mhead_t_focus[href] {
@@ -12687,7 +12667,7 @@ h2.ilHeader {
   padding: 0;
   margin: 0;
   display: inline;
-  font-size: 1.2rem;
+  font-size: 1.115rem;
   color: #2c2c2c;
 }
 #headerimage {
@@ -12733,8 +12713,8 @@ div.ilHeadAction ul.dropdown-menu button {
   font-size: 80%;
 }
 div.ilHeaderDesc {
-  font-size: 0.75rem;
-  padding: 0;
+  font-size: 0.875rem;
+  padding: 0 15px;
   color: #161616;
 }
 div.ilHeaderAlert {
@@ -12831,6 +12811,10 @@ span.il_Helptext {
   font-weight: normal;
 }
 /* ----------------- alternative text styles ------------- */
+.base {
+  text-decoration: none;
+  font-size: 0.875rem;
+}
 .small {
   text-decoration: none;
   font-size: 0.75rem;
@@ -13197,6 +13181,13 @@ img.ilSmallIcon {
   hyphens: auto;
 }
 /* Component Imports */
+.il-table-access-control-permissions {
+  font-size: 0.75rem;
+}
+.il-table-access-control-permissions label {
+  vertical-align: middle;
+  padding-left: 6px;
+}
 /* Services/Accordion */
 .il_VAccordionHead,
 .il_HAccordionHead {
@@ -13208,7 +13199,7 @@ img.ilSmallIcon {
   background-image: url("images/tree_col.svg");
   background-repeat: no-repeat;
   background-color: #f9f9f9;
-  background-position: 15px 8px;
+  background-position: 15px 9px;
   background-size: 20px 20px;
   border: 0;
 }
@@ -13221,7 +13212,7 @@ img.ilSmallIcon {
   width: 100%;
 }
 .il_VAccordionInnerContainer {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 .il_VAccordionContent .form-horizontal,
 .il_HAccordionContent .form-horizontal {
@@ -15030,7 +15021,7 @@ div.tblfooter {
 }
 div.ilTableNav {
   font-weight: normal;
-  padding: 0 3px;
+  padding: 0 15px;
   font-size: 0.625rem;
   text-align: right;
 }
@@ -15062,11 +15053,11 @@ div.ilTableHeaderTitleBlock {
   border-bottom: 1px solid #dddddd;
 }
 div.ilTableHeaderTitle {
-  margin: 15px 0 0;
+  margin: 12px 0 0 15px;
   padding: 0;
 }
 div.ilTableHeaderTitle + .ilHeaderDesc {
-  margin: 0 0 5px;
+  margin: 0 0 15px;
 }
 h3.ilTableHeaderTitleBlock {
   font-weight: bold;
@@ -15084,7 +15075,7 @@ div.ilTableOuter {
 }
 div.ilTableSelectAll {
   background-color: white;
-  padding: 6px 8px;
+  padding: 6px 15px;
   font-size: 0.75rem;
   border-top: 1px solid #dddddd;
 }
@@ -15094,38 +15085,38 @@ div.ilTableSelectAll label {
 div.ilTableCommandRow,
 div.ilTableCommandRowTop {
   background-color: #f9f9f9;
-  padding: 5px 8px;
+  padding: 6px 12px;
   font-size: 0.75rem;
 }
 span.ilTableFootLight {
   color: #161616;
 }
 div.ilTableFilterActivator {
-  margin: 0 0 5px 3px;
+  margin: 0 0 6px 12px;
 }
 .ilTableMenuItem {
   margin: 0 10px 0 0;
 }
 div.ilTableFilter {
-  padding: 0 0 5px 0;
+  padding: 0 0 6px 0;
   margin: 0;
 }
 legend.ilTableFilter {
   font-size: 0.625rem;
   border: none;
-  padding: 2px 5px;
-  margin: -12px 0 0;
+  padding: 0 15px;
+  margin: 0;
   font-weight: normal;
   text-align: right;
 }
 legend.ilTableFilter > a {
-  margin-right: -20px;
-  margin-top: -15px;
+  margin-right: -15px;
+  margin-top: -12px;
 }
 fieldset.ilTableFilter {
   background-color: #f9f9f9;
-  padding: 10px 15px;
-  margin: 5px 0 15px 0;
+  padding: 12px 15px;
+  margin: 6px 0 15px 0;
 }
 div.ilTableFilterLabel {
   font-style: italic;
@@ -15172,7 +15163,7 @@ tr.tblheader {
   font-weight: normal;
   background-color: #f9f9f9;
   font-size: 0.75rem;
-  border-bottom: 1px solid #d6d6d6;
+  border-bottom: 1px solid #dddddd;
 }
 /* ---------------- alternating tablerowcolors ----------------- */
 .tblrow2_mo {
@@ -15218,6 +15209,10 @@ tr.tblheader {
 }
 .ilTableOuter .table {
   background-color: white;
+}
+.ilTableOuter .table tr th:first-child,
+.ilTableOuter .table tr td:first-child {
+  padding-left: 15px;
 }
 td > img[src$="icon_custom.svg"] {
   max-width: 32px;
@@ -15875,7 +15870,7 @@ h3.ilProfileName {
   margin: 0 0 10px;
   padding: 0;
   font-weight: normal;
-  font-size: 1.2rem;
+  font-size: 1.115rem;
 }
 div.ilProfileSection {
   margin-top: 20px;
@@ -16249,7 +16244,7 @@ div.ilPreconditionItem {
 }
 /* Repository */
 div.ilContainerListItemOuter {
-  padding: 15px 12px;
+  padding: 9px 15px;
   zoom: 1;
 }
 [dir="rtl"] div.ilContainerListItemOuter {
@@ -16292,7 +16287,7 @@ div.ilContainerListItemCB {
 	width: 25px;*/
   display: table-cell;
   vertical-align: top;
-  padding-right: 10px;
+  padding-right: 15px;
 }
 div.ilContainerListItemCB img {
   width: 20px;
@@ -16315,11 +16310,11 @@ div.ilContainerListItemIcon a {
   float: right;
 }
 div.ilContainerListItemIconCB {
-  margin-left: 25px;
+  margin-left: 15px;
 }
 [dir="rtl"] div.ilContainerListItemIconCB {
   margin-left: 0;
-  margin-right: 25px;
+  margin-right: 15px;
 }
 div[class^="il_editarea"] .ilContainerListItemOuter img,
 img.ilListItemIcon {
@@ -16346,17 +16341,17 @@ div.ilContainerListItemContentCB {
 	margin-right: 60px; */
 }
 div.il_ContainerListItem {
-  margin: 2px 0;
-  padding-left: 8px;
+  margin: 3px 0;
+  padding-left: 9px;
   width: 100%;
 }
 [dir="rtl"] div.il_ContainerListItem {
   padding-left: 0;
-  padding-right: 8px;
+  padding-right: 9px;
 }
 .ilContainerBlockHeader {
   background-color: #f9f9f9;
-  padding: 9px 12px;
+  padding: 9px 15px;
   font-weight: 400;
   text-align: left;
   vertical-align: middle;
@@ -16428,11 +16423,8 @@ div#ilContRepIntro img {
 }
 .ilContainerTileRows {
   margin: 0px -15px 0 -15px;
-  padding: 6px 12px;
+  padding: 6px 15px;
   background-color: white;
-}
-.ilContainerTileRows > .il-deck {
-  margin: 0 5px;
 }
 .ilContainerTileRows .card-no-highlight {
   height: 0px;
@@ -16462,7 +16454,7 @@ div#ilContRepIntro img {
   display: block;
 }
 .il_ContainerItemTitle .btn {
-  font-size: 1em;
+  font-size: 1rem;
 }
 /* Modules/LearningModule */
 .ilLMMenu {
@@ -16757,12 +16749,6 @@ select.ilNavHistorySelect {
   background-image: none;
   text-decoration: none;
 }
-/* Services/Block */
-.iosPdBlockDragAndDropPlaceholder {
-  border: 3px dashed #c0c0c0;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
 /* Blocks */
 div.il_Block,
 table.il_Block {
@@ -16776,7 +16762,7 @@ table.il_Block {
   background-color: #f9f9f9;
   border: none;
   text-align: left;
-  padding: 5px;
+  padding: 9px;
 }
 #il_center_col div.il_Block {
   background-color: #f9f9f9;
@@ -16788,7 +16774,7 @@ td.ilBlockHeaderBig {
   /* font-family: 'Open Sans Semibold';  deactivated, since it affects drop downs in the header */
   font-weight: normal;
   padding: 3px 0;
-  margin: 0 5px;
+  margin: 0 9px;
   text-align: left;
   color: #2c2c2c;
   border-bottom: 1px solid #dddddd;
@@ -16799,10 +16785,10 @@ td.ilBlockHeaderBig {
   font-size: 0.875rem;
 }
 h2.ilBlockHeader {
-  font-weight: 600;
+  font-weight: 400;
   margin: 0;
   padding: 0;
-  font-size: 0.875rem;
+  font-size: 1rem;
   display: inline;
 }
 h3.ilBlockHeader {
@@ -16826,7 +16812,7 @@ div.ilBlockInfo {
   text-align: right;
 }
 div.ilBlockContent {
-  padding: 5px;
+  padding: 0.875rem;
 }
 .ilBlockRow1,
 .ilBlockRow2 {
@@ -16853,7 +16839,7 @@ a.ilMediaLightboxClose {
   margin: 5px 0 10px 10px;
   cursor: pointer;
   color: #161616;
-  font-size: 1.2rem;
+  font-size: 1.115rem;
 }
 a.ilMediaLightboxClose:hover {
   color: #000000;
@@ -16905,6 +16891,12 @@ body.ilBodyPrint {
 }
 .ilStartupSection {
   padding-top: 25px;
+}
+.ilStartupSection .control-label {
+  width: 33.33%;
+}
+.ilStartupSection .control-label + div {
+  width: 66.67%;
 }
 @media only screen and (max-width: 768px) {
   .ilStartupSection {

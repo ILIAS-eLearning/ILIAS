@@ -176,7 +176,7 @@ class PanelSecondaryLegacyTest extends ILIAS_UI_TestBase
         $expected_html = <<<EOT
 <div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader">
-		<h4>Title</h4>
+		<h2>Title</h2>
 		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
 			<ul class="dropdown-menu">
 				<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
@@ -211,7 +211,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader">
-		<h4>Title</h4>
+		<h2>Title</h2>
 		<div class="il-viewcontrol-sortation" id="id_1">
 			<div class="dropdown">
 				<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-label="actions" aria-haspopup="true" aria-expanded="false">
@@ -253,7 +253,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader">
-		<h4>Title</h4>
+		<h2>Title</h2>
 		<div class="il-viewcontrol-pagination">
 			<span class="browse previous">
 				<a class="glyph" href="http://ilias.de?page=0" aria-label="back">
@@ -299,7 +299,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader">
-		<h4>Title</h4>
+		<h2>Title</h2>
 		<div class="il-viewcontrol-section">
 			<a class="btn btn-default " href="http://www.ilias.de" aria-label="previous" data-action="http://www.ilias.de" id="id_1">
 				<span class="glyphicon glyphicon-chevron-left"></span>
@@ -336,7 +336,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-secondary panel-flex">
 	<div class="panel-heading ilHeader">
-		<h4>Title</h4>
+		<h2>Title</h2>
 	</div>
 	<div class="panel-body">
 		Legacy content

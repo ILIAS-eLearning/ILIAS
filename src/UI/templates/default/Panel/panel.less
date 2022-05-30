@@ -12,40 +12,34 @@
 		background-color: @il-main-dark-bg;
 
 		margin: 0;
-		padding: @panel-heading-padding;
-		padding-bottom: @il-padding-small-vertical;
+		padding: @il-panel-heading-padding;
 
 		border: none;
 		.box-shadow(none);
 		h2, h2.ilHeader {
 			margin: 0;
 			color: @il-panel-heading-color;
-			font-size: @il-font-size-xxlarge;
+			font-size: @il-font-size-xlarge;
 			line-height: @line-height-large;
 			font-weight: 400;
-		}
-
-		h3, h3.ilHeader {
-			margin: 0;
-			color: @il-panel-heading-color;
-			font-size: @font-size-h4;
 		}
 
 		h4, h4.ilBlockHeader {
 			margin: 0;
 			color: @il-panel-heading-color;
-			font-size: @font-size-h5;
+			font-size: @il-font-size-base;
 		}
 
 		.dropdown {
 			> button.dropdown-toggle {
 				color: @il-btn-standard-color;
+
 			}
 		}
 	}
 
 	.panel-body {
-		padding: @il-padding-large-vertical @il-padding-large-horizontal;
+		padding: @il-padding-large-vertical @il-padding-xlarge-horizontal;
 		background-color: @il-main-bg;
 
 	}
@@ -61,10 +55,10 @@
 	.ilHeader{
 		display: flex;
 	}
-	h3.ilHeader {
+	h2.ilHeader {
 		flex-grow: 99;
 		flex-shrink: 1;
-		line-height: ceil(@font-size-h4 * 1.235);
+		line-height: ceil((unit(@il-font-size-large) / @il-pixel-to-rem) * 1.235);
 		order: 1;
 	}
 	.ilBlockHeader h4,.ilHeader h4{
@@ -96,7 +90,7 @@
 
 //Standard Panel
 .panel-primary {
-	h3.ilHeader {
+	h2.ilHeader {
 		font-weight: 600;
 	}
 }
@@ -106,37 +100,31 @@
 	-webkit-box-shadow: @il-panel-shadow;
     box-shadow: @il-panel-shadow;
 	.panel-heading.ilHeader{
-		padding: @il-padding-large-vertical @il-padding-large-horizontal;
-		h4 {
-			padding-top: @il-padding-small-vertical;
-			padding-bottom: @il-padding-small-vertical;
+		h2.ilHeader {
+			font-size: @il-font-size-large;
 		}
 
 		h2.ilHeader {
-			font-size: @font-size-h4;
-		}
-
-		h3.ilHeader {
-			font-size: @font-size-h4;
+			font-size: @il-font-size-large;
 		}
 	}
 
 	.panel-body {
 		.il-item-group{
 			margin: 0 -@il-margin-large-horizontal;
-			h3{
-				padding: @il-padding-large-vertical @il-padding-large-horizontal;
+			h2{
+				padding: @il-padding-large-vertical @il-padding-xlarge-horizontal;
 			}
-			h4{
-				padding: @il-padding-large-vertical @il-padding-large-horizontal;
+			h3{
+				padding: @il-padding-large-vertical @il-padding-xlarge-horizontal;
 			}
 
 			&:first-child{
-				margin: -@il-margin-large-vertical -@il-margin-large-horizontal 0 -@il-margin-large-horizontal;
+				margin: -@il-margin-large-vertical -@il-margin-xlarge-horizontal 0 -@il-margin-xlarge-horizontal;
 			}
 
 			.il-item{
-				padding-left: @il-padding-large-horizontal;
+				padding-left: @il-padding-xlarge-horizontal;
 
 				.media-right{
 					vertical-align: middle;
@@ -164,7 +152,7 @@
 	-webkit-box-shadow: none;
 	box-shadow: none;
 
-	margin: -@il-margin-large-vertical -@il-margin-large-horizontal;
+	margin: -@il-margin-large-vertical -@il-margin-xlarge-horizontal;
 
 	.panel-body{
 		margin: 0;
@@ -172,7 +160,7 @@
 
 	&:first-child{
 		.panel-heading{
-			padding: @panel-heading-padding;
+			padding: @il-panel-heading-padding;
 		}
 	}
 }
@@ -198,11 +186,10 @@
 
 	> h2 {
 		color: @il-panel-heading-color;
-		font-size: @font-size-h2;
+		font-size: @il-font-size-xlarge;
 		font-weight: 500;
 		float: left;
-		padding: @panel-heading-padding;
-		padding-bottom: @il-padding-small-vertical;
+		padding: @il-panel-heading-padding;
 		margin: 0;
 		line-height: @line-height-large;
 	}
@@ -211,7 +198,7 @@
 		float: right;
 	}
 	> .dropdown {
-		padding: @panel-heading-padding;
+		padding: @il-panel-heading-padding;
 
 		&:not(:last-child){
 			padding-bottom: @il-padding-small-vertical;

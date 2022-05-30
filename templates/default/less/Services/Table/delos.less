@@ -10,7 +10,7 @@ div.tblfooter {
 
 div.ilTableNav {
 	font-weight: normal;
-	padding: 0 3px;
+	padding: 0 @il-padding-xlarge-horizontal;
 	font-size: @il-font-size-xsmall;
 	text-align: right;
 	table {
@@ -58,10 +58,10 @@ div.ilTableHeaderTitleBlock {
 }
 
 div.ilTableHeaderTitle {
-	margin: 15px 0 0;
+	margin: @il-padding-xxlarge-vertical 0 0 @il-padding-xlarge-horizontal;
 	padding: 0;
 	+ .ilHeaderDesc {
-		margin: 0 0 5px;
+		margin: 0 0 @il-padding-xlarge-horizontal;
 	}
 }
 
@@ -84,7 +84,7 @@ div.ilTableOuter {
 
 div.ilTableSelectAll {
 	background-color: @il-main-bg;
-	padding: 6px 8px;
+	padding: @il-padding-large-vertical @il-padding-xlarge-horizontal;
 	font-size: @il-font-size-small;
 	border-top: 1px solid @il-main-border-color;
 }
@@ -95,7 +95,7 @@ div.ilTableSelectAll label {
 
 div.ilTableCommandRow, div.ilTableCommandRowTop {
 	background-color: @il-table-cmd-bg;
-	padding: 5px 8px;
+	padding: @il-padding-large-vertical @il-padding-large-horizontal;
 	font-size: @il-font-size-small;
 }
 
@@ -107,7 +107,7 @@ span.ilTableFootLight {
 }
 
 div.ilTableFilterActivator {
-	margin: 0 0 5px 3px;
+	margin: 0 0 @il-padding-large-vertical @il-padding-large-horizontal;
 }
 
 .ilTableMenuItem {
@@ -116,27 +116,27 @@ div.ilTableFilterActivator {
 
 
 div.ilTableFilter {
-	padding: 0 0 5px 0;
+	padding: 0 0 @il-padding-large-vertical 0;
 	margin: 0;
 }
 
 legend.ilTableFilter {
 	font-size: @il-font-size-xsmall;
 	border: none;
-	padding: 2px 5px;
-	margin: -12px 0 0;
+	padding: 0 @il-padding-xlarge-horizontal;
+	margin: 0;
 	font-weight: normal;
 	text-align: right;
 	> a {
-		margin-right: -20px;
-		margin-top: -15px;
+		margin-right: -@il-padding-xlarge-horizontal;
+		margin-top: -@il-margin-xxlarge-vertical ;
 	}
 }
 
 fieldset.ilTableFilter {
 	background-color: @il-main-dark-bg;
-	padding: 10px 15px;
-	margin:  5px 0 15px 0;
+	padding: @il-margin-xxlarge-vertical @il-padding-xlarge-horizontal;
+	margin:  @il-margin-large-vertical 0 @il-padding-xlarge-horizontal 0;
 }
 
 div.ilTableFilterLabel {
@@ -193,7 +193,7 @@ tr.tblheader {
 	font-weight: normal;
 	background-color: @il-main-dark-bg;
 	font-size: @il-font-size-small;
-	border-bottom: 1px solid #d6d6d6;
+	border-bottom: 1px solid @il-main-border-color;
 }
 
 /* ---------------- alternating tablerowcolors ----------------- */
@@ -250,6 +250,12 @@ div.ilTableCommandRowTop {
 
 .ilTableOuter .table {
 	background-color: @il-data-table-bg;
+
+	tr {
+		th:first-child, td:first-child {
+			padding-left: @il-padding-xlarge-horizontal;
+		}
+	}
 }
 
 td > img[src$="icon_custom.svg"] {

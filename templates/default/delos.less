@@ -1075,8 +1075,8 @@ div.ilHeadAction ul.dropdown-menu button {
 }
 
 div.ilHeaderDesc {
-	font-size: @il-font-size-small;
-	padding: 0;
+	font-size: @il-font-size-base;
+	padding: 0 @il-padding-xlarge-horizontal;
 	color: @il-text-color;
 }
 
@@ -1181,6 +1181,11 @@ span.il_Helptext {
 }
 
 /* ----------------- alternative text styles ------------- */
+.base {
+	text-decoration: none;
+	font-size: @il-font-size-base;
+}
+
 .small {
 	text-decoration: none;
 	font-size: @il-font-size-small;
@@ -1579,7 +1584,7 @@ img.ilSmallIcon {
 }
 
 /* Component Imports */
-
+@import "less/Services/AccessControl/delos.less";
 @import "less/Services/Accordion/delos.less";
 @import "less/Modules/ScormAicc/delos.less";
 @import "less/Services/Form/delos.less";

@@ -103,8 +103,8 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $byline = $ms->getByline();
         $expected = ""
             . "<div class=\"form-group row\">"
-                . "<label class=\"control-label col-sm-3\">$label</label>"
-                . "<div class=\"col-sm-9\">"
+                . "<label class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
+                . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
                     . "<ul class=\"il-input-multiselect\" id=\"id_1\">";
 
         foreach ($options as $opt_value => $opt_label) {
@@ -141,8 +141,8 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $byline = $ms->getByline();
         $expected = ""
             . "<div class=\"form-group row\">"
-                . "<label class=\"control-label col-sm-3\">$label</label>"
-                . "<div class=\"col-sm-9\">"
+                . "<label class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
+                . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
                     . "<ul class=\"il-input-multiselect\" id=\"id_1\">";
 
         foreach ($options as $opt_value => $opt_label) {
@@ -185,8 +185,8 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $byline = $ms->getByline();
         $expected = ""
             . "<div class=\"form-group row\">"
-            . "<label class=\"control-label col-sm-3\">$label</label>"
-            . "<div class=\"col-sm-9\">"
+            . "<label class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
+            . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
             . "<ul class=\"il-input-multiselect\" id=\"id_1\">";
 
         foreach ($options as $opt_value => $opt_label) {
@@ -218,8 +218,8 @@ class MultiSelectInputTest extends ILIAS_UI_TestBase
         $byline = $ms->getByline();
         $expected = ""
             . "<div class=\"form-group row\">"
-            . "<label class=\"control-label col-sm-3\">$label</label>"
-            . "<div class=\"col-sm-9\">"
+            . "<label class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
+            . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
             . "<ul class=\"il-input-multiselect\" id=\"id_1\">"
             . "<li>-</li>"
             . "</ul>"
