@@ -125,7 +125,9 @@ class ilAssQuestionPreviewGUI
                         //BACK FROM Question Page to Test
                     } else {
                         $link = ilTestExpressPage::getReturnToPageLink();
-                        $this->tabs->setBackTarget($this->lng->txt("backtocallingtest"), $link);
+                        //$this->tabs->setBackTarget($this->lng->txt("backtocallingtest"), $link);
+                        $this->tabs->setBackTarget($this->lng->txt("backtocallingtest"),
+                            "ilias.php?baseClass=ilObjTestGUI&cmd=questions&ref_id=$ref_id");
                     }
                 } elseif (isset($_GET['calling_consumer']) && (int) $_GET['calling_consumer']) {
                     $ref_id = (int) $_GET['calling_consumer'];
