@@ -313,6 +313,5 @@ class assMultipleChoiceImport extends assQuestionImport
         } else {
             $import_mapping[$item->getIdent()] = array("pool" => $this->object->getId(), "test" => 0);
         }
-        //$ilLog->write(strftime("%D %T") . ": finished import multiple choice question (single response)");
     }
 }
