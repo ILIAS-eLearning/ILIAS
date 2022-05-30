@@ -2,12 +2,12 @@
 
 .nav-tabs {
 	> li {
-		margin: 0 4px 0 0;
+		margin: 0 @il-padding-xs-horizontal 0 0;
 		//border-top: 4px solid transparent;
 		> a {
 			border-radius: 0;
 			border: 0 none;
-			padding: 6px 12px 3px;
+			padding: @il-padding-large-vertical @il-padding-xlarge-horizontal @il-padding-base-vertical;
 			font-size: @il-font-size-base;
 			margin: 0;
 			&:hover {
@@ -34,14 +34,14 @@
 
 [dir="rtl"] .nav-tabs {
 	> li {
-		margin: 0 0 0 4px;
+		margin: 0 0 0 @il-margin-xs-horizontal;
 		float: right;
 	}
 }
 
 #ilTab {
 	padding: 0;
-	margin:  7px 15px 23px;
+	margin:  @il-padding-base-vertical @il-margin-xlarge-horizontal @il-padding-base-vertical;
 	border: 0 none;
 	border-bottom: 2px solid @il-neutral-color;
 }
@@ -50,23 +50,19 @@
 	z-index: 3;
 }
 
-.ilSetupContent #ilTab {
-	margin:  7px 0 23px;
-}
-
 .ilTabsContentOuter {
 	padding: 0;
 }
 
 /* Sub Tabs */
 #ilSubTab {
-	padding: 5px 20px;
-	margin: -23px 0 10px;
+	padding: @il-padding-large-vertical 0;
+	margin: 0 @il-margin-xlarge-horizontal;
 	> li {
 		> a {
 			border-radius: 0;
-			padding: 3px 7px;
-			font-size: @il-font-size-small;
+			padding: @il-padding-base-vertical @il-padding-xlarge-horizontal;
+			font-size: (@il-font-size-small);
 			/* font-weight: 600; */
 			&:hover {
 				color: @il-link-hover-color;
@@ -82,4 +78,8 @@
 			}
 		}
 	}
+}
+
+.il_after_tabs_spacing {
+	margin-bottom: @il-margin-xxlarge-vertical;
 }

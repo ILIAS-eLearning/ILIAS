@@ -73,8 +73,8 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $expected = ""
             . "<div class=\"form-group row\">"
-                . "<label class=\"control-label col-sm-3\">$label</label>"
-                . "<div class=\"col-sm-9\">"
+                . "<label class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
+                . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
                     . "<div class=\"il-input-password\" id=\"id_1\">"
                         . "<input type=\"password\" name=\"$name\" class=\"form-control form-control-sm\" />"
                     . "</div>"
@@ -96,8 +96,8 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($pwd));
         $expected = $this->brutallyTrimHTML('
 <div class="form-group row">
-   <label class="control-label col-sm-3">label</label>
-   <div class="col-sm-9">
+   <label class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+   <div class="col-sm-8 col-md-9 col-lg-10">
       <div class="help-block alert alert-danger" role="alert">an_error</div>
       <div class="il-input-password" id="id_1"><input type="password" name="name_0" class="form-control form-control-sm" /></div>
       <div class="help-block">byline</div>
@@ -117,8 +117,8 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $expected = ""
             . "<div class=\"form-group row\">"
-                . "<label class=\"control-label col-sm-3\">$label</label>"
-                . "<div class=\"col-sm-9\">"
+                . "<label class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
+                . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
                     . "<div class=\"il-input-password\" id=\"id_1\">"
                         . "<input type=\"password\" name=\"$name\" class=\"form-control form-control-sm\" />"
                     . "</div>"
@@ -138,8 +138,8 @@ class PasswordInputTest extends ILIAS_UI_TestBase
         $r = $this->getDefaultRenderer();
         $expected = ""
             . "<div class=\"form-group row\">"
-                . "<label class=\"control-label col-sm-3\">$label</label>"
-                . "<div class=\"col-sm-9\">"
+                . "<label class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
+                . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
                     . "<div class=\"il-input-password\" id=\"id_1\">"
                         . "<input type=\"password\" name=\"$name\" value=\"$value\" class=\"form-control form-control-sm\" />"
                     . "</div>"
@@ -160,10 +160,10 @@ class PasswordInputTest extends ILIAS_UI_TestBase
 
         $expected = ""
         . "<div class=\"form-group row\">"
-            . "<label class=\"control-label col-sm-3\">" . "$label"
+            . "<label class=\"control-label col-sm-4 col-md-3 col-lg-2\">" . "$label"
                 . "<span class=\"asterisk\">*</span>"
             . "</label>"
-            . "<div class=\"col-sm-9\">"
+            . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
                 . "<div class=\"il-input-password\" id=\"id_1\">"
                     . "<input type=\"password\" name=\"$name\" class=\"form-control form-control-sm\" />"
                 . "</div>"
@@ -184,8 +184,8 @@ class PasswordInputTest extends ILIAS_UI_TestBase
 
         $expected = ""
         . "<div class=\"form-group row\">"
-            . "<label class=\"control-label col-sm-3\">$label</label>"
-            . "<div class=\"col-sm-9\">"
+            . "<label class=\"control-label col-sm-4 col-md-3 col-lg-2\">$label</label>"
+            . "<div class=\"col-sm-8 col-md-9 col-lg-10\">"
                 . "<div class=\"il-input-password\" id=\"id_1\">"
                     . "<input type=\"password\" name=\"$name\" disabled=\"disabled\" class=\"form-control form-control-sm\" />"
                 . "</div>"

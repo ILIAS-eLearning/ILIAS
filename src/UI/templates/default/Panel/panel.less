@@ -3,46 +3,43 @@
 
 //Valid for all panels (if not overridden)
 .panel{
-	border: none;
+	border: @il-panel-border;
+	border-radius: @il-panel-border-radius;
+	-webkit-box-shadow: @il-panel-shadow;
+	box-shadow: @il-panel-shadow;
 
 	.panel-heading.ilHeader, .panel-heading.ilBlockHeader {
 		background-color: @il-main-dark-bg;
 
 		margin: 0;
-		padding: @panel-heading-padding;
-		padding-bottom: @il-padding-small-vertical;
+		padding: @il-panel-heading-padding;
 
 		border: none;
 		.box-shadow(none);
 		h2, h2.ilHeader {
 			margin: 0;
-			color: @panel-heading-color;
-			font-size: @il-font-size-xxlarge;
-			line-height: @line-height-large;
-			font-weight: 600;
-		}
-
-		h3, h3.ilHeader {
-			margin: 0;
-			color: @panel-heading-color;
+			color: @il-panel-heading-color;
 			font-size: @il-font-size-xlarge;
+			line-height: @line-height-large;
+			font-weight: 400;
 		}
 
 		h4, h4.ilBlockHeader {
 			margin: 0;
-			color: @panel-heading-color;
-			font-size: @il-font-size-large;
+			color: @il-panel-heading-color;
+			font-size: @il-font-size-base;
 		}
 
 		.dropdown {
 			> button.dropdown-toggle {
 				color: @il-btn-standard-color;
+
 			}
 		}
 	}
 
 	.panel-body {
-		padding: @il-padding-large-vertical @il-padding-large-horizontal;
+		padding: @il-padding-large-vertical @il-padding-xlarge-horizontal;
 		background-color: @il-main-bg;
 
 	}
@@ -58,10 +55,10 @@
 	.ilHeader{
 		display: flex;
 	}
-	h3.ilHeader {
+	h2.ilHeader {
 		flex-grow: 99;
 		flex-shrink: 1;
-		line-height: ceil(@font-size-h4 * 1.235);
+		line-height: ceil((unit(@il-font-size-large) / @il-pixel-to-rem) * 1.235);
 		order: 1;
 	}
 	.ilBlockHeader h4,.ilHeader h4{
@@ -93,25 +90,21 @@
 
 //Standard Panel
 .panel-primary {
-	h3.ilHeader {
+	h2.ilHeader {
 		font-weight: 600;
 	}
 }
 
 //Secondary Panel
 .panel-secondary{
+	-webkit-box-shadow: @il-panel-shadow;
+    box-shadow: @il-panel-shadow;
 	.panel-heading.ilHeader{
-		padding: @il-padding-large-vertical @il-padding-large-horizontal;
-		h4 {
-			padding-top: @il-padding-small-vertical;
-			padding-bottom: @il-padding-small-vertical;
-		}
-
 		h2.ilHeader {
 			font-size: @il-font-size-large;
 		}
 
-		h3.ilHeader {
+		h2.ilHeader {
 			font-size: @il-font-size-large;
 		}
 	}
@@ -119,19 +112,19 @@
 	.panel-body {
 		.il-item-group{
 			margin: 0 -@il-margin-large-horizontal;
-			h3{
-				padding: @il-padding-large-vertical @il-padding-large-horizontal;
+			h2{
+				padding: @il-padding-large-vertical @il-padding-xlarge-horizontal;
 			}
-			h4{
-				padding: @il-padding-large-vertical @il-padding-large-horizontal;
+			h3{
+				padding: @il-padding-large-vertical @il-padding-xlarge-horizontal;
 			}
 
 			&:first-child{
-				margin: -@il-margin-large-vertical -@il-margin-large-horizontal 0 -@il-margin-large-horizontal;
+				margin: -@il-margin-large-vertical -@il-margin-xlarge-horizontal 0 -@il-margin-xlarge-horizontal;
 			}
 
 			.il-item{
-				padding-left: @il-padding-large-horizontal;
+				padding-left: @il-padding-xlarge-horizontal;
 
 				.media-right{
 					vertical-align: middle;
@@ -143,8 +136,8 @@
 	.il-panel-listing-std-container > h2, .panel-body h4{
 		display: block;
 		padding: @il-padding-large-vertical 0;
-		font-size: @il-font-size-base;
-		color: @panel-heading-color;
+		font-size: @font-size-base;
+		color: @il-panel-heading-color;
 		margin: 0;
 	}
 
@@ -155,7 +148,11 @@
 
 //Sub Panel
 .panel-sub{
-	margin: -@il-margin-large-vertical -@il-margin-large-horizontal;
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+
+	margin: -@il-margin-large-vertical -@il-margin-xlarge-horizontal;
 
 	.panel-body{
 		margin: 0;
@@ -163,7 +160,7 @@
 
 	&:first-child{
 		.panel-heading{
-			padding: @panel-heading-padding;
+			padding: @il-panel-heading-padding;
 		}
 	}
 }
@@ -188,12 +185,11 @@
 	margin-bottom: @il-standard-page-content-padding;
 
 	> h2 {
-		color: @panel-heading-color;
+		color: @il-panel-heading-color;
 		font-size: @il-font-size-xlarge;
-		font-weight: 600;
+		font-weight: 500;
 		float: left;
-		padding: @panel-heading-padding;
-		padding-bottom: @il-padding-small-vertical;
+		padding: @il-panel-heading-padding;
 		margin: 0;
 		line-height: @line-height-large;
 	}
@@ -202,7 +198,7 @@
 		float: right;
 	}
 	> .dropdown {
-		padding: @panel-heading-padding;
+		padding: @il-panel-heading-padding;
 
 		&:not(:last-child){
 			padding-bottom: @il-padding-small-vertical;

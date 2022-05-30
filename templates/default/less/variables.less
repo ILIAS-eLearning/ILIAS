@@ -35,8 +35,8 @@ with the il- variable set here.
 @il-main-bg: white;
 //** Title area of various components such as Panels. Used as e.g. in containers as bg. Used to be @il-secondary-bg
 @il-main-dark-bg: #f9f9f9;
-//** Background of everything in the Content Area, which is the area bellow the Meta Bar and Breadcrumbs next to the Main Bar. Used to be @body-bg
-@il-content-bg: #f0f0f0;
+//** Background of subelements like subforms. Used mainly on the main-dark-bg.
+@il-main-darker-bg: #f0f0f0;
 
 //** Currently used for several highlighting effects, such as hovering
 @il-highlight-bg: lighten(@il-main-color, 50%);
@@ -121,23 +121,24 @@ with the il- variable set here.
 //** Used to indicate h4. Equivalent to 16px.
 @il-font-size-large:		1rem;
 //** Used to indicate h3. Equivalent to 18px.
-@il-font-size-xlarge:    1.2rem;
+@il-font-size-xlarge:    1.115rem;
 //** Used to indicate h2. Equivalent to 24px.
-@il-font-size-xxlarge:    1.4rem;
+@il-font-size-xxlarge:    1.5em;
 //** Used to indicate h1. Should only used one time per screen. Equivalent to 28px.
 @il-font-size-h1:    1.75rem;
 
 //** Unit-less `line-height` for use in components like buttons.
 @il-line-height-base:		1.428571429;
-@il-line-height-computed:    floor((@il-font-size-base * @il-line-height-base)); // ~20px
+@il-line-height-computed:    unit(floor(((unit(@il-font-size-base)/@il-pixel-to-rem) * @il-line-height-base)),px); // ~20px
 
 
 //== Base Padding and Border
 //
 //## Define common padding, margin and border radius sizes and more. Values based on 14px text and 1.428 line-height (~20px to start).
-@il-padding-base: 8px;
+@il-padding-base: 9px;
+
 @il-padding-base-vertical: 3px;
-@il-padding-base-horizontal: 8px;
+@il-padding-base-horizontal: @il-padding-base;
 
 @il-padding-large-vertical: 6px;
 @il-padding-large-horizontal: 12px;
@@ -145,11 +146,13 @@ with the il- variable set here.
 @il-padding-xlarge-vertical: 9px;
 @il-padding-xlarge-horizontal: 15px;
 
-@il-padding-small-vertical: 4px;
+@il-padding-xxlarge-vertical: 12px;
+
+@il-padding-small-vertical: 3px;
 @il-padding-small-horizontal: 6px;
 
 @il-padding-xs-vertical: 1px;
-@il-padding-xs-horizontal: 5px;
+@il-padding-xs-horizontal: 3px;
 
 @il-margin-base: @il-padding-base;
 @il-margin-base-vertical: @il-padding-base-vertical;
@@ -160,6 +163,8 @@ with the il- variable set here.
 
 @il-margin-xlarge-vertical: @il-padding-xlarge-vertical;
 @il-margin-xlarge-horizontal: @il-padding-xlarge-horizontal;
+
+@il-margin-xxlarge-vertical: @il-padding-xxlarge-vertical;
 
 @il-margin-small-vertical: @il-padding-small-vertical;
 @il-margin-small-horizontal: @il-padding-small-horizontal;
@@ -219,7 +224,7 @@ with the il- variable set here.
 @il-mainbar-btn-label-size: @il-font-size-xsmall;
 @il-mainbar-bulky-label-margin-top: 5px;
 @il-mainbar-tools-btn-bg: @il-warning-color;
-@il-mainbar-tools-bg: @il-content-bg;
+@il-mainbar-tools-bg: @il-main-dark-bg;
 @il-mainbar-tools-item-gap: 3px;
 
 //** tools
@@ -276,11 +281,13 @@ with the il- variable set here.
 //## Variables to control the footer section of ILIAS.
 
 //** controls background color of the footer.
-@il-footer-bg-color: @il-main-color;
+@il-footer-bg-color: @il-main-bg;
 //** controls the color of the text in the footer.
-@il-footer-color: white;
+@il-footer-color: @il-text-color;
 //** controls the padding of the footer.
-@il-footer-padding: 20px 0 15px 5px;
+@il-footer-padding: 10px 0 10px 5px;
+//** controls the height of the footer.
+@il-footer-height: 45px;
 
 //== Buttons
 //
@@ -405,13 +412,22 @@ with the il- variable set here.
 //** Textcolor used in the forms header, the sections header and the footer
 @il-standard-form-header-color: @il-text-color;
 //** Background color used in the forms header, the sections header and the footer
-@il-standard-form-header-bg: @il-content-bg;
+@il-standard-form-header-bg: @il-main-bg;
 //** Textsize color used in the forms header and the sections header
 @il-standard-form-header-font-size: @il-font-size-xlarge;
 //** Textsize color used in the form headers the section headers byline (description)
 @il-standard-form-header-byline-font-size: @il-font-size-small;
 //** Background color used for dependant groups (sub forms) in standard forms
-@il-standard-form-dependant-group-bg: @il-main-dark-bg;
+@il-standard-form-dependant-group-bg: @il-main-darker-bg;
+//** Padding above headings of individual groups in forms
+@il-standard-form-header-padding:      (@il-padding-xlarge-vertical * 3 + @il-padding-base-vertical) @il-padding-xlarge-horizontal @il-padding-xxlarge-vertical @il-padding-xlarge-horizontal;
+//** Margin above headings of individual groups in forms
+@il-standard-form-header-margin: @il-margin-xlarge-horizontal 0 0 0;
+//** Border seperating individual groups in forms
+@il-standard-form-header-border:    1px solid @il-main-border-color;
+
+//** Alignment of labels in Forms
+@il-form-label-text-align: left;
 
 //** Minimal size of non-empty buttons inside forms
 @il-button-min-width-forms: 60px;
@@ -495,7 +511,7 @@ with the il- variable set here.
 //
 //##
 @il-toolbar-margin: 15px; // Margin between toolbar items
-@il-toolbar-bg: @il-main-bg;
+@il-toolbar-bg: @il-main-dark-bg;
 @il-toolbar-height: 40px;
 @il-toolbar-border: 1px solid @il-main-border-color;
 
@@ -521,20 +537,17 @@ with the il- variable set here.
 @il-counter-font-size: @il-font-size-xsmall;
 @il-counter-margin-left: -4px;
 
-
 //== Status Counter
 //
 //##
 @il-counter-status-bg: @il-neutral-light-color;
 @il-counter-status-margin-top: 10px;
 
-
 //== Novelty Counter
 //
 //##
 @il-counter-novelty-bg: @il-warning-color;
 @il-counter-novelty-margin-top: -5px;
-
 
 //== Dropzones
 //
@@ -559,7 +572,6 @@ with the il- variable set here.
 @il-dropzone-filelist-border-type: solid;
 @il-dropzone-filelist-border-width: @il-dropzone-border-width;
 @il-dropzone-filelist-border-radius: @il-dropzone-border-radius;
-
 
 //== Popover
 //
@@ -586,7 +598,6 @@ with the il- variable set here.
 //** Maximum Height of a popover (overflow scroll)
 @il-popover-max-height: 500px;
 
-
 //== Tooltips
 //
 //## Tooltips displayed by the online help
@@ -600,7 +611,6 @@ with the il- variable set here.
 @il-tooltip-border-radius: 4px;
 //** Shadow of those tooltips
 @il-tooltip-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
-
 
 //== Divider
 //
@@ -618,19 +628,16 @@ with the il- variable set here.
 @il-item-divider-margin: 0 0 10px 0;
 @il-item-divider-border-bottom: dashed 0.5px @il-main-border-color;
 @il-item-description-padding: 10px 0 0 0;
-@il-item-audio-padding: @padding-large-vertical 0;
-@il-item-padding: @padding-large-horizontal;
+@il-item-audio-padding: @il-padding-large-vertical 0;
+@il-item-padding: @il-padding-xlarge-horizontal;
 @il-item-marker-border-left: 5px solid;
 @il-item-h5-margin: 4px 0px 2px 0px;
-@il-item-border-bottom: 2px solid @il-content-bg;
-@il-item-border-bottom-small: 1px solid @il-content-bg;
+@il-item-border-bottom: 1px solid @il-main-border-color;
+@il-item-border-bottom-small: 1px solid @il-main-border-color;
 @il-item-gap-base: 6px;
 @il-item-gap-large: 10px;
 @il-item-gap-small: 5px;
 @il-item-gap-xs: 1px;
-
-
-
 
 //== Charts
 //
@@ -777,6 +784,15 @@ with the il- variable set here.
 @il-vc-mode-btn-active: @il-vc-glyph-hover-bg;
 @il-vc-pagination-btn-active-bg: @il-main-bg;
 
+//== Panel
+//
+//##
+@il-panel-heading-padding: @il-padding-xlarge-vertical @il-padding-xlarge-horizontal;
+@il-panel-heading-color: @il-text-color;
+@il-panel-shadow: none;
+@il-panel-border: 1px solid @il-main-border-color;
+@il-panel-border-radius: 3px;
+
 //== Card
 //
 //##
@@ -791,8 +807,9 @@ with the il- variable set here.
 @il-card-repository-outlined-disabled-icon-filter: @il-card-repository-outlined-icon-filter;
 //** Sets the maximum width of cards in small screens
 @il-card-max-width-xs: 350px;
-@il-card-box-shadow: 0 1px 2px rgba(0, 0, 0, 15%), 0 0px 0px rgba(0, 0, 0, 15%);
-
+@il-card-box-shadow: @il-panel-shadow;
+@il-card-border: @il-panel-border;
+@il-card-border-radius: 0;
 
 //== Workflow
 //
@@ -830,7 +847,8 @@ with the il- variable set here.
 //== DropDowns
 //
 //##
-@il-font-size-dropdown: @il-font-size-base;
+@il-font-size-dropdown: @il-font-size-small;
+@il-dropdown-shodow: 3px 9px 9px 0 rgba(0,0,0,0.3);
 
 //== Drilldown Menu
 //

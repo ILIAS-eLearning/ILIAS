@@ -63,8 +63,8 @@ class TagInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-3">label</label>
-            <div class="col-sm-9">
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
                 <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
                     <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/> 
                 </div>
@@ -88,8 +88,8 @@ class TagInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
         $expected = $this->brutallyTrimHTML('
            <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-3">label</label>
-            <div class="col-sm-9">
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
                 <div class="help-block alert alert-danger" role="alert">an_error</div>
                 <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
                     <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/> 
@@ -112,8 +112,8 @@ class TagInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-3">label</label>
-            <div class="col-sm-9">
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
                 <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
                     <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/> 
                 </div>
@@ -135,8 +135,8 @@ class TagInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-3">label<span class="asterisk">*</span></label>
-            <div class="col-sm-9">
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
                 <div id="container-id_1" class="form-control form-control-sm il-input-tag-container">
                     <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" value=""/> 
                 </div>
@@ -159,8 +159,8 @@ class TagInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-            <label for="id_1" class="control-label col-sm-3">label</label>
-            <div class="col-sm-9">
+            <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+            <div class="col-sm-8 col-md-9 col-lg-10">
                 <div id="container-id_1" class="form-control form-control-sm il-input-tag-container disabled">
                     <input id="id_1" name="name_0" class="form-control form-control-sm il-input-tag" readonly value=""/> 
                 </div>
