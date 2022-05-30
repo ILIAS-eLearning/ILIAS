@@ -38,7 +38,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
      * @var ilObjQuestionPool
      */
     public $object;
-    
+
+    /** @var ilErrorHandling */
+    private $error;
+
     /**
     * Constructor
     * @access public
@@ -51,6 +54,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         $rbacsystem = $DIC['rbacsystem'];
         $lng->loadLanguageModule("assessment");
         $this->type = "qpl";
+        $this->error = $DIC['ilErr'];
         $this->ctrl = &$ilCtrl;
         
         $this->ctrl->saveParameter($this, array(
@@ -1350,6 +1354,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
     */
     protected function importFileObject($parent_id = null, $a_catch_errors = true)
     {
+        if (!$this->checkPermissionBool("create", "", $_REQUEST["new_type"])) {
+            $this->error->raiseError($this->lng->txt("no_create_permission"));
+        }
+
         $form = $this->initImportForm($_REQUEST["new_type"]);
         if ($form->checkInput()) {
             $this->uploadQplObject();
