@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once './Modules/Test/exceptions/class.ilTestException.php';
 require_once './Services/Object/classes/class.ilObjectGUI.php';
@@ -94,6 +109,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $tree = $DIC['tree'];
         $lng->loadLanguageModule("assessment");
         $this->type = "tst";
+        $this->error = $DIC['ilErr'];
         $this->ctrl = $ilCtrl;
         $this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id"));
         $this->testrequest = $DIC->test()->internal()->request();
@@ -972,7 +988,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         require_once 'Modules/Test/classes/class.ilObjTestSettingsGeneralGUI.php';
         $this->ctrl->redirectByClass('ilObjTestSettingsGeneralGUI', ilObjTestSettingsGeneralGUI::CMD_SHOW_FORM);
     }
-    
+
     private function prepareSubGuiOutput()
     {
         global $DIC;
@@ -1786,7 +1802,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $question = $this->lng->txt("tst_remove_questions");
             }
         }
-                
+
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($question);
 

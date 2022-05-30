@@ -495,25 +495,25 @@ class ilEventParticipants
             }
         }
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->participants[$row->usr_id]['usr_id'] = $row->usr_id;
-            $this->participants[$row->usr_id]['registered'] = $row->registered;
-            $this->participants[$row->usr_id]['participated'] = $row->participated;
-            $this->participants[$row->usr_id]['excused'] = $row->excused;
-            $this->participants[$row->usr_id]['contact'] = $row->contact;
+            $this->participants[(int) $row->usr_id]['usr_id'] = (int) $row->usr_id;
+            $this->participants[(int) $row->usr_id]['registered'] = (bool) $row->registered;
+            $this->participants[(int) $row->usr_id]['participated'] = (bool) $row->participated;
+            $this->participants[(int) $row->usr_id]['excused'] = (bool) $row->excused;
+            $this->participants[(int) $row->usr_id]['contact'] = (bool) $row->contact;
 
-            $lp_mark = new ilLPMarks($this->getEventId(), $row->usr_id);
-            $this->participants[$row->usr_id]['mark'] = $lp_mark->getMark();
-            $this->participants[$row->usr_id]['comment'] = $lp_mark->getComment();
-            $this->participants[$row->usr_id]['notification_enabled'] = false;
-            if (in_array($row->usr_id, $parentRecipients)) {
-                $this->participants[$row->usr_id]['notification_enabled'] = true;
+            $lp_mark = new ilLPMarks($this->getEventId(), (int) $row->usr_id);
+            $this->participants[(int) $row->usr_id]['mark'] = $lp_mark->getMark();
+            $this->participants[(int) $row->usr_id]['comment'] = $lp_mark->getComment();
+            $this->participants[(int) $row->usr_id]['notification_enabled'] = false;
+            if (in_array((int) $row->usr_id, $parentRecipients)) {
+                $this->participants[(int) $row->usr_id]['notification_enabled'] = true;
             }
 
             if ($row->registered) {
-                $this->participants_registered[] = $row->usr_id;
+                $this->participants_registered[] = (int) $row->usr_id;
             }
             if ($row->participated) {
-                $this->participants_participated[] = $row->usr_id;
+                $this->participants_participated[] = (int) $row->usr_id;
             }
         }
         // add defaults for parent participants
