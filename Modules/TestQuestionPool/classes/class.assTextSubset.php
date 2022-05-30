@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
@@ -949,5 +964,26 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         } else {
             return $this->getAnswers();
         }
+    }
+
+    public function isAddableAnswerOptionValue($qIndex, $answerOptionValue)
+    {
+            $found = false;
+
+            foreach ($this->getAnswers() as $item) {
+                if ($answerOptionValue !== $item->getAnswerText()) {
+                    continue;
+                }
+
+                $found = true;
+                break;
+            }
+
+        return !$found;
+    }
+
+    public function addAnswerOptionValue($qIndex, $answerOptionValue, $points)
+    {
+        $this->addAnswer($answerOptionValue, $points, $qIndex);
     }
 }

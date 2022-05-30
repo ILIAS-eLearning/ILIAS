@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 include_once "./Services/Object/classes/class.ilObjectAccess.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
@@ -321,6 +336,9 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
      */
     public static function _getCommands() : array
     {
+        global $DIC;
+        $DIC->language()->loadLanguageModule('assessment');
+
         $commands = array(
             array("permission" => "write", "cmd" => "questionsTabGateway", "lang_var" => "tst_edit_questions"),
             array("permission" => "write", "cmd" => "ilObjTestSettingsGeneralGUI::showForm", "lang_var" => "settings"),
@@ -328,7 +346,9 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                 "default" => true),
             //array("permission" => "write", "cmd" => "", "lang_var" => "edit"),
             array("permission" => "tst_statistics", "cmd" => "outEvaluation", "lang_var" => "tst_statistical_evaluation"),
-            array("permission" => "read", "cmd" => "userResultsGateway", "lang_var" => "tst_test_results")
+            array("permission" => "read", "cmd" => "userResultsGateway", "lang_var" => "tst_user_results"),
+            array("permission" => "write", "cmd" => "testResultsGateway", "lang_var" => "results"),
+            array("permission" => "eval_a", "cmd" => "testResultsGateway", "lang_var" => "results")
         );
         
         return $commands;

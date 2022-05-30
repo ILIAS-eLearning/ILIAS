@@ -39,7 +39,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestExpresspageObjectGUI, ilAssQuestionPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestDashboardGUI, ilTestResultsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI, ilMarkSchemaGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilParticipantsTestResultsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilObjectCopyGUI, ilTestScoringGUI
  * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilTestExportGUI
@@ -934,10 +934,33 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->ctrl->setCmdClass('ilTestEvaluationGUI');
         $this->ctrl->setCmd('outUserResultsOverview');
         $this->tabs_gui->clearTargets();
-        
+
         $this->forwardToEvaluationGUI();
     }
-    
+
+    private function testResultsGatewayObject()
+    {
+        global $DIC, $ilPluginAdmin;
+        $this->tabs_gui->clearTargets();
+
+        $this->prepareOutput();
+        $this->addHeaderAction();
+
+        $this->ctrl->setCmdClass('ilParticipantsTestResultsGUI');
+        $this->ctrl->setCmd('showParticipants');
+
+
+        $gui = new ilParticipantsTestResultsGUI();
+        $gui->setTestObj($this->object);
+
+        $factory = new ilTestQuestionSetConfigFactory($this->tree,$DIC->database(),$ilPluginAdmin, $this->object);
+        $gui->setQuestionSetConfig($factory->getQuestionSetConfig());
+        $gui->setObjectiveParent(new ilTestObjectiveOrientedContainer());
+        $gui->setTestAccess($this->getTestAccess());
+        $this->tabs_gui->activateTab('results');
+        $this->ctrl->forwardCommand($gui);
+    }
+
     /**
      * @return ilTestAccess
      */
