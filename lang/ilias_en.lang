@@ -9650,6 +9650,7 @@ glo#:#glo_copy#:#Copy Glossary
 glo#:#glo_copy_terms#:#Copy Terms
 glo#:#glo_link_glo_in_glo#:#Should all glossary terms of the target glossary be linked in the current glossary now?
 glo#:#glo_page_type_gdf#:#Term Definition
+glo#:#glo_please_select_other_glo#:#Please select another glossary.
 glo#:#glo_referenced_term#:#Referenced Term
 glo#:#glo_reference#:#Reference
 glo#:#glo_reference_terms#:#Reference Terms
