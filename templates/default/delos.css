@@ -13580,7 +13580,7 @@ a.postnew:visited {
 blockquote.ilForumQuote {
   margin: 0 20px 10px;
   padding: 5px;
-  border: 1px solid #b6b6b6;
+  border: 1px solid #dddddd;
   font-size: 0.75rem;
 }
 div.ilForumQuoteHead {
@@ -14971,14 +14971,17 @@ li.ilWikiBlockItem {
   padding: 6px 0;
   margin: 0 15px;
 }
+#ilSubTab > li:first-child > a {
+  margin-left: 3px;
+}
 #ilSubTab > li > a {
   border-radius: 0;
-  padding: 3px 15px;
+  padding: 3px 12px;
   font-size: 0.75rem;
-  /* font-weight: 600; */
 }
 #ilSubTab > li > a:hover {
-  color: #3a4c65;
+  text-decoration: underline;
+  background-color: transparent;
 }
 #ilSubTab > li.active > a,
 #ilSubTab > li.active > a:hover,
