@@ -9452,7 +9452,7 @@ footer {
     background-color: transparent;
     border: none;
     color: #2c2c2c;
-    font-size: 1.5em;
+    font-size: 1rem;
     max-width: 220px;
     white-space: nowrap;
     overflow: hidden;
@@ -9461,8 +9461,8 @@ footer {
   .il-header-locator .dropdown-toggle:before {
     content: " \e606";
     font-family: "il-icons";
-    font-size: 1.8rem;
-    margin-right: 10px;
+    font-size: 1rem;
+    margin-right: 9px;
   }
   .il-header-locator .open .dropdown-toggle:before {
     content: " \e604";
