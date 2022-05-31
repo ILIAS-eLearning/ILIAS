@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Modules\Test\CanAccessFileUploadAnswer;
+
 include_once "./Services/Object/classes/class.ilObjectAccess.php";
 include_once "./Modules/Test/classes/inc.AssessmentConstants.php";
 include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php';
@@ -19,6 +21,15 @@ include_once './Services/Conditions/interfaces/interface.ilConditionHandling.php
 */
 class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
 {
+    public function canBeDelivered(ilWACPath $ilWACPath)
+    {
+        global $DIC;
+
+        $can_it = (new CanAccessFileUploadAnswer($DIC))->isTrue($ilWACPath->getPath());
+
+        return !$can_it->isOk() || $can_it->value();
+    }
+
     /**
     * Checks wether a user may invoke a command or not
     * (this method is called by ilAccessHandler::checkAccess)

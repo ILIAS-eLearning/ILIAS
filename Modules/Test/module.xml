@@ -41,4 +41,7 @@
 		<pdfpurpose name="PrintViewOfQuestions" preferred="PhantomJS" />
 		<pdfpurpose name="UserResult" preferred="PhantomJS" />
 	</pdfpurposes>
+        <web_access_checker>
+          <secure_path path="assessment" checking-class="ilObjTestAccess" in-sec-folder='0'/>
+        </web_access_checker>
 </module>

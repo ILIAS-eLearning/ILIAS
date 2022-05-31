@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestSuite;
+use ILIAS\Modules\Test\test\CanAccessFileUploadAnswerTest;
 
 class ilModulesTestSuite extends TestSuite
 {
@@ -25,6 +26,9 @@ class ilModulesTestSuite extends TestSuite
 
         include_once("./Modules/Test/test/ilTestFinalMarkLangVarBuilderTest.php");
         $suite->addTestSuite("ilTestFinalMarkLangVarBuilderTest");
+
+        include_once("./Modules/Test/test/CanAccessFileUploadAnswerTest.php");
+        $suite->addTestSuite(CanAccessFileUploadAnswerTest::class);
                 
         return $suite;
     }
