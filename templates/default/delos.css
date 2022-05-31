@@ -9542,6 +9542,9 @@ footer {
   .il-layout-page-content > div {
     flex-grow: 1;
   }
+  footer {
+    margin-bottom: 20px;
+  }
 }
 /*
 **************************************************************
@@ -10348,7 +10351,7 @@ footer {
 .il-maincontrols-footer {
   color: #161616;
   font-size: 0.75rem;
-  padding: 2px 10px;
+  padding: 3px 12px;
 }
 .il-maincontrols-footer .il-footer-content div {
   display: inline-block;
