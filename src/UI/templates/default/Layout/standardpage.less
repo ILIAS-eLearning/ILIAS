@@ -11,12 +11,12 @@
 	box-shadow: @il-mainbar-shadow-top;
 }
 
-@il-standard-page-zindex-base: @zindex-navbar;
+@il-standard-page-zindex-base: 1000;
 @il-standard-page-zindex-header: @il-standard-page-zindex-base - 1;
-@il-standard-page-zindex-breadcrumbs: @il-standard-page-zindex-header - 1;
-@il-standard-page-zindex-maincontrols: @il-standard-page-zindex-breadcrumbs - 1;
+@il-standard-page-zindex-maincontrols: @il-standard-page-zindex-header - 1;
 @il-standard-page-zindex-mainbar: @il-standard-page-zindex-maincontrols - 1;
 @il-standard-page-zindex-mainbar-slates: @il-standard-page-zindex-mainbar - 1;
+@il-standard-page-zindex-breadcrumbs: @il-standard-page-zindex-mainbar-slates - 1;
 @il-standard-page-zindex-systeminfo: @il-standard-page-zindex-header - 1;
 
 * {
