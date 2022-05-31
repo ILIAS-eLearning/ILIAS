@@ -1299,7 +1299,7 @@ h1,
 }
 h2,
 .h2 {
-  font-size: 1.5em;
+  font-size: 1.5rem;
 }
 h3,
 .h3 {
@@ -12648,7 +12648,7 @@ a#il_mhead_t_focus {
 }
 @media only screen and (max-width: 768px) {
   a#il_mhead_t_focus {
-    font-size: 1.5em;
+    font-size: 1.5rem;
   }
 }
 a#il_mhead_t_focus[href] {
