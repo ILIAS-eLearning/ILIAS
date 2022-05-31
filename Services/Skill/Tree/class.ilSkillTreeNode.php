@@ -275,7 +275,7 @@ class ilSkillTreeNode
         $obj_set = $ilDB->query($query);
         $obj_rec = $ilDB->fetchAssoc($obj_set);
 
-        return $obj_rec["type"];
+        return $obj_rec["type"] ?? "";
     }
 
     public function setStatus(int $a_val) : void
