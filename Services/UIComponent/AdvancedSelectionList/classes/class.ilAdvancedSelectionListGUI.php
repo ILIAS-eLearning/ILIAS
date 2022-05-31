@@ -228,7 +228,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
     */
     public function getAriaListTitle()
     {
-        return $this->aria_listtitle;
+        return strip_tags($this->aria_listtitle);
     }
 
     /**
