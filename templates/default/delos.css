@@ -12714,7 +12714,7 @@ div.ilHeadAction ul.dropdown-menu button {
 }
 div.ilHeaderDesc {
   font-size: 0.875rem;
-  padding: 0 15px;
+  padding: 0;
   color: #161616;
 }
 div.ilHeaderAlert {
@@ -15057,7 +15057,7 @@ div.ilTableHeaderTitle {
   padding: 0;
 }
 div.ilTableHeaderTitle + .ilHeaderDesc {
-  margin: 0 0 15px;
+  margin: 0 15px 9px;
 }
 h3.ilTableHeaderTitleBlock {
   font-weight: bold;
