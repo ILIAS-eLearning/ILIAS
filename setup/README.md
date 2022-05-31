@@ -125,7 +125,7 @@ are printed bold**, all other fields might be ommitted. A minimal example is
   * *path_to_logfile* to be used for logging
   * *errorlog_dir* to put error logs in
 * *mathjax* contains settings for Services/MathJax
-  * *path_to_latex_cgi* executable
+  * *path_to_latex_cgi* url of a mimetex installation (deprecated). Please configure MathJax in the ILIAS Administration.
 * *pdfgeneration* contains settings for Services/PDFGeneration
   * *path_to_phantom_js* executable
 * *preview* contains settings for Services/Preview

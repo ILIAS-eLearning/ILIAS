@@ -665,6 +665,7 @@ The ILIAS Testserver (https://test6.ilias.de) is currently configured as follows
 | unzip          | 6.00                        |
 | JDK            | 1.8.0_292                   |
 | NodeJS         | v10.24.1                    |
+| MathJax        | 2.7.9                       |
 
 
 Please note: Shibboleth won't work with Nginx.
