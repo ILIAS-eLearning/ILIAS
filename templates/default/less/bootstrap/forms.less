@@ -114,9 +114,6 @@ output {
 .form-control {
   display: block;
   width: 100%;
-  height: @input-height-base; // Make inputs at least the height of their button counterpart (base line-height + padding + border)
-  padding: @padding-base-vertical @padding-base-horizontal;
-  font-size: @font-size-base;
   line-height: @line-height-base;
   color: @input-color;
   background-color: @input-bg;
@@ -255,7 +252,7 @@ input[type="search"] {
   display: inline-block;
   padding-left: 20px;
   margin-bottom: 0;
-  vertical-align: middle;
+  vertical-align: top;
   font-weight: normal;
   cursor: pointer;
 }
@@ -479,14 +476,14 @@ input[type="checkbox"] {
     .form-group {
       display: inline-block;
       margin-bottom: 0;
-      vertical-align: middle;
+      vertical-align: top;
     }
 
     // In navbar-form, allow folks to *not* use `.form-group`
     .form-control {
       display: inline-block;
       width: auto; // Prevent labels from stacking above inputs in `.form-group`
-      vertical-align: middle;
+      vertical-align: top;
     }
 
     // Make static controls behave like regular ones

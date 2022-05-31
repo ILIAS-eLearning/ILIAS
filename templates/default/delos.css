@@ -5938,9 +5938,6 @@ output {
 .form-control {
   display: block;
   width: 100%;
-  height: 1.56rem;
-  padding: 3px 9px;
-  font-size: 0.875rem;
   line-height: 1.42857143;
   color: #555555;
   background-color: #fff;
@@ -6053,7 +6050,7 @@ input[type="search"] {
   display: inline-block;
   padding-left: 20px;
   margin-bottom: 0;
-  vertical-align: middle;
+  vertical-align: top;
   font-weight: normal;
   cursor: pointer;
 }
@@ -6305,12 +6302,12 @@ select[multiple].input-lg {
   .form-inline .form-group {
     display: inline-block;
     margin-bottom: 0;
-    vertical-align: middle;
+    vertical-align: top;
   }
   .form-inline .form-control {
     display: inline-block;
     width: auto;
-    vertical-align: middle;
+    vertical-align: top;
   }
   .form-inline .form-control-static {
     display: inline-block;
@@ -6600,12 +6597,12 @@ select[multiple].input-lg {
   .navbar-form .form-group {
     display: inline-block;
     margin-bottom: 0;
-    vertical-align: middle;
+    vertical-align: top;
   }
   .navbar-form .form-control {
     display: inline-block;
     width: auto;
-    vertical-align: middle;
+    vertical-align: top;
   }
   .navbar-form .form-control-static {
     display: inline-block;
@@ -8251,7 +8248,9 @@ select {
   cursor: pointer;
 }
 .form-control {
-  font-size: 0.875rem;
+  height: 1.57142857rem;
+  padding: 3px 9px;
+  font-size: 0.75rem;
   color: #161616;
   border: 1px solid #757575;
 }
@@ -8433,7 +8432,7 @@ input[type="checkbox"]:focus:focus-visible {
   padding-left: 0px;
 }
 .il-standard-form textarea {
-  height: 5.56rem;
+  height: 4.56rem;
 }
 .il-filter .col-md-4,
 .il-filter .col-md-6 {
