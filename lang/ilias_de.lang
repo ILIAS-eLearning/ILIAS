@@ -14002,6 +14002,7 @@ glo#:#glo_referenced_term#:#Verlinkte Begriffe
 glo#:#glo_term_reference#:#Begriffslink
 glo#:#glo_reference#:#Link
 glo#:#glo_selected_terms_have_been_copied#:#Die ausgewählten Begriffe wurden in die Zwischenablage kopiert. Bitte öffnen Sie das Zielglossar und klicken dann auf "Einfügen".
+glo#:#glo_please_select_other_glo#:#Bitte wählen Sie ein anderes Glossar aus.
 prg#:#prg_assign_date#:#Hinzugefügt am
 prg#:#prg_assigned_by#:#Hinzugefügt von
 survey#:#svy_mail_context_reminder_title#:#Umfrage: Teilnahme-Erinnerung
