@@ -40,6 +40,7 @@ class ilMatchingWizardInputGUI extends ilTextInputGUI
         parent::__construct($a_title, $a_postvar);
         $this->setSuffixes(array("jpg", "jpeg", "png", "gif"));
         $this->setSize('40');
+        $this->setMaxLength(800);
         $this->text_name = $lng->txt('answer_text');
         $this->image_name = $lng->txt('answer_image');
     }
