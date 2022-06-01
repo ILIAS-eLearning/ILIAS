@@ -2016,7 +2016,7 @@ class ilObjStudyProgramme extends ilContainer
     {
         global $DIC;
         $lng = $DIC['lng'];
-        $log = $this->getLog();
+        $log = $DIC->logger()->root();
         $lng->loadLanguageModule("prg");
         $lng->loadLanguageModule("mail");
 
