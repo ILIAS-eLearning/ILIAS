@@ -153,8 +153,10 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
         }
         if ($this->selectable[$a_node_id]) {
             $this->setHasSelectableNodes(true);
-            $this->selectable_child_nodes[$this->node[$a_node_id]["parent"]][] =
-                $this->node[$a_node_id];
+            if (isset($this->node[$a_node_id])) {
+                $this->selectable_child_nodes[$this->node[$a_node_id]["parent"]][] =
+                    $this->node[$a_node_id];
+            }
         }
     }
 
