@@ -1,19 +1,20 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
-
+ *********************************************************************/
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Legacy\Legacy;
@@ -210,7 +211,7 @@ class ilSessionTest extends TestCase
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-                
+
         $result = "";
         $this->markTestIncomplete(
             'This test has not been implemented yet.'
@@ -218,19 +219,19 @@ class ilSessionTest extends TestCase
         return;
         // write session
         db_pwassist_session_write("12345", 60, $ilUser->getId());
-        
+
         // find
         $res = db_pwassist_session_find($ilUser->getId());
         if ($res["pwassist_id"] === "12345") {
             $result .= "find-";
         }
-        
+
         // read
         $res = db_pwassist_session_read("12345");
         if ((int) $res["user_id"] === $ilUser->getId()) {
             $result .= "read-";
         }
-        
+
         // destroy
         db_pwassist_session_destroy("12345");
         $res = db_pwassist_session_read("12345");
