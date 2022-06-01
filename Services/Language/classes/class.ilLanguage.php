@@ -1,6 +1,21 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * language handling
@@ -86,7 +101,7 @@ class ilLanguage
         if (!in_array($this->lang_key, $langs, true)) {
             $this->lang_key = $this->lang_default;
         }
-
+    
         require_once("./Services/Language/classes/class.ilCachedLanguage.php");
         $this->global_cache = ilCachedLanguage::getInstance($this->lang_key);
         if ($this->global_cache->isActive()) {
@@ -387,7 +402,7 @@ class ilLanguage
         if ($DIC->offsetExists("ilUser")) {
             $ilUser = $DIC->user();
         }
-    
+
         $isset_get_lang = $DIC->http()->wrapper()->query()->has("lang");
         if (!ilSession::get("lang") && !$isset_get_lang && $ilUser instanceof ilObjUser &&
             (!$ilUser->getId() || $ilUser->isAnonymous())) {
@@ -406,7 +421,7 @@ class ilLanguage
                 )
             );
         }
-        
+
         // prefer personal setting when coming from login screen
         // Added check for ilUser->getId > 0 because it is 0 when the language is changed and
         // the terms of service should be displayed

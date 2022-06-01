@@ -1,5 +1,21 @@
-<?php
-/* Copyright (c) 1998-20014 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 require_once "./Services/Table/classes/class.ilTable2GUI.php";
 
@@ -173,7 +189,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
         foreach ($langlist as $lang_key) {
             $options[$lang_key] = $lng->txt("meta_l_" . $lang_key);
         }
-
+    
         include_once "./Services/Form/classes/class.ilSelectInputGUI.php";
         $si = new ilSelectInputGUI($lng->txt("language_compare"), "compare");
         //$si->setParent($this->parent_obj);

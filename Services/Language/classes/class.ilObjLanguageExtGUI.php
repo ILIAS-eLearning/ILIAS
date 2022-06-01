@@ -192,7 +192,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             // get the selection of modules and topics from request or session
             $modules = ilObjLanguageAccess::_getSavedModules();
             $topics = ilObjLanguageAccess::_getSavedTopics();
-    
+
             $reset_offset_get = false;
             if ($this->http->wrapper()->query()->has("reset_offset")) {
                 $reset_offset_get = $this->http->wrapper()->query()->retrieve(
@@ -200,7 +200,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                     $this->refinery->kindlyTo()->bool()
                 );
             }
-    
+
             // first call for translation
             if ($reset_offset_get) {
                 $table_gui->resetOffset();
@@ -756,7 +756,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"));
         }
         $translate = (bool) $ilSetting->get($translate_key, '0');
-
+    
         require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -797,7 +797,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $total["changed"] = "<b>" . $total["changed"] . "</b>";
         $total["unchanged"] = "<b>" . $total["unchanged"] . "</b>";
         $data[] = $total;
-
+    
         // create and configure the table object
         include_once "Services/Table/classes/class.ilTable2GUI.php";
         $table_gui = new ilTable2GUI($this, "statistics");
@@ -980,7 +980,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             !in_array($a_id, ilObjLanguageAccess::_getSavedTopics())) {
             $ilCtrl->redirect($this, "view");
         }
-
+    
         include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "saveNewEntry"));
@@ -1071,7 +1071,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         return $renderer->render($f->messageBox()->success($this->lng->txt("language_variables_saved")));
     }
-    
+
     private function getSession() : array
     {
         return ilSession::get("lang_ext_maintenance") ?? [];
