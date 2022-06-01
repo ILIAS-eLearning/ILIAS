@@ -29,6 +29,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         $this->user_assignments_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
         $this->log = $DIC['ilLog'];
         $this->lng = $DIC['lng'];
+        $this->lng->loadLanguageModule("prg");
     }
 
     const ID = 'prg_restart_assignments_temporal_progress';
