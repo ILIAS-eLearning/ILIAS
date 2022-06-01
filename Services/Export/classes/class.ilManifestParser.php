@@ -1,18 +1,21 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Manifest parser for ILIAS standard export files
  * @author Aleex Killing <alex.killing@gmx.de>
@@ -74,16 +77,6 @@ class ilManifestParser extends ilSaxParser
         return $this->title;
     }
 
-    public function setTargetRelease(string $a_val) : void
-    {
-        $this->target_release = $a_val;
-    }
-
-    public function getTargetRelease() : string
-    {
-        return $this->target_release;
-    }
-
     public function getExportFiles() : array
     {
         return $this->expfiles;
@@ -117,7 +110,6 @@ class ilManifestParser extends ilSaxParser
                 $this->setInstallId($a_attribs["InstallationId"]);
                 $this->setInstallUrl($a_attribs["InstallationUrl"]);
                 $this->setTitle($a_attribs["Title"]);
-                $this->setTargetRelease($a_attribs["TargetRelease"]);
                 $this->setMainEntity($a_attribs["MainEntity"]);
                 break;
 

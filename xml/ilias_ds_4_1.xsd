@@ -24,7 +24,7 @@
 			<element ref='t:FieldType' minOccurs='0' maxOccurs='unbounded'/>
 		</sequence>
 		<attribute name='Entity' type='string' use='required'/>
-		<attribute name='TargetRelease' type='string' use='required'/>
+		<attribute name='TargetRelease' type='string'/>
 		</complexType>
 	</element>
 

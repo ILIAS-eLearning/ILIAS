@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Export Container
@@ -46,17 +60,17 @@ class ilExportContainer extends ilExport
 
         $log->debug('Using base directory: ' . $this->export_run_dir);
 
-        $this->manifestWriterBegin($a_type, $a_id, $a_target_release);
+        $this->manifestWriterBegin($a_type, $a_id);
         $this->addContainer();
         $this->addSubitems($a_id, $a_type, $a_target_release);
-        $this->manifestWriterEnd($a_type, $a_id, $a_target_release);
+        $this->manifestWriterEnd($a_type, $a_id);
 
         ilFileUtils::zip($this->cont_export_dir, $this->cont_export_dir . '.zip');
         ilFileUtils::delDir($this->cont_export_dir);
         return [];
     }
 
-    protected function manifestWriterBegin(string $a_type, int $a_id, string $a_target_release) : void
+    protected function manifestWriterBegin(string $a_type, int $a_id) : void
     {
         $this->cont_manifest_writer = new ilXmlWriter();
         $this->cont_manifest_writer->xmlHeader();
@@ -65,7 +79,6 @@ class ilExportContainer extends ilExport
             array(
                 "MainEntity" => $a_type,
                 "Title" => ilObject::_lookupTitle($a_id),
-                "TargetRelease" => $a_target_release,
                 "InstallationId" => IL_INST_ID,
                 "InstallationUrl" => ILIAS_HTTP_PATH
             )
@@ -135,7 +148,7 @@ class ilExportContainer extends ilExport
         }
     }
 
-    protected function manifestWriterEnd(string $a_type, int $a_id, string $a_target_release) : void
+    protected function manifestWriterEnd(string $a_type, int $a_id) : void
     {
         $this->cont_manifest_writer->xmlEndTag('Manifest');
         $this->log->debug($this->cont_export_dir . DIRECTORY_SEPARATOR . 'manifest.xml');
