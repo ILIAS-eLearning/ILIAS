@@ -69,7 +69,6 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $this->mode = $a_mode;
         $this->skill_tree = $DIC->skills()->internal()->repo()->getTreeRepo()->getTreeForNodeId($a_obj_id);
         $this->tree_access_manager = $DIC->skills()->internal()->manager()->getTreeAccessManager($this->requested_ref_id);
-        $this->obj_id = $a_obj_id;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
@@ -90,10 +89,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
             $childs = ilArrayUtil::sortArray($childs, "order_nr", "asc", true);
             $this->setData($childs);
         }
-        
-        if ($this->obj_id != $this->skill_tree->readRootId()) {
-            //			$this->setTitle(ilSkillTreeNode::_lookupTitle($this->obj_id));
-        }
+
         $this->setTitle($lng->txt("skmg_items"));
 
         if ($this->tref_id == 0 && $this->manage_perm) {

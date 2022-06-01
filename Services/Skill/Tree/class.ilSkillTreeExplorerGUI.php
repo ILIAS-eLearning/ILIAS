@@ -127,10 +127,10 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
     public function isNodeHighlighted($a_node) : bool
     {
         $id_parts = explode(":", $a_node["id"]);
-        if ($id_parts[1] == 0) {
+        if (!isset($id_parts[1]) || $id_parts[1] == 0) {
             // skill in main tree
             $skill_id = $id_parts[0];
-            $tref_id = $id_parts[1];
+            $tref_id = 0;
         } else {
             // skill in template
             $tref_id = $id_parts[0];
@@ -156,10 +156,10 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
         $ilCtrl = $this->ctrl;
 
         $id_parts = explode(":", $a_node["id"]);
-        if ($id_parts[1] == 0) {
+        if (!isset($id_parts[1]) || $id_parts[1] == 0) {
             // skill in main tree
             $skill_id = $id_parts[0];
-            $tref_id = $id_parts[1];
+            $tref_id = 0;
         } else {
             // skill in template
             $tref_id = $id_parts[0];
