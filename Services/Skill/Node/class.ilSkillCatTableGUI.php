@@ -33,7 +33,6 @@ class ilSkillCatTableGUI extends ilTable2GUI
     protected ilSkillTree $skill_tree;
     protected SkillTreeAccess $tree_access_manager;
     protected bool $manage_perm = false;
-    protected int $obj_id = 0;
     protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_node_id = 0;
     protected int $requested_tref_id = 0;
