@@ -54,7 +54,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @param int $importQuestionId
      */
-    public function setImportQuestionId($importQuestionId)
+    public function setImportQuestionId($importQuestionId) : void
     {
         $this->importQuestionId = $importQuestionId;
     }
@@ -70,7 +70,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @param int $importSkillBaseId
      */
-    public function setImportSkillBaseId($importSkillBaseId)
+    public function setImportSkillBaseId($importSkillBaseId) : void
     {
         $this->importSkillBaseId = $importSkillBaseId;
     }
@@ -86,7 +86,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
     /**
      * @param int $importSkillTrefId
      */
-    public function setImportSkillTrefId($importSkillTrefId)
+    public function setImportSkillTrefId($importSkillTrefId) : void
     {
         $this->importSkillTrefId = $importSkillTrefId;
     }
@@ -99,7 +99,7 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
         return $this->expressions;
     }
     
-    public function addExpression(ilAssQuestionSolutionComparisonExpressionImport $expression)
+    public function addExpression(ilAssQuestionSolutionComparisonExpressionImport $expression) : void
     {
         $expression->setImportQuestionId($this->getImportQuestionId());
         $expression->setImportSkillBaseId($this->getImportSkillBaseId());
@@ -148,12 +148,12 @@ class ilAssQuestionSolutionComparisonExpressionImportList implements Iterator
         return reset($this->expressions);
     }
     
-    public function sleep()
+    public function sleep() : void
     {
         // TODO: Implement __sleep() method.
     }
     
-    public function wakeup()
+    public function wakeup() : void
     {
         // TODO: Implement __wakeup() method.
     }

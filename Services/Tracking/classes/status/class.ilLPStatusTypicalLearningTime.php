@@ -72,7 +72,8 @@ class ilLPStatusTypicalLearningTime extends ilLPStatus
                     $tlt = $status_info['tlt'];
 
                     $re = ilChangeEvent::_lookupReadEvents(
-                        $a_obj_id, $a_usr_id
+                        $a_obj_id,
+                        $a_usr_id
                     );
                     if ($re[0]['spent_seconds'] >= $tlt) {
                         $status = self::LP_STATUS_COMPLETED_NUM;

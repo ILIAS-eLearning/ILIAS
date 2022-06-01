@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Workspace access handler table GUI class
@@ -21,7 +24,10 @@
 class ilWorkspaceAccessTableGUI extends ilTable2GUI
 {
     protected int $node_id;
-    protected ilWorkspaceAccessHandler $handler;
+    /**
+     * @var ilPortfolioAccessHandler|ilWorkspaceAccessHandler
+     */
+    protected $handler;
 
     /**
      * Constructor
@@ -29,13 +35,13 @@ class ilWorkspaceAccessTableGUI extends ilTable2GUI
      * @param object $a_parent_obj parent gui object
      * @param string $a_parent_cmd parent default command
      * @param int $a_node_id current workspace object
-     * @param ilWorkspaceAccessHandler $a_handler workspace access handler
+     * @param ilWorkspaceAccessHandler|ilPortfolioAccessHandler $a_handler workspace access handler
      */
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
         int $a_node_id,
-        ilWorkspaceAccessHandler $a_handler
+        $a_handler
     ) {
         global $DIC;
 

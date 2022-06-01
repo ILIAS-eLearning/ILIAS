@@ -1,12 +1,26 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
 {
-    const SEL_COLUMN_COMPLETION_DATE = "completion_date";
-    const SEL_COLUMN_DEADLINE = "prg_deadline";
-    const SEL_COLUMN_ASSIGNMENT_DATE = "assignment_date";
+    private const SEL_COLUMN_COMPLETION_DATE = "completion_date";
+    private const SEL_COLUMN_DEADLINE = "prg_deadline";
+    private const SEL_COLUMN_ASSIGNMENT_DATE = "assignment_date";
 
     protected ilDBInterface $db;
 
@@ -80,9 +94,9 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         $this->tpl->setVariable("STATUS", $a_set['status_repr']);
 
         $title = $a_set["title"];
-        if ($a_set["program_status"] == ilStudyProgrammeSettings::STATUS_DRAFT) {
+        if ((int) $a_set["program_status"] === ilStudyProgrammeSettings::STATUS_DRAFT) {
             $title .= " (" . $this->lng->txt("prg_status_draft") . ")";
-        } elseif ($a_set["program_status"] == ilStudyProgrammeSettings::STATUS_OUTDATED) {
+        } elseif ((int) $a_set["program_status"] === ilStudyProgrammeSettings::STATUS_OUTDATED) {
             $title .= " (" . $this->lng->txt("prg_status_outdated") . ")";
         }
 
@@ -143,7 +157,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         $plan = array();
         
         $prg->applyToSubTreeNodes(
-            function ($node) use ($prg_id, $ass_id, &$plan, $prg) {
+            function ($node) use ($ass_id, &$plan) {
                 $progress = $this->sp_user_progress_db->getByIds($node->getId(), $ass_id);
                 $completion_by_id = $progress->getCompletionBy();
 
@@ -151,7 +165,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
                     $completion_by = ilObjUser::_lookupLogin($completion_by_id);
                     if (!$completion_by) {
                         $type = ilObject::_lookupType($completion_by_id);
-                        if ($type == "crsr") {
+                        if ($type === "crsr") {
                             $completion_by = ilContainerReference::_lookupTitle($completion_by_id);
                         } else {
                             $completion_by = ilObject::_lookupTitle($completion_by_id);
@@ -203,7 +217,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
 
         $options = array_filter(
             $options,
-            function ($o) use ($allowed, $parent) {
+            static function ($o) use ($allowed, $parent) : bool {
                 return in_array($o, $allowed) || $o === $parent::MANUAL_STATUS_NONE;
             },
             ARRAY_FILTER_USE_KEY
@@ -218,7 +232,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
 
     protected function getRequiredPointsInput(string $progress_id, int $status, string $points_required) : string
     {
-        if ($status != ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+        if ($status !== ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
             return $points_required;
         }
 

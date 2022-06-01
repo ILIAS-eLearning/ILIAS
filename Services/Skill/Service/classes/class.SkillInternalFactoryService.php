@@ -20,6 +20,7 @@
 namespace ILIAS\Skill\Service;
 
 use ILIAS\Skill\Tree;
+use ILIAS\Skill\Profile;
 
 /**
  * Skill internal factory service
@@ -31,5 +32,23 @@ class SkillInternalFactoryService
     public function tree() : Tree\SkillTreeFactory
     {
         return new Tree\SkillTreeFactory();
+    }
+
+    public function profile(
+        int $id,
+        string $title,
+        string $description,
+        int $skill_tree_id,
+        string $image_id = "",
+        int $ref_id = 0
+    ) : Profile\SkillProfile {
+        return new Profile\SkillProfile(
+            $id,
+            $title,
+            $description,
+            $skill_tree_id,
+            $image_id,
+            $ref_id
+        );
     }
 }

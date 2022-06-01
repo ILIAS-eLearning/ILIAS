@@ -45,9 +45,9 @@ class ilADTIntegerDefinition extends ilADTDefinition
         return $this->suffix;
     }
 
-    public function setSuffix(string $a_value) : void
+    public function setSuffix(?string $a_value) : void
     {
-        $this->suffix = trim($a_value);
+        $this->suffix = $a_value === null ? '' : trim($a_value);
     }
 
     public function isComparableTo(ilADT $a_adt) : bool

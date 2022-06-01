@@ -24,16 +24,8 @@
  */
 class ilCmiXapiExportGUI extends ilExportGUI
 {
-    /**
-     * @param ilObjCmiXapiGUI   $a_parent_gui
-     * @param ilObjCmiXapi|null $a_main_obj
-     */
     public function __construct(ilObjCmiXapiGUI $a_parent_gui, ?ilObjCmiXapi $a_main_obj = null)
     {
-        if (null === $a_main_obj) {
-            /** @var ilObjCmiXapi $a_main_obj */
-            $a_main_obj = $a_parent_gui->object;
-        }
         parent::__construct($a_parent_gui, $a_main_obj);
         $this->addFormat('xml');
         new ilCmiXapiExporter($a_main_obj);

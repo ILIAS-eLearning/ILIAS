@@ -44,7 +44,7 @@ class ilAssLacPercentageResultExpression extends ilAssLacAbstractExpression impl
      *
      * @param array $matches
      */
-    protected function setMatches($matches)
+    protected function setMatches($matches) : void
     {
         $this->numeric_value = $matches[0][0];
     }

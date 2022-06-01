@@ -29,7 +29,7 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
     protected bool $root_node_processed = false;
     protected SkillTreeManager $skill_tree_manager;
     protected SkillTreeFactory $skill_tree_factory;
-    protected ilBasicSkillTreeRepository $tree_repo;
+    protected ilSkillTreeRepository $tree_repo;
 
     public function __construct()
     {
@@ -73,7 +73,9 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
             }
             return $childs;
         } else {
-            $tree_id = $this->tree_repo->getTreeIdForNodeId($a_parent_id);
+            $parent_id_parts = explode(":", $a_parent_id);
+            $parent_skl_tree_id = (int) $parent_id_parts[0];
+            $tree_id = $this->tree_repo->getTreeIdForNodeId($parent_skl_tree_id);
             $this->tree = $this->skill_tree_factory->getTreeById($tree_id);
             return parent::getChildsOfNode($a_parent_id);
         }

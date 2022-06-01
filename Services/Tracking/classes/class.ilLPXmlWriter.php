@@ -103,7 +103,8 @@ class ilLPXmlWriter extends ilXmlWriter
         $set = $this->db->query(
             $q = "SELECT * FROM ut_lp_marks " .
                 " WHERE status_changed >= " . $this->db->quote(
-                    $this->getTimestamp(), "timestamp"
+                    $this->getTimestamp(),
+                    "timestamp"
                 )
         );
 

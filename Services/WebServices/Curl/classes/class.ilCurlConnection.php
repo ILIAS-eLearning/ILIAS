@@ -71,7 +71,7 @@ class ilCurlConnection
     {
         // teminate existing handles
         $this->close();
-        if ($this->url === '') {
+        if ($this->url !== '') {
             $this->ch = curl_init($this->url);
         } else {
             $this->ch = curl_init();

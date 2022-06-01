@@ -227,7 +227,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-sub panel-flex">
 	<div class="panel-heading ilBlockHeader">
-		<h4>Title</h4>
+		<h3>Title</h3>
 		<div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"  aria-label="actions" aria-haspopup="true" aria-expanded="false"> <span class="caret"></span></button>
 			<ul class="dropdown-menu">
 				<li><button class="btn btn-link" data-action="https://www.ilias.de" id="id_1">ILIAS</button></li>
@@ -266,7 +266,7 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-sub panel-flex">
 	<div class="panel-heading ilBlockHeader">
-		<h4>Title</h4>
+		<h3>Title</h3>
 	</div>
 	<div class="panel-body">
 		<div class="row">
@@ -274,7 +274,7 @@ EOT;
 			<div class="col-sm-4">
 				<div class="panel panel-secondary panel-flex">
 					<div class="panel-heading ilHeader">
-					    <h4>Legacy panel title</h4>
+					    <h2>Legacy panel title</h2>
                     </div>
                     <div class="panel-body">Legacy content</div>
 				</div>
@@ -304,12 +304,12 @@ EOT;
         $expected_html = <<<EOT
 <div class="panel panel-primary il-panel-report panel-flex">
     <div class="panel-heading ilHeader">
-        <h3>Title</h3>
+        <h2>Title</h2>
     </div>
     <div class="panel-body">
         <div class="panel panel-sub panel-flex">
             <div class="panel-heading ilBlockHeader">
-                <h4>Title</h4>
+                <h3>Title</h3>
             </div>
             <div class="panel-body"><div class="row">
                 <div class="col-sm-8"></div>

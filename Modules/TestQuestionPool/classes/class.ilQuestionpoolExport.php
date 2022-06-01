@@ -26,6 +26,12 @@ class ilQuestionpoolExport
     public $mode;
     public $lng;
 
+    private string $export_dir = '';
+    private string $subdir = '';
+    private string $filename = '';
+    private string $zipfilename = '';
+    private ilXmlWriter $xml;
+
     /**
     * Constructor
     * @access	public
@@ -89,7 +95,7 @@ class ilQuestionpoolExport
     /**
     *   build export file (complete zip file)
     */
-    public function buildExportFile()
+    public function buildExportFile() : void
     {
         switch ($this->mode) {
             case "xls":
@@ -192,7 +198,7 @@ class ilQuestionpoolExport
         return $this->export_dir . "/" . $this->subdir . ".zip";
     }
 
-    public function exportXHTMLMediaObjects($a_export_dir)
+    public function exportXHTMLMediaObjects($a_export_dir) : void
     {
         include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
         
@@ -211,7 +217,7 @@ class ilQuestionpoolExport
     /**
     * build xml export file
     */
-    protected function buildExportFileXLS()
+    protected function buildExportFileXLS() : void
     {
         require_once 'Modules/TestQuestionPool/classes/class.ilAssExcelFormatHelper.php';
         require_once 'Modules/TestQuestionPool/classes/class.assQuestion.php';

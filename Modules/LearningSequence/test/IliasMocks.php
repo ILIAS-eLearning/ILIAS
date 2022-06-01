@@ -34,7 +34,7 @@ trait IliasMocks
     {
         $ui_reflection = new ReflectionClass(UIFactory::class);
         $methods = array_map(
-            fn($m) => $m->getName(),
+            fn ($m) => $m->getName(),
             $ui_reflection->getMethods()
         );
 
@@ -74,7 +74,7 @@ trait IliasMocks
     /**
      * @return ilLanguage|MockObject
      */
-    protected function mockIlLanguage(): ilLanguage
+    protected function mockIlLanguage() : ilLanguage
     {
         $lng = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()

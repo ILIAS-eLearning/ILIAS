@@ -64,7 +64,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     public function getConfiguration() : stdClass
     {
         $options = array_map(
-            fn($tag) => [
+            fn ($tag) => [
                 'value' => urlencode(trim($tag)),
                 'display' => $tag,
                 'searchBy' => $tag
@@ -115,7 +115,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
         if ($this->getMaxTags() > 0) {
             $max_tags = $this->getMaxTags();
             $max_tags_ok = $this->refinery->custom()->constraint(
-                fn($value) => is_array($value) && count($value) <= $max_tags,
+                fn ($value) => is_array($value) && count($value) <= $max_tags,
                 'Too many Tags'
             );
             if (!$max_tags_ok->accepts($value)) {
@@ -284,7 +284,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
      */
     public function getUpdateOnLoadCode() : Closure
     {
-        return fn($id) => "$('#$id').on('add', function(event) {
+        return fn ($id) => "$('#$id').on('add', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			$('#$id').on('remove', function(event) {

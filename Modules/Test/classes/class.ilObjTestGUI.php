@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once './Modules/Test/exceptions/class.ilTestException.php';
 require_once './Services/Object/classes/class.ilObjectGUI.php';
@@ -24,7 +39,7 @@ require_once 'Modules/Test/classes/class.ilTestParticipantAccessFilter.php';
  * @ilCtrl_Calls ilObjTestGUI: ilTestExpresspageObjectGUI, ilAssQuestionPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilTestDashboardGUI, ilTestResultsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilLearningProgressGUI, ilMarkSchemaGUI
- * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI
+ * @ilCtrl_Calls ilObjTestGUI: ilTestEvaluationGUI, ilParticipantsTestResultsGUI
  * @ilCtrl_Calls ilObjTestGUI: ilAssGenFeedbackPageGUI, ilAssSpecFeedbackPageGUI
  * @ilCtrl_Calls ilObjTestGUI: ilInfoScreenGUI, ilObjectCopyGUI, ilTestScoringGUI
  * @ilCtrl_Calls ilObjTestGUI: ilRepositorySearchGUI, ilTestExportGUI
@@ -94,6 +109,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $tree = $DIC['tree'];
         $lng->loadLanguageModule("assessment");
         $this->type = "tst";
+        $this->error = $DIC['ilErr'];
         $this->ctrl = $ilCtrl;
         $this->ctrl->saveParameter($this, array("ref_id", "test_ref_id", "calling_test", "test_express_mode", "q_id"));
         $this->testrequest = $DIC->test()->internal()->request();
@@ -918,10 +934,33 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->ctrl->setCmdClass('ilTestEvaluationGUI');
         $this->ctrl->setCmd('outUserResultsOverview');
         $this->tabs_gui->clearTargets();
-        
+
         $this->forwardToEvaluationGUI();
     }
-    
+
+    private function testResultsGatewayObject()
+    {
+        global $DIC, $ilPluginAdmin;
+        $this->tabs_gui->clearTargets();
+
+        $this->prepareOutput();
+        $this->addHeaderAction();
+
+        $this->ctrl->setCmdClass('ilParticipantsTestResultsGUI');
+        $this->ctrl->setCmd('showParticipants');
+
+
+        $gui = new ilParticipantsTestResultsGUI();
+        $gui->setTestObj($this->object);
+
+        $factory = new ilTestQuestionSetConfigFactory($this->tree,$DIC->database(),$ilPluginAdmin, $this->object);
+        $gui->setQuestionSetConfig($factory->getQuestionSetConfig());
+        $gui->setObjectiveParent(new ilTestObjectiveOrientedContainer());
+        $gui->setTestAccess($this->getTestAccess());
+        $this->tabs_gui->activateTab('results');
+        $this->ctrl->forwardCommand($gui);
+    }
+
     /**
      * @return ilTestAccess
      */
@@ -972,7 +1011,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         require_once 'Modules/Test/classes/class.ilObjTestSettingsGeneralGUI.php';
         $this->ctrl->redirectByClass('ilObjTestSettingsGeneralGUI', ilObjTestSettingsGeneralGUI::CMD_SHOW_FORM);
     }
-    
+
     private function prepareSubGuiOutput()
     {
         global $DIC;
@@ -1118,7 +1157,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         // start verification of QTI files
         include_once "./Services/QTI/classes/class.ilQTIParser.php";
-        $qtiParser = new ilQTIParser($qti_file, IL_MO_VERIFY_QTI, 0, "");
+        $qtiParser = new ilQTIParser($qti_file, ilQTIParser::IL_MO_VERIFY_QTI, 0, "");
         $qtiParser->startParsing();
         $founditems = $qtiParser->getFoundItems();
         
@@ -1179,63 +1218,63 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
             switch ($item["type"]) {
                 case MULTIPLE_CHOICE_QUESTION_IDENTIFIER:
-                case QT_MULTIPLE_CHOICE_MR:
+                case ilQTIItem::QT_MULTIPLE_CHOICE_MR:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMultipleChoice"));
                     break;
                 case SINGLE_CHOICE_QUESTION_IDENTIFIER:
-                case QT_MULTIPLE_CHOICE_SR:
+                case ilQTIItem::QT_MULTIPLE_CHOICE_SR:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assSingleChoice"));
                     break;
                 case KPRIM_CHOICE_QUESTION_IDENTIFIER:
-                case QT_KPRIM_CHOICE:
+                case ilQTIItem::QT_KPRIM_CHOICE:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assKprimChoice"));
                     break;
                 case LONG_MENU_QUESTION_IDENTIFIER:
-                case QT_LONG_MENU:
+                case ilQTIItem::QT_LONG_MENU:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assLongMenu"));
                     break;
                 case NUMERIC_QUESTION_IDENTIFIER:
-                case QT_NUMERIC:
+                case ilQTIItem::QT_NUMERIC:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assNumeric"));
                     break;
                 case FORMULA_QUESTION_IDENTIFIER:
-                case QT_FORMULA:
+                case ilQTIItem::QT_FORMULA:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFormulaQuestion"));
                     break;
                 case TEXTSUBSET_QUESTION_IDENTIFIER:
-                case QT_TEXTSUBSET:
+                case ilQTIItem::QT_TEXTSUBSET:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextSubset"));
                     break;
                 case CLOZE_TEST_IDENTIFIER:
-                case QT_CLOZE:
+                case ilQTIItem::QT_CLOZE:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assClozeTest"));
                     break;
                 case ERROR_TEXT_IDENTIFIER:
-                case QT_ERRORTEXT:
+                case ilQTIItem::QT_ERRORTEXT:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assErrorText"));
                     break;
                 case IMAGEMAP_QUESTION_IDENTIFIER:
-                case QT_IMAGEMAP:
+                case ilQTIItem::QT_IMAGEMAP:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assImagemapQuestion"));
                     break;
                 case MATCHING_QUESTION_IDENTIFIER:
-                case QT_MATCHING:
+                case ilQTIItem::QT_MATCHING:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assMatchingQuestion"));
                     break;
                 case ORDERING_QUESTION_IDENTIFIER:
-                case QT_ORDERING:
+                case ilQTIItem::QT_ORDERING:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingQuestion"));
                     break;
                 case ORDERING_HORIZONTAL_IDENTIFIER:
-                case QT_ORDERING_HORIZONTAL:
+                case ilQTIItem::QT_ORDERING_HORIZONTAL:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assOrderingHorizontal"));
                     break;
                 case TEXT_QUESTION_IDENTIFIER:
-                case QT_TEXT:
+                case ilQTIItem::QT_TEXT:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assTextQuestion"));
                     break;
                 case FILE_UPLOAD_IDENTIFIER:
-                case QT_FILEUPLOAD:
+                case ilQTIItem::QT_FILEUPLOAD:
                     $importVerificationTpl->setVariable("QUESTION_TYPE", $this->lng->txt("assFileUpload"));
                     break;
             }
@@ -1303,7 +1342,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $map->addMapping('Modules/Test', 'tst', 'new_id', $newObj->getId());
             $imp->importObject($newObj, $fullPath, $fileName, 'tst', 'Modules/Test', true);
         } else {
-            $qtiParser = new ilQTIParser(ilSession::get("tst_import_qti_file"), IL_MO_PARSE_QTI, $questionParentObjId, $_POST["ident"]);
+            $qtiParser = new ilQTIParser(ilSession::get("tst_import_qti_file"), ilQTIParser::IL_MO_PARSE_QTI, $questionParentObjId, $_POST["ident"]);
             if (!isset($_POST["ident"]) || !is_array($_POST["ident"]) || !count($_POST["ident"])) {
                 $qtiParser->setIgnoreItemsEnabled(true);
             }
@@ -1786,7 +1825,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $question = $this->lng->txt("tst_remove_questions");
             }
         }
-                
+
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($question);
 
@@ -2569,7 +2608,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             default:
 
                 require_once 'Modules/Test/classes/confirmations/class.ilTestSettingsChangeConfirmationGUI.php';
-                $confirmation = new ilTestSettingsChangeConfirmationGUI($this->lng, $this->getTestObject());
+                $confirmation = new ilTestSettingsChangeConfirmationGUI($this->getTestObject());
 
                 $confirmation->setFormAction($this->ctrl->getFormAction($this));
                 $confirmation->setCancel($this->lng->txt('cancel'), 'defaults');

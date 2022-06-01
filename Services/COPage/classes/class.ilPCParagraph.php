@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilPCParagraph
@@ -1088,10 +1091,10 @@ class ilPCParagraph extends ilPageContent
         }
 
         // remove trailing <br />, if text ends with list
-        if ($segments[count($segments) - 1] == "</SimpleBulletList>" ||
-            $segments[count($segments) - 1] == "</SimpleNumberedList>" &&
-            substr($text, strlen($text) - 6) == "<br />") {
-            $text = substr($text, 0, strlen($text) - 6);
+        if ((($segments[count($segments) - 1] ?? "") === "</SimpleBulletList>" ||
+            ($segments[count($segments) - 1] ?? "") === "</SimpleNumberedList>") &&
+            substr($text, strlen($text) - 6) === "<br />") {
+            $text = substr($text, 0, -6);
         }
 
         return $text;

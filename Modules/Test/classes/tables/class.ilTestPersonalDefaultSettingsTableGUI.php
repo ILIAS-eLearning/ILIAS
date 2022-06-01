@@ -34,19 +34,13 @@ class ilTestPersonalDefaultSettingsTableGUI extends ilTable2GUI
         $this->initColumns();
     }
 
-    /**
-     *
-     */
-    private function initColumns()
+    private function initColumns() : void
     {
         $this->addColumn('', '', '1px', true);
         $this->addColumn($this->lng->txt('title'), 'name', '80%');
         $this->addColumn($this->lng->txt('date'), 'tstamp', '19%');
     }
 
-    /**
-     * @param array $a_set
-     */
     public function fillRow(array $a_set) : void
     {
         parent::fillRow(array(
@@ -56,9 +50,6 @@ class ilTestPersonalDefaultSettingsTableGUI extends ilTable2GUI
         ));
     }
 
-    /**
-     * @return bool
-     */
     public function numericOrdering(string $a_field) : bool
     {
         return in_array($a_field, array(

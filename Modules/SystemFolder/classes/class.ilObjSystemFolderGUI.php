@@ -1059,7 +1059,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         
         // ilias version
         $ne = new ilNonEditableValueGUI($lng->txt("ilias_version"), "");
-        $ne->setValue($ilSetting->get("ilias_version"));
+        $ne->setValue(ILIAS_VERSION);
         $this->form->addItem($ne);
 
         // host
@@ -1706,6 +1706,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
         $ilSetting = $this->settings;
         
         $this->form = new ilPropertyFormGUI();
+        $this->form->setFormAction($this->ctrl->getFormAction($this, 'saveJavaServer'));
         
         // pdf fonts
         $pdf = new ilFormSectionHeaderGUI();

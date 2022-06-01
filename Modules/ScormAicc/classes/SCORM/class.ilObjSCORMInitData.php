@@ -31,7 +31,7 @@ class ilObjSCORMInitData
         return strtr(rawurlencode($str), $revert);
     }
 
-    public static function getIliasScormVars($slm_obj) : string//PHP8Review: Missing Typehint
+    public static function getIliasScormVars(ilObjSCORMLearningModule $slm_obj) : string
     {
         global $DIC;
         $ilLog = ilLoggerFactory::getLogger('sahs');

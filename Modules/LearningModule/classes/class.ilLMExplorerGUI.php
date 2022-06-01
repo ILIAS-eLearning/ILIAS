@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * LM editor explorer GUI class
@@ -128,7 +131,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
         $ilUser = $this->user;
 
         // do it once for all chapters
-        if ($this->lp_cache[$this->lm->getId()] === null) {
+        if (!isset($this->lp_cache[$this->lm->getId()])) {
             $this->lp_cache[$this->lm->getId()] = false;
 
             if (ilLearningProgressAccess::checkAccess($this->lm->getRefId())) {
@@ -142,7 +145,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
                 }
 
                 // parse collection items
-                if (is_array($info["items"])) {
+                if (isset($info["items"])) {
                     foreach ($info["items"] as $item_id) {
                         $status = ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
                         if (is_array($info["in_progress"][$item_id]) &&

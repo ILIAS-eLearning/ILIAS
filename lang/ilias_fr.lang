@@ -1937,6 +1937,8 @@ auth#:#auth_account_migration_new#:#Créer Nouveau Compte Utilisateur
 auth#:#auth_activation_code_success#:#Votre compte a été réactivé. Vous pouvez maintenant vous connecter dans ILIAS.
 auth#:#auth_allow_local_info#:#Si cette option est activée, une authentification locale par rapport à la base de données ILIAS est toujours possible (avec un nom d'utilisateur/mot de passe local) pour les comptes utilisateur dont le mode d’authentification est défini sur SAML.
 auth#:#auth_auth_settings#:#Paramètres
+auth#:#auth_cas_ldap#:#Synchronisation avec LDAP
+auth#:#auth_cas_ldap_info#:#Lorsque activé, la synchronisation des comptes utilisateurs et l'assignation des rôles est faite en utilisant la configuration LDAP existante.
 auth#:#auth_err_expired#:#Votre session a été désactivée pour cause d’inactivité.
 auth#:#auth_err_invalid_user_account#:#Authentification échouée à cause d’une erreur interne.
 auth#:#auth_err_ldap_exception#:#Authentification échouée à cause d’une erreur d’authentification interne (LDAP).
@@ -1985,14 +1987,6 @@ auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, d
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 auth#:#auth_oidconnect#:#OpenID Connect
-auth#:#auth_rad_migration#:#Migration compte :
-auth#:#auth_rad_migration_info#:#Activer cette option permet aux nouveaux utilisateurs de migrer leur compte Ilias existant vers une authentification Radius.
-auth#:#auth_radius_charset#:#Encodage des Caractères
-auth#:#auth_radius_charset_info#:#Veuillez choisir l'encodage de caractère pour la communication avec le serveur radius. Si hésitation, choisir UTF-8.
-auth#:#auth_radius_ldap#:#Synchronisation avec LDAP
-auth#:#auth_radius_ldap_info#:#Lorsque activé, la synchronisation des comptes utilisateurs et l'assignation des rôles est faite en utilisant la configuration LDAP existante.
-auth#:#auth_radius_sync_rad#:#Génération automatique de comptes utilisateurs
-auth#:#auth_radius_sync_rad_info#:#Crée automatiquement des comptes utilisateurs ILIAS pour les utilisateurs qui se sont correctement authentifiés avec Radius.
 auth#:#auth_saml#:#SAML
 auth#:#auth_saml_add_idp_btn#:#Ajouter un nouveau fournisseur d’identité
 auth#:#auth_saml_add_idp_md_error#:#La valeur donnée n’était pas un document XML valide. S’assurer que XML contient un fournisseur d’identité valide.
@@ -3381,14 +3375,6 @@ common#:#auth_mode_not_changed#:#(Aucun changement)
 common#:#auth_mode_roles_changed#:#Mode d'authentification modifié pour ce rôle
 common#:#auth_new_account_mail_desc#:#Envoie un mail à  l'utilisateur si son compte a été créé automatiquement. Un mot de passe sera créé si l'authentification locale est activée.
 common#:#auth_per_default#:#Par Défaut
-common#:#auth_radius#:#RADIUS
-common#:#auth_radius_configure#:#Configuration de l'authentification RADIUS
-common#:#auth_radius_enable#:#Autoriser le support RADIUS
-common#:#auth_radius_not_configured#:#RADIUS n'est pas encore configuré
-common#:#auth_radius_port#:#Port
-common#:#auth_radius_server#:#Serveurs
-common#:#auth_radius_server_desc#:#Vous pouvez ajouter plusieurs serveurs séparés par des virgules. Servers are rotated in Round robin fashion when queried.
-common#:#auth_radius_shared_secret#:#Secret partagé
 common#:#auth_remark_non_local_auth#:#Lorsqu'un mode d'authentification autre que le mode par défaut est choisi, il n'est plus possible de changer les noms d'utilisateur et mots de passe, et l'enregistrement de nouveaux utilisateurs est désactivé.
 common#:#auth_role_auth_mode#:#Mode d'authentification
 common#:#auth_saml#:#SAML
@@ -3820,7 +3806,6 @@ common#:#err_auth_apache_failed#:#L'authentification a échoué. Il est possible
 common#:#err_auth_cas_no_ilias_user#:#La connexion a échoué. L'authentification au serveur CAS a réussi, mais aucun compte utilisateur correspondant sur ILIAS n'existe. Veuillez prendre contact avec l'administrateur de la plate-forme ILIAS.
 common#:#err_auth_ldap_no_ilias_user#:#Echec de connexion. L'authentification LDAP a réussi mais il n'existe aucun utilisateur ILIAS correspondant. Veuillez contacter votre administrateur.
 common#:#err_auth_mode_inactive#:#Votre méthode d'authentification a été désactivée.
-common#:#err_auth_radius_no_ilias_user#:#Echec de connexion. L'authentification Radius a réussi mais il n'existe aucun utilisateur ILIAS correspondant.
 common#:#err_auth_soap_no_ilias_user#:#La connexion a échoué. L'authentification au serveur SOAP a réussi, mais aucun compte utilisateur correspondant sur ILIAS n'existe. Veuillez prendre contact avec l'administrateur de la plate-forme ILIAS.
 common#:#err_check_input#:#Les paramètres ne peuvent être enregistrés. Veuillez vérifier votre saisie.
 common#:#err_count_param#:#Raison : nombre de paramètre invalide
@@ -5551,7 +5536,7 @@ common#:#user_defined_list#:#Champs Utilisateur Personnalisés
 common#:#user_deleted#:#Utilisateur supprimé
 common#:#user_detail#:#Détail
 common#:#user_ext_account#:#Compte Externe
-common#:#user_ext_account_desc#:#Compte utilisé pour l'authentification externe (authentification CAS, SOAP, LDAP ou Radius)
+common#:#user_ext_account_desc#:#Compte utilisé pour l'authentification externe (authentification CAS, SOAP ou LDAP)
 common#:#user_image#:#Image de l'Utilisateur
 common#:#user_import_failed#:#Echec d'importation utilisateur
 common#:#user_imported#:#Importation utilisateur terminée.
@@ -9704,7 +9689,7 @@ ldap#:#ldap_add_missing#:#Assigner rôles manquants
 ldap#:#ldap_add_remove#:#Ajouter/supprimer rôles
 ldap#:#ldap_add_role_ass_rule#:#Nouvelle règle pour les assignations de rôle
 ldap#:#ldap_as_ds#:#Utiliser comme source de données
-ldap#:#ldap_as_ds_info#:#Si activée, cette configuration de LDAP est utilisée uniquement pour la synchronisation des comptes d'utilisateur en association avec une autre méthode d'authentification (i.e. CAS or Radius).
+ldap#:#ldap_as_ds_info#:#Si activée, cette configuration de LDAP est utilisée uniquement pour la synchronisation des comptes d'utilisateur en association avec une autre méthode d'authentification (i.e. CAS).
 ldap#:#ldap_assignment_type#:#Type d'assignation
 ldap#:#ldap_authentication_settings#:#Paramètres d'Authentification
 ldap#:#ldap_bind_anonymous#:#Bind de façon anonyme
@@ -13154,10 +13139,6 @@ rbac#:#wiks_write#:#L'utilisateur peut modifier les paramètres de l'objet
 rbac#:#write#:#Modifier paramètres
 rcat#:#rcat_call#:#Appeler Catégorie ECS
 rcrs#:#rcrs_call#:#Appeler Cours ECS
-registration#:#auth_radius_name#:#Nom de la configuration RADIUS
-registration#:#auth_radius_name_desc#:#Veuillez choisir un nom pour cette configuration de serveur
-registration#:#auth_radius_role_select#:#Rôle :
-registration#:#auth_radius_sync#:#Synchronisation Utilisateur
 registration#:#reg_access_limitation_limited_time#:#Après inscription, accès pour
 registration#:#reg_access_limitation_limited_until#:#L'accès est limité jusqu'à
 registration#:#reg_access_limitation_missing_mode#:#Veuillez choisir un mode de restriction d'accès pour tous les rôles
@@ -16050,3 +16031,53 @@ wsp#:#wsp_type_scov#:#Certificat : SCORM
 wsp#:#wsp_type_tstv#:#Certificat : Test
 wsp#:#wsp_type_webr#:#Lien Web
 wsp#:#wsp_type_wfld#:#Dossier
+common#:#objs_tala#:#Talk Templates
+common#:#objs_talt#:#Talk Templates
+common#:#obj_talt#:#Talk Template
+common#:#obj_tala#:#Talk Templates
+common#:#obj_tala_desc#:#Talk Templates
+etal#:#mm_talk_template#:#Talk Templates
+orgu#:#mm_organisation#:#Organisation
+etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.
+etal#:#meta_adv_records#:#Metadata
+etal#:#talt_edit#:#General
+etal#:#talt_add#:#Add Template
+etal#:#talt_new#:#New Talk Template
+etal#:#mm_org_etal#:#Talks
+common#:#objs_etal#:#Employee Talks
+common#:#obj_tals#:#Employee Talk Series
+common#:#tals_etal#:#Talk
+common#:#talt_etal#:#Talk
+common#:#obj_etal#:#Employee Talk
+etal#:#etal_edit#:#General
+etal#:#etal_add#:#Add Talk
+etal#:#etal_new#:#New Talk
+etal#:#talt_etal#:#Employee Talk
+etal#:#date_of_talk#:#Start Date
+etal#:#etal_add_new_item#:#Add new Talk
+etal#:#change_date_of_talk#:#Change date of talk
+etal#:#change_date_of_series#:#Change date of talk series
+etal#:#etal_status_pending#:#Pending
+etal#:#etal_status_completed#:#Completed
+etal#:#etal_status_all#:#All
+etal#:#tals_add#:#Add Talks
+etal#:#tals_new#:#New Talks
+etal#:#cal_type_tals#:#Talks
+etal#:#etal_date_appointment_edit#:#Date of Talk
+etal#:#etal_date_series_edit#:#Date of Talk Series
+etal#:#etal_unknown_username#:#Unknown User
+common#:#etal_talks#:#Talks
+etal#:#appointments#:#Appointments
+etal#:#notification_talks_created#:#You have been invited by %s to the following employee talks.
+etal#:#notification_talks_updated#:#The following talk appointments have been changed by %s.
+etal#:#notification_talks_removed#:#The following appointments have been canceled by %s.
+etal#:#notification_talks_subject#:#Invitation
+etal#:#notification_talks_date_details#:#Appointment details
+etal#:#notification_talks_talk_title#:#Titel: %s
+etal#:#notification_talks_date_list_header#:#Dates
+orgu#:#org_op_read_employee_talk#:#Read access talk appointments
+orgu#:#org_op_create_employee_talk#:#Create talk appointments / edit talk appointments that you have created yourself
+orgu#:#org_op_edit_employee_talk#:#Edit Talk appointments
+etal#:#etal_open#:#Open Employee Talk
+etal#:#lock_edititng_for_others#:#Lock editing for others
+etal#:#talk_serial#:#Talk Serial

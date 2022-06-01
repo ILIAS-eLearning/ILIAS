@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\PersonalWorkspace\StandardGUIRequest;
 
@@ -36,15 +39,21 @@ class ilWorkspaceAccessGUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected int $node_id;
-    protected ilWorkspaceAccessHandler $access_handler;
+    /**
+     * @var ilPortfolioAccessHandler|ilWorkspaceAccessHandler
+     */
+    protected $access_handler;
     protected string $footer = "";
     
     protected string $blocking_message = "";
     protected StandardGUIRequest $std_request;
 
+    /**
+     * @param ilPortfolioAccessHandler|ilWorkspaceAccessHandler $a_access_handler
+     */
     public function __construct(
         int $a_node_id,
-        ilWorkspaceAccessHandler $a_access_handler,
+        $a_access_handler,
         bool $a_is_portfolio = false,
         string $a_footer = ""
     ) {
@@ -174,8 +183,11 @@ class ilWorkspaceAccessGUI
         }
         $tpl->setTitle(ilObject::_lookupTitle($obj_id));
     }
-    
-    protected function getAccessHandler() : ilWorkspaceAccessHandler
+
+    /**
+     * @return ilPortfolioAccessHandler|ilWorkspaceAccessHandler
+     */
+    protected function getAccessHandler()
     {
         return $this->access_handler;
     }

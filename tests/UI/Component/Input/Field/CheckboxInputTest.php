@@ -58,8 +58,8 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-           <label for="id_1" class="control-label col-sm-3">label</label>
-           <div class="col-sm-9">
+           <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+           <div class="col-sm-8 col-md-9 col-lg-10">
               <input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm"/>
               <div class="help-block">byline</div>
            </div>
@@ -80,8 +80,8 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($checkbox));
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-           <label for="id_1" class="control-label col-sm-3">label</label>
-           <div class="col-sm-9">
+           <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+           <div class="col-sm-8 col-md-9 col-lg-10">
               <div class="help-block alert alert-danger" role="alert">an_error</div>
               <input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm"/>
               <div class="help-block">byline</div>
@@ -103,8 +103,8 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-           <label for="id_1" class="control-label col-sm-3">label</label>
-           <div class="col-sm-9">
+           <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+           <div class="col-sm-8 col-md-9 col-lg-10">
               <input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm" />
            </div>
         </div>
@@ -123,8 +123,8 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($checkbox));
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-               <label for="id_1" class="control-label col-sm-3">label</label>
-               <div class="col-sm-9">
+               <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+               <div class="col-sm-8 col-md-9 col-lg-10">
                   <input type="checkbox" id="id_1" value="checked" checked="checked" name="name_0" class="form-control form-control-sm" />
                </div>
             </div>
@@ -156,8 +156,8 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-           <label for="id_1" class="control-label col-sm-3">label<span class="asterisk">*</span></label>
-           <div class="col-sm-9"><input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm"/></div>
+           <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>
+           <div class="col-sm-8 col-md-9 col-lg-10"><input type="checkbox" id="id_1" value="checked" name="name_0" class="form-control form-control-sm"/></div>
         </div>
         ');
 
@@ -175,8 +175,8 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-               <label for="id_1" class="control-label col-sm-3">label</label>
-               <div class="col-sm-9"><input type="checkbox" id="id_1" value="checked" name="name_0" disabled="disabled" class="form-control form-control-sm"/></div>
+               <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+               <div class="col-sm-8 col-md-9 col-lg-10"><input type="checkbox" id="id_1" value="checked" name="name_0" disabled="disabled" class="form-control form-control-sm"/></div>
             </div>
         ');
 
@@ -254,5 +254,13 @@ class CheckboxInputTest extends ILIAS_UI_TestBase
 
         $this->assertIsString($checkbox->getContent()->value());
         $this->assertEquals($new_value, $checkbox->getContent()->value());
+    }
+
+    public function testNullValue() : void
+    {
+        $f = $this->buildFactory();
+        $checkbox = $f->checkbox("label");
+        $checkbox->withValue(null);
+        $this->assertEquals(false, $checkbox->getValue());
     }
 }

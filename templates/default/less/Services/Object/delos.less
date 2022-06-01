@@ -19,7 +19,7 @@ div.ilCreationFormSection div.ilForm div.ilForm {
 
 
 .il_ItemProperty .badge{
-	font-size: 8px;
+	font-size: @il-font-size-xsmall;
 	padding: 2px 4px;
 	margin-top: -1px;
 	margin-left: -5px;
@@ -34,6 +34,9 @@ div.ilCreationFormSection .form-horizontal {
 .ilObjListRow {
 	border-bottom: @il-item-border-bottom;
 	background-color: @il-main-bg;
+    &:last-child {
+        border-bottom: none;
+    }
 }
 
 //mantis #0017866

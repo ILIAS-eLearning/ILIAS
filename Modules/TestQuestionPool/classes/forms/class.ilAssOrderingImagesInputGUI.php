@@ -37,7 +37,7 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
      *
      * @param $stylingDisabled
      */
-    public function setStylingDisabled($stylingDisabled)
+    public function setStylingDisabled($stylingDisabled) : void
     {
     }
     
@@ -54,7 +54,7 @@ class ilAssOrderingImagesInputGUI extends ilMultipleImagesInputGUI
     /**
      * @param ilAssOrderingElementList $elementList
      */
-    public function setElementList(ilAssOrderingElementList $elementList)
+    public function setElementList(ilAssOrderingElementList $elementList) : void
     {
         $this->setIdentifiedMultiValues($elementList->getRandomIdentifierIndexedElements());
     }

@@ -14,10 +14,11 @@
  */
 class ilSimpleEmitterTest extends ilWorkflowEngineBaseTest
 {
-    public function setUp() : void
+    private ilEmptyWorkflow $workflow;
+    private ilBasicNode $node;
+
+    protected function setUp() : void
     {
-        parent::__construct();
-        
         // Empty workflow.
         require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
@@ -32,7 +33,7 @@ class ilSimpleEmitterTest extends ilWorkflowEngineBaseTest
         require_once './Services/WorkflowEngine/classes/emitters/class.ilSimpleEmitter.php';
     }
     
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         global $DIC;
 
@@ -42,7 +43,7 @@ class ilSimpleEmitterTest extends ilWorkflowEngineBaseTest
         }
     }
     
-    public function testConstructorValidContext()
+    public function testConstructorValidContext() : void
     {
         // Act
         $emitter = new ilSimpleEmitter($this->node);
@@ -55,7 +56,7 @@ class ilSimpleEmitterTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testGetContext()
+    public function testGetContext() : void
     {
         // Arrange
         $emitter = new ilSimpleEmitter($this->node);
@@ -67,11 +68,11 @@ class ilSimpleEmitterTest extends ilWorkflowEngineBaseTest
         if ($actual === $this->node) {
             $this->assertEquals($actual, $this->node);
         } else {
-            $this->assertTrue(false, 'Context not identical.');
+            $this->fail('Context not identical.');
         }
     }
     
-    public function testSetGetTargetDetector()
+    public function testSetGetTargetDetector() : void
     {
         // Arrange
         require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';
@@ -89,7 +90,7 @@ class ilSimpleEmitterTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($target_detector, $actual);
     }
     
-    public function testEmitValidState()
+    public function testEmitValidState() : void
     {
         // Arrange
         require_once './Services/WorkflowEngine/classes/detectors/class.ilSimpleDetector.php';

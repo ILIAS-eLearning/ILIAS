@@ -126,9 +126,10 @@ class ilBookingParticipantsTableGUI extends ilTable2GUI
      */
     public function getItems(array $filter) : void
     {
-        if ($filter["object"] > 0) {
+        $filter_object = (int) ($filter["object"] ?? 0);
+        if ($filter_object > 0) {
             $data = ilBookingParticipant::getList($this->pool_id, $filter, $filter["object"]);
-        } elseif ($filter["object"] == -1) {
+        } elseif ($filter_object == -1) {
             $data = ilBookingParticipant::getList($this->pool_id, $filter);
             $data = array_filter($data, static function ($item) {
                 return $item["obj_count"] == 0;

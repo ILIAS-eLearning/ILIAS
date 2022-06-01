@@ -54,9 +54,7 @@ class ilCertificateSettingsCmiXapiFormRepository implements ilCertificateFormRep
 
     public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
     {
-        $form = $this->settingsFormRepository->createForm($certificateGUI);
-
-        return $form;
+        return $this->settingsFormRepository->createForm($certificateGUI);
     }
 
 
@@ -69,8 +67,6 @@ class ilCertificateSettingsCmiXapiFormRepository implements ilCertificateFormRep
      */
     public function fetchFormFieldData(string $content) : array
     {
-        $formFields = $this->settingsFormRepository->fetchFormFieldData($content);
-
-        return $formFields;
+        return $this->settingsFormRepository->fetchFormFieldData($content);
     }
 }

@@ -135,7 +135,7 @@ class ilAssOrderingElement
     /**
      * @param int $id
      */
-    public function setId($id)
+    public function setId($id) : void
     {
         $this->id = $id;
     }
@@ -151,7 +151,7 @@ class ilAssOrderingElement
     /**
      * @param $randomIdentifier
      */
-    public function setRandomIdentifier($randomIdentifier)
+    public function setRandomIdentifier($randomIdentifier) : void
     {
         $this->randomIdentifier = $randomIdentifier;
     }
@@ -167,7 +167,7 @@ class ilAssOrderingElement
     /**
      * @param int $solutionIdentifier
      */
-    public function setSolutionIdentifier($solutionIdentifier)
+    public function setSolutionIdentifier($solutionIdentifier) : void
     {
         $this->solutionIdentifier = $solutionIdentifier;
     }
@@ -175,7 +175,7 @@ class ilAssOrderingElement
     /**
      * @param int $indentation
      */
-    public function setIndentation($indentation)
+    public function setIndentation($indentation) : void
     {
         $this->indentation = $indentation;
     }
@@ -199,7 +199,7 @@ class ilAssOrderingElement
     /**
      * @param int $position
      */
-    public function setPosition($position)
+    public function setPosition($position) : void
     {
         $this->position = $position;
     }
@@ -215,7 +215,7 @@ class ilAssOrderingElement
     /**
      * @param string $content
      */
-    public function setContent($content)
+    public function setContent($content) : void
     {
         $this->content = $content;
     }
@@ -231,7 +231,7 @@ class ilAssOrderingElement
     /**
      * @param string $uploadImageFile
      */
-    public function setUploadImageFile($uploadImageFile)
+    public function setUploadImageFile($uploadImageFile) : void
     {
         $this->uploadImageFile = $uploadImageFile;
     }
@@ -247,7 +247,7 @@ class ilAssOrderingElement
     /**
      * @param string $uploadImageName
      */
-    public function setUploadImageName($uploadImageName)
+    public function setUploadImageName($uploadImageName) : void
     {
         $this->uploadImageName = $uploadImageName;
     }
@@ -271,7 +271,7 @@ class ilAssOrderingElement
     /**
      * @param bool $imageRemovalRequest
      */
-    public function setImageRemovalRequest($imageRemovalRequest)
+    public function setImageRemovalRequest($imageRemovalRequest) : void
     {
         $this->imageRemovalRequest = $imageRemovalRequest;
     }
@@ -287,7 +287,7 @@ class ilAssOrderingElement
     /**
      * @param string $imagePathWeb
      */
-    public function setImagePathWeb($imagePathWeb)
+    public function setImagePathWeb($imagePathWeb) : void
     {
         $this->imagePathWeb = $imagePathWeb;
     }
@@ -303,23 +303,17 @@ class ilAssOrderingElement
     /**
      * @param string $imagePathFs
      */
-    public function setImagePathFs($imagePathFs)
+    public function setImagePathFs($imagePathFs) : void
     {
         $this->imagePathFs = $imagePathFs;
     }
     
-    /**
-     * @return null
-     */
     public function getImageThumbnailPrefix()
     {
         return $this->imageThumbnailPrefix;
     }
     
-    /**
-     * @param null $imageThumbnailPrefix
-     */
-    public function setImageThumbnailPrefix($imageThumbnailPrefix)
+    public function setImageThumbnailPrefix($imageThumbnailPrefix) : void
     {
         $this->imageThumbnailPrefix = $imageThumbnailPrefix;
     }
@@ -478,7 +472,7 @@ class ilAssOrderingElement
         return true;
     }
     
-    public function setExportIdent($ident)
+    public function setExportIdent($ident) : void
     {
         if ($this->isExportIdent($ident)) {
             list($randomId, $solutionId, $pos, $indent) = explode(

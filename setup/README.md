@@ -204,7 +204,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
         "create_database" : true
     },
     ```
-  * *type* (type: string) of the database, one of `innodb`, `mysql`, `postgres`, `galera`, defaults
+  * *type* (type: string) of the database, `innodb`, defaults
     to `innodb`
   * *host* (type: string) the database server runs on, defaults to `localhost`
   * *port* (type: string or number) the database server uses, defaults to `3306`
@@ -264,7 +264,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
         ]
     },
     ```
-  * *service* (type: string) to be used for caching. Either `none`, `static`, `xcache`, `memcached`
+  * *service* (type: string) to be used for caching. Either `none`, `static`, `memcached`
     or `apc`, defaults to  `static`.
   * *components* (type: string or object) that should use caching. Can be `all` or any list of components that
     support caching,  (must be set too, if *service* is set)
@@ -279,7 +279,7 @@ are printed bold**, all other fields might be omitted. A minimal example is
 		},
 		"proxy" : {
 			"host" : "webproxy.ilias.de",
-			"port" : 8088
+			"port" : "8088"
 		}
     },
     ```
@@ -303,6 +303,10 @@ are printed bold**, all other fields might be omitted. A minimal example is
   * *path_to_logfile* (type: string) to be used for logging
   * *errorlog_dir* (type: string) to put error logs in
 * *mathjax* (type: object) contains settings for Services/MathJax
+    
+    The MathJax settings can also be done manually in the ILIAS adminstration.  
+    Settings included here will overwrite those at the next update.
+    MathJax 3 is supported, but MathJax 2 is recommended.
     ```
 	"mathjax": {
 		"client_enabled": true,

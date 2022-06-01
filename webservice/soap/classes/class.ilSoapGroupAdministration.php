@@ -35,6 +35,9 @@ class ilSoapGroupAdministration extends ilSoapAdministration
     public const ADMIN = 2;
     public const OWNER = 4;
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function addGroup(string $sid, int $target_id, string $grp_xml)
     {
         $this->initAuth($sid);
@@ -70,6 +73,9 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         return $new_ref_id ?: "0";
     }
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function updateGroup(string $sid, int $ref_id, string $grp_xml)
     {
         $this->initAuth($sid);
@@ -111,6 +117,9 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         return $new_ref_id ?: "0";
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function groupExists(string $sid, string $title)
     {
         $this->initAuth($sid);
@@ -130,6 +139,9 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         return ilUtil::groupNameExists($title);
     }
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function getGroup(string $sid, int $ref_id)
     {
         $this->initAuth($sid);
@@ -158,6 +170,9 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         return $xml_writer->getXML();
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function assignGroupMember(string $sid, int $group_id, int $user_id, string $type)
     {
         $this->initAuth($sid);
@@ -222,6 +237,9 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         return true;
     }
 
+    /**
+     * @return bool|soap_fault|SoapFault|null
+     */
     public function excludeGroupMember(string $sid, int $group_id, int $user_id)
     {
         $this->initAuth($sid);
@@ -263,6 +281,9 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         return true;
     }
 
+    /**
+     * @return int|soap_fault|SoapFault|null
+     */
     public function isAssignedToGroup(string $sid, int $group_id, int $user_id)
     {
         $this->initAuth($sid);
@@ -312,6 +333,9 @@ class ilSoapGroupAdministration extends ilSoapAdministration
         return 0;
     }
 
+    /**
+     * @return soap_fault|SoapFault|string|null
+     */
     public function getGroupsForUser(string $sid, string $parameters)
     {
         $this->initAuth($sid);

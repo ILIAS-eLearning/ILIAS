@@ -213,7 +213,7 @@ class ilECSParticipantSetting
         return $this->incoming_local_accounts;
     }
 
-    public function enableIncomingLocalAccounts(bool $a_status)
+    public function enableIncomingLocalAccounts(bool $a_status) : void
     {
         $this->incoming_local_accounts = $a_status;
     }
@@ -238,7 +238,10 @@ class ilECSParticipantSetting
         return $this->outgoing_auth_modes;
     }
 
-    public function getOutgoingExternalAuthModes()
+    /**
+     * @return string[]
+     */
+    public function getOutgoingExternalAuthModes() : array
     {
         return array_filter(
             $this->getOutgoingAuthModes(),
@@ -331,7 +334,7 @@ class ilECSParticipantSetting
     private function create() : bool
     {
         $query = 'INSERT INTO ecs_part_settings ' .
-            '(sid,mid,export,import,import_type,title,cname,token,dtoken,export_types, import_types) ' .
+            '(sid,mid,export,import,import_type,title,cname,token,dtoken,export_types, import_types, username_placeholders, incoming_auth_type, incoming_local_accounts, outgoing_auth_modes) ' .
             'VALUES( ' .
             $this->db->quote($this->getServerId(), 'integer') . ', ' .
             $this->db->quote($this->getMid(), 'integer') . ', ' .

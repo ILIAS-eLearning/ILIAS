@@ -43,9 +43,6 @@ class ilObjectXMLParser extends ilSaxParser
 
     /**
      * @param XMLParser|resource $a_xml_parser
-     * @param string $a_name
-     * @param array $a_attribs
-     * @return void
      */
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {

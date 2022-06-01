@@ -119,10 +119,10 @@
             echo "HTTP/1.1 500 XapiProxy Error (Ask For Logs)";
             exit;
         }
-
-        public function sendData($obj) : void
+    
+        public function sendData(string $obj) : void
         {
-            $this->xapiproxy->log()->debug($this->msg("senData: " . $obj));
+            $this->xapiproxy->log()->debug($this->msg("sendData: " . $obj));
             header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
             header('Access-Control-Allow-Credentials: true');
             header('X-Experience-API-Version: 1.0.3');
@@ -132,8 +132,8 @@
             echo $obj;
             exit;
         }
-
-        public function emit($response) : void
+    
+        public function emit(\GuzzleHttp\Psr7\Response $response) : void
         {
             $this->xapiproxy->log()->debug($this->msg('emitting response'));
             if (headers_sent()) {
@@ -174,7 +174,7 @@
             echo $response->getBody();
         }
 
-        private function msg($msg)
+        private function msg(string $msg) : string
         {
             return $this->xapiproxy->msg($msg);
         }

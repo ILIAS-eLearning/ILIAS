@@ -465,12 +465,10 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         }
         $positions = $this->http->wrapper()->post()->retrieve(
             'order',
-            $this->refinery->kindlyTo()->listOf(
+            $this->refinery->kindlyTo()->dictOf(
                 $this->refinery->kindlyTo()->int()
             )
         );
-        ilLoggerFactory::getLogger('root')->dump($positions, ilLogLevel::ERROR);
-        ilLoggerFactory::getLogger('root')->dump($_POST['order'], ilLogLevel::ERROR);
         asort($positions);
         $position = 0;
         foreach ($positions as $entry_id => $position_ignored) {

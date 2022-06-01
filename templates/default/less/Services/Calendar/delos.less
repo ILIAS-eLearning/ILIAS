@@ -8,12 +8,12 @@ td.even {
 
 td.uneven {
 	color: @il-text-color;
-	background-color: @il-content-bg;
+	background-color: @il-main-darker-bg;
 	padding: 3px;
 }
 
 td.today {
-	background-color: @il-content-bg;
+	background-color: @il-main-darker-bg;
 }
 
 
@@ -59,7 +59,7 @@ ul.ilCalSel li {
 	margin: 0;
 	/* padding: 0 0 0 48px; */
 	margin: 0;
-	border-bottom: 1px solid @il-content-bg;
+	border-bottom: 1px solid @il-main-darker-bg;
 	/* min-height: 25px; */
 }
 
@@ -100,6 +100,7 @@ table.calmini {
 	border-collapse: collapse;
 	background-color: @il-main-dark-bg;
 	border: none;
+	margin-bottom: @il-margin-xxlarge-vertical;
 	tr, td, th {
 		border: none;
 		padding: 5px 3px;
@@ -109,10 +110,7 @@ table.calmini {
 		color: @il-text-color;
 		background-color: transparent;
 	}
-	tr:nth-child(odd) {
-		background-color: @il-main-dark-bg;
-	}
-	tr:nth-child(even) {
+	tr {
 		background-color: @il-main-bg;
 	}
 	th.calmini, th.calminiweek {
@@ -195,7 +193,7 @@ th.calstd {
 td.calheadertime {
 	width: 6em;
 	text-align: center;
-	background-color: @il-content-bg;
+	background-color: @il-main-darker-bg;
 	font-size: 90%;
 	padding: 3px;
 }

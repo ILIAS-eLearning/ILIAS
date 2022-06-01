@@ -1,6 +1,22 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilGlobalCacheService
  * Base class for all concrete cache implementations.
  * @author  Fabian Schmid <fs@studer-raimann.ch>
@@ -120,7 +136,7 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
     {
         $matches = [];
         $memory_limit = $this->getMemoryLimit();
-        if (preg_match('#(\d*)([M|K])#uism', $memory_limit, $matches)) {
+        if (preg_match('#(\d*)([M|K])#uim', $memory_limit, $matches)) {
             if ($matches[2] === 'M') {
                 $memory_limit = $matches[1] * 1024 * 1024;
             } elseif ($matches[2] === 'K') {

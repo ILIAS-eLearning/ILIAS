@@ -828,14 +828,12 @@ class ilObjExerciseGUI extends ilObjectGUI
         string $a_target,
         string $a_raw
     ) : void {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+
         $main_tpl = $DIC->ui()->mainTemplate();
 
-        $ass_id = $DIC->http()->wrapper()->query()->retrieve(
-            "ass_id",
-            $DIC->refinery()->kindlyTo()->int()
-        ) ?? 0;
+        $request = $DIC->exercise()->internal()->gui()->request();
+        $ass_id = $request->getAssId();
 
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
@@ -898,12 +896,12 @@ class ilObjExerciseGUI extends ilObjectGUI
                     break;
 
                 default:
-                    if ($parts[1] != "") {
+                    if (($parts[1] ?? "") != "") {
                         $ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "ass_id", $parts[1]);
                         $ilCtrl->setParameterByClass("ilExerciseHandlerGUI", "ass_id_goto", $parts[1]);
                     }
                     $ilCtrl->redirectByClass(
-                        array("ilRepositoryGUI", "ilExerciseHandlerGUI", "ilObjExerciseGUI"),
+                        array("ilExerciseHandlerGUI", "ilObjExerciseGUI"),
                         "showOverview"
                     );
                     break;

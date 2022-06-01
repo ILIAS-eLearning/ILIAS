@@ -778,7 +778,7 @@ abstract class ilObject2GUI extends ilObjectGUI
                 
                 ilObjectListGUI::prepareJsLinks(
                     $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
-                    $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "ilnotegui"], "", ""),
+                    "",
                     $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "")
                 );
                 
@@ -800,7 +800,7 @@ abstract class ilObject2GUI extends ilObjectGUI
             }
         }
 
-        return parent::initHeaderAction();
+        return parent::initHeaderAction($sub_type, $sub_id);
     }
     
     /**

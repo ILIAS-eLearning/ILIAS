@@ -59,7 +59,7 @@ class ilNotificationDatabaseHandler
         $results = [];
 
         while ($row = $ilDB->fetchAssoc($res)) {
-            if (!$results[$row['identifier']]) {
+            if (!isset($results[$row['identifier']]) || !$results[$row['identifier']]) {
                 $results[$row['identifier']] = new stdClass();
                 $results[$row['identifier']]->lang_untouched = [];
                 $results[$row['identifier']]->params = [];
@@ -183,7 +183,7 @@ class ilNotificationDatabaseHandler
         $result = [];
 
         while ($row = $ilDB->fetchAssoc($res)) {
-            if (!$result[$row['module']]) {
+            if (!isset($result[$row['module']])) {
                 $result[$row['module']] = [];
             }
 

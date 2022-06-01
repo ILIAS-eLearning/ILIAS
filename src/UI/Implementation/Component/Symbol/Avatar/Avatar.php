@@ -14,7 +14,7 @@ abstract class Avatar implements C\Symbol\Avatar\Avatar
     use JavaScriptBindable;
 
     private string $username;
-    protected string $alternative_text = "";
+    protected string $label = '';
 
     public function __construct(string $username)
     {
@@ -26,15 +26,15 @@ abstract class Avatar implements C\Symbol\Avatar\Avatar
         return $this->username;
     }
 
-    public function withAlternativeText(string $text) : C\Symbol\Avatar\Avatar
+    public function withLabel(string $text) : C\Symbol\Avatar\Avatar
     {
         $clone = clone $this;
-        $clone->alternative_text = $text;
+        $clone->label = $text;
         return $clone;
     }
 
-    public function getAlternativeText() : string
+    public function getLabel() : string
     {
-        return $this->alternative_text;
+        return $this->label;
     }
 }

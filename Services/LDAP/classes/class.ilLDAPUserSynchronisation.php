@@ -14,33 +14,22 @@
  *
  *****************************************************************************/
 /**
- * Synchronization of user accounts used in auth container ldap, radius , cas,...
+ * Synchronization of user accounts used in auth container ldap, cas,...
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesLDAP
  */
 class ilLDAPUserSynchronisation
 {
     private string $authmode;
-
     private ilLDAPServer $server;
-
     private string $extaccount = '';
     private string $intaccount = '';
 
     private array $user_data = array();
-    
     private bool $force_creation = false;
     private bool $force_read_ldap_data = false;
-
     private ilLogger $logger;
 
-
-    /**
-     * Constructor
-     *
-     * @param string $a_auth_mode
-     */
     public function __construct(string $a_authmode, int $a_server_id)
     {
         global $DIC;
@@ -86,7 +75,7 @@ class ilLDAPUserSynchronisation
      * Get ILIAS unique internal account name
      * @return string internal account
      */
-    public function getInternalAccount() : string
+    public function getInternalAccount() : ?string
     {
         return $this->intaccount;
     }
@@ -105,20 +94,12 @@ class ilLDAPUserSynchronisation
     }
 
     /**
-     * Check if creation of user account is forced (account migration)
-     */
-    public function isCreationForced() : bool
-    {
-        return (bool) $this->force_creation;
-    }
-
-    /**
      * Get user data
      * @return array $user_data
      */
     public function getUserData() : array
     {
-        return (array) $this->user_data;
+        return $this->user_data;
     }
 
     /**
@@ -171,7 +152,7 @@ class ilLDAPUserSynchronisation
             throw new ilLDAPSynchronisationForbiddenException('User synchronisation forbidden.');
         }
         // Account migration
-        if ($this->getServer()->isAccountMigrationEnabled() and !$this->isCreationForced()) {
+        if (!$this->force_creation && $this->getServer()->isAccountMigrationEnabled()) {
             $this->readUserData();
             throw new ilLDAPAccountMigrationRequiredException('Account migration check required.');
         }
@@ -185,7 +166,7 @@ class ilLDAPUserSynchronisation
         ilUserCreationContext::getInstance()->addContext(ilUserCreationContext::CONTEXT_LDAP);
 
         $update = new ilLDAPAttributeToUser($this->getServer());
-        if ($this->isCreationForced()) {
+        if ($this->force_creation) {
             $update->addMode(ilLDAPAttributeToUser::MODE_INITIALIZE_ROLES);
         }
         $update->setNewUserAuthMode($this->getAuthMode());
@@ -250,7 +231,7 @@ class ilLDAPUserSynchronisation
      */
     protected function isUpdateRequired() : bool
     {
-        if ($this->isCreationForced()) {
+        if ($this->force_creation) {
             return true;
         }
         if (!$this->getInternalAccount()) {

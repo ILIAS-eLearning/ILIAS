@@ -2,15 +2,8 @@
 
 class ilOrgUnitTypeTableGUI extends ilTable2GUI
 {
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-    /**
-     * @var array
-     */
-    protected $columns
+    private ilTabsGUI $tabs;
+    private array $columns
         = array(
             'title',
             'description',
@@ -18,7 +11,7 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
             'icon',
         );
 
-    public function __construct($parent_obj, $parent_cmd)
+    public function __construct(ilOrgUnitTypeGUI $parent_obj, string $parent_cmd)
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -39,7 +32,6 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
 
     /**
      * Pass data to row template
-     * @param array $a_set
      */
     public function fillRow(array $a_set) : void
     {
@@ -58,20 +50,14 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ACTIONS', $selection->getHTML());
     }
 
-    /**
-     * Add columns
-     */
-    protected function initColumns()
+    protected function initColumns(): void
     {
         foreach ($this->columns as $column) {
             $this->addColumn($this->lng->txt($column), $column);
         }
     }
 
-    /**
-     * Build and set data for table.
-     */
-    protected function buildData()
+    protected function buildData(): void
     {
         $types = ilOrgUnitType::getAllTypes();
         $data = array();

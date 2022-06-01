@@ -196,7 +196,7 @@ class RevisionDBRepository implements RevisionRepository
         $revision = new FileRevision(new ResourceIdentification($data['rid']));
         $revision->setVersionNumber((int) $data['version_number']);
         $revision->setOwnerId((int) $data['owner_id']);
-        $revision->setTitle((string) $data['title']);
+        $revision->setTitle((string) $data['revision_title']);
         $this->cache[$data['rid']][(int) $data['version_number']] = $revision;
     }
 }

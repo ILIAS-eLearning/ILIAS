@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclReferenceRecordRepresentation
@@ -7,11 +23,7 @@
  */
 class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
 {
-
-    /**
-     * @return array|mixed|string
-     */
-    public function getHTML($link = true)
+    public function getHTML(bool $link = true) : string
     {
         $value = $this->getRecordField()->getValue();
         $record_field = $this->getRecordField();
@@ -41,7 +53,9 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
                     $ref_record = ilDclCache::getRecordCache($v);
                     $ref_table = $ref_record->getTable();
 
-                    if ($ref_table->getVisibleTableViews($_GET['ref_id'], true)) {
+                    $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
+                    if ($ref_table->getVisibleTableViews($ref_id, true)) {
                         $html .= $this->getLinkHTML(null, $v);
                     } else {
                         $html .= $ref_record->getRecordFieldHTML($field->getProperty(ilDclBaseFieldModel::PROP_REFERENCE));
@@ -59,11 +73,9 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
     }
 
     /**
-     * @param null $link_name
-     * @param      $value
-     * @return string
+     * @param string|null|int $value
      */
-    protected function getLinkHTML($link_name = null, $value)
+    protected function getLinkHTML(?string $link_name = null, $value) : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -80,7 +92,9 @@ class ilDclReferenceRecordRepresentation extends ilDclBaseRecordRepresentation
         $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, "record_id", $ref_record->getId());
         $ilDCLTableView = ilDCLTableView::createOrGetStandardView($ref_record->getTableId());
         $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, "tableview_id", $ilDCLTableView->getId());
-        $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, "back_tableview_id", $_GET['tableview_id']);
+
+        $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id', $this->refinery->kindlyTo()->int());
+        $ilCtrl->setParameterByClass(ilDclDetailedViewGUI::class, "back_tableview_id", $tableview_id);
         $html = "<a href='" . $ilCtrl->getLinkTargetByClass(ilDclDetailedViewGUI::class,
                 "renderRecord") . "&disable_paging=1'>" . $link_name . "</a>";
 

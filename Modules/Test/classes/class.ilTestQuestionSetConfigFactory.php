@@ -57,10 +57,8 @@ class ilTestQuestionSetConfigFactory
     /**
      * creates and returns an instance of a test question set config
      * that corresponds to the test's current question set type (test mode)
-     *
-     * @return ilTestQuestionSetConfig
      */
-    public function getQuestionSetConfig()
+    public function getQuestionSetConfig() : ilTestQuestionSetConfig
     {
         return $this->getQuestionSetConfigByType();
     }

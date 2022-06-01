@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclTextFieldRepresentation
@@ -9,7 +25,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 {
     const REFERENCE_SEPARATOR = " -> ";
 
-    public function getInputField(ilPropertyFormGUI $form, $record_id = 0)
+    public function getInputField(ilPropertyFormGUI $form, int $record_id = 0) : ilSelectInputGUI
     {
         if (!$this->getField()->getProperty(ilDclBaseFieldModel::PROP_N_REFERENCE)) {
             $input = new ilSelectInputGUI($this->getField()->getTitle(), 'field_' . $this->getField()->getId());
@@ -37,7 +53,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
                     $options[$record->getId()] = $file_obj->getFileName();
                     break;
                 case ilDclDatatype::INPUTFORMAT_MOB:
-                    $media_obj = new ilObjMediaObject($record->getRecordFieldValue($fieldref), false);
+                    $media_obj = new ilObjMediaObject($record->getRecordFieldValue($fieldref));
                     $options[$record->getId()] = $media_obj->getTitle();
                     break;
                 case ilDclDatatype::INPUTFORMAT_DATETIME:
@@ -51,7 +67,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
                         if (!is_array($value)) {
                             $value = array('title' => '', 'link' => $value);
                         }
-                        $value = $value['title'] ? $value['title'] : $value['link'];
+                        $value = $value['title'] ?: $value['link'];
                     }
                     $options[$record->getId()] = $value;
                     break;
@@ -77,7 +93,9 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
 
         $input->setOptions($options);
 
-        if (ilObjDataCollectionAccess::hasPermissionToAddRecord($_GET['ref_id'], $reftable->getId())) {
+        $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
+        if (ilObjDataCollectionAccess::hasPermissionToAddRecord($ref_id, $reftable->getId())) {
             $input->addCustomAttribute('data-ref="1"');
             $input->addCustomAttribute('data-ref-table-id="' . $reftable->getId() . '"');
             $input->addCustomAttribute('data-ref-field-id="' . $reffield->getId() . '"');
@@ -86,6 +104,9 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         return $input;
     }
 
+    /**
+     * @return string|array|null
+     */
     public function addFilterInputFieldToTable(ilTable2GUI $table)
     {
         $input = $table->addFilterItemByMetaType("filter_" . $this->getField()->getId(), ilTable2GUI::FILTER_SELECT,
@@ -109,7 +130,10 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         return $this->getFilterInputFieldValue($input);
     }
 
-    public function passThroughFilter(ilDclBaseRecordModel $record, $filter)
+    /**
+     * @param int $filter
+     */
+    public function passThroughFilter(ilDclBaseRecordModel $record, $filter) : bool
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
 
@@ -125,10 +149,7 @@ class ilDclReferenceFieldRepresentation extends ilDclBaseFieldRepresentation
         return $pass;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function buildFieldCreationInput(ilObjDataCollection $dcl, $mode = 'create')
+    protected function buildFieldCreationInput(ilObjDataCollection $dcl, string $mode = 'create') : ilRadioOption
     {
         $opt = parent::buildFieldCreationInput($dcl, $mode);
 

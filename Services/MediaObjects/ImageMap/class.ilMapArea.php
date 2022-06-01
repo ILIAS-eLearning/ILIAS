@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 define("IL_AREA_RECT", "Rect");
 define("IL_AREA_CIRCLE", "Circle");
@@ -135,19 +138,18 @@ class ilMapArea
             " AND nr = " . $ilDB->quote($this->getNr(), "integer");
         $area_set = $ilDB->query($q);
         $area_rec = $ilDB->fetchAssoc($area_set);
-
-        $this->setShape($area_rec["shape"]);
+        $this->setShape((string) $area_rec["shape"]);
         //echo $area_rec["Shape"];
         $this->setNr((int) $area_rec["nr"]);
-        $this->setCoords($area_rec["coords"]);
-        $this->setLinkType($area_rec["link_type"]);
-        $this->setTitle($area_rec["title"]);
-        $this->setHref($area_rec["href"]);
-        $this->setTarget($area_rec["target"]);
-        $this->setType($area_rec["type"]);
-        $this->setTargetFrame($area_rec["target_frame"]);
-        $this->setHighlightMode($area_rec["highlight_mode"]);
-        $this->setHighlightClass($area_rec["highlight_class"]);
+        $this->setCoords((string) $area_rec["coords"]);
+        $this->setLinkType((string) $area_rec["link_type"]);
+        $this->setTitle((string) $area_rec["title"]);
+        $this->setHref((string) $area_rec["href"]);
+        $this->setTarget((string) $area_rec["target"]);
+        $this->setType((string) $area_rec["type"]);
+        $this->setTargetFrame((string) $area_rec["target_frame"]);
+        $this->setHighlightMode((string) $area_rec["highlight_mode"]);
+        $this->setHighlightClass((string) $area_rec["highlight_class"]);
     }
 
     public function update() : void

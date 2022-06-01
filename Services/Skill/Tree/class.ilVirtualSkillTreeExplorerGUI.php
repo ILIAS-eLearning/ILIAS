@@ -130,8 +130,8 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
         $lng = $this->lng;
 
         $a_parent_id_parts = explode(":", $a_node["id"]);
-        $a_parent_skl_tree_id = $a_parent_id_parts[0];
-        $a_parent_skl_template_tree_id = $a_parent_id_parts[1];
+        $a_parent_skl_tree_id = (int) $a_parent_id_parts[0];
+        $a_parent_skl_template_tree_id = isset($a_parent_id_parts[1]) ? (int) $a_parent_id_parts[1] : 0;
         
         // title
         if ((int) $a_node["parent"] == 0) {
@@ -156,7 +156,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     public function getNodeIcon($a_node) : string
     {
         $a_id_parts = explode(":", $a_node["id"]);
-        $a_skl_template_tree_id = $a_id_parts[1];
+        $a_skl_template_tree_id = isset($a_id_parts[1]) ? (int) $a_id_parts[1] : 0;
 
         // root?
         if ($a_node["type"] == "skrt") {

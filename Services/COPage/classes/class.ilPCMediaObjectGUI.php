@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Editing User Interface for MediaObjects within LMs (see ILIAS DTD)
@@ -1419,7 +1422,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             $chars = $style->getCharacteristics("media_cont");
             $new_chars = array();
             foreach ($chars as $char) {
-                if ($chars[$char] != "") {	// keep lang vars for standard chars
+                if (($chars[$char] ?? "") != "") {	// keep lang vars for standard chars
                     $new_chars[$char] = $chars[$char];
                 } else {
                     $new_chars[$char] = $char;

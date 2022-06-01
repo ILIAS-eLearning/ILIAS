@@ -38,7 +38,10 @@ class ilLearningProgress
         string $a_obj_type = ''
     ) : bool {
         ilChangeEvent::_recordReadEvent(
-            $a_obj_type, $a_ref_id, $a_obj_id, $a_user_id
+            $a_obj_type,
+            $a_ref_id,
+            $a_obj_id,
+            $a_user_id
         );
 
         ilLPStatus::setInProgressIfNotAttempted($a_obj_id, $a_user_id);
@@ -61,10 +64,12 @@ class ilLearningProgress
             if ($progress) {
                 $progress['spent_seconds'] += (int) $row['spent_seconds'];
                 $progress['access_time'] = max(
-                    $progress['access_time'], (int) $row['last_access']
+                    $progress['access_time'],
+                    (int) $row['last_access']
                 );
                 $progress['access_time_min'] = min(
-                    $progress['access_time_min'], (int) $row['first_access']
+                    $progress['access_time_min'],
+                    (int) $row['first_access']
                 );
             } else {
                 $progress['obj_id'] = (int) $row['obj_id'];

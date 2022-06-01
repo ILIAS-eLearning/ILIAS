@@ -28,6 +28,16 @@
  */
 class ilPollDataSet extends ilDataSet
 {
+    protected \ILIAS\Notes\Service $notes;
+
+    public function __construct()
+    {
+        global $DIC;
+
+        parent::__construct();
+        $this->notes = $DIC->notes();
+    }
+
     public function getSupportedVersions() : array
     {
         return array("4.3.0", "5.0.0");
@@ -156,7 +166,7 @@ class ilPollDataSet extends ilDataSet
             $dir = ilObjPoll::initStorage($a_set["Id"]);
             $a_set["Dir"] = $dir;
             
-            $a_set["ShowComments"] = ilNote::commentsActivated($a_set["Id"], 0, "poll");
+            $a_set["ShowComments"] = $this->notes->domain()->commentsActive((int) $a_set["Id"]);
         }
 
         return $a_set;

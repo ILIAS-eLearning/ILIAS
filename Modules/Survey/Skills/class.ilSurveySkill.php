@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Skill/Competence handling in surveys
@@ -27,6 +30,7 @@ class ilSurveySkill
      */
     protected array $q_skill = array();
     protected ilLogger $log;
+    protected \ILIAS\Skill\Service\SkillProfileService $skill_profile_service;
 
     public function __construct(ilObjSurvey $a_survey)
     {
@@ -36,6 +40,7 @@ class ilSurveySkill
         $this->survey = $a_survey;
         $this->read();
         $this->log = ilLoggerFactory::getLogger("svy");
+        $this->skill_profile_service = $DIC->skills()->profile();
     }
     
     public function read() : void
@@ -382,8 +387,7 @@ class ilSurveySkill
         }
 
         //write profile completion entries if fulfilment status has changed
-        $prof_manager = new ilSkillProfileCompletionManager($user_id);
-        $prof_manager->writeCompletionEntryForAllProfiles();
+        $this->skill_profile_service->writeCompletionEntryForAllProfiles($user_id);
 
         // write self evaluation
         $this->writeAndAddSelfEvalSkills($user_id);

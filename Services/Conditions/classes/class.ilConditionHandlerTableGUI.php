@@ -55,8 +55,7 @@ class ilConditionHandlerTableGUI extends ilTable2GUI
         $this->tpl->setVariable('OBJ_SRC', $a_set['icon']);
         $this->tpl->setVariable('OBJ_ALT', $a_set['icon_alt']);
         $this->tpl->setVariable('OBJ_TITLE', $a_set['title']);
-
-        $this->tpl->setVariable('OBJ_LINK', ilLink::_getLink($a_set['ref_id'], $a_set['type']));
+        $this->tpl->setVariable('OBJ_LINK', ilLink::_getLink($a_set['ref_id']));
         $this->tpl->setVariable('OBJ_DESCRIPTION', $a_set['description']);
         $this->tpl->setVariable('COND_ID', $a_set['id']);
         $this->tpl->setVariable('OBJ_CONDITION', $a_set['condition']);

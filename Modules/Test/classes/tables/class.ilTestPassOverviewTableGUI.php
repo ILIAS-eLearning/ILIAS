@@ -9,41 +9,18 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
  */
 class ilTestPassOverviewTableGUI extends ilTable2GUI
 {
-    /**
-     * @var bool
-     */
-    protected $resultPresentationEnabled = false;
+    protected bool $resultPresentationEnabled = false;
     
-    /**
-     * @var bool
-     */
-    protected $pdfPresentationEnabled = false;
+    protected bool $pdfPresentationEnabled = false;
 
-    /**
-     * @var bool
-     */
-    protected $objectiveOrientedPresentationEnabled = false;
+    protected bool $objectiveOrientedPresentationEnabled = false;
 
-    /**
-     * @var integer
-     */
-    protected $activeId = null;
+    protected ?int $activeId = null;
 
-    /**
-     * @var string
-     */
-    protected $passDetailsCommand = '';
+    protected string $passDetailsCommand = '';
 
-    /**
-     * @var string
-     */
-    protected $passDeletionCommand = '';
+    protected string $passDeletionCommand = '';
 
-    /**
-     * @param        $parent
-     * @param string $cmd
-     * @param int    $context
-     */
     public function __construct($parent, $cmd)
     {
         $this->setId('tst_pass_overview_' . $parent->getObject()->getId());
@@ -59,7 +36,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.il_as_tst_pass_overview_row.html', 'Modules/Test');
     }
     
-    public function init()
+    public function init() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -76,10 +53,6 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param string $a_field
-     * @return bool
-     */
     public function numericOrdering(string $a_field) : bool
     {
         switch ($a_field) {
@@ -92,9 +65,6 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         return false;
     }
 
-    /**
-     * @param array $a_set
-     */
     public function fillRow(array $a_set) : void
     {
         if (array_key_exists('percentage', $a_set)) {
@@ -146,7 +116,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         }
     }
 
-    protected function initColumns()
+    protected function initColumns() : void
     {
         if ($this->isResultPresentationEnabled() && !$this->isObjectiveOrientedPresentationEnabled()) {
             $this->addColumn($this->lng->txt('scored_pass'), '', '150');
@@ -178,106 +148,66 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @return boolean
-     */
     public function isResultPresentationEnabled() : bool
     {
         return $this->resultPresentationEnabled;
     }
 
-    /**
-     * @param boolean $resultPresentationEnabled
-     */
-    public function setResultPresentationEnabled($resultPresentationEnabled)
+    public function setResultPresentationEnabled(bool $resultPresentationEnabled) : void
     {
         $this->resultPresentationEnabled = $resultPresentationEnabled;
     }
 
-    /**
-     * @return boolean
-     */
     public function isPdfPresentationEnabled() : bool
     {
         return $this->pdfPresentationEnabled;
     }
 
-    /**
-     * @param boolean $pdfPresentationEnabled
-     */
-    public function setPdfPresentationEnabled($pdfPresentationEnabled)
+    public function setPdfPresentationEnabled(bool $pdfPresentationEnabled) : void
     {
         $this->pdfPresentationEnabled = $pdfPresentationEnabled;
     }
 
-    /**
-     * @return boolean
-     */
     public function isObjectiveOrientedPresentationEnabled() : bool
     {
         return $this->objectiveOrientedPresentationEnabled;
     }
 
-    /**
-     * @param boolean $objectiveOrientedPresentationEnabled
-     */
-    public function setObjectiveOrientedPresentationEnabled($objectiveOrientedPresentationEnabled)
+    public function setObjectiveOrientedPresentationEnabled(bool $objectiveOrientedPresentationEnabled) : void
     {
         $this->objectiveOrientedPresentationEnabled = $objectiveOrientedPresentationEnabled;
     }
 
-    /**
-     * @return int
-     */
     public function getActiveId() : ?int
     {
         return $this->activeId;
     }
 
-    /**
-     * @param int $activeId
-     */
-    public function setActiveId($activeId)
+    public function setActiveId($activeId) : void
     {
-        $this->activeId = $activeId;
+        $this->activeId = (int) $activeId;
     }
 
-    /**
-     * @return string
-     */
     public function getPassDetailsCommand() : string
     {
         return $this->passDetailsCommand;
     }
 
-    /**
-     * @param string $passDetailsCommand
-     */
-    public function setPassDetailsCommand($passDetailsCommand)
+    public function setPassDetailsCommand(string $passDetailsCommand) : void
     {
         $this->passDetailsCommand = $passDetailsCommand;
     }
 
-    /**
-     * @return string
-     */
     public function getPassDeletionCommand() : string
     {
         return $this->passDeletionCommand;
     }
 
-    /**
-     * @param string $passDeletionCommand
-     */
-    public function setPassDeletionCommand($passDeletionCommand)
+    public function setPassDeletionCommand(string $passDeletionCommand) : void
     {
         $this->passDeletionCommand = $passDeletionCommand;
     }
 
-    /**
-     * @param integer $dateTS
-     * @return string $dateFormated
-     */
     private function formatDate($date) : string
     {
         $oldValue = ilDatePresentation::useRelativeDates();
@@ -345,12 +275,8 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
 
         return $html;
     }
-    
-    /**
-     * @param integer $pass
-     * @return mixed
-     */
-    protected function getPassNumberPresentation($pass)
+
+    protected function getPassNumberPresentation($pass) : int
     {
         return $pass + 1;
     }

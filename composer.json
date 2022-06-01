@@ -57,7 +57,7 @@
 		"league/flysystem": "^1.0",
 		"james-heinrich/getid3": "^1.9",
 		"phpoffice/phpspreadsheet": "^1.18.0",
-		"jumbojett/openid-connect-php": "^0.9.2",
+		"jumbojett/openid-connect-php": "^0.9.5",
 		"sabre/dav": "^4.1",
 		"symfony/console" : "^5.0",
 		"slim/slim": "^3.11",
@@ -76,7 +76,8 @@
 		"friendsofphp/php-cs-fixer": "^3.5",
 		"sebastian/environment": "^5.0",
 		"captainhook/captainhook": "^5.3",
-		"rector/rector": "^0.12.12"
+		"rector/rector": "^0.12.12",
+		"phpstan/phpstan": "^1.6"
 	},
 	"autoload": {
 		"psr-4" : {
@@ -186,10 +187,10 @@
 		},
 		"monolog/monolog" : {
 			"source" : "https://github.com/Seldaek/monolog",
-			"used_version" : "v2.3.5",
+			"used_version" : "v2.6.0",
 			"wrapped_by" : "Services/Logging",
 			"added_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
-			"last_update" : "2021-11-05",
+			"last_update" : "2022-05-11",
 			"last_update_by" : "Stefan Meyer <smeyer.ilias@gmx.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "2015-09-07"
@@ -424,6 +425,16 @@
 			"last_update": "2019-07-11",
 			"last_update_by": "Guido Vollbach <gvollbach@databaay.de",
 			"approved-by": "Jour Fixe",
+			"approved-date": "YYYY-MM-DD"
+		},
+		"phpstan/phpstan": {
+			"source": "https://github.com/phpstan/phpstanr",
+			"used_version": "1.6",
+			"added_by": "Michael Jansen <mjansen@databay.de>",
+			"wrapped_by": null,
+			"last_update": "2022-05-02",
+			"last_update_by": "",
+			"approved-by": "",
 			"approved-date": "YYYY-MM-DD"
 		},
 		"symfony/console": {

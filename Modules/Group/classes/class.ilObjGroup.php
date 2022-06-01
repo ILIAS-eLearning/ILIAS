@@ -972,9 +972,9 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
      * Revokes permissions of all parent non-protected roles
      * and initiates these roles with the according il_grp_(open|closed) template.
      */
-    public function updateGroupType(int $a_group_type = ilGroupConstants::GRP_TYPE_OPEN
-    ) : void
-    {
+    public function updateGroupType(
+        int $a_group_type = ilGroupConstants::GRP_TYPE_OPEN
+    ) : void {
         if ($a_group_type == ilGroupConstants::GRP_TYPE_OPEN) {
             $this->applyDidacticTemplate(0);
             return;
@@ -1509,11 +1509,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             " FROM grp_settings" .
             " WHERE obj_id = " . $ilDB->quote($a_group_id, "integer"));
         $row = $ilDB->fetchAssoc($set);
-        if ($row && $row["leave_end"]) {
+        if ($row && isset($row["leave_end"]) && is_numeric($row["leave_end"])) {
             // timestamp to date
-            $limit = date("Ymd", $row["leave_end"]);
+            $limit = date("Ymd", (int) $row["leave_end"]);
             if ($limit < date("Ymd")) {
-                $a_date = new ilDate(date("Y-m-d", $row["leave_end"]), IL_CAL_DATE);
+                $a_date = new ilDate(date("Y-m-d", (int) $row["leave_end"]), IL_CAL_DATE);
                 return false;
             }
         }
@@ -1588,7 +1588,10 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         \ilContainerUserFilter $container_user_filter = null
     ) : array {
         // Caching
-        if (is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block])) {
+        if (
+            isset($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block]) &&
+            is_array($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block])
+        ) {
             return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
         }
         // Results are stored in $this->items

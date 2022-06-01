@@ -175,23 +175,27 @@ class ilRTE
     public static function _replaceMediaObjectImageSrc(
         string $a_text,
         int $a_direction = 0,
-        string $nic = IL_INST_ID
+        string $nic = ''
     ) : string {
         if ($a_text === '') {
             return '';
         }
 
+        if ($nic === '' && defined('IL_INST_ID')) {
+            $nic = (string) IL_INST_ID;
+        }
+
         if ($a_direction === 0) {
             $a_text = preg_replace(
                 '/src="([^"]*?\/mobs\/mm_([0-9]+)\/.*?)\"/',
-                'src="il_' . IL_INST_ID . '_mob_\\2"',
+                'src="il_' . $nic . '_mob_\\2"',
                 $a_text
             );
         } else {
             $resulttext = $a_text;
             if (preg_match_all('/src="il_([0-9]+)_mob_([0-9]+)"/', $a_text, $matches)) {
                 foreach ($matches[2] as $idx => $mob) {
-                    if (ilObject::_lookupType($mob) === 'mob') {
+                    if (ilObject::_lookupType((int) $mob) === 'mob') {
                         $mob_obj = new ilObjMediaObject((int) $mob);
                         $replace = 'il_' . $matches[1][$idx] . '_mob_' . $mob;
                         $path_to_file = ilWACSignedPath::signFile(

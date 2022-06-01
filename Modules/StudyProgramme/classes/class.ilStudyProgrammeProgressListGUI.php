@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilStudyProgrammeProgressListGUI
@@ -10,8 +24,8 @@
  */
 class ilStudyProgrammeProgressListGUI
 {
-    const SUCCESSFUL_PROGRESS_CSS_CLASS = "ilCourseObjectiveProgressBarCompleted";
-    const NON_SUCCESSFUL_PROGRESS_CSS_CLASS = "ilCourseObjectiveProgressBarNeutral";
+    private const SUCCESSFUL_PROGRESS_CSS_CLASS = "ilCourseObjectiveProgressBarCompleted";
+    private const NON_SUCCESSFUL_PROGRESS_CSS_CLASS = "ilCourseObjectiveProgressBarNeutral";
 
     protected static string $tpl_file = "tpl.progress_list_item.html";
 
@@ -77,10 +91,8 @@ class ilStudyProgrammeProgressListGUI
             $tpl->parseCurrentBlock();
         }
 
-        if ($this->show_info_message) {
-            if ($this->showMoreObjectsInfo($programme)) {
-                $tpl->setVariable("MORE_OBJECTS", $this->lng->txt("prg_more_objects_without_read_permission"));
-            }
+        if ($this->show_info_message && $this->showMoreObjectsInfo($programme)) {
+            $tpl->setVariable("MORE_OBJECTS", $this->lng->txt("prg_more_objects_without_read_permission"));
         }
         $tpl->setVariable("TXT_DESC", $programme->getDescription());
         $tpl->setVariable("PROGRESS_BAR", $this->buildProgressBar($this->progress));
@@ -100,10 +112,7 @@ class ilStudyProgrammeProgressListGUI
         return new ilTemplate($file, $remove_unknown_vars, $remove_empty_blocks, $component);
     }
 
-    /**
-     * @return mixed|string
-     */
-    protected function getIconPath(int $obj_id)
+    protected function getIconPath(int $obj_id) : string
     {
         return ilObject::_getIcon($obj_id, "small", "prg");
     }
@@ -132,22 +141,19 @@ class ilStudyProgrammeProgressListGUI
         $maximum_possible_amount_of_points = $programme->getPossiblePointsOfRelevantChildren($progress);
         
         $current_amount_of_points = $progress->getCurrentAmountOfPoints();
+        $current_percent = 0;
+        $required_percent = 0;
 
         if ($maximum_possible_amount_of_points > 0) {
             $current_percent = (int) ($current_amount_of_points * 100 / $maximum_possible_amount_of_points);
             $required_percent = (int) ($required_amount_of_points * 100 / $maximum_possible_amount_of_points);
-        } else {
-            if ($progress->isSuccessful()) {
-                $current_percent = 100;
-                $required_percent = 100;
-            } else {
-                $current_percent = 0;
-                $required_percent = 0;
-            }
+        } elseif ($progress->isSuccessful()) {
+            $current_percent = 100;
+            $required_percent = 100;
         }
         
         //required to dodge bug in ilContainerObjectiveGUI::renderProgressBar
-        if ($required_percent == 0) {
+        if ($required_percent === 0) {
             $required_percent = 0.1;
         }
         
@@ -221,7 +227,7 @@ class ilStudyProgrammeProgressListGUI
         $children = $programme->getChildren();
         foreach ($children as $child) {
             $read = $this->access->checkAccess("read", "", $child->getRefId(), "prg", $child->getId());
-            if (!$read && $this->visible_on_pd_mode != ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
+            if (!$read && $this->visible_on_pd_mode !== ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_ALLWAYS) {
                 return true;
             }
         }

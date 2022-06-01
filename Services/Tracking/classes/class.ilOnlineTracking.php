@@ -22,7 +22,8 @@ class ilOnlineTracking
         $ilDB = $DIC->database();
         $res = $ilDB->query(
             'SELECT online_time FROM ut_online WHERE usr_id = ' . $ilDB->quote(
-                $a_user_id, 'integer'
+                $a_user_id,
+                'integer'
             )
         );
         while ($row = $ilDB->fetchAssoc($res)) {
@@ -38,7 +39,8 @@ class ilOnlineTracking
         $ilDB = $DIC->database();
         $res = $ilDB->query(
             'SELECT access_time FROM ut_online WHERE usr_id = ' . $ilDB->quote(
-                $a_user_id, 'integer'
+                $a_user_id,
+                'integer'
             )
         );
         if ($ilDB->numRows($res)) {
@@ -65,8 +67,9 @@ class ilOnlineTracking
 
         if (null === self::$last_access_time) {
             $query = 'SELECT access_time FROM ut_online WHERE usr_id = ' . $ilDB->quote(
-                    $user->getId(), 'integer'
-                );
+                $user->getId(),
+                'integer'
+            );
             $res = $ilDB->query($query);
             if (!$ilDB->numRows($res)) {
                 return false;

@@ -17,13 +17,10 @@ class ilECSTestSettings extends ilECSObjectSettings
     {
         return '/campusconnect/tests';
     }
-    
+
+    /** @return object|stdClass */
     protected function buildJson(ilECSSetting $a_server)
     {
-        $json = $this->getJsonCore('application/ecs-test');
-        
-        // $json->status = $this->content_obj->isActivated() ? 'online' : 'offline';
-        
-        return $json;
+        return $this->getJsonCore('application/ecs-test');
     }
 }

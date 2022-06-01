@@ -6,27 +6,19 @@
  */
 class ilPositionPermissionsNotActive extends ilOrguException
 {
-
-    /** @var string */
-    protected $object_type = "";
+    protected string $object_type = "";
 
     /**
      * ilPositionPermissionsNotActive constructor.
-     * @param string $message
-     * @param string $type
-     * @param int    $code
      */
-    public function __construct($message, $type, $code = 0)
+    public function __construct(string $message, string $type, int $code = 0)
     {
         parent::__construct($message, $code);
 
         $this->object_type = $type;
     }
 
-    /**
-     * @return string
-     */
-    public function getObjectType()
+    public function getObjectType(): string
     {
         return $this->object_type;
     }

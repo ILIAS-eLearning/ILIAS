@@ -27,6 +27,7 @@ use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
+use ILIAS\UI\Implementation\Component\Symbol\Icon\IconRendererFactory;
 use ILIAS\UI\Implementation\Render\DefaultRendererFactory;
 use ILIAS\UI\Implementation\Render\FSLoader;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
@@ -146,8 +147,8 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-                <label for="id_3" class="control-label col-sm-3">label</label>
-                <div class="col-sm-9">
+                <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+                <div class="col-sm-8 col-md-9 col-lg-10">
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">
@@ -176,8 +177,8 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-                <label for="id_3" class="control-label col-sm-3">label</label>
-                <div class="col-sm-9">
+                <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+                <div class="col-sm-8 col-md-9 col-lg-10">
                     <div class="help-block alert alert-danger" role="alert">an_error</div>
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
@@ -205,8 +206,8 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-                <label for="id_3" class="control-label col-sm-3">label</label>
-                <div class="col-sm-9">
+                <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+                <div class="col-sm-8 col-md-9 col-lg-10">
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">
@@ -233,8 +234,8 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-                <label for="id_4" class="control-label col-sm-3">label</label>
-                <div class="col-sm-9">
+                <label for="id_4" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+                <div class="col-sm-8 col-md-9 col-lg-10">
                     <div id="id_4" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
                             <div class="ui-input-file-input ui-input-dynamic-input">
@@ -272,8 +273,8 @@ class FileInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-                <label for="id_3" class="control-label col-sm-3">label<span class="asterisk">*</span></label>
-                <div class="col-sm-9">
+                <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">label<span class="asterisk">*</span></label>
+                <div class="col-sm-8 col-md-9 col-lg-10">
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">
@@ -298,8 +299,8 @@ class FileInputTest extends ILIAS_UI_TestBase
         $html = $this->brutallyTrimHTML($r->render($text));
 
         $expected = $this->brutallyTrimHTML('
-            <div class="form-group row"><label for="id_3" class="control-label col-sm-3">label</label>
-                <div class="col-sm-9">
+            <div class="form-group row"><label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+                <div class="col-sm-8 col-md-9 col-lg-10">
                     <div id="id_3" class="ui-input-file">
                         <div class="ui-input-file-input-list ui-input-dynamic-inputs-list"></div>
                         <div class="ui-input-file-input-dropzone">
@@ -365,6 +366,14 @@ class FileInputTest extends ILIAS_UI_TestBase
                             $img_resolver
                         ),
                         new GlyphRendererFactory(
+                            $ui_factory,
+                            $tpl_factory,
+                            $lng,
+                            $js_binding,
+                            $refinery,
+                            $img_resolver
+                        ),
+                        new IconRendererFactory(
                             $ui_factory,
                             $tpl_factory,
                             $lng,

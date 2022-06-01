@@ -1,39 +1,37 @@
 <?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Table/classes/class.ilTable2GUI.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Form/classes/class.ilTextInputGUI.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Form/classes/class.ilCheckboxInputGUI.php';
-/** @noinspection PhpIncludeInspection */
-require_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilWorkflowEngineDefinitionsTableGUI
  *
  * @author Maximilian Becker <mbecker@databay.de>
- *
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 {
-    /** @var ilCtrl $ilCtrl */
     protected ilCtrl $ilCtrl;
-
     protected array $filter;
 
-    /**
-     * ilWorkflowEngineDefinitionsTableGUI constructor.
-     * @param        $parent_obj
-     * @param string $parent_cmd
-     * @param string $template_context
-     */
-    public function __construct($parent_obj, $parent_cmd, string $template_context = "")
-    {
+    public function __construct(
+        ilObjWorkflowEngineGUI $parent_obj,
+        string $parent_cmd,
+        string $template_context = ""
+    ) {
         $this->setId('wfedef');
         parent::__construct($parent_obj, $parent_cmd, $template_context);
 
@@ -56,9 +54,6 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt("definitions"));
     }
 
-    /**
-     * @return void
-     */
     public function initFilter() : void
     {
         $title_filter_input = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -74,28 +69,25 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
         $this->filter['instances'] = $instances_filter_input->getChecked();
     }
 
-    /**
-     * @return void
-     */
     public function initColumns() : void
     {
         $this->addColumn($this->lng->txt("title"), "title", "20%");
 
         $selected_columns = $this->getSelectedColumns();
 
-        if (in_array('file', $selected_columns)) {
+        if (in_array('file', $selected_columns, true)) {
             $this->addColumn($this->lng->txt("file"), "file", "30%");
         }
 
-        if (in_array('version', $selected_columns)) {
+        if (in_array('version', $selected_columns, true)) {
             $this->addColumn($this->lng->txt("version"), "version", "10%");
         }
 
-        if (in_array('status', $selected_columns)) {
+        if (in_array('status', $selected_columns, true)) {
             $this->addColumn($this->lng->txt("status"), "status", "10%");
         }
 
-        if (in_array('instances', $selected_columns)) {
+        if (in_array('instances', $selected_columns, true)) {
             $this->addColumn($this->lng->txt("instances"), "instances", "15%");
         }
 
@@ -107,29 +99,29 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
      */
     public function getSelectableColumns() : array
     {
-        $cols["file"] = array(
+        $cols["file"] = [
             "txt" => $this->lng->txt("file"),
-            "default" => true);
-        $cols["version"] = array(
+            "default" => true
+        ];
+        $cols["version"] = [
             "txt" => $this->lng->txt("version"),
-            "default" => true);
-        $cols["status"] = array(
+            "default" => true
+        ];
+        $cols["status"] = [
             "txt" => $this->lng->txt("status"),
-            "default" => true);
-        $cols["instances"] = array(
+            "default" => true
+        ];
+        $cols["instances"] = [
             "txt" => $this->lng->txt("instances"),
-            "default" => true);
+            "default" => true
+        ];
         return $cols;
     }
 
-    /**
-     * @return void
-     */
     private function populateTable() : void
     {
         global $DIC;
 
-        require_once 'Services/WorkflowEngine/classes/administration/class.ilWorkflowDefinitionRepository.php';
         $repository = new ilWorkflowDefinitionRepository(
             $DIC['ilDB'],
             $DIC['filesystem'],
@@ -140,7 +132,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 
         $that = $this;
 
-        array_walk($baseList, function (array &$definition) use ($that) {
+        array_walk($baseList, static function (array &$definition) use ($that) : void {
             $status = $that->lng->txt('missing_parsed_class');
             if ($definition['status']) {
                 $status = 'OK';
@@ -149,7 +141,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
             $definition['status'] = $status;
         });
 
-        $filteredBaseList = array_filter($baseList, function ($item) use ($that) {
+        $filteredBaseList = array_filter($baseList, function ($item) : bool {
             return !$this->isFiltered($item);
         });
 
@@ -162,17 +154,13 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
      */
     public function isFiltered(array $row) : bool
     {
-        // Title filter
         $title_filter = $this->getFilterItemByPostVar('title');
-        if ($title_filter->getValue() != null) {
-            if (strpos(strtolower($row['title']), strtolower($title_filter->getValue())) === false) {
-                return true;
-            }
+        if ($title_filter->getValue() != null && stripos($row['title'], $title_filter->getValue()) === false) {
+            return true;
         }
 
-        // Instances filter
         $instances_filter = $this->getFilterItemByPostVar('instances');
-        if ($instances_filter->getChecked() && $row['instances']['active'] == 0) {
+        if ($row['instances']['active'] == 0 && $instances_filter->getChecked()) {
             return true;
         }
 
@@ -188,23 +176,23 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
 
         $selected_columns = $this->getSelectedColumns();
 
-        if (in_array('file', $selected_columns)) {
+        if (in_array('file', $selected_columns, true)) {
             $this->tpl->setVariable('VAL_FILE', $a_set['file']);
         }
 
-        if (in_array('version', $selected_columns)) {
+        if (in_array('version', $selected_columns, true)) {
             $this->tpl->setVariable('VAL_VERSION', $a_set['version']);
         }
 
-        if (in_array('status', $selected_columns)) {
-            if ($a_set['status'] != 'OK') {
+        if (in_array('status', $selected_columns, true)) {
+            if ($a_set['status'] !== 'OK') {
                 $this->tpl->setVariable('VAL_STATUS', $a_set['status']);
             } else {
                 $this->tpl->setVariable('VAL_STATUS', $this->lng->txt('ok'));
             }
         }
 
-        if (in_array('instances', $selected_columns)) {
+        if (in_array('instances', $selected_columns, true)) {
             $this->tpl->setVariable('TXT_INSTANCES_TOTAL', $this->lng->txt('total'));
             $this->tpl->setVariable('VAL_INSTANCES_TOTAL', 0 + $a_set['instances']['total']);
             $this->tpl->setVariable('TXT_INSTANCES_ACTIVE', $this->lng->txt('active'));
@@ -221,7 +209,7 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
             $this->ilCtrl->getLinkTarget($this->parent_obj, 'definitions.start')
         );
 
-        if (0 + $a_set['instances']['active'] == 0) {
+        if (0 + $a_set['instances']['active'] === 0) {
             $action->addItem(
                 $this->lng->txt('delete_definition'),
                 'delete',
@@ -230,8 +218,10 @@ class ilWorkflowEngineDefinitionsTableGUI extends ilTable2GUI
         }
 
         require_once ilObjWorkflowEngine::getRepositoryDir() . '/' . $a_set['id'] . '.php';
+        /** @var class-string $class */
         $class = substr($a_set['id'], 4);
-        if ($class::$startEventRequired == true) {
+        /** @noinspection PhpUndefinedFieldInspection (defined in ilWorkflowScaffold.php / generated code */
+        if ($class::$startEventRequired) {
             $action->addItem(
                 $this->lng->txt('start_listening'),
                 'startlistening',

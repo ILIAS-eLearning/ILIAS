@@ -1,5 +1,21 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentList.php';
 require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/ilAssLacQuestionProvider.php';
@@ -7,6 +23,8 @@ require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/il
 require_once 'Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/ilAssLacCompositeEvaluator.php';
 require_once 'Modules/Test/classes/class.ilTestSkillPointAccount.php';
 require_once 'Modules/Test/classes/class.ilTestSkillLevelThresholdList.php';
+
+use ILIAS\Skill\Service\SkillProfileService;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -81,8 +99,12 @@ class ilTestSkillEvaluation
      */
     private $numRequiredBookingsForSkillTriggering;
 
-    public function __construct(ilDBInterface $db, $testId, $refId)
+    private SkillProfileService $skill_profile_service;
+
+    public function __construct(ilDBInterface $db, $testId, $refId, SkillProfileService $skill_profile_service = null)
     {
+        global $DIC;
+
         $this->db = $db;
         $this->refId = $refId;
 
@@ -90,6 +112,10 @@ class ilTestSkillEvaluation
 
         $this->skillLevelThresholdList = new ilTestSkillLevelThresholdList($this->db);
         $this->skillLevelThresholdList->setTestId($testId);
+
+        $this->skill_profile_service = ($skill_profile_service == null)
+            ? $DIC->skills()->profile()
+            : $skill_profile_service;
 
         $this->questions = array();
         $this->maxPointsByQuestion = array();
@@ -344,8 +370,7 @@ class ilTestSkillEvaluation
             }
         }
         //write profile completion entries if fulfilment status has changed
-        $prof_manager = new ilSkillProfileCompletionManager($this->getUserId());
-        $prof_manager->writeCompletionEntryForAllProfiles();
+        $this->skill_profile_service->writeCompletionEntryForAllProfiles($this->getUserId());
     }
 
     private function invokeSkillLevelTrigger($skillLevelId, $skillTrefId)
@@ -413,10 +438,10 @@ class ilTestSkillEvaluation
     {
         $matchingSkillProfiles = array();
 
-        $usersProfiles = ilSkillProfile::getProfilesOfUser($this->getUserId());
+        $usersProfiles = $this->skill_profile_service->getProfilesOfUser($this->getUserId());
 
         foreach ($usersProfiles as $profileData) {
-            $profile = new ilSkillProfile($profileData['id']);
+            $profile = $this->skill_profile_service->getById($profileData['id']);
             $assignedSkillLevels = $profile->getSkillLevels();
 
             foreach ($assignedSkillLevels as $assignedSkillLevel) {
@@ -437,7 +462,7 @@ class ilTestSkillEvaluation
         $noProfileMatchingSkills = $this->skillQuestionAssignmentList->getUniqueAssignedSkills();
 
         foreach ($availableSkillProfiles as $skillProfileId => $skillProfileTitle) {
-            $profile = new ilSkillProfile($skillProfileId);
+            $profile = $this->skill_profile_service->getById($skillProfileId);
             $assignedSkillLevels = $profile->getSkillLevels();
 
             foreach ($assignedSkillLevels as $assignedSkillLevel) {

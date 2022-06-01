@@ -18,7 +18,7 @@ class assAnswerMatchingPairTest extends assBaseTestCase
         chdir('../../../');
     }
 
-    public function test_instantiateObjectSimple()
+    public function test_instantiateObjectSimple() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
@@ -30,7 +30,7 @@ class assAnswerMatchingPairTest extends assBaseTestCase
         $this->assertInstanceOf('assAnswerMatchingPair', $instance);
     }
 
-    public function test_setGetTerm()
+    public function test_setGetTerm() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
@@ -45,7 +45,7 @@ class assAnswerMatchingPairTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetDefinition()
+    public function test_setGetDefinition() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';
@@ -60,7 +60,7 @@ class assAnswerMatchingPairTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setGetPoints()
+    public function test_setGetPoints() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerMatchingPair.php';

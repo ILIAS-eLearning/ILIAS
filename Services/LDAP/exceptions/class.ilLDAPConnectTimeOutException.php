@@ -14,10 +14,7 @@
  *
  *****************************************************************************/
 /**
- * Description of ilLDAPConnectTimeOutException
- *
  * @author Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesLDAP
  */
 class ilLDAPConnectTimeOutException extends ilException
 {

@@ -40,7 +40,8 @@ abstract class ilLPCollection
             case ilLPObjSettings::LP_MODE_COLLECTION:
             case ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR:
                 return new ilLPCollectionOfRepositoryObjects(
-                    $a_obj_id, $a_mode
+                    $a_obj_id,
+                    $a_mode
                 );
 
             case ilLPObjSettings::LP_MODE_OBJECTIVES:

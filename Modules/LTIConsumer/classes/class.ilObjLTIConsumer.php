@@ -12,7 +12,7 @@
  *      https://www.ilias.de
  *      https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+*****************************************************************************/
 /**
  * Class ilObjLTIConsumer
  *
@@ -24,23 +24,23 @@
 class ilObjLTIConsumer extends ilObject2
 {
     const DB_TABLE_NAME = 'lti_consumer_settings';
-    
+
     /**
      * repository object activation settings (handled by ilObject)
      */
-    protected bool $activationLimited;
+    protected bool $activationLimited = false;
     protected ?int $activationStartingTime = null;
     protected ?int $activationEndingTime = null;
     protected ?bool $activationVisibility = null;
-    
+
     protected int $providerId = 0;
-    
+
     protected ?ilLTIConsumeProvider $provider = null;
-    
+
     const LAUNCH_METHOD_OWN_WIN = 'ownWin';
     const LAUNCH_METHOD_NEW_WIN = 'newWin';
     const LAUNCH_METHOD_EMBEDDED = 'embedded';
-    
+
     protected bool $use_xapi = false;
     protected string $custom_activity_id = '';
     protected bool $statementsReportEnabled = false;
@@ -83,47 +83,47 @@ class ilObjLTIConsumer extends ilObject2
     {
         parent::__construct($a_id, $a_reference);
     }
-    
+
     protected function initType() : void
     {
         $this->type = "lti";
     }
-    
+
     public function isActivationLimited() : bool
     {
         return $this->activationLimited;
     }
-    
+
     public function setActivationLimited(bool $activationLimited) : void
     {
         $this->activationLimited = $activationLimited;
     }
-    
+
     public function getActivationStartingTime() : ?int
     {
         return $this->activationStartingTime;
     }
-    
+
     public function setActivationStartingTime(int $activationStartingTime) : void
     {
         $this->activationStartingTime = $activationStartingTime;
     }
-    
+
     public function getActivationEndingTime() : ?int
     {
         return $this->activationEndingTime;
     }
-    
+
     public function setActivationEndingTime(int $activationEndingTime) : void
     {
         $this->activationEndingTime = $activationEndingTime;
     }
-    
+
     public function getActivationVisibility() : ?bool
     {
         return $this->activationVisibility;
     }
-    
+
     public function setActivationVisibility(bool $activationVisibility) : void
     {
         $this->activationVisibility = $activationVisibility;
@@ -153,42 +153,42 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->providerId;
     }
-    
+
     public function setProviderId(int $providerId) : void
     {
         $this->providerId = $providerId;
     }
-    
+
     public function initProvider() : void
     {
         $this->provider = new ilLTIConsumeProvider($this->getProviderId());
     }
-    
+
     public function getProvider() : ilLTIConsumeProvider
     {
         return $this->provider;
     }
-    
+
     public function setProvider(ilLTIConsumeProvider $provider) : void
     {
         $this->provider = $provider;
     }
-    
+
     public function isLaunchMethodOwnWin() : bool
     {
         return $this->launchMethod == self::LAUNCH_METHOD_OWN_WIN;
     }
-    
+
     public function isLaunchMethodEmbedded() : bool
     {
         return $this->launchMethod == self::LAUNCH_METHOD_EMBEDDED;
     }
-    
+
     public function getLaunchMethod() : string
     {
         return $this->launchMethod;
     }
-    
+
     public function setLaunchMethod(string $launchMethod) : void
     {
         $this->launchMethod = $launchMethod;
@@ -198,45 +198,45 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->customLaunchKey;
     }
-    
+
     public function setCustomLaunchKey(string $customLaunchKey) : void
     {
         $this->customLaunchKey = $customLaunchKey;
     }
-    
+
     public function getCustomLaunchSecret() : string
     {
         return $this->customLaunchSecret;
     }
-    
+
     public function setCustomLaunchSecret(string $customLaunchSecret) : void
     {
         $this->customLaunchSecret = $customLaunchSecret;
     }
-    
+
     public function getLaunchKey() : string
     {
         if ($this->getProvider()->isProviderKeyCustomizable()) {
             return $this->getCustomLaunchKey();
         }
-        
+
         return $this->getProvider()->getProviderKey();
     }
-    
+
     public function getLaunchSecret() : string
     {
         if ($this->getProvider()->isProviderKeyCustomizable()) {
             return $this->getCustomLaunchSecret();
         }
-        
+
         return $this->getProvider()->getProviderSecret();
     }
-    
+
     public function getUseXapi() : bool
     {
         return $this->use_xapi;
     }
-    
+
     public function setUseXapi(bool $use_xapi) : void
     {
         $this->use_xapi = $use_xapi;
@@ -246,26 +246,26 @@ class ilObjLTIConsumer extends ilObject2
     {
         return $this->custom_activity_id;
     }
-    
+
     public function setCustomActivityId(string $custom_activity_id) : void
     {
         $this->custom_activity_id = $custom_activity_id;
     }
-    
+
     public function getActivityId() : string
     {
         if (strlen($this->getProvider()->getXapiActivityId())) {
             return $this->getProvider()->getXapiActivityId();
         }
-        
+
         return $this->custom_activity_id;
     }
-    
+
     public function isStatementsReportEnabled() : bool
     {
         return $this->statementsReportEnabled;
     }
-    
+
     public function setStatementsReportEnabled(bool $statementsReportEnabled) : void
     {
         $this->statementsReportEnabled = $statementsReportEnabled;
@@ -299,20 +299,20 @@ class ilObjLTIConsumer extends ilObject2
     {
         $this->load();
     }
-    
+
     public function load() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $query = "SELECT * FROM {$this->dbTableName()} WHERE obj_id = %s";
         $res = $DIC->database()->queryF($query, ['integer'], [$this->getId()]);
-        
+
         while ($row = $DIC->database()->fetchAssoc($res)) {
             // if ($row['provider_id']) { //always set
             $this->setProviderId((int) $row['provider_id']);
             $this->setProvider(new ilLTIConsumeProvider((int) $row['provider_id']));
             // }
-            
+
             $this->setLaunchMethod($row['launch_method']);
 
             $this->setCustomLaunchKey((string) $row['launch_key']);
@@ -331,19 +331,19 @@ class ilObjLTIConsumer extends ilObject2
 
             $this->setMasteryScore((float) $row['mastery_score']);
         }
-        
+
         $this->loadRepositoryActivationSettings();
     }
-    
+
     protected function doUpdate() : void
     {
         $this->save();
     }
-    
+
     public function save() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $DIC->database()->replace($this->dbTableName(), [
             'obj_id' => ['integer', $this->getId()]
         ], [
@@ -363,10 +363,10 @@ class ilObjLTIConsumer extends ilObject2
             'highscore_top_num' => ['integer', $this->getHighscoreTopNum()],
             'mastery_score' => ['float', $this->getMasteryScore()]
         ]);
-        
+
         $this->saveRepositoryActivationSettings();
     }
-    
+
     protected function loadRepositoryActivationSettings() : void
     {
         if ($this->ref_id > 0) {
@@ -374,23 +374,25 @@ class ilObjLTIConsumer extends ilObject2
             switch ($activation["timing_type"]) {
                 case ilObjectActivation::TIMINGS_ACTIVATION:
                     $this->setActivationLimited(true);
-                    $this->setActivationStartingTime($activation["timing_start"]);
-                    $this->setActivationEndingTime($activation["timing_end"]);
+
+$this->setActivationStartingTime($activation["timing_start"]);
+
+$this->setActivationEndingTime($activation["timing_end"]);
                     $this->setActivationVisibility($activation["visible"]);
                     break;
-                
+
                 default:
                     $this->setActivationLimited(false);
                     break;
             }
         }
     }
-    
+
     protected function saveRepositoryActivationSettings() : void
     {
         if ($this->ref_id > 0) {
             ilObjectActivation::getItem($this->ref_id);
-            
+
             $item = new ilObjectActivation;
             if (!$this->isActivationLimited()) {
                 $item->setTimingType(ilObjectActivation::TIMINGS_DEACTIVATED);
@@ -400,16 +402,16 @@ class ilObjLTIConsumer extends ilObject2
                 $item->setTimingEnd($this->getActivationEndingTime());
                 $item->toggleVisible($this->getActivationVisibility());
             }
-            
+
             $item->update($this->ref_id);
         }
     }
-    
+
     protected function dbTableName() : string
     {
         return self::DB_TABLE_NAME;
     }
-    
+
     /////////////////////////////////////////
     /// HIGHSCORE
 
@@ -599,7 +601,7 @@ class ilObjLTIConsumer extends ilObject2
     public function buildLaunchParameters(ilCmiXapiUser $cmixUser, string $token, string $contextType, string $contextId, string $contextTitle, ?string $returnUrl = '') : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
+
         $roles = $DIC->access()->checkAccess('write', '', $this->getRefId()) ? "Instructor" : "Learner";
         if ($this->getProvider()->getAlwaysLearner() == true) {
             $roles = "Learner";
@@ -609,17 +611,17 @@ class ilObjLTIConsumer extends ilObject2
         if ($this->getProvider()->getUseProviderId() == true) {
             $resource_link_id = 'p' . $this->getProvider()->getId();
         }
-        
+
         $usrImage = '';
         if ($this->getProvider()->getIncludeUserPicture()) {
             $usrImage = ILIAS_HTTP_PATH . "/" . $DIC->user()->getPersonalPicturePath("small");
         }
-        
+
         $documentTarget = "window";
         if ($this->getLaunchMethod() == self::LAUNCH_METHOD_EMBEDDED) {
             $documentTarget = "iframe";
         }
-        
+
         $nameGiven = '-';
         $nameFamily = '-';
         $nameFull = '-';
@@ -646,7 +648,7 @@ class ilObjLTIConsumer extends ilObject2
         $emailPrimary = $cmixUser->getUsrIdent();
 
         ilLTIConsumerResult::getByKeys($this->getId(), $DIC->user()->getId(), true);
-        
+
         $custom_params = $this->getCustomParams();
         $toolConsumerInstanceGuid = CLIENT_ID . ".";
         $parseIliasUrl = parse_url(ILIAS_HTTP_PATH);
@@ -683,12 +685,12 @@ class ilObjLTIConsumer extends ilObject2
             "tool_consumer_instance_contact_email" => $DIC->settings()->get("admin_email"),
             "launch_presentation_css_url" => "",
             "tool_consumer_info_product_family_code" => "ilias",
-            "tool_consumer_info_version" => $DIC->settings()->get("ilias_version"),
+            "tool_consumer_info_version" => ILIAS_VERSION,
             "lis_result_sourcedid" => $token,
             "lis_outcome_service_url" => ILIAS_HTTP_PATH . "/Modules/LTIConsumer/result.php?client_id=" . CLIENT_ID,
             "role_scope_mentor" => ""
         ];
-        
+
         $OAuthParams = [
             "url" => $this->getProvider()->getProviderUrl(),
             "key" => $this->getLaunchKey(),
@@ -699,7 +701,114 @@ class ilObjLTIConsumer extends ilObject2
             "token" => null,
             "data" => ($launch_vars + $custom_params)
         ];
-        
+
         return ilLTIConsumerLaunch::signOAuth($OAuthParams);
+    }
+
+    /**
+     * @throws ilWACException
+     */
+
+    public function buildLaunchParametersLTI13(ilCmiXapiUser $cmixUser, string $endpoint, string $clientId, int $deploymentId, string $nonce, string $contextType, string $contextId, string $contextTitle, ?string $returnUrl = '') : ?array
+    {
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+
+        $roles = $DIC->access()->checkAccess('write', '', $this->getRefId()) ? "Instructor" : "Learner";
+        if ($this->getProvider()->getAlwaysLearner() == true) {
+            $roles = "Learner";
+        }
+
+        $resource_link_id = $this->getRefId();
+        if ($this->getProvider()->getUseProviderId() == true) {
+            $resource_link_id = 'p' . $this->getProvider()->getId();
+        }
+
+        $usrImage = '';
+        if ($this->getProvider()->getIncludeUserPicture()) {
+            $usrImage = ILIAS_HTTP_PATH . "/" . $DIC->user()->getPersonalPicturePath("small");
+        }
+
+        $documentTarget = "window";
+        if ($this->getLaunchMethod() == self::LAUNCH_METHOD_EMBEDDED) {
+            $documentTarget = "iframe";
+        }
+
+        $nameGiven = '-';
+        $nameFamily = '-';
+        $nameFull = '-';
+        switch ($this->getProvider()->getPrivacyName()) {
+            case ilLTIConsumeProvider::PRIVACY_NAME_FIRSTNAME:
+                $nameGiven = $DIC->user()->getFirstname();
+                $nameFull = $DIC->user()->getFirstname();
+                break;
+            case ilLTIConsumeProvider::PRIVACY_NAME_LASTNAME:
+                $usrName = $DIC->user()->getUTitle() ? $DIC->user()->getUTitle() . ' ' : '';
+                $usrName .= $DIC->user()->getLastname();
+                $nameFamily = $usrName;
+                $nameFull = $usrName;
+                break;
+            case ilLTIConsumeProvider::PRIVACY_NAME_FULLNAME:
+                $nameGiven = $DIC->user()->getFirstname();
+                $nameFamily = $DIC->user()->getLastname();
+                $nameFull = $DIC->user()->getFullname();
+                break;
+        }
+
+        $userIdLTI = ilCmiXapiUser::getIdentAsId($this->getProvider()->getPrivacyIdent(), $DIC->user());
+
+        $emailPrimary = $cmixUser->getUsrIdent();
+
+        ilLTIConsumerResult::getByKeys($this->getId(), $DIC->user()->getId(), true);
+
+        $custom_params = $this->getCustomParams();
+        $toolConsumerInstanceGuid = CLIENT_ID . ".";
+        $parseIliasUrl = parse_url(ILIAS_HTTP_PATH);
+        if (array_key_exists("path", $parseIliasUrl)) {
+            $toolConsumerInstanceGuid .= implode(".", array_reverse(explode("/", $parseIliasUrl["path"])));
+        }
+        $toolConsumerInstanceGuid .= $parseIliasUrl["host"];
+        $launch_vars = [
+            "lti_message_type" => "basic-lti-launch-request",
+            "lti_version" => "1.3.0",
+            "resource_link_id" => (string) $resource_link_id,
+            "resource_link_title" => $this->getTitle(),
+            "resource_link_description" => $this->getDescription(),
+            "user_id" => (string) $userIdLTI,
+            "user_image" => $usrImage,
+            "roles" => $roles,
+            "lis_person_name_given" => $nameGiven,
+            "lis_person_name_family" => $nameFamily,
+            "lis_person_name_full" => $nameFull,
+            "lis_person_contact_email_primary" => $emailPrimary,
+            "context_id" => (string) $contextId,
+            "context_type" => $contextType,
+            "context_title" => $contextTitle,
+            "context_label" => $contextType . " " . $contextId,
+            "launch_presentation_locale" => $this->lng->getLangKey(),
+            "launch_presentation_document_target" => $documentTarget,
+            "launch_presentation_width" => "",//recommended
+            "launch_presentation_height" => "",//recommended
+            "launch_presentation_return_url" => $returnUrl,
+            "tool_consumer_instance_guid" => $toolConsumerInstanceGuid,
+            "tool_consumer_instance_name" => $DIC->settings()->get("short_inst_name") ? $DIC->settings()->get("short_inst_name") : CLIENT_ID,
+            "tool_consumer_instance_description" => ilObjSystemFolder::_getHeaderTitle(),
+            "tool_consumer_instance_url" => ilLink::_getLink(ROOT_FOLDER_ID, "root"),//ToDo? "https://vb52p70.example.com/release_5-3/goto.php?target=root_1&client_id=inno",
+            "tool_consumer_instance_contact_email" => $DIC->settings()->get("admin_email"),
+            "launch_presentation_css_url" => "",
+            "tool_consumer_info_product_family_code" => "ilias",
+            "tool_consumer_info_version" => ILIAS_VERSION,
+            "lis_result_sourcedid" => "",//$token,
+            "lis_outcome_service_url" => ILIAS_HTTP_PATH . "/Modules/LTIConsumer/result.php?client_id=" . CLIENT_ID,
+            "role_scope_mentor" => ""
+        ];
+
+        $ltilib = new lti13lib();
+
+        if (!empty($ltilib->verifyPrivateKey())) {
+            $DIC->ui()->mainTemplate()->setOnScreenMessage('failure', 'ERROR_OPEN_SSL_CONF', true);
+            return null;
+        }
+
+        return $ltilib->LTISignJWT($launch_vars, $endpoint, $clientId, $deploymentId, $nonce);
     }
 }

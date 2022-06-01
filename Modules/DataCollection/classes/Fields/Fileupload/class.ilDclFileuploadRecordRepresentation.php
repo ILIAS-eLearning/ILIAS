@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclFileuploadRecordRepresentation
@@ -10,17 +26,16 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
 
     /**
      * Outputs html of a certain field
-     * @param mixed     $value
-     * @param bool|true $link
-     * @return string
      */
-    public function getHTML($link = true)
+    public function getHTML(bool $link = true) : string
     {
         $value = $this->getRecordField()->getValue();
 
         // the file is only temporary uploaded. Still need to be confirmed before stored
-        if (is_array($value) && $_POST['ilfilehash']) {
-            $this->ctrl->setParameterByClass("ildclrecordlistgui", "ilfilehash", $_POST['ilfilehash']);
+        $has_ilfilehash = $this->http->wrapper()->post()->has('ilfilehash');
+        if (is_array($value) && $has_ilfilehash) {
+            $ilfilehash = $this->http->wrapper()->post()->retrieve('ilfilehash', $this->refinery->kindlyTo()->string());
+            $this->ctrl->setParameterByClass("ildclrecordlistgui", "ilfilehash", $ilfilehash);
             $this->ctrl->setParameterByClass("ildclrecordlistgui", "field_id",
                 $this->getRecordField()->getField()->getId());
 
@@ -42,7 +57,10 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
                 "sendFile") . '">' . $file_obj->getFileName() . '</a>';
         if (ilPreview::hasPreview($file_obj->getId())) {
             ilPreview::createPreview($file_obj); // Create preview if not already existing
-            $preview = new ilPreviewGUI((int) $_GET['ref_id'], ilPreviewGUI::CONTEXT_REPOSITORY, $file_obj->getId(),
+
+            $ref_id = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
+
+            $preview = new ilPreviewGUI($ref_id, ilPreviewGUI::CONTEXT_REPOSITORY, $file_obj->getId(),
                 $this->access);
             $preview_status = ilPreview::lookupRenderStatus($file_obj->getId());
             $preview_status_class = "";
@@ -66,8 +84,8 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
 
     /**
      * function parses stored value to the variable needed to fill into the form for editing.
-     * @param $value
-     * @return mixed
+     * @param array|string $value
+     * @return array|string
      */
     public function parseFormInput($value)
     {

@@ -484,7 +484,7 @@ class ilFileSystemGUI
             $this->wrapper->query()->has(self::PARAM_RESETOFFSET)
             && $this->wrapper->query()->retrieve(
                 self::PARAM_RESETOFFSET,
-                $this->refinery->to()->int()
+                $this->refinery->kindlyTo()->int()
             ) == 1) {
             $fs_table->resetOffset();
         }

@@ -17,7 +17,7 @@
 /**
  * @author Sascha Hofmann <saschahofmann@gmx.de>
  *
- * @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI, ilRadiusSettingsGUI
+ * @ilCtrl_Calls ilObjAuthSettingsGUI: ilPermissionGUI, ilRegistrationSettingsGUI, ilLDAPSettingsGUI
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilAuthShibbolethSettingsGUI, ilCASSettingsGUI
  * @ilCtrl_Calls ilObjAuthSettingsGUI: ilSamlSettingsGUI, ilOpenIdConnectSettingsGUI
  */
@@ -73,7 +73,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
         $generalSettingsTpl->setVariable("TXT_CAS", $this->lng->txt("auth_cas"));
 
-        $generalSettingsTpl->setVariable("TXT_RADIUS", $this->lng->txt("auth_radius"));
         $generalSettingsTpl->setVariable("TXT_SCRIPT", $this->lng->txt("auth_script"));
 
         $generalSettingsTpl->setVariable("TXT_APACHE", $this->lng->txt("auth_apache"));
@@ -86,7 +85,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             ilAuthUtils::AUTH_SHIBBOLETH,
             ilAuthUtils::AUTH_SAML,
             ilAuthUtils::AUTH_CAS,
-            ilAuthUtils::AUTH_RADIUS,
             ilAuthUtils::AUTH_APACHE,
             ilAuthUtils::AUTH_OPENID_CONNECT
         ];
@@ -300,13 +298,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                             )
                         )
                     );
-                }
-                break;
-
-            case ilAuthUtils::AUTH_RADIUS:
-                if ($this->object->checkAuthRADIUS() !== true) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("auth_radius_not_configured"), true);
-                    $this->ctrl->redirect($this, 'editRADIUS');
                 }
                 break;
 
@@ -645,9 +636,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 return $this->lng->txt("auth_saml");
                 break;
 
-            case ilAuthUtils::AUTH_RADIUS:
-                return $this->lng->txt("auth_radius");
-                break;
         
             case ilAuthUtils::AUTH_SCRIPT:
                 return $this->lng->txt("auth_script");
@@ -721,9 +709,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                     $auth_id = ilLDAPServer::getServerIdByAuthMode($auth_mode);
                     $server = ilLDAPServer::getInstanceByServerId($auth_id);
                     $text = $server->getName();
-                    break;
-                case ilAuthUtils::AUTH_RADIUS:
-                    $text = $this->lng->txt('auth_radius');
                     break;
                 case ilAuthUtils::AUTH_LOCAL:
                     $text = $this->lng->txt('auth_local');
@@ -845,14 +830,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 $cas_settings = new ilCASSettingsGUI($this->object->getRefId());
                 $this->ctrl->forwardCommand($cas_settings);
                 break;
-                
-            case 'ilradiussettingsgui':
-                
-                $this->tabs_gui->setTabActive('auth_radius');
-                $radius_settings_gui = new ilRadiusSettingsGUI($this->object->getRefId());
-                $this->ctrl->forwardCommand($radius_settings_gui);
-                break;
-                
 
             case 'ilauthloginpageeditorgui':
                 
@@ -918,14 +895,6 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 'auth_cas',
                 $this->ctrl->getLinkTargetByClass('ilcassettingsgui', 'settings')
-            );
-                                   
-            $this->tabs_gui->addTarget(
-                "auth_radius",
-                $this->ctrl->getLinkTargetByClass('ilradiussettingsgui', "settings"),
-                "",
-                "",
-                ""
             );
 
             $this->tabs_gui->addTarget(

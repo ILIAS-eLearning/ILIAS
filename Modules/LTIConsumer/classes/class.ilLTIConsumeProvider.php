@@ -661,7 +661,7 @@ class ilLTIConsumeProvider
     {
         if ($this->client_id == '') {
             //ohne Sonderzeichen
-            $this->client_id = ILIAS\LTI\ToolProvider\DataConnector\DataConnector::getRandomString(15);
+            $this->client_id = ILIAS\LTI\ToolProvider\Util::getRandomString(15);
         }
         return $this->client_id;
     }

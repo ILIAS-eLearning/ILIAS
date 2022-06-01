@@ -26,8 +26,8 @@ class assAnswerMatchingTerm
             mt_srand((double) microtime() * 1000000);
             $identifier = mt_rand(1, 100000);
         }
-        $this->text = $text;
-        $this->picture = $picture;
+        $this->text = (string) $text;
+        $this->picture = (string) $picture;
         $this->identifier = $identifier;
     }
 }

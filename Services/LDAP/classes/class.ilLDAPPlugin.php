@@ -22,27 +22,26 @@ abstract class ilLDAPPlugin extends ilPlugin
 {
     /**
      * Check if user data matches a keyword value combination
-     * @return
-     * @param object $a_user_data
-     * @param object $a_keyword
-     * @param object $a_value
      */
-    protected function checkValue($a_user_data, $a_keyword, $a_value)
+    protected function checkValue(array $a_user_data, string $a_keyword, string $a_value) : bool
     {
         if (!$a_user_data[$a_keyword]) {
             return false;
         }
+
         if (is_array($a_user_data[$a_keyword])) {
             foreach ($a_user_data[$a_keyword] as $values) {
-                if (strcasecmp(trim($values), $a_value) == 0) {
+                if (strcasecmp(trim($values), $a_value) === 0) {
                     return true;
                 }
             }
             return false;
         }
-        if (strcasecmp(trim($a_user_data[$a_keyword]), trim($a_value)) == 0) {
+
+        if (strcasecmp(trim($a_user_data[$a_keyword]), trim($a_value)) === 0) {
             return true;
         }
+
         return false;
     }
 }

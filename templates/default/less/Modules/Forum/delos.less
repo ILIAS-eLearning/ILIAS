@@ -16,13 +16,13 @@ a.postnew, a.postnew:visited {
 blockquote.ilForumQuote {
 	margin: 0 20px 10px;
 	padding: 5px;
-	border: 1px solid #b6b6b6;
-	font-size: 90%;
+	border: 1px solid @il-main-border-color;
+	font-size: @il-font-size-small;
 }
 
 div.ilForumQuoteHead {
 	font-weight: bold;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	margin: 0 0 10px;
 }
 
@@ -59,10 +59,10 @@ div.ilForumQuoteHead {
 
 .ilFrmPostTitle {
 	margin-top: 15px;
-	font-size: 120%;
+	font-size: @il-font-size-large;
 	@media only screen and (max-width: @grid-float-breakpoint-max) {
 		margin-top: 5px;
-		font-size: 100%;
+		font-size: @il-font-size-base;
 	}
 }
 

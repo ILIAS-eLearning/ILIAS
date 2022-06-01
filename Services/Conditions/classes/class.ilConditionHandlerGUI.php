@@ -667,7 +667,7 @@ class ilConditionHandlerGUI
             $this->ch_obj->setTriggerType($trigger_obj->getType());
         }
         $this->ch_obj->setOperator($form->getInput('operator'));
-        $this->ch_obj->setObligatory($form->getInput('obligatory'));
+        $this->ch_obj->setObligatory((bool) $form->getInput('obligatory'));
         $this->ch_obj->setHiddenStatus(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
         $this->ch_obj->setValue('');
 

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 const NEWS_NOTICE = 0;
 const NEWS_MESSAGE = 1;
@@ -345,18 +348,18 @@ class ilNewsItem
         $set = $ilDB->query($query);
         $rec = $ilDB->fetchAssoc($set);
 
-        $this->setTitle($rec["title"]);
-        $this->setContent($rec["content"]);
+        $this->setTitle((string) $rec["title"]);
+        $this->setContent((string) $rec["content"]);
         $this->setContextObjId((int) $rec["context_obj_id"]);
         $this->setContextObjType($rec["context_obj_type"]);
         $this->setContextSubObjId((int) $rec["context_sub_obj_id"]);
-        $this->setContextSubObjType($rec["context_sub_obj_type"]);
-        $this->setContentType($rec["content_type"]);
-        $this->setCreationDate($rec["creation_date"]);
-        $this->setUpdateDate($rec["update_date"]);
+        $this->setContextSubObjType((string) $rec["context_sub_obj_type"]);
+        $this->setContentType((string) $rec["content_type"]);
+        $this->setCreationDate((string) $rec["creation_date"]);
+        $this->setUpdateDate((string) $rec["update_date"]);
         $this->setUserId((int) $rec["user_id"]);
         $this->setUpdateUserId((int) $rec["update_user_id"]);
-        $this->setVisibility($rec["visibility"]);
+        $this->setVisibility((string) $rec["visibility"]);
         $this->setContentLong((string) $rec["content_long"]);
         $this->setPriority((int) $rec["priority"]);
         $this->setContentIsLangVar((bool) $rec["content_is_lang_var"]);
@@ -833,7 +836,7 @@ class ilNewsItem
             }
 
             if ($v["context_obj_type"] === "frm") {
-                if ($forums[$v["context_obj_id"]] == "") {
+                if (!isset($forums[$v["context_obj_id"]])) {
                     // $forums[forum_id] = news_id;
                     $forums[$v["context_obj_id"]] = $k;
                     $last_aggregation_forum = $v["context_obj_id"];
@@ -1728,13 +1731,14 @@ class ilNewsItem
 
         $ilDB->setLimit(1, 0);
         $set = $ilDB->query($query);
-        $rec = $ilDB->fetchAssoc($set);
-
-        $id = (int) $rec["id"];
-        if ($a_only_today) {
-            $now = ilUtil::now();
-            if (strpos($rec["update_date"], substr($now, 0, 10)) !== 0) {
-                $id = 0;
+        $id = 0;
+        if ($rec = $ilDB->fetchAssoc($set)) {
+            $id = (int) $rec["id"];
+            if ($a_only_today) {
+                $now = ilUtil::now();
+                if (strpos($rec["update_date"], substr($now, 0, 10)) !== 0) {
+                    $id = 0;
+                }
             }
         }
 

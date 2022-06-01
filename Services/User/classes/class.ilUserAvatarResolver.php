@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Symbol\Avatar\Avatar;
 use ILIAS\UI\Factory;
@@ -22,14 +25,14 @@ use ILIAS\UI\Factory;
  */
 class ilUserAvatarResolver
 {
-    private int $user_id;
-    private string $login;
-    private string $firstname;
-    private string $lastname;
+    private int $user_id = 0;
+    private string $login = "";
+    private string $firstname = "";
+    private string $lastname = "";
     private bool $has_public_profile = false;
     private bool $has_public_upload = false;
-    private string $uploaded_file;
-    private string $abbreviation;
+    private string $uploaded_file = "";
+    private string $abbreviation = "";
     private bool $force_image = false;
     private string $size = 'small';
     protected ilObjUser $user;
@@ -53,9 +56,6 @@ class ilUserAvatarResolver
 
     private function init() : void
     {
-        if ($this->letter_avatars_activated === false) {
-            return;
-        }
         $in = $this->db->in('usr_pref.keyword', array('public_upload', 'public_profile'), false, 'text');
         $res = $this->db->queryF(
             "
@@ -120,7 +120,7 @@ class ilUserAvatarResolver
 
         if ($this->useUploadedFile()) {
             return $this->ui->symbol()->avatar()->picture($this->uploaded_file, $this->login)
-                            ->withAlternativeText($alternative_text);
+                            ->withLabel($alternative_text);
         }
     
         if ($this->letter_avatars_activated === false) {
@@ -130,7 +130,7 @@ class ilUserAvatarResolver
             );
         }
 
-        return $this->ui->symbol()->avatar()->letter($this->login)->withAlternativeText($alternative_text);
+        return $this->ui->symbol()->avatar()->letter($this->login)->withLabel($alternative_text);
     }
 
     public function getLegacyPictureURL() : string

@@ -60,7 +60,7 @@ class ilCalendarSchedule
     protected bool $strict_period = true;
     protected ilLogger $logger;
 
-    public function __construct(ilDate $seed, int $a_type, int $a_user_id = 0, $a_strict_period = false)
+    public function __construct(ilDate $seed, int $a_type, ?int $a_user_id = null, bool $a_strict_period = false)
     {
         global $DIC;
 
@@ -74,7 +74,7 @@ class ilCalendarSchedule
         $this->strict_period = $a_strict_period;
 
         $this->user = $DIC->user();
-        if (!$a_user_id || $a_user_id != $DIC->user()->getId()) {
+        if ($a_user_id !== null && $a_user_id !== $DIC->user()->getId()) {
             $this->user = new ilObjUser($a_user_id);
         }
         $this->user_settings = ilCalendarUserSettings::_getInstanceByUserId($this->user->getId());

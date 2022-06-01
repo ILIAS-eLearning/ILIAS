@@ -111,14 +111,19 @@ class MainNotificationCollector extends AbstractBaseCollector implements ItemCol
         yield from $this->notifications;
     }
     
-    /**
-     * @inheritDoc
-     */
+
     public function hasItems() : bool
     {
         return (is_array($this->notifications) && count($this->notifications) > 0);
     }
     
+
+    public function hasVisibleItems() : bool
+    {
+        return $this->hasItems();
+    }
+    
+
     /**
      * Returns the sum of all old notifications values in the
      * Standard Notifications

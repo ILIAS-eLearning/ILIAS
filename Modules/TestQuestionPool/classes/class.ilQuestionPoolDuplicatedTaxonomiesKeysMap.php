@@ -10,26 +10,11 @@
  */
 class ilQuestionPoolDuplicatedTaxonomiesKeysMap
 {
-    /**
-     * @var array
-     */
-    private $taxonomyKeyMap = array();
+    private array $taxonomyKeyMap = array();
+    private array $taxNodeKeyMap = array();
+    private array $taxRootNodeKeyMap = array();
 
-    /**
-     * @var array
-     */
-    private $taxNodeKeyMap = array();
-
-    /**
-     * @var array
-     */
-    private $taxRootNodeKeyMap = array();
-
-    /**
-     * @param ilObjTaxonomy $originalTaxonomyId
-     * @param ilObjTaxonomy $mappedTaxonomyId
-     */
-    public function addDuplicatedTaxonomy(ilObjTaxonomy $originalTaxonomy, ilObjTaxonomy $mappedTaxonomy)
+    public function addDuplicatedTaxonomy(ilObjTaxonomy $originalTaxonomy, ilObjTaxonomy $mappedTaxonomy) : void
     {
         $this->taxonomyKeyMap[ $originalTaxonomy->getId() ] = $mappedTaxonomy->getId();
 
@@ -44,7 +29,10 @@ class ilQuestionPoolDuplicatedTaxonomiesKeysMap
      */
     public function getMappedTaxonomyId($originalTaxonomyId) : int
     {
-        return $this->taxonomyKeyMap[$originalTaxonomyId];
+        if (isset($this->taxonomyKeyMap[$originalTaxonomyId])) {
+            return $this->taxonomyKeyMap[$originalTaxonomyId];
+        }
+        return 0;
     }
 
     /**

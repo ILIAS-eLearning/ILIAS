@@ -28,7 +28,7 @@ class ilECSConnector
     public const HEADER_COMMUNITIES = 'X-EcsReceiverCommunities';
 
 
-    protected $path_postfix = '';
+    protected string $path_postfix = '';
     
     protected ?ilECSSetting $settings = null;
     protected ?ilCurlConnection $curl = null;

@@ -94,7 +94,8 @@ class StandardPagePartProvider implements PagePartProvider
     public function getMainBar() : ?MainBar
     {
         $this->gs->collector()->mainmenu()->collectOnce();
-        if (!$this->gs->collector()->mainmenu()->hasItems()) {
+        if (!$this->gs->collector()->mainmenu()->hasVisibleItems()
+            && !$this->gs->collector()->tool()->hasVisibleItems()) {
             return null;
         }
         
@@ -193,6 +194,14 @@ class StandardPagePartProvider implements PagePartProvider
         return $this->ui->factory()->image()
                         ->standard($responsive_logo, "ILIAS")
                         ->withAction($this->getStartingPointAsUrl());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getFaviconPath() : string
+    {
+        return ilUtil::getImagePath("favicon.ico");
     }
 
     protected function getStartingPointAsUrl() : string

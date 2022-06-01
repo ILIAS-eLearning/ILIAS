@@ -30,7 +30,8 @@ class ilLPStatusTestPassed extends ilLPStatus
     public static function _getInProgress(int $a_obj_id) : array
     {
         $userIds = self::getUserIdsByResultArrayStatus(
-            $a_obj_id, 'in_progress'
+            $a_obj_id,
+            'in_progress'
         );
         return $userIds;
     }
@@ -139,7 +140,8 @@ class ilLPStatusTestPassed extends ilLPStatus
                         $is_finished = true;
                     }
                     $status = $this->determineStatusForScoreLastPassTests(
-                        $is_finished, $is_passed
+                        $is_finished,
+                        $is_passed
                     );
                 } elseif ($test_obj->getPassScoring() == SCORE_BEST_PASS) {
                     $status = self::LP_STATUS_IN_PROGRESS_NUM;
@@ -196,17 +198,20 @@ class ilLPStatusTestPassed extends ilLPStatus
             "tst_result_cache JOIN tst_active ON (tst_active.active_id = tst_result_cache.active_fi)" .
             " JOIN tst_tests ON (tst_tests.test_id = tst_active.test_fi) " .
             " WHERE tst_tests.obj_fi = " . $this->db->quote(
-                $a_obj_id, "integer"
+                $a_obj_id,
+                "integer"
             ) .
             " AND tst_active.user_fi = " . $this->db->quote(
-                $a_usr_id, "integer"
+                $a_usr_id,
+                "integer"
             )
         );
         $per = 0;
         if ($rec = $this->db->fetchAssoc($set)) {
             if ($rec["max_points"] > 0) {
                 $per = min(
-                    100, 100 / $rec["max_points"] * $rec["reached_points"]
+                    100,
+                    100 / $rec["max_points"] * $rec["reached_points"]
                 );
             } else {
                 // According to mantis #12305

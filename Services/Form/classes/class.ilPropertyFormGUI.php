@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP;
 use ILIAS\Refinery;
@@ -971,7 +974,6 @@ class ilPropertyFormGUI extends ilFormGUI
         if ($file_hash != "") {
             $temp_path = ilFileUtils::getDataDir() . "/temp";
             if (is_dir($temp_path)) {
-
                 $temp_files = glob($temp_path . "/" . session_id() . "~~" . $file_hash . "~~*");
                 if (is_array($temp_files)) {
                     foreach ($temp_files as $full_file) {

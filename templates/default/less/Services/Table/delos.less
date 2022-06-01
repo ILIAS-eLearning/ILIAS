@@ -4,14 +4,14 @@ div.tblfooter {
 	font-weight: normal;
 	background-color: @il-main-dark-bg;
 	padding: 3px;
-	font-size: 80%;
+	font-size: @il-font-size-xsmall;
 	text-align: right;
 }
 
 div.ilTableNav {
 	font-weight: normal;
-	padding: 0 3px;
-	font-size: 80%;
+	padding: 0 @il-padding-xlarge-horizontal;
+	font-size: @il-font-size-xsmall;
 	text-align: right;
 	table {
 		width: 100%;
@@ -33,7 +33,7 @@ tr.tblfooter {
 	color: @il-text-color;
 	font-weight: normal;
 	background-color: @il-main-dark-bg;
-	border-top: 1px solid @il-content-bg;
+	border-top: 1px solid @il-main-darker-bg;
 }
 
 .tblrow1 {
@@ -52,22 +52,22 @@ td.submit {
 div.ilTableHeaderTitleBlock {
 	font-weight: bold;
 	padding: 3px;
-	font-size: 90%;
+	font-size: @il-font-size-small;
 	color: @il-text-color;
 	border-bottom: 1px solid @il-main-border-color;
 }
 
 div.ilTableHeaderTitle {
-	margin: 15px 0 0;
+	margin: @il-padding-xxlarge-vertical 0 0 @il-padding-xlarge-horizontal;
 	padding: 0;
 	+ .ilHeaderDesc {
-		margin: 0 0 5px;
+		margin: 0 @il-padding-xlarge-horizontal @il-padding-xlarge-vertical;
 	}
 }
 
 h3.ilTableHeaderTitleBlock {
 	font-weight: bold;
-	font-size: 100%;
+	font-size: @il-font-size-base;
 	display: inline;
 	padding: 0;
 	margin: 0;
@@ -79,13 +79,13 @@ h3.ilTableHeaderTitle {
 
 div.ilTableOuter {
 	padding: 0;
-	background-color: @il-main-bg;
+	background-color: @il-main-dark-bg;
 }
 
 div.ilTableSelectAll {
 	background-color: @il-main-bg;
-	padding: 6px 8px;
-	font-size: 90%;
+	padding: @il-padding-large-vertical @il-padding-xlarge-horizontal;
+	font-size: @il-font-size-small;
 	border-top: 1px solid @il-main-border-color;
 }
 
@@ -95,8 +95,8 @@ div.ilTableSelectAll label {
 
 div.ilTableCommandRow, div.ilTableCommandRowTop {
 	background-color: @il-table-cmd-bg;
-	padding: 5px 8px;
-	font-size: 90%;
+	padding: @il-padding-large-vertical @il-padding-large-horizontal;
+	font-size: @il-font-size-small;
 }
 
 div.ilTableCommandRowTop {
@@ -107,7 +107,7 @@ span.ilTableFootLight {
 }
 
 div.ilTableFilterActivator {
-	margin: 0 0 5px 3px;
+	margin: 0 0 @il-padding-large-vertical @il-padding-large-horizontal;
 }
 
 .ilTableMenuItem {
@@ -116,27 +116,27 @@ div.ilTableFilterActivator {
 
 
 div.ilTableFilter {
-	padding: 0 0 5px 0;
+	padding: 0 0 @il-padding-large-vertical 0;
 	margin: 0;
 }
 
 legend.ilTableFilter {
-	font-size: 80%;
+	font-size: @il-font-size-xsmall;
 	border: none;
-	padding: 2px 5px;
-	margin: -12px 0 0;
+	padding: 0 @il-padding-xlarge-horizontal;
+	margin: 0;
 	font-weight: normal;
 	text-align: right;
 	> a {
-		margin-right: -20px;
-		margin-top: -15px;
+		margin-right: -@il-padding-xlarge-horizontal;
+		margin-top: -@il-margin-xxlarge-vertical ;
 	}
 }
 
 fieldset.ilTableFilter {
 	background-color: @il-main-dark-bg;
-	padding: 10px 15px;
-	margin:  5px 0 15px 0;
+	padding: @il-margin-xxlarge-vertical @il-padding-xlarge-horizontal;
+	margin:  @il-margin-large-vertical 0 @il-padding-xlarge-horizontal 0;
 }
 
 div.ilTableFilterLabel {
@@ -166,7 +166,7 @@ div.ilTableFilterInput .radio, div.ilTableFilterInput .checkbox {
 td.ilFilterOption {
 	text-align: left;
 	vertical-align: top;
-	font-size: 80%;
+	font-size: @il-font-size-xsmall;
 	white-space: nowrap;
 	padding: 0 10px 10px 0;
 	min-width: 150px;
@@ -174,7 +174,7 @@ td.ilFilterOption {
 
 
 td.ilFilterType {
-	font-size: 80%;
+	font-size: @il-font-size-xsmall;
 	font-weight: bold;
 	text-align: left;
 	white-space: nowrap;
@@ -192,13 +192,13 @@ div.ilTableContainer {
 tr.tblheader {
 	font-weight: normal;
 	background-color: @il-main-dark-bg;
-	font-size: 90%;
-	border-bottom: 1px solid #d6d6d6;
+	font-size: @il-font-size-small;
+	border-bottom: 1px solid @il-main-border-color;
 }
 
 /* ---------------- alternating tablerowcolors ----------------- */
 .tblrow2_mo {
-	background-color: @il-content-bg;
+	background-color: @il-main-darker-bg;
 	color: @il-text-color;
 	padding: 3px;
 }
@@ -220,7 +220,7 @@ tr.tblheader {
 }
 
 .tblrow2top {
-	background-color: @il-content-bg;
+	background-color: @il-main-darker-bg;
 	color: @il-text-color;
 	padding: 3px;
 	vertical-align: top;
@@ -250,6 +250,12 @@ div.ilTableCommandRowTop {
 
 .ilTableOuter .table {
 	background-color: @il-data-table-bg;
+
+	tr {
+		th:first-child, td:first-child {
+			padding-left: @il-padding-xlarge-horizontal;
+		}
+	}
 }
 
 td > img[src$="icon_custom.svg"] {

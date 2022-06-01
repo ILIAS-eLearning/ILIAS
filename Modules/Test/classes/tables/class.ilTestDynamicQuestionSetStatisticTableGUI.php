@@ -18,25 +18,14 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
     const COMPLETE_TABLE_ID = 'tstDynQuestCompleteStat';
     const FILTERED_TABLE_ID = 'tstDynQuestFilteredStat';
 
-    /**
-     * @var array
-     */
-    protected $taxIds = array();
+    protected array $taxIds = array();
     
-    private $taxonomyFilterEnabled = false;
+    private bool $taxonomyFilterEnabled = false;
     
-    private $answerStatusFilterEnabled = false;
+    private bool $answerStatusFilterEnabled = false;
     
-    /**
-     * @var ilTestDynamicQuestionSetFilterSelection
-     */
-    protected $filterSelection = null;
+    protected ?ilTestDynamicQuestionSetFilterSelection $filterSelection = null;
 
-    /**
-     * Constructor
-     *
-     * @global ilObjUser $ilUser
-     */
     public function __construct(ilCtrl $ctrl, ilLanguage $lng, $a_parent_obj, $a_parent_cmd, $tableId)
     {
         $this->setId($tableId);
@@ -66,28 +55,22 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
         $this->setDisableFilterHiding(true);
     }
     
-    /**
-     * @return ilTestDynamicQuestionSetFilterSelection
-     */
     public function getFilterSelection() : ?ilTestDynamicQuestionSetFilterSelection
     {
         return $this->filterSelection;
     }
-    
-    /**
-     * @param ilTestDynamicQuestionSetFilterSelection $filterSelection
-     */
-    public function setFilterSelection($filterSelection)
+
+    public function setFilterSelection(ilTestDynamicQuestionSetFilterSelection $filterSelection) : void
     {
         $this->filterSelection = $filterSelection;
     }
     
-    public function initTitle($titleLangVar)
+    public function initTitle(string $titleLangVar) : void
     {
         $this->setTitle($this->lng->txt($titleLangVar));
     }
     
-    public function initColumns($totalQuestionsColumnHeaderLangVar)
+    public function initColumns(string $totalQuestionsColumnHeaderLangVar) : void
     {
         $this->addColumn($this->lng->txt($totalQuestionsColumnHeaderLangVar), 'num_total_questions', '250');
         
@@ -97,9 +80,6 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("tst_num_non_answered_questions_notseen"), 'num_non_answered_questions_notseen', '');
     }
 
-    /**
-     * Init filter
-     */
     public function initFilter() : void
     {
         if ($this->isTaxonomyFilterEnabled()) {
@@ -141,12 +121,6 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * fill row
-     * @access public
-     * @param
-     * @return void
-     */
     public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('NUM_ALL_QUESTIONS', $a_set['total_all']);
@@ -156,50 +130,32 @@ class ilTestDynamicQuestionSetStatisticTableGUI extends ilTable2GUI
         $this->tpl->setVariable('NUM_NON_ANSWERED_QUESTIONS_NOTSEEN', $a_set['non_answered_notseen']);
     }
 
-    /**
-     * @param array $taxIds
-     */
-    public function setTaxIds($taxIds)
+    public function setTaxIds(array $taxIds)
     {
         $this->taxIds = $taxIds;
     }
 
-    /**
-     * @return array
-     */
     public function getTaxIds() : array
     {
         return $this->taxIds;
     }
 
-    /**
-     * @return boolean
-     */
     public function isAnswerStatusFilterEnabled() : bool
     {
         return $this->answerStatusFilterEnabled;
     }
 
-    /**
-     * @param boolean $answerStatusFilterEnabled
-     */
-    public function setAnswerStatusFilterEnabled($answerStatusFilterEnabled)
+    public function setAnswerStatusFilterEnabled(bool $answerStatusFilterEnabled)
     {
         $this->answerStatusFilterEnabled = $answerStatusFilterEnabled;
     }
 
-    /**
-     * @return boolean
-     */
     public function isTaxonomyFilterEnabled() : bool
     {
         return $this->taxonomyFilterEnabled;
     }
 
-    /**
-     * @param boolean $taxonomyFilterEnabled
-     */
-    public function setTaxonomyFilterEnabled($taxonomyFilterEnabled)
+    public function setTaxonomyFilterEnabled(bool $taxonomyFilterEnabled) : void
     {
         $this->taxonomyFilterEnabled = $taxonomyFilterEnabled;
     }

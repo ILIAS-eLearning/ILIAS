@@ -12,16 +12,19 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
 
     /**
      * ilOrgUnitExtension constructor.
-     * @param int $a_ref_id
      */
-    public function __construct($a_ref_id = 0)
+    public function __construct(int $a_ref_id = 0)
     {
         global $DIC;
-        $tree = $DIC['tree'];
+        $tree = $DIC->repositoryTree();
+
+        $http = $DIC->http();
+        $refinery = $DIC->refinery();
+        $ref_id = $http->wrapper()->query()->retrieve('ref_id', $refinery->to()->int());
 
         parent::__construct($a_ref_id);
         $this->ilObjOrgUnitTree = ilObjOrgUnitTree::_getInstance();
-        $this->parent_ref_id = $tree->getParentId($a_ref_id ? $a_ref_id : $_GET['ref_id']);
+        $this->parent_ref_id = $tree->getParentId($a_ref_id ? $a_ref_id : $ref_id);
         $this->tree = $tree;
     }
 
@@ -29,7 +32,7 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
      * Returns all Orgu Plugin Ids of active plugins where the Plugin wants to be shown in the tree. ($plugin->showInTree() == true)
      * @return string[]
      */
-    public static function getActivePluginIdsForTree()
+    public static function getActivePluginIdsForTree(): array
     {
         global $DIC;
         $component_factory = $DIC["component.factory"];
@@ -53,7 +56,7 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
      * @param bool $recursively include all employees in the suborgunits
      * @return int[]
      */
-    public function getEmployees($recursively = false)
+    public function getEmployees(bool $recursively = false): array
     {
         return $this->ilObjOrgUnitTree->getEmployees($this->parent_ref_id, $recursively);
     }
@@ -63,15 +66,12 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
      * @param bool $recursively
      * @return int[]
      */
-    public function getSuperiors($recursively = false)
+    public function getSuperiors(bool $recursively = false): array
     {
         return $this->ilObjOrgUnitTree->getSuperiors($this->parent_ref_id, $recursively);
     }
 
-    /**
-     * @return ilObjOrgUnit
-     */
-    public function getOrgUnit()
+    public function getOrgUnit(): ?ilObject
     {
         return ilObjectFactory::getInstanceByRefId($this->parent_ref_id);
     }
@@ -79,7 +79,7 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
     /**
      * @return int[] RefIds from the root OrgUnit to the underlying OrgUnit
      */
-    public function getOrgUnitPathRefIds()
+    public function getOrgUnitPathRefIds(): array
     {
         $path = array();
         foreach ($this->getOrgUnitPath() as $node) {
@@ -92,7 +92,7 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
     /**
      * @return array Returns the path to the underlying OrgUnit starting with the root OrgUnit. The array are nodes of the global $tree.
      */
-    public function getOrgUnitPath()
+    public function getOrgUnitPath(): array
     {
         return $this->tree->getPathFull($this->parent_ref_id, ilObjOrgUnit::getRootOrgRefId());
     }
@@ -100,7 +100,7 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
     /**
      * @return string[] Returns the titles to the underlying OrgUnit starting with the root OrgUnit.
      */
-    public function getOrgUnitPathTitles()
+    public function getOrgUnitPathTitles(): array
     {
         $titles = array();
         foreach ($this->getOrgUnitPath() as $node) {
@@ -118,7 +118,7 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
      * @param string $type      what type are you looking for?
      * @return array
      */
-    public function getOrgUnitSubtree($with_data = true, $type = "")
+    public function getOrgUnitSubtree(bool $with_data = true, string $type = ""): array
     {
         $node = $this->tree->getNodeData($this->parent_ref_id);
 

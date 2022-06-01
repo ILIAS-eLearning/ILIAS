@@ -168,7 +168,7 @@ class ilObjAwarenessAdministrationGUI extends ilObjectGUI
             foreach ($prov as $p) {
                 $this->admin_manager->setActivationMode(
                     $p->getProviderId(),
-                    $form->getInput("up_act_mode_" . $p->getProviderId())
+                    (int) $form->getInput("up_act_mode_" . $p->getProviderId())
                 );
             }
 

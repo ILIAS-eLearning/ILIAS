@@ -192,7 +192,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
         ilObjectListGUI::prepareJsLinks(
             "",
-            $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "ilnotegui"], "", "", true, false),
+            "",
             $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "", "", true, false)
         );
         

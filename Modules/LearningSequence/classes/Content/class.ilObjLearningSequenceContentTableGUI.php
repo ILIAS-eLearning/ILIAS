@@ -68,6 +68,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
     protected function fillRow(array $a_set) : void
     {
         /** @var LSItem $a_set */
+        $a_set = $a_set[0];
 
         $ni = new ilNumberInputGUI(
             "",
@@ -178,7 +179,7 @@ class ilObjLearningSequenceContentTableGUI extends ilTable2GUI
 
         $props = array_filter(
             $action_items,
-            fn($action_item) => $action_item['cmd'] === $prop_for_type
+            fn ($action_item) => $action_item['cmd'] === $prop_for_type
         );
 
         if ($props !== []) {

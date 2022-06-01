@@ -26,6 +26,35 @@
 */
 class ilObjSAHSLearningModule extends ilObject
 {
+    private string $api_func_prefix;
+    private string $credit_mode;
+    private string $lesson_mode;
+    private int $style_id;
+    private string $auto_review;
+    private int $max_attempt;
+    private int $module_version;
+    private int $assigned_glossary;
+    private bool $session;
+    private bool $no_menu;
+    private bool $hide_navig;
+    private bool $ie_force_render;
+    private bool $fourth_edition;
+    private bool $interactions;
+    private bool $objectives;
+    private bool $comments;
+    private bool $time_from_lms;
+    private bool $check_values;
+    private bool $debug;
+    private bool $auto_continue;
+    private bool $auto_last_visited;
+    private bool $auto_suspend;
+    private int $open_mode;
+    private int $width;
+    private int $height;
+    private ?int $mastery_score;
+    private int $id_setting;
+    private int $name_setting;
+    private string $sub_type;
     protected bool $sequencing = false;
 
     protected string $localization = "";
@@ -285,7 +314,7 @@ class ilObjSAHSLearningModule extends ilObject
      */
     public function getAPIFunctionsPrefix() : string
     {
-        return $this->api_func_prefix;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->api_func_prefix;
     }
 
     /**
@@ -301,7 +330,7 @@ class ilObjSAHSLearningModule extends ilObject
      */
     public function getCreditMode() : string
     {
-        return $this->credit_mode;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->credit_mode;
     }
 
     /**
@@ -317,7 +346,7 @@ class ilObjSAHSLearningModule extends ilObject
      */
     public function setDefaultLessonMode(string $a_lesson_mode) : void
     {
-        $this->lesson_mode = $a_lesson_mode;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        $this->lesson_mode = $a_lesson_mode;
     }
 
     /**
@@ -337,7 +366,7 @@ class ilObjSAHSLearningModule extends ilObject
      */
     public function getStyleSheetId() : int
     {
-        return $this->style_id;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->style_id;
     }
 
     /**
@@ -353,7 +382,7 @@ class ilObjSAHSLearningModule extends ilObject
      */
     public function setAutoReview(bool $a_auto_review) : void
     {
-        $this->auto_review = ilUtil::tf2yn($a_auto_review);//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        $this->auto_review = ilUtil::tf2yn($a_auto_review);
     }
 
     /**
@@ -382,7 +411,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function getMaxAttempt() : int
     {
-        return $this->max_attempt;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->max_attempt;
     }
 
     public function setMaxAttempt(int $a_max_attempt) : void
@@ -392,12 +421,12 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function getModuleVersion() : int
     {
-        return $this->module_version;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->module_version;
     }
 
     public function getAssignedGlossary() : int
     {
-        return $this->assigned_glossary;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->assigned_glossary;
     }
 
     public function setAssignedGlossary(int $a_assigned_glossary) : void
@@ -412,7 +441,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function getSession() : bool
     {
-        return $this->session;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->session;
     }
 
     public function setSession(bool $a_session) : void
@@ -425,7 +454,7 @@ class ilObjSAHSLearningModule extends ilObject
      */
     public function getNoMenu() : bool
     {
-        return $this->no_menu;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->no_menu;
     }
 
     /**
@@ -441,7 +470,7 @@ class ilObjSAHSLearningModule extends ilObject
      */
     public function getHideNavig() : bool
     {
-        return $this->hide_navig;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->hide_navig;
     }
 
     /**
@@ -490,7 +519,7 @@ class ilObjSAHSLearningModule extends ilObject
      */
     public function getIe_force_render() : bool
     {
-        return $this->ie_force_render;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->ie_force_render;
     }
 
     public function setIe_force_render(bool $a_ie_force_render) : void
@@ -503,7 +532,7 @@ class ilObjSAHSLearningModule extends ilObject
      */
     public function getFourth_Edition() : bool
     {
-        return $this->fourth_edition;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->fourth_edition;
     }
 
     public function setFourth_edition(bool $a_fourth_edition) : void
@@ -523,7 +552,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function getInteractions() : bool
     {
-        return $this->interactions;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->interactions;
     }
 
     public function setInteractions(bool $a_interactions) : void
@@ -533,7 +562,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function getObjectives() : bool
     {
-        return $this->objectives;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->objectives;
     }
 
     public function setObjectives(bool $a_objectives) : void
@@ -543,7 +572,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function getComments() : bool
     {
-        return $this->comments;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->comments;
     }
 
     public function setComments(bool $a_comments) : void
@@ -553,7 +582,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function getTime_from_lms() : bool
     {
-        return $this->time_from_lms;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->time_from_lms;
     }
 
     public function setTime_from_lms(bool $a_time_from_lms) : void
@@ -563,7 +592,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function getCheck_values() : bool
     {
-        return $this->check_values;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->check_values;
     }
 
     public function setCheck_values(bool $a_check_values) : void
@@ -586,7 +615,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function getDebug() : bool
     {
-        return $this->debug;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->debug;
     }
 
     public function setDebug(bool $a_debug) : void
@@ -612,7 +641,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function setAutoContinue(bool $a_auto_continue) : void
     {
-        $this->auto_continue = $a_auto_continue;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        $this->auto_continue = $a_auto_continue;
     }
 
     public function getAutoContinue() : bool
@@ -622,7 +651,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function getAuto_last_visited() : bool
     {
-        return $this->auto_last_visited;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->auto_last_visited;
     }
 
     public function setAuto_last_visited(bool $a_auto_last_visited) : void
@@ -653,7 +682,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function setAutoSuspend(bool $a_auto_suspend) : void
     {
-        $this->auto_suspend = $a_auto_suspend;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        $this->auto_suspend = $a_auto_suspend;
     }
 
     public function getAutoSuspend() : bool
@@ -673,7 +702,7 @@ class ilObjSAHSLearningModule extends ilObject
      */
     public function getOpenMode() : int
     {
-        return $this->open_mode;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->open_mode;
     }
 
     public function setOpenMode(int $a_open_mode) : void
@@ -683,7 +712,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function getWidth() : int
     {
-        return $this->width;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->width;
     }
 
     public function setWidth(int $a_width) : void
@@ -693,7 +722,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function getHeight() : int
     {
-        return $this->height;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->height;
     }
 
     public function setHeight(int $a_height) : void
@@ -703,7 +732,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function getMasteryScore() : ?int
     {
-        return $this->mastery_score;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->mastery_score;
     }
 
     public function setMasteryScore(?int $a_mastery_score) : void
@@ -753,7 +782,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function getIdSetting() : int
     {
-        return $this->id_setting;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->id_setting;
     }
 
     public function setIdSetting(int $a_id_setting) : void
@@ -763,7 +792,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function getNameSetting() : int
     {
-        return $this->name_setting;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        return $this->name_setting;
     }
 
     public function setNameSetting(int $a_name_setting) : void
@@ -940,7 +969,7 @@ class ilObjSAHSLearningModule extends ilObject
 
     public function setSubType(string $a_sub_type) : void
     {
-        $this->sub_type = $a_sub_type;//PHP8Review: Missing Typehint. Also shouldnt be declared dynamicly
+        $this->sub_type = $a_sub_type;
     }
 
     public function getSubType() : string

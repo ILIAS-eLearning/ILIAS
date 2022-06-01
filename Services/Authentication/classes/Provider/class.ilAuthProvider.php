@@ -15,7 +15,7 @@
  *****************************************************************************/
 
 /**
- * Base class for authentication providers (radius, ldap, apache, ...)
+ * Base class for authentication providers (ldap, apache, ...)
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  *

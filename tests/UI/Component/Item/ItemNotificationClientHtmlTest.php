@@ -81,10 +81,10 @@ class ItemNotificationClientHtmlTest extends ILIAS_UI_TestBase
         );
 
         $glyph = $f->symbol()->glyph()->notification()->withCounter($this->getUIFactory()->counter()->novelty(2));
-        $notifcation_center = $f->mainControls()->slate()->combined("notification center", $glyph)
+        $notification_center = $f->mainControls()->slate()->combined("notification center", $glyph)
                                                          ->withAdditionalEntry($notification_slate);
 
-        $this->metabar = $f->mainControls()->metaBar()->withAdditionalEntry("Test Slate", $notifcation_center);
+        $this->metabar = $f->mainControls()->metaBar()->withAdditionalEntry("Test Slate", $notification_center);
         $rendered_html = $this->getDefaultRenderer()->render($this->metabar);
 
         $this->assertEquals($this->brutallyTrimHTML($expected_html), $this->brutallyTrimHTML($rendered_html));

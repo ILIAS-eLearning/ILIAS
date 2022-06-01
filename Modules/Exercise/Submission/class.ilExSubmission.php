@@ -1252,7 +1252,7 @@ class ilExSubmission
      * @throws ilExerciseException
      */
     public function addResourceObject(
-        int $a_wsp_id,
+        string $a_wsp_id,                   // note: text assignments currently call this with "TEXT"
         string $a_text = null
     ) : int {
         $ilDB = $this->db;

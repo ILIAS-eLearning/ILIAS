@@ -16,7 +16,7 @@
  * Class ilAccountRegistrationMail
  * @author Michael Jansen <mjansen@databay.de>
  */
-class ilAccountRegistrationMail extends \ilMimeMailNotification
+class ilAccountRegistrationMail extends ilMimeMailNotification
 {
     protected const MODE_DIRECT_REGISTRATION = 1;
     protected const MODE_REGISTRATION_WITH_EMAIL_CONFIRMATION = 2;
@@ -79,16 +79,7 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
             $user->getLanguage()
         ));
 
-        $mailData = ilObjUserFolder::_lookupNewAccountMail($user->getLanguage());
-        if (!is_array($mailData)) {
-            $this->logger->debug(sprintf(
-                "Did not find any email configuration for language '%s' at all, skipping attempt ...",
-                $user->getLanguage()
-            ));
-            return false;
-        }
-
-        $mailData = array_map($trimStrings, $mailData);
+        $mailData = array_map($trimStrings, ilObjUserFolder::_lookupNewAccountMail($user->getLanguage()));
 
         if ($this->isEmptyMailConfigurationData($mailData)) {
             $this->logger->debug(sprintf(
@@ -123,12 +114,12 @@ class ilAccountRegistrationMail extends \ilMimeMailNotification
             $fs = new ilFSStorageUserFolder(USER_FOLDER_ID);
             $fs->create();
 
-            $pathToFile = '/' . implode('/', array_map(static function ($pathPart) {
+            $pathToFile = '/' . implode('/', array_map(static function (string $pathPart) : string {
                 return trim($pathPart, '/');
             }, [
-                    $fs->getAbsolutePath(),
-                    $mailData['lang'],
-                ]));
+                $fs->getAbsolutePath(),
+                $mailData['lang'],
+            ]));
 
             $accountMail->addAttachment($pathToFile, $mailData['att_file']);
 

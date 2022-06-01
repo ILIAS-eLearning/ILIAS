@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilDclTokenizer
@@ -11,9 +27,8 @@ class ilDclTokenizer
     /**
      * Split expression by & (ignore escaped &-symbols with backslash)
      * @param string $expression Global expression to parse
-     * @return array
      */
-    public static function getTokens($expression)
+    public static function getTokens(string $expression) : array
     {
         $expression = ltrim($expression, '=');
         $expression = trim($expression);
@@ -35,9 +50,8 @@ class ilDclTokenizer
     /**
      * Generate tokens for a math expression
      * @param string $math_expression Expression of type math
-     * @return array
      */
-    public static function getMathTokens($math_expression)
+    public static function getMathTokens(string $math_expression) : array
     {
         $operators = array_keys(ilDclExpressionParser::getOperators());
         $pattern = '#((^\[\[)[\d\.]+)|(\(|\)|\\' . implode("|\\", $operators) . ')#';

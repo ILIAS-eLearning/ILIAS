@@ -59,50 +59,8 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
-        if ($this->request->isset('q_id')) {
-            if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-                // edit page
-                $ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    false
-                );
-            }
-
-            $this->addTab_QuestionPreview($ilTabs);
-        }
-
-        $force_active = false;
-        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
-            $url = "";
-
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            $commands = $_POST["cmd"];
-            if (is_array($commands)) {
-                foreach ($commands as $key => $value) {
-                    if (preg_match("/^suggestrange_.*/", $key, $matches)) {
-                        $force_active = true;
-                    }
-                }
-            }
-            // edit question properties
-            $ilTabs->addTarget(
-                "edit_question",
-                $url,
-                array(
-                    "editQuestion", "save", "cancel", "addSuggestedSolution",
-                    "cancelExplorer", "linkChilds", "removeSuggestedSolution",
-                    "parseQuestion", "saveEdit", "suggestRange"
-                ),
-                $classname,
-                "",
-                $force_active
-            );
+        if ($_GET["q_id"]) {
+            $this->addTab_Question($ilTabs);
         }
 
         if ($this->request->isset('q_id')) {
@@ -140,7 +98,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
      * Suggest a range for a result
      * @access public
      */
-    public function suggestRange()
+    public function suggestRange() : void
     {
         if ($this->writePostData()) {
             $this->tpl->setOnScreenMessage('info', $this->getErrorMessage());
@@ -172,8 +130,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
             $found_vars = array();
             $found_results = array();
 
-            
-            foreach ($_POST as $key => $value) {
+            foreach ($this->request->getParsedBody() as $key => $value) {
                 if (preg_match("/^unit_(\\\$v\d+)$/", $key, $matches)) {
                     array_push($found_vars, $matches[1]);
                 }
@@ -274,7 +231,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
     }
 
-    public function resetSavedPreviewSession()
+    public function resetSavedPreviewSession() : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -655,7 +612,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         if ($save) {
             $found_vars = array();
             $found_results = array();
-            foreach ($_POST as $key => $value) {
+            foreach ($this->request->getParsedBody() as $key => $value) {
                 if (preg_match("/^unit_(\\\$v\d+)$/", $key, $matches)) {
                     array_push($found_vars, $matches[1]);
                 }
@@ -695,9 +652,12 @@ class assFormulaQuestionGUI extends assQuestionGUI
                         $custom_errors = true;
                     }
                     $intPrecision = $form->getItemByPostVar('intprecision_' . $variable->getVariable());
-                    if ($intPrecision->getValue() > $max_range->getValue()) {
-                        $intPrecision->setAlert($this->lng->txt('err_division'));
-                        $custom_errors = true;
+                    $decimal_spots = $form->getItemByPostVar('precision_' . $variable->getVariable());
+                    if ($decimal_spots->getValue() == 0) {
+                        if ($intPrecision->getValue() > $max_range->getValue()) {
+                            $intPrecision->setAlert($this->lng->txt('err_division'));
+                            $custom_errors = true;
+                        }
                     }
                 }
             }
@@ -814,13 +774,13 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
     }
 
-    public function parseQuestion()
+    public function parseQuestion() : void
     {
         $this->writePostData();
         $this->editQuestion();
     }
     
-    public function saveReturnFQ()
+    public function saveReturnFQ() : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -898,7 +858,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         }
     }
 
-    public function saveFQ()
+    public function saveFQ() : void
     {
         $result = $this->writePostData();
 

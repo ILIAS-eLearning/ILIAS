@@ -582,7 +582,7 @@ abstract class ilAdvancedMDFieldDefinition
 
         $perm = $a_permissions->hasPermissions(
             ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-            $this->getFieldId(),
+            (int) $this->getFieldId(),
             array(
                 array(ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
                       ilAdvancedMDPermissionHelper::SUBACTION_FIELD_TITLE
@@ -689,12 +689,12 @@ abstract class ilAdvancedMDFieldDefinition
             $this->setDescription($a_form->getInput("description"));
         }
         if (!$a_form->getItemByPostVar("searchable")->getDisabled()) {
-            $this->setSearchable($a_form->getInput("searchable"));
+            $this->setSearchable((bool) $a_form->getInput("searchable"));
         }
 
         if ($a_permissions->hasPermission(
             ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
-            $this->getFieldId(),
+            (int) $this->getFieldId(),
             ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY,
             ilAdvancedMDPermissionHelper::SUBACTION_FIELD_PROPERTIES
         )) {
@@ -787,8 +787,11 @@ abstract class ilAdvancedMDFieldDefinition
         $this->setPosition((int) $a_data["position"]);
         $this->setSearchable((bool) $a_data["searchable"]);
         $this->setRequired((bool) $a_data["required"]);
-        if ($a_data["field_values"]) {
-            $this->importFieldDefinition(unserialize($a_data["field_values"]));
+        if (isset($a_data['field_values'])) {
+            $field_values = unserialize($a_data['field_values']);
+            if (is_array($field_values)) {
+                $this->importFieldDefinition($field_values);
+            }
         }
     }
 
@@ -894,11 +897,15 @@ abstract class ilAdvancedMDFieldDefinition
         $a_writer->xmlStartTag('FieldTranslations');
         foreach ($translations->getTranslations($this->getFieldId()) as $translation) {
             $a_writer->xmlStartTag('FieldTranslation', ['language' => $translation->getLangKey()]);
-            $a_writer->xmlElement('FieldTranslationTitle', [],
-                                  $translation->getTitle()
+            $a_writer->xmlElement(
+                'FieldTranslationTitle',
+                [],
+                $translation->getTitle()
             );
-            $a_writer->xmlElement('FieldTranslationDescription', [],
-                                  $translation->getDescription()
+            $a_writer->xmlElement(
+                'FieldTranslationDescription',
+                [],
+                $translation->getDescription()
             );
             $a_writer->xmlEndTag('FieldTranslation');
         }

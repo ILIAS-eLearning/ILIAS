@@ -51,7 +51,7 @@ class ilQuestionEditGUI
     *
     * @param	boolean	$a_selfassessmenteditingmode	Self-Assessment Editing Mode
     */
-    public function setSelfAssessmentEditingMode($a_selfassessmenteditingmode)
+    public function setSelfAssessmentEditingMode($a_selfassessmenteditingmode) : void
     {
         $this->selfassessmenteditingmode = $a_selfassessmenteditingmode;
     }
@@ -71,7 +71,7 @@ class ilQuestionEditGUI
     *
     * @param	int	$a_defaultnroftries		Default Nr. of Tries
     */
-    public function setDefaultNrOfTries($a_defaultnroftries)
+    public function setDefaultNrOfTries($a_defaultnroftries) : void
     {
         $this->defaultnroftries = $a_defaultnroftries;
     }
@@ -91,7 +91,7 @@ class ilQuestionEditGUI
      *
      * @param	object	Page Config
      */
-    public function setPageConfig($a_val)
+    public function setPageConfig($a_val) : void
     {
         $this->page_config = $a_val;
     }
@@ -111,7 +111,7 @@ class ilQuestionEditGUI
     * Add a listener that is notified with the new question ID, when
     * a new question is saved
     */
-    public function addNewIdListener(&$a_object, $a_method, $a_parameters = "")
+    public function addNewIdListener(&$a_object, $a_method, $a_parameters = "") : void
     {
         $cnt = $this->new_id_listener_cnt;
         $this->new_id_listeners[$cnt]["object"] = &$a_object;
@@ -189,7 +189,7 @@ class ilQuestionEditGUI
     *
     * @param	int	$a_questionid	Question Id
     */
-    public function setQuestionId($a_questionid)
+    public function setQuestionId($a_questionid) : void
     {
         $this->questionid = $a_questionid;
         $_GET["q_id"] = $this->questionid; // TODO / TATS: How to address this?
@@ -210,7 +210,7 @@ class ilQuestionEditGUI
     *
     * @param	int	$a_poolrefid	Pool Ref ID
     */
-    public function setPoolRefId($a_poolrefid)
+    public function setPoolRefId($a_poolrefid) : void
     {
         //echo "<br>Setting Pool Ref ID:".$a_poolrefid;
         $this->poolrefid = $a_poolrefid;
@@ -233,7 +233,7 @@ class ilQuestionEditGUI
     *
     * @param	int	$a_poolobjid	Pool Obj Id
     */
-    public function setPoolObjId($a_poolobjid)
+    public function setPoolObjId($a_poolobjid) : void
     {
         //echo "<br>Setting Pool Obj ID:".$a_poolobjid;
         $this->poolobjid = $a_poolobjid;
@@ -255,7 +255,7 @@ class ilQuestionEditGUI
     *
     * @param	string	$a_questiontype	Question Type
     */
-    public function setQuestionType($a_questiontype)
+    public function setQuestionType($a_questiontype) : void
     {
         $this->questiontype = $a_questiontype;
         $_GET["q_type"] = $this->questiontype;

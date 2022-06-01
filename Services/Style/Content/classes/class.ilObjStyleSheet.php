@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjStyleSheet
@@ -802,7 +805,7 @@ class ilObjStyleSheet extends ilObject
                     $obj_ids = self::lookupObjectForStyle((int) $style_rec["id"]);
                 }
                 foreach ($obj_ids as $id) {
-                    $ref = ilObject::_getAllReferences($id);
+                    $ref = ilObject::_getAllReferences((int) $id);
                     foreach ($ref as $ref_id) {
                         if ($ilAccess->checkAccess("write", "", $ref_id)) {
                             $clonable = true;

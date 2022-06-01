@@ -95,7 +95,7 @@ class ilObjectCopySelectionTableGUI extends ilTable2GUI
             if (!trim($r['title']) && $r['type'] == 'sess') {
                 // use session date as title if no object title
                 $app_info = ilSessionAppointment::_lookupAppointment($node["obj_id"]);
-                $r['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
+                $r['title'] = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], (bool) $app_info['fullday']);
             }
             
             $rows[] = $r;

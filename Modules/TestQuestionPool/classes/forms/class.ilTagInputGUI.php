@@ -41,7 +41,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param int $max_tags
      */
-    public function setMaxTags($max_tags)
+    public function setMaxTags($max_tags) : void
     {
         $this->max_tags = $max_tags;
     }
@@ -49,7 +49,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param int $max_chars
      */
-    public function setMaxChars($max_chars)
+    public function setMaxChars($max_chars) : void
     {
         $this->max_chars = $max_chars;
     }
@@ -57,7 +57,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param boolean $allow_duplicates
      */
-    public function setAllowDuplicates($allow_duplicates)
+    public function setAllowDuplicates($allow_duplicates) : void
     {
         $this->allow_duplicates = $allow_duplicates;
     }
@@ -65,7 +65,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param boolean $js_self_init
      */
-    public function setJsSelfInit($js_self_init)
+    public function setJsSelfInit($js_self_init) : void
     {
         $this->js_self_init = $js_self_init;
     }
@@ -73,7 +73,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param boolean $type_ahead
      */
-    public function setTypeAhead($type_ahead)
+    public function setTypeAhead($type_ahead) : void
     {
         $this->type_ahead = $type_ahead;
     }
@@ -81,7 +81,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param boolean $type_ahead_ignore_case
      */
-    public function setTypeAheadIgnoreCase($type_ahead_ignore_case)
+    public function setTypeAheadIgnoreCase($type_ahead_ignore_case) : void
     {
         $this->type_ahead_ignore_case = $type_ahead_ignore_case;
     }
@@ -89,7 +89,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param int $min_length
      */
-    public function setTypeAheadMinLength($min_length)
+    public function setTypeAheadMinLength($min_length) : void
     {
         $this->type_ahead_min_length = $min_length;
     }
@@ -97,7 +97,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param int $limit
      */
-    public function setTypeAheadLimit($limit)
+    public function setTypeAheadLimit($limit) : void
     {
         $this->type_ahead_limit = $limit;
     }
@@ -105,7 +105,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param boolean $highlight
      */
-    public function setTypeAheadHighlight($highlight)
+    public function setTypeAheadHighlight($highlight) : void
     {
         $this->type_ahead_highlight = $highlight;
     }
@@ -113,7 +113,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param array $type_ahead_list
      */
-    public function setTypeAheadList($type_ahead_list)
+    public function setTypeAheadList($type_ahead_list) : void
     {
         $this->type_ahead_list = $type_ahead_list;
     }
@@ -123,7 +123,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
      *
      * @param	array	$a_options	Options.
      */
-    public function setOptions($a_options)
+    public function setOptions($a_options) : void
     {
         $this->options = $a_options;
     }
@@ -163,7 +163,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     *
     * @param	array	$a_values	value array
     */
-    public function setValueByArray($a_values)
+    public function setValueByArray($a_values) : void
     {
         $this->setOptions($a_values[$this->getPostVar()]);
         foreach ($this->getSubItems() as $item) {
@@ -244,7 +244,7 @@ class ilTagInputGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param $a_tpl
      */
-    public function insert($a_tpl)
+    public function insert($a_tpl) : void
     {
         $a_tpl->setCurrentBlock("prop_generic");
         $a_tpl->setVariable("PROP_GENERIC", $this->render());

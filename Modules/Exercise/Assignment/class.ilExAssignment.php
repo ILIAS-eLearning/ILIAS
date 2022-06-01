@@ -505,7 +505,7 @@ class ilExAssignment
         return $this->peer_personal;
     }
     
-    public function setPeerReviewChars(int $a_value) : void
+    public function setPeerReviewChars(?int $a_value) : void
     {
         $a_value = (is_numeric($a_value) && (int) $a_value > 0)
             ? (int) $a_value

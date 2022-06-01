@@ -46,7 +46,7 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
         return $this->originalPresentationTitle;
     }
 
-    public function setOriginalPresentationTitle($originalPresentationTitle)
+    public function setOriginalPresentationTitle($originalPresentationTitle) : void
     {
         $this->originalPresentationTitle = $originalPresentationTitle;
     }
@@ -89,7 +89,7 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
      * Set the HTML of a question info block below the title (number, status, ...)
      * @param string	$a_html
      */
-    public function setQuestionInfoHTML($a_html)
+    public function setQuestionInfoHTML($a_html) : void
     {
         $this->questionInfoHTML = $a_html;
     }
@@ -98,7 +98,7 @@ class ilAssQuestionPageGUI extends ilPageObjectGUI
      * Set the HTML of a question actions block below the title
      * @param string 	$a_html
      */
-    public function setQuestionActionsHTML($a_html)
+    public function setQuestionActionsHTML($a_html) : void
     {
         $this->questionActionsHTML = $a_html;
     }

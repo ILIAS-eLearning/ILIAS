@@ -1,6 +1,22 @@
 <?php declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilDBConstants
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -15,12 +31,10 @@ class ilDBConstants
     const TYPE_MYSQL = 'mysql';
     // Experimental
     const TYPE_GALERA = 'galera';
-    const TYPE_POSTGRES = 'postgres';
     const TYPE_MYSQLI = 'mysqli';
     // Development identifiers (will be removed in 5.3), are mapped with Main and Experimental types
     const TYPE_PDO_MYSQL_INNODB = 'pdo-mysql-innodb';
     const TYPE_PDO_MYSQL_GALERA = 'pdo-mysql-galera';
-    const TYPE_PDO_POSTGRE = 'pdo-postgre';
     // Locks
     const LOCK_WRITE = ilAtomQuery::LOCK_WRITE;
     const LOCK_READ = ilAtomQuery::LOCK_READ;
@@ -79,15 +93,11 @@ class ilDBConstants
      */
     protected static array $descriptions = array(
         // Main
-        ilDBConstants::TYPE_MYSQL => "MySQL 5.5.x or higher (MyISAM engine)",
-        ilDBConstants::TYPE_MYSQLI => "MySQL 5.5.x or higher (MyISAM engine)",
-        ilDBConstants::TYPE_INNODB => "MySQL 5.5.x or higher (InnoDB engine)",
-        // Experimental
-        ilDBConstants::TYPE_POSTGRES => "Postgres (experimental)",
+        ilDBConstants::TYPE_MYSQL => "MySQL 5.7.x or higher with InnoDB-Engine",
+        ilDBConstants::TYPE_MYSQLI => "MySQL 5.7.x or higher with InnoDB-Engine",
+        ilDBConstants::TYPE_INNODB => "MySQL 5.7.x or higher with InnoDB-Engine",
         ilDBConstants::TYPE_GALERA => "Galera-Cluster (experimental)",
         // Development identifiers (will be removed in 5.3)
-        ilDBConstants::TYPE_PDO_MYSQL_INNODB => "MySQL 5.7.x or higher (InnoDB engine) [developers-identifier]",
-        ilDBConstants::TYPE_PDO_POSTGRE => "Postgres (experimental) [developers-identifier]",
         ilDBConstants::TYPE_PDO_MYSQL_GALERA => "Galera-Cluster (experimental) [developers-identifier]",
     );
 
@@ -127,7 +137,6 @@ class ilDBConstants
         return array(
             ilDBConstants::TYPE_MYSQL,
             ilDBConstants::TYPE_INNODB,
-            ilDBConstants::TYPE_POSTGRES,
             ilDBConstants::TYPE_GALERA,
         );
     }

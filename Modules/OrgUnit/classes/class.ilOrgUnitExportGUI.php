@@ -8,43 +8,26 @@
  */
 class ilOrgUnitExportGUI extends ilExportGUI
 {
-
-    /**
-     * @var ilToolbarGUI
-     */
     protected ilToolbarGUI $toolbar;
-    /**
-     * @var ilLanguage
-     */
     protected ilLanguage $lng;
-    /**
-     * @var ilCtrl
-     */
     protected ilCtrlInterface $ctrl;
-    /**
-     * @var ilObjOrgUnit
-     */
-    protected $ilObjOrgUnit;
+    protected ilObject $ilObjOrgUnit;
 
-    /**
-     * @param ilObjOrgUnitGUI $a_parent_gui
-     * @param null            $a_main_obj
-     */
-    public function __construct(ilObjOrgUnitGUI $a_parent_gui, $a_main_obj = null)
+    public function __construct(ilObjOrgUnitGUI $a_parent_gui, /*null|ilObject|ilObjOrgUnit*/ ?ilObject $a_main_obj = null)
     {
         global $DIC;
-        $ilToolbar = $DIC['ilToolbar'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
+        $ilToolbar = $DIC->toolbar();
+        $lng = $DIC->language();
+        $ilCtrl = $DIC->ctrl();
 
         parent::__construct($a_parent_gui, $a_main_obj);
 
         $this->toolbar = $ilToolbar;
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        $this->ilObjOrgUnit = $a_parent_gui->object;
+        $this->ilObjOrgUnit = $a_parent_gui->getObject();
 
-        if ($this->ilObjOrgUnit->getRefId() == ilObjOrgUnit::getRootOrgRefId()) {
+        if ($this->ilObjOrgUnit->getRefId() === ilObjOrgUnit::getRootOrgRefId()) {
             //Simple XML and Simple XLS Export should only be available in the root orgunit folder as it always exports the whole tree
             $this->extendExportGUI();
         }
@@ -57,20 +40,20 @@ class ilOrgUnitExportGUI extends ilExportGUI
         }
     }
 
-    private function extendExportGUI()
+    private function extendExportGUI() : void
     {
         $this->toolbar->addButton($this->lng->txt("simple_xml"), $this->ctrl->getLinkTarget($this, "simpleExport"));
         $this->toolbar->addButton($this->lng->txt("simple_xls"),
             $this->ctrl->getLinkTarget($this, "simpleExportExcel"));
     }
 
-    public function simpleExport()
+    public function simpleExport() : void
     {
         $ilOrgUnitExporter = new ilOrgUnitExporter();
         $ilOrgUnitExporter->sendAndCreateSimpleExportFile();
     }
 
-    public function simpleExportExcel()
+    public function simpleExportExcel() : void
     {
         $ilOrgUnitExporter = new ilOrgUnitExporter();
         $ilOrgUnitExporter->simpleExportExcel(ilObjOrgUnit::getRootOrgRefId());

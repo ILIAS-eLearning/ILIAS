@@ -194,7 +194,7 @@ class ilRegistrationSettings
     public function setAllowedDomains(string $a_value) : void
     {
         $a_value = array_map(
-            static function ($value) {
+            static function (string $value) : string {
                 return trim($value);
             },
             explode(";", trim($a_value))
@@ -210,10 +210,10 @@ class ilRegistrationSettings
 
     public function validate() : int
     {
-        $this->unknown = array();
+        $this->unknown = [];
 
         $login_arr = explode(',', $this->getApproveRecipientLogins());
-        $login_arr = $login_arr ?: array();
+        $login_arr = $login_arr ?: [];
         $valid = [];
         foreach ($login_arr as $recipient) {
             if (!$recipient = trim($recipient)) {
@@ -258,11 +258,14 @@ class ilRegistrationSettings
         $this->reg_hash_life_time = (int) $this->settings->get('reg_hash_life_time');
         $this->reg_allow_codes = (bool) $this->settings->get('reg_allow_codes');
 
-        $this->approve_recipient_ids = (array) unserialize(stripslashes($this->settings->get('approve_recipient')), ['allowed_classes' => false]);
-        $this->approve_recipient_ids = $this->approve_recipient_ids ?: array();
+        $this->approve_recipient_ids = (array) unserialize(
+            stripslashes($this->settings->get('approve_recipient')),
+            ['allowed_classes' => false]
+        );
+        $this->approve_recipient_ids = $this->approve_recipient_ids ?: [];
 
         // create login array
-        $tmp_logins = array();
+        $tmp_logins = [];
         foreach ($this->approve_recipient_ids as $id) {
             if ($login = ilObjUser::_lookupLogin($id)) {
                 $tmp_logins[] = $login;

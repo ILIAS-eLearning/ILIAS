@@ -722,7 +722,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         global $tpl;
 
         // @todo move this to auth utils.
-        // login via ILIAS (this also includes radius and ldap)
+        // login via ILIAS (this also includes ldap)
         // If local authentication is enabled for shibboleth users, we
         // display the login form for ILIAS here.
         if (($this->setting->get("auth_mode") != ilAuthUtils::AUTH_SHIBBOLETH ||
@@ -1448,7 +1448,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
      */
     protected function showTermsOfService(bool $accepted = false) : void
     {
-        $back_to_login = ('getAcceptance' != $this->ctrl->getCmd());
+        $back_to_login = ('getAcceptance' !== $this->ctrl->getCmd());
         $target = $this->initTargetFromQuery();
 
         if (!$this->user->getId()) {
@@ -1471,9 +1471,9 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                     if (ilSession::get('orig_request_target')) {
                         $target = ilSession::get('orig_request_target');
                         ilSession::set('orig_request_target', '');
-                        ilUtil::redirect($target);
+                        $this->ctrl->redirectToURL($target);
                     } else {
-                        ilUtil::redirect('index.php?target=' . $target . '&client_id=' . CLIENT_ID);
+                        $this->ctrl->redirectToURL('index.php?target=' . $target . '&client_id=' . CLIENT_ID);
                     }
                 }
 
@@ -1492,7 +1492,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 );
             }
 
-            $tpl->setPermanentLink('usr', null, 'agreement');
+            $tpl->setPermanentLink('usr', 0, 'agreement');
             $tpl->setVariable('TERMS_OF_SERVICE_CONTENT', $document->content());
         } else {
             $tpl->setVariable(
@@ -1935,7 +1935,11 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
                 $this->logger->debug('Authentication successful; Redirecting to starting page.');
-                ilInitialisation::redirectToStartingPage();
+                if ($credentials->getRedirectionTarget()) {
+                    ilInitialisation::redirectToStartingPage($credentials->getRedirectionTarget());
+                } else {
+                    ilInitialisation::redirectToStartingPage();
+                }
                 return;
 
             case ilAuthStatus::STATUS_AUTHENTICATION_FAILED:

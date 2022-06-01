@@ -189,7 +189,7 @@ class ilTagging
         $set = $ilDB->query($q);
         $objects = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
-            if (ilObject::_exists($rec["obj_id"])) {
+            if (ilObject::_exists((int) $rec["obj_id"])) {
                 if ($rec["sub_obj_type"] == "-") {
                     $rec["sub_obj_type"] = "";
                 }

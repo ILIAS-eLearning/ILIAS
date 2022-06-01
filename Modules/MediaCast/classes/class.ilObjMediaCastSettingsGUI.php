@@ -122,12 +122,12 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
             }
 
             if ($form->checkInput()) {
-                $this->settings->setPurposeSuffixes($purposeSuffixes);
-                $this->settings->setDefaultAccess($form->getInput("defaultaccess"));
-                $this->settings->setMimeTypes(explode(",", $form->getInput("mimetypes")));
-                $this->settings->setVideoCompletionThreshold((int) $form->getInput("video_completion_threshold"));
+                $this->mc_settings->setPurposeSuffixes($purposeSuffixes);
+                $this->mc_settings->setDefaultAccess($form->getInput("defaultaccess"));
+                $this->mc_settings->setMimeTypes(explode(",", $form->getInput("mimetypes")));
+                $this->mc_settings->setVideoCompletionThreshold((int) $form->getInput("video_completion_threshold"));
 
-                $this->settings->save();
+                $this->mc_settings->save();
 
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("settings_saved"), true);
             } else {
@@ -136,7 +136,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
                 return;
             }
         }
-        
+        $this->initMediaCastSettings();
         $ilCtrl->redirect($this, "view");
     }
 
@@ -148,7 +148,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
 
     protected function initMediaCastSettings() : void
     {
-        $this->settings = ilMediaCastSettings::_getInstance();
+        $this->mc_settings = ilMediaCastSettings::_getInstance();
     }
     
     protected function getForm() : ilPropertyFormGUI
@@ -185,7 +185,7 @@ class ilObjMediaCastSettingsGUI extends ilObjectGUI
         $ti->setMaxValue(100);
         $ti->setMinValue(0);
         $ti->setInfo($lng->txt("mcst_video_completion_threshold_info"));
-        $ti->setValue($this->settings->getVideoCompletionThreshold());
+        $ti->setValue($this->mc_settings->getVideoCompletionThreshold());
         $form->addItem($ti);
 
         foreach ($this->mc_settings->getPurposeSuffixes() as $purpose => $filetypes) {

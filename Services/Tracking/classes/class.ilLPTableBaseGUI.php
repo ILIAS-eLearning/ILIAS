@@ -17,7 +17,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
     protected HttpService $http;
 
     protected array $filter = [];
-    protected bool $anonymized;
+    protected bool $anonymized = true;
 
     private ilObjUser $user;
     protected ilSetting $setting;

@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\HTMLLearningModule\StandardGUIRequest;
 
@@ -102,7 +105,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                 $fs_gui->setTableId("htlmfs" . $this->object->getId());
                 if ($this->object->getStartFile() !== "") {
                     $fs_gui->labelFile(
-                        $this->object->getStartFile(),
+                        (string) $this->object->getStartFile(),
                         $this->lng->txt("cont_startfile")
                     );
                 }
@@ -115,14 +118,15 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
                     $do_update = false;
                                         
                     $pcommand = $fs_gui->getLastPerformedCommand();
+                    $last_cmd = $pcommand["cmd"] ?? "";
                     $valid = array("index.htm", "index.html", "start.htm", "start.html");
-                    if ($pcommand["cmd"] === "create_file") {
+                    if ($last_cmd === "create_file") {
                         $file = strtolower(basename($pcommand["name"]));
                         if (in_array($file, $valid)) {
                             $this->object->setStartFile($pcommand["name"]);
                             $do_update = $pcommand["name"];
                         }
-                    } elseif ($pcommand["cmd"] === "unzip_file") {
+                    } elseif ($last_cmd === "unzip_file") {
                         $zip_file = strtolower(basename($pcommand["name"]));
                         $suffix = strrpos($zip_file, ".");
                         if ($suffix) {
@@ -383,7 +387,7 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             // try to set start file automatically
             $files = array();
             ilFileUtils::recursive_dirscan($new_object->getDataDirectory(), $files);
-            if (is_array($files["file"])) {
+            if (isset($files["file"])) {
                 $zip_file = null;
                 if (stripos($new_object->getTitle(), ".zip") !== false) {
                     $zip_file = strtolower($new_object->getTitle());

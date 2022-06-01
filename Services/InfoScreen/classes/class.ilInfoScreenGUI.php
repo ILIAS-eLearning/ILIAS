@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\InfoScreen\StandardGUIRequest;
 
@@ -244,7 +247,7 @@ class ilInfoScreenGUI
             $checkbox .= "&nbsp;<label for=\"$a_checkbox_name$a_checkbox_value\">$a_checkbox_label</label>";
         }
         $this->section[$this->sec_nr]["properties"][] =
-            array("name" => $a_name, "value" => $checkbox);
+            array("name" => $a_name, "value" => $checkbox, "link" => "");
     }
 
     /**
@@ -549,10 +552,10 @@ class ilInfoScreenGUI
                     }
                 }
                 if ($count_anonymous_reads > 0) {
-                    $this->addProperty($this->lng->txt("readcount_anonymous_users"), $count_anonymous_reads);
+                    $this->addProperty($this->lng->txt("readcount_anonymous_users"), (string) $count_anonymous_reads);
                 }
                 if ($count_user_reads > 0) {
-                    $this->addProperty($this->lng->txt("readcount_users"), $count_user_reads);
+                    $this->addProperty($this->lng->txt("readcount_users"), (string) $count_user_reads);
                 }
                 if ($count_users > 0) {
                     $this->addProperty($this->lng->txt("accesscount_registered_users"), (string) $count_users);
@@ -942,15 +945,19 @@ class ilInfoScreenGUI
      */
     public function showNotesSection() : string
     {
+        global $DIC;
+
         $ilAccess = $this->access;
         $ilSetting = $this->settings;
-        
+        $DIC->notes()->gui()->initJavascript();
+
         $next_class = $this->ctrl->getNextClass($this);
         $notes_gui = new ilNoteGUI(
             $this->gui_object->getObject()->getId(),
             0,
             $this->gui_object->getObject()->getType()
         );
+        $notes_gui->setUseObjectTitleHeader(false);
         
         // global switch
         if ($ilSetting->get("disable_comments")) {
@@ -980,7 +987,7 @@ class ilInfoScreenGUI
         if ($next_class == "ilnotegui") {
             $html = $this->ctrl->forwardCommand($notes_gui);
         } else {
-            $html = $notes_gui->getNotesHTML();
+            $html = $notes_gui->getCommentsHTML();
         }
 
         return $html;

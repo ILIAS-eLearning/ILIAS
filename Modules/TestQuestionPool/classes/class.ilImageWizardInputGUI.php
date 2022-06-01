@@ -49,7 +49,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_suffixes	Accepted Suffixes
     */
-    public function setSuffixes($a_suffixes)
+    public function setSuffixes($a_suffixes) : void
     {
         $this->suffixes = $a_suffixes;
     }
@@ -69,7 +69,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_value	Value
     */
-    public function setValues($a_values)
+    public function setValues($a_values) : void
     {
         $this->values = $a_values;
     }
@@ -89,7 +89,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @param	object	$a_value	test object
     */
-    public function setQuestionObject($a_value)
+    public function setQuestionObject($a_value) : void
     {
         $this->qstObject = &$a_value;
     }
@@ -109,7 +109,7 @@ class ilImageWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_allow_move Allow move
     */
-    public function setAllowMove($a_allow_move)
+    public function setAllowMove($a_allow_move) : void
     {
         $this->allowMove = $a_allow_move;
     }

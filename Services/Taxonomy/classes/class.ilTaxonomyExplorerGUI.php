@@ -12,7 +12,10 @@ class ilTaxonomyExplorerGUI extends ilTreeExplorerGUI
     protected string $onclick = "";
     protected ilTaxonomyTree $tax_tree;
     protected string $id;
-    protected mixed $target_gui;
+    /**
+     * @var mixed|string
+     */
+    protected string $target_gui;
     protected string $target_cmd;
 
     /**

@@ -1,6 +1,22 @@
 <?php declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+ 
+/**
  * Class ilDBPdoFieldDefinition
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -867,7 +883,7 @@ abstract class ilDBPdoFieldDefinition
      */
     public function getAllReserved() : array
     {
-        return array_merge($this->getReservedMysql(), $this->getReservedPostgres());
+        return $this->getReservedMysql();
     }
 
     /**
@@ -886,21 +902,6 @@ abstract class ilDBPdoFieldDefinition
         $this->reserved_mysql = $reserved_mysql;
     }
 
-    /**
-     * @return string[]
-     */
-    public function getReservedPostgres() : array
-    {
-        return $this->reserved_postgres;
-    }
-
-    /**
-     * @param string[] $reserved_postgres
-     */
-    public function setReservedPostgres(array $reserved_postgres) : void
-    {
-        $this->reserved_postgres = $reserved_postgres;
-    }
 
     /**
      * @throws \ilDatabaseException
@@ -1439,7 +1440,7 @@ abstract class ilDBPdoFieldDefinition
 
         return "'" . $value . "'";
     }
-    
+
     /**
      * @param string|resource $value
      */
@@ -1470,7 +1471,7 @@ abstract class ilDBPdoFieldDefinition
 
         return $value;
     }
-    
+
     /**
      * @param string|resource $value
      */
@@ -1626,7 +1627,7 @@ abstract class ilDBPdoFieldDefinition
 
         return true;
     }
-    
+
 
     /**
      * @throws \ilDatabaseException

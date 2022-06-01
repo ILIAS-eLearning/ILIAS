@@ -28,7 +28,7 @@
 		&:active:focus-visible {
 			border: @il-focus-outline-inner;
 			outline: none;
-			
+
 			&::after {
 				content: none;
 			}
@@ -162,6 +162,11 @@
 	display: none;
 	position: relative;
 	width: @il-standard-page-slate-width;
+
+	.bulky-label{
+		margin-top: @il-mainbar-bulky-label-margin-top;
+	}
+
 }
 
 .il-mainbar-tools-button {
@@ -242,7 +247,7 @@
 	}
 	.close {
 		color: @il-main-color;
-	    font-size: 4.5rem;
+	    font-size: 2.8125rem;
 	    font-weight: 300;
 		height: @il-mainbar-btn-height;
 		padding: 0 20px;
@@ -272,7 +277,7 @@
 				content:" \e605";
 				display: block;
 				font-family: "il-icons"; // should be defined more general at .glyphicon
-				font-size: 2.1rem;
+				font-size: 1.5rem;
 			}
 			.glyphicon {
 				display: none;
@@ -346,7 +351,7 @@
 			.il-mainbar-remove-tool {
 				top: 0;
 				.close {
-					font-size: 4rem;
+					font-size: 2.5rem;
 					height: @il-mainbar-small-btn-height;
 				}
 			}

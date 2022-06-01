@@ -150,18 +150,18 @@ class DurationInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
         <div class="form-group row">
-           <label for="id_1" class="control-label col-sm-3">label</label>
-           <div class="col-sm-9">
+           <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+           <div class="col-sm-8 col-md-9 col-lg-10">
               <div class="il-input-duration" id="id_1">
                  <div class="form-group row">
-                    <label for="id_2" class="control-label col-sm-3">' . $label_start . '</label>
-                    <div class="col-sm-9">
+                    <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label_start . '</label>
+                    <div class="col-sm-8 col-md-9 col-lg-10">
                        <div class="input-group date il-input-datetime" id="id_2"><input type="text" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /><span class="input-group-addon"><a class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span></div>
                     </div>
                  </div>
                  <div class="form-group row">
-                    <label for="id_3" class="control-label col-sm-3">' . $label_end . '</label>
-                    <div class="col-sm-9">
+                    <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">' . $label_end . '</label>
+                    <div class="col-sm-8 col-md-9 col-lg-10">
                        <div class="input-group date il-input-datetime" id="id_3"><input type="text" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /><span class="input-group-addon"><a class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span></div>
                     </div>
                  </div>
@@ -189,18 +189,18 @@ class DurationInputTest extends ILIAS_UI_TestBase
 
         $expected = $this->brutallyTrimHTML('
             <div class="form-group row">
-               <label for="id_1" class="control-label col-sm-3">label</label>
-               <div class="col-sm-9">
+               <label for="id_1" class="control-label col-sm-4 col-md-3 col-lg-2">label</label>
+               <div class="col-sm-8 col-md-9 col-lg-10">
                   <div class="il-input-duration" id="id_1">
                      <div class="form-group row">
-                        <label for="id_2" class="control-label col-sm-3">' . $other_start_label . '</label>
-                        <div class="col-sm-9">
+                        <label for="id_2" class="control-label col-sm-4 col-md-3 col-lg-2">' . $other_start_label . '</label>
+                        <div class="col-sm-8 col-md-9 col-lg-10">
                            <div class="input-group date il-input-datetime" id="id_2"><input type="text" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /><span class="input-group-addon"><a class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span></div>
                         </div>
                      </div>
                      <div class="form-group row">
-                        <label for="id_3" class="control-label col-sm-3">' . $other_end_label . '</label>
-                        <div class="col-sm-9">
+                        <label for="id_3" class="control-label col-sm-4 col-md-3 col-lg-2">' . $other_end_label . '</label>
+                        <div class="col-sm-8 col-md-9 col-lg-10">
                            <div class="input-group date il-input-datetime" id="id_3"><input type="text" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /><span class="input-group-addon"><a class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span></div>
                         </div>
                      </div>

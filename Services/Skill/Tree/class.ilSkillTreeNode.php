@@ -234,7 +234,7 @@ class ilSkillTreeNode
         if ($a_tref_id > 0 && ilSkillTemplateReference::_lookupTemplateId($a_tref_id) == $a_obj_id) {
             return self::_lookup($a_tref_id, "title");
         }
-        return self::_lookup($a_obj_id, "title");
+        return (string) self::_lookup($a_obj_id, "title");
     }
 
     public static function _lookupDescription(int $a_obj_id) : string
@@ -275,7 +275,7 @@ class ilSkillTreeNode
         $obj_set = $ilDB->query($query);
         $obj_rec = $ilDB->fetchAssoc($obj_set);
 
-        return $obj_rec["type"];
+        return $obj_rec["type"] ?? "";
     }
 
     public function setStatus(int $a_val) : void

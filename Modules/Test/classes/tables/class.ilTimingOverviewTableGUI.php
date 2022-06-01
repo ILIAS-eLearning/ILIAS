@@ -8,20 +8,9 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 class ilTimingOverviewTableGUI extends ilTable2GUI
 {
-    /**
-     * @param        $a_parent_obj
-     * @param string $a_parent_cmd
-     */
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
         parent::__construct($a_parent_obj, $a_parent_cmd);
-
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
 
         $this->setTitle($this->lng->txt('timing'));
         $this->setRowTemplate("tpl.il_as_tst_timing_overview_row.html", "Modules/Test");
@@ -33,9 +22,6 @@ class ilTimingOverviewTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("timing"), 'extratime', '');
     }
 
-    /**
-     * @param array $a_set
-     */
     public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("LOGIN", $a_set['login']);

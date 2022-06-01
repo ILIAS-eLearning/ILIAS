@@ -26,13 +26,15 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
         return array_map(
             static function (array $statisic) : int {
                 return (int) $statisic['pos_author_id'];
-            }, array_filter(
-                   $statistics, static function (array $statistic) use (
-                   $num_required_postings
-               ) : bool {
-                   return (int) $statistic['num_postings'] >= $num_required_postings;
-               }
-               )
+            },
+            array_filter(
+                $statistics,
+                static function (array $statistic) use (
+                    $num_required_postings
+                ) : bool {
+                    return (int) $statistic['num_postings'] >= $num_required_postings;
+                }
+            )
         );
     }
 
@@ -56,14 +58,16 @@ class ilLPStatusContributionToDiscussion extends ilLPStatus
         return array_map(
             static function (array $statisic) : int {
                 return (int) $statisic['pos_author_id'];
-            }, array_filter(
-                   $statistics, static function (array $statistic) use (
-                   $num_required_postings
-               ) : bool {
-                   $num_user_postings = (int) $statistic['num_postings'];
-                   return $num_user_postings > 0 && $num_user_postings < $num_required_postings;
-               }
-               )
+            },
+            array_filter(
+                $statistics,
+                static function (array $statistic) use (
+                    $num_required_postings
+                ) : bool {
+                    $num_user_postings = (int) $statistic['num_postings'];
+                    return $num_user_postings > 0 && $num_user_postings < $num_required_postings;
+                }
+            )
         );
     }
 

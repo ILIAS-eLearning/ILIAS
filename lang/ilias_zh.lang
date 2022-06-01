@@ -1936,6 +1936,8 @@ auth#:#auth_account_migration_new#:#创建新用户账号
 auth#:#auth_activation_code_success#:#Your account has been reactivated. You can now login to ILIAS.###07 02 2017 new variable
 auth#:#auth_allow_local_info#:#If enabled a local authentication against the ILIAS database is still possible (with a local login/password) for those user accounts, whose authentication mode is set to SAML.###31 08 2017 new variable
 auth#:#auth_auth_settings#:#Settings###24 10 2013 new variable
+auth#:#auth_cas_ldap#:#同步使用LDAP
+auth#:#auth_cas_ldap_info#:#如果启用，用户账号和角色分配的同步将使用一个现存的LDAP配置来完成。
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.###25 10 2016 new variable
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.###25 10 2016 new variable
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).###25 10 2016 new variable
@@ -1984,14 +1986,6 @@ auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, d
 auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren###10 11 2018 new variable
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden###10 11 2018 new variable
 auth#:#auth_oidconnect#:#OpenID Connect###10 11 2018 new variable
-auth#:#auth_rad_migration#:#账号迁移：
-auth#:#auth_rad_migration_info#:#激活此选项让新用户有可能迁移他们已存在的ILIAS账号为Radius认证账号。
-auth#:#auth_radius_charset#:#字符编码
-auth#:#auth_radius_charset_info#:#请为radius服务器选择字符编码。如果不确定，请选择UTF-8。
-auth#:#auth_radius_ldap#:#同步使用LDAP
-auth#:#auth_radius_ldap_info#:#如果启用，用户账号和角色分配的同步将使用一个现存的LDAP配置来完成。
-auth#:#auth_radius_sync_rad#:#用户账号的自动生成
-auth#:#auth_radius_sync_rad_info#:#为针对Radius身份验证成功的用户自动创建ILIAS用户账号，而无需一个ILIAS账号。
 auth#:#auth_saml#:#SAML###31 08 2017 new variable
 auth#:#auth_saml_add_idp_btn#:#Add new Identity Provider###31 08 2017 new variable
 auth#:#auth_saml_add_idp_md_error#:#The given value was not a valid XML document. Ensure the XML contains a valid Identity Provider.###31 08 2017 new variable
@@ -3380,14 +3374,6 @@ common#:#auth_mode_not_changed#:#没有任何变化
 common#:#auth_mode_roles_changed#:#为这个角色改变了身份验证模式
 common#:#auth_new_account_mail_desc#:#如果用户已经自动生成了，发送新账号邮件给用户。如果“允许本地身份验证”也被激活，才会生成一个密码。
 common#:#auth_per_default#:#Per Default
-common#:#auth_radius#:#RADIUS
-common#:#auth_radius_configure#:#配置RADIUS身份验证
-common#:#auth_radius_enable#:#启用RADIUS支持
-common#:#auth_radius_not_configured#:#RADIUS尚未配置
-common#:#auth_radius_port#:#端口
-common#:#auth_radius_server#:#服务器
-common#:#auth_radius_server_desc#:#您可以添加多个服务器，用逗号分隔。当有查询时，服务器使用轮询策略(Round robin)轮流响应。
-common#:#auth_radius_shared_secret#:#Shared secret
 common#:#auth_remark_non_local_auth#:#当选择其它身份验证模式时，除了默认模式的用户登录和密码不能被改变以外，新的注册选项也被禁止。
 common#:#auth_role_auth_mode#:#身份认证模式
 common#:#auth_saml#:#SAML###31 08 2017 new variable
@@ -3819,7 +3805,6 @@ common#:#err_auth_apache_failed#:#身份验证已失败。也许您没有有效�
 common#:#err_auth_cas_no_ilias_user#:#登录失败。CAS身份验证成功，但不存在相应的ILIAS用户。请联系您的系统管理员。
 common#:#err_auth_ldap_no_ilias_user#:#登录失败！LDAP身份验证成功，但不存在相应的ILIAS用户。请联系您的系统管理员。
 common#:#err_auth_mode_inactive#:#您的身份验证方法已失效。
-common#:#err_auth_radius_no_ilias_user#:#登录失败。Radius身份验证成功，但不存在相应的ILIAS用户。
 common#:#err_auth_soap_no_ilias_user#:#登录失败。SOAP身份验证成功，但不存在相应的ILIAS用户。请联系您的系统管理员。
 common#:#err_check_input#:#设置不能被保存。请检查您输入的内容
 common#:#err_count_param#:#原因错误计算参数！
@@ -9703,7 +9688,7 @@ ldap#:#ldap_add_missing#:#分配缺失角色
 ldap#:#ldap_add_remove#:#添加/删除角色
 ldap#:#ldap_add_role_ass_rule#:#角色分配的新规则
 ldap#:#ldap_as_ds#:#作为数据库源来使用
-ldap#:#ldap_as_ds_info#:#如果已激活，这个LDAP配置仅用于组合其他身份验证方法的用户账号的同步上。(例如,CAS或Radius)。
+ldap#:#ldap_as_ds_info#:#如果已激活，这个LDAP配置仅用于组合其他身份验证方法的用户账号的同步上。(例如,CAS)。
 ldap#:#ldap_assignment_type#:#分配类型
 ldap#:#ldap_authentication_settings#:#身份验证设置
 ldap#:#ldap_bind_anonymous#:#匿名绑定
@@ -13153,10 +13138,6 @@ rbac#:#wiks_write#:#Edit settings in Wiki administration###30 12 2013 new variab
 rbac#:#write#:#编辑设置
 rcat#:#rcat_call#:#调用ECS类目
 rcrs#:#rcrs_call#:#调用远程课程
-registration#:#auth_radius_name#:#RADIUS 配置的名称
-registration#:#auth_radius_name_desc#:#请为这个服务器配置选择一个名称
-registration#:#auth_radius_role_select#:#角色：
-registration#:#auth_radius_sync#:#用户同步
 registration#:#reg_access_limitation_limited_time#:#注册成功之后进入
 registration#:#reg_access_limitation_limited_until#:#访问被限制，直到
 registration#:#reg_access_limitation_missing_mode#:#请为所有角色选择一个访问限制模式
@@ -16049,3 +16030,53 @@ wsp#:#wsp_type_scov#:#Certificate: SCORM###30 12 2013 new variable
 wsp#:#wsp_type_tstv#:#验证:测试
 wsp#:#wsp_type_webr#:#web链接
 wsp#:#wsp_type_wfld#:#文件夹
+common#:#objs_tala#:#Talk Templates
+common#:#objs_talt#:#Talk Templates
+common#:#obj_talt#:#Talk Template
+common#:#obj_tala#:#Talk Templates
+common#:#obj_tala_desc#:#Talk Templates
+etal#:#mm_talk_template#:#Talk Templates
+orgu#:#mm_organisation#:#Organisation
+etal#:#talt_activation_online_info#:#Set the talk template online to make it visible and available for employees. If not, only administrators will have access to it.
+etal#:#meta_adv_records#:#Metadata
+etal#:#talt_edit#:#General
+etal#:#talt_add#:#Add Template
+etal#:#talt_new#:#New Talk Template
+etal#:#mm_org_etal#:#Talks
+common#:#objs_etal#:#Employee Talks
+common#:#obj_tals#:#Employee Talk Series
+common#:#tals_etal#:#Talk
+common#:#talt_etal#:#Talk
+common#:#obj_etal#:#Employee Talk
+etal#:#etal_edit#:#General
+etal#:#etal_add#:#Add Talk
+etal#:#etal_new#:#New Talk
+etal#:#talt_etal#:#Employee Talk
+etal#:#date_of_talk#:#Start Date
+etal#:#etal_add_new_item#:#Add new Talk
+etal#:#change_date_of_talk#:#Change date of talk
+etal#:#change_date_of_series#:#Change date of talk series
+etal#:#etal_status_pending#:#Pending
+etal#:#etal_status_completed#:#Completed
+etal#:#etal_status_all#:#All
+etal#:#tals_add#:#Add Talks
+etal#:#tals_new#:#New Talks
+etal#:#cal_type_tals#:#Talks
+etal#:#etal_date_appointment_edit#:#Date of Talk
+etal#:#etal_date_series_edit#:#Date of Talk Series
+etal#:#etal_unknown_username#:#Unknown User
+common#:#etal_talks#:#Talks
+etal#:#appointments#:#Appointments
+etal#:#notification_talks_created#:#You have been invited by %s to the following employee talks.
+etal#:#notification_talks_updated#:#The following talk appointments have been changed by %s.
+etal#:#notification_talks_removed#:#The following appointments have been canceled by %s.
+etal#:#notification_talks_subject#:#Invitation
+etal#:#notification_talks_date_details#:#Appointment details
+etal#:#notification_talks_talk_title#:#Titel: %s
+etal#:#notification_talks_date_list_header#:#Dates
+orgu#:#org_op_read_employee_talk#:#Read access talk appointments
+orgu#:#org_op_create_employee_talk#:#Create talk appointments / edit talk appointments that you have created yourself
+orgu#:#org_op_edit_employee_talk#:#Edit Talk appointments
+etal#:#etal_open#:#Open Employee Talk
+etal#:#lock_edititng_for_others#:#Lock editing for others
+etal#:#talk_serial#:#Talk Serial

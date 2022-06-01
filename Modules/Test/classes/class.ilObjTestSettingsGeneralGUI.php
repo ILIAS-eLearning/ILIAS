@@ -154,7 +154,7 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
     private function showConfirmation(ilPropertyFormGUI $form, $oldQuestionSetType, $newQuestionSetType, $hasQuestionsWithoutQuestionpool)
     {
         require_once 'Modules/Test/classes/confirmations/class.ilTestSettingsChangeConfirmationGUI.php';
-        $confirmation = new ilTestSettingsChangeConfirmationGUI($this->lng, $this->testOBJ);
+        $confirmation = new ilTestSettingsChangeConfirmationGUI($this->testOBJ);
 
         $confirmation->setFormAction($this->ctrl->getFormAction($this));
         $confirmation->setCancel($this->lng->txt('cancel'), self::CMD_SHOW_FORM);

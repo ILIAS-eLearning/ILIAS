@@ -50,8 +50,8 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
 
                     // avoid recursion
                     if ($item_ref_id == $a_ref_id || !$this->validateEntry(
-                            $item_ref_id
-                        )) {
+                        $item_ref_id
+                    )) {
                         continue;
                     }
 
@@ -97,7 +97,8 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
                                 $only_active = true;
                             }
                             if (ilRepositoryObjectPluginSlot::isTypePluginWithLP(
-                                $node['type'], $only_active
+                                $node['type'],
+                                $only_active
                             )) {
                                 if (!$a_full_data) {
                                     $all_possible[] = $item_ref_id;
@@ -163,11 +164,13 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
             if ($grouping_id && sizeof($target_item_ids) > 1) {
                 // should not be larger than group
                 $num_obligatory = min(
-                    sizeof($target_item_ids), $group["num_obligatory"]
+                    sizeof($target_item_ids),
+                    $group["num_obligatory"]
                 );
 
                 $target_collection->createNewGrouping(
-                    $target_item_ids, $num_obligatory
+                    $target_item_ids,
+                    $num_obligatory
                 );
             } else {
                 // #15487 - single items
@@ -280,7 +283,10 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
             $query = "UPDATE ut_lp_collections" .
                 " SET active = " . $this->db->quote(0, "integer") .
                 " WHERE " . $this->db->in(
-                    "grouping_id", $grouping_ids, false, "integer"
+                    "grouping_id",
+                    $grouping_ids,
+                    false,
+                    "integer"
                 ) .
                 " AND obj_id = " . $this->db->quote($this->obj_id, "integer");
             $this->db->manipulate($query);
@@ -296,7 +302,10 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
             $query = "UPDATE ut_lp_collections" .
                 " SET active = " . $this->db->quote(1, "integer") .
                 " WHERE " . $this->db->in(
-                    "grouping_id", $grouping_ids, false, "integer"
+                    "grouping_id",
+                    $grouping_ids,
+                    false,
+                    "integer"
                 ) .
                 " AND obj_id = " . $this->db->quote($this->obj_id, "integer");
             $this->db->manipulate($query);
@@ -314,7 +323,10 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         $query = "SELECT item_id FROM ut_lp_collections" .
             " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
             " AND " . $this->db->in(
-                "grouping_id", $grouping_ids, false, "integer"
+                "grouping_id",
+                $grouping_ids,
+                false,
+                "integer"
             );
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -337,7 +349,8 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         $query = "UPDATE ut_lp_collections SET" .
             " grouping_id = " . $this->db->quote($grp_id, "integer") .
             ", num_obligatory = " . $this->db->quote(
-                $a_num_obligatory, "integer"
+                $a_num_obligatory,
+                "integer"
             ) .
             ", active = " . $this->db->quote(1, "integer") .
             " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
@@ -354,7 +367,10 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
             ", num_obligatory = " . $this->db->quote(0, "integer") .
             " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
             " AND " . $this->db->in(
-                "grouping_id", $grouping_ids, false, "integer"
+                "grouping_id",
+                $grouping_ids,
+                false,
+                "integer"
             );
         $this->db->manipulate($query);
     }
@@ -364,10 +380,12 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         foreach ($a_obl as $grouping_id => $num) {
             $query = "SELECT count(obj_id) num FROM ut_lp_collections" .
                 " WHERE obj_id = " . $this->db->quote(
-                    $this->obj_id, "integer"
+                    $this->obj_id,
+                    "integer"
                 ) .
                 " AND grouping_id = " . $this->db->quote(
-                    $grouping_id, 'integer'
+                    $grouping_id,
+                    'integer'
                 ) .
                 " GROUP BY obj_id";
             $res = $this->db->query($query);
@@ -381,10 +399,12 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
             $query = "UPDATE ut_lp_collections" .
                 " SET num_obligatory = " . $this->db->quote($num, "integer") .
                 " WHERE obj_id = " . $this->db->quote(
-                    $this->obj_id, "integer"
+                    $this->obj_id,
+                    "integer"
                 ) .
                 " AND grouping_id = " . $this->db->quote(
-                    $grouping_id, "integer"
+                    $grouping_id,
+                    "integer"
                 );
             $this->db->manipulate($query);
         }
@@ -414,7 +434,8 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
                     }
 
                     $table_item['grouped'][] = $this->parseTableGUIItem(
-                        $grouped_item_id, $items[$grouped_item_id]
+                        $grouped_item_id,
+                        $items[$grouped_item_id]
                     );
                     $table_item['num_obligatory'] = $grouped_items['num_obligatory'];
                     $table_item['grouping_id'] = $grouped_items['grouping_id'];
@@ -453,10 +474,12 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
         if ($grouping_id > 0) {
             $query = "SELECT item_id, num_obligatory FROM ut_lp_collections" .
                 " WHERE obj_id = " . $this->db->quote(
-                    $this->obj_id, "integer"
+                    $this->obj_id,
+                    "integer"
                 ) .
                 " AND grouping_id = " . $this->db->quote(
-                    $grouping_id, "integer"
+                    $grouping_id,
+                    "integer"
                 );
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

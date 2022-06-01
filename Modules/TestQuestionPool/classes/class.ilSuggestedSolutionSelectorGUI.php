@@ -35,7 +35,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @param	array	$a_options	Options. Array ("value" => "option_text")
     */
-    public function setOptions($a_options)
+    public function setOptions($a_options) : void
     {
         $this->options = $a_options;
     }
@@ -55,7 +55,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @param	string	$a_value	Value
     */
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         $this->value = $a_value;
     }
@@ -75,7 +75,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @param	string	$a_value	Value
     */
-    public function setInternalLink($a_value)
+    public function setInternalLink($a_value) : void
     {
         $this->intlink = $a_value;
     }
@@ -95,7 +95,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @param	string	$a_value	Internal link text
     */
-    public function setInternalLinkText($a_value)
+    public function setInternalLinkText($a_value) : void
     {
         $this->intlinktext = $a_value;
     }
@@ -115,7 +115,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @param	string	$a_add_command	add command
     */
-    public function setAddCommand($a_add_command)
+    public function setAddCommand($a_add_command) : void
     {
         $this->addCommand = $a_add_command;
     }
@@ -135,7 +135,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
     *
     * @param	array	$a_values	value array
     */
-    public function setValueByArray($a_values)
+    public function setValueByArray($a_values) : void
     {
         $this->setValue($a_values[$this->getPostVar()]);
     }
@@ -159,7 +159,7 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
         return $this->checkSubItemsInput();
     }
 
-    public function insert($a_tpl)
+    public function insert($a_tpl) : void
     {
         global $DIC;
         $lng = $DIC['lng'];

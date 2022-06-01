@@ -37,10 +37,12 @@ class ilLPStatusEvent extends ilLPStatus
         if ($members) {
             // diff in progress and completed (use stored result in LPStatusWrapper)
             $users = array_diff(
-                $members, ilLPStatusWrapper::_getInProgress($a_obj_id)
+                $members,
+                ilLPStatusWrapper::_getInProgress($a_obj_id)
             );
             $users = array_diff(
-                $users, ilLPStatusWrapper::_getCompleted($a_obj_id)
+                $users,
+                ilLPStatusWrapper::_getCompleted($a_obj_id)
             );
         }
 
@@ -132,13 +134,15 @@ class ilLPStatusEvent extends ilLPStatus
                 if ($registration && $time_info['start'] >= time()) {
                     // is user registered -> in progress
                     if (ilEventParticipants::_isRegistered(
-                        $a_usr_id, $a_obj_id
+                        $a_usr_id,
+                        $a_obj_id
                     )) {
                         $status = self::LP_STATUS_IN_PROGRESS_NUM;
                     }
                 }
                 if (ilEventParticipants::_hasParticipated(
-                    $a_usr_id, $a_obj_id
+                    $a_usr_id,
+                    $a_obj_id
                 )) {
                     $status = self::LP_STATUS_COMPLETED_NUM;
                 }
@@ -190,7 +194,9 @@ class ilLPStatusEvent extends ilLPStatus
             }
         }
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_COMPLETED_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_COMPLETED_NUM,
+            $a_user_ids
         );
     }
 
@@ -218,7 +224,9 @@ class ilLPStatusEvent extends ilLPStatus
             }
         }
         return self::_lookupStatusForObject(
-            $a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM, $a_user_ids
+            $a_obj_id,
+            self::LP_STATUS_IN_PROGRESS_NUM,
+            $a_user_ids
         );
     }
 }

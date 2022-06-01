@@ -15,28 +15,24 @@ require_once 'Services/WorkflowEngine/test/ilWorkflowEngineBaseTest.php';
  */
 class ilSettingActivityTest extends ilWorkflowEngineBaseTest
 {
-    public function setUp() : void
+    private ilEmptyWorkflow $workflow;
+    private ilBasicNode $node;
+
+    protected function setUp() : void
     {
         parent::setUp();
 
-        //include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-        //ilUnitUtil::performInitialisation();
-        
         // Empty workflow.
-        require_once './Services/WorkflowEngine/classes/workflows/class.ilEmptyWorkflow.php';
         $this->workflow = new ilEmptyWorkflow();
         
         // Basic node
-        require_once './Services/WorkflowEngine/classes/nodes/class.ilBasicNode.php';
         $this->node = new ilBasicNode($this->workflow);
         
         // Wiring up so the node is attached to the workflow.
         $this->workflow->addNode($this->node);
-        
-        require_once './Services/WorkflowEngine/classes/activities/class.ilSettingActivity.php';
     }
     
-    public function tearDown() : void
+    protected function tearDown() : void
     {
         global $DIC;
 
@@ -46,7 +42,7 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
         }
     }
     
-    public function testConstructorValidContext()
+    public function testConstructorValidContext() : void
     {
         // Act
         $activity = new ilSettingActivity($this->node);
@@ -59,7 +55,7 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
         );
     }
 
-    public function testSetGetSettingName()
+    public function testSetGetSettingName() : void
     {
         // Arrange
         $activity = new ilSettingActivity($this->node);
@@ -73,7 +69,7 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($actual, $expected);
     }
     
-    public function testSetGetSettingValue()
+    public function testSetGetSettingValue() : void
     {
         // Arrange
         $activity = new ilSettingActivity($this->node);
@@ -87,7 +83,7 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
         $this->assertEquals($actual, $expected);
     }
     
-    public function testSetSetting()
+    public function testSetSetting() : void
     {
         // Arrange
         $activity = new ilSettingActivity($this->node);
@@ -106,7 +102,7 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
         );
     }
     
-    public function testExecute()
+    public function testExecute() : void
     {
         // Arrange
         $activity = new ilSettingActivity($this->node);
@@ -114,16 +110,13 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
         $expected_val = 'OK';
         $activity->setSetting($expected_name, $expected_val);
 
-        $ilSetting_mock = $this->createMock('ilSetting', array('set'), array(), '', false);
+        $ilSetting_mock = $this->createMock(ilSetting::class);
 
-        $ilSetting_mock->expects($this->exactly(1))
+        $ilSetting_mock->expects($this->once())
                        ->method('set')
                        ->with($expected_name, $expected_val);
 
-        $stashed_real_object = '';
-        if (isset($GLOBALS['DIC']['ilSetting'])) {
-            $stashed_real_object = $GLOBALS['DIC']['ilSetting'];
-        }
+        $stashed_real_object = $GLOBALS['DIC']['ilSetting'] ?? '';
 
         unset($GLOBALS['DIC']['ilSetting']);
         $GLOBALS['DIC']['ilSetting'] = $ilSetting_mock;
@@ -134,7 +127,7 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
         $GLOBALS['DIC']['ilSetting'] = $stashed_real_object;
     }
     
-    public function testGetContext()
+    public function testGetContext() : void
     {
         // Arrange
         $activity = new ilSettingActivity($this->node);
@@ -146,7 +139,7 @@ class ilSettingActivityTest extends ilWorkflowEngineBaseTest
         if ($actual === $this->node) {
             $this->assertEquals($actual, $this->node);
         } else {
-            $this->assertTrue(false, 'Context not identical.');
+            $this->fail('Context not identical.');
         }
     }
 }

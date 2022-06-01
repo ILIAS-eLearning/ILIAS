@@ -15,12 +15,12 @@ abstract class ilADTFormBridge
      * @var mixed
      */
     protected $parent;
-    protected string $id;
+    protected ?string $id = null;
     protected string $title = '';
     protected string $info = '';
     protected $parent_element; // [string|array]
-    protected bool $required; // [bool]
-    protected bool $disabled; // [bool]
+    protected bool $required = false;
+    protected bool $disabled = false;
 
     protected ilLanguage $lng;
 
@@ -67,10 +67,6 @@ abstract class ilADTFormBridge
         $this->id = $a_value;
     }
 
-    /**
-     * Get element id
-     * @return string|null
-     */
     public function getElementId() : ?string
     {
         return $this->id;

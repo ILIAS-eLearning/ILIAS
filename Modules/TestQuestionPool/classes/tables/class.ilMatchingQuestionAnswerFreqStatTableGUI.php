@@ -25,7 +25,7 @@ class ilMatchingQuestionAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisti
         $this->setDefaultOrderField('term');
     }
     
-    public function initColumns()
+    public function initColumns() : void
     {
         $this->addColumn('Term', '');
         $this->addColumn('Definition', '');

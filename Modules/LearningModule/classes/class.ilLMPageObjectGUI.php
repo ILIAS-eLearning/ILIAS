@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\UI\Component\Input\Container\Form;
 
@@ -280,7 +283,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                             false,
                             true
                         );
-                        $this->ctrl->setParameter($this, "file_id", "");
+                        $this->ctrl->setParameter($this, "file_id", null);
                         break;
 
                     case "User":
@@ -310,7 +313,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                                     true
                                 );
                             }
-                            $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", "");
+                            $this->ctrl->setParameterByClass("ilpublicuserprofilegui", "user_id", null);
                             $lcontent = ilUserUtil::getNamePresentation($target_id, false, false);
                         }
                         break;

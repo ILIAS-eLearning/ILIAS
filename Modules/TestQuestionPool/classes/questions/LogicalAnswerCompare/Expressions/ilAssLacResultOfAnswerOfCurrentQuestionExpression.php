@@ -53,7 +53,7 @@ class ilAssLacResultOfAnswerOfCurrentQuestionExpression extends ilAssLacAbstract
      *
      * @param array $matches
      */
-    protected function setMatches($matches)
+    protected function setMatches($matches) : void
     {
         $this->answer_index = $matches[1][0];
     }

@@ -27,7 +27,7 @@ class assClozeTestImport extends assQuestionImport
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping)
+    public function fromXML(&$item, $questionpool_id, &$tst_id, &$tst_object, &$question_counter, &$import_mapping) : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
@@ -78,8 +78,8 @@ class assClozeTestImport extends assQuestionImport
                     switch (strtolower(get_class($response->getRenderType()))) {
                         case "ilqtirenderfib":
                             switch ($response->getRenderType()->getFibtype()) {
-                                case FIBTYPE_DECIMAL:
-                                case FIBTYPE_INTEGER:
+                                case ilQTIRenderFib::FIBTYPE_DECIMAL:
+                                case ilQTIRenderFib::FIBTYPE_INTEGER:
                                     array_push(
                                         $gaps,
                                         array(
@@ -93,7 +93,7 @@ class assClozeTestImport extends assQuestionImport
                                     );
                                     break;
                                 default:
-                                case FIBTYPE_STRING:
+                                case ilQTIRenderFib::FIBTYPE_STRING:
                                     array_push(
                                         $gaps,
                                         array("ident" => $response->getIdent(),

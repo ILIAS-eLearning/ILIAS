@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 namespace ILIAS\Survey\Settings;
 
@@ -111,8 +114,8 @@ class SettingsDBRepository
         $settings = [];
         while ($rec = $db->fetchAssoc($set)) {
             $settings[(int) $rec["survey_id"]] = $this->set_factory->accessSettings(
-                $this->toUnixTS($rec["startdate"]),
-                $this->toUnixTS($rec["enddate"]),
+                $this->toUnixTS($rec["startdate"] ?? ''),
+                $this->toUnixTS($rec["enddate"] ?? ''),
                 in_array($rec["anonymize"], ["1", "3"], true)
             );
         }

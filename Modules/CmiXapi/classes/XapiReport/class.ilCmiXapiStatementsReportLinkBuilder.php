@@ -24,30 +24,30 @@
  */
 class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBuilder
 {
-    /**
-     * @return array
-     */
     protected function buildPipeline() : array
     {
-        $pipeline = array();
+        $pipeline = [];
         
         $pipeline[] = $this->buildFilterStage();
 
         $pipeline[] = $this->buildOrderingStage();
         
-        $pipeline[] = array('$facet' => array(
-            'stage1' => array(
-                array('$group' => array('_id' => null, 'count' => array('$sum' => 1) ))
-            ),
+        $pipeline[] = ['$facet' => [
+            'stage1' => [
+                ['$group' => ['_id' => null, 'count' => ['$sum' => 1]]]
+            ],
             'stage2' => $this->buildLimitStage()
-        ));
+        ]
+        ];
         
-        $pipeline[] = array('$unwind' => '$stage1');
-        
-        $pipeline[] = array('$project' => array(
+        $pipeline[] = ['$unwind' => '$stage1'];
+    
+        $pipeline[] = [
+            '$project' => [
                 'maxcount' => '$stage1.count',
                 'statements' => '$stage2.statement'
-        ));
+            ]
+        ];
         
         $log = ilLoggerFactory::getLogger('cmix');
         //$log->debug("aggregation pipeline:\n" . json_encode($pipeline, JSON_PRETTY_PRINT));
@@ -64,7 +64,7 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
             array('$skip' => (int) $this->filter->getOffset())
         );
         
-        if ($this->filter->getLimit()) {
+        if ($this->filter->getLimit() !== 0) {
             $stage[] = array('$limit' => (int) $this->filter->getLimit());
         }
         return $stage;
@@ -87,11 +87,11 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
         if ($this->filter->getStartDate() || $this->filter->getEndDate()) {
             $stage['statement.timestamp'] = array();
             
-            if ($this->filter->getStartDate()) {
+            if ($this->filter->getStartDate() !== null) {
                 $stage['statement.timestamp']['$gt'] = $this->filter->getStartDate()->toXapiTimestamp();
             }
             
-            if ($this->filter->getEndDate()) {
+            if ($this->filter->getEndDate() !== null) {
                 $stage['statement.timestamp']['$lt'] = $this->filter->getEndDate()->toXapiTimestamp();
             }
         }
@@ -216,6 +216,6 @@ class ilCmiXapiStatementsReportLinkBuilder extends ilCmiXapiAbstractReportLinkBu
             $field => $this->filter->getOrderDirection() == 'desc' ? -1 : 1
         );
         
-        return array('$sort' => $orderingFields);
+        return ['$sort' => $orderingFields];
     }
 }

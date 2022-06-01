@@ -35,9 +35,6 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
      */
     public function simpleUserImportElement(SimpleXMLElement $a)
     {
-        global $DIC;
-        $rbacadmin = $DIC['rbacadmin'];
-
         $attributes = $a->attributes();
         $action = $attributes->action;
         $user_id_type = $a->User->attributes()->id_type;

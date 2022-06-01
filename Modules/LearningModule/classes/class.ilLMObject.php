@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilLMObject
@@ -29,14 +32,14 @@ class ilLMObject
     protected string $import_id = "";
 
     protected ilObjUser $user;
-    public int $lm_id;
-    public string $type;
-    public int $id;
+    public int $lm_id = 0;
+    public string $type = "";
+    public int $id = 0;
     public ?array $data_record;		// assoc array of lm_data record
     public ilObjLearningModule $content_object;
-    public string $title;
-    public string $short_title;
-    public string $description;
+    public string $title = "";
+    public string $short_title = "";
+    public string $description = "";
     public bool $active = true;
     protected static $data_records = array();
     protected ilDBInterface $db;
@@ -243,7 +246,7 @@ class ilLMObject
         $ilDB = $DIC->database();
 
         if (isset(self::$data_records[$a_obj_id])) {
-            return self::$data_records[$a_obj_id][$a_field];
+            return self::$data_records[$a_obj_id][$a_field] ?? "";
         }
 
         $query = "SELECT " . $a_field . " FROM lm_data WHERE obj_id = " .

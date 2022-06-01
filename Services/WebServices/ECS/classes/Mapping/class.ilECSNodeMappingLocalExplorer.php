@@ -24,17 +24,20 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     public const SEL_TYPE_CHECK = 1;
     public const SEL_TYPE_RADIO = 2;
 
-    private array $checked_items = array();
+    /**
+     * @var int[]
+     */
+    private array $checked_items = [];
     private string $post_var = '';
-    private array $form_items = array();
+    private array $form_items = [];
     private int $type;
     
     private int $sid;
     private int $mid;
     
-    private array $mappings = array();
+    private array $mappings = [];
 
-    public function __construct($a_target, $a_sid, $a_mid)
+    public function __construct(string $a_target, int $a_sid, int $a_mid)
     {
         parent::__construct($a_target);
         
@@ -103,7 +106,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         return $this->checked_items;
     }
 
-    public function isItemChecked($a_id) : bool
+    public function isItemChecked(int $a_id) : bool
     {
         return in_array($a_id, $this->checked_items, true);
     }
@@ -117,7 +120,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         return $this->post_var;
     }
 
-    public function buildFormItem($a_node_id, $a_type) : string
+    public function buildFormItem($a_node_id, int $a_type) : string
     {
         if (!array_key_exists($a_type, $this->form_items) || !$this->form_items[$a_type]) {
             return '';
@@ -141,7 +144,11 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         return '';
     }
 
-    public function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0) : void
+    /**
+     * @param int|string $a_node_id
+     * @throws ilTemplateException
+     */
+    public function formatObject(ilTemplate $tpl, $a_node_id, array $a_option, $a_obj_id = 0) : void
     {
         if (!isset($a_node_id) || !is_array($a_option)) {
             $this->error->raiseError(get_class($this) . "::formatObject(): Missing parameter or wrong datatype! " .
@@ -153,6 +160,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
             if ($picture === 'plus') {
                 $tpl->setCurrentBlock("expander");
                 $tpl->setVariable("EXP_DESC", $this->lng->txt("expand"));
+                $this->setParamsGet([]);
                 $target = $this->createTarget('+', $a_node_id);
                 $tpl->setVariable("LINK_NAME", $a_node_id);
                 $tpl->setVariable("LINK_TARGET_EXPANDER", $target);
@@ -164,6 +172,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
             if ($picture === 'minus' && $this->show_minus) {
                 $tpl->setCurrentBlock("expander");
                 $tpl->setVariable("EXP_DESC", $this->lng->txt("collapse"));
+                $this->setParamsGet([]);
                 $target = $this->createTarget('-', $a_node_id);
                 $tpl->setVariable("LINK_NAME", $a_node_id);
                 $tpl->setVariable("LINK_TARGET_EXPANDER", $target);
@@ -189,13 +198,13 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
             $tpl->parseCurrentBlock();
         }
 
-        if ($formItem = ($this->buildFormItem($a_node_id, $a_option['type']) !== '')) {
+        if ($formItem = ($this->buildFormItem((int) $a_node_id, (int) $a_option['type']) !== '')) {
             $tpl->setCurrentBlock('check');
             $tpl->setVariable('OBJ_CHECK', $formItem);
             $tpl->parseCurrentBlock();
         }
 
-        if ($this->isClickable($a_option["type"], $a_node_id)) {	// output link
+        if ($this->isClickable($a_option["type"], (int) $a_node_id)) {	// output link
             $tpl->setCurrentBlock("link");
             //$target = (strpos($this->target, "?") === false) ?
             //	$this->target."?" : $this->target."&";
@@ -253,13 +262,9 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
 
 
 
-    /*
-    * overwritten method from base class
-    * @access	public
-    * @param	integer obj_id
-    * @param	integer array options
-    * @return	string
-    */
+    /**
+     * overwritten method from base class
+     */
     public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         // custom icons
@@ -277,7 +282,7 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
         $tpl->setVariable("TXT_ALT_IMG", $title);
         $tpl->parseCurrentBlock();
 
-        if (($formItem = $this->buildFormItem($a_obj_id, $a_option['type'])) !== '') {
+        if (($formItem = $this->buildFormItem((int) $a_obj_id, (int) $a_option['type'])) !== '') {
             $tpl->setCurrentBlock('check');
             $tpl->setVariable('OBJ_CHECK', $formItem);
             $tpl->parseCurrentBlock();
@@ -314,10 +319,10 @@ class ilECSNodeMappingLocalExplorer extends ilExplorer
     {
         $mappings = array();
         foreach (ilECSCourseMappingRule::getRuleRefIds($this->getSid(), $this->getMid()) as $ref_id) {
-            $mappings[$ref_id] = array();
+            $mappings[$ref_id] = [];
         }
         
-        foreach ($mappings as $ref_id) {
+        foreach (array_keys($mappings) as $ref_id) {
             $this->mappings[$ref_id] = $this->tree->getPathId($ref_id, 1);
         }
         return true;

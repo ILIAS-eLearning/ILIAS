@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Accordion user interface class
@@ -282,7 +285,7 @@ class ilAccordionGUI
         return $this->items;
     }
     
-    public function getHTML() : string
+    public function getHTML(bool $async = false) : string
     {
         $ilUser = $this->user;
         
@@ -406,9 +409,18 @@ class ilAccordionGUI
 
         $tpl->setVariable("ACC_ID", $options["id"]);
 
-        $this->main_tpl->addOnLoadCode(
-            'il.Accordion.add(' . json_encode($options, JSON_THROW_ON_ERROR) . ');'
-        );
-        return $tpl->get();
+        $html = $tpl->get();
+        $code = $this->getOnloadCode($options);
+        if (!$async) {
+            $this->main_tpl->addOnLoadCode($code);
+        } else {
+            $html .= "<script>$code</script>";
+        }
+        return $html;
+    }
+
+    protected function getOnloadCode(array $options) : string
+    {
+        return 'il.Accordion.add(' . json_encode($options, JSON_THROW_ON_ERROR) . ');';
     }
 }

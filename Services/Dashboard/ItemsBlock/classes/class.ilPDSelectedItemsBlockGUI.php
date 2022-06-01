@@ -289,8 +289,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
     public function manageObject() : string
     {
-        $this->main_tpl->setTitle($this->lng->txt("dash_favourites"));
-
         $this->blockView->setIsInManageMode(true);
 
         $top_tb = new ilToolbarGUI();
@@ -585,7 +583,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
                 $this->addBlockCommand(
                     (string) $command['url'],
                     (string) $command['txt'],
-                    (string) $command['asyncUrl']
+                    (string) ($command['asyncUrl'] ?? "")
                 );
             }
         }

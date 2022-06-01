@@ -14,7 +14,7 @@ include_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjustable
 {
-    private $rbacsystem;
+
     private $ilTabs;
 
     public function __construct($id = -1)
@@ -26,10 +26,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $this->object->loadFromDb($id);
         }
         global $DIC;
-        $rbacsystem = $DIC['rbacsystem'];
         $ilTabs = $DIC['ilTabs'];
         $lng = $DIC['lng'];
-        $this->rbacsystem = $rbacsystem;
         $this->ilTabs = $ilTabs;
         $this->lng = $lng;
     }
@@ -86,7 +84,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         return 0;
     }
 
-    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
+    public function writeQuestionSpecificPostData(ilPropertyFormGUI $form) : void
     {
         $this->object->setLongMenuTextValue(ilUtil::stripSlashes($_POST['longmenu_text']));
         $this->object->setAnswers(json_decode(ilUtil::stripSlashes($_POST['hidden_text_files'])));
@@ -101,7 +99,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $this->saveTaxonomyAssignments();
     }
 
-    protected function editQuestion(ilPropertyFormGUI $form = null)
+    protected function editQuestion(ilPropertyFormGUI $form = null) : void
     {
         if ($form === null) {
             $form = $this->buildEditForm();
@@ -400,45 +398,8 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $this->ctrl->setParameterByClass(strtolower($classname), "q_id", $this->request->getQuestionId());
         }
 
-        if ($this->request->isset('q_id')) {
-            if ($this->rbacsystem->checkAccess('write', $this->request->getRefId())) {
-                // edit page
-                $this->ilTabs->addTarget(
-                    "edit_page",
-                    $this->ctrl->getLinkTargetByClass("ilAssQuestionPageGUI", "edit"),
-                    array("edit", "insert", "exec_pg"),
-                    "",
-                    "",
-                    false
-                );
-            }
-
-            $this->addTab_QuestionPreview($this->ilTabs);
-        }
-
-        $force_active = false;
-        if ($this->rbacsystem->checkAccess('write', $this->request->getRefId())) {
-            $url = "";
-            if ($classname) {
-                $url = $this->ctrl->getLinkTargetByClass($classname, "editQuestion");
-            }
-            $commands = $_POST["cmd"];
-            if (is_array($commands)) {
-                foreach ($commands as $key => $value) {
-                    if (preg_match("/^delete_.*/", $key, $matches)) {
-                        $force_active = true;
-                    }
-                }
-            }
-            // edit question properties
-            $this->ilTabs->addTarget(
-                "edit_question",
-                $url,
-                array("editQuestion", "save", "saveEdit", "addkvp", "removekvp", "originalSyncForm"),
-                $classname,
-                "",
-                $force_active
-            );
+        if ($_GET["q_id"]) {
+            $this->addTab_Question($this->ilTabs);
         }
 
         // add tab for question feedback within common class assQuestionGUI
@@ -507,12 +468,10 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     /**
      * Returns an html string containing a question specific representation of the answers so far
      * given in the test for use in the right column in the scoring adjustment user interface.
-     *
      * @param array $relevant_answers
-     *
      * @return string
      */
-    public function getAggregatedAnswersView($relevant_answers) : string
+    public function getAggregatedAnswersView(array $relevant_answers) : string
     {
         $overview = array();
         $aggregation = array();

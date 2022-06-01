@@ -8,10 +8,7 @@ class ilDclDefaultValueFactory
         3 => ilDclTableViewDateDefaultValue::class
     ];
 
-    /**
-     * @return ilDclTableViewBaseDefaultValue
-     */
-    public function create($data_type_id)
+    public function create(int $data_type_id) : ilDclTableViewBaseDefaultValue
     {
         $storage_location = ilDclCache::getDatatype($data_type_id)->getStorageLocation();
         $class = self::STORAGE_LOCATION_MAPPING[$storage_location];

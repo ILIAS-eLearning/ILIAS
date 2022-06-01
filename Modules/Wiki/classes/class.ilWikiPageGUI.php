@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilWikiPage GUI class
@@ -25,6 +28,7 @@
  */
 class ilWikiPageGUI extends ilPageObjectGUI
 {
+    protected \ILIAS\Notes\Service $notes;
     protected \ILIAS\HTTP\Services $http;
     protected \ILIAS\Wiki\Editing\EditingGUIRequest $wiki_request;
     protected ?ilAdvancedMDRecordGUI $record_gui = null;
@@ -57,6 +61,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
             ->gui()
             ->editing()
             ->request();
+        $this->notes = $DIC->notes();
     }
     
     public function setScreenIdComponent() : void
@@ -262,7 +267,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
         ilObjectListGUI::prepareJsLinks(
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
-            $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
+            "",
             $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
         );
 
@@ -655,7 +660,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
             }
             
             // notes/comments
-            $cnt_note_users = ilNote::getUserCount(
+            $cnt_note_users = $this->notes->domain()->getUserCount(
                 $this->getPageObject()->getParentId(),
                 $this->getPageObject()->getId(),
                 "wpg"
@@ -926,11 +931,12 @@ class ilWikiPageGUI extends ilPageObjectGUI
         string $a_action,
         int $a_note_id
     ) : void {
+
         // #10040 - get note text
-        $note = new ilNote($a_note_id);
-        $note = $note->getText();
+        $note = $this->notes->domain()->getById($a_note_id);
+        $text = $note->getText();
         
-        ilWikiUtil::sendNotification("comment", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $a_page_id, $note);
+        ilWikiUtil::sendNotification("comment", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $a_page_id, $text);
     }
         
     public function updateStatsRating(

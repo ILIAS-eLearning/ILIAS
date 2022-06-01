@@ -1,22 +1,35 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-/* Copyright (c) 2019 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 class ilStudyProgrammeSettings
 {
     // There are two different modes the programs' calculation of the learning
     // progress can run in. It is also possible, that the mode is not defined
     // yet.
-    const MODE_UNDEFINED = 0;
+    public const MODE_UNDEFINED = 0;
     
     // User is successful if he collected enough points in the sub nodes of
     // this node.
-    const MODE_POINTS = 1;
+    public const MODE_POINTS = 1;
 
     // User is successful if he has the "completed" learning progress in any
     // sub object.
-    const MODE_LP_COMPLETED = 2;
+    public const MODE_LP_COMPLETED = 2;
 
     public static array $MODES = [
         self::MODE_UNDEFINED,
@@ -29,24 +42,25 @@ class ilStudyProgrammeSettings
 
     // The program is a draft, that is users won't be assigned to the program
     // already.
-    const STATUS_DRAFT = 10;
+    public const STATUS_DRAFT = 10;
 
     // The program is active, that is users can be assigned to it.
-    const STATUS_ACTIVE = 20;
+    public const STATUS_ACTIVE = 20;
 
     // The program is outdated, that is users won't be assigned to it but can
     // still complete the program.
-    const STATUS_OUTDATED = 30;
+    public const STATUS_OUTDATED = 30;
 
-    const NO_RESTART = -1;
-    const NO_VALIDITY_OF_QUALIFICATION_PERIOD = -1;
+    public const NO_RESTART = -1;
+    public const NO_VALIDITY_OF_QUALIFICATION_PERIOD = -1;
+    public const NO_DEADLINE = -1;
 
     // Defaults
-    const DEFAULT_POINTS = 100;
-    const DEFAULT_SUBTYPE = 0;
-    
-    const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
-    const DATE_FORMAT = 'Y-m-d';
+    public const DEFAULT_POINTS = 100;
+    public const DEFAULT_SUBTYPE = 0;
+
+    public const DATE_TIME_FORMAT = 'Y-m-d H:i:s';
+    public const DATE_FORMAT = 'Y-m-d';
 
     /**
      * Id of this study program and the corresponding ILIAS-object as well.
@@ -211,7 +225,7 @@ class ilStudyProgrammeSettings
     public function validationExpires() : bool
     {
         return !is_null($this->getValidityOfQualificationSettings()->getQualificationDate()) ||
-                $this->getValidityOfQualificationSettings()->getQualificationPeriod() != -1;
+                $this->getValidityOfQualificationSettings()->getQualificationPeriod() !== self::NO_VALIDITY_OF_QUALIFICATION_PERIOD;
     }
 
     public function getAutoMailSettings() : ilStudyProgrammeAutoMailSettings

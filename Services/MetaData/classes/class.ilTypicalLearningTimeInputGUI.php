@@ -10,9 +10,16 @@
  */
 class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
 {
+    protected const POST_NAME_MONTH = 'mo';
+    protected const POST_NAME_DAY = 'd';
+    protected const POST_NAME_HOUR = 'h';
+    protected const POST_NAME_MINUTE = 'm';
+    protected const POST_NAME_SECOND = 's';
+
     protected array $value;
     protected bool $valid = true;
     protected string $lom_duration = '';
+    protected bool $show_seconds = false;
 
     public function __construct(string $a_title = "", string $a_postvar = "")
     {
@@ -45,6 +52,16 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         }
     }
 
+    public function setShowSeconds(bool $status) : void
+    {
+        $this->show_seconds = $status;
+    }
+
+    public function getShowSeconds() : bool
+    {
+        return $this->show_seconds;
+    }
+
     /**
      * @return int[]
      */
@@ -58,24 +75,32 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
         $this->setValue($a_values[$this->getPostVar()]);
     }
 
+    protected function getInputFromPost(string $post_name) : int
+    {
+        if ($this->http->wrapper()->post()->has($this->getPostVar() . '[' . $post_name . ']')) {
+            return $this->http->wrapper()->post()->retrieve(
+                $this->getPostVar() . '[' . $post_name . ']',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
     public function checkInput() : bool
     {
-        $_POST[$this->getPostVar()][0] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][0]);
-        $_POST[$this->getPostVar()][1] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][1]);
-        $_POST[$this->getPostVar()][2] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][2]);
-        $_POST[$this->getPostVar()][3] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][3]);
-        if (isset($_POST[$this->getPostVar()][4])) {
-            $_POST[$this->getPostVar()][4] = (int) ilUtil::stripSlashes($_POST[$this->getPostVar()][4]);
+        $counter = 0;
+        $required_fullfilled = false;
+        foreach ([self::POST_NAME_MONTH, self::POST_NAME_DAY, self::POST_NAME_HOUR, self::POST_NAME_MINUTE, self::POST_NAME_SECOND] as $post_name) {
+            $value = $this->getInputFromPost($post_name);
+            if ($value > 0) {
+                $required_fullfilled = true;
+            }
+            $this->value[$counter++] = $this->getInputFromPost($post_name);
         }
-
-        // check required
-        $v = $_POST[$this->getPostVar()];
-        if ($this->getRequired() && $v[0] == 0 && $v[1] == 0 &&
-            $v[2] == 0 && $v[3] == 0 && (int) $v[4] == 0) {
+        if ($this->getRequired() && !$required_fullfilled) {
             $this->setAlert($this->lng->txt("msg_input_is_required"));
             return false;
         }
-
         return true;
     }
 
@@ -114,9 +139,9 @@ class ilTypicalLearningTimeInputGUI extends ilFormPropertyGUI
             ilLegacyFormElementsUtil::makeTimeSelect(
                 $this->getPostVar(),
                 !$val[4],
-                $val[2],
-                $val[3],
-                $val[4],
+                (int) $val[2],
+                (int) $val[3],
+                (int) $val[4],
                 false
             )
         );

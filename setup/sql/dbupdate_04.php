@@ -22633,7 +22633,7 @@ while ($row = $ilDB->fetchAssoc($res)) {
 <#5322>
 <?php
 /** @var $ilDB ilDBInterface */
-if (in_array($ilDB->getDBType(), [ilDBConstants::TYPE_PDO_POSTGRE, ilDBConstants::TYPE_POSTGRES])) {
+if (in_array($ilDB->getDBType(), ['pdo-postgre', 'postgres'])) {
     // Migrate accepted criteria for missing documents (file did not exists during migration)
     $res = $ilDB->query(
         "

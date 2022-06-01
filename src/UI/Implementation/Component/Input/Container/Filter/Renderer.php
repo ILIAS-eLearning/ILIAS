@@ -62,7 +62,7 @@ class Renderer extends AbstractComponentRenderer
     protected function registerSignals(Filter\Filter $filter) : Filter\Filter
     {
         $update = $filter->getUpdateSignal();
-        return $filter->withAdditionalOnLoadCode(fn($id) => "$(document).on('$update', function(event, signalData) {
+        return $filter->withAdditionalOnLoadCode(fn ($id) => "$(document).on('$update', function(event, signalData) {
                 il.UI.filter.onInputUpdate(event, signalData, '$id'); return false; 
             });");
     }
@@ -87,7 +87,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->parseCurrentBlock();
 
         $opener_expand = $f->button()->bulky($f->symbol()->glyph()->expand(), $this->txt("filter"), "")
-            ->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
+            ->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
 					il.UI.filter.onAjaxCmd(event, '$id', 'expand');
 					event.preventDefault();
 			    });");
@@ -98,7 +98,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl->parseCurrentBlock();
 
         $opener_collapse = $f->button()->bulky($f->symbol()->glyph()->collapse(), $this->txt("filter"), "")
-            ->withAdditionalOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
+            ->withAdditionalOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
 					il.UI.filter.onAjaxCmd(event, '$id', 'collapse');
 					event.preventDefault();
 			    });");
@@ -133,7 +133,7 @@ class Renderer extends AbstractComponentRenderer
 
         // render apply and reset buttons
         $apply = $f->button()->bulky($f->symbol()->glyph()->apply(), $this->txt("apply"), "")
-            ->withOnLoadCode(fn($id) => "$('#$id').on('click', function(event) {
+            ->withOnLoadCode(fn ($id) => "$('#$id').on('click', function(event) {
                         il.UI.filter.onCmd(event, '$id', 'apply');
                         return false; // stop event propagation
                 });
@@ -177,11 +177,11 @@ class Renderer extends AbstractComponentRenderer
          * @var $toggle Toggle
          */
         $toggle = $f->button()->toggle("", $toggle_on_signal, $toggle_off_signal, $component->isActivated());
-        $toggle = $toggle->withAdditionalOnLoadCode(fn($id) => "$(document).on('$toggle_on_signal',function(event) {
+        $toggle = $toggle->withAdditionalOnLoadCode(fn ($id) => "$(document).on('$toggle_on_signal',function(event) {
                         il.UI.filter.onCmd(event, '$id', 'toggleOn');
                         return false; // stop event propagation
             });");
-        $toggle = $toggle->withAdditionalOnLoadCode(fn($id) => "$(document).on('$toggle_off_signal',function(event) {
+        $toggle = $toggle->withAdditionalOnLoadCode(fn ($id) => "$(document).on('$toggle_off_signal',function(event) {
                         il.UI.filter.onCmd(event, '$id', 'toggleOff');
                         return false; // stop event propagation
             });");

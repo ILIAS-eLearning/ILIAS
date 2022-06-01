@@ -30,16 +30,9 @@ class ilCmiXapiScoringGUI
     const PART_FILTER_MANSCORING_DONE = 4;
     const PART_FILTER_MANSCORING_NONE = 5;
     //const PART_FILTER_MANSCORING_PENDING	= 6;
-
-
-    /**
-     * @var ilObjCmiXapi
-     */
+    
     public ilObjCmiXapi $object;
 
-    /**
-     * @var ilCmiXapiAccess
-     */
     protected ilCmiXapiAccess $access;
 
     private array $tableData;
@@ -47,13 +40,12 @@ class ilCmiXapiScoringGUI
     private ?int $userRank;
     private \ilGlobalTemplateInterface $main_tpl;
 
+    private \ILIAS\DI\Container $dic;
 
-    /**
-     * @param ilObjCmiXapi $object
-     */
     public function __construct(ilObjCmiXapi $object)
     {
         global $DIC;
+        $this->dic = $DIC;
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->object = $object;
 
@@ -65,15 +57,13 @@ class ilCmiXapiScoringGUI
      */
     public function executeCommand() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
         if (!$this->access->hasHighscoreAccess()) {
             throw new ilCmiXapiException('access denied!');
         }
 
-        switch ($DIC->ctrl()->getNextClass($this)) {
+        switch ($this->dic->ctrl()->getNextClass($this)) {
             default:
-                $cmd = $DIC->ctrl()->getCmd('show') . 'Cmd';
+                $cmd = $this->dic->ctrl()->getCmd('show') . 'Cmd';
                 $this->{$cmd}();
         }
     }
@@ -96,8 +86,6 @@ class ilCmiXapiScoringGUI
 
     protected function showCmd() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-
         try {
             $this->initTableData()
                 ->initHighScoreTable()
@@ -113,12 +101,9 @@ class ilCmiXapiScoringGUI
             $this->tableHtml = $table->getHTML();
         }
 
-        $DIC->ui()->mainTemplate()->setContent($this->tableHtml);
+        $this->dic->ui()->mainTemplate()->setContent($this->tableHtml);
     }
-
-    /**
-     * @return $this
-     */
+    
     protected function initTableData() : self
     {
         $filter = new ilCmiXapiStatementsReportFilter();
@@ -143,14 +128,10 @@ class ilCmiXapiScoringGUI
         return $this;
     }
 
-    /**
-     * @param bool $scopeUserRank
-     * @return array
-     */
     private function getTableDataRange(bool $scopeUserRank = false) : array
     {
         if (false === $scopeUserRank) {
-            return array_slice($this->tableData, 0, (int) $this->object->getHighscoreTopNum());
+            return array_slice($this->tableData, 0, $this->object->getHighscoreTopNum());
         } else {
             $offset = $this->userRank - 2 < 0 ? 0 : $this->userRank - 2;
             $length = 5;
@@ -182,20 +163,15 @@ class ilCmiXapiScoringGUI
         return $this;
     }
 
-    /**
-     * @param string $tableId
-     * @return ilCmiXapiScoringTableGUI
-     */
     protected function buildTableGUI(string $tableId) : ilCmiXapiScoringTableGUI
     {
         $isMultiActorReport = $this->access->hasOutcomesAccess();
-        $table = new ilCmiXapiScoringTableGUI(
+        return new ilCmiXapiScoringTableGUI(
             $this,
             'show',
             $isMultiActorReport,
             $tableId,
             $this->access->hasOutcomesAccess()
         );
-        return $table;
     }
 }

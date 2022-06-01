@@ -127,7 +127,7 @@ class StandardGUIRequest
 
     public function getDates() : array
     {
-        return $this->strArray("dates");
+        return $this->strArray("date");
     }
 
     public function getRece() : string

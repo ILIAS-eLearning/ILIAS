@@ -56,6 +56,10 @@ class McstPodcastGUI
             $mob = new \ilObjMediaObject($med_item["mob_id"]);
             $med = $mob->getMediaItem("Standard");
 
+            if ($med->getFormat() !== "audio/mpeg") {
+                continue;
+            }
+
             if (strcasecmp("Reference", $med->getLocationType()) == 0) {
                 $resource = $med->getLocation();
             } else {

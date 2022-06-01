@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjBlog
@@ -25,6 +28,7 @@ class ilObjBlog extends ilObject2
     public const ABSTRACT_DEFAULT_IMAGE_WIDTH = 144;
     public const ABSTRACT_DEFAULT_IMAGE_HEIGHT = 144;
     public const NAV_MODE_LIST_DEFAULT_POSTINGS = 10;
+    protected \ILIAS\Notes\Service $notes_service;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_service;
 
     protected int $nav_mode_list_months_with_post = 0;
@@ -55,6 +59,7 @@ class ilObjBlog extends ilObject2
     ) {
         global $DIC;
 
+        $this->notes_service = $DIC->notes();
         parent::__construct($a_id, $a_reference);
         $this->rbac_review = $DIC->rbac()->review();
 
@@ -98,7 +103,9 @@ class ilObjBlog extends ilObject2
         }
         
         // #14661
-        $this->setNotesStatus(ilNote::commentsActivated($this->id, 0, "blog"));
+        $this->setNotesStatus(
+            $this->notes_service->domain()->commentsActive($this->id)
+        );
     }
 
     protected function doCreate(bool $clone_mode = false) : void
@@ -125,7 +132,7 @@ class ilObjBlog extends ilObject2
             ")");
         
         // #14661
-        ilNote::activateComments($this->id, 0, "blog", true);
+        $this->notes_service->domain()->activateComments($this->id);
     }
     
     protected function doDelete() : void
@@ -170,7 +177,10 @@ class ilObjBlog extends ilObject2
                     " WHERE id = " . $ilDB->quote($this->id, "integer"));
                         
             // #14661
-            ilNote::activateComments($this->id, 0, "blog", $this->getNotesStatus());
+            $this->notes_service->domain()->activateComments(
+                $this->id,
+                $this->getNotesStatus()
+            );
         }
     }
 

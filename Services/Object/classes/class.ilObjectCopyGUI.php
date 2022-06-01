@@ -236,7 +236,7 @@ class ilObjectCopyGUI
         $_SESSION['paste_copy_repexpand'] = array();
         
         // copy opened nodes from repository explorer
-        $_SESSION['paste_copy_repexpand'] = is_array($_SESSION['repexpand']) ? $_SESSION['repexpand'] : array();
+        $_SESSION['paste_copy_repexpand'] = $_SESSION['repexpand'] ?? [];
 
         // begin-patch mc
         $this->setTargets(array());
@@ -984,7 +984,7 @@ class ilObjectCopyGUI
         $this->ctrl->setParameter($this, 'new_type', $this->getType());
         $this->form->setFormAction($this->ctrl->getFormAction($this));
         $this->form->setTitle($this->lng->txt($this->getType() . '_copy'));
-        $this->form->addCommandButton('searchSource', $this->lng->txt('btn_next'));
+        $this->form->addCommandButton('searchSource', $this->lng->txt('search_for'));
         $this->form->addCommandButton('cancel', $this->lng->txt('cancel'));
         
         $tit = new ilTextInputGUI($this->lng->txt('title'), 'tit');

@@ -16,8 +16,6 @@
  *
  *********************************************************************/
 
-require_once 'Services/Contact/BuddySystem/test/ilBuddySystemBaseTest.php';
-
 /**
  * Class ilBuddySystemBaseStateTest
  * @author Michael Jansen <mjansen@databay.de>

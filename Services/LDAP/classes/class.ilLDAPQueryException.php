@@ -13,19 +13,11 @@
  *      https://github.com/ILIAS-eLearning
  *
  *****************************************************************************/
+
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*/
+ *
+ * @author Stefan Meyer <meyer@leifos.com>
+ */
 class ilLDAPQueryException extends ilException
 {
-    /**
-     *
-     *	Nothing specific here
-     *
-     */
-    public function __construct($a_message, $a_code = 0)
-    {
-        parent::__construct($a_message, $a_code);
-    }
 }

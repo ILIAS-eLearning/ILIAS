@@ -20,6 +20,7 @@
 use ILIAS\Container\Content\ViewManager;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\Notes\Note;
 
 /**
  * BlockGUI class for polls.
@@ -30,6 +31,7 @@ use ILIAS\Refinery\Factory;
 class ilPollBlockGUI extends ilBlockGUI
 {
     public static string $block_type = "poll";
+    protected \ILIAS\Notes\Service $notes;
     protected ilPollBlock $poll_block;
     public static bool $js_init = false;
     protected ViewManager $container_view_manager;
@@ -62,6 +64,7 @@ class ilPollBlockGUI extends ilBlockGUI
             ->view();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+        $this->notes = $DIC->notes();
     }
 
     public function getBlockType() : string
@@ -231,7 +234,7 @@ class ilPollBlockGUI extends ilBlockGUI
                         // pie chart
                         if ($this->poll_block->showResultsAs() === ilObjPoll::SHOW_RESULTS_AS_PIECHART) {
                             $chart = ilChart::getInstanceByType(ilChart::TYPE_PIE, "poll_results_pie_" . $this->getRefId());
-                            $chart->setSize(400, 200);
+                            $chart->setSize("400", "200");
                             $chart->setAutoResize(true);
 
                             $chart_data = $chart->getDataInstance();
@@ -456,13 +459,8 @@ class ilPollBlockGUI extends ilBlockGUI
     public function getNumberOfComments(int $ref_id) : int
     {
         $obj_id = ilObject2::_lookupObjectId($ref_id);
-        $number = ilNote::_countNotesAndComments($obj_id);
-
-        if (count($number) === 0) {
-            return 0;
-        }
-
-        return (int) $number[$obj_id][ilNote::PUBLIC];
+        $context = $this->notes->data()->context($obj_id, 0, "poll");
+        return $this->notes->domain()->getNrOfCommentsForContext($context);
     }
 
     public function fillDataSection() : void

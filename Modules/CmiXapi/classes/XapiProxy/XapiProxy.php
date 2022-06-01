@@ -34,22 +34,22 @@
             return $this->token;
         }
 
-        public function client()
+        public function client() : string
         {
             return $this->client;
         }
 
-        public function lrsType()
+        public function lrsType() : ?\ilCmiXapiLrsType
         {
             return $this->lrsType;
         }
 
-        public function replacedValues()
+        public function replacedValues() : ?array
         {
             return $this->replacedValues;
         }
 
-        public function specificAllowedStatements()
+        public function specificAllowedStatements() : ?array
         {
             return $this->specificAllowedStatements;
         }
@@ -59,12 +59,12 @@
             return $this->blockSubStatements;
         }
 
-        public function cmdParts()
+        public function cmdParts() : array
         {
             return $this->cmdParts;
         }
 
-        public function method()
+        public function method() : string
         {
             return $this->method;
         }
@@ -99,27 +99,27 @@
             return $this->fallbackLrsSecret;
         }
 
-        public function setXapiProxyRequest($xapiProxyRequest) : void
+        public function setXapiProxyRequest(XapiProxyRequest $xapiProxyRequest) : void
         {
             $this->xapiProxyRequest = $xapiProxyRequest;
         }
 
-        public function getXapiProxyRequest()
+        public function getXapiProxyRequest() : XapiProxyRequest
         {
             return $this->xapiProxyRequest;
         }
 
-        public function setXapiProxyResponse($xapiProxyResponse) : void
+        public function setXapiProxyResponse(XapiProxyResponse $xapiProxyResponse) : void
         {
             $this->xapiProxyResponse = $xapiProxyResponse;
         }
 
-        public function getXapiProxyResponse()
+        public function getXapiProxyResponse() : XapiProxyResponse
         {
             return $this->xapiProxyResponse;
         }
 
-        public function processStatements($request, $body) : ?array
+        public function processStatements(\Psr\Http\Message\RequestInterface $request, $body) : ?array
         {
             // everything is allowed
             if (!is_array($this->specificAllowedStatements) && !$this->blockSubStatements) {
@@ -153,10 +153,11 @@
                 $this->log()->debug($this->msg("json is array of statements"));
                 $ret = array();
                 $up = array();
-                for ($i = 0; $i < count($obj); $i++) {
-                    array_push($ret, $obj[$i]->id); // push every statementid for fakePostResponse
-                    $isSubStatement = $this->isSubStatementCheck($obj[$i]);
-                    $verb = $obj[$i]->verb->id;
+                foreach ($obj as $i => $singleObj) {
+                    $ret[] = $singleObj->id;
+                    // push every statementid for fakePostResponse
+                    $isSubStatement = $this->isSubStatementCheck($singleObj);
+                    $verb = $singleObj->verb->id;
                     if ($this->blockSubStatements && $isSubStatement) {
                         $this->log()->debug($this->msg("sub-statement is NOT allowed - " . $verb));
                     } else {
@@ -166,7 +167,7 @@
                         }
                     }
                 }
-                if (count($up) === 0) { // nothing allowed
+                if ($up === []) { // nothing allowed
                     $this->log()->debug($this->msg("no allowed statements in array - fake response..."));
                     $this->xapiProxyResponse->fakeResponseBlocked("");
 //                    $this->xapiProxyResponse->fakeResponseBlocked($ret);
@@ -181,7 +182,7 @@
             return null;
         }
 
-        public function modifyBody($body)
+        public function modifyBody(string $body) : string
         {
             $obj = json_decode($body, false);
 
@@ -195,7 +196,7 @@
             if (is_object($obj)) {
                 if (is_array($this->replacedValues)) {
                     foreach ($this->replacedValues as $key => $value) {
-                        $this->setValue($obj, $key, $value);
+                        $this->setValue($obj, (string) $key, (string) $value);
                     }
                 }
                 $this->handleStatementEvaluation($obj); // ToDo
@@ -205,7 +206,7 @@
                 for ($i = 0; $i < count($obj); $i++) {
                     if (is_array($this->replacedValues)) {
                         foreach ($this->replacedValues as $key => $value) {
-                            $this->setValue($obj[$i], $key, $value);
+                            $this->setValue($obj[$i], (string) $key, (string) $value);
                         }
                     }
                     $this->handleStatementEvaluation($obj[$i]); // ToDo
@@ -213,8 +214,8 @@
             }
             return json_encode($obj);
         }
-        
-        private function handleStatementEvaluation($xapiStatement) : void
+
+        private function handleStatementEvaluation(object $xapiStatement) : void
         {
             global $DIC;
             if ($this->plugin) {
@@ -240,7 +241,7 @@
             }
         }
 
-        private function setValue(&$obj, $path, $value) : void
+        private function setValue(object &$obj, string $path, string $value) : void
         {
             $path_components = explode('.', $path);
             if (count($path_components) == 1) {
@@ -254,7 +255,7 @@
             }
         }
 
-        private function setStatus($obj) : void
+        private function setStatus(object $obj) : void
         {
 //            if (isset($obj->verb) && isset($obj->actor) && isset($obj->object)) {
 //                $verb = $obj->verb->id;
@@ -274,7 +275,8 @@
 //            }
         }
 
-        private function isSubStatementCheck($obj)
+
+        private function isSubStatementCheck(object $obj) : bool
         {
             if (
                 isset($obj->context) &&

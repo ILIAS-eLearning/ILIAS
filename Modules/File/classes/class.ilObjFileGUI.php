@@ -477,9 +477,9 @@ class ilObjFileGUI extends ilObject2GUI
 
         $ilTabs->activateTab("settings");
 
-        $form = $this->initPropertiesForm(self::CMD_EDIT);
+        $form = $this->initPropertiesForm();
 
-        $val = array();
+        $val = [];
         $val['title'] = $this->object->getTitle();
         $val['description'] = $this->object->getLongDescription();
         $val['rating'] = $this->object->hasRating();
@@ -490,7 +490,7 @@ class ilObjFileGUI extends ilObject2GUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function initPropertiesForm($mode = "create") : ilPropertyFormGUI
+    protected function initPropertiesForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'update'));
@@ -503,35 +503,16 @@ class ilObjFileGUI extends ilObject2GUI
         $title->setValue($this->object->getTitle());
         $title->setInfo($this->lng->txt("if_no_title_then_filename"));
         $form->addItem($title);
-
-        if ($mode === 'create') {
-            $file = new ilFileStandardDropzoneInputGUI($this->lng->txt('obj_file'), 'file');
-            $file->setUploadUrl($form->getFormAction());
-            $file->setRequired(false);
-            $form->addItem($file);
-
-            $group = new ilRadioGroupInputGUI('', 'replace');
-            $group->setValue(0);
-
-            $replace = new ilRadioOption($this->lng->txt('replace_file'), 1);
-            $replace->setInfo($this->lng->txt('replace_file_info'));
-            $group->addOption($replace);
-
-            $keep = new ilRadioOption($this->lng->txt('file_new_version'), 0);
-            $keep->setInfo($this->lng->txt('file_new_version_info'));
-            $group->addOption($keep);
-
-            $file->addSubItem($group);
-        } else {
-            $o = new ilNonEditableValueGUI($this->lng->txt('upload_info'));
-            $o->setValue($this->lng->txt('upload_info_desc'));
-            $form->addItem($o);
-        }
+        
+        $o = new ilNonEditableValueGUI($this->lng->txt('upload_info'));
+        $o->setValue($this->lng->txt('upload_info_desc'));
+        $form->addItem($o);
+        
         $desc = new ilTextAreaInputGUI($this->lng->txt('description'), 'description');
         $desc->setRows(3);
         $form->addItem($desc);
 
-        if ($this->id_type == self::REPOSITORY_NODE_ID) {
+        if ($this->id_type === self::REPOSITORY_NODE_ID) {
             $this->lng->loadLanguageModule('rating');
             $rate = new ilCheckboxInputGUI($this->lng->txt('rating_activate_rating'), 'rating');
             $rate->setInfo($this->lng->txt('rating_activate_rating_info'));

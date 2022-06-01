@@ -188,7 +188,7 @@ class ilMMItemStorage extends CachedActiveRecord
      */
     public function getIconId() : ?string
     {
-        return $this->icon_id;
+        return $this->icon_id === '' ? null : $this->icon_id;
     }
 
 

@@ -649,6 +649,10 @@ class ilMembershipGUI
         $this->ctrl->redirect($this, "participants");
     }
 
+    protected function updateLPFromStatus(int $usr_id, bool $has_passed) : void
+    {
+    }
+
     /**
      * Show confirmation screen for participants deletion
      */

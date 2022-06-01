@@ -86,7 +86,7 @@ class ilMMItemTranslationStorage extends CachedActiveRecord
     {
         static $default_language;
         global $DIC;
-        if (!$default_language) {
+        if (!isset($default_language)) {
             $default_language = $DIC->language()->getDefaultLanguage() ? $DIC->language()->getDefaultLanguage() : "en";
         }
         

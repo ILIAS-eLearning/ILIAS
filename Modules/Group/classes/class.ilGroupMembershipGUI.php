@@ -55,11 +55,11 @@ class ilGroupMembershipGUI extends ilMembershipGUI
 
     /**
      * @param int[]  $user_ids
-     * @param string $a_type
+     * @param int $a_type
      * @return bool
      * @throws ilCtrlException
      */
-    public function assignMembers(array $user_ids, string $a_type) : bool
+    public function assignMembers(array $user_ids, int $a_type) : bool
     {
         if (!count($user_ids)) {
             $this->lng->loadLanguageModule('search');

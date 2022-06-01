@@ -116,7 +116,7 @@ class ilTestService
      * @param integer $active_id Active ID of the active user
      * @param integer $pass Test pass
      */
-    public function getManScoringQuestionGuiList($activeId, $pass)
+    public function getManScoringQuestionGuiList($activeId, $pass) : array
     {
         include_once "./Modules/Test/classes/class.ilObjAssessmentFolder.php";
         $manScoringQuestionTypes = ilObjAssessmentFolder::_getManualScoring();

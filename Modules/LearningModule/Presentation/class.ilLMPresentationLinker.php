@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Learning module presentation linker
@@ -200,9 +203,9 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     );
 //					$link = str_replace("&", "&amp;", $link);
 
-                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "frame", "");
-                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", "");
-                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "mob_id", "");
+                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "frame", null);
+                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "obj_id", null);
+                    $this->ctrl->setParameterByClass(self::TARGET_GUI, "mob_id", null);
                     break;
             }
         } else {	// handle offline links

@@ -10,26 +10,17 @@ class ilDidacticTemplateXmlWriter extends ilXmlWriter
 {
     private ilDidacticTemplateSetting $tpl;
 
-    /**
-     * Constructor
-     */
     public function __construct(int $a_tpl_id)
     {
         parent::__construct();
         $this->tpl = new ilDidacticTemplateSetting($a_tpl_id);
     }
 
-    /**
-     * Get template setting
-     */
     public function getSetting() : ilDidacticTemplateSetting
     {
         return $this->tpl;
     }
 
-    /**
-     * Write xml
-     */
     public function write() : void
     {
         $this->xmlHeader();

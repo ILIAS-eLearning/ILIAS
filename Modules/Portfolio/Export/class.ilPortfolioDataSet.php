@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Portfolio Data set class
@@ -27,7 +30,17 @@
 class ilPortfolioDataSet extends ilDataSet
 {
     protected ilObjPortfolio $current_portfolio;
-    
+    protected \ILIAS\Notes\Service $notes;
+
+    public function __construct()
+    {
+        global $DIC;
+
+        parent::__construct();
+        $this->notes = $DIC->notes();
+    }
+
+
     public function getSupportedVersions() : array
     {
         return array("4.4.0", "5.0.0");
@@ -139,7 +152,7 @@ class ilPortfolioDataSet extends ilDataSet
             $dir = ilObjPortfolioTemplate::initStorage($a_set["Id"]);
             $a_set["Dir"] = $dir;
             
-            $a_set["Comments"] = ilNote::commentsActivated($a_set["Id"], 0, "prtt");
+            $a_set["Comments"] = $this->notes->domain()->commentsActive((int) $a_set["Id"]);
         }
 
         return $a_set;

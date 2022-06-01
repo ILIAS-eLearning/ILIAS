@@ -337,7 +337,7 @@ class ilLPObjectStatisticsTableGUI extends ilLPTableBaseGUI
     public function getGraph(array $a_graph_items) : string
     {
         $chart = ilChart::getInstanceByType(ilChart::TYPE_GRID, "objstacc");
-        $chart->setSize(700, 500);
+        $chart->setSize("700", "500");
 
         $legend = new ilChartLegend();
         $chart->setLegend($legend);

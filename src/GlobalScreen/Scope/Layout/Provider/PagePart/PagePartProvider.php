@@ -46,6 +46,11 @@ interface PagePartProvider
     public function getResponsiveLogo() : ?Image;
 
     /**
+     * @return string
+     */
+    public function getFaviconPath() : string;
+
+    /**
      * @return SystemInfo[]
      */
     public function getSystemInfos() : array;

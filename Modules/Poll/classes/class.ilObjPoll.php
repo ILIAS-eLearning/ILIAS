@@ -24,6 +24,7 @@
 */
 class ilObjPoll extends ilObject2
 {
+    protected \ILIAS\Notes\Service $notes;
     protected int $access_type = 0;
     protected int $access_begin = 0;
     protected int $access_end = 0;
@@ -59,6 +60,7 @@ class ilObjPoll extends ilObject2
         $this->setViewResults(self::VIEW_RESULTS_AFTER_VOTE);
         $this->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
         $this->setVotingPeriod(false);
+        $this->notes = $DIC->notes();
         
         parent::__construct($a_id, $a_reference);
     }
@@ -237,7 +239,7 @@ class ilObjPoll extends ilObject2
         $this->setShowResultsAs((int) ($row["show_results_as"] ?? self::SHOW_RESULTS_AS_BARCHART));
         
         // #14661
-        $this->setShowComments(ilNote::commentsActivated($this->getId(), 0, $this->getType()));
+        $this->setShowComments($this->notes->domain()->commentsActive($this->getId()));
         
         if ($this->ref_id) {
             $activation = ilObjectActivation::getItem($this->ref_id);
@@ -304,7 +306,7 @@ class ilObjPoll extends ilObject2
             );
             
             // #14661
-            ilNote::activateComments($this->getId(), 0, $this->getType(), $this->getShowComments());
+            $this->notes->domain()->activateComments($this->getId(), $this->getShowComments());
             
             if ($this->ref_id) {
                 $activation = new ilObjectActivation();

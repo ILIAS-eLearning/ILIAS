@@ -573,7 +573,8 @@ class ilTestServiceGUI
             $usersQuestionSolutions[$key] = $val;
         }
 
-        $tableGUI->initColumns()->initFilter();
+        $tableGUI->initColumns();
+        $tableGUI->initFilter();
 
         $tableGUI->setFilterCommand($targetCMD . 'SetTableFilter');
         $tableGUI->setResetCommand($targetCMD . 'ResetTableFilter');

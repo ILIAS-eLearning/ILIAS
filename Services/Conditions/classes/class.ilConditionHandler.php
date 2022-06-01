@@ -175,7 +175,7 @@ class ilConditionHandler
             'WHERE target_ref_id = ' . $ilDB->quote($a_target_ref_id, 'integer');
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->hidden_status;
+            return (bool) $row->hidden_status;
         }
         return false;
     }
@@ -669,6 +669,7 @@ class ilConditionHandler
                 return $cond;
             }
         }
+
         return self::_getPersistedConditionsOfTarget($a_target_ref_id, $a_target_obj_id, $a_target_type);
     }
 
@@ -716,7 +717,7 @@ class ilConditionHandler
                 $item['trigger_ref_id'] = (int) $row['trigger_ref_id'];
                 $item['trigger_obj_id'] = (int) $row['trigger_obj_id'];
                 $item['target_type'] = (string) $row['target_type'];
-                $item['trigger_type'] = (int) $row['trigger_type'];
+                $item['trigger_type'] = (string) $row['trigger_type'];
                 $item['operator'] = (string) $row['operator'];
                 $item['value'] = (string) $row['value'];
                 $item['ref_handling'] = (int) $row['ref_handling'];
@@ -741,7 +742,6 @@ class ilConditionHandler
         // write conditions for target cache
         self::$cond_for_target_cache[$a_target_ref_id . ":" . $a_target_obj_id . ":" .
         $a_target_type] = $conditions;
-
         return $conditions;
     }
 
@@ -767,7 +767,7 @@ class ilConditionHandler
                 $item['trigger_ref_id'] = (int) $row['trigger_ref_id'];
                 $item['trigger_obj_id'] = (int) $row['trigger_obj_id'];
                 $item['target_type'] = (string) $row['target_type'];
-                $item['trigger_type'] = (int) $row['trigger_type'];
+                $item['trigger_type'] = (string) $row['trigger_type'];
                 $item['operator'] = (string) $row['operator'];
                 $item['value'] = (string) $row['value'];
                 $item['ref_handling'] = (int) $row['ref_handling'];

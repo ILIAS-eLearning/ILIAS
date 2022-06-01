@@ -21,7 +21,7 @@
  */
 class ilECSCourseAttribute
 {
-    private $id;
+    private int $id;
     private int $server_id = 0;
     private int $mid = 0;
     private string $name = '';

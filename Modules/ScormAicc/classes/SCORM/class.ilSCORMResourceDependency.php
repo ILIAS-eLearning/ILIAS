@@ -22,14 +22,14 @@
 */
 class ilSCORMResourceDependency
 {
-    public $identifierref;//PHP8Review: Missing Typehint (probably int)
+    public string $identifierref;
 
-    public function getIdentifierRef()//PHP8Review: Missing return Type (probably int)
+    public function getIdentifierRef() : string
     {
         return $this->identifierref;
     }
 
-    public function setIdentifierRef($a_id_ref) : void//PHP8Review: Missing Typehint (probably int)
+    public function setIdentifierRef(string $a_id_ref) : void
     {
         $this->identifierref = $a_id_ref;
     }

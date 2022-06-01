@@ -56,8 +56,7 @@ class ilLoggingConfigStoredObjective implements Objective
         $ini->setVariable(
             "log",
             "error_path",
-            $this->config->getErrorlogDir
-            () ?? ''
+            $this->config->getErrorlogDir() ?? ''
         );
 
         if (!$ini->write()) {

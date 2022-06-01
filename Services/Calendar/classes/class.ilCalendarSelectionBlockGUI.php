@@ -183,7 +183,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
             $tmp_arr['visible'] = in_array($category['cat_id'], $visible);
             $tmp_arr['title'] = $category['title'];
             $tmp_arr['type'] = $category['type'];
-            $tmp_arr['source_ref_id'] = $category['source_ref_id'];
+            $tmp_arr['source_ref_id'] = $category['source_ref_id'] ?? 0;
 
             $tmp_arr['default_selected'] = true;
             if ($this->category_id) {

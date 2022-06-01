@@ -18,7 +18,7 @@ class assAnswerTrueFalseTest extends assBaseTestCase
         chdir('../../../');
     }
 
-    public function test_instantiateObject_shouldReturnInstance()
+    public function test_instantiateObject_shouldReturnInstance() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
@@ -29,7 +29,7 @@ class assAnswerTrueFalseTest extends assBaseTestCase
         $this->assertInstanceOf('ASS_AnswerTrueFalse', $instance);
     }
 
-    public function test_setGetCorrectness_shouldReturnUnchangedState()
+    public function test_setGetCorrectness_shouldReturnUnchangedState() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
@@ -44,7 +44,7 @@ class assAnswerTrueFalseTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_isTrue_shouldReturnTrue()
+    public function test_isTrue_shouldReturnTrue() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
@@ -59,7 +59,7 @@ class assAnswerTrueFalseTest extends assBaseTestCase
         $this->assertEquals($expected, $instance->isCorrect());
     }
 
-    public function test_isFalse_shouldReturnFalseOnTrueState()
+    public function test_isFalse_shouldReturnFalseOnTrueState() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
@@ -74,7 +74,7 @@ class assAnswerTrueFalseTest extends assBaseTestCase
         $this->assertEquals($expected, $instance->isIncorrect());
     }
 
-    public function test_setFalseGetCorrectness_shouldReturnFalse()
+    public function test_setFalseGetCorrectness_shouldReturnFalse() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
@@ -89,7 +89,7 @@ class assAnswerTrueFalseTest extends assBaseTestCase
         $this->assertEquals((bool) $expected, (bool) $actual);
     }
 
-    public function test_setTrueIsTrue_shouldReturnUnchangedState()
+    public function test_setTrueIsTrue_shouldReturnUnchangedState() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';
@@ -104,7 +104,7 @@ class assAnswerTrueFalseTest extends assBaseTestCase
         $this->assertEquals($expected, $actual);
     }
 
-    public function test_setFalseIsFalse_shouldReturnUnchangedState()
+    public function test_setFalseIsFalse_shouldReturnUnchangedState() : void
     {
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assAnswerTrueFalse.php';

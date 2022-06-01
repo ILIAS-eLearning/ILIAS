@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjBlogAccess
@@ -103,6 +106,7 @@ class ilObjBlogAccess extends ilObjectAccess
         global $DIC;
 
         $setting = $DIC->settings();
+        $notes = $DIC->notes();
         $privacy = ilPrivacySettings::getInstance();
         if ($setting->get("disable_comments")) {
             return false;
@@ -110,7 +114,7 @@ class ilObjBlogAccess extends ilObjectAccess
         if (!$privacy->enabledCommentsExport()) {
             return false;
         }
-        if (!ilNote::commentsActivated($blog_id, 0, "blog")) {
+        if (!$notes->domain()->commentsActive($blog_id)) {
             return false;
         }
         return true;

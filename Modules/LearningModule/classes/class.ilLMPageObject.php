@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Handles Page Objects of ILIAS Learning Modules
@@ -31,7 +34,7 @@ class ilLMPageObject extends ilLMObject
     protected array $files_contained;
     protected array $mobs_contained;
     protected bool $contains_int_link;
-    public ilLMPage $page_object;
+    public ?ilLMPage $page_object = null;
 
     public function __construct(
         ilObjLearningModule $a_content_obj,
@@ -311,7 +314,7 @@ class ilLMPageObject extends ilLMObject
         $linked_pages = ilLMPage::getPagesWithLinks($a_par_type, $a_lm_id);
         $result = array();
         foreach ($pages as $page) {
-            if (is_array($linked_pages[$page["obj_id"]])) {
+            if (isset($linked_pages[$page["obj_id"]])) {
                 $result[] = $page;
             }
         }

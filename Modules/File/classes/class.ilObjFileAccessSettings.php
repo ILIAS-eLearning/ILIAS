@@ -142,9 +142,9 @@ class ilObjFileAccessSettings extends ilObject
         parent::read();
     
         $this->download_with_uploaded_filename = $this->ini_file->readVariable(
-                'file_access',
-                'download_with_uploaded_filename'
-            ) === '1';
+            'file_access',
+            'download_with_uploaded_filename'
+        ) === '1';
         
         $this->inline_file_extensions = $this->settings->get('inline_file_extensions', '');
     }

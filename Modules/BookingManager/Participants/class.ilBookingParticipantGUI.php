@@ -29,7 +29,7 @@ class ilBookingParticipantGUI
     public const PARTICIPANT_VIEW = 1;
     protected \ILIAS\BookingManager\StandardGUIRequest $book_request;
 
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilTabsGUI $tabs;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;

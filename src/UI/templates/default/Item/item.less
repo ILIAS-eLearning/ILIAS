@@ -8,11 +8,11 @@
 	padding: @il-item-padding;
 
 	.il-item-title {
-		font-size: @font-size-base;
+		font-size: @il-font-size-base;
 		display: inline-block;
 		.btn-link, a {
 			font-size: inherit;
-			line-height: @line-height-base;
+			line-height: @il-line-height-base;
 			
 			&:focus-visible {
 				display: block;
@@ -36,18 +36,18 @@
 
 	.il-item-description {
 		padding: @il-item-description-padding;
-		font-size: @font-size-small;
+		font-size: @il-font-size-small;
 		clear: both;
 	}
 
 	.il-item-property-name {
-		font-size: @font-size-small;
+		font-size: @il-font-size-small;
 		color: @il-text-light-color;
 		overflow: hidden;
 	}
 
 	.il-item-property-value {
-		font-size: @font-size-small;
+		font-size: @il-font-size-small;
 		overflow: hidden;
 	}
 
@@ -55,7 +55,7 @@
 		margin-left: auto;
 		margin-right: auto;
 
-		@media only screen and (max-width: @grid-float-breakpoint-max) {
+		@media only screen and (max-width: @il-grid-float-breakpoint-max) {
 			padding-top: @il-padding-large-vertical;
 		}
 	}
@@ -84,10 +84,10 @@
 
 	> h3 {
 		float:left;
-		color: @panel-heading-color;
-		font-size: @font-size-h4;
+		color: @il-panel-heading-color;
+		font-size: @il-font-size-large;
 		font-weight: normal;
-		padding: @panel-heading-padding;
+		padding: @il-panel-heading-padding;
 		margin: 0;
 	}
 
@@ -124,7 +124,7 @@
 	}
 
 	.dropdown{
-		margin-top: -(@font-size-base+@il-margin-large-vertical);
+		margin-top: -(@il-font-size-base+@il-margin-large-vertical);
 	}
 
 }
@@ -141,7 +141,7 @@
 			"description description"
 			"divider divider"
 			"properties properties";
-		grid-auto-columns: auto @font-size-small;
+		grid-auto-columns: auto @il-font-size-small;
 
 		.il-item-title {
 			grid-area: title;
@@ -164,10 +164,10 @@
 	}
 }
 
-@media only screen and (min-width: (@grid-float-breakpoint-max + 1px)) {
+@media only screen and (min-width: (@il-grid-float-breakpoint-max + 1px)) {
 
 	.panel-secondary .il-item {
-		padding: @il-padding-large-vertical @il-padding-small-horizontal;
+		padding: @il-padding-large-vertical @il-padding-xlarge-horizontal;
 		width: 100%;
 
 		.il-item-title {
@@ -176,7 +176,7 @@
 
 		.il-item-description {
 			padding-top: 0;
-			font-size: @font-size-xs;
+			font-size: @il-font-size-xsmall;
 			word-break: break-word;
 		}
 
@@ -204,7 +204,7 @@
 	overflow: visible;
 }
 
-@media only screen and (max-width: @grid-float-breakpoint-max) {
+@media only screen and (max-width: @il-grid-float-breakpoint-max) {
 	.il-item {
 		.il-item-divider {
 			padding: @il-item-divider-padding;
@@ -215,7 +215,7 @@
 
 	.il-panel-listing-std-container{
 		.il-item .media-left{
-			min-width: @il-icon-size-small+2*@il-padding-large-horizontal;
+			min-width: @il-icon-size-small+2*@il-padding-xlarge-horizontal;
 		}
 	}
 

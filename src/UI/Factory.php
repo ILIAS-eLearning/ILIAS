@@ -826,7 +826,13 @@ interface Factory
      *   purpose: >
      *     Symbols are graphical representations of concepts or contexts
      *     quickly comprehensible or generally known to the user.
-     *
+     *   composition:
+     *     Symbols contain a graphical along with textual representation describing, what the graphic is depicting.
+     * rules:
+     *   accessibility:
+     *     1: Symbols MUST have labels which then might be used to display some alternative text (e.g. as alt attribute).
+     *     2: The label of the Symbol MUST NOT be displayed, if the Symbol has a purely decorative function (as e.g. in
+     *        primary buttons).
      * ---
      * @return \ILIAS\UI\Component\Symbol\Factory
      */

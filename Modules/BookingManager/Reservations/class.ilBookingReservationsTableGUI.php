@@ -40,7 +40,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
     protected ilTree $tree;
     /** @var int[] ids of context objects (e.g. course ids) */
     protected ?array $context_obj_ids;
-    protected ilAdvancedMDRecordGUI $record_gui;
+    protected ?ilAdvancedMDRecordGUI $record_gui = null;
 
     public function __construct(
         object $a_parent_obj,
@@ -340,7 +340,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
 
             // if period starts in the past we have to include past reservations
             // :TODO: to be discussed
-            if (is_object($this->filter["fromto"]["from"]) &&
+            if (isset($this->filter["fromto"]["from"]) &&
                 $this->filter["fromto"]["from"]->get(IL_CAL_DATE) < date("Y-m-d")) {
                 $item->setChecked(true);
             }
@@ -568,7 +568,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    public function getAdvMDRecordGUI() : ilAdvancedMDRecordGUI
+    public function getAdvMDRecordGUI() : ?ilAdvancedMDRecordGUI
     {
         return $this->record_gui;
     }

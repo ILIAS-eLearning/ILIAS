@@ -31,7 +31,7 @@ class ilObjLTIConsumerAccess extends ilObjectAccess implements ilConditionHandli
         return array(
             array(
                 "permission" => "read",
-                "cmd" => "infoScreen",
+                "cmd" => "launch",
                 "lang_var" => "",
                 "default" => true
             ),

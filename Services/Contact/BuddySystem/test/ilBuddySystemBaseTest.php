@@ -20,8 +20,7 @@ use ILIAS\DI\Container;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * @author Michael Jansen <mjansen@databay.de>
  */
 class ilBuddySystemBaseTest extends TestCase
 {

@@ -18,32 +18,17 @@ require_once './Modules/TestQuestionPool/classes/class.ilUserQuestionResult.php'
  */
 class assFormulaQuestion extends assQuestion implements iQuestionCondition
 {
-    private $variables;
-    private $results;
-    private $resultunits;
+    private array $variables;
+    private array $results;
+    private array $resultunits;
+    private ilUnitConfigurationRepository $unitrepository;
 
-    /**
-     * @var ilUnitConfigurationRepository
-     */
-    private $unitrepository;
-
-    /**
-     * assFormulaQuestion constructor
-     * The constructor takes possible arguments an creates an instance of the assFormulaQuestion object.
-     * @param string  $title    A title string to describe the question
-     * @param string  $comment  A comment string to describe the question
-     * @param string  $author   A string containing the name of the questions author
-     * @param integer $owner    A numerical ID to identify the owner/creator
-     * @param string  $question The question string of the single choice question
-     * @access public
-     * @see    assQuestion:assQuestion()
-     */
     public function __construct(
-        $title = "",
-        $comment = "",
-        $author = "",
-        $owner = -1,
-        $question = ""
+        string $title = "",
+        string $comment = "",
+        string $author = "",
+        int $owner = -1,
+        string $question = ""
     ) {
         parent::__construct($title, $comment, $author, $owner, $question);
         $this->variables = array();
@@ -52,7 +37,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         $this->unitrepository = new ilUnitConfigurationRepository(0);
     }
 
-    public function clearVariables()
+    public function clearVariables() : void
     {
         $this->variables = array();
     }
@@ -70,12 +55,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         return null;
     }
 
-    public function addVariable($variable)
+    public function addVariable($variable) : void
     {
         $this->variables[$variable->getVariable()] = $variable;
     }
 
-    public function clearResults()
+    public function clearResults() : void
     {
         $this->results = array();
     }
@@ -93,12 +78,12 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         return null;
     }
 
-    public function addResult($result)
+    public function addResult($result) : void
     {
         $this->results[$result->getResult()] = $result;
     }
 
-    public function addResultUnits($result, $unit_ids)
+    public function addResultUnits($result, $unit_ids) : void
     {
         $this->resultunits[$result->getResult()] = array();
         if ((!is_object($result)) || (!is_array($unit_ids))) {
@@ -111,7 +96,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         }
     }
 
-    public function addResultUnit($result, $unit)
+    public function addResultUnit($result, $unit) : void
     {
         if (is_object($result) && is_object($unit)) {
             if (!is_array($this->resultunits[$result->getResult()])) {
@@ -130,7 +115,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         }
     }
 
-    public function getAllResultUnits()
+    public function getAllResultUnits() : array
     {
         return $this->resultunits;
     }
@@ -146,7 +131,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
         return false;
     }
 
-    public function parseQuestionText()
+    public function parseQuestionText() : void
     {
         $this->clearResults();
         $this->clearVariables();
@@ -1325,7 +1310,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
     /**
      * @param \ilUnitConfigurationRepository $unitrepository
      */
-    public function setUnitrepository($unitrepository)
+    public function setUnitrepository($unitrepository) : void
     {
         $this->unitrepository = $unitrepository;
     }

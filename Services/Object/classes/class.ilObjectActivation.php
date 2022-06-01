@@ -303,9 +303,9 @@ class ilObjectActivation
             ? $item['type']
             : ilObject::_lookupType((int) $item['obj_id']);
 
-        $item['timing_type'] = $item_array['timing_type'];
+        $item['timing_type'] = $item_array['timing_type'] ?? 0;
 
-        if ($item_array['changeable'] &&
+        if (($item_array['changeable'] ?? false) &&
             $item_array['timing_type'] == self::TIMINGS_PRESETTING) {
             // cognos-blu-patch: begin
             $user_data = new ilTimingUser((int) $item['ref_id'], $ilUser->getId());
@@ -314,18 +314,18 @@ class ilObjectActivation
                 $item['end'] = $user_data->getEnd()->get(IL_CAL_UNIX);
                 $item['activation_info'] = 'crs_timings_planed_info';
             } else {
-                $item['start'] = $item_array['suggestion_start'];
-                $item['end'] = $item_array['suggestion_end'];
+                $item['start'] = $item_array['suggestion_start'] ?? "";
+                $item['end'] = $item_array['suggestion_end'] ?? "";
                 $item['activation_info'] = 'crs_timings_suggested_info';
             }
             // cognos-blu-patch: end
-        } elseif ($item_array['timing_type'] == self::TIMINGS_PRESETTING) {
-            $item['start'] = $item_array['suggestion_start'];
-            $item['end'] = $item_array['suggestion_end'];
+        } elseif (($item_array['timing_type'] ?? 0) == self::TIMINGS_PRESETTING) {
+            $item['start'] = $item_array['suggestion_start'] ?? "";
+            $item['end'] = $item_array['suggestion_end'] ?? "";
             $item['activation_info'] = 'crs_timings_suggested_info';
-        } elseif ($item_array['timing_type'] == self::TIMINGS_ACTIVATION) {
-            $item['start'] = $item_array['timing_start'];
-            $item['end'] = $item_array['timing_end'];
+        } elseif (($item_array['timing_type'] ?? 0) == self::TIMINGS_ACTIVATION) {
+            $item['start'] = $item_array['timing_start'] ?? "";
+            $item['end'] = $item_array['timing_end'] ?? "";
             $item['activation_info'] = 'obj_activation_list_gui';
         } else {
             $item['start'] = 'abc';

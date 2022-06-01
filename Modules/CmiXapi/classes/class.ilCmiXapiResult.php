@@ -24,53 +24,29 @@
  */
 class ilCmiXapiResult
 {
-    /**
-     * @var int
-     */
     protected int $id;
-    
-    /**
-     * @var int
-     */
+ 
     protected int $objId;
-    
-    /**
-     * @var int
-     */
+
     protected int $usrId;
-    
-    /**
-     * @var int
-     */
+
     protected int $version;
-    
-    /**
-     * @var float
-     */
+
     protected float $score;
-    
-    /**
-     * @var string
-     */
+
     protected string $status;
-    
-    /**
-     * @var string
-     */
+
     protected string $lastUpdate;
+
+    private ilDBInterface $database;
     
     /**
      * ilCmiXapiResult constructor.
-     * @param int $id
-     * @param int $objId
-     * @param int $usrId
-     * @param int $version
-     * @param float $score
-     * @param string $status
-     * @param string $lastUpdate
      */
     public function __construct()
     {
+        global $DIC;
+        $this->database = $DIC->database();
         $this->id = 0;
         $this->objId = 0;
         $this->usrId = 0;
@@ -80,113 +56,71 @@ class ilCmiXapiResult
         $this->lastUpdate = '';
     }
     
-    /**
-     * @return int
-     */
     public function getId() : int
     {
         return $this->id;
     }
     
-    /**
-     * @param int $id
-     */
     public function setId(int $id) : void
     {
         $this->id = $id;
     }
     
-    /**
-     * @return int
-     */
     public function getObjId() : int
     {
         return $this->objId;
     }
     
-    /**
-     * @param int $objId
-     */
     public function setObjId(int $objId) : void
     {
         $this->objId = $objId;
     }
     
-    /**
-     * @return int
-     */
     public function getUsrId() : int
     {
         return $this->usrId;
     }
     
-    /**
-     * @param int $usrId
-     */
     public function setUsrId(int $usrId) : void
     {
         $this->usrId = $usrId;
     }
     
-    /**
-     * @return int
-     */
     public function getVersion() : int
     {
         return $this->version;
     }
     
-    /**
-     * @param int $version
-     */
     public function setVersion(int $version) : void
     {
         $this->version = $version;
     }
     
-    /**
-     * @return float
-     */
     public function getScore() : float
     {
         return $this->score;
     }
     
-    /**
-     * @param float $score
-     */
     public function setScore(float $score) : void
     {
         $this->score = $score;
     }
     
-    /**
-     * @return string
-     */
     public function getStatus() : string
     {
         return $this->status;
     }
     
-    /**
-     * @param string $status
-     */
     public function setStatus(string $status) : void
     {
         $this->status = $status;
     }
     
-    /**
-     * @return string
-     */
     public function getLastUpdate() : string
     {
         return $this->lastUpdate;
     }
     
-    /**
-     * @param string $lastUpdate
-     */
     public function setLastUpdate(string $lastUpdate) : void
     {
         $this->lastUpdate = $lastUpdate;
@@ -203,9 +137,7 @@ class ilCmiXapiResult
     
     protected function update() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $DIC->database()->update('cmix_results', array(
+        $this->database->update('cmix_results', array(
                 'obj_id' => array('intger', $this->getObjId()),
                 'usr_id' => array('intger', $this->getUsrId()),
                 'version' => array('intger', $this->getVersion()),
@@ -219,11 +151,9 @@ class ilCmiXapiResult
     
     protected function insert() : void
     {
-        global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        $this->setId($this->database->nextId('cmix_results'));
         
-        $this->setId($DIC->database()->nextId('cmix_results'));
-        
-        $DIC->database()->insert('cmix_results', array(
+        $this->database->insert('cmix_results', array(
             'id' => array('intger', $this->getId()),
             'obj_id' => array('intger', $this->getObjId()),
             'usr_id' => array('intger', $this->getUsrId()),
@@ -234,10 +164,6 @@ class ilCmiXapiResult
         ));
     }
 
-    /**
-     * @param array $row
-     * @return void
-     */
     protected function assignFromDbRow(array $row) : void
     {
         $this->setId($row['id']);
@@ -250,15 +176,11 @@ class ilCmiXapiResult
     }
 
     /**
-     * @param int $objId
-     * @param int $usrId
-     * @return ilCmiXapiResult
      * @throws ilCmiXapiException
      */
     public static function getInstanceByObjIdAndUsrId(int $objId, int $usrId) : \ilCmiXapiResult
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         $query = "
 			SELECT * FROM cmix_results
 			WHERE obj_id = %s AND usr_id = %s
@@ -278,16 +200,12 @@ class ilCmiXapiResult
         );
     }
 
-    /**
-     * @return ilCmiXapiResult
-     */
     public static function getEmptyInstance() : \ilCmiXapiResult
     {
         return new self();
     }
 
     /**
-     * @param int $objId
      * @return ilCmiXapiResult[]
      */
     public static function getResultsForObject(int $objId) : array

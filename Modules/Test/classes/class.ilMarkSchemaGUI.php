@@ -12,69 +12,35 @@ class ilMarkSchemaGUI
      * @var ilMarkSchemaAware|ilEctsGradesEnabled
      */
     protected $object;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilGlobalPageTemplate $tpl;
+    protected ilToolbarGUI $toolbar;
 
     /**
      * @param ilMarkSchemaAware|ilEctsGradesEnabled $object
      */
-    public function __construct(ilMarkSchemaAware $object)
+    public function __construct($object)
     {
-        /**
-         * @var $ilCtrl    ilCtrl
-         * @var $lng       ilLanguage
-         * @var $tpl       ilTemplate
-         * @var $ilToolbar ilToolbarGUI
-         */
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
-        $ilToolbar = $DIC['ilToolbar'];
 
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
-        $this->tpl = $tpl;
-        $this->toolbar = $ilToolbar;
-
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->lng = $DIC['lng'];
+        $this->tpl = $DIC['tpl'];
+        $this->toolbar = $DIC['ilToolbar'];
         $this->object = $object;
     }
 
-    /**
-     * Controller method
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        global $DIC; /* @var ILIAS\DI\Container $DIC */
+        global $DIC;
         
         $DIC->tabs()->activateTab(ilTestTabsManager::TAB_ID_SETTINGS);
-        
         $cmd = $this->ctrl->getCmd('showMarkSchema');
         $this->$cmd();
     }
 
-    /**
-     *
-     */
-    protected function ensureMarkSchemaCanBeEdited()
+    protected function ensureMarkSchemaCanBeEdited() : void
     {
         if (!$this->object->canEditMarks()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -82,10 +48,7 @@ class ilMarkSchemaGUI
         }
     }
 
-    /**
-     *
-     */
-    protected function ensureEctsGradesCanBeEdited()
+    protected function ensureEctsGradesCanBeEdited() : void
     {
         if (!$this->object->canEditEctsGrades()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('permission_denied'), true);
@@ -93,10 +56,7 @@ class ilMarkSchemaGUI
         }
     }
 
-    /**
-     * Add a new mark step to the tests marks
-     */
-    protected function addMarkStep()
+    protected function addMarkStep() : void
     {
         $this->ensureMarkSchemaCanBeEdited();
 
@@ -105,10 +65,7 @@ class ilMarkSchemaGUI
         $this->showMarkSchema();
     }
 
-    /**
-     * Save the mark schema POST data when the form was submitted
-     */
-    protected function saveMarkSchemaFormData()
+    protected function saveMarkSchemaFormData() : void
     {
         $this->object->getMarkSchema()->flush();
         foreach ($_POST as $key => $value) {
@@ -123,10 +80,7 @@ class ilMarkSchemaGUI
         }
     }
 
-    /**
-     * Add a simple mark schema to the tests marks
-     */
-    protected function addSimpleMarkSchema()
+    protected function addSimpleMarkSchema() : void
     {
         $this->ensureMarkSchemaCanBeEdited();
 
@@ -144,10 +98,7 @@ class ilMarkSchemaGUI
         $this->showMarkSchema();
     }
 
-    /**
-     * Delete selected mark steps
-     */
-    protected function deleteMarkSteps()
+    protected function deleteMarkSteps() : void
     {
         $this->ensureMarkSchemaCanBeEdited();
 
@@ -171,10 +122,7 @@ class ilMarkSchemaGUI
         $this->showMarkSchema();
     }
 
-    /**
-     * Save the mark schema
-     */
-    protected function saveMarks()
+    protected function saveMarks() : void
     {
         $this->ensureMarkSchemaCanBeEdited();
 
@@ -196,20 +144,13 @@ class ilMarkSchemaGUI
         $this->ctrl->redirect($this);
     }
 
-    /**
-     * @return boolean
-     */
     private function objectSupportsEctsGrades() : bool
     {
         require_once 'Modules/Test/interfaces/interface.ilEctsGradesEnabled.php';
         return $this->object instanceof ilEctsGradesEnabled;
     }
 
-    /**
-     * Display mark schema
-     * @param ilPropertyFormGUI $ects_form
-     */
-    protected function showMarkSchema(ilPropertyFormGUI $ects_form = null)
+    protected function showMarkSchema(?ilPropertyFormGUI $ects_form = null) : void
     {
         if (!$this->object->canEditMarks()) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('cannot_edit_marks'));
@@ -250,10 +191,7 @@ class ilMarkSchemaGUI
         $this->tpl->setContent(implode('<br />', $content_parts));
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     */
-    protected function populateEctsForm(ilPropertyFormGUI $form)
+    protected function populateEctsForm(ilPropertyFormGUI $form) : void
     {
         $data = array();
 
@@ -270,9 +208,6 @@ class ilMarkSchemaGUI
         $form->setValuesByArray($data);
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
     protected function getEctsForm() : ilPropertyFormGUI
     {
         require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
@@ -337,10 +272,7 @@ class ilMarkSchemaGUI
         return $form;
     }
 
-    /**
-     *
-     */
-    protected function saveEctsForm()
+    protected function saveEctsForm() : void
     {
         $this->ensureEctsGradesCanBeEdited();
 

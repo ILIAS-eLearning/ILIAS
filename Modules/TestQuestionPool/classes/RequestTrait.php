@@ -2,5 +2,4 @@
 
 trait QPRequestTrait
 {
-
 }

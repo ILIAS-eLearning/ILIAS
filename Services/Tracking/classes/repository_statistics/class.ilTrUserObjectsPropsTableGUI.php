@@ -80,7 +80,8 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             $this->ctrl->getFormActionByClass(get_class($this))
         );
         $this->setRowTemplate(
-            "tpl.user_objects_props_row.html", "Services/Tracking"
+            "tpl.user_objects_props_row.html",
+            "Services/Tracking"
         );
         $this->setEnableTitle(true);
         $this->setDefaultOrderField("title");
@@ -186,11 +187,13 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         foreach ($tr_data["set"] as $idx => $row) {
             if ($row["ref_id"] &&
                 !ilLearningProgressAccess::checkPermission(
-                    'read_learning_progress', $row['ref_id']
+                    'read_learning_progress',
+                    $row['ref_id']
                 )) {
                 foreach (array_keys($row) as $col_id) {
                     if (!in_array(
-                        $col_id, array("type",
+                        $col_id,
+                        array("type",
                                        "obj_id",
                                        "ref_id",
                                        "title",
@@ -245,14 +248,16 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
 
             // show collection only/all
             $ti = new ilRadioGroupInputGUI(
-                $this->lng->txt("trac_view_mode"), "view_mode"
+                $this->lng->txt("trac_view_mode"),
+                "view_mode"
             );
             $ti->addOption(
                 new ilRadioOption($this->lng->txt("trac_view_mode_all"), "")
             );
             $ti->addOption(
                 new ilRadioOption(
-                    $this->lng->txt("trac_view_mode_collection"), "coll"
+                    $this->lng->txt("trac_view_mode_collection"),
+                    "coll"
                 )
             );
             $this->addFilterItem($ti);
@@ -307,24 +312,26 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                                 $a_set["type"] != "st" &&
                                 $a_set["type"] != "mob") {
                                 $timing = $this->showTimingsWarning(
-                                    $a_set["ref_id"], $this->user_id
+                                    $a_set["ref_id"],
+                                    $this->user_id
                                 );
                                 if ($timing) {
                                     if ($timing !== true) {
                                         $timing = ": " . ilDatePresentation::formatDate(
-                                                new ilDate(
-                                                    $timing,
-                                                    IL_CAL_UNIX
-                                                )
-                                            );
+                                            new ilDate(
+                                                $timing,
+                                                IL_CAL_UNIX
+                                            )
+                                        );
                                     } else {
                                         $timing = "";
                                     }
                                     $this->tpl->setCurrentBlock('warning_img');
                                     $this->tpl->setVariable(
-                                        'WARNING_IMG', ilUtil::getImagePath(
-                                        'time_warn.svg'
-                                    )
+                                        'WARNING_IMG',
+                                        ilUtil::getImagePath(
+                                            'time_warn.svg'
+                                        )
                                     );
                                     $this->tpl->setVariable(
                                         'WARNING_ALT',
@@ -380,7 +387,8 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         if ($a_set["privacy_conflict"]) {
             $this->tpl->setCurrentBlock("permission_bl");
             $this->tpl->setVariable(
-                "TXT_NO_PERMISSION", $this->lng->txt("status_no_permission")
+                "TXT_NO_PERMISSION",
+                $this->lng->txt("status_no_permission")
             );
             $this->tpl->parseCurrentBlock();
         }
@@ -390,13 +398,15 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
 
         $this->tpl->setVariable(
-            "ICON", ilObject::_getIcon(0, "tiny", $a_set["type"])
+            "ICON",
+            ilObject::_getIcon(0, "tiny", $a_set["type"])
         );
         $this->tpl->setVariable("ICON_ALT", $this->lng->txt($a_set["type"]));
 
         if (in_array(
-                $a_set['type'], array('fold', 'grp')
-            ) && $a_set['obj_id'] != $this->obj_id) {
+            $a_set['type'],
+            array('fold', 'grp')
+        ) && $a_set['obj_id'] != $this->obj_id) {
             if ($a_set['type'] == 'fold') {
                 $object_gui = 'ilobjfoldergui';
             } else {
@@ -417,29 +427,42 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                     'illplistofobjectsgui'
                 );
                 $this->ctrl->setParameterByClass(
-                    'illplistofobjectsgui', 'ref_id', $a_set["ref_id"]
+                    'illplistofobjectsgui',
+                    'ref_id',
+                    $a_set["ref_id"]
                 );
                 $this->ctrl->setParameterByClass(
-                    'illplistofobjectsgui', 'details_id', $a_set["ref_id"]
+                    'illplistofobjectsgui',
+                    'details_id',
+                    $a_set["ref_id"]
                 );
                 $this->ctrl->setParameterByClass(
-                    'illplistofobjectsgui', 'user_id', $this->user_id
+                    'illplistofobjectsgui',
+                    'user_id',
+                    $this->user_id
                 );
                 $url = $this->ctrl->getLinkTargetByClass(
                     array('ilrepositorygui',
                           $object_gui,
                           'illearningprogressgui',
                           'illplistofobjectsgui'
-                    ), 'userdetails'
+                    ),
+                    'userdetails'
                 );
                 $this->ctrl->setParameterByClass(
-                    'illplistofobjectsgui', 'ref_id', $old["ref_id"]
+                    'illplistofobjectsgui',
+                    'ref_id',
+                    $old["ref_id"]
                 );
                 $this->ctrl->setParameterByClass(
-                    'illplistofobjectsgui', 'details_id', $old["details_id"]
+                    'illplistofobjectsgui',
+                    'details_id',
+                    $old["details_id"]
                 );
                 $this->ctrl->setParameterByClass(
-                    'illplistofobjectsgui', 'user_id', $old["user_id"]
+                    'illplistofobjectsgui',
+                    'user_id',
+                    $old["user_id"]
                 );
             } else {
                 $url = "#";
@@ -460,7 +483,8 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             $path = $path->getPath($this->ref_id, $a_set['ref_id']);
             if ($path) {
                 $this->tpl->setVariable(
-                    'COLL_PATH', $this->lng->txt('path') . ': ' . $path
+                    'COLL_PATH',
+                    $this->lng->txt('path') . ': ' . $path
                 );
             }
         }
@@ -468,24 +492,31 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         // #13807 / #17069
         if ($a_set["ref_id"] &&
             ilLearningProgressAccess::checkPermission(
-                'edit_learning_progress', $a_set['ref_id']
+                'edit_learning_progress',
+                $a_set['ref_id']
             )) {
             if (!in_array(
-                    $a_set["type"], array("sco", "lobj")
-                ) && !$this->getPrintMode()) {
+                $a_set["type"],
+                array("sco", "lobj")
+            ) && !$this->getPrintMode()) {
                 $this->tpl->setCurrentBlock("item_command");
                 $this->ctrl->setParameterByClass(
-                    "illplistofobjectsgui", "userdetails_id", $a_set["ref_id"]
+                    "illplistofobjectsgui",
+                    "userdetails_id",
+                    $a_set["ref_id"]
                 );
                 $this->tpl->setVariable(
                     "HREF_COMMAND",
                     $this->ctrl->getLinkTargetByClass(
-                        "illplistofobjectsgui", 'edituser'
+                        "illplistofobjectsgui",
+                        'edituser'
                     )
                 );
                 $this->tpl->setVariable("TXT_COMMAND", $this->lng->txt('edit'));
                 $this->ctrl->setParameterByClass(
-                    "illplistofobjectsgui", "userdetails_id", ""
+                    "illplistofobjectsgui",
+                    "userdetails_id",
+                    ""
                 );
                 $this->tpl->parseCurrentBlock();
             }

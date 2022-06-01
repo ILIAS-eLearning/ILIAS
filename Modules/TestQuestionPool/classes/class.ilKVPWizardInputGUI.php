@@ -49,7 +49,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	integer	$a_size	Key size
     */
-    public function setKeySize($a_size)
+    public function setKeySize($a_size) : void
     {
         $this->key_size = $a_size;
     }
@@ -69,7 +69,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	integer	$a_size	value size
     */
-    public function setValueSize($a_size)
+    public function setValueSize($a_size) : void
     {
         $this->value_size = $a_size;
     }
@@ -89,7 +89,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	integer	$a_size	Key maxlength
     */
-    public function setKeyMaxlength($a_maxlength)
+    public function setKeyMaxlength($a_maxlength) : void
     {
         $this->key_maxlength = $a_maxlength;
     }
@@ -109,7 +109,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	integer	$a_size	value maxlength
     */
-    public function setValueMaxlength($a_maxlength)
+    public function setValueMaxlength($a_maxlength) : void
     {
         $this->value_maxlength = $a_maxlength;
     }
@@ -129,7 +129,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	string	$a_name	value name
     */
-    public function setValueName($a_name)
+    public function setValueName($a_name) : void
     {
         $this->value_name = $a_name;
     }
@@ -149,7 +149,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	string	$a_name	value name
     */
-    public function setKeyName($a_name)
+    public function setKeyName($a_name) : void
     {
         $this->key_name = $a_name;
     }
@@ -169,7 +169,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	array	$a_value	Value
     */
-    public function setValues($a_values)
+    public function setValues($a_values) : void
     {
         $this->values = $a_values;
     }
@@ -189,7 +189,7 @@ class ilKVPWizardInputGUI extends ilTextInputGUI
     *
     * @param	boolean	$a_allow_move Allow move
     */
-    public function setAllowMove($a_allow_move)
+    public function setAllowMove($a_allow_move) : void
     {
         $this->allowMove = $a_allow_move;
     }

@@ -78,8 +78,6 @@ class ilTermsOfServiceAcceptanceHistoryCriteriaBag extends ArrayObject implement
                     var_export($value, true)
                 ));
             }
-            
-            $x = 5;
         });
     }
 

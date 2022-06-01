@@ -15,12 +15,8 @@ require_once './Modules/Test/classes/inc.AssessmentConstants.php';
  */
 class ASS_MarkSchema
 {
-    /** @var $mark_steps array An array containing all mark steps defined for the test. */
     public array $mark_steps;
 
-    /**
-     * ASS_MarkSchema constructor
-     */
     public function __construct()
     {
         $this->mark_steps = array();
@@ -42,14 +38,14 @@ class ASS_MarkSchema
      * @param integer   $passed_passed       Indicates the passed status of the passed mark (0 = failed, 1 = passed).
      */
     public function createSimpleSchema(
-        $txt_failed_short = "failed",
-        $txt_failed_official = "failed",
-        $percentage_failed = 0,
-        $failed_passed = 0,
-        $txt_passed_short = "passed",
-        $txt_passed_official = "passed",
-        $percentage_passed = 50,
-        $passed_passed = 1
+        string $txt_failed_short = "failed",
+        string $txt_failed_official = "failed",
+        float $percentage_failed = 0,
+        int $failed_passed = 0,
+        string $txt_passed_short = "passed",
+        string $txt_passed_official = "passed",
+        float $percentage_passed = 50,
+        int $passed_passed = 1
     ) {
         $this->flush();
         $this->addMarkStep($txt_failed_short, $txt_failed_official, $percentage_failed, $failed_passed);
@@ -62,24 +58,19 @@ class ASS_MarkSchema
      *
      * @see $mark_steps
      *
-     * @param string		$txt_short    The short text of the mark.
-     * @param string		$txt_official The official text of the mark.
-     * @param float|integer	$percentage   The minimum percentage level reaching the mark.
-     * @param integer		$passed       The passed status of the mark (0 = failed, 1 = passed).
+     * @param string  $txt_short    The short text of the mark.
+     * @param string  $txt_official The official text of the mark.
+     * @param float   $percentage   The minimum percentage level reaching the mark.
+     * @param integer $passed       The passed status of the mark (0 = failed, 1 = passed).
      */
-    public function addMarkStep($txt_short = "", $txt_official = "", $percentage = 0, $passed = 0)
+    public function addMarkStep(string $txt_short = "", string $txt_official = "", $percentage = 0, $passed = 0) : void
     {
         require_once './Modules/Test/classes/class.assMark.php';
         $mark = new ASS_Mark($txt_short, $txt_official, $percentage, $passed);
         array_push($this->mark_steps, $mark);
     }
 
-    /**
-     * Saves an ASS_MarkSchema object to a database.
-     *
-     * @param integer $test_id The database id of the related test.
-     */
-    public function saveToDb($test_id)
+    public function saveToDb(int $test_id) : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -182,12 +173,7 @@ class ASS_MarkSchema
         }
     }
 
-    /**
-     * Loads an ASS_MarkSchema object from a database.
-     *
-     * @param integer $test_id A unique key which defines the test in the database.
-     */
-    public function loadFromDb($test_id)
+    public function loadFromDb(int $test_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -208,12 +194,7 @@ class ASS_MarkSchema
         }
     }
   
-    /**
-     * Empties the mark schema and removes all mark steps.
-     *
-     * @see $mark_steps
-     */
-    public function flush()
+    public function flush() : void
     {
         $this->mark_steps = array();
     }
@@ -223,7 +204,7 @@ class ASS_MarkSchema
      *
      * @see $mark_steps
      */
-    public function sort()
+    public function sort() : void
     {
         function level_sort($a, $b) : int
         {
@@ -264,12 +245,9 @@ class ASS_MarkSchema
 
     /**
      * Deletes multiple mark steps using their index positions.
-     *
-     * @see $mark_steps
-     *
      * @param array $indexes An array with all the index positions to delete.
      */
-    public function deleteMarkSteps($indexes)
+    public function deleteMarkSteps(array $indexes) : void
     {
         foreach ($indexes as $key => $index) {
             if (!(($index < 0) or (count($this->mark_steps) < 1))) {
@@ -308,7 +286,7 @@ class ASS_MarkSchema
      * @param integer 	$test_id 	The database id of the test.
      * @param double 	$percentage	A percentage value between 0 and 100.
      *
-     * @return mixed The mark object, if a matching mark was found, false otherwise.
+     * @return false|ASS_Mark The mark object, if a matching mark was found, false otherwise.
      */
     public static function _getMatchingMark($test_id, $percentage)
     {
@@ -335,11 +313,10 @@ class ASS_MarkSchema
      * @see $mark_steps
      *
      * @param integer	$a_obj_id 	The database id of the test.
-     * @param double 	$percentage A percentage value between 0 and 100.
      *
-     * @return mixed The mark object, if a matching mark was found, false otherwise.
+     * @return false|ASS_Mark The mark object, if a matching mark was found, false otherwise.
      */
-    public static function _getMatchingMarkFromObjId($a_obj_id, $percentage)
+    public static function _getMatchingMarkFromObjId($a_obj_id, float $percentage)
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -427,20 +404,15 @@ class ASS_MarkSchema
     /**
      * @param ASS_Mark[] $mark_steps
      */
-    public function setMarkSteps($mark_steps)
+    public function setMarkSteps(array $mark_steps) : void
     {
         $this->mark_steps = $mark_steps;
     }
 
     /**
      * Logs an action into the Test&Assessment log.
-     *
-     * @param integer 	$test_id The database id of the test.
-     * @param string 	$logtext The log text.
-     *
-     * @return void
      */
-    public function logAction($test_id, $logtext = "")
+    public function logAction($test_id, string $logtext = "") : void
     {
         /** @var $ilUser ilObjUser */
         global $DIC;

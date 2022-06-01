@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 
@@ -24,6 +27,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  */
 class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 {
+    protected \ILIAS\Notes\GUIService $notes_gui;
     protected ilWorkspaceAccessHandler $ws_access;
     protected ContextServices $tool_context;
     protected ilPortfolioDeclarationOfAuthorship $declaration_authorship;
@@ -46,6 +50,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         $this->declaration_authorship = new ilPortfolioDeclarationOfAuthorship();
 
         $this->ctrl->saveParameter($this, "exc_back_ref_id");
+        $this->notes_gui = $DIC->notes()->gui();
     }
     
     public function getType() : string
@@ -79,7 +84,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
         // we have to init the note js handling here, might go to
         // a better place in the future
-        ilNoteGUI::initJavascript(
+        $this->notes_gui->initJavascript(
             $this->ctrl->getLinkTargetByClass(
                 array("ilnotegui"),
                 "",
@@ -151,7 +156,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 $this->setSettingsSubTabs("style");
                 $settings_gui = $this->content_style_gui
                     ->objectSettingsGUIForObjId(
-                        null,
+                        0,
                         $this->object->getId()
                     );
                 $this->ctrl->forwardCommand($settings_gui);

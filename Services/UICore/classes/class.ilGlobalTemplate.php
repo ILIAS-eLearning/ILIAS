@@ -144,7 +144,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
         if (DEVMODE) {
             $php = ", PHP " . PHP_VERSION;
         }
-        $ftpl->setVariable("ILIAS_VERSION", $ilSetting->get("ilias_version") . $php);
+        $ftpl->setVariable("ILIAS_VERSION", ILIAS_VERSION . $php);
 
         $link_items = [];
 
@@ -392,7 +392,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
 
         $vers = '';
         if (is_object($ilSetting)) {        // maybe this one can be removed
-            $vers = "vers=" . str_replace([".", " "], "-", $ilSetting->get("ilias_version"));
+            $vers = "vers=" . str_replace([".", " "], "-", ILIAS_VERSION);
 
             if (DEVMODE) {
                 $vers .= '-' . time();

@@ -24,19 +24,10 @@
  */
 class ilXapiCompliantStatementsReportLinkBuilder
 {
-    /**
-     * @var ilObjCmiXapi
-     */
     protected ilObjCmiXapi $object;
     
-    /**
-     * @var ilCmiXapiLrsType
-     */
     protected ilCmiXapiLrsType $lrsType;
-    
-    /**
-     * @var ilCmiXapiStatementsReportFilter
-     */
+
     protected ilCmiXapiStatementsReportFilter $filter;
     
     public function __construct(ilObjCmiXapi $object, ilCmiXapiStatementsReportFilter $filter)
@@ -49,17 +40,16 @@ class ilXapiCompliantStatementsReportLinkBuilder
     public function getUrl() : string
     {
         $link = $this->lrsType->getLrsEndpointStatementsLink();
-        $link = $this->appendRequestParameters($link);
-        return $link;
+        return $this->appendRequestParameters($link);
     }
     
     protected function appendRequestParameters(string $link) : string
     {
-        if ($this->filter->getLimit()) {
+        if ($this->filter->getLimit() !== 0) {
             $link = ilUtil::appendUrlParameterString($link, $this->buildParamLimit());
         }
         
-        if ($this->filter->getActor()) {
+        if ($this->filter->getActor() !== null) {
             $link = ilUtil::appendUrlParameterString($link, $this->buildParamAgent());
         }
         
@@ -67,24 +57,20 @@ class ilXapiCompliantStatementsReportLinkBuilder
             $link = ilUtil::appendUrlParameterString($link, $this->buildParamVerb());
         }
         
-        if ($this->filter->getStartDate()) {
+        if ($this->filter->getStartDate() !== null) {
             $link = ilUtil::appendUrlParameterString($link, $this->buildParamSince());
         }
         
-        if ($this->filter->getEndDate()) {
+        if ($this->filter->getEndDate() !== null) {
             $link = ilUtil::appendUrlParameterString($link, $this->buildParamUntil());
         }
         
         $link = ilUtil::appendUrlParameterString($link, $this->buildParamRelatedAgents());
         $link = ilUtil::appendUrlParameterString($link, $this->buildParamRelatedActivities());
-        $link = ilUtil::appendUrlParameterString($link, $this->buildParamActivity());
         
-        return $link;
+        return ilUtil::appendUrlParameterString($link, $this->buildParamActivity());
     }
 
-    /**
-     * @return string
-     */
     protected function buildParamAgent() : string
     {
         $agent = json_encode([
@@ -95,18 +81,12 @@ class ilXapiCompliantStatementsReportLinkBuilder
         return "agent={$agent}";
     }
 
-    /**
-     * @return string
-     */
     protected function buildParamVerb() : string
     {
         $verb = urlencode($this->filter->getVerb());
         return "verb={$verb}";
     }
 
-    /**
-     * @return string
-     */
     protected function buildParamSince() : string
     {
         $since = urlencode($this->filter->getStartDate()->toXapiTimestamp());

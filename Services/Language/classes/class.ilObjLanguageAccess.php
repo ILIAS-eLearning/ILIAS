@@ -1,5 +1,4 @@
 <?php declare(strict_types=1);
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -126,7 +125,7 @@ class ilObjLanguageAccess
         " AND title = " . $ilDB->quote($a_key, "text");
         $set = $ilDB->query($q);
         $row = $ilDB->fetchAssoc($set);
-        return $row["obj_id"];
+        return (int) $row["obj_id"];
     }
 
 

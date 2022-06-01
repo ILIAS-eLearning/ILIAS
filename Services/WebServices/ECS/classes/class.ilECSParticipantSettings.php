@@ -60,7 +60,7 @@ class ilECSParticipantSettings
         
         $mids = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $mids[] = $row->mid;
+            $mids[] = (int) $row->mid;
         }
         return $mids;
     }
@@ -70,14 +70,14 @@ class ilECSParticipantSettings
     /**
      * Lookup mid of current cms participant
      */
-    public function lookupCmsMid()
+    public function lookupCmsMid() : int
     {
         $query = 'SELECT mid FROM ecs_part_settings ' .
                 'WHERE sid = ' . $this->db->quote($this->server_id, 'integer') . ' ' .
                 'AND import_type = ' . $this->db->quote(ilECSParticipantSetting::IMPORT_CMS);
         $res = $this->db->query($query);
         if ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->mid;
+            return (int) $row->mid;
         }
         return 0;
     }

@@ -14,7 +14,7 @@ include_once('./Services/Table/classes/class.ilTable2GUI.php');
 
 class ilTestAggregatedResultsTableGUI extends ilTable2GUI
 {
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct(?object $a_parent_obj, string $a_parent_cmd)
     {
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -40,12 +40,6 @@ class ilTestAggregatedResultsTableGUI extends ilTable2GUI
         $this->disable('select_all');
     }
 
-    /**
-     * fill row
-     * @access public
-     * @param
-     * @return void
-     */
     public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("RESULT", $a_set["result"]);

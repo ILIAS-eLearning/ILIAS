@@ -28,7 +28,7 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
      *
      * @param $stylingDisabled
      */
-    public function setStylingDisabled($stylingDisabled)
+    public function setStylingDisabled($stylingDisabled) : void
     {
     }
     
@@ -45,7 +45,7 @@ class ilAssOrderingTextsInputGUI extends ilMultipleTextsInputGUI
     /**
      * @param ilAssOrderingElementList $elementList
      */
-    public function setElementList(ilAssOrderingElementList $elementList)
+    public function setElementList(ilAssOrderingElementList $elementList) : void
     {
         $this->setIdentifiedMultiValues($elementList->getRandomIdentifierIndexedElements());
     }

@@ -1,16 +1,24 @@
-<?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-/** @noinspection PhpIncludeInspection */
-require_once './Services/Object/classes/class.ilObjectAccess.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjWorkflowEngineAccess
- *
  * @author Maximilian Becker <mbecker@databay.de>
- *
- * @version $Id$
- *
  * @ingroup Services/WorkflowEngine
  */
 class ilObjWorkflowEngineAccess extends ilObjectAccess
@@ -36,7 +44,6 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
             case "view":
                     $ilAccess->addInfoItem(ilAccessInfo::IL_NO_OBJECT_ACCESS, $lng->txt("crs_status_blocked"));
                     return false;
-                break;
 
             case 'leave':
         }
@@ -45,21 +52,14 @@ class ilObjWorkflowEngineAccess extends ilObjectAccess
         switch ($permission) {
             case 'visible':
                     return $rbacsystem->checkAccessOfUser($user_id, 'visible', $ref_id);
-                break;
 
             case 'read':
                     return $rbacsystem->checkAccessOfUser($user_id, 'write', $ref_id);
-                break;
         }
 
         return true; // ORLY?
     }
 
-    /**
-     * @param string $target
-     *
-     * @return bool
-     */
     public static function _checkGoto(string $target) : bool
     {
         //$workflow = substr($params, 2, strpos($params,'EVT')-2);

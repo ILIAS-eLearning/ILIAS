@@ -86,7 +86,7 @@ class ilMyStaffAccess extends ilObjectAccess
         }
 
         if ($this->hasCurrentUserAccessToCompetences()) {
-            true;
+            return true;
         }
 
         return false;

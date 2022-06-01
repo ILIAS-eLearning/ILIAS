@@ -15,17 +15,14 @@ require_once 'Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvance
 
 class ilTestParticipantsTableGUI extends ilTable2GUI
 {
-    protected $manageResultsCommandsEnabled = false;
-    protected $manageInviteesCommandsEnabled = false;
+    protected bool $manageResultsCommandsEnabled = false;
+    protected bool $manageInviteesCommandsEnabled = false;
     
-    protected $rowKeyDataField;
+    protected ?string $rowKeyDataField;
     
     protected $anonymity;
     
-    /**
-     * @var bool
-     */
-    protected $participantHasSolutionsFilterEnabled = false;
+    protected bool $participantHasSolutionsFilterEnabled = false;
     
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
@@ -52,34 +49,22 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(true);
     }
     
-    /**
-     * @return bool
-     */
     public function isManageResultsCommandsEnabled() : bool
     {
         return $this->manageResultsCommandsEnabled;
     }
     
-    /**
-     * @param bool $manageResultsCommandsEnabled
-     */
-    public function setManageResultsCommandsEnabled($manageResultsCommandsEnabled)
+    public function setManageResultsCommandsEnabled(bool $manageResultsCommandsEnabled) : void
     {
         $this->manageResultsCommandsEnabled = $manageResultsCommandsEnabled;
     }
     
-    /**
-     * @return bool
-     */
     public function isManageInviteesCommandsEnabled() : bool
     {
         return $this->manageInviteesCommandsEnabled;
     }
-    
-    /**
-     * @param bool $manageInviteesCommandsEnabled
-     */
-    public function setManageInviteesCommandsEnabled($manageInviteesCommandsEnabled)
+
+    public function setManageInviteesCommandsEnabled(bool $manageInviteesCommandsEnabled) : void
     {
         $this->manageInviteesCommandsEnabled = $manageInviteesCommandsEnabled;
         
@@ -90,58 +75,37 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         }
     }
     
-    /**
-     * @return string
-     */
     public function getRowKeyDataField() : string
     {
         return $this->rowKeyDataField;
     }
     
-    /**
-     * @param string $rowKeyDataField
-     */
-    public function setRowKeyDataField($rowKeyDataField)
+    public function setRowKeyDataField(string $rowKeyDataField) : void
     {
         $this->rowKeyDataField = $rowKeyDataField;
     }
     
-    /**
-     * @return mixed
-     */
     public function getAnonymity()
     {
         return $this->anonymity;
     }
     
-    /**
-     * @param mixed $anonymity
-     */
-    public function setAnonymity($anonymity)
+    public function setAnonymity($anonymity) : void
     {
         $this->anonymity = $anonymity;
     }
     
-    /**
-     * @return bool
-     */
     public function isParticipantHasSolutionsFilterEnabled() : bool
     {
         return $this->participantHasSolutionsFilterEnabled;
     }
     
-    /**
-     * @param bool $participantHasSolutionsFilterEnabled
-     */
-    public function setParticipantHasSolutionsFilterEnabled(bool $participantHasSolutionsFilterEnabled)
+
+    public function setParticipantHasSolutionsFilterEnabled(bool $participantHasSolutionsFilterEnabled) : void
     {
         $this->participantHasSolutionsFilterEnabled = $participantHasSolutionsFilterEnabled;
     }
     
-    /**
-     * @param string $a_field
-     * @return bool
-     */
     public function numericOrdering(string $a_field) : bool
     {
         return in_array($a_field, array(
@@ -154,7 +118,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         return $this->isManageInviteesCommandsEnabled();
     }
     
-    public function initColumns()
+    public function initColumns() : void
     {
         if ($this->needsCheckboxColumn()) {
             $this->addColumn('', '', '1%');
@@ -180,7 +144,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         }
     }
     
-    public function initCommands()
+    public function initCommands() : void
     {
         if ($this->isManageInviteesCommandsEnabled()) {
             $this->addMultiCommand('saveClientIp', $this->lng->txt('save'));
@@ -210,9 +174,6 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         }
     }
     
-    /**
-     * @param array $a_set
-     */
     public function fillRow(array $a_set) : void
     {
         if ($this->needsCheckboxColumn()) {
@@ -251,12 +212,8 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("FINISHED", ($a_set['finished']) ? $this->buildOkIcon() : '');
         $this->tpl->setVariable("ACCESS", $this->buildFormattedAccessDate($a_set));
     }
-    
-    /**
-     * @param array $data
-     * @return ilAdvancedSelectionListGUI
-     */
-    protected function buildActionsMenu($data) : ilAdvancedSelectionListGUI
+
+    protected function buildActionsMenu(array $data) : ilAdvancedSelectionListGUI
     {
         $asl = new ilAdvancedSelectionListGUI();
         
@@ -269,10 +226,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         
         return $asl;
     }
-    
-    /**
-     * @return bool
-     */
+
     protected function isActionsColumnRequired() : bool
     {
         if ($this->isManageResultsCommandsEnabled()) {
@@ -282,20 +236,12 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         return false;
     }
     
-    /**
-     * @param array $data
-     * @return string
-     */
-    protected function fetchRowKey($data) : string
+    protected function fetchRowKey(array $data) : string
     {
         return $data[$this->getRowKeyDataField()];
     }
     
-    /**
-     * @param array $data
-     * @return string
-     */
-    protected function fetchTriesValue($data) : string
+    protected function fetchTriesValue(array $data) : string
     {
         if ($data['tries'] < 1) {
             return '';
@@ -308,11 +254,7 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         return sprintf($this->lng->txt("pass_finished"), $data['tries']);
     }
     
-    /**
-     * @param $data
-     * @return string
-     */
-    protected function buildUnfinishedPassesStatusString($data) : string
+    protected function buildUnfinishedPassesStatusString(array $data) : string
     {
         if ($data['unfinished']) {
             return $this->lng->txt('yes');
@@ -321,19 +263,12 @@ class ilTestParticipantsTableGUI extends ilTable2GUI
         return $this->lng->txt('no');
     }
     
-    /**
-     * @return string
-     */
     protected function buildOkIcon() : string
     {
         return "<img border=\"0\" align=\"middle\" src=\"" . ilUtil::getImagePath("icon_ok.svg") . "\" alt=\"" . $this->lng->txt("ok") . "\" />";
     }
     
-    /**
-     * @param $data
-     * @return string
-     */
-    protected function buildFormattedAccessDate($data) : string
+    protected function buildFormattedAccessDate(array $data) : string
     {
         return ilDatePresentation::formatDate(new ilDateTime($data['access'], IL_CAL_DATETIME));
     }

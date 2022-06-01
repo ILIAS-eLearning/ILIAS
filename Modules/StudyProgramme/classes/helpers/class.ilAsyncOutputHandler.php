@@ -1,6 +1,22 @@
 <?php declare(strict_types=1);
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+/**
  * Class ilAsyncOutputHandler
  * Handles the output for async-requests. The class allows to generate the basic structure of a bootstrap-modal (for modal-content)
  *
@@ -9,8 +25,8 @@
  */
 class ilAsyncOutputHandler
 {
-    const OUTPUT_MODAL = "output_modal";
-    const OUTPUT_EMPTY = "output_empty";
+    private const OUTPUT_MODAL = "output_modal";
+    private const OUTPUT_EMPTY = "output_empty";
 
     /**
      * @var mixed|null
@@ -38,7 +54,7 @@ class ilAsyncOutputHandler
      */
     public function terminate(string $type = self::OUTPUT_MODAL) : void
     {
-        if ($type == self::OUTPUT_MODAL) {
+        if ($type === self::OUTPUT_MODAL) {
             $tpl = new ilTemplate('tpl.modal_content.html', false, false, 'Modules/StudyProgramme');
             $tpl->setVariable('HEADING', $this->getHeading());
             $tpl->setVariable('BODY', $this->getContent());
@@ -54,8 +70,10 @@ class ilAsyncOutputHandler
 
             echo $tpl->get();
             exit();
-        } elseif ($type == self::OUTPUT_EMPTY) {
-            echo $this->getContent();
+        }
+
+        if ($type === self::OUTPUT_EMPTY) {
+            echo $this->getContent();// TODO PHP8-REVIEW I sugges to use the HTTP service instead of echo/exit
             exit();
         }
     }
@@ -70,7 +88,7 @@ class ilAsyncOutputHandler
 
         $data['cmd'] = $ilCtrl->getCmd();
 
-        return json_encode($data);
+        return json_encode($data, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -86,18 +104,23 @@ class ilAsyncOutputHandler
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
+        $http = $DIC['http'];
 
-        $content = ($ilCtrl->isAsynch() && $async_content != null)? $async_content : $normal_content;
+        $content = ($ilCtrl->isAsynch() && $async_content !== null)? $async_content : $normal_content;
 
         if ($ilCtrl->isAsynch()) {
-            echo $content;
+            $http->saveResponse(
+                $http->response()
+                    ->withHeader(ResponseHeader::CONTENT_TYPE, 'text/html')
+                    ->withBody(Streams::ofString($content))
+            );
+            $http->sendResponse();
+            $http->close();
             exit();
+        } elseif ($apply_to_tpl) {
+            $tpl->setContent($content);
         } else {
-            if ($apply_to_tpl) {
-                $tpl->setContent($content);
-            } else {
-                return $content;
-            }
+            return $content;
         }
     }
 

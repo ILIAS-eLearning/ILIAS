@@ -251,7 +251,7 @@ class ilTimingsManageTableGUI extends ilTable2GUI
                     $current_row['title'] = ilSessionAppointment::_appointmentToString(
                         $app_info['start'],
                         $app_info['end'],
-                        $app_info['fullday']
+                        (bool) $app_info['fullday']
                     );
                 }
                 $current_row['title_link'] = ilLink::_getLink($item['ref_id'], $item['type']);

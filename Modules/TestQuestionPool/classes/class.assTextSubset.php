@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
@@ -176,7 +191,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     *
     * @access public
     */
-    public function addAnswer($answertext, $points, $order)
+    public function addAnswer($answertext, $points, $order) : void
     {
         include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
         if (array_key_exists($order, $this->answers)) {
@@ -357,7 +372,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @access public
     * @see $answers
     */
-    public function deleteAnswer($index = 0)
+    public function deleteAnswer($index = 0) : void
     {
         if ($index < 0) {
             return;
@@ -383,7 +398,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @access public
     * @see $answers
     */
-    public function flushAnswers()
+    public function flushAnswers() : void
     {
         $this->answers = array();
     }
@@ -501,7 +516,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @see $textgap_rating
     * @access public
     */
-    public function setTextRating($a_text_rating)
+    public function setTextRating($a_text_rating) : void
     {
         switch ($a_text_rating) {
             case TEXTGAP_RATING_CASEINSENSITIVE:
@@ -560,7 +575,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * @param integer $a_correct_anwers The number of correct answers
     * @access public
     */
-    public function setCorrectAnswers(int $a_correct_answers)
+    public function setCorrectAnswers(int $a_correct_answers) : void
     {
         $this->correctanswers = $a_correct_answers;
     }
@@ -701,7 +716,7 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
     * Returns the answers of the question as a comma separated string
     *
     */
-    public function &joinAnswers()
+    public function &joinAnswers() : array
     {
         $join = array();
         foreach ($this->answers as $answer) {
@@ -949,5 +964,26 @@ class assTextSubset extends assQuestion implements ilObjQuestionScoringAdjustabl
         } else {
             return $this->getAnswers();
         }
+    }
+    
+    public function isAddableAnswerOptionValue(int $qIndex, string $answerOptionValue) : bool
+    {
+            $found = false;
+
+            foreach ($this->getAnswers() as $item) {
+                if ($answerOptionValue !== $item->getAnswerText()) {
+                    continue;
+                }
+
+                $found = true;
+                break;
+            }
+
+        return !$found;
+    }
+
+    public function addAnswerOptionValue(int $qIndex, string $answerOptionValue, float $points) : void
+    {
+        $this->addAnswer($answerOptionValue, $points, $qIndex);
     }
 }

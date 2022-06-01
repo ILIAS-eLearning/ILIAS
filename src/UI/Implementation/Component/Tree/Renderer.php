@@ -47,7 +47,7 @@ class Renderer extends AbstractComponentRenderer
 
         $highlight_node_on_click = $component->getHighlightOnNodeClick();
         $component = $component->withAdditionalOnLoadCode(
-            fn($id) => "il.UI.tree.init('$id', $highlight_node_on_click)"
+            fn ($id) => "il.UI.tree.init('$id', $highlight_node_on_click)"
         );
 
         $id = $this->bindJavaScript($component);

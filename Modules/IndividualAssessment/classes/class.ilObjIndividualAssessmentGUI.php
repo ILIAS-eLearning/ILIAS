@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2018 - Denis Klöpfer <denis.kloepfer@concepts-and-training.de> - Extended GPL, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * For the purpose of streamlining the grading and learning-process status definition
@@ -17,7 +31,7 @@
  * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilExportGUI
  * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilObjectMetaDataGUI
  */
-class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
+class ilObjIndividualAssessmentGUI extends ilObjectGUI
 {
     const TAB_SETTINGS = 'settings';
     const TAB_INFO = 'info_short';
@@ -356,7 +370,7 @@ class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClas
         $this->error_object->raiseError($this->txt("msg_no_perm_read"), $this->error_object->WARNING);
     }
 
-    public static function _goto($a_target, $a_add = '') : void
+    public static function _goto(int $a_target, string $a_add = '') : void
     {
         global $DIC;
         if ($DIC['ilAccess']->checkAccess('write', '', $a_target)) {

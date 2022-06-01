@@ -14,7 +14,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
      * Set Value.
      * @param    string $a_value Value
      */
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         $this->value = $a_value;
     }
@@ -29,7 +29,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         return $this->value;
     }
 
-    public function setValueCombination($value)
+    public function setValueCombination($value) : void
     {
         $this->value_combination = $value;
     }
@@ -44,7 +44,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         return (array) $this->value_combination;
     }
 
-    public function setValueCombinationFromDb($value)
+    public function setValueCombinationFromDb($value) : void
     {
         $return_array = array();
         if ($value) {
@@ -178,7 +178,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         return !$error;
     }
 
-    public function setValueByArray($data)
+    public function setValueByArray($data) : void
     {
         $this->setValue($data);
     }
@@ -186,7 +186,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
     /**
      * @param ilTemplate $template
      */
-    public function insert(ilTemplate $template)
+    public function insert(ilTemplate $template) : void
     {
         global $DIC;
         $lng = $DIC['lng'];

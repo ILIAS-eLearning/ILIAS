@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * Portfolio page gui class
@@ -122,7 +125,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 $blog_gui = new ilObjBlogGUI($blog_node_id, ilObject2GUI::WORKSPACE_NODE_ID);
                 $blog_gui->disableNotes(!$this->enable_comments);
                 $blog_gui->prtf_embed = true; // disables prepareOutput()/getStandardTemplate() in blog
-                return $ilCtrl->forwardCommand($blog_gui);
+                return (string) $ilCtrl->forwardCommand($blog_gui);
                 
             case "ilcalendarmonthgui":
                 // booking action
@@ -144,15 +147,15 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                     }
 
                     $month_gui = new ilCalendarMonthGUI($seed);
-                    return $ilCtrl->forwardCommand($month_gui);
+                    return (string) $ilCtrl->forwardCommand($month_gui);
                 }
 
                 // calendar month navigation
                 $ilCtrl->setParameter($this, "cmd", "preview");
-                return self::EMBEDDED_NO_OUTPUT;
+                return (string) self::EMBEDDED_NO_OUTPUT;
             default:
                 $this->setPresentationTitle($this->getPageObject()->getTitle());
-                return parent::executeCommand();
+                return (string) parent::executeCommand();
         }
     }
 
@@ -258,7 +261,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                         case "MyCourses":
                         case "MyCoursesTeaser":
                             $subs = null;
-                            if (trim($blocks[3][$idx])) {
+                            if (trim(($blocks[3][$idx] ?? ""))) {
                                 foreach (explode(";", $blocks[3][$idx]) as $sub) {
                                     if (trim($sub)) {
                                         $subs[] = trim($sub);
@@ -1195,7 +1198,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $notes_gui->enablePublicNotes(true);
         $notes_gui->setRepositoryMode(false);
         $notes_gui->setExportMode();
-        return  $notes_gui->getNotesHTML();
+        return  $notes_gui->getCommentsHTML();
     }
 
     public function finishEditing() : void

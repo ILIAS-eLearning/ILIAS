@@ -3,15 +3,18 @@
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
+ *
  * ILIAS is licensed with the GPL-3.0,
  * see https://www.gnu.org/licenses/gpl-3.0.en.html
  * You should have received a copy of said license along with the
  * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
- */
+ *
+ *********************************************************************/
 
 /**
  * @author Alex Killing <alex.killing@gmx.de>
@@ -19,6 +22,7 @@
  */
 class ilObjContentObject extends ilObject
 {
+    protected \ILIAS\Notes\Service $notes;
     protected array $q_ids = [];
     protected array $mob_ids = [];
     protected array $file_ids = [];
@@ -74,6 +78,8 @@ class ilObjContentObject extends ilObject
         if (isset($DIC["ilLocator"])) {
             $this->locator = $DIC["ilLocator"];
         }
+
+        $this->notes = $DIC->notes();
 
         // this also calls read() method! (if $a_id is set)
         parent::__construct($a_id, $a_call_by_reference);
@@ -229,7 +235,7 @@ class ilObjContentObject extends ilObject
 
     public function createLMTree() : void
     {
-        $this->lm_tree = new ilLMTree($this->getId());
+        $this->lm_tree = new ilLMTree($this->getId(), false);
         $this->lm_tree->addTree($this->getId(), 1);
     }
     
@@ -591,7 +597,7 @@ class ilObjContentObject extends ilObject
         $res = $ilDB->query($q);
         $obj_ids = array();
         while ($cont = $ilDB->fetchAssoc($res)) {
-            $obj_ids[] = $cont["id"];
+            $obj_ids[] = (int) $cont["id"];
         }
         return $obj_ids;
     }
@@ -912,7 +918,7 @@ class ilObjContentObject extends ilObject
         $this->setRestrictForwardNavigation($lm_rec["restrict_forw_nav"]);
         
         // #14661
-        $this->setPublicNotes(ilNote::commentsActivated($this->getId(), 0, $this->getType()));
+        $this->setPublicNotes($this->notes->domain()->commentsActive($this->getId()));
 
         $this->setForTranslation($lm_rec["for_translation"]);
     }
@@ -956,7 +962,7 @@ class ilObjContentObject extends ilObject
             " WHERE id = " . $ilDB->quote($this->getId(), "integer");
         $ilDB->manipulate($q);
         // #14661
-        ilNote::activateComments($this->getId(), 0, $this->getType(), $this->publicNotes());
+        $this->notes->domain()->activateComments($this->getId());
     }
 
     /**
@@ -970,7 +976,7 @@ class ilObjContentObject extends ilObject
         $ilDB->manipulate($q);
 
         // #14661
-        ilNote::activateComments($this->getId(), 0, $this->getType(), true);
+        $this->notes->domain()->activateComments($this->getId());
 
         $this->readProperties();		// to get db default values
     }

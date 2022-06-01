@@ -12,30 +12,21 @@
  */
 class ilAssQuestionPageCommandForwarder
 {
-    /**
-     * @var ilObjTest
-     */
-    protected ilObjTest $testObj;
+    protected ?ilObjTest $testObj;
 
     protected \ILIAS\Test\InternalRequestService $testrequest;
 
-    /**
-     * @return ilObjTest
-     */
-    public function getTestObj() : ilObjTest
+    public function getTestObj() : ?ilObjTest
     {
         return $this->testObj;
     }
-    
-    /**
-     * @param ilObjTest $testObj
-     */
-    public function setTestObj($testObj)
+
+    public function setTestObj(ilObjTest $testObj) : void
     {
         $this->testObj = $testObj;
     }
     
-    public function forward()
+    public function forward() : void
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $this->testrequest = $DIC->test()->internal()->request();

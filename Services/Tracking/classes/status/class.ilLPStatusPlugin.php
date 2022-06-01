@@ -29,7 +29,8 @@ class ilLPStatusPlugin extends ilLPStatus
             } else {
                 // re-use existing data for inactive plugin
                 return self::getLPStatusData(
-                    $a_obj_id, self::LP_STATUS_NOT_ATTEMPTED_NUM
+                    $a_obj_id,
+                    self::LP_STATUS_NOT_ATTEMPTED_NUM
                 );
             }
         }
@@ -45,7 +46,8 @@ class ilLPStatusPlugin extends ilLPStatus
             } else {
                 // re-use existing data for inactive plugin
                 return self::getLPStatusData(
-                    $a_obj_id, self::LP_STATUS_IN_PROGRESS_NUM
+                    $a_obj_id,
+                    self::LP_STATUS_IN_PROGRESS_NUM
                 );
             }
         }
@@ -61,7 +63,8 @@ class ilLPStatusPlugin extends ilLPStatus
             } else {
                 // re-use existing data for inactive plugin
                 return self::getLPStatusData(
-                    $a_obj_id, self::LP_STATUS_COMPLETED_NUM
+                    $a_obj_id,
+                    self::LP_STATUS_COMPLETED_NUM
                 );
             }
         }
@@ -77,7 +80,8 @@ class ilLPStatusPlugin extends ilLPStatus
             } else {
                 // re-use existing data for inactive plugin
                 return self::getLPStatusData(
-                    $a_obj_id, self::LP_STATUS_FAILED_NUM
+                    $a_obj_id,
+                    self::LP_STATUS_FAILED_NUM
                 );
             }
         }

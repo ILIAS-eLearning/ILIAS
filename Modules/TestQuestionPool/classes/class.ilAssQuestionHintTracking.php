@@ -26,7 +26,7 @@ class ilAssQuestionHintTracking
         $this->pass = $pass;
     }
 
-    public function setActiveId($activeId)
+    public function setActiveId($activeId) : void
     {
         $this->activeId = $activeId;
     }
@@ -36,7 +36,7 @@ class ilAssQuestionHintTracking
         return $this->activeId;
     }
 
-    public function setPass($pass)
+    public function setPass($pass) : void
     {
         $this->pass = $pass;
     }
@@ -46,7 +46,7 @@ class ilAssQuestionHintTracking
         return $this->pass;
     }
 
-    public function setQuestionId($questionId)
+    public function setQuestionId($questionId) : void
     {
         $this->questionId = $questionId;
     }
@@ -288,7 +288,7 @@ class ilAssQuestionHintTracking
      * @global	ilDBInterface				$ilDB
      * @param	ilAssQuestionHint	$questionHint
      */
-    public function storeRequest(ilAssQuestionHint $questionHint)
+    public function storeRequest(ilAssQuestionHint $questionHint) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -410,7 +410,7 @@ class ilAssQuestionHintTracking
      * Deletes all hint requests relating to a question included in given question ids
      * @param array[integer] $questionIds
      */
-    public static function deleteRequestsByQuestionIds($questionIds)
+    public static function deleteRequestsByQuestionIds($questionIds) : void
     {
         /**
          * @var $ilDB ilDBInterface
@@ -435,7 +435,7 @@ class ilAssQuestionHintTracking
      * @global ilDBInterface $ilDB
      * @param array[integer] $activeIds
      */
-    public static function deleteRequestsByActiveIds($activeIds)
+    public static function deleteRequestsByActiveIds($activeIds) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

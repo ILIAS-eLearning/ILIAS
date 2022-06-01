@@ -46,16 +46,16 @@ class ilAccessRBACOperationDeletedObjective implements Setup\Objective
 
         $sql =
             "DELETE FROM rbac_ta" . PHP_EOL
-            ."WHERE typ_id = " . $db->quote($type_id, "integer") . PHP_EOL
-            ."AND ops_id = " . $db->quote($this->ops_id, "integer") . PHP_EOL
+            . "WHERE typ_id = " . $db->quote($type_id, "integer") . PHP_EOL
+            . "AND ops_id = " . $db->quote($this->ops_id, "integer") . PHP_EOL
         ;
 
         $db->manipulate($sql);
 
         $sql =
             "DELETE FROM rbac_templates" . PHP_EOL
-            ."WHERE type = " . $db->quote($this->type, "text") . PHP_EOL
-            ."ops_id = " . $db->quote($this->ops_id, "integer") . PHP_EOL
+            . "WHERE type = " . $db->quote($this->type, "text") . PHP_EOL
+            . "ops_id = " . $db->quote($this->ops_id, "integer") . PHP_EOL
         ;
 
         $db->manipulate($sql);

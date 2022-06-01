@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\Random\Seed\RandomSeed;
 use ILIAS\Refinery\Random\Seed\GivenSeed;
 use ILIAS\Refinery\Random\Group as RandomGroup;
 
@@ -369,7 +368,8 @@ abstract class ilTestPlayerAbstractGUI extends ilTestServiceGUI
 
     protected function populateGenericFeedbackBlock(assQuestionGUI $question_gui, $solutionCorrect)
     {
-        $feedback = $question_gui->getGenericFeedbackOutput($this->testSession->getActiveId(), null);
+        // fix #031263: add pass
+        $feedback = $question_gui->getGenericFeedbackOutput($this->testSession->getActiveId(), $this->testSession->getPass());
         
         if (strlen($feedback)) {
             $cssClass = (

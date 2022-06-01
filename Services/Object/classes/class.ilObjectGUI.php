@@ -37,6 +37,7 @@ class ilObjectGUI
     const CFORM_NEW = 1;
     const CFORM_IMPORT = 2;
     const CFORM_CLONE = 3;
+    private \ILIAS\Notes\Service $notes_service;
 
     protected ServerRequestInterface $request;
     protected ilLocatorGUI $locator;
@@ -67,7 +68,7 @@ class ilObjectGUI
     protected bool $creation_mode = false;
     protected $data;
     protected int $id;
-    protected bool $call_by_reference;
+    protected bool $call_by_reference = false;
     protected bool $prepare_output;
     protected int $ref_id;
     protected int $obj_id;
@@ -174,6 +175,8 @@ class ilObjectGUI
         if ($prepare_output) {
             $this->prepareOutput();
         }
+
+        $this->notes_service = $DIC->notes();
     }
 
     public function getRefId() : int
@@ -353,7 +356,7 @@ class ilObjectGUI
             
             ilObjectListGUI::prepareJsLinks(
                 $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
-                $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "ilnotegui"], "", "", true),
+                "",
                 $this->ctrl->getLinkTargetByClass(["ilcommonactiondispatchergui", "iltagginggui"], "", "", true)
             );
             
@@ -373,7 +376,7 @@ class ilObjectGUI
                 if (
                     $this->access->checkAccess("write", "", $this->ref_id) ||
                     $this->access->checkAccess("edit_permissions", "", $this->ref_id) ||
-                    ilNote::commentsActivated($this->object->getId(), 0, $this->object->getType())
+                    $this->notes_service->domain()->commentsActive($this->object->getId())
                 ) {
                     $lg->enableComments(true);
                 }
@@ -731,7 +734,7 @@ class ilObjectGUI
         $templates = ilDidacticTemplateSettings::getInstanceByObjectType($this->type)->getTemplates();
         if ($templates) {
             foreach ($templates as $template) {
-                if ($template->isEffective($this->requested_ref_id)) {
+                if ($template->isEffective((int) $this->requested_ref_id)) {
                     $options["dtpl_" . $template->getId()] = array(
                         $template->getPresentationTitle(),
                         $template->getPresentationDescription()
@@ -1210,7 +1213,7 @@ class ilObjectGUI
      */
     protected function getReturnLocation(string $cmd, string $default_location = "") : string
     {
-        if ($this->return_location[$cmd] != "") {
+        if (($this->return_location[$cmd] ?? "") !== "") {
             return $this->return_location[$cmd];
         } else {
             return $default_location;
@@ -1418,7 +1421,10 @@ class ilObjectGUI
     {
         $cp = new ilObjectCopyGUI($this);
         $cp->setType($type);
-        $cp->setTarget($this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int()));
+        $target = $this->request_wrapper->has("ref_id")
+            ? $this->request_wrapper->retrieve("ref_id", $this->refinery->kindlyTo()->int())
+            : 0;
+        $cp->setTarget($target);
         if ($tpl_name) {
             $cp->showSourceSearch($tpl_name);
         }

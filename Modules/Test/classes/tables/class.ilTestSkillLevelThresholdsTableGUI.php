@@ -12,21 +12,21 @@ require_once 'Services/Form/classes/class.ilNumberInputGUI.php';
  */
 class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
 {
-    private $skillLevelThresholdList;
+    private ?ilTestSkillLevelThresholdList $skillLevelThresholdList;
     
-    private $questionAssignmentColumnsEnabled = false;
+    private bool $questionAssignmentColumnsEnabled = false;
 
     /**
      * @var ilNumberInputGUI[]
      */
-    protected $input_elements_by_id = array();
+    protected array $input_elements_by_id = array();
 
-    public function setSkillLevelThresholdList(ilTestSkillLevelThresholdList $skillLevelThresholdList)
+    public function setSkillLevelThresholdList(ilTestSkillLevelThresholdList $skillLevelThresholdList) : void
     {
         $this->skillLevelThresholdList = $skillLevelThresholdList;
     }
 
-    public function getSkillLevelThresholdList()
+    public function getSkillLevelThresholdList() : ?ilTestSkillLevelThresholdList
     {
         return $this->skillLevelThresholdList;
     }
@@ -36,7 +36,7 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
         return $this->questionAssignmentColumnsEnabled;
     }
 
-    public function setQuestionAssignmentColumnsEnabled($questionAssignmentColumnsEnabled)
+    public function setQuestionAssignmentColumnsEnabled(bool $questionAssignmentColumnsEnabled) : void
     {
         $this->questionAssignmentColumnsEnabled = $questionAssignmentColumnsEnabled;
     }
@@ -71,7 +71,7 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
         );
     }
 
-    public function initColumns()
+    public function initColumns() : void
     {
         $this->addColumn($this->lng->txt('tst_competence'), 'competence', '50%');
         
@@ -125,10 +125,6 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @param array $row
-     * @return string
-     */
     private function buildUniqueRecordIdentifier(array $row) : string
     {
         return 'threshold_' . $row['skill_base_id'] . ':' . $row['skill_tref_id'];
@@ -144,7 +140,6 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $idFilter
      * @return ilNumberInputGUI[]
      */
     public function getInputElements(array $idFilter) : array
@@ -173,12 +168,6 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
         return $elements;
     }
 
-    /**
-     * @param $skillBaseId
-     * @param $skillTrefId
-     * @param $skillLevelId
-     * @return ilNumberInputGUI
-     */
     private function buildThresholdInput($skillBaseId, $skillTrefId, $skillLevelId) : ilNumberInputGUI
     {
         $skillKey = $skillBaseId . ':' . $skillTrefId;
@@ -209,7 +198,7 @@ class ilTestSkillLevelThresholdsTableGUI extends ilTable2GUI
         return $value;
     }
     
-    public function completeCompetenceTitles($rows) : array
+    public function completeCompetenceTitles(array $rows) : array
     {
         foreach ($rows as $key => $row) {
             $rows[$key]['competence'] = ilBasicSkill::_lookupTitle(

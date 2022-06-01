@@ -4423,8 +4423,16 @@ if (!$ilDB->tableColumnExists('skl_profile_level', 'order_nr'))
 ?>
 <#5676>
 <?php
+$profiles = [];
+if ($ilDB->tableExists('skl_profile')) {
+    $set = $ilDB->query(
+        "SELECT * FROM skl_profile"
+    );
+    while ($rec = $ilDB->fetchAssoc($set)) {
+        $profiles[$rec["id"]] = $rec;
+    }
+}
 if ($ilDB->tableExists('skl_profile_level')) {
-    $profiles = ilSkillProfile::getProfilesForAllSkillTrees();
     if (!empty($profiles)) {
         foreach ($profiles as $id => $profile) {
             $set = $ilDB->query(

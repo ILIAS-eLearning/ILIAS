@@ -43,27 +43,27 @@ class ilRegistrationCode
             $code = self::generateRandomCode();
             $chk = $ilDB->queryF(
                 "SELECT code_id FROM " . self::DB_TABLE . " WHERE code = %s",
-                array("text"),
-                array($code)
+                ["text"],
+                [$code]
             );
             $found = (bool) $ilDB->numRows($chk);
         }
 
-        if ($limit === "relative" && is_array($limit_date)) {
+        if ($limit === "relative") {
             $limit_date = serialize($limit_date); //TODO-PHP8-REVIEW please don't override variables with different types
         }
 
-        $data = array(
-            'code_id' => array('integer', $id),
-            'code' => array('text', $code),
-            'generated_on' => array('integer', $stamp),
-            'role' => array('integer', $role),
-            'role_local' => array('text', implode(";", $local_roles)),
-            'alimit' => array('text', $limit),
-            'alimitdt' => array('text', $limit_date),
-            'reg_enabled' => array('integer', $reg_type),
-            'ext_enabled' => array('integer', $ext_type)
-        );
+        $data = [
+            'code_id' => ['integer', $id],
+            'code' => ['text', $code],
+            'generated_on' => ['integer', $stamp],
+            'role' => ['integer', $role],
+            'role_local' => ['text', implode(";", $local_roles)],
+            'alimit' => ['text', $limit],
+            'alimitdt' => ['text', $limit_date],
+            'reg_enabled' => ['integer', $reg_type],
+            'ext_enabled' => ['integer', $ext_type]
+        ];
 
         $ilDB->insert(self::DB_TABLE, $data);
         return $id;
@@ -117,12 +117,12 @@ class ilRegistrationCode
         // set query
         $ilDB->setLimit($limit, $offset);
         $set = $ilDB->query($sql);
-        $result = array();
+        $result = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $rec['generated'] = $rec['generated_on'];
             $result[] = $rec;
         }
-        return array("cnt" => $cnt, "set" => $result);
+        return ["cnt" => $cnt, "set" => $result];
     }
 
     public static function loadCodesByIds(array $ids) : array
@@ -137,7 +137,7 @@ class ilRegistrationCode
             false,
             "integer"
         ));
-        $result = array();
+        $result = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $result[] = $rec;
         }
@@ -167,7 +167,7 @@ class ilRegistrationCode
         $ilDB = $DIC->database();
 
         $set = $ilDB->query("SELECT DISTINCT(generated_on) genr FROM " . self::DB_TABLE . " ORDER BY genr");
-        $result = array();
+        $result = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $result[] = $rec["genr"];
         }
@@ -184,7 +184,7 @@ class ilRegistrationCode
 
         $ilDB = $DIC['ilDB'];
 
-        $where = array();
+        $where = [];
         if ($filter_code) {
             $where[] = $ilDB->like("code", "text", "%" . $filter_code . "%");
         }
@@ -219,7 +219,7 @@ class ilRegistrationCode
 
         // set query
         $set = $ilDB->query("SELECT code FROM " . self::DB_TABLE . $where . " ORDER BY code_id");
-        $result = array();
+        $result = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $result[] = $rec["code"];
         }
@@ -259,8 +259,8 @@ class ilRegistrationCode
         $ilDB = $DIC->database();
         return (bool) $ilDB->update(
             self::DB_TABLE,
-            array("used" => array("timestamp", time())),
-            array("code" => array("text", $code))
+            ["used" => ["timestamp", time()]],
+            ["code" => ["text", $code]]
         );
     }
 

@@ -245,8 +245,8 @@ class ilObjCourseGrouping
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setTitle($row->title);
-            $this->setDescription($row->description);
+            $this->setTitle((string) $row->title);
+            $this->setDescription((string) $row->description);
         }
 
         $query = "SELECT * FROM crs_groupings " .
@@ -254,9 +254,9 @@ class ilObjCourseGrouping
         $res = $this->db->query($query);
 
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setUniqueField($row->unique_field);
-            $this->setContainerRefId($row->crs_ref_id);
-            $this->setContainerObjId($row->crs_id);
+            $this->setUniqueField((string) $row->unique_field);
+            $this->setContainerRefId((int) $row->crs_ref_id);
+            $this->setContainerObjId((int) $row->crs_id);
             $this->setContainerType($this->objectDataCache->lookupType($this->getContainerObjId()));
         }
     }
@@ -278,6 +278,7 @@ class ilObjCourseGrouping
     /**
      * Returns a list of all groupings for which the current user hast write permission on all assigned objects. Or groupings
      * the given object id is assigned to.
+     * @return int[]
      */
     public static function _getVisibleGroupings(int $a_obj_id) : array
     {
@@ -294,7 +295,7 @@ class ilObjCourseGrouping
         $res = $ilDB->query($query);
         $groupings = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $groupings[] = $row->obj_id;
+            $groupings[] = (int) $row->obj_id;
         }
 
         //check access
@@ -433,7 +434,7 @@ class ilObjCourseGrouping
         $res = $ilDB->query($query);
         $groupings = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $groupings[] = $row->crs_grp_id;
+            $groupings[] = (int) $row->crs_grp_id;
         }
         return $groupings;
     }

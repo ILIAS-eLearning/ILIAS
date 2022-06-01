@@ -35,7 +35,7 @@ class ilLogComponentTableGUI extends ilTable2GUI
     /**
      * init table
      */
-    public function init()
+    public function init() : void
     {
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
         $this->settings = ilLoggingDBSettings::getInstance();
@@ -76,7 +76,7 @@ class ilLogComponentTableGUI extends ilTable2GUI
                 $row['component'] = 'Root';
                 $row['component_sortable'] = '_' . $row['component'];
             } else {
-                $row['component'] = ilComponent::lookupComponentName($component->getComponentId());
+                $row['component'] = ilComponent::lookupComponentName($component->getComponentId()); //Todo PHP8 Review: ilComponent doesn't exist.
                 $row['component_sortable'] = $row['component'];
             }
             $row['level'] = (int) $component->getLevel();
@@ -103,7 +103,7 @@ class ilLogComponentTableGUI extends ilTable2GUI
 
         $levels = new ilSelectInputGUI('', 'level[' . $a_set['id'] . ']');
         $levels->setOptions($array_options);
-        $levels->setValue((int) $a_set['level']);
+        $levels->setValue($a_set['level']);
         $this->tpl->setVariable('C_SELECT_LEVEL', $levels->render());
     }
 }

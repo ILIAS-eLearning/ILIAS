@@ -170,7 +170,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $this->parentObjId;
     }
 
-    public function setParentObjId($parentObjId)
+    public function setParentObjId($parentObjId) : void
     {
         $this->parentObjId = $parentObjId;
     }
@@ -180,7 +180,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $this->parentObjType;
     }
 
-    public function setParentObjectType($parentObjType)
+    public function setParentObjectType($parentObjType) : void
     {
         $this->parentObjType = $parentObjType;
     }
@@ -196,12 +196,12 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     /**
      * @param array $parentObjIdsFilter
      */
-    public function setParentObjIdsFilter($parentObjIdsFilter)
+    public function setParentObjIdsFilter($parentObjIdsFilter) : void
     {
         $this->parentObjIdsFilter = $parentObjIdsFilter;
     }
 
-    public function setQuestionInstanceTypeFilter($questionInstanceTypeFilter)
+    public function setQuestionInstanceTypeFilter($questionInstanceTypeFilter) : void
     {
         $this->questionInstanceTypeFilter = $questionInstanceTypeFilter;
     }
@@ -211,7 +211,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $this->questionInstanceTypeFilter;
     }
 
-    public function setIncludeQuestionIdsFilter($questionIdsFilter)
+    public function setIncludeQuestionIdsFilter($questionIdsFilter) : void
     {
         $this->includeQuestionIdsFilter = $questionIdsFilter;
     }
@@ -226,7 +226,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $this->excludeQuestionIdsFilter;
     }
     
-    public function setExcludeQuestionIdsFilter($excludeQuestionIdsFilter)
+    public function setExcludeQuestionIdsFilter($excludeQuestionIdsFilter) : void
     {
         $this->excludeQuestionIdsFilter = $excludeQuestionIdsFilter;
     }
@@ -236,24 +236,24 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $this->questionCompletionStatusFilter;
     }
     
-    public function setQuestionCompletionStatusFilter($questionCompletionStatusFilter)
+    public function setQuestionCompletionStatusFilter($questionCompletionStatusFilter) : void
     {
         $this->questionCompletionStatusFilter = $questionCompletionStatusFilter;
     }
 
-    public function addFieldFilter($fieldName, $fieldValue)
+    public function addFieldFilter($fieldName, $fieldValue) : void
     {
         $this->fieldFilters[$fieldName] = $fieldValue;
     }
     
-    public function addTaxonomyFilter($taxId, $taxNodes, $parentObjId, $parentObjType)
+    public function addTaxonomyFilter($taxId, $taxNodes, $parentObjId, $parentObjType) : void
     {
         $this->taxFilters[$taxId] = $taxNodes;
         $this->taxParentIds[$taxId] = $parentObjId;
         $this->taxParentTypes[$taxId] = $parentObjType;
     }
     
-    public function setAvailableTaxonomyIds($availableTaxonomyIds)
+    public function setAvailableTaxonomyIds($availableTaxonomyIds) : void
     {
         $this->availableTaxonomyIds = $availableTaxonomyIds;
     }
@@ -263,7 +263,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $this->availableTaxonomyIds;
     }
 
-    public function setAnswerStatusActiveId($answerStatusActiveId)
+    public function setAnswerStatusActiveId($answerStatusActiveId) : void
     {
         $this->answerStatusActiveId = $answerStatusActiveId;
     }
@@ -273,7 +273,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $this->answerStatusActiveId;
     }
 
-    public function setAnswerStatusFilter($answerStatusFilter)
+    public function setAnswerStatusFilter($answerStatusFilter) : void
     {
         $this->answerStatusFilter = $answerStatusFilter;
     }
@@ -288,7 +288,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
      *
      * @param bool $a_val join object_data
      */
-    public function setJoinObjectData($a_val)
+    public function setJoinObjectData($a_val) : void
     {
         $this->join_obj_data = $a_val;
     }
@@ -306,7 +306,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
     /**
      * @param array $forcedQuestionIds
      */
-    public function setForcedQuestionIds($forcedQuestionIds)
+    public function setForcedQuestionIds($forcedQuestionIds) : void
     {
         $this->forcedQuestionIds = $forcedQuestionIds;
     }
@@ -632,7 +632,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $query;
     }
     
-    public function load()
+    public function load() : void
     {
         $this->checkFilters();
         
@@ -741,7 +741,7 @@ class ilAssQuestionList implements ilTaxAssignedItemInfo
         return $this->questions[$a_item_id]['title'];
     }
     
-    private function checkFilters()
+    private function checkFilters() : void
     {
         if (strlen($this->getAnswerStatusFilter()) && !$this->getAnswerStatusActiveId()) {
             require_once 'Modules/TestQuestionPool/exceptions/class.ilTestQuestionPoolException.php';

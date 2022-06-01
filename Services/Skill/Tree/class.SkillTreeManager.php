@@ -105,7 +105,9 @@ class SkillTreeManager
     public function getTrees() : \Generator
     {
         foreach ($this->repository_tree->getChilds($this->skmg_ref_id) as $c) {
-            yield new \ilObjSkillTree($c["child"]);
+            if ($c["type"] == "skee") {
+                yield new \ilObjSkillTree($c["child"]);
+            }
         }
     }
 
