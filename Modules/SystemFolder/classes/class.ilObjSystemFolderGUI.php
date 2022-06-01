@@ -863,7 +863,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
     public function saveBenchSettingsObject()
     {
         if ($this->wrapper->post()->has("enable_db_bench")) {
-            $user_id = $this->wrapper->post()->retrieve("enable_db_bench", $this->refinery->to()->int());
+            $user_id = $this->wrapper->post()->retrieve("enable_db_bench", $this->refinery->kindlyTo()->int());
             $this->bench->enableDbBenchmarkForUser($user_id);
         } else {
             $this->bench->disableDbBenchmark();

@@ -29,7 +29,6 @@ Migration needed
 
 We will not duplicate referenced terms, taxonomy relations and advanced metadata (-> needs to be stated in feature wiki).
 
-
 ## Mid Term
 
 ### Use central Online/Offline code
