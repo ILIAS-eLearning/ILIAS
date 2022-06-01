@@ -37,7 +37,7 @@ class ilGroupRegistrationGUI extends ilRegistrationGUI
         parent::__construct($a_container);
     }
     
-    protected function executeCommand() : void
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
         
