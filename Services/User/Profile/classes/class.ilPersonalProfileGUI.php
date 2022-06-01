@@ -956,7 +956,7 @@ class ilPersonalProfileGUI
                         $caption = $key;
                 }
                 $cb = new ilCheckboxInputGUI($this->lng->txt($caption), "chk_" . $key . $key_suffix);
-                if ($prefs["public_" . $key] == "y") {
+                if (isset($prefs["public_" . $key]) && $prefs["public_" . $key] == "y") {
                     $cb->setChecked(true);
                 }
                 //$cb->setInfo($value);

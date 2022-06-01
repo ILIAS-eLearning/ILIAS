@@ -592,17 +592,17 @@ class ilObjUser extends ilObject
 
     public static function _lookupEmail(int $a_user_id) : string
     {
-        return self::_lookup($a_user_id, "email");
+        return self::_lookup($a_user_id, "email") ?? '';
     }
     
     public static function _lookupGender(int $a_user_id) : string
     {
-        return (string) self::_lookup($a_user_id, "gender");
+        return (string) self::_lookup($a_user_id, "gender") ?? '';
     }
 
     public static function _lookupClientIP(int $a_user_id) : string
     {
-        return self::_lookup($a_user_id, "client_ip");
+        return self::_lookup($a_user_id, "client_ip") ?? '';
     }
 
     /**
@@ -657,12 +657,12 @@ class ilObjUser extends ilObject
 
     public static function _lookupLogin(int $a_user_id) : string
     {
-        return (string) self::_lookup($a_user_id, "login");
+        return (string) self::_lookup($a_user_id, "login") ?? '';
     }
 
     public static function _lookupExternalAccount(int $a_user_id) : string
     {
-        return (string) self::_lookup($a_user_id, "ext_account");
+        return (string) self::_lookup($a_user_id, "ext_account") ?? '';
     }
 
     /**
@@ -705,12 +705,12 @@ class ilObjUser extends ilObject
 
     public static function _lookupLastLogin(int $a_user_id) : string
     {
-        return self::_lookup($a_user_id, "last_login");
+        return self::_lookup($a_user_id, "last_login") ?? '';
     }
 
     public static function _lookupFirstLogin(int $a_user_id) : string
     {
-        return self::_lookup($a_user_id, "first_login");
+        return self::_lookup($a_user_id, "first_login") ?? '';
     }
 
 

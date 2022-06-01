@@ -115,9 +115,12 @@ label, input[type=checkbox], input[type=radio], select {
 }
 
 .form-control {
+  height: (@il-font-size-small * @il-line-height-base) + ((2+2*@il-padding-base-vertical) * @il-pixel-to-rem); // Make inputs at least the height of their button counterpart (base line-height + padding + border)
+  padding: @padding-base-vertical @padding-base-horizontal;
   font-size: @il-standard-form-font-size;
   color: @il-text-color;
   border: 1px solid @il-main-border-dark-color;
+
 }
 
 .form-control[disabled],

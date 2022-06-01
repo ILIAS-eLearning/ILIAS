@@ -1,6 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
@@ -27,7 +42,7 @@ class ilLanguageSetupAgent implements Setup\Agent
      */
     public function hasConfig() : bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -35,16 +50,7 @@ class ilLanguageSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(function ($data) {
-            if (!isset($data["default_language"])) {
-                $data["default_language"] = "en";
-            }
-            return new \ilLanguageSetupConfig(
-                $data["default_language"],
-                $data["install_languages"] ?? [$data["default_language"]],
-                $data["install_local_languages"] ?? []
-            );
-        });
+        throw new LogicException(self::class . " has no Config.");
     }
 
     /**
@@ -55,9 +61,8 @@ class ilLanguageSetupAgent implements Setup\Agent
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services/Language",
             false,
-            new ilLanguageConfigStoredObjective($config),
-            new ilLanguagesInstalledAndUpdatedObjective($config, $this->il_setup_language),
-            new ilDefaultLanguageSetObjective($config)
+            new ilLanguagesInstalledAndUpdatedObjective($this->il_setup_language),
+            new ilDefaultLanguageSetObjective()
         );
     }
 
@@ -66,20 +71,10 @@ class ilLanguageSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        if ($config !== null) {
-            return new Setup\ObjectiveCollection(
-                "Complete objectives from Services/Language",
-                false,
-                new ilLanguageConfigStoredObjective($config),
-                new ilLanguagesInstalledAndUpdatedObjective($config, $this->il_setup_language),
-                new ilDefaultLanguageSetObjective($config)
-            );
-        }
-
         return new Setup\ObjectiveCollection(
             "Complete objectives from Services/Language",
             false,
-            new ilLanguagesInstalledAndUpdatedObjective(null, $this->il_setup_language),
+            new ilLanguagesInstalledAndUpdatedObjective($this->il_setup_language),
         );
     }
 

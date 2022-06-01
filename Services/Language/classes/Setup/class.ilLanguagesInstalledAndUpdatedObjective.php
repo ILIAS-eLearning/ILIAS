@@ -1,6 +1,21 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\Setup;
 
@@ -9,10 +24,9 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
     protected \ilSetupLanguage $il_setup_language;
 
     public function __construct(
-        ?\ilLanguageSetupConfig $config,
         \ilSetupLanguage $il_setup_language
     ) {
-        parent::__construct($config);
+        parent::__construct();
         $this->il_setup_language = $il_setup_language;
     }
 
@@ -29,10 +43,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
      */
     protected function getInstallLanguages() : array
     {
-        if (!is_null($this->config)) {
-            return $this->config->getInstallLanguages();
-        }
-        return $this->il_setup_language->getInstalledLanguages();
+        return $this->il_setup_language->getInstalledLanguages() ?: ['en'];
     }
 
     /**
@@ -40,9 +51,6 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
      */
     protected function getInstallLocalLanguages() : array
     {
-        if (!is_null($this->config)) {
-            return $this->config->getInstallLocalLanguages();
-        }
         return $this->il_setup_language->getInstalledLocalLanguages();
     }
 
@@ -67,14 +75,7 @@ class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
      */
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        if (is_null($this->config)) {
-            return [];
-        }
-
-        $db_config = $environment->getConfigFor("database");
-        return [
-            new ilDatabasePopulatedObjective($db_config)
-        ];
+        return [];
     }
 
     /**

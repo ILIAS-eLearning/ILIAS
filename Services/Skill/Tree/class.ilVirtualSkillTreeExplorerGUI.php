@@ -189,7 +189,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
         // we have a tree id like <skl_tree_id>:<skl_template_tree_id> here
         // use this, if you want a "common" skill id in format <skill_id>:<tref_id>
         $id_parts = explode(":", $a_node["id"]);
-        if ($id_parts[1] == 0) {
+        if (!isset($id_parts[1]) || $id_parts[1] == 0) {
             // skill in main tree
             $skill_id = $a_node["id"];
         } else {

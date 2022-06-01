@@ -1169,10 +1169,12 @@ class ilPersonalSkillsGUI
         $ilTabs = $this->tabs;
 
 
+        $ilCtrl->setParameter($this, "list_mode", self::LIST_SELECTED);
         $ilTabs->setBackTarget(
             $lng->txt("back"),
-            $ilCtrl->getLinkTarget($this, "")
+            $ilCtrl->getLinkTarget($this, "render")
         );
+        $ilCtrl->clearParameterByClass(get_class($this), "list_mode");
 
         $exp = new ilPersonalSkillExplorerGUI($this, "listSkillsForAdd", $this, "addSkill");
         if ($exp->getHasSelectableNodes()) {

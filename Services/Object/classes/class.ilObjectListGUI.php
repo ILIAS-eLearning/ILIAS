@@ -1995,8 +1995,8 @@ class ilObjectListGUI
             $this->current_selection_list->setListTitle("");
         }
         $this->current_selection_list->setId("act_" . $this->getUniqueItemId());
-        $this->current_selection_list->setSelectionHeaderClass("small");
-        $this->current_selection_list->setItemLinkClass("small");
+        $this->current_selection_list->setSelectionHeaderClass("");
+        $this->current_selection_list->setItemLinkClass("");
         $this->current_selection_list->setLinksMode("il_ContainerItemCommand2");
         $this->current_selection_list->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
         $this->current_selection_list->setUseImages(false);

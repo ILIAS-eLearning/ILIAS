@@ -70,7 +70,7 @@
 			margin-top: 0;
 			margin-bottom: 0;
 			.open .dropdown-menu > li > a {
-				padding-left: 10px;
+				padding-left: @il-padding-large-horizontal;
 			}
 		}
 		> li {
@@ -95,12 +95,12 @@
 }
 //See #https://mantis.ilias.de/view.php?id=30615
 .ilToolbarContainer + .ilFilterContainer{
-	margin-top: -20px;
+	margin-top: -@il-line-height-computed;
 }
 @media only screen and (max-width: @grid-float-breakpoint-max) {
 	.ilToolbar {
 		.container-fluid {
-			padding-left: 15px;
+			padding-left: @il-padding-xlarge-horizontal;
 		}
 		li {
 			border-bottom: @il-toolbar-border;

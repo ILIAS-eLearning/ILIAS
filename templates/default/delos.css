@@ -1299,7 +1299,7 @@ h1,
 }
 h2,
 .h2 {
-  font-size: 1.5em;
+  font-size: 1.5rem;
 }
 h3,
 .h3 {
@@ -5938,9 +5938,6 @@ output {
 .form-control {
   display: block;
   width: 100%;
-  height: 1.56rem;
-  padding: 3px 9px;
-  font-size: 0.875rem;
   line-height: 1.42857143;
   color: #555555;
   background-color: #fff;
@@ -6053,7 +6050,7 @@ input[type="search"] {
   display: inline-block;
   padding-left: 20px;
   margin-bottom: 0;
-  vertical-align: middle;
+  vertical-align: top;
   font-weight: normal;
   cursor: pointer;
 }
@@ -6305,12 +6302,12 @@ select[multiple].input-lg {
   .form-inline .form-group {
     display: inline-block;
     margin-bottom: 0;
-    vertical-align: middle;
+    vertical-align: top;
   }
   .form-inline .form-control {
     display: inline-block;
     width: auto;
-    vertical-align: middle;
+    vertical-align: top;
   }
   .form-inline .form-control-static {
     display: inline-block;
@@ -6559,8 +6556,6 @@ select[multiple].input-lg {
     width: auto;
     margin-top: 0;
     background-color: transparent;
-    border: 0;
-    box-shadow: none;
   }
   .navbar-nav .open .dropdown-menu > li > a,
   .navbar-nav .open .dropdown-menu .dropdown-header {
@@ -6602,12 +6597,12 @@ select[multiple].input-lg {
   .navbar-form .form-group {
     display: inline-block;
     margin-bottom: 0;
-    vertical-align: middle;
+    vertical-align: top;
   }
   .navbar-form .form-control {
     display: inline-block;
     width: auto;
-    vertical-align: middle;
+    vertical-align: top;
   }
   .navbar-form .form-control-static {
     display: inline-block;
@@ -7690,7 +7685,8 @@ ul.dropdown-menu {
   box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
 }
 ul.dropdown-menu > li {
-  padding: 0;
+  padding-top: 1px;
+  padding-bottom: 1px;
 }
 ul.dropdown-menu > li > .btn {
   display: block;
@@ -7698,7 +7694,7 @@ ul.dropdown-menu > li > .btn {
   clear: both;
   padding: 3px 15px;
   font-weight: normal;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   line-height: 1.42857143;
   background-color: transparent;
   color: #161616;
@@ -8252,7 +8248,9 @@ select {
   cursor: pointer;
 }
 .form-control {
-  font-size: 0.875rem;
+  height: 1.57142857rem;
+  padding: 3px 9px;
+  font-size: 0.75rem;
   color: #161616;
   border: 1px solid #757575;
 }
@@ -8434,7 +8432,7 @@ input[type="checkbox"]:focus:focus-visible {
   padding-left: 0px;
 }
 .il-standard-form textarea {
-  height: 5.56rem;
+  height: 4.56rem;
 }
 .il-filter .col-md-4,
 .il-filter .col-md-6 {
@@ -9452,7 +9450,7 @@ footer {
     background-color: transparent;
     border: none;
     color: #2c2c2c;
-    font-size: 1.5em;
+    font-size: 1rem;
     max-width: 220px;
     white-space: nowrap;
     overflow: hidden;
@@ -9461,8 +9459,8 @@ footer {
   .il-header-locator .dropdown-toggle:before {
     content: " \e606";
     font-family: "il-icons";
-    font-size: 1.8rem;
-    margin-right: 10px;
+    font-size: 1rem;
+    margin-right: 9px;
   }
   .il-header-locator .open .dropdown-toggle:before {
     content: " \e604";
@@ -9541,6 +9539,9 @@ footer {
   }
   .il-layout-page-content > div {
     flex-grow: 1;
+  }
+  footer {
+    margin-bottom: 20px;
   }
 }
 /*
@@ -10348,7 +10349,7 @@ footer {
 .il-maincontrols-footer {
   color: #161616;
   font-size: 0.75rem;
-  padding: 2px 10px;
+  padding: 3px 12px;
 }
 .il-maincontrols-footer .il-footer-content div {
   display: inline-block;
@@ -12032,7 +12033,7 @@ span.ilAlert {
   clear: both;
   padding: 3px 10px;
   font-weight: normal;
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   line-height: 1.42857143;
   background-color: transparent;
   color: #161616;
@@ -12648,7 +12649,7 @@ a#il_mhead_t_focus {
 }
 @media only screen and (max-width: 768px) {
   a#il_mhead_t_focus {
-    font-size: 1.5em;
+    font-size: 1.5rem;
   }
 }
 a#il_mhead_t_focus[href] {
@@ -13579,7 +13580,7 @@ a.postnew:visited {
 blockquote.ilForumQuote {
   margin: 0 20px 10px;
   padding: 5px;
-  border: 1px solid #b6b6b6;
+  border: 1px solid #dddddd;
   font-size: 0.75rem;
 }
 div.ilForumQuoteHead {
@@ -14970,14 +14971,17 @@ li.ilWikiBlockItem {
   padding: 6px 0;
   margin: 0 15px;
 }
+#ilSubTab > li:first-child > a {
+  margin-left: 3px;
+}
 #ilSubTab > li > a {
   border-radius: 0;
-  padding: 3px 15px;
+  padding: 3px 12px;
   font-size: 0.75rem;
-  /* font-weight: 600; */
 }
 #ilSubTab > li > a:hover {
-  color: #3a4c65;
+  text-decoration: underline;
+  background-color: transparent;
 }
 #ilSubTab > li.active > a,
 #ilSubTab > li.active > a:hover,
@@ -17016,7 +17020,7 @@ div.ilStartupSection form.form-horizontal {
   margin-bottom: 0;
 }
 .ilToolbar .ilToolbarStickyItems.navbar-nav .open .dropdown-menu > li > a {
-  padding-left: 10px;
+  padding-left: 12px;
 }
 .ilToolbar .ilToolbarStickyItems > li {
   float: left;

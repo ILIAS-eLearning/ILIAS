@@ -115,6 +115,11 @@ class ilSkillTree extends ilTree
             );
         }
 
-        return max(0, ...array_column($childs, 'order_nr'));
+        $max = 0;
+        foreach ($childs as $k => $c) {
+            $max = max(array($c["order_nr"], $max));
+        }
+
+        return $max;
     }
 }

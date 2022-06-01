@@ -423,7 +423,7 @@ footer {
 			background-color: transparent;
 			border: none;
 			color: @il-neutral-color;
-			font-size: @il-font-size-xxlarge;
+			font-size: @il-font-size-large;
 			max-width: 220px;
 			white-space: nowrap;
 			overflow: hidden;
@@ -431,8 +431,8 @@ footer {
 			&:before {
 			    content: " \e606";
 			    font-family: "il-icons";
-			    font-size: 1.8rem;
-			    margin-right: 10px;
+			    font-size: @il-font-size-large;
+			    margin-right: @il-padding-base-horizontal;
 			}
 		}
 
@@ -544,6 +544,10 @@ footer {
 		> div {
 			flex-grow: 1;
 		}
+	}
+
+	footer {
+		margin-bottom: @il-line-height-computed;
 	}
 }
 
