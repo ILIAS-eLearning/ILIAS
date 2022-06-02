@@ -98,6 +98,16 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
     }
 
+    protected function checkCtrlPath() : void
+    {
+        if (!$this->getCreationMode()) {
+            $baseclass = strtolower($_GET["baseClass"]);
+            if (!in_array($baseclass, ["illmpresentationgui", "illmeditorgui"])) {
+                throw new ilLMException("Wrong ctrl path");
+            }
+        }
+    }
+
     /**
      * execute command
      * @return bool|mixed
@@ -110,6 +120,8 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
         $ilErr = $this->error;
+
+        $this->checkCtrlPath();
         
         if ($this->ctrl->getRedirectSource() == "ilinternallinkgui") {
             $this->explorer();
