@@ -76,7 +76,7 @@ class ilMStListCompetencesSkills
                 false,
                 'integer'
             ) . " AND " . $this->dic->database()->in('sk.user_id ', $users, false, 'integer')
-                . $this->getAdditionalWhereStatement($options['filters']);
+                . $this->getAdditionalWhereStatement((array) $options['filters']);
         }
 
         $union_query = "SELECT * FROM ((" . implode(') UNION (', $arr_query) . ")) as a_table";

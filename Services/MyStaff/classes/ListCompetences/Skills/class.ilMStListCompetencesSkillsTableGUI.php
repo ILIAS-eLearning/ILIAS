@@ -44,7 +44,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
     protected ilMyStaffAccess $access;
     protected Container $dic;
 
-    public function __construct(\ilObjectGUI $parent_obj, string $parent_cmd, Container $dic)
+    public function __construct(ilMStListCompetencesSkillsGUI $parent_obj, string $parent_cmd, Container $dic)
     {
         $this->dic = $dic;
         $this->access = ilMyStaffAccess::getInstance();

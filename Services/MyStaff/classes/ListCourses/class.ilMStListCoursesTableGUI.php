@@ -129,13 +129,13 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
 
         // course members
         $item = new ilRepositorySelectorInputGUI($DIC->language()->txt("usr_filter_coursemember"), "course");
-        $item->setParent($this->getParentObject());
+        //$item->setParent($this->getParentObject());
         $item->setSelectText($DIC->language()->txt("mst_select_course"));
         $item->setHeaderMessage($DIC->language()->txt("mst_please_select_course"));
         $item->setClickableTypes(array(ilMyStaffAccess::DEFAULT_CONTEXT));
         $this->addFilterItem($item);
         $item->readFromSession();
-        $item->setParent($this->getParentObject());
+        //$item->setParent($this->getParentObject());
         $this->filter["course"] = $item->getValue();
 
         //membership status
@@ -168,6 +168,8 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
                 $this->filter["lp_status"] = $this->filter["lp_status"] - 1;
             }
         }
+
+
 
         //user
         $item = new ilTextInputGUI(

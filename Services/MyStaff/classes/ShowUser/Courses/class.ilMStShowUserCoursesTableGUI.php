@@ -141,7 +141,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $item->setClickableTypes(array(ilMyStaffAccess::DEFAULT_CONTEXT));
         $this->addFilterItem($item);
         $item->readFromSession();
-        $item->setParent($this->getParentObject());
+        //$item->setParent($this->getParentObject());
         $this->filter["course"] = $item->getValue();
 
         //membership status
