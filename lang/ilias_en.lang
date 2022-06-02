@@ -16664,3 +16664,4 @@ rep#:#rep_favourites#:#Favourites
 rep#:#rep_favourites_info#:#Users can mark single repository items as favourites. Favourites lists can be activated and configured in the dashboard and menu settings.
 prtf#:#prtf_copy_pg#:#Copy Page
 prtf#:#prtf_copy_blog_pg#:#Copy Blog Page
+assessment#:#question_is_part_of_running_test#:#Question is part of a running test and may not be edited.
