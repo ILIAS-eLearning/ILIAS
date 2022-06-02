@@ -5491,4 +5491,33 @@ abstract class assQuestion
     {
         return false;
     }
+
+
+    /* doubles isInUse? */
+    public function isInActiveTest() : bool
+    {
+        $query = 'SELECT user_fi FROM tst_active ' . PHP_EOL
+            . 'JOIN tst_test_question ON tst_test_question.test_fi = tst_active.test_fi ' . PHP_EOL
+            . 'JOIN qpl_questions ON qpl_questions.question_id = tst_test_question.question_fi ' . PHP_EOL
+            . 'WHERE qpl_questions.obj_fi = ' . $this->db->quote($this->getObjId(), 'integer');
+
+        $res = $this->db->query($query);
+        return $res->numRows() > 0;
+    }
+
+    public function getParentTestRefId() : ?int
+    {
+        $query = 'SELECT ref_id FROM object_reference ' . PHP_EOL
+            . 'JOIN tst_tests ON tst_tests.obj_fi = object_reference.obj_id' . PHP_EOL
+            . 'JOIN tst_test_question ON tst_test_question.test_fi = tst_tests.test_id ' . PHP_EOL
+            . 'JOIN qpl_questions ON qpl_questions.question_id = tst_test_question.question_fi ' . PHP_EOL
+            . 'WHERE qpl_questions.obj_fi = ' . $this->db->quote($this->getObjId(), 'integer');
+
+        $res = $this->db->query($query);
+        $row = $this->db->fetchAssoc($res);
+        if ($res->numRows() > 0) {
+            return (int) $row['ref_id'];
+        }
+        return null;
+    }
 }
