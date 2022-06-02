@@ -48,7 +48,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     public function __construct()
     {
         global $DIC;
-        parent::__construct(array(), $_GET["ref_id"], true, false);
+
+
 
         $this->ctrl = $DIC->ctrl();
         $this->ilAccess = $DIC->access();
@@ -58,6 +59,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI
         $this->ilLog = $DIC->logger();
         $this->ilias = $DIC['ilias'];
         $this->type = 'orgu';
+
+        parent::__construct(array(), $_GET["ref_id"], true, false);
 
         $lng = $DIC->language();
         $lng->loadLanguageModule("orgu");
@@ -400,6 +403,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
 
     public function showPossibleSubObjects() : void
     {
+
         $gui = new ilObjectAddNewItemGUI($this->object->getRefId());
         $gui->setMode(ilObjectDefinition::MODE_ADMINISTRATION);
         //$gui->setCreationUrl("ilias.php?ref_id=" . $_GET["ref_id"] . "&admin_mode=settings&cmd=create&baseClass=ilAdministrationGUI&cmdClass=ilobjorgunitgui");
