@@ -24,6 +24,8 @@
  */
 class ilSkillTree extends ilTree
 {
+    protected array $by_type_data = [];
+
     public function __construct(int $a_tree_id = 1)
     {
         parent::__construct($a_tree_id);
@@ -121,5 +123,41 @@ class ilSkillTree extends ilTree
         }
 
         return $max;
+    }
+
+    public function initChildsData()
+    {
+        if (isset($this->by_type_data[$this->getTreeId()])) {
+            return;
+        }
+
+        $db = $this->db;
+        $set = $db->queryF(
+            "SELECT * FROM " .
+            "skl_tree JOIN skl_tree_node ON skl_tree.child=skl_tree_node.obj_id " .
+            " WHERE skl_tree.skl_tree_id = %s ",
+            ["integer"],
+            [$this->getTreeId()]
+        );
+        $this->by_type_data[$this->getTreeId()] = [];
+        while ($rec = $db->fetchAssoc($set)) {
+            $this->by_type_data[$this->getTreeId()][$rec["parent"]][$rec["type"]][] = $rec;
+        }
+    }
+
+    public function getChildsByTypeFilter($a_node_id, $a_types, $a_order = "", $a_direction = "ASC") : array
+    {
+        $this->initChildsData();
+        $childs = [];
+        foreach ($a_types as $type) {
+            $type_childs = $this->by_type_data[$this->getTreeId()][$a_node_id][$type] ?? [];
+            $childs = array_merge($childs, $type_childs);
+        }
+
+        if ($a_order != "") {
+            ilArrayUtil::sortArray($childs, $a_order, $a_direction);
+        }
+
+        return $childs;
     }
 }
