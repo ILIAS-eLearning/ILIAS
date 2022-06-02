@@ -1,4 +1,21 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+declare(strict_types=1);
 
 namespace ILIAS\MyStaff\ListCertificates;
 
@@ -50,8 +67,10 @@ class ilMStListCertificates
         foreach ($users_per_position as $position_id => $users) {
             $usr_data_filter = new UserDataFilter();
             $usr_data_filter = $usr_data_filter->withUserIds($users);
-            $usr_data_filter = $usr_data_filter->withObjIds(ilMyStaffAccess::getInstance()->getIdsForUserAndOperation($this->dic->user()->getId(),
-                $operation_access));
+            $usr_data_filter = $usr_data_filter->withObjIds(ilMyStaffAccess::getInstance()->getIdsForUserAndOperation(
+                $this->dic->user()->getId(),
+                $operation_access
+            ));
 
             if (!empty($options['filters']['user'])) {
                 $usr_data_filter = $usr_data_filter->withUserLogin($options['filters']['user']);
@@ -60,8 +79,10 @@ class ilMStListCertificates
                 $usr_data_filter = $usr_data_filter->withObjectTitle($options['filters']['obj_title']);
             }
 
-            array_merge($data, $cert_api->getUserCertificateData($usr_data_filter,
-                [ilMyStaffGUI::class, ilMStListCertificatesGUI::class]));
+            $data = array_merge($data, $cert_api->getUserCertificateData(
+                $usr_data_filter,
+                [ilMyStaffGUI::class, ilMStListCertificatesGUI::class]
+            ));
         }
 
         $unique_cert_data = [];

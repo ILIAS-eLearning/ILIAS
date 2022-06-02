@@ -15,27 +15,34 @@
  *
  ********************************************************************
  */
+declare(strict_types=1);
 
-/**
- * Class ilPositionPermissionsNotActive
- * @author Oskar Truffer <ot@studer-raimann.ch>
- */
-class ilPositionPermissionsNotActive extends ilOrguException
+namespace ILIAS\Services\MyStaff\Utils;
+
+final class ListFetcherResult
 {
-    protected string $object_type = "";
+    private int $totalDatasetCount;
+    private array $dataset;
 
-    /**
-     * ilPositionPermissionsNotActive constructor.
-     */
-    public function __construct(string $message, string $type, int $code = 0)
+    public function __construct(array $dataset, int $totalDatasetCount)
     {
-        parent::__construct($message, $code);
-
-        $this->object_type = $type;
+        $this->dataset = $dataset;
+        $this->totalDatasetCount = $totalDatasetCount;
     }
 
-    public function getObjectType(): string
+    /**
+     * @return int
+     */
+    public function getTotalDatasetCount() : int
     {
-        return $this->object_type;
+        return $this->totalDatasetCount;
+    }
+
+    /**
+     * @return array
+     */
+    public function getDataset() : array
+    {
+        return $this->dataset;
     }
 }

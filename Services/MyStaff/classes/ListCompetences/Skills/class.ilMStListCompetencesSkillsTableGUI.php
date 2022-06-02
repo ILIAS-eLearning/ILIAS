@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 namespace ILIAS\MyStaff\ListCompetences\Skills;
 
@@ -28,7 +44,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
     protected ilMyStaffAccess $access;
     protected Container $dic;
 
-    public function __construct(\ilObjectGUI $parent_obj, string $parent_cmd, Container $dic)
+    public function __construct(ilMStListCompetencesSkillsGUI $parent_obj, string $parent_cmd, Container $dic)
     {
         $this->dic = $dic;
         $this->access = ilMyStaffAccess::getInstance();
@@ -59,7 +75,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $this->parseData();
     }
 
-    protected function parseData()
+    protected function parseData() : void
     {
         $this->setExternalSorting(true);
         $this->setExternalSegmentation(true);
@@ -70,7 +86,10 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
 
         $options = array(
             'filters' => $this->filter,
-            'limit' => array(),
+            'limit' => array(
+                'start' => intval($this->getOffset()),
+                'end' => intval($this->getLimit()),
+            ),
             'count' => true,
             'sort' => array(
                 'field' => $this->getOrderField(),
@@ -79,14 +98,15 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         );
 
         $skills_fetcher = new ilMStListCompetencesSkills($this->dic);
-        $count = $skills_fetcher->getData($options);
-        $options['limit'] = array(
-            'start' => intval($this->getOffset()),
-            'end' => intval($this->getLimit()),
-        );
-        $options['count'] = false;
-        $data = $skills_fetcher->getData($options);
-        $this->setMaxCount($count);
+        $result = $skills_fetcher->getData($options);
+
+        $this->setMaxCount($result->getTotalDatasetCount());
+        $data = $result->getDataset();
+
+        // Workaround because the fillRow Method only accepts arrays
+        $data = array_map(function (ilMStListCompetencesSkill $it) : array {
+            return [$it];
+        }, $data);
         $this->setData($data);
     }
 
@@ -105,9 +125,11 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $this->filter['skill_level'] = $item->getValue();
 
         //user
-        $item = new ilTextInputGUI($this->dic->language()->txt("login") . "/" . $this->dic->language()->txt("email") . "/" . $this->dic->language()
+        $item = new ilTextInputGUI(
+            $this->dic->language()->txt("login") . "/" . $this->dic->language()->txt("email") . "/" . $this->dic->language()
                                                                                                                                        ->txt("name"),
-            "user");
+            "user"
+        );
 
         $this->addFilterItem($item);
         $item->readFromSession();
@@ -175,7 +197,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    private function addColumns(): void
+    private function addColumns() : void
     {
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
@@ -196,16 +218,20 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
 
     final public function fillRow(array $a_set) : void
     {
-        $propGetter = Closure::bind(function($prop) {
+        $set = array_pop($a_set);
+        
+        $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
-        }, $a_set, $a_set);
+        }, $set, $set);
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
                 if ($propGetter($k) !== null) {
                     $this->tpl->setCurrentBlock('td');
-                    $this->tpl->setVariable('VALUE',
-                        (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k)));
+                    $this->tpl->setVariable(
+                        'VALUE',
+                        (is_array($propGetter($k)) ? implode(", ", $propGetter($k)) : $propGetter($k))
+                    );
                     $this->tpl->parseCurrentBlock();
                 } else {
                     $this->tpl->setCurrentBlock('td');
@@ -219,20 +245,25 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $actions->setListTitle($this->dic->language()->txt("actions"));
         $actions->setAsynch(true);
 
-        $this->dic->ctrl()->setParameterByClass(get_class($this->parent_obj), 'mst_lcom_usr_id', $a_set->getUserId());
+        $this->dic->ctrl()->setParameterByClass(get_class($this->parent_obj), 'mst_lcom_usr_id', $set->getUserId());
 
         $actions->setAsynchUrl(str_replace("\\", "\\\\", $this->dic->ctrl()
-                                                                   ->getLinkTarget($this->parent_obj,
+                                                                   ->getLinkTarget(
+                                                                       $this->parent_obj,
                                                                        ilMStListCompetencesSkillsGUI::CMD_GET_ACTIONS,
-                                                                       "", true)));
+                                                                       "",
+                                                                       true
+                                                                   )));
         $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
     }
 
     protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
+        $set = array_pop($a_set);
+
         $col = 0;
-        foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
             $a_excel->setCell($a_row, $col, $v);
             $col++;
         }
@@ -240,15 +271,17 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
 
     protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
-        foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
+        $set = array_pop($a_set);
+        
+        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
             $a_csv->addColumn($v);
         }
         $a_csv->addRow();
     }
 
-    protected function getFieldValuesForExport(ilMStListCompetencesSkill $selected_skill): array
+    protected function getFieldValuesForExport(ilMStListCompetencesSkill $selected_skill) : array
     {
-        $propGetter = Closure::bind(function($prop) {
+        $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
         }, $selected_skill, $selected_skill);
 

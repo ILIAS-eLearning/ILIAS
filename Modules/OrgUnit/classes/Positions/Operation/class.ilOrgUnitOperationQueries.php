@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Class ilOrgUnitOperationQueries
@@ -91,7 +107,7 @@ class ilOrgUnitOperationQueries
     public static function findByOperationString(
         string $operation_string,
         string $context_name
-    ) : ActiveRecord /*ilOrgUnitOperation|ActiveRecord*/ {
+    ) : ?ActiveRecord /*ilOrgUnitOperation|ActiveRecord*/ {
         $context = ilOrgUnitOperationContextQueries::findByName($context_name);
 
         return ilOrgUnitOperation::where(['operation_string' => $operation_string,
