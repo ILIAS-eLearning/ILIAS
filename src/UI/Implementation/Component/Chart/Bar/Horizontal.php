@@ -14,9 +14,8 @@
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- ********************************************************************
- */
-
+ *********************************************************************/
+ 
 namespace ILIAS\UI\Implementation\Component\Chart\Bar;
 
 use ILIAS\UI\Component as C;

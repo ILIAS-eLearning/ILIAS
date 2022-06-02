@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
+ 
 namespace ILIAS\UI\Implementation\Component\Player;
 
 use ILIAS\UI\Component as C;

@@ -54,7 +54,6 @@ $request_wrapper = $DIC->http()->wrapper()->query();
 
 if ($request_wrapper->has('new_metabar_ui') && $request_wrapper->retrieve('new_metabar_ui', $refinery->kindlyTo()->string()) == '1') {
     chdir('../../../../../');
-    require_once('src/UI/examples/Layout/Page/Standard/ui.php');
     PageStandardExample\_initIliasForPreview();
 
     $f = $DIC->ui()->factory();
