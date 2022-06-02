@@ -199,7 +199,6 @@ if (
     )
 ) {
     chdir('../../../../../../');
-    require_once('src/UI/examples/Layout/Page/Standard/ui.php');
     _initIliasForPreview();
 
     //get resources

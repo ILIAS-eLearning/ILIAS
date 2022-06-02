@@ -10,10 +10,6 @@ function show_form_in_modal()
     $refinery = $DIC->refinery();
     $post_wrapper = $DIC->http()->wrapper()->post();
 
-    require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-    require_once('./Services/Form/classes/class.ilTextInputGUI.php');
-    require_once('./Services/Form/classes/class.ilCountrySelectInputGUI.php');
-
     // Build the form
     $form = new \ilPropertyFormGUI();
     $form->setTitle("");

@@ -43,8 +43,6 @@ $request_wrapper = $DIC->http()->wrapper()->query();
 
 if ($request_wrapper->has('new_footer_2_ui') && $request_wrapper->retrieve('new_footer_2_ui', $refinery->kindlyTo()->string()) == '1') {
     chdir('../../../../../');
-    require_once('src/UI/examples/Layout/Page/Standard/ui.php');
-    require_once('src/UI/examples/MainControls/Footer/footer.php');
 
     PageStandardExample\_initIliasForPreview();
 

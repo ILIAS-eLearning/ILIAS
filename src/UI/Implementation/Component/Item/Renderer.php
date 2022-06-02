@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
+ 
 namespace ILIAS\UI\Implementation\Component\Item;
 
 use ILIAS\UI\Component\Component;

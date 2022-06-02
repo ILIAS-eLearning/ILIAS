@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
-
+ 
 namespace ILIAS\UI\Implementation\Component\Symbol\Icon;
 
 use ILIAS\UI\Component as C;
