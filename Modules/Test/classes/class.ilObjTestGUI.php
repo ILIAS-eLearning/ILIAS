@@ -662,8 +662,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 break;
 
             case 'ilassquestionpreviewgui':
-                if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
                 }
                 $this->prepareOutput();
 
@@ -685,6 +685,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             case 'ilassquestionpagegui':
                 if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()))) {
                     $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+                }
+                if ($cmd === 'edit' && !$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
                 }
                 $_GET['q_id'] = $this->fetchAuthoringQuestionIdParameter();
                 $this->prepareOutput();
@@ -745,8 +748,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 break;
 
             case 'ilassquestionhintsgui':
-                if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
                 }
                 $this->prepareSubGuiOutput();
 
@@ -758,6 +761,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $questionGUI = assQuestionGUI::_getQuestionGUI('', $this->fetchAuthoringQuestionIdParameter());
                 $questionGUI->object->setObjId($this->object->getId());
                 $questionGUI->setQuestionTabs();
+                
+                if ($questionGUI->object->isInActiveTest()) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"));
+                    $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+                }
 
                 // forward to ilAssQuestionHintsGUI
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
@@ -772,8 +780,8 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 break;
 
             case 'ilassquestionfeedbackeditinggui':
-                if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()))) {
-                    $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
+                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
                 }
                 $this->prepareSubGuiOutput();
 
@@ -785,6 +793,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $questionGUI = assQuestionGUI::_getQuestionGUI('', $this->fetchAuthoringQuestionIdParameter());
                 $questionGUI->object->setObjId($this->object->getId());
                 $questionGUI->setQuestionTabs();
+                
+                if ($questionGUI->object->isInActiveTest()) {
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"));
+                    $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+                }
 
                 // forward to ilAssQuestionFeedbackGUI
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php';
@@ -825,6 +838,9 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()))) {
                     $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
                 }
+                if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && !$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
+                }
                 // elba hack for storing question id for inserting new question after
                 if ($this->testrequest->raw('prev_qid')) {
                     global $___prev_question_id;
@@ -847,6 +863,11 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
                     $questionGui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
                     $questionGui->object->setObjId($this->object->getId());
+                    
+                    if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && $questionGUI->object->isInActiveTest()) {
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"));
+                        $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+                    }
 
                     $questionGuiClass = get_class($questionGui);
                     $this->ctrl->setParameterByClass($questionGuiClass, 'prev_qid', $this->testrequest->raw('prev_qid'));
@@ -877,6 +898,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $this->getCreationMode() != true) {
             $this->tpl->printToStdout();
         }
+    }
+    
+    protected function redirectAfterMissingWrite()
+    {
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"));
+        $target_class = get_class($this->object) . "GUI";
+        $this->ctrl->setParameterByClass($target_class, 'ref_id', $this->ref_id);
+        $this->ctrl->redirectByClass($target_class);
     }
     
     protected function trackTestObjectReadEvent()

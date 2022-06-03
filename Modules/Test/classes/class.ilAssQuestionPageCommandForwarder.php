@@ -32,7 +32,7 @@ class ilAssQuestionPageCommandForwarder
         global $DIC;
         $ctrl = $DIC->ctrl();
         $main_template = $DIC->ui()->mainTemplate();
-        $lang = $DIC->language();
+        $lng = $DIC->language();
         
         $this->testrequest = $DIC->test()->internal()->request();
         
@@ -65,9 +65,14 @@ class ilAssQuestionPageCommandForwarder
         $q_gui->outAdditionalOutput();
         $q_gui->object->setObjId($this->getTestObj()->getId());
         $question = &$q_gui->object;
+ 
+        if ($ctrl->getCmd() === 'edit' && $question->isInActiveTest()) {
+            $this->tpl->setOnScreenMessage('failure', $lng->txt("question_is_part_of_running_test"));
+            $ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+        }
 
         $ctrl->saveParameter($this, "q_id");
-        $lang->loadLanguageModule("content");
+        $lng->loadLanguageModule("content");
         $ctrl->setReturnByClass("ilAssQuestionPageGUI", "view");
         $ctrl->setReturnByClass("ilObjTestGUI", "questions");
         $page_gui = new ilAssQuestionPageGUI($this->testrequest->getQuestionId());
@@ -81,7 +86,7 @@ class ilAssQuestionPageCommandForwarder
         $page_gui->setTemplateTargetVar("ADM_CONTENT");
         $page_gui->setOutputMode($this->getTestObj()->evalTotalPersons() == 0 ? "edit" : 'preview');
         $page_gui->setHeader($question->getTitle());
-        $page_gui->setPresentationTitle($question->getTitle() . ' [' . $lang->txt('question_id_short') . ': ' . $question->getId() . ']');
+        $page_gui->setPresentationTitle($question->getTitle() . ' [' . $lng->txt('question_id_short') . ': ' . $question->getId() . ']');
         
         $html = $ctrl->forwardCommand($page_gui);
         $main_template->setContent($html);
