@@ -198,7 +198,10 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 break;
 
             case 'ilassquestionpreviewgui':
-
+                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
+                }
+                
                 $this->ctrl->saveParameter($this, "q_id");
 
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
@@ -218,10 +221,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 break;
 
             case "ilassquestionpagegui":
-                if($cmd == 'finishEditing') {
-                    $this->ctrl->redirectByClass('ilassquestionpreviewgui','show');
+                if ($cmd == 'finishEditing') {
+                    $this->ctrl->redirectByClass('ilassquestionpreviewgui', 'show');
                     break;
                 }
+                if ($cmd === 'edit' && !$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
+                }
+                
                 include_once("./Services/Style/Content/classes/class.ilObjStyleSheet.php");
                 $this->tpl->setCurrentBlock("ContentStyle");
                 $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
@@ -247,6 +254,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 }
 
                 $question = $q_gui->object;
+                
+                if ($question->isInActiveTest()) {
+                    ilUtil::sendFailure($this->lng->txt("question_is_part_of_running_test"), true);
+                    $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+                }
+                
                 $this->ctrl->saveParameter($this, "q_id");
                 include_once("./Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php");
                 $this->lng->loadLanguageModule("content");
@@ -300,7 +313,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 break;
 
             case 'ilassquestionhintsgui':
-
+                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
+                }
                 // set return target
                 $this->ctrl->setReturn($this, "questions");
 
@@ -309,7 +324,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $questionGUI = assQuestionGUI::_getQuestionGUI($q_type, $this->fetchAuthoringQuestionIdParamater());
                 $questionGUI->object->setObjId($this->object->getId());
                 $questionGUI->setQuestionTabs();
-                global $DIC;
+                
+                if ($questionGUI->object->isInActiveTest()) {
+                    ilUtil::sendFailure($this->lng->txt("question_is_part_of_running_test"), true);
+                    $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+                }
+                
                 $ilHelp = $DIC['ilHelp'];
                 $ilHelp->setScreenIdComponent("qpl");
 
@@ -350,6 +370,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 break;
 
             case 'ilassquestionfeedbackeditinggui':
+                if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
+                }
 
                 // set return target
                 $this->ctrl->setReturn($this, "questions");
@@ -359,7 +382,12 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $questionGUI = assQuestionGUI::_getQuestionGUI(assQuestion::_getQuestionType($this->object->getId()), $this->fetchAuthoringQuestionIdParamater());
                 $questionGUI->object->setObjId($this->object->getId());
                 $questionGUI->setQuestionTabs();
-                global $DIC;
+                
+                if ($questionGUI->object->isInActiveTest()) {
+                    ilUtil::sendFailure($this->lng->txt("question_is_part_of_running_test"), true);
+                    $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+                }
+                
                 $ilHelp = $DIC['ilHelp'];
                 $ilHelp->setScreenIdComponent("qpl");
 
@@ -436,23 +464,33 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 break;
 
             default:
+                if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && !$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                    $this->redirectAfterMissingWrite();
+                }
+                
                 $this->ctrl->setReturn($this, "questions");
-                include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-                $q_gui = assQuestionGUI::_getQuestionGUI(assQuestion::_getQuestionType($this->object->getId()), $this->fetchAuthoringQuestionIdParamater());
-                $q_gui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
-                $q_gui->object->setObjId($this->object->getId());
+
+                $questionGUI = assQuestionGUI::_getQuestionGUI(assQuestion::_getQuestionType($this->object->getId()), $this->fetchAuthoringQuestionIdParamater());
+                $questionGUI->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
+                $questionGUI->object->setObjId($this->object->getId());
+                
+                if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && $questionGUI->object->isInActiveTest()) {
+                    ilUtil::sendFailure($this->lng->txt("question_is_part_of_running_test"), true);
+                    $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+                }
+                
                 if ($this->object->getType() == 'qpl') {
-                    $q_gui->setTaxonomyIds($this->object->getTaxonomyIds());
+                    $questionGUI->setTaxonomyIds($this->object->getTaxonomyIds());
+
                     if ($writeAccess) {
-                        $q_gui->addHeaderAction();
+                        $questionGUI->addHeaderAction();
                     }
                 }
-                $q_gui->setQuestionTabs();
-
-                global $DIC;
+                $questionGUI->setQuestionTabs();
+                
                 $ilHelp = $DIC['ilHelp'];
                 $ilHelp->setScreenIdComponent("qpl");
-                $ret = $this->ctrl->forwardCommand($q_gui);
+                $ret = $this->ctrl->forwardCommand($questionGUI);
                 break;
         }
 
@@ -462,7 +500,16 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             $this->tpl->printToStdout();
         }
     }
-
+    
+    
+    protected function redirectAfterMissingWrite()
+    {
+        ilUtil::sendFailure($this->lng->txt("no_permission"), true);
+        $target_class = get_class($this->object) . "GUI";
+        $this->ctrl->setParameterByClass($target_class, 'ref_id', $this->ref_id);
+        $this->ctrl->redirectByClass($target_class);
+    }
+    
     /**
      * Gateway for exports initiated from workspace, as there is a generic
      * forward to {objTypeMainGUI}::export()
@@ -1030,8 +1077,14 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         require_once 'Services/Taxonomy/classes/class.ilObjTaxonomy.php';
         $taxIds = ilObjTaxonomy::getUsageOfObject($this->object->getId());
 
-        include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-        $table_gui = new ilQuestionBrowserTableGUI($this, 'questions', false, false, $taxIds);
+        $table_gui = new ilQuestionBrowserTableGUI(
+            $this,
+            'questions',
+            false,
+            false,
+            $taxIds
+        );
+        
         $table_gui->resetOffset();
         $table_gui->resetFilter();
         $this->questionsObject();
@@ -1370,20 +1423,26 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public function &editQuestionForTestObject() : void
     {
         global $DIC;
-        include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-        $p_gui = new ilAssQuestionPreviewGUI($this->ctrl,$this->tabs_gui,$this->tpl,$this->lng,$DIC->database(),$DIC->user(), new ILIAS\Refinery\Random\Group());
+        
+        $p_gui = new ilAssQuestionPreviewGUI(
+            $this->ctrl,
+            $this->tabs_gui,
+            $this->tpl,
+            $this->lng,
+            $DIC->database(),
+            $DIC->user(),
+            new ILIAS\Refinery\Random\Group()
+        );
         $this->ctrl->redirectByClass(get_class($p_gui), "show");
     }
 
     protected function initImportForm(string $new_type) : ilPropertyFormGUI
     {
-        include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("import_qpl"));
 
-        include_once("./Services/Form/classes/class.ilFileInputGUI.php");
         $fi = new ilFileInputGUI($this->lng->txt("import_file"), "xmldoc");
         $fi->setSuffixes(array("zip"));
         $fi->setRequired(true);
@@ -1754,8 +1813,15 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
         $writeAccess = (bool) $rbacsystem->checkAccess('write', $this->qplrequest->getRefId());
         $enableCommenting = $writeAccess;
 
-        include_once "./Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php";
-        $table_gui = new ilQuestionBrowserTableGUI($this, 'questions', $writeAccess, false, $taxIds, $enableCommenting);
+        $table_gui = new ilQuestionBrowserTableGUI(
+            $this,
+            'questions',
+            $writeAccess,
+            false,
+            $taxIds,
+            $enableCommenting
+        );
+        
         $table_gui->setEditable($writeAccess);
 
         require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionList.php';

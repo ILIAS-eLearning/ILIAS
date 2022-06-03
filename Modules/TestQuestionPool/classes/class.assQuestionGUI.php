@@ -208,22 +208,9 @@ abstract class assQuestionGUI
         $this->ilHelp->setScreenIdComponent('qpl');
 
         $cmd = $this->ctrl->getCmd("editQuestion");
-
-        if (in_array($cmd, ['editQuestion', 'save'])) {
-            $parent_test_ref_id = $this->object->getParentTestRefId();
-            if ($parent_test_ref_id &&
-                !$this->access->checkAccess("write", "", $parent_test_ref_id)
-            ) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
-                $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
-            }
-            if ($this->object->isInActiveTest()) {
-                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
-                $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
-            }
-        }
-
         $next_class = $this->ctrl->getNextClass($this);
+
+        $cmd = $this->getCommand($cmd);
 
         switch ($next_class) {
             case 'ilformpropertydispatchgui':
