@@ -97,7 +97,7 @@ class ilMStListCourse
         return $this->usr_login;
     }
 
-    final public function setUsrLogin(string $usr_login)
+    final public function setUsrLogin(string $usr_login) : void
     {
         $this->usr_login = $usr_login;
     }
@@ -117,7 +117,7 @@ class ilMStListCourse
         return $this->usr_lastname;
     }
 
-    final public function setUsrLastname(string $usr_lastname)
+    final public function setUsrLastname(string $usr_lastname) : void
     {
         $this->usr_lastname = $usr_lastname;
     }
@@ -127,7 +127,7 @@ class ilMStListCourse
         return $this->usr_email;
     }
 
-    final public function setUsrEmail(string $usr_email)
+    final public function setUsrEmail(string $usr_email) : void
     {
         $this->usr_email = $usr_email;
     }
@@ -150,15 +150,10 @@ class ilMStListCourse
         switch ($status) {
             case self::MEMBERSHIP_STATUS_WAITINGLIST:
                 return $DIC->language()->txt('mst_memb_status_waitinglist');
-                break;
-
             case self::MEMBERSHIP_STATUS_REGISTERED:
                 return $DIC->language()->txt('mst_memb_status_registered');
-                break;
-
             case self::MEMBERSHIP_STATUS_REQUESTED:
                 return $DIC->language()->txt('mst_memb_status_requested');
-                break;
         }
 
         return "";

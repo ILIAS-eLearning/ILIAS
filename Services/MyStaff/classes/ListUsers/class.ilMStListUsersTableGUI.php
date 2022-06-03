@@ -61,7 +61,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $this->setFormName('myst_lu');
         $this->setId('myst_lu');
 
-        parent::__construct($parent_obj, $parent_cmd, '');
+        parent::__construct($parent_obj, $parent_cmd);
 
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
@@ -131,8 +131,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
 
         // User name, login, email filter
         $item = new ilTextInputGUI(
-            $DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()
-                                                                                                                     ->txt("name"),
+            $DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()->txt("name"),
             "user"
         );
         $this->addFilterItem($item);
@@ -220,7 +219,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         //Avatar
         $this->tpl->setCurrentBlock('user_profile_picture');
         $il_obj_user = $set->returnIlUserObj();
-        $avatar = $this->uiFactory->image()->standard($il_obj_user->getPersonalPicturePath('small'), $il_obj_user->getPublicName());
+        $avatar = $this->uiFactory->image()->standard($il_obj_user->getPersonalPicturePath(), $il_obj_user->getPublicName());
         $this->tpl->setVariable('user_profile_picture', $this->uiRenderer->render($avatar));
         $this->tpl->parseCurrentBlock();
 
@@ -242,20 +241,26 @@ class ilMStListUsersTableGUI extends ilTable2GUI
                         break;
                     case 'interests_general':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', ($set->returnIlUserObj()
-                                                                ->getGeneralInterestsAsText() ? $set->returnIlUserObj()->getGeneralInterestsAsText() : '&nbsp;'));
+                        $this->tpl->setVariable(
+                            'VALUE',
+                            ($set->returnIlUserObj()->getGeneralInterestsAsText() ? $set->returnIlUserObj()->getGeneralInterestsAsText() : '&nbsp;')
+                        );
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'interests_help_offered':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', ($set->returnIlUserObj()
-                                                                ->getOfferingHelpAsText() ? $set->returnIlUserObj()->getOfferingHelpAsText() : '&nbsp;'));
+                        $this->tpl->setVariable(
+                            'VALUE',
+                            ($set->returnIlUserObj()->getOfferingHelpAsText() ? $set->returnIlUserObj()->getOfferingHelpAsText() : '&nbsp;')
+                        );
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'interests_help_looking':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', ($set->returnIlUserObj()
-                                                                ->getLookingForHelpAsText() ? $set->returnIlUserObj()->getLookingForHelpAsText() : '&nbsp;'));
+                        $this->tpl->setVariable(
+                            'VALUE',
+                            ($set->returnIlUserObj()->getLookingForHelpAsText() ? $set->returnIlUserObj()->getLookingForHelpAsText() : '&nbsp;')
+                        );
                         $this->tpl->parseCurrentBlock();
                         break;
                     default:
@@ -287,13 +292,12 @@ class ilMStListUsersTableGUI extends ilTable2GUI
 
         $DIC->ctrl()->setParameterByClass(ilMStListUsersGUI::class, 'mst_lus_usr_id', $set->getUsrId());
 
-        $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
-                                                             ->getLinkTarget(
-                                                                 $this->parent_obj,
-                                                                 ilMStListUsersGUI::CMD_GET_ACTIONS,
-                                                                 "",
-                                                                 true
-                                                             )));
+        $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()->getLinkTarget(
+            $this->parent_obj,
+            ilMStListUsersGUI::CMD_GET_ACTIONS,
+            "",
+            true
+        )));
         $this->tpl->setVariable('ACTIONS', $this->uiRenderer->render($dropdown));
         $this->tpl->parseCurrentBlock();
     }
@@ -313,7 +317,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
         $set = array_pop($a_set);
 
         $col = 0;
-        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($set) as $v) {
             $a_excel->setCell($a_row, $col, $v);
             $col++;
         }
@@ -323,7 +327,7 @@ class ilMStListUsersTableGUI extends ilTable2GUI
     {
         $set = array_pop($a_set);
 
-        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($set) as $v) {
             $a_csv->addColumn($v);
         }
         $a_csv->addRow();

@@ -119,8 +119,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
 
         //user
         $item = new ilTextInputGUI(
-            $DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()
-                                                                                                                     ->txt("name"),
+            $DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()->txt("name"),
             "user"
         );
 
@@ -304,7 +303,7 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
     {
         $set = array_pop($a_set);
         
-        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($set) as $v) {
             $a_csv->addColumn($v);
         }
         $a_csv->addRow();
@@ -320,7 +319,9 @@ class ilMStListCertificatesTableGUI extends ilTable2GUI
         foreach ($this->getSelectedColumns() as $k => $v) {
             switch ($k) {
                 case 'usr_assinged_orgus':
-                    $field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_certificate_dto->getUserId());
+                    $field_values[$k] = ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits(
+                        $user_certificate_dto->getUserId()
+                    );
                     break;
                 case 'issuedOnTimestamp':
                     $field_values[$k] = new ilDateTime($propGetter($k), IL_CAL_UNIX);

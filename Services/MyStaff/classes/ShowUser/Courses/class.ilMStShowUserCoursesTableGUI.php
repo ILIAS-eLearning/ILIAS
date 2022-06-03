@@ -45,12 +45,10 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
     protected ilMyStaffAccess $access;
     protected ?array $columnDefinition = null;
 
-    /**
-     * @param ilMStShowUserCoursesGUI $parent_obj
-     * @param string                  $parent_cmd
-     */
-    public function __construct(ilMStShowUserCoursesGUI $parent_obj, $parent_cmd = ilMStShowUserCoursesGUI::CMD_INDEX)
-    {
+    public function __construct(
+        ilMStShowUserCoursesGUI $parent_obj,
+        string $parent_cmd = ilMStShowUserCoursesGUI::CMD_INDEX
+    ) {
         global $DIC;
 
         $this->access = ilMyStaffAccess::getInstance();
@@ -156,7 +154,10 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $item->readFromSession();
         $this->filter["memb_status"] = $item->getValue();
 
-        if (ilObjUserTracking::_enabledLearningProgress() && $this->access->hasCurrentUserAccessToCourseLearningProgressForAtLeastOneUser()) {
+        if (
+            ilObjUserTracking::_enabledLearningProgress() &&
+            $this->access->hasCurrentUserAccessToCourseLearningProgressForAtLeastOneUser()
+        ) {
             //learning progress status
             $item = new ilSelectInputGUI($DIC->language()->txt('learning_progress'), 'lp_status');
             //+1 because LP_STATUS_NOT_ATTEMPTED_NUM is 0.
@@ -287,13 +288,12 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'mst_lco_usr_id', $set->getUsrId());
         $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'mst_lco_crs_ref_id', $set->getCrsRefId());
 
-        $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
-                                                             ->getLinkTarget(
-                                                                 $this->parent_obj,
-                                                                 ilMStShowUserCoursesGUI::CMD_GET_ACTIONS,
-                                                                 "",
-                                                                 true
-                                                             )));
+        $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()->getLinkTarget(
+            $this->parent_obj,
+            ilMStShowUserCoursesGUI::CMD_GET_ACTIONS,
+            "",
+            true
+        )));
         $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
     }
@@ -303,7 +303,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $set = array_pop($a_set);
         
         $col = 0;
-        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($set) as $v) {
             $a_excel->setCell($a_row, $col, $v);
             $col++;
         }
@@ -313,7 +313,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
     {
         $set = array_pop($a_set);
         
-        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($set) as $v) {
             $a_csv->addColumn($v);
         }
         $a_csv->addRow();

@@ -159,7 +159,7 @@ class ilMStListCertificatesGUI
                     '',
                     $link
                 );
-            };
+            }
 
             $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
             /**

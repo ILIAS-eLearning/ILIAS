@@ -30,17 +30,11 @@ final class ListFetcherResult
         $this->totalDatasetCount = $totalDatasetCount;
     }
 
-    /**
-     * @return int
-     */
     public function getTotalDatasetCount() : int
     {
         return $this->totalDatasetCount;
     }
 
-    /**
-     * @return array
-     */
     public function getDataset() : array
     {
         return $this->dataset;

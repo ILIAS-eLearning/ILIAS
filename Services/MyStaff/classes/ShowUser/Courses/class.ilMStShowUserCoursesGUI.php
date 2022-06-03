@@ -35,7 +35,7 @@ class ilMStShowUserCoursesGUI
     protected int $usr_id;
     protected ilTable2GUI $table;
     protected ilMyStaffAccess $access;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {
@@ -48,7 +48,7 @@ class ilMStShowUserCoursesGUI
         $DIC->ctrl()->setParameter($this, 'usr_id', $this->usr_id);
     }
 
-    protected function checkAccessOrFail()
+    protected function checkAccessOrFail() : void
     {
         global $DIC;
 
@@ -67,7 +67,7 @@ class ilMStShowUserCoursesGUI
         }
     }
 
-    final public function executeCommand()
+    final public function executeCommand() : void
     {
         global $DIC;
 
@@ -102,7 +102,7 @@ class ilMStShowUserCoursesGUI
         $this->listUsers();
     }
 
-    protected function listUsers()
+    protected function listUsers() : void
     {
         global $DIC;
 
@@ -178,8 +178,7 @@ class ilMStShowUserCoursesGUI
             $selection = ilMyStaffGUI::extendActionMenuWithUserActions(
                 $selection,
                 $mst_co_usr_id,
-                rawurlencode($DIC->ctrl()
-                                 ->getLinkTarget($this, self::CMD_INDEX))
+                rawurlencode($DIC->ctrl()->getLinkTarget($this, self::CMD_INDEX))
             );
 
             echo $selection->getHTML(true);

@@ -94,8 +94,8 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $options = array(
             'filters' => $this->filter,
             'limit' => array(
-                'start' => intval($this->getOffset()),
-                'end' => intval($this->getLimit()),
+                'start' => $this->getOffset(),
+                'end' => $this->getLimit(),
             ),
             'count' => true,
             'sort' => array(
@@ -129,13 +129,11 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
 
         // course members
         $item = new ilRepositorySelectorInputGUI($DIC->language()->txt("usr_filter_coursemember"), "course");
-        //$item->setParent($this->getParentObject());
         $item->setSelectText($DIC->language()->txt("mst_select_course"));
         $item->setHeaderMessage($DIC->language()->txt("mst_please_select_course"));
         $item->setClickableTypes(array(ilMyStaffAccess::DEFAULT_CONTEXT));
         $this->addFilterItem($item);
         $item->readFromSession();
-        //$item->setParent($this->getParentObject());
         $this->filter["course"] = $item->getValue();
 
         //membership status
@@ -173,8 +171,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
 
         //user
         $item = new ilTextInputGUI(
-            $DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()
-                                                                                                                     ->txt("name"),
+            $DIC->language()->txt("login") . "/" . $DIC->language()->txt("email") . "/" . $DIC->language()->txt("name"),
             "user"
         );
 
@@ -216,7 +213,10 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
             'width' => 'auto',
             'sort_field' => 'reg_status',
         );
-        if (ilObjUserTracking::_enabledLearningProgress() && $this->access->hasCurrentUserAccessToCourseLearningProgressForAtLeastOneUser()) {
+        if (
+            ilObjUserTracking::_enabledLearningProgress() &&
+            $this->access->hasCurrentUserAccessToCourseLearningProgressForAtLeastOneUser()
+        ) {
             $cols['usr_lp_status'] = array(
                 'txt' => $DIC->language()->txt('learning_progress'),
                 'default' => true,
@@ -357,14 +357,12 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $DIC->ctrl()->setParameterByClass(ilMStListCoursesGUI::class, 'mst_lco_usr_id', $set->getUsrId());
         $DIC->ctrl()->setParameterByClass(ilMStListCoursesGUI::class, 'mst_lco_crs_ref_id', $set->getCrsRefId());
 
-        $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
-                                                             ->getLinkTarget(
-                                                                 $this->parent_obj,
-                                                                 ilMStListCoursesGUI::CMD_GET_ACTIONS,
-                                                                 "",
-                                                                 true
-                                                             )));
-        //$this->tpl->setVariable('ACTIONS', $actions->getHTML());
+        $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()->getLinkTarget(
+            $this->parent_obj,
+            ilMStListCoursesGUI::CMD_GET_ACTIONS,
+            "",
+            true
+        )));
         $this->tpl->parseCurrentBlock();
     }
 
@@ -373,7 +371,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
         $set = array_pop($a_set);
 
         $col = 0;
-        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($set) as $v) {
             $a_excel->setCell($a_row, $col, $v);
             $col++;
         }
@@ -383,7 +381,7 @@ class ilMStListCoursesTableGUI extends ilTable2GUI
     {
         $set = array_pop($a_set);
 
-        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($set) as $v) {
             $a_csv->addColumn($v);
         }
         $a_csv->addRow();

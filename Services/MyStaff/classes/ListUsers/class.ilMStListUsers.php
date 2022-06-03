@@ -136,30 +136,26 @@ class ilMStListUsers
                 "usr_data.login",
                 "text",
                 "%" . $arr_filter['user'] . "%"
-            ) . " " . "OR " . $this->dic->database()
-                                                                               ->like(
-                                                                                   "usr_data.firstname",
-                                                                                   "text",
-                                                                                   "%" . $arr_filter['user'] . "%"
-                                                                               ) . " " . "OR " . $this->dic->database()
-                                                                                                                                              ->like(
-                                                                                                                                                  "usr_data.lastname",
-                                                                                                                                                  "text",
-                                                                                                                                                  "%" . $arr_filter['user'] . "%"
-                                                                                                                                              ) . " " . "OR " . $this->dic->database()
-                                                                                                                                                                                                             ->like(
-                                                                                                                                                                                                                 "usr_data.email",
-                                                                                                                                                                                                                 "text",
-                                                                                                                                                                                                                 "%" . $arr_filter['user'] . "%"
-                                                                                                                                                                                                             ) . ") ";
+            ) . " " . "OR " . $this->dic->database()->like(
+                    "usr_data.firstname",
+                    "text",
+                    "%" . $arr_filter['user'] . "%"
+                ) . " " . "OR " . $this->dic->database()->like(
+                    "usr_data.lastname",
+                    "text",
+                    "%" . $arr_filter['user'] . "%"
+                ) . " " . "OR " . $this->dic->database()->like(
+                    "usr_data.email",
+                    "text",
+                    "%" . $arr_filter['user'] . "%"
+                ) . ") ";
         }
 
         if (!empty($arr_filter['org_unit'])) {
-            $where[] = 'usr_data.usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' . $this->dic->database()
-                                                                                                         ->quote(
-                                                                                                             $arr_filter['org_unit'],
-                                                                                                             'integer'
-                                                                                                         ) . ')';
+            $where[] = 'usr_data.usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' . $this->dic->database()->quote(
+                    $arr_filter['org_unit'],
+                    'integer'
+                ) . ')';
         }
 
         if (!empty($arr_filter['lastname'])) {

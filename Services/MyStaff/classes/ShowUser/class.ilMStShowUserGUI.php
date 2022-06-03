@@ -38,7 +38,7 @@ class ilMStShowUserGUI
 
     protected int $usr_id;
     protected ilMyStaffAccess $access;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct()
     {

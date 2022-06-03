@@ -26,11 +26,6 @@ use ILIAS\MyStaff\ListCourses\ilMStListCourse;
 class ilMyStaffGUI
 {
     public const CMD_INDEX = 'index';
-    public const TAB_LIST_USERS = 'list_users';
-    public const TAB_LIST_COURSES = 'list_courses';
-    public const TAB_LIST_CERTIFICATES = 'list_certificates';
-    public const TAB_LIST_COMPETENCES = 'list_competences';
-    public const TAB_LIST_STUDY_PROGRAMME = 'list_study_programme';
 
     public function __construct()
     {
@@ -64,10 +59,6 @@ class ilMyStaffGUI
                 $list_gui = new ilMStListCompetencesGUI($DIC);
                 $DIC->ctrl()->forwardCommand($list_gui);
                 break;
-//            case strtolower(ilMStListStudyProgrammesGUI::class):
-//                $list_gui = new ilMStListStudyProgrammesGUI();
-//                $DIC->ctrl()->forwardCommand($list_gui);
-//                break;
             case strtolower(ilMStShowUserGUI::class):
                 $user_gui = new ilMStShowUserGUI();
                 $DIC->ctrl()->forwardCommand($user_gui);
@@ -162,11 +153,11 @@ class ilMyStaffGUI
             $lp_icon = $DIC->ui()->factory()->image()
                            ->standard(
                                ilLearningProgressBaseGUI::_getImagePathForStatus($my_staff_course->getUsrLpStatus()),
-                               ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()))
+                               ilLearningProgressBaseGUI::_getStatusText($my_staff_course->getUsrLpStatus())
                            );
 
             return $DIC->ui()->renderer()->render($lp_icon) . ' '
-                . ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()));
+                . ilLearningProgressBaseGUI::_getStatusText($my_staff_course->getUsrLpStatus());
         }
 
         return '&nbsp';
@@ -175,7 +166,7 @@ class ilMyStaffGUI
     final public static function getUserLpStatusAsText(ilMStListCourse $my_staff_course) : string
     {
         if (ilMyStaffAccess::getInstance()->hasCurrentUserAccessToLearningProgressInObject($my_staff_course->getCrsRefId())) {
-            return ilLearningProgressBaseGUI::_getStatusText(intval($my_staff_course->getUsrLpStatus()));
+            return ilLearningProgressBaseGUI::_getStatusText($my_staff_course->getUsrLpStatus());
         }
 
         return '';

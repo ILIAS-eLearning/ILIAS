@@ -24,7 +24,6 @@ use ilCSVWriter;
 use ilExcel;
 use ILIAS\DI\Container;
 use ILIAS\MyStaff\ilMyStaffAccess;
-use ilMStListCompetencesGUI;
 use ilMStListCompetencesSkill;
 use ilMStListCompetencesSkills;
 use ilMStListCompetencesSkillsGUI;
@@ -87,8 +86,8 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $options = array(
             'filters' => $this->filter,
             'limit' => array(
-                'start' => intval($this->getOffset()),
-                'end' => intval($this->getLimit()),
+                'start' => $this->getOffset(),
+                'end' => $this->getLimit(),
             ),
             'count' => true,
             'sort' => array(
@@ -247,13 +246,12 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
 
         $this->dic->ctrl()->setParameterByClass(get_class($this->parent_obj), 'mst_lcom_usr_id', $set->getUserId());
 
-        $actions->setAsynchUrl(str_replace("\\", "\\\\", $this->dic->ctrl()
-                                                                   ->getLinkTarget(
-                                                                       $this->parent_obj,
-                                                                       ilMStListCompetencesSkillsGUI::CMD_GET_ACTIONS,
-                                                                       "",
-                                                                       true
-                                                                   )));
+        $actions->setAsynchUrl(str_replace("\\", "\\\\", $this->dic->ctrl()->getLinkTarget(
+            $this->parent_obj,
+            ilMStListCompetencesSkillsGUI::CMD_GET_ACTIONS,
+            "",
+            true
+        )));
         $this->tpl->setVariable('ACTIONS', $actions->getHTML());
         $this->tpl->parseCurrentBlock();
     }
@@ -263,7 +261,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $set = array_pop($a_set);
 
         $col = 0;
-        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($set) as $v) {
             $a_excel->setCell($a_row, $col, $v);
             $col++;
         }
@@ -273,7 +271,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
     {
         $set = array_pop($a_set);
         
-        foreach ($this->getFieldValuesForExport($set) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($set) as $v) {
             $a_csv->addColumn($v);
         }
         $a_csv->addRow();

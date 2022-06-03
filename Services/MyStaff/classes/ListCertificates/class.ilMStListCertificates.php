@@ -64,7 +64,7 @@ class ilMStListCertificates
 
         $data = [];
         $users_per_position = ilMyStaffAccess::getInstance()->getUsersForUserPerPosition($this->dic->user()->getId());
-        foreach ($users_per_position as $position_id => $users) {
+        foreach ($users_per_position as $users) {
             $usr_data_filter = new UserDataFilter();
             $usr_data_filter = $usr_data_filter->withUserIds($users);
             $usr_data_filter = $usr_data_filter->withObjIds(ilMyStaffAccess::getInstance()->getIdsForUserAndOperation(

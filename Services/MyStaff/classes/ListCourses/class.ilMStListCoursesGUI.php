@@ -19,7 +19,6 @@ declare(strict_types=1);
 
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\MyStaff\ListCourses\ilMStListCoursesTableGUI;
-use ILIAS\HTTP\Wrapper\WrapperFactory;
 
 /**
  * Class ilMStListCoursesGUI
@@ -163,7 +162,7 @@ class ilMStListCoursesGUI extends ilPropertyFormGUI
                 );
             };
 
-            $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits(true);
+            $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
             foreach (ilOrgUnitUserAssignment::innerjoin('object_reference', 'orgu_id', 'ref_id')->where(array(
                 'user_id' => $mst_co_usr_id,
                 'object_reference.deleted' => null

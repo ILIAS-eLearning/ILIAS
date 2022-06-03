@@ -65,7 +65,7 @@ class ilMStListCompetencesSkills
         }
 
         $arr_query = [];
-        foreach ($users_per_position as $position_id => $users) {
+        foreach ($users_per_position as $users) {
             $obj_ids = ilMyStaffAccess::getInstance()->getIdsForUserAndOperation(
                 $this->dic->user()->getId(),
                 $operation_access
@@ -126,22 +126,19 @@ class ilMStListCompetencesSkills
                 "ud.login",
                 "text",
                 "%" . $filters['user'] . "%"
-            ) . " " . "OR " . $this->dic->database()
-                                                                            ->like(
-                                                                                "ud.firstname",
-                                                                                "text",
-                                                                                "%" . $filters['user'] . "%"
-                                                                            ) . " " . "OR " . $this->dic->database()
-                                                                                                                                        ->like(
-                                                                                                                                            "ud.lastname",
-                                                                                                                                            "text",
-                                                                                                                                            "%" . $filters['user'] . "%"
-                                                                                                                                        ) . " " . "OR " . $this->dic->database()
-                                                                                                                                                                                                    ->like(
-                                                                                                                                                                                                        "ud.email",
-                                                                                                                                                                                                        "text",
-                                                                                                                                                                                                        "%" . $filters['user'] . "%"
-                                                                                                                                                                                                    ) . ") ";
+            ) . " " . "OR " . $this->dic->database()->like(
+                "ud.firstname",
+                "text",
+                "%" . $filters['user'] . "%"
+                ) . " " . "OR " . $this->dic->database()->like(
+                    "ud.lastname",
+                    "text",
+                    "%" . $filters['user'] . "%"
+                ) . " " . "OR " . $this->dic->database()->like(
+                    "ud.email",
+                    "text",
+                    "%" . $filters['user'] . "%"
+                ) . ") ";
         }
 
         if (!empty($arr_filter['org_unit'])) {

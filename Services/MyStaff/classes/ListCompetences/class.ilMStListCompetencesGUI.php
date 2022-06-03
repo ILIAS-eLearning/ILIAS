@@ -36,7 +36,7 @@ class ilMStListCompetencesGUI
     protected ilTable2GUI $table;
     protected ilMyStaffAccess $access;
     private Container $dic;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct(Container $dic)
     {

@@ -34,7 +34,7 @@ class ilMStListUsersGUI
     public const CMD_ADD_USER_AUTO_COMPLETE = 'addUserAutoComplete';
     protected ilMStListUsersTableGUI $table;
     protected ilMyStaffAccess $access;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
     private ILIAS\HTTP\Services $http;
     private ILIAS\Refinery\Factory $refinery;
     private ilHelpGUI $help;

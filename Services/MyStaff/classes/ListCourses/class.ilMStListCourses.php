@@ -82,7 +82,6 @@ class ilMStListCourses
                     INNER JOIN object_reference AS crs_ref on crs_ref.obj_id = crs.obj_id AND crs_ref.deleted IS NULL
 	                INNER JOIN usr_data on usr_data.usr_id = memb.usr_id AND usr_data.active = 1';
 
-        $data = [];
         $users_per_position = ilMyStaffAccess::getInstance()->getUsersForUserPerPosition($this->dic->user()->getId());
 
         if (empty($users_per_position)) {
@@ -90,7 +89,7 @@ class ilMStListCourses
         }
 
         $arr_query = [];
-        foreach ($users_per_position as $position_id => $users) {
+        foreach ($users_per_position as $users) {
             $obj_ids = ilMyStaffAccess::getInstance()->getIdsForUserAndOperation(
                 $this->dic->user()->getId(),
                 $operation_access
@@ -183,30 +182,25 @@ class ilMStListCourses
                 "usr_login",
                 "text",
                 "%" . $arr_filter['user'] . "%"
-            ) . " " . "OR " . $this->dic->database()
-                                                                               ->like(
-                                                                                   "usr_firstname",
-                                                                                   "text",
-                                                                                   "%" . $arr_filter['user'] . "%"
-                                                                               ) . " " . "OR " . $this->dic->database()
-                                                                                                                                              ->like(
-                                                                                                                                                  "usr_lastname",
-                                                                                                                                                  "text",
-                                                                                                                                                  "%" . $arr_filter['user'] . "%"
-                                                                                                                                              ) . " " . "OR " . $this->dic->database()
-                                                                                                                                                                                                             ->like(
-                                                                                                                                                                                                                 "usr_email",
-                                                                                                                                                                                                                 "text",
-                                                                                                                                                                                                                 "%" . $arr_filter['user'] . "%"
-                                                                                                                                                                                                             ) . ") ";
+            ) . " " . "OR " . $this->dic->database()->like(
+                "usr_firstname",
+                "text",
+                "%" . $arr_filter['user'] . "%"
+                ) . " " . "OR " . $this->dic->database()->like(
+                    "usr_lastname",
+                    "text",
+                    "%" . $arr_filter['user'] . "%"
+                ) . " " . "OR " . $this->dic->database()->like(
+                    "usr_email",
+                    "text",
+                    "%" . $arr_filter['user'] . "%"
+                ) . ") ";
         }
 
         if (!empty($arr_filter['org_unit'])) {
-            $where[] = 'usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' . $this->dic->database()
-                                                                                                ->quote(
-                                                                                                    $arr_filter['org_unit'],
-                                                                                                    'integer'
-                                                                                                ) . ')';
+            $where[] = 'usr_id IN (SELECT user_id FROM il_orgu_ua WHERE orgu_id = ' . $this->dic->database()->quote(
+                $arr_filter['org_unit'],
+                'integer') . ')';
         }
 
         if (isset($arr_filter['usr_id']) && is_numeric($arr_filter['usr_id'])) {
