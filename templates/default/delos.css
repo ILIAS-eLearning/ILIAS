@@ -13888,13 +13888,13 @@ div.il_editarea_disabled {
 div.ilEditLabel {
   position: absolute;
   background-color: #4c6586;
-  color: #6f6f6f;
+  color: white;
   font-size: 0.75rem;
-  padding: 1px 3px;
-  margin-top: -15px;
+  padding: 3px 3px;
+  margin-top: -20px;
   margin-left: -2px;
   border: 0;
-  height: 15px;
+  height: 20px;
   display: none;
   z-index: 1;
 }

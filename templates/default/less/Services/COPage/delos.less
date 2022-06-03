@@ -136,13 +136,13 @@ div.il_editarea, div.il_editarea_disabled {
 div.ilEditLabel {
 	position: absolute;
 	background-color: @il-main-color;
-	color: @il-text-light-color;
+	color: white;
 	font-size: @il-font-size-small;
-	padding: 1px 3px;
-	margin-top: -15px;
-	margin-left: -2px;
+	padding: @il-padding-base-vertical @il-padding-xs-horizontal;
+	margin-top: -@il-line-height-computed;
+	margin-left: -@il-padding-xs-horizontal + 1px;
 	border: 0;
-	height: 15px;
+	height: @il-line-height-computed;
 	display: none;
 	z-index: 1;
 }
