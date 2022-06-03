@@ -89,14 +89,20 @@ class ilAuthUtils
      */
     public static function isAuthenticationForced() : bool
     {
-        return isset($_GET['ecs_hash']) || isset($_GET['ecs_hash_url']);
+        //TODO rework forced authentication concept
+        global $DIC;
+        $query_wrapper = $DIC->http()->wrapper()->query();
+        return $query_wrapper->has('ecs_hash') || $query_wrapper->has('ecs_hash_url');
     }
 
     public static function handleForcedAuthentication() : void
     {
-        if (isset($_GET['ecs_hash']) || isset($_GET['ecs_hash_url'])) {
+        global $DIC;
+        $query_wrapper = $DIC->http()->wrapper()->query();
+        $string_refinery = $DIC->refinery()->kindlyTo()->string();
+        if ($query_wrapper->has('ecs_hash') || $query_wrapper->has('ecs_hash_url')) {
             $credentials = new ilAuthFrontendCredentials();
-            $credentials->setUsername($_GET['ecs_login']);
+            $credentials->setUsername($query_wrapper->retrieve('ecs_login', $string_refinery));
             $credentials->setAuthMode((string) self::AUTH_ECS);
             
             $provider_factory = new ilAuthProviderFactory();
@@ -443,7 +449,6 @@ class ilAuthUtils
         }
         
         $default = $ilSetting->get('default_auth_mode', (string) $default);
-        $default = (int) ($_REQUEST['auth_mode'] ?? $default);
 
         // begin-patch auth_plugin
         $pls = self::getAuthPlugins();

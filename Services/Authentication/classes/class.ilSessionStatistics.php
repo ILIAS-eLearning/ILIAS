@@ -485,6 +485,7 @@ class ilSessionStatistics
     {
         global $DIC;
 
+        /** @var ilDBInterface $ilDB */
         $ilDB = $DIC['ilDB'];
     
         $sql = "SELECT slot_begin, slot_end, active_min, active_max, active_avg," .
@@ -496,7 +497,11 @@ class ilSessionStatistics
         $res = $ilDB->query($sql);
         $all = array();
         while ($row = $ilDB->fetchAssoc($res)) {
-            $all[] = $row;
+            $entry = [];
+            foreach ($row as $key => $value) {
+                $entry[$key] = (int) $value;
+            }
+            $all[] = $entry;
         }
         return $all;
     }
@@ -514,7 +519,7 @@ class ilSessionStatistics
         $res = $ilDB->query($sql);
         $row = $ilDB->fetchAssoc($res);
         if ($row["latest"]) {
-            return $row["latest"];
+            return (int) $row["latest"];
         }
         //TODO check if return null as timestamp causes issues
         return null;

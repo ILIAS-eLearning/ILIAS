@@ -216,7 +216,7 @@ class ilAuthFrontend
         ilSession::set(static::MIG_DESIRED_AUTHMODE, $provider->getUserAuthModeName());
         ilSession::set(static::MIG_EXTERNAL_ACCOUNT, $provider->getExternalAccountName());
         
-        $this->logger->dump($_SESSION, ilLogLevel::DEBUG);
+        $this->logger->dump(ilSession::dumpToString(), ilLogLevel::DEBUG);
         
         return true;
     }

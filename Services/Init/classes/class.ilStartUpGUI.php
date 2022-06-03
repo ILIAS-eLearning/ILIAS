@@ -452,7 +452,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
                 $visible_auth_methods[] = $op1;
             }
 
-            if (count($visible_auth_methods) == 1) {
+            if (count($visible_auth_methods) === 1) {
                 $first_auth_method = current($visible_auth_methods);
                 $hidden_auth_method = new ilHiddenInputGUI("auth_mode");
                 $hidden_auth_method->setValue($first_auth_method->getValue());

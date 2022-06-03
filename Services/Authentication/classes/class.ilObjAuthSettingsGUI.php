@@ -28,6 +28,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
     private ilLogger $logger;
     private ILIAS\UI\Factory $ui;
     private ILIAS\UI\Renderer $renderer;
+    private ILIAS\Http\Services $http;
 
     private ?ilPropertyFormGUI $form;
 
@@ -38,8 +39,10 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
         global $DIC;
         $this->logger = $DIC->logger()->auth();
+
         $this->ui = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
+        $this->http = $DIC->http();
 
         $this->lng->loadLanguageModule('registration');
         $this->lng->loadLanguageModule('auth');
@@ -212,7 +215,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
             $generalSettingsTpl->setCurrentBlock("roles");
             $generalSettingsTpl->setVariable("ROLE", $role['title']);
-            $generalSettingsTpl->setVariable("ROLE_ID", $role['id']);
+            // r_ is add to  the role id only for the dictOf transformation used later to parse the input
+            $generalSettingsTpl->setVariable("ROLE_ID", "r_" . $role['id']);
             $generalSettingsTpl->parseCurrentBlock();
         }
 
@@ -261,18 +265,20 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         if (!$this->rbac_system->checkAccess("write", $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
-        
-        if (empty($_POST["auth_mode"])) {
+        $this->logger->debug('auth mode available:' . $this->request_wrapper->has("auth_mode"));
+
+        if (!$this->http->wrapper()->post()->has("auth_mode")) {
             $this->ilias->raiseError($this->lng->txt("auth_err_no_mode_selected"), $this->ilias->error_obj->MESSAGE);
         }
-
+        $new_auth_mode = $this->http->wrapper()->post()->retrieve("auth_mode", $this->refinery->to()->string());
+        $this->logger->debug('auth mode:' . $new_auth_mode);
         $current_auth_mode = $this->settings->get('auth_mode', '');
-        if ($_POST["auth_mode"] == $current_auth_mode) {
+        if ($new_auth_mode === $current_auth_mode) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt("auth_mode") . ": " . $this->getAuthModeTitle() . " " . $this->lng->txt("auth_mode_not_changed"), true);
             $this->ctrl->redirect($this, 'authSettings');
         }
 
-        switch ($_POST["auth_mode"]) {
+        switch ((int) $new_auth_mode) {
             case ilAuthUtils::AUTH_SAML:
                 break;
 
@@ -314,7 +320,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                 break;
         }
         
-        $this->ilias->setSetting("auth_mode", $_POST["auth_mode"]);
+        $this->ilias->setSetting("auth_mode", $new_auth_mode);
         
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("auth_default_mode_changed_to") . " " . $this->getAuthModeTitle(), true);
         $this->ctrl->redirect($this, 'authSettings');
@@ -392,22 +398,44 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
 
         $form = $this->ui->input()->container()->form()->standard(
             $submit_action,
-            [ $active,
-              $server,
-              $port,
-              $use_https,
-              $uri,
-              $namespace,
-              $dotnet,
-              $createuser,
-              $sendmail,
-              $defaultrole,
-              $allowlocal
+            [ "active" => $active,
+              "server" => $server,
+              "port" => $port,
+              "use_https" => $use_https,
+              "uri" => $uri,
+              "namespace" => $namespace,
+              "dotnet" => $dotnet,
+              "createuser" => $createuser,
+              "sendmail" => $sendmail,
+              "defaultrole" => $defaultrole,
+              "allowlocal" => $allowlocal
             ]
         );
         return $form;
     }
-    
+
+    private function buildSOAPTestForm(
+        string $submit_action
+    ) : \ILIAS\UI\Component\Input\Container\Form\Form {
+        $ext_uid = $this->ui->input()->field()->text(
+            "ext_uid"
+        );
+        $soap_pw = $this->ui->input()->field()->text(
+            "soap_pw"
+        );
+        $new_user = $this->ui->input()->field()
+                           ->checkbox("new_user");
+        $form = $this->ui->input()->container()->form()->standard(
+            $submit_action,
+            [ "ext_uid" => $ext_uid,
+              "soap_pw" => $soap_pw,
+              "new_user" => $new_user
+            ]
+        )->withSubmitCaption("Send");
+        return $form;
+    }
+
+
     /**
     * Configure soap settings
     */
@@ -417,44 +445,36 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
 
-        $this->tabs_gui->setTabActive('auth_soap');
-        
-        //set Template
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.auth_soap.html', 'Services/Authentication');
-
         $soap_form = $this->buildSOAPForm($this->ctrl->getFormAction($this, "saveSOAP"));
-        $this->tpl->setVariable("CONFIG_FORM", $this->renderer->render($soap_form));
-        
-        // test form
-        $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this));
-        $form->setTitle("Test Request");
-        $text_prop = new ilTextInputGUI("ext_uid", "ext_uid");
-        $form->addItem($text_prop);
-        $text_prop2 = new ilTextInputGUI("soap_pw", "soap_pw");
-        $form->addItem($text_prop2);
-        $cb = new ilCheckboxInputGUI("new_user", "new_user");
-        $form->addItem($cb);
-         
-        $form->addCommandButton(
-            "testSoapAuthConnection",
-            "Send"
-        );
-        
-        $ret = "";
-        if ($this->ctrl->getCmd() === "testSoapAuthConnection") {
-            $ret .= "<br />" . ilSOAPAuth::testConnection(
-                ilUtil::stripSlashes($_POST["ext_uid"]),
-                ilUtil::stripSlashes($_POST["soap_pw"]),
-                (boolean) $_POST["new_user"]
-            );
-        }
-        $this->tpl->setVariable("TEST_FORM", $form->getHTML() . $ret);
+        $test_form = $this->buildSOAPTestForm($this->ctrl->getFormAction($this, "testSoapAuthConnection"));
+
+        $this->tabs_gui->setTabActive('auth_soap');
+        $panel = $this->ui->panel()->standard("SOAP", [$soap_form, $test_form]);
+        $this->tpl->setContent($this->renderer->render($panel));
     }
     
     public function testSoapAuthConnectionObject() : void
     {
-        $this->editSOAPObject();
+        if (!$this->rbac_system->checkAccess("read", $this->object->getRefId())) {
+            $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
+        }
+
+
+        $soap_form = $this->buildSOAPForm($this->ctrl->getFormAction($this, "saveSOAP"));
+        $test_form = $this->buildSOAPTestForm($this->ctrl->getFormAction($this, "testSoapAuthConnection"));
+        $panel_content = [$soap_form, $test_form];
+        if ($this->request->getMethod() == "POST") {
+            $test_form = $test_form->withRequest($this->request);
+            $result = $test_form->getData();
+            if (!is_null($result)) {
+                $panel_content[] = $this->ui->legacy(
+                    ilSOAPAuth::testConnection($result["ext_uid"], $result["soap_pw"], $result["new_user"])
+                );
+            }
+        }
+        $this->tabs_gui->setTabActive('auth_soap');
+        $panel = $this->ui->panel()->standard("SOAP", $panel_content);
+        $this->tpl->setContent($this->renderer->render($panel));
     }
     
     /**
@@ -466,22 +486,23 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
 
-        $form = $this->buildSOAPForm($this->ctrl->getFormAction($this, "saveSOAP"));
-        if ($this->request->getMethod() == "POST") {
-            $form = $form->withRequest($this->request);
-            $result = $form->getData();
+        $soap_form = $this->buildSOAPForm($this->ctrl->getFormAction($this, "saveSOAP"));
+        $test_form = $this->buildSOAPTestForm($this->ctrl->getFormAction($this, "testSoapAuthConnection"));
+        if ($this->request->getMethod() === "POST") {
+            $soap_form = $soap_form->withRequest($this->request);
+            $result = $soap_form->getData();
             if (!is_null($result)) {
-                $this->settings->set("soap_auth_active", (string) $result[0]);
-                $this->settings->set("soap_auth_server", $result[1]);
-                $this->settings->set("soap_auth_port", (string) $result[2]);
-                $this->settings->set("soap_auth_use_https", (string) $result[3]);
-                $this->settings->set("soap_auth_uri", $result[4]);
-                $this->settings->set("soap_auth_namespace", $result[5]);
-                $this->settings->set("soap_auth_use_dotnet", (string) $result[6]);
-                $this->settings->set("soap_auth_create_users", (string) $result[7]);
-                $this->settings->set("soap_auth_account_mail", (string) $result[8]);
-                $this->settings->set("soap_auth_user_default_role", (string) $result[9]);
-                $this->settings->set("soap_auth_allow_local", (string) $result[10]);
+                $this->settings->set("soap_auth_active", (string) $result["active"]);
+                $this->settings->set("soap_auth_server", $result["server"]);
+                $this->settings->set("soap_auth_port", (string) $result["port"]);
+                $this->settings->set("soap_auth_use_https", (string) $result["use_https"]);
+                $this->settings->set("soap_auth_uri", $result["uri"]);
+                $this->settings->set("soap_auth_namespace", $result["namespace"]);
+                $this->settings->set("soap_auth_use_dotnet", (string) $result["dotnet"]);
+                $this->settings->set("soap_auth_create_users", (string) $result["createuser"]);
+                $this->settings->set("soap_auth_account_mail", (string) $result["sendmail"]);
+                $this->settings->set("soap_auth_user_default_role", (string) $result["defaultrole"]);
+                $this->settings->set("soap_auth_allow_local", (string) $result["allowlocal"]);
 
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("auth_soap_settings_saved"), true);
                 $this->logger->info("data" . print_r($result, true));
@@ -490,9 +511,8 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         }
 
         $this->tabs_gui->setTabActive('auth_soap');
-        //set Template
-        $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.auth_soap.html', 'Services/Authentication');
-        $this->tpl->setVariable("CONFIG_FORM", $this->renderer->render($form));
+        $panel = $this->ui->panel()->standard("SOAP", [$soap_form, $test_form]);
+        $this->tpl->setContent($this->renderer->render($panel));
     }
 
     /**
@@ -606,8 +626,19 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
         if (!$this->rbac_system->checkAccess("write", $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
-        
-        ilObjRole::_updateAuthMode($_POST['Fobject']);
+        if (!$this->http->wrapper()->post()->has("Fobject")) {
+            $this->ilias->raiseError($this->lng->txt("auth_err_no_mode_selected"), $this->ilias->error_obj->MESSAGE);
+        }
+        $f_object_unconverted = $this->http->wrapper()->post()->retrieve(
+            "Fobject",
+            $this->refinery->to()->dictOf($this->refinery->to()->string())
+        );
+        // remove the r_ from the role id. It is only added for the dictOf transformation
+        $f_object = [];
+        foreach ($f_object_unconverted as $role_id => $auth_mode) {
+            $f_object[substr($role_id, 2)] = $auth_mode;
+        }
+        ilObjRole::_updateAuthMode($f_object);
         
         $this->tpl->setOnScreenMessage('success', $this->lng->txt("auth_mode_roles_changed"), true);
         $this->ctrl->redirect($this, 'authSettings');
@@ -677,7 +708,7 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
                     break;
             }
             
-            $pos = new ilTextInputGUI($text, 'position[' . $auth_mode . ']');
+            $pos = new ilTextInputGUI($text, 'position[m' . $auth_mode . ']');
             $pos->setValue($counter++);
             $pos->setSize(1);
             $pos->setMaxLength(1);
@@ -693,23 +724,41 @@ class ilObjAuthSettingsGUI extends ilObjectGUI
      */
     public function updateAuthModeDeterminationObject() : void
     {
-        $det = ilAuthModeDetermination::_getInstance();
-        
-        $det->setKind((int) $_POST['kind']);
-    
-        $pos = $_POST['position'] ?? [];
-        asort($pos, SORT_NUMERIC);
-        
-        $counter = 0;
-        $position = [];
-        foreach (array_keys($pos) as $auth_mode) {
-            $position[$counter++] = $auth_mode;
+        if (!$this->rbac_system->checkAccess("write", $this->object->getRefId())) {
+            $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }
-        $det->setAuthModeSequence($position);
+
+        if (!$this->http->wrapper()->post()->has("kind")) {
+            $this->ilias->raiseError($this->lng->txt("auth_err_no_mode_selected"), $this->ilias->error_obj->MESSAGE);
+        }
+        $kind = $this->http->wrapper()->post()->retrieve("kind", $this->refinery->kindlyTo()->int());
+        if ($kind === ilAuthModeDetermination::TYPE_AUTOMATIC && !$this->http->wrapper()->post()->has("position")) {
+            $this->ilias->raiseError($this->lng->txt("auth_err_no_mode_selected"), $this->ilias->error_obj->MESSAGE);
+        }
+
+        $det = ilAuthModeDetermination::_getInstance();
+
+        $det->setKind($kind);
+        if ($kind === ilAuthModeDetermination::TYPE_AUTOMATIC) {
+            $pos = $this->http->wrapper()->post()->retrieve(
+                "position",
+                $this->refinery->to()->dictOf($this->refinery->kindlyTo()->int())
+            );
+            $this->logger->debug('pos mode:' . print_r($pos, true));
+            asort($pos, SORT_NUMERIC);
+            $this->logger->debug('pos mode:' . print_r($pos, true));
+            $counter = 0;
+            $position = [];
+            foreach (array_keys($pos) as $auth_mode) {
+                $position[$counter++] = substr($auth_mode, 1);
+            }
+            $this->logger->debug('position mode:' . print_r($position, true));
+            $det->setAuthModeSequence($position);
+        }
         $det->save();
 
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
-        $this->authSettingsObject();
+        $this->ctrl->redirect($this, 'authSettings');
     }
 
     /**

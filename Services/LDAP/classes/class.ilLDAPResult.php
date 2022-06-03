@@ -88,7 +88,6 @@ class ilLDAPResult
 
     /**
      * Returns complete results
-     * @return array
      */
     public function getRows() : array
     {
@@ -113,10 +112,11 @@ class ilLDAPResult
     private function addEntriesToRows(array $entries) : void
     {
         $num = $entries['count'];
-
+        $this->rows = [];
         if ($num === 0) {
             return;
         }
+
 
         for ($row_counter = 0; $row_counter < $num;$row_counter++) {
             $data = $this->toSimpleArray($entries[$row_counter]);
