@@ -47,6 +47,12 @@ class ilAssQuestionPageCommandForwarder
         $q_gui->object->setObjId($this->getTestObj()->getId());
         $question = &$q_gui->object;
         
+        
+        if ($ctrl->getCmd() === 'edit' && $question->isInActiveTest()) {
+            ilUtil::sendFailure($lng->txt("question_is_part_of_running_test"), true);
+            $ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+        }
+        
         if ($_REQUEST['prev_qid']) {
             $ctrl->setParameter($this, 'prev_qid', $_REQUEST['prev_qid']);
         }
