@@ -9852,36 +9852,31 @@ footer {
   color: #737373;
   font-size: 1.4375rem;
 }
-.il-maincontrols-metabar .bulky-label {
-  white-space: normal;
-  margin-top: 5px;
-  display: block;
-}
 @media only screen and (max-width: 768px) {
   .il-maincontrols-metabar .il-counter-novelty {
-    top: 7px;
+    top: 6px;
   }
   .il-maincontrols-metabar .il-counter-status {
     top: 22px;
   }
   .il-maincontrols-metabar .il-metabar-more-button {
-    padding-right: 20px;
+    padding-right: 12px;
   }
   .il-maincontrols-metabar .il-metabar-more-button .icon.custom {
     position: relative;
   }
   .il-maincontrols-metabar .il-metabar-more-button .icon.custom img {
-    margin-right: 5px;
+    margin-right: 6px;
   }
   .il-maincontrols-metabar .il-metabar-more-button .icon.custom .badge {
     position: absolute;
     margin-right: 3px;
   }
   .il-maincontrols-metabar .il-metabar-more-button .icon.custom .badge.il-counter-novelty {
-    margin-top: -5px;
+    margin-top: -6px;
   }
   .il-maincontrols-metabar .il-metabar-more-button .icon.custom .badge.il-counter-status {
-    margin-top: 10px;
+    margin-top: 12px;
   }
 }
 .il-metabar-slates {
@@ -9897,6 +9892,10 @@ footer {
 .il-metabar-slates .il-maincontrols-slate {
   min-width: 500px;
 }
+.il-metabar-slates .bulky-label {
+  margin-top: auto;
+  margin-bottom: auto;
+}
 @media only screen and (max-width: 768px) {
   .il-metabar-slates {
     width: 100%;
@@ -9910,7 +9909,7 @@ footer {
   .il-metabar-slates .il-counter-status,
   .il-metabar-slates .il-counter-novelty {
     margin-top: 0;
-    top: 5px;
+    top: 6px;
   }
   .il-metabar-slates .bulky-label {
     margin-left: 10px;
@@ -9921,10 +9920,10 @@ footer {
   .il-metabar-slates .il-metabar-more-slate .btn-bulky:after {
     content: "\e606";
     font-family: "il-icons";
-    font-size: 0.903125rem;
+    font-size: 0.875rem;
     position: absolute;
-    right: 10px;
-    top: 20px;
+    right: 12px;
+    top: 1.42857143;
   }
   .il-metabar-slates .il-maincontrols-slate {
     min-width: 260px;
@@ -10092,7 +10091,7 @@ footer {
 .il-mainbar-triggers .il-link.link-bulky .bulky-label {
   color: white;
   display: -webkit-box;
-  margin-top: 5px;
+  margin-top: 6px;
   white-space: normal;
   word-break: break-word;
   padding: 0 2px;
@@ -10146,7 +10145,8 @@ footer {
   width: 329px;
 }
 .il-mainbar-slates .bulky-label {
-  margin-top: 5px;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .il-mainbar-tools-button .btn-bulky,
 .il-mainbar-tools-button .btn-bulky.engaged {
