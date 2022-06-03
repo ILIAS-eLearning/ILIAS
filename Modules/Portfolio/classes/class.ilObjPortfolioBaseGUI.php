@@ -88,7 +88,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $this->ctrl->setParameterByClass("ilobjportfoliogui", "back_url", rawurlencode($this->requested_back_url));
         $cs = $DIC->contentStyle();
         $this->content_style_gui = $cs->gui();
-        $this->content_style_domain = $cs->domain()->styleForRefId($this->object->getRefId());
+        if ($this->object) {
+            $this->content_style_domain = $cs->domain()->styleForObjId($this->object->getId());
+        }
     }
     
     protected function addLocatorItems() : void
