@@ -108,7 +108,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
      */
     public function setValueByArray(array $a_values) : void
     {
-        $this->setValue($a_values[$this->getPostVar()]);
+        $this->setValue($a_values[$this->getPostVar()] ?? "");
     }
 
     /**
@@ -149,8 +149,11 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
     {
         $lng = $this->lng;
 
-        $GLOBALS["tpl"]->addJavascript("./Services/UIComponent/Explorer2/js/Explorer2.js");
-        $GLOBALS["tpl"]->addJavascript("./Services/UIComponent/Modal/js/Modal.js");
+        $this->global_tpl->addJavascript("./Services/UIComponent/Explorer2/js/Explorer2.js");
+        $this->global_tpl->addJavascript("./Services/UIComponent/Modal/js/Modal.js");
+        $this->global_tpl->addOnLoadCode(
+            "il.Explorer2.initSelect('" . $this->getFieldId() . "');"
+        );
 
         $tpl = new ilTemplate("tpl.prop_expl_select.html", true, true, "Services/UIComponent/Explorer2");
 
