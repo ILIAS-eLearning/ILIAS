@@ -240,8 +240,8 @@ with the il- variable set here.
 
 
 //** slates
-@il-slate-bulky-bg-color: #f2f2f2;
-@il-slate-bulky-level2-bg-color: #f9f9f9;
+@il-slate-bulky-bg-color: @il-main-darker-bg;
+@il-slate-bulky-level2-bg-color: @il-main-dark-bg;
 @il-slate-bulky-bg-color-engaged: fade(@il-main-color, 30%);
 @il-slate-content-padding: 10px;
 @il-slate-tree-padding: 4px 0;
@@ -510,7 +510,7 @@ with the il- variable set here.
 //== Toolbar
 //
 //##
-@il-toolbar-margin: 15px; // Margin between toolbar items
+@il-toolbar-margin: @il-margin-xlarge-horizontal; // Margin between toolbar items
 @il-toolbar-bg: @il-main-dark-bg;
 @il-toolbar-height: 40px;
 @il-toolbar-border: 1px solid @il-main-border-color;

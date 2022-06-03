@@ -9583,7 +9583,7 @@ footer {
 .il-maincontrols-slate .btn-bulky,
 .il-maincontrols-slate .link-bulky {
   align-items: flex-start;
-  background-color: #f2f2f2;
+  background-color: #f0f0f0;
   border: none;
   display: flex;
   margin-bottom: 2px;
@@ -10623,7 +10623,7 @@ footer {
   margin: 6px 0;
 }
 .il-drilldown .menulevel {
-  background-color: #f2f2f2;
+  background-color: #f0f0f0;
 }
 .il-drilldown .menulevel:hover {
   background-color: rgba(76, 101, 134, 0.3);
