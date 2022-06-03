@@ -28,15 +28,14 @@ class ilDclFieldFactory
     public static string $default_prefix = "ilDcl";
     public static string $record_field_class_patter = "%sRecordFieldModel";
     public static string $field_class_patter = "%sFieldModel";
-    public static string $record_class_patter = "%sRecordModel";
     public static string $record_representation_class_pattern = "%sRecordRepresentation";
     public static string $field_representation_class_pattern = "%sFieldRepresentation";
     protected static array $record_field_cache = array();
 
     /**
      * Creates a RecordField instance and loads the field and record representation
-     * @param ilDclBaseFieldModel  $field
-     * @param ilDclBaseRecordModel $record
+     * @param object|ilDclBaseFieldModel  $field
+     * @param object|ilDclBaseRecordModel $record
      * @throws ilDclException
      * @throws Exception
      */

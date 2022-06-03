@@ -93,7 +93,7 @@ class ilDclFileuploadRecordRepresentation extends ilDclBaseRecordRepresentation
             return $value;
         }
 
-        if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
+        if (!ilObject2::_exists($value) || ilObject2::_lookupType($value) != "file") {
             return "";
         }
 

@@ -102,7 +102,7 @@ class ilDclMobRecordRepresentation extends ilDclFileuploadRecordRepresentation
             return $value;
         }
 
-        if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "mob") {
+        if (!ilObject2::_exists($value) || ilObject2::_lookupType($value) != "mob") {
             return "";
         }
 

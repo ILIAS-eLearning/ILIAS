@@ -60,16 +60,9 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
         return $value;
     }
 
-    /**
-     * @param $title
-     * @param $show_action_menu
-     * @return string
-     */
-    public function getLinkHTML($title, $show_action_menu = false)
+    public function getLinkHTML(string $title, bool $show_action_menu = false) : string
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        //$this->getRecordField();
+        $lng = $this->lng;
         $link = ilLink::_getStaticLink($this->getRecordField()->getValue());
         if ($show_action_menu) {
             $field = $this->getRecordField()->getField();
@@ -92,9 +85,8 @@ class ilDclIliasReferenceRecordRepresentation extends ilDclBaseRecordRepresentat
 
     /**
      * @param string $mode copy|link
-     * @return string
      */
-    protected function getActionLink($mode)
+    protected function getActionLink(string $mode) : string
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

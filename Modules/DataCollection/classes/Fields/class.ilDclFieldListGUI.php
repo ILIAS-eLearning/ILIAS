@@ -135,7 +135,10 @@ class ilDclFieldListGUI
         $table = ilDclCache::getTableCache($table_id);
         $fields = $table->getFields();
 
-        $order = $_POST['order'];
+        $order = $this->http->wrapper()->post()->retrieve(
+            'order',
+            $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
+        );
         asort($order);
         $val = 10;
         foreach (array_keys($order) as $field_id) {

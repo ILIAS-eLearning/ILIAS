@@ -60,7 +60,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
                     'field_' . $this->getField()->getId(), $file["name"], $file["type"]);
 
                 $file_obj->appendStream(
-                    \ILIAS\Filesystem\Stream\Streams::ofResource(fopen($move_file, 'rb')),
+                    ILIAS\Filesystem\Stream\Streams::ofResource(fopen($move_file, 'rb')),
                     $file_obj->getTitle()
                 );
 
@@ -137,7 +137,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseExportValue($value) : ?string
     {
-        if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
+        if (!ilObject2::_exists($value) || ilObject2::_lookupType($value) != "file") {
             return null;
         }
 
@@ -158,7 +158,7 @@ class ilDclFileuploadRecordFieldModel extends ilDclBaseRecordFieldModel
      */
     public function parseSortingValue($value, bool $link = true) : string
     {
-        if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
+        if (!ilObject2::_exists($value) || ilObject2::_lookupType($value) != "file") {
             return '';
         }
         $file_obj = new ilObjFile($value, false);

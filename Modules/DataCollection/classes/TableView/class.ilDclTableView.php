@@ -227,7 +227,6 @@ class ilDclTableView extends ActiveRecord
 
     /**
      * @param string $field_name
-     * @return null|string
      */
     public function sleep($field_name) : ?string
     {

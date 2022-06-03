@@ -30,10 +30,9 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
 
     public function __construct(ilDclCreateViewDefinitionGUI $a_parent_obj)
     {
-        global $DIC;
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
         parent::__construct($a_parent_obj);
+        $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
 
         $this->setId('dcl_tableviews');
         $this->setTitle($lng->txt('dcl_tableview_fieldsettings'));
@@ -70,11 +69,6 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
      */
     public function getHTML() : string
     {
-        global $DIC;
-        $ilUser = null;
-        if (isset($DIC["ilUser"])) {
-            $ilUser = $DIC["ilUser"];
-        }
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
@@ -181,8 +175,7 @@ class ilDclCreateViewTableGUI extends ilTable2GUI
 
     public function fillRowFromObject(ilDclTableViewFieldSetting $a_set) : void
     {
-        global $DIC;
-        $lng = $DIC['lng'];
+        $lng = $this->lng;
         $field = $a_set->getFieldObject();
         $match = ilDclTableViewBaseDefaultValue::findSingle($field->getDataTypeId(), $a_set->getId());
 

@@ -12,11 +12,6 @@ class ilModulesDataCollectionSuite extends TestSuite
     {
         $suite = new ilModulesDataCollectionSuite();
 
-        // add each test class of the component
-        //require_once("./Modules/DataCollection/test/ilObjDataCollectionTest.php");
-
-        //$suite->addTestSuite("ilObjDataCollectionTest");
-
         return $suite;
     }
 }

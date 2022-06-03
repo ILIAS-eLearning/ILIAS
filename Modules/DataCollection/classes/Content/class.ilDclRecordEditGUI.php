@@ -55,18 +55,14 @@ class ilDclRecordEditGUI
     public function __construct(ilObjDataCollectionGUI $parent_obj)
     {
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilUser = $DIC['ilUser'];
 
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-        $this->ctrl = $ilCtrl;
-        $this->tpl = $tpl;
-        $this->lng = $lng;
-        $this->user = $ilUser;
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->tpl = $DIC['tpl'];
+        $this->lng = $DIC['lng'];
+        $this->user = $DIC['ilUser'];
         $this->parent_obj = $parent_obj;
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
@@ -101,17 +97,12 @@ class ilDclRecordEditGUI
         $this->tableview = ilDclTableView::findOrGetInstance($this->tableview_id);
     }
 
-    /**
-     * @return bool
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $this->getRecord();
 
         $cmd = $this->ctrl->getCmd();
         $this->$cmd();
-
-        return true;
     }
 
     public function getRecord() : void
@@ -191,7 +182,7 @@ class ilDclRecordEditGUI
 
         $all_fields = $this->table->getRecordFields();
         $record_data = "";
-        foreach ($all_fields as $key => $field) {
+        foreach ($all_fields as $field) {
             $field_record = ilDclCache::getRecordFieldCache($record, $field);
 
             $record_representation = ilDclCache::getRecordRepresentation($field_record);
@@ -437,12 +428,13 @@ class ilDclRecordEditGUI
             if (($record_field instanceof ilDclFileuploadRecordFieldModel || $record_field instanceof ilDclMobRecordFieldModel)
                 && $record_field->getValue() == null
             ) {
-                $empty_fileuploads['field_' . $field->getId()] = array("name" => "",
-                                                                       "type" => "",
-                                                                       "tmp_name" => "",
-                                                                       "error" => 4,
-                                                                       "size" => 0
-                );
+                $empty_fileuploads['field_' . $field->getId()] = [
+                    "name" => "",
+                    "type" => "",
+                    "tmp_name" => "",
+                    "error" => 4,
+                    "size" => 0
+                ];
             }
             $record_representation = ilDclFieldFactory::getRecordRepresentationInstance($record_field);
 
@@ -496,8 +488,6 @@ class ilDclRecordEditGUI
                     $_FILES = $_FILES + json_decode($empty_fileuploads, true);
                 }
             }
-
-            //unset($_SESSION['record_form_values']);
         }
 
         $valid = $this->form->checkInput();
@@ -693,7 +683,7 @@ class ilDclRecordEditGUI
     }
 
     /**
-     * Checkes to what view (table or detail) should be redirected and performs redirect
+     * Checks to what view (table or detail) should be redirected and performs redirect
      */
     protected function checkAndPerformRedirect(bool $force_redirect = false) : void
     {
@@ -729,12 +719,9 @@ class ilDclRecordEditGUI
         }
     }
 
-    /**
-     * @param string $message
-     */
     protected function sendFailure(string $message) : void
     {
-        $keep = ($this->ctrl->isAsynch()) ? false : true;
+        $keep = !$this->ctrl->isAsynch();
         $this->form->setValuesByPost();
         if ($this->ctrl->isAsynch()) {
             echo ilUtil::getSystemMessageHTML($message, 'failure') . $this->form->getHTML();
@@ -846,9 +833,6 @@ class ilDclRecordEditGUI
         }
     }
 
-    /**
-     * @return ilDclPropertyFormGUI
-     */
     public function getForm() : ilDclPropertyFormGUI
     {
         return $this->form;

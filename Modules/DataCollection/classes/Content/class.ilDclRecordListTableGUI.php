@@ -281,7 +281,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     }
 
     /**
-     * @description This adds the collumn for status.
+     * @description This adds the column for status.
      */
     protected function getStatus(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field) : string
     {
@@ -388,13 +388,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         bool $send = false
     ) : void {
         if ($this->dataExists()) {
-            // #9640: sort
-            /*if (!$this->getExternalSorting() && $this->enabled["sort"]) {
-                $this->determineOffsetAndOrder(true);
-
-                $this->row_data = ilUtil::sortArray($this->row_data, $this->getOrderField(), $this->getOrderDirection(), $this->numericOrdering($this->getOrderField()));
-            }*/
-
             $exporter = new ilDclContentExporter(
                 $this->parent_obj->getRefId(),
                 $this->table->getId(),

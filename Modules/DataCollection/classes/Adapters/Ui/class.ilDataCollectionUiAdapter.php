@@ -24,20 +24,20 @@ class ilDataCollectionUiAdapter implements ilDataCollectionUiPort
     protected static ?self $instance = null;
 
     private ilGlobalTemplateInterface $tpl;
-    private \ILIAS\DI\UIServices $ui;
-    private \ilTabsGUI $tabs;
-    private \ilErrorHandling $error;
-    private \ilLocatorGUI $locatorGui;
-    private \ilNavigationHistory $navigationHistory;
+    private ILIAS\DI\UIServices $ui;
+    private ilTabsGUI $tabs;
+    private ilErrorHandling $error;
+    private ilLocatorGUI $locatorGui;
+    private ilNavigationHistory $navigationHistory;
 
     private function __construct(
         ilGlobalTemplateInterface $tpl,
-        \ILIAS\DI\UIServices $ui,
-        \ilTabsGUI $tabs,
-        \ilErrorHandling $error,
-        \ilLocatorGUI $locatorGui,
-        \ilHelpGUI $help,
-        \ilNavigationHistory $navigationHistory
+        ILIAS\DI\UIServices $ui,
+        ilTabsGUI $tabs,
+        ilErrorHandling $error,
+        ilLocatorGUI $locatorGui,
+        ilHelpGUI $help,
+        ilNavigationHistory $navigationHistory
     ) {
         $this->tpl = $tpl;
         $this->ui = $ui;

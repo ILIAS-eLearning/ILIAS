@@ -41,10 +41,9 @@ class ilDclDatatype
     const INPUTFORMAT_REFERENCELIST = 10;
     const INPUTFORMAT_FORMULA = 11;
     const INPUTFORMAT_PLUGIN = 12;
-    const INPUTFORMAT_NON_EDITABLE_VALUE = 13;
     const INPUTFORMAT_TEXT_SELECTION = 14;
     const INPUTFORMAT_DATE_SELECTION = 15;
-    //public static $mob_suffixes = array('jpg', 'jpeg', 'gif', 'png', 'mp3', 'flx', 'mp4', 'm4v', 'mov', 'wmv');
+
     protected int $id = 0;
     protected string $title = "";
     protected int $storageLocation = 0;

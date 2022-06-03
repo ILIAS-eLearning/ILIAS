@@ -132,7 +132,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $this->refinery = $DIC->refinery();
 
         // imprint
-        include_once "Services/Imprint/classes/class.ilImprint.php";
         if ($this->http->wrapper()->query()->has('record_id')) {
             $baseClass = $this->http->wrapper()->query()->retrieve('baseClass', $this->refinery->kindlyTo()->string());
         }
@@ -140,12 +139,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             $baseClass = $this->http->wrapper()->post()->retrieve('baseClass', $this->refinery->kindlyTo()->string());
         }
         if ($baseClass != "ilImprintGUI" && ilImprint::isActive()) {
-            include_once "Services/Link/classes/class.ilLink.php";
             $link_items[ilLink::_getStaticLink(0, "impr")] = array($lng->txt("imprint"), true);
         }
 
         // system support contacts
-        include_once("./Modules/SystemFolder/classes/class.ilSystemSupportContactsGUI.php");
         if (($l = ilSystemSupportContactsGUI::getFooterLink()) != "") {
             $link_items[$l] = array(ilSystemSupportContactsGUI::getFooterText(), false);
         }
@@ -164,7 +161,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
 
         // output translation link
-        include_once("Services/Language/classes/class.ilObjLanguageAccess.php");
         if (ilObjLanguageAccess::_checkTranslate() and !ilObjLanguageAccess::_isPageTranslation()) {
             $link_items[ilObjLanguageAccess::_getTranslationLink()] = array($lng->txt('translation'), true);
         }
@@ -239,7 +235,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         if (!$a_keep) {
             $this->message[$type] = $a_txt;
         } else {
-            $_SESSION[$type] = $a_txt;
+            ilSession::set($type, $a_txt);
         }
     }
 
@@ -261,8 +257,8 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
             $request = $DIC->http()->request();
             $accept_header = $request->getHeaderLine('Accept');
-            if (isset($_SESSION[$m]) && $_SESSION[$m] && ($accept_header !== 'application/json')) {
-                unset($_SESSION[$m]);
+            if (ilSession::has($m) && ilSession::get($m) && ($accept_header !== 'application/json')) {
+                ilSession::clear($m);
             }
         }
 
@@ -274,8 +270,8 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     private function getMessageTextForType(string $m) : string
     {
         $txt = "";
-        if (isset($_SESSION[$m]) && $_SESSION[$m] != "") {
-            $txt = $_SESSION[$m];
+        if (ilSession::has($m) && ilSession::get($m) != "") {
+            $txt =ilSession::get($m);
         } else {
             if (isset($this->message[$m])) {
                 $txt = $this->message[$m];
@@ -428,7 +424,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill add on load code
      */
-    private function fillOnLoadCode()
+    private function fillOnLoadCode() : void
     {
         for ($i = 1; $i <= 3; $i++) {
             if (is_array($this->on_load_code[$i])) {
@@ -599,12 +595,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
 
         // always load jQuery
-        include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
         iljQueryUtil::initjQuery();
         iljQueryUtil::initjQueryUI();
 
         // always load ui framework
-        include_once("./Services/UICore/classes/class.ilUIFramework.php");
         ilUIFramework::init();
 
         $this->addBlockFile("CONTENT", "content", "tpl.adm_content.html");
@@ -686,7 +680,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * Fill header
      */
-    private function fillHeader()
+    private function fillHeader() : void
     {
         global $DIC;
 
@@ -826,7 +820,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         $this->setVariable("SUB_TABS", $a_tabs_html);
     }
 
-    private function fillTabs()
+    private function fillTabs() : void
     {
         if ($this->blockExists("tabs_outer_start")) {
             $this->touchBlock("tabs_outer_start");
@@ -841,7 +835,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         }
     }
 
-    private function getTabsHTML()
+    private function getTabsHTML() : void
     {
         global $DIC;
 
@@ -1100,8 +1094,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
         bool $a_main_menu = true,
         bool $a_tabs = true
     ) : string {
-        global $DIC;
-
         if ($add_error_mess) {
             $this->fillMessage();
         }
@@ -1135,7 +1127,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
             // these fill blocks in tpl.adm_content.html
             $this->fillHeader();
             $this->fillSideIcons();
-            $this->fillScreenReaderFocus();
             $this->fillLeftContent();
             $this->fillLeftNav();
             $this->fillRightContent();
@@ -1162,10 +1153,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 $this->fillLightbox();
                 $this->parseCurrentBlock();
             }
-        }
-
-        if ($handle_referer) {
-            $this->handleReferer();
         }
 
         if ($part == "DEFAULT") {
@@ -1200,7 +1187,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 exit;
             default:
                 // include yahoo dom per default
-                include_once("./Services/YUI/classes/class.ilYuiUtil.php");
                 ilYuiUtil::initDom();
 
                 header('P3P: CP="CURa ADMa DEVa TAIa PSAa PSDa IVAa IVDa OUR BUS IND UNI COM NAV INT CNT STA PRE"');
@@ -1241,7 +1227,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                     // these fill blocks in tpl.adm_content.html
                     $this->fillHeader();
                     $this->fillSideIcons();
-                    $this->fillScreenReaderFocus();
                     $this->fillLeftContent();
                     $this->fillLeftNav();
                     $this->fillRightContent();
@@ -1295,97 +1280,12 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
                 print $html;
 
-                $this->handleReferer();
                 break;
         }
     }
 
     /**
-     * TODO: this is nice, but shouldn't be done here
-     * (-> maybe at the end of ilias.php!?, alex)
-     */
-    private function handleReferer() : void
-    {
-        /*
-        if (((substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "error.php")
-            && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "adm_menu.php")
-            && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "chat.php"))
-        ) {
-            // referer is modified if query string contains cmd=gateway and $_POST is not empty.
-            // this is a workaround to display formular again in case of error and if the referer points to another page
-            $url_parts = @parse_url($_SERVER["REQUEST_URI"]);
-            if (!$url_parts) {
-                $protocol = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://';
-                $host = $_SERVER['HTTP_HOST'];
-                $path = $_SERVER['REQUEST_URI'];
-                $url_parts = @parse_url($protocol . $host . $path);
-            }
-
-            if (isset($url_parts["query"]) && preg_match(
-                    "/cmd=gateway/",
-                    $url_parts["query"]
-                ) && (isset($_POST["cmd"]["create"]))) {
-                foreach ($_POST as $key => $val) {
-                    if (is_array($val)) {
-                        $val = key($val);
-                    }
-
-                    $str .= "&" . $key . "=" . $val;
-                }
-
-                $_SESSION["referer"] = preg_replace("/cmd=gateway/", substr($str, 1), $_SERVER["REQUEST_URI"]);
-                $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
-            } else {
-                if (isset($url_parts["query"]) && preg_match(
-                        "/cmd=post/",
-                        $url_parts["query"]
-                    ) && (isset($_POST["cmd"]["create"]))) {
-                    foreach ($_POST as $key => $val) {
-                        if (is_array($val)) {
-                            $val = key($val);
-                        }
-
-                        $str .= "&" . $key . "=" . $val;
-                    }
-
-                    $_SESSION["referer"] = preg_replace("/cmd=post/", substr($str, 1), $_SERVER["REQUEST_URI"]);
-                    if (isset($_GET['ref_id'])) {
-                        $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
-                    } else {
-                        $_SESSION['referer_ref_id'] = 0;
-                    }
-                } else {
-                    $_SESSION["referer"] = $_SERVER["REQUEST_URI"];
-                    if (isset($_GET['ref_id'])) {
-                        $_SESSION['referer_ref_id'] = (int) $_GET['ref_id'];
-                    } else {
-                        $_SESSION['referer_ref_id'] = 0;
-                    }
-                }
-            }
-
-            unset($_SESSION["error_post_vars"]);
-        }
-        */
-    }
-
-    /**
-     * Accessibility focus for screen readers
-     */
-    private function fillScreenReaderFocus() : void
-    {
-        global $DIC;
-
-        $ilUser = $DIC->user();
-
-        /* abandoned
-        if (is_object($ilUser) && $ilUser->getPref("screen_reader_optimization") && $this->blockExists("sr_focus")) {
-            $this->touchBlock("sr_focus");
-        }*/
-    }
-
-    /**
-     * Fill side icons (upper icon, tree icon, webfolder icon)
+     * Fill side icons (upper icon, tree icon, web folder icon)
      */
     private function fillSideIcons() : void
     {
@@ -1535,7 +1435,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     private function fillPermanentLink() : void
     {
         if (is_array($this->permanent_link)) {
-            include_once("./Services/PermanentLink/classes/class.ilPermanentLinkGUI.php");
             $plinkgui = new ilPermanentLinkGUI(
                 $this->permanent_link["type"],
                 $this->permanent_link["id"],

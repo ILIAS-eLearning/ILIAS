@@ -115,7 +115,7 @@ class ilDclMobRecordFieldModel extends ilDclBaseRecordFieldModel
                             $wh['height'] = (int) $field->getProperty(ilDclBaseFieldModel::PROP_HEIGHT);
                         }
 
-                        $location = ilObjMediaObject::_resizeImage($file, $wh['width'], $wh['height'], false);
+                        $location = ilObjMediaObject::_resizeImage($file, $wh['width'], $wh['height']);
                     }
                 }
             }

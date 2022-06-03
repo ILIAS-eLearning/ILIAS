@@ -59,13 +59,6 @@ class ilDclTableViewEditFieldsTableGUI extends ilTable2GUI
      */
     public function getHTML() : string
     {
-        global $DIC;
-
-        $ilUser = null;
-        if (isset($DIC["ilUser"])) {
-            $ilUser = $DIC["ilUser"];
-        }
-
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 

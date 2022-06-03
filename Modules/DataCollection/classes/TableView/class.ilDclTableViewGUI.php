@@ -192,7 +192,10 @@ class ilDclTableViewGUI
      */
     public function saveTableViewOrder() : void
     {
-        $orders = $_POST['order'];
+        $orders = $this->http->wrapper()->post()->retrieve(
+            'order',
+            $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
+        );
         asort($orders);
         $tableviews = array();
         foreach (array_keys($orders) as $tableview_id) {
