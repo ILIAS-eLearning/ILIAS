@@ -1,28 +1,28 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
-
+ *********************************************************************/
 
 /**
 * @author Stefan Meyer <meyer@leifos.com>
 */
-
 class ilAuthModeDetermination
 {
-    private const TYPE_MANUAL = 0;
-    private const TYPE_AUTOMATIC = 1;
+    public const TYPE_MANUAL = 0;
+    public const TYPE_AUTOMATIC = 1;
     
     private static ?ilAuthModeDetermination $instance = null;
     
@@ -155,7 +155,7 @@ class ilAuthModeDetermination
         
         $counter = 0;
         foreach ($this->position as $auth_mode) {
-            $this->settings->set((string) $counter++, $auth_mode);
+            $this->settings->set((string) $counter++, (string) $auth_mode);
         }
     }
     
@@ -184,7 +184,7 @@ class ilAuthModeDetermination
                 //TODO fix casting strings like 2_1 (auth_key for first ldap server) to int to get it to 2
                 switch ((int) $auth_mode) {
                     case ilAuthUtils::AUTH_LOCAL:
-                        $this->position[] = $auth_mode;
+                        $this->position[] = (int) $auth_mode;
                         break;
                     case ilAuthUtils::AUTH_LDAP:
                         $auth_id = ilLDAPServer::getServerIdByAuthMode($auth_mode);
@@ -197,13 +197,13 @@ class ilAuthModeDetermination
 
                     case ilAuthUtils::AUTH_SOAP:
                         if ($soap_active) {
-                            $this->position[] = $auth_mode;
+                            $this->position[] = (int) $auth_mode;
                         }
                         break;
 
                     case ilAuthUtils::AUTH_APACHE:
                         if ($apache_active) {
-                            $this->position[] = $auth_mode;
+                            $this->position[] = (int) $auth_mode;
                         }
                         break;
 

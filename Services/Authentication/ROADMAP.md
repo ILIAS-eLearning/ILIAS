@@ -1,9 +1,6 @@
 # Roadmap
 
 ## Short Term
-Fix leftovers from Review:
-- Remove usage of $_GET / $_POST / $_REQUEST / $_SESSION: 
-  The review found 22 usages of $_REQUEST, 7 usages of $_GET, 30 usages of $_SESSION and 34 usages of $_POST.
 
 ## Mid Term
 - Split AuthType and Ordering into seperate fields. Currently there is the mixer of int and int_int, which make typing difficult.

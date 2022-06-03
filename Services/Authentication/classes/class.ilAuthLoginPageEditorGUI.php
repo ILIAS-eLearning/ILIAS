@@ -1,18 +1,20 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * Login page editor settings GUI
@@ -40,10 +42,16 @@ class ilAuthLoginPageEditorGUI
     private ?ilSetting $loginSettings = null;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
+    //variables from requests
+    private ?string $redirect_source = null;
+    private ?int $key = null;
+    private array $visible_languages = [];
+    private array $languages = [];
+
     public function __construct(int $a_ref_id)
     {
         global $DIC;
-        
+
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->tabs = $DIC->tabs();
@@ -53,27 +61,45 @@ class ilAuthLoginPageEditorGUI
         $this->ilErr = $DIC['ilErr'];
 
         $this->lng = $DIC['lng'];
-        
+
         $this->lng->loadLanguageModule('auth');
         $this->ref_id = $a_ref_id;
 
         $this->settings = ilAuthLoginPageEditorSettings::getInstance();
         $this->content_style_domain = $DIC->contentStyle()
-            ->domain()
-            ->styleForRefId($a_ref_id);
+                                          ->domain()
+                                          ->styleForRefId($a_ref_id);
+
+        $query_wrapper = $DIC->http()->wrapper()->query();
+        $post_wrapper = $DIC->http()->wrapper()->post();
+        $is_post_request = $DIC->http()->request()->getMethod() === "POST";
+        $refinery = $DIC->refinery();
+
+        if ($query_wrapper->has("redirectSource")) {
+            $this->redirect_source = $query_wrapper->retrieve("redirectSource", $refinery->kindlyTo()->string());
+        }
+        if ($is_post_request) {
+            if ($post_wrapper->has("key")) {
+                $this->key = $post_wrapper->retrieve("key", $refinery->kindlyTo()->int());
+            }
+        } elseif ($query_wrapper->has("key")) {
+            $this->key = $query_wrapper->retrieve("key", $refinery->kindlyTo()->int());
+        }
+        if ($is_post_request) {
+            if ($post_wrapper->has("visible_languages")) {
+                $this->visible_languages = $post_wrapper->retrieve("visible_languages", $refinery->kindlyTo()->listOf($refinery->kindlyTo()->string()));
+            }
+            if ($post_wrapper->has("languages")) {
+                $this->languages = $post_wrapper->retrieve("languages", $refinery->kindlyTo()->listOf($refinery->kindlyTo()->string()));
+            }
+        }
     }
 
-    /**
-     * Get Settings
-     */
     public function getSettings() : ilAuthLoginPageEditorSettings
     {
         return $this->settings;
     }
 
-    /**
-     * @return int ref_id
-     */
     public function getRefId() : int
     {
         return $this->ref_id;
@@ -93,7 +119,7 @@ class ilAuthLoginPageEditorGUI
                     '_top'
                 );
 
-                if ($_GET["redirectSource"] !== "ilinternallinkgui") {
+                if ($this->redirect_source !== "ilinternallinkgui") {
                     $this->forwardToPageObject();
                 }
                 break;
@@ -113,16 +139,15 @@ class ilAuthLoginPageEditorGUI
      */
     protected function forwardToPageObject() : void
     {
-        $key = (int) $_REQUEST['key'];
         $this->ctrl->saveParameter($this, 'key');
 
         $this->lng->loadLanguageModule("content");
 
-        if (!ilLoginPage::_exists('auth', $key)) {
+        if (!ilLoginPage::_exists('auth', $this->key)) {
             // doesn't exist -> create new one
             $new_page_object = new ilLoginPage();
-            $new_page_object->setParentId($key);
-            $new_page_object->setId($key);
+            $new_page_object->setParentId($this->key);
+            $new_page_object->setId($this->key);
             $new_page_object->createFromXML();
         }
 
@@ -131,7 +156,7 @@ class ilAuthLoginPageEditorGUI
 
 
         $this->ctrl->setReturnByClass('illoginpagegui', "edit");
-        $page_gui = new ilLoginPageGUI($key);
+        $page_gui = new ilLoginPageGUI($this->key);
 
         $page_gui->setTemplateTargetVar("ADM_CONTENT");
         //TODO check what should go here $link_xml is undefined
@@ -230,8 +255,8 @@ class ilAuthLoginPageEditorGUI
     protected function activate() : void
     {
         $settings = ilAuthLoginPageEditorSettings::getInstance();
-        foreach ((array) $_POST['visible_languages'] as $lang_key) {
-            $settings->enableIliasEditor($lang_key, in_array($lang_key, (array) $_POST['languages'], true));
+        foreach ($this->visible_languages as $lang_key) {
+            $settings->enableIliasEditor($lang_key, in_array($lang_key, $this->languages, true));
         }
         $settings->update();
 

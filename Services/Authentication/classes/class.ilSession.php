@@ -1,18 +1,20 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
 * @author Alex Killing <alex.killing@gmx.de>
@@ -140,11 +142,11 @@ class ilSession
 
         // prepare session data
         $fields = array(
-            "user_id" => array("integer", (int) ($_SESSION['_authsession_user_id'] ?? 0)),
+            "user_id" => array("integer", (int) (self::get('_authsession_user_id') ?? 0)),
             "expires" => array("integer", self::getExpireValue()),
             "data" => array("clob", $a_data),
             "ctime" => array("integer", $now),
-            "type" => array("integer", (int) ($_SESSION["SessionType"] ?? 0))
+            "type" => array("integer", (int) (self::get("SessionType") ?? 0))
             );
         if ($ilClientIniFile->readVariable("session", "save_ip")) {
             $fields["remote_addr"] = array("text", $_SERVER["REMOTE_ADDR"]);
@@ -402,31 +404,7 @@ class ilSession
     {
         return self::getIdleValue(true);
     }
-    
-    /**
-     * Get the active users with a specific remote ip address
-     *
-     * @param	string	ip address
-     * @return 	array	list of active user id
-     */
-    public static function _getUsersWithIp(string $a_ip) : array
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
-        $query = "SELECT DISTINCT user_id FROM usr_session"
-                . " WHERE remote_addr = " . $ilDB->quote($a_ip, "text")
-                . " AND user_id > 0";
-        $result = $ilDB->query($query);
-        
-        $users = array();
-        while ($row = $ilDB->fetchObject($result)) {
-            $users[] = $row->user_id;
-        }
-        return $users;
-    }
-    
     /**
      * Set a value
      */
@@ -456,6 +434,11 @@ class ilSession
         if (isset($_SESSION[$a_var])) {
             unset($_SESSION[$a_var]);
         }
+    }
+
+    public static function dumpToString() : string
+    {
+        return print_r($_SESSION, true);
     }
     
     /**
