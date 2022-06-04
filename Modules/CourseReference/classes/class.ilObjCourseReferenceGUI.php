@@ -30,7 +30,7 @@ include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGU
  * @ilCtrl_Calls ilObjCourseReferenceGUI: ilCommonActionDispatcherGUI, ilLearningProgressGUI
  * @ingroup      ModulesCourseReference
  */
-class ilObjCourseReferenceGUI extends ilContainerReferenceGUI implements ilCtrlBaseClassInterface
+class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 {
     private ?ilLogger $logger = null;
 

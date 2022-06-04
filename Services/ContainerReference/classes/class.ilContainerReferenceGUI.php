@@ -231,7 +231,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         // title type
         $ttype = new ilRadioGroupInputGUI($this->lng->txt('title'), 'title_type');
         if ($a_mode === self::MODE_EDIT) {
-            $ttype->setValue($this->object->getTitleType());
+            $ttype->setValue((string) $this->object->getTitleType());
         } else {
             $ttype->setValue((string) ilContainerReference::TITLE_TYPE_REUSE);
         }
