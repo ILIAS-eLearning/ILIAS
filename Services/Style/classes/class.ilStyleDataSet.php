@@ -394,7 +394,7 @@ class ilStyleDataSet extends ilDataSet
         );
         $access_manager->enableWrite(true);
 
-        $style_id = (is_object($this->current_obj))
+        $style_id = (isset($this->current_obj))
             ? $this->current_obj->getId()
             : 0;
         $characteristic_manager = $service->domain()->characteristic(

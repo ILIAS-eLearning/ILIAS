@@ -238,8 +238,8 @@ class ilImport
         if (is_array($obj_map)) {
             foreach ($obj_map as $obj_id_old => $obj_id_new) {
                 ilObject::_writeImportId(
-                    $obj_id_new,
-                    "il_" . $this->mapping->getInstallId() . "_" . ilObject::_lookupType($obj_id_new) . "_" . $obj_id_old
+                    (int) $obj_id_new,
+                    "il_" . $this->mapping->getInstallId() . "_" . ilObject::_lookupType((int) $obj_id_new) . "_" . $obj_id_old
                 );
             }
         }

@@ -114,8 +114,7 @@ abstract class ilSaxParser
     public function createParser()
     {
         $xml_parser = xml_parser_create("UTF-8");
-
-        if (!is_resource($xml_parser)) {
+        if (!is_resource($xml_parser) && !is_object($xml_parser)) {
             $this->handleError("Cannot create an XML parser handle");
         }
         return $xml_parser;
