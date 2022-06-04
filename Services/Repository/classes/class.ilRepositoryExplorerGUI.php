@@ -149,7 +149,6 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
             $app_info = ilSessionAppointment::_lookupAppointment($a_node["obj_id"]);
             $title = ilSessionAppointment::_appointmentToString($app_info['start'], $app_info['end'], $app_info['fullday']);
         }
-        
         return $title;
     }
     
@@ -506,6 +505,14 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return $childs;
     }
 
+    public function nodeHasVisibleChilds($a_node)
+    {
+        if (!$this->obj_definition->isContainer($a_node["type"] ?? "")) {
+            return false;
+        }
+        return parent::nodeHasVisibleChilds($a_node);
+    }
+
     /**
      * Get childs of node
      *
@@ -515,7 +522,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
     public function getChildsOfNode($a_parent_node_id)
     {
         $rbacsystem = $this->rbacsystem;
-        
+
         if (!$rbacsystem->checkAccess("read", $a_parent_node_id)) {
             return array();
         }
