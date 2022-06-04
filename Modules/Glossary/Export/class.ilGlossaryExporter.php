@@ -87,7 +87,7 @@ class ilGlossaryExporter extends ilXmlExporter
             // taxonomy
             $tax_ids = array();
             foreach ($a_ids as $id) {
-                $t_ids = ilObjTaxonomy::getUsageOfObject($id);
+                $t_ids = ilObjTaxonomy::getUsageOfObject((int) $id);
                 if (count($t_ids) > 0) {
                     $tax_ids[$t_ids[0]] = $t_ids[0];
                 }

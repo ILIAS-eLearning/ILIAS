@@ -1234,7 +1234,7 @@ class ilObjCategoryGUI extends ilContainerGUI
             //if ($node["ref_id"] != $this->object->getRefId())
             {
                 // find all defined taxes for parent node, activation is not relevant
-                $node_taxes = ilObjTaxonomy::getUsageOfObject($node["obj_id"], true);
+                $node_taxes = ilObjTaxonomy::getUsageOfObject((int) $node["obj_id"], true);
                 if (count($node_taxes)) {
                     foreach ($node_taxes as $node_tax) {
                         $res[$node_tax["tax_id"]] = [
