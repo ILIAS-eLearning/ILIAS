@@ -2727,6 +2727,7 @@ class ilPageObjectGUI
         // @todo: solve this in a smarter way
         $this->tpl->addJavascript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");
         \ilCalendarUtil::initDateTimePicker();
+        ilModalGUI::initJS();
     }
 
     protected function showEditLockInfo()
