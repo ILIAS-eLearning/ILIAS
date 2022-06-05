@@ -440,11 +440,12 @@ export default class TinyWrapper {
       // backspace (8)
       if ([8].includes(ev.keyCode)) {
         wrapper.mergePrevious = (
-          currentRng.commonAncestorContainer.previousSibling === null &&
+          wrapper.isFirstNode(currentRng.commonAncestorContainer) &&
           currentRng.collapsed &&
           currentRng.startOffset === 0 &&
           currentRng.endOffset === 0
         );
+
         if (wrapper.mergePrevious) {
           const dom = tiny.dom;
           if (dom.select('ol,ul')) {    // do not allow to outdent first list element
