@@ -783,6 +783,7 @@ export default class PageUI {
 
       console.log("PCMODEL---");
       console.log(pl.pcModel);
+      il.COPagePres.initAudioVideo();
 
       for (const [key, value] of Object.entries(pl.pcModel)) {
         this.model.addPCModelIfNotExists(key, value);
