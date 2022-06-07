@@ -4102,10 +4102,10 @@ common#:#global_user#:#Globale Benutzer
 common#:#glo#:#Glossar
 common#:#glo_import#:#Glossar importieren
 common#:#glo_mode_desc#:#Ein Sammelglossar funktioniert wie ein normales Glossar. Zusätzlich umfasst es aber auch alle Begriffsdefinitionen von allen Glossaren, die sich auf der gleichen Ebene im Magazin befinden (nur diese Ebene) bzw. auch alle Begriffsdefinitionen aus Glossaren, die sich auch in nachfolgenden Ebenen befinden (ganzer Teilbaum).
-common#:#glo_mode_level#:#Sammelglossar - nur aktuelle Ebene
+common#:#glo_mode_level#:#Nur aktuelle Magazinebene
 common#:#glo_mode#:#Modus
 common#:#glo_mode_normal#:#Normales Glossar
-common#:#glo_mode_subtree#:#Sammelglossar - ganzer Teilbaum
+common#:#glo_mode_subtree#:#Aktuelle und untergeordnete Magazinebenen
 common#:#glo_new#:#Neues Glossar anlegen
 common#:#glossaries#:#Glossare
 common#:#glossary#:#Glossar
@@ -7048,9 +7048,9 @@ content#:#glo_full_definitions_info#:#Alle Begriffe und Definitionen werden voll
 content#:#glo_full_definitions#:#Liste
 content#:#glo_hide_taxonomy#:#Taxonomie ausblenden
 content#:#glo_list_usages#:#Nutzung
-content#:#glo_mode_level_info#:#Das Glossar beinhaltet zusätzlich alle Begriffe aus Glossaren, die sich im Magazin auf gleicher Ebene befinden.
-content#:#glo_mode_normal_info#:#Das Glossar beinhaltet nur die Begriffe, die in diesem Objekt erstellt werden.
-content#:#glo_mode_subtree_info#:#Das Glossar beinhaltet zusätzlich alle Begriffe aus Glossaren, die sich im Magazin auf gleicher Ebene und in untergeordneten Ebenen befinden.
+content#:#glo_mode_level_info#:#Nur Begriffe aus Glossaren, die sich im Magazin auf gleicher Ebene befinden, werden eingefügt.
+content#:#glo_mode_normal_info#:#Das Glossar beinhaltet alle Begriffe, die aktiv eingefügt werden.
+content#:#glo_mode_subtree_info#:#Auch Begriffe aus Glossaren auf untergeordneten Magazinebenen werden eingefügt.
 content#:#glo_online_info#:#Nur wenn das Glossar online geschaltet ist, können Benutzer das Glossar sehen und benutzen.
 content#:#glo_presentation_mode#:#Ansicht
 content#:#glo_presentation_view#:#Präsentationsansicht
@@ -16829,3 +16829,6 @@ prtf#:#prtf_copy_blog_pg#:#Blogseite kopieren
 glo#:#glo_col_ordering_info#:#Sortieren Sie die Titel der Metadatenfelder, die in der Präsentationsansicht des Glossars als Spaltenüberschriften angezeigt werden.
 itgr#:#itgr_assign_materials#:#Objekte auswählen
 book#:#book_nr_preferences#:#Präferenzen
+glo#:#glo_content_assembly#:#Zusammenstellung der Inhalte
+glo#:#glo_collection#:#Sammelglossar
+glo#:#glo_collection_info#:#Das Glossar sammelt automatisch zusätzliche Begriffe aus anderen Glossaren ein.

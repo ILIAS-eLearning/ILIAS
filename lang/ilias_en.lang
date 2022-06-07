@@ -4100,10 +4100,10 @@ common#:#global_user#:#Global users
 common#:#glo#:#Glossary
 common#:#glo_import#:#Import Glossary
 common#:#glo_mode_desc#:#A virtual glossary works like a normal glossary. Additionally it contains the terms from all glossaries that are located on the same level in the repository like the virtual glossary (level) respectively from all glossaries that are located downwards in the repository from the position of the virtual glossary (subtree).
-common#:#glo_mode_level#:#virtual (this level only)
+common#:#glo_mode_level#:#Current repository container
 common#:#glo_mode#:#Mode
-common#:#glo_mode_normal#:#normal
-common#:#glo_mode_subtree#:#virtual (entire subtree)
+common#:#glo_mode_normal#:#Standard Glossary
+common#:#glo_mode_subtree#:#Current container and all sub-containers
 common#:#glo_new#:#New Glossary
 common#:#glossaries#:#Glossaries
 common#:#glossary#:#Glossary
@@ -7045,7 +7045,7 @@ content#:#glo_full_definitions_info#:#Terms and definitions are fully displayed 
 content#:#glo_hide_taxonomy#:#Hide Taxonomy
 content#:#glo_list_usages#:#List Usages
 content#:#glo_mode_level_info#:#All terms of glossaries on the same level in the repository will be included.
-content#:#glo_mode_normal_info#:#Only terms created within this glossary will be included.
+content#:#glo_mode_normal_info#:#All terms created within this glossary will be included.
 content#:#glo_mode_subtree_info#:#All terms of glossaries on the same level and subsequent levels in the repository will be included.
 content#:#glo_online_info#:#Only if the glossary is online, users are able to use the glossary.
 content#:#glo_presentation_mode#:#Presentation Mode
@@ -16815,3 +16815,6 @@ prtf#:#prtf_copy_blog_pg#:#Copy Blog Page
 glo#:#glo_col_ordering_info#:#Order the titles of the metadata fields. They are presented as column headers in the table presentation of the glossary.
 itgr#:#itgr_assign_materials#:#Assign Materials
 book#:#book_nr_preferences#:#Prefences
+glo#:#glo_content_assembly#:#Content Assembly
+glo#:#glo_collection#:#Collection Glossary
+glo#:#glo_collection_info#:#The glossary collects additional terms of other glossaries.

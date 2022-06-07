@@ -481,6 +481,25 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $desc = new ilTextAreaInputGUI($this->lng->txt("desc"), "description");
         $this->form->addItem($desc);
 
+        // glossary mode
+        // for layout of this property see https://mantis.ilias.de/view.php?id=31833
+        $glo_mode = new ilRadioGroupInputGUI($this->lng->txt("glo_content_assembly"), "glo_mode");
+        //$glo_mode->setInfo($this->lng->txt("glo_mode_desc"));
+        $op1 = new ilRadioOption($this->lng->txt("glo_mode_normal"), "none", $this->lng->txt("glo_mode_normal_info"));
+        $glo_mode->addOption($op1);
+        $op2 = new ilRadioOption($this->lng->txt("glo_collection"), "coll", $this->lng->txt("glo_collection_info"));
+        $glo_mode->addOption($op2);
+
+        $glo_mode2 = new ilRadioGroupInputGUI("", "glo_mode2");
+        $glo_mode2->setValue("level");
+        $op3 = new ilRadioOption($this->lng->txt("glo_mode_level"), "level", $this->lng->txt("glo_mode_level_info"));
+        $glo_mode2->addOption($op3);
+        $op4 = new ilRadioOption($this->lng->txt("glo_mode_subtree"), "subtree", $this->lng->txt("glo_mode_subtree_info"));
+        $glo_mode2->addOption($op4);
+        $op2->addSubItem($glo_mode2);
+        $this->form->addItem($glo_mode);
+
+
         $this->lng->loadLanguageModule("rep");
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('rep_activation_availability'));
@@ -492,20 +511,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $online->setInfo($this->lng->txt("glo_online_info"));
         $this->form->addItem($online);
 
+        /*
         $section = new ilFormSectionHeaderGUI();
         $section->setTitle($this->lng->txt('glo_content_settings'));
-        $this->form->addItem($section);
+        $this->form->addItem($section);*/
 
-        // glossary mode
-        $glo_mode = new ilRadioGroupInputGUI($this->lng->txt("glo_mode"), "glo_mode");
-        //$glo_mode->setInfo($this->lng->txt("glo_mode_desc"));
-        $op1 = new ilRadioOption($this->lng->txt("glo_mode_normal"), "none", $this->lng->txt("glo_mode_normal_info"));
-        $glo_mode->addOption($op1);
-        $op2 = new ilRadioOption($this->lng->txt("glo_mode_level"), "level", $this->lng->txt("glo_mode_level_info"));
-        $glo_mode->addOption($op2);
-        $op3 = new ilRadioOption($this->lng->txt("glo_mode_subtree"), "subtree", $this->lng->txt("glo_mode_subtree_info"));
-        $glo_mode->addOption($op3);
-        $this->form->addItem($glo_mode);
 
         // glossary mode
         /*$options = array(
@@ -566,7 +576,14 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $title->setValue($this->object->getTitle());
             $desc->setValue($this->object->getDescription());
             $online->setChecked($this->object->getOnline());
-            $glo_mode->setValue($this->object->getVirtualMode());
+            $mode1 = $this->object->getVirtualMode() === "none"
+                ? "none"
+                : "coll";
+            $mode2 = $this->object->getVirtualMode() !== "none"
+                ? $this->object->getVirtualMode()
+                : "level";
+            $glo_mode->setValue($mode1);
+            $glo_mode2->setValue($mode2);
             $pres_mode->setValue($this->object->getPresentationMode());
             $snl->setValue($this->object->getSnippetLength());
             if (count($tax_ids) > 0) {
@@ -616,7 +633,10 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $this->object->setTitle($this->form->getInput("title"));
             $this->object->setDescription($this->form->getInput("description"));
             $this->object->setOnline(ilUtil::yn2tf($this->form->getInput("cobj_online")));
-            $this->object->setVirtualMode($this->form->getInput("glo_mode"));
+            $glo_mode = $this->form->getInput("glo_mode") === "none"
+                ? $this->form->getInput("glo_mode")
+                : $this->form->getInput("glo_mode2");
+            $this->object->setVirtualMode($glo_mode);
             $this->object->setActiveDownloads(ilUtil::yn2tf($this->form->getInput("glo_act_downloads")));
             $this->object->setPresentationMode($this->form->getInput("pres_mode"));
             $this->object->setSnippetLength($this->form->getInput("snippet_length"));
