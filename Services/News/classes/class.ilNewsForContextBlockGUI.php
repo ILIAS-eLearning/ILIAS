@@ -292,7 +292,8 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                 // not sure if this code is still used anywhere, see discussion at
                 // https://mantis.ilias.de/view.php?id=31801
                 // If ILIAS 8 beta phase does not throw this exception, we can remove this part.
-                throw new ilException("News settings are deprecated.");
+                //throw new ilException("News settings are deprecated.");
+                // the info screen will call this
                 $this->addBlockCommand(
                     $ilCtrl->getLinkTarget($this, "editSettings"),
                     $lng->txt("settings")
