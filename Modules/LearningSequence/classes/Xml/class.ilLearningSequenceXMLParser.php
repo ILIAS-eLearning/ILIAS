@@ -44,6 +44,9 @@ class ilLearningSequenceXMLParser extends ilSaxParser
     protected string $actual_name;
     protected string $cdata;
 
+    /** @var string */
+    private $cdata = '';
+
     public function __construct(ilObjLearningSequence $obj, string $xml)
     {
         parent::__construct();
@@ -105,6 +108,8 @@ class ilLearningSequenceXMLParser extends ilSaxParser
 
     public function handleEndTag($parser, string $name) : void
     {
+        $this->cdata = trim($this->cdata);
+
         switch ($name) {
             case "title":
                 $this->obj->setTitle(trim($this->cdata));
@@ -151,11 +156,13 @@ class ilLearningSequenceXMLParser extends ilSaxParser
             default:
                 break;
         }
+
+        $this->cdata = '';
     }
 
     public function handleCharacterData($parser, $data) : void
     {
-        $this->cdata = $data ?? "";
+        $this->cdata .= ($data ?? "");
         $this->storeData();
     }
 
