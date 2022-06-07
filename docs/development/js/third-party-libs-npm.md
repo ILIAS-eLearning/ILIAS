@@ -42,7 +42,15 @@ the "jour fixe"-label.
 ## Dependencies for development
 - Install the new library, e.g. "npm install webpack --save-dev"
 - Commit the changes in packages.json and package-lock.json
-
-- Commit the changes in packages.json and package-lock.json and node_modules.
+- Also commit the changes in node_modules.
 
 Currently commit the node_modes directory, this will most probably be abendoned from the git repo in the future.
+
+## Custom Patches on Dependencies
+If a patch on a library is requried, use the "patch-packages"-module.
+To create the patch, modify the file (in src!) and run
+```
+npx patch-package [package-name]
+```
+Commit the new patch-file.
+There is a hook in package.json/scripts that will apply the patch on installation of the library.
