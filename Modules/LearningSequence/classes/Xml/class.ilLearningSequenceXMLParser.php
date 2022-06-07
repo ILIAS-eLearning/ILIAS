@@ -44,9 +44,6 @@ class ilLearningSequenceXMLParser extends ilSaxParser
     protected string $actual_name;
     protected string $cdata;
 
-    /** @var string */
-    private $cdata = '';
-
     public function __construct(ilObjLearningSequence $obj, string $xml)
     {
         parent::__construct();
