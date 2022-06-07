@@ -13382,6 +13382,9 @@ div.ilHFormFooter .ilFormCmds {
 .ilHFormInput input.form-control {
   width: 100%;
 }
+.wzdrow .form-control {
+  height: 1.74642857rem;
+}
 .ilHFormDropArea {
   margin: 6px 0;
   width: auto;
