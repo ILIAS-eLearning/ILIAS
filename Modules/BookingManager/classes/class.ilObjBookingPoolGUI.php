@@ -337,6 +337,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
 
         // preference deadline
         $pref_deadline = new ilDateTimeInputGUI($this->lng->txt("book_pref_deadline"), "pref_deadline");
+        $pref_deadline->setInfo($this->lng->txt("book_pref_deadline_info"));
         $pref_deadline->setShowTime(true);
         $pref_deadline->setRequired(true);
         $pref->addSubItem($pref_deadline);
