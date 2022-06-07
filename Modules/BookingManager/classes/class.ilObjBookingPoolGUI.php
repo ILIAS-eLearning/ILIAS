@@ -328,6 +328,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $pref_nr->setSize(4);
         $pref_nr->setMinValue(1);
         $pref_nr->setInfo($this->lng->txt("book_nr_of_preferences_info"));
+        $pref_nr->setSuffix($this->lng->txt("book_nr_preferences"));
         $pref_nr->setRequired(true);
         $pref->addSubItem($pref_nr);
 
