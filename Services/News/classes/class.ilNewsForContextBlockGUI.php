@@ -53,7 +53,6 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     public function __construct()
     {
         global $DIC;
-
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
@@ -290,6 +289,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
                     $lng->txt("settings")
                 );
             } else {
+                // not sure if this code is still used anywhere, see discussion at
+                // https://mantis.ilias.de/view.php?id=31801
+                // If ILIAS 8 beta phase does not throw this exception, we can remove this part.
+                throw new ilException("News settings are deprecated.");
                 $this->addBlockCommand(
                     $ilCtrl->getLinkTarget($this, "editSettings"),
                     $lng->txt("settings")
