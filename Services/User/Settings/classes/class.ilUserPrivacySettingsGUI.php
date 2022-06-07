@@ -257,13 +257,15 @@ class ilUserPrivacySettingsGUI
         }
 
         $this->lng->loadLanguageModule('buddysystem');
+        $bs_allow_contact_me = isset($this->user->prefs['bs_allow_to_contact_me']) ?
+            $this->user->prefs['bs_allow_to_contact_me'] === 'y' : false;
         $fields["bs_allow_to_contact_me"] = $this->uiFactory->input()
             ->field()
             ->checkbox(
                 $this->lng->txt("buddy_allow_to_contact_me"),
                 $this->lng->txt("buddy_allow_to_contact_me_info")
             )
-            ->withValue($this->user->prefs['bs_allow_to_contact_me'] == 'y')
+            ->withValue($bs_allow_contact_me)
             ->withDisabled(
                 (bool)
                 $this->settings->get('usr_settings_disable_bs_allow_to_contact_me')

@@ -163,9 +163,18 @@ class ilDclTableListGUI
 
     protected function save() : void
     {
-        $comments = $this->http->wrapper()->post()->retrieve('comments', $this->refinery->kindlyTo()->string());
-        $visible = $this->http->wrapper()->post()->retrieve('visible', $this->refinery->kindlyTo()->bool());
-        $orders = $_POST['order'];
+        $comments = $this->http->wrapper()->post()->retrieve(
+            'comments',
+            $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
+        );
+        $visible = $this->http->wrapper()->post()->retrieve(
+            'visible',
+            $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
+        );
+        $orders = $this->http->wrapper()->post()->retrieve(
+            'order',
+            $this->refinery->kindlyTo()->dictOf($this->refinery->kindlyTo()->string())
+        );
         asort($orders);
         $order = 10;
         foreach (array_keys($orders) as $table_id) {

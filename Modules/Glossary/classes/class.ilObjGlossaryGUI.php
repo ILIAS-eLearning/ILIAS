@@ -539,6 +539,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $snl->setSize(4);
         $snl->setInfo($this->lng->txt("glo_text_snippet_length_info"));
         $snl->setValue(200);
+        $snl->setSuffix($this->lng->txt("characters"));
         $op1->addSubItem($snl);
 
         $pres_mode->addOption($op1);
@@ -595,6 +596,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $ti = new ilGloAdvColSortInputGUI($this->lng->txt("cont_col_ordering"), "field_order");
             $this->form->addItem($ti);
             $ti->setValue($cols);
+            $ti->setInfo($this->lng->txt("glo_col_ordering_info"));
         }
     
         // save and cancel commands

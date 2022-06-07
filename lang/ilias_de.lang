@@ -16742,7 +16742,7 @@ wsp#:#wsp_shared_resources#:#Freigegebene Ressourcen
 wsp#:#wsp_shared_table_title#:#Freigaben
 wsp#:#wsp_shared_title#:#Titel der Ressource
 wsp#:#wsp_shared_type#:#Freigegeben für
-wsp#:#wsp_shared_user_filter#:Name/Anmeldename###Modified as part of gender mainstreaming activities for ILIAS 8
+wsp#:#wsp_shared_user_filter#:#Name/Anmeldename###Modified as part of gender mainstreaming activities for ILIAS 8
 wsp#:#wsp_shared_with#:#Freigegeben für
 wsp#:#wsp_share_search_users#:#Benutzer suchen
 wsp#:#wsp_share_success#:#Ein neuer Eintrag wurde hinzugefügt.
@@ -16826,3 +16826,5 @@ notes#:#note_text#:#Text
 mcst#:#mcst_view_abandoned#:#Die aktuell gewählte Ansicht wird nicht mehr unterstützt. Bitte wählen Sie in den Einstellungen einen andere Ansicht aus.
 prtf#:#prtf_copy_pg#:#Seite kopieren
 prtf#:#prtf_copy_blog_pg#:#Blogseite kopieren
+glo#:#glo_col_ordering_info#:#Sortieren Sie die Titel der Metadatenfelder, die in der Präsentationsansicht des Glossars als Spaltenüberschriften angezeigt werden.
+itgr#:#itgr_assign_materials#:#Objekte auswählen

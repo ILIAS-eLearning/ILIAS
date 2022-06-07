@@ -44,7 +44,7 @@ class ilPersonalProfileMode
         $user = $this->user;
         $settings = $this->settings;
 
-        $pub_prof = in_array($user->prefs["public_profile"], [
+        $pub_prof = isset($user->prefs["public_profile"]) && in_array($user->prefs["public_profile"], [
             self::PROFILE_DISABLED,
             self::PROFILE_ENABLED_LOGGED_IN_USERS,
             self::PROFILE_ENABLED_GLOBAL

@@ -28,18 +28,11 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
     protected ilDclEditViewTableGUI $table_gui;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
-    protected int $table_view_id;
     protected int $tableview_id;
 
-    public function __construct(int $tableview_id, int $a_definition_id = 0)
+    public function __construct(int $tableview_id)
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
-        $ilCtrl = $DIC['ilCtrl'];
-        /**
-         * @var $ilCtrl ilCtrl
-         */
-        $this->ctrl = $ilCtrl;
         $this->tableview_id = $tableview_id;
         $this->tableview = ilDclTableView::findOrGetInstance($tableview_id);
         $this->http = $DIC->http();
@@ -53,7 +46,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
             $viewdef->setId($tableview_id);
             $viewdef->setParentId(ilObject2::_lookupObjectId($ref_id));
             $viewdef->setActive(false);
-            $viewdef->create(false);
+            $viewdef->create();
         }
 
         parent::__construct("dclf", $tableview_id);

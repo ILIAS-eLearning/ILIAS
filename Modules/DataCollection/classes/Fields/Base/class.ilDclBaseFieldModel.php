@@ -65,10 +65,6 @@ class ilDclBaseFieldModel
     const PROP_LINK_DETAIL_PAGE_TEXT = "link_detail_page";
     const PROP_SUPPORTED_FILE_TYPES = "supported_file_types";
     const PROP_PLUGIN_HOOK_NAME = "plugin_hook_name";
-    const PROP_TEXT_SELECTION_OPTIONS = "text_selection_options";
-    const PROP_TEXT_SELECTION_TYPE = "text_selection_type";
-    const PROP_DATE_SELECTION_OPTIONS = "date_selection_options";
-    const PROP_DATE_SELECTION_TYPE = "date_selection_type";
     // type of table il_dcl_view
     const EDIT_VIEW = 2;
     const EXPORTABLE_VIEW = 4;
@@ -718,7 +714,7 @@ class ilDclBaseFieldModel
         $this->storage_location_override = $storage_location_override;
     }
 
-    public function fillHeaderExcel(ilExcel $worksheet, int &$row, int &$col)
+    public function fillHeaderExcel(ilExcel $worksheet, int &$row, int &$col) : void
     {
         $worksheet->setCell($row, $col, $this->getTitle());
         $col++;

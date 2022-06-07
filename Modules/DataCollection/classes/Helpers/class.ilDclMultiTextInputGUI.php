@@ -52,10 +52,6 @@ class ilDclMultiTextInputGUI extends ilMultipleTextsInputGUI
         return $this->getIdentifiedMultiValues();
     }
 
-    //	protected function getMultiValuePostVar($identifier)
-    //	{
-    //		return $this->getPostVar();
-    //	}
     public function render(string $a_mode = "") : string
     {
         $tpl = new ilTemplate("tpl.prop_multi_text_inp.html", true, true, "Services/Form");

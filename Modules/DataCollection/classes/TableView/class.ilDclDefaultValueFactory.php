@@ -13,17 +13,5 @@ class ilDclDefaultValueFactory
         $storage_location = ilDclCache::getDatatype($data_type_id)->getStorageLocation();
         $class = self::STORAGE_LOCATION_MAPPING[$storage_location];
         return new $class();
-
-        // switch ($storage_location) {
-        //     case 1:
-        //         return new ilDclTableViewTextDefaultValue();
-        //         break;
-        //     case 2:
-        //         return new ilDclTableViewNumberDefaultValue();
-        //         break;
-        //     case 3:
-        //         return new ilDclTableViewDateDefaultValue();
-        //         break;
-        // }
     }
 }

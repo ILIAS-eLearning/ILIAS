@@ -16,8 +16,6 @@
  ********************************************************************
  */
 
-use ILIAS\Notes\NoteDBRepository;
-
 /**
  * @author       Martin Studer <ms@studer-raimann.ch>
  * @author       Marcel Raimann <mr@studer-raimann.ch>
@@ -27,7 +25,7 @@ use ILIAS\Notes\NoteDBRepository;
  */
 class ilDclDetailedViewGUI
 {
-    protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
+    protected ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
     protected ilObjDataCollectionGUI $dcl_gui_object;
     protected ilNoteGUI $notes_gui;
     protected ilDclTable $table;
@@ -39,7 +37,7 @@ class ilDclDetailedViewGUI
     protected array $record_ids = array();
     protected bool $is_enabled_paging = true;
     protected ilLanguage $lng;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     private ilDataCollectionUiPort $dclUi;
     private ilDataCollectionEndpointPort $dclEndPoint;
@@ -68,7 +66,6 @@ class ilDclDetailedViewGUI
 
         $tpl = $DIC->ui()->mainTemplate();
         $ilCtrl = $DIC->ctrl();
-
         $this->dcl_gui_object = $a_dcl_object;
         $this->lng = $DIC->language();
         $this->http = $DIC->http();
@@ -173,7 +170,7 @@ class ilDclDetailedViewGUI
                         $this->renderRecord(true);
                         break;
                     case 'getNotesHTML':
-                        $this->renderRecord(false);
+                        $this->renderRecord();
                         break;
                     case 'deleteNote':
                         $this->notesGUI->confirmDelete();
@@ -379,12 +376,12 @@ class ilDclDetailedViewGUI
      */
     protected function determineNextPrevRecords() : void
     {
-        if (!isset($_SESSION['dcl_record_ids']) || $_SESSION['dcl_table_id'] != $this->table->getId()) {
+        if (!ilSession::has("dcl_record_ids") || ilSession::get('dcl_record_ids') != $this->table->getId()) {
             $this->loadSession();
         }
 
-        if (isset($_SESSION['dcl_record_ids']) && count($_SESSION['dcl_record_ids'])) {
-            $this->record_ids = $_SESSION['dcl_record_ids'];
+        if (ilSession::has("dcl_record_ids") && count(ilSession::get("dcl_record_ids"))) {
+            $this->record_ids = ilSession::get("dcl_record_ids");
             foreach ($this->record_ids as $k => $recId) {
                 if ($recId == $this->record_id) {
                     if ($k != 0) {

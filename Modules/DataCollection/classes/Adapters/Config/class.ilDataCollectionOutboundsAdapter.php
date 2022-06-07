@@ -27,7 +27,7 @@ class ilDataCollectionOutboundsAdapter implements ilDataCollectionOutboundsPort
 
     }
 
-    public static function new()
+    public static function new() : self
     {
         return new self();
     }

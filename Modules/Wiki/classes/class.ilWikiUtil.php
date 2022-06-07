@@ -29,6 +29,11 @@
  * the ilWikiUtil::makeUrlTitle($mTextform) ("_" for " ")for embedding things in URLs.
  *
  */
+// From include/Unicode/UtfNormal.php
+if (!defined('UTF8_REPLACEMENT')) {
+    define('UTF8_REPLACEMENT', "\xef\xbf\xbd" /*codepointToUtf8( UNICODE_REPLACEMENT )*/);
+}
+
 const IL_WIKI_MODE_REPLACE = "replace";
 const IL_WIKI_MODE_COLLECT = "collect";
 const IL_WIKI_MODE_EXT_COLLECT = "ext_collect";

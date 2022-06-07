@@ -58,7 +58,10 @@ class ilDclTableEditGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
-        $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+        $table_id = null;
+        if ($this->http->wrapper()->query()->has("table_id")) {
+            $table_id = $this->http->wrapper()->query()->retrieve('table_id', $this->refinery->kindlyTo()->int());
+        }
 
         $this->table_id = $table_id;
         $this->table = ilDclCache::getTableCache($this->table_id);
@@ -203,7 +206,6 @@ class ilDclTableEditGUI
         $item = new ilTextAreaInputGUI($this->lng->txt('additional_info'), 'description');
         $item->setUseRte(true);
         $item->setInfo($this->lng->txt('dcl_additional_info_desc'));
-        //        $item->setRTESupport($this->table->getId(), 'dcl', 'table_settings');
         $item->setRteTagSet('mini');
         $this->form->addItem($item);
 
@@ -225,7 +227,6 @@ class ilDclTableEditGUI
         $this->form->addItem($item);
 
         $item = new ilCheckboxInputGUI($this->lng->txt('dcl_edit_perm'), 'edit_perm');
-        //		$item->setInfo($this->lng->txt("dcl_edit_perm_info"));
         $this->form->addItem($item);
 
         $radios = new ilRadioGroupInputGUI('', 'edit_perm_mode');
@@ -234,7 +235,6 @@ class ilDclTableEditGUI
         $item->addSubItem($radios);
 
         $item = new ilCheckboxInputGUI($this->lng->txt('dcl_delete_perm'), 'delete_perm');
-        //		$item->setInfo($this->lng->txt("dcl_delete_perm_info"));
         $this->form->addItem($item);
 
         $radios = new ilRadioGroupInputGUI('', 'delete_perm_mode');
@@ -243,7 +243,6 @@ class ilDclTableEditGUI
         $item->addSubItem($radios);
 
         $item = new ilCheckboxInputGUI($this->lng->txt('dcl_view_own_records_perm'), 'view_own_records_perm');
-        //		$item->setInfo($this->lng->txt("dcl_edit_by_owner_info"));
         $this->form->addItem($item);
 
         $item = new ilCheckboxInputGUI($this->lng->txt('dcl_export_enabled'), 'export_enabled');

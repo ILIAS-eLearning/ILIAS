@@ -32,10 +32,7 @@ class ilDclFieldListTableGUI extends ilTable2GUI
 
     private $order = null;
 
-    /**
-     * @var ilDclTable
-     */
-    protected $table;
+    protected ilDclTable $table;
 
     public function __construct(ilDclFieldListGUI $a_parent_obj, string $a_parent_cmd, int $table_id)
     {
@@ -96,13 +93,6 @@ class ilDclFieldListTableGUI extends ilTable2GUI
      */
     public function getHTML() : string
     {
-        global $DIC;
-
-        $ilUser = null;
-        if (isset($DIC["ilUser"])) {
-            $ilUser = $DIC["ilUser"];
-        }
-
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 

@@ -71,7 +71,6 @@ class ilDclExpressionParser
             $tokens = ilDclTokenizer::getTokens($this->expression);
             self::$cache_tokens[$this->field->getId()] = $tokens;
         }
-        //		        ilUtil::sendInfo( "<pre>" . print_r($tokens, 1) . "</pre>");
         $parsed = '';
         foreach ($tokens as $token) {
             if (empty($token)) {

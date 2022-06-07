@@ -142,7 +142,11 @@ class StandardGUIRequest
 
     public function getPositions() : array
     {
-        return $this->arrayArray("position");
+        // note: the position parameter is currently
+        // quite unstructured typewise, array of array|string
+        $body = $this->http->request()->getParsedBody();
+        return $body["position"] ?? [];
+        //return $this->arrayArray("position");
     }
 
     /** @return int[] */

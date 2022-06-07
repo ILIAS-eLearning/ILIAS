@@ -46,24 +46,18 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     const TAB_LIST_TABLES = 'dcl_tables';
     const TAB_EXPORT = 'export';
     const TAB_LIST_PERMISSIONS = 'perm_settings';
-    const TAB_INFO = 'id_info';
-    const TAB_LIST_RECORDS = 'id_records';
 
     public ?ilObject $object = null;
 
     private ilDataCollectionUiPort $dclUi;
-    //private ilDataCollectionLanguagePort $dclLanguage;
     private ilDataCollectionEndpointPort $dclEndPoint;
     private ilDataCollectionAccessPort $dclAccess;
-    //private ilDataCollectionGuiClassFactoryPort $dclGuiClass;
 
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ILIAS\HTTP\Services $http;
     protected ilTabsGUI $tabs;
     protected int $table_id;
-
-    private int $tableId = 0;
 
     public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
@@ -83,8 +77,6 @@ class ilObjDataCollectionGUI extends ilObject2GUI
         $this->dclEndPoint = ilDataCollectionEndpointAdapter::new();
         $this->dclAccess = ilDataCollectionAccessAdapter::new();
         $this->dclUi = ilDataCollectionUiAdapter::new();
-
-        //$this->ctrl = $this->ctrl;
 
         if ($this->ctrl->isAsynch() === false) {
             $this->addJavaScript();
@@ -326,7 +318,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
      * not very nice to set cmdClass/Cmd manually, if everything
      * works through ilCtrl in the future this may be changed
      */
-    public function infoScreen()
+    public function infoScreen() : void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
@@ -336,7 +328,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     /**
      * show Content; redirect to ilDclRecordListGUI::listRecords
      */
-    public function render()
+    public function render() : void
     {
         if ($this->http->wrapper()->query()->has('tableview_id')) {
             $tableview_id = $this->http->wrapper()->query()->retrieve('tableview_id',
@@ -352,10 +344,9 @@ class ilObjDataCollectionGUI extends ilObject2GUI
     /**
      * show information screen
      */
-    public function infoScreenForward()
+    public function infoScreenForward() : void
     {
         $this->tabs->activateTab('info_short');
-        $refId = $this->object->getRefId();
 
         if (!$this->checkPermissionBool('visible')) {
             $this->checkPermission('read');
@@ -407,25 +398,12 @@ class ilObjDataCollectionGUI extends ilObject2GUI
             ilObjectGUI::_gotoRepositoryRoot();
         }
 
-        $http = $DIC->http();
-        $refinery = $DIC->refinery();
-        $baseClass = $http->wrapper()->query()->retrieve('baseClass', $refinery->kindlyTo()->string());
-
         //load record list
         if ($dclAccess->hasReadPermission($refId) === true) {
             $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_REF_ID, $refId);
             $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_VIEW_ID, $viewId);
             $ilCtrl->setParameterByClass("ilRepositoryGUI", self::GET_DCL_GTR, $recordId);
             $ilCtrl->redirectByClass("ilRepositoryGUI", "listRecords");
-
-            /*
-            $_GET["baseClass"] = "ilRepositoryGUI";
-            $_GET[self::GET_REF_ID] = $refId;
-            $_GET[self::GET_VIEW_ID] = $viewId;
-            $_GET[self::GET_DCL_GTR] = $recordId;
-            $_GET["cmd"] = "listRecords";
-            require_once('./ilias.php');*/
-            //exit;
         }
 
         //redirect to info screen
@@ -630,8 +608,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 ilNotification::setNotification(
                     ilNotification::TYPE_DATA_COLLECTION,
                     $ilUser->getId(),
-                    $this->obj_id,
-                    true
+                    $this->obj_id
                 );
                 break;
         }
@@ -640,57 +617,10 @@ class ilObjDataCollectionGUI extends ilObject2GUI
 
     protected function addHeaderAction() : void
     {
-        global $DIC;
-        $ilUser = $DIC['ilUser'];
-        $ilAccess = $DIC['ilAccess'];
-        $dataCollectionTemplate = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        /*$dispatcher = new ilCommonActionDispatcherGUI(ilCommonActionDispatcherGUI::TYPE_REPOSITORY, $ilAccess, "dcl",
-            $this->ref_id, $this->obj_id);*/
-
         ilObjectListGUI::prepareJSLinks(
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
             "",
-            $ilCtrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
+            $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true)
         );
-
-        //$lg = $dispatcher->initHeaderAction();
-
-        // notification
-        /*if ($ilUser->getId() != ANONYMOUS_USER_ID and $this->object->getNotification() == 1) {
-            if (ilNotification::hasNotification(ilNotification::TYPE_DATA_COLLECTION, $ilUser->getId(),
-                $this->obj_id)) {
-                //Command Activate Notification
-                $ilCtrl->setParameter($this, "ntf", 1);
-                $lg->addCustomCommand(
-                    $ilCtrl->getLinkTarget($this, "toggleNotification"),
-                    "dcl_notification_deactivate_dcl"
-                );
-
-                $lg->addHeaderIcon(
-                    "not_icon",
-                    ilUtil::getImagePath("notification_on.svg"),
-                    $lng->txt("dcl_notification_activated")
-                );
-            } else {
-                //Command Deactivate Notification
-                $ilCtrl->setParameter($this, "ntf", 2);
-                $lg->addCustomCommand(
-                    $ilCtrl->getLinkTarget($this, "toggleNotification"),
-                    "dcl_notification_activate_dcl"
-                );
-
-                $lg->addHeaderIcon(
-                    "not_icon",
-                    ilUtil::getImagePath("notification_off.svg"),
-                    $lng->txt("dcl_notification_deactivated")
-                );
-            }
-            $ilCtrl->setParameter($this, "ntf", "");
-        }*/
-
-        //$dataCollectionTemplate->setHeaderActionMenu($lg->getHeaderAction());
     }
 }

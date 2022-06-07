@@ -1,18 +1,21 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
 * static utility functions used to manage authentication modes
 *
@@ -86,14 +89,20 @@ class ilAuthUtils
      */
     public static function isAuthenticationForced() : bool
     {
-        return isset($_GET['ecs_hash']) || isset($_GET['ecs_hash_url']);
+        //TODO rework forced authentication concept
+        global $DIC;
+        $query_wrapper = $DIC->http()->wrapper()->query();
+        return $query_wrapper->has('ecs_hash') || $query_wrapper->has('ecs_hash_url');
     }
 
     public static function handleForcedAuthentication() : void
     {
-        if (isset($_GET['ecs_hash']) || isset($_GET['ecs_hash_url'])) {
+        global $DIC;
+        $query_wrapper = $DIC->http()->wrapper()->query();
+        $string_refinery = $DIC->refinery()->kindlyTo()->string();
+        if ($query_wrapper->has('ecs_hash') || $query_wrapper->has('ecs_hash_url')) {
             $credentials = new ilAuthFrontendCredentials();
-            $credentials->setUsername($_GET['ecs_login']);
+            $credentials->setUsername($query_wrapper->retrieve('ecs_login', $string_refinery));
             $credentials->setAuthMode((string) self::AUTH_ECS);
             
             $provider_factory = new ilAuthProviderFactory();
@@ -440,7 +449,6 @@ class ilAuthUtils
         }
         
         $default = $ilSetting->get('default_auth_mode', (string) $default);
-        $default = (int) ($_REQUEST['auth_mode'] ?? $default);
 
         // begin-patch auth_plugin
         $pls = self::getAuthPlugins();

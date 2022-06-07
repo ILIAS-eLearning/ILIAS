@@ -31,7 +31,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
 
-    public function __construct(int $tableview_id, int $a_definition_id = 0)
+    public function __construct(int $tableview_id)
     {
         global $DIC;
         $this->ctrl = $DIC['ilCtrl'];
@@ -49,7 +49,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
             $viewdef->setId($tableview_id);
             $viewdef->setParentId(ilObject2::_lookupObjectId($ref_id));
             $viewdef->setActive(false);
-            $viewdef->create(false);
+            $viewdef->create();
         }
 
         parent::__construct("dclf", $tableview_id);
@@ -204,6 +204,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
     {
         $f = new ilDclDefaultValueFactory();
 
+        // TODO: php8_review: get rid of $_POST (dw, 02.06.2022)
         foreach ($_POST as $key => $value) {
             if (strpos($key, "default_") === 0) {
                 $parts = explode("_", $key);

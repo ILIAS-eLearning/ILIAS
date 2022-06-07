@@ -78,7 +78,6 @@ if ($request_wrapper->has('replaced') && $request_wrapper->retrieve('replaced', 
 
 function _initIliasForPreview()
 {
-    require_once("Services/Init/classes/class.ilInitialisation.php");
     \ilInitialisation::initILIAS();
     global $DIC;
     $DIC->globalScreen()->layout()->meta()->addCss("./templates/default/delos.css");

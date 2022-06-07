@@ -1,4 +1,20 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 use ILIAS\MyStaff\Courses\ShowUser\ilMStShowUserCoursesTableGUI;
 use ILIAS\MyStaff\ilMyStaffAccess;
@@ -139,8 +155,11 @@ class ilMStShowUserCoursesGUI
 
             if ($DIC->access()->checkAccess("visible", "", $mst_lco_crs_ref_id)) {
                 $link = ilLink::_getStaticLink($mst_lco_crs_ref_id, ilMyStaffAccess::DEFAULT_CONTEXT);
-                $selection->addItem(ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)), '',
-                    $link);
+                $selection->addItem(
+                    ilObject2::_lookupTitle(ilObject2::_lookupObjectId($mst_lco_crs_ref_id)),
+                    '',
+                    $link
+                );
             };
 
             $org_units = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits('ref_id');
@@ -156,9 +175,12 @@ class ilMStShowUserCoursesGUI
                 }
             }
 
-            $selection = ilMyStaffGUI::extendActionMenuWithUserActions($selection, $mst_co_usr_id,
+            $selection = ilMyStaffGUI::extendActionMenuWithUserActions(
+                $selection,
+                $mst_co_usr_id,
                 rawurlencode($DIC->ctrl()
-                                 ->getLinkTarget($this, self::CMD_INDEX)));
+                                 ->getLinkTarget($this, self::CMD_INDEX))
+            );
 
             echo $selection->getHTML(true);
         }

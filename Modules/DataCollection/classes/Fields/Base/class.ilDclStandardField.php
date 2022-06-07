@@ -27,7 +27,7 @@
  */
 class ilDclStandardField extends ilDclBaseFieldModel
 {
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
 
     public function __construct($a_id = 0)
     {
@@ -126,7 +126,6 @@ class ilDclStandardField extends ilDclBaseFieldModel
         $stdFields = array();
         foreach (self::_getStandardFieldsAsArray() as $array) {
             $array["table_id"] = $table_id;
-            //$array["datatype_id"] = self::_getDatatypeForId($array["id"]);
             $field = new ilDclStandardField();
             $field->buildFromDBRecord($array);
             $stdFields[] = $field;

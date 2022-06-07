@@ -1,7 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * @deprecated
@@ -59,7 +72,7 @@ class ilLog
         $this->MESSAGE = ilLogLevel::INFO;
 
         $this->default_log_level = $this->WARNING;
-        $this->current_log_level = $this->setLogLevel($a_log_level);
+        $this->current_log_level = $this->setLogLevel($a_log_level ?? $this->default_log_level);
 
         $this->path = ($a_log_path) ?: ILIAS_ABSOLUTE_PATH;
         $this->filename = ($a_log_file) ?: "ilias.log";

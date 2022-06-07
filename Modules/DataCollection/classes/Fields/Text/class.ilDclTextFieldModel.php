@@ -190,7 +190,7 @@ class ilDclTextFieldModel extends ilDclBaseFieldModel
             $regex .= "/";
         }
 
-        if ($this->getProperty(ilDclBaseFieldModel::PROP_LENGTH) < $this->strlen($value, 'UTF-8')
+        if ($this->getProperty(ilDclBaseFieldModel::PROP_LENGTH) < $this->strlen($value)
             && is_numeric($this->getProperty(ilDclBaseFieldModel::PROP_LENGTH))
         ) {
             throw new ilDclInputException(ilDclInputException::LENGTH_EXCEPTION);

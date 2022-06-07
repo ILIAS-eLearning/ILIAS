@@ -1,18 +1,21 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * @author Stefan Meyer <meyer@leifos.com>
  */
@@ -544,7 +547,7 @@ class ilLDAPSettingsGUI
     {
         $this->initAttributeMapping();
         $this->tabs_gui->activateTab('role_mapping');
-        
+
         foreach ($this->getMappingFields() as $key) {
             $this->mapping->setRule(
                 $key,
@@ -561,10 +564,10 @@ class ilLDAPSettingsGUI
                 (bool) $_POST[$key . '_update']
             );
         }
-        
+
         $this->mapping->save();
         $this->userMapping();
-        
+
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
 
         //TODO check if this unset is really needed

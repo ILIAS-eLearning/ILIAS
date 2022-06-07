@@ -45,7 +45,7 @@ class ilDclContentExporter
     protected ilLanguage $lng;
 
     protected ilDclTable $table;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
     protected array $tables;
 
     public function __construct(int $ref_id, ?int $table_id, array $filter = array())
@@ -67,7 +67,7 @@ class ilDclContentExporter
 
     /**
      * Sanitize the given filename
-     * The ilUtil::_sanitizeFilemame() does not clean enough
+     * The ilUtil::_sanitizeFilename() does not clean enough
      */
     public function sanitizeFilename(string $filename) : string
     {
@@ -123,7 +123,7 @@ class ilDclContentExporter
     }
 
     /**
-     * Creates an export of a specific datacollection table
+     * Creates an export of a specific data collection table
      * @return bool|void
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception|\PhpOffice\PhpSpreadsheet\Exception
      */
@@ -243,7 +243,6 @@ class ilDclContentExporter
             $res = $soap_client->call($method, $soap_params);
         } else {
             $ilLog->warning('SOAP clone call failed. Calling clone method manually');
-            require_once('./webservice/soap/include/inc.soap_functions.php');
             if (method_exists('ilSoapFunctions', $method)) {
                 $res = ilSoapFunctions::$method($new_session_id . '::' . $client_id, $this->dcl->getRefId(),
                     $this->table_id, $format, $filepath);

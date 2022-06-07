@@ -177,7 +177,7 @@ class ilObjectServiceSettingsGUI
         // (local) custom metadata
         if (in_array(self::CUSTOM_METADATA, $services)) {
             $md = new ilCheckboxInputGUI($lng->txt('obj_tool_setting_custom_metadata'), self::CUSTOM_METADATA);
-            $md->setInfo($lng->txt('obj_tool_setting_custom_metadatinfo'));
+            $md->setInfo($lng->txt('obj_tool_setting_custom_metadata_info'));
             $md->setValue("1");
             $md->setChecked((bool) ilContainer::_lookupContainerSetting(
                 $obj_id,

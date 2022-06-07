@@ -22,9 +22,9 @@
 class ilDataCollectionAccessAdapter implements ilDataCollectionAccessPort
 {
 
-    private \ilAccess $ilAccess;
+    private ilAccess $ilAccess;
 
-    private function __construct(\ilAccess $ilAccess)
+    private function __construct(ilAccess $ilAccess)
     {
         $this->ilAccess = $ilAccess;
     }

@@ -27,7 +27,6 @@
  */
 class ilDclRatingRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-    protected bool $rated;
     protected int $dcl_obj_id;
 
     public function __construct(ilDclBaseRecordModel $record, ilDclBaseFieldModel $field)

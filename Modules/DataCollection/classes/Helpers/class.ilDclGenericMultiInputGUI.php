@@ -74,7 +74,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
     /**
      * @return string|bool
      */
-    public function getHook($key)
+    public function getHook(string $key)
     {
         if (isset($this->hooks[$key])) {
             return $this->hooks[$key];
@@ -227,7 +227,7 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         return $valid;
     }
 
-    public function addCustomAttribute(string $key, string $value, bool $override = false)
+    public function addCustomAttribute(string $key, string $value, bool $override = false) : void
     {
         if (isset($this->cust_attr[$key]) && !$override) {
             $this->cust_attr[$key] .= ' ' . $value;
@@ -347,7 +347,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
         $tpl = $DIC['tpl'];
 
         $output = "";
-        //		$tpl->addCss($this->getTemplateDir() . '/templates/css/multi_line_input.css');
 
         $output .= $this->render(0, true);
 
@@ -399,38 +398,6 @@ class ilDclGenericMultiInputGUI extends ilFormPropertyGUI
 
         return $html;
     }
-
-
-    //	/**
-    //	 * @param bool|false $a_sortable
-    //	 *
-    //	 * @return string
-    //	 */
-    //	public function getMultiIconsHTML($a_sortable = false) {
-    //
-    //		$id = $this->getFieldId();
-    //
-    //		if (file_exists(ilUtil::getImagePath('edit_add.png'))) {
-    //			$html = '<a href="#" style="display: inline-block;" class="add_button"><img src="' . ilUtil::getImagePath('edit_add.png') . '" /></a>';
-    //			$html .= '<a href="#" style="display: inline-block;" class="remove_button"><img src="' . ilUtil::getImagePath('edit_remove.png')
-    //				. '" /></a>';
-    //		} else {
-    //			$html = '<a href="#" style="display: inline-block;" class="add_button"><span class="sr-only"></span><span class="glyphicon glyphicon-plus"></span></a>';
-    //			$html .= '<a href="#" style="display: inline-block;" class="remove_button"><span class="sr-only"></span><span class="glyphicon glyphicon-minus"></span></a>';
-    //		}
-    //
-    //		/*if($a_sortable)
-    //		{
-    //			$html .= '&nbsp;<input align="absmiddle" type="image" id="ilMultiDwn~'.$id.'~0"'.
-    //				' src="'.ilUtil::getImagePath('icon_down_s.png').'" alt="'.
-    //				$lng->txt("down").'" title="'.$lng->txt("down").'" onclick="javascript: return false;" />'.
-    //				'<input align="absmiddle" type="image" id="ilMultiUp~'.$id.'~0"'.
-    //				' src="'.ilUtil::getImagePath('icon_up_s.png').'" alt="'.$lng->txt("up").
-    //				'" title="'.$lng->txt("up").'"  onclick="javascript: return false;" />';
-    //		}*/
-    //
-    //		return $html;
-    //	}
 
     public function getSubItems() : array
     {

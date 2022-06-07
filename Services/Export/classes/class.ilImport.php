@@ -1,6 +1,20 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Import class
@@ -238,8 +252,8 @@ class ilImport
         if (is_array($obj_map)) {
             foreach ($obj_map as $obj_id_old => $obj_id_new) {
                 ilObject::_writeImportId(
-                    $obj_id_new,
-                    "il_" . $this->mapping->getInstallId() . "_" . ilObject::_lookupType($obj_id_new) . "_" . $obj_id_old
+                    (int) $obj_id_new,
+                    "il_" . $this->mapping->getInstallId() . "_" . ilObject::_lookupType((int) $obj_id_new) . "_" . $obj_id_old
                 );
             }
         }

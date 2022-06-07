@@ -137,9 +137,8 @@ class ilDclTable
      * Delete table
      * Attention this does not delete the maintable of it's the maintable of the collection.
      * unlink the the maintable in the collections object to make this work.
-     * @param boolean $delete_main_table true to delete table anyway
      */
-    public function doDelete(bool $delete_only_content = false, bool $omit_notification = false)
+    public function doDelete(bool $delete_only_content = false, bool $omit_notification = false) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -326,7 +325,7 @@ class ilDclTable
         $this->records = $records;
     }
 
-    public function deleteField(int $field_id)
+    public function deleteField(int $field_id) : void
     {
         $field = ilDclCache::getFieldCache($field_id);
         $records = $this->getRecords();
@@ -718,10 +717,6 @@ class ilDclTable
         return false;
     }
 
-    /**
-     * @param ilDclBaseRecordModel $record
-     * @return bool
-     */
     protected function doesRecordBelongToUser(ilDclBaseRecordModel $record) : bool
     {
         global $DIC;
@@ -730,9 +725,6 @@ class ilDclTable
         return ($ilUser->getId() == $record->getOwner());
     }
 
-    /**
-     * @return bool
-     */
     public function checkLimit() : bool
     {
         if ($this->getLimited()) {
@@ -894,9 +886,6 @@ class ilDclTable
         $this->limit_end = $limit_end;
     }
 
-    /**
-     * @return string
-     */
     public function getLimitEnd() : ?string
     {
         return $this->limit_end;
@@ -1222,7 +1211,6 @@ class ilDclTable
          * @var $ilDB ilDBInterface
          */
         $ilUser = $DIC['ilUser'];
-        $rbacreview = $DIC['rbacreview'];
 
         $sort_field = ($sort) ? $this->getFieldByTitle($sort) : $this->getField('id');
         $direction = strtolower($direction);
@@ -1286,16 +1274,9 @@ class ilDclTable
             $sql .= " ORDER BY " . $order_str;
         }
 
-        //var_dump($sql);
-        /*global $DIC;
-        /*$ilLog = $DIC['ilLog'];
-        $ilLog->write($sql, ilLogLevel::CRITICAL);*/
-
         $set = $ilDB->query($sql);
         $total_record_ids = array();
-        // Save record-ids in session to enable prev/next links in detail view
-        $_SESSION['dcl_record_ids'] = array();
-        $_SESSION['dcl_table_id'] = $this->getId();
+
         $ref = filter_input(INPUT_GET, 'ref_id');
         $is_allowed_to_view = (ilObjDataCollectionAccess::hasWriteAccess($ref) || ilObjDataCollectionAccess::hasEditAccess($ref));
         while ($rec = $ilDB->fetchAssoc($set)) {
@@ -1304,8 +1285,10 @@ class ilDclTable
                 continue;
             }
             $total_record_ids[] = $rec['id'];
-            $_SESSION['dcl_record_ids'][] = $rec['id'];
         }
+        // Save record-ids in session to enable prev/next links in detail view
+        ilSession::set('dcl_table_id', $this->getId());
+        ilSession::set('dcl_record_ids', $total_record_ids);
 
         if ($sort_query_object != null) {
             $total_record_ids = $sort_query_object->applyCustomSorting($sort_field, $total_record_ids, $direction);

@@ -1,4 +1,21 @@
 <?php
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+declare(strict_types=1);
 
 namespace ILIAS\MyStaff\ListCourses;
 
@@ -25,37 +42,32 @@ class ilMStListCourse
     protected string $usr_lastname;
     protected string $usr_email;
 
-    final public function get(string $prop) : int|string
-    {
-        return $this->$prop;
-    }
-
     final public function getCrsRefId() : int
     {
         return $this->crs_ref_id;
     }
 
-    final  public function setCrsRefId(int $crs_ref_id) : void
+    final public function setCrsRefId(int $crs_ref_id) : void
     {
         $this->crs_ref_id = $crs_ref_id;
     }
 
-    final  public function getCrsTitle() : string
+    final public function getCrsTitle() : string
     {
         return $this->crs_title;
     }
 
-    final  public function setCrsTitle(string $crs_title) : void
+    final public function setCrsTitle(string $crs_title) : void
     {
         $this->crs_title = $crs_title;
     }
 
-    final  public function getUsrId() : int
+    final public function getUsrId() : int
     {
         return $this->usr_id;
     }
 
-    final  public function setUsrId(int $usr_id) : void
+    final public function setUsrId(int $usr_id) : void
     {
         $this->usr_id = $usr_id;
     }

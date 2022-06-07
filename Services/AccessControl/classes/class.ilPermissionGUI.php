@@ -281,7 +281,7 @@ class ilPermissionGUI extends ilPermission2GUI
                 continue;
             }
 
-            $new_ops = array_keys((array) $post_perm[$role]);
+            $new_ops = array_keys((array) ($post_perm[$role] ?? []));
             $old_ops = $rbacreview->getRoleOperationsOnObject(
                 $role,
                 $this->getCurrentObject()->getRefId()

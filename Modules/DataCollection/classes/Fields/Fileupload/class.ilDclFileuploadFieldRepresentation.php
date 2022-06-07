@@ -78,7 +78,7 @@ class ilDclFileuploadFieldRepresentation extends ilDclBaseFieldRepresentation
     {
         $value = $record->getRecordFieldValue($this->getField()->getId());
         $pass = false;
-        if (!ilObject2::_exists($value) || ilObject2::_lookupType($value, false) != "file") {
+        if (!ilObject2::_exists($value) || ilObject2::_lookupType($value) != "file") {
             $pass = true;
         }
 

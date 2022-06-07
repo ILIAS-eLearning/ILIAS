@@ -192,7 +192,7 @@ class ilVirtualSkillTree
     public function getChildsOfNodeForCSkillId(string $a_cskill_id) : array
     {
         $id_parts = explode(":", $a_cskill_id);
-        if ($id_parts[1] == 0) {
+        if (!isset($id_parts[1]) || $id_parts[1] == 0) {
             $id = $id_parts[0] . ":0";
         } else {
             $id = $id_parts[1] . ":" . $id_parts[0];
@@ -203,7 +203,7 @@ class ilVirtualSkillTree
     public function getCSkillIdForVTreeId(string $a_vtree_id) : string
     {
         $id_parts = explode(":", $a_vtree_id);
-        if ($id_parts[1] == 0) {
+        if (!isset($id_parts[1]) || $id_parts[1] == 0) {
             // skill in main tree
             $skill_id = $id_parts[0];
             $tref_id = 0;
@@ -218,7 +218,7 @@ class ilVirtualSkillTree
     public function getVTreeIdForCSkillId(string $a_cskill_id) : string
     {
         $id_parts = explode(":", $a_cskill_id);
-        if ($id_parts[1] == 0) {
+        if (!isset($id_parts[1]) || $id_parts[1] == 0) {
             $id = $id_parts[0] . ":0";
         } else {
             $id = $id_parts[1] . ":" . $id_parts[0];
@@ -253,7 +253,7 @@ class ilVirtualSkillTree
     public function getSubTreeForCSkillId(string $a_cskill_id, bool $a_only_basic = false) : array
     {
         $id_parts = explode(":", $a_cskill_id);
-        if ($id_parts[1] == 0) {
+        if (!isset($id_parts[1]) || $id_parts[1] == 0) {
             $id = $id_parts[0] . ":0";
         } else {
             $id = $id_parts[1] . ":" . $id_parts[0];

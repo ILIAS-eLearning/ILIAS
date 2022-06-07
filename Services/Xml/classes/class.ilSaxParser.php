@@ -1,17 +1,21 @@
 <?php
-/******************************************************************************
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
  * https://www.ilias.de
  * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
 /**
  * Base class for sax-based expat parsing
  * extended classes need to overwrite the method setHandlers and implement their own handler methods
@@ -114,8 +118,7 @@ abstract class ilSaxParser
     public function createParser()
     {
         $xml_parser = xml_parser_create("UTF-8");
-
-        if (!is_resource($xml_parser)) {
+        if (!is_resource($xml_parser) && !is_object($xml_parser)) {
             $this->handleError("Cannot create an XML parser handle");
         }
         return $xml_parser;

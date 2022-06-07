@@ -381,13 +381,13 @@ class ilPropertyFormGUI extends ilFormGUI
                                 if ($file && is_uploaded_file($file)) {
                                     $file_name = $data["name"][$idx][$idx2];
                                     $file_type = $data["type"][$idx][$idx2];
-                                    $this->keepFileUpload($hash, $field, $file, $file_name, $file_type, $idx, $idx2);
+                                    $this->keepFileUpload($hash, $field, $file, $file_name, $file_type, (string) $idx, (string) $idx2);
                                 }
                             }
                         } elseif ($upload && is_uploaded_file($upload)) {
                             $file_name = $data["name"][$idx];
                             $file_type = $data["type"][$idx];
-                            $this->keepFileUpload($hash, $field, $upload, $file_name, $file_type, $idx);
+                            $this->keepFileUpload($hash, $field, $upload, $file_name, $file_type, (string) $idx);
                         }
                     }
                 } else {

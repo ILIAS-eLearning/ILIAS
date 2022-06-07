@@ -16812,3 +16812,5 @@ notes#:#note_text#:#Text
 mcst#:#mcst_view_abandoned#:#The current presentation mode has been abandoned. Please open the settings and switch to another mode.
 prtf#:#prtf_copy_pg#:#Copy Page
 prtf#:#prtf_copy_blog_pg#:#Copy Blog Page
+glo#:#glo_col_ordering_info#:#Order the titles of the metadata fields. They are presented as column headers in the table presentation of the glossary.
+itgr#:#itgr_assign_materials#:#Assign Materials

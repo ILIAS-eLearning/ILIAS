@@ -1,6 +1,6 @@
 .il-toast-container {
     position: fixed;
-    z-index: 1;
+    z-index: @il-toast-z-index;
     top: @il-toast-container-top;
     right: 0;
     width: @il-toast-width;
@@ -15,7 +15,10 @@
 }
 
 .il-toast {
-    margin: @il-toast-margin;
+    margin-left: @il-margin-small-horizontal;
+    margin-top: @il-margin-small-vertical;
+    margin-bottom: @il-line-height-computed;
+    margin-right: @il-toast-margin-right;
     padding: @il-padding-base;
     background-color: white;
     display: grid;
@@ -25,7 +28,7 @@
     "none actions actions";
     grid-template-columns: @il-toast-horizontal-division;
     grid-gap: @il-padding-base;
-    box-shadow: @il-mode-info-shadow;
+    box-shadow: @il-toast-shadow;
     transform: translateX(150%);
     transition: @il-toast-transition;
 
@@ -47,7 +50,7 @@
 
     .description {
         grid-area: description;
-        font-size: 90%;
+        font-size: @il-font-size-small;
     }
 
     .actions {

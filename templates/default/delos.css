@@ -6961,7 +6961,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: white;
 }
 .panel .panel-body {
-  padding: 6px 15px;
+  padding: 15px 15px;
   background-color: white;
 }
 .panel-flex .panel-heading {
@@ -7018,7 +7018,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   font-size: 1rem;
 }
 .panel-secondary .panel-body .il-item-group {
-  margin: 0 -12px;
+  margin: 0 -15px;
 }
 .panel-secondary .panel-body .il-item-group h2 {
   padding: 6px 15px;
@@ -7027,7 +7027,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   padding: 6px 15px;
 }
 .panel-secondary .panel-body .il-item-group:first-child {
-  margin: -6px -15px 0 -15px;
+  margin: -15px -15px 0 -15px;
 }
 .panel-secondary .panel-body .il-item-group .il-item {
   padding-left: 15px;
@@ -7050,7 +7050,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   border: none;
   -webkit-box-shadow: none;
   box-shadow: none;
-  margin: -6px -15px;
+  margin: -15px -15px;
 }
 .panel-sub .panel-body {
   margin: 0;
@@ -7853,7 +7853,6 @@ ul.dropdown-menu > li > .btn:focus {
   }
   .panel-secondary .il-item .il-item-description {
     padding-top: 0;
-    font-size: 0.625rem;
     word-break: break-word;
   }
   .panel-secondary .il-item .col-sm-3 {
@@ -9583,7 +9582,7 @@ footer {
 .il-maincontrols-slate .btn-bulky,
 .il-maincontrols-slate .link-bulky {
   align-items: flex-start;
-  background-color: #f2f2f2;
+  background-color: #f0f0f0;
   border: none;
   display: flex;
   margin-bottom: 2px;
@@ -9852,36 +9851,31 @@ footer {
   color: #737373;
   font-size: 1.4375rem;
 }
-.il-maincontrols-metabar .bulky-label {
-  white-space: normal;
-  margin-top: 5px;
-  display: block;
-}
 @media only screen and (max-width: 768px) {
   .il-maincontrols-metabar .il-counter-novelty {
-    top: 7px;
+    top: 6px;
   }
   .il-maincontrols-metabar .il-counter-status {
     top: 22px;
   }
   .il-maincontrols-metabar .il-metabar-more-button {
-    padding-right: 20px;
+    padding-right: 12px;
   }
   .il-maincontrols-metabar .il-metabar-more-button .icon.custom {
     position: relative;
   }
   .il-maincontrols-metabar .il-metabar-more-button .icon.custom img {
-    margin-right: 5px;
+    margin-right: 6px;
   }
   .il-maincontrols-metabar .il-metabar-more-button .icon.custom .badge {
     position: absolute;
     margin-right: 3px;
   }
   .il-maincontrols-metabar .il-metabar-more-button .icon.custom .badge.il-counter-novelty {
-    margin-top: -5px;
+    margin-top: -6px;
   }
   .il-maincontrols-metabar .il-metabar-more-button .icon.custom .badge.il-counter-status {
-    margin-top: 10px;
+    margin-top: 12px;
   }
 }
 .il-metabar-slates {
@@ -9897,6 +9891,10 @@ footer {
 .il-metabar-slates .il-maincontrols-slate {
   min-width: 500px;
 }
+.il-metabar-slates .bulky-label {
+  margin-top: auto;
+  margin-bottom: auto;
+}
 @media only screen and (max-width: 768px) {
   .il-metabar-slates {
     width: 100%;
@@ -9910,7 +9908,7 @@ footer {
   .il-metabar-slates .il-counter-status,
   .il-metabar-slates .il-counter-novelty {
     margin-top: 0;
-    top: 5px;
+    top: 6px;
   }
   .il-metabar-slates .bulky-label {
     margin-left: 10px;
@@ -9921,10 +9919,10 @@ footer {
   .il-metabar-slates .il-metabar-more-slate .btn-bulky:after {
     content: "\e606";
     font-family: "il-icons";
-    font-size: 0.903125rem;
+    font-size: 0.875rem;
     position: absolute;
-    right: 10px;
-    top: 20px;
+    right: 12px;
+    top: 1.42857143;
   }
   .il-metabar-slates .il-maincontrols-slate {
     min-width: 260px;
@@ -10092,7 +10090,7 @@ footer {
 .il-mainbar-triggers .il-link.link-bulky .bulky-label {
   color: white;
   display: -webkit-box;
-  margin-top: 5px;
+  margin-top: 6px;
   white-space: normal;
   word-break: break-word;
   padding: 0 2px;
@@ -10146,7 +10144,8 @@ footer {
   width: 329px;
 }
 .il-mainbar-slates .bulky-label {
-  margin-top: 5px;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 .il-mainbar-tools-button .btn-bulky,
 .il-mainbar-tools-button .btn-bulky.engaged {
@@ -10160,7 +10159,7 @@ footer {
   filter: invert(100%);
 }
 .il-mainbar-tools-button .btn-bulky.engaged {
-  background-color: white;
+  background-color: #e2e8ef;
   color: #2c2c2c;
 }
 .il-mainbar-tools-button .btn-bulky.engaged .icon {
@@ -10177,7 +10176,7 @@ footer {
 .il-mainbar-tools-entries .btn-bulky,
 .il-mainbar-tools-entries .btn-bulky,
 .il-mainbar-tools-entries .il-link.link-bulky {
-  background-color: #91a5c1;
+  background-color: #708bae;
   color: white;
   padding: 0;
 }
@@ -10212,7 +10211,7 @@ footer {
   display: none;
 }
 .il-mainbar-tools-entries-bg {
-  background: #f9f9f9;
+  background-color: #e2e8ef;
   display: flex;
   height: 80px;
   width: 100%;
@@ -10623,7 +10622,7 @@ footer {
   margin: 6px 0;
 }
 .il-drilldown .menulevel {
-  background-color: #f2f2f2;
+  background-color: #f0f0f0;
 }
 .il-drilldown .menulevel:hover {
   background-color: rgba(76, 101, 134, 0.3);
@@ -11105,8 +11104,8 @@ footer {
 }
 .il-toast-container {
   position: fixed;
-  z-index: 1;
-  top: 100px;
+  z-index: 10999;
+  top: 60px;
   right: 0;
   width: 300px;
 }
@@ -11117,14 +11116,17 @@ footer {
   overflow: hidden;
 }
 .il-toast {
-  margin: 20px;
+  margin-left: 6px;
+  margin-top: 3px;
+  margin-bottom: 20px;
+  margin-right: 15px;
   padding: 9px;
   background-color: white;
   display: grid;
   grid-template-areas: "icon title close" "none description description" "none actions actions";
   grid-template-columns: 20px 1fr 20px;
   grid-gap: 9px;
-  box-shadow: 0px 2px 2px 0px #808080;
+  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
   transform: translateX(150%);
   transition: all 0.25s ease-in-out;
 }
@@ -11142,7 +11144,7 @@ footer {
 }
 .il-toast .description {
   grid-area: description;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 .il-toast .actions {
   grid-area: actions;
@@ -13379,6 +13381,9 @@ div.ilHFormFooter .ilFormCmds {
 .ilHFormInput input.form-control {
   width: 100%;
 }
+.wzdrow .form-control {
+  height: 1.74642857rem;
+}
 .ilHFormDropArea {
   margin: 6px 0;
   width: auto;
@@ -13888,13 +13893,13 @@ div.il_editarea_disabled {
 div.ilEditLabel {
   position: absolute;
   background-color: #4c6586;
-  color: #6f6f6f;
+  color: white;
   font-size: 0.75rem;
-  padding: 1px 3px;
-  margin-top: -15px;
+  padding: 3px 3px;
+  margin-top: -20px;
   margin-left: -2px;
   border: 0;
-  height: 15px;
+  height: 20px;
   display: none;
   z-index: 1;
 }
@@ -16250,6 +16255,9 @@ div.ilPreconditionItem {
 div.ilContainerListItemOuter {
   padding: 9px 15px;
   zoom: 1;
+}
+div.ilContainerListItemOuter .subitem {
+  margin-right: -15px;
 }
 [dir="rtl"] div.ilContainerListItemOuter {
   display: table;

@@ -28,11 +28,7 @@
  */
 class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
 {
-
-    /**
-     * @var int
-     */
-    protected $dcl_obj_id;
+    protected ?int $dcl_obj_id;
 
     /**
      * @param ilDclBaseRecordModel $record
@@ -84,6 +80,9 @@ class ilDclReferenceRecordFieldModel extends ilDclBaseRecordFieldModel
         }
     }
 
+    /**
+     * @return int|int[]|string|string[]
+     */
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
         global $DIC;

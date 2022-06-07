@@ -64,7 +64,7 @@ class ilDclBaseRecordRepresentation
     /**
      * Fills the form with the value of a record
      */
-    public function fillFormInput(ilPropertyFormGUI $form)
+    public function fillFormInput(ilPropertyFormGUI $form) : void
     {
         $input_field = $form->getItemByPostVar('field_' . $this->getRecordField()->getField()->getId());
         if ($input_field) {

@@ -141,6 +141,16 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->reading_time_gui = new \ILIAS\LearningModule\ReadingTime\SettingsGUI($id);
     }
 
+    protected function checkCtrlPath() : void
+    {
+        if (!$this->getCreationMode()) {
+            $baseclass = strtolower($this->requested_baseClass);
+            if (!in_array($baseclass, ["illmpresentationgui", "illmeditorgui"])) {
+                throw new ilLMException("Wrong ctrl path");
+            }
+        }
+    }
+
     /**
      * execute command
      * @throws ilCtrlException
@@ -151,7 +161,9 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $lng = $this->lng;
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
-        
+
+        $this->checkCtrlPath();
+
         if ($this->ctrl->getRedirectSource() == "ilinternallinkgui") {
             throw new ilLMException("No Explorer found.");
             //$this->explorer();

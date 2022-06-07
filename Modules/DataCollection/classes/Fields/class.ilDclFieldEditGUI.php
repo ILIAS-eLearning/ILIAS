@@ -34,7 +34,7 @@ class ilDclFieldEditGUI
     protected ilDclTable $table;
     protected ilPropertyFormGUI $form;
     protected ilDclBaseFieldModel $field_obj;
-    private \ilGlobalTemplateInterface $main_tpl;
+    private ilGlobalTemplateInterface $main_tpl;
     protected ILIAS\HTTP\Services $http;
     protected ILIAS\Refinery\Factory $refinery;
     protected int $field_id;

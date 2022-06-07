@@ -26,10 +26,6 @@ class ilDclCreateViewDefinition extends ilPageObject
     const PARENT_TYPE = 'dclf';
     protected bool $active = false;
     protected int $table_id;
-    /**
-     * Cache record views per table-id, key=table-id, value=view definition id
-     */
-    protected static array $record_view_cache = array();
 
     /**
      * Get parent type
@@ -59,10 +55,6 @@ class ilDclCreateViewDefinition extends ilPageObject
             if ($field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_REFERENCE) {
                 $all[] = '[dclrefln field="' . $field->getTitle() . '"][/dclrefln]';
             }
-            // SW 14.10.2015 http://www.ilias.de/mantis/view.php?id=16874
-            //				if ($field->getDatatypeId() == ilDclDatatype::INPUTFORMAT_ILIAS_REF) {
-            //					$all[] = '[dcliln field="' . $field->getTitle() . '"][/dcliln]';
-            //				}
         }
 
         foreach ($standardFields as $field) {

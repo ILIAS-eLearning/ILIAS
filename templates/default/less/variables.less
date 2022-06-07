@@ -147,6 +147,7 @@ with the il- variable set here.
 @il-padding-xlarge-horizontal: 15px;
 
 @il-padding-xxlarge-vertical: 12px;
+@il-padding-xxxlarge-vertical: 15px;
 
 @il-padding-small-vertical: 3px;
 @il-padding-small-horizontal: 6px;
@@ -165,6 +166,7 @@ with the il- variable set here.
 @il-margin-xlarge-horizontal: @il-padding-xlarge-horizontal;
 
 @il-margin-xxlarge-vertical: @il-padding-xxlarge-vertical;
+@il-margin-xxxlarge-vertical: @il-padding-xxxlarge-vertical;
 
 @il-margin-small-vertical: @il-padding-small-vertical;
 @il-margin-small-horizontal: @il-padding-small-horizontal;
@@ -222,8 +224,10 @@ with the il- variable set here.
 @il-mainbar-btn-bg-color-engaged: @il-main-bg;
 @il-mainbar-btn-border: 1px solid @il-standard-page-border-light-color;
 @il-mainbar-btn-label-size: @il-font-size-xsmall;
-@il-mainbar-bulky-label-margin-top: 5px;
 @il-mainbar-tools-btn-bg: @il-warning-color;
+@il-mainbar-tools-btn-bg-engaged: lighten(@il-main-color, 50%);
+@il-mainbar-tools-tab-btn-bg-engaged: white;
+@il-mainbar-tools-tab-btn-bg-disengaged: lighten(@il-main-color, 15%);
 @il-mainbar-tools-bg: @il-main-dark-bg;
 @il-mainbar-tools-item-gap: 3px;
 
@@ -240,8 +244,8 @@ with the il- variable set here.
 
 
 //** slates
-@il-slate-bulky-bg-color: #f2f2f2;
-@il-slate-bulky-level2-bg-color: #f9f9f9;
+@il-slate-bulky-bg-color: @il-main-darker-bg;
+@il-slate-bulky-level2-bg-color: @il-main-dark-bg;
 @il-slate-bulky-bg-color-engaged: fade(@il-main-color, 30%);
 @il-slate-content-padding: 10px;
 @il-slate-tree-padding: 4px 0;
@@ -510,7 +514,7 @@ with the il- variable set here.
 //== Toolbar
 //
 //##
-@il-toolbar-margin: 15px; // Margin between toolbar items
+@il-toolbar-margin: @il-margin-xlarge-horizontal; // Margin between toolbar items
 @il-toolbar-bg: @il-main-dark-bg;
 @il-toolbar-height: 40px;
 @il-toolbar-border: 1px solid @il-main-border-color;
@@ -858,11 +862,13 @@ with the il- variable set here.
 //== Toast
 //
 //##
-@il-toast-container-top: 100px;
-@il-toast-margin: 20px;
+@il-toast-container-top: @il-standard-page-header-height;
+@il-toast-margin-right: @il-margin-xlarge-horizontal;
 @il-toast-horizontal-division: 20px 1fr 20px;
 @il-toast-transition: all .25s ease-in-out;
 @il-toast-width: 300px;
-
+@il-toast-z-index: @il-popover-z-index + 1000;
+//Same as Action Menu
+@il-toast-shadow: 3px 9px 9px 0 rgb(0 0 0 / 0.3);
 //== Player
 @il-player-audio-width: 100%;

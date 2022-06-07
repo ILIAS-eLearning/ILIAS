@@ -1,18 +1,20 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
@@ -33,6 +35,12 @@ class ilSessionStatisticsGUI
     private const SCALE_MONTH = 3;
     private const SCALE_YEAR = 4;
     private const SCALE_PERIODIC_WEEK = 5;
+
+    private const REQUEST_SMD = "smd";
+    private const REQUEST_SMM = "smm";
+    private const REQUEST_SST = "sst";
+    private const REQUEST_STO = "sto";
+    private const REQUEST_REF = "ref_id";
     
     private ilCtrl $ilCtrl;
     private ilTabsGUI $ilTabs;
@@ -43,8 +51,15 @@ class ilSessionStatisticsGUI
     private ilAccess $access;
     private ilIniFile $clientIniFile;
     private ilObjUser $user;
-    
-    public function executeCommand() : bool
+    private ilLogger $logger;
+
+    private int $ref_id = -1;
+    private ?int $smd = null;
+    private ?string $smm = null;
+    private ?string $sst = null;
+    private ?string $sto = null;
+
+    public function __construct()
     {
         global $DIC;
 
@@ -57,7 +72,44 @@ class ilSessionStatisticsGUI
         $this->access = $DIC->access();
         $this->clientIniFile = $DIC->clientIni();
         $this->user = $DIC->user();
-        
+        $this->logger = $DIC->logger()->auth();
+
+        $http = $DIC->http();
+        $kindlyTo = $DIC->refinery()->kindlyTo();
+        if ($http->request()->getMethod() === "POST") {
+            if ($http->wrapper()->post()->has(self::REQUEST_SMD)) {
+                $this->smd = $http->wrapper()->post()->retrieve(self::REQUEST_SMD, $kindlyTo->int());
+            }
+            if ($http->wrapper()->post()->has(self::REQUEST_SMM)) {
+                $this->smm = $http->wrapper()->post()->retrieve(self::REQUEST_SMM, $kindlyTo->string());
+            }
+            if ($http->wrapper()->post()->has(self::REQUEST_STO)) {
+                $this->sto = $http->wrapper()->post()->retrieve(self::REQUEST_STO, $kindlyTo->string());
+            }
+            if ($http->wrapper()->post()->has(self::REQUEST_SST)) {
+                $this->sst = $http->wrapper()->post()->retrieve(self::REQUEST_SST, $kindlyTo->string());
+            }
+        } else {
+            if ($http->wrapper()->query()->has(self::REQUEST_SMD)) {
+                $this->smd = $http->wrapper()->query()->retrieve(self::REQUEST_SMD, $kindlyTo->int());
+            }
+            if ($http->wrapper()->query()->has(self::REQUEST_SMM)) {
+                $this->smm = $http->wrapper()->query()->retrieve(self::REQUEST_SMM, $kindlyTo->string());
+            }
+            if ($http->wrapper()->query()->has(self::REQUEST_STO)) {
+                $this->sto = $http->wrapper()->query()->retrieve(self::REQUEST_STO, $kindlyTo->string());
+            }
+            if ($http->wrapper()->query()->has(self::REQUEST_SST)) {
+                $this->sst = $http->wrapper()->query()->retrieve(self::REQUEST_SST, $kindlyTo->string());
+            }
+        }
+        if ($http->wrapper()->query()->has(self::REQUEST_REF)) {
+            $this->ref_id = $http->wrapper()->query()->retrieve(self::REQUEST_REF, $kindlyTo->int());
+        }
+    }
+
+    public function executeCommand() : bool
+    {
         $this->setSubTabs();
         
         switch ($this->ilCtrl->getNextClass()) {
@@ -93,24 +145,23 @@ class ilSessionStatisticsGUI
         );
     }
     
-    protected function current($a_export = false) : void
+    protected function current(bool $a_export = false) : void
     {
         $this->ilTabs->activateSubTab("current");
         
         // current mode
-        if (!$_REQUEST["smd"]) {
+        if (!$this->smd) {
             $mode = self::MODE_TODAY;
         } else {
-            $mode = (int) $_REQUEST["smd"];
+            $mode = $this->smd;
         }
         
         // current measure
-        if (!$_REQUEST["smm"]) {
+        if (!$this->smm) {
             $measure = "avg";
         } else {
-            $measure = $_REQUEST["smm"];
+            $measure = $this->smm;
         }
-
 
         switch ($mode) {
             default:
@@ -186,8 +237,11 @@ class ilSessionStatisticsGUI
     {
         $this->current(true);
     }
-        
-    protected function importDate($a_incoming, $a_default = null)
+
+    /**
+     * @return array|int|string|null
+     */
+    protected function importDate(string $a_incoming, int $a_default = null)
     {
         if (!$a_default) {
             $a_default = time();
@@ -199,25 +253,26 @@ class ilSessionStatisticsGUI
             : $a_default;
     }
         
-    protected function short($a_export = false) : void
+    protected function short(bool $a_export = false) : void
     {
         $this->ilTabs->activateSubTab("short");
-        
+
+        //TODO validate input
         // current start
-        $time_to = $this->importDate($_REQUEST["sst"]);
-        
+        $time_to = $this->importDate($this->sst);
+
         // current mode
-        if (!$_REQUEST["smd"]) {
+        if (!$this->smd) {
             $mode = self::MODE_DAY;
         } else {
-            $mode = (int) $_REQUEST["smd"];
+            $mode = $this->smd;
         }
-        
+
         // current measure
-        if (!$_REQUEST["smm"]) {
+        if (!$this->smm) {
             $measure = "avg";
         } else {
-            $measure = $_REQUEST["smm"];
+            $measure = $this->smm;
         }
 
         switch ($mode) {
@@ -287,13 +342,14 @@ class ilSessionStatisticsGUI
         $this->ilTabs->activateSubTab("long");
         
         // current start
-        $time_to = $this->importDate($_REQUEST["sst"]);
+        //TODO validate input
+        $time_to = $this->importDate($this->sst);
 
         // current mode
-        if (!$_REQUEST["smd"]) {
+        if (!$this->smd) {
             $mode = self::MODE_WEEK;
         } else {
-            $mode = (int) $_REQUEST["smd"];
+            $mode = $this->smd;
         }
 
         switch ($mode) {
@@ -357,12 +413,13 @@ class ilSessionStatisticsGUI
     protected function periodic($a_export = false) : void
     {
         $this->ilTabs->activateSubTab("periodic");
-        
+
+        //TODO validate input
         // current start
-        $time_to = $this->importDate($_REQUEST["sst"]);
+        $time_to = $this->importDate($this->sst);
         
         // current end
-        $time_from = $this->importDate($_REQUEST["sto"], strtotime("-7 days"));
+        $time_from = $this->importDate($this->sto, strtotime("-7 days"));
         
         // mixed up dates?
         if ($time_to < $time_from) {
@@ -459,7 +516,7 @@ class ilSessionStatisticsGUI
         }
         
         // sync button
-        if ($this->access->checkAccess("write", "", (int) $_REQUEST["ref_id"])) {
+        if ($this->access->checkAccess("write", "", $this->ref_id)) {
             $left->setVariable("URL_SYNC", $this->ilCtrl->getFormAction($this, "adminSync"));
             $left->setVariable("CMD_SYNC", "adminSync");
             $left->setVariable("TXT_SYNC", $this->lng->txt("trac_sync_session_stats"));
@@ -499,7 +556,7 @@ class ilSessionStatisticsGUI
         }
                 
         $data["active"] = ilSessionStatistics::getActiveSessions($a_time_from, $a_time_to);
-        
+        $this->logger->debug("Data to plot: " . var_export($data, true));
         return $data;
     }
     
