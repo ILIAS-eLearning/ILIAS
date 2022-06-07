@@ -2505,7 +2505,7 @@ book#:#book_objects_list#:#Buchungsobjekte
 book#:#book_object_updated#:#Das Buchungsobjekt wurde geändert.
 book#:#book_open#:#Buchungspool öffnen
 book#:#book_overall_limit#:#Begrenzung der Buchungsanzahl
-book#:#book_overall_limit_info#:#Maximale Anzahl Buchungen je Benutzer in diesem Buchungspool
+book#:#book_bookings_per_user#:#Buchungen je Benutzer
 book#:#book_overall_limit_warning#:#Sie haben die maximale Anzahl Buchungen erreicht.
 book#:#book_participant_already_assigned#:#Teilnehmer ist bereits zugewiesen.
 book#:#book_participant_assigned#:#Teilnehmer wurde/n zugewiesen.
