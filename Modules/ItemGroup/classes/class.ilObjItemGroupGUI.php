@@ -124,12 +124,6 @@ class ilObjItemGroupGUI extends ilObject2GUI
     {
         $form->removeItemByPostVar("desc");
 
-        // description
-        $ta = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
-        $ta->setRows(2);
-        $ta->setInfo($this->lng->txt("itgr_desc_info"));
-        $form->addItem($ta);
-
         // presentation
         $pres = new ilFormSectionHeaderGUI();
         $pres->setTitle($this->lng->txt('obj_presentation'));
@@ -367,8 +361,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
     protected function initCreateForm(string $new_type) : ilPropertyFormGUI
     {
         $form = parent::initCreateForm($new_type);
-        $ta = $form->getItemByPostVar("desc");
-        $ta->setInfo($this->lng->txt("itgr_desc_info"));
+        $form->removeItemByPostVar("desc");
         return $form;
     }
 }
