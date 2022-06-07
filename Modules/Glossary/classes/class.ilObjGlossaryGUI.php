@@ -595,6 +595,7 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $ti = new ilGloAdvColSortInputGUI($this->lng->txt("cont_col_ordering"), "field_order");
             $this->form->addItem($ti);
             $ti->setValue($cols);
+            $ti->setInfo($this->lng->txt("glo_col_ordering_info"));
         }
     
         // save and cancel commands
