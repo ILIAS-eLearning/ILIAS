@@ -322,18 +322,6 @@ class ilObjGlossaryGUI extends ilObjectGUI
         $ta->setRows(2);
         $form->addItem($ta);
 
-        // mode
-        $stati = array(
-                        "none" => $this->lng->txt("glo_mode_normal"),
-                        "level" => $this->lng->txt("glo_mode_level"),
-                        "subtree" => $this->lng->txt("glo_mode_subtree")
-                        );
-        $tm = new ilSelectInputGUI($this->lng->txt("glo_mode"), "glo_mode");
-        $tm->setOptions($stati);
-        $tm->setInfo($this->lng->txt("glo_mode_desc"));
-        $tm->setRequired(true);
-        $form->addItem($tm);
-
         $form->addCommandButton("save", $this->lng->txt($new_type . "_add"));
         $form->addCommandButton("cancel", $this->lng->txt("cancel"));
 
@@ -365,14 +353,22 @@ class ilObjGlossaryGUI extends ilObjectGUI
             $newObj->setType($new_type);
             $newObj->setTitle($form->getInput("title"));
             $newObj->setDescription($form->getInput("desc"));
-            $newObj->setVirtualMode($form->getInput("glo_mode"));
+            $newObj->setVirtualMode("none");
             $newObj->create();
             
             $this->putObjectInTree($newObj);
 
             // always send a message
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("glo_added"), true);
-            ilUtil::redirect("ilias.php?baseClass=ilGlossaryEditorGUI&ref_id=" . $newObj->getRefId());
+            $this->ctrl->setParameterByClass(
+                ilObjGlossaryGUI::class,
+                "ref_id",
+                $newObj->getRefId()
+            );
+            $this->ctrl->redirectByClass(
+                [ilGlossaryEditorGUI::class, ilObjGlossaryGUI::class],
+                "properties"
+            );
         }
 
         // display only this form to correct input
