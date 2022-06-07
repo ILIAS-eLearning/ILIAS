@@ -434,7 +434,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
                             
                             case "zipcode":
                             case "city":
-                                $address[1] .= " " . $address_value;
+                                $address[1] = ($address[1] ?? '') . $address_value;
                                 break;
                             
                             case "sel_country":
