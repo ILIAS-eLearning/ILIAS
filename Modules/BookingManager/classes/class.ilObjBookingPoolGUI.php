@@ -271,9 +271,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
     {
         $obj_service = $this->getObjectService();
 
-        $online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
-        $form->addItem($online);
-
         $type = new ilRadioGroupInputGUI($this->lng->txt("book_schedule_type"), "stype");
         $type->setRequired(true);
         $form->addItem($type);
@@ -344,6 +341,14 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $public = new ilCheckboxInputGUI($this->lng->txt("book_public_log"), "public");
         $public->setInfo($this->lng->txt("book_public_log_info"));
         $form->addItem($public);
+
+        $this->lng->loadLanguageModule("rep");
+        $section = new ilFormSectionHeaderGUI();
+        $section->setTitle($this->lng->txt('rep_activation_availability'));
+        $form->addItem($section);
+
+        $online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
+        $form->addItem($online);
 
         // presentation
         $pres = new ilFormSectionHeaderGUI();
