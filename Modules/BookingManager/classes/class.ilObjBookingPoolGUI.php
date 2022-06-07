@@ -271,9 +271,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
     {
         $obj_service = $this->getObjectService();
 
-        $online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
-        $form->addItem($online);
-
         $type = new ilRadioGroupInputGUI($this->lng->txt("book_schedule_type"), "stype");
         $type->setRequired(true);
         $form->addItem($type);
@@ -345,6 +342,14 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $public->setInfo($this->lng->txt("book_public_log_info"));
         $form->addItem($public);
 
+        $this->lng->loadLanguageModule("rep");
+        $section = new ilFormSectionHeaderGUI();
+        $section->setTitle($this->lng->txt('rep_activation_availability'));
+        $form->addItem($section);
+
+        $online = new ilCheckboxInputGUI($this->lng->txt("online"), "online");
+        $form->addItem($online);
+
         // presentation
         $pres = new ilFormSectionHeaderGUI();
         $pres->setTitle($this->lng->txt('obj_presentation'));
@@ -415,7 +420,12 @@ class ilObjBookingPoolGUI extends ilObjectGUI
             array(ilObjectServiceSettingsGUI::CUSTOM_METADATA)
         );
     }
-    
+
+    /**
+     * For tab order discussion see
+     * https://mantis.ilias.de/view.php?id=32268
+     * @throws ilCtrlException
+     */
     protected function setTabs() : void
     {
         $ilUser = $this->user;
@@ -446,12 +456,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
                     );
                 }
             }
-        
-            $this->tabs_gui->addTab(
-                "info",
-                $this->lng->txt("info_short"),
-                $this->ctrl->getLinkTarget($this, "infoscreen")
-            );
 
             if ($ilUser->getId() !== ANONYMOUS_USER_ID || $this->object->hasPublicLog()) {
                 $this->tabs_gui->addTab(
@@ -460,9 +464,21 @@ class ilObjBookingPoolGUI extends ilObjectGUI
                     $this->ctrl->getLinkTargetByClass("ilbookingreservationsgui", "")
                 );
             }
+
+            $this->tabs_gui->addTab(
+                "info",
+                $this->lng->txt("info_short"),
+                $this->ctrl->getLinkTarget($this, "infoscreen")
+            );
         }
         
         if ($this->checkPermissionBool('write')) {
+            $this->tabs_gui->addTab(
+                "settings",
+                $this->lng->txt("settings"),
+                $this->ctrl->getLinkTarget($this, "edit")
+            );
+
             if ($this->object->getScheduleType() === ilObjBookingPool::TYPE_FIX_SCHEDULE) {
                 $this->tabs_gui->addTab(
                     "schedules",
@@ -470,13 +486,13 @@ class ilObjBookingPoolGUI extends ilObjectGUI
                     $this->ctrl->getLinkTargetByClass("ilbookingschedulegui", "render")
                 );
             }
-            
+
             $this->tabs_gui->addTab(
-                "settings",
-                $this->lng->txt("settings"),
-                $this->ctrl->getLinkTarget($this, "edit")
+                "participants",
+                $this->lng->txt("participants"),
+                $this->ctrl->getLinkTargetByClass("ilbookingparticipantgui", "render")
             );
-            
+
             // meta data
             $mdgui = new ilObjectMetaDataGUI($this->object, "bobj");
             $mdtab = $mdgui->getTab();
@@ -490,13 +506,6 @@ class ilObjBookingPoolGUI extends ilObjectGUI
             }
         }
 
-        if ($this->checkPermissionBool('write')) {
-            $this->tabs_gui->addTab(
-                "participants",
-                $this->lng->txt("participants"),
-                $this->ctrl->getLinkTargetByClass("ilbookingparticipantgui", "render")
-            );
-        }
 
         if ($this->checkPermissionBool('edit_permission')) {
             $this->tabs_gui->addTab(

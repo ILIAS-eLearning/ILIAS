@@ -217,7 +217,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
                 $this->cont_request->getNewType()
             );
         } else {
-            $form->setTitle($this->lng->txt('edit'));
+            $form->setTitle($this->lng->txt($this->reference_type . '_edit'));
         }
 
         $form->setFormAction($this->ctrl->getFormAction($this));
