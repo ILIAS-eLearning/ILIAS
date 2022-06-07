@@ -6961,7 +6961,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: white;
 }
 .panel .panel-body {
-  padding: 6px 15px;
+  padding: 15px 15px;
   background-color: white;
 }
 .panel-flex .panel-heading {
@@ -7018,7 +7018,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   font-size: 1rem;
 }
 .panel-secondary .panel-body .il-item-group {
-  margin: 0 -12px;
+  margin: 0 -15px;
 }
 .panel-secondary .panel-body .il-item-group h2 {
   padding: 6px 15px;
@@ -7027,7 +7027,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   padding: 6px 15px;
 }
 .panel-secondary .panel-body .il-item-group:first-child {
-  margin: -6px -15px 0 -15px;
+  margin: -15px -15px 0 -15px;
 }
 .panel-secondary .panel-body .il-item-group .il-item {
   padding-left: 15px;
@@ -7050,7 +7050,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   border: none;
   -webkit-box-shadow: none;
   box-shadow: none;
-  margin: -6px -15px;
+  margin: -15px -15px;
 }
 .panel-sub .panel-body {
   margin: 0;
