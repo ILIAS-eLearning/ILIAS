@@ -33,16 +33,17 @@ class ilDidacticTemplateGUI
         $this->logger = $DIC->logger()->otpl();
 
         $this->parent_object = $a_parent_obj;
+        $this->initTemplateIdFromPost();
+    }
+
+    protected function initTemplateIdFromPost()
+    {
         $this->requested_template_id = 0;
-        if ($this->http->wrapper()->query()->has('tplid')) {
-            $this->requested_template_id = $this->http->wrapper()->query()->retrieve(
+        if ($this->http->wrapper()->post()->has('tplid')) {
+            $this->requested_template_id = $this->http->wrapper()->post()->retrieve(
                 'tplid',
                 $this->refinery->kindlyTo()->int()
             );
-        }
-
-        if ($requested_template_id > 0) {
-            $this->requested_template_id = $requested_template_id;
         }
     }
 
@@ -180,7 +181,7 @@ class ilDidacticTemplateGUI
     protected function switchTemplate() : void
     {
         $new_tpl_id = $this->requested_template_id;
-        ilDidacticTemplateUtils::switchTemplate($this->getParentObject()->object->getRefId(), $new_tpl_id);
+        ilDidacticTemplateUtils::switchTemplate($this->getParentObject()->getObject()->getRefId(), $new_tpl_id);
         $this->tpl->setOnScreenMessage('success', $this->lng->txt('didactic_template_applied'), true);
         $this->ctrl->returnToParent($this);
     }

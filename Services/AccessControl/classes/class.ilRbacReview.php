@@ -147,6 +147,7 @@ class ilRbacReview
         while ($row = $this->db->fetchAssoc($res)) {
             $row["desc"] = $row["description"];
             $row["user_id"] = (int) $row["owner"];
+            $row['obj_id'] = (int) $row['obj_id'];
             $role_list[] = $row;
         }
 
