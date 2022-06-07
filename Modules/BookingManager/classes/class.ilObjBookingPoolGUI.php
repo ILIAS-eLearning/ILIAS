@@ -315,7 +315,7 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $limit = new ilNumberInputGUI($this->lng->txt("book_overall_limit"), "limit");
         $limit->setSize(4);
         $limit->setMinValue(1);
-        $limit->setInfo($this->lng->txt("book_overall_limit_info"));
+        $limit->setSuffix($this->lng->txt("book_bookings_per_user"));
         $none->addSubItem($limit);
 
         // no schedule, using preferences
