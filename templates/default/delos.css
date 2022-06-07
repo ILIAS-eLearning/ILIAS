@@ -10160,7 +10160,7 @@ footer {
   filter: invert(100%);
 }
 .il-mainbar-tools-button .btn-bulky.engaged {
-  background-color: white;
+  background-color: #e2e8ef;
   color: #2c2c2c;
 }
 .il-mainbar-tools-button .btn-bulky.engaged .icon {
@@ -10177,7 +10177,7 @@ footer {
 .il-mainbar-tools-entries .btn-bulky,
 .il-mainbar-tools-entries .btn-bulky,
 .il-mainbar-tools-entries .il-link.link-bulky {
-  background-color: #91a5c1;
+  background-color: #708bae;
   color: white;
   padding: 0;
 }
@@ -10212,7 +10212,7 @@ footer {
   display: none;
 }
 .il-mainbar-tools-entries-bg {
-  background: #f9f9f9;
+  background-color: #e2e8ef;
   display: flex;
   height: 80px;
   width: 100%;

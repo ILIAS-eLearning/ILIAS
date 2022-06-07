@@ -182,7 +182,7 @@
 		}
 	}
 	.btn-bulky.engaged {
-		background-color: @il-maincontrols-mainbar-bg-color;
+		background-color: @il-mainbar-tools-btn-bg-engaged;
 		color: @il-mainbar-btn-color-engaged;
 		.icon  {
 			filter: invert(30%);
@@ -199,7 +199,7 @@
 	}
 	.btn-bulky,.btn-bulky,
 	.il-link.link-bulky {
-		background-color: lighten(@il-main-color, 25%);
+		background-color: @il-mainbar-tools-tab-btn-bg-disengaged;
 		color: @il-mainbar-btn-color;
 		padding: 0;
 		.icon {
@@ -210,7 +210,7 @@
 			overflow: hidden;
 		}
 		&.engaged {
-			background-color: @il-maincontrols-mainbar-bg-color;
+			background-color: @il-mainbar-tools-tab-btn-bg-engaged;
 			border: 0;
 			color: @il-mainbar-btn-color-engaged;
 			.icon {
@@ -228,7 +228,7 @@
 }
 
 .il-mainbar-tools-entries-bg {
-	background: @il-mainbar-tools-bg;
+	background-color: @il-mainbar-tools-btn-bg-engaged;
 	display: flex;
 	height: @il-mainbar-btn-height;
 	width: 100%;
