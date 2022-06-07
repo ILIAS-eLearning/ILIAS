@@ -11105,8 +11105,8 @@ footer {
 }
 .il-toast-container {
   position: fixed;
-  z-index: 1;
-  top: 100px;
+  z-index: 10999;
+  top: 60px;
   right: 0;
   width: 300px;
 }
@@ -11117,14 +11117,17 @@ footer {
   overflow: hidden;
 }
 .il-toast {
-  margin: 20px;
+  margin-left: 6px;
+  margin-top: 3px;
+  margin-bottom: 20px;
+  margin-right: 15px;
   padding: 9px;
   background-color: white;
   display: grid;
   grid-template-areas: "icon title close" "none description description" "none actions actions";
   grid-template-columns: 20px 1fr 20px;
   grid-gap: 9px;
-  box-shadow: 0px 2px 2px 0px #808080;
+  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
   transform: translateX(150%);
   transition: all 0.25s ease-in-out;
 }
@@ -11142,7 +11145,7 @@ footer {
 }
 .il-toast .description {
   grid-area: description;
-  font-size: 90%;
+  font-size: 0.75rem;
 }
 .il-toast .actions {
   grid-area: actions;
