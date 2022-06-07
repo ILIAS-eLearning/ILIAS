@@ -296,11 +296,11 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         // reminder
         $rmd = new ilCheckboxInputGUI($this->lng->txt("book_reminder_setting"), "rmd");
         $rmd->setChecked((bool) $this->object->getReminderStatus());
+        $rmd->setInfo($this->lng->txt("book_reminder_day_info"));
         $fixed->addSubItem($rmd);
 
         $rmd_day = new ilNumberInputGUI($this->lng->txt("book_reminder_day"), "rmd_day");
         $rmd_day->setRequired(true);
-        $rmd_day->setInfo($this->lng->txt("book_reminder_day_info"));
         $rmd_day->setSize(3);
         $rmd_day->setSuffix($this->lng->txt("book_reminder_days"));
         $rmd_day->setValue(max($this->object->getReminderDay(), 1));
