@@ -12013,8 +12013,8 @@ obj#:#obj_tile_image_info#:#Das Kachelbild wird genutzt, wenn im übergeordneten
 obj#:#obj_tile_image#:#Kachelbild
 obj#:#obj_tool_booking_info#:#Buchungspools nutzen um Ressourcen zu buchen.
 obj#:#obj_tool_booking#:#Ressourcen
-obj#:#obj_tool_ext_mail_subject_prefix#:#E-Mail-Betreff Prefix
-obj#:#obj_tool_ext_mail_subject_prefix_info#:#Tragen Sie hier einen kurzen Text ein, der in die Betreffzeile von externen E-Mails in den Betreff aufgenommen wird. Dies erleichtert das Identifizieren von E-Mails aus unterschiedlichen Bereichen.
+obj#:#obj_tool_ext_mail_subject_prefix#:#Prefix E-Mail-Betreff
+obj#:#obj_tool_ext_mail_subject_prefix_info#:#Eingegebener Text wird bei externen E-Mails in die Betreffzeile aufgenommen. Dies erleichtert das Identifizieren und Filtern von E-Mails aus unterschiedlichen Gruppen und Kursen.
 obj#:#obj_tool_setting_badges#:#Badges
 obj#:#obj_tool_setting_badges_info#:#Wenn aktiviert können Badges konfiguriert werden.
 obj#:#obj_tool_setting_booking#:#Ressourcen
