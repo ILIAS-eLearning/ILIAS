@@ -222,7 +222,8 @@ class ilContainerReferenceGUI extends ilObjectGUI
 
         $form->setFormAction($this->ctrl->getFormAction($this));
         if ($a_mode === self::MODE_CREATE) {
-            $form->addCommandButton('save', $this->lng->txt('create'));
+            $lv = $this->getTargetType() . "r_add";   // see also https://mantis.ilias.de/view.php?id=31863
+            $form->addCommandButton('save', $this->lng->txt($lv));
             $form->addCommandButton('cancel', $this->lng->txt('cancel'));
         } else {
             $form->addCommandButton('update', $this->lng->txt('save'));
