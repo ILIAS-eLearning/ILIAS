@@ -926,7 +926,7 @@ class ilObject
         $db = $DIC->database();
 
         $values = [
-            "deleted" => ["text", $db->now()],
+            "deleted" => ["date", $db->now()],
             "deleted_by" => ["integer", $deleted_by]
         ];
 
@@ -997,7 +997,7 @@ class ilObject
 
         $values = [
             "title" => ["text", $title],
-            "last_update" => ["text", $db->now()]
+            "last_update" => ["date", $db->now()]
         ];
 
         $where = [
@@ -1021,7 +1021,7 @@ class ilObject
 
         $values = [
             "description" => ["text", $desc],
-            "last_update" => ["text", $db->now()]
+            "last_update" => ["date", $db->now()]
         ];
 
         $where = [
@@ -1065,7 +1065,7 @@ class ilObject
 
         $values = [
             "import_id" => ["text", $import_id],
-            "last_update" => ["text", $db->now()]
+            "last_update" => ["date", $db->now()]
         ];
 
         $where = [
