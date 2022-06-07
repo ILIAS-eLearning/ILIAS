@@ -41,11 +41,13 @@
     "esm": "^3.2.25",
     "less": "^4.1.1",
     "mocha": "^8.0.1",
+    "patch-package": "^6.4.7",
     "rollup": "^2.18.0",
     "rollup-plugin-terser": "^6.1.0"
   },
   "scripts": {
-    "test": "mocha --require esm"
+    "test": "mocha --require esm",
+    "postinstall": "patch-package"
   },
   "repository": {
     "type": "git",
@@ -232,6 +234,14 @@
       "purpose": "UI Input Tag",
       "last-update-for-ilias": "8.0.0",
       "note": "Replacement for bootstrap-tagsinput, typeahead.js; needs prop-types^15.7.2"
+    },
+    "patch-package": {
+      "introduction-date": "2022-06-07",
+      "approved-by": null,
+      "developer": "nhaagen",
+      "purpose": "applying custom patches to node-packages",
+      "last-update-for-ilias": "7.10.0",
+      "note": "see notes in docs/developement/js"
     }
   }
 }
