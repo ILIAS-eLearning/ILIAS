@@ -18,7 +18,7 @@
 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingObjectGUI
+ * @ilCtrl_Calls ilObjBookingPoolGUI: ilPermissionGUI, ilBookingObjectGUI, ilDidacticTemplateGUI
  * @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingScheduleGUI, ilInfoScreenGUI, ilPublicUserProfileGUI
  * @ilCtrl_Calls ilObjBookingPoolGUI: ilCommonActionDispatcherGUI, ilObjectCopyGUI, ilObjectMetaDataGUI
  * @ilCtrl_Calls ilObjBookingPoolGUI: ilBookingParticipantGUI, ilBookingReservationsGUI, ilBookingPreferencesGUI
@@ -218,7 +218,13 @@ class ilObjBookingPoolGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($gui);
                 break;
 
-            
+            case 'ildidactictemplategui':
+                $this->ctrl->setReturn($this, 'edit');
+                $did = new ilDidacticTemplateGUI($this);
+                $this->ctrl->forwardCommand($did);
+                break;
+
+
             default:
                 if (!in_array($cmd, ["create", "save", "infoScreen"])) {
                     $this->checkPermission('read');
@@ -250,7 +256,27 @@ class ilObjBookingPoolGUI extends ilObjectGUI
         $this->ctrl->setParameter($this, "ref_id", $new_object->getRefId());
         $this->ctrl->redirect($this, "edit");
     }
-    
+
+    protected function afterUpdate() : void
+    {
+        // check if template is changed
+        $current_tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId(
+            $this->object->getRefId()
+        );
+        $new_tpl_id = $this->getDidacticTemplateVar('dtpl');
+
+        if ($new_tpl_id !== $current_tpl_id) {
+            // redirect to didactic template confirmation
+            $this->ctrl->setReturn($this, 'edit');
+            $this->ctrl->setCmdClass('ildidactictemplategui');
+            $this->ctrl->setCmd('confirmTemplateSwitch');
+            $dtpl_gui = new ilDidacticTemplateGUI($this, $new_tpl_id);
+            $this->ctrl->forwardCommand($dtpl_gui);
+            return;
+        }
+        parent::afterUpdate();
+    }
+
     public function editObject() : void
     {
         $this->showNoScheduleMessage();
@@ -270,6 +296,9 @@ class ilObjBookingPoolGUI extends ilObjectGUI
     protected function initEditCustomForm(ilPropertyFormGUI $form) : void
     {
         $obj_service = $this->getObjectService();
+
+        // Show didactic template type
+        $this->initDidacticTemplate($form);
 
         $type = new ilRadioGroupInputGUI($this->lng->txt("book_schedule_type"), "stype");
         $type->setRequired(true);
