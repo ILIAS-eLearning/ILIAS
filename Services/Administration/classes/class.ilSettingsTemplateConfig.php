@@ -63,7 +63,7 @@ class ilSettingsTemplateConfig
     }
 
     public function addSetting(
-        int $a_id,
+        string $a_id,
         string $a_type,
         string $a_text,
         bool $a_hidable,
