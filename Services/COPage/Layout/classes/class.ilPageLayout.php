@@ -184,9 +184,9 @@ class ilPageLayout
         $query = "SELECT * FROM page_layout WHERE layout_id =" . $ilDB->quote($this->layout_id, "integer");
         $result = $ilDB->query($query);
         $row = $ilDB->fetchAssoc($result);
-        $this->title = $row['title'];
-        $this->description = $row['description'];
-        $this->active = $row['active'];
+        $this->title = (string) $row['title'];
+        $this->description = (string) $row['description'];
+        $this->active = (bool) $row['active'];
         
         $mods = array();
         if ($row["mod_scorm"]) {
