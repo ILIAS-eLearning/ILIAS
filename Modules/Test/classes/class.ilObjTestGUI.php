@@ -972,7 +972,7 @@ class ilObjTestGUI extends ilObjectGUI
         $gui = new ilParticipantsTestResultsGUI();
         $gui->setTestObj($this->object);
 
-        $factory = new ilTestQuestionSetConfigFactory($this->tree,$DIC->database(),$ilPluginAdmin, $this->object);
+        $factory = new ilTestQuestionSetConfigFactory($this->tree, $DIC->database(), $ilPluginAdmin, $this->object);
         $gui->setQuestionSetConfig($factory->getQuestionSetConfig());
         $gui->setObjectiveParent(new ilTestObjectiveOrientedContainer());
         $gui->setTestAccess($this->getTestAccess());
@@ -1941,8 +1941,11 @@ class ilObjTestGUI extends ilObjectGUI
     {
         $selected_questions = null;
         $selected_questions = $_POST['q_id'];
+        if ($selected_questions === null && is_numeric($_GET['q_id'])) {
+            $selected_questions = [$_GET['q_id']];
+        }
         if (is_array($selected_questions)) {
-            $_SESSION['tst_qst_move_' . $this->object->getTestId()] = $_POST['q_id'];
+            $_SESSION['tst_qst_move_' . $this->object->getTestId()] = $selected_questions;
             ilUtil::sendSuccess($this->lng->txt("msg_selected_for_move"), true);
         } else {
             ilUtil::sendFailure($this->lng->txt('no_selection_for_move'), true);

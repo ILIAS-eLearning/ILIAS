@@ -271,17 +271,17 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
             $actions->addItem($this->lng->txt('edit_page'), '', $editPageHref);
 
             $this->ctrl->setParameter($this->parent_obj, 'q_id', $data['question_id']);
-            $moveHref = $this->ctrl->getLinkTarget($this->parent_obj, 'move');
+            $moveHref = $this->ctrl->getLinkTarget($this->parent_obj, 'moveQuestions');
             $this->ctrl->setParameter($this->parent_obj, 'q_id', null);
             $actions->addItem($this->lng->txt('move'), '', $moveHref);
 
             $this->ctrl->setParameter($this->parent_obj, 'q_id', $data['question_id']);
-            $copyHref = $this->ctrl->getLinkTarget($this->parent_obj, 'copy');
+            $copyHref = $this->ctrl->getLinkTarget($this->parent_obj, 'copyQuestion');
             $this->ctrl->setParameter($this->parent_obj, 'q_id', null);
             $actions->addItem($this->lng->txt('copy'), '', $copyHref);
 
             $this->ctrl->setParameter($this->parent_obj, 'q_id', $data['question_id']);
-            $deleteHref = $this->ctrl->getLinkTarget($this->parent_obj, 'deleteQuestions');
+            $deleteHref = $this->ctrl->getLinkTarget($this->parent_obj, 'removeQuestions');
             $this->ctrl->setParameter($this->parent_obj, 'q_id', null);
             $actions->addItem($this->lng->txt('delete'), '', $deleteHref);
             
