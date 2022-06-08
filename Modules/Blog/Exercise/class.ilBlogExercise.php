@@ -46,8 +46,11 @@ class ilBlogExercise
 
         $exercises = ilExSubmission::findUserFiles($user->getId(), $node_id);
         // #0022794
-        if (!$exercises) {
+        if (count($exercises) === 0) {
             $exercises = ilExSubmission::findUserFiles($user->getId(), $node_id . ".sec");
+        }
+        if (count($exercises) === 0) {
+            $exercises = ilExSubmission::findUserFiles($user->getId(), $node_id . ".zip");
         }
         if ($exercises) {
             foreach ($exercises as $exercise) {

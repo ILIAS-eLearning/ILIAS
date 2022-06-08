@@ -47,8 +47,11 @@ class ilPortfolioExercise
 
         $exercises = ilExSubmission::findUserFiles($user_id, $obj_id);
         // #0022794
-        if (!$exercises) {
+        if (count($exercises) === 0) {
             $exercises = ilExSubmission::findUserFiles($user_id, $obj_id . ".sec");
+        }
+        if (count($exercises) === 0) {
+            $exercises = ilExSubmission::findUserFiles($user_id, $obj_id . ".zip");
         }
         if ($exercises) {
             foreach ($exercises as $exercise) {
