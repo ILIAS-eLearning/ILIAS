@@ -852,9 +852,9 @@ class ilExAssignmentEditorGUI
         }
         
         if (isset($a_input["fb"])) {
-            $a_ass->setFeedbackCron($a_input["fb_cron"]); // #13380
-            $a_ass->setFeedbackDate($a_input["fb_date"]);
-            $a_ass->setFeedbackDateCustom($a_input["fb_date_custom"]);
+            $a_ass->setFeedbackCron((bool) $a_input["fb_cron"]); // #13380
+            $a_ass->setFeedbackDate((int) $a_input["fb_date"]);
+            $a_ass->setFeedbackDateCustom((int) $a_input["fb_date_custom"]);
         }
         
         // id needed for file handling
