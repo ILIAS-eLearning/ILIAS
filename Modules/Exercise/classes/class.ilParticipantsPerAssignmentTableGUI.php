@@ -99,7 +99,7 @@ class ilParticipantsPerAssignmentTableGUI extends ilExerciseSubmissionTableGUI
                     continue;
                 }
                 
-                $team_id = $team_map[$item["usr_id"]];
+                $team_id = $team_map[$item["usr_id"]] ?? "";
                                 
                 if (!$team_id) {
                     // #11957

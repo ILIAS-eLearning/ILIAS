@@ -41,20 +41,20 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
     public const FIRST_DEFAULT_REVIEW_COLUMN = 5;
 
     protected ilLogger $logger;
-    protected string $target_directory;
-    protected string $submissions_directory;
+    protected string $target_directory = "";
+    protected string $submissions_directory = "";
     protected ilExAssignment $assignment;
-    protected int $user_id;
-    protected int $exercise_id;
-    protected int $exercise_ref_id;
-    protected string $temp_dir;
+    protected int $user_id = 0;
+    protected int $exercise_id = 0;
+    protected int $exercise_ref_id = 0;
+    protected ?string $temp_dir = null;
     protected ilLanguage $lng;
-    protected string $sanitized_title; //sanitized file name/sheet title
+    protected string $sanitized_title = ""; //sanitized file name/sheet title
     protected ilExcel $excel;
-    protected array $criteria_items;
-    protected array $title_columns;
-    protected array $ass_types_with_files; //TODO will be deprecated when use the new assignment type interface
-    protected int $participant_id;
+    protected array $criteria_items = [];
+    protected array $title_columns = [];
+    protected array $ass_types_with_files = []; //TODO will be deprecated when use the new assignment type interface
+    protected int $participant_id = 0;
 
     /**
      * Constructor
@@ -198,7 +198,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
             $path .= $user_dir . DIRECTORY_SEPARATOR;
         }
         $this->target_directory = $path . $this->sanitized_title;
-
         ilFileUtils::makeDirParents($this->target_directory);
     }
 
@@ -252,7 +251,6 @@ class ilExerciseManagementCollectFilesJob extends AbstractJob
                 unset($tmp_obj);
             }
         }
-
         ilExSubmission::downloadAllAssignmentFiles($this->assignment, $members, $this->submissions_directory);
     }
 

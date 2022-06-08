@@ -301,7 +301,6 @@ class ilFileUtils
         $dirs = [$a_dir];
         $a_dir = dirname($a_dir);
         $last_dirname = '';
-        
         while ($last_dirname != $a_dir) {
             array_unshift($dirs, $a_dir);
             $last_dirname = $a_dir;
