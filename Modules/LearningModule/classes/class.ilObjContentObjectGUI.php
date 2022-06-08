@@ -145,7 +145,15 @@ class ilObjContentObjectGUI extends ilObjectGUI
     {
         if (!$this->getCreationMode()) {
             $baseclass = strtolower($this->requested_baseClass);
+            $next_class = strtolower($this->ctrl->getNextClass());
+            // all calls must be routed through illmpresentationgui or
+            // illmeditorgui...
             if (!in_array($baseclass, ["illmpresentationgui", "illmeditorgui"])) {
+                // ...except the comman action handler routes to
+                // activation/condition GUI, see https://mantis.ilias.de/view.php?id=32858
+                if (in_array($next_class, ["ilcommonactiondispatchergui"])) {
+                    return;
+                }
                 throw new ilLMException("Wrong ctrl path");
             }
         }
