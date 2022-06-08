@@ -13,6 +13,7 @@ or contribute a fix via [Pull Request](../../docs/development/contributing.md#pu
     - The **Metadata** service contains two branches: LOM and custom metdata. The LOM offers storing person dates like author. Custom metadata do contain user-created metadata sets which may contain personal data, which must be individually checked in the global administration.)
     - [AccessControl](../../Services/AccessControl/PRIVACY.md)
     - [Info Screen Service](../../Services/InfoScreen/PRIVACY.md)
+    - [COPage](../../Services/COPage/PRIVACY.md)
 
 
 ## Configuration
