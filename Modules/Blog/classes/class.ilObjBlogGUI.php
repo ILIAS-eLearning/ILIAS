@@ -2386,7 +2386,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     ) : string {
         $type = "html";
         $format = explode("_", $this->blog_request->getFormat());
-        if ($format[1] === "comments" || $a_include_comments) {
+        if (($format[1] ?? "") === "comments" || $a_include_comments) {
             $a_include_comments = true;
             $type = "html_comments";
         }
