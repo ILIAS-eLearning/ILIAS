@@ -256,6 +256,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
             ]
         );
         $tpl->setVariable("SWITCH", $html);
+        $tpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("loader.svg"));
 
         return $tpl->get();
     }
