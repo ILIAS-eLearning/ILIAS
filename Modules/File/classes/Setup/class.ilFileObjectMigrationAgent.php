@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Refinery;
 use ILIAS\Setup;
 
@@ -59,7 +59,7 @@ class ilFileObjectMigrationAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ilFileObjectMigrationDoneObjective();
     }
 
     /**
@@ -84,7 +84,7 @@ class ilFileObjectMigrationAgent implements Setup\Agent
     public function getMigrations() : array
     {
         return [
-        
+            new ilFileObjectToStorageMigration()
         ];
     }
 }
