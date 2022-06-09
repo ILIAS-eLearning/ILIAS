@@ -21,6 +21,10 @@ use ILIAS\COPage\Editor\Components\Table;
 class Server
 {
     /**
+     * @var ilLogger
+     */
+    protected $log;
+    /**
      * @var \ilPageObjectGUI
      */
     protected $page_gui;
@@ -47,6 +51,7 @@ class Server
         $this->request = $request;
         $this->ui = $ui;
         $this->page_gui = $page_gui;
+        $this->log = \ilLoggerFactory::getLogger('copg');
     }
 
     /**
@@ -54,6 +59,7 @@ class Server
      */
     public function reply()
     {
+        $this->log->debug("Start replying...");
         $query = $this->request->getQueryParams();
 
         if (is_array($_POST) && count($_POST) > 0) {
@@ -69,6 +75,7 @@ class Server
             $action_handler = $this->getActionHandlerForCommand($query, $body);
             $response = $action_handler->handle($query, $body);
         }
+        $this->log->debug("... sending response");
         $response->send();
     }
 
