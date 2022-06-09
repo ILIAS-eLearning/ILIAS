@@ -95,7 +95,7 @@ class ilBuddySystemRelationRepository
                 new ilBuddySystemLinkedRelationState(),
                 (int) $row['usr_id'],
                 (int) $row['buddy_usr_id'],
-                $row['usr_id'] === $this->usrId,
+                (int) $row['usr_id'] === $this->usrId,
                 (int) $row['ts']
             );
         }
@@ -105,7 +105,7 @@ class ilBuddySystemRelationRepository
                 new ilBuddySystemIgnoredRequestRelationState(),
                 (int) $row['usr_id'],
                 (int) $row['buddy_usr_id'],
-                $row['usr_id'] === $this->usrId,
+                (int) $row['usr_id'] === $this->usrId,
                 (int) $row['ts']
             );
         }
@@ -114,7 +114,7 @@ class ilBuddySystemRelationRepository
             new ilBuddySystemRequestedRelationState(),
             (int) $row['usr_id'],
             (int) $row['buddy_usr_id'],
-            $row['usr_id'] === $this->usrId,
+            (int) $row['usr_id'] === $this->usrId,
             (int) $row['ts']
         );
     }

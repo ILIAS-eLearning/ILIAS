@@ -328,7 +328,7 @@ class ilContactGUI
 
         $table->applyFilterValue(
             ilBuddySystemRelationsTableGUI::STATE_FILTER_ELM_ID,
-            ilBuddySystemRequestedRelationState::class
+            ilBuddySystemRequestedRelationState::class . '_p'
         );
 
         $this->showContacts();
