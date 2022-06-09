@@ -143,9 +143,9 @@ class ilDBUpdateNewObjectType
         $db = $ilDB;
 
         // check if it already exists
-        $type_id = ilObject::_getObjectTypeIdByTitle($type_id);
-        if ($type_id) {
-            return $type_id;
+        $id = ilObject::_getObjectTypeIdByTitle($type_id);
+        if ($id) {
+            return $id;
         }
 
         $id = $db->nextId("object_data");
@@ -162,7 +162,7 @@ class ilDBUpdateNewObjectType
 
         $db->insert("object_data", $values);
         
-        return $type_id;
+        return $id;
     }
     
     /**
