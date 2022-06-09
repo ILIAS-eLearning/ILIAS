@@ -81,7 +81,7 @@ class ilPCListGUI extends ilPageContentGUI
             $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
             $this->content_obj->addItems($this->form->getInput("nr_items"));
             $this->content_obj->setStartValue(
-                $this->form->getInput("start_value")
+                (int) $this->form->getInput("start_value")
             );
             $list_type = $this->form->getInput("list_type");
             $this->content_obj->setListType(
