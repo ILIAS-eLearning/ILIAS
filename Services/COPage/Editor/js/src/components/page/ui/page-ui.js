@@ -536,6 +536,44 @@ export default class PageUI {
       });
     });
     this.refreshModeSelector();
+    this.refreshTopDropdown();
+    this.refreshFinishEditingButton();
+    this.refreshTopLoader();
+  }
+
+  refreshTopLoader() {
+    const model = this.model;
+    const tl = document.querySelector("[data-copg-ed-type='top-loader']");
+    if (tl) {
+      tl.style.display = 'none';
+      if (model.getState() === model.STATE_SERVER_CMD) {
+        tl.style.display = '';
+      }
+    }
+  }
+
+  refreshFinishEditingButton() {
+    const model = this.model;
+    // dropdown
+    const b = document.querySelector("#copg-top-actions .ilFloatLeft .btn-default");
+    if (b) {
+      b.disabled = false;
+      if (model.getState() === model.STATE_SERVER_CMD) {
+        b.disabled = true;
+      }
+    }
+  }
+
+  refreshTopDropdown() {
+    const model = this.model;
+    // dropdown
+    const dd = document.querySelector("#copg-top-actions .dropdown-toggle");
+    if (dd) {
+      dd.style.display = '';
+      if (model.getState() === model.STATE_SERVER_CMD) {
+        dd.style.display = 'none';
+      }
+    }
   }
 
   refreshModeSelector() {
@@ -544,6 +582,8 @@ export default class PageUI {
     const single = document.querySelector("[data-copg-ed-type='view-control'][data-copg-ed-action='switch.single']");
     multi.classList.remove("engaged");
     single.classList.remove("engaged");
+    multi.disabled = false;
+    single.disabled = false;
     if (model.getState() === model.STATE_PAGE) {
       //multi.disabled = false;
       //single.disabled = true;
@@ -552,6 +592,10 @@ export default class PageUI {
       //multi.disabled = true;
       //single.disabled = false;
       multi.classList.add("engaged");
+    }
+    if (model.getState() === model.STATE_SERVER_CMD) {
+      multi.disabled = true;
+      single.disabled = true;
     }
   }
 
@@ -752,8 +796,13 @@ export default class PageUI {
         this.initMultiButtons();
         break;
     }
+  }
 
-
+  displayServerWaiting() {
+    this.showEditPage();
+    this.hideAddButtons();
+    this.hideDropareas();
+    this.disableDragDrop();
   }
 
   /**

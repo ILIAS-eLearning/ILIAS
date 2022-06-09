@@ -26,6 +26,7 @@ export default class PageModel {
   STATE_DRAG_DROP = "drag_drop";        // drag drop
   STATE_COMPONENT = "component";        // component editing (in slate)
   STATE_MULTI_ACTION = "multi";         // multi action
+  STATE_SERVER_CMD = "server_cmd";       // waiting for server command being performed
 
   STATE_COMPONENT_EDIT = "edit";        // component editing
   STATE_COMPONENT_INSERT = "insert";    // component inserting
@@ -88,6 +89,7 @@ export default class PageModel {
     this.STATE_DRAG_DROP = "drag_drop";        // drag drop
     this.STATE_COMPONENT = "component";        // component editing (in slate)
     this.STATE_MULTI_ACTION = "multi";         // multi action
+    this.STATE_SERVER_CMD = "server_cmd";      // server command being performed
 
     this.STATE_COMPONENT_EDIT = "edit";        // component editing
     this.STATE_COMPONENT_INSERT = "insert";    // component inserting
@@ -120,7 +122,13 @@ export default class PageModel {
 
     this.splitIds = [];
     this.dom = document;
-    this.states = [this.STATE_PAGE, this.STATE_DRAG_DROP, this.STATE_COMPONENT, this.STATE_MULTI_ACTION];
+    this.states = [
+      this.STATE_PAGE,
+      this.STATE_DRAG_DROP,
+      this.STATE_COMPONENT,
+      this.STATE_MULTI_ACTION,
+      this.STATE_SERVER_CMD
+    ];
     this.component_states = [this.STATE_COMPONENT_NONE, this.STATE_COMPONENT_EDIT, this.STATE_COMPONENT_INSERT];
     this.multi_states = [this.STATE_MULTI_NONE, this.STATE_MULTI_CUT, this.STATE_MULTI_COPY, this.STATE_MULTI_CHARACTERISTIC];
   }

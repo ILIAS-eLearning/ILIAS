@@ -55,7 +55,17 @@ export default class ModelActionHandler {
         break;
 
       case "dnd.stopped":
-        this.model.setState(this.model.STATE_PAGE);
+        // note: stopped is being called after drop
+        // in this case we do not want remove the STATE_SERVER_CMD state
+        if (this.model.getState() === this.model.STATE_DRAG_DROP) {
+          console.log("**** SETTING PAGE STATE");
+          console.log(this.model.getState());
+          this.model.setState(this.model.STATE_PAGE);
+        }
+        break;
+
+      case "dnd.drop":
+        this.model.setState(this.model.STATE_SERVER_CMD);
         break;
 
       case "switch.multi":
@@ -111,6 +121,7 @@ export default class ModelActionHandler {
         break;
 
       case "multi.paste":
+        this.model.setState(this.model.STATE_SERVER_CMD);
         this.model.setMultiState(this.model.STATE_MULTI_NONE);
         break;
 
@@ -181,14 +192,19 @@ export default class ModelActionHandler {
 
       case "multi.delete":
         this.model.selectNone();
-        this.model.setState(this.model.STATE_PAGE);
+        this.model.setState(this.model.STATE_SERVER_CMD);
         this.model.setMultiState(this.model.STATE_MULTI_NONE);
         break;
 
       case "multi.activate":
         this.model.selectNone();
-        this.model.setState(this.model.STATE_PAGE);
+        this.model.setState(this.model.STATE_SERVER_CMD);
         this.model.setMultiState(this.model.STATE_MULTI_NONE);
+        break;
+
+      case "page.editing":
+        this.model.selectNone();
+        this.model.setState(this.model.STATE_PAGE);
         break;
     }
   }

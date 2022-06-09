@@ -58,6 +58,7 @@ const ACTIONS = {
   MULTI_ACTIVATE: "multi.activate",       // activate selection
   SWITCH_SINGLE: "switch.single",       // single mode: click selects single component for editing
   SWITCH_MULTI: "switch.multi",       // multi mode: click selects one or multiple components for multi actions
+  PAGE_EDITING: "page.editing",       // return to page editing, e.g. after an cmd has been finished server side
 
 };
 export default ACTIONS;

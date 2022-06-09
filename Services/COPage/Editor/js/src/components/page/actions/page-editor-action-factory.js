@@ -264,4 +264,11 @@ export default class PageEditorActionFactory {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.SWITCH_MULTI);
   }
 
+  /**
+   * @returns {EditorAction}
+   */
+  enablePageEditing() {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.PAGE_EDITING);
+  }
+
 }
