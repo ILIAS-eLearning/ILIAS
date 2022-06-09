@@ -43,6 +43,23 @@ class ilLDAPSettingsGUI
     private ?ilLDAPRoleAssignmentRule $rule = null;
     private ?ilLDAPRoleGroupMappingSettings $role_mapping = null;
 
+    //vars for storing request parameters
+    /** @var int[] */
+    private ?array $rule_ids = null;
+    private ?int $rule_id = null;
+    private ?int $role_id = null;
+    /** @var int[] */
+    private ?array $mappings = null;
+    private ?string $mapping_template = null;
+    private ?int $ldap_server_id = null;
+    /** @var int[] */
+    private ?array $server_ids = null;
+    private ?int $mapping_id = null;
+    private ?string $role_bind_user = null;
+    private ?string $role_bind_pass = null;
+    private bool $role_sync_active = false;
+    private array $attribute_mappings = [];
+
     /**
      * @throws ilCtrlException
      */
@@ -67,16 +84,89 @@ class ilLDAPSettingsGUI
         if ($this->ctrl->getCmd() !== "addServerSettings") {
             $this->ctrl->saveParameter($this, 'ldap_server_id');
         }
-        
-//         $this->http_wrapper = $DIC->http()->wrapper();
-//         $this->refinery = $DIC->refinery();
-//         if ($this->http_wrapper->query()->has('ref_id')) {
-//             $this->ref_id = (int) $this->http_wrapper->query()->retrieve(
-//                 'ref_id',
-//                 $this->refinery->kindlyTo()->int()
-//                 );
-//         }
-        
+
+        $http_wrapper = $DIC->http()->wrapper();
+        $is_post_request = $DIC->http()->request()->getMethod() === "POST";
+        $refinery = $DIC->refinery();
+        if ($http_wrapper->query()->has("rule_id")) {
+            $this->rule_id = $http_wrapper->query()->retrieve(
+                "rule_id",
+                $refinery->kindlyTo()->int()
+            );
+        }
+        if ($http_wrapper->query()->has("ldap_server_id")) {
+            $this->ldap_server_id = $http_wrapper->query()->retrieve(
+                "ldap_server_id",
+                $refinery->kindlyTo()->int()
+            );
+        }
+        if ($http_wrapper->query()->has("mapping_id")) {
+            $this->mapping_id = $http_wrapper->query()->retrieve(
+                "mapping_id",
+                $refinery->kindlyTo()->int()
+            );
+        }
+        if ($is_post_request) {
+            if ($http_wrapper->post()->has('rule_ids')) {
+                $this->rule_ids = $http_wrapper->post()->retrieve(
+                    'rule_ids',
+                    $refinery->kindlyTo()->listOf($refinery->kindlyTo()->int())
+                );
+            }
+            if ($http_wrapper->post()->has('role_id')) {
+                $this->role_id = $http_wrapper->post()->retrieve(
+                    'role_id',
+                    $refinery->kindlyTo()->int()
+                );
+            }
+            if ($http_wrapper->post()->has('mappings')) {
+                $this->mappings = $http_wrapper->post()->retrieve(
+                    'mappings',
+                    $refinery->kindlyTo()->listOf($refinery->kindlyTo()->int())
+                );
+            }
+            if ($http_wrapper->post()->has('server_ids')) {
+                $this->server_ids = $http_wrapper->post()->retrieve(
+                    'server_ids',
+                    $refinery->kindlyTo()->listOf($refinery->kindlyTo()->int())
+                );
+            }
+            if ($http_wrapper->post()->has('mapping_template')) {
+                $this->mapping_template = $http_wrapper->post()->retrieve(
+                    'mapping_template',
+                    $refinery->kindlyTo()->string()
+                );
+            }
+            if ($http_wrapper->post()->has('role_bind_user')) {
+                $this->role_bind_user = ilUtil::stripSlashes($http_wrapper->post()->retrieve(
+                    'role_bind_user',
+                    $refinery->kindlyTo()->string()
+                ));
+            }
+            if ($http_wrapper->post()->has('role_bind_pass')) {
+                $this->role_bind_pass = ilUtil::stripSlashes($http_wrapper->post()->retrieve(
+                    'role_bind_pass',
+                    $refinery->kindlyTo()->string()
+                ));
+            }
+            if ($http_wrapper->post()->has('role_sync_active')) {
+                $this->role_sync_active = $http_wrapper->post()->retrieve(
+                    'role_sync_active',
+                    $refinery->kindlyTo()->bool()
+                );
+            }
+            foreach ($this->getAttributeMappingKeys() as $key) {
+                if ($http_wrapper->post()->has($key . '_value')) {
+                    $this->attribute_mappings[$key] = [ilUtil::stripSlashes($http_wrapper->post()->retrieve(
+                        $key . '_value',
+                        $refinery->kindlyTo()->string()
+                    )), $http_wrapper->post()->has($key . '_update')];
+                } else {
+                    $this->attribute_mappings[$key] = ["", false];
+                }
+            }
+        }
+
         $this->ref_id = $a_auth_ref_id;
 
 
@@ -106,18 +196,30 @@ class ilLDAPSettingsGUI
         return true;
     }
 
-    protected function checkAccess(string $a_permission) : void
+    private function checkAccess(string $a_permission) : void
     {
-        if (!$this->checkAccessBool($a_permission)) {
+        if (!$this->ilAccess->checkAccess($a_permission, '', $this->ref_id)) {
             $this->ilErr->raiseError($this->lng->txt('msg_no_perm_read'), $this->ilErr->WARNING);
         }
     }
 
-    protected function checkAccessBool(string $a_permission) : bool
+    /**
+     * Get all possible attribute keys for mapping ldap attribute to ilias user attributes
+     * @return string[]
+     */
+    private function getAttributeMappingKeys() : array
     {
-        return $this->ilAccess->checkAccess($a_permission, '', $this->ref_id);
+        $keys = [];
+        foreach (array_keys($this->getMappingFields()) as $key) {
+            $keys[] = $key;
+        }
+        foreach (ilUserDefinedFields::_getInstance()->getDefinitions() as $definition) {
+            $keys[] = 'udf_' . $definition['field_id'];
+        }
+        return $keys;
     }
-    
+
+
     /**
      * Get server settings
      */
@@ -157,10 +259,9 @@ class ilLDAPSettingsGUI
      */
     public function editRoleAssignment() : void
     {
-        if (!(int) $_GET['rule_id']) {
+        if (!$this->rule_id) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->roleAssignments();
-            //TODO check if return false is needed
             return;
         }
         $this->setSubTabs();
@@ -170,7 +271,7 @@ class ilLDAPSettingsGUI
         $this->initFormRoleAssignments(
             'edit'
         );
-        $this->role_mapping_rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId((int) $_GET['rule_id']);
+        $this->role_mapping_rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($this->rule_id);
         $this->setValuesByArray();
         $this->tpl->setContent($this->form->getHTML());
     }
@@ -179,7 +280,7 @@ class ilLDAPSettingsGUI
     /**
      * set values of form array
      */
-    protected function setValuesByArray() : void
+    private function setValuesByArray() : void
     {
         $role_id = $this->role_mapping_rule->getRoleId();
         if ($this->rbacReview->isGlobalRole($role_id)) {
@@ -216,7 +317,7 @@ class ilLDAPSettingsGUI
         $this->initFormRoleAssignments('edit');
 
         $formWithoutErrors = $this->form->checkInput();
-        $roleErrorMessage = $this->checkRoleAssignmentInput((int) $_REQUEST['rule_id']);
+        $roleErrorMessage = $this->checkRoleAssignmentInput($this->rule_id);
         if (!$formWithoutErrors || $roleErrorMessage !== '') {
             if ($roleErrorMessage !== '') {
                 $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt($roleErrorMessage));
@@ -226,16 +327,18 @@ class ilLDAPSettingsGUI
 
             $this->form->setValuesByPost();
             $this->tpl->setVariable('NEW_ASSIGNMENT_TBL', $this->form->getHTML());
-            $this->tabs_gui->activateSubTab('shib_role_assignment');
+            $this->tabs_gui->activateSubTab('role_assignments');
             return true;
         }
         
         // Might redirect
-        $this->roleSelection();
-        
-        $this->rule->update();
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
-        $this->roleAssignments();
+        if ($this->roleSelectionRequired()) {
+            $this->ctrl->redirect($this, 'showRoleSelection');
+        } else {
+            $this->rule->update();
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
+            $this->roleAssignments();
+        }
         return true;
     }
 
@@ -247,10 +350,9 @@ class ilLDAPSettingsGUI
     {
         $this->checkAccess("write");
 
-        if (!is_array($_POST['rule_ids'])) {
+        if (!$this->rule_ids) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->roleAssignments();
-            //TODO check why return false
             return;
         }
         $this->setSubTabs();
@@ -265,9 +367,9 @@ class ilLDAPSettingsGUI
         $c_gui->setConfirm($this->lng->txt("confirm"), "deleteRules");
 
         // add items to delete
-        foreach ($_POST["rule_ids"] as $rule_id) {
+        foreach ($this->rule_ids as $rule_id) {
             $rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($rule_id);
-            $c_gui->addItem('rule_ids[]', $rule_id, $rule->conditionToString());
+            $c_gui->addItem('rule_ids[]', (string) $rule_id, $rule->conditionToString());
         }
         $this->tpl->setContent($c_gui->getHTML());
     }
@@ -275,20 +377,19 @@ class ilLDAPSettingsGUI
     /**
      * delete role assignment rule
      */
-    public function deleteRules() : bool
+    public function deleteRules() : void
     {
-        if (!is_array($_POST['rule_ids'])) {
+        if (!$this->rule_ids) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_once'));
             $this->roleAssignments();
-            return false;
+            return;
         }
-        foreach ($_POST["rule_ids"] as $rule_id) {
+        foreach ($this->rule_ids as $rule_id) {
             $rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($rule_id);
             $rule->delete();
         }
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('ldap_deleted_rule'));
-        $this->roleAssignments();
-        return true;
+        $this->ctrl->redirect($this, 'roleAssignments');
     }
     
     /**
@@ -301,7 +402,7 @@ class ilLDAPSettingsGUI
             $this->roleAssignments();
             return false;
         }
-
+        $this->setSubTabs();
         $this->initFormRoleAssignments('create');
         $formWithoutErrors = $this->form->checkInput();
         $roleErrorMessage = $this->checkRoleAssignmentInput();
@@ -316,41 +417,41 @@ class ilLDAPSettingsGUI
             $this->form->setValuesByPost();
             $this->tpl->setVariable('NEW_ASSIGNMENT_TBL', $this->form->getHTML());
             $this->tpl->setVariable('RULES_TBL', $this->getRoleAssignmentTable());
-            $this->tabs_gui->activateSubTab('shib_role_assignment');
+            $this->tabs_gui->activateSubTab('role_assignments');
             return true;
         }
-        
-        // Might redirect
-        $this->roleSelection();
 
-        $this->rule->create();
-        $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
-        unset($_POST);
-        $this->roleAssignments();
+        if ($this->roleSelectionRequired()) {
+            $this->ctrl->redirect($this, 'showRoleSelection');
+        } else {
+            $this->rule->create();
+            $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
+            $this->ctrl->redirect($this, 'roleAssignments');
+        }
         return true;
     }
     
-    protected function roleSelection() : void
+    private function roleSelectionRequired() : bool
     {
         if ($this->rule->getRoleId() > 0) {
-            //TODO check why return false
-            return;
+            return false;
         }
-        $_SESSION['ldap_role_ass']['server_id'] = $this->getServer()->getServerId();
-        $_SESSION['ldap_role_ass']['rule_id'] = $_REQUEST['rule_id'] ?: 0;
-        $_SESSION['ldap_role_ass']['role_search'] = $this->form->getInput('role_search');
-        $_SESSION['ldap_role_ass']['add_on_update'] = $this->form->getInput('add_missing');
-        $_SESSION['ldap_role_ass']['remove_on_update'] = $this->form->getInput('remove_deprecated');
-        $_SESSION['ldap_role_ass']['type'] = $this->form->getInput('type');
-        $_SESSION['ldap_role_ass']['dn'] = $this->form->getInput('dn');
-        $_SESSION['ldap_role_ass']['at'] = $this->form->getInput('at');
-        $_SESSION['ldap_role_ass']['isdn'] = $this->form->getInput('isdn');
-        $_SESSION['ldap_role_ass']['name'] = $this->form->getInput('name');
-        $_SESSION['ldap_role_ass']['value'] = $this->form->getInput('value');
-        $_SESSION['ldap_role_ass']['plugin'] = $this->form->getInput('plugin_id');
-        
+        $rule = [];
+        $rule['server_id'] = $this->getServer()->getServerId();
+        $rule['rule_id'] = $this->rule_id ?: 0;
+        $rule['role_search'] = $this->form->getInput('role_search');
+        $rule['add_on_update'] = $this->form->getInput('add_missing');
+        $rule['remove_on_update'] = $this->form->getInput('remove_deprecated');
+        $rule['type'] = $this->form->getInput('type');
+        $rule['dn'] = $this->form->getInput('dn');
+        $rule['at'] = $this->form->getInput('at');
+        $rule['isdn'] = $this->form->getInput('isdn');
+        $rule['name'] = $this->form->getInput('name');
+        $rule['value'] = $this->form->getInput('value');
+        $rule['plugin'] = $this->form->getInput('plugin_id');
+        ilSession::set("ldap_role_ass", serialize($rule));
         $this->ctrl->saveParameter($this, 'rule_id');
-        $this->ctrl->redirect($this, 'showRoleSelection');
+        return true;
     }
     
     
@@ -364,7 +465,7 @@ class ilLDAPSettingsGUI
         $this->tabs_gui->activateTab('role_assignment');
         $this->ctrl->saveParameter($this, 'rule_id');
         
-        $parser = new ilQueryParser($_SESSION['ldap_role_ass']['role_search']);
+        $parser = new ilQueryParser(unserialize(ilSession::get('ldap_role_ass'), ["allowed_classes" => false])['role_search']);
         $parser->setMinWordLength(1);
         $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $parser->parse();
@@ -378,7 +479,6 @@ class ilLDAPSettingsGUI
         $table = new ilRoleSelectionTableGUI($this, 'showRoleSelection');
         $table->setTitle($this->lng->txt('ldap_role_selection'));
         $table->addMultiCommand('saveRoleSelection', $this->lng->txt('ldap_choose_role'));
-        #$table->addCommandButton('roleAssignment',$this->lng->txt('cancel'));
         $table->parse($entries);
         
         $this->tpl->setContent($table->getHTML());
@@ -397,16 +497,16 @@ class ilLDAPSettingsGUI
             return false;
         }
 
-        if (!(int) $_REQUEST['role_id']) {
+        if (!$this->role_id) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->showRoleSelection();
             return false;
         }
 
-        $this->loadRoleAssignmentRule((int) $_REQUEST['rule_id'], false);
-        $this->rule->setRoleId((int) $_REQUEST['role_id']);
+        $this->loadRoleAssignmentRule($this->rule_id, false);
+        $this->rule->setRoleId($this->role_id);
         
-        if ((int) $_REQUEST['rule_id']) {
+        if ($this->rule_id) {
             $this->rule->update();
         } else {
             $this->rule->create();
@@ -421,7 +521,7 @@ class ilLDAPSettingsGUI
     /**
      * Check role assignment input
      */
-    protected function checkRoleAssignmentInput(int $a_rule_id = 0) : string
+    private function checkRoleAssignmentInput(int $a_rule_id = 0) : string
     {
         $this->loadRoleAssignmentRule($a_rule_id);
         $this->rule->validate();
@@ -448,16 +548,16 @@ class ilLDAPSettingsGUI
     /**
      * Load input from form
      */
-    protected function loadRoleAssignmentRule(int $a_rule_id, bool $a_from_form = true) : bool
+    private function loadRoleAssignmentRule(int $a_rule_id, bool $load_from_form = true) : void
     {
         if (is_object($this->rule)) {
-            return true;
+            return;
         }
         
         $this->rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($a_rule_id);
 
 
-        if ($a_from_form) {
+        if ($load_from_form) {
             if ($this->form->getInput('role_name') === '0') {
                 $this->rule->setRoleId((int) $this->form->getInput('role_id'));
             } elseif ($this->form->getInput('role_search')) {
@@ -491,27 +591,26 @@ class ilLDAPSettingsGUI
             $this->rule->setPluginId((int) $this->form->getInput('plugin_id'));
             $this->rule->setType((int) $this->form->getInput('type'));
             $this->rule->setServerId($this->getServer()->getServerId());
-            return true;
+            return;
         }
         
         // LOAD from session
-        $this->rule = ilLDAPRoleAssignmentRule::_getInstanceByRuleId($a_rule_id);
         $this->rule->setServerId($this->getServer()->getServerId());
-        $this->rule->enableAddOnUpdate((bool) $_SESSION['ldap_role_ass']['add_on_update']);
-        $this->rule->enableRemoveOnUpdate((bool) $_SESSION['ldap_role_ass']['remove_on_update']);
-        $this->rule->setType((int) ilUtil::stripSlashes($_SESSION['ldap_role_ass']['type']));
-        $this->rule->setDN(ilUtil::stripSlashes($_SESSION['ldap_role_ass']['dn']));
-        $this->rule->setMemberAttribute(ilUtil::stripSlashes($_SESSION['ldap_role_ass']['at']));
-        $this->rule->setMemberIsDN((bool) ilUtil::stripSlashes($_SESSION['ldap_role_ass']['isdn']));
-        $this->rule->setAttributeName(ilUtil::stripSlashes($_SESSION['ldap_role_ass']['name']));
-        $this->rule->setAttributeValue(ilUtil::stripSlashes($_SESSION['ldap_role_ass']['value']));
-        $this->rule->setPluginId((int) ilUtil::stripSlashes($_SESSION['ldap_role_ass']['plugin']));
-        return true;
+        $rule = unserialize(ilSession::get('ldap_role_ass'), ["allowed_classes" => false]);
+        $this->rule->enableAddOnUpdate((bool) $rule['add_on_update']);
+        $this->rule->enableRemoveOnUpdate((bool) $rule['remove_on_update']);
+        $this->rule->setType((int) ilUtil::stripSlashes($rule['type']));
+        $this->rule->setDN(ilUtil::stripSlashes($rule['dn']));
+        $this->rule->setMemberAttribute(ilUtil::stripSlashes($rule['at']));
+        $this->rule->setMemberIsDN((bool) ilUtil::stripSlashes($rule['isdn']));
+        $this->rule->setAttributeName(ilUtil::stripSlashes($rule['name']));
+        $this->rule->setAttributeValue(ilUtil::stripSlashes($rule['value']));
+        $this->rule->setPluginId((int) ilUtil::stripSlashes($rule['plugin']));
     }
     
     public function deleteRoleMapping() : bool
     {
-        if (!count($_POST['mappings'])) {
+        if (!$this->mappings) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->roleMapping();
             return false;
@@ -519,7 +618,7 @@ class ilLDAPSettingsGUI
         
         $this->initRoleMapping();
         
-        foreach ($_POST['mappings'] as $mapping_id) {
+        foreach ($this->mappings as $mapping_id) {
             $this->role_mapping->delete($mapping_id);
         }
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('ldap_deleted_role_mapping'));
@@ -529,7 +628,7 @@ class ilLDAPSettingsGUI
     
     public function chooseMapping() : void
     {
-        if (!$_POST['mapping_template']) {
+        if (!$this->mapping_template) {
             $this->userMapping();
             return;
         }
@@ -537,7 +636,7 @@ class ilLDAPSettingsGUI
         $this->initAttributeMapping();
         $this->mapping->clearRules();
         
-        foreach (ilLDAPAttributeMappingUtils::_getMappingRulesByClass($_POST['mapping_template']) as $key => $value) {
+        foreach (ilLDAPAttributeMappingUtils::_getMappingRulesByClass($this->mapping_template) as $key => $value) {
             $this->mapping->setRule($key, $value, false);
         }
         $this->userMapping();
@@ -548,11 +647,11 @@ class ilLDAPSettingsGUI
         $this->initAttributeMapping();
         $this->tabs_gui->activateTab('role_mapping');
 
-        foreach ($this->getMappingFields() as $key) {
+        foreach (array_keys($this->getMappingFields()) as $key) {
             $this->mapping->setRule(
                 $key,
-                ilUtil::stripSlashes($_POST[$key . '_value']),
-                (bool) $_POST[$key . '_update']
+                $this->attribute_mappings[$key][0],
+                $this->attribute_mappings[$key][1]
             );
         }
         $this->initUserDefinedFields();
@@ -560,8 +659,8 @@ class ilLDAPSettingsGUI
             $key = 'udf_' . $definition['field_id'];
             $this->mapping->setRule(
                 $key,
-                ilUtil::stripSlashes($_POST[$key . '_value']),
-                (bool) $_POST[$key . '_update']
+                $this->attribute_mappings[$key][0],
+                $this->attribute_mappings[$key][1]
             );
         }
 
@@ -569,9 +668,6 @@ class ilLDAPSettingsGUI
         $this->userMapping();
 
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'));
-
-        //TODO check if this unset is really needed
-        //unset($_POST['mapping_template']);
     }
     
     public function serverList() : void
@@ -830,7 +926,7 @@ class ilLDAPSettingsGUI
         );
 
         $this->form_gui->addCommandButton('save', $this->lng->txt('save'));
-        if ($_GET["cmd"] === "addServerSettings") {
+        if ($this->ctrl->getCmd() === "addServerSettings") {
             $this->form_gui->addCommandButton('serverList', $this->lng->txt('cancel'));
         }
     }
@@ -917,10 +1013,7 @@ class ilLDAPSettingsGUI
             $this->lng->txt("back"),
             $this->ctrl->getLinkTarget($this, 'serverList')
         );
-        
-        /*$this->tabs_gui->addSubTabTarget("ldap_settings",
-            $this->ctrl->getLinkTarget($this,'serverList'),
-            "serverList",get_class($this));*/
+
         
         $this->tabs_gui->addTab(
             "settings",
@@ -930,34 +1023,21 @@ class ilLDAPSettingsGUI
         
         // Disable all other tabs, if server hasn't been configured.
         if (!count(ilLDAPServer::_getServerList())) {
-            //TODO check why return true;
             return;
         }
-
-        /*$this->tabs_gui->addSubTabTarget("ldap_user_mapping",
-            $this->ctrl->getLinkTarget($this,'userMapping'),
-            "userMapping",get_class($this));*/
         
         $this->tabs_gui->addTab(
             "user_mapping",
             $this->lng->txt("ldap_user_mapping"),
             $this->ctrl->getLinkTarget($this, 'userMapping')
         );
-        
-        /*$this->tabs_gui->addSubTabTarget('ldap_role_assignments',
-            $this->ctrl->getLinkTarget($this,'roleAssignments'),
-            "roleAssignments",get_class($this));*/
             
         $this->tabs_gui->addTab(
             "role_assignments",
             $this->lng->txt('ldap_role_assignments'),
             $this->ctrl->getLinkTarget($this, 'roleAssignments')
         );
-        
-        /*$this->tabs_gui->addSubTabTarget("ldap_role_mapping",
-            $this->ctrl->getLinkTarget($this,'roleMapping'),
-            "roleMapping",get_class($this));
-            "roleMapping",get_class($this));*/
+
         $this->tabs_gui->addTab(
             "role_mapping",
             $this->lng->txt("ldap_role_mapping"),
@@ -969,8 +1049,8 @@ class ilLDAPSettingsGUI
     private function initServer() : void
     {
         $server_id = 0;
-        if ($_REQUEST['ldap_server_id']) {
-            $server_id = (int) $_REQUEST['ldap_server_id'];
+        if ($this->ldap_server_id) {
+            $server_id = $this->ldap_server_id;
         }
 
 
@@ -1026,7 +1106,6 @@ class ilLDAPSettingsGUI
                 'second_email' => $this->lng->txt('second_email'),
                 'hobby' => $this->lng->txt('hobby'),
                 'matriculation' => $this->lng->txt('matriculation'));
-        #'photo'			=> $this->lng->txt('photo'));
     }
     
     private function initUserDefinedFields() : void
@@ -1037,7 +1116,7 @@ class ilLDAPSettingsGUI
     private function prepareMappingSelect() : string
     {
         return ilLegacyFormElementsUtil::formSelect(
-            $_POST['mapping_template'],
+            $this->mapping_template,
             'mapping_template',
             [0 => $this->lng->txt('ldap_mapping_template'),
              "inetOrgPerson" => 'inetOrgPerson',
@@ -1048,22 +1127,6 @@ class ilLDAPSettingsGUI
             false,
             true
         );
-    }
-    
-    /**
-     * Load info about hide/show details
-     */
-    private function loadMappingDetails() : void
-    {
-        if (!isset($_SESSION['ldap_mapping_details'])) {
-            $_SESSION['ldap_mapping_details'] = array();
-        }
-        if (isset($_GET['details_show'])) {
-            $_SESSION['ldap_mapping_details'][$_GET['details_show']] = $_GET['details_show'];
-        }
-        if (isset($_GET['details_hide'])) {
-            unset($_SESSION['ldap_mapping_details'][$_GET['details_hide']]);
-        }
     }
     
     /**
@@ -1217,7 +1280,7 @@ class ilLDAPSettingsGUI
                         "person" => 'person',
                         "ad_2003" => 'Active Directory (Win 2003)');
         $select_form->setOptions($options);
-        $select_form->setValue($_POST['mapping_template']);
+        $select_form->setValue($this->mapping_template);
         
         $this->toolbar->addInputItem($select_form);
         $this->toolbar->addFormButton($this->lng->txt('show'), "chooseMapping");
@@ -1327,7 +1390,7 @@ class ilLDAPSettingsGUI
      */
     public function editRoleMapping() : void
     {
-        $mapping = new ilLDAPRoleGroupMappingSetting($_GET["mapping_id"]);
+        $mapping = new ilLDAPRoleGroupMappingSetting($this->mapping_id);
         $mapping->read();
         
         $propertie_form = $this->initRoleMappingForm("updateRoleMapping");
@@ -1372,10 +1435,10 @@ class ilLDAPSettingsGUI
             $mapping->setURL($propertie_form->getInput("url"));
             $mapping->setDN($propertie_form->getInput("dn"));
             $mapping->setMemberAttribute($propertie_form->getInput("member"));
-            $mapping->setMemberISDN($propertie_form->getInput("memberisdn"));
+            $mapping->setMemberISDN((bool) $propertie_form->getInput("memberisdn"));
             $mapping->setRoleByName($propertie_form->getInput("role"));
             $mapping->setMappingInfo($propertie_form->getInput("info"));
-            $mapping->setMappingInfoType($propertie_form->getInput("info_type"));
+            $mapping->setMappingInfoType((bool) $propertie_form->getInput("info_type"));
             $mapping->save();
             
             $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
@@ -1395,7 +1458,7 @@ class ilLDAPSettingsGUI
      */
     public function confirmDeleteRoleMapping() : void
     {
-        if (!is_array($_POST['mappings'])) {
+        if (!$this->mappings) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, "roleMapping");
             return;
@@ -1409,7 +1472,7 @@ class ilLDAPSettingsGUI
         $c_gui->setCancel($this->lng->txt("cancel"), "roleMapping");
         $c_gui->setConfirm($this->lng->txt("confirm"), "deleteRoleMapping");
         
-        foreach ($_POST['mappings'] as $id) {
+        foreach ($this->mappings as $id) {
             $mapping = new ilLDAPRoleGroupMappingSetting($id);
             $mapping->read();
             $txt = $this->lng->txt('obj_role') . ": " . $mapping->getRoleName() . ", ";
@@ -1417,7 +1480,7 @@ class ilLDAPSettingsGUI
             $txt .= $this->lng->txt('ldap_server_short') . " " . $mapping->getURL() . ", ";
             $txt .= $this->lng->txt('ldap_group_member_short') . " " . $mapping->getMemberAttribute();
             
-            $c_gui->addItem("mappings[]", $id, $txt);
+            $c_gui->addItem("mappings[]", (string) $id, $txt);
         }
         $this->tpl->setContent($c_gui->getHTML());
     }
@@ -1452,10 +1515,9 @@ class ilLDAPSettingsGUI
     {
         $this->checkAccess("write");
 
-        if (!isset($_GET["ldap_server_id"])) {
+        if (!$this->ldap_server_id) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->serverList();
-            //TODO check why return false
             return;
         }
         
@@ -1468,10 +1530,9 @@ class ilLDAPSettingsGUI
         $c_gui->setConfirm($this->lng->txt("confirm"), "deleteServerSettings");
 
         // add items to delete
-        foreach ((array) $_GET["ldap_server_id"] as $server_id) {
-            $setting = new ilLDAPServer((int) $server_id);
-            $c_gui->addItem('server_ids[]', $server_id, $setting->getName());
-        }
+        $setting = new ilLDAPServer($this->ldap_server_id);
+        $c_gui->addItem('server_ids[]', (string) $setting->getServerId(), $setting->getName());
+
         $this->tpl->setContent($c_gui->getHTML());
     }
     
@@ -1480,19 +1541,18 @@ class ilLDAPSettingsGUI
      */
     public function deleteServerSettings() : void
     {
-        if (!is_array($_POST["server_ids"])) {
+        if (!$this->server_ids) {
             $this->main_tpl->setOnScreenMessage('failure', $this->lng->txt('select_one'));
             $this->serverList();
             return;
         }
         
-        foreach ($_POST["server_ids"] as $server_id) {
-            $setting = new ilLDAPServer((int) $server_id);
+        foreach ($this->server_ids as $server_id) {
+            $setting = new ilLDAPServer($server_id);
             $setting->delete();
         }
         $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('deleted'));
-        
-        $this->serverList();
+        $this->ctrl->redirect($this, "serverlist");
     }
     
     /**
@@ -1543,8 +1603,8 @@ class ilLDAPSettingsGUI
         $this->setSubTabs();
         $this->tabs_gui->activateTab('role_mapping');
         
-        if (isset($_GET["mapping_id"])) {
-            $this->ctrl->setParameter($this, 'mapping_id', $_GET["mapping_id"]);
+        if ($this->mapping_id) {
+            $this->ctrl->setParameter($this, 'mapping_id', $this->mapping_id);
         }
         
         $propertie_form = new ilPropertyFormGUI();
@@ -1616,8 +1676,8 @@ class ilLDAPSettingsGUI
         if ($propertie_form->getItemByPostVar("url")) {
             $propertie_form->getItemByPostVar("url")->setValue($this->server->getUrl());
         }
-        if (isset($_GET["mapping_id"])) {
-            $mapping = new ilLDAPRoleGroupMappingSetting($_GET["mapping_id"]);
+        if ($this->mapping_id) {
+            $mapping = new ilLDAPRoleGroupMappingSetting($this->mapping_id);
             $mapping->read();
             if ($propertie_form->getItemByPostVar("url")) {
                 $propertie_form->getItemByPostVar("url")->setValue($mapping->getURL());
@@ -1654,15 +1714,15 @@ class ilLDAPSettingsGUI
         $propertie_form = $this->initRoleMappingForm("updateRoleMapping");
         
         if ($propertie_form->checkInput() && $this->rbacReview->roleExists($propertie_form->getInput("role"))) {
-            $mapping = new ilLDAPRoleGroupMappingSetting($_GET["mapping_id"]);
+            $mapping = new ilLDAPRoleGroupMappingSetting($this->mapping_id);
             $mapping->setServerId($this->server->getServerId());
             $mapping->setURL($propertie_form->getInput("url"));
             $mapping->setDN($propertie_form->getInput("dn"));
             $mapping->setMemberAttribute($propertie_form->getInput("member"));
-            $mapping->setMemberISDN($propertie_form->getInput("memberisdn"));
+            $mapping->setMemberISDN((bool) $propertie_form->getInput("memberisdn"));
             $mapping->setRoleByName($propertie_form->getInput("role"));
             $mapping->setMappingInfo($propertie_form->getInput("info"));
-            $mapping->setMappingInfoType($propertie_form->getInput("info_type"));
+            $mapping->setMappingInfoType((bool) $propertie_form->getInput("info_type"));
             $mapping->update();
             
             $this->main_tpl->setOnScreenMessage('success', $this->lng->txt('settings_saved'), true);
@@ -1682,9 +1742,9 @@ class ilLDAPSettingsGUI
      */
     public function saveSyncronizationSettings() : void
     {
-        $this->server->setRoleBindDN(ilUtil::stripSlashes($_POST['role_bind_user']));
-        $this->server->setRoleBindPassword(ilUtil::stripSlashes($_POST['role_bind_pass']));
-        $this->server->enableRoleSynchronization((bool) $_POST['role_sync_active']);
+        $this->server->setRoleBindDN($this->role_bind_user);
+        $this->server->setRoleBindPassword($this->role_bind_pass);
+        $this->server->enableRoleSynchronization($this->role_sync_active);
         
         // Update or create
         if ($this->server->getServerId()) {
