@@ -197,16 +197,4 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
     {
         return self::$standard_icons;
     }
-
-    public function isOutlined() : bool
-    {
-        return $this->is_outlined;
-    }
-
-    public function withIsOutlined(bool $is_outlined) : C\Symbol\Icon\Standard
-    {
-        $clone = clone $this;
-        $clone->is_outlined = $is_outlined;
-        return $clone;
-    }
 }

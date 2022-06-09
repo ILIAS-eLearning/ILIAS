@@ -11,7 +11,7 @@ function with_object_icon_and_certificate()
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    $icon = $f->symbol()->icon()->standard("crs", 'Course')->withIsOutlined(true);
+    $icon = $f->symbol()->icon()->standard("crs", 'Course');
 
     $content = $f->listing()->descriptive(
         array(

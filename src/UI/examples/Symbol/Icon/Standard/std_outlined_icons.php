@@ -14,7 +14,7 @@ function std_outlined_icons()
     $buffer = array();
 
     foreach ($default_icons as $icon) {
-        $i = $f->symbol()->icon()->standard($icon, $icon, 'medium')->withIsOutlined(true);
+        $i = $f->symbol()->icon()->standard($icon, $icon, 'medium');
         $buffer[] = $renderer->render($i)
             . ' '
             . $icon

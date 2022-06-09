@@ -89,8 +89,7 @@ class MailNotificationProvider extends AbstractNotificationProvider
             )
         );
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::MAIL, 'mail')
-                          ->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::MAIL, 'mail');
         $title = $this->dic->ui()->factory()->link()->standard(
             $this->dic->language()->txt('nc_mail_noti_item_title'),
             $mailUrl

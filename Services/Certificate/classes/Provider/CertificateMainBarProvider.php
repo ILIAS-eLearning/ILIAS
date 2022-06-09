@@ -38,7 +38,7 @@ class CertificateMainBarProvider extends AbstractStaticMainMenuProvider
         global $DIC;
 
         $title = $this->dic->language()->txt("mm_certificates");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("cert", $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("cert", $title);
 
         $access_helper = BasicAccessCheckClosuresSingleton::getInstance();
 

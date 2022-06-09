@@ -78,7 +78,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
 
         // Dashboard
         $title = $this->dic->language()->txt("mm_dashboard");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::DSHS, $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::DSHS, $title);
         $dashboard = $this->mainmenu->topLinkItem($this->if->identifier('mm_pd_crs_grp'))
             ->withSymbol($icon)
             ->withTitle($title)
@@ -95,7 +95,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             );
 
         $title = $f("mm_repository");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::REP, $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::REP, $title);
 
         $repository = $this->mainmenu->topParentItem($this->getRepositoryIdentification())
             ->withVisibilityCallable($this->basic_access_helper->isRepositoryReadable())
@@ -153,7 +153,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             );
 
         $title = $f("mm_administration");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("adm", $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("adm", $title);
 
         $administration = $this->mainmenu->topParentItem($this->getAdministrationIdentification())
             ->withSupportsAsynchronousLoading(false)

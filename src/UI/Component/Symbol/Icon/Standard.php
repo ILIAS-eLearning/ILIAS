@@ -175,14 +175,4 @@ interface Standard extends Icon
     public const NOTA = 'nota';     //Notification Command
     public const CON = 'con';	    //Conversaion
     public const GCON = 'gcon';	    //Group Conversaion
-
-    /**
-     * Is this an outlined Icon?
-     */
-    public function isOutlined() : bool;
-
-    /**
-     * Get an icon like this, but marked as outlined.
-     */
-    public function withIsOutlined(bool $is_outlined) : Standard;
 }

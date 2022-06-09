@@ -10,15 +10,15 @@ function with_multiple_toasts() : string
     $toasts = [
         $DIC->ui()->factory()->toast()->standard(
             'Example 1',
-            $DIC->ui()->factory()->symbol()->icon()->standard('mail', 'Test')->withIsOutlined(true)
+            $DIC->ui()->factory()->symbol()->icon()->standard('mail', 'Test')
         ),
         $DIC->ui()->factory()->toast()->standard(
             'Example 2',
-            $DIC->ui()->factory()->symbol()->icon()->standard('mail', 'Test')->withIsOutlined(true)
+            $DIC->ui()->factory()->symbol()->icon()->standard('mail', 'Test')
         ),
         $DIC->ui()->factory()->toast()->standard(
             'Example 3',
-            $DIC->ui()->factory()->symbol()->icon()->standard('mail', 'Test')->withIsOutlined(true)
+            $DIC->ui()->factory()->symbol()->icon()->standard('mail', 'Test')
         )
     ];
 

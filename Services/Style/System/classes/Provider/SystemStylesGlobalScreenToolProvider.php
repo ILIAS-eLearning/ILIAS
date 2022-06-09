@@ -62,7 +62,7 @@ class SystemStylesGlobalScreenToolProvider extends AbstractDynamicToolProvider
         };
 
         $title = $this->dic->language()->txt('documentation');
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('stys', $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('stys', $title);
 
         /**
          * @Todo, replace this with a proper Tree Slate

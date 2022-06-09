@@ -56,7 +56,6 @@ class ChatInvitationNotificationProvider extends AbstractNotificationProvider
         $notificationItem = $this->dic->ui()->factory()->item()->notification(
             $this->dic->language()->txt('chat_invitations'),
             $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CHTA, 'chat_invitations')
-                ->withIsOutlined(true)
         )
         ->withDescription($this->dic->language()->txt('chat_invitation_nc_no_inv'));
 
@@ -75,7 +74,6 @@ class ChatInvitationNotificationProvider extends AbstractNotificationProvider
                 $aggregatedItems[] = $this->dic->ui()->factory()->item()->notification(
                     $invitation->getObject()->title,
                     $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CHTA, 'chat_invitations')
-                              ->withIsOutlined(true)
                 )
                 ->withDescription($link)
                 ->withProperties([
@@ -88,7 +86,6 @@ class ChatInvitationNotificationProvider extends AbstractNotificationProvider
             $notificationItem = $this->dic->ui()->factory()->item()->notification(
                 $this->dic->ui()->factory()->link()->standard($this->dic->language()->txt('chat_invitations'), '#'),
                 $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CHTA, 'chat_invitations')
-                          ->withIsOutlined(true)
             )
                 ->withAggregateNotifications($aggregatedItems)
                 ->withDescription(sprintf($this->dic->language()->txt('chat_invitation_nc_inv_x'), count($aggregatedItems)))

@@ -91,7 +91,7 @@ class ContactNotificationProvider extends AbstractNotificationProvider
         $icon = $this->dic->ui()->factory()
                           ->symbol()
                           ->icon()
-                          ->standard(Standard::CADM, 'contacts')->withIsOutlined(true);
+                          ->standard(Standard::CADM, 'contacts');
 
         $title = $this->dic->ui()->factory()
             ->link()

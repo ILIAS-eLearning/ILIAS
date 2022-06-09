@@ -44,8 +44,7 @@ class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
             $additional_data->get(self::SHOW_MAIL_FOLDERS_TOOL) === true
         ) {
             $title = $this->dic->language()->txt('mail_folders');
-            $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('mail', $title)
-                                                                 ->withIsOutlined(true);
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('mail', $title);
 
             $tools[] = $this->factory
                 ->tool($identification('mail_folders_tree'))

@@ -58,7 +58,7 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
 
             if ($root instanceof ilForumPost) {
                 $title = $this->dic->language()->txt('forums_articles');
-                $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('frm', $title)->withIsOutlined(true);
+                $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('frm', $title);
 
                 $tools[] = $this->factory
                     ->tool($iff('Forum|Tree'))

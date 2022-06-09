@@ -71,7 +71,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         $access_helper = BasicAccessCheckClosuresSingleton::getInstance();
 
         $title = $this->getHomeItem()->getTitle();
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::ROOT, $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::ROOT, $title);
 
         // Home
         $entries[] = $this->getHomeItem()

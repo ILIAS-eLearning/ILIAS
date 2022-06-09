@@ -65,8 +65,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         continue;
                     }
 
-                    $icon = $this->dic->ui()->factory()->symbol()->icon()->standard($titems[$group_item]["type"], $titems[$group_item]["title"])
-                        ->withIsOutlined(true);
+                    $icon = $this->dic->ui()->factory()->symbol()->icon()->standard($titems[$group_item]["type"], $titems[$group_item]["title"]);
                     
                     $ref_id = $titems[$group_item]["ref_id"];
                     if ($admin_request->getAdminMode() !== 'repository' && $ref_id == ROOT_FOLDER_ID) {

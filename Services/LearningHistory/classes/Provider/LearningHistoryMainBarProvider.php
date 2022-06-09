@@ -43,7 +43,7 @@ class LearningHistoryMainBarProvider extends AbstractStaticMainMenuProvider
         $settings = $DIC->settings();
 
         $title = $this->dic->language()->txt("mm_learning_history");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::LHTS, $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::LHTS, $title);
 
         $entries[] = $this->mainmenu->link($this->if->identifier('learning_history'))
             ->withTitle($title)

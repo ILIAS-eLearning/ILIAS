@@ -47,7 +47,7 @@ class ChatMainBarProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()
             ->symbol()
             ->icon()
-            ->standard(Standard::CHTA, $this->dic->language()->txt('public_room'))->withIsOutlined(true);
+            ->standard(Standard::CHTA, $this->dic->language()->txt('public_room'));
 
         $this->dic->ctrl()->setParameterByClass(ilObjChatroomGUI::class, 'ref_id', $publicChatRefId);
         $chatUrl = $this->dic->ctrl()->getLinkTargetByClass(

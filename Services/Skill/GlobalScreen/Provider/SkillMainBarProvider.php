@@ -50,8 +50,8 @@ class SkillMainBarProvider extends AbstractStaticMainMenuProvider
         global $DIC;
 
         $title = $this->dic->language()->txt("mm_skills");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("skmg", $title)->withIsOutlined(true);
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::SKMG, $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("skmg", $title);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::SKMG, $title);
 
         $ctrl = $DIC->ctrl();
         $ctrl->clearParametersByClass("ilPersonalSkillsGUI");

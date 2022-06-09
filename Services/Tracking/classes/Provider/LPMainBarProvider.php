@@ -32,7 +32,7 @@ class LPMainBarProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(
             "trac",
             $title
-        )->withIsOutlined(true);
+        );
         $ctrl = $DIC->ctrl();
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_lp'))

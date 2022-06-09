@@ -45,7 +45,7 @@ class TaggingMainBarProvider extends AbstractStaticMainMenuProvider
     public function getStaticSubItems() : array
     {
         $title = $this->dic->language()->txt("mm_tags");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::TAGS, $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::TAGS, $title);
 
         return [
             $this->mainmenu->complex($this->if->identifier('tags'))

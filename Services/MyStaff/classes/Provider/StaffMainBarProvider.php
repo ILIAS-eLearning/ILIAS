@@ -119,7 +119,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
             )->withNonAvailableReason($dic->ui()->factory()->legacy("{$dic->language()->txt('component_not_active')}"));
 
         // My Certificates
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CERT, $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CERT, $title);
         $items[] = $this->mainmenu->link($this->if->identifier("mm_pd_cert"))
             ->withSymbol($icon)
             ->withTitle($this->dic->language()->txt("mm_certificates"))
@@ -144,7 +144,7 @@ class StaffMainBarProvider extends AbstractStaticMainMenuProvider
             )->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt("component_not_active")}"));
 
         // My Competences
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::SKMG, $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::SKMG, $title);
         $items[] = $this->mainmenu->link($this->if->identifier("mm_pd_comp"))
             ->withSymbol($icon)
             ->withTitle($this->dic->language()->txt("mm_skills"))
