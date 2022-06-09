@@ -14507,6 +14507,14 @@ p#copg-auto-save {
   top: 0;
   z-index: 9;
 }
+.il-copg-edit-list-button {
+  padding: 0;
+}
+.il-copg-edit-list-button img {
+  filter: invert(100%);
+  width: 26px;
+  height: 25px;
+}
 /* Services/Calendar */
 td.even {
   color: #161616;
@@ -19811,3 +19819,4 @@ table.mceToolbar td {
     content: "";
   }
 }
+/*# sourceMappingURL=delos.css.map */

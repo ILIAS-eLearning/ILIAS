@@ -1415,7 +1415,7 @@ class ilPageObjectGUI
         if ($this->getOutputMode() == "edit") {
             $col_path = ilUtil::getImagePath("col.svg");
             $row_path = ilUtil::getImagePath("row.svg");
-            $item_path = ilUtil::getImagePath("item.svg");
+            $item_path = ilUtil::getImagePath("icon_peadl.svg");
             $cell_path = ilUtil::getImagePath("cell.svg");
         }
 
@@ -2349,6 +2349,11 @@ class ilPageObjectGUI
         $this->lng->toJS("cont_no_block");
         $this->lng->toJS("copg_error");
         $this->lng->toJS("cont_ed_click_to_add_pg");
+        $this->lng->toJS("cont_ed_new_item_after");
+        $this->lng->toJS("cont_ed_new_item_before");
+        $this->lng->toJS("cont_ed_item_up");
+        $this->lng->toJS("cont_ed_item_down");
+        $this->lng->toJS("cont_ed_delete_item");
         // workaroun: we need this js for the new editor version, e.g. for new section form to work
         // @todo: solve this in a smarter way
         $this->tpl->addJavaScript("./Services/UIComponent/AdvancedSelectionList/js/AdvancedSelectionList.js");

@@ -271,4 +271,14 @@ export default class PageEditorActionFactory {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.PAGE_EDITING);
   }
 
+  /**
+   * @returns {EditorAction}
+   */
+  editListItem(listCmd, pcid) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.LIST_EDIT, {
+      listCmd: listCmd,
+      pcid: pcid
+    });
+  }
+
 }
