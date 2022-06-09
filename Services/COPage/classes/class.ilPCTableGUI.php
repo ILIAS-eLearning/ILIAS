@@ -14,6 +14,8 @@ require_once("./Services/COPage/classes/class.ilPageContentGUI.php");
  * @version $Id$
  *
  * @ingroup ServicesCOPage
+ * See https://mantis.ilias.de/view.php?id=32856
+ * @ilCtrl_Calls ilPCTableGUI: ilAssGenFeedbackPageGUI
  */
 class ilPCTableGUI extends ilPageContentGUI
 {
