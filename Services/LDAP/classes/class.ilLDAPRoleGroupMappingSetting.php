@@ -60,7 +60,7 @@ class ilLDAPRoleGroupMappingSetting
         $this->setURL($rec["url"]);
         $this->setDN($rec["dn"]);
         $this->setMemberAttribute($rec["member_attribute"]);
-        $this->setMemberISDN($rec["member_isdn"]);
+        $this->setMemberISDN((bool) $rec["member_isdn"]);
         $this->setRole((int) $rec["role"]);
         $this->setMappingInfo($rec["mapping_info"]);
         $this->setMappingInfoType((bool) $rec["mapping_info_type"]);
