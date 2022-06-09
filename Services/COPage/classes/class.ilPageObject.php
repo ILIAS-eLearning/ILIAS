@@ -2477,7 +2477,7 @@ s     */
      */
     public function update(bool $a_validate = true, bool $a_no_history = false)
     {
-        $this->log->debug("ilPageObject, update(): start, id: " . $this->getId());
+        $this->log->debug("start..., id: " . $this->getId());
 
         $lm_set = new ilSetting("lm");
 
@@ -2503,6 +2503,7 @@ s     */
         }
 
         // check for duplicate pc ids
+        $this->log->debug("checking duplicate ids");
         if ($this->hasDuplicatePCIds()) {
             $errors[0] = $this->lng->txt("cont_could_not_save_duplicate_pc_ids") .
                 " (" . implode(", ", $this->getDuplicatePCIds()) . ")";
@@ -2516,6 +2517,8 @@ s     */
         if (empty($errors)) {
             // @todo 1: is this page type or pc content type
             // related -> plugins should be able to hook in!?
+
+            $this->log->debug("perform automatic modifications");
             $this->performAutomaticModifications();
 
             // get xml content
@@ -2576,6 +2579,7 @@ s     */
                         $old_domdoc->loadXML('<?xml version="1.0" encoding="UTF-8"?>' . $old_content);
 
                         // after history entry creation event
+                        $this->log->debug("calling __afterHistoryEntry");
                         $this->__afterHistoryEntry($old_domdoc, $old_content, $old_nr);
 
                         // only save one time
@@ -2589,7 +2593,9 @@ s     */
                 : 0;
 
             // @todo: pass dom instead?
+            $this->log->debug("checking deactivated elements");
             $iel = $this->containsDeactivatedElements($content);
+            $this->log->debug("checking internal links");
             $inl = $this->containsIntLinks($content);
 
             $this->db->update("page_object", array(
@@ -2611,10 +2617,11 @@ s     */
             ));
 
             // after update event
+            $this->log->debug("calling __afterUpdate()");
             $this->__afterUpdate($dom_doc, $content);
 
             $this->log->debug(
-                "ilPageObject, update(): updated and returning true, content: " . substr(
+                "...ending, updated and returning true, content: " . substr(
                     $this->getXMLContent(),
                     0,
                     100
