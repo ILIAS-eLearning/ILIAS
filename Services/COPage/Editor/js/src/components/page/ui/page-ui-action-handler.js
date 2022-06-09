@@ -200,6 +200,10 @@ export default class PageUIActionHandler {
       case "multi.activate":
         this.sendActivateCommand(params);
         break;
+
+      case "list.edit":
+        this.sendListEditCommand(params);
+        break;
     }
 
 
@@ -421,6 +425,25 @@ export default class PageUIActionHandler {
 
     this.client.sendCommand(update_action).then(result => {
       this.ui.handlePageReloadResponse(result);
+    });
+  }
+
+  sendListEditCommand(params) {
+    let list_action;
+    const af = this.actionFactory;
+    const pcid = params.pcid;
+    const listCmd = params.listCmd;
+    const dispatch = this.dispatcher;
+
+    list_action = af.page().command().editListItem(
+      listCmd,
+      "Page",
+      pcid
+    );
+
+    this.client.sendCommand(list_action).then(result => {
+      this.ui.handlePageReloadResponse(result);
+      dispatch.dispatch(af.page().editor().enablePageEditing());
     });
   }
 

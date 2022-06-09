@@ -192,6 +192,10 @@ export default class ModelActionHandler {
         this.model.selectNone();
         this.model.setState(this.model.STATE_PAGE);
         break;
+
+      case "list.edit":
+        this.model.setState(this.model.STATE_SERVER_CMD);
+        break;
     }
   }
 }
