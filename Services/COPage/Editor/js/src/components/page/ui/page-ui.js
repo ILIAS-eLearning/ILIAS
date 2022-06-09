@@ -77,7 +77,7 @@ export default class PageUI {
   constructor(client, dispatcher, actionFactory, model, toolSlate
     , pageModifier) {
 
-    this.debug = true;
+    this.debug = false;
     this.droparea = "<div class='il_droparea'></div>";
     this.add = "<span class='glyphicon glyphicon-plus-sign'></span>";
     this.first_add = "<span class='il-copg-add-text'> " +
@@ -870,8 +870,8 @@ export default class PageUI {
     {
       $('#il_center_col').html(pl.renderedContent);
 
-      console.log("PCMODEL---");
-      console.log(pl.pcModel);
+      this.log("PCMODEL---");
+      this.log(pl.pcModel);
       il.COPagePres.initAudioVideo();
 
       for (const [key, value] of Object.entries(pl.pcModel)) {

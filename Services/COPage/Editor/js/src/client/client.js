@@ -4,6 +4,7 @@ import ResponseFactory from './response/response-factory.js';
 import FetchWrapper from './fetch-wrapper.js';
 import FormWrapper from './form-wrapper.js';
 import FormCommandAction from './actions/form-command-action.js';
+import CommandQueue from './actions/command-queue.js';
 
 export default class Client {
 
@@ -46,6 +47,7 @@ export default class Client {
     this.form_action = form_action;
     this.response_factory = response_factory || new ResponseFactory();
     this.defErrorHandler = null;
+    this.queue = new CommandQueue();
   }
 
   setDefaultErrorHandler(handler) {
@@ -114,8 +116,26 @@ export default class Client {
    * @returns {Promise}
    */
   sendCommand(command_action) {
-    this.log("client.sendCommand");
-    this.log(command_action);
+    if (command_action.getQueueable()) {
+      const t = this;
+      console.log("### Put command in queue:");
+      console.log(command_action);
+      return this.queue.push(() => {return t._sendCommand(command_action);});
+    } else {
+      console.log("### Sending command directly:");
+      console.log(command_action);
+      return this._sendCommand(command_action);
+    }
+  }
+
+  /**
+   * Send command action
+   * @param {CommandAction} command_action
+   * @returns {Promise}
+   */
+  _sendCommand(command_action) {
+
+    this.log("...sending Command " + command_action.getId());
 
     const errorHandler = (err) => {
       this.errorHandler(err);
@@ -146,6 +166,7 @@ export default class Client {
                 resolve(this.response_factory.response(command_action, json))
             ).catch(errorHandler);
           }
+          this.log("...left in Queue: " + this.queue.count());
         }).catch(errorHandler);
       });
 
@@ -173,6 +194,7 @@ export default class Client {
                 resolve(this.response_factory.response(command_action, json))
             ).catch(errorHandler);
           }
+          this.log("...left in Queue: " + this.queue.count());
         }).catch(errorHandler);
       });
     }

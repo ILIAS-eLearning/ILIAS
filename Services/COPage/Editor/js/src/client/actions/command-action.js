@@ -13,7 +13,7 @@ export default class CommandAction extends Action {
    * @param {string} type
    * @param {Object} params
    */
-  constructor(component, type, params = {}) {
-    super(component, type, params);
+  constructor(component, type, params = {}, queueable = false) {
+    super(component, type, params, queueable);
   }
 }

@@ -28,8 +28,8 @@ export default class ClientActionFactory {
    * @param {string} type
    * @param {Object} params
    */
-  command(component, type, params) {
-    return new CommandAction(component, type, params);
+  command(component, type, params, queueable = false) {
+    return new CommandAction(component, type, params, queueable);
   }
 
   /**

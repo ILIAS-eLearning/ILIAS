@@ -332,6 +332,8 @@ export default class ParagraphUIActionHandler {
   }
 
   handleSaveResponse(pcid, pl, page_model) {
+    const dispatch = this.dispatcher;
+    const af = this.actionFactory;
     const still_editing = (pcid === page_model.getCurrentPCId() && page_model.getState() === page_model.STATE_COMPONENT);
     if (pl.error) {
       this.ui.showError(pl.error);
@@ -342,6 +344,11 @@ export default class ParagraphUIActionHandler {
       if (pl.last_update && still_editing) {
         this.ui.showLastUpdate(pl.last_update);
       }
+    }
+
+    // this is the case, if we return to the page (the page is put in STATE_SERVER_CMD state)
+    if (page_model.getState() === page_model.STATE_SERVER_CMD) {
+      dispatch.dispatch(af.page().editor().enablePageEditing());
     }
   }
 
@@ -358,11 +365,11 @@ export default class ParagraphUIActionHandler {
         page_model.getInsertFromPlaceholder()
     );
     this.ui.autoSaveStarted();
+    // directly go to "EDIT" mode, since server "knows" all elements now
+    dispatch.dispatch(af.paragraph().editor().splitPostProcessing());
     this.client.sendCommand(insert_action).then(result => {
       this.ui.autoSaveEnded();
       const pl = result.getPayload();
-
-      dispatch.dispatch(af.paragraph().editor().splitPostProcessing());
 
       this.handleSaveResponseSplit(pl, page_model);
     });

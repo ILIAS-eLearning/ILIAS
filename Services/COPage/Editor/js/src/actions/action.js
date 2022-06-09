@@ -18,7 +18,7 @@ export default class Action {
   /**
    * @type {number}
    */
-  //  static next_id = 1;
+  static next_id = 1;
 
   /**
    * @type {number}
@@ -30,12 +30,13 @@ export default class Action {
    * @param {string} type
    * @param {Object} params
    */
-  constructor(component, type, params= {}) {
+  constructor(component, type, params= {}, queueable = false) {
     this.component = component;
     this.type = type;
-    //this.id = Action.next_id++;       // maybe switch to uuid in the future
-    this.id = 1;
+    this.id = Action.next_id++;       // maybe switch to uuid in the future
+    //this.id = 1;
     this.params = params;
+    this.queueable = queueable;
   }
 
   /**
@@ -64,6 +65,13 @@ export default class Action {
    */
   getParams () {
     return this.params;
+  }
+
+  /**
+   * @returns {bool}
+   */
+  getQueueable () {
+    return this.queueable;
   }
 
 }
