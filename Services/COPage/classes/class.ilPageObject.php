@@ -2504,7 +2504,8 @@ s     */
 
         // check for duplicate pc ids
         if ($this->hasDuplicatePCIds()) {
-            $errors[0] = $this->lng->txt("cont_could_not_save_duplicate_pc_ids");
+            $errors[0] = $this->lng->txt("cont_could_not_save_duplicate_pc_ids") .
+                " (" . implode(", ", $this->getDuplicatePCIds()) . ")";
         }
 
         if (!empty($errors)) {
@@ -3741,10 +3742,21 @@ s     */
 
     public function hasDuplicatePCIds() : bool
     {
+        $duplicates = $this->getDuplicatePCIds();
+        return count($duplicates) > 0;
+    }
+
+    /**
+     * Get all duplicate PC Ids
+     * @return int[]
+     */
+    public function getDuplicatePCIds() : array
+    {
         $this->buildDom();
         $mydom = $this->dom;
 
-        $pcids = array();
+        $pcids = [];
+        $duplicates = [];
 
         $sep = $path = "";
         foreach ($this->id_elements as $el) {
@@ -3761,12 +3773,12 @@ s     */
             $pc_id = $node->get_attribute("PCID");
             if ($pc_id != "") {
                 if (isset($pcids[$pc_id])) {
-                    return true;
+                    $duplicates[] = $pc_id;
                 }
                 $pcids[$pc_id] = $pc_id;
             }
         }
-        return false;
+        return $duplicates;
     }
 
     public function existsPCId(string $a_pc_id) : bool
