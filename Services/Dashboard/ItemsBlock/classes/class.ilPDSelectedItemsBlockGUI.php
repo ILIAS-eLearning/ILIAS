@@ -513,10 +513,20 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $top_tb->setLeadingImage(ilUtil::getImagePath('arrow_upright.svg'), $this->lng->txt('actions'));
 
         $button = ilSubmitButton::getInstance();
+        $grouped_items = $this->blockView->getItemGroups();
         if ($this->viewSettings->isSelectedItemsViewActive()) {
             $button->setCaption('remove');
         } else {
             $button->setCaption('pd_unsubscribe_memberships');
+            foreach ($grouped_items as $group) {
+                $items = $group->getItems();
+                $group->setItems([]);
+                foreach ($items as $item) {
+                    if ($this->rbacsystem->checkAccess('leave', $item['ref_id'])) {
+                        $group->pushItem($item);
+                    }
+                }
+            }
         }
         $button->setCommand('confirmRemove');
         $top_tb->addStickyItem($button);
@@ -528,7 +538,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $bot_tb->addStickyItem($button);
         $bot_tb->setOpenFormTag(false);
 
-        return $top_tb->getHTML() . $this->renderManageList() . $bot_tb->getHTML();
+        return $top_tb->getHTML() . $this->renderManageList($grouped_items) . $bot_tb->getHTML();
     }
 
     /**
@@ -822,7 +832,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         return $renderer->render($subs);
     }
 
-    protected function renderManageList() : string
+    protected function renderManageList(array $grouped_items) : string
     {
         $ui = $this->ui;
 
@@ -849,11 +859,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             }
         }
 
-        $grouped_items = $this->blockView->getItemGroups();
-
-        $renderer = new ilDashObjectsTableRenderer($this);
-
-        return $renderer->render($grouped_items);
+        return (new ilDashObjectsTableRenderer($this))->render($grouped_items);
     }
 
     /**
