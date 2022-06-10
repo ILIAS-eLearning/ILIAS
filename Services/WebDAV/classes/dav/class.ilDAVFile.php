@@ -68,21 +68,8 @@ class ilDAVFile implements IFile
         }
         
         $size = $this->request->getHeader("Content-Length")[0];
-        if ($size > ilFileUploadUtil::getMaxFileSize()) {
+        if ($size > ilFileUtils::getUploadSizeLimitBytes()) {
             throw new Forbidden('File is too big');
-        }
-        
-        if ($this->getSize() === 0) {
-            $parent_ref_id = $this->repo_helper->getParentOfRefId($this->obj->getRefId());
-            $obj_id = $this->obj->getId();
-            $this->repo_helper->deleteObject($this->obj->getRefId());
-            $file_obj = new ilObjFile();
-            $file_obj->setTitle($this->getName());
-            $file_obj->setFileName($this->getName());
-            
-            $file_dav = $this->dav_factory->createDAVObject($file_obj, $parent_ref_id);
-            $this->repo_helper->updateLocksAfterResettingObject($obj_id, $file_obj->getId());
-            return $file_dav->put($data);
         }
 
         $stream = Streams::ofResource($data);

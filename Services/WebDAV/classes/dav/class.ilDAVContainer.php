@@ -122,7 +122,7 @@ class ilDAVContainer implements ICollection
         }
         
         $size = $this->request->getHeader("Content-Length")[0];
-        if ($size > ilFileUploadUtil::getMaxFileSize()) {
+        if ($size > ilFileUtils::getUploadSizeLimitBytes()) {
             throw new Forbidden('File is too big');
         }
         
