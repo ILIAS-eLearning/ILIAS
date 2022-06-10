@@ -273,7 +273,7 @@ class ilObjectTranslationGUI
             )
             : [];
         
-        $post_default = $this->post_wrapper->has("desc")
+        $post_default = $this->post_wrapper->has("default")
             ? $this->post_wrapper->retrieve(
                 "default",
                 $this->refinery->kindlyTo()->int()
