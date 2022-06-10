@@ -9,7 +9,7 @@ do
     while [ true ]
     do
         header_length=$(($header_length + 1))
-        line=$(head $file -n ${header_length} | tail -n1)
+        line=$(head -n ${header_length} $file | tail -n1)
 
         if [ "$line" = "$header_end" ]; then
             break
@@ -22,7 +22,7 @@ do
     done
 
     echo  "sorting entries in ${file}";
-    (head ${file} -n $header_length && tail ${file} -n +$((header_length + 1)) | sort ) > ${file}.tmp
+    (head -n $header_length ${file} && tail -n +$((header_length + 1)) ${file} | sort ) > ${file}.tmp
     mv ${file}.tmp ${file}
 
 done
