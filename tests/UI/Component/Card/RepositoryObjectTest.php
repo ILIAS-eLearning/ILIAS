@@ -85,6 +85,17 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Card\\RepositoryObject", $this->getBaseCard());
     }
 
+    public function test_factory_with_shy_button() : void
+    {
+        $button_factory = new I\Component\Button\Factory();
+        $button = $button_factory->shy("Card Title New", "");
+
+        $cf = $this->getCardFactory();
+        $image = new I\Component\Image\Image("standard", "src", "alt");
+
+        $this->assertEquals($button, $cf->repositoryObject($button, $image)->getTitle());
+    }
+
     public function test_with_object_icon() : void
     {
         $icon = new I\Component\Symbol\Icon\Standard("crs", 'Course', 'medium', false);
@@ -131,6 +142,16 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Dropdown\\Standard", $dropdown);
         $this->assertEquals($card->getActions(), $dropdown);
+    }
+
+    public function test_with_title_as_shy() : void
+    {
+        $c = $this->getBaseCard();
+        $button_factory = new I\Component\Button\Factory();
+        $button = $button_factory->shy("Card Title New", "");
+
+        $c = $c->withTitle($button);
+        $this->assertEquals($button, $c->getTitle());
     }
 
     public function test_render_with_object_icon() : void
