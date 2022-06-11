@@ -1,1 +1,24 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 240 240"><defs><style>.cls-1{fill:none;}.cls-2{clip-path:url(#clip-path);}.cls-3{fill:#52658b;}</style><clipPath id="clip-path" transform="translate(-40 -40)"><rect class="cls-1" x="40" y="40" width="240" height="240"/></clipPath></defs><g class="cls-2"><path class="cls-3" d="M240,133.63V60a20,20,0,0,0-20-20H60A20,20,0,0,0,40,60V170a20,20,0,0,0,20,20H70v51.27L112.79,190h32.5V175H106.93L85,201.27V175H65a10,10,0,0,1-10-10V65A10,10,0,0,1,65,55H215a10,10,0,0,1,10,10v68.63Z" transform="translate(-40 -40)"/><path class="cls-3" d="M257.6,183.64H177.79v-15H257.6Zm-79.81,15h54.87v15H177.79ZM280,225.91V164.09c0-15.45-15-15.45-15-15.45H175.25c-15,0-15,15.45-15,15.45v61.82c0,15.45,15,15.45,15,15.45H218.9V280l31.17-38.64h15c15,0,15-15.45,15-15.45" transform="translate(-40 -40)"/></g></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_00000130637937252271997980000011689412832841277105_);fill:#52658B;}
+	.st1{fill:none;}
+</style>
+<g>
+	<defs>
+		<rect id="SVGID_1_" x="40" y="40" width="240" height="240"/>
+	</defs>
+	<clipPath id="SVGID_00000111910201911197786460000014830566554412798650_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<path style="clip-path:url(#SVGID_00000111910201911197786460000014830566554412798650_);fill:#52658B;" d="M240,133.6V60
+		c0-11-9-20-20-20H60c-11,0-20,9-20,20v110c0,11,9,20,20,20h10v51.3l42.8-51.3h32.5v-15h-38.4L85,201.3V175H65c-5.5,0-10-4.5-10-10
+		V65c0-5.5,4.5-10,10-10h150c5.5,0,10,4.5,10,10v68.6H240z"/>
+	<path style="clip-path:url(#SVGID_00000111910201911197786460000014830566554412798650_);fill:#52658B;" d="M257.6,183.6h-79.8v-15
+		h79.8V183.6z M177.8,198.6h54.9v15h-54.9V198.6z M280,225.9v-61.8c0-15.5-15-15.5-15-15.5h-89.8c-15,0-15,15.5-15,15.5v61.8
+		c0,15.5,15,15.5,15,15.5h43.6l0,38.6l31.2-38.6h15C280,241.4,280,225.9,280,225.9"/>
+</g>
+<rect x="0" class="st1" width="320" height="320"/>
+</svg>

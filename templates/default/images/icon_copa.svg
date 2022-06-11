@@ -1,1 +1,26 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 260 195"><defs><style>.cls-1{fill:none;}.cls-2{clip-path:url(#clip-path);}.cls-3{fill:#52658b;}</style><clipPath id="clip-path" transform="translate(-30 -62.5)"><rect class="cls-1" x="30" y="62.5" width="260" height="195"/></clipPath></defs><g class="cls-2"><path class="cls-3" d="M245,187.5H75V77.5H245Zm15,10V67.5a5,5,0,0,0-5-5H65a5,5,0,0,0-5,5v130a5,5,0,0,0,5,5H255a5,5,0,0,0,5-5" transform="translate(-30 -62.5)"/></g><polygon class="cls-3" points="39 155 0 195 260 195 221 155 39 155"/><polygon class="cls-3" points="131.21 110 131.21 61.72 120.96 54.89 101.88 81.23 84.79 71.98 60.43 105.28 60.43 110 131.21 110"/><rect class="cls-3" x="144.57" y="35" width="55" height="15"/><rect class="cls-3" x="144.57" y="65" width="45" height="15"/><rect class="cls-3" x="144.57" y="95" width="55" height="15"/></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_00000172429963393735320190000014007104927332176542_);fill:#52658B;}
+	.st1{fill:#52658B;}
+	.st2{fill:none;}
+</style>
+<g>
+	<defs>
+		<rect id="SVGID_1_" x="30" y="62.5" width="260" height="195"/>
+	</defs>
+	<clipPath id="SVGID_00000145022379337805752400000006795355841419253686_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<path style="clip-path:url(#SVGID_00000145022379337805752400000006795355841419253686_);fill:#52658B;" d="M245,187.5H75v-110h170
+		V187.5z M260,197.5v-130c0-2.8-2.2-5-5-5H65c-2.8,0-5,2.2-5,5v130c0,2.8,2.2,5,5,5h190C257.8,202.5,260,200.2,260,197.5"/>
+</g>
+<polygon class="st1" points="69,217.5 30,257.5 290,257.5 251,217.5 "/>
+<polygon class="st1" points="161.2,172.5 161.2,124.2 151,117.4 131.9,143.7 114.8,134.5 90.4,167.8 90.4,172.5 "/>
+<rect x="174.6" y="97.5" class="st1" width="55" height="15"/>
+<rect x="174.6" y="127.5" class="st1" width="45" height="15"/>
+<rect x="174.6" y="157.5" class="st1" width="55" height="15"/>
+<rect class="st2" width="320" height="320"/>
+</svg>

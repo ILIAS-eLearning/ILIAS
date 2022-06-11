@@ -1,1 +1,17 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 215"><defs><style>.cls-1{fill:#52658b;}</style></defs><rect class="cls-1" x="67.5" y="55" width="170" height="30"/><rect class="cls-1" x="67.5" y="120" width="170" height="30"/><rect class="cls-1" x="67.5" y="185" width="170" height="30"/><rect class="cls-1" x="22.5" y="55" width="30" height="30"/><rect class="cls-1" x="22.5" y="120" width="30" height="30"/><rect class="cls-1" x="22.5" y="185" width="30" height="30"/><rect class="cls-1" width="260" height="15"/></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#52658B;}
+	.st1{fill:none;}
+</style>
+<rect x="97.5" y="107.5" class="st0" width="170" height="30"/>
+<rect x="97.5" y="172.5" class="st0" width="170" height="30"/>
+<rect x="97.5" y="237.5" class="st0" width="170" height="30"/>
+<rect x="52.5" y="107.5" class="st0" width="30" height="30"/>
+<rect x="52.5" y="172.5" class="st0" width="30" height="30"/>
+<rect x="52.5" y="237.5" class="st0" width="30" height="30"/>
+<rect x="30" y="52.5" class="st0" width="260" height="15"/>
+<rect x="0" class="st1" width="320" height="320"/>
+</svg>

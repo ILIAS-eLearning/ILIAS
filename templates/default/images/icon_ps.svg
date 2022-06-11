@@ -1,1 +1,23 @@
-<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 205.98 240"><defs><style>.cls-1{fill:none;}.cls-2{clip-path:url(#clip-path);}.cls-3{fill:#52658b;}</style><clipPath id="clip-path" transform="translate(-57.01 -40)"><rect class="cls-1" x="57.01" y="40" width="205.98" height="240"/></clipPath></defs><g class="cls-2"><path class="cls-3" d="M151.14,201.2,145.85,233h28.3l-5.28-31.78a15.82,15.82,0,0,0,7.22-13.07,16.09,16.09,0,0,0-32.18,0,15.8,15.8,0,0,0,7.23,13.08M248,265H72V140H248ZM224.52,125.51h-129c7.36-28.22,33.46-49.18,64.53-49.18s57.15,21,64.51,49.18m38.47,139V141s0-.52-.1-1.22C261.86,84.58,216.15,40,160,40,103.59,40,57.67,85,57.06,140.53c0,.16-.05.27-.05.43V264.55S57,280,72.46,280H247.54S263,280,263,264.55" transform="translate(-57.01 -40)"/></g></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_00000021827820771885729530000012893327312600253599_);fill:#52658B;}
+	.st1{fill:none;}
+</style>
+<g>
+	<defs>
+		<rect id="SVGID_1_" x="57" y="40" width="206" height="240"/>
+	</defs>
+	<clipPath id="SVGID_00000057148934716384397160000005684534387473663143_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<path style="clip-path:url(#SVGID_00000057148934716384397160000005684534387473663143_);fill:#52658B;" d="M151.1,201.2l-5.3,31.8
+		h28.3l-5.3-31.8c4.3-2.9,7.2-7.5,7.2-13.1c0-8.9-7.2-16.1-16.1-16.1c-8.9,0-16.1,7.2-16.1,16.1
+		C143.9,193.7,146.9,198.3,151.1,201.2 M248,265H72V140h176V265z M224.5,125.5h-129c7.4-28.2,33.5-49.2,64.5-49.2
+		C191.1,76.3,217.2,97.3,224.5,125.5 M263,264.5V141c0,0,0-0.5-0.1-1.2C261.9,84.6,216.1,40,160,40C103.6,40,57.7,85,57.1,140.5
+		c0,0.2-0.1,0.3-0.1,0.4v123.6c0,0,0,15.5,15.5,15.5h175.1C247.5,280,263,280,263,264.5"/>
+</g>
+<rect class="st1" width="320" height="320"/>
+</svg>
