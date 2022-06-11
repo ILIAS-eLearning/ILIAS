@@ -115,7 +115,7 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         }
 
         if ($this->areActionListsRequired()) {
-            $this->addColumn('', '', '1');
+            $this->addColumn($this->lng->txt('actions'), '', '1');
         }
 
         return $this;
