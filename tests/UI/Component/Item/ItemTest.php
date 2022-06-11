@@ -382,7 +382,7 @@ EOT;
 	    <div class="col-sm-9">
             <div class="il-item-title">title</div>
 		</div>
-		<div class="col-sm-3">
+		<div class="col-xs-3 col-sm-2 col-lg-2">
 		    <div class="il-chart-progressmeter-box ">
 		        <div class="il-chart-progressmeter-container">
 		            <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">
@@ -428,13 +428,13 @@ EOT;
         $expected = <<<EOT
 <div class="il-item il-std-item ">
 	<div class="row">
-	    <div class="col-xs-2 col-sm-3">
+	    <div class="col-xs-3 col-sm-3 col-lg-2">
 			<img src="src" class="img-standard" alt="str" />
 		</div>
-	    <div class="col-xs-7 col-sm-6">
+	    <div class="col-xs-6 col-sm-7 col-lg-8">
             <div class="il-item-title">title</div>
 		</div>
-		<div class="col-sm-3">
+		<div class="col-xs-3 col-sm-2 col-lg-2">
 		    <div class="il-chart-progressmeter-box ">
 		        <div class="il-chart-progressmeter-container">
 		            <svg viewBox="0 0 50 40" class="il-chart-progressmeter-viewbox">
