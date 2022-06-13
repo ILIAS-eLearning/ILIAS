@@ -26,7 +26,6 @@ class RepositoryLink extends AbstractChildItem implements
     hasAction,
     hasSymbol,
     isInterchangeableItem,
-    isTopItem,
     isChild
 {
     use hasSymbolTrait;
