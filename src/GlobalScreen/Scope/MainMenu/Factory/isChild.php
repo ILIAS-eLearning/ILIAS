@@ -31,5 +31,5 @@ interface isChild extends isItem
      * @param IdentificationInterface $identification
      * @return isChild
      */
-    public function overrideParent(IdentificationInterface $identification) : isChild;
+    public function overrideParent(IdentificationInterface $identification) : isItem;
 }

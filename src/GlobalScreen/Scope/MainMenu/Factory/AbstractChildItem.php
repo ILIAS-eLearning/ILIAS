@@ -17,10 +17,10 @@ use ILIAS\GlobalScreen\Identification\NullIdentification;
  * Class AbstractBaseItem
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-abstract class AbstractChildItem extends AbstractBaseItem implements isChild
+abstract class AbstractChildItem extends AbstractBaseItem
 {
     protected ?IdentificationInterface $parent = null;
-    
+
     /**
      * @inheritDoc
      */
@@ -28,10 +28,10 @@ abstract class AbstractChildItem extends AbstractBaseItem implements isChild
     {
         $clone = clone($this);
         $clone->parent = $identification;
-        
+
         return $clone;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -39,7 +39,7 @@ abstract class AbstractChildItem extends AbstractBaseItem implements isChild
     {
         return $this->parent instanceof IdentificationInterface;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -47,11 +47,11 @@ abstract class AbstractChildItem extends AbstractBaseItem implements isChild
     {
         return $this->parent instanceof IdentificationInterface ? $this->parent : new NullIdentification();
     }
-    
-    public function overrideParent(IdentificationInterface $identification) : isChild
+
+    public function overrideParent(IdentificationInterface $identification) : isItem
     {
         $this->parent = $identification;
-        
+
         return $this;
     }
 }

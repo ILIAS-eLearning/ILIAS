@@ -5,6 +5,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasAction;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbolTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
@@ -29,16 +30,22 @@ use LogicException;
  * read the difference between GlobalScreen and UI in the README.md of the GlobalScreen Service.
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, hasSymbol, isInterchangeableItem, isTopItem
+class RepositoryLink extends AbstractChildItem implements
+    hasTitle,
+    hasAction,
+    hasSymbol,
+    isInterchangeableItem,
+    isTopItem,
+    isChild
 {
     use hasSymbolTrait;
     use SymbolDecoratorTrait;
     use isInterchangeableItemTrait;
-    
+
     protected int $ref_id = 0;
     protected string $alt_text;
     protected string $title = '';
-    
+
     /**
      * @param string $title
      * @return RepositoryLink
@@ -47,10 +54,10 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         $clone = clone($this);
         $clone->title = $title;
-        
+
         return $clone;
     }
-    
+
     /**
      * @return string
      */
@@ -58,15 +65,15 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         return $this->title;
     }
-    
+
     public function withAltText(string $alt_text) : self
     {
         $clone = clone($this);
         $clone->alt_text = $alt_text;
-        
+
         return $clone;
     }
-    
+
     /**
      * @return string
      */
@@ -74,7 +81,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         return $this->alt_text;
     }
-    
+
     /**
      * @return string
      */
@@ -82,7 +89,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         return ilLink::_getLink($this->ref_id);
     }
-    
+
     /**
      * @param string $action
      * @return hasAction
@@ -91,23 +98,23 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         $clone = clone $this;
         $clone->ref_id = (int) $action;
-        
+
         return $clone;
     }
-    
+
     public function withRefId(int $ref_id) : self
     {
         $clone = clone $this;
         $clone->ref_id = $ref_id;
-        
+
         return $clone;
     }
-    
+
     public function getSymbol() : Symbol
     {
         return $this->symbol;
     }
-    
+
     /**
      * @return int
      */
@@ -115,7 +122,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         return $this->ref_id;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -123,7 +130,7 @@ class RepositoryLink extends AbstractChildItem implements hasTitle, hasAction, h
     {
         throw new LogicException("Repository-Links are always internal");
     }
-    
+
     /**
      * @inheritDoc
      */

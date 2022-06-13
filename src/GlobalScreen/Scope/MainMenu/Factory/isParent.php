@@ -6,31 +6,32 @@
  */
 interface isParent extends isItem
 {
-    
+
     /**
      * @return isItem[]
      */
     public function getChildren() : array;
-    
+
     /**
      * @param isItem[] $children
      * @return isParent
      */
     public function withChildren(array $children) : isParent;
-    
+
     /**
      * Attention
-     * @param isChild $child
+     *
+     * @param isItem $child
      * @return isParent
      */
-    public function appendChild(isChild $child) : isParent;
+    public function appendChild(isItem $child) : isParent;
     
     /**
      * @param isChild $child
      * @return isParent
      */
     public function removeChild(isChild $child) : isParent;
-    
+
     /**
      * @return bool
      */
