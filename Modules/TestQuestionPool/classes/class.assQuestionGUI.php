@@ -226,23 +226,8 @@ abstract class assQuestionGUI
     {
         global $DIC;
         $DIC['ilHelp']->setScreenIdComponent('qpl');
-        $access = $DIC['ilAccess'];
 
         $cmd = $this->ctrl->getCmd("editQuestion");
-
-        if (in_array($cmd, ['editQuestion', 'save'])) {
-            $parent_test_ref_id = $this->object->getParentTestRefId();
-            if ($parent_test_ref_id &&
-                !$access->checkAccess("write", "", $parent_test_ref_id)
-            ) {
-                ilUtil::sendFailure($this->lng->txt("no_permission"), true);
-                $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
-            }
-            if ($this->object->isInActiveTest()) {
-                ilUtil::sendFailure($this->lng->txt("question_is_part_of_running_test"), true);
-                $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
-            }
-        }
 
         $next_class = $this->ctrl->getNextClass($this);
 
