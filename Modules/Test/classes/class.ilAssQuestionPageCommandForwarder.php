@@ -67,7 +67,7 @@ class ilAssQuestionPageCommandForwarder
         $question = &$q_gui->object;
  
         if ($ctrl->getCmd() === 'edit' && $question->isInActiveTest()) {
-            $this->tpl->setOnScreenMessage('failure', $lng->txt("question_is_part_of_running_test"));
+            $main_template->setOnScreenMessage('failure', $lng->txt("question_is_part_of_running_test"));
             $ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
         }
 

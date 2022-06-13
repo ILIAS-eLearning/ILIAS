@@ -763,7 +763,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $questionGUI->setQuestionTabs();
                 
                 if ($questionGUI->object->isInActiveTest()) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
                     $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
 
@@ -795,7 +795,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $questionGUI->setQuestionTabs();
                 
                 if ($questionGUI->object->isInActiveTest()) {
-                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"));
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
                     $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
 
@@ -865,7 +865,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $questionGui->object->setObjId($this->object->getId());
                     
                     if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && $questionGUI->object->isInActiveTest()) {
-                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"));
+                        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
                         $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                     }
 
@@ -902,7 +902,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     
     protected function redirectAfterMissingWrite()
     {
-        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"));
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
         $target_class = get_class($this->object) . "GUI";
         $this->ctrl->setParameterByClass($target_class, 'ref_id', $this->ref_id);
         $this->ctrl->redirectByClass($target_class);

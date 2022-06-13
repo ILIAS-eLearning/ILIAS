@@ -256,7 +256,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $question = $q_gui->object;
                 
                 if ($question->isInActiveTest()) {
-                    ilUtil::sendFailure($this->lng->txt("question_is_part_of_running_test"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
                     $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
                 
@@ -326,7 +326,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $questionGUI->setQuestionTabs();
                 
                 if ($questionGUI->object->isInActiveTest()) {
-                    ilUtil::sendFailure($this->lng->txt("question_is_part_of_running_test"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
                     $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
                 
@@ -384,7 +384,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $questionGUI->setQuestionTabs();
                 
                 if ($questionGUI->object->isInActiveTest()) {
-                    ilUtil::sendFailure($this->lng->txt("question_is_part_of_running_test"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
                     $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
                 
@@ -475,7 +475,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $questionGUI->object->setObjId($this->object->getId());
                 
                 if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && $questionGUI->object->isInActiveTest()) {
-                    ilUtil::sendFailure($this->lng->txt("question_is_part_of_running_test"), true);
+                    $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
                     $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                 }
                 
@@ -504,7 +504,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     
     protected function redirectAfterMissingWrite()
     {
-        ilUtil::sendFailure($this->lng->txt("no_permission"), true);
+        $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
         $target_class = get_class($this->object) . "GUI";
         $this->ctrl->setParameterByClass($target_class, 'ref_id', $this->ref_id);
         $this->ctrl->redirectByClass($target_class);
