@@ -413,6 +413,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
 
         // generate the question output
         include_once "./Services/UICore/classes/class.ilTemplate.php";
+        $this->tpl->addOnLoadCode('ilAssMultipleChoiceCharCounterInit();');
         $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
             $answer = $this->object->answers[$answer_id];
@@ -535,6 +536,7 @@ class assMultipleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScorin
         }
         // generate the question output
         $this->tpl->addJavaScript('Modules/TestQuestionPool/js/ilAssMultipleChoice.js');
+        $this->tpl->addOnLoadCode('ilAssMultipleChoiceCharCounterInit();');
         include_once "./Services/UICore/classes/class.ilTemplate.php";
         $template = new ilTemplate("tpl.il_as_qpl_mc_mr_output.html", true, true, "Modules/TestQuestionPool");
         foreach ($keys as $answer_id) {
