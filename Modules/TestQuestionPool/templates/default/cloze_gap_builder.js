@@ -26,6 +26,7 @@ var ClozeGlobals = {
 	gap_restore:                  true
 };
 
+var ClozeSettings = {};
 
 var ClozeGapBuilder = (function () {
 	'use strict';

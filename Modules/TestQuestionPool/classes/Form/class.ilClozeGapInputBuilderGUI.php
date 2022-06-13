@@ -1,9 +1,19 @@
 <?php
 
-require_once 'Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php';
-require_once 'Services/Form/classes/class.ilTextInputGUI.php';
-require_once 'Modules/TestQuestionPool/classes/class.assClozeGap.php';
-require_once 'Modules/TestQuestionPool/classes/class.assClozeTest.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
 {
@@ -62,7 +72,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
     public function checkInput() : bool
     {
         $error = false;
-        $json = self::stripSlashesRecursive(json_decode($_POST['gap_json_post']), false);
+        $json = self::stripSlashesRecursive(json_decode($_POST['gap_json_post'], true), false);
         $gap = self::stripSlashesRecursive($this->raw('gap'));
         $gaps_used_in_combination = array();
         if (isset($_POST['gap_combination'])) {
@@ -99,7 +109,10 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
             foreach ($gap as $key => $item) {
                 $getType = ilUtil::stripSlashes($this->raw('clozetype_' . $key));
                 $gapsize = $this->raw('gap_' . $key . '_gapsize');
-                $json[0][$key]->text_field_length = $gapsize > 0 ? $gapsize : '';
+                
+                //$json[0][$key]->text_field_length = $gapsize > 0 ? $gapsize : '';
+                $json[0][$key]['text_field_length'] = $gapsize > 0 ? $gapsize : '';
+
                 $select_at_least_on_positive = false;
                 if ($getType == CLOZE_TEXT || $getType == CLOZE_SELECT) {
                     $gapText = self::stripSlashesRecursive($this->raw('gap_' . $key), false);
@@ -120,7 +133,7 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                                 $error = true;
                             }
                         }
-                        if (is_array($gap_with_points) && array_key_exists($key, $gap_with_points)) {
+                        if (isset($gap_with_points) && is_array($gap_with_points) && array_key_exists($key, $gap_with_points)) {
                             $points_sum += $gap_with_points[$key];
                         }
                         if ($points_sum <= 0) {
@@ -138,8 +151,6 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                     }
                 }
                 if ($getType == CLOZE_NUMERIC) {
-                    // fau: fixGapFormula - fix post indices, streamlined checks
-                    include_once("./Services/Math/classes/class.EvalMath.php");
                     $eval = new EvalMath();
                     $eval->suppress_errors = true;
 
@@ -159,8 +170,8 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
                             $points = $val;
                         }
                     }
-                    // fau.
-                    if (is_array($gap_with_points) && array_key_exists($key, $gap_with_points)) {
+
+                    if ($gap_with_points && is_array($gap_with_points) && array_key_exists($key, $gap_with_points)) {
                         $points += $gap_with_points[$key];
                     }
 
@@ -190,16 +201,34 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
     {
         global $DIC;
         $lng = $DIC['lng'];
-        require_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
         $modal = ilModalGUI::getInstance();
         $modal->setHeading($lng->txt(''));
         $modal->setId("ilGapModal");
-        //$modal->setBackdrop(ilModalGUI::BACKDROP_OFF);
         $modal->setBody('');
 
-        $DIC->ui()->mainTemplate()->addOnLoadCode('
-            ClozeGapBuilder.Init();
-        ');
+        $cloze_settings_js = 'ClozeSettings = {'
+            . ' gaps_php             : ' . json_encode(array($this->getValue()))
+            . ',gaps_combination     : ' . json_encode($this->getValueCombination())
+            . ',gap_backup           : []'
+            . ',unused_gaps_comb     : []'
+            . ',outofbound_text      : ' . '"' . $lng->txt('out_of_range') . '"'
+            . ',combination_error    : ' . '"' . $lng->txt('please_select') . '"'
+            . ',combination_text     : ' . '"' . $lng->txt('gap_combination') . '"'
+            . ',copy_of_combination  : ' . '"' . $lng->txt('copy_of') . ' ' . $lng->txt('gap_combination') . '"'
+            . ',gap_in_more_than_one : ' . '""'
+            . ',gap_text             : ' . '"' . $lng->txt('gap') . '"'
+            . ',ok_text              : ' . '"' . $lng->txt('ok') . '"'
+            . ',cancel_text          : ' . '"' . $lng->txt('cancel') . '"'
+        . '};';
+
+        $DIC->ui()->mainTemplate()->addOnLoadCode(
+            $cloze_settings_js
+            . 'ClozeGapBuilder.Init();'
+        );
+        $DIC->ui()->mainTemplate()->addJavascript(
+            './Modules/TestQuestionPool/templates/default/cloze_gap_builder.js'
+        );
+
 
         $custom_template = new ilTemplate('tpl.il_as_cloze_gap_builder.html', true, true, 'Modules/TestQuestionPool');
         $custom_template->setVariable("MY_MODAL", $modal->getHTML());
@@ -229,13 +258,10 @@ class ilClozeGapInputBuilderGUI extends ilSubEnabledFormPropertyGUI
         $custom_template->setVariable('BEST_POSSIBLE_SOLUTION_HEADER', $lng->txt('tst_best_solution_is'));
         $custom_template->setVariable('BEST_POSSIBLE_SOLUTION', $lng->txt('value'));
         $custom_template->setVariable('MAX_POINTS', $lng->txt('max_points'));
-        $custom_template->setVariable('OUT_OF_BOUND', $lng->txt('out_of_range'));
         $custom_template->setVariable('TYPE', $lng->txt('type'));
         $custom_template->setVariable('VALUES', $lng->txt('values'));
         $custom_template->setVariable('GAP_COMBINATION', $lng->txt('gap_combination'));
         $custom_template->setVariable('COPY', $lng->txt('copy_of'));
-        $custom_template->setVariable('OK', $lng->txt('ok'));
-        $custom_template->setVariable('CANCEL', $lng->txt('cancel'));
         $custom_template->setVariable('WHITESPACE_FRONT', $lng->txt('cloze_textgap_whitespace_before'));
         $custom_template->setVariable('WHITESPACE_BACK', $lng->txt('cloze_textgap_whitespace_after'));
         $custom_template->setVariable('WHITESPACE_MULTIPLE', $lng->txt('cloze_textgap_multiple_whitespace'));
