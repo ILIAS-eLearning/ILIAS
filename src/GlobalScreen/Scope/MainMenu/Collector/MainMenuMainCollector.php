@@ -111,7 +111,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
 
     public function prepareItemsForUIRepresentation() : void
     {
-        $this->map->walk(function (isItem &$item) : isItem {
+        $this->map->walk(function (isItem & $item) : isItem {
             $item->setTypeInformation($this->getTypeInformationForItem($item));
 
             // Apply the TypeHandler
@@ -131,14 +131,12 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         });
 
         // Override parent from configuration
-        $this->map->walk(function (isItem &$item) {
-            if ($item instanceof isChild) {
+        $this->map->walk(function (isItem $item) {
+            if ($item instanceof isChild || $item instanceof isInterchangeableItem) {
                 $parent = $this->map->getSingleItemFromFilter($this->information->getParent($item));
                 if ($parent instanceof isParent) {
                     $parent->appendChild($item);
-                    if ($parent instanceof Lost && $parent->getProviderIdentification()->serialize() === '') {
-                        $item->overrideParent($parent->getProviderIdentification());
-                    }
+                    $item->overrideParent($parent->getProviderIdentification());
                 }
             }
 
@@ -149,7 +147,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     public function cleanupItemsForUIRepresentation() : void
     {
         // Remove not visible children
-        $this->map->walk(function (isItem &$item) : isItem {
+        $this->map->walk(function (isItem & $item) : isItem {
             if ($item instanceof isParent) {
                 foreach ($item->getChildren() as $child) {
                     if (!$this->map->existsInFilter($child->getProviderIdentification())) {
@@ -160,7 +158,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             return $item;
         });
     
-        $this->map->walk(static function (isItem &$i) : void {
+        $this->map->walk(static function (isItem & $i) : void {
             if ($i instanceof isParent && count($i->getChildren()) === 0) {
                 $i = $i->withAvailableCallable(static function () {
                     return false;
@@ -178,7 +176,6 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
 
             return true;
         });
-     
     }
 
     public function sortItemsForUIRepresentation() : void

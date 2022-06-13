@@ -20,10 +20,11 @@ interface isParent extends isItem
 
     /**
      * Attention
-     * @param isChild $child
+     *
+     * @param isItem $child
      * @return isParent
      */
-    public function appendChild(isChild $child) : isParent;
+    public function appendChild(isItem $child) : isParent;
 
     /**
      * @param isChild $child

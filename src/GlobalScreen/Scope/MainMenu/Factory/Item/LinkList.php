@@ -15,7 +15,12 @@ use InvalidArgumentException;
  * Class LinkList
  * @package ILIAS\GlobalScreen\MainMenu\Item
  */
-class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchronousLoading, hasSymbol, isInterchangeableItem
+class LinkList extends AbstractChildItem implements
+    hasTitle,
+    supportsAsynchronousLoading,
+    hasSymbol,
+    isInterchangeableItem,
+    isChild
 {
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
@@ -124,5 +129,4 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
         }
         return $visible_links > 0 && parent::isVisible();
     }
-    
 }

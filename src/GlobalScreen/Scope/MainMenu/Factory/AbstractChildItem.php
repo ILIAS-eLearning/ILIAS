@@ -45,7 +45,7 @@ abstract class AbstractChildItem extends AbstractBaseItem
     /**
      * @inheritDoc
      */
-    public function overrideParent(IdentificationInterface $identification) : isChild
+    public function overrideParent(IdentificationInterface $identification) : isItem
     {
         $this->parent = $identification;
 

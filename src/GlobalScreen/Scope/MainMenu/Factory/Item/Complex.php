@@ -17,7 +17,13 @@ use ILIAS\UI\Component\Component;
  * Class Complex
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class Complex extends AbstractChildItem implements hasContent, hasTitle, hasSymbol, supportsAsynchronousLoading, isInterchangeableItem
+class Complex extends AbstractChildItem implements
+    hasContent,
+    hasTitle,
+    hasSymbol,
+    supportsAsynchronousLoading,
+    isInterchangeableItem,
+    isChild
 {
     use SymbolDecoratorTrait;
     use hasSymbolTrait;

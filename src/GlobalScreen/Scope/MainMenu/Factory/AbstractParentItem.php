@@ -34,7 +34,7 @@ abstract class AbstractParentItem extends AbstractBaseItem implements isParent
     /**
      * @inheritDoc
      */
-    public function appendChild(isChild $child) : isParent
+    public function appendChild(isItem $child) : isParent
     {
         $this->children[] = $child;
 

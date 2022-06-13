@@ -118,7 +118,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function overrideParent(IdentificationInterface $identification) : isChild
+    public function overrideParent(IdentificationInterface $identification) : isItem
     {
         $this->parent = $identification;
 
@@ -146,7 +146,7 @@ class Lost extends AbstractBaseItem implements hasContent, isTopItem, isParent, 
     /**
      * @inheritDoc
      */
-    public function appendChild(isChild $child) : isParent
+    public function appendChild(isItem $child) : isParent
     {
         $this->children[] = $child;
 

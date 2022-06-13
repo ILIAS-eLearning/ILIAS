@@ -60,7 +60,7 @@ class CollectorTest extends TestCase
                 return $item;
             }
 
-            public function getParent(isChild $item) : IdentificationInterface
+            public function getParent(isItem $item) : IdentificationInterface
             {
                 return $item->getParent();
             }
