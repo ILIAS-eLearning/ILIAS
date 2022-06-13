@@ -35,6 +35,13 @@ jobs:
           GHRUN: "yes"
           PR_NUMBER: ${{ github.event.pull_request.number }}
 
+      - name: Language Sort Check
+        run: CI/sort_langfile_entries.sh check
+        env:
+          GHRUN: "yes"
+          PR_NUMBER: ${{ github.event.number }}
+          GH_SHA: ${{ github.sha }}
+
       - name: Special Char Checker
         run: CI/Special-Char-Checker/special-char-checker.sh
         env:
