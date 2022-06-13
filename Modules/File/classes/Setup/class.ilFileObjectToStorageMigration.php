@@ -25,9 +25,10 @@ class ilFileObjectToStorageMigration implements Setup\Migration
 {
     private const FILE_PATH_REGEX = '/.*\/file_([\d]*)$/';
     public const MIGRATION_LOG_CSV = "migration_log.csv";
-
     private ilFileObjectToStorageMigrationHelper $helper;
+
     protected bool $prepared = false;
+    private bool $confirmed = false;
     protected ilFileObjectToStorageMigrationRunner $runner;
     protected ilDBInterface $database;
 
@@ -71,8 +72,13 @@ class ilFileObjectToStorageMigration implements Setup\Migration
          * @var $client_id  string
          * @var $io  Setup\CLI\IOWrapper
          */
-        $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
-        $io->confirmExplicit('The migration of File-Objects should be done in ILIAS 7 not 8, see Modules/File/classes/Setup/MISSING_MIGRATION.md, type "Understood" to proceed', 'Understood');
+        if (!$this->confirmed) {
+            $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
+            $this->confirmed = $io->confirmExplicit(
+                'The migration of File-Objects should be done in ILIAS 7 not 8, see Modules/File/classes/Setup/MISSING_MIGRATION.md, type "Understood" to proceed',
+                'Understood'
+            );
+        }
 
         $ilias_ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $this->database = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
