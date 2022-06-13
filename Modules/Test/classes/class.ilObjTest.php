@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once 'Services/Object/classes/class.ilObject.php';
 require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
@@ -3308,7 +3323,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $affectedRows = $ilDB->manipulateF(
             "INSERT INTO tst_times (times_id, active_fi, started, finished, pass, tstamp) VALUES (%s, %s, %s, %s, %s, %s)",
             array('integer', 'integer', 'timestamp', 'timestamp', 'integer', 'integer'),
-            array($next_id, $active_id, strftime("%Y-%m-%d %H:%M:%S"), strftime("%Y-%m-%d %H:%M:%S"), $pass, time())
+            array($next_id, $active_id, date("Y-m-d H:i:s"), date("Y-m-d H:i:s"), $pass, time())
         );
         return $next_id;
     }
@@ -3327,7 +3342,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $affectedRows = $ilDB->manipulateF(
             "UPDATE tst_times SET finished = %s, tstamp = %s WHERE times_id = %s",
             array('timestamp', 'integer', 'integer'),
-            array(strftime("%Y-%m-%d %H:%M:%S"), time(), $times_id)
+            array(date('Y-m-d H:i:s'), time(), $times_id)
         );
     }
 
@@ -8593,7 +8608,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         if (($nr_of_users > 0) && ($time_gap > 0)) {
             $now = time();
             $time_border = $now - $time_gap;
-            $str_time_border = strftime("%Y%m%d%H%M%S", $time_border);
+            $str_time_border = date("YmdHis", $time_border);
             $query = "
 				SELECT DISTINCT tst_times.active_fi
 				FROM tst_times
