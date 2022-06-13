@@ -229,9 +229,22 @@ abstract class assQuestionGUI
         $this->ilHelp->setScreenIdComponent('qpl');
 
         $cmd = $this->ctrl->getCmd("editQuestion");
-        $next_class = $this->ctrl->getNextClass($this);
 
-        $cmd = $this->getCommand($cmd);
+        if (in_array($cmd, ['editQuestion', 'save'])) {
+            $parent_test_ref_id = $this->object->getParentTestRefId();
+            if ($parent_test_ref_id &&
+                !$this->access->checkAccess("write", "", $parent_test_ref_id)
+            ) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_permission"), true);
+                $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+            }
+            if ($this->object->isInActiveTest()) {
+                $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
+                $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
+            }
+        }
+
+        $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {
             case 'ilformpropertydispatchgui':
@@ -843,7 +856,6 @@ abstract class assQuestionGUI
                 $originalexists = false;
             } else {
                 $originalexists = $this->object->_questionExistsInPool($this->object->getOriginalId());
-
             }
             if (($this->request->raw("calling_test") || ($this->request->isset('calling_consumer')
                         && (int) $this->request->raw('calling_consumer')))
@@ -1810,9 +1822,14 @@ abstract class assQuestionGUI
             'edit_question',
             $this->ctrl->getLinkTargetByClass(
                 array('ilrepositorygui','ilobjquestionpoolgui', get_class($this)),
-                'editQuestion'),'editQuestion','','',false
+                'editQuestion'
+            ),
+            'editQuestion',
+            '',
+            '',
+            false
         );
-   }
+    }
 
     // TODO: OWN "PASS" IN THE REFACTORING getSolutionOutput
     abstract public function getSolutionOutput(
