@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /** @noRector  */
 require_once('../Scope/MainMenu/Collector/Renderer/Hasher.php');
 /** @noRector  */

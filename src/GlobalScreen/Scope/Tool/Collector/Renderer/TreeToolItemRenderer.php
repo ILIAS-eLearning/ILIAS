@@ -1,4 +1,19 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\GlobalScreen\Scope\Tool\Collector\Renderer;
 
@@ -7,26 +22,13 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isItem;
 use ILIAS\GlobalScreen\Scope\Tool\Factory\TreeTool;
 use ILIAS\UI\Component\Component;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class TreeToolItemRenderer
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class TreeToolItemRenderer extends BaseTypeRenderer
 {
-    
+
     /**
      * @param isItem $item
      * @param bool   $with_content
@@ -38,9 +40,9 @@ class TreeToolItemRenderer extends BaseTypeRenderer
         /**
          * @var $item TreeTool
          */
-        
+
         $symbol = $this->getStandardSymbol($item);
-        
+
         return $this->ui_factory->mainControls()->slate()->legacy($item->getTitle(), $symbol, $this->ui_factory->legacy($DIC->ui()->renderer()->render([$item->getTree()])));
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Entry Point for Async calls from the Notification Center
  */
