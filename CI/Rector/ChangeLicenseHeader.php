@@ -44,7 +44,7 @@ final class ChangeLicenseHeader extends AbstractRector
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- ";
+";
 
     private Comment $standard_comment;
     private array $previous_search = [
