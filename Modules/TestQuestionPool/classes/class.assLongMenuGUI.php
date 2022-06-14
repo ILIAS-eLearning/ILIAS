@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
@@ -86,17 +101,31 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form) : void
     {
-        $this->object->setLongMenuTextValue(ilUtil::stripSlashes($_POST['longmenu_text']));
-        $this->object->setAnswers(json_decode(ilUtil::stripSlashes($_POST['hidden_text_files'])));
-        $this->object->setCorrectAnswers(json_decode(
-            ilUtil::stripSlashes($_POST['hidden_correct_answers'])
-        ));
-        $this->object->setAnswerType(ilUtil::stripSlashes((string) $_POST['long_menu_type']));
+        $this->object->setLongMenuTextValue(ilUtil::stripSlashesRecursive($_POST['longmenu_text']));
+        $this->object->setAnswers($this->trimArrayRecursive(json_decode(ilUtil::stripSlashesRecursive($_POST['hidden_text_files']))));
+        $this->object->setCorrectAnswers($this->trimArrayRecursive(json_decode(ilUtil::stripSlashesRecursive($_POST['hidden_correct_answers']))));
+        $this->object->setAnswerType(ilUtil::stripSlashesRecursive($_POST['long_menu_type']));
         $this->object->setQuestion($_POST['question']);
         $this->object->setLongMenuTextValue($_POST["longmenu_text"]);
         $this->object->setMinAutoComplete((int) $_POST["min_auto_complete"]);
         $this->object->setIdenticalScoring((int) $_POST["identical_scoring"]);
         $this->saveTaxonomyAssignments();
+    }
+
+    protected function trimArrayRecursive(array $data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                if (is_array($v)) {
+                    $data[$k] = $this->trimArrayRecursive($v);
+                } else {
+                    $data[$k] = trim($v);
+                }
+            }
+        } else {
+            $data = trim($data);
+        }
+        return $data;
     }
 
     protected function editQuestion(ilPropertyFormGUI $form = null) : void
