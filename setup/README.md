@@ -442,10 +442,12 @@ are printed bold**, all other fields might be omitted. A minimal example is
 * *privacysecurity* (type: object)
     ```
 	"privacysecurity" : {
-		"https_enabled" : true
+		"https_enabled" : true,
+		"auth_duration" : 3000
 	},
     ```
   * *https_enabled* (type: boolean) forces https on login page, defaults to `false`
+  * *auth_duration* (type: integer) stretches the auth-duration on logins to the given amount in ms, defaults to `null`
 * *webservices* (type: object)
     ```
 	"webservices" : {

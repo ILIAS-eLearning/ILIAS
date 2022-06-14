@@ -50,6 +50,10 @@ class ilPrivacySecurityConfigStoredObjective implements Setup\Objective
         $settings = $factory->settingsFor("common");
         $settings->set("https", $this->bool2string($this->config->getForceHttpsOnLogin()));
 
+        if (null !== $this->config->getAuthDurationInMs()) {
+            $settings->set("auth_duration", (string) $this->config->getAuthDurationInMs());
+        }
+
         return $environment;
     }
 
