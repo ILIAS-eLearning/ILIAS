@@ -16,25 +16,6 @@
  *
  *********************************************************************/
 
-require_once './Services/Taxonomy/classes/class.ilTaxNodeAssignment.php';
-require_once './Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
-require_once './Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php';
-
-/**
- * This file is part of ILIAS, a powerful learning management system
- * published by ILIAS open source e-Learning e.V.
- *
- * ILIAS is licensed with the GPL-3.0,
- * see https://www.gnu.org/licenses/gpl-3.0.en.html
- * You should have received a copy of said license along with the
- * source code, too.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- * https://www.ilias.de
- * https://github.com/ILIAS-eLearning
- */
-
 /**
 * Basic GUI class for assessment questions
 *
@@ -2022,7 +2003,6 @@ abstract class assQuestionGUI
         // since server side mathjax rendering does include svg-xml structures that indeed have linebreaks,
         // do latex conversion AFTER replacing linebreaks with <br>. <svg> tag MUST NOT contain any <br> tags.
         if ($prepare_for_latex_output) {
-            include_once './Services/MathJax/classes/class.ilMathJax.php';
             $result = ilMathJax::getInstance()->insertLatexImages($result, "\<span class\=\"latex\">", "\<\/span>");
             $result = ilMathJax::getInstance()->insertLatexImages($result, "\[tex\]", "\[\/tex\]");
         }
