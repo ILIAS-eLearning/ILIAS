@@ -91,14 +91,30 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
     {
         $this->object->setLongMenuTextValue(ilUtil::stripSlashesRecursive($_POST['longmenu_text']));
-        $this->object->setAnswers(json_decode(ilUtil::stripSlashesRecursive($_POST['hidden_text_files'])));
-        $this->object->setCorrectAnswers(json_decode(ilUtil::stripSlashesRecursive($_POST['hidden_correct_answers'])));
+        $this->object->setAnswers($this->trimArrayRecursive(json_decode(ilUtil::stripSlashesRecursive($_POST['hidden_text_files']))));
+        $this->object->setCorrectAnswers($this->trimArrayRecursive(json_decode(ilUtil::stripSlashesRecursive($_POST['hidden_correct_answers']))));
         $this->object->setAnswerType(ilUtil::stripSlashesRecursive($_POST['long_menu_type']));
         $this->object->setQuestion($_POST['question']);
         $this->object->setLongMenuTextValue($_POST["longmenu_text"]);
         $this->object->setMinAutoComplete((int) $_POST["min_auto_complete"]);
         $this->object->setIdenticalScoring((int) $_POST["identical_scoring"]);
         $this->saveTaxonomyAssignments();
+    }
+
+    protected function trimArrayRecursive(array $data)
+    {
+        if (is_array($data)) {
+            foreach ($data as $k => $v) {
+                if (is_array($v)) {
+                    $data[$k] = $this->trimArrayRecursive($v);
+                } else {
+                    $data[$k] = trim($v);
+                }
+            }
+        } else {
+            $data = trim($data);
+        }
+        return $data;
     }
 
     protected function editQuestion(ilPropertyFormGUI $form = null)
