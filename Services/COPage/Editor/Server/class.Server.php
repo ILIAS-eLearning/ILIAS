@@ -71,7 +71,7 @@ class Server
             $action_handler = $this->getActionHandlerForQuery($query);
             $response = $action_handler->handle($query);
         } else {
-            //sleep(3);
+            //sleep(5);
             $action_handler = $this->getActionHandlerForCommand($query, $body);
             $response = $action_handler->handle($query, $body);
         }

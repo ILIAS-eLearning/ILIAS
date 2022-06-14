@@ -79,6 +79,7 @@ export default class PageModel {
 
     this.STATE_COMPONENT_EDIT = "edit";        // component editing
     this.STATE_COMPONENT_INSERT = "insert";    // component inserting
+    this.STATE_COMPONENT_SERVER_CMD = "comp_server_cmd";      // component server command being performed
     this.STATE_COMPONENT_NONE = "";
 
     this.STATE_MULTI_COPY = "copy";        // multi copy
@@ -115,7 +116,12 @@ export default class PageModel {
       this.STATE_MULTI_ACTION,
       this.STATE_SERVER_CMD
     ];
-    this.component_states = [this.STATE_COMPONENT_NONE, this.STATE_COMPONENT_EDIT, this.STATE_COMPONENT_INSERT];
+    this.component_states = [
+      this.STATE_COMPONENT_NONE,
+      this.STATE_COMPONENT_EDIT,
+      this.STATE_COMPONENT_INSERT,
+      this.STATE_COMPONENT_SERVER_CMD
+    ];
     this.multi_states = [this.STATE_MULTI_NONE, this.STATE_MULTI_CUT, this.STATE_MULTI_COPY, this.STATE_MULTI_CHARACTERISTIC];
   }
 

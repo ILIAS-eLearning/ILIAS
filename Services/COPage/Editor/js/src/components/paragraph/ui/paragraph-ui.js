@@ -895,6 +895,7 @@ export default class ParagraphUI {
 
 
     this.toolSlate.setContentFromComponent("Paragraph", "menu");
+    console.log("*** SHOW TOOLBAR");
 
     document.querySelectorAll("[data-copg-ed-type='par-action']").forEach(char_button => {
       const actionType = char_button.dataset.copgEdAction;
@@ -1185,6 +1186,44 @@ export default class ParagraphUI {
 
   clearError() {
     this.pageModifier.clearError();
+  }
+
+  disableButtons() {
+    document.querySelectorAll("#iltinymenu button").forEach(el => {
+      el.disabled = true;
+    });
+  }
+
+  enableButtons() {
+    document.querySelectorAll("#iltinymenu button").forEach(el => {
+      el.disabled = false;
+    });
+  }
+
+  showLoader() {
+    const tl = document.querySelector("[data-copg-ed-type='top-loader']");
+    if (tl) {
+      tl.style.display = '';
+    }
+  }
+
+  hideLoader() {
+    const tl = document.querySelector("[data-copg-ed-type='top-loader']");
+    if (tl) {
+      tl.style.display = 'none';
+    }
+  }
+
+  disableEditing() {
+    this.disableButtons();
+    this.tinyWrapper.disable();
+    this.showLoader();
+  }
+
+  enableEditing() {
+    this.enableButtons();
+    this.tinyWrapper.enable();
+    this.hideLoader();
   }
 
 }

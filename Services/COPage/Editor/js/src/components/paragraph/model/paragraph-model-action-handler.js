@@ -34,18 +34,20 @@ export default class ParagraphModelActionHandler {
       switch (action.getType()) {
 
         case PAGE_ACTIONS.COMPONENT_SWITCH:
-          this.pageModel.setAutoSavedPCId(null);
-          this.pageModel.setAddedSection(false);
-          this.pageModel.setComponentState(this.pageModel.STATE_COMPONENT_EDIT);
-          this.pageModel.setPCModel(params.oldPcid, {
-            text: params.oldParameters.text,
-            characteristic: params.oldParameters.characteristic
-          });
-          this.pageModel.setCurrentPageComponent(params.cname, params.newPcid, params.newHierid);
-          this.pageModel.setUndoPCModel(
-            this.pageModel.getCurrentPCId(),
-            this.pageModel.getPCModel(this.pageModel.getCurrentPCId())
-          );
+          if (this.pageModel.getComponentState() !== this.pageModel.STATE_COMPONENT_SERVER_CMD) {
+            this.pageModel.setAutoSavedPCId(null);
+            this.pageModel.setAddedSection(false);
+            this.pageModel.setComponentState(this.pageModel.STATE_COMPONENT_EDIT);
+            this.pageModel.setPCModel(params.oldPcid, {
+              text: params.oldParameters.text,
+              characteristic: params.oldParameters.characteristic
+            });
+            this.pageModel.setCurrentPageComponent(params.cname, params.newPcid, params.newHierid);
+            this.pageModel.setUndoPCModel(
+              this.pageModel.getCurrentPCId(),
+              this.pageModel.getPCModel(this.pageModel.getCurrentPCId())
+            );
+          }
           break;
 
         case PAGE_ACTIONS.COMPONENT_INSERT:
