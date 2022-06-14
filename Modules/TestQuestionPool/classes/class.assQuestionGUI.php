@@ -210,8 +210,6 @@ abstract class assQuestionGUI
         $cmd = $this->ctrl->getCmd("editQuestion");
         $next_class = $this->ctrl->getNextClass($this);
 
-        $cmd = $this->getCommand($cmd);
-
         switch ($next_class) {
             case 'ilformpropertydispatchgui':
                 $form = $this->buildEditForm();

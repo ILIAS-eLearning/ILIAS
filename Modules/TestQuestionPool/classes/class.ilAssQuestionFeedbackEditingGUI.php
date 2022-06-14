@@ -144,18 +144,6 @@ class ilAssQuestionFeedbackEditingGUI
 
         $this->setContentStyle();
 
-        $parent_test_ref_id = $this->questionOBJ->getParentTestRefId();
-        if ($parent_test_ref_id &&
-            !$this->access->checkAccess("write", "", $parent_test_ref_id)
-        ) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
-            $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
-        }
-        if ($this->questionOBJ->isInActiveTest()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('question_is_part_of_running_test'), true);
-            $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
-        }
-
         switch ($nextClass) {
             case 'ilassspecfeedbackpagegui':
             case 'ilassgenfeedbackpagegui':
