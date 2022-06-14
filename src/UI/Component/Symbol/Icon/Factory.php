@@ -32,6 +32,10 @@ interface Factory
      *     An Icon is rendered as image-tag.
      *   rivals:
      *     Custom Icon: Custom Icons are constructed with a path to an (uploaded) image.
+     *
+     * rules:
+     *   style:
+     *     1: CSS-Filters MAY be used for Standard Icons to manipulate the stroke to fit the context.
      * ---
      * @param   string $name
      * @param   string $label
