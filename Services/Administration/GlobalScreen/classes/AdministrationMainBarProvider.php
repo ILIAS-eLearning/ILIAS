@@ -65,8 +65,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         continue;
                     }
 
-                    $icon = $this->dic->ui()->factory()->symbol()->icon()->standard($titems[$group_item]["type"], $titems[$group_item]["title"])
-                        ->withIsOutlined(true);
+                    $icon = $this->dic->ui()->factory()->symbol()->icon()->standard($titems[$group_item]["type"], $titems[$group_item]["title"]);
                     
                     $ref_id = $titems[$group_item]["ref_id"];
                     if ($admin_request->getAdminMode() !== 'repository' && $ref_id == ROOT_FOLDER_ID) {
@@ -126,7 +125,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             "search_and_find" => "icon_safa",
             "extending_ilias" => "icon_exta"
         );
-        $icon_path = \ilUtil::getImagePath("outlined/" . $icon_map[$group] . ".svg");
+        $icon_path = \ilUtil::getImagePath( $icon_map[$group] . ".svg");
         return $this->dic->ui()->factory()->symbol()->icon()->custom($icon_path, $title);
     }
 

@@ -47,7 +47,7 @@ class MembershipMainBarProvider extends AbstractStaticMainMenuProvider
 
         $title = $this->dic->language()->txt("my_courses_groups");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(
-            \ilUtil::getImagePath("outlined/icon_crgr.svg"),
+            \ilUtil::getImagePath("icon_crgr.svg"),
             $title
         );
 

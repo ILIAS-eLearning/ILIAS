@@ -62,8 +62,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
 
         $title = $this->dic->language()->txt("objs_orgu");
         $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . ilObjOrgUnit::getRootOrgRefId() . "&cmd=jump";
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('orgu', $title)
-                          ->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('orgu', $title);
 
         $linkOrgUnit = $this->mainmenu->link($this->orgUnitIdentifier)
                                       ->withAlwaysAvailable(true)
@@ -85,8 +84,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
 
         $title = $this->dic->language()->txt("mm_talk_template", "");
         $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . ilObjTalkTemplateAdministration::getRootRefId() . "&cmd=jump";
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('etal', $title)
-                          ->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('etal', $title);
         $linkEmployeeTalkTemplates = $this->mainmenu->link($this->employeeTalkTemplateIdentifier)
                                                     ->withAlwaysAvailable(true)
                                                     ->withAction($action)
@@ -106,8 +104,7 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
                                                     );
 
         $title = $this->dic->language()->txt("mm_organisation");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('org', $title)
-                          ->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('org', $title);
         $items[] = $this->mainmenu->linkList($this->organisationIdentifier)
                                   ->withAlwaysAvailable(true)
                                   ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('item_must_be_always_active')}"))

@@ -30,22 +30,12 @@ interface Factory
      *    Standard Icons represent ILIAS Objects, Services or ideas.
      *   composition: >
      *     An Icon is rendered as image-tag.
-     *     The outlined version is the silhouette of the Standard Icon.
-     *     This outlined version therefore attracts less attention.
      *   rivals:
      *     Custom Icon: Custom Icons are constructed with a path to an (uploaded) image.
+     *
      * rules:
-     *   usage:
-     *     1: If they are layered upon a picture, the outlined version MUST be used.
-     *     2:  >
-     *        In any other case, the outlined version SHOULD be used except for scenarios
-     *        where the icon should draw much more attention.
-     *     3: For drawing much more attention the filled version SHOULD be used.
      *   style:
-     *     1: CSS-Filters MAY be used for Standard Icons in their outlined version to manipulate the stroke to fit the context.
-     *     2: >
-     *        In their outlined version, Standard Icons MUST only use white as color for the stroke, to make filter easily
-     *        applicable.
+     *     1: CSS-Filters MAY be used for Standard Icons to manipulate the stroke to fit the context.
      * ---
      * @param   string $name
      * @param   string $label

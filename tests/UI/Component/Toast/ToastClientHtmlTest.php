@@ -62,7 +62,7 @@ class ToastClientHtmlTest extends ILIAS_UI_TestBase
         $container = $this->getToastFactory()->container()->withAdditionalToast(
             $this->getToastFactory()->standard(
                 'Title',
-                $this->getIconFactory()->standard('mail', 'Test')->withIsOutlined(true)
+                $this->getIconFactory()->standard('mail', 'Test')
             )
                                     ->withVanishTime(5000)
                                     ->withDelayTime(500)

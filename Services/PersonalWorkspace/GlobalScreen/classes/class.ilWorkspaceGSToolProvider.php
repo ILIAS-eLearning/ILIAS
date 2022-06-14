@@ -25,7 +25,7 @@ class ilWorkspaceGSToolProvider extends AbstractDynamicToolProvider
 
         $title = $this->dic->language()->txt("objs_fold");
 
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("fold", $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("fold", $title);
 
         if ($additional_data->is(self::SHOW_WS_TREE, true)) {
             $iff = function ($id) {

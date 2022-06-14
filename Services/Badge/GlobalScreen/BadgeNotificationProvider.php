@@ -44,7 +44,7 @@ class BadgeNotificationProvider extends AbstractNotificationProvider
         }
 
         //Creating a badge Notification Item
-        $badge_icon = $this->dic->ui()->factory()->symbol()->icon()->standard("bdga", $lng->txt("badge_badge"))->withIsOutlined(true);
+        $badge_icon = $this->dic->ui()->factory()->symbol()->icon()->standard("bdga", $lng->txt("badge_badge"));
         $badge_title = $ui->factory()->link()->standard(
             $lng->txt("mm_badges"),
             $ctrl->getLinkTargetByClass(["ilDashboardGUI"], "jumpToBadges")

@@ -220,7 +220,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
             $chatWindowTemplate->setVariable('MINIMIZE_ACTION', $renderer->render(
                 $factory->button()->minimize()
             ));
-            $chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('outlined/icon_pcht.svg')));
+            $chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('icon_pcht.svg')));
 
             $subscriberRepo = new Subscriber($DIC->database(), $DIC->user());
 

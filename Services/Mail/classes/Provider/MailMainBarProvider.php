@@ -42,8 +42,7 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()
             ->symbol()
             ->icon()
-            ->standard(Standard::MAIL, $title)
-            ->withIsOutlined(true);
+            ->standard(Standard::MAIL, $title);
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_mail'))

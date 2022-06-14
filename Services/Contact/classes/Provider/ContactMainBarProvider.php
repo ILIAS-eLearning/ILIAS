@@ -52,7 +52,7 @@ class ContactMainBarProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()
             ->symbol()
             ->icon()
-            ->standard(Standard::CADM, 'contacts')->withIsOutlined(true);
+            ->standard(Standard::CADM, 'contacts');
         
 
         return [

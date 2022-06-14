@@ -172,8 +172,6 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::CON
     ];
 
-    protected bool $is_outlined = false;
-
     public function __construct(string $name, string $label, string $size, bool $is_disabled)
     {
         $this->checkArgIsElement(
@@ -196,17 +194,5 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
     public function getAllStandardHandles() : array
     {
         return self::$standard_icons;
-    }
-
-    public function isOutlined() : bool
-    {
-        return $this->is_outlined;
-    }
-
-    public function withIsOutlined(bool $is_outlined) : C\Symbol\Icon\Standard
-    {
-        $clone = clone $this;
-        $clone->is_outlined = $is_outlined;
-        return $clone;
     }
 }

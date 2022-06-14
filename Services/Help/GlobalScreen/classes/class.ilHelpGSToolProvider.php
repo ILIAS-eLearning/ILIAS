@@ -55,7 +55,7 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
         $hidden = !$help_gui->isHelpPageActive();
 
         $title = $lng->txt("help");
-        $icon = $f->symbol()->icon()->standard("hlps", $title)->withIsOutlined(true);
+        $icon = $f->symbol()->icon()->standard("hlps", $title);
 
         if ($this->showHelpTool()) {
             $iff = function ($id) {

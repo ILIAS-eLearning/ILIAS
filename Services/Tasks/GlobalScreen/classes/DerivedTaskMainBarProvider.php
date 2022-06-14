@@ -32,7 +32,7 @@ class DerivedTaskMainBarProvider extends AbstractStaticMainMenuProvider
         $dic = $this->dic;
 
         $title = $this->dic->language()->txt("mm_task_derived_tasks");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::TASK, $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::TASK, $title);
 
         // derived tasks list
         $entries[] = $this->mainmenu->link($this->if->identifier('mm_derived_task_list'))

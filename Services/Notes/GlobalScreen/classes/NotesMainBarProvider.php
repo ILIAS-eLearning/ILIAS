@@ -40,7 +40,7 @@ class NotesMainBarProvider extends AbstractStaticMainMenuProvider
 
         // Comments
         $title = $dic->language()->txt("mm_comments");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::COMS, $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::COMS, $title);
         $comments = $this->mainmenu->link($this->if->identifier('mm_pd_comments'))
             ->withTitle($title)
             ->withAction($ctrl->getLinkTargetByClass(["ilDashboardGUI", "ilPDNotesGUI"], "showPublicComments"))
@@ -55,7 +55,7 @@ class NotesMainBarProvider extends AbstractStaticMainMenuProvider
             );
 
         $title = $dic->language()->txt("mm_notes");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::NOTS, $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::NOTS, $title);
 
         // Notes
         $notes = $this->mainmenu->link($this->if->identifier('mm_pd_notes'))

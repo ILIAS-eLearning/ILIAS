@@ -147,7 +147,7 @@ class ItemNotificationTest extends ILIAS_UI_TestBase
 
         $c = $f->notification("title", $this->getIcon());
         $this->assertEquals($c->getLeadIcon(), $this->getIcon());
-        $icon2 = $this->getIcon()->withIsOutlined(true);
+        $icon2 = $this->getIcon();
 
         $this->assertEquals($c->withLeadIcon($icon2)->getLeadIcon(), $icon2);
     }

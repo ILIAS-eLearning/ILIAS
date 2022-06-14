@@ -67,7 +67,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(
             Standard::CHTA,
             $this->dic->language()->txt('public_room')
-        )->withIsOutlined(true);
+        );
 
         return [
             $this->mainmenu->complex($this->if->identifier('mm_chat'))
@@ -147,7 +147,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                           )
                       ]
                   )
-                  ->withLeadIcon($icon->withIsOutlined(true))
+                  ->withLeadIcon($icon)
                   ->withClose($this->dic->ui()->factory()->button()->close())
                   ->withAdditionalOnLoadCode(
                       function ($id) use ($cid) {

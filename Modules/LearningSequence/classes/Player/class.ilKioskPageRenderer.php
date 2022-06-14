@@ -63,8 +63,7 @@ class ilKioskPageRenderer
         $f = $this->ui_factory;
         return $this->ui_factory->maincontrols()->slate()->legacy(
             $this->lng->txt('lso_mainbar_button_label_curriculum'),
-            $f->symbol()->icon()->standard("lso", "Learning Sequence")
-                ->withIsOutlined(true),
+            $f->symbol()->icon()->standard("lso", "Learning Sequence"),
             $this->ui_factory->legacy(
                 $this->ui_renderer->render($curriculum)
             )
@@ -78,7 +77,7 @@ class ilKioskPageRenderer
             ->getHTML();
         return $this->ui_factory->maincontrols()->slate()->legacy(
             $this->lng->txt('lso_mainbar_button_label_toc'),
-            $icon->withSize("small")->withIsOutlined(true),
+            $icon->withSize("small"),
             $this->ui_factory->legacy($html)
         );
     }

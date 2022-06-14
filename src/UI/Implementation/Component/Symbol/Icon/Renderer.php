@@ -27,7 +27,6 @@ class Renderer extends AbstractComponentRenderer
 {
     public const DEFAULT_ICON_NAME = 'default';
     public const ICON_NAME_PATTERN = 'icon_%s.svg';
-    public const ICON_NAME_PATTERN_OUTLINED = 'outlined/icon_%s.svg';
 
     /**
      * @inheritdoc
@@ -55,9 +54,6 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component instanceof Component\Symbol\Icon\Standard) {
             $imagepath = $this->getStandardIconPath($component);
-            if ($component->isOutlined()) {
-                $tpl->touchBlock('outlined');
-            }
         } else {
             $imagepath = $component->getIconPath();
         }
@@ -99,9 +95,6 @@ class Renderer extends AbstractComponentRenderer
             $name = self::DEFAULT_ICON_NAME;
         }
         $pattern = self::ICON_NAME_PATTERN;
-        if ($icon->isOutlined()) {
-            $pattern = self::ICON_NAME_PATTERN_OUTLINED;
-        }
 
         $icon_name = sprintf($pattern, $name);
         return $this->getImagePathResolver()->resolveImagePath($icon_name);

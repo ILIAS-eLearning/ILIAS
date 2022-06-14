@@ -46,7 +46,7 @@ class ilExerciseGSToolProvider extends AbstractDynamicToolProvider
         $lng->loadLanguageModule("exc");
 
         $title = $lng->txt("exc_assignment");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("exc", $title)->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("exc", $title);
 
         $tools = [];
         $additional_data = $called_contexts->current()->getAdditionalData();

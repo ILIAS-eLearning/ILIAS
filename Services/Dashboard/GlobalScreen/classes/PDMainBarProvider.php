@@ -46,8 +46,7 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
 
         if ($admin_ref_id > 0) {
             $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $admin_ref_id . "&cmd=jump";
-            $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("dshs", $title)
-                              ->withIsOutlined(true);
+            $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("dshs", $title);
 
             $items[] = $this->mainmenu->link($this->if->identifier('mm_adm_dshs'))
                                       ->withAction($action)

@@ -1,60 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
-	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
-	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
-	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
-	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
-	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
-	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
-	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
-	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
-]>
-<svg version="1.1" id="Layer_1" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="32px" height="32px"
-	 viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
-<switch>
-	<g i:extraneous="self">
-		<g>
-			<rect x="0" fill="none" width="32" height="32"/>
-			<g>
-				<g>
-					<defs>
-						<path id="SVGID_1_" d="M12.5,1.5c0,0-0.5,0-0.854,0.354L7.354,6.146C7.354,6.146,7,6.5,7,7v17c0,0,0,0.5,0.5,0.5h17
-							c0,0,0.5,0,0.5-0.5V2c0,0,0-0.5-0.5-0.5C24.5,1.5,12.5,1.5,12.5,1.5z"/>
-					</defs>
-					<clipPath id="SVGID_2_">
-						<use xlink:href="#SVGID_1_"  overflow="visible"/>
-					</clipPath>
-					
-						<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-380.6081" y1="-298.3533" x2="-379.6081" y2="-298.3533" gradientTransform="matrix(18 0 0 18 6857.9448 5383.3599)">
-						<stop  offset="0" style="stop-color:#4C6486"/>
-						<stop  offset="0.0198" style="stop-color:#4C6486"/>
-						<stop  offset="1" style="stop-color:#5A77A0"/>
-					</linearGradient>
-					<rect x="7" y="1.5" clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="18" height="23"/>
-				</g>
-			</g>
-			<polygon fill="#FFFFFF" points="23,22.5 23,3.5 14,3.5 14,8.5 9,8.5 9,22.5 13,22.5 13,24.5 19,24.5 19,22.5 			"/>
-			<g>
-				<g>
-					<defs>
-						<polygon id="SVGID_4_" points="10.408,25.839 16,30.678 21.592,25.839 17.864,25.839 17.864,19.8 14.136,19.8 14.136,25.839 
-													"/>
-					</defs>
-					<clipPath id="SVGID_5_">
-						<use xlink:href="#SVGID_4_"  overflow="visible"/>
-					</clipPath>
-					
-						<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="-366.964" y1="-257.1946" x2="-365.9641" y2="-257.1946" gradientTransform="matrix(11.1848 0 0 -11.1848 4114.8271 -2851.4316)">
-						<stop  offset="0" style="stop-color:#498239"/>
-						<stop  offset="0.0198" style="stop-color:#498239"/>
-						<stop  offset="1" style="stop-color:#6CA136"/>
-					</linearGradient>
-					<rect x="10.408" y="19.8" clip-path="url(#SVGID_5_)" fill="url(#SVGID_6_)" width="11.184" height="10.878"/>
-				</g>
-			</g>
-		</g>
-	</g>
-</switch>
+<!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_00000058559392277229807500000005939351018086693304_);fill:#52658B;}
+	.st1{fill:#52658B;}
+	.st2{fill:none;}
+</style>
+<g>
+	<defs>
+		<rect id="SVGID_1_" x="70" y="20" width="180" height="285"/>
+	</defs>
+	<clipPath id="SVGID_00000147934200823766748880000006925454806624082828_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+	</clipPath>
+	<path style="clip-path:url(#SVGID_00000147934200823766748880000006925454806624082828_);fill:#52658B;" d="M250,245V25
+		c0-2.8-2.2-5-5-5H140h-10.2H125c-2.8,0-6.6,1.6-8.5,3.5L73.5,66.5c-2,2-3.5,5.8-3.5,8.5v7.7V90v155c0,2.8,2.2,5,5,5h50v-15H85V90
+		h55V35h95v200h-40v15h50C247.8,250,250,247.8,250,245"/>
+</g>
+<polygon class="st1" points="140,205 140,265 110,265 160,305 210,265 180,265 180,205 "/>
+<rect x="0" class="st2" width="320" height="320"/>
 </svg>

@@ -3305,7 +3305,6 @@ class ilObjectListGUI
             ->symbol()
             ->icon()
             ->standard($type, $this->lng->txt('obj_' . $type))
-            ->withIsOutlined(true)
         ;
 
         // card title action

@@ -1,56 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 17.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generator: Adobe Illustrator 26.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
+	 viewBox="0 0 320 320" style="enable-background:new 0 0 320 320;" xml:space="preserve">
+<style type="text/css">
+	.st0{clip-path:url(#SVGID_00000175288207407269641310000014353131759840362422_);fill:#52658B;}
+</style>
 <g>
 	<defs>
-		<path id="SVGID_1_" d="M6,20.744C6,24.751,9.249,28,13.256,28c3.108,0,5.726-1.97,6.756-4.719l-1.198-2.075
-			c-0.236,2.866-2.631,5.119-5.558,5.119c-3.083,0-5.582-2.499-5.582-5.581c0-1.45,0.587-2.736,1.499-3.721v-2.217
-			C7.269,16.108,6,18.263,6,20.744"/>
+		<rect id="SVGID_1_" width="320" height="320"/>
 	</defs>
-	<clipPath id="SVGID_2_">
-		<use xlink:href="#SVGID_1_"  overflow="visible"/>
+	<clipPath id="SVGID_00000150077685416034068520000009200804370801183155_">
+		<use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
 	</clipPath>
-	
-		<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="-115.6511" y1="167.7483" x2="-114.6511" y2="167.7483" gradientTransform="matrix(14.0124 0 0 -14.0124 1626.5469 2371.9553)">
-		<stop  offset="0" style="stop-color:#4C6486"/>
-		<stop  offset="0.0198" style="stop-color:#4C6486"/>
-		<stop  offset="1" style="stop-color:#5A77A0"/>
-	</linearGradient>
-	<rect x="6" y="14.806" clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="14.012" height="13.194"/>
-</g>
-<g>
-	<defs>
-		<circle id="SVGID_4_" cx="12.475" cy="6.233" r="2.233"/>
-	</defs>
-	<clipPath id="SVGID_5_">
-		<use xlink:href="#SVGID_4_"  overflow="visible"/>
-	</clipPath>
-	
-		<linearGradient id="SVGID_6_" gradientUnits="userSpaceOnUse" x1="-95.6614" y1="187.6146" x2="-94.6614" y2="187.6146" gradientTransform="matrix(4.4651 0 0 -4.4651 437.3811 843.9531)">
-		<stop  offset="0" style="stop-color:#4C6486"/>
-		<stop  offset="0.0198" style="stop-color:#4C6486"/>
-		<stop  offset="1" style="stop-color:#5A77A0"/>
-	</linearGradient>
-	<rect x="10.242" y="4" clip-path="url(#SVGID_5_)" fill="url(#SVGID_6_)" width="4.465" height="4.465"/>
-</g>
-<g>
-	<defs>
-		<path id="SVGID_7_" d="M10.242,11.443v5.766c0,1.232,1,2.232,2.233,2.232h6.697l3.348,5.768h0.001l3.082-1.779
-			c0.25-0.145,0.389-0.412,0.397-0.7v-0.049c-0.004-0.159-0.048-0.322-0.135-0.473c-0.257-0.443-0.789-0.615-1.189-0.385
-			l-1.149,0.665l-3.538-6.129c-0.152-0.279-0.512-0.303-0.817-0.303h-4.465v-1.173h2.898c0.463,0,0.838-0.374,0.838-0.836
-			c0-0.463-0.375-0.838-0.838-0.838h-2.898v-1.766c0-1.234-0.999-2.233-2.232-2.233S10.242,10.209,10.242,11.443"/>
-	</defs>
-	<clipPath id="SVGID_8_">
-		<use xlink:href="#SVGID_7_"  overflow="visible"/>
-	</clipPath>
-	
-		<linearGradient id="SVGID_9_" gradientUnits="userSpaceOnUse" x1="-116.6869" y1="166.7572" x2="-115.687" y2="166.7572" gradientTransform="matrix(15.7583 0 0 -15.7583 1849.0344 2645.0269)">
-		<stop  offset="0" style="stop-color:#4C6486"/>
-		<stop  offset="0.0198" style="stop-color:#4C6486"/>
-		<stop  offset="1" style="stop-color:#5A77A0"/>
-	</linearGradient>
-	<rect x="10.242" y="9.21" clip-path="url(#SVGID_8_)" fill="url(#SVGID_9_)" width="15.758" height="15.999"/>
+	<path style="clip-path:url(#SVGID_00000150077685416034068520000009200804370801183155_);fill:#52658B;" d="M200.1,232.8l-12-20.8
+		c-2.4,28.7-26.3,51.2-55.6,51.2c-30.8,0-55.8-25-55.8-55.8c0-14.5,5.9-27.4,15-37.2v-22.2c-19,13-31.7,34.6-31.7,59.4
+		c0,40.1,32.5,72.6,72.6,72.6C163.6,280,189.8,260.3,200.1,232.8"/>
+	<path style="clip-path:url(#SVGID_00000150077685416034068520000009200804370801183155_);fill:#52658B;" d="M124.7,84.7
+		c12.3,0,22.3-10,22.3-22.3c0-12.3-10-22.3-22.3-22.3c-12.3,0-22.3,10-22.3,22.3C102.4,74.7,112.4,84.7,124.7,84.7"/>
+	<path style="clip-path:url(#SVGID_00000150077685416034068520000009200804370801183155_);fill:#52658B;" d="M258.6,222.1
+		c-2.6-4.4-7.9-6.1-11.9-3.8l-11.5,6.6l-35.4-61.3c-1.5-2.8-5.1-3-8.2-3h-44.6v-11.7h29c4.6,0,8.4-3.8,8.4-8.4
+		c0-4.6-3.7-8.4-8.4-8.4h-29v-17.7c0-12.3-10-22.3-22.3-22.3c-12.3,0-22.3,10-22.3,22.3v57.7c0,12.3,10,22.3,22.3,22.3h67l33.5,57.7
+		h0l30.8-17.8C260,232,261.2,226.5,258.6,222.1"/>
 </g>
 </svg>

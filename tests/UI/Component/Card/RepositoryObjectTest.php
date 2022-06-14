@@ -204,7 +204,7 @@ EOT);
 			
 		</div>
 		<div>
-			<img class="icon cert medium outlined" src="./templates/default/images/outlined/icon_cert.svg" alt="Certificate" />
+			<img class="icon cert medium" src="./templates/default/images/icon_cert.svg" alt="Certificate" />
 		</div>
 		<div class="il-card-repository-dropdown">
 			
