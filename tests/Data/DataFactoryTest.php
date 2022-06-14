@@ -1,11 +1,26 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 require_once("libs/composer/vendor/autoload.php");
 
 use ILIAS\Data;
 use PHPUnit\Framework\TestCase;
+use ILIAS\Data\LanguageTag;
 
 /**
  * Testing the faytory of result objects
@@ -77,5 +92,11 @@ class DataFactoryTest extends TestCase
         $this->assertEquals(Data\DataSize::GiB, $dataType->getUnit());
         $this->assertEquals(10 * Data\DataSize::GiB, $dataType->inBytes());
         $this->assertInstanceOf(Data\DataSize::class, $dataType);
+    }
+
+    public function testLanguageTag() : void
+    {
+        $this->assertInstanceOf(LanguageTag::class, $this->f->languageTag('de'));
+        $this->assertEquals('de', $this->f->languageTag('de')->value());
     }
 }

@@ -24,6 +24,8 @@ interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 * [Clock](#clock)
 * [Dimension](#dimension)
 * [Dataset](#dataset)
+* [LanguageTag](#languagetag)
+* [Brick](#brick)
 
 Other examples for data types that could (and maybe should) be added here:
 
@@ -563,3 +565,71 @@ function itIsTrueThat(bool $truth) {
 
 ?>
 ```
+
+## LanguageTag
+To create a language tag:
+```php
+(new \ILIAS\Data\Factory())->languageTag('de');
+```
+If the given string is no valid tag an exception is thrown.
+
+## Brick
+This class can be used to write a parser definition.
+This class is oriented on the ABNF syntax but does NOT try to be a complete ABNF syntax definition.
+To keep this class as small as possible, please consider extracting parts of this class into new classes when adding code.
+
+Example:
+
+ABNF code (taken from https://datatracker.ietf.org/doc/html/rfc3339):
+```
+date-fullyear   = 4DIGIT
+date-month      = 2DIGIT  ; 01-12
+date-mday       = 2DIGIT  ; 01-28, 01-29, 01-30, 01-31 based on
+                          ; month/year
+time-hour       = 2DIGIT  ; 00-23
+time-minute     = 2DIGIT  ; 00-59
+time-second     = 2DIGIT  ; 00-58, 00-59, 00-60 based on leap second
+                          ; rules
+time-secfrac    = "." 1*DIGIT
+time-numoffset  = ("+" / "-") time-hour ":" time-minute
+time-offset     = "Z" / time-numoffset
+
+partial-time    = time-hour ":" time-minute ":" time-second
+                  [time-secfrac]
+full-date       = date-fullyear "-" date-month "-" date-mday
+full-time       = partial-time time-offset
+
+date-time       = full-date "T" full-time
+```
+
+```php
+use ILIAS\Data\RFC\Brick;
+use ILIAS\Data\RFC\Intermediate;
+
+$brick = new Brick();
+
+$two_digits = $brick->repeat(2, 2, $brick->digit());
+
+$date_fullyear   = $brick->repeat(4, 4, $brick->digit());
+$date_month      = $two_digits;
+$date_mday       = $two_digits;
+
+$time_hour       = $two_digits;
+$time_minute     = $two_digits;
+$time_second     = $two_digits;
+
+$time_secfrac    = $brick->sequence(['.', $brick->repeat(1, null, $brick->digit())]);
+$time_numoffset  = $brick->sequence([$brick->either(['+', '-']), $time_hour, ':', $time_minute]);
+$time_offset     = $brick->either(['Z', $time_numoffset]);
+
+$partial_time    = $brick->sequence([$time_hour, ':', $time_minute, ':', $time_second, $brick->repeat(0, 1, $time_secfrac)]);
+
+$full_date       = $brick->sequence([$date_fullyear, '-', $date_month, '-', $date_mday]);
+$full_time       = $brick->sequence([$partial_time, $time_offset]);
+
+$date_time       = $brick->sequence([$full_date, 'T', $full_time]);
+
+$result = $brick->apply($date_time, new Intermediate('XXXX-06-30T23:59:60Z'));
+```
+
+Please read further documentation in the [Brick.php](RFC/Brick.php) file, especially if you wish to edit or extend the code.
