@@ -45,7 +45,8 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
     {
         return $this->refinery->custom()->transformation(function ($data) {
             return new ilPrivacySecuritySetupConfig(
-                (bool) ($data["https_enabled"] ?? false)
+                (bool) ($data["https_enabled"] ?? false),
+                (isset($data["auth_duration"])) ? (int) $data["auth_duration"] : null
             );
         });
     }
@@ -67,7 +68,7 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null): Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return $this->getInstallObjective($config);
     }
 
     /**
