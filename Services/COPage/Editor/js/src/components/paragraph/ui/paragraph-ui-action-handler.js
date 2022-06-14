@@ -105,23 +105,25 @@ export default class ParagraphUIActionHandler {
           break;
 
         case PAGE_ACTIONS.COMPONENT_SWITCH:
-          if (params.oldComponentState === page_model.STATE_COMPONENT_INSERT) {
-            this.sendInsertCommand(
-              params.oldPcid,
-              page_model.getCurrentInsertPCId(),
-              page_model.getPCModel(params.oldPcid),
-              page_model
-            );
-            this.ui.handleSaveOnInsert();
-          } else {
-            this.sendUpdateCommand(
-              params.oldPcid,
-              page_model.getPCModel(params.oldPcid),
-              page_model
-            );
-            this.ui.handleSaveOnEdit();
+          if (page_model.getComponentState() !== page_model.STATE_COMPONENT_SERVER_CMD) {
+            if (params.oldComponentState === page_model.STATE_COMPONENT_INSERT) {
+              this.sendInsertCommand(
+                params.oldPcid,
+                page_model.getCurrentInsertPCId(),
+                page_model.getPCModel(params.oldPcid),
+                page_model
+              );
+              this.ui.handleSaveOnInsert();
+            } else {
+              this.sendUpdateCommand(
+                params.oldPcid,
+                page_model.getPCModel(params.oldPcid),
+                page_model
+              );
+              this.ui.handleSaveOnEdit();
+            }
+            this.ui.editParagraph(page_model.getCurrentPCId(), params.switchToEnd);
           }
-          this.ui.editParagraph(page_model.getCurrentPCId(), params.switchToEnd);
           break;
       }
     }
@@ -279,6 +281,15 @@ export default class ParagraphUIActionHandler {
 
       }
     }
+
+    switch (page_model.getComponentState()) {
+      case page_model.STATE_COMPONENT_SERVER_CMD:
+        this.ui.disableEditing();
+        break;
+      default:
+        //this.ui.enableButtons();
+        break;
+    }
   }
 
   sendInsertCommand(pcid, target_pcid, pcmodel, page_model) {
@@ -413,6 +424,8 @@ export default class ParagraphUIActionHandler {
     this.ui.setSectionClass(page_model.getCurrentPCId(), newCharacteristic);
 
     const is_insert = (page_model.getComponentState() === page_model.STATE_COMPONENT_INSERT);
+    page_model.setComponentState(page_model.STATE_COMPONENT_SERVER_CMD);
+
     const secClassAction = af.paragraph().command().sectionClass(
       page_model.getCurrentPCId(),
       page_model.getCurrentInsertPCId(),
@@ -430,6 +443,8 @@ export default class ParagraphUIActionHandler {
       if (is_insert) {
         dispatch.dispatch(af.paragraph().editor().autoInsertPostProcessing());
       }
+      this.ui.enableEditing();
+      page_model.setComponentState(page_model.STATE_COMPONENT_EDIT);
 
       if (oldCharacteristic === "" && newCharacteristic !== "") {
         this.ui.pageModifier.handlePageReloadResponse(result);

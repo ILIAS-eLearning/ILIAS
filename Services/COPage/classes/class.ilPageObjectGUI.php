@@ -1976,7 +1976,7 @@ class ilPageObjectGUI
         );
 
         $btpl->setVariable("TXT_SAVING", $lng->txt("cont_saving"));
-        
+        $btpl->setVariable("SRC_LOADER", \ilUtil::getImagePath("loader.svg"));
         $btpl->setVariable("CHAR_STYLE_SELECTOR", ilPCParagraphGUI::getCharStyleSelector($a_par_type, true, $a_style_id));
         ilTooltipGUI::addTooltip(
             "ilAdvSelListAnchorElement_char_style_selection",
