@@ -1,17 +1,24 @@
-<?php namespace ILIAS\GlobalScreen\ScreenContext\Stack;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\ScreenContext\Stack;
 
 use ILIAS\GlobalScreen\ScreenContext\ContextRepository;
 use ILIAS\GlobalScreen\ScreenContext\ScreenContext;
-
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
 
 /**
  * Class ContextCollection
@@ -24,7 +31,7 @@ class ContextCollection
      * @var ScreenContext[]
      */
     protected array $stack = [];
-    
+
     /**
      * ContextCollection constructor.
      * @param ContextRepository $context_repository
@@ -33,7 +40,7 @@ class ContextCollection
     {
         $this->repo = $context_repository;
     }
-    
+
     /**
      * @param ScreenContext $context
      */
@@ -41,7 +48,7 @@ class ContextCollection
     {
         $this->stack[] = $context;
     }
-    
+
     /**
      * @return ScreenContext
      */
@@ -53,7 +60,7 @@ class ContextCollection
         }
         return null;
     }
-    
+
     /**
      * @return ScreenContext[]
      */
@@ -61,7 +68,7 @@ class ContextCollection
     {
         return $this->stack;
     }
-    
+
     /**
      * @return array
      */
@@ -71,10 +78,10 @@ class ContextCollection
         foreach ($this->stack as $item) {
             $return[] = $item->getUniqueContextIdentifier();
         }
-        
+
         return $return;
     }
-    
+
     /**
      * @param ContextCollection $other_collection
      * @return bool
@@ -86,53 +93,53 @@ class ContextCollection
         };
         $mine = array_map($mapper, $this->getStack());
         $theirs = array_map($mapper, $other_collection->getStack());
-        
+
         return (count(array_intersect($mine, $theirs)) > 0);
     }
-    
+
     public function main() : self
     {
         $context = $this->repo->main();
         $this->push($context);
-        
+
         return $this;
     }
-    
+
     public function desktop() : self
     {
         $this->push($this->repo->desktop());
-        
+
         return $this;
     }
-    
+
     public function repository() : self
     {
         $this->push($this->repo->repository());
-        
+
         return $this;
     }
-    
+
     public function administration() : self
     {
         $this->push($this->repo->administration());
-        
+
         return $this;
     }
-    
+
     public function internal() : self
     {
         $this->push($this->repo->internal());
-        
+
         return $this;
     }
-    
+
     public function external() : self
     {
         $this->push($this->repo->external());
-        
+
         return $this;
     }
-    
+
     public function lti() : self
     {
         $this->push($this->repo->lti());

@@ -51,10 +51,13 @@
 		overflow: hidden;
 	}
 
-	.il-chart-progressmeter-viewbox {
+	.il-chart-progressmeter-box {
+		max-width: @il-chart-progressmeter-min-width;
+		margin-right: 0;
 		margin-left: auto;
-		margin-right: auto;
+	}
 
+	.il-chart-progressmeter-viewbox {
 		@media only screen and (max-width: @il-grid-float-breakpoint-max) {
 			padding-top: @il-padding-large-vertical;
 		}

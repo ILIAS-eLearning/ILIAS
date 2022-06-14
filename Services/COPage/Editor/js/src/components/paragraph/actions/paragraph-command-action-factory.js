@@ -50,7 +50,7 @@ export default class ParagraphCommandActionFactory {
       content: content,
       characteristic: characteristic,
       fromPlaceholder: fromPlaceholder
-    });
+    }, true);
   }
 
   /**
@@ -64,7 +64,7 @@ export default class ParagraphCommandActionFactory {
       pcid: pcid,
       content: content,
       characteristic: characteristic
-    });
+    }, true);
   }
 
   /**
@@ -78,7 +78,7 @@ export default class ParagraphCommandActionFactory {
       pcid: pcid,
       content: content,
       characteristic: characteristic
-    });
+    }, true);
   }
 
   /**
@@ -96,7 +96,7 @@ export default class ParagraphCommandActionFactory {
       content: content,
       characteristic: characteristic,
       fromPlaceholder: fromPlaceholder
-    });
+    }, true);
   }
 
   /**
@@ -118,7 +118,7 @@ export default class ParagraphCommandActionFactory {
       characteristic: characteristic,
       new_paragraphs: newParagraphs,
       fromPlaceholder: fromPlaceholder
-    });
+    }, true);
   }
 
   /**
@@ -140,7 +140,7 @@ export default class ParagraphCommandActionFactory {
       characteristic: model.characteristic,
       old_section_characteristic: oldCharacteristic,
       new_section_characteristic: newCharacteristic
-    });
+    }, true);
   }
 
   /**
@@ -157,7 +157,7 @@ export default class ParagraphCommandActionFactory {
       previousPcid: previousPcid,
       newPreviousContent: newPreviousContent,
       previousCharacteristic: previousCharacteristic
-    });
+    }, true);
   }
 
   /**
@@ -180,7 +180,7 @@ export default class ParagraphCommandActionFactory {
   delete(pcid) {
     return this.clientActionFactory.command(this.COMPONENT, ACTIONS.DELETE, {
       pcid: pcid
-    });
+    }, true);
   }
 
 }

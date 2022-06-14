@@ -1,4 +1,21 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MetaBar\Collector;
 
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
 use ILIAS\GlobalScreen\Collector\ItemCollector;
@@ -7,26 +24,13 @@ use ILIAS\GlobalScreen\Scope\MetaBar\Factory\isParent;
 use ILIAS\GlobalScreen\Scope\MetaBar\Provider\StaticMetaBarProvider;
 use Generator;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class MetaBarMainCollector
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollector
 {
-    
+
     /**
      * @var StaticMetaBarProvider[]
      */
@@ -35,7 +39,7 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
      * @var isItem[]
      */
     private array $items = [];
-    
+
     /**
      * MetaBarMainCollector constructor.
      * @param array $providers
@@ -44,7 +48,7 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
     {
         $this->providers = $providers;
     }
-    
+
     public function collectStructure() : void
     {
         $items_to_merge = [];
@@ -53,28 +57,28 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
         }
         $this->items = array_merge([], ...$items_to_merge);
     }
-    
+
     public function filterItemsByVisibilty(bool $async_only = false) : void
     {
         $this->items = array_filter($this->items, $this->getVisibleFilter());
     }
-    
+
     public function prepareItemsForUIRepresentation() : void
     {
         // noting to do here
     }
-    
+
     public function cleanupItemsForUIRepresentation() : void
     {
         // noting to do here
     }
-    
+
     public function sortItemsForUIRepresentation() : void
     {
         $this->sortItems($this->items);
         array_walk($this->items, $this->getChildSorter());
     }
-    
+
     /**
      * @return Generator
      */
@@ -87,24 +91,24 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
     {
         return count($this->items) > 0;
     }
-    
+
     public function hasVisibleItems() : bool
     {
         return $this->hasItems();
     }
-    
+
     private function sortItems(&$items)
     {
         usort($items, $this->getItemSorter());
     }
-    
+
     private function getItemSorter() : callable
     {
         return static function (isItem $a, isItem $b) : int {
             return $a->getPosition() - $b->getPosition();
         };
     }
-    
+
     private function getChildSorter() : callable
     {
         return function (isItem &$item) : void {
@@ -115,7 +119,7 @@ class MetaBarMainCollector extends AbstractBaseCollector implements ItemCollecto
             }
         };
     }
-    
+
     protected function getVisibleFilter() : callable
     {
         return static function (isItem $item) : bool {

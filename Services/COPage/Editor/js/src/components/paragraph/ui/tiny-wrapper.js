@@ -1038,4 +1038,13 @@ export default class TinyWrapper {
     ed.selection.collapse(false);
   }
 
+  disable() {
+    const ed = this.tiny;
+    ed.getBody().setAttribute('contenteditable', false);
+  }
+
+  enable() {
+    const ed = this.tiny;
+    ed.getBody().setAttribute('contenteditable', true);
+  }
 }

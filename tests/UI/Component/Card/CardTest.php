@@ -57,6 +57,17 @@ class CardTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Card\\Standard", $this->getBaseCard());
     }
 
+    public function test_factory_with_shy_button() : void
+    {
+        $button_factory = new I\Component\Button\Factory();
+        $button = $button_factory->shy("Card Title New", "");
+
+        $cf = $this->getCardFactory();
+        $image = new I\Component\Image\Image("standard", "src", "alt");
+
+        $this->assertEquals($button, $cf->standard($button, $image)->getTitle());
+    }
+
     public function test_get_title() : void
     {
         $c = $this->getBaseCard();
@@ -70,6 +81,16 @@ class CardTest extends ILIAS_UI_TestBase
         $c = $c->withTitle("Card Title New");
 
         $this->assertEquals("Card Title New", $c->getTitle());
+    }
+
+    public function test_with_title_as_shy_button() : void
+    {
+        $c = $this->getBaseCard();
+        $button_factory = new I\Component\Button\Factory();
+        $button = $button_factory->shy("Card Title New", "");
+
+        $c = $c->withTitle($button);
+        $this->assertEquals($button, $c->getTitle());
     }
 
     public function test_with_string_title_action() : void

@@ -1,16 +1,23 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
-
-use LogicException;
-
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Layout\MetaContent\Media;
+
+use LogicException;
 
 /**
  * Class Css
@@ -22,9 +29,9 @@ class Css extends AbstractMediaWithPath
     const MEDIA_SCREEN = "screen";
     const MEDIA_PRINT = "print";
     const MEDIA_SPEECH = "speech";
-    
+
     private string $media = self::MEDIA_SCREEN;
-    
+
     /**
      * Css constructor.
      * @param string $content
@@ -38,7 +45,7 @@ class Css extends AbstractMediaWithPath
         parent::__construct($content, $version);
         $this->media = $media;
     }
-    
+
     /**
      * @return string
      */

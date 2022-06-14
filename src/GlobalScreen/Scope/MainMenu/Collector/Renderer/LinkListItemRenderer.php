@@ -1,4 +1,19 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
@@ -8,19 +23,6 @@ use ILIAS\UI\Component\Component;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
 use ILIAS\UI\Component\MainControls\Slate\Slate;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class LinkListItemRenderer
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -32,7 +34,7 @@ class LinkListItemRenderer extends BaseTypeRenderer
         MakeSlateAsync::unhash insteadof SlateSessionStateCode;
     }
     use isSupportedTrait;
-    
+
     /**
      * @inheritDoc
      */
@@ -49,7 +51,7 @@ class LinkListItemRenderer extends BaseTypeRenderer
             $link = $this->ui_factory->link()->bulky($this->getStandardSymbol($link), $link->getTitle(), $this->getURI($link->getAction()));
             $slate = $slate->withAdditionalEntry($link);
         }
-        
+
         return $slate;
     }
 }

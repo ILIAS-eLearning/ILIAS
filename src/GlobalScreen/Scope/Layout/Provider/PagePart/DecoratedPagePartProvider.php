@@ -1,4 +1,21 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Layout\Provider\PagePart;
 
 use Closure;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
@@ -7,16 +24,6 @@ use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\MainControls\Footer;
 use ILIAS\UI\Component\MainControls\MainBar;
 use ILIAS\UI\Component\MainControls\MetaBar;
-
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
 
 /**
  * Class DecoratedPagePartProvider
@@ -35,7 +42,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     private PagePartProvider $original;
     private Closure $deco;
     private string $purpose;
-    
+
     /**
      * DecoratedPagePartProvider constructor.
      * @param PagePartProvider $original
@@ -48,23 +55,23 @@ class DecoratedPagePartProvider implements PagePartProvider
         $this->deco = $deco;
         $this->purpose = $purpose;
     }
-    
+
     private function getDecoratedOrOriginal(string $purpose, $original)
     {
         if ($this->isDecorated($purpose)) {
             $deco = $this->deco;
-            
+
             return $deco($original);
         }
-        
+
         return $original;
     }
-    
+
     private function isDecorated(string $purpose) : bool
     {
         return $purpose === $this->purpose;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -72,7 +79,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     {
         return $this->getDecoratedOrOriginal(Legacy::class, $this->original->getContent());
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -80,7 +87,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     {
         return $this->getDecoratedOrOriginal(MetaBar::class, $this->original->getMetaBar());
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -88,7 +95,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     {
         return $this->getDecoratedOrOriginal(MainBar::class, $this->original->getMainBar());
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -96,7 +103,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     {
         return $this->getDecoratedOrOriginal(Breadcrumbs::class, $this->original->getBreadCrumbs());
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -123,7 +130,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     {
         return $this->original->getSystemInfos();
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -131,7 +138,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     {
         return $this->getDecoratedOrOriginal(Footer::class, $this->original->getFooter());
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -139,7 +146,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     {
         return $this->getDecoratedOrOriginal(self::PURPOSE_TITLE, $this->original->getTitle());
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -147,7 +154,7 @@ class DecoratedPagePartProvider implements PagePartProvider
     {
         return $this->getDecoratedOrOriginal(self::PURPOSE_SHORTTITLE, $this->original->getShortTitle());
     }
-    
+
     /**
      * @inheritDoc
      */

@@ -461,6 +461,9 @@ class ilWikiUtil
     ) : void {
         global $DIC;
 
+        $log = ilLoggerFactory::getLogger('wiki');
+        $log->debug("start... vvvvvvvvvvvvvvvvvvvvvvvvvvv");
+
         $ilUser = $DIC->user();
         $ilObjDataCache = $DIC["ilObjDataCache"];
         $ilAccess = $DIC->access();
@@ -477,11 +480,13 @@ class ilWikiUtil
             return;
         }
 
+        $log->debug("-- get notifications");
         if ($a_type == ilNotification::TYPE_WIKI_PAGE) {
             $users = ilNotification::getNotificationsForObject($a_type, $a_page_id, null, $ignore_threshold);
             $wiki_users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id, $ignore_threshold);
             $users = array_merge($users, $wiki_users);
             if (!count($users)) {
+                $log->debug("no notifications... ^^^^^^^^^^^^^^^^^^");
                 return;
             }
 
@@ -489,6 +494,7 @@ class ilWikiUtil
         } else {
             $users = ilNotification::getNotificationsForObject(ilNotification::TYPE_WIKI, $wiki_id, $a_page_id, $ignore_threshold);
             if (!count($users)) {
+                $log->debug("no notifications... ^^^^^^^^^^^^^^^^^^");
                 return;
             }
         }
@@ -503,6 +509,7 @@ class ilWikiUtil
             $link = ilLink::_getLink($a_wiki_ref_id);
         }
 
+        $log->debug("-- prepare content");
         $pgui = new ilWikiPageGUI($page->getId());
         $pgui->setRawPageContent(true);
         $pgui->setAbstractOnly(true);
@@ -525,7 +532,8 @@ class ilWikiUtil
             $a_type = ilNotification::TYPE_WIKI;
             $a_action = "new";
         }
-        
+
+        $log->debug("-- sending mails");
         foreach (array_unique($users) as $idx => $user_id) {
             if ($user_id != $ilUser->getId() &&
                 $ilAccess->checkAccessOfUser($user_id, 'read', '', $a_wiki_ref_id)) {
@@ -592,6 +600,7 @@ class ilWikiUtil
 
                 $mail_obj = new ilMail(ANONYMOUS_USER_ID);
                 $mail_obj->appendInstallationSignature(true);
+                $log->debug("before enqueue ($user_id)");
                 $mail_obj->enqueue(
                     ilObjUser::_lookupLogin($user_id),
                     "",
@@ -600,9 +609,11 @@ class ilWikiUtil
                     $message,
                     array()
                 );
+                $log->debug("after enqueue");
             } else {
                 unset($users[$idx]);
             }
         }
+        $log->debug("end... ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
     }
 }

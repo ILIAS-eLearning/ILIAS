@@ -52,6 +52,8 @@ captainhook.config.json
 captainhook.local.json
 .phpunit.result.cache
 .php-cs-fixer.cache
+phpstan.local.neon
+phpstan-baseline.neon
 
 # File Delivery
 override.php

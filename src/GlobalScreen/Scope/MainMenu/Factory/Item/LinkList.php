@@ -1,9 +1,27 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
 
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\AbstractChildItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbol;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbolTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
@@ -13,33 +31,28 @@ use ReflectionFunction;
 use ReflectionException;
 use Generator;
 
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
-
 /**
  * Class LinkList
  * @package ILIAS\GlobalScreen\MainMenu\Item
  */
-class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchronousLoading, hasSymbol, isInterchangeableItem
+class LinkList extends AbstractChildItem implements
+    hasTitle,
+    supportsAsynchronousLoading,
+    hasSymbol,
+    isInterchangeableItem,
+    isChild
 {
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
     use isInterchangeableItemTrait;
-    
+
     protected string $title = '';
     /**
      * @var Link[]
      */
     protected array $links = [];
     protected bool $supports_async_loading = false;
-    
+
     /**
      * @param string $title
      * @return Link
@@ -48,10 +61,10 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
     {
         $clone = clone($this);
         $clone->title = $title;
-        
+
         return $clone;
     }
-    
+
     /**
      * @return string
      */
@@ -59,7 +72,7 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
     {
         return $this->title;
     }
-    
+
     /**
      * @param array|callable|Generator $links
      */
@@ -76,7 +89,7 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
             } catch (ReflectionException $e) {
                 $links = false;
             }
-            
+
             if (!is_array($links)) {
                 throw new InvalidArgumentException("withLinks only accepts arrays of Links or a callable providing them");
             }
@@ -88,10 +101,10 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
         }
         $clone = clone($this);
         $clone->links = $links;
-        
+
         return $clone;
     }
-    
+
     /**
      * @return Link[]
      */
@@ -99,7 +112,7 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
     {
         return $this->links;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -107,10 +120,10 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
     {
         $clone = clone($this);
         $clone->supports_async_loading = $supported;
-        
+
         return $clone;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -118,7 +131,7 @@ class LinkList extends AbstractChildItem implements hasTitle, supportsAsynchrono
     {
         return $this->supports_async_loading;
     }
-    
+
     public function isVisible() : bool
     {
         $visible_links = 0;

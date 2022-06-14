@@ -37,6 +37,7 @@ class Server
     protected \ilPageObjectGUI $page_gui;
     protected \ILIAS\DI\UIServices $ui;
     protected Message\ServerRequestInterface $request;
+    protected \ilLogger $log;
 
     public function __construct(
         \ilPageObjectGUI $page_gui,
@@ -46,10 +47,12 @@ class Server
         $this->request = $request;
         $this->ui = $ui;
         $this->page_gui = $page_gui;
+        $this->log = \ilLoggerFactory::getLogger('copg');
     }
 
     public function reply() : void
     {
+        $this->log->debug("Start replying...");
         $query = $this->request->getQueryParams();
         $post = $this->request->getParsedBody();
 
@@ -62,10 +65,11 @@ class Server
             $action_handler = $this->getActionHandlerForQuery($query);
             $response = $action_handler->handle($query);
         } else {
-            //sleep(3);
+            //sleep(5);
             $action_handler = $this->getActionHandlerForCommand($query, $body);
             $response = $action_handler->handle($query, $body);
         }
+        $this->log->debug("... sending response");
         $response->send();
     }
 

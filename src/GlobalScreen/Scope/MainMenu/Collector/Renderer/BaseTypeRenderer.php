@@ -1,4 +1,21 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer;
 
 use ILIAS\Data\URI;
 use ILIAS\GlobalScreen\Collector\Renderer\ComponentDecoratorApplierTrait;
@@ -13,16 +30,6 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use Throwable;
 
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
-
 /**
  * Class BaseTypeRenderer
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -34,13 +41,13 @@ class BaseTypeRenderer implements TypeRenderer
         MakeSlateAsync::unhash insteadof SlateSessionStateCode;
     }
     use isSupportedTrait;
-    
+
     use ComponentDecoratorApplierTrait;
-    
+
     protected Factory $ui_factory;
-    
+
     protected Renderer $ui_renderer;
-    
+
     /**
      * BaseTypeRenderer constructor.
      */
@@ -50,7 +57,7 @@ class BaseTypeRenderer implements TypeRenderer
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -58,7 +65,7 @@ class BaseTypeRenderer implements TypeRenderer
     {
         return $this->applyDecorator($with_content ? $this->getComponentWithContent($item) : $this->getComponentWithoutContent($item), $item);
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -66,7 +73,7 @@ class BaseTypeRenderer implements TypeRenderer
     {
         return $this->ui_factory->legacy($item->getProviderIdentification()->serialize());
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -81,15 +88,15 @@ class BaseTypeRenderer implements TypeRenderer
         $slate = $this->ui_factory->mainControls()->slate()->legacy($name, $this->getStandardSymbol($item), $content);
         $slate = $this->addAsyncLoadingCode($slate, $item);
         $slate = $this->addOnloadCode($slate, $item);
-        
+
         return $slate;
     }
-    
+
     private function supportsAsyncContent(isItem $item) : bool
     {
         return $item instanceof supportsAsynchronousLoading && $item->supportsAsynchronousLoading();
     }
-    
+
     /**
      * @param isItem $item
      * @return Symbol
@@ -101,7 +108,7 @@ class BaseTypeRenderer implements TypeRenderer
             if ($c !== null) {
                 return $c($item->getSymbol());
             }
-            
+
             return $item->getSymbol();
         }
         if ($item instanceof hasTitle) {
@@ -113,10 +120,10 @@ class BaseTypeRenderer implements TypeRenderer
         } else {
             $abbr = strtoupper(substr(uniqid('', true), -1));
         }
-        
+
         return $this->ui_factory->symbol()->icon()->standard($abbr, $abbr, 'small', true)->withAbbreviation($abbr);
     }
-    
+
     /**
      * @param string $uri_string
      * @return URI
@@ -124,7 +131,7 @@ class BaseTypeRenderer implements TypeRenderer
     protected function getURI(string $uri_string) : URI
     {
         $uri_string = trim($uri_string, " ");
-        
+
         if (strpos($uri_string, 'http') === 0) {
             $checker = self::getURIChecker();
             if ($checker($uri_string)) {
@@ -132,10 +139,10 @@ class BaseTypeRenderer implements TypeRenderer
             }
             return new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . ltrim($_SERVER['REQUEST_URI'], "./"));
         }
-        
+
         return new URI(rtrim(ILIAS_HTTP_PATH, "/") . "/" . ltrim($uri_string, "./"));
     }
-    
+
     public static function getURIChecker() : callable
     {
         return static function (string $v) : bool {
@@ -148,7 +155,7 @@ class BaseTypeRenderer implements TypeRenderer
             return true;
         };
     }
-    
+
     public static function getURIConverter() : callable
     {
         return static function (string $v) : string {
@@ -156,7 +163,7 @@ class BaseTypeRenderer implements TypeRenderer
                 $v = ltrim($v, './');
                 return ILIAS_HTTP_PATH . '/' . $v;
             }
-            
+
             return $v;
         };
     }

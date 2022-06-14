@@ -1,4 +1,21 @@
-<?php namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\MainMenu\Collector;
 
 use ILIAS\GlobalScreen\Collector\AbstractBaseCollector;
 use ILIAS\GlobalScreen\Collector\ItemCollector;
@@ -24,16 +41,6 @@ use Iterator;
 use Throwable;
 use Generator;
 
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
-
 /**
  * Class MainMenuMainCollector
  * This Collector will collect and then provide all available slates from the
@@ -50,7 +57,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
      */
     protected array $providers;
     private Map $map;
-    
+
     /**
      * MainMenuMainCollector constructor.
      * @param array                $providers
@@ -64,7 +71,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         $this->type_information_collection = new TypeInformationCollection();
         $this->map = new Map($factory);
     }
-    
+
     /**
      * @return Iterator <\ILIAS\GlobalScreen\Provider\Provider[]>
      */
@@ -72,7 +79,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     {
         yield from $this->providers;
     }
-    
+
     public function collectStructure() : void
     {
         foreach ($this->getProvidersFromList() as $provider) {
@@ -81,7 +88,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             $this->map->addMultiple(...$provider->getStaticSubItems());
         }
     }
-    
+
     public function filterItemsByVisibilty(bool $async_only = false) : void
     {
         // apply filter
@@ -92,7 +99,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             if (!$item->isAvailable()) {
                 return false;
             }
-            
+
             // make parent available if one child is always available
             if ($item instanceof isParent) {
                 foreach ($item->getChildren() as $child) {
@@ -101,7 +108,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
                     }
                 }
             }
-            
+
             // Always avaiable must be delivered when visible
             if ($item->isAlwaysAvailable()) {
                 return $item->isVisible();
@@ -110,7 +117,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             return $item->isAvailable() && $item->isVisible() && $this->information->isItemActive($item);
         });
     }
-    
+
     public function prepareItemsForUIRepresentation() : void
     {
         $this->map->walk(function (isItem &$item) : isItem {
@@ -119,7 +126,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
                     $this->getTypeInformationForItem($item)
                 );
             }
-            
+
             // Apply the TypeHandler
             $item = $this->getTypeHandlerForItem($item)->enrichItem($item);
             // Translate Item
@@ -132,26 +139,24 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             }
             // Custom Position
             $item = $this->getItemInformation()->customPosition($item);
-            
+
             return $item;
         });
-        
+
         // Override parent from configuration
-        $this->map->walk(function (isItem &$item) : isItem {
-            if ($item instanceof isChild) {
+        $this->map->walk(function (isItem $item) {
+            if ($item instanceof isChild || $item instanceof isInterchangeableItem) {
                 $parent = $this->map->getSingleItemFromFilter($this->information->getParent($item));
                 if ($parent instanceof isParent) {
                     $parent->appendChild($item);
-                    if ($parent instanceof Lost && $parent->getProviderIdentification()->serialize() === '') {
-                        $item->overrideParent($parent->getProviderIdentification());
-                    }
+                    $item->overrideParent($parent->getProviderIdentification());
                 }
             }
-            
+
             return $item;
         });
     }
-    
+
     public function cleanupItemsForUIRepresentation() : void
     {
         // Remove not visible children
@@ -165,7 +170,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             }
             return $item;
         });
-    
+
         $this->map->walk(static function (isItem &$i) : void {
             if ($i instanceof isParent && count($i->getChildren()) === 0) {
                 $i = $i->withAvailableCallable(static function () {
@@ -175,22 +180,22 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
                 });
             }
         });
-        
+
         // filter empty slates
         $this->map->filter(static function (isItem $i) : bool {
             if ($i instanceof isParent) {
                 return count($i->getChildren()) > 0;
             }
-            
+
             return true;
         });
     }
-    
+
     public function sortItemsForUIRepresentation() : void
     {
         $this->map->sort();
     }
-    
+
     /**
      * This will return all available isTopItem (and moved isInterchangeableItem),
      * stacked based on the configuration in "Administration" and for the
@@ -205,7 +210,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             }
         }
     }
-    
+
     /**
      * @return Iterator <Generator&isItem[]>
      */
@@ -213,13 +218,13 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     {
         yield from $this->map->getAllFromFilter();
     }
-    
+
 
     public function hasItems() : bool
     {
         return $this->map->has();
     }
-    
+
     public function hasVisibleItems() : bool
     {
         if (!$this->hasItems()) {
@@ -230,7 +235,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         }
         return false;
     }
-    
+
     /**
      * @param IdentificationInterface $identification
      * @return isItem
@@ -240,7 +245,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     {
         return $this->map->getSingleItemFromFilter($identification);
     }
-    
+
     /**
      * @param IdentificationInterface $identification
      * @return isItem
@@ -250,7 +255,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     {
         return $this->map->getSingleItemFromRaw($identification);
     }
-    
+
     /**
      * @param isItem $item
      * @return TypeHandler
@@ -261,10 +266,10 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         if ($type_information === null) {
             return new BaseTypeHandler();
         }
-        
+
         return $type_information->getTypeHandler();
     }
-    
+
     /**
      * @param isItem $item
      */
@@ -272,7 +277,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     {
         return $this->information;
     }
-    
+
     /**
      * @param isItem $item
      * @return TypeInformation
@@ -281,7 +286,7 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
     {
         return $this->getTypeInformationCollection()->get(get_class($item));
     }
-    
+
     /**
      * @return TypeInformationCollection
      */

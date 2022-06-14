@@ -19,6 +19,7 @@
 namespace ILIAS\UI\Component\Card;
 
 use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Component\Button\Shy;
 
 /**
  * This is how the factory for UI elements looks.
@@ -42,12 +43,11 @@ interface Factory
      *          Standard Card MUST be used if there is no good reason using
      *          another instance.
      * ---
-     * @param string $title
+     * @param string|Shy $title
      * @param \ILIAS\UI\Component\Image\Image $image
      * @return \ILIAS\UI\Component\Card\Standard
      */
-    public function standard(string $title, Image $image = null) : Standard;
-
+    public function standard($title, Image $image = null) : Standard;
 
     /**
      * ---
@@ -76,9 +76,9 @@ interface Factory
      *       - https://docu.ilias.de/goto_docu_wiki_wpage_4921_1357.html
      *
      * ---
-     * @param string $title
+     * @param string|Shy $title
      * @param \ILIAS\UI\Component\Image\Image $image
      * @return \ILIAS\UI\Component\Card\RepositoryObject
      */
-    public function repositoryObject(string $title, Image $image) : RepositoryObject;
+    public function repositoryObject($title, Image $image) : RepositoryObject;
 }

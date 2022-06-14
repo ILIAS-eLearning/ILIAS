@@ -154,7 +154,7 @@ class ilPageEditorGUI
     {
         $ilCtrl = $this->ctrl;
         $ilHelp = $this->help;
-        $this->log->debug("begin ============");
+        $this->log->debug("begin =========================");
         $ctype = "";
         $cont_obj = null;
 
@@ -445,7 +445,7 @@ class ilPageEditorGUI
 
         }
 
-        $this->log->debug("end ---");
+        $this->log->debug("end --------------------");
 
         return (string) $ret;
     }

@@ -1,4 +1,19 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 namespace ILIAS\GlobalScreen\Client;
 
@@ -9,16 +24,6 @@ use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use JsonException;
 
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
-
 /**
  * Class Notifications
  * Handles Async Calls for the Notification Center
@@ -27,7 +32,7 @@ use JsonException;
 class Notifications
 {
     use Hasher;
-    
+
     protected Container $dic;
     /**
      * Collected set of collected notifications
@@ -64,7 +69,7 @@ class Notifications
     protected array $identifiers_to_handle = [];
     protected ?string $single_identifier_to_handle;
     protected array $administrative_notifications = [];
-    
+
     public function __construct()
     {
         global $DIC;
@@ -81,13 +86,13 @@ class Notifications
         $this->administrative_notifications = $DIC->globalScreen()->collector()->notifications()->getAdministrativeNotifications();
         $this->identifiers_to_handle = $DIC->http()->request()->getQueryParams()[self::NOTIFICATION_IDENTIFIERS] ?? [];
         $this->single_identifier_to_handle = $DIC->http()->request()->getQueryParams()[self::ITEM_ID] ?? null;
-        
+
         $mode = 0;
         $query = $DIC->http()->wrapper()->query();
         if ($query->has(self::MODE)) {
             $mode = $query->retrieve(self::MODE, $DIC->refinery()->to()->string());
         }
-        
+
         switch ($mode) {
             case self::MODE_OPENED:
                 $this->handleOpened();
@@ -100,7 +105,7 @@ class Notifications
                 break;
         }
     }
-    
+
     /**
      * Loops through all available open callable provided by the notification
      * providers
@@ -118,7 +123,7 @@ class Notifications
             }
         }
     }
-    
+
     /**
      * Runs the closed callable if such a callable is provided
      */

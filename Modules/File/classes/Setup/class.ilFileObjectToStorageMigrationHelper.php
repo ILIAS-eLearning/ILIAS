@@ -34,6 +34,24 @@ class ilFileObjectToStorageMigrationHelper
 
     public function getNext() : ilFileObjectToStorageDirectory
     {
+        do {
+            $next_id = $this->getNextFileId();
+            $path = $this->createPathFromId($next_id);
+            $path_found = file_exists($path);
+            if (!$path_found) {
+                $this->database->update(
+                    'file_data',
+                    ['rid' => ['text', 'unknown']],
+                    ['file_id' => ['integer', $next_id]]
+                );
+            } else {
+                return new ilFileObjectToStorageDirectory($next_id, $path);
+            }
+        } while (!$path_found);
+    }
+
+    private function getNextFileId() : int
+    {
         $query = "SELECT file_id 
                     FROM file_data 
                     WHERE 
@@ -46,9 +64,9 @@ class ilFileObjectToStorageMigrationHelper
             throw new LogicException("error fetching file_id");
         }
 
-        $file_id = (int) $d->file_id;
-        return new ilFileObjectToStorageDirectory($file_id, $this->createPathFromId($file_id));
+        return (int) $d->file_id;
     }
+
 
     private function createPathFromId(int $file_id) : string
     {

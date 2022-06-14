@@ -108,12 +108,12 @@ class ilMMItemInformation implements ItemInformation
     /**
      * @inheritDoc
      */
-    public function getParent(isChild $item) : IdentificationInterface
+    public function getParent(isItem $item) : IdentificationInterface
     {
         global $DIC;
-        $parent_string = $item->getProviderIdentification()->serialize();
-        if (isset($this->items[$parent_string]['parent_identification'])) {
-            return $DIC->globalScreen()->identification()->fromSerializedIdentification($this->items[$parent_string]['parent_identification']);
+        $serialized = $item->getProviderIdentification()->serialize();
+        if (isset($this->items[$serialized]['parent_identification'])) {
+            return $DIC->globalScreen()->identification()->fromSerializedIdentification($this->items[$serialized]['parent_identification']);
         }
 
         return $item->getParent();

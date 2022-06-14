@@ -14,6 +14,8 @@ final class RootFolderTest extends TestCase
         '.htaccess',
         '.phpunit.result.cache',
         'captainhook.local.json',
+        'phpstan.local.neon',
+        'phpstan-baseline.neon',
         '.php_cs.cache',
         'calendar.php',
         'captainhook.json',

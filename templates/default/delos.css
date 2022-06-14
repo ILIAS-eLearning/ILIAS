@@ -7754,9 +7754,10 @@ ul.dropdown-menu > li > .btn:focus {
   font-size: 0.75rem;
   overflow: hidden;
 }
-.il-item .il-chart-progressmeter-viewbox {
+.il-item .il-chart-progressmeter-box {
+  max-width: 80px;
+  margin-right: 0;
   margin-left: auto;
-  margin-right: auto;
 }
 @media only screen and (max-width: 768px) {
   .il-item .il-chart-progressmeter-viewbox {

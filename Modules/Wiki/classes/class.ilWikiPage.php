@@ -161,8 +161,10 @@ class ilWikiPage extends ilPageObject
         string $xml
     ) : void {
         // internal == wiki links
+
+        $this->log->debug("collect internal links");
         $int_links = count(ilWikiUtil::collectInternalLinks($xml, $this->getWikiId(), true));
-        
+
         $xpath = new DOMXPath($domdoc);
     
         // external = internal + external links
@@ -186,7 +188,7 @@ class ilWikiPage extends ilPageObject
             "num_words" => $num_words,
             "num_chars" => $num_chars
         );
-
+        $this->log->debug("handle stats");
         ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_UPDATED, $this, null, $page_data);
     }
     
@@ -199,7 +201,7 @@ class ilWikiPage extends ilPageObject
         bool $a_no_history = false
     ) {
         $ilDB = $this->db;
-        
+        $this->log->debug("start...");
         // update wiki page data
         $query = "UPDATE il_wiki_page SET " .
             " title = " . $ilDB->quote($this->getTitle(), "text") .
@@ -212,8 +214,10 @@ class ilWikiPage extends ilPageObject
         $updated = parent::update($a_validate, $a_no_history);
 
         if ($updated === true) {
+            $this->log->debug("send notification");
             ilWikiUtil::sendNotification("update", ilNotification::TYPE_WIKI_PAGE, $this->getWikiRefId(), $this->getId());
-            
+
+            $this->log->debug("update news");
             $this->updateNews(true);
         } else {
             return $updated;
@@ -520,6 +524,7 @@ class ilWikiPage extends ilPageObject
     ) : void {
         $ilDB = $this->db;
 
+        $this->log->debug("start...");
         // *** STEP 1: Standard Processing ***
         
         parent::saveInternalLinks($a_domdoc);
@@ -594,6 +599,7 @@ class ilWikiPage extends ilPageObject
                 );
             }
         }
+        $this->log->debug("...end");
     }
 
     /**

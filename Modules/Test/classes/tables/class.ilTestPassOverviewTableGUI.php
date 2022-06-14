@@ -144,7 +144,7 @@ class ilTestPassOverviewTableGUI extends ilTable2GUI
         
         // actions
         if (!$this->isPdfPresentationEnabled()) {
-            $this->addColumn('', '', '10%');
+            $this->addColumn($this->lng->txt('actions'), '', '10%');
         }
     }
 

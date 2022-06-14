@@ -34,7 +34,10 @@ class Card implements C\Card
     use JavaScriptBindable;
     use Triggerer;
 
-    protected string $title;
+    /**
+     * @var \ILIAS\UI\Implementation\Component\Button\Shy|string
+     */
+    protected $title;
     protected Component $header_section;
 
     /**

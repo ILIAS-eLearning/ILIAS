@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+require_once("Services/Init/classes/class.ilInitialisation.php");
+
 $path_info_components = explode('/', $_SERVER['PATH_INFO']);
 $client_id = $path_info_components[1];
 $show_mount_instr = isset($_GET['mount-instructions']);

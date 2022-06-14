@@ -1,19 +1,26 @@
-<?php namespace ILIAS\GlobalScreen\Scope\Layout\Factory;
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
+namespace ILIAS\GlobalScreen\Scope\Layout\Factory;
 
 use Closure;
 use LogicException;
 use ReflectionFunction;
 use ReflectionException;
-
-/******************************************************************************
- * This file is part of ILIAS, a powerful learning management system.
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *****************************************************************************/
 
 /**
  * Class AbstractLayoutModification
@@ -23,12 +30,12 @@ abstract class AbstractLayoutModification implements LayoutModification
 {
     private int $priority;
     private ?Closure $modification = null;
-    
+
     public function isFinal() : bool
     {
         return false;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -36,7 +43,7 @@ abstract class AbstractLayoutModification implements LayoutModification
     {
         return $this->priority ?? LayoutModification::PRIORITY_LOW;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -47,10 +54,10 @@ abstract class AbstractLayoutModification implements LayoutModification
         }
         $clone = clone $this;
         $clone->priority = $priority;
-        
+
         return $clone;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -58,10 +65,10 @@ abstract class AbstractLayoutModification implements LayoutModification
     {
         $clone = clone $this;
         $clone->priority = LayoutModification::PRIORITY_HIGH;
-        
+
         return $clone;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -69,10 +76,10 @@ abstract class AbstractLayoutModification implements LayoutModification
     {
         $clone = clone $this;
         $clone->priority = LayoutModification::PRIORITY_LOW;
-        
+
         return $clone;
     }
-    
+
     /**
      * @param Closure $closure
      * @return LayoutModification|ContentModification|MainBarModification|MetaBarModification|BreadCrumbsModification|LogoModification|FooterModification
@@ -81,10 +88,10 @@ abstract class AbstractLayoutModification implements LayoutModification
     {
         $clone = clone $this;
         $clone->modification = $closure;
-        
+
         return $clone;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -92,7 +99,7 @@ abstract class AbstractLayoutModification implements LayoutModification
     {
         return $this->modification;
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -100,7 +107,7 @@ abstract class AbstractLayoutModification implements LayoutModification
     {
         return ($this->modification instanceof Closure && $this->checkClosure());
     }
-    
+
     /**
      * @return bool
      */
@@ -108,7 +115,7 @@ abstract class AbstractLayoutModification implements LayoutModification
     {
         $closure = $this->modification;
         $return_type = $this->getClosureReturnType();
-        
+
         try {
             $r = new ReflectionFunction($closure);
             // First Argument
@@ -121,7 +128,7 @@ abstract class AbstractLayoutModification implements LayoutModification
                     return false;
                 }
             }
-            
+
             // Return type
             if (!$this->returnTypeAllowsNull()) {
                 if (!$r->hasReturnType()
@@ -133,7 +140,7 @@ abstract class AbstractLayoutModification implements LayoutModification
         } catch (ReflectionException $e) {
             return false;
         }
-        
+
         return true;
     }
 }
