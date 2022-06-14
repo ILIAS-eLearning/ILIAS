@@ -144,22 +144,9 @@ class ilAssQuestionFeedbackEditingGUI
 
         $this->setContentStyle();
 
-        $parent_test_ref_id = $this->questionOBJ->getParentTestRefId();
-        if ($parent_test_ref_id &&
-            !$this->access->checkAccess("write", "", $parent_test_ref_id)
-        ) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('no_permission'), true);
-            $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
-        }
-        if ($this->questionOBJ->isInActiveTest()) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt('question_is_part_of_running_test'), true);
-            $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
-        }
-
         switch ($nextClass) {
             case 'ilassspecfeedbackpagegui':
             case 'ilassgenfeedbackpagegui':
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackPageObjectCommandForwarder.php';
                 $forwarder = new ilAssQuestionFeedbackPageObjectCommandForwarder($this->questionOBJ, $this->ctrl, $this->tabs, $this->lng);
                 $forwarder->forward();
                 break;
@@ -187,7 +174,6 @@ class ilAssQuestionFeedbackEditingGUI
      */
     private function showFeedbackFormCmd() : void
     {
-        require_once "./Services/Style/Content/classes/class.ilObjStyleSheet.php";
         $this->tpl->setCurrentBlock("ContentStyle");
         $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", ilObjStyleSheet::getContentStylePath(0));
         $this->tpl->parseCurrentBlock();
@@ -243,8 +229,6 @@ class ilAssQuestionFeedbackEditingGUI
      */
     private function buildForm() : ilPropertyFormGUI
     {
-        require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
-        
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('feedback_generic'));
