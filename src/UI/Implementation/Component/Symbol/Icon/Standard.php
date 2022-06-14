@@ -172,8 +172,6 @@ class Standard extends Icon implements C\Symbol\Icon\Standard
         self::CON
     ];
 
-    protected bool $is_outlined = false;
-
     public function __construct(string $name, string $label, string $size, bool $is_disabled)
     {
         $this->checkArgIsElement(

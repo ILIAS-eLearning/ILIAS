@@ -7169,10 +7169,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   padding: 0 6px;
   z-index: 300;
 }
-.il-card .il-card-repository-head .icon.outlined {
-  filter: brightness(3);
-}
-.il-card .il-card-repository-head .icon.outlined.disabled {
+.il-card .il-card-repository-head .icon {
   filter: brightness(3);
 }
 .il-card .il-card-repository-head > div {
@@ -9353,9 +9350,9 @@ footer {
     display: -ms-grid;
     -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
-    -ms-grid-rows: 0 50px;
-    grid-template-rows: 0 50px;
-    grid-template-rows: 0 calc(50px + 1.2 * env(safe-area-inset-bottom));
+    -ms-grid-rows: 0 60px;
+    grid-template-rows: 0 60px;
+    grid-template-rows: 0 calc(60px + 1.2 * env(safe-area-inset-bottom));
   }
   .il-layout-page .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar-close-slates {
     display: none;
@@ -9387,9 +9384,9 @@ footer {
   .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar {
     -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
-    -ms-grid-rows: 1fr 50px;
-    grid-template-rows: 1fr 50px;
-    grid-template-rows: 1fr calc(50px + 1.2 * env(safe-area-inset-bottom));
+    -ms-grid-rows: 1fr 60px;
+    grid-template-rows: 1fr 60px;
+    grid-template-rows: 1fr calc(60px + 1.2 * env(safe-area-inset-bottom));
     width: 100%;
   }
   .il-layout-page.with-mainbar-slates-engaged .nav.il-maincontrols .il-maincontrols-mainbar .il-mainbar {
@@ -9487,8 +9484,8 @@ footer {
     box-shadow: none;
     display: -ms-flexbox;
     display: flex;
-    max-height: 50px;
-    max-height: calc(50px + 1.2 * env(safe-area-inset-bottom));
+    max-height: 60px;
+    max-height: calc(60px + 1.2 * env(safe-area-inset-bottom));
     overflow: hidden;
     z-index: 997;
   }
@@ -9499,12 +9496,12 @@ footer {
     flex-direction: row;
   }
   .il-mainbar-tools-button button {
-    height: 50px;
-    width: 75px;
+    height: 60px;
+    width: 80px;
   }
   .il-mainbar-tools-entries button {
-    height: 50px;
-    width: 75px;
+    height: 60px;
+    width: 80px;
   }
   .il-mainbar-tools-entries.engaged {
     display: -ms-flexbox;
@@ -9513,7 +9510,7 @@ footer {
     flex-direction: row;
   }
   .il-mainbar-tools-entries .il-mainbar-tools-entries-bg {
-    height: 50px;
+    height: 60px;
   }
   .il-mainbar-slates {
     -ms-grid-column: 2;
@@ -9534,7 +9531,7 @@ footer {
     display: flex;
     flex-direction: column;
     min-height: calc(100vh - 45px);
-    padding-bottom: 50px;
+    padding-bottom: 60px;
   }
   .il-layout-page-content > div {
     flex-grow: 1;
@@ -10030,6 +10027,11 @@ footer {
 .il-mainbar-triggers .il-link.link-bulky .icon {
   filter: brightness(3);
 }
+.il-mainbar-triggers .btn-bulky .icon.small,
+.il-mainbar-triggers .il-link.link-bulky .icon.small {
+  width: 25px;
+  height: 25px;
+}
 .il-mainbar-triggers .btn-bulky.engaged,
 .il-mainbar-triggers .il-link.link-bulky.engaged {
   background-color: white;
@@ -10284,6 +10286,7 @@ footer {
 }
 .il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content .panel-secondary {
   margin-bottom: 0;
+  border: none;
 }
 .il-mainbar-slates > .il-maincontrols-slate.engaged > .il-maincontrols-slate-content .panel-secondary .panel-body {
   padding-bottom: 0;
@@ -10311,23 +10314,23 @@ footer {
   .il-mainbar-triggers .il-link.link-bulky {
     flex-shrink: 0;
     border: 0;
-    height: 50px;
-    width: 75px;
+    height: 60px;
+    width: 80px;
   }
   .il-mainbar-triggers .btn-bulky .icon.small,
   .il-mainbar-triggers .il-link.link-bulky .icon.small {
-    height: 15px;
-    width: 15px;
+    height: 20px;
+    width: 20px;
   }
   .il-mainbar-tools-entries.engaged {
-    height: 50px;
+    height: 60px;
   }
   .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool {
     top: 0;
   }
   .il-mainbar-tools-entries.engaged .il-mainbar-remove-tool .close {
     font-size: 2.5rem;
-    height: 50px;
+    height: 60px;
   }
 }
 @media only screen and (min-width: 768px) {
@@ -10718,12 +10721,6 @@ footer {
   -webkit-filter: grayscale(100%);
   /* Safari 6.0 - 9.0 */
   filter: grayscale(100%);
-}
-.icon.outlined {
-  filter: brightness(0);
-}
-.icon.outlined.disabled {
-  filter: contrast(0%);
 }
 .glyph {
   color: #4c6586;
@@ -12643,7 +12640,7 @@ div.il_info {
 }
 /* ---------------- headlines ------------------ */
 a#il_mhead_t_focus {
-  color: #3b5620;
+  color: #2c2c2c;
   vertical-align: middle;
   font-size: 1.75rem;
   font-weight: 400;
@@ -19819,4 +19816,3 @@ table.mceToolbar td {
     content: "";
   }
 }
-/*# sourceMappingURL=delos.css.map */

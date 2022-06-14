@@ -7,7 +7,7 @@
 		color: @il-mainbar-btn-bg-color;
 	}
 	.icon {
-		filter: invert(50%);
+		filter: @il-mainbar-icon-filter;
 	}
 	.bulky-label {
 		color: @il-mainbar-btn-bg-color;
@@ -87,7 +87,11 @@
 		width: @il-mainbar-btn-height;
 		width: 100%;
 		.icon {
-			filter: brightness(3);
+			filter: @il-mainbar-trigger-icon-filter;
+			&.small {
+				width: @il-mainbar-trigger-icon-size;
+				height: @il-mainbar-trigger-icon-size;
+			}
 		}
 		//Note, for some reason, safari needs this in a seperate section, see:
 		&.engaged{
@@ -127,7 +131,7 @@
 				background-color: @il-mainbar-btn-bg-color;
 				color: @il-mainbar-btn-bg-color-engaged;
 				.icon {
-					filter: brightness(3);
+					filter: @il-mainbar-trigger-icon-filter;
 				}
 				.bulky-label {
 					color: @il-mainbar-btn-bg-color-engaged;
@@ -137,7 +141,7 @@
 				background-color: @il-mainbar-btn-bg-color-engaged;
 				color: @il-mainbar-btn-bg-color;
 				.icon  {
-					filter: invert(50%);
+					filter: @il-mainbar-icon-filter;
 				}
 				.bulky-label {
 					color: @il-mainbar-btn-bg-color;
@@ -178,7 +182,7 @@
 		color: white;
 		padding: 0;
 		.icon  {
-			filter: brightness(3);
+			filter: @il-mainbar-trigger-icon-filter;
 		}
 	}
 	.btn-bulky.engaged {
@@ -203,7 +207,7 @@
 		color: @il-mainbar-btn-color;
 		padding: 0;
 		.icon {
-			filter: brightness(3);
+			filter: @il-mainbar-trigger-icon-filter;
 		}
 		.bulky-label {
 			text-overflow: ellipsis;
@@ -301,6 +305,7 @@
 
 	 .panel-secondary {
 		 margin-bottom: 0;
+		 border: none;
 
 		 .panel-body {
 			 padding-bottom: 0;
@@ -340,8 +345,8 @@
 		   height: @il-mainbar-small-btn-height;
 		   width: @il-mainbar-small-btn-width;
 		   .icon.small {
-			   height: @il-icon-size-xsmall;
-			   width: @il-icon-size-xsmall;
+			   height: @il-icon-size-small;
+			   width: @il-icon-size-small;
 		   }
 	   }
 	}
