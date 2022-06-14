@@ -673,36 +673,47 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if ($form->checkInput()) {
             $this->getLogger()->debug('Trying to authenticate user.');
 
-            include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentials.php';
-            $credentials = new ilAuthFrontendCredentials();
-            $credentials->setUsername($form->getInput('username'));
-            $credentials->setPassword($form->getInput('password'));
+            $auth_callback = function () use ($form) {
+                include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentials.php';
+                $credentials = new ilAuthFrontendCredentials();
+                $credentials->setUsername($form->getInput('username'));
+                $credentials->setPassword($form->getInput('password'));
 
-            // set chosen auth mode
-            include_once './Services/Authentication/classes/class.ilAuthModeDetermination.php';
-            $det = ilAuthModeDetermination::_getInstance();
-            if (ilAuthUtils::_hasMultipleAuthenticationMethods() and $det->isManualSelection()) {
-                $credentials->setAuthMode($form->getInput('auth_mode'));
+                // set chosen auth mode
+                include_once './Services/Authentication/classes/class.ilAuthModeDetermination.php';
+                $det = ilAuthModeDetermination::_getInstance();
+                if (ilAuthUtils::_hasMultipleAuthenticationMethods() and $det->isManualSelection()) {
+                    $credentials->setAuthMode($form->getInput('auth_mode'));
+                }
+
+                include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
+                $provider_factory = new ilAuthProviderFactory();
+                $providers = $provider_factory->getProviders($credentials);
+
+                include_once './Services/Authentication/classes/class.ilAuthStatus.php';
+                $status = ilAuthStatus::getInstance();
+
+                include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
+                $frontend_factory = new ilAuthFrontendFactory();
+                $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
+                $frontend = $frontend_factory->getFrontend(
+                    $this->authSession,
+                    $status,
+                    $credentials,
+                    $providers
+                );
+
+                $frontend->authenticate();
+
+                return $status;
+            };
+
+            if (null !== ($auth_duration = $this->setting->get("auth_duration"))) {
+                $duration = $this->http->durations()->callbackDuration((int) $auth_duration);
+                $status = $duration->stretch($auth_callback);
+            } else {
+                $status = $auth_callback();
             }
-
-            include_once './Services/Authentication/classes/Provider/class.ilAuthProviderFactory.php';
-            $provider_factory = new ilAuthProviderFactory();
-            $providers = $provider_factory->getProviders($credentials);
-
-            include_once './Services/Authentication/classes/class.ilAuthStatus.php';
-            $status = ilAuthStatus::getInstance();
-
-            include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendFactory.php';
-            $frontend_factory = new ilAuthFrontendFactory();
-            $frontend_factory->setContext(ilAuthFrontendFactory::CONTEXT_STANDARD_FORM);
-            $frontend = $frontend_factory->getFrontend(
-                $this->authSession,
-                $status,
-                $credentials,
-                $providers
-            );
-
-            $frontend->authenticate();
 
             switch ($status->getStatus()) {
                 case ilAuthStatus::STATUS_AUTHENTICATED:

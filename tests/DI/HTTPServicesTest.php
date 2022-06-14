@@ -1,8 +1,18 @@
 <?php
+
 /**
- * Class HTTPServicesTest
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * @author  Nicolas Schäfli <ns@studer-raimann.ch>
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  */
 
 namespace ILIAS\DI;
@@ -18,22 +28,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\HTTP\RawHTTPServices;
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Duration\DurationFactory;
 
-/******************************************************************************
- *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
- *
- * If this is not the case or you just want to try ILIAS, you'll find
- * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
- *
- *****************************************************************************/
 /**
  * Class HTTPServicesTest
+ *
+ * @author  Nicolas Schäfli <ns@studer-raimann.ch>
  *
  * @package                DI
  *
@@ -61,6 +61,10 @@ class HTTPServicesTest extends PHPUnitTestCase
      * @var ResponseSenderStrategy|MockObject $mockSenderStrategy
      */
     private ResponseSenderStrategy $mockSenderStrategy;
+    /**
+     * @var DurationFactory|MockObject $mockSenderStrategy
+     */
+    private DurationFactory $mockDurationFactory;
     private GlobalHttpState $httpState;
 
 
@@ -75,7 +79,9 @@ class HTTPServicesTest extends PHPUnitTestCase
 
         $this->mockCookieJarFactory = $this->getMockBuilder(CookieJarFactory::class)->getMock();
 
-        $this->httpState = new RawHTTPServices($this->mockSenderStrategy, $this->mockCookieJarFactory, $this->mockRequestFactory, $this->mockResponseFactory);
+        $this->mockDurationFactory = $this->createMock(DurationFactory::class);
+
+        $this->httpState = new RawHTTPServices($this->mockSenderStrategy, $this->mockCookieJarFactory, $this->mockRequestFactory, $this->mockResponseFactory, $this->mockDurationFactory);
     }
 
 
