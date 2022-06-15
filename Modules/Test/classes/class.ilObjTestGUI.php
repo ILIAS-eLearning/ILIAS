@@ -671,8 +671,7 @@ class ilObjTestGUI extends ilObjectGUI
                 $this->prepareOutput();
 
                 $this->ctrl->saveParameter($this, "q_id");
-
-                require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
+                
                 $gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser);
 
                 $gui->initQuestion($this->fetchAuthoringQuestionIdParameter(), $this->object->getId());
@@ -686,6 +685,10 @@ class ilObjTestGUI extends ilObjectGUI
                 break;
 
             case 'ilassquestionpagegui':
+                if ($cmd == 'finishEditing') {
+                    $this->ctrl->redirectByClass('ilassquestionpreviewgui', 'show');
+                    break;
+                }
                 if ((!$ilAccess->checkAccess("read", "", $_GET["ref_id"]))) {
                     $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
                 }
