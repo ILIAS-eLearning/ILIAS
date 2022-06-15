@@ -3619,7 +3619,6 @@ abstract class ilPageObject
         // count the parent children
         $parent_childs = $parent_node->child_nodes();
         $cnt_parent_childs = count($parent_childs);
-
         switch ($a_mode) {
             // insert new node after sibling at $a_pos
             case IL_INSERT_AFTER:

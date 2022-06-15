@@ -1040,7 +1040,7 @@ export default class ParagraphUI {
   setSectionClass(pcid, characteristic) {
     const currentPar = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']");
     const parentComp = currentPar.parentNode.closest("[data-copg-ed-type='pc-area']");
-    if (parentComp && parentComp.dataset.cname === "Section") {
+    if (parentComp && parentComp.dataset.cname === "Section" && characteristic !== "") {
       const contentDiv = parentComp.querySelector("div.ilCOPageSection,a.ilCOPageSection");
       contentDiv.className = "ilc_section_" + characteristic + " ilCOPageSection";
     }

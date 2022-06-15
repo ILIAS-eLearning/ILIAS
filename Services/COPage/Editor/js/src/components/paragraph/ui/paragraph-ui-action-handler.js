@@ -407,6 +407,7 @@ export default class ParagraphUIActionHandler {
   handleSectionClass(oldCharacteristic, newCharacteristic, page_model) {
     const af = this.actionFactory;
     const dispatch = this.dispatcher;
+
     this.ui.setSectionClass(page_model.getCurrentPCId(), newCharacteristic);
 
     const is_insert = (page_model.getComponentState() === page_model.STATE_COMPONENT_INSERT);
@@ -432,7 +433,8 @@ export default class ParagraphUIActionHandler {
       this.ui.enableEditing();
       page_model.setComponentState(page_model.STATE_COMPONENT_EDIT);
 
-      if (oldCharacteristic === "" && newCharacteristic !== "") {
+      if ((oldCharacteristic === "" && newCharacteristic !== "") ||
+        (oldCharacteristic !== "" && newCharacteristic === "")) {
         this.ui.pageModifier.handlePageReloadResponse(result);
         let content_el = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + page_model.getCurrentPCId() + "']");
         //this.ui.tinyWrapper.setGhostAt(content_el);
