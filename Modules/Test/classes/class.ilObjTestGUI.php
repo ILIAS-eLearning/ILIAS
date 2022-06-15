@@ -622,6 +622,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 $this->prepareOutput();
 
                 $this->ctrl->saveParameter($this, "q_id");
+                
                 $gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser, $randomGroup);
 
                 $gui->initQuestion($this->fetchAuthoringQuestionIdParameter(), $this->object->getId());
@@ -635,10 +636,14 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 break;
 
             case 'ilassquestionpagegui':
+                if ($cmd == 'finishEditing') {
+                    $this->ctrl->redirectByClass('ilassquestionpreviewgui', 'show');
+                    break;
+                }
                 if ((!$ilAccess->checkAccess("read", "", $this->testrequest->getRefId()))) {
                     $ilias->raiseError($this->lng->txt("permission_denied"), $ilias->error_obj->MESSAGE);
                 }
-                if ($cmd === 'edit' && !$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
+                if ($cmd === 'edit' && !$ilAccess->checkAccess('write', '', $this->testrequest->getRefId())) {
                     $this->redirectAfterMissingWrite();
                 }
                 $_GET['q_id'] = $this->fetchAuthoringQuestionIdParameter();
