@@ -1,18 +1,20 @@
 <?php
 
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 /**
  * @deprecated
@@ -27,7 +29,7 @@ class ilStr
             if ($a_length === null) {
                 $a_length = mb_strlen($a_str, "UTF-8");
             }
-            
+
             return mb_substr($a_str, $a_start, $a_length, "UTF-8");
         } else {
             return substr($a_str, $a_start, $a_length);
@@ -45,7 +47,7 @@ class ilStr
             return strpos($a_haystack, $a_needle, $a_offset);
         }
     }
-    
+
     /**
      * @return false|int
      */
@@ -57,7 +59,7 @@ class ilStr
             return stripos($a_haystack, $a_needle, $a_offset);
         }
     }
-    
+
     public static function strLen(string $a_string) : int
     {
         if (function_exists("mb_strlen")) {
@@ -66,7 +68,7 @@ class ilStr
             return strlen($a_string);
         }
     }
-    
+
     public static function strToLower(string $a_string) : string
     {
         if (function_exists("mb_strtolower")) {
@@ -75,7 +77,7 @@ class ilStr
             return strtolower($a_string);
         }
     }
-    
+
     public static function strToUpper(string $a_string) : string
     {
         if (function_exists("mb_strtoupper")) {
@@ -84,12 +86,12 @@ class ilStr
             return strtoupper($a_string);
         }
     }
-    
+
     public static function strCmp(string $a, string $b) : int
     {
         return strcoll(ilStr::strToUpper($a), ilStr::strToUpper($b));
     }
-    
+
     /**
      * Shorten text to the given number of bytes.
      * If the character is cut within a character
@@ -108,7 +110,7 @@ class ilStr
         }
         return substr($a_string, $a_start_pos, $a_num_bytes);
     }
-    
+
     /**
      * Check whether string is utf-8
      */
@@ -159,7 +161,7 @@ class ilStr
         }
         return false;
     }
-    
+
     /**
      * Convert a value given in camel case conversion to underscore case conversion (e.g. MyClass to my_class)
      *
@@ -176,7 +178,7 @@ class ilStr
             )
         );
     }
-    
+
     /**
      * @deprecated
      */
@@ -218,10 +220,10 @@ class ilStr
                 }
             }
         }
-        
+
         return $a_str;
     }
-    
+
     /**
      * Ensure that the maximum word lenght within a text is not longer
      * than $a_len
@@ -231,7 +233,7 @@ class ilStr
     public static function shortenWords(string $a_str, int $a_len = 30, bool $a_dots = true) : string
     {
         $str_arr = explode(" ", $a_str);
-        
+
         for ($i = 0; $i < count($str_arr); $i++) {
             if (ilStr::strLen($str_arr[$i]) > $a_len) {
                 $str_arr[$i] = ilStr::subStr($str_arr[$i], 0, $a_len);
@@ -240,7 +242,7 @@ class ilStr
                 }
             }
         }
-        
+
         return implode(" ", $str_arr);
     }
 }

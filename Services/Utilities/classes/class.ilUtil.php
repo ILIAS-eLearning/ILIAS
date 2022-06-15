@@ -1,7 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\FileDelivery\Delivery;
 use ILIAS\Filesystem\Stream\Streams;
@@ -58,26 +71,26 @@ class ilUtil
         bool $offline = false
     ) : string {
         global $DIC;
-        
+
         $styleDefinition = null;
         if (isset($DIC["styleDefinition"])) {
             $styleDefinition = $DIC["styleDefinition"];
         }
-        
+
         if (is_int(strpos($_SERVER["PHP_SELF"], "setup.php"))) {
             $module_path = "..";
         }
         if ($module_path != "") {
             $module_path = "/" . $module_path;
         }
-        
+
         // default image
         $default_img = "." . $module_path . "/templates/default/images/" . $img;
-        
+
         // use ilStyleDefinition instead of account to get the current skin and style
         $current_skin = ilStyleDefinition::getCurrentSkin();
         $current_style = ilStyleDefinition::getCurrentStyle();
-        
+
         if (is_object($styleDefinition)) {
             $image_dir = $styleDefinition->getImageDirectory($current_style);
         }
@@ -91,8 +104,8 @@ class ilUtil
             $skin_img = "./Customizing/global/skin/" .
                 $current_skin . $module_path . "/images/" . $img;
         }
-        
-        
+
+
         if ($offline) {
             return "./images/" . $img;
         } elseif (@file_exists($user_img) && $image_dir != "") {
@@ -100,7 +113,7 @@ class ilUtil
         } elseif (file_exists($skin_img)) {
             return $skin_img;        // found image in skin/images
         }
-        
+
         return $default_img;            // take image in default
     }
     
@@ -414,13 +427,13 @@ class ilUtil
                                 "bdo"
                 ];
             }
-            
+
             // this currently removes parts of strings like "a <= b"
             // because "a <= b" is treated like "<spam onclick='hurt()'>ss</spam>"
             $a_str = ilUtil::maskSecureTags($a_str, $allow_array);
             $a_str = strip_tags($a_str);        // strip all other tags
             $a_str = ilUtil::unmaskSecureTags($a_str, $allow_array);
-            
+
         // a possible solution could be something like:
             // $a_str = str_replace("<", "&lt;", $a_str);
             // $a_str = str_replace(">", "&gt;", $a_str);

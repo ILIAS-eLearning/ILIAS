@@ -1,5 +1,20 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Util class
@@ -16,7 +31,7 @@
  */
 class ilShellUtil
 {
-    
+
     /**
      * resize image
      *
@@ -40,10 +55,10 @@ class ilShellUtil
             $size = " -resize " . $a_width . "x" . $a_height . "! ";
         }
         $convert_cmd = ilShellUtil::escapeShellArg($a_from) . " " . $size . ilShellUtil::escapeShellArg($a_to);
-        
+
         ilShellUtil::execConvert($convert_cmd);
     }
-    
+
     public static function escapeShellArg(string $a_arg) : string
     {
         setlocale(
@@ -54,7 +69,7 @@ class ilShellUtil
         // see also ilias bug 5630
         return escapeshellarg($a_arg);
     }
-    
+
     /**
      * Parse convert version string, e.g. 6.3.8-3, into integer
      *
@@ -72,7 +87,7 @@ class ilShellUtil
         }
         return 0;
     }
-    
+
     /**
      * @deprecated
      */
@@ -88,14 +103,14 @@ class ilShellUtil
         ); // fix for PHP escapeshellcmd bug. See: http://bugs.php.net/bug.php?id=45132
         return escapeshellcmd($a_arg);
     }
-    
+
     /**
      * @deprecated
      */
     public static function execQuoted(string $cmd, ?string $args = null) : array
     {
         global $DIC;
-        
+
         if (ilUtil::isWindows() && strpos($cmd, " ") !== false && substr($cmd, 0, 1) !== '"') {
             // cmd won't work without quotes
             $cmd = '"' . $cmd . '"';
@@ -118,7 +133,7 @@ class ilShellUtil
         $DIC->logger()->root()->debug("ilUtil::execQuoted: " . $cmd . ".");
         return $arr;
     }
-    
+
     /**
      * Compare convert version numbers
      *
@@ -135,7 +150,7 @@ class ilShellUtil
         }
         return false;
     }
-    
+
     /**
      * get convert command
      *
@@ -148,7 +163,7 @@ class ilShellUtil
     {
         return PATH_TO_CONVERT;
     }
-    
+
     /**
      * convert image
      *
@@ -176,7 +191,7 @@ class ilShellUtil
                 $geometry = " -geometry " . $a_geometry . "x" . $a_geometry . " ";
             }
         }
-        
+
         $bg_color = ($a_background_color != "")
             ? " -background color " . $a_background_color . " "
             : "";
@@ -185,7 +200,7 @@ class ilShellUtil
         );
         ilShellUtil::execConvert($convert_cmd);
     }
-    
+
     /**
      * execute convert command
      *
