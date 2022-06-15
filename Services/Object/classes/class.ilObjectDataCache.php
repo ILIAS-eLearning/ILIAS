@@ -170,14 +170,19 @@ class ilObjectDataCache
         $user = $DIC["ilUser"];
 
         $sql =
-            "SELECT obj_id, type, title, description, owner, create_date, last_update, import_id, offline" . PHP_EOL
-            . "FROM object_data" . PHP_EOL
-            . "WHERE obj_id = " . $this->db->quote($obj_id, 'integer') . PHP_EOL
+            "SELECT object_data.obj_id, object_data.type, object_data.title, object_data.description, " . PHP_EOL
+            . "object_data.owner, object_data.create_date, object_data.last_update, object_data.import_id, " . PHP_EOL
+            . "object_data.offline, object_description.description as long_description " . PHP_EOL
+            . "FROM object_data LEFT JOIN object_description ON object_data.obj_id = object_description.obj_id " . PHP_EOL
+            . "WHERE object_data.obj_id = " . $this->db->quote($obj_id, 'integer') . PHP_EOL
         ;
         $res = $this->db->query($sql);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->object_data_cache[$obj_id]['title'] = $row->title;
             $this->object_data_cache[$obj_id]['description'] = $row->description;
+            if ($row->long_description !== null) {
+                $this->object_data_cache[$row->obj_id]['description'] = $row->long_description;
+            }
             $this->object_data_cache[$obj_id]['type'] = $row->type;
             $this->object_data_cache[$obj_id]['owner'] = $row->owner;
             $this->object_data_cache[$obj_id]['last_update'] = $row->last_update;
@@ -232,9 +237,11 @@ class ilObjectDataCache
         }
 
         $sql =
-            "SELECT obj_id, type, title, description, owner, create_date, last_update, import_id, offline" . PHP_EOL
-            . "FROM object_data" . PHP_EOL
-            . "WHERE " . $this->db->in('obj_id', $obj_ids, false, 'integer') . PHP_EOL
+            "SELECT object_data.obj_id, object_data.type, object_data.title, object_data.description, " . PHP_EOL
+            . "object_data.owner, object_data.create_date, object_data.last_update, object_data.import_id, " . PHP_EOL
+            . "object_data.offline, object_description.description as long_description " . PHP_EOL
+            . "FROM object_data LEFT JOIN object_description ON object_data.obj_id = object_description.obj_id " . PHP_EOL
+            . "WHERE " . $this->db->in('object_data.obj_id', $obj_ids, false, 'integer') . PHP_EOL
         ;
         $res = $this->db->query($sql);
         $db_trans = [];
@@ -244,6 +251,9 @@ class ilObjectDataCache
             if (!isset($this->trans_loaded[$obj_id])) {
                 $this->object_data_cache[$obj_id]['title'] = $row->title;
                 $this->object_data_cache[$obj_id]['description'] = $row->description;
+                if ($row->long_description !== null) {
+                    $this->object_data_cache[$row->obj_id]['description'] = $row->long_description;
+                }
             }
             $this->object_data_cache[$obj_id]['type'] = $row->type;
             $this->object_data_cache[$obj_id]['owner'] = $row->owner;
