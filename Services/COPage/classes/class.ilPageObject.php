@@ -3435,20 +3435,17 @@ s     */
         php4DOMElement $a_cont_node,
         string $a_pos,
         int $a_mode = IL_INSERT_AFTER,
-        string $a_pcid = "",
-        bool $force_mode = false
+        string $a_pcid = ""
     ) : void {
         // move mode into container elements is always INSERT_CHILD
         $curr_node = $this->getContentNode($a_pos, $a_pcid);
         $curr_name = $curr_node->node_name();
         // @todo: try to generalize
-        if (!$force_mode) {
-            if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
-                ($curr_name == "ListItem") || ($curr_name == "Section")
-                || ($curr_name == "Tab") || ($curr_name == "ContentPopup")
-                || ($curr_name == "GridCell")) {
-                $a_mode = IL_INSERT_CHILD;
-            }
+        if (($curr_name == "TableData") || ($curr_name == "PageObject") ||
+            ($curr_name == "ListItem") || ($curr_name == "Section")
+            || ($curr_name == "Tab") || ($curr_name == "ContentPopup")
+            || ($curr_name == "GridCell")) {
+            $a_mode = IL_INSERT_CHILD;
         }
 
         $hid = $curr_node->get_attribute("HierId");
@@ -3476,7 +3473,6 @@ s     */
         // count the parent children
         $parent_childs = $parent_node->child_nodes();
         $cnt_parent_childs = count($parent_childs);
-
         switch ($a_mode) {
             // insert new node after sibling at $a_pos
             case IL_INSERT_AFTER:

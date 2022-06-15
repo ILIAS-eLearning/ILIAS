@@ -283,6 +283,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
                 $page->addHierIDs();
                 $par = $page->getContentObjectForPcId($pcid);
                 $sec = $page->getContentObjectForPcId($sec_pcid);
+                // note: we want the pcid of the Section itself here
                 $sec_node_pc_id = $sec->getNode()->first_child()->get_attribute("PCID");
                 $hier_ids = $page->getHierIdsForPCIds([$sec_node_pc_id]);
                 $node = $par->getNode();
@@ -291,12 +292,12 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
                 $updated = $page->update();
             }            // case 3: move from section to none
             elseif ((!is_null($parent) && $parent->getType() == "sec") && $old_section_characteristic != "" && $new_section_characteristic == "") {
-                $sec_node_pc_id = $parent->getNode()->first_child()->get_attribute("PCID");
+                // note: we want the pcid of the PageContent element of the Section here
+                $sec_node_pc_id = $parent->getNode()->get_attribute("PCID");
                 $sec_node_hier_id = $page->getHierIdForPCId($sec_node_pc_id);
-                // get section parent
-                //$sec_parent = $page->getParentContentObjectForPcId($sec_node_pc_id);
                 // all kids of the section
-                foreach ($parent->getNode()->first_child()->child_nodes() as $child) {
+                $childs_reverse = array_reverse($parent->getNode()->first_child()->child_nodes());
+                foreach ($childs_reverse as $child) {
                     // unlink kid
                     $child->unlink_node();
                     // insert after section
