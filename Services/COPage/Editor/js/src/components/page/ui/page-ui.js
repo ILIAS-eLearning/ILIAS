@@ -135,6 +135,45 @@ export default class PageUI {
     this.markCurrent();
   }
 
+  refreshUIFromModelState(model) {
+    switch (model.getState()) {
+      case model.STATE_PAGE:
+        this.showEditPage();
+        this.showAddButtons();
+        this.hideDropareas();
+        this.enableDragDrop();
+        break;
+
+      case model.STATE_MULTI_ACTION:
+        if ([model.STATE_MULTI_CUT, model.STATE_MULTI_COPY].includes(model.getMultiState())) {
+          this.showAddButtons();
+        } else {
+          this.hideAddButtons();
+        }
+        this.showMultiButtons();
+        this.hideDropareas();
+        this.disableDragDrop();
+        break;
+
+      case model.STATE_DRAG_DROP:
+        this.showEditPage();
+        this.hideAddButtons();
+        this.showDropareas();
+        break;
+
+      case model.STATE_COMPONENT:
+        //this.ui.showPageHelp();
+        this.hideAddButtons();
+        this.hideDropareas();
+        this.disableDragDrop();
+        break;
+
+      case model.STATE_SERVER_CMD:
+        this.displayServerWaiting();
+        break;
+    }
+  }
+
   addComponentUI(cname, ui) {
     this.componentUI.set(cname, ui);
   }
@@ -880,6 +919,7 @@ export default class PageUI {
 
 //      il.IntLink.refresh();           // missing
       this.reInit();
+      this.refreshUIFromModelState(this.model);
     }
   }
 
