@@ -259,18 +259,20 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
             $updated = $this->insertParagraph($pcid, $after_pcid, $content, $characteristic);
         }
 
+
         /** @var \ilPageObject $page */
         if ($updated) {
             $page = $this->page_gui->getPageObject();
             $page->addHierIDs();
             $parent = $page->getParentContentObjectForPcId($pcid);
+
             // case 1: parent section exists and new characteristic is not empty
             if (!is_null($parent) && $parent->getType() == "sec" && $new_section_characteristic != "") {
                 $parent->setCharacteristic($new_section_characteristic);
                 $updated = $page->update();
             }
             // case 2: move from none to section
-            if ((is_null($parent) || $parent->getType() != "sec") && $old_section_characteristic == "" && $new_section_characteristic != "") {
+            elseif ((is_null($parent) || $parent->getType() != "sec") && $old_section_characteristic == "" && $new_section_characteristic != "") {
                 $sec = new \ilPCSection($page);
                 $hier_ids = $page->getHierIdsForPCIds([$pcid]);
                 $sec->create($page, $hier_ids[$pcid], $pcid);
@@ -286,6 +288,23 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
                 $node = $par->getNode();
                 $node->unlink_node();
                 $page->insertContentNode($node, $hier_ids[$sec_node_pc_id], IL_INSERT_CHILD, $sec_node_pc_id);
+                $updated = $page->update();
+            }            // case 3: move from section to none
+            elseif ((!is_null($parent) && $parent->getType() == "sec") && $old_section_characteristic != "" && $new_section_characteristic == "") {
+                $sec_node_pc_id = $parent->getNode()->first_child()->get_attribute("PCID");
+                $sec_node_hier_id = $page->getHierIdForPCId($sec_node_pc_id);
+                // get section parent
+                //$sec_parent = $page->getParentContentObjectForPcId($sec_node_pc_id);
+                // all kids of the section
+                foreach ($parent->getNode()->first_child()->child_nodes() as $child) {
+                    // unlink kid
+                    $child->unlink_node();
+                    // insert after section
+                    $page->insertContentNode($child, $sec_node_hier_id, IL_INSERT_AFTER, $sec_node_pc_id, true);
+                }
+                // unlink section
+                $node = $parent->getNode();
+                $node->unlink_node();
                 $updated = $page->update();
             }
         }
