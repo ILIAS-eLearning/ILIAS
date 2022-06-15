@@ -231,42 +231,8 @@ export default class PageUIActionHandler {
 
       this.log("page-ui-action-handler.handle state " + model.getState());
 
-      switch (model.getState()) {
-        case model.STATE_PAGE:
-          this.ui.showEditPage();
-          this.ui.showAddButtons();
-          this.ui.hideDropareas();
-          this.ui.enableDragDrop();
-          break;
+      this.ui.refreshUIFromModelState(model);
 
-        case model.STATE_MULTI_ACTION:
-          if ([model.STATE_MULTI_CUT, model.STATE_MULTI_COPY].includes(model.getMultiState())) {
-            this.ui.showAddButtons();
-          } else {
-            this.ui.hideAddButtons();
-          }
-          this.ui.showMultiButtons();
-          this.ui.hideDropareas();
-          this.ui.disableDragDrop();
-          break;
-
-        case model.STATE_DRAG_DROP:
-          this.ui.showEditPage();
-          this.ui.hideAddButtons();
-          this.ui.showDropareas();
-          break;
-
-        case model.STATE_COMPONENT:
-          //this.ui.showPageHelp();
-          this.ui.hideAddButtons();
-          this.ui.hideDropareas();
-          this.ui.disableDragDrop();
-          break;
-
-        case model.STATE_SERVER_CMD:
-          this.ui.displayServerWaiting();
-          break;
-      }
       this.ui.markCurrent();
     }
   }
