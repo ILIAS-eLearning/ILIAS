@@ -1,20 +1,23 @@
 <?php declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-
-/******************************************************************************
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
  *
- * This file is part of ILIAS, a powerful learning management system.
- *
- * ILIAS is licensed with the GPL-3.0, you should have received a copy
- * of said license along with the source code.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *      https://www.ilias.de
- *      https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
+
+use PHPUnit\Framework\TestCase;
+
 class ilUtilsPreventTest extends TestCase
 {
     private function extractMethodNames(array $reflection_methods) : array
@@ -23,7 +26,7 @@ class ilUtilsPreventTest extends TestCase
             return $m->getName();
         }, $reflection_methods);
     }
-    
+
     public function testAmountOfMethodsInUtil() : void
     {
         $r = new ReflectionClass(ilUtil::class);
@@ -80,7 +83,7 @@ class ilUtilsPreventTest extends TestCase
             46 => 'formatSize',
         ], $methods);
     }
-    
+
     public function testAmountOfMethodsInArrayUtil() : void
     {
         $r = new ReflectionClass(ilArrayUtil::class);
@@ -98,7 +101,7 @@ class ilUtilsPreventTest extends TestCase
             7 => 'stableSortArray',
         ], $methods);
     }
-    
+
     public function testAmountOfMethodsInShellUtil() : void
     {
         $r = new ReflectionClass(ilShellUtil::class);
@@ -117,7 +120,7 @@ class ilUtilsPreventTest extends TestCase
             8 => 'execConvert',
         ], $methods);
     }
-    
+
     public function testAmountOfMethodsInLegacyFormUtil() : void
     {
         $r = new ReflectionClass(ilLegacyFormElementsUtil::class);
@@ -134,7 +137,7 @@ class ilUtilsPreventTest extends TestCase
             6 => 'formRadioButton',
         ], $methods);
     }
-    
+
     public function testAmountOfMethodsInStrUtil() : void
     {
         $r = new ReflectionClass(ilStr::class);
