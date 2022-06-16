@@ -490,9 +490,9 @@ class php4DOMNode
     public function node_name($a_local = false)
     {
         if ($a_local) {
-            return $this->myDOMNode->localName;
+            return $this->myDOMNode->localName ?? "";
         } else {
-            return $this->myDOMNode->nodeName;
+            return $this->myDOMNode->nodeName ?? "";
         }
     }
 
