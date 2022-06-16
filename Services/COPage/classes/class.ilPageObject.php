@@ -715,6 +715,11 @@ abstract class ilPageObject
             $id_arr = explode("_", $mal_node->get_attribute("OriginId"));
             $mob_id = $id_arr[count($id_arr) - 1];
 
+            // see also #32331
+            if (ilObject::_lookupType($mob_id) !== "mob") {
+                $mob_id = 0;
+            }
+
             //$mob = new ilObjMediaObject($mob_id);
             $mob = new ilPCMediaObject($this);
             $mob->readMediaObject($mob_id);
