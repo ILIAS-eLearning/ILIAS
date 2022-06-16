@@ -14581,6 +14581,9 @@ p#copg-auto-save {
   width: 26px;
   height: 25px;
 }
+#il-copg-ed-modal .modal-content {
+  min-height: 400px;
+}
 /* Services/Calendar */
 td.even {
   color: #161616;
