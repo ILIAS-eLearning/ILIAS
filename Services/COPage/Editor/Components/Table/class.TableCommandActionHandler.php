@@ -220,12 +220,21 @@ class TableCommandActionHandler implements Server\CommandActionHandler
         $page = $page_gui->getPageObject();
         $page->addHierIDs();
         $table = $page->getContentObjectForPcId($pcid);
-        $table_gui = new \ilPCDataTableGUI(
-            $page_gui->getPageObject(),
-            $table,
-            $page->getHierIdForPcId($pcid),
-            $pcid
-        );
+        if ($table->getType() == "dtab") {
+            $table_gui = new \ilPCDataTableGUI(
+                $page_gui->getPageObject(),
+                $table,
+                $page->getHierIdForPcId($pcid),
+                $pcid
+            );
+        } else {
+            $table_gui = new \ilPCTableGUI(
+                $page_gui->getPageObject(),
+                $table,
+                $page->getHierIdForPcId($pcid),
+                $pcid
+            );
+        }
 
         $data = new \stdClass();
         $data->renderedContent = $table_gui->getEditDataTable();

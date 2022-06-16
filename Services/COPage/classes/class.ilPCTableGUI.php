@@ -454,10 +454,9 @@ class ilPCTableGUI extends ilPageContentGUI
         $xh = xslt_create();
         //echo "<b>XML</b>:".htmlentities($content).":<br>";
         //echo "<b>XSLT</b>:".htmlentities($xsl).":<br>";
-        $wb_path = ilFileUtils::getWebspaceDir("output");
+        $wb_path = ilFileUtils::getWebspaceDir("output") . "/";
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('mode' => $a_mode,
-            'media_mode' => 'disable',
             'webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
         xslt_error($xh);
@@ -1130,30 +1129,15 @@ class ilPCTableGUI extends ilPageContentGUI
 
                     $dtpl->setCurrentBlock("cell");
 
-                    $cmd = $this->ctrl->getCmd();
-                    if ($cmd == "update") {
-                        $s_text = ilUtil::stripSlashes("cell_" . $i . "_" . $j, false);
-                    } else {
-                        $s_text = ilPCParagraph::xml2output(
-                            $this->content_obj->getCellText($i, $j),
-                            true,
-                            false
-                        );
-                        $s_text = ilPCParagraphGUI::xml2outputJS(
-                            $s_text
-                        );
-                    }
-
-                    // #20628
-                    $s_text = str_replace("{", "&#123;", $s_text);
-                    $s_text = str_replace("}", "&#125;", $s_text);
-
                     $dtpl->setVariable("PAR_TA_NAME", "cell[" . $i . "][" . $j . "]");
                     $dtpl->setVariable("PAR_TA_ID", "cell_" . $i . "_" . $j);
                     $dtpl->setVariable("PAR_ROW", (string) $i);
                     $dtpl->setVariable("PAR_COLUMN", (string) $j);
 
-                    $dtpl->setVariable("PAR_TA_CONTENT", $s_text);
+                    $dtpl->setVariable(
+                        "PAR_TA_CONTENT",
+                        $this->getCellContent($i, $j)
+                    );
 
                     $cs = $res2->nodeset[$j]->get_attribute("ColSpan");
                     $rs = $res2->nodeset[$j]->get_attribute("RowSpan");
@@ -1209,5 +1193,89 @@ class ilPCTableGUI extends ilPageContentGUI
             $nr = ($nr - 1 - $chr) / $base;
         }
         return $cap;
+    }
+
+    protected function getCellContent(int $i, int $j) : string
+    {
+        $tab_node = $this->content_obj->getNode();
+        $cnt_i = 0;
+        $content = "";
+        // get correct cell and dump content of all its childrem
+        foreach ($tab_node->first_child()->child_nodes() as $child) {
+            if ($i == $cnt_i) {
+                $cnt_j = 0;
+                foreach ($child->child_nodes() as $child2) {
+                    if ($j == $cnt_j) {
+                        foreach ($child2->child_nodes() as $cell_content_node) {
+                            $content .= $this->dom->dump_node($cell_content_node);
+                        }
+                    }
+                    $cnt_j++;
+                }
+            }
+            $cnt_i++;
+        }
+        $trans = $this->pg_obj->getLanguageVariablesXML();
+        $mobs = $this->pg_obj->getMultimediaXML();
+        if ($this->getStyleId() > 0) {
+            if (ilObject::_lookupType($this->getStyleId()) == "sty") {
+                $style = new ilObjStyleSheet($this->getStyleId());
+                $template_xml = $style->getTemplateXML();
+            }
+        }
+
+        $content = $content . $mobs . $trans . $template_xml;
+
+        return $this->renderCell(
+            $content,
+            !$this->pg_obj->getPageConfig()->getPreventHTMLUnmasking(),
+            $this->getPage()
+        );
+    }
+
+    /**
+     * Static render table function
+     */
+    protected function renderCell(
+        $content,
+        $unmask = true,
+        $page_object = null
+    ) : string {
+        global $DIC;
+
+        $ilUser = $DIC->user();
+        $content = "<dummy>" . $content . "</dummy>";
+
+        $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
+        $args = array( '/_xml' => $content, '/_xsl' => $xsl );
+        $xh = xslt_create();
+        $wb_path = ilUtil::getWebspaceDir("output") . "/";
+        $enlarge_path = ilUtil::getImagePath("enlarge.svg");
+        $params = array('webspace_path' => $wb_path, 'enlarge_path' => $enlarge_path);
+        $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
+        xslt_free($xh);
+
+        // unmask user html
+        if ($unmask) {
+            $output = str_replace("&lt;", "<", $output);
+            $output = str_replace("&gt;", ">", $output);
+            $output = str_replace("&amp;", "&", $output);
+        }
+
+        // for all page components...
+        if (isset($page_object)) {
+            $defs = ilCOPagePCDef::getPCDefinitions();
+            foreach ($defs as $def) {
+                ilCOPagePCDef::requirePCClassByName($def["name"]);
+                $pc_class = $def["pc_class"];
+                $pc_obj = new $pc_class($page_object);
+
+                // post xsl page content modification by pc elements
+                $output = $pc_obj->modifyPageContentPostXsl($output, "presentation", false);
+            }
+        }
+
+
+        return $output;
     }
 }
