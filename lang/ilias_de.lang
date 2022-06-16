@@ -1119,6 +1119,7 @@ assessment#:#question_cumulated_statistics#:#Kumulierte Fragenstatistik
 assessment#:#question_id#:#Fragen-ID
 assessment#:#question_id_short#:#ID
 assessment#:#question_instances_title#:#Diese Frage wird in den folgenden Tests verwendet
+assessment#:#question_is_part_of_running_test#:#Die Frage ist Teil eines laufenden Tests und darf nicht geändert werden.
 assessment#:#question_marking#:#Fragen markieren
 assessment#:#question_marking_description#:#Teilnehmer erhalten die Möglichkeit, Fragen für sich zu markieren. Die Markierungen werden auch in der Übersicht 'Bearbeitungsstand' angezeigt, sofern diese aktiviert ist.
 assessment#:#question_not_answered#:#Die Frage wurde nicht beantwortet
@@ -7171,12 +7172,14 @@ copg#:#copg_days#:#Tage
 copg#:#copg_details#:#Details
 copg#:#copg_entries#:#Einträge
 copg#:#copg_error#:#Problem
+copg#:#copg_error_occured_modal#:#Es ist leider ein Fehler aufgetreten. Bitte drücken Sie "Seite neu laden" um zum zuletzt gespeicherten Inhalt zu gelangen.
 copg#:#copg_est_reading_time#:#Geschätzte Lesezeit
 copg#:#copg_history_cleanup_cron#:#Seiteneditor Verlaufsbereinigung
 copg#:#copg_history_cleanup_cron_info#:#Löscht ältere Einträge aus dem Seiteneditorverlauf.
 copg#:#copg_page_element_not_found#:#Unbekanntes Seitenelement.
 copg#:#copg_page_type_stys#:#Seitenlayout
 copg#:#copg_questions_not_supported_here#:#In diesem Kontext werden keine Fragen unterstützt.
+copg#:#copg_reload_page#:#Seite neu laden
 copg#:#copg_sec_link_info#:#Wählen Sie ein Ziel für die Verlinkung des Blocks. Achtung: In diesem Fall darf der Inhalt des Blocks dann selbst keine weiteren Links enthalten!
 copg#:#copg_snippet_cannot_be_edited#:#Dies ist ein vordefinierter Inhaltsbaustein, der an dieser Stelle nicht editiert werden kann.
 copg#:#copg_x_minutes#:#%s Minute(n)
@@ -16832,6 +16835,3 @@ wsp#:#wsp_type_scov#:#Zertifikat: SCORM
 wsp#:#wsp_type_tstv#:#Zertifikat: Test
 wsp#:#wsp_type_webr#:#Weblink
 wsp#:#wsp_type_wfld#:#Ordner
-assessment#:#question_is_part_of_running_test#:#Die Frage ist Teil eines laufenden Tests und darf nicht geändert werden.
-copg#:#copg_error_occured_modal#:#Es ist leider ein Fehler aufgetreten. Bitte drücken Sie "Seite neu laden" um zum zuletzt gespeicherten Inhalt zu gelangen.
-copg#:#copg_reload_page#:#Seite neu laden
