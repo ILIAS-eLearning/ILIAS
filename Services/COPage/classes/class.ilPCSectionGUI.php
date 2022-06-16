@@ -202,7 +202,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         );
         $chars = $this->getCharacteristics();
         if (is_object($this->content_obj)) {
-            if ($chars[$a_seleted_value] == "" && ($this->content_obj->getCharacteristic() != "")) {
+            if (($chars[$a_seleted_value] ?? "") == "" && ($this->content_obj->getCharacteristic() != "")) {
                 $chars = array_merge(
                     array($this->content_obj->getCharacteristic() => $this->content_obj->getCharacteristic()),
                     $chars

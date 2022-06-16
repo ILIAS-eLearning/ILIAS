@@ -56,19 +56,30 @@ class Server
         $query = $this->request->getQueryParams();
         $post = $this->request->getParsedBody();
 
-        if (isset($post) && is_array($post) && count($post) > 0) {
-            $body = $post;
-        } else {
-            $body = json_decode($this->request->getBody()->getContents(), true);
+        try {
+            if (isset($post) && is_array($post) && count($post) > 0) {
+                $body = $post;
+            } else {
+                $body = json_decode($this->request->getBody()->getContents(), true);
+            }
+            if (isset($query["component"])) {
+                $action_handler = $this->getActionHandlerForQuery($query);
+                $response = $action_handler->handle($query);
+            } else {
+                //sleep(5);
+                $action_handler = $this->getActionHandlerForCommand($query, $body);
+                $response = $action_handler->handle($query, $body);
+            }
+        } catch (Exception $e) {
+            $data = new \stdClass();
+            $this->log->error($e->getMessage() . "\n" . $e->getTraceAsString());
+            $data->error = $e->getMessage();
+            if (defined('DEVMODE') && DEVMODE) {
+                $data->error .= "<br><br>" . nl2br($e->getTraceAsString());
+            }
+            $response = new Response($data);
         }
-        if (isset($query["component"])) {
-            $action_handler = $this->getActionHandlerForQuery($query);
-            $response = $action_handler->handle($query);
-        } else {
-            //sleep(5);
-            $action_handler = $this->getActionHandlerForCommand($query, $body);
-            $response = $action_handler->handle($query, $body);
-        }
+
         $this->log->debug("... sending response");
         $response->send();
     }

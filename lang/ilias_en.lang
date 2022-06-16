@@ -16819,3 +16819,5 @@ glo#:#glo_content_assembly#:#Content Assembly
 glo#:#glo_collection#:#Collection Glossary
 glo#:#glo_collection_info#:#The glossary collects additional terms of other glossaries.
 assessment#:#question_is_part_of_running_test#:#Question is part of a running test and may not be edited.
+copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.
+copg#:#copg_reload_page#:#Reload Page

@@ -84,6 +84,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $o->multiActions = $this->getMultiActions();
         $o->pasteMessage = $this->getPasteMessage();
         $o->errorMessage = $this->getErrorMessage();
+        $o->errorModalMessage = $this->getErrorModalMessage();
         $o->config = $this->getConfig();
         $o->components = $this->getComponentsEditorUI();
         $o->pcModel = $this->getPCModel();
@@ -437,6 +438,13 @@ class PageQueryActionHandler implements Server\QueryActionHandler
     protected function getErrorMessage() : string
     {
         $html = $this->ui_wrapper->getRenderedFailureBox();
+
+        return $html;
+    }
+
+    protected function getErrorModalMessage() : string
+    {
+        $html = $this->ui_wrapper->getRenderedModalFailureBox();
 
         return $html;
     }
