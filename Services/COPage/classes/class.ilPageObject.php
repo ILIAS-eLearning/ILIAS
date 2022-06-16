@@ -841,6 +841,11 @@ abstract class ilPageObject
                 $mob_id = 0;
             }
 
+            // see also #32331
+            if (ilObject::_lookupType($mob_id) !== "mob") {
+                $mob_id = 0;
+            }
+
             //$mob = new ilObjMediaObject($mob_id);
             $mob = new ilPCMediaObject($this);
             $mob->readMediaObject($mob_id);
