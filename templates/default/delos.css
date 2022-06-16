@@ -14581,8 +14581,12 @@ p#copg-auto-save {
   width: 26px;
   height: 25px;
 }
-#il-copg-ed-modal .modal-content {
-  min-height: 400px;
+#il-copg-ed-modal .modal-content .Whoops.container .left-panel {
+  position: static;
+  float: left;
+}
+#il-copg-ed-modal .modal-content .Whoops.container .details-container {
+  position: static;
 }
 /* Services/Calendar */
 td.even {

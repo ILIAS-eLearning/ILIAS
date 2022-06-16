@@ -155,7 +155,12 @@ export default class Client {
           this.log("client.sendCommand, response:");
           this.log(response);
 
-          if (!response.ok) {
+          let getAsJSON = false;
+          const contentType = response.headers.get("content-type");
+          if (response.ok && contentType && contentType.indexOf("application/json") !== -1) {
+            getAsJSON = true;
+          }
+          if (!getAsJSON) {
             const statusText = response.statusText;
             response.text().then(text =>
                 errorHandler(statusText + " " + text)
@@ -183,13 +188,18 @@ export default class Client {
           this.log("client.sendCommand, response:");
           this.log(response);
 
-          if (!response.ok) {
+          let getAsJSON = false;
+          const contentType = response.headers.get("content-type");
+          if (response.ok && contentType && contentType.indexOf("application/json") !== -1) {
+            getAsJSON = true;
+          }
+          if (!getAsJSON) {
             const statusText = response.statusText;
             response.text().then(text =>
                 errorHandler(statusText + " " + text)
             ).catch(errorHandler);
           } else {
-            // note that fetch.json() returns yet another promise
+              // note that fetch.json() returns yet another promise
             response.json().then(json =>
                 resolve(this.response_factory.response(command_action, json))
             ).catch(errorHandler);

@@ -83,6 +83,19 @@ class UIWrapper
         return $ui->renderer()->renderAsync($m);
     }
 
+    public function getRenderedModalFailureBox() : string
+    {
+        $ui = $this->ui;
+        $f = $ui->factory();
+        $m = $f->messageBox()->failure($this->lng->txt("copg_error_occured_modal"))
+               ->withButtons([$f->button()->standard($this->lng->txt("copg_reload_page"), "#")->withOnLoadCode(function ($id) {
+                   return
+                       "$(\"#$id\").click(function() { location.reload(); return false;});";
+               })]);
+
+        return $ui->renderer()->renderAsync($m)."<p>".$this->lng->txt("copg_details").":</p>";
+    }
+
     /**
      * Get rendered button
      * @param string     $content
