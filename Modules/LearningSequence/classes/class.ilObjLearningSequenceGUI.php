@@ -432,7 +432,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
         // This is the base class for the call, so we ought to print.
         // TODO: This is super fishy and most probably hints on the fact, that
         // something regarding that base class usage needs to change.
-        if ($this->request_wrapper->retrieve("baseClass", $this->refinery->kindlyTo()->string()) === self::class) {
+        if (strtolower($this->request_wrapper->retrieve("baseClass", $this->refinery->kindlyTo()->string())) === strtolower(self::class)) {
             $tpl->printToStdOut();
         }
     }
