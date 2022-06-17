@@ -189,8 +189,9 @@ class ilCourseAppEventListener
                         if (!$do_update) {
                             $part = new ilCourseParticipants($obj_id);
                             $passed = $part->getPassedInfo($user_id);
-                            if (!is_array($passed) ||
-                                $passed["user_id"] == -1) {
+                            if (
+                                !is_array($passed) ||
+                                ((int) ($passed["user_id"] ?? 0)) === -1) {
                                 $do_update = true;
                             }
                         }

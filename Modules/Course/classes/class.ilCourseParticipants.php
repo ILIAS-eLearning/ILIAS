@@ -163,7 +163,7 @@ class ilCourseParticipants extends ilParticipants
         }
     }
 
-    public function getPassedInfo(int $a_usr_id) : array
+    public function getPassedInfo(int $a_usr_id) : ?array
     {
         $sql = "SELECT origin, origin_ts" .
             " FROM obj_members" .
@@ -177,7 +177,7 @@ class ilCourseParticipants extends ilParticipants
                 "timestamp" => new ilDateTime((int) $row["origin_ts"], IL_CAL_UNIX)
             ];
         }
-        return [];
+        return null;
     }
 
     public function sendNotification(int $a_type, int $a_usr_id, bool $a_force_sending_mail = false) : void
