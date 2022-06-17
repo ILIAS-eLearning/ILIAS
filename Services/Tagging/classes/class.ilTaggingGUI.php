@@ -240,7 +240,7 @@ class ilTaggingGUI
                 $ttpl->setCurrentBlock("unlinked_tag");
                 $ttpl->setVariable(
                     "REL_CLASS",
-                    ilTagging::getRelevanceClass($tag["cnt"], $max)
+                    ilTagging::getRelevanceClass((int) $tag["cnt"], $max)
                 );
                 $ttpl->setVariable("TAG_TITLE", $tag["tag"]);
                 $ttpl->parseCurrentBlock();
