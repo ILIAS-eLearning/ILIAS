@@ -26,7 +26,7 @@ use ILIAS\Container\Content\BlockSessionRepository;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilContainerBlockPropertiesStorageGUI: ilContainerBlockPropertiesStorageGUI
  */
-class ilContainerBlockPropertiesStorageGUI
+class ilContainerBlockPropertiesStorageGUI implements ilCtrlBaseClassInterface
 {
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
