@@ -15,7 +15,6 @@
 
 /**
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @ilCtrl_Calls ilNotification:
  */
 class ilNotification
 {

@@ -17,9 +17,7 @@
  
 /**
  * Class ilStartingPoint
- * @author       Jesús López <lopez@leifos.com>
- * @ilCtrl_Calls ilStartingPoint:
- * @ingroup      ServicesAccessControl
+ * @author Jesús López <lopez@leifos.com>
  */
 class ilStartingPoint
 {
