@@ -172,18 +172,18 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
         }
 
         $all = $cats->getCategoriesInfo();
-        $tmp_title_counter = array();
+        $tmp_title_counter = [];
         $categories = array();
         foreach ($all as $category) {
             //if ($category["obj_id"] == 255)
             //{var_dump($category); exit;}
-            $tmp_arr['obj_id'] = $category['obj_id'];
-            $tmp_arr['id'] = $category['cat_id'];
+            $tmp_arr['obj_id'] = (int) $category['obj_id'];
+            $tmp_arr['id'] = (int) $category['cat_id'];
             $tmp_arr['hidden'] = in_array($category['cat_id'], $hidden);
             $tmp_arr['visible'] = in_array($category['cat_id'], $visible);
-            $tmp_arr['title'] = $category['title'];
-            $tmp_arr['type'] = $category['type'];
-            $tmp_arr['source_ref_id'] = $category['source_ref_id'] ?? 0;
+            $tmp_arr['title'] = (string) $category['title'];
+            $tmp_arr['type'] = (string) $category['type'];
+            $tmp_arr['source_ref_id'] = (int) ($category['source_ref_id'] ?? 0);
 
             $tmp_arr['default_selected'] = true;
             if ($this->category_id) {
@@ -195,18 +195,18 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
             }
 
             // Append object type to make type sortable
-            $tmp_arr['type_sortable'] = ilCalendarCategory::lookupCategorySortIndex($category['type']);
+            $tmp_arr['type_sortable'] = (string) ilCalendarCategory::lookupCategorySortIndex($category['type']);
             if ($category['type'] == ilCalendarCategory::TYPE_OBJ) {
                 $tmp_arr['type_sortable'] .= ('_' . ilObject::_lookupType($category['obj_id']));
             }
-            $tmp_arr['color'] = $category['color'];
-            $tmp_arr['editable'] = $category['editable'];
+            $tmp_arr['color'] = (string) $category['color'];
+            $tmp_arr['editable'] = (bool) $category['editable'];
 
             // reference
             if ($category['type'] == ilCalendarCategory::TYPE_OBJ) {
                 foreach (ilObject::_getAllReferences($category['obj_id']) as $ref_id => $tmp_ref) {
                     if ($this->access->checkAccess('read', '', $ref_id)) {
-                        $tmp_arr['ref_id'] = $ref_id;
+                        $tmp_arr['ref_id'] = (int) $ref_id;
                     }
                 }
             }
@@ -214,13 +214,20 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
             $categories[] = $tmp_arr;
 
             // count title for appending the parent container if there is more than one entry.
-            $tmp_title_counter[$category['type'] . '_' . $category['title']]++;
+            if (isset($tmp_title_counter[$category['type'] . '_' . $category['title']])) {
+                $tmp_title_counter[$category['type'] . '_' . $category['title']]++;
+            } else {
+                $tmp_title_counter[$category['type'] . '_' . $category['title']] = 1;
+            }
         }
 
         $path_categories = array();
         foreach ($categories as $cat) {
             if ($cat['type'] == ilCalendarCategory::TYPE_OBJ) {
-                if ($tmp_title_counter[$cat['type'] . '_' . $cat['title']] > 1) {
+                if (
+                    isset($tmp_title_counter[$category['type'] . '_' . $category['title']]) &&
+                    $tmp_title_counter[$cat['type'] . '_' . $cat['title']] > 1
+                ) {
                     foreach (ilObject::_getAllReferences($cat['obj_id']) as $ref_id) {
                         $cat['path'] = $this->buildPath($ref_id);
                         break;
