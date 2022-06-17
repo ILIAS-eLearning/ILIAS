@@ -212,6 +212,7 @@ class ilRecommendedContentRoleConfigGUI
             "assignItem",
             "item_ref_id"
         );
+        $exp->setSkipRootNode(true);
         if (!$exp->handleCommand()) {
             $main_tpl->setContent($exp->getHTML());
         }
