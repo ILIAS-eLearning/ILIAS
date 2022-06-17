@@ -193,7 +193,6 @@ class ilUserAutoComplete
     public function getList(string $a_str) : string
     {
         global $DIC;
-
         $ilDB = $DIC->database();
         
         $parsed_query = $this->parseQueryString($a_str);

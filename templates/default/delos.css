@@ -14413,7 +14413,9 @@ div.ilCOPGMediaPrint {
 #copg-editor-slate-content form.form-horizontal .ilFormHeader h3.ilHeader {
   font-size: 0.875rem;
 }
+#copg-editor-slate-content form.form-horizontal .col-sm-4,
 #copg-editor-slate-content form.form-horizontal .col-sm-3,
+#copg-editor-slate-content form.form-horizontal .col-sm-8,
 #copg-editor-slate-content form.form-horizontal .col-sm-9 {
   width: 100%;
 }
@@ -16946,14 +16948,6 @@ div.ilStartupSection form.form-horizontal {
 #block_pdbookm_0 .il_Block #tree_div img {
   height: 20px;
   width: 20px;
-}
-.iosPdBmListImg {
-  height: 20px;
-  width: 20px;
-}
-.iosPdBmListImg[src$="spacer.png"] {
-  height: 0;
-  width: 0;
 }
 /* Services/UIComponent/Toolbar */
 .ilToolbar .container-fluid {

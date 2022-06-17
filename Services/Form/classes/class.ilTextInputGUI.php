@@ -48,7 +48,6 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
         string $a_postvar = ""
     ) {
         global $DIC;
-
         $this->lng = $DIC->language();
         parent::__construct($a_title, $a_postvar);
         $this->setInputType("text");
@@ -347,11 +346,13 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
             iljQueryUtil::initjQuery();
             iljQueryUtil::initjQueryUI();
             
+            $jstpl = new ilTemplate("tpl.prop_text_autocomplete.js", true, true, "Services/Form");
+
             if ($this->getMulti()) {
-                $tpl->setCurrentBlock("ac_multi");
-                $tpl->setVariable('MURL_AUTOCOMPLETE', $this->getDataSource());
-                $tpl->setVariable('ID_AUTOCOMPLETE', $this->getFieldId());
-                $tpl->parseCurrentBlock();
+                $jstpl->setCurrentBlock("ac_multi");
+                $jstpl->setVariable('MURL_AUTOCOMPLETE', $this->getDataSource());
+                $jstpl->setVariable('ID_AUTOCOMPLETE', $this->getFieldId());
+                $jstpl->parseCurrentBlock();
                 
                 // set to fields that start with autocomplete selector
                 $sel_auto = '[id^="' . $this->getFieldId() . '"]';
@@ -360,22 +361,23 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
                 $sel_auto = "#" . $this->getFieldId();
             }
 
-            $tpl->setCurrentBlock("autocomplete_bl");
+            $jstpl->setCurrentBlock("autocomplete_bl");
             if (!$this->ajax_datasource_delimiter and !$this->getDataSourceSubmitOnSelection()) {
-                $tpl->setVariable('SEL_AUTOCOMPLETE', $sel_auto);
-                $tpl->setVariable('URL_AUTOCOMPLETE', $this->getDataSource());
+                $jstpl->setVariable('SEL_AUTOCOMPLETE', $sel_auto);
+                $jstpl->setVariable('URL_AUTOCOMPLETE', $this->getDataSource());
             } elseif ($this->getDataSourceSubmitOnSelection()) {
-                $tpl->setVariable('SEL_AUTOCOMPLETE_AUTOSUBMIT', $sel_auto);
-                $tpl->setVariable('URL_AUTOCOMPLETE_AUTOSUBMIT_REQ', $this->getDataSource());
-                $tpl->setVariable('URL_AUTOCOMPLETE_AUTOSUBMIT_RESP', $this->getDataSourceSubmitUrl());
+                $jstpl->setVariable('SEL_AUTOCOMPLETE_AUTOSUBMIT', $sel_auto);
+                $jstpl->setVariable('URL_AUTOCOMPLETE_AUTOSUBMIT_REQ', $this->getDataSource());
+                $jstpl->setVariable('URL_AUTOCOMPLETE_AUTOSUBMIT_RESP', $this->getDataSourceSubmitUrl());
             } else {
-                $tpl->setVariable('AUTOCOMPLETE_DELIMITER', $this->ajax_datasource_delimiter);
-                $tpl->setVariable('SEL_AUTOCOMPLETE_DELIMITER', $sel_auto);
-                $tpl->setVariable('URL_AUTOCOMPLETE_DELIMITER', $this->getDataSource());
+                $jstpl->setVariable('AUTOCOMPLETE_DELIMITER', $this->ajax_datasource_delimiter);
+                $jstpl->setVariable('SEL_AUTOCOMPLETE_DELIMITER', $sel_auto);
+                $jstpl->setVariable('URL_AUTOCOMPLETE_DELIMITER', $this->getDataSource());
             }
-            $tpl->parseCurrentBlock();
+            $jstpl->parseCurrentBlock();
 
-            $tpl->setVariable('MORE_TXT', $lng->txt('autocomplete_more'));
+            $jstpl->setVariable('MORE_TXT', $lng->txt('autocomplete_more'));
+            $this->global_tpl->addOnloadCode($jstpl->get());
         }
         
         if ($a_mode == "toolbar") {
