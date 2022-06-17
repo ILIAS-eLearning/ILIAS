@@ -45,6 +45,7 @@ use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper;
  * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilIndividualAssessmentSettingsGUI
  * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjTestGUI
  * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjSurveyGUI
+ * @ilCtrl_Calls      ilObjLearningSequenceGUI: ilObjFileUploadHandlerGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceEditIntroGUI, ilObjLearningSequenceEditExtroGUI
  */
 class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClassInterface
@@ -764,6 +765,10 @@ class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClass
 
     protected function checkLPAccess() : bool
     {
+        if (ilObject::_lookupType($this->obj_id) !== "lso") {
+            return false;
+        }
+
         $ref_id = $this->getObject()->getRefId();
         $is_participant = ilLearningSequenceParticipants::_isParticipant($ref_id, $this->user->getId());
 
