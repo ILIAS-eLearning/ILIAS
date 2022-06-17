@@ -72,15 +72,12 @@ class ilRepositorySearchGUI
     protected Factory $ui_factory;
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
-    protected ilObjUser $user;
+    protected ?ilObjUser $user = null;
     protected ilRbacReview $rbacreview;
     protected ilTabsGUI $tabs;
     protected ilLanguage $lng;
     private GlobalHttpState $http;
     private RefineryFactory $refinery;
-
-
-
 
     public function __construct()
     {
@@ -97,6 +94,7 @@ class ilRepositorySearchGUI
         $this->rbacreview = $DIC->rbac()->review();
         $this->refinery = $DIC->refinery();
         $this->http = $DIC->http();
+        $this->user = $DIC->user();
 
         $this->lng->loadLanguageModule('search');
         $this->lng->loadLanguageModule('crs');
@@ -331,7 +329,8 @@ class ilRepositorySearchGUI
     {
         // hide anonymout request
         if ($this->user->getId() == ANONYMOUS_USER_ID) {
-            return json_encode(new stdClass(), JSON_THROW_ON_ERROR);
+            echo json_encode(new stdClass(), JSON_THROW_ON_ERROR);
+            exit;
         }
         if (!$this->http->wrapper()->query()->has('autoCompleteField')) {
             $a_fields = [
@@ -362,7 +361,7 @@ class ilRepositorySearchGUI
         $auto->enableFieldSearchableCheck(true);
         $auto->setUserLimitations($this->getUserLimitations());
         if (is_callable($this->user_filter)) {		// #0024249
-            $auto->addUserAccessFilterCallable($this->user_filter);
+            $auto->addUserAccessFilterCallable(Closure::fromCallable($this->user_filter));
         }
 
         $query = '';
@@ -372,8 +371,16 @@ class ilRepositorySearchGUI
                 $this->refinery->kindlyTo()->string()
             );
         }
+        if ($query === "") {
+            if ($this->http->wrapper()->query()->has('term')) {
+                $query = $this->http->wrapper()->query()->retrieve(
+                    'term',
+                    $this->refinery->kindlyTo()->string()
+                );
+            }
+        }
         echo $auto->getList($query);
-        return null;
+        exit;
     }
 
 
