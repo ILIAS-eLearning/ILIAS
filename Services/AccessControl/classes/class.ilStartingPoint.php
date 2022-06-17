@@ -6,10 +6,8 @@
  *
  * @author Jesús López <lopez@leifos.com>
  * @version $Id$
- * @ilCtrl_Calls ilStartingPoint:
  * @ingroup	ServicesAccessControl
  */
-
 class ilStartingPoint
 {
     //list view: first and last items in the table are fixed.
