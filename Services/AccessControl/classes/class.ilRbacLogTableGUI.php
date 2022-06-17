@@ -101,26 +101,26 @@ class ilRbacLogTableGUI extends ilTable2GUI
 
     protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($a_set["created"], IL_CAL_UNIX)));
-        $name = ilObjUser::_lookupName((int) $a_set["user_id"]);
-        $this->tpl->setVariable("LASTNAME", $name["lastname"]);
-        $this->tpl->setVariable("FIRSTNAME", $name["firstname"]);
-        $this->tpl->setVariable("LOGIN", $name["login"]);
-        $this->tpl->setVariable("ACTION", $this->action_map[$a_set["action"]]);
+        $this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($a_set["created"] ?? 0, IL_CAL_UNIX)));
+        $name = ilObjUser::_lookupName((int) ($a_set["user_id"]) ?? 0);
+        $this->tpl->setVariable("LASTNAME", $name["lastname"] ?? '');
+        $this->tpl->setVariable("FIRSTNAME", $name["firstname"] ?? '');
+        $this->tpl->setVariable("LOGIN", $name["login"] ?? '');
+        $this->tpl->setVariable("ACTION", $this->action_map[$a_set["action"]] ?? '');
 
         if ($a_set["action"] == ilRbacLog::CHANGE_OWNER) {
-            $user = ilObjUser::_lookupFullname($a_set["data"][0]);
+            $user = ilObjUser::_lookupFullname($a_set["data"][0] ?? 0);
             $changes = array(array("action" => $this->lng->txt("rbac_log_changed_owner"), "operation" => $user));
         } elseif ($a_set["action"] == ilRbacLog::EDIT_TEMPLATE) {
-            $changes = $this->parseChangesTemplate($a_set["data"]);
+            $changes = $this->parseChangesTemplate($a_set["data"] ?? []);
         } else {
-            $changes = $this->parseChangesFaPa($a_set["data"]);
+            $changes = $this->parseChangesFaPa($a_set["data"] ?? []);
         }
 
         $this->tpl->setCurrentBlock("changes");
         foreach ($changes as $change) {
-            $this->tpl->setVariable("CHANGE_ACTION", $change["action"]);
-            $this->tpl->setVariable("CHANGE_OPERATION", $change["operation"]);
+            $this->tpl->setVariable("CHANGE_ACTION", $change["action"] ?? '');
+            $this->tpl->setVariable("CHANGE_OPERATION", $change["operation"] ?? '');
             $this->tpl->parseCurrentBlock();
         }
     }
