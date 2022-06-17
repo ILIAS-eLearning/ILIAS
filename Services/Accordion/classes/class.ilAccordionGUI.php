@@ -345,7 +345,7 @@ class ilAccordionGUI
         $options["int_id"] = $this->getId();
 
         if ($this->getUseSessionStorage() && $this->getId() != "") {
-            $stor = new ilAccordionPropertiesStorage();
+            $stor = new ilAccordionPropertiesStorageGUI();
             
             $ctab = $stor->getProperty(
                 $this->getId(),
@@ -366,7 +366,7 @@ class ilAccordionGUI
             }
 
             $options["initial_opened"] = $ctab;
-            $options["save_url"] = "./ilias.php?baseClass=ilaccordionpropertiesstorage&cmd=setOpenedTab" .
+            $options["save_url"] = "./ilias.php?baseClass=ilaccordionpropertiesstoragegui&cmd=setOpenedTab" .
                 "&accordion_id=" . $this->getId() . "&user_id=" . $ilUser->getId();
         }
 

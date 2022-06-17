@@ -19,9 +19,8 @@
 /**
  * Saves (mostly asynchronously) user properties of accordions
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilAccordionPropertiesStorage: ilAccordionPropertiesStorage
  */
-class ilAccordionPropertiesStorage implements ilCtrlBaseClassInterface
+class ilAccordionPropertiesStorageGUI implements ilCtrlBaseClassInterface
 {
     protected int $tab_nr;
     protected string $req_acc_id;
