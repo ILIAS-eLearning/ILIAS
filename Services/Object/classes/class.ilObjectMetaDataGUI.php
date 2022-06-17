@@ -460,7 +460,7 @@ class ilObjectMetaDataGUI
             $this->obj_type,
             $this->obj_id,
             $this->sub_type,
-            $this->sub_id,
+            (int) $this->sub_id,
             $this->in_repository
         );
 
@@ -530,7 +530,7 @@ class ilObjectMetaDataGUI
                 $record->getRecordId(),
                 $this->obj_id,
                 $this->sub_type,
-                $this->sub_id
+                (int) $this->sub_id
             ));
             if ($commands) {
                 foreach ($commands as $caption => $url) {
@@ -559,7 +559,7 @@ class ilObjectMetaDataGUI
             $this->in_repository
         );
         foreach ($advanced_md_records as $record) {
-            $vals = new ilAdvancedMDValues($record->getRecordId(), $this->obj_id, $this->sub_type, $this->sub_id);
+            $vals = new ilAdvancedMDValues($record->getRecordId(), $this->obj_id, $this->sub_type, (int) $this->sub_id);
 
             // this correctly binds group and definitions
             $vals->read();
