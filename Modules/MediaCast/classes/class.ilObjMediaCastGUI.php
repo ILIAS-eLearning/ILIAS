@@ -18,6 +18,10 @@
 
 use ILIAS\MediaCast\StandardGUIRequest;
 use ILIAS\FileUpload\MimeType;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
+use ILIAS\Filesystem\Filesystem;
+use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -37,7 +41,8 @@ class ilObjMediaCastGUI extends ilObjectGUI
     private array $additionalPurposes = [];
     private array $purposeSuffixes = [];
     private array $mimeTypes = [];
-        
+    protected FileSystem $filesystem;
+
     /**
      * @param mixed $a_data
      */
@@ -56,6 +61,7 @@ class ilObjMediaCastGUI extends ilObjectGUI
         $this->tpl = $DIC["tpl"];
         $this->access = $DIC->access();
         $this->toolbar = $DIC->toolbar();
+        $this->filesystem = $DIC->filesystem()->web();
         $this->log = $DIC["ilLog"];
         $this->help = $DIC["ilHelp"];
         $this->locator = $DIC["ilLocator"];
@@ -703,6 +709,10 @@ class ilObjMediaCastGUI extends ilObjectGUI
     
     /**
      * Update media item from form
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws ilException
+     * @throws ilMediaObjectsException
      */
     private function updateMediaItem(
         ilObjMediaObject $mob,
@@ -727,6 +737,12 @@ class ilObjMediaCastGUI extends ilObjectGUI
             $mob_dir = ilObjMediaObject::_getDirectory($mob->getId());
             if (!is_dir($mob_dir)) {
                 $mob->createDirectory();
+            } else {
+                $dir = LegacyPathHelper::createRelativePath($mob_dir);
+                $old_files = $this->filesystem->finder()->in([$dir])->exclude([$dir . '/mob_vpreview.png'])->files();
+                foreach ($old_files as $file) {
+                    $this->filesystem->delete($file->getPath());
+                }
             }
             
             $file_name = ilFileUtils::getASCIIFilename($_FILES['file_' . $purpose]['name']);
