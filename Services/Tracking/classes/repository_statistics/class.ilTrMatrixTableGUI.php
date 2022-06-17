@@ -443,10 +443,9 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
                 }
             }
 
-            $this->setMaxCount($data["cnt"]);
-            $this->setData($data["set"]);
-
-            return $collection["object_ids"];
+            $this->setMaxCount($data["cnt"] ?? 0);
+            $this->setData($data["set"] ?? []);
+            return $collection["object_ids"] ?? [];
         }
         return [];
     }
