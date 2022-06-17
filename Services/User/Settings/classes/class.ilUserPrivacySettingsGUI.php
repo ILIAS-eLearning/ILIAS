@@ -181,14 +181,14 @@ class ilUserPrivacySettingsGUI
     {
         return (
             $this->chatSettings->get('enable_osc', false) &&
-            !(bool) $this->settings->get('usr_settings_hide_chat_osc_accept_msg', false)
+            !$this->settings->get('usr_settings_hide_chat_osc_accept_msg', false)
         );
     }
 
     private function shouldShowChatTypingBroadcastOption() : bool
     {
         return (
-            !(bool) $this->settings->get('usr_settings_hide_chat_broadcast_typing', false)
+            !$this->settings->get('usr_settings_hide_chat_broadcast_typing', false)
         );
     }
 
@@ -342,9 +342,9 @@ class ilUserPrivacySettingsGUI
                 $oscSubFormGroup[self::PROP_ENABLE_BROWSER_NOTIFICATIONS] = $enabledBrowserNotifications;
 
                 $groupValue = null;
-                if (ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'))) {
+                if (ilUtil::yn2tf((string) $this->user->getPref('chat_osc_accept_msg'))) {
                     $groupValue = [
-                        self::PROP_ENABLE_BROWSER_NOTIFICATIONS => ilUtil::yn2tf($this->user->getPref('chat_osc_browser_notifications')),
+                        self::PROP_ENABLE_BROWSER_NOTIFICATIONS => ilUtil::yn2tf((string) $this->user->getPref('chat_osc_browser_notifications')),
                     ];
                 }
                 $enabledOsc = $fieldFactory
@@ -364,7 +364,7 @@ class ilUserPrivacySettingsGUI
                     )
                     ->withAdditionalTransformation($checkboxStateToBooleanTrafo)
                     ->withDisabled($oscAvailable)
-                    ->withValue(ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg')));
+                    ->withValue(ilUtil::yn2tf((string) $this->user->getPref('chat_osc_accept_msg')));
             }
 
             $fields[self::PROP_ENABLE_OSC] = $enabledOsc;
@@ -438,7 +438,7 @@ class ilUserPrivacySettingsGUI
                         $enableOsc = is_array($enableOsc);
                     }
 
-                    if (!(bool) $this->settings->get('usr_settings_disable_chat_osc_accept_msg', false)) {
+                    if (!$this->settings->get('usr_settings_disable_chat_osc_accept_msg', false)) {
                         $preferencesUpdated = true;
                         if ($oldEnableOscValue !== $enableOsc) {
                             $this->user->setPref('chat_osc_accept_msg', ilUtil::tf2yn($enableOsc));
