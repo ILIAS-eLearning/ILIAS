@@ -40,10 +40,10 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
         global $DIC;
 
         $this->lng = $DIC->language();
-
         $this->multi_nodes = $a_multi;
         $this->explorer_gui = $a_explorer_gui;
-        
+        $this->global_template = $DIC['tpl'];
+
         parent::__construct($a_title, $a_postvar);
         $this->setType("exp_select");
     }
@@ -188,6 +188,9 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 
         $tpl->setVariable("POST_VAR", $this->getPostVar());
         $tpl->setVariable("ID", $this->getFieldId());
+        $ol_js = "il.Explorer2.initSelect('" . $this->getFieldId() . "');";
+        $this->global_template->addOnLoadCode($ol_js);
+
         //		$tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($this->getValue()));
         
         //added disabled
