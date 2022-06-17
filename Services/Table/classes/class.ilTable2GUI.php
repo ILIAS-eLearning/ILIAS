@@ -1625,9 +1625,12 @@ class ilTable2GUI extends ilTableGUI
             // (keep) filter hidden?
             if (!$this->isFilterVisible()) {
                 if (!$this->getDisableFilterHiding()) {
-                    $this->tpl->setCurrentBlock("filter_hidden");
-                    $this->tpl->setVariable("FI_ID", $this->getId());
-                    $this->tpl->parseCurrentBlock();
+                    $id = $this->getId();
+                    $this->main_tpl->addOnLoadCode("
+                        ilTableHideFilter['atfil_$id'] = true;
+                        ilTableHideFilter['tfil_$id'] = true;
+                        ilTableHideFilter['dtfil_$id'] = true;
+                    ");
                 }
             }
         }
@@ -1917,7 +1920,7 @@ class ilTable2GUI extends ilTableGUI
                     $this->tpl->setVariable("TXT_ACTIVATE_FILTER", $lng->txt("show_filter"));
                     $this->tpl->setVariable("FILA_ID", $this->getId());
                     if ($this->getId() != "") {
-                        $this->tpl->setVariable("SAVE_URLA", "./ilias.php?baseClass=ilTablePropertiesStorage&table_id=" .
+                        $this->tpl->setVariable("SAVE_URLA", "./ilias.php?baseClass=ilTablePropertiesStorageGUI&table_id=" .
                             $this->getId() . "&cmd=showFilter&user_id=" . $ilUser->getId());
                     }
                     $this->tpl->parseCurrentBlock();
@@ -1927,7 +1930,7 @@ class ilTable2GUI extends ilTableGUI
                         $this->tpl->setCurrentBlock("filter_deactivation");
                         $this->tpl->setVariable("TXT_HIDE", $lng->txt("hide_filter"));
                         if ($this->getId() != "") {
-                            $this->tpl->setVariable("SAVE_URL", "./ilias.php?baseClass=ilTablePropertiesStorage&table_id=" .
+                            $this->tpl->setVariable("SAVE_URL", "./ilias.php?baseClass=ilTablePropertiesStorageGUI&table_id=" .
                                 $this->getId() . "&cmd=hideFilter&user_id=" . $ilUser->getId());
                             $this->tpl->setVariable("FILD_ID", $this->getId());
                         }
@@ -2357,7 +2360,7 @@ class ilTable2GUI extends ilTableGUI
         }
 
         if (is_object($ilUser) && $this->getId() != "") {
-            $tab_prop = new ilTablePropertiesStorage();
+            $tab_prop = new ilTablePropertiesStorageGUI();
 
             $tab_prop->storeProperty($this->getId(), $ilUser->getId(), $type, $value);
         }
@@ -2373,7 +2376,7 @@ class ilTable2GUI extends ilTableGUI
         }
 
         if (is_object($ilUser) && $this->getId() != "") {
-            $tab_prop = new ilTablePropertiesStorage();
+            $tab_prop = new ilTablePropertiesStorageGUI();
 
             return $tab_prop->getProperty($this->getId(), $ilUser->getId(), $type);
         }

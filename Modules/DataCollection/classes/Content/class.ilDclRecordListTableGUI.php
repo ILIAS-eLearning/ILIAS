@@ -119,9 +119,9 @@ class ilDclRecordListTableGUI extends ilTable2GUI
         }
 
         if (($this->table->getExportEnabled() || ilObjDataCollectionAccess::hasAccessToFields(
-                $this->parent_obj->getRefId(),
-                $this->table->getId()
-            ))) {
+            $this->parent_obj->getRefId(),
+            $this->table->getId()
+        ))) {
             $this->setExportFormats(array(self::EXPORT_EXCEL, self::EXPORT_EXCEL_ASYNC));
         }
 
@@ -198,8 +198,11 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             }
 
             if ($record->hasPermissionToEdit($this->parent_obj->getRefId())) {
-                $alist->addItem($this->lng->txt('edit'), 'edit',
-                    $this->ctrl->getLinkTargetByClass("ildclrecordeditgui", 'edit'));
+                $alist->addItem(
+                    $this->lng->txt('edit'),
+                    'edit',
+                    $this->ctrl->getLinkTargetByClass("ildclrecordeditgui", 'edit')
+                );
             }
 
             if ($record->hasPermissionToDelete($this->parent_obj->getRefId())) {
@@ -208,7 +211,6 @@ class ilDclRecordListTableGUI extends ilTable2GUI
                     'delete',
                     $this->ctrl->getLinkTargetByClass("ildclrecordeditgui", 'confirmDelete')
                 );
-
             }
 
             if ($this->table->getPublicCommentsEnabled()) {
@@ -262,8 +264,10 @@ class ilDclRecordListTableGUI extends ilTable2GUI
             $this->tpl->setVariable("VIEW_IMAGE_LINK", $a_set["_front"]);
             $this->tpl->setVariable(
                 "VIEW_IMAGE_SRC",
-                ilUtil::img(ilUtil::getImagePath("enlarge.svg"),
-                    $this->lng->txt('dcl_display_record_alt'))
+                ilUtil::img(
+                    ilUtil::getImagePath("enlarge.svg"),
+                    $this->lng->txt('dcl_display_record_alt')
+                )
             );
             $this->tpl->parseCurrentBlock();
         }
@@ -362,7 +366,7 @@ class ilDclRecordListTableGUI extends ilTable2GUI
     public function loadProperty(string $type) : string
     {
         if ($this->getId() && $this->userId > 0) {
-            $tab_prop = new ilTablePropertiesStorage();
+            $tab_prop = new ilTablePropertiesStorageGUI();
             return $tab_prop->getProperty($this->getId(), $this->userId, $type);
         }
         return "";
@@ -373,9 +377,14 @@ class ilDclRecordListTableGUI extends ilTable2GUI
      */
     protected function getCommentsAjaxLink(int $recordId) : string
     {
-        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(1, $this->parent_obj->getRefId(), 'dcl',
+        $ajax_hash = ilCommonActionDispatcherGUI::buildAjaxHash(
+            1,
+            $this->parent_obj->getRefId(),
+            'dcl',
             $this->parent_obj->getObjId(),
-            'dcl', $recordId);
+            'dcl',
+            $recordId
+        );
 
         return ilNoteGUI::getListCommentsJSCall($ajax_hash, '');
     }

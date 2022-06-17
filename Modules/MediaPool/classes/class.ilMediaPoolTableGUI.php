@@ -224,7 +224,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
     public function setTitleFilter(string $title) : void
     {
         // activate filter
-        $tprop = new ilTablePropertiesStorage();
+        $tprop = new ilTablePropertiesStorageGUI();
         $tprop->storeProperty(
             $this->getId(),
             $this->user->getId(),

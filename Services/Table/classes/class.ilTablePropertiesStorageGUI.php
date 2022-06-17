@@ -19,9 +19,8 @@
 /**
  * Saves (mostly asynchronously) user properties of tables (e.g. filter on/off)
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilTablePropertiesStorage: ilTablePropertiesStorage
  */
-class ilTablePropertiesStorage implements ilCtrlBaseClassInterface
+class ilTablePropertiesStorageGUI implements ilCtrlBaseClassInterface
 {
     protected ?\ILIAS\Table\TableGUIRequest $table_request = null;
     protected ilObjUser $user;
@@ -84,7 +83,6 @@ class ilTablePropertiesStorage implements ilCtrlBaseClassInterface
 
         $requested_user_id = $this->table_request->getUserId();
         $requested_table_id = $this->table_request->getTableId();
-
         if ($requested_user_id == $ilUser->getId()) {
             $this->storeProperty(
                 $requested_table_id,
@@ -111,7 +109,6 @@ class ilTablePropertiesStorage implements ilCtrlBaseClassInterface
         if ($a_user_id == ANONYMOUS_USER_ID) {
             $storage = "session";
         }
-        
         switch ($storage) {
             case "session":
                 ilSession::set("table_" . $a_table_id . "_" . $a_user_id . "_" . $a_property, $a_value);
