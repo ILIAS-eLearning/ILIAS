@@ -145,7 +145,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
             $det = false;
             foreach (ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions() as $type => $data) {
                 $cb = new ilCheckboxOption($this->lng->txt($data['trans']), $type);
-                if ($details[$type]) {
+                if (isset($details[$type])) {
                     $det = true;
                 }
                 $cbgr->addOption($cb);
