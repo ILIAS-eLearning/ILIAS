@@ -1926,7 +1926,7 @@ class ilPageObjectGUI
             //echo htmlentities($output);
             if ($this->getOutputMode() == "edit" &&
                 !$this->getPageObject()->getActive($this->getPageConfig()->getEnableScheduledActivation())) {
-                $output = '<div class="il_editarea_disabled"><div class="ilCopgDisabledText">' . $this->getDisabledText() . '</div>' . $output . '</div>';
+                $output = '<div class="copg-disabled-page"><div class="ilCopgDisabledText">' . $this->getDisabledText() . '</div>' . $output . '</div>';
             }
 
             // for all page components...

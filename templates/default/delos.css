@@ -13994,7 +13994,8 @@ div.il_editarea_selected:hover > div.ilEditLabel {
 div.ilc_page_Page > div.il_editarea_disabled {
   padding: 10px;
 }
-div.il_editarea_disabled {
+div.il_editarea_disabled,
+div.copg-disabled-page {
   border: 2px dotted #B54F00;
   min-height: 20px;
 }
@@ -14002,7 +14003,7 @@ div.il_editarea_disabled {
   color: #B54F00;
   position: absolute;
   font-size: 12px;
-  margin-top: -22px;
+  margin-top: -13px;
   padding: 2px 5px;
   background-color: #f9f9f9;
 }
