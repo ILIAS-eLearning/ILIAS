@@ -390,12 +390,12 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         if (!is_file($check_file)) {
             $imagefile = $check_file =
                 ilObjUser::_getPersonalPicturePath($user->getId(), "small", false, true);
-        }
-        
-        if ($this->offline) {
-            $imagefile = basename($imagefile);
         } else {
-            $imagefile = ilWACSignedPath::signFile($imagefile . "?t=1");
+            if ($this->offline) {
+                $imagefile = basename($imagefile);
+            } else {
+                $imagefile = ilWACSignedPath::signFile($imagefile . "?t=1");
+            }
         }
 
         if ($this->getPublicPref($user, "public_upload") == "y" && $imagefile != "" &&
