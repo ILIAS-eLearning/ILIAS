@@ -382,15 +382,17 @@ export default class PageUIActionHandler {
   sendUpdateCommand(params) {
     let update_action;
     const af = this.actionFactory;
+    const dispatch = this.dispatcher;
 
     update_action = af.page().command().update(
       params.pcid,
       params.component,
       params.data
-  );
+    );
 
     this.client.sendCommand(update_action).then(result => {
       this.ui.handlePageReloadResponse(result);
+      dispatch.dispatch(af.page().editor().enablePageEditing());
     });
   }
 

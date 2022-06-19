@@ -140,7 +140,7 @@ export default class ModelActionHandler {
         break;
 
       case "component.update":
-        this.model.setState(this.model.STATE_PAGE);
+        this.model.setState(this.model.STATE_SERVER_CMD);
         break;
 
       case "component.cancel":
