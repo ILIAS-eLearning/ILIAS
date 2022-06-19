@@ -704,6 +704,7 @@ class ilWikiUtil
         }
 
         $log->debug("-- sending mails");
+        $mails = [];
         foreach (array_unique($users) as $idx => $user_id) {
             if ($user_id != $ilUser->getId() &&
                 $ilAccess->checkAccessOfUser($user_id, 'read', '', $a_wiki_ref_id)) {
@@ -771,6 +772,7 @@ class ilWikiUtil
                 $mail_obj = new ilMail(ANONYMOUS_USER_ID);
                 $mail_obj->appendInstallationSignature(true);
                 $log->debug("before enqueue ($user_id)");
+                /*
                 $mail_obj->enqueue(
                     ilObjUser::_lookupLogin($user_id),
                     "",
@@ -778,11 +780,32 @@ class ilWikiUtil
                     $subject,
                     $message,
                     array()
+                );*/
+                $message .= ilMail::_getInstallationSignature();
+                $mails[] = new ilMailValueObject(
+                    '',
+                    ilObjUser::_lookupLogin($user_id),
+                    '',
+                    '',
+                    $subject,
+                    $message,
+                    [],
+                    false,
+                    false
                 );
                 $log->debug("after enqueue");
             } else {
                 unset($users[$idx]);
             }
+        }
+        if (count($mails) > 0) {
+            $processor = new ilMassMailTaskProcessor();
+            $processor->run(
+                $mails,
+                ANONYMOUS_USER_ID,
+                "",
+                []
+            );
         }
         $log->debug("end... ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
     }
