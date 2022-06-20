@@ -26,10 +26,9 @@
 class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
 {
     protected ilErrorHandling $error;
-    protected ilSetting $setting;
     protected ilStudyProgrammeTypeGUI $type_gui;
 
-    public function __construct(array $data, int $id, bool $call_by_reference = true, bool $prepare_output = true)
+    public function __construct($data, int $id, bool $call_by_reference = true, bool $prepare_output = true)
     {
         parent::__construct($data, $id, $call_by_reference, $prepare_output);
 
@@ -92,7 +91,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
             $this->lng->txt("prg_show_programmes_on_pd_only_read"),
             ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ
         ));
-        $value = $this->setting->get(ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD);
+        $value = $this->settings->get(ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD);
         $value = ($value) ?: ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ;
         $radio_grp->setValue($value);
         $form->addItem($radio_grp);
@@ -112,7 +111,7 @@ class ilObjStudyProgrammeAdminGUI extends ilObjectGUI
         $form = $this->initFormSettings();
         if ($form->checkInput()) {
             if ($this->save($form)) {
-                $this->setting->set(
+                $this->settings->set(
                     ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD,
                     $form->getInput('visible_on_personal_desktop')
                 );
