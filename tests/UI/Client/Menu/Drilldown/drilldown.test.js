@@ -8,34 +8,34 @@ import ddpersistence from '../../../../../src/UI/templates/js/Menu/src/drilldown
 import dd from '../../../../../src/UI/templates/js/Menu/src/drilldown.main.js';
 import drilldown from '../../../../../src/UI/templates/js/Menu/src/drilldown.instances.js';
 
-
-
-
-//init test environment
-var dom_string = fs.readFileSync('./tests/UI/Component/Menu/Drilldown/drilldown_test.html').toString(),
-    doc = new JSDOM(dom_string);
-
-doc.getElementById = (id) => { return $('#' + id)[0];};
-
-global.document = doc;    
-global.il = {
-    Utilities : {
-         CookieStorage : function (id) {
-            return {
-                items : {},
-                add : function(key, value) {
-                    this.items[key] = value;
-                },
-                store : function() {}
-            };
-        }
-    }
-};
-global.jQuery = require( 'jquery' )(doc.window);
-global.$ = global.jQuery;
-
 describe('drilldown', function() {
    
+    beforeEach(function(){
+        //init test environment
+        var dom_string = fs.readFileSync('./tests/UI/Component/Menu/Drilldown/drilldown_test.html').toString(),
+            doc = new JSDOM(dom_string);
+
+        doc.getElementById = (id) => { return $('#' + id)[0];};
+        global.document = doc;
+        global.jQuery = require( 'jquery' )(doc.window);
+        global.$ = global.jQuery;
+
+        il = {
+            Utilities : {
+                 CookieStorage : function (id) {
+                    return {
+                        items : {},
+                        add : function(key, value) {
+                            this.items[key] = value;
+                        },
+                        store : function() {}
+                    };
+                }
+            }
+        };
+      });
+
+
     it('components are defined and provide public interface', function() {
         expect(ddmodel).to.not.be.undefined;
         expect(ddmapping).to.not.be.undefined;
@@ -100,7 +100,6 @@ describe('drilldown', function() {
     it('persistence has internal integrity', function() {
         var p = ddpersistence('id'),
             value = 'test';
-
         p.store(value);
         expect(p.read()).to.equal(value);
     });
