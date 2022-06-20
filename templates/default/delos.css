@@ -13960,6 +13960,7 @@ div.il_editarea,
 div.il_editarea_disabled {
   border: 2px solid transparent;
   min-height: 20px;
+  user-select: none;
 }
 .copg-state-page div.il_editarea:hover,
 .copg-state-multi div.il_editarea:hover,
