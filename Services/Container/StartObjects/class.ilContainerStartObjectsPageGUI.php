@@ -31,4 +31,12 @@ class ilContainerStartObjectsPageGUI extends ilPageObjectGUI
     {
         parent::__construct("cstr", $a_id, $a_old_nr, false, $a_lang);
     }
+
+    public function finishEditing() : void
+    {
+        $this->ctrl->redirectByClass(
+            "ilcontainerstartobjectsgui",
+            "listStructure"
+        );
+    }
 }
