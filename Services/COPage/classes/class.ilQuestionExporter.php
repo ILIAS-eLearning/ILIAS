@@ -159,7 +159,7 @@ class ilQuestionExporter
         if ($this->preview_mode) {
             $this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
         }
-        if ($this->json_decoded->path) {
+        if ($this->json_decoded->path ?? false) {
             $this->tpl->setVariable(
                 "HANDLE_IMAGES",
                 "ilias.questions.handleMCImages(" . $this->json_decoded->id . ");"

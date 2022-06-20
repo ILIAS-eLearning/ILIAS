@@ -144,7 +144,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                         "cmd" => "insertPageClip");
                 }
             }
-            if ($a_childs[0]["type"] != "pg") {
+            if (($a_childs[0]["type"] ?? "") != "pg") {
                 $cmds[] = array("text" => $lng->txt("cont_insert_chapter"),
                     "cmd" => "insertChapter", "multi" => 10);
                 if ($ilUser->clipboardHasObjectsOfType("st")) {
@@ -234,7 +234,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                     true
                 );
             }
-            if ($a_childs[0]["type"] != "pg") {
+            if (($a_childs[0]["type"] ?? "") != "pg") {
                 $this->makeDragTarget(
                     $a_node["node_id"],
                     "grp_st",

@@ -278,7 +278,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
                 $q_gui->object->setAdditionalContentEditingMode($addContEditMode);
                 
                 //set default tries
-                $q_gui->object->setDefaultNrOfTries(ilObjSAHSLearningModule::_getTries($this->scormlmid));
+                $q_gui->object->setObjId(0);
                 $q_id = $q_gui->object->createNewQuestion(true);
                 $this->content_obj->setQuestionReference("il__qst_" . $q_id);
                 $this->pg_obj->update();

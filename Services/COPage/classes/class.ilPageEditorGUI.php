@@ -353,7 +353,7 @@ class ilPageEditorGUI
                 $this->tabs_gui->clearTargets();
                 $this->tabs_gui->setBackTarget(
                     $this->lng->txt("back"),
-                    $ilCtrl->getParentReturn($this)
+                    (string) $ilCtrl->getParentReturn($this)
                 );
                 $mob_gui = new ilObjMediaObjectGUI("", $this->requested_mob_id, false, false);
                 $mob_gui->getTabs();
@@ -374,7 +374,7 @@ class ilPageEditorGUI
                     $ilHelp->setScreenIdComponent("copg_pcqst");
                     $this->tabs_gui->setBackTarget(
                         $this->lng->txt("back"),
-                        $ilCtrl->getParentReturn($this)
+                        (string) $ilCtrl->getParentReturn($this)
                     );
                     $ret = $this->ctrl->forwardCommand($pc_question_gui);
                 } else {
