@@ -1,8 +1,19 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Modules/Test/classes/class.ilTestSettingsGUI.php';
-require_once 'Services/AdvancedEditing/classes/class.ilObjAdvancedEditing.php';
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * GUI class that manages the editing of general test settings/properties
@@ -614,27 +625,28 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
      */
     private function saveGeneralProperties(ilPropertyFormGUI $form)
     {
-        include_once 'Services/MetaData/classes/class.ilMD.php';
         $md_obj = new ilMD($this->testOBJ->getId(), 0, "tst");
         $md_section = $md_obj->getGeneral();
-
-        // title
-        if ($md_section !== null) {
-            $md_section->setTitle(ilUtil::stripSlashes($form->getItemByPostVar('title')->getValue()));
-            $md_section->update();
-
-            // Description
-            $md_desc_ids = $md_section->getDescriptionIds();
-            if ($md_desc_ids) {
-                $md_desc = $md_section->getDescription(array_pop($md_desc_ids));
-                $md_desc->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
-                $md_desc->update();
-            } else {
-                $md_desc = $md_section->addDescription();
-                $md_desc->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
-                $md_desc->save();
-            }
+        
+        if ($md_section === null) {
+            $md_section = $md_obj->addGeneral();
+            $md_section->save();
         }
+        
+        $md_section->setTitle(ilUtil::stripSlashes($form->getItemByPostVar('title')->getValue()));
+        $md_section->update();
+        
+        $md_desc_ids = $md_section->getDescriptionIds();
+        if ($md_desc_ids) {
+            $md_desc = $md_section->getDescription(array_pop($md_desc_ids));
+            $md_desc->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
+            $md_desc->update();
+        } else {
+            $md_desc = $md_section->addDescription();
+            $md_desc->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
+            $md_desc->save();
+        }
+        
         $this->testOBJ->setTitle(ilUtil::stripSlashes($form->getItemByPostVar('title')->getValue()));
         $this->testOBJ->setDescription(ilUtil::stripSlashes($form->getItemByPostVar('description')->getValue()));
         $this->testOBJ->setOfflineStatus(!$form->getItemByPostVar('online')->getChecked());
