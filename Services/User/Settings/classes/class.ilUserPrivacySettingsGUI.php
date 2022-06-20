@@ -227,7 +227,7 @@ class ilUserPrivacySettingsGUI
             "n" => $this->lng->txt("user_awrn_show"),
             "y" => $this->lng->txt("user_awrn_hide")
         );
-        $val = $this->user->prefs["hide_own_online_status"];
+        $val = $this->user->prefs["hide_own_online_status"] ?? "";
         if ($val == "") {
             $val = "x";
         }

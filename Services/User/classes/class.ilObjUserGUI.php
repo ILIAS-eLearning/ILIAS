@@ -2092,7 +2092,7 @@ class ilObjUserGUI extends ilObjectGUI
         }
 
         $ilCtrl->setParameterByClass("ilpublicuserprofilegui", "user_id", (int) $a_target);
-        $ilCtrl->redirectByClass(["ilPublicUserProfileGUI", "ilpublicuserprofilegui"], $cmd);
+        $ilCtrl->redirectByClass(["ilPublicUserProfileGUI"], $cmd);
     }
 
     /**

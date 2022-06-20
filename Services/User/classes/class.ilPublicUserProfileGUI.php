@@ -117,7 +117,6 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
     {
         global $DIC;
 
-        $ilMainMenu = $DIC['ilMainMenu'];
         $ilTabs = $DIC['ilTabs'];
         $lng = $DIC['lng'];
 
@@ -131,9 +130,7 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             $back = 'ilias.php?baseClass=ilDashboardGUI';
         }
 
-        if ($a_is_portfolio) {
-            $ilMainMenu->setTopBarBack($back);
-        } else {
+        if (!$a_is_portfolio) {
             // #17838
             $ilTabs->clearTargets();
             $ilTabs->setBackTarget(
