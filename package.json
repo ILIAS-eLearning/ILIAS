@@ -41,6 +41,7 @@
     "esm": "^3.2.25",
     "less": "^4.1.1",
     "mocha": "^8.0.1",
+    "jsdom": "19.0.0",
     "rollup": "^2.18.0",
     "rollup-plugin-terser": "^6.1.0"
   },
