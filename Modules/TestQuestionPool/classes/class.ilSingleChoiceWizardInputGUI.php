@@ -1,5 +1,20 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\HTTP\Wrapper\ArrayBasedRequestWrapper as ArrayBasedRequestWrapper;
 
@@ -44,7 +59,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
             if (is_array($a_value['answer'])) {
                 foreach ($a_value['answer'] as $index => $value) {
                     include_once "./Modules/TestQuestionPool/classes/class.assAnswerBinaryStateImage.php";
-                    $answer = new ASS_AnswerBinaryStateImage($value, $a_value['points'][$index], $index, 1, -1);
+                    $answer = new ASS_AnswerBinaryStateImage((string)$value, (float)$a_value['points'][$index], (int)$index, 1, "", -1);
                     if (isset($a_value['imagename'][$index])) {
                         $answer->setImage($a_value['imagename'][$index]);
                     } else {
