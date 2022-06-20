@@ -2627,7 +2627,7 @@ class ilTable2GUI extends ilTableGUI
                 );
             }
 
-            $filename = "export";
+            $filename = $this->getExportFileName((int) $format);
 
             switch ($format) {
                 case self::EXPORT_EXCEL:
@@ -2827,5 +2827,10 @@ class ilTable2GUI extends ilTableGUI
             $this->limit_determined) {
             $this->rows_selector_off = true;
         }
+    }
+
+    protected function getExportFileName(int $format) : string
+    {
+        return 'export';
     }
 }
