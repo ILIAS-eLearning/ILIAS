@@ -5892,7 +5892,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $buttons = [
             $this->uiFactory->button()->standard(
-                $this->lng->txt('reset'),
+                $this->lng->txt('reset_limited_view_button'),
                 $this->ctrl->getLinkTarget($this, 'resetLimitedView')
             )
         ];

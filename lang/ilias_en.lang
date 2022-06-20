@@ -9659,6 +9659,8 @@ forum#:#publish#:#Publish
 forum#:#reopen_topics#:#Reopen
 forum#:#reply_to_postings#:#Reply
 forum#:#reset_limited_view#:#Limited view on this post an all posts below it.
+forum#:#reset_limited_view_info#:#Limited view on this post and all posts below it.
+forum#:#reset_limited_view_button#:#Show entire thread
 forum#:#restore#:#Restore
 forum#:#restore_draft_from_autosave#:#Restore Draft
 forum#:#save_draft_successfully#:#The draft was saved successfully.

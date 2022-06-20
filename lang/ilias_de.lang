@@ -9696,6 +9696,8 @@ forum#:#publish#:#Veröffentlichen
 forum#:#reopen_topics#:#Wiedereröffnen
 forum#:#reply_to_postings#:#Antworten
 forum#:#reset_limited_view#:#Begrenzte Ansicht auf diesen Beitrag und alle darunter liegenden Beiträge
+forum#:#reset_limited_view_info#:#Begrenzte Ansicht auf diesen Beitrag und alle darunter liegenden Beiträge
+forum#:#reset_limited_view_button#:#Gesamten Thread anzeigen
 forum#:#restore#:#Wiederherstellen
 forum#:#restore_draft_from_autosave#:#Entwurf wiederherstellen
 forum#:#save_draft_successfully#:#Der Entwurf wurde erfolgreich gespeichert.
