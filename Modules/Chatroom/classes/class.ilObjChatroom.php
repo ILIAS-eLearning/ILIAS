@@ -32,7 +32,7 @@ class ilObjChatroom extends ilObject
     protected ?int $access_end = null;
     protected ?int $access_visibility = null;
 
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         $this->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
 
@@ -82,7 +82,7 @@ class ilObjChatroom extends ilObject
 
     public function update() : bool
     {
-        if ($this->ref_id) {
+        if ($this->referenced && $this->ref_id) {
             $activation = new ilObjectActivation();
             $activation->setTimingType($this->getAccessType());
             $activation->setTimingStart($this->getAccessBegin());
@@ -103,7 +103,7 @@ class ilObjChatroom extends ilObject
 
     public function read() : void
     {
-        if ($this->ref_id) {
+        if ($this->referenced && $this->ref_id) {
             $activation = ilObjectActivation::getItem($this->ref_id);
             $this->setAccessType((int) $activation['timing_type']);
             if ($this->getAccessType() === ilObjectActivation::TIMINGS_ACTIVATION) {
