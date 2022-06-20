@@ -3249,38 +3249,40 @@ class ilObjectListGUI
         // workaround for #26205
         // we should get rid of _top links completely and gifure our how
         // to manage scorm links better
-        if ($def_command["frame"] == "_top") {
-            $def_command["frame"] = "";
+        $def_cmd_frame = ($def_command["frame"] ?? "");
+        if ($def_cmd_frame === "_top") {
+            $def_cmd_frame = "";
         }
 
         // workaround for scorm
         $modified_link =
-            $this->modifySAHSlaunch($def_command["link"], $def_command["frame"]);
+            $this->modifySAHSlaunch($def_command["link"], $def_cmd_frame);
 
         $image = $this->ui->factory()
                           ->image()
                           ->responsive($path, '');
         if ($def_command['link'] != '') {    // #24256
-            if ($def_command["frame"] != "" && ($modified_link == $def_command["link"])) {
-                $image = $image->withAdditionalOnLoadCode(function ($id) use ($def_command) : string {
+            if ($def_cmd_frame != "" && ($modified_link == $def_command["link"])) {
+                $image = $image->withAdditionalOnLoadCode(function ($id) use ($def_command, $def_cmd_frame) : string {
                     return
                         "$('#$id').click(function(e) { window.open('" . str_replace(
                             "&amp;",
                             "&",
                             $def_command["link"]
-                        ) . "', '" . $def_command["frame"] . "');});";
+                        ) . "', '" . $def_cmd_frame . "');});";
                 });
 
                 $button =
                     $ui->factory()->button()->shy($title, "")->withAdditionalOnLoadCode(function ($id) use (
-                        $def_command
+                        $def_command,
+                        $def_cmd_frame
                     ) : string {
                         return
                             "$('#$id').click(function(e) { window.open('" . str_replace(
                                 "&amp;",
                                 "&",
                                 $def_command["link"]
-                            ) . "', '" . $def_command["frame"] . "');});";
+                            ) . "', '" . $def_cmd_frame . "');});";
                     });
                 $title = $ui->renderer()->render($button);
             } else {
@@ -3309,7 +3311,7 @@ class ilObjectListGUI
 
         // card title action
         $card_title_action = "";
-        if ($def_command["link"] != "" && ($def_command["frame"] == "" || $modified_link != $def_command["link"])) {    // #24256
+        if ($def_command["link"] != "" && ($def_cmd_frame == "" || $modified_link != $def_command["link"])) {    // #24256
             $card_title_action = $modified_link;
         } elseif ($def_command['link'] == "" &&
             $this->getInfoScreenStatus() &&
