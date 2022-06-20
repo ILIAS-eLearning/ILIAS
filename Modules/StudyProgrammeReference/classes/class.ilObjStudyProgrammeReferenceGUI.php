@@ -3,7 +3,7 @@
 /**
 * @ilCtrl_Calls ilObjStudyProgrammeReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
 */
-class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI implements ilCtrlBaseClassInterface
+class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI
 {
     public function __construct(
         $data,
