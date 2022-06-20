@@ -2209,7 +2209,7 @@ badge#:#badge_template_types#:#Gültige Typen
 badge#:#badge_template_types_all#:#Alle
 badge#:#badge_template_types_specific#:#Bestimmte
 badge#:#badge_types#:#Typen
-badge#:#badge_user_profile#:#Benutzerprofil
+badge#:#badge_user_profile#:#Profil veröffentlicht###Modified as part of gender mainstreaming activities for ILIAS 8
 badge#:#badge_valid#:#Gültig bis
 bgtask#:#bgtask_blocked#:#Laufender Download
 bgtask#:#bgtask_blocked_cancel_new#:#Neuen Download abbrechen
@@ -6519,7 +6519,7 @@ content#:#cont_link_to_external#:#Link zu einer externen Webseite
 content#:#cont_link_to_internal#:#Link innerhalb von ILIAS
 content#:#cont_link_to_wiki#:#Link zu einer Wikiseite (Klammern einfügen)
 content#:#cont_link_type#:#Linktyp
-content#:#cont_link_user#:#Benutzerprofil
+content#:#cont_link_user#:#Mein Profil###Modified as part of gender mainstreaming activities for ILIAS 8
 content#:#cont_linked_mobs#:#Verlinkte Medienobjekte
 content#:#cont_links#:#Links
 content#:#cont_list_files#:#Dateiverzeichnis
@@ -10007,8 +10007,8 @@ iass#:#iass_settings_saved#:#Einstellungen gespeichert.
 iass#:#iass_sort#:#Sortierung
 iass#:#iass_sort_changetime_asc#:#Letzte Änderung → aufsteigend
 iass#:#iass_sort_changetime_desc#:#Letzte Änderung → absteigend
-iass#:#iass_sort_examiner_login_asc#:#Prüfer → aufsteigend
-iass#:#iass_sort_examiner_login_desc#:#Prüfer → absteigend
+iass#:#iass_sort_examiner_login_asc#:#Bewertet von → aufsteigend###Modified as part of gender mainstreaming activities for ILIAS 8
+iass#:#iass_sort_examiner_login_desc#:#Bewertet von → absteigend###Modified as part of gender mainstreaming activities for ILIAS 8
 iass#:#iass_sort_name_asc#:#Anmeldename → aufsteigend###Modified as part of gender mainstreaming activities for ILIAS 8
 iass#:#iass_sort_name_desc#:#Anmeldename → absteigend###Modified as part of gender mainstreaming activities for ILIAS 8
 iass#:#iass_status_completed#:#Bestanden
@@ -10182,7 +10182,7 @@ ldap#:#ldap_referrals_info#:#Legt fest, ob Weiterleitungen des LDAP-Servers auto
 ldap#:#ldap_remove_deprecated#:#Unberechtigte Rollen entfernen
 ldap#:#ldap_role_active#:#Gruppenaktualisierung eingeschaltet
 ldap#:#ldap_role_assignments#:#Rollenzuordnung
-ldap#:#ldap_role_at_info#:#Die Zuordnung erfolgt anhand eines bestimmten Attributs im LDAP Benutzerprofil.
+ldap#:#ldap_role_at_info#:#Die Zuordnung erfolgt anhand eines bestimmten Attributs des LDAP-Kontos.###Modified as part of gender mainstreaming activities for ILIAS 8
 ldap#:#ldap_role_at_name#:#Attributname
 ldap#:#ldap_role_at_value#:#Attributwert
 ldap#:#ldap_role_bind_pass#:#Passwort
@@ -10881,7 +10881,7 @@ maps#:#configure_geolocation#:#Um nach Adressen suchen zu können, schließen Si
 maps#:#maps_custom_geolocation_server_info#:#URL des Servers, über den die Geolocation-Daten mithilfe des Nominatim-Dienstes bereitgestellt werden. Der Eintrag muss den Platzhalter [QUERY] enthalten, um die Anfrageposition festzulegen. Beispiel: nominatim.example.com/search/[QUERY]?format=json.
 maps#:#maps_custom_tile_server_info#:#URL des Servers für die Bereitstellung der Kacheln. Mehrere Einträge müssen mit Leerzeichen getrennt werden. Standardeingabe ist "%s".
 maps#:#maps_enable_maps#:#Karten aktivieren
-maps#:#maps_enable_maps_info#:#Aktiviert Karten in Benutzerprofil, Gruppen und Kursen
+maps#:#maps_enable_maps_info#:#Karten können systemweit in Profilen, Kursen und Gruppen angezeigt werden.###Modified as part of gender mainstreaming activities for ILIAS 8
 maps#:#maps_extt_maps#:#Karten
 maps#:#maps_geolocation_server#:#Server für Reverse Geolocation
 maps#:#maps_google_maps#:#Google Maps
@@ -13866,7 +13866,7 @@ registration#:#reg_email_domains_code#:#Bei Verwendung eines Codes sind beliebig
 registration#:#reg_email_role_assignment#:#Rollenzuweisung über E-Mail-Adresse
 registration#:#reg_fixed#:#Auswahl aus vorgegebener Liste
 registration#:#reg_info_pwd#:#Wenn eingeschaltet, wird neu angemeldeten Benutzern ein automatisch generiertes Passwort vergeben und zugesandt.
-registration#:#reg_mail_body_activation#:#um Ihr Benutzerprofil freizuschalten und gleichzeitig diese E-Mail-Adresse zu bestätigen, klicken Sie bitte den folgenden Link an:
+registration#:#reg_mail_body_activation#:#um Ihr Konto freizuschalten, klicken Sie bitte den folgenden Link an:###Modified as part of gender mainstreaming activities for ILIAS 8
 registration#:#reg_mail_body_approve#:#Sie haben sich bereits bei der eLearning-Plattform angemeldet und eine Mail mit Ihren Zugangsdaten erhalten. Jetzt ist Ihr Zugang von Ihrem/Ihrer AdministratorIn freigeschaltet worden. Bei Fragen und Problemen, wenden Sie sich am besten per Mail an ihn/sie.
 registration#:#reg_mail_body_confirmation#:#Um das Benutzerkonto zu aktivieren, müssen Sie es in der ILIAS-Benutzerverwaltung freischalten.
 registration#:#reg_mail_body_profile#:#Profildaten:
@@ -14540,7 +14540,7 @@ shib#:#shib_activate_new_info#:#Wenn aktiviert, werden neue Benutzeraccounts ina
 shib#:#shib_add_missing#:#Fehlende Rollen zuordnen
 shib#:#shib_add_remove#:#Rollen hinzufügen/entfernen
 shib#:#shib_assignment_type#:#Art der Zuordnung
-shib#:#shib_attr_info#:#Die Zuordnung erfolgt anhand eines bestimmten Attributs im Shibboleth-Benutzerprofil.
+shib#:#shib_attr_info#:#Die Zuordnung erfolgt anhand eines bestimmten Attributs im Shibboleth-Konto.###Modified as part of gender mainstreaming activities for ILIAS 8
 shib#:#shib_attribute#:#Benutzerattribut
 shib#:#shib_attribute_name#:#Attributname
 shib#:#shib_attribute_value#:#Attributwert
@@ -16469,13 +16469,13 @@ user#:#user_portfolios_desc#:#Benutzer können Portfolios anlegen und als Profil
 user#:#user_privacy_checklist#:#Checkliste Datenschutz
 user#:#user_profile_data#:#Profildaten
 user#:#user_profile_data_checked#:#Profildaten überprüft
-user#:#user_profile_info#:#Infotext Benutzerprofil
-user#:#user_profile_info_std#:#Standard Infotext Benutzerprofil
+user#:#user_profile_info#:#Infotext Profilveröffentlichung###Modified as part of gender mainstreaming activities for ILIAS 8
+user#:#user_profile_info_std#:#Infotext###Modified as part of gender mainstreaming activities for ILIAS 8
 user#:#user_profile_info_text_info#:#Dieser Text erscheint über dem Eingabeformular der persönlichen Daten.
 user#:#user_profile_portfolio#:#Wenn Sie ein Portfolio als Ihr Profil nutzen möchten, setzen Sie im Portfolio-Bereich das Attribut "Mein Profil".
 user#:#user_profile_portfolio_selected#:#Sie benutzen momentan ein Portfolio als Ihr Profil. Die Aktivierung erfolgt dort über den Reiter "Freigabe".
 user#:#user_profile_preview#:#Vorschau
-user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den "Standard Infotext Benutzerprofil", falls der Benutzer zur Veröffentlichung des Profils aufgefordert wird.
+user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den obigen Infotext, wenn Sie die Aufforderung zur Profilveröffentlichung nutzen.###Modified as part of gender mainstreaming activities for ILIAS 8
 user#:#user_prompt_incomplete#:#Nie
 user#:#user_prompt_incomplete_info#:#Der Benutzer wird niemals zur Veröffentlichung seines Profils aufgefordert.
 user#:#user_prompt_once_after_login#:#Nach einer bestimmten Zeit nach dem ersten Login
