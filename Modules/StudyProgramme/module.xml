@@ -66,4 +66,7 @@
 	<mailtemplates>
 		<context id="prg_context_manual" class="ilStudyProgrammeMailTemplateContext" />
 	</mailtemplates>
+	<pluginslots>
+		<pluginslot id="prgtypehk" name="StudyProgrammeTypeHook" />
+	</pluginslots>
 </module>
