@@ -1310,13 +1310,18 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     protected function selectPostObject() : void
     {
+        $thr_pk = (int) $this->httpRequest->getQueryParams()['thr_pk'];
+        $pos_pk = (int) $this->httpRequest->getQueryParams()['pos_pk'];
+
         $this->selected_post_storage->set(
-            (int) $this->httpRequest->getQueryParams()['thr_pk'],
-            (int) $this->httpRequest->getQueryParams()['pos_pk']
+            $thr_pk,
+            $pos_pk
         );
-        $info = $this->getResetLimitedViewInfo();
+        if ($this->selectedSorting === ilForumProperties::VIEW_TREE && ($this->selected_post_storage->get($thr_pk) > 0)) {
+            $info = $this->getResetLimitedViewInfo();
+        }
         $mainContent = $this->viewThreadObject();
-        $this->tpl->setContent($info . $mainContent);
+        $this->tpl->setContent(($info ?? '') . $mainContent);
     }
 
     /**
