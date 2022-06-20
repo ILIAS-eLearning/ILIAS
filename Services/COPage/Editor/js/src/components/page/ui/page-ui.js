@@ -393,7 +393,8 @@ export default class PageUI {
       coverSelector = selector + "[data-copg-ed-type='media-cover']";
     }
 
-    // init add buttons
+
+    // init area clicks
     document.querySelectorAll(areaSelector).forEach(area => {
       area.addEventListener("click", (event) => {
         if (event.isDropDownToggleEvent === true ||
