@@ -45,8 +45,8 @@ class ilStudyProgrammeTypeGUI
     protected Renderer $renderer;
     protected Psr\Http\Message\ServerRequestInterface $request;
     protected Refinery\Factory $refinery_factory;
-    protected ilObjStudyProgrammeGUI $parent_gui;
-    protected array $installed_languages;
+    protected /*ilObjStudyProgrammeGUI|ilObjStudyProgrammeAdminGUI*/ $parent_gui;
+    protected ?array $installed_languages = null;
     protected Filesystem $web_dir;
     protected RequestWrapper $request_wrapper;
 
@@ -146,7 +146,7 @@ class ilStudyProgrammeTypeGUI
 
     protected function checkAccess() : void
     {
-        if (!$this->access->checkAccess("read", "", $this->parent_gui->object->getRefId())) {
+        if (!$this->access->checkAccess("read", "", $this->parent_gui->getObject()->getRefId())) {
             $this->tpl->setOnScreenMessage("failure", $this->lng->txt("permission_denied"), true);
             $this->ctrl->redirect($this->parent_gui);
         }
@@ -250,7 +250,7 @@ class ilStudyProgrammeTypeGUI
 
     protected function listTypes() : void
     {
-        if ($this->access->checkAccess("write", "", $this->parent_gui->object->getRefId())) {
+        if ($this->access->checkAccess("write", "", $this->parent_gui->getObject()->getRefId())) {
             $button = ilLinkButton::getInstance();
             $button->setCaption('prg_subtype_add');
             $button->setUrl($this->ctrl->getLinkTarget($this, 'add'));
@@ -259,7 +259,7 @@ class ilStudyProgrammeTypeGUI
         $table = new ilStudyProgrammeTypeTableGUI(
             $this,
             'listTypes',
-            $this->parent_gui->object->getRefId(),
+            $this->parent_gui->getObject()->getRefId(),
             $this->type_repository,
             $this->ctrl,
             $this->tabs,

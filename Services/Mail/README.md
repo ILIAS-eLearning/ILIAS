@@ -802,11 +802,7 @@ with your context id as value to this array.
 
 ## ilMassMailTaskProcessor
 
-Sending more then 1000 mails **at once** can lead that mails can be missing,
-because the responding API couldn't process all requests so fast.
-
-The `ilMassMailTaskProcessor` can be used to transfer these mails into
-background tasks, which can be used to relieve the API.
+The `ilMassMailTaskProcessor` SHOULD be used whenever similar mails have to be sent iteratively.
 
 ```php
 $processor = new ilMassMailTaskProcessor();

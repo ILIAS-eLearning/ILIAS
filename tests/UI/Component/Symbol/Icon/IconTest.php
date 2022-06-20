@@ -173,8 +173,6 @@ imgtag;
             $path = self::ICON_PATH . "icon_" . $icon_abr . ".svg";
             $this->assertTrue(file_exists($path), "Missing Standard Icon: " . $path);
         }
-        exit;
-
     }
     
     /**

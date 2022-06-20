@@ -54,16 +54,6 @@ export default class ModelActionHandler {
         this.model.setState(this.model.STATE_DRAG_DROP);
         break;
 
-      case "dnd.stopped":
-        // note: stopped is being called after drop
-        // in this case we do not want remove the STATE_SERVER_CMD state
-        if (this.model.getState() === this.model.STATE_DRAG_DROP) {
-          console.log("**** SETTING PAGE STATE");
-          console.log(this.model.getState());
-          this.model.setState(this.model.STATE_PAGE);
-        }
-        break;
-
       case "dnd.drop":
         this.model.setState(this.model.STATE_SERVER_CMD);
         break;
