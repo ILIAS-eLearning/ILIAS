@@ -212,6 +212,7 @@ class ilObjUser extends ilObject
             $this->setId($a_user_id);
             $this->read();
         } else {
+            $this->setId(ANONYMOUS_USER_ID);
             // TODO: all code in else-structure doesn't belongs in class user !!!
             //load default data
             $this->prefs = array();
@@ -5293,7 +5294,7 @@ class ilObjUser extends ilObject
      */
     public static function _isAnonymous($usr_id)
     {
-        return $usr_id == ANONYMOUS_USER_ID;
+        return $usr_id == ANONYMOUS_USER_ID || !$usr_id;
     }
     
     public function activateDeletionFlag()
