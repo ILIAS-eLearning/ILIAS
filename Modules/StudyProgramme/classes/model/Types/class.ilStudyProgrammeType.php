@@ -268,13 +268,13 @@ class ilStudyProgrammeType
 
         $trans_obj = $this->loadTranslation($lang);
         if (!is_null($trans_obj)) {
-            $translation = $trans_obj[$member];
+            $translation = $trans_obj[$member] ?? null;
             // If the translation does exist but is an empty string and there was no lang code given,
             // substitute default language anyway because an empty string provides no information
             if (!$lang_code && !$translation) {
                 $trans_obj = $this->loadTranslation($this->getDefaultLang());
 
-                return $trans_obj[$member];
+                return $trans_obj[$member] ?? null;
             }
 
             return $translation;
@@ -284,7 +284,7 @@ class ilStudyProgrammeType
         if (!$lang_code) {
             $trans_obj = $this->loadTranslation($this->getDefaultLang());
 
-            return $trans_obj[$member];
+            return $trans_obj[$member] ?? null;
         }
 
         return null;
