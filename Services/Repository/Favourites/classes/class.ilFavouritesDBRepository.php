@@ -121,12 +121,12 @@ class ilFavouritesDBRepository
                     $desc = ilObject::_lookupDescription($item_rec["obj_id"]);
                     $items[$parent_path . $title . $item_rec["ref_id"]] =
                         [
-                            "ref_id" => $item_rec["ref_id"],
-                            "obj_id" => $item_rec["obj_id"],
+                            "ref_id" => (int) $item_rec["ref_id"],
+                            "obj_id" => (int) $item_rec["obj_id"],
                             "type" => $item_rec["type"],
                             "title" => $title,
                             "description" => $desc,
-                            "parent_ref" => $parent_ref
+                            "parent_ref" => (int) $parent_ref
                         ];
                 }
             }
@@ -153,9 +153,11 @@ class ilFavouritesDBRepository
                     $desc = ilObject::_lookupDescription($item_rec["obj_id"]);
                     $items[$title . $a_type . $item_rec["ref_id"]] =
                         [
-                            "ref_id" => $item_rec["ref_id"],
-                            "obj_id" => $item_rec["obj_id"], "type" => $a_type,
-                            "title" => $title, "description" => $desc
+                            "ref_id" => (int) $item_rec["ref_id"],
+                            "obj_id" => (int) $item_rec["obj_id"],
+                            "type" => $a_type,
+                            "title" => $title,
+                            "description" => $desc
                         ];
                 }
             }
