@@ -73,7 +73,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
         switch ($entity) {
             case self::OBJ_TYPE:
                 foreach ($ids as $objId) {
-                    if (ilObject::_lookupType($objId) === self::OBJ_TYPE) {
+                    if (ilObject::_lookupType((int) $objId) === self::OBJ_TYPE) {
                         /** @var ilObjContentPage $obj */
                         $obj = ilObjectFactory::getInstanceByObjId((int) $objId);
 
