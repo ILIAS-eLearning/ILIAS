@@ -388,6 +388,7 @@ export default class PageUI {
         if (event.shiftKey || event.ctrlKey || event.metaKey) {
           area.dispatchEvent(new Event("areaCmdClick"));
         } else {
+          console.log("*** DISPATCH areaClick");
           area.dispatchEvent(new Event("areaClick"));
         }
       });
@@ -508,9 +509,7 @@ export default class PageUI {
 
     $(droppableSelector).droppable({
       drop: (event, ui) => {
-        ui.draggable.draggable( 'option', 'revert', false );
-
-
+        ui.draggable.draggable( 'option', 'revert', false);
 
         // @todo: remove legacy
         const target_id = event.target.id.substr(6);

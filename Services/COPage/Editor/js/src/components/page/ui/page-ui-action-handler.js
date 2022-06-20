@@ -146,6 +146,24 @@ export default class PageUIActionHandler {
         this.sendDropCommand(params);
         break;
 
+      case "dnd.stopped":
+        // note: stopped is being called after drop
+        // in this case we do not want remove the STATE_SERVER_CMD state
+        if (model.getState() === model.STATE_DRAG_DROP) {
+          //console.log("**** SETTING PAGE STATE");
+          //console.log(this.model.getState());
+          // we set a timeout to prevent click events
+          // on "drop", that would open the component edit views
+          const af = this.actionFactory;
+          const dispatch = this.dispatcher;
+          window.setTimeout(function() {
+            model.setState(model.STATE_PAGE);
+            dispatch.dispatch(af.page().editor().enablePageEditing());
+          },500);
+        }
+        break;
+
+
       case "multi.action":
         let type = params.type;
 
