@@ -160,7 +160,7 @@ class ilBuddySystemGUI
             $this->ctrl->returnToParent($this);
         }
 
-        $usrId = (int) $this->http->request()->getParsedBody()['user_id'];
+        $usrId = (int) $this->http->request()->getQueryParams()['user_id'];
         try {
             $relation = ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId($usrId);
 
