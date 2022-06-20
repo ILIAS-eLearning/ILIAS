@@ -350,10 +350,10 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
         // check whether notices and messages exist
         $got_notices = $got_messages = false;
         foreach ($this->data as $row) {
-            if ((int) $row["priority"] === 0) {
+            if ((int) ($row["priority"] ?? 0) === 0) {
                 $got_notices = true;
             }
-            if ((int) $row["priority"] === 1) {
+            if ((int) ($row["priority"] ?? 0) === 1) {
                 $got_messages = true;
             }
         }
