@@ -37,7 +37,7 @@ class ilObjectGUI
     const CFORM_NEW = 1;
     const CFORM_IMPORT = 2;
     const CFORM_CLONE = 3;
-    private \ILIAS\Notes\Service $notes_service;
+    protected \ILIAS\Notes\Service $notes_service;
 
     protected ServerRequestInterface $request;
     protected ilLocatorGUI $locator;
@@ -367,7 +367,6 @@ class ilObjectGUI
                 if ($this instanceof ilDesktopItemHandling) {
                     $lg->setContainerObject($this);
                 }
-                
                 // enable multi download
                 $lg->enableMultiDownload(true);
                 

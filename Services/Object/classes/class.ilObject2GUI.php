@@ -115,6 +115,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         $this->parent_id = $parent_node_id;
         $this->type = $this->getType();
         $this->html = "";
+        $this->notes_service = $DIC->notes();
 
         $this->requested_new_type = '';
         if ($this->request_wrapper->has("new_type")) {
