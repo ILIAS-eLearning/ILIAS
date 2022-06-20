@@ -805,7 +805,7 @@ class ilInfoScreenGUI
                 // section properties
                 foreach ($this->section[$i]["properties"] as $property) {
                     if ($property["name"] != "") {
-                        if ($property["link"] == "") {
+                        if (($property["link"] ?? "") == "") {
                             $tpl->setCurrentBlock("pv");
                             $tpl->setVariable("TXT_PROPERTY_VALUE", $property["value"]);
                         } else {
@@ -824,7 +824,7 @@ class ilInfoScreenGUI
                 }
 
                 // section header
-                if ($this->section[$i]["hidden"]) {
+                if ($this->section[$i]["hidden"] ?? false) {
                     $tpl->setVariable("SECTION_HIDDEN", " style=\"display:none;\"");
                     $tpl->setVariable("SECTION_ID", "hidable_" . $i);
                 } else {
