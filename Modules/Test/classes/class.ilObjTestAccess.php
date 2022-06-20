@@ -115,7 +115,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
                 array($user_id, $a_obj_id)
             );
             $row = $ilDB->fetchAssoc($result);
-            if ($row['active_id'] > 0) {
+            if ($row !== null && $row['active_id'] > 0) {
                 include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
                 assQuestion::_updateTestResultCache($row['active_id']);
             } else {
