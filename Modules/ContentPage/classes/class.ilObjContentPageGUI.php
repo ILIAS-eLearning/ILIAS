@@ -213,7 +213,13 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
         $this->addToNavigationHistory();
 
-        if (strtolower($nextClass) !== 'ilobjstylesheetgui') {
+        if (
+            strtolower($nextClass) !== 'ilobjstylesheetgui' &&
+            (
+                strtolower($cmd) !== strtolower(self::UI_CMD_EDIT) ||
+                strtolower($nextClass) !== strtolower(ilContentPagePageGUI::class)
+            )
+        ) {
             $this->renderHeaderActions();
         }
 
