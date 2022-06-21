@@ -34,6 +34,7 @@ class ilDashboardRecommendedContentGUI
     protected \ILIAS\DI\UIServices $ui;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
+    protected ilSetting $settings;
     protected ilFavouritesManager $fav_manager;
     protected ilObjectDefinition $objDefinition;
     protected int $requested_item_ref_id;
@@ -52,6 +53,7 @@ class ilDashboardRecommendedContentGUI
         $this->ui = $DIC->ui();
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
+        $this->settings = $DIC->settings();
 
         $this->lng->loadLanguageModule("rep");
 
@@ -118,13 +120,17 @@ class ilDashboardRecommendedContentGUI
 
     protected function getListItemForData(int $ref_id) : ?Item
     {
+        $short_desc = $this->settings->get("rep_shorten_description");
+        $short_desc_max_length = (int) $this->settings->get("rep_shorten_description_length");
         $ctrl = $this->ctrl;
-        $lng = $this->lng;
 
         $obj_id = ilObject::_lookupObjectId($ref_id);
         $type = ilObject::_lookupType($obj_id);
         $title = ilObject::_lookupTitle($obj_id);
         $desc = ilObject::_lookupDescription($obj_id);
+        if ($short_desc && $short_desc_max_length !== 0) {
+            $desc = ilStr::shortenTextExtended($desc, $short_desc_max_length, true);
+        }
         $item = [
             "ref_id" => $ref_id,
             "obj_id" => $obj_id,
