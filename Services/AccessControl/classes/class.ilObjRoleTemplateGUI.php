@@ -107,7 +107,7 @@ class ilObjRoleTemplateGUI extends ilObjectGUI
             if ($this->object->isInternalTemplate()) {
                 $title->setDisabled(true);
             }
-            $title->setValue($this->object->getTitle());
+            $title->setValue(ilObjRole::_getTranslation($this->object->getTitle()));
         }
         $title->setSize(40);
         $title->setMaxLength(70);
