@@ -1591,4 +1591,12 @@ while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 $ilDB->manipulateF('DELETE FROM desktop_item WHERE item_id = %s', ['integer'], [1]);
 $ilDB->manipulateF('DELETE FROM rep_rec_content_role WHERE ref_id = %s', ['integer'], [1]);
 ?>
-
+<#89>
+<?php
+if (!$ilDB->indexExistsByFields('qpl_questions', array('owner'))) {
+    $ilDB->addIndex('qpl_questions', array('owner'), 'i5');
+}
+if (!$ilDB->indexExistsByFields('qpl_num_range', array('question_fi'))) {
+    $ilDB->addIndex('qpl_num_range', array('question_fi'), 'i6');
+}
+?>
