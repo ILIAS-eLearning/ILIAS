@@ -10,12 +10,12 @@
 class ilDashboardRecommendedContentGUI
 {
     /**
-     * @var \ilObjUser
+     * @var ilObjUser
      */
     protected $user;
 
     /**
-     * @var \ilRecommendedContentManager
+     * @var ilRecommendedContentManager
      */
     protected $rec_manager;
 
@@ -36,14 +36,19 @@ class ilDashboardRecommendedContentGUI
     protected $ui;
 
     /**
-     * @var \ilLanguage
+     * @var ilLanguage
      */
     protected $lng;
 
     /**
-     * @var \ilCtrl
+     * @var ilCtrl
      */
     protected $ctrl;
+
+    /**
+     * @var ilSetting
+     */
+    protected $settings;
 
     /**
      * @var ilFavouritesManager
@@ -64,6 +69,7 @@ class ilDashboardRecommendedContentGUI
         $this->ui = $DIC->ui();
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
+        $this->settings = $DIC->settings();
 
         $this->lng->loadLanguageModule("rep");
 
@@ -143,13 +149,17 @@ class ilDashboardRecommendedContentGUI
      */
     protected function getListItemForData($ref_id) : \ILIAS\UI\Component\Item\Item
     {
+        $short_desc = $this->settings->get("rep_shorten_description");
+        $short_desc_max_length = $this->settings->get("rep_shorten_description_length");
         $ctrl = $this->ctrl;
-        $lng = $this->lng;
 
         $obj_id = ilObject::_lookupObjectId($ref_id);
         $type = ilObject::_lookupType($obj_id);
         $title = ilObject::_lookupTitle($obj_id);
         $desc = ilObject::_lookupDescription($obj_id);
+        if ($short_desc && $short_desc_max_length) {
+            $desc = ilUtil::shortenText($desc, $short_desc_max_length, true);
+        }
         $item = [
             "ref_id" => $ref_id,
             "obj_id" => $obj_id,
