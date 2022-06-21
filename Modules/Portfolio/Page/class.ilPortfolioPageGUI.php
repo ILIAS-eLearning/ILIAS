@@ -582,7 +582,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     protected function renderConsultationHoursTeaser(
         int $a_user_id,
         string $a_mode,
-        array $a_group_ids
+        ?array $a_group_ids = null
     ) : string {
         // not used
         // $user_id = $this->getPageContentUserId($a_user_id);
@@ -611,7 +611,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     protected function renderConsultationHours(
         int $a_user_id,
         string $a_mode,
-        array $a_group_ids
+        ?array $a_group_ids = null
     ) : string {
         $ilUser = $this->user;
 
