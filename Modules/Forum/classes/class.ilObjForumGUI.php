@@ -1317,11 +1317,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $thr_pk,
             $pos_pk
         );
-        if ($this->selectedSorting === ilForumProperties::VIEW_TREE && ($this->selected_post_storage->get($thr_pk) > 0)) {
-            $info = $this->getResetLimitedViewInfo();
-        }
-        $mainContent = $this->viewThreadObject();
-        $this->tpl->setContent(($info ?? '') . $mainContent);
+
+        $this->viewThreadObject();
     }
 
     /**
@@ -1748,7 +1745,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         );
         $this->tpl->setOnScreenMessage('info', $this->lng->txt('forums_post_was_activated'), true);
 
-        $this->tpl->setContent($this->viewThreadObject());
+        $this->viewThreadObject();
     }
 
     private function deletePostingObject() : void
@@ -1846,7 +1843,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt('frm_censorship_applied'));
             }
 
-            $this->tpl->setContent($this->viewThreadObject());
+            $this->viewThreadObject();
             return;
         }
 
@@ -1865,7 +1862,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->setDisplayConfirmPostActivation(true);
 
-        $this->tpl->setContent($this->viewThreadObject());
+        $this->viewThreadObject();
     }
 
     public function setDisplayConfirmPostActivation($status = 0) : void
@@ -1894,7 +1891,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('forums_notification_enabled'));
         }
 
-        $this->tpl->setContent($this->viewThreadObject());
+        $this->viewThreadObject();
     }
 
     protected function toggleStickinessObject() : void
@@ -1915,7 +1912,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->objCurrentTopic->makeSticky();
         }
 
-        $this->tpl->setContent($this->viewThreadObject());
+        $this->viewThreadObject();
     }
 
     public function cancelPostObject() : void
@@ -1934,7 +1931,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $draft->deleteDraftsByDraftIds([$draft_id]);
         }
 
-        $this->tpl->setContent($this->viewThreadObject());
+        $this->viewThreadObject();
     }
 
     public function cancelDraftObject() : void
@@ -1962,7 +1959,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $history_obj->deleteHistoryByDraftIds([$draft->getDraftId()]);
         }
         $this->ctrl->clearParameters($this);
-        $this->tpl->setContent($this->viewThreadObject());
+        $this->viewThreadObject();
     }
 
     public function getActivationFormHTML() : string
@@ -2327,7 +2324,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             );
             $this->ctrl->redirect($this, 'editDraft');
         } else {
-            $this->tpl->setContent($this->viewThreadObject());
+            $this->viewThreadObject();
         }
     }
 
@@ -2367,7 +2364,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         if (!$this->objCurrentPost->getId()) {
             $this->requestAction = '';
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_action_not_possible_parent_deleted'));
-            $this->tpl->setContent($this->viewThreadObject());
+            $this->viewThreadObject();
             return;
         }
 
@@ -2380,7 +2377,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $oReplyEditForm = $this->getReplyEditForm();
             if (!$oReplyEditForm->checkInput()) {
                 $oReplyEditForm->setValuesByPost();
-                $this->tpl->setContent($this->viewThreadObject());
+                $this->viewThreadObject();
                 return;
             }
             $post_subject = $oReplyEditForm->getInput('subject');
@@ -2532,7 +2529,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             if (!$this->objCurrentPost->getId()) {
                 $this->requestAction = '';
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_action_not_possible_parent_deleted'), true);
-                $this->tpl->setContent($this->viewThreadObject());
+                $this->viewThreadObject();
                 return;
             }
 
@@ -2770,7 +2767,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         } else {
             $this->requestAction = substr($this->requestAction, 6);
         }
-        $this->tpl->setContent($this->viewThreadObject());
+        $this->viewThreadObject();
     }
 
     private function hideToolbar($a_flag = null)
@@ -2799,7 +2796,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         if ($this->objCurrentTopic->isClosed()) {
             $this->requestAction = '';
-            $this->tpl->setContent($this->viewThreadObject());
+            $this->viewThreadObject();
             return;
         }
 
@@ -2815,7 +2812,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->requestAction = 'showreply';
 
-        $this->tpl->setContent($this->viewThreadObject());
+        $this->viewThreadObject();
     }
 
     public function getQuotationHTMLAsynchObject() : void
@@ -2905,7 +2902,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->ctrl->redirect($this, 'viewThread');
     }
 
-    public function viewThreadObject() : string
+    public function viewThreadObject() : void
     {
         $ref_id = $this->retrieveRefId();
         $thr_pk = $this->retrieveThrPk();
@@ -3344,7 +3341,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 			$elm.removeAttr("height");
 		});');
 
-        return $threadContentTemplate->get() . $this->getModalActions();
+        if ($this->selectedSorting === ilForumProperties::VIEW_TREE && ($this->selected_post_storage->get($thr_pk) > 0)) {
+            $info = $this->getResetLimitedViewInfo();
+        }
+
+        $this->tpl->setContent(($info ?? '') . $threadContentTemplate->get() . $this->getModalActions());
     }
 
     private function renderViewModeControl(int $currentViewMode) : void
@@ -4274,7 +4275,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
             $this->object->markPostUnread($this->user->getId(), $this->objCurrentPost->getId());
         }
-        $this->tpl->setContent($this->viewThreadObject());
+        $this->viewThreadObject();
     }
 
     protected function markPostReadObject() : void
@@ -5003,7 +5004,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             if (!$this->objCurrentPost->getId()) {
                 $this->requestAction = '';
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_action_not_possible_parent_deleted'), true);
-                $this->tpl->setContent($this->viewThreadObject());
+                $this->viewThreadObject();
                 return;
             }
 
@@ -5092,7 +5093,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $oReplyEditForm->setValuesByPost();
             $this->requestAction = substr($this->requestAction, 6);
         }
-        $this->tpl->setContent($this->viewThreadObject());
+        $this->viewThreadObject();
     }
 
     protected function editDraftObject() : void
@@ -5104,7 +5105,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             }
         }
 
-        $this->tpl->setContent($this->viewThreadObject());
+        $this->viewThreadObject();
     }
 
     public function updateDraftObject() : void
@@ -5126,7 +5127,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         if (!$this->objCurrentPost->getId()) {
             $this->requestAction = '';
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('frm_action_not_possible_parent_deleted'));
-            $this->tpl->setContent($this->viewThreadObject());
+            $this->viewThreadObject();
             return;
         }
 
@@ -5232,7 +5233,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->ctrl->setParameter($this, 'draft_id', $draft_id);
             $this->ctrl->setParameter($this, 'action', 'editdraft');
             $oReplyEditForm->setValuesByPost();
-            $this->tpl->setContent($this->viewThreadObject());
+            $this->viewThreadObject();
             return;
         }
         $this->ctrl->clearParameters($this);
