@@ -703,11 +703,11 @@ class ilCalendarUtil
 
     /**
      * Try to parse incoming value to date object
-     * @param mixed $a_value
+     * @param string|ilDateTime $a_value
      * @param int   $a_add_time
      * @return ilDateTime|ilDate
      */
-    public static function parseIncomingDate(string $a_value, bool $a_add_time = false) : ?ilDateTime
+    public static function parseIncomingDate($a_value, bool $a_add_time = false) : ?ilDateTime
     {
         // already datetime object?
         if (is_object($a_value) &&
