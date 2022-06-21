@@ -306,7 +306,7 @@ class ilSessionStatistics
                 if (in_array($item["end_context"], $separate_closed, true)) {
                     $closed_counter[$item["end_context"]]++;
                 } else {
-                    $closed_counter[0]++;
+                    $closed_counter[0] = ($closed_counter[0] ?? 0) + 1;
                 }
                 $events[$item["end_time"]][] = -1;
             }
