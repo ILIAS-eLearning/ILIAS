@@ -363,11 +363,16 @@ class ilStudyProgrammeDashboardViewGUI
         $title = $prg->getTitle();
         $link = $this->getDefaultTargetUrl((int) $prg->getRefId());
         $title_btn = $this->factory->button()->shy($title, $link);
+        $description = $prg->getLongDescription() ?? "";
+        $max = $this->setting->get("rep_shorten_description_length");
+        if ($this->setting->get("rep_shorten_description") && $max) {
+            $description = ilUtil::shortenText($description, $max, true);
+        }
 
         $icon = $this->factory->symbol()->icon()->standard('prg', $title, 'medium');
         return $this->factory->item()->standard($title_btn)
             ->withProperties(array_merge(...$properties))
-            ->withDescription($prg->getDescription() ?? "")
+            ->withDescription($description)
             ->withLeadIcon($icon)
         ;
     }
