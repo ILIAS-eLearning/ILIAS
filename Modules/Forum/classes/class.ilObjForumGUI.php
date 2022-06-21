@@ -115,7 +115,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->selected_post_storage->get($thr_pk) ?? 0,
                 $this->is_moderator
             );
-
+            $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
         } else {
             $this->selected_post_storage->set($this->objCurrentTopic->getId(), 0);
             $this->objCurrentPost = new ilForumPost(
