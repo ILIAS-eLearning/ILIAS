@@ -52,7 +52,7 @@ class GUIService
     }
 
     public function objectSettingsGUIForObjId(
-        int $selected_style_id,
+        ?int $selected_style_id,
         int $obj_id
     ) : ilObjectContentStyleSettingsGUI {
         return $this->internal->gui()->objectSettingsGUI(

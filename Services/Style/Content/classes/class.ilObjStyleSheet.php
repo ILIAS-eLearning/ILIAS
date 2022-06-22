@@ -633,7 +633,6 @@ class ilObjStyleSheet extends ilObject
     public static function writeOwner($obj_id, $style_id)
     {
         global $DIC;
-
         $ilDB = $DIC->database();
 
         $q = "UPDATE style_data SET owner_obj = " .
@@ -2658,7 +2657,7 @@ class ilObjStyleSheet extends ilObject
         $rgb = ilObjStyleSheet::_HLSToRGB($hls);
         
         foreach ($rgb as $k => $v) {
-            $rgb[$k] = str_pad(dechex($v), 2, "0", STR_PAD_LEFT);
+            $rgb[$k] = str_pad(dechex((int) $v), 2, "0", STR_PAD_LEFT);
         }
         
         return $rgb["r"] . $rgb["g"] . $rgb["b"];

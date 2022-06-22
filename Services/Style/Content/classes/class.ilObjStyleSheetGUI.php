@@ -128,7 +128,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 break;
 
             case "ilstylecharacteristicgui":
-                //$this->setTabs();
+                $this->setTabs();
                 $this->includeCSS();
                 $tabs->activateTab("sty_style_chars");
                 $gui = $this->gui_service->characteristic()->ilStyleCharacteristicGUI(
@@ -446,6 +446,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $newObj->setTitle($form->getInput("style_title"));
         $newObj->setDescription($form->getInput("style_description"));
         $newObj->update();
+        $this->object = $newObj;
 
         ilObjStyleSheet::_addMissingStyleClassesToStyle($newObj->getId());
 
@@ -489,6 +490,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $ctrl->returnToParent($this);
             }
         }
+        $this->object = new ilObjStyleSheet($new_id);
 
         return $new_id;
     }
@@ -541,6 +543,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 $this->ctrl->returnToParent($this);
             }
         }
+        $this->object = $newObj;
         return $newObj->getId();
     }
 
@@ -564,7 +567,6 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         $ilHelp = $this->help;
         $tabs = $this->gui_service->tabs();
         $ilHelp->setScreenIdComponent("sty");
-
         // back to upper context
         $tabs->setBackTarget(
             $lng->txt("back"),

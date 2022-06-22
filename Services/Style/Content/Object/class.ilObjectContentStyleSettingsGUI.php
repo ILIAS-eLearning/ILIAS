@@ -108,7 +108,6 @@ class ilObjectContentStyleSettingsGUI
         $mt = $this->gui->mainTemplate();
 
         $style_id = $this->current_style_id;
-
         /*
         if (ilObject::_lookupType($style_id) == "sty") {
             $page_gui->setStyleId($style_id);
@@ -211,6 +210,7 @@ class ilObjectContentStyleSettingsGUI
         );
         $style_id = $ctrl->forwardCommand($style_gui);
         if (in_array($cmd, ["save", "copyStyle", "importStyle", "confirmedDelete"])) {
+            $style_id = $style_gui->getObject()->getId();
             if ($cmd == "confirmedDelete") {
                 $style_id = 0;
             } else {

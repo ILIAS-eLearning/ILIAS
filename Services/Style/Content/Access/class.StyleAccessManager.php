@@ -50,6 +50,9 @@ class StyleAccessManager
     public function checkWrite() : bool
     {
         $rbacsystem = $this->rbacsystem;
+        if ($this->ref_id == 0) {
+            return true;
+        }
 
         return ($this->enable_write ||
             $rbacsystem->checkAccessOfUser(

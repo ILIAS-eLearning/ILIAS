@@ -156,7 +156,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 $this->setSettingsSubTabs("style");
                 $settings_gui = $this->content_style_gui
                     ->objectSettingsGUIForObjId(
-                        0,
+                        null,
                         $this->object->getId()
                     );
                 $this->ctrl->forwardCommand($settings_gui);
