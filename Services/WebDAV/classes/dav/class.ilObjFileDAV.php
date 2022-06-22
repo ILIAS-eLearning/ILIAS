@@ -228,7 +228,12 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
             $migration->migrate(new ilFileObjectToStorageDirectory($this->obj->getId(), $this->obj->getDirectory()));
         }
         
-        $size = (int) $this->request->getHeader("Content-Length")[0];
+        $size = (int) $this->request->getHeader('Content-Length')[0];
+        
+        if ($size === 0 && $this->request->hasHeader('X-Expected-Entity-Length')) {
+            $size = $this->request->getHeader('X-Expected-Entity-Length')[0];
+        }
+        
         if ($size > ilUtil::getUploadSizeLimitBytes()) {
             throw new Exception\Forbidden('File is too big');
         }
