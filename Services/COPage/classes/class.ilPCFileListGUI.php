@@ -24,7 +24,7 @@
  */
 class ilPCFileListGUI extends ilPageContentGUI
 {
-    protected int $requested_file_ref_id;
+    protected string $requested_file_ref_id;
     protected ilObjUser $user;
     protected ilTabsGUI $tabs;
     protected ilTree $tree;

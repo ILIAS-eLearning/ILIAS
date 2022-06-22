@@ -27,7 +27,10 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
 {
     protected ilSetting $settings;
     protected ilObjUser $user;
-    protected ilWorkspaceAccessHandler $handler;
+    /**
+     * @var ilWorkspaceAccessHandler|ilPortfolioAccessHandler
+     */
+    protected $handler;
     protected ?int $parent_node_id = null;
     protected array $filter;
     protected array $crs_ids;
@@ -38,7 +41,7 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
-        ilWorkspaceAccessHandler $a_handler,
+        $a_handler,
         int $a_parent_node_id = null,
         bool $a_load_data = false
     ) {
@@ -246,12 +249,11 @@ class ilWorkspaceShareTableGUI extends ilTable2GUI
                 if (!$user_data[$item["owner"]]["login"]) {
                     continue;
                 }
-                
                 $data[] = array(
                     "wsp_id" => $wsp_id,
                     "obj_id" => $item["obj_id"],
-                    "type" => $item["type"],
-                    "obj_type" => $lng->txt("wsp_type_" . $item["type"]),
+                    "type" => $item["type"] ?? "",
+                    "obj_type" => $lng->txt("wsp_type_" . ($item["type"] ?? "")),
                     "title" => $item["title"],
                     "owner_id" => $item["owner"],
                     "lastname" => $user_data[$item["owner"]]["lastname"],

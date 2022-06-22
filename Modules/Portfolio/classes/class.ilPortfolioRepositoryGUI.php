@@ -545,7 +545,7 @@ class ilPortfolioRepositoryGUI
         $ilCtrl->redirect($this, "show");
     }
 
-    protected function getWorkspaceAccess() : ilWorkspaceAccessHandler
+    protected function getWorkspaceAccess() : ilPortfolioAccessHandler
     {
         /** @var ilWorkspaceAccessHandler $wsp_access */
         $wsp_access = $this->access_handler;
