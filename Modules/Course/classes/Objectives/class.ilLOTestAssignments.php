@@ -45,7 +45,7 @@ class ilLOTestAssignments
 
     public static function getInstance(int $a_container_id) : self
     {
-        if (self::$instances[$a_container_id]) {
+        if (isset(self::$instances[$a_container_id])) {
             return self::$instances[$a_container_id];
         }
         return self::$instances[$a_container_id] = new self($a_container_id);

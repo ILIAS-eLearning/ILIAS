@@ -85,7 +85,7 @@ class ilLOSettings
 
     public static function getInstanceByObjId(int $a_obj_id) : self
     {
-        if (self::$instances[$a_obj_id]) {
+        if (isset(self::$instances[$a_obj_id])) {
             return self::$instances[$a_obj_id];
         }
         return self::$instances[$a_obj_id] = new ilLOSettings($a_obj_id);
