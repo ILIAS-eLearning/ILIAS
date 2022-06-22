@@ -369,7 +369,7 @@ class ilMailSearchGUI
             $tbl_contacts->addColumn($this->lng->txt('lastname'), 'lastname', '15%');
             if ($has_mail_addr) {
                 foreach ($result as $key => $val) {
-                    if ($val['email'] === '') {
+                    if (!isset($val['email']) || (string) $val['email'] === '') {
                         $result[$key]['email'] = '&nbsp;';
                     }
                 }
@@ -472,7 +472,7 @@ class ilMailSearchGUI
             $tbl_users->addColumn($this->lng->txt('lastname'), 'lastname', '15%');
             if ($has_mail_usr === true) {
                 foreach ($result as $key => $val) {
-                    if ($val['email'] === '') {
+                    if (!isset($val['email']) || (string) $val['email'] === '') {
                         $result[$key]['email'] = '&nbsp;';
                     }
                 }
