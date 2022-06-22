@@ -431,7 +431,7 @@ adve#:#adve_pe_general#:#General
 adve#:#adve_rte_settings#:#TinyMCE Editor
 adve#:#adve_text_content_features#:#Text Content Menu
 adve#:#adve_use_physical#:#Use b/i/u instead of str/emp/imp
-adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for strong, emphatic and important with physical attribute buttons b (bold), i (italic) and u (underline). Please note, that this may result in inconsistencies, if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
+adve#:#adve_use_physical_info#:#This setting replaces the semantic style class buttons for ‘strong’, ‘emphatic’ and ‘important’ with physical attribute buttons ‘b’ (bold), ‘i’ (italic) and ‘u’ (underline). Please note, that this may result in inconsistencies if the style editor is used and other physical attributes are assigned to the strong/emphatic/important style classes.
 adve#:#adve_use_tiny_mce#:#Enable TinyMCE for WYSIWYG Editing
 adve#:#char_selector_admin#:#Menu for Selecting Special Characters (Unicode) in Tests and Question Pools
 adve#:#char_selector_blocks#:#Available Special Character Sets (Unicode)
@@ -451,21 +451,21 @@ adve#:#char_selector_custom_items_info6b#:#Ranges are also possible in Unicode n
 adve#:#char_selector_disabled_admin#:#Ω-Button for Activating the Menu for Selecting Special Characters is displayed only if switched on
 adve#:#char_selector_disabled_info_admin#:#The menu for selecting special characters (Unicode) in tests and question pools is activated but the Ω-Button has to be switched on by users in their settings and or in individual tests or questions pools. Test Settings will override user settings.
 adve#:#char_selector_disabled_info_test#:#Regardless of a user's individual setting the special character selector is switched off for taking this test.
-adve#:#char_selector_disabled_info_user#:#In tests a menu for selecting special characters will be not displayed. However individual tests ‘force switch on’ the menu though your deactivated it here.
+adve#:#char_selector_disabled_info_user#:#A menu for selecting special characters will be not be displayed in tests. Individual tests, however, can override this setting and force the display of the special character menu.
 adve#:#char_selector_disabled_test#:#Special Character Selector is Off
 adve#:#char_selector_disabled_user#:#Disable Menu for Selecting Special Characters
 adve#:#char_selector_enabled_admin#:#Ω-Button for Activating the Menu for Selecting Special Characters is Displayed by Default
 adve#:#char_selector_enabled_info_admin#:#The menu for selecting special characters (Unicode) is activated in tests and question pools. It will present users with the selection of Unicode blocks composed below. Users can make individual settings in their personal settings and the setting can be switched on for individual tests or questions pools.
 adve#:#char_selector_enabled_info_test#:#Regardless of a user's individual setting the Ω-button for switching on the special character selector will be displayed in the test. Special characters can be entered.
-adve#:#char_selector_enabled_info_user#:#In tests a menu for selecting special characters will be displayed. However individual tests can prevent this setting from becoming effective and not display the special character menu despite your choice about activating it.
+adve#:#char_selector_enabled_info_user#:#A menu for selecting special characters will be displayed in tests. Individual tests can, however,  override this setting and prevent the display of the special character menu.
 adve#:#char_selector_enabled_test#:#Special Character Selector is On
 adve#:#char_selector_enabled_user#:#Enable Menu for Selecting Special Characters
 adve#:#char_selector_inactive_admin#:#Globally Deactivate the Menu for Selecting Special Characters
 adve#:#char_selector_inactive_info_admin#:#The menu for selecting special characters is deactivated for the whole system. Users cannot make individual settings in their personal settings nor can individual tests or questions pools switch on the setting.
 adve#:#char_selector_inherit_info_test#:#Depending on the settings made in the platforms' administration or those made by individual users in their settings the Ω-button is displayed in the test or not.
-adve#:#char_selector_inherit_info_user#:#The settings that were made by the administrator of the platform as a whole will be used.
+adve#:#char_selector_inherit_info_user#:#Use the standard global settings as set by the administrator of your platform.
 adve#:#char_selector_inherit_test#:#Settings made either Globally by Administrators or Individually by Users are Applied
-adve#:#char_selector_inherit_user#:#Use Standard-Settings
+adve#:#char_selector_inherit_user#:#Use Standard Settings
 adve#:#char_selector_menu_close#:#Close Special Character Selector###fau: testNav
 adve#:#char_selector_menu_open#:#Open Special Character Selector###fau: testNav
 adve#:#char_selector_msg_blocks_or_custom_needed#:#When you activate the selector, please choose a character block or enter a special selection!
@@ -2015,53 +2015,53 @@ auth#:#auth_cas_ldap_info#:#If enabled, the synchronization of user accounts and
 auth#:#auth_err_expired#:#Your session has been deactivated due to inactivity.
 auth#:#auth_err_invalid_user_account#:#Authentication failed due to an internal failure.
 auth#:#auth_err_ldap_exception#:#Authentication failed due to an internal authentication failure (LDAP).
-auth#:#auth_err_login_attempts_deactivation#:#The user account has been deactivated due wrong login attempts.
+auth#:#auth_err_login_attempts_deactivation#:#This user account has been deactivated due to too many incorrect login attempts.
 auth#:#auth_info_add#:#Choose this option if you have never registered to ILIAS. A new account will be created.
 auth#:#auth_info_migrate#:#If you have already an ILIAS account, enter username and password to migrate your personal data (mail, test results...).
 auth#:#auth_ldap_server_ds#:#LDAP-Server
 auth#:#auth_login_editor#:#Loginscreen Editor
-auth#:#auth_oidc#:#OpenId Connect
+auth#:#auth_oidc#:#OpenID Connect
 auth#:#auth_oidc_login_element_info#:#Login to ILIAS via OpenID Connect
-auth#:#auth_oidc_mapping_table#:#Zuordnung von ILIAS-Benutzerdaten zu OpenId Connect Attributen
-auth#:#auth_oidc_profile#:#Zuordnung der Profildaten
+auth#:#auth_oidc_mapping_table#:#Mapping ILIAS User Information to OpenID Connect Attributes
+auth#:#auth_oidc_profile#:#User Profile Mapping
 auth#:#auth_oidc_role_info#:#OpenID Connect Attribute::Value (e.g: "roles::employee").
-auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
-auth#:#auth_oidc_roles#:#Rollenzuordnung
-auth#:#auth_oidc_settings#:#Server-Einstellungen
-auth#:#auth_oidc_settings_activation#:#OpenID Connect aktivieren
+auth#:#auth_oidc_role_mapping_table#:#Mapping ILIAS Roles to OpenID Connect Attributes.
+auth#:#auth_oidc_roles#:#Role Assignment
+auth#:#auth_oidc_settings#:#Server Settings
+auth#:#auth_oidc_settings_activation#:#Enable OpenID Connect
 auth#:#auth_oidc_settings_additional_scopes#:#Additional Scopes
-auth#:#auth_oidc_settings_client_id#:#Client-ID
-auth#:#auth_oidc_settings_custom_session_duration#:#Sitzungsdauer
-auth#:#auth_oidc_settings_custom_session_duration_option#:#Eigene Sitzungsdauer
-auth#:#auth_oidc_settings_custom_session_duration_type#:#Einstellungen zur Sitzungsdauer
-auth#:#auth_oidc_settings_default_role#:#Rollenzuordnung
-auth#:#auth_oidc_settings_default_role_info#:#Bitte wählen Sie eine globale Rolle für neu anzulegende ILIAS-Benutzer
-auth#:#auth_oidc_settings_img#:#Bild
-auth#:#auth_oidc_settings_img_file_info#:#Laden Sie ein Bild hoch das auf der Anmeldeseite angezeigt werden soll. Das Bild verlinkt automatisch auf das OpenId Connect Anmeldeskript.
-auth#:#auth_oidc_settings_invalid_scopes#:#The following values are no valid Scopes: %s
-auth#:#auth_oidc_settings_le#:#Darstellung Anmeldeseite
-auth#:#auth_oidc_settings_login_option_default#:#Anmeldung nicht erzwingen
-auth#:#auth_oidc_settings_login_option_default_info#:#Eine Anmeldung beim OpenId Connect Server ist nicht notwendig, wenn bereits eine gültige Sitzung vorliegt.
-auth#:#auth_oidc_settings_login_option_enforce#:#Anmeldung erzwingen
-auth#:#auth_oidc_settings_login_option_enforce_info#:#Eine Anmeldung beim OpenId Connect Server ist in jedem Fall notwendig - auch wenn bereits eine gültige Sitzung vorliegt.
-auth#:#auth_oidc_settings_login_options#:#Anmeldeoptionen
-auth#:#auth_oidc_settings_logout_scope#:#Verhalten beim Abmelden
-auth#:#auth_oidc_settings_logout_scope_global#:#Global abmelden
-auth#:#auth_oidc_settings_logout_scope_global_info#:#Wenn aktiviert, wird beim Abmelden sowohl die OpenId Connect Sitzung als auch die ILIAS-Sitzung beendet.
-auth#:#auth_oidc_settings_logout_scope_local#:#nur bei ILIAS abmelden
-auth#:#auth_oidc_settings_logout_scope_local_info#:#Wenn aktiviert, wird beim Abmelden nur die ILIAS-Sitzung beendet.
-auth#:#auth_oidc_settings_provider#:#Provider-Url
-auth#:#auth_oidc_settings_secret#:#Client-Schlüssel
-auth#:#auth_oidc_settings_section_user_sync#:#Einstellungen zur Benutzersynchronisierung
-auth#:#auth_oidc_settings_session_duration#:#Dauer
-auth#:#auth_oidc_settings_title#:#OpenID Connect Authentifizierung konfigurieren
+auth#:#auth_oidc_settings_client_id#:#Client ID
+auth#:#auth_oidc_settings_custom_session_duration#:#Session Duration
+auth#:#auth_oidc_settings_custom_session_duration_option#:#Duration of Own Session
+auth#:#auth_oidc_settings_custom_session_duration_type#:#Session Duration Settings
+auth#:#auth_oidc_settings_default_role#:#Role Assignment
+auth#:#auth_oidc_settings_default_role_info#:#Please select a global role for the ILIAS user accounts that will be created for users who have authenticated themselves using OpenID Connect.
+auth#:#auth_oidc_settings_img#:#Image
+auth#:#auth_oidc_settings_img_file_info#:#Upload an image that you would like to have shown on the login page. The image will link automatically to the OpenID Connect login script.
+auth#:#auth_oidc_settings_invalid_scopes#:#The following values are not valid Scopes: %s
+auth#:#auth_oidc_settings_le#:#Visual Presentation of Login Page
+auth#:#auth_oidc_settings_login_option_default#:#Login Not Required
+auth#:#auth_oidc_settings_login_option_default_info#:#Users are not required to log in via the OpenID Connect server if a valid session is in progress.
+auth#:#auth_oidc_settings_login_option_enforce#:#Login Required
+auth#:#auth_oidc_settings_login_option_enforce_info#:#Users are always required to log in via the OpenId Connect Server – even if there is already a valid session in progress.
+auth#:#auth_oidc_settings_login_options#:#Login Options
+auth#:#auth_oidc_settings_logout_scope#:#Logout Options
+auth#:#auth_oidc_settings_logout_scope_global#:#Log Out Globally
+auth#:#auth_oidc_settings_logout_scope_global_info#:#When a users logs out, they end both their OpenID Connect session and their ILIAS session.
+auth#:#auth_oidc_settings_logout_scope_local#:#Log Out of ILIAS ONLY
+auth#:#auth_oidc_settings_logout_scope_local_info#:#When a user logs out, they only end their session in  ILIAS, not their OpenID Connect session.
+auth#:#auth_oidc_settings_provider#:#Provider Url
+auth#:#auth_oidc_settings_secret#:#Client Key
+auth#:#auth_oidc_settings_section_user_sync#:#User Synchronisation Settings
+auth#:#auth_oidc_settings_session_duration#:#Duration
+auth#:#auth_oidc_settings_title#:#Configure OpenID Connect Authentification
 auth#:#auth_oidc_settings_txt#:#Text
-auth#:#auth_oidc_settings_txt_val_info#:#Tragen Sie einen Text ein der auf der Anmeldeseite angezeigt werden soll. Der Text verlinkt automatisch auf das OpenId Connect Anmeldeskript.
-auth#:#auth_oidc_settings_user_attr#:#Attributname der Benutzerzugänge
-auth#:#auth_oidc_settings_user_sync#:#Automatische Synchronisierung
-auth#:#auth_oidc_settings_user_sync_info#:#Wenn aktiviert, wird für Benutzer, die sich erfolgreich gegen Open ID Connect authentifiziert haben aber kein ILIAS-Benutzerkonto besitzen, automatisch ein neues Benutzerkonto erzeugt.
-auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
-auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
+auth#:#auth_oidc_settings_txt_val_info#:#Enter a text that you would like to have shown on the login page. The text will link automatically to the OpenID Connect login script.
+auth#:#auth_oidc_settings_user_attr#:#Attribute name of user accounts
+auth#:#auth_oidc_settings_user_sync#:#Synchronise Automatically
+auth#:#auth_oidc_settings_user_sync_info#:#Users who do not have an ILIAS account, but have successfully authenticated themselves using OpenID Connect, will have an ILIAS account created for them automatically.
+auth#:#auth_oidc_update_field_info#:#Update Automatically
+auth#:#auth_oidc_update_role_info#:#Only Synchronise Automatically the First Time a User Logs In.
 auth#:#auth_oidconnect#:#OpenID Connect
 auth#:#auth_page_type_auth#:#Login Page
 auth#:#auth_saml#:#SAML
@@ -2097,7 +2097,7 @@ auth#:#auth_saml_username_claim#:#Attribute for Username
 auth#:#auth_saml_username_claim_info#:#Define the attribute ILIAS uses to generate the username which will be visible in ILIAS.
 auth#:#auth_sync#:#User Synchronisation
 auth#:#auth_sync_cas#:#Automatic generation of user accounts
-auth#:#auth_sync_cas_info#:#Creates automatically ILIAS user accounts, for users that successfully authenticated against CAS, without having an ILIAS account yet.
+auth#:#auth_sync_cas_info#:#Automatically create ILIAS user accounts for users who have successfully authenticated themselves using CAS, but do not yet have an ILIAS account.
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
 auth#:#err_auth_saml_failed#:#Authentication failed. Please contact your system administrator.
 auth#:#err_auth_saml_no_ilias_user#:#Authentication failed. Please contact your system administrator.
