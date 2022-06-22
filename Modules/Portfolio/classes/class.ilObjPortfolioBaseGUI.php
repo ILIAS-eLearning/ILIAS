@@ -542,8 +542,8 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         if (count($order) > 0) {
             foreach ($order as $k => $v) {
                 $page = $this->getPageInstance(ilUtil::stripSlashes($k));
-                if ($titles[$k]) {
-                    $new_title = $titles[$k];
+                if ($titles[$k] ?? "") {
+                    $new_title = $titles[$k] ?? "";
                     if ($page->getTitle() != $new_title) {
                         $title_changes[$page->getId()] = array("old" => $page->getTitle(), "new" => $new_title);
                         $page->setTitle($new_title);
