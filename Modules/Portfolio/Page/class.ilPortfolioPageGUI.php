@@ -829,7 +829,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                         $tpl->setVariable("OBJTV_ICON_URL", $objtv_icon);
                         $tpl->setVariable("OBJTV_ICON_ALT", $this->lng->txt("crs_objectives"));
                         
-                        if ($objtv["type"]) {
+                        if (isset($objtv["type"])) {
                             $tpl->setVariable(
                                 "LP_OBJTV_PROGRESS",
                                 ilContainerObjectiveGUI::buildObjectiveProgressBar(
