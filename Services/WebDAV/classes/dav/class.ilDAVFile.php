@@ -39,6 +39,7 @@ class ilDAVFile implements IFile
     protected RequestInterface $request;
     protected ilWebDAVObjFactory $dav_factory;
 
+    protected bool $needs_size_check = true;
     protected bool $versioning_enabled;
 
     public function __construct(
@@ -67,9 +68,31 @@ class ilDAVFile implements IFile
             throw new Forbidden("Permission denied. No write access for this file");
         }
         
-        $size = $this->request->getHeader("Content-Length")[0];
+        $size = 0;
+        
+        if ($this->request->hasHeader("Content-Length")) {
+            $size = (int) $this->request->getHeader("Content-Length")[0];
+        }
+        if ($size === 0 && $this->request->hasHeader('X-Expected-Entity-Length')) {
+            $size = (int) $this->request->getHeader('X-Expected-Entity-Length')[0];
+        }
+        
         if ($size > ilFileUtils::getUploadSizeLimitBytes()) {
             throw new Forbidden('File is too big');
+        }
+        
+        if ($this->needs_size_check && $this->getSize() === 0) {
+            $parent_ref_id = $this->repo_helper->getParentOfRefId($this->obj->getRefId());
+            $obj_id = $this->obj->getId();
+            $this->repo_helper->deleteObject($this->obj->getRefId());
+            $file_obj = new ilObjFile();
+            $file_obj->setTitle($this->getName());
+            $file_obj->setFileName($this->getName());
+            
+            $file_dav = $this->dav_factory->createDAVObject($file_obj, $parent_ref_id);
+            $file_dav->noSizeCheckNeeded();
+            $this->repo_helper->updateLocksAfterResettingObject($obj_id, $file_obj->getId());
+            return $file_dav->put($data);
         }
 
         $stream = Streams::ofResource($data);
@@ -133,6 +156,11 @@ class ilDAVFile implements IFile
         } catch (Error $e) {
             return -1;
         }
+    }
+    
+    public function noSizeCheckNeeded() : void
+    {
+        $this->needs_size_check = false;
     }
 
     public function setName($name) : void
