@@ -298,7 +298,14 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
                     $this->getObjType() . "_" . $a_set['perm']['operation']
                 ));
             } elseif (substr($a_set['perm']['operation'], 0, 6) == 'create') {
-                $this->tpl->setVariable('PERM_LONG', $this->lng->txt('rbac_' . $a_set['perm']['operation']));
+                if ($this->objDefinition->isPlugin(substr($a_set['perm']['operation'], 7))) {
+                    $this->tpl->setVariable('PERM_LONG', ilObjectPlugin::lookupTxtById(
+                        substr($a_set['perm']['operation'], 7),
+                        $this->getObjType() . "_" . $a_set['perm']['operation']
+                    ));
+                } else {
+                    $this->tpl->setVariable('PERM_LONG', $this->lng->txt('rbac_' . $a_set['perm']['operation']));
+                }
             } else {
                 $this->tpl->setVariable(
                     'PERM_LONG',
