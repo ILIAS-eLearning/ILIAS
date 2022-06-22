@@ -39,7 +39,7 @@ class ilPageObjectGUI
     public const PRINTING = "print";
     protected int $requested_ref_id;
     protected int $requested_pg_id;
-    protected int $requested_file_id;
+    protected string $requested_file_id;
     protected string $requested_transl;
     protected int $requested_old_nr;
     protected EditGUIRequest $request;
@@ -168,7 +168,7 @@ class ilPageObjectGUI
 
         $this->requested_old_nr = $this->request->getInt("old_nr");
         $this->requested_transl = $this->request->getString("transl");
-        $this->requested_file_id = $this->request->getInt("file_id");
+        $this->requested_file_id = $this->request->getString("file_id");
         $this->requested_ref_id = $this->request->getInt("ref_id");
         $this->requested_pg_id = $this->request->getInt("pg_id");
 

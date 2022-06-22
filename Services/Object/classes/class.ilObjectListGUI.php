@@ -3348,7 +3348,7 @@ class ilObjectListGUI
 
         $l = [];
         foreach ($this->determineProperties() as $p) {
-            if ($p["alert"] && $p['property'] !== $this->lng->txt('learning_progress')) {
+            if (($p["alert"] ?? false) && $p['property'] !== $this->lng->txt('learning_progress')) {
                 $l[(string) $p['property']] = (string) $p['value'];
             }
         }
