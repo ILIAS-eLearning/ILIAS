@@ -25,13 +25,13 @@ abstract class ilObjPortfolioBase extends ilObject2
 {
     protected \ILIAS\Notes\Service $notes;
     protected ilSetting $setting;
-    protected bool $online;
-    protected bool $comments;
-    protected string $bg_color;
-    protected string $font_color;
-    protected string $img;
-    protected string $ppic;
-    protected bool $style;
+    protected bool $online = false;
+    protected bool $comments = false;
+    protected string $bg_color = "";
+    protected string $font_color = "";
+    protected string $img = "";
+    protected string $ppic = "";
+    protected bool $style = false;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
     public function __construct(
