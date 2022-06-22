@@ -3451,7 +3451,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $user_id = $ilUser->getId();
         }
         $tst_access_code = ilSession::get('tst_access_code');
-        if (($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) && (strlen($tst_access_code[$this->getTestId()]))) {
+        if (($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) && $tst_access_code !== null && (strlen($tst_access_code[$this->getTestId()]))) {
             $result = $ilDB->queryF(
                 "SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
                 array('integer','integer','text'),
