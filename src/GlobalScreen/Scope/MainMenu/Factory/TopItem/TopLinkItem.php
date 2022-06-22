@@ -9,12 +9,13 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isInterchangeableItemTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isChild;
 
 /**
  * Class TopLinkItem
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTopItem, hasSymbol, isInterchangeableItem
+class TopLinkItem extends AbstractChildItem implements hasTitle, hasAction, isTopItem, hasSymbol, isInterchangeableItem, isChild
 {
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
