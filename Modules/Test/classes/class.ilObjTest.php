@@ -1607,8 +1607,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             );
         }
         $index = 1;
-        while ($data = $ilDB->fetchAssoc($result)) {
-            $this->questions[$index++] = $data["question_fi"];
+        if($this->test_id !== -1) {
+            //Omit loading of questions for non-id'ed test
+            while ($data = $ilDB->fetchAssoc($result)) {
+                $this->questions[$index++] = $data["question_fi"];
+            }
         }
     }
 
