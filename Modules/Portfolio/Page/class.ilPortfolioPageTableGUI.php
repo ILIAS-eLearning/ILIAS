@@ -25,7 +25,7 @@ class ilPortfolioPageTableGUI extends ilTable2GUI
 {
     protected array $blogs;
     protected ilObjUser $user;
-    protected ilObjPortfolio $portfolio;
+    protected ilObjPortfolioBase $portfolio;
     protected bool $is_template;
     protected string $page_gui;
     

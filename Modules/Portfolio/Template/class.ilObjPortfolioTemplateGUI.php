@@ -401,7 +401,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         if (!$a_portfolio_id && $this->object) {
             $a_portfolio_id = $this->object->getId();
         }
-        $page = new ilPortfolioTemplatePage($a_page_id);
+        $page = new ilPortfolioTemplatePage((int) $a_page_id);
         $page->setPortfolioId($a_portfolio_id);
         return $page;
     }

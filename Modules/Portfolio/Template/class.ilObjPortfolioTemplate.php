@@ -35,7 +35,7 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
     {
         parent::doRead();
         
-        if ($this->ref_id) {
+        if (($this->ref_id ?? 0) > 0) {
             $activation = ilObjectActivation::getItem($this->ref_id);
             switch ($activation["timing_type"]) {
                 case ilObjectActivation::TIMINGS_ACTIVATION:
@@ -112,7 +112,7 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
     protected function updateActivation() : void
     {
         // moved activation to ilObjectActivation
-        if ($this->ref_id) {
+        if (($this->ref_id ?? 0) > 0) {
             ilObjectActivation::getItem($this->ref_id);
             
             $item = new ilObjectActivation();
