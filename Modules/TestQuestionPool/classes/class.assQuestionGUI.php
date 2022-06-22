@@ -403,7 +403,7 @@ abstract class assQuestionGUI
     /**
      * Creates a question gui representation and returns the alias to the question gui
      */
-    public static function _getQuestionGUI(string $question_type = '', int $question_id = -1) : assQuestionGUI
+    public static function _getQuestionGUI(string $question_type = '', int $question_id = -1) : ?assQuestionGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -412,6 +412,8 @@ abstract class assQuestionGUI
 
         if (($question_type === '') && ($question_id > 0)) {
             $question_type = assQuestion::getQuestionTypeFromDb($question_id);
+        } else {
+            return null;
         }
         
         if ($question_type === '') {
