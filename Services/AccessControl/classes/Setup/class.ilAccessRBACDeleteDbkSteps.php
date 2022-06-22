@@ -30,65 +30,53 @@ class ilAccessRBACDeleteDbkSteps implements ilDatabaseUpdateSteps
 
     public function step_1() : void
     {
-        //Find the obj_id of the digibook type
+        //Delete all entries with type digibook from rbac_ta
         $sql =
-            "SELECT obj_id FROM object_data " .
+            "DELETE FROM rbac_ta " .
+            "WHERE typ_id IN (" .
+                "SELECT obj_id FROM object_data " .
+                "WHERE type = 'typ' " .
+                "AND title = 'dbk'" .
+            ")";
+
+        $this->db->manipulate($sql);
+
+        //Delete the entry of the digibook type from object_data
+        $sql =
+            "DELETE FROM object_data " .
             "WHERE type = 'typ' " .
             "AND title = 'dbk'";
 
-        $res = $this->db->query($sql);
-
-        while ($row = $this->db->fetchAssoc($res)) {
-            $obj_id = (int) $row['obj_id'];
-
-            //Delete every row with that typ_id from the rbac tables
-            $sql =
-                "DELETE FROM rbac_ta " .
-                "WHERE typ_id = " . $this->db->quote($obj_id, "integer");
-
-            $this->db->manipulate($sql);
-
-            //Delete the original row from object_data
-            $sql =
-                "DELETE FROM object_data " .
-                "WHERE obj_id = " . $this->db->quote($obj_id, "integer");
-
-            $this->db->manipulate($sql);
-        }
+        $this->db->manipulate($sql);
     }
 
     public function step_2() : void
     {
-        //Find the ops_id of digibook operations
+        //Delete every row with the ops_id of the digibook create operation from the rbac tables
         $sql =
-            "SELECT ops_id FROM rbac_operations " .
-            "WHERE operation = 'create_dbk' ";
+            "DELETE FROM rbac_ta " .
+            "WHERE ops_id IN (" .
+                "SELECT ops_id FROM rbac_operations " .
+                "WHERE operation = 'create_dbk'" .
+            ")";
 
-        $res = $this->db->query($sql);
+        $this->db->manipulate($sql);
 
-        while ($row = $this->db->fetchAssoc($res)) {
-            $ops_id = (int) $row['ops_id'];
+        $sql =
+            "DELETE FROM rbac_templates " .
+            "WHERE ops_id IN (" .
+                "SELECT ops_id FROM rbac_operations " .
+                "WHERE operation = 'create_dbk'" .
+            ")";
 
-            //Delete every row with that ops_id from the rbac tables
-            $sql =
-                "DELETE FROM rbac_ta " .
-                "WHERE ops_id = " . $this->db->quote($ops_id, "integer");
+        $this->db->manipulate($sql);
 
-            $this->db->manipulate($sql);
+        //Delete the operation from rbac_operations
+        $sql =
+            "DELETE FROM rbac_operations " .
+            "WHERE operation = 'create_dbk'";
 
-            $sql =
-                "DELETE FROM rbac_templates " .
-                "WHERE ops_id = " . $this->db->quote($ops_id, "integer");
-
-            $this->db->manipulate($sql);
-
-            //Delete the original row from rbac_operations
-            $sql =
-                "DELETE FROM rbac_operations " .
-                "WHERE ops_id = " . $this->db->quote($ops_id, "integer");
-
-            $this->db->manipulate($sql);
-        }
+        $this->db->manipulate($sql);
     }
 
     public function step_3() : void
