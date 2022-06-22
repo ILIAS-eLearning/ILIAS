@@ -19,7 +19,7 @@
 *
 * @module		language file English
 * @modulegroup	language
-* @author 		Matthias Kunkel <mkunkel@me.com>
+* @author 		Matthias Kunkel <mkunkel@me.com>, Chris Potter <chris.potter@ilias.de>
 * @version		$Id$
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
@@ -37,30 +37,30 @@ acc#:#acc_comp_global#:#Global
 acc#:#acc_comp_mail#:#Mail
 acc#:#acc_component#:#Component
 acc#:#acc_crit_type_usr_language#:#Profile Language
-acc#:#acc_criterion_assignment_must_be_unique_insert#:#You cannot attach this criterion with this value. There is already an identical criterion attached.
-acc#:#acc_criterion_assignment_must_be_unique_update#:#You cannot change the criterion as desired. There is already an identical criterion attached.
-acc#:#acc_ctrl_cpt_txt#:#Accessibility Control Concept
+acc#:#acc_criterion_assignment_must_be_unique_insert#:#It is not possible to set the language you have selected as the criterion for displaying this document, as it has already been set as the criterion for displaying a different Accessibility document.
+acc#:#acc_criterion_assignment_must_be_unique_update#:#It is not possible to change the criterion for displaying this document to the language you have selected. That language is being used as the criterion for displaying a different Accessibility document.
+acc#:#acc_ctrl_cpt_txt#:#Accessibility Documents
 acc#:#acc_dashboard#:#Dashboard
 acc#:#acc_delete#:#Delete
 acc#:#acc_deleted_documents_p#:#The documents have been deleted.
 acc#:#acc_deleted_documents_s#:#The document has been deleted.
-acc#:#acc_doc_crit_attached#:#The criterion has been attached.
-acc#:#acc_doc_crit_changed#:#The criterion has been changed.
-acc#:#acc_doc_crit_detached#:#The criterion has been detached.
+acc#:#acc_doc_crit_attached#:#The criterion for displaying this Accessibility document has been set successfully.
+acc#:#acc_doc_crit_changed#:#The criterion for displaying this Accessibility document has been changed.
+acc#:#acc_doc_crit_detached#:#The criterion for displaying this Accessibility document has been removed.
 acc#:#acc_doc_delete#:#Delete Document
-acc#:#acc_doc_detach_crit_confirm_title#:#Detach Criterion
-acc#:#acc_doc_sure_detach_crit#:#Are your sure you want to detach the criterion?
+acc#:#acc_doc_detach_crit_confirm_title#:#Remove Language Criterion
+acc#:#acc_doc_sure_detach_crit#:#Are you sure that you no longer want this language to be the criterion for displaying this Accessibility document?
 acc#:#acc_document#:#Document
-acc#:#acc_form_attach_criterion_head#:#Attach Criterion
+acc#:#acc_form_attach_criterion_head#:#Select Language Criterion for Displaying Accessibility Info Document
 acc#:#acc_form_criterion#:#Criterion
 acc#:#acc_form_document#:#Document
-acc#:#acc_form_document_content_changed#:#The contents of the uploaded file was purified by ILIAS. Please check the result and upload a new file, if necessary.
-acc#:#acc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used.
+acc#:#acc_form_document_content_changed#:#The uploaded file has had its html <head> information removed by ILIAS. Please check the result and upload a new file if necessary.
+acc#:#acc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will have their <head> information removed – only the contents of the body element will be used.
 acc#:#acc_form_document_new#:#Change Content
-acc#:#acc_form_document_new_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will be purified, only the contents of the body element will be used. The existing contents will be replaced.
+acc#:#acc_form_document_new_info#:#Here you can select a file from your local filesystem to change the contents of this Accessibility document. You can either upload a plain text file, or a simple HTML file. HTML files will have their <head> information removed - only the contents of the body element will be used. The existing contents of the Accessibility document will be replaced. The document’s acceptance history will not be affected.
 acc#:#acc_form_document_title#:#Title
 acc#:#acc_form_document_title_info#:#Please enter a title for the document.
-acc#:#acc_form_edit_criterion_head#:#Edit Criterion Assignment
+acc#:#acc_form_edit_criterion_head#:#Edit Language Criterion
 acc#:#acc_form_edit_doc_head#:#Edit Document
 acc#:#acc_form_new_doc_head#:#Create Document
 acc#:#acc_forward_mail#:#Forward Mail
@@ -70,32 +70,32 @@ acc#:#acc_mark_all_read#:#Mark All Read
 acc#:#acc_next#:#Next
 acc#:#acc_previous#:#Previous
 acc#:#acc_reply#:#Reply
-acc#:#acc_saved_sorting#:#The sorting has been saved.
+acc#:#acc_saved_sorting#:#The new order has been saved.
 acc#:#acc_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
-acc#:#acc_sure_delete_documents_s#:#Are you sure you want to delete the document?
+acc#:#acc_sure_delete_documents_s#:#Are you sure you want to delete this document?
 acc#:#acc_tbl_docs_action_add_criterion#:#Add Criterion
-acc#:#acc_tbl_docs_cell_not_criterion#:#No criterion assigned
+acc#:#acc_tbl_docs_cell_not_criterion#:#No language criterion assigned
 acc#:#acc_tbl_docs_head_created#:#Creation Date
-acc#:#acc_tbl_docs_head_criteria#:#Criteria
+acc#:#acc_tbl_docs_head_criteria#:#Criterion
 acc#:#acc_tbl_docs_head_last_change#:#Last Change
-acc#:#acc_tbl_docs_head_sorting#:#Sorting
+acc#:#acc_tbl_docs_head_sorting#:#Order
 acc#:#acc_tbl_docs_head_title#:#Title
 acc#:#acc_tbl_docs_title#:#Documents
 acc#:#acc_tree_off#:#Tree Off
 acc#:#acc_tree_on#:#Tree On
-adm#:#adm_acc_ctrl_cpt_desc#:#If activated, the link for the Accessibility Control Concept shows up in the Footer.
-adm#:#adm_acc_ctrl_cpt_enable#:#Enable Accessibility Control Concept
-adm#:#adm_accessibility_contacts#:#Accessibility Point of Contact
-adm#:#adm_accessibility_contacts_info#:#Contacts for reporting accessibility issues in the footer link. Comma separated list of account logins.
-adm#:#adm_awrn_support_contacts_info#:#All technical support contacts are listed. Users are defined as technical support contacts in the section "General Settings" > "Contact Information".
+adm#:#adm_acc_ctrl_cpt_desc#:#Display the link to your Accessibility document in the footer of your installation.
+adm#:#adm_acc_ctrl_cpt_enable#:#Accessibility Link in Footer
+adm#:#adm_accessibility_contacts#:#Contact Point for Accessibility Issues
+adm#:#adm_accessibility_contacts_info#:#Contacts for the ‘Report Accessibility Issue’ link in your installation’s footer. Comma-separated list of account usernames (logins).
+adm#:#adm_awrn_support_contacts_info#:#All users assigned as contacts for technical support are listed. Users can be assigned the role of technical support contact in the section "General Settings" > "Contact Information".
 adm#:#adm_support_contacts#:#Technical Support
-adm#:#adm_support_contacts_info#:#Support contacts used in the footer link and (if activated) in the ‘Who is online?’-Tool. Comma separated list of account logins.
+adm#:#adm_support_contacts_info#:#Technical support contacts accessible via link in footer and (if activated) in the ‘Who is online?’ Tool. Comma-separated list of account usernames (logins).
 administration#:#adm_achievements#:#Achievements
-administration#:#adm_activate_db_benchmark#:#Activate Benchmark
+administration#:#adm_activate_db_benchmark#:#Activate Benchmarking
 administration#:#adm_activate_db_benchmark_desc#:#Benchmarking will be automatically disabled after one request.
 administration#:#adm_add_settings_template#:#Add Template
 administration#:#adm_adm_role_protect#:#Protect Administrator Role
-administration#:#adm_adm_role_protect_info#:#If enabled, only administrator are allowed to de/assign users from/to the administrator role.
+administration#:#adm_adm_role_protect_info#:#Only allow administrators to assign or remove users from the role of administrator.
 administration#:#adm_auth_login#:#Authentication Login
 administration#:#adm_auth_reg#:#Authentication Registration
 administration#:#adm_communication#:#Communication
@@ -105,7 +105,7 @@ administration#:#adm_db_bench_slowest_first#:#Slowest First
 administration#:#adm_db_bench_sorted_by_sql#:#Sorted by SQL
 administration#:#adm_db_benchmark#:#DB Benchmark
 administration#:#adm_db_benchmark_user#:#User Account Name
-administration#:#adm_db_benchmark_user_desc#:#Only measurements for this user will be made.
+administration#:#adm_db_benchmark_user_desc#:#Measurements will be made for this user only. The username entered should not belong to the user initiating the benchmarking.
 administration#:#adm_edit_settings_template#:#Edit Template
 administration#:#adm_extending_ilias#:#Extending ILIAS
 administration#:#adm_external_setting_edit#:#Edit Settings
@@ -149,20 +149,20 @@ administration#:#adm_table#:#Table
 administration#:#adm_time#:#Time
 administration#:#adm_user_administration#:#Users and Roles
 administration#:#adm_user_starting_point#:#Personal Starting Point
-administration#:#adm_user_starting_point_info#:#Select page or object which is shown after login.
-administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings
-administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.
+administration#:#adm_user_starting_point_info#:#Select the page or object which is to be shown after login.
+administration#:#adm_user_starting_point_inherit#:#Use Standard Settings
+administration#:#adm_user_starting_point_inherit_info#:#Use the standard global settings as set by the administrator of your platform.
 administration#:#adm_user_starting_point_invalid_info#:#This feature is currently not active.
 administration#:#adm_user_starting_point_object#:#Repository Object
 administration#:#adm_user_starting_point_personal#:#Personal Setting
-administration#:#adm_user_starting_point_personal_info#:#If activated users may select their starting page.
-administration#:#adm_user_starting_point_ref_id#:#Reference-Id
-administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as Personal Starting Point. Please copy the number directly following "ref_id=" in the browser bar into the text input field.
+administration#:#adm_user_starting_point_personal_info#:#Users may select their own starting page.
+administration#:#adm_user_starting_point_ref_id#:#Reference ID
+administration#:#adm_user_starting_point_ref_id_info#:#Open the object that you would like to use as your Personal Starting Point and copy the number directly following "ref_id=" in the browser bar into the text input field above.
 administration#:#adm_value#:#Predefined Value
 administration#:#allow_change_loginname#:#Permit Change of Login Names in ‘Personal Data’
 administration#:#analysis_options#:#Analysis options
-administration#:#analyze_data#:#Analyze and repair data integrity
-administration#:#analyzing_tree_structure#:#Analyzing tree structure...
+administration#:#analyze_data#:#Analyse and repair data integrity
+administration#:#analyzing_tree_structure#:#Analysing tree structure…
 administration#:#apache_auth_authenticate_on_login_page#:#Try Apache authentication when entering the login page
 administration#:#apache_auth_domains#:#Allowed Redirection Domains
 administration#:#apache_auth_domains_description#:#Enter one domain per line to allow redirection to this target.<br/>If ILIAS is reachable by more than one domain please enter all target you want to allow.<br />Example: example.com allows the redirection to http://example.com and http://www.example.com and all pages located there.
@@ -284,9 +284,9 @@ administration#:#language_variables_saved#:#The changes to the language variable
 administration#:#log_scan#:#Log scan results
 administration#:#log_scan_desc#:#Write scan results to ‘scanlog.log’ in client data directory.
 administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names
-administration#:#loginname_change_blocking_time_info#:#Insert a period in days that a user has to wait before changing again its login name. If you enter 0, user can change login names anytime.
+administration#:#loginname_change_blocking_time_info#:#Enter a number days that a user has to wait before being allowed to re-change their username (login ID). Set to 0 to allow users to change their usernames as often as they want.
 administration#:#loginname_change_blocking_time_invalidity_info#:#Please insert a numeric value.
-administration#:#loginname_history_info#:#If activated, login name changes will be logged in database. This history is accessible in the database table ‘loginname_history’.
+administration#:#loginname_history_info#:#Record username (login ID) changes in the database. This history is accessible in the database table ‘loginname_history’.
 administration#:#nothing_to_purge#:#Nothing to purge...
 administration#:#nothing_to_remove#:#Nothing to remove...
 administration#:#nothing_to_restore#:#Nothing to restore...
@@ -334,7 +334,7 @@ administration#:#restoring_missing_objs#:#Restoring missing objects...
 administration#:#restoring_trash#:#Restoring trash...
 administration#:#restoring_unbound_objs#:#Restoring unbound objects and sub-objects...
 administration#:#reuse_of_loginnames_contained_in_history#:#Reuse of Login Names
-administration#:#reuse_of_loginnames_contained_in_history_info#:#If activated, it is allowed to reuse any login name that is already saved in the history (even if it belongs to a deleted user).
+administration#:#reuse_of_loginnames_contained_in_history_info#:#Allow users to reuse any login name (not currently in use) that already appears in the history (even if it belongs to a deleted user).
 administration#:#scan#:#Scan
 administration#:#scan_desc#:#Scan system for corrupted/invalid/missing/unbound objects.
 administration#:#scan_details#:#Scan details
