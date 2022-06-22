@@ -10464,9 +10464,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      *
      * @return boolean
      */
-    public function isOfferingQuestionHintsEnabled() : ?bool
+    public function isOfferingQuestionHintsEnabled() : bool
     {
-        return $this->offeringQuestionHintsEnabled;
+        return $this->offeringQuestionHintsEnabled ?: false;
     }
 
     /**
