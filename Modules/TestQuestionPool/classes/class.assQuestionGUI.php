@@ -412,12 +412,11 @@ abstract class assQuestionGUI
 
         if (($question_type === '') && ($question_id > 0)) {
             $question_type = assQuestion::getQuestionTypeFromDb($question_id);
-        } else {
-            return null;
         }
         
         if ($question_type === '') {
-            throw new ilTestQuestionPoolInvalidArgumentException('No question type given or determined by question_id');
+            return null;
+//            throw new ilTestQuestionPoolInvalidArgumentException('No question type given or determined by question_id');
         }
 
         assQuestion::_includeClass($question_type, 1);
