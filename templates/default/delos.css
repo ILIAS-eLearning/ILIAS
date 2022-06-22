@@ -10427,10 +10427,6 @@ footer {
     padding-top: 30px;
   }
 }
-.il-layout-page-content > div {
-  display: grid;
-  grid-template-rows: auto 1fr;
-}
 .il-mode-info span.il-mode-info-content {
   margin: auto;
   background-color: #B54F00;
