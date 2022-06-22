@@ -955,7 +955,7 @@ s     */
                 // the page object is provided for ilPageComponentPlugin
                 ilPCPlugged::handleCopiedPluggedContent($this, $dom);
             } else {
-                $cl::handleCopiedContent($a_dom, $a_self_ass, $a_clone_mobs, $new_parent_id, $obj_copy_id);
+                $cl::handleCopiedContent($dom, $a_self_ass, $a_clone_mobs, $new_parent_id, $obj_copy_id);
             }
         }
     }

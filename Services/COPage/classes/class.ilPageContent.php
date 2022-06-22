@@ -225,18 +225,18 @@ abstract class ilPageContent
     /**
      * Check whether Hier ID $a is greater than Hier ID $b
      */
-    public static function isGreaterHierId(string $a, string $b) : bool
+    public static function isGreaterHierId(string $a, string $b) : int
     {
         $a_arr = explode("_", $a);
         $b_arr = explode("_", $b);
         for ($i = 0; $i < count($a_arr); $i++) {
             if ((int) $a_arr[$i] > (int) $b_arr[$i]) {
-                return true;
+                return +1;
             } elseif ((int) $a_arr[$i] < (int) $b_arr[$i]) {
-                return false;
+                return -1;
             }
         }
-        return false;
+        return 0;
     }
 
     /**

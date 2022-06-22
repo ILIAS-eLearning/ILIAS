@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-use ILIAS\Style\Content;
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -17,6 +15,8 @@ use ILIAS\Style\Content;
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
+
+use ILIAS\Style\Content;
 
 /**
  * Style Import Parser
