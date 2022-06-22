@@ -595,8 +595,9 @@ assessment#:#autosave_success#:#Autosave successful...
 assessment#:#autosavecontent#:#Autosave Content
 assessment#:#average_reached_points#:#Average Points
 assessment#:#back_to_objective_container#:#Go to Course
-assessment#:#backtocallingpage#:#Back to the calling page
-assessment#:#backtocallingtest#:#Back to the calling test
+assessment#:#backtocallingpage#:#Back to the question page
+assessment#:#backtocallingpool#:#Back to the question pool
+assessment#:#backtocallingtest#:#Back to the test
 assessment#:#baseunit#:#Base Unit
 assessment#:#button_request_next_question_hint#:#Request Next Hint
 assessment#:#button_request_question_hint#:#Request Hint

@@ -598,8 +598,9 @@ assessment#:#autosave_success#:#Automatisches Speichern erfolgreich durchgeführ
 assessment#:#autosavecontent#:#Inhalt Autosave
 assessment#:#average_reached_points#:#Durchschnittlich erreichte Punktezahl
 assessment#:#back_to_objective_container#:#Zurück zum Kurs
-assessment#:#backtocallingpage#:#Zurück zur aufrufenden Page
-assessment#:#backtocallingtest#:#Zurück zum aufrufenden Test
+assessment#:#backtocallingpage#:#Zurück zur Fragenseite
+assessment#:#backtocallingpool#:#Zurück zum Fragenpool
+assessment#:#backtocallingtest#:#Zurück zum Test
 assessment#:#baseunit#:#Basiseinheit
 assessment#:#button_request_next_question_hint#:#Fordere nächsten Lösungshinweis an
 assessment#:#button_request_question_hint#:#Lösungshinweis anfordern
