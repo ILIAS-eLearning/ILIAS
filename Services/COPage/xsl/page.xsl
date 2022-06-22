@@ -2432,14 +2432,17 @@
 
 		<!-- application/pdf -->
 		<xsl:when test="$type = 'application/pdf'">
-			<iframe frameborder="0">
-				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+			<xsl:variable name="style_val" >
 				<xsl:if test="$width != ''">
-					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+					width:<xsl:value-of select="$width"/>px;
 				</xsl:if>
 				<xsl:if test="$height != ''">
-					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+					height:<xsl:value-of select="$height"/>px;
 				</xsl:if>
+			</xsl:variable>
+			<iframe frameborder="0">
+				<xsl:attribute name="src"><xsl:value-of select="$data"/></xsl:attribute>
+				<xsl:attribute name="style"><xsl:value-of select="$style_val"/></xsl:attribute>
 				<xsl:call-template name="MOBParams">
 					<xsl:with-param name="curPurpose" select="$curPurpose" />
 					<xsl:with-param name="mode">attributes</xsl:with-param>
@@ -2448,7 +2451,6 @@
 				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
 			</iframe>
 		</xsl:when>
-
 		<!-- print placeholder !! All media types that can be printed should be listed above this one -->
 		<xsl:when test="$mode = 'print'">
 			<div class="ilCOPGMediaPrint">
