@@ -502,9 +502,9 @@ class ilObjSurveyQuestionPool extends ilObject
      * export questions to xml
      * @todo move to export sub-component
      */
-    public function toXML(array $questions) : string
+    public function toXML(?array $questions) : string
     {
-        if (count($questions) === 0) {
+        if (is_null($questions) || count($questions) === 0) {
             $questions = $this->getQuestions();
         }
         $a_xml_writer = new ilXmlWriter();
