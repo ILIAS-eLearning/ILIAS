@@ -66,7 +66,6 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd("view");
-
         switch ($next_class) {
             case 'ilportfoliotemplatepagegui':
                 $this->determinePageCall(); // has to be done before locator!
@@ -123,6 +122,15 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                         $this->object->getRefId()
                     );
                 $this->ctrl->forwardCommand($settings_gui);
+                break;
+
+            case "ilobjectmetadatagui":
+                $this->checkPermission("write");
+                $this->prepareOutput();
+                $this->addHeaderAction();
+                $this->tabs_gui->activateTab("advmd");
+                $md_gui = new ilObjectMetaDataGUI($this->object, "pfpg");
+                $this->ctrl->forwardCommand($md_gui);
                 break;
 
             default:
