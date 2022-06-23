@@ -3318,7 +3318,7 @@ cntr#:#sorting_new_items_position#:#Position for New Objects
 cntr#:#tab_back_to_repository#:#Back to Repository
 common#:#HH#:#HH:MM
 common#:#absolute_path#:#Absolute Path
-common#:#accept_usr_agreement#:#Accept terms of service?
+common#:#accept_usr_agreement#:#Accept Terms of Service?
 common#:#accept_usr_agreement_btn#:#Accept
 common#:#access#:#Access
 common#:#accessFree#:#Remove 'Valid Until' Date
@@ -3330,10 +3330,10 @@ common#:#access_public#:#Public
 common#:#access_restricted#:#Set the selected user(s) to limited access
 common#:#access_scope#:#Access
 common#:#access_unlimited#:#Unlimited
-common#:#access_until#:#Valid until
+common#:#access_until#:#Valid Until
 common#:#access_users#:#Logged in Users
 common#:#accesscount_registered_users#:#Read by number of distinct ILIAS users
-common#:#accessibility_control_concept#:#Accessibility Control Concept
+common#:#accessibility_control_concept#:#Accessibility
 common#:#account#:#My Account
 common#:#account_expires_body#:#Your account is limited, it will expire at:
 common#:#account_expires_subject#:#Your account expires
@@ -3441,17 +3441,17 @@ common#:#at_least_one_style#:#At least one style must remain activated.
 common#:#attachment#:#Attachment
 common#:#attachments#:#Attachments
 common#:#attempts#:#Attempts
-common#:#auth_active_roles#:#Global roles available on registration form
+common#:#auth_active_roles#:#Global Roles Available on Registration Form
 common#:#auth_allow_local#:#Allow Local Authentication
 common#:#auth_cas#:#CAS
-common#:#auth_cas_allow_local_desc#:#This allows CAS users to authenticate with their local ILIAS username and a local password.
+common#:#auth_cas_allow_local_desc#:#Allows CAS users to authenticate themselves with their local ILIAS username and a local password.
 common#:#auth_cas_auth#:#Configure CAS Authentication
 common#:#auth_cas_auth_desc#:#CAS requires PHP 4.3.1 or higher with CURL support (7.5 or higher)
 common#:#auth_cas_port_desc#:#E.g. 443 if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_cas_server_desc#:#E.g. auth.yourserver.com if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_cas_uri_desc#:#Local URI, e.g. cas if the full CAS server URI is https://auth.yourserver.com:443/cas/
 common#:#auth_configure#:#configure...
-common#:#auth_create_users#:#Create non-existing users automatically
+common#:#auth_create_users#:#Create Non-Existing Users Automatically
 common#:#auth_default#:#Default setting
 common#:#auth_default_mode_changed_to#:#Default authentication mode changed to
 common#:#auth_ecs#:#ECS
@@ -3460,17 +3460,17 @@ common#:#auth_ldap_enable#:#Enable LDAP support
 common#:#auth_ldap_migration#:#Account Migration
 common#:#auth_ldap_migration_info#:#Activate this option to give new users the possibility to migrate their existing ILIAS accounts to LDAP authentication.
 common#:#auth_local#:#ILIAS Auth
-common#:#auth_login_instructions#:#Instructions shown on login page
-common#:#auth_mode#:#Authentication mode
+common#:#auth_login_instructions#:#Instructions Shown on Login Page
+common#:#auth_mode#:#Authentication Mode
 common#:#auth_mode_not_changed#:#(Nothing changed)
 common#:#auth_mode_roles_changed#:#Changed authentication mode for this Role
 common#:#auth_new_account_mail_desc#:#Send new account e-mail to user, if user is generated automatically. A password will only be generated, if ‘Allow Local Authentication’ is also activated.
 common#:#auth_per_default#:#Per Default
-common#:#auth_remark_non_local_auth#:#When selecting another authentication mode than ILIAS database, you may not change user's login name and password anymore.
-common#:#auth_role_auth_mode#:#Authentication mode
+common#:#auth_remark_non_local_auth#:#Selecting an authentication mode other than ‘ILIAS Auth’ (which uses the ILIAS database) means that users will not be able to change their login name or password after registration.
+common#:#auth_role_auth_mode#:#Authentication Mode
 common#:#auth_saml#:#SAML
 common#:#auth_script#:#Custom
-common#:#auth_select#:#Select authentication mode
+common#:#auth_select#:#Select Authentication Mode
 common#:#auth_selection#:#Login Options
 common#:#auth_settings#:#Authentication Settings
 common#:#auth_shib#:#Shibboleth
@@ -3580,7 +3580,7 @@ common#:#certificates#:#Certificates
 common#:#change#:#Change
 common#:#change_assignment#:#Change assignment
 common#:#change_header_title#:#Edit Header Title
-common#:#change_owner#:#Change owner
+common#:#change_owner#:#Change Owner
 common#:#change_sort_direction#:#Change sort direction
 common#:#changeable#:#Changeable in Profile
 common#:#changed_to#:#changed to
@@ -3805,12 +3805,12 @@ common#:#deleted_user#:#The user has been deleted
 common#:#deleted_users#:#Deleted users
 common#:#deletion_notification#:#"%s" has canceled the attendance of session "%s".
 common#:#deliver#:#Deliver
-common#:#deny_usr_agreement#:#Do not accept terms of service?
-common#:#deny_usr_agreement_btn#:#Not Accept
+common#:#deny_usr_agreement#:#Do Not Accept Terms of Service?
+common#:#deny_usr_agreement_btn#:#Do Not Accept
 common#:#department#:#Department
 common#:#desc#:#Description
 common#:#description#:#Description
-common#:#desired_password#:#Desired Password
+common#:#desired_password#:#New Password
 common#:#details#:#Details
 common#:#didactic_template#:#Didactic Template
 common#:#disable#:#disable
@@ -3871,7 +3871,7 @@ common#:#enable_hist_user_comments#:#Enable user comments in history
 common#:#enable_hist_user_comments_desc#:#Give authors the opportunity to add comments to the history log of pages.
 common#:#enable_multi_download#:#«Download multiple objects» enabled
 common#:#enable_multi_download_info#:#Enables that multiple folders/files can be selected to download them as zip archive.
-common#:#enable_password_assistance#:#Enable password assistance
+common#:#enable_password_assistance#:#Enable Password Assistance
 common#:#enable_preview#:#Enable Preview
 common#:#enable_preview_info#:#Enable this option to display preview images on supported file types.
 common#:#enable_repository_dnd_upload#:#Enable in Repository
@@ -4041,10 +4041,10 @@ common#:#fold_wizard_page#:#Copy Folder (Step 2/2)
 common#:#folder#:#Folder
 common#:#folders#:#Folders
 common#:#follow_link_to_read_mails#:#click the following link to read these mails:
-common#:#force_accept_usr_agreement#:#You must accept the terms of service!
+common#:#force_accept_usr_agreement#:#You must accept the Terms of Service!
 common#:#forgot_password#:#Forgot your password?
 common#:#forgot_username#:#Forgot your username?
-common#:#form_input_not_valid#:#Some data is incomplete or not valid. Please correct the form input.
+common#:#form_input_not_valid#:#Some of the information entered is incomplete or invalid. Please correct your entry.
 common#:#forum#:#Forum
 common#:#forum_direct_notification#:#Notification
 common#:#forum_notify_me#:#Notify me when a direct answer has been given to this posting. Notification about any posting in this thread or forum can be enabled in the upper right Actions menu.
@@ -4592,7 +4592,7 @@ common#:#msg_bt_download_started#:#ILIAS is generating a ZIP archive of all avai
 common#:#msg_cancel#:#Action cancelled
 common#:#msg_clear_clipboard#:#Clipboard cleared
 common#:#msg_cloned#:#Selected object(s) copied
-common#:#msg_copy_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Paste’.
+common#:#msg_copy_clipboard#:#Please select the location to which the selected objects should be pasted and click the button ‘Paste’.
 common#:#msg_copy_clipboard_container#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Continue’.
 common#:#msg_copy_clipboard_source#:#Now, please select the desired course or group, whose content should be copied and click the button ‘Continue’.
 common#:#msg_cut_clipboard#:#Now, please select the desired location, where the selected objects should be pasted into and click the button ‘Paste’.
@@ -4682,14 +4682,14 @@ common#:#never#:#never
 common#:#new#:#New
 common#:#new_language#:#New Language
 common#:#new_pass_equals_old_pass#:#The new password equals the old one.
-common#:#newline#:#Newline
+common#:#newline#:#New Line
 common#:#news#:#News
 common#:#next#:#Next
 common#:#no#:#No
 common#:#no_access_item#:#You have no permission to access this item.
 common#:#no_access_item_public#:#To access this item you need to be logged in and to have appropriate permissions.
-common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility Control Concept provided with this installation. Please contact the <a href="%1$s">Accessibility Point of Contact</a>.
-common#:#no_agreement_description#:#There is currently no terms of service text provided with this installation. Please contact the <a href="%1$s">system administrator</a>.
+common#:#no_accessibility_control_concept_description#:#There is currently no Accessibility document available for this installation. Please contact your <a href="%1$s">Contact Point for Accessibility Issues</a>.
+common#:#no_agreement_description#:#There is currently no Terms of Service document available for this installation. Please contact the <a href="%1$s">system administrator</a>.
 common#:#no_checkbox#:#You did not select any item.
 common#:#no_condition_selected#:#Please select one precondition.
 common#:#no_date#:#No date
@@ -5108,19 +5108,19 @@ common#:#passwd_not_match#:#Your entries for the new password don’t match! Ple
 common#:#passwd_wrong#:#The password you entered is wrong!
 common#:#password#:#Password
 common#:#password_allow_chars#:#Allowed chars: %s
-common#:#password_assistance_info#:#If password assistance is enabled, a link ‘Forgot Password?’ is shown on the login page of ILIAS. Users can use this link to define a new password for their user account without needing assistance from a system administrator.
+common#:#password_assistance_info#:#Display a ‘Forgot Password?’ link on the ILIAS login page. Users can use this link to set a new password for their user account without needing assistance from a system administrator.
 common#:#password_change_on_first_login_demand#:#You have to change your password before you can start using ILIAS services.
 common#:#password_contains_invalid_chars#:#The password contains invalid characters
 common#:#password_contains_parts_of_login_err#:#The chosen password contains your username. Please insert a new password.
 common#:#password_empty#:#The password field must not be empty.
 common#:#password_expired#:#Your password is expired and has to be changed as the last change was %s day(s) ago.
 common#:#password_multiple_errors#:#Multiple criteria are not satisfied:
-common#:#password_must_chars_and_numbers#:#The password must contain characters and numbers.
+common#:#password_must_chars_and_numbers#:#The password must contain both letters and numbers.
 common#:#password_must_contain_lcase_chars#:#The password must contain at least %s lower case letters.
 common#:#password_must_contain_ucase_chars#:#The password must contain at least %s capital letters.
 common#:#password_must_special_chars#:#The password must contain special characters.
-common#:#password_to_long#:#The password must have at most a size of %s characters.
-common#:#password_to_short#:#The password must have at least a size of %s characters.
+common#:#password_to_long#:#The password may have at most a length of %s characters.
+common#:#password_to_short#:#The password must have a length of at least of %s characters.
 common#:#paste#:#Paste
 common#:#pasteChapter#:#Paste
 common#:#pastePage#:#Paste
@@ -5226,11 +5226,11 @@ common#:#proxy_status#:#Proxy
 common#:#proxy_status_info#:#To use a proxy in ILIAS (e.g. for web feeds or to check web links) please activate the checkbox above.
 common#:#ps_export_scorm#:#Personal Data in Protocol Data
 common#:#ps_password_lowercase_chars_num#:#Lower Case Letters
-common#:#ps_password_lowercase_chars_num_info#:#Please insert the number of lower case letters a password must contain. Enter 0 to disable this requirement.
+common#:#ps_password_lowercase_chars_num_info#:#Enter the minimum number of lower case letters a password must contain. Set to 0 to disable this requirement.
 common#:#ps_password_must_not_contain_loginame#:#Prevent Username in Password
-common#:#ps_password_must_not_contain_loginame_info#:#If activated, a password must not contain the username.
+common#:#ps_password_must_not_contain_loginame_info#:#Disallow passwords that contain the user’s username.
 common#:#ps_password_uppercase_chars_num#:#Capital Letters
-common#:#ps_password_uppercase_chars_num_info#:#Please insert the number of capital letters a password must contain. Enter 0 to disable this requirement.
+common#:#ps_password_uppercase_chars_num_info#:#Enter the minimum number of capital letters a password must contain. Set to 0 to disable this requirement.
 common#:#pub_section#:#Anonymous Access
 common#:#pub_section_info#:#If enabled, parts of the system (e.g. repository, workspace, user profiles) can be made available to the internet without authentication. The permissions of the ‘Anonymous’ role will control the access to repository resources.
 common#:#public#:#public
