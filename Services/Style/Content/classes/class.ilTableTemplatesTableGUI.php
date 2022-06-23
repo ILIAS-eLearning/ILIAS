@@ -85,7 +85,7 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable(
             "T_PREVIEW",
-            $this->style_obj->lookupTemplatePreview($a_set["id"])
+            $this->style_obj->lookupTemplatePreview((int) $a_set["id"])
         );
         $this->tpl->setVariable("TID", $a_set["id"]);
         $this->tpl->setVariable("TEMPLATE_NAME", $a_set["name"]);

@@ -21,10 +21,10 @@
  */
 class ilObjPortfolioTemplate extends ilObjPortfolioBase
 {
-    protected bool $activation_limited;
-    protected bool $activation_visibility;
-    protected int $activation_starting_time;
-    protected int $activation_ending_time;
+    protected bool $activation_limited = false;
+    protected bool $activation_visibility = false;
+    protected int $activation_starting_time = 0;
+    protected int $activation_ending_time = 0;
     
     protected function initType() : void
     {
