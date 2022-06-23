@@ -1167,7 +1167,6 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
     public function showTaxonomy() : void
     {
         global $DIC;
-
         $ctrl = $this->ctrl;
         if (!$this->offlineMode() && $this->glossary->getShowTaxonomy()) {
             $tax_ids = ilObjTaxonomy::getUsageOfObject($this->glossary->getId());
@@ -1181,7 +1180,7 @@ class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
                 $DIC->globalScreen()->tool()->context()->current()
                     ->addAdditionalData(
                         ilTaxonomyGSToolProvider::TAX_TREE_GUI_PATH,
-                        $ctrl->getCurrentClassPath()
+                        [self::class]
                     );
                 $DIC->globalScreen()->tool()->context()->current()
                     ->addAdditionalData(
