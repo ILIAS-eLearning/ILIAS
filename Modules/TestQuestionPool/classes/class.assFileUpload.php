@@ -1037,7 +1037,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     */
     public function setMaxSize($a_value) : void
     {
-        $this->maxsize = $a_value;
+        $this->maxsize = (int) $a_value;
     }
 
     /**

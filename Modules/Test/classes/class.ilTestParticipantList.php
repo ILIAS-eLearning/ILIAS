@@ -197,7 +197,7 @@ class ilTestParticipantList implements Iterator
             $participant->setFirstname($rowData['firstname']);
             $participant->setMatriculation($rowData['matriculation']);
             
-            $participant->setActiveStatus((bool) $rowData['active']);
+            $participant->setActiveStatus((bool) ($rowData['active'] ?? false));
             
             if (isset($rowData['clientip'])) {
                 $participant->setClientIp($rowData['clientip']);
