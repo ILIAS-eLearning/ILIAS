@@ -77,8 +77,6 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $duration->setRequired(true);
         $duration->setStartText($this->lng->txt('absent_from'));
         $duration->setEndText($this->lng->txt('absent_until'));
-        $duration->setStart(new ilDateTime($this->options->getAbsentFrom() ?: time(), IL_CAL_UNIX));
-        $duration->setEnd(new ilDateTime($this->options->getAbsentUntil() ?: time() + 8640, IL_CAL_UNIX));
         $duration->setShowTime(true);
         $auto_responder_subject = new ilTextInputGUI($this->lng->txt('absence_auto_responder_subject'), 'absence_auto_responder_subject');
         $auto_responder_subject->setMaxLength(200);
@@ -149,10 +147,10 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
             'signature' => $this->options->getSignature(),
             'cronjob_notification' => $this->options->isCronJobNotificationEnabled(),
             'absence_status' => $this->options->getAbsenceStatus(),
-//            'absence_duration' => [
-//                'start' => (new ilDateTime(($this->options->getAbsentFrom() ?: time()), IL_CAL_UNIX))->get(IL_CAL_DATE),
-//                'end' => (new ilDateTime(($this->options->getAbsentUntil() ?: time() + 8640), IL_CAL_UNIX))->get(IL_CAL_DATE),
-//            ],
+            'absence_duration' => [
+                'start' => (new ilDateTime(($this->options->getAbsentFrom() ?: time()), IL_CAL_UNIX))->get(IL_CAL_DATETIME),
+                'end' => (new ilDateTime(($this->options->getAbsentUntil() ?: time() + 8640), IL_CAL_UNIX))->get(IL_CAL_DATETIME),
+            ],
             'absence_auto_responder_subject' => $this->options->getAbsenceAutoResponderSubject(),
             'absence_auto_responder_body' => $this->options->getAbsenceAutoResponderBody(),
         ];
