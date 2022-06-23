@@ -430,10 +430,10 @@ class ilUserStartingPointGUI
                     "user_calendar_view" => $form->getInput("user_calendar_view"),
                     "user_cal_period" => $form->getInput("user_cal_period")
                 ];
-                ilUserUtil::setStartingPoint($form->getInput('start_point'), $form->getInput('start_object'), $calendar_info);
+                ilUserUtil::setStartingPoint($form->getInput('start_point'), (int) $form->getInput('start_object'), $calendar_info);
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             } else {  //default
-                ilUserUtil::setStartingPoint($form->getInput('start_point'), $form->getInput('start_object'));
+                ilUserUtil::setStartingPoint($form->getInput('start_point'), (int) $form->getInput('start_object'));
                 $this->tpl->setOnScreenMessage('success', $this->lng->txt("msg_obj_modified"), true);
             }
 

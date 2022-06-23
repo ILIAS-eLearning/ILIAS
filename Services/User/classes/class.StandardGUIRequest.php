@@ -78,20 +78,20 @@ class StandardGUIRequest
         return $this->str("term");
     }
 
-    public function getStartingPointId() : int
+    public function getStartingPointId() : string
     {
-        $id = $this->int("spid");
+        $id = $this->str("spid");
         if ($id == 0) {
-            $id = $this->int("start_point_id");
+            $id = $this->str("start_point_id");
         }
         return $id;
     }
 
-    public function getRoleId() : int
+    public function getRoleId() : string
     {
-        $role_id = $this->int("rolid");
+        $role_id = $this->str("rolid");
         if ($role_id == 0) {
-            $role_id = $this->int("role_id");
+            $role_id = $this->str("role_id");
         }
         return $role_id;
     }
