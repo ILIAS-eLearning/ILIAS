@@ -289,7 +289,7 @@ class ilObjIndividualAssessment extends ilObject
             if (in_array($node['type'], $types)) {
                 return $node['ref_id'];
             }
-            $node = $tree->getParentNodeData($node['ref_id']);
+            $node = $tree->getParentNodeData((int) $node['ref_id']);
         }
         return 0;
     }
