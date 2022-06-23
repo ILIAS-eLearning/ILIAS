@@ -29,19 +29,11 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
-acc#:#acc_access_key#:#Access Key
-acc#:#acc_access_keys#:#Access Keys
 acc#:#acc_add_document_btn_label#:#Add Document
-acc#:#acc_comp_frm#:#Forum
-acc#:#acc_comp_global#:#Global
-acc#:#acc_comp_mail#:#Mail
-acc#:#acc_component#:#Component
 acc#:#acc_crit_type_usr_language#:#Profile Language
 acc#:#acc_criterion_assignment_must_be_unique_insert#:#It is not possible to set the language you have selected as the criterion for displaying this document, as it has already been set as the criterion for displaying a different Accessibility document.
 acc#:#acc_criterion_assignment_must_be_unique_update#:#It is not possible to change the criterion for displaying this document to the language you have selected. That language is being used as the criterion for displaying a different Accessibility document.
 acc#:#acc_ctrl_cpt_txt#:#Accessibility Documents
-acc#:#acc_dashboard#:#Dashboard
-acc#:#acc_delete#:#Delete
 acc#:#acc_deleted_documents_p#:#The documents have been deleted.
 acc#:#acc_deleted_documents_s#:#The document has been deleted.
 acc#:#acc_doc_crit_attached#:#The criterion for displaying this Accessibility document has been set successfully.
@@ -66,10 +58,6 @@ acc#:#acc_form_new_doc_head#:#Create Document
 acc#:#acc_forward_mail#:#Forward Mail
 acc#:#acc_function#:#Function
 acc#:#acc_last_rep_visited#:#Repository/Last Visited
-acc#:#acc_mark_all_read#:#Mark All Read
-acc#:#acc_next#:#Next
-acc#:#acc_previous#:#Previous
-acc#:#acc_reply#:#Reply
 acc#:#acc_saved_sorting#:#The new order has been saved.
 acc#:#acc_sure_delete_documents_p#:#Are you sure you want to delete the selected documents?
 acc#:#acc_sure_delete_documents_s#:#Are you sure you want to delete this document?
