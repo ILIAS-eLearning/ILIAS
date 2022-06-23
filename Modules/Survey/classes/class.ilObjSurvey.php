@@ -5420,7 +5420,7 @@ class ilObjSurvey extends ilObject
         if ($this->getReminderTemplate() &&
             array_key_exists($this->getReminderTemplate(), $this->getReminderMailTemplates())) {
             /** @var \ilMailTemplateService $templateService */
-            $templateService = $DIC['mail.texttemplates.service'];
+            $templateService = $DIC->mail()->textTemplates();
             $tmpl = $templateService->loadTemplateForId($this->getReminderTemplate());
 
             $tmpl_params = array(
@@ -5550,8 +5550,7 @@ class ilObjSurvey extends ilObject
 
         $res = array();
 
-        /** @var \ilMailTemplateService $templateService */
-        $templateService = $DIC['mail.texttemplates.service'];
+        $templateService = $DIC->mail()->textTemplates();
         foreach ($templateService->loadTemplatesForContextId(ilSurveyMailTemplateReminderContext::ID) as $tmpl) {
             $res[$tmpl->getTplId()] = $tmpl->getTitle();
             if (null !== $defaultTemplateId && $tmpl->isDefault()) {

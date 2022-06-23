@@ -10729,6 +10729,16 @@ mail#:#link_check_affected_links#:#Affected Links
 mail#:#link_check_introduction#:#the following weblinks are invalid:
 mail#:#link_check_perma_link#:#Permanent Link
 mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.
+mail#:#mail_absence_auto_responder_body#:#Message
+mail#:#mail_absence_auto_responder_body_hint#:#This is an automatically created message. You will not receive this kind of message until [NEXT_AUTO_RESPONDER_DATETIME].
+mail#:#mail_absence_auto_responder_body_info#:#Please enter a message which should be automatically send to all users which try to send you an internal ILIAS message while your are absent.
+mail#:#mail_absence_auto_responder_default_body#:#Hello,[BR][BR]this is an automatically created message.[BR][BR]I am absent until [ABSENT_UNTIL].[BR][BR]Best regards,[BR][PUBLIC_NAME]
+mail#:#mail_absence_auto_responder_subject#:#Subject
+mail#:#mail_absence_duration#:#Duration
+mail#:#mail_absence_status#:#Enable Autoresponder
+mail#:#mail_absence_status_info#:#By clicking this checkbox, you can activate the automatic sending of an out of office message.
+mail#:#mail_absent_from#:#Absent From
+mail#:#mail_absent_until#:#Ansend Until
 mail#:#mail_account_mail#:#Account Mail
 mail#:#mail_add_folder#:#Add New Sub-folder
 mail#:#mail_add_recipient#:#Please enter a recipient
@@ -10740,6 +10750,9 @@ mail#:#mail_assign_entry_to_mailing_list#:#Assign an Entry of Your Contacts to M
 mail#:#mail_attachment_file_not_exist#:#At least one of the following attachments does not exist: %1$s
 mail#:#mail_attachments#:#Attachments
 mail#:#mail_auto_generated_info#:#This mail was automatically sent to you by the ILIAS installation %s, %s
+mail#:#mail_auto_responder#:#Autoreply
+mail#:#mail_auto_responder_idle_time#:#Idle Time
+mail#:#mail_auto_responder_idle_time_info#:#Please define how often ILIAS should send an autoreply message to the same sender of a mail.
 mail#:#mail_bg_task_desc#:#Subject: %s
 mail#:#mail_bg_task_title#:#E-mail Delivery
 mail#:#mail_both_email#:#Both E-Mail Addresses

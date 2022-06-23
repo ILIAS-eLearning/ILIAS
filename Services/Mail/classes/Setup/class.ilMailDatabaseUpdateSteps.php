@@ -83,4 +83,109 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             }
         }
     }
+
+    public function step_5(): void
+    {
+        if (!$this->db->tableColumnExists('mail_options', 'absence_status')) {
+            $this->db->addTableColumn(
+                'mail_options',
+                'absence_status',
+                [
+                    'type' => 'integer',
+                    'length' => 1,
+                    'notnull' => true,
+                    'default' => 0
+                ]
+            );
+        }
+    }
+
+    public function step_6(): void
+    {
+        if (!$this->db->tableColumnExists('mail_options', 'absent_from')) {
+            $this->db->addTableColumn(
+                'mail_options',
+                'absent_from',
+                [
+                    'type' => 'integer',
+                    'length' => 8,
+                    'notnull' => true,
+                    'default' => 0
+                ]
+            );
+        }
+    }
+
+    public function step_7(): void
+    {
+        if (!$this->db->tableColumnExists('mail_options', 'absent_until')) {
+            $this->db->addTableColumn(
+                'mail_options',
+                'absent_until',
+                [
+                        'type' => 'integer',
+                        'length' => 8,
+                        'notnull' => true,
+                        'default' => 0
+                    ]
+            );
+        }
+    }
+
+    public function step_8(): void
+    {
+        if (!$this->db->tableColumnExists('mail_options', 'absence_ar_body')) {
+            $this->db->addTableColumn(
+                'mail_options',
+                'absence_ar_body',
+                [
+                    'type' => 'clob',
+                    'notnull' => false,
+                    'default' => null
+                ]
+            );
+        }
+    }
+
+    public function step_9(): void
+    {
+        if (!$this->db->tableColumnExists('mail_options', 'absence_ar_subject')) {
+            $this->db->addTableColumn(
+                'mail_options',
+                'absence_ar_subject',
+                [
+                    'type' => 'text',
+                    'length' => 255,
+                    'notnull' => false,
+                    'default' => null
+                ]
+            );
+        }
+    }
+
+    public function step_10(): void
+    {
+        if (!$this->db->tableExists('mail_auto_responder')) {
+            $this->db->createTable(
+                'mail_auto_responder',
+                [
+                    'sender_id' => [
+                        'type' => 'integer',
+                        'length' => 8,
+                        'notnull' => true
+                    ],
+                    'receiver_id' => [
+                        'type' => 'integer',
+                        'length' => 8,
+                        'notnull' => true
+                    ],
+                    'sent_time' => [
+                        'type' => 'timestamp',
+                        'notnull' => true
+                    ]
+                ]
+            );
+            $this->db->addPrimaryKey('mail_auto_responder', ['sender_id', 'receiver_id']);
+        }
+    }
 }

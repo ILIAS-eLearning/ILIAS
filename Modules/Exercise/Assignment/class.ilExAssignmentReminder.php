@@ -500,8 +500,7 @@ class ilExAssignmentReminder
 
             //if the template exists (can be deleted via Administration/Mail)
             if ($template_id) {
-                /** @var \ilMailTemplateService $templateService */
-                $templateService = $DIC['mail.texttemplates.service'];
+                $templateService = $DIC->mail()->textTemplates();
                 $tpl = $templateService->loadTemplateForId((int) $template_id);
             }
             $subject = "";

@@ -378,6 +378,12 @@ class ilMailbox
             [$this->usrId]
         );
 
+        $this->db->manipulateF(
+            'DELETE FROM mail_auto_responder WHERE sender_id = %s OR recipient_id = %s',
+            ['integer', 'integer'],
+            [$this->usrId, $this->usrId]
+        );
+
         // Delete the user's files from filesystem:
         // This has to be done before deleting the database entries in table 'mail'
         $fdm = new ilFileDataMail($this->usrId);

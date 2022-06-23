@@ -2000,8 +2000,7 @@ class ilObjUserGUI extends ilObjectGUI
         $usr_lang->loadLanguageModule('crs');
         $usr_lang->loadLanguageModule('registration');
 
-        /** @var ilMailMimeSenderFactory $senderFactory */
-        $senderFactory = $GLOBALS['DIC']["mail.mime.sender.factory"];
+        $senderFactory = $DIC->mail()->mime()->senderFactory();
 
         $mmail = new ilMimeMail();
         $mmail->From($senderFactory->system());

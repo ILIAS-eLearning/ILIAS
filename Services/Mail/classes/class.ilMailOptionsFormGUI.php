@@ -18,21 +18,26 @@ declare(strict_types=1);
  *
  *********************************************************************/
 
+use ILIAS\Mail\Autoresponder\AutoresponderDatabaseRepository;
+use ILIAS\Mail\Autoresponder\AutoresponderRepository;
+
 /**
  * Class ilMailOptionsFormGUI
  */
 class ilMailOptionsFormGUI extends ilPropertyFormGUI
 {
-    protected object $parentGui;
-    protected string $positiveCmd = '';
-    protected ilMailOptions $options;
+    private object $parentGui;
+    private string $positiveCmd = '';
+    private ilMailOptions $options;
+    private AutoresponderRepository $autoResponderRepository;
+    private int $default_auto_responder_absence_end_ts;
 
     /**
      * @param ilMailOptions $options
      * @param object $parentGui
      * @param string $positiveCmd
      */
-    public function __construct(ilMailOptions $options, object $parentGui, string $positiveCmd)
+    public function __construct(ilMailOptions $options, object $parentGui, string $positiveCmd, AutoresponderRepository $autoResponderRepository = null)
     {
         if (!method_exists($parentGui, 'executeCommand')) {
             throw new InvalidArgumentException(sprintf(
@@ -42,10 +47,12 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         }
 
         parent::__construct();
-
+        global $DIC;
         $this->options = $options;
         $this->parentGui = $parentGui;
         $this->positiveCmd = $positiveCmd;
+        $this->autoResponderRepository = $autoResponderRepository ?? new AutoresponderDatabaseRepository($DIC->database());
+        $this->default_auto_responder_absence_end_ts = time() + 8640;
 
         $this->init();
     }
@@ -87,6 +94,28 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
             $this->addItem($cb);
         }
 
+        $absence = new ilCheckboxInputGUI($this->lng->txt('mail_absence_status'), 'absence_status');
+        $absence->setInfo($this->lng->txt('mail_absence_status_info'));
+        $absence->setValue("1");
+        $this->lng->loadLanguageModule('dateplaner');
+        $duration = new ilDateDurationInputGUI($this->lng->txt('mail_absence_duration'), 'absence_duration');
+        $duration->setRequired(true);
+        $duration->setStartText($this->lng->txt('mail_absent_from'));
+        $duration->setEndText($this->lng->txt('mail_absent_until'));
+        $duration->setShowTime(true);
+        $auto_responder_subject = new ilTextInputGUI($this->lng->txt('mail_absence_auto_responder_subject'), 'absence_auto_responder_subject');
+        $auto_responder_subject->setMaxLength(200);
+        $auto_responder_subject->setRequired(true);
+        $auto_responder_body = new ilTextAreaInputGUI($this->lng->txt('mail_absence_auto_responder_body'), 'absence_auto_responder_body');
+        $auto_responder_body->setInfo($this->lng->txt('mail_absence_auto_responder_body_info'));
+        $auto_responder_body->setRequired(true);
+        $auto_responder_body->setCols(60);
+        $auto_responder_body->setRows(10);
+        $absence->addSubItem($duration);
+        $absence->addSubItem($auto_responder_subject);
+        $absence->addSubItem($auto_responder_body);
+        $this->addItem($absence);
+
         $this->addCommandButton($this->positiveCmd, $this->lng->txt('save'));
     }
 
@@ -117,6 +146,20 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
             $mail_address_option = $this->options->getEmailAddressMode();
         }
 
+        $absence_duration = $this->getItemByPostVar('absence_duration');
+        $absence_status = (bool) $this->getInput('absence_status');
+        $old_absence_status = $this->options->getAbsenceStatus();
+        if (!$absence_status && $old_absence_status) {
+            $this->autoResponderRepository->deleteBySenderId($this->user->getId());
+        }
+        $this->options->setAbsenceStatus((bool) $this->getInput('absence_status'));
+        if ($absence_duration && $absence_duration->getStart() && $absence_duration->getEnd()) {
+            $this->options->setAbsentFrom($absence_duration->getStart()->get(IL_CAL_UNIX));
+            $this->options->setAbsentUntil($absence_duration->getEnd()->get(IL_CAL_UNIX));
+        }
+        $this->options->setAbsenceAutoresponderSubject($this->getInput('absence_auto_responder_subject'));
+        $this->options->setAbsenceAutoresponderBody($this->getInput('absence_auto_responder_body'));
+
         $this->options->setLinebreak((int) $this->getInput('linebreak'));
         $this->options->setSignature($this->getInput('signature'));
         $this->options->setIsCronJobNotificationStatus((bool) $this->getInput('cronjob_notification'));
@@ -128,12 +171,48 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         return true;
     }
 
+    private function applyDefaultOrUse(string $body): string
+    {
+        if ($body !== '') {
+            return $body;
+        }
+
+        $use_relative_dates = ilDatePresentation::useRelativeDates();
+        ilDatePresentation::setUseRelativeDates(false);
+        $body = str_ireplace(
+            [
+                '[BR]',
+                '[PUBLIC_NAME]',
+                '[ABSENT_UNTIL]'
+            ],
+            [
+                "\n",
+                trim(implode(' ', [
+                    $this->user->getFirstname(),
+                    $this->user->getLastname()
+                ])) ?: $this->user->getLogin(),
+                ilDatePresentation::formatDate(new ilDateTime($this->default_auto_responder_absence_end_ts, IL_CAL_UNIX))
+            ],
+            $this->lng->txt('mail_absence_auto_responder_default_body')
+        );
+        ilDatePresentation::setUseRelativeDates($use_relative_dates);
+
+        return $body;
+    }
+
     public function populate(): void
     {
         $data = [
             'linebreak' => $this->options->getLinebreak(),
             'signature' => $this->options->getSignature(),
             'cronjob_notification' => $this->options->isCronJobNotificationEnabled(),
+            'absence_status' => $this->options->getAbsenceStatus(),
+            'absence_duration' => [
+                'start' => (new ilDateTime(($this->options->getAbsentFrom() ?: time()), IL_CAL_UNIX))->get(IL_CAL_DATETIME),
+                'end' => (new ilDateTime(($this->options->getAbsentUntil() ?: $this->default_auto_responder_absence_end_ts), IL_CAL_UNIX))->get(IL_CAL_DATETIME),
+            ],
+            'absence_auto_responder_subject' => $this->options->getAbsenceAutoresponderSubject(),
+            'absence_auto_responder_body' => $this->applyDefaultOrUse($this->options->getAbsenceAutoresponderBody()),
         ];
 
         if ($this->settings->get('usr_settings_hide_mail_incoming_mail', '0') !== '1') {

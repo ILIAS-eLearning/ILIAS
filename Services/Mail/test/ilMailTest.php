@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 use ILIAS\Refinery\Factory;
 use PHPUnit\Framework\MockObject\MockObject;
+use ILIAS\Mail\Autoresponder\AutoresponderServiceImpl;
+use ILIAS\Mail\Autoresponder\AutoresponderService;
 
 /**
  * Class ilMailMimeTest
@@ -161,6 +163,7 @@ class ilMailTest extends ilMailBaseTest
             static function (string $login) use ($loginToIdMap): int {
                 return $loginToIdMap[$login] ?? 0;
             },
+            $this->createMock(AutoresponderService::class),
             4711,
             $actor
         );
@@ -501,11 +504,10 @@ class ilMailTest extends ilMailBaseTest
     public function testGetIliasMailerName(): void
     {
         $expected = 'Phasellus lacus';
-        $mockSystem = $this->getMockBuilder(ilMailMimeSenderSystem::class)->disableOriginalConstructor()->getMock();
-        $mockSystem->expects(self::once())->method('getFromName')->willReturn($expected);
-        $mockFactory = $this->getMockBuilder(ilMailMimeSenderFactory::class)->disableOriginalConstructor()->getMock();
-        $mockFactory->expects(self::once())->method('system')->willReturn($mockSystem);
-        $this->setGlobalVariable('mail.mime.sender.factory', $mockFactory);
+        $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->getMock();
+        $settings->method('get')->with('mail_system_sys_from_name')->willReturn($expected);
+        $this->setGlobalVariable('ilSetting', $settings);
+
 
         $this->assertSame($expected, ilMail::_getIliasMailerName());
     }
@@ -567,6 +569,7 @@ class ilMailTest extends ilMailBaseTest
             static function (string $login): int {
                 return 780;
             },
+            $this->createMock(AutoresponderService::class),
             $refId,
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock()
         );

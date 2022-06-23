@@ -63,9 +63,8 @@ final class EmployeeTalkEmailNotificationService
         global $DIC;
 
         $language = $DIC->language();
-        /** @var \ilMailMimeSenderFactory $senderFactory */
-        $senderFactory = $DIC["mail.mime.sender.factory"];
-        $sender        = $senderFactory->system();
+        $senderFactory = $DIC->mail()->mime()->senderFactory();
+        $sender = $senderFactory->system();
 
         $mime_boundary = "b1_" . md5(strval(time()));
 
@@ -89,7 +88,7 @@ final class EmployeeTalkEmailNotificationService
         $allowExternalMails = boolval(intval($this->settings->get('mail_allow_external')));
 
         //$mailsent = false;
-        $subject =  $language->txt('notification_talks_subject');
+        $subject = $language->txt('notification_talks_subject');
         //if ($allowExternalMails) {
         //$mailsent = mail($this->encodeWord($toName) . " <$to>", $this->encodeWord("$subjectPrefix $subject: $subjectDetails"), $this->getMessage($mime_boundary), $headers);
         //}

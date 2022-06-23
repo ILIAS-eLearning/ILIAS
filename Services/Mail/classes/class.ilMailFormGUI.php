@@ -61,7 +61,7 @@ class ilMailFormGUI
         ilMailBodyPurifier $bodyPurifier = null
     ) {
         global $DIC;
-        $this->templateService = $templateService ?? $DIC['mail.texttemplates.service'];
+        $this->templateService = $templateService ?? $DIC->mail()->textTemplates();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -193,6 +193,8 @@ class ilMailFormGUI
 
         $mailer->setSaveInSentbox(true);
 
+        $mailer->autoresponder()->enableAutoresponder();
+
         if ($errors = $mailer->enqueue(
             ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), '')),
             ilUtil::securePlainString($this->getBodyParam('rcp_cc', $this->refinery->kindlyTo()->string(), '')),
@@ -205,6 +207,8 @@ class ilMailFormGUI
             $this->requestAttachments = $files;
             $this->showSubmissionErrors($errors);
         } else {
+            $mailer->autoresponder()->disableAutoresponder();
+
             $mailer->savePostData(
                 $this->user->getId(),
                 [],
@@ -224,6 +228,7 @@ class ilMailFormGUI
                 $this->ctrl->redirectByClass(ilMailGUI::class);
             }
         }
+        $mailer->autoresponder()->disableAutoresponder();
 
         $this->showForm();
     }
