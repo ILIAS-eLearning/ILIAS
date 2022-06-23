@@ -427,7 +427,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         // copy from default style or ... see #11330
         $default_style = $this->settings->get("default_content_style_id");
         if (ilObject::_lookupType((int) $default_style) == "sty") {
-            $style_obj = ilObjectFactory::getInstanceByObjId($default_style);
+            $style_obj = ilObjectFactory::getInstanceByObjId((int) $default_style);
             $new_id = $style_obj->ilClone();
             $newObj = new ilObjStyleSheet($new_id);
         } else {

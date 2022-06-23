@@ -925,7 +925,7 @@ class ilObjStyleSheet extends ilObject
                     $ilDB->quote($sty["parameter"], "text") . "," .
                     $ilDB->quote($sty["value"], "text") . "," .
                     $ilDB->quote($sty["type"], "text") . "," .
-                    $ilDB->quote((int) $mq_mapping[$sty["mq_id"]], "integer") . "," .
+                    $ilDB->quote((int) ($mq_mapping[$sty["mq_id"]] ?? 0), "integer") . "," .
                     $ilDB->quote($sty["custom"], "integer") .
                     ")";
                 $ilDB->manipulate($q);
