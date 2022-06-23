@@ -812,10 +812,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                         $this->ctrl->setParameterByClass($questionGuiClass, 'test_express_mode', 1);
                     }
 
-                    if (!$questionGui->isSaveCommand()) {
-                        $_GET['calling_test'] = $this->object->getRefId();
-                    }
-
                     $questionGui->setQuestionTabs();
 
                     $this->ctrl->forwardCommand($questionGui);
