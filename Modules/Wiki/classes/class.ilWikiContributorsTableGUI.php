@@ -24,6 +24,7 @@
 class ilWikiContributorsTableGUI extends ilTable2GUI
 {
     protected int $wiki_id;
+    protected \ILIAS\DI\UIServices $ui;
 
     public function __construct(
         object $a_parent_obj,
@@ -59,6 +60,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(true);
         
         $this->setTitle($lng->txt("wiki_contributors"));
+        $this->ui = $DIC->ui();
     }
     
     public function getContributors() : void
@@ -99,8 +101,8 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
             //	rawurlencode($ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd())));
             //$this->tpl->setVariable("USER_LINK",
             //	$ilCtrl->getLinkTargetByClass("ilpublicuserprofilegui", "getHTML"));
-            $img = ilObjUser::_getPersonalPicturePath($a_set["user_id"], "xsmall");
-            $this->tpl->setVariable("IMG_USER", $img);
+            $avatar = ilObjUser::_getAvatar((int) $a_set["user_id"]);
+            $this->tpl->setVariable("AVATAR", $this->ui->renderer()->render($avatar));
             $this->tpl->setVariable(
                 "TXT_NAME",
                 htmlspecialchars($a_set["lastname"] . ", " . $a_set["firstname"])
@@ -115,7 +117,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
             );
             $lpcomment = ilLPMarks::_lookupComment(
                 $a_set["user_id"],
-                $this->parent_obj->object->getId()
+                $this->parent_obj->getObject()->getId()
             );
             $this->tpl->setVariable(
                 "VAL_LCOMMENT",
@@ -124,7 +126,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
 
             // status
             //$status = ilExerciseMembers::_lookupStatus($this->object->getId(), $member_id);
-            $status = ilWikiContributor::_lookupStatus($this->parent_obj->object->getId(), $a_set["user_id"]);
+            $status = ilWikiContributor::_lookupStatus($this->parent_obj->getObject()->getId(), $a_set["user_id"]);
             $this->tpl->setVariable("SEL_" . $status, ' selected="selected" ');
             $this->tpl->setVariable("TXT_NOTGRADED", $lng->txt("wiki_notgraded"));
             $this->tpl->setVariable("TXT_PASSED", $lng->txt("wiki_passed"));
@@ -132,7 +134,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("VAL_NOTGRADED", ilWikiContributor::STATUS_NOT_GRADED);
             $this->tpl->setVariable("VAL_PASSED", ilWikiContributor::STATUS_PASSED);
             $this->tpl->setVariable("VAL_FAILED", ilWikiContributor::STATUS_FAILED);
-            if (($sd = ilWikiContributor::_lookupStatusTime($this->parent_obj->object->getId(), $a_set["user_id"])) > 0) {
+            if (($sd = ilWikiContributor::_lookupStatusTime($this->parent_obj->getObject()->getId(), $a_set["user_id"])) > 0) {
                 $this->tpl->setCurrentBlock("status_date");
                 $this->tpl->setVariable("TXT_LAST_CHANGE", $lng->txt("last_change"));
                 $this->tpl->setVariable(
@@ -155,7 +157,7 @@ class ilWikiContributorsTableGUI extends ilTable2GUI
                 "NAME_MARK",
                 "mark[" . $a_set["user_id"] . "]"
             );
-            $mark = ilLPMarks::_lookupMark($a_set["user_id"], $this->parent_obj->object->getId());
+            $mark = ilLPMarks::_lookupMark($a_set["user_id"], $this->parent_obj->getObject()->getId());
 
             $this->tpl->setVariable(
                 "VAL_MARK",

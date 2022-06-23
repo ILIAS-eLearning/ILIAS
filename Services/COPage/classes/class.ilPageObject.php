@@ -4417,10 +4417,10 @@ s     */
         while ($hpage = $db->fetchAssoc($set)) {
             if ($a_lang == "") {
                 $contributors[$hpage["user_id"]][$hpage["page_id"]][$hpage["lang"]] =
-                    $contributors[$hpage["user_id"]][$hpage["page_id"]][$hpage["lang"]] + $hpage["cnt"];
+                    ($contributors[$hpage["user_id"]][$hpage["page_id"]][$hpage["lang"]] ?? 0) + $hpage["cnt"];
             } else {
                 $contributors[$hpage["user_id"]][$hpage["page_id"]] =
-                    $contributors[$hpage["user_id"]][$hpage["page_id"]] + $hpage["cnt"];
+                    ($contributors[$hpage["user_id"]][$hpage["page_id"]] ?? 0) + $hpage["cnt"];
             }
         }
 

@@ -541,11 +541,11 @@ class ilObjWikiGUI extends ilObjectGUI
         $ilAccess = $this->access;
         $lng = $this->lng;
         $ilHelp = $this->help;
-        
+
         $ilHelp->setScreenIdComponent("wiki");
         
         // wiki tabs
-        if (in_array($ilCtrl->getCmdClass(), array("", "ilobjectcontentstylesettingsgui", "ilobjwikigui",
+        if (in_array(strtolower($ilCtrl->getCmdClass()), array("", "ilobjectcontentstylesettingsgui", "ilobjwikigui",
             "ilinfoscreengui", "ilpermissiongui", "ilexportgui", "ilratingcategorygui", "ilobjnotificationsettingsgui", "iltaxmdgui",
             "ilwikistatgui", "ilwikipagetemplategui", "iladvancedmdsettingsgui", "ilsettingspermissiongui", 'ilrepositoryobjectsearchgui'
             ), true) || $ilCtrl->getNextClass() === "ilpermissiongui") {

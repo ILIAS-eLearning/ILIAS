@@ -24,7 +24,7 @@ class ilObjNotificationSettingsGUI
     protected int $ref_id;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected int $obj_id;
 
     public function __construct(int $a_ref_id)
