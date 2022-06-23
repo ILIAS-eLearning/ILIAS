@@ -1,6 +1,20 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * System support contacts
@@ -92,8 +106,8 @@ class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
             // #17847 - we cannot use a proper GUI on the login screen
             if (!$ilUser->getId() || $ilUser->getId() == ANONYMOUS_USER_ID) {
                 return "mailto:" . ilLegacyFormElementsUtil::prepareFormOutput(
-                        ilSystemSupportContacts::getMailsToAddress()
-                    );
+                    ilSystemSupportContacts::getMailsToAddress()
+                );
             } else {
                 return $ilCtrl->getLinkTargetByClass("ilsystemsupportcontactsgui", "", "", false, false);
             }
