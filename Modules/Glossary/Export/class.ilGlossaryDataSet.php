@@ -218,14 +218,14 @@ class ilGlossaryDataSet extends ilDataSet
         switch ($a_entity) {
             case "glo":
                 return array(
-                    "glo_term" => array("ids" => $a_rec["Id"]),
-                    "glo_advmd_col_order" => array("ids" => $a_rec["Id"]),
-                    "glo_auto_glossaries" => array("ids" => $a_rec["Id"])
+                    "glo_term" => array("ids" => $a_rec["Id"] ?? null),
+                    "glo_advmd_col_order" => array("ids" => $a_rec["Id"] ?? null),
+                    "glo_auto_glossaries" => array("ids" => $a_rec["Id"] ?? null)
                 );
 
             case "glo_term":
                 return array(
-                    "glo_definition" => array("ids" => $a_rec["Id"])
+                    "glo_definition" => array("ids" => $a_rec["Id"] ?? null)
                 );
         }
 

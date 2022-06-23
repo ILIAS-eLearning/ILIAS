@@ -360,7 +360,7 @@ class ilStyleDataSet extends ilDataSet
         $this->ds_log->debug("entity: " . $a_entity . ", rec: " . print_r($a_rec, true));
         switch ($a_entity) {
             case "object_style":
-                $this->ds_log->debug("object id: " . $a_rec["ObjectId"] ?? 0);
+                $this->ds_log->debug("object id: " . ($a_rec["ObjectId"] ?? null));
                 $style_id = ilObjStyleSheet::lookupObjectStyle($a_rec["ObjectId"] ?? 0);
                 $this->ds_log->debug("style id: " . $style_id);
                 //if ($style_id > 0 && !ilObjStyleSheet::_lookupStandard($style_id))
@@ -373,18 +373,18 @@ class ilStyleDataSet extends ilDataSet
 
             case "sty":
                 return array(
-                    "sty_setting" => array("ids" => $a_rec["Id"] ?? 0),
-                    "sty_media_query" => array("ids" => $a_rec["Id"] ?? 0),
-                    "sty_char" => array("ids" => $a_rec["Id"] ?? 0),
-                    "sty_color" => array("ids" => $a_rec["Id"] ?? 0),
-                    "sty_parameter" => array("ids" => $a_rec["Id"] ?? 0),
-                    "sty_template" => array("ids" => $a_rec["Id"] ?? 0),
-                    "sty_usage" => array("ids" => $a_rec["Id"] ?? 0)
+                    "sty_setting" => array("ids" => $a_rec["Id"] ?? null),
+                    "sty_media_query" => array("ids" => $a_rec["Id"] ?? null),
+                    "sty_char" => array("ids" => $a_rec["Id"] ?? null),
+                    "sty_color" => array("ids" => $a_rec["Id"] ?? null),
+                    "sty_parameter" => array("ids" => $a_rec["Id"] ?? null),
+                    "sty_template" => array("ids" => $a_rec["Id"] ?? null),
+                    "sty_usage" => array("ids" => $a_rec["Id"] ?? null)
                 );
 
             case "sty_template":
                 return array(
-                    "sty_template_class" => array("ids" => $a_rec["Id"] ?? 0)
+                    "sty_template_class" => array("ids" => $a_rec["Id"] ?? null)
                 );
         }
 

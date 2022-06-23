@@ -16,7 +16,7 @@ class ilMetaDataExporter extends ilXmlExporter
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         $id = explode(":", $a_id);
-        $mdxml = new ilMD2XML($id[0], $id[1], $id[2]);
+        $mdxml = new ilMD2XML((int) $id[0], (int) $id[1], (string) $id[2]);
         $mdxml->setExportMode();
         $mdxml->startExport();
 
