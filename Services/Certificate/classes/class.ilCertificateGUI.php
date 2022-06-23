@@ -586,8 +586,8 @@ class ilCertificateGUI
 
             return [
                 'pageformat' => $format,
-                'pagewidth' => $formats['width'],
-                'pageheight' => $formats['height'],
+                'pagewidth' => $formats['width'] ?? '',
+                'pageheight' => $formats['height'] ?? '',
                 'margin_body_top' => ilPageFormats::DEFAULT_MARGIN_BODY_TOP,
                 'margin_body_right' => ilPageFormats::DEFAULT_MARGIN_BODY_RIGHT,
                 'margin_body_bottom' => ilPageFormats::DEFAULT_MARGIN_BODY_BOTTOM,
