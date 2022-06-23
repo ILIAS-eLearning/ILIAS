@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 namespace ILIAS\Notifications\Model;
 
@@ -223,6 +222,7 @@ class ilNotificationConfig
                 $title = $var[$defaultLanguage];
             }
         }
+        $notificationObject->title = $title;
 
         $short = $this->short_description->getName();
         if (isset($languageVars[$this->short_description->getName()])) {
@@ -233,6 +233,7 @@ class ilNotificationConfig
                 $short = $var[$defaultLanguage];
             }
         }
+        $notificationObject->shortDescription = $short;
 
         $long = $this->long_description->getName();
         if (isset($languageVars[$this->long_description->getName()])) {
@@ -243,24 +244,20 @@ class ilNotificationConfig
                 $long = $var[$defaultLanguage];
             }
         }
+        $notificationObject->longDescription = $long;
 
         foreach ($this->links as $link) {
-            $title = $link->getTitle()->getName();
+            $link_title = $link->getTitle()->getName();
             if (isset($languageVars[$link->getTitle()->getName()])) {
                 $var = $languageVars[$link->getTitle()->getName()]->lang;
                 if (isset($var[$user->getLanguage()])) {
-                    $title = $var[$user->getLanguage()];
+                    $link_title = $var[$user->getLanguage()];
                 } elseif (isset($var[$defaultLanguage])) {
-                    $title = $var[$defaultLanguage];
+                    $link_title = $var[$defaultLanguage];
                 }
             }
-            $link->setTitle($title);
-
+            $link->setTitle($link_title);
         }
-
-        $notificationObject->title = $title;
-        $notificationObject->shortDescription = $short;
-        $notificationObject->longDescription = $long;
 
         $notificationObject->iconPath = $this->iconPath;
 

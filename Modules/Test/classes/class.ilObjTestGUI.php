@@ -798,7 +798,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                     $questionGui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
                     $questionGui->object->setObjId($this->object->getId());
                     
-                    if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && $questionGUI->object->isInActiveTest()) {
+                    if (in_array($cmd, ['editQuestion', 'save', 'suggestedsolution']) && $questionGui->object->isInActiveTest()) {
                         $this->tpl->setOnScreenMessage('failure', $this->lng->txt("question_is_part_of_running_test"), true);
                         $this->ctrl->redirectByClass('ilAssQuestionPreviewGUI', ilAssQuestionPreviewGUI::CMD_SHOW);
                     }
