@@ -474,30 +474,30 @@ class ilExerciseDataSet extends ilDataSet
                     case "4.4.0":
                     case "5.0.0":
                         return array(
-                            "exc_assignment" => array("ids" => $a_rec["Id"])
+                            "exc_assignment" => array("ids" => $a_rec["Id"] ?? null)
                         );
 
                     case "5.1.0":
                     case "5.2.0":
                     case "5.3.0":
                         return array(
-                            "exc_crit_cat" => array("ids" => $a_rec["Id"]),
-                            "exc_assignment" => array("ids" => $a_rec["Id"])
+                            "exc_crit_cat" => array("ids" => $a_rec["Id"] ?? null),
+                            "exc_assignment" => array("ids" => $a_rec["Id"] ?? null)
                         );
                 }
                 break;
 
             case "exc_crit_cat":
                 return array(
-                    "exc_crit" => array("ids" => $a_rec["Id"])
+                    "exc_crit" => array("ids" => $a_rec["Id"] ?? null)
                 );
 
             case "exc_assignment":
                 switch ($a_version) {
                     case "5.3.0":
                         return array(
-                            "exc_ass_file_order" => array("ids" => $a_rec["Id"]),
-                            "exc_ass_reminders" => array("ids" => $a_rec["Id"])
+                            "exc_ass_file_order" => array("ids" => $a_rec["Id"] ?? null),
+                            "exc_ass_reminders" => array("ids" => $a_rec["Id"] ?? null)
                         );
 
                 }

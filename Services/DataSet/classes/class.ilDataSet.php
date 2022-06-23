@@ -282,7 +282,7 @@ abstract class ilDataSet
 
             $rec = $this->getXmlRecord($a_entity, $a_schema_version, $d);
             foreach ($rec as $f => $c) {
-                if (($types[$f] == "directory") && $this->absolute_export_dir !== "" && $this->relative_export_dir !== "") {
+                if ((($types[$f] ?? "") == "directory") && $this->absolute_export_dir !== "" && $this->relative_export_dir !== "") {
                     ilFileUtils::makeDirParents($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
                     ilFileUtils::rCopy($c, $this->absolute_export_dir . "/dsDir_" . $this->dircnt);
                     //echo "<br>copy-".$c."-".$this->absolute_export_dir."/dsDir_".$this->dircnt."-";

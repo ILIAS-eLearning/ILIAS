@@ -359,7 +359,7 @@ class ilExerciseManagementGUI
         // assignment selection
         $ass = ilExAssignment::getInstancesByExercise($this->exercise->getId());
         
-        if ($this->assignment === null) {
+        if ($this->assignment === null && count($ass) > 0) {
             $this->assignment = current($ass);
         }
         
