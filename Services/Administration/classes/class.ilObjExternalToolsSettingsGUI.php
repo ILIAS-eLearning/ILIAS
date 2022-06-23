@@ -145,7 +145,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
         $loc_prop->setLatitude($std_latitude);
         $loc_prop->setLongitude($std_longitude);
-        $loc_prop->setZoom($std_zoom);
+        $loc_prop->setZoom((int) $std_zoom);
         $form->addItem($loc_prop);
 
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
@@ -177,9 +177,9 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
             ilMapUtil::setActivated($form->getInput("enable") === "1");
             ilMapUtil::setType($form->getInput("type"));
             $location = $form->getInput("std_location");
-            ilMapUtil::setStdLatitude($location["latitude"]);
-            ilMapUtil::setStdLongitude($location["longitude"]);
-            ilMapUtil::setStdZoom($location["zoom"]);
+            ilMapUtil::setStdLatitude((string) $location["latitude"]);
+            ilMapUtil::setStdLongitude((string) $location["longitude"]);
+            ilMapUtil::setStdZoom((string) $location["zoom"]);
         }
         $ilCtrl->redirect($this, "editMaps");
     }
