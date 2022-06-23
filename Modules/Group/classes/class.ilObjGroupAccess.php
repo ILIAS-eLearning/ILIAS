@@ -128,7 +128,7 @@ class ilObjGroupAccess extends ilObjectAccess
 
         $t_arr = explode("_", $target);
         // registration codes
-        if (substr((string) $t_arr[2], 0, 5) == 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID) {
+        if (substr((string) ($t_arr[2] ?? ""), 0, 5) === 'rcode' and $ilUser->getId() != ANONYMOUS_USER_ID) {
             self::$using_code = true;
             return true;
         }
