@@ -355,8 +355,8 @@ class ilLearningModuleDataSet extends ilDataSet
         switch ($a_entity) {
             case "lm":
                 return array(
-                    "lm_tree" => array("ids" => $a_rec["Id"]),
-                    "lm_menu" => array("ids" => $a_rec["Id"])
+                    "lm_tree" => array("ids" => $a_rec["Id"] ?? null),
+                    "lm_menu" => array("ids" => $a_rec["Id"] ?? null)
                 );
 
             case "lm_tree":
@@ -364,7 +364,7 @@ class ilLearningModuleDataSet extends ilDataSet
                     return [];
                 } else {
                     return array(
-                        "lm_data_transl" => array("ids" => $a_rec["Child"])
+                        "lm_data_transl" => array("ids" => $a_rec["Child"] ?? null)
                     );
                 }
         }

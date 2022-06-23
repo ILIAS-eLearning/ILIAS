@@ -293,8 +293,8 @@ class ilWikiDataSet extends ilDataSet
         switch ($a_entity) {
             case "wiki":
                 return array(
-                    "wpg" => array("ids" => $a_rec["Id"]),
-                    "wiki_imp_page" => array("ids" => $a_rec["Id"])
+                    "wpg" => array("ids" => $a_rec["Id"] ?? null),
+                    "wiki_imp_page" => array("ids" => $a_rec["Id"] ?? null)
                 );
         }
 
