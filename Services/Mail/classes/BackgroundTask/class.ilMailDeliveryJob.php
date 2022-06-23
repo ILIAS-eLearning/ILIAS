@@ -53,10 +53,16 @@ class ilMailDeliveryJob extends AbstractJob
         } else {
             $mail = new ilFormatMail((int) $input[0]->getValue());
         }
+
+        $context_parameters = (array) unserialize($input[10]->getValue(), ['allowed_classes' => false]);
+        if (isset($context_parameters['auto_responder'])) {
+            ilMail::setAutoResponderStatus((bool) $context_parameters['auto_responder']);
+        }
+
         $mail->setSaveInSentbox((bool) $input[8]->getValue());
         $mail = $mail
             ->withContextId((string) $input[9]->getValue())
-            ->withContextParameters((array) unserialize($input[10]->getValue(), ['allowed_classes' => false]));
+            ->withContextParameters($context_parameters);
 
         $mail->sendMail(
             (string) $input[1]->getValue(), // To

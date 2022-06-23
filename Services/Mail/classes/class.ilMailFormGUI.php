@@ -193,6 +193,8 @@ class ilMailFormGUI
 
         $mailer->setSaveInSentbox(true);
 
+        ilMail::setAutoResponderStatus(true);
+
         if ($errors = $mailer->enqueue(
             ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), '')),
             ilUtil::securePlainString($this->getBodyParam('rcp_cc', $this->refinery->kindlyTo()->string(), '')),
@@ -205,6 +207,8 @@ class ilMailFormGUI
             $this->requestAttachments = $files;
             $this->showSubmissionErrors($errors);
         } else {
+            ilMail::setAutoResponderStatus(false);
+
             $mailer->savePostData(
                 $this->user->getId(),
                 [],
@@ -224,6 +228,7 @@ class ilMailFormGUI
                 $this->ctrl->redirectByClass(ilMailGUI::class);
             }
         }
+        ilMail::setAutoResponderStatus(false);
 
         $this->showForm();
     }
