@@ -253,14 +253,15 @@ class ilDidacticTemplateSetting
         $lang = $this->getTranslationObject()->getLanguages();
 
         if (!$lang) {
-            return "";
+            return '';
         }
-
         if (!$a_lng) {
             $a_lng = $this->user->getCurrentLanguage();
         }
-
-        return $lang[$a_lng][$a_value] ?? $lang[$a_lng][$this->getTranslationObject()->getDefaultLanguage()];
+        if (!isset($lang[$a_lng])) {
+            $a_lng = $this->getTranslationObject()->getDefaultLanguage();
+        }
+        return $lang[$a_lng][$a_value] ?? '';
     }
 
     public function delete() : bool
