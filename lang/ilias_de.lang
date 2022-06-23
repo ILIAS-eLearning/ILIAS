@@ -10759,6 +10759,14 @@ lti#:#user_lng#:#Benutzersprache
 lti#:#user_provider_subtab#:#Von Benutzern definierte Provider
 ltiv#:#ltiv_create#:#Zertifikat für LTI-Konsument-Objekt erstellen
 ltiv#:#ltiv_create_info#:#Wählen Sie ein abgeschlossenes LTI-Konsument-Objekt aus, um ein Zertifikat dafür zu generieren.
+mail#:#absence_status#:#Abwesenheit konfigurieren
+mail#:#absence_status_info#:#Durch Anhaken können Sie hier den automatischen Versand einer Abwesenheitsnachricht aktivieren.
+mail#:#absence_duration#:#Dauer der Abwesenheit
+mail#:#absent_from#:#Abwesend von
+mail#:#absent_until#:#Abwesend bis einschließlich
+mail#:#absence_auto_responder_subject#:#Betreff
+mail#:#absence_auto_responder_body#:#Nachricht
+mail#:#absence_auto_responder_body_info#:#Bitte geben Sie hier die Nachricht ein, die während Ihrer Abwesenheit automatisch versendet werden soll, wenn Benutzer Ihnen eine ILIAS-interne Nachricht schicken.
 mail#:#back_to_folder#:#Zurück zum Ordner
 mail#:#bc#:#BCC
 mail#:#current_folder#:#Aktueller Ordner: %s

@@ -54,6 +54,8 @@ class ilMail
     protected int $maxRecipientCharacterLength = 998;
     protected ilMailMimeSenderFactory $senderFactory;
     protected ilObjUser $actor;
+    protected static bool $auto_responder_status = false;
+    protected array $auto_responder_data = [];
 
     public function __construct(
         int $a_user_id,
@@ -94,6 +96,16 @@ class ilMail
         $this->table_mail = 'mail';
         $this->table_mail_saved = 'mail_saved';
         $this->setSaveInSentbox(false);
+    }
+
+    public static function setAutoResponderStatus(bool $auto_responder_status) : void
+    {
+        self::$auto_responder_status = $auto_responder_status;
+    }
+
+    public static function getAutoResponderStatus() : bool
+    {
+        return self::$auto_responder_status;
     }
 
     public function withContextId(string $contextId): self
@@ -571,6 +583,7 @@ class ilMail
         int $sentMailId,
         bool $usePlaceholders = false
     ): bool {
+        $this->auto_responder_data = [];
         if ($usePlaceholders) {
             $toUsrIds = $this->getUserIds([$to]);
             $this->logger->debug(sprintf(
@@ -623,6 +636,28 @@ class ilMail
                 $attachments,
                 $sentMailId
             );
+        }
+
+        $contextUser = ilObjectFactory::getInstanceByObjId($this->user_id);
+
+        self::setAutoResponderStatus(false);
+        if ($this->auto_responder_data) {
+            foreach ($this->auto_responder_data as $usr_id => $mail_options) {
+                /** @var $mail_options ilMailOptions */
+                $tmpmail = new ilFormatMail($usr_id);
+                $tmpmail->setSaveInSentbox(false);
+                if ($contextUser) {
+                    $tmpmail->sendMail(
+                        $contextUser->getLogin(),
+                        '',
+                        '',
+                        $mail_options->getAbsenceAutoResponderSubject(),
+                        $mail_options->getAbsenceAutoResponderBody() . chr(13) . chr(10) . $mail_options->getSignature(),
+                        [],
+                        false
+                    );
+                }
+            }
         }
 
         return true;
@@ -723,6 +758,10 @@ class ilMail
                 $individualMessage,
                 $user->getId()
             );
+
+            if (self::getAutoResponderStatus() && $mailOptions->isAbsent()) {
+                $this->auto_responder_data[$user->getId()] = $mailOptions;
+            }
 
             if ($attachments !== []) {
                 $this->mfile->assignAttachmentsToDirectory($internalMailId, $sentMailId);
@@ -1037,7 +1076,12 @@ class ilMail
             $a_use_placeholders,
             $this->getSaveInSentbox(),
             (string) $this->contextId,
-            serialize($this->contextParameters),
+            serialize(array_merge(
+                $this->contextParameters,
+                [
+                    'auto_responder' => self::getAutoResponderStatus()
+                ]
+            ))
         ]);
         $interaction = $taskFactory->createTask(ilMailDeliveryJobUserInteraction::class, [
             $task,

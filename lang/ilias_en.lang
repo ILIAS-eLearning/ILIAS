@@ -10760,6 +10760,14 @@ lti#:#user_lng#:#User Languague
 lti#:#user_provider_subtab#:#Providers Defined by Users
 ltiv#:#ltiv_create#:#Create Certificate for LTI Consumer Object
 ltiv#:#ltiv_create_info#:#Select a completed LTI consumer object to generate a certificate for it
+mail#:#absence_status#:#Enable Autoresponder
+mail#:#absence_status_info#:#Durch Anhaken können Sie hier den automatischen Versand einer Abwesenheitsnachricht aktivieren.
+mail#:#absence_duration#:#Duration
+mail#:#absent_from#:#Absent From
+mail#:#absent_until#:#Ansend Until
+mail#:#absence_auto_responder_subject#:#Subject
+mail#:#absence_auto_responder_body#:#Message
+mail#:#absence_auto_responder_body_info#:#Please enter a message which should be automatically send to all users which try to send you an internal ILIAS message while your are absent.
 mail#:#back_to_folder#:#Back to Folder
 mail#:#bc#:#BCC
 mail#:#current_folder#:#Current Folder: %s
