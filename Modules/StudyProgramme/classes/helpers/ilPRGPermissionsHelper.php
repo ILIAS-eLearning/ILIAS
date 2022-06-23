@@ -149,7 +149,7 @@ class ilPRGPermissionsHelper
 
     protected function getUserIdsInPrgAccessibleForOperation(string $orgu_operation) : array
     {
-        if (!$this->cache[$orgu_operation]) {
+        if (!isset($this->cache[$orgu_operation])) {
             $user_ids = array_map(
                 'intval',
                 $this->orgu_access->filterUserIdsByPositionOfCurrentUser(
@@ -168,7 +168,7 @@ class ilPRGPermissionsHelper
      */
     protected function getAllAssignedUserIds() : array
     {
-        if (!$this->cache[self::ROLEPERM_MANAGE_MEMBERS]) {
+        if (!isset($this->cache[self::ROLEPERM_MANAGE_MEMBERS])) {
             $this->cache[self::ROLEPERM_MANAGE_MEMBERS] = array_unique($this->programme->getMembers());
         }
         return $this->cache[self::ROLEPERM_MANAGE_MEMBERS];
