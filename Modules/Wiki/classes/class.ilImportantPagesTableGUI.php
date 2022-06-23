@@ -38,8 +38,8 @@ class ilImportantPagesTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $data = array("page_id" => 0) +
-            ilObjWiki::_lookupImportantPagesList($a_parent_obj->object->getId());
+        $data = [array("page_id" => 0)] +
+            ilObjWiki::_lookupImportantPagesList($a_parent_obj->getObject()->getId());
         $this->setData($data);
         $this->setTitle($lng->txt(""));
         $this->setLimit(9999);
@@ -92,7 +92,7 @@ class ilImportantPagesTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable(
                 "PAGE_TITLE",
-                ($this->getParentObject()->object->getStartPage())
+                ($this->getParentObject()->getObject()->getStartPage())
             );
 
             $this->tpl->setVariable(

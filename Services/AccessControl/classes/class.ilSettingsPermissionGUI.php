@@ -47,7 +47,7 @@ class ilSettingsPermissionGUI
         $this->lng = $DIC->language();
         $this->lng->loadLanguageModule("rbac");
         $this->ctrl = $DIC->ctrl();
-        $this->obj = $a_gui_obj->object;
+        $this->obj = $a_gui_obj->getObject();
         $this->review = $DIC->rbac()->review();
         $this->admin = $DIC->rbac()->admin();
         $this->tpl = $DIC->ui()->mainTemplate();
@@ -67,7 +67,7 @@ class ilSettingsPermissionGUI
     {
         $roles = array();
         foreach ($this->base_roles as $k => $r) {
-            $ops = $this->review->getActiveOperationsOfRole($this->obj->getRefId(), $r["rol_id"]);
+            $ops = $this->review->getActiveOperationsOfRole($this->obj->getRefId(), (int) $r["rol_id"]);
             $use = true;
             foreach ($this->getRoleRequiredPermissions() as $o) {
                 if (!in_array($o, $ops)) {
@@ -206,7 +206,7 @@ class ilSettingsPermissionGUI
                 $option = new ilCheckboxOption(ilObjRole::_getTranslation($r["title"]), $k);
                 $cb->addOption($option);
             }
-            if (is_array($perm_roles[$this->base_permissions_by_op[$p]])) {
+            if (isset($perm_roles[$this->base_permissions_by_op[$p]])) {
                 $cb->setValue($perm_roles[$this->base_permissions_by_op[$p]]);
             }
             $form->addItem($cb);
