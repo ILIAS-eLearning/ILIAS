@@ -137,7 +137,7 @@ class ilPortfolioDataSet extends ilDataSet
     ) : array {
         if ($a_entity === "prtt") {
             return array(
-                "portfolio_page" => array("ids" => $a_rec["Id"])
+                "portfolio_page" => array("ids" => $a_rec["Id"] ?? null)
             );
         }
         return [];

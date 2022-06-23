@@ -144,7 +144,7 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
                 return parent::checkCommandAccess($permission, $cmd, $this->getCommandId(), $type, $obj_id);
         }
 
-        return parent::checkCommandAccess($permission, $cmd, $this->getCommandId(), 'prgr', "");
+        return parent::checkCommandAccess($permission, $cmd, $this->getCommandId(), 'prgr', null);
     }
     
     /**
@@ -173,14 +173,14 @@ class ilObjStudyProgrammeReferenceListGUI extends ilObjStudyProgrammeListGUI
     }
 
     public function getListItemHTML(
-        $a_ref_id,
-        $a_obj_id,
-        $a_title,
-        $a_description,
-        $a_use_asynch = false,
-        $a_get_asynch_commands = false,
-        $a_asynch_url = "",
-        $a_context = self::CONTEXT_REPOSITORY
+        int $a_ref_id,
+        int $a_obj_id,
+        string $a_title,
+        string $a_description,
+        bool $a_use_asynch = false,
+        bool $a_get_asynch_commands = false,
+        string $a_asynch_url = "",
+        int $a_context = self::CONTEXT_REPOSITORY
     ) : string {
         $target_obj_id = ilContainerReference::_lookupTargetId($a_obj_id);
         $target_ref_id = current(ilObject::_getAllReferences($target_obj_id));
