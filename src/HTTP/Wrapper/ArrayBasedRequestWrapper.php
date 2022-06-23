@@ -42,11 +42,7 @@ class ArrayBasedRequestWrapper implements RequestWrapper
      */
     public function retrieve(string $key, Transformation $transformation)
     {
-        if (!$this->has($key)) {
-            throw new \OutOfBoundsException('unknown property demanded');
-        }
-
-        return $transformation->transform($this->raw_values[$key]);
+        return $transformation->transform($this->raw_values[$key] ?? null);
     }
 
 
