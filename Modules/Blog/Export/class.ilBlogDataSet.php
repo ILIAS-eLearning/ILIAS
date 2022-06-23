@@ -235,7 +235,7 @@ class ilBlogDataSet extends ilDataSet
     ) : array {
         if ($a_entity === "blog") {
             return array(
-                "blog_posting" => array("ids" => $a_rec["Id"])
+                "blog_posting" => array("ids" => $a_rec["Id"] ?? null)
             );
         }
         return [];
