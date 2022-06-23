@@ -2854,7 +2854,6 @@ s     */
 
         foreach ($usages as $u) {
             $id = $this->db->nextId('page_style_usage');
-
             $this->db->manipulate("INSERT INTO page_style_usage " .
                 "(id, page_id, page_type, page_lang, page_nr, template, stype, sname) VALUES (" .
                 $this->db->quote($id, "integer") . "," .
