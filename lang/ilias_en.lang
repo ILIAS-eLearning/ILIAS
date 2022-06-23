@@ -1110,6 +1110,7 @@ assessment#:#tst_msg_random_qsc_modified_add_new_rule#:#The configuration for th
 assessment#:#tst_msg_random_question_set_config_modified#:#The configuration for the random set of questions has been modified successfully.
 assessment#:#tst_msg_random_question_set_synced#:#The questions for the current configuration has been synchronized successfully.
 assessment#:#tst_btn_rebuild_random_question_stage#:#Synchronize Questions from Pool
+assessment#:#tst_btn_reset_pool_sync#:#Edit/Cancel Synchronisation
 assessment#:#tst_msg_rand_quest_set_stage_pool_last_sync#:#Date of last synchronisation of selected question pools: %s
 assessment#:#tst_msg_rand_quest_set_pass_buildable#:#A test with a random set of questions is possible with the current configuration.
 assessment#:#tst_msg_rand_quest_set_pass_not_buildable#:#<b>A test with a random set of questions is not possible with the current selection of question pools and the amount of questions.</b><br />
