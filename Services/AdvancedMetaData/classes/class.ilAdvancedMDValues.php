@@ -454,7 +454,7 @@ class ilAdvancedMDValues
         $record_groups = array();
 
         foreach ($a_records as $rec) {
-            $obj_id = (int) $rec[$a_obj_id_key];
+            $obj_id = (int) ($rec[$a_obj_id_key] ?? 0);
             $sub_id = $rec[$a_obj_subid_key];
 
             // get adv records

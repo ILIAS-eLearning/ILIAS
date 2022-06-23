@@ -275,13 +275,13 @@ class ilMediaObjectDataSet extends ilDataSet
         switch ($a_entity) {
             case "mob":
                 return array(
-                    "mob_media_item" => array("ids" => $a_rec["Id"])
+                    "mob_media_item" => array("ids" => $a_rec["Id"] ?? null)
                 );
                 
             case "mob_media_item":
                 return array(
-                    "mob_mi_map_area" => array("ids" => $a_rec["Id"]),
-                    "mob_mi_parameter" => array("ids" => $a_rec["Id"])
+                    "mob_mi_map_area" => array("ids" => $a_rec["Id"] ?? null),
+                    "mob_mi_parameter" => array("ids" => $a_rec["Id"] ?? null)
                 );
         }
         return [];

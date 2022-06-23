@@ -235,7 +235,7 @@ class ilMediaPoolDataSet extends ilDataSet
         switch ($a_entity) {
             case "mep":
                 return array(
-                    "mep_tree" => array("ids" => $a_rec["Id"])
+                    "mep_tree" => array("ids" => $a_rec["Id"] ?? null)
                 );
         }
         return [];
