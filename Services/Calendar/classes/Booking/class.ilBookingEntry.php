@@ -347,7 +347,7 @@ class ilBookingEntry
             'JOIN cal_entries ce on be.booking_id = ce.context_id ' .
             'JOIN cal_cat_assignments cca on ce.cal_id = cca.cal_id ' .
             'JOIN cal_categories cc on cca.cat_id = cc.cat_id ' .
-            'WHERE ' . $ilDB->in('be.obj_id', (array) $a_user_ids, false, 'integer') . ' ' .
+            'WHERE ' . $ilDB->in('be.obj_id', $a_user_ids, false, 'integer') . ' ' .
             'AND ' . $ilDB->in('bo.target_obj_id', $a_obj_id, false, 'integer') . ' ' .
             'AND cc.obj_id = be.obj_id ' .
             'AND cc.type = ' . $ilDB->quote(ilCalendarCategory::TYPE_CH, 'integer') . ' ';
@@ -368,7 +368,7 @@ class ilBookingEntry
             'JOIN cal_cat_assignments cca on ce.cal_id = cca.cal_id ' .
             'JOIN cal_categories cc on cca.cat_id = cc.cat_id ' .
             'WHERE bo.booking_id IS NULL ' .
-            'AND ' . $ilDB->in('be.obj_id', (array) $a_user_ids, false, 'integer') . ' ' .
+            'AND ' . $ilDB->in('be.obj_id', $a_user_ids, false, 'integer') . ' ' .
             'AND cc.obj_id = be.obj_id ' .
             'AND cc.type = ' . $ilDB->quote(ilCalendarCategory::TYPE_CH, 'integer') . ' ';
 

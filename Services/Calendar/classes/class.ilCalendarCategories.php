@@ -390,7 +390,7 @@ class ilCalendarCategories
     {
         $not = array();
         foreach ($this->categories_info as $info) {
-            if ($info['type'] == ilCalendarCategory::TYPE_OBJ and $info['editable'] == true) {
+            if ($info['type'] == ilCalendarCategory::TYPE_OBJ and $info['editable']) {
                 if (ilObject::_lookupType($info['obj_id']) == 'crs' or ilObject::_lookupType($info['obj_id']) == 'grp') {
                     $not[] = (int) $info['cat_id'];
                 }

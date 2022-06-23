@@ -95,7 +95,7 @@ class ilCalendarExport
      */
     public function getCalendarIds() : array
     {
-        return (array) $this->calendars;
+        return $this->calendars;
     }
 
     public function getExportType() : int

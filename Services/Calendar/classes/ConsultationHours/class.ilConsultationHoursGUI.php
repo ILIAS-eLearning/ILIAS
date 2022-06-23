@@ -649,7 +649,7 @@ class ilConsultationHoursGUI
         $this->form->getItemByPostVar('ap')->setValue(1);
         $this->form->getItemByPostVar('du')->setMinutes(15);
         $this->form->getItemByPostVar('st')->setDate(
-            new ilDateTime(mktime(8, 0, 0, date('n', time()), date('d', time()), date('Y', time())), IL_CAL_UNIX)
+            new ilDateTime(mktime(8, 0, 0, (int) date('n', time()), (int) date('d', time()), (int) date('Y', time())), IL_CAL_UNIX)
         );
         $this->tpl->setContent($this->form->getHTML());
     }

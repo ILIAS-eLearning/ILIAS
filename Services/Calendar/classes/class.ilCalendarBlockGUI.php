@@ -222,7 +222,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
 
             case "ilcalendarappointmentpresentationgui":
                 $this->initCategories();
-                $presentation = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed);
+                $presentation = ilCalendarAppointmentPresentationGUI::_getInstance($this->seed, []);
                 $this->ctrl->forwardCommand($presentation);
                 break;
 
@@ -532,7 +532,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
             }
         }
 
-        if ($this->getProperty("settings") == true) {
+        if ($this->getProperty("settings")) {
             $this->addBlockCommand(
                 $this->ctrl->getLinkTarget($this, "editSettings"),
                 $this->lng->txt("settings")

@@ -710,8 +710,7 @@ class ilCalendarUtil
     public static function parseIncomingDate($a_value, bool $a_add_time = false) : ?ilDateTime
     {
         // already datetime object?
-        if (is_object($a_value) &&
-            $a_value instanceof ilDateTime) {
+        if ($a_value instanceof ilDateTime) {
             return $a_value;
         } elseif (trim($a_value)) {
             // try user-specific format

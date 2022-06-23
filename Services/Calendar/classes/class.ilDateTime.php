@@ -426,7 +426,7 @@ class ilDateTime
                 break;
 
             case IL_CAL_TIMESTAMP:
-                if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $a_date, $d_parts) == false) {
+                if (!preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $a_date, $d_parts)) {
                     $this->log->warning('Cannot parse date: ' . $a_date);
                     throw new ilDateTimeException('Cannot parse date.');
                 }

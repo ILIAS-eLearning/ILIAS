@@ -223,6 +223,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
 
         $path_categories = array();
         foreach ($categories as $cat) {
+            $cat['path'] = '';
             if ($cat['type'] == ilCalendarCategory::TYPE_OBJ) {
                 if (
                     isset($tmp_title_counter[$category['type'] . '_' . $category['title']]) &&
