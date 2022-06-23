@@ -488,7 +488,8 @@ class ilDBUpdateNewObjectType
             . "OR " . $db->like("ops_id", "text", "%:\"" . $source_op_id . "\";%") . ")" . PHP_EOL
         ;
 
-        while ($row = $db->fetchAssoc($db->query($sql))) {
+        $res = $db->query($sql);
+        while ($row = $db->fetchAssoc($res)) {
             $ops = unserialize($row["ops_id"]);
             // the query above could match by array KEY, we need extra checks
             if (in_array($source_op_id, $ops) && !in_array($target_op_id, $ops)) {

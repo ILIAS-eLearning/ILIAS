@@ -115,8 +115,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 $this->selected_post_storage->get($thr_pk) ?? 0,
                 $this->is_moderator
             );
-
-            $this->showResetLimitedViewInfo();
+            $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
         } else {
             $this->selected_post_storage->set($this->objCurrentTopic->getId(), 0);
             $this->objCurrentPost = new ilForumPost(
@@ -1311,11 +1310,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
     protected function selectPostObject() : void
     {
+        $thr_pk = (int) $this->httpRequest->getQueryParams()['thr_pk'];
+        $pos_pk = (int) $this->httpRequest->getQueryParams()['pos_pk'];
+
         $this->selected_post_storage->set(
-            (int) $this->httpRequest->getQueryParams()['thr_pk'],
-            (int) $this->httpRequest->getQueryParams()['pos_pk']
+            $thr_pk,
+            $pos_pk
         );
-        $this->showResetLimitedViewInfo();
+
         $this->viewThreadObject();
     }
 
@@ -3339,7 +3341,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 			$elm.removeAttr("height");
 		});');
 
-        $this->tpl->setContent($threadContentTemplate->get() . $this->getModalActions());
+        if ($this->selectedSorting === ilForumProperties::VIEW_TREE && ($this->selected_post_storage->get($thr_pk) > 0)) {
+            $info = $this->getResetLimitedViewInfo();
+        }
+
+        $this->tpl->setContent(($info ?? '') . $threadContentTemplate->get() . $this->getModalActions());
     }
 
     private function renderViewModeControl(int $currentViewMode) : void
@@ -5886,20 +5892,23 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->ctrl->clearParameters($this);
     }
 
-    private function showResetLimitedViewInfo() : void
+    private function getResetLimitedViewInfo() : string
     {
         $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
 
-        $info = $this->uiRenderer->render([
-            $this->uiFactory->legacy($this->lng->txt('reset_limited_view_info')),
-            $this->uiFactory->legacy(' '),
-            $this->uiFactory->link()->standard(
-                $this->lng->txt('reset'),
+        $buttons = [
+            $this->uiFactory->button()->standard(
+                $this->lng->txt('reset_limited_view_button'),
                 $this->ctrl->getLinkTarget($this, 'resetLimitedView')
             )
-        ]);
+        ];
 
-        $this->tpl->setOnScreenMessage('info', $info);
+        return $this->uiRenderer->render(
+            $this->uiFactory
+                ->messageBox()
+                ->info($this->lng->txt('reset_limited_view_info'))
+                ->withButtons($buttons)
+        );
     }
 
     private function getOrderByParam() : string

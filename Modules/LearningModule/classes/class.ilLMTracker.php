@@ -385,7 +385,7 @@ class ilLMTracker
             $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"] = $a_has_pred_incorrect_answers;
             $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_not_unlocked_answers"] = $a_has_pred_incorrect_not_unlocked_answers;
 
-            if (is_array($this->tree_arr["childs"][$a_obj_id])) {
+            if (isset($this->tree_arr["childs"][$a_obj_id])) {
                 // sort childs in correct order
                 $this->tree_arr["childs"][$a_obj_id] = ilArrayUtil::sortArray(
                     $this->tree_arr["childs"][$a_obj_id],

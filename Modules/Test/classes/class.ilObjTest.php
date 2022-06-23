@@ -1607,8 +1607,11 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             );
         }
         $index = 1;
-        while ($data = $ilDB->fetchAssoc($result)) {
-            $this->questions[$index++] = $data["question_fi"];
+        if($this->test_id !== -1) {
+            //Omit loading of questions for non-id'ed test
+            while ($data = $ilDB->fetchAssoc($result)) {
+                $this->questions[$index++] = $data["question_fi"];
+            }
         }
     }
 
@@ -3451,7 +3454,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $user_id = $ilUser->getId();
         }
         $tst_access_code = ilSession::get('tst_access_code');
-        if (($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) && (strlen($tst_access_code[$this->getTestId()]))) {
+        if (($GLOBALS['DIC']['ilUser']->getId() == ANONYMOUS_USER_ID) && $tst_access_code !== null && (strlen($tst_access_code[$this->getTestId()]))) {
             $result = $ilDB->queryF(
                 "SELECT active_id FROM tst_active WHERE user_fi = %s AND test_fi = %s AND anonymous_id = %s",
                 array('integer','integer','text'),
@@ -7439,7 +7442,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             "max_points" => $this->lng->txt("tst_maximum_points"),
             "percent_value" => $this->lng->txt("tst_percent_solved"),
             "mark" => $this->lng->txt("tst_mark"),
-            "ects" => $this->lng->txt("ects_grade")
+            "ects" => $this->lng->txt("ects_grade"),
+            "passed" => $this->lng->txt("tst_mark_passed"),
         );
         $results[] = $row;
         if (count($participants)) {
@@ -7489,7 +7493,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     "max_points" => $max_points,
                     "percent_value" => $percentvalue,
                     "mark" => $mark,
-                    "ects" => $ects_mark
+                    "ects" => $ects_mark,
+                    "passed" => $user_rec['passed'] ? '1' : '0',
                 );
                 $results[] = $prepareForCSV ? $this->processCSVRow($row, true) : $row;
             }
@@ -9736,7 +9741,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                             "question_id" => $question->getId(),
                             "question_title" => $question->getTitle(),
                             "reached_points" => $reached_points,
-                            "max_points" => $max_points
+                            "max_points" => $max_points,
+                            "passed" => $user_rec['passed'] ? '1' : '0',
                         );
                         $results[] = $row;
                     }
@@ -10464,9 +10470,9 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      *
      * @return boolean
      */
-    public function isOfferingQuestionHintsEnabled() : ?bool
+    public function isOfferingQuestionHintsEnabled() : bool
     {
-        return $this->offeringQuestionHintsEnabled;
+        return $this->offeringQuestionHintsEnabled ?: false;
     }
 
     /**

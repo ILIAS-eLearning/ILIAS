@@ -403,7 +403,7 @@ abstract class assQuestionGUI
     /**
      * Creates a question gui representation and returns the alias to the question gui
      */
-    public static function _getQuestionGUI(string $question_type = '', int $question_id = -1) : assQuestionGUI
+    public static function _getQuestionGUI(string $question_type = '', int $question_id = -1) : ?assQuestionGUI
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -415,7 +415,8 @@ abstract class assQuestionGUI
         }
         
         if ($question_type === '') {
-            throw new ilTestQuestionPoolInvalidArgumentException('No question type given or determined by question_id');
+            return null;
+//            throw new ilTestQuestionPoolInvalidArgumentException('No question type given or determined by question_id');
         }
 
         assQuestion::_includeClass($question_type, 1);

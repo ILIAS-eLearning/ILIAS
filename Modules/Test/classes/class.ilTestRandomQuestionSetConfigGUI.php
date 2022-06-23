@@ -1,5 +1,21 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetConfig.php';
 require_once 'Modules/Test/classes/class.ilTestRandomQuestionSetSourcePoolDefinitionList.php';
@@ -41,6 +57,7 @@ class ilTestRandomQuestionSetConfigGUI
     const CMD_BUILD_QUESTION_STAGE = 'buildQuestionStage';
     const CMD_SELECT_DERIVATION_TARGET = 'selectPoolDerivationTarget';
     const CMD_DERIVE_NEW_POOLS = 'deriveNewPools';
+    const CMD_RESET_POOLSYNC = 'resetPoolSync';
     
     const HTTP_PARAM_AFTER_REBUILD_QUESTION_STAGE_CMD = 'afterRebuildQuestionStageCmd';
     private \ILIAS\Test\InternalRequestService $testrequest;
@@ -123,6 +140,11 @@ class ilTestRandomQuestionSetConfigGUI
      */
     private $processLockerFactory;
 
+    /**
+     * @var ArrayAccess
+     */
+    protected $dic;
+
     public function __construct(
         ilCtrl $ctrl,
         ilAccessHandler $access,
@@ -146,8 +168,10 @@ class ilTestRandomQuestionSetConfigGUI
         $this->db = $db;
         $this->tree = $tree;
         $this->pluginAdmin = $pluginAdmin;
-        $this->objDefinition = $GLOBALS['DIC']['objDefinition'];
         $this->testOBJ = $testOBJ;
+
+        $this->dic = $DIC;
+        $this->objDefinition = $this->dic['objDefinition'];
 
         $this->questionSetConfig = new ilTestRandomQuestionSetConfig(
             $this->tree,
@@ -155,6 +179,7 @@ class ilTestRandomQuestionSetConfigGUI
             $this->pluginAdmin,
             $this->testOBJ
         );
+        $this->questionSetConfig->loadFromDb();
 
         $this->sourcePoolDefinitionFactory = new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
             $this->db,
@@ -341,36 +366,38 @@ class ilTestRandomQuestionSetConfigGUI
 
     private function showGeneralConfigFormCmd(ilTestRandomQuestionSetGeneralConfigFormGUI $form = null)
     {
+        $disabled_form = $this->preventFormBecauseOfSync();
+
         if ($form === null) {
             $this->questionSetConfig->loadFromDb();
-            $form = $this->buildGeneralConfigFormGUI();
+            $form = $this->buildGeneralConfigFormGUI($disabled_form);
         }
-        
+
         $this->tpl->setContent($this->ctrl->getHTML($form));
 
-        $this->configStateMessageHandler->setContext(
-            ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_GENERAL_CONFIG
-        );
-        
-        $this->configStateMessageHandler->handle();
-        
-        if ($this->configStateMessageHandler->hasValidationReports()) {
-            if ($this->configStateMessageHandler->isValidationFailed()) {
-                $this->tpl->setOnScreenMessage('failure', $this->configStateMessageHandler->getValidationReportHtml());
-            } else {
-                $this->tpl->setOnScreenMessage('info', $this->configStateMessageHandler->getValidationReportHtml());
+        if (!$disabled_form) {
+            $this->configStateMessageHandler->setContext(
+                ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_GENERAL_CONFIG
+            );
+
+            $this->configStateMessageHandler->handle();
+            
+            if ($this->configStateMessageHandler->hasValidationReports()) {
+                if ($this->configStateMessageHandler->isValidationFailed()) {
+                    $this->tpl->setOnScreenMessage('failure', $this->configStateMessageHandler->getValidationReportHtml());
+                } else {
+                    $this->tpl->setOnScreenMessage('info', $this->configStateMessageHandler->getValidationReportHtml());
+                }
             }
-        }
-        
-        if ($this->testrequest->isset('modified') && (int) $this->testrequest->raw('modified')) {
-            $this->tpl->setOnScreenMessage('success', $this->getGeneralModificationSuccessMessage());
+
+            if ($this->testrequest->isset('modified') && (int) $this->testrequest->raw('modified')) {
+                $this->tpl->setOnScreenMessage('success', $this->getGeneralModificationSuccessMessage());
+            }
         }
     }
 
     private function saveGeneralConfigFormCmd()
     {
-        $this->questionSetConfig->loadFromDb();
-
         $form = $this->buildGeneralConfigFormGUI();
 
         $errors = !$form->checkInput(); // ALWAYS CALL BEFORE setValuesByPost()
@@ -392,7 +419,8 @@ class ilTestRandomQuestionSetConfigGUI
         $this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_CONFIG_FORM);
     }
 
-    private function buildGeneralConfigFormGUI() : ilTestRandomQuestionSetGeneralConfigFormGUI
+
+    private function buildGeneralConfigFormGUI(bool $disabled = false) : ilTestRandomQuestionSetGeneralConfigFormGUI
     {
         require_once 'Modules/Test/classes/forms/class.ilTestRandomQuestionSetGeneralConfigFormGUI.php';
 
@@ -404,9 +432,18 @@ class ilTestRandomQuestionSetConfigGUI
             $this->questionSetConfig
         );
 
+        //TODO: should frozen config not lead to 'completely disabled' as well?!
         $form->setEditModeEnabled(!$this->isFrozenConfigRequired());
-
+        
+        if ($disabled) {
+            $form->setEditModeEnabled(false);
+        }
+    
         $form->build();
+    
+        if ($disabled) {
+            $form->clearCommandButtons();
+        }
 
         return $form;
     }
@@ -415,24 +452,30 @@ class ilTestRandomQuestionSetConfigGUI
     {
         $this->questionSetConfig->loadFromDb();
 
+        $disabled_form = $this->preventFormBecauseOfSync();
+
         $content = '';
 
-        if (!$this->isFrozenConfigRequired()) {
+        if (!$this->isFrozenConfigRequired() && !$disabled_form) {
             $toolbar = $this->buildSourcePoolDefinitionListToolbarGUI();
             $content .= $this->ctrl->getHTML($toolbar);
         }
 
-        $table = $this->buildSourcePoolDefinitionListTableGUI();
+        $table = $this->buildSourcePoolDefinitionListTableGUI($disabled_form);
         $table->init($this->sourcePoolDefinitionList);
         $content .= $this->ctrl->getHTML($table);
-        
-        if (!$this->sourcePoolDefinitionList->areAllUsedPoolsAvailable()) {
+    
+        if ($this->sourcePoolDefinitionList->areAllUsedPoolsAvailable()) {
             $table = $this->buildNonAvailablePoolsTableGUI();
             $table->init($this->sourcePoolDefinitionList);
             $content .= $this->ctrl->getHTML($table);
         }
-        
+
         $this->tpl->setContent($content);
+
+        if ($disabled_form) {
+            return;
+        }
 
         $this->configStateMessageHandler->setContext(
             ilTestRandomQuestionSetConfigStateMessageHandler::CONTEXT_POOL_SELECTION
@@ -494,7 +537,7 @@ class ilTestRandomQuestionSetConfigGUI
         return $toolbar;
     }
 
-    private function buildSourcePoolDefinitionListTableGUI() : ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI
+    private function buildSourcePoolDefinitionListTableGUI(bool $disabled = false) : ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI
     {
         require_once 'Modules/Test/classes/tables/class.ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI.php';
 
@@ -524,6 +567,9 @@ class ilTestRandomQuestionSetConfigGUI
         $translater->loadLabels($this->sourcePoolDefinitionList);
         $table->setTaxonomyFilterLabelTranslater($translater);
 
+        if ($disabled) {
+            $table->setDefinitionEditModeEnabled(false);
+        }
         $table->build();
 
         return $table;
@@ -763,10 +809,7 @@ class ilTestRandomQuestionSetConfigGUI
         }
 
         if ($this->testrequest->isset('quest_pool_ref') && (int) $this->testrequest->raw('quest_pool_ref')) {
-            global $DIC; /* @var ILIAS\DI\Container $DIC */
-            /* @var ilObjectDataCache $objCache */
-            $objCache = $DIC['ilObjDataCache'];
-            
+            $objCache = $this->dic['ilObjDataCache'];
             return $objCache->lookupObjId((int) $this->testrequest->raw('quest_pool_ref'));
         }
 
@@ -891,7 +934,7 @@ class ilTestRandomQuestionSetConfigGUI
                 $deriver = new ilTestRandomQuestionSetPoolDeriver($this->db, $this->pluginAdmin, $this->testOBJ);
                 $deriver->setSourcePoolDefinitionList($this->sourcePoolDefinitionList);
                 $deriver->setTargetContainerRef($targetRef);
-                $deriver->setOwnerId($GLOBALS['DIC']['ilUser']->getId());
+                $deriver->setOwnerId($this->dic['ilUser']->getId());
                 $newPool = $deriver->derive($lostPool);
                 
                 $srcPoolDefinition = $this->sourcePoolDefinitionList->getDefinitionBySourcePoolId($newPool->getId());
@@ -935,5 +978,44 @@ class ilTestRandomQuestionSetConfigGUI
     public function getPoolConfigTabLabel() : string
     {
         return $this->lng->txt('tst_rnd_quest_cfg_tab_pool');
+    }
+
+
+    protected function preventFormBecauseOfSync() : bool
+    {
+        $return = false;
+        $last_sync = $this->questionSetConfig->getLastQuestionSyncTimestamp();
+        if ($last_sync != 0) {
+            $return = true;
+            
+            $sync_date = new ilDateTime($last_sync, IL_CAL_UNIX);
+            $msg = sprintf(
+                $this->lng->txt('tst_msg_rand_quest_set_stage_pool_last_sync'),
+                ilDatePresentation::formatDate($sync_date)
+            );
+
+            $href = $this->ctrl->getLinkTarget($this, self::CMD_RESET_POOLSYNC);
+            $label = $this->lng->txt('tst_btn_reset_pool_sync');
+
+            $buttons = [
+                $this->dic->ui()->factory()->button()->standard($label, $href)
+            ];
+
+            $msgbox = $this->dic->ui()->factory()->messageBox()
+            ->info($msg)
+            ->withButtons($buttons);
+            $message = $this->dic->ui()->renderer()->render($msgbox);
+            $this->dic->ui()->mainTemplate()->setCurrentBlock('mess');
+            $this->dic->ui()->mainTemplate()->setVariable('MESSAGE', $message);
+            $this->dic->ui()->mainTemplate()->parseCurrentBlock();
+        }
+        return $return;
+    }
+
+    public function resetPoolSyncCmd() : void
+    {
+        $this->questionSetConfig->setLastQuestionSyncTimestamp(0);
+        $this->questionSetConfig->saveToDb();
+        $this->ctrl->redirect($this, self::CMD_SHOW_GENERAL_CONFIG_FORM);
     }
 }

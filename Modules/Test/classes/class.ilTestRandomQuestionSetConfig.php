@@ -1,5 +1,21 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 require_once 'Modules/Test/classes/class.ilTestQuestionSetConfig.php';
 
@@ -290,25 +306,12 @@ class ilTestRandomQuestionSetConfig extends ilTestQuestionSetConfig
 
     public function isQuestionSetConfigured() : bool
     {
-        // fau: delayCopyRandomQuestions - question set is not configured if date of last synchronisation is empty
-        if ($this->getLastQuestionSyncTimestamp() == 0) {
-            return false;
-        }
-        // fau.
-        
-        if (!$this->isQuestionAmountConfigComplete()) {
-            return false;
-        }
-
-        if (!$this->hasSourcePoolDefinitions()) {
-            return false;
-        }
-
-        if (!$this->isQuestionSetBuildable()) {
-            return false;
-        }
-
-        return true;
+        return (
+            $this->getLastQuestionSyncTimestamp() != 0
+            && $this->isQuestionAmountConfigComplete()
+            && $this->hasSourcePoolDefinitions()
+            && $this->isQuestionSetBuildable()
+        );
     }
 
     public function isQuestionAmountConfigComplete() : bool

@@ -840,7 +840,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     /**
     * create new question
     */
-    public function &createQuestionObject() : void
+    public function createQuestionObject() : void
     {
         if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()) {
             $addContEditMode = $_POST['add_quest_cont_edit_mode'];
@@ -1385,9 +1385,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
                 $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, ""), "", $this->qplrequest->getRefId());
                 break;
         }
-        if ($this->qplrequest->raw("q_id") > 0) {
-            $q_gui = assQuestionGUI::_getQuestionGUI("", $this->qplrequest->getQuestionId());
-            if ($q_gui->object instanceof assQuestion) {
+        if (!is_array($this->qplrequest->raw("q_id")) && $this->qplrequest->raw("q_id") > 0) {
+            $q_gui = assQuestionGUI::_getQuestionGUI("", $this->qplrequest->raw("q_id"));
+            if ($q_gui !== null && $q_gui->object instanceof assQuestion) {
                 $q_gui->object->setObjId($this->object->getId());
                 $title = $q_gui->object->getTitle();
                 if (!$title) {
@@ -1408,7 +1408,8 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
     public function setTitleAndDescription() : void
     {
         parent::setTitleAndDescription();
-        if ($this->qplrequest->raw("q_id") > 0) {
+
+        if (!is_array($this->qplrequest->raw("q_id")) && $this->qplrequest->raw("q_id") > 0) {
             $q_gui = assQuestionGUI::_getQuestionGUI("", $this->qplrequest->getQuestionId());
             if ($q_gui->object instanceof assQuestion) {
                 $q_gui->object->setObjId($this->object->getId());

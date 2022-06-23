@@ -116,7 +116,7 @@ class ilAssQuestionPreviewSettings
         return $this->specificFeedbackEnabled;
     }
 
-    public function setHintProvidingEnabled($hintProvidingEnabled) : void
+    public function setHintProvidingEnabled(bool $hintProvidingEnabled) : void
     {
         $this->hintProvidingEnabled = $hintProvidingEnabled;
     }

@@ -1772,7 +1772,7 @@ s     */
                         $entry = $childs[$j]->get_attribute("Entry");
                         $entry_arr = explode("_", $entry);
                         $id = $entry_arr[count($entry_arr) - 1];
-                        $size = ilObjFileAccess::_lookupFileSize($id);
+                        $size = ilObjFileAccess::_lookupFileSize($id, false);
                     }
                 }
             }

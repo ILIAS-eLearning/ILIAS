@@ -3253,35 +3253,41 @@ class ilObjectListGUI
         if ($def_cmd_frame === "_top") {
             $def_cmd_frame = "";
         }
+        $def_cmd_link = ($def_command["link"] ?? "");
 
         // workaround for scorm
         $modified_link =
-            $this->modifySAHSlaunch($def_command["link"], $def_cmd_frame);
+            $this->modifySAHSlaunch($def_cmd_link, $def_cmd_frame);
 
         $image = $this->ui->factory()
                           ->image()
                           ->responsive($path, '');
-        if ($def_command['link'] != '') {    // #24256
-            if ($def_cmd_frame != "" && ($modified_link == $def_command["link"])) {
-                $image = $image->withAdditionalOnLoadCode(function ($id) use ($def_command, $def_cmd_frame) : string {
+        if ($def_cmd_link != '') {    // #24256
+            if ($def_cmd_frame != "" && ($modified_link == $def_cmd_link)) {
+                $image = $image->withAdditionalOnLoadCode(function ($id) use (
+                    $def_command,
+                    $def_cmd_frame,
+                    $def_cmd_link
+                ) : string {
                     return
                         "$('#$id').click(function(e) { window.open('" . str_replace(
                             "&amp;",
                             "&",
-                            $def_command["link"]
+                            $def_cmd_link
                         ) . "', '" . $def_cmd_frame . "');});";
                 });
 
                 $button =
                     $ui->factory()->button()->shy($title, "")->withAdditionalOnLoadCode(function ($id) use (
                         $def_command,
-                        $def_cmd_frame
+                        $def_cmd_frame,
+                        $def_cmd_link
                     ) : string {
                         return
                             "$('#$id').click(function(e) { window.open('" . str_replace(
                                 "&amp;",
                                 "&",
-                                $def_command["link"]
+                                $def_cmd_link
                             ) . "', '" . $def_cmd_frame . "');});";
                     });
                 $title = $ui->renderer()->render($button);
@@ -3311,9 +3317,9 @@ class ilObjectListGUI
 
         // card title action
         $card_title_action = "";
-        if ($def_command["link"] != "" && ($def_cmd_frame == "" || $modified_link != $def_command["link"])) {    // #24256
+        if ($def_cmd_link != "" && ($def_cmd_frame == "" || $modified_link != $def_cmd_link)) {    // #24256
             $card_title_action = $modified_link;
-        } elseif ($def_command['link'] == "" &&
+        } elseif ($def_cmd_link == "" &&
             $this->getInfoScreenStatus() &&
             $access->checkAccessOfUser(
                 $user->getId(),
@@ -3342,7 +3348,7 @@ class ilObjectListGUI
 
         $l = [];
         foreach ($this->determineProperties() as $p) {
-            if ($p["alert"] && $p['property'] !== $this->lng->txt('learning_progress')) {
+            if (($p["alert"] ?? false) && $p['property'] !== $this->lng->txt('learning_progress')) {
                 $l[(string) $p['property']] = (string) $p['value'];
             }
         }

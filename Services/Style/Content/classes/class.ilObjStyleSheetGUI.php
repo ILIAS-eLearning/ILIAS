@@ -122,13 +122,14 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         switch ($next_class) {
 
             case "ilexportgui":
+                $this->prepareOutput();
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
                 $ctrl->forwardCommand($exp_gui);
                 break;
 
             case "ilstylecharacteristicgui":
-                $this->setTabs();
+                $this->prepareOutput();
                 $this->includeCSS();
                 $tabs->activateTab("sty_style_chars");
                 $gui = $this->gui_service->characteristic()->ilStyleCharacteristicGUI(
@@ -142,6 +143,7 @@ class ilObjStyleSheetGUI extends ilObjectGUI
                 break;
 
             case "ilcontentstyleimagegui":
+                $this->prepareOutput();
                 $this->includeCSS();
                 $tabs->activateTab("sty_images");
                 $gui = $this->gui_service->image()->ilContentStyleImageGUI(

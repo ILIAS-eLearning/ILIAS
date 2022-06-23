@@ -22,7 +22,7 @@
  */
 class ilObjPortfolio extends ilObjPortfolioBase
 {
-    protected bool $default;
+    protected bool $default = false;
 
     protected function initType() : void
     {

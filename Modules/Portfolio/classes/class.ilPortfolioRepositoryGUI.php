@@ -285,11 +285,13 @@ class ilPortfolioRepositoryGUI
             // ... online
             $props[$lng->txt("online")] = ($port["is_online"])
                 ? $lng->txt("yes")
-                : "<span class='il_ItemAlertProperty'>" . $lng->txt("no") . "</span>";
+                : $lng->txt("no");
+            //: "<span class='il_ItemAlertProperty'>" . $lng->txt("no") . "</span>";
             // ... shared
             $props[$lng->txt("wsp_status_shared")] = (in_array($port["id"], $shared_objects))
                 ? $lng->txt("yes")
-                : "<span class='il_ItemAlertProperty'>" . $lng->txt("no") . "</span>";
+                : $lng->txt("no");
+            //: "<span class='il_ItemAlertProperty'>" . $lng->txt("no") . "</span>";
             // ... default (my profile)
             if ($port["is_default"]) {
                 $props[$lng->txt("prtf_default_portfolio")] = $lng->txt("yes");
@@ -302,7 +304,8 @@ class ilPortfolioRepositoryGUI
                     $props[$exinfo["ass_title"]] =
                         str_replace("$1", $exinfo["submitted_date"], $lng->txt("prtf_submission_on"));
                 } else {
-                    $props[$exinfo["ass_title"]] = "<span class='il_ItemAlertProperty'>" . $lng->txt("prtf_no_submission") . "</span>";
+                    $props[$exinfo["ass_title"]] = $lng->txt("prtf_no_submission");
+                    //$props[$exinfo["ass_title"]] = "<span class='il_ItemAlertProperty'>" . $lng->txt("prtf_no_submission") . "</span>";
                 }
             }
 
@@ -542,7 +545,7 @@ class ilPortfolioRepositoryGUI
         $ilCtrl->redirect($this, "show");
     }
 
-    protected function getWorkspaceAccess() : ilWorkspaceAccessHandler
+    protected function getWorkspaceAccess() : ilPortfolioAccessHandler
     {
         /** @var ilWorkspaceAccessHandler $wsp_access */
         $wsp_access = $this->access_handler;
