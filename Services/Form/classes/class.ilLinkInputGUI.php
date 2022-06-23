@@ -516,34 +516,35 @@ class ilLinkInputGUI extends ilFormPropertyGUI
         $lng = $DIC->language();
         
         $value = explode("|", $a_value);
-        
+        if ($value === false || $value === []) {
+            return [];
+        }
         switch ($value[0]) {
             case "media":
                 $type = $lng->txt("obj_mob");
-                $name = ilObject::_lookupTitle($value[1]);
+                $name = ilObject::_lookupTitle((int) $value[1]);
                 break;
 
             case "page":
                 $type = $lng->txt("obj_pg");
-                $name = ilLMPageObject::_lookupTitle($value[1]);
+                $name = ilLMPageObject::_lookupTitle((int) $value[1]);
                 break;
 
             case "chap":
                 $type = $lng->txt("obj_st");
-                $name = ilStructureObject::_lookupTitle($value[1]);
+                $name = ilStructureObject::_lookupTitle((int) $value[1]);
                 break;
 
             case "term":
                 $type = $lng->txt("term");
-                $name = ilGlossaryTerm::_lookGlossaryTerm($value[1]);
+                $name = ilGlossaryTerm::_lookGlossaryTerm((int) $value[1]);
                 break;
 
             default:
                 $type = $lng->txt("obj_" . $value[0]);
-                $name = ilObject::_lookupTitle(ilObject::_lookupObjId($value[1]));
+                $name = ilObject::_lookupTitle(ilObject::_lookupObjId((int) $value[1]));
                 break;
         }
-        
         return array("type" => $type, "name" => $name);
     }
 

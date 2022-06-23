@@ -206,12 +206,12 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
                 $this->tpl->setVariable('VAL_INTERNAL_ID', $parts[1]);
 
                 $parts = ilLinkInputGUI::getTranslatedValue($a_set['target']);
-
-                $this->tpl->setVariable(
-                    'TXT_TRIGGER_INFO',
-                    $parts['type'] . ' "' .
-                                      $parts['name'] . '"'
-                );
+                if ($parts !== []) {
+                    $this->tpl->setVariable(
+                        'TXT_TRIGGER_INFO',
+                        $parts['type'] . ' "' . $parts['name'] . '"'
+                    );
+                }
             }
 
             $this->tpl->parseCurrentBlock();
@@ -309,12 +309,12 @@ class ilWebResourceEditableLinkTableGUI extends ilTable2GUI
                 'TXT_DYN_VALUE',
                 $this->lng->txt('links_value')
             );
-            $this->tpl->setVariable('VAL_DYN_NAME', $a_set['name']);
+            $this->tpl->setVariable('VAL_DYN_NAME', $a_set['name'] ?? '');
             $this->tpl->setVariable('DYN_ID', $a_set['id']);
             $this->tpl->setVariable(
                 'SEL_DYN_VAL',
                 ilLegacyFormElementsUtil::formSelect(
-                    $a_set['value'] ?: 0,
+                    $a_set['value'] ?? 0,
                     'links[' . $a_set['id'] . '][val]',
                     ilParameterAppender::_getOptionSelect(),
                     false,

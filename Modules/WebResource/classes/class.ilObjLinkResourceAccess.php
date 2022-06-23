@@ -52,26 +52,20 @@ class ilObjLinkResourceAccess extends ilObjectAccess
         );
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function _checkGoto(string $target) : bool
     {
         global $DIC;
 
-        $ilAccess = $DIC['ilAccess'];
+        $ilAccess = $DIC->access();
 
         $t_arr = explode("_", $target);
+        $type = $t_arr[0] ?? '';
+        $ref_id = (int) ($t_arr[1] ?? 0);
 
-        if ($t_arr[0] != "webr" || ((int) $t_arr[1]) <= 0) {
+        if ($type !== 'webr' || $ref_id <= 0) {
             return false;
         }
-
-        if ($ilAccess->checkAccess("read", "", $t_arr[1]) ||
-            $ilAccess->checkAccess("visible", "", $t_arr[1])) {
-            return true;
-        }
-        return false;
+        return $ilAccess->checkAccess('read', '', $ref_id) || $ilAccess->checkAccess('visible', '', $ref_id);
     }
 
     /**

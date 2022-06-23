@@ -745,28 +745,28 @@ class ilObjLinkResourceGUI extends ilObject2GUI
                 $link_id
             );
             $links->setLinkId($link_id);
-            $links->setTitle(ilUtil::stripSlashes($data['title']));
-            $links->setDescription(ilUtil::stripSlashes($data['desc']));
+            $links->setTitle(ilUtil::stripSlashes($data['title'] ?? ''));
+            $links->setDescription(ilUtil::stripSlashes($data['desc'] ?? ''));
             $links->setTarget(
-                str_replace('"', '', ilUtil::stripSlashes($data['tar']))
+                str_replace('"', '', ilUtil::stripSlashes($data['tar'] ?? ''))
             );
-            $links->setActiveStatus((bool) $data['act']);
-            $links->setDisableCheckStatus((bool) $data['che']);
+            $links->setActiveStatus((bool) ($data['act'] ?? false));
+            $links->setDisableCheckStatus((bool) ($data['che'] ?? false));
             $links->setLastCheckDate($orig['last_check']);
-            $links->setValidStatus((bool) $data['vali']);
-            $links->setInternal(ilLinkInputGUI::isInternalLink($data['tar']));
+            $links->setValidStatus((bool) ($data['vali'] ?? false));
+            $links->setInternal(ilLinkInputGUI::isInternalLink($data['tar'] ?? ''));
             $links->update();
 
             if (strlen($data['nam'] ?? '') && $data['val'] ?? '') {
                 $param = new ilParameterAppender($this->object->getId());
-                $param->setName(ilUtil::stripSlashes($data['nam']));
-                $param->setValue((int) $data['val']);
+                $param->setName(ilUtil::stripSlashes($data['nam'] ?? ''));
+                $param->setValue((int) ($data['val'] ?? 0));
                 $param->add($link_id);
             }
             if (!ilLinkResourceList::checkListStatus($this->object->getId())) {
-                $this->object->setTitle(ilUtil::stripSlashes($data['title']));
+                $this->object->setTitle(ilUtil::stripSlashes($data['title'] ?? ''));
                 $this->object->setDescription(
-                    ilUtil::stripSlashes($data['desc'])
+                    ilUtil::stripSlashes($data['desc'] ?? '')
                 );
                 $this->object->update();
             }
@@ -843,7 +843,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI
 
         $this->dynamic = new ilParameterAppender($a_webr_id);
         $this->dynamic->setName($this->form->getInput('nam'));
-        $this->dynamic->setValue($this->form->getInput('val'));
+        $this->dynamic->setValue((int) $this->form->getInput('val'));
         if (!$this->dynamic->validate()) {
             switch ($this->dynamic->getErrorCode()) {
                 case ilParameterAppender::LINKS_ERR_NO_NAME:
