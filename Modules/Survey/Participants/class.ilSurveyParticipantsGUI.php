@@ -197,7 +197,9 @@ class ilSurveyParticipantsGUI
         $all_participants = $this->object->getSurveyParticipants($a_finished_ids, false, true);
         $participant_ids = [];
         foreach ($all_participants as $participant) {
-            $participant_ids[] = $participant['usr_id'];
+            if (isset($participant['usr_id'])) {
+                $participant_ids[] = $participant['usr_id'];
+            }
         }
 
         $filtered_participant_ids = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
