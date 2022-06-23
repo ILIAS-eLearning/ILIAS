@@ -732,13 +732,13 @@ class ilWikiStat
             // build full period for each sub
             foreach ($all_aggr_ids as $aggr_by_id) {
                 // last of entry of sub is before period
-                if (!is_array($tmp[$aggr_by_id])) {
+                if (!isset($tmp[$aggr_by_id])) {
                     $tmp[$aggr_by_id] = array();
                 }
                 
                 // get last value before period to add missing entries in period
                 $last_before_period = null;
-                if (!$tmp[$aggr_by_id][$a_day_from]) {
+                if (!($tmp[$aggr_by_id][$a_day_from] ?? false)) {
                     $last_before_period = self::getWikiLast($a_wiki_id, $a_day_from, $a_table, $a_field, $a_aggr_by, $aggr_by_id);
                 }
                 
