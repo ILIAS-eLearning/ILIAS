@@ -1,10 +1,27 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 - Daniel Weise <daniel.weise@concepts-and-training.de> - Extended GPL, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
 
+/**
+ * @author Daniel Weise <daniel.weise@concepts-and-training.de>
+ */
 class ilAccessRBACOperationClonedObjective implements Setup\Objective
 {
     protected string $type;
@@ -53,7 +70,9 @@ class ilAccessRBACOperationClonedObjective implements Setup\Objective
             . "OR " . $db->like("ops_id", "text", "%:\"" . $this->src_id . "\";%") . ")" . PHP_EOL
         ;
 
-        while ($row = $db->fetchAssoc($db->query($sql))) {
+        $result = $db->query($sql);
+
+        while ($row = $db->fetchAssoc($result)) {
             $ops = unserialize($row["ops_id"]);
             // the query above could match by array KEY, we need extra checks
             if (in_array($this->src_id, $ops) && !in_array($this->dest_id, $ops)) {
@@ -80,7 +99,9 @@ class ilAccessRBACOperationClonedObjective implements Setup\Objective
             . "OR ops_id = " . $db->quote($this->dest_id, "integer") . ")" . PHP_EOL
         ;
 
-        while ($row = $db->fetchAssoc($db->query($sql))) {
+        $result = $db->query($sql);
+
+        while ($row = $db->fetchAssoc($result)) {
             $tmp[$row["rol_id"]][$row["parent"]][] = $row["ops_id"];
         }
 
