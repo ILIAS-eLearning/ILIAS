@@ -151,7 +151,7 @@ class ilForumXMLWriter extends ilXmlWriter
                 $this->xmlElement("isAuthorModerator", null, $is_moderator_string);
 
                 $media_exists = false;
-                $mobs = ilObjMediaObject::_getMobsOfObject('frm:html', $rowPost->pos_pk);
+                $mobs = ilObjMediaObject::_getMobsOfObject('frm:html', (int) $rowPost->pos_pk);
                 foreach ($mobs as $mob) {
                     $moblabel = "il_" . IL_INST_ID . "_mob_" . $mob;
                     if (ilObjMediaObject::_exists($mob)) {

@@ -87,6 +87,9 @@ class ilPDNotesGUI
         $this->note_type = ($this->request->getNoteType() === Note::PRIVATE || $ilCtrl->getCmd() === "getNotesHTML")
             ? Note::PRIVATE
             : Note::PUBLIC;
+        if ($ilCtrl->getCmd() === "getCommentsHTML") {
+            $this->note_type = Note::PUBLIC;
+        }
         $this->ctrl->setParameter($this, "note_type", $this->note_type);
         if ($rel_obj > 0) {
             $ilUser->writePref("pd_notes_rel_obj" . $this->note_type, (string) $rel_obj);

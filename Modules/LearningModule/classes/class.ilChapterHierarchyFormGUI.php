@@ -95,7 +95,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                             "as_subitem" => true);
                     }
                     if ($ilUser->clipboardHasObjectsOfType("pg")) {
-                        $cmds[] = array("text" => $lng->txt("cont_insert_page_from_clip"),
+                        $cmds[] = array("text" => $lng->txt("cont_insert_page_from_clip"), "multi" => 0,
                             "cmd" => "insertPageClip", "as_subitem" => true);
                     }
                 } else {
@@ -104,7 +104,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                         $cmds[] = array("text" => $lng->txt("cont_insert_pagelayout"), "cmd" => "insertTemplate", "multi" => 10);
                     }
                     if ($ilUser->clipboardHasObjectsOfType("pg")) {
-                        $cmds[] = array("text" => $lng->txt("cont_insert_page_from_clip"),
+                        $cmds[] = array("text" => $lng->txt("cont_insert_page_from_clip"), "multi" => 0,
                             "cmd" => "insertPageClip");
                     }
                 }
@@ -113,7 +113,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                 $cmds[] = array("text" => $lng->txt("cont_insert_subchapter"),
                     "cmd" => "insertSubchapter", "multi" => 10);
                 if ($ilUser->clipboardHasObjectsOfType("st")) {
-                    $cmds[] = array("text" => $lng->txt("cont_insert_subchapter_from_clip"),
+                    $cmds[] = array("text" => $lng->txt("cont_insert_subchapter_from_clip"), "multi" => 0,
                         "cmd" => "insertSubchapterClip");
                 }
             }
@@ -127,7 +127,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                     );
                     if ($ilUser->clipboardHasObjectsOfType("st")) {
                         $cmds[] = array("text" => $lng->txt("cont_insert_chapter_from_clip"),
-                                        "cmd" => "insertChapterClip"
+                                        "cmd" => "insertChapterClip", "multi" => 0
                         );
                     }
                 }
@@ -140,7 +140,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                     $cmds[] = array("text" => $lng->txt("cont_insert_pagelayout"), "cmd" => "insertTemplate", "multi" => 10);
                 }
                 if ($ilUser->clipboardHasObjectsOfType("pg")) {
-                    $cmds[] = array("text" => $lng->txt("cont_insert_page_from_clip"),
+                    $cmds[] = array("text" => $lng->txt("cont_insert_page_from_clip"),"multi" => 0,
                         "cmd" => "insertPageClip");
                 }
             }
@@ -148,7 +148,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                 $cmds[] = array("text" => $lng->txt("cont_insert_chapter"),
                     "cmd" => "insertChapter", "multi" => 10);
                 if ($ilUser->clipboardHasObjectsOfType("st")) {
-                    $cmds[] = array("text" => $lng->txt("cont_insert_chapter_from_clip"),
+                    $cmds[] = array("text" => $lng->txt("cont_insert_chapter_from_clip"),"multi" => 0,
                         "cmd" => "insertChapterClip");
                 }
             }

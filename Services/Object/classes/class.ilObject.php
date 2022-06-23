@@ -248,7 +248,7 @@ class ilObject
             $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
             if ($row) {
                 $this->title = (string) $row->title;
-                $this->setDescription($row->description);
+                $this->setDescription((string) $row->description);
             }
         }
     }
