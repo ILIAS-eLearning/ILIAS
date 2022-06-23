@@ -241,14 +241,29 @@ class ilObjLearningSequenceSettingsGUI
         $lso->setDescription($this->post_wrapper->retrieve(self::PROP_DESC, $this->refinery->kindlyTo()->string()));
 
         $settings = $this->settings
-            ->withMembersGallery($this->post_wrapper->retrieve(self::PROP_GALLERY, $this->refinery->kindlyTo()->bool()))
-        ;
+            ->withMembersGallery(
+                $this->post_wrapper->retrieve(
+                    self::PROP_GALLERY,
+                    $this->refinery->byTrying([
+                        $this->refinery->kindlyTo()->bool(),
+                        $this->refinery->always(false)
+                    ])
+                )
+            );
 
         $inpt = $form->getItemByPostVar(self::PROP_AVAIL_PERIOD);
         $start = $inpt->getStart();
         $end = $inpt->getEnd();
         $activation = $this->activation
-            ->withIsOnline($this->post_wrapper->retrieve(self::PROP_ONLINE, $this->refinery->kindlyTo()->bool()));
+            ->withIsOnline(
+                $this->post_wrapper->retrieve(
+                    self::PROP_ONLINE,
+                    $this->refinery->byTrying([
+                        $this->refinery->kindlyTo()->bool(),
+                        $this->refinery->always(false)
+                    ])
+                )
+            );
 
         if ($start) {
             $activation = $activation
