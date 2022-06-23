@@ -6028,7 +6028,7 @@ content#:#cont_add_area#:#Add Area
 content#:#cont_add_cell#:#Add Column
 content#:#cont_add_change_comment#:#Add change comment
 content#:#cont_add_definition#:#Add Definition
-content#:#cont_add_elements#:#Click on a plus symbol to add new elements.
+content#:#cont_add_elements#:#Click on a plus symbol to add a new element.
 content#:#cont_add_file#:#Add File
 content#:#cont_add_images#:#Add Images
 content#:#cont_add_popup#:#Add Popup
@@ -6216,7 +6216,7 @@ content#:#cont_download_title#:#Download Title
 content#:#cont_downloads#:#Enable Download
 content#:#cont_downloads_desc#:#Offers all public export files for download (e.g. for offline use or import).
 content#:#cont_downloads_public_desc#:#Allow download even for anonymous users (in public area)
-content#:#cont_drag_and_drop_elements#:#<b>Drag and drop</b> content elements on placeholders to <b>move</b> elements.
+content#:#cont_drag_and_drop_elements#:#To <b>move</b> an element, <b>Drag and drop</b> it to a placeholder.
 content#:#cont_drag_element_click_save#:#Drag and drop the element to the desired position. Then hit ‘Save’.
 content#:#cont_ed_align_center#:#Align: Center
 content#:#cont_ed_align_left#:#Align: Left
@@ -6878,7 +6878,7 @@ content#:#cont_set_styles#:#Set Styles
 content#:#cont_set_tab_style_info#:#Activate checkboxes in table cells to set style.
 content#:#cont_settings#:#Settings for learning modules
 content#:#cont_shape#:#Shape
-content#:#cont_shift_click_to_select#:#<b>Shift-click</b> on elements will <b>select</b> them and switch to the selection mode.
+content#:#cont_shift_click_to_select#:#<b>Shift-click</b> on an element to <b>select</b> it and switch to selection mode.
 content#:#cont_short_title#:#Short Title
 content#:#cont_short_title_info#:#Short titles are used in the left-hand tree presentation and for labels in the previous/next navigation.
 content#:#cont_short_titles#:#Short Titles
@@ -7105,7 +7105,7 @@ content#:#sahs_insert_pg_from_clip#:#Import Pages from ILIAS Learning Module
 content#:#sahs_insert_st_from_clip#:#Import Chapters from ILIAS Learning Module
 content#:#sahs_insert_st_from_clip_inside_chap#:#Import Chapters from ILIAS Learning Module (inside chapter)
 content#:#save_new#:#Save and New
-content#:#saved_media_object#:#Saved media object.
+content#:#saved_media_object#:#Media object saved.
 content#:#scplayer_collapsetree#:#Collapse All
 content#:#scplayer_continue#:#Continue
 content#:#scplayer_debugger#:#Show test tool
@@ -7804,7 +7804,7 @@ crs#:#event_title#:#Title
 crs#:#event_tutor_data#:#Presentation by
 crs#:#event_unregister#:#Unregister
 crs#:#event_unregistered#:#You have been unregistered.
-crs#:#event_updated#:#Saved Settings
+crs#:#event_updated#:#Settings saved
 crs#:#event_user_selection#:#Selection of Users
 crs#:#event_user_selection_include_filter#:#Include "%1$s"
 crs#:#event_user_selection_include_requests#:#Include all users on list "Join Requests"
@@ -7933,8 +7933,8 @@ dateplaner#:#cal_assigned_appointments#:#Assigned Appointments
 dateplaner#:#cal_back_to_cal#:#Back to Calendar
 dateplaner#:#cal_back_to_list#:#Back to List
 dateplaner#:#cal_back_to_search#:#Back to Search
-dateplaner#:#cal_batch_file_downloads#:#Batch File Downloads in Calendar
-dateplaner#:#cal_batch_file_downloads_info#:#Activate button to download all files related to the current calendar/appointment view.
+dateplaner#:#cal_batch_file_downloads#:#Batch Download of Calendar Files
+dateplaner#:#cal_batch_file_downloads_info#:#Display a button in calendars to allow all files related to the current calendar/appointment view to be downloaded as a batch.
 dateplaner#:#cal_book_free#:#available
 dateplaner#:#cal_booked_out#:#booked up
 dateplaner#:#cal_booking_cancellation_body#:#your appointment with %s has been cancelled.
@@ -8041,8 +8041,8 @@ dateplaner#:#cal_consultation_hours_for_user#:#Consultation Hours for %1
 dateplaner#:#cal_contained_in#:#Contained in
 dateplaner#:#cal_create#:#Create
 dateplaner#:#cal_created_appointment#:#Created new appointment.
-dateplaner#:#cal_created_milestone#:#Added milestone.
-dateplaner#:#cal_created_milestone_resp_q#:#Added milestone. Please select users that are responsible to meet the milestone.
+dateplaner#:#cal_created_milestone#:#Milestone added.
+dateplaner#:#cal_created_milestone_resp_q#:#Milestone added. Please select users that are responsible to meet the milestone.
 dateplaner#:#cal_crs_info#:#Course Information
 dateplaner#:#cal_crs_new_notification_body#:#a new appointment has been created in course "%s".
 dateplaner#:#cal_crs_new_notification_sub#:#New Appointment in Course "%s"
@@ -8084,7 +8084,7 @@ dateplaner#:#cal_delete_recurrences#:#Delete all recurrences
 dateplaner#:#cal_delete_single#:#Delete only this appointment
 dateplaner#:#cal_deleted_app#:#The selected appointments have been deleted.
 dateplaner#:#cal_details#:#Appointment Details
-dateplaner#:#cal_down_no_files#:#Nothing to download, the events listed do not contain files.
+dateplaner#:#cal_down_no_files#:#Nothing to download! The events listed do not contain any files.
 dateplaner#:#cal_download_all_files#:#Download all Files
 dateplaner#:#cal_download_files#:#Download Files
 dateplaner#:#cal_download_files_started#:#ILIAS is generating a ZIP archive of all available files. You can download them from the Notification Center (bell icon) on top right.
@@ -8202,7 +8202,7 @@ dateplaner#:#cal_shared_calendars#:#Shared Calendars (Invitations)
 dateplaner#:#cal_shared_header#:#Shared Calendars
 dateplaner#:#cal_shared_selected_usr#:#The calendar has been shared with the selected users/roles.
 dateplaner#:#cal_show_weeks#:#Show Weeks
-dateplaner#:#cal_show_weeks_info#:#Activates weeks column in calendar side block.
+dateplaner#:#cal_show_weeks_info#:#Show ‘weeks’ column in calendar side block.
 dateplaner#:#cal_start#:#Start
 dateplaner#:#cal_subscription#:#Subscription
 dateplaner#:#cal_subscription_header#:#Calendar Address
@@ -8216,11 +8216,11 @@ dateplaner#:#cal_table_categories#:#Calendar Selection
 dateplaner#:#cal_task_completion#:#Task Completion
 dateplaner#:#cal_third#:#Third
 dateplaner#:#cal_time_format_info#:#Please choose a format for the input and presentation of time.
-dateplaner#:#cal_timezone_info#:#Please choose the nearest city in your timezone.
+dateplaner#:#cal_timezone_info#:#Please choose the nearest city in your time zone to make sure that appointments within ILIAS are displayed properly in your local time.
 dateplaner#:#cal_type_crs#:#Course Calendar
 dateplaner#:#cal_type_exc#:#Exercise Calendar
 dateplaner#:#cal_type_grp#:#Group Calendar
-dateplaner#:#cal_type_info#:#Please choose one calendar type. ‘Public Calendars’ are visible for all ILIAS users.
+dateplaner#:#cal_type_info#:#Please choose a calendar type. ‘Public Calendars’ are visible for all ILIAS users.
 dateplaner#:#cal_type_local#:#Local Calendar
 dateplaner#:#cal_type_personal#:#Private Calendar
 dateplaner#:#cal_type_remote#:#Web Calendar
@@ -8236,12 +8236,12 @@ dateplaner#:#cal_user_notification#:#User Notification
 dateplaner#:#cal_user_notification_info#:#Selected users will be notified about this appointment by e-mail. Please enter ILIAS user names or e-mail addresses.
 dateplaner#:#cal_user_settings#:#Calendar Settings
 dateplaner#:#cal_user_time_format#:#Time Format
-dateplaner#:#cal_user_timezone#:#ILIAS-Timezone
+dateplaner#:#cal_user_timezone#:#ILIAS Time Zone
 dateplaner#:#cal_usr_info#:#Appointment Information
 dateplaner#:#cal_usr_show_weeks#:#Show Week Column
 dateplaner#:#cal_usr_show_weeks_info#:#Activates weeks column in calendar side block.
 dateplaner#:#cal_webcal_sync#:#External Calendar Synchronisation
-dateplaner#:#cal_webcal_sync_info#:#Automatically synchronise external calendars every x minutes.
+dateplaner#:#cal_webcal_sync_info#:#Automatically synchronise external calendars every x hours.
 dateplaner#:#cal_week_abbrev#:#W
 dateplaner#:#cal_week_month_view#:#Week/Month View Settings
 dateplaner#:#cal_week_overview#:#Week Overview
@@ -8584,7 +8584,7 @@ didactic#:#activate_local_didactic_template_info#:#Usage of this didactical temp
 didactic#:#didactic_activated_msg#:#Activated didactic templates
 didactic#:#didactic_adm_tab#:#Didactic Templates
 didactic#:#didactic_applicable_for#:#Applicable for
-didactic#:#didactic_auto_generated#:#Automatic Generated
+didactic#:#didactic_auto_generated#:#Automatically Generated
 didactic#:#didactic_available_templates#:#Available Didactic Templates
 didactic#:#didactic_back_to_overview#:#Back to Overview
 didactic#:#didactic_cannot_delete_auto_generated#:#It is not allowed to delete automatic generated didactic templates.
@@ -10258,7 +10258,7 @@ log#:#log_level_off#:#Disabled
 log#:#log_level_warning#:#WARNING
 log#:#log_log_level#:#Log Level
 log#:#log_memory#:#Log Memory Usage
-logging#:#error_settings_saved#:#Saved settings
+logging#:#error_settings_saved#:#Settings saved
 logging#:#frm_clear_older_then#:#Deletes files older then
 logging#:#frm_clear_older_then_info#:#Please enter duration in days.
 logging#:#log_error_file_cleanup_info#:#Deletes old or orphand files of error log.
@@ -10682,10 +10682,10 @@ mail#:#mail_global_reply_to_addr#:#Reply-To
 mail#:#mail_global_reply_to_addr_info#:#Please enter the desired 'Reply-To' address.
 mail#:#mail_grp_roles#:#Send Mail to Group Roles
 mail#:#mail_incoming#:#Incoming Mail
-mail#:#mail_incoming_both#:#local and forwarding
-mail#:#mail_incoming_local#:#only local
+mail#:#mail_incoming_both#:#Receive Mail Locally and Forward to:
+mail#:#mail_incoming_local#:#Receive Mail Locally Only
 mail#:#mail_incoming_mail#:#Incoming Mail
-mail#:#mail_incoming_smtp#:#forward to e-mail address
+mail#:#mail_incoming_smtp#:#Forward to E-mail Address:
 mail#:#mail_insert_folder_name#:#Please insert a folder name
 mail#:#mail_insert_query#:#Please insert a query
 mail#:#mail_invite_users_to_chat#:#Invite Users to Chat
@@ -10716,14 +10716,14 @@ mail#:#mail_my_mailing_lists#:#My Mailing Lists
 mail#:#mail_nacc_admin_mail#:#Mail address of Administrator
 mail#:#mail_nacc_client_desc#:#Client Description
 mail#:#mail_nacc_client_name#:#Client Name
-mail#:#mail_nacc_if_timelimit#:#This text is only included, if the user has a limited access period.
+mail#:#mail_nacc_if_timelimit#:#This text is only included if the user has a limited access period.
 mail#:#mail_nacc_ilias_url#:#URL of ILIAS system
-mail#:#mail_nacc_login#:#Login Account
-mail#:#mail_nacc_no_pw_block#:#This text block is only included, if the new user account has been created without a password.
-mail#:#mail_nacc_pw_block#:#This text block is only included, if the new user account has been created including a password.
+mail#:#mail_nacc_login#:#Username (Login ID)
+mail#:#mail_nacc_no_pw_block#:#This text block is only included if the new user account has been created without a password.
+mail#:#mail_nacc_pw_block#:#This text block is only included if the new user account has been created with a password included.
 mail#:#mail_nacc_salutation#:#Greeting
-mail#:#mail_nacc_target#:#URL of target item, e.g. a linked course that is passed to ILIAS from outside.
-mail#:#mail_nacc_target_block#:#This text is only included, if a target item is provided.
+mail#:#mail_nacc_target#:#URL of target item, e.g. a link to a course outside of ILIAS.
+mail#:#mail_nacc_target_block#:#This text is only included if a target item is provided.
 mail#:#mail_nacc_target_title#:#Title of target item, e.g. course title.
 mail#:#mail_nacc_target_type#:#Type of target item, e.g. ‘Course’ for a course item.
 mail#:#mail_nacc_timelimit#:#User access period
@@ -11050,7 +11050,7 @@ mep#:#mobs_restrict_file_types_info#:#Enter a comma separated list of file suffi
 meta#:#adt_error_max_length#:#Please enter a shorter text.
 meta#:#md_adn_int_error_no_default#:#Please select on activated language as "Default-Language".
 meta#:#md_adv_active#:#Active
-meta#:#md_adv_added_new_record#:#Added new data set
+meta#:#md_adv_added_new_record#:#A new data set has been added.
 meta#:#md_adv_col_presentation_ordering#:#Position
 meta#:#md_adv_confirm_definition#:#Please confirm the new definition settings.
 meta#:#md_adv_confirm_definition_select_option#:#Deleted Option
@@ -11067,7 +11067,7 @@ meta#:#md_adv_delete_files_sure#:#Do you really want to delete the following exp
 meta#:#md_adv_delete_record_sure#:#Do really want to delete the following data sets?
 meta#:#md_adv_deleted_fields#:#The fields have been deleted.
 meta#:#md_adv_deleted_files#:#Deleted export files.
-meta#:#md_adv_deleted_records#:#Deleted Data Set
+meta#:#md_adv_deleted_records#:#Data set deleted.
 meta#:#md_adv_desc_show#:#Show Description
 meta#:#md_adv_edit_complex_option#:#Edit Option Properties
 meta#:#md_adv_edit_field#:#Edit Field
@@ -11399,7 +11399,7 @@ meta#:#meta_copyright_change_info#:#You are going to change the licence assigned
 meta#:#meta_copyright_change_warning_title#:#Modification of Copyright Settings
 meta#:#meta_copyright_in_use#:#In use
 meta#:#meta_copyright_outdated#:#Outdated
-meta#:#meta_copyright_show_usages#:#Show usages
+meta#:#meta_copyright_show_usages#:#Show Usages
 meta#:#meta_copyright_status#:#Status
 meta#:#meta_copyright_sub_items#:#Sub Items
 meta#:#meta_copyright_usage#:#Usage
@@ -11632,9 +11632,9 @@ meta#:#meta_no_relation#:#No metadata available for the Relation section.
 meta#:#meta_no_rights#:#No metadata available for the Rights section.
 meta#:#meta_no_technical#:#No metadata available for the Technical section.
 meta#:#meta_obj_type_active#:#Dataset offered
-meta#:#meta_obj_type_inactive#:#Dataset not offered
-meta#:#meta_obj_type_mandatory#:#Dataset always offered
-meta#:#meta_obj_type_optional#:#Dataset needs activation
+meta#:#meta_obj_type_inactive#:#Data set not used
+meta#:#meta_obj_type_mandatory#:#Data set always offered
+meta#:#meta_obj_type_optional#:#Data set needs activation
 meta#:#meta_oer_blocked#:#Ignored by OER Harvester
 meta#:#meta_oer_blocked_info#:#Will not be listed automatically as Open Educational Ressource (OER)
 meta#:#meta_oer_copyright_selection#:#Lizenzauswahl
@@ -12556,7 +12556,7 @@ prg#:#prg_status_not_relevant#:#Not Relevant
 prg#:#prg_status_outdated#:#Outdated
 prg#:#prg_still_valid#:#valid
 prg#:#prg_subtype_add#:#Add new subtype
-prg#:#prg_subtypes#:#Subtypes
+prg#:#prg_subtypes#:#Types
 prg#:#prg_title#:#Title
 prg#:#prg_type#:#Study Programme Type
 prg#:#prg_type_add#:#Study Programme Type
@@ -12651,7 +12651,7 @@ prtf#:#prtf_all_pages#:#All Pages
 prtf#:#prtf_allow_html#:#Allow HTML/Javascript
 prtf#:#prtf_allow_html_info#:#Enables users to include HTML and/or Javascript in their portfolio pages. This can lead to security issues.
 prtf#:#prtf_allow_my_courses#:#Page Element ‘My Courses’
-prtf#:#prtf_allow_my_courses_info#:#Enables to include a list of current course memberships in a portfolio.
+prtf#:#prtf_allow_my_courses_info#:#Portfolios may include a list showing which courses the user is currently a member of.
 prtf#:#prtf_author#:#Author
 prtf#:#prtf_back_to_portfolio_owner#:#Edit Portfolio
 prtf#:#prtf_banner#:#Banner
@@ -12744,7 +12744,7 @@ prtf#:#prtf_template_import_blog_reuse#:#Use Existing Blog
 prtf#:#prtf_template_import_new_skills#:#If activated, these items will be added to your personal competences.
 prtf#:#prtf_template_title#:#Portfolio Template
 prtf#:#prtf_unset_as_default#:#Unset As My Profile
-prtf#:#prtf_unset_default_share_info#:#Then changes were saved. Please check the current settings for the portfolio sharing.
+prtf#:#prtf_unset_default_share_info#:#Your changes have been saved. Please check the current ‘share’ settings for your portfolio.
 prtf#:#prtf_use_page_layout#:#Use Page Layout
 prtf#:#prtt_title_info#:#Please note that this will be also the default title for all portfolios being created form this template.
 prtt#:#prtt_activation_limited_visibility_info#:#If chosen, the portfolio template is visible even outside of the given availability.
