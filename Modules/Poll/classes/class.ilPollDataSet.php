@@ -154,7 +154,7 @@ class ilPollDataSet extends ilDataSet
         switch ($a_entity) {
             case "poll":
                 return array(
-                    "poll_answer" => array("ids" => $a_rec["Id"])
+                    "poll_answer" => array("ids" => $a_rec["Id"] ?? null)
                 );
         }
         return [];
@@ -163,7 +163,7 @@ class ilPollDataSet extends ilDataSet
     public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
     {
         if ($a_entity === "poll") {
-            $dir = ilObjPoll::initStorage($a_set["Id"]);
+            $dir = ilObjPoll::initStorage((int) $a_set["Id"]);
             $a_set["Dir"] = $dir;
             
             $a_set["ShowComments"] = $this->notes->domain()->commentsActive((int) $a_set["Id"]);
