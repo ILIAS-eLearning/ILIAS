@@ -206,17 +206,17 @@ class ilCalendarUserSettings
         $this->weekstart = (int) $weekstart;
 
         $this->setDayStart(
-            $this->user->getPref('day_start') != false ?
+            $this->user->getPref('day_start') ?
                 (int) $this->user->getPref('day_start') :
                 $this->settings->getDefaultDayStart()
         );
         $this->setDayEnd(
-            $this->user->getPref('day_end') != false ?
+            $this->user->getPref('day_end') ?
                 (int) $this->user->getPref('day_end') :
                 $this->settings->getDefaultDayEnd()
         );
         $this->setShowWeeks(
-            $this->user->getPref('show_weeks') != false ?
+            $this->user->getPref('show_weeks') ?
                 (bool) $this->user->getPref('show_weeks') :
                 $this->settings->getShowWeeks()
         );

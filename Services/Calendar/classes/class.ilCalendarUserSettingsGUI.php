@@ -160,9 +160,9 @@ class ilCalendarUserSettingsGUI
         $radio = new ilRadioGroupInputGUI($this->lng->txt('cal_week_start'), 'weekstart');
         $radio->setValue((string) $this->user_settings->getWeekStart());
 
-        $option = new ilRadioOption($this->lng->txt('l_su'), (string) 0);
+        $option = new ilRadioOption($this->lng->txt('l_su'), "0");
         $radio->addOption($option);
-        $option = new ilRadioOption($this->lng->txt('l_mo'), (string) 1);
+        $option = new ilRadioOption($this->lng->txt('l_mo'), "1");
         $radio->addOption($option);
         $form->addItem($radio);
 
@@ -170,7 +170,7 @@ class ilCalendarUserSettingsGUI
             //
             $cb = new ilCheckboxInputGUI($this->lng->txt("cal_usr_show_weeks"), "show_weeks");
             $cb->setInfo($this->lng->txt("cal_usr_show_weeks_info"));
-            $cb->setValue((string) 1);
+            $cb->setValue("1");
             $cb->setChecked($this->user_settings->getShowWeeks());
             $form->addItem($cb);
         }

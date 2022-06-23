@@ -98,11 +98,7 @@ class ilTimeZone
             $a_tz = self::_getDefaultTimeZone();
         }
 
-        if (isset(self::$instances[$a_tz])) {
-            $instance = self::$instances[$a_tz];
-        } else {
-            $instance = self::$instances[$a_tz] = new ilTimeZone($a_tz);
-        }
+        $instance = self::$instances[$a_tz] ?? (self::$instances[$a_tz] = new ilTimeZone($a_tz));
 
         // Validate timezone if it is not validated before
         if (!array_key_exists($instance->getIdentifier(), self::$valid_tz)) {

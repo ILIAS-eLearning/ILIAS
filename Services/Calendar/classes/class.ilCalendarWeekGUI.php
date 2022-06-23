@@ -280,10 +280,18 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
                         $hours[$i][$num_day]['txt'] = sprintf('%02d:00', 0) . ' - ' .
                             sprintf('%02d:00', ceil(($i + 1) / 60));
                     } else {
-                        $hours[$i][$num_day]['txt'] .= sprintf('%02d:%02d', floor($i / 60), $i % 60);
+                        if (!isset($hours[$i][$num_day]['txt'])) {
+                            $hours[$i][$num_day]['txt'] = sprintf('%02d:%02d', floor($i / 60), $i % 60);
+                        } else {
+                            $hours[$i][$num_day]['txt'] .= sprintf('%02d:%02d', floor($i / 60), $i % 60);
+                        }
                     }
                     if ($evening_aggr < 23 * 60 && $i == $evening_aggr) {
-                        $hours[$i][$num_day]['txt'] .= ' - ' . sprintf('%02d:00', 0);
+                        if (!isset($hours[$i][$num_day]['txt'])) {
+                            $hours[$i][$num_day]['txt'] = ' - ' . sprintf('%02d:00', 0);
+                        } else {
+                            $hours[$i][$num_day]['txt'] .= ' - ' . sprintf('%02d:00', 0);
+                        }
                     }
                     break;
 
@@ -293,11 +301,15 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
                             date('h a', mktime(0, 0, 0, 1, 1, 2000)) . ' - ' .
                             date('h a', mktime($this->user_settings->getDayStart(), 0, 0, 1, 1, 2000));
                     } else {
-                        $hours[$i][$num_day]['txt'] .= date('h a', mktime(floor($i / 60), $i % 60, 0, 1, 1, 2000));
+                        if (!isset($hours[$i][$num_day]['txt'])) {
+                            $hours[$i][$num_day]['txt'] = date('h a', mktime((int) floor($i / 60), $i % 60, 0, 1, 1, 2000));
+                        } else {
+                            $hours[$i][$num_day]['txt'] .= date('h a', mktime((int) floor($i / 60), $i % 60, 0, 1, 1, 2000));
+                        }
                     }
                     if ($evening_aggr < 23 * 60 && $i == $evening_aggr) {
                         $hours[$i][$num_day]['txt'] =
-                            date('h a', mktime($this->user_settings->getDayEnd(), 0, 0, 1, 1, '2000')) . ' - ' .
+                            date('h a', mktime($this->user_settings->getDayEnd(), 0, 0, 1, 1, 2000)) . ' - ' .
                             date('h a', mktime(0, 0, 0, 1, 1, 2000));
                     }
                     break;
@@ -369,7 +381,7 @@ class ilCalendarWeekGUI extends ilCalendarViewGUI
     {
         foreach ($hours as $hour_num => $hours_per_day) {
             foreach ($hours_per_day as $num_day => $hour) {
-                $this->colspans[$num_day] = max($this->colspans[$num_day], $hour['apps_num']);
+                $this->colspans[$num_day] = max($this->colspans[$num_day] ?? 0, $hour['apps_num'] ?? 0);
             }
         }
     }

@@ -88,8 +88,8 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
 
     public static function getInstance(
         array $a_appointment,
-        ilInfoScreenGUI $a_info_screen,
-        ilToolbarGUI $a_toolbar,
+        ?ilInfoScreenGUI $a_info_screen,
+        ?ilToolbarGUI $a_toolbar,
         Item $a_list_item
     ) : ilCalendarAppointmentPresentation {
         return new static($a_appointment, $a_info_screen, $a_toolbar, $a_list_item);
@@ -138,7 +138,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
         }
     }
 
-    public function getHTML() : void
+    public function getHTML() : string
     {
         $this->collectStandardPropertiesAndActions();
         $this->collectPropertiesAndActions();
@@ -211,6 +211,7 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
                 ->withActions($new_dd)
                 ->withProperties($properties);
         }
+        return '';
     }
 
     /**

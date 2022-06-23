@@ -1369,7 +1369,7 @@ class ilCalendarAppointmentGUI
             );
 
             // Fix for wrong, old entries
-            foreach ((array) $apps as $own_app) {
+            foreach ($apps as $own_app) {
                 $ref_entry = new ilCalendarEntry($own_app);
                 $ref_entry->delete();
             }

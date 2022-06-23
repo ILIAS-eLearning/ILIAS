@@ -28,15 +28,15 @@
  */
 class ilCalendarMailNotification extends ilMailNotification
 {
-    protected const TYPE_GRP_NOTIFICATION = 1;
-    protected const TYPE_GRP_NEW_NOTIFICATION = 2;
-    protected const TYPE_CRS_NOTIFICATION = 3;
-    protected const TYPE_CRS_NEW_NOTIFICATION = 4;
+    public const TYPE_GRP_NOTIFICATION = 1;
+    public const TYPE_GRP_NEW_NOTIFICATION = 2;
+    public const TYPE_CRS_NOTIFICATION = 3;
+    public const TYPE_CRS_NEW_NOTIFICATION = 4;
     public const TYPE_BOOKING_CONFIRMATION = 5;
     public const TYPE_BOOKING_CANCELLATION = 6;
-    protected const TYPE_USER = 7;
-    protected const TYPE_USER_ANONYMOUS = 8;
-    protected const TYPE_BOOKING_REMINDER = 9;
+    public const TYPE_USER = 7;
+    public const TYPE_USER_ANONYMOUS = 8;
+    public const TYPE_BOOKING_REMINDER = 9;
 
     private ?int $appointment_id = null;
     private ?ilCalendarEntry $appointment = null;

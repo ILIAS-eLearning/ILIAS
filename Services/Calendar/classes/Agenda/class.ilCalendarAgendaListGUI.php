@@ -28,15 +28,26 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         $this->initEndPeriod();
     }
 
+    protected function initCalendarPeriodFromRequest() : int
+    {
+        if ($this->http->wrapper()->query()->has('cal_agenda_per')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'cal_agenda_per',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
     protected function initPeriod() : void
     {
         global $DIC;
 
         $cal_setting = ilCalendarSettings::_getInstance();
 
-        $qp = $DIC->http()->request()->getQueryParams();
-        if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {
-            $this->period = $qp["cal_agenda_per"];
+        $calendar_period = $this->initCalendarPeriodFromRequest();
+        if ($calendar_period > 0 && $calendar_period <= 4) {
+            $this->period = $calendar_period;
         } elseif (!empty($this->user->getPref('cal_list_view'))) {
             $this->period = intval($this->user->getPref('cal_list_view'));
         } else {
@@ -92,7 +103,7 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
                     return $this->$cmd();
                 }
         }
-        return null;
+        return '';
     }
 
     public function getHTML() : string
@@ -242,14 +253,8 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         // list actions
         $images = array_fill(1, 4, "<span class=\"ilAdvNoImg\"></span>");
 
-        $cal_agenda_per = 0;
-        if ($this->http->wrapper()->query()->has('cal_agenda_per')) {
-            $cal_agenda_per = $this->http->wrapper()->query()->retrieve(
-                'cal_agenda_per',
-                $this->refinery->kindlyTo()->int()
-            );
-        }
-        if ($cal_agenda_per = (int) $cal_agenda_per) {
+        $cal_agenda_per = $this->initCalendarPeriodFromRequest();
+        if ($cal_agenda_per > 0) {
             $images[$cal_agenda_per] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
         } else {
             $images[$this->period] = "<img src='./templates/default/images/icon_checked.svg' alt='Month'>";
@@ -296,15 +301,11 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
 
         $list = $this->ui_factory->panel()->listing()->standard($list_title, $groups)
                                  ->withActions($actions);
-
         $comps = array_merge($modals, array($list));
-
         $html = $this->ui_renderer->render($comps);
-
         if (count($groups) == 0) {
             $html .= ilUtil::getSystemMessageHTML($this->lng->txt("cal_no_events_info"));
         }
-
         return $html;
     }
 
@@ -331,9 +332,10 @@ class ilCalendarAgendaListGUI extends ilCalendarViewGUI
         $user = $DIC->user();
 
         $settings = ilCalendarSettings::_getInstance();
-        $qp = $DIC->http()->request()->getQueryParams();
-        if ((int) $qp["cal_agenda_per"] > 0 && (int) $qp["cal_agenda_per"] <= 4) {
-            return $qp["cal_agenda_per"];
+
+        $calendar_agenda_period = (int) ($DIC->http()->request()->getQueryParams()['cal_agenda_per'] ?? 0);
+        if ($calendar_agenda_period > 0 && $calendar_agenda_period <= 4) {
+            return $calendar_agenda_period;
         } elseif ($period = $user->getPref('cal_list_view')) {
             return (int) $period;
         } else {

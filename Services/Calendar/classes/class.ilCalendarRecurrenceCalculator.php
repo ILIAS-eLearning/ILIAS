@@ -562,7 +562,7 @@ class ilCalendarRecurrenceCalculator
 
         $num_days = ilCalendarUtil::_isLeapYear($current_year) ? 366 : 365;
         for ($i = 0; $i < $num_days; $i++) {
-            if (($current_day = current($days)) == false) {
+            if (!($current_day = current($days))) {
                 $current_day = reset($days);
             }
             $year_days[$current_day][] = $i;
@@ -591,7 +591,7 @@ class ilCalendarRecurrenceCalculator
             (int) $year,
             (int) $month
         ); $i++) {
-            if (($current_day = current($days)) == false) {
+            if (!($current_day = current($days))) {
                 $current_day = reset($days);
             }
             $month_days[$year][$month][$current_day][] = $i;
