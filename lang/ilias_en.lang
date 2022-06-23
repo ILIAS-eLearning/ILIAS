@@ -46,10 +46,10 @@ acc#:#acc_document#:#Document
 acc#:#acc_form_attach_criterion_head#:#Select Language Criterion for Displaying Accessibility Info Document
 acc#:#acc_form_criterion#:#Criterion
 acc#:#acc_form_document#:#Document
-acc#:#acc_form_document_content_changed#:#The uploaded file has had its html <head> information removed by ILIAS. Please check the result and upload a new file if necessary.
-acc#:#acc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will have their <head> information removed – only the contents of the body element will be used.
+acc#:#acc_form_document_content_changed#:#The uploaded file has had its html &lt;head&gt; information removed by ILIAS. Please check the result and upload a new file if necessary.
+acc#:#acc_form_document_info#:#Please select a file from your local filesystem. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head&gt; information removed – only the contents of the body element will be used.
 acc#:#acc_form_document_new#:#Change Content
-acc#:#acc_form_document_new_info#:#Here you can select a file from your local filesystem to change the contents of this Accessibility document. You can either upload a plain text file, or a simple HTML file. HTML files will have their <head> information removed - only the contents of the body element will be used. The existing contents of the Accessibility document will be replaced. The document’s acceptance history will not be affected.
+acc#:#acc_form_document_new_info#:#Here you can select a file from your local filesystem to change the contents of this Accessibility document. You can either upload a plain text file, or a simple HTML file. HTML files will have their &lt;head&gt; information removed - only the contents of the body element will be used. The existing contents of the Accessibility document will be replaced. The document’s acceptance history will not be affected.
 acc#:#acc_form_document_title#:#Title
 acc#:#acc_form_document_title_info#:#Please enter a title for the document.
 acc#:#acc_form_edit_criterion_head#:#Edit Language Criterion
@@ -2103,7 +2103,7 @@ awrn#:#awrn_caching_period_info#:#Time that is waited before the number of users
 awrn#:#awrn_enable#:#Enable ‘Who is online?’-Tool
 awrn#:#awrn_filter#:#User Filter
 awrn#:#awrn_hide_from_awareness#:#Hide Me From ‘Who is online?’-Tool
-awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is online?’-Tool is in the top bar and listing selected users (e.g. contacts or members of your courses).
+awrn#:#awrn_hide_from_awareness_info#:#The ‘Who is Online?’ tool can be found in the header bar and lists selected users (e.g. contacts or members of your courses).
 awrn#:#awrn_inactive#:#Not Listed
 awrn#:#awrn_incl_offline#:#Online and Offline
 awrn#:#awrn_max_inactivity#:#Maximum Inactivity Period
@@ -2116,7 +2116,7 @@ awrn#:#awrn_online_only#:#Online Only
 awrn#:#awrn_seconds#:#sec
 awrn#:#awrn_use_osd#:#Popup Online Users
 awrn#:#awrn_use_osd_info#:#Display a popup to indicate new online users in the ‘Who is online?’ list.
-awrn#:#awrn_user_show#:#Show your account in "Who-is-online?"
+awrn#:#awrn_user_show#:#Show Your Account in "Who-Is-Online?"
 awrn#:#user_awrn_default#:#Default
 awrn#:#user_awrn_hide#:#Hide my status
 awrn#:#user_awrn_show#:#Show my status
@@ -2562,8 +2562,8 @@ book#:#booking_nr_of_items#:#Nr of Items
 book#:#obj_book_duplicate#:#Copy Booking Pool
 book#:#participants#:#Participants
 book#:#reservation_deleted#:#Reservation deleted
-buddysystem#:#buddy_allow_to_contact_me#:#Allow to contact me
-buddysystem#:#buddy_allow_to_contact_me_info#:#If enabled, other users are able to send me request for getting into contact.
+buddysystem#:#buddy_allow_to_contact_me#:#Allow Contact Requests
+buddysystem#:#buddy_allow_to_contact_me_info#:#Other users are able to send me request for getting into contact.
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_linked#:#Confirm Request
 buddysystem#:#buddy_bs_act_btn_txt_ignored_request_to_unlinked#:#Cancel Request
 buddysystem#:#buddy_bs_act_btn_txt_linked_to_unlinked#:#Unlink
@@ -2707,7 +2707,7 @@ certificate#:#certificate_ph_street#:#Street of the user's address
 certificate#:#certificate_ph_testtitle#:#Title of the test
 certificate#:#certificate_ph_title#:#Title of the user
 certificate#:#certificate_ph_title_sco#:#title
-certificate#:#certificate_ph_zipcode#:#ZIP code of the user's address
+certificate#:#certificate_ph_zipcode#:#ZIP / Post code of the user's address
 certificate#:#certificate_points_notavailable#:#This value cannot be calculated
 certificate#:#certificate_preview#:#Preview
 certificate#:#certificate_settings#:#Certificate Settings
@@ -2812,7 +2812,7 @@ chatroom#:#chat_message_to_all#:#To All
 chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted
 chatroom#:#chat_not_use_osc#:#Not Using On-Screen-Chat
 chatroom#:#chat_osc_accept_msg#:#Allow On-Screen Chat Conversations
-chatroom#:#chat_osc_accept_msg_info#:#If activated, other users are allowed start a conversation with me.
+chatroom#:#chat_osc_accept_msg_info#:#Allow other users to send you messages using the on-screen chat system.
 chatroom#:#chat_osc_accepts_messages_no#:#Doesn't Receive Chat Messages
 chatroom#:#chat_osc_accepts_messages_yes#:#Receives Chat Messages
 chatroom#:#chat_osc_add_user#:#Add Further Users
@@ -12001,7 +12001,7 @@ notification_adm#:#osd_interval#:#Refreshinterval
 notification_adm#:#osd_interval_desc#:#Polling interval for checking of new notifications in seconds. A lower number will notify the user more quickly but increases the number of requests the web server must handle.
 notification_adm#:#osd_vanish#:#Presentation Time
 notification_adm#:#osd_vanish_desc#:#Visible time of a notification on the screen in seconds.
-notification_adm#:#play_sound#:#Play a sound
+notification_adm#:#play_sound#:#Play a Sound
 notification_adm#:#play_sound_desc#:#Play a sound when receiving a new notficiation.
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#cont_skll_published#:#All assignments have been published.
