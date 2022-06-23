@@ -114,13 +114,6 @@ class WidgetManager
 
         $this->session_repo->setOnlineUsersTS(date("Y-m-d H:i:s", time()));
 
-        $handler = new ilNotificationOSDHandler();
-        foreach ($handler->getNotificationsForUser($this->user_id) as $osd) {
-            if ($osd->getType() === 'who_is_online') {
-                $handler->removeNotification($osd->getId());
-            }
-        }
-
         $notification->notifyByUsers(array($this->user_id));
     }
 

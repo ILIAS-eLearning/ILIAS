@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 
-/******************************************************************************
- *
+/**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
  *
@@ -12,10 +11,10 @@
  *
  * If this is not the case or you just want to try ILIAS, you'll find
  * us at:
- *     https://www.ilias.de
- *     https://github.com/ILIAS-eLearning
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  *
- *****************************************************************************/
+ *********************************************************************/
 
 namespace ILIAS\Notifications;
 
@@ -68,7 +67,7 @@ class ilNotificationOSDHandler extends ilNotificationHandler
 
     public function removeNotification(int $notification_osd_id) : bool
     {
-        return $this->repo->deleteNotificationById($notification_osd_id);
+        return $this->repo->deleteOSDNotificationById($notification_osd_id);
     }
 
     private function appendParamToLink(string $link, string $param, int $value) : string
