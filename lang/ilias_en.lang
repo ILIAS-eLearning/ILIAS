@@ -5261,7 +5261,7 @@ common#:#refuse#:#Refuse
 common#:#refuse_tos_acceptance#:#Refuse to Accept Terms of Service
 common#:#reg_account_confirmation_successful#:#Your user account has been activated.
 common#:#reg_goto_parent_membership_info#:#Only members can access the target object.
-common#:#reg_mail_body_2_confirmation#:#The link will only be good for %s, after that you will have to try again from the beginning.
+common#:#reg_mail_body_2_confirmation#:#This link is only valid for %s. After this period has passed, the link will expire and you will have to restart the registration process from the beginning.
 common#:#reg_mail_body_3_confirmation#:#If this e-mail means nothing to you, then it is possible that somebody else has entered your e-mail address either deliberately or accidentally, so please ignore this e-mail.
 common#:#reg_mail_body_forgot_password_info#:#To get your password, please use the function « Forgot password? » at the login screen to request a new password for this account.
 common#:#reg_mail_body_salutation#:#Hello
@@ -5430,27 +5430,27 @@ common#:#server_disabled#:#The Chat is Disabled
 common#:#server_software#:#Server Software
 common#:#sess#:#Session
 common#:#sess_fixed_duration#:#Fixed Session Duration
-common#:#sess_load_dependent_session_handling#:#Load Dependent Session Handling
+common#:#sess_load_dependent_session_handling#:#Load-Dependent Session Settings
 common#:#sess_mode#:#Session Mode
 common#:#session_config#:#Session Settings
 common#:#session_config_maintenance_disabled#:#Maintenance by client not allowed
 common#:#session_mail_subject_deletion#:#Deregistration of user "%s" from session "%s"
 common#:#session_mail_subject_entered#:#Joining of user "%s" in session "%s"
 common#:#session_mail_subject_registered#:#Registration of user "%s" for session "%s"
-common#:#session_max_count#:#Max active sessions
-common#:#session_max_count_info#:#Defines the maximum number of sessions that can be created simultaneously. Setting this to ‘0’ disables the feature.
-common#:#session_max_idle#:#Max session idle (in minutes)
+common#:#session_max_count#:#Max Number of Active Sessions
+common#:#session_max_count_info#:#Defines the maximum number of sessions that can be created simultaneously. Set the value to ‘0’ to disable the feature.
+common#:#session_max_idle#:#Maximum Session Idle (in minutes)
 common#:#session_max_idle_after_first_request#:#Max session idle after first request (in minutes)
 common#:#session_max_idle_after_first_request_info#:#All sessions that idles for at least this period of time after first request will be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
 common#:#session_max_idle_info#:#Defines the maximum period of idle time a user can idle before his session expires.
-common#:#session_min_idle#:#Min session idle (in minutes)
-common#:#session_min_idle_info#:#When a user idles for at least this period of time the session can be destroyed if another session should be opened for another user and the maximum number of existing sessions is reached.
-common#:#session_reminder#:#Session-Reminder
+common#:#session_min_idle#:#Max Session Idle (in Minutes) When Max Number of Active Sessions Reached
+common#:#session_min_idle_info#:#If a user has been idle for at least this period of time and the maximum number of active sessions allowed has been reached, then their session will be automatically ended when a different user starts a new session.
+common#:#session_reminder#:#Session Reminder
 common#:#session_reminder_alert#:#Your session expires in %1$s at %2$s!  Choose OK to continue your session. If you click Cancel you will not be reminded during the current browser session anymore.  Installation: %3$s.
-common#:#session_reminder_info#:#If enabled, you receive a reminder before the online-session of your browser expires.
+common#:#session_reminder_info#:#Receive a reminder before your online-session expires.
 common#:#session_reminder_lead_time#:#Leadtime
 common#:#session_reminder_lead_time_info#:#Please specify the lead time for the session reminder in minutes. The reminder displays a warning when only this time span is left before the session expires. Recommended value is 5 (minutes)<br / >The current length of a user session is %s.
-common#:#session_reminder_session_duration#:#(Session Duration: %s).
+common#:#session_reminder_session_duration#:#(Session duration: %s).
 common#:#set#:#Set
 common#:#setSystemLanguage#:#Set System Language
 common#:#setUserLanguage#:#Set User Language
@@ -5462,16 +5462,16 @@ common#:#settings#:#Settings
 common#:#settings_for_all_members#:#Members will be notified automatically
 common#:#settings_per_users#:#Members are notified automatically. Deactivating notifications can be allowed for each member individually.
 common#:#settings_presentation_header#:#Presentation
-common#:#settings_saved#:#Saved settings
+common#:#settings_saved#:#Settings saved
 common#:#shib#:#Shibboleth
-common#:#shib_active#:#Enable Shibboleth support
+common#:#shib_active#:#Enable Shibboleth Support
 common#:#shib_city#:#Attribute for city
 common#:#shib_country#:#Attribute for country
-common#:#shib_data_conv#:#Absolute path to data manipulation API
+common#:#shib_data_conv#:#Absolute Path to Data Manipulation API
 common#:#shib_data_conv_warning#:#The data manipulation API file you specified cannot be read
 common#:#shib_department#:#Attribute for department
 common#:#shib_email#:#Attribute for e-mail address
-common#:#shib_federation_name#:#Name of your Shibboleth federation
+common#:#shib_federation_name#:#Name of Your Shibboleth Federation
 common#:#shib_firstname#:#Attribute for first name
 common#:#shib_gender#:#Attribute for salutation (must be ‘n’, ‘m’ or ‘f’)
 common#:#shib_general_login_instructions#:#To log in via %s, please click on the login button and choose your organization of the following page.<br>If you have questions concerning this, please ask the %s
@@ -5484,9 +5484,9 @@ common#:#shib_lastname#:#Attribute for lastname
 common#:#shib_login#:#Unique Shibboleth attribute
 common#:#shib_login_button#:#Path to the image of a Shibboleth login button that is used to redirect users to the WAYF specified in the Shibboleth configuration
 common#:#shib_login_embedded_wayf#:#Design custom login area
-common#:#shib_login_embedded_wayf_description#:#If this option is chosen, you can provide any HTML code in the login instructions text area below. This can for example be used to embed an own JavaScript WAYF/Discovery Service or create a custom-tailored design of the login area.
-common#:#shib_login_external_wayf#:#Use external WAYF service
-common#:#shib_login_internal_wayf#:#Use ILIAS WAYF service
+common#:#shib_login_embedded_wayf_description#:#This option allows you to enter any HTML code in the ‘Instructions Shown on Login Page’ text area below in order to, for example, embed your own JavaScript WAYF/Discovery Service or to customise the design of the login area to best suit your needs.
+common#:#shib_login_external_wayf#:#Use External WAYF Service
+common#:#shib_login_internal_wayf#:#Use ILIAS WAYF Service
 common#:#shib_login_type#:#Organization selection
 common#:#shib_matriculation#:#Attribute for Matriculation Number
 common#:#shib_member_of#:#I am a member of ...
@@ -5498,7 +5498,7 @@ common#:#shib_settings_saved#:#The Shibboleth settings were saved
 common#:#shib_street#:#Attribute for street
 common#:#shib_title#:#Attribute for title
 common#:#shib_update#:#Update this field on login
-common#:#shib_user_default_role#:#Default role assigned to Shibboleth users
+common#:#shib_user_default_role#:#Default Role Assigned to Shibboleth Users
 common#:#shib_zipcode#:#Attribute for zipcode
 common#:#short_inst_name#:#Short Title
 common#:#short_inst_name_info#:#This title will appear in the browser header title bar. If no value is entered, ‘ILIAS’ is used.
@@ -5540,7 +5540,7 @@ common#:#sorting_info_inherit#:#The sorting mode is adopted from a parent course
 common#:#sorting_info_manual#:#Content items can be arranged manually in a preferred order. Additionallyi, please define the standard sorting settings for new objects.
 common#:#sorting_info_title#:#Content items are arranged automatically by title in alphabetical order.
 common#:#sorting_manual_header#:#Manually
-common#:#sorting_save#:#Save Sorting
+common#:#sorting_save#:#Save Order
 common#:#sorting_title_header#:#Titles in Alphabetical Order
 common#:#spacer#:#Spacer
 common#:#spl#:#Question Pool Survey
@@ -5646,9 +5646,9 @@ common#:#tst_statistics#:#Statistics
 common#:#tst_user_not_invited#:#You are not supposed to take this test.
 common#:#tst_warning_test_not_complete#:#The test is not complete!
 common#:#tutors#:#Tutors
-common#:#txt_registered#:#You successfully registered to ILIAS. Please click on the button below to login to ILIAS with your user account.
-common#:#txt_registered_passw_gen#:#You have successfully registered with ILIAS. You will receive an e-mail with your password shortly.
-common#:#txt_submitted#:#You successfully submitted an account request to ILIAS. Your account request will be reviewed by the system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.
+common#:#txt_registered#:#You have successfully registered your account with ILIAS. Please click on the button below to log in to ILIAS with your user account.
+common#:#txt_registered_passw_gen#:#YYou have successfully registered your account with ILIAS. You will receive an e-mail including your generated password shortly.
+common#:#txt_submitted#:#You have successfully registered your account with ILIAS. Your account request will be reviewed by our system administrators, and should be activated within 48 hours. You will not be able to log in until your account is activated.
 common#:#typ#:#Object Type Definition
 common#:#type#:#Type
 common#:#udf_added_field#:#Added new field.
@@ -5725,7 +5725,7 @@ common#:#user_never_logged_in#:#Delete user accounts without login
 common#:#user_never_logged_in_info#:#All user accounts without login at all be deleted.
 common#:#user_never_logged_in_info_threshold_err_num#:#Only positive non decimal numbers are accepted.
 common#:#user_new_account_mail#:#New Account Mail
-common#:#user_new_account_mail_desc#:#This e-mail is sent after an ILIAS account has been created. If the account was created by an administrator, ILIAS will only send an e-mail if the option "Send mail to inform user about changes" was activated when creating the account.
+common#:#user_new_account_mail_desc#:#This mail is sent automatically to users that have self-registered or to those who have been registered by an administrator with the setting ‘Send mail to inform user about changes’ enabled.
 common#:#user_not_found#:#User not found
 common#:#user_not_found_to_delete#:#A user could not be found to delete.
 common#:#user_not_known#:#Please insert a valid username.
@@ -5766,7 +5766,7 @@ common#:#usr_settings_saved#:#Global user settings saved successfully!
 common#:#usr_settings_visib_lua#:#Visible in Local User Administration
 common#:#usr_skin_style#:#Skin / Style
 common#:#usr_without_courses#:#Users without courses assigned
-common#:#usrf#:#User accounts
+common#:#usrf#:#User Accounts
 common#:#usrf_profile_link#:#Link to user profile
 common#:#usrimport_action_ignored#:#Ignored action %1$s.
 common#:#usrimport_action_replaced#:#Replaced action %1$s by %2$s.
@@ -5859,25 +5859,25 @@ common#:#wiki#:#Wiki
 common#:#wiki_add#:#Add Wiki
 common#:#wiki_new#:#New Wiki
 common#:#with#:#with
-common#:#withdraw_consent#:#Withdraw Acceptance
-common#:#withdraw_consent_description#:#Withdraw your acceptance to the terms of service here
-common#:#withdraw_consent_description_external#:#Please return to your source installation and log in again to complete the revocation process.
-common#:#withdraw_consent_description_internal#:#Please log in again to complete the revocation process.
-common#:#withdraw_consent_header#:#Revoke acceptance to terms of service
-common#:#withdraw_consent_info#:#Withdraw acceptance to terms of service
-common#:#withdraw_consent_info_external#:#Please notify the administrator of your authentication system and inform them about your intention to revoke your acceptance to the terms of service.
-common#:#withdraw_consent_info_internal#:#If you confirm here, your account will be deleted.
-common#:#withdraw_usr_agreement#:#Withdraw
+common#:#withdraw_consent#:#Withdraw Consent
+common#:#withdraw_consent_description#:#Withdraw your consent to our Terms of Service here.
+common#:#withdraw_consent_description_external#:#Please return to your ILIAS installation and log in again to complete the process of withdrawing your consent to the Terms of Service.
+common#:#withdraw_consent_description_internal#:#Please log in again to complete the process of withdrawing your consent to the Terms of Service.
+common#:#withdraw_consent_header#:#Withdraw Terms of Service Consent
+common#:#withdraw_consent_info#:#Withdraw your consent to our Terms of Service.
+common#:#withdraw_consent_info_external#:#Please contact the administrator of your authentication system and inform them of your intention to withdraw your consent to the Terms of Service.
+common#:#withdraw_consent_info_internal#:#If you click on ‘Withdraw Consent’, your account will be deleted.
+common#:#withdraw_usr_agreement#:#Withdraw Consent
 common#:#withdrawal_complete#:#Withdrawal of consent complete.
 common#:#withdrawal_complete_deleted#:#Withdrawal of consent complete, account deleted.
-common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have the account deleted, please contact your organisation.
-common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]
+common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have your account deleted, please contact your organisation.
+common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal of your consent:[BR][BR]
 common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
-common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s
-common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of consent?
-common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted.
-common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.
-common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure you do not want to accept the terms of service?
+common#:#withdrawal_mail_text#:#Dear Sir/Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installation’s Terms of Service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Yours faithfully[BR]%1$s
+common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of your consent?
+common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of your consent? This will result in your user account being irrevocably deleted.
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure that you do not want to accept the Terms of Service? This will result in your user account being irrevocably deleted.
+common#:#withdrawal_sure_account_no_consent_yet#:#Are you sure that you do not want to accept the Terms of Service?
 common#:#wizard_search_list#:#Your search produced the following hits. Please select one of them.
 common#:#wizard_title_info#:#Search for the object you want to duplicate. Please enter the object's title or a part of it and click on 'Continue' to get matching search results.
 common#:#write#:#Write
@@ -5887,10 +5887,10 @@ common#:#yearly#:#yearly
 common#:#years#:#Years
 common#:#yes#:#Yes
 common#:#yesterday#:#Yesterday
-common#:#zip#:#Zip Code
+common#:#zip#:#Zip Code / Post Code
 common#:#zip_structure_error#:#Archive contains same file names. Upload aborted.
 common#:#zip_test_failed#:#Zip-Test failed. Please contact you ILIAS administrator.
-common#:#zipcode#:#Zip Code
+common#:#zipcode#:#Zip Code / Post Code
 cond#:#cond_under_parent_control#:#Preconditions are under the control of the parent object.
 cont#:#cont_add_global_profile#:#Add Global Profile
 cont#:#cont_add_local_profile#:#Add Local Profile
