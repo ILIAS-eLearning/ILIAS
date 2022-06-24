@@ -61,9 +61,6 @@ class ilIndividualAssessmentDataSet extends ilDataSet
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $this->data = array();
-        if (!is_array($a_ids)) {
-            $a_ids = array($a_ids);
-        }
         $this->_readData($a_entity, $a_ids);
     }
 
