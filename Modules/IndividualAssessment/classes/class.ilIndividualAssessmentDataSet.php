@@ -62,7 +62,7 @@ class ilIndividualAssessmentDataSet extends ilDataSet
     {
         $this->data = array();
         if (!is_array($a_ids)) {
-            $ids = array($a_ids);
+            $a_ids = array($a_ids);
         }
         $this->_readData($a_entity, $a_ids);
     }
