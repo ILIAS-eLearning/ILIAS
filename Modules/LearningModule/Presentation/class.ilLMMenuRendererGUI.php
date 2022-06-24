@@ -134,12 +134,10 @@ class ilLMMenuRendererGUI
                     array("illmpresentationgui", "ilinfoscreengui"),
                     "showSummary"
                 );
-            } else {
-                $link = "./info.html";
+                $this->toolbar->addComponent(
+                    $this->ui_factory->button()->standard($this->lng->txt("info_short"), $link)
+                );
             }
-            $this->toolbar->addComponent(
-                $this->ui_factory->button()->standard($this->lng->txt("info_short"), $link)
-            );
         }
 
         if (!$this->offline &&

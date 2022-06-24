@@ -30,22 +30,22 @@ class LMHtmlExport
 {
     protected \ILIAS\Services\Export\HTML\Util $export_util;
     protected \ilLogger $log;
-    protected string $target_dir;
-    protected string $sub_dir;
-    protected string $export_dir;
+    protected string $target_dir = "";
+    protected string $sub_dir = "";
+    protected string $export_dir = "";
     protected \ilObjLearningModule $lm;
     protected \ilGlobalTemplateInterface $main_tpl;
     protected \ilObjUser $user;
     protected \ilLocatorGUI $locator;
     protected \ilCOPageHTMLExport $co_page_html_export;
-    protected string $export_format;
+    protected string $export_format = "";
     protected \ilLMPresentationGUI $lm_gui;
     protected \ilObjectTranslation $obj_transl;
-    protected string $lang;
+    protected string $lang = "";
     protected \ilSetting $lm_settings;
     protected array $offline_files = [];
-    protected string $initial_user_language;
-    protected string $initial_current_user_language;
+    protected string $initial_user_language = "";
+    protected string $initial_current_user_language = "";
     protected \ILIAS\GlobalScreen\Services $global_screen;
     protected \ILIAS\Style\Content\Object\ObjectFacade $content_style_domain;
 
@@ -65,6 +65,8 @@ class LMHtmlExport
         $this->sub_dir = $sub_dir;
         $this->lang = $lang;
         $this->target_dir = $export_dir . "/" . $sub_dir;
+        $cs = $DIC->contentStyle();
+        $this->content_style_domain = $cs->domain()->styleForRefId($this->lm->getRefId());
         $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir, $this->getLinker(), $lm->getRefId());
         $this->co_page_html_export->setContentStyleId(
             $this->content_style_domain->getEffectiveStyleId()
@@ -86,8 +88,6 @@ class LMHtmlExport
         $this->export_util = new \ILIAS\Services\Export\HTML\Util($export_dir, $sub_dir);
 
         $this->setAdditionalContextData(\ilLMEditGSToolProvider::SHOW_TREE, false);
-        $cs = $DIC->contentStyle();
-        $this->content_style_domain = $cs->domain()->styleForRefId($this->lm->getRefId());
     }
 
     protected function getLinker() : PageLinker
@@ -399,7 +399,7 @@ class LMHtmlExport
 
         // check, why these do not come with the gs meta collector
         $scripts[] = [
-            "source" => "src/UI/templates/js/MainControls/mainbar.js",
+            "source" => "src/UI/templates/js/MainControls/dist/mainbar.js",
             "type" => "js"
         ];
         $scripts[] = [
