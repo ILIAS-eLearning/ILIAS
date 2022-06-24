@@ -63,7 +63,7 @@ class ilLink
      * @return string goto.html or goto.php link
      */
     public static function _getStaticLink(
-        int $a_ref_id,
+        ?int $a_ref_id,
         string $a_type = '',
         bool $a_fallback_goto = true,
         string $append = ""
@@ -72,7 +72,7 @@ class ilLink
 
         $ilObjDataCache = $DIC["ilObjDataCache"];
 
-        if ($a_type === '') {
+        if ($a_type === '' && $a_ref_id) {
             $a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
         }
         

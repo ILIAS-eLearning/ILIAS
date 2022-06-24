@@ -225,7 +225,7 @@ interface ilGlobalTemplateInterface
      */
     public function setPermanentLink(
         string $a_type,
-        int $a_id,
+        ?int $a_id,
         string $a_append = "",
         string $a_target = "",
         string $a_title = ""

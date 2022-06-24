@@ -271,7 +271,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
     {
         $txt = "";
         if (ilSession::has($m) && ilSession::get($m) != "") {
-            $txt =ilSession::get($m);
+            $txt = ilSession::get($m);
         } else {
             if (isset($this->message[$m])) {
                 $txt = $this->message[$m];
@@ -402,10 +402,10 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
                 foreach ($this->js_files as $file) {
                     if ($this->js_files_batch[$file] == $i) {
                         if (is_file($file) || substr($file, 0, 4) == "http" || substr(
-                                $file,
-                                0,
-                                2
-                            ) == "//" || $a_force) {
+                            $file,
+                            0,
+                            2
+                        ) == "//" || $a_force) {
                             $this->fillJavascriptFile($file, $vers);
                         } else {
                             if (substr($file, 0, 2) == './') { // #13962
@@ -1345,7 +1345,6 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
      */
     private function fillLightbox() : void
     {
-
         $html = implode('', $this->lightbox);
         $this->setVariable("LIGHTBOX", $html);
     }
@@ -1415,7 +1414,7 @@ class ilDataCollectionGlobalTemplate implements ilGlobalTemplateInterface
 
     public function setPermanentLink(
         string $a_type,
-        int $a_id,
+        ?int $a_id,
         string $a_append = "",
         string $a_target = "",
         string $a_title = ""
