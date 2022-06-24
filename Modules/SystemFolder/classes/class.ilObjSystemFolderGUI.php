@@ -1167,7 +1167,7 @@ class ilObjSystemFolderGUI extends ilObjectGUI
             $refinery,
             $data,
             $lng,
-            $interface_finder
+            $interface_finder,
             []
         );
 
