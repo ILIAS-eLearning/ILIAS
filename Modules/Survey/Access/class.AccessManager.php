@@ -150,7 +150,9 @@ class AccessManager
         $all_participants = $this->getSurvey()->getSurveyParticipants($a_finished_ids);
         $participant_ids = [];
         foreach ($all_participants as $participant) {
-            $participant_ids[] = $participant['usr_id'];
+            if (isset($participant['usr_id'])) {
+                $participant_ids[] = $participant['usr_id'];
+            }
         }
 
         $filtered_participant_ids = $this->access->filterUserIdsByRbacOrPositionOfCurrentUser(
@@ -161,10 +163,10 @@ class AccessManager
         );
         $participants = [];
         foreach ($all_participants as $username => $user_data) {
-            if (!$user_data['usr_id']) {
+            if (!isset($user_data['usr_id'])) {
                 $participants[$username] = $user_data;
             }
-            if (in_array($user_data['usr_id'], $filtered_participant_ids)) {
+            if (in_array(($user_data['usr_id'] ?? null), $filtered_participant_ids)) {
                 $participants[$username] = $user_data;
             }
         }

@@ -111,7 +111,7 @@ class EditingGUIRequest
     /** @return string[] */
     public function getCodesPar($key) : array
     {
-        return $this->arrayArray("chb_" . $key);
+        return $this->strArray("chb_" . $key);
     }
 
     public function getCodeMailPart($key) : string

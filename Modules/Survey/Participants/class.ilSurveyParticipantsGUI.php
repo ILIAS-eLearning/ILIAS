@@ -285,7 +285,7 @@ class ilSurveyParticipantsGUI
             $data[] = array(
                 'id' => $active_id,
                 'name' => $user_data["sortname"],
-                'usr_id' => $user_data["usr_id"],
+                'usr_id' => $user_data["usr_id"] ?? null,
                 'login' => $user_data["login"],
                 'last_access' => $last_access,
                 'workingtime' => $wt,
@@ -589,10 +589,10 @@ class ilSurveyParticipantsGUI
         foreach ($codes as $id) {
             if (!$this->object->updateCode(
                 $id,
-                $mails[$id],
-                $lnames[$id],
-                $fnames[$id],
-                $sents[$id]
+                $mails[$id] ?? "",
+                $lnames[$id] ?? "",
+                $fnames[$id] ?? "",
+                $sents[$id] ?? 0
             )) {
                 $errors[] = array($mails[$id], $lnames[$id], $fnames[$id]);
             }

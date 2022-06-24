@@ -26,7 +26,7 @@ abstract class ilButtonBase implements ilToolbarItem
 {
     protected ilLanguage $lng;
     protected int $type = 0; // [int]
-    protected string $id = ""; // [string]
+    protected ?string $id = ""; // [string]
     protected string $caption = ""; // [string]
     protected bool $caption_is_lng_id = false; // [bool]
     protected bool $primary = false; // [bool]
@@ -71,12 +71,12 @@ abstract class ilButtonBase implements ilToolbarItem
         return $this->type;
     }
         
-    public function setId(string $a_value) : void
+    public function setId(?string $a_value) : void
     {
         $this->id = $a_value;
     }
     
-    public function getId() : string
+    public function getId() : ?string
     {
         return $this->id;
     }

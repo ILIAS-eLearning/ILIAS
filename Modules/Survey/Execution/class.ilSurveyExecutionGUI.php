@@ -394,7 +394,7 @@ class ilSurveyExecutionGUI
         } elseif (is_null($page) && $direction === 1) {
             $state = $this->object->getUserSurveyExecutionStatus();
             if ($this->preview ||
-                !$state["runs"][$this->getCurrentRunId()]["finished"]) {
+                !($state["runs"][$this->getCurrentRunId()]["finished"] ?? false)) {
                 $this->showFinishConfirmation();
             } else {
                 $this->runShowFinishedPage();
