@@ -241,29 +241,9 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
                 "text",
                 $record[ilIndividualAssessmentMembers::FIELD_LEARNING_PROGRESS]
             ],
-            ilIndividualAssessmentMembers::FIELD_EXAMINER_ID => [
+           ilIndividualAssessmentMembers::FIELD_NOTIFY => [
                 "integer",
-                $record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID]
-            ],
-            ilIndividualAssessmentMembers::FIELD_RECORD => [
-                "text",
-                $record[ilIndividualAssessmentMembers::FIELD_RECORD]
-            ],
-            ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE => [
-                "text",
-                $record[ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE]
-            ],
-            ilIndividualAssessmentMembers::FIELD_PLACE => [
-                "text",
-                $record[ilIndividualAssessmentMembers::FIELD_PLACE]
-            ],
-            ilIndividualAssessmentMembers::FIELD_EVENTTIME => [
-                "integer",
-                $record[ilIndividualAssessmentMembers::FIELD_EVENTTIME]
-            ],
-            ilIndividualAssessmentMembers::FIELD_NOTIFY => [
-                "integer",
-                $record[ilIndividualAssessmentMembers::FIELD_NOTIFY]
+                $record[ilIndividualAssessmentMembers::FIELD_NOTIFY] ?? 0
             ],
             ilIndividualAssessmentMembers::FIELD_FINALIZED => [
                 "integer",
@@ -272,24 +252,72 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
             ilIndividualAssessmentMembers::FIELD_NOTIFICATION_TS => [
                 "integer",
                 -1
-            ],
-            ilIndividualAssessmentMembers::FIELD_FILE_NAME => [
-                "text",
-                $record[ilIndividualAssessmentMembers::FIELD_FILE_NAME]
-            ],
-            ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE => [
-                "integer",
-                $record[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE]
-            ],
-            ilIndividualAssessmentMembers::FIELD_CHANGER_ID => [
-                "integer",
-                $record[ilIndividualAssessmentMembers::FIELD_CHANGER_ID]
-            ],
-            ilIndividualAssessmentMembers::FIELD_CHANGE_TIME => [
-                "text",
-                $record[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME]
             ]
         ];
+
+        if (isset($record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID])) {
+            $record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID] =
+                [
+                    "integer",
+                    $record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID]
+                ];
+        }
+        if (isset($record[ilIndividualAssessmentMembers::FIELD_RECORD])) {
+            $record[ilIndividualAssessmentMembers::FIELD_RECORD] =
+                [
+                    "text",
+                    $record[ilIndividualAssessmentMembers::FIELD_RECORD]
+                ];
+        }
+        if (isset($record[ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE])) {
+            $record[ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE] =
+                [
+                    "text",
+                    $record[ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE]
+                ];
+        }
+        if (isset($record[ilIndividualAssessmentMembers::FIELD_PLACE])) {
+            $record[ilIndividualAssessmentMembers::FIELD_PLACE] =
+                [
+                    "text",
+                    $record[ilIndividualAssessmentMembers::FIELD_PLACE]
+                ];
+        }
+        if (isset($record[ilIndividualAssessmentMembers::FIELD_EVENTTIME])) {
+            $record[ilIndividualAssessmentMembers::FIELD_EVENTTIME] =
+                [
+                    "integer",
+                    $record[ilIndividualAssessmentMembers::FIELD_EVENTTIME]
+                ];
+        }
+        if (isset($record[ilIndividualAssessmentMembers::FIELD_FILE_NAME])) {
+            $record[ilIndividualAssessmentMembers::FIELD_FILE_NAME] =
+                [
+                    "text",
+                    $record[ilIndividualAssessmentMembers::FIELD_FILE_NAME]
+                ];
+        }
+        if (isset($record[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE])) {
+            $record[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE] =
+                [
+                    "integer",
+                    $record[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE]
+                ];
+        }
+        if (isset($record[ilIndividualAssessmentMembers::FIELD_CHANGER_ID])) {
+            $record[ilIndividualAssessmentMembers::FIELD_CHANGER_ID] =
+                [
+                    "integer",
+                    $record[ilIndividualAssessmentMembers::FIELD_CHANGER_ID]
+                ];
+        }
+        if (isset($record[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME])) {
+            $record[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME] =
+                [
+                    "text",
+                    $record[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME]
+                ];
+        }
 
         $this->db->insert(self::MEMBERS_TABLE, $values);
     }
