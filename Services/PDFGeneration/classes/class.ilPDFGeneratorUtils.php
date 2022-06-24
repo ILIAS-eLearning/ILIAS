@@ -147,7 +147,7 @@ class ilPDFGeneratorUtils
         );
     }
 
-    public static function getRendererConfig(string $service, string $purpose, string $renderer) : array
+    public static function getRendererConfig(string $service, string $purpose, string $renderer)
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -167,7 +167,7 @@ class ilPDFGeneratorUtils
     /**
      * @throws Exception
      */
-    public static function getRendererDefaultConfig(string $service, string $purpose, string $renderer) : array
+    public static function getRendererDefaultConfig(string $service, string $purpose, string $renderer)
     {
         $class_instance = self::getRendererInstance($renderer);
 

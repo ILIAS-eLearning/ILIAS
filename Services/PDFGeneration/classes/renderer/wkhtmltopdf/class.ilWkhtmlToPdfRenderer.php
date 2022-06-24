@@ -42,7 +42,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
         $gui->addConfigForm($form);
     }
 
-    public function populateConfigElementsInForm(ilPropertyFormGUI $form, string $service, string $purpose, array $config) : void
+    public function populateConfigElementsInForm(ilPropertyFormGUI $form, string $service, string $purpose, $config) : void
     {
         $this->config = new ilWkhtmlToPdfConfig($config);
         $gui = new ilWkhtmlToPdfConfigFormGUI();
