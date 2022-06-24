@@ -40,7 +40,11 @@ class ProfileGUIRequest
 
     public function getUserId() : int
     {
-        return $this->int("user_id");
+        $user_id = $this->int("user_id");
+        if ($user_id == 0) {
+            $user_id = $this->int("user");
+        }
+        return $user_id;
     }
 
     public function getBackUrl() : string

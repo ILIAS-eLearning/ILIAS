@@ -188,10 +188,10 @@ class ilvCard
                     break;
                 case "PHOTO":
                     $photo = "";
-                    if (is_array($this->types["PHOTO"])) {
-                        if (strcmp($this->types["PHOTO"]["VALUE"], "") != 0) {
+                    if (isset($this->types["PHOTO"])) {
+                        if (strcmp(($this->types["PHOTO"]["VALUE"] ?? ""), "") != 0) {
                             $photo = $this->fold("PHOTO;VALUE=uri:" . $this->types["PHOTO"]["VALUE"]) . "\n";
-                        } elseif (strcmp($this->types["PHOTO"]["ENCODING"], "") != 0) {
+                        } elseif (strcmp(($this->types["PHOTO"]["ENCODING"] ?? ""), "") != 0) {
                             $photo = "PHOTO;ENCODING=" . $this->types["PHOTO"]["ENCODING"];
                             if (strcmp($this->types["PHOTO"]["TYPE"], "") != 0) {
                                 $photo .= ";TYPE=" . $this->types["PHOTO"]["TYPE"];
@@ -255,8 +255,8 @@ class ilvCard
                     break;
                 case "LABEL":
                     $label = "";
-                    if (is_array($this->types["LABEL"])) {
-                        if (strcmp($this->types["LABEL"]["LABEL"], "") != 0) {
+                    if (isset($this->types["LABEL"])) {
+                        if (strcmp(($this->types["LABEL"]["LABEL"] ?? ""), "") != 0) {
                             $label = "LABEL";
                             $adr_types = array();
                             if ($this->types["LABEL"]["TYPE"] > 0) {
@@ -380,23 +380,23 @@ class ilvCard
                     }
                     break;
                 case "MAILER":
-                    if (strcmp($this->types["MAILER"], "") != 0) {
+                    if (strcmp(($this->types["MAILER"] ?? ""), "") != 0) {
                         $mailer = $this->fold("MAILER:" . $this->types["MAILER"]) . "\n";
                     } else {
                         $mailer = "";
                     }
                     break;
                 case "TZ":
-                    if (strcmp($this->types["TZ"], "") != 0) {
+                    if (strcmp(($this->types["TZ"] ?? ""), "") != 0) {
                         $tz = $this->fold("TZ:" . $this->types["TZ"]) . "\n";
                     } else {
                         $tz = "";
                     }
                     break;
                 case "GEO":
-                    if (is_array($this->types["GEO"]) and
-                        (strcmp($this->types["GEO"]["LAT"], "") != 0) and
-                        (strcmp($this->types["GEO"]["LON"], "") != 0)) {
+                    if (isset($this->types["GEO"]) and
+                        (strcmp(($this->types["GEO"]["LAT"] ?? ""), "") != 0) and
+                        (strcmp(($this->types["GEO"]["LON"] ?? ""), "") != 0)) {
                         $geo = $this->fold(
                             "GEO:" . $this->types["GEO"]["LAT"] . ";" . $this->types["GEO"]["LON"]
                         ) . "\n";
@@ -405,14 +405,14 @@ class ilvCard
                     }
                     break;
                 case "TITLE":
-                    if (strcmp($this->types["TITLE"], "") != 0) {
+                    if (strcmp(($this->types["TITLE"] ?? ""), "") != 0) {
                         $title = $this->fold("TITLE:" . $this->types["TITLE"]) . "\n";
                     } else {
                         $title = "";
                     }
                     break;
                 case "ROLE":
-                    if (strcmp($this->types["ROLE"], "") != 0) {
+                    if (strcmp(($this->types["ROLE"] ?? ""), "") != 0) {
                         $role = $this->fold("ROLE:" . $this->types["ROLE"]) . "\n";
                     } else {
                         $role = "";
@@ -420,10 +420,10 @@ class ilvCard
                     break;
                 case "LOGO":
                     $logo = "";
-                    if (is_array($this->types["LOGO"])) {
-                        if (strcmp($this->types["LOGO"]["VALUE"], "") != 0) {
+                    if (isset($this->types["LOGO"])) {
+                        if (strcmp(($this->types["LOGO"]["VALUE"] ?? ""), "") != 0) {
                             $logo = $this->fold("LOGO;VALUE=uri:" . $this->types["LOGO"]["VALUE"]) . "\n";
-                        } elseif (strcmp($this->types["LOGO"]["ENCODING"], "") != 0) {
+                        } elseif (strcmp(($this->types["LOGO"]["ENCODING"] ?? ""), "") != 0) {
                             $logo = "LOGO;ENCODING=" . $this->types["LOGO"]["ENCODING"];
                             if (strcmp($this->types["LOGO"]["TYPE"], "") != 0) {
                                 $logo .= ";TYPE=" . $this->types["LOGO"]["TYPE"];
@@ -434,49 +434,49 @@ class ilvCard
                     }
                     break;
                 case "AGENT":
-                    if (strcmp($this->types["AGENT"], "") != 0) {
+                    if (strcmp(($this->types["AGENT"] ?? ""), "") != 0) {
                         $agent = $this->fold("AGENT:" . $this->types["AGENT"]) . "\n";
                     } else {
                         $agent = "";
                     }
                     break;
                 case "ORG":
-                    if (strcmp($this->types["ORG"], "") != 0) {
+                    if (strcmp(($this->types["ORG"] ?? ""), "") != 0) {
                         $org = $this->fold("ORG:" . $this->types["ORG"]) . "\n";
                     } else {
                         $org = "";
                     }
                     break;
                 case "CATEGORIES":
-                    if (strcmp($this->types["CATEGORIES"], "") != 0) {
+                    if (strcmp(($this->types["CATEGORIES"] ?? ""), "") != 0) {
                         $categories = $this->fold("CATEGORIES:" . $this->types["CATEGORIES"]) . "\n";
                     } else {
                         $categories = "";
                     }
                     break;
                 case "NOTE":
-                    if (strcmp($this->types["NOTE"], "") != 0) {
+                    if (strcmp(($this->types["NOTE"] ?? ""), "") != 0) {
                         $note = $this->fold("NOTE:" . $this->types["NOTE"]) . "\n";
                     } else {
                         $note = "";
                     }
                     break;
                 case "PRODID":
-                    if (strcmp($this->types["PRODID"], "") != 0) {
+                    if (strcmp(($this->types["PRODID"] ?? ""), "") != 0) {
                         $prodid = $this->fold("PRODID:" . $this->types["PRODID"]) . "\n";
                     } else {
                         $prodid = "";
                     }
                     break;
                 case "REV":
-                    if (strcmp($this->types["REV"], "") != 0) {
+                    if (strcmp(($this->types["REV"] ?? ""), "") != 0) {
                         $rev = $this->fold("REV:" . $this->types["REV"]) . "\n";
                     } else {
                         $rev = "";
                     }
                     break;
                 case "SORT-STRING":
-                    if (strcmp($this->types["SORT-STRING"], "") != 0) {
+                    if (strcmp(($this->types["SORT-STRING"] ?? ""), "") != 0) {
                         $sortstring = $this->fold("SORT-STRING:" . $this->types["SORT-STRING"]) . "\n";
                     } else {
                         $sortstring = "";
@@ -484,10 +484,10 @@ class ilvCard
                     break;
                 case "SOUND":
                     $sound = "";
-                    if (is_array($this->types["SOUND"])) {
-                        if (strcmp($this->types["SOUND"]["VALUE"], "") != 0) {
+                    if (isset($this->types["SOUND"])) {
+                        if (strcmp(($this->types["SOUND"]["VALUE"] ?? ""), "") != 0) {
                             $sound = $this->fold("SOUND;VALUE=uri:" . $this->types["SOUND"]["VALUE"]) . "\n";
-                        } elseif (strcmp($this->types["SOUND"]["ENCODING"], "") != 0) {
+                        } elseif (strcmp(($this->types["SOUND"]["ENCODING"] ?? ""), "") != 0) {
                             $sound = "SOUND;ENCODING=" . $this->types["SOUND"]["ENCODING"];
                             if (strcmp($this->types["SOUND"]["TYPE"], "") != 0) {
                                 $sound .= ";TYPE=" . $this->types["SOUND"]["TYPE"];
@@ -499,8 +499,8 @@ class ilvCard
                     break;
                 case "UID":
                     $uid = "";
-                    if (is_array($this->types["UID"])) {
-                        if (strcmp($this->types["UID"]["UID"], "") != 0) {
+                    if (isset($this->types["UID"])) {
+                        if (strcmp(($this->types["UID"]["UID"] ?? ""), "") != 0) {
                             $uid = "UID";
                             if (strcmp($this->types["UID"]["TYPE"], "") != 0) {
                                 $uid .= ";TYPE=" . $this->types["UID"]["TYPE"];
@@ -511,7 +511,7 @@ class ilvCard
                     }
                     break;
                 case "URL":
-                    if (strcmp($this->types["URL"], "") != 0) {
+                    if (strcmp(($this->types["URL"] ?? ""), "") != 0) {
                         $url = $this->fold("URL:" . $this->types["URL"]) . "\n";
                     } else {
                         $url = "";
@@ -519,8 +519,8 @@ class ilvCard
                     break;
                 case "KEY":
                     $key = "";
-                    if (is_array($this->types["KEY"])) {
-                        if (strcmp($this->types["KEY"]["KEY"], "") != 0) {
+                    if (isset($this->types["KEY"])) {
+                        if (strcmp(($this->types["KEY"]["KEY"] ?? ""), "") != 0) {
                             $key = "KEY";
                             if (strcmp($this->types["KEY"]["TYPE"], "") != 0) {
                                 $key .= ";TYPE=" . $this->types["KEY"]["TYPE"];
@@ -534,7 +534,7 @@ class ilvCard
                     }
                     break;
                 case "CLASS":
-                    if (strcmp($this->types["CLASS"], "") != 0) {
+                    if (strcmp(($this->types["CLASS"] ?? ""), "") != 0) {
                         $class = $this->fold("CLASS:" . $this->types["CLASS"]) . "\n";
                     } else {
                         $class = "";

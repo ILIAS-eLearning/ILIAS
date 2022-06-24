@@ -173,7 +173,6 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
         $ret = "";
-
         if (!self::validateUser($this->getUserId())) {
             return "";
         }
