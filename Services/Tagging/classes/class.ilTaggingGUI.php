@@ -29,14 +29,14 @@ class ilTaggingGUI
     protected ilObjUser $user;
     protected ilLanguage $lng;
     protected \ILIAS\DI\UIServices $ui;
-    protected int $obj_id;
-    protected string $obj_type;
-    protected int $sub_obj_id;
+    protected int $obj_id = 0;
+    protected string $obj_type = "";
+    protected int $sub_obj_id = 0;
     protected string $sub_obj_type;
     protected array $forbidden = [];    // forbidden tags
-    protected int $userid;
-    protected string $savecmd;
-    protected string $inputfieldname;
+    protected int $userid = 0;
+    protected string $savecmd = "";
+    protected string $inputfieldname = "";
     protected RequestInterface $request;
     protected string $mess = "";
     protected string $requested_mess = "";
@@ -355,7 +355,7 @@ class ilTaggingGUI
             $tpl->setVariable("TAGS_TITLE", $lng->txt("tagging_my_tags"));
 
             $all_obj_tags = ilTagging::_getListTagsForObjects(array($this->obj_id));
-            $all_obj_tags = $all_obj_tags[$this->obj_id];
+            $all_obj_tags = $all_obj_tags[$this->obj_id] ?? null;
             if (is_array($all_obj_tags) &&
                 sizeof($all_obj_tags) != sizeof($tags)) {
                 $tpl->setVariable("TITLE_OTHER", $lng->txt("tagging_other_users"));
