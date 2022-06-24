@@ -136,7 +136,7 @@ class ilObjContentObjectAccess extends ilObjectAccess
                 return true;
             }
         } else {
-            if ($t_arr[2] > 0) {
+            if (($t_arr[2] ?? 0) > 0) {
                 $ref_ids = array($t_arr[2]);
             } else {
                 // determine learning object
