@@ -422,7 +422,7 @@ class ilLMTracker
                     // the next item has predecessing incorrect answers
                     if ($this->tree_arr["nodes"][$c["child"]]["type"] == "pg") {
                         if ($c_stat == ilLMTracker::FAILED || $c_stat == ilLMTracker::IN_PROGRESS ||
-                            ($c_stat == ilLMTracker::NOT_ATTEMPTED && is_array($this->page_questions[$c["child"]]) && count($this->page_questions[$c["child"]]) > 0)) {
+                            ($c_stat == ilLMTracker::NOT_ATTEMPTED && isset($this->page_questions[$c["child"]]) && count($this->page_questions[$c["child"]]) > 0)) {
                             $a_has_pred_incorrect_answers = true;
                             if (!$this->tree_arr["nodes"][$c["child"]]["unlocked"]) {
                                 $a_has_pred_incorrect_not_unlocked_answers = true;
@@ -442,11 +442,11 @@ class ilLMTracker
                 }
 
                 $unlocked = false;
-                if (is_array($this->page_questions[$a_obj_id])) {
+                if (isset($this->page_questions[$a_obj_id])) {
                     // check questions, if one is failed -> failed
                     $unlocked = true;
                     foreach ($this->page_questions[$a_obj_id] as $q_id) {
-                        if (is_array($this->answer_status[$q_id])
+                        if (isset($this->answer_status[$q_id])
                             && $this->answer_status[$q_id]["try"] > 0
                             && !$this->answer_status[$q_id]["passed"]) {
                             $status = ilLMTracker::FAILED;
@@ -459,7 +459,7 @@ class ilLMTracker
                     // check questions, if one is not answered -> in progress
                     if ($status != ilLMTracker::FAILED) {
                         foreach ($this->page_questions[$a_obj_id] as $q_id) {
-                            if (!is_array($this->answer_status[$q_id])
+                            if (!isset($this->answer_status[$q_id])
                                 || $this->answer_status[$q_id]["try"] == 0) {
                                 if ($status != ilLMTracker::NOT_ATTEMPTED) {
                                     $status = ilLMTracker::IN_PROGRESS;
@@ -513,7 +513,7 @@ class ilLMTracker
     ) {
         $this->loadLMTrackingData();
         $ret = false;
-        if (is_array($this->tree_arr["nodes"][$a_obj_id])) {
+        if (isset($this->tree_arr["nodes"][$a_obj_id])) {
             if ($a_ignore_unlock) {
                 $ret = $this->tree_arr["nodes"][$a_obj_id]["has_pred_incorrect_answers"];
             } else {
