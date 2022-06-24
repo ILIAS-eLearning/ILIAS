@@ -22,12 +22,8 @@ use ILIAS\UI\Component\Component;
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface Standard extends Component
+interface Standard extends Meta
 {
     public const ATTRIBUTE_CHARSET = 'charset';
     public const ATTRIBUTE_MEDIA = 'media';
-
-    public function getKey() : string;
-
-    public function getValue() : string;
 }

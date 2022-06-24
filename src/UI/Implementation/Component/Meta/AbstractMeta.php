@@ -18,12 +18,12 @@
 namespace ILIAS\UI\Implementation\Component\Meta;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use ILIAS\UI\Component\Meta\Standard;
+use ILIAS\UI\Component\Meta\Meta;
 
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-abstract class Meta implements Standard
+abstract class AbstractMeta implements Meta
 {
     use ComponentHelper;
 

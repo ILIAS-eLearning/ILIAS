@@ -1,4 +1,4 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -17,15 +17,14 @@
 
 namespace ILIAS\UI\Component\Meta;
 
+use ILIAS\UI\Component\Component;
+
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-interface Complex extends Meta
+interface Meta extends Component
 {
-    public const ATTRIBUTE_NAME = 'name';
-    public const ATTRIBUTE_PROPERTY = 'property';
-    public const ATTRIBUTE_HTTP_EQUIV = 'http-equiv';
-    public const ATTRIBUTE_ITEM_PROP = 'itemprop';
+    public function getKey() : string;
 
-    public function getContent() : string;
+    public function getValue() : string;
 }

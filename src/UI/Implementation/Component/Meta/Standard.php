@@ -23,7 +23,7 @@ use ILIAS\UI\Component\Meta\Standard as StandardMeta;
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class Standard extends Meta
+class Standard extends AbstractMeta implements StandardMeta
 {
     /**
      * @return string[]

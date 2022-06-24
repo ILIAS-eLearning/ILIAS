@@ -22,7 +22,7 @@ use ILIAS\UI\Component\Meta\Complex as ComplexMeta;
 /**
  * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class Complex extends Standard implements ComplexMeta
+class Complex extends AbstractMeta implements ComplexMeta
 {
     protected string $content;
 
