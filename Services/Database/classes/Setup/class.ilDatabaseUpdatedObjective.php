@@ -135,6 +135,8 @@ class ilDatabaseUpdatedObjective implements Setup\Objective
         $db_update->applyHotfix();
         $db_update->applyCustomUpdates();
 
+        $GLOBALS["DIC"] = $DIC;
+
         return $environment;
     }
 
