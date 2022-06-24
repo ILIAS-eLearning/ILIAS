@@ -784,7 +784,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                                         
             $this->setContentStyleSheet($this->tpl);
         }
-
         $this->showEditButton($current_page);
 
         // #10717
@@ -801,7 +800,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
             : "ilportfoliopagegui";
         $button = null;
         if ($this->checkPermissionBool("write") &&
-            ilPortfolioPage::lookupType($page_id) == ilPortfolioPage::TYPE_PAGE) {
+            (ilPortfolioPage::lookupType($page_id) === ilPortfolioPage::TYPE_PAGE || $page_id === 0)) {
             if ($this->getType() === "prtt") {
                 $button = $this->ui->factory()->button()->standard(
                     $this->lng->txt("prtt_edit"),
