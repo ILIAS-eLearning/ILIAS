@@ -48,13 +48,13 @@ abstract class ilDataSet
     protected array $data = [];
     protected ilDBInterface $db;
     protected ilLogger $ds_log;
-    protected string $import_directory;
-    protected string $entity;
-    protected string $schema_version;
-    protected string $relative_export_dir;
-    protected string $absolute_export_dir;
-    protected string $ds_prefix;
-    protected string $version;
+    protected string $import_directory = "";
+    protected string $entity = "";
+    protected string $schema_version = "";
+    protected string $relative_export_dir = "";
+    protected string $absolute_export_dir = "";
+    protected string $ds_prefix = "";
+    protected string $version = "";
     protected ilSurveyImporter $import;
 
     public function __construct()
