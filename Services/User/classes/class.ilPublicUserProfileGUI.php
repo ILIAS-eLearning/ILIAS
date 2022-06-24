@@ -763,7 +763,15 @@ class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
             $vcard->setOrganization(implode(";", $org));
         }
         if (count($adr)) {
-            $vcard->setAddress($adr[0], $adr[1], $adr[2], $adr[3], $adr[4], $adr[5], $adr[6]);
+            $vcard->setAddress(
+                $adr[0] ?? "",
+                $adr[1] ?? "",
+                $adr[2] ?? "",
+                $adr[3] ?? "",
+                $adr[4] ?? "",
+                $adr[5] ?? "",
+                $adr[6] ?? ""
+            );
         }
         
         ilUtil::deliverData($vcard->buildVCard(), $vcard->getFilename(), $vcard->getMimetype());
