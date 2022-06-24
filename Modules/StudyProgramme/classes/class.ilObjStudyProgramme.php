@@ -664,7 +664,7 @@ class ilObjStudyProgramme extends ilContainer
             $ref_ids = $ref_ids['crs_ref'];
 
             $lp_children = array_map(function ($node_data) {
-                $lp_obj = $this->object_factory->getInstanceByRefId($node_data["child"]);
+                $lp_obj = $this->object_factory->getInstanceByRefId((int) $node_data["child"]);
 
                 // filter out all StudyProgramme instances
                 return ($lp_obj instanceof $this) ? null : $lp_obj;
