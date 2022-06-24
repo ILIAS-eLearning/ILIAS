@@ -16,6 +16,8 @@
  *
  *********************************************************************/
 
+require_once 'Services/Calendar/classes/class.ilDateTime.php';
+
 /**
  * Collection of basic placeholder values that can be used
  * @author  Niels Theen <ntheen@databay.de>
