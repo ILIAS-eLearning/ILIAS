@@ -111,7 +111,7 @@ class NoteDBRepository
                 (int) $rec["news_id"],
                 !$rec["no_repository"]
             ),
-            $rec["note_text"],
+            (string) $rec["note_text"],
             (int) $rec["author"],
             (int) $rec["type"],
             $rec["creation_date"],
