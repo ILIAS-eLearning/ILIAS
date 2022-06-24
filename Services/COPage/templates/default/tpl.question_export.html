@@ -1,3 +1,13 @@
+<script>
+async function questionsScriptAvailable(f){
+	while(  typeof ilias === 'undefined'
+			|| typeof ilias.questions === 'undefined'
+			|| typeof $ === 'undefined') {
+		await new Promise(resolve => setTimeout(resolve, 100));
+	}
+	f();
+}
+</script>
 {FORM_BEGIN}
 <!-- BEGIN singlechoice -->
 <div id="container{VAL_ID}" class="ilc_question_SingleChoice">
@@ -19,11 +29,13 @@
 		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
 		{HANDLE_IMAGES}
 
-        if (typeof MathJax != "undefined") {
-            MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
-        }
-    }
-	renderILQuestion{VAL_ID}();
+		if (typeof MathJax != "undefined") {
+			MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
+		}
+	}
+	questionsScriptAvailable(() => {
+		renderILQuestion{VAL_ID}();
+	});
 </script>
 <!-- END singlechoice -->
 <!-- BEGIN multiplechoice -->
@@ -43,26 +55,29 @@
 	<input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="TXT_SUBMIT_ANSWERS" />
 </div>
 <script>
-	(function($) { $(document).ready(
+questionsScriptAvailable(() => {
+	(function ($) {
+		$(document).ready(
+				function () {
+					var question = $.fn.ilAssMultipleChoiceEngine({VAL_ID}, {
+						maxSelection: { SELECTION_LIMIT_VALUE }
+					});
 
-			function()
-			{
-				var question = $.fn.ilAssMultipleChoiceEngine({VAL_ID}, {
-					maxSelection: {SELECTION_LIMIT_VALUE}
-				});
+					ilias.questions.shuffle(questions[{VAL_ID}]);
+					jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
+					{
+						HANDLE_IMAGES
+					}
 
-				ilias.questions.shuffle(questions[{VAL_ID}]);
-				jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
-				{HANDLE_IMAGES}
+					question.init();
 
-				question.init();
-
-                if (typeof MathJax != "undefined") {
-                    MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
-                }
-			}
-
-	); }(jQuery));
+					if (typeof MathJax != "undefined") {
+						MathJax.Hub.Queue(["Typeset", MathJax.Hub, "container{VAL_ID}"]);
+					}
+				}
+		);
+	}(jQuery));
+});
 </script>
 <!-- END multiplechoice -->
 <!-- BEGIN kprimchoice -->
@@ -90,33 +105,36 @@
 <input type="button" class="ilc_qsubmit_Submit" id="button{VAL_ID}" {VAL_NO_DISPLAY} onclick="ilias.questions.checkAnswers({VAL_ID})" value="TXT_SUBMIT_ANSWERS" />
 </div>
 <script>
-(function(questionData){
+questionsScriptAvailable(() => {
+	(function (questionData) {
 
-	ilias.questions.shuffle(questionData);
+		ilias.questions.shuffle(questionData);
 
-	$('div#container'+questionData.id+' div.question_head').autoRender(questionData);
+		$('div#container' + questionData.id + ' div.question_head').autoRender(questionData);
 
-	$('div#container'+questionData.id).render(questionData, {
-		'div.answers':
+		$('div#container' + questionData.id).render(questionData, {
+			'div.answers':
+					{
+						'answer <- answers':
+								{
+									'span.answertext': 'answer.answertext',
+									'div.kprimInput input@name': function (arg) {
+										return 'kprim_choice_' + questionData.id + '_result_' + arg.context.answers[arg.pos].order;
+									}
+								}
+					}
+		});
+
 		{
-			'answer <- answers':
-			{
-				'span.answertext': 'answer.answertext',
-				'div.kprimInput input@name': function(arg)
-				{
-					return 'kprim_choice_'+questionData.id+'_result_'+arg.context.answers[arg.pos].order;
-				}
-			}
+			HANDLE_IMAGES
 		}
-	});
 
-	{HANDLE_IMAGES}
+		if (typeof MathJax != "undefined") {
+			MathJax.Hub.Queue(["Typeset", MathJax.Hub, "container{VAL_ID}"]);
+		}
 
-    if (typeof MathJax != "undefined") {
-        MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
-    }
-
-})(questions[{VAL_ID}]);
+	})(questions[{VAL_ID}]);
+});
 </script>
 <!-- END kprimchoice -->
 <!-- BEGIN orderingquestion -->
@@ -136,13 +154,15 @@
 		{HANDLE_IMAGES}
 		jQuery("#order{VAL_ID}").sortable({axis: 'y', containment: '#container{VAL_ID}'});
 	}
-	$(document).ready(function() {
-		renderILQuestion{VAL_ID}();
 
-        if (typeof MathJax != "undefined") {
-            MathJax.Hub.Queue(["Typeset",MathJax.Hub, "container{VAL_ID}"]);
-        }
-	});
+questionsScriptAvailable(() => {
+	renderILQuestion{VAL_ID}();
+
+	if (typeof MathJax != "undefined") {
+		MathJax.Hub.Queue(["Typeset", MathJax.Hub, "container{VAL_ID}"]);
+	}
+});
+
 </script>
 <!-- END orderingquestion -->
 <!-- BEGIN clozequestion -->
@@ -158,7 +178,9 @@
 		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
 		ilias.questions.initClozeTest({VAL_ID});
 	}
+questionsScriptAvailable(() => {
 	renderILQuestion{VAL_ID}();
+});
 </script>
 <!-- END clozequestion -->
 <!-- BEGIN longmenu -->
@@ -174,7 +196,9 @@
 		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
 		ilias.questions.initLongMenu({VAL_ID});
 	}
-	renderILQuestion{VAL_ID}();
+	questionsScriptAvailable(() => {
+		renderILQuestion{VAL_ID}();
+	});
 </script>
 <!-- END longmenu -->
 <!-- BEGIN textquestion -->
@@ -190,7 +214,9 @@
 		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);	
 		//	jQuery('#textarea{VAL_ID}').textLimiter();
 	}
-	renderILQuestion{VAL_ID}();
+	questionsScriptAvailable(() => {
+		renderILQuestion{VAL_ID}();
+	});
 </script>
 <!-- END textquestion -->
 <!-- BEGIN imagemapquestion -->
@@ -220,7 +246,9 @@
 			ilias.questions.fix_imageurls('div#container{VAL_ID}');	
 		}	
 	}
-	renderILQuestion{VAL_ID}();
+	questionsScriptAvailable(() => {
+		renderILQuestion{VAL_ID}();
+	});
 </script>
 <!-- END imagemapquestion -->
 <!-- BEGIN matchingquestion -->
@@ -260,6 +288,7 @@
 	</div>
 </div>
 <script>
+questionsScriptAvailable(() => {
 (function(questionData){
 
 	$('div#qtitle'+questionData.id).html(questionData.question);
@@ -289,7 +318,7 @@
 			}
 		}
 	});
-	
+
 	$(document).ready(
 		function()
 		{
@@ -307,9 +336,9 @@
 			$(questionData.terms).each(function(pos, term){
 				question.addTerm(term.id);
 			});
-			
+
 			question.init();
-			
+
 			questionData.engineInstance = question;
 
             if (typeof MathJax != "undefined") {
@@ -317,8 +346,9 @@
             }
 		}
 	);
-	
+
 })(questions[{VAL_ID}]);
+});
 </script>
 <!-- END matchingquestion -->
 <!-- BEGIN textsubset -->
@@ -335,7 +365,9 @@
 	{
 		jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
 	}
+	questionsScriptAvailable(() => {
 	renderILQuestion{VAL_ID}();
+	});
 </script>
 <!-- END textsubset -->
 <!-- BEGIN orderinghorizontal -->
@@ -358,7 +390,9 @@
 		jQuery("#order{VAL_ID}").sortable({containment: '#container{VAL_ID}'});
 		jQuery("#order{VAL_ID}").css('font-size', questions[{VAL_ID}].textsize+'%');		
 	}
+	questionsScriptAvailable(() => {
 	renderILQuestion{VAL_ID}();
+	});
 </script>
 <!-- END orderinghorizontal -->
 <!-- BEGIN errortext -->
@@ -385,7 +419,9 @@
 			}
 		});
 	}
+	questionsScriptAvailable(() => {
 	renderILQuestion{VAL_ID}();
+	});
 </script>
 <!-- END errortext -->
 {FORM_END}
