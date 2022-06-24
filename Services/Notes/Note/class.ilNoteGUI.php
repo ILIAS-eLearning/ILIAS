@@ -851,7 +851,7 @@ class ilNoteGUI
                 }
             } else {  // personal workspace
                 // we only need 1 instance
-                if (!$this->wsp_tree) {
+                if (!isset($this->wsp_tree)) {
                     $this->wsp_tree = new ilWorkspaceTree($ilUser->getId());
                     $this->wsp_access_handler = new ilWorkspaceAccessHandler($this->wsp_tree);
                 }

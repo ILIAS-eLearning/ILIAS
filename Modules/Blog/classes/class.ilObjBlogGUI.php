@@ -2913,7 +2913,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 } else {
                     $ilCtrl->setParameterByClass("ilSharedResourceGUI", "kwd", $id[1]);
                 }
-                if ($id[2] === "edit") {
+                if (($id[2] ?? "") === "edit") {
                     $ilCtrl->setParameterByClass("ilSharedResourceGUI", "edt", $id[2]);
                 }
             }
