@@ -107,7 +107,7 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->tabs_gui->setTabActive('view_content');
         $this->checkPermission('read', 'view');
         if ($this->view_manager->isAdminView()) {
-            parent::viewObject();
+            parent::renderObject();
             return;
         }
 
@@ -141,7 +141,6 @@ class ilObjCourseGUI extends ilContainerGUI
             $stgui->getHTML();
             return;
         }
-
         // views handled by general container logic
         if (
             $this->object->getViewMode() == ilContainer::VIEW_SIMPLE ||
@@ -2666,6 +2665,7 @@ class ilObjCourseGUI extends ilContainerGUI
             );
         }
         //}
+
         $this->addStandardContainerSubTabs(false);
     }
 

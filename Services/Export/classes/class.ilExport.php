@@ -67,10 +67,6 @@ class ilExport
         // create instance of export config object
         $comp_arr = explode("/", $a_comp);
         $a_class = "il" . $comp_arr[1] . "ExportConfig";
-        $export_config_file = "./" . $a_comp . "/classes/class." . $a_class . ".php";
-        if (!is_file($export_config_file)) {
-            throw new ilExportException('Component "' . $a_comp . '" does not provide ExportConfig class.');
-        }
         $exp_config = new $a_class();
         $this->configs[$a_comp] = $exp_config;
         return $exp_config;
