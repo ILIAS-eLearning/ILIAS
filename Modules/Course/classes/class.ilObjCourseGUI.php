@@ -2531,9 +2531,9 @@ class ilObjCourseGUI extends ilContainerGUI
             $this->lng->txt("crs_map_location"),
             "location"
         );
-        $loc_prop->setLatitude($latitude);
-        $loc_prop->setLongitude($longitude);
-        $loc_prop->setZoom($zoom);
+        $loc_prop->setLatitude((float) $latitude);
+        $loc_prop->setLongitude((float) $longitude);
+        $loc_prop->setZoom((int) $zoom);
         $form->addItem($loc_prop);
 
         $form->addCommandButton("saveMapSettings", $this->lng->txt("save"));
