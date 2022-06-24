@@ -184,11 +184,13 @@ class ilContainerReference extends ilObject
             $this->setTargetId((int) $row->target_obj_id);
             $this->setTitleType((int) $row->title_type);
         }
-        $ref_ids = ilObject::_getAllReferences($this->getTargetId());
-        $this->setTargetRefId(current($ref_ids));
+        if ($this->getTargetId()) {// might be null...
+            $ref_ids = ilObject::_getAllReferences($this->getTargetId());
+            $this->setTargetRefId(current($ref_ids));
         
-        if ($this->getTitleType() === self::TITLE_TYPE_REUSE) {
-            $this->title = ilObject::_lookupTitle($this->getTargetId());
+            if ($this->getTitleType() === self::TITLE_TYPE_REUSE) {
+                $this->title = ilObject::_lookupTitle($this->getTargetId());
+            }
         }
     }
 
