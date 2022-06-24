@@ -61,7 +61,7 @@ abstract class Meta implements Standard
 
     protected function checkEmptyStringArg(string $which, string $arg) : void
     {
-        if (!empty($arg)) {
+        if (empty($arg)) {
             throw new \LogicException("Cannot set empty attribute $which.");
         }
     }
