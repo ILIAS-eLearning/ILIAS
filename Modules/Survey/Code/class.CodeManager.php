@@ -177,7 +177,6 @@ class CodeManager
         string $code,
         int $user_id
     ) : void {
-        $this->checkPermission();
         if ($user_id === ANONYMOUS_USER_ID) {
             return;
         }

@@ -85,7 +85,7 @@ class StatusManager
             return false;
         }
 
-        if ($this->run_manager->hasFinished()) {
+        if ($this->run_manager->hasStarted() && $this->run_manager->hasFinished()) {
             // check for
             // !(!$this->object->isAccessibleWithoutCode() && !$anonymous_code && $ilUser->getId() == ANONYMOUS_USER_ID)
             // removed

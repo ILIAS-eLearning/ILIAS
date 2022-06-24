@@ -88,7 +88,6 @@ class InfoScreenGUI
         $info = new \ilInfoScreenGUI($this->survey_gui);
         $info->enablePrivateNotes();
 
-
         // appraisee infos
         $this->addAppraiseeInfo($info);
 
@@ -155,10 +154,11 @@ class InfoScreenGUI
         }
 
         //if ($big_button) {
+        /*
         $toolbar->setFormAction($this->ctrl->getFormAction($output_gui, "infoScreen"));
 
         $toolbar->setCloseFormTag(false);
-        $info->setOpenFormTag(false);
+        $info->setOpenFormTag(false);*/
         //}
         /* #12016
         else
@@ -166,6 +166,7 @@ class InfoScreenGUI
             $info->setFormAction($this->ctrl->getFormAction($output_gui, "infoScreen"));
         }
         */
+        $toolbar->setFormAction($this->ctrl->getFormAction($output_gui, "infoScreen"));
 
         // introduction
         if ($survey->getIntroduction() !== '') {
