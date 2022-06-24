@@ -45,7 +45,7 @@ class ilHtmlToPdfTransformerFactory
     /**
      * @throws Exception
      */
-    public function deliverPDFFromHTMLString(array $src, string $output, string $delivery_type, string $service, string $purpose)
+    public function deliverPDFFromHTMLString(string $src, string $output, string $delivery_type, string $service, string $purpose)
     {
         $map = ilPDFGeneratorUtils::getRendererMapForPurpose($service, $purpose);
         $renderer = ilPDFGeneratorUtils::getRendererInstance($map['selected']);

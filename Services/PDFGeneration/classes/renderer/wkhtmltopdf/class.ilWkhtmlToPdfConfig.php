@@ -59,7 +59,7 @@ class ilWkhtmlToPdfConfig
     protected string $radio_button_svg = '';
     protected string $radio_button_checked_svg = '';
     protected string $path = '';
-    protected string $overwrite_default_font = '';
+    protected string $overwrite_default_font = 'arial';
 
     /**
      * @param array|null|self $config
@@ -519,6 +519,9 @@ class ilWkhtmlToPdfConfig
             }
             
             return '';
+        }
+        if($this->overwrite_default_font === '') {
+            return 'arial';
         }
 
         return $this->overwrite_default_font;

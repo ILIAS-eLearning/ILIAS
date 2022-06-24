@@ -70,7 +70,9 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
     public function generatePDF(string $service, string $purpose, array $config, ilPDFGenerationJob $job) : void
     {
         $html_file = $this->getHtmlTempName();
-        file_put_contents($html_file, implode('', $job->getPages()));
+        $pages = $job->getPages();
+
+        file_put_contents($html_file, implode('', $pages));
         $this->createPDFFileFromHTMLFile($html_file, $config, $job);
     }
 

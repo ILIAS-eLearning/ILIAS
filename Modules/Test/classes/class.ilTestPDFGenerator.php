@@ -103,7 +103,7 @@ class ilTestPDFGenerator
             $filename .= '.pdf';
         }
         $pdf_factory = new ilHtmlToPdfTransformerFactory();
-        return $pdf_factory->deliverPDFFromHTMLString(array($pdf_output), $filename, $output_mode, self::service, $purpose);
+        return $pdf_factory->deliverPDFFromHTMLString($pdf_output, $filename, $output_mode, self::service, $purpose);
     }
 
     public static function preprocessHTML($html) : string
