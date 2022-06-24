@@ -782,7 +782,7 @@ class ilWikiStat
         array &$a_res,
         string $a_day_from,
         string $a_day_to,
-        int $a_last_before_period,
+        ?int $a_last_before_period = null,
         bool $a_allow_zero = false
     ) : void {
         // build full data for period

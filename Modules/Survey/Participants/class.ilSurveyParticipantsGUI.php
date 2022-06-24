@@ -214,7 +214,7 @@ class ilSurveyParticipantsGUI
             if (!($user_data['usr_id'] ?? false)) {
                 $participants[$username] = $user_data;
             }
-            if (in_array($user_data['usr_id'], $filtered_participant_ids)) {
+            if (in_array(($user_data['usr_id'] ?? -1), $filtered_participant_ids)) {
                 $participants[$username] = $user_data;
             }
         }
