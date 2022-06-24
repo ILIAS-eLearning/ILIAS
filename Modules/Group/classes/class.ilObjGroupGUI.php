@@ -767,9 +767,9 @@ class ilObjGroupGUI extends ilContainerGUI
             $this->lng->txt("grp_map_location"),
             "location"
         );
-        $loc_prop->setLatitude($latitude);
-        $loc_prop->setLongitude($longitude);
-        $loc_prop->setZoom($zoom);
+        $loc_prop->setLatitude((float) $latitude);
+        $loc_prop->setLongitude((float) $longitude);
+        $loc_prop->setZoom((int) $zoom);
         $form->addItem($loc_prop);
 
         $form->addCommandButton("saveMapSettings", $this->lng->txt("save"));
@@ -802,9 +802,9 @@ class ilObjGroupGUI extends ilContainerGUI
             );
         }
 
-        $this->object->setLatitude($location['latitude']);
-        $this->object->setLongitude($location['longitude']);
-        $this->object->setLocationZoom($location['zoom']);
+        $this->object->setLatitude((string) $location['latitude']);
+        $this->object->setLongitude((string) $location['longitude']);
+        $this->object->setLocationZoom((int) $location['zoom']);
         $this->object->setEnableGroupMap($enable_map);
         $this->object->update();
         $this->ctrl->redirect($this, "editMapSettings");
