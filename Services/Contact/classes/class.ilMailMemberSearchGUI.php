@@ -134,7 +134,7 @@ class ilMailMemberSearchGUI
                     $role_mail_boxes = [];
                     $roles = $form->getInput('roles');
                     foreach ($roles as $role_id) {
-                        $mailbox = $this->objMailMemberRoles->getMailboxRoleAddress($role_id);
+                        $mailbox = $this->objMailMemberRoles->getMailboxRoleAddress((int) $role_id);
                         $role_mail_boxes[] = $mailbox;
                     }
 
