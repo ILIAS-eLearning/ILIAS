@@ -23,6 +23,7 @@ use ILIAS\Services\UICore\MetaTemplate\PageContentGUI;
 use ILIAS\UI\NotImplementedException;
 use ILIAS\UICore\PageContentProvider;
 use ILIAS\Accessibility\GlobalPageHandler;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author Fabian Schmid <fabian@sr.solutions>
@@ -36,6 +37,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
     protected PageContentGUI $legacy_content_template;
     protected ilLanguage $lng;
     protected ilSetting $il_settings;
+    protected Refinery $refinery;
 
     /**
      * @var string[]
@@ -56,6 +58,7 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
         $this->http = $http;
         $this->legacy_content_template = new PageContentGUI("tpl.page_content.html", true, true);
         $this->il_settings = $DIC->settings();
+        $this->refinery = $DIC->refinery();
     }
 
     protected function prepareOutputHeaders() : void
@@ -257,7 +260,11 @@ class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 
             return;
         }
-        $this->legacy_content_template->setVariable($variable, $value);
+
+        $this->legacy_content_template->setVariable(
+            $variable,
+            $this->refinery->kindlyTo()->string()->transform($value)
+        );
     }
 
     public function resetJavascript() : void
