@@ -107,14 +107,29 @@ class ilMailMemberSearchGUI
         $this->unsetStoredReferer();
         $this->ctrl->redirectToURL($url);
     }
-    
+
     public function storeReferer() : void
     {
-        $referer = ilSession::get('referer');
-        ilSession::set('ilMailMemberSearchGUIReferer', $referer);
+        $back_link = $this->ctrl->getParentReturn($this);
+
+        if (isset($this->httpRequest->getServerParams()['HTTP_REFERER'])) {
+            $referer = $this->httpRequest->getServerParams()['HTTP_REFERER'];
+            $urlParts = parse_url($referer);
+
+            if (isset($urlParts['path'])) {
+                $url = ltrim(basename($urlParts['path']), '/');
+                if (isset($urlParts['query'])) {
+                    $url .= '?' . $urlParts['query'];
+                }
+                if ($url !== '') {
+                    $back_link = $url;
+                }
+            }
+        }
+
+        ilSession::set('ilMailMemberSearchGUIReferer', $back_link);
     }
 
-    
     private function getStoredReferer() : string
     {
         return (string) ilSession::get('ilMailMemberSearchGUIReferer');
