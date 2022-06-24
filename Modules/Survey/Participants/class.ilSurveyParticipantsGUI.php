@@ -211,7 +211,7 @@ class ilSurveyParticipantsGUI
 
         $participants = [];
         foreach ($all_participants as $username => $user_data) {
-            if (!$user_data['usr_id']) {
+            if (!($user_data['usr_id'] ?? false)) {
                 $participants[$username] = $user_data;
             }
             if (in_array($user_data['usr_id'], $filtered_participant_ids)) {
