@@ -105,7 +105,7 @@ class ilIndividualAssessmentMembers implements Iterator, Countable
     {
         if (isset($record[self::FIELD_USR_ID])) {
             if (
-                !$this->userExists($record[self::FIELD_USR_ID]) ||
+                !$this->userExists((int) $record[self::FIELD_USR_ID]) ||
                 $this->userAllreadyMemberByUsrId($record[self::FIELD_USR_ID])
             ) {
                 return false;

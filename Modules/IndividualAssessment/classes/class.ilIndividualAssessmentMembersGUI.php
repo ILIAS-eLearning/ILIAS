@@ -247,7 +247,7 @@ class ilIndividualAssessmentMembersGUI
         }
         $usr_id = $this->request_wrapper->retrieve("usr_id", $this->refinery->kindlyTo()->int());
         $confirm = new ilConfirmationGUI();
-        $confirm->addItem('usr_id', $usr_id, ilObjUser::_lookupFullname($usr_id));
+        $confirm->addItem('usr_id', (string) $usr_id, ilObjUser::_lookupFullname($usr_id));
         $confirm->setHeaderText($this->txt('iass_remove_user_qst'));
         $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setConfirm($this->txt('remove'), 'removeUser');
