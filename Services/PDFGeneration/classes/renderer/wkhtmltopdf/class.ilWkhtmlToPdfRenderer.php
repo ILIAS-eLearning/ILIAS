@@ -67,7 +67,7 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
         return $config;
     }
 
-    public function generatePDF(string $service, string $purpose, array $config, ilPDFGenerationJob $job) : void
+    public function generatePDF(string $service, string $purpose, $config, ilPDFGenerationJob $job) : void
     {
         $html_file = $this->getHtmlTempName();
         $pages = $job->getPages();
@@ -86,12 +86,12 @@ class ilWkhtmlToPdfRenderer implements ilRendererConfig, ilPDFRenderer
         return ilFileUtils::ilTempnam() . '.' . $file_type;
     }
 
-    public function createPDFFileFromHTMLFile(string $a_path_to_file, array $config, ilPDFGenerationJob $job) : void
+    public function createPDFFileFromHTMLFile(string $a_path_to_file, $config, ilPDFGenerationJob $job) : void
     {
         $this->runCommandLine($a_path_to_file, $job->getFilename(), $config);
     }
 
-    protected function runCommandLine(string $a_path_to_file, string $a_target, array $config) : void
+    protected function runCommandLine(string $a_path_to_file, string $a_target, $config) : void
     {
         $wkConfig = new ilWkhtmlToPdfConfig($config);
         $temp_file = $this->getPdfTempName();
