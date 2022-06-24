@@ -256,63 +256,63 @@ class ilIndividualAssessmentMembersStorageDB implements ilIndividualAssessmentMe
         ];
 
         if (isset($record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID])) {
-            $record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID] =
+            $values[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID] =
                 [
                     "integer",
                     $record[ilIndividualAssessmentMembers::FIELD_EXAMINER_ID]
                 ];
         }
         if (isset($record[ilIndividualAssessmentMembers::FIELD_RECORD])) {
-            $record[ilIndividualAssessmentMembers::FIELD_RECORD] =
+            $values[ilIndividualAssessmentMembers::FIELD_RECORD] =
                 [
                     "text",
                     $record[ilIndividualAssessmentMembers::FIELD_RECORD]
                 ];
         }
         if (isset($record[ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE])) {
-            $record[ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE] =
+            $values[ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE] =
                 [
                     "text",
                     $record[ilIndividualAssessmentMembers::FIELD_INTERNAL_NOTE]
                 ];
         }
         if (isset($record[ilIndividualAssessmentMembers::FIELD_PLACE])) {
-            $record[ilIndividualAssessmentMembers::FIELD_PLACE] =
+            $values[ilIndividualAssessmentMembers::FIELD_PLACE] =
                 [
                     "text",
                     $record[ilIndividualAssessmentMembers::FIELD_PLACE]
                 ];
         }
         if (isset($record[ilIndividualAssessmentMembers::FIELD_EVENTTIME])) {
-            $record[ilIndividualAssessmentMembers::FIELD_EVENTTIME] =
+            $values[ilIndividualAssessmentMembers::FIELD_EVENTTIME] =
                 [
                     "integer",
                     $record[ilIndividualAssessmentMembers::FIELD_EVENTTIME]
                 ];
         }
         if (isset($record[ilIndividualAssessmentMembers::FIELD_FILE_NAME])) {
-            $record[ilIndividualAssessmentMembers::FIELD_FILE_NAME] =
+            $values[ilIndividualAssessmentMembers::FIELD_FILE_NAME] =
                 [
                     "text",
                     $record[ilIndividualAssessmentMembers::FIELD_FILE_NAME]
                 ];
         }
         if (isset($record[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE])) {
-            $record[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE] =
+            $values[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE] =
                 [
                     "integer",
                     $record[ilIndividualAssessmentMembers::FIELD_USER_VIEW_FILE]
                 ];
         }
         if (isset($record[ilIndividualAssessmentMembers::FIELD_CHANGER_ID])) {
-            $record[ilIndividualAssessmentMembers::FIELD_CHANGER_ID] =
+            $values[ilIndividualAssessmentMembers::FIELD_CHANGER_ID] =
                 [
                     "integer",
                     $record[ilIndividualAssessmentMembers::FIELD_CHANGER_ID]
                 ];
         }
         if (isset($record[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME])) {
-            $record[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME] =
+            $values[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME] =
                 [
                     "text",
                     $record[ilIndividualAssessmentMembers::FIELD_CHANGE_TIME]
