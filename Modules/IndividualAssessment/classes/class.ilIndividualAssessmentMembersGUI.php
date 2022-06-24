@@ -133,7 +133,8 @@ class ilIndividualAssessmentMembersGUI
 
     protected function addedUsers() : void
     {
-        if ($this->request_wrapper->retrieve('failure', $this->refinery->kindlyTo()->bool())) {
+        $r = $this->refinery;
+        if ($this->request_wrapper->retrieve('failure', $r->byTrying([$r->kindlyTo()->bool(), $r->always(false)]))) {
             $this->tpl->setOnScreenMessage("failure", $this->txt('iass_add_user_failure'));
         } else {
             $this->tpl->setOnScreenMessage("success", $this->txt('iass_add_user_success'));
