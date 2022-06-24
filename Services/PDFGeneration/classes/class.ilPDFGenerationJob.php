@@ -52,7 +52,7 @@ class ilPDFGenerationJob
         return $this->pages;
     }
 
-    public function addPage(string $page) : self
+    public function addPage(array $page) : self
     {
         $this->pages[] = $page;
         return $this;
