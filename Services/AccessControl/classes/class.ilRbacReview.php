@@ -95,8 +95,8 @@ class ilRbacReview
         foreach ($a_path as $ref_id) {
             $roles = $this->getRoleListByObject($ref_id, $a_templates);
             foreach ($roles as $role) {
-                $id = $role["obj_id"];
-                $role["parent"] = $ref_id;
+                $id = (int) $role["obj_id"];
+                $role["parent"] = (int) $ref_id;
                 $parent_roles[$id] = $role;
 
                 if (!array_key_exists($role['obj_id'], $role_hierarchy)) {

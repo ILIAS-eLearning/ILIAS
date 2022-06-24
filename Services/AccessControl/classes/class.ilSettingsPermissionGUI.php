@@ -186,7 +186,7 @@ class ilSettingsPermissionGUI
         $roles = $this->determineRoles();
         $ops = array();
         foreach ($roles as $r) {
-            $ops[$r["rol_id"]] = $this->review->getActiveOperationsOfRole($this->obj->getRefId(), $r["rol_id"]);
+            $ops[(int) $r["rol_id"]] = $this->review->getActiveOperationsOfRole($this->obj->getRefId(), (int) $r["rol_id"]);
         }
 
         // for each permission, collect all roles that have the permission activated
