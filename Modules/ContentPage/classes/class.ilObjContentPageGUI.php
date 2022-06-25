@@ -326,6 +326,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 break;
 
             case 'ilcommonactiondispatchergui':
+                $this->prepareOutput();
                 $this->ctrl->forwardCommand(ilCommonActionDispatcherGUI::getInstanceFromAjaxCall());
                 break;
 
