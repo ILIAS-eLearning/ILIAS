@@ -35,10 +35,18 @@ abstract class ilMailSearchObjectGUI
     protected ilObjectDataCache $cache;
     protected ilFormatMail $umail;
     protected bool $mailing_allowed;
-    protected ?ilWorkspaceAccessHandler $wsp_access_handler = null;
+    /**
+     * @var ilWorkspaceAccessHandler|ilPortfolioAccessHandler|null
+     */
+    protected $wsp_access_handler = null;
     protected ?int $wsp_node_id = null;
 
-    public function __construct(?ilWorkspaceAccessHandler $wsp_access_handler = null, ?int $wsp_node_id = null)
+    /**
+     * @param ilWorkspaceAccessHandler|ilPortfolioAccessHandler|null $wsp_access_handler
+     * @param int|null                      $wsp_node_id
+     * @throws ilCtrlException
+     */
+    public function __construct($wsp_access_handler = null, ?int $wsp_node_id = null)
     {
         global $DIC;
 

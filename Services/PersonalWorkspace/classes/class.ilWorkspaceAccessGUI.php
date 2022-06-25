@@ -94,10 +94,9 @@ class ilWorkspaceAccessGUI
     {
         $ilTabs = $this->tabs;
         $tpl = $this->tpl;
-
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
-        
+
         switch ($next_class) {
             case "ilmailsearchcoursesgui":
                 $ilTabs->setBackTarget(
@@ -291,7 +290,7 @@ class ilWorkspaceAccessGUI
     public function removePermission() : void
     {
         $obj_id = $this->std_request->getObjId();
-        if ($obj_id > 0) {
+        if ($obj_id !== 0) {
             $this->getAccessHandler()->removePermission($this->node_id, $obj_id);
             $this->tpl->setOnScreenMessage('success', $this->lng->txt("wsp_permission_removed"), true);
         }
