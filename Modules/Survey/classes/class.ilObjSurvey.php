@@ -4770,7 +4770,7 @@ class ilObjSurvey extends ilObject
                 " WHERE sf.survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer") .
                 " AND sf.user_fi = " . $ilDB->quote($a_user_id, "integer"));
             $a_code = $ilDB->fetchAssoc($set);
-            return (string) $a_code["anonymous_id"];
+            return (string) ($a_code["anonymous_id"] ?? "");
         }
         return "";
     }
