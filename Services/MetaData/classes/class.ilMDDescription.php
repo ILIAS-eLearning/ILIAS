@@ -119,8 +119,8 @@ class ilMDDescription extends ilMDBase
                 $this->setObjType($row->obj_type);
                 $this->setParentId((int) $row->parent_id);
                 $this->setParentType($row->parent_type);
-                $this->setDescription($row->description);
-                $this->setDescriptionLanguage(new ilMDLanguageItem($row->description_language));
+                $this->setDescription((string) $row->description);
+                $this->setDescriptionLanguage(new ilMDLanguageItem((string) $row->description_language));
             }
         }
         return true;
