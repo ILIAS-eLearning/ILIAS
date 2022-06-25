@@ -172,7 +172,10 @@ class ilMailGUI implements ilCtrlBaseClassInterface
             } elseif ($this->http->wrapper()->query()->has('role')) {
                 $roles = [$this->http->wrapper()->query()->retrieve('role', $this->refinery->kindlyTo()->string())];
             }
-            ilSession::set('mail_roles', $roles);
+            
+            if ($roles !== []) {
+                ilSession::set('mail_roles', $roles);
+            }
 
             ilMailFormCall::storeReferer($this->http->request()->getQueryParams());
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'mailRole');
