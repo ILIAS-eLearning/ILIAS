@@ -640,8 +640,8 @@ class ilMailFormGUI
                     );
                 } elseif (is_array(ilSession::get('mail_roles'))) {
                     $roles = $this->refinery->kindlyTo()->listOf(
-                        $this->refinery->kindlyTo()->string()->transform(ilSession::get('mail_roles'))
-                    );
+                        $this->refinery->kindlyTo()->string()
+                    )->transform(ilSession::get('mail_roles'));
                 }
 
                 // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
