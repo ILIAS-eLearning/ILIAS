@@ -60,14 +60,13 @@ questionsScriptAvailable(() => {
 		$(document).ready(
 				function () {
 					var question = $.fn.ilAssMultipleChoiceEngine({VAL_ID}, {
-						maxSelection: { SELECTION_LIMIT_VALUE }
+						maxSelection: {SELECTION_LIMIT_VALUE}
 					});
 
 					ilias.questions.shuffle(questions[{VAL_ID}]);
 					jQuery('div#container{VAL_ID}').autoRender(questions[{VAL_ID}]);
-					{
-						HANDLE_IMAGES
-					}
+
+					{HANDLE_IMAGES}
 
 					question.init();
 
@@ -125,9 +124,7 @@ questionsScriptAvailable(() => {
 					}
 		});
 
-		{
-			HANDLE_IMAGES
-		}
+		{HANDLE_IMAGES}
 
 		if (typeof MathJax != "undefined") {
 			MathJax.Hub.Queue(["Typeset", MathJax.Hub, "container{VAL_ID}"]);

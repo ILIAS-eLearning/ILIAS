@@ -226,7 +226,7 @@ class ilQuestionExporter
             $this->tpl->setVariable("VAL_NO_DISPLAY", "style=\"display:none\"");
         }
         
-        if ($this->json_decoded->path) {
+        if ($this->json_decoded->path ?? false) {
             $this->tpl->setVariable(
                 "HANDLE_IMAGES",
                 "ilias.questions.handleKprimImages(" . $this->json_decoded->id . ");"
