@@ -1006,7 +1006,7 @@ class ilObjSurvey extends ilObject
             
             $this->setViewOwnResults($data["own_results_view"]);
             $this->setMailOwnResults($data["own_results_mail"]);
-            $this->setMailConfirmation($data["confirmation_mail"]);
+            $this->setMailConfirmation((bool) $data["confirmation_mail"]);
             $this->setCalculateSumScore($data["calculate_sum_score"]);
             
             $this->setAnonymousUserList($data["anon_user_list"]);
