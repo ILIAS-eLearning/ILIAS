@@ -221,6 +221,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlSecurityInte
                 break;
 
             case strtolower(ilCommonActionDispatcherGUI::class):
+                $this->prepareOutput();
                 $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
                 $this->ctrl->forwardCommand($gui);
                 break;
