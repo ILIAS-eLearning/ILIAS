@@ -563,7 +563,7 @@ class ilPersonalProfileGUI
             $it = $prompt_service->data()->getSettings()->getInfoText($ilUser->getLanguage());
         }
         if (trim($it) !== "") {
-            $pub_prof = in_array($ilUser->prefs["public_profile"], array("y", "n", "g"))
+            $pub_prof = in_array($ilUser->prefs["public_profile"] ?? "", array("y", "n", "g"))
                 ? $ilUser->prefs["public_profile"]
                 : "n";
             $box = $DIC->ui()->factory()->messageBox()->info($it);
