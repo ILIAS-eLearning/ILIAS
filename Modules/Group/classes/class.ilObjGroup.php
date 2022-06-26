@@ -613,7 +613,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             $this->enableUnlimitedRegistration((bool) $row->registration_unlimited);
             $this->setRegistrationStart(new ilDateTime($row->registration_start, IL_CAL_DATETIME));
             $this->setRegistrationEnd(new ilDateTime($row->registration_end, IL_CAL_DATETIME));
-            $this->setPassword($row->registration_password);
+            $this->setPassword((string) $row->registration_password);
             $this->enableMembershipLimitation((bool) $row->registration_mem_limit);
             $this->setMaxMembers((int) $row->registration_max_members);
             $this->enableWaitingList((bool) $row->waiting_list);
