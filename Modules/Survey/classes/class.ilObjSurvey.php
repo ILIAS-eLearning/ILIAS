@@ -963,7 +963,7 @@ class ilObjSurvey extends ilObject
             $data = $ilDB->fetchAssoc($result);
             $this->setSurveyId($data["survey_id"]);
             $this->setAuthor($data["author"]);
-            $this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc($data["introduction"], 1));
+            $this->setIntroduction(ilRTE::_replaceMediaObjectImageSrc((string) $data["introduction"], 1));
             if (strcmp($data["outro"], "survey_finished") === 0) {
                 $this->setOutro($this->lng->txt("survey_finished"));
             } else {
