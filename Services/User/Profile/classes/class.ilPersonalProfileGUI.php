@@ -1064,7 +1064,7 @@ class ilPersonalProfileGUI
     
             // additional defined user data fields
             foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
-                if (($checked_values["chk_udf_" . $definition["field_id"]])) {
+                if ($checked_values["chk_udf_" . $definition["field_id"]] ?? false) {
                     $ilUser->setPref("public_udf_" . $definition["field_id"], "y");
                 } else {
                     $ilUser->setPref("public_udf_" . $definition["field_id"], "n");
