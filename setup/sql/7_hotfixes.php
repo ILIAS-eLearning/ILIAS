@@ -1600,3 +1600,10 @@ if (!$ilDB->indexExistsByFields('qpl_num_range', array('question_fi'))) {
     $ilDB->addIndex('qpl_num_range', array('question_fi'), 'i6');
 }
 ?>
+<#90>
+<?php
+// Add new index
+if (!$ilDB->indexExistsByFields('style_template', ['style_id'])) {
+    $ilDB->addIndex('style_template', ['style_id'], 'i1');
+}
+?>
