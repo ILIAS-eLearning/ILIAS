@@ -374,7 +374,7 @@ class ilUserPrivacySettingsGUI
             $fields[self::PROP_ENABLE_BROADCAST_TYPING] = $fieldFactory
                 ->checkbox($this->lng->txt('chat_broadcast_typing'), $this->lng->txt('chat_broadcast_typing_info'))
                 ->withAdditionalTransformation($checkboxStateToBooleanTrafo)
-                ->withValue(ilUtil::yn2tf($this->user->getPref('chat_broadcast_typing')));
+                ->withValue(ilUtil::yn2tf((string) $this->user->getPref('chat_broadcast_typing')));
         }
 
         if ($fields !== []) {
