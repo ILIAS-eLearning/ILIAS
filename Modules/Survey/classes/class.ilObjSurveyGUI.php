@@ -117,14 +117,13 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $ilTabs = $this->tabs;
         $access_manager = $this->access_manager;
         $survey = $this->survey;
-
         if ($survey && !$access_manager->canAccessInfoScreen()) {
             if (!$access_manager->canAccessInfoScreen()) {
                 $this->noPermission();
             }
             $this->addToNavigationHistory();
         }
-        
+
         $cmd = $this->ctrl->getCmd("properties");
         
         // workaround for bug #6288, needs better solution

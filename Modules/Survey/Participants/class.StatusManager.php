@@ -145,11 +145,25 @@ class StatusManager
         $feature_config = $this->feature_config;
         $anon_session = $this->repo_service->execution()->runSession();
         if ($feature_config->usesAppraisees() &&
-            $anon_session->issetCode($survey->getId()) &&
-            \ilObjSurvey::validateExternalRaterCode(
-                $survey->getRefId(),
-                $anon_session->getCode($survey->getId())
-            )) {
+            $anon_session->issetCode($survey->getId())) {
+            if (!$anon_session->isExternalRaterValidated($survey->getRefId())) {
+                $code = $anon_session->getCode($survey->getId());
+                $code_manager = $this->domain_service->code($survey, 0);
+                $feature_config = $this->domain_service->modeFeatureConfig($survey->getMode());
+                $access_manager = $this->domain_service->access($survey->getRefId(), 0);
+
+                if ($code_manager->exists($code)) {
+                    $anonymous_id = $survey->getAnonymousIdByCode($code);
+                    if ($anonymous_id) {
+                        if (count($survey->getAppraiseesToRate(null, $anonymous_id))) {
+                            $anon_session->setExternalRaterValidation($survey->getRefId(), true);
+                            return true;
+                        }
+                    }
+                }
+                $anon_session->setExternalRaterValidation($survey->getRefId(), false);
+                return false;
+            }
             return true;
         }
         return false;

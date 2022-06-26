@@ -4617,7 +4617,7 @@ class ilObjSurvey extends ilObject
      * @return int[]
      */
     public function getAppraiseesToRate(
-        int $a_user_id,
+        ?int $a_user_id,
         int $a_anonymous_id = null
     ) : array {
         $ilDB = $this->db;
@@ -4958,7 +4958,7 @@ class ilObjSurvey extends ilObject
             $anonym_repo->setExternalRaterValidation($a_ref_id, false);
             return false;
         }
-        
+
         return $anonym_repo->isExternalRaterValidated($a_ref_id);
     }
     
