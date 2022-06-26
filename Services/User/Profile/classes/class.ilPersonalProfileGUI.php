@@ -978,7 +978,7 @@ class ilPersonalProfileGUI
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             // public setting
             $cb = new ilCheckboxInputGUI($definition["field_name"], "chk_udf_" . $definition["field_id"]);
-            $cb->setOptionTitle($user_defined_data["f_" . $definition["field_id"]]);
+            $cb->setOptionTitle($user_defined_data["f_" . $definition["field_id"]] ?? "");
             $public_udf = (string) ($prefs["public_udf_" . $definition["field_id"]] ?? '');
             if ($public_udf === 'y') {
                 $cb->setChecked(true);
