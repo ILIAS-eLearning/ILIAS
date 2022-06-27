@@ -538,7 +538,7 @@ class ilAuthUtils
     /**
      * Check if chosen auth mode needs an external account entry
      *
-     * @param string|int $a_auth_mode auth_mode
+     * @param null|string|int $a_auth_mode auth_mode
      */
     public static function _needsExternalAccountByAuthMode($a_auth_mode) : bool
     {
@@ -653,7 +653,7 @@ class ilAuthUtils
     
     /**
      * Check if local password validation is supported
-     * @param string|int $a_authmode
+     * @param null|string|int $a_authmode
      * @return
      */
     public static function supportsLocalPasswordValidation($a_authmode) : int
