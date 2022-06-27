@@ -134,8 +134,9 @@ class ilWkhtmlToPdfConfig
                     settype($value, $type->getName());
                 }
             }
-
-            $this->{$function}($value);
+            if($value != null) {
+                $this->{$function}($value);
+            }
         }
     }
 
