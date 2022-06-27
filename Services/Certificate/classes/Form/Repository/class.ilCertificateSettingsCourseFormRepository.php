@@ -129,7 +129,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
             $exp = $subitems->getExplorerGUI();
             $exp->setSkipRootNode(true);
             $exp->setRootId($this->object->getRefId());
-            $exp->setTypeWhiteList($this->getLPTypes($this->object->getId()));
+            $exp->setTypeWhiteList($this->getLPTypes($this->object->getRefId()));
 
             $objectHelper = $this->objectHelper;
             $lpHelper = $this->lpHelper;
@@ -205,6 +205,10 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         return $formFields;
     }
 
+    /**
+     * @param int $a_parent_ref_id
+     * @return string[]
+     */
     private function getLPTypes(int $a_parent_ref_id) : array
     {
         $result = [];
