@@ -135,11 +135,15 @@ class ilAuthUtils
     /**
      * @return string|int
      */
-    public static function _getAuthMode(string $a_auth_mode)
+    public static function _getAuthMode(?string $a_auth_mode)
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
+
+        if (null === $a_auth_mode) {
+            return $ilSetting->get("auth_mode");
+        }
 
         if (strpos($a_auth_mode, '_') !== false) {
             $auth_arr = explode('_', $a_auth_mode);
