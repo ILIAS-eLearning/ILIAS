@@ -114,7 +114,7 @@ class ilMailOptionsTest extends ilMailBaseTest
         $queryMock = $this->getMockBuilder(ilDBStatement::class)->getMock();
 
         $clockService = $this->getMockBuilder(ClockInterface::class)->disableOriginalConstructor()->getMock();
-        $clockService->method('now')->willReturn(new DateTimeImmutable('NOW'));
+        $clockService->method('now')->willReturn((new DateTimeImmutable())->setTimestamp(100));
 
         $database->expects($this->once())->method('fetchObject')->willReturn($this->object);
         $database->expects($this->once())->method('queryF')->willReturn($queryMock);
@@ -135,36 +135,36 @@ class ilMailOptionsTest extends ilMailBaseTest
     {
         yield 'correct configuration' => [
             'absence_status' => true,
-            'absent_from' => time(),
-            'absent_until' => time(),
+            'absent_from' => 100,
+            'absent_until' => 100,
             'result' => true,
         ];
 
         yield 'not absent' => [
             'absence_status' => false,
-            'absent_from' => time(),
-            'absent_until' => time(),
+            'absent_from' => 100,
+            'absent_until' => 100,
             'result' => false,
         ];
 
         yield 'absent, absent_from is in the future' => [
             'absence_status' => true,
-            'absent_from' => time() + 1,
-            'absent_until' => time(),
+            'absent_from' => 100 + 1,
+            'absent_until' => 100,
             'result' => false,
         ];
 
         yield 'absent, absent_until is in the past' => [
             'absence_status' => true,
-            'absent_from' => time(),
-            'absent_until' => time() - 1,
+            'absent_from' => 100,
+            'absent_until' => 100 - 1,
             'result' => false,
         ];
 
         yield 'absent, absent_from is in the past, absent_until is in the future' => [
             'absence_status' => true,
-            'absent_from' => time() - 1,
-            'absent_until' => time() + 1,
+            'absent_from' => 100 - 1,
+            'absent_until' => 100 + 1,
             'result' => true,
         ];
     }
