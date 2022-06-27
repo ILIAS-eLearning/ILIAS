@@ -203,7 +203,7 @@ class ilSettingsPermissionGUI
             $cb = new ilCheckboxGroupInputGUI($this->lng->txt($p), $p);
             reset($roles);
             foreach ($roles as $k => $r) {
-                $option = new ilCheckboxOption(ilObjRole::_getTranslation($r["title"]), $k);
+                $option = new ilCheckboxOption(ilObjRole::_getTranslation($r["title"]), (string) $k);
                 $cb->addOption($option);
             }
             if (isset($perm_roles[$this->base_permissions_by_op[$p]])) {

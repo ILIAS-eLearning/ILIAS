@@ -276,18 +276,18 @@ class ilObjRoleGUI extends ilObjectGUI
 
         if ($this->obj_ref_id == ROLE_FOLDER_ID) {
             $reg = new ilCheckboxInputGUI($this->lng->txt('allow_register'), 'reg');
-            $reg->setValue((string) 1);
+            $reg->setValue("1");
             #$reg->setInfo($this->lng->txt('rbac_new_acc_reg_info'));
             $form->addItem($reg);
 
             $la = new ilCheckboxInputGUI($this->lng->txt('allow_assign_users'), 'la');
-            $la->setValue((string) 1);
+            $la->setValue("1");
             #$la->setInfo($this->lng->txt('rbac_local_admin_info'));
             $form->addItem($la);
         }
 
         $pro = new ilCheckboxInputGUI($this->lng->txt('role_protect_permissions'), 'pro');
-        $pro->setValue((string) 1);
+        $pro->setValue("1");
         #$pro->setInfo($this->lng->txt('role_protext_permission_info'));
         $form->addItem($pro);
         return $form;
@@ -301,13 +301,13 @@ class ilObjRoleGUI extends ilObjectGUI
     {
         //Don't set if fields are disabled to prevent html manipulation.
         if (!$form->getItemByPostVar('title')->getDisabled()) {
-            $role->setTitle($form->getInput('title'));
+            $role->setTitle((string) $form->getInput('title'));
         }
         if (!$form->getItemByPostVar('desc')->getDisabled()) {
-            $role->setDescription($form->getInput('desc'));
+            $role->setDescription((string) $form->getInput('desc'));
         }
-        $role->setAllowRegister($form->getInput('reg'));
-        $role->toggleAssignUsersStatus($form->getInput('la'));
+        $role->setAllowRegister((bool) $form->getInput('reg'));
+        $role->toggleAssignUsersStatus((bool) $form->getInput('la'));
     }
 
     /**

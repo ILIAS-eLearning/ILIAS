@@ -148,6 +148,8 @@ class ilRbacReview
             $row["desc"] = $row["description"];
             $row["user_id"] = (int) $row["owner"];
             $row['obj_id'] = (int) $row['obj_id'];
+            $row['rol_id'] = (int) $row['rol_id'];
+            $row['parent'] = (int) $row['parent'];
             $role_list[] = $row;
         }
 
