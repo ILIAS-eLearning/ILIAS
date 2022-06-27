@@ -95,6 +95,9 @@ class ilLTIViewGUI
         if (!$this->dic->user() instanceof ilObjUser) {
             return false;
         }
+        if ($this->dic->user()->getAuthMode() == null) {
+            return false;
+        }
         return (strpos($this->dic->user()->getAuthMode(), 'lti_') === 0);
     }
 
