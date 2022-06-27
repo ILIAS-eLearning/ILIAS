@@ -46,134 +46,6 @@ class ilMailTest extends ilMailBaseTest
         $refineryMock = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
         $this->setGlobalVariable('refinery', $refineryMock);
 
-        $objDefinitionMock = $this->getMockBuilder(ilObjectDefinition::class)->disableOriginalConstructor()->getMock();
-        $objDefinitionMock->method('getClassName')->willReturnCallback(function (string $objName) {
-            switch ($objName) {
-                case 'User':
-                    return 'User';
-                default:
-                    return '';
-            }
-        });
-        $this->setGlobalVariable('objDefinition', $objDefinitionMock);
-
-        $ilDBMock = $this->getMockBuilder(ilDBInterface::class)->disableOriginalConstructor()->getMock();
-        $ilDBMock->method('query')->willReturnCallback(function (string $query) : ilDBStatement {
-            $counter = 0;
-            if (strpos($query, 'SELECT * FROM udf_text WHERE usr_id') !== false ||
-                strpos($query, 'SELECT * FROM udf_clob WHERE usr_id') !== false) {
-                $result = $this->getMockBuilder(ilDBStatement::class)->disableOriginalConstructor()->getMock();
-                $result->method('fetchRow')->willReturnCallback(
-                    function () use (&$counter) {
-                        if ($counter !== 0) {
-                            return [];
-                        }
-                        $counter++;
-                        return ['usr_id' => 1, 'field_id' => 1, 'value' => 'test'];
-                    }
-                );
-                return $result;
-            }
-
-            $statement = $this->createMock(ilDBStatement::class);
-            $statement->method('numRows')->willReturn(1);
-            $statement->method('fetchRow')->willReturnCallback(function (int $fetchmode) use (&$counter) : ?array {
-                if ($counter !== 0) {
-                    return [];
-                }
-                $counter++;
-                return ['type' => "User"];
-            });
-            $statement->query = $query;
-            return $statement;
-        });
-        $ilDBMock->method('numRows')->willReturn(1);
-        $ilDBMock->method('queryF')->willReturnCallback(function (string $query, array $types, array $values) : ilPDOStatement {
-            $statement = $this->createMock(ilPDOStatement::class);
-            $statement->query = $query;
-            return $statement;
-        });
-        $counter = [];
-        $ilDBMock->method('fetchAssoc')->willReturnCallback(function ($result) use (&$counter) : array {
-            if(!isset($counter[$result->query])) {
-                $counter[$result->query] = 0;
-            }
-            if ($counter[$result->query] !== 0) {
-                return [];
-            }
-
-            if (strpos($result->query, 'SELECT * FROM usr_data WHERE usr_id') !== false) {
-                $counter[$result->query]++;
-                $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
-                $user = (array) $user;
-                $user['last_password_change'] = 0;
-                $user['passwd_policy_reset'] = 0;
-                $user['passwd'] = '';
-                $user['title'] = '';
-                $user['birthday'] = 0;
-                $user['second_email'] = '';
-                $user['passwd_enc_type'] = '';
-                $user['passwd_salt'] = '';
-                $user['last_login'] = 0;
-                $user['first_login'] = 0;
-                $user['last_profile_prompt'] = 0;
-                $user['last_update'] = 0;
-                $user['inactivation_date'] = 0;
-                $user['time_limit_owner'] = 0;
-                $user['time_limit_unlimited'] = 0;
-                $user['time_limit_from'] = 0;
-                $user['time_limit_until'] = 0;
-                $user['time_limit_message'] = '';
-                $user['profile_incomplete'] = 0;
-                $user['auth_mode'] = 0;
-                $user['ext_account'] = 0;
-                $user['is_self_registered'] = 0;
-                return $user;
-            }
-
-            if (strpos($result->query, 'FROM object_data') !== false) {
-                $counter[$result->query]++;
-                $obj = $this->getMockBuilder(ilObject::class)->disableOriginalConstructor()->getMock();
-                $obj = (array) $obj;
-                $obj['obj_id'] = 1;
-                $obj['type'] = 'usr';
-                $obj['title'] = 'Test';
-                $obj['description'] = 'Test';
-                $obj['owner'] = 1;
-                $obj['create_date'] = 0;
-                $obj['last_update'] = 0;
-                $obj['import_id'] = '';
-                $obj['offline'] = 0;
-                return $obj;
-            }
-
-            $counter[$result->query]++;
-            return [];
-        });
-
-        $iliasMock = $this->getMockBuilder(ILIAS::class)->disableOriginalConstructor()->getMock();
-        $iliasIniMock = $this->getMockBuilder(ilIniFile::class)->disableOriginalConstructor()->getMock();
-        $iliasIniMock->method('readVariable')->willReturn('');
-        $iliasMock->ini = $iliasIniMock;
-        $this->setGlobalVariable('ilias', $iliasMock);
-
-        $ilLog = $this->getMockBuilder(ilLogger::class)->disableOriginalConstructor()->getMock();
-        $this->setGlobalVariable('ilLog', $ilLog);
-
-        $ilLoggerFactory = $this->getMockBuilder(ilLoggerFactory::class)->disableOriginalConstructor()->getMock();
-        $this->setGlobalVariable('ilLoggerFactory', $ilLoggerFactory);
-
-        $ilError = $this->getMockBuilder(ilErrorHandling::class)->disableOriginalConstructor()->getMock();
-        $this->setGlobalVariable('ilErr', $ilError);
-
-        $ilTree = $this->getMockBuilder(ilTree::class)->disableOriginalConstructor()->getMock();
-        $this->setGlobalVariable('tree', $ilTree);
-
-        $ilAppEventHandler = $this->getMockBuilder(ilAppEventHandler::class)->disableOriginalConstructor()->getMock();
-        $this->setGlobalVariable('ilAppEventHandler', $ilAppEventHandler);
-
-        $this->setGlobalVariable('ilDB', $ilDBMock);
-
         $senderUsrId = 666;
         $loginToIdMap = [
             'phpunit1' => 1,
@@ -286,6 +158,9 @@ class ilMailTest extends ilMailBaseTest
             new ilMailMimeSenderFactory($settings),
             static function (string $login) use ($loginToIdMap): int {
                 return $loginToIdMap[$login] ?? 0;
+            },
+            static function (string $usrId) use ($loginToIdMap) : string {
+                return array_flip($loginToIdMap)[$usrId] ?? '';
             },
             4711,
             $actor
@@ -692,6 +567,9 @@ class ilMailTest extends ilMailBaseTest
             $this->getMockBuilder(ilMailMimeSenderFactory::class)->disableOriginalConstructor()->getMock(),
             static function (string $login): int {
                 return 780;
+            },
+            static function (int $usrId) : string {
+                return 'Test';
             },
             $refId,
             $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock()
