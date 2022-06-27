@@ -7097,7 +7097,7 @@ content#:#lm_menu_new_entry#:#Neuen Menüeintrag erstellen
 content#:#lm_menu_select_internal_object#:#Internes Objekt auswählen >>
 content#:#lm_menu_select_object_to_add#:#Bitte klicken Sie auf das Objekt, welches Sie im Menü hinzufügen wollen
 content#:#lm_no_download_files#:#Zurzeit stehen keine Download-Dateien zur Verfügung.
-content#:#lm_only_one_download_per_type#:#Es kann nur eine Datei je Typ (XML, HTML, SCORM) öffentlich freigeschaltet werden.
+content#:#lm_only_one_download_per_type#:#Es kann nur eine Datei je Typ (XML und HTML) öffentlich freigeschaltet werden.
 content#:#lm_rate_page#:#Seite bewerten
 content#:#lm_rating#:#Lernmodul bewerten
 content#:#mep_folder_created#:#Ordner wurde angelegt.
@@ -10464,7 +10464,7 @@ lti#:#launch_method_own_win#:#Eigenes Fenster
 lti#:#launch_method_own_win_info#:#Der Inhalt wird im gleichen Fenster geöffnet und ersetzt den ILIAS-Bildschirm. Beim Verlassen des Inhalts kehrt der Benutzer zu ILIAS zurück.
 lti#:#launched#:#Die Ressource wurde bereits gestartet.
 lti#:#learning_progress_options#:#Optionen für den Lernfortschritt
-lti#:#lm_only_one_download_per_type#:#Pro Typ (XML, HTML, SCORM) können Sie nur eine Datei zum Download verfügbar machen.
+lti#:#lm_only_one_download_per_type#:#Es kann nur eine Datei je Typ (XML, HTML, SCORM) zum Download bereitgestellt werden.
 lti#:#lti_action_accept_provider_as_global#:#Den Provider als globalen Provider für alle Benutzer übernehmen.
 lti#:#lti_action_accept_providers_as_global#:#Provider als globalen Provider übernehmen
 lti#:#lti_action_delete_providers#:#Provider löschen

@@ -7081,7 +7081,7 @@ content#:#lm_menu_new_entry#:#Create a new menu entry
 content#:#lm_menu_select_internal_object#:#Select internal object >>
 content#:#lm_menu_select_object_to_add#:#Please select the object you want to add to the menu
 content#:#lm_no_download_files#:#There are currently no files for download available.
-content#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.
+content#:#lm_only_one_download_per_type#:#Only one file per type (XML, HTML) can be released publicly.
 content#:#lm_rate_page#:#Rate page
 content#:#lm_rating#:#Rate Learning Module
 content#:#mep_folder_created#:#Added new folder.
@@ -10425,7 +10425,7 @@ lti#:#launch_method_own_win#:#Own Window
 lti#:#launch_method_own_win_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.
 lti#:#launched#:#Resource was already launched.
 lti#:#learning_progress_options#:#Options for Learning Progress
-lti#:#lm_only_one_download_per_type#:#Please note that you can only make one file per type (XML, HTML, SCORM) public accessible.
+lti#:#lm_only_one_download_per_type#:#Only one file per type (XML, HTML, SCORM) can be released publicly.
 lti#:#lti_action_accept_provider_as_global#:#Accept Provider as Global Provider for all Users
 lti#:#lti_action_accept_providers_as_global#:#Accept Providers as Global
 lti#:#lti_action_delete_providers#:#Delete Providers
