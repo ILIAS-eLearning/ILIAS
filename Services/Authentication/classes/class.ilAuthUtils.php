@@ -133,7 +133,7 @@ class ilAuthUtils
     }
 
     /**
-     * @return string|int
+     * @return string|int|null
      */
     public static function _getAuthMode(?string $a_auth_mode)
     {
