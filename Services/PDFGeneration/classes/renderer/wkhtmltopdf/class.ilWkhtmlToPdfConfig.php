@@ -196,7 +196,7 @@ class ilWkhtmlToPdfConfig
         return $this->enabled_forms;
     }
 
-    public function setEnabledForms(bool $enabled_forms) : void
+    public function setEnabledForms(?bool $enabled_forms) : void
     {
         $this->enabled_forms = $enabled_forms;
     }
