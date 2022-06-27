@@ -447,10 +447,27 @@ class ilMailingListsGUI
         $tbl = new ilMailingListsMembersTableGUI($this, 'showMembersList', $this->mlists->getCurrentMailingList());
         $result = [];
 
-        $create_btn = ilLinkButton::getInstance();
-        $create_btn->setCaption('add');
-        $create_btn->setUrl($this->ctrl->getLinkTarget($this, 'showAssignmentForm'));
-        $this->toolbar->addButtonInstance($create_btn);
+        $availale_usr_ids = array_diff(
+            array_map(
+                static function (ilBuddySystemRelation $relation) : int {
+                    return $relation->getBuddyUsrId();
+                },
+                ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()->toArray()
+            ),
+            array_map(
+                static function (array $entry) : int {
+                    return $entry['usr_id'];
+                },
+                $this->mlists->getCurrentMailingList()->getAssignedEntries()
+            ),
+        );
+
+        if (count($availale_usr_ids) > 0) {
+            $create_btn = ilLinkButton::getInstance();
+            $create_btn->setCaption('add');
+            $create_btn->setUrl($this->ctrl->getLinkTarget($this, 'showAssignmentForm'));
+            $this->toolbar->addButtonInstance($create_btn);
+        }
 
         $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
         if (count($assigned_entries)) {
@@ -550,7 +567,7 @@ class ilMailingListsGUI
             $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
             foreach ($requested_entry_ids as $id) {
                 if (isset($assigned_entries[$id])) {
-                    $this->mlists->getCurrentMailingList()->deleteEntry((int) $id);
+                    $this->mlists->getCurrentMailingList()->deleteEntry($id);
                 }
             }
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_deleted_entry'));
@@ -592,7 +609,7 @@ class ilMailingListsGUI
         $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
         if (count($assigned_entries)) {
             foreach ($assigned_entries as $assigned_entry) {
-                if (is_array($options) && array_key_exists($assigned_entry['usr_id'], $options)) {
+                if (array_key_exists($assigned_entry['usr_id'], $options)) {
                     unset($options[$assigned_entry['usr_id']]);
                 }
             }
@@ -605,10 +622,12 @@ class ilMailingListsGUI
             $form->addItem($formItem);
 
             $form->addCommandButton('saveAssignmentForm', $this->lng->txt('assign'));
-        } elseif (count($options) === 1 && count($relations)) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_mailing_lists_all_contact_entries_assigned'));
+        } elseif (count($options) === 1 && count($relations) > 0) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_mailing_lists_all_contact_entries_assigned'), true);
+            $this->ctrl->redirect($this, 'showMembersList');
         } elseif (count($relations) === 0) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_mailing_lists_no_contact_entries'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_mailing_lists_no_contact_entries'), true);
+            $this->ctrl->redirect($this, 'showMembersList');
         }
         $form->addCommandButton('showMembersList', $this->lng->txt('cancel'));
 
