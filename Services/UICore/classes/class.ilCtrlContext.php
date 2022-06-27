@@ -1,6 +1,19 @@
 <?php declare(strict_types = 1);
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\HTTP\Wrapper\RequestWrapper;
@@ -296,11 +309,14 @@ class ilCtrlContext implements ilCtrlContextInterface
         // override the previously set path again.
         $cmd_class = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_CLASS);
         if (null !== $cmd_class) {
-            // DON'T use $this->setCmdClass because the path in should always
-            // be set in this method, but not in this case.
             $this->cmd_class = $cmd_class;
 
-            // only set the path if the context doesn't yet determined one.
+            // @see https://github.com/ILIAS-eLearning/ILIAS/pull/4696:
+            // there are rare cases where command-classes are also baseclasses. if the
+            // baseclass is provided as command-class, we cannot use the setCmdClass()
+            // method, because this would override the current path by one where the
+            // command-class is reached directly (since it's a baseclass) but should
+            // have been routed through different classes first.
             $path = $this->path_factory->find($this, $cmd_class);
             if (null === $this->path->getCidPath()) {
                 $this->path = $path;
