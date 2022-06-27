@@ -218,7 +218,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         if ((!$this->user->isAnonymous() && $public_profile === 'y') || $public_profile === 'g') {
             $this->ctrl->setParameterByClass(ilPublicUserProfileGUI::class, 'user', $a_set['usr_id']);
             $profile_target = $this->ctrl->getLinkTargetByClass(
-                ilPublicUserProfileGUI::class,
+                [ilContactGUI::class, ilPublicUserProfileGUI::class],
                 'getHTML'
             );
             $a_set['profile_link'] = $profile_target;

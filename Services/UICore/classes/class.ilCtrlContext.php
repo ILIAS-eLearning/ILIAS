@@ -296,7 +296,15 @@ class ilCtrlContext implements ilCtrlContextInterface
         // override the previously set path again.
         $cmd_class = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_CLASS);
         if (null !== $cmd_class) {
-            $this->setCmdClass($cmd_class);
+            // DON'T use $this->setCmdClass because the path in should always
+            // be set in this method, but not in this case.
+            $this->cmd_class = $cmd_class;
+
+            // only set the path if the context doesn't yet determined one.
+            $path = $this->path_factory->find($this, $cmd_class);
+            if (null === $this->path->getCidPath()) {
+                $this->path = $path;
+            }
         }
     }
 
