@@ -48,15 +48,16 @@ class ilMailDeliveryJob extends AbstractJob
             json_encode(array_slice($arguments, 0, 5), JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
         ));
 
+        $context_parameters = (array) unserialize($input[10]->getValue(), ['allowed_classes' => false]);
+
         if ((int) $input[0]->getValue() === ANONYMOUS_USER_ID) {
             $mail = new ilMail((int) $input[0]->getValue());
         } else {
             $mail = new ilFormatMail((int) $input[0]->getValue());
         }
 
-        $context_parameters = (array) unserialize($input[10]->getValue(), ['allowed_classes' => false]);
         if (isset($context_parameters['auto_responder'])) {
-            ilMail::setAutoResponderStatus((bool) $context_parameters['auto_responder']);
+            $mail->setAutoResponderStatus((bool) $context_parameters['auto_responder']);
         }
 
         $mail->setSaveInSentbox((bool) $input[8]->getValue());
