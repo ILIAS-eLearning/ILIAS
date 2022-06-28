@@ -117,7 +117,7 @@ class ilMailDatabaseUpdateSteps implements ilDatabaseUpdateSteps
                     'type' => 'integer',
                     'length' => 4,
                     'notnull' => true,
-                    'default' => 0
+                    'default' => null
                 ]
             );
         }
