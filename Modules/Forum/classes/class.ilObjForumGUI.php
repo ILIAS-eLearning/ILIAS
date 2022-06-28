@@ -5884,7 +5884,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $this->ctrl->setParameter(
             $this,
             'action',
-            ilUtil::stripSlashes($this->httpRequest->getQueryParams()['action'])
+            ilUtil::stripSlashes($this->requestAction)
         );
         if ($action !== 'editdraft') {
             $tpl->setVariable('FORM', $oEditReplyForm->getHTML());
