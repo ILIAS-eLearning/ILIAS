@@ -187,7 +187,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 
         $this->setting->set(
             'cert_subitems_' . $this->object->getId(),
-            json_encode($formFields['subitems'], JSON_THROW_ON_ERROR)
+            json_encode($formFields['subitems'] ?? [], JSON_THROW_ON_ERROR)
         );
     }
 

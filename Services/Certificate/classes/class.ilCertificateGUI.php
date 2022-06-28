@@ -559,7 +559,10 @@ class ilCertificateGUI
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_same_not_saved'), true);
                 $this->ctrl->redirect($this, "certificateEditor");
             } catch (Exception $e) {
-                $this->tpl->setOnScreenMessage('failure', $e->getMessage());
+                $this->tpl->setOnScreenMessage(
+                    'failure',
+                    $e->getMessage() . $e->getTraceAsString()
+                );
             }
         }
 
