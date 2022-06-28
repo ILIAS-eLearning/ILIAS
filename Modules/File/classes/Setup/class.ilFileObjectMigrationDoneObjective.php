@@ -15,7 +15,7 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
 use ILIAS\Refinery;
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
@@ -72,6 +72,13 @@ class ilFileObjectMigrationDoneObjective implements Setup\Objective
 
     public function isApplicable(Environment $environment) : bool
     {
-        return true;
+        /**
+         * @var $db ilDBInterface
+         */
+        $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $res = $db->query("SELECT COUNT(file_id) AS amount FROM file_data WHERE rid IS NULL OR rid =''");
+        $d = $db->fetchObject($res);
+
+        return (int) $d->amount > 0;
     }
 }
