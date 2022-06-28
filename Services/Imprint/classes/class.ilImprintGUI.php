@@ -69,7 +69,8 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
     
     public function executeCommand() : string
     {
-        if ($this->imprint_request->getBaseClass() === ilImprintGUI::class) {
+        if (strtolower($this->imprint_request->getBaseClass()) ===
+            strtolower(ilImprintGUI::class)) {
             $this->renderFullscreen();
         }
         
@@ -85,7 +86,6 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
                     $title,
                     $this->ctrl->getLinkTarget($this, "preview")
                 );
-            
                 return parent::executeCommand();
         }
     }
