@@ -57,7 +57,11 @@ class ilMailDeliveryJob extends AbstractJob
         }
 
         if (isset($context_parameters['auto_responder'])) {
-            $mail->setAutoResponderStatus((bool) $context_parameters['auto_responder']);
+            if ($context_parameters['auto_responder']) {
+                $mail = $mail->enableAutoResponder();
+            } else {
+                $mail = $mail->disableAutoResponder();
+            }
         }
 
         $mail->setSaveInSentbox((bool) $input[8]->getValue());

@@ -107,12 +107,21 @@ class ilMail
         $this->setSaveInSentbox(false);
     }
 
-    public function setAutoResponderStatus(bool $auto_responder_status) : void
+    public function enableAutoResponder() : self
     {
-        $this->auto_responder_status = $auto_responder_status;
+        $mail = clone $this;
+        $mail->auto_responder_status = true;
+        return $mail;
     }
 
-    public function getAutoResponderStatus() : bool
+    public function disableAutoResponder() : self
+    {
+        $mail = clone $this;
+        $mail->auto_responder_status = false;
+        return $mail;
+    }
+
+    public function isAutoResponderEnabled() : bool
     {
         return $this->auto_responder_status;
     }
@@ -646,13 +655,13 @@ class ilMail
                 $sentMailId
             );
         }
-        $this->setAutoResponderStatus(false);
-        if ($this->auto_responder_data) {
-            foreach ($this->auto_responder_data as $usr_id => $mail_options) {
+        $mail = $this->disableAutoResponder();
+        if ($mail->auto_responder_data) {
+            foreach ($mail->auto_responder_data as $usr_id => $mail_options) {
                 $tmpmail = new ilFormatMail($usr_id);
                 $tmpmail->setSaveInSentbox(false);
                 $tmpmail->sendMail(
-                    ($this->loginByUsrIdCallable)($this->user_id),
+                    ($mail->loginByUsrIdCallable)($mail->user_id),
                     '',
                     '',
                     $mail_options->getAbsenceAutoResponderSubject(),
@@ -762,7 +771,7 @@ class ilMail
                 $user->getId()
             );
 
-            if ($this->getAutoResponderStatus() && $mailOptions->isAbsent()) {
+            if ($this->isAutoResponderEnabled() && $mailOptions->isAbsent()) {
                 $this->auto_responder_data[$user->getId()] = $mailOptions;
             }
 
@@ -1082,7 +1091,7 @@ class ilMail
             serialize(array_merge(
                 $this->contextParameters,
                 [
-                    'auto_responder' => $this->getAutoResponderStatus()
+                    'auto_responder' => $this->isAutoResponderEnabled()
                 ]
             ))
         ]);
