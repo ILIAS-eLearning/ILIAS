@@ -38,7 +38,7 @@ class ExportHelperGUI
         string $title,
         string $message,
         string $export_cmd,
-        bool $export_with_comments_cmd,
+        string $export_with_comments_cmd,
         bool $js = false
     ) : \ILIAS\UI\Component\Modal\RoundTrip {
         $ui = $this->ui;
