@@ -303,7 +303,7 @@ class ilForumNotification
         }
     }
 
-    public static function getCachedNodeData($ref_id) : array
+    public static function getCachedNodeData(int $ref_id) : array
     {
         global $DIC;
 
@@ -315,7 +315,7 @@ class ilForumNotification
             );
             $node_data = array_filter($node_data, static function (array $forum_node) use ($DIC, $ref_id) : bool {
                 // filter out forum if a grp lies in the path (#0027702)
-                foreach ($DIC->repositoryTree()->getNodePath($forum_node['child'], $ref_id) as $path_node) {
+                foreach ($DIC->repositoryTree()->getNodePath((int) $forum_node['child'], $ref_id) as $path_node) {
                     $notRootNode = (int) $path_node['child'] !== (int) $ref_id;
                     $isGroup = $path_node['type'] === 'grp';
                     if ($notRootNode && $isGroup) {
