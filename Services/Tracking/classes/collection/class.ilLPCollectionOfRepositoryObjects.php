@@ -469,8 +469,10 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
             " WHERE obj_id = " . $this->db->quote($this->obj_id, "integer") .
             " AND item_id = " . $this->db->quote($item_id, "integer");
         $res = $this->db->query($query);
-        $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        $grouping_id = $row->grouping_id;
+        $grouping_id = 0;
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            $grouping_id = (int) $row->grouping_id;
+        }
         if ($grouping_id > 0) {
             $query = "SELECT item_id, num_obligatory FROM ut_lp_collections" .
                 " WHERE obj_id = " . $this->db->quote(
