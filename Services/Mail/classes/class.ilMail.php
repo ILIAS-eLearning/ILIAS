@@ -1217,8 +1217,13 @@ class ilMail
         string $subject,
         string $message
     ) : int {
+        $send_folder_id = 0;
+        if (!$this->isSystemMail()) {
+            $send_folder_id = $this->mailbox->getSentFolder();
+        }
+
         return $this->sendInternalMail(
-            $this->mailbox->getSentFolder(),
+            $send_folder_id,
             $this->user_id,
             $attachment,
             $to,
