@@ -347,12 +347,13 @@ class ilObjForum extends ilObject
     {
         if (parent::update()) {
             $this->db->manipulateF(
-                'UPDATE frm_data SET top_name = %s, top_description = %s, top_update = %s WHERE top_frm_fk = %s',
-                ['text', 'text', 'timestamp', 'integer'],
+                'UPDATE frm_data SET top_name = %s, top_description = %s, top_update = %s, update_user = %s WHERE top_frm_fk = %s',
+                ['text', 'text', 'timestamp', 'integer', 'integer'],
                 [
                     $this->getTitle(),
                     $this->getDescription(),
                     date("Y-m-d H:i:s"),
+                    $this->user->getId(),
                     $this->getId()
                 ]
             );
