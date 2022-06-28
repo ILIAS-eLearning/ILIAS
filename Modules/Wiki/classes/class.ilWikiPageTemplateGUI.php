@@ -140,7 +140,7 @@ class ilWikiPageTemplateGUI
         $add_to_page = $this->request->getAddToPage();
         foreach ($all_ids as $id) {
             $wpt = new ilWikiPageTemplate($this->wiki->getId());
-            $wpt->save($id, $new_pages[$id], $add_to_page[$id]);
+            $wpt->save($id, $new_pages[$id] ?? 0, $add_to_page[$id] ?? 0);
         }
 
         $this->wiki->setEmptyPageTemplate($this->request->getEmptyPageTemplate());

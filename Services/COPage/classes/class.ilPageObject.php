@@ -288,12 +288,12 @@ abstract class ilPageObject
         }
         $this->xml = $this->page_record["content"];
         $this->setParentId((int) $this->page_record["parent_id"]);
-        $this->last_change_user = (int) $this->page_record["last_change_user"];
-        $this->create_user = (int) $this->page_record["create_user"];
-        $this->setRenderedContent((string) $this->page_record["rendered_content"]);
-        $this->setRenderMd5((string) $this->page_record["render_md5"]);
-        $this->setRenderedTime((string) $this->page_record["rendered_time"]);
-        $this->setLastChange((string) $this->page_record["last_change"]);
+        $this->last_change_user = (int) ($this->page_record["last_change_user"] ?? 0);
+        $this->create_user = (int) ($this->page_record["create_user"] ?? 0);
+        $this->setRenderedContent((string) ($this->page_record["rendered_content"] ?? ""));
+        $this->setRenderMd5((string) ($this->page_record["render_md5"] ?? ""));
+        $this->setRenderedTime((string) ($this->page_record["rendered_time"] ?? ""));
+        $this->setLastChange((string) ($this->page_record["last_change"] ?? ""));
     }
 
     /**
@@ -4148,7 +4148,7 @@ s     */
         $rnode = $res->nodeset[0];
 
         foreach ($a_hashes as $h) {
-            if ($h["change"] != "") {
+            if (($h["change"] ?? "") != "") {
                 $dc_node = $this->dom->create_element("DivClass");
                 $dc_node->set_attribute("HierId", $h["hier_id"]);
                 $dc_node->set_attribute("Class", "ilEdit" . $h["change"]);

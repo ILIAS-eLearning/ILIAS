@@ -1699,6 +1699,22 @@ class ilObjCourseGUI extends ilContainerGUI
         $this->leaveObject();
     }
 
+    public function performUnsubscribeObject()
+    {
+        $this->checkPermission('leave');
+        $this->getObject()->getMembersObject()->delete($this->user->getId());
+        $this->getObject()->getMembersObject()->sendUnsubscribeNotificationToAdmins($this->user->getId());
+        $this->getObject()->getMembersObject()->sendNotification(
+            ilCourseMembershipMailNotification::TYPE_NOTIFICATION_UNSUBSCRIBE,
+            $this->user->getId()
+        );
+        $this->tpl->setOnScreenMessage('success', $this->lng->txt('crs_unsubscribed_from_crs'), true);
+
+        $this->ctrl->setParameterByClass("ilrepositorygui", "ref_id", $this->tree->getParentId($this->ref_id));
+        $this->ctrl->redirectByClass("ilrepositorygui", "");
+    }
+
+
     protected function getAgreementTabs() : void
     {
         if ($this->access->checkAccess('visible', '', $this->ref_id)) {
