@@ -133,13 +133,17 @@ class ilAuthUtils
     }
 
     /**
-     * @return string|int
+     * @return string|int|null
      */
-    public static function _getAuthMode(string $a_auth_mode)
+    public static function _getAuthMode(?string $a_auth_mode)
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
+
+        if (null === $a_auth_mode) {
+            return $ilSetting->get("auth_mode");
+        }
 
         if (strpos($a_auth_mode, '_') !== false) {
             $auth_arr = explode('_', $a_auth_mode);
@@ -538,7 +542,7 @@ class ilAuthUtils
     /**
      * Check if chosen auth mode needs an external account entry
      *
-     * @param string|int $a_auth_mode auth_mode
+     * @param null|string|int $a_auth_mode auth_mode
      */
     public static function _needsExternalAccountByAuthMode($a_auth_mode) : bool
     {
@@ -653,7 +657,7 @@ class ilAuthUtils
     
     /**
      * Check if local password validation is supported
-     * @param string|int $a_authmode
+     * @param null|string|int $a_authmode
      * @return
      */
     public static function supportsLocalPasswordValidation($a_authmode) : int

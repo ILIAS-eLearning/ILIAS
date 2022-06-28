@@ -134,8 +134,9 @@ class ilWkhtmlToPdfConfig
                     settype($value, $type->getName());
                 }
             }
-
-            $this->{$function}($value);
+            if($value != null) {
+                $this->{$function}($value);
+            }
         }
     }
 
@@ -196,7 +197,7 @@ class ilWkhtmlToPdfConfig
         return $this->enabled_forms;
     }
 
-    public function setEnabledForms(bool $enabled_forms) : void
+    public function setEnabledForms(?bool $enabled_forms) : void
     {
         $this->enabled_forms = $enabled_forms;
     }

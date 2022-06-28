@@ -62,7 +62,10 @@ class ilAuthProviderApache extends ilAuthProvider implements ilAuthProviderAccou
             str_getcsv($this->getSettings()->get('apache_auth_indicator_value', ''))
         ));
         //TODO PHP8-REVIEW: $DIC->http()->request()->getServerParams()['apache_auth_indicator_name']
-        if (!in_array($_SERVER[$this->getSettings()->get('apache_auth_indicator_name', '')], $validIndicatorValues, true)) {
+        if (
+            !isset($_SERVER[$this->getSettings()->get('apache_auth_indicator_name', '')]) ||
+            !in_array($_SERVER[$this->getSettings()->get('apache_auth_indicator_name', '')], $validIndicatorValues, true)
+        ) {
             $this->getLogger()->warning('Apache authentication failed (indicator name <-> value');
             $this->handleAuthenticationFail($status, 'err_wrong_login');
             return false;

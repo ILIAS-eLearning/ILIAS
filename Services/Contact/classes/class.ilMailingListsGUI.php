@@ -16,7 +16,7 @@
  *
  *********************************************************************/
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author Michael Jansen <mjansen@databay.de>
@@ -24,7 +24,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilMailingListsGUI
 {
-    private ServerRequestInterface $httpRequest;
+    private \ILIAS\HTTP\GlobalHttpState $http;
+    private Refinery $refinery;
     private ilGlobalTemplateInterface $tpl;
     private ilCtrlInterface $ctrl;
     private ilLanguage $lng;
@@ -47,13 +48,14 @@ class ilMailingListsGUI
         $this->user = $DIC['ilUser'];
         $this->error = $DIC['ilErr'];
         $this->toolbar = $DIC['ilToolbar'];
-        $this->httpRequest = $DIC->http()->request();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->umail = new ilFormatMail($this->user->getId());
         $this->mlists = new ilMailingLists($this->user);
         $this->mlists->setCurrentMailingList(
-            isset($this->httpRequest->getQueryParams()['ml_id'])
-                ? (int) $this->httpRequest->getQueryParams()['ml_id']
+            $this->http->wrapper()->query()->has('ml_id')
+                ? $this->http->wrapper()->query()->retrieve('ml_id', $this->refinery->kindlyTo()->int())
                 : 0
         );
 
@@ -65,7 +67,10 @@ class ilMailingListsGUI
     {
         if (
             !ilBuddySystem::getInstance()->isEnabled() ||
-            0 === count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations())
+            (
+                0 === count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) &&
+                $this->mlists->hasAny()
+            )
         ) {
             $this->error->raiseError($this->lng->txt('msg_no_perm_read'), $this->error->MESSAGE);
         }
@@ -86,15 +91,31 @@ class ilMailingListsGUI
         return true;
     }
 
-    public function confirmDelete() : bool
+    /**
+     * @return int[]
+     */
+    private function getMailingListIdsFromRequest() : array
     {
         $ml_ids = [];
-        if (isset($this->httpRequest->getQueryParams()['ml_id'])) {
-            $ml_ids = array_filter([(int) $this->httpRequest->getQueryParams()['ml_id']]);
-        } else {
-            $ml_ids = array_filter([(int) ($this->httpRequest->getParsedBody()['ml_id'] ?? 0)]);
+        if ($this->http->wrapper()->query()->has('ml_id')) {
+            $ml_ids = [
+                $this->http->wrapper()->query()->retrieve('ml_id', $this->refinery->kindlyTo()->int())
+            ];
+        } elseif ($this->http->wrapper()->post()->has('ml_id')) {
+            $ml_ids = $this->http->wrapper()->post()->retrieve(
+                'ml_id',
+                $this->refinery->kindlyTo()->listOf(
+                    $this->refinery->kindlyTo()->int()
+                )
+            );
         }
 
+        return array_filter($ml_ids);
+    }
+
+    public function confirmDelete() : bool
+    {
+        $ml_ids = $this->getMailingListIdsFromRequest();
         if ($ml_ids === []) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
             $this->showMailingLists();
@@ -124,11 +145,20 @@ class ilMailingListsGUI
 
     public function performDelete() : bool
     {
-        if (isset($this->httpRequest->getParsedBody()['ml_id']) && is_array($this->httpRequest->getParsedBody()['ml_id'])) {
+        if ($this->http->wrapper()->post()->has('ml_id')) {
+            $ml_ids = array_filter(
+                $this->http->wrapper()->post()->retrieve(
+                    'ml_id',
+                    $this->refinery->kindlyTo()->listOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
+                )
+            );
+
             $counter = 0;
-            foreach ($this->httpRequest->getParsedBody()['ml_id'] as $id) {
-                if ($this->mlists->isOwner((int) $id, $this->user->getId())) {
-                    $this->mlists->get((int) ilUtil::stripSlashes($id))->delete();
+            foreach ($ml_ids as $id) {
+                if ($this->mlists->isOwner($id, $this->user->getId())) {
+                    $this->mlists->get($id)->delete();
                     ++$counter;
                 }
             }
@@ -156,8 +186,8 @@ class ilMailingListsGUI
             return true;
         }
 
-        $ml_ids = ((int) $this->httpRequest->getQueryParams()['ml_id']) ? [$this->httpRequest->getQueryParams()['ml_id']] : $this->httpRequest->getParsedBody()['ml_id'];
-        if (!$ml_ids) {
+        $ml_ids = $this->getMailingListIdsFromRequest();
+        if ($ml_ids === []) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
             $this->showMailingLists();
             return true;
@@ -170,7 +200,7 @@ class ilMailingListsGUI
 
         $lists = [];
         foreach ($ml_ids as $id) {
-            if ($this->mlists->isOwner((int) $id, $this->user->getId()) &&
+            if ($this->mlists->isOwner($id, $this->user->getId()) &&
                 !$this->umail->existsRecipient('#il_ml_' . $id, (string) $mail_data['rcp_to'])) {
                 $lists[] = '#il_ml_' . $id;
             }
@@ -273,7 +303,9 @@ class ilMailingListsGUI
 
         $tbl->setData($result);
 
-        if (isset($this->httpRequest->getQueryParams()['ref']) && $this->httpRequest->getQueryParams()['ref'] === 'mail') {
+        if (
+            $this->http->wrapper()->query()->has('ref') &&
+            $this->http->wrapper()->query()->retrieve('ref', $this->refinery->kindlyTo()->string()) === 'mail') {
             $tbl->addCommandButton('cancel', $this->lng->txt('cancel'));
         }
 
@@ -284,11 +316,13 @@ class ilMailingListsGUI
 
     public function cancel() : void
     {
-        if (isset($this->httpRequest->getQueryParams()['ref']) && $this->httpRequest->getQueryParams()['ref'] === 'mail') {
+        if (
+            $this->http->wrapper()->query()->has('ref') &&
+            $this->http->wrapper()->query()->retrieve('ref', $this->refinery->kindlyTo()->string()) === 'mail') {
             $this->ctrl->returnToParent($this);
-        } else {
-            $this->showMailingLists();
         }
+
+        $this->showMailingLists();
     }
 
     public function saveForm() : void
@@ -305,8 +339,12 @@ class ilMailingListsGUI
         }
 
         if ($this->form_gui->checkInput()) {
-            $this->mlists->getCurrentMailingList()->setTitle($this->httpRequest->getParsedBody()['title'] ?? "");
-            $this->mlists->getCurrentMailingList()->setDescription($this->httpRequest->getParsedBody()['description'] ?? "");
+            $this->mlists->getCurrentMailingList()->setTitle(
+                $this->form_gui->getInput('title')
+            );
+            $this->mlists->getCurrentMailingList()->setDescription(
+                $this->form_gui->getInput('description')
+            );
             if ($this->mlists->getCurrentMailingList()->getId()) {
                 $this->mlists->getCurrentMailingList()->setChangedate(date('Y-m-d H:i:s'));
                 $this->mlists->getCurrentMailingList()->update();
@@ -396,7 +434,6 @@ class ilMailingListsGUI
             return true;
         }
 
-        $this->ctrl->setParameter($this, 'cmd', 'post');
         $this->ctrl->setParameter($this, 'ml_id', $this->mlists->getCurrentMailingList()->getId());
 
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
@@ -410,10 +447,27 @@ class ilMailingListsGUI
         $tbl = new ilMailingListsMembersTableGUI($this, 'showMembersList', $this->mlists->getCurrentMailingList());
         $result = [];
 
-        $create_btn = ilLinkButton::getInstance();
-        $create_btn->setCaption('add');
-        $create_btn->setUrl($this->ctrl->getLinkTarget($this, 'showAssignmentForm'));
-        $this->toolbar->addButtonInstance($create_btn);
+        $availale_usr_ids = array_diff(
+            array_map(
+                static function (ilBuddySystemRelation $relation) : int {
+                    return $relation->getBuddyUsrId();
+                },
+                ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()->toArray()
+            ),
+            array_map(
+                static function (array $entry) : int {
+                    return $entry['usr_id'];
+                },
+                $this->mlists->getCurrentMailingList()->getAssignedEntries()
+            ),
+        );
+
+        if (count($availale_usr_ids) > 0) {
+            $create_btn = ilLinkButton::getInstance();
+            $create_btn->setCaption('add');
+            $create_btn->setUrl($this->ctrl->getLinkTarget($this, 'showAssignmentForm'));
+            $this->toolbar->addButtonInstance($create_btn);
+        }
 
         $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
         if (count($assigned_entries)) {
@@ -451,7 +505,7 @@ class ilMailingListsGUI
 
     public function confirmDeleteMembers() : bool
     {
-        if (!isset($this->httpRequest->getParsedBody()['a_id'])) {
+        if (!$this->http->wrapper()->post()->has('a_id')) {
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_select_one_entry'));
             $this->showMembersList();
             return true;
@@ -473,8 +527,13 @@ class ilMailingListsGUI
 
         $names = ilUserUtil::getNamePresentation($usr_ids, false, false, '', false, false, false);
 
+        $requested_entry_ids = $this->http->wrapper()->post()->retrieve(
+            'a_id',
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        );
+
         foreach ($assigned_entries as $entry) {
-            if (in_array($entry['a_id'], $this->httpRequest->getParsedBody()['a_id'], true)) {
+            if (in_array($entry['a_id'], $requested_entry_ids, true)) {
                 $c_gui->addItem('a_id[]', (string) $entry['a_id'], $names[$entry['usr_id']]);
             }
         }
@@ -498,11 +557,17 @@ class ilMailingListsGUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        if (is_array($this->httpRequest->getParsedBody()['a_id'])) {
+        if (
+            $this->http->wrapper()->post()->has('a_id') &&
+            ($requested_entry_ids = $this->http->wrapper()->post()->retrieve(
+                'a_id',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            )) !== []
+        ) {
             $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
-            foreach ($this->httpRequest->getParsedBody()['a_id'] as $id) {
+            foreach ($requested_entry_ids as $id) {
                 if (isset($assigned_entries[$id])) {
-                    $this->mlists->getCurrentMailingList()->deleteEntry((int) $id);
+                    $this->mlists->getCurrentMailingList()->deleteEntry($id);
                 }
             }
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_deleted_entry'));
@@ -544,7 +609,7 @@ class ilMailingListsGUI
         $assigned_entries = $this->mlists->getCurrentMailingList()->getAssignedEntries();
         if (count($assigned_entries)) {
             foreach ($assigned_entries as $assigned_entry) {
-                if (is_array($options) && array_key_exists($assigned_entry['usr_id'], $options)) {
+                if (array_key_exists($assigned_entry['usr_id'], $options)) {
                     unset($options[$assigned_entry['usr_id']]);
                 }
             }
@@ -557,10 +622,12 @@ class ilMailingListsGUI
             $form->addItem($formItem);
 
             $form->addCommandButton('saveAssignmentForm', $this->lng->txt('assign'));
-        } elseif (count($options) === 1 && count($relations)) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_mailing_lists_all_contact_entries_assigned'));
+        } elseif (count($options) === 1 && count($relations) > 0) {
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_mailing_lists_all_contact_entries_assigned'), true);
+            $this->ctrl->redirect($this, 'showMembersList');
         } elseif (count($relations) === 0) {
-            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_mailing_lists_no_contact_entries'));
+            $this->tpl->setOnScreenMessage('info', $this->lng->txt('mail_mailing_lists_no_contact_entries'), true);
+            $this->ctrl->redirect($this, 'showMembersList');
         }
         $form->addCommandButton('showMembersList', $this->lng->txt('cancel'));
 
@@ -581,8 +648,14 @@ class ilMailingListsGUI
             return true;
         }
 
-        if (ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId((int) $this->httpRequest->getParsedBody()['usr_id'])->isLinked()) {
-            $this->mlists->getCurrentMailingList()->assignUser((int) $this->httpRequest->getParsedBody()['usr_id']);
+        if (
+            ilBuddyList::getInstanceByGlobalUser()->getRelationByUserId(
+                $this->http->wrapper()->post()->retrieve('usr_id', $this->refinery->kindlyTo()->int())
+            )->isLinked()
+        ) {
+            $this->mlists->getCurrentMailingList()->assignUser(
+                $this->http->wrapper()->post()->retrieve('usr_id', $this->refinery->kindlyTo()->int())
+            );
             $this->tpl->setOnScreenMessage('info', $this->lng->txt('saved_successfully'));
             $this->showMembersList();
             return true;
