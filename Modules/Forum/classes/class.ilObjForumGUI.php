@@ -4423,7 +4423,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     private function initUserNotificationForm() : ilPropertyFormGUI
     {
         $form = new ilForumNotificationEventsFormGUI($this, $this->ref_id, $this->objCurrentTopic->getId());
-        $form->setId(uniqid('frm_ntf_set_' . $this->object->getRefId(), true));
+        $form->setId(str_replace('.', '_', uniqid('frm_ntf_set_' . $this->object->getRefId(), true)));
 
         if ($this->objCurrentTopic->getId() > 0) {
             $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentTopic->getId());
@@ -5589,7 +5589,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                 } else {
                     if ('frm_revoke_censorship' === $lng_id || 'frm_censorship' === $lng_id) {
                         $modalTemplate = new ilTemplate("tpl.forums_censor_modal.html", true, true, 'Modules/Forum');
-                        $formID = uniqid('form', true);
+                        $formID = str_replace('.', '_', uniqid('form', true));
                         $modalTemplate->setVariable('FORM_ID', $formID);
 
                         if ($node->isCensored()) {
@@ -5607,7 +5607,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                             '#'
                         )->withOnLoadCode(
                             static function (string $id) use ($formID) : string {
-                                return "$('#$id').click(function() { $('#$formID').submit(); return false; });";
+                                return "
+                                console.log('Zensur');
+                                console.log($('#$id'), $('#$formID'));
+                                $('#$id').click(function() { $('#$formID').submit(); return false; });";
                             }
                         );
                         $modal = $this->uiFactory->modal()->roundtrip(
