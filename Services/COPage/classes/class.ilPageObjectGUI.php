@@ -1146,7 +1146,7 @@ class ilPageObjectGUI
                     if ($c_old_nr > 0) {
                         $tpl->setCurrentBlock("next_rev");
                         $tpl->setVariable("TXT_NEXT_REV", $this->lng->txt("cont_next_rev"));
-                        $this->ctrl->setParameter($this, "old_nr", $hist_info["next"]["nr"]);
+                        $this->ctrl->setParameter($this, "old_nr", $hist_info["next"]["nr"] ?? 0);
                         $tpl->setVariable(
                             "HREF_NEXT",
                             $this->ctrl->getLinkTarget($this, "preview")
