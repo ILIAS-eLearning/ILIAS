@@ -62,6 +62,7 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         $lng->loadLanguageModule("tax");
 
         // @todo introduce request wrapper
+        $this->request = $DIC->http()->request();
         $params = $DIC->http()->request()->getQueryParams();
         $this->current_tax_node = (int) ($params["tax_node"] ?? null);
         $this->requested_tax_id = (int) ($params["tax_id"] ?? null);
@@ -199,12 +200,21 @@ class ilObjTaxonomyGUI extends ilObject2GUI
         // show tree
         $this->showTree();
 
+        $tax_node = $this->current_tax_node;
+        if ($tax_node === 0) {
+            $tax = $this->getCurrentTaxonomy();
+            if ($tax) {
+                $tree = $tax->getTree();
+                $tax_node = $tree->readRootId();
+            }
+        }
+
         // show subitems
         $table = new ilTaxonomyTableGUI(
             $this,
             "listNodes",
             $tax->getTree(),
-            $this->current_tax_node,
+            $tax_node,
             $this->getCurrentTaxonomy()
         );
         $table->setOpenFormTag(false);
