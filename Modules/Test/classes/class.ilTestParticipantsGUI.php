@@ -199,7 +199,7 @@ class ilTestParticipantsGUI
         if (is_array($a_user_ids)) {
             $i = 0;
             foreach ($a_user_ids as $user_id) {
-                $client_ip = $_POST["client_ip"][$i];
+                $client_ip = $_POST["client_ip"][$i] ?? '';
                 $this->getTestObj()->inviteUser($user_id, $client_ip);
                 $countusers++;
                 $i++;
