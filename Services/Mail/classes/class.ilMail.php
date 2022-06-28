@@ -852,17 +852,17 @@ class ilMail
      */
     protected function getUserIds(array $recipients) : array
     {
-        $usrIds = [];
+        $parsed_usr_ids = [];
 
-        $joinedRecipients = implode(',', array_filter(array_map('trim', $recipients)));
+        $joined_recipients = implode(',', array_filter(array_map('trim', $recipients)));
 
-        $addresses = $this->parseAddresses($joinedRecipients);
+        $addresses = $this->parseAddresses($joined_recipients);
         foreach ($addresses as $address) {
-            $addressType = $this->mailAddressTypeFactory->getByPrefix($address);
-            $usrIds = array_merge($usrIds, $addressType->resolve());
+            $address_type = $this->mailAddressTypeFactory->getByPrefix($address);
+            $parsed_usr_ids[] = $address_type->resolve();
         }
 
-        return array_unique($usrIds);
+        return array_unique(array_merge(...$parsed_usr_ids));
     }
 
     /**
@@ -901,10 +901,9 @@ class ilMail
         try {
             $addresses = $this->parseAddresses($recipients);
             foreach ($addresses as $address) {
-                $addressType = $this->mailAddressTypeFactory->getByPrefix($address);
-                if (!$addressType->validate($this->user_id)) {
-                    $newErrors = $addressType->getErrors();
-                    $errors = array_merge($errors, $newErrors);
+                $address_type = $this->mailAddressTypeFactory->getByPrefix($address);
+                if (!$address_type->validate($this->user_id)) {
+                    $errors[] = $address_type->getErrors();
                 }
             }
         } catch (ilException $e) {
@@ -916,7 +915,7 @@ class ilMail
             );
         }
 
-        return $errors;
+        return array_merge(...$errors);
     }
 
     /**
