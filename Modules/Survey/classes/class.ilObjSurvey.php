@@ -1890,7 +1890,6 @@ class ilObjSurvey extends ilObject
                 }
             }
         }
-
         // set the obligatory states in the database
         foreach ($obligatory_questions as $question_fi => $obligatory) {
             // #12420

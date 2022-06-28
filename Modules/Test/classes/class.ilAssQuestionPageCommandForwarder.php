@@ -55,9 +55,6 @@ class ilAssQuestionPageCommandForwarder
             $ctrl->setParameter($this, 'prev_qid', $this->testrequest->raw('prev_qid'));
         }
         
-        //global $___test_express_mode;
-        //$___test_express_mode = true;
-        $_GET['calling_test'] = $this->getTestObj()->getRefId();
         $main_template->setCurrentBlock("ContentStyle");
         $main_template->setVariable(
             "LOCATION_CONTENT_STYLESHEET",

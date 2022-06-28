@@ -951,9 +951,8 @@ class ilObjSurveyQuestionPool extends ilObject
         array $obligatory_questions
     ) : void {
         $ilDB = $this->db;
-        
         foreach ($this->getQuestions() as $question_id) {
-            $status = (int) (in_array($question_id, $obligatory_questions));
+            $status = (int) (isset($obligatory_questions["$question_id"]));
             
             $ilDB->manipulate("UPDATE svy_question" .
                 " SET obligatory = " . $ilDB->quote($status, "integer") .

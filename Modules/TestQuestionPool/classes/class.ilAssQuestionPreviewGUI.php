@@ -137,7 +137,12 @@ class ilAssQuestionPreviewGUI
                 );
                 if (($_GET["calling_test"] > 0) || ($_GET["test_ref_id"] > 0)) {
                     $ref_id = $_GET["calling_test"];
-                    if (strlen($ref_id) == 0) {
+                    if (strlen($ref_id) !== 0 && !is_numeric($ref_id)) {
+                        $ref_id_array = explode('_', $ref_id);
+                        $ref_id = array_pop($ref_id_array);
+                    }
+                    
+                    if (strlen($ref_id) === 0) {
                         $ref_id = $_GET["test_ref_id"];
                     }
 

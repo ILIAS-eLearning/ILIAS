@@ -170,7 +170,10 @@ class ilContactGUI
                     $this->toolbar->setFormAction($this->ctrl->getFormAction($this, 'changeContactsView'));
                 }
 
-                if (count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) > 0) {
+                if (
+                    count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) > 0 ||
+                    (new ilMailingLists($this->user))->hasAny()
+                ) {
                     $this->tabs_gui->addSubTab(
                         'mail_my_mailing_lists',
                         $this->lng->txt('mail_my_mailing_lists'),
@@ -215,7 +218,10 @@ class ilContactGUI
                     );
                 }
 
-                if (count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) > 0) {
+                if (
+                    count(ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()) > 0 ||
+                    (new ilMailingLists($this->user))->hasAny()
+                ) {
                     $this->tabs_gui->addTab(
                         'mail_my_mailing_lists',
                         $this->lng->txt('mail_my_mailing_lists'),

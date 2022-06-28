@@ -66,6 +66,18 @@ class ilMailingLists
         return $entries;
     }
 
+    public function hasAny() : bool
+    {
+        $res = $this->db->queryF(
+            'SELECT EXISTS(SELECT 1 FROM addressbook_mlist WHERE user_id = %s) cnt',
+            ['integer'],
+            [$this->user->getId()]
+        );
+        $row = $this->db->fetchAssoc($res);
+
+        return (is_array($row) && (int) $row['cnt'] === 1);
+    }
+
     /**
      * @return ilMailingList[]
      */

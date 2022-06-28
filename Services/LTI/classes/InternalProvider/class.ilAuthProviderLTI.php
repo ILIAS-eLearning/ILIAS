@@ -256,12 +256,12 @@ class ilAuthProviderLTI extends \ilAuthProvider implements \ilAuthProviderInterf
                 $this->getLogger()->debug("push new lti ref_id: " . $this->ref_id);
                 $lti_context_ids[] = $this->ref_id;
                 ilSession::set('lti_context_ids', $lti_context_ids);
-                $this->getLogger()->debug((string) var_export(true), ilSession::get('lti_context_ids'));
+                $this->getLogger()->debug((string) var_export(ilSession::get('lti_context_ids'), true));
             }
         } else {
             $this->getLogger()->debug("lti_context_ids is not set. Create new array...");
             ilSession::set('lti_context_ids', [$this->ref_id]);
-            $this->getLogger()->debug((string) var_export(true), ilSession::get('lti_context_ids'));
+            $this->getLogger()->debug((string) var_export(ilSession::get('lti_context_ids'), true));
         }
 
         // for testing external css

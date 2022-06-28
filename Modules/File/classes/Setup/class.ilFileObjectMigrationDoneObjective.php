@@ -54,6 +54,7 @@ class ilFileObjectMigrationDoneObjective implements Setup\Objective
          * @var $db ilDBInterface
          */
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $db_error = false;
         try {
             $res = $db->query("SELECT file_id FROM file_data WHERE rid IS NULL OR rid =''");
         } catch (Throwable $t) {

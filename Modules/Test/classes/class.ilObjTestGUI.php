@@ -646,7 +646,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 if ($cmd === 'edit' && !$ilAccess->checkAccess('write', '', $this->testrequest->getRefId())) {
                     $this->redirectAfterMissingWrite();
                 }
-                $_GET['q_id'] = $this->fetchAuthoringQuestionIdParameter();
                 $this->prepareOutput();
                 $forwarder = new ilAssQuestionPageCommandForwarder();
                 $forwarder->setTestObj($this->getTestObject());
@@ -810,10 +809,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
                     if ($this->testrequest->isset('test_express_mode')) {
                         $this->ctrl->setParameterByClass($questionGuiClass, 'test_express_mode', 1);
-                    }
-
-                    if (!$questionGui->isSaveCommand()) {
-                        $_GET['calling_test'] = $this->object->getRefId();
                     }
 
                     $questionGui->setQuestionTabs();

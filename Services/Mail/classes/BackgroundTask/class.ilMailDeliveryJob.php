@@ -46,7 +46,11 @@ class ilMailDeliveryJob extends AbstractJob
             json_encode(array_slice($arguments, 0, 5), JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT)
         ));
 
-        $mail = new ilMail((int) $input[0]->getValue());
+        if ((int) $input[0]->getValue() === ANONYMOUS_USER_ID) {
+            $mail = new ilMail((int) $input[0]->getValue());
+        } else {
+            $mail = new ilFormatMail((int) $input[0]->getValue());
+        }
         $mail->setSaveInSentbox((bool) $input[8]->getValue());
         $mail = $mail
             ->withContextId((string) $input[9]->getValue())
