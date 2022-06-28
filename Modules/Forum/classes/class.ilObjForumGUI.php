@@ -2047,7 +2047,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->ctrl->setParameter($this, 'action', 'ready_showedit');
         }
 
-        $this->ctrl->setParameter($this, 'page', (int) $this->httpRequest->getQueryParams()['page']);
+        $this->ctrl->setParameter($this, 'page', (int) ($this->httpRequest->getQueryParams()['page'] ?? 0));
         $this->ctrl->setParameter(
             $this,
             'orderby',
@@ -5875,7 +5875,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         $this->ctrl->setParameter($this, 'pos_pk', $this->objCurrentPost->getId());
         $this->ctrl->setParameter($this, 'thr_pk', $this->objCurrentPost->getThreadId());
-        $this->ctrl->setParameter($this, 'page', (int) $this->httpRequest->getQueryParams()['page']);
+        $this->ctrl->setParameter($this, 'page', (int) ($this->httpRequest->getQueryParams()['page'] ?? 0));
         $this->ctrl->setParameter(
             $this,
             'orderby',
