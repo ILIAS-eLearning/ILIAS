@@ -764,13 +764,16 @@ class ilLPStatus
         $set = $ilDB->query($sql);
         $res = array();
         while ($rec = $ilDB->fetchAssoc($set)) {
-            if ($res["status_dirty"]) {
+            // @fixme this was broken due to wrong $res['status_dirty'] access
+            // check how to update status without recursion
+            // check consequences of the old implementation
+            if ($rec["status_dirty"]) {
                 // update status and check again
                 if (self::_lookupStatus(
                     $a_obj_id,
                     $rec["usr_id"]
                 ) != $a_status) {
-                    continue;
+                    // update status: see comment
                 }
             }
             $res[] = (int) $rec["usr_id"];
