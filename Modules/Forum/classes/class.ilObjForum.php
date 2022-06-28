@@ -337,9 +337,9 @@ class ilObjForum extends ilObject
     public function updateMoficationUserId(int $usr_id) : void
     {
         $this->db->manipulateF(
-            'UPDATE frm_data  SET update_user = %s WHERE top_frm_fk =%s',
-            ['integer'],
-            [$usr_id]
+            'UPDATE frm_data SET update_user = %s WHERE top_frm_fk = %s',
+            ['integer', 'integer'],
+            [$usr_id, $this->getId()],
         );
     }
 
