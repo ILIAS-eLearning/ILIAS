@@ -101,6 +101,14 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
         }
     }
 
+    /**
+     * @param array<string, mixed> $parameters
+     */
+    public function updateContentPageOnPageUpdate(array $parameters) : void
+    {
+        $this->parentObject->update();
+    }
+
     public function addUpdateListener(callable $updateListener) : void
     {
         $this->updateListeners[] = $updateListener;
@@ -113,7 +121,7 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
             $this->content_style_domain->getEffectiveStyleId()
         );
 
-        $pageObjectGUI->obj->addUpdateListener($this->parentObject, 'update');
+        $pageObjectGUI->obj->addUpdateListener($this, 'updateContentPageOnPageUpdate', []);
 
         return $pageObjectGUI;
     }

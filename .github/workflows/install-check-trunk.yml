@@ -1,0 +1,42 @@
+name: install-check-trunk
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+jobs:
+  installation:
+    runs-on: ubuntu-latest
+    outputs:
+      all: ${{ steps.changes.outputs.all }}
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [7.4]
+    env:
+      DB_DATABASE: ilias
+      DB_USER: root
+      DB_PASSWORD: root
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: trunk
+
+      - name: Start MySQL Service
+        run: |
+           sudo /etc/init.d/mysql start
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, gd, json, readline, xsl
+          tools: composer:v1
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-interaction --no-progress
+
+      - name: Perform setup
+        run: |
+           php setup/setup.php install -y CI/install-check/ilias-ci-config.json

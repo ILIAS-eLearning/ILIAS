@@ -520,12 +520,16 @@ class ilMail
             'tpl_ctx_params' => ['blob', json_encode($templateContextParameters, JSON_THROW_ON_ERROR)],
         ]);
 
-        $raiseEvent = $usrId !== $this->mailbox->getUsrId();
-        if (!$raiseEvent) {
-            $raiseEvent = $folderId !== $this->mailbox->getSentFolder();
+        $sender_equals_reveiver = $usrId === $this->mailbox->getUsrId();
+        $is_sent_folder_of_sender = false;
+        if ($sender_equals_reveiver) {
+            $current_folder_id = $this->getSubjectSentFolderId();
+            $is_sent_folder_of_sender = $folderId === $current_folder_id;
         }
 
-        if ($raiseEvent) {
+        $raise_event = !$sender_equals_reveiver || !$is_sent_folder_of_sender;
+
+        if ($raise_event) {
             $this->eventHandler->raise('Services/Mail', 'sentInternalMail', [
                 'id' => $nextId,
                 'subject' => $subject,
@@ -1200,6 +1204,16 @@ class ilMail
         return [];
     }
 
+    private function getSubjectSentFolderId() : int
+    {
+        $send_folder_id = 0;
+        if (!$this->isSystemMail()) {
+            $send_folder_id = $this->mailbox->getSentFolder();
+        }
+
+        return $send_folder_id;
+    }
+
     /**
      * @param string[] $attachment
      * @param string $to
@@ -1217,13 +1231,8 @@ class ilMail
         string $subject,
         string $message
     ) : int {
-        $send_folder_id = 0;
-        if (!$this->isSystemMail()) {
-            $send_folder_id = $this->mailbox->getSentFolder();
-        }
-
         return $this->sendInternalMail(
-            $send_folder_id,
+            $this->getSubjectSentFolderId(),
             $this->user_id,
             $attachment,
             $to,
