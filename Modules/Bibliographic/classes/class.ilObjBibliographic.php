@@ -143,8 +143,8 @@ class ilObjBibliographic extends ilObject2
         }
         $this->setFileType($bibl_data->getFileType());
         $this->setOnline($bibl_data->isOnline());
-        if (!empty($rid = $bibl_data->getResourceId())) {
-            $this->setResourceId($this->storage->manage()->find($rid));
+        if (!empty($rid = $bibl_data->getResourceId()) && $id = $this->storage->manage()->find($rid)) {
+            $this->setResourceId($id);
             $this->setMigrated(true);
         }
     }

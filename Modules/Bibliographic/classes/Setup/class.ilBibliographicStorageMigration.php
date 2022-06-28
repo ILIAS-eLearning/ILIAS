@@ -15,7 +15,8 @@
  * https://github.com/ILIAS-eLearning
  *
  *********************************************************************/
- 
+
+use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\Setup;
 use ILIAS\Setup\Environment;
 
@@ -74,12 +75,17 @@ final class ilBibliographicStorageMigration implements Setup\Migration
 
         $file_path = $this->helper->getClientDataDir() . '/' . ilBibliographicSetupAgent::COMPONENT_DIR . '/' . $d->id . '/' . $d->filename;
         $identification = $this->helper->movePathToStorage($file_path, (int) $d->owner);
+        if ($identification === null) {
+            $identification = 'failed';
+        } else {
+            $identification = $identification->serialize();
+        }
 
         $this->helper->getDatabase()->manipulateF(
             'UPDATE `il_bibl_data` SET `rid` = %s WHERE `id` = %s;',
             ['text', 'integer'],
             [
-                $identification->serialize(),
+                $identification,
                 $d->id,
             ]
         );

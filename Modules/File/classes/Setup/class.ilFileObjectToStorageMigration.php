@@ -72,14 +72,6 @@ class ilFileObjectToStorageMigration implements Setup\Migration
          * @var $client_id  string
          * @var $io  Setup\CLI\IOWrapper
          */
-        if (!$this->confirmed) {
-            $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
-            $this->confirmed = $io->confirmExplicit(
-                'The migration of File-Objects should be done in ILIAS 7 not 8, see Modules/File/classes/Setup/MISSING_MIGRATION.md, type "Understood" to proceed',
-                'Understood'
-            );
-        }
-
         $ilias_ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $this->database = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
 
@@ -140,6 +132,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function step(Environment $environment) : void
     {
+        $this->showConfirmation($environment);
         $item = $this->helper->getNext();
         $this->runner->migrate($item);
     }
@@ -153,5 +146,20 @@ class ilFileObjectToStorageMigration implements Setup\Migration
         $d = $this->database->fetchObject($r);
 
         return (int) $d->amount;
+    }
+
+    /**
+     * @param Environment $environment
+     * @return void
+     */
+    protected function showConfirmation(Environment $environment) : void
+    {
+        if (!$this->confirmed) {
+            $io = $environment->getResource(Setup\Environment::RESOURCE_ADMIN_INTERACTION);
+            $this->confirmed = $io->confirmExplicit(
+                'The migration of File-Objects should be done in ILIAS 7 not 8, see Modules/File/classes/Setup/MISSING_MIGRATION.md, type "Understood" to proceed',
+                'Understood'
+            );
+        }
     }
 }
