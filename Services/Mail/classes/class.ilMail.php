@@ -50,7 +50,9 @@ class ilMail
     protected array $mailOptionsByUsrIdMap = [];
     /** @var array<int, ilObjUser> */
     protected array $userInstancesByIdMap = [];
+    /** @var callable */
     protected $usrIdByLoginCallable;
+    /** @var callable */
     protected $loginByUsrIdCallable;
     protected int $maxRecipientCharacterLength = 998;
     protected ilMailMimeSenderFactory $senderFactory;
