@@ -13,7 +13,7 @@ abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
     {
         $this->settings = ilSearchSettings::getInstance();
         $this->ref_id = $a_ref_id;
-        $this->setId('repository_object_search_result_' . $this->ref_id);
+        $this->setId('rep_obj_search_res_' . $this->ref_id);
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
 
