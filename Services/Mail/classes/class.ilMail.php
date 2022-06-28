@@ -58,6 +58,7 @@ class ilMail
     protected ilMailMimeSenderFactory $senderFactory;
     protected ilObjUser $actor;
     protected bool $auto_responder_status = false;
+    /** @var array<int, ilMailOptions>  */
     protected array $auto_responder_data = [];
 
     public function __construct(
@@ -647,13 +648,11 @@ class ilMail
         }
         $this->setAutoResponderStatus(false);
         if ($this->auto_responder_data) {
-            $c = $this->loginByUsrIdCallable;
             foreach ($this->auto_responder_data as $usr_id => $mail_options) {
-                /** @var $mail_options ilMailOptions */
                 $tmpmail = new ilFormatMail($usr_id);
                 $tmpmail->setSaveInSentbox(false);
                 $tmpmail->sendMail(
-                    $c($this->user_id),
+                    ($this->loginByUsrIdCallable)($this->user_id),
                     '',
                     '',
                     $mail_options->getAbsenceAutoResponderSubject(),
