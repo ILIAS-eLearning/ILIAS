@@ -102,7 +102,7 @@ class ilMailOptionsTest extends ilMailBaseTest
     /**
      * @dataProvider provideMailOptionsData
      */
-    public function testIsAbsent($absence_status, $absent_from, $absent_until, $result): void
+    public function testIsAbsent(bool $absence_status, int $absent_from, int $absent_until, bool $result): void
     {
         $userId = 1;
         $this->object->absence_status = $absence_status;
