@@ -147,6 +147,16 @@ abstract class ilDBPdoMySQL extends ilDBPdo
 
     public function nextId(string $table_name) : int
     {
+        $autoIncrementQueryResult = $this->queryF(
+            "SELECT `auto_increment` FROM INFORMATION_SCHEMA.TABLES WHERE table_name = %s",
+            ["text"],
+            [$table_name]
+        );
+        $autoIncrementValue = $this->fetchAssoc($autoIncrementQueryResult)["auto_increment"];
+        if ($autoIncrementValue && is_numeric($autoIncrementValue)) {
+            return (int) $autoIncrementValue;
+        }
+
         $sequence_name = $this->quoteIdentifier($this->getSequenceName($table_name), true);
         $seqcol_name = $this->quoteIdentifier('sequence');
         $query = "INSERT INTO $sequence_name ($seqcol_name) VALUES (NULL)";

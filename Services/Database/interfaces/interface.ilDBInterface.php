@@ -55,6 +55,11 @@ interface ilDBInterface
 
     public function addPrimaryKey(string $table_name, array $primary_keys) : bool;
 
+    /**
+     * @param $table_name
+     * @param int $start
+     * @deprecated use 'autoincrement' in $fields instead
+     */
     public function createSequence(string $table_name, int $start = 1) : bool;
 
     public function getSequenceName(string $table_name) : string;

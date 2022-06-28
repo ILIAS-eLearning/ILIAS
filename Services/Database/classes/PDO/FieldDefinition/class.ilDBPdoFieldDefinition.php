@@ -58,7 +58,7 @@ abstract class ilDBPdoFieldDefinition
      */
     public array $allowed_attributes = [
         "text" => ["length", "notnull", "default", "fixed"],
-        "integer" => ["length", "notnull", "default", "unsigned"],
+        "integer" => ["length", "notnull", "default", "unsigned", "autoincrement"],
         "float" => ["notnull", "default"],
         "date" => ["notnull", "default"],
         "time" => ["notnull", "default"],
