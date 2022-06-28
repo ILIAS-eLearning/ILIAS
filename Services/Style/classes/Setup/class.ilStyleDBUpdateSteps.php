@@ -200,4 +200,12 @@ class ilStyleDBUpdateSteps implements \ilDatabaseUpdateSteps
             }
         }
     }
+
+    public function step_11()
+    {
+        // Add new index
+        if (!$this->db->indexExistsByFields('style_template', ['style_id'])) {
+            $this->db->addIndex('style_template', ['style_id'], 'i1');
+        }
+    }
 }
