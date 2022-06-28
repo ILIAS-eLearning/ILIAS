@@ -209,6 +209,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
 
         if (strtolower($this->root_request->getBaseClass()) === "iladministrationgui") {
             parent::viewObject();
+            return;
         }
 
         $this->renderObject();
