@@ -1,5 +1,21 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
+
 
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionAbstractPageObjectCommandForwarder.php';
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php';
@@ -34,7 +50,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
      *
      * @var string
      */
-    protected $presentationMode = null;
+    protected $presentationMode;
     
     /**
      * object instance of question hint
@@ -42,7 +58,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
      * @access protected
      * @var ilAssQuestionHint
      */
-    protected $questionHint = null;
+    protected $questionHint;
     
     /**
      * Constructor
@@ -136,6 +152,7 @@ class ilAssQuestionHintPageObjectCommandForwarder extends ilAssQuestionAbstractP
         );
         
         $pageObjectGUI->setEnabledTabs(false);
+        $pageObjectGUI->setEnableEditing(false);
         
         $pageObjectGUI->setPresentationTitle(
             ilAssQuestionHint::getHintIndexLabel($this->lng, $this->questionHint->getIndex())
