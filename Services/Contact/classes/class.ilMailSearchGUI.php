@@ -100,16 +100,13 @@ class ilMailSearchGUI
         $recipients_to = [];
         foreach (['addr', 'usr', 'grp'] as $search_type) {
             if ($this->http->wrapper()->post()->has('search_name_to_' . $search_type)) {
-                $recipients_to = array_merge(
-                    $recipients_to,
-                    $this->http->wrapper()->post()->retrieve(
-                        'search_name_to_' . $search_type,
-                        $this->refinery->kindlyTo()->listOf($trafo)
-                    )
+                $recipients_to[] = $this->http->wrapper()->post()->retrieve(
+                    'search_name_to_' . $search_type,
+                    $this->refinery->kindlyTo()->listOf($trafo)
                 );
             }
         }
-        $recipients_to = array_unique($recipients_to);
+        $recipients_to = array_unique(array_merge(...$recipients_to));
         ilSession::set('mail_search_results_to', $recipients_to);
 
         $recipients_cc = [];

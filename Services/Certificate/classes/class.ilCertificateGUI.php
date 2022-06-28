@@ -61,6 +61,7 @@ class ilCertificateGUI
     private ilSetting $settings;
     private ilPageFormats $pageFormats;
     private Filesystem $tmp_file_system;
+    private ilLogger $logger;
 
     public function __construct(
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
@@ -104,7 +105,7 @@ class ilCertificateGUI
 
         $this->objectId = $objectId;
 
-        $logger = $DIC->logger()->cert();
+        $this->logger = $DIC->logger()->cert();
 
         if (null === $settingsFormFactory) {
             $settingsFormFactory = new ilCertificateSettingsFormRepository(
@@ -121,7 +122,7 @@ class ilCertificateGUI
         $this->settingsFormFactory = $settingsFormFactory;
 
         if (null === $templateRepository) {
-            $templateRepository = new ilCertificateTemplateDatabaseRepository($DIC->database(), $logger);
+            $templateRepository = new ilCertificateTemplateDatabaseRepository($DIC->database(), $this->logger);
         }
         $this->templateRepository = $templateRepository;
 
@@ -145,7 +146,7 @@ class ilCertificateGUI
                 $DIC->upload(),
                 $certificatePath,
                 $DIC->language(),
-                $logger
+                $this->logger
             );
         }
         $this->backgroundImageUpload = $upload;
@@ -559,7 +560,11 @@ class ilCertificateGUI
                 $this->tpl->setOnScreenMessage('info', $this->lng->txt('certificate_same_not_saved'), true);
                 $this->ctrl->redirect($this, "certificateEditor");
             } catch (Exception $e) {
-                $this->tpl->setOnScreenMessage('failure', $e->getMessage());
+                $this->tpl->setOnScreenMessage(
+                    'failure',
+                    $e->getMessage()
+                );
+                $this->logger->error($e->getTraceAsString());
             }
         }
 
