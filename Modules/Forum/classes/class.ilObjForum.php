@@ -334,27 +334,25 @@ class ilObjForum extends ilObject
         $DIC->database()->manipulateF('DELETE FROM frm_thread_access WHERE thread_id = %s', ['integer'], [$a_thread_id]);
     }
 
-    public function update(int $a_update_user_id = 0) : bool
+    public function updateMoficationUserId(int $usr_id) : void
     {
-        if ($a_update_user_id === 0) {
-            $a_update_user_id = $this->user->getId();
-        }
+        $this->db->manipulateF(
+            'UPDATE frm_data  SET update_user = %s WHERE top_frm_fk =%s',
+            ['integer'],
+            [$usr_id]
+        );
+    }
 
+    public function update() : bool
+    {
         if (parent::update()) {
             $this->db->manipulateF(
-                '
-				UPDATE frm_data 
-				SET top_name = %s,
-					top_description = %s,
-					top_update = %s,
-					update_user = %s
-				WHERE top_frm_fk =%s',
-                ['text', 'text', 'timestamp', 'integer', 'integer'],
+                'UPDATE frm_data SET top_name = %s, top_description = %s, top_update = %s WHERE top_frm_fk = %s',
+                ['text', 'text', 'timestamp', 'integer'],
                 [
                     $this->getTitle(),
                     $this->getDescription(),
                     date("Y-m-d H:i:s"),
-                    $a_update_user_id,
                     $this->getId()
                 ]
             );
