@@ -1002,7 +1002,7 @@ class ilObjWikiGUI extends ilObjectGUI
             if ($user_id != "") {
                 $marks_obj = new ilLPMarks($this->object->getId(), $user_id);
                 $new_mark = ilUtil::stripSlashes($marks[$user_id]);
-                $new_comment = ilUtil::stripSlashes($comments[$user_id]);
+                $new_comment = ilUtil::stripSlashes($comments[$user_id] ?? "");
                 $new_status = ilUtil::stripSlashes($status[$user_id]);
 
                 if ($marks_obj->getMark() !== $new_mark ||
