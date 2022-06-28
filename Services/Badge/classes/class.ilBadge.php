@@ -66,10 +66,10 @@ class ilBadge
             " WHERE parent_id = " . $ilDB->quote($a_parent_id);
         
         if ($a_filter) {
-            if ($a_filter["title"]) {
+            if ($a_filter["title"] ?? false) {
                 $sql .= " AND " . $ilDB->like("title", "text", "%" . trim($a_filter["title"]) . "%");
             }
-            if ($a_filter["type"]) {
+            if ($a_filter["type"] ?? false) {
                 $sql .= " AND type_id = " . $ilDB->quote($a_filter["type"], "integer");
             }
         }

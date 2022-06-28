@@ -60,7 +60,7 @@ class ilBadgeImageTemplate
         $set = $ilDB->query("SELECT * FROM badge_image_template" .
             " ORDER BY title");
         while ($row = $ilDB->fetchAssoc($set)) {
-            $row["types"] = (array) $types[$row["id"]];
+            $row["types"] = (array) ($types[$row["id"]] ?? null);
             
             $obj = new self();
             $obj->importDBRow($row);

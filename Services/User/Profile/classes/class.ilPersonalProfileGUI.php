@@ -960,7 +960,7 @@ class ilPersonalProfileGUI
                     $cb->setChecked(true);
                 }
                 //$cb->setInfo($value);
-                $cb->setOptionTitle($value);
+                $cb->setOptionTitle((string) $value);
 
                 if (!$parent) {
                     $form->addItem($cb);

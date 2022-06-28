@@ -124,7 +124,7 @@ class ilObjectBadgeTableGUI extends ilTable2GUI
                     '" title="' . $lng->txt("obj_" . $badge_item["parent_type"]) . '" /> ' .
                     $badge_item["parent_title"];
             
-            if ($badge_item["deleted"]) {
+            if ($badge_item["deleted"] ?? false) {
                 $container .= ' <span class="il_ItemAlertProperty">' . $lng->txt("deleted") . '</span>';
             } else {
                 $ref_ids = ilObject::_getAllReferences($badge_item["parent_id"]);
