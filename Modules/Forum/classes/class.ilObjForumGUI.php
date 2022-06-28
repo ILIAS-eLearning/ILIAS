@@ -5607,10 +5607,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                             '#'
                         )->withOnLoadCode(
                             static function (string $id) use ($formID) : string {
-                                return "
-                                console.log('Zensur');
-                                console.log($('#$id'), $('#$formID'));
-                                $('#$id').click(function() { $('#$formID').submit(); return false; });";
+                                return "$('#$id').click(function() { $('#$formID').submit(); return false; });";
                             }
                         );
                         $modal = $this->uiFactory->modal()->roundtrip(
