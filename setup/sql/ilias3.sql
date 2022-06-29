@@ -663,7 +663,7 @@ CREATE TABLE `adv_mdf_definition` (
   `import_id` varchar(32) DEFAULT NULL,
   `position` int(11) NOT NULL DEFAULT 0,
   `field_type` tinyint(4) NOT NULL DEFAULT 0,
-  `field_values` varchar(4000) DEFAULT NULL,
+  `field_values` text DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `description` varchar(2000) DEFAULT NULL,
   `searchable` tinyint(4) NOT NULL DEFAULT 0,
@@ -14109,6 +14109,7 @@ CREATE TABLE `pg_amd_page_list` (
   `id` int(11) NOT NULL DEFAULT 0,
   `field_id` int(11) NOT NULL DEFAULT 0,
   `data` varchar(4000) DEFAULT NULL,
+  `sdata` longtext DEFAULT NULL,
   PRIMARY KEY (`id`,`field_id`)
 ) ;
 
@@ -14437,7 +14438,8 @@ CREATE TABLE `qpl_a_cloze` (
   `tstamp` int(11) NOT NULL DEFAULT 0,
   `gap_size` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`answer_id`),
-  KEY `i1_idx` (`question_fi`)
+  KEY `i1_idx` (`question_fi`),
+  KEY `i2_idx` (`gap_id`)
 ) ;
 
 --
@@ -14457,7 +14459,8 @@ CREATE TABLE `qpl_a_cloze_combi_res` (
   `points` double DEFAULT NULL,
   `best_solution` tinyint(4) DEFAULT NULL,
   `row_id` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`combination_id`,`question_fi`,`gap_fi`,`row_id`)
+  PRIMARY KEY (`combination_id`,`question_fi`,`gap_fi`,`row_id`),
+  KEY `i1_idx` (`gap_fi`,`question_fi`)
 ) ;
 
 --
@@ -15004,7 +15007,8 @@ CREATE TABLE `qpl_num_range` (
   `aorder` int(11) NOT NULL DEFAULT 0,
   `question_fi` int(11) NOT NULL DEFAULT 0,
   `tstamp` int(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY (`range_id`)
+  PRIMARY KEY (`range_id`),
+  KEY `i6_idx` (`question_fi`)
 ) ;
 
 --
@@ -15449,7 +15453,8 @@ CREATE TABLE `qpl_questions` (
   KEY `i1_idx` (`question_type_fi`),
   KEY `i2_idx` (`original_id`),
   KEY `i3_idx` (`obj_fi`),
-  KEY `i4_idx` (`title`)
+  KEY `i4_idx` (`title`),
+  KEY `i5_idx` (`owner`)
 ) ;
 
 --
@@ -20356,7 +20361,6 @@ INSERT INTO `settings` VALUES ('mobs','upload_dir','');
 INSERT INTO `settings` VALUES ('news','acc_cache_mins','10');
 INSERT INTO `settings` VALUES ('notifications','enable_mail','1');
 INSERT INTO `settings` VALUES ('notifications','enable_osd','1');
-INSERT INTO `settings` VALUES ('pd','enable_block_moving','1');
 INSERT INTO `settings` VALUES ('pd','user_activity_time','0');
 INSERT INTO `settings` VALUES ('preview','max_previews_per_object','5');
 INSERT INTO `settings` VALUES ('preview','preview_enabled','1');
@@ -20408,7 +20412,7 @@ INSERT INTO `settings` VALUES ('common','soap_connect_timeout','0');
 INSERT INTO `settings` VALUES ('common','rpc_server_host','');
 INSERT INTO `settings` VALUES ('common','rpc_server_port','0');
 INSERT INTO `settings` VALUES ('common','inst_id','0');
-INSERT INTO `settings` VALUES ('common','db_hotfixes_7','81');
+INSERT INTO `settings` VALUES ('common','db_hotfixes_7','90');
 INSERT INTO `settings` VALUES ('adve','autosave','30');
 INSERT INTO `settings` VALUES ('common','rep_favourites','1');
 
@@ -20990,7 +20994,8 @@ CREATE TABLE `style_template` (
   `name` varchar(30) NOT NULL DEFAULT '',
   `preview` varchar(4000) DEFAULT NULL,
   `temp_type` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `i1_idx` (`style_id`)
 ) ;
 
 --
@@ -25019,4 +25024,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2022-04-28 18:24:06
+-- Dump completed on 2022-06-29 18:47:52
