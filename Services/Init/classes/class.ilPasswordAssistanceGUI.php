@@ -1,5 +1,19 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\HTTP\Services as HTTPServices;
@@ -185,70 +199,78 @@ class ilPasswordAssistanceGUI
             return;
         }
 
-        $username = $form->getInput('username');
-        $email = $form->getInput('email');
-
-        $usrId = \ilObjUser::getUserIdByLogin($username);
-        if (!is_numeric($usrId) || !($usrId > 0)) {
-            \ilLoggerFactory::getLogger('usr')->info(sprintf(
-                'Could not process password assistance form (reason: no user found) %s / %s',
-                $username,
-                $email
-            ));
-
-            $this->showMessageForm(sprintf($this->lng->txt('pwassist_mail_sent'), $email));
-            return;
-        }
-
         $defaultAuth = ilAuthUtils::AUTH_LOCAL;
         if ($GLOBALS['DIC']['ilSetting']->get('auth_mode')) {
             $defaultAuth = $GLOBALS['DIC']['ilSetting']->get('auth_mode');
         }
 
-        $user = new \ilObjUser($usrId);
-        $emailAddresses = array_map('strtolower', [$user->getEmail(), $user->getSecondEmail()]);
+        $assistance_callback = function () use ($form, $defaultAuth) : void {
+            $username = $form->getInput('username');
+            $email = $form->getInput('email');
 
-        if (!in_array(strtolower($email), $emailAddresses)) {
-            if (0 === strlen(implode('', $emailAddresses))) {
+            $usrId = \ilObjUser::getUserIdByLogin($username);
+            if (!is_numeric($usrId) || !($usrId > 0)) {
                 \ilLoggerFactory::getLogger('usr')->info(sprintf(
-                    'Could not process password assistance form (reason: account without email addresses): %s / %s',
+                    'Could not process password assistance form (reason: no user found) %s / %s',
+                    $username,
+                    $email
+                ));
+
+                $this->showMessageForm(sprintf($this->lng->txt('pwassist_mail_sent'), $email));
+            }
+
+            $user = new \ilObjUser($usrId);
+            $emailAddresses = array_map('strtolower', [$user->getEmail(), $user->getSecondEmail()]);
+
+            if (!in_array(strtolower($email), $emailAddresses)) {
+                if (0 === strlen(implode('', $emailAddresses))) {
+                    \ilLoggerFactory::getLogger('usr')->info(sprintf(
+                        'Could not process password assistance form (reason: account without email addresses): %s / %s',
+                        $username,
+                        $email
+                    ));
+                } else {
+                    \ilLoggerFactory::getLogger('usr')->info(sprintf(
+                        'Could not process password assistance form (reason: account email addresses differ from input): %s / %s',
+                        $username,
+                        $email
+                    ));
+                }
+            } elseif (
+                (
+                    $user->getAuthMode(true) != ilAuthUtils::AUTH_LOCAL ||
+                    ($user->getAuthMode(true) == $defaultAuth && $defaultAuth != ilAuthUtils::AUTH_LOCAL)
+                ) && !(
+                    $user->getAuthMode(true) == ilAuthUtils::AUTH_SAML
+                )
+            ) {
+                \ilLoggerFactory::getLogger('usr')->info(sprintf(
+                    'Could not process password assistance form (reason: not permitted for accounts using external authentication sources): %s / %s',
+                    $username,
+                    $email
+                ));
+            } elseif (
+                $this->rbacreview->isAssigned($user->getId(), ANONYMOUS_ROLE_ID) ||
+                $this->rbacreview->isAssigned($user->getId(), SYSTEM_ROLE_ID)
+            ) {
+                \ilLoggerFactory::getLogger('usr')->info(sprintf(
+                    'Could not process password assistance form (reason: not permitted for system user or anonymous): %s / %s',
                     $username,
                     $email
                 ));
             } else {
-                \ilLoggerFactory::getLogger('usr')->info(sprintf(
-                    'Could not process password assistance form (reason: account email addresses differ from input): %s / %s',
-                    $username,
-                    $email
-                ));
+                $this->sendPasswordAssistanceMail($user);
             }
-        } elseif (
-            (
-                $user->getAuthMode(true) != ilAuthUtils::AUTH_LOCAL ||
-                ($user->getAuthMode(true) == $defaultAuth && $defaultAuth != ilAuthUtils::AUTH_LOCAL)
-            ) && !(
-                $user->getAuthMode(true) == ilAuthUtils::AUTH_SAML
-            )
-        ) {
-            \ilLoggerFactory::getLogger('usr')->info(sprintf(
-                'Could not process password assistance form (reason: not permitted for accounts using external authentication sources): %s / %s',
-                $username,
-                $email
-            ));
-        } elseif (
-            $this->rbacreview->isAssigned($user->getId(), ANONYMOUS_ROLE_ID) ||
-            $this->rbacreview->isAssigned($user->getId(), SYSTEM_ROLE_ID)
-        ) {
-            \ilLoggerFactory::getLogger('usr')->info(sprintf(
-                'Could not process password assistance form (reason: not permitted for system user or anonymous): %s / %s',
-                $username,
-                $email
-            ));
+        };
+
+        if (null !== ($assistance_duration = $this->settings->get("account_assistance_duration"))) {
+            $duration = $this->http->durations()->callbackDuration((int) $assistance_duration);
+            $status = $duration->stretch($assistance_callback);
         } else {
-            $this->sendPasswordAssistanceMail($user);
+            $status = $assistance_callback();
         }
 
-        $this->showMessageForm(sprintf($this->lng->txt('pwassist_mail_sent'), $email));
+        $this->showMessageForm(sprintf($this->lng->txt('pwassist_mail_sent'), $form->getInput('email')));
     }
 
     /**
@@ -572,16 +594,25 @@ class ilPasswordAssistanceGUI
             return;
         }
 
-        $email = $form->getInput('email');
-        $logins = ilObjUser::getUserLoginsByEmail($email);
+        $assistance_callback = function () use ($form) : void {
+            $email = $form->getInput('email');
+            $logins = ilObjUser::getUserLoginsByEmail($email);
 
-        if (is_array($logins) && count($logins) > 0) {
-            $this->sendUsernameAssistanceMail($email, $logins);
+            if (is_array($logins) && count($logins) > 0) {
+                $this->sendUsernameAssistanceMail($email, $logins);
+            } else {
+                \ilLoggerFactory::getLogger('usr')->info(sprintf(
+                    'Could not sent username assistance emails to (reason: no user found): %s',
+                    $email
+                ));
+            }
+        };
+
+        if (null !== ($assistance_duration = $this->settings->get("account_assistance_duration"))) {
+            $duration = $this->http->durations()->callbackDuration((int) $assistance_duration);
+            $status = $duration->stretch($assistance_callback);
         } else {
-            \ilLoggerFactory::getLogger('usr')->info(sprintf(
-                'Could not sent username assistance emails to (reason: no user found): %s',
-                $email
-            ));
+            $status = $assistance_callback();
         }
 
         $this->showMessageForm($this->lng->txt('pwassist_mail_sent_generic'));

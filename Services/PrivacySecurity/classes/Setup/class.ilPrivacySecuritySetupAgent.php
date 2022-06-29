@@ -57,7 +57,8 @@ class ilPrivacySecuritySetupAgent implements Setup\Agent
         return $this->refinery->custom()->transformation(function ($data) {
             return new ilPrivacySecuritySetupConfig(
                 (bool) ($data["https_enabled"] ?? false),
-                (isset($data["auth_duration"])) ? (int) $data["auth_duration"] : null
+                (isset($data["auth_duration"])) ? (int) $data["auth_duration"] : null,
+                (isset($data["account_assistance_duration"])) ? (int) $data["account_assistance_duration"] : null
             );
         });
     }
