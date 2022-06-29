@@ -128,7 +128,7 @@ class ilLPCollectionSettingsTableGUI extends ilTable2GUI
                 $mode_suffix = '';
                 if (
                     $a_set['grouped'] ||
-                    $a_set['group_item']) {
+                    ($a_set['group_item'] ?? null)) {
                     // #14941
                     $mode_suffix = '_INLINE';
 
