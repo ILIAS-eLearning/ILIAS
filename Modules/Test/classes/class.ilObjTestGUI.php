@@ -2688,7 +2688,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
             $info->addSection($this->lng->txt("tst_heading_scoring"));
             $info->addProperty($this->lng->txt("tst_text_count_system"), $this->lng->txt(($this->object->getCountSystem() == COUNT_PARTIAL_SOLUTIONS)? "tst_count_partial_solutions":"tst_count_correct_solutions"));
-            $info->addProperty($this->lng->txt("tst_score_mcmr_questions"), $this->lng->txt(($this->object->getMCScoring() == SCORE_ZERO_POINTS_WHEN_UNANSWERED)? "tst_score_mcmr_zero_points_when_unanswered":"tst_score_mcmr_use_scoring_system"));
             if ($this->object->isRandomTest()) {
                 $info->addProperty($this->lng->txt("tst_pass_scoring"), $this->lng->txt(($this->object->getPassScoring() == SCORE_BEST_PASS)? "tst_pass_best_pass":"tst_pass_last_pass"));
             }
@@ -3358,7 +3357,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             
             // scoring options properties
             'count_system' => 'setCountSystem',
-            'mc_scoring' => 'setMCScoring',
             'score_cutting' => 'setScoreCutting',
             'pass_scoring' => 'setPassScoring',
             'pass_deletion_allowed' => 'setPassDeletionAllowed',
