@@ -558,6 +558,7 @@ class ilObjForum extends ilObject
             $this->Forum->setMDB2WhereCondition('thr_pk = %s ', array('integer'), array($thread_id));
 
             $old_thread = $this->Forum->getOneThread();
+            $old_thread_obj = new ilForumTopic($old_thread['thr_pk']);
 
             $old_post_id = $this->Forum->getFirstPostByThread($old_thread['thr_pk']);
             $old_post = $this->Forum->getOnePost($old_post_id);
@@ -579,6 +580,27 @@ class ilObjForum extends ilObject
                 1,
                 false
             );
+            $parent_post_list = [];
+            foreach ($old_thread_obj->getAllPosts() as $allPost) {
+                if ($allPost->pos_pk === $old_post_id) {
+                    continue;
+                }
+                $old_pos = new ilForumPost($allPost->pos_pk);
+                $new_pos_id = $new_frm->generatePost(
+                    $new_frm->getForumId(),
+                    $newThread->getId(),
+                    $old_pos->getPosAuthorId(),
+                    $old_pos->getDisplayUserId(),
+                    $old_pos->getMessage(),
+                    $old_pos->getParentId() === $old_post_id ? $newPostId : $parent_post_list[$old_pos->getParentId()],
+                    (int) $old_pos->isNotificationEnabled(),
+                    $old_pos->getSubject(),
+                    $old_pos->getUserAlias(),
+                    $old_pos->getCreateDate(),
+                    (int) $old_pos->isActivated()
+                );
+                $parent_post_list[$allPost->pos_pk] = $new_pos_id;
+            }
 
             $old_forum_files = new ilFileDataForum($this->getId(), $old_post_id);
             $old_forum_files->ilClone($new_obj->getId(), $newPostId);
