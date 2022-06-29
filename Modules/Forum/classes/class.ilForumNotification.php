@@ -252,24 +252,24 @@ class ilForumNotification
 
         foreach ($node_data as $data) {
             //check frm_properties if frm_noti is enabled
-            $frm_noti = new ilForumNotification($data['ref_id']);
+            $frm_noti = new ilForumNotification((int) $data['ref_id']);
             if ($user_id !== 0) {
                 $frm_noti->setUserId($user_id);
             } else {
                 $frm_noti->setUserId($ilUser->getId());
             }
 
-            $admin_force = ilForumProperties::_isAdminForceNoti($data['obj_id']);
+            $admin_force = ilForumProperties::_isAdminForceNoti((int) $data['obj_id']);
             $frm_noti->setAdminForce($admin_force);
 
-            $user_toggle = ilForumProperties::_isUserToggleNoti($data['obj_id']);
+            $user_toggle = ilForumProperties::_isUserToggleNoti((int) $data['obj_id']);
             if ($user_toggle) {
                 $frm_noti->setAdminForce(true);
             }
 
             if ($admin_force || $user_toggle) {
                 $frm_noti->setUserToggle($user_toggle);
-                $frm_noti->setForumId($data['obj_id']);
+                $frm_noti->setForumId((int) $data['obj_id']);
                 if ($frm_noti->existsNotification() === false) {
                     $frm_noti->insertAdminForce();
                 }
@@ -286,8 +286,8 @@ class ilForumNotification
         $node_data = self::getCachedNodeData($ref_id);
 
         foreach ($node_data as $data) {
-            $frm_noti = new ilForumNotification($data['ref_id']);
-            $objFrmMods = new ilForumModerators($data['ref_id']);
+            $frm_noti = new ilForumNotification((int) $data['ref_id']);
+            $objFrmMods = new ilForumModerators((int) $data['ref_id']);
             $moderator_ids = $objFrmMods->getCurrentModerators();
 
             if ($user_id !== 0) {
@@ -296,7 +296,7 @@ class ilForumNotification
                 $frm_noti->setUserId($ilUser->getId());
             }
 
-            $frm_noti->setForumId($data['obj_id']);
+            $frm_noti->setForumId((int) $data['obj_id']);
             if (!in_array($frm_noti->getUserId(), $moderator_ids, true)) {
                 $frm_noti->deleteAdminForce();
             }
