@@ -570,7 +570,6 @@ abstract class ilExplorerBaseGUI
             "plugins" => $this->getJSTreePlugins(),
             "html_data" => array()
         );
-
         return (
             'il.Explorer2.init(' .
             json_encode($config, JSON_THROW_ON_ERROR) . ', ' .

@@ -206,7 +206,7 @@ class ilCachedObjectDefinition
 
             return $return;
         } else {
-            return $this->grouped_rep_obj_types[$parent];
+            return $this->grouped_rep_obj_types[$parent] ?? null;
         }
     }
 }
