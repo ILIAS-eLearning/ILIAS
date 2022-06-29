@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -16,11 +15,7 @@
  *
  *********************************************************************/
 
-require_once 'Services/Object/classes/class.ilObject.php';
 require_once 'Modules/Test/classes/inc.AssessmentConstants.php';
-require_once 'Modules/Test/interfaces/interface.ilMarkSchemaAware.php';
-require_once 'Modules/Test/interfaces/interface.ilEctsGradesEnabled.php';
-require_once 'Modules/TestQuestionPool/classes/questions/class.ilAssQuestionType.php';
 
 /**
  * Class ilObjTest
@@ -349,7 +344,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->exportsettings = 0;
         $this->show_summary = 8;
         $this->count_system = COUNT_PARTIAL_SOLUTIONS;
-        $this->mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED;
         $this->score_cutting = SCORE_CUT_QUESTION;
         $this->pass_scoring = SCORE_LAST_PASS;
         $this->answer_feedback = 0;
@@ -895,7 +889,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 'ects_e' => array('float', strlen($this->ects_grades["E"]) ? $this->ects_grades["E"] : 0),
                 'ects_fx' => array('float', $this->getECTSFX()),
                 'count_system' => array('text', $this->getCountSystem()),
-                'mc_scoring' => array('text', $this->getMCScoring()),
                 'score_cutting' => array('text', $this->getScoreCutting()),
                 'pass_scoring' => array('text', $this->getPassScoring()),
                 'shuffle_questions' => array('text', $this->getShuffleQuestions()),
@@ -1014,7 +1007,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     'ects_e' => array('float', strlen($this->ects_grades["E"]) ? $this->ects_grades["E"] : null),
                     'ects_fx' => array('float', $this->getECTSFX()),
                     'count_system' => array('text', $this->getCountSystem()),
-                    'mc_scoring' => array('text', $this->getMCScoring()),
                     'score_cutting' => array('text', $this->getScoreCutting()),
                     'pass_scoring' => array('text', $this->getPassScoring()),
                     'shuffle_questions' => array('text', $this->getShuffleQuestions()),
@@ -1491,7 +1483,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->mark_schema->flush();
             $this->mark_schema->loadFromDb($this->getTestId());
             $this->setCountSystem($data->count_system);
-            $this->setMCScoring($data->mc_scoring);
             $this->setMailNotification($data->mailnotification);
             $this->setMailNotificationType($data->mailnottype);
             $this->setExportSettings($data->exportsettings);
@@ -1607,7 +1598,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             );
         }
         $index = 1;
-        if($this->test_id !== -1) {
+        if ($this->test_id !== -1) {
             //Omit loading of questions for non-id'ed test
             while ($data = $ilDB->fetchAssoc($result)) {
                 $this->questions[$index++] = $data["question_fi"];
@@ -2041,18 +2032,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-    * Gets the scoring type for multiple choice questions
-    *
-    * @return integer The scoring type for multiple choice questions
-    * @access public
-    * @see $mc_scoring
-    */
-    public function getMCScoring() : int
-    {
-        return ($this->mc_scoring) ? $this->mc_scoring : 0;
-    }
-
-    /**
     * Determines if the score of a question should be cut at 0 points or the score of the whole test
     *
     * @return integer The score cutting type. 0 for question cutting, 1 for test cutting
@@ -2098,30 +2077,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         }
         return 0;
     }
-
-    /**
-    * Gets the scoring type for multiple choice questions
-    *
-    * @return mixed The scoring type for multiple choice questions
-    * @access public
-    * @see $mc_scoring
-    */
-    public static function _getMCScoring($active_id)
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-        $result = $ilDB->queryF(
-            "SELECT tst_tests.mc_scoring FROM tst_tests, tst_active WHERE tst_active.active_id = %s AND tst_active.test_fi = tst_tests.test_id",
-            array('integer'),
-            array($active_id)
-        );
-        if ($result->numRows()) {
-            $row = $ilDB->fetchAssoc($result);
-            return $row["mc_scoring"];
-        }
-        return false;
-    }
-
+    
     /**
     * Determines if the score of a question should be cut at 0 points or the score of the whole test
     *
@@ -2753,18 +2709,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function setScoreCutting($a_score_cutting = SCORE_CUT_QUESTION) : void
     {
         $this->score_cutting = $a_score_cutting;
-    }
-
-    /**
-    * Sets the multiple choice scoring
-    *
-    * @param integer $a_mc_scoring The scoring for multiple choice questions
-    * @access public
-    * @see $mc_scoring
-    */
-    public function setMCScoring($a_mc_scoring = SCORE_ZERO_POINTS_WHEN_UNANSWERED)
-    {
-        $this->mc_scoring = $a_mc_scoring;
     }
 
     /**
@@ -5370,9 +5314,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 case "count_system":
                     $this->setCountSystem($metadata["entry"]);
                     break;
-                case "mc_scoring":
-                    $this->setMCScoring($metadata["entry"]);
-                    break;
                 case "mailnotification":
                     $this->setMailNotification($metadata["entry"]);
                     break;
@@ -5613,13 +5554,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $a_xml_writer->xmlElement("fieldlabel", null, "count_system");
         $a_xml_writer->xmlElement("fieldentry", null, $this->getCountSystem());
         $a_xml_writer->xmlEndTag("qtimetadatafield");
-
-        // multiple choice scoring
-        $a_xml_writer->xmlStartTag("qtimetadatafield");
-        $a_xml_writer->xmlElement("fieldlabel", null, "mc_scoring");
-        $a_xml_writer->xmlElement("fieldentry", null, $this->getMCScoring());
-        $a_xml_writer->xmlEndTag("qtimetadatafield");
-
+        
         // multiple choice scoring
         $a_xml_writer->xmlStartTag("qtimetadatafield");
         $a_xml_writer->xmlElement("fieldlabel", null, "score_cutting");
@@ -6605,7 +6540,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $newObj->setKiosk($this->getKiosk());
         $newObj->setShowFinalStatement($this->getShowFinalStatement());
         $newObj->setListOfQuestionsSettings($this->getListOfQuestionsSettings());
-        $newObj->setMCScoring($this->getMCScoring());
         $newObj->setMailNotification($this->getMailNotification());
         $newObj->setMailNotificationType($this->getMailNotificationType());
         $newObj->setNrOfTries($this->getNrOfTries());
@@ -9158,7 +9092,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             "ECTSGrades" => $this->getECTSGrades(),
             "questionSetType" => $this->getQuestionSetType(),
             "CountSystem" => $this->getCountSystem(),
-            "MCScoring" => $this->getMCScoring(),
             "mailnotification" => $this->getMailNotification(),
             "mailnottype" => $this->getMailNotificationType(),
             "exportsettings" => $this->getExportSettings(),
@@ -9288,7 +9221,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->setQuestionSetType($testsettings["questionSetType"]);
         }
         $this->setCountSystem($testsettings["CountSystem"]);
-        $this->setMCScoring($testsettings["MCScoring"]);
         $this->setMailNotification($testsettings["mailnotification"]);
         $this->setMailNotificationType($testsettings["mailnottype"]);
         $this->setExportSettings($testsettings['exportsettings']);
