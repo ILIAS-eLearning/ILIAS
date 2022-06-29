@@ -20,12 +20,17 @@ use ILIAS\Setup;
 class ilPrivacySecuritySetupConfig implements Setup\Config
 {
     protected bool $force_https_on_login;
-    protected ?int $duration_in_ms;
+    protected ?int $authentication_duration_in_ms;
+    protected ?int $account_assistance_duration_in_ms;
 
-    public function __construct(bool $force_https_on_login = false, ?int $duration_in_ms = null)
-    {
+    public function __construct(
+        bool $force_https_on_login = false,
+        ?int $authentication_duration_in_ms = null,
+        ?int $account_assistance_duration_in_ms = null,
+    ) {
         $this->force_https_on_login = $force_https_on_login;
-        $this->duration_in_ms = $duration_in_ms;
+        $this->authentication_duration_in_ms = $authentication_duration_in_ms;
+        $this->account_assistance_duration_in_ms = $account_assistance_duration_in_ms;
     }
 
     public function getForceHttpsOnLogin() : bool
@@ -35,6 +40,11 @@ class ilPrivacySecuritySetupConfig implements Setup\Config
 
     public function getAuthDurationInMs() : ?int
     {
-        return $this->duration_in_ms;
+        return $this->authentication_duration_in_ms;
+    }
+
+    public function getAccountAssistanceDurationInMs() : ?int
+    {
+        return $this->account_assistance_duration_in_ms;
     }
 }
