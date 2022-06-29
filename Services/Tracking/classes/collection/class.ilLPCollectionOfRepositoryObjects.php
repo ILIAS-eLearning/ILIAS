@@ -426,7 +426,7 @@ class ilLPCollectionOfRepositoryObjects extends ilLPCollection
             // grouping
             $table_item['grouped'] = array();
             $grouped_items = $this->getTableGUItemGroup($item_id);
-            if (count((array) $grouped_items['items']) > 1) {
+            if (count((array) ($grouped_items['items'] ?? [])) > 1) {
                 foreach ($grouped_items['items'] as $grouped_item_id) {
                     if ($grouped_item_id == $item_id ||
                         !is_array($items[$grouped_item_id])) { // #15498

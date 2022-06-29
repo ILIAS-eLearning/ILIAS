@@ -275,7 +275,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
         }
 
         foreach ($this->getSelectedColumns() as $c) {
-            if (!$a_set["privacy_conflict"]) {
+            if (!(bool) ($a_set["privacy_conflict"] ?? null)) {
                 $val = (trim($a_set[$c]) == "")
                     ? " "
                     : $a_set[$c];
@@ -384,7 +384,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        if ($a_set["privacy_conflict"]) {
+        if ($a_set["privacy_conflict"] ?? null) {
             $this->tpl->setCurrentBlock("permission_bl");
             $this->tpl->setVariable(
                 "TXT_NO_PERMISSION",
@@ -452,7 +452,7 @@ class ilTrUserObjectsPropsTableGUI extends ilLPTableBaseGUI
                 $this->ctrl->setParameterByClass(
                     'illplistofobjectsgui',
                     'ref_id',
-                    $old["ref_id"]
+                    $old["ref_id"] ?? null
                 );
                 $this->ctrl->setParameterByClass(
                     'illplistofobjectsgui',
