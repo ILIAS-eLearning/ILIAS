@@ -16654,3 +16654,17 @@ buddysystem#:#buddy_bs_state_unlinked_p#:#Unlinked###27 04 2022 new variable
 buddysystem#:#buddy_bs_state_requested_filter_a#:#Waiting for Reaction###27 04 2022 new variable
 buddysystem#:#buddy_bs_state_requested_filter_p#:#Action Required###27 04 2022 new variable
 ui#:#ui_tag_required#:#Please insert at least one tag.###27 04 2022 new variable
+assessment#:#backtocallingpage#:#Back to the question page###29 06 2022 new variable
+assessment#:#backtocallingpool#:#Back to the question pool###29 06 2022 new variable
+assessment#:#tst_btn_reset_pool_sync#:#Edit/Cancel Synchronisation###29 06 2022 new variable
+common#:#certificates#:#Certificates###29 06 2022 new variable
+mail#:#mail_is_read#:#gelesen###29 06 2022 new variable
+mail#:#mail_is_unread#:#ungelesen###29 06 2022 new variable
+assessment#:#tst_man_scoring_only_answered#:#Only answered###29 06 2022 new variable
+common#:#report_accessibility_link_mailto#:#Reported%20Link:###29 06 2022 new variable
+glo#:#glo_please_select_other_glo#:#Please select another glossary.###29 06 2022 new variable
+prtf#:#prtf_copy_pg#:#Copy Page###29 06 2022 new variable
+prtf#:#prtf_copy_blog_pg#:#Copy Blog Page###29 06 2022 new variable
+assessment#:#question_is_part_of_running_test#:#Question is part of a running test and may not be edited.###29 06 2022 new variable
+copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.###29 06 2022 new variable
+copg#:#copg_reload_page#:#Reload Page###29 06 2022 new variable

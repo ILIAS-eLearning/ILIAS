@@ -14486,7 +14486,6 @@ survey#:#svy_save_sync#:#Запазване и синхронизиране на
 survey#:#svy_search_users#:#Издирване на участници
 survey#:#svy_selected_user_data_deleted#:#Данните от проучването на избрания(те) потребител(и) бяха успешно изтрити
 survey#:#svy_self_ev_access_results_all#:#Достъп до самооценките на всички участници
-survey#:#svy_self_ev_access_resgit addults_none#:#Няма достъп до резултатите
 survey#:#svy_self_ev_access_results_own#:#Достъп до собствените самооценки
 survey#:#svy_self_ev_info#:#Използвайте за самооценка.
 survey#:#svy_self_ev_mode#:# Само за самооценка
@@ -16667,3 +16666,5 @@ prtf#:#prtf_copy_blog_pg#:#Copy Blog Page###22 06 2022 new variable
 assessment#:#question_is_part_of_running_test#:#Question is part of a running test and may not be edited.###22 06 2022 new variable
 copg#:#copg_error_occured_modal#:#An error occured while processing the page. Hit "Reload Page" to return to the previously saved state.###22 06 2022 new variable
 copg#:#copg_reload_page#:#Reload Page###22 06 2022 new variable
+assessment#:#tst_btn_reset_pool_sync#:#Edit/Cancel Synchronisation###29 06 2022 new variable
+survey#:#svy_self_ev_access_results_none#:#No Access to Results###29 06 2022 new variable
