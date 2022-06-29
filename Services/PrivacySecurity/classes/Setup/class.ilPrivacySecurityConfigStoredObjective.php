@@ -70,6 +70,12 @@ class ilPrivacySecurityConfigStoredObjective implements Setup\Objective
             $settings->delete("auth_duration");
         }
 
+        if (null !== $this->config->getAccountAssistanceDurationInMs()) {
+            $settings->set("account_assistance_duration", (string) $this->config->getAccountAssistanceDurationInMs());
+        } else {
+            $settings->delete("account_assistance_duration");
+        }
+
         return $environment;
     }
 
