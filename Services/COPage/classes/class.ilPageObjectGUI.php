@@ -1119,7 +1119,6 @@ class ilPageObjectGUI
 
             // history
             $c_old_nr = $this->getPageObject()->old_nr;
-            $c_old_nr = $this->getPageObject()->old_nr;
             if ($c_old_nr > 0 || $this->getCompareMode() || ($this->requested_history_mode == 1)) {
                 $hist_info =
                         $this->getPageObject()->getHistoryInfo($c_old_nr);
@@ -1128,7 +1127,7 @@ class ilPageObjectGUI
                     $this->ctrl->setParameter($this, "history_mode", "1");
 
                     // previous revision
-                    if (is_array($hist_info["previous"])) {
+                    if (isset($hist_info["previous"])) {
                         $tpl->setCurrentBlock("previous_rev");
                         $tpl->setVariable("TXT_PREV_REV", $this->lng->txt("cont_previous_rev"));
                         $this->ctrl->setParameter($this, "old_nr", $hist_info["previous"]["nr"]);
