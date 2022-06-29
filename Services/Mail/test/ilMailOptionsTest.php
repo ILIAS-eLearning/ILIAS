@@ -113,7 +113,7 @@ class ilMailOptionsTest extends ilMailBaseTest
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
         $queryMock = $this->getMockBuilder(ilDBStatement::class)->getMock();
 
-        $clockService = $this->getMockBuilder(ClockInterface::class)->disableOriginalConstructor()->getMock();
+        $clockService = $this->getMockBuilder(ClockInterface::class)->getMock();
         $clockService->method('now')->willReturn((new DateTimeImmutable())->setTimestamp(100));
 
         $database->expects($this->once())->method('fetchObject')->willReturn($this->object);

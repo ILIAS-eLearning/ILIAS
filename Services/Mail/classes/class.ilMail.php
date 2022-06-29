@@ -655,13 +655,13 @@ class ilMail
                 $sentMailId
             );
         }
-        $mail = $this->disableAutoResponder();
-        if ($mail->auto_responder_data) {
-            foreach ($mail->auto_responder_data as $usr_id => $mail_options) {
+        $this->auto_responder_status = false;
+        if ($this->auto_responder_data) {
+            foreach ($this->auto_responder_data as $usr_id => $mail_options) {
                 $tmpmail = new ilFormatMail($usr_id);
                 $tmpmail->setSaveInSentbox(false);
                 $tmpmail->sendMail(
-                    ($mail->loginByUsrIdCallable)($mail->user_id),
+                    ($this->loginByUsrIdCallable)($this->user_id),
                     '',
                     '',
                     $mail_options->getAbsenceAutoResponderSubject(),
