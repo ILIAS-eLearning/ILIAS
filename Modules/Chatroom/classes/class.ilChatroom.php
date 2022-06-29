@@ -58,7 +58,7 @@ class ilChatroom
         'private_rooms_enabled' => 'boolean'
     ];
     private int $roomId = 0;
-    private ?ilObjChatroom $object;
+    private ?ilObjChatroom $object = null;
 
     /**
      * Checks user permissions by given array and ref_id.
