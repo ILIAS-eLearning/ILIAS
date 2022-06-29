@@ -887,7 +887,7 @@ class ilChatroom
             $notification->setValidForSeconds(ilNotificationConfig::TTL_LONG);
             $notification->setVisibleForSeconds(ilNotificationConfig::DEFAULT_TTS);
 
-            $notification->setHandlerParam('mail.sender', $sender_id);
+            $notification->setHandlerParam('mail.sender', (string) $sender_id);
 
             $notification->notifyByUsers([$recipient_id]);
         }
