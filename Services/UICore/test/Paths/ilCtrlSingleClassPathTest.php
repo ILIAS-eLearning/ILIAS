@@ -1,13 +1,26 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 require_once __DIR__ . '/ilCtrlPathTestBase.php';
 
 /**
  * Class ilCtrlSingleClassPathTest
  *
- * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
 {
@@ -115,5 +128,26 @@ class ilCtrlSingleClassPathTest extends ilCtrlPathTestBase
         $this->expectException(ilCtrlException::class);
         $this->expectExceptionMessage("Class '' was not found in the control structure, try `composer du` to read artifacts.");
         throw $path->getException();
+    }
+
+    public function testSinglePathBaseclassPriority() : void
+    {
+        // mocked context that returns a cid-path containing a baseclass.
+        $context = $this->createMock(ilCtrlContextInterface::class);
+        $context
+            ->method('getPath')
+            ->willReturn($this->getPath('0:2')) // ilCtrlBaseClass1TestGUI -> ilCtrlCommandClass1TestGUI
+        ;
+
+        $path = new ilCtrlSingleClassPath(
+            $this->structure,
+            $context,
+            ilCtrlBaseClass2TestGUI::class
+        );
+
+        // baseclasses should have the least priority, therefore the new cid-path
+        // must not be '1' (the cid of ilCtrlBaseClass2TestGUI) but as described,
+        // because the baseclass can also be called by ilCtrlCommandClass1TestGUI.
+        $this->assertEquals('0:2:1', $path->getCidPath());
     }
 }
