@@ -20,9 +20,9 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
     protected array $user_fields;
     protected int $in_course = 0;
     protected int $in_group = 0;
-    protected bool $has_edit;
-    protected bool $has_collection;
-    protected bool $has_multi;
+    protected bool $has_edit = false;
+    protected bool $has_collection = false;
+    protected bool $has_multi = false;
 
     protected int $obj_id;
     protected int $ref_id;
@@ -380,7 +380,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         }
 
         foreach ($this->getSelectedColumns() as $c) {
-            if (!(bool) $a_set["privacy_conflict"]) {
+            if (!(bool) ($a_set["privacy_conflict"] ?? null)) {
                 if ($c == 'status' && $a_set[$c] != ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                     $timing = $this->showTimingsWarning(
                         $this->ref_id,
@@ -448,7 +448,7 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
             $a_set["usr_id"]
         );
 
-        if (!$this->getPrintMode() && !(bool) $a_set["privacy_conflict"]) {
+        if (!$this->getPrintMode() && !(bool) ($a_set["privacy_conflict"] ?? null)) {
             // details for containers and collections
             if ($this->has_collection ||
                 $this->objDefinition->isContainer($this->type)) {

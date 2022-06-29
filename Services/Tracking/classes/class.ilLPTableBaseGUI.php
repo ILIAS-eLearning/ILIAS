@@ -536,7 +536,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
     protected function parseValue(
         string $id,
-        string $value,
+        ?string $value,
         string $type
     ) : string {
         // get rid of aggregation

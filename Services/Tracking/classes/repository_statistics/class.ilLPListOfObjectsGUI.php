@@ -217,7 +217,7 @@ class ilLPListOfObjectsGUI extends ilLearningProgressBaseGUI
                 $user_id,
                 $parent_id,
                 strlen($cancel) > 0 ? $cancel : null,
-                $sub_id
+                $sub_id ?? 0
             ) . "<br />" . $info->getHTML()
         );
     }
