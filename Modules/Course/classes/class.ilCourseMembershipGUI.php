@@ -373,7 +373,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
                     $print_member[$member_id]['udf_' . $field_id] = (string) $value;
                 }
 
-                foreach ((array) $cdfs[$member_id] as $cdf_field => $cdf_value) {
+                foreach ((array) ($cdfs[$member_id] ?? []) as $cdf_field => $cdf_value) {
                     $print_member[$member_id]['cdf_' . $cdf_field] = (string) $cdf_value;
                 }
 

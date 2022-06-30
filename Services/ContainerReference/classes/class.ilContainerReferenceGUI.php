@@ -288,7 +288,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
         $ok = true;
         $access = $DIC->access();
 
-        $this->object->setTitleType($form->getInput('title_type'));
+        $this->object->setTitleType((int) $form->getInput('title_type'));
         if ((int) $form->getInput('title_type') === ilContainerReference::TITLE_TYPE_CUSTOM) {
             $this->object->setTitle($form->getInput('title'));
         }
@@ -301,7 +301,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
             $form->getItemByPostVar('target_id')->setAlert($this->lng->txt('permission_denied'));
         }
         // check target type
-        if (ilObject::_lookupType($form->getInput('target_id'), true) !== $this->target_type) {
+        if (ilObject::_lookupType((int) $form->getInput('target_id'), true) !== $this->target_type) {
             $ok = false;
             $form->getItemByPostVar('target_id')->setAlert(
                 $this->lng->txt('objref_failure_target_type') .
