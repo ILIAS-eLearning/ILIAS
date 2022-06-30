@@ -423,7 +423,7 @@ class ilObjForum extends ilObject
                 ilForumPost::lookupNotificationStatusByPostId($old_post_id),
                 false,
                 true,
-                false
+                true
             );
 
             $old_forum_files = new ilFileDataForum($this->getId(), $old_post_id);
