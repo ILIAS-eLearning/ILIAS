@@ -572,13 +572,12 @@ class ilObjForum extends ilObject
             $newThread->setCreateDate($old_thread['thr_date']);
 
             $old_thread_obj = new ilForumTopic($old_thread['thr_pk']);
-            $top_pos_pk = $old_thread_obj->getFirstPostId();
-
+            $top_pos_pk = $old_thread_obj->getFirstPostId() ?: $old_post_id;
             $top_pos = new ilForumPost($top_pos_pk);
 
             $newPostId = $new_frm->generateThread(
                 $newThread,
-                ilForum::_lookupPostMessage($top_pos_pk),
+                $top_pos->getMessage(),
                 (int) $top_pos->isNotificationEnabled(),
                 0,
                 1,
