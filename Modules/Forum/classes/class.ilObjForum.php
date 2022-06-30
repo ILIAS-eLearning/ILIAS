@@ -573,10 +573,7 @@ class ilObjForum extends ilObject
 
             $old_thread_obj = new ilForumTopic($old_thread['thr_pk']);
             $top_pos_pk = $old_thread_obj->getFirstPostId();
-            if ($top_pos_pk === 0) {
-                $postIds = $old_thread_obj->getAllPosts();
-                $top_pos_pk = count($postIds) >= 2 ? next($postIds)->pos_pk : $top_pos_pk;
-            }
+
             $top_pos = new ilForumPost($top_pos_pk);
 
             $newPostId = $new_frm->generateThread(
@@ -585,7 +582,7 @@ class ilObjForum extends ilObject
                 (int) $top_pos->isNotificationEnabled(),
                 0,
                 1,
-                true
+                (bool) ($old_thread_obj->getNumPosts() - 1)
             );
 
             $old_forum_files = new ilFileDataForum($this->getId(), $old_post_id);
