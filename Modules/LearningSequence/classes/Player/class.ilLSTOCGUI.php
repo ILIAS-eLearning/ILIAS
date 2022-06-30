@@ -23,13 +23,6 @@ use ILIAS\KioskMode\TOCBuilder;
  */
 class ilLSTOCGUI extends ilExplorerBaseGUI
 {
-    const NODE_ICONS = [
-        TOCBuilder::LP_NOT_STARTED => "./templates/default/images/scorm/not_attempted.svg",
-        TOCBuilder::LP_IN_PROGRESS => "./templates/default/images/scorm/incomplete.svg",
-        TOCBuilder::LP_COMPLETED => "./templates/default/images/scorm/completed.svg",
-        TOCBuilder::LP_FAILED => "./templates/default/images/scorm/failed.svg"
-    ];
-
     /**
      * @var array<string, mixed>
      */
@@ -42,6 +35,16 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     protected LSUrlBuilder $url_builder;
     protected int $counter = 0;
 
+    /**
+     * @var array<string>
+     */
+    protected array $node_icons = [
+        TOCBuilder::LP_NOT_STARTED => '',
+        TOCBuilder::LP_IN_PROGRESS => '',
+        TOCBuilder::LP_COMPLETED => '',
+        TOCBuilder::LP_FAILED => ''
+    ];
+
     public function __construct(LSUrlBuilder $url_builder)
     {
         parent::__construct("lsq_toc", null, "");
@@ -49,6 +52,13 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
         $this->url_builder = $url_builder;
         $this->setSkipRootNode(false);
         $this->setNodeOnclickEnabled(true);
+
+        //get the image paths to the node icons
+        $lp_icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
+        $this->node_icons[TOCBuilder::LP_NOT_STARTED] = $lp_icons->getImagePathNotAttempted();
+        $this->node_icons[TOCBuilder::LP_COMPLETED] = $lp_icons->getImagePathCompleted();
+        $this->node_icons[TOCBuilder::LP_IN_PROGRESS] = $lp_icons->getImagePathInProgress();
+        $this->node_icons[TOCBuilder::LP_FAILED] = $lp_icons->getImagePathFailed();
     }
 
     public function withStructure(string $json_structure) : self
@@ -113,7 +123,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     public function getNodeIcon($a_node) : string
     {
         $state = $a_node['state'] ?? TOCBuilder::LP_NOT_STARTED;
-        return static::NODE_ICONS[$state];
+        return $this->node_icons[$state];
     }
 
     /**

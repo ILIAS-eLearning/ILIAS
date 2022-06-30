@@ -11124,7 +11124,7 @@ footer {
   grid-template-areas: "icon title close" "none description description" "none actions actions";
   grid-template-columns: 20px 1fr 20px;
   grid-gap: 9px;
-  box-shadow: 3px 9px 9px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 9px 9px 0 rgb(0 0 0);
   transform: translateX(150%);
   transition: all 0.25s ease-in-out;
 }
@@ -13169,6 +13169,16 @@ img.ilIcon {
 img.ilSmallIcon {
   width: 22px;
   height: 22px;
+}
+/* LP Icon short */
+img.ilLPIconShort {
+  width: 18px;
+  height: 18px;
+}
+/* LP Icon long */
+img.ilLPIconLong {
+  width: 53px;
+  height: 18px;
 }
 /* PreventBreakOut, see https://css-tricks.com/snippets/css/prevent-long-urls-from-breaking-out-of-container/ */
 .ilPreventBreakOut {

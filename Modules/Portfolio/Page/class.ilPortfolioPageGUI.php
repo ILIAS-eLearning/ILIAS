@@ -703,6 +703,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         }
 
         $img_path = null;
+        $lp_icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_SHORT);
 
         $user_id = $this->getPageContentUserId($a_user_id);
 
@@ -765,16 +766,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 }
                 
                 if (isset($course["lp_status"])) {
-                    $lp_icon = ilLearningProgressBaseGUI::_getImagePathForStatus($course["lp_status"]);
-                    $lp_alt = ilLearningProgressBaseGUI::_getStatusText($course["lp_status"]);
-                    
-                    if ($img_path) {
-                        $lp_icon = $img_path . basename($lp_icon);
-                    }
+                    $lp_icon_rendered = $lp_icons->renderIconForStatus($course["lp_status"]);
                     
                     $tpl->setCurrentBlock("lp_bl");
-                    $tpl->setVariable("LP_ICON_URL", $lp_icon);
-                    $tpl->setVariable("LP_ICON_ALT", $lp_alt);
+                    $tpl->setVariable("LP_ICON", $lp_icon_rendered);
                     $tpl->parseCurrentBlock();
                 }
                 

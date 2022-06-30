@@ -109,27 +109,41 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
     {
         parent::fillRow($a_set);
 
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
         if ($this->hasActiveLp) {
             $this->tpl->setCurrentBlock('val_lp');
             switch (true) {
                 case in_array($a_set['usr_id'], $this->completed, false):
                     $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_COMPLETED));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/complete.svg'));
+                    $this->tpl->setVariable(
+                        'LP_STATUS_ICON',
+                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_COMPLETED_NUM)
+                    );
                     break;
 
                 case in_array($a_set['usr_id'], $this->in_progress, false):
                     $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_IN_PROGRESS));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/incomplete.svg'));
+                    $this->tpl->setVariable(
+                        'LP_STATUS_ICON',
+                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM)
+                    );
                     break;
 
                 case in_array($a_set['usr_id'], $this->failed, false):
                     $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_FAILED));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/failed.svg'));
+                    $this->tpl->setVariable(
+                        'LP_STATUS_ICON',
+                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_FAILED_NUM)
+                    );
                     break;
 
                 default:
                     $this->tpl->setVariable('LP_STATUS_ALT', $this->lng->txt(ilLPStatus::LP_STATUS_NOT_ATTEMPTED));
-                    $this->tpl->setVariable('LP_STATUS_PATH', ilUtil::getImagePath('scorm/not_attempted.svg'));
+                    $this->tpl->setVariable(
+                        'LP_STATUS_ICON',
+                        $icons->renderIconForStatus(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM)
+                    );
                     break;
             }
             $this->tpl->parseCurrentBlock();

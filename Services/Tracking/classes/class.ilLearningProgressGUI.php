@@ -1,5 +1,19 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * Class ilObjUserTrackingGUI
@@ -282,6 +296,8 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         );
         $lp_data = $class::_getObjectStatus($this->getObjId(), $this->usr_id);
 
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
         $grp = new ilCheckboxGroupInputGUI($subitem_title, "sids");
         $grp->setInfo($subitem_info);
         $form->addItem($grp);
@@ -310,9 +326,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 }
             }
 
-            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
-            $text = ilLearningProgressBaseGUI::_getStatusText($status);
-            $icon = ilUtil::img($path, $text);
+            $icon = $icons->renderIconForStatus($status);
 
             $opt = new ilCheckboxOption(
                 $icon . " " . $possible_items[$item_id]["title"],
@@ -394,6 +408,8 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
         );
         $info = $class::_getStatusInfo($this->getObjId(), true);
 
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
         foreach ($coll_items as $item_id) {
             // #16599 - deleted items should not be displayed
             if (!array_key_exists($item_id, $possible_items)) {
@@ -414,9 +430,7 @@ class ilLearningProgressGUI extends ilLearningProgressBaseGUI
                 )) {
                 $status = ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
             }
-            $path = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
-            $text = ilLearningProgressBaseGUI::_getStatusText($status);
-            $field->setHtml(ilUtil::img($path, $text));
+            $field->setHtml($icons->renderIconForStatus($status));
 
             // stats
             $spent = 0;

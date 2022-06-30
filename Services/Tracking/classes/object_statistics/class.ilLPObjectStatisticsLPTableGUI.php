@@ -1,5 +1,19 @@
 <?php declare(strict_types=0);
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ *********************************************************************/
 
 /**
  * TableGUI class for learning progress
@@ -82,12 +96,10 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
                 );
             }
 
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
             foreach ($this->status as $status) {
-                $path = ilLearningProgressBaseGUI::_getImagePathForStatus(
-                    $status
-                );
-                $text = ilLearningProgressBaseGUI::_getStatusText($status);
-                $icon = ilUtil::img($path, $text);
+                $icon = $icons->renderIconForStatus($status);
 
                 foreach ($this->types as $type) {
                     if ($type != "avg") {
@@ -425,19 +437,18 @@ class ilLPObjectStatisticsLPTableGUI extends ilLPTableBaseGUI
             }
         }
 
+        $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
         // add captions
         foreach (array_keys($data) as $figure) {
             $status = substr($figure, 0, -4);
             $type = substr($figure, -3);
 
             if ($status != "mem_cnt") {
-                $path = ilLearningProgressBaseGUI::_getImagePathForStatus(
-                    (int) $status
-                );
                 $text = ilLearningProgressBaseGUI::_getStatusText(
                     (int) $status
                 );
-                $icon = ilUtil::img($path, $text);
+                $icon = $icons->renderIconForStatus((int) $status);
                 $text = $icon . " " . $text;
             } else {
                 $text = $this->lng->txt("members");

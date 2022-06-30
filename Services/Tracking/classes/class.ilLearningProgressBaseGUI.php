@@ -334,35 +334,8 @@ class ilLearningProgressBaseGUI
     }
 
     /**
-     * Get image path for status
-     */
-    public static function _getImagePathForStatus(
-        int $a_status,
-        int $variant = ilLPStatusIcons::ICON_VARIANT_DEFAULT
-    ) : string {
-        $icons = ilLPStatusIcons::getInstance($variant);
-
-        // constants are either number or string, so make comparison string-based
-        switch ($a_status) {
-            case ilLPStatus::LP_STATUS_IN_PROGRESS_NUM:
-                return $icons->getImagePathInProgress();
-
-            case ilLPStatus::LP_STATUS_COMPLETED_NUM:
-                return $icons->getImagePathCompleted();
-
-            case ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM:
-                return $icons->getImagePathNotAttempted();
-
-            case ilLPStatus::LP_STATUS_FAILED_NUM:
-                return $icons->getImagePathFailed();
-
-            default:
-                return $icons->getImagePathNotAttempted();
-        }
-    }
-
-    /**
      * Get status alt text
+     * @todo Move this to a factory.
      */
     public static function _getStatusText(
         int $a_status,
@@ -453,15 +426,16 @@ class ilLearningProgressBaseGUI
         );
 
         if (ilObjectLP::isSupportedObjectType($type)) {
-            $status_path = ilLearningProgressBaseGUI::_getImagePathForStatus(
-                ilLPStatus::_lookupStatus($item_id, $user_id)
-            );
+            $icons = ilLPStatusIcons::getInstance(ilLPStatusIcons::ICON_VARIANT_LONG);
+
             $status_text = ilLearningProgressBaseGUI::_getStatusText(
                 ilLPStatus::_lookupStatus($item_id, $user_id)
             );
             $info->addProperty(
                 $this->lng->txt('trac_status'),
-                ilUtil::img($status_path, $status_text) . " " . $status_text
+                $icons->renderIconForStatus(ilLPStatus::_lookupStatus($item_id, $user_id)) .
+                    " " .
+                    $status_text
             );
 
             // status
@@ -595,19 +569,19 @@ class ilLearningProgressBaseGUI
         );
         $tpl->setVariable(
             "IMG_NOT_ATTEMPTED",
-            $icons->getImagePathNotAttempted()
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM)
         );
         $tpl->setVariable(
             "IMG_IN_PROGRESS",
-            $icons->getImagePathInProgress()
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_IN_PROGRESS_NUM)
         );
         $tpl->setVariable(
             "IMG_COMPLETED",
-            $icons->getImagePathCompleted()
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_COMPLETED_NUM)
         );
         $tpl->setVariable(
             "IMG_FAILED",
-            $icons->getImagePathFailed()
+            $icons->renderIconForStatus(ilLPStatus::LP_STATUS_FAILED_NUM)
         );
         $tpl->setVariable(
             "TXT_NOT_ATTEMPTED",

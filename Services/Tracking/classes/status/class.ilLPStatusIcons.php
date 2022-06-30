@@ -27,6 +27,8 @@ class ilLPStatusIcons
     public const ICON_VARIANT_SCORM = 2;
     public const ICON_VARIANT_DEFAULT = ilLPStatusIcons::ICON_VARIANT_LONG;
 
+    private ilLanguage $lng;
+
     private static ?self $instance_variant_long = null;
     private static ?self $instance_variant_short = null;
     private static ?self $instance_variant_scorm = null;
@@ -139,5 +141,80 @@ class ilLPStatusIcons
             return $this->image_path_running;
         }
         throw new ilLPException("A long variant of the 'running' LP icon does not exist.");
+    }
+
+    public function renderIcon(string $path, string $alt) : string
+    {
+        if ($this === self::$instance_variant_long) {
+            $variant = 'ilLPIconLong';
+        } elseif ($this === self::$instance_variant_short) {
+            $variant = 'ilLPIconShort';
+        } else {
+            throw new ilLPException("SCORM variants cannot be rendered.");
+        }
+
+        $tpl = new ilTemplate('tpl.lp_icon_img.html', true, true, 'Services/Tracking');
+        $tpl->setVariable('ICON_VARIANT', $variant);
+        $tpl->setVariable('IMAGE_PATH', $path);
+        $tpl->setVariable('ALT_TEXT', $alt);
+
+        return $tpl->get();
+    }
+
+    /**
+     * @todo Check whether the default can be replaced by an exception.
+     */
+    public function getImagePathForStatus(int $a_status) : string
+    {
+        switch ($a_status) {
+            case ilLPStatus::LP_STATUS_IN_PROGRESS_NUM:
+                return $this->getImagePathInProgress();
+
+            case ilLPStatus::LP_STATUS_COMPLETED_NUM:
+                return $this->getImagePathCompleted();
+
+            case ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM:
+                return $this->getImagePathNotAttempted();
+
+            case ilLPStatus::LP_STATUS_FAILED_NUM:
+                return $this->getImagePathFailed();
+
+            default:
+                return $this->getImagePathNotAttempted();
+        }
+    }
+
+    /**
+     * Returns the rendered icon with alt text.
+     */
+    public function renderIconForStatus(int $a_status, ?ilLanguage $a_lng = null) : string
+    {
+        return $this->renderIcon(
+            $this->getImagePathForStatus($a_status),
+            ilLearningProgressBaseGUI::_getStatusText($a_status, $a_lng)
+        );
+    }
+
+    /**
+     * Transforms the string constants for the status to their interger equivalent.
+     */
+    public function lookupNumStatus(string $a_status) : int
+    {
+        switch ($a_status) {
+            case ilLPStatus::LP_STATUS_IN_PROGRESS:
+                return ilLPStatus::LP_STATUS_IN_PROGRESS_NUM;
+
+            case ilLPStatus::LP_STATUS_COMPLETED:
+                return ilLPStatus::LP_STATUS_COMPLETED_NUM;
+
+            case ilLPStatus::LP_STATUS_NOT_ATTEMPTED:
+                return ilLPStatus::LP_STATUS_NOT_ATTEMPTED_NUM;
+
+            case ilLPStatus::LP_STATUS_FAILED:
+                return ilLPStatus::LP_STATUS_FAILED_NUM;
+
+            default:
+                throw new ilLPException("Not a valid status");
+        }
     }
 }
