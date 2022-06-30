@@ -24,6 +24,16 @@ use ILIAS\KioskMode\TOCBuilder;
 class ilLSTOCGUI extends ilExplorerBaseGUI
 {
     /**
+     * @deprecated will be deleted with R8
+     */
+    const NODE_ICONS = [
+        TOCBuilder::LP_NOT_STARTED => "./templates/default/images/scorm/not_attempted.svg",
+        TOCBuilder::LP_IN_PROGRESS => "./templates/default/images/scorm/incomplete.svg",
+        TOCBuilder::LP_COMPLETED => "./templates/default/images/scorm/completed.svg",
+        TOCBuilder::LP_FAILED => "./templates/default/images/scorm/failed.svg"
+    ];
+
+    /**
      * @var array<string, mixed>
      */
     protected array $structure;

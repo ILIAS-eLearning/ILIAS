@@ -288,6 +288,23 @@ class ilExAssignmentMemberStatus
         $exc = new ilObjExercise($ass->getExerciseId(), false);
         $exc->updateUserStatus($this->user_id);
     }
+
+    /**
+     * @deprecated will be deleted with R8
+     */
+    public function getStatusIcon() : string
+    {
+        switch ($this->getStatus()) {
+            case "passed":
+                return "scorm/passed.svg";
+            
+            case "failed":
+                return "scorm/failed.svg";
+                
+            default:
+                return "scorm/not_attempted.svg";
+        }
+    }
     
     // Check whether exercise has been sent to any student per mail.
     public static function lookupAnyExerciseSent(int $a_ass_id) : bool
