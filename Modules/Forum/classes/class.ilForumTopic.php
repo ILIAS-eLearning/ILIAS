@@ -258,9 +258,9 @@ class ilForumTopic
             '
 			SELECT * FROM frm_posts_tree 
 			WHERE thr_fk = %s
-			AND parent_pos = %s',
+			AND parent_pos != %s',
             array('integer', 'integer'),
-            array($this->id, '1')
+            array($this->id, '0')
         );
         
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
