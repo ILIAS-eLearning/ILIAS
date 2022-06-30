@@ -482,7 +482,7 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         $roles = $this->review->getParentRoleIds($this->getRefId());
         $roles = $this->getParentObject()->applyRoleFilter(
             $roles,
-            $this->getFilterItemByPostVar('role')->getValue()
+            (int) $this->getFilterItemByPostVar('role')->getValue()
         );
 
         $possible_roles = array();
