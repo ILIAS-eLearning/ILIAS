@@ -1,5 +1,7 @@
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+let actionId = 0;
+
 /**
  * Action
  */
@@ -18,7 +20,7 @@ export default class Action {
   /**
    * @type {number}
    */
-  static next_id = 1;
+  //next_id = 1;
 
   /**
    * @type {number}
@@ -33,8 +35,8 @@ export default class Action {
   constructor(component, type, params= {}, queueable = false) {
     this.component = component;
     this.type = type;
-    this.id = Action.next_id++;       // maybe switch to uuid in the future
-    //this.id = 1;
+    actionId++;
+    this.id = actionId;
     this.params = params;
     this.queueable = queueable;
   }
