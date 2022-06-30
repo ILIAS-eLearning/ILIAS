@@ -32,7 +32,7 @@ class ilContainerStartObjectsContentTableGUI extends ilTable2GUI
     protected ilFavouritesManager $fav_manager;
     
     public function __construct(
-        ilContainerStartObjectsContentGUI $a_parent_obj,
+        ?object $a_parent_obj,
         string $a_parent_cmd,
         ilContainerStartObjects $a_start_objects,
         bool $a_enable_desktop = true

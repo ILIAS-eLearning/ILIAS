@@ -269,7 +269,7 @@ class ilRbacSystem
     protected function filterOwnerPermissions(int $a_user_id, string $a_operations, int $a_ref_id) : string
     {
         // member view constraints
-        if ($this->mem_view['active'] and $a_user_id == $this->user->getId()) {
+        if (($this->mem_view['active'] ?? null) and $a_user_id == $this->user->getId()) {
             if (in_array($a_ref_id, $this->mem_view['items'])) {
                 return $a_operations;
             }
