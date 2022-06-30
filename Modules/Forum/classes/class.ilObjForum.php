@@ -417,10 +417,16 @@ class ilObjForum extends ilObject
             $newThread->setUserAlias($old_thread->getUserAlias());
             $newThread->setCreateDate($old_thread->getCreateDate());
 
+            $top_pos_pk = $old_thread->getFirstPostId();
+            if ($top_pos_pk === 0) {
+                $postIds = $old_thread->getAllPostIds();
+                $top_pos_pk = count($postIds) >= 2 ? next($postIds) : $top_pos_pk;
+            }
+
             $newPostId = $new_frm->generateThread(
                 $newThread,
-                ilForumPost::lookupPostMessage($old_post_id),
-                ilForumPost::lookupNotificationStatusByPostId($old_post_id),
+                ilForumPost::lookupPostMessage($top_pos_pk),
+                ilForumPost::lookupNotificationStatusByPostId($top_pos_pk),
                 false,
                 true,
                 true
