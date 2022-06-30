@@ -141,7 +141,7 @@ class ilContainerStartObjectsTableGUI extends ilTable2GUI
         
         $this->tpl->setVariable("ID", $a_set["id"]);
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
-        $this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);
+        $this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"] ?? '');
         $this->tpl->setVariable("ICON_SRC", $a_set["icon"]);
         $this->tpl->setVariable("ICON_ALT", $a_set["type"]);
     }

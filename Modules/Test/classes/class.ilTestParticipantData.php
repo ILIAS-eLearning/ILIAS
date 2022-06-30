@@ -221,7 +221,7 @@ class ilTestParticipantData
 
     public function getActiveIdByUserId($userId)
     {
-        return $this->byUserId[$userId]['active_id'];
+        return $this->byUserId[$userId]['active_id'] ?? null;
     }
     
     public function getConcatedFullnameByActiveId($activeId) : string
