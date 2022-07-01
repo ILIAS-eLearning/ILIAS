@@ -64,7 +64,7 @@ class ilPageLayoutGUI extends ilPageObjectGUI
         $tpl->addCss(ilObjStyleSheet::getPlaceHolderStylePath());
         $tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
 
-        $this->setStyleId($this->layout_object->getStyleId());
+//        $this->setStyleId($this->layout_object->getStyleId());
     }
 
     public function executeCommand() : string
