@@ -38,7 +38,7 @@ class ilObjItemGroupGUI extends ilObject2GUI
     ) {
         global $DIC;
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
-    
+
         $this->lng = $DIC->language();
         $this->tabs = $DIC->tabs();
         $this->access = $DIC->access();
