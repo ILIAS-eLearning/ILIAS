@@ -173,7 +173,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
         $ilCtrl = $DIC->ctrl();
         
-        if ($ilCtrl->getCmdClass() === "ilnewsitemgui") {
+        if (strtolower($ilCtrl->getCmdClass()) === "ilnewsitemgui") {
             return IL_SCREEN_FULL;
         }
         
