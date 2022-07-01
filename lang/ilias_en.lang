@@ -13383,7 +13383,7 @@ rbac#:#otpl_edit_permission#:#User can change permission settings in administrat
 rbac#:#otpl_read#:#User has read access to Didactic Templates administration
 rbac#:#otpl_visible#:#Administration of Didactic Templates is visible
 rbac#:#otpl_write#:#User can edit settings of Didactic Templates
-rbac#:#perm_class_create#:#Create new Objects
+rbac#:#perm_class_create#:#Create New Objects
 rbac#:#perm_class_create_desc#:#Determine which object types may be created under the current object.
 rbac#:#perm_class_object_desc#:#Object-specific operations.
 rbac#:#perm_class_object#:#Special Operations
@@ -13588,9 +13588,9 @@ rbac#:#rbac_role_rights_copy_empty#:#None
 rbac#:#rbac_role_selection#:#Role Type
 rbac#:#rbac_role_title#:#Role Title
 rbac#:#rbac_select_copy_targets#:#Please select the target roles
-rbac#:#rbac_ud_global#:#User defined global role
-rbac#:#rbac_ud_local#:#User defined local role
-rbac#:#rbac_ud_rolt#:#User defined role template
+rbac#:#rbac_ud_global#:#User-defined global role
+rbac#:#rbac_ud_local#:#User-defined local role
+rbac#:#rbac_ud_rolt#:#User-defined role template
 rbac#:#rbac_unprotected_delete_local_policies_info#:#If activated, all local policies will be deleted. Permissions in courses and groups will be newly initialized.
 rbac#:#rbac_unprotected_keep_local_policies_info#:#Choose this mode to keep all local policies.
 rbac#:#rcat_delete#:#User can move or delete ECS Category
