@@ -154,7 +154,7 @@ class ilContentStylesTableGUI extends ilTable2GUI
             $this->tpl->setVariable(
                 "SCOPE",
                 ilObject::_lookupTitle(
-                    ilObject::_lookupObjId($a_set["category"])
+                    ilObject::_lookupObjId((int) $a_set["category"])
                 )
             );
         }
