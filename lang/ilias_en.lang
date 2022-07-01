@@ -13802,45 +13802,45 @@ rbac#:#wiks_write#:#Edit settings in Wiki administration
 rbac#:#write#:#Edit Settings
 rcat#:#rcat_call#:#Call ECS Category
 rcrs#:#rcrs_call#:#Call ECS Course
-registration#:#reg_access_limitation_limited_time#:#After registration access for
-registration#:#reg_access_limitation_limited_until#:#Access is limited until
+registration#:#reg_access_limitation_limited_time#:#After registration, access for
+registration#:#reg_access_limitation_limited_until#:#Access until
 registration#:#reg_access_limitation_missing_mode#:#Please choose for all roles an Access Limitation Mode
-registration#:#reg_access_limitation_mode_absolute#:#Access is limited by a fixed date
+registration#:#reg_access_limitation_mode_absolute#:#Access expires on a fixed date
 registration#:#reg_access_limitation_mode_absolute_target#:#Valid until
 registration#:#reg_access_limitation_mode#:#Access Limitation Mode
-registration#:#reg_access_limitation_mode_relative#:#Limited access for a fixed time period after registration
+registration#:#reg_access_limitation_mode_relative#:#Access granted for a fixed time period after registration
 registration#:#reg_access_limitation_mode_relative_target#:#Valid for
-registration#:#reg_access_limitation_mode_unlimited#:#No access limitation
+registration#:#reg_access_limitation_mode_unlimited#:#No access expiry date
 registration#:#reg_access_limitation_none#:#Unlimited access
 registration#:#reg_access_limitation_out_of_date#:#One or more Roles have an outdated access limitation!
-registration#:#reg_access_limitations#:#Access Limitation
+registration#:#reg_access_limitations#:#Access Expiry Date
 registration#:#reg_add_assignment#:#New Assignment
 registration#:#reg_added_assignment#:#Added new assignment.
 registration#:#reg_allow_codes#:#Allow Codes
 registration#:#reg_allow_codes_info#:#Users are also allowed to register via codes.
 registration#:#reg_allowed_domains#:#Allowed E-Mail Address Domains
-registration#:#reg_allowed_domains_info#:#Use * as wildcard and ; as separator. E.g. "*@ilias.de". Registration codes override these rules.
-registration#:#reg_approve_info#:#If checked any new user registration has to be approved by an administrator.
-registration#:#reg_approve_needs_recipient#:#You should define minimum one user who will be notified about new registrations, if the registration type ‘Registration with Approval’ is chosen.
+registration#:#reg_allowed_domains_info#:#Use * as a wildcard and ; as a separator, e.g. "*@ilias.de". Registration codes override these rules.
+registration#:#reg_approve_info#:#Newly-registered users have to be approved by an administrator.
+registration#:#reg_approve_needs_recipient#:#For the registration type ‘Registration with Approval’ you should appoint at least one user who will be notified about new registrations.
 registration#:#reg_approve#:#Registration with Approval
 registration#:#reg_available_roles#:#Available Roles:
-registration#:#reg_confirmation_hash_life_time_expired#:#The confirmation link is not valid anymore. Please register again!
-registration#:#reg_confirmation_hash_life_time_info#:#Enter the lifetime (seconds) of confirmation links. Recommended value is 1800 seconds.
-registration#:#reg_confirmation_hash_life_time#:#Lifetime
+registration#:#reg_confirmation_hash_life_time_expired#:#This confirmation link is no longer valid. Please re-register and click on the link in the new confirmation e-mail within a few minutes of receipt.
+registration#:#reg_confirmation_hash_life_time_info#:#Enter for how long (in seconds ) the confirmation link should be valid. The recommended value is 1800 seconds.
+registration#:#reg_confirmation_hash_life_time#:#Valid for
 registration#:#reg_confirmation_hash_not_found#:#No user account could be matched to this confirmation link.
-registration#:#reg_confirmation_link_successful#:#You successfully submitted an account request to ILIAS. You will receive a confirmation e-mail in the next minutes. Please confirm your registration by clicking the confirmation link in this mail.<br />You will be redirected to the <a href="%s" title="login screen">login screen</a> after 20 seconds.
+registration#:#reg_confirmation_link_successful#:#You have successfully registered your account with ILIAS. To activate your account, please click on the link in the confirmation e-mail that you will receive shortly. The confirmation link is only valid for a certain period of time, so to avoid having to re-register, we recommend that you click on the link within the next few minutes. <br /> You will be redirected to the <a href="%s" title="login screen">login screen</a> in 20 seconds.
 registration#:#reg_default#:#Default
 registration#:#reg_deleted_assignment#:#Deleted assignment(s).
 registration#:#reg_direct#:#Direct Registration
-registration#:#reg_direct_info#:#If this is checked, any new user registration request is automatically approved.
+registration#:#reg_direct_info#:#New user registration requests are automatically approved.
 registration#:#reg_disabled#:#No Registration Possible
 registration#:#reg_domain#:#Domain
 registration#:#reg_email#:#Automatic Role Assignment
 registration#:#reg_email_domains_code#:#With a registration code any E-Mail-Address is valid.
 registration#:#reg_email_domains#:#The following e-mail address domains are valid: %s
 registration#:#reg_email_role_assignment#:#Role Assignment By Domain
-registration#:#reg_fixed#:#Selection From Specified List
-registration#:#reg_info_pwd#:#If enabled passwords will be send automatically to the new users per E-Mail.
+registration#:#reg_fixed#:#Free Selection from Predefined List
+registration#:#reg_info_pwd#:#Newly-registered users automatically receive a randomly generated password by e-mail.
 registration#:#registration_code#:#Code
 registration#:#registration_code_not_valid#:#The given registration code is either invalid or already has been used.
 registration#:#registration_code_optional_info#:#If you have got a registration code, please enter it here.
@@ -13868,7 +13868,7 @@ registration#:#registration_export_codes_no_data#:#No codes to export were selec
 registration#:#registration_generated_all#:#All Dates
 registration#:#registration_generated#:#Date Of Generation
 registration#:#registration_no_valid_role#:#There is currently no valid role for new accounts. Please contact your administrator.
-registration#:#registration_reg_type_codes_info#:#This type allows self-registration of users but requires a valid code.
+registration#:#registration_reg_type_codes_info#:#Users are able to self-register but need to have a valid code to do so.
 registration#:#registration_reg_type_codes#:#Registration with Codes
 registration#:#registration_roles_all#:#All Roles
 registration#:#registration_settings#:#ILIAS Auth / Self-Registration
@@ -13889,7 +13889,7 @@ registration#:#reg_mail_new_user_confirmation#:#Request for account confirmation
 registration#:#reg_mail_new_user#:#New user registration
 registration#:#reg_missing_domain#:#Please fill out all fields.
 registration#:#reg_missing_role#:#Please fill out all fields.
-registration#:#reg_notification_info#:#Enter one or more Login-Ids of users (comma separated) that will be informed about new user registrations per e-mail.
+registration#:#reg_notification_info#:#Enter one or more usernames (login-ID) of those users (comma separated) who will be informed about new user registrations by e-mail.
 registration#:#reg_notification#:#Notifications
 registration#:#reg_role_access_limitations#:#Define access limitations of Roles for new registered Users
 registration#:#reg_role_assignment#:#Role Assignment
@@ -13897,7 +13897,7 @@ registration#:#reg_role_info#:#Assigned Roles
 registration#:#reg_selectable_roles#:#Selectable Roles
 registration#:#reg_select_one#:#Please select one entry.
 registration#:#reg_settings_header#:#New Registration Settings
-registration#:#reg_type_confirmation_info#:#This type allows self-registration of users but requires an e-mail confirmation to activate the account. This avoids self-registration to ILIAS with wrong or non-existent e-mail addresses.
+registration#:#reg_type_confirmation_info#:#Users are able to self-register but are required to click on a link sent to them by e-mail in order to activate their account. This avoids self-registration to ILIAS with incorrect or non-existent e-mail addresses.
 registration#:#reg_type_confirmation#:#Registration with E-Mail Confirmation
 registration#:#reg_type#:#Registration Type
 registration#:#reg_unknown_recipients#:#The following accounts are not valid:
@@ -14378,7 +14378,7 @@ search#:#search_for_crs_members#:#Search for Courses
 search#:#search_for_grp_members#:#Search for Groups
 search#:#search_for_orgu_members#:#Search for Organisational Units
 search#:#search_for_role_members#:#Search for Roles
-search#:#search_for_users#:#Search for users
+search#:#search_for_users#:#Search for Users
 search#:#search_grp_title#:#Group Name
 search#:#search_hide_adv_search#:#Hide Advanced Search
 search#:#search_item_filter_form_info#:#Search can be restricted to the chosen object types.
@@ -14510,7 +14510,7 @@ sess#:#sess_title#:#Title of Session
 sess#:#sess_users_added#:#Registered selected users for the session.
 sess#:#sess_users_already_assigned#:#The user is already registered for this session.
 sess#:#sess_users_removed_from_list#:#The selected users have been removed from the waiting list.
-shib#:#shib_activate_new_info#:#If checked any new account creation has to be approved by an administrator.
+shib#:#shib_activate_new_info#:#Newly-created accounts are inactive until they have been approved by an administrator.
 shib#:#shib_activate_new#:#New Accounts with Approval
 shib#:#shib_add_missing#:#Assign Missing Roles
 shib#:#shib_add_remove#:#Add/Remove Roles
