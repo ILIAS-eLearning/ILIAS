@@ -389,9 +389,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $this->adminCommands = $container_view->adminCommands;
 
+        $is_container_cmd = strtolower($this->std_request->getCmdClass()) === strtolower(get_class($this));
+
         // it is important not to show the subobjects/admin panel here, since
         // we will create nested forms in case, e.g. a news/calendar item is added
-        if ($ilCtrl->getNextClass() !== "ilcolumngui") {
+        if ($is_container_cmd) {
             $this->showAdministrationPanel();
             $this->showPossibleSubObjects();
 
@@ -402,7 +404,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 if ($ilSetting->get("enable_cat_page_edit")) {
                     if (!$this->isActiveAdministrationPanel() &&
                         !$this->isActiveOrdering() &&
-                        $this->supportsPageEditor()) {
+                        $this->supportsPageEditor()
+                    ) {
                         $toolbar->addButton(
                             $lng->txt("cntr_text_media_editor"),
                             $ilCtrl->getLinkTarget($this, "editPageFrame")
