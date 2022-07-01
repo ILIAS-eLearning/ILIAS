@@ -215,13 +215,13 @@ class ilForumTopic
     public function getFirstPostId() : int
     {
         $res = $this->db->queryF(
-            'SELECT * FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos = %s',
-            ['integer', 'integer'],
-            [$this->id, 1]
+            'SELECT * FROM frm_posts_tree WHERE thr_fk = %s AND parent_pos != %s AND depth = %s ORDER BY rgt DESC',
+            ['integer', 'integer', 'integer'],
+            [$this->id, 0, 2]
         );
 
         if ($row = $this->db->fetchObject($res)) {
-            return (int) $row->pos_fk;
+            return (int) $row->pos_fk ?: 0;
         }
         return 0;
     }
@@ -290,10 +290,12 @@ class ilForumTopic
 			SELECT *
 			FROM frm_posts 
 			INNER JOIN frm_posts_tree ON pos_fk = pos_pk
-			WHERE parent_pos = %s
-			AND thr_fk = %s',
+			WHERE parent_pos != %s
+			AND thr_fk = %s
+			AND depth = %s
+			ORDER BY rgt DESC',
             ['integer', 'integer'],
-            [0, $this->id]
+            [0, $this->id, 2]
         );
 
         if ($row = $this->db->fetchAssoc($res)) {

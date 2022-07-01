@@ -417,19 +417,19 @@ class ilObjForum extends ilObject
             $newThread->setUserAlias($old_thread->getUserAlias());
             $newThread->setCreateDate($old_thread->getCreateDate());
 
-            $top_pos_pk = $old_thread->getFirstPostId();
-            if ($top_pos_pk === 0) {
-                $postIds = $old_thread->getAllPostIds();
-                $top_pos_pk = count($postIds) >= 2 ? next($postIds) : $top_pos_pk;
+            try {
+                $top_pos = $old_thread->getFirstPostNode();
+            } catch (OutOfBoundsException $e) {
+                $top_pos = new ilForumPost($old_post_id);
             }
 
             $newPostId = $new_frm->generateThread(
                 $newThread,
-                ilForumPost::lookupPostMessage($top_pos_pk),
-                ilForumPost::lookupNotificationStatusByPostId($top_pos_pk),
+                $top_pos->getMessage(),
+                $top_pos->isNotificationEnabled(),
                 false,
                 true,
-                true
+                (bool) ($old_thread->getNumPosts() - 1)
             );
 
             $old_forum_files = new ilFileDataForum($this->getId(), $old_post_id);
