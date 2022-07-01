@@ -52,9 +52,13 @@ module.exports = function(fonts, size, lineHeight) {
         style = haveStyle ? style : parts[parts.length - 1].replace(maybeWeight, '');
       }
       for (var w in fontWeights) {
-        if (maybeWeight == w || maybeWeight == w.replace('-', '') || maybeWeight == w.replace('-', sp)) {
+        var previousPart = parts.length > 1 ? parts[parts.length - 2].toLowerCase() : '';
+        if (maybeWeight == w || maybeWeight == w.replace('-', '') || previousPart + '-' + maybeWeight == w) {
           weight = haveWeight ? weight : fontWeights[w];
           parts.pop();
+          if (previousPart && w.startsWith(previousPart)) {
+            parts.pop();
+          }
           break;
         }
       }

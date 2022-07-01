@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.3
+
+- Fix ES module breaking due to not default-importing CommonJS modules
+- Add some warning messages
+
 ## 0.6.2
 
 - Fix issue with exports that prevented it from working in Node 13.0-13.6

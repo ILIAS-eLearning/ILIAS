@@ -1,0 +1,44 @@
+{
+  "name": "xml-utils",
+  "version": "1.0.3",
+  "description": "Parse XML without Blowing Up Your Bundle Size",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "find-tag-by-name.js",
+    "find-tag-by-path.js",
+    "find-tags-by-name.js",
+    "find-tags-by-path.js",
+    "get-attribute.js",
+    "index-of-match.js",
+    "index-of-match-end.js",
+    "index.js"
+  ],
+  "scripts": {
+    "format": "npx prettier --arrow-parens=avoid --print-width=140 --trailing-comma=none --write *.js */*.js",
+    "setup": "cd test/data && bash setup.sh",
+    "test": "node ./test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DanielJDufour/xml-utils.git"
+  },
+  "keywords": [
+    "fast",
+    "mrf",
+    "xml",
+    "tag",
+    "lite",
+    "utils",
+    "parse"
+  ],
+  "author": "Daniel J. Dufour",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/DanielJDufour/xml-utils/issues"
+  },
+  "homepage": "https://github.com/DanielJDufour/xml-utils#readme",
+  "devDependencies": {
+    "flug": "^2.3.1"
+  }
+}

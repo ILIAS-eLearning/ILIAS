@@ -1,8 +1,26 @@
 /**
- * Tagify (v 4.9.8) - tags input component
+ * Tagify (v 4.12.0) - tags input component
  * By Yair Even-Or
- * Don't sell this code. (c)
  * https://github.com/yairEO/tagify
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ * 
+ * THE SOFTWARE IS NOT PERMISSIBLE TO BE SOLD.
  */
 
 (function (global, factory) {
@@ -311,6 +329,8 @@
       inputInvalid: 'tagify__input--invalid',
       dropdown: 'tagify__dropdown',
       dropdownWrapper: 'tagify__dropdown__wrapper',
+      dropdownHeader: 'tagify__dropdown__header',
+      dropdownFooter: 'tagify__dropdown__footer',
       dropdownItem: 'tagify__dropdown__item',
       dropdownItemActive: 'tagify__dropdown__item--active',
       dropdownInital: 'tagify__dropdown--initial',
@@ -350,7 +370,7 @@
   };
 
   function initDropdown() {
-    this.dropdown = {};
+    this.dropdown = {}; // auto-bind "this" to all the dropdown methods
 
     for (let p in this._dropdown) this.dropdown[p] = typeof this._dropdown[p] === 'function' ? this._dropdown[p].bind(this) : this._dropdown[p];
 
@@ -359,7 +379,7 @@
   var _dropdown = {
     refs() {
       this.DOM.dropdown = this.parseTemplate('dropdown', [this.settings]);
-      this.DOM.dropdown.content = this.DOM.dropdown.querySelector(this.settings.classNames.dropdownWrapperSelector);
+      this.DOM.dropdown.content = this.DOM.dropdown.querySelector("[data-selector='tagify-dropdown-wrapper']");
     },
 
     /**
@@ -528,7 +548,8 @@
      */
     fill(HTMLContent) {
       HTMLContent = typeof HTMLContent == 'string' ? HTMLContent : this.dropdown.createListHTML(HTMLContent || this.suggestedListItems);
-      this.DOM.dropdown.content.innerHTML = minify(HTMLContent);
+      var dropdownContent = this.settings.templates.dropdownContent.call(this, HTMLContent);
+      this.DOM.dropdown.content.innerHTML = minify(dropdownContent);
     },
 
     /**
@@ -842,14 +863,19 @@
       } else this.dropdown.refilter();
     },
 
-    selectAll() {
+    // adds all the suggested items, including the ones which are not currently rendered,
+    // unless specified otherwise (by the "onlyRendered" argument)
+    selectAll(onlyRendered) {
       // having suggestedListItems with items messes with "normalizeTags" when wanting
       // to add all tags
       this.suggestedListItems.length = 0;
-      this.dropdown.hide(); // some whitelist items might have already been added as tags so when addings all of them,
+      this.dropdown.hide();
+      this.dropdown.filterListItems('');
+      var tagsToAdd = this.dropdown.filterListItems('');
+      if (!onlyRendered) tagsToAdd = this.state.dropdown.suggestions; // some whitelist items might have already been added as tags so when addings all of them,
       // skip adding already-added ones, so best to use "filterListItems" method over "settings.whitelist"
 
-      this.addTags(this.dropdown.filterListItems(''), true);
+      this.addTags(tagsToAdd, true);
       return this;
     },
 
@@ -868,7 +894,7 @@
           list = [],
           exactMatchesList = [],
           whitelist = _s.whitelist,
-          suggestionsCount = _sd.maxItems || Infinity,
+          suggestionsCount = _sd.maxItems >= 0 ? _sd.maxItems : Infinity,
           searchKeys = _sd.searchKeys,
           whitelistItem,
           valueIsInWhitelist,
@@ -878,8 +904,10 @@
           i = 0;
 
       if (!value || !searchKeys.length) {
-        return (_s.duplicates ? whitelist : whitelist.filter(item => !this.isTagDuplicate(isObject(item) ? item.value : item)) // don't include tags which have already been added.
-        ).slice(0, suggestionsCount); // respect "maxItems" dropdown setting
+        list = _s.duplicates ? whitelist : whitelist.filter(item => !this.isTagDuplicate(isObject(item) ? item.value : item)); // don't include tags which have already been added.
+
+        this.state.dropdown.suggestions = list;
+        return list.slice(0, suggestionsCount); // respect "maxItems" dropdown setting
       }
 
       niddle = _sd.caseSensitive ? "" + value : ("" + value).toLowerCase(); // checks if ALL of the words in the search query exists in the current whitelist item, regardless of their order
@@ -927,8 +955,9 @@
         isDuplicate = !_s.duplicates && this.isTagDuplicate(isObject(whitelistItem) ? whitelistItem.value : whitelistItem); // match for the value within each "whitelist" item
 
         if (valueIsInWhitelist && !isDuplicate) if (exactMatch && startsWithMatch) exactMatchesList.push(whitelistItem);else if (_sd.sortby == 'startsWith' && startsWithMatch) list.unshift(whitelistItem);else list.push(whitelistItem);
-      } // custom sorting function
+      }
 
+      this.state.dropdown.suggestions = exactMatchesList.concat(list); // custom sorting function
 
       return typeof _sd.sortby == 'function' ? _sd.sortby(exactMatchesList.concat(list), niddle) : exactMatchesList.concat(list).slice(0, suggestionsCount);
     },
@@ -955,10 +984,10 @@
           value: suggestion
         };
         var value = this.dropdown.getMappedValue(suggestion);
-        suggestion.value = value && typeof value == 'string' ? escapeHTML(value) : value;
+        suggestion.value = typeof value == 'string' ? escapeHTML(value) : value;
         var tagHTMLString = this.settings.templates.dropdownItem.apply(this, [suggestion, this]); // make sure the sugestion index is present as attribute, to match the data when one is selected
 
-        tagHTMLString = tagHTMLString.replace(/\s*tagifySuggestionIdx=(["'])(.*?)\1/gmi, '') // remove the "tagifySuggestionIdx" attribute if for some reason was there
+        tagHTMLString = tagHTMLString.replace(/\s*tagifySuggestionIdx=(["'])(.*?)\1/gmi, '') // remove the "tagifySuggestionIdx" attribute if for some reason it was there
         .replace('>', ` tagifySuggestionIdx="${idx}">`); // add "tagifySuggestionIdx"
 
         return tagHTMLString;
@@ -1026,6 +1055,7 @@
                     ${_s.readonly ? 'readonly' : ''}
                     ${_s.disabled ? 'disabled' : ''}
                     ${_s.required ? 'required' : ''}
+                    ${_s.mode === 'select' ? "spellcheck='false'" : ''}
                     tabIndex="-1">
             <span ${!_s.readonly && _s.userInput ? 'contenteditable' : ''} tabIndex="0" data-placeholder="${_s.placeholder || '&#8203;'}" aria-placeholder="${_s.placeholder || ''}"
                 class="${_s.classNames.input}"
@@ -1056,8 +1086,18 @@
           isManual = _sd.position == 'manual',
           className = `${settings.classNames.dropdown}`;
       return `<div class="${isManual ? "" : className} ${_sd.classname}" role="listbox" aria-labelledby="dropdown">
-                    <div class="${settings.classNames.dropdownWrapper}"></div>
+                    <div data-selector='tagify-dropdown-wrapper' class="${settings.classNames.dropdownWrapper}"></div>
                 </div>`;
+    },
+
+    dropdownContent(HTMLContent) {
+      var _s = this.settings,
+          suggestions = this.state.dropdown.suggestions;
+      return `
+            ${_s.templates.dropdownHeader.call(this, suggestions)}
+            ${HTMLContent}
+            ${_s.templates.dropdownFooter.call(this, suggestions)}
+        `;
     },
 
     dropdownItem(item, tagify) {
@@ -1065,6 +1105,21 @@
                     class='${this.settings.classNames.dropdownItem} ${item.class ? item.class : ""}'
                     tabindex="0"
                     role="option">${item.value}</div>`;
+    },
+
+    /**
+     * Example: <header data-selector='tagify-suggestions-header' class="${this.settings.classNames.dropdownHeader}"></header>
+     * @param {Array} suggestions An array of all the matched sugegsted items, including those which were sliced away due to the "dropdown.maxItems" setting
+     */
+    dropdownHeader(suggestions) {
+      return '';
+    },
+
+    dropdownFooter(suggestions) {
+      var hasMore = suggestions.length - this.settings.dropdown.maxItems;
+      return hasMore > 0 ? `<footer data-selector='tagify-suggestions-footer' class="${this.settings.classNames.dropdownFooter}">
+                ${hasMore} more items. Refine your search.
+            </footer>` : '';
     },
 
     dropdownItemNoMatch: null
@@ -1283,15 +1338,19 @@
 
           return;
         } else if (type == "blur") {
+          var _this$value, _this$value$;
+
           this.trigger("blur", eventData);
-          this.loading(false); // when clicking the X button of a selected tag, it is unwanted it will be added back
+          this.loading(false);
+          let inWhitelist = _s.enforceWhitelist ? !!this.getWhitelistItem((_this$value = this.value) === null || _this$value === void 0 ? void 0 : (_this$value$ = _this$value[0]) === null || _this$value$ === void 0 ? void 0 : _this$value$.value) : _s.keepInvalidTags; // when clicking the X button of a selected tag, it is unwanted it will be added back
           // again in a few more lines of code (shouldAddTags && addTags)
 
           if (this.settings.mode == 'select' && isRelatedTargetX) text = '';
-          shouldAddTags = this.settings.mode == 'select' && text ? !this.value.length || this.value[0].value != text : text && !this.state.actions.selectOption && _s.addTagOnBlur; // do not add a tag if "selectOption" action was just fired (this means a tag was just added from the dropdown)
+          shouldAddTags = this.settings.mode !== 'select' && text && !this.state.actions.selectOption && _s.addTagOnBlur; // do not add a tag if "selectOption" action was just fired (this means a tag was just added from the dropdown)
 
-          shouldAddTags && this.addTags(text, true);
-          if (this.settings.mode == 'select' && !text) this.removeTags();
+          shouldAddTags && this.addTags(text, true); // if text value is not in the whitelist, clear it once the input is blured
+
+          if (this.settings.mode == 'select' && (!text || !inWhitelist)) this.removeTags();
         }
 
         this.DOM.input.removeAttribute('style');
@@ -1781,9 +1840,9 @@
             tagData = this.tagData(tagElm),
             value = this.input.normalize.call(this, editableElm),
             hasChanged = tagElm.innerHTML != tagElm.__tagifyTagData.__originalHTML,
-            isValid = this.validateTag({
+            isValid = this.validateTag(extend(tagElm.__tagifyTagData, {
           [this.settings.tagTextProp]: value
-        }); // the value could have been invalid in the first-place so make sure to re-validate it (via "addEmptyTag" method)
+        })); // the value could have been invalid in the first-place so make sure to re-validate it (via "addEmptyTag" method)
         // if the value is same as before-editing and the tag was valid before as well, ignore the  current "isValid" result, which is false-positive
 
         if (!hasChanged && editableElm.originalIsValid === true) isValid = true;
@@ -1851,11 +1910,11 @@
 
 
         hasMaxTags = this.hasMaxTags();
-        newTagData = this.getWhitelistItem(textValue) || extend({}, originalData, {
-          [_s.tagTextProp]: textValue,
+        newTagData = extend({}, originalData, {
+          [_s.tagTextProp]: this.trim(textValue),
           value: textValue,
           __isValid: isValid
-        });
+        }); // pass through optional transformer defined in settings
 
         _s.transformTag.call(this, newTagData, originalData); // MUST re-validate after tag transformation
         // only validate the "tagTextProp" because is the only thing that metters for validating an edited tag.
@@ -1864,9 +1923,7 @@
         // 2. max 3 tags allowed. there are 3 tags, one is edited, and so max-tags vaildation should be OK
 
 
-        isValid = (!hasMaxTags || originalData.__isValid === true) && this.validateTag({
-          [_s.tagTextProp]: newTagData[_s.tagTextProp]
-        });
+        isValid = (!hasMaxTags || originalData.__isValid === true) && this.validateTag(newTagData);
 
         if (isValid !== true) {
           this.trigger("invalid", {
@@ -2041,6 +2098,18 @@
 
   Tagify.prototype = {
     _dropdown,
+    helpers: {
+      sameStr,
+      removeCollectionProp,
+      omit,
+      isObject,
+      parseHTML,
+      escapeHTML,
+      extend,
+      concatWithoutDups,
+      getUID,
+      isNodeTag
+    },
     customEventsList: ['change', 'add', 'remove', 'invalid', 'input', 'click', 'keydown', 'focus', 'blur', 'edit:input', 'edit:beforeUpdate', 'edit:updated', 'edit:start', 'edit:keydown', 'dropdown:show', 'dropdown:hide', 'dropdown:select', 'dropdown:updated', 'dropdown:noMatch', 'dropdown:scroll'],
     dataProps: ['__isValid', '__removed', '__originalData', '__originalHTML', '__tagId'],
 
@@ -2250,9 +2319,11 @@
         DOM.input = input;
       } else {
         DOM.originalInput = input;
+        DOM.originalInput_tabIndex = input.tabIndex;
         DOM.scope = this.parseTemplate('wrapper', [input, this.settings]);
         DOM.input = DOM.scope.querySelector(this.settings.classNames.inputSelector);
         input.parentNode.insertBefore(DOM.scope, input);
+        input.tabIndex = -1; // do not allow focus or typing directly, once tagified
       }
     },
 
@@ -2262,6 +2333,7 @@
     destroy() {
       this.events.unbindGlobal.call(this);
       this.DOM.scope.parentNode.removeChild(this.DOM.scope);
+      this.DOM.originalInput.tabIndex = this.DOM.originalInput_tabIndex;
       this.dropdown.hide(true);
       clearTimeout(this.dropdownHide__bindEventsTimeout);
     },
@@ -2599,7 +2671,7 @@
 
         if (this.settings.trim) v = v.replace(/^\s+/, ''); // trimLeft
 
-        return v;
+        return this.trim(v);
       },
 
       /**
@@ -2702,12 +2774,12 @@
      * @param  {Boolean} caseSensitive
      * @return {Number}
      */
-    isTagDuplicate(value, caseSensitive) {
+    isTagDuplicate(value, caseSensitive, tagId) {
       var dupsCount,
           _s = this.settings; // duplications are irrelevant for this scenario
 
       if (_s.mode == 'select') return false;
-      dupsCount = this.value.reduce((acc, item) => sameStr(this.trim("" + value), item.value, caseSensitive || _s.dropdown.caseSensitive) ? acc + 1 : acc, 0);
+      dupsCount = this.value.reduce((acc, item) => sameStr(this.trim("" + value), item.value, caseSensitive || _s.dropdown.caseSensitive) && tagId != item.__tagId ? acc + 1 : acc, 0);
       return dupsCount;
     },
 
@@ -2805,7 +2877,7 @@
 
       if (_s.pattern && _s.pattern instanceof RegExp && !_s.pattern.test(v)) return this.TEXTS.pattern; // check for duplicates
 
-      if (!_s.duplicates && this.isTagDuplicate(v, this.state.editing)) return this.TEXTS.duplicate;
+      if (!_s.duplicates && this.isTagDuplicate(v, this.state.editing, tagData.__tagId)) return this.TEXTS.duplicate;
       if (this.isTagBlacklisted(v) || _s.enforceWhitelist && !this.isTagWhitelisted(v)) return this.TEXTS.notAllowed;
       if (_s.validate) return _s.validate(tagData);
       return true;
@@ -2829,14 +2901,14 @@
 
       _s[attrribute || 'readonly'] = toggle;
       this.DOM.scope[(toggle ? 'set' : 'remove') + 'Attribute'](attrribute || 'readonly', true);
-
-      if (_s.mode == 'mix') {
-        this.setContentEditable(!toggle);
-      }
+      this.setContentEditable(!toggle);
     },
 
     setContentEditable(state) {
-      if (!this.settings.readonly && this.settings.userInput) this.DOM.input.contentEditable = state;
+      if (!this.settings.readonly && this.settings.userInput) {
+        this.DOM.input.contentEditable = state;
+        this.DOM.input.tabIndex = !!state ? 0 : -1;
+      }
     },
 
     setDisabled(isDisabled) {
@@ -3006,8 +3078,9 @@
 
       if (this.state.actions.selectOption) setTimeout(this.setRangeAtStartEnd.bind(this));
       var lastTagElm = this.getLastTag();
-      if (lastTagElm) this.replaceTag(lastTagElm, tagData);else this.appendTag(tagElm);
-      if (_s.enforceWhitelist) this.setContentEditable(false);
+      if (lastTagElm) this.replaceTag(lastTagElm, tagData);else this.appendTag(tagElm); // if( _s.enforceWhitelist )
+      //     this.setContentEditable(false);
+
       this.value[0] = tagData;
       this.update();
       this.trigger('add', {
@@ -3218,7 +3291,7 @@
      */
     appendTag(tagElm) {
       var DOM = this.DOM,
-          insertBeforeNode = DOM.scope.lastElementChild;
+          insertBeforeNode = DOM.input;
       if (insertBeforeNode === DOM.input) DOM.scope.insertBefore(tagElm, insertBeforeNode);else DOM.scope.appendChild(tagElm);
     },
 
@@ -3448,7 +3521,7 @@
               result += "\r\n";
             }
 
-            if (node.tagName == 'DIV' || node.tagName == 'P') {
+            if (node.getAttribute('style') || ['B', 'I', 'U'].includes(node.tagName)) result += node.textContent;else if (node.tagName == 'DIV' || node.tagName == 'P') {
               result += "\r\n"; //  if( !node.children.length && node.textContent )
               //  result += node.textContent;
 

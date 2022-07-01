@@ -57,34 +57,59 @@ if groups:
 else:
     elements = svg.getElementsByTagName('g')
 
+
+def apply_element_transform(paths, element):
+    if element.hasAttribute('transform'):
+        print element.getAttribute('id'), element.getAttribute('transform')
+        for transform in re.findall(r'(\w+)\(([^\)]+)\)', element.getAttribute('transform')):
+            matrix = None
+            transform_values = [float(v) for v in re.split(r'[,\s]\s*', transform[1])]
+            # TODO: https://www.w3.org/TR/SVG/coords.html#TransformMatrixDefined defines all the matrix-transforms
+            if transform[0] == 'translate':
+                matrix = (1, 0, transform_values[0], 0, 1, transform_values[1])
+            elif transform[0] == 'matrix':
+                matrix = transform_values
+
+            if matrix:
+                print('transforming', matrix)
+                for path in paths:
+                    # See: https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform
+                    path[1] = [
+                        ((matrix[0] * px) + (matrix[2] * py) + matrix[4],
+                         (matrix[1] * px) + (matrix[3] * py) + matrix[5])
+                        for px, py in path[1]
+                    ]
+
+
+def points_from_path(path):
+    paths = []
+    points = parse_path.get_points(path.getAttribute('d'))
+    for pointset in points:
+        paths.append([path.getAttribute('id'), pointset])
+    apply_element_transform(paths, path)
+    return paths
+
+
 parsed_groups = {}
 for e in elements:
     paths = []
     if e.nodeName == 'g':
         for path in e.getElementsByTagName('path'):
-            points = parse_path.get_points(path.getAttribute('d'))
-            for pointset in points:
-                paths.append([path.getAttribute('id'), pointset])
+            paths.extend(points_from_path(path))
+        apply_element_transform(paths, e)
     else:
-        points = parse_path.get_points(e.getAttribute('d'))
-        for pointset in points:
-            paths.append([e.getAttribute('id'), pointset])
-    if e.hasAttribute('transform'):
-        print e.getAttribute('id'), e.getAttribute('transform')
-        for transform in re.findall(r'(\w+)\((-?\d+.?\d*),(-?\d+.?\d*)\)', e.getAttribute('transform')):
-            if transform[0] == 'translate':
-                x_shift = float(transform[1])
-                y_shift = float(transform[2])
-                for path in paths:
-                    path[1] = [(p[0] + x_shift, p[1] + y_shift) for p in path[1]]
-    
+        paths.extend(points_from_path(e))
+
     parsed_groups[e.getAttribute('id')] = paths
 
+# print(parsed_groups)
 out = []
 for g in parsed_groups:
     for path in parsed_groups[g]:
-        out.append('<area href="#" title="%s" shape="poly" coords="%s"></area>' %
-            (path[0], ', '.join([("%d,%d" % (p[0]*width_ratio, p[1]*height_ratio)) for p in path[1]])))
+        out.append(
+            '<area href="#" title="%s" shape="poly" coords="%s"></area>' %
+            (path[0], ', '.join([("%d,%d" % (p[0] * width_ratio, p[1] * height_ratio)) for p in path[1]]))
+        )
 
 outfile = open(sys.argv[1].replace('.svg', '.html'), 'w')
 outfile.write('\n'.join(out))

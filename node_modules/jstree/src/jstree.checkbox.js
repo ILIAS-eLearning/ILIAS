@@ -8,10 +8,10 @@
 (function (factory) {
 	"use strict";
 	if (typeof define === 'function' && define.amd) {
-		define('jstree.checkbox', ['jquery','jstree'], factory);
+		define('jstree.checkbox', ['jquery','./jstree.js'], factory);
 	}
 	else if(typeof exports === 'object') {
-		factory(require('jquery'), require('jstree'));
+		factory(require('jquery'), require('./jstree.js'));
 	}
 	else {
 		factory(jQuery, jQuery.jstree);
@@ -92,7 +92,7 @@
 				this.settings.checkbox.cascade = 'up+down+undetermined';
 			}
 			this.element
-				.on("init.jstree", $.proxy(function () {
+				.on("init.jstree", function () {
 						this._data.checkbox.visible = this.settings.checkbox.visible;
 						if(!this.settings.checkbox.keep_selected_style) {
 							this.element.addClass('jstree-checkbox-no-clicked');
@@ -100,21 +100,21 @@
 						if(this.settings.checkbox.tie_selection) {
 							this.element.addClass('jstree-checkbox-selection');
 						}
-					}, this))
-				.on("loading.jstree", $.proxy(function () {
+					}.bind(this))
+				.on("loading.jstree", function () {
 						this[ this._data.checkbox.visible ? 'show_checkboxes' : 'hide_checkboxes' ]();
-					}, this));
+					}.bind(this));
 			if(this.settings.checkbox.cascade.indexOf('undetermined') !== -1) {
 				this.element
-					.on('changed.jstree uncheck_node.jstree check_node.jstree uncheck_all.jstree check_all.jstree move_node.jstree copy_node.jstree redraw.jstree open_node.jstree', $.proxy(function () {
+					.on('changed.jstree uncheck_node.jstree check_node.jstree uncheck_all.jstree check_all.jstree move_node.jstree copy_node.jstree redraw.jstree open_node.jstree', function () {
 							// only if undetermined is in setting
 							if(this._data.checkbox.uto) { clearTimeout(this._data.checkbox.uto); }
-							this._data.checkbox.uto = setTimeout($.proxy(this._undetermined, this), 50);
-						}, this));
+							this._data.checkbox.uto = setTimeout(this._undetermined.bind(this), 50);
+						}.bind(this));
 			}
 			if(!this.settings.checkbox.tie_selection) {
 				this.element
-					.on('model.jstree', $.proxy(function (e, data) {
+					.on('model.jstree', function (e, data) {
 						var m = this._model.data,
 							p = m[data.parent],
 							dpc = data.nodes,
@@ -125,11 +125,11 @@
 								this._data.checkbox.selected.push(dpc[i]);
 							}
 						}
-					}, this));
+					}.bind(this));
 			}
 			if(this.settings.checkbox.cascade.indexOf('up') !== -1 || this.settings.checkbox.cascade.indexOf('down') !== -1) {
 				this.element
-					.on('model.jstree', $.proxy(function (e, data) {
+					.on('model.jstree', function (e, data) {
 							var m = this._model.data,
 								p = m[data.parent],
 								dpc = data.nodes,
@@ -189,8 +189,8 @@
 							}
 
 							this._data[ t ? 'core' : 'checkbox' ].selected = $.vakata.array_unique(this._data[ t ? 'core' : 'checkbox' ].selected);
-						}, this))
-					.on(this.settings.checkbox.tie_selection ? 'select_node.jstree' : 'check_node.jstree', $.proxy(function (e, data) {
+						}.bind(this))
+					.on(this.settings.checkbox.tie_selection ? 'select_node.jstree' : 'check_node.jstree', function (e, data) {
 							var self = this,
 								obj = data.node,
 								m = this._model.data,
@@ -247,8 +247,8 @@
 								}
 							}
 							this._data[ t ? 'core' : 'checkbox' ].selected = cur;
-						}, this))
-					.on(this.settings.checkbox.tie_selection ? 'deselect_all.jstree' : 'uncheck_all.jstree', $.proxy(function (e, data) {
+						}.bind(this))
+					.on(this.settings.checkbox.tie_selection ? 'deselect_all.jstree' : 'uncheck_all.jstree', function (e, data) {
 							var obj = this.get_node($.jstree.root),
 								m = this._model.data,
 								i, j, tmp;
@@ -258,8 +258,8 @@
 									tmp.original.state.undetermined = false;
 								}
 							}
-						}, this))
-					.on(this.settings.checkbox.tie_selection ? 'deselect_node.jstree' : 'uncheck_node.jstree', $.proxy(function (e, data) {
+						}.bind(this))
+					.on(this.settings.checkbox.tie_selection ? 'deselect_node.jstree' : 'uncheck_node.jstree', function (e, data) {
 							var self = this,
 								obj = data.node,
 								dom = this.get_node(obj, true),
@@ -298,11 +298,11 @@
 							}
 
 							this._data[ t ? 'core' : 'checkbox' ].selected = cur;
-						}, this));
+						}.bind(this));
 			}
 			if(this.settings.checkbox.cascade.indexOf('up') !== -1) {
 				this.element
-					.on('delete_node.jstree', $.proxy(function (e, data) {
+					.on('delete_node.jstree', function (e, data) {
 							// apply up (whole handler)
 							var p = this.get_node(data.parent),
 								m = this._model.data,
@@ -325,8 +325,8 @@
 								}
 								p = this.get_node(p.parent);
 							}
-						}, this))
-					.on('move_node.jstree', $.proxy(function (e, data) {
+						}.bind(this))
+					.on('move_node.jstree', function (e, data) {
 							// apply up (whole handler)
 							var is_multi = data.is_multi,
 								old_par = data.old_parent,
@@ -385,7 +385,7 @@
 								}
 								p = this.get_node(p.parent);
 							}
-						}, this));
+						}.bind(this));
 			}
 		};
 		/**
@@ -496,7 +496,7 @@
 			}
 			if(!is_callback && this.settings.checkbox.cascade.indexOf('undetermined') !== -1) {
 				if(this._data.checkbox.uto) { clearTimeout(this._data.checkbox.uto); }
-				this._data.checkbox.uto = setTimeout($.proxy(this._undetermined, this), 50);
+				this._data.checkbox.uto = setTimeout(this._undetermined.bind(this), 50);
 			}
 			return obj;
 		};
@@ -549,7 +549,7 @@
 		 */
 		this.disable_checkbox = function (obj) {
 			var t1, t2, dom;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.disable_checkbox(obj[t1]);
@@ -585,7 +585,7 @@
 		 */
 		this.enable_checkbox = function (obj) {
 			var t1, t2, dom;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.enable_checkbox(obj[t1]);
@@ -639,6 +639,7 @@
 		 * Cascades checked state to a node and all its descendants. This function does NOT affect hidden and disabled nodes (or their descendants).
 		 * However if these unaffected nodes are already selected their ids will be included in the returned array.
 		 * @private
+		 * @name _cascade_new_checked_state(id, checkedState)
 		 * @param {string} id the node ID
 		 * @param {bool} checkedState should the nodes be checked or not
 		 * @returns {Array} Array of all node id's (in this tree branch) that are checked.
@@ -733,7 +734,7 @@
 		this.check_node = function (obj, e) {
 			if(this.settings.checkbox.tie_selection) { return this.select_node(obj, false, true, e); }
 			var dom, t1, t2, th;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.check_node(obj[t1], e);
@@ -773,7 +774,7 @@
 		this.uncheck_node = function (obj, e) {
 			if(this.settings.checkbox.tie_selection) { return this.deselect_node(obj, false, e); }
 			var t1, t2, dom;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.uncheck_node(obj[t1], e);
@@ -877,7 +878,7 @@
 		 */
 		this.get_checked = function (full) {
 			if(this.settings.checkbox.tie_selection) { return this.get_selected(full); }
-			return full ? $.map(this._data.checkbox.selected, $.proxy(function (i) { return this.get_node(i); }, this)) : this._data.checkbox.selected.slice();
+			return full ? $.map(this._data.checkbox.selected, function (i) { return this.get_node(i); }.bind(this)) : this._data.checkbox.selected.slice();
 		};
 		/**
 		 * get an array of all top level checked nodes (ignoring children of checked nodes) (if tie_selection is on in the settings this function will return the same as get_top_selected)
@@ -906,7 +907,7 @@
 					tmp.push(i);
 				}
 			}
-			return full ? $.map(tmp, $.proxy(function (i) { return this.get_node(i); }, this)) : tmp;
+			return full ? $.map(tmp, function (i) { return this.get_node(i); }.bind(this)) : tmp;
 		};
 		/**
 		 * get an array of all bottom level checked nodes (ignoring selected parents) (if tie_selection is on in the settings this function will return the same as get_bottom_selected)
@@ -924,11 +925,11 @@
 					obj.push(tmp[i].id);
 				}
 			}
-			return full ? $.map(obj, $.proxy(function (i) { return this.get_node(i); }, this)) : obj;
+			return full ? $.map(obj, function (i) { return this.get_node(i); }.bind(this)) : obj;
 		};
 		this.load_node = function (obj, callback) {
 			var k, l, i, j, c, tmp;
-			if(!$.isArray(obj) && !this.settings.checkbox.tie_selection) {
+			if(!$.vakata.is_array(obj) && !this.settings.checkbox.tie_selection) {
 				tmp = this.get_node(obj);
 				if(tmp && tmp.state.loaded) {
 					for(k = 0, l = tmp.children_d.length; k < l; k++) {

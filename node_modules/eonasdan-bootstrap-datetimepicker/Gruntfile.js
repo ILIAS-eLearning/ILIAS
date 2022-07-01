@@ -17,7 +17,10 @@ module.exports = function (grunt) {
                     ascii_only: true // jshint ignore:line
                 },
                 report: 'min',
-                preserveComments: 'some'
+                preserveComments: function(node, comment) {
+                    // preserve comments that start with a bang
+                    return /^!/.test( comment.value );
+                }
             }
         },
         jshint: {
@@ -161,7 +164,7 @@ module.exports = function (grunt) {
     grunt.registerTask('default', ['jshint', 'jscs', 'less', 'env:paris', 'connect', 'jasmine']);
     grunt.registerTask('build:travis', [
         // code style
-        'jshint', 'jscs',
+        'jshint',
         // build
         'uglify', 'less',
         // tests

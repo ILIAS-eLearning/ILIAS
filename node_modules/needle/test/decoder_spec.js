@@ -1,18 +1,52 @@
 var should  = require('should'),
     needle  = require('./../'),
+    decoder = require('./../lib/decoder'),
     Q       = require('q'),
     chardet = require('jschardet'),
+    fs      = require('fs'),
+    http    = require('http'),
     helpers = require('./helpers');
 
 describe('character encoding', function() {
 
-  var url;
   this.timeout(5000);
 
   describe('Given content-type: "text/html; charset=EUC-JP"', function() {
 
-    before(function() {
-      url = 'http://www.nina.jp/server/slackware/webapp/tomcat_charset.html';
+    var port = 2233;
+    var server;
+
+    function createServer() {
+      return http.createServer(function(req, res) {
+
+        req.on('data', function(chunk) {})
+
+        req.on('end', function() {
+          // We used to pull from a particular site that is no longer up.
+          // This is a local mirror pulled from archive.org
+          // https://web.archive.org/web/20181003202907/http://www.nina.jp/server/slackware/webapp/tomcat_charset.html
+          fs.readFile('test/tomcat_charset.html', function(err, data) {
+            if (err) {
+              res.writeHead(404);
+              res.end(JSON.stringify(err));
+              return;
+            }
+            res.writeHeader(200, { 'Content-Type': 'text/html; charset=EUC-JP' })
+            res.end(data);
+          });
+        })
+
+      })
+    }
+
+    before(function(done) {
+      server = createServer();
+      server.listen(port, done)
+      url = 'http://localhost:' + port;
+    })
+
+    after(function(done) {
+      server.close(done)
     })
 
     describe('with decode = false', function() {
@@ -118,4 +152,97 @@ describe('character encoding', function() {
     })
 
   })
+  
+  describe('multibyte characters split across chunks', function () {
+
+    describe('with encoding = utf-8', function() {
+    
+      var d, 
+        result = Buffer.allocUnsafe(0);
+
+      before(function(done) {
+        d = decoder('utf-8');
+        done();
+      });
+
+      it('reassembles split multibyte characters', function (done) {
+
+        d.on("data", function(chunk){
+          result = Buffer.concat([ result, chunk ]);
+        });
+
+        d.on("end", function(){
+          result.toString("utf-8").should.eql('慶');
+          done();
+        });
+
+        // write '慶' in utf-8 split across chunks
+        d.write(Buffer.from([0xE6]));
+        d.write(Buffer.from([0x85]));
+        d.write(Buffer.from([0xB6]));
+        d.end();
+
+      })
+    })
+    
+    describe('with encoding = euc-jp', function() {
+    
+      var d, 
+        result = Buffer.allocUnsafe(0);
+
+      before(function(done) {
+        d = decoder('euc-jp');
+        done();
+      });
+
+      it('reassembles split multibyte characters', function (done) {
+
+        d.on("data", function(chunk){
+          result = Buffer.concat([ result, chunk ]);
+        });
+
+        d.on("end", function(){
+          result.toString("utf-8").should.eql('慶');
+          done();
+        });
+
+        // write '慶' in euc-jp split across chunks
+        d.write(Buffer.from([0xB7]));
+        d.write(Buffer.from([0xC4]));
+        d.end();
+
+      })
+    })
+    
+    describe('with encoding = gb18030', function() {
+    
+      var d, 
+        result = Buffer.allocUnsafe(0);
+
+      before(function(done) {
+        d = decoder('gb18030');
+        done();
+      });
+
+      it('reassembles split multibyte characters', function (done) {
+
+        d.on("data", function(chunk){
+          result = Buffer.concat([ result, chunk ]);
+        });
+
+        d.on("end", function(){
+          result.toString("utf-8").should.eql('慶');
+          done();
+        });
+
+        // write '慶' in gb18030 split across chunks
+        d.write(Buffer.from([0x91]));
+        d.write(Buffer.from([0x63]));
+        d.end();
+
+      })
+    })
+
+  })
+  
 })

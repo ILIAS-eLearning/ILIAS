@@ -1,18 +1,12 @@
 /**
- * EvEmitter v1.1.0
+ * EvEmitter v2.1.1
  * Lil' event emitter
  * MIT License
  */
 
-/* jshint unused: true, undef: true, strict: true */
-
 ( function( global, factory ) {
   // universal module definition
-  /* jshint strict: false */ /* globals define, module, window */
-  if ( typeof define == 'function' && define.amd ) {
-    // AMD - RequireJS
-    define( factory );
-  } else if ( typeof module == 'object' && module.exports ) {
+  if ( typeof module == 'object' && module.exports ) {
     // CommonJS - Browserify, Webpack
     module.exports = factory();
   } else {
@@ -22,22 +16,19 @@
 
 }( typeof window != 'undefined' ? window : this, function() {
 
-"use strict";
-
 function EvEmitter() {}
 
-var proto = EvEmitter.prototype;
+let proto = EvEmitter.prototype;
 
 proto.on = function( eventName, listener ) {
-  if ( !eventName || !listener ) {
-    return;
-  }
+  if ( !eventName || !listener ) return this;
+
   // set events hash
-  var events = this._events = this._events || {};
+  let events = this._events = this._events || {};
   // set listeners array
-  var listeners = events[ eventName ] = events[ eventName ] || [];
+  let listeners = events[ eventName ] = events[ eventName ] || [];
   // only add once
-  if ( listeners.indexOf( listener ) == -1 ) {
+  if ( !listeners.includes( listener ) ) {
     listeners.push( listener );
   }
 
@@ -45,16 +36,15 @@ proto.on = function( eventName, listener ) {
 };
 
 proto.once = function( eventName, listener ) {
-  if ( !eventName || !listener ) {
-    return;
-  }
+  if ( !eventName || !listener ) return this;
+
   // add event
   this.on( eventName, listener );
   // set once flag
   // set onceEvents hash
-  var onceEvents = this._onceEvents = this._onceEvents || {};
+  let onceEvents = this._onceEvents = this._onceEvents || {};
   // set onceListeners object
-  var onceListeners = onceEvents[ eventName ] = onceEvents[ eventName ] || {};
+  let onceListeners = onceEvents[ eventName ] = onceEvents[ eventName ] || {};
   // set flag
   onceListeners[ listener ] = true;
 
@@ -62,11 +52,10 @@ proto.once = function( eventName, listener ) {
 };
 
 proto.off = function( eventName, listener ) {
-  var listeners = this._events && this._events[ eventName ];
-  if ( !listeners || !listeners.length ) {
-    return;
-  }
-  var index = listeners.indexOf( listener );
+  let listeners = this._events && this._events[ eventName ];
+  if ( !listeners || !listeners.length ) return this;
+
+  let index = listeners.indexOf( listener );
   if ( index != -1 ) {
     listeners.splice( index, 1 );
   }
@@ -75,19 +64,17 @@ proto.off = function( eventName, listener ) {
 };
 
 proto.emitEvent = function( eventName, args ) {
-  var listeners = this._events && this._events[ eventName ];
-  if ( !listeners || !listeners.length ) {
-    return;
-  }
+  let listeners = this._events && this._events[ eventName ];
+  if ( !listeners || !listeners.length ) return this;
+
   // copy over to avoid interference if .off() in listener
-  listeners = listeners.slice(0);
+  listeners = listeners.slice( 0 );
   args = args || [];
   // once stuff
-  var onceListeners = this._onceEvents && this._onceEvents[ eventName ];
+  let onceListeners = this._onceEvents && this._onceEvents[ eventName ];
 
-  for ( var i=0; i < listeners.length; i++ ) {
-    var listener = listeners[i]
-    var isOnce = onceListeners && onceListeners[ listener ];
+  for ( let listener of listeners ) {
+    let isOnce = onceListeners && onceListeners[ listener ];
     if ( isOnce ) {
       // remove listener
       // remove before trigger to prevent recursion
@@ -105,8 +92,9 @@ proto.emitEvent = function( eventName, args ) {
 proto.allOff = function() {
   delete this._events;
   delete this._onceEvents;
+  return this;
 };
 
 return EvEmitter;
 
-}));
+} ) );

@@ -22,8 +22,8 @@ const Property = {
 export class CollectionEvent extends Event {
   /**
    * @param {import("./CollectionEventType.js").default} type Type.
-   * @param {*=} opt_element Element.
-   * @param {number=} opt_index The index of the added or removed element.
+   * @param {*} [opt_element] Element.
+   * @param {number} [opt_index] The index of the added or removed element.
    */
   constructor(type, opt_element, opt_index) {
     super(type);
@@ -43,6 +43,15 @@ export class CollectionEvent extends Event {
     this.index = opt_index;
   }
 }
+
+/***
+ * @template Return
+ * @typedef {import("./Observable").OnSignature<import("./Observable").EventTypes, import("./events/Event.js").default, Return> &
+ *   import("./Observable").OnSignature<import("./ObjectEventType").Types|'change:length', import("./Object").ObjectEvent, Return> &
+ *   import("./Observable").OnSignature<'add'|'remove', CollectionEvent, Return> &
+ *   import("./Observable").CombinedOnSignature<import("./Observable").EventTypes|import("./ObjectEventType").Types|
+ *     'change:length'|'add'|'remove',Return>} CollectionOnSignature
+ */
 
 /**
  * @typedef {Object} Options
@@ -65,11 +74,26 @@ export class CollectionEvent extends Event {
  */
 class Collection extends BaseObject {
   /**
-   * @param {Array<T>=} opt_array Array.
-   * @param {Options=} opt_options Collection options.
+   * @param {Array<T>} [opt_array] Array.
+   * @param {Options} [opt_options] Collection options.
    */
   constructor(opt_array, opt_options) {
     super();
+
+    /***
+     * @type {CollectionOnSignature<import("./events").EventsKey>}
+     */
+    this.on;
+
+    /***
+     * @type {CollectionOnSignature<import("./events").EventsKey>}
+     */
+    this.once;
+
+    /***
+     * @type {CollectionOnSignature<void>}
+     */
+    this.un;
 
     const options = opt_options || {};
 
@@ -277,7 +301,7 @@ class Collection extends BaseObject {
   /**
    * @private
    * @param {T} elem Element.
-   * @param {number=} opt_except Optional index to ignore.
+   * @param {number} [opt_except] Optional index to ignore.
    */
   assertUnique_(elem, opt_except) {
     for (let i = 0, ii = this.array_.length; i < ii; ++i) {

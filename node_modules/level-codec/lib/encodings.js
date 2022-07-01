@@ -1,3 +1,5 @@
+var Buffer = require('buffer').Buffer
+
 exports.utf8 = exports['utf-8'] = {
   encode: function (data) {
     return isBinary(data) ? data : String(data)

@@ -8,6 +8,7 @@
 	"constants",
 	"crypto",
 	"dgram",
+	"diagnostics_channel",
 	"dns",
 	"domain",
 	"events",
@@ -36,5 +37,7 @@
 	"util",
 	"v8",
 	"vm",
+	"wasi",
+	"worker_threads",
 	"zlib"
 ]

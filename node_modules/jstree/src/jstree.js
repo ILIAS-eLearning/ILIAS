@@ -274,7 +274,7 @@
 		 * You can also pass in a HTML string or a JSON array here.
 		 *
 		 * It is possible to pass in a standard jQuery-like AJAX config and jstree will automatically determine if the response is JSON or HTML and use that to populate the tree.
-		 * In addition to the standard jQuery ajax options here you can suppy functions for `data` and `url`, the functions will be run in the current instance's scope and a param will be passed indicating which node is being loaded, the return value of those functions will be used.
+		 * In addition to the standard jQuery ajax options here you can supply functions for `data` and `url`, the functions will be run in the current instance's scope and a param will be passed indicating which node is being loaded, the return value of those functions will be used.
 		 *
 		 * The last option is to specify a function, that function will receive the node being loaded as argument and a second param which is a function which should be called with the result.
 		 *
@@ -454,6 +454,12 @@
 		 */
 		restore_focus : true,
 		/**
+		 * Force to compute and set "aria-setsize" and "aria-posinset" explicitly for each treeitem. 
+		 * Some browsers may compute incorrect elements position and produce wrong announcements for screen readers. Defaults to `false`
+		 * @name $.jstree.defaults.core.compute_elements_positions
+		 */
+		compute_elements_positions : false,
+		/**
 		 * Default keyboard shortcuts (an object where each key is the button name or combo - like 'enter', 'ctrl-space', 'p', etc and the value is the function to execute in the instance's scope)
 		 * @name $.jstree.defaults.core.keyboard
 		 */
@@ -476,31 +482,31 @@
 				}
 				else {
 					var o = this.get_parent(e.currentTarget);
-					if(o && o.id !== $.jstree.root) { this.get_node(o, true).children('.jstree-anchor').focus(); }
+					if(o && o.id !== $.jstree.root) { this.get_node(o, true).children('.jstree-anchor').trigger('focus'); }
 				}
 			},
 			'up': function (e) {
 				// up
 				e.preventDefault();
 				var o = this.get_prev_dom(e.currentTarget);
-				if(o && o.length) { o.children('.jstree-anchor').focus(); }
+				if(o && o.length) { o.children('.jstree-anchor').trigger('focus'); }
 			},
 			'right': function (e) {
 				// right
 				e.preventDefault();
 				if(this.is_closed(e.currentTarget)) {
-					this.open_node(e.currentTarget, function (o) { this.get_node(o, true).children('.jstree-anchor').focus(); });
+					this.open_node(e.currentTarget, function (o) { this.get_node(o, true).children('.jstree-anchor').trigger('focus'); });
 				}
 				else if (this.is_open(e.currentTarget)) {
 					var o = this.get_node(e.currentTarget, true).children('.jstree-children')[0];
-					if(o) { $(this._firstChild(o)).children('.jstree-anchor').focus(); }
+					if(o) { $(this._firstChild(o)).children('.jstree-anchor').trigger('focus'); }
 				}
 			},
 			'down': function (e) {
 				// down
 				e.preventDefault();
 				var o = this.get_next_dom(e.currentTarget);
-				if(o && o.length) { o.children('.jstree-anchor').focus(); }
+				if(o && o.length) { o.children('.jstree-anchor').trigger('focus'); }
 			},
 			'*': function (e) {
 				// aria defines * on numpad as open_all - not very common
@@ -510,12 +516,12 @@
 				// home
 				e.preventDefault();
 				var o = this._firstChild(this.get_container_ul()[0]);
-				if(o) { $(o).children('.jstree-anchor').filter(':visible').focus(); }
+				if(o) { $(o).children('.jstree-anchor').filter(':visible').trigger('focus'); }
 			},
 			'end': function (e) {
 				// end
 				e.preventDefault();
-				this.element.find('.jstree-anchor').filter(':visible').last().focus();
+				this.element.find('.jstree-anchor').filter(':visible').last().trigger('focus');
 			},
 			'f2': function (e) {
 				// f2 - safe to include - if check_callback is false it will fail
@@ -602,7 +608,7 @@
 					return this.nodeType === 3 && (!this.nodeValue || /^\s+$/.test(this.nodeValue));
 				})
 				.remove();
-			this.element.html("<"+"ul class='jstree-container-ul jstree-children' role='group'><"+"li id='j"+this._id+"_loading' class='jstree-initial-node jstree-loading jstree-leaf jstree-last' role='treeitem'><i class='jstree-icon jstree-ocl'></i><"+"a class='jstree-anchor' href='#'><i class='jstree-icon jstree-themeicon-hidden'></i>" + this.get_string("Loading ...") + "</a></li></ul>");
+			this.element.html("<"+"ul class='jstree-container-ul jstree-children' role='group'><"+"li id='j"+this._id+"_loading' class='jstree-initial-node jstree-loading jstree-leaf jstree-last' role='none'><i class='jstree-icon jstree-ocl'></i><"+"a class='jstree-anchor' role='treeitem' href='#'><i class='jstree-icon jstree-themeicon-hidden'></i>" + this.get_string("Loading ...") + "</a></li></ul>");
 			this.element.attr('aria-activedescendant','j' + this._id + '_loading');
 			this._data.core.li_height = this.get_container_ul().children("li").first().outerHeight() || 24;
 			this._data.core.node = this._create_prototype_node();
@@ -643,7 +649,7 @@
 		 */
 		_create_prototype_node : function () {
 			var _node = document.createElement('LI'), _temp1, _temp2;
-			_node.setAttribute('role', 'treeitem');
+			_node.setAttribute('role', 'none');
 			_temp1 = document.createElement('I');
 			_temp1.className = 'jstree-icon jstree-ocl';
 			_temp1.setAttribute('role', 'presentation');
@@ -652,6 +658,7 @@
 			_temp1.className = 'jstree-anchor';
 			_temp1.setAttribute('href','#');
 			_temp1.setAttribute('tabindex','-1');
+			_temp1.setAttribute('role', 'treeitem');
 			_temp2 = document.createElement('I');
 			_temp2.className = 'jstree-icon jstree-themeicon';
 			_temp2.setAttribute('role', 'presentation');
@@ -746,30 +753,30 @@
 							}
 						}
 					})
-				.on("mousedown.jstree", $.proxy(function (e) {
+				.on("mousedown.jstree", function (e) {
 						if(e.target === this.element[0]) {
 							e.preventDefault(); // prevent losing focus when clicking scroll arrows (FF, Chrome)
 							was_click = +(new Date()); // ie does not allow to prevent losing focus
 						}
-					}, this))
+					}.bind(this))
 				.on("mousedown.jstree", ".jstree-ocl", function (e) {
 						e.preventDefault(); // prevent any node inside from losing focus when clicking the open/close icon
 					})
-				.on("click.jstree", ".jstree-ocl", $.proxy(function (e) {
+				.on("click.jstree", ".jstree-ocl", function (e) {
 						this.toggle_node(e.target);
-					}, this))
-				.on("dblclick.jstree", ".jstree-anchor", $.proxy(function (e) {
+					}.bind(this))
+				.on("dblclick.jstree", ".jstree-anchor", function (e) {
 						if(e.target.tagName && e.target.tagName.toLowerCase() === "input") { return true; }
 						if(this.settings.core.dblclick_toggle) {
 							this.toggle_node(e.target);
 						}
-					}, this))
-				.on("click.jstree", ".jstree-anchor", $.proxy(function (e) {
+					}.bind(this))
+				.on("click.jstree", ".jstree-anchor", function (e) {
 						e.preventDefault();
-						if(e.currentTarget !== document.activeElement) { $(e.currentTarget).focus(); }
+						if(e.currentTarget !== document.activeElement) { $(e.currentTarget).trigger('focus'); }
 						this.activate_node(e.currentTarget, e);
-					}, this))
-				.on('keydown.jstree', '.jstree-anchor', $.proxy(function (e) {
+					}.bind(this))
+				.on('keydown.jstree', '.jstree-anchor', function (e) {
 						if(e.target.tagName && e.target.tagName.toLowerCase() === "input") { return true; }
 						if(this._data.core.rtl) {
 							if(e.which === 37) { e.which = 39; }
@@ -782,8 +789,8 @@
 								return r;
 							}
 						}
-					}, this))
-				.on("load_node.jstree", $.proxy(function (e, data) {
+					}.bind(this))
+				.on("load_node.jstree", function (e, data) {
 						if(data.status) {
 							if(data.node.id === $.jstree.root && !this._data.core.loaded) {
 								this._data.core.loaded = true;
@@ -798,7 +805,7 @@
 								this.trigger("loaded");
 							}
 							if(!this._data.core.ready) {
-								setTimeout($.proxy(function() {
+								setTimeout(function() {
 									if(this.element && !this.get_container_ul().find('.jstree-loading').length) {
 										this._data.core.ready = true;
 										if(this._data.core.selected.length) {
@@ -821,12 +828,12 @@
 										 */
 										this.trigger("ready");
 									}
-								}, this), 0);
+								}.bind(this), 0);
 							}
 						}
-					}, this))
+					}.bind(this))
 				// quick searching when the tree is focused
-				.on('keypress.jstree', $.proxy(function (e) {
+				.on('keypress.jstree', function (e) {
 						if(e.target.tagName && e.target.tagName.toLowerCase() === "input") { return true; }
 						if(tout) { clearTimeout(tout); }
 						tout = setTimeout(function () {
@@ -841,50 +848,50 @@
 
 						// match for whole word from current node down (including the current node)
 						if(word.length > 1) {
-							col.slice(ind).each($.proxy(function (i, v) {
+							col.slice(ind).each(function (i, v) {
 								if($(v).text().toLowerCase().indexOf(word) === 0) {
-									$(v).focus();
+									$(v).trigger('focus');
 									end = true;
 									return false;
 								}
-							}, this));
+							}.bind(this));
 							if(end) { return; }
 
 							// match for whole word from the beginning of the tree
-							col.slice(0, ind).each($.proxy(function (i, v) {
+							col.slice(0, ind).each(function (i, v) {
 								if($(v).text().toLowerCase().indexOf(word) === 0) {
-									$(v).focus();
+									$(v).trigger('focus');
 									end = true;
 									return false;
 								}
-							}, this));
+							}.bind(this));
 							if(end) { return; }
 						}
 						// list nodes that start with that letter (only if word consists of a single char)
 						if(new RegExp('^' + chr.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '+$').test(word)) {
 							// search for the next node starting with that letter
-							col.slice(ind + 1).each($.proxy(function (i, v) {
+							col.slice(ind + 1).each(function (i, v) {
 								if($(v).text().toLowerCase().charAt(0) === chr) {
-									$(v).focus();
+									$(v).trigger('focus');
 									end = true;
 									return false;
 								}
-							}, this));
+							}.bind(this));
 							if(end) { return; }
 
 							// search from the beginning
-							col.slice(0, ind + 1).each($.proxy(function (i, v) {
+							col.slice(0, ind + 1).each(function (i, v) {
 								if($(v).text().toLowerCase().charAt(0) === chr) {
-									$(v).focus();
+									$(v).trigger('focus');
 									end = true;
 									return false;
 								}
-							}, this));
+							}.bind(this));
 							if(end) { return; }
 						}
-					}, this))
+					}.bind(this))
 				// THEME RELATED
-				.on("init.jstree", $.proxy(function () {
+				.on("init.jstree", function () {
 						var s = this.settings.core.themes;
 						this._data.core.themes.dots			= s.dots;
 						this._data.core.themes.stripes		= s.stripes;
@@ -892,19 +899,19 @@
 						this._data.core.themes.ellipsis		= s.ellipsis;
 						this.set_theme(s.name || "default", s.url);
 						this.set_theme_variant(s.variant);
-					}, this))
-				.on("loading.jstree", $.proxy(function () {
+					}.bind(this))
+				.on("loading.jstree", function () {
 						this[ this._data.core.themes.dots ? "show_dots" : "hide_dots" ]();
 						this[ this._data.core.themes.icons ? "show_icons" : "hide_icons" ]();
 						this[ this._data.core.themes.stripes ? "show_stripes" : "hide_stripes" ]();
 						this[ this._data.core.themes.ellipsis ? "show_ellipsis" : "hide_ellipsis" ]();
-					}, this))
-				.on('blur.jstree', '.jstree-anchor', $.proxy(function (e) {
+					}.bind(this))
+				.on('blur.jstree', '.jstree-anchor', function (e) {
 						this._data.core.focused = null;
 						$(e.currentTarget).filter('.jstree-hovered').trigger('mouseleave');
 						this.element.attr('tabindex', '0');
-					}, this))
-				.on('focus.jstree', '.jstree-anchor', $.proxy(function (e) {
+					}.bind(this))
+				.on('focus.jstree', '.jstree-anchor', function (e) {
 						var tmp = this.get_node(e.currentTarget);
 						if(tmp && tmp.id) {
 							this._data.core.focused = tmp.id;
@@ -912,22 +919,22 @@
 						this.element.find('.jstree-hovered').not(e.currentTarget).trigger('mouseleave');
 						$(e.currentTarget).trigger('mouseenter');
 						this.element.attr('tabindex', '-1');
-					}, this))
-				.on('focus.jstree', $.proxy(function () {
+					}.bind(this))
+				.on('focus.jstree', function () {
 						if(+(new Date()) - was_click > 500 && !this._data.core.focused && this.settings.core.restore_focus) {
 							was_click = 0;
 							var act = this.get_node(this.element.attr('aria-activedescendant'), true);
 							if(act) {
-								act.find('> .jstree-anchor').focus();
+								act.find('> .jstree-anchor').trigger('focus');
 							}
 						}
-					}, this))
-				.on('mouseenter.jstree', '.jstree-anchor', $.proxy(function (e) {
+					}.bind(this))
+				.on('mouseenter.jstree', '.jstree-anchor', function (e) {
 						this.hover_node(e.currentTarget);
-					}, this))
-				.on('mouseleave.jstree', '.jstree-anchor', $.proxy(function (e) {
+					}.bind(this))
+				.on('mouseleave.jstree', '.jstree-anchor', function (e) {
 						this.dehover_node(e.currentTarget);
-					}, this));
+					}.bind(this));
 		},
 		/**
 		 * part of the destroying of an instance. Used internally.
@@ -978,7 +985,7 @@
 		 */
 		get_string : function (key) {
 			var a = this.settings.core.strings;
-			if($.isFunction(a)) { return a.call(this, key); }
+			if($.vakata.is_function(a)) { return a.call(this, key); }
 			if(a && a[key]) { return a[key]; }
 			return key;
 		},
@@ -1270,7 +1277,7 @@
 		 */
 		load_node : function (obj, callback) {
 			var k, l, i, j, c;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				this._load_nodes(obj.slice(), callback);
 				return true;
 			}
@@ -1307,7 +1314,7 @@
 			obj.state.failed = false;
 			obj.state.loading = true;
 			this.get_node(obj, true).addClass("jstree-loading").attr('aria-busy',true);
-			this._load_node(obj, $.proxy(function (status) {
+			this._load_node(obj, function (status) {
 				obj = this._model.data[obj.id];
 				obj.state.loading = false;
 				obj.state.loaded = status;
@@ -1342,7 +1349,7 @@
 				if(callback) {
 					callback.call(this, obj, status);
 				}
-			}, this));
+			}.bind(this));
 			return true;
 		},
 		/**
@@ -1440,8 +1447,8 @@
 				}
 				// return callback.call(this, obj.id === $.jstree.root ? this._append_html_data(obj, this._data.core.original_container_html.clone(true)) : false);
 			}
-			if($.isFunction(s)) {
-				return s.call(this, obj, $.proxy(function (d) {
+			if($.vakata.is_function(s)) {
+				return s.call(this, obj, function (d) {
 					if(d === false) {
 						callback.call(this, false);
 					}
@@ -1451,19 +1458,19 @@
 						});
 					}
 					// return d === false ? callback.call(this, false) : callback.call(this, this[typeof d === 'string' ? '_append_html_data' : '_append_json_data'](obj, typeof d === 'string' ? $(d) : d));
-				}, this));
+				}.bind(this));
 			}
 			if(typeof s === 'object') {
 				if(s.url) {
 					s = $.extend(true, {}, s);
-					if($.isFunction(s.url)) {
+					if($.vakata.is_function(s.url)) {
 						s.url = s.url.call(this, obj);
 					}
-					if($.isFunction(s.data)) {
+					if($.vakata.is_function(s.data)) {
 						s.data = s.data.call(this, obj);
 					}
 					return $.ajax(s)
-						.done($.proxy(function (d,t,x) {
+						.done(function (d,t,x) {
 								var type = x.getResponseHeader('Content-Type');
 								if((type && type.indexOf('json') !== -1) || typeof d === "object") {
 									return this._append_json_data(obj, d, function (status) { callback.call(this, status); });
@@ -1476,14 +1483,14 @@
 								this._data.core.last_error = { 'error' : 'ajax', 'plugin' : 'core', 'id' : 'core_04', 'reason' : 'Could not load node', 'data' : JSON.stringify({ 'id' : obj.id, 'xhr' : x }) };
 								this.settings.core.error.call(this, this._data.core.last_error);
 								return callback.call(this, false);
-							}, this))
-						.fail($.proxy(function (f) {
+							}.bind(this))
+						.fail(function (f) {
 								this._data.core.last_error = { 'error' : 'ajax', 'plugin' : 'core', 'id' : 'core_04', 'reason' : 'Could not load node', 'data' : JSON.stringify({ 'id' : obj.id, 'xhr' : f }) };
 								callback.call(this, false);
 								this.settings.core.error.call(this, this._data.core.last_error);
-							}, this));
+							}.bind(this));
 				}
-				if ($.isArray(s)) {
+				if ($.vakata.is_array(s)) {
 					t = $.extend(true, [], s);
 				} else if ($.isPlainObject(s)) {
 					t = $.extend(true, {}, s);
@@ -1549,7 +1556,7 @@
 				p = m[par],
 				s = this._data.core.selected.length,
 				tmp, i, j;
-			dat.each($.proxy(function (i, v) {
+			dat.each(function (i, v) {
 				tmp = this._parse_model_from_html($(v), par, p.parents.concat());
 				if(tmp) {
 					chd.push(tmp);
@@ -1558,7 +1565,7 @@
 						dpc = dpc.concat(m[tmp].children_d);
 					}
 				}
-			}, this));
+			}.bind(this));
 			p.children = chd;
 			p.children_d = dpc;
 			for(i = 0, j = p.parents.length; i < j; i++) {
@@ -1606,7 +1613,7 @@
 					data = JSON.parse(data);
 				}
 			}
-			if(!$.isArray(data)) { data = [data]; }
+			if(!$.vakata.is_array(data)) { data = [data]; }
 			var w = null,
 				args = {
 					'df'	: this._model.default_state,
@@ -1971,7 +1978,7 @@
 					if(!this._data.core.working || force_processing) {
 						this._data.core.working = true;
 						w = new window.Worker(this._wrk);
-						w.onmessage = $.proxy(function (e) {
+						w.onmessage = function (e) {
 							rslt.call(this, e.data, true);
 							try { w.terminate(); w = null; } catch(ignore) { }
 							if(this._data.core.worker_queue.length) {
@@ -1980,7 +1987,7 @@
 							else {
 								this._data.core.working = false;
 							}
-						}, this);
+						}.bind(this);
 						if(!args.par) {
 							if(this._data.core.worker_queue.length) {
 								this._append_json_data.apply(this, this._data.core.worker_queue.shift());
@@ -2046,7 +2053,7 @@
 			}
 			tmp = $.vakata.attributes(d, true);
 			$.each(tmp, function (i, v) {
-				v = $.trim(v);
+				v = $.vakata.trim(v);
 				if(!v.length) { return true; }
 				data.li_attr[i] = v;
 				if(i === 'id') {
@@ -2057,7 +2064,7 @@
 			if(tmp.length) {
 				tmp = $.vakata.attributes(tmp, true);
 				$.each(tmp, function (i, v) {
-					v = $.trim(v);
+					v = $.vakata.trim(v);
 					if(v.length) {
 						data.a_attr[i] = v;
 					}
@@ -2066,7 +2073,7 @@
 			tmp = d.children("a").first().length ? d.children("a").first().clone() : d.clone();
 			tmp.children("ins, i, ul").remove();
 			tmp = tmp.html();
-			tmp = $('<div />').html(tmp);
+			tmp = $('<div></div>').html(tmp);
 			data.text = this.settings.core.force_text ? tmp.text() : tmp.html();
 			tmp = d.data();
 			data.data = tmp ? $.extend(true, {}, tmp) : null;
@@ -2096,14 +2103,14 @@
 			} while(m[tid]);
 			data.id = data.li_attr.id ? data.li_attr.id.toString() : tid;
 			if(tmp.length) {
-				tmp.each($.proxy(function (i, v) {
+				tmp.each(function (i, v) {
 					c = this._parse_model_from_html($(v), data.id, ps);
 					e = this._model.data[c];
 					data.children.push(c);
 					if(e.children_d.length) {
 						data.children_d = data.children_d.concat(e.children_d);
 					}
-				}, this));
+				}.bind(this));
 				data.children_d = data.children_d.concat(data.children);
 			}
 			else {
@@ -2355,7 +2362,7 @@
 			if(fe !== null && this.settings.core.restore_focus) {
 				tmp = this.get_node(fe, true);
 				if(tmp && tmp.length && tmp.children('.jstree-anchor')[0] !== document.activeElement) {
-					tmp.children('.jstree-anchor').focus();
+					tmp.children('.jstree-anchor').trigger('focus');
 				}
 				else {
 					this._data.core.focused = null;
@@ -2496,11 +2503,14 @@
 			if(!obj.a_attr.id) {
 				obj.a_attr.id = obj.id + '_anchor';
 			}
-			node.setAttribute('aria-selected', !!obj.state.selected);
-			node.setAttribute('aria-level', obj.parents.length);
-			node.setAttribute('aria-labelledby', obj.a_attr.id);
+			node.childNodes[1].setAttribute('aria-selected', !!obj.state.selected);
+			node.childNodes[1].setAttribute('aria-level', obj.parents.length);
+			if(this.settings.core.compute_elements_positions) {
+				node.childNodes[1].setAttribute('aria-setsize', m[obj.parent].children.length);
+				node.childNodes[1].setAttribute('aria-posinset', m[obj.parent].children.indexOf(obj.id) + 1);
+			}
 			if(obj.state.disabled) {
-				node.setAttribute('aria-disabled', true);
+				node.childNodes[1].setAttribute('aria-disabled', true);
 			}
 
 			for(i = 0, j = obj.children.length; i < j; i++) {
@@ -2536,7 +2546,7 @@
 			}
 			else {
 				c += obj.state.opened && obj.state.loaded ? ' jstree-open' : ' jstree-closed';
-				node.setAttribute('aria-expanded', (obj.state.opened && obj.state.loaded) );
+				node.childNodes[1].setAttribute('aria-expanded', (obj.state.opened && obj.state.loaded) );
 			}
 			if(last_sibling === obj.id) {
 				c += ' jstree-last';
@@ -2628,9 +2638,9 @@
 			}
 			if(obj.state.opened && !obj.state.loaded) {
 				obj.state.opened = false;
-				setTimeout($.proxy(function () {
+				setTimeout(function () {
 					this.open_node(obj.id, false, 0);
-				}, this), 0);
+				}.bind(this), 0);
 			}
 			return node;
 		},
@@ -2644,7 +2654,7 @@
 		 */
 		open_node : function (obj, callback, animation) {
 			var t1, t2, d, t;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.open_node(obj[t1], callback, animation);
@@ -2664,9 +2674,9 @@
 			}
 			if(!this.is_loaded(obj)) {
 				if(this.is_loading(obj)) {
-					return setTimeout($.proxy(function () {
+					return setTimeout(function () {
 						this.open_node(obj, callback, animation);
-					}, this), 500);
+					}.bind(this), 500);
 				}
 				this.load_node(obj, function (o, ok) {
 					return ok ? this.open_node(o, callback, animation) : (callback ? callback.call(this, o, false) : false);
@@ -2686,13 +2696,14 @@
 					if(!animation) {
 						this.trigger('before_open', { "node" : obj });
 						d[0].className = d[0].className.replace('jstree-closed', 'jstree-open');
-						d[0].setAttribute("aria-expanded", true);
+						d[0].childNodes[1].setAttribute("aria-expanded", true);
 					}
 					else {
 						this.trigger('before_open', { "node" : obj });
 						d
 							.children(".jstree-children").css("display","none").end()
-							.removeClass("jstree-closed").addClass("jstree-open").attr("aria-expanded", true)
+							.removeClass("jstree-closed").addClass("jstree-open")
+								.children('.jstree-anchor').attr("aria-expanded", true).end()
 							.children(".jstree-children").stop(true, true)
 								.slideDown(animation, function () {
 									this.style.display = "";
@@ -2762,7 +2773,7 @@
 		 */
 		close_node : function (obj, animation) {
 			var t1, t2, t, d;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.close_node(obj[t1], animation);
@@ -2800,13 +2811,15 @@
 			else {
 				if(!animation) {
 					d[0].className = d[0].className.replace('jstree-open', 'jstree-closed');
-					d.attr("aria-expanded", false).children('.jstree-children').remove();
+					d.children('.jstree-anchor').attr("aria-expanded", false);
+					d.children('.jstree-children').remove();
 					this.trigger("after_close", { "node" : obj });
 				}
 				else {
 					d
 						.children(".jstree-children").attr("style","display:block !important").end()
-						.removeClass("jstree-open").addClass("jstree-closed").attr("aria-expanded", false)
+						.removeClass("jstree-open").addClass("jstree-closed")
+							.children('.jstree-anchor').attr("aria-expanded", false).end()
 						.children(".jstree-children").stop(true, true).slideUp(animation, function () {
 							this.style.display = "";
 							d.children('.jstree-children').remove();
@@ -2824,7 +2837,7 @@
 		 */
 		toggle_node : function (obj) {
 			var t1, t2;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.toggle_node(obj[t1]);
@@ -2925,7 +2938,7 @@
 		 */
 		enable_node : function (obj) {
 			var t1, t2;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.enable_node(obj[t1]);
@@ -2954,7 +2967,7 @@
 		 */
 		disable_node : function (obj) {
 			var t1, t2;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.disable_node(obj[t1]);
@@ -2993,7 +3006,7 @@
 		 */
 		hide_node : function (obj, skip_redraw) {
 			var t1, t2;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.hide_node(obj[t1], true);
@@ -3031,7 +3044,7 @@
 		 */
 		show_node : function (obj, skip_redraw) {
 			var t1, t2;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.show_node(obj[t1], true);
@@ -3243,7 +3256,7 @@
 		 */
 		select_node : function (obj, supress_event, prevent_open, e) {
 			var dom, t1, t2, th;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.select_node(obj[t1], supress_event, prevent_open, e);
@@ -3262,7 +3275,7 @@
 					dom = this._open_to(obj);
 				}
 				if(dom && dom.length) {
-					dom.attr('aria-selected', true).children('.jstree-anchor').addClass('jstree-clicked');
+					dom.children('.jstree-anchor').addClass('jstree-clicked').attr('aria-selected', true);
 				}
 				/**
 				 * triggered when an node is selected
@@ -3296,7 +3309,7 @@
 		 */
 		deselect_node : function (obj, supress_event, e) {
 			var t1, t2, dom;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.deselect_node(obj[t1], supress_event, e);
@@ -3312,7 +3325,7 @@
 				obj.state.selected = false;
 				this._data.core.selected = $.vakata.array_remove_item(this._data.core.selected, obj.id);
 				if(dom.length) {
-					dom.attr('aria-selected', false).children('.jstree-anchor').removeClass('jstree-clicked');
+					dom.children('.jstree-anchor').removeClass('jstree-clicked').attr('aria-selected', false);
 				}
 				/**
 				 * triggered when an node is deselected
@@ -3368,7 +3381,7 @@
 				}
 			}
 			this._data.core.selected = [];
-			this.element.find('.jstree-clicked').removeClass('jstree-clicked').parent().attr('aria-selected', false);
+			this.element.find('.jstree-clicked').removeClass('jstree-clicked').attr('aria-selected', false);
 			/**
 			 * triggered when all nodes are deselected
 			 * @event
@@ -3401,7 +3414,7 @@
 		 * @return {Array}
 		 */
 		get_selected : function (full) {
-			return full ? $.map(this._data.core.selected, $.proxy(function (i) { return this.get_node(i); }, this)) : this._data.core.selected.slice();
+			return full ? $.map(this._data.core.selected, function (i) { return this.get_node(i); }.bind(this)) : this._data.core.selected.slice();
 		},
 		/**
 		 * get an array of all top level selected nodes (ignoring children of selected nodes)
@@ -3428,7 +3441,7 @@
 					tmp.push(i);
 				}
 			}
-			return full ? $.map(tmp, $.proxy(function (i) { return this.get_node(i); }, this)) : tmp;
+			return full ? $.map(tmp, function (i) { return this.get_node(i); }.bind(this)) : tmp;
 		},
 		/**
 		 * get an array of all bottom level selected nodes (ignoring selected parents)
@@ -3444,7 +3457,7 @@
 					obj.push(tmp[i].id);
 				}
 			}
-			return full ? $.map(obj, $.proxy(function (i) { return this.get_node(i); }, this)) : obj;
+			return full ? $.map(obj, function (i) { return this.get_node(i); }.bind(this)) : obj;
 		},
 		/**
 		 * gets the current state of the tree so that it can be restored later with `set_state(state)`. Used internally.
@@ -3504,7 +3517,7 @@
 				if(state.core) {
 					var res, n, t, _this, i;
 					if(state.core.loaded) {
-						if(!this.settings.core.loaded_state || !$.isArray(state.core.loaded) || !state.core.loaded.length) {
+						if(!this.settings.core.loaded_state || !$.vakata.is_array(state.core.loaded) || !state.core.loaded.length) {
 							delete state.core.loaded;
 							this.set_state(state, callback);
 						}
@@ -3517,7 +3530,7 @@
 						return false;
 					}
 					if(state.core.open) {
-						if(!$.isArray(state.core.open) || !state.core.open.length) {
+						if(!$.vakata.is_array(state.core.open) || !state.core.open.length) {
 							delete state.core.open;
 							this.set_state(state, callback);
 						}
@@ -3591,7 +3604,7 @@
 		 */
 		refresh : function (skip_loading, forget_state) {
 			this._data.core.state = forget_state === true ? {} : this.get_state();
-			if(forget_state && $.isFunction(forget_state)) { this._data.core.state = forget_state.call(this, this._data.core.state); }
+			if(forget_state && $.vakata.is_function(forget_state)) { this._data.core.state = forget_state.call(this, this._data.core.state); }
 			this._cnt = 0;
 			this._model.data = {};
 			this._model.data[$.jstree.root] = {
@@ -3608,7 +3621,7 @@
 
 			var c = this.get_container_ul()[0].className;
 			if(!skip_loading) {
-				this.element.html("<"+"ul class='"+c+"' role='group'><"+"li class='jstree-initial-node jstree-loading jstree-leaf jstree-last' role='treeitem' id='j"+this._id+"_loading'><i class='jstree-icon jstree-ocl'></i><"+"a class='jstree-anchor' href='#'><i class='jstree-icon jstree-themeicon-hidden'></i>" + this.get_string("Loading ...") + "</a></li></ul>");
+				this.element.html("<"+"ul class='"+c+"' role='group'><"+"li class='jstree-initial-node jstree-loading jstree-leaf jstree-last' role='none' id='j"+this._id+"_loading'><i class='jstree-icon jstree-ocl'></i><"+"a class='jstree-anchor' role='treeitem' href='#'><i class='jstree-icon jstree-themeicon-hidden'></i>" + this.get_string("Loading ...") + "</a></li></ul>");
 				this.element.attr('aria-activedescendant','j'+this._id+'_loading');
 			}
 			this.load_node($.jstree.root, function (o, s) {
@@ -3642,7 +3655,7 @@
 			to_load.push(obj.id);
 			if(obj.state.opened === true) { opened.push(obj.id); }
 			this.get_node(obj, true).find('.jstree-open').each(function() { to_load.push(this.id); opened.push(this.id); });
-			this._load_nodes(to_load, $.proxy(function (nodes) {
+			this._load_nodes(to_load, function (nodes) {
 				this.open_node(opened, false, 0);
 				this.select_node(s);
 				/**
@@ -3653,7 +3666,7 @@
 				 * @param {Array} nodes - an array of the IDs of the nodes that were reloaded
 				 */
 				this.trigger('refresh_node', { 'node' : obj, 'nodes' : nodes });
-			}, this), false, true);
+			}.bind(this), false, true);
 		},
 		/**
 		 * set (change) the ID of a node
@@ -3725,7 +3738,7 @@
 		 */
 		set_text : function (obj, val) {
 			var t1, t2;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.set_text(obj[t1], val);
@@ -3773,7 +3786,7 @@
 				'li_attr' : $.extend(true, {}, obj.li_attr),
 				'a_attr' : $.extend(true, {}, obj.a_attr),
 				'state' : {},
-				'data' : options && options.no_data ? false : $.extend(true, $.isArray(obj.data)?[]:{}, obj.data)
+				'data' : options && options.no_data ? false : $.extend(true, $.vakata.is_array(obj.data)?[]:{}, obj.data)
 				//( this.get_node(obj, true).length ? this.get_node(obj, true).data() : obj.data ),
 			}, i, j;
 			if(options && options.flat) {
@@ -3925,7 +3938,7 @@
 		 */
 		rename_node : function (obj, val) {
 			var t1, t2, old;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.rename_node(obj[t1], val);
@@ -3960,7 +3973,7 @@
 		 */
 		delete_node : function (obj) {
 			var t1, t2, par, pos, tmp, i, j, k, l, c, top, lft;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.delete_node(obj[t1]);
@@ -4017,11 +4030,11 @@
 				lft = this.element[0].scrollLeft;
 				if(par.id === $.jstree.root) {
 					if (this._model.data[$.jstree.root].children[0]) {
-						this.get_node(this._model.data[$.jstree.root].children[0], true).children('.jstree-anchor').focus();
+						this.get_node(this._model.data[$.jstree.root].children[0], true).children('.jstree-anchor').triger('focus');
 					}
 				}
 				else {
-					this.get_node(par, true).children('.jstree-anchor').focus();
+					this.get_node(par, true).children('.jstree-anchor').trigger('focus');
 				}
 				this.element[0].scrollTop  = top;
 				this.element[0].scrollLeft = lft;
@@ -4062,7 +4075,7 @@
 				}
 				return tmp.functions[chk];
 			}
-			if(chc === false || ($.isFunction(chc) && chc.call(this, chk, obj, par, pos, more) === false) || (chc && chc[chk] === false)) {
+			if(chc === false || ($.vakata.is_function(chc) && chc.call(this, chk, obj, par, pos, more) === false) || (chc && chc[chk] === false)) {
 				this._data.core.last_error = { 'error' : 'check', 'plugin' : 'core', 'id' : 'core_03', 'reason' : 'User config for core.check_callback prevents function: ' + chk, 'data' : JSON.stringify({ 'chk' : chk, 'pos' : pos, 'obj' : obj && obj.id ? obj.id : false, 'par' : par && par.id ? par.id : false }) };
 				return false;
 			}
@@ -4098,7 +4111,7 @@
 				return this.load_node(par, function () { this.move_node(obj, par, pos, callback, true, false, origin); });
 			}
 
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				if(obj.length === 1) {
 					obj = obj[0];
 				}
@@ -4271,7 +4284,7 @@
 				return this.load_node(par, function () { this.copy_node(obj, par, pos, callback, true, false, origin); });
 			}
 
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				if(obj.length === 1) {
 					obj = obj[0];
 				}
@@ -4386,7 +4399,7 @@
 		 */
 		cut : function (obj) {
 			if(!obj) { obj = this._data.core.selected.concat(); }
-			if(!$.isArray(obj)) { obj = [obj]; }
+			if(!$.vakata.is_array(obj)) { obj = [obj]; }
 			if(!obj.length) { return false; }
 			var tmp = [], o, t1, t2;
 			for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
@@ -4413,7 +4426,7 @@
 		 */
 		copy : function (obj) {
 			if(!obj) { obj = this._data.core.selected.concat(); }
-			if(!$.isArray(obj)) { obj = [obj]; }
+			if(!$.vakata.is_array(obj)) { obj = [obj]; }
 			if(!obj.length) { return false; }
 			var tmp = [], o, t1, t2;
 			for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
@@ -4494,7 +4507,7 @@
 		 * @name edit(obj [, default_text, callback])
 		 * @param  {mixed} obj
 		 * @param  {String} default_text the text to populate the input with (if omitted or set to a non-string value the node's text value is used)
-		 * @param  {Function} callback a function to be called once the text box is blurred, it is called in the instance's scope and receives the node, a status parameter (true if the rename is successful, false otherwise) and a boolean indicating if the user cancelled the edit. You can access the node's title using .text
+		 * @param  {Function} callback a function to be called once the text box is blurred, it is called in the instance's scope and receives the node, a status parameter (true if the rename is successful, false otherwise), a boolean indicating if the user cancelled the edit and the original unescaped value provided by the user. You can also access the node's title using .text
 		 */
 		edit : function (obj, default_text, callback) {
 			var rtl, w, a, s, t, h1, h2, fn, tmp, cancel = false;
@@ -4513,8 +4526,8 @@
 			rtl = this._data.core.rtl;
 			w  = this.element.width();
 			this._data.core.focused = tmp.id;
-			a  = obj.children('.jstree-anchor').focus();
-			s  = $('<span>');
+			a  = obj.children('.jstree-anchor').trigger('focus');
+			s  = $('<span></span>');
 			/*!
 			oi = obj.children("i:visible"),
 			ai = a.children("i:visible"),
@@ -4522,7 +4535,7 @@
 			w2 = ai.width() * ai.length,
 			*/
 			t  = default_text;
-			h1 = $("<"+"div />", { css : { "position" : "absolute", "top" : "-200px", "left" : (rtl ? "0px" : "-1000px"), "visibility" : "hidden" } }).appendTo(document.body);
+			h1 = $("<"+"div></div>", { css : { "position" : "absolute", "top" : "-200px", "left" : (rtl ? "0px" : "-1000px"), "visibility" : "hidden" } }).appendTo(document.body);
 			h2 = $("<"+"input />", {
 						"value" : t,
 						"class" : "jstree-rename-input",
@@ -4536,7 +4549,7 @@
 							"lineHeight" : (this._data.core.li_height) + "px",
 							"width" : "150px" // will be set a bit further down
 						},
-						"blur" : $.proxy(function (e) {
+						"blur" : function (e) {
 							e.stopImmediatePropagation();
 							e.preventDefault();
 							var i = s.children(".jstree-rename-input"),
@@ -4555,18 +4568,18 @@
 								this.set_text(obj, t); // move this up? and fix #483
 							}
 							this._data.core.focused = tmp.id;
-							setTimeout($.proxy(function () {
+							setTimeout(function () {
 								var node = this.get_node(tmp.id, true);
 								if(node.length) {
 									this._data.core.focused = tmp.id;
-									node.children('.jstree-anchor').focus();
+									node.children('.jstree-anchor').trigger('focus');
 								}
-							}, this), 0);
+							}.bind(this), 0);
 							if(callback) {
-								callback.call(this, tmp, nv, cancel);
+								callback.call(this, tmp, nv, cancel, v);
 							}
 							h2 = null;
-						}, this),
+						}.bind(this),
 						"keydown" : function (e) {
 							var key = e.which;
 							if(key === 27) {
@@ -4606,7 +4619,7 @@
 			h2.css(fn).width(Math.min(h1.text("pW" + h2[0].value).width(),w))[0].select();
 			$(document).one('mousedown.jstree touchstart.jstree dnd_start.vakata', function (e) {
 				if (h2 && e.target !== h2) {
-					$(h2).blur();
+					$(h2).trigger('blur');
 				}
 			});
 		},
@@ -4810,7 +4823,7 @@
 		 */
 		set_icon : function (obj, icon) {
 			var t1, t2, dom, old;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.set_icon(obj[t1], icon);
@@ -4859,7 +4872,7 @@
 		 */
 		hide_icon : function (obj) {
 			var t1, t2;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.hide_icon(obj[t1]);
@@ -4879,7 +4892,7 @@
 		 */
 		show_icon : function (obj) {
 			var t1, t2, dom;
-			if($.isArray(obj)) {
+			if($.vakata.is_array(obj)) {
 				obj = obj.slice();
 				for(t1 = 0, t2 = obj.length; t1 < t2; t1++) {
 					this.show_icon(obj[t1]);
@@ -4905,7 +4918,7 @@
 		if(node && node.attributes) {
 			$.each(node.attributes, function (i, v) {
 				if($.inArray(v.name.toLowerCase(),['style','contenteditable','hasfocus','tabindex']) !== -1) { return; }
-				if(v.value !== null && $.trim(v.value) !== '') {
+				if(v.value !== null && $.vakata.trim(v.value) !== '') {
 					if(with_values) { attr[v.name] = v.value; }
 					else { attr.push(v.name); }
 				}
@@ -4949,4 +4962,32 @@
 		}
 		return d;
 	};
+	$.vakata.trim = function (text) {
+		return String.prototype.trim ? 
+			String.prototype.trim.call(text.toString()) :
+			text.toString().replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
+	};
+	$.vakata.is_function = function(obj) {
+		return typeof obj === "function" && typeof obj.nodeType !== "number";
+	};
+	$.vakata.is_array = Array.isArray || function (obj) {
+		return Object.prototype.toString.call(obj) === "[object Array]";
+	};
+
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Function/bind#polyfill
+	if (!Function.prototype.bind) {
+		Function.prototype.bind = function () {
+			var thatFunc = this, thatArg = arguments[0];
+			var args = Array.prototype.slice.call(arguments, 1);
+			if (typeof thatFunc !== 'function') {
+				// closest thing possible to the ECMAScript 5
+				// internal IsCallable function
+				throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+			}
+			return function(){
+				var funcArgs = args.concat(Array.prototype.slice.call(arguments));
+				return thatFunc.apply(thatArg, funcArgs);
+			};
+		};
+	}
 }));

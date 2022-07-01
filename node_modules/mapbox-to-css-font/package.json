@@ -1,6 +1,6 @@
 {
   "name": "mapbox-to-css-font",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "Utility to convert Mapbox GL Style font names to CSS font definitions",
   "main": "index.js",
   "repository": {
@@ -14,20 +14,15 @@
   "author": "Andreas Hocevar",
   "license": "BSD-2-Clause",
   "scripts": {
-    "karma": "karma start test/karma.conf.js",
-    "lint": "eslint *.js",
+    "lint": "eslint *.js test",
     "pretest": "npm run lint",
-    "test": "npm run karma -- --single-run --log-level error"
+    "test": "mocha test/index.test.js"
   },
   "devDependencies": {
     "eslint": "^5.15.0",
     "eslint-config-openlayers": "^11.0.0",
-    "karma": "^4.0.1",
-    "karma-chrome-launcher": "^2.2.0",
     "karma-mocha": "^1.3.0",
-    "karma-webpack": "^3.0.5",
     "mocha": "^6.0.2",
-    "puppeteer": "^1.13.0",
     "should": "^13.2.3",
     "sinon": "^7.2.7",
     "webpack": "^4.29.6"

@@ -8,7 +8,7 @@
  *
  * @param {Array<*>} haystack Items to search through.
  * @param {*} needle The item to look for.
- * @param {Function=} opt_comparator Comparator function.
+ * @param {Function} [opt_comparator] Comparator function.
  * @return {number} The index of the item if found, -1 if not.
  */
 export function binarySearch(haystack, needle, opt_comparator) {
@@ -60,11 +60,26 @@ export function includes(arr, obj) {
 }
 
 /**
- * @param {Array<number>} arr Array.
+ * {@link module:ol/tilegrid/TileGrid~TileGrid#getZForResolution} can use a function
+ * of this type to determine which nearest resolution to use.
+ *
+ * This function takes a `{number}` representing a value between two array entries,
+ * a `{number}` representing the value of the nearest higher entry and
+ * a `{number}` representing the value of the nearest lower entry
+ * as arguments and returns a `{number}`. If a negative number or zero is returned
+ * the lower value will be used, if a positive number is returned the higher value
+ * will be used.
+ * @typedef {function(number, number, number): number} NearestDirectionFunction
+ * @api
+ */
+
+/**
+ * @param {Array<number>} arr Array in descending order.
  * @param {number} target Target.
- * @param {number} direction 0 means return the nearest, > 0
- *    means return the largest nearest, < 0 means return the
- *    smallest nearest.
+ * @param {number|NearestDirectionFunction} direction
+ *    0 means return the nearest,
+ *    > 0 means return the largest nearest,
+ *    < 0 means return the smallest nearest.
  * @return {number} Index.
  */
 export function linearFindNearest(arr, target, direction) {
@@ -92,7 +107,13 @@ export function linearFindNearest(arr, target, direction) {
         if (arr[i] == target) {
           return i;
         } else if (arr[i] < target) {
-          if (arr[i - 1] - target < target - arr[i]) {
+          if (typeof direction === 'function') {
+            if (direction(target, arr[i - 1], arr[i]) > 0) {
+              return i - 1;
+            } else {
+              return i;
+            }
+          } else if (arr[i - 1] - target < target - arr[i]) {
             return i - 1;
           } else {
             return i;
@@ -185,7 +206,7 @@ export function equals(arr1, arr2) {
 }
 
 /**
- * Sort the passed array such that the relative order of equal elements is preverved.
+ * Sort the passed array such that the relative order of equal elements is preserved.
  * See https://en.wikipedia.org/wiki/Sorting_algorithm#Stability for details.
  * @param {Array<*>} arr The array to sort (modifies original).
  * @param {!function(*, *): number} compareFnc Comparison function.
@@ -222,8 +243,8 @@ export function findIndex(arr, func) {
 
 /**
  * @param {Array<*>} arr The array to test.
- * @param {Function=} opt_func Comparison function.
- * @param {boolean=} opt_strict Strictly sorted (default false).
+ * @param {Function} [opt_func] Comparison function.
+ * @param {boolean} [opt_strict] Strictly sorted (default false).
  * @return {boolean} Return index.
  */
 export function isSorted(arr, opt_func, opt_strict) {

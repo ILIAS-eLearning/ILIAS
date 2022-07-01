@@ -6,5 +6,6 @@
 | **Lars-Magnus Skog** | [**@ralphtheninja**](https://github.com/ralphtheninja) | [**@ralph@social.weho.st**](https://social.weho.st/@ralph)    |
 | **Vincent Weevers**  | [**@vweevers**](https://github.com/vweevers)           | [**@vweevers@twitter**](https://twitter.com/vweevers)         |
 | **Dominic Tarr**     | [**@dominictarr**](https://github.com/dominictarr)     | [**@dominictarr@twitter**](https://twitter.com/dominictarr)   |
-| **Meirion Hughes**   | [**@MeirionHughes**](https://github.com/MeirionHughes) |                                                               |
 | **Daniel Cousens**   | [**@dcousens**](https://github.com/dcousens)           |                                                               |
+| **Hugo Dias**        |                                                        |                                                               |
+| **Meirion Hughes**   | [**@MeirionHughes**](https://github.com/MeirionHughes) |                                                               |

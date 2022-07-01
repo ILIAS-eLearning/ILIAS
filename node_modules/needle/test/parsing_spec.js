@@ -46,7 +46,7 @@ describe('parsing', function(){
 
           needle.get('localhost:' + port, function(err, response, body) {
             should.not.exist(err);
-            body.should.be.an.instanceof(Buffer)
+            body.should.be.an.instanceof(String)
             body.toString().should.eql('{"foo":"bar"}');
 
             needle.defaults({ parse_response: 'all' });
@@ -141,7 +141,7 @@ describe('parsing', function(){
       it('does NOT return object', function(done){
         needle.get('localhost:' + port, { parse: false }, function(err, response, body) {
           should.not.exist(err);
-          body.should.be.an.instanceof(Buffer)
+          body.should.be.an.instanceof(String)
           body.toString().should.eql('{"foo":"bar"}');
           done();
         })
@@ -162,7 +162,7 @@ describe('parsing', function(){
       it('does NOT return object', function(done){
         needle.get('localhost:' + port, { parse: 'xml' }, function(err, response, body) {
           should.not.exist(err);
-          body.should.be.an.instanceof(Buffer)
+          body.should.be.an.instanceof(String)
           body.toString().should.eql('{"foo":"bar"}');
           done();
         })
@@ -281,7 +281,7 @@ describe('parsing', function(){
       it('does NOT return object', function(done){
         needle.get('localhost:' + port, { parse: false }, function(err, response, body) {
           should.not.exist(err);
-          body.should.be.an.instanceof(Buffer)
+          body.should.be.an.instanceof(String)
           body.toString().should.eql('false');
           done();
         })
@@ -294,7 +294,7 @@ describe('parsing', function(){
       it('does NOT return object', function(done){
         needle.get('localhost:' + port, { parse: 'xml' }, function(err, response, body) {
           should.not.exist(err);
-          body.should.be.an.instanceof(Buffer)
+          body.should.be.an.instanceof(String)
           body.toString().should.eql('false');
           done();
         })
@@ -421,7 +421,6 @@ describe('parsing', function(){
 
   })
 
-
   describe('valid XML, using xml2js', function() {
 
     var parsers, origParser;
@@ -490,5 +489,59 @@ describe('parsing', function(){
 
   })
 
+  describe('when response is a JSON API flavored JSON string', function () {
+
+    var json_string = '{"data":[{"type":"articles","id":"1","attributes":{"title":"Needle","body":"The leanest and most handsome HTTP client in the Nodelands."}}],"included":[{"type":"people","id":"42","attributes":{"name":"Tomás"}}]}';
+
+    before(function(done){
+      server = http.createServer(function(req, res) {
+        res.setHeader('Content-Type', 'application/vnd.api+json');
+        res.end(json_string);
+      }).listen(port, done);
+    });
+
+    after(function(done){
+      server.close(done);
+    });
+
+    describe('and parse option is not passed', function() {
+
+      describe('with default parse_response', function() {
+
+        before(function() {
+          needle.defaults().parse_response.should.eql('all')
+        })
+
+        it('should return object', function(done){
+          needle.get('localhost:' + port, function(err, response, body){
+            should.ifError(err);
+            body.should.deepEqual({
+              "data": [{
+                "type": "articles",
+                "id": "1",
+                "attributes": {
+                  "title": "Needle",
+                  "body": "The leanest and most handsome HTTP client in the Nodelands."
+                }
+              }],
+              "included": [
+                {
+                  "type": "people",
+                  "id": "42",
+                  "attributes": {
+                    "name": "Tomás"
+                  }
+                }
+              ]
+            });
+            done();
+          });
+        });
+
+      });
+
+    })
+
+  });
 
 })

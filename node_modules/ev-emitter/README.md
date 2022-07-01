@@ -2,22 +2,19 @@
 
 _Lil' event emitter_ — add a little pub/sub
 
-EvEmitter adds publish/subscribe pattern to a browser class. It's a smaller version of [Olical/EventEmitter](https://github.com/Olical/EventEmitter). That EventEmitter is full featured, widely used, and great. This EvEmitter has just the base event functionality to power the event API in libraries like [Isotope](http://isotope.metafizzy.co), [Flickity](http://flickity.metafizzy.co), [Masonry](http://masonry.desandro.com), and [imagesLoaded](http://imagesloaded.desandro.com).
+EvEmitter adds publish/subscribe pattern to a browser class. It's a smaller version of [Olical/EventEmitter](https://github.com/Olical/EventEmitter). That EventEmitter is full featured, widely used, and great. This EvEmitter has just the base event functionality to power the event API in libraries like [Isotope](https://isotope.metafizzy.co), [Flickity](https://flickity.metafizzy.co), [Masonry](https://masonry.desandro.com), and [imagesLoaded](https://imagesloaded.desandro.com).
 
 ## API
 
 ``` js
-// Inherit prototype, IE8+
-MyClass.prototype = new EvEmitter();
+// class inheritence
+class MyClass extends EvEmitter {}
 
-// Inherit prototype, IE9+
-MyClass.prototype = Object.create( EvEmitter.prototype );
-
-// Mixin prototype
-_.extend( MyClass.prototype, EvEmitter.prototype );
+// mixin prototype
+Object.assign( MyClass.prototype, EvEmitter.prototype );
 
 // single instance
-var emitter = new EvEmitter();
+let emitter = new EvEmitter();
 ```
 
 ### on
@@ -70,7 +67,7 @@ emitter.allOff()
 
 ``` js
 // create event emitter
-var emitter = new EventEmitter();
+var emitter = new EvEmitter();
 
 // listeners
 function hey( a, b, c ) {
@@ -87,9 +84,9 @@ function letsGo( a, b, c ) {
 
 // bind listeners
 emitter.on( 'rock', hey )
-emitter.once( 'rock', ho )
+emitter.on( 'rock', ho )
 // trigger letsGo once
-emitter.on( 'rock', letsGo )
+emitter.once( 'rock', letsGo )
 
 // emit event
 emitter.emitEvent( 'rock', [ 1, 2, 3 ] )
@@ -103,6 +100,12 @@ emitter.off( 'rock', ho )
 emitter.emitEvent( 'rock', [ 4, 5, 6 ] )
 // => 'Hey' 4, 5, 6
 ```
+
+## Browser support
+
+EvEmitter v2 uses ES6 features like [for...of loops](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of) and [class definition](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes) as such it supports Chrome 49+, Firefox 45+, Safari 9+, and Edge 13+.
+
+For older browser support, use [EvEmitter v1](https://github.com/metafizzy/ev-emitter/releases/tag/v1.1.1).
 
 ## License
 

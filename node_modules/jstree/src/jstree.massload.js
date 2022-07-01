@@ -7,10 +7,10 @@
 (function (factory) {
 	"use strict";
 	if (typeof define === 'function' && define.amd) {
-		define('jstree.massload', ['jquery','jstree'], factory);
+		define('jstree.massload', ['jquery','./jstree.js'], factory);
 	}
 	else if(typeof exports === 'object') {
-		factory(require('jquery'), require('jstree'));
+		factory(require('jquery'), require('./jstree.js'));
 	}
 	else {
 		factory(jQuery, jQuery.jstree);
@@ -61,8 +61,8 @@
 				}
 				this._data.massload = {};
 				if (toLoad.length) {
-					if($.isFunction(s)) {
-						return s.call(this, toLoad, $.proxy(function (data) {
+					if($.vakata.is_function(s)) {
+						return s.call(this, toLoad, function (data) {
 							var i, j;
 							if(data) {
 								for(i in data) {
@@ -78,18 +78,18 @@
 								}
 							}
 							parent._load_nodes.call(this, nodes, callback, is_callback, force_reload);
-						}, this));
+						}.bind(this));
 					}
 					if(typeof s === 'object' && s && s.url) {
 						s = $.extend(true, {}, s);
-						if($.isFunction(s.url)) {
+						if($.vakata.is_function(s.url)) {
 							s.url = s.url.call(this, toLoad);
 						}
-						if($.isFunction(s.data)) {
+						if($.vakata.is_function(s.data)) {
 							s.data = s.data.call(this, toLoad);
 						}
 						return $.ajax(s)
-							.done($.proxy(function (data,t,x) {
+							.done(function (data,t,x) {
 									var i, j;
 									if(data) {
 										for(i in data) {
@@ -105,10 +105,10 @@
 										}
 									}
 									parent._load_nodes.call(this, nodes, callback, is_callback, force_reload);
-								}, this))
-							.fail($.proxy(function (f) {
+								}.bind(this))
+							.fail(function (f) {
 									parent._load_nodes.call(this, nodes, callback, is_callback, force_reload);
-								}, this));
+								}.bind(this));
 					}
 				}
 			}
