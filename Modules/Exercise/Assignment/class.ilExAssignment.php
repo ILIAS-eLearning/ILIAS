@@ -112,6 +112,7 @@ class ilExAssignment
         $this->user = $DIC->user();
         $this->app_event_handler = $DIC["ilAppEventHandler"];
         $this->types = ilExAssignmentTypes::getInstance();
+        $this->access = $DIC->access();
 
         $this->setType(self::TYPE_UPLOAD);
         $this->setFeedbackDate(self::FEEDBACK_DATE_DEADLINE);
