@@ -104,6 +104,11 @@ class ilObjCourseGUI extends ilContainerGUI
 
     public function viewObject() : void
     {
+        if (strtolower($this->std_request->getBaseClass()) === "iladministrationgui") {
+            parent::viewObject();
+            return;
+        }
+
         $this->tabs_gui->setTabActive('view_content');
         $this->checkPermission('read', 'view');
         if ($this->view_manager->isAdminView()) {
