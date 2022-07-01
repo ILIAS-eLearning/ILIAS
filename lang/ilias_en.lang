@@ -12808,27 +12808,27 @@ ps#:#ps_export_wait#:#Users on the Waiting List
 ps#:#ps_field_type#:#Field Type
 ps#:#ps_files_deleted#:#Export Files Deleted
 ps#:#ps_grp_user_fields#:#Group-Specific User Fields
-ps#:#ps_login_max_attempts_info#:# Sets the maximum number of unsuccessful attempts to login. After the maximum number of unsuccessful attempts is exceeded, the respective user will be set to 'inactive' and would require re-activation in User Management. Leave the field empty to disable this option and ILIAS will not count failed login attempts.
+ps#:#ps_login_max_attempts_info#:#Enter the maximum number of unsuccessful log in attempts allowed. After the maximum number of unsuccessful attempts is exceeded, the user account in question will be set to 'inactive' and require re-activation in User Management. Leave the field empty to disable this option and ILIAS will not count failed login attempts.
 ps#:#ps_login_max_attempts#:#Maximum Login Attempts
 ps#:#ps_not_accepted#:#Not Accepted
 ps#:#ps_participants_list_courses#:#Allow Activation of Participant Lists in the Member Gallery of Courses
-ps#:#ps_passwd_policy_changed_force_user_reset#:#The changes were saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after the next successful login?
+ps#:#ps_passwd_policy_changed_force_user_reset#:#Your changes have been saved successfully. You just modified at least one password policy setting. Should local users be forced to change their password after their next successful login?
 ps#:#ps_passwd_policy_change_force_user_reset_succ#:#The changes have been successfully applied.
 ps#:#ps_password_change_on_first_login_enabled#:#Change Password on First Login
-ps#:#ps_password_change_on_first_login_enabled_info#:#If enabled, users have to change their password on first login (except users registered themselves).
+ps#:#ps_password_change_on_first_login_enabled_info#:#Require users to change their password the first time they log in (unless they self-registered).
 ps#:#ps_password_chars_and_numbers_enabled#:#Force Characters and Numbers
-ps#:#ps_password_chars_and_numbers_enabled_info#:#If enabled, passwords have to contain characters and numbers.
-ps#:#ps_password_max_age_info#:#Sets the maximum age of passwords in days. Set this to 0 for disabling this option.
+ps#:#ps_password_chars_and_numbers_enabled_info#:#Require passwords to contain characters and numbers.
+ps#:#ps_password_max_age_info#:#Enter the maximum age allowed for passwords in days. Set to 0 to disable this option.
 ps#:#ps_password_max_age#:#Maximum Password Age
-ps#:#ps_password_max_length_info#:#Sets the maximum size of account passwords. Set this to 0 for disabling this option.
+ps#:#ps_password_max_length_info#:#Enter the maximum size allowed for account passwords. Set to 0 to disable this option.
 ps#:#ps_password_max_length#:#Maximum Password Size
-ps#:#ps_password_min_length_info#:#Sets the minimum size of account passwords. If set to 0, the passwords anyway have to have a minimum size of 1. If the required length is altered, the new requirement will be applied only to those accounts that were created or changed after the new length was set. Existing accounts are not affected.
+ps#:#ps_password_min_length_info#:#Enter the minimum required length for account passwords. If set to 0, passwords are still required to have a minimum length of 1. If the required length is altered, the new requirement will be applied only to those accounts created or changed after the new length is set. Existing accounts are not affected.
 ps#:#ps_password_min_length#:#Minimum Password Size
 ps#:#ps_password_settings#:#Password Settings
 ps#:#ps_password_special_chars_enabled#:#Force Special Characters
-ps#:#ps_password_special_chars_enabled_info#:#If enabled, passwords have to contain special characters.
+ps#:#ps_password_special_chars_enabled_info#:#Require passwords to contain special characters.
 ps#:#ps_perform_export#:#Start CSV-Export
-ps#:#ps_prevent_simultaneous_logins_info#:#If enabled, simultaneous logins with the same account from different computers are not possible.
+ps#:#ps_prevent_simultaneous_logins_info#:#Prevent simultaneous logins on the same account from different computers.
 ps#:#ps_prevent_simultaneous_logins#:#Prevent Simultaneous Logins
 ps#:#ps_privacy_protection#:#Privacy Settings
 ps#:#ps_profile_export#:#Protection of User Profile Data
@@ -12842,10 +12842,10 @@ ps#:#ps_type_select#:#Select Field
 ps#:#ps_type_text#:#Text Field
 ps#:#ps_type_txt_long#:#Text Field (Optional Values)
 ps#:#ps_user_selection#:#Participants Selection
-ps#:#ps_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these settings will reset all user agreements.
-ps#:#rbac_log_age_info#:#Maximum age of log entries in month
+ps#:#ps_warning_modify#:#Attention: At least one user has accepted the user agreement. Modifying these settings will reset all user agreements.
+ps#:#rbac_log_age_info#:#Maximum age of log entries in months
 ps#:#rbac_log_age#:#Keep Log Entries
-ps#:#rbac_log_info#:#Enable logging of all changes to object permissions
+ps#:#rbac_log_info#:#Log all changes to object permissions.
 ps#:#rbac_log#:#Permission Log
 ps#:#show_privacy#:#Privacy
 ps#:#show_security#:#Security
