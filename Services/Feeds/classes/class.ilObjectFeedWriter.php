@@ -28,7 +28,7 @@ class ilObjectFeedWriter extends ilFeedWriter
     public function __construct(
         int $a_ref_id,
         ?int $a_userid = null,
-        bool $a_purpose = false
+        string $a_purpose = null
     ) {
         global $DIC;
 
@@ -94,7 +94,7 @@ class ilObjectFeedWriter extends ilFeedWriter
         foreach ($items as $item) {
             $i++;
 
-            if ($a_purpose != false && $obj_type == "mcst") {
+            if ($a_purpose != null && $obj_type == "mcst") {
                 $mob = ilMediaItem::_getMediaItemsOfMObId($item["mob_id"], $a_purpose);
 
                 if ($mob == false) {
@@ -110,8 +110,8 @@ class ilObjectFeedWriter extends ilFeedWriter
                 $item["context_obj_type"],
                 $item["title"],
                 $item["content_is_lang_var"],
-                $item["agg_ref_id"],
-                $item["aggregation"]
+                (int) ($item["agg_ref_id"] ?? 0),
+                $item["aggregation"] ?? []
             );
 
             $loc = "";
