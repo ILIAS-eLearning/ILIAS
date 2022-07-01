@@ -141,6 +141,8 @@ class ilExAssignmentEditorGUI
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
 
+        $ilCtrl->setParameter($this, "ass_id", null);
+
         $ilToolbar->setFormAction($ilCtrl->getFormAction($this, "addAssignment"));
         
         $ilToolbar->addStickyItem($this->getTypeDropdown());
@@ -1174,7 +1176,8 @@ class ilExAssignmentEditorGUI
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
-        
+
+        $ilCtrl->setParameterByClass(ilObjExerciseGUI::class, "ass_id", null);
         if (count($this->requested_ass_ids) == 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listAssignments");

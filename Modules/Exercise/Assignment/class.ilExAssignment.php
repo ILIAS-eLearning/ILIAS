@@ -1039,12 +1039,11 @@ class ilExAssignment
         global $DIC;
 
         $ilDB = $DIC->database();
-
         $query = "SELECT exc_id FROM exc_assignment " .
             "WHERE id = " . $ilDB->quote($a_ass_id, 'integer');
         $res = $ilDB->fetchAssoc($ilDB->query($query));
 
-        return (int) $res["exc_id"];
+        return (int) ($res["exc_id"] ?? 0);
     }
 
     private static function lookup(int $a_id, string $a_field) : string
